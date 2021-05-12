@@ -90,7 +90,7 @@ function imdblt_admin_signature(){ ?>
 	<table class="options">
 		
 		<tr>
-			<td><div class="explain"><?php wp_kses( _e( '<strong>Licensing Info:</strong> Under the GPL licence, "IMDb link transformer" is based on <a href="https://github.com/tboothman/imdbphp/">tboothman</a> classes. Nevertheless, a considerable amount of work was required to implement it in wordpress; check the support page for', 'imdb'), $allowed_html_for_esc_html_functions ); ?> <a href="<?php admin_url(); ?>?page=imdblt_options&subsection=help&helpsub=support"><?php esc_html_e('more', 'imdb') ?></a>.</div>
+			<td><div class="explain"><?php wp_kses( _e( '<strong>Licensing Info:</strong> Under the GPL licence, "Lumiere Movies" is based on <a href="https://github.com/tboothman/imdbphp/">tboothman</a> classes. Nevertheless, a considerable amount of work was required to implement it in wordpress; check the support page for', 'imdb'), $allowed_html_for_esc_html_functions ); ?> <a href="<?php admin_url(); ?>?page=imdblt_options&subsection=help&helpsub=support"><?php esc_html_e('more', 'imdb') ?></a>.</div>
 			</td>
 		</tr>
 		<tr>
@@ -221,7 +221,7 @@ function count_me($thema, &$count_me_siffer) {
 /**
  * Highslide popup function
  * constructs a HTML link to open a popup with highslide for searching a movie (using js/csp_inline_scripts.js)
- * (called from imdb-link-transformer.php)
+ * (called from lumiere-movies.php)
  */
 
 function imdblt_popup_highslide_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
@@ -242,7 +242,7 @@ function imdblt_popup_highslide_film_link ($link_parsed, $popuplarg="", $popuplo
 /**
  * Classical popup function
  * constructs a HTML link to open a popup for searching a movie (using js/csp_inline_scripts.js)
- * (called from imdb-link-transformer.php)
+ * (called from lumiere-movies.php)
  */
 
 function imdblt_popup_classical_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {

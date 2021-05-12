@@ -1,16 +1,16 @@
 <?php
 
  #############################################################################
- # IMDb Link transformer                                                     #
+ # Lumiere Movies                                                            #
  # written by Prometheus group                                               #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
  # This program is free software; you can redistribute and/or modify it      #
  # under the terms of the GNU General Public License (see LICENSE)           #
  # ------------------------------------------------------------------------- #
- #									     #
- #  Function : Popup movie section    					     #
- #									     #
+ #									              #
+ #  Function : Popup movie section    					       #
+ #									              #
  #############################################################################
 
 require_once (plugin_dir_path( __FILE__ ).'/../bootstrap.php');

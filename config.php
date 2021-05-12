@@ -20,7 +20,7 @@ define('IMDBLTURLPATH', $imdb_admin_values['imdbplugindirectory'] );
 define('IMDBLTFILE', plugin_basename( dirname(__FILE__)) );
 define('IMDBLTABSPATH', str_replace("\\","/", WP_PLUGIN_DIR . '/' . plugin_basename( dirname(__FILE__) ) . '/' ));
 define('IMDBBLOG', "https://www.jcvignoli.com/blog");
-define('IMDBHOMEPAGE', IMDBBLOG . '/imdb-link-transformer-wordpress-plugin');
+define('IMDBHOMEPAGE', IMDBBLOG . '/lumiere-movies-wordpress-plugin');
 define('IMDBPHP_CONFIG',dirname(__FILE__) . '/config.php');
 // use the original class in src/Imdb/Config.php
 use \Imdb\Config;
@@ -45,7 +45,7 @@ class imdb_settings_conf extends mdb_config {
 	$imdbAdminOptions = array(
 	#--------------------------------------------------=[ Basic ]=--
 	'blog_adress' => get_bloginfo('url'),
-	'imdbplugindirectory' => get_bloginfo('url').'/wp-content/plugins/imdb-link-transformer/',
+	'imdbplugindirectory' => get_bloginfo('url').'/wp-content/plugins/lumiere-movies/',
 	'imdbpluginpath' => IMDBLTABSPATH,
 	'imdbwebsite' => "www.imdb.com",
 	'imdbcoversize' => false,

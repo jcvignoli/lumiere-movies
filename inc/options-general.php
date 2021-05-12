@@ -1,7 +1,7 @@
 <?php
 
  #############################################################################
- # IMDb Link transformer                                                     #
+ # Lumiere Movies                                                            #
  # written by Prometheus group                                               #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
@@ -35,7 +35,7 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 
 <?php if ( ($_GET['generaloption'] == "base") || (!isset($_GET['generaloption'] )) ) { 	////////// Paths & Layout section  ?>
 
-	<div class="intro_cache"><?php esc_html_e( "Below options usually don't need  any further action. Nevertheless, IMDb link transformer can be widely customized to match your needs.", 'imdb'); ?></div>
+	<div class="intro_cache"><?php esc_html_e( "Below options usually don't need  any further action. Nevertheless, Lumiere Movies can be widely customized to match your needs.", 'imdb'); ?></div>
 
 	<div class="postbox">
 		<h3 class="hndle" id="directories" name="directories"><?php esc_html_e( 'Paths: url & folders', 'imdb'); ?></h3>
@@ -58,7 +58,7 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 			<td class="td-aligntop"><label for="imdb_imdbplugindirectory"><?php esc_html_e( 'Plugin directory', 'imdb'); ?></label>
 			</td>
 			<td><input type="text" name="imdb_imdbplugindirectory" size="70" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbplugindirectory']), 'imdb') ?>">
-				<div class="explain"><?php wp_kses( _e( 'Where <strong>imdb link transformer</strong> is installed.', 'imdb'), $allowed_html_for_esc_html_functions ); ?> <br /><?php esc_html_e( 'Default:','imdb');?> "<?php echo IMDBLTURLPATH; ?>"</div>
+				<div class="explain"><?php wp_kses( _e( 'Where <strong>Lumiere Movies</strong> is installed.', 'imdb'), $allowed_html_for_esc_html_functions ); ?> <br /><?php esc_html_e( 'Default:','imdb');?> "<?php echo IMDBLTURLPATH; ?>"</div>
 			</td>
 		</tr>
 		
@@ -288,7 +288,7 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 			</td>
 			<td class="td-aligntop">
 				<div class="explain">
-				<?php esc_html_e( "When enabled, IMDb Link Transformer options are displayed separately from the settings menu. It will create a dedicated menu to the IMDB Link Transformer options.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+				<?php esc_html_e( "When enabled, Lumiere Movies options are displayed separately from the settings menu. It will create a dedicated menu to the Lumiere Movies options.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
 			</td>
 		</tr>
 
@@ -316,7 +316,7 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 			</td>
 			<td class="td-aligntop">
 				<div class="explain">
-				<?php esc_html_e( "When activated, IMDb Link Transformer options are displayed in the toolbar admin menu of Wordpress.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
+				<?php esc_html_e( "When activated, Lumiere Movies options are displayed in the toolbar admin menu of Wordpress.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
 			</td>
 
 		</tr>

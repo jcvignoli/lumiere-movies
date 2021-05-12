@@ -20,7 +20,7 @@ global $imdb_ft, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
 class imdblt_core {
 
-// add the class from imdb-link-transformer.php
+// add the class from lumiere-movies.php
 
 } // end class
 

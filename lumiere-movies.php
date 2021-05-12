@@ -12,7 +12,7 @@
 
 /*
 Plugin Name: IMDb link transformer
-Plugin URI: https://www.jcvignoli.com/blog/imdb-link-transformer-wordpress-plugin
+Plugin URI: https://www.jcvignoli.com/blog/lumiere-movies-wordpress-plugin
 Description: Add to every movie title tagged with &lt;!--imdb--&gt; (...) &lt;!--/imdb--&gt; a link to an <a href="https://www.imdb.com"><acronym title="internet movie database">imdb</acronym></a> popup. Can also display data related to movies either in a <a href="widgets.php">widget</a> or inside a post. Perfect for your movie reviews. Cache handling. Have a look at the <a href="admin.php?page=imdblt_options">options page</a>.
 Version: 3.0
 Author: jcv
@@ -79,13 +79,13 @@ class imdblt_core {
 
 		// .htaccess text, including Rewritebase with $blog_subdomain
 		$imdblt_htaccess_file_txt = "<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase ".$imdblt_blog_subdomain."/"."\n\n";
-		$imdblt_htaccess_file_txt .= "## popup.php\nRewriteCond %{THE_REQUEST} /wp-content/plugins/imdb-link-transformer/inc/popup-search.php\?film=([^\s]+)?(&norecursive=)?(̣.*)?"."\n"."RewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "## popup-imdb_movie.php"."\n"."RewriteCond %{THE_REQUEST} /wp-content/plugins/imdb-link-transformer/inc/popup-imdb_movie.php\?film=([^\s]+) [NC]\nRewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/imdb-link-transformer/inc/popup-imdb_movie.php\?mid=([^\s]+)&film=&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/imdb-link-transformer/inc/popup-imdb_movie.php\?mid=([^\s]+)?&film=([^\s]+)?&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ imdblt/film/%2/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/imdb-link-transformer/inc/popup-imdb_movie.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "## popup-imdb_person.php"."\n"."RewriteCond %{THE_REQUEST} /wp-content/plugins/imdb-link-transformer/inc/popup-imdb_person.php\?mid=([^\s]+)?&film=([^\s]+)?&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ imdblt/person/%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/imdb-link-transformer/inc/popup-imdb_person.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ imdblt/person/%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "## popup.php\nRewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-search.php\?film=([^\s]+)?(&norecursive=)?(̣.*)?"."\n"."RewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "## popup-imdb_movie.php"."\n"."RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php\?film=([^\s]+) [NC]\nRewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php\?mid=([^\s]+)&film=&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php\?mid=([^\s]+)?&film=([^\s]+)?&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ imdblt/film/%2/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "## popup-imdb_person.php"."\n"."RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_person.php\?mid=([^\s]+)?&film=([^\s]+)?&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ imdblt/person/%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_person.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ imdblt/person/%1/ [L,R,QSA]"."\n\n";
 		$imdblt_htaccess_file_txt .= "</IfModule>"."\n";
 
 		// write the .htaccess file and close
@@ -217,7 +217,7 @@ class imdblt_core {
 		global $imdb_admin_values;
 
 		// Load js and css in /imdblt/ URLs or if the function is called with imdblt_add_head_blog("inc.movie")
-		if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/imdb-link-transformer/inc/' ) ) ) { 
+		if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) { 
 
 			// Highslide popup
 			if ($imdb_admin_values['imdbpopup_highslide'] == 1) {
@@ -250,7 +250,7 @@ class imdblt_core {
 		global $imdb_admin_values; 
 
 		// Load js and css in /imdblt/ URLs or if the function is called with imdblt_add_footer_blog("inc.movie")
-		if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/imdb-link-transformer/inc/' ) ) ) { 
+		if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) { 
 
 			wp_enqueue_script( "imdblt_hide-show_csp", $imdb_admin_values['imdbplugindirectory'] ."js/hide-show_csp.js");
 
@@ -450,7 +450,7 @@ class imdblt_core {
 	**/
 	function imdblt_popup_redirect() {
 		// The popup is for films
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/imdb-link-transformer/inc/popup-search.php' ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/popup-search.php' ) ) {
 			$query_film=preg_match_all('#film=(.*)#', $_SERVER['REQUEST_URI'], $match_query_film, PREG_UNMATCHED_AS_NULL );
 			$match_query_film_film=explode("&",$match_query_film[1][0]);
 			$query_mid=preg_match_all('#mid=(.*)#', $_SERVER['REQUEST_URI'], $match_query_mid, PREG_UNMATCHED_AS_NULL );
@@ -462,7 +462,7 @@ class imdblt_core {
 			wp_redirect( esc_url( add_query_arg( array( 'film' => $match_query_film_film[0], 'mid' => $match_query_film_mid[0],'info' => $match_query_info[1][0], 'norecursive' => $match_query_norecursive[1][0]), get_site_url(null, $url ) ) ) );
 			exit();
 		}
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/imdb-link-transformer/inc/popup-imdb_movie.php' ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php' ) ) {
 
 			$query_film=preg_match_all('#film=(.*)#', $_SERVER['REQUEST_URI'], $match_query_film, PREG_UNMATCHED_AS_NULL );
 			$match_query_film_film=explode("&",$match_query_film[1][0]);
@@ -477,7 +477,7 @@ class imdblt_core {
 
 		}
 		// The popup is for persons
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/imdb-link-transformer/inc/popup-imdb_person.php' ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/popup-imdb_person.php' ) ) {
 			$query_person_mid=preg_match('#mid=(.*)#', $_SERVER['REQUEST_URI'], $match_query_mid, PREG_UNMATCHED_AS_NULL );
 			$match_query_person_mid=explode ( "&", $match_query_mid[1] );
 			$query_person_info=preg_match_all('#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
@@ -562,7 +562,7 @@ class imdblt_core {
 */
 
 /*
-add_action('activate_imdb-link-transformer/imdb-link-transformer.php', 'create_imdblt_table');
+add_action('activate_lumiere-movies/lumiere-movies.php', 'create_imdblt_table');
 function create_imdblt_table() {
 	global $wpdb;
 	if(@is_file(ABSPATH.'/wp-admin/upgrade-functions.php')) {

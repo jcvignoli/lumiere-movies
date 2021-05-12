@@ -1,7 +1,7 @@
 <?php
 
  #############################################################################
- # IMDb Link transformer                                                     #
+ # Lumiere Movies                                                            #
  # Written by Prometheus group                                               #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #

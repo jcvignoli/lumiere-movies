@@ -1,7 +1,7 @@
 <?php
 
  #############################################################################
- # IMDb Link transformer                                                     #
+ # Lumiere Movies                                                            #
  # written by Prometheus group                                               #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
@@ -476,7 +476,7 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 		<tr>
 			<td width="30%" align="right" class="imdblt_valign_middle">
 				<div class="explain">
-					<?php esc_html_e( 'You can select the order for the information selected from "what to display" section. Select first the movie detail you want to move, use "up" or "down" to reorder IMDb Link Transformer display. Once you are happy with the new layout, click on "update settings" to keep it.', 'imdb'); ?>
+					<?php esc_html_e( 'You can select the order for the information selected from "what to display" section. Select first the movie detail you want to move, use "up" or "down" to reorder Lumiere Movies display. Once you are happy with the new layout, click on "update settings" to keep it.', 'imdb'); ?>
 					<br /><br />
 					<?php esc_html_e( '"Source" movie detail cannot be selected; if it is selected from "what to display" section, it will always appear after others movie details', 'imdb'); ?>
 				</div>

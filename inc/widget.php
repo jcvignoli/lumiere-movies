@@ -1,7 +1,7 @@
 <?php
 
  #############################################################################
- # IMDb Link transformer                                                     #
+ # Lumiere Movies                                                            #
  # written by Prometheus group                                               #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
@@ -13,7 +13,7 @@
  #									              #
  #############################################################################
 
-/** Registers IMDbLT widget so it appears with the other available
+/** Registers Lumiere Movies widget so it appears with the other available
 **  widgets and can be dragged and dropped into any active sidebars
 ** 
 */
@@ -32,7 +32,7 @@ function widget_imdbwidget($args) {
 	// shows widget only for a post or a page, when option "direct search" is switched on
 
 		if ( $imdb_widget_values['imdbautopostwidget'] == true) {
-		// automatically takes the post name to display the movie related, according to imdblt preferences (-> widget -> misc)
+		// automatically takes the post name to display the movie related, according to Lumiere Movies preferences (-> widget -> misc)
 			$imdballmeta[0] = sanitize_text_field( $name->post_title );
 
 			// Initialize imdblt_core class, add head that is only for /imdblt/ URLs

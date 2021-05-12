@@ -2,7 +2,7 @@
 <?php
 
  #############################################################################
- # IMDb Link transformer                                                     #
+ # Lumiere Movies                                                     #
  # written by Prometheus group                                               #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
@@ -293,7 +293,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 
 <div id="poststuff" class="metabox-holder">
 
-	<div class="intro_cache"><?php esc_html_e( "Cache is crucial to IMDb link transformer operation. As first imdb searchs are quite time consuming, if you do not want to kill your server but instead want quickest browsing experience, you will use cache. Pay a special attention to directories that need to be created.", 'imdb'); ?></div>
+	<div class="intro_cache"><?php esc_html_e( "Cache is crucial to Lumiere Movies operation. As first imdb searchs are quite time consuming, if you do not want to kill your server but instead want quickest browsing experience, you will use cache. Pay a special attention to directories that need to be created.", 'imdb'); ?></div>
 
 <?php if ( ($_GET['cacheoption'] == "option") || (!isset($_GET['cacheoption'] )) ) { 	/////////////////////////////////// Cache options  ?>
 
@@ -387,7 +387,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 						echo '</span>'; 
 					}
 				} ?>
-		<div class="explain"><?php esc_html_e('Absolute path to store images retrieved from the IMDb website. Has to be ', 'imdb'); ?><a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> <?php esc_html_e('by the webserver.', 'imdb');?> <br /><?php esc_html_e('Default:','imdb');?> "<?php echo IMDBLTABSPATH; ?>cache/images/"</div>
+		<div class="explain"><?php esc_html_e('Absolute path to store images retrieved from the IMDb website. Has to be ', 'imdb'); ?><a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> <?php esc_html_e('by the webserver.', 'imdb');?> <br /><?php esc_html_e('Default:','imdb');?> "<?php esc_html_e ( IMDBLTABSPATH ); ?>cache/images/"</div>
 			</td>
 		</tr>
 
@@ -395,7 +395,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 			<td class="td-aligntop"><label for="imdb_imdbphotoroot"><?php esc_html_e('Photo directory (url)', 'imdb'); ?></label>
 			</td>
 			<td colspan="2"><input type="text" name="imdb_imdbphotoroot" size="70" value="<?php esc_html_e(apply_filters('format_to_edit', $imdbOptionsc['imdbphotoroot']), 'imdb') ?>">
-				<div class="explain"><?php esc_html_e('URL corresponding to photo directory.','imdb');?> <br /><?php esc_html_e('Default:','imdb');?> "<?php echo esc_url( $imdbOptions['blog_adress'] . "/wp-content/plugins/imdb-link-transformer/cache/images/"); ?>"</div>
+				<div class="explain"><?php esc_html_e('URL corresponding to photo directory.','imdb');?> <br /><?php esc_html_e('Default:','imdb');?> "<?php echo esc_url( IMDBLTURLPATH . "cache/images/"); ?>"</div>
 			</td>
 		</tr>
 
