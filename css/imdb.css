@@ -1,0 +1,316 @@
+
+/***********************************************************
+******************** POPUP
+***********************************************************/
+
+/* ------------------ Basic */
+
+body.imdbpopup, body.page-header-disabled{font-family: Verdana, Tahoma, Georgia, Geneva, Arial;font-size: 0.7em;color: #575757;background: #FFFFFF;margin:10px;}
+
+body.imdbpopup a {color: #909090;text-decoration: none;}
+
+body.imdbpopup a:hover {color: #A8A8A8;text-decoration: none;}
+
+body.imdbpopup img{border:none;}
+
+body.imdbpopup h1 {text-align:center;font-size:20px;padding-bottom:10px;}
+
+.hidesection{display:none;}
+.activatehidesection {cursor:pointer;}
+.historyback, .searchaka{cursor:pointer;font-style:italic;color:#808080;}
+
+/* ------------------ Tables */
+
+/* ---- Top menu */
+
+.tabletitrecolonne{background-color:#FFFFFF;/*display:block;*/ margin-bottom:0px;height:25px;left:10px;right:10px;}
+
+.titrecolonne{text-align: center;vertical-align: middle;float: left;margin: 0px;margin-left: 5px;font-family: Arial;font-weight: bold;font-size: medium;height: 42px;/* padding-right: 13px;float: left;color: #909090;*/text-decoration: none;}
+.titrecolonne a:hover {color: #A8A8A8;/* text-decoration: underline; */}
+
+.imdblt_titlematchingdirector {width: 40%;}
+.imdblt_float_left{float:left;}
+
+/* ---- Results list */
+
+.TableListeResultats{font-size: medium;margin-left:2%;padding: 5px;width: 96%;}
+
+.TableListeResultatsTitre{font-family: Arial, Helvetica, Sans-Serif;font-weight: bold;color: #909090;text-decoration: none;padding: 3px 3px 3px 3px;text-align: center;font-size: 18px;}
+
+.TableListeResultatsColGauche{padding-left:5px;}
+
+.TableListeResultatsColDroite{text-align:right;padding-right:5px;}
+
+/* ---- Presentation part */
+
+.TableauPresentation {width:100%;}
+
+.colpicture {height:auto;width:20%;padding-right:10px;}
+
+.picture {/*border:#000000 thick ridge;*/}
+
+/* ---- Left menu */
+
+.TableauSousRubrique {padding: 0px 0px 0px 0px;width:100%;}
+
+.TitreSousRubriqueColGauche {padding: 0px 0px 0px 0px;width: 25%;vertical-align:top;font-size:15px;}
+
+.TitreSousRubriqueColDroite {text-align:center;font-size:12px;padding-right:13px;padding-left:13px;}
+
+
+/* ------------------ Misc */
+
+/* ---- Div */
+
+.titrefilm, .identity{text-align : center;font-size : x-large;	/*text-decoration: none;*/clear: both;}
+
+.titrefilm a:hover, .identity a:hover {color: #FFEAFD;}
+
+.soustitreidentity, .soustitrefilm {font-size: large;text-align:center;}
+
+.TitreSousRubrique{font-size : 1.0em;border-bottom: 1px solid #333333;border-right: 1px solid #333333;text-align : right;padding: 3px 3px 3px 3px;}
+
+
+/* ---- Others */
+
+.TitreSousRubriqueColDroite li {list-style-type:none;text-align:justify;}
+
+.imdbdiv-liees { /* to integrate two div in one */
+border-bottom:thin inset #000000;}
+
+#triviafield, #nicknamesfield, #quotesfield, #selffilmofield, #biographicalfield, #tradmarksfield, #directorfilmofield, #producerfilmofield, #actorfilmofield, #actressfilmofield, #triviafieldmovie, #soundtrackfield, #goofsfield, #soundtrackfield {
+display:none;
+text-align:left;
+}
+
+#loading {  
+width: 200px;  
+height: 90px;  
+/* background: url(../pics/loader.white.gif) no-repeat;*/
+position: absolute;  
+left: 45%;  
+margin-top: 15%;  
+margin-left: -100px;  
+text-align: center; 
+vertical-align:text-bottom;
+padding:30px;
+font-size:14px;
+font-weight: bold;  
+border: 2px solid #333333;  
+}  
+
+.img-imdb { /*imdb image, propertie for <img> */vertical-align:sub;}
+
+
+/***********************************************************
+******************** WIDGET & INSIDE POST
+***********************************************************/
+
+/* ---- imdbincluded */
+
+.imdbincluded { /* div */
+text-align : center;
+padding-bottom:10px;
+padding-left:5px;
+/* width:60%; */ /* uncomment this to limit imdb container information size, great inside post, useless for widgets */
+/* float:right; */ /* uncomment this to have a more advanced layout */
+}
+
+.imdbincluded-subtitle { /* span */
+font-weight:bold;
+display: block;
+}
+
+.imdbincluded-picture { /* img */
+
+}
+
+/* elements inside imdb inc, allows to manage specific cases */
+
+.imdbincluded-lined { /* common LI  to all elements */
+padding-top:15px;
+padding-left: 2px;
+text-align:left;
+}
+
+.imdbelementTITLE { 			/*TITLE*/
+text-align: left;
+font-weight:bold;
+font-size:140%;
+}
+
+
+.imdbelementPICdiv {			/*PIC*/
+padding-top:10px;
+padding-bottom:10px;
+/*float:left;*/
+}
+.imdbelementPICimg {
+}
+
+
+.imdbelementCOUNTRYul {          /*COUNTRY*/
+}
+.imdbelementCOUNTRYli {
+}
+
+
+.imdbelementRUNTIMEul {          /*RUNTIME*/
+}
+.imdbelementRUNTIMEli {
+}
+
+
+.imdbelementLANGUAGEul {          /*LANGUAGE*/
+}
+.imdbelementLANGUAGEli {
+}
+
+
+.imdbelementRATINGul {          /*RATING*/
+}
+.imdbelementRATINGli {
+}
+
+
+.imdbelementGENREul {          /*GENRE*/
+}
+.imdbelementGENREli {
+}
+
+
+.imdbelementGOOFul {          /*GOOF*/
+}
+.imdbelementGOOFli {
+}
+
+
+.imdbelementCOMMENTul {          /*COMMENT*/
+}
+.imdbelementCOMMENTli {
+}
+
+
+.imdbelementQUOTEul {          /*QUOTE*/
+}
+.imdbelementQUOTEli {
+}
+
+
+.imdbelementTAGLINEul {          /*TAGLINE*/
+}
+.imdbelementTAGLINEli {
+}
+
+
+.imdbelementCOLORul {          /*COLOR*/
+}
+.imdbelementCOLORli {
+}
+
+
+.imdbelementALSOKNOWul {          /*ALSOKNOW*/
+}
+.imdbelementALSOKNOWli {
+}
+
+
+.imdbelementCOMPOSERul {          /*COMPOSER*/
+}
+.imdbelementCOMPOSERli {
+}
+
+
+.imdbelementSOUNDTRACKul {          /*SOUNDTRACK*/
+}
+.imdbelementSOUNDTRACKli {
+}
+
+
+.imdbelementKEYWORDSul {          /*KEYWORDS*/
+}
+.imdbelementKEYWORDSli {
+}
+
+
+.imdbelementOFFICIALWEBSITEul {          /*DIRECTOR*/
+}
+.imdbelementOFFICIALWEBSITEli {
+}
+
+
+.imdbelementDIRECTORul {          /*DIRECTOR*/
+}
+.imdbelementDIRECTORli {
+}
+
+
+.imdbelementPRODUCERul {          /*PRODUCER*/
+padding-top:1px;
+padding-bottom:1px;
+}
+.imdbelementPRODUCERli {
+}
+
+.imdbelementPRODCOMPANYul {          /*PRODUCTION COMPANIES*/
+}
+.imdbelementPRODCOMPANYli {
+}
+
+.imdbelementWRITERul {          /*WRITER*/
+padding-top:1px;
+padding-bottom:1px;
+}
+.imdbelementWRITERli {
+}
+
+
+.imdbelementACTORlul {          /*ACTOR*/
+}
+.imdbelementACTORli {
+}
+
+
+.imdbelementPLOTul {          /*PLOT*/
+}
+.imdbelementPLOTli {
+text-align:justify;
+}
+
+.imdbelementSOURCEul {          /*SOURCE*/
+}
+.imdbelementSOURCEli {
+}
+.imdbelementSOURCE-picture {
+	height: 14px;
+}
+
+
+
+/* ---- Others */
+
+.link-imdb, .link-imdblt-classicfilm, .link-imdblt-highslidefilm { /*link to the internal popup*/
+	border-bottom: 1px dotted #bbb;
+	background: url(../pics/imdb.gif) no-repeat left;
+	padding-left: 16px;
+	text-decoration: none;
+	cursor:pointer;
+}
+
+.link-imdb2, .link-imdblt-classicpeople, .link-imdblt-highslidepeople  { /*link to the internal popup, from imdb-movie.inc.php*/
+	text-decoration: none;
+	cursor:pointer;
+}
+
+.link-imdb:hover { /*link to the internal popup*/
+	border-bottom: 1px dotted #bbb;
+	background: url(../pics/imdb.gif) no-repeat left;
+	padding-left: 16px;
+	text-decoration: inherit;
+}
+
+
+.noresult { /*text displayed when no imdbLT results found*/
+	color: red;
+}
+

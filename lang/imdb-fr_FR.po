@@ -1,0 +1,2633 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: IMDb Link Transformer\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-05-03 20:24-0400\n"
+"PO-Revision-Date: 2021-05-03 20:32-0400\n"
+"Last-Translator: psykotik <psykotik@ikiru.ch>\n"
+"Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;esc_html_e;esc_html__\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: config.php:212 config.php:268 config.php:300
+msgid "Options saved."
+msgstr "Options sauvegard&eacute;es."
+
+#: config.php:224 config.php:277 config.php:312
+msgid "Options reset."
+msgstr "Options r&eacute;initialis&eacute;es."
+
+#: config.php:231 config.php:284 config.php:319 config.php:335
+msgid "Plugin collision. Please follow "
+msgstr "Collision de plugin. Veuillez suivre"
+
+#: config.php:231 config.php:284 config.php:319 config.php:335
+msgid "this link."
+msgstr "ce lien."
+
+#: config.php:261
+msgid "Error. You have to select a value."
+msgstr "Erreur. Vous devez s&eacute;lectionner une valeur."
+
+#: config.php:328
+msgid "All cache deleted."
+msgstr "Tout le cache a &eacute;t&eacute; effac&eacute;."
+
+#: config.php:346
+msgid "Part cache deleted."
+msgstr "Cache partiellement effac&eacute;."
+
+#: config.php:381
+msgid "General Options"
+msgstr "Options g&eacute;n&eacute;rales"
+
+#: config.php:388 config.php:391 config.php:395 config.php:399
+msgid "Widget/Inside post Options"
+msgstr "Options du Widget/Dans un message"
+
+#: config.php:391 config.php:399
+msgid "Widget unactivated"
+msgstr "Widget d&eacute;sactiv&eacute;"
+
+#: config.php:395 config.php:399 inc/options-general.php:269
+msgid "Direct search"
+msgstr "Recherche directe"
+
+#: config.php:395
+msgid "unactivated"
+msgstr "d&eacute;sactiv&eacute;"
+
+#: config.php:403 imdb-link-transformer.php:258 inc/options-cache.php:543
+msgid "Cache management"
+msgstr "Gestion du cache"
+
+#: config.php:407
+msgid "How to use IMDb link transformer, check FAQs & changelog"
+msgstr "Comment utiliser IMDb link transformer, consulter les FAQs & changelog"
+
+#: config.php:408
+msgid "IMDb link transformer help"
+msgstr "Aide IMDb link transformer"
+
+#: imdb-link-transformer.php:256
+msgid "IMDb link transformer options page"
+msgstr "Options IMDb Link Transformer"
+
+#: imdb-link-transformer.php:256 imdb-link-transformer.php:353
+#: inc/options-cache.php:308
+msgid "General options"
+msgstr "Options g&eacute;n&eacute;rales"
+
+#: imdb-link-transformer.php:257
+msgid "Widget & In post options page"
+msgstr "Options du Widget/Dans un message"
+
+#: imdb-link-transformer.php:257
+msgid "Widget/In post"
+msgstr "Widget/Dans un message"
+
+#: imdb-link-transformer.php:258
+msgid "Cache management options page"
+msgstr "Options de la gestion du cache"
+
+#: imdb-link-transformer.php:259
+msgid "Help page"
+msgstr "Page d'aide"
+
+#: imdb-link-transformer.php:259 imdb-link-transformer.php:359
+msgid "Help"
+msgstr "Aide"
+
+#: imdb-link-transformer.php:351
+msgid "IMDB LT"
+msgstr "IMDB LT"
+
+#: imdb-link-transformer.php:351
+msgid "IMDBLT Menu"
+msgstr "IMDBLT Menu"
+
+#: imdb-link-transformer.php:355
+msgid "Widget options"
+msgstr "Options Widget"
+
+#: imdb-link-transformer.php:357
+msgid "Cache options"
+msgstr "Options de cache"
+
+#: inc/functions.php:67 inc/functions.php:240 inc/functions.php:277
+#: inc/imdb-movie.inc.php:449 inc/imdb-movie.inc.php:550
+#: inc/imdb-movie.inc.php:589 inc/imdb-movie.inc.php:628
+#: inc/imdb-movie.inc.php:669 inc/imdb-movie.inc.php:714
+msgid "open a new window with IMDb informations"
+msgstr "ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
+
+#: inc/functions.php:85
+msgid ""
+"<strong>Licensing Info:</strong> Under the GPL licence, \"IMDb link "
+"transformer\" is based on <a href=\"https://github.com/tboothman/imdbphp/"
+"\">tboothman</a> classes. Nevertheless, a considerable amount of work was "
+"required to implement it in wordpress; check the support page for"
+msgstr ""
+"<strong>License:</strong> Sous une licence GPL,  \"IMDb link transformer\" "
+"est bas&eacute; sur les classes venant de <a href=\"https://github.com/"
+"tboothman/imdbphp/\">tboothman</a>. Cependant, un &eacute;norme travail "
+"d'adaptation a &eacute;t&eacute; op&eacute;r&eacute; pour cr&eacute;er ce "
+"plugin; visitez la page de support pour"
+
+#: inc/functions.php:85
+msgid "more"
+msgstr "plus d'informations"
+
+#: inc/functions.php:104
+msgid "Sorry, no result found for this reference"
+msgstr ""
+"D&eacute;sol&eacute;, aucun r&eacute;sultat trouv&eacute; pour cette "
+"r&eacute;f&eacute;rence"
+
+#: inc/functions.php:159
+msgid "Movie's titles"
+msgstr "Titres du film"
+
+#: inc/functions.php:162
+msgid "Movie's genres"
+msgstr "Genres du film"
+
+#: inc/functions.php:165
+msgid "Movie's keywords"
+msgstr "Mot-cl&eacute; du film"
+
+#: inc/functions.php:168
+msgid "Movie's countries"
+msgstr "Pays du film"
+
+#: inc/functions.php:171
+msgid "Movie's languages"
+msgstr "Langues du film"
+
+#: inc/functions.php:174
+msgid "Movie's composers"
+msgstr "Compositeurs du film"
+
+#: inc/functions.php:177
+msgid "Movie's colors"
+msgstr "Couleurs du film"
+
+#: inc/functions.php:180
+msgid "Movie's directors"
+msgstr "R&eacute;alisateurs du film"
+
+#: inc/functions.php:183
+msgid "Movie's creators"
+msgstr "Cr&eacute;ateurs du film"
+
+#: inc/functions.php:186
+msgid "Movie's producers"
+msgstr "Producteurs du film"
+
+#: inc/functions.php:189
+msgid "Movie's actors"
+msgstr "Acteurs du film"
+
+#: inc/functions.php:192
+msgid "Movie's writers"
+msgstr "Sc&eacute;naristes du film"
+
+#: inc/help.php:22
+msgid "Popup link builder"
+msgstr "Lien pour popup"
+
+#: inc/help.php:23
+msgid "Inside the post"
+msgstr "Dans le message"
+
+#: inc/help.php:24
+msgid "Widget"
+msgstr "Widget"
+
+#: inc/help.php:25
+msgid "Big admin menu"
+msgstr "Grand menu d'administration"
+
+#: inc/help.php:26
+msgid "Add a search form"
+msgstr "Ajouter un formulaire de recherche"
+
+#: inc/help.php:27
+msgid "Keep css through update"
+msgstr "Garder le css lors de la mise-&agrave;-jour"
+
+#: inc/help.php:31
+msgid "Taxonomy with Wordpress"
+msgstr "Taxonomie avec Wordpress"
+
+#: inc/help.php:32
+msgid "Widget auto according post's title"
+msgstr "Auto-widget selon le titre du message"
+
+#: inc/help.php:38
+msgid "How to use IMDb link transformer"
+msgstr "Comment utiliser IMDb link transformer"
+
+#: inc/help.php:38
+msgid "How to"
+msgstr "How to"
+
+#: inc/help.php:40
+msgid "Frequently asked questions"
+msgstr "Questions les plus fr&eacute;quemment pos&eacute;es."
+
+#: inc/help.php:40
+msgid "FAQs"
+msgstr "FAQs"
+
+#: inc/help.php:42
+msgid "What's new"
+msgstr "Nouveaut&eacute;s"
+
+#: inc/help.php:42
+msgid "Changelog"
+msgstr "Mise &agrave; jour"
+
+#: inc/help.php:44
+msgid "To get support and to support what you get"
+msgstr "Obtenir de l'aide et fournir de l'aide pour l'obtenir"
+
+#: inc/help.php:44
+msgid "Support, donate & credits"
+msgstr "Aide, dons et cr&eacute;dits"
+
+#: inc/help.php:132
+msgid ""
+"Two ways to match <strong>IMDb link transformer</strong> and "
+"<strong>support</strong>"
+msgstr ""
+"Des moyens de faire correspondre les termes <strong>IMDb link transformer</"
+"strong> et <strong>aide</strong>"
+
+#: inc/help.php:140
+msgid "Be supported!"
+msgstr "&Ecirc;tre aid&eacute; !"
+
+#: inc/help.php:143
+msgid ""
+"You will never believe there is so many ways to be supported. Yes, you can:"
+msgstr ""
+"Vous ne croirez jamais qu'il existe autant de moyens d'&ecirc;tre "
+"aid&eacute;. Vous pouvez :"
+
+#: inc/help.php:144
+msgid "visit "
+msgstr "visiter"
+
+#: inc/help.php:144
+msgid "to ask for support. "
+msgstr "pour demander de l'aide."
+
+#: inc/help.php:145 inc/help.php:146
+msgid "check "
+msgstr "consulter"
+
+#: inc/help.php:145
+msgid "FAQs "
+msgstr "FAQ"
+
+#: inc/help.php:146
+msgid "how to"
+msgstr "Instructions"
+
+#: inc/help.php:158
+msgid "Support me!"
+msgstr "Aidez-moi!"
+
+#: inc/help.php:161
+msgid "You will never believe there is so many ways to thank me. Yes, you can:"
+msgstr ""
+"Vous ne croirez jamais qu'il y a autant de moyens de me remercier. Vous "
+"pouvez :"
+
+#: inc/help.php:162
+msgid "vote for IMDb link transformer on "
+msgstr "voter pour IMDb link transformer sur son propre"
+
+#: inc/help.php:163
+msgid "vote for IMDb link transformer on its own"
+msgstr "voter pour IMDb link transformer sur son propre"
+
+#: inc/help.php:164
+msgid ""
+"send as many bugfixes and propositions as you can on IMDb link transformer "
+"website."
+msgstr ""
+"envoyer autant de corrections et propositions que vous pouvez sur le site "
+"web d'IMDb link transformer."
+
+#: inc/help.php:165
+msgid "pay whatever you want on paypal"
+msgstr "payer ce que vous voulez au moyen de paypal"
+
+#: inc/help.php:165
+msgid "website"
+msgstr "site web"
+
+#: inc/help.php:166
+msgid "translate the plugin into your own language."
+msgstr "traduire le plugin dans votre propre langue."
+
+#: inc/help.php:167
+msgid "help me to improve the plugin's design. I'm not gifted at all."
+msgstr ""
+"aidez-moi &agrave; am&eacute;liorer le design du plugin. Je ne suis pas du "
+"tout dou&eacute;."
+
+#: inc/help.php:168
+msgid "place a trackback, talk about this tool, and so on."
+msgstr "mettre en place un trackback, parler de cet outil, etc."
+
+#: inc/help.php:180
+msgid "Credits:"
+msgstr "Cr&eacute;dits :"
+
+#: inc/help.php:183
+msgid "Special thanks to:"
+msgstr "Remerciements particuliers &agrave; :"
+
+#: inc/help.php:200
+msgid ""
+"IMDb link transformer evolves a lot. As a result of this, the plugin include "
+"many options, many ways to achieve bloggers wishes. Since then, IMDb link "
+"transformer main functions are explained hereafter, aiming to make the "
+"experience better. As you may discover, there are three main ways to display "
+"data from movies and there is many options. This is an attempt to document "
+"it, but please check also FAQs."
+msgstr "ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
+
+#: inc/help.php:248
+msgid "Why a popup window?"
+msgstr "Pourquoi une fen&ecirc;tre popup ?"
+
+#: inc/help.php:249 inc/help.php:264 inc/help.php:269 inc/help.php:288
+#: inc/help.php:303 inc/help.php:323 inc/help.php:335 inc/help.php:369
+#: inc/help.php:378 inc/help.php:457 inc/help.php:490 inc/help.php:502
+#: inc/help.php:519 inc/help.php:541
+msgid "click to get a larger picture"
+msgstr "cliquer pour obtenir une plus grande image"
+
+#: inc/help.php:250
+msgid ""
+"The first way to use Imdb link transformer is the first historically "
+"available. The idea behind was to find a solution for posts quoting many "
+"movies; blogger and reader would appreciate to have director's name, to know "
+"the alternative title's name, etc. And these data should not waste space in "
+"post itself; thus the popup idea."
+msgstr ""
+"Le premier moyen d'utiliser IMDb link transformer est le premier "
+"historiquement r&eacute;alis&eacute;. L'id&eacute;e originale visait "
+"&agrave; trouver une solution pour les message citant plusieurs films; les "
+"bloggers est lecteurs appr&eacute;cient d'avoir le nom du r&eacute;"
+"alisateur, de conna&icirc;tre les titres alternatifs, etc. Et ces "
+"donn&eacute;es ne devaient pas prendre d'espace dans le message lui-m&ecirc;"
+"me; d'o&ugrave; l'id&eacute; d'un popup."
+
+#: inc/help.php:254
+msgid ""
+"Popup, as an extra window opened on click, will permit to get director's and "
+"movie's data; it is fully browsable and when browsing a movie, one can also "
+"look for 'AKAs' (movies which have a name similar)."
+msgstr ""
+"Popup, une fen&ecirc;tre ouverte par click, permet d'obtenir les donn&eacute;"
+"es des r&eacute;alisateur et film; elle est enti&egrave;rement navigable et, "
+"lorsqu'on navigue dans un film, on peut &eacute;galement voir les "
+"'AKAs' (des films qui ont un nom proche ou similaire)."
+
+#: inc/help.php:258
+msgid ""
+"It is quite intuitive to understand how popup can help; when writing about "
+"many movies, if one would like to speak about every director or actor he "
+"mentions in his post, it would take ages and will not have the power of the "
+"linkage (once seen the director, looking for his filmography)."
+msgstr ""
+"Il assez intuitif de comprendre coment les popups peuvent aider; lorsqu'on "
+"&eacute;crit sur plusieurs films, si l'on voulait parler de tous les "
+"nombreux acteurs ou r&eacute;alisateurs dans le corps du message, cela "
+"prendrait beaucoup de temps et place sans avoir la force des liens html (une "
+"fois trouv&eacute; le r&eacute;alisateur, on peut voir toute sa "
+"filmographie)."
+
+#: inc/help.php:262
+msgid "How to get a popup window"
+msgstr "Comment afficher une popup"
+
+#: inc/help.php:263
+msgid ""
+"To create a link to a popup window, you only need to put the <b>movie's "
+"title</b> (it doesn't work with any other data) inside dedicated tags. "
+"Either you use the HTML style to write posts, and a new button could help "
+"you to achieve that:"
+msgstr ""
+"Pour cr&eacute;er un lien vers une fen&ecirc;tre popup, il est seulement "
+"n&eacute;cessaire d'entourer le <b>nom du film</b> (ne fonctionne pas avec "
+"d'autres donn&eacute;es) d&eacute;sir&eacute; entre des tags d&eacute;"
+"di&eacute;s. Soit on utilise le style HTML pour &eacute;crire les messages, "
+"et on peut utiliser un nouveau bouton pour le faire :"
+
+#: inc/help.php:268
+msgid ""
+"Or you use the Visual style to write posts, and a new button could help you "
+"to achieve that :"
+msgstr ""
+"Ou utilisez le style Visuel d'&eacute;criture des messages, au moyen du "
+"nouveau bouton qui peut vous aider &agrave; le faire :"
+
+#: inc/help.php:273
+msgid ""
+"Whatever the tool you choose, when you will save your post you will get a "
+"nice link added to your movie."
+msgstr ""
+"Quel que soit l'outil retenu, lorsque le message est sauvegard&eacute; un "
+"superbe lien sera ajout&eacute; au film."
+
+#: inc/help.php:287
+msgid "Why to use widget?"
+msgstr "Pourquoi utiliser le widget ?"
+
+#: inc/help.php:288
+msgid "key and value for custom fields"
+msgstr "nom et valeur des champs personnalis&eacute;s"
+
+#: inc/help.php:290
+msgid ""
+"Widgets are widely used in wordpress. They allow to quickly select what "
+"information to display in an area, usually on sidebar. The main advantage is "
+"that blogger can easily select what information to display - or not, in what "
+"order."
+msgstr ""
+"Les widget sont largement utilis&eacute; dans wordpress. Ils permettent de "
+"s&eacute;lectionner rapidement quelles informations afficher dans un espace, "
+"habituellement dans une sidebar. L'avantage principale r&eacute;side dans le "
+"fait que le blogger peut facilement choisir les informations &agrave; "
+"afficher - ou non, et dans quel ordre."
+
+#: inc/help.php:294
+msgid "How to use widget"
+msgstr "Comment utiliser le widget"
+
+#: inc/help.php:295
+msgid ""
+"<strong>Firstly</strong>, go to <a href='widgets.php'>widget</a> "
+"administration (<i>appearance</i> tab), drag <i>imdb widget</i> (from "
+"<i>inactive widgets</i>) to a sidebar, and modify the box's title (in case "
+"you don't want to have the box named <i>IMDb data</i>)."
+msgstr ""
+"<strong>Premi&egrave;rement</strong>, se rendre sur l'administration des <a "
+"href='widgets.php'>widgets</a> (onglet <i>apparence</i>), glisser le "
+"<i>widget IMDb</i> (depuis les <i>widgets inactifs</i>) vers la sidebar, et "
+"modifier le titre de la bo&icirc;te (dans le cas o&ugrave; celui par "
+"d&eacute;faut, <i>IMDb data</i>, ne convient pas)."
+
+#: inc/help.php:299
+msgid ""
+"<strong>Secondly</strong>, open an old post (or write a new one) and add the "
+"key <i>imdb-movie-widget</i> to the <i>custom fields</i> of your message "
+"<strong>and</strong> the name of the movie you want to display to <i>value</"
+"i> (first case from the picture). IMDb link transformer will automatically "
+"display in the widget the movie selected."
+msgstr ""
+"<strong>Deuxi&egrave;mement</strong>, ouvrez un vieux message (ou &eacute;"
+"crivez-en un nouveau) et ajoutez <i>imdb-movie-widget</i> dans le <i>nom</i> "
+"les champs personnalis&eacute;s de votre message <strong>ainsi que</strong> "
+"le nom du film que vous souhaitez afficher dans la <i>valeur</i> (premier "
+"cas en image). IMDb link transformer affichera automatiquement dans le "
+"widget le film s&eacute;lectionn&eacute;."
+
+#: inc/help.php:303 inc/help.php:323
+msgid "IMDb link transformer widget"
+msgstr "IMDb link transformer widget"
+
+#: inc/help.php:304
+msgid ""
+"<strong>Another possibility:</strong> add to your post the key <i>imdb-movie-"
+"widget-bymid</i> into the <i>custom fields</i> from your message "
+"<strong>and</strong> the IMDb ID for the movie you want to be displayed on "
+"your sidebar to <i>value</i> (second case from the picture). Instead of "
+"looking for a name, IMDb link transformer would directly display the movie "
+"you want to display. Very useful when your movie's name does not work as it "
+"should (if there are many movies with the same name, the wrong movie is "
+"displayed, etc)."
+msgstr ""
+"<strong>Autre possiblit&eacute; :</strong> ajouter &agrave; votre message la "
+"dans le champ nom le texte <i>imdb-movie-widget-bymid</i> des <i>champs "
+"personalis&eacute;</i> de votre message <strong>et</strong> l'id IMDb du "
+"film que vous souhaitez afficher dans la sidebar dans le champ <i>valeur</i> "
+"(second exemple dans l'image). Ainsi, au lieu de faire une chercher en "
+"fonction d'un nom, IMDb link transformer affichera directement le film "
+"souhait&eacute;. Tr&egrave;s pratique lorsque le film retourn&eacute; n'est "
+"pas celui souhait&eacute; (lorsqu'il existe plusieurs films du m&ecirc;me "
+"nom, le mauvais film peut s'affich&eacute;, etc)."
+
+#: inc/help.php:308
+msgid ""
+"To get the movie's IMDb id, search for a title on <a href='http://www.imdb."
+"com' >Internet movie database</a> website, look at the adress bar for a "
+"'ttXXXXX' section, keep only the numerical part (XXXXX) and add result to "
+"the <i>value</i> custom field. However, in this specific case, do not mix "
+"with an <i>imdb-movie-widget</i> key. Only the first one will be displayed."
+msgstr ""
+"Pour obtenir l'id IMDb d'un film, recherchez un titre sur le site web de "
+"l'<a href='http://www.imdb.com' >Internet movie database</a>, et regardez "
+"sur la barre d'adresse la section 'ttXXXXX'; prenez seulement la partie "
+"num&eacute;rique (XXXXX), et ajoutez le r&eacute;sultat dans le champ "
+"<i>valeur</i> dans les champs personnalis&eacute;s. Cependant, dans ce cas "
+"particulier, ne m&eacute;langez pas avec une valeur <i>imdb-movie-widget</"
+"i>. Seul le premier sera affich&eacute;."
+
+#: inc/help.php:322
+msgid "What's the point of displaying movie's data inside my post?"
+msgstr ""
+"Quel est l'int&eacute;r&ecirc;t d'afficher les donn&eacute;es dans mon "
+"message ?"
+
+#: inc/help.php:324
+msgid ""
+"Having movie's data inside the post is quite useful; it could ingeniously "
+"decorate your message, display crucial informations (director, actors) and "
+"in the same time add links to a popup which would include these informations "
+"(but with more details). At the begining, this function could only be "
+"achieved with a special plugin. Since release 1.1.14.3, IMDb link "
+"transformer does not need any third party plugin anymore to display movie's "
+"data inside you message. "
+msgstr ""
+"Pouvoir afficher les donn&eacute;es d'un film dans un message est tr&egrave;"
+"s pratique; cela peut astucieusement agr&eacute;menter votre message, "
+"afficher des informations cruciales (r&eacute;alisateur, acteurs) and dans "
+"le m&ecirc;me temps ajouter des liens vers une popup contenant ces "
+"informations (en plus d&eacute;taill&eacute;). Au commencement, cette "
+"fonction pouvait &ecirc;tre activ&eacute;e uniquement gr&acirc;ce &agrave; "
+"un plugin sp&eacute;cial. Depuis sa version 1.1.14.3, IMDb link transformer "
+"n'a plus besoin d'aucun plugin tiers pour afficher les donn&eacute;es des "
+"films &agrave; l'int&eacute;rieur d'un message."
+
+#: inc/help.php:328
+msgid ""
+"It means that you only need to put the movie's name into brackets, to get "
+"movie's data inside your post."
+msgstr ""
+"Cela signifie qu'il suffit d'entourer le nom du film entre les crochets, "
+"pour obtenir les donn&eacute;es dans le message."
+
+#: inc/help.php:332
+msgid "How to display data inside my post"
+msgstr "Comment afficher les donn&eacute;es dans mon message"
+
+#: inc/help.php:334
+msgid ""
+"You only need to put the movie's name into brackets, to get movie's data "
+"inside your post. Data can be inserted exactly where you want, there is no "
+"limitation. Just be sure to put the movie's name inside [imdblt][/imdblt], "
+"like this:"
+msgstr ""
+"Il suffit de mettre entre crochets le nom du film pour afficher les "
+"donn&eacute;es du film dans votre message. Les donn&eacute;es peuvent &ecirc;"
+"tre ins&eacute;r&eacute;es exactement l&agrave; o&ugrave; vous souhaitez, il "
+"n'y pas de limitation. Assurez-vous de mettre le nom du film &agrave; "
+"l'int&eacute;rieur de , comme ceci :"
+
+#: inc/help.php:335
+msgid "IMDb link transformer Inside a post"
+msgstr "IMDb link transformer Dans un message"
+
+#: inc/help.php:336
+msgid "And you are done."
+msgstr "Et vous avez termin&eacute;."
+
+#: inc/help.php:338
+msgid ""
+"You additionnaly can get a movie from its imdb id, using its imdb movie's id "
+"instead of its name. When writing your post, put the movie's imdb id inside "
+"tags [imdbltid][/imdbltid] (which gives ie [imdbltid]0137523[/imdbltid], for "
+"Fight Club movie). You can get movie's imdb id from imdb website, search for "
+"you movie, and check your browser's adress bar. The number after 'tt' part "
+"is the movie's id."
+msgstr ""
+"Vous pouvez &eacute;galement obtenir un film depuis son ID IMDb au lieu de "
+"l'obtenir depuis son nom. Lorsque vous &eacute;crivez votre message, mettez "
+"l'ID IMDb entre tags [imdbltid][/imdbltid] (ce qui donnerait pour Fight Club "
+"par exemple [imdbltid]0137523[/imdbltid]). Vous pouvez obtenir l'ID IMDb "
+"depuis le site de l'IMDb, en recherchant votre film. Dans votre barre "
+"d'adresse du navigateur, vous trouverez une suite de chiffres apr&egrave;s "
+"la partie 'tt', qui correspondond &agrave; l'ID."
+
+#: inc/help.php:343
+msgid "How to display data inside my post - tricky way"
+msgstr ""
+"Comment afficher les donn&eacute;es dans mon message - partie "
+"compliqu&eacute;e"
+
+#: inc/help.php:344
+msgid ""
+"It could happen you don't want to use the previous solution to display "
+"movie's data. For exemple, if you wish to use IMDbLT outside a post (in a "
+"personalized page), it won't work. In this case, and in this case only, you "
+"should (may be) to download Exec-PHP plugin (<a href='http://wordpress.org/"
+"extend/plugins/exec-php'>http://wordpress.org/extend/plugins/exec-php</a>), "
+"depending of your page."
+msgstr ""
+"Il peut arriver que vous ne souhaitiez pas utiliser la pr&eacute;c&eacute;"
+"dente m&eacute;thode pour afficher les d&eacute;tails des films. Par "
+"exemple, si vous souhaitez utiliser IMDbLT en dehors d'un message (dans une "
+"page personnalis&eacute;e), cela ne fonctionnera pas. Dans ce cas, et dans "
+"ce cas uniquement, vous devriez (peut-&ecirc;tre) t&eacute;l&eacute;charger "
+"le plugin Exec-PHP (<a href='http://wordpress.org/extend/plugins/exec-"
+"php'>http://wordpress.org/extend/plugins/exec-php</a>), selon votre page."
+
+#: inc/help.php:345
+msgid ""
+"The function to be called is <strong>imdb_call_external ()</strong>. It has "
+"two parameters, and both are mandatory. The first is the movie's name, and "
+"the second take always 'external'. For exemple, one'd like to display 'The "
+"Descent' should call the function like this:"
+msgstr ""
+"La fonctionne &agrave; appeler est <strong>imdb_call_external ()</strong>. "
+"Cette fonction a deux param&egrave;tres, et tous les deux sont obligatoires. "
+"Le premier est le nom du film, et le second prend toujours 'external'. Par "
+"exemple, quelqu'un qui voudrait afficher 'The Descent' devrait appeler la "
+"fonction de cette mani&egrave;re :"
+
+#: inc/help.php:347
+msgid ""
+"The function can also be called using still 'external as second parameter, "
+"but the first will be blank and a new third parameter will take its IMDb "
+"movie's ID. For exemple, one'd like to display 'The Descent' should call the "
+"function this manner:"
+msgstr ""
+"La fonctionne &agrave; appeler est <strong>imdb_call_external ()</strong>. "
+"Cette fonction a deux param&egrave;tres, et tous les deux sont obligatoires. "
+"Le premier est le nom du film, et le second prend toujours 'external'. Par "
+"exemple, quelqu'un qui voudrait afficher 'The Descent' devrait appeler la "
+"fonction de cette mani&egrave;re :"
+
+#: inc/help.php:352
+msgid ""
+"I like to display movie details, but I want to get rid of links which open a "
+"popup"
+msgstr ""
+"J'aime pouvoir afficher les d&eacute;tails de film, mais j'aimerais ne pas "
+"avoir de liens qui ouvrent une popup"
+
+#: inc/help.php:353
+msgid ""
+"It could happen you do not want popups at all. Since by default IMDb link "
+"transformer add links whenever relevant to movie's details displayed inside "
+"posts, one may find this useless. To get rid of them, look for 'Widget/"
+"Inside post Options / Misc / Remove popup links?' and switch the option to "
+"'yes'. No links are created anymore, for both widget and inside a post."
+msgstr ""
+"Il est possible que vous ne souhaitiez pas du tout avoir de popup. Puisque "
+"par d&eacute;faut, IMDb link transformer ajoute des liens relatifs aux "
+"d&eacute;tails des films &agrave; l'int&eacute;rieur des message, on "
+"pourrait trouver ce comportement inutile. Pour s'en d&eacute;barasser, "
+"regardez sous \"Options du Widget/Dans un message / Divers / Enlever les "
+"liens imdb ?\" et mettez l'option sur \"oui\". Plus aucun lien ne sera "
+"dor&eacute;navant cr&eacute;&eacute;, ni pour le widget ni &agrave; "
+"l'int&eacute;rieur du message."
+
+#: inc/help.php:366
+msgid "IMDb link transformer is a mess! I'm lost with so many options."
+msgstr ""
+"On ne s'y retrouve pas avec IMDb link transformer ! Je suis perdu avec "
+"toutes ces options."
+
+#: inc/help.php:370
+msgid ""
+"Wordpress admin area offers more and more options to user. Starting with 2.7 "
+"release, it also offers the possibility to add new admin menu for plugins. "
+"IMDb link transformer makes the most of this possibility, and can add its "
+"own admin menu. It can be added - or removed. Depending of how many plugin's "
+"admin menus you already have, you would prefer to keep access to IMDb link "
+"transformer settings only through usual 'settings' tab; it's up to you to "
+"choose to either get a complet and bigger IMDb link transformer menu - or "
+"not."
+msgstr ""
+"L'interface d'administration de Wordpress offre de plus en plus d'options. "
+"Depuis la version 2.7, elle offre aussi la possibilit&eacute; d'ajouter un "
+"nouveau menu pour les plugins. IMDb link transformer utilise au maximum "
+"cette possibilit&eacute;, et ajoute son propre menu d'administration. Il "
+"peut &ecirc;tre ajout&eacute; - ou enlev&eacute;. Selon le nombre de plugins "
+"dans les menus d'administration que vous avez d&eacute;j&agrave;, vous "
+"pr&eacute;fererez pr&eacute;server l'acc&egrave;s aux options d'IMDb link "
+"transformer seulement par l'onglet habituel; c'est vous qui choisissez "
+"d'afficher un complet et plus grand menu pour IMDb link transformer - ou non."
+
+#: inc/help.php:374
+msgid ""
+"In the case you want to, go to 'General options / Advanced / Display plugin "
+"in big admin menu' and turn to 'yes' the option. You will get a brand new "
+"menu, as shown on left."
+msgstr ""
+"Si c'est ce que vous souhaitez, allez dans \"Options g&eacute;n&eacute;"
+"rales / Avanc&eacute; / Afficher le grand menu d'administration du plugin\" "
+"et mettez \"oui\". Vous obtiendrez un tout nouveau menu, comme visible sur "
+"la gauche."
+
+#: inc/help.php:379
+msgid ""
+"One can go still further; if installing <a href='https://planetozh.com/blog/"
+"my-projects/wordpress-admin-menu-drop-down-css/ '>Ozh Admin Drop Down Menu</"
+"a>, a plugin to switch classical vertical admin menu to horizontal and which "
+"gives the admin area more of a 'desktop application' feel. IMDb link "
+"transformer is ready to use improvements from Ozh's plugin, adding icons "
+"(when user select IMDb's plugin from the settings menu). Also, if you "
+"activate both Ozh's plugin and IMDb link transformer's big admin menu, you "
+"will get a nice and complete horizontal menu. Very useful."
+msgstr ""
+"On peut aller plus loin encore; on peut installer <a href='http://planetozh."
+"com/blog/my-projects/wordpress-admin-menu-drop-down-css/ '>Ozh Admin Drop "
+"Down Menu</a>, un plugin qui convertit le menu classique vertical en un menu "
+"horizontal qui donne &agrave; l'interface d'administration plus d'ergonomie. "
+"IMDb link transformer est con&ccedil;u pour utiliser les am&eacute;"
+"liorations du plugin d'Ozh, en ajoutant des ic&ocirc;nes (lorsque "
+"l'utilisateur appelle le plugin depuis le menu d'options). D'autre part, si "
+"vous activez et le plugin d'Ozh et le grand menu d'administration d'Imdb "
+"link transformer, il est possible d'obtenir un magnifique et complet menu "
+"horizontal. Tr&egrave;s pratique."
+
+#: inc/help.php:393
+msgid ""
+"How to add a search function for movies in general, and not only for "
+"selected movies?"
+msgstr ""
+"Comment ajouter une fonction de recherche pour des films en g&eacute;"
+"n&eacute;ral, et pas uniquement pour des films choisis ?"
+
+#: inc/help.php:395
+msgid ""
+"It is indeed doable. Plugin is versatile enough to handle this function. By "
+"adding a form, you can add a search field which will allow users to search "
+"for every movie on your blog. Here is the code:"
+msgstr ""
+"C'est effectivement r&eacute;alisable. Le plugin est suffisamment versatile "
+"pour le faire. En ajoutant un formulaire, vous pouvez ajouter un champs de "
+"recherche qui permet aux utilisateurs de faire une recherche sur n'importe "
+"quel film sur votre blog. Voici le code :"
+
+#: inc/help.php:409
+msgid "It perfectly fits in your sidebar, for exemple."
+msgstr ""
+"Cela peut s'ins&eacute;rer parfaitement dans votre sidebar, par exemple."
+
+#: inc/help.php:426
+msgid "How to keep my own css through updated process?"
+msgstr "Comment garder mes propres css lors d'une mise &agrave; jour ?"
+
+#: inc/help.php:428
+msgid ""
+"Fed up of losing your carefully handmade visual settings at every IMDbLT "
+"update? There is a solution."
+msgstr ""
+"Fatigu&eacute; de perdre vos modifications visuelles &agrave; chaque mise "
+"&agrave; jour de IMDbLT ? Voici une solution."
+
+#: inc/help.php:431
+msgid ""
+"Every modification you can make is done in css/imdb.css file. Instead of "
+"using this file, put an imdb.css file in you template root folder; this css "
+"file will taken instead of plugin's css file. Whenever you update, your "
+"template's one will stay untouched!"
+msgstr ""
+"Chaque modification que vous faites l'est dans le fichier css/imdb.css. Au "
+"lieu d'utiliser ce fichier, mettez un fichier imdb.css &agrave; la racine de "
+"r&eacute;pertoire de votre th&egrave;me; ce css sera utilis&eacute; &agrave; "
+"la place du css du plugin. Lorsque vous effectuerez la mise &agrave; jour du "
+"plugin, votre css restera identique !"
+
+#: inc/help.php:434
+msgid ""
+"However, be careful with this manner, since css/imdb.css file can be updated "
+"from version to version, and you'd not be aware of changes made..."
+msgstr ""
+"Toutefois, attention avec cet mani&egrave;re de faire, puisque le fichier "
+"css/imdb.css peut subir des modification d'une version &agrave; l'autre, "
+"sans que vous r&eacute;alisiez que des modifications ont &eacute;t&eacute; "
+"apport&eacute;es..."
+
+#: inc/help.php:449
+msgid "How to switch to another website other than IMDb?"
+msgstr "Comment utiliser un autre site web que celui de l'IMDb ?"
+
+#: inc/help.php:451
+msgid ""
+"Starting with IMDbLT 1.6 release, you have the opportunity to use other "
+"website source than IMDb."
+msgstr ""
+"Depuis la version 1.6 de IMDbLT, vous avez l'opportunit&agrave; de choisir "
+"une autre source pour les donn&agrave;es."
+
+#: inc/help.php:454
+msgid ""
+"Since IMDb website's licence of use is quite protective, you may choose to "
+"use Moviepilot website instead (could have more choices in far future). To "
+"completely comply with legal obligations, follow these steps:"
+msgstr ""
+"Comme la licence pour l'utilisation de l'IMDb est assez restrictive, vous "
+"pouvez choisir d'utiliser le site web Moviepilot &agrave; la place (il est "
+"possible que dans un lointain avenir d'autres sites soient propos&eacute;s). "
+"Pour respecter les obligations l&eacute;gales, suivez ces &eacute;tapes :"
+
+#: inc/help.php:460
+msgid ""
+"You need an API key from moviepilot.com. Send an email to api@moviepilot.de "
+"asking for an API key, and copy-paste the code you have been given in "
+"'General options -> Advanced -> Search, moviepilot part-> API Pilot key' "
+"field."
+msgstr ""
+"Vous avez besoin d'un cl&eacute; API de moviepilot.com. Envoyez un email "
+"&agrave; api@moviepilot.de pour demander une cl&eacute; API, et copiez-"
+"collez le code qui vous aura &eacute;t&eacute; donn&eacute; dans le champ "
+"'Options g&eacute;n&eacute;rales -> Avanc&eacute; -> Recherche, partie "
+"moviepilot -> Cl&eacute; API'."
+
+#: inc/help.php:461
+msgid "For a preformatted email"
+msgstr "Pour un email pr&eacute;format&eacute;"
+
+#: inc/help.php:461
+msgid "click here"
+msgstr "cliquer ici"
+
+#: inc/help.php:462
+msgid "Switch 'Get rid of IMDb' option to 'on'"
+msgstr "Basculer 'Se d&eacute;barasser de l'IMDb' sur 'oui'"
+
+#: inc/help.php:463
+msgid ""
+"You may now select both your local language and the accuracy level to comply "
+"with (IMDb behaviour)."
+msgstr ""
+"Vous pouvez maintenant s&eacute;lectionner votre langue locale et la "
+"conformit&eacute; avec les normes l&eacute;gales (comportement IMDb)."
+
+#: inc/help.php:480
+msgid "What is Wordpress' taxonomy?"
+msgstr "Qu'est-ce que la taxonomie pour Wordpress ?"
+
+#: inc/help.php:482
+msgid ""
+"Starting with Wordpress 2.3, plugins makers can use <a href='https://codex."
+"wordpress.org/WordPress_Taxonomy'>taxonomy</a>."
+msgstr ""
+"Depuis la version de Wordpress 2.3, les cr&eacute;ateurs de plugin peuvent "
+"utiliser la <a href='https://codex.wordpress.org/"
+"WordPress_Taxonomy'>taxonomy</a>."
+
+#: inc/help.php:483
+msgid ""
+"Taxonomy is a feature adding a supplementary categorisation beside "
+"Categories and Tags; in other words, it is like having species (a block "
+"named 'genre') and subspecies (few words describing the genre, like "
+"'Adventure', 'Terror'). It is not fundamentaly different from Categories and "
+"Tags, but it is much more appropriate for IMDb Link Transformer needs."
+msgstr ""
+"La taxonomie est une fonctionnalit&eacute; ajoutant une cat&eacute;"
+"gorisation suppl&eacute;mentaire en sus des Cat&eacute;gories et Tags; "
+"autrement dit, c'est comme avoir les esp&egrave;ces (un bloc nomm&eacute; "
+"'genre') et ses sous-esp&egrave;ces (quelques mots d&eacute;crivant le "
+"genre, comme 'Aventure', 'Terreur'). Ce n'est pas fondamentalement "
+"diff&eacute;rent des Cat&eacute;gories et Tags, mais c'est bien plus "
+"adapt&eacute; aux besoins d'IMDb Link Transformer."
+
+#: inc/help.php:486
+msgid "How to use taxonomy Wordpress capability?"
+msgstr ""
+"Comment utiliser la fonctionnalit&eacute; de taxonomie sous Wordpress ?"
+
+#: inc/help.php:488
+msgid ""
+"To activate the automatically generated taxonomy, turn 'General options -> "
+"Advanced ->  'Use automatical genre taxonomy?' to 'yes'. Of course, since "
+"taxonomy is to a movie detail related, the movie detail you want to be used "
+"as taxonomy has to be also activated from 'Widget/Inside post Options -> "
+"What to display'. Eventually, it will permit to select in 'Widget/Inside "
+"post Options -> What to taxonomize' menu if you want to taxonomize Genres, "
+"but also actors, colors, composers, directors and so on."
+msgstr ""
+"Pour activer les taxonomies automatiquement g&eacute;n&eacute;r&eacute;es, "
+"mettez 'Options g&eacute;n&eacute;rales -> Avanc&eacute; ->  'Utiliser la "
+"taxonomie automatique de genre ?' sur 'oui'. Bien s&ucirc;r, comme la "
+"taxonomie est relative aux d&eacute;tails de film choisis, il est aussi "
+"n&eacute;cessaire que soit activ&eacute;e le d&eacute;tail de film 'Options "
+"du Widget/Dans le message -> &Agrave; afficher'. Finallement, cela vous "
+"permettra de choisir dans le menu 'Options du Widget/Dans le message -> "
+"&Agrave; taxonomiser' si vous voulez transformer en taxonomie les genres, "
+"les acteurs, les couleurs, les compositeurs, les directeurs, etc."
+
+#: inc/help.php:494
+msgid ""
+"After that, pay a visit to your post/page; first refresh will not "
+"immediately display the movie detail (it will only generate them). Though, "
+"on a second refresh, you will see both movie details and (if you wordpress "
+"theme is configured to show it) taxonomy in your post."
+msgstr ""
+"Apr&egrave;s cela, visitez votre page/message; le premier rafra&icirc;"
+"chissement n'affichera pas imm&eacute;diatement les genres (il les g&eacute;"
+"n&eacute;ra seulement), faites en donc un second."
+
+#: inc/help.php:498
+msgid "New option(s) in 'Posts' menu"
+msgstr "Nouvelle(s) option(s) dans le menu 'Articles'"
+
+#: inc/help.php:500
+msgid ""
+"Once you have activated all taxonomy options and have triggered its "
+"wordpress function (by visiting your post and refreshing the page), "
+"wordpress administration posts menu will include new option(s). Depending on "
+"movie details previously selected, you will find an option to manage the "
+"words automatically generated by the taxonomy function. For instance to "
+"select 'genre':"
+msgstr ""
+"Une fois activ&eacute;es les options de taxonomie et d&eacute;clench&eacute; "
+"la fonction de taxonomie de Wordpress (en visitant votre message et "
+"rafra&icirc;chissant la page), le menu 'Articles' de la partie "
+"d'administration de Wordpress affichera de nouvelle(s) option(s). Selon les "
+"d&eacute;tails de film pr&eacute;c&eacute;demment s&eacute;lectionn&eacute;"
+"s, vous trouverez une nouvelle option pour g&eacute;rer les mots "
+"automatiquement g&eacute;n&eacute;r&eacute;s par la fonction de taxonomie. "
+"Par exemple, pour choisir le 'genre' :"
+
+#: inc/help.php:507
+msgid "Limits"
+msgstr "Limites"
+
+#: inc/help.php:508
+msgid ""
+"There is a strong limitation: since eache page/post can contain only a "
+"unique taxonomy sequence, only the first movie (first 'inside the post', "
+"first 'widget') will use the taxonomy feature. If you have two movie's "
+"widgets, only the first widget will display the links to genre's taxonomy. "
+"If you have both a movie's widget and an inside the post data, the movie's "
+"widget will prevail."
+msgstr ""
+"Il existe une forte limitation : puisque chaque page/message peut contenir "
+"seulement une seule suite de taxonomies, seul le premier film (le premier "
+"dans le message, le premier dans le widget) utilisera la "
+"fonctionnalit&eacute; de taxonomie. Si vous avez deux widgets de film, seul "
+"le premier widget affichera le lien vers la taxonomie genre. Si vous avez "
+"&agrave; la fois un widget et des donn&eacute;es 'dans le message', le "
+"widget prendra le pas sur ce dernier."
+
+#: inc/help.php:511
+msgid ""
+"Also, select cautiously options you want to be displayed as taxonomies: it "
+"could happen it creates a conflict with other functions, especially if you "
+"display many movies in same post. When selecting one of the taxonomy options "
+"from 'What to taxonomize' section, it will supersede any other function or "
+"link created; for instance, you won't have anymore access to popup links for "
+"directors, if directors taxonomy is chosen. Taxonomy will always prevail."
+msgstr ""
+"Soyez prudent avec les options choisies pour &ecirc;tre affich&eacute;es "
+"comme taxonomies; elles peuvent entrer en conflit avec d'autres fonctions, "
+"notamment si vous afficher plusieurs films dans le m&ecirc;me message. "
+"Lorsque vous s&eacute;lectionnez l'une des options de taxonomie ci-dessous, "
+"elle prendra le pas sur toute autre fonction; par exemple, vous n'aurez plus "
+"acc&egrave;s aux liens pour les r&eacute;alisateurs, si la taxonomie "
+"r&eacute;alisateurs est choisie. La taxonomie prendra toujours le pas."
+
+#: inc/help.php:515
+msgid "Advanced: Customizing your theme according taxonomy"
+msgstr "Avanc&eacute;: Personnalisez votre th&egrave;me selon la taxonomie"
+
+#: inc/help.php:517
+msgid ""
+"To fully enjoy this feature, copy the file in IMDb link transformer folder "
+"'theme/taxonomy-genre.php' to your 'theme' folder. Customize this page "
+"according to your tastes and theme design. The design is the same as (ie) "
+"the tag.php file."
+msgstr ""
+"Pour pleinement profiter de cette nouvelle fonction, copiez le fichier dans "
+"'theme/taxonomy-genre.php' vers votre r&eacute;pertoire de 'th&egrave;me'. "
+"Personnalisez cette page selon vos d&eacute;sirs et selon votre th&egrave;"
+"me. La mise en page est la m&ecirc;me que (par exemple) le fichier tag.php."
+
+#: inc/help.php:533
+msgid ""
+"How to get the movie retrieved automatically according to the post's title?"
+msgstr ""
+"Comment obtenir automatiquement un film selon le titre donn&eacute; au "
+"message ?"
+
+#: inc/help.php:535
+msgid ""
+"You have hundreds of posts, carrefully named as they could be found on IMDb, "
+"and you don't want to change hundreds of posts. There is a straightforward "
+"solution."
+msgstr ""
+"Vous avez des centaines de messages, nomm&eacute;s tels qu'on peut les "
+"trouvers sur l'IMDb, et vous ne souhaitez pas changer ces centaines de "
+"messages. Il existe une solution rapide et im&eacute;diate."
+
+#: inc/help.php:538
+msgid ""
+"Activate Widget option in IMDbLT (it is activated by default), add the "
+"IMDbLT Widget to your sidebar, and go to 'Widget/Inside post Options' menu, "
+"select 'misc' from the new menu, and select « yes » from « Auto widget? » "
+"option at end."
+msgstr ""
+"Activez l'option widget dans IMDbLT (activ&eacute;e par d&eacute;faut), "
+"ajoutez le widget IMDbLT sur votre sidebar, puis rendez vous dans le menu "
+"\"Options du widget/Dans un message\", choisissez \"divers\" dans le nouveau "
+"menu, et enfin s&eacute;lectionnez \"oui\" pour l'option \"Widget auto\" à "
+"la fin."
+
+#: inc/help.php:546
+msgid ""
+"Next time you will look at your post, you will find the widget according to "
+"your post’s title."
+msgstr ""
+"La prochaine fois que vous visiterez votre message, vous trouverez un widget "
+"li&eacute au titre du message."
+
+#: inc/imdb-movie.inc.php:142 inc/options-cache.php:584
+#: inc/options-cache.php:661 inc/popup-imdb_movie.php:158
+#: inc/popup-imdb_person.php:100
+msgid "no picture"
+msgstr "pas de photo"
+
+#: inc/imdb-movie.inc.php:162 inc/options-widget.php:90
+#: inc/options-widget.php:91 inc/popup-imdb_movie.php:274
+msgid "Country"
+msgid_plural "Countries"
+msgstr[0] "Pays"
+msgstr[1] "Pays"
+
+#: inc/imdb-movie.inc.php:187 inc/options-widget.php:67
+#: inc/options-widget.php:68 inc/popup-imdb_movie.php:223
+msgid "Runtime"
+msgstr "Dur&eacute;e"
+
+#: inc/imdb-movie.inc.php:188 inc/popup-imdb_movie.php:230
+msgid "minutes"
+msgstr "minutes"
+
+#: inc/imdb-movie.inc.php:200 inc/options-widget.php:303
+#: inc/options-widget.php:304 inc/popup-imdb_movie.php:253
+msgid "Language"
+msgid_plural "Languages"
+msgstr[0] "Langue"
+msgstr[1] "Langues"
+
+#: inc/imdb-movie.inc.php:225 inc/options-widget.php:296
+#: inc/options-widget.php:297 inc/popup-imdb_movie.php:239
+msgid "Rating"
+msgstr "Note"
+
+#: inc/imdb-movie.inc.php:229
+msgid "votes, average "
+msgstr "votes, avec une moyenne de"
+
+#: inc/imdb-movie.inc.php:231
+msgid "(max 10)"
+msgstr "(max 10)"
+
+#: inc/imdb-movie.inc.php:234
+msgid "vote average "
+msgstr "moyenne de votes "
+
+# as "10 out of 10"
+#: inc/imdb-movie.inc.php:234
+msgid " out of 10"
+msgstr " sur 10"
+
+#: inc/imdb-movie.inc.php:235 inc/popup-imdb_movie.php:243
+msgid "votes"
+msgstr "votes"
+
+#: inc/imdb-movie.inc.php:249 inc/options-widget.php:130
+#: inc/options-widget.php:131 inc/popup-imdb_movie.php:292
+msgid "Genre"
+msgid_plural "Genres"
+msgstr[0] "Genre"
+msgstr[1] "Genre"
+
+#: inc/imdb-movie.inc.php:275
+msgid "Keyword"
+msgid_plural "Keywords"
+msgstr[0] "Mot-cl&eacute;"
+msgstr[1] "Mot-cl&eacute;s"
+
+#: inc/imdb-movie.inc.php:300 inc/popup-imdb_movie.php:565
+msgid "Goof"
+msgid_plural "Goofs"
+msgstr[0] "Erreur"
+msgstr[1] "Erreurs"
+
+#: inc/imdb-movie.inc.php:316
+msgid "User's comment"
+msgid_plural "User's comments"
+msgstr[0] "Commentaire des utilisateurs"
+msgstr[1] "Commentaires des utilisateurs"
+
+#: inc/imdb-movie.inc.php:339
+msgid "Quote"
+msgid_plural "Quotes"
+msgstr[0] "Citation"
+msgstr[1] "Citations"
+
+#: inc/imdb-movie.inc.php:359 inc/options-widget.php:218
+#: inc/options-widget.php:219
+msgid "Tagline"
+msgid_plural "Taglines"
+msgstr[0] "Slogan"
+msgstr[1] "Slogan"
+
+#: inc/imdb-movie.inc.php:374
+msgid "Trailer"
+msgid_plural "Trailers"
+msgstr[0] "Bande annonce"
+msgstr[1] "Bandes annonce"
+
+#: inc/imdb-movie.inc.php:393 inc/popup-imdb_movie.php:314
+msgid "Color"
+msgid_plural "Colors"
+msgstr[0] "Couleur"
+msgstr[1] "Couleur"
+
+#: inc/imdb-movie.inc.php:419 inc/options-widget.php:234
+#: inc/options-widget.php:235
+msgid "Also known as"
+msgstr "Aussi connu sous"
+
+#: inc/imdb-movie.inc.php:437 inc/options-widget.php:252
+#: inc/options-widget.php:253
+msgid "Composer"
+msgid_plural "Composers"
+msgstr[0] "Compositeur"
+msgstr[1] "Compositeur"
+
+#: inc/imdb-movie.inc.php:451 inc/imdb-movie.inc.php:552
+#: inc/imdb-movie.inc.php:591 inc/imdb-movie.inc.php:630
+#: inc/imdb-movie.inc.php:671 inc/imdb-movie.inc.php:716
+msgid "Link to local imdb"
+msgstr "Lien vers imdb en local"
+
+#: inc/imdb-movie.inc.php:468 inc/options-widget.php:259
+#: inc/options-widget.php:260 inc/popup-imdb_movie.php:539
+#: inc/popup-imdb_person.php:175
+msgid "Soundtrack"
+msgid_plural "Soundtracks"
+msgstr[0] "Bande originale"
+msgstr[1] "Bandes originales"
+
+#: inc/imdb-movie.inc.php:499 inc/options-widget.php:191
+#: inc/options-widget.php:192
+msgid "Production company"
+msgid_plural "Production companies"
+msgstr[0] "Compagnie de production"
+msgstr[1] "Compagnies de production"
+
+#: inc/imdb-movie.inc.php:519
+msgid "Official website"
+msgid_plural "Official websites"
+msgstr[0] "Site web officiel"
+msgstr[1] "Sites web officiels"
+
+#: inc/imdb-movie.inc.php:536 inc/options-widget.php:83
+#: inc/options-widget.php:84 inc/popup-imdb_movie.php:63
+#: inc/popup-imdb_movie.php:386 inc/popup-search.php:43
+msgid "Director"
+msgid_plural "Directors"
+msgstr[0] "R&eacute;alisateur"
+msgstr[1] "R&eacute;alisateurs"
+
+#: inc/imdb-movie.inc.php:575 inc/options-widget.php:116
+#: inc/options-widget.php:117
+msgid "Creator"
+msgid_plural "Creators"
+msgstr[0] "Cr&eacute;ateur"
+msgstr[1] "Cr&eacute;ateur"
+
+#: inc/imdb-movie.inc.php:614 inc/options-widget.php:158
+#: inc/options-widget.php:159 inc/popup-imdb_movie.php:442
+msgid "Producer"
+msgid_plural "Producers"
+msgstr[0] "Producteur"
+msgstr[1] "Producteurs"
+
+#: inc/imdb-movie.inc.php:655 inc/options-widget.php:151
+#: inc/options-widget.php:152 inc/popup-imdb_movie.php:414
+msgid "Writer"
+msgid_plural "Writers"
+msgstr[0] "Sc&eacute;nariste"
+msgstr[1] "Sc&eacute;naristes"
+
+#: inc/imdb-movie.inc.php:697 inc/options-widget.php:97
+#: inc/options-widget.php:98
+msgid "Actor"
+msgid_plural "Actors"
+msgstr[0] "Acteur"
+msgstr[1] "Acteur"
+
+#: inc/imdb-movie.inc.php:737 inc/options-widget.php:165
+#: inc/options-widget.php:166 inc/popup-imdb_movie.php:134
+#: inc/popup-imdb_movie.php:489
+msgid "Plot"
+msgid_plural "Plots"
+msgstr[0] "Synopsis"
+msgstr[1] "Synopsis"
+
+#: inc/imdb-movie.inc.php:766 inc/options-widget.php:343
+#: inc/options-widget.php:344
+msgid "Source"
+msgstr "Source"
+
+#: inc/options-cache.php:43 inc/options-cache.php:117 inc/options-cache.php:193
+msgid "Cannot work this way."
+msgstr "Cela ne peut fonctionner comme cela."
+
+#: inc/options-cache.php:68 inc/options-cache.php:101 inc/options-cache.php:142
+#: inc/options-cache.php:174 inc/options-cache.php:218
+#: inc/options-cache.php:258
+msgid "This file does not exist"
+msgstr "Ce fichier n'existe pas"
+
+#: inc/options-cache.php:182
+msgid "Cache successfully deleted, back to the"
+msgstr "Cache effac&eacute; avec succ&egrave;s, retour au"
+
+#: inc/options-cache.php:182
+msgid "previous page"
+msgstr "page pr&eacute;c&eacute;dente"
+
+#: inc/options-cache.php:273
+msgid "Cache succesfully refreshed, close the window."
+msgstr "Cache rafra&icirc;chit avec succ&egrave;s, fermez la fen&ecirc;tre."
+
+#: inc/options-cache.php:309
+msgid "Manage Cache"
+msgstr "G&eacute;rer le cache"
+
+#: inc/options-cache.php:315
+msgid ""
+"Cache is crucial to IMDb link transformer operation. As first imdb searchs "
+"are quite time consuming, if you do not want to kill your server but instead "
+"want quickest browsing experience, you will use cache. Pay a special "
+"attention to directories that need to be created."
+msgstr ""
+"Le cache est crucial pour le fonctionnement d'IMDb link transformer. Comme "
+"les premi&egrave;res recherches sont tr&egrave;s co&ucirc;teuses en temps, "
+"pour &eacute;viter de monopoliser le serveur et permettre &agrave; "
+"l'internaute de surfer rapidement, utilisez le cache. Veuillez vous assurer "
+"d'avoir  cr&eacute;&eacute; les dossiers n&eacute;cessaires (cache)."
+
+#: inc/options-cache.php:329
+msgid "Cache directories (folders have to be created and writable)"
+msgstr ""
+"R&eacute;pertoires cache (ces dossiers doivent avoir &eacute;t&eacute; "
+"cr&eacute;&eacute;s et &ecirc;tre inscriptibles)"
+
+#: inc/options-cache.php:334
+msgid "Cache directory (absolute path)"
+msgstr "R&eacute;pertoire cache (chemin absolu)"
+
+#: inc/options-cache.php:342 inc/options-cache.php:343
+#: inc/options-cache.php:383 inc/options-cache.php:384
+msgid "Cache size is currently"
+msgstr "Taille actuelle du cache"
+
+#: inc/options-cache.php:351 inc/options-cache.php:392
+msgid "Folder exists."
+msgstr "Le r&eacute;pertoire existe."
+
+#: inc/options-cache.php:355 inc/options-cache.php:396
+msgid "Folder doesn't exist!"
+msgstr "Le r&eacute;pertoire n'existe pas!"
+
+#: inc/options-cache.php:360 inc/options-cache.php:401
+msgid "Permissions OK."
+msgstr "Permissions OK."
+
+#: inc/options-cache.php:364 inc/options-cache.php:405
+msgid "Check folder permissions!"
+msgstr "V&eacute;rifier les permissions de r&eacute;pertoire !"
+
+#: inc/options-cache.php:368
+msgid ""
+"Absolute path to store data retrieved from the IMDb website. Has to be <a "
+"href=\"http://codex.wordpress.org/Changing_File_Permissions\" title="
+"\"permissions how-to on wordpress website\">writable</a> by the webserver."
+msgstr ""
+"Chemin absolu du r&eacute;pertoire o&ugrave; stocker les donn&eacute;es "
+"rapatri&eacute;es du site de l'IMDb. Doit &ecirc;tre <a href=\"http://codex."
+"wordpress.org/Changing_File_Permissions\" title=\"permissions how-to on "
+"wordpress website\">inscriptible</a> par le serveur web."
+
+#: inc/options-cache.php:368 inc/options-cache.php:409
+#: inc/options-cache.php:417 inc/options-cache.php:446
+#: inc/options-cache.php:449 inc/options-cache.php:452
+#: inc/options-cache.php:474 inc/options-cache.php:477
+#: inc/options-cache.php:508 inc/options-cache.php:511
+#: inc/options-general.php:50 inc/options-general.php:58
+#: inc/options-general.php:121 inc/options-general.php:124
+#: inc/options-general.php:128 inc/options-general.php:164
+#: inc/options-general.php:167 inc/options-general.php:170
+#: inc/options-general.php:196 inc/options-general.php:199
+#: inc/options-general.php:279 inc/options-general.php:283
+#: inc/options-general.php:287 inc/options-general.php:308
+#: inc/options-general.php:311 inc/options-general.php:315
+#: inc/options-widget.php:74 inc/options-widget.php:75
+#: inc/options-widget.php:76 inc/options-widget.php:107
+#: inc/options-widget.php:108 inc/options-widget.php:109
+#: inc/options-widget.php:138 inc/options-widget.php:140
+#: inc/options-widget.php:142 inc/options-widget.php:175
+#: inc/options-widget.php:176 inc/options-widget.php:177
+#: inc/options-widget.php:208 inc/options-widget.php:209
+#: inc/options-widget.php:210 inc/options-widget.php:242
+#: inc/options-widget.php:243 inc/options-widget.php:244
+#: inc/options-widget.php:279 inc/options-widget.php:280
+#: inc/options-widget.php:281 inc/options-widget.php:312
+#: inc/options-widget.php:315 inc/options-widget.php:318
+#: inc/options-widget.php:350 inc/options-widget.php:351
+#: inc/options-widget.php:352 inc/options-widget.php:546
+#: inc/options-widget.php:550
+msgid "Default:"
+msgstr "D&eacute;faut :"
+
+#: inc/options-cache.php:375
+msgid "Photo directory (absolute path)"
+msgstr "R&eacute;pertoire photo (chemin absolu)"
+
+#: inc/options-cache.php:409
+msgid ""
+"Absolute path to store images retrieved from the IMDb website. Has to be <a "
+"href=\"http://codex.wordpress.org/Changing_File_Permissions\" title="
+"\"permissions how-to on wordpress website\">writable</a> by the webserver."
+msgstr ""
+"Chemin absolu du r&eacute;pertoire o&ugrave; stocker les images "
+"rapatri&eacute;es du site de l'IMDb. Doit &ecirc;tre <a href=\"http://codex."
+"wordpress.org/Changing_File_Permissions\" title=\"permissions how-to on "
+"wordpress website\">inscriptible</a> par le serveur web."
+
+#: inc/options-cache.php:414
+msgid "Photo directory (url)"
+msgstr "R&eacute;pertoire photo (url)"
+
+#: inc/options-cache.php:417
+msgid "URL corresponding to photo directory."
+msgstr "URL correspondant au r&eacute;pertoire photo."
+
+#: inc/options-cache.php:424
+msgid "Cache general options"
+msgstr "Options g&eacute;n&eacute;rales de cache"
+
+#: inc/options-cache.php:429
+msgid "Store cache?"
+msgstr "Enregistrer le cache ?"
+
+#: inc/options-cache.php:430 inc/options-cache.php:434
+#: inc/options-cache.php:446 inc/options-cache.php:449
+#: inc/options-cache.php:463 inc/options-cache.php:468
+#: inc/options-cache.php:474 inc/options-cache.php:477
+#: inc/options-cache.php:491 inc/options-cache.php:500
+#: inc/options-general.php:106 inc/options-general.php:128
+#: inc/options-general.php:151 inc/options-general.php:164
+#: inc/options-general.php:185 inc/options-general.php:266
+#: inc/options-general.php:270 inc/options-general.php:274
+#: inc/options-general.php:283 inc/options-general.php:299
+#: inc/options-general.php:303 inc/options-general.php:315
+#: inc/options-widget.php:56 inc/options-widget.php:63
+#: inc/options-widget.php:70 inc/options-widget.php:74
+#: inc/options-widget.php:75 inc/options-widget.php:86
+#: inc/options-widget.php:93 inc/options-widget.php:100
+#: inc/options-widget.php:107 inc/options-widget.php:109
+#: inc/options-widget.php:119 inc/options-widget.php:126
+#: inc/options-widget.php:133 inc/options-widget.php:154
+#: inc/options-widget.php:161 inc/options-widget.php:168
+#: inc/options-widget.php:175 inc/options-widget.php:187
+#: inc/options-widget.php:194 inc/options-widget.php:201
+#: inc/options-widget.php:221 inc/options-widget.php:230
+#: inc/options-widget.php:237 inc/options-widget.php:255
+#: inc/options-widget.php:262 inc/options-widget.php:271
+#: inc/options-widget.php:292 inc/options-widget.php:299
+#: inc/options-widget.php:306 inc/options-widget.php:328
+#: inc/options-widget.php:337 inc/options-widget.php:345
+#: inc/options-widget.php:352 inc/options-widget.php:533
+#: inc/options-widget.php:538
+msgid "Yes"
+msgstr "Oui"
+
+#: inc/options-cache.php:430 inc/options-cache.php:434
+#: inc/options-cache.php:463 inc/options-cache.php:468
+#: inc/options-cache.php:493 inc/options-cache.php:502
+#: inc/options-cache.php:508 inc/options-cache.php:511
+#: inc/options-general.php:110 inc/options-general.php:151
+#: inc/options-general.php:185 inc/options-general.php:196
+#: inc/options-general.php:266 inc/options-general.php:270
+#: inc/options-general.php:274 inc/options-general.php:279
+#: inc/options-general.php:287 inc/options-general.php:299
+#: inc/options-general.php:303 inc/options-general.php:311
+#: inc/options-widget.php:57 inc/options-widget.php:64
+#: inc/options-widget.php:71 inc/options-widget.php:76
+#: inc/options-widget.php:87 inc/options-widget.php:94
+#: inc/options-widget.php:101 inc/options-widget.php:108
+#: inc/options-widget.php:120 inc/options-widget.php:127
+#: inc/options-widget.php:134 inc/options-widget.php:138
+#: inc/options-widget.php:140 inc/options-widget.php:142
+#: inc/options-widget.php:155 inc/options-widget.php:162
+#: inc/options-widget.php:169 inc/options-widget.php:176
+#: inc/options-widget.php:177 inc/options-widget.php:188
+#: inc/options-widget.php:195 inc/options-widget.php:202
+#: inc/options-widget.php:208 inc/options-widget.php:209
+#: inc/options-widget.php:210 inc/options-widget.php:222
+#: inc/options-widget.php:231 inc/options-widget.php:238
+#: inc/options-widget.php:242 inc/options-widget.php:243
+#: inc/options-widget.php:244 inc/options-widget.php:256
+#: inc/options-widget.php:263 inc/options-widget.php:272
+#: inc/options-widget.php:279 inc/options-widget.php:280
+#: inc/options-widget.php:281 inc/options-widget.php:293
+#: inc/options-widget.php:300 inc/options-widget.php:307
+#: inc/options-widget.php:312 inc/options-widget.php:315
+#: inc/options-widget.php:318 inc/options-widget.php:329
+#: inc/options-widget.php:338 inc/options-widget.php:346
+#: inc/options-widget.php:350 inc/options-widget.php:351
+#: inc/options-widget.php:533 inc/options-widget.php:538
+#: inc/options-widget.php:546 inc/options-widget.php:550
+msgid "No"
+msgstr "Non"
+
+#: inc/options-cache.php:433
+msgid "Use cache?"
+msgstr "Utiliser cache ?"
+
+#: inc/options-cache.php:437
+msgid "Cache expire"
+msgstr "Expiration cache"
+
+#: inc/options-cache.php:440
+msgid "(never)"
+msgstr "(jamais)"
+
+#: inc/options-cache.php:446
+msgid ""
+"Whether to store the pages retrieved for later use. When activated, you have "
+"to check you created the folders"
+msgstr ""
+"Enregistrer les pages t&eacute;l&eacute;charg&eacute;es pour une utilisation "
+"ult&eacute;rieure. Lorsque activ&eacute;, v&eacute;rifiez que vous avez bien "
+"cr&eacute;&eacute; les dossiers"
+
+#: inc/options-cache.php:446
+msgid "Cache directory"
+msgstr "R&eacute;pertoire cache"
+
+#: inc/options-cache.php:446
+msgid "and"
+msgstr "et"
+
+#: inc/options-cache.php:446
+msgid "Photo directory (folder)"
+msgstr "R&eacute;pertoire photo (dossier)"
+
+#: inc/options-cache.php:449
+msgid ""
+"Whether to use a cached page to retrieve the information (if available)."
+msgstr ""
+"Utiliser des pages de cache pour r&eacute;cup&eacute;rer les informations "
+"(si disponible)."
+
+#: inc/options-cache.php:452
+msgid ""
+"Cache files older than this value (in seconds) will be automatically "
+"deleted. Insert \"0\" or click \"never\" to keep cache files forever."
+msgstr ""
+"Les fichiers de cache plus anciens que cette valeur (en secondes) seront "
+"automatiquement effac&eacute;s. Ins&eacute;rer \"0\" or cliquer sur \"jamais"
+"\" pour garder ind&eacute;finiment les donn&eacute;es de cache."
+
+#: inc/options-cache.php:452
+msgid "(one month)"
+msgstr "(un mois)"
+
+#: inc/options-cache.php:458
+msgid "Cache zip options"
+msgstr "Options de cache zipp&eacute;"
+
+#: inc/options-cache.php:462
+msgid "Convert to zip?"
+msgstr "Convertir en zip ?"
+
+#: inc/options-cache.php:467
+msgid "Use zip?"
+msgstr "Utiliser zip ?"
+
+#: inc/options-cache.php:474
+msgid "Convert non-zip cache-files to zip (check file permissions!)"
+msgstr ""
+"Compresser les fichiers non compress&eacute;s en zip (v&eacute;rifiez les "
+"permissions sur les fichiers)"
+
+#: inc/options-cache.php:477
+msgid "Use zip compression for caching the retrieved html-files."
+msgstr "Compresser en zip les fichiers html mis en cache. "
+
+#: inc/options-cache.php:485
+msgid "Cache details"
+msgstr "D&eacute;tails du cache"
+
+#: inc/options-cache.php:489
+msgid "Show advanced cache details"
+msgstr "Afficher les d&eacute;tails avanc&eacute;s de cache"
+
+#: inc/options-cache.php:498
+msgid "Quick advanced cache details"
+msgstr "D&eacute;tails avanc&eacute;s rapides de cache"
+
+#: inc/options-cache.php:508
+msgid ""
+"To show or not advanced cache details, which allows to specifically delete a "
+"movie cache. Be carefull with this option, if you have a lot of cached "
+"movies, it could crash this page. When yes is selected, an additional menu "
+"\"manage cache\" will appear next to the cache \"General Options\" menu."
+msgstr ""
+"Afficher ou non les d&eacute;tails avanc&eacute;s de cache, ce qui permet "
+"d'effacer sp&eacute;cifiquement le cache d'un film. Attention avec cette "
+"option, car si vous avez beaucoup de films en cache, cela peut provoquer des "
+"probl&egrave;mes avec cette page-ci. Lorsque oui est s&eacute;"
+"lectionn&eacute;, un menu suppl&eacute;mentaire appara&icirc;t &agrave; "
+"droite du menu options g&eacute;n&eacute;rales du cache."
+
+#: inc/options-cache.php:511
+msgid ""
+"Allow a quicker load time for the \"manage cache\" page, by displaying "
+"shorter movies and people presentation. Usefull when you have several of "
+"those. This option is available when \"Show advanced cache details\" is "
+"activated."
+msgstr ""
+"Permet un temps de chargement plus rapide pour la page \"g&eacute;rer le "
+"cache\", en affichant des présentation plus courtes pour les films et les "
+"personnes. Pratique lorsque vous en avez plusieurs. Cette option est "
+"disponible lorsque \"Afficher les d&eacute;tails avancés de cache\" est "
+"activ&eacute;."
+
+#: inc/options-cache.php:524 inc/options-general.php:329
+#: inc/options-widget.php:564
+msgid "Reset settings"
+msgstr "R&eacute;initialiser"
+
+#: inc/options-cache.php:526 inc/options-general.php:331
+#: inc/options-widget.php:566
+msgid "Update settings"
+msgstr "Enregistrer les modifications"
+
+#: inc/options-cache.php:551
+msgid "Movie's detailed cache"
+msgstr "Cache sp&eacute;cifique aux films"
+
+#: inc/options-cache.php:552
+msgid ""
+"If you want to refresh movie's cache regardless the cache expiration time, "
+"you may either tick movie's checkbox(es) related to the movie you want to "
+"delete and click on \"delete cache\", or you may click on individual movies "
+"\"refresh\". The first way will require an additional movie refresh - from "
+"you post, for instance."
+msgstr ""
+"Si vous souhaitez rafra&icirc;chir le cache des films, quelque soit le temps "
+"d'expiration du cache, vous pouvoir soit s&eacute;lectionner les checkbox "
+"li&eacute;s au film &agrave; effacer et cliquer sur \"effacer cache\", soit "
+"s&eacute;lectionner individuellement l'option \"rafraîchir\" des films. Le "
+"premier moyen demandera un rafra&icirc;chissement suppl&eacute;mentaire - "
+"depuis votre message, par exemple."
+
+#: inc/options-cache.php:555 inc/options-cache.php:646
+msgid "You may also either delete individually the cache or by group."
+msgstr ""
+"Vous pouvez &eacute;galement soit effacer individuellement le cache ou le "
+"faire par groupe."
+
+#: inc/options-cache.php:589 inc/options-cache.php:665
+msgid "last updated on "
+msgstr "derni&egrave;re mise &agrave; jour le "
+
+#: inc/options-cache.php:592 inc/options-cache.php:668
+msgid "refresh"
+msgstr "rafra&icirc;chir"
+
+#: inc/options-cache.php:594 inc/options-cache.php:670
+msgid "delete"
+msgstr "effacer"
+
+#: inc/options-cache.php:607 inc/options-cache.php:682
+msgid "No file found in cache folder."
+msgstr "Pas de fichier trouv&eacute; dans le r&eacute;pertoire de cache."
+
+#: inc/options-cache.php:630 inc/options-cache.php:704
+msgid "Delete cache"
+msgstr "Effacer le cache"
+
+#: inc/options-cache.php:632 inc/options-cache.php:706
+#: inc/options-cache.php:719
+msgid "Warning!"
+msgstr "Attention !"
+
+#: inc/options-cache.php:633 inc/options-cache.php:707
+msgid ""
+"This button will to delete specific cache files selected from cache folder."
+msgstr ""
+"Ce bouton efface les fichiers s&eacute;lectionn&eacute;s du r&eacute;"
+"pertoire de cache."
+
+#: inc/options-cache.php:643
+msgid "People's detailed cache"
+msgstr "Cache sp&eacute;cifique aux personnes"
+
+#: inc/options-cache.php:644
+msgid ""
+"If you want to refresh people's cache regardless the cache expiration time, "
+"you may either tick people checkbox(es) related to the person you want to "
+"delete and click on \"delete cache\", or you may click on individual "
+"people's \"refresh\". The first way will require an additional people "
+"refresh - from you post, for instance."
+msgstr ""
+"Si vous souhaitez rafra&icirc;chir le cache des personnes, quelque soit le "
+"temps d'expiration du cache, vous pouvoir soit s&eacute;lectionner les "
+"checkbox li&eacute;s &agrave la personne &agrave; effacer et cliquer sur "
+"\"effacer cache\", soit s&eacute;lectionner individuellement l'option "
+"\"rafraîchir\" des personnes. Le premier moyen demandera un rafra&icirc;"
+"chissement suppl&eacute;mentaire - depuis votre message, par exemple."
+
+#: inc/options-cache.php:716
+msgid "Global cache"
+msgstr "Cache g&eacute;n&eacute;ral"
+
+#: inc/options-cache.php:717
+msgid ""
+"If you want to reset the entire cache (including names & pictures cache) "
+"click on \"reset cache\". Beware, there is no undo."
+msgstr ""
+"Si vous voulez r&eacute;initialiser le cache entier (comprenant les caches "
+"des noms & images), cliquez sur \"r&eacute;initialiser cache\". Proc&eacute;"
+"dez avec pr&eacute;caution, il n'y a pas de retour en arri&egrave;re "
+"possible."
+
+#: inc/options-cache.php:726
+msgid "Delete all cache"
+msgstr "Effacer tout le cache"
+
+#: inc/options-cache.php:728
+msgid ""
+"This button will <strong>delete all cache</strong> stored in cache folder."
+msgstr ""
+"Ce bouton efface <strong>tout le cache</strong> enregistr&eacute; dans le "
+"r&eacute;pertoire de cache."
+
+#: inc/options-cache.php:739
+msgid ""
+"A cache folder has to be created and the cache storage option has to be "
+"activated before having the opportunity to manage cache!"
+msgstr ""
+"Un r&eacute;pertoire de cache doit exister et l'option d'enregistrement de "
+"cache doit &ecirc;tre activ&eacute;e avant de pouvoir g&eacute;rer le cache !"
+
+#: inc/options-general.php:24
+msgid "Paths & Layout"
+msgstr "Chemins & Mise en page"
+
+#: inc/options-general.php:26
+msgid "Advanced"
+msgstr "Avanc&eacute;"
+
+#: inc/options-general.php:35
+msgid ""
+"Options below don't need usually any complementary setup. However, you can "
+"widely customize IMDb link transformer according your needs."
+msgstr ""
+"Les options suivantes n'ont habituellement pas besoin de configuration "
+"suppl&eacute;mentaire, bien que vous puissiez configurer IMDb link "
+"transformer selon de vos besoins.  "
+
+#: inc/options-general.php:38
+msgid "Paths: url & folders"
+msgstr "Chemins : url & dossiers"
+
+#: inc/options-general.php:47
+msgid "Blog adress"
+msgstr "Adresse du blog"
+
+#: inc/options-general.php:50
+msgid "Where the blog is installed."
+msgstr "O&ugrave; le blog est install&eacute;."
+
+#: inc/options-general.php:55
+msgid "Plugin directory"
+msgstr "R&eacute;pertoire plugin"
+
+#: inc/options-general.php:58
+msgid "Where <strong>imdb link transformer</strong> is installed."
+msgstr "O&ugrave; <strong>imdb link transformer</strong> est install&eacute;."
+
+#: inc/options-general.php:70
+msgid "Layout"
+msgstr "Mise en page"
+
+#: inc/options-general.php:79
+msgid "Popup"
+msgstr "Popup"
+
+#: inc/options-general.php:84
+msgid "Width"
+msgstr "Largeur"
+
+#: inc/options-general.php:88
+msgid "Height"
+msgstr "Hauteur"
+
+#: inc/options-general.php:95
+msgid ""
+"Warning! Highslide is activated but no Highslide folder is found. Either "
+"download Highslide (see below) or click on \"reset setting\" at the bottom"
+msgstr ""
+"Attention! Highslide est activ&eacute; mais aucun dossier Highslide n'a "
+"&eacute;t&eacute; trouv&eacute;. Il convient de soit t&eacute;l&eacute;"
+"charger Highslide (voir ci-dessous) soit de cliquer sur \"R&eacute;"
+"initialiser\" ci-dessous."
+
+#: inc/options-general.php:97
+msgid ""
+"Warning! Highslide is activated but no Highslide folder is found. Either "
+"download Highslide (see below) or click on \"reset setting\" at the bottom."
+msgstr ""
+"Attention! Highslide est activ&eacute; mais aucun dossier Highslide n'a "
+"&eacute;t&eacute; trouv&eacute;. Il convient de soit t&eacute;l&eacute;"
+"charger Highslide (voir ci-dessous) soit de cliquer sur \"R&eacute;"
+"initialiser\" ci-dessous."
+
+#: inc/options-general.php:101
+msgid "Display highslide popup"
+msgstr "Afficher le popup highslide"
+
+#: inc/options-general.php:113
+msgid "<b>Option highslide unavailable.</b>"
+msgstr "<b>Option highslide non disponible.</b>"
+
+#: inc/options-general.php:113
+msgid ""
+"In order to activate it, click here and move the folder \"highslide\" into "
+"the \"js\" one!"
+msgstr ""
+"Afin de l'activer, cliquez ici et mettez le dossier \"highslide\" dans le "
+"dossier \"js\"!"
+
+#: inc/options-general.php:114
+msgid "Once you are done, this message will disapear."
+msgstr "Une fois que cela est fait, ce message dispara&icirc;tra."
+
+#: inc/options-general.php:121
+msgid "Popup width, in pixels"
+msgstr "Largeur popup, en pixels"
+
+#: inc/options-general.php:124
+msgid "Popup height, in pixels"
+msgstr "Hauteur popup, en pixels"
+
+#: inc/options-general.php:128
+msgid ""
+"Highslide popup is a more stylished popup, and allows to open movie details "
+"straightly in page instead of a new popup window."
+msgstr ""
+"Highslide popup est une popup plus stylis&eacute;e, mais qui a l'avantage "
+"&eacute;galement de ne pas ouvrir de nouvelle fen&ecirc;tre &agrave; "
+"l'&eacute;cran."
+
+#: inc/options-general.php:131
+msgid ""
+"Please note Highslide JS is licensed under a Creative Commons Attribution-"
+"NonCommercial 2.5 License, which means you need the author's permission to "
+"use Highslide JS on commercial websites."
+msgstr ""
+"Veuillez noter que Highslide JS poss&egrave;de une licence Creative Commons "
+"Attribution-NonCommercial 2.5, ce qui signifie que vous avez besoin de la "
+"permission de l'auteur afin d'utiliser Highlisde JS sur un site commercial."
+
+#: inc/options-general.php:133
+msgid "Website:"
+msgstr "site web :"
+
+#: inc/options-general.php:144
+msgid "Imdb link picture"
+msgstr "Image du lien imdb"
+
+#: inc/options-general.php:150
+msgid "Display imdb pic?"
+msgstr "Afficher imdb image ?"
+
+#: inc/options-general.php:154 inc/options-general.php:188
+msgid "Size"
+msgstr "Taille"
+
+#: inc/options-general.php:158
+msgid "Url"
+msgstr "Url"
+
+#: inc/options-general.php:164
+msgid ""
+"Whether display imdb link (the yellow icon) or not. This picture can be "
+"found into the popup when looking for akas movies. If the option is "
+"unselected, visitors will no more have opportunity to follow links to IMDb "
+"(even if they could still follow internal links)."
+msgstr ""
+"Afficher le lien imdb (l'ic&ocirc;ne jaune) ou pas. Cette image est "
+"affich&eacute;e dans le popup lors d'une recherche d'akas. Si l'option est "
+"d&eacute;sactiv&eacute;e, le visiteur n'aura plus la possibilit&eacute; de "
+"suivre les liens vers l'IMDb (mais il pourra encore suivre les liens "
+"internes)."
+
+#: inc/options-general.php:167
+msgid ""
+"Size of the imdb picture. The value will correspond to the width in pixels."
+msgstr "Taille de l'image IMDb. La valeur indique la largeur en pixels."
+
+#: inc/options-general.php:170
+msgid "Url for the imdb picture"
+msgstr "Url de l'image IMDb"
+
+#: inc/options-general.php:178
+msgid "Imdb cover picture"
+msgstr "Photo Imdb de pochette"
+
+#: inc/options-general.php:184
+msgid "Display only thumbnail"
+msgstr "Afficher uniquement la miniature"
+
+#: inc/options-general.php:196
+msgid ""
+"Whether to display a thumbnail or a large image cover for movies inside a "
+"post or a widget. Select \"No\" to choose cover picture width (a new option "
+"on the right will be available)."
+msgstr ""
+"Afficher la miniature ou l'image agrandie de pochette pour les films dans un "
+"message ou widget. Choisir \"Non\" pour pouvoir choisir la largeur des "
+"pochettes (une nouvelle option sur la droite sera disponible) "
+
+#: inc/options-general.php:199
+msgid ""
+"Size of the imdb cover picture. The value will correspond to the width in "
+"pixels. Delete any value to get maximum width."
+msgstr ""
+"Taille de la pochette IMDb. La valeur indique la largeur en pixels. Effacer "
+"toute valeur pour afficher la largeur maximale."
+
+#: inc/options-general.php:215
+msgid ""
+"Options below can break a lot of things. Change them only if you know what "
+"you're doing."
+msgstr ""
+"Les options ci-dessous peuvent casser bien des choses. Ne les modifiez que "
+"si vous savez ce que vous faites."
+
+#: inc/options-general.php:222
+msgid "Search, imdb part"
+msgstr "Recherche, partie IMDb"
+
+#: inc/options-general.php:227
+msgid "Imdb address"
+msgstr "Adresse IMDb"
+
+#: inc/options-general.php:237
+msgid "Search variant"
+msgstr "Type de recherche"
+
+#: inc/options-general.php:249
+msgid ""
+"This is the imdb server to use. The localized ones (i.e. italian and german) "
+"are only qualified to find the movies ID - but parsing for the details will "
+"fail at the moment."
+msgstr ""
+"Le serveur IMDb &agrave; utiliser. Les versions localis&eacute;es (comme "
+"\"italian\" ou \"german\") peuvent seulement trouver les ID des films - mais "
+"la recherche pour les d&eacute;tails ne fonctionne pas pour le moment."
+
+#: inc/options-general.php:252
+msgid ""
+"Moviename search variant. There are different ways of searching a movie "
+"name, with slightly differing result sets. Set the variant you prefer."
+msgstr ""
+"Type de recherche de film. Il existe diff&eacute;rentes fa&ccedil;ons de "
+"rechercher les noms des films, avec de l&eacute;g&egrave;res variations dans "
+"les r&eacute;sultats. Choisissez le type que vous pr&eacute;f&eacute;rez."
+
+#: inc/options-general.php:260 inc/options-widget.php:30
+#: inc/options-widget.php:526 inc/popup-imdb_movie.php:137
+#: inc/popup-imdb_person.php:64
+msgid "Misc"
+msgstr "Divers"
+
+#: inc/options-general.php:265
+msgid "Debug mode"
+msgstr "Mode debug"
+
+#: inc/options-general.php:273
+msgid "Menu for IMDB LT options"
+msgstr "Menu pour les options IMdB LT"
+
+#: inc/options-general.php:279
+msgid "Enable debug mode?"
+msgstr "Activer le mode debug ?"
+
+#: inc/options-general.php:283
+msgid ""
+"When enabled, instead of displaying several results related to a name "
+"searched, only the first result is returned and directly displayed. That "
+"means no more window results is displayed, but straightforwardly related "
+"data. <br />This option allows to use the 'IMDb widget' and 'inside the "
+"post' options; if deactivated, these options will not work anymore. <br /"
+">Some options will be hidden and other will be shown depending if it is "
+"turned on yes or no."
+msgstr ""
+"Lorsqu'activ&eacute;e, au lieu d'afficher tous les r&eacute;sultats "
+"possibles d'un film, seul le premier est retenu et directement "
+"affich&eacute;. Ainsi, la fen&ecirc;tre de recherche ne s'affiche plus, mais "
+"directement celle du premier film d'une recherche. <br />Cette option permet "
+"l'utilisation du widget et de la fonction Dans le message. <br />Certaines "
+"options seront cach&eacute;es ou affich&eacute;es selon la s&eacute;lection."
+
+#: inc/options-general.php:287
+msgid ""
+"When enabled, IMDb Link Transformer options are displayed separately from "
+"the settings menu. It will create a dedicated menu to the IMDB Link "
+"Transformer options."
+msgstr ""
+"Lorsqu'activ&eacute;, affiche les options d'IMDb Link Transformer dans un "
+"menu d&eacute;di&eacute; au lieu de l'habituel onglet 'r&eacute;glages'."
+
+#: inc/options-general.php:294
+msgid "Limit results"
+msgstr "Limiter r&eacute;sultats"
+
+#: inc/options-general.php:298
+msgid "Use automatical genre taxonomy?"
+msgstr "Utiliser la taxonomie automatique de genre ?"
+
+#: inc/options-general.php:302
+msgid "Toolbar IMDB LT admin menu"
+msgstr "Barre d'outils d'administration pour IMDB LT"
+
+#: inc/options-general.php:308
+msgid ""
+"This the limit for the result set of researches. Use 0 for no limit, or the "
+"number of maximum entries you wish. When \"direct search\" option is turned "
+"to yes, this option is hidden."
+msgstr ""
+"Limiter le nombre de r&eacute;sultats pour une recherche. Mettre le nombre "
+"maximum d'entr&eacute;es retourn&eacute;es souhait&eacute;es, ou 0 pour "
+"aucune limite.  Lorsque l'option \"recherche directe\" est mise sur oui, "
+"cette option est cach&eacute;e."
+
+#: inc/options-general.php:311
+msgid ""
+"This will automatically add \"genre\" terms found for the movie into "
+"wordpress database, as <a href=\"http://codex.wordpress.org/"
+"WordPress_Taxonomy\">taxonomy</a>. Activating this option open <a href=\"?"
+"page=imdblt_options&subsection=widgetoption&widgetoption=taxo\">others "
+"taxonomy options</a>. Taxonomy terms are uninstalled when removing the "
+"plugin."
+msgstr ""
+"Ceci ajoutera automatiquement les tags \"genre\" trouv&eacute;s pour un film "
+"dans la base de donn&eacute;es de wordpress, en tant que <a href=\"http://"
+"codex.wordpress.org/WordPress_Taxonomy\">taxonomie</a>. Activer cette option "
+"donnera acc&egrave;s &agrave; <a href=\"?"
+"page=imdblt_options&subsection=widgetoption&widgetoption=taxo\">d'autres "
+"options de taxonomie</a>. Est d&eacute;sinstall&eacute; lors de la d&eacute;"
+"sinstallation du plugin."
+
+#: inc/options-general.php:315
+msgid ""
+"When activated, IMDb Link Transformer options are displayed in the toolbar "
+"admin menu of Wordpress."
+msgstr ""
+"Lorsqu'activ&eacute;, affiche le menu administration d'IMDb Link Transformer "
+"dans la barre d'outils de Wordpress."
+
+#: inc/options-widget.php:23 inc/options-widget.php:49
+msgid "What to display"
+msgstr "&Agrave; afficher"
+
+#: inc/options-widget.php:25
+msgid "What to taxonomize"
+msgstr "&Agrave; taxonomiser"
+
+#: inc/options-widget.php:27
+msgid "Taxonomy unactivated"
+msgstr "Taxonomie d&eacute;sactiv&eacute;e"
+
+#: inc/options-widget.php:29
+msgid "Display order"
+msgstr "Ordre d'affichage"
+
+#: inc/options-widget.php:37
+msgid "<i>Widget</i> and <i>Inside a post</i> settings"
+msgstr "Options pour <i>Widget</i> et <i>Dans un message</i>"
+
+#: inc/options-widget.php:54 inc/options-widget.php:55
+msgid "Title"
+msgstr "Titre"
+
+#: inc/options-widget.php:60 inc/options-widget.php:61
+msgid "Picture"
+msgstr "Photo"
+
+#: inc/options-widget.php:74
+msgid "Display the title"
+msgstr "Afficher le titre"
+
+#: inc/options-widget.php:75
+msgid "Display the picture"
+msgstr "Afficher l'image"
+
+#: inc/options-widget.php:76
+msgid "Display the runtime"
+msgstr "Afficher la dur&eacute;e"
+
+#: inc/options-widget.php:107
+msgid "Display directors"
+msgstr "Afficher r&eacute;alisateurs"
+
+#: inc/options-widget.php:108
+msgid "Display country"
+msgstr "Afficher les pays"
+
+#: inc/options-widget.php:109
+msgid "Display (how many) actors"
+msgstr "Afficher (combien de) r&eacute;alisateurs"
+
+#: inc/options-widget.php:123 inc/options-widget.php:124
+#: inc/popup-imdb_movie.php:214
+msgid "Year"
+msgstr "Ann&eacute;e"
+
+#: inc/options-widget.php:138
+msgid "Display Creator"
+msgstr "Afficher cr&eacute;ateur"
+
+#: inc/options-widget.php:140
+msgid "Display release year. Year will appear next title's movie, in brackets."
+msgstr ""
+"Affiche l'ann&eacute;e de sortie du film. L'ann&eacute;e appara&icirc;tra "
+"&agrave; c&ocirc;t&eacute; du titre du film, entre parenth&egrave;ses."
+
+#: inc/options-widget.php:142
+msgid "Display genre(s)"
+msgstr "Afficher les genres"
+
+#: inc/options-widget.php:175
+msgid "Display writers"
+msgstr "Afficher les sc&eacute;naristes"
+
+#: inc/options-widget.php:176
+msgid "Display producer(s)"
+msgstr "Afficher producteur(s)"
+
+#: inc/options-widget.php:177
+msgid ""
+"Display plot(s). Be careful, this field may need a lot of space. In ideal "
+"case, this plugin is used inside a post and not into a widget."
+msgstr ""
+"Affiche le(s) synopsis. Attention, ce champ peut n&eacute;cessiter beaucoup "
+"d'espace d'affichage. Dans l'id&eacute;al, ce plugin est utilis&eacute; dans "
+"un message et non dans un widget."
+
+#: inc/options-widget.php:184 inc/options-widget.php:185
+#: inc/options-widget.php:462
+msgid "Keywords"
+msgstr "Mot-cl&eacute;s"
+
+#: inc/options-widget.php:198 inc/options-widget.php:199
+msgid "Quotes"
+msgstr "Citations"
+
+#: inc/options-widget.php:208
+msgid "Display keywords"
+msgstr "Affichage des mot-cl&eacute;s"
+
+#: inc/options-widget.php:209
+msgid "Display the production companies"
+msgstr "Afficher les compagnies de production"
+
+#: inc/options-widget.php:210
+msgid "Display (how many) quotes from movie"
+msgstr "Afficher (combien de) citation"
+
+#: inc/options-widget.php:227 inc/options-widget.php:228
+#: inc/options-widget.php:387
+msgid "Colors"
+msgstr "Couleurs"
+
+#: inc/options-widget.php:242
+msgid "Display (how many) tagline"
+msgstr "Afficher (combien de) slogan"
+
+#: inc/options-widget.php:243
+msgid "Display colors"
+msgstr "Afficher les couleurs"
+
+#: inc/options-widget.php:244
+msgid "Display all movie's names"
+msgstr "Afficher (combien de) noms alternatifs"
+
+#: inc/options-widget.php:268 inc/options-widget.php:269
+msgid "Trailers"
+msgstr "Bandes annonce"
+
+#: inc/options-widget.php:279
+msgid "Display composer"
+msgstr "Afficher le compositeur"
+
+#: inc/options-widget.php:280
+msgid "Display (how many) soundtrack"
+msgstr "Afficher (combien de) bandes son"
+
+#: inc/options-widget.php:281
+msgid "Display (how many) trailers"
+msgstr "Afficher (combien de) bandes annonce"
+
+#: inc/options-widget.php:289 inc/options-widget.php:290
+msgid "Official websites"
+msgstr "Sites web officiels"
+
+#: inc/options-widget.php:312
+msgid "Display official websites"
+msgstr "afficher sites web officiels"
+
+#: inc/options-widget.php:315
+msgid "Display rating"
+msgstr "Afficher les votes"
+
+#: inc/options-widget.php:318
+msgid "Display language(s)"
+msgstr "Afficher les langues"
+
+#: inc/options-widget.php:325 inc/options-widget.php:326
+msgid "Goofs"
+msgstr "Erreurs"
+
+#: inc/options-widget.php:334 inc/options-widget.php:335
+msgid "Users comment"
+msgstr "Commentaire des utilisateurs"
+
+#: inc/options-widget.php:350
+msgid "Display (how many) goof"
+msgstr "Afficher (combien d') erreur"
+
+#: inc/options-widget.php:351
+msgid "Display (how many) users' comments"
+msgstr "Afficher (combien de) commentaires d'utilisateurs"
+
+#: inc/options-widget.php:352
+msgid "Display website source at the end of the post"
+msgstr "Afficher le site de la source &agrave; la fin du message"
+
+#: inc/options-widget.php:362
+msgid ""
+"Please <a href=\"?page=imdblt_options&generaloption=advanced\">activate "
+"taxonomy</a> priorly<br /> to access taxonomies options."
+msgstr ""
+"Veuillez <a href=\"?page=imdblt_options&generaloption=advanced\">activer la "
+"taxonomie</a> pour pouvoir<br /> acc&eacute;der aux options de taxonomie."
+
+#: inc/options-widget.php:366
+msgid "Select details to use as taxonomy"
+msgstr ""
+"S&eacute;lectionnez les d&eacute;tails &agrave; utiliser en tant que "
+"taxonomie"
+
+#: inc/options-widget.php:369
+msgid ""
+"Use the checkbox to display (or not) details. When activated, details names "
+"are turned to blue. Check the box to turn it back to black (and thus "
+"deactivating detail as taxonomy)."
+msgstr ""
+"Utilisez les cases &agrave; cocher pour afficher (ou non) les d&eacute;"
+"tails. Lorsqu'activ&eacute;s, le noms des d&eacute;tails deviennent bleus. "
+"S&eacute;lectionnez &agrave; nouveau la case pour le d&eacute;sactiver (qui "
+"redeviendra noire)."
+
+#: inc/options-widget.php:371
+msgid ""
+"Select cautiously options you want to be displayed as taxonomies: it could "
+"happen it creates a conflict with other functions, especially if you display "
+"many movies in same post. When selecting one of the following taxonomy "
+"options, it will supersede any other function or link created; for instance, "
+"you won't have anymore access to popup links for directors, if directors "
+"taxonomy is chosen. Taxonomy will always prevail."
+msgstr ""
+"Soyez prudent avec les options choisies pour &ecirc;tre affich&eacute;es "
+"comme taxonomies; elles peuvent entrer en conflit avec d'autres fonctions, "
+"notamment si vous afficher plusieurs films dans le m&ecirc;me message. "
+"Lorsque vous s&eacute;lectionnez l'une des options de taxonomie ci-dessous, "
+"elle prendra le pas sur toute autre fonction; par exemple, vous n'aurez plus "
+"acc&egrave;s aux liens de popup pour les r&eacute;alisateurs, si la "
+"taxonomie 'r&eacute;alisateurs' est choisie. La taxonomie prendra toujours "
+"le pas sur le reste."
+
+#: inc/options-widget.php:381 inc/popup-imdb_movie.php:128
+msgid "Actors"
+msgstr "Acteurs"
+
+#: inc/options-widget.php:393
+msgid "Composers"
+msgstr "Compositeurs"
+
+#: inc/options-widget.php:403
+msgid "Creators"
+msgstr "Cr&eacute;ateurs"
+
+#: inc/options-widget.php:410
+msgid "Countries"
+msgstr "Pays"
+
+#: inc/options-widget.php:417
+msgid "Directors"
+msgstr "R&eacute;alisateurs"
+
+#: inc/options-widget.php:427
+msgid "Genres"
+msgstr "Genres"
+
+#: inc/options-widget.php:434
+msgid "Languages"
+msgstr "Langues"
+
+#: inc/options-widget.php:440
+msgid "Producers"
+msgstr "Producteurs"
+
+#: inc/options-widget.php:450
+msgid "Titles"
+msgstr "Titres"
+
+#: inc/options-widget.php:456
+msgid "Writers"
+msgstr "Sc&eacute;naristes"
+
+#: inc/options-widget.php:478
+msgid "Position of data"
+msgstr "Ordre des donn&eacute;es"
+
+#: inc/options-widget.php:483
+msgid ""
+"You can select the order for the information selected from \"what to display"
+"\" section. Select first the movie detail you want to move, use \"up\" or "
+"\"down\" to reorder IMDb Link Transformer display. Once you are happy with "
+"the new layout, click on \"update settings\" to keep it."
+msgstr ""
+"Vous pouvez choisir l'ordre d'affichage pour les d&eacute;tails choisis dans "
+"la section \"&Agrave; afficher\". Choississez d'abord le d&eacute;tail que "
+"vous souhaitez d&eacute;placer, et utilisez les boutons \"up\" (haut) et "
+"\"down\" (bas) pour r&eacute;organiser l'affichage d'IMDb link transformer. "
+"Une fois satisfait de la nouvelle disposition, cliquez sur \"Enregistrer les "
+"modifications\" pour les garder."
+
+#: inc/options-widget.php:485
+msgid ""
+"\"Source\" movie detail cannot be selected; if it is selected from \"what to "
+"display\" section, it will always appear after others movie details"
+msgstr ""
+"Le d&eacute;tail de film \"Source\"  ne peut &ecirc;tre s&eacute;"
+"lectionn&eacute;; si il est s&eacute;lectionn&eacute; depuis la section "
+"\"&Agrave; afficher\", il appara&icirc;tra toujours après tous les autres "
+"d&eacute;tails de film."
+
+#: inc/options-widget.php:531
+msgid "Remove all links?"
+msgstr "Enlever tous les liens ?"
+
+#: inc/options-widget.php:536
+msgid "Auto widget?"
+msgstr "Widget auto ?"
+
+#: inc/options-widget.php:546
+msgid ""
+"Remove all links (popup and external ones) which are automatically added. "
+"Especially made for people who are not interested in popup function, but it "
+"will remove every single HTML link too."
+msgstr ""
+"Enl&egrave;ve tous les liens (popup et externes) qui sont automatiquement "
+"ajout&eacute;s. Fait sp&eacute;cialement pour les personnes qui ne sont pas "
+"int&eacute;ress&eacute;es par la fonction de popup, mais qui veulent &eacute;"
+"galement également enlever chaque lien HTML."
+
+#: inc/options-widget.php:550
+msgid ""
+"Add automatically a widget according to post title. If 'imdb-movie-widget' "
+"or 'imdb-movie-widget-bymid' have also been added to post, the auto widget "
+"will be displayed before them."
+msgstr ""
+"Ajoute automatiquement un widget selon le titre du message. Si 'imdb-movie-"
+"widget' ou 'imdb-movie-widget-bymid' ont &eacute;t&eacute; &eacute;galement "
+"ajout&eacute;s au message, le widget auto sera affich&eacute; avant ces "
+"derniers."
+
+#: inc/popup-header.php:43
+msgid "Search"
+msgstr "Recherche"
+
+#: inc/popup-imdb_movie.php:58 inc/popup-search.php:38
+msgid "Results related to"
+msgstr "Choix correspondants &agrave;"
+
+#: inc/popup-imdb_movie.php:62 inc/popup-search.php:42
+msgid "Titles matching"
+msgstr "Titre(s) possible(s)"
+
+#: inc/popup-imdb_movie.php:71 inc/popup-imdb_movie.php:83
+#: inc/popup-search.php:51 inc/popup-search.php:63
+msgid "more on"
+msgstr "plus sur"
+
+#: inc/popup-imdb_movie.php:72 inc/popup-imdb_movie.php:75
+#: inc/popup-imdb_movie.php:86 inc/popup-imdb_movie.php:87
+#: inc/popup-search.php:52 inc/popup-search.php:55 inc/popup-search.php:66
+#: inc/popup-search.php:67
+msgid "link to imdb for"
+msgstr "lien vers imdb pour"
+
+#: inc/popup-imdb_movie.php:122
+msgid "Search for movies with the same name"
+msgstr "Rechercher les films avec le m&ecirc;me nom"
+
+#: inc/popup-imdb_movie.php:122
+msgid "Search AKAs"
+msgstr "Rechercher AKAs"
+
+#: inc/popup-imdb_movie.php:125
+msgid "Movie"
+msgstr "Film"
+
+#: inc/popup-imdb_movie.php:131
+msgid "Crew"
+msgstr "Equipe"
+
+#: inc/popup-imdb_movie.php:181
+msgid "AKA"
+msgstr "Autres titres"
+
+#: inc/popup-imdb_movie.php:243
+msgid "Vote average"
+msgstr "Votes avec une moyenne de"
+
+#: inc/popup-imdb_movie.php:243
+msgid "with "
+msgstr "avec "
+
+#: inc/popup-imdb_movie.php:330
+msgid "Sound"
+msgstr "Son"
+
+#: inc/popup-imdb_movie.php:355
+msgid "Casting"
+msgstr "R&ocirc;les"
+
+#: inc/popup-imdb_movie.php:366 inc/popup-imdb_movie.php:395
+#: inc/popup-imdb_movie.php:422 inc/popup-imdb_movie.php:450
+msgid "link to imdb"
+msgstr "lien vers imdb"
+
+#: inc/popup-imdb_movie.php:475
+msgid "Plot outline"
+msgid_plural "Plots outline"
+msgstr[0] "R&eacute;sum&eacute;"
+msgstr[1] "R&eacute;sum&eacute;s"
+
+#: inc/popup-imdb_movie.php:514 inc/popup-imdb_person.php:263
+msgid "Trivia"
+msgid_plural "Trivias"
+msgstr[0] "Anecdote"
+msgstr[1] "Anecdotes"
+
+#: inc/popup-imdb_movie.php:517 inc/popup-imdb_movie.php:544
+#: inc/popup-imdb_movie.php:568 inc/popup-imdb_person.php:132
+#: inc/popup-imdb_person.php:178 inc/popup-imdb_person.php:214
+#: inc/popup-imdb_person.php:268 inc/popup-imdb_person.php:291
+#: inc/popup-imdb_person.php:318 inc/popup-imdb_person.php:343
+#: inc/popup-imdb_person.php:371
+msgid "click to expand"
+msgstr "cliquez pour ouvrir"
+
+#: inc/popup-imdb_person.php:53
+msgid "Back"
+msgstr "Retour"
+
+#: inc/popup-imdb_person.php:56
+msgid "Filmography"
+msgstr "Filmographie"
+
+#: inc/popup-imdb_person.php:60 inc/popup-imdb_person.php:234
+msgid "Biography"
+msgstr "Biographie"
+
+#: inc/popup-imdb_person.php:81
+msgid "Born on"
+msgstr "N&eacute; le"
+
+# "in" as in the place of death
+#: inc/popup-imdb_person.php:83 inc/popup-imdb_person.php:88
+msgid "in"
+msgstr "&agrave;"
+
+#: inc/popup-imdb_person.php:87
+msgid "Died on"
+msgstr "Mort le"
+
+# "cause" as a cause of death
+#: inc/popup-imdb_person.php:89
+msgid "cause"
+msgstr "de"
+
+#: inc/popup-imdb_person.php:209
+msgid "Biographical movies"
+msgstr "Film biographiques"
+
+#: inc/popup-imdb_person.php:287
+msgid "Nicknames"
+msgstr "Surnoms"
+
+#: inc/popup-imdb_person.php:313
+msgid "Personal quotes"
+msgstr "Citations"
+
+#: inc/popup-imdb_person.php:338
+msgid "Trademarks"
+msgstr "Marques de fabrique"
+
+#: inc/widget.php:26
+msgid "IMDb data"
+msgstr "IMDb donn&eacute;es"
+
+#: inc/widget.php:87
+msgid "Title:"
+msgstr "Titre :"
+
+#: theme/taxonomy-genre.php:19
+msgid "Taxonomy"
+msgstr "Taxonomie"
+
+#: theme/taxonomy-genre.php:27
+msgid "Permanent Link to "
+msgstr "Lien permanent vers "
+
+#: theme/taxonomy-genre.php:38
+msgid "Filed under: "
+msgstr "Cat&eacute;goris&eacute; sous : "
+
+#: theme/taxonomy-genre.php:42
+msgid "Tags: "
+msgstr "Tags : "
+
+#: theme/taxonomy-genre.php:46
+msgid "Taxonomy: "
+msgstr "Taxonomie : "
+
+#: theme/taxonomy-genre.php:54
+msgid "No post found."
+msgstr "Pas de message trouv&eacute."
+
+#~ msgid ""
+#~ "Please wait while data is retrieved... <br />Process can take some time."
+#~ msgstr ""
+#~ "Veuillez patienter pendant la recherche ... <br /> Le processus peut "
+#~ "&ecirc;tre long."
+
+#~ msgid "Get rid of IMDb"
+#~ msgstr "Se d&eacute;barasser de l'IMDb"
+
+#~ msgid ""
+#~ "IMDb LT can use sources other than IMDb. Select here if you want to get "
+#~ "rid of IMDb website as the main information source."
+#~ msgstr ""
+#~ "IMDB LT peut utiliser des sources autres que l'IMDb. Choisissez si vous "
+#~ "souhaitez ne pas utiliser le site internet de l'IMDb comme principal "
+#~ "source d'information."
+
+#~ msgid "Search, moviepilot part"
+#~ msgstr "Recherche, partie moviepilot"
+
+#~ msgid "MoviePilot language"
+#~ msgstr "Langue MoviePilot"
+
+#~ msgid "IMDb behaviour"
+#~ msgstr "Comportement IMDb"
+
+#~ msgid "API Pilot key"
+#~ msgstr "Cl&eacute; API Pilot"
+
+#~ msgid ""
+#~ "Moviepilot website offers many languages to switch to. Make your "
+#~ "selection, and data will be rendered in language selected."
+#~ msgstr ""
+#~ "Le site internet Moviepilot offre ses donn&eacute;es en plusieurs "
+#~ "langues. Effectuez votre s&eacute;lection selon votre besoin."
+
+#~ msgid ""
+#~ "If MoviePilot is missing data (i.e. it does not provide a detail at all, "
+#~ "as user's comments), should the API try to substitute them via the IMDB "
+#~ "class? To define this, you should use the following constants:\n"
+#~ "<UL><LI>NO Access - don't access IMDb.com at all</LI>\n"
+#~ "\t<LI>BASIC Access - access it only for very basic data. This means very "
+#~ "non-descriptive stuff, like e.g. MPAA/FSK.</LI>\n"
+#~ "\t<LI>MEDIUM Access - something more than BASIC, but ommit 'traceable' "
+#~ "stuff like full descriptions, IMDb ratings, and the like</LI>\n"
+#~ "\t<LI>FULL Access - get all we can get</LI></UL>"
+#~ msgstr ""
+#~ "Lorsque Moviepilot n'a pas toutes les donn&eacute;es (p.e., s'il ne "
+#~ "fournit pas une donn&eacute;e, comme les commentaires d'utilisateurs), "
+#~ "est-ce que l'API doit essayer de les trouver via la classe IMDB ?Pour le "
+#~ "d&eacute;finir, il convient de d'utiliser les constantes suivantes :\n"
+#~ "<UL><LI>NO Access - aucun acc&egrave;s &agrave; IMDB.COM</LI>\n"
+#~ "\t<LI>BASIC Access - acc&eacute;der aux informations vraiment basiques. "
+#~ "Cela comprend les informations non descriptives, comme MPAA/FSK.</LI>\n"
+#~ "\t<LI>MEDIUM Access - un peu plus pouss&eacute; que BASIC, sans toutefois "
+#~ "comprendre les donn&eacute;es 'tra&ccedil;ables' comme les descriptions "
+#~ "compl&egrave;tes, les votes IMDB, etc.</LI>\n"
+#~ "\t<LI>FULL Access - acc&eacute;der &agrave; tout</LI></UL>"
+
+#~ msgid ""
+#~ "API Pilot key is usefull when data are not - either partially or "
+#~ "completely - extracted from IMDb website (see \"Get rid of IMDb\" "
+#~ "option). Look at help (how to) section for a guideline."
+#~ msgstr ""
+#~ "La cl&eacute; API Pilot est utile lorsque les donn&eacute;es ne sont pas "
+#~ "- partiellement ou compl&egrave;tement - extraites du site IMDb (voir "
+#~ "l'option \"Comportement IMDb\"). Plus d'informations dans l'aide (section "
+#~ "how to) pour une marche &agrave; suivre."
+
+#~ msgid "Movie connection"
+#~ msgid_plural "Movie connections"
+#~ msgstr[0] "Lien de film"
+#~ msgstr[1] "Lien de film"
+
+#~ msgid "This option is currently broken."
+#~ msgstr "Cette option n'est pas fonctionnelle."
+
+#~ msgid "Display (how many) movie connections"
+#~ msgstr "Afficher (combien de) liens de films"
+
+#~ msgid "Support"
+#~ msgstr "Aide"
+
+#~ msgid "Use a website other than IMDb"
+#~ msgstr "Utiliser un autre site internet que IMDb"
+
+#~ msgid "Order's display"
+#~ msgstr "Ordre d'affichage"
+
+#~ msgid "Display plugin options in big admin menu"
+#~ msgstr "Afficher le grand menu d'administration du plugin"
+
+#~ msgid "Cache delete"
+#~ msgstr "Effacement du Cache"
+
+#~ msgid "Manage cache files & folders"
+#~ msgstr "Gestion des fichiers & r&eacute;pertoires de cache"
+
+#~ msgid ""
+#~ "If you want to do a movie cache refresh even though movie cache has not "
+#~ "yet expired, select movie corresponding and click on \"update cache\"."
+#~ msgstr ""
+#~ "Si vous souhaitez faire un rafra&icirc;chissement du cache de film alors "
+#~ "m&ecirc;me que le cache n'a pas expir&eacute;, s&eacute;lectionnez le "
+#~ "film correspondant et cliquez sur \"mettre &agrave; jour\"."
+
+#~ msgid ""
+#~ "Note that not all cache will be deleted, as names cache (directors, "
+#~ "actors, etc) and movies pictures will still be kept."
+#~ msgstr ""
+#~ "Notez que tout le cache n'est pas effac&eacute;, et que le cache "
+#~ "concernant les noms (r&eacute;alisateur, acteurs, etc) and les images de "
+#~ "films sont gard&eacute;s."
+
+#~ msgid "Settings"
+#~ msgstr "Options"
+
+#~ msgid "Taxonomy Wordpress capability - adding genre from IMDb"
+#~ msgstr "La fonction Wordpress taxonomie - ajouter les genres de l'IMDb"
+
+#~ msgid "yes"
+#~ msgstr "oui"
+
+#~ msgid "Writer(s)"
+#~ msgstr "Auteur(s)"
+
+#~ msgid "Producer(s)"
+#~ msgstr "Producteur(s)"
+
+#~ msgid "This is the moviepilot server to use."
+#~ msgstr "Le serveur moviepilot &agrave; utiliser."
+
+#~ msgid "no"
+#~ msgstr "non"
+
+#~ msgid "User(s) comment"
+#~ msgstr "Commentaire(s) des utilisateurs"

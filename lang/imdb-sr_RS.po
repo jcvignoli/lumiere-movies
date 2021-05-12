@@ -1,0 +1,2099 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: IMDb Link Transformer\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-21 22:38+0100\n"
+"PO-Revision-Date: 2013-10-21 22:39+0100\n"
+"Last-Translator: psykotik <psykotik@ikiru.ch>\n"
+"Language-Team: prométhée group <imdblt@ikiru.ch>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: config.php:215
+#: config.php:271
+#: config.php:304
+msgid "Options saved."
+msgstr "Opcije sačuvane "
+
+#: config.php:227
+#: config.php:280
+#: config.php:316
+msgid "Options reset."
+msgstr "Vraćanje opcija na podrazumevane vrednosti. "
+
+#: config.php:234
+#: config.php:287
+#: config.php:323
+#: config.php:339
+msgid "Plugin collision. Please follow "
+msgstr "Kolizija plugin-a. Molim vas, pratite "
+
+#: config.php:234
+#: config.php:287
+#: config.php:323
+#: config.php:339
+msgid "this link."
+msgstr "ovaj link."
+
+#: config.php:264
+msgid "Error. You have to select a value."
+msgstr "Greška. Morate odrediti vrednost."
+
+#: config.php:332
+msgid "All cache deleted."
+msgstr "Cela keš memorija je obrisana. "
+
+#: config.php:350
+msgid "Part cache deleted."
+msgstr "Deo keš memorije je obrisan."
+
+#: config.php:385
+msgid "General Options"
+msgstr "Opšte opcije"
+
+#: config.php:392
+#: config.php:396
+#: config.php:400
+#: config.php:404
+msgid "Widget/Inside post Options"
+msgstr "Opcije za widget unutar posta"
+
+#: config.php:396
+#: config.php:404
+msgid "Widget unactivated"
+msgstr "Widget neaktiviran"
+
+#: config.php:400
+#: config.php:404
+#: inc/options-general.php:269
+msgid "Direct search"
+msgstr "Direktna pretraga"
+
+#: config.php:400
+msgid "unactivated"
+msgstr "Neaktiviran"
+
+#: config.php:408
+#: imdb-link-transformer.php:265
+#: inc/options-cache.php:467
+msgid "Cache management"
+msgstr "Upravljanje kešom"
+
+#: config.php:412
+msgid "How to use IMDb link transformer, check FAQs & changelog"
+msgstr "Kako da koristite IMDb transformator, proverite Pitanja &  odgovore, kao i listu promena."
+
+#: config.php:413
+msgid "IMDb link transformer help"
+msgstr "Pomoć za IMDb transformator link."
+
+#: imdb-link-transformer.php:263
+msgid "IMDb link transformer options page"
+msgstr "Stranica sa opcijama za IMDb transformator linka. "
+
+#: imdb-link-transformer.php:263
+#: imdb-link-transformer.php:362
+#: inc/options-cache.php:221
+msgid "General options"
+msgstr "Opšte opcije"
+
+#: imdb-link-transformer.php:264
+msgid "Widget & In post options page"
+msgstr "Stranica za opcije widget-a  &  post-ovima"
+
+#: imdb-link-transformer.php:264
+msgid "Widget/In post"
+msgstr "Widget/unutar post-a"
+
+#: imdb-link-transformer.php:265
+msgid "Cache management options page"
+msgstr "Stranica sa opcijama upravljanja kešom"
+
+#: imdb-link-transformer.php:266
+msgid "Help page"
+msgstr "Stranica za pomoć"
+
+#: imdb-link-transformer.php:266
+#: imdb-link-transformer.php:368
+msgid "Help"
+msgstr "Pomoć"
+
+#: imdb-link-transformer.php:360
+msgid "IMDB LT"
+msgstr "IMDB LT"
+
+#: imdb-link-transformer.php:360
+msgid "IMDBLT Menu"
+msgstr "IMDBLT Meni"
+
+#: imdb-link-transformer.php:364
+msgid "Widget options"
+msgstr "Opcije widget-a"
+
+#: imdb-link-transformer.php:366
+msgid "Cache options"
+msgstr "Opcije keša"
+
+#: inc/popup.php:51
+msgid "Results related to this film"
+msgstr "Rezultati vezani za ovaj film"
+
+#: inc/popup.php:55
+msgid "Titles matching"
+msgstr "Podudaranje naslova"
+
+#: inc/popup.php:56
+#: inc/popup-imdb_movie.php:314
+#: inc/imdb-movie.inc.php:558
+#: inc/options-widget.php:83
+#: inc/options-widget.php:84
+msgid "Director"
+msgid_plural "Directors"
+msgstr[0] "Režiser"
+msgstr[1] "Režiser"
+
+#: inc/popup.php:64
+#: inc/popup.php:76
+msgid "more on"
+msgstr "više o "
+
+#: inc/popup.php:65
+#: inc/popup.php:68
+#: inc/popup.php:79
+#: inc/popup.php:80
+msgid "link to imdb for"
+msgstr "link imdba-a za"
+
+#: inc/options-general.php:24
+msgid "Paths & Layout"
+msgstr "Putanje  & raspored"
+
+#: inc/options-general.php:26
+msgid "Advanced"
+msgstr "Napredna"
+
+#: inc/options-general.php:35
+msgid "Options below don't need usually any complementary setup. However, you can widely customize IMDb link transformer according your needs."
+msgstr "Opcijama koje slede obično nije potrebna nikakva dopunska postavka. Međutim, možete prilagoditi IMDb transformator linka prema svojim potrebama."
+
+#: inc/options-general.php:38
+msgid "Paths: url & folders"
+msgstr "Putanje: url & folderi"
+
+#: inc/options-general.php:47
+msgid "Blog adress"
+msgstr "Adresa bloga"
+
+#: inc/options-general.php:50
+msgid "Where the blog is installed."
+msgstr "Gde je blog instaliran"
+
+#: inc/options-general.php:50
+#: inc/options-general.php:58
+#: inc/options-general.php:121
+#: inc/options-general.php:124
+#: inc/options-general.php:128
+#: inc/options-general.php:164
+#: inc/options-general.php:167
+#: inc/options-general.php:170
+#: inc/options-general.php:196
+#: inc/options-general.php:199
+#: inc/options-general.php:279
+#: inc/options-general.php:283
+#: inc/options-general.php:287
+#: inc/options-general.php:308
+#: inc/options-general.php:311
+#: inc/options-general.php:315
+#: inc/options-cache.php:282
+#: inc/options-cache.php:323
+#: inc/options-cache.php:331
+#: inc/options-cache.php:360
+#: inc/options-cache.php:363
+#: inc/options-cache.php:366
+#: inc/options-cache.php:388
+#: inc/options-cache.php:391
+#: inc/options-cache.php:422
+#: inc/options-cache.php:425
+#: inc/options-widget.php:74
+#: inc/options-widget.php:75
+#: inc/options-widget.php:76
+#: inc/options-widget.php:107
+#: inc/options-widget.php:108
+#: inc/options-widget.php:109
+#: inc/options-widget.php:138
+#: inc/options-widget.php:140
+#: inc/options-widget.php:142
+#: inc/options-widget.php:175
+#: inc/options-widget.php:176
+#: inc/options-widget.php:177
+#: inc/options-widget.php:213
+#: inc/options-widget.php:214
+#: inc/options-widget.php:215
+#: inc/options-widget.php:246
+#: inc/options-widget.php:247
+#: inc/options-widget.php:248
+#: inc/options-widget.php:283
+#: inc/options-widget.php:284
+#: inc/options-widget.php:285
+#: inc/options-widget.php:316
+#: inc/options-widget.php:319
+#: inc/options-widget.php:322
+#: inc/options-widget.php:348
+#: inc/options-widget.php:349
+#: inc/options-widget.php:544
+#: inc/options-widget.php:548
+msgid "Default:"
+msgstr "Standardno"
+
+#: inc/options-general.php:55
+msgid "Plugin directory"
+msgstr "Direktorijum plugin-a"
+
+#: inc/options-general.php:58
+msgid "Where <strong>imdb link transformer</strong> is installed."
+msgstr "Gde je<strong>imdb transformator</strong>instaliran"
+
+#: inc/options-general.php:70
+msgid "Layout"
+msgstr "Raspored"
+
+#: inc/options-general.php:79
+msgid "Popup"
+msgstr "Iskačući prozor"
+
+#: inc/options-general.php:84
+msgid "Width"
+msgstr "Širina"
+
+#: inc/options-general.php:88
+msgid "Height"
+msgstr "Visina"
+
+#: inc/options-general.php:95
+msgid "Warning! Highslide is activated but no Highslide folder is found. Either download Highslide (see below) or click on \"reset setting\" at the bottom"
+msgstr "Upozorenje! Highslide je aktiviran, ali nije pronađen Highslide folder. Preuzmite Highslide (vidite ispod) ili kliknite na \"reset setting\"  vrati postavke na podrazumevane vrednosti” na dnu."
+
+#: inc/options-general.php:97
+msgid "Warning! Highslide is activated but no Highslide folder is found. Either download Highslide (see below) or click on \"reset setting\" at the bottom."
+msgstr "Upozorenje! Highslide je aktiviran, ali nije pronađen Highslide folder. Preuzmite Highslide (vidite ispod) ili kliknite na \"reset setting\"  vrati postavke na podrazumevane vrednosti” na dnu."
+
+#: inc/options-general.php:101
+msgid "Display highslide popup"
+msgstr "Prikaži highslide iskačući prozor"
+
+#: inc/options-general.php:106
+#: inc/options-general.php:128
+#: inc/options-general.php:151
+#: inc/options-general.php:164
+#: inc/options-general.php:185
+#: inc/options-general.php:266
+#: inc/options-general.php:270
+#: inc/options-general.php:274
+#: inc/options-general.php:283
+#: inc/options-general.php:299
+#: inc/options-general.php:303
+#: inc/options-general.php:315
+#: inc/options-cache.php:344
+#: inc/options-cache.php:348
+#: inc/options-cache.php:360
+#: inc/options-cache.php:363
+#: inc/options-cache.php:377
+#: inc/options-cache.php:382
+#: inc/options-cache.php:388
+#: inc/options-cache.php:391
+#: inc/options-cache.php:405
+#: inc/options-cache.php:414
+#: inc/options-widget.php:56
+#: inc/options-widget.php:63
+#: inc/options-widget.php:70
+#: inc/options-widget.php:74
+#: inc/options-widget.php:75
+#: inc/options-widget.php:86
+#: inc/options-widget.php:93
+#: inc/options-widget.php:100
+#: inc/options-widget.php:107
+#: inc/options-widget.php:109
+#: inc/options-widget.php:119
+#: inc/options-widget.php:126
+#: inc/options-widget.php:133
+#: inc/options-widget.php:154
+#: inc/options-widget.php:161
+#: inc/options-widget.php:168
+#: inc/options-widget.php:175
+#: inc/options-widget.php:188
+#: inc/options-widget.php:197
+#: inc/options-widget.php:206
+#: inc/options-widget.php:225
+#: inc/options-widget.php:234
+#: inc/options-widget.php:241
+#: inc/options-widget.php:259
+#: inc/options-widget.php:266
+#: inc/options-widget.php:275
+#: inc/options-widget.php:296
+#: inc/options-widget.php:303
+#: inc/options-widget.php:310
+#: inc/options-widget.php:333
+#: inc/options-widget.php:339
+#: inc/options-widget.php:349
+#: inc/options-widget.php:531
+#: inc/options-widget.php:536
+msgid "Yes"
+msgstr "Da"
+
+#: inc/options-general.php:110
+#: inc/options-general.php:151
+#: inc/options-general.php:185
+#: inc/options-general.php:196
+#: inc/options-general.php:266
+#: inc/options-general.php:270
+#: inc/options-general.php:274
+#: inc/options-general.php:279
+#: inc/options-general.php:287
+#: inc/options-general.php:299
+#: inc/options-general.php:303
+#: inc/options-general.php:311
+#: inc/options-cache.php:344
+#: inc/options-cache.php:348
+#: inc/options-cache.php:377
+#: inc/options-cache.php:382
+#: inc/options-cache.php:407
+#: inc/options-cache.php:416
+#: inc/options-cache.php:422
+#: inc/options-cache.php:425
+#: inc/options-widget.php:57
+#: inc/options-widget.php:64
+#: inc/options-widget.php:71
+#: inc/options-widget.php:76
+#: inc/options-widget.php:87
+#: inc/options-widget.php:94
+#: inc/options-widget.php:101
+#: inc/options-widget.php:108
+#: inc/options-widget.php:120
+#: inc/options-widget.php:127
+#: inc/options-widget.php:134
+#: inc/options-widget.php:138
+#: inc/options-widget.php:140
+#: inc/options-widget.php:142
+#: inc/options-widget.php:155
+#: inc/options-widget.php:162
+#: inc/options-widget.php:169
+#: inc/options-widget.php:176
+#: inc/options-widget.php:177
+#: inc/options-widget.php:189
+#: inc/options-widget.php:198
+#: inc/options-widget.php:207
+#: inc/options-widget.php:213
+#: inc/options-widget.php:214
+#: inc/options-widget.php:215
+#: inc/options-widget.php:226
+#: inc/options-widget.php:235
+#: inc/options-widget.php:242
+#: inc/options-widget.php:246
+#: inc/options-widget.php:247
+#: inc/options-widget.php:248
+#: inc/options-widget.php:260
+#: inc/options-widget.php:267
+#: inc/options-widget.php:276
+#: inc/options-widget.php:283
+#: inc/options-widget.php:284
+#: inc/options-widget.php:285
+#: inc/options-widget.php:297
+#: inc/options-widget.php:304
+#: inc/options-widget.php:311
+#: inc/options-widget.php:316
+#: inc/options-widget.php:319
+#: inc/options-widget.php:322
+#: inc/options-widget.php:334
+#: inc/options-widget.php:340
+#: inc/options-widget.php:348
+#: inc/options-widget.php:531
+#: inc/options-widget.php:536
+#: inc/options-widget.php:544
+#: inc/options-widget.php:548
+msgid "No"
+msgstr "Ne"
+
+#: inc/options-general.php:113
+msgid "<b>Option highslide unavailable.</b>"
+msgstr "<b>Nedostupna opcija za highslide</b>"
+
+#: inc/options-general.php:113
+msgid "In order to activate it, click here and move the folder \"highslide\" into the \"js\" one!"
+msgstr "Da biste je aktivirali, kliknite ovde i premestite folder \"highslide\" u \"js\"jedne."
+
+#: inc/options-general.php:114
+msgid "Once you are done, this message will disapear."
+msgstr "Kad to uradite, nestaće poruka."
+
+#: inc/options-general.php:121
+msgid "Popup width, in pixels"
+msgstr "Širina iskačućeg prozora u pikselima."
+
+#: inc/options-general.php:124
+msgid "Popup height, in pixels"
+msgstr "Visina iskačućeg prozora u pikselima."
+
+#: inc/options-general.php:128
+msgid "Highslide popup is a more stylished popup, and allows to open movie details straightly in page instead of a new popup window."
+msgstr "Highslide iskačući prozor je moderniji i omogućava da se više detalja pojavi direktno na stranici umesto u novom iskačućem prozoru."
+
+#: inc/options-general.php:131
+msgid "Please note Highslide JS is licensed under a Creative Commons Attribution-NonCommercial 2.5 License, which means you need the author's permission to use Highslide JS on commercial websites."
+msgstr "Imajte u vidu da je Highslide JS zaštićen licencom Creative Commons Attribution-NonCommercial 2.5, što znači da vam je za njegovo korišćenje na komercijalnim web site-ovima potrebna dozvola od autora. "
+
+#: inc/options-general.php:133
+msgid "Website:"
+msgstr "Web site:"
+
+#: inc/options-general.php:144
+msgid "Imdb link picture"
+msgstr "link za Imdb sliku"
+
+#: inc/options-general.php:150
+msgid "Display imdb pic?"
+msgstr "Prikazati imdb sliku?"
+
+#: inc/options-general.php:154
+#: inc/options-general.php:188
+msgid "Size"
+msgstr "Veličina"
+
+#: inc/options-general.php:158
+msgid "Url"
+msgstr "Url"
+
+#: inc/options-general.php:164
+msgid "Whether display imdb link (the yellow icon) or not. This picture can be found into the popup when looking for akas movies. If the option is unselected, visitors will no more have opportunity to follow links to IMDb (even if they could still follow internal links)."
+msgstr "Prikazati indb link (žuta ikonica) ili ne? Slika se može naći u iskačućim prozorima kad tražite druge nazive filmova. Ako opcija nije štiklirana, posetioci neće imati priliku da prate linkove za IMDb (iako će moći da prate interne linkove)."
+
+#: inc/options-general.php:167
+msgid "Size of the imdb picture. The value will correspond to the width in pixels."
+msgstr "Veličina imdb slike. Vrednost će odgovarati širini u pikselima."
+
+#: inc/options-general.php:170
+msgid "Url for the imdb picture"
+msgstr "Url za imdb sliku."
+
+#: inc/options-general.php:178
+msgid "Imdb cover picture"
+msgstr "IMdb naslovna slika"
+
+#: inc/options-general.php:184
+msgid "Display only thumbnail"
+msgstr "Prikaži samo sličicu."
+
+#: inc/options-general.php:196
+msgid "Whether to display a thumbnail or a large image cover for movies inside a post or a widget. Select \"No\" to choose cover picture width (a new option on the right will be available)."
+msgstr "Da li prikazati sličicu ili naslovnu sliku za filmove u post-u ili widget-u.Select \"No\" da biste odredili širinu naslovne slike (pojaviće se ova opcija na desnoj strani). "
+
+#: inc/options-general.php:199
+msgid "Size of the imdb cover picture. The value will correspond to the width in pixels. Delete any value to get maximum width."
+msgstr "Veličina imdb naslovne slike. Vrednost će odgovarati širini u pikselima. Da biste dobili maksimalnu širinu, obrišite vrednost."
+
+#: inc/options-general.php:215
+msgid "Options below can break a lot of things. Change them only if you know what you're doing."
+msgstr "Opcije koje slede mogu uništiti mnogo toga. Promenite ih samo ako znate šta radite."
+
+#: inc/options-general.php:222
+msgid "Search, imdb part"
+msgstr "Pretraži imbd deo"
+
+#: inc/options-general.php:227
+msgid "Imdb address"
+msgstr "Imdb adresa"
+
+#: inc/options-general.php:237
+msgid "Search variant"
+msgstr "Varijanta pretrage"
+
+#: inc/options-general.php:249
+msgid "This is the imdb server to use. The localized ones (i.e. italian and german) are only qualified to find the movies ID - but parsing for the details will fail at the moment."
+msgstr "Ovo je server za imdb. Lokalizovani (tj. italijanski i nemački), kvalifikovani su samo za pretragu ID-a filmova, ali tumačenje detalja trenutno im neće biti dostupno."
+
+#: inc/options-general.php:252
+msgid "Moviename search variant. There are different ways of searching a movie name, with slightly differing result sets. Set the variant you prefer."
+msgstr "Pretrage varijante naziva filma sa skupovima rezultata koji se malo razlikuju. Postavite varijantu koja vam se više sviđa."
+
+#: inc/options-general.php:260
+#: inc/popup-imdb_movie.php:67
+#: inc/popup-imdb_person.php:63
+#: inc/options-widget.php:30
+#: inc/options-widget.php:524
+msgid "Misc"
+msgstr "Razno"
+
+#: inc/options-general.php:265
+msgid "Debug mode"
+msgstr "Režim uklanjanja grešaka"
+
+#: inc/options-general.php:273
+msgid "Menu for IMDB LT options"
+msgstr "Meni za IMDB LT opcije"
+
+#: inc/options-general.php:279
+msgid "Enable debug mode?"
+msgstr "Štiklirati režim za uklanjanje grešaka?"
+
+#: inc/options-general.php:283
+msgid "When enabled, instead of displaying several results related to a name searched, only the first result is returned and directly displayed. That means no more window results is displayed, but straightforwardly related data. <br />This option allows to use the 'IMDb widget' and 'inside the post' options; if deactivated, these options will not work anymore. <br />Some options will be hidden and other will be shown depending if it is turned on yes or no."
+msgstr "Kad je štikliran, umesto prikazivanja nekoliko opcija u vezi s traženim nazivom, prikazuje se samo prvi rezultat. To znači da se ne prikazuje više prozora sa rezultatima, već samo direktni podaci. <br /> Ova opcija omogućava da se koristi ‘IMDb widget’ i opcije ‘unutar posta’. Ako se deaktiviraju, ove opcije više neće funkcionisati. <br /> Neke opcije biće skrivene, a druge prikazane u zavisnosti od toga da li je štiklirano da ili ne."
+
+#: inc/options-general.php:287
+msgid "When enabled, IMDb Link Transformer options are displayed separately from the settings menu. It will create a dedicated menu to the IMDB Link Transformer options."
+msgstr "Kada su štiklirane, opcije IMDb transformatora linka prikazuju se odvojeno od menija postavki. Stvoriće poseban meni za opcije IMDB transformatora linka."
+
+#: inc/options-general.php:294
+msgid "Limit results"
+msgstr "Ograničiti rezultate"
+
+#: inc/options-general.php:298
+msgid "Use automatical genre taxonomy?"
+msgstr "Koristiti automatski generisanu taksonomiju?"
+
+#: inc/options-general.php:302
+msgid "Toolbar IMDB LT admin menu"
+msgstr "Meni sa alatkama za IMDB LT admin-a"
+
+#: inc/options-general.php:308
+msgid "This the limit for the result set of researches. Use 0 for no limit, or the number of maximum entries you wish. When \"direct search\" option is turned to yes, this option is hidden."
+msgstr "Ovo je ograničenje za skup rezultata pretrage. Upotrebite 0 ako nećete ograničenja ili maksimalan broj ako želite. Kad je štiklirana opcija \"direktna pretraga\", ova opcija je skrivena.  "
+
+#: inc/options-general.php:311
+msgid "This will automatically add \"genre\" terms found for the movie into wordpress database, as <a href=\"http://codex.wordpress.org/WordPress_Taxonomy\">taxonomy</a>. Activating this option open <a href=\"?page=imdblt_options&subsection=widgetoption&widgetoption=taxo\">others taxonomy options</a>. Taxonomy terms are uninstalled when removing the plugin."
+msgstr "Ovako će podaci o vrsti filma biti automatski uneti \"genre\" u wordpress bazu podataka jer aktiviranjem <a href=\"http://codex.wordpress.org/WordPress_Taxonomy\">taksonomije</a> ova opcija otvara <a href=\"?page=imdblt_options&subsection=widgetoption&widgetoption=taxo\">druge opcije termina taksonomije</a>. Termini taksonomije se uklanjaju kad se ukloni plugin."
+
+#: inc/options-general.php:315
+msgid "When activated, IMDb Link Transformer options are displayed in the toolbar admin menu of Wordpress."
+msgstr "Kad se aktiviraju, opcije IMDb transformatora linka prikazuju se u administratorovom meniju trake sa alatima u Wordpress-u.  "
+
+#: inc/options-general.php:329
+#: inc/options-cache.php:438
+#: inc/options-widget.php:562
+msgid "Reset settings"
+msgstr "Podesi postavke na standardne vrednosti."
+
+#: inc/options-general.php:331
+#: inc/options-cache.php:440
+#: inc/options-widget.php:564
+msgid "Update settings"
+msgstr "Ažuriraj postavke"
+
+#: inc/popup-imdb_movie.php:52
+msgid "Search for movies with the same name"
+msgstr "Pretraži filmove sa istim nazivom"
+
+#: inc/popup-imdb_movie.php:52
+msgid "Search AKAs"
+msgstr "Pretraži druge nazive"
+
+#: inc/popup-imdb_movie.php:55
+msgid "Movie"
+msgstr "Film"
+
+#: inc/popup-imdb_movie.php:58
+#: inc/options-widget.php:379
+msgid "Actors"
+msgstr "Glumci"
+
+#: inc/popup-imdb_movie.php:61
+msgid "Crew"
+msgstr "Ekipa"
+
+#: inc/popup-imdb_movie.php:64
+#: inc/popup-imdb_movie.php:417
+#: inc/imdb-movie.inc.php:783
+#: inc/options-widget.php:165
+#: inc/options-widget.php:166
+msgid "Plot"
+msgid_plural "Plots"
+msgstr[0] "Siže"
+msgstr[1] "Siže"
+
+#: inc/popup-imdb_movie.php:88
+#: inc/popup-imdb_person.php:99
+#: inc/options-cache.php:507
+#: inc/options-cache.php:598
+#: inc/imdb-movie.inc.php:145
+msgid "no picture"
+msgstr "nema slike"
+
+#: inc/popup-imdb_movie.php:111
+msgid "AKA"
+msgstr "AKA"
+
+#: inc/popup-imdb_movie.php:144
+#: inc/options-widget.php:123
+#: inc/options-widget.php:124
+msgid "Year"
+msgstr "Godina"
+
+#: inc/popup-imdb_movie.php:153
+#: inc/imdb-movie.inc.php:194
+#: inc/options-widget.php:67
+#: inc/options-widget.php:68
+msgid "Runtime"
+msgstr "Trajanje"
+
+#: inc/popup-imdb_movie.php:160
+#: inc/imdb-movie.inc.php:195
+msgid "minutes"
+msgstr "minuti"
+
+#: inc/popup-imdb_movie.php:169
+#: inc/imdb-movie.inc.php:236
+#: inc/options-widget.php:300
+#: inc/options-widget.php:301
+msgid "Rating"
+msgstr "ocene"
+
+#: inc/popup-imdb_movie.php:173
+msgid "Vote average"
+msgstr "prosečan glas"
+
+#: inc/popup-imdb_movie.php:183
+#: inc/imdb-movie.inc.php:209
+#: inc/options-widget.php:307
+#: inc/options-widget.php:308
+msgid "Language"
+msgid_plural "Languages"
+msgstr[0] "jezik"
+msgstr[1] "jezik"
+
+#: inc/popup-imdb_movie.php:203
+#: inc/imdb-movie.inc.php:167
+#: inc/options-widget.php:90
+#: inc/options-widget.php:91
+msgid "Country"
+msgid_plural "Countries"
+msgstr[0] "država"
+msgstr[1] "država"
+
+#: inc/popup-imdb_movie.php:221
+#: inc/imdb-movie.inc.php:260
+#: inc/options-widget.php:130
+#: inc/options-widget.php:131
+msgid "Genre"
+msgid_plural "Genres"
+msgstr[0] "Žanr"
+msgstr[1] "Žanr"
+
+#: inc/popup-imdb_movie.php:242
+#: inc/imdb-movie.inc.php:411
+msgid "Color"
+msgid_plural "Colors"
+msgstr[0] "Boja"
+msgstr[1] "Boja"
+
+#: inc/popup-imdb_movie.php:258
+msgid "Sound"
+msgstr "Zvuk"
+
+#: inc/popup-imdb_movie.php:283
+msgid "Casting"
+msgstr "Glumačka ekipa"
+
+#: inc/popup-imdb_movie.php:294
+#: inc/popup-imdb_movie.php:323
+#: inc/popup-imdb_movie.php:350
+#: inc/popup-imdb_movie.php:378
+msgid "link to imdb"
+msgstr "link za imdb"
+
+#: inc/popup-imdb_movie.php:342
+#: inc/imdb-movie.inc.php:691
+#: inc/options-widget.php:151
+#: inc/options-widget.php:152
+msgid "Writer"
+msgid_plural "Writers"
+msgstr[0] "Scenarista"
+msgstr[1] "Scenarista"
+
+#: inc/popup-imdb_movie.php:370
+#: inc/imdb-movie.inc.php:645
+#: inc/options-widget.php:158
+#: inc/options-widget.php:159
+msgid "Producer"
+msgid_plural "Producers"
+msgstr[0] "Producent"
+msgstr[1] "Producent"
+
+#: inc/popup-imdb_movie.php:403
+msgid "Plot outline"
+msgid_plural "Plots outline"
+msgstr[0] "Kratak siže"
+msgstr[1] "Kratak siže"
+
+#: inc/popup-imdb_movie.php:442
+#: inc/popup-imdb_person.php:265
+msgid "Trivia"
+msgid_plural "Trivias"
+msgstr[0] "Zanimljivosti"
+msgstr[1] "Zanimljivosti"
+
+#: inc/popup-imdb_movie.php:445
+#: inc/popup-imdb_movie.php:477
+#: inc/popup-imdb_movie.php:505
+#: inc/popup-imdb_person.php:131
+#: inc/popup-imdb_person.php:178
+#: inc/popup-imdb_person.php:215
+#: inc/popup-imdb_person.php:269
+#: inc/popup-imdb_person.php:294
+#: inc/popup-imdb_person.php:323
+#: inc/popup-imdb_person.php:350
+#: inc/popup-imdb_person.php:380
+msgid "click to expand"
+msgstr "kliknite da biste proširili listu"
+
+#: inc/popup-imdb_movie.php:472
+#: inc/popup-imdb_person.php:176
+#: inc/imdb-movie.inc.php:497
+#: inc/options-widget.php:263
+#: inc/options-widget.php:264
+msgid "Soundtrack"
+msgid_plural "Soundtracks"
+msgstr[0] "Muzika iz filma"
+msgstr[1] "Muzika iz filma"
+
+#: inc/popup-imdb_movie.php:502
+#: inc/imdb-movie.inc.php:312
+msgid "Goof"
+msgid_plural "Goofs"
+msgstr[0] "Greške"
+msgstr[1] "Greške"
+
+#: inc/help.php:22
+msgid "Popup link builder"
+msgstr "konstruktor linka za iskačuće prozore"
+
+#: inc/help.php:23
+msgid "Inside the post"
+msgstr "Unutar post-a "
+
+#: inc/help.php:24
+msgid "Widget"
+msgstr "Widget"
+
+#: inc/help.php:25
+msgid "Big admin menu"
+msgstr "veliki meni za administratore"
+
+#: inc/help.php:26
+msgid "Add a search form"
+msgstr "Dodajte obrazac za pretragu"
+
+#: inc/help.php:27
+msgid "Keep css through update"
+msgstr "Održavajte css putem ažuriranja"
+
+#: inc/help.php:31
+msgid "Taxonomy with Wordpress"
+msgstr "Taksonomija uz Wordpress"
+
+#: inc/help.php:32
+msgid "Widget auto according post's title"
+msgstr "Automatski widget prema nazivu post-a"
+
+#: inc/help.php:38
+msgid "How to use IMDb link transformer"
+msgstr "Kako se koristi IMDb transformator linka"
+
+#: inc/help.php:38
+msgid "How to"
+msgstr "Kako da"
+
+#: inc/help.php:40
+msgid "Frequently asked questions"
+msgstr "Često postavljana pitanja"
+
+#: inc/help.php:40
+msgid "FAQs"
+msgstr "FAQs"
+
+#: inc/help.php:42
+msgid "What's new"
+msgstr "Šta je novo"
+
+#: inc/help.php:42
+msgid "Changelog"
+msgstr "Lista izmena"
+
+#: inc/help.php:44
+msgid "To get support and to support what you get"
+msgstr "Da biste dobili podršku i da biste podržali ono što dobijete"
+
+#: inc/help.php:44
+msgid "Support, donate & credits"
+msgstr "Podrška, donacije  &  krediti"
+
+#: inc/help.php:132
+msgid "Two ways to match <strong>IMDb link transformer</strong> and <strong>support</strong>"
+msgstr "Dva načina za poklapanje <strong>IMDb transformatora</strong> linka i<strong> podrška</strong>"
+
+#: inc/help.php:140
+msgid "Be supported!"
+msgstr "Budite podržani!"
+
+#: inc/help.php:143
+msgid "You will never believe there is so many ways to be supported. Yes, you can:"
+msgstr "Ne biste mogli ni da zamislite koliko načina podrške postoji. Da, možete:"
+
+#: inc/help.php:144
+msgid "visit "
+msgstr "posetiti"
+
+#: inc/help.php:144
+msgid "to ask for support. "
+msgstr "da biste zatražili podršku."
+
+#: inc/help.php:145
+#: inc/help.php:146
+msgid "check "
+msgstr "proverite"
+
+#: inc/help.php:145
+msgid "FAQs "
+msgstr "FAQs "
+
+#: inc/help.php:146
+msgid "how to"
+msgstr "kako da"
+
+#: inc/help.php:158
+msgid "Support me!"
+msgstr "Podržite me!"
+
+#: inc/help.php:161
+msgid "You will never believe there is so many ways to thank me. Yes, you can:"
+msgstr "Ne biste mogli ni da zamislite koliko ima načina da mi izrazite zahvalnost. Da, možete: "
+
+#: inc/help.php:162
+msgid "vote for IMDb link transformer on "
+msgstr "glasajte za IMDb transformator linka na:"
+
+#: inc/help.php:163
+msgid "vote for IMDb link transformer on its own"
+msgstr "glasajte samo za IMDb transformator linka"
+
+#: inc/help.php:164
+msgid "send as many bugfixes and propositions as you can on IMDb link transformer website."
+msgstr "pošaljite što je moguće više rešenja problema i predloga na web site-u o IMDb transformatoru linka."
+
+#: inc/help.php:165
+msgid "pay whatever you want on paypal"
+msgstr "Platite šta god hoćete koristeći paypal"
+
+#: inc/help.php:165
+msgid "website"
+msgstr "website"
+
+#: inc/help.php:166
+msgid "translate the plugin into your own language."
+msgstr "prevedite plugin na svoj jezik"
+
+#: inc/help.php:167
+msgid "help me to improve the plugin's design. I'm not gifted at all."
+msgstr "pomozite mi da poboljšam dizajn plugin-a. Uopšte nisam talentovan za to."
+
+#: inc/help.php:168
+msgid "place a trackback, talk about this tool, and so on."
+msgstr "stavite trackback, razgovarajte o ovom alatu itd."
+
+#: inc/help.php:180
+msgid "Credits:"
+msgstr "Zasluge"
+
+#: inc/help.php:183
+msgid "Special thanks to:"
+msgstr "Posebna zahvalnost"
+
+#: inc/help.php:200
+msgid "IMDb link transformer evolves a lot. As a result of this, the plugin include many options, many ways to achieve bloggers wishes. Since then, IMDb link transformer main functions are explained hereafter, aiming to make the experience better. As you may discover, there are three main ways to display data from movies and there is many options. This is an attempt to document it, but please check also FAQs."
+msgstr "IMDb transformator se dosta razvija. Rezultat toga je mnoštvo uključenih funkcija i veliki broj načina da se ispune želje blogera. Zato su glavne funkcije IMDb transformatora linka objašnjene ovde s ciljem da poboljšaju korisničko iskustvo. Kao što možete otkriti, postoje tri osnovna načina da se prikažu podaci o filmovima, kao i veliki broj mogućnosti. Ovo je samo pokušaj da se to dokumentuje, ali molim vas, pogledajte spisak čestih pitanja i odgovora.  "
+
+#: inc/help.php:248
+msgid "Why a popup window?"
+msgstr "Zašto iskačući prozor?"
+
+#: inc/help.php:249
+#: inc/help.php:264
+#: inc/help.php:269
+#: inc/help.php:288
+#: inc/help.php:303
+#: inc/help.php:323
+#: inc/help.php:335
+#: inc/help.php:369
+#: inc/help.php:378
+#: inc/help.php:457
+#: inc/help.php:490
+#: inc/help.php:502
+#: inc/help.php:519
+#: inc/help.php:541
+msgid "click to get a larger picture"
+msgstr "Kliknite da biste dobili veću sliku."
+
+#: inc/help.php:250
+msgid "The first way to use Imdb link transformer is the first historically available. The idea behind was to find a solution for posts quoting many movies; blogger and reader would appreciate to have director's name, to know the alternative title's name, etc. And these data should not waste space in post itself; thus the popup idea."
+msgstr "Prvi način za upotrebu IMDb transformatora linka je prvi istorijski raspoloživ. Osnovna ideja bila je potraga za rešenjem za postove o mnogim filmovima; blogerima i čitaocima bile su dragocene informacije o režiseru, alternativnim naslovima itd. Ti podaci ne treba da zauzimaju prostor u samom postu, zato je i nastala zamisao o iskačućim prozorima. "
+
+#: inc/help.php:254
+msgid "Popup, as an extra window opened on click, will permit to get director's and movie's data; it is fully browsable and when browsing a movie, one can also look for 'AKAs' (movies which have a name similar)."
+msgstr "Iskačući prozor, kao dodatni prozor koji se otvara klikom, omogućiće vam pristup podacima o režiseru i filmu. Može se pretraživati i kad neko pretražuje film ili  filmove sa sličnim nazivom."
+
+#: inc/help.php:258
+msgid "It is quite intuitive to understand how popup can help; when writing about many movies, if one would like to speak about every director or actor he mentions in his post, it would take ages and will not have the power of the linkage (once seen the director, looking for his filmography)."
+msgstr "lako je zamisliti koliko iskačući prozor može biti koristan onome ko piše o velikom broju filmova. Kad bi neko hteo da pomene  svakog režisera ili glumca u postu, bila bi mu potrebna čitava večnost i ne bi mogao sve da poveže (na primer, režisera sa njegovom filmografijom). "
+
+#: inc/help.php:262
+msgid "How to get a popup window"
+msgstr "Kako da dobijete iskačući prozor?"
+
+#: inc/help.php:263
+msgid "To create a link to a popup window, you only need to put the <b>movie's title</b> (it doesn't work with any other data) inside dedicated tags. Either you use the HTML style to write posts, and a new button could help you to achieve that:"
+msgstr "Da biste kreirali link za iskačući prozor, samo treba da unesete  <b>naziv filma</b> (ne funkcioniše ni s jednom drugom vrstom podataka) unutar za to određenih oznaka. Bez obzira na to da li koristite HTML stil za pisanje postova, novi taster može vam pomoći da to postignete: "
+
+#: inc/help.php:268
+msgid "Or you use the Visual style to write posts, and a new button could help you to achieve that :"
+msgstr "Ili koristite Visual style za pisanje post-ova, a novi taster može vam pomoći u tome:"
+
+#: inc/help.php:273
+msgid "Whatever the tool you choose, when you will save your post you will get a nice link added to your movie."
+msgstr "Koji god alat da izaberete, kad sačuvate post, dobićete lep link uz svoj film."
+
+#: inc/help.php:287
+msgid "Why to use widget?"
+msgstr "Zašto da koristim widget?"
+
+#: inc/help.php:288
+msgid "key and value for custom fields"
+msgstr "ključ i vrednost za prilagođena polja"
+
+#: inc/help.php:290
+msgid "Widgets are widely used in wordpress. They allow to quickly select what information to display in an area, usually on sidebar. The main advantage is that blogger can easily select what information to display - or not, in what order."
+msgstr "Widget-i imaju široku primenu u wordpress-u. Omogućavaju vam da brzo odaberete koje informacije prikazujete u određenom području, najčešće na traci sa menijem. Glavna prednost widget-a sastoji se u tome što bloger lako može odabrati podatak koji želi ili koji ne želi da prikaže i kojim redom."
+
+#: inc/help.php:294
+msgid "How to use widget"
+msgstr "Kako se koristi widget?"
+
+#: inc/help.php:295
+msgid "<strong>Firstly</strong>, go to <a href='widgets.php'>widget</a> administration (<i>appearance</i> tab), drag <i>imdb widget</i> (from <i>inactive widgets</i>) to a sidebar, and modify the box's title (in case you don't want to have the box named <i>IMDb data</i>)."
+msgstr "<strong>Prvo</strong>, idite na <a href='widgets.php'>widget</a>administration (<i>appearance</i> tab), prevucite  <i>imdb widget</i> (sa <i>neaktivni widget-i</i>) na traku sa menijem i izmenite naziv boksa (u slučaju da nemate boks pod nazivom <i>IMDb data</i>). "
+
+#: inc/help.php:299
+msgid "<strong>Secondly</strong>, open an old post (or write a new one) and add the key <i>imdb-movie-widget</i> to the <i>custom fields</i> of your message <strong>and</strong> the name of the movie you want to display to <i>value</i> (first case from the picture). IMDb link transformer will automatically display in the widget the movie selected."
+msgstr "<strong>Zatim</strong> otvorite stari post (ili napišite novi) i dodajte ključ <i>imdb-movie-widget</i> prilagođenim poljima <i>custom fields</i> svoje poruke i naziv filma koji želite da prikažete u <i>value</i> (prvi slučaj sa slike). IMDb transformator linka automatski će prikazati odabrani film u widget-u."
+
+#: inc/help.php:303
+#: inc/help.php:323
+msgid "IMDb link transformer widget"
+msgstr "widget IMDb transformatora linka"
+
+#: inc/help.php:304
+msgid "<strong>Another possibility:</strong> add to your post the key <i>imdb-movie-widget-bymid</i> into the <i>custom fields</i> from your message <strong>and</strong> the IMDb ID for the movie you want to be displayed on your sidebar to <i>value</i> (second case from the picture). Instead of looking for a name, IMDb link transformer would directly display the movie you want to display. Very useful when your movie's name does not work as it should (if there are many movies with the same name, the wrong movie is displayed, etc)."
+msgstr "<strong>Druga mogućnost:</strong> svom postu dodajte ključ <i>imdb-movie-widget-bymid</i> u prilagođenim poljima  <i>custom fields</i> iz svoje poruke <strong>i</strong> IMDb ID za film koji želite da prikažete na traci sa menijem na  <i>value</i> (drugi slučaj sa slike). Umesto da pretražujete po imenu, IMDb transformator direktno bi prikazao film koji koji želite da prikažete. Vrlo korisno kad naziv filma ne funkcioniše onako kako bi trebalo (ako postoji veliki broj filmova sa istim imenom, ako prikazuje pogrešan film itd)."
+
+#: inc/help.php:308
+msgid "To get the movie's IMDb id, search for a title on <a href='http://www.imdb.com' >Internet movie database</a> website, look at the adress bar for a 'ttXXXXX' section, keep only the numerical part (XXXXX) and add result to the <i>value</i> custom field. However, in this specific case, do not mix with an <i>imdb-movie-widget</i> key. Only the first one will be displayed."
+msgstr "Da biste dobili IMDb id filma, pretražite naslov na <a href='http://www.imdb.com' u >internet bazi podataka na </a> web site-u, potražite meni sa adresama za 'ttXXXXX' odeljak, zadržite samo numerički deo (XXXXX) i rezultat unesite u <i>value</i> prilagođeno polje. U ovom specifičnom slučaju, nemojte ga mešati sa <i>imdb-movie-widget</i> ključem. Biće prikazan samo prvi."
+
+#: inc/help.php:322
+msgid "What's the point of displaying movie's data inside my post?"
+msgstr "U čemu je svrha prikazivanja podataka o filmu unutar posta?"
+
+#: inc/help.php:324
+msgid "Having movie's data inside the post is quite useful; it could ingeniously decorate your message, display crucial informations (director, actors) and in the same time add links to a popup which would include these informations (but with more details). At the begining, this function could only be achieved with a special plugin. Since release 1.1.14.3, IMDb link transformer does not need any third party plugin anymore to display movie's data inside you message. "
+msgstr "Podaci o filmu unutar posta veoma su korisni jer mogu fantastično dekorisati vašu poruku, prikazati ključne podatke (režiser, glumci itd) i istovremeno dodati linkove za iskačuće prozore koji bi, takođe, obuhvatili te informacije, ali nepšto detaljnije. U početku, ova funkcija bila je raspoloživa samo uz posebni plugin. Od objavljivanja verzije 1.1.14.3, IMDb transformatoru linka više nije potreban plugin treće strane da bi prikazao podatke o filmu unutar vaše poruke."
+
+#: inc/help.php:328
+msgid "It means that you only need to put the movie's name into brackets, to get movie's data inside your post."
+msgstr "Znači da samo treba da napišete naziv filma u zagradi da biste dobili podatke o filmu u svom post-u."
+
+#: inc/help.php:332
+msgid "How to display data inside my post"
+msgstr "Kako da prikažem podatke u post-u?"
+
+#: inc/help.php:334
+msgid "You only need to put the movie's name into brackets, to get movie's data inside your post. Data can be inserted exactly where you want, there is no limitation. Just be sure to put the movie's name inside [imdblt][/imdblt], like this:"
+msgstr "Samo treba da unesete naziv filma u zagradu da biste dobili podatke o filmu u post-u. Podaci mogu biti uneti tačno tamo gde želite, nema ograničenja. Postarajte se samo za to da naziv filma bude u zagradama, ovako: [imdblt][/imdblt]."
+
+#: inc/help.php:335
+msgid "IMDb link transformer Inside a post"
+msgstr "IMDb transformator linka unutar post-a"
+
+#: inc/help.php:336
+msgid "And you are done."
+msgstr "I završili ste."
+
+#: inc/help.php:338
+msgid "You additionnaly can get a movie from its imdb id, using its imdb movie's id instead of its name. When writing your post, put the movie's imdb id inside tags [imdbltid][/imdbltid] (which gives ie [imdbltid]0137523[/imdbltid], for Fight Club movie). You can get movie's imdb id from imdb website, search for you movie, and check your browser's adress bar. The number after 'tt' part is the movie's id."
+msgstr "Osim toga, film možete dobiti iz imdb id-ja tako što ćete koristiti id filma umesto naziva. Kad pišete post, navedite imdb id filma unutar oznaka [imdbltid][/imdbltid] (što daje  [imdbltid]0137523[/imdbltid], za film Fight Club). IMDb ID možete preuzeti sa imdb web site-a tako što pretražite film i pogledate adresu u pretraživaču. Broj posle ‘tt’ predstavlja id filma."
+
+#: inc/help.php:343
+msgid "How to display data inside my post - tricky way"
+msgstr "Kako da prikažem podatke u post-u - teži način"
+
+#: inc/help.php:344
+msgid "It could happen you don't want to use the previous solution to display movie's data. For exemple, if you wish to use IMDbLT outside a post (in a personalized page), it won't work. In this case, and in this case only, you should (may be) to download Exec-PHP plugin (<a href='http://wordpress.org/extend/plugins/exec-php'>http://wordpress.org/extend/plugins/exec-php</a>), depending of your page."
+msgstr "Možda nećete hteti da koristite prethodno rešenje za prikazivanje podataka o filmu. Na primer, ako hoćete da upotrebljavate IMDbLT van post-a (na personalizovanoj stranici), nećete moći. U tom slučaju, isključivo u tom slučaju, treba (možete) da preuzmete Exec-PHP plugin (<a href='http://wordpress.org/extend/plugins/exec-php'>http://wordpress.org/extend/plugins/exec-php</a> ), u zavisnosti od svoje stranice."
+
+#: inc/help.php:345
+msgid "The function to be called is <strong>imdb_call_external ()</strong>. It has two parameters, and both are mandatory. The first is the movie's name, and the second take always 'external'. For exemple, one'd like to display 'The Descent' should call the function like this:"
+msgstr "Treva da pozovete funkciju<strong> imdb_call_external ()</strong>. Ima dva parametra i oba su obavezna. Prvi je naziv filma, a drugi je uvek ‘eksterni’. Na primer, ako neko hoće da prikaže 'Užas iz dubine’, treba da pozove ovakvu funkciju:' "
+
+#: inc/help.php:347
+msgid "The function can also be called using still 'external as second parameter, but the first will be blank and a new third parameter will take its IMDb movie's ID. For exemple, one'd like to display 'The Descent' should call the function this manner:"
+msgstr "Funkcija se, takođe, može pozvati uz pomoć drugog parametra koji glasi ‘eksterni’, ali u tom slučaju, prvi parametar biće prazan, a u novi, treći parametar unećete IMDb ID. ‘Užas iz dubine’ treba da pozove funkciju na sledeći način:"
+
+#: inc/help.php:352
+msgid "I like to display movie details, but I want to get rid of links which open a popup"
+msgstr "Hteo bih da prikažem detalje o filmu, ali želim da se rešim linkova koji otvaraju iskačući prozor."
+
+#: inc/help.php:353
+msgid "It could happen you do not want popups at all. Since by default IMDb link transformer add links whenever relevant to movie's details displayed inside posts, one may find this useless. To get rid of them, look for 'Widget/Inside post Options / Misc / Remove popup links?' and switch the option to 'yes'. No links are created anymore, for both widget and inside a post."
+msgstr "Može se desiti da uopšte ne želite iskačuće prozore. Pošto IMDb transformator linka standardno dodaje linkove kad god se odnose na detalje o filmu prikazane unutar pos-a, neko ih može smatrati beskorisnim. Da biste ih uklonili, potražite 'Widget/Inside post Options / Misc / Remove popup links?' i promenite opciju na ‘yes’. Neće se stvarati linkovi ni za jedan od dva widget-a u post-u."
+
+#: inc/help.php:366
+msgid "IMDb link transformer is a mess! I'm lost with so many options."
+msgstr "IMDb transformator linka je u neredu! Gubim se u svim ovim opcijama."
+
+#: inc/help.php:370
+msgid "Wordpress admin area offers more and more options to user. Starting with 2.7 release, it also offers the possibility to add new admin menu for plugins. IMDb link transformer makes the most of this possibility, and can add its own admin menu. It can be added - or removed. Depending of how many plugin's admin menus you already have, you would prefer to keep access to IMDb link transformer settings only through usual 'settings' tab; it's up to you to choose to either get a complet and bigger IMDb link transformer menu - or not."
+msgstr "Područje administratora Wordpress-a korisniku nudi sve više i više opcija. Počevši od verzije 2.7, nudi i mogućnost za dodavanje novog menija administratora za plugin-ove. IMDb transformator linka izvlači najbolje od ove mogućnosti i može dodati sopstveni meni administratora. Može se dodati ili ukloniti. U zavisnosti od broja adminitratorskih menija za plugin-ove koje trenutno imate, možda ćete više želeti da zadržite pristup postavkama IMDb transformatora linka isključivo putem uobičajenih tabulatora postavki. Od vas zavisi hoćete li odabrati kompletan, veći meni IMDb transformatora - ili ne."
+
+#: inc/help.php:374
+msgid "In the case you want to, go to 'General options / Advanced / Display plugin in big admin menu' and turn to 'yes' the option. You will get a brand new menu, as shown on left."
+msgstr "U slučaju da hoćete, idite na 'General options / Advanced / Display plugin in big admin menu' i podesite opciju na ‘yes’. Dobićete potpuno vov meni, kao što je prikazano na levoj strani."
+
+#: inc/help.php:379
+msgid "One can go still further; if installing <a href='http://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/ '>Ozh Admin Drop Down Menu</a>, a plugin to switch classical vertical admin menu to horizontal and which gives the admin area more of a 'desktop application' feel. IMDb link transformer is ready to use improvements from Ozh's plugin, adding icons (when user select IMDb's plugin from the settings menu). Also, if you activate both Ozh's plugin and IMDb link transformer's big admin menu, you will get a nice and complete horizontal menu. Very useful."
+msgstr "Možete ići i dalje, tako što ćete instalirati <a href='http://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/ '>Ozh Drop Down Menu</a> (administratorski opadajući meni), plugin za prelaz sa klasičnog, vertikalnog, administratorskog menija u horizontalni. koji administratoru daje osećaj “kao da je u pitanju desktop aplikacija”. IMDb transformator linka spreman je da koristi poboljšanja Ozh plugin-a tako što će dodati ikonice (kad korisnik odabere IMDb plugin sa menija postavki). Takođe, ako aktivirate i Ozh plugin i veliki, administratorski meni IMDb transformatora linka, dobićete pregledan i kompletan horizontalni meni. Veoma korisno.  "
+
+#: inc/help.php:393
+msgid "How to add a search function for movies in general, and not only for selected movies?"
+msgstr "Kako da dodam funkcije pretrage za filmove uopšte, a ne samo za određene filmove?"
+
+#: inc/help.php:395
+msgid "It is indeed doable. Plugin is versatile enough to handle this function. By adding a form, you can add a search field which will allow users to search for every movie on your blog. Here is the code:"
+msgstr "To se može uraditi. Plugin je dovoljno fleksibilan da bi izdržao tu funkciju. Dodavanjem obrasca, možete dodati polje pretrage koje će omogućiti korisnicima da potraže svaki film na vašem blogu. Evo koda:"
+
+#: inc/help.php:409
+msgid "It perfectly fits in your sidebar, for exemple."
+msgstr "Savršeno se uklapa u vašu traku sa menijem, na primer."
+
+#: inc/help.php:426
+msgid "How to keep my own css through updated process?"
+msgstr "Kako da zadržim svoj css u procesu ažuriranja?"
+
+#: inc/help.php:428
+msgid "Fed up of losing your carefully handmade visual settings at every IMDbLT update? There is a solution."
+msgstr "Da li vam se smučilo gubljenje pažljivo osmišljenih postavki posle svakog IMDbLT ažuriranja? Evo rešenja."
+
+#: inc/help.php:431
+msgid "Every modification you can make is done in css/imdb.css file. Instead of using this file, put an imdb.css file in you template root folder; this css file will taken instead of plugin's css file. Whenever you update, your template's one will stay untouched!"
+msgstr "Svaka izmena koju napravite, dešava se u datoteci css/imdb.css. Umesto da upotrebite tu datoteku, stavite imdb.css datoteku u korenski folder svog šablona, a css datoteka biće korišćena umesto css datoteke plugin-a. Kad god ažurirate, datoteka vašeg šablona ostaće netaknuta!"
+
+#: inc/help.php:434
+msgid "However, be careful with this manner, since css/imdb.css file can be updated from version to version, and you'd not be aware of changes made..."
+msgstr "Ipak, budite oprezni s ovim načinom jer se css/imdb.css datoteka može ažurirati od verzije do verzije, a vi možda nećete biti svesni tih izmena."
+
+#: inc/help.php:449
+msgid "How to switch to another website other than IMDb?"
+msgstr "Kako da se prebacima na drugi web site koji nije IMDb?"
+
+#: inc/help.php:451
+msgid "Starting with IMDbLT 1.6 release, you have the opportunity to use other website source than IMDb."
+msgstr "Počevši od verzije IMDbLT 1.6, imate priliku da koristite drugi web site za izvor, osim IMDb-a."
+
+#: inc/help.php:454
+msgid "Since IMDb website's licence of use is quite protective, you may choose to use Moviepilot website instead (could have more choices in far future). To completely comply with legal obligations, follow these steps:"
+msgstr "Pošto je licenca za upotrebu IMDb-a veoma striktna, možda ćete, umesto njega,  izabrati Moviepilot web site (možda ćete u dalekoj budućnosti imati više izbora). Da biste bili usklađeni sa zakonskim obavezama, pratite sledeće korake: "
+
+#: inc/help.php:460
+msgid "You need an API key from moviepilot.com. Send an email to api@moviepilot.de asking for an API key, and copy-paste the code you have been given in 'General options -> Advanced -> Search, moviepilot part-> API Pilot key' field."
+msgstr "Treba vam ključ za API sa site-a moviepilot.com. Pošaljite mail na api@moviepilot.de i zatražite API ključ, kopirajte i nalepite kod prikazan u polju: 'General options -> Advanced -> Search, moviepilot part-> API Pilot key’."
+
+#: inc/help.php:461
+msgid "For a preformatted email"
+msgstr "Za unapred formatirani mail"
+
+#: inc/help.php:461
+msgid "click here"
+msgstr "kliknite ovde"
+
+#: inc/help.php:462
+msgid "Switch 'Get rid of IMDb' option to 'on'"
+msgstr "Uključite opciju ‘Ukloni IMDb’"
+
+#: inc/help.php:463
+msgid "You may now select both your local language and the accuracy level to comply with (IMDb behaviour)."
+msgstr "Sad možete odabrati i jezik i nivo tačnosti u skladu s ponašanjem IMDb-a"
+
+#: inc/help.php:480
+msgid "What is Wordpress' taxonomy?"
+msgstr "Šta je taksonomija wordpress-a?"
+
+#: inc/help.php:482
+msgid "Starting with Wordpress 2.3, plugins makers can use <a href='http://codex.wordpress.org/WordPress_Taxonomy'>taxonomy</a>."
+msgstr "Počev od verzije Wordpress 2.3, kreatori plugin-ova mogu koristiti<a href='http://codex.wordpress.org/WordPress_Taxonomy'>taxonomy</a>."
+
+#: inc/help.php:483
+msgid "Taxonomy is a feature adding a supplementary categorisation beside Categories and Tags; in other words, it is like having species (a block named 'genre') and subspecies (few words describing the genre, like 'Adventure', 'Terror'). It is not fundamentaly different from Categories and Tags, but it is much more appropriate for IMDb Link Transformer needs."
+msgstr "Taksonomija je karakteristika koja omogućava dodatnu kategorizaciju pored Kategorija i Oznaka, drugim rečima to je kao da imate više vrsta (blok pod nazivom ’žanr’) i podvrsta (nekoliko reči opisuje rod, kao što su: ‘Avantura’, ‘Horor’). U osnovi, ne razlikuju se od Kategorija i Oznaka, ali mnogo više odgovaraju potrebama IMDb transformatora linka."
+
+#: inc/help.php:486
+msgid "How to use taxonomy Wordpress capability?"
+msgstr "Kako se koristi taksonomija Wordpress pogodnosti?"
+
+#: inc/help.php:488
+msgid "To activate the automatically generated taxonomy, turn 'General options -> Advanced ->  'Use automatical genre taxonomy?' to 'yes'. Of course, since taxonomy is to a movie detail related, the movie detail you want to be used as taxonomy has to be also activated from 'Widget/Inside post Options -> What to display'. Eventually, it will permit to select in 'Widget/Inside post Options -> What to taxonomize' menu if you want to taxonomize Genres, but also actors, colors, composers, directors and so on."
+msgstr "Da biste aktivirali automatski generisanu taksonomiju, aktivirajte 'General options -> Advanced -> 'Use automatical genre taxonomy?' i podesite na  'yes'. Naravno, pošto se taksonomija odnosi na detalje o filmu, detalj koji želite da iskoristite kao taksonomiju takođe treba aktivirati iz opcija 'Widget/Inside post Options -> What to display'. Konačno, dozvoliće vam da u meniju 'Widget/Inside post Options -> What to taxonomize' označite želite li da vam taksonomije budu žanrovi, glumci, boje, kompozitori, režiseri itd.  "
+
+#: inc/help.php:494
+msgid "After that, pay a visit to your post/page; first refresh will not immediately display the movie detail (it will only generate them). Though, on a second refresh, you will see both movie details and (if you wordpress theme is configured to show it) taxonomy in your post."
+msgstr "Nakon toga, posetite svoj post/stranicu. Kad je prvi put osvežite, neće odmah prikazati detalje o filmu (samo će ih generisati). Posle drugog osvežavanja stranice videćete i detalje o filmu i taksonomiju u svom post-u (ako je Wordpress tema podešena da to prikaže).  "
+
+#: inc/help.php:498
+msgid "New option(s) in 'Posts' menu"
+msgstr "Nove opcije u meniju ‘Posts’"
+
+#: inc/help.php:500
+msgid "Once you have activated all taxonomy options and have triggered its wordpress function (by visiting your post and refreshing the page), wordpress administration posts menu will include new option(s). Depending on movie details previously selected, you will find an option to manage the words automatically generated by the taxonomy function. For instance to select 'genre':"
+msgstr "Kad aktivirate sve opcije taksonomije i pokrenete wordpress funkcionalnost (tako što ćete posetiti svoj post i osvežiti stranicu), worpress-ov administratorski meni za post-ove uključiće nove opcije. U zavisnosti od prethodno odabranih detalja o filmu, naći ćete opciju koja vam omogućava automatsko upravljanje rečima u okviru funkcije taksonomije. Na primer, da biste odabrali ‘žanr’."
+
+#: inc/help.php:507
+msgid "Limits"
+msgstr "Ograničenja"
+
+#: inc/help.php:508
+msgid "There is a strong limitation: since eache page/post can contain only a unique taxonomy sequence, only the first movie (first 'inside the post', first 'widget') will use the taxonomy feature. If you have two movie's widgets, only the first widget will display the links to genre's taxonomy. If you have both a movie's widget and an inside the post data, the movie's widget will prevail."
+msgstr "Postoje značajna  ograničenja: pošto svaka stranica/post može da sadrži samo jedinstven redosled taksonomije, samo će prvi film (prvi ‘unutar post-a’, prvi widget) koristiti funkcionalnost taksonomije. Ako imate widget-e dva filma, samo će prvi widget prikazati linkove za taksonomiju žanra. Ako imate i widget filma i podatke unutar post-a, widget će imati prednost. "
+
+#: inc/help.php:511
+msgid "Also, select cautiously options you want to be displayed as taxonomies: it could happen it creates a conflict with other functions, especially if you display many movies in same post. When selecting one of the taxonomy options from 'What to taxonomize' section, it will supersede any other function or link created; for instance, you won't have anymore access to popup links for directors, if directors taxonomy is chosen. Taxonomy will always prevail."
+msgstr "Pažljivo odaberite opcije za koje želite da budu prikazane kao taksonomije: može doći do sukoba s drugim funkcijama, naročito ako u istom post-u prikazujete veliki broj filmova. Kad označavate jednu od opcija taksonomije iz odeljka 'What to taxonomize', ona će zameniti bilo koju drugu opciju ili kreirani link. Na primer, više nećete imati pristup linkovima za režisere u iskačućim prozorima ako je odabrana taksonomija režisera."
+
+#: inc/help.php:515
+msgid "Advanced: Customizing your theme according taxonomy"
+msgstr "Napredne opcije: Prilagođavanje teme prema taksonomiji"
+
+#: inc/help.php:517
+msgid "To fully enjoy this feature, copy the file in IMDb link transformer folder 'theme/taxonomy-genre.php' to your 'theme' folder. Customize this page according to your tastes and theme design. The design is the same as (ie) the tag.php file."
+msgstr "Da biste u potpunosti uživali u ovoj funkcionalnosti, kopirajte datoteku u folder IMDb transformatora linka 'theme/taxonomy-genre.php' u 'theme' folder. Priklagodite stranicu i njen dizajn svom ukusu. Dizajn je isti kao datoteka tag.php."
+
+#: inc/help.php:533
+msgid "How to get the movie retrieved automatically according to the post's title?"
+msgstr "Kako da automatski preuzmem film prema naslovu post-a?"
+
+#: inc/help.php:535
+msgid "You have hundreds of posts, carrefully named as they could be found on IMDb, and you don't want to change hundreds of posts. There is a straightforward solution."
+msgstr "Imate stotine post-ova sa pažljivo odabranim nazivima, kao što se mogu naći na IMDb-u i ne želite da menjate stotine post-ova. Postoji jednostavno rešenje."
+
+#: inc/help.php:538
+msgid "Activate Widget option in IMDbLT (it is activated by default), add the IMDbLT Widget to your sidebar, and go to 'Widget/Inside post Options' menu, select 'misc' from the new menu, and select « yes » from « Auto widget? » option at end."
+msgstr "Aktivirajte Widget opciju na IMDbLT-ui (standardno se aktivira), dodajte IMDbLT Widget na traku sa menijem i kliknite na meni 'Widget/Inside post Options', odaberite 'misc' s novog menija, a zatim “yes” iz opcije “Auto widget” na kraju."
+
+#: inc/help.php:546
+msgid "Next time you will look at your post, you will find the widget according to your post’s title."
+msgstr "Kad sledeći put pogledate svoj post, naći ćete widget prema naslovu post-a."
+
+#: inc/popup-imdb_person.php:52
+msgid "Back"
+msgstr "Nazad"
+
+#: inc/popup-imdb_person.php:55
+msgid "Filmography"
+msgstr "Filmografija"
+
+#: inc/popup-imdb_person.php:59
+#: inc/popup-imdb_person.php:238
+msgid "Biography"
+msgstr "Biografija"
+
+#: inc/popup-imdb_person.php:80
+msgid "Born on"
+msgstr "Rođen"
+
+# "in" as in the place of death
+#: inc/popup-imdb_person.php:82
+#: inc/popup-imdb_person.php:87
+msgid "in"
+msgstr "u "
+
+#: inc/popup-imdb_person.php:86
+msgid "Died on"
+msgstr "Umro"
+
+# "cause" as a cause of death
+#: inc/popup-imdb_person.php:88
+msgid "cause"
+msgstr "uzrok"
+
+#: inc/popup-imdb_person.php:211
+msgid "Biographical movies"
+msgstr "biografski filmovi"
+
+#: inc/popup-imdb_person.php:291
+msgid "Nicknames"
+msgstr "Nadimci"
+
+#: inc/popup-imdb_person.php:319
+msgid "Personal quotes"
+msgstr "Citati "
+
+#: inc/popup-imdb_person.php:346
+msgid "Trademarks"
+msgstr "Zaštitni znaci"
+
+#: inc/popup-header.php:47
+msgid "Search"
+msgstr "Pretraga"
+
+#: inc/popup-header.php:81
+msgid "Please wait while data is retrieved... <br />Process can take some time."
+msgstr "Molimo sačekajte dok se podaci ne učitaju… <br /> Proces može malo potrajati."
+
+#: inc/options-cache.php:43
+#: inc/options-cache.php:110
+msgid "Cannot work this way."
+msgstr "Ne funkcioniše na ovaj način."
+
+#: inc/options-cache.php:63
+#: inc/options-cache.php:90
+#: inc/options-cache.php:131
+#: inc/options-cache.php:166
+msgid "This file does not exist"
+msgstr "Datoteka ne postoji."
+
+#: inc/options-cache.php:99
+msgid "Cache successfully deleted, back to the"
+msgstr "Keš uspešno obrisan, vratite se na prethodnu"
+
+#: inc/options-cache.php:99
+msgid "previous page"
+msgstr "stranu"
+
+#: inc/options-cache.php:185
+msgid "Cache succesfully refreshed, close the window."
+msgstr "Keš uspešno osvežen, zatvorite prozor."
+
+#: inc/options-cache.php:222
+msgid "Manage Cache"
+msgstr "Upravljanje kešom"
+
+#: inc/options-cache.php:229
+msgid "Cache is crucial to IMDb link transformer operation. As first imdb searchs are quite time consuming, if you do not want to kill your server but instead want quickest browsing experience, you will use cache. Pay a special attention to directories that need to be created."
+msgstr "Keš je od ključnog značaja za operaciju IMDb transformatora linka. Kao prvo, imdb pretraga troši dosta vremena. Ako ne želite da zaustavite server, već umesto toga, želite najbrže moguće iskustvo pretrage, koristićete keš. Posebno obratite pažnju na direktorijume koje treba kreirati."
+
+#: inc/options-cache.php:243
+msgid "Cache directories (folders have to be created and writable)"
+msgstr "Keš direktorijumi (folderi se moraju kreirati i moraju biti raspoloživi za pisanje)."
+
+#: inc/options-cache.php:248
+msgid "Cache directory (absolute path)"
+msgstr "Keš direktorijum (slobodna putanja)."
+
+#: inc/options-cache.php:256
+#: inc/options-cache.php:257
+#: inc/options-cache.php:297
+#: inc/options-cache.php:298
+msgid "Cache size is currently"
+msgstr "Trenutna veličina keša je"
+
+#: inc/options-cache.php:265
+#: inc/options-cache.php:306
+msgid "Folder exists."
+msgstr "Folder postoji."
+
+#: inc/options-cache.php:269
+#: inc/options-cache.php:310
+msgid "Folder doesn't exist!"
+msgstr "Folder ne postoji!"
+
+#: inc/options-cache.php:274
+#: inc/options-cache.php:315
+msgid "Permissions OK."
+msgstr "Dozvole OK."
+
+#: inc/options-cache.php:278
+#: inc/options-cache.php:319
+msgid "Check folder permissions!"
+msgstr "Proverite dozvole za folder!"
+
+#: inc/options-cache.php:282
+msgid "Absolute path to store data retrieved from the IMDb website. Has to be <a href=\"http://codex.wordpress.org/Changing_File_Permissions\" title=\"permissions how-to on wordpress website\">writable</a> by the webserver."
+msgstr "Slobodna putanja za skladištenje podataka dobijenih sa IMDb web site-a. Mora da bude omogućeno pisanje <a href=\"http://codex.wordpress.org/Changing_File_Permissions\" title=\"permissions how-to on wordpress website\">writable</a> web serveru."
+
+#: inc/options-cache.php:289
+msgid "Photo directory (absolute path)"
+msgstr "Direktorijum fotografija (slobodna putanja)"
+
+#: inc/options-cache.php:323
+msgid "Absolute path to store images retrieved from the IMDb website. Has to be <a href=\"http://codex.wordpress.org/Changing_File_Permissions\" title=\"permissions how-to on wordpress website\">writable</a> by the webserver."
+msgstr "Slobodna putanja za skladištenje slika dobijenih sa IMDb web site-a. Mora da bude omogućeno pisanje<a href=\"http://codex.wordpress.org/Changing_File_Permissions\" title=\"permissions how-to on wordpress website\">writable</a> web serveru."
+
+#: inc/options-cache.php:328
+msgid "Photo directory (url)"
+msgstr "Direktorijum fotografija (url)"
+
+#: inc/options-cache.php:331
+msgid "URL corresponding to photo directory."
+msgstr "URL koji odgovara direktorijumu fotografija."
+
+#: inc/options-cache.php:338
+msgid "Cache general options"
+msgstr "Opšte opcije keša"
+
+#: inc/options-cache.php:343
+msgid "Store cache?"
+msgstr "Sačuvati keš?"
+
+#: inc/options-cache.php:347
+msgid "Use cache?"
+msgstr "Koristiti keš?"
+
+#: inc/options-cache.php:351
+msgid "Cache expire"
+msgstr "Keš ističe"
+
+#: inc/options-cache.php:354
+msgid "(never)"
+msgstr "(nikad)"
+
+#: inc/options-cache.php:360
+msgid "Whether to store the pages retrieved for later use. When activated, you have to check you created the folders"
+msgstr "Da biste sačuvati dobijene stranice za kasniju upotrebu, morate proveriti da li ste kreirali foldere."
+
+#: inc/options-cache.php:360
+msgid "Cache directory"
+msgstr "Direktorijum keša"
+
+#: inc/options-cache.php:360
+msgid "and"
+msgstr "i"
+
+#: inc/options-cache.php:360
+msgid "Photo directory (folder)"
+msgstr "Direktorijum (folder) fotografija"
+
+#: inc/options-cache.php:363
+msgid "Whether to use a cached page to retrieve the information (if available)."
+msgstr "Da li koristiti stranicu keša za povraćaj informacija (ako je raspoloživ)."
+
+#: inc/options-cache.php:366
+msgid "Cache files older than this value (in seconds) will be automatically deleted. Insert \"0\" or click \"never\" to keep cache files forever."
+msgstr "Keš datoteke starije od određene vrednosti (izražene u sekundama) biće automatski obrisane. Unesite \"0\" ili kliknite na \"nikad\" da biste zauvek sačuvali datoteke keša. "
+
+#: inc/options-cache.php:366
+msgid "(one month)"
+msgstr "(jedan mesec)"
+
+#: inc/options-cache.php:372
+msgid "Cache zip options"
+msgstr "Opcije za komprimovanje keša u zip"
+
+#: inc/options-cache.php:376
+msgid "Convert to zip?"
+msgstr "Konvertovati u zip?"
+
+#: inc/options-cache.php:381
+msgid "Use zip?"
+msgstr "Koristiti zip?"
+
+#: inc/options-cache.php:388
+msgid "Convert non-zip cache-files to zip (check file permissions!)"
+msgstr "Konvertovati datoteke keša koje nisu komprimovane (proverite dozvole za datoteke!)"
+
+#: inc/options-cache.php:391
+msgid "Use zip compression for caching the retrieved html-files."
+msgstr "Koristite zip kompresiju za keširanje dobijenih html datoteka."
+
+#: inc/options-cache.php:399
+msgid "Cache details"
+msgstr "Detalji keša"
+
+#: inc/options-cache.php:403
+msgid "Show advanced cache details"
+msgstr "Prikažite napredne detalje keša"
+
+#: inc/options-cache.php:412
+msgid "Quick advanced cache details"
+msgstr "Brzi, napredni detalji keša"
+
+#: inc/options-cache.php:422
+msgid "To show or not advanced cache details, which allows to specifically delete a movie cache. Be carefull with this option, if you have a lot of cached movies, it could crash this page. When yes is selected, an additional menu \"manage cache\" will appear next to the cache \"General Options\" menu."
+msgstr "Da biste prikazali napredne detalje keša ili da biste ih sakrili, čime vam omogućava da obrišete samo keš filma. Budite pažljivi kad je reč o ovoj opciji ako imate mnogo keširanih filmova, to bi moglo da sruši čitavu stranicu. Ako je obeležena opcija ‘yes’, dodatni meni \"manage cache\" pojaviće se pored menija keša \"General Options\"."
+
+#: inc/options-cache.php:425
+msgid "Allow a quicker load time for the \"manage cache\" page, by displaying shorter movies and people presentation. Usefull when you have several of those. This option is available when \"Show advanced cache details\" is activated."
+msgstr "Omogućite brže učitavanje stranice  \"manage cache\" tako što ćete prikazati kraće prezentacije filmova i ljudi. Korisno je kad ih imate nekoliko. Ova opcija je raspoloživa u slučaju da je aktivirana opcija   \"Show advanced cache details\"."
+
+#: inc/options-cache.php:476
+msgid "Movie's detailed cache"
+msgstr "Detaljan keš filma"
+
+#: inc/options-cache.php:477
+msgid "If you want to refresh movie's cache regardless the cache expiration time, you may either tick movie's checkbox(es) related to the movie you want to delete and click on \"delete cache\", or you may click on individual movies \"refresh\". The first way will require an additional movie refresh - from you post, for instance."
+msgstr "Ako hoćete da osvežite keš filma bez obzira na vreme kad keš ističe, možete da označite polja za štikliranje u vezi s filmom koji želite da obrišete, a zatim da kliknete na \"delete cache\" ili možete kliknuti na \"refresh\" pojedinačnih filmova. Prvi način zahtevaće dodatno osvežavanje filma - na primer, iz vašeg posta."
+
+#: inc/options-cache.php:480
+#: inc/options-cache.php:570
+msgid "You may also either delete individually the cache or by group."
+msgstr "Takođe, možete obrisati pojedinačni ili grupni keš."
+
+#: inc/options-cache.php:511
+#: inc/options-cache.php:602
+msgid "last updated on "
+msgstr "poslednji put ažurirano"
+
+#: inc/options-cache.php:514
+#: inc/options-cache.php:605
+msgid "refresh"
+msgstr "osveži"
+
+#: inc/options-cache.php:517
+#: inc/options-cache.php:607
+msgid "delete"
+msgstr "obriši"
+
+#: inc/options-cache.php:529
+#: inc/options-cache.php:618
+msgid "No file found in cache folder."
+msgstr "U keš folderu nije pronađena nijedna datoteka."
+
+#: inc/options-cache.php:554
+#: inc/options-cache.php:640
+msgid "Delete cache"
+msgstr "Obriši keš"
+
+#: inc/options-cache.php:556
+#: inc/options-cache.php:642
+#: inc/options-cache.php:655
+msgid "Warning!"
+msgstr "Upozoreje!"
+
+#: inc/options-cache.php:557
+#: inc/options-cache.php:643
+msgid "This button will to delete specific cache files selected from cache folder."
+msgstr "Ovaj taster obrisaće određene keš datoteke odabrane u keš folderu."
+
+#: inc/options-cache.php:567
+msgid "People's detailed cache"
+msgstr "Detaljan keš o ljudima"
+
+#: inc/options-cache.php:568
+msgid "If you want to refresh people's cache regardless the cache expiration time, you may either tick people checkbox(es) related to the person you want to delete and click on \"delete cache\", or you may click on individual people's \"refresh\". The first way will require an additional people refresh - from you post, for instance."
+msgstr "Ako želite da osvežite keš o ljudima bez obzira na vreme isteka keša, možete štiklirati polja u vezi s osobom koju brišete i da odaberete opciju  \"delete cache\" ili možete kliknuti na pojedine ljude i odabrati \"refresh\". Prvi način zahtevaće dodatno osvežavanje ljudi - na primer, iz vašeg post-a."
+
+#: inc/options-cache.php:652
+msgid "Global cache"
+msgstr "Opšti keš"
+
+#: inc/options-cache.php:653
+msgid "If you want to reset the entire cache (including names & pictures cache) click on \"reset cache\". Beware, there is no undo."
+msgstr "Ako želite da vratite celokupni keš na podrazumevane vrednosti (uključujući imena i slike), kliknite na \"reset cache\". Pazite, ova komanda ne može se poništiti."
+
+#: inc/options-cache.php:662
+msgid "Delete all cache"
+msgstr "Obrišite ceo keš"
+
+#: inc/options-cache.php:664
+msgid "This button will <strong>delete all cache</strong> stored in cache folder."
+msgstr "Ovaj taster <strong>obrisaće celokupan keš</strong> u keš folderu."
+
+#: inc/options-cache.php:675
+msgid "A cache folder has to be created and the cache storage option has to be activated before having the opportunity to manage cache!"
+msgstr "Mora se kreirati keš folder i aktivirati opcija skladištenja keša pre nego što dobijete mogućnost upravljanja kešom."
+
+#: inc/functions.php:58
+#: inc/functions.php:242
+#: inc/functions.php:273
+#: inc/imdb-movie.inc.php:473
+#: inc/imdb-movie.inc.php:572
+#: inc/imdb-movie.inc.php:615
+#: inc/imdb-movie.inc.php:659
+#: inc/imdb-movie.inc.php:705
+#: inc/imdb-movie.inc.php:754
+msgid "open a new window with IMDb informations"
+msgstr "otvorite novi prozor sa IMDb podacima"
+
+#: inc/functions.php:76
+msgid "<strong>Licensing Info:</strong> Under the GPL licence, \"IMDb link transformer\" is based on <a href=\"http://www.izzysoft.de\">imdbphp project</a> classes. However, a huge customization work has been required to implement it to wordpress; check support page for"
+msgstr "<strong>Informacija o licenci:</strong> Pod GPL licencom \"IMDb link transformer\" zasniva se na imdbphp klasama projekta. Međutim, da bi se implementirao u Workpress, bilo je potrebno opsežno prilagođavanje; pogledajte stranicu za podršku"
+
+#: inc/functions.php:76
+msgid "more"
+msgstr "više"
+
+#: inc/functions.php:161
+msgid "Movie's titles"
+msgstr "naziv filma"
+
+#: inc/functions.php:164
+msgid "Movie's genres"
+msgstr "žanr filma"
+
+#: inc/functions.php:167
+msgid "Movie's keywords"
+msgstr ""
+
+#: inc/functions.php:170
+msgid "Movie's countries"
+msgstr "država"
+
+#: inc/functions.php:173
+msgid "Movie's languages"
+msgstr "jezik filma"
+
+#: inc/functions.php:176
+msgid "Movie's composers"
+msgstr "kompozitori muzike u filmu"
+
+#: inc/functions.php:179
+msgid "Movie's colors"
+msgstr "boje filma "
+
+#: inc/functions.php:182
+msgid "Movie's directors"
+msgstr "režiseri filma"
+
+#: inc/functions.php:185
+msgid "Movie's creators"
+msgstr "kreatori filma"
+
+#: inc/functions.php:188
+msgid "Movie's producers"
+msgstr "producenti filma"
+
+#: inc/functions.php:191
+msgid "Movie's actors"
+msgstr "glumci filma"
+
+#: inc/functions.php:194
+msgid "Movie's writers"
+msgstr "scenaristi filma"
+
+#: inc/widget.php:25
+msgid "IMDb data"
+msgstr "IMDb podaci"
+
+#: inc/widget.php:86
+msgid "Title:"
+msgstr "Naslov"
+
+#: inc/imdb-movie.inc.php:240
+msgid "votes, average "
+msgstr "glasovi, prosečno"
+
+#: inc/imdb-movie.inc.php:242
+msgid "(max 10)"
+msgstr "(maksimum 10)"
+
+#: inc/imdb-movie.inc.php:245
+msgid "vote average "
+msgstr "prosečan glas"
+
+# as "10 out of 10"
+#: inc/imdb-movie.inc.php:245
+msgid " out of 10"
+msgstr "od 10"
+
+#: inc/imdb-movie.inc.php:246
+msgid "votes"
+msgstr "glasovi"
+
+#: inc/imdb-movie.inc.php:287
+msgid "Keyword"
+msgid_plural "Keywords"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/imdb-movie.inc.php:330
+msgid "User's comment"
+msgid_plural "User's comments"
+msgstr[0] "komentar korisnika"
+msgstr[1] "komentar korisnika"
+
+#: inc/imdb-movie.inc.php:355
+msgid "Quote"
+msgid_plural "Quotes"
+msgstr[0] "Citat"
+msgstr[1] "Citat"
+
+#: inc/imdb-movie.inc.php:376
+#: inc/options-widget.php:222
+#: inc/options-widget.php:223
+msgid "Tagline"
+msgid_plural "Taglines"
+msgstr[0] "Osnovna poruka"
+msgstr[1] "Osnovna poruka"
+
+#: inc/imdb-movie.inc.php:391
+msgid "Trailer"
+msgid_plural "Trailers"
+msgstr[0] "Pregled"
+msgstr[1] "Pregled"
+
+#: inc/imdb-movie.inc.php:440
+#: inc/options-widget.php:238
+#: inc/options-widget.php:239
+msgid "Also known as"
+msgstr "Alternativni naslovi"
+
+#: inc/imdb-movie.inc.php:461
+#: inc/options-widget.php:256
+#: inc/options-widget.php:257
+msgid "Composer"
+msgid_plural "Composers"
+msgstr[0] "Kompozitor"
+msgstr[1] "Kompozitor"
+
+#: inc/imdb-movie.inc.php:475
+#: inc/imdb-movie.inc.php:574
+#: inc/imdb-movie.inc.php:617
+#: inc/imdb-movie.inc.php:661
+#: inc/imdb-movie.inc.php:707
+#: inc/imdb-movie.inc.php:756
+msgid "Link to local imdb"
+msgstr "Link za lokalni imdb"
+
+#: inc/imdb-movie.inc.php:537
+msgid "Official website"
+msgid_plural "Official websites"
+msgstr[0] "Zvanični site"
+msgstr[1] "Zvanični site"
+
+#: inc/imdb-movie.inc.php:601
+#: inc/options-widget.php:116
+#: inc/options-widget.php:117
+msgid "Creator"
+msgid_plural "Creators"
+msgstr[0] "Kreator"
+msgstr[1] "Kreator"
+
+#: inc/imdb-movie.inc.php:737
+#: inc/options-widget.php:97
+#: inc/options-widget.php:98
+msgid "Actor"
+msgid_plural "Actors"
+msgstr[0] "Glumac"
+msgstr[1] "Glumac"
+
+#: inc/imdb-movie.inc.php:812
+#: inc/options-widget.php:337
+#: inc/options-widget.php:338
+msgid "Source"
+msgstr "Izvor"
+
+#: inc/options-widget.php:23
+#: inc/options-widget.php:49
+msgid "What to display"
+msgstr "Šta prikazati"
+
+#: inc/options-widget.php:25
+msgid "What to taxonomize"
+msgstr "Šta uneti u taksonomiju"
+
+#: inc/options-widget.php:27
+msgid "Taxonomy unactivated"
+msgstr "Taksonomija neaktivirana"
+
+#: inc/options-widget.php:29
+msgid "Display order"
+msgstr "Prikaži red"
+
+#: inc/options-widget.php:37
+msgid "<i>Widget</i> and <i>Inside a post</i> settings"
+msgstr "<i>Widget</i> i <i>Inside a post</i> postavke"
+
+#: inc/options-widget.php:54
+#: inc/options-widget.php:55
+msgid "Title"
+msgstr "Naslov"
+
+#: inc/options-widget.php:60
+#: inc/options-widget.php:61
+msgid "Picture"
+msgstr "Slika"
+
+#: inc/options-widget.php:74
+msgid "Display the title"
+msgstr "Prikaži naslov"
+
+#: inc/options-widget.php:75
+msgid "Display the picture"
+msgstr "Prikaži sliku"
+
+#: inc/options-widget.php:76
+msgid "Display the runtime"
+msgstr "Prikaži vreme trajanja"
+
+#: inc/options-widget.php:107
+msgid "Display directors"
+msgstr "Prikaži režisere"
+
+#: inc/options-widget.php:108
+msgid "Display country"
+msgstr "Prikaži državu"
+
+#: inc/options-widget.php:109
+msgid "Display (how many) actors"
+msgstr "Prikaži koliko ima glumaca"
+
+#: inc/options-widget.php:138
+msgid "Display Creator"
+msgstr "Prikaži kreatora"
+
+#: inc/options-widget.php:140
+msgid "Display release year. Year will appear next title's movie, in brackets."
+msgstr "Prikaži godinu prikazivanja. Godina će se pojaviti pored naziva filma, u zagradama."
+
+#: inc/options-widget.php:142
+msgid "Display genre(s)"
+msgstr "Prikaži žanr/žanrove"
+
+#: inc/options-widget.php:175
+msgid "Display writers"
+msgstr "Prikaži scenariste"
+
+#: inc/options-widget.php:176
+msgid "Display producer(s)"
+msgstr "Prikaži producente"
+
+#: inc/options-widget.php:177
+msgid "Display plot(s). Be careful, this field may need a lot of space. In ideal case, this plugin is used inside a post and not into a widget."
+msgstr "Prilkaži siže(e). Budite pažljivi, možda će vam biti potrebno više prostora za ovo polje. U idealnom slučaju, ovaj plugin koristi se u post-u, a ne u widget-u."
+
+#: inc/options-widget.php:185
+#: inc/options-widget.php:186
+msgid "Goofs"
+msgstr "Greške"
+
+#: inc/options-widget.php:194
+#: inc/options-widget.php:195
+msgid "Users comment"
+msgstr "Komentari korisnika"
+
+#: inc/options-widget.php:203
+#: inc/options-widget.php:204
+msgid "Quotes"
+msgstr "Citati"
+
+#: inc/options-widget.php:213
+msgid "Display (how many) goof"
+msgstr "Prikaži greške (i njihov broj)"
+
+#: inc/options-widget.php:214
+msgid "Display (how many) users' comments"
+msgstr "Prikaži komentare korisnika (i broj komentara)"
+
+#: inc/options-widget.php:215
+msgid "Display (how many) quotes from movie"
+msgstr "Prikaži citate iz filma (i njihov broj)"
+
+#: inc/options-widget.php:231
+#: inc/options-widget.php:232
+#: inc/options-widget.php:385
+msgid "Colors"
+msgstr "Boje"
+
+#: inc/options-widget.php:246
+msgid "Display (how many) tagline"
+msgstr "Prikaži osnovnu poruku (i broj)"
+
+#: inc/options-widget.php:247
+msgid "Display colors"
+msgstr "Prikaži boje"
+
+#: inc/options-widget.php:248
+msgid "Display all movie's names"
+msgstr "Prikaži sve nazive filma"
+
+#: inc/options-widget.php:272
+#: inc/options-widget.php:273
+msgid "Trailers"
+msgstr "Trailer-i"
+
+#: inc/options-widget.php:283
+msgid "Display composer"
+msgstr "Prikaži kompozitora"
+
+#: inc/options-widget.php:284
+msgid "Display (how many) soundtrack"
+msgstr "Prikaži muziku iz filma "
+
+#: inc/options-widget.php:285
+msgid "Display (how many) trailers"
+msgstr "Pokažite koliko ima trailer-a"
+
+#: inc/options-widget.php:293
+#: inc/options-widget.php:294
+msgid "Official websites"
+msgstr "Zvanični web site-ovi"
+
+#: inc/options-widget.php:316
+msgid "Display official websites"
+msgstr "Prikažite zvanične web site-ove"
+
+#: inc/options-widget.php:319
+msgid "Display rating"
+msgstr "Prikažite ocene"
+
+#: inc/options-widget.php:322
+msgid "Display language(s)"
+msgstr "Prikažite jezik(e)"
+
+#: inc/options-widget.php:330
+#: inc/options-widget.php:331
+#: inc/options-widget.php:460
+msgid "Keywords"
+msgstr ""
+
+#: inc/options-widget.php:348
+msgid "Display keywords"
+msgstr ""
+
+#: inc/options-widget.php:349
+msgid "Display website source at the end of the post"
+msgstr "Prikažite web izvor na kraju post-a"
+
+#: inc/options-widget.php:360
+msgid "Please <a href=\"?page=imdblt_options&generaloption=advanced\">activate taxonomy</a> priorly<br /> to access taxonomies options."
+msgstr "Molim vas,<a href=\"?page=imdblt_options&generaloption=advanced\"> aktivirajte taksonomiju</a> pre nego<br /> što pristupite opcijama taksonomije"
+
+#: inc/options-widget.php:364
+msgid "Select details to use as taxonomy"
+msgstr "Odaberite detalje koji će se koristiti za taksonomiju"
+
+#: inc/options-widget.php:367
+msgid "Use the checkbox to display (or not) details. When activated, details names are turned to blue. Check the box to turn it back to black (and thus deactivating detail as taxonomy)."
+msgstr "Koristite polje za štikliranje da biste prikazali (ili sakrili) detalje. Kad su aktivirani, detalji su obojeni plavom bojom. Štiklirajte polje da biste ih vratili u crnu boju (i tako deaktivirali detalj kao taksonomiju)."
+
+#: inc/options-widget.php:369
+msgid "Select cautiously options you want to be displayed as taxonomies: it could happen it creates a conflict with other functions, especially if you display many movies in same post. When selecting one of the following taxonomy options, it will supersede any other function or link created; for instance, you won't have anymore access to popup links for directors, if directors taxonomy is chosen. Taxonomy will always prevail."
+msgstr "Pažljivo odaberite opcije za koje želite da budu prikazane kao taksonomije: može se desiti da dođu u sukob s drugim funkcijama, naročito ako u istom post-u prikažete veliki broj filmova. Kad odaberete jednu od sledećih opcija taksonomije, ona će zameniti bilo koju funkciju ili kreirani link. Na primer, više nećete imati pristup iskačućim linkovima za režisere ako je odabrana taksonomija režisera. Taksonomija će uvek imati prednost."
+
+#: inc/options-widget.php:391
+msgid "Composers"
+msgstr "Kompozitori"
+
+#: inc/options-widget.php:401
+msgid "Creators"
+msgstr "Kreatori"
+
+#: inc/options-widget.php:408
+msgid "Countries"
+msgstr "Države"
+
+#: inc/options-widget.php:415
+msgid "Directors"
+msgstr "Režiseri"
+
+#: inc/options-widget.php:425
+msgid "Genres"
+msgstr "Žanrovi"
+
+#: inc/options-widget.php:432
+msgid "Languages"
+msgstr "Jezici"
+
+#: inc/options-widget.php:438
+msgid "Producers"
+msgstr "Producenti"
+
+#: inc/options-widget.php:448
+msgid "Titles"
+msgstr "Nazivi"
+
+#: inc/options-widget.php:454
+msgid "Writers"
+msgstr "Scenaristi"
+
+#: inc/options-widget.php:476
+msgid "Position of data"
+msgstr "Pozicija podataka"
+
+#: inc/options-widget.php:481
+msgid "You can select the order for the information selected from \"what to display\" section. Select first the movie detail you want to move, use \"up\" or \"down\" to reorder IMDb Link Transformer display. Once you are happy with the new layout, click on \"update settings\" to keep it."
+msgstr "Možete selektovati redosled odabranih podataka iz odeljka  \"what to display\". Prvo, odaberite detalj koji želite da pomerite, upotrebite \"up\" ili \"down\" da biste promenili raspored prikazivanja IMDb transformatora linka. Kad budete zadovoljni novim rasporedom, kliknite na \"update settings\" da biste ga sačuvali."
+
+#: inc/options-widget.php:483
+msgid "\"Source\" movie detail cannot be selected; if it is selected from \"what to display\" section, it will always appear after others movie details"
+msgstr "Detalj filma \"Source\" ne može biti izabran; ako birate iz odeljka  \"what to display\", uvek će se prikazivati posle drugih detalja o filmu. "
+
+#: inc/options-widget.php:529
+msgid "Remove all links?"
+msgstr "Ukloniti sve linkove?"
+
+#: inc/options-widget.php:534
+msgid "Auto widget?"
+msgstr "Automatski widget?"
+
+#: inc/options-widget.php:544
+msgid "Remove all links (popup and external ones) which are automatically added. Especially made for people who are not interested in popup function, but it will remove every single HTML link too."
+msgstr "Uklonite sve linkove (iskačiće prozore i eksterne) koji su dodati automatski. Ova funkcija posebno je osmišljena za ljude koji nisu zainteresovani za funkcije iskačućeg prozora, ali će istovremeno ukloniti i svaki pojedini HTML link."
+
+#: inc/options-widget.php:548
+msgid "Add automatically a widget according to post title. If 'imdb-movie-widget' or 'imdb-movie-widget-bymid' have also been added to post, the auto widget will be displayed before them."
+msgstr "Automatski dodajte widget prema naslovu post-a. Ako su post-u dodati 'imdb-movie-widget' ili 'imdb-movie-widget-bymid', automatski widget biće prikazan pre njih."
+
+#: theme/taxonomy-genre.php:19
+msgid "Taxonomy"
+msgstr "Taksonomija"
+
+#: theme/taxonomy-genre.php:27
+msgid "Permanent Link to "
+msgstr "Stalni link za "
+
+#: theme/taxonomy-genre.php:38
+msgid "Filed under: "
+msgstr "Zavedeno pod"
+
+#: theme/taxonomy-genre.php:42
+msgid "Tags: "
+msgstr "Oznake"
+
+#: theme/taxonomy-genre.php:46
+msgid "Taxonomy: "
+msgstr "Taxonomy: "
+
+#: theme/taxonomy-genre.php:54
+msgid "No post found."
+msgstr "Nijedan post nije pronađen."
+
+#~ msgid "Get rid of IMDb"
+#~ msgstr "Oslobodite se IMDb-a"
+
+#~ msgid ""
+#~ "IMDb LT can use sources other than IMDb. Select here if you want to get "
+#~ "rid of IMDb website as the main information source."
+#~ msgstr ""
+#~ "IMDb LTmože da koristi i druge izvore osim IMDb-a. Štiklirajte ovde ako "
+#~ "želite da se oslobodite IMDb web site-a kao glavnog izvora informacija."
+
+#~ msgid "Search, moviepilot part"
+#~ msgstr "Pretraži moviepilot deo"
+
+#~ msgid "MoviePilot language"
+#~ msgstr "MoviePilot jezik"
+
+#~ msgid "IMDb behaviour"
+#~ msgstr "IMDb ponašanje"
+
+#~ msgid "API Pilot key"
+#~ msgstr "Ključ za API Pilot "
+
+#~ msgid ""
+#~ "Moviepilot website offers many languages to switch to. Make your "
+#~ "selection, and data will be rendered in language selected."
+#~ msgstr ""
+#~ "Moviepilot web site nudi mogućnost prebacivanja na različite jezike. "
+#~ "Napravite izbor i podaci će biti prebačeni na odabrane jezike."
+
+#~ msgid ""
+#~ "If MoviePilot is missing data (i.e. it does not provide a detail at all, "
+#~ "as user's comments), should the API try to substitute them via the IMDB "
+#~ "class? To define this, you should use the following constants:\n"
+#~ "<UL><LI>NO Access - don't access IMDb.com at all</LI>\n"
+#~ "\t<LI>BASIC Access - access it only for very basic data. This means very "
+#~ "non-descriptive stuff, like e.g. MPAA/FSK.</LI>\n"
+#~ "\t<LI>MEDIUM Access - something more than BASIC, but ommit 'traceable' "
+#~ "stuff like full descriptions, IMDb ratings, and the like</LI>\n"
+#~ "\t<LI>FULL Access - get all we can get</LI></UL>"
+#~ msgstr ""
+#~ "Ako nema detalja na site-u MoviePilot (tj. ako uopšte ne prikazuje "
+#~ "detalje, kao što su komentari korisnika) da li API treba da pokuša da ih "
+#~ "zameni putem IMDB klase? Da biste to odredili, koristite sledeće "
+#~ "kontante: \n"
+#~ "<UL><LI>NO Access - uopšte nema pristupa na IMDb.com </LI>\n"
+#~ "\t<LI>BASIC Acces - ima pristup, ali samo određenim podacima. To "
+#~ "podrazumeva podatke koji nisu opisni, kao što je npr. MPAA/FSK.</LI>\n"
+#~ "\t<LI>MEDIUM Access - malo širi pristup od osnovnog, ali bez punih opisa, "
+#~ "IMDb ocena i sl. </LI>\n"
+#~ "\t<LI>FULL Access - omogućava da dobijemo sve što je raspoloživo</LI></UL>"
+
+#~ msgid ""
+#~ "API Pilot key is usefull when data are not - either partially or "
+#~ "completely - extracted from IMDb website (see \"Get rid of IMDb\" "
+#~ "option). Look at help (how to) section for a guideline."
+#~ msgstr ""
+#~ "Ključ za API Pilot koristan je kad podaci nisu (delimično ili u celosti) "
+#~ "izvučeni sa IMDb web site-a (pogledajte opciju: \"Oslobodi se IMDb-a\"). "
+#~ "Pogledajte u odeljku za pomoć kako da to uradite.  "
+
+#~ msgid "Movie connection"
+
+#~ msgid_plural "Movie connections"
+#~ msgstr[0] "Veza filma"
+#~ msgstr[1] "Veza filma"
+
+#~ msgid "This option is currently broken."
+#~ msgstr "Ova opcija trenutno ne radi"
+
+#~ msgid "Display (how many) movie connections"
+#~ msgstr "Prikaži veze filma (i koliko ih ima)"
+
+#~ msgid "Support"
+#~ msgstr "Aide"
+
+#~ msgid "Use a website other than IMDb"
+#~ msgstr "Utiliser un autre site internet que IMDb"
+
+#~ msgid "Order's display"
+#~ msgstr "Ordre d'affichage"
+
+#~ msgid "Display plugin options in big admin menu"
+#~ msgstr "Afficher le grand menu d'administration du plugin"
+
+#~ msgid "Cache delete"
+#~ msgstr "Effacement du Cache"
+
+#~ msgid "Manage cache files & folders"
+#~ msgstr "Gestion des fichiers & r&eacute;pertoires de cache"
+
+#~ msgid ""
+#~ "If you want to do a movie cache refresh even though movie cache has not "
+#~ "yet expired, select movie corresponding and click on \"update cache\"."
+#~ msgstr ""
+#~ "Si vous souhaitez faire un rafra&icirc;chissement du cache de film alors "
+#~ "m&ecirc;me que le cache n'a pas expir&eacute;, s&eacute;lectionnez le "
+#~ "film correspondant et cliquez sur \"mettre &agrave; jour\"."
+
+#~ msgid ""
+#~ "Note that not all cache will be deleted, as names cache (directors, "
+#~ "actors, etc) and movies pictures will still be kept."
+#~ msgstr ""
+#~ "Notez que tout le cache n'est pas effac&eacute;, et que le cache "
+#~ "concernant les noms (r&eacute;alisateur, acteurs, etc) and les images de "
+#~ "films sont gard&eacute;s."
+
+#~ msgid "Settings"
+#~ msgstr "Options"
+
+#~ msgid "Taxonomy Wordpress capability - adding genre from IMDb"
+#~ msgstr "La fonction Wordpress taxonomie - ajouter les genres de l'IMDb"
+
+#~ msgid "yes"
+#~ msgstr "oui"
+
+#~ msgid "Writer(s)"
+#~ msgstr "Auteur(s)"
+
+#~ msgid "Producer(s)"
+#~ msgstr "Producteur(s)"
+
+#~ msgid "This is the moviepilot server to use."
+#~ msgstr "Le serveur moviepilot &agrave; utiliser."
+
+#~ msgid "no"
+#~ msgstr "non"
+
+#~ msgid "User(s) comment"
+#~ msgstr "Commentaire(s) des utilisateurs"

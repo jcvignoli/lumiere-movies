@@ -1,0 +1,9 @@
+{
+    "require": {
+        "imdbphp/imdbphp": "dev-master",
+	"wp-cli/wp-cli-bundle": "*"
+    },
+    "require-dev": {
+        "wpreadme2markdown/wpreadme2markdown": "^3.1"
+    }
+}
