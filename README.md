@@ -1,14 +1,14 @@
 # Lumiere Movies
 
 **Contributors:** jcv \
-**Donate link:** https://www.paypal.me/jcvignoli and https://en.tipeee.com/lost-highway
-Author URI: https://www.jcvignoli.com/blog
-Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
-Version: 3.0
-**Tags:**  cinema, film, imdb, link, movie, plugin, review, tag, widget, taxonomy, popup, modal window \
-**Requires at least:** 5.7 \
+**Donate link:** https://www.paypal.me/jcvignoli and https://en.tipeee.com/lost-highway \
+**Tags:** cinema, film, imdb, link, movie, plugin, review, tag, widget, taxonomy, popup, modal window \
+**Requires at least:** 3.0 \
 **Tested up to:** 5.7.1 \
-**Stable tag:** 3.0
+**Stable tag:** 3.0 \
+**Requires PHP:** 7.0 \
+**License:** GPLv3 \
+**License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html
 
 Lumiere Movies retrieves information from www.imdb.com into your blog. Cache management, widget available, this is the most versatile and comprehensive plugin to retrieve data from IMDb. "Lumiere Movies" is the continuation of "IMDb Link Transformer" plugin.
 
@@ -136,11 +136,11 @@ Major changes:
 
 ### 3.0
 
-Major update, plugin vastly rewritten. Expected to be compliant with Content Security Policy. Too many changes to be listed. Check the [changelog](https://svn.wp-plugins.org/lumiere-movies/trunk/changelog.txt "latest changelog").
+Major update, plugin vastly rewritten. Name IMDb Link Transformer changed to Lumiere Movies. Should be Content Security Policy (CSP) compliant. Too many changes to be listed. Check the [changelog](https://svn.wp-plugins.org/lumiere-movies/trunk/changelog.txt "latest changelog").
 
 ### 2.1.3
 
-Changed the way to use highslide js (on Wordpress request, piece of code not GPL compliant); it is mandatory now to download the library from [Lumiere Movies website](https://www.jcvignoli.com/blog/wp-content/files/wordpress-lumiere-movies-highslide.zip "Lumiere Movies website") in order to get this damn cool window. Once the file downloaded, put the folder "highslide" into the "js" one and check general options in order to activate it
+Changed the way to use highslide js; it is mandatory now to download the library from [Lumiere Movies website](https://www.jcvignoli.com/blog/wp-content/files/wordpress-lumiere-movies-highslide.zip "Lumiere Movies website") in order to get this damn cool window. Once the file downloaded, put the folder "highslide" into the "js" one and check general options in order to activate it
 
 ### 2.0.2
 
