@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: IMDb Link Transformer\n"
+"Project-Id-Version: Lumiere Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-12 21:14-0400\n"
-"PO-Revision-Date: 2021-05-12 22:29-0400\n"
+"POT-Creation-Date: 2021-05-13 00:53-0400\n"
+"PO-Revision-Date: 2021-05-13 00:53-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -42,12 +42,18 @@ msgid "All cache deleted."
 msgstr "Tout le cache a &eacute;t&eacute; effac&eacute;."
 
 #: config.php:354
-msgid "Part cache deleted."
-msgstr "Cache partiellement effac&eacute;."
+#, fuzzy
+#| msgid "All cache deleted."
+msgid "Selected cache deleted."
+msgstr "Tout le cache a &eacute;t&eacute; effac&eacute;."
 
 #: config.php:389
 msgid "General Options"
 msgstr "Options g&eacute;n&eacute;rales"
+
+#: config.php:395 config.php:398 config.php:402 config.php:406
+msgid "pics/admin-widget-inside.png"
+msgstr ""
 
 #: config.php:396 config.php:399 config.php:403 config.php:407
 msgid "Widget/Inside post Options"
@@ -2716,6 +2722,9 @@ msgstr ""
 msgid ""
 "Drag widgets here to remove them from the sidebar but keep their settings."
 msgstr ""
+
+#~ msgid "Part cache deleted."
+#~ msgstr "Cache partiellement effac&eacute;."
 
 #~ msgid "IMDb link transformer help"
 #~ msgstr "Aide IMDb link transformer"
