@@ -28,6 +28,7 @@ if (class_exists("imdb_settings_conf")) {
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
 	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
+	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
 }
 
 # Initialization of IMDBphp

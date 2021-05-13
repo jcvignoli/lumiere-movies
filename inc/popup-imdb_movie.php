@@ -27,6 +27,7 @@ if (class_exists("imdb_settings_conf")) {
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
 	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
+	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
 }
 
 $movieid_sanitized = filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT) ?? NULL;
@@ -70,8 +71,16 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 
 	//require_once ('popup-header.php'); 
 	get_header(); 
+
+	// if no movie was found at all
+	if (empty($movie) ){
+		echo "<h1 align='center'>".esc_html__( "No result found for", "imdb")." <i>".$filmid_sanitized."</i></h1>";
+		wp_footer(); 
+		die();
+	}
+
 ?>
-<h1><?php esc_html_e('Results related to', 'imdb'); echo " " . sanitize_text_field( $movie->title() ); ?></h1>
+<h1 align="center"><?php esc_html_e('Results related to', 'imdb'); echo " <i>" . sanitize_text_field( $movie->title() ); ?></i></h1>
 
 <table class='TableListeResultats'>
 	<tr>
@@ -508,7 +517,7 @@ echo '/ >'; ?>
 		<td colspan="2" class="TitreSousRubriqueColDroite">
 			<li>
 				<?php for ($i = 1; $i < count ($plot); $i++) {
-					echo "<strong>($i)</strong> ".sanitize_text_field( $plot[$i] )."<br /><br />"; 
+					echo "<strong>($i)</strong> ". $plot[$i] ."<br /><br />"; 
 				};?>
 			</li>
 		</td>

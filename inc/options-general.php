@@ -253,7 +253,7 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 <?php /* 2021 05 10 unactivated
 				<div class="explain"><?php esc_html_e( "This is the imdb server to use. The localized ones (i.e. italian and german) are only qualified to find the movies ID - but parsing for the details will fail at the moment.", 'imdb'); ?></div>
 */ ?>
-				<div class="explain"><?php esc_html_e( 'Moviename search variant. There are different ways of searching a movie name, with slightly differing result sets. Set the variant you prefer.', 'imdb'); ?></div>
+				<div class="explain"><?php esc_html_e( 'Language of the title search results.', 'imdb'); ?></div>
 
 			</td>
 			<td class="td-aligntop">
