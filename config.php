@@ -1,7 +1,6 @@
 <?php
-
  #############################################################################
- # IMDb Link transformer                                                     #
+ # Lumiere Movies                                                            #
  # written by Prometheus group                                               #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
@@ -22,10 +21,11 @@ define('IMDBLTABSPATH', str_replace("\\","/", WP_PLUGIN_DIR . '/' . plugin_basen
 define('IMDBBLOG', "https://www.jcvignoli.com/blog");
 define('IMDBHOMEPAGE', IMDBBLOG . '/lumiere-movies-wordpress-plugin');
 define('IMDBPHP_CONFIG',dirname(__FILE__) . '/config.php');
-// use the original class in src/Imdb/Config.php
-use \Imdb\Config;
 
 #--------------------------------------------------=[ configuration class ]=--
+
+// use the original class in src/Imdb/Config.php
+use \Imdb\Config;
 
 class imdb_settings_conf extends mdb_config {
 
@@ -86,7 +86,7 @@ class imdb_settings_conf extends mdb_config {
 	#--------------------------------------------------=[ Cache ]=--
 	'imdbcachedir' => IMDBLTABSPATH . 'cache/',
 	'imdbphotoroot' => IMDBLTABSPATH . 'cache/images/',
-	'imdbphotodir' => IMDBLTABSPATH . 'cache/images/',
+	'imdbphotodir' => IMDBLTURLPATH . 'cache/images/',
 	'imdbstorecache' => true,
 	'imdbusecache' => true,
 	'imdbconverttozip' => true,
@@ -379,7 +379,7 @@ class imdb_settings_conf extends mdb_config {
 
 <div class=wrap>
 	<?php screen_icon('options-general'); ?>
-	<h2>IMDb link transformer options</h2>
+	<h2>Lumiere Movies options</h2>
 	<br />
 
 	<div class="subpage">
@@ -412,8 +412,8 @@ class imdb_settings_conf extends mdb_config {
 	</div>
 	<div align="right" >
 		&nbsp;&nbsp;<img src="<?php echo IMDBLTURLPATH; ?>pics/admin-help.png" align="absmiddle" width="16px" />&nbsp;
-		<a title="<?php esc_html_e( 'How to use IMDb link transformer, check FAQs & changelog', 'imdb');?>" href="<?php echo admin_url(); ?>admin.php?page=imdblt_options&subsection=help">
-			<?php esc_html_e( 'IMDb link transformer help', 'imdb'); ?>
+		<a title="<?php esc_html_e( 'How to use Lumiere Movies, check FAQs & changelog', 'imdb');?>" href="<?php echo admin_url(); ?>admin.php?page=imdblt_options&subsection=help">
+			<?php esc_html_e( 'Lumiere Movies help', 'imdb'); ?>
 		</a>
 	</div>
 	</div>

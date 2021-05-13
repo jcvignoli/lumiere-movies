@@ -352,13 +352,13 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		</tr>
 		<tr>
 			<td class="td-aligntop">
-				<label for="imdb_imdbphotodir">
+				<label for="imdb_imdbphotoroot">
 				<?php esc_html_e('Photo directory (absolute path)', 'imdb'); ?>
 					<br />
 					<span class="imdblt_smaller">
 					<?php						// display cache folder size
-					if (!imdblt_isEmptyDir($imdbOptionsc['imdbphotodir'], "2")) { // from functions.php
-						foreach (glob($imdbOptionsc['imdbphotodir']."*") as $filename) {
+					if (!imdblt_isEmptyDir($imdbOptionsc['imdbphotoroot'], "2")) { // from functions.php
+						foreach (glob($imdbOptionsc['imdbphotoroot']."*") as $filename) {
 							$filenamesize2 += filesize($filename);
 						}
 						echo esc_html_e('Cache size is currently', 'imdb') . ' ' . round($filenamesize2/1048576, 2) . " Mb \n";
@@ -367,8 +367,8 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 					</span>
 				</label>
 			</td>
-			<td colspan="2"><input type="text" name="imdb_imdbphotodir" size="70" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbphotodir']), 'imdb') ?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<?php if (file_exists($imdbOptionsc['imdbphotodir'])) { // check if folder exists
+			<td colspan="2"><input type="text" name="imdb_imdbphotoroot" size="70" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbphotoroot']), 'imdb') ?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<?php if (file_exists($imdbOptionsc['imdbphotoroot'])) { // check if folder exists
 				echo '<span class="imdblt_green">';
 				esc_html_e("Folder exists.", 'imdb');
 				echo '</span>';
@@ -376,8 +376,8 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 				echo '<span class="imdblt_red">';
 				esc_html_e("Folder doesn't exist!", 'imdb');
 				echo '</span>'; } 
-				if (file_exists($imdbOptionsc['imdbcachedir'])) { // check if permissions are ok
-					if ( substr(sprintf('%o', fileperms($imdbOptionsc['imdbphotodir'])), -3) == "777") { 
+				if (file_exists($imdbOptionsc['imdbphotoroot'])) { // check if permissions are ok
+					if ( substr(sprintf('%o', fileperms($imdbOptionsc['imdbphotoroot'])), -3) == "777") { 
 						echo ' <span class="imdblt_green">';
 						esc_html_e("Permissions OK.", 'imdb');
 						echo '</span>';
@@ -392,9 +392,9 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		</tr>
 
 		<tr>
-			<td class="td-aligntop"><label for="imdb_imdbphotoroot"><?php esc_html_e('Photo directory (url)', 'imdb'); ?></label>
+			<td class="td-aligntop"><label for="imdb_imdbphotodir"><?php esc_html_e('Photo directory (url)', 'imdb'); ?></label>
 			</td>
-			<td colspan="2"><input type="text" name="imdb_imdbphotoroot" size="70" value="<?php esc_html_e(apply_filters('format_to_edit', $imdbOptionsc['imdbphotoroot']), 'imdb') ?>">
+			<td colspan="2"><input type="text" name="imdb_imdbphotodir" size="70" value="<?php esc_html_e(apply_filters('format_to_edit', $imdbOptionsc['imdbphotodir']), 'imdb') ?>">
 				<div class="explain"><?php esc_html_e('URL corresponding to photo directory.','imdb');?> <br /><?php esc_html_e('Default:','imdb');?> "<?php echo esc_url( IMDBLTURLPATH . "cache/images/"); ?>"</div>
 			</td>
 		</tr>

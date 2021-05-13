@@ -148,7 +148,10 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 		<tr>
 			<td class="td-aligntop">
 				<?php esc_html_e( 'Display imdb pic?', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="radio" id="imdb_imdbdisplaylinktoimdb_yes" name="imdb_imdbdisplaylinktoimdb" value="1" <?php if ($imdbOptions['imdbdisplaylinktoimdb'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbpicsize" data-field_to_change_value="1" /><label for="imdb_imdbdisplaylinktoimdb_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbdisplaylinktoimdb_no" name="imdb_imdbdisplaylinktoimdb" value="" <?php if ($imdbOptions['imdbdisplaylinktoimdb'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbpicsize" data-field_to_change_value="0" /><label for="imdb_imdbdisplaylinktoimdb_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
+				<input type="radio" id="imdb_imdbdisplaylinktoimdb_yes" name="imdb_imdbdisplaylinktoimdb" value="1" <?php if ($imdbOptions['imdbdisplaylinktoimdb'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbpicsize" data-field_to_change_value="1" />
+				<label for="imdb_imdbdisplaylinktoimdb_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+				<input type="radio" id="imdb_imdbdisplaylinktoimdb_no" name="imdb_imdbdisplaylinktoimdb" value="" <?php if ($imdbOptions['imdbdisplaylinktoimdb'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbpicsize" data-field_to_change_value="0" />
+				<label for="imdb_imdbdisplaylinktoimdb_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
 			</td>
 			<td class="td-aligntop">
 				<label for="imdb_imdbpicsize"><?php esc_html_e( 'Size', 'imdb'); ?></label>
@@ -182,7 +185,7 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 		<tr>
 			<td width="33%">
 				<label for="imdb_popupLarg"><?php esc_html_e( 'Display only thumbnail', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="radio" id="imdb_imdbcoversize_yes" name="imdb_imdbcoversize" value="1" <?php if ($imdbOptions['imdbcoversize'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbcoversize_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbcoversize_no" name="imdb_imdbcoversize" value="" <?php if ($imdbOptions['imdbcoversize'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbcoversize_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
+				<input type="radio" id="imdb_imdbcoversize_yes" name="imdb_imdbcoversize" value="1" <?php if ($imdbOptions['imdbcoversize'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbcoversizewidth" data-field_to_change_value="1" /><label for="imdb_imdbcoversize_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbcoversize_no" name="imdb_imdbcoversize" value="" <?php if ($imdbOptions['imdbcoversize'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbcoversizewidth" data-field_to_change_value="0" /><label for="imdb_imdbcoversize_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
 			</td>
 			<td width="33%">
 				<label for="imdb_imdbcoversizewidth"><?php esc_html_e( 'Size', 'imdb'); ?></label>

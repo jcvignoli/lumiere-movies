@@ -1,5 +1,5 @@
 <?php
-// IMDb link transformer wordpress plugin
+// Lumiere Movies wordpress plugin
 //
 // (c) 2005-21 Prometheus group
 // https://www.jcvignoli.com/blog
@@ -11,7 +11,7 @@
 // *****************************************************************
 
 /*
-Plugin Name: IMDb link transformer
+Plugin Name: Lumiere Movies
 Plugin URI: https://www.jcvignoli.com/blog/lumiere-movies-wordpress-plugin
 Description: Add to every movie title tagged with &lt;!--imdb--&gt; (...) &lt;!--/imdb--&gt; a link to an <a href="https://www.imdb.com"><acronym title="internet movie database">imdb</acronym></a> popup. Can also display data related to movies either in a <a href="widgets.php">widget</a> or inside a post. Perfect for your movie reviews. Cache handling. Have a look at the <a href="admin.php?page=imdblt_options">options page</a>.
 Version: 3.0
@@ -32,13 +32,13 @@ register_activation_hook( __FILE__, 'imdb_activation' );
 
 function imdb_activation() {
 	if (is_admin()) { // Prevents activation bug with Fatal Error: Table ‘actionscheduler_actions’ doesn’t exist
-		$start = new imdblt;
+		$start = new imdblt_core;
 		$start->imdblt_make_htaccess();
 	}
 	flush_rewrite_rules();
 }
 
-### IMDbLT Table Name
+### Lumiere Classes start
 
 if (class_exists("imdb_settings_conf")) {
 	$imdb_ft = new imdb_settings_conf();
@@ -199,10 +199,10 @@ class imdblt_core {
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ){
 			
 			if ($_GET['film'])
-				$title = sanitize_text_field($_GET['film']). " - IMDbLT plugin";
+				$title = sanitize_text_field($_GET['film']). " - Lumiere plugin";
 			/* find a way to get person's name
 			elseif ($_GET['person'])
-				$title = sanitize_text_field($_GET['person']). " - IMDbLT plugin";
+				$title = sanitize_text_field($_GET['person']). " - Lumiere plugin";
 			*/
 
 			return $title;
@@ -240,7 +240,7 @@ class imdblt_core {
 
 			// OceanWp template css fix
 			// enqueue imdb.css only if using oceanwp template
-			if ( stripos( TEMPLATEPATH, '/wp-content/themes/oceanwp' ) ) {
+			if ( ( stripos( TEMPLATEPATH, '/wp-content/themes/oceanwp' ) ) && ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) ) {
 				wp_enqueue_style('imdblt_imdbcss_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/imdb-oceanwpfixes.css");
 			}
 		}
@@ -274,7 +274,6 @@ class imdblt_core {
 	function imdb_add_css_admin() {
 		global $imdb_admin_values;
 		wp_enqueue_style('imdblt_css_admin', $imdb_admin_values['imdbplugindirectory'] . "css/imdb-admin.css");
-		//wp_enqueue_style("imdblt_highslide", $imdb_admin_values['imdbplugindirectory'] ."css/highslide.css"); # removing highslide in admin area
 	}
 	function imdb_add_js_admin () {
 		global $imdb_admin_values;
@@ -282,7 +281,6 @@ class imdblt_core {
 		wp_enqueue_script('wp-lists'); // script needed for meta_boxes (ie, help.php)
 		wp_enqueue_script('postbox'); // script needed for meta_boxes (ie, help.php)
 		wp_enqueue_script('jquery'); // script needed by highslide and maybe others
-		//wp_enqueue_script("imdblt_highslide", $imdb_admin_values['imdbplugindirectory'] ."js/highslide/highslide-with-html.min.js", array(), "5.0"); # removing highslide in admin area
 		wp_enqueue_script('imdblt_un-active-boxes', $imdb_admin_values['imdbplugindirectory'] . "js/un-active-boxes.js");
 		wp_enqueue_script('imdblt_movevalues-formeselectboxes', $imdb_admin_values['imdbplugindirectory'] . "js/movevalues-formselectboxes.js");
 
@@ -305,15 +303,15 @@ class imdblt_core {
 		}
 		
 		if (function_exists('add_options_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 0 ) ) {
-			add_options_page('IMDb link transformer Options', 'IMDb LT', 'administrator', 'imdblt_options', [ $imdb_ft, 'printAdminPage'] );
+			add_options_page('Lumiere Movies Options', 'Lumiere', 'administrator', 'imdblt_options', [ $imdb_ft, 'printAdminPage'] );
 
 			// third party plugin
 			add_filter('ozh_adminmenu_icon_imdblt_options', [ $this, 'ozh_imdblt_icon' ] );
 		}
 		if (function_exists('add_submenu_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 1 ) ) {
 			// big menu for many pages for admin sidebar
-			add_menu_page( 'IMDb LT Options', 'IMDb LT' , 8, 'imdblt_options', [ $imdb_ft, 'printAdminPage' ], $imdb_admin_values['imdbplugindirectory'].'pics/imdb.gif');
-			add_submenu_page( 'imdblt_options' , esc_html__('IMDb link transformer options page', 'imdb'), esc_html__('General options', 'imdb'), 8, 'imdblt_options');
+			add_menu_page( 'Lumiere Options', 'Lumiere' , 8, 'imdblt_options', [ $imdb_ft, 'printAdminPage' ], $imdb_admin_values['imdbplugindirectory'].'pics/imdb.gif');
+			add_submenu_page( 'imdblt_options' , esc_html__('Lumiere Movies options page', 'imdb'), esc_html__('General options', 'imdb'), 8, 'imdblt_options');
 			add_submenu_page( 'imdblt_options' , esc_html__('Widget & In post options page', 'imdb'), esc_html__('Widget/In post', 'imdb'), 8, 'imdblt_options&subsection=widgetoption', [ $imdb_ft, 'printAdminPage'] );
 			add_submenu_page( 'imdblt_options',  esc_html__('Cache management options page', 'imdb'), esc_html__('Cache management', 'imdb'), 8, 'imdblt_options&subsection=cache', [ $imdb_ft, 'printAdminPage' ]);
 			add_submenu_page( 'imdblt_options' , esc_html__('Help page', 'imdb'), esc_html__('Help', 'imdb'), 8, 'imdblt_options&subsection=help', [ $imdb_ft, 'printAdminPage'] );
@@ -433,7 +431,7 @@ class imdblt_core {
 	function add_admin_toolbar_menu($admin_bar) {
 		global $imdb_admin_values;
 
-		$admin_bar->add_menu( array('id'=>'imdblt-menu','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/imdb.gif' width='16px' />&nbsp;&nbsp;".esc_html__('IMDB LT'),'href'  => 'admin.php?page=imdblt_options', 'meta'  => array('title' => esc_html__('IMDBLT Menu'), ),) );
+		$admin_bar->add_menu( array('id'=>'imdblt-menu','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/imdb.gif' width='16px' />&nbsp;&nbsp;".esc_html__('Lumiere'),'href'  => 'admin.php?page=imdblt_options', 'meta'  => array('title' => esc_html__('Lumiere Menu'), ),) );
 
 		$admin_bar->add_menu( array('parent' => 'imdblt-menu','id' => 'imdblt-menu-options','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/admin-general.png' width='16px' />&nbsp;&nbsp;".esc_html__('General options'),'href'  =>'admin.php?page=imdblt_options','meta'  => array('title' => esc_html__('General options'),),) );
 
@@ -531,7 +529,7 @@ class imdblt_core {
 			add_filter('the_content', [ $this, 'imdb_linking' ], 11);
 			add_filter('the_excerpt', [ $this, 'imdb_linking' ], 11);
 
-		    	// delete next line if you don't want to run IMDB link transformer through comments
+		    	// delete next line if you don't want to run Lumiere Movies through comments
 			add_filter('comment_text', [ $this, 'imdb_linking' ], 11);
 
 			// add data inside a post

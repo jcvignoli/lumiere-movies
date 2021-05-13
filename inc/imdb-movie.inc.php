@@ -25,9 +25,9 @@ global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 if (class_exists("imdb_settings_conf")) {
 	$config = new imdb_settings_conf();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
-	$config->photodir = $imdb_cache_values['imdbphotodir'] ?? NULL;
+	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
-	$config->photoroot = $imdb_cache_values['imdbphotoroot'] ?? NULL;
+	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 }
 
 $count_me_siffer= 0; // value to allow movie total count (called from every 'taxonomised' part)
@@ -112,8 +112,8 @@ while ($imovie < count($imdballmeta)) {
 
 
 	if  (($imdb_widget_values[imdbwidgetpic] == true ) && ($magicnumber == $imdb_widget_values['imdbwidgetorder']['pic'] )) { 
-	$photo_url = $movie->photo_localurl(); // create the normal picture for the cache
-	$photo_url_sanitized = esc_url($movie->photo_localurl(intval($imdb_admin_values['imdbcoversize'])) ); ?>
+	$photo_url = $movie->photo_localurl(); // create the normal picture for the cache refresh
+	$photo_url_sanitized = $movie->photo_localurl(intval($imdb_admin_values['imdbcoversize'])) ; ?>
 										<!-- pic -->
 		<div class="imdbelementPICdiv">
 		<?php 	## The picture is either taken from the movie itself or if it doesn't exist, from a standard "no exist" picture.
@@ -133,10 +133,10 @@ while ($imovie < count($imdballmeta)) {
 			// check if a picture exists
 			if ($photo_url_sanitized != FALSE){
 				// a picture exists, therefore show it!
-				echo $photo_url_sanitized .'" alt="'.esc_attr( $movie->title() ).'" '; 
+				echo $photo_url_sanitized .'" alt="'.esc_html__('Photo of','imdb').sanitize_text_field( $movie->title() ).'" '; 
 			} else { 
 				// no picture found, display the replacement pic
-				echo esc_url( $imdb_admin_values['imdbplugindirectory'].'pics/no_pics.gif"' ).' alt="'.esc_html__('no picture', 'imdb').'" '; 
+				echo esc_url( $imdb_admin_values['imdbplugindirectory'].'pics/no_pics.gif"').' alt="'.esc_html__('no picture', 'imdb').'" '; 
 			}
 
 

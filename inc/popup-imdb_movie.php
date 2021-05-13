@@ -24,12 +24,10 @@ global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 if (class_exists("imdb_settings_conf")) {
 	$config = new imdb_settings_conf();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
-	$config->photodir = $imdb_cache_values['imdbphotodir'] ?? NULL;
+	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
-	$config->photoroot = $imdb_cache_values['imdbphotoroot'] ?? NULL;
+	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 }
-
-
 
 $movieid_sanitized = filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT) ?? NULL;
 $filmid_sanitized = sanitize_title_for_query( $_GET["film"]) ?? NULL;
