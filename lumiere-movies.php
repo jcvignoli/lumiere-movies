@@ -79,11 +79,20 @@ class imdblt_core {
 
 		// .htaccess text, including Rewritebase with $blog_subdomain
 		$imdblt_htaccess_file_txt = "<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase ".$imdblt_blog_subdomain."/"."\n\n";
-		$imdblt_htaccess_file_txt .= "## popup.php\nRewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-search.php\?film=([^\s]+)?(&norecursive=)?(̣.*)?"."\n"."RewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
+
+		# highslide
+		$imdblt_htaccess_file_txt .= "## highslide_download.php\nRewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/highslide_download.php\?highslide=yes [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options&highslide=yes [L,R]"."\n\n";
+
+		# popup-search
+		$imdblt_htaccess_file_txt .= "## popup-search.php\nRewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-search.php\?film=([^\s]+)(&norecursive=[^\s]+)?"."\n"."RewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
+
+		# popup-imdb-movie.php
 		$imdblt_htaccess_file_txt .= "## popup-imdb_movie.php"."\n"."RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php\?film=([^\s]+) [NC]\nRewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
 		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php\?mid=([^\s]+)&film=&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php\?mid=([^\s]+)?&film=([^\s]+)?&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ imdblt/film/%2/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php\?mid=?([^\s]+)&film=([^\s]+)?(&info=[^\s]*) [NC]"."\n"."RewriteRule ^.+$ imdblt/film/%2/ [L,R,QSA]"."\n\n";
 		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
+
+		# popup-imdb_person.php
 		$imdblt_htaccess_file_txt .= "## popup-imdb_person.php"."\n"."RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_person.php\?mid=([^\s]+)?&film=([^\s]+)?&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ imdblt/person/%1/ [L,R,QSA]"."\n\n";
 		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_person.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ imdblt/person/%1/ [L,R,QSA]"."\n\n";
 		$imdblt_htaccess_file_txt .= "</IfModule>"."\n";
@@ -457,7 +466,7 @@ class imdblt_core {
 			$query_norecursive=preg_match_all('#norecursive=(.*)#', $_SERVER['REQUEST_URI'], $match_query_norecursive, PREG_UNMATCHED_AS_NULL );
 
 			$url = (!empty($match_query_film_film[0])) ? "/imdblt/film/" . $match_query_film_film[0] . "/" : "/imdblt/film/" . $match_query_film_mid[0] . "/" ;
-			wp_redirect( esc_url( add_query_arg( array( 'film' => $match_query_film_film[0], 'mid' => $match_query_film_mid[0],'info' => $match_query_info[1][0], 'norecursive' => $match_query_norecursive[1][0]), get_site_url(null, $url ) ) ) );
+			wp_safe_redirect( add_query_arg( array( 'film' => $match_query_film_film[0], 'mid' => $match_query_film_mid[0],'info' => $match_query_info[1][0], 'norecursive' => $match_query_norecursive[1][0]), get_site_url(null, $url ) ) );
 			exit();
 		}
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php' ) ) {
@@ -470,7 +479,7 @@ class imdblt_core {
 			$query_norecursive=preg_match_all('#norecursive=(.*)#', $_SERVER['REQUEST_URI'], $match_query_norecursive, PREG_UNMATCHED_AS_NULL );
 			$url = (!empty($match_query_film_film[0])) ? "/imdblt/film/" . $match_query_film_film[0] . "/" : "/imdblt/film/" . $match_query_film_mid[0] . "/" ;
 
-			wp_redirect( esc_url( add_query_arg( array( 'film' => $match_query_film_film[0], 'mid' => $match_query_film_mid[0],'info' => $match_query_info[1][0], 'norecursive' => $match_query_norecursive[1][0]), get_site_url(null, $url ) ) ) );
+			wp_safe_redirect( add_query_arg( array( 'film' => $match_query_film_film[0], 'mid' => $match_query_film_mid[0],'info' => $match_query_info[1][0], 'norecursive' => $match_query_norecursive[1][0]), get_site_url(null, $url ) ) );
 			exit();
 
 		}
@@ -484,12 +493,11 @@ class imdblt_core {
 			$url = "/imdblt/person/" . $match_query_person_mid[0] . "/" ;
 
 	      		//wp_redirect(  add_query_arg( 'mid' => $match_query_mid[1][0], $url ) , 301 ); # one arg only
-			wp_redirect( esc_url( add_query_arg( array( 'mid' => $match_query_person_mid[0], 'film' => $match_query_person_film[1][0], 'info' => $match_query_person_info[0]), get_site_url(null, $url ) ) ) );
+			wp_safe_redirect( add_query_arg( array( 'mid' => $match_query_person_mid[0], 'film' => $match_query_person_film[1][0], 'info' => $match_query_person_info[0]), get_site_url(null, $url ) ) );
 			exit();
 		}
 
 	}
-
 
 	function imdblt_popup_redirect_include() {
 
@@ -504,6 +512,16 @@ class imdblt_core {
 		}
 	}
 
+	/**
+	12.- Include highslide_download.php if string highslide=yes
+	**/
+	function imdblt_highslide_download_redirect() {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&highslide=yes' ) ) {
+			require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/highslide_download.php' );
+		}
+	}
+
+
 	// *********************
 	// ********************* Automatisms & executions
 	// *********************
@@ -517,6 +535,8 @@ class imdblt_core {
 			// redirect popups URLs to follow inc/.htaccess rules
 			add_action( 'init', [ $this, 'imdblt_popup_redirect' ], 0);
 			add_action( 'init', [ $this, 'imdblt_popup_redirect_include' ], 0);
+
+			add_action( 'init', [ $this, 'imdblt_highslide_download_redirect' ], 0);
 
 		    	// css for main blog
 			add_action('wp_head', [ $this, 'imdblt_add_head_blog' ],1 );
@@ -551,9 +571,9 @@ class imdblt_core {
 		}
 	}
 
+	
+
 } // end class
-
-
 
 /* Function: create_imdblt_table
 * Create mysql Preferences Tables

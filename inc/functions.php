@@ -336,18 +336,17 @@ if ( ! function_exists('imdblt_glob_recursive')){
 function imdblt_notice($code, $msg) { 
 	switch ($code) {
 		default:
-		case 1: // simple notice
-			echo '<div id="message" class="updated fade"><p>'. $msg .'</p></div>';
+		case 1: // success notice, green
+			echo '<div class="notice notice-success"><p>'. $msg .'</p></div>';
 			break;
-		case 3: // simple error
-			echo '<div id="error" class="updated fade-ff0000 imdblt_red"><p>'. $msg .'</p></div>';
+		case 2: // info notice, blue
+			echo '<div class="notice notice-info"><p>'. $msg .'</p></div>';
 			break;
-		case 2: // advanced notice
-		case 4: // advanced error
-			echo '<div class="wrap">'. $msg .'</div>';
+		case 3: // simple error, red
+			echo '<div class="notice notice-error"><p>'. $msg .'</p></div>';
 			break;
-		case 5: // super duper wicked crazy critical error!
-			wp_die($msg);
+		case 4: // warning error, yellow
+			echo '<div "notice notice-warning">'. $msg .'</div>';
 			break;
 	}
 }

@@ -14,12 +14,32 @@
  #############################################################################
 
 global $imdb_admin_values;
-$allowed_html_for_esc_html_functions = [
+
+$allowed_html_for_esc_html_functions = [ /* accept these html tags in wp_kses escaping function */
     'strong',
 ];
+$messages = array( /* highslide message notification options */
+    'highslide_success' => 'Highslide successfully installed!',
+    'highslide_failure' => 'Highslide installation failed!',
+    'highslide_down' => 'Website to download Highslide is currently down, please try again later.'
+);
 
 // included files
 require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
+
+// If a certain
+if ((isset($_GET['msg'])) && array_key_exists($_GET['msg'], $messages) ){
+	// Message for success
+	if ($_GET['msg']=="highslide_success") {
+		imdblt_notice(1, esc_html__( $messages["highslide_success"], 'imdb') );
+	// Message for failure
+	} elseif ($_GET['msg']=="highslide_failure") {
+		imdblt_notice(3, esc_html__( $messages["highslide_failure"] , 'imdb') . " " .  esc_html__( 'Your folder might be protected. Download highslide manually', 'imdb')." <a href='". IMDBBLOGHIGHSLIDE ."'>".esc_html__("here", "imdb")."</a> ".esc_html__("and extract the zip into" ) . "<br />" .  esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" ) );
+
+	} elseif ($_GET['msg']=="highslide_down") {
+		imdblt_notice(3, esc_html__( $messages["highslide_down"] , 'imdb')  );
+	}
+}
 ?>
 
 <div id="tabswrap">
@@ -92,13 +112,15 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 				<input type="text" name="imdb_popupLong" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['popupLong']), 'imdb') ?>" >
 			</td>
 			<td width="33%">
-				<?php // Warning message displayed if highslide option is set but no "highslide" folder exists
-				if (($imdbOptions['imdbpopup_highslide'] == "1") && (!is_dir(IMDBLTABSPATH.'js/highslide'))) {
-				#notice displayed on top page
-				$this->notice(1, '<span class="imdblt_red_bold">'.esc_html__('Warning! Highslide is activated but no Highslide folder was found. Either download Highslide (see below) or click on "reset setting" at the bottom', 'imdb') .'</span>');
-				#notice display in highslide option field
-				echo '<span class="imdblt_red">'.esc_html__( 'Warning! Highslide is activated but no Highslide folder was found. Either download Highslide (see below) or click on "reset setting" at the bottom.', 'imdb').'</span><br />'; 
-				} ?>
+				<?php 
+
+				// Warning message displayed if highslide option is set but no "highslide" folder exists
+				if(!is_dir( IMDBLTABSPATH . 'js/highslide')) { 
+					imdblt_notice(4, '<span class="imdblt_red_bold">'.esc_html__('Warning! No Highslide folder was found.', 'imdb') .'</span>');
+					echo "<br />";
+					echo "<a href='". $imdbOptions['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes'>".esc_html__('Install automatically Highslide by clicking here', 'imdb') .'</a>';
+				} 
+?>
 
 				<?php if(is_dir(IMDBLTABSPATH.'js/highslide')) { // If the folder "highslide" exists (manually added)
 					esc_html_e( 'Display highslide popup', 'imdb'); 

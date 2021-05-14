@@ -19,6 +19,7 @@ define('IMDBLTURLPATH', $imdb_admin_values['imdbplugindirectory'] );
 define('IMDBLTFILE', plugin_basename( dirname(__FILE__)) );
 define('IMDBLTABSPATH', str_replace("\\","/", WP_PLUGIN_DIR . '/' . plugin_basename( dirname(__FILE__) ) . '/' ));
 define('IMDBBLOG', "https://www.jcvignoli.com/blog");
+define('IMDBBLOGHIGHSLIDE', IMDBBLOG . "/wp-content/files/wordpress-lumiere-highslide-5.0.0.zip");
 define('IMDBHOMEPAGE', IMDBBLOG . '/lumiere-movies-wordpress-plugin');
 define('IMDBPHP_CONFIG',dirname(__FILE__) . '/config.php');
 
@@ -431,21 +432,22 @@ class imdb_settings_conf extends mdb_config {
 	<?php ### select the sub-page
 
 	if (empty($_GET['subsection'])) { ?>
-		<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
-			<?php include ( IMDBLTABSPATH . 'inc/options-general.php'); ?>
+		<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( $_SERVER[ "REQUEST_URI"] ); ?>" >
+			<?php require_once ( esc_url( $imdbOptions['imdbpluginpath'] . 'inc/options-general.php')  ); ?>
 		</form>
 <?php 	}
 	if ($_GET['subsection'] == "widgetoption")  {	?>
-		<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
-			<?php include ( IMDBLTABSPATH . 'inc/options-widget.php'); ?>
+		<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo  esc_url ( $_SERVER[ "REQUEST_URI"] ); ?>" >
+			<?php require_once ( esc_url( $imdbOptions['imdbpluginpath'] . 'inc/options-widget.php' )); ?>
 		</form>
 <?php 	}
 	elseif ($_GET['subsection'] == "cache")  {
 		$test = $this->get_imdb_admin_option(); //this variable has to be sent to new page
 		$engine = $test['imdbsourceout'];
-		include ( IMDBLTABSPATH . 'inc/options-cache.php');}
-	elseif ($_GET['subsection'] == "help")  {
-		include ( IMDBLTABSPATH . 'inc/help.php');}
+		include ( esc_url( IMDBLTABSPATH . 'inc/options-cache.php'));
+	} elseif ($_GET['subsection'] == "help")  {
+		include ( esc_url( IMDBLTABSPATH . 'inc/help.php' ));
+	}
 	// end subselection ?>
 
 	<?php imdblt_admin_signature (); ?>
