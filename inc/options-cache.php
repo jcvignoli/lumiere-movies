@@ -24,6 +24,11 @@ global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 $allowed_html_for_esc_html_functions = [
     'strong',
 ];
+$messages = array( /* highslide message notification options */
+    'cache_update_success' => 'Cache succesfully refreshed.',
+    'cache_doesnt_exist' => 'This file does not exist.',
+    'cache_delete_success' => 'Cache successfully deleted.'
+);
 
 // Start config class for $config in below Imdb\Title class calls
 if (class_exists("imdb_settings_conf")) {
@@ -36,6 +41,23 @@ if (class_exists("imdb_settings_conf")) {
 	$config->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
 	$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
 }
+
+
+// If a certain
+if ((isset($_GET['msg'])) && array_key_exists($_GET['msg'], $messages) ){
+	// Message Message for cache updated successfully
+	if ($_GET['msg']=="cache_update_success") {
+		imdblt_notice(1, esc_html__( $messages["cache_update_success"], "imdb" ) );
+	// Message for cache doesn't exist
+	} elseif ($_GET['msg']=="cache_doesnt_exist") {
+		imdblt_notice(3, esc_html__( $messages["cache_doesnt_exist"], "imdb" ) );
+	// Message for cache deleted successfully
+	} elseif ($_GET['msg']=="cache_delete_success") {
+		imdblt_notice(1, esc_html__( $messages["cache_delete_success"], "imdb" ) );
+
+	}
+}
+
 
 ##################################### delete several files
 
@@ -182,7 +204,9 @@ if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
 	}
 
 	// display message on top
-	imdblt_notice(1, '<strong>'. esc_html__("Cache successfully deleted.", "imdb").'</strong>');
+//	imdblt_notice(1, '<strong>'. esc_html__("Cache successfully deleted.", "imdb").'</strong>');
+	wp_safe_redirect( add_query_arg( "msg", "cache_delete_success", wp_get_referer() ) );
+	exit();
 }
 
 ##################################### refresh a peliculiar file
@@ -273,7 +297,10 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 	}
 
 	// display message on top
-	imdblt_notice(1, '<strong>'. esc_html__( 'Cache succesfully refreshed.', 'imdb') .'</strong>');
+	wp_safe_redirect( add_query_arg( "msg", "cache_update_success", wp_get_referer() ) );
+//	wp_safe_redirect( wp_get_referer() );
+//	imdblt_notice(1, '<strong>'. esc_html__( 'Cache succesfully refreshed.', 'imdb') .'</strong>');
+	exit();
 }
 
 ##################################### let's display real cache option page
@@ -616,7 +643,7 @@ if (!empty($results)){
 						<br />
 					<div align="center">
 						<?php wp_nonce_field('update_imdbltcache_check', 'update_imdbltcache_check'); //check that data has been sent only once  ?>
-						<input type="submit" class="button-primary" name="update_imdbltcache" data-confirm="<?php esc_html__( "Delete selected cache?", "imdb"); ?>" value="<?php esc_html_e('Delete cache', 'imdb') ?>" />
+						<input type="submit" class="button-primary" name="update_imdbltcache" data-confirm="<?php esc_html_e( "Delete selected cache?", "imdb"); ?>" value="<?php esc_html_e('Delete cache', 'imdb') ?>" />
 						<br/>
 						<?php echo esc_html_e('Warning!', 'imdb'); ?>
 						<?php echo esc_html_e('This button will to delete specific cache files selected from cache folder.', 'imdb'); ?>
@@ -690,7 +717,7 @@ if (!empty($results)){
 						<br />
 					<div align="center">
 						<?php wp_nonce_field('update_imdbltcache_check', 'update_imdbltcache_check'); //check that data has been sent only once  ?>
-						<input type="submit" class="button-primary" data-confirm="<?php esc_html__( "Delete selected cache?", "imdb"); ?>" name="update_imdbltcache" value="<?php esc_html_e('Delete cache', 'imdb') ?>" />
+						<input type="submit" class="button-primary" data-confirm="<?php esc_html_e( "Delete selected cache?", "imdb"); ?>" name="update_imdbltcache" value="<?php esc_html_e('Delete cache', 'imdb') ?>" />
 						<br/>
 						<?php echo esc_html_e('Warning!', 'imdb'); ?>
 						<?php echo esc_html_e('This button will to delete specific cache files selected from cache folder.', 'imdb'); ?>
