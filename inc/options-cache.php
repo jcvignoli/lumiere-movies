@@ -1,8 +1,7 @@
-
 <?php
 
  #############################################################################
- # Lumiere Movies                                                     #
+ # Lumiere!                                                                  #
  # written by Prometheus group                                               #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
@@ -30,10 +29,10 @@ $allowed_html_for_esc_html_functions = [
 if (class_exists("imdb_settings_conf")) {
 	$config = new imdb_settings_conf();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
-	$config->photodir = $imdb_cache_values['imdbphotodir'] ?? NULL;
+	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
 	$config->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
-	$config->photoroot = $imdb_cache_values['imdbphotoroot'] ?? NULL;
+	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 	$config->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
 	$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
 }
@@ -69,7 +68,7 @@ if ( isset( $_POST['update_imdbltcache_check'] ) && wp_verify_nonce( $_POST['upd
 			$filetodeletepics2=$imdb_cache_values['imdbphotodir'].$number_to_delete.".jpg";
 
 			// delete things
-			if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w') or die( esc_html__("This file does not exist", "imdb") ) ) {
+			if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w') or wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ) {
 			 	if (file_exists($filetodeletetitle )) unlink ($filetodeletetitle);
 			 	if (file_exists($filetodeletetaglines )) unlink ($filetodeletetaglines);
 			 	if (file_exists($filetodeletesoundtrack )) unlink ($filetodeletesoundtrack);
@@ -102,7 +101,7 @@ if ( isset( $_POST['update_imdbltcache_check'] ) && wp_verify_nonce( $_POST['upd
 			$filetodeletepics=$imdb_cache_values['imdbphotodir']."nm".$number_to_delete.".jpg";
 
 			// delete things
-			if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w') or die( esc_html__("This file does not exist", "imdb") ) ) {
+			if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w') or wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ) {
 			 	if (file_exists($filetodeletebio )) unlink ($filetodeletebio);
 			 	if (file_exists($filetodeletename )) unlink ($filetodeletename);
 			 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
@@ -143,7 +142,7 @@ if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
 		$filetodeletepics2=$imdb_cache_values['imdbphotodir'].$wheresanitized.".jpg";
 
 		// delete things
-		if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w') or die( esc_html__("This file does not exist", "imdb") ) ) {
+		if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w') or wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ) {
 		 	if (file_exists($filetodeletetitle )) unlink ($filetodeletetitle);
 		 	if (file_exists($filetodeletetaglines )) unlink ($filetodeletetaglines);
 		 	if (file_exists($filetodeletesoundtrack )) unlink ($filetodeletesoundtrack);
@@ -164,7 +163,6 @@ if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
 		}
 	}
 
-
 	if (($_GET['type'])== 'people') {
 		$wheresanitized = filter_var( $_GET["where"], FILTER_SANITIZE_NUMBER_INT) ?? NULL;
 
@@ -175,7 +173,7 @@ if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
 		$filetodeletepics=$imdb_cache_values['imdbphotodir']."nm".$wheresanitized.".jpg";
 
 		// delete things
-		if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w') or die( esc_html__("This file does not exist", "imdb") ) ) {
+		if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w') or wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ) {
 		 	if (file_exists($filetodeletebio )) unlink ($filetodeletebio);
 		 	if (file_exists($filetodeletename )) unlink ($filetodeletename);
 		 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
@@ -218,7 +216,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		$filetodeletepics2=$imdb_cache_values['imdbphotodir'].$wheresanitized.".jpg";
 
 		// delete things
-		if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w') or die( esc_html__("This file does not exist", "imdb") ) ) {
+		if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w') or wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ) {
 		 	if (file_exists($filetodeletetitle )) unlink ($filetodeletetitle);
 		 	if (file_exists($filetodeletetaglines )) unlink ($filetodeletetaglines);
 		 	if (file_exists($filetodeletesoundtrack )) unlink ($filetodeletesoundtrack);
@@ -258,7 +256,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		$filetodeletepics=$imdb_cache_values['imdbphotodir']."nm".$wheresanitized.".jpg";
 
 		// delete things
-		if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w') or die( esc_html__("This file does not exist", "imdb") ) ) {
+		if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w') or wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ) {
 		 	if (file_exists($filetodeletebio )) unlink ($filetodeletebio);
 		 	if (file_exists($filetodeletename )) unlink ($filetodeletename);
 		 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
@@ -276,7 +274,6 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 
 	// display message on top
 	imdblt_notice(1, '<strong>'. esc_html__( 'Cache succesfully refreshed.', 'imdb') .'</strong>');
-
 }
 
 ##################################### let's display real cache option page
@@ -574,7 +571,7 @@ if (!empty($results)){
 				flush();
 			} else { // display every cache movie details, longer loading
 
-			$moviepicturelink = (($photo_url = esc_url ( $res->photo_localurl() ) ) != FALSE) ? 'src="'.$imdb_cache_values['imdbphotoroot'].$obj_sanitized.'.jpg" alt="'.$title_sanitized.'"' : 'src="'.IMDBLTURLPATH.'pics/no_pics.gif" alt="'.esc_html__('no picture', 'imdb').'"'; // get either local picture or if no local picture exists, display the default one
+			$moviepicturelink = (($photo_url = $res->photo_localurl() ) != FALSE) ? 'src="'.$imdb_cache_values['imdbphotodir'].$obj_sanitized.'.jpg" alt="'.$title_sanitized.'"' : 'src="'.IMDBLTURLPATH.'pics/no_pics.gif" alt="'.esc_html__('no picture', 'imdb').'"'; // get either local picture or if no local picture exists, display the default one
 
 			$data[] = '	<td>
 						<img id="pic_'.$title_sanitized.'" class="picfloat" '.$moviepicturelink.' width="40px">
@@ -650,7 +647,7 @@ if (!empty($results)){
 				$datapeople[] = '<input type="checkbox" id="imdb_cachedeletefor_people_'.$name_sanitized.'" name="imdb_cachedeletefor_people[]" value="'.$objpiple_sanitized.'" /><label for="imdb_cachedeletefor_people[]">'.$name_sanitized.'</label>'; // send input and results into array
 				flush();
 			} else { // display every cache people details, longer loading
-				$picturelink = (($photo_url = esc_url( $res->photo_localurl() ) ) != FALSE) ? 'src="'.esc_url($imdb_cache_values['imdbphotoroot']."nm".$objpiple_sanitized.'.jpg').'" alt="'.$name_sanitized.'"' : 'src="'.esc_url( IMDBLTURLPATH.'pics/no_pics.gif').'" alt="'.esc_html__('no picture', 'imdb').'"'; // get either local picture or if no local picture exists, display the default one
+				$picturelink = (($photo_url = $res->photo_localurl() ) != FALSE) ? 'src="'.esc_url($imdb_cache_values['imdbphotodir']."nm".$objpiple_sanitized.'.jpg').'" alt="'.$name_sanitized.'"' : 'src="'.esc_url( IMDBLTURLPATH.'pics/no_pics.gif').'" alt="'.esc_html__('no picture', 'imdb').'"'; // get either local picture or if no local picture exists, display the default one
 				$datapeople[] = '	
 						<td>
 							<img id="pic_'.$name_sanitized.'" class="picfloat" '.$picturelink.' width="40px" alt="no pic">

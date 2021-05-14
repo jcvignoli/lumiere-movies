@@ -1,6 +1,6 @@
 <?php
  #############################################################################
- # Lumiere Movies                                                            #
+ # Lumiere!                                                                  #
  # written by Prometheus group                                               #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
@@ -211,14 +211,13 @@ class imdb_settings_conf extends mdb_config {
 			} else {
 				imdblt_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
 			}
-			//header("Location: ".$_SERVER[ "REQUEST_URI"]."&reset=true"); --- less sexy way
 
 		}
 		if  (isset($_POST['update_imdbwidgetSettings']) ) { //--------------save data selected (widget options)
 
 			foreach ($_POST as $key=>$postvalue) {
 				// Sanitize
-				$key_sanitized = sanitize_text_field($key);
+				$key_sanitized = sanitize_key($key);
 
 				// Keep $_POST['imdbwidgetorderContainer'] untouched 
 				if ($key_sanitized == 'imdbwidgetorderContainer') continue;
@@ -228,18 +227,18 @@ class imdb_settings_conf extends mdb_config {
 
 				// Copy $_POST to $imdbOptionsw var
 				if (isset($_POST["$key"])) {
-					$imdbOptionsw["$keynoimdb"] = $_POST["$key_sanitized"];
+					// $imdbOptionsw["$keynoimdb"] = $_POST["$key_sanitized"];
+					//  2021 05 12 Sanitization, let's see if works
+					$imdbOptionsw["$keynoimdb"] = sanitize_text_field($_POST["$key_sanitized"]);
 				}
 			}
 
 			// Special part related to details order
 			if (isset($_POST['imdbwidgetorderContainer']) ){
 				// Sanitize
-				$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-				$myinputs = $_POST['imdbwidgetorderContainer'];
-
+				$myinputs_sanitized = lumiere_recursive_sanitize_text_field($_POST['imdbwidgetorderContainer']);
 				// increment the $key of one
-				$data = array_combine(range(1, count($myinputs)), array_values($myinputs));
+				$data = array_combine(range(1, count($myinputs_sanitized)), array_values($myinputs_sanitized));
 
 				// flip $key with $value
 				$data = array_flip($data);
@@ -256,7 +255,7 @@ class imdb_settings_conf extends mdb_config {
 			if ( $_POST['imdb_imdbwidgetorder'] == "empty") {
 
 				if (!headers_sent()) {
-					header("Location: ".$_SERVER[ "REQUEST_URI"], false);
+					header("Location: ".esc_url($_SERVER[ "REQUEST_URI"]), false);
 					die();
 				} else {
 					imdblt_notice(1, '<strong>'. esc_html__( 'Error. You have to select a value.', 'imdb'). '</strong>' );
@@ -284,7 +283,7 @@ class imdb_settings_conf extends mdb_config {
 			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
-				header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
+				header("Refresh: 0;url=".esc_url($_SERVER[ "REQUEST_URI"]."&reset=true"), false);
 			} else {
 				imdblt_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
 			}
@@ -296,9 +295,14 @@ class imdb_settings_conf extends mdb_config {
 		if (isset($_POST['update_cache_options'])) { // save data selected (cache options)
 
 			foreach ($_POST as $key=>$postvalue) {
-				$keynoimdb = str_replace ( "imdb_", "", $key);
-				if (isset($_POST["$key"])) {
-						$imdbOptionsc["$keynoimdb"] = $_POST["$key"];
+				// Sanitize
+				$key_sanitized = sanitize_key($key);
+
+				$keynoimdb = str_replace ( "imdb_", "", $key_sanitized);
+				if (isset($_POST["$key_sanitized"])) {
+					//$imdbOptionsc["$keynoimdb"] = $_POST["$key_sanitized"];
+					// 2021 05 12 Sanitization, let's see if works
+					$imdbOptionsc["$keynoimdb"] = sanitize_text_field($_POST["$key_sanitized"]);
 				}
 			}
 
@@ -322,11 +326,10 @@ class imdb_settings_conf extends mdb_config {
 			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
-				header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
+				header("Refresh: 0;url=".esc_url( $_SERVER[ "REQUEST_URI"]."&reset=true" ), false);
 			} else {
 				imdblt_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
 			}
-			//header("Location: ".$_SERVER[ "REQUEST_URI"]."&reset=true"); --- less sexy way
 
 		}
 		if (isset($_POST['reset_imdbltcache'])) {  // reset detected, delete all cache files (cache options)
@@ -338,9 +341,9 @@ class imdb_settings_conf extends mdb_config {
 			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
-				header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
+				header("Refresh: 0;url=".esc_url( $_SERVER["REQUEST_URI"]."&reset=true" ), false);
 			} else {
-				imdblt_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
+				imdblt_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.esc_url($_SERVER["REQUEST_URI"]."&reset=true").'">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
 			}
 
 			imdblt_unlinkRecursive ( $imdbOptionsc['imdbcachedir'] );
@@ -351,69 +354,76 @@ class imdb_settings_conf extends mdb_config {
 
 			check_admin_referer('update_imdbltcache_check', 'update_imdbltcache_check'); // check if the refer is ok before saving data
 
-			imdblt_notice(1, '<strong>'. esc_html__( 'Selected cache deleted.', 'imdb') .'</strong>');
-
 			// for movies
 			for ($i = 0; $i < count ($_POST ['imdb_cachedeletefor']); $i++) {
-				foreach ( glob($imdbOptionsc['imdbcachedir'].$_POST ['imdb_cachedeletefor'][$i].".*") as $cacheTOdelete) {
+				$id_sanitized = sanitize_key( $_POST['imdb_cachedeletefor'][$i] );
+				foreach ( glob($imdbOptionsc['imdbcachedir'].$id_sanitized.".*") as $cacheTOdelete) {
 					if($cacheTOdelete == $imdbOptionsc['imdbcachedir'].'.' || $cacheTOdelete == $imdbOptionsc['imdbcachedir'].'..') {
 						continue;
 					}
-					unlink ("$cacheTOdelete");
+					unlink( esc_url( $cacheTOdelete ));
 				}
 			}
 
 			// for people
 			for ($i = 0; $i < count ($_POST ['imdb_cachedeletefor_people']); $i++) {
-				foreach ( glob($imdbOptionsc['imdbcachedir'].$_POST ['imdb_cachedeletefor_people'][$i].".*") as $cacheTOdelete) {
+				$id_sanitized = sanitize_key( $_POST['imdb_cachedeletefor_people'][$i] );
+				foreach ( glob($imdbOptionsc['imdbcachedir'].$id_sanitized.".*") as $cacheTOdelete) {
 					if($cacheTOdelete == $imdbOptionsc['imdbcachedir'].'.' || $cacheTOdelete == $imdbOptionsc['imdbcachedir'].'..') {
 						continue;
 					}
-					unlink ("$cacheTOdelete");
+					unlink( esc_url( $cacheTOdelete ));
 				}
+
 			}
 
-
 		}
+
 		//----------------------------------------------------------display the admin settings options ?>
 
 <div class=wrap>
-	<?php screen_icon('options-general'); ?>
-	<h2><?php esc_html_e( "Lumiere Movies options", "imdb"); ?></h2>
-	<br />
+
+	<div class="imdblt_double_container">
+		<div class="imdblt_double_container_content_twenty">
+			<img src="<?php echo esc_url ( $imdbOptions['imdbplugindirectory'] . ".wordpress-org/icon-128x128.jpg"); ?>" width="50" height="50">
+		</div>
+		<div class="imdblt_double_container_content_eighty">
+			<h2><i>Lumière!</i>&nbsp;<?php esc_html_e( "options", "imdb"); ?></h2>
+		</div>
+	</div>
 
 	<div class="subpage">
 
 	<div align="left" class="imdblt_float_left">
-		<img src="<?php echo IMDBLTURLPATH; ?>pics/admin-general.png" align="absmiddle" width="16px" />&nbsp;
-		<a title="<?php esc_html_e( 'General Options', 'imdb'); ?>" href="<?php echo admin_url(); ?>admin.php?page=imdblt_options"> <?php esc_html_e( 'General Options', 'imdb'); ?></a>
+		<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-general.png"); ?>" align="absmiddle" width="16px" />&nbsp;
+		<a title="<?php esc_html_e( 'General Options', 'imdb'); ?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options"); ?>"> <?php esc_html_e( 'General Options', 'imdb'); ?></a>
 
 		<?php 	### sub-page is relative to what is activated
 			### check if widget is active, and/or direct search option
 		if ( ($imdbOptions['imdbdirectsearch'] == "1") && (is_active_widget(widget_imdbwidget)) ){ ?>
 
-		&nbsp;&nbsp;<img src="<?php esc_html_e( IMDBLTURLPATH . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
+		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
 		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?></a>
 		<?php } elseif ( ($imdbOptions['imdbdirectsearch'] == "1") && (! is_active_widget(widget_imdbwidget)) ) { ?>
-		&nbsp;&nbsp;<img src="<?php esc_html_e( IMDBLTURLPATH . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
+		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
 		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?></a> (<em><a href="widgets.php"><?php esc_html_e( 'Widget unactivated', 'imdb'); ?>)</a></em>)
 
 		<?php } elseif ( (!$imdbOptions['imdbdirectsearch'] == "1") && (is_active_widget(widget_imdbwidget)) )  { ?>
-		&nbsp;&nbsp;<img src="<?php esc_html_e( IMDBLTURLPATH . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
+		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
 		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?></a> (<em><a href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'imdb'); ?></a> <?php esc_html_e( 'unactivated', 'imdb'); ?></em>)
 
 <?php		} else { ?>
-		&nbsp;&nbsp;<img src="<?php esc_html_e( IMDBLTURLPATH . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
+		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
 		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?></a> (<em><a href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'imdb'); ?></a></em> & <em><a href="widgets.php"><?php esc_html_e( 'Widget unactivated', 'imdb'); ?></a></em>)
 
 <?php 		} ?>
-		&nbsp;&nbsp;<img src="<?php echo esc_url ( IMDBLTURLPATH . "pics/admin-cache.png"); ?>" align="absmiddle" width="16px" />&nbsp;
+		&nbsp;&nbsp;<img src="<?php echo esc_url ( $imdbOptions['imdbplugindirectory'] . "pics/admin-cache.png"); ?>" align="absmiddle" width="16px" />&nbsp;
 		<a title="<?php esc_html_e( 'Cache management', 'imdb'); ?>" href="<?php echo admin_url(); ?>admin.php?page=imdblt_options&subsection=cache"><?php esc_html_e( 'Cache management', 'imdb'); ?></a>
 	</div>
 	<div align="right" >
-		&nbsp;&nbsp;<img src="<?php echo esc_url( IMDBLTURLPATH . "pics/admin-help.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-		<a title="<?php esc_html_e( 'How to use Lumiere Movies, check FAQs & changelog', 'imdb');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help"); ?>">
-			<?php esc_html_e( 'Lumiere Movies help', 'imdb'); ?>
+		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-help.png"); ?>" align="absmiddle" width="16px" />&nbsp;
+		<a title="<?php esc_html_e( 'How to use Lumiere!, check FAQs & changelog', 'imdb');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help"); ?>">
+			<?php esc_html_e( 'Lumiere! help', 'imdb'); ?>
 		</a>
 	</div>
 	</div>

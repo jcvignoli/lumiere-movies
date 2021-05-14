@@ -57,6 +57,24 @@ function imdblt_remove_link ($toremove) {
 }
 
 /**
+ * Sanitize an array
+ * 
+ */
+
+function lumiere_recursive_sanitize_text_field($array) {
+    foreach ( $array as $key => &$value ) {
+        if ( is_array( $value ) ) {
+            $value = recursive_sanitize_text_field($value);
+        }
+        else {
+            $value = sanitize_text_field( $value );
+        }
+    }
+
+    return $array;
+}
+
+/**
  * Convert an imdb link to a highslide/classic popup link (called 
  * @param string $convert Link to convert into popup highslide link
  */
@@ -322,14 +340,14 @@ function imdblt_notice($code, $msg) {
 			echo '<div id="message" class="updated fade"><p>'. $msg .'</p></div>';
 			break;
 		case 3: // simple error
-			echo '<div id="error" class="updated fade-ff0000"><p>'. $msg .'</p></div>';
+			echo '<div id="error" class="updated fade-ff0000 imdblt_red"><p>'. $msg .'</p></div>';
 			break;
 		case 2: // advanced notice
 		case 4: // advanced error
 			echo '<div class="wrap">'. $msg .'</div>';
 			break;
 		case 5: // super duper wicked crazy critical error!
-			die($msg);
+			wp_die($msg);
 			break;
 	}
 }

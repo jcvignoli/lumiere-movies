@@ -253,7 +253,7 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 <?php /* 2021 05 10 unactivated
 				<div class="explain"><?php esc_html_e( "This is the imdb server to use. The localized ones (i.e. italian and german) are only qualified to find the movies ID - but parsing for the details will fail at the moment.", 'imdb'); ?></div>
 */ ?>
-				<div class="explain"><?php esc_html_e( 'Language of the title search results.', 'imdb'); ?></div>
+				<div class="explain"><?php esc_html_e( 'Language used for the movie search. Very usefull for a non-English blog using Lumiere as a widget.', 'imdb'); ?></div>
 
 			</td>
 			<td class="td-aligntop">
