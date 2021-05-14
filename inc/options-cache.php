@@ -90,7 +90,7 @@ if ( isset( $_POST['update_imdbltcache_check'] ) && wp_verify_nonce( $_POST['upd
 			$filetodeletepics2=$imdb_cache_values['imdbphotodir'].$number_to_delete.".jpg";
 
 			// delete things
-			if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w') or wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ) {
+			if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w')  ) {
 			 	if (file_exists($filetodeletetitle )) unlink ($filetodeletetitle);
 			 	if (file_exists($filetodeletetaglines )) unlink ($filetodeletetaglines);
 			 	if (file_exists($filetodeletesoundtrack )) unlink ($filetodeletesoundtrack);
@@ -108,6 +108,8 @@ if ( isset( $_POST['update_imdbltcache_check'] ) && wp_verify_nonce( $_POST['upd
 			 	if (file_exists($filetodeletetriviatab )) unlink ($filetodeletetriviatab);
 			 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 			 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
+			} else {
+				wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') )
 			}
 
 		}
@@ -123,11 +125,13 @@ if ( isset( $_POST['update_imdbltcache_check'] ) && wp_verify_nonce( $_POST['upd
 			$filetodeletepics=$imdb_cache_values['imdbphotodir']."nm".$number_to_delete.".jpg";
 
 			// delete things
-			if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w') or wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ) {
+			if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w') ) {
 			 	if (file_exists($filetodeletebio )) unlink ($filetodeletebio);
 			 	if (file_exists($filetodeletename )) unlink ($filetodeletename);
 			 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
 			 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
+			} else {
+				wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) 
 			}
 		}
 	}
@@ -164,7 +168,7 @@ if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
 		$filetodeletepics2=$imdb_cache_values['imdbphotodir'].$wheresanitized.".jpg";
 
 		// delete things
-		if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w') or wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ) {
+		if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w')  ) {
 		 	if (file_exists($filetodeletetitle )) unlink ($filetodeletetitle);
 		 	if (file_exists($filetodeletetaglines )) unlink ($filetodeletetaglines);
 		 	if (file_exists($filetodeletesoundtrack )) unlink ($filetodeletesoundtrack);
@@ -182,6 +186,8 @@ if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
 		 	if (file_exists($filetodeletetriviatab )) unlink ($filetodeletetriviatab);
 		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 		 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
+		}  else {
+			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) 
 		}
 	}
 
@@ -195,11 +201,13 @@ if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
 		$filetodeletepics=$imdb_cache_values['imdbphotodir']."nm".$wheresanitized.".jpg";
 
 		// delete things
-		if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w') or wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ) {
+		if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w')  ) {
 		 	if (file_exists($filetodeletebio )) unlink ($filetodeletebio);
 		 	if (file_exists($filetodeletename )) unlink ($filetodeletename);
 		 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
 		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
+		} else {
+			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) 
 		}
 	}
 
@@ -240,7 +248,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		$filetodeletepics2=$imdb_cache_values['imdbphotodir'].$wheresanitized.".jpg";
 
 		// delete things
-		if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w') or wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ) {
+		if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w') ) {
 		 	if (file_exists($filetodeletetitle )) unlink ($filetodeletetitle);
 		 	if (file_exists($filetodeletetaglines )) unlink ($filetodeletetaglines);
 		 	if (file_exists($filetodeletesoundtrack )) unlink ($filetodeletesoundtrack);
@@ -258,6 +266,8 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		 	if (file_exists($filetodeletetriviatab )) unlink ($filetodeletetriviatab);
 		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 		 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
+		} else {
+			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) 
 		}
 
 		// get again the movie
@@ -280,11 +290,13 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		$filetodeletepics=$imdb_cache_values['imdbphotodir']."nm".$wheresanitized.".jpg";
 
 		// delete things
-		if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w') or wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ) {
+		if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w') ) {
 		 	if (file_exists($filetodeletebio )) unlink ($filetodeletebio);
 		 	if (file_exists($filetodeletename )) unlink ($filetodeletename);
 		 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
 		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
+		} else {
+			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) 
 		}
 
 		// get again the person
