@@ -91,8 +91,8 @@ while ($imovie < count($imdballmeta)) {
 	$title_sanitized=sanitize_text_field( $movie->title() );?>
 										<!-- title -->
 		<div class="imdbelementTITLE"><?php
-			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomytitle] == true ) && (count_me('imdblt_title', $count_me_siffer) == "nomore") ) { 
-			// count_me_siffer() to avoid adding evey taxonomy from several movies's titles...
+			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomytitle] == true ) && (lumiere_count_me('imdblt_title', $count_me_siffer) == "nomore") ) { 
+			// lumiere_count_me() to avoid adding evey taxonomy from several movies's titles...
 				for ($i = 0; $i + 1 < count ($title_sanitized); $i++) { 
 					wp_set_object_terms($wp_query->post->ID, $title_sanitized, 'imdblt_title', true); #add taxonomy terms to posts' terms
 				} 	wp_set_object_terms($wp_query->post->ID, $title_sanitized, 'imdblt_title', true);  #add last taxonomy term to posts' terms
@@ -158,8 +158,8 @@ while ($imovie < count($imdballmeta)) {
 			<ul class="imdbelementCOUNTRYul">
 				<li class="imdbincluded-lined imdbelementCOUNTRYli">
 					<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Country', 'Countries', count($country), 'imdb')))); ?>:</span><?php 
-			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycountry'] == true ) && (count_me('imdblt_country', $count_me_siffer) == "nomore") ) { 
-			// count_me_siffer() to avoid adding evey taxonomy from several movies's genre...
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycountry'] == true ) && (lumiere_count_me('imdblt_country', $count_me_siffer) == "nomore") ) { 
+			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
 				for ($i = 0; $i + 1 < count ($country); $i++) { 
 					wp_set_object_terms($wp_query->post->ID, sanitize_text_field($country[$i]), 'imdblt_country', true); #add taxonomy terms to posts' terms
 				} 	wp_set_object_terms($wp_query->post->ID, sanitize_text_field($country[$i]), 'imdblt_country', true);  #add last taxonomy term to posts' terms
@@ -196,8 +196,8 @@ while ($imovie < count($imdballmeta)) {
 			<ul class="imdbelementLANGUAGEul">
 			<li class="imdbincluded-lined imdbelementLANGUAGEli">
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Language', 'Languages', count($languages), 'imdb')))); ?>:</span><?php
-			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomylanguage] == true ) && (count_me('imdblt_languages', $count_me_siffer) == "nomore") ) { 
-			// count_me_siffer() to avoid adding evey taxonomy from several movies's genre...
+			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomylanguage] == true ) && (lumiere_count_me('imdblt_languages', $count_me_siffer) == "nomore") ) { 
+			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
 				for ($i = 0; $i + 1 < count ($languages); $i++) { 
 					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $languages[$i] ), 'imdblt_language', true); #add taxonomy terms to posts' terms
 				} 	wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $languages[$i]), 'imdblt_language', true);  #add last taxonomy term to posts' terms
@@ -247,8 +247,8 @@ while ($imovie < count($imdballmeta)) {
 			<ul class="imdbelementGENREul">
 			<li class="imdbincluded-lined imdbelementGENREli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Genre', 'Genres', count($genre), 'imdb')))); ?>:</span><?php 
 
-			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values['imdbtaxonomygenre'] == true ) && (count_me('imdblt_genre', $count_me_siffer) == "nomore") ) { 
-			// count_me_siffer() to avoid adding evey taxonomy from several movies's genre...
+			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values['imdbtaxonomygenre'] == true ) && (lumiere_count_me('imdblt_genre', $count_me_siffer) == "nomore") ) { 
+			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
 				for ($i = 0; $i + 1 < count ($genre); $i++) { 
 					wp_set_object_terms($wp_query->post->ID, sanitize_text_field($genre[$i]), 'imdblt_genre', true); #add taxonomy terms to posts' terms
 				} 	wp_set_object_terms($wp_query->post->ID, sanitize_text_field($genre[$i]), 'imdblt_genre', true);  #add last taxonomy term to posts' terms
@@ -272,8 +272,8 @@ while ($imovie < count($imdballmeta)) {
 			<ul class="imdbelementKEYWORDSul">
 				<li class="imdbincluded-lined imdbelementKEYWORDSli">
 					<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Keyword', 'Keywords', count($keywords), 'imdb')))); ?>:</span><?php 
-			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomykeywords'] == true ) && (count_me('imdblt_keywords', $count_me_siffer) == "nomore") ) { 
-			// count_me_siffer() to avoid adding evey taxonomy from several movies's genre...
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomykeywords'] == true ) && (lumiere_count_me('imdblt_keywords', $count_me_siffer) == "nomore") ) { 
+			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
 				for ($i = 0; $i + 1 < count ($keywords); $i++) { 
 					wp_set_object_terms($wp_query->post->ID, sanitize_text_field($keywords[$i]), 'imdblt_keywords', true); #add taxonomy terms to posts' terms
 
@@ -428,8 +428,8 @@ while ($imovie < count($imdballmeta)) {
 			<ul class="imdbelementCOLORul">
 			<li class="imdbincluded-lined imdbelementCOLORli">
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Color', 'Colors', count($colors), 'imdb')))); ?>:</span><?php
-			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycolor'] == true ) && (count_me('imdblt_color', $count_me_siffer) == "nomore") ) { 
-			// count_me_siffer() to avoid adding evey taxonomy from several movies's genre...
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycolor'] == true ) && (lumiere_count_me('imdblt_color', $count_me_siffer) == "nomore") ) { 
+			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
 				for ($i = 0; $i + 1 < count ($colors); $i++) { 
 					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $colors[$i] ), 'imdblt_color', true); #add taxonomy terms to posts' terms
 				} 	
@@ -472,8 +472,8 @@ while ($imovie < count($imdballmeta)) {
 										<!-- composer -->
 			<ul class="imdbelementCOMPOSERul">
 			<li class="imdbincluded-lined imdbelementCOMPOSERli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Composer', 'Composers', count($composer), 'imdb')))); ?>:</span><?php 
-			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomycomposer] == true ) && (count_me('imdblt_composer', $count_me_siffer) == "nomore") ) { 
-			// count_me_siffer() to avoid adding evey taxonomy from several movies's genre...
+			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomycomposer] == true ) && (lumiere_count_me('imdblt_composer', $count_me_siffer) == "nomore") ) { 
+			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
 				for ($i = 0; $i < count ($composer); $i++) {
 					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $composer[$i]["name"] ), 'imdblt_composer', true); #add taxonomy terms to posts' terms
 				} 
@@ -580,8 +580,8 @@ while ($imovie < count($imdballmeta)) {
 			<li class="imdbincluded-lined imdbelementDIRECTORli">
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Director', 'Directors', count($director), 'imdb')))); ?>:</span>&nbsp;<?php
 
-			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomydirector'] == true ) && (count_me('imdblt_director', $count_me_siffer) == "nomore") ) { 
-			// count_me_siffer() to avoid adding every taxonomy from several movies's genre...
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomydirector'] == true ) && (lumiere_count_me('imdblt_director', $count_me_siffer) == "nomore") ) { 
+			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
 				for ($i = 0; $i < count ($director); $i++) {
 					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $director[$i]["name"] ), 'imdblt_director', true); #add taxonomy terms to posts' terms
 				} 
@@ -619,8 +619,8 @@ while ($imovie < count($imdballmeta)) {
 			<li class="imdbincluded-lined imdbelementCREATORli">
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Creator', 'Creators', count($creator), 'imdb')))); ?>:</span>&nbsp;<?php
 
-			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values[imdbtaxonomycreator] == true ) && (count_me('imdblt_creator', $count_me_siffer) == "nomore") ) { 
-			// count_me_siffer() to avoid adding every taxonomy from several movies's genre...
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values[imdbtaxonomycreator] == true ) && (lumiere_count_me('imdblt_creator', $count_me_siffer) == "nomore") ) { 
+			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
 				for ($i = 0; $i < count ($creator); $i++) {
 					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $creator[$i]["name"] ), 'imdblt_creator', true); #add taxonomy terms to posts' terms
 				} 
@@ -657,8 +657,8 @@ while ($imovie < count($imdballmeta)) {
 			<ul class="imdbelementPRODUCERul">
 			<li class="imdbincluded-lined imdbelementPRODUCERli">
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Producer', 'Producers', count($producer), 'imdb')))); ?>:</span><?php
-			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values[imdbtaxonomyproducer] == true ) && (count_me('imdblt_producer', $count_me_siffer) == "nomore") ) { 
-			// count_me_siffer() to avoid adding every taxonomy from several movies's genre...
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values[imdbtaxonomyproducer] == true ) && (lumiere_count_me('imdblt_producer', $count_me_siffer) == "nomore") ) { 
+			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
 				for ($i = 0; $i < count ($producer); $i++) {
 					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $producer[$i]["name"] ), 'imdblt_producer', true); #add taxonomy terms to posts' terms
 				} 
@@ -698,8 +698,8 @@ while ($imovie < count($imdballmeta)) {
 		<ul class="imdbelementWRITERul">
 		<li class="imdbincluded-lined imdbelementWRITERli">
 			<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Writer', 'Writers', count($write), 'imdb')))); ?>:</span><?php
-			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values['imdbtaxonomywriter'] == true ) && (count_me('imdblt_writer', $count_me_siffer) == "nomore") ) { 
-			// count_me_siffer() to avoid adding every taxonomy from several movies's genre...
+			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values['imdbtaxonomywriter'] == true ) && (lumiere_count_me('imdblt_writer', $count_me_siffer) == "nomore") ) { 
+			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
 				for ($i = 0; $i < count ($writer); $i++) {
 					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $writer[$i]["name"] ), 'imdblt_writer', true); #add taxonomy terms to posts' terms
 				} 
@@ -740,8 +740,8 @@ while ($imovie < count($imdballmeta)) {
 			<ul class="imdbelementACTORul">
 			<li class="imdbincluded-lined imdbelementACTORli">
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Actor', 'Actors', count($cast), 'imdb')))); ?>:</span><?php 
-			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomyactor] == true ) && (count_me('imdblt_actor', $count_me_siffer) == "nomore") ) { 
-			// count_me_siffer() to avoid adding every taxonomy from several movies's genre...
+			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomyactor] == true ) && (lumiere_count_me('imdblt_actor', $count_me_siffer) == "nomore") ) { 
+			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
 				for ($i = 0; $i < $imdb_widget_values[imdbwidgetactornumber] && ($i < count($cast)); $i++) { 
 					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $cast[$i]["name"] ), 'imdblt_actor', true); #add taxonomy terms to posts' terms
 				} 
@@ -782,7 +782,7 @@ while ($imovie < count($imdballmeta)) {
 
 	if  ($magicnumber==$imdb_widget_values['imdbwidgetorder']['plot'] ) {
 	$plot = $movie->plot (); 
-		if (!is_multiArrayEmpty($plot) && ($imdb_widget_values['imdbwidgetplot'] == true )) {
+		if (!lumiere_is_multiArrayEmpty($plot) && ($imdb_widget_values['imdbwidgetplot'] == true )) {
 		// here is tested if the array contains data; if not, doesn't go further ?>
 										<!-- Plots -->
 			<ul class="imdbelementPLOTul">

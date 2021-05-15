@@ -571,7 +571,7 @@ class imdblt_core {
 
 			// add taxonomies in wordpress (from functions.php)
 			if ($imdb_admin_values['imdbtaxonomy'] == 1) 
-				add_action( 'init', 'create_imdblt_taxonomies', 0 );
+				add_action( 'init', 'lumiere_create_taxonomies', 0 );
 
 			// register widget
 			add_action('plugins_loaded', 'register_imdbwidget');
