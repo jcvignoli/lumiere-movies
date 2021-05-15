@@ -15,7 +15,7 @@ $allowed_html_for_esc_html_functions = [
  * @param string $dir Directory name
  * credits to http://ch.php.net/manual/en/function.unlink.php#87045
  */
-function imdblt_unlinkRecursive($dir){
+function lumiere_unlinkRecursive($dir){
     if(!$dh = @opendir($dir)){
         return;
     }
@@ -25,7 +25,7 @@ function imdblt_unlinkRecursive($dir){
         }
 
         if (!@unlink($dir . '/' . $obj)){
-            unlinkRecursive($dir.'/'.$obj, true);
+            imdblt_unlinkRecursive($dir.'/'.$obj, true);
         }
     }
 

@@ -347,7 +347,7 @@ class imdb_settings_conf extends mdb_config {
 				imdblt_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.esc_url($_SERVER["REQUEST_URI"]."&reset=true").'">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
 			}
 
-			imdblt_unlinkRecursive ( $imdbOptionsc['imdbcachedir'] );
+			lumiere_unlinkRecursive( $imdbOptionsc['imdbcachedir'] );
 
 
 		}
