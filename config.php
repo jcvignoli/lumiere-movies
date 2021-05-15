@@ -384,14 +384,8 @@ class imdb_settings_conf extends mdb_config {
 
 <div class=wrap>
 
-	<div class="imdblt_double_container">
-		<div class="imdblt_double_container_content_twenty">
-			<img src="<?php echo esc_url ( $imdbOptions['imdbplugindirectory'] . ".wordpress-org/icon-128x128.jpg"); ?>" width="50" height="50">
-		</div>
-		<div class="imdblt_double_container_content_eighty">
-			<h2><i>Lumière!</i>&nbsp;<?php esc_html_e( "options", "imdb"); ?></h2>
-		</div>
-	</div>
+	<h2><i>Lumière!</i>&nbsp;<?php esc_html_e( "options", "imdb"); ?></h2>
+	<?php /*<img src="<?php echo esc_url ( $imdbOptions['imdbplugindirectory'] . ".wordpress-org/icon-128x128.jpg"); ?>" width="50" height="50" /> ----breaks the layout when there is a notice */ ?>
 
 	<div class="subpage">
 
