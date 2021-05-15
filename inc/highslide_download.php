@@ -38,15 +38,15 @@ if ( (isset($_GET["highslide"])) && ($_GET["highslide"] = "yes") ) {
 		exit();
 
 	} else {
-		// Extraction failed
 
+		// Extraction failed
 		wp_safe_redirect( add_query_arg( "msg", "highslide_failure", wp_get_referer() ) );
 		exit();
 	}
 
 // Wrong $_GET
 } else {
-	die(esc_html__("You can not call directly this page.", "imdb"));
+	wp_die(esc_html__("You can not call directly this page.", "imdb"));
 }
 
 

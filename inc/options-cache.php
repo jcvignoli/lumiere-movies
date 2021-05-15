@@ -109,7 +109,7 @@ if ( isset( $_POST['update_imdbltcache_check'] ) && wp_verify_nonce( $_POST['upd
 			 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 			 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
 			} else {
-				wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') )
+				wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') );
 			}
 
 		}
@@ -131,7 +131,7 @@ if ( isset( $_POST['update_imdbltcache_check'] ) && wp_verify_nonce( $_POST['upd
 			 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
 			 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 			} else {
-				wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) 
+				wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ); 
 			}
 		}
 	}
@@ -187,7 +187,7 @@ if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
 		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 		 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
 		}  else {
-			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) 
+			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ;
 		}
 	}
 
@@ -207,7 +207,7 @@ if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
 		 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
 		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 		} else {
-			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) 
+			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ;
 		}
 	}
 
@@ -267,7 +267,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 		 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
 		} else {
-			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) 
+			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ;
 		}
 
 		// get again the movie
@@ -296,7 +296,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
 		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 		} else {
-			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) 
+			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') );
 		}
 
 		// get again the person

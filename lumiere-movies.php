@@ -1,5 +1,5 @@
 <?php
-// Lumiere Movies wordpress plugin
+// Lumière wordpress plugin
 //
 // (c) 2005-21 Prometheus group
 // https://www.jcvignoli.com/blog
@@ -11,7 +11,7 @@
 // *****************************************************************
 
 /*
-Plugin Name: Lumiere Movies
+Plugin Name: Lumière
 Plugin URI: https://www.jcvignoli.com/blog/lumiere-movies-wordpress-plugin
 Description: Add to every movie title tagged with &lt;!--imdb--&gt; (...) &lt;!--/imdb--&gt; a link to an <a href="https://www.imdb.com"><acronym title="internet movie database">imdb</acronym></a> popup. Can also display data related to movies either in a <a href="widgets.php">widget</a> or inside a post. Perfect for your movie reviews. Cache handling. Have a look at the <a href="admin.php?page=imdblt_options">options page</a>.
 Version: 3.0
@@ -71,35 +71,42 @@ class imdblt_core {
 	**/
 
 	function imdblt_make_htaccess(){
-		// Get the subpath if it exists
-		$imdblt_blog_subdomain = site_url( '', 'relative' ) ?? "";
-		
-		// .htaccess file
-		$imdblt_htaccess_file = plugin_dir_path( __FILE__ )  . "/inc/.htaccess";
+		/* vars */
+		$imdblt_blog_subdomain = site_url( '', 'relative' ) ?? ""; #ie: /subdirectory-if-exists/
+		$imdblt_plugin_full_path = plugin_dir_path( __FILE__ ) ?? wp_die( esc_html__("There was an error when generating the htaccess file.", "imdb") ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/
+		$imdblt_plugin_path = str_replace( $imdblt_blog_subdomain, "", wp_make_link_relative( plugin_dir_url( __FILE__ ))); #ie: /wp-content/plugins/lumiere-movies/
+		$imdblt_htaccess_file = $imdblt_plugin_full_path  . "/inc/.htaccess" ?? wp_die( esc_html__("There was an error when generating the htaccess file.", "imdb") ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/inc/.htaccess
+		$imdblt_slug_path_movie = "imdblt/film";
+		$imdblt_slug_path_person = "imdblt/person";
 
 		// .htaccess text, including Rewritebase with $blog_subdomain
 		$imdblt_htaccess_file_txt = "<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase ".$imdblt_blog_subdomain."/"."\n\n";
 
 		# highslide
-		$imdblt_htaccess_file_txt .= "## highslide_download.php\nRewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/highslide_download.php\?highslide=yes [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options&highslide=yes [L,R]"."\n\n";
+		$imdblt_htaccess_file_txt .= "## highslide_download.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/highslide_download.php\?highslide=yes [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options&highslide=yes [L,R]"."\n\n";
 
 		# popup-search
-		$imdblt_htaccess_file_txt .= "## popup-search.php\nRewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-search.php\?film=([^\s]+)(&norecursive=[^\s]+)?"."\n"."RewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "## popup-search.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-search.php\?film=([^\s]+)(&norecursive=[^\s]+)?"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_movie."/%1/ [L,R,QSA]"."\n\n";
 
 		# popup-imdb-movie.php
-		$imdblt_htaccess_file_txt .= "## popup-imdb_movie.php"."\n"."RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php\?film=([^\s]+) [NC]\nRewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php\?mid=([^\s]+)&film=&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php\?mid=?([^\s]+)&film=([^\s]+)?(&info=[^\s]*) [NC]"."\n"."RewriteRule ^.+$ imdblt/film/%2/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ imdblt/film/%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "## popup-imdb_movie.php"."\n"."RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_movie.php\?film=([^\s]+) [NC]\nRewriteRule ^.+$ ".$imdblt_slug_path_movie."/%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_movie.php\?mid=([^\s]+)&film=&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_movie."/%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_movie.php\?mid=?([^&#]+)&film=([^\s]+)?(&info=[^\s]*) [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_movie."/%2/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_movie.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_movie."/%1/ [L,R,QSA]"."\n\n";
 
 		# popup-imdb_person.php
-		$imdblt_htaccess_file_txt .= "## popup-imdb_person.php"."\n"."RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_person.php\?mid=([^\s]+)?&film=([^\s]+)?&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ imdblt/person/%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} /wp-content/plugins/lumiere-movies/inc/popup-imdb_person.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ imdblt/person/%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "## popup-imdb_person.php"."\n"."RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_person.php\?mid=([^&#]+)&(film=[^\s]+)(&info=[^\s]+)? [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_person."/%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_person.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_person."/%1/ [L,R,QSA]"."\n\n";
 		$imdblt_htaccess_file_txt .= "</IfModule>"."\n";
 
 		// write the .htaccess file and close
-		if (isset($imdblt_htaccess_file))
+		if (isset($imdblt_htaccess_file)) {
 			file_put_contents($imdblt_htaccess_file, $imdblt_htaccess_file_txt.PHP_EOL);
+//			imdblt_notice(1, esc_html__( 'htaccess file successfully generated.', 'imdb') ); 
+		} else {
+wp_die(imdblt_notice(3, esc_html__( 'Failed creating htaccess file.', 'imdb') ));
+			//imdblt_notice(3, esc_html__( 'Failed creating htaccess file.', 'imdb') ); 
+		}
 	}
 
 	/**
@@ -208,10 +215,10 @@ class imdblt_core {
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ){
 			
 			if ($_GET['film'])
-				$title = sanitize_text_field($_GET['film']). " - Lumiere plugin";
+				$title = sanitize_text_field($_GET['film']). " - Lumière wordpress - ";
 			/* find a way to get person's name
 			elseif ($_GET['person'])
-				$title = sanitize_text_field($_GET['person']). " - Lumiere plugin";
+				$title = sanitize_text_field($_GET['person']). " - Lumière wordpress - ";
 			*/
 
 			return $title;
@@ -312,15 +319,15 @@ class imdblt_core {
 		}
 		
 		if (function_exists('add_options_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 0 ) ) {
-			add_options_page('Lumiere Movies Options', 'Lumiere', 'administrator', 'imdblt_options', [ $imdb_ft, 'printAdminPage'] );
+			add_options_page('Lumière Options', '<img src="'. $imdb_admin_values['imdbplugindirectory']. 'pics/imdb.gif"> Lumière', 'administrator', 'imdblt_options', [ $imdb_ft, 'printAdminPage'] );
 
 			// third party plugin
 			add_filter('ozh_adminmenu_icon_imdblt_options', [ $this, 'ozh_imdblt_icon' ] );
 		}
 		if (function_exists('add_submenu_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 1 ) ) {
 			// big menu for many pages for admin sidebar
-			add_menu_page( 'Lumiere Options', 'Lumiere' , 8, 'imdblt_options', [ $imdb_ft, 'printAdminPage' ], $imdb_admin_values['imdbplugindirectory'].'pics/imdb.gif');
-			add_submenu_page( 'imdblt_options' , esc_html__('Lumiere Movies options page', 'imdb'), esc_html__('General options', 'imdb'), 8, 'imdblt_options');
+			add_menu_page( 'Lumière Options', '<i>Lumière</i>' , 8, 'imdblt_options', [ $imdb_ft, 'printAdminPage' ], $imdb_admin_values['imdbplugindirectory'].'pics/imdb.gif');
+			add_submenu_page( 'imdblt_options' , esc_html__('Lumière options page', 'imdb'), esc_html__('General options', 'imdb'), 8, 'imdblt_options');
 			add_submenu_page( 'imdblt_options' , esc_html__('Widget & In post options page', 'imdb'), esc_html__('Widget/In post', 'imdb'), 8, 'imdblt_options&subsection=widgetoption', [ $imdb_ft, 'printAdminPage'] );
 			add_submenu_page( 'imdblt_options',  esc_html__('Cache management options page', 'imdb'), esc_html__('Cache management', 'imdb'), 8, 'imdblt_options&subsection=cache', [ $imdb_ft, 'printAdminPage' ]);
 			add_submenu_page( 'imdblt_options' , esc_html__('Help page', 'imdb'), esc_html__('Help', 'imdb'), 8, 'imdblt_options&subsection=help', [ $imdb_ft, 'printAdminPage'] );
@@ -440,7 +447,7 @@ class imdblt_core {
 	function add_admin_toolbar_menu($admin_bar) {
 		global $imdb_admin_values;
 
-		$admin_bar->add_menu( array('id'=>'imdblt-menu','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/imdb.gif' width='16px' />&nbsp;&nbsp;".esc_html__('Lumiere'),'href'  => 'admin.php?page=imdblt_options', 'meta'  => array('title' => esc_html__('Lumiere Menu'), ),) );
+		$admin_bar->add_menu( array('id'=>'imdblt-menu','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/imdb.gif' width='16px' />&nbsp;&nbsp;". 'Lumière','href'  => 'admin.php?page=imdblt_options', 'meta'  => array('title' => esc_html__('Lumière Menu'), ),) );
 
 		$admin_bar->add_menu( array('parent' => 'imdblt-menu','id' => 'imdblt-menu-options','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/admin-general.png' width='16px' />&nbsp;&nbsp;".esc_html__('General options'),'href'  =>'admin.php?page=imdblt_options','meta'  => array('title' => esc_html__('General options'),),) );
 

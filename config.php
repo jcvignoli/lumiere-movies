@@ -1,6 +1,6 @@
 <?php
  #############################################################################
- # Lumiere!                                                                  #
+ # Lumière!                                                                  #
  # written by Prometheus group                                               #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
@@ -423,8 +423,8 @@ class imdb_settings_conf extends mdb_config {
 	</div>
 	<div align="right" >
 		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-help.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-		<a title="<?php esc_html_e( 'How to use Lumiere!, check FAQs & changelog', 'imdb');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help"); ?>">
-			<?php esc_html_e( 'Lumiere! help', 'imdb'); ?>
+		<a title="<?php esc_html_e( 'How to use Lumière!, check FAQs & changelog', 'imdb');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help"); ?>">
+			<i>Lumière!</i> <?php esc_html_e( 'help', 'imdb'); ?>
 		</a>
 	</div>
 	</div>
@@ -444,9 +444,9 @@ class imdb_settings_conf extends mdb_config {
 	elseif ($_GET['subsection'] == "cache")  {
 		$test = $this->get_imdb_admin_option(); //this variable has to be sent to new page
 		$engine = $test['imdbsourceout'];
-		include ( esc_url( IMDBLTABSPATH . 'inc/options-cache.php'));
+		include ( esc_url( $imdbOptions['imdbpluginpath'] . 'inc/options-cache.php'));
 	} elseif ($_GET['subsection'] == "help")  {
-		include ( esc_url( IMDBLTABSPATH . 'inc/help.php' ));
+		include ( esc_url( $imdbOptions['imdbpluginpath'] . 'inc/help.php' ));
 	}
 	// end subselection ?>
 
