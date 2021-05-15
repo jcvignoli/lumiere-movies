@@ -4,6 +4,10 @@
  *
  */
 
+// prevent direct calls
+if (empty(wp_get_referer()) && (0 !== stripos( wp_get_referer(), admin_url() . 'admin.php?page=imdblt_options' )) )
+	wp_die(esc_html__("You can not call directly this page.", "imdb"));
+
 /************* Vars **************/
 
 global $imdb_admin_values;
@@ -13,7 +17,8 @@ $highslide_tmp_name = "highslidetmp.zip";
 $highslidefile_local_zip = esc_url( $imdb_admin_values['imdbpluginpath'] . $highslide_tmp_name );
 $highslidefile_local_folder = esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" );
 
-if ( (isset($_GET["highslide"])) && ($_GET["highslide"] = "yes") ) {
+
+if ( (isset($_GET["highslide"])) && ( sanitize_key( $_GET["highslide"] ) = "yes") ) {
 
 	// Download Highslide zip
 	if (lumiere_checkOnline( IMDBBLOGHIGHSLIDE ))  { 

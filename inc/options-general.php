@@ -28,7 +28,7 @@ $messages = array( /* highslide message notification options */
 require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 
 // If $_GET["msg"] is found, display a related notice
-if ((isset($_GET['msg'])) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $messages ) ){
+if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $messages ) ){
 	// Message for success
 	if (sanitize_text_field( $_GET['msg'] ) == "highslide_success" ) {
 		imdblt_notice(1, esc_html__( $messages["highslide_success"], 'imdb') );
