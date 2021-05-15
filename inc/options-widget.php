@@ -13,10 +13,30 @@
  #									              #
  #############################################################################
 
+/* vars */
 global $imdb_admin_values;
 
-// included files
+/* included files */
 require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
+
+/* vars */
+$messages = array( /* Template message notification options */
+    'taxotemplatecopy_success' => 'Template successfully copied.',
+    'taxotemplatecopy_failed' => 'Template copy failed!',
+);
+
+// If $_GET["msg"] is found, display a related notice
+if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $messages ) ){
+	// Message for success
+	if (sanitize_text_field( $_GET['msg'] ) == "taxotemplatecopy_success" ) {
+		imdblt_notice(1, esc_html__( $messages["taxotemplatecopy_success"], 'imdb') );
+	// Message for failure
+	} elseif ( sanitize_text_field( $_GET['msg'] ) == "taxotemplatecopy_failed" ) {
+		imdblt_notice(3, esc_html__( $messages["taxotemplatecopy_failed"] , 'imdb') );
+
+	} 
+}
+
 
 ?>
 
@@ -376,18 +396,48 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 				<label for="imdb_imdbtaxonomyactor">
 					<?php if ($imdbOptionsw['imdbtaxonomyactor'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Actors', 'imdb'); echo '</span>'; } else { ?><?php  esc_html_e( 'Actors', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
+				<?php
+				if ($imdbOptionsw['imdbtaxonomyactor'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=actor") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						esc_html__("Copy template", "imdb") .
+					"</a>";
+				}
+				?> 
 			</td>
 			<td width="27%">
 				<input type="checkbox" id="imdb_imdbtaxonomycolor" name="imdb_imdbtaxonomycolor" value="<?php if ($imdbOptionsw['imdbtaxonomycolor'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomycolor">
 					<?php if ($imdbOptionsw['imdbtaxonomycolor'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Colors', 'imdb'); echo '</span>'; } else { ?><?php  esc_html_e( 'Colors', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
+				<?php
+				if ($imdbOptionsw['imdbtaxonomycolor'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=color") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						esc_html__("Copy template", "imdb") .
+					"</a>";
+				}
+				?> 
 			</td>
 			<td width="27%">
 				<input type="checkbox" id="imdb_imdbtaxonomycomposer" name="imdb_imdbtaxonomycomposer" value="<?php if ($imdbOptionsw['imdbtaxonomycomposer'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomycomposer">
 					<?php if ($imdbOptionsw['imdbtaxonomycomposer'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Composers', 'imdb'); echo '</span>'; } else { ?><?php  esc_html_e( 'Composers', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
+				<?php
+				if ($imdbOptionsw['imdbtaxonomycomposer'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=composer") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						esc_html__("Copy template", "imdb") .
+					"</a>";
+				}
+				?> 
 			</td>
 		</tr>
 
@@ -398,6 +448,16 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 				<label for="imdb_imdbtaxonomycreator">
 					<?php if ($imdbOptionsw['imdbtaxonomycreator'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Creators', 'imdb'); echo '</span>'; } else { ?><?php  esc_html_e( 'Creators', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
+				<?php
+				if ($imdbOptionsw['imdbtaxonomycreator'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=creator") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						esc_html__("Copy template", "imdb") .
+					"</a>";
+				}
+				?> 
 			</td>
 
 			<td width="27%">
@@ -405,6 +465,16 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 				<label for="imdb_imdbtaxonomycountry">
 					<?php if ($imdbOptionsw['imdbtaxonomycountry'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Countries', 'imdb'); echo '</span>'; } else { ?><?php  esc_html_e( 'Countries', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
+				<?php
+				if ($imdbOptionsw['imdbtaxonomycountry'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=country") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						esc_html__("Copy template", "imdb") .
+					"</a>";
+				}
+				?> 
 			</td>
 
 			<td width="27%">
@@ -412,6 +482,16 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 				<label for="imdb_imdbtaxonomydirector">
 					<?php if ($imdbOptionsw['imdbtaxonomydirector'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Directors', 'imdb'); echo '</span>'; } else { ?><?php  esc_html_e( 'Directors', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
+				<?php
+				if ($imdbOptionsw['imdbtaxonomydirector'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=director") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						esc_html__("Copy template", "imdb") .
+					"</a>";
+				}
+				?> 
 			</td>
 		</tr>
 
@@ -422,6 +502,16 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 				<label for="imdb_imdbtaxonomygenre">
 					<?php if ($imdbOptionsw['imdbtaxonomygenre'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Genres', 'imdb'); echo '</span>'; } else { ?><?php  esc_html_e( 'Genres', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
+				<?php
+				if ($imdbOptionsw['imdbtaxonomygenre'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=genre") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						esc_html__("Copy template", "imdb") .
+					"</a>";
+				}
+				?> 
 			</td>
 
 			<td width="27%">
@@ -429,12 +519,32 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 				<label for="imdb_imdbtaxonomylanguage">
 					<?php if ($imdbOptionsw['imdbtaxonomylanguage'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Languages', 'imdb'); echo '</span>'; } else { ?><?php  esc_html_e( 'Languages', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
+				<?php
+				if ($imdbOptionsw['imdbtaxonomylanguage'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=language") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						esc_html__("Copy template", "imdb") .
+					"</a>";
+				}
+				?> 
 			</td>
 			<td width="27%">
 				<input type="checkbox" id="imdb_imdbtaxonomyproducer" name="imdb_imdbtaxonomyproducer" value="<?php if ($imdbOptionsw['imdbtaxonomyproducer'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomyproducer">
 					<?php if ($imdbOptionsw['imdbtaxonomyproducer'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Producers', 'imdb'); echo '</span>'; } else { ?><?php  esc_html_e( 'Producers', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
+				<?php
+				if ($imdbOptionsw['imdbtaxonomyproducer'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=producer") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						esc_html__("Copy template", "imdb") .
+					"</a>";
+				}
+				?> 
 			</td>
 		</tr>
 
@@ -445,18 +555,48 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 				<label for="imdb_imdbtaxonomytitle">
 					<?php if ($imdbOptionsw['imdbtaxonomytitle'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Titles', 'imdb'); echo '</span>'; } else { ?><?php  esc_html_e( 'Titles', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
+				<?php
+				if ($imdbOptionsw['imdbtaxonomytitle'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=title") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						esc_html__("Copy template", "imdb") .
+					"</a>";
+				}
+				?> 
 			</td>
 			<td width="27%">
 				<input type="checkbox" id="imdb_imdbtaxonomywriter" name="imdb_imdbtaxonomywriter" value="<?php if ($imdbOptionsw['imdbtaxonomywriter'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomywriter">
 					<?php if ($imdbOptionsw['imdbtaxonomywriter'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Writers', 'imdb'); echo '</span>'; } else { ?><?php  esc_html_e( 'Writers', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
+				<?php
+				if ($imdbOptionsw['imdbtaxonomywriter'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=writer") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						esc_html__("Copy template", "imdb") .
+					"</a>";
+				}
+				?> 
 			</td>
 			<td width="27%">				
 					<input type="checkbox" id="imdb_imdbtaxonomykeywords" name="imdb_imdbtaxonomykeywords" value="<?php if ($imdbOptionsw['imdbtaxonomykeywords'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomykeywords">
 					<?php if ($imdbOptionsw['imdbtaxonomykeywords'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Keywords', 'imdb'); echo '</span>'; } else { ?><?php  esc_html_e( 'Keywords', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
-				</label> 
+				</label> 				
+				<?php
+				if ($imdbOptionsw['imdbtaxonomykeywords'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=keywords") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						esc_html__("Copy template", "imdb") .
+					"</a>";
+				}
+				?> 
 			</td>
 		</tr>
 <?php } //end check taxonomy option

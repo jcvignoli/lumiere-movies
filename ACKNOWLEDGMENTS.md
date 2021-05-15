@@ -11,7 +11,9 @@
 **Romanian translation** thanks to [Web Geek Sciense](https://webhostinggeeks.com "Web Hosting Geeks")
 **Croatian translation** thanks to [Borisa Djuraskovic](https://www.webhostinghub.com/ "Hub webhosting")
 **Ukranian translation** thanks to Michael Yunat [https://getvoip.com](https://getvoip.com "Getvoip com")
-**Several icons** made by [Yusuke Kamiyamane](https://p.yusukekamiyamane.com/ "Yusuke Kamiyamane homepage")
+
+# Graphics
+**Many icons** made by [Yusuke Kamiyamane](https://p.yusukekamiyamane.com/ "Yusuke Kamiyamane homepage")
 
 # Tools
 **CLI tool for converting WordPress Plugin readme.txt to Markdown** by [sunchaserinfo](https://github.com/wpreadme2markdown/wp2md "CLI tool Github homepage")
