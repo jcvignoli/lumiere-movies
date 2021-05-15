@@ -204,6 +204,21 @@ if ( ! function_exists('lumiere_is_multiArrayEmpty')){
 	} 
 }
 
+/* Function lumiere_array_key_exists_wildcard
+ * Search with a wildcard in $keys of an array
+ * @param: $return = key-value to get simpler array of results
+ * https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
+ */
+if ( ! function_exists('lumiere_array_key_exists_wildcard')){
+	function lumiere_array_key_exists_wildcard ( $array, $search, $return = '' ) {
+	    $search = str_replace( '\*', '.*?', preg_quote( $search, '/' ) );
+	    $result = preg_grep( '/^' . $search . '$/i', array_keys( $array ) );
+	    if ( $return == 'key-value' )
+		 return array_intersect_key( $array, array_flip( $result ) );
+	    return $result;
+	}
+}
+
 /**
  * IMDb source link display
  *
@@ -363,4 +378,5 @@ if ( ! function_exists('imdblt_notice')){
 		}
 	}
 }
+
 ?>
