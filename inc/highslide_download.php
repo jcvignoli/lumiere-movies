@@ -18,7 +18,7 @@ $highslidefile_local_zip = esc_url( $imdb_admin_values['imdbpluginpath'] . $high
 $highslidefile_local_folder = esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" );
 
 
-if ( (isset($_GET["highslide"])) && ( sanitize_key( $_GET["highslide"] ) = "yes") ) {
+if ( (isset($_GET["highslide"])) && (  $_GET["highslide"]  = "yes" ) ) {
 
 	// Download Highslide zip
 	if (lumiere_checkOnline( IMDBBLOGHIGHSLIDE ))  { 
