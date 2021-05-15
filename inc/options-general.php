@@ -118,7 +118,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 				if(!is_dir( IMDBLTABSPATH . 'js/highslide')) { 
 					imdblt_notice(4, '<span class="imdblt_red_bold">'.esc_html__('Warning! No Highslide folder was found.', 'imdb') .'</span>');
 					echo "<br />";
-					echo "<a href='". $imdbOptions['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes' title='".esc_html__('Click here to install Highslide', 'imdb') ."'><img src='".esc_url($imdbOptions['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."'>".esc_html__('Install automatically Highslide', 'imdb') .'</a>';
+					echo "<a href='". $imdbOptions['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes' title='".esc_html__('Click here to install Highslide', 'imdb') ."'><img src='".esc_url($imdbOptions['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />".esc_html__('Install automatically Highslide', 'imdb') .'</a>';
 				} 
 ?>
 

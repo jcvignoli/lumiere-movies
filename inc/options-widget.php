@@ -401,7 +401,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					echo "<br />";
 					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=actor") . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", "imdb") .
 					"</a>";
 				}
@@ -417,7 +417,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					echo "<br />";
 					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=color") . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", "imdb") .
 					"</a>";
 				}
@@ -433,7 +433,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					echo "<br />";
 					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=composer") . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", "imdb") .
 					"</a>";
 				}
@@ -453,7 +453,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					echo "<br />";
 					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=creator") . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", "imdb") .
 					"</a>";
 				}
@@ -470,7 +470,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					echo "<br />";
 					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=country") . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", "imdb") .
 					"</a>";
 				}
@@ -487,7 +487,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					echo "<br />";
 					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=director") . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", "imdb") .
 					"</a>";
 				}
@@ -507,7 +507,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					echo "<br />";
 					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=genre") . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", "imdb") .
 					"</a>";
 				}
@@ -524,7 +524,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					echo "<br />";
 					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=language") . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", "imdb") .
 					"</a>";
 				}
@@ -540,7 +540,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					echo "<br />";
 					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=producer") . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", "imdb") .
 					"</a>";
 				}
@@ -560,7 +560,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					echo "<br />";
 					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=title") . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", "imdb") .
 					"</a>";
 				}
@@ -576,7 +576,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					echo "<br />";
 					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=writer") . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", "imdb") .
 					"</a>";
 				}
@@ -592,7 +592,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					echo "<br />";
 					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=keywords") . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", "imdb") . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' />".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", "imdb") .
 					"</a>";
 				}
