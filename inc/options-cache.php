@@ -43,16 +43,16 @@ if (class_exists("imdb_settings_conf")) {
 }
 
 
-// If a certain
-if ((isset($_GET['msg'])) && array_key_exists($_GET['msg'], $messages) ){
+// If $_GET["msg"] is found, display a related notice
+if ((isset($_GET['msg'])) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $messages) ){
 	// Message Message for cache updated successfully
-	if ($_GET['msg']=="cache_update_success") {
+	if (sanitize_text_field($_GET['msg'])=="cache_update_success") {
 		imdblt_notice(1, esc_html__( $messages["cache_update_success"], "imdb" ) );
 	// Message for cache doesn't exist
-	} elseif ($_GET['msg']=="cache_doesnt_exist") {
+	} elseif (sanitize_text_field($_GET['msg'])=="cache_doesnt_exist") {
 		imdblt_notice(3, esc_html__( $messages["cache_doesnt_exist"], "imdb" ) );
 	// Message for cache deleted successfully
-	} elseif ($_GET['msg']=="cache_delete_success") {
+	} elseif (sanitize_text_field($_GET['msg'])=="cache_delete_success") {
 		imdblt_notice(1, esc_html__( $messages["cache_delete_success"], "imdb" ) );
 
 	}

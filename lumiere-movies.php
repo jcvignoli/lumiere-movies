@@ -102,9 +102,9 @@ class imdblt_core {
 		// write the .htaccess file and close
 		if (isset($imdblt_htaccess_file)) {
 			file_put_contents($imdblt_htaccess_file, $imdblt_htaccess_file_txt.PHP_EOL);
-//			imdblt_notice(1, esc_html__( 'htaccess file successfully generated.', 'imdb') ); 
+			// imdblt_notice(1, esc_html__( 'htaccess file successfully generated.', 'imdb') ); # is not displayed
 		} else {
-wp_die(imdblt_notice(3, esc_html__( 'Failed creating htaccess file.', 'imdb') ));
+			wp_die(imdblt_notice(3, esc_html__( 'Failed creating htaccess file.', 'imdb') ));
 			//imdblt_notice(3, esc_html__( 'Failed creating htaccess file.', 'imdb') ); 
 		}
 	}

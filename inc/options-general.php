@@ -27,16 +27,16 @@ $messages = array( /* highslide message notification options */
 // included files
 require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 
-// If a certain
-if ((isset($_GET['msg'])) && array_key_exists($_GET['msg'], $messages) ){
+// If $_GET["msg"] is found, display a related notice
+if ((isset($_GET['msg'])) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $messages ) ){
 	// Message for success
-	if ($_GET['msg']=="highslide_success") {
+	if (sanitize_text_field( $_GET['msg'] ) == "highslide_success" ) {
 		imdblt_notice(1, esc_html__( $messages["highslide_success"], 'imdb') );
 	// Message for failure
-	} elseif ($_GET['msg']=="highslide_failure") {
-		imdblt_notice(3, esc_html__( $messages["highslide_failure"] , 'imdb') . " " .  esc_html__( 'Your folder might be protected. Download highslide manually', 'imdb')." <a href='". IMDBBLOGHIGHSLIDE ."'>".esc_html__("here", "imdb")."</a> ".esc_html__("and extract the zip into" ) . "<br />" .  esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" ) );
+	} elseif ( sanitize_text_field( $_GET['msg'] ) == "highslide_failure" ) {
+		imdblt_notice(3, esc_html__( $messages["highslide_failure"] , 'imdb') . " " .  esc_html__( 'Your folder might be protected. Download highslide manually', 'imdb')." <a href='". esc_url ( IMDBBLOGHIGHSLIDE ) ."'>".esc_html__("here", "imdb")."</a> ".esc_html__("and extract the zip into" ) . "<br />" .  esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" ) );
 
-	} elseif ($_GET['msg']=="highslide_down") {
+	} elseif ( sanitize_text_field( $_GET['msg'] ) == "highslide_down" ) {
 		imdblt_notice(3, esc_html__( $messages["highslide_down"] , 'imdb')  );
 	}
 }

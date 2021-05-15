@@ -28,8 +28,8 @@ if ( (isset($_GET["highslide"])) && ($_GET["highslide"] = "yes") ) {
 	$res = $zip->open($highslidefile_local_zip);
 	if ($res === TRUE)  {
 
-		//  Extraction and delete the file if exists
-		if ( ($zip->extractTo($highslidefile_local_folder)) && (file_exists ( $highslidefile_local_zip )) && end(explode(".", $highslidefile_local_zip)) ) {
+		//  Extraction and delete the file if exists, if it has an extension ".", if it ends with zip
+		if ( ($zip->extractTo($highslidefile_local_folder)) && (file_exists ( $highslidefile_local_zip )) && end(explode(".", $highslidefile_local_zip)) && substr($highslidefile_local_zip, -3) == "zip" ) {
 			$zip->close();
 			unlink( esc_url( $highslidefile_local_zip ) );
 		}
