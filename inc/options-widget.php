@@ -609,20 +609,21 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 
 		if ($_GET['widgetoption'] == "order")  { 	// Order ?>
 		<?php //-------------------------------------------------------------------=[Order]=- ?>		
+</table>
 
-		<tr>
-			<td class="titresection"><?php esc_html_e( 'Position of data', 'imdb'); ?></td>
-		</tr>
-		<tr>
-			<td width="30%" align="right" class="imdblt_valign_middle">
+		<div class="imblt_border_shadow">
+			<div class="titresection"><?php esc_html_e( 'Position of data', 'imdb'); ?></div>
+
+			<div class="imdblt_valign_middle">
 				<div class="explain">
 					<?php esc_html_e( 'You can select the order for the information selected from "what to display" section. Select first the movie detail you want to move, use "up" or "down" to reorder Lumiere Movies display. Once you are happy with the new layout, click on "update settings" to keep it.', 'imdb'); ?>
 					<br /><br />
 					<?php esc_html_e( '"Source" movie detail cannot be selected; if it is selected from "what to display" section, it will always appear after others movie details', 'imdb'); ?>
 				</div>
-			</td>
-			<td width="40%" align="center" class="imdblt_valign_middle">
-				<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" size="10" class="imdbwidgetorderContainer" multiple>
+			</div>
+			<div class="imdblt_double_container">
+				<div class="imdblt_double_container_content_eighty imdblt_align_center">
+				<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" multiple>
 <?php 
  					foreach ($imdbOptionsw['imdbwidgetorder'] as $key=>$value) {
 						if (!empty ( $key ) && ( $key ) != "source"  ) { // to eliminate empty keys, but also "source" which will always stays at the end (technical limitation, data outside the imdb-movie.inc.php loop)
@@ -636,9 +637,9 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 						}
 				      	}
 				?>				</select>
-			</td>
+				</div>
 
-			<td width="30%" align="left" class="imdblt_valign_middle">
+				<div class="imdblt_double_container_content_twenty imdblt_align_center">
 
 				<?php esc_html_e( 'Move selected movie detail:', 'imdb') ?><br />
 				<input type="button" value="up" name="movemovieup" id="movemovieup" data-moveform="-1" /> 
@@ -648,13 +649,13 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 				// add "empty", to eliminate false submissions which could crush database values ?>	
 				<input type="hidden" name="imdb_imdbwidgetorder" id="imdb_imdbwidgetorder" value="" class="imdblt_hidden" />
 
-			</td>
-		</tr>
-
+				</div>
+			</div>
+		</div>
 <?php	} 
 		if ($_GET['widgetoption'] == "misc")  { 	// Misc ?>
 		<?php //-------------------------------------------------------------------=[Misc]=- ?>		
-
+	<table class="option widefat">
 		<tr>
 			<td colspan="3" class="titresection"><?php esc_html_e( 'Misc', 'imdb'); ?></td>
 		</tr>
