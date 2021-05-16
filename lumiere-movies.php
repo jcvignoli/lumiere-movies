@@ -531,6 +531,14 @@ class imdblt_core {
 		}
 	}
 
+	/**
+	13.- Include move_template_taxonomy.php if string taxotype=*
+	**/
+	function imdblt_copy_template_taxo_redirect() {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo&taxotype=' ) ) {
+			require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/move_template_taxonomy.php' );
+		}
+	}
 
 	// *********************
 	// ********************* Automatisms & executions
@@ -547,6 +555,7 @@ class imdblt_core {
 			add_action( 'init', [ $this, 'imdblt_popup_redirect_include' ], 0);
 
 			add_action( 'init', [ $this, 'imdblt_highslide_download_redirect' ], 0);
+			add_action( 'init', [ $this, 'imdblt_copy_template_taxo_redirect' ], 0);
 
 		    	// css for main blog
 			add_action('wp_head', [ $this, 'imdblt_add_head_blog' ],1 );
