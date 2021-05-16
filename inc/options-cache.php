@@ -329,7 +329,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 
 <div id="poststuff" class="metabox-holder">
 
-	<div class="intro_cache"><?php esc_html_e( "Cache is crucial to Lumiere Movies operation. As first imdb searchs are quite time consuming, if you do not want to kill your server but instead want quickest browsing experience, you will use cache. Pay a special attention to directories that need to be created.", 'imdb'); ?></div>
+	<div class="intro_cache"><?php esc_html_e( "Cache is crucial to Lumière! operation. As first imdb searchs are quite time consuming, if you do not want to kill your server but instead want quickest browsing experience, you will use cache. Pay a special attention to directories that need to be created.", 'imdb'); ?></div>
 
 <?php if ( ($_GET['cacheoption'] == "option") || (!isset($_GET['cacheoption'] )) ) { 	/////////////////////////////////// Cache options  ?>
 
@@ -338,15 +338,20 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		<div id="left-sortables" class="meta-box-sortables" >
 
 		<form method="post" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
-			<div class="inside">
-			<table class="option widefat">
+		<div class="inside">
+
 
 		<?php //------------------------------------------------------------------ =[cache directories]=- ?>
-		<tr>
-			<td colspan="3" class="titresection"><?php esc_html_e('Cache directories (folders have to be created and writable)', 'imdb'); ?></td>
-		</tr>
-		<tr>
-			<td class="td-aligntop" width="33%">
+
+		<div class="postbox">
+			<h3 class="hndle" id="cachedirectory" name="cachedirectory"><?php esc_html_e('Cache directories (folders have to be created and writable)', 'imdb'); ?></h3>
+		</div>
+
+	<div class="inside imblt_border_shadow">
+
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_twenty imdblt_padding_five">
+
 				<label for="imdb_imdbcachedir">
 					<?php esc_html_e('Cache directory (absolute path)', 'imdb'); ?>
 					<br />
@@ -361,8 +366,11 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 					?>
 					</span>
 					</label>
-			</td>
-			<td colspan="2"><input type="text" name="imdb_imdbcachedir" size="70" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbcachedir']), 'imdb') ?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+			</div>
+			<div class="imdblt_double_container_content_eighty imdblt_padding_five">
+
+				<input type="text" name="imdb_imdbcachedir" class="imdblt_width_fillall" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbcachedir']), 'imdb') ?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<?php if (file_exists($imdbOptionsc['imdbcachedir'])) { // check if folder exists
 				echo '<span class="imdblt_green">';
 				esc_html_e("Folder exists.", 'imdb');
@@ -382,12 +390,15 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 					echo '</span>'; 
 					}
 				} ?>
-				<div class="explain"><?php esc_html_e('Absolute path to store data retrieved from the IMDb website. Has to be ', 'imdb'); ?><a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> <?php esc_html_e('by the webserver.','imdb');?> <br /><?php esc_html_e('Default:','imdb');?> "<?php echo IMDBLTABSPATH; ?>cache/'<br />
+
+				<div class="explain"><?php esc_html_e('Absolute path to store data retrieved from the IMDb website. Has to be ', 'imdb'); ?><a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> <?php esc_html_e('by the webserver.','imdb');?> <br /><?php esc_html_e('Default:','imdb');?> "<?php echo IMDBLTABSPATH; ?>cache/'<br /></div>
 			</div>
-			</td>
-		</tr>
-		<tr>
-			<td class="td-aligntop">
+
+		</div>
+
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_twenty imdblt_padding_five">
+
 				<label for="imdb_imdbphotoroot">
 				<?php esc_html_e('Photo directory (absolute path)', 'imdb'); ?>
 					<br />
@@ -402,8 +413,11 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 					?>
 					</span>
 				</label>
-			</td>
-			<td colspan="2"><input type="text" name="imdb_imdbphotoroot" size="70" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbphotoroot']), 'imdb') ?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+			</div>
+			<div class="imdblt_double_container_content_eighty imdblt_padding_five">
+
+				<input type="text" class="imdblt_width_fillall" name="imdb_imdbphotoroot" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbphotoroot']), 'imdb') ?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<?php if (file_exists($imdbOptionsc['imdbphotoroot'])) { // check if folder exists
 				echo '<span class="imdblt_green">';
 				esc_html_e("Folder exists.", 'imdb');
@@ -423,116 +437,126 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 						echo '</span>'; 
 					}
 				} ?>
-		<div class="explain"><?php esc_html_e('Absolute path to store images retrieved from the IMDb website. Has to be ', 'imdb'); ?><a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> <?php esc_html_e('by the webserver.', 'imdb');?> <br /><?php esc_html_e('Default:','imdb');?> "<?php esc_html_e ( IMDBLTABSPATH ); ?>cache/images/"</div>
-			</td>
-		</tr>
 
-		<tr>
-			<td class="td-aligntop"><label for="imdb_imdbphotodir"><?php esc_html_e('Photo directory (url)', 'imdb'); ?></label>
-			</td>
-			<td colspan="2"><input type="text" name="imdb_imdbphotodir" size="70" value="<?php esc_html_e(apply_filters('format_to_edit', $imdbOptionsc['imdbphotodir']), 'imdb') ?>">
+				<div class="explain"><?php esc_html_e('Absolute path to store images retrieved from the IMDb website. Has to be ', 'imdb'); ?><a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> <?php esc_html_e('by the webserver.', 'imdb');?> <br /><?php esc_html_e('Default:','imdb');?> "<?php esc_html_e ( IMDBLTABSPATH ); ?>cache/images/"</div>
+			</div>
+		</div>
+
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_twenty imdblt_padding_five">
+
+			<label for="imdb_imdbphotodir"><?php esc_html_e('Photo directory (url)', 'imdb'); ?></label>
+			
+			</div>
+			<div class="imdblt_double_container_content_eighty imdblt_padding_five">
+
+			<input type="text" name="imdb_imdbphotodir" class="imdblt_width_fillall" value="<?php esc_html_e(apply_filters('format_to_edit', $imdbOptionsc['imdbphotodir']), 'imdb') ?>">
 				<div class="explain"><?php esc_html_e('URL corresponding to photo directory.','imdb');?> <br /><?php esc_html_e('Default:','imdb');?> "<?php echo esc_url( IMDBLTURLPATH . "cache/images/"); ?>"</div>
-			</td>
-		</tr>
-
+			</div>
+		</div>
+	</div>
+	<br />
+	<br />
 			
 		<?php //------------------------------------------------------------------ =[cache options]=- ?>
-		<tr>
-			<td colspan="3" class="titresection"><?php esc_html_e('Cache general options', 'imdb'); ?></td>
-		</tr>
 
-		<tr>
-			<td>
-				<?php esc_html_e('Store cache?', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
+		<div class="postbox">
+			<h3 class="hndle" id="cachegeneral" name="cachegeneral"><?php esc_html_e('Cache options', 'imdb'); ?></h3>
+		</div>
+
+	<div class="inside imblt_border_shadow">
+
+	<div class="titresection"><?php esc_html_e('General options', 'imdb'); ?></div>
+
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+				<?php esc_html_e('Store cache?', 'imdb'); ?><br /><br />
 				<input type="radio" id="imdb_imdbstorecache_yes" name="imdb_imdbstorecache" value="1" <?php if ($imdbOptionsc['imdbstorecache'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbusecache_yes" data-field_to_change_value="0" data-modificator2="yes" data-field_to_change2="imdb_imdbconverttozip_yes" data-field_to_change_value2="0" data-modificator3="yes" data-field_to_change3="imdb_imdbusezip_yes" data-field_to_change_value3="0" /><label for="imdb_imdbstorecache_yes"><?php esc_html_e('Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbstorecache_no" name="imdb_imdbstorecache" value="" <?php if ($imdbOptionsc['imdbstorecache'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbusecache_yes" data-field_to_change_value="1" data-modificator2="yes" data-field_to_change2="imdb_imdbconverttozip_yes" data-field_to_change_value2="1" data-modificator3="yes" data-field_to_change3="imdb_imdbusezip_yes" data-field_to_change_value3="1" /><label for="imdb_imdbstorecache_no"><?php esc_html_e('No', 'imdb'); ?></label>
-			</td>
-			<td>
-				<?php esc_html_e('Use cache?', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
+
+				<div class="explain"><?php esc_html_e('Whether to store the pages retrieved for later use. When activated, you have to check you created the folders', 'imdb'); ?> <?php esc_html_e('Cache directory', 'imdb'); ?> <?php esc_html_e('and', 'imdb'); ?> <?php esc_html_e('Photo directory (folder)', 'imdb'); ?>. <br /><?php esc_html_e('Default:','imdb');?> <?php esc_html_e('Yes', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+				<?php esc_html_e('Use cache?', 'imdb'); ?><br /><br />
 				<input type="radio" id="imdb_imdbusecache_yes" name="imdb_imdbusecache" value="1" <?php if ($imdbOptionsc['imdbusecache'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbcacheexpire" data-field_to_change_value="0" /><label for="imdb_imdbusecache_yes"><?php esc_html_e('Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbconverttozip_no" name="imdb_imdbusecache" value="" <?php if ($imdbOptionsc['imdbusecache'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbcacheexpire" data-field_to_change_value="1" /><label for="imdb_imdbusecache_no"><?php esc_html_e('No', 'imdb'); ?></label>
-			</td>
-			<td>
-				<label for="imdb_imdbcacheexpire"><?php esc_html_e('Cache expire', 'imdb'); ?></label>
+
+				<div class="explain"><?php esc_html_e('Whether to use a cached page to retrieve the information (if available).', 'imdb'); ?> <br /><?php esc_html_e('Default:','imdb');?> <?php esc_html_e('Yes', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+				<label for="imdb_imdbcacheexpire"><?php esc_html_e('Cache expire', 'imdb'); ?></label><br /><br />
 				<input type="text" id="imdb_imdbcacheexpire" name="imdb_imdbcacheexpire" size="7" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbcacheexpire']), 'imdb') ?>" <?php if ( ($imdbOptionsc['imdbusecache'] == 0) || ($imdbOptionsc['imdbstorecache'] == 0) ) { echo 'disabled="disabled"'; }; ?> />
 				 
 				<input type="checkbox" value="0" id="imdb_imdbcacheexpire_definitive" name="imdb_imdbcacheexpire_definitive" data-valuemodificator="yes" data-valuemodificator_field="imdb_imdbcacheexpire" data-valuemodificator_default="2592000"<?php if ($imdbOptionsc['imdbcacheexpire'] == 0) { echo 'checked="checked"'; }; ?> /><label for="imdb_imdbcacheexpire"><?php esc_html_e('(never)','imdb');?></label>
 
-			</td>
-		</tr>
-		<tr>
-			<td class="td-aligntop">
-				<div class="explain"><?php esc_html_e('Whether to store the pages retrieved for later use. When activated, you have to check you created the folders', 'imdb'); ?> <?php esc_html_e('Cache directory', 'imdb'); ?> <?php esc_html_e('and', 'imdb'); ?> <?php esc_html_e('Photo directory (folder)', 'imdb'); ?>. <br /><?php esc_html_e('Default:','imdb');?> <?php esc_html_e('Yes', 'imdb'); ?></div>
-			</td>
-			<td class="td-aligntop">
-				<div class="explain"><?php esc_html_e('Whether to use a cached page to retrieve the information (if available).', 'imdb'); ?> <br /><?php esc_html_e('Default:','imdb');?> <?php esc_html_e('Yes', 'imdb'); ?></div>
-			</td>
-			<td class="td-aligntop">
 				<div class="explain"><?php esc_html_e('Cache files older than this value (in seconds) will be automatically deleted. Insert "0" or click "never" to keep cache files forever.', 'imdb'); ?> <br /><?php esc_html_e('Default:','imdb');?> "2592000" <?php esc_html_e('(one month)', 'imdb'); ?></div>
-			</td>
-		</tr>
+
+			</div>
+		</div>
+
 
 		<?php //------------------------------------------------------------------ =[zip]=- ?>
-		<tr>
-			<td colspan="3" class="titresection"><?php esc_html_e('Cache zip options', 'imdb'); ?></td>
-		</tr>
-		<tr>
-			<td>
-				<?php esc_html_e('Convert to zip?', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="radio" id="imdb_imdbconverttozip_yes" name="imdb_imdbconverttozip" value="1" <?php if ($imdbOptionsc['imdbconverttozip'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbconverttozip_yes"><?php esc_html_e('Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbconverttozip_no" name="imdb_imdbconverttozip" value="" <?php if ($imdbOptionsc['imdbconverttozip'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbconverttozip_no"><?php esc_html_e('No', 'imdb'); ?></label>
-			</td>
-		
-			<td>
-				<?php esc_html_e('Use zip?', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="radio" id="imdb_imdbusezip_yes" name="imdb_imdbusezip" value="1" <?php if ($imdbOptionsc['imdbusezip'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbusezip_yes"><?php esc_html_e('Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbusezip_no" name="imdb_imdbusezip" value="" <?php if ($imdbOptionsc['imdbusezip'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdbusezip_no"><?php esc_html_e('No', 'imdb'); ?></label>
-			</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td class="td-aligntop">
-				<div class="explain"><?php esc_html_e('Convert non-zip cache-files to zip (check file permissions!)', 'imdb'); ?> <br /><?php esc_html_e('Default:','imdb');?> <?php esc_html_e('Yes', 'imdb'); ?></div>
-			</td>
-			<td class="td-aligntop">
-				<div class="explain"><?php esc_html_e('Use zip compression for caching the retrieved html-files.', 'imdb'); ?> <br /><?php esc_html_e('Default:','imdb');?> <?php esc_html_e('Yes', 'imdb'); ?></div>
-			</td>
-			<td></td>
-		</tr>
+		<div class="titresection"><?php esc_html_e('Cache zip options', 'imdb'); ?></div>
 
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+				<?php esc_html_e('Convert to zip?', 'imdb'); ?><br /><br />
+				<input type="radio" id="imdb_imdbconverttozip_yes" name="imdb_imdbconverttozip" value="1" <?php if ($imdbOptionsc['imdbconverttozip'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbconverttozip_yes"><?php esc_html_e('Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbconverttozip_no" name="imdb_imdbconverttozip" value="" <?php if ($imdbOptionsc['imdbconverttozip'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbconverttozip_no"><?php esc_html_e('No', 'imdb'); ?></label>
+
+				<div class="explain"><?php esc_html_e('Convert non-zip cache-files to zip (check file permissions!)', 'imdb'); ?> <br /><?php esc_html_e('Default:','imdb');?> <?php esc_html_e('Yes', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+				<?php esc_html_e('Use zip?', 'imdb'); ?><br /><br />;
+				<input type="radio" id="imdb_imdbusezip_yes" name="imdb_imdbusezip" value="1" <?php if ($imdbOptionsc['imdbusezip'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbusezip_yes"><?php esc_html_e('Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbusezip_no" name="imdb_imdbusezip" value="" <?php if ($imdbOptionsc['imdbusezip'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdbusezip_no"><?php esc_html_e('No', 'imdb'); ?></label>
+
+				<div class="explain"><?php esc_html_e('Use zip compression for caching the retrieved html-files.', 'imdb'); ?> <br /><?php esc_html_e('Default:','imdb');?> <?php esc_html_e('Yes', 'imdb'); ?></div>
+			</div>
+
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			</div>
+
+		</div>
 
 		<?php //------------------------------------------------------------------ =[cache details]=- ?>
-		<tr>
-			<td colspan="3" class="titresection"><?php esc_html_e('Cache details', 'imdb'); ?></td>
-		</tr>
-		<tr>
-			<td>
+		<div class="titresection"><?php esc_html_e('Cache details', 'imdb'); ?></div>
+
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php esc_html_e('Show advanced cache details', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="radio" id="imdb_imdbcachedetails_yes" name="imdb_imdbcachedetails" value="1" <?php if ($imdbOptionsc['imdbcachedetails'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbcachedetailsshort_yes" data-field_to_change_value="0" />
 				<label for="imdb_imdbcachedetails_yes"><?php esc_html_e('Yes', 'imdb'); ?></label>
 				<input type="radio" id="imdb_imdbcachedetails_no" name="imdb_imdbcachedetails" value="" <?php if ($imdbOptionsc['imdbcachedetails'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbcachedetailsshort_yes" data-field_to_change_value="1" />
 				<label for="imdb_imdbcachedetails_no"><?php esc_html_e('No', 'imdb'); ?></label>
 
-			</td>
-		
-			<td>
+				<div class="explain"><?php esc_html_e('To show or not advanced cache details, which allows to specifically delete a movie cache. Be carefull with this option, if you have a lot of cached movies, it could crash this page. When yes is selected, an additional menu "manage cache" will appear next to the cache "General Options" menu.', 'imdb'); ?> <br /><?php esc_html_e('Default:','imdb');?> <?php esc_html_e('No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php esc_html_e('Quick advanced cache details', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="radio" id="imdb_imdbcachedetailsshort_yes" name="imdb_imdbcachedetailsshort" value="1" <?php if ($imdbOptionsc['imdbcachedetailsshort'] == "1") { echo 'checked="checked"'; }?> <?php if ($imdbOptionsc['imdbcachedetails'] == 0) { echo 'disabled="disabled"'; }; ?> />
 				<label for="imdb_imdbcachedetailsshort_yes"><?php esc_html_e('Yes', 'imdb'); ?></label>
 
 				<input type="radio" id="imdb_imdbcachedetailsshort_no" name="imdb_imdbcachedetailsshort" value="" <?php if ($imdbOptionsc['imdbcachedetailsshort'] == 0) { echo 'checked="checked"'; } ?> <?php if ($imdbOptionsc['imdbcachedetails'] == 0) { echo 'disabled="disabled"'; }; ?> />
 				<label for="imdb_imdbcachedetailsshort_no"><?php esc_html_e('No', 'imdb'); ?></label>
-			</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td class="td-aligntop">
-				<div class="explain"><?php esc_html_e('To show or not advanced cache details, which allows to specifically delete a movie cache. Be carefull with this option, if you have a lot of cached movies, it could crash this page. When yes is selected, an additional menu "manage cache" will appear next to the cache "General Options" menu.', 'imdb'); ?> <br /><?php esc_html_e('Default:','imdb');?> <?php esc_html_e('No', 'imdb'); ?></div>
-			</td>
-			<td class="td-aligntop">
+
 				<div class="explain"><?php esc_html_e('Allow faster loading time for the "manage cache" page, by displaying shorter movies and people presentation. Usefull when you have several of those. This option is available when "Show advanced cache details" is activated.', 'imdb'); ?> <br /><?php esc_html_e('Default:','imdb');?> <?php esc_html_e('No', 'imdb'); ?></div>
-			</td>
-			<td></td>
-		</tr>
-		</table>
+
+			</div>
+
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			</div>
+
 		</div>
-		
+	</div>
+</div>		
 		<?php //------------------------------------------------------------------ =[Submit selection]=- ?>
 			<div class="submit submit-imdb" align="center">
 				<?php wp_nonce_field('reset_cache_options_check', 'reset_cache_options_check'); //check that data has been sent only once ?>

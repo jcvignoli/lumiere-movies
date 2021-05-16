@@ -252,12 +252,16 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 
 	<div class="inside">
 
-		<div class="inside imblt_border_shadow">
+
 
 
 		<?php //------------------------------------------------------------------ =[Search]=- ?>
 
-		<div class="titresection"><?php esc_html_e( 'Search, imdb part', 'imdb'); ?></div>
+	<div class="postbox">
+		<h3 class="hndle" id="searchpart" name="searchpart"><?php esc_html_e( 'Search, imdb part', 'imdb'); ?></h3>
+	</div>
+
+	<div class="inside imblt_border_shadow">
 
 		<div class="imdblt_double_container">
 			<div class="imdblt_double_container_content_third imdblt_padding_five">
@@ -268,80 +272,96 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					<option <?php if($imdbOptions['imdblanguage'] == "fr-FR") echo 'selected="selected"'; ?>value="fr-FR"><?php esc_html_e( 'French', 'imdb'); ?></option>
 					<option <?php if($imdbOptions['imdblanguage'] == "es-ES") echo 'selected="selected"'; ?>value="es-ES"><?php esc_html_e( 'Spanish', 'imdb'); ?></option>
 				</select>
-			</div>
-		</div>
-		<tr>
-			<td class="td-aligntop">
 
 				<div class="explain"><?php esc_html_e( 'Language used for the movie search. Very usefull for a non-English blog using Lumiere as a widget.', 'imdb'); ?></div>
 
-			</td>
-			<td class="td-aligntop">
-			</td>
-			<td class="td-aligntop">
-			</td>
-		</tr>		
-		
+			</div>
+		</div>
+	</div>
+
+	<br /><br />
+	
 		<?php //------------------------------------------------------------------ =[misc]=- ?>
-		<tr>
-			<td colspan="3" class="titresection"><?php esc_html_e( 'Misc', 'imdb'); ?></td>
-		</tr>
-
-		<tr>
-			<td>
-				<?php esc_html_e( 'Direct search', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="radio" id="imdb_imdbdirectsearch_yes" name="imdb_imdbdirectsearch" value="1" <?php if ($imdbOptions['imdbdirectsearch'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbmaxresults" data-field_to_change_value="1" /><label for="imdb_imdbdirectsearch_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbdirectsearch_no" name="imdb_imdbdirectsearch" value="0" <?php if ($imdbOptions['imdbdirectsearch'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes"  data-field_to_change="imdb_imdbmaxresults" data-field_to_change_value="0" /><label for="imdb_imdbdirectsearch_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td>
-				<?php esc_html_e( 'Menu for IMDB LT options', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="radio" id="imdb_imdbwordpress_bigmenu_yes" name="imdb_imdbwordpress_bigmenu" value="1" <?php if ($imdbOptions['imdbwordpress_bigmenu'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwordpress_bigmenu_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbwordpress_bigmenu_no" name="imdb_imdbwordpress_bigmenu" value="" <?php if ($imdbOptions['imdbwordpress_bigmenu'] == 0) { echo 'checked="checked"'; } ?>  /><label for="imdb_imdbwordpress_bigmenu_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-		</tr>
-		<tr>
-			<td class="td-aligntop">
-				<div class="explain"><?php esc_html_e( 'Enable debug mode?', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
-			</td>
-			<td class="td-aligntop">
-				<div class="explain">
-				<?php esc_html_e( "When enabled, instead of displaying several results related to a name searched, only the first result is returned and directly displayed. That means no more window results is displayed, but straightforwardly related data. <br />This option allows to use the 'IMDb widget' and 'inside the post' options; if deactivated, these options will not work anymore. <br />Some options will be hidden and other will be shown depending if it is turned on yes or no.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
-			</td>
-			<td class="td-aligntop">
-				<div class="explain">
-				<?php esc_html_e( "When enabled, Lumiere Movies options are displayed separately from the settings menu. It will create a dedicated menu to the Lumiere Movies options.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
-			</td>
-		</tr>
 
 
-		<tr>
-			<td>
-				<label for="imdb_imdbmaxresults"><?php esc_html_e( 'Limit results', 'imdb'); ?></label>
+	<div class="postbox">
+		<h3 class="hndle" id="miscpart" name="miscpart"><?php esc_html_e( 'Misc', 'imdb'); ?></h3>
+	</div>
+
+	<div class="inside imblt_border_shadow">
+
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+				<?php esc_html_e( 'Direct search', 'imdb'); ?><br /><br />
+				<input type="radio" id="imdb_imdbdirectsearch_yes" name="imdb_imdbdirectsearch" value="1" <?php if ($imdbOptions['imdbdirectsearch'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbmaxresults" data-field_to_change_value="1" />
+
+				<label for="imdb_imdbdirectsearch_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbdirectsearch_no" name="imdb_imdbdirectsearch" value="0" <?php if ($imdbOptions['imdbdirectsearch'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes"  data-field_to_change="imdb_imdbmaxresults" data-field_to_change_value="0" />
+
+				<label for="imdb_imdbdirectsearch_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
+
+				<div class="explain"><?php esc_html_e( "When enabled, instead of displaying several results related to a name searched, only the first result is returned and directly displayed. That means no more window results is displayed, but straightforwardly related data. <br />This option allows to use the 'IMDb widget' and 'inside the post' options; if deactivated, these options will not work anymore. <br />Some options will be hidden and other will be shown depending if it is turned on yes or no.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+				<?php esc_html_e( 'Menu for IMDB LT options', 'imdb'); ?><br /><br />
+
+				<input type="radio" id="imdb_imdbwordpress_bigmenu_yes" name="imdb_imdbwordpress_bigmenu" value="1" <?php if ($imdbOptions['imdbwordpress_bigmenu'] == "1") { echo 'checked="checked"'; }?> />
+
+				<label for="imdb_imdbwordpress_bigmenu_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbwordpress_bigmenu_no" name="imdb_imdbwordpress_bigmenu" value="" <?php if ($imdbOptions['imdbwordpress_bigmenu'] == 0) { echo 'checked="checked"'; } ?>  />
+				
+				<label for="imdb_imdbwordpress_bigmenu_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
+
+				<div class="explain"><?php esc_html_e( "When enabled, Lumiere Movies options are displayed separately from the settings menu. It will create a dedicated menu to the Lumiere Movies options.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			</div>
+		</div>
+
+
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+				<label for="imdb_imdbmaxresults"><?php esc_html_e( 'Limit results', 'imdb'); ?></label><br /><br />
+
 				<input type="text" name="imdb_imdbmaxresults" id="imdb_imdbmaxresults" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbmaxresults']), 'imdb') ?>" <?php if ($imdbOptions['imdbdirectsearch'] == 1) { echo 'disabled="disabled"'; }; ?> />
-			</td>
-			<td>	
-				<label for="imdb_imdbtaxonomy"><?php esc_html_e( 'Use automatical genre taxonomy?', 'imdb'); ?></label>
-				<input type="radio" id="imdb_imdbtaxonomy_yes" name="imdb_imdbtaxonomy" value="1" <?php if ($imdbOptions['imdbtaxonomy'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbtaxonomy_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbtaxonomy_no" name="imdb_imdbtaxonomy" value="" <?php if ($imdbOptions['imdbtaxonomy'] == 0) { echo 'checked="checked"'; } ?>  /><label for="imdb_imdbtaxonomy_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td>
-				<?php esc_html_e( 'Toolbar IMDB LT admin menu', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="radio" id="imdb_imdbwordpress_tooladminmenu_yes" name="imdb_imdbwordpress_tooladminmenu" value="1" <?php if ($imdbOptions['imdbwordpress_tooladminmenu'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwordpress_tooladminmenu_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbwordpress_tooladminmenu_no" name="imdb_imdbwordpress_tooladminmenu" value="" <?php if ($imdbOptions['imdbwordpress_tooladminmenu'] == 0) { echo 'checked="checked"'; } ?>  /><label for="imdb_imdbwordpress_tooladminmenu_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-		</tr>
-		<tr>
-			<td class="td-aligntop">
-				<div class="explain"><?php esc_html_e( 'This the limit for the result set of researches. Use 0 for no limit, or the number of maximum entries you wish. When "direct search" option is turned to yes, this option is hidden.', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb'); ?> "10"</div>
-			</td>
-			<td class="td-aligntop">
-				<div class="explain"><?php esc_html_e( 'This will automatically add "genre" terms found for the movie into wordpress database, as ', 'imdb') ?><a href="http://codex.wordpress.org/WordPress_Taxonomy">taxonomy</a>. <?php esc_html_e( 'Activating this option opens ', 'imdb'); ?><a href="<?php echo admin_url(); ?>admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo"><?php esc_html_e( 'others taxonomy options', 'imdb');  ?></a>. <?php esc_html_e( 'Taxonomy terms are uninstalled when removing the plugin.', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb'); ?> <?php esc_html_e( 'No', 'imdb'); ?></div>
-			</td>
-			<td class="td-aligntop">
-				<div class="explain">
-				<?php esc_html_e( "When activated, Lumiere Movies options are displayed in the toolbar admin menu of Wordpress.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
-			</td>
 
-		</tr>
+				<div class="explain"><?php esc_html_e( 'This the limit for the result set of researches. Use 0 for no limit, or the number of maximum entries you wish. When "direct search" option is turned to yes, this option is hidden.', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb'); ?> "10"</div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+				<label for="imdb_imdbtaxonomy"><?php esc_html_e( 'Use automatical genre taxonomy?', 'imdb'); ?></label><br /><br />
+
+				<input type="radio" id="imdb_imdbtaxonomy_yes" name="imdb_imdbtaxonomy" value="1" <?php if ($imdbOptions['imdbtaxonomy'] == "1") { echo 'checked="checked"'; }?> />
+
+				<label for="imdb_imdbtaxonomy_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
+				<input type="radio" id="imdb_imdbtaxonomy_no" name="imdb_imdbtaxonomy" value="" <?php if ($imdbOptions['imdbtaxonomy'] == 0) { echo 'checked="checked"'; } ?>  />
+
+				<label for="imdb_imdbtaxonomy_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
+
+				<div class="explain"><?php esc_html_e( 'This will automatically add "genre" terms found for the movie into wordpress database, as ', 'imdb') ?><a href="http://codex.wordpress.org/WordPress_Taxonomy">taxonomy</a>. <?php esc_html_e( 'Activating this option opens ', 'imdb'); ?><a href="<?php echo admin_url(); ?>admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo"><?php esc_html_e( 'others taxonomy options', 'imdb');  ?></a>. <?php esc_html_e( 'Taxonomy terms are uninstalled when removing the plugin.', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb'); ?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+				<?php esc_html_e( 'Toolbar IMDB LT admin menu', 'imdb'); ?><br /><br />
+				<input type="radio" id="imdb_imdbwordpress_tooladminmenu_yes" name="imdb_imdbwordpress_tooladminmenu" value="1" <?php if ($imdbOptions['imdbwordpress_tooladminmenu'] == "1") { echo 'checked="checked"'; }?> />
+
+				<label for="imdb_imdbwordpress_tooladminmenu_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbwordpress_tooladminmenu_no" name="imdb_imdbwordpress_tooladminmenu" value="" <?php if ($imdbOptions['imdbwordpress_tooladminmenu'] == 0) { echo 'checked="checked"'; } ?>  />
+
+				<label for="imdb_imdbwordpress_tooladminmenu_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
+
+				<div class="explain"><?php esc_html_e( "When activated, Lumiere Movies options are displayed in the toolbar admin menu of Wordpress.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
+
+			</div>
+		</div>
 <?php	} // end of advanced section ?>
 		
-	</table>
 	</div>
 
 	<?php //------------------------------------------------------------------ =[Submit selection]=- ?>
