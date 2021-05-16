@@ -200,6 +200,7 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .imdblt_float_left{float:left;}
 .imdblt_width_twohundredfifty{width: 250px;}
 .imdblt_width_onehundredpercent{width:100%;}
+.imdblt_width_fillall{width:-webkit-fill-available;}
 .accesstaxo{border:1px solid black;padding:20px;margin-left:40%;margin-right:40%;}
 .imdbwidgetorderContainer{width: 300px;height:auto;background-color:black;border-radius:10px;}
 .imblt_border_shadow{background-color:white;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgb(0 0 0 / 4%);padding:15px;}

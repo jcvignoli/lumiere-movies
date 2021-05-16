@@ -69,7 +69,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 				<label for="imdb_blog_adress"><?php esc_html_e( 'Blog address', 'imdb'); ?></label>
 			</div>
 			<div class="imdblt_double_container_content_eighty">
-				<input class="imdblt_width_onehundredpercent" type="text" name="imdb_blog_adress" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['blog_adress']), 'imdb') ?>" >
+				<input class="imdblt_width_fillall" type="text" name="imdb_blog_adress" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['blog_adress']), 'imdb') ?>" >
 				<div class="explain"><?php esc_html_e( 'Where the blog is installed.', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> "<?php echo esc_url( $imdbOptions['blog_adress'] ); ?>"</div>
 			</div>
 			
@@ -80,7 +80,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 				<label for="imdb_imdbplugindirectory"><?php esc_html_e( 'Plugin directory', 'imdb'); ?></label>
 			</div>
 			<div class="imdblt_double_container_content_eighty">
-				<input type="text" class="imdblt_width_onehundredpercent" name="imdb_imdbplugindirectory" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbplugindirectory']), 'imdb') ?>">
+				<input type="text" class="imdblt_width_fillall" name="imdb_imdbplugindirectory" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbplugindirectory']), 'imdb') ?>">
 				<div class="explain"><?php wp_kses( _e( 'Where <strong>Lumiere Movies</strong> is installed.', 'imdb'), $allowed_html_for_esc_html_functions ); ?> <br /><?php esc_html_e( 'Default:','imdb');?> "<?php echo IMDBLTURLPATH; ?>"</div>
 		</div>
 	</div>
