@@ -132,40 +132,40 @@ if ( ! function_exists('lumiere_create_taxonomies')){
 		global $imdb_admin_values,$imdb_widget_values;
 
 		if ($imdb_widget_values['imdbtaxonomytitle'] ==  true) {
-			register_taxonomy('imdblt_title', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("IMDBlt titles", 'imdb'), 'query_var' => 'imdblt_title', 'rewrite' => array( 'slug' => 'imdblt_title' ) )  ) ; }
+			register_taxonomy('imdblt_title', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière titles", 'imdb'), 'query_var' => 'imdblt_title', 'rewrite' => array( 'slug' => 'imdblt_title' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomygenre'] ==  true) {
-			register_taxonomy('imdblt_genre', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("IMDBlt genres", 'imdb'), 'query_var' => 'imdblt_genre', 'rewrite' => array( 'slug' => 'imdblt_genre' ) )  ) ; }
+			register_taxonomy('imdblt_genre', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière genres", 'imdb'), 'query_var' => 'imdblt_genre', 'rewrite' => array( 'slug' => 'imdblt_genre' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomykeywords'] ==  true) {
-			register_taxonomy('imdblt_keywords', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("IMDBlt keywords", 'imdb'), 'query_var' => 'imdblt_keywords', 'rewrite' => array( 'slug' => 'imdblt_keywords' ) )  ) ; }
+			register_taxonomy('imdblt_keywords', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière keywords", 'imdb'), 'query_var' => 'imdblt_keywords', 'rewrite' => array( 'slug' => 'imdblt_keywords' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomycountry'] == true) {
-			register_taxonomy('imdblt_country', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("IMDBlt countries", 'imdb'), 'query_var' => 'imdblt_country', 'rewrite' => array( 'slug' => 'imdblt_country' ) )  ) ; }
+			register_taxonomy('imdblt_country', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière countries", 'imdb'), 'query_var' => 'imdblt_country', 'rewrite' => array( 'slug' => 'imdblt_country' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomylanguage'] == true) {
-			register_taxonomy('imdblt_language', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("IMDBlt languages", 'imdb'), 'query_var' => 'imdblt_language', 'rewrite' => array( 'slug' => 'imdblt_language' ) )  ) ; }
+			register_taxonomy('imdblt_language', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière languages", 'imdb'), 'query_var' => 'imdblt_language', 'rewrite' => array( 'slug' => 'imdblt_language' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomycomposer'] == true) {
-			register_taxonomy('imdblt_composer', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("IMDBlt composers", 'imdb'), 'query_var' => 'imdblt_composer', 'rewrite' => array( 'slug' => 'imdblt_composer' ) )  ) ; }
+			register_taxonomy('imdblt_composer', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière composers", 'imdb'), 'query_var' => 'imdblt_composer', 'rewrite' => array( 'slug' => 'imdblt_composer' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomycolor'] == true) {
-			register_taxonomy('imdblt_color', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("IMDBlt colors", 'imdb'), 'query_var' => 'imdblt_color', 'rewrite' => array( 'slug' => 'imdblt_color' ) )  ) ; }
+			register_taxonomy('imdblt_color', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière colors", 'imdb'), 'query_var' => 'imdblt_color', 'rewrite' => array( 'slug' => 'imdblt_color' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomydirector'] == true) {
-			register_taxonomy('imdblt_director', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("IMDBlt directors", 'imdb'), 'query_var' => 'imdblt_director', 'rewrite' => array( 'slug' => 'imdblt_director' ) )  ) ; }
+			register_taxonomy('imdblt_director', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière directors", 'imdb'), 'query_var' => 'imdblt_director', 'rewrite' => array( 'slug' => 'imdblt_director' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomycreator'] == true) {
-			register_taxonomy('imdblt_creator', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("IMDBlt creators", 'imdb'), 'query_var' => 'imdblt_creator', 'rewrite' => array( 'slug' => 'imdblt_creator' ) )  ) ; }
+			register_taxonomy('imdblt_creator', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière creators", 'imdb'), 'query_var' => 'imdblt_creator', 'rewrite' => array( 'slug' => 'imdblt_creator' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomyproducer'] == true) {
-			register_taxonomy('imdblt_producer', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("IMDBlt producers", 'imdb'), 'query_var' => 'imdblt_producer', 'rewrite' => array( 'slug' => 'imdblt_producer' ) )  ) ; }
+			register_taxonomy('imdblt_producer', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière producers", 'imdb'), 'query_var' => 'imdblt_producer', 'rewrite' => array( 'slug' => 'imdblt_producer' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomyactor'] == true) {
-			register_taxonomy('imdblt_actor', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("IMDBlt actors", 'imdb'), 'query_var' => 'imdblt_actor', 'rewrite' => array( 'slug' => 'imdblt_actor' ) )  ) ; }
+			register_taxonomy('imdblt_actor', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière actors", 'imdb'), 'query_var' => 'imdblt_actor', 'rewrite' => array( 'slug' => 'imdblt_actor' ) )  ) ; }
 			
 		if ($imdb_widget_values['imdbtaxonomywriter'] == true) {
-			register_taxonomy('imdblt_writer', array('page','post'), array( 'hierarchical' => true, 'label' => esc_html__("IMDBlt writers", 'imdb'), 'query_var' => 'imdblt_writer', 'rewrite' => array( 'slug' => 'imdblt_writer' ) )  ) ; }
+			register_taxonomy('imdblt_writer', array('page','post'), array( 'hierarchical' => true, 'label' => esc_html__("Lumière writers", 'imdb'), 'query_var' => 'imdblt_writer', 'rewrite' => array( 'slug' => 'imdblt_writer' ) )  ) ; }
 	}
 }
 
@@ -234,7 +234,7 @@ if ( ! function_exists('imdblt_source_imdb')){
 		echo "&nbsp;&nbsp;";
 		echo "<a href=\"". esc_url( "https://".$imdb_admin_values['imdbwebsite']."/title/tt".$midPremierResultat_sanitized )."\" >";
 		echo "<img class=\"imdbelementSOURCE-picture\" src=\"".esc_url( $imdb_admin_values['imdbplugindirectory']."pics/imdb-link.png" ) . "\" />";
-		echo "&nbsp;&nbsp;" . esc_html__("IMDb\'s page for this movie", "imdb") . "</a>";
+		echo "&nbsp;&nbsp;" . esc_html__("IMDb's page for this movie", "imdb") . "</a>";
 	}
 }
 
