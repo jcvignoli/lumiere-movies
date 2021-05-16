@@ -56,320 +56,378 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 <div id="poststuff" class="metabox-holder">
 
 	<div class="inside">
-	<table class="option widefat">
 		
 		<?php //-------------------------------------------------------------------=[title, pic, runtime]=- ?>		
 
 <?php if ( ($_GET['widgetoption'] == "what") || (!isset($_GET['widgetoption'] )) ) { 	// What to display  ?>
 
-		<tr>
-			<td colspan="3" class="titresection"><?php esc_html_e( 'What to display', 'imdb'); ?></td>
-		</tr>
-		
-		<tr>
-			<td width="33%">
+		<div class="imblt_border_shadow">
+			<div class="titresection"><?php esc_html_e( 'What to display', 'imdb'); ?></div>
+
+				<div class="imdblt_double_container">
+
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
 				<?php if ($imdbOptionsw['imdbwidgettitle'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Title', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Title', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Title', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				<input type="radio" id="imdb_imdbwidgettitle_yes" name="imdb_imdbwidgettitle" value="1" <?php if ($imdbOptionsw['imdbwidgettitle'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgettitle_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
 				<input type="radio" id="imdb_imdbwidgettitle_no" name="imdb_imdbwidgettitle" value="" <?php if ($imdbOptionsw['imdbwidgettitle'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgettitle_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td width="33%">
+
+				<div class="explain"><?php esc_html_e( 'Display the title', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetpic'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Picture', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Picture', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Picture', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetpic_yes" name="imdb_imdbwidgetpic" value="1" <?php if ($imdbOptionsw['imdbwidgetpic'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetpic_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
 				<input type="radio" id="imdb_imdbwidgetpic_no" name="imdb_imdbwidgetpic" value="" <?php if ($imdbOptionsw['imdbwidgetpic'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetpic_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td width="33%">
+
+				<div class="explain"><?php esc_html_e( 'Display the picture', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetruntime'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Runtime', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Runtime', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Runtime', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetruntime_yes" name="imdb_imdbwidgetruntime" value="1" <?php if ($imdbOptionsw['imdbwidgetruntime'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetruntime_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
-				<input type="radio" id="imdb_imdbwidgetruntime_no" name="imdb_imdbwidgetruntime" value="" <?php if ($imdbOptionsw['imdbwidgetruntime'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetruntime_no"><?php esc_html_e( 'No', 'imdb'); ?></label></td>
-		</tr>
-		<tr>
-			<td class="td-aligntop"><div class="explain"><?php esc_html_e( 'Display the title', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div></td>
-			<td class="td-aligntop"><div class="explain"><?php esc_html_e( 'Display the picture', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div></td>
-			<td class="td-aligntop"><div class="explain"><?php esc_html_e( 'Display the runtime', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-		</tr>
+				<input type="radio" id="imdb_imdbwidgetruntime_no" name="imdb_imdbwidgetruntime" value="" <?php if ($imdbOptionsw['imdbwidgetruntime'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetruntime_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
+				<div class="explain"><?php esc_html_e( 'Display the runtime', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
 
+			</div>
+		</div>
 		<?php //-------------------------------------------------------------------=[director, actor, country]=- ?>		
 
-		<tr>
-			<td>
+		<div class="imdblt_double_container">
+
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
 				<?php if ($imdbOptionsw['imdbwidgetdirector'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Director', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Director', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Director', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetdirector_yes" name="imdb_imdbwidgetdirector" value="1" <?php if ($imdbOptionsw['imdbwidgetdirector'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetdirector_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
 				<input type="radio" id="imdb_imdbwidgetdirector_no" name="imdb_imdbwidgetdirector" value="" <?php if ($imdbOptionsw['imdbwidgetdirector'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetdirector_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td>
+
+			<div class="explain"><?php esc_html_e( 'Display directors', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetcountry'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Country', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Country', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Country', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetcountry_yes" name="imdb_imdbwidgetcountry" value="1" <?php if ($imdbOptionsw['imdbwidgetcountry'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetcountry_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetcountry_no" name="imdb_imdbwidgetcountry" value="" <?php if ($imdbOptionsw['imdbwidgetcountry'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetcountry_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td>
+
+				<div class="explain"><?php esc_html_e( 'Display country', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetactor'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Actor', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Actor', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Actor', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetactor_yes" name="imdb_imdbwidgetactor" value="1" <?php if ($imdbOptionsw['imdbwidgetactor'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetactornumber" data-field_to_change_value="0" /><label for="imdb_imdbwidgetactor_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
 				<input type="radio" id="imdb_imdbwidgetactor_no" name="imdb_imdbwidgetactor" value="" <?php if ($imdbOptionsw['imdbwidgetactor'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetactornumber" data-field_to_change_value="1" /><label for="imdb_imdbwidgetactor_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
 
 				<input type="text" id="imdb_imdbwidgetactornumber" name="imdb_imdbwidgetactornumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptionsw['imdbwidgetactornumber']), 'imdb') ?>" <?php if ($imdbOptionsw['imdbwidgetactor'] == 0){ echo 'disabled="disabled"'; }; ?> />
-			</td>
-		</tr>
-		<tr>
-			<td class="td-aligntop"><div class="explain"><?php esc_html_e( 'Display directors', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div></td>
-			<td><div class="explain"><?php esc_html_e( 'Display country', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-			<td><div class="explain"><?php esc_html_e( 'Display (how many) actors', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?> & 10</div></td>
-		</tr>
 
+				<div class="explain"><?php esc_html_e( 'Display (how many) actors', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?> & 10</div>
+			</div>
+		</div>
 
 		<?php //-------------------------------------------------------------------=[creator, release date, genre]=- ?>	
-		<tr>
-			<td>
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
 				<?php if ($imdbOptionsw['imdbwidgetcreator'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Creator', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Creator', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Creator', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetcreator_yes" name="imdb_imdbwidgetcreator" value="1" <?php if ($imdbOptionsw['imdbwidgetcreator'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetcreator_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
 				<input type="radio" id="imdb_imdbwidgetcreator_no" name="imdb_imdbwidgetcreator" value="" <?php if ($imdbOptionsw['imdbwidgetcreator'] == 0) { echo 'checked="checked"'; } ?>  /><label for="imdb_imdbwidgetcreator_no"><?php esc_html_e( 'No', 'imdb'); ?></label>	
-			</td>
-			<td>
+
+				<div class="explain"><?php esc_html_e( 'Display Creator', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
 				<?php if ($imdbOptionsw['imdbwidgetyear'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Year', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Year', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Year', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetyear_yes" name="imdb_imdbwidgetyear" value="1" <?php if ($imdbOptionsw['imdbwidgetyear'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetyear_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
 				<input type="radio" id="imdb_imdbwidgetyear_no" name="imdb_imdbwidgetyear" value="" <?php if ($imdbOptionsw['imdbwidgetyear'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetyear_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td>
+				<div class="explain"><?php esc_html_e( "Display release year. Year will appear next title's movie, in brackets.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetgenre'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Genre', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Genre', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Genre', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetgenre_yes" name="imdb_imdbwidgetgenre" value="1" <?php if ($imdbOptionsw['imdbwidgetgenre'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetgenre_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetgenre_no" name="imdb_imdbwidgetgenre" value="" <?php if ($imdbOptionsw['imdbwidgetgenre'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetgenre_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-		</tr>
-		<tr>
-			<td class="td-aligntop"><div class="explain"><?php esc_html_e( 'Display Creator', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
-			</td>
-			<td><div class="explain"><?php esc_html_e( "Display release year. Year will appear next title's movie, in brackets.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
-			</td>
-			<td><div class="explain"><?php esc_html_e( 'Display genre(s)', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
-			</td>
-		</tr>
-		
+
+				<div class="explain"><?php esc_html_e( 'Display genre(s)', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+		</div>
 
 
 		<?php //-------------------------------------------------------------------=[writer, producer, plot]=- ?>		
-		<tr>
-			<td>
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetwriter'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Writer', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Writer', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Writer', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetwriter_yes" name="imdb_imdbwidgetwriter" value="1" <?php if ($imdbOptionsw['imdbwidgetwriter'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetwriter_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
-				<input type="radio" id="imdb_imdbwidgetwriter_no" name="imdb_imdbwidgetwriter" value="" <?php if ($imdbOptionsw['imdbwidgetwriter'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetwriter_no"><?php esc_html_e( 'No', 'imdb'); ?></label>	
-			</td>
-			<td>
+
+				<input type="radio" id="imdb_imdbwidgetwriter_no" name="imdb_imdbwidgetwriter" value="" <?php if ($imdbOptionsw['imdbwidgetwriter'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetwriter_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
+
+				<div class="explain"><?php esc_html_e( 'Display writers', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetproducer'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Producer', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Producer', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Producer', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetproducer_yes" name="imdb_imdbwidgetproducer" value="1" <?php if ($imdbOptionsw['imdbwidgetproducer'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetproducer_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
 				<input type="radio" id="imdb_imdbwidgetproducer_no" name="imdb_imdbwidgetproducer" value="" <?php if ($imdbOptionsw['imdbwidgetproducer'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetproducer_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td>
+
+				<div class="explain"><?php esc_html_e( 'Display producer(s)', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetplot'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Plot', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Plot', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Plot', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetplot_yes" name="imdb_imdbwidgetplot" value="1" <?php if ($imdbOptionsw['imdbwidgetplot'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetplotnumber" data-field_to_change_value="0" /><label for="imdb_imdbwidgetplot_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetplot_no" name="imdb_imdbwidgetplot" value="" <?php if ($imdbOptionsw['imdbwidgetplot'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetplotnumber" data-field_to_change_value="1" /><label for="imdb_imdbwidgetplot_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
 
 				<input type="text" id="imdb_imdbwidgetplotnumber" name="imdb_imdbwidgetplotnumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptionsw['imdbwidgetplotnumber']), 'imdb') ?>" <?php if ($imdbOptionsw['imdbwidgetplot'] == 0){ echo 'disabled="disabled"'; }; ?> />
-			</td>
-		</tr>
-		<tr>
-			<td class="td-aligntop"><div class="explain"><?php esc_html_e( 'Display writers', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div></td>
-			<td><div class="explain"><?php esc_html_e( 'Display producer(s)', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-			<td><div class="explain"><?php esc_html_e( 'Display plot(s). Be careful, this field may need a lot of space. In ideal case, this plugin is used inside a post and not into a widget.', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-		</tr>
 
+				<div class="explain"><?php esc_html_e( 'Display plot(s). Be careful, this field may need a lot of space. In ideal case, this plugin is used inside a post and not into a widget.', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+		</div>
 
 		<?php //-------------------------------------------------------------------=[keywords, production companies, quotes]=- ?>
-		<tr>
-			<td>
+
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetkeywords'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Keywords', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Keywords', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Keywords', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetkeywords_yes" name="imdb_imdbwidgetkeywords" value="1" <?php if ($imdbOptionsw['imdbwidgetkeywords'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetkeywords_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetkeywords_no" name="imdb_imdbwidgetkeywords" value="" <?php if ($imdbOptionsw['imdbwidgetkeywords'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetkeywords_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td>
+
+				<div class="explain"><?php esc_html_e( 'Display keywords', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetprodCompany'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Production company', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Production company', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Production company', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetprodCompany_yes" name="imdb_imdbwidgetprodCompany" value="1" <?php if ($imdbOptionsw['imdbwidgetprodCompany'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetprodCompany_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetprodCompany_no" name="imdb_imdbwidgetprodCompany" value="" <?php if ($imdbOptionsw['imdbwidgetprodCompany'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetprodCompany_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td>
+
+				<div class="explain"><?php esc_html_e( 'Display the production companies', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetquotes'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Quotes', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Quotes', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Quotes', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetquotes_yes" name="imdb_imdbwidgetquotes" value="1" <?php if ($imdbOptionsw['imdbwidgetquotes'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetquotesnumber" data-field_to_change_value="0" /><label for="imdb_imdbwidgetquotes_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetquotes_no" name="imdb_imdbwidgetquotes" value="" <?php if ($imdbOptionsw['imdbwidgetquotes'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetquotesnumber" data-field_to_change_value="1" /><label for="imdb_imdbwidgetquotes_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
 
 				<input type="text" id="imdb_imdbwidgetquotesnumber" name="imdb_imdbwidgetquotesnumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptionsw['imdbwidgetquotesnumber']), 'imdb') ?>" <?php if ($imdbOptionsw['imdbwidgetquotes'] == 0){ echo 'disabled="disabled"'; }; ?> />
-			</td>
-		</tr>
-		<tr>
-			<td><div class="explain"><?php esc_html_e( 'Display keywords', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></div></td>
-			<td><div class="explain"><div class="explain"><?php esc_html_e( 'Display the production companies', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-			<td><div class="explain"><?php esc_html_e( "Display (how many) quotes from movie", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-		</tr>
 
+				<div class="explain"><?php esc_html_e( "Display (how many) quotes from movie", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
 
+			</div>
+		</div>
 
 		<?php //-------------------------------------------------------------------=[taglines, colors, alsoknow]=- ?>
-		<tr>
-			<td>
+
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgettaglines'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Tagline', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Tagline', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Tagline', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgettaglines_yes" name="imdb_imdbwidgettaglines" value="1" <?php if ($imdbOptionsw['imdbwidgettaglines'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbwidgettaglinesnumber" data-field_to_change_value="0" /><label for="imdb_imdbwidgettaglines_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgettaglines_no" name="imdb_imdbwidgettaglines" value="" <?php if ($imdbOptionsw['imdbwidgettaglines'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbwidgettaglinesnumber" data-field_to_change_value="1" /><label for="imdb_imdbwidgettaglines_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
 
 				<input type="text" id="imdb_imdbwidgettaglinesnumber" name="imdb_imdbwidgettaglinesnumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptionsw['imdbwidgettaglinesnumber']), 'imdb') ?>" <?php if ($imdbOptionsw['imdbwidgettaglines'] == 0){ echo 'disabled="disabled"'; }; ?> />
-			</td>
-			<td>
+
+				<div class="explain"><?php esc_html_e( 'Display (how many) tagline', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetcolors'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Colors', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Colors', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Colors', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetcolors_yes" name="imdb_imdbwidgetcolors" value="1" <?php if ($imdbOptionsw['imdbwidgetcolors'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetcolors_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetcolorsno" name="imdb_imdbwidgetcolors" value="" <?php if ($imdbOptionsw['imdbwidgetcolors'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetcolors_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td>
+
+				<div class="explain"><?php esc_html_e( "Display colors", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetalsoknow'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Also known as', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Also known as', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Also known as', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetalsoknow_yes" name="imdb_imdbwidgetalsoknow" value="1" <?php if ($imdbOptionsw['imdbwidgetalsoknow'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetalsoknow_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
-				<input type="radio" id="imdb_imdbwidgetalsoknow_no" name="imdb_imdbwidgetalsoknow" value="" <?php if ($imdbOptionsw['imdbwidgetalsoknow'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetalsoknow_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-		</tr>
-		<tr>
-			<td class="td-aligntop"><div class="explain"><?php esc_html_e( 'Display (how many) tagline', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-			<td><div class="explain"><?php esc_html_e( "Display colors", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-			<td><div class="explain"><?php esc_html_e( "Display all movie's names", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-		</tr>
 
+				<input type="radio" id="imdb_imdbwidgetalsoknow_no" name="imdb_imdbwidgetalsoknow" value="" <?php if ($imdbOptionsw['imdbwidgetalsoknow'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetalsoknow_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
+
+				<div class="explain"><?php esc_html_e( "Display all movie's names", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+		</div>
 
 
 		<?php //-------------------------------------------------------------------=[composer, soundtrack, trailer]=- ?>
-		<tr>
-			<td>
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetcomposer'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Composer', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Composer', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Composer', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetcomposer_yes" name="imdb_imdbwidgetcomposer" value="1" <?php if ($imdbOptionsw['imdbwidgetcomposer'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetcomposer_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetcomposer_no" name="imdb_imdbwidgetcomposer" value="" <?php if ($imdbOptionsw['imdbwidgetcomposer'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetcomposer_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td>
+
+				<div class="explain"><?php esc_html_e( 'Display composer', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetsoundtrack'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Soundtrack', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Soundtrack', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Soundtrack', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetsoundtrack_yes" name="imdb_imdbwidgetsoundtrack" value="1" <?php if ($imdbOptionsw['imdbwidgetsoundtrack'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetsoundtracknumber" data-field_to_change_value="0" /><label for="imdb_imdbwidgetsoundtrack_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetsoundtrack" name="imdb_imdbwidgetsoundtrack" value="" <?php if ($imdbOptionsw['imdbwidgetsoundtrack'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetsoundtracknumber" data-field_to_change_value="1" /><label for="imdb_imdbwidgetsoundtrack_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
 
 				<input type="text" id="imdb_imdbwidgetsoundtracknumber" name="imdb_imdbwidgetsoundtracknumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptionsw['imdbwidgetsoundtracknumber']), 'imdb') ?>" <?php if ($imdbOptionsw['imdbwidgetsoundtrack'] == 0){ echo 'disabled="disabled"'; }; ?> />
-			</td>
-			<td>
+
+				<div class="explain"><?php esc_html_e( "Display (how many) soundtrack", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgettrailer'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Trailers', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Trailers', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Trailers', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgettrailer_yes" name="imdb_imdbwidgettrailer" value="1" <?php if ($imdbOptionsw['imdbwidgettrailer'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbwidgettrailernumber" data-field_to_change_value="0" /><label for="imdb_imdbwidgettrailer_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgettrailer_no" name="imdb_imdbwidgettrailer" value="" <?php if ($imdbOptionsw['imdbwidgettrailer'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbwidgettrailernumber" data-field_to_change_value="1" /><label for="imdb_imdbwidgettrailer_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
 
 				<input type="text" id="imdb_imdbwidgettrailernumber" name="imdb_imdbwidgettrailernumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptionsw['imdbwidgettrailernumber']), 'imdb') ?>" <?php if ($imdbOptionsw['imdbwidgettrailernumber'] == 0){ echo 'disabled="disabled"'; }; ?> />
 
-			</td>
-		</tr>
-		<tr>
-			<td class="td-aligntop"><div class="explain"><?php esc_html_e( 'Display composer', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-			<td><div class="explain"><?php esc_html_e( "Display (how many) soundtrack", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-			<td><div class="explain"><?php esc_html_e( 'Display (how many) trailers', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-		</tr>
+				<div class="explain"><?php esc_html_e( 'Display (how many) trailers', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
 
+			</div>
+		</div>
 
 
 		<?php //-------------------------------------------------------------------=[official websites, rating, language]=- ?>
-		<tr>
-			<td>
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetofficialSites'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Official websites', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Official websites', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Official websites', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetofficialSites_yes" name="imdb_imdbwidgetofficialSites" value="1" <?php if ($imdbOptionsw['imdbwidgetofficialSites'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetofficialSites_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetofficialSites_no" name="imdb_imdbwidgetofficialSites" value="" <?php if ($imdbOptionsw['imdbwidgetofficialSites'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetofficialSites_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td>
+
+				<div class="explain"><?php esc_html_e( 'Display official websites', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetrating'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Rating', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Rating', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Rating', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetrating_yes" name="imdb_imdbwidgetrating" value="1" <?php if ($imdbOptionsw['imdbwidgetrating'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetrating_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetrating_no" name="imdb_imdbwidgetrating" value="" <?php if ($imdbOptionsw['imdbwidgetrating'] == 0) { echo 'checked="checked"'; } ?>  /><label for="imdb_imdbwidgetrating_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td>
+
+				<div class="explain"><?php esc_html_e( 'Display rating', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetlanguage'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Language', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Language', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Language', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetlanguage_yes" name="imdb_imdbwidgetlanguage" value="1" <?php if ($imdbOptionsw['imdbwidgetlanguage'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetlanguage_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetlanguage_no" name="imdb_imdbwidgetlanguage" value="" <?php if ($imdbOptionsw['imdbwidgetlanguage'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetlanguage_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-		</tr>
-		<tr>
-			<td class="td-aligntop">
-				<div class="explain"><?php esc_html_e( 'Display official websites', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
-			</td>
-			<td class="td-aligntop">
-				<div class="explain"><?php esc_html_e( 'Display rating', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
-			</td>
-			<td>
+
 				<div class="explain"><?php esc_html_e( 'Display language(s)', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
-			</td>
-		</tr>
+
+			</div>
+		</div>
 
 		<?php //-------------------------------------------------------------------=[goofs, user comments, source]=- ?>
-		<tr>
-			<td>
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
 				<?php if ($imdbOptionsw['imdbwidgetgoofs'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Goofs', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Goofs', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Goofs', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetgoofs_yes" name="imdb_imdbwidgetgoofs" value="1" <?php if ($imdbOptionsw['imdbwidgetgoofs'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetgoofsnumber" data-field_to_change_value="0" /><label for="imdb_imdbwidgetgoofs_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetgoofs_no" name="imdb_imdbwidgetgoofs" value="" <?php if ($imdbOptionsw['imdbwidgetgoofs'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetgoofsnumber" data-field_to_change_value="1" /><label for="imdb_imdbwidgetgoofs_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
 
 				<input type="text" id="imdb_imdbwidgetgoofsnumber" name="imdb_imdbwidgetgoofsnumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptionsw['imdbwidgetgoofsnumber']), 'imdb') ?>" <?php if ($imdbOptionsw['imdbwidgetgoofs'] == 0){ echo 'disabled="disabled"'; }; ?> />
-			</td>
-			<td>
+
+				<div class="explain"><?php esc_html_e( 'Display (how many) goof', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetcomments'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Users comment', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Users comment', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Users comment', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
 				<input type="radio" id="imdb_imdbwidgetcomments_yes" name="imdb_imdbwidgetcomments" value="1" <?php if ($imdbOptionsw['imdbwidgetcomments'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetcommentsnumber" data-field_to_change_value="0" /><label for="imdb_imdbwidgetcomments_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetcomments_no" name="imdb_imdbwidgetcomments" value="" <?php if ($imdbOptionsw['imdbwidgetcomments'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetcommentsnumber" data-field_to_change_value="1" /><label for="imdb_imdbwidgetcomments_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
 
 				<input type="text" id="imdb_imdbwidgetcommentsnumber" name="imdb_imdbwidgetcommentsnumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptionsw['imdbwidgetcommentsnumber']), 'imdb') ?>" <?php if ($imdbOptionsw['imdbwidgetcomments'] == 0){ echo 'disabled="disabled"'; }; ?> />
-			</td>
-			<td>
+
+				<div class="explain"><?php esc_html_e( "Display (how many) users' comments", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
 				<?php if ($imdbOptionsw['imdbwidgetsource'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Source', 'imdb'); echo '</span>'; } else { ?>
-				<?php  esc_html_e( 'Source', 'imdb'); echo '&nbsp;&nbsp;'; } ?>
+				<?php  esc_html_e( 'Source', 'imdb'); echo '&nbsp;&nbsp;'; } ?><br /><br />
+
 				<input type="radio" id="imdb_imdbwidgetsource_yes" name="imdb_imdbwidgetsource" value="1" <?php if ($imdbOptionsw['imdbwidgetsource'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetsource_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label>
+
 				<input type="radio" id="imdb_imdbwidgetsource_no" name="imdb_imdbwidgetsource" value="" <?php if ($imdbOptionsw['imdbwidgetsource'] == 0) { echo 'checked="checked"'; } ?>  /><label for="imdb_imdbwidgetsource_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-		</tr>
-		<tr>
-			<td class="td-aligntop"><div class="explain"><?php esc_html_e( 'Display (how many) goof', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-			<td><div class="explain"><?php esc_html_e( "Display (how many) users' comments", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div></td>
-			<td><div class="explain"><div class="explain"><?php esc_html_e( 'Display website source at the end of the post', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
-		</tr>
 
+				<div class="explain"><div class="explain"><?php esc_html_e( 'Display website source at the end of the post', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
 
+		</div>
+	</div>
 
 <?php	} 
 		if ($_GET['widgetoption'] == "taxo")  { 	// Taxonomy ?>
@@ -378,6 +436,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 			if ($imdbOptions['imdbtaxonomy'] != "1") { //check if taxonomy is activated
 				echo "<div align='center' class='accesstaxo'>".__('Please ', 'imdb')."<a href='".esc_url ( admin_url().'admin.php?page=imdblt_options&generaloption=advanced') . '">' . __('activate taxonomy', 'imdb') . '</a>' . __(' priorly', 'imdb') . '<br />' . __('to access taxonomies options.', 'imdb') . "</div>";
 			} else { // taxonomy is activated ?>
+	<table class="option widefat">
 		<tr>
 			<td colspan="4" class="titresection"><?php esc_html_e( 'Select details to use as taxonomy', 'imdb'); ?></td>
 		</tr>
@@ -621,9 +680,9 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 					<?php esc_html_e( '"Source" movie detail cannot be selected; if it is selected from "what to display" section, it will always appear after others movie details', 'imdb'); ?>
 				</div>
 			</div>
-			<div class="imdblt_double_container">
+			<div class="imdblt_double_container imdblt_padding_top_twenty">
 				<div class="imdblt_double_container_content_eighty imdblt_align_center">
-				<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" multiple>
+				<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo (count( $imdbOptionsw['imdbwidgetorder'] )/2); ?>" style="height:100%;" multiple>
 <?php 
  					foreach ($imdbOptionsw['imdbwidgetorder'] as $key=>$value) {
 						if (!empty ( $key ) && ( $key ) != "source"  ) { // to eliminate empty keys, but also "source" which will always stays at the end (technical limitation, data outside the imdb-movie.inc.php loop)
@@ -655,42 +714,38 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 <?php	} 
 		if ($_GET['widgetoption'] == "misc")  { 	// Misc ?>
 		<?php //-------------------------------------------------------------------=[Misc]=- ?>		
-	<table class="option widefat">
-		<tr>
-			<td colspan="3" class="titresection"><?php esc_html_e( 'Misc', 'imdb'); ?></td>
-		</tr>
-		
-		<tr>
-			<td width="33%">
-				<?php esc_html_e( 'Remove all links?', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
+
+		<div class="imblt_border_shadow">
+			<div class="titresection"><?php esc_html_e( 'Misc', 'imdb'); ?></div>
+
+			<div class="imdblt_double_container">
+				<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+				<?php esc_html_e( 'Remove all links?', 'imdb'); ?><br /><br />
+
 				<input type="radio" id="imdb_imdblinkingkill_yes" name="imdb_imdblinkingkill" value="1" <?php if ($imdbOptionsw['imdblinkingkill'] == "1") { echo 'checked="checked"'; }?> />
-				<label for="imdb_imdblinkingkill_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdblinkingkill_no" name="imdb_imdblinkingkill" value="" <?php if ($imdbOptionsw['imdblinkingkill'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdblinkingkill_no"><?php esc_html_e( 'No', 'imdb'); ?></label>	
-			</td>
-			<td width="33%">
-				<?php esc_html_e( 'Auto widget?', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
+
+				<label for="imdb_imdblinkingkill_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdblinkingkill_no" name="imdb_imdblinkingkill" value="" <?php if ($imdbOptionsw['imdblinkingkill'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdblinkingkill_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
+
+				<div class="explain"><?php esc_html_e( "Remove all links (popup and external ones) which are automatically added. Especially made for people who are not interested in popup function, but it will remove every single HTML link too.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+				<?php esc_html_e( 'Auto widget?', 'imdb'); ?><br /><br />
+
 				<input type="radio" id="imdb_imdbautopostwidget_yes" name="imdb_imdbautopostwidget" value="1" <?php if ($imdbOptionsw['imdbautopostwidget'] == "1") { echo 'checked="checked"'; }?> />
+
 				<label for="imdb_imdbautopostwidget_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbautopostwidget_no" name="imdb_imdbautopostwidget" value="" <?php if ($imdbOptionsw['imdbautopostwidget'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdbautopostwidget_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
-			</td>
-			<td width="33%">
-			</td>
-		</tr>
-		<tr>
-			<td class="td-aligntop">				
-				<div class="explain">
-				<?php esc_html_e( "Remove all links (popup and external ones) which are automatically added. Especially made for people who are not interested in popup function, but it will remove every single HTML link too.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
-			</td>
-			<td class="td-aligntop">
-				<div class="explain">
-				<?php esc_html_e( "Add automatically a widget according to post title. If 'imdb-movie-widget' or 'imdb-movie-widget-bymid' have also been added to post, the auto widget will be displayed before them.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
-			</td>
-			<td class="td-aligntop">
-			</td>
-		</tr>
+
+				<div class="explain"><?php esc_html_e( "Add automatically a widget according to post title. If 'imdb-movie-widget' or 'imdb-movie-widget-bymid' have also been added to post, the auto widget will be displayed before them.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+
+			</div>
+		</div>
+
 <?php	} // end of misc subsection ?>
 
-
-	</table>
-	</div>
+</div>
 	
 	<?php //------------------------------------------------------------------ =[Submit selection]=- ?>
 	<div class="submit submit-imdb" align="center">

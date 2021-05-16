@@ -110,6 +110,7 @@ font-size:10px;
 padding-left:15px;
 padding-right:25px;
 text-align:justify;
+font-weight:normal;
 }
 
 #tabswrap {
@@ -187,10 +188,13 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .picfloat{float:left;padding-right:5px;}
 .imdblt_double_container{display:flex;flex-wrap:wrap;}
 .imdblt_double_container_content{flex:50%}
+.imdblt_double_container_content_third{flex:30%}
 .imdblt_double_container_content_twenty{flex:20%}
 .imdblt_double_container_content_eighty{flex:80%}
 .imdblt_hidden{visibility:hidden;}
+.imdblt_padding_five{padding:5px;}
 .imdblt_padding_left{padding-left:50px;}
+.imdblt_padding_top_twenty{padding-top:20px;}
 .imdblt_padding_twenty{padding-bottom:20px;}
 .imdblt_valign_middle{vertical-align:middle;}
 .imdblt_align_left{text-align:left;}
@@ -204,3 +208,5 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .accesstaxo{border:1px solid black;padding:20px;margin-left:40%;margin-right:40%;}
 .imdbwidgetorderContainer{width: 300px;height:auto;background-color:black;border-radius:10px;}
 .imblt_border_shadow{background-color:white;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgb(0 0 0 / 4%);padding:15px;}
+#imdbconfig_save #tabswrap {margin:5px;padding:15px;}
+
