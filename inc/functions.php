@@ -273,7 +273,7 @@ if ( ! function_exists('imdblt_popup_highslide_film_link')){
 		if (! $popuplong )
 			$popuplong=$imdb_admin_values["popupLong"];
 
-		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . imdb_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", "imdb") . '">' . $link_parsed[1] . "</a>&nbsp;";
+		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . lumiere_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", "imdb") . '">' . $link_parsed[1] . "</a>&nbsp;";
 
 		return $parsed_result;
 	}
@@ -295,7 +295,7 @@ if ( ! function_exists('imdblt_popup_classical_film_link')){
 		if (! $popuplong )
 			$popuplong=$imdb_admin_values["popupLong"];
 
-		$parsed_result = '<a  class="link-imdblt-classicfilm" data-classicfilm="' . imdb_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", "imdb") . '">' . $link_parsed[1] . "</a>&nbsp;";
+		$parsed_result = '<a  class="link-imdblt-classicfilm" data-classicfilm="' . lumiere_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", "imdb") . '">' . $link_parsed[1] . "</a>&nbsp;";
 		
 		return $parsed_result;
 	}
@@ -307,8 +307,8 @@ if ( ! function_exists('imdblt_popup_classical_film_link')){
  * ----> should use a wordpress dedicated function instead, like esc_url() ?
  */
 
-if ( ! function_exists('imdb_htmlize')){
-	function imdb_htmlize ($link) {
+if ( ! function_exists('lumiere_htmlize')){
+	function lumiere_htmlize ($link) {
 	    // a. quotes escape
 	    $lienhtmlize = addslashes($link);      
 	    // b.converts db to html -> no more needed

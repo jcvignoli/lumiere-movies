@@ -144,7 +144,7 @@ get_header();
 <table class='tabletitrecolonne'>
     <tr>
         <td class='titrecolonne'>
-            <a class="searchaka" href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] . "inc/" . "popup-search.php?film=" . sanitize_text_field( imdb_htmlize( $movie->title() ) ) . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'imdb'); ?>"><?php esc_html_e('Search AKAs', 'imdb'); ?></a>
+            <a class="searchaka" href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] . "inc/" . "popup-search.php?film=" . sanitize_text_field( lumiere_htmlize( $movie->title() ) ) . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'imdb'); ?>"><?php esc_html_e('Search AKAs', 'imdb'); ?></a>
         </td>
         <td class='titrecolonne'>
 		<a href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'imdb'); ?>'><?php esc_html_e('Movie', 'imdb'); ?></a>

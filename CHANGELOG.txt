@@ -271,7 +271,7 @@ v0.9.3
 * [major] added multiple queries widget process (several "imdb-movie-widget" field can be added to a post). Caution! Adding several fields will slow down page display.
 * [minor] removed the so-said pass of "$filmid = $_GET['imdbpostid']" from imdb-widget to imdb-movie.inc.php (seems to be passed because functional call)
 * [minor] added a function imdb_external_call () to permit to call the widget from anywhere into templates (widget no more mandatory)
-* [minor] changed to imdb_htmlize() function (htmlentities() unactivated, as it doesn't seems anymore needed and prevented the accentuated letters to go through the search process)
+* [minor] changed to lumiere_htmlize() function (htmlentities() unactivated, as it doesn't seems anymore needed and prevented the accentuated letters to go through the search process)
 
 v0.9.2
 * [minor] style issue (body class wasn't defined to be only a popup class, therefore general blog theme could be affected)

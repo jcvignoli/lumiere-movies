@@ -172,7 +172,7 @@ class imdblt_core {
 	}
 
 	##### b) Replace [imdblt] .... [/imdblt] tags with movies data
-	function imdb_tags_transform_id ($text) {
+	function lumiere_tags_transform_id ($text) {
 		$pattern = "'\[imdbltid\](.*?)\[/imdbltid\]'si";
 		return preg_replace_callback($pattern, array(&$this, 'parse_imdb_tag_transform_id'),$text);
 	}
@@ -374,7 +374,7 @@ class imdblt_core {
 			add_action('wp_head', $this->imdblt_add_head_blog('inc.movie') ,1 );
 	
 			echo "<div class='imdbincluded'>";
-			require_once ( $imdb_admin_values['imdbplugindirectory'] . "inc/imdb-movie.inc.php" );
+			require_once ( IMDBLTABSPATH . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
 			add_action('wp_footer', $this->imdblt_add_footer_blog('inc.movie') ,1 );
@@ -390,7 +390,7 @@ class imdblt_core {
 			add_action('wp_head', $this->imdblt_add_head_blog('inc.movie') ,1 );
 
 			echo "<div class='imdbincluded'>";
-			require_once ( $imdb_admin_values['imdbplugindirectory'] . "inc/imdb-movie.inc.php" );
+			require_once ( IMDBLTABSPATH . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
 			add_action('wp_footer', $this->imdblt_add_footer_blog('inc.movie') ,1 );
@@ -401,14 +401,14 @@ class imdblt_core {
 		if (!empty($moviename) && (empty($external))) {	// new way (using a parameter - imdb movie name)
 			$imdballmeta = $moviename;
 
-			// add head that is only for /imdblt/ URLs
-			add_action('wp_head', $this->imdblt_add_head_blog('inc.movie') ,1 );
+			// add normal $this->imdblt_add_head_blog call, without 'inc.movie' since it is inside a post and not a widget
+			add_action('wp_head', $this->imdblt_add_head_blog() ,1 );
 
 			echo "<div class='imdbincluded'>";
-			require_once ( $imdb_admin_values['imdbplugindirectory'] . "inc/imdb-movie.inc.php" );
+			require_once ( IMDBLTABSPATH . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
-			add_action('wp_footer', $this->imdblt_add_footer_blog('inc.movie') ,1 );
+			add_action('wp_footer', $this->imdblt_add_footer_blog() ,1 );
 
 			$out1 = ob_get_contents(); //put the record into value
 		} 
@@ -417,14 +417,14 @@ class imdblt_core {
 			$imdballmeta = 'imdb-movie-widget-noname';
 			$moviespecificid = $filmid;
 
-			// add head that is only for /imdblt/ URLs
-			add_action('wp_head', $this->imdblt_add_head_blog('inc.movie') ,1 );
+			// add normal $this->imdblt_add_head_blog call, without 'inc.movie' since it is inside a post and not a widget
+			add_action('wp_head', $this->imdblt_add_head_blog() ,1 );
 
 			echo "<div class='imdbincluded'>";
-			require_once ( $imdb_admin_values['imdbplugindirectory'] . "inc/imdb-movie.inc.php" );
+			require_once ( IMDBLTABSPATH . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
-			add_action('wp_footer', $this->imdblt_add_footer_blog('inc.movie') ,1 );
+			add_action('wp_footer', $this->imdblt_add_footer_blog() ,1 );
 
 			$out2 = ob_get_contents(); //put the record into value
 		}
@@ -573,7 +573,7 @@ class imdblt_core {
 
 			// add data inside a post
 			add_action('the_content', [ $this, 'imdb_tags_transform' ], 11);
-			add_action('the_content', [ $this, 'imdb_tags_transform_id' ], 11);
+			add_action('the_content', [ $this, 'lumiere_tags_transform_id' ], 11);
 
 			// add admin menu
 			if (isset($imdb_ft)) {
