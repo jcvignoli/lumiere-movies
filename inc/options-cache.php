@@ -534,7 +534,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		<div class="imdblt_double_container">
 			<div class="imdblt_double_container_content_third imdblt_padding_five">
 
-				<?php esc_html_e('Show advanced cache details', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
+				<?php esc_html_e('Show advanced cache details', 'imdb'); ?><br /><br />
 				<input type="radio" id="imdb_imdbcachedetails_yes" name="imdb_imdbcachedetails" value="1" <?php if ($imdbOptionsc['imdbcachedetails'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbcachedetailsshort_yes" data-field_to_change_value="0" />
 				<label for="imdb_imdbcachedetails_yes"><?php esc_html_e('Yes', 'imdb'); ?></label>
 				<input type="radio" id="imdb_imdbcachedetails_no" name="imdb_imdbcachedetails" value="" <?php if ($imdbOptionsc['imdbcachedetails'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbcachedetailsshort_yes" data-field_to_change_value="1" />
@@ -545,7 +545,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 			</div>
 			<div class="imdblt_double_container_content_third imdblt_padding_five">
 
-				<?php esc_html_e('Quick advanced cache details', 'imdb'); ?>&nbsp;&nbsp;&nbsp;&nbsp;
+				<?php esc_html_e('Quick advanced cache details', 'imdb'); ?><br /><br />
 				<input type="radio" id="imdb_imdbcachedetailsshort_yes" name="imdb_imdbcachedetailsshort" value="1" <?php if ($imdbOptionsc['imdbcachedetailsshort'] == "1") { echo 'checked="checked"'; }?> <?php if ($imdbOptionsc['imdbcachedetails'] == 0) { echo 'disabled="disabled"'; }; ?> />
 				<label for="imdb_imdbcachedetailsshort_yes"><?php esc_html_e('Yes', 'imdb'); ?></label>
 

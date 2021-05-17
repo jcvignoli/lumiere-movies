@@ -107,11 +107,11 @@ vertical-align:text-top;
 
 .explain {
 font-size:10px;
-padding-left:15px;
+padding-top:10px;
 padding-right:25px;
 text-align:justify;
 font-weight:normal;
-word-break:break-all;
+word-break:break-words;
 }
 
 #tabswrap {

@@ -19,9 +19,10 @@ $allowed_html_for_esc_html_functions = [ /* accept these html tags in wp_kses es
     'strong',
 ];
 $messages = array( /* highslide message notification options */
-    'highslide_success' => 'Highslide successfully installed!',
-    'highslide_failure' => 'Highslide installation failed!',
-    'highslide_down' => 'Website to download Highslide is currently down, please try again later.'
+	'highslide_success' => 'Highslide successfully installed!',
+	'highslide_failure' => 'Highslide installation failed!',
+	'highslide_down' => 'Website to download Highslide is currently down, please try again later.',
+	'highslide_website_unkown' => 'Website variable is not set.'
 );
 
 // included files
@@ -29,15 +30,23 @@ require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
 
 // If $_GET["msg"] is found, display a related notice
 if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $messages ) ){
-	// Message for success
-	if (sanitize_text_field( $_GET['msg'] ) == "highslide_success" ) {
-		imdblt_notice(1, esc_html__( $messages["highslide_success"], 'imdb') );
-	// Message for failure
-	} elseif ( sanitize_text_field( $_GET['msg'] ) == "highslide_failure" ) {
-		imdblt_notice(3, esc_html__( $messages["highslide_failure"] , 'imdb') . " " .  esc_html__( 'Your folder might be protected. Download highslide manually', 'imdb')." <a href='". esc_url ( IMDBBLOGHIGHSLIDE ) ."'>".esc_html__("here", "imdb")."</a> ".esc_html__("and extract the zip into" ) . "<br />" .  esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" ) );
-
-	} elseif ( sanitize_text_field( $_GET['msg'] ) == "highslide_down" ) {
-		imdblt_notice(3, esc_html__( $messages["highslide_down"] , 'imdb')  );
+	switch (sanitize_text_field( $_GET['msg'] )) {
+		// Message for success
+		case "highslide_success":
+			imdblt_notice(1, esc_html__( $messages["highslide_success"], 'imdb') );
+			break;
+		// Message for failure
+		case "highslide_failure":
+			imdblt_notice(3, esc_html__( $messages["highslide_failure"] , 'imdb') . " " .  esc_html__( 'Your folder might be protected. Download highslide manually', 'imdb')." <a href='". esc_url ( IMDBBLOGHIGHSLIDE ) ."'>".esc_html__("here", "imdb")."</a> ".esc_html__("and extract the zip into" ) . "<br />" .  esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" ) );
+			break;
+		// Message for website down
+		case "highslide_down":
+			imdblt_notice(3, esc_html__( $messages["highslide_down"] , 'imdb')  );
+			break;
+		// Message for website unkown
+		case "highslide_website_unkown":
+			imdblt_notice(3, esc_html__( $messages["highslide_website_unkown"] , 'imdb')  );
+			break;	
 	}
 }
 ?>
@@ -103,7 +112,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 
 			<div class="titresection">
 				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/popup.png"); ?>" width="60" align="absmiddle" />&nbsp;&nbsp;&nbsp;
-				<?php esc_html_e( 'Popup', 'imdb'); ?><br /><br />
+				<?php esc_html_e( 'Popup', 'imdb'); ?>
 			</div>
 		
 		<div class="imdblt_double_container">
@@ -131,7 +140,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 				if(!is_dir( IMDBLTABSPATH . 'js/highslide')) { 
 					imdblt_notice(4, '<span class="imdblt_red_bold">'.esc_html__('Warning! No Highslide folder was found.', 'imdb') .'</span>');
 					echo "<br />";
-					echo "<a href='". $imdbOptions['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes' title='".esc_html__('Click here to install Highslide', 'imdb') ."'><img src='".esc_url($imdbOptions['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />".esc_html__('Install automatically Highslide', 'imdb') .'</a>';
+					echo "<a href='". esc_url( $imdbOptions['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes") . "' title='".esc_html__('Click here to install Highslide', 'imdb') ."'><img src='".esc_url($imdbOptions['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />&nbsp;&nbsp;".esc_html__('Install automatically Highslide', 'imdb') .'</a><br /><br />';
 				} 
 ?>
 
