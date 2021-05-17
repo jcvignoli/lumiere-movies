@@ -182,9 +182,12 @@ class imdb_settings_conf extends mdb_config {
 		if (isset($_POST['update_imdbSettings'])) { //--------------------save data selected (general options)
 
 			foreach ($_POST as $key=>$postvalue) {
-				$keynoimdb = str_replace ( "imdb_", "", $key);
-				if (isset($_POST["$key"])) {
-						$imdbOptions["$keynoimdb"] = $_POST["$key"];
+				$key_sanitized = sanitize_key($key);
+				$keynoimdb = str_replace ( "imdb_", "", $key_sanitized);
+				if (isset($_POST["$key_sanitized"])) {
+					// $imdbOptions["$keynoimdb"] = $_POST["$key"];
+						//  2021 05 17 Sanitization, let's see if works
+						$imdbOptions["$keynoimdb"] = sanitize_text_field( $_POST["$key_sanitized"] );
 				}
 			}
 
