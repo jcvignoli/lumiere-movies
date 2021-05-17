@@ -320,9 +320,9 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 
 <div id="tabswrap">
 	<ul id="tabs">
-		<li><img src="<?php echo IMDBLTURLPATH ?>pics/admin-cache-options.png" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("General options", 'imdb');?>" href="<?php echo esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=option'); ?>"><?php esc_html_e( 'General options', 'imdb'); ?></a></li>
+		<li><img src="<?php echo esc_url( IMDBLTURLPATH . "pics/admin-cache-options.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("General options", 'imdb');?>" href="<?php echo esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=option'); ?>"><?php esc_html_e( 'General options', 'imdb'); ?></a></li>
  		<?php if ($imdbOptionsc['imdbcachedetails'] == "1") { ?>
-		<li>&nbsp;&nbsp;<img src="<?php echo IMDBLTURLPATH ?>pics/admin-cache-management.png" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Manage Cache", 'imdb');?>" href="<?php echo esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage'); ?>"><?php esc_html_e( "Manage Cache", 'imdb'); ?></a></li>
+		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( IMDBLTURLPATH . "pics/admin-cache-management.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Manage Cache", 'imdb');?>" href="<?php echo esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage'); ?>"><?php esc_html_e( "Manage Cache", 'imdb'); ?></a></li>
 		<?php }; ?>
 	</ul>
 </div>
@@ -353,8 +353,8 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 			<div class="imdblt_double_container_content_twenty imdblt_padding_five">
 
 				<label for="imdb_imdbcachedir">
-					<?php esc_html_e('Cache directory (absolute path)', 'imdb'); ?>
-					<br />
+					<div class="titresection"><?php esc_html_e('Cache directory (absolute path)', 'imdb'); ?></div>
+
 					<span class="imdblt_smaller">
 					<?php 	// display cache folder size
 					if (!imdblt_isEmptyDir($imdbOptionsc['imdbcachedir'])) { // from functions.php
@@ -370,28 +370,30 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 			</div>
 			<div class="imdblt_double_container_content_eighty imdblt_padding_five">
 
-				<input type="text" name="imdb_imdbcachedir" class="imdblt_width_fillall" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbcachedir']), 'imdb') ?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="text" name="imdb_imdbcachedir" class="imdblt_width_fillall" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbcachedir']), 'imdb') ?>">
+
+				<div class="explain">
 				<?php if (file_exists($imdbOptionsc['imdbcachedir'])) { // check if folder exists
-				echo '<span class="imdblt_green">';
-				esc_html_e("Folder exists.", 'imdb');
-				echo '</span>';
+					echo '<span class="imdblt_green">';
+					esc_html_e("Folder exists.", 'imdb');
+					echo '</span>';
 				} else {
-				echo '<span class="imdblt_red">';
-				esc_html_e("Folder doesn't exist!", 'imdb');
-				echo '</span>'; }
+					echo '<span class="imdblt_red">';
+					esc_html_e("Folder doesn't exist!", 'imdb');
+					echo '</span>'; 
+				}
 				if (file_exists($imdbOptionsc['imdbcachedir'])) { // check if permissions are ok
 					if ( substr(sprintf('%o', fileperms($imdbOptionsc['imdbcachedir'])), -3) == "777") { 
-					echo ' <span class="imdblt_green">';
-					esc_html_e("Permissions OK.", 'imdb');
-					echo '</span>';
+						echo ' <span class="imdblt_green">';
+						esc_html_e("Permissions OK.", 'imdb');
+						echo '</span>';
 					} else { 
-					echo ' <span class="imdblt_red">';
-					esc_html_e("Check folder permissions!", 'imdb');
-					echo '</span>'; 
+						echo ' <span class="imdblt_red">';
+						esc_html_e("Check folder permissions!", 'imdb');
+						echo '</span>'; 
 					}
 				} ?>
-
-				<div class="explain"><?php esc_html_e('Absolute path to store data retrieved from the IMDb website. Has to be ', 'imdb'); ?><a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> <?php esc_html_e('by the webserver.','imdb');?> <br /><?php esc_html_e('Default:','imdb');?> "<?php echo IMDBLTABSPATH; ?>cache/'<br /></div>
+				</div>
 			</div>
 
 		</div>
@@ -400,8 +402,8 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 			<div class="imdblt_double_container_content_twenty imdblt_padding_five">
 
 				<label for="imdb_imdbphotoroot">
-				<?php esc_html_e('Photo directory (absolute path)', 'imdb'); ?>
-					<br />
+				<div class="titresection"><?php esc_html_e('Photo directory (absolute path)', 'imdb'); ?></div>
+
 					<span class="imdblt_smaller">
 					<?php						// display cache folder size
 					if (!imdblt_isEmptyDir($imdbOptionsc['imdbphotoroot'], "2")) { // from functions.php
@@ -417,7 +419,9 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 			</div>
 			<div class="imdblt_double_container_content_eighty imdblt_padding_five">
 
-				<input type="text" class="imdblt_width_fillall" name="imdb_imdbphotoroot" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbphotoroot']), 'imdb') ?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="text" class="imdblt_width_fillall" name="imdb_imdbphotoroot" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbphotoroot']), 'imdb') ?>">
+
+				<div class="explain">
 				<?php if (file_exists($imdbOptionsc['imdbphotoroot'])) { // check if folder exists
 				echo '<span class="imdblt_green">';
 				esc_html_e("Folder exists.", 'imdb');
@@ -437,6 +441,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 						echo '</span>'; 
 					}
 				} ?>
+				</div>
 
 				<div class="explain"><?php esc_html_e('Absolute path to store images retrieved from the IMDb website. Has to be ', 'imdb'); ?><a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> <?php esc_html_e('by the webserver.', 'imdb');?> <br /><?php esc_html_e('Default:','imdb');?> "<?php esc_html_e ( IMDBLTABSPATH ); ?>cache/images/"</div>
 			</div>
@@ -445,7 +450,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		<div class="imdblt_double_container">
 			<div class="imdblt_double_container_content_twenty imdblt_padding_five">
 
-			<label for="imdb_imdbphotodir"><?php esc_html_e('Photo directory (url)', 'imdb'); ?></label>
+			<div class="titresection"><label for="imdb_imdbphotodir"><?php esc_html_e('Photo directory (url)', 'imdb'); ?></label></div>
 			
 			</div>
 			<div class="imdblt_double_container_content_eighty imdblt_padding_five">
@@ -577,30 +582,30 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		<?php //------------------------------------------------------------------ =[cache delete]=- ?>
 		<form method="post" name="manage_imdbltcache" id="manage_imdbltcache" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>">			
 			<div class="inside">
-				<table class="option widefat">
-					<tr>
-						<td colspan="3" class="titresection">
-							<?php esc_html_e('Cache management', 'imdb'); ?>					
 
-							<div align="center">
-							<?php echo "<i> ". esc_html__('Total cache size:', 'imdb'); 
-							$imdltcacheFileCount = count( imdblt_glob_recursive($imdb_cache_values['imdbcachedir'] . '*') );
-							$imdltcacheFileCountTotalSize=array_sum(array_map('filesize', imdblt_glob_recursive("{$wikileakscacheFileCount}*")));
-							echo number_format( $imdltcacheFileCount, 0, ',', '\'' ) . "&nbsp;" . esc_html__( 'files', 'imdb');
-							echo "&nbsp;" . esc_html__( 'for', 'imdb') . "&nbsp;" . imdblt_formatBytes( $imdltcacheFileCountTotalSize ). "</i>"; ?>
-							</div>
+				<div class="postbox">
+					<h3 class="hndle" id="cachegeneral" name="cachegeneral"><?php esc_html_e('Cache management', 'imdb'); ?></h3>
+					
+					<div class="explain">
+						<?php echo "<i>". esc_html__('Total cache size:', 'imdb'); 
+						$imdltcacheFileCount = count( imdblt_glob_recursive($imdb_cache_values['imdbcachedir'] . '*') );
+						$imdltcacheFileCountTotalSize=array_sum(array_map('filesize', imdblt_glob_recursive("{$wikileakscacheFileCount}*")));
+						echo number_format( $imdltcacheFileCount, 0, ',', '\'' ) . "&nbsp;" . esc_html__( 'files', 'imdb');
+						echo "&nbsp;" . esc_html__( 'for', 'imdb') . "&nbsp;" . imdblt_formatBytes( $imdltcacheFileCountTotalSize ). "</i>"; ?>
+					</div>
+				</div>
+			</div>
 
-						</td>
-					</tr>
-		<?php	if (file_exists($imdbOptionsc['imdbcachedir']) && ($imdbOptionsc['imdbstorecache'])) { // check if folder exists & store cache option is selected
+			<?php	if (file_exists($imdbOptionsc['imdbcachedir']) && ($imdbOptionsc['imdbstorecache'])) { // check if folder exists & store cache option is selected
 				if ($imdbOptionsc['imdbcachedetails'] == "1") { // imdbcachedetails options is selected 
 
 			 //------------------------------------------------------------------ =[movies management]=- ?>
-		<tr>
-			<td>	
-				<div>::<?php esc_html_e('Movie\'s detailed cache', 'imdb'); ?>::</div>
 
-				<div class="detailedcacheexplaination">
+			<div class="postbox"><h3 class="hndle" id="cachemovies" name="cachemovies"><?php esc_html_e('Movie\'s detailed cache', 'imdb'); ?></h3></div>
+
+	<div class="inside imblt_border_shadow">
+
+			<div class="detailedcacheexplaination">
 
 				<?php esc_html_e('If you want to refresh movie\'s cache regardless the cache expiration time, you may either tick movie\'s checkbox(es) related to the movie you want to delete and click on "delete cache", or you may click on individual movies "refresh". The first way will require an additional movie refresh - from you post, for instance.', 'imdb'); ?>
 				<br />
@@ -608,7 +613,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 				<?php esc_html_e('You may also either delete individually the cache or by group.', 'imdb'); ?>
 				<br />
 				<br />
-				</div>
+			</div>
 				<table class="table_ninety"><tr>
 <?php
 if (is_dir($imdb_cache_values['imdbcachedir'])) {
@@ -690,16 +695,25 @@ if (!empty($results)){
 
 
 		<?php //------------------------------------------------------------------ =[people delete]=- ?>
-		<tr>
-			<td>	
-				<div>::<?php esc_html_e('People\'s detailed cache', 'imdb'); ?>::</div>
-				<div class="detailedcacheexplaination"><?php esc_html_e('If you want to refresh people\'s cache regardless the cache expiration time, you may either tick people checkbox(es) related to the person you want to delete and click on "delete cache", or you may click on individual people\'s "refresh". The first way will require an additional people refresh - from you post, for instance.', 'imdb'); ?>
-				<br /><br />
-				<?php esc_html_e('You may also either delete individually the cache or by group.', 'imdb'); ?>
-				</div>
-				<br /><br />
-				<table class="table_ninety"><tr>
-				<?php
+</table>
+		</div>
+	</div>
+	<br />
+	<br />
+
+	<div class="postbox">
+		<h3 class="hndle" id="cachepeople" name="cachepeople"><?php esc_html_e('People\'s detailed cache', 'imdb'); ?></h3>
+	</div>
+
+	<div class="inside imblt_border_shadow">
+
+		<div class="detailedcacheexplaination"><?php esc_html_e('If you want to refresh people\'s cache regardless the cache expiration time, you may either tick people checkbox(es) related to the person you want to delete and click on "delete cache", or you may click on individual people\'s "refresh". The first way will require an additional people refresh - from you post, for instance.', 'imdb'); ?>
+		<br /><br />
+		<?php esc_html_e('You may also either delete individually the cache or by group.', 'imdb'); ?>
+		</div>
+		<br /><br />
+		<table class="table_ninety"><tr>
+		<?php
 if (!empty($results)){
 	foreach ($results as $res){
 		if (get_class($res) === 'Imdb\Person') {
@@ -762,10 +776,17 @@ if (!empty($results)){
 			</td>
 		</tr>
 		<?php		} // end $imdbOptionsc['imdbcachedetails'] check ?>
-
 		<tr>
 			<td>
-				<div>::<?php esc_html_e('Global cache', 'imdb'); ?>::</div>
+	</div>
+	<br />
+	<br />
+
+	<div class="postbox">
+		<h3 class="hndle" id="globalcache" name="globalcache"><?php esc_html_e('Global cache', 'imdb'); ?></h3>
+	</div>
+
+	<div class="inside imblt_border_shadow">
 				<div><?php esc_html_e('If you want to reset the entire cache (including names & pictures cache) click on "reset cache". Beware, there is no undo.', 'imdb'); ?></div>
 				<div class="submit submit-imdb" align="center">
 					<strong><?php echo esc_html__('Warning!', 'imdb'); ?></strong>
