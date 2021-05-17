@@ -10,16 +10,20 @@ if (empty(wp_get_referer()) && (0 !== stripos( wp_get_referer(), admin_url() . '
 
 /************* Vars **************/
 
-// Include WP API libraries
-include(ABSPATH . "wp-admin/includes/admin.php");
-WP_Filesystem();
-
 global $imdb_admin_values;
 
 $highslidefile_remote_zip = esc_url( IMDBBLOGHIGHSLIDE );
 $highslide_tmp_name = "highslidetmp.zip";
 $highslidefile_local_zip = esc_url( $imdb_admin_values['imdbpluginpath'] . $highslide_tmp_name );
 $highslidefile_local_folder = esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" );
+
+// If is_admin include WP API libraries, else exit
+if (is_admin()) {
+	require_once(ABSPATH . 'wp-admin/includes/file.php');
+	WP_Filesystem();
+} else {
+	wp_die(esc_html__("You can not call directly this page.", "imdb"));
+}
 
 if ( (isset($_GET["highslide"])) && (  $_GET["highslide"]  = "yes" ) ) {
 
