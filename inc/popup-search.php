@@ -22,8 +22,8 @@ do_action('wp_loaded'); // execute wordpress first codes
 global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;;
 
 // Start config class for $config in below Imdb\Title class calls
-if (class_exists("imdb_settings_conf")) {
-	$config = new imdb_settings_conf();
+if (class_exists("lumiere_settings_conf")) {
+	$config = new lumiere_settings_conf();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
@@ -98,12 +98,12 @@ wp_footer();
 <?php exit(); // quit the call of the page, to avoid double loading process ?>
 
 <?php
-} else {  //-------------------------------------------------------------------------- 2. accès direct, option spéciale
+} else {  //-------------------------------------------------------------------------- 2. accï¿½s direct, option spï¿½ciale
 
-	if ($results[0]) { // test pour afficher le film même lorsque celui-ci est un résultat unique (sinon, msg erreur php)
-		$nbarrayresult = "0"; // lorsque résultat unique, tout s'affiche dans l'array "0"
+	if ($results[0]) { // test pour afficher le film mï¿½me lorsque celui-ci est un rï¿½sultat unique (sinon, msg erreur php)
+		$nbarrayresult = "0"; // lorsque rï¿½sultat unique, tout s'affiche dans l'array "0"
 	} else {
-		$nbarrayresult = "1"; // lorsque résultats multiples, le premier film s'affiche dans l'array "1"
+		$nbarrayresult = "1"; // lorsque rï¿½sultats multiples, le premier film s'affiche dans l'array "1"
 	}	
 	$midPremierResultat = $results[$nbarrayresult]->imdbid() ?? NULL;
 	$_GET['mid'] = $midPremierResultat; //"mid" will be transmitted to next include

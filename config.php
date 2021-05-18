@@ -28,7 +28,7 @@ define('IMDBPHP_CONFIG',dirname(__FILE__) . '/config.php');
 // use the original class in src/Imdb/Config.php
 use \Imdb\Config;
 
-class imdb_settings_conf extends mdb_config {
+class lumiere_settings_conf extends mdb_config {
 
 	var $imdbAdminOptionsName = "imdbAdminOptions";
 	var $imdbWidgetOptionsName = "imdbWidgetOptions";
@@ -194,7 +194,7 @@ class imdb_settings_conf extends mdb_config {
 			check_admin_referer('update_imdbSettings_check', 'update_imdbSettings_check'); // check if the refer is ok before saving data
 
 			// display message on top
-			imdblt_notice(1, '<strong>'. esc_html__( 'Options saved.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'imdb') .'</strong>');
 
 			update_option($this->imdbAdminOptionsName, $imdbOptions);
 
@@ -206,14 +206,14 @@ class imdb_settings_conf extends mdb_config {
 			update_option($this->imdbAdminOptionsName, $imdbAdminOptions);
 
 			// display message on top
-			imdblt_notice(1, '<strong>'. esc_html__( 'Options reset.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'imdb') .'</strong>');
 
 			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
 				header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
 			} else {
-				imdblt_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
+				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
 			}
 
 		}
@@ -262,7 +262,7 @@ class imdb_settings_conf extends mdb_config {
 					header("Location: ".esc_url($_SERVER[ "REQUEST_URI"]), false);
 					die();
 				} else {
-					imdblt_notice(1, '<strong>'. esc_html__( 'Error. You have to select a value.', 'imdb'). '</strong>' );
+					lumiere_notice(1, '<strong>'. esc_html__( 'Error. You have to select a value.', 'imdb'). '</strong>' );
 					die();
 				}
 			}
@@ -270,7 +270,7 @@ class imdb_settings_conf extends mdb_config {
 			update_option($this->imdbWidgetOptionsName, $imdbOptionsw);
 
 			// display message on top
-			imdblt_notice(1, '<strong>'. esc_html__( 'Options saved.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'imdb') .'</strong>');
 
 			// flush rewrite rules for taxonomy pages
 			flush_rewrite_rules();
@@ -282,14 +282,14 @@ class imdb_settings_conf extends mdb_config {
 			update_option($this->imdbWidgetOptionsName, $imdbWidgetOptionsw);
 
 			// display message on top
-			imdblt_notice(1, '<strong>'. esc_html__( 'Options reset.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'imdb') .'</strong>');
 
 			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
 				header("Refresh: 0;url=".esc_url($_SERVER[ "REQUEST_URI"]."&reset=true"), false);
 			} else {
-				imdblt_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
+				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
 			}
 
 			// flush rewrite rules for taxonomy pages
@@ -313,7 +313,7 @@ class imdb_settings_conf extends mdb_config {
 			check_admin_referer('update_cache_options_check', 'update_cache_options_check'); // check if the refer is ok before saving data
 
 			// display message on top
-			imdblt_notice(1, '<strong>'. esc_html__( 'Options saved.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'imdb') .'</strong>');
 
 			update_option($this->imdbCacheOptionsName, $imdbOptionsc);
 
@@ -325,14 +325,14 @@ class imdb_settings_conf extends mdb_config {
 			update_option($this->imdbCacheOptionsName, $imdbCacheOptions);
 
 			// display message on top
-			imdblt_notice(1, '<strong>'. esc_html__( 'Options reset.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'imdb') .'</strong>');
 
 			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
 				header("Refresh: 0;url=".esc_url( $_SERVER[ "REQUEST_URI"]."&reset=true" ), false);
 			} else {
-				imdblt_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
+				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
 			}
 
 		}
@@ -340,14 +340,14 @@ class imdb_settings_conf extends mdb_config {
 
 			check_admin_referer('reset_imdbltcache_check', 'reset_imdbltcache_check'); // check if the refer is ok before saving data
 
-			imdblt_notice(1, '<strong>'. esc_html__( 'All cache deleted.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'All cache deleted.', 'imdb') .'</strong>');
 
 			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
 				header("Refresh: 0;url=".esc_url( $_SERVER["REQUEST_URI"]."&reset=true" ), false);
 			} else {
-				imdblt_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.esc_url($_SERVER["REQUEST_URI"]."&reset=true").'">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
+				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.esc_url($_SERVER["REQUEST_URI"]."&reset=true").'">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
 			}
 
 			lumiere_unlinkRecursive( $imdbOptionsc['imdbcachedir'] );
@@ -447,7 +447,7 @@ class imdb_settings_conf extends mdb_config {
 	}
 	// end subselection ?>
 
-	<?php imdblt_admin_signature (); ?>
+	<?php lumiere_admin_signature (); ?>
 
 <?php		} //End function printAdminPage()
 

@@ -29,10 +29,10 @@ $messages = array( /* Template message notification options */
 if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $messages ) ){
 	// Message for success
 	if (sanitize_text_field( $_GET['msg'] ) == "taxotemplatecopy_success" ) {
-		imdblt_notice(1, esc_html__( $messages["taxotemplatecopy_success"], 'imdb') );
+		lumiere_notice(1, esc_html__( $messages["taxotemplatecopy_success"], 'imdb') );
 	// Message for failure
 	} elseif ( sanitize_text_field( $_GET['msg'] ) == "taxotemplatecopy_failed" ) {
-		imdblt_notice(3, esc_html__( $messages["taxotemplatecopy_failed"] , 'imdb') );
+		lumiere_notice(3, esc_html__( $messages["taxotemplatecopy_failed"] , 'imdb') );
 
 	} 
 }

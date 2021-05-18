@@ -31,8 +31,8 @@ $messages = array( /* highslide message notification options */
 );
 
 // Start config class for $config in below Imdb\Title class calls
-if (class_exists("imdb_settings_conf")) {
-	$config = new imdb_settings_conf();
+if (class_exists("lumiere_settings_conf")) {
+	$config = new lumiere_settings_conf();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
@@ -47,13 +47,13 @@ if (class_exists("imdb_settings_conf")) {
 if ((isset($_GET['msg'])) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $messages) ){
 	// Message Message for cache updated successfully
 	if (sanitize_text_field($_GET['msg'])=="cache_update_success") {
-		imdblt_notice(1, esc_html__( $messages["cache_update_success"], "imdb" ) );
+		lumiere_notice(1, esc_html__( $messages["cache_update_success"], "imdb" ) );
 	// Message for cache doesn't exist
 	} elseif (sanitize_text_field($_GET['msg'])=="cache_doesnt_exist") {
-		imdblt_notice(3, esc_html__( $messages["cache_doesnt_exist"], "imdb" ) );
+		lumiere_notice(3, esc_html__( $messages["cache_doesnt_exist"], "imdb" ) );
 	// Message for cache deleted successfully
 	} elseif (sanitize_text_field($_GET['msg'])=="cache_delete_success") {
-		imdblt_notice(1, esc_html__( $messages["cache_delete_success"], "imdb" ) );
+		lumiere_notice(1, esc_html__( $messages["cache_delete_success"], "imdb" ) );
 
 	}
 }
@@ -109,7 +109,7 @@ if ( isset( $_POST['update_imdbltcache_check'] ) && wp_verify_nonce( $_POST['upd
 			 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 			 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
 			} else {
-				wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') );
+				wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') );
 			}
 
 		}
@@ -131,7 +131,7 @@ if ( isset( $_POST['update_imdbltcache_check'] ) && wp_verify_nonce( $_POST['upd
 			 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
 			 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 			} else {
-				wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ); 
+				wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ); 
 			}
 		}
 	}
@@ -187,7 +187,7 @@ if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
 		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 		 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
 		}  else {
-			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ;
+			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ;
 		}
 	}
 
@@ -207,12 +207,12 @@ if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
 		 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
 		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 		} else {
-			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ;
+			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ;
 		}
 	}
 
 	// display message on top
-//	imdblt_notice(1, '<strong>'. esc_html__("Cache successfully deleted.", "imdb").'</strong>');
+//	lumiere_notice(1, '<strong>'. esc_html__("Cache successfully deleted.", "imdb").'</strong>');
 	wp_safe_redirect( add_query_arg( "msg", "cache_delete_success", wp_get_referer() ) );
 	exit();
 }
@@ -267,7 +267,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 		 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
 		} else {
-			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ;
+			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') ) ;
 		}
 
 		// get again the movie
@@ -296,7 +296,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
 		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 		} else {
-			wp_die( imdblt_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') );
+			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'imdb') .'</strong>') );
 		}
 
 		// get again the person
@@ -311,7 +311,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 	// display message on top
 	wp_safe_redirect( add_query_arg( "msg", "cache_update_success", wp_get_referer() ) );
 //	wp_safe_redirect( wp_get_referer() );
-//	imdblt_notice(1, '<strong>'. esc_html__( 'Cache succesfully refreshed.', 'imdb') .'</strong>');
+//	lumiere_notice(1, '<strong>'. esc_html__( 'Cache succesfully refreshed.', 'imdb') .'</strong>');
 	exit();
 }
 
@@ -357,7 +357,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 
 					<span class="imdblt_smaller">
 					<?php 	// display cache folder size
-					if (!imdblt_isEmptyDir($imdbOptionsc['imdbcachedir'])) { // from functions.php
+					if (!lumiere_isEmptyDir($imdbOptionsc['imdbcachedir'])) { // from functions.php
 						foreach (glob($imdbOptionsc['imdbcachedir']."*") as $filename) {
 							$filenamesize1 += filesize($filename);
 						}
@@ -406,7 +406,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 
 					<span class="imdblt_smaller">
 					<?php						// display cache folder size
-					if (!imdblt_isEmptyDir($imdbOptionsc['imdbphotoroot'], "2")) { // from functions.php
+					if (!lumiere_isEmptyDir($imdbOptionsc['imdbphotoroot'], "2")) { // from functions.php
 						foreach (glob($imdbOptionsc['imdbphotoroot']."*") as $filename) {
 							$filenamesize2 += filesize($filename);
 						}
@@ -588,10 +588,10 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 					
 					<div class="explain">
 						<?php echo "<i>". esc_html__('Total cache size:', 'imdb'); 
-						$imdltcacheFileCount = count( imdblt_glob_recursive($imdb_cache_values['imdbcachedir'] . '*') );
-						$imdltcacheFileCountTotalSize=array_sum(array_map('filesize', imdblt_glob_recursive("{$wikileakscacheFileCount}*")));
+						$imdltcacheFileCount = count( lumiere_glob_recursive($imdb_cache_values['imdbcachedir'] . '*') );
+						$imdltcacheFileCountTotalSize=array_sum(array_map('filesize', lumiere_glob_recursive("{$wikileakscacheFileCount}*")));
 						echo number_format( $imdltcacheFileCount, 0, ',', '\'' ) . "&nbsp;" . esc_html__( 'files', 'imdb');
-						echo "&nbsp;" . esc_html__( 'for', 'imdb') . "&nbsp;" . imdblt_formatBytes( $imdltcacheFileCountTotalSize ). "</i>"; ?>
+						echo "&nbsp;" . esc_html__( 'for', 'imdb') . "&nbsp;" . lumiere_formatBytes( $imdltcacheFileCountTotalSize ). "</i>"; ?>
 					</div>
 				</div>
 			</div>

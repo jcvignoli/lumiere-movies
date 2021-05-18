@@ -21,12 +21,12 @@ delete_option( 'imdbAdminOptions' );
 delete_option( 'imdbWidgetOptions' );
 delete_option( 'imdbCacheOptions' );
 
-add_action( 'admin_init', 'imdblt_unregister_taxonomy' );
+add_action( 'admin_init', 'lumiere_unregister_taxonomy' );
 
 echo "IMDbLT options deleted.";
 
 
-function imdblt_unregister_taxonomy() {
+function lumiere_unregister_taxonomy() {
 
 	$taxonomy_name = 'imdblt_genre';
 	$terms = get_terms( array(

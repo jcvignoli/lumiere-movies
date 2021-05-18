@@ -33,19 +33,19 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 	switch (sanitize_text_field( $_GET['msg'] )) {
 		// Message for success
 		case "highslide_success":
-			imdblt_notice(1, esc_html__( $messages["highslide_success"], 'imdb') );
+			lumiere_notice(1, esc_html__( $messages["highslide_success"], 'imdb') );
 			break;
 		// Message for failure
 		case "highslide_failure":
-			imdblt_notice(3, esc_html__( $messages["highslide_failure"] , 'imdb') . " " .  esc_html__( 'Your folder might be protected. Download highslide manually', 'imdb')." <a href='". esc_url ( IMDBBLOGHIGHSLIDE ) ."'>".esc_html__("here", "imdb")."</a> ".esc_html__("and extract the zip into" ) . "<br />" .  esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" ) );
+			lumiere_notice(3, esc_html__( $messages["highslide_failure"] , 'imdb') . " " .  esc_html__( 'Your folder might be protected. Download highslide manually', 'imdb')." <a href='". esc_url ( IMDBBLOGHIGHSLIDE ) ."'>".esc_html__("here", "imdb")."</a> ".esc_html__("and extract the zip into" ) . "<br />" .  esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" ) );
 			break;
 		// Message for website down
 		case "highslide_down":
-			imdblt_notice(3, esc_html__( $messages["highslide_down"] , 'imdb')  );
+			lumiere_notice(3, esc_html__( $messages["highslide_down"] , 'imdb')  );
 			break;
 		// Message for website unkown
 		case "highslide_website_unkown":
-			imdblt_notice(3, esc_html__( $messages["highslide_website_unkown"] , 'imdb')  );
+			lumiere_notice(3, esc_html__( $messages["highslide_website_unkown"] , 'imdb')  );
 			break;	
 	}
 }
@@ -138,7 +138,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 
 				// Warning message displayed if highslide option is set but no "highslide" folder exists
 				if(!is_dir( IMDBLTABSPATH . 'js/highslide')) { 
-					imdblt_notice(4, '<span class="imdblt_red_bold">'.esc_html__('Warning! No Highslide folder was found.', 'imdb') .'</span>');
+					lumiere_notice(4, '<span class="imdblt_red_bold">'.esc_html__('Warning! No Highslide folder was found.', 'imdb') .'</span>');
 					echo "<br />";
 					echo "<a href='". esc_url( $imdbOptions['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes") . "' title='".esc_html__('Click here to install Highslide', 'imdb') ."'><img src='".esc_url($imdbOptions['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />&nbsp;&nbsp;".esc_html__('Install automatically Highslide', 'imdb') .'</a><br /><br />';
 				} 

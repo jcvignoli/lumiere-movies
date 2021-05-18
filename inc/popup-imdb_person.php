@@ -23,8 +23,8 @@ do_action('wp_loaded'); // execute wordpress first codes
 global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
 // Start config class for $config in below Imdb\Title class calls
-if (class_exists("imdb_settings_conf")) {
-	$config = new imdb_settings_conf();
+if (class_exists("lumiere_settings_conf")) {
+	$config = new lumiere_settings_conf();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
@@ -429,6 +429,6 @@ echo '/ >'; ?>
 
 <?php
 	} else { // escape if no result found, otherwise imdblt fails
-		imdblt_noresults_text();
+		lumiere_noresults_text();
 }
 ?>

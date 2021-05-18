@@ -10,7 +10,7 @@
  # ------------------------------------------------------------------------- #
  #									              #
  #  Function : this page is externally called (usually by a widget, but      #
- #  also from imdb_external_call() function ) and displays information       #
+ #  also from lumiere_external_call() function ) and displays information       #
  #  related to the movie                                                     #
  #									              #
  #############################################################################
@@ -22,8 +22,8 @@ require_once (dirname(__FILE__).'/../bootstrap.php');
 global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
 // Start config class for $config in below Imdb\Title class calls
-if (class_exists("imdb_settings_conf")) {
-	$config = new imdb_settings_conf();
+if (class_exists("lumiere_settings_conf")) {
+	$config = new lumiere_settings_conf();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
@@ -63,7 +63,7 @@ while ($imovie < count($imdballmeta)) {
 		if (! empty($results[0])) { 	// when imdb find everytime a result, which is not the case for moviepilot
 			$midPremierResultat = $results[0]->imdbid(); // search for the movie id
 		} else {			// escape if no result found, otherwise imdblt fails
-			imdblt_noresults_text();
+			lumiere_noresults_text();
 			break;
 		}
 	}	
@@ -362,9 +362,9 @@ while ($imovie < count($imdballmeta)) {
 			for ($i = 0; $i < $nbquotes && ($i < count($quotes)); $i++) { 
 				if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
 				// if "Remove all links" option is not selected 
-					echo imdblt_convert_txtwithhtml_into_popup_people ($quotes[$i]) . "<br /><br />";
+					echo lumiere_convert_txtwithhtml_into_popup_people ($quotes[$i]) . "<br /><br />";
 				} else {
-					echo " ". imdblt_remove_link ($quotes[$i]) . "<br /><br />";
+					echo " ". lumiere_remove_link ($quotes[$i]) . "<br /><br />";
 				} 
 			}?></li>
 			</ul>
@@ -516,18 +516,18 @@ while ($imovie < count($imdballmeta)) {
 				if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
 				// if "Remove all links" option is not selected 
 					if (!empty($soundtrack[$i]['credits'][0]) )
-						echo " - <i>". imdblt_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
-						echo " (". imdblt_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][0]['desc']).") ";
+						echo " - <i>". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
+						echo " (". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][0]['desc']).") ";
 					if (!empty($soundtrack[$i]['credits'][1]) )
-						echo " - <i>". imdblt_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
-						echo " (". imdblt_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['desc']).") ";
+						echo " - <i>". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
+						echo " (". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['desc']).") ";
 				} else {
 					if (!empty($soundtrack[$i][credits][0]) )
-						echo " - <i>". imdblt_remove_link ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
-						echo " (". imdblt_remove_link ($soundtrack[$i]['credits'][0]['desc']).") ";
+						echo " - <i>". lumiere_remove_link ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
+						echo " (". lumiere_remove_link ($soundtrack[$i]['credits'][0]['desc']).") ";
 					if (!empty($soundtrack[$i][credits][1]) )
-						echo " - <i>". imdblt_remove_link ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
-						echo " (". imdblt_remove_link ($soundtrack[$i]['credits'][1]['desc']).") ";
+						echo " - <i>". lumiere_remove_link ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
+						echo " (". lumiere_remove_link ($soundtrack[$i]['credits'][1]['desc']).") ";
 				} // end if remove popup
 				echo "\n";
 			}  // endfor ?></li>
@@ -803,7 +803,7 @@ while ($imovie < count($imdballmeta)) {
 					// if "Remove all links" option is not selected 
 						echo sanitize_text_field( $plot[$i] );
 					} else {
-						echo imdblt_remove_link ($plot[$i]);
+						echo lumiere_remove_link ($plot[$i]);
 					} 
 					
 				}// endfor ?></li> 
@@ -828,11 +828,11 @@ while ($imovie < count($imdballmeta)) {
 		/*if ($engine == 'pilot') {
 			imdblt_source_moviepilot($midPremierResultat);
 			if ($imdb_admin_values[pilot_imdbfill] > 1) // if imdb's website is not accessed, exit;
-				imdblt_source_imdb($midPremierResultat);
+				lumiere_source_imdb($midPremierResultat);
 		} else {
-			imdblt_source_imdb($midPremierResultat);
+			lumiere_source_imdb($midPremierResultat);
 		}--------- movie pilot is no more */
-		sanitize_text_field( imdblt_source_imdb($midPremierResultat) );
+		sanitize_text_field( lumiere_source_imdb($midPremierResultat) );
 		?>
 	</li>
 	</ul>
@@ -843,7 +843,7 @@ while ($imovie < count($imdballmeta)) {
  //--------------------------------------=[end Layout]=---------------
 
 	} else { // if is not set a $midPremierResultat
-		imdblt_noresults_text();
+		lumiere_noresults_text();
 	} // end if is set a $midPremierResultat
 
 } //end while

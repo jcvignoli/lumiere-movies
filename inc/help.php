@@ -27,17 +27,17 @@ $allowed_html_for_esc_html_functions = [
 
 
 // Boxes
-add_meta_box('imdbLT_help_plb', esc_html__( 'Popup link builder', 'imdb'), 'imdbLT_help_plb_function', 'imdblt_help', 'left', 'core');
-add_meta_box('imdblt_help_itp', esc_html__( 'Inside the post', 'imdb'), 'imdblt_help_itp_function', 'imdblt_help', 'right', 'core');
-add_meta_box('imdblt_help_w', esc_html__( 'Widget', 'imdb'), 'imdblt_help_w_function', 'imdblt_help', 'left', 'core');
-add_meta_box('imdblt_help_adminmenubig', esc_html__( 'Big admin menu', 'imdb'), 'imdblt_help_adminbigmenu_function', 'imdblt_help', 'right', 'core');
-add_meta_box('imdblt_help_addsearchform', esc_html__( 'Add a search form', 'imdb'), 'imdblt_help_addsearchform_function', 'imdblt_help', 'left', 'core');
-add_meta_box('imdblt_help_keepcss', esc_html__( 'Keep css through update', 'imdb'), 'imdblt_help_keepcss_function', 'imdblt_help', 'right', 'core');
-/* --- moviepilot is not used anymore 
-add_meta_box('imdblt_help_getridofimdb', esc_html__( 'Use a website other than IMDb', 'imdb'), 'imdblt_help_getridofimdb_function', 'imdblt_help', 'left', 'core');
+add_meta_box('imdblt_help_plb', esc_html__( 'Popup link builder', 'imdb'), 'lumiere_help_plb_function', 'imdblt_help', 'left', 'core');
+add_meta_box('imdblt_help_itp', esc_html__( 'Inside the post', 'imdb'), 'lumiere_help_itp_function', 'imdblt_help', 'right', 'core');
+add_meta_box('imdblt_help_w', esc_html__( 'Widget', 'imdb'), 'lumiere_help_w_function', 'imdblt_help', 'left', 'core');
+add_meta_box('imdblt_help_adminmenubig', esc_html__( 'Big admin menu', 'imdb'), 'lumiere_help_adminbigmenu_function', 'imdblt_help', 'right', 'core');
+add_meta_box('imdblt_help_addsearchform', esc_html__( 'Add a search form', 'imdb'), 'lumiere_help_addsearchform_function', 'imdblt_help', 'left', 'core');
+add_meta_box('imdblt_help_keepcss', esc_html__( 'Keep css through update', 'imdb'), 'lumiere_help_keepcss_function', 'imdblt_help', 'right', 'core');
+/* --- moviepilot is not used anymore
+add_meta_box('imdblt_help_getridofimdb', esc_html__( 'Use a website other than IMDb', 'imdb'), 'lumiere_help_getridofimdb_function', 'imdblt_help', 'left', 'core');
 */
-add_meta_box('imdblt_help_usetaxonomy', esc_html__( 'Taxonomy with Wordpress', 'imdb'), 'imdblt_help_usetaxonomy_function', 'imdblt_help', 'left', 'core');
-add_meta_box('imdblt_help_autowidget_function', esc_html__( 'Widget auto according post\'s title', 'imdb'), 'imdblt_help_autowidget_function', 'imdblt_help', 'right', 'core');
+add_meta_box('imdblt_help_usetaxonomy', esc_html__( 'Taxonomy with Wordpress', 'imdb'), 'lumiere_help_usetaxonomy_function', 'imdblt_help', 'left', 'core');
+add_meta_box('lumiere_help_autowidget_function', esc_html__( 'Widget auto according post\'s title', 'imdb'), 'lumiere_help_autowidget_function', 'imdblt_help', 'right', 'core');
 ?>
 
 <div id="tabswrap">
@@ -64,7 +64,7 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 				<h3 class="hndle"><?php esc_html_e("Frequently asked questions", "imdb"); ?></h3>
 				<div class="inside">
 					<div class="helpdiv">
-					<?php 
+					<?php
 					$patterntitle = '/== Frequently Asked Questions ==(.*?)== Support ==/ms';
 					$faqfile = file_get_contents($readmefile);
 					preg_match($patterntitle, $faqfile, $faqsection);
@@ -75,7 +75,7 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 					$patternlink = '~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
 					$faqsectionarray = preg_replace($patternlink,"<a href=\"\${3}\${4}\" title=\"\${7}\">\${2}</a>",$faqsectionarray);
 					$faqsectionarray = preg_replace("~\*\*(.*?)\*\*~","<i>\${1}</i>",$faqsectionarray);
-				
+
 					$i=0;
 					echo "<br />\n<ol>\n";
 						foreach ($faqsectionarray as $texte) {
@@ -108,7 +108,7 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 				<h3 class="hndle"><?php esc_html_e("Changelog", "imdb"); ?></h3>
 				<div class="inside">
 					<div class="helpdiv">
-					<?php 
+					<?php
 					$changlelogfile = file($changelogfile, FILE_BINARY);
 					// replace **...** by strong and i
 					$changlelogfile = preg_replace("~(\*\s\[)(.*?)(\])~","<strong><i>\${2}</i></strong>",$changlelogfile);
@@ -117,7 +117,7 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 
 					$changlelogfile = preg_replace($patternlink,"<a href=\"\${3}\${4}\" title=\"\${7}\">\${2}</a>",$changlelogfile);
 					$i=0;
-					echo "<ul>";					
+					echo "<ul>";
 					foreach ($changlelogfile as $texte) {
 						if  ($i > "1") {
 
@@ -140,8 +140,8 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 ?>
 	<div align="center"><?php wp_kses( _e( 'Two ways to match <strong>Lumiere Movies</strong> and <strong>support</strong>', 'imdb'), $allowed_html_for_esc_html_functions); ?>:</div>
 	<br />
-	<br />	
-	
+	<br />
+
 	<div class="postbox-container" class="imdblt_float_right">
 		<div id="right-sortables" class="meta-box-sortables">
 			<div id="imdbLT_support" class="postbox">
@@ -154,7 +154,7 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 			<strong>2</strong>. <?php esc_html_e( 'check ', 'imdb'); ?> <a href="?page=imdblt_options&subsection=help&helpsub=faqs"><?php esc_html_e( 'FAQs ', 'imdb'); ?></a>.<br />
 			<strong>3</strong>. <?php esc_html_e( 'check ', 'imdb'); ?> <a href="?page=imdblt_options&subsection=help&helpsub=howto"><?php esc_html_e( 'how to', 'imdb'); ?></a>.<br />
 					</div>
-				</div>		
+				</div>
 			</div>
 		</div>
 	</div>
@@ -176,12 +176,12 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 		<strong>6</strong>. <?php esc_html_e( "help me to improve the plugin's design. I'm not gifted at all.", 'imdb'); ?><br />
 		<strong>7</strong>. <?php esc_html_e( "place a trackback, talk about this tool, and so on.", 'imdb'); ?><br />
 					</div>
-				</div>		
+				</div>
 			</div>
 		</div>
 	</div>
 
-	
+
 	<div class="postbox-container" class="imdblt_float_left">
 		<div id="left-sortables" class="meta-box-sortables">
 			<div id="imdbLT_support" class="postbox">
@@ -198,7 +198,7 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 						<li><a href="http://highslide.com">Highslide JS</a>, smart & pretty js libraries collection -> BTW, discovered thanks to <a href="https://www.fots.nl/index.php/imdb-tag/">Hans Sleurink</a>, an inspiring plugin maker</li>
 						<li>Several icons made by <a href="https://p.yusukekamiyamane.com/">Yusuke Kamiyamane</a></li>
 					</div>
-				</div>		
+				</div>
 			</div>
 		</div>
 	</div>
@@ -215,11 +215,11 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 		</div>
 		<div class="postbox-container imdblt_double_container_content">
 			<?php do_meta_boxes('imdblt_help', 'right', null); ?>
-		</div>	
-	</div>	
+		</div>
+	</div>
 <?php
-	wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false ); 
-	wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false ); 
+	wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false );
+	wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false );
 
 	} // end test on helpsub ?>
 
@@ -230,11 +230,11 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 
 //-------------functions boxes (layout above)
 
-#######################
-## imdbLT_help_plb_function
-######################
+############################
+## lumiere_help_plb_function
+############################
 
-function imdbLT_help_plb_function () { 
+function lumiere_help_plb_function () {
 	global $imdb_admin_values; ?>
 
 	<div class="helpdiv">
@@ -266,14 +266,14 @@ function imdbLT_help_plb_function () {
 		<?php esc_html_e( "Whatever the tool you choose, when you will save your post you will get a nice link added to your movie.", 'imdb'); ?>
 	</div>
 
-<?php } // end function imdbLT_help_plb
+<?php } // end function lumiere_help_plb_function
 
 
 #######################
-## imdblt_help_w_function
+## lumiere_help_w_function
 ######################
 
-function imdblt_help_w_function () { 
+function lumiere_help_w_function () {
 	global $imdb_admin_values; ?>
 
 	<div class="helpdiv">
@@ -282,33 +282,33 @@ function imdblt_help_w_function () {
 
 		<?php esc_html_e( 'Widgets are widely used in wordpress. They allow to quickly select what information to display in an area, usually on sidebar. The main advantage is that blogger can easily select what information to display - or not, in what order.', 'imdb'); ?>
 	</div>
-	
+
 	<div class="helpdiv">
 		<h4><?php esc_html_e( "How to use widget", 'imdb'); ?></h4>
 		<?php wp_kses( _e( "<strong>Firstly</strong>, go to <a href='widgets.php'>widget</a> administration (<i>appearance</i> tab), drag <i>imdb widget</i> (from <i>inactive widgets</i>) to a sidebar, and modify the box's title (in case you don't want to have the box named <i>IMDb data</i>).", 'imdb'), $allowed_html_for_esc_html_functions); ?>
 	</div>
-	
+
 	<div class="helpdiv">
 		<?php wp_kses( _e( "<strong>Secondly</strong>, open an old post (or write a new one) and add the key <i>imdb-movie-widget</i> to the <i>custom fields</i> of your message <strong>and</strong> the name of the movie you want to display to <i>value</i> (first case from the picture). Lumiere Movies will automatically display in the widget the movie selected.", 'imdb'), $allowed_html_for_esc_html_functions); ?>
 	</div>
-	
+
 	<div class="helpdiv">
 		<a href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . ".wordpress-org/screenshot-5.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'imdb'); ?>"><img align="left" width="50%" src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . ".wordpress-org/screenshot-5.jpg"); ?>" alt="<?php esc_html_e( 'Lumiere Movies widget', 'imdb'); ?>" /></a>
 		<?php wp_kses( _e( "<strong>Another possibility:</strong> add to your post the key <i>imdb-movie-widget-bymid</i> into the <i>custom fields</i> from your message <strong>and</strong> the IMDb ID for the movie you want to be displayed on your sidebar to <i>value</i> (second case from the picture). Instead of looking for a name, Lumiere Movies would directly display the movie you want to display. Very useful when your movie's name does not work as it should (if there are many movies with the same name, the wrong movie is displayed, etc).", 'imdb'),  $allowed_html_for_esc_html_functions); ?>
 	</div>
-	
+
 	<div class="helpdiv">
 		<?php wp_kses( _e( "To get the movie's IMDb id, search for a title on <a href='https://www.imdb.com' >Internet movie database</a> website, look at the adress bar for a 'ttXXXXX' section, keep only the numerical part (XXXXX) and add result to the <i>value</i> custom field. However, in this specific case, do not mix with an <i>imdb-movie-widget</i> key. Only the first one will be displayed.", 'imdb'), $allowed_html_for_esc_html_functions); ?>
 	</div>
 
-<?php } // end function imdblt_help_w_function
+<?php } // end function lumiere_help_w_function
 
 
 #######################
-## imdblt_help_itp_function
+## lumiere_help_itp_function
 ######################
 
-function imdblt_help_itp_function () { 
+function lumiere_help_itp_function () {
 	global $imdb_admin_values; ?>
 
 	<div class="helpdiv">
@@ -330,29 +330,29 @@ function imdblt_help_itp_function () {
 		<div align="center">**[IMDBLTID]**</div>
 		<div><?php esc_html_e( "You additionnaly can get a movie from its imdb id, using its imdb movie's id instead of its name. When writing your post, put the movie's imdb id inside tags [imdbltid][/imdbltid] (which gives ie [imdbltid]0137523[/imdbltid], for Fight Club movie). You can get movie's imdb id from imdb website, search for you movie, and check your browser's adress bar. The number after 'tt' part is the movie's id.", 'imdb'); ?></div>
 	</div>
-	
+
 
 	<div class="helpdiv">
 		<h4><?php esc_html_e( 'How to display data inside my post - tricky way', 'imdb'); ?></h4>
 		<div><?php esc_html_e( "It could happen you don't want to use the previous solution to display movie's data. For exemple, if you wish to use IMDbLT outside a post (in a personalized page), it won't work. In this case, and in this case only, you should (may be) to download Exec-PHP plugin (<a href='http://wordpress.org/extend/plugins/exec-php'>http://wordpress.org/extend/plugins/exec-php</a>), depending of your page.", 'imdb'); ?></div><br />
 		<div><?php esc_html_e( "The function to be called is <strong>imdb_call_external ()</strong>. It has two parameters, and both are mandatory. The first is the movie's name, and the second take always 'external'. For exemple, one'd like to display 'The Descent' should call the function like this:", 'imdb'); ?></div><br />
-		<blockquote align="center" class="imdblt_padding_left">$imdblt = new imdblt;<br />$imdblt->imdb_external_call('Descent', 'external')</blockquote>
+		<blockquote align="center" class="imdblt_padding_left">$imdblt = new imdblt;<br />$imdblt->lumiere_external_call('Descent', 'external')</blockquote>
 		<div><?php esc_html_e( "The function can also be called using still 'external as second parameter, but the first will be blank and a new third parameter will take its IMDb movie's ID. For exemple, one'd like to display 'The Descent' should call the function this manner:", 'imdb'); ?></div><br />
-		<blockquote align="center" class="imdblt_padding_left">$imdblt = new imdblt;<br />$imdblt->imdb_external_call('', 'external', '0435625')</blockquote>
+		<blockquote align="center" class="imdblt_padding_left">$imdblt = new imdblt;<br />$imdblt->lumiere_external_call('', 'external', '0435625')</blockquote>
 	</div>
 
 	<div class="helpdiv">
 		<h4><?php esc_html_e( "I like to display movie details, but I want to get rid of links which open a popup", 'imdb'); ?></h4>
 		<?php esc_html_e( "It could happen you do not want popups at all. Since by default Lumiere Movies add links whenever relevant to movie's details displayed inside posts, one may find this useless. To get rid of them, look for 'Widget/Inside post Options / Misc / Remove popup links?' and switch the option to 'yes'. No links are created anymore, for both widget and inside a post.", 'imdb'); ?>
 	</div>
-<?php } // end function imdblt_help_w_function
+<?php } // end function lumiere_help_w_function
 
 
 #######################
-## imdblt_help_adminbigmenu_function
+## lumiere_help_adminbigmenu_function
 ######################
 
-function imdblt_help_adminbigmenu_function () { 
+function lumiere_help_adminbigmenu_function () {
 	global $imdb_admin_values; ?>
 
 	<div class="helpdiv">
@@ -362,24 +362,24 @@ function imdblt_help_adminbigmenu_function () {
 		<a href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/imdblt_menubig.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'imdb'); ?>"><img align="right" width="10%" src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/imdblt_menubig.jpg"); ?>" alt="imdblt big menu" /></a>
 		<?php esc_html_e( "Wordpress admin area offers more and more options to user. Starting with 2.7 release, it also offers the possibility to add new admin menu for plugins. Lumiere Movies makes the most of this possibility, and can add its own admin menu. It can be added - or removed. Depending of how many plugin's admin menus you already have, you would prefer to keep access to Lumiere Movies settings only through usual 'settings' tab; it's up to you to choose to either get a complet and bigger Lumiere Movies menu - or not.", 'imdb'); ?>
 	</div>
-	
+
 	<div class="helpdiv">
 		<?php esc_html_e( "In the case you want to, go to 'General options / Advanced / Display plugin in big admin menu' and turn to 'yes' the option. You will get a brand new menu, as shown on left.", 'imdb'); ?>
 	</div>
-	
+
 	<div class="helpdiv">
 		<a href="<?php echo $imdb_admin_values['imdbplugindirectory']; ?>pics/imdblt_menubig_ozh.jpg" title="<?php esc_html_e( 'click to get a larger picture', 'imdb'); ?>"><img align="left" width="20%" src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/imdblt_menubig_ozh.jpg"); ?>" alt="imdblt big menu with Admin Drop Down Menu plugin" /></a>
 		<?php esc_html_e( "One can go still further; if installing Ozh Admin Drop Down Menu (https://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/), a plugin to switch classical vertical admin menu to horizontal and which gives the admin area more of a 'desktop application' feel. Lumiere Movies is ready to use improvements from Ozh's plugin, adding icons (when user select IMDb's plugin from the settings menu). Also, if you activate both Ozh's plugin and Lumiere Movies's big admin menu, you will get a nice and complete horizontal menu. Very useful.", 'imdb'); ?>
 	</div>
-<?php } // end function imdblt_help_adminbigmenu_function
+<?php } // end function lumiere_help_adminbigmenu_function
 
 
 
 #######################
-## imdblt_help_addsearchform_function
+## lumiere_help_addsearchform_function
 ######################
 
-function imdblt_help_addsearchform_function () { 
+function lumiere_help_addsearchform_function () {
 	global $imdb_admin_values; ?>
 
 	<div class="helpdiv">
@@ -397,7 +397,7 @@ function imdblt_help_addsearchform_function () {
 							&lt;/form&gt<br />
 		</blockquote>
 	</div>
-	
+
 	<div class="helpdiv">
 		<?php esc_html_e( "It perfectly fits in your sidebar, for exemple.", 'imdb'); ?>
 	</div>
@@ -405,14 +405,14 @@ function imdblt_help_addsearchform_function () {
 
 
 
-<?php } // end function imdblt_help_addsearchform_function
+<?php } // end function lumiere_help_addsearchform_function
 
 
 #######################
-## imdblt_help_keepcss_function
+## lumiere_help_keepcss_function
 ######################
 
-function imdblt_help_keepcss_function () { 
+function lumiere_help_keepcss_function () {
 	global $imdb_admin_values; ?>
 
 	<div class="helpdiv">
@@ -428,14 +428,14 @@ function imdblt_help_keepcss_function () {
 	</div>
 
 
-<?php } // end function imdblt_help_keepcss_function
+<?php } // end function lumiere_help_keepcss_function
 
 
 #######################
-## imdblt_help_getridofimdb_function
+## lumiere_help_getridofimdb_function
 ######################
 /* Pilot is not used anymore
-function imdblt_help_getridofimdb_function () { 
+function lumiere_help_getridofimdb_function () {
 	global $imdb_admin_values; ?>
 
 	<div class="helpdiv">
@@ -450,23 +450,23 @@ function imdblt_help_getridofimdb_function () {
 		<a href="<?php echo $imdb_admin_values['imdbplugindirectory']; ?>pics/getRidofIMDb.jpg" title="<?php esc_html_e( 'click to get a larger picture', 'imdb'); ?>"><img align="center" width="90%" src="<?php echo $imdb_admin_values['imdbplugindirectory']; ?>pics/getRidofIMDb.jpg" alt="imdblt get rid of IMDb option" /></a>
 	</div>
 	<div class="helpdiv">
-		1/ <?php esc_html_e( "You need an API key from moviepilot.com. Send an email to api@moviepilot.de asking for an API key, and copy-paste the code you have been given in 'General options -> Advanced -> Search, moviepilot part-> API Pilot key' field.", 'imdb'); ?> 
+		1/ <?php esc_html_e( "You need an API key from moviepilot.com. Send an email to api@moviepilot.de asking for an API key, and copy-paste the code you have been given in 'General options -> Advanced -> Search, moviepilot part-> API Pilot key' field.", 'imdb'); ?>
 	<?php esc_html_e( "For a preformatted email", 'imdb'); ?> <a href="mailto:api@moviepilot.de?subject=API%20key%20for%20moviepilot%20wordpress%20plugin&body=Hi,%20Would%20you%20kindly%20send%20me%20an%20API%20key%20to%20use%20movie%20pilot%20wordpress%20plugin%3F%20Many%20thanks%20and%20kind%20regards."><?php esc_html_e( "click here", 'imdb'); ?></a>.<br /><br />
 		2/ <?php esc_html_e( "Switch 'Get rid of IMDb' option to 'on'", 'imdb'); ?><br /><br />
 		3/ <?php esc_html_e( "You may now select both your local language and the accuracy level to comply with (IMDb behaviour).", 'imdb'); ?><br /><br />
 	</div>
 
 
-<?php } // end function imdblt_help_getridofimdb_function
+<?php } // end function lumiere_help_getridofimdb_function
 */
 
 
 
 #######################
-## imdblt_help_usetaxonomy_function
+## lumiere_help_usetaxonomy_function
 ######################
 
-function imdblt_help_usetaxonomy_function () { 
+function lumiere_help_usetaxonomy_function () {
 	global $imdb_admin_values; ?>
 
 	<div class="helpdiv">
@@ -486,7 +486,7 @@ function imdblt_help_usetaxonomy_function () {
 	<div class="helpdiv">
 		<?php esc_html_e( "After that, pay a visit to your post/page; first refresh will not immediately display the movie detail (it will only generate them). Though, on a second refresh, you will see both movie details and (if you wordpress theme is configured to show it) taxonomy in your post.", 'imdb'); ?>
 	</div>
-	
+
 	<div class="helpdiv">
 		<h4><?php esc_html_e( "New option(s) in 'Posts' menu", 'imdb'); ?></h4>
 
@@ -495,7 +495,7 @@ function imdblt_help_usetaxonomy_function () {
 		<a href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/taxonomy_newmenu.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'imdb'); ?>"><img align="center" src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/taxonomy_newmenu.png"); ?>" alt="taxonomy new options" /></a>
 		</div>
 	</div>
-	
+
 	<div class="helpdiv">
 		<h4><?php esc_html_e( "Limits", 'imdb'); ?></h4>
 		<?php esc_html_e( "There is a strong limitation: since eache page/post can contain only a unique taxonomy sequence, only the first movie (first 'inside the post', first 'widget') will use the taxonomy feature. If you have two movie's widgets, only the first widget will display the links to genre's taxonomy. If you have both a movie's widget and an inside the post data, the movie's widget will prevail.", 'imdb'); ?>
@@ -503,23 +503,23 @@ function imdblt_help_usetaxonomy_function () {
 	<div class="helpdiv">
 		<?php esc_html_e( "Also, select cautiously options you want to be displayed as taxonomies: it could happen it creates a conflict with other functions, especially if you display many movies in same post. When selecting one of the taxonomy options from 'What to taxonomize' section, it will supersede any other function or link created; for instance, you won't have anymore access to popup links for directors, if directors taxonomy is chosen. Taxonomy will always prevail.", 'imdb'); ?>
 	</div>
-		
+
 	<div class="helpdiv">
 		<h4><?php esc_html_e( "Advanced: Customizing your theme according taxonomy", 'imdb'); ?></h4>
-		
+
 		<?php esc_html_e( "To fully enjoy this feature, copy the file in Lumiere Movies folder 'theme/taxonomy-genre.php' to your 'theme' folder. Customize this page according to your tastes and theme design. The design is the same as (ie) the tag.php file.", 'imdb'); ?><br />
 		<div align="center">
 			<a href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/taxonomy.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'imdb'); ?>"><img align="center" width="80%" src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/taxonomy.png"); ?>" alt="taxonomy result" /></a>
 		</div>
-	</div>	
-<?php } // end function imdblt_help_usetaxonomy_function
+	</div>
+<?php } // end function lumiere_help_usetaxonomy_function
 
 
 #######################
-## imdblt_help_keepcss_function
+## lumiere_help_keepcss_function
 ######################
 
-function imdblt_help_autowidget_function () { 
+function lumiere_help_autowidget_function () {
 	global $imdb_admin_values; ?>
 
 	<div class="helpdiv">
@@ -538,7 +538,6 @@ function imdblt_help_autowidget_function () {
 	<div class="helpdiv">
 		<?php esc_html_e( "Next time you will look at your post, you will find the widget according to your post’s title.", 'imdb'); ?>
 	</div>
-<?php 
-} // end function imdblt_help_keepcss_function
+<?php
+} // end function lumiere_help_keepcss_function
 ?>
-

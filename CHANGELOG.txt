@@ -118,7 +118,7 @@ v2.0.2
 * [minor] French strings corrected. Taxonomy help improved.
 
 v2.0.1
-* [bug] when using imdb_external_call() function with an imdbid from external (not with a movie's name), it didn't work. inc/imdb-link-transformer.php corrected
+* [bug] when using lumiere_external_call() function with an imdbid from external (not with a movie's name), it didn't work. inc/imdb-link-transformer.php corrected
 * [major] added possibility (by an option in advanced general settings) to add movie's genre tags directly into post tags (actually, into taxonomy wordpress function). When activated, it display new links instead previous genre tags.
 * [medium] added colors when option is selected in "Widget/Inside post Options".
 * [minor] uninstall function wasn't activated. Now, uninstalling IMDb LT plugin should remove every single option added by its own.
@@ -143,7 +143,7 @@ v1.6
 * [major] as a consequence of Moviepilot's new source, it is now possible to completely switch informations to other languages (much more effective than IMDb way). Currently in use German (the biggest source for Moviepilot), French, English, Spanish and Polish.
 * [major] new way to include movies inside a post, using their imdb movie's id instead of their names. Use tags [imdbltid]movie's imdb id[/imdbltid] instead of [imdblt]movie's name[/imdblt]. Idea comes from Mattias Fr&ouml;berg.
 * [major] possibility to use in widget several imdb-movie-widget (or imdb-movie-widget-bymid) is back again
-* [medium] imdb_external_call() function could be called again as previously. Added a second parameter ($external) to the function, so calling can be discriminated into the function. Check help for more explanation.
+* [medium] lumiere_external_call() function could be called again as previously. Added a second parameter ($external) to the function, so calling can be discriminated into the function. Check help for more explanation.
 * [medium] added a new widget option, to automatically add a widget according to post title. Turn on "Widget/Inside post Options -> Misc ->Auto widget" option. Especially useful to blogs focused only on movies, where all posts are related to cinema.
 * [medium] cache functionality added to searches -> a website as imdb or pilot will be less called, imdblt storing its results
 * [medium] css corrections
@@ -153,7 +153,7 @@ v1.6
 * [minor] added "Filmography as soundtrack" in popup for people (popup-imdb_person.php)
 * [minor] splited "General options" from wordpress admin into two subsections : "Paths & Layout" and "Advanced". Advanced subsection is meant to include the... advanced options. General option is much more readable, now.
 * [minor] cache size is now computed and displayed in admin/cache section 
-* [minor] turned imbd-link-transformer into a class (class imdblt{}); modified inc/popup-imdb_movie.php and inc/help.php according the new structure. As a result of this, one has to open the class (ie $imdblt = new imdblt) before calling the function itself (ie $imdblt->imdb_external_call('Descent', 'external'))
+* [minor] turned imbd-link-transformer into a class (class imdblt{}); modified inc/popup-imdb_movie.php and inc/help.php according the new structure. As a result of this, one has to open the class (ie $imdblt = new imdblt) before calling the function itself (ie $imdblt->lumiere_external_call('Descent', 'external'))
 * [minor] by default, cover pictures are not displayed as thumbnail, with a size of 100 px. To change this behaviour: "General options -> Imdb cover picture -> Display only thumbnail"
 * [minor] removed imdb adress us.imdb.com, added www.imdb.fr
 * [minor] moved and renamed tinymce javascript from tinymce/editor_plugin.js to js/tinymce_editor_plugin.js
@@ -224,7 +224,7 @@ v1.1.14.4
 * [minor] consequently to many changes and functions added, plugin shouldn't work at 100% with a wordpress release prior to 2.7. However, no crucial function has been added, and even with old releases IMDb link transformer should mostly work as it used to.
 
 v1.1.14.3
-* [major] new way to include movies inside a post: use tags (new way) [imdblt]movies name[/imdblt] instead of (old way) <?php imdb_external_call ?> + Exec-PHP plugin. That means this release doesn't need any more any kind of third party plugin! Compatibility with the old way kept.
+* [major] new way to include movies inside a post: use tags (new way) [imdblt]movies name[/imdblt] instead of (old way) <?php lumiere_external_call ?> + Exec-PHP plugin. That means this release doesn't need any more any kind of third party plugin! Compatibility with the old way kept.
 * [major] changed the way options from admin settings appear; depending of the current selections, some options will appear, some disappear
 * [minor] added "Remove popup links" option; user can choose to remove popup links from widget -> no more popup
 * [minor] added imdb photo size width option (only displayed if thumbnail option deactivated)
@@ -270,7 +270,7 @@ v0.9.5
 v0.9.3
 * [major] added multiple queries widget process (several "imdb-movie-widget" field can be added to a post). Caution! Adding several fields will slow down page display.
 * [minor] removed the so-said pass of "$filmid = $_GET['imdbpostid']" from imdb-widget to imdb-movie.inc.php (seems to be passed because functional call)
-* [minor] added a function imdb_external_call () to permit to call the widget from anywhere into templates (widget no more mandatory)
+* [minor] added a function lumiere_external_call () to permit to call the widget from anywhere into templates (widget no more mandatory)
 * [minor] changed to lumiere_htmlize() function (htmlentities() unactivated, as it doesn't seems anymore needed and prevented the accentuated letters to go through the search process)
 
 v0.9.2

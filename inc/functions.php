@@ -41,8 +41,8 @@ if ( ! function_exists('lumiere_unlinkRecursive')){
  * credits to http://ch2.php.net/manual/en/function.is-dir.php#85961 & myself
  */
 
-if ( ! function_exists('imdblt_isEmptyDir')){
-	function imdblt_isEmptyDir($dir, $filesbydefault= "3"){	
+if ( ! function_exists('lumiere_isEmptyDir')){
+	function lumiere_isEmptyDir($dir, $filesbydefault= "3"){	
 		return (($files = @scandir($dir)) && count($files) <= $filesbydefault);
 	}
 } 
@@ -52,8 +52,8 @@ if ( ! function_exists('imdblt_isEmptyDir')){
  * @param string $toremove Data wherefrom remove every html link
  */
 
-if ( ! function_exists('imdblt_remove_link')){
-	function imdblt_remove_link ($toremove) {
+if ( ! function_exists('lumiere_remove_link')){
+	function lumiere_remove_link ($toremove) {
 		$toremove = preg_replace("/<a(.*?)>/", "", $toremove);
 		return $toremove;
 	}
@@ -81,8 +81,8 @@ if ( ! function_exists('lumiere_recursive_sanitize_text_field')){
  * @param string $convert Link to convert into popup highslide link
  */
 
-if ( ! function_exists('imdblt_convert_txtwithhtml_into_popup_people')){
-	function imdblt_convert_txtwithhtml_into_popup_people ($convert) {
+if ( ! function_exists('lumiere_convert_txtwithhtml_into_popup_people')){
+	function lumiere_convert_txtwithhtml_into_popup_people ($convert) {
 		global $imdb_admin_values;
 
 		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup
@@ -102,8 +102,8 @@ if ( ! function_exists('imdblt_convert_txtwithhtml_into_popup_people')){
  *
  */
 
-if ( ! function_exists('imdblt_admin_signature')){
-	function imdblt_admin_signature(){
+if ( ! function_exists('lumiere_admin_signature')){
+	function lumiere_admin_signature(){
 		echo "\t\t<div class=\"soustitre\">";
 		echo "\t\t\t<table class=\"options\">";
 		echo "\t\t\t\t<tr>";
@@ -173,8 +173,8 @@ if ( ! function_exists('lumiere_create_taxonomies')){
  * Text displayed when no result is found
  *
  */
-if ( ! function_exists('imdblt_noresults_text')){
-	function imdblt_noresults_text(){ 
+if ( ! function_exists('lumiere_noresults_text')){
+	function lumiere_noresults_text(){ 
 		echo "<br />";
 		echo "<div class='noresult'>".esc_html_e('Sorry, no result found for this reference', 'imdb')."</div>";
 		echo "<br />";
@@ -224,8 +224,8 @@ if ( ! function_exists('lumiere_array_key_exists_wildcard')){
  *
  */
 
-if ( ! function_exists('imdblt_source_imdb')){
-	function imdblt_source_imdb($midPremierResultat){
+if ( ! function_exists('lumiere_source_imdb')){
+	function lumiere_source_imdb($midPremierResultat){
 		global $imdb_admin_values;
 
 		// Sanitize
@@ -263,8 +263,8 @@ if ( ! function_exists('lumiere_count_me')){
  * (called from lumiere-movies.php)
  */
 
-if ( ! function_exists('imdblt_popup_highslide_film_link')){
-	function imdblt_popup_highslide_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
+if ( ! function_exists('lumiere_popup_highslide_film_link')){
+	function lumiere_popup_highslide_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
 		global $imdb_admin_values;
 			
 		if (! $popuplarg )
@@ -285,8 +285,8 @@ if ( ! function_exists('imdblt_popup_highslide_film_link')){
  * (called from lumiere-movies.php)
  */
 
-if ( ! function_exists('imdblt_popup_classical_film_link')){
-	function imdblt_popup_classical_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
+if ( ! function_exists('lumiere_popup_classical_film_link')){
+	function lumiere_popup_classical_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
 		global $imdb_admin_values;
 		
 		if (! $popuplarg )
@@ -323,31 +323,31 @@ if ( ! function_exists('lumiere_htmlize')){
 }
 
 /**
- * Function imdblt_formatBytes
+ * Function lumiere_formatBytes
  * Returns in a proper format a size
  * 
  */
 
-if ( ! function_exists('imdblt_formatBytes')){
-	function imdblt_formatBytes($size, $precision = 2) { 
+if ( ! function_exists('lumiere_formatBytes')){
+	function lumiere_formatBytes($size, $precision = 2) { 
 		$base = log($size, 1024); 
 		$suffixes = array('bytes', 'Kb', 'Mb', 'Gb', 'Tb');
 		return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)]; 
 	}
 }
 /**
- * Function imdblt_glob_recursive
+ * Function lumiere_glob_recursive
  * Does a glob recursively
  * Does not support flag GLOB_BRACE
  * Credits go to https://www.php.net/manual/fr/function.glob.php#106595
  */
 
-if ( ! function_exists('imdblt_glob_recursive')){
-    function imdblt_glob_recursive($pattern, $flags = 0) {
+if ( ! function_exists('lumiere_glob_recursive')){
+    function lumiere_glob_recursive($pattern, $flags = 0) {
         $files = glob($pattern, $flags);
        
         foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
-            $files = array_merge($files, imdblt_glob_recursive($dir.'/'.basename($pattern), $flags));
+            $files = array_merge($files, lumiere_glob_recursive($dir.'/'.basename($pattern), $flags));
         }
        
         return $files;
@@ -355,12 +355,12 @@ if ( ! function_exists('imdblt_glob_recursive')){
 }
 
 /**
- * Function imdblt_notice
+ * Function lumiere_notice
  * Display a confirmation notice, such as "options saved"
  */
 
-if ( ! function_exists('imdblt_notice')){
-	function imdblt_notice($code, $msg) { 
+if ( ! function_exists('lumiere_notice')){
+	function lumiere_notice($code, $msg) { 
 		switch ($code) {
 			default:
 			case 1: // success notice, green
