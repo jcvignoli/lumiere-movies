@@ -35,6 +35,15 @@ function lumiere_activation() {
 		$start = new lumiere_core;
 		$start->lumiere_make_htaccess();
 	}
+
+	$lumiere_folder_cache = IMDBLTABSPATH . 'cache';
+	if ( ! is_dir( $lumiere_folder_cache ) ) {
+		$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
+		wp_mkdir_p( $lumiere_folder_cache );
+		chmod( $lumiere_folder_cache, 0777 );
+		wp_mkdir_p( $lumiere_folder_cache_images );
+		chmod( $lumiere_folder_cache_images, 0777 );
+	}
 	flush_rewrite_rules();
 }
 
