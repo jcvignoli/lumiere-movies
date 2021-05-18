@@ -28,7 +28,7 @@ define('IMDBPHP_CONFIG',dirname(__FILE__) . '/config.php');
 // use the original class in src/Imdb/Config.php
 use \Imdb\Config;
 
-class lumiere_settings_conf extends mdb_config {
+class lumiere_settings_conf extends lumiere_send_config {
 
 	var $imdbAdminOptionsName = "imdbAdminOptions";
 	var $imdbWidgetOptionsName = "imdbWidgetOptions";
@@ -451,7 +451,7 @@ class lumiere_settings_conf extends mdb_config {
 
 <?php		} //End function printAdminPage()
 
-} //End class
+} //End lumiere_settings_conf class
 
 
 #--------------------------------------------------=[ Language ]=--
@@ -461,9 +461,9 @@ class lumiere_settings_conf extends mdb_config {
 
 load_plugin_textdomain('imdb', false, IMDBLTURLPATH . 'language' );
 
-#--------------------------------------------------=[ Class to be called from original imdb classes ]=--
+#--------------------------------------------------=[ Class to call from original imdb classes ]=--
 
-class mdb_config extends Config {
+class lumiere_send_config extends Config {
 	var $imdb_admin_values;
 	var $imdb_cache_values;
 
@@ -488,8 +488,6 @@ class mdb_config extends Config {
 	/** Where the local IMDB images reside (look for the "showtimes/" directory)
 	*  This should be either a relative, an absolute, or an URL including the
 	*  protocol (e.g. when a different server shall deliver them)
-	* @class imdb_config
-	* @attribute string imdb_img_url
 	* Cannot be changed in wordpress plugin
 	*/
 	$this->imdb_img_url = isset($imdb_admin_values['imdbplugindirectory']).'/pics/showtimes' ?? NULL;
