@@ -64,7 +64,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 
 <?php if ( ($_GET['generaloption'] == "base") || (!isset($_GET['generaloption'] )) ) { 	////////// Paths & Layout section  ?>
 
-	<div class="intro_cache"><?php esc_html_e( "Below options usually don't need  any further action. Nevertheless, Lumiere Movies can be widely customized to match your needs.", 'imdb'); ?></div>
+	<div class="intro_cache"><?php esc_html_e( "Below options usually don't need  any further action. Nevertheless, Lumiere can be widely customized to match your needs.", 'imdb'); ?></div>
 
 	<div class="postbox">
 		<h3 class="hndle" id="directories" name="directories"><?php esc_html_e( 'Paths: url & folders', 'imdb'); ?></h3>
@@ -90,7 +90,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 			</div>
 			<div class="imdblt_double_container_content_eighty">
 				<input type="text" class="imdblt_width_fillall" name="imdb_imdbplugindirectory" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbplugindirectory']), 'imdb') ?>">
-				<div class="explain"><?php wp_kses( _e( 'Where <strong>Lumiere Movies</strong> is installed.', 'imdb'), $allowed_html_for_esc_html_functions ); ?> <br /><?php esc_html_e( 'Default:','imdb');?> "<?php echo IMDBLTURLPATH; ?>"</div>
+				<div class="explain"><?php wp_kses( _e( 'Where <strong>Lumiere</strong> is installed.', 'imdb'), $allowed_html_for_esc_html_functions ); ?> <br /><?php esc_html_e( 'Default:','imdb');?> "<?php echo IMDBLTURLPATH; ?>"</div>
 		</div>
 	</div>
 		
@@ -314,7 +314,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 			</div>
 			<div class="imdblt_double_container_content_third imdblt_padding_five">
 
-				<?php esc_html_e( 'Menu for IMDB LT options', 'imdb'); ?><br /><br />
+				<?php esc_html_e( 'Menu for Lumière options', 'imdb'); ?><br /><br />
 
 				<input type="radio" id="imdb_imdbwordpress_bigmenu_yes" name="imdb_imdbwordpress_bigmenu" value="1" <?php if ($imdbOptions['imdbwordpress_bigmenu'] == "1") { echo 'checked="checked"'; }?> />
 
@@ -322,7 +322,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 				
 				<label for="imdb_imdbwordpress_bigmenu_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
 
-				<div class="explain"><?php esc_html_e( "When enabled, Lumiere Movies options are displayed separately from the settings menu. It will create a dedicated menu to the Lumiere Movies options.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
+				<div class="explain"><?php esc_html_e( "When enabled, Lumiere options are displayed separately from the settings menu. It will create a dedicated menu to the Lumiere options.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'No', 'imdb'); ?></div>
 
 			</div>
 
@@ -358,14 +358,14 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 			</div>
 			<div class="imdblt_double_container_content_third imdblt_padding_five">
 
-				<?php esc_html_e( 'Toolbar IMDB LT admin menu', 'imdb'); ?><br /><br />
+				<?php esc_html_e( 'Toolbar Lumière admin menu', 'imdb'); ?><br /><br />
 				<input type="radio" id="imdb_imdbwordpress_tooladminmenu_yes" name="imdb_imdbwordpress_tooladminmenu" value="1" <?php if ($imdbOptions['imdbwordpress_tooladminmenu'] == "1") { echo 'checked="checked"'; }?> />
 
 				<label for="imdb_imdbwordpress_tooladminmenu_yes"><?php esc_html_e( 'Yes', 'imdb'); ?></label><input type="radio" id="imdb_imdbwordpress_tooladminmenu_no" name="imdb_imdbwordpress_tooladminmenu" value="" <?php if ($imdbOptions['imdbwordpress_tooladminmenu'] == 0) { echo 'checked="checked"'; } ?>  />
 
 				<label for="imdb_imdbwordpress_tooladminmenu_no"><?php esc_html_e( 'No', 'imdb'); ?></label>
 
-				<div class="explain"><?php esc_html_e( "When activated, Lumiere Movies options are displayed in the toolbar admin menu of Wordpress.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
+				<div class="explain"><?php esc_html_e( "When activated, Lumière options are displayed in the toolbar admin menu of Wordpress.", 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
 
 			</div>
 		</div>

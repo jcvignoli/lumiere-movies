@@ -51,7 +51,7 @@ There are three ways to use Lumiere Movies: popup link creator, widget and insid
 ### Fine tuning:
 
 1. The files inc/imdb-movie.inc.php, popup.php, imdb_movie.php and imdb_person.php can be edited to match your theme; check also /css/imdb.css if you want to customize default theme.
-2. A (front) page can be created to include all you movies' related messages. Have a look there : [personal critics page](https://www.jcvignoli.com/blog/critiques-de-cinema "Lost highway's movies reviews").
+2. A (front) page can be created to include all you movies' related messages. Have a look there : [movie review's page](https://www.jcvignoli.com/blog/critiques-de-cinema "Lost highway's movies reviews").
 3. If your language is not available, translate the .po file (located in the folder /lang of the plugin) to your language. Then [send it to me](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Lumiere Movies home").
 
 ### Advanced

@@ -1,20 +1,11 @@
 
 /* ------------------ CSS for the admin part of imdb link transformer */
 
-a {
-text-decoration:none;
-}
+a { text-decoration:none;}
 
-h3{
-font-size: 18px;
-}
+h3{font-size: 18px;}
 
-.subpage {
-border:thin black solid;
-padding:15px;
-background: #464646 20px 10px;
-color: #999;
-
+.subpage {border:thin black solid;padding:15px;background: #464646 20px 10px;color: #999;
 -moz-border-radius-bottomleft: 6px;
 -khtml-border-bottom-left-radius: 6px;
 -webkit-border-bottom-left-radius: 6px;
@@ -33,21 +24,11 @@ border-top-left-radius: 6px;
 border-top-right-radius: 6px;
 }
 
- .subpage a {
- color: white;
-}
+.subpage a { color: white;}
 
- .subpage a:hover {
- color: #999;
-}
+.subpage a:hover { color: #999;}
 
-
-.titre {
-padding:5px; 
-padding-left:25px;
-background: #bbb 20px 10px;
-color: black;
-
+.titre {padding:5px; padding-left:25px;background: #bbb 20px 10px;color: black;
 -moz-border-radius-bottomleft: 6px;
 -khtml-border-bottom-left-radius: 6px;
 -webkit-border-bottom-left-radius: 6px;
@@ -66,11 +47,7 @@ border-top-left-radius: 6px;
 border-top-right-radius: 6px;
 }
 
-.soustitre {
-line-height:16px; 
-background:#EAF3FA;
-padding:10px;
-
+.soustitre {-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;line-height:16px; background-color:darkslategrey;color:white;padding:10px;
 -moz-border-radius-bottomleft: 6px;
 -khtml-border-bottom-left-radius: 6px;
 -webkit-border-bottom-left-radius: 6px;
@@ -88,94 +65,40 @@ border-top-left-radius: 6px;
 -webkit-border-top-right-radius: 6px;
 border-top-right-radius: 6px;
 }
+.soustitre a {color:burlywood; }
+.soustitre a:hover {color:white; }
 
-.titresection, td.titresection {
-font-size:12px;
-font-weight:bold;
-padding:20px;
-line-height:30px;
-}
+.titresection, td.titresection {font-size:12px;font-weight:bold;padding:20px;line-height:30px;}
 
 .options { /* table */
-width: 100%;
-border-color: black;
-}
+width: 100%;border-color: black;}
 
-.td-aligntop {
-vertical-align:text-top;
-}
+.td-aligntop {vertical-align:text-top;}
 
-.explain {
-font-size:10px;
-padding-top:10px;
-padding-right:25px;
-text-align:justify;
-font-weight:normal;
-word-break:break-words;
-}
+.explain {font-size:10px;padding-top:10px;padding-right:25px;text-align:justify;font-weight:normal;word-break:break-words;}
+.detailedcacheexplaination{padding-left:5%;padding-right:5%;}
+.lumiere_intro_options {font-size:14;padding-top:10px;padding-right:25px;text-align:justify;font-weight:normal;word-break:break-words;}
 
-#tabswrap {
-border-color:#EBEBEB rgb(204, 204, 204) rgb(204, 204, 204) rgb(235, 235, 235);
-border-style:solid;
-border-width:1px;
-margin: 10px;
-padding: 5px;
-text-align:left;
-}
+#tabswrap {border-color:#EBEBEB rgb(204, 204, 204) rgb(204, 204, 204) rgb(235, 235, 235);border-style:solid;border-width:1px;margin: 10px;padding: 5px;text-align:left;}
 
-#tabs {
-padding: 5px;
-background:#F1F1F1 none repeat scroll 0%;
-overflow:hidden;
-}
+#tabs {padding: 5px;background:#F1F1F1 none repeat scroll 0%;overflow:hidden;}
 
-#tabs li {
-display:inline;
-}
+#tabs li {display:inline;}
 
-.helpdiv {
-line-height:20px;
-padding-left:20px;
-padding-right:20px;
-padding-bottom:20px;
-text-align:justify;
-}
+.helpdiv, .helpdiv-noborderimage {line-height:20px;padding-left:20px;padding-right:20px;padding-bottom:20px;text-align:justify;}
 
-.helpdiv img {
-	padding:8px;
-	margin:5px;
-	border: 2px black solid;
-}
+.helpdiv img {padding:8px;margin:5px;border: 2px black solid;}
 
-.submit-imdb {
-	border:none;
-}
+.submit-imdb {border:none;}
 
 .admin-option-selected { /* Span of options */
-	font-weight:bold;
-	color:#0066CC;
-}
+font-weight:bold;color:#0066CC;}
 
-.imdblt_success {
-	padding:5px;
-	background:lightYellow;
-	border:1px solid #E6DB55;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
+.imdblt_success {padding:5px;background:lightYellow;border:1px solid #E6DB55;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
+.imdblt_error {padding:5px;background:red;color:white;border:1px solid #E6DB55;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
 
-.imdblt_error {
-	padding:5px;
-	background:red;
-	color:white;
-	border:1px solid #E6DB55;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-
-.row-actions{float:right;}
+/* for refresh/delete in cache options - cache management */
+.row-actions{text-align:center;}
 
 .imdblt_nofilefound{font-weight:bold;color:red;text-align:center;}
 .imdblt_green{color:green;}
@@ -185,18 +108,19 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .intro_cache {padding:0 30px 30px 30px;}
 .imdblt_smaller{font-size:smaller;}
 .imdblt_bold{font-weight:bold;}
-.detailedcacheexplaination{padding-left:5%;padding-right:5%;}
 .picfloat{float:left;padding-right:5px;}
 .imdblt_double_container{display:flex;flex-wrap:wrap;}
-.imdblt_double_container_content{flex:50%}
-.imdblt_double_container_content_third{flex:30%}
-.imdblt_double_container_content_twenty{flex:20%}
-.imdblt_double_container_content_eighty{flex:80%}
+.imdblt_double_container_content{flex:50%;}
+.imdblt_double_container_content_third{flex:30%;}
+.imdblt_double_container_content_twenty{flex:20%;}
+.imdblt_double_container_content_seventy{flex:70%;}
+.imdblt_double_container_content_eighty{flex:80%;}
 .imdblt_hidden{visibility:hidden;}
 .imdblt_padding_five{padding:5px;}
 .imdblt_padding_left{padding-left:50px;}
 .imdblt_padding_top_twenty{padding-top:20px;}
 .imdblt_padding_twenty{padding-bottom:20px;}
+.imdblt_padding_bottom_ten{padding-bottom:10px;}
 .imdblt_valign_middle{vertical-align:middle;}
 .imdblt_align_left{text-align:left;}
 .imdblt_align_center{text-align:center;}

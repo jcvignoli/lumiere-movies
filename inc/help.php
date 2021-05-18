@@ -149,10 +149,10 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 				<h3 class="hndle"><?php esc_html_e( 'Be supported!', 'imdb'); ?></h3>
 				<div class="inside">
 					<div class="helpdiv">
-						<?php esc_html_e( 'You will never believe there is so many ways to be supported. Yes, you can:', 'imdb'); ?><br />
-			<strong>1</strong>. <?php esc_html_e( 'visit ', 'imdb'); ?> <a href="<?php esc_url( IMDBHOMEPAGE ) ?>">Lumière  website</a> <?php esc_html_e( 'to ask for support. ', 'imdb'); ?><br />
-			<strong>2</strong>. <?php esc_html_e( 'check ', 'imdb'); ?> <a href="?page=imdblt_options&subsection=help&helpsub=faqs"><?php esc_html_e( 'FAQs ', 'imdb'); ?></a>.<br />
-			<strong>3</strong>. <?php esc_html_e( 'check ', 'imdb'); ?> <a href="?page=imdblt_options&subsection=help&helpsub=howto"><?php esc_html_e( 'how to', 'imdb'); ?></a>.<br />
+						<?php esc_html_e( 'You will never believe there is so many ways to be supported. You can:', 'imdb'); ?><br />
+			<strong>1</strong>. <?php esc_html_e( 'visit', 'imdb'); ?> <a href="<?php esc_url( IMDBHOMEPAGE ) ?>">Lumière website</a> <?php esc_html_e( 'to ask for help. ', 'imdb'); ?><br />
+			<strong>2</strong>. <?php esc_html_e( 'check the', 'imdb'); ?> <a href="?page=imdblt_options&subsection=help&helpsub=faqs"><?php esc_html_e( 'FAQs ', 'imdb'); ?></a>.<br />
+			<strong>3</strong>. <?php esc_html_e( 'check the', 'imdb'); ?> <a href="?page=imdblt_options&subsection=help&helpsub=howto"><?php esc_html_e( 'how to', 'imdb'); ?></a>.<br />
 					</div>
 				</div>
 			</div>
@@ -166,15 +166,14 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 				<div class="handlediv" title="Click to toggle"><br></div>
 				<h3 class="hndle"><?php esc_html_e( 'Support me!', 'imdb'); ?></h3>
 				<div class="inside">
-					<div class="helpdiv">
+					<div class="helpdiv-noborderimage">
 						<?php esc_html_e( 'You will never believe there is so many ways to thank me. Yes, you can:', 'imdb'); ?><br />
-		<strong>1</strong>. <?php esc_html_e( 'vote for Lumière on ', 'imdb'); ?> <a href="https://wordpress.org/extend/plugins/lumiere-movies/">Wordpress' website</a>.<br />
-		<strong>2</strong>. <?php esc_html_e( 'vote for Lumière on its own', 'imdb'); ?> <a href="<?php echo IMDBHOMEPAGE ?>">website</a>.<br />
+		<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'imdb'); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] . "pics/paypal-donate.png"); ?>" width="40px" class="imdblt_align_bottom" /></a> <?php esc_html_e( 'or on', 'imdb'); ?> <a href="https://en.tipeee.com/lost-highway">tipeee.com</a>.<br />
+		<strong>2</strong>. <?php esc_html_e( 'vote for Lumière on its own', 'imdb'); ?> <a href="<?php echo IMDBHOMEPAGE ?>">website</a> <?php esc_html_e( 'or on', 'imdb'); ?> <a href="https://wordpress.org/extend/plugins/lumiere-movies/">Wordpress' website</a>.<br />
 		<strong>3</strong>. <?php esc_html_e( "send as many bugfixes and propositions as you can on Lumiere Movies website.", 'imdb'); ?><br />
-		<strong>4</strong>. <?php esc_html_e( 'pay whatever you want on paypal', 'imdb'); ?> <a href="https://www.paypal.me/jcvignoli"><img src="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] . "pics/paypal-donate.png"); ?>" width="60px" class="imdblt_align_bottom" valign="bottom"/><?php esc_html_e( 'website', 'imdb'); ?></a>.<br />
-		<strong>5</strong>. <?php esc_html_e( "translate the plugin into your own language.", 'imdb'); ?><br />
-		<strong>6</strong>. <?php esc_html_e( "help me to improve the plugin's design. I'm not gifted at all.", 'imdb'); ?><br />
-		<strong>7</strong>. <?php esc_html_e( "place a trackback, talk about this tool, and so on.", 'imdb'); ?><br />
+		<strong>4</strong>. <?php esc_html_e( "translate the plugin into your own language.", 'imdb'); ?><br />
+		<strong>5</strong>. <?php esc_html_e( "help me to improve the plugin.", 'imdb'); ?> <?php esc_html_e( "Report at the development", 'imdb'); ?> <a href="https://github.com/jcvignoli/lumiere-movies">GIT</a>'s <?php esc_html_e( 'website', 'imdb'); ?> <br />
+		<strong>6</strong>. <?php esc_html_e( 'do a trackback, make some noise about this plugin!', 'imdb'); ?><br />
 					</div>
 				</div>
 			</div>
@@ -195,8 +194,8 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 						<li>Andr&eacute;s Cabrera, Spanish translation</li>
 						<li>Peter, Bulgarian translation</li>
 						<li>Web Geek Sciense (<a href="https://webhostinggeeks.com/">Web Hosting Geeks</a>), Romanian translation</li>
-						<li><a href="http://highslide.com">Highslide JS</a>, smart & pretty js libraries collection -> BTW, discovered thanks to <a href="https://www.fots.nl/index.php/imdb-tag/">Hans Sleurink</a>, an inspiring plugin maker</li>
-						<li>Several icons made by <a href="https://p.yusukekamiyamane.com/">Yusuke Kamiyamane</a></li>
+						<li><a href="http://highslide.com">Highslide JS</a>, a smart & pretty js libraries collection</li>
+						<li>Most of the administration interface icons are made by <a href="https://p.yusukekamiyamane.com/">Yusuke Kamiyamane</a></li>
 					</div>
 				</div>
 			</div>

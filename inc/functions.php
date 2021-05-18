@@ -104,21 +104,13 @@ if ( ! function_exists('lumiere_convert_txtwithhtml_into_popup_people')){
 
 if ( ! function_exists('lumiere_admin_signature')){
 	function lumiere_admin_signature(){
-		echo "\t\t<div class=\"soustitre\">";
-		echo "\t\t\t<table class=\"options\">";
-		echo "\t\t\t\t<tr>";
-		echo "\t\t\t\t\t<td><div class=\"explain\">".
-			wp_kses( __( '<strong>Licensing Info:</strong> Under the GPL licence, "Lumiere Movies" is based on <a href="https://github.com/tboothman/imdbphp/">tboothman</a> classes. Nevertheless, a considerable amount of work was required to implement it in wordpress; check the support page for', 'imdb'), $allowed_html_for_esc_html_functions ). "<a href=\"" .
+		echo "\t\t<div class=\"soustitre\">\n";
+		echo "\t\t\t<div class=\"lumiere_intro_options\">".
+			wp_kses( __( '<strong>Licensing Info:</strong> Under a GPL licence, "Lumiere Movies" is based on <a href="https://github.com/tboothman/imdbphp/">tboothman</a> classes. Nevertheless, a considerable amount of work was required to implement it in wordpress; check the support page for', 'imdb'), $allowed_html_for_esc_html_functions ). "<a href=\"" .
 			esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=support"). "\"> ".
 			esc_html__('more', 'imdb') ."</a>.</div>";
-		echo "\t\t\t\t\t</td>";
-		echo "\t\t\t\t</tr>";
-		echo "\t\t\t\t<tr>";
-		echo "\t\t\t<td>\n\t\t\t\t<div class=\"explain\"> &copy; 2005-" . date("Y") . " <a href=\"" .  IMDBHOMEPAGE . "\">Prometheus Group</a>\n\t\t\t\t</div>";
-		echo "\t\t\t\t\t</td>";
-		echo "\t\t\t\t</tr>";
-		echo "\t\t\t</table>";
-		echo "\t\t</div>";
+		echo "\t\t\t<td>\n\t\t\t\t<div class=\"explain\"> &copy; 2005-" . date("Y") . " <a href=\"" .  IMDBHOMEPAGE . "\">Lost Highway</a>\n";
+		echo "\t\t</div>\n";
 	} 
 }
 

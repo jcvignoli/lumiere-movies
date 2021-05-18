@@ -329,7 +329,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 
 <div id="poststuff" class="metabox-holder">
 
-	<div class="intro_cache"><?php esc_html_e( "Cache is crucial to Lumière! operation. As first imdb searchs are quite time consuming, if you do not want to kill your server but instead want quickest browsing experience, you will use cache. Pay a special attention to directories that need to be created.", 'imdb'); ?></div>
+	<div class="intro_cache"><?php esc_html_e( "Cache is crucial to Lumière! operation. As first imdb searchs are quite time consuming, if you do not want to kill your server but instead want quickest browsing experience, you will use cache.", 'imdb'); ?></div>
 
 <?php if ( ($_GET['cacheoption'] == "option") || (!isset($_GET['cacheoption'] )) ) { 	/////////////////////////////////// Cache options  ?>
 
@@ -361,8 +361,8 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 						foreach (glob($imdbOptionsc['imdbcachedir']."*") as $filename) {
 							$filenamesize1 += filesize($filename);
 						}
-						echo esc_html_e('Cache size is currently', 'imdb') . ' ' . round($filenamesize1/1048576, 2) . " Mb \n";
-					} else {  echo esc_html_e('Cache size is currently', 'imdb') . " 0 Mb \n"; }
+						echo esc_html_e('Movies cache is using', 'imdb') . ' ' . lumiere_formatBytes( $filenamesize1 ) . "\n";
+					} else {  echo esc_html_e('Movies cache is empty.', 'imdb'); }
 					?>
 					</span>
 					</label>
@@ -410,8 +410,8 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 						foreach (glob($imdbOptionsc['imdbphotoroot']."*") as $filename) {
 							$filenamesize2 += filesize($filename);
 						}
-						echo esc_html_e('Cache size is currently', 'imdb') . ' ' . round($filenamesize2/1048576, 2) . " Mb \n";
-					} else {  echo esc_html_e('Cache size is currently', 'imdb') . " 0 Mb \n"; }
+						echo esc_html_e('Images cache is using', 'imdb') . ' ' . lumiere_formatBytes($filenamesize2) . "\n";
+					} else {  echo esc_html_e('Image cache is empty.', 'imdb') . "\n"; }
 					?>
 					</span>
 				</label>
@@ -572,7 +572,8 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 		</form>
 
 <?php	}  // end cache options
-		if ($_GET['cacheoption'] == "manage")  { 	////////////////////////////////////////////// Cache management ?>
+
+	if ($_GET['cacheoption'] == "manage")  { 	////////////////////////////////////////////// Cache management ?>
 
 
 	<div class="postbox-container">
@@ -586,7 +587,7 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 				<div class="postbox">
 					<h3 class="hndle" id="cachegeneral" name="cachegeneral"><?php esc_html_e('Cache management', 'imdb'); ?></h3>
 					
-					<div class="explain">
+					<div class="detailedcacheexplaination imdblt_padding_bottom_ten imdblt_align_center">
 						<?php echo "<i>". esc_html__('Total cache size:', 'imdb'); 
 						$imdltcacheFileCount = count( lumiere_glob_recursive($imdb_cache_values['imdbcachedir'] . '*') );
 						$imdltcacheFileCountTotalSize=array_sum(array_map('filesize', lumiere_glob_recursive("{$wikileakscacheFileCount}*")));
@@ -601,20 +602,24 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 
 			 //------------------------------------------------------------------ =[movies management]=- ?>
 
-			<div class="postbox"><h3 class="hndle" id="cachemovies" name="cachemovies"><?php esc_html_e('Movie\'s detailed cache', 'imdb'); ?></h3></div>
+	<div class="postbox">
+		<h3 class="hndle" id="cachemovies" name="cachemovies"><?php esc_html_e('Movie\'s detailed cache', 'imdb'); ?></h3>
+	</div>
 
 	<div class="inside imblt_border_shadow">
 
-			<div class="detailedcacheexplaination">
+		<div class="lumiere_intro_options">
 
-				<?php esc_html_e('If you want to refresh movie\'s cache regardless the cache expiration time, you may either tick movie\'s checkbox(es) related to the movie you want to delete and click on "delete cache", or you may click on individual movies "refresh". The first way will require an additional movie refresh - from you post, for instance.', 'imdb'); ?>
-				<br />
-				<br />
-				<?php esc_html_e('You may also either delete individually the cache or by group.', 'imdb'); ?>
-				<br />
-				<br />
-			</div>
-				<table class="table_ninety"><tr>
+			<?php esc_html_e('If you want to refresh movie\'s cache regardless the cache expiration time, you may either tick movie\'s checkbox(es) related to the movie you want to delete and click on "delete cache", or you may click on individual movies "refresh". The first way will require an additional movie refresh - from you post, for instance.', 'imdb'); ?>
+			<br />
+			<br />
+			<?php esc_html_e('You may also either delete individually the cache or by group.', 'imdb'); ?>
+			<br />
+			<br />
+		</div>
+
+		<div class="imdblt_double_container">
+
 <?php
 if (is_dir($imdb_cache_values['imdbcachedir'])) {
   $files = glob($imdb_cache_values['imdbcachedir'] . '{title.tt*,name.nm*}', GLOB_BRACE);
@@ -641,7 +646,10 @@ if (!empty($results)){
 
 			$moviepicturelink = (($photo_url = $res->photo_localurl() ) != FALSE) ? 'src="'.$imdb_cache_values['imdbphotodir'].$obj_sanitized.'.jpg" alt="'.$title_sanitized.'"' : 'src="'.IMDBLTURLPATH.'pics/no_pics.gif" alt="'.esc_html__('no picture', 'imdb').'"'; // get either local picture or if no local picture exists, display the default one
 
-			$data[] = '	<td>
+
+			// no flex class so the browser decides how many data to display per lines (up to ten data per line)
+			// table so "row-actions" wordpress class works
+			$data[] = '	<div><table><tr><td>
 						<img id="pic_'.$title_sanitized.'" class="picfloat" '.$moviepicturelink.' width="40px">
 
 						<input type="checkbox" id="imdb_cachedeletefor_'.$title_sanitized.'" name="imdb_cachedeletefor[]" value="'.$obj_sanitized.'" /><label for="imdb_cachedeletefor[]" class="imdblt_bold">'.$title_sanitized.'</label> <br />'. esc_html__("last updated on ", "imdb").date ("j M Y H:i:s", filemtime($filepath_sanitized)).' 
@@ -649,8 +657,8 @@ if (!empty($results)){
 							<span class="edit"><a href="'.esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage&dothis=refresh&where='.$obj_sanitized.'&type=movie').'" class="admin-cache-confirm-refresh" data-confirm="'. esc_html__("Refresh cache for *", "imdb") .$title_sanitized.'*?">'.esc_html__("refresh", "imdb").'</a></span>
 
 							<span class="delete"><a href="'.esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage&dothis=delete&where='.$obj_sanitized.'&type=movie').'" class="admin-cache-confirm-delete" data-confirm="'. esc_html__("Delete *", "imdb") . $title_sanitized.esc_html__("* from cache?", "imdb").'" title="'. esc_html__("Delete *", "imdb") . $title_sanitized.esc_html__("* from cache?", "imdb").'">'.esc_html__("delete", "imdb").'</a></span>
-						</div>
-					</td>'; // send input and results into array
+						</div></td></tr></table>
+					</div>';// send input and results into array
 
 			flush();
 
@@ -667,39 +675,36 @@ if (!empty($results)){
 					$nbfilm="1";
 					foreach ($data as $inputline) {
 						echo $inputline;
-						if ( ($nbfilm % 5) == "0" ) { // split into 5 movies by line
-							echo '</tr><tr>';
+						if ( ($nbfilm % 10) == "0" ) { // split into up to 10 movies by line
+							echo "</div>\n<div class=\"imdblt_double_container\">";
 						}
 						$nbfilm++;
 					}
 				}
 ?>
-				</tr></table>
-				<br />
-					<div align="center">
-						<input type="button" name="CheckAll" value="Check All" data-check="">
-						<input type="button" name="UnCheckAll" value="Uncheck All" data-uncheck="">
-					</div>
-						<br />
-						<br />
-					<div align="center">
-						<?php wp_nonce_field('update_imdbltcache_check', 'update_imdbltcache_check'); //check that data has been sent only once  ?>
-						<input type="submit" class="button-primary" name="update_imdbltcache" data-confirm="<?php esc_html_e( "Delete selected cache?", "imdb"); ?>" value="<?php esc_html_e('Delete cache', 'imdb') ?>" />
-						<br/>
-						<?php echo esc_html_e('Warning!', 'imdb'); ?>
-						<?php echo esc_html_e('This button will to delete specific cache files selected from cache folder.', 'imdb'); ?>
-					</div>
 
-			</td>
-		</tr>
+				</div>
+
+				<br />
+				<div class="imdblt_align_center">
+					<input type="button" name="CheckAll" value="Check All" data-check="">
+					<input type="button" name="UnCheckAll" value="Uncheck All" data-uncheck="">
+				</div>
+				<br />
+				<br />
+				<div class="imdblt_align_center">
+					<?php wp_nonce_field('update_imdbltcache_check', 'update_imdbltcache_check'); //check that data has been sent only once  ?>
+					<input type="submit" class="button-primary" name="update_imdbltcache" data-confirm="<?php esc_html_e( "Delete selected cache?", "imdb"); ?>" value="<?php esc_html_e('Delete cache', 'imdb') ?>" />
+					<br/>
+					<?php echo esc_html_e('Warning!', 'imdb'); ?>
+					<?php echo esc_html_e('This button will to delete specific cache files selected from cache folder.', 'imdb'); ?>
+				</div>
+			</div>
+	<br />
+	<br />
 
 
 		<?php //------------------------------------------------------------------ =[people delete]=- ?>
-</table>
-		</div>
-	</div>
-	<br />
-	<br />
 
 	<div class="postbox">
 		<h3 class="hndle" id="cachepeople" name="cachepeople"><?php esc_html_e('People\'s detailed cache', 'imdb'); ?></h3>
@@ -707,12 +712,17 @@ if (!empty($results)){
 
 	<div class="inside imblt_border_shadow">
 
-		<div class="detailedcacheexplaination"><?php esc_html_e('If you want to refresh people\'s cache regardless the cache expiration time, you may either tick people checkbox(es) related to the person you want to delete and click on "delete cache", or you may click on individual people\'s "refresh". The first way will require an additional people refresh - from you post, for instance.', 'imdb'); ?>
-		<br /><br />
+	<div class="lumiere_intro_options">
+		<?php esc_html_e('If you want to refresh people\'s cache regardless the cache expiration time, you may either tick people checkbox(es) related to the person you want to delete and click on "delete cache", or you may click on individual people\'s "refresh". The first way will require an additional people refresh - from you post, for instance.', 'imdb'); ?>
+		<br />
+		<br />
 		<?php esc_html_e('You may also either delete individually the cache or by group.', 'imdb'); ?>
-		</div>
-		<br /><br />
-		<table class="table_ninety"><tr>
+		<br />
+		<br />
+	</div>
+
+	<div class="imdblt_double_container">
+
 		<?php
 if (!empty($results)){
 	foreach ($results as $res){
@@ -726,7 +736,7 @@ if (!empty($results)){
 			} else { // display every cache people details, longer loading
 				$picturelink = (($photo_url = $res->photo_localurl() ) != FALSE) ? 'src="'.esc_url($imdb_cache_values['imdbphotodir']."nm".$objpiple_sanitized.'.jpg').'" alt="'.$name_sanitized.'"' : 'src="'.esc_url( IMDBLTURLPATH.'pics/no_pics.gif').'" alt="'.esc_html__('no picture', 'imdb').'"'; // get either local picture or if no local picture exists, display the default one
 				$datapeople[] = '	
-						<td>
+						<div><table><tr><td>
 							<img id="pic_'.$name_sanitized.'" class="picfloat" '.$picturelink.' width="40px" alt="no pic">
 							<input type="checkbox" id="imdb_cachedeletefor_people_'.$name_sanitized.'" name="imdb_cachedeletefor_people[]" value="'.$objpiple_sanitized.'" /><label for="imdb_cachedeletefor_people_[]" class="imdblt_bold">'.$name_sanitized.'</label><br />'. esc_html__('last updated on ', 'imdb').date ("j M Y H:i:s", filemtime($filepath_sanitized)).'
 							
@@ -734,8 +744,8 @@ if (!empty($results)){
 								<span class="view"><a href="'.esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage&dothis=refresh&where='.$objpiple_sanitized.'&type=people').'" class="admin-cache-confirm-refresh" data-confirm="Refresh cache for *'.$name_sanitized.'*" title="Refresh cache for *'.$name_sanitized.'*">'.esc_html__("refresh", "imdb").'</a></span> 
 
 								<span class="delete"><a href="'.esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage&dothis=delete&where='.$objpiple_sanitized.'&type=people').'" class="admin-cache-confirm-delete" data-confirm="You are about to delete *'.$name_sanitized.'* from cache. Click Cancel to stop or OK to continue." title="Delete cache for *'.$name_sanitized.'*">'.esc_html__("delete", "imdb").'</a></span>
-							</div>
-						</td>'; // send input and results into array
+							</div></td></tr></table>
+					</div>'; // send input and results into array
 
 				flush();
 			} //end quick/long loading $imdbOptionsc['imdbcachedetailsshort']
@@ -751,77 +761,71 @@ if (!empty($results)){
 				$nbperso="1";
 					foreach ($datapeople as $inputline) {
 						echo $inputline;
-						if ( ($nbperso % 5) == "0" ) { // split into 5 movies by line
-							echo '</tr><tr>';
+						if ( ($nbperso % 10) == "0" ) { // split into 5 movies by line
+							echo '</div><div class="imdblt_double_container">';
 						}
 						$nbperso++;
 					}
 				} ?>
-				</tr></table>
+				</div>
 				<br />
 					<div align="center">
 						<input type="button" name="CheckAll" value="Check All" data-check-people="">
 						<input type="button" name="UnCheckAll" value="Uncheck All" data-uncheck-people="">
 					</div>
-						<br />
-						<br />
+					<br />
+					<br />
+
 					<div align="center">
 						<?php wp_nonce_field('update_imdbltcache_check', 'update_imdbltcache_check'); //check that data has been sent only once  ?>
 						<input type="submit" class="button-primary" data-confirm="<?php esc_html_e( "Delete selected cache?", "imdb"); ?>" name="update_imdbltcache" value="<?php esc_html_e('Delete cache', 'imdb') ?>" />
-						<br/>
+						<br />
 						<?php echo esc_html_e('Warning!', 'imdb'); ?>
 						<?php echo esc_html_e('This button will to delete specific cache files selected from cache folder.', 'imdb'); ?>
 					</div>
-
-			</td>
-		</tr>
-		<?php		} // end $imdbOptionsc['imdbcachedetails'] check ?>
-		<tr>
-			<td>
+			</div>
 	</div>
 	<br />
 	<br />
+
+		<?php		} // end $imdbOptionsc['imdbcachedetails'] check ?>
+
 
 	<div class="postbox">
 		<h3 class="hndle" id="globalcache" name="globalcache"><?php esc_html_e('Global cache', 'imdb'); ?></h3>
 	</div>
 
 	<div class="inside imblt_border_shadow">
-				<div><?php esc_html_e('If you want to reset the entire cache (including names & pictures cache) click on "reset cache". Beware, there is no undo.', 'imdb'); ?></div>
-				<div class="submit submit-imdb" align="center">
-					<strong><?php echo esc_html__('Warning!', 'imdb'); ?></strong>
+		<div><?php esc_html_e('If you want to reset the entire cache (including names & pictures cache) click on "reset cache". Beware, there is no undo.', 'imdb'); ?></div>
+		<div class="submit submit-imdb" align="center">
+			<strong><?php echo esc_html__('Warning!', 'imdb'); ?></strong>
 
-					<br/>
-<?php				 	//check that data has been sent only once -- don't send _wp_http_referer twice, 
-					//already sent with first wp_nonce_field -> 3rd option to "false" 
-					wp_nonce_field('reset_imdbltcache_check', 'reset_imdbltcache_check', false); ?>
-					<input type="submit" class="button-primary" name="reset_imdbltcache"  data-confirm="<?php esc_html__( "Delete all cache? Really?", "imdb"); ?>" value="<?php esc_html_e('Delete all cache', 'imdb') ?>" /> 
-					<br/>
-					<?php wp_kses( _e('This button will <strong>delete all cache</strong> stored in cache folder.', 'imdb'), $allowed_html_for_esc_html_functions ); ?>
-
-				</div>
-			</td>
-		</tr>
-
-
-		<?php } else {  // else (if folder exists) -> if folder does not exist  ?>
-		<tr>
-			<td>
-		<?php 
-				echo esc_html_e('A cache folder has to be created and the cache storage option has to be activated before having the opportunity to manage cache!', 'imdb');
-		?>
-			</td>
-		</tr>
-		<?php } // end "check if folder exists & store cache option is selected" ?>
-
-				</table>
-			</div>
-		</form>
-
-<?php } //end cache management ?>
-
+			<br /><br />
+	<?php				 	//check that data has been sent only once -- don't send _wp_http_referer twice, 
+			//already sent with first wp_nonce_field -> 3rd option to "false" 
+			wp_nonce_field('reset_imdbltcache_check', 'reset_imdbltcache_check', false); ?>
+			<input type="submit" class="button-primary" name="reset_imdbltcache"  data-confirm="<?php esc_html__( "Delete all cache? Really?", "imdb"); ?>" value="<?php esc_html_e('Delete all cache', 'imdb') ?>" /> 
+			<br /><br />
+			<?php wp_kses( _e('This button will <strong>delete all cache</strong> stored in cache folder.', 'imdb'), $allowed_html_for_esc_html_functions ); ?>
 		</div>
 	</div>
 </div>
+
+
+		<?php } else {  // else (if folder exists) -> if folder does not exist  ?>
+<div>
+	<?php echo esc_html_e('A cache folder has to be created and the cache storage option has to be activated before having the opportunity to manage cache!', 'imdb');?>
+</div>
+
+		<?php } // end "check if folder exists & store cache option is selected" ?>
+
+</form>
+
+<?php } //end cache management ?>
+
+	</div>
+</div>
 <br clear="all">
+<br />
+<br />
 
