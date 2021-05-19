@@ -194,48 +194,35 @@ class lumiere_core {
 	function lumiere_add_quicktag() {
 		global $imdb_admin_values;
 		if (wp_script_is('quicktags')){
-			wp_enqueue_script( "imdblt_add_quicktag", $imdb_admin_values['imdbplugindirectory'] ."js/qtags-addbuttons.js");
+			wp_enqueue_script( "lumiere_add_quicktag_addbutton", $imdb_admin_values['imdbplugindirectory'] ."js/qtags-addbuttons.js", array( 'quicktags' ));
 	    }
 	}
 
 	##### b) tinymce part (wysiwyg display)
 
 	function lumiere_add_buttons() {
-	   // Don't bother doing this stuff if the current user lacks permissions
-	   if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
-	     return;
+		// Don't bother doing this stuff if the current user lacks permissions
+		if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
+			return;
 	 
-	   // Add only in Rich Editor mode
-	   if ( get_user_option('rich_editing') == 'true') {
-	     add_filter("mce_external_plugins", [ $this, "add_imdb_tinymce_plugin" ] );
-	     add_filter('mce_buttons', [ $this, 'register_imdb_button' ] );
-	   }
+		// Add only in Rich Editor mode
+		if ( get_user_option('rich_editing') == 'true') {
+			add_filter("mce_external_plugins", [ $this, "add_lumiere_tinymce_plugin" ] );
+			add_filter('mce_buttons', [ $this, 'register_lumiere_tinymce_button' ] );
+		}
 	}
-	function register_imdb_button($buttons) {
-		array_push($buttons, "separator", "imdb");
+
+	function register_lumiere_tinymce_button($buttons) {
+		array_push($buttons, "separator", "lumiere_tiny");
 		return $buttons;
 	}
 	// Load the TinyMCE plugin 
-	function add_imdb_tinymce_plugin($plugin_array) {
+	function add_lumiere_tinymce_plugin($plugin_array) {
 		global $imdb_admin_values;
-		$plugin_array['imdb'] = $imdb_admin_values['imdbplugindirectory'] . 'js/tinymce_editor_imdblt_plugin.js';
+		$plugin_array['lumiere_tiny'] = $imdb_admin_values['imdbplugindirectory'] . 'js/tinymce_editor_lumiere_plugin.js';
 		return $plugin_array;
 	}
 
-	// Change the title of the popups according to the movie's or person's data
-	function change_popup_title($title) {
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ){
-			
-			if ($_GET['film'])
-				$title = sanitize_text_field($_GET['film']). " - Lumière wordpress - ";
-			/* find a way to get person's name
-			elseif ($_GET['person'])
-				$title = sanitize_text_field($_GET['person']). " - Lumière wordpress - ";
-			*/
-
-			return $title;
-		}
-	}
 	/**
 	6.- Add the stylesheet & javascript to pages head
 	**/ 
@@ -305,10 +292,10 @@ class lumiere_core {
 	}
 	function lumiere_add_js_admin () {
 		global $imdb_admin_values;
-		wp_enqueue_script('common'); // script needed for meta_boxes (ie, help.php)
-		wp_enqueue_script('wp-lists'); // script needed for meta_boxes (ie, help.php)
-		wp_enqueue_script('postbox'); // script needed for meta_boxes (ie, help.php)
-		wp_enqueue_script('jquery'); // script needed by highslide and maybe others
+		wp_enqueue_script('common'); // script needed for meta_boxes (in help.php)
+		wp_enqueue_script('wp-lists'); // script needed for meta_boxes (in help.php)
+		wp_enqueue_script('postbox'); // script needed for meta_boxes (in help.php)
+		wp_enqueue_script('jquery'); // script needed by all js
 		wp_enqueue_script('imdblt_un-active-boxes', $imdb_admin_values['imdbplugindirectory'] . "js/un-active-boxes.js");
 		wp_enqueue_script('imdblt_movevalues-formeselectboxes', $imdb_admin_values['imdbplugindirectory'] . "js/movevalues-formselectboxes.js");
 
@@ -347,11 +334,7 @@ class lumiere_core {
 		}
 
 		if (function_exists('add_action') ) {
-			// scripts & css
-			add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
-			// buttons
-			add_action('admin_print_footer_scripts', [ $this, 'lumiere_add_quicktag' ] );
-			
+
 			// add imdblt menu in toolbar menu (top wordpress menu)
 			if ($imdb_admin_values['imdbwordpress_tooladminmenu'] == 1 )
 				add_action('admin_bar_menu', [ $this, 'add_admin_toolbar_menu' ],70 );
@@ -532,7 +515,23 @@ class lumiere_core {
 	}
 
 	/**
-	12.- Include highslide_download.php if string highslide=yes
+	12.- Change the title of the popups according to the movie's or person's data
+	**/
+	function lumiere_change_popup_title($title) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ){
+			
+			if ($_GET['film'])
+				$title = sanitize_text_field($_GET['film']). " - Lumière wordpress - ";
+			/* find a way to get person's name
+			elseif ($_GET['person'])
+				$title = sanitize_text_field($_GET['person']). " - Lumière wordpress - ";
+			*/
+
+			return $title;
+		}
+	}
+	/**
+	13.- Include highslide_download.php if string highslide=yes
 	**/
 	function lumiere_highslide_download_redirect() {
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&highslide=yes' ) ) {
@@ -541,7 +540,7 @@ class lumiere_core {
 	}
 
 	/**
-	13.- Include move_template_taxonomy.php if string taxotype=*
+	14.- Include move_template_taxonomy.php if string taxotype=*
 	**/
 	function lumiere_copy_template_taxo_redirect() {
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo&taxotype=' ) ) {
@@ -571,7 +570,7 @@ class lumiere_core {
 			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
 
 			// add new name to popups
-			add_filter('pre_get_document_title', [ $this, 'change_popup_title' ]);
+			add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
 
 			// add links to popup
 			add_filter('the_content', [ $this, 'lumiere_linking' ], 11);
@@ -589,6 +588,11 @@ class lumiere_core {
 				add_action('admin_menu', [ $this, 'lumiere_admin_panel' ] );
 				add_action('init', [ $this, 'lumiere_add_buttons' ] );
 			}
+
+			// add admin scripts & css
+			add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
+			// add admin quicktag button for text editor
+			add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_quicktag' ]);
 
 			// add taxonomies in wordpress (from functions.php)
 			if ($imdb_admin_values['imdbtaxonomy'] == 1) 

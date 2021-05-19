@@ -1,3 +1,4 @@
-/* Javascript to add imdb buttons */
+/* Javascript to add Lumiere buttons to the text editor interface */
 
-QTags.addButton( 'imdb_handler', 'IMDBlt', '<!--imdb-->', '<!--/imdb-->', '', 'IMDBlt', 1 ); 
+QTags.addButton( 'lumiere_handler', 'Lumiere', '<!--imdb-->', '<!--/imdb-->', '', 'Lumiere Movies', 1 ); 
+
