@@ -187,15 +187,13 @@ class lumiere_core {
 	}
 
 	/**
-	5.-  Add tags button <!--imdb--> <!--/imdb--> to writing admin page
+	5.-  Add tags buttons <!--imdb--> <!--/imdb--> to editing admin page
 	**/
 
 	##### a) HTML part
 	function lumiere_add_quicktag() {
 		global $imdb_admin_values;
-		if (wp_script_is('quicktags')){
-			wp_enqueue_script( "lumiere_add_quicktag_addbutton", $imdb_admin_values['imdbplugindirectory'] ."js/qtags-addbuttons.js", array( 'quicktags' ));
-	    }
+		wp_enqueue_script( "lumiere_add_quicktag_addbutton", $imdb_admin_values['imdbplugindirectory'] ."js/quicktags-classiceditor-addbutton.js", array( 'quicktags' ));
 	}
 
 	##### b) tinymce part (wysiwyg display)
@@ -583,20 +581,22 @@ class lumiere_core {
 			add_action('the_content', [ $this, 'lumiere_tags_transform' ], 11);
 			add_action('the_content', [ $this, 'lumiere_tags_transform_id' ], 11);
 
-			// add admin menu
-			if (isset($imdb_ft)) {
-				add_action('admin_menu', [ $this, 'lumiere_admin_panel' ] );
-				add_action('init', [ $this, 'lumiere_add_buttons' ] );
-			}
-
-			// add admin scripts & css
-			add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
-			// add admin quicktag button for text editor
-			add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_quicktag' ]);
-
 			// add taxonomies in wordpress (from functions.php)
 			if ($imdb_admin_values['imdbtaxonomy'] == 1)
 				add_action( 'init', 'lumiere_create_taxonomies', 0 );
+
+			if (is_admin()) {
+				// add admin menu
+				if (isset($imdb_ft)) {
+					add_action('admin_menu', [ $this, 'lumiere_admin_panel' ] );
+					add_action('init', [ $this, 'lumiere_add_buttons' ] );
+				}
+
+				// add admin scripts & css
+				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
+				// add admin quicktag button for text editor
+				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_quicktag' ], 100);
+			}
 
 			// register widget
 			add_action('plugins_loaded', 'register_lumiere_widget');
