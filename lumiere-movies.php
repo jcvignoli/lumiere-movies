@@ -7,7 +7,7 @@
 // **********************************************************************
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // *****************************************************************
 
 /*
@@ -17,10 +17,10 @@ Description: Add to every movie title tagged with &lt;!--imdb--&gt; (...) &lt;!-
 Version: 3.0
 Author: jcv
 Author URI: https://www.jcvignoli.com/blog
-*/ 
+*/
 
 // Stop direct call
-if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) 
+if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF']))
 	die('You are not allowed to call this page directly.');
 
 # Bootstrap with requires
@@ -117,7 +117,7 @@ class lumiere_core {
 			// lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'imdb') ); # is not displayed
 		} else {
 			wp_die(lumiere_notice(3, esc_html__( 'Failed creating htaccess file.', 'imdb') ));
-			//lumiere_notice(3, esc_html__( 'Failed creating htaccess file.', 'imdb') ); 
+			//lumiere_notice(3, esc_html__( 'Failed creating htaccess file.', 'imdb') );
 		}
 	}
 
@@ -128,7 +128,7 @@ class lumiere_core {
 	##### a) Looks for what is inside tags  <!--imdb--> ...  <!--/imdb--> and constructs a link
 	function parse_imdb_tags($correspondances){
 		global $imdb_admin_values;
-	    
+
 		$correspondances = $correspondances[0];
 		preg_match("/<!--imdb-->(.*?)<!--\/imdb-->/i", $correspondances, $link_parsed);
 
@@ -143,7 +143,7 @@ class lumiere_core {
 		return $link_parsed;
 	}
 
-	##### b) Replace  <!--imdb--> tags with links 
+	##### b) Replace  <!--imdb--> tags with links
 	function lumiere_linking($text) {
 		$pattern = '/<!--imdb-->(.*?)<!--\/imdb-->/i';
 		$text = preg_replace_callback($pattern,array(&$this, 'parse_imdb_tags'),$text);
@@ -204,7 +204,7 @@ class lumiere_core {
 		// Don't bother doing this stuff if the current user lacks permissions
 		if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
 			return;
-	 
+
 		// Add only in Rich Editor mode
 		if ( get_user_option('rich_editing') == 'true') {
 			add_filter("mce_external_plugins", [ $this, "add_lumiere_tinymce_plugin" ] );
@@ -216,7 +216,7 @@ class lumiere_core {
 		array_push($buttons, "separator", "lumiere_tiny");
 		return $buttons;
 	}
-	// Load the TinyMCE plugin 
+	// Load the TinyMCE plugin
 	function add_lumiere_tinymce_plugin($plugin_array) {
 		global $imdb_admin_values;
 		$plugin_array['lumiere_tiny'] = $imdb_admin_values['imdbplugindirectory'] . 'js/tinymce_editor_lumiere_plugin.js';
@@ -225,14 +225,14 @@ class lumiere_core {
 
 	/**
 	6.- Add the stylesheet & javascript to pages head
-	**/ 
+	**/
 
 	##### a) outside admin part
 	public function lumiere_add_head_blog ($bypass=NULL){
 		global $imdb_admin_values;
 
 		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_head_blog("inc.movie")
-		if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) { 
+		if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
 
 			// Highslide popup
 			if ($imdb_admin_values['imdbpopup_highslide'] == 1) {
@@ -243,11 +243,11 @@ class lumiere_core {
 				    'imdb_path' => $imdb_admin_values['imdbplugindirectory']
 				);
 				wp_localize_script( "imdblt_highslide_options", 'php_vars', $dataToBePassedHighslide );
-				wp_enqueue_style( "imdblt_highslide", $imdb_admin_values['imdbplugindirectory'] ."css/highslide.css"); 
+				wp_enqueue_style( "imdblt_highslide", $imdb_admin_values['imdbplugindirectory'] ."css/highslide.css");
 			}
 
 			// Use local template imdb.css if it exists in current theme folder
-			if (file_exists (TEMPLATEPATH . "/imdb.css") ) { // an imdb.css exists inside theme folder, take it! 
+			if (file_exists (TEMPLATEPATH . "/imdb.css") ) { // an imdb.css exists inside theme folder, take it!
 				wp_enqueue_style('imdblt_imdbcss', bloginfo('stylesheet_directory') . "imdb.css");
 		 	} else {
 				wp_enqueue_style('imdblt_imdbcss', $imdb_admin_values['imdbplugindirectory'] ."css/imdb.css");
@@ -262,10 +262,10 @@ class lumiere_core {
 	}
 
 	function lumiere_add_footer_blog( $bypass=NULL ){
-		global $imdb_admin_values; 
+		global $imdb_admin_values;
 
 		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_footer_blog("inc.movie")
-		if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) { 
+		if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
 
 			wp_enqueue_script( "imdblt_hide-show_csp", $imdb_admin_values['imdbplugindirectory'] ."js/hide-show_csp.js");
 
@@ -305,7 +305,7 @@ class lumiere_core {
 		    'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
 		);
 		wp_localize_script( "csp_inline_scripts_admin", 'php_vars', $dataToCSPAdmin );
-	} 
+	}
 
 	/**
 	7.- Add the admin menu
@@ -316,7 +316,7 @@ class lumiere_core {
 		if (!isset($imdb_ft)) {
 			return;
 		}
-		
+
 		if (function_exists('add_options_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 0 ) ) {
 			add_options_page('Lumière Options', '<img src="'. $imdb_admin_values['imdbplugindirectory']. 'pics/imdb.gif"> Lumière', 'administrator', 'imdblt_options', [ $imdb_ft, 'printAdminPage'] );
 
@@ -342,7 +342,7 @@ class lumiere_core {
 	}
 
 	/**
-	8.- Function external call (ie, inside a post) 
+	8.- Function external call (ie, inside a post)
 	    can come from [imdblt] and [imdbltid]
 	**/
 
@@ -358,21 +358,21 @@ class lumiere_core {
 		}
 	* Unactivated 20210430
 	*/
-		if (!empty($moviename) && ($external == "external")) {	// call function from external (using parameter "external") 
+		if (!empty($moviename) && ($external == "external")) {	// call function from external (using parameter "external")
 			$imdballmeta[0] = $moviename;// especially made to be integrated (ie, inside a php code)
 							// can't accept caching through ob_start
 
 			// add head that is only for /imdblt/ URLs
 			add_action('wp_head', $this->lumiere_add_head_blog('inc.movie') ,1 );
-	
+
 			echo "<div class='imdbincluded'>";
 			require_once ( IMDBLTABSPATH . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
 			add_action('wp_footer', $this->lumiere_add_footer_blog('inc.movie') ,1 );
-		} 
-		
-		if (($external == "external") && ($filmid))  {	// call function from external (using parameter "external" ) 
+		}
+
+		if (($external == "external") && ($filmid))  {	// call function from external (using parameter "external" )
 								// especially made to be integrated (ie, inside a php code)
 								// can't accept caching through ob_start
 			$imdballmeta = 'imdb-movie-widget-noname';
@@ -403,7 +403,7 @@ class lumiere_core {
 			add_action('wp_footer', $this->lumiere_add_footer_blog() ,1 );
 
 			$out1 = ob_get_contents(); //put the record into value
-		} 
+		}
 
 		if (($filmid) && (empty($external)))  {		// new way (using a parameter - imdb movie id)
 			$imdballmeta = 'imdb-movie-widget-noname';
@@ -447,7 +447,7 @@ class lumiere_core {
 		$admin_bar->add_menu( array('parent' => 'imdblt-menu','id' => 'imdblt-menu-options','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/admin-general.png' width='16px' />&nbsp;&nbsp;".esc_html__('General options'),'href'  =>'admin.php?page=imdblt_options','meta'  => array('title' => esc_html__('General options'),),) );
 
 		$admin_bar->add_menu( array('parent' => 'imdblt-menu','id' => 'imdblt-menu-widget-options','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/admin-widget-inside.png' width='16px' />&nbsp;&nbsp;".esc_html__('Widget options'),'href'  =>'admin.php?page=imdblt_options&subsection=widgetoption','meta'  => array('title' => esc_html__('Widget options'),),) );
-		
+
 		$admin_bar->add_menu( array('parent' => 'imdblt-menu','id' => 'imdblt-menu-cache-options','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/admin-cache.png' width='16px' />&nbsp;&nbsp;".esc_html__('Cache options'),'href'  =>'admin.php?page=imdblt_options&subsection=cache','meta' => array('title' => esc_html__('Cache options'),),) );
 
 		$admin_bar->add_menu( array('parent' => 'imdblt-menu','id' => 'imdblt-menu-help','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/admin-help.png' width='16px' />&nbsp;&nbsp;".esc_html__('Help'),'href' =>'admin.php?page=imdblt_options&subsection=help','meta'  => array('title' => esc_html_e('Help'),),) );
@@ -519,7 +519,7 @@ class lumiere_core {
 	**/
 	function lumiere_change_popup_title($title) {
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ){
-			
+
 			if ($_GET['film'])
 				$title = sanitize_text_field($_GET['film']). " - Lumière wordpress - ";
 			/* find a way to get person's name
@@ -553,7 +553,7 @@ class lumiere_core {
 	// *********************
 
 	function lumiere_plugin_start () {
-		global $imdb_configs_values, $imdb_ft, $imdb_admin_values;
+		global $imdb_ft, $imdb_admin_values;
 
 		// Be sure WP is running
 		if (function_exists('add_action')) {
@@ -595,15 +595,15 @@ class lumiere_core {
 			add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_quicktag' ]);
 
 			// add taxonomies in wordpress (from functions.php)
-			if ($imdb_admin_values['imdbtaxonomy'] == 1) 
+			if ($imdb_admin_values['imdbtaxonomy'] == 1)
 				add_action( 'init', 'lumiere_create_taxonomies', 0 );
 
 			// register widget
-			add_action('plugins_loaded', 'register_imdbwidget');
+			add_action('plugins_loaded', 'register_lumiere_widget');
 		}
 	}
 
-	
+
 
 } // end class
 

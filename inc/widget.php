@@ -110,7 +110,7 @@ function widget_imdbwidget_control() {
 /**
 Register the Widget into the WordPress Widget API
 */
-function register_imdbwidget() {
+function register_lumiere_widget() {
 	//Check Sidebar Widget and Subscribe2 plugins are activated
 	if ( !function_exists('wp_register_sidebar_widget') || !class_exists('lumiere_settings_conf')) {
 		return;
