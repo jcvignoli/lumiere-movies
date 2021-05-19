@@ -1,6 +1,6 @@
-
 /* ---- Oceanwp fix */
-
 table th, table td { border-bottom:unset !important; }
 #site-header {background-image:unset !important;}
 #site-header.has-header-media .overlay-header-media {background-color:unset !important;}
+body.page-header-disabled{margin:0px !important;}
+

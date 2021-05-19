@@ -244,18 +244,26 @@ class lumiere_core {
 				wp_enqueue_style( "imdblt_highslide", $imdb_admin_values['imdbplugindirectory'] ."css/highslide.css");
 			}
 
-			// Use local template imdb.css if it exists in current theme folder
-			if (file_exists (TEMPLATEPATH . "/imdb.css") ) { // an imdb.css exists inside theme folder, take it!
-				wp_enqueue_style('imdblt_imdbcss', bloginfo('stylesheet_directory') . "imdb.css");
+			// Use local template lumiere.css if it exists in current theme folder
+			if (file_exists (TEMPLATEPATH . "/lumiere.css") ) { // an lumiere.css exists inside theme folder, take it!
+				wp_enqueue_style('imdblt_lumierecss', bloginfo('stylesheet_directory') . "lumiere.css");
 		 	} else {
-				wp_enqueue_style('imdblt_imdbcss', $imdb_admin_values['imdbplugindirectory'] ."css/imdb.css");
+				wp_enqueue_style('imdblt_lumierecss', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere.css");
 		 	}
 
 			// OceanWp template css fix
-			// enqueue imdb.css only if using oceanwp template
+			// enqueue lumiere.css only if using oceanwp template
+
+			# Popups
 			if ( ( stripos( TEMPLATEPATH, '/wp-content/themes/oceanwp' ) ) && ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) ) {
-				wp_enqueue_style('imdblt_imdbcss_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/imdb-oceanwpfixes.css");
-			}
+				wp_enqueue_style('lumiere_subpages_css_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_subpages-oceanwpfixes.css");
+			# Wordpress posts/pages
+			} elseif ( stripos( TEMPLATEPATH, '/wp-content/themes/oceanwp' ) ) { ?>
+<style>
+	.single-post:not(.elementor-page) .entry-content a {text-decoration:none !important;}
+	body.page-header-disabled{margin:0px !important;}
+</style>
+			<?php } 
 		}
 	}
 
@@ -265,7 +273,7 @@ class lumiere_core {
 		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_footer_blog("inc.movie")
 		if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
 
-			wp_enqueue_script( "imdblt_hide-show_csp", $imdb_admin_values['imdbplugindirectory'] ."js/hide-show_csp.js");
+			wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js");
 
 			wp_enqueue_script( "csp_inline_scripts", $imdb_admin_values['imdbplugindirectory'] ."js/csp_inline_scripts.js");
 
@@ -286,7 +294,7 @@ class lumiere_core {
 	}
 	function lumiere_add_css_admin() {
 		global $imdb_admin_values;
-		wp_enqueue_style('imdblt_css_admin', $imdb_admin_values['imdbplugindirectory'] . "css/imdb-admin.css");
+		wp_enqueue_style('lumiere_css_admin', $imdb_admin_values['imdbplugindirectory'] . "css/lumiere-admin.css");
 	}
 	function lumiere_add_js_admin () {
 		global $imdb_admin_values;
@@ -453,7 +461,7 @@ class lumiere_core {
 	}
 
 	/**
-	11.- Redirect the popups to a proper URL (similar to inc/.htaccess)
+	11.- Redirect the popups to a proper URL (goes with to inc/.htaccess)
 	**/
 	function lumiere_popup_redirect() {
 		// The popup is for films
@@ -519,10 +527,10 @@ class lumiere_core {
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ){
 
 			if ($_GET['film'])
-				$title = sanitize_text_field($_GET['film']). " - Lumière wordpress - ";
+				$title = sanitize_text_field($_GET['film']). " - Lumi&egrave;re movies - ";
 			/* find a way to get person's name
 			elseif ($_GET['person'])
-				$title = sanitize_text_field($_GET['person']). " - Lumière wordpress - ";
+				$title = sanitize_text_field($_GET['person']). " - Lumi&egrave;re movies - ";
 			*/
 
 			return $title;
@@ -538,7 +546,7 @@ class lumiere_core {
 	}
 
 	/**
-	14.- Include move_template_taxonomy.php if string taxotype=*
+	14.- Include move_template_taxonomy.php if string taxotype=
 	**/
 	function lumiere_copy_template_taxo_redirect() {
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo&taxotype=' ) ) {

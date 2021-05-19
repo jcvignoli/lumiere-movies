@@ -33,9 +33,6 @@ add_meta_box('imdblt_help_w', esc_html__( 'Widget', 'imdb'), 'lumiere_help_w_fun
 add_meta_box('imdblt_help_adminmenubig', esc_html__( 'Big admin menu', 'imdb'), 'lumiere_help_adminbigmenu_function', 'imdblt_help', 'right', 'core');
 add_meta_box('imdblt_help_addsearchform', esc_html__( 'Add a search form', 'imdb'), 'lumiere_help_addsearchform_function', 'imdblt_help', 'left', 'core');
 add_meta_box('imdblt_help_keepcss', esc_html__( 'Keep css through update', 'imdb'), 'lumiere_help_keepcss_function', 'imdblt_help', 'right', 'core');
-/* --- moviepilot is not used anymore
-add_meta_box('imdblt_help_getridofimdb', esc_html__( 'Use a website other than IMDb', 'imdb'), 'lumiere_help_getridofimdb_function', 'imdblt_help', 'left', 'core');
-*/
 add_meta_box('imdblt_help_usetaxonomy', esc_html__( 'Taxonomy with Wordpress', 'imdb'), 'lumiere_help_usetaxonomy_function', 'imdblt_help', 'left', 'core');
 add_meta_box('lumiere_help_autowidget_function', esc_html__( 'Widget auto according post\'s title', 'imdb'), 'lumiere_help_autowidget_function', 'imdblt_help', 'right', 'core');
 ?>
@@ -420,45 +417,14 @@ function lumiere_help_keepcss_function () {
 		<?php esc_html_e( "Fed up of losing your carefully handmade visual settings at every IMDbLT update? There is a solution.", 'imdb'); ?>
 	</div>
 	<div class="helpdiv">
-		<?php esc_html_e( "Every modification you can make is done in css/imdb.css file. Instead of using this file, put an imdb.css file in you template root folder; this css file will taken instead of plugin's css file. Whenever you update, your template's one will stay untouched!", 'imdb'); ?>
+		<?php esc_html_e( "Every modification you can make is done in css/lumiere.css file. Instead of using this file, put an lumiere.css file in you template root folder; this css file will taken instead of plugin's css file. Whenever you update, your template's one will stay untouched!", 'imdb'); ?>
 	</div>
 	<div class="helpdiv">
-		<?php esc_html_e( "However, be careful with this manner, since css/imdb.css file can be updated from version to version, and you'd not be aware of changes made...", 'imdb'); ?>
+		<?php esc_html_e( "However, be careful with this manner, since css/lumiere.css file can be updated from version to version, and you'd not be aware of changes made...", 'imdb'); ?>
 	</div>
 
 
 <?php } // end function lumiere_help_keepcss_function
-
-
-#######################
-## lumiere_help_getridofimdb_function
-######################
-/* Pilot is not used anymore
-function lumiere_help_getridofimdb_function () {
-	global $imdb_admin_values; ?>
-
-	<div class="helpdiv">
-		<h4><?php esc_html_e( "How to switch to another website other than IMDb?", 'imdb'); ?></h4>
-
-		<?php esc_html_e( "Starting with IMDbLT 1.6 release, you have the opportunity to use other website source than IMDb.", 'imdb'); ?>
-	</div>
-	<div class="helpdiv">
-		<?php esc_html_e( "Since IMDb website's licence of use is quite protective, you may choose to use Moviepilot website instead (could have more choices in far future). To completely comply with legal obligations, follow these steps:", 'imdb'); ?>
-	</div>
-	<div class="helpdiv" class="imdblt_align_center">
-		<a href="<?php echo $imdb_admin_values['imdbplugindirectory']; ?>pics/getRidofIMDb.jpg" title="<?php esc_html_e( 'click to get a larger picture', 'imdb'); ?>"><img align="center" width="90%" src="<?php echo $imdb_admin_values['imdbplugindirectory']; ?>pics/getRidofIMDb.jpg" alt="imdblt get rid of IMDb option" /></a>
-	</div>
-	<div class="helpdiv">
-		1/ <?php esc_html_e( "You need an API key from moviepilot.com. Send an email to api@moviepilot.de asking for an API key, and copy-paste the code you have been given in 'General options -> Advanced -> Search, moviepilot part-> API Pilot key' field.", 'imdb'); ?>
-	<?php esc_html_e( "For a preformatted email", 'imdb'); ?> <a href="mailto:api@moviepilot.de?subject=API%20key%20for%20moviepilot%20wordpress%20plugin&body=Hi,%20Would%20you%20kindly%20send%20me%20an%20API%20key%20to%20use%20movie%20pilot%20wordpress%20plugin%3F%20Many%20thanks%20and%20kind%20regards."><?php esc_html_e( "click here", 'imdb'); ?></a>.<br /><br />
-		2/ <?php esc_html_e( "Switch 'Get rid of IMDb' option to 'on'", 'imdb'); ?><br /><br />
-		3/ <?php esc_html_e( "You may now select both your local language and the accuracy level to comply with (IMDb behaviour).", 'imdb'); ?><br /><br />
-	</div>
-
-
-<?php } // end function lumiere_help_getridofimdb_function
-*/
-
 
 
 #######################
