@@ -393,14 +393,14 @@ class lumiere_core {
 		if (!empty($moviename) && (empty($external))) {	// new way (using a parameter - imdb movie name)
 			$imdballmeta = $moviename;
 
-			// add normal $this->lumiere_add_head_blog call, without 'inc.movie' since it is inside a post and not a widget
-			add_action('wp_head', $this->lumiere_add_head_blog() ,1 );
+			// not /imdblt/ path, but needs scripts and css to work, added 'inc.movie'
+			add_action('wp_head', $this->lumiere_add_head_blog('inc.movie') ,1 );
 
 			echo "<div class='imdbincluded'>";
 			require_once ( IMDBLTABSPATH . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
-			add_action('wp_footer', $this->lumiere_add_footer_blog() ,1 );
+			add_action('wp_footer', $this->lumiere_add_footer_blog('inc.movie') ,1 );
 
 			$out1 = ob_get_contents(); //put the record into value
 		}
@@ -409,14 +409,14 @@ class lumiere_core {
 			$imdballmeta = 'imdb-movie-widget-noname';
 			$moviespecificid = $filmid;
 
-			// add normal $this->lumiere_add_head_blog call, without 'inc.movie' since it is inside a post and not a widget
-			add_action('wp_head', $this->lumiere_add_head_blog() ,1 );
+			// not /imdblt/ path, but needs scripts and css to work, added 'inc.movie'
+			add_action('wp_head', $this->lumiere_add_head_blog('inc.movie') ,1 );
 
 			echo "<div class='imdbincluded'>";
 			require_once ( IMDBLTABSPATH . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
-			add_action('wp_footer', $this->lumiere_add_footer_blog() ,1 );
+			add_action('wp_footer', $this->lumiere_add_footer_blog('inc.movie') ,1 );
 
 			$out2 = ob_get_contents(); //put the record into value
 		}
