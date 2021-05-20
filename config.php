@@ -387,8 +387,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 
 <div class=wrap>
 
-	<h2><i>Lumière!</i>&nbsp;<?php esc_html_e( "options", "imdb"); ?></h2>
-	<?php /*<img src="<?php echo esc_url ( $imdbOptions['imdbplugindirectory'] . ".wordpress-org/icon-128x128.jpg"); ?>" width="50" height="50" /> ----breaks the layout when there is a notice */ ?>
+	<h2 class="imdblt_padding_bottom_right_fifteen"><img src="<?php echo esc_url ( $imdbOptions['imdbplugindirectory'] . "pics/lumiere-ico80x80.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;<i>Lumière!</i>&nbsp;<?php esc_html_e( "options", "imdb"); ?></h2>
 
 	<div class="subpage">
 

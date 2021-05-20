@@ -5,15 +5,9 @@
 
 /* ------------------ Basic */
 
-body.imdbpopup {font-family: Verdana, Tahoma, Georgia, Geneva, Arial;color: #575757;background: #FFFFFF;margin:10px;}
+body {font-family: Verdana, Tahoma, Georgia, Geneva, Arial;color: #575757;background: #FFFFFF;margin:10px;}
 
-body.imdbpopup a {color: #909090;text-decoration: none;}
-
-body.imdbpopup a:hover {color: #A8A8A8;text-decoration: none;}
-
-body.imdbpopup img{border:none;}
-
-body.imdbpopup h1 {text-align:center;font-size:20px;padding-bottom:10px;}
+/*body h1 {text-align:center;font-size:20px;padding-bottom:10px;}*/
 
 .hidesection{display:none;}
 .activatehidesection {cursor:pointer;}
@@ -100,7 +94,7 @@ font-weight: bold;
 border: 2px solid #333333;  
 }  
 
-.img-imdb { /*imdb image, propertie for <img> */vertical-align:sub;}
+.img-imdb { /*imdb image, propertie for <img> */vertical-align:absmiddle;align:absmiddle;}
 
 
 /***********************************************************
@@ -290,28 +284,18 @@ text-align:justify;
 
 /* ---- Others */
 
-.link-imdb, .link-imdblt-classicfilm, .link-imdblt-highslidefilm { /*link to the internal popup*/
-	border-bottom: 1px dotted #bbb;
-	background: url(../pics/imdb.gif) no-repeat left;
-	padding-left: 16px;
-	text-decoration: none;
-	cursor:pointer;
-}
+.linkpopup {color: #909090;text-decoration: none;cursor:pointer;}/*link to the internal popup, from popups*/
+.linkpopup:hover {color: #A8A8A8;text-decoration: none;cursor:pointer;}/*link to the internal popup, from popups*/
 
-.link-imdb2, .link-imdblt-classicpeople, .link-imdblt-highslidepeople  { /*link to the internal popup, from imdb-movie.inc.php*/
-	text-decoration: none;
-	cursor:pointer;
-}
+.linkincmovie, .linktaxonomy {color: #909090;text-decoration: none;}/*link to a popup, from imdb-movie.inc.php, also from taxonomy function in starting class*/
+.linkincmovie:hover, .linktaxonomy:hover {color: #A8A8A8;text-decoration:none;}/*link to a popup, from imdb-movie.inc.php, also from taxonomy function in starting class */
 
-.link-imdb:hover { /*link to the internal popup*/
-	border-bottom: 1px dotted #bbb;
-	background: url(../pics/imdb.gif) no-repeat left;
-	padding-left: 16px;
-	text-decoration: inherit;
-}
+.link-imdblt-classicfilm, .link-imdblt-highslidefilm { /*link to a movie popup, from imdb-movie.inc.php*/
+background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;padding-left: 16px;text-decoration: none;cursor:pointer;}
 
+.link-imdblt-classicpeople, .link-imdblt-highslidepeople  { /*link to a people popup, from imdb-movie.inc.php*/
+text-decoration: none;cursor:pointer;}
 
 .noresult { /*text displayed when no imdbLT results found*/
-	color: red;
-}
+color: red;}
 

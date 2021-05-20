@@ -1,8 +1,8 @@
 <?php
 
  #############################################################################
- # Lumiere Movies                                                     #
- # written by Prometheus group                                               #
+ # Lumiere Movies wordpress plugin                                           #
+ # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
  # This program is free software; you can redistribute and/or modify it      #
@@ -62,9 +62,9 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 		
 		// ---- movie part
 		echo "		<td class='TableListeResultatsColGauche'><a href=\"".esc_url($imdb_admin_values['imdbplugindirectory']."inc/popup-imdb_movie.php?mid=".intval($res->imdbid()) )."&film=".$film_sanitized."\" title=\"".esc_html__('more on', 'imdb')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )."(".intval( $res->year() ).")"."</a> \n";
-		echo "&nbsp;&nbsp;<a class=\"imdblink\" href=\"".esc_url( "https://www.imdb.com/title/tt".intval($res->imdbid()) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'imdb')." ".sanitize_text_field( $res->title() )."'>";
+		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"".esc_url( "https://www.imdb.com/title/tt".intval($res->imdbid()) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'imdb')." ".sanitize_text_field( $res->title() )."'>";
 
-		if ($imdb_admin_values[imdbdisplaylinktoimdb] == true) { # if the user has selected so
+		if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
 			echo "<img  class='img-imdb' src='".esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] )."' width='".intval($imdb_admin_values['imdbpicsize'])."' alt='".esc_html__('link to imdb for', 'imdb')." ".sanitize_text_field( $res->title() )."'/></a>";	
 		}
 		echo "</td>\n";
@@ -73,10 +73,10 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 		// ---- director part
 		$realisateur = $res->director();
 		if (! is_null ($realisateur['0']['name'])){
-			echo "		<td class='TableListeResultatsColDroite'><a href=\"".esc_url($imdb_admin_values[imdbplugindirectory]."inc/popup-imdb_person.php?mid=".intval($realisateur['0']['imdb'])."&film=".sanitize_text_field($_GET['film']) )."\" title=\"".esc_html__('more on', 'imdb')." ".sanitize_text_field( $realisateur['0']['name'] )."\" >".sanitize_text_field( $realisateur['0']['name'] )."</a>";
+			echo "		<td class='TableListeResultatsColDroite'><a class='link-imdb2' href=\"".esc_url($imdb_admin_values[imdbplugindirectory]."inc/popup-imdb_person.php?mid=".intval($realisateur['0']['imdb'])."&film=".sanitize_text_field($_GET['film']) )."\" title=\"".esc_html__('more on', 'imdb')." ".sanitize_text_field( $realisateur['0']['name'] )."\" >".sanitize_text_field( $realisateur['0']['name'] )."</a>";
 
-			if ($imdb_admin_values[imdbdisplaylinktoimdb] == true) { # if the user has selected so
-				echo "&nbsp;&nbsp;<a class=\"imdblink\" href=\"".esc_url( "https://www.imdb.com/name/nm".intval($realisateur['0']['imdb']) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'imdb')." ".sanitize_text_field( $realisateur['0']['name'] )."'>";
+			if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
+				echo "&nbsp;&nbsp;<a class='link-imdb2' href=\"".esc_url( "https://www.imdb.com/name/nm".intval($realisateur['0']['imdb']) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'imdb')." ".sanitize_text_field( $realisateur['0']['name'] )."'>";
 				echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values[imdbplugindirectory].$imdb_admin_values[imdbpicurl] )."' width='".intval($imdb_admin_values[imdbpicsize])."' alt='".esc_html__('link to imdb for', 'imdb')." ".$realisateur['0']['name']."'/>";
 				echo "</a>";
 			}
@@ -87,10 +87,9 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 	} // end foreach  ?> 
 
 </table>
-<?php // call wordpress footer functions;
-wp_meta();
-//get_footer(); // this one gets too much uneeded information
-wp_footer(); 
+<?php
+	wp_meta();
+	wp_footer(); 
 ?>
 </body>
 </html> 
@@ -98,12 +97,12 @@ wp_footer();
 <?php exit(); // quit the call of the page, to avoid double loading process ?>
 
 <?php
-} else {  //-------------------------------------------------------------------------- 2. acc�s direct, option sp�ciale
+} else {  //-------------------------------------------------------------------------- 2. direct access, special option
 
-	if ($results[0]) { // test pour afficher le film m�me lorsque celui-ci est un r�sultat unique (sinon, msg erreur php)
-		$nbarrayresult = "0"; // lorsque r�sultat unique, tout s'affiche dans l'array "0"
+	if ($results[0]) { // test to display the movie even if it's a unique result (if not, PHP error message)
+		$nbarrayresult = "0"; // if unique result, data goes in array "0"
 	} else {
-		$nbarrayresult = "1"; // lorsque r�sultats multiples, le premier film s'affiche dans l'array "1"
+		$nbarrayresult = "1"; // if multiple results, first movie goes in array "1" 
 	}	
 	$midPremierResultat = $results[$nbarrayresult]->imdbid() ?? NULL;
 	$_GET['mid'] = $midPremierResultat; //"mid" will be transmitted to next include

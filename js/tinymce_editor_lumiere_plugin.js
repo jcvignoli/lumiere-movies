@@ -21,7 +21,7 @@
 			// add tags to current selection
 			ed.addButton('lumiere_tiny', {
 				title : 'Lumière! tags add',
-				image : php_vars.imdb_path + 'pics/imdb.gif',
+				image : php_vars.imdb_path + 'pics/lumiere-ico13x13.png',
 				onclick : function() {
 				  var selected_text = ed.selection.getContent();
 				  var return_text = '';

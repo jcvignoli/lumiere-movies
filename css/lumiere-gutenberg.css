@@ -1,0 +1,27 @@
+.lumiere_gutenberg{
+	background: #ffde00;
+	padding: 40px 20px;
+	color:#494633;
+}
+
+.lumiere-block-wrap {
+	border: 2px solid #494633;
+display: flex;
+justify-content: space-between;
+max-width: 400px;
+margin-left: auto;
+margin-right: auto;
+font-size: 18px;
+}
+
+.lumiere-block-wrap div:first-child {
+    padding: 8px 16px;
+		width:100%;
+}
+
+.lumiere-block-wrap div:last-child {
+	background-color: #494836;
+color: #ffde00;
+padding: 8px 20px;
+font-weight: bold;
+}

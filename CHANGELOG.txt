@@ -4,17 +4,19 @@ v3.0
 * [major] updated to imdbphp-6.5 library
 * [major] rewritten the code to be compliant with wordpress security
 * [major] plugin is compatible with tablets/mobile phones (fully responsive)
-* [medium] popups URLs are rewritten to (blog)/imdlt/(film|person) and the page title is named according to the movie
+* [medium] popups URLs are rewritten to (blog)/imdlt/(film|person)
 * [medium] updated to highslide 5.0
 * [medium] moved all inline javascripts to external files so the plugin is Content Security Policy (CSP) compliant
 * [medium] cache folder is created if it doesn't exist, highslide is download if it doesn't exist
 * [minor] removed Pilot search options
+* [minor] new icons, new layout
 * [minor] removed js support for IE
 * [minor] removed support for wordpress < 5.7
 * [minor] added a tool to copy taxonomy templates in the admin interface
 * [minor] added a css fix for OceanWP template users
 * [minor] css/js are now loaded only on /imdblt/ and widget pages
 * [minor] popup movie pages get their title according to the query string "film"
+* [minor] css fix for Oceanwp templates
 * [bug] fixed popup-imdb_person.php which showed both actress & actor
 * [bug] fixed caching system
 * [bug] fixed cache refresh for movies, only normal (not _big) pictures where retrieved

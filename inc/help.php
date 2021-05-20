@@ -27,14 +27,14 @@ $allowed_html_for_esc_html_functions = [
 
 
 // Boxes
-add_meta_box('imdblt_help_plb', esc_html__( 'Popup link builder', 'imdb'), 'lumiere_help_plb_function', 'imdblt_help', 'left', 'core');
+add_meta_box('lumiere_help_plb', esc_html__( 'Popup link builder', 'imdb'), 'lumiere_help_plb_function', 'imdblt_help', 'left', 'core');
 add_meta_box('imdblt_help_itp', esc_html__( 'Inside the post', 'imdb'), 'lumiere_help_itp_function', 'imdblt_help', 'right', 'core');
 add_meta_box('imdblt_help_w', esc_html__( 'Widget', 'imdb'), 'lumiere_help_w_function', 'imdblt_help', 'left', 'core');
 add_meta_box('imdblt_help_adminmenubig', esc_html__( 'Big admin menu', 'imdb'), 'lumiere_help_adminbigmenu_function', 'imdblt_help', 'right', 'core');
 add_meta_box('imdblt_help_addsearchform', esc_html__( 'Add a search form', 'imdb'), 'lumiere_help_addsearchform_function', 'imdblt_help', 'left', 'core');
 add_meta_box('imdblt_help_keepcss', esc_html__( 'Keep css through update', 'imdb'), 'lumiere_help_keepcss_function', 'imdblt_help', 'right', 'core');
 add_meta_box('imdblt_help_usetaxonomy', esc_html__( 'Taxonomy with Wordpress', 'imdb'), 'lumiere_help_usetaxonomy_function', 'imdblt_help', 'left', 'core');
-add_meta_box('lumiere_help_autowidget_function', esc_html__( 'Widget auto according post\'s title', 'imdb'), 'lumiere_help_autowidget_function', 'imdblt_help', 'right', 'core');
+add_meta_box('lumiere_help_autowidget', esc_html__( 'Widget auto according post\'s title', 'imdb'), 'lumiere_help_autowidget_function', 'imdblt_help', 'right', 'core');
 ?>
 
 <div id="tabswrap">
@@ -56,7 +56,7 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 
 	<div class="postbox-container">
 		<div id="left-sortables" class="meta-box-sortables">
-			<div id="imdbLT_help_plb" class="postbox">
+			<div id="lumiere_help_plb_faq" class="postbox">
 				<div class="handlediv" title="Click to toggle"><br></div>
 				<h3 class="hndle"><?php esc_html_e("Frequently asked questions", "imdb"); ?></h3>
 				<div class="inside">
@@ -100,7 +100,7 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 
 	<div class="postbox-container">
 		<div id="left-sortables" class="meta-box-sortables">
-			<div id="imdbLT_help_plb" class="postbox">
+			<div id="lumiere_help_plb_changlog" class="postbox">
 				<div class="handlediv" title="Click to toggle"><br></div>
 				<h3 class="hndle"><?php esc_html_e("Changelog", "imdb"); ?></h3>
 				<div class="inside">
@@ -166,7 +166,7 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 					<div class="helpdiv-noborderimage">
 						<?php esc_html_e( 'You will never believe there is so many ways to thank me. Yes, you can:', 'imdb'); ?><br />
 		<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'imdb'); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] . "pics/paypal-donate.png"); ?>" width="40px" class="imdblt_align_bottom" /></a> <?php esc_html_e( 'or on', 'imdb'); ?> <a href="https://en.tipeee.com/lost-highway">tipeee.com</a>.<br />
-		<strong>2</strong>. <?php esc_html_e( 'vote for Lumière on its own', 'imdb'); ?> <a href="<?php echo IMDBHOMEPAGE ?>">website</a> <?php esc_html_e( 'or on', 'imdb'); ?> <a href="https://wordpress.org/extend/plugins/lumiere-movies/">Wordpress' website</a>.<br />
+		<strong>2</strong>. <?php esc_html_e( 'vote on', 'imdb'); ?> <a href="<?php echo IMDBHOMEPAGE ?>"><?php esc_html_e( "Lumière's website", 'imdb'); ?></a> <?php esc_html_e( 'or on', 'imdb'); ?> <a href="https://wordpress.org/extend/plugins/lumiere-movies/"><?php esc_html_e( "Wordpress' website", 'imdb'); ?></a>.<br />
 		<strong>3</strong>. <?php esc_html_e( "send as many bugfixes and propositions as you can on Lumiere Movies website.", 'imdb'); ?><br />
 		<strong>4</strong>. <?php esc_html_e( "translate the plugin into your own language.", 'imdb'); ?><br />
 		<strong>5</strong>. <?php esc_html_e( "help me to improve the plugin.", 'imdb'); ?> <?php esc_html_e( "Report at the development", 'imdb'); ?> <a href="https://github.com/jcvignoli/lumiere-movies">GIT</a>'s <?php esc_html_e( 'website', 'imdb'); ?> <br />
@@ -386,7 +386,7 @@ function lumiere_help_addsearchform_function () {
 
 	<div class="helpdiv">
 		<blockquote class="imdblt_align_left">
-							&lt;form action="" method="post" id="searchmovie" onSubmit="&lt;?php echo "window.open('".$imdb_admin_values[imdbplugindirectory]."inc/popup.php?film="."' + document.getElementById('moviesearched').value"; ?&gt, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=&lt;?php echo $imdb_admin_values[popupLarg]; ?&gt, height=&lt;?php echo $imdb_admin_values[popupLong]; ?>, top=5, left=5')"&gt<br />
+							&lt;form action="" method="post" id="searchmovie" onSubmit="&lt;?php echo "window.open('".$imdb_admin_values['imdbplugindirectory']."inc/popup-search.php?film="."' + document.getElementById('moviesearched').value"; ?&gt, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=&lt;?php echo intval($imdb_admin_values[popupLarg]); ?&gt, height=&lt;?php echo intval($imdb_admin_values['popupLong']); ?>, top=5, left=5')"&gt<br />
 								&lt;div&gt Search a movie: &lt;/div&gt<br />
 								&lt;input type="text" id="moviesearched" name="moviesearched" &gt<br />
 								&lt;input type="submit" value="Go"&gt<br />
@@ -414,7 +414,7 @@ function lumiere_help_keepcss_function () {
 	<div class="helpdiv">
 		<h4><?php esc_html_e( "How to keep my own css through updated process?", 'imdb'); ?></h4>
 
-		<?php esc_html_e( "Fed up of losing your carefully handmade visual settings at every IMDbLT update? There is a solution.", 'imdb'); ?>
+		<?php esc_html_e( "Fed up of losing your carefully handmade visual settings at every Lumière! update? There is a solution.", 'imdb'); ?>
 	</div>
 	<div class="helpdiv">
 		<?php esc_html_e( "Every modification you can make is done in css/lumiere.css file. Instead of using this file, put an lumiere.css file in you template root folder; this css file will taken instead of plugin's css file. Whenever you update, your template's one will stay untouched!", 'imdb'); ?>
@@ -493,7 +493,7 @@ function lumiere_help_autowidget_function () {
 		<?php esc_html_e( "You have hundreds of posts, carrefully named as they could be found on IMDb, and you don't want to change hundreds of posts. There is a straightforward solution.", 'imdb'); ?>
 	</div>
 	<div class="helpdiv">
-		<?php esc_html_e( "Activate Widget option in IMDbLT (it is activated by default), add the IMDbLT Widget to your sidebar, and go to 'Widget/Inside post Options' menu, select 'misc' from the new menu, and select « yes » from « Auto widget? » option at end.", 'imdb'); ?>
+		<?php esc_html_e( "Activate Widget option in Lumière! (it is activated by default), add the Lumières!'s widget to your sidebar, and go to 'Widget/Inside post Options' menu, select 'misc' from the new menu, and select « yes » from « Auto widget? » option at end.", 'imdb'); ?>
 
 		<div align="center">
 			<a href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/auto-widget.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'imdb'); ?>"><img align="center" width="80%" src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/auto-widget.png"); ?>" alt="auto widget option" /></a>

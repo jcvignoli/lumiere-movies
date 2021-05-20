@@ -2,16 +2,6 @@
 *  Needs jquery						
 */
 
-/**** functions.php
-*
-*/
-
-/* 
-jQuery('.link-imdb').on('click', function(event){
-document.getElementsByClassName("link-imdb").window.open(); 
-})
-*/
-
 /**** imdb-movie.inc.php
 *
 */

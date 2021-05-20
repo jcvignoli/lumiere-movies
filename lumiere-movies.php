@@ -198,7 +198,7 @@ class lumiere_core {
 
 	##### b) tinymce part (wysiwyg display)
 
-	function lumiere_add_buttons() {
+	function lumiere_add_tinymce() {
 		// Don't bother doing this stuff if the current user lacks permissions
 		if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
 			return;
@@ -219,6 +219,16 @@ class lumiere_core {
 		global $imdb_admin_values;
 		$plugin_array['lumiere_tiny'] = $imdb_admin_values['imdbplugindirectory'] . 'js/tinymce_editor_lumiere_plugin.js';
 		return $plugin_array;
+	}
+
+	##### c) guntenberg block
+	function lumiere_add_block_gutenberg() {
+		global $imdb_admin_values;
+
+wp_enqueue_script( "lumiere_gutenberg", $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere-gutenberg.js', array('wp-blocks', 'wp-element') );
+filemtime( $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere-gutenberg.js');
+wp_enqueue_style( "lumiere_gutenberg", $imdb_admin_values['imdbplugindirectory'] . 'css/lumiere-gutenberg.css', array('wp-edit-blocks') );
+filemtime( $imdb_admin_values['imdbplugindirectory'] . 'css/lumiere-gutenberg.css');
 	}
 
 	/**
@@ -258,12 +268,12 @@ class lumiere_core {
 			if ( ( stripos( TEMPLATEPATH, '/wp-content/themes/oceanwp' ) ) && ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) ) {
 				wp_enqueue_style('lumiere_subpages_css_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_subpages-oceanwpfixes.css");
 			# Wordpress posts/pages
-			} elseif ( stripos( TEMPLATEPATH, '/wp-content/themes/oceanwp' ) ) { ?>
-<style>
+			} elseif ( stripos( TEMPLATEPATH, '/wp-content/themes/oceanwp' ) ) { 
+?><style type="text/css">
 	.single-post:not(.elementor-page) .entry-content a {text-decoration:none !important;}
-	body.page-header-disabled{margin:0px !important;}
-</style>
-			<?php } 
+	body{margin:0px !important;}
+</style><?php
+			} 
 		}
 	}
 
@@ -324,14 +334,14 @@ class lumiere_core {
 		}
 
 		if (function_exists('add_options_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 0 ) ) {
-			add_options_page('Lumière Options', '<img src="'. $imdb_admin_values['imdbplugindirectory']. 'pics/imdb.gif"> Lumière', 'administrator', 'imdblt_options', [ $imdb_ft, 'printAdminPage'] );
+			add_options_page('Lumière Options', '<img src="'. $imdb_admin_values['imdbplugindirectory']. 'pics/lumiere-ico13x13.png" align="absmiddle"> Lumière', 'administrator', 'imdblt_options', [ $imdb_ft, 'printAdminPage'] );
 
 			// third party plugin
 			add_filter('ozh_adminmenu_icon_imdblt_options', [ $this, 'ozh_imdblt_icon' ] );
 		}
 		if (function_exists('add_submenu_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 1 ) ) {
 			// big menu for many pages for admin sidebar
-			add_menu_page( 'Lumière Options', '<i>Lumière</i>' , 8, 'imdblt_options', [ $imdb_ft, 'printAdminPage' ], $imdb_admin_values['imdbplugindirectory'].'pics/imdb.gif');
+			add_menu_page( 'Lumière Options', '<i>Lumière</i>' , 8, 'imdblt_options', [ $imdb_ft, 'printAdminPage' ], $imdb_admin_values['imdbplugindirectory'].'pics/lumiere-ico13x13.png');
 			add_submenu_page( 'imdblt_options' , esc_html__('Lumière options page', 'imdb'), esc_html__('General options', 'imdb'), 8, 'imdblt_options');
 			add_submenu_page( 'imdblt_options' , esc_html__('Widget & In post options page', 'imdb'), esc_html__('Widget/In post', 'imdb'), 8, 'imdblt_options&subsection=widgetoption', [ $imdb_ft, 'printAdminPage'] );
 			add_submenu_page( 'imdblt_options',  esc_html__('Cache management options page', 'imdb'), esc_html__('Cache management', 'imdb'), 8, 'imdblt_options&subsection=cache', [ $imdb_ft, 'printAdminPage' ]);
@@ -438,7 +448,7 @@ class lumiere_core {
 
 	function ozh_imdblt_icon() {
 		global $imdb_admin_values;
-		return $imdb_admin_values['imdbplugindirectory']. 'pics/imdb.gif';
+		return $imdb_admin_values['imdbplugindirectory']. 'pics/lumiere-ico13x13.png';
 	}
 
 	/**
@@ -448,7 +458,7 @@ class lumiere_core {
 	function add_admin_toolbar_menu($admin_bar) {
 		global $imdb_admin_values;
 
-		$admin_bar->add_menu( array('id'=>'imdblt-menu','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/imdb.gif' width='16px' />&nbsp;&nbsp;". 'Lumière','href'  => 'admin.php?page=imdblt_options', 'meta'  => array('title' => esc_html__('Lumière Menu'), ),) );
+		$admin_bar->add_menu( array('id'=>'imdblt-menu','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/lumiere-ico13x13.png' width='16' height='16' />&nbsp;&nbsp;". 'Lumière','href'  => 'admin.php?page=imdblt_options', 'meta'  => array('title' => esc_html__('Lumière Menu'), ),) );
 
 		$admin_bar->add_menu( array('parent' => 'imdblt-menu','id' => 'imdblt-menu-options','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/admin-general.png' width='16px' />&nbsp;&nbsp;".esc_html__('General options'),'href'  =>'admin.php?page=imdblt_options','meta'  => array('title' => esc_html__('General options'),),) );
 
@@ -554,12 +564,19 @@ class lumiere_core {
 		}
 	}
 
+	/**
+	15.- Add a class to taxonomy links (constructed in imbd-movie.inc.php)
+	**/
+	function lumiere_taxonomy_add_class_to_links($links) {
+	    return str_replace('<a href="', '<a class="linktaxonomy" href="', $links);
+	}
+
 	// *********************
 	// ********************* Automatisms & executions
 	// *********************
 
 	function lumiere_plugin_start () {
-		global $imdb_ft, $imdb_admin_values;
+		global $imdb_ft, $imdb_admin_values, $imdb_widget_values;
 
 		// Be sure WP is running
 		if (function_exists('add_action')) {
@@ -590,20 +607,35 @@ class lumiere_core {
 			add_action('the_content', [ $this, 'lumiere_tags_transform_id' ], 11);
 
 			// add taxonomies in wordpress (from functions.php)
-			if ($imdb_admin_values['imdbtaxonomy'] == 1)
+			if ($imdb_admin_values['imdbtaxonomy'] == 1) {
 				add_action( 'init', 'lumiere_create_taxonomies', 0 );
+
+				// search for all imdbtaxonomy* in config array, 
+				// if active write a filter to add a class to the link to the taxonomy page
+				foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
+					if ($value == 1) {
+						$filter_taxonomy = str_replace('imdbtaxonomy', '', "term_links-imdblt_".$key);
+						add_filter( $filter_taxonomy, [ $this, 'lumiere_taxonomy_add_class_to_links'] );
+					}
+				}
+
+			}
 
 			if (is_admin()) {
 				// add admin menu
 				if (isset($imdb_ft)) {
 					add_action('admin_menu', [ $this, 'lumiere_admin_panel' ] );
-					add_action('init', [ $this, 'lumiere_add_buttons' ] );
 				}
 
 				// add admin scripts & css
 				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
 				// add admin quicktag button for text editor
 				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_quicktag' ], 100);
+				// add admin tinymce button for wysiwig editor
+				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_tinymce' ] );
+
+				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_block_gutenberg' ]);
+
 			}
 
 			// register widget
