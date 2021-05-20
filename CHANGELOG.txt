@@ -8,8 +8,8 @@ v3.0
 * [medium] updated to highslide 5.0
 * [medium] moved all inline javascripts to external files so the plugin is Content Security Policy (CSP) compliant
 * [medium] cache folder is created if it doesn't exist, highslide is download if it doesn't exist
+* [medium] new icons, new layout
 * [minor] removed Pilot search options
-* [minor] new icons, new layout
 * [minor] removed js support for IE
 * [minor] removed support for wordpress < 5.7
 * [minor] added a tool to copy taxonomy templates in the admin interface

@@ -12,7 +12,7 @@
 
 /*
 Plugin Name: Lumière
-Plugin URI: https://www.jcvignoli.com/blog/lumiere-movies-wordpress-plugin
+Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
 Description: Add to every movie title tagged with &lt;!--imdb--&gt; (...) &lt;!--/imdb--&gt; a link to an <a href="https://www.imdb.com"><acronym title="internet movie database">imdb</acronym></a> popup. Can also display data related to movies either in a <a href="widgets.php">widget</a> or inside a post. Perfect for your movie reviews. Cache handling. Have a look at the <a href="admin.php?page=imdblt_options">options page</a>.
 Version: 3.0
 Author: jcv
@@ -146,7 +146,7 @@ class lumiere_core {
 	##### b) Replace  <!--imdb--> tags with links
 	function lumiere_linking($text) {
 		$pattern = '/<!--imdb-->(.*?)<!--\/imdb-->/i';
-		$text = preg_replace_callback($pattern,array(&$this, 'parse_imdb_tags'),$text);
+		$text = preg_replace_callback($pattern, [ $this, 'parse_imdb_tags' ] ,$text);
 		return $text;
 	}
 
@@ -165,7 +165,7 @@ class lumiere_core {
 	##### b) Replace [imdblt] .... [/imdblt] tags with movies data
 	function lumiere_tags_transform ($text) {
 		$pattern = "'\[imdblt\](.*?)\[/imdblt\]'si";
-		return preg_replace_callback($pattern, array(&$this, 'parse_lumiere_tag_transform'),$text);
+		return preg_replace_callback($pattern, [ $this, 'parse_lumiere_tag_transform' ], $text);
 	}
 
 	/**
@@ -183,7 +183,7 @@ class lumiere_core {
 	##### b) Replace [imdblt] .... [/imdblt] tags with movies data
 	function lumiere_tags_transform_id ($text) {
 		$pattern = "'\[imdbltid\](.*?)\[/imdbltid\]'si";
-		return preg_replace_callback($pattern, array(&$this, 'parse_lumiere_tag_transform_id'),$text);
+		return preg_replace_callback($pattern, [ $this, 'parse_lumiere_tag_transform_id' ], $text);
 	}
 
 	/**
@@ -225,10 +225,10 @@ class lumiere_core {
 	function lumiere_add_block_gutenberg() {
 		global $imdb_admin_values;
 
-wp_enqueue_script( "lumiere_gutenberg", $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere-gutenberg.js', array('wp-blocks', 'wp-element') );
-filemtime( $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere-gutenberg.js');
-wp_enqueue_style( "lumiere_gutenberg", $imdb_admin_values['imdbplugindirectory'] . 'css/lumiere-gutenberg.css', array('wp-edit-blocks') );
-filemtime( $imdb_admin_values['imdbplugindirectory'] . 'css/lumiere-gutenberg.css');
+		wp_enqueue_script( "lumiere_gutenberg", $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere-gutenberg.js', array('wp-blocks', 'wp-element') );
+		//filemtime( $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere-gutenberg.js');
+		wp_enqueue_style( "lumiere_gutenberg", $imdb_admin_values['imdbplugindirectory'] . 'css/lumiere-gutenberg.css', array('wp-edit-blocks') );
+		//filemtime( $imdb_admin_values['imdbplugindirectory'] . 'css/lumiere-gutenberg.css');
 	}
 
 	/**
@@ -517,6 +517,7 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'css/lumiere-gutenberg.cs
 
 	}
 
+	// pages to be included when the redirection is done
 	function lumiere_popup_redirect_include() {
 
 		// Include films popup
