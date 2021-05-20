@@ -1,4 +1,4 @@
-/* Former inline function passed here to be Content Security Policy (CSP) Compliant
+/* Function here are Content Security Policy (CSP) Compliant
 *  Needs jquery						
 */
 
@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	jQuery('a[data-highslidepeople]').click(function(){
 		// vars from imdb-link-transformer.php
-		var tmppopupLarg = csp_inline_scripts_vars.popupLarg;
-		var tmppopupLong = csp_inline_scripts_vars.popupLong;
+		var tmppopupLarg = lumiere_vars.popupLarg;
+		var tmppopupLong = lumiere_vars.popupLong;
 		// var mid from the class data-highslidepeople to build the link
 		var misc_term = jQuery(this).closest('a').data('highslidepeople');
-		var url_imdbperso = csp_inline_scripts_vars.imdb_path + 'inc/popup-imdb_person.php?mid=' + misc_term;
+		var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-imdb_person.php?mid=' + misc_term;
 		// highslide popup
 		return hs.htmlExpand(this, { 
 			allowWidthReduction: true,
@@ -45,11 +45,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	jQuery('a[data-highslidefilm]').click(function(){
 		// vars from imdb-link-transformer.php
-		var tmppopupLarg = csp_inline_scripts_vars.popupLarg;
-		var tmppopupLong = csp_inline_scripts_vars.popupLong;
+		var tmppopupLarg = lumiere_vars.popupLarg;
+		var tmppopupLong = lumiere_vars.popupLong;
 		// var mid from the class data-highslidepeople to build the link
 		var misc_term = jQuery(this).closest('a').data('highslidefilm');
-		var url_imdbperso = csp_inline_scripts_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
+		var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
 		// highslide popup
 		return hs.htmlExpand(this, { 
 			allowWidthReduction: true,
@@ -67,11 +67,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	jQuery('a[data-classicpeople]').click(function(){
 		// vars from imdb-link-transformer.php
-		var tmppopupLarg = csp_inline_scripts_vars.popupLarg;
-		var tmppopupLong = csp_inline_scripts_vars.popupLong;
+		var tmppopupLarg = lumiere_vars.popupLarg;
+		var tmppopupLong = lumiere_vars.popupLong;
 		// var mid from the class data-highslidepeople to build the link
 		var misc_term = jQuery(this).closest('a').data('classicpeople');
-		var url_imdbperso = csp_inline_scripts_vars.imdb_path + 'inc/popup-imdb_person.php?mid=' + misc_term;
+		var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-imdb_person.php?mid=' + misc_term;
 		
 		// classic popup
 		window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width='+tmppopupLong+', height='+tmppopupLarg+', top=5, left=5')
@@ -81,11 +81,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	jQuery('a[data-classicfilm]').click(function(){
 		// vars from imdb-link-transformer.php
-		var tmppopupLarg = csp_inline_scripts_vars.popupLarg;
-		var tmppopupLong = csp_inline_scripts_vars.popupLong;
+		var tmppopupLarg = lumiere_vars.popupLarg;
+		var tmppopupLong = lumiere_vars.popupLong;
 		// var mid from the class data-highslidepeople to build the link
 		var misc_term = jQuery(this).closest('a').data('classicfilm');
-		var url_imdbperso = csp_inline_scripts_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
+		var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
 		
 		// classic popup
 		window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width='+tmppopupLong+', height='+tmppopupLarg+', top=5, left=5');

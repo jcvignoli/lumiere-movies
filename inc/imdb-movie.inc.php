@@ -122,7 +122,7 @@ while ($imovie < count($imdballmeta)) {
 
 			// check if big pictures are selected (extract "_big.jpg" from picture's names, if exists), AND if highslide popup is activated
 			if ( (substr( $photo_url, -7, -4) == "big" ) && ($imdb_admin_values['imdbpopup_highslide'] == 1) ) {
-				// value to store if previous checking is valid, call in csp_inline_scripts.js
+				// value to store if previous checking is valid, call in lumiere_scripts.js
 				$highslidephotook = "ok";
 				echo '<a href="'.$photo_url_sanitized.'" class="highslide" id="highslide-pic" title="';
 				echo sanitize_text_field( $movie->title() ).'"> <img class="imdbelementPICimg" src="';

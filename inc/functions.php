@@ -251,7 +251,7 @@ if ( ! function_exists('lumiere_count_me')){
 
 /**
  * Highslide popup function
- * constructs a HTML link to open a popup with highslide for searching a movie (using js/csp_inline_scripts.js)
+ * constructs a HTML link to open a popup with highslide for searching a movie (using js/lumiere_scripts.js)
  * (called from lumiere-movies.php)
  */
 
@@ -273,7 +273,7 @@ if ( ! function_exists('lumiere_popup_highslide_film_link')){
 
 /**
  * Classical popup function
- * constructs a HTML link to open a popup for searching a movie (using js/csp_inline_scripts.js)
+ * constructs a HTML link to open a popup for searching a movie (using js/lumiere_scripts.js)
  * (called from lumiere-movies.php)
  */
 

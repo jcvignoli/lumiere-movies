@@ -1,7 +1,7 @@
 /* Settings for highslide */
-/* var php_vars.imdb_path passed from wp_localize_script in imdb-link-transformer.php */
+/* var highslide_vars.imdb_path passed from wp_localize_script in imdb-link-transformer.php */
 
-var url_highslide = php_vars.imdb_path + "/js/highslide/graphics/";
+var url_highslide = highslide_vars.imdb_path + "/js/highslide/graphics/";
 
 hs.allowWidthReduction = true;
 hs.graphicsDir = url_highslide;

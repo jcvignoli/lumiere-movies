@@ -16,12 +16,12 @@
 			var imdbTag = this; 
 			
 			// where the picture to display berfore the tagged word is
-			var imdbImg = '<img src="' + php_vars.imdb_path + 'pics/imdb-link.png" class="imdb-link" width="25" />';
+			var imdbImg = '<img src="' + lumiere_admin_vars.imdb_path + 'pics/lumiere-ico13x13.png" class="lumiere_admin_tiny_img" width="25" />';
 
 			// add tags to current selection
 			ed.addButton('lumiere_tiny', {
-				title : 'Lumière! tags add',
-				image : php_vars.imdb_path + 'pics/lumiere-ico13x13.png',
+				title : 'Lumière! add tags',
+				image : lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir13x13.png',
 				onclick : function() {
 				  var selected_text = ed.selection.getContent();
 				  var return_text = '';
@@ -29,12 +29,9 @@
 				  ed.execCommand('mceInsertContent', 0, return_text);
 				}
 			});
-
-
-			
 		},
 
-		setup: function (ed) {
+		setup: function (ed) { /* these functions don't work, something is broken */
 			// Replace images with imdb tag
 			ed.on('PostProcess', function(ed, o) {
 				if (o.get)
@@ -49,7 +46,7 @@
 			
 			// Set active buttons if user selected pagebreak or more break
 			ed.on('NodeChange', function(ed, cm, n) {
-				cm.setActive('imdblumiere_tiny', n.nodeName === 'IMG' && ed.dom.hasClass(n, 'imdb-link'));
+				cm.setActive('lumiere_tiny', n.nodeName === 'IMG' && ed.dom.hasClass(n, 'lumiere_admin_tiny_img'));
 			});
 		},
 
@@ -74,7 +71,7 @@
 		 */
 		getInfo : function() {
 			return {
-				longname : "Lumière Movies RichEditor",
+				longname : "Lumière TinyMCE editor",
 				author : 'JCV',
 				authorurl : 'https://www.jcvignoli.com/blog',
 				infourl : 'https://www.jcvignoli.com/lumiere-movies-wordpress-plugin/',

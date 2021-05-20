@@ -97,6 +97,9 @@ font-weight:bold;color:#0066CC;}
 .imdblt_success {padding:5px;background:lightYellow;border:1px solid #E6DB55;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
 .imdblt_error {padding:5px;background:red;color:white;border:1px solid #E6DB55;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
 
+
+.lumiere_admin_tiny_img {} /* tinyMCE image in editor */
+
 /* for refresh/delete in cache options - cache management */
 .row-actions{text-align:center;}
 

@@ -1,4 +1,4 @@
-/* Former inline function passed here to be Content Security Policy (CSP) Compliant
+/* Functions here are Content Security Policy (CSP) Compliant
 *  Needs jquery
 *  For admin pages						
 */

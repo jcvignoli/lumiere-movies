@@ -217,7 +217,7 @@ class lumiere_core {
 	// Load the TinyMCE plugin
 	function add_lumiere_tinymce_plugin($plugin_array) {
 		global $imdb_admin_values;
-		$plugin_array['lumiere_tiny'] = $imdb_admin_values['imdbplugindirectory'] . 'js/tinymce_editor_lumiere_plugin.js';
+		$plugin_array['lumiere_tiny'] = $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere_scripts_admin_tinymce_editor.js';
 		return $plugin_array;
 	}
 
@@ -244,14 +244,13 @@ class lumiere_core {
 
 			// Highslide popup
 			if ($imdb_admin_values['imdbpopup_highslide'] == 1) {
-				wp_enqueue_script( "imdblt_highslide", $imdb_admin_values['imdbplugindirectory'] ."js/highslide/highslide-with-html.min.js", array(), "5.0");
-				wp_enqueue_script( "imdblt_highslide_options", $imdb_admin_values['imdbplugindirectory'] ."js/highslide-options.js");
+				wp_enqueue_script( "lumiere_highslide", $imdb_admin_values['imdbplugindirectory'] ."js/highslide/highslide-with-html.min.js", array(), "5.0");
+				wp_enqueue_script( "lumiere_highslide_options", $imdb_admin_values['imdbplugindirectory'] ."js/highslide-options.js");
 				// Pass variable to javascript highslide-options.js
-				$dataToBePassedHighslide = array(
-				    'imdb_path' => $imdb_admin_values['imdbplugindirectory']
-				);
-				wp_localize_script( "imdblt_highslide_options", 'php_vars', $dataToBePassedHighslide );
-				wp_enqueue_style( "imdblt_highslide", $imdb_admin_values['imdbplugindirectory'] ."css/highslide.css");
+				wp_add_inline_script( 'lumiere_highslide_options', 'const highslide_vars = ' . json_encode( array(
+    					'imdb_path' => $imdb_admin_values['imdbplugindirectory']
+				) ) , 'before');
+				wp_enqueue_style( "lumiere_highslide", $imdb_admin_values['imdbplugindirectory'] ."css/highslide.css");
 			}
 
 			// Use local template lumiere.css if it exists in current theme folder
@@ -285,15 +284,14 @@ class lumiere_core {
 
 			wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js");
 
-			wp_enqueue_script( "csp_inline_scripts", $imdb_admin_values['imdbplugindirectory'] ."js/csp_inline_scripts.js");
+			wp_enqueue_script( "lumiere_scripts", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts.js");
 
-			// Pass variable to javascript csp_inline_scripts.js
-			$dataToBePassedcsp_inline_scripts = array(
+			// Pass variable to javascript lumiere_scripts.js
+			wp_add_inline_script( 'lumiere_scripts', 'const lumiere_vars = ' . json_encode( array(
 				'popupLarg' => $imdb_admin_values['popupLarg'],
 				'popupLong' => $imdb_admin_values['popupLong'],
 				'imdb_path' => $imdb_admin_values['imdbplugindirectory']
-			);
-			wp_localize_script( "csp_inline_scripts", 'csp_inline_scripts_vars', $dataToBePassedcsp_inline_scripts );
+			) ) , 'before');
 		}
 	}
 
@@ -315,12 +313,11 @@ class lumiere_core {
 		wp_enqueue_script('imdblt_un-active-boxes', $imdb_admin_values['imdbplugindirectory'] . "js/un-active-boxes.js");
 		wp_enqueue_script('imdblt_movevalues-formeselectboxes', $imdb_admin_values['imdbplugindirectory'] . "js/movevalues-formselectboxes.js");
 
-		wp_enqueue_script( "csp_inline_scripts_admin", $imdb_admin_values['imdbplugindirectory'] ."js/csp_inline_scripts_admin.js");
-		// Pass variable to javascript highslide-options.js
-		$dataToCSPAdmin = array(
-		    'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
-		);
-		wp_localize_script( "csp_inline_scripts_admin", 'php_vars', $dataToCSPAdmin );
+		wp_enqueue_script( "lumiere_scripts_admin", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin.js");
+		// Pass variable to javascripts in admin part
+		wp_add_inline_script( 'lumiere_scripts_admin', 'const lumiere_admin_vars = ' . json_encode( array(
+			'imdb_path' => $imdb_admin_values['imdbplugindirectory']
+		) ) , 'before');
 	}
 
 	/**
