@@ -1,11 +1,8 @@
-( function( blocks, element ) {
+( function( blocks, blockEditor, element ) {
 
 	const el = element.createElement;
 
-	//const { RichText } = editor;
 	const { registerBlockType } = blocks;
-
-
 
 	const iconLumiere = el('svg', { width: 35, height: 35, viewBox: "0 0 200 200" },
 		el( 'path',
@@ -15,25 +12,32 @@
 		)
 	);
 
-
-	registerBlockType( 'lumiere/lumiere', {
+	registerBlockType( 'lumiere/addtags', {
 		title: 'Lumiere block',
 		icon: iconLumiere,
 		category: 'embed',
 		keywords: [ 'lumiere', 'imdb', 'movies' ],
 
-		// The "edit" property must be a valid function.
+		attributes: {
+			content: {
+				type: 'string',
+				default: 'Write your text here.'
+			},
+		},
 		edit: function( props ) {
 			return (
 				el( 'div', { className: props.className },
-					el( 'div', { className: 'lumiere-block-wrap' },
-						el( 'div', {},
-							'Enter your email address'
-						),
-						el( 'div', {},
-							'Subscribe'
-						)
-					)
+					el(
+						blockEditor.RichText,
+							{
+							tagName: 'div',
+							className: 'lumiere_gutenberg_addtags-content',
+							value: props.attributes.content,
+							onChange: function( content ) {
+								props.setAttributes( { content: content } );
+							}
+						}
+					),
 				)
 			);
 		},
@@ -41,15 +45,15 @@
 		save: function( props ) {
 			return (
 				el( 'div', { className: props.className },
-					el( 'form', { className: 'lumiere-block-wrap' },
-						el( 'input', { 'type': 'email', 'placeholder' : 'Enter your email address' } ),
-						el( 'button', {}, 'Subscribe' )
-					)
+					el( blockEditor.RichText.Content, {
+						tagName: 'p',
+						className: 'lumiere_gutenberg_addtags-content',
+						value: props.attributes.content,
+					} )
 				)
 			);
-		},
-	} );
-} )(
-	window.wp.blocks,
-	window.wp.element,
-);
+		},	
+
+	});
+}) ( window.wp.blocks, window.wp.blockEditor, window.wp.element );
+

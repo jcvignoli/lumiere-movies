@@ -1,8 +1,8 @@
 <?php
 
  #############################################################################
- # Lumiere Movies                                                            #
- # written by Prometheus group                                               #
+ # Lumière! wordpress plugin                                                 #
+ # written by Lost Higway                                                    #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
  # This program is free software; you can redistribute and/or modify it      #
@@ -134,39 +134,37 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 			</div>
 			<div class="imdblt_double_container_content_third imdblt_padding_five">
 
-				<?php 
+			<?php 
+			// If the folder "highslide" exists
+			if(is_dir(IMDBLTABSPATH . 'js/highslide')) { 
+				esc_html_e( 'Display highslide popup', 'imdb'); 
+				echo '<br /><br /> 
+				<input type="radio" id="imdb_imdbpopup_highslide_yes" name="imdb_imdbpopup_highslide" value="1" ';
+				if ($imdbOptions['imdbpopup_highslide'] == "1") { echo 'checked="checked"'; }
+				echo ' /><label for="imdb_imdbpopup_highslide_yes">';
+				esc_html_e( 'Yes', 'imdb');
+				echo '</label><input type="radio" id="imdb_imdbpopup_highslide_no" name="imdb_imdbpopup_highslide" value="" ';
+				 if ($imdbOptions['imdbpopup_highslide'] == 0) { echo 'checked="checked"'; } 
+				echo '/><label for="imdb_imdbpopup_highslide_no">';
+				 esc_html_e( 'No', 'imdb'); 
+				echo '</label>';
 
-				// Warning message displayed if highslide option is set but no "highslide" folder exists
-				if(!is_dir( IMDBLTABSPATH . 'js/highslide')) { 
-					lumiere_notice(4, '<span class="imdblt_red_bold">'.esc_html__('Warning! No Highslide folder was found.', 'imdb') .'</span>');
-					echo "<br />";
-					echo "<a href='". esc_url( $imdbOptions['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes") . "' title='".esc_html__('Click here to install Highslide', 'imdb') ."'><img src='".esc_url($imdbOptions['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />&nbsp;&nbsp;".esc_html__('Install automatically Highslide', 'imdb') .'</a><br /><br />';
-				} 
+				echo '<div class="explain">' . esc_html__( 'Highslide popup is a more stylished popup, and allows to open movie details directly in the webpage instead of opening a new window.', 'imdb'). '<br />'. esc_html__( 'Default:','imdb') . esc_html__( 'Yes', 'imdb') .'</div>';
+
+			// No "highslide" folder is found
+			} else { 
+				// Say so!
+				lumiere_notice(4, '<span class="imdblt_red_bold">'.esc_html__('Warning! No Highslide folder was found.', 'imdb') .'</span>');
+				echo "<br />";
+
+				// Automatic download deactivated as per Wordpress's plugin staff request
+				// echo "<a href='". esc_url( $imdbOptions['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes") . "' title='".esc_html__('Click here to install Highslide', 'imdb') ."'><img src='".esc_url($imdbOptions['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />&nbsp;&nbsp;".esc_html__('Install automatically Highslide', 'imdb') .'</a><br /><br />';
+
+				// Add a link to highslide website
+				echo '<a href="http://highslide.com/" title="' . esc_html__('Click here to visit Highslide website', 'imdb') .'"><img src="'.esc_url( $imdbOptions['imdbplugindirectory'] . 'pics/admin-general-install-highslide.png') . '" align="absmiddle" />&nbsp;&nbsp;'.esc_html__('Get Highslide JS library', 'imdb') . '</a><br /><br />';
+			} 
+
 ?>
-
-				<?php if(is_dir(IMDBLTABSPATH.'js/highslide')) { // If the folder "highslide" exists (manually added)
-					esc_html_e( 'Display highslide popup', 'imdb'); 
-					echo '<br /><br /> 
-					<input type="radio" id="imdb_imdbpopup_highslide_yes" name="imdb_imdbpopup_highslide" value="1" ';
-					if ($imdbOptions['imdbpopup_highslide'] == "1") { echo 'checked="checked"'; }
-					echo ' /><label for="imdb_imdbpopup_highslide_yes">';
-					esc_html_e( 'Yes', 'imdb');
-					echo '</label><input type="radio" id="imdb_imdbpopup_highslide_no" name="imdb_imdbpopup_highslide" value="" ';
-					 if ($imdbOptions['imdbpopup_highslide'] == 0) { echo 'checked="checked"'; } 
-					echo '/><label for="imdb_imdbpopup_highslide_no">';
-					 esc_html_e( 'No', 'imdb'); 
-					echo '</label>';
-				 }; ?>
-				
-				<?php if(is_dir( $imdbOptions['imdbplugindirectory'] . 'js/highslide')) { // If the folder "highslide" exists (manually added) ?>
-				<div class="explain"><?php esc_html_e( 'Highslide popup is a more stylished popup, and allows to open movie details directly in the webpage instead of opening a new window.', 'imdb'); ?> <br /><?php esc_html_e( 'Default:','imdb');?> <?php esc_html_e( 'Yes', 'imdb'); ?></div>
-				<?php } else { // If no folder "highslide" exists, explanations
-				echo '<div class="explain">';
-				esc_html_e( 'Please note Highslide JS is licensed under a Creative Commons Attribution-NonCommercial 2.5 License, which means you need the author\'s permission to use Highslide JS on commercial websites.','imdb');
-				echo '<br />';
-				echo esc_html__( 'Website:','imdb').'&nbsp;<a href="https://highslide.com/">Highslide</a>';
-				echo '</div>';
-				}; ?>
 
 			</div>
 		</div>

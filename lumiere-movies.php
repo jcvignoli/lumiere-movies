@@ -222,13 +222,23 @@ class lumiere_core {
 	}
 
 	##### c) guntenberg block
-	function lumiere_add_block_gutenberg() {
+	function lumiere_add_block_gutenberg_addtags() {
 		global $imdb_admin_values;
 
-		wp_enqueue_script( "lumiere_gutenberg", $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere-gutenberg.js', array('wp-blocks', 'wp-element') );
-		//filemtime( $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere-gutenberg.js');
-		wp_enqueue_style( "lumiere_gutenberg", $imdb_admin_values['imdbplugindirectory'] . 'css/lumiere-gutenberg.css', array('wp-edit-blocks') );
-		//filemtime( $imdb_admin_values['imdbplugindirectory'] . 'css/lumiere-gutenberg.css');
+		// Check if Gutenberg is active.
+		if ( ! function_exists( 'register_block_type' ) )
+			return;
+
+		wp_register_script( "lumiere_gutenberg_addtags", $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere-gutenberg.js', [ 'wp-blocks', 'wp-element', 'wp-editor' ], filemtime( $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere-gutenberg.js') );
+
+		wp_register_style( "lumiere_gutenberg_addtags", $imdb_admin_values['imdbplugindirectory'] . 'css/lumiere-gutenberg.css', [ 'wp-edit-blocks' ], filemtime( $imdb_admin_values['imdbplugindirectory'] . 'css/lumiere-gutenberg.css') );
+
+		// Register block script and style.
+		register_block_type( 'lumiere/addtags', [
+			'style' => 'lumiere_gutenberg_addtags', // Loads both on editor and frontend.
+			'editor_script' => 'lumiere_gutenberg_addtags', // Loads only on editor.
+		] );
+
 	}
 
 	/**
@@ -632,7 +642,7 @@ class lumiere_core {
 				// add admin tinymce button for wysiwig editor
 				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_tinymce' ] );
 
-				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_block_gutenberg' ]);
+				add_action('init', [ $this, 'lumiere_add_block_gutenberg_addtags' ]);
 
 			}
 

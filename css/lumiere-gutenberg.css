@@ -1,10 +1,10 @@
-.lumiere_gutenberg{
+.lumiere_gutenberg_addtags{
 	background: #ffde00;
 	padding: 40px 20px;
 	color:#494633;
 }
 
-.lumiere-block-wrap {
+.lumiere_gutenberg_addtags-content {
 	border: 2px solid #494633;
 display: flex;
 justify-content: space-between;
@@ -14,12 +14,12 @@ margin-right: auto;
 font-size: 18px;
 }
 
-.lumiere-block-wrap div:first-child {
+.lumiere_gutenberg_addtags-content div:first-child {
     padding: 8px 16px;
 		width:100%;
 }
 
-.lumiere-block-wrap div:last-child {
+.lumiere_gutenberg_addtags-content div:last-child {
 	background-color: #494836;
 color: #ffde00;
 padding: 8px 20px;

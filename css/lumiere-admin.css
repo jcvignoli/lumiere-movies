@@ -5,28 +5,10 @@ a { text-decoration:none;}
 
 h3{font-size: 18px;}
 
-.subpage {border:thin black solid;padding:15px;background: #464646 20px 10px;color: #999;
--moz-border-radius-bottomleft: 6px;
--khtml-border-bottom-left-radius: 6px;
--webkit-border-bottom-left-radius: 6px;
-border-bottom-left-radius: 6px;
--moz-border-radius-bottomright: 6px;
--khtml-border-bottom-right-radius: 6px;
--webkit-border-bottom-right-radius: 6px;
-border-bottom-right-radius: 6px;
--moz-border-radius-topleft: 6px;
--khtml-border-top-left-radius: 6px;
--webkit-border-top-left-radius: 6px;
-border-top-left-radius: 6px;
--moz-border-radius-topright: 6px;
--khtml-border-top-right-radius: 6px;
--webkit-border-top-right-radius: 6px;
-border-top-right-radius: 6px;
-}
+.subpage {border:thin grey solid;padding:15px;background: #999 20px 10px;color:beige;border-radius: 6px;}
 
-.subpage a { color: white;}
-
-.subpage a:hover { color: #999;}
+.subpage a { color:beige;}
+.subpage a:hover { color: black;}
 
 .titre {padding:5px; padding-left:25px;background: #bbb 20px 10px;color: black;
 -moz-border-radius-bottomleft: 6px;
@@ -47,25 +29,8 @@ border-top-left-radius: 6px;
 border-top-right-radius: 6px;
 }
 
-.soustitre {-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;line-height:16px; background-color:darkslategrey;color:white;padding:10px;
--moz-border-radius-bottomleft: 6px;
--khtml-border-bottom-left-radius: 6px;
--webkit-border-bottom-left-radius: 6px;
-border-bottom-left-radius: 6px;
--moz-border-radius-bottomright: 6px;
--khtml-border-bottom-right-radius: 6px;
--webkit-border-bottom-right-radius: 6px;
-border-bottom-right-radius: 6px;
--moz-border-radius-topleft: 6px;
--khtml-border-top-left-radius: 6px;
--webkit-border-top-left-radius: 6px;
-border-top-left-radius: 6px;
--moz-border-radius-topright: 6px;
--khtml-border-top-right-radius: 6px;
--webkit-border-top-right-radius: 6px;
-border-top-right-radius: 6px;
-}
-.soustitre a {color:burlywood; }
+.soustitre {-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;line-height:16px; background-color:lightslategrey;color:white;padding:10px;border-radius:6px;}
+.soustitre a {color:black; }
 .soustitre a:hover {color:white; }
 
 .titresection, td.titresection {font-size:12px;font-weight:bold;padding:20px;line-height:30px;}
@@ -79,9 +44,12 @@ width: 100%;border-color: black;}
 .detailedcacheexplaination{padding-left:5%;padding-right:5%;}
 .lumiere_intro_options {font-size:14;padding-top:10px;padding-right:25px;text-align:justify;font-weight:normal;word-break:break-words;}
 
-#tabswrap {border-color:#EBEBEB rgb(204, 204, 204) rgb(204, 204, 204) rgb(235, 235, 235);border-style:solid;border-width:1px;margin: 10px;padding: 5px;text-align:left;}
+#tabswrap {/*border-color:lightgrey black black lightgrey;border-style:solid;border-width:1px;*/background-color:lightgrey;border-radius:10px;margin:5px;padding:5px;padding-left:10px;}
 
-#tabs {padding: 5px;background:#F1F1F1 none repeat scroll 0%;overflow:hidden;}
+#tabswrap a {color:darkslategrey;}
+#tabswrap a:hover {color:white;}
+
+/*#tabs {padding: 5px;background:#F1F1F1 none repeat scroll 0%;overflow:hidden;}*/
 
 #tabs li {display:inline;}
 
@@ -137,5 +105,5 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .accesstaxo{border:1px solid black;padding:20px;margin-left:40%;margin-right:40%;}
 .imdbwidgetorderContainer{width: 300px;height:auto;background-color:black;border-radius:10px;}
 .imblt_border_shadow{background-color:white;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgb(0 0 0 / 4%);padding:15px;}
-#imdbconfig_save #tabswrap {margin:5px;padding:15px;}
+/*#imdbconfig_save #tabswrap {margin:5px;padding:15px;}*/
 
