@@ -1,390 +1,1934 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: IMDb Link Transformer\n"
+"Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-21 22:38+0100\n"
-"PO-Revision-Date: 2014-05-29 13:02+0200\n"
+"POT-Creation-Date: 2021-05-21 12:07-0400\n"
+"PO-Revision-Date: 2021-05-21 12:07-0400\n"
 "Last-Translator: Michael Yunat <Michael.Yunat@gmail.com>\n"
 "Language-Team: http://getvoip.com/\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: ../\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;esc_html_e;esc_html__\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: config.php:215 config.php:271 config.php:304
+#: config.php:197 config.php:273 config.php:316
 msgid "Options saved."
 msgstr "Налаштування збережені."
 
-#: config.php:227 config.php:280 config.php:316
+#: config.php:209 config.php:285 config.php:328
 msgid "Options reset."
 msgstr "Опції скидання."
 
-#: config.php:234 config.php:287 config.php:323 config.php:339
+#: config.php:216 config.php:292 config.php:335 config.php:350
 msgid "Plugin collision. Please follow "
 msgstr "Плагін зіткнення. Будь ласка, дотримуйтесь"
 
-#: config.php:234 config.php:287 config.php:323 config.php:339
+#: config.php:216 config.php:292 config.php:335 config.php:350
 msgid "this link."
 msgstr "посилання."
 
-#: config.php:264
+#: config.php:265
 msgid "Error. You have to select a value."
 msgstr "Помилка. Ви повинні вибрати значення."
 
-#: config.php:332
+#: config.php:343
 msgid "All cache deleted."
 msgstr "Всі кеша видалений."
 
-#: config.php:350
-msgid "Part cache deleted."
-msgstr "Кеш Частина видалений."
+#: config.php:390
+#, fuzzy
+#| msgid "Cache options"
+msgid "options"
+msgstr "Варіанти Cache"
 
-#: config.php:385
+#: config.php:396
 msgid "General Options"
 msgstr "Загальні параметри"
 
-#: config.php:392 config.php:396 config.php:400 config.php:404
+#: config.php:403 config.php:406 config.php:410 config.php:414
 msgid "Widget/Inside post Options"
 msgstr "Віджет/Всередині Опції повідомлення"
 
-#: config.php:396 config.php:404
+#: config.php:406 config.php:414
 msgid "Widget unactivated"
 msgstr "Віджет неактивованої"
 
-#: config.php:400 config.php:404 inc/options-general.php:269
+#: config.php:410 config.php:414 inc/options-general.php:303
 msgid "Direct search"
 msgstr "Прямий пошук"
 
-#: config.php:400
+#: config.php:410
 msgid "unactivated"
 msgstr "неактивованої"
 
-#: config.php:408 imdb-link-transformer.php:265 inc/options-cache.php:467
+#: config.php:418 inc/options-cache.php:587 lumiere-movies.php:418
 msgid "Cache management"
 msgstr "Управління кеш-пам'яттю"
 
-#: config.php:412
-msgid "How to use IMDb link transformer, check FAQs & changelog"
+#: config.php:422
+#, fuzzy
+#| msgid "How to use IMDb link transformer, check FAQs & changelog"
+msgid "How to use Lumière!, check FAQs & changelog"
 msgstr ""
 "Як використовувати посилання трансформатор IMDb, перевірте часто задаються & "
 "змін"
 
-#: config.php:413
-msgid "IMDb link transformer help"
-msgstr "IMDb посилання трансформатор допомогу"
+#: config.php:423
+msgid "help"
+msgstr ""
 
-#: imdb-link-transformer.php:263
-msgid "IMDb link transformer options page"
-msgstr "Сторінка Варіанти IMDb посилання трансформаторні"
+#: inc/functions.php:89 inc/functions.php:91 inc/imdb-movie.inc.php:597
+#: inc/imdb-movie.inc.php:600 inc/imdb-movie.inc.php:638
+#: inc/imdb-movie.inc.php:640 inc/imdb-movie.inc.php:677
+#: inc/imdb-movie.inc.php:679 inc/imdb-movie.inc.php:718
+#: inc/imdb-movie.inc.php:720 inc/imdb-movie.inc.php:772
+#: inc/imdb-movie.inc.php:774
+msgid "open a new window with IMDb informations"
+msgstr "відкрити нове вікно з IMDb інформацій"
 
-#: imdb-link-transformer.php:263 imdb-link-transformer.php:362
-#: inc/options-cache.php:221
-msgid "General options"
-msgstr "Загальні параметри"
+#: inc/functions.php:109
+#, fuzzy
+#| msgid ""
+#| "<strong>Licensing Info:</strong> Under the GPL licence, \"IMDb link "
+#| "transformer\" is based on <a href=\"http://www.izzysoft.de\">imdbphp "
+#| "project</a> classes. However, a huge customization work has been required "
+#| "to implement it to wordpress; check support page for"
+msgid ""
+"<strong>Licensing Info:</strong> Under a GPL licence, \"Lumiere Movies\" is "
+"based on <a href=\"https://github.com/tboothman/imdbphp/\">tboothman</a> "
+"classes. Nevertheless, a considerable amount of work was required to "
+"implement it in wordpress; check the support page for"
+msgstr ""
+"<strong>Ліцензування інформація:</strong> За ліцензією GPL, \"IMDb посилання "
+"трансформатор \" заснований на <a href=\"http://www.izzysoft.de\">проектних "
+"imdbphp</a> класів. Проте, величезна робота на замовлення було, необхідних "
+"для реалізації його на WordPress; перевірити сторінку підтримки для"
 
-#: imdb-link-transformer.php:264
-msgid "Widget & In post options page"
-msgstr "Віджет & В стр. Варіанти розмістити"
+#: inc/functions.php:111
+msgid "more"
+msgstr "більш"
 
-#: imdb-link-transformer.php:264
-msgid "Widget/In post"
-msgstr "Віджет/В пост"
+#: inc/functions.php:127
+#, fuzzy
+#| msgid "Movie's titles"
+msgid "Lumière titles"
+msgstr "Назви фільму"
 
-#: imdb-link-transformer.php:265
-msgid "Cache management options page"
-msgstr "Сторінка варіанти управління кеш"
+#: inc/functions.php:130
+#, fuzzy
+#| msgid "Movie's genres"
+msgid "Lumière genres"
+msgstr "Жанри фільму"
 
-#: imdb-link-transformer.php:266
-msgid "Help page"
-msgstr "Допомога сторінки"
+#: inc/functions.php:133
+#, fuzzy
+#| msgid "Movie's keywords"
+msgid "Lumière keywords"
+msgstr "Ключові слова фільму"
 
-#: imdb-link-transformer.php:266 imdb-link-transformer.php:368
-msgid "Help"
-msgstr "Допоможіть"
+#: inc/functions.php:136
+#, fuzzy
+#| msgid "Movie's countries"
+msgid "Lumière countries"
+msgstr "Країни фільму"
 
-#: imdb-link-transformer.php:360
-msgid "IMDB LT"
-msgstr "IMDB LT"
+#: inc/functions.php:139
+#, fuzzy
+#| msgid "Movie's languages"
+msgid "Lumière languages"
+msgstr "Мови фільму"
 
-#: imdb-link-transformer.php:360
-msgid "IMDBLT Menu"
-msgstr "IMDBLT Меню"
+#: inc/functions.php:142
+#, fuzzy
+#| msgid "Movie's composers"
+msgid "Lumière composers"
+msgstr "Композитори фільму"
 
-#: imdb-link-transformer.php:364
-msgid "Widget options"
-msgstr "Віджет варіанти"
+#: inc/functions.php:145
+#, fuzzy
+#| msgid "Movie's colors"
+msgid "Lumière colors"
+msgstr "Кольори фільму"
 
-#: imdb-link-transformer.php:366
-msgid "Cache options"
-msgstr "Варіанти Cache"
+#: inc/functions.php:148
+#, fuzzy
+#| msgid "Movie's directors"
+msgid "Lumière directors"
+msgstr "Режисери фільму"
 
-#: inc/popup.php:51
-msgid "Results related to this film"
-msgstr "Результати, пов'язані з цим фільмом"
+#: inc/functions.php:151
+#, fuzzy
+#| msgid "Movie's creators"
+msgid "Lumière creators"
+msgstr "Творці фільму"
 
-#: inc/popup.php:55
-msgid "Titles matching"
-msgstr "Титули, відповідні"
+#: inc/functions.php:154
+#, fuzzy
+#| msgid "Movie's producers"
+msgid "Lumière producers"
+msgstr "Виробники фільму"
 
-#: inc/popup.php:56 inc/popup-imdb_movie.php:314 inc/imdb-movie.inc.php:558
-#: inc/options-widget.php:83 inc/options-widget.php:84
+#: inc/functions.php:157
+#, fuzzy
+#| msgid "Directors"
+msgid "Lumière actors"
+msgstr "Режисери"
+
+#: inc/functions.php:160
+#, fuzzy
+#| msgid "Movie's writers"
+msgid "Lumière writers"
+msgstr "Письменники фільму"
+
+#: inc/functions.php:171
+msgid "Sorry, no result found for this reference"
+msgstr ""
+
+#: inc/functions.php:227
+msgid "Go to IMDb website for this movie"
+msgstr ""
+
+#: inc/functions.php:229
+msgid "IMDb's page for this movie"
+msgstr ""
+
+#: inc/functions.php:268 inc/functions.php:290
+#, fuzzy
+#| msgid "open a new window with IMDb informations"
+msgid "Open a new window with IMDb informations"
+msgstr "відкрити нове вікно з IMDb інформацій"
+
+#: inc/help.php:30
+msgid "Popup link builder"
+msgstr "Спливаюче посилання будівельник"
+
+#: inc/help.php:31
+msgid "Inside the post"
+msgstr "Усередині повідомленням"
+
+#: inc/help.php:32
+msgid "Widget"
+msgstr "Віджет"
+
+#: inc/help.php:33
+msgid "Big admin menu"
+msgstr "Велике меню адміністратора"
+
+#: inc/help.php:34
+msgid "Add a search form"
+msgstr "Додати форму пошуку"
+
+#: inc/help.php:35
+msgid "Keep css through update"
+msgstr "Тримайте CSS через поновлення"
+
+#: inc/help.php:36
+msgid "Taxonomy with Wordpress"
+msgstr "Систематика з Wordpress"
+
+#: inc/help.php:37
+msgid "Widget auto according post's title"
+msgstr "Назва Widget автомобільної Згідно поста"
+
+#: inc/help.php:42
+#, fuzzy
+#| msgid "How to use widget"
+msgid "How to use Lumiere Movies"
+msgstr "Як використовувати віджет"
+
+#: inc/help.php:42
+msgid "How to"
+msgstr "Як"
+
+#: inc/help.php:44 inc/help.php:61
+msgid "Frequently asked questions"
+msgstr "Часті питання"
+
+#: inc/help.php:44
+msgid "FAQs"
+msgstr "Питання та відповіді"
+
+#: inc/help.php:46
+msgid "What's new"
+msgstr "Що нового"
+
+#: inc/help.php:46 inc/help.php:105
+msgid "Changelog"
+msgstr "Змін"
+
+#: inc/help.php:48
+msgid "To get support and to support what you get"
+msgstr "Щоб отримати підтримку і підтримати те, що ви отримуєте"
+
+#: inc/help.php:48
+msgid "Support, donate & credits"
+msgstr "Підтримка, пожертвувати і кредити"
+
+#: inc/help.php:138
+#, fuzzy
+#| msgid ""
+#| "Two ways to match <strong>IMDb link transformer</strong> and "
+#| "<strong>support</strong>"
+msgid ""
+"Two ways to match <strong>Lumiere Movies</strong> and <strong>support</"
+"strong>"
+msgstr ""
+"Два способи відповідають <strong>IMDb посилання трансформатор</strong> і "
+"<strong>підтримку</strong>"
+
+#: inc/help.php:146
+msgid "Be supported!"
+msgstr "Будьте підтримується!"
+
+#: inc/help.php:149
+#, fuzzy
+#| msgid ""
+#| "You will never believe there is so many ways to be supported. Yes, you "
+#| "can:"
+msgid "You will never believe there is so many ways to be supported. You can:"
+msgstr ""
+"Ви ніколи не повірю, що є так багато способів бути підтримані. Так, ви "
+"можете:"
+
+#: inc/help.php:150
+#, fuzzy
+#| msgid "visit "
+msgid "visit"
+msgstr "візит"
+
+#: inc/help.php:150
+#, fuzzy
+#| msgid "to ask for support. "
+msgid "to ask for help. "
+msgstr "просити підтримки."
+
+#: inc/help.php:151 inc/help.php:152
+#, fuzzy
+#| msgid "check "
+msgid "check the"
+msgstr "перевіряти"
+
+#: inc/help.php:151
+msgid "FAQs "
+msgstr "Питання та відповіді"
+
+#: inc/help.php:152
+msgid "how to"
+msgstr "як"
+
+#: inc/help.php:164
+msgid "Support me!"
+msgstr "Підтримайте мене!"
+
+#: inc/help.php:167
+msgid "You will never believe there is so many ways to thank me. Yes, you can:"
+msgstr ""
+"Ви ніколи не повірю, що є так багато способів, щоб подякувати мене. Так, ви "
+"можете:"
+
+#: inc/help.php:168
+#, fuzzy
+#| msgid "pay whatever you want on paypal"
+msgid "pay whatever you want on"
+msgstr "платитиме все, що ви хочете на PayPal"
+
+#: inc/help.php:168 inc/help.php:169
+msgid "or on"
+msgstr ""
+
+#: inc/help.php:169
+#, fuzzy
+#| msgid "more on"
+msgid "vote on"
+msgstr "більше на"
+
+#: inc/help.php:169
+msgid "Lumière's website"
+msgstr ""
+
+#: inc/help.php:169
+msgid "Wordpress' website"
+msgstr ""
+
+#: inc/help.php:170
+#, fuzzy
+#| msgid ""
+#| "send as many bugfixes and propositions as you can on IMDb link "
+#| "transformer website."
+msgid ""
+"send as many bugfixes and propositions as you can on Lumiere Movies website."
+msgstr ""
+"відправити стільки виправлень і пропозиції, як ви можете на IMDb сайті "
+"посилання трансформатора."
+
+#: inc/help.php:171
+msgid "translate the plugin into your own language."
+msgstr "перевести плагін на свою мову."
+
+#: inc/help.php:172
+#, fuzzy
+#| msgid "help me to improve the plugin's design. I'm not gifted at all."
+msgid "help me to improve the plugin."
+msgstr "допомогти мені поліпшити дизайн плагіна. Я не обдарований взагалі."
+
+#: inc/help.php:172
+msgid "Report at the development"
+msgstr ""
+
+#: inc/help.php:172
+msgid "website"
+msgstr "сайт"
+
+#: inc/help.php:173
+msgid "do a trackback, make some noise about this plugin!"
+msgstr ""
+
+#: inc/help.php:185
+msgid "Credits:"
+msgstr "Кредити:"
+
+#: inc/help.php:188
+msgid "Special thanks to:"
+msgstr "Особлива подяка:"
+
+#: inc/help.php:205
+#, fuzzy
+#| msgid ""
+#| "IMDb link transformer evolves a lot. As a result of this, the plugin "
+#| "include many options, many ways to achieve bloggers wishes. Since then, "
+#| "IMDb link transformer main functions are explained hereafter, aiming to "
+#| "make the experience better. As you may discover, there are three main "
+#| "ways to display data from movies and there is many options. This is an "
+#| "attempt to document it, but please check also FAQs."
+msgid ""
+"Lumiere Movies evolves a lot. As a result of this, the plugin include many "
+"options, many ways to achieve bloggers wishes. Since then, Lumiere Movies "
+"main functions are explained hereafter, aiming to make the experience "
+"better. As you may discover, there are three main ways to display data from "
+"movies and there is many options. This is an attempt to document it, but "
+"please check also FAQs."
+msgstr ""
+"Посилання трансформатор IMDb розвивається багато. В результаті цього, плагін "
+"включає багато варіантів, багато шляхів для досягнення блогерів побажання. З "
+"тих пір, посилання трансформаторні IMDb Основні функції описані далі, з "
+"метою, щоб зробити досвід краще. Як ви можете виявити, існує три основних "
+"способи відображення даних з фільмів і є багато варіантів. Це спроба "
+"документувати його, але, будь ласка, перевірте також часто задаються."
+
+#: inc/help.php:237
+msgid "Why a popup window?"
+msgstr "Чому спливаюче вікно?"
+
+#: inc/help.php:238 inc/help.php:253 inc/help.php:258 inc/help.php:277
+#: inc/help.php:292 inc/help.php:312 inc/help.php:324 inc/help.php:358
+#: inc/help.php:367 inc/help.php:448 inc/help.php:460 inc/help.php:477
+#: inc/help.php:499
+msgid "click to get a larger picture"
+msgstr "натисніть щоб отримати більш широку картину"
+
+#: inc/help.php:239
+#, fuzzy
+#| msgid ""
+#| "The first way to use Imdb link transformer is the first historically "
+#| "available. The idea behind was to find a solution for posts quoting many "
+#| "movies; blogger and reader would appreciate to have director's name, to "
+#| "know the alternative title's name, etc. And these data should not waste "
+#| "space in post itself; thus the popup idea."
+msgid ""
+"The first way to use Lumiere Movies is the first historically available. The "
+"idea behind was to find a solution for posts quoting many movies; blogger "
+"and reader would appreciate to have director's name, to know the alternative "
+"title's name, etc. And these data should not waste space in post itself; "
+"thus the popup idea."
+msgstr ""
+"Перший спосіб використати посилання трансформатор Imdb є першим історично "
+"доступні. Ідея в тому, щоб знайти рішення для повідомлень з посиланням "
+"багато фільмів; блогер і читач був би вдячний, щоб ім'я режисера, знати ім'я "
+"Альтернативне назва, і т.д. І ці дані не повинні витрачати місце в самій "
+"посаді; Таким чином, спливаюче вікно ідея."
+
+#: inc/help.php:243
+msgid ""
+"Popup, as an extra window opened on click, will permit to get director's and "
+"movie's data; it is fully browsable and when browsing a movie, one can also "
+"look for 'AKAs' (movies which have a name similar)."
+msgstr ""
+"Popup, як додаткове вікно відкрилося на клік, дозволить отримати режисера і "
+"дані фільму; він повністю доступний для перегляду і при перегляді кіно, "
+"можна також шукати 'AKAS' (фільми, які мають ім'я, схоже)."
+
+#: inc/help.php:247
+msgid ""
+"It is quite intuitive to understand how popup can help; when writing about "
+"many movies, if one would like to speak about every director or actor he "
+"mentions in his post, it would take ages and will not have the power of the "
+"linkage (once seen the director, looking for his filmography)."
+msgstr ""
+"Це цілком інтуїтивно зрозуміти, як спливаюче вікно може допомогти; , Коли "
+"писав про багатьох фільмах, якби хотів поговорити про кожного директора або "
+"актора він згадує у своєму пості, це займе віків і не матиме силу зв'язку "
+"(один раз бачив директора, шукаю його фільмографії)."
+
+#: inc/help.php:251
+msgid "How to get a popup window"
+msgstr "Як отримати спливаюче вікно"
+
+#: inc/help.php:252
+msgid ""
+"To create a link to a popup window, you only need to put the <b>movie's "
+"title</b> (it doesn't work with any other data) inside dedicated tags. "
+"Either you use the HTML style to write posts, and a new button could help "
+"you to achieve that:"
+msgstr ""
+"Щоб створити посилання на спливаючому вікні, вам потрібно всього лише "
+"поставити <b>назви фільму</b> (він не працює з будь-якими іншими даними) "
+"всередині присвячених тегів. Або ви використовувати HTML стиль писати "
+"повідомлення, і нова кнопка може допомогти вам добитися того, щоб:"
+
+#: inc/help.php:257
+msgid ""
+"Or you use the Visual style to write posts, and a new button could help you "
+"to achieve that :"
+msgstr ""
+"Або ви використовуєте візуальний стиль писати повідомлення, і нова кнопка "
+"може допомогти вам добитися того, щоб:"
+
+#: inc/help.php:262
+msgid ""
+"Whatever the tool you choose, when you will save your post you will get a "
+"nice link added to your movie."
+msgstr ""
+"Якою б не була інструментом ви обираєте, коли ви заощадите ваше повідомлення "
+"ви отримаєте хороший Посилання додана в фільм."
+
+#: inc/help.php:276
+msgid "Why to use widget?"
+msgstr "Навіщо використовувати віджет?"
+
+#: inc/help.php:277
+msgid "key and value for custom fields"
+msgstr "ключ і значення для користувальницьких полів"
+
+#: inc/help.php:279
+msgid ""
+"Widgets are widely used in wordpress. They allow to quickly select what "
+"information to display in an area, usually on sidebar. The main advantage is "
+"that blogger can easily select what information to display - or not, in what "
+"order."
+msgstr ""
+"Віджети широко використовуються в WordPress. Вони дозволяють швидко вибрати, "
+"яка інформація буде відображатися в області, як правило, на бічній панелі. "
+"Основною перевагою є те, що блогер може легко вибрати, яку інформацію для "
+"відображення - чи ні, в якому порядку."
+
+#: inc/help.php:283
+msgid "How to use widget"
+msgstr "Як використовувати віджет"
+
+#: inc/help.php:284
+msgid ""
+"<strong>Firstly</strong>, go to <a href='widgets.php'>widget</a> "
+"administration (<i>appearance</i> tab), drag <i>imdb widget</i> (from "
+"<i>inactive widgets</i>) to a sidebar, and modify the box's title (in case "
+"you don't want to have the box named <i>IMDb data</i>)."
+msgstr ""
+"<strong>По-перше,</strong> перейти на <a href='widgets.php'>віджета</a> "
+"адміністрації (вкладка <i>вид),</i> опору <i>IMDB віджета</i> (від "
+"<i>неактивних віджетів)</i> на бічній панелі, і змінити назву боксу (у разі, "
+"якщо ви не хочете мати поле з ім'ям <i>IMDb даних).</i>"
+
+#: inc/help.php:288
+#, fuzzy
+#| msgid ""
+#| "<strong>Secondly</strong>, open an old post (or write a new one) and add "
+#| "the key <i>imdb-movie-widget</i> to the <i>custom fields</i> of your "
+#| "message <strong>and</strong> the name of the movie you want to display to "
+#| "<i>value</i> (first case from the picture). IMDb link transformer will "
+#| "automatically display in the widget the movie selected."
+msgid ""
+"<strong>Secondly</strong>, open an old post (or write a new one) and add the "
+"key <i>imdb-movie-widget</i> to the <i>custom fields</i> of your message "
+"<strong>and</strong> the name of the movie you want to display to <i>value</"
+"i> (first case from the picture). Lumiere Movies will automatically display "
+"in the widget the movie selected."
+msgstr ""
+"<strong>По-друге,</strong> відкрити старий пост (або написати новий) і "
+"додати ключ <i>IMDB-кіно-віджет</i> на <i>користувацьких полів</i> Вашого "
+"повідомлення <strong>і</strong> назва фільму, який ви хочете відобразити у "
+"<i>вартості</i> (перший випадок з картинки). Посилання трансформатор IMDb "
+"буде автоматично відображати в віджеті фільм обраної."
+
+#: inc/help.php:292 inc/help.php:312
+msgid "Lumiere Movies widget"
+msgstr ""
+
+#: inc/help.php:293
+#, fuzzy
+#| msgid ""
+#| "<strong>Another possibility:</strong> add to your post the key <i>imdb-"
+#| "movie-widget-bymid</i> into the <i>custom fields</i> from your message "
+#| "<strong>and</strong> the IMDb ID for the movie you want to be displayed "
+#| "on your sidebar to <i>value</i> (second case from the picture). Instead "
+#| "of looking for a name, IMDb link transformer would directly display the "
+#| "movie you want to display. Very useful when your movie's name does not "
+#| "work as it should (if there are many movies with the same name, the wrong "
+#| "movie is displayed, etc)."
+msgid ""
+"<strong>Another possibility:</strong> add to your post the key <i>imdb-movie-"
+"widget-bymid</i> into the <i>custom fields</i> from your message "
+"<strong>and</strong> the IMDb ID for the movie you want to be displayed on "
+"your sidebar to <i>value</i> (second case from the picture). Instead of "
+"looking for a name, Lumiere Movies would directly display the movie you want "
+"to display. Very useful when your movie's name does not work as it should "
+"(if there are many movies with the same name, the wrong movie is displayed, "
+"etc)."
+msgstr ""
+"<strong>Інша можливість:</strong> додати на свій пост ключ <i>IMDb фільм-"
+"віджет-bymid</i> в <i>користувальницьких полів</i> з ​​Вашого повідомлення "
+"<strong>і</strong> IMDb ID для фільму, який ви хочете бути відображені на "
+"бічній панелі, щоб <i>значення</i> (другий випадок з картинки). Замість того "
+"щоб шукати ім'я, посилання трансформатор IMDb б безпосередньо виберіть "
+"фільм, який необхідно відобразити. Дуже корисно, коли ім'я вашого фільму не "
+"працює, як і повинно (якщо є багато фільмів з таким же ім'ям, відображається "
+"неправильно кіно, і т.д.)."
+
+#: inc/help.php:297
+#, fuzzy
+#| msgid ""
+#| "To get the movie's IMDb id, search for a title on <a href='http://www."
+#| "imdb.com' >Internet movie database</a> website, look at the adress bar "
+#| "for a 'ttXXXXX' section, keep only the numerical part (XXXXX) and add "
+#| "result to the <i>value</i> custom field. However, in this specific case, "
+#| "do not mix with an <i>imdb-movie-widget</i> key. Only the first one will "
+#| "be displayed."
+msgid ""
+"To get the movie's IMDb id, search for a title on <a href='https://www.imdb."
+"com' >Internet movie database</a> website, look at the adress bar for a "
+"'ttXXXXX' section, keep only the numerical part (XXXXX) and add result to "
+"the <i>value</i> custom field. However, in this specific case, do not mix "
+"with an <i>imdb-movie-widget</i> key. Only the first one will be displayed."
+msgstr ""
+"Щоб отримати фільму IMDb ID, пошуку заголовка на <a href='http://www.imdb."
+"com' >Інтернет бази даних фільм</a> сайті, подивіться на рядок Адреса для "
+"розділі 'ttXXXXX', залишити тільки чисельне частина (XXXXX) і додати "
+"результат на митну поле <i>значень.</i> Проте, в даному конкретному випадку, "
+"не слід змішувати з ключем <i>IMDb фільм-віджетів.</i> Буде відображатися "
+"тільки перший."
+
+#: inc/help.php:311
+msgid "What's the point of displaying movie's data inside my post?"
+msgstr "Який сенс відображення даних фільму в моєму пості?"
+
+#: inc/help.php:313
+#, fuzzy
+#| msgid ""
+#| "Having movie's data inside the post is quite useful; it could ingeniously "
+#| "decorate your message, display crucial informations (director, actors) "
+#| "and in the same time add links to a popup which would include these "
+#| "informations (but with more details). At the begining, this function "
+#| "could only be achieved with a special plugin. Since release 1.1.14.3, "
+#| "IMDb link transformer does not need any third party plugin anymore to "
+#| "display movie's data inside you message. "
+msgid ""
+"Having movie's data inside the post is quite useful; it could ingeniously "
+"decorate your message, display crucial informations (director, actors) and "
+"in the same time add links to a popup which would include these informations "
+"(but with more details). At the begining, this function could only be "
+"achieved with a special plugin. Since release 1.1.14.3, Lumiere Movies does "
+"not need any third party plugin anymore to display movie's data inside you "
+"message. "
+msgstr ""
+"Маючи дані фільму всередині повідомленням вельми корисно; це може геніально "
+"прикрасити ваше повідомлення, відображати критичні інформацію (режисер, "
+"актори) і в той же час додати посилання на спливаючому вікні, який "
+"включатиме ці інформацію (але з детальніше). На початку, ця функція може "
+"бути досягнуто тільки за допомогою спеціального плагіна. Починаючи з релізу "
+"1.1.14.3, посилання трансформатор IMDb не потребує плагін стороннього більше "
+"для відображення даних фільму всередині вас повідомлення."
+
+#: inc/help.php:317
+msgid ""
+"It means that you only need to put the movie's name into brackets, to get "
+"movie's data inside your post."
+msgstr ""
+"Це означає, що вам потрібно всього лише помістити ім'я фільму в дужках, для "
+"отримання даних фільму у вашому пості."
+
+#: inc/help.php:321
+msgid "How to display data inside my post"
+msgstr "Як для відображення даних всередині мого посту"
+
+#: inc/help.php:323
+msgid ""
+"You only need to put the movie's name into brackets, to get movie's data "
+"inside your post. Data can be inserted exactly where you want, there is no "
+"limitation. Just be sure to put the movie's name inside [imdblt][/imdblt], "
+"like this:"
+msgstr ""
+"Вам потрібно всього лише поставити ім'я фільму в дужках, для отримання даних "
+"фільму у вашому пості. Дані можуть бути вставлені саме там, де ви хочете, "
+"немає ніяких обмежень. Просто не забудьте покласти ім'я фільму всередині "
+"[imdblt] [/ imdblt], наприклад:"
+
+#: inc/help.php:324
+msgid "Lumiere Movies Inside a post"
+msgstr ""
+
+#: inc/help.php:325
+msgid "And you are done."
+msgstr "І ви зробили."
+
+#: inc/help.php:327
+msgid ""
+"You additionnaly can get a movie from its imdb id, using its imdb movie's id "
+"instead of its name. When writing your post, put the movie's imdb id inside "
+"tags [imdbltid][/imdbltid] (which gives ie [imdbltid]0137523[/imdbltid], for "
+"Fight Club movie). You can get movie's imdb id from imdb website, search for "
+"you movie, and check your browser's adress bar. The number after 'tt' part "
+"is the movie's id."
+msgstr ""
+"Ви additionnaly можете отримати фільм з його IMDb ID, використовуючи "
+"ідентифікатор свого IMDB фільму замість його імені. При написанні поста, "
+"покласти IMDb ID фільму всередині тегів [imdbltid] [/ imdbltid] (що дає т.е. "
+"[imdbltid] 0137523 [/ imdbltid], для Fight Club фільму). Ви можете отримати "
+"IMDb ID фільму від IMDb сайті, пошук для вас фільм, і перевірте Адреса рядку "
+"браузера. Після 'TT' частини номер ID фільму."
+
+#: inc/help.php:332
+msgid "How to display data inside my post - tricky way"
+msgstr "Як для відображення даних в моєму пості - складно спосіб"
+
+#: inc/help.php:333
+msgid ""
+"It could happen you don't want to use the previous solution to display "
+"movie's data. For exemple, if you wish to use IMDbLT outside a post (in a "
+"personalized page), it won't work. In this case, and in this case only, you "
+"should (may be) to download Exec-PHP plugin (<a href='http://wordpress.org/"
+"extend/plugins/exec-php'>http://wordpress.org/extend/plugins/exec-php</a>), "
+"depending of your page."
+msgstr ""
+"Це може відбутися якщо ви не хочете використовувати попереднє рішення для "
+"відображення даних фільму. Для Exemple, якщо ви хочете використовувати "
+"IMDbLT поза запису (в персональній сторінці), він не буде працювати. У цьому "
+"випадку, і в цьому випадку тільки, ви повинні (можуть бути), щоб завантажити "
+"Exec-PHP плагін ( <a href='http://wordpress.org/extend/plugins/exec-"
+"php'>http://wordpress.org/extend/plugins/exec-php</a> ), залежно від вашої "
+"сторінки."
+
+#: inc/help.php:334
+msgid ""
+"The function to be called is <strong>imdb_call_external ()</strong>. It has "
+"two parameters, and both are mandatory. The first is the movie's name, and "
+"the second take always 'external'. For exemple, one'd like to display 'The "
+"Descent' should call the function like this:"
+msgstr ""
+"Функція буде називатися це <strong>imdb_call_external ().</strong> Вона має "
+"два параметри, і обидва є обов'язковими. Перший назва фільму, а другий взяти "
+"завжди 'зовнішнє.' Для Exemple, one'd б показати 'Зішестя\" повинна "
+"викликати функцію наступним чином:"
+
+#: inc/help.php:336
+msgid ""
+"The function can also be called using still 'external as second parameter, "
+"but the first will be blank and a new third parameter will take its IMDb "
+"movie's ID. For exemple, one'd like to display 'The Descent' should call the "
+"function this manner:"
+msgstr ""
+"Функція також може викликатися за допомогою ще 'зовнішні, другого параметра, "
+"але перший буде порожнім і новий третій параметр прийме ID свого IMDb "
+"відеозапису. Для Exemple, one'd б показати 'The Descent \"повинна викликати "
+"функцію цю манеру:"
+
+#: inc/help.php:341
+msgid ""
+"I like to display movie details, but I want to get rid of links which open a "
+"popup"
+msgstr ""
+"Мені подобається, щоб відобразити інформацію про фільм, але я хочу, щоб "
+"позбутися від посилань, які відкриваються спливаюче вікно"
+
+#: inc/help.php:342
+#, fuzzy
+#| msgid ""
+#| "It could happen you do not want popups at all. Since by default IMDb link "
+#| "transformer add links whenever relevant to movie's details displayed "
+#| "inside posts, one may find this useless. To get rid of them, look for "
+#| "'Widget/Inside post Options/Misc/Remove popup links?' and switch the "
+#| "option to 'yes'. No links are created anymore, for both widget and inside "
+#| "a post."
+msgid ""
+"It could happen you do not want popups at all. Since by default Lumiere "
+"Movies add links whenever relevant to movie's details displayed inside "
+"posts, one may find this useless. To get rid of them, look for 'Widget/"
+"Inside post Options / Misc / Remove popup links?' and switch the option to "
+"'yes'. No links are created anymore, for both widget and inside a post."
+msgstr ""
+"Це може відбутися якщо ви не хочете спливаючі вікна на всіх. Так як по лінії "
+"трансформатора IMDb замовчуванням додавати посилання, коли ставлення до "
+"інформації про фільм в відображуваних всередині повідомлень, можна знайти "
+"цей марно. Щоб позбутися від них, шукати 'Віджет/Всередині розмістити Опції/"
+"Різне/Видалити спливаючі посилання? і перемкніть опцію «так». Немає ні "
+"одного посилання не створюються більше, як для віджета і всередині поста."
+
+#: inc/help.php:355
+#, fuzzy
+#| msgid "IMDb link transformer is a mess! I'm lost with so many options."
+msgid "Lumiere Movies is a mess! I'm lost with so many options."
+msgstr "Посилання трансформатор IMDb безлад! Я втратив так багато варіантів."
+
+#: inc/help.php:359
+#, fuzzy
+#| msgid ""
+#| "Wordpress admin area offers more and more options to user. Starting with "
+#| "2.7 release, it also offers the possibility to add new admin menu for "
+#| "plugins. IMDb link transformer makes the most of this possibility, and "
+#| "can add its own admin menu. It can be added - or removed. Depending of "
+#| "how many plugin's admin menus you already have, you would prefer to keep "
+#| "access to IMDb link transformer settings only through usual 'settings' "
+#| "tab; it's up to you to choose to either get a complet and bigger IMDb "
+#| "link transformer menu - or not."
+msgid ""
+"Wordpress admin area offers more and more options to user. Starting with 2.7 "
+"release, it also offers the possibility to add new admin menu for plugins. "
+"Lumiere Movies makes the most of this possibility, and can add its own admin "
+"menu. It can be added - or removed. Depending of how many plugin's admin "
+"menus you already have, you would prefer to keep access to Lumiere Movies "
+"settings only through usual 'settings' tab; it's up to you to choose to "
+"either get a complet and bigger Lumiere Movies menu - or not."
+msgstr ""
+"Wordpress адмін область пропонує все більше і більше можливостей для "
+"користувача. Починаючи з 2.7-релізі, він також пропонує можливість додати "
+"нове меню адміністратора для плагінів. Посилання трансформатор IMDb робить "
+"велику частину цієї можливістю, і може додати своє власне меню "
+"адміністратора. Його можна додавати - або видалені. Залежно від того, "
+"скільки адміністратор меню плагіна у вас вже є, ви воліли б зберегти доступ "
+"до IMDb налаштувань посилання трансформаторних тільки через вкладку "
+"звичайних 'Налаштування'; це до вас, щоб вибрати або отримати Complet і "
+"більше IMDb меню посилання трансформатора - чи ні."
+
+#: inc/help.php:363
+#, fuzzy
+#| msgid ""
+#| "In the case you want to, go to 'General options/Advanced/Display plugin "
+#| "in big admin menu' and turn to 'yes' the option. You will get a brand new "
+#| "menu, as shown on left."
+msgid ""
+"In the case you want to, go to 'General options / Advanced / Display plugin "
+"in big admin menu' and turn to 'yes' the option. You will get a brand new "
+"menu, as shown on left."
+msgstr ""
+"У випадку, якщо ви хочете, вийти на 'Загальні параметри/Advanced Display "
+"плагіна/у великій меню адміністратора' і звернутися до «так» опціону. Ви "
+"отримаєте нові меню, як показано на лівій стороні."
+
+#: inc/help.php:368
+#, fuzzy
+#| msgid ""
+#| "One can go still further; if installing <a href='http://planetozh.com/"
+#| "blog/my-projects/wordpress-admin-menu-drop-down-css/ '>Ozh Admin Drop "
+#| "Down Menu</a>, a plugin to switch classical vertical admin menu to "
+#| "horizontal and which gives the admin area more of a 'desktop application' "
+#| "feel. IMDb link transformer is ready to use improvements from Ozh's "
+#| "plugin, adding icons (when user select IMDb's plugin from the settings "
+#| "menu). Also, if you activate both Ozh's plugin and IMDb link "
+#| "transformer's big admin menu, you will get a nice and complete horizontal "
+#| "menu. Very useful."
+msgid ""
+"One can go still further; if installing Ozh Admin Drop Down Menu (https://"
+"planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/), a "
+"plugin to switch classical vertical admin menu to horizontal and which gives "
+"the admin area more of a 'desktop application' feel. Lumiere Movies is ready "
+"to use improvements from Ozh's plugin, adding icons (when user select IMDb's "
+"plugin from the settings menu). Also, if you activate both Ozh's plugin and "
+"Lumiere Movies's big admin menu, you will get a nice and complete horizontal "
+"menu. Very useful."
+msgstr ""
+"Можна піти ще далі; при установці <a href='http://planetozh.com/blog/my-"
+"projects/wordpress-admin-menu-drop-down-css/ '>OZH Адмін падає вниз меню</"
+"a> , плагін для перемикання класичну меню вертикальне адміністратора в "
+"горизонтальній і який дає адмінку більше 'настільного програми' почуття. "
+"Посилання трансформатор IMDb готовий до використання поліпшення від плагіна "
+"OZH, додавши іконки (коли користувачеві вибрати плагін IMDB автора з меню "
+"налаштувань). Крім того, якщо ви активуєте як плагін OZH в і велика меню "
+"адміністратора IMDb посилання трансформатора, ви отримаєте гарний і повний "
+"горизонтальне меню. Дуже корисно."
+
+#: inc/help.php:382
+msgid ""
+"How to add a search function for movies in general, and not only for "
+"selected movies?"
+msgstr ""
+"Як додати функцію пошуку для фільмів у цілому, а не тільки для окремих "
+"фільмів?"
+
+#: inc/help.php:384
+msgid ""
+"It is indeed doable. Plugin is versatile enough to handle this function. By "
+"adding a form, you can add a search field which will allow users to search "
+"for every movie on your blog. Here is the code:"
+msgstr ""
+"Це дійсно здійснимо. Плагін досить універсальний, щоб впоратися з цією "
+"функцією. Додаючи форму, ви можете додати поле пошуку, який дозволить "
+"користувачам шукати кожному фільмі у своєму блозі. Ось код:"
+
+#: inc/help.php:398
+msgid "It perfectly fits in your sidebar, for exemple."
+msgstr "Це прекрасно вписується в бічній панелі, для Exemple."
+
+#: inc/help.php:415
+msgid "How to keep my own css through updated process?"
+msgstr "Як зберегти свій власний CSS через оновлений процесу?"
+
+#: inc/help.php:417
+#, fuzzy
+#| msgid ""
+#| "Fed up of losing your carefully handmade visual settings at every IMDbLT "
+#| "update? There is a solution."
+msgid ""
+"Fed up of losing your carefully handmade visual settings at every Lumière! "
+"update? There is a solution."
+msgstr ""
+"Федеральний уряд втрати ваших ретельно ручної роботи візуальні налаштування "
+"в кожному оновленні IMDbLT? Існує рішення."
+
+#: inc/help.php:420
+#, fuzzy
+#| msgid ""
+#| "Every modification you can make is done in css/imdb.css file. Instead of "
+#| "using this file, put an imdb.css file in you template root folder; this "
+#| "css file will taken instead of plugin's css file. Whenever you update, "
+#| "your template's one will stay untouched!"
+msgid ""
+"Every modification you can make is done in css/lumiere.css file. Instead of "
+"using this file, put an lumiere.css file in you template root folder; this "
+"css file will taken instead of plugin's css file. Whenever you update, your "
+"template's one will stay untouched!"
+msgstr ""
+"Будь-яка модифікація ви можете зробити це робиться в CSS/imdb.css файлу. "
+"Замість того щоб використовувати цей файл, покласти файл imdb.css в вас "
+"кореневій папці шаблону; цей файл CSS буде прийнята замість файлу CSS "
+"плагіна. Всякий раз, коли ви оновлюєте, один ваш шаблон буде залишатися "
+"недоторканим!"
+
+#: inc/help.php:423
+#, fuzzy
+#| msgid ""
+#| "However, be careful with this manner, since css/imdb.css file can be "
+#| "updated from version to version, and you'd not be aware of changes made..."
+msgid ""
+"However, be careful with this manner, since css/lumiere.css file can be "
+"updated from version to version, and you'd not be aware of changes made..."
+msgstr ""
+"Однак, будьте обережні з цим способом, так як CSS/imdb.css файл може бути "
+"оновлений з версії на версію, і ви не хочете бути в курсі змін, внесених ..."
+
+#: inc/help.php:438
+msgid "What is Wordpress' taxonomy?"
+msgstr "Що таке таксономія Wordpress '?"
+
+#: inc/help.php:440
+#, fuzzy
+#| msgid ""
+#| "Starting with Wordpress 2.3, plugins makers can use <a href='http://codex."
+#| "wordpress.org/WordPress_Taxonomy'>taxonomy</a>."
+msgid ""
+"Starting with Wordpress 2.3, wordpress users can make use taxonomy (https://"
+"codex.wordpress.org/WordPress_Taxonomy)."
+msgstr ""
+"Починаючи з Wordpress 2.3, плагіни виробники можуть використовувати <a "
+"href='http://codex.wordpress.org/WordPress_Taxonomy'>таксономії</a> ."
+
+#: inc/help.php:441
+#, fuzzy
+#| msgid ""
+#| "Taxonomy is a feature adding a supplementary categorisation beside "
+#| "Categories and Tags; in other words, it is like having species (a block "
+#| "named 'genre') and subspecies (few words describing the genre, like "
+#| "'Adventure', 'Terror'). It is not fundamentaly different from Categories "
+#| "and Tags, but it is much more appropriate for IMDb Link Transformer needs."
+msgid ""
+"Taxonomy is a feature adding a supplementary categorisation beside "
+"Categories and Tags; in other words, it is like having species (a block "
+"named 'genre') and subspecies (few words describing the genre, like "
+"'Adventure', 'Terror'). It is not fundamentaly different from Categories and "
+"Tags, but it is much more appropriate for Lumiere Movies needs."
+msgstr ""
+"Систематика це функція додавання додаткової категоризації поруч категорій і "
+"тегів; іншими словами, це як мати види (блок під назвою 'жанр') і підвидів "
+"(кілька слів, що описують жанр, як «Пригода», «Терор»). Це не fundamentaly "
+"відрізняється від категорій і тегів, але це набагато більше підходить для "
+"IMDb Посилання трансформатор необхідний."
+
+#: inc/help.php:444
+msgid "How to use taxonomy Wordpress capability?"
+msgstr "Як використовувати таксономії можливості Wordpress?"
+
+#: inc/help.php:446
+#, fuzzy
+#| msgid ""
+#| "To activate the automatically generated taxonomy, turn 'General options -"
+#| "> Advanced -> 'Use automatical genre taxonomy?' to 'yes'. Of course, "
+#| "since taxonomy is to a movie detail related, the movie detail you want to "
+#| "be used as taxonomy has to be also activated from 'Widget/Inside post "
+#| "Options -> What to display'. Eventually, it will permit to select in "
+#| "'Widget/Inside post Options -> What to taxonomize' menu if you want to "
+#| "taxonomize Genres, but also actors, colors, composers, directors and so "
+#| "on."
+msgid ""
+"To activate the automatically generated taxonomy, turn 'General options -> "
+"Advanced ->  'Use automatical genre taxonomy?' to 'yes'. Note that since "
+"taxonomy is related to movie details, the movie detail you want to be used "
+"as taxonomy has to be also activated from 'Widget/Inside post Options -> "
+"What to display'. Eventually, it will permit to select in 'Widget/Inside "
+"post Options -> What to taxonomize' menu if you want to taxonomize Genres, "
+"but also actors, colors, composers, directors, etc."
+msgstr ""
+"Для активації автоматично згенерований таксономії, включіть 'Загальні "
+"параметри -> Додатково ->' Використовуйте платне жанр таксономії? щоб 'так.' "
+"Звичайно, так як таксономії до деталей кіно, пов'язаної, деталь фільм, який "
+"ви хочете використовувати в якості таксономії має бути також активований від "
+"'Віджет/Inside повідомленням Параметри -> Що відображати.' Зрештою, це "
+"дозволить вибрати в меню - 'Віджет/Inside розмістити Опції> Що taxonomize ', "
+"якщо ви хочете taxonomize Жанри, а й актори, кольору, композитори, режисери "
+"і так далі."
+
+#: inc/help.php:452
+msgid ""
+"After that, pay a visit to your post/page; first refresh will not "
+"immediately display the movie detail (it will only generate them). Though, "
+"on a second refresh, you will see both movie details and (if you wordpress "
+"theme is configured to show it) taxonomy in your post."
+msgstr ""
+"Після цього, з візитом у вашій записи/сторінки; Перший оновлення не відразу "
+"відображати деталі фільму (він буде генерувати тільки їх). Хоча, на другому "
+"оновлення, ви побачите як інформації про фільм і (якщо ви WordPress Theme "
+"налаштований, щоб показати його) таксономії в повідомленні."
+
+#: inc/help.php:456
+msgid "New option(s) in 'Posts' menu"
+msgstr "Нова опція (и) в меню 'повідомлень"
+
+#: inc/help.php:458
+msgid ""
+"Once you have activated all taxonomy options and have triggered its "
+"wordpress function (by visiting your post and refreshing the page), "
+"wordpress administration posts menu will include new option(s). Depending on "
+"movie details previously selected, you will find an option to manage the "
+"words automatically generated by the taxonomy function. For instance to "
+"select 'genre':"
+msgstr ""
+"Після активації всі варіанти таксономії і викликали його WordPress функцію "
+"(свій рахунок на пост, потім обновіть сторінку), WordPress меню повідомлень "
+"адміністрації буде включати в себе нову опцію (и). Залежно від інформації "
+"про фільм раніше обраних, ви знайдете можливість управляти слова автоматично "
+"згенерували функцією таксономії. Наприклад, щоб вибрати 'жанр\":"
+
+#: inc/help.php:465
+msgid "Limits"
+msgstr "Рамки"
+
+#: inc/help.php:466
+msgid ""
+"There is a strong limitation: since eache page/post can contain only a "
+"unique taxonomy sequence, only the first movie (first 'inside the post', "
+"first 'widget') will use the taxonomy feature. If you have two movie's "
+"widgets, only the first widget will display the links to genre's taxonomy. "
+"If you have both a movie's widget and an inside the post data, the movie's "
+"widget will prevail."
+msgstr ""
+"Існує сильна обмеження: з eache сторінка/повідомлення може містити лише "
+"унікальну послідовність таксономії, тільки перший фільм (перший 'усередині "
+"повідомленням ', перший\" віджет ') використовуватиме функцію таксономії. "
+"Якщо у вас є два віджета фільму, то тільки перший віджет буде відображати "
+"посилання на таксономії жанру. Якщо у вас є і віджет до фільмів і всередині "
+"даних поштових, віджет фільму переважатиме."
+
+#: inc/help.php:469
+msgid ""
+"Also, select cautiously options you want to be displayed as taxonomies: it "
+"could happen it creates a conflict with other functions, especially if you "
+"display many movies in same post. When selecting one of the taxonomy options "
+"from 'What to taxonomize' section, it will supersede any other function or "
+"link created; for instance, you won't have anymore access to popup links for "
+"directors, if directors taxonomy is chosen. Taxonomy will always prevail."
+msgstr ""
+"Крім того, виберіть обережно необхідні параметри для відображення в якості "
+"таксономії: це може статися це викличе конфлікт з іншими функціями, особливо "
+"якщо ви показуєте багато фільмів в тій же посаді. При виборі одного з "
+"варіантів таксономії з розділу 'Що taxonomize ', це витіснить будь-яку іншу "
+"функцію або посилання, створену; наприклад, у вас не буде більше доступу до "
+"спливаючих посилань для директорів, якщо директора таксономії вибирається. "
+"Систематика завжди переважатиме."
+
+#: inc/help.php:473
+msgid "Advanced: Customizing your theme according taxonomy"
+msgstr "Додатково: Налаштування вашого тему відповідно таксономії"
+
+#: inc/help.php:475
+#, fuzzy
+#| msgid ""
+#| "To fully enjoy this feature, copy the file in IMDb link transformer "
+#| "folder 'theme/taxonomy-genre.php' to your 'theme' folder. Customize this "
+#| "page according to your tastes and theme design. The design is the same as "
+#| "(ie) the tag.php file."
+msgid ""
+"To fully enjoy this feature, copy the file in Lumiere Movies folder 'theme/"
+"taxonomy-genre.php' to your 'theme' folder. Customize this page according to "
+"your tastes and theme design. The design is the same as (ie) the tag.php "
+"file."
+msgstr ""
+"Щоб повною мірою насолодитися цієї функції, скопіюйте файл у папку IMDb "
+"посилання трансформатора 'тема/таксономії-genre.php 'в папку' тему '. "
+"Налаштувати цю сторінку відповідно до ваших смаків і тематичний дизайн. "
+"Конструкція така ж, як (тобто) файлу Tag.php."
+
+#: inc/help.php:491
+msgid ""
+"How to get the movie retrieved automatically according to the post's title?"
+msgstr ""
+"Як отримати фільм витягується автоматично відповідно до заголовок записи?"
+
+#: inc/help.php:493
+msgid ""
+"You have hundreds of posts, carrefully named as they could be found on IMDb, "
+"and you don't want to change hundreds of posts. There is a straightforward "
+"solution."
+msgstr ""
+"У вас є сотні повідомлень, carrefully іменами, як вони могли бути знайдені "
+"на IMDb, і ви не хочете, щоб змінити сотні повідомлень. Існує просте рішення."
+
+#: inc/help.php:496
+#, fuzzy
+#| msgid ""
+#| "Activate Widget option in IMDbLT (it is activated by default), add the "
+#| "IMDbLT Widget to your sidebar, and go to 'Widget/Inside post Options' "
+#| "menu, select 'misc' from the new menu, and select « yes » from « Auto "
+#| "widget? » option at end."
+msgid ""
+"Activate Widget option in Lumière! (it is activated by default), add the "
+"Lumières!'s widget to your sidebar, and go to 'Widget/Inside post Options' "
+"menu, select 'misc' from the new menu, and select « yes » from « Auto "
+"widget? » option at end."
+msgstr ""
+"Активуйте опцію віджета в IMDbLT (це за замовчуванням включена), додайте "
+"IMDbLT Widget на бічну панель, і перейдіть в меню «Віджет/всередині Опції "
+"повідомлення 'виберіть' різний 'з нового меню, і виберіть« так »від« Авто "
+"віджет? »Варіант в кінці."
+
+#: inc/help.php:504
+msgid ""
+"Next time you will look at your post, you will find the widget according to "
+"your post’s title."
+msgstr ""
+"Наступного разу ви будете виглядати на своєму посту, ви знайдете віджет "
+"відповідно з назвою вашого посту."
+
+#: inc/highslide_download.php:9 inc/highslide_download.php:25
+#: inc/highslide_download.php:59 inc/move_template_taxonomy.php:9
+#: inc/move_template_taxonomy.php:51
+msgid "You can not call directly this page."
+msgstr ""
+
+#: inc/imdb-movie.inc.php:137
+msgid "Photo of"
+msgstr ""
+
+#: inc/imdb-movie.inc.php:140 inc/options-cache.php:646
+#: inc/options-cache.php:736 inc/popup-imdb_movie.php:183
+#: inc/popup-imdb_person.php:120
+msgid "no picture"
+msgstr "Немає зображення"
+
+#: inc/imdb-movie.inc.php:160 inc/options-widget.php:116
+#: inc/options-widget.php:117 inc/popup-imdb_movie.php:299
+msgid "Country"
+msgid_plural "Countries"
+msgstr[0] "Країна"
+msgstr[1] "Країни"
+
+#: inc/imdb-movie.inc.php:186 inc/options-widget.php:91
+#: inc/options-widget.php:92 inc/popup-imdb_movie.php:248
+msgid "Runtime"
+msgstr "Час виконання"
+
+#: inc/imdb-movie.inc.php:187 inc/popup-imdb_movie.php:255
+msgid "minutes"
+msgstr "хвилин"
+
+#: inc/imdb-movie.inc.php:200 inc/options-general.php:276
+#: inc/options-widget.php:377 inc/options-widget.php:378
+#: inc/popup-imdb_movie.php:278
+msgid "Language"
+msgid_plural "Languages"
+msgstr[0] "Мова"
+msgstr[1] "Мови"
+
+#: inc/imdb-movie.inc.php:226 inc/options-widget.php:365
+#: inc/options-widget.php:366 inc/popup-imdb_movie.php:264
+msgid "Rating"
+msgstr "Рейтинг"
+
+#: inc/imdb-movie.inc.php:230
+msgid "votes, average "
+msgstr "голосів, середній"
+
+#: inc/imdb-movie.inc.php:232
+msgid "(max 10)"
+msgstr "(Макс. 10)"
+
+#: inc/imdb-movie.inc.php:235
+msgid "vote average "
+msgstr "Голосів середньому"
+
+#: inc/imdb-movie.inc.php:235
+msgid " out of 10"
+msgstr "з 10"
+
+#: inc/imdb-movie.inc.php:236 inc/popup-imdb_movie.php:268
+msgid "votes"
+msgstr "голосів"
+
+#: inc/imdb-movie.inc.php:250 inc/options-widget.php:163
+#: inc/options-widget.php:164 inc/popup-imdb_movie.php:317
+msgid "Genre"
+msgid_plural "Genres"
+msgstr[0] "Жанр"
+msgstr[1] "Жанри"
+
+#: inc/imdb-movie.inc.php:276
+msgid "Keyword"
+msgid_plural "Keywords"
+msgstr[0] "Ключове слово"
+msgstr[1] "Ключові слова"
+
+#: inc/imdb-movie.inc.php:301 inc/popup-imdb_movie.php:590
+msgid "Goof"
+msgid_plural "Goofs"
+msgstr[0] "Дурень"
+msgstr[1] "Дурні"
+
+#: inc/imdb-movie.inc.php:325
+msgid "User's comment"
+msgid_plural "User's comments"
+msgstr[0] "Зауваження користувача"
+msgstr[1] "Коментарі користувача"
+
+#: inc/imdb-movie.inc.php:355
+msgid "Quote"
+msgid_plural "Quotes"
+msgstr[0] "Цитата"
+msgstr[1] "Цитати"
+
+#: inc/imdb-movie.inc.php:384 inc/options-widget.php:265
+#: inc/options-widget.php:266
+msgid "Tagline"
+msgid_plural "Taglines"
+msgstr[0] "Слоган"
+msgstr[1] "Слогани"
+
+#: inc/imdb-movie.inc.php:406
+msgid "Trailer"
+msgid_plural "Trailers"
+msgstr[0] "Трейлер"
+msgstr[1] "Трейлери"
+
+#: inc/imdb-movie.inc.php:417
+msgid "Watch on IMBb website the trailer for "
+msgstr ""
+
+#: inc/imdb-movie.inc.php:432 inc/popup-imdb_movie.php:339
+msgid "Color"
+msgid_plural "Colors"
+msgstr[0] "Колір"
+msgstr[1] "Кольори"
+
+#: inc/imdb-movie.inc.php:458 inc/options-widget.php:291
+#: inc/options-widget.php:292
+msgid "Also known as"
+msgstr "Також відомий, як"
+
+#: inc/imdb-movie.inc.php:476 inc/options-widget.php:308
+#: inc/options-widget.php:309
+msgid "Composer"
+msgid_plural "Composers"
+msgstr[0] "Композитор"
+msgstr[1] "Композитори"
+
+#: inc/imdb-movie.inc.php:488 inc/imdb-movie.inc.php:490
+#, fuzzy
+#| msgid "Link to local imdb"
+msgid "Link to local IMDb"
+msgstr "Посилання на місцевому IMDB"
+
+#: inc/imdb-movie.inc.php:507 inc/options-widget.php:320
+#: inc/options-widget.php:321 inc/popup-imdb_movie.php:564
+#: inc/popup-imdb_person.php:195
+msgid "Soundtrack"
+msgid_plural "Soundtracks"
+msgstr[0] "Саундтрек"
+msgstr[1] "Саундтреки"
+
+#: inc/imdb-movie.inc.php:546 inc/options-widget.php:234
+#: inc/options-widget.php:235
+msgid "Production company"
+msgid_plural "Production companies"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/imdb-movie.inc.php:566
+msgid "Official website"
+msgid_plural "Official websites"
+msgstr[0] "Офіційний сайт"
+msgstr[1] "Офіційні сайти"
+
+#: inc/imdb-movie.inc.php:583 inc/options-widget.php:105
+#: inc/options-widget.php:106 inc/popup-imdb_movie.php:88
+#: inc/popup-imdb_movie.php:411 inc/popup-search.php:56
 msgid "Director"
 msgid_plural "Directors"
 msgstr[0] "Директор"
 msgstr[1] "Директори"
 
-#: inc/popup.php:64 inc/popup.php:76
-msgid "more on"
-msgstr "більше на"
+#: inc/imdb-movie.inc.php:624 inc/options-widget.php:143
+#: inc/options-widget.php:144
+msgid "Creator"
+msgid_plural "Creators"
+msgstr[0] "Творець"
+msgstr[1] "Творці"
 
-#: inc/popup.php:65 inc/popup.php:68 inc/popup.php:79 inc/popup.php:80
-msgid "link to imdb for"
-msgstr "Лінк для"
+#: inc/imdb-movie.inc.php:663 inc/options-widget.php:192
+#: inc/options-widget.php:193 inc/popup-imdb_movie.php:467
+msgid "Producer"
+msgid_plural "Producers"
+msgstr[0] "Продюсер"
+msgstr[1] "Продюсери"
 
-#: inc/options-general.php:24
+#: inc/imdb-movie.inc.php:704 inc/options-widget.php:180
+#: inc/options-widget.php:181 inc/popup-imdb_movie.php:439
+msgid "Writer"
+msgid_plural "Writers"
+msgstr[0] "Письменник"
+msgstr[1] "Письменники"
+
+#: inc/imdb-movie.inc.php:746 inc/options-widget.php:128
+#: inc/options-widget.php:129
+msgid "Actor"
+msgid_plural "Actors"
+msgstr[0] "Актор"
+msgstr[1] "Актори"
+
+#: inc/imdb-movie.inc.php:799 inc/options-widget.php:203
+#: inc/options-widget.php:204 inc/popup-imdb_movie.php:159
+#: inc/popup-imdb_movie.php:514
+msgid "Plot"
+msgid_plural "Plots"
+msgstr[0] "Ділянка"
+msgstr[1] "Ділянки"
+
+#: inc/imdb-movie.inc.php:835 inc/options-widget.php:420
+#: inc/options-widget.php:421
+msgid "Source"
+msgstr "Джерело"
+
+#: inc/options-cache.php:68 inc/options-cache.php:146 inc/options-cache.php:226
+msgid "Cannot work this way."
+msgstr "Не можете працювати таким чином."
+
+#: inc/options-cache.php:112 inc/options-cache.php:134
+#: inc/options-cache.php:190 inc/options-cache.php:210
+#: inc/options-cache.php:270 inc/options-cache.php:299
+#, fuzzy
+#| msgid "This file does not exist"
+msgid "This file does not exist."
+msgstr "Цей файл не існує"
+
+#: inc/options-cache.php:323 inc/options-cache.php:476 lumiere-movies.php:416
+#: lumiere-movies.php:534
+msgid "General options"
+msgstr "Загальні параметри"
+
+#: inc/options-cache.php:325
+msgid "Manage Cache"
+msgstr "Управління Кешувати"
+
+#: inc/options-cache.php:332
+#, fuzzy
+#| msgid ""
+#| "Cache is crucial to IMDb link transformer operation. As first imdb "
+#| "searchs are quite time consuming, if you do not want to kill your server "
+#| "but instead want quickest browsing experience, you will use cache. Pay a "
+#| "special attention to directories that need to be created."
+msgid ""
+"Cache is crucial to Lumière! operation. As first imdb searchs are quite time "
+"consuming, if you do not want to kill your server but instead want quickest "
+"browsing experience, you will use cache."
+msgstr ""
+"Кеш має вирішальне значення для функціонування посилання трансформатора "
+"IMDb. Як перший IMDb Searchs досить багато часу, якщо ви не хочете, щоб "
+"убити ваш сервер, але замість цього хочете швидкий досвід перегляду, ви "
+"будете використовувати кеш. Зверніть особливу увагу на каталоги, які повинні "
+"бути створені."
+
+#: inc/options-cache.php:347
+msgid "Cache directories (folders have to be created and writable)"
+msgstr "Каталоги Cache (папки повинні бути створені і для запису)"
+
+#: inc/options-cache.php:356
+msgid "Cache directory (absolute path)"
+msgstr "Каталог Кеш (абсолютний шлях)"
+
+#: inc/options-cache.php:364
+msgid "Movies cache is using"
+msgstr ""
+
+#: inc/options-cache.php:365
+msgid "Movies cache is empty."
+msgstr ""
+
+#: inc/options-cache.php:378 inc/options-cache.php:427
+msgid "Folder exists."
+msgstr "Папка існує."
+
+#: inc/options-cache.php:382 inc/options-cache.php:431
+msgid "Folder doesn't exist!"
+msgstr "Папка не існує!"
+
+#: inc/options-cache.php:388 inc/options-cache.php:436
+msgid "Permissions OK."
+msgstr "Дозволи ОК."
+
+#: inc/options-cache.php:392 inc/options-cache.php:440
+msgid "Check folder permissions!"
+msgstr "Перевірте дозволи для папки!"
+
+#: inc/options-cache.php:405
+msgid "Photo directory (absolute path)"
+msgstr "Каталог Фото (абсолютний шлях)"
+
+#: inc/options-cache.php:413
+msgid "Images cache is using"
+msgstr ""
+
+#: inc/options-cache.php:414
+msgid "Image cache is empty."
+msgstr ""
+
+#: inc/options-cache.php:446
+msgid ""
+"Absolute path to store images retrieved from the IMDb website. Has to be "
+msgstr ""
+
+#: inc/options-cache.php:446
+msgid "by the webserver."
+msgstr ""
+
+#: inc/options-cache.php:446 inc/options-cache.php:460
+#: inc/options-cache.php:484 inc/options-cache.php:492
+#: inc/options-cache.php:502 inc/options-cache.php:517
+#: inc/options-cache.php:525 inc/options-cache.php:544
+#: inc/options-cache.php:556 inc/options-general.php:82
+#: inc/options-general.php:93 inc/options-general.php:124
+#: inc/options-general.php:132 inc/options-general.php:152
+#: inc/options-general.php:192 inc/options-general.php:201
+#: inc/options-general.php:210 inc/options-general.php:234
+#: inc/options-general.php:243 inc/options-general.php:310
+#: inc/options-general.php:323 inc/options-general.php:336
+#: inc/options-general.php:349 inc/options-general.php:364
+#: inc/options-widget.php:75 inc/options-widget.php:86
+#: inc/options-widget.php:96 inc/options-widget.php:111
+#: inc/options-widget.php:123 inc/options-widget.php:136
+#: inc/options-widget.php:149 inc/options-widget.php:158
+#: inc/options-widget.php:170 inc/options-widget.php:187
+#: inc/options-widget.php:198 inc/options-widget.php:212
+#: inc/options-widget.php:229 inc/options-widget.php:241
+#: inc/options-widget.php:255 inc/options-widget.php:274
+#: inc/options-widget.php:286 inc/options-widget.php:298
+#: inc/options-widget.php:315 inc/options-widget.php:329
+#: inc/options-widget.php:343 inc/options-widget.php:360
+#: inc/options-widget.php:372 inc/options-widget.php:384
+#: inc/options-widget.php:401 inc/options-widget.php:415
+#: inc/options-widget.php:427 inc/options-widget.php:752
+#: inc/options-widget.php:763
+msgid "Default:"
+msgstr "За замовчуванням:"
+
+#: inc/options-cache.php:453
+msgid "Photo directory (url)"
+msgstr "Каталог Фото (URL)"
+
+#: inc/options-cache.php:460
+msgid "URL corresponding to photo directory."
+msgstr "URL, відповідний фото каталог."
+
+#: inc/options-cache.php:471 lumiere-movies.php:538
+msgid "Cache options"
+msgstr "Варіанти Cache"
+
+#: inc/options-cache.php:481
+msgid "Store cache?"
+msgstr "Магазин кеш?"
+
+#: inc/options-cache.php:482 inc/options-cache.php:484
+#: inc/options-cache.php:490 inc/options-cache.php:492
+#: inc/options-cache.php:515 inc/options-cache.php:517
+#: inc/options-cache.php:523 inc/options-cache.php:525
+#: inc/options-cache.php:540 inc/options-cache.php:551
+#: inc/options-general.php:145 inc/options-general.php:152
+#: inc/options-general.php:187 inc/options-general.php:192
+#: inc/options-general.php:228 inc/options-general.php:306
+#: inc/options-general.php:310 inc/options-general.php:319
+#: inc/options-general.php:332 inc/options-general.php:336
+#: inc/options-general.php:358 inc/options-widget.php:72
+#: inc/options-widget.php:75 inc/options-widget.php:83
+#: inc/options-widget.php:86 inc/options-widget.php:94
+#: inc/options-widget.php:108 inc/options-widget.php:111
+#: inc/options-widget.php:119 inc/options-widget.php:131
+#: inc/options-widget.php:136 inc/options-widget.php:146
+#: inc/options-widget.php:156 inc/options-widget.php:166
+#: inc/options-widget.php:183 inc/options-widget.php:187
+#: inc/options-widget.php:195 inc/options-widget.php:206
+#: inc/options-widget.php:225 inc/options-widget.php:237
+#: inc/options-widget.php:249 inc/options-widget.php:268
+#: inc/options-widget.php:282 inc/options-widget.php:294
+#: inc/options-widget.php:311 inc/options-widget.php:323
+#: inc/options-widget.php:337 inc/options-widget.php:356
+#: inc/options-widget.php:368 inc/options-widget.php:380
+#: inc/options-widget.php:395 inc/options-widget.php:409
+#: inc/options-widget.php:423 inc/options-widget.php:427
+#: inc/options-widget.php:750 inc/options-widget.php:761
+msgid "Yes"
+msgstr "Так"
+
+#: inc/options-cache.php:482 inc/options-cache.php:490
+#: inc/options-cache.php:515 inc/options-cache.php:523
+#: inc/options-cache.php:542 inc/options-cache.php:544
+#: inc/options-cache.php:554 inc/options-cache.php:556
+#: inc/options-general.php:149 inc/options-general.php:190
+#: inc/options-general.php:232 inc/options-general.php:234
+#: inc/options-general.php:308 inc/options-general.php:321
+#: inc/options-general.php:323 inc/options-general.php:334
+#: inc/options-general.php:362 inc/options-general.php:364
+#: inc/options-widget.php:73 inc/options-widget.php:84
+#: inc/options-widget.php:95 inc/options-widget.php:96
+#: inc/options-widget.php:109 inc/options-widget.php:121
+#: inc/options-widget.php:123 inc/options-widget.php:132
+#: inc/options-widget.php:147 inc/options-widget.php:149
+#: inc/options-widget.php:157 inc/options-widget.php:158
+#: inc/options-widget.php:168 inc/options-widget.php:170
+#: inc/options-widget.php:185 inc/options-widget.php:196
+#: inc/options-widget.php:198 inc/options-widget.php:208
+#: inc/options-widget.php:212 inc/options-widget.php:227
+#: inc/options-widget.php:229 inc/options-widget.php:239
+#: inc/options-widget.php:241 inc/options-widget.php:251
+#: inc/options-widget.php:255 inc/options-widget.php:270
+#: inc/options-widget.php:274 inc/options-widget.php:284
+#: inc/options-widget.php:286 inc/options-widget.php:296
+#: inc/options-widget.php:298 inc/options-widget.php:313
+#: inc/options-widget.php:315 inc/options-widget.php:325
+#: inc/options-widget.php:329 inc/options-widget.php:339
+#: inc/options-widget.php:343 inc/options-widget.php:358
+#: inc/options-widget.php:360 inc/options-widget.php:370
+#: inc/options-widget.php:372 inc/options-widget.php:382
+#: inc/options-widget.php:384 inc/options-widget.php:397
+#: inc/options-widget.php:401 inc/options-widget.php:411
+#: inc/options-widget.php:415 inc/options-widget.php:425
+#: inc/options-widget.php:750 inc/options-widget.php:752
+#: inc/options-widget.php:761 inc/options-widget.php:763
+msgid "No"
+msgstr "Ні"
+
+#: inc/options-cache.php:484
+msgid ""
+"Whether to store the pages retrieved for later use. When activated, you have "
+"to check you created the folders"
+msgstr ""
+"Будь для зберігання сторінок, витягнутих для подальшого використання. При "
+"активації ви повинні перевірити ви створили папки"
+
+#: inc/options-cache.php:484
+msgid "Cache directory"
+msgstr "Каталог кеша"
+
+#: inc/options-cache.php:484
+msgid "and"
+msgstr "і"
+
+#: inc/options-cache.php:484
+msgid "Photo directory (folder)"
+msgstr "Каталог Фото (папка)"
+
+#: inc/options-cache.php:489
+msgid "Use cache?"
+msgstr "Використовуйте кеш?"
+
+#: inc/options-cache.php:492
+msgid ""
+"Whether to use a cached page to retrieve the information (if available)."
+msgstr ""
+"Чи варто використовувати кешована сторінку для отримання інформації (за "
+"наявності)."
+
+#: inc/options-cache.php:497
+msgid "Cache expire"
+msgstr "Кеш закінчується"
+
+#: inc/options-cache.php:500
+msgid "(never)"
+msgstr "(Ніколи)"
+
+#: inc/options-cache.php:502
+msgid ""
+"Cache files older than this value (in seconds) will be automatically "
+"deleted. Insert \"0\" or click \"never\" to keep cache files forever."
+msgstr ""
+"Файли кешу старше цього значення (у секундах), будуть автоматично видалені. "
+"Вставте \"0 \" або натисніть \"ніколи \", щоб зберегти файли кешу назавжди."
+
+#: inc/options-cache.php:502
+msgid "(one month)"
+msgstr "(Один місяць)"
+
+#: inc/options-cache.php:509
+msgid "Cache zip options"
+msgstr "Кеш Варіанти блискавки"
+
+#: inc/options-cache.php:514
+msgid "Convert to zip?"
+msgstr "Перетворення, щоб промайнути?"
+
+#: inc/options-cache.php:517
+msgid "Convert non-zip cache-files to zip (check file permissions!)"
+msgstr ""
+"Перетворення не-поштовий кеш-файли в ZIP (перевірити права доступу до "
+"файлів!)"
+
+#: inc/options-cache.php:522
+msgid "Use zip?"
+msgstr "Використовуйте блискавку?"
+
+#: inc/options-cache.php:525
+msgid "Use zip compression for caching the retrieved html-files."
+msgstr "Використовуйте поштовий стиск для кешування витягнуті HTML-файли."
+
+#: inc/options-cache.php:533
+msgid "Cache details"
+msgstr "Детальніше Cache"
+
+#: inc/options-cache.php:538
+msgid "Show advanced cache details"
+msgstr "Показати додаткові деталі кеша"
+
+#: inc/options-cache.php:544
+msgid ""
+"To show or not advanced cache details, which allows to specifically delete a "
+"movie cache. Be carefull with this option, if you have a lot of cached "
+"movies, it could crash this page. When yes is selected, an additional menu "
+"\"manage cache\" will appear next to the cache \"General Options\" menu."
+msgstr ""
+"Щоб показати або передові деталі кеша, що дозволяє конкретно видалити кеш "
+"кіно. Будьте обережні з цією опцією, якщо у вас є багато кешованих фільмів, "
+"він може звалитися цю сторінку. При виборі так, додаткове меню \"управляти "
+"кеша \" з'явиться поруч з кеш  \"Загальні параметри \" меню."
+
+#: inc/options-cache.php:549
+msgid "Quick advanced cache details"
+msgstr "Швидкі розширений Дані кеша"
+
+#: inc/options-cache.php:556
+#, fuzzy
+#| msgid ""
+#| "Allow a quicker load time for the \"manage cache\" page, by displaying "
+#| "shorter movies and people presentation. Usefull when you have several of "
+#| "those. This option is available when \"Show advanced cache details\" is "
+#| "activated."
+msgid ""
+"Allow faster loading time for the \"manage cache\" page, by displaying "
+"shorter movies and people presentation. Usefull when you have several of "
+"those. This option is available when \"Show advanced cache details\" is "
+"activated."
+msgstr ""
+"Дозволити швидкий час навантаження для \"управляти кеша \" сторінку, "
+"відображаючи короткі фільми і презентації люди. Корисна коли у вас є "
+"декілька з них. Ця опція доступна, коли \"Показати розширений Дані кеша \" "
+"активується."
+
+#: inc/options-cache.php:567 inc/options-general.php:379
+#: inc/options-widget.php:775
+msgid "Reset settings"
+msgstr "Скидання налаштувань"
+
+#: inc/options-cache.php:569 inc/options-general.php:381
+#: inc/options-widget.php:777
+msgid "Update settings"
+msgstr "Параметри оновлення"
+
+#: inc/options-cache.php:590
+#, fuzzy
+#| msgid "Global cache"
+msgid "Total cache size:"
+msgstr "Глобальний кеш"
+
+#: inc/options-cache.php:593
+msgid "files"
+msgstr ""
+
+#: inc/options-cache.php:594
+msgid "for"
+msgstr ""
+
+#: inc/options-cache.php:605
+msgid "Movie's detailed cache"
+msgstr "Детальна кеш фільму"
+
+#: inc/options-cache.php:612
+msgid ""
+"If you want to refresh movie's cache regardless the cache expiration time, "
+"you may either tick movie's checkbox(es) related to the movie you want to "
+"delete and click on \"delete cache\", or you may click on individual movies "
+"\"refresh\". The first way will require an additional movie refresh - from "
+"you post, for instance."
+msgstr ""
+"Якщо ви хочете оновити кеш фільму, незалежно термін дії кеша, ви можете або "
+"відзначте, фільму (ES), пов'язані з кіно, яке Ви хочете видалити, і "
+"натисніть \"Очистити кеш \", або ви можете натиснути на окремих фільмів "
+"\"оновлення \". Перший спосіб зажадає додаткового оновлення фільмів - від "
+"вас повідомлення, наприклад."
+
+#: inc/options-cache.php:615 inc/options-cache.php:718
+msgid "You may also either delete individually the cache or by group."
+msgstr "Ви також можете або видалити індивідуально кеш або групи."
+
+#: inc/options-cache.php:654 inc/options-cache.php:740
+msgid "last updated on "
+msgstr "Останнє оновлення на"
+
+#: inc/options-cache.php:656
+msgid "Refresh cache for *"
+msgstr ""
+
+#: inc/options-cache.php:656 inc/options-cache.php:743
+msgid "refresh"
+msgstr "оновлення"
+
+#: inc/options-cache.php:658
+#, fuzzy
+#| msgid "delete"
+msgid "Delete *"
+msgstr "видаляти"
+
+#: inc/options-cache.php:658
+#, fuzzy
+#| msgid "Store cache?"
+msgid "* from cache?"
+msgstr "Магазин кеш?"
+
+#: inc/options-cache.php:658 inc/options-cache.php:745
+msgid "delete"
+msgstr "видаляти"
+
+#: inc/options-cache.php:671 inc/options-cache.php:757
+msgid "No file found in cache folder."
+msgstr "Файл не знайдено в папці кеша."
+
+#: inc/options-cache.php:696 inc/options-cache.php:780
+#, fuzzy
+#| msgid "Delete all cache"
+msgid "Delete selected cache?"
+msgstr "Видалити все кеш"
+
+#: inc/options-cache.php:696 inc/options-cache.php:780
+msgid "Delete cache"
+msgstr "Видалити кеш"
+
+#: inc/options-cache.php:698 inc/options-cache.php:782
+#: inc/options-cache.php:800
+msgid "Warning!"
+msgstr "Попередження!"
+
+#: inc/options-cache.php:699 inc/options-cache.php:783
+msgid ""
+"This button will to delete specific cache files selected from cache folder."
+msgstr "Ця кнопка буде видаляти певні файли кешу, вибраних з папки кеша."
+
+#: inc/options-cache.php:709
+msgid "People's detailed cache"
+msgstr "Народний докладна кеш"
+
+#: inc/options-cache.php:715
+msgid ""
+"If you want to refresh people's cache regardless the cache expiration time, "
+"you may either tick people checkbox(es) related to the person you want to "
+"delete and click on \"delete cache\", or you may click on individual "
+"people's \"refresh\". The first way will require an additional people "
+"refresh - from you post, for instance."
+msgstr ""
+"Якщо ви хочете оновити кеш людей незалежно термін дії кеша, ви можете або "
+"галочку людей прапорець (адреси), які стосуються людину, яку ви хочете "
+"видалити, і натисніть \"Очистити кеш \", або ви можете натиснути на окремих "
+"людей \"оновлення \". Перший спосіб зажадає додаткові люди оновити - від вас "
+"повідомлення, наприклад."
+
+#: inc/options-cache.php:794
+msgid "Global cache"
+msgstr "Глобальний кеш"
+
+#: inc/options-cache.php:798
+msgid ""
+"If you want to reset the entire cache (including names & pictures cache) "
+"click on \"reset cache\". Beware, there is no undo."
+msgstr ""
+"Якщо ви хочете скинути весь кеш (у тому числі імен і фотографій кеша) "
+"натисніть на \"перезавантаження кеш \". Остерігайтеся, немає скасування."
+
+#: inc/options-cache.php:806
+#, fuzzy
+#| msgid "Delete all cache"
+msgid "Delete all cache? Really?"
+msgstr "Видалити все кеш"
+
+#: inc/options-cache.php:806
+msgid "Delete all cache"
+msgstr "Видалити все кеш"
+
+#: inc/options-cache.php:808
+msgid ""
+"This button will <strong>delete all cache</strong> stored in cache folder."
+msgstr ""
+"Ця кнопка буде <strong>видаляти всі кеш</strong> зберігається в папці кеша."
+
+#: inc/options-cache.php:816
+msgid ""
+"A cache folder has to be created and the cache storage option has to be "
+"activated before having the opportunity to manage cache!"
+msgstr ""
+"Папка кешу повинен бути створений і варіант зберігання кеша повинен бути "
+"активований до того, можливість керувати кеш!"
+
+#: inc/options-general.php:40
+msgid "Your folder might be protected. Download highslide manually"
+msgstr ""
+
+#: inc/options-general.php:40
+msgid "here"
+msgstr ""
+
+#: inc/options-general.php:40
+msgid "and extract the zip into"
+msgstr ""
+
+#: inc/options-general.php:56
 msgid "Paths & Layout"
 msgstr "Шляхи та макета"
 
-#: inc/options-general.php:26
+#: inc/options-general.php:58
 msgid "Advanced"
 msgstr "Просунутий"
 
-#: inc/options-general.php:35
+#: inc/options-general.php:67
+#, fuzzy
+#| msgid ""
+#| "Options below don't need usually any complementary setup. However, you "
+#| "can widely customize IMDb link transformer according your needs."
 msgid ""
-"Options below don't need usually any complementary setup. However, you can "
-"widely customize IMDb link transformer according your needs."
+"Below options usually don't need  any further action. Nevertheless, Lumiere "
+"can be widely customized to match your needs."
 msgstr ""
 "Опції нижче не потрібно, як правило, будь-які додаткові налаштування. Тим не "
 "менш, ви можете широко налаштувати посилання трансформатор IMDb по вашим "
 "потребам."
 
-#: inc/options-general.php:38
+#: inc/options-general.php:70
 msgid "Paths: url & folders"
 msgstr "Шляхи: URL і папки"
 
-#: inc/options-general.php:47
-msgid "Blog adress"
+#: inc/options-general.php:78
+#, fuzzy
+#| msgid "Blog adress"
+msgid "Blog address"
 msgstr "Блог адресу"
 
-#: inc/options-general.php:50
+#: inc/options-general.php:82
 msgid "Where the blog is installed."
 msgstr "Там, де встановлено, що блог."
 
-#: inc/options-general.php:50 inc/options-general.php:58
-#: inc/options-general.php:121 inc/options-general.php:124
-#: inc/options-general.php:128 inc/options-general.php:164
-#: inc/options-general.php:167 inc/options-general.php:170
-#: inc/options-general.php:196 inc/options-general.php:199
-#: inc/options-general.php:279 inc/options-general.php:283
-#: inc/options-general.php:287 inc/options-general.php:308
-#: inc/options-general.php:311 inc/options-general.php:315
-#: inc/options-cache.php:282 inc/options-cache.php:323
-#: inc/options-cache.php:331 inc/options-cache.php:360
-#: inc/options-cache.php:363 inc/options-cache.php:366
-#: inc/options-cache.php:388 inc/options-cache.php:391
-#: inc/options-cache.php:422 inc/options-cache.php:425
-#: inc/options-widget.php:74 inc/options-widget.php:75
-#: inc/options-widget.php:76 inc/options-widget.php:107
-#: inc/options-widget.php:108 inc/options-widget.php:109
-#: inc/options-widget.php:138 inc/options-widget.php:140
-#: inc/options-widget.php:142 inc/options-widget.php:175
-#: inc/options-widget.php:176 inc/options-widget.php:177
-#: inc/options-widget.php:213 inc/options-widget.php:214
-#: inc/options-widget.php:215 inc/options-widget.php:246
-#: inc/options-widget.php:247 inc/options-widget.php:248
-#: inc/options-widget.php:283 inc/options-widget.php:284
-#: inc/options-widget.php:285 inc/options-widget.php:316
-#: inc/options-widget.php:319 inc/options-widget.php:322
-#: inc/options-widget.php:348 inc/options-widget.php:349
-#: inc/options-widget.php:544 inc/options-widget.php:548
-msgid "Default:"
-msgstr "За замовчуванням:"
-
-#: inc/options-general.php:55
+#: inc/options-general.php:89
 msgid "Plugin directory"
 msgstr "Плагін каталог"
 
-#: inc/options-general.php:58
-msgid "Where <strong>imdb link transformer</strong> is installed."
+#: inc/options-general.php:93
+#, fuzzy
+#| msgid "Where <strong>imdb link transformer</strong> is installed."
+msgid "Where <strong>Lumiere</strong> is installed."
 msgstr "Там, де встановлено <strong>IMDb посилання трансформатор.</strong>"
 
-#: inc/options-general.php:70
+#: inc/options-general.php:104
 msgid "Layout"
 msgstr "Планування"
 
-#: inc/options-general.php:79
+#: inc/options-general.php:115
 msgid "Popup"
 msgstr "Спливаюче"
 
-#: inc/options-general.php:84
+#: inc/options-general.php:121
 msgid "Width"
 msgstr "Ширина"
 
-#: inc/options-general.php:88
-msgid "Height"
-msgstr "Висота"
-
-#: inc/options-general.php:95
-msgid ""
-"Warning! Highslide is activated but no Highslide folder is found. Either "
-"download Highslide (see below) or click on \"reset setting\" at the bottom"
-msgstr ""
-"Попередження! Highslide активується, але жодна папка Highslide не знайдено. "
-"Або завантажити Highslide (див. нижче) або натисніть на \"скинути "
-"налаштування \" внизу"
-
-#: inc/options-general.php:97
-msgid ""
-"Warning! Highslide is activated but no Highslide folder is found. Either "
-"download Highslide (see below) or click on \"reset setting\" at the bottom."
-msgstr ""
-"Попередження! Highslide активується, але жодна папка Highslide не знайдено. "
-"Або завантажити Highslide (див. нижче) або натисніть на \"Скидання установок "
-"\" в нижній частині."
-
-#: inc/options-general.php:101
-msgid "Display highslide popup"
-msgstr "Показати Highslide спливаюче вікно"
-
-#: inc/options-general.php:106 inc/options-general.php:128
-#: inc/options-general.php:151 inc/options-general.php:164
-#: inc/options-general.php:185 inc/options-general.php:266
-#: inc/options-general.php:270 inc/options-general.php:274
-#: inc/options-general.php:283 inc/options-general.php:299
-#: inc/options-general.php:303 inc/options-general.php:315
-#: inc/options-cache.php:344 inc/options-cache.php:348
-#: inc/options-cache.php:360 inc/options-cache.php:363
-#: inc/options-cache.php:377 inc/options-cache.php:382
-#: inc/options-cache.php:388 inc/options-cache.php:391
-#: inc/options-cache.php:405 inc/options-cache.php:414
-#: inc/options-widget.php:56 inc/options-widget.php:63
-#: inc/options-widget.php:70 inc/options-widget.php:74
-#: inc/options-widget.php:75 inc/options-widget.php:86
-#: inc/options-widget.php:93 inc/options-widget.php:100
-#: inc/options-widget.php:107 inc/options-widget.php:109
-#: inc/options-widget.php:119 inc/options-widget.php:126
-#: inc/options-widget.php:133 inc/options-widget.php:154
-#: inc/options-widget.php:161 inc/options-widget.php:168
-#: inc/options-widget.php:175 inc/options-widget.php:188
-#: inc/options-widget.php:197 inc/options-widget.php:206
-#: inc/options-widget.php:225 inc/options-widget.php:234
-#: inc/options-widget.php:241 inc/options-widget.php:259
-#: inc/options-widget.php:266 inc/options-widget.php:275
-#: inc/options-widget.php:296 inc/options-widget.php:303
-#: inc/options-widget.php:310 inc/options-widget.php:333
-#: inc/options-widget.php:339 inc/options-widget.php:349
-#: inc/options-widget.php:531 inc/options-widget.php:536
-msgid "Yes"
-msgstr "Так"
-
-#: inc/options-general.php:110 inc/options-general.php:151
-#: inc/options-general.php:185 inc/options-general.php:196
-#: inc/options-general.php:266 inc/options-general.php:270
-#: inc/options-general.php:274 inc/options-general.php:279
-#: inc/options-general.php:287 inc/options-general.php:299
-#: inc/options-general.php:303 inc/options-general.php:311
-#: inc/options-cache.php:344 inc/options-cache.php:348
-#: inc/options-cache.php:377 inc/options-cache.php:382
-#: inc/options-cache.php:407 inc/options-cache.php:416
-#: inc/options-cache.php:422 inc/options-cache.php:425
-#: inc/options-widget.php:57 inc/options-widget.php:64
-#: inc/options-widget.php:71 inc/options-widget.php:76
-#: inc/options-widget.php:87 inc/options-widget.php:94
-#: inc/options-widget.php:101 inc/options-widget.php:108
-#: inc/options-widget.php:120 inc/options-widget.php:127
-#: inc/options-widget.php:134 inc/options-widget.php:138
-#: inc/options-widget.php:140 inc/options-widget.php:142
-#: inc/options-widget.php:155 inc/options-widget.php:162
-#: inc/options-widget.php:169 inc/options-widget.php:176
-#: inc/options-widget.php:177 inc/options-widget.php:189
-#: inc/options-widget.php:198 inc/options-widget.php:207
-#: inc/options-widget.php:213 inc/options-widget.php:214
-#: inc/options-widget.php:215 inc/options-widget.php:226
-#: inc/options-widget.php:235 inc/options-widget.php:242
-#: inc/options-widget.php:246 inc/options-widget.php:247
-#: inc/options-widget.php:248 inc/options-widget.php:260
-#: inc/options-widget.php:267 inc/options-widget.php:276
-#: inc/options-widget.php:283 inc/options-widget.php:284
-#: inc/options-widget.php:285 inc/options-widget.php:297
-#: inc/options-widget.php:304 inc/options-widget.php:311
-#: inc/options-widget.php:316 inc/options-widget.php:319
-#: inc/options-widget.php:322 inc/options-widget.php:334
-#: inc/options-widget.php:340 inc/options-widget.php:348
-#: inc/options-widget.php:531 inc/options-widget.php:536
-#: inc/options-widget.php:544 inc/options-widget.php:548
-msgid "No"
-msgstr "Ні"
-
-#: inc/options-general.php:113
-msgid "<b>Option highslide unavailable.</b>"
-msgstr "<b>Варіант Highslide недоступний.</b>"
-
-#: inc/options-general.php:113
-msgid ""
-"In order to activate it, click here and move the folder \"highslide\" into "
-"the \"js\" one!"
-msgstr ""
-"Для того, щоб активувати його, натисніть тут і перемістіть папку \"Highslide "
-"\" в \"JS \" Одна!"
-
-#: inc/options-general.php:114
-msgid "Once you are done, this message will disapear."
-msgstr "Як тільки ви закінчите, це повідомлення буде disapear."
-
-#: inc/options-general.php:121
+#: inc/options-general.php:124
 msgid "Popup width, in pixels"
 msgstr "Ширина спливаючих в пікселях"
 
-#: inc/options-general.php:124
+#: inc/options-general.php:129
+msgid "Height"
+msgstr "Висота"
+
+#: inc/options-general.php:132
 msgid "Popup height, in pixels"
 msgstr "Висота спливаючих в пікселях"
 
-#: inc/options-general.php:128
+#: inc/options-general.php:140
+msgid "Display highslide popup"
+msgstr "Показати Highslide спливаюче вікно"
+
+#: inc/options-general.php:152
+#, fuzzy
+#| msgid ""
+#| "Highslide popup is a more stylished popup, and allows to open movie "
+#| "details straightly in page instead of a new popup window."
 msgid ""
 "Highslide popup is a more stylished popup, and allows to open movie details "
-"straightly in page instead of a new popup window."
+"directly in the webpage instead of opening a new window."
 msgstr ""
 "Highslide спливаюче вікно є більш Stylished спливаюче вікно, і дозволяє "
 "відкрити інформацію про фільм прямо на сторінці замість нового спливаючому "
 "вікні."
 
-#: inc/options-general.php:131
-msgid ""
-"Please note Highslide JS is licensed under a Creative Commons Attribution-"
-"NonCommercial 2.5 License, which means you need the author's permission to "
-"use Highslide JS on commercial websites."
+#: inc/options-general.php:157
+msgid "Warning! No Highslide folder was found."
 msgstr ""
-"Будь ласка, зверніть увагу Highslide JS під ліцензією Creative Commons "
-"Attribution-BY License 2.5 Ліцензії, яка означає, що ви повинні дозвіл "
-"автора на використання Highslide JS на комерційних веб-сайтах."
 
-#: inc/options-general.php:133
-msgid "Website:"
-msgstr "Сайт:"
+#: inc/options-general.php:164
+msgid "Click here to visit Highslide website"
+msgstr ""
 
-#: inc/options-general.php:144
+#: inc/options-general.php:164
+msgid "Get Highslide JS library"
+msgstr ""
+
+#: inc/options-general.php:177
 msgid "Imdb link picture"
 msgstr "Imdb посилання на картинку"
 
-#: inc/options-general.php:150
+#: inc/options-general.php:183
 msgid "Display imdb pic?"
 msgstr "Показати IMDb ПІК?"
 
-#: inc/options-general.php:154 inc/options-general.php:188
-msgid "Size"
-msgstr "Розмір"
-
-#: inc/options-general.php:158
-msgid "Url"
-msgstr "Адреса"
-
-#: inc/options-general.php:164
+#: inc/options-general.php:192
 msgid ""
 "Whether display imdb link (the yellow icon) or not. This picture can be "
 "found into the popup when looking for akas movies. If the option is "
@@ -396,24 +1940,32 @@ msgstr ""
 "знятий, відвідувачі вже не буду більше можливість стежити посилання на IMDb "
 "(навіть якщо вони могли б як і раніше слідувати внутрішні посилання)."
 
-#: inc/options-general.php:167
+#: inc/options-general.php:197 inc/options-general.php:239
+msgid "Size"
+msgstr "Розмір"
+
+#: inc/options-general.php:201
 msgid ""
 "Size of the imdb picture. The value will correspond to the width in pixels."
 msgstr "Розмір IMDB картинці. Це значення буде відповідати ширині в пікселях."
 
-#: inc/options-general.php:170
+#: inc/options-general.php:206
+msgid "Url"
+msgstr "Адреса"
+
+#: inc/options-general.php:210
 msgid "Url for the imdb picture"
 msgstr "Адреса для IMDB зображенні"
 
-#: inc/options-general.php:178
+#: inc/options-general.php:219
 msgid "Imdb cover picture"
 msgstr "Imdb зображення кришки"
 
-#: inc/options-general.php:184
+#: inc/options-general.php:225
 msgid "Display only thumbnail"
 msgstr "Показати тільки ескіз"
 
-#: inc/options-general.php:196
+#: inc/options-general.php:234
 msgid ""
 "Whether to display a thumbnail or a large image cover for movies inside a "
 "post or a widget. Select \"No\" to choose cover picture width (a new option "
@@ -423,7 +1975,7 @@ msgstr ""
 "повідомлення або віджету. Виберіть \"Ні \", щоб вибрати ширину кришка "
 "зображення (нова опція праворуч будуть доступні)."
 
-#: inc/options-general.php:199
+#: inc/options-general.php:243
 msgid ""
 "Size of the imdb cover picture. The value will correspond to the width in "
 "pixels. Delete any value to get maximum width."
@@ -431,64 +1983,47 @@ msgstr ""
 "Розмір IMDb обкладинки картини. Це значення буде відповідати ширині в "
 "пікселях. Видалити будь-яке значення, щоб отримати максимальну ширину."
 
-#: inc/options-general.php:215
+#: inc/options-general.php:257
+#, fuzzy
+#| msgid ""
+#| "Options below can break a lot of things. Change them only if you know "
+#| "what you're doing."
 msgid ""
-"Options below can break a lot of things. Change them only if you know what "
+"Options below can break a lot of things. Edit them only if you know what "
 "you're doing."
 msgstr ""
 "Опції нижче може зламати багато речей. Змініть їх тільки тоді, коли ви "
 "знаєте, що ви робите."
 
-#: inc/options-general.php:222
+#: inc/options-general.php:268
 msgid "Search, imdb part"
 msgstr "Пошук, IMDb частина"
 
-#: inc/options-general.php:227
-msgid "Imdb address"
-msgstr "Imdb адресу"
-
-#: inc/options-general.php:237
-msgid "Search variant"
-msgstr "Пошук варіант"
-
-#: inc/options-general.php:249
-msgid ""
-"This is the imdb server to use. The localized ones (i.e. italian and german) "
-"are only qualified to find the movies ID - but parsing for the details will "
-"fail at the moment."
+#: inc/options-general.php:278
+msgid "English (default)"
 msgstr ""
-"Це IMDb сервер використовувати. Локалізовані ті (тобто італійська та "
-"німецька) тільки кваліфікованим, щоб знайти фільми ID - але розбору для "
-"деталей не вдасться в даний момент."
 
-#: inc/options-general.php:252
-msgid ""
-"Moviename search variant. There are different ways of searching a movie "
-"name, with slightly differing result sets. Set the variant you prefer."
+#: inc/options-general.php:279
+msgid "French"
 msgstr ""
-"MovieName варіанти пошуку. Існують різні способи пошуку в назву фільму, зі "
-"злегка відрізняються результуючих наборів. Встановіть варіант ви віддаєте "
-"перевагу."
 
-#: inc/options-general.php:260 inc/popup-imdb_movie.php:67
-#: inc/popup-imdb_person.php:63 inc/options-widget.php:30
-#: inc/options-widget.php:524
+#: inc/options-general.php:280
+msgid "Spanish"
+msgstr ""
+
+#: inc/options-general.php:283
+msgid ""
+"Language used for the movie search. Very usefull for a non-English blog "
+"using Lumiere as a widget."
+msgstr ""
+
+#: inc/options-general.php:295 inc/options-widget.php:52
+#: inc/options-widget.php:741 inc/popup-imdb_movie.php:162
+#: inc/popup-imdb_person.php:84
 msgid "Misc"
 msgstr "Різне"
 
-#: inc/options-general.php:265
-msgid "Debug mode"
-msgstr "Режим налагодження"
-
-#: inc/options-general.php:273
-msgid "Menu for IMDB LT options"
-msgstr "Меню для варіантів IMDB LT"
-
-#: inc/options-general.php:279
-msgid "Enable debug mode?"
-msgstr "Включити режим налагодження?"
-
-#: inc/options-general.php:283
+#: inc/options-general.php:310
 msgid ""
 "When enabled, instead of displaying several results related to a name "
 "searched, only the first result is returned and directly displayed. That "
@@ -506,29 +2041,44 @@ msgstr ""
 "він вимкнений, ці варіанти не будуть працювати. <br /> Деякі опції будуть "
 "приховані і інші будуть показані залежності, якщо вона включена, так чи ні."
 
-#: inc/options-general.php:287
+#: inc/options-general.php:315
+#, fuzzy
+#| msgid "Menu for IMDB LT options"
+msgid "Left menu for Lumière options"
+msgstr "Меню для варіантів IMDB LT"
+
+#: inc/options-general.php:323
+#, fuzzy
+#| msgid ""
+#| "When enabled, IMDb Link Transformer options are displayed separately from "
+#| "the settings menu. It will create a dedicated menu to the IMDB Link "
+#| "Transformer options."
 msgid ""
-"When enabled, IMDb Link Transformer options are displayed separately from "
-"the settings menu. It will create a dedicated menu to the IMDB Link "
-"Transformer options."
+"When enabled, Lumiere options are fully displayed on the left menu - and not "
+"anymore limited to the settings directory. It creates a dedicated menu for "
+"Lumiere options."
 msgstr ""
 "Якщо ця функція включена, параметри IMDb Посилання Трансформаторні "
 "відображаються окремо від меню налаштувань. Це створить спеціальне меню з "
 "опціями IMDB Посилання Трансформаторні."
 
-#: inc/options-general.php:294
+#: inc/options-general.php:329
+#, fuzzy
+#| msgid "Menu for IMDB LT options"
+msgid "Top menu for Lumière options"
+msgstr "Меню для варіантів IMDB LT"
+
+#: inc/options-general.php:336
+msgid ""
+"When activated, Lumière options are displayed on the top menu of Wordpress. "
+"Deactivate it if you have many plugins already occupying that area."
+msgstr ""
+
+#: inc/options-general.php:345
 msgid "Limit results"
 msgstr "Обмежити результати"
 
-#: inc/options-general.php:298
-msgid "Use automatical genre taxonomy?"
-msgstr "Використовуйте платне жанр таксономії?"
-
-#: inc/options-general.php:302
-msgid "Toolbar IMDB LT admin menu"
-msgstr "Панель інструментів IMDB LT адмін.меню"
-
-#: inc/options-general.php:308
+#: inc/options-general.php:349
 msgid ""
 "This the limit for the result set of researches. Use 0 for no limit, or the "
 "number of maximum entries you wish. When \"direct search\" option is turned "
@@ -538,1621 +2088,103 @@ msgstr ""
 "обмежень, або максимальну кількість записів, які ви хочете. Коли \" опція "
 "прямий пошук \" у положення так, ця опція прихована."
 
-#: inc/options-general.php:311
+#: inc/options-general.php:354
+msgid "Use automatical genre taxonomy?"
+msgstr "Використовуйте платне жанр таксономії?"
+
+#: inc/options-general.php:364
 msgid ""
 "This will automatically add \"genre\" terms found for the movie into "
-"wordpress database, as <a href=\"http://codex.wordpress.org/"
-"WordPress_Taxonomy\">taxonomy</a>. Activating this option open <a href=\"?"
-"page=imdblt_options&subsection=widgetoption&widgetoption=taxo\">others "
-"taxonomy options</a>. Taxonomy terms are uninstalled when removing the "
-"plugin."
+"wordpress database, as "
 msgstr ""
-"Це автоматично додає \"жанр \" умови пошуку на фільмі в WordPress бази "
-"даних, а <a href=\"http://codex.wordpress.org/WordPress_Taxonomy"
-"\">таксономії</a> . Активація цієї опції відкриті <a href=\"?"
-"page=imdblt_options&subsection=widgetoption&widgetoption=taxo\">інші "
-"таксономії варіанти</a> . Терміново таксономії будуть видалені при видаленні "
-"плагін."
 
-#: inc/options-general.php:315
-msgid ""
-"When activated, IMDb Link Transformer options are displayed in the toolbar "
-"admin menu of Wordpress."
+#: inc/options-general.php:364
+msgid "Activating this option opens "
 msgstr ""
-"При активації опції IMDb Посилання Трансформаторні відображаються в меню "
-"панелі інструментів адміністратора з Wordpress."
 
-#: inc/options-general.php:329 inc/options-cache.php:438
-#: inc/options-widget.php:562
-msgid "Reset settings"
-msgstr "Скидання налаштувань"
-
-#: inc/options-general.php:331 inc/options-cache.php:440
-#: inc/options-widget.php:564
-msgid "Update settings"
-msgstr "Параметри оновлення"
-
-#: inc/popup-imdb_movie.php:52
-msgid "Search for movies with the same name"
-msgstr "Пошук фільмів з такою ж назвою"
-
-#: inc/popup-imdb_movie.php:52
-msgid "Search AKAs"
-msgstr "Пошук AKAs"
-
-#: inc/popup-imdb_movie.php:55
-msgid "Movie"
-msgstr "Кіно"
-
-#: inc/popup-imdb_movie.php:58 inc/options-widget.php:379
-msgid "Actors"
-msgstr "Актори"
-
-#: inc/popup-imdb_movie.php:61
-msgid "Crew"
-msgstr "Екіпаж"
-
-#: inc/popup-imdb_movie.php:64 inc/popup-imdb_movie.php:417
-#: inc/imdb-movie.inc.php:783 inc/options-widget.php:165
-#: inc/options-widget.php:166
-msgid "Plot"
-msgid_plural "Plots"
-msgstr[0] "Ділянка"
-msgstr[1] "Ділянки"
-
-#: inc/popup-imdb_movie.php:88 inc/popup-imdb_person.php:99
-#: inc/options-cache.php:507 inc/options-cache.php:598
-#: inc/imdb-movie.inc.php:145
-msgid "no picture"
-msgstr "Немає зображення"
-
-#: inc/popup-imdb_movie.php:111
-msgid "AKA"
-msgstr "AKA"
-
-#: inc/popup-imdb_movie.php:144 inc/options-widget.php:123
-#: inc/options-widget.php:124
-msgid "Year"
-msgstr "Рік"
-
-#: inc/popup-imdb_movie.php:153 inc/imdb-movie.inc.php:194
-#: inc/options-widget.php:67 inc/options-widget.php:68
-msgid "Runtime"
-msgstr "Час виконання"
-
-#: inc/popup-imdb_movie.php:160 inc/imdb-movie.inc.php:195
-msgid "minutes"
-msgstr "хвилин"
-
-#: inc/popup-imdb_movie.php:169 inc/imdb-movie.inc.php:236
-#: inc/options-widget.php:300 inc/options-widget.php:301
-msgid "Rating"
-msgstr "Рейтинг"
-
-#: inc/popup-imdb_movie.php:173
-msgid "Vote average"
-msgstr "Голосування середньому"
-
-#: inc/popup-imdb_movie.php:183 inc/imdb-movie.inc.php:209
-#: inc/options-widget.php:307 inc/options-widget.php:308
-msgid "Language"
-msgid_plural "Languages"
-msgstr[0] "Мова"
-msgstr[1] "Мови"
-
-#: inc/popup-imdb_movie.php:203 inc/imdb-movie.inc.php:167
-#: inc/options-widget.php:90 inc/options-widget.php:91
-msgid "Country"
-msgid_plural "Countries"
-msgstr[0] "Країна"
-msgstr[1] "Країни"
-
-#: inc/popup-imdb_movie.php:221 inc/imdb-movie.inc.php:260
-#: inc/options-widget.php:130 inc/options-widget.php:131
-msgid "Genre"
-msgid_plural "Genres"
-msgstr[0] "Жанр"
-msgstr[1] "Жанри"
-
-#: inc/popup-imdb_movie.php:242 inc/imdb-movie.inc.php:411
-msgid "Color"
-msgid_plural "Colors"
-msgstr[0] "Колір"
-msgstr[1] "Кольори"
-
-#: inc/popup-imdb_movie.php:258
-msgid "Sound"
-msgstr "Звук"
-
-#: inc/popup-imdb_movie.php:283
-msgid "Casting"
-msgstr "Лиття"
-
-#: inc/popup-imdb_movie.php:294 inc/popup-imdb_movie.php:323
-#: inc/popup-imdb_movie.php:350 inc/popup-imdb_movie.php:378
-msgid "link to imdb"
-msgstr "Лінк"
-
-#: inc/popup-imdb_movie.php:342 inc/imdb-movie.inc.php:691
-#: inc/options-widget.php:151 inc/options-widget.php:152
-msgid "Writer"
-msgid_plural "Writers"
-msgstr[0] "Письменник"
-msgstr[1] "Письменники"
-
-#: inc/popup-imdb_movie.php:370 inc/imdb-movie.inc.php:645
-#: inc/options-widget.php:158 inc/options-widget.php:159
-msgid "Producer"
-msgid_plural "Producers"
-msgstr[0] "Продюсер"
-msgstr[1] "Продюсери"
-
-#: inc/popup-imdb_movie.php:403
-msgid "Plot outline"
-msgid_plural "Plots outline"
-msgstr[0] "Сюжетна лінія"
-msgstr[1] "Сюжетні лінії"
-
-#: inc/popup-imdb_movie.php:442 inc/popup-imdb_person.php:265
-msgid "Trivia"
-msgid_plural "Trivias"
-msgstr[0] "Дрібниця"
-msgstr[1] "Дрібниці"
-
-#: inc/popup-imdb_movie.php:445 inc/popup-imdb_movie.php:477
-#: inc/popup-imdb_movie.php:505 inc/popup-imdb_person.php:131
-#: inc/popup-imdb_person.php:178 inc/popup-imdb_person.php:215
-#: inc/popup-imdb_person.php:269 inc/popup-imdb_person.php:294
-#: inc/popup-imdb_person.php:323 inc/popup-imdb_person.php:350
-#: inc/popup-imdb_person.php:380
-msgid "click to expand"
-msgstr "клацніть, щоб розгорнути"
-
-#: inc/popup-imdb_movie.php:472 inc/popup-imdb_person.php:176
-#: inc/imdb-movie.inc.php:497 inc/options-widget.php:263
-#: inc/options-widget.php:264
-msgid "Soundtrack"
-msgid_plural "Soundtracks"
-msgstr[0] "Саундтрек"
-msgstr[1] "Саундтреки"
-
-#: inc/popup-imdb_movie.php:502 inc/imdb-movie.inc.php:312
-msgid "Goof"
-msgid_plural "Goofs"
-msgstr[0] "Дурень"
-msgstr[1] "Дурні"
-
-#: inc/help.php:22
-msgid "Popup link builder"
-msgstr "Спливаюче посилання будівельник"
-
-#: inc/help.php:23
-msgid "Inside the post"
-msgstr "Усередині повідомленням"
-
-#: inc/help.php:24
-msgid "Widget"
-msgstr "Віджет"
-
-#: inc/help.php:25
-msgid "Big admin menu"
-msgstr "Велике меню адміністратора"
-
-#: inc/help.php:26
-msgid "Add a search form"
-msgstr "Додати форму пошуку"
-
-#: inc/help.php:27
-msgid "Keep css through update"
-msgstr "Тримайте CSS через поновлення"
-
-#: inc/help.php:31
-msgid "Taxonomy with Wordpress"
-msgstr "Систематика з Wordpress"
-
-#: inc/help.php:32
-msgid "Widget auto according post's title"
-msgstr "Назва Widget автомобільної Згідно поста"
-
-#: inc/help.php:38
-msgid "How to use IMDb link transformer"
-msgstr "Як використовувати посилання трансформатор IMDb"
-
-#: inc/help.php:38
-msgid "How to"
-msgstr "Як"
-
-#: inc/help.php:40
-msgid "Frequently asked questions"
-msgstr "Часті питання"
-
-#: inc/help.php:40
-msgid "FAQs"
-msgstr "Питання та відповіді"
-
-#: inc/help.php:42
-msgid "What's new"
-msgstr "Що нового"
-
-#: inc/help.php:42
-msgid "Changelog"
-msgstr "Змін"
-
-#: inc/help.php:44
-msgid "To get support and to support what you get"
-msgstr "Щоб отримати підтримку і підтримати те, що ви отримуєте"
-
-#: inc/help.php:44
-msgid "Support, donate & credits"
-msgstr "Підтримка, пожертвувати і кредити"
-
-#: inc/help.php:132
-msgid ""
-"Two ways to match <strong>IMDb link transformer</strong> and "
-"<strong>support</strong>"
-msgstr ""
-"Два способи відповідають <strong>IMDb посилання трансформатор</strong> і "
-"<strong>підтримку</strong>"
-
-#: inc/help.php:140
-msgid "Be supported!"
-msgstr "Будьте підтримується!"
-
-#: inc/help.php:143
-msgid ""
-"You will never believe there is so many ways to be supported. Yes, you can:"
-msgstr ""
-"Ви ніколи не повірю, що є так багато способів бути підтримані. Так, ви "
-"можете:"
-
-#: inc/help.php:144
-msgid "visit "
-msgstr "візит"
-
-#: inc/help.php:144
-msgid "to ask for support. "
-msgstr "просити підтримки."
-
-#: inc/help.php:145 inc/help.php:146
-msgid "check "
-msgstr "перевіряти"
-
-#: inc/help.php:145
-msgid "FAQs "
-msgstr "Питання та відповіді"
-
-#: inc/help.php:146
-msgid "how to"
-msgstr "як"
-
-#: inc/help.php:158
-msgid "Support me!"
-msgstr "Підтримайте мене!"
-
-#: inc/help.php:161
-msgid "You will never believe there is so many ways to thank me. Yes, you can:"
-msgstr ""
-"Ви ніколи не повірю, що є так багато способів, щоб подякувати мене. Так, ви "
-"можете:"
-
-#: inc/help.php:162
-msgid "vote for IMDb link transformer on "
-msgstr "проголосуй за трансформатора посилання IMDb на"
-
-#: inc/help.php:163
-msgid "vote for IMDb link transformer on its own"
-msgstr "голосувати за трансформатора посилання IMDb по собі"
-
-#: inc/help.php:164
-msgid ""
-"send as many bugfixes and propositions as you can on IMDb link transformer "
-"website."
-msgstr ""
-"відправити стільки виправлень і пропозиції, як ви можете на IMDb сайті "
-"посилання трансформатора."
-
-#: inc/help.php:165
-msgid "pay whatever you want on paypal"
-msgstr "платитиме все, що ви хочете на PayPal"
-
-#: inc/help.php:165
-msgid "website"
-msgstr "сайт"
-
-#: inc/help.php:166
-msgid "translate the plugin into your own language."
-msgstr "перевести плагін на свою мову."
-
-#: inc/help.php:167
-msgid "help me to improve the plugin's design. I'm not gifted at all."
-msgstr "допомогти мені поліпшити дизайн плагіна. Я не обдарований взагалі."
-
-#: inc/help.php:168
-msgid "place a trackback, talk about this tool, and so on."
-msgstr "розмістити трекбек, говорити про це інструменті, і так далі."
-
-#: inc/help.php:180
-msgid "Credits:"
-msgstr "Кредити:"
-
-#: inc/help.php:183
-msgid "Special thanks to:"
-msgstr "Особлива подяка:"
-
-#: inc/help.php:200
-msgid ""
-"IMDb link transformer evolves a lot. As a result of this, the plugin include "
-"many options, many ways to achieve bloggers wishes. Since then, IMDb link "
-"transformer main functions are explained hereafter, aiming to make the "
-"experience better. As you may discover, there are three main ways to display "
-"data from movies and there is many options. This is an attempt to document "
-"it, but please check also FAQs."
-msgstr ""
-"Посилання трансформатор IMDb розвивається багато. В результаті цього, плагін "
-"включає багато варіантів, багато шляхів для досягнення блогерів побажання. З "
-"тих пір, посилання трансформаторні IMDb Основні функції описані далі, з "
-"метою, щоб зробити досвід краще. Як ви можете виявити, існує три основних "
-"способи відображення даних з фільмів і є багато варіантів. Це спроба "
-"документувати його, але, будь ласка, перевірте також часто задаються."
-
-#: inc/help.php:248
-msgid "Why a popup window?"
-msgstr "Чому спливаюче вікно?"
-
-#: inc/help.php:249 inc/help.php:264 inc/help.php:269 inc/help.php:288
-#: inc/help.php:303 inc/help.php:323 inc/help.php:335 inc/help.php:369
-#: inc/help.php:378 inc/help.php:457 inc/help.php:490 inc/help.php:502
-#: inc/help.php:519 inc/help.php:541
-msgid "click to get a larger picture"
-msgstr "натисніть щоб отримати більш широку картину"
-
-#: inc/help.php:250
-msgid ""
-"The first way to use Imdb link transformer is the first historically "
-"available. The idea behind was to find a solution for posts quoting many "
-"movies; blogger and reader would appreciate to have director's name, to know "
-"the alternative title's name, etc. And these data should not waste space in "
-"post itself; thus the popup idea."
-msgstr ""
-"Перший спосіб використати посилання трансформатор Imdb є першим історично "
-"доступні. Ідея в тому, щоб знайти рішення для повідомлень з посиланням "
-"багато фільмів; блогер і читач був би вдячний, щоб ім'я режисера, знати ім'я "
-"Альтернативне назва, і т.д. І ці дані не повинні витрачати місце в самій "
-"посаді; Таким чином, спливаюче вікно ідея."
-
-#: inc/help.php:254
-msgid ""
-"Popup, as an extra window opened on click, will permit to get director's and "
-"movie's data; it is fully browsable and when browsing a movie, one can also "
-"look for 'AKAs' (movies which have a name similar)."
-msgstr ""
-"Popup, як додаткове вікно відкрилося на клік, дозволить отримати режисера і "
-"дані фільму; він повністю доступний для перегляду і при перегляді кіно, "
-"можна також шукати 'AKAS' (фільми, які мають ім'я, схоже)."
-
-#: inc/help.php:258
-msgid ""
-"It is quite intuitive to understand how popup can help; when writing about "
-"many movies, if one would like to speak about every director or actor he "
-"mentions in his post, it would take ages and will not have the power of the "
-"linkage (once seen the director, looking for his filmography)."
-msgstr ""
-"Це цілком інтуїтивно зрозуміти, як спливаюче вікно може допомогти; , Коли "
-"писав про багатьох фільмах, якби хотів поговорити про кожного директора або "
-"актора він згадує у своєму пості, це займе віків і не матиме силу зв'язку "
-"(один раз бачив директора, шукаю його фільмографії)."
-
-#: inc/help.php:262
-msgid "How to get a popup window"
-msgstr "Як отримати спливаюче вікно"
-
-#: inc/help.php:263
-msgid ""
-"To create a link to a popup window, you only need to put the <b>movie's "
-"title</b> (it doesn't work with any other data) inside dedicated tags. "
-"Either you use the HTML style to write posts, and a new button could help "
-"you to achieve that:"
-msgstr ""
-"Щоб створити посилання на спливаючому вікні, вам потрібно всього лише "
-"поставити <b>назви фільму</b> (він не працює з будь-якими іншими даними) "
-"всередині присвячених тегів. Або ви використовувати HTML стиль писати "
-"повідомлення, і нова кнопка може допомогти вам добитися того, щоб:"
-
-#: inc/help.php:268
-msgid ""
-"Or you use the Visual style to write posts, and a new button could help you "
-"to achieve that :"
-msgstr ""
-"Або ви використовуєте візуальний стиль писати повідомлення, і нова кнопка "
-"може допомогти вам добитися того, щоб:"
-
-#: inc/help.php:273
-msgid ""
-"Whatever the tool you choose, when you will save your post you will get a "
-"nice link added to your movie."
-msgstr ""
-"Якою б не була інструментом ви обираєте, коли ви заощадите ваше повідомлення "
-"ви отримаєте хороший Посилання додана в фільм."
-
-#: inc/help.php:287
-msgid "Why to use widget?"
-msgstr "Навіщо використовувати віджет?"
-
-#: inc/help.php:288
-msgid "key and value for custom fields"
-msgstr "ключ і значення для користувальницьких полів"
-
-#: inc/help.php:290
-msgid ""
-"Widgets are widely used in wordpress. They allow to quickly select what "
-"information to display in an area, usually on sidebar. The main advantage is "
-"that blogger can easily select what information to display - or not, in what "
-"order."
-msgstr ""
-"Віджети широко використовуються в WordPress. Вони дозволяють швидко вибрати, "
-"яка інформація буде відображатися в області, як правило, на бічній панелі. "
-"Основною перевагою є те, що блогер може легко вибрати, яку інформацію для "
-"відображення - чи ні, в якому порядку."
-
-#: inc/help.php:294
-msgid "How to use widget"
-msgstr "Як використовувати віджет"
-
-#: inc/help.php:295
-msgid ""
-"<strong>Firstly</strong>, go to <a href='widgets.php'>widget</a> "
-"administration (<i>appearance</i> tab), drag <i>imdb widget</i> (from "
-"<i>inactive widgets</i>) to a sidebar, and modify the box's title (in case "
-"you don't want to have the box named <i>IMDb data</i>)."
-msgstr ""
-"<strong>По-перше,</strong> перейти на <a href='widgets.php'>віджета</a> "
-"адміністрації (вкладка <i>вид),</i> опору <i>IMDB віджета</i> (від "
-"<i>неактивних віджетів)</i> на бічній панелі, і змінити назву боксу (у разі, "
-"якщо ви не хочете мати поле з ім'ям <i>IMDb даних).</i>"
-
-#: inc/help.php:299
-msgid ""
-"<strong>Secondly</strong>, open an old post (or write a new one) and add the "
-"key <i>imdb-movie-widget</i> to the <i>custom fields</i> of your message "
-"<strong>and</strong> the name of the movie you want to display to <i>value</"
-"i> (first case from the picture). IMDb link transformer will automatically "
-"display in the widget the movie selected."
-msgstr ""
-"<strong>По-друге,</strong> відкрити старий пост (або написати новий) і "
-"додати ключ <i>IMDB-кіно-віджет</i> на <i>користувацьких полів</i> Вашого "
-"повідомлення <strong>і</strong> назва фільму, який ви хочете відобразити у "
-"<i>вартості</i> (перший випадок з картинки). Посилання трансформатор IMDb "
-"буде автоматично відображати в віджеті фільм обраної."
-
-#: inc/help.php:303 inc/help.php:323
-msgid "IMDb link transformer widget"
-msgstr "IMDb посилання трансформатор віджет"
-
-#: inc/help.php:304
-msgid ""
-"<strong>Another possibility:</strong> add to your post the key <i>imdb-movie-"
-"widget-bymid</i> into the <i>custom fields</i> from your message "
-"<strong>and</strong> the IMDb ID for the movie you want to be displayed on "
-"your sidebar to <i>value</i> (second case from the picture). Instead of "
-"looking for a name, IMDb link transformer would directly display the movie "
-"you want to display. Very useful when your movie's name does not work as it "
-"should (if there are many movies with the same name, the wrong movie is "
-"displayed, etc)."
-msgstr ""
-"<strong>Інша можливість:</strong> додати на свій пост ключ <i>IMDb фільм-"
-"віджет-bymid</i> в <i>користувальницьких полів</i> з ​​Вашого повідомлення "
-"<strong>і</strong> IMDb ID для фільму, який ви хочете бути відображені на "
-"бічній панелі, щоб <i>значення</i> (другий випадок з картинки). Замість того "
-"щоб шукати ім'я, посилання трансформатор IMDb б безпосередньо виберіть "
-"фільм, який необхідно відобразити. Дуже корисно, коли ім'я вашого фільму не "
-"працює, як і повинно (якщо є багато фільмів з таким же ім'ям, відображається "
-"неправильно кіно, і т.д.)."
-
-#: inc/help.php:308
-msgid ""
-"To get the movie's IMDb id, search for a title on <a href='http://www.imdb."
-"com' >Internet movie database</a> website, look at the adress bar for a "
-"'ttXXXXX' section, keep only the numerical part (XXXXX) and add result to "
-"the <i>value</i> custom field. However, in this specific case, do not mix "
-"with an <i>imdb-movie-widget</i> key. Only the first one will be displayed."
-msgstr ""
-"Щоб отримати фільму IMDb ID, пошуку заголовка на <a href='http://www.imdb."
-"com' >Інтернет бази даних фільм</a> сайті, подивіться на рядок Адреса для "
-"розділі 'ttXXXXX', залишити тільки чисельне частина (XXXXX) і додати "
-"результат на митну поле <i>значень.</i> Проте, в даному конкретному випадку, "
-"не слід змішувати з ключем <i>IMDb фільм-віджетів.</i> Буде відображатися "
-"тільки перший."
-
-#: inc/help.php:322
-msgid "What's the point of displaying movie's data inside my post?"
-msgstr "Який сенс відображення даних фільму в моєму пості?"
-
-#: inc/help.php:324
-msgid ""
-"Having movie's data inside the post is quite useful; it could ingeniously "
-"decorate your message, display crucial informations (director, actors) and "
-"in the same time add links to a popup which would include these informations "
-"(but with more details). At the begining, this function could only be "
-"achieved with a special plugin. Since release 1.1.14.3, IMDb link "
-"transformer does not need any third party plugin anymore to display movie's "
-"data inside you message. "
-msgstr ""
-"Маючи дані фільму всередині повідомленням вельми корисно; це може геніально "
-"прикрасити ваше повідомлення, відображати критичні інформацію (режисер, "
-"актори) і в той же час додати посилання на спливаючому вікні, який "
-"включатиме ці інформацію (але з детальніше). На початку, ця функція може "
-"бути досягнуто тільки за допомогою спеціального плагіна. Починаючи з релізу "
-"1.1.14.3, посилання трансформатор IMDb не потребує плагін стороннього більше "
-"для відображення даних фільму всередині вас повідомлення."
-
-#: inc/help.php:328
-msgid ""
-"It means that you only need to put the movie's name into brackets, to get "
-"movie's data inside your post."
-msgstr ""
-"Це означає, що вам потрібно всього лише помістити ім'я фільму в дужках, для "
-"отримання даних фільму у вашому пості."
-
-#: inc/help.php:332
-msgid "How to display data inside my post"
-msgstr "Як для відображення даних всередині мого посту"
-
-#: inc/help.php:334
-msgid ""
-"You only need to put the movie's name into brackets, to get movie's data "
-"inside your post. Data can be inserted exactly where you want, there is no "
-"limitation. Just be sure to put the movie's name inside [imdblt][/imdblt], "
-"like this:"
-msgstr ""
-"Вам потрібно всього лише поставити ім'я фільму в дужках, для отримання даних "
-"фільму у вашому пості. Дані можуть бути вставлені саме там, де ви хочете, "
-"немає ніяких обмежень. Просто не забудьте покласти ім'я фільму всередині "
-"[imdblt] [/ imdblt], наприклад:"
-
-#: inc/help.php:335
-msgid "IMDb link transformer Inside a post"
-msgstr "Трансформатор посилання IMDb Усередині поста"
-
-#: inc/help.php:336
-msgid "And you are done."
-msgstr "І ви зробили."
-
-#: inc/help.php:338
-msgid ""
-"You additionnaly can get a movie from its imdb id, using its imdb movie's id "
-"instead of its name. When writing your post, put the movie's imdb id inside "
-"tags [imdbltid][/imdbltid] (which gives ie [imdbltid]0137523[/imdbltid], for "
-"Fight Club movie). You can get movie's imdb id from imdb website, search for "
-"you movie, and check your browser's adress bar. The number after 'tt' part "
-"is the movie's id."
-msgstr ""
-"Ви additionnaly можете отримати фільм з його IMDb ID, використовуючи "
-"ідентифікатор свого IMDB фільму замість його імені. При написанні поста, "
-"покласти IMDb ID фільму всередині тегів [imdbltid] [/ imdbltid] (що дає т.е. "
-"[imdbltid] 0137523 [/ imdbltid], для Fight Club фільму). Ви можете отримати "
-"IMDb ID фільму від IMDb сайті, пошук для вас фільм, і перевірте Адреса рядку "
-"браузера. Після 'TT' частини номер ID фільму."
-
-#: inc/help.php:343
-msgid "How to display data inside my post - tricky way"
-msgstr "Як для відображення даних в моєму пості - складно спосіб"
-
-#: inc/help.php:344
-msgid ""
-"It could happen you don't want to use the previous solution to display "
-"movie's data. For exemple, if you wish to use IMDbLT outside a post (in a "
-"personalized page), it won't work. In this case, and in this case only, you "
-"should (may be) to download Exec-PHP plugin (<a href='http://wordpress.org/"
-"extend/plugins/exec-php'>http://wordpress.org/extend/plugins/exec-php</a>), "
-"depending of your page."
-msgstr ""
-"Це може відбутися якщо ви не хочете використовувати попереднє рішення для "
-"відображення даних фільму. Для Exemple, якщо ви хочете використовувати "
-"IMDbLT поза запису (в персональній сторінці), він не буде працювати. У цьому "
-"випадку, і в цьому випадку тільки, ви повинні (можуть бути), щоб завантажити "
-"Exec-PHP плагін ( <a href='http://wordpress.org/extend/plugins/exec-"
-"php'>http://wordpress.org/extend/plugins/exec-php</a> ), залежно від вашої "
-"сторінки."
-
-#: inc/help.php:345
-msgid ""
-"The function to be called is <strong>imdb_call_external ()</strong>. It has "
-"two parameters, and both are mandatory. The first is the movie's name, and "
-"the second take always 'external'. For exemple, one'd like to display 'The "
-"Descent' should call the function like this:"
-msgstr ""
-"Функція буде називатися це <strong>imdb_call_external ().</strong> Вона має "
-"два параметри, і обидва є обов'язковими. Перший назва фільму, а другий взяти "
-"завжди 'зовнішнє.' Для Exemple, one'd б показати 'Зішестя\" повинна "
-"викликати функцію наступним чином:"
-
-#: inc/help.php:347
-msgid ""
-"The function can also be called using still 'external as second parameter, "
-"but the first will be blank and a new third parameter will take its IMDb "
-"movie's ID. For exemple, one'd like to display 'The Descent' should call the "
-"function this manner:"
-msgstr ""
-"Функція також може викликатися за допомогою ще 'зовнішні, другого параметра, "
-"але перший буде порожнім і новий третій параметр прийме ID свого IMDb "
-"відеозапису. Для Exemple, one'd б показати 'The Descent \"повинна викликати "
-"функцію цю манеру:"
-
-#: inc/help.php:352
-msgid ""
-"I like to display movie details, but I want to get rid of links which open a "
-"popup"
-msgstr ""
-"Мені подобається, щоб відобразити інформацію про фільм, але я хочу, щоб "
-"позбутися від посилань, які відкриваються спливаюче вікно"
-
-#: inc/help.php:353
-msgid ""
-"It could happen you do not want popups at all. Since by default IMDb link "
-"transformer add links whenever relevant to movie's details displayed inside "
-"posts, one may find this useless. To get rid of them, look for 'Widget/"
-"Inside post Options/Misc/Remove popup links?' and switch the option to "
-"'yes'. No links are created anymore, for both widget and inside a post."
-msgstr ""
-"Це може відбутися якщо ви не хочете спливаючі вікна на всіх. Так як по лінії "
-"трансформатора IMDb замовчуванням додавати посилання, коли ставлення до "
-"інформації про фільм в відображуваних всередині повідомлень, можна знайти "
-"цей марно. Щоб позбутися від них, шукати 'Віджет/Всередині розмістити Опції/"
-"Різне/Видалити спливаючі посилання? і перемкніть опцію «так». Немає ні "
-"одного посилання не створюються більше, як для віджета і всередині поста."
-
-#: inc/help.php:366
-msgid "IMDb link transformer is a mess! I'm lost with so many options."
-msgstr "Посилання трансформатор IMDb безлад! Я втратив так багато варіантів."
-
-#: inc/help.php:370
-msgid ""
-"Wordpress admin area offers more and more options to user. Starting with 2.7 "
-"release, it also offers the possibility to add new admin menu for plugins. "
-"IMDb link transformer makes the most of this possibility, and can add its "
-"own admin menu. It can be added - or removed. Depending of how many plugin's "
-"admin menus you already have, you would prefer to keep access to IMDb link "
-"transformer settings only through usual 'settings' tab; it's up to you to "
-"choose to either get a complet and bigger IMDb link transformer menu - or "
-"not."
-msgstr ""
-"Wordpress адмін область пропонує все більше і більше можливостей для "
-"користувача. Починаючи з 2.7-релізі, він також пропонує можливість додати "
-"нове меню адміністратора для плагінів. Посилання трансформатор IMDb робить "
-"велику частину цієї можливістю, і може додати своє власне меню "
-"адміністратора. Його можна додавати - або видалені. Залежно від того, "
-"скільки адміністратор меню плагіна у вас вже є, ви воліли б зберегти доступ "
-"до IMDb налаштувань посилання трансформаторних тільки через вкладку "
-"звичайних 'Налаштування'; це до вас, щоб вибрати або отримати Complet і "
-"більше IMDb меню посилання трансформатора - чи ні."
-
-#: inc/help.php:374
-msgid ""
-"In the case you want to, go to 'General options/Advanced/Display plugin in "
-"big admin menu' and turn to 'yes' the option. You will get a brand new menu, "
-"as shown on left."
-msgstr ""
-"У випадку, якщо ви хочете, вийти на 'Загальні параметри/Advanced Display "
-"плагіна/у великій меню адміністратора' і звернутися до «так» опціону. Ви "
-"отримаєте нові меню, як показано на лівій стороні."
-
-#: inc/help.php:379
-msgid ""
-"One can go still further; if installing <a href='http://planetozh.com/blog/"
-"my-projects/wordpress-admin-menu-drop-down-css/ '>Ozh Admin Drop Down Menu</"
-"a>, a plugin to switch classical vertical admin menu to horizontal and which "
-"gives the admin area more of a 'desktop application' feel. IMDb link "
-"transformer is ready to use improvements from Ozh's plugin, adding icons "
-"(when user select IMDb's plugin from the settings menu). Also, if you "
-"activate both Ozh's plugin and IMDb link transformer's big admin menu, you "
-"will get a nice and complete horizontal menu. Very useful."
-msgstr ""
-"Можна піти ще далі; при установці <a href='http://planetozh.com/blog/my-"
-"projects/wordpress-admin-menu-drop-down-css/ '>OZH Адмін падає вниз меню</"
-"a> , плагін для перемикання класичну меню вертикальне адміністратора в "
-"горизонтальній і який дає адмінку більше 'настільного програми' почуття. "
-"Посилання трансформатор IMDb готовий до використання поліпшення від плагіна "
-"OZH, додавши іконки (коли користувачеві вибрати плагін IMDB автора з меню "
-"налаштувань). Крім того, якщо ви активуєте як плагін OZH в і велика меню "
-"адміністратора IMDb посилання трансформатора, ви отримаєте гарний і повний "
-"горизонтальне меню. Дуже корисно."
-
-#: inc/help.php:393
-msgid ""
-"How to add a search function for movies in general, and not only for "
-"selected movies?"
-msgstr ""
-"Як додати функцію пошуку для фільмів у цілому, а не тільки для окремих "
-"фільмів?"
-
-#: inc/help.php:395
-msgid ""
-"It is indeed doable. Plugin is versatile enough to handle this function. By "
-"adding a form, you can add a search field which will allow users to search "
-"for every movie on your blog. Here is the code:"
-msgstr ""
-"Це дійсно здійснимо. Плагін досить універсальний, щоб впоратися з цією "
-"функцією. Додаючи форму, ви можете додати поле пошуку, який дозволить "
-"користувачам шукати кожному фільмі у своєму блозі. Ось код:"
-
-#: inc/help.php:409
-msgid "It perfectly fits in your sidebar, for exemple."
-msgstr "Це прекрасно вписується в бічній панелі, для Exemple."
-
-#: inc/help.php:426
-msgid "How to keep my own css through updated process?"
-msgstr "Як зберегти свій власний CSS через оновлений процесу?"
-
-#: inc/help.php:428
-msgid ""
-"Fed up of losing your carefully handmade visual settings at every IMDbLT "
-"update? There is a solution."
-msgstr ""
-"Федеральний уряд втрати ваших ретельно ручної роботи візуальні налаштування "
-"в кожному оновленні IMDbLT? Існує рішення."
-
-#: inc/help.php:431
-msgid ""
-"Every modification you can make is done in css/imdb.css file. Instead of "
-"using this file, put an imdb.css file in you template root folder; this css "
-"file will taken instead of plugin's css file. Whenever you update, your "
-"template's one will stay untouched!"
-msgstr ""
-"Будь-яка модифікація ви можете зробити це робиться в CSS/imdb.css файлу. "
-"Замість того щоб використовувати цей файл, покласти файл imdb.css в вас "
-"кореневій папці шаблону; цей файл CSS буде прийнята замість файлу CSS "
-"плагіна. Всякий раз, коли ви оновлюєте, один ваш шаблон буде залишатися "
-"недоторканим!"
-
-#: inc/help.php:434
-msgid ""
-"However, be careful with this manner, since css/imdb.css file can be updated "
-"from version to version, and you'd not be aware of changes made..."
-msgstr ""
-"Однак, будьте обережні з цим способом, так як CSS/imdb.css файл може бути "
-"оновлений з версії на версію, і ви не хочете бути в курсі змін, внесених ..."
-
-#: inc/help.php:449
-msgid "How to switch to another website other than IMDb?"
-msgstr "Як перейти на інший веб-сайт, крім IMDb?"
-
-#: inc/help.php:451
-msgid ""
-"Starting with IMDbLT 1.6 release, you have the opportunity to use other "
-"website source than IMDb."
-msgstr ""
-"Починаючи з IMDbLT 1.6-релізі, у вас є можливість використовувати інше "
-"джерело сайту, ніж IMDb."
-
-#: inc/help.php:454
-msgid ""
-"Since IMDb website's licence of use is quite protective, you may choose to "
-"use Moviepilot website instead (could have more choices in far future). To "
-"completely comply with legal obligations, follow these steps:"
-msgstr ""
-"Оскільки ліцензія IMDb сайту використання досить захисних, ви можете вибрати "
-"для використання сайту Moviepilot замість (може мати більш широкий вибір у "
-"далекому майбутньому). Щоб повністю відповідати правовим зобов'язанням, "
-"виконайте такі дії:"
-
-#: inc/help.php:460
-msgid ""
-"You need an API key from moviepilot.com. Send an email to api@moviepilot.de "
-"asking for an API key, and copy-paste the code you have been given in "
-"'General options -> Advanced -> Search, moviepilot part-> API Pilot key' "
-"field."
-msgstr ""
-"Вам потрібен ключ API від moviepilot.com. Надіслати лист api@moviepilot.de "
-"просячи ключ API, і скопіюйте і вставте код, який ви отримали в «Загальні "
-"параметри -> Додатково -> Пошук, moviepilot частина-> API Пілот ключ' поле."
-
-#: inc/help.php:461
-msgid "For a preformatted email"
-msgstr "Для преформатірованного електронній пошті"
-
-#: inc/help.php:461
-msgid "click here"
-msgstr "натисніть тут"
-
-#: inc/help.php:462
-msgid "Switch 'Get rid of IMDb' option to 'on'"
-msgstr "Перемикач «Позбавтеся від IMDb 'для' на '"
-
-#: inc/help.php:463
-msgid ""
-"You may now select both your local language and the accuracy level to comply "
-"with (IMDb behaviour)."
-msgstr ""
-"Тепер ви можете вибрати як ваш місцевий мову і рівень точності дотримуватися "
-"(IMDb поведінки)."
-
-#: inc/help.php:480
-msgid "What is Wordpress' taxonomy?"
-msgstr "Що таке таксономія Wordpress '?"
-
-#: inc/help.php:482
-msgid ""
-"Starting with Wordpress 2.3, plugins makers can use <a href='http://codex."
-"wordpress.org/WordPress_Taxonomy'>taxonomy</a>."
-msgstr ""
-"Починаючи з Wordpress 2.3, плагіни виробники можуть використовувати <a "
-"href='http://codex.wordpress.org/WordPress_Taxonomy'>таксономії</a> ."
-
-#: inc/help.php:483
-msgid ""
-"Taxonomy is a feature adding a supplementary categorisation beside "
-"Categories and Tags; in other words, it is like having species (a block "
-"named 'genre') and subspecies (few words describing the genre, like "
-"'Adventure', 'Terror'). It is not fundamentaly different from Categories and "
-"Tags, but it is much more appropriate for IMDb Link Transformer needs."
-msgstr ""
-"Систематика це функція додавання додаткової категоризації поруч категорій і "
-"тегів; іншими словами, це як мати види (блок під назвою 'жанр') і підвидів "
-"(кілька слів, що описують жанр, як «Пригода», «Терор»). Це не fundamentaly "
-"відрізняється від категорій і тегів, але це набагато більше підходить для "
-"IMDb Посилання трансформатор необхідний."
-
-#: inc/help.php:486
-msgid "How to use taxonomy Wordpress capability?"
-msgstr "Як використовувати таксономії можливості Wordpress?"
-
-#: inc/help.php:488
-msgid ""
-"To activate the automatically generated taxonomy, turn 'General options -> "
-"Advanced -> 'Use automatical genre taxonomy?' to 'yes'. Of course, since "
-"taxonomy is to a movie detail related, the movie detail you want to be used "
-"as taxonomy has to be also activated from 'Widget/Inside post Options -> "
-"What to display'. Eventually, it will permit to select in 'Widget/Inside "
-"post Options -> What to taxonomize' menu if you want to taxonomize Genres, "
-"but also actors, colors, composers, directors and so on."
-msgstr ""
-"Для активації автоматично згенерований таксономії, включіть 'Загальні "
-"параметри -> Додатково ->' Використовуйте платне жанр таксономії? щоб 'так.' "
-"Звичайно, так як таксономії до деталей кіно, пов'язаної, деталь фільм, який "
-"ви хочете використовувати в якості таксономії має бути також активований від "
-"'Віджет/Inside повідомленням Параметри -> Що відображати.' Зрештою, це "
-"дозволить вибрати в меню - 'Віджет/Inside розмістити Опції> Що taxonomize ', "
-"якщо ви хочете taxonomize Жанри, а й актори, кольору, композитори, режисери "
-"і так далі."
-
-#: inc/help.php:494
-msgid ""
-"After that, pay a visit to your post/page; first refresh will not "
-"immediately display the movie detail (it will only generate them). Though, "
-"on a second refresh, you will see both movie details and (if you wordpress "
-"theme is configured to show it) taxonomy in your post."
-msgstr ""
-"Після цього, з візитом у вашій записи/сторінки; Перший оновлення не відразу "
-"відображати деталі фільму (він буде генерувати тільки їх). Хоча, на другому "
-"оновлення, ви побачите як інформації про фільм і (якщо ви WordPress Theme "
-"налаштований, щоб показати його) таксономії в повідомленні."
-
-#: inc/help.php:498
-msgid "New option(s) in 'Posts' menu"
-msgstr "Нова опція (и) в меню 'повідомлень"
-
-#: inc/help.php:500
-msgid ""
-"Once you have activated all taxonomy options and have triggered its "
-"wordpress function (by visiting your post and refreshing the page), "
-"wordpress administration posts menu will include new option(s). Depending on "
-"movie details previously selected, you will find an option to manage the "
-"words automatically generated by the taxonomy function. For instance to "
-"select 'genre':"
-msgstr ""
-"Після активації всі варіанти таксономії і викликали його WordPress функцію "
-"(свій рахунок на пост, потім обновіть сторінку), WordPress меню повідомлень "
-"адміністрації буде включати в себе нову опцію (и). Залежно від інформації "
-"про фільм раніше обраних, ви знайдете можливість управляти слова автоматично "
-"згенерували функцією таксономії. Наприклад, щоб вибрати 'жанр\":"
-
-#: inc/help.php:507
-msgid "Limits"
-msgstr "Рамки"
-
-#: inc/help.php:508
-msgid ""
-"There is a strong limitation: since eache page/post can contain only a "
-"unique taxonomy sequence, only the first movie (first 'inside the post', "
-"first 'widget') will use the taxonomy feature. If you have two movie's "
-"widgets, only the first widget will display the links to genre's taxonomy. "
-"If you have both a movie's widget and an inside the post data, the movie's "
-"widget will prevail."
-msgstr ""
-"Існує сильна обмеження: з eache сторінка/повідомлення може містити лише "
-"унікальну послідовність таксономії, тільки перший фільм (перший 'усередині "
-"повідомленням ', перший\" віджет ') використовуватиме функцію таксономії. "
-"Якщо у вас є два віджета фільму, то тільки перший віджет буде відображати "
-"посилання на таксономії жанру. Якщо у вас є і віджет до фільмів і всередині "
-"даних поштових, віджет фільму переважатиме."
-
-#: inc/help.php:511
-msgid ""
-"Also, select cautiously options you want to be displayed as taxonomies: it "
-"could happen it creates a conflict with other functions, especially if you "
-"display many movies in same post. When selecting one of the taxonomy options "
-"from 'What to taxonomize' section, it will supersede any other function or "
-"link created; for instance, you won't have anymore access to popup links for "
-"directors, if directors taxonomy is chosen. Taxonomy will always prevail."
-msgstr ""
-"Крім того, виберіть обережно необхідні параметри для відображення в якості "
-"таксономії: це може статися це викличе конфлікт з іншими функціями, особливо "
-"якщо ви показуєте багато фільмів в тій же посаді. При виборі одного з "
-"варіантів таксономії з розділу 'Що taxonomize ', це витіснить будь-яку іншу "
-"функцію або посилання, створену; наприклад, у вас не буде більше доступу до "
-"спливаючих посилань для директорів, якщо директора таксономії вибирається. "
-"Систематика завжди переважатиме."
-
-#: inc/help.php:515
-msgid "Advanced: Customizing your theme according taxonomy"
-msgstr "Додатково: Налаштування вашого тему відповідно таксономії"
-
-#: inc/help.php:517
-msgid ""
-"To fully enjoy this feature, copy the file in IMDb link transformer folder "
-"'theme/taxonomy-genre.php' to your 'theme' folder. Customize this page "
-"according to your tastes and theme design. The design is the same as (ie) "
-"the tag.php file."
-msgstr ""
-"Щоб повною мірою насолодитися цієї функції, скопіюйте файл у папку IMDb "
-"посилання трансформатора 'тема/таксономії-genre.php 'в папку' тему '. "
-"Налаштувати цю сторінку відповідно до ваших смаків і тематичний дизайн. "
-"Конструкція така ж, як (тобто) файлу Tag.php."
-
-#: inc/help.php:533
-msgid ""
-"How to get the movie retrieved automatically according to the post's title?"
-msgstr ""
-"Як отримати фільм витягується автоматично відповідно до заголовок записи?"
-
-#: inc/help.php:535
-msgid ""
-"You have hundreds of posts, carrefully named as they could be found on IMDb, "
-"and you don't want to change hundreds of posts. There is a straightforward "
-"solution."
-msgstr ""
-"У вас є сотні повідомлень, carrefully іменами, як вони могли бути знайдені "
-"на IMDb, і ви не хочете, щоб змінити сотні повідомлень. Існує просте рішення."
-
-#: inc/help.php:538
-msgid ""
-"Activate Widget option in IMDbLT (it is activated by default), add the "
-"IMDbLT Widget to your sidebar, and go to 'Widget/Inside post Options' menu, "
-"select 'misc' from the new menu, and select « yes » from « Auto widget? » "
-"option at end."
-msgstr ""
-"Активуйте опцію віджета в IMDbLT (це за замовчуванням включена), додайте "
-"IMDbLT Widget на бічну панель, і перейдіть в меню «Віджет/всередині Опції "
-"повідомлення 'виберіть' різний 'з нового меню, і виберіть« так »від« Авто "
-"віджет? »Варіант в кінці."
-
-#: inc/help.php:546
-msgid ""
-"Next time you will look at your post, you will find the widget according to "
-"your post’s title."
-msgstr ""
-"Наступного разу ви будете виглядати на своєму посту, ви знайдете віджет "
-"відповідно з назвою вашого посту."
-
-#: inc/popup-imdb_person.php:52
-msgid "Back"
-msgstr "Назад"
-
-#: inc/popup-imdb_person.php:55
-msgid "Filmography"
-msgstr "Фільмографія"
-
-#: inc/popup-imdb_person.php:59 inc/popup-imdb_person.php:238
-msgid "Biography"
-msgstr "Біографія"
-
-#: inc/popup-imdb_person.php:80
-msgid "Born on"
-msgstr "Народився"
-
-#: inc/popup-imdb_person.php:82 inc/popup-imdb_person.php:87
-msgid "in"
-msgstr "в"
-
-#: inc/popup-imdb_person.php:86
-msgid "Died on"
-msgstr "Помер на"
-
-#: inc/popup-imdb_person.php:88
-msgid "cause"
-msgstr "причина"
-
-#: inc/popup-imdb_person.php:211
-msgid "Biographical movies"
-msgstr "Біографічні фільми"
-
-#: inc/popup-imdb_person.php:291
-msgid "Nicknames"
-msgstr "Прізвиська"
-
-#: inc/popup-imdb_person.php:319
-msgid "Personal quotes"
-msgstr "Особисті цитати"
-
-#: inc/popup-imdb_person.php:346
-msgid "Trademarks"
-msgstr "Торгові марки"
-
-#: inc/popup-header.php:47
-msgid "Search"
-msgstr "Пошук"
-
-#: inc/popup-header.php:81
-msgid ""
-"Please wait while data is retrieved... <br />Process can take some time."
-msgstr ""
-"Зачекайте, поки дані витягуються ... <br /> Процес може зайняти деякий час."
-
-#: inc/options-cache.php:43 inc/options-cache.php:110
-msgid "Cannot work this way."
-msgstr "Не можете працювати таким чином."
-
-#: inc/options-cache.php:63 inc/options-cache.php:90 inc/options-cache.php:131
-#: inc/options-cache.php:166
-msgid "This file does not exist"
-msgstr "Цей файл не існує"
-
-#: inc/options-cache.php:99
-msgid "Cache successfully deleted, back to the"
-msgstr "Кеш успішно видалений, до"
-
-#: inc/options-cache.php:99
-msgid "previous page"
-msgstr "попередня сторінка"
-
-#: inc/options-cache.php:185
-msgid "Cache succesfully refreshed, close the window."
-msgstr "Кеш успішно оновилася, закрийте вікно."
-
-#: inc/options-cache.php:222
-msgid "Manage Cache"
-msgstr "Управління Кешувати"
-
-#: inc/options-cache.php:229
-msgid ""
-"Cache is crucial to IMDb link transformer operation. As first imdb searchs "
-"are quite time consuming, if you do not want to kill your server but instead "
-"want quickest browsing experience, you will use cache. Pay a special "
-"attention to directories that need to be created."
-msgstr ""
-"Кеш має вирішальне значення для функціонування посилання трансформатора "
-"IMDb. Як перший IMDb Searchs досить багато часу, якщо ви не хочете, щоб "
-"убити ваш сервер, але замість цього хочете швидкий досвід перегляду, ви "
-"будете використовувати кеш. Зверніть особливу увагу на каталоги, які повинні "
-"бути створені."
-
-#: inc/options-cache.php:243
-msgid "Cache directories (folders have to be created and writable)"
-msgstr "Каталоги Cache (папки повинні бути створені і для запису)"
-
-#: inc/options-cache.php:248
-msgid "Cache directory (absolute path)"
-msgstr "Каталог Кеш (абсолютний шлях)"
-
-#: inc/options-cache.php:256 inc/options-cache.php:257
-#: inc/options-cache.php:297 inc/options-cache.php:298
-msgid "Cache size is currently"
-msgstr "Об'єм кеш-пам'яті в даний час"
-
-#: inc/options-cache.php:265 inc/options-cache.php:306
-msgid "Folder exists."
-msgstr "Папка існує."
-
-#: inc/options-cache.php:269 inc/options-cache.php:310
-msgid "Folder doesn't exist!"
-msgstr "Папка не існує!"
-
-#: inc/options-cache.php:274 inc/options-cache.php:315
-msgid "Permissions OK."
-msgstr "Дозволи ОК."
-
-#: inc/options-cache.php:278 inc/options-cache.php:319
-msgid "Check folder permissions!"
-msgstr "Перевірте дозволи для папки!"
-
-#: inc/options-cache.php:282
-msgid ""
-"Absolute path to store data retrieved from the IMDb website. Has to be <a "
-"href=\"http://codex.wordpress.org/Changing_File_Permissions\" title="
-"\"permissions how-to on wordpress website\">writable</a> by the webserver."
-msgstr ""
-"Абсолютний шлях для зберігання даних, отриманих з веб-сайту IMDb. Повинен "
-"бути <a href=\"http://codex.wordpress.org/Changing_File_Permissions\" title="
-"\"Дозволу\" how-to on wordpress website\">доступний для запису</a> веб-"
-"сервером."
-
-#: inc/options-cache.php:289
-msgid "Photo directory (absolute path)"
-msgstr "Каталог Фото (абсолютний шлях)"
-
-#: inc/options-cache.php:323
-msgid ""
-"Absolute path to store images retrieved from the IMDb website. Has to be <a "
-"href=\"http://codex.wordpress.org/Changing_File_Permissions\" title="
-"\"permissions how-to on wordpress website\">writable</a> by the webserver."
-msgstr ""
-"Абсолютний шлях для зберігання зображень, витягнуті з веб-сайті IMDb. "
-"Повинен бути a href=\"http://codex.wordpress.org/Changing_File_Permissions\" "
-"title=\"permissions how-to on wordpress website\">доступний для запису</a> "
-"веб-сервером."
-
-#: inc/options-cache.php:328
-msgid "Photo directory (url)"
-msgstr "Каталог Фото (URL)"
-
-#: inc/options-cache.php:331
-msgid "URL corresponding to photo directory."
-msgstr "URL, відповідний фото каталог."
-
-#: inc/options-cache.php:338
-msgid "Cache general options"
-msgstr "Кеш загальні параметри"
-
-#: inc/options-cache.php:343
-msgid "Store cache?"
-msgstr "Магазин кеш?"
-
-#: inc/options-cache.php:347
-msgid "Use cache?"
-msgstr "Використовуйте кеш?"
-
-#: inc/options-cache.php:351
-msgid "Cache expire"
-msgstr "Кеш закінчується"
-
-#: inc/options-cache.php:354
-msgid "(never)"
-msgstr "(Ніколи)"
-
-#: inc/options-cache.php:360
-msgid ""
-"Whether to store the pages retrieved for later use. When activated, you have "
-"to check you created the folders"
-msgstr ""
-"Будь для зберігання сторінок, витягнутих для подальшого використання. При "
-"активації ви повинні перевірити ви створили папки"
-
-#: inc/options-cache.php:360
-msgid "Cache directory"
-msgstr "Каталог кеша"
-
-#: inc/options-cache.php:360
-msgid "and"
-msgstr "і"
-
-#: inc/options-cache.php:360
-msgid "Photo directory (folder)"
-msgstr "Каталог Фото (папка)"
-
-#: inc/options-cache.php:363
-msgid ""
-"Whether to use a cached page to retrieve the information (if available)."
-msgstr ""
-"Чи варто використовувати кешована сторінку для отримання інформації (за "
-"наявності)."
-
-#: inc/options-cache.php:366
-msgid ""
-"Cache files older than this value (in seconds) will be automatically "
-"deleted. Insert \"0\" or click \"never\" to keep cache files forever."
-msgstr ""
-"Файли кешу старше цього значення (у секундах), будуть автоматично видалені. "
-"Вставте \"0 \" або натисніть \"ніколи \", щоб зберегти файли кешу назавжди."
-
-#: inc/options-cache.php:366
-msgid "(one month)"
-msgstr "(Один місяць)"
-
-#: inc/options-cache.php:372
-msgid "Cache zip options"
-msgstr "Кеш Варіанти блискавки"
-
-#: inc/options-cache.php:376
-msgid "Convert to zip?"
-msgstr "Перетворення, щоб промайнути?"
-
-#: inc/options-cache.php:381
-msgid "Use zip?"
-msgstr "Використовуйте блискавку?"
-
-#: inc/options-cache.php:388
-msgid "Convert non-zip cache-files to zip (check file permissions!)"
-msgstr ""
-"Перетворення не-поштовий кеш-файли в ZIP (перевірити права доступу до "
-"файлів!)"
-
-#: inc/options-cache.php:391
-msgid "Use zip compression for caching the retrieved html-files."
-msgstr "Використовуйте поштовий стиск для кешування витягнуті HTML-файли."
-
-#: inc/options-cache.php:399
-msgid "Cache details"
-msgstr "Детальніше Cache"
-
-#: inc/options-cache.php:403
-msgid "Show advanced cache details"
-msgstr "Показати додаткові деталі кеша"
-
-#: inc/options-cache.php:412
-msgid "Quick advanced cache details"
-msgstr "Швидкі розширений Дані кеша"
-
-#: inc/options-cache.php:422
-msgid ""
-"To show or not advanced cache details, which allows to specifically delete a "
-"movie cache. Be carefull with this option, if you have a lot of cached "
-"movies, it could crash this page. When yes is selected, an additional menu "
-"\"manage cache\" will appear next to the cache \"General Options\" menu."
-msgstr ""
-"Щоб показати або передові деталі кеша, що дозволяє конкретно видалити кеш "
-"кіно. Будьте обережні з цією опцією, якщо у вас є багато кешованих фільмів, "
-"він може звалитися цю сторінку. При виборі так, додаткове меню \"управляти "
-"кеша \" з'явиться поруч з кеш  \"Загальні параметри \" меню."
-
-#: inc/options-cache.php:425
-msgid ""
-"Allow a quicker load time for the \"manage cache\" page, by displaying "
-"shorter movies and people presentation. Usefull when you have several of "
-"those. This option is available when \"Show advanced cache details\" is "
-"activated."
-msgstr ""
-"Дозволити швидкий час навантаження для \"управляти кеша \" сторінку, "
-"відображаючи короткі фільми і презентації люди. Корисна коли у вас є "
-"декілька з них. Ця опція доступна, коли \"Показати розширений Дані кеша \" "
-"активується."
-
-#: inc/options-cache.php:476
-msgid "Movie's detailed cache"
-msgstr "Детальна кеш фільму"
-
-#: inc/options-cache.php:477
-msgid ""
-"If you want to refresh movie's cache regardless the cache expiration time, "
-"you may either tick movie's checkbox(es) related to the movie you want to "
-"delete and click on \"delete cache\", or you may click on individual movies "
-"\"refresh\". The first way will require an additional movie refresh - from "
-"you post, for instance."
-msgstr ""
-"Якщо ви хочете оновити кеш фільму, незалежно термін дії кеша, ви можете або "
-"відзначте, фільму (ES), пов'язані з кіно, яке Ви хочете видалити, і "
-"натисніть \"Очистити кеш \", або ви можете натиснути на окремих фільмів "
-"\"оновлення \". Перший спосіб зажадає додаткового оновлення фільмів - від "
-"вас повідомлення, наприклад."
-
-#: inc/options-cache.php:480 inc/options-cache.php:570
-msgid "You may also either delete individually the cache or by group."
-msgstr "Ви також можете або видалити індивідуально кеш або групи."
-
-#: inc/options-cache.php:511 inc/options-cache.php:602
-msgid "last updated on "
-msgstr "Останнє оновлення на"
-
-#: inc/options-cache.php:514 inc/options-cache.php:605
-msgid "refresh"
-msgstr "оновлення"
-
-#: inc/options-cache.php:517 inc/options-cache.php:607
-msgid "delete"
-msgstr "видаляти"
-
-#: inc/options-cache.php:529 inc/options-cache.php:618
-msgid "No file found in cache folder."
-msgstr "Файл не знайдено в папці кеша."
-
-#: inc/options-cache.php:554 inc/options-cache.php:640
-msgid "Delete cache"
-msgstr "Видалити кеш"
-
-#: inc/options-cache.php:556 inc/options-cache.php:642
-#: inc/options-cache.php:655
-msgid "Warning!"
-msgstr "Попередження!"
-
-#: inc/options-cache.php:557 inc/options-cache.php:643
-msgid ""
-"This button will to delete specific cache files selected from cache folder."
-msgstr "Ця кнопка буде видаляти певні файли кешу, вибраних з папки кеша."
-
-#: inc/options-cache.php:567
-msgid "People's detailed cache"
-msgstr "Народний докладна кеш"
-
-#: inc/options-cache.php:568
-msgid ""
-"If you want to refresh people's cache regardless the cache expiration time, "
-"you may either tick people checkbox(es) related to the person you want to "
-"delete and click on \"delete cache\", or you may click on individual "
-"people's \"refresh\". The first way will require an additional people "
-"refresh - from you post, for instance."
-msgstr ""
-"Якщо ви хочете оновити кеш людей незалежно термін дії кеша, ви можете або "
-"галочку людей прапорець (адреси), які стосуються людину, яку ви хочете "
-"видалити, і натисніть \"Очистити кеш \", або ви можете натиснути на окремих "
-"людей \"оновлення \". Перший спосіб зажадає додаткові люди оновити - від вас "
-"повідомлення, наприклад."
-
-#: inc/options-cache.php:652
-msgid "Global cache"
-msgstr "Глобальний кеш"
-
-#: inc/options-cache.php:653
-msgid ""
-"If you want to reset the entire cache (including names & pictures cache) "
-"click on \"reset cache\". Beware, there is no undo."
+#: inc/options-general.php:364
+msgid "others taxonomy options"
 msgstr ""
-"Якщо ви хочете скинути весь кеш (у тому числі імен і фотографій кеша) "
-"натисніть на \"перезавантаження кеш \". Остерігайтеся, немає скасування."
 
-#: inc/options-cache.php:662
-msgid "Delete all cache"
-msgstr "Видалити все кеш"
-
-#: inc/options-cache.php:664
-msgid ""
-"This button will <strong>delete all cache</strong> stored in cache folder."
-msgstr ""
-"Ця кнопка буде <strong>видаляти всі кеш</strong> зберігається в папці кеша."
-
-#: inc/options-cache.php:675
-msgid ""
-"A cache folder has to be created and the cache storage option has to be "
-"activated before having the opportunity to manage cache!"
-msgstr ""
-"Папка кешу повинен бути створений і варіант зберігання кеша повинен бути "
-"активований до того, можливість керувати кеш!"
-
-#: inc/functions.php:58 inc/functions.php:242 inc/functions.php:273
-#: inc/imdb-movie.inc.php:473 inc/imdb-movie.inc.php:572
-#: inc/imdb-movie.inc.php:615 inc/imdb-movie.inc.php:659
-#: inc/imdb-movie.inc.php:705 inc/imdb-movie.inc.php:754
-msgid "open a new window with IMDb informations"
-msgstr "відкрити нове вікно з IMDb інформацій"
-
-#: inc/functions.php:76
-msgid ""
-"<strong>Licensing Info:</strong> Under the GPL licence, \"IMDb link "
-"transformer\" is based on <a href=\"http://www.izzysoft.de\">imdbphp "
-"project</a> classes. However, a huge customization work has been required to "
-"implement it to wordpress; check support page for"
+#: inc/options-general.php:364
+msgid "Taxonomy terms are uninstalled when removing the plugin."
 msgstr ""
-"<strong>Ліцензування інформація:</strong> За ліцензією GPL, \"IMDb посилання "
-"трансформатор \" заснований на <a href=\"http://www.izzysoft.de\">проектних "
-"imdbphp</a> класів. Проте, величезна робота на замовлення було, необхідних "
-"для реалізації його на WordPress; перевірити сторінку підтримки для"
-
-#: inc/functions.php:76
-msgid "more"
-msgstr "більш"
-
-#: inc/functions.php:161
-msgid "Movie's titles"
-msgstr "Назви фільму"
-
-#: inc/functions.php:164
-msgid "Movie's genres"
-msgstr "Жанри фільму"
-
-#: inc/functions.php:167
-msgid "Movie's keywords"
-msgstr "Ключові слова фільму"
-
-#: inc/functions.php:170
-msgid "Movie's countries"
-msgstr "Країни фільму"
-
-#: inc/functions.php:173
-msgid "Movie's languages"
-msgstr "Мови фільму"
-
-#: inc/functions.php:176
-msgid "Movie's composers"
-msgstr "Композитори фільму"
-
-#: inc/functions.php:179
-msgid "Movie's colors"
-msgstr "Кольори фільму"
-
-#: inc/functions.php:182
-msgid "Movie's directors"
-msgstr "Режисери фільму"
-
-#: inc/functions.php:185
-msgid "Movie's creators"
-msgstr "Творці фільму"
-
-#: inc/functions.php:188
-msgid "Movie's producers"
-msgstr "Виробники фільму"
-
-#: inc/functions.php:191
-msgid "Movie's actors"
-msgstr "Актори фільму"
-
-#: inc/functions.php:194
-msgid "Movie's writers"
-msgstr "Письменники фільму"
-
-#: inc/widget.php:25
-msgid "IMDb data"
-msgstr "Дані IMDb"
-
-#: inc/widget.php:86
-msgid "Title:"
-msgstr "Назва:"
-
-#: inc/imdb-movie.inc.php:240
-msgid "votes, average "
-msgstr "голосів, середній"
-
-#: inc/imdb-movie.inc.php:242
-msgid "(max 10)"
-msgstr "(Макс. 10)"
-
-#: inc/imdb-movie.inc.php:245
-msgid "vote average "
-msgstr "Голосів середньому"
-
-#: inc/imdb-movie.inc.php:245
-msgid " out of 10"
-msgstr "з 10"
-
-#: inc/imdb-movie.inc.php:246
-msgid "votes"
-msgstr "голосів"
-
-#: inc/imdb-movie.inc.php:287
-msgid "Keyword"
-msgid_plural "Keywords"
-msgstr[0] "Ключове слово"
-msgstr[1] "Ключові слова"
-
-#: inc/imdb-movie.inc.php:330
-msgid "User's comment"
-msgid_plural "User's comments"
-msgstr[0] "Зауваження користувача"
-msgstr[1] "Коментарі користувача"
-
-#: inc/imdb-movie.inc.php:355
-msgid "Quote"
-msgid_plural "Quotes"
-msgstr[0] "Цитата"
-msgstr[1] "Цитати"
-
-#: inc/imdb-movie.inc.php:376 inc/options-widget.php:222
-#: inc/options-widget.php:223
-msgid "Tagline"
-msgid_plural "Taglines"
-msgstr[0] "Слоган"
-msgstr[1] "Слогани"
-
-#: inc/imdb-movie.inc.php:391
-msgid "Trailer"
-msgid_plural "Trailers"
-msgstr[0] "Трейлер"
-msgstr[1] "Трейлери"
-
-#: inc/imdb-movie.inc.php:440 inc/options-widget.php:238
-#: inc/options-widget.php:239
-msgid "Also known as"
-msgstr "Також відомий, як"
-
-#: inc/imdb-movie.inc.php:461 inc/options-widget.php:256
-#: inc/options-widget.php:257
-msgid "Composer"
-msgid_plural "Composers"
-msgstr[0] "Композитор"
-msgstr[1] "Композитори"
-
-#: inc/imdb-movie.inc.php:475 inc/imdb-movie.inc.php:574
-#: inc/imdb-movie.inc.php:617 inc/imdb-movie.inc.php:661
-#: inc/imdb-movie.inc.php:707 inc/imdb-movie.inc.php:756
-msgid "Link to local imdb"
-msgstr "Посилання на місцевому IMDB"
-
-#: inc/imdb-movie.inc.php:537
-msgid "Official website"
-msgid_plural "Official websites"
-msgstr[0] "Офіційний сайт"
-msgstr[1] "Офіційні сайти"
-
-#: inc/imdb-movie.inc.php:601 inc/options-widget.php:116
-#: inc/options-widget.php:117
-msgid "Creator"
-msgid_plural "Creators"
-msgstr[0] "Творець"
-msgstr[1] "Творці"
-
-#: inc/imdb-movie.inc.php:737 inc/options-widget.php:97
-#: inc/options-widget.php:98
-msgid "Actor"
-msgid_plural "Actors"
-msgstr[0] "Актор"
-msgstr[1] "Актори"
-
-#: inc/imdb-movie.inc.php:812 inc/options-widget.php:337
-#: inc/options-widget.php:338
-msgid "Source"
-msgstr "Джерело"
 
-#: inc/options-widget.php:23 inc/options-widget.php:49
+#: inc/options-widget.php:45 inc/options-widget.php:65
 msgid "What to display"
 msgstr "Що для відображення"
 
-#: inc/options-widget.php:25
+#: inc/options-widget.php:47
 msgid "What to taxonomize"
 msgstr "Що taxonomize"
 
-#: inc/options-widget.php:27
+#: inc/options-widget.php:49
 msgid "Taxonomy unactivated"
 msgstr "Систематика неактивованої"
 
-#: inc/options-widget.php:29
+#: inc/options-widget.php:51
 msgid "Display order"
 msgstr "Порядок відображення"
 
-#: inc/options-widget.php:37
-msgid "<i>Widget</i> and <i>Inside a post</i> settings"
-msgstr "<i>Віджет</i> і <i>всередині поштових</i> налаштувань"
-
-#: inc/options-widget.php:54 inc/options-widget.php:55
+#: inc/options-widget.php:70 inc/options-widget.php:71
 msgid "Title"
 msgstr "Назва"
 
-#: inc/options-widget.php:60 inc/options-widget.php:61
-msgid "Picture"
-msgstr "Картинка"
-
-#: inc/options-widget.php:74
+#: inc/options-widget.php:75
 msgid "Display the title"
 msgstr "Відображення заголовка"
 
-#: inc/options-widget.php:75
+#: inc/options-widget.php:80 inc/options-widget.php:81
+msgid "Picture"
+msgstr "Картинка"
+
+#: inc/options-widget.php:86
 msgid "Display the picture"
 msgstr "Покажіть ілюстрацію із зображенням"
 
-#: inc/options-widget.php:76
+#: inc/options-widget.php:96
 msgid "Display the runtime"
 msgstr "Відображення виконання"
 
-#: inc/options-widget.php:107
+#: inc/options-widget.php:111
 msgid "Display directors"
 msgstr "Показати директора"
 
-#: inc/options-widget.php:108
+#: inc/options-widget.php:123
 msgid "Display country"
 msgstr "Показати країна"
 
-#: inc/options-widget.php:109
+#: inc/options-widget.php:136
 msgid "Display (how many) actors"
 msgstr "Дисплей (скільки) актори"
 
-#: inc/options-widget.php:138
+#: inc/options-widget.php:149
 msgid "Display Creator"
 msgstr "Показати Творець"
 
-#: inc/options-widget.php:140
+#: inc/options-widget.php:153 inc/options-widget.php:154
+#: inc/popup-imdb_movie.php:239
+msgid "Year"
+msgstr "Рік"
+
+#: inc/options-widget.php:158
 msgid "Display release year. Year will appear next title's movie, in brackets."
 msgstr ""
 "Реліз Показати році. Рік з'явиться фільм в наступному заголовка, в дужках."
 
-#: inc/options-widget.php:142
+#: inc/options-widget.php:170
 msgid "Display genre(s)"
 msgstr "Показати жанр (и)"
 
-#: inc/options-widget.php:175
+#: inc/options-widget.php:187
 msgid "Display writers"
 msgstr "Показати письменники"
 
-#: inc/options-widget.php:176
+#: inc/options-widget.php:198
 msgid "Display producer(s)"
 msgstr "Виробник дисплей (и)"
 
-#: inc/options-widget.php:177
+#: inc/options-widget.php:212
 msgid ""
 "Display plot(s). Be careful, this field may need a lot of space. In ideal "
 "case, this plugin is used inside a post and not into a widget."
@@ -2161,122 +2193,142 @@ msgstr ""
 "місця. В ідеальному випадку, цей плагін використовується всередині "
 "повідомленням, а не в віджет."
 
-#: inc/options-widget.php:185 inc/options-widget.php:186
-msgid "Goofs"
-msgstr "Нестиковок"
-
-#: inc/options-widget.php:194 inc/options-widget.php:195
-msgid "Users comment"
-msgstr "Користувачі коментувати"
-
-#: inc/options-widget.php:203 inc/options-widget.php:204
-msgid "Quotes"
-msgstr "Лапки"
-
-#: inc/options-widget.php:213
-msgid "Display (how many) goof"
-msgstr "Дисплей (скільки) лох"
-
-#: inc/options-widget.php:214
-msgid "Display (how many) users' comments"
-msgstr "Коментарі дисплей (скільки) користувачів"
-
-#: inc/options-widget.php:215
-msgid "Display (how many) quotes from movie"
-msgstr "Дисплей (скільки) цитати з фільму"
-
-#: inc/options-widget.php:231 inc/options-widget.php:232
-#: inc/options-widget.php:385
-msgid "Colors"
-msgstr "Кольори"
-
-#: inc/options-widget.php:246
-msgid "Display (how many) tagline"
-msgstr "Дисплей (скільки) слоган"
-
-#: inc/options-widget.php:247
-msgid "Display colors"
-msgstr "Кольори дисплея"
-
-#: inc/options-widget.php:248
-msgid "Display all movie's names"
-msgstr "Дисплей імена всіх фільму"
-
-#: inc/options-widget.php:272 inc/options-widget.php:273
-msgid "Trailers"
-msgstr "Причепи"
-
-#: inc/options-widget.php:283
-msgid "Display composer"
-msgstr "Показати композитор"
-
-#: inc/options-widget.php:284
-msgid "Display (how many) soundtrack"
-msgstr "Дисплей (скільки) саундтрек"
-
-#: inc/options-widget.php:285
-msgid "Display (how many) trailers"
-msgstr "Дисплей (скільки) причепи"
-
-#: inc/options-widget.php:293 inc/options-widget.php:294
-msgid "Official websites"
-msgstr "Офіційні сайти"
-
-#: inc/options-widget.php:316
-msgid "Display official websites"
-msgstr "Дисплей офіційні сайти"
-
-#: inc/options-widget.php:319
-msgid "Display rating"
-msgstr "Рейтинг Дисплей"
-
-#: inc/options-widget.php:322
-msgid "Display language(s)"
-msgstr "Мова інтерфейсу (и)"
-
-#: inc/options-widget.php:330 inc/options-widget.php:331
-#: inc/options-widget.php:460
+#: inc/options-widget.php:222 inc/options-widget.php:223
+#: inc/options-widget.php:668
 msgid "Keywords"
 msgstr "Ключові слова"
 
-#: inc/options-widget.php:348
+#: inc/options-widget.php:229
 msgid "Display keywords"
 msgstr "Показати ключові слова"
 
-#: inc/options-widget.php:349
+#: inc/options-widget.php:241
+#, fuzzy
+#| msgid "Display the runtime"
+msgid "Display the production companies"
+msgstr "Відображення виконання"
+
+#: inc/options-widget.php:246 inc/options-widget.php:247
+msgid "Quotes"
+msgstr "Лапки"
+
+#: inc/options-widget.php:255
+msgid "Display (how many) quotes from movie"
+msgstr "Дисплей (скільки) цитати з фільму"
+
+#: inc/options-widget.php:274
+msgid "Display (how many) tagline"
+msgstr "Дисплей (скільки) слоган"
+
+#: inc/options-widget.php:279 inc/options-widget.php:280
+#: inc/options-widget.php:481
+msgid "Colors"
+msgstr "Кольори"
+
+#: inc/options-widget.php:286
+msgid "Display colors"
+msgstr "Кольори дисплея"
+
+#: inc/options-widget.php:298
+msgid "Display all movie's names"
+msgstr "Дисплей імена всіх фільму"
+
+#: inc/options-widget.php:315
+msgid "Display composer"
+msgstr "Показати композитор"
+
+#: inc/options-widget.php:329
+msgid "Display (how many) soundtrack"
+msgstr "Дисплей (скільки) саундтрек"
+
+#: inc/options-widget.php:334 inc/options-widget.php:335
+msgid "Trailers"
+msgstr "Причепи"
+
+#: inc/options-widget.php:343
+msgid "Display (how many) trailers"
+msgstr "Дисплей (скільки) причепи"
+
+#: inc/options-widget.php:353 inc/options-widget.php:354
+msgid "Official websites"
+msgstr "Офіційні сайти"
+
+#: inc/options-widget.php:360
+msgid "Display official websites"
+msgstr "Дисплей офіційні сайти"
+
+#: inc/options-widget.php:372
+msgid "Display rating"
+msgstr "Рейтинг Дисплей"
+
+#: inc/options-widget.php:384
+msgid "Display language(s)"
+msgstr "Мова інтерфейсу (и)"
+
+#: inc/options-widget.php:392 inc/options-widget.php:393
+msgid "Goofs"
+msgstr "Нестиковок"
+
+#: inc/options-widget.php:401
+msgid "Display (how many) goof"
+msgstr "Дисплей (скільки) лох"
+
+#: inc/options-widget.php:406 inc/options-widget.php:407
+msgid "Users comment"
+msgstr "Користувачі коментувати"
+
+#: inc/options-widget.php:415
+msgid "Display (how many) users' comments"
+msgstr "Коментарі дисплей (скільки) користувачів"
+
+#: inc/options-widget.php:427
 msgid "Display website source at the end of the post"
 msgstr "Веб-сайт, дисплей в кінці поста"
 
-#: inc/options-widget.php:360
-msgid ""
-"Please <a href=\"?page=imdblt_options&generaloption=advanced\">activate "
-"taxonomy</a> priorly<br /> to access taxonomies options."
+#: inc/options-widget.php:438
+msgid "Please "
 msgstr ""
-"Будь ласка <a href=\"?page=imdblt_options&generaloption=advanced\">, "
-"включіть таксономії</a> priorly <br /> для доступу до таксономії варіанти."
 
-#: inc/options-widget.php:364
+#: inc/options-widget.php:438
+#, fuzzy
+#| msgid "What to taxonomize"
+msgid "activate taxonomy"
+msgstr "Що taxonomize"
+
+#: inc/options-widget.php:438
+msgid " priorly"
+msgstr ""
+
+#: inc/options-widget.php:438
+msgid "to access taxonomies options."
+msgstr ""
+
+#: inc/options-widget.php:443
 msgid "Select details to use as taxonomy"
 msgstr "Виберіть деталі для використання в якості таксономії"
 
-#: inc/options-widget.php:367
+#: inc/options-widget.php:448
 msgid ""
-"Use the checkbox to display (or not) details. When activated, details names "
-"are turned to blue. Check the box to turn it back to black (and thus "
-"deactivating detail as taxonomy)."
+"Use the checkbox to display (or not) taxonomy categories. When activated, "
+"categories become blue."
 msgstr ""
-"Використовуйте прапорець для відображення (чи ні) подробиці. При активації "
-"докладніше імена перетворилися на синій. Встановіть прапорець, щоб включити "
-"його назад в чорний (і, отже, відключення деталь як таксономії)."
 
-#: inc/options-widget.php:369
+#: inc/options-widget.php:450
+#, fuzzy
+#| msgid ""
+#| "Select cautiously options you want to be displayed as taxonomies: it "
+#| "could happen it creates a conflict with other functions, especially if "
+#| "you display many movies in same post. When selecting one of the following "
+#| "taxonomy options, it will supersede any other function or link created; "
+#| "for instance, you won't have anymore access to popup links for directors, "
+#| "if directors taxonomy is chosen. Taxonomy will always prevail."
 msgid ""
-"Select cautiously options you want to be displayed as taxonomies: it could "
-"happen it creates a conflict with other functions, especially if you display "
-"many movies in same post. When selecting one of the following taxonomy "
-"options, it will supersede any other function or link created; for instance, "
-"you won't have anymore access to popup links for directors, if directors "
-"taxonomy is chosen. Taxonomy will always prevail."
+"Cautiously select the categories you want to display: it may have unwanted "
+"effects, particularly if you display many movies in the same post at once. "
+"When selecting one of the following taxonomy options, it will supersede any "
+"other function or link created; for instance, you will not have access "
+"anymore to the popups for directors, if directors taxonomy is chosen. "
+"Taxonomy will always prevail over other Lumiere functionalities."
 msgstr ""
 "Виберіть обережно необхідні параметри для відображення в якості таксономії: "
 "це може статися це викличе конфлікт з іншими функціями, особливо якщо ви "
@@ -2286,52 +2338,88 @@ msgstr ""
 "директорів, якщо директора таксономії вибирається. Систематика завжди "
 "переважатиме."
 
-#: inc/options-widget.php:391
+#: inc/options-widget.php:453
+msgid ""
+"Note: once activated, each taxonomy category will show a new option to copy "
+"a taxonomy template directy into your template folder."
+msgstr ""
+
+#: inc/options-widget.php:462 inc/popup-imdb_movie.php:153
+msgid "Actors"
+msgstr "Актори"
+
+#: inc/options-widget.php:468 inc/options-widget.php:488
+#: inc/options-widget.php:506 inc/options-widget.php:526
+#: inc/options-widget.php:544 inc/options-widget.php:562
+#: inc/options-widget.php:582 inc/options-widget.php:600
+#: inc/options-widget.php:618 inc/options-widget.php:638
+#: inc/options-widget.php:656 inc/options-widget.php:674
+msgid ""
+"Copy a standard taxonomy template to your template folder to display this "
+"taxonomy."
+msgstr ""
+
+#: inc/options-widget.php:470 inc/options-widget.php:490
+#: inc/options-widget.php:508 inc/options-widget.php:528
+#: inc/options-widget.php:546 inc/options-widget.php:564
+#: inc/options-widget.php:584 inc/options-widget.php:602
+#: inc/options-widget.php:620 inc/options-widget.php:640
+#: inc/options-widget.php:658 inc/options-widget.php:676
+msgid "Copy template"
+msgstr ""
+
+#: inc/options-widget.php:500
 msgid "Composers"
 msgstr "Композитори"
 
-#: inc/options-widget.php:401
+#: inc/options-widget.php:520
 msgid "Creators"
 msgstr "Творці"
 
-#: inc/options-widget.php:408
+#: inc/options-widget.php:538
 msgid "Countries"
 msgstr "Країни"
 
-#: inc/options-widget.php:415
+#: inc/options-widget.php:556
 msgid "Directors"
 msgstr "Режисери"
 
-#: inc/options-widget.php:425
+#: inc/options-widget.php:576
 msgid "Genres"
 msgstr "Жанри"
 
-#: inc/options-widget.php:432
+#: inc/options-widget.php:594
 msgid "Languages"
 msgstr "Мови"
 
-#: inc/options-widget.php:438
+#: inc/options-widget.php:612
 msgid "Producers"
 msgstr "Виробники"
 
-#: inc/options-widget.php:448
+#: inc/options-widget.php:632
 msgid "Titles"
 msgstr "Титули"
 
-#: inc/options-widget.php:454
+#: inc/options-widget.php:650
 msgid "Writers"
 msgstr "Письменники"
 
-#: inc/options-widget.php:476
+#: inc/options-widget.php:692
 msgid "Position of data"
 msgstr "Положення даних"
 
-#: inc/options-widget.php:481
+#: inc/options-widget.php:699
+#, fuzzy
+#| msgid ""
+#| "You can select the order for the information selected from \"what to "
+#| "display\" section. Select first the movie detail you want to move, use "
+#| "\"up\" or \"down\" to reorder IMDb Link Transformer display. Once you are "
+#| "happy with the new layout, click on \"update settings\" to keep it."
 msgid ""
 "You can select the order for the information selected from \"what to display"
 "\" section. Select first the movie detail you want to move, use \"up\" or "
-"\"down\" to reorder IMDb Link Transformer display. Once you are happy with "
-"the new layout, click on \"update settings\" to keep it."
+"\"down\" to reorder Lumiere Movies display. Once you are happy with the new "
+"layout, click on \"update settings\" to keep it."
 msgstr ""
 "Ви можете вибрати порядок за інформацію, обраного з  \"розділі те, що для "
 "відображення \". Виберіть перший деталь фільму, який необхідно перемістити, "
@@ -2339,7 +2427,7 @@ msgstr ""
 "Transformer дисплей. Після того, як ви щасливі з новою компоновкою, "
 "натисніть на \"настройках поновлення \" щоб зберегти його."
 
-#: inc/options-widget.php:483
+#: inc/options-widget.php:701
 msgid ""
 "\"Source\" movie detail cannot be selected; if it is selected from \"what to "
 "display\" section, it will always appear after others movie details"
@@ -2348,15 +2436,15 @@ msgstr ""
 "для відображення \" розділ, він завжди буде з'являтися після інші інформації "
 "про фільм"
 
-#: inc/options-widget.php:529
+#: inc/options-widget.php:725
+msgid "Move selected movie detail:"
+msgstr ""
+
+#: inc/options-widget.php:746
 msgid "Remove all links?"
 msgstr "Видаліть всі посилання?"
 
-#: inc/options-widget.php:534
-msgid "Auto widget?"
-msgstr "Авто віджет?"
-
-#: inc/options-widget.php:544
+#: inc/options-widget.php:752
 msgid ""
 "Remove all links (popup and external ones) which are automatically added. "
 "Especially made for people who are not interested in popup function, but it "
@@ -2366,7 +2454,11 @@ msgstr ""
 "Особливо для людей, які не зацікавлені в спливаючому функції, але він буде "
 "видаляти кожен посилання HTML теж."
 
-#: inc/options-widget.php:548
+#: inc/options-widget.php:757
+msgid "Auto widget?"
+msgstr "Авто віджет?"
+
+#: inc/options-widget.php:763
 msgid ""
 "Add automatically a widget according to post title. If 'imdb-movie-widget' "
 "or 'imdb-movie-widget-bymid' have also been added to post, the auto widget "
@@ -2376,26 +2468,497 @@ msgstr ""
 "фільм-віджет або' Юніверсал-фільм-віджет-bymid' також були додані на "
 "повідомлення, авто буде відображатися віджет перед ними."
 
-#: theme/taxonomy-genre.php:19
+#: inc/popup-imdb_movie.php:77
+#, fuzzy
+#| msgid "No post found."
+msgid "No result found for"
+msgstr "Ні повідомлення не знайдено."
+
+#: inc/popup-imdb_movie.php:83 inc/popup-search.php:51
+#, fuzzy
+#| msgid "Results related to this film"
+msgid "Results related to"
+msgstr "Результати, пов'язані з цим фільмом"
+
+#: inc/popup-imdb_movie.php:87 inc/popup-search.php:55
+msgid "Titles matching"
+msgstr "Титули, відповідні"
+
+#: inc/popup-imdb_movie.php:96 inc/popup-imdb_movie.php:108
+#: inc/popup-search.php:64 inc/popup-search.php:76
+msgid "more on"
+msgstr "більше на"
+
+#: inc/popup-imdb_movie.php:97 inc/popup-imdb_movie.php:100
+#: inc/popup-imdb_movie.php:111 inc/popup-imdb_movie.php:112
+#: inc/popup-search.php:65 inc/popup-search.php:68 inc/popup-search.php:79
+#: inc/popup-search.php:80
+msgid "link to imdb for"
+msgstr "Лінк для"
+
+#: inc/popup-imdb_movie.php:147
+msgid "Search for movies with the same name"
+msgstr "Пошук фільмів з такою ж назвою"
+
+#: inc/popup-imdb_movie.php:147
+msgid "Search AKAs"
+msgstr "Пошук AKAs"
+
+#: inc/popup-imdb_movie.php:150
+msgid "Movie"
+msgstr "Кіно"
+
+#: inc/popup-imdb_movie.php:156
+msgid "Crew"
+msgstr "Екіпаж"
+
+#: inc/popup-imdb_movie.php:206
+msgid "AKA"
+msgstr "AKA"
+
+#: inc/popup-imdb_movie.php:268
+msgid "Vote average"
+msgstr "Голосування середньому"
+
+#: inc/popup-imdb_movie.php:268
+msgid "with "
+msgstr ""
+
+#: inc/popup-imdb_movie.php:355
+msgid "Sound"
+msgstr "Звук"
+
+#: inc/popup-imdb_movie.php:380
+msgid "Casting"
+msgstr "Лиття"
+
+#: inc/popup-imdb_movie.php:391 inc/popup-imdb_movie.php:420
+#: inc/popup-imdb_movie.php:447 inc/popup-imdb_movie.php:475
+msgid "link to imdb"
+msgstr "Лінк"
+
+#: inc/popup-imdb_movie.php:500
+msgid "Plot outline"
+msgid_plural "Plots outline"
+msgstr[0] "Сюжетна лінія"
+msgstr[1] "Сюжетні лінії"
+
+#: inc/popup-imdb_movie.php:539 inc/popup-imdb_person.php:283
+msgid "Trivia"
+msgid_plural "Trivias"
+msgstr[0] "Дрібниця"
+msgstr[1] "Дрібниці"
+
+#: inc/popup-imdb_movie.php:542 inc/popup-imdb_movie.php:569
+#: inc/popup-imdb_movie.php:593 inc/popup-imdb_person.php:152
+#: inc/popup-imdb_person.php:198 inc/popup-imdb_person.php:234
+#: inc/popup-imdb_person.php:288 inc/popup-imdb_person.php:311
+#: inc/popup-imdb_person.php:338 inc/popup-imdb_person.php:363
+#: inc/popup-imdb_person.php:391
+msgid "click to expand"
+msgstr "клацніть, щоб розгорнути"
+
+#: inc/popup-imdb_person.php:73
+msgid "Back"
+msgstr "Назад"
+
+#: inc/popup-imdb_person.php:76
+msgid "Filmography"
+msgstr "Фільмографія"
+
+#: inc/popup-imdb_person.php:80 inc/popup-imdb_person.php:254
+msgid "Biography"
+msgstr "Біографія"
+
+#: inc/popup-imdb_person.php:101
+msgid "Born on"
+msgstr "Народився"
+
+#: inc/popup-imdb_person.php:103 inc/popup-imdb_person.php:108
+msgid "in"
+msgstr "в"
+
+#: inc/popup-imdb_person.php:107
+msgid "Died on"
+msgstr "Помер на"
+
+#: inc/popup-imdb_person.php:109
+msgid "cause"
+msgstr "причина"
+
+#: inc/popup-imdb_person.php:229
+msgid "Biographical movies"
+msgstr "Біографічні фільми"
+
+#: inc/popup-imdb_person.php:307
+msgid "Nicknames"
+msgstr "Прізвиська"
+
+#: inc/popup-imdb_person.php:333
+msgid "Personal quotes"
+msgstr "Особисті цитати"
+
+#: inc/popup-imdb_person.php:358
+msgid "Trademarks"
+msgstr "Торгові марки"
+
+#: inc/widget.php:27
+msgid "IMDb data"
+msgstr "Дані IMDb"
+
+#: inc/widget.php:105
+msgid "Title:"
+msgstr "Назва:"
+
+#: lumiere-movies.php:157 lumiere-movies.php:159
+msgid "There was an error when generating the htaccess file."
+msgstr ""
+
+#: lumiere-movies.php:191
+msgid "Failed creating htaccess file."
+msgstr ""
+
+#: lumiere-movies.php:416
+#, fuzzy
+#| msgid "Widget & In post options page"
+msgid "Lumière options page"
+msgstr "Віджет & В стр. Варіанти розмістити"
+
+#: lumiere-movies.php:417
+msgid "Widget & In post options page"
+msgstr "Віджет & В стр. Варіанти розмістити"
+
+#: lumiere-movies.php:417
+msgid "Widget/In post"
+msgstr "Віджет/В пост"
+
+#: lumiere-movies.php:418
+msgid "Cache management options page"
+msgstr "Сторінка варіанти управління кеш"
+
+#: lumiere-movies.php:419
+msgid "Help page"
+msgstr "Допомога сторінки"
+
+#: lumiere-movies.php:419 lumiere-movies.php:540
+msgid "Help"
+msgstr "Допоможіть"
+
+#: lumiere-movies.php:532
+msgid "Lumière Menu"
+msgstr ""
+
+#: lumiere-movies.php:536
+msgid "Widget options"
+msgstr "Віджет варіанти"
+
+#: theme/taxonomy-imdblt_standard.php:19
 msgid "Taxonomy"
 msgstr "Систематика"
 
-#: theme/taxonomy-genre.php:27
-msgid "Permanent Link to "
-msgstr "Постійне посилання на"
+#: theme/taxonomy-imdblt_standard.php:27
+msgid "Open the blog "
+msgstr ""
 
-#: theme/taxonomy-genre.php:38
+#: theme/taxonomy-imdblt_standard.php:38
 msgid "Filed under: "
 msgstr "Рубрики:"
 
-#: theme/taxonomy-genre.php:42
+#: theme/taxonomy-imdblt_standard.php:42
 msgid "Tags: "
 msgstr "Мітки:"
 
-#: theme/taxonomy-genre.php:46
+#: theme/taxonomy-imdblt_standard.php:46
 msgid "Taxonomy: "
 msgstr "Таксономія:"
 
-#: theme/taxonomy-genre.php:54
+#: theme/taxonomy-imdblt_standard.php:54
 msgid "No post found."
 msgstr "Ні повідомлення не знайдено."
+
+#: vendor/wp-cli/core-command/src/Core_Command.php:700
+msgid "Wildcard DNS may not be configured correctly."
+msgstr ""
+
+#: vendor/wp-cli/entity-command/src/Site_Command.php:125
+msgid "Uncategorized"
+msgstr ""
+
+#: vendor/wp-cli/export-command/src/WP_Export_File_Writer.php:32
+#: vendor/wp-cli/export-command/src/WP_Export_Split_Files_Writer.php:51
+msgid "WP Export: error writing to export file."
+msgstr ""
+
+#: vendor/wp-cli/export-command/src/WP_Export_XML_Over_HTTP.php:20
+#: vendor/wp-cli/export-command/src/WP_Export_XML_Over_HTTP.php:25
+msgid "Export Error"
+msgstr ""
+
+#: vendor/wp-cli/extension-command/src/WP_CLI/CommandWithUpgrade.php:661
+msgid " Try again"
+msgstr ""
+
+#: vendor/wp-cli/extension-command/src/WP_CLI/CommandWithUpgrade.php:667
+msgid "API error. Try Again."
+msgstr ""
+
+#: vendor/wp-cli/media-command/src/Media_Command.php:145
+msgid "image"
+msgid_plural "images"
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/wp-cli/wp-cli/php/utils-wp.php:196
+msgid "Inactive Widgets"
+msgstr ""
+
+#: vendor/wp-cli/wp-cli/php/utils-wp.php:199
+msgid ""
+"Drag widgets here to remove them from the sidebar but keep their settings."
+msgstr ""
+
+#~ msgid "Part cache deleted."
+#~ msgstr "Кеш Частина видалений."
+
+#~ msgid "IMDb link transformer help"
+#~ msgstr "IMDb посилання трансформатор допомогу"
+
+#~ msgid "IMDb link transformer options page"
+#~ msgstr "Сторінка Варіанти IMDb посилання трансформаторні"
+
+#~ msgid "IMDB LT"
+#~ msgstr "IMDB LT"
+
+#~ msgid "IMDBLT Menu"
+#~ msgstr "IMDBLT Меню"
+
+#~ msgid ""
+#~ "Warning! Highslide is activated but no Highslide folder is found. Either "
+#~ "download Highslide (see below) or click on \"reset setting\" at the bottom"
+#~ msgstr ""
+#~ "Попередження! Highslide активується, але жодна папка Highslide не "
+#~ "знайдено. Або завантажити Highslide (див. нижче) або натисніть на "
+#~ "\"скинути налаштування \" внизу"
+
+#~ msgid ""
+#~ "Warning! Highslide is activated but no Highslide folder is found. Either "
+#~ "download Highslide (see below) or click on \"reset setting\" at the "
+#~ "bottom."
+#~ msgstr ""
+#~ "Попередження! Highslide активується, але жодна папка Highslide не "
+#~ "знайдено. Або завантажити Highslide (див. нижче) або натисніть на "
+#~ "\"Скидання установок \" в нижній частині."
+
+#~ msgid "<b>Option highslide unavailable.</b>"
+#~ msgstr "<b>Варіант Highslide недоступний.</b>"
+
+#~ msgid ""
+#~ "In order to activate it, click here and move the folder \"highslide\" "
+#~ "into the \"js\" one!"
+#~ msgstr ""
+#~ "Для того, щоб активувати його, натисніть тут і перемістіть папку "
+#~ "\"Highslide \" в \"JS \" Одна!"
+
+#~ msgid "Once you are done, this message will disapear."
+#~ msgstr "Як тільки ви закінчите, це повідомлення буде disapear."
+
+#~ msgid ""
+#~ "Please note Highslide JS is licensed under a Creative Commons Attribution-"
+#~ "NonCommercial 2.5 License, which means you need the author's permission "
+#~ "to use Highslide JS on commercial websites."
+#~ msgstr ""
+#~ "Будь ласка, зверніть увагу Highslide JS під ліцензією Creative Commons "
+#~ "Attribution-BY License 2.5 Ліцензії, яка означає, що ви повинні дозвіл "
+#~ "автора на використання Highslide JS на комерційних веб-сайтах."
+
+#~ msgid "Website:"
+#~ msgstr "Сайт:"
+
+#~ msgid "Imdb address"
+#~ msgstr "Imdb адресу"
+
+#~ msgid "Search variant"
+#~ msgstr "Пошук варіант"
+
+#~ msgid ""
+#~ "This is the imdb server to use. The localized ones (i.e. italian and "
+#~ "german) are only qualified to find the movies ID - but parsing for the "
+#~ "details will fail at the moment."
+#~ msgstr ""
+#~ "Це IMDb сервер використовувати. Локалізовані ті (тобто італійська та "
+#~ "німецька) тільки кваліфікованим, щоб знайти фільми ID - але розбору для "
+#~ "деталей не вдасться в даний момент."
+
+#~ msgid ""
+#~ "Moviename search variant. There are different ways of searching a movie "
+#~ "name, with slightly differing result sets. Set the variant you prefer."
+#~ msgstr ""
+#~ "MovieName варіанти пошуку. Існують різні способи пошуку в назву фільму, "
+#~ "зі злегка відрізняються результуючих наборів. Встановіть варіант ви "
+#~ "віддаєте перевагу."
+
+#~ msgid "Debug mode"
+#~ msgstr "Режим налагодження"
+
+#~ msgid "Enable debug mode?"
+#~ msgstr "Включити режим налагодження?"
+
+#~ msgid "Toolbar IMDB LT admin menu"
+#~ msgstr "Панель інструментів IMDB LT адмін.меню"
+
+#~ msgid ""
+#~ "This will automatically add \"genre\" terms found for the movie into "
+#~ "wordpress database, as <a href=\"http://codex.wordpress.org/"
+#~ "WordPress_Taxonomy\">taxonomy</a>. Activating this option open <a href=\"?"
+#~ "page=imdblt_options&subsection=widgetoption&widgetoption=taxo\">others "
+#~ "taxonomy options</a>. Taxonomy terms are uninstalled when removing the "
+#~ "plugin."
+#~ msgstr ""
+#~ "Це автоматично додає \"жанр \" умови пошуку на фільмі в WordPress бази "
+#~ "даних, а <a href=\"http://codex.wordpress.org/WordPress_Taxonomy"
+#~ "\">таксономії</a> . Активація цієї опції відкриті <a href=\"?"
+#~ "page=imdblt_options&subsection=widgetoption&widgetoption=taxo\">інші "
+#~ "таксономії варіанти</a> . Терміново таксономії будуть видалені при "
+#~ "видаленні плагін."
+
+#~ msgid ""
+#~ "When activated, IMDb Link Transformer options are displayed in the "
+#~ "toolbar admin menu of Wordpress."
+#~ msgstr ""
+#~ "При активації опції IMDb Посилання Трансформаторні відображаються в меню "
+#~ "панелі інструментів адміністратора з Wordpress."
+
+#~ msgid "How to use IMDb link transformer"
+#~ msgstr "Як використовувати посилання трансформатор IMDb"
+
+#~ msgid "vote for IMDb link transformer on "
+#~ msgstr "проголосуй за трансформатора посилання IMDb на"
+
+#~ msgid "vote for IMDb link transformer on its own"
+#~ msgstr "голосувати за трансформатора посилання IMDb по собі"
+
+#~ msgid "place a trackback, talk about this tool, and so on."
+#~ msgstr "розмістити трекбек, говорити про це інструменті, і так далі."
+
+#~ msgid "IMDb link transformer widget"
+#~ msgstr "IMDb посилання трансформатор віджет"
+
+#~ msgid "IMDb link transformer Inside a post"
+#~ msgstr "Трансформатор посилання IMDb Усередині поста"
+
+#~ msgid "How to switch to another website other than IMDb?"
+#~ msgstr "Як перейти на інший веб-сайт, крім IMDb?"
+
+#~ msgid ""
+#~ "Starting with IMDbLT 1.6 release, you have the opportunity to use other "
+#~ "website source than IMDb."
+#~ msgstr ""
+#~ "Починаючи з IMDbLT 1.6-релізі, у вас є можливість використовувати інше "
+#~ "джерело сайту, ніж IMDb."
+
+#~ msgid ""
+#~ "Since IMDb website's licence of use is quite protective, you may choose "
+#~ "to use Moviepilot website instead (could have more choices in far "
+#~ "future). To completely comply with legal obligations, follow these steps:"
+#~ msgstr ""
+#~ "Оскільки ліцензія IMDb сайту використання досить захисних, ви можете "
+#~ "вибрати для використання сайту Moviepilot замість (може мати більш "
+#~ "широкий вибір у далекому майбутньому). Щоб повністю відповідати правовим "
+#~ "зобов'язанням, виконайте такі дії:"
+
+#~ msgid ""
+#~ "You need an API key from moviepilot.com. Send an email to api@moviepilot."
+#~ "de asking for an API key, and copy-paste the code you have been given in "
+#~ "'General options -> Advanced -> Search, moviepilot part-> API Pilot key' "
+#~ "field."
+#~ msgstr ""
+#~ "Вам потрібен ключ API від moviepilot.com. Надіслати лист api@moviepilot."
+#~ "de просячи ключ API, і скопіюйте і вставте код, який ви отримали в "
+#~ "«Загальні параметри -> Додатково -> Пошук, moviepilot частина-> API Пілот "
+#~ "ключ' поле."
+
+#~ msgid "For a preformatted email"
+#~ msgstr "Для преформатірованного електронній пошті"
+
+#~ msgid "click here"
+#~ msgstr "натисніть тут"
+
+#~ msgid "Switch 'Get rid of IMDb' option to 'on'"
+#~ msgstr "Перемикач «Позбавтеся від IMDb 'для' на '"
+
+#~ msgid ""
+#~ "You may now select both your local language and the accuracy level to "
+#~ "comply with (IMDb behaviour)."
+#~ msgstr ""
+#~ "Тепер ви можете вибрати як ваш місцевий мову і рівень точності "
+#~ "дотримуватися (IMDb поведінки)."
+
+#~ msgid "Search"
+#~ msgstr "Пошук"
+
+#~ msgid ""
+#~ "Please wait while data is retrieved... <br />Process can take some time."
+#~ msgstr ""
+#~ "Зачекайте, поки дані витягуються ... <br /> Процес може зайняти деякий "
+#~ "час."
+
+#~ msgid "Cache successfully deleted, back to the"
+#~ msgstr "Кеш успішно видалений, до"
+
+#~ msgid "previous page"
+#~ msgstr "попередня сторінка"
+
+#~ msgid "Cache succesfully refreshed, close the window."
+#~ msgstr "Кеш успішно оновилася, закрийте вікно."
+
+#~ msgid "Cache size is currently"
+#~ msgstr "Об'єм кеш-пам'яті в даний час"
+
+#~ msgid ""
+#~ "Absolute path to store data retrieved from the IMDb website. Has to be <a "
+#~ "href=\"http://codex.wordpress.org/Changing_File_Permissions\" title="
+#~ "\"permissions how-to on wordpress website\">writable</a> by the webserver."
+#~ msgstr ""
+#~ "Абсолютний шлях для зберігання даних, отриманих з веб-сайту IMDb. Повинен "
+#~ "бути <a href=\"http://codex.wordpress.org/Changing_File_Permissions\" "
+#~ "title=\"Дозволу\" how-to on wordpress website\">доступний для запису</a> "
+#~ "веб-сервером."
+
+#~ msgid ""
+#~ "Absolute path to store images retrieved from the IMDb website. Has to be "
+#~ "<a href=\"http://codex.wordpress.org/Changing_File_Permissions\" title="
+#~ "\"permissions how-to on wordpress website\">writable</a> by the webserver."
+#~ msgstr ""
+#~ "Абсолютний шлях для зберігання зображень, витягнуті з веб-сайті IMDb. "
+#~ "Повинен бути a href=\"http://codex.wordpress.org/Changing_File_Permissions"
+#~ "\" title=\"permissions how-to on wordpress website\">доступний для "
+#~ "запису</a> веб-сервером."
+
+#~ msgid "Cache general options"
+#~ msgstr "Кеш загальні параметри"
+
+#~ msgid "Movie's actors"
+#~ msgstr "Актори фільму"
+
+#~ msgid "<i>Widget</i> and <i>Inside a post</i> settings"
+#~ msgstr "<i>Віджет</i> і <i>всередині поштових</i> налаштувань"
+
+#~ msgid ""
+#~ "Please <a href=\"?page=imdblt_options&generaloption=advanced\">activate "
+#~ "taxonomy</a> priorly<br /> to access taxonomies options."
+#~ msgstr ""
+#~ "Будь ласка <a href=\"?page=imdblt_options&generaloption=advanced\">, "
+#~ "включіть таксономії</a> priorly <br /> для доступу до таксономії варіанти."
+
+#~ msgid ""
+#~ "Use the checkbox to display (or not) details. When activated, details "
+#~ "names are turned to blue. Check the box to turn it back to black (and "
+#~ "thus deactivating detail as taxonomy)."
+#~ msgstr ""
+#~ "Використовуйте прапорець для відображення (чи ні) подробиці. При "
+#~ "активації докладніше імена перетворилися на синій. Встановіть прапорець, "
+#~ "щоб включити його назад в чорний (і, отже, відключення деталь як "
+#~ "таксономії)."
+
+#~ msgid "Permanent Link to "
+#~ msgstr "Постійне посилання на"

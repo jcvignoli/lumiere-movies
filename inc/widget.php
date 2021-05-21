@@ -21,9 +21,10 @@
 function lumiere_widget($args) {
 	global $imdb_admin_values, $imdb_widget_values, $wp_query;
 	extract($args);
+
 	$options = get_option('widget_imdbwidget');
-	//$name = get_post($filmid);
-	$name = get_post(intval( $filmid ));
+
+	$name_sanitized = get_post(intval( $filmid ));
 	$title_box = empty($options['title']) ? esc_html__('IMDb data', 'lumiere-movies') : sanitize_text_field( $options['title'] ); //this is the widget title, from *wordpress* widget options
 
 	$filmid = intval( $wp_query->post->ID );
@@ -33,7 +34,7 @@ function lumiere_widget($args) {
 
 		if ( $imdb_widget_values['imdbautopostwidget'] == true) {
 		// automatically takes the post name to display the movie related, according to Lumiere Movies preferences (-> widget -> misc)
-			$imdballmeta[0] = sanitize_text_field( $name->post_title );
+			$imdballmeta[0] = sanitize_text_field( $name_sanitized->post_title );
 
 			// Initialize lumiere_core class, add head that is only for /imdblt/ URLs
 			$start = new lumiere_core();
@@ -102,16 +103,16 @@ function lumiere_widget_control() {
 		update_option('widget_imdbwidget', $options);
 	}
 	$title = sanitize_text_field( $options['title']);
-	echo "<p><label for=\"imdbW-title\">" . __('Title:');
-	echo "<input class=\"imdblt_width_twohundredfifty\" id=\"imdbW-title\" name=\"imdbW-title\" type=\"text\" value=\"" . $title . "\" /></label></p>";
-	echo "<input type=\"hidden\" id=\"imdbW-submit\" name=\"imdbW-submit\" value=\"1\" />";
+	echo '<p><label for="imdbW-title">' . esc_html__( 'Title:', 'lumiere-movies' );
+	echo '<input class="imdblt_width_twohundredfifty" id="imdbW-title" name="imdbW-title" type="text" value="' . $title . '" /></label></p>';
+	echo '<input type="hidden" id="imdbW-submit" name="imdbW-submit" value="1" />';
 }
 
 /**
 Register the Widget into the WordPress Widget API
 */
-function register_lumiere_widget() {
-	//Check Sidebar Widget and Subscribe2 plugins are activated
+function lumiere_register_widget() {
+	// Check Wordpress Widget && Lumière Configuration are available
 	if ( !function_exists('wp_register_sidebar_widget') || !class_exists('lumiere_settings_conf')) {
 		return;
 	} else {

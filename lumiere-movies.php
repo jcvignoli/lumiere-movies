@@ -143,7 +143,7 @@ class lumiere_core {
 			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
 
 			// register widget
-			add_action('plugins_loaded', 'register_lumiere_widget');
+			add_action('plugins_loaded', 'lumiere_register_widget');
 		}
 	}
 
@@ -371,15 +371,10 @@ class lumiere_core {
 
 	##### b) admin part
 	function lumiere_add_head_admin () {
-		$this->lumiere_add_css_admin ();
-		$this->lumiere_add_js_admin ();
-	}
-	function lumiere_add_css_admin() {
 		global $imdb_admin_values;
+
 		wp_enqueue_style('lumiere_css_admin', $imdb_admin_values['imdbplugindirectory'] . "css/lumiere-admin.css");
-	}
-	function lumiere_add_js_admin () {
-		global $imdb_admin_values;
+
 		wp_enqueue_script('common'); // script needed for meta_boxes (in help.php)
 		wp_enqueue_script('wp-lists'); // script needed for meta_boxes (in help.php)
 		wp_enqueue_script('postbox'); // script needed for meta_boxes (in help.php)

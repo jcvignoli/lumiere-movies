@@ -397,26 +397,30 @@ class lumiere_settings_conf extends lumiere_send_config {
 
 		<?php 	### sub-page is relative to what is activated
 			### check if widget is active, and/or direct search option
-		if ( ($imdbOptions['imdbdirectsearch'] == "1") && (is_active_widget(widget_imdbwidget)) ){ ?>
+		if ( ($imdbOptions['imdbdirectsearch'] == "1") && (is_active_widget('lumiere_widget')) ){ ?>
 
 		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
 		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a>
-		<?php } elseif ( ($imdbOptions['imdbdirectsearch'] == "1") && (! is_active_widget(widget_imdbwidget)) ) { ?>
-		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a> (<em><a href="widgets.php"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies'); ?>)</a></em>)
 
-		<?php } elseif ( (!$imdbOptions['imdbdirectsearch'] == "1") && (is_active_widget(widget_imdbwidget)) )  { ?>
+		<?php } elseif ( ($imdbOptions['imdbdirectsearch'] == "1") && (! is_active_widget('lumiere_widget')) ) { ?>
+		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
+		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a> (<em><a href="<?php echo esc_url( admin_url() . '/widgets.php'); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies'); ?>)</a></em>)
+
+		<?php } elseif ( (!$imdbOptions['imdbdirectsearch'] == "1") && (is_active_widget('lumiere_widget')) )  { ?>
 		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
 		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a> (<em><a href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'lumiere-movies'); ?></a> <?php esc_html_e( 'unactivated', 'lumiere-movies'); ?></em>)
 
 <?php		} else { ?>
+
 		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
 		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a> (<em><a href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'lumiere-movies'); ?></a></em> & <em><a href="widgets.php"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies'); ?></a></em>)
 
 <?php 		} ?>
+
 		&nbsp;&nbsp;<img src="<?php echo esc_url ( $imdbOptions['imdbplugindirectory'] . "pics/admin-cache.png"); ?>" align="absmiddle" width="16px" />&nbsp;
 		<a title="<?php esc_html_e( 'Cache management', 'lumiere-movies'); ?>" href="<?php echo admin_url(); ?>admin.php?page=imdblt_options&subsection=cache"><?php esc_html_e( 'Cache management', 'lumiere-movies'); ?></a>
 	</div>
+
 	<div align="right" >
 		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-help.png"); ?>" align="absmiddle" width="16px" />&nbsp;
 		<a title="<?php esc_html_e( 'How to use Lumière!, check FAQs & changelog', 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help"); ?>">
@@ -436,19 +440,19 @@ class lumiere_settings_conf extends lumiere_send_config {
 		<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo  esc_url ( $_SERVER[ "REQUEST_URI"] ); ?>" >
 			<?php require_once ( esc_url( $imdbOptions['imdbpluginpath'] . 'inc/options-widget.php' )); ?>
 		</form>
-<?php 	}
-	elseif ($_GET['subsection'] == "cache")  {
-		$test = $this->get_imdb_admin_option(); //this variable has to be sent to new page
-		$engine = $test['imdbsourceout'];
-		include ( esc_url( $imdbOptions['imdbpluginpath'] . 'inc/options-cache.php'));
-	} elseif ($_GET['subsection'] == "help")  {
-		include ( esc_url( $imdbOptions['imdbpluginpath'] . 'inc/help.php' ));
-	}
-	// end subselection ?>
+<?php 	
+		} elseif ($_GET['subsection'] == "cache")  {
+			$test = $this->get_imdb_admin_option(); //this variable has to be sent to new page
+			$engine = $test['imdbsourceout'];
+			include ( esc_url( $imdbOptions['imdbpluginpath'] . 'inc/options-cache.php'));
+		} elseif ($_GET['subsection'] == "help")  {
+			include ( esc_url( $imdbOptions['imdbpluginpath'] . 'inc/help.php' ));
+		}
+		// end subselection 
 
-	<?php lumiere_admin_signature (); ?>
+		lumiere_admin_signature ();
 
-<?php		} //End function printAdminPage()
+	} //End function printAdminPage()
 
 } //End lumiere_settings_conf class
 
@@ -460,7 +464,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 
 load_plugin_textdomain('lumiere-movies', false, IMDBLTURLPATH . 'languages' );
 
-#--------------------------------------------------=[ Class to call from original imdb classes ]=--
+#--------------------------------------------------=[ Class to send data to the master IMDbPHP classes ]=--
 
 class lumiere_send_config extends Config {
 	var $imdb_admin_values;
