@@ -96,6 +96,8 @@ Yes, just add in the post as many custom fields you want.
 
 * If you activate both "Display highslide popup" option and in [Next-Gen Gallery's](https://wordpress.org/plugins/nextgen-gallery/ "Next-Gen Gallery home") highslide effect option, NGG picture display will be broken. **Workaround:** Do not use "Display highslide popup" option or use another effect option for NGG.
 
+* If you are updating from the previous IMDb Link Transformer plugin, the plugin's option will be messed up. Reset the Lumière! options.
+
 == Support ==
 
 Please visit [contact page](https://www.jcvignoli.com/blog/about "Lumiere Movies contact page")

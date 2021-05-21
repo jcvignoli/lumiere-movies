@@ -16,7 +16,7 @@ get_sidebar(); ?>
 
 <main id="main" class="site-main clr" role="main">
 	<div id="content-wrap" class="container clr">
-		<h1 class="pagetitle"><?php esc_html_e( 'Taxonomy'); ?> <i>director</i></h1>
+		<h1 class="pagetitle"><?php esc_html_e( 'Taxonomy', 'lumiere-movies'); ?> <i>director</i></h1>
 
 <?php	if ( have_posts() ) { // there is post
 		while ( have_posts() ) { 
@@ -24,7 +24,7 @@ get_sidebar(); ?>
 			
 			<div class="postList">
 				<h3 id="post-<?php the_ID(); ?>">
-					<a href="<?php the_permalink() ?>" rel="bookmark" title="<?php esc_html_e( 'Open the blog ', 'imdb')?><?php the_title(); ?>">
+					<a href="<?php the_permalink() ?>" rel="bookmark" title="<?php esc_html_e( 'Open the blog ', 'lumiere-movies')?><?php the_title(); ?>">
 						<?php the_title(); ?>
 					</a>
 				</h3>
@@ -35,11 +35,11 @@ get_sidebar(); ?>
 				</div>
 		
 				<p class="postmetadata">
-					<span class="category"><?php esc_html_e( "Filed under: "); ?> <?php the_category(', ') ?></span> 
+					<span class="category"><?php esc_html_e( "Filed under: ", 'lumiere-movies'); ?> <?php the_category(', ') ?></span> 
 
 					<?php if (has_tag()){ ?>
 					<strong>|</strong>
-					<span class="tags"><?php the_tags(esc_html__( 'Tags: '), ' &bull; ', ' '); ?></span><?php } ?>
+					<span class="tags"><?php the_tags(esc_html__( 'Tags: ', 'lumiere-movies'), ' &bull; ', ' '); ?></span><?php } ?>
 
 					<?php if (get_terms('director')){ ?>
 					<strong>|</strong> 
@@ -51,7 +51,7 @@ get_sidebar(); ?>
 		}
 
 	} else { // there is no post
-			esc_html_e( 'No post found.'); 
+			esc_html_e( 'No post found.', 'lumiere-movies'); 
 			echo "<br /><br /><br />";
 	} ?>
 

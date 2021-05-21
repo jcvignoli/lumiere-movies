@@ -37,11 +37,14 @@ function lumiere_activation() {
 	}
 
 	$lumiere_folder_cache = IMDBLTABSPATH . 'cache';
+	$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
 	if ( ! is_dir( $lumiere_folder_cache ) ) {
-		$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
 		wp_mkdir_p( $lumiere_folder_cache );
 		chmod( $lumiere_folder_cache, 0777 );
 		wp_mkdir_p( $lumiere_folder_cache_images );
+		chmod( $lumiere_folder_cache_images, 0777 );
+	} else {
+		chmod( $lumiere_folder_cache, 0777 );
 		chmod( $lumiere_folder_cache_images, 0777 );
 	}
 	flush_rewrite_rules();
@@ -72,7 +75,73 @@ class lumiere_core {
 
 	/*constructor*/
 	function __construct () {
-		$this->lumiere_plugin_start();
+
+	global $imdb_ft, $imdb_admin_values, $imdb_widget_values;
+
+		// Be sure WP is running
+		if (function_exists('add_action')) {
+
+			// redirect popups URLs to follow inc/.htaccess rules
+			add_action( 'init', [ $this, 'lumiere_popup_redirect' ], 0);
+			add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 0);
+
+			// add taxonomies in wordpress (from functions.php)
+			if ($imdb_admin_values['imdbtaxonomy'] == 1) {
+				add_action( 'init', 'lumiere_create_taxonomies', 0 );
+
+				// search for all imdbtaxonomy* in config array, 
+				// if active write a filter to add a class to the link to the taxonomy page
+				foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
+					if ($value == 1) {
+						$filter_taxonomy = str_replace('imdbtaxonomy', '', "term_links-imdblt_".$key);
+						add_filter( $filter_taxonomy, [ $this, 'lumiere_taxonomy_add_class_to_links'] );
+					}
+				}
+				add_action( 'init', [ $this, 'lumiere_copy_template_taxo_redirect' ], 0);
+			}
+
+			#add_action( 'init', [ $this, 'lumiere_highslide_download_redirect' ], 0);#function deactivated upon wordpress plugin team request
+
+			// Check if Gutenberg is active
+			if ( function_exists( 'register_block_type' ) )
+				add_action('init', [ $this, 'lumiere_register_gutenberg_block' ]);
+
+			if (is_admin()) {
+				// add admin menu
+				if (isset($imdb_ft)) {
+					add_action('admin_menu', [ $this, 'lumiere_admin_panel' ] );
+				}
+
+				// add admin scripts & css
+				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
+				// add admin quicktag button for text editor
+				add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_quicktag' ], 100);
+				// add admin tinymce button for wysiwig editor
+				add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_tinymce' ] );
+			}
+
+		    	// head for main blog
+			add_action('wp_head', [ $this, 'lumiere_add_head_blog' ], 0);
+
+			// add new name to popups
+			add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
+
+			// add links to popup
+			add_filter('the_content', [ $this, 'lumiere_linking' ] );
+			add_filter('the_excerpt', [ $this, 'lumiere_linking' ] );
+
+		    	// delete next line if you don't want to run Lumiere Movies through comments
+			add_filter('comment_text', [ $this, 'lumiere_linking' ] );
+
+			// add data inside a post
+			add_action('the_content', [ $this, 'lumiere_tags_transform' ] );
+			add_action('the_content', [ $this, 'lumiere_tags_transform_id' ] );
+
+			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
+
+			// register widget
+			add_action('plugins_loaded', 'register_lumiere_widget');
+		}
 	}
 
 	/**
@@ -82,9 +151,9 @@ class lumiere_core {
 	function lumiere_make_htaccess(){
 		/* vars */
 		$imdblt_blog_subdomain = site_url( '', 'relative' ) ?? ""; #ie: /subdirectory-if-exists/
-		$imdblt_plugin_full_path = plugin_dir_path( __FILE__ ) ?? wp_die( esc_html__("There was an error when generating the htaccess file.", "imdb") ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/
+		$imdblt_plugin_full_path = plugin_dir_path( __FILE__ ) ?? wp_die( esc_html__("There was an error when generating the htaccess file.", 'lumiere-movies') ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/
 		$imdblt_plugin_path = str_replace( $imdblt_blog_subdomain, "", wp_make_link_relative( plugin_dir_url( __FILE__ ))); #ie: /wp-content/plugins/lumiere-movies/
-		$imdblt_htaccess_file = $imdblt_plugin_full_path  . "/inc/.htaccess" ?? wp_die( esc_html__("There was an error when generating the htaccess file.", "imdb") ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/inc/.htaccess
+		$imdblt_htaccess_file = $imdblt_plugin_full_path  . "/inc/.htaccess" ?? wp_die( esc_html__("There was an error when generating the htaccess file.", 'lumiere-movies') ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/inc/.htaccess
 		$imdblt_slug_path_movie = "imdblt/film";
 		$imdblt_slug_path_person = "imdblt/person";
 
@@ -114,10 +183,10 @@ class lumiere_core {
 		// write the .htaccess file and close
 		if (isset($imdblt_htaccess_file)) {
 			file_put_contents($imdblt_htaccess_file, $imdblt_htaccess_file_txt.PHP_EOL);
-			// lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'imdb') ); # is not displayed
+			// lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'lumiere-movies') ); # is not displayed
 		} else {
-			wp_die(lumiere_notice(3, esc_html__( 'Failed creating htaccess file.', 'imdb') ));
-			//lumiere_notice(3, esc_html__( 'Failed creating htaccess file.', 'imdb') );
+			wp_die(lumiere_notice(3, esc_html__( 'Failed creating htaccess file.', 'lumiere-movies') ));
+			//lumiere_notice(3, esc_html__( 'Failed creating htaccess file.', 'lumiere-movies') );
 		}
 	}
 
@@ -341,10 +410,10 @@ class lumiere_core {
 		if (function_exists('add_submenu_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 1 ) ) {
 			// big menu for many pages for admin sidebar
 			add_menu_page( 'Lumière Options', '<i>Lumière</i>' , 8, 'imdblt_options', [ $imdb_ft, 'printAdminPage' ], $imdb_admin_values['imdbplugindirectory'].'pics/lumiere-ico13x13.png');
-			add_submenu_page( 'imdblt_options' , esc_html__('Lumière options page', 'imdb'), esc_html__('General options', 'imdb'), 8, 'imdblt_options');
-			add_submenu_page( 'imdblt_options' , esc_html__('Widget & In post options page', 'imdb'), esc_html__('Widget/In post', 'imdb'), 8, 'imdblt_options&subsection=widgetoption', [ $imdb_ft, 'printAdminPage'] );
-			add_submenu_page( 'imdblt_options',  esc_html__('Cache management options page', 'imdb'), esc_html__('Cache management', 'imdb'), 8, 'imdblt_options&subsection=cache', [ $imdb_ft, 'printAdminPage' ]);
-			add_submenu_page( 'imdblt_options' , esc_html__('Help page', 'imdb'), esc_html__('Help', 'imdb'), 8, 'imdblt_options&subsection=help', [ $imdb_ft, 'printAdminPage'] );
+			add_submenu_page( 'imdblt_options' , esc_html__('Lumière options page', 'lumiere-movies'), esc_html__('General options', 'lumiere-movies'), 8, 'imdblt_options');
+			add_submenu_page( 'imdblt_options' , esc_html__('Widget & In post options page', 'lumiere-movies'), esc_html__('Widget/In post', 'lumiere-movies'), 8, 'imdblt_options&subsection=widgetoption', [ $imdb_ft, 'printAdminPage'] );
+			add_submenu_page( 'imdblt_options',  esc_html__('Cache management options page', 'lumiere-movies'), esc_html__('Cache management', 'lumiere-movies'), 8, 'imdblt_options&subsection=cache', [ $imdb_ft, 'printAdminPage' ]);
+			add_submenu_page( 'imdblt_options' , esc_html__('Help page', 'lumiere-movies'), esc_html__('Help', 'lumiere-movies'), 8, 'imdblt_options&subsection=help', [ $imdb_ft, 'printAdminPage'] );
 			//
 		}
 
@@ -570,81 +639,6 @@ class lumiere_core {
 	function lumiere_taxonomy_add_class_to_links($links) {
 	    return str_replace('<a href="', '<a class="linktaxonomy" href="', $links);
 	}
-
-	// *********************
-	// ********************* Automatisms & executions
-	// *********************
-
-	function lumiere_plugin_start () {
-		global $imdb_ft, $imdb_admin_values, $imdb_widget_values;
-
-		// Be sure WP is running
-		if (function_exists('add_action')) {
-
-			// redirect popups URLs to follow inc/.htaccess rules
-			add_action( 'init', [ $this, 'lumiere_popup_redirect' ], 0);
-			add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 0);
-
-			// add taxonomies in wordpress (from functions.php)
-			if ($imdb_admin_values['imdbtaxonomy'] == 1) {
-				add_action( 'init', 'lumiere_create_taxonomies', 0 );
-
-				// search for all imdbtaxonomy* in config array, 
-				// if active write a filter to add a class to the link to the taxonomy page
-				foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
-					if ($value == 1) {
-						$filter_taxonomy = str_replace('imdbtaxonomy', '', "term_links-imdblt_".$key);
-						add_filter( $filter_taxonomy, [ $this, 'lumiere_taxonomy_add_class_to_links'] );
-					}
-				}
-				add_action( 'init', [ $this, 'lumiere_copy_template_taxo_redirect' ], 0);
-			}
-
-			#add_action( 'init', [ $this, 'lumiere_highslide_download_redirect' ], 0);#function deactivated upon wordpress plugin team request
-
-			// Check if Gutenberg is active
-			if ( function_exists( 'register_block_type' ) )
-				add_action('init', [ $this, 'lumiere_register_gutenberg_block' ]);
-
-			if (is_admin()) {
-				// add admin menu
-				if (isset($imdb_ft)) {
-					add_action('admin_menu', [ $this, 'lumiere_admin_panel' ] );
-				}
-
-				// add admin scripts & css
-				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
-				// add admin quicktag button for text editor
-				add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_quicktag' ], 100);
-				// add admin tinymce button for wysiwig editor
-				add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_tinymce' ] );
-			}
-
-		    	// head for main blog
-			add_action('wp_head', [ $this, 'lumiere_add_head_blog' ], 0);
-
-			// add new name to popups
-			add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
-
-			// add links to popup
-			add_filter('the_content', [ $this, 'lumiere_linking' ] );
-			add_filter('the_excerpt', [ $this, 'lumiere_linking' ] );
-
-		    	// delete next line if you don't want to run Lumiere Movies through comments
-			add_filter('comment_text', [ $this, 'lumiere_linking' ] );
-
-			// add data inside a post
-			add_action('the_content', [ $this, 'lumiere_tags_transform' ] );
-			add_action('the_content', [ $this, 'lumiere_tags_transform_id' ] );
-
-			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
-
-			// register widget
-			add_action('plugins_loaded', 'register_lumiere_widget');
-		}
-	}
-
-
 
 } // end class
 

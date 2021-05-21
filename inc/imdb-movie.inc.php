@@ -134,10 +134,10 @@ while ($imovie < count($imdballmeta)) {
 			// check if a picture exists
 			if ($photo_url_sanitized != FALSE){
 				// a picture exists, therefore show it!
-				echo $photo_url_sanitized .'" alt="'.esc_html__('Photo of','imdb').sanitize_text_field( $movie->title() ).'" '; 
+				echo $photo_url_sanitized .'" alt="'.esc_html__('Photo of','lumiere-movies').sanitize_text_field( $movie->title() ).'" '; 
 			} else { 
 				// no picture found, display the replacement pic
-				echo esc_url( $imdb_admin_values['imdbplugindirectory'].'pics/no_pics.gif"').' alt="'.esc_html__('no picture', 'imdb').'" '; 
+				echo esc_url( $imdb_admin_values['imdbplugindirectory'].'pics/no_pics.gif"').' alt="'.esc_html__('no picture', 'lumiere-movies').'" '; 
 			}
 
 
@@ -157,7 +157,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- Country -->
 			<ul class="imdbelementCOUNTRYul">
 				<li class="imdbincluded-lined imdbelementCOUNTRYli">
-					<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Country', 'Countries', count($country), 'imdb')))); ?>:</span><?php 
+					<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Country', 'Countries', count($country), 'lumiere-movies')))); ?>:</span><?php 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycountry'] == true ) && (lumiere_count_me('imdblt_country', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
 				for ($i = 0; $i + 1 < count ($country); $i++) { 
@@ -183,8 +183,8 @@ while ($imovie < count($imdballmeta)) {
 			echo "\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- runtime -->';
 			echo "\n\t\t" . '<ul class="imdbelementRUNTIMEul">';
 			echo "\n\t\t\t" . '<li class="imdbincluded-lined imdbelementRUNTIMEli">';
-			echo "\n\t\t\t\t" . '<span class="imdbincluded-subtitle">' . esc_html__('Runtime', 'imdb') . ':</span>';
-			echo $runtime_sanitized." ".esc_html__('minutes', 'imdb'); 
+			echo "\n\t\t\t\t" . '<span class="imdbincluded-subtitle">' . esc_html__('Runtime', 'lumiere-movies') . ':</span>';
+			echo $runtime_sanitized." ".esc_html__('minutes', 'lumiere-movies'); 
 			echo "\n\t\t\t" . '</li>';
 			echo "\n\t\t" . '</ul>';
 	 	} 
@@ -197,7 +197,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- Language -->
 			<ul class="imdbelementLANGUAGEul">
 			<li class="imdbincluded-lined imdbelementLANGUAGEli">
-				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Language', 'Languages', count($languages), 'imdb')))); ?>:</span><?php
+				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Language', 'Languages', count($languages), 'lumiere-movies')))); ?>:</span><?php
 			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomylanguage] == true ) && (lumiere_count_me('imdblt_languages', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
 				for ($i = 0; $i + 1 < count ($languages); $i++) { 
@@ -223,17 +223,17 @@ while ($imovie < count($imdballmeta)) {
 										<!-- Rating et votes -->
 			<ul class="imdbelementRATINGul">
 			<li class="imdbincluded-lined imdbelementRATINGli">
-				<span class="imdbincluded-subtitle"><?php esc_html_e('Rating', 'imdb'); ?>:</span><?php
+				<span class="imdbincluded-subtitle"><?php esc_html_e('Rating', 'lumiere-movies'); ?>:</span><?php
 			
 			if ( $imdb_widget_values['imdbwidgetratingnopics'] == true ) { // value which doesn't exist yet into plugin; has to be made
 				echo $votes_sanitized." "; 
-				echo esc_html_e('votes, average ', 'imdb'); 
+				echo esc_html_e('votes, average ', 'lumiere-movies'); 
 				echo " ".$rating_sanitized." ";
-				echo esc_html_e('(max 10)', 'imdb'); 
+				echo esc_html_e('(max 10)', 'lumiere-movies'); 
 			} else {							// by default, display pictures and votes amount	
 				echo " <img src=\"".$imdb_admin_values['imdbplugindirectory'].'pics/showtimes/'.(round($rating_sanitized*2, 0)/0.2).
-				".gif\" title=\"".esc_html__('vote average ', 'imdb').$rating_sanitized.esc_html__(' out of 10', 'imdb')."\"  / >";
-				echo " (".$votes_sanitized." ".esc_html__('votes', 'imdb').")";			
+				".gif\" title=\"".esc_html__('vote average ', 'lumiere-movies').$rating_sanitized.esc_html__(' out of 10', 'lumiere-movies')."\"  / >";
+				echo " (".$votes_sanitized." ".esc_html__('votes', 'lumiere-movies').")";			
 			}
 			
 			?></li>
@@ -247,7 +247,7 @@ while ($imovie < count($imdballmeta)) {
 		if (! (empty($genre)) && ($imdb_widget_values['imdbwidgetgenre'] == true )) {?>
 										<!-- genres -->
 			<ul class="imdbelementGENREul">
-			<li class="imdbincluded-lined imdbelementGENREli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Genre', 'Genres', count($genre), 'imdb')))); ?>:</span><?php 
+			<li class="imdbincluded-lined imdbelementGENREli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Genre', 'Genres', count($genre), 'lumiere-movies')))); ?>:</span><?php 
 
 			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values['imdbtaxonomygenre'] == true ) && (lumiere_count_me('imdblt_genre', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
@@ -273,7 +273,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- Keywords -->
 			<ul class="imdbelementKEYWORDSul">
 				<li class="imdbincluded-lined imdbelementKEYWORDSli">
-					<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Keyword', 'Keywords', count($keywords), 'imdb')))); ?>:</span><?php 
+					<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Keyword', 'Keywords', count($keywords), 'lumiere-movies')))); ?>:</span><?php 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomykeywords'] == true ) && (lumiere_count_me('imdblt_keywords', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
 				for ($i = 0; $i + 1 < count ($keywords); $i++) { 
@@ -298,7 +298,7 @@ while ($imovie < count($imdballmeta)) {
 		if (! (empty($goofs)) && ($imdb_widget_values['imdbwidgetgoofs'] == true )) {?>
 										<!-- goofs -->
 			<ul class="imdbelementGOOFul">
-			<li class="imdbincluded-lined imdbelementGOOFli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Goof', 'Goofs', count($goofs), 'imdb')))); ?>:</span><?php
+			<li class="imdbincluded-lined imdbelementGOOFli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Goof', 'Goofs', count($goofs), 'lumiere-movies')))); ?>:</span><?php
 
 			// value $imdb_widget_values['imdbwidgetgoofsnumber'] is selected, but value $imdb_widget_values['imdbwidgetgoofsnumber'] is empty
 			if (empty($imdb_widget_values['imdbwidgetgoofsnumber'])){
@@ -322,7 +322,7 @@ while ($imovie < count($imdballmeta)) {
 		if (! (empty($comment_split)) && ($imdb_widget_values['imdbwidgetcomments'] == true )) {?>
 										<!-- comments -->
 			<ul class="imdbelementCOMMENTul">
-			<li class="imdbincluded-lined imdbelementCOMMENTli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n("User's comment", "User's comments", count($comments), 'imdb')))); ?>:</span><?php 
+			<li class="imdbincluded-lined imdbelementCOMMENTli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n("User's comment", "User's comments", count($comments), 'lumiere-movies')))); ?>:</span><?php 
 
 			// value $imdb_widget_values['imdbwidgetcommentsnumber'] is selected, but value $imdb_widget_values['imdbwidgetcommentsnumber'] is empty
 			if (empty($imdb_widget_values['imdbwidgetcommentsnumber'])){
@@ -352,7 +352,7 @@ while ($imovie < count($imdballmeta)) {
 		if (! (empty($quotes)) && ($imdb_widget_values['imdbwidgetquotes'] == true )) {?>
 										<!-- quotes -->
 			<ul class="imdbelementQUOTEul">
-			<li class="imdbincluded-lined imdbelementQUOTEli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Quote', 'Quotes', count($quotes), 'imdb')))); ?>:</span><?php
+			<li class="imdbincluded-lined imdbelementQUOTEli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Quote', 'Quotes', count($quotes), 'lumiere-movies')))); ?>:</span><?php
 
 			// value $imdb_widget_values['imdbwidgetquotesnumber'] is selected, but value $imdb_widget_values['imdbwidgetquotesnumber'] is empty
 			if (empty($imdb_widget_values['imdbwidgetquotesnumber'])){
@@ -381,7 +381,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- taglines -->
 			<ul class="imdbelementTAGLINEul">
 			<li class="imdbincluded-lined imdbelementTAGLINEli">
-				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Tagline', 'Taglines', count($taglines), 'imdb')))); ?>:</span><?php 
+				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Tagline', 'Taglines', count($taglines), 'lumiere-movies')))); ?>:</span><?php 
 
 			// value $imdb_widget_values['imdbwidgettaglinesnumber'] is selected, but value $imdb_widget_values['imdbwidgettaglinesnumber'] is empty
 			if (empty($imdb_widget_values['imdbwidgettaglinesnumber'])){
@@ -403,7 +403,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- trailers -->
 			<ul class="imdbelementTRAILERul">
 			<li class="imdbincluded-lined imdbelementTRAILERli">
-				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Trailer', 'Trailers', $imdb_widget_values['imdbwidgettrailernumber'], 'imdb')))); ?>:</span><?php 
+				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Trailer', 'Trailers', $imdb_widget_values['imdbwidgettrailernumber'], 'lumiere-movies')))); ?>:</span><?php 
 
 			// value $imdb_widget_values['imdbwidgettrailer'] is selected, but value $imdb_widget_values['imdbwidgettrailernumber'] is empty
 			if (empty($imdb_widget_values['imdbwidgettrailernumber'])){
@@ -414,7 +414,7 @@ while ($imovie < count($imdballmeta)) {
 
 			for ($i = 0; ($i < $nbtrailers  && ($i < count($trailers)) ); $i++) { 
 				if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
-					echo "<a href='".esc_url( $trailers[$i]['url'] )."' title='".esc_html__('Watch on IMBb website the trailer for ', 'imdb') . esc_attr( $trailers[$i]['title'] ) ."'>". sanitize_text_field( $trailers[$i]['title'] ) . "</a><br />\n";
+					echo "<a href='".esc_url( $trailers[$i]['url'] )."' title='".esc_html__('Watch on IMBb website the trailer for ', 'lumiere-movies') . esc_attr( $trailers[$i]['title'] ) ."'>". sanitize_text_field( $trailers[$i]['title'] ) . "</a><br />\n";
 				} else { // if "Remove all links" option is selected 
 					echo sanitize_text_field( $trailers[$i]['title'] ).", ",esc_url( $trailers[$i]['url'] )."<br />\n";
 				}
@@ -429,7 +429,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- colors -->
 			<ul class="imdbelementCOLORul">
 			<li class="imdbincluded-lined imdbelementCOLORli">
-				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Color', 'Colors', count($colors), 'imdb')))); ?>:</span><?php
+				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Color', 'Colors', count($colors), 'lumiere-movies')))); ?>:</span><?php
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycolor'] == true ) && (lumiere_count_me('imdblt_color', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
 				for ($i = 0; $i + 1 < count ($colors); $i++) { 
@@ -455,7 +455,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- alsoknow -->
 			<ul class="imdbelementALSOKNOWul">
 			<li class="imdbincluded-lined imdbelementALSOKNOWli">
-				<span class="imdbincluded-subtitle"><?php esc_html_e('Also known as', 'imdb'); ?>:</span><?php 
+				<span class="imdbincluded-subtitle"><?php esc_html_e('Also known as', 'lumiere-movies'); ?>:</span><?php 
 			
 			for ($i = 0; $i < count ($alsoknow); $i++) { 
 				echo " <strong>".sanitize_text_field( $alsoknow[$i]['title'] )."</strong> "."(".sanitize_text_field( $alsoknow[$i]['country'] );
@@ -473,7 +473,7 @@ while ($imovie < count($imdballmeta)) {
 		if (! (empty($composer)) && ($imdb_widget_values['imdbwidgetcomposer'] == true )) {?>
 										<!-- composer -->
 			<ul class="imdbelementCOMPOSERul">
-			<li class="imdbincluded-lined imdbelementCOMPOSERli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Composer', 'Composers', count($composer), 'imdb')))); ?>:</span><?php 
+			<li class="imdbincluded-lined imdbelementCOMPOSERli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Composer', 'Composers', count($composer), 'lumiere-movies')))); ?>:</span><?php 
 			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomycomposer] == true ) && (lumiere_count_me('imdblt_composer', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
 				for ($i = 0; $i < count ($composer); $i++) {
@@ -487,7 +487,7 @@ while ($imovie < count($imdballmeta)) {
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup
 							echo '<a  class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . sanitize_text_field( $composer[$i]["imdb"] ). '" title="' . esc_html__("Link to local IMDb", "imdb") . '">' . sanitize_text_field( $composer[$i]["name"] ) . "</a>&nbsp;";
 						} else {// classic popup
-							echo '<a  class="link-imdblt-highslidepeople" data-classicpeople="' . sanitize_text_field( $composer[$i]["imdb"] ). '" title="' . esc_html__("Link to local IMDb", "imdb") . '">' . sanitize_text_field( $composer[$i]["name"] ). "</a>&nbsp;";
+							echo '<a  class="link-imdblt-highslidepeople" data-classicpeople="' . sanitize_text_field( $composer[$i]["imdb"] ). '" title="' . esc_html__("Link to local IMDb", 'lumiere-movies') . '">' . sanitize_text_field( $composer[$i]["name"] ). "</a>&nbsp;";
 						} 
 					} else { // if "Remove all links" option is selected 
 						echo sanitize_text_field( $composer[$i]["name"] );
@@ -504,7 +504,7 @@ while ($imovie < count($imdballmeta)) {
 		if (!empty($soundtrack) && ($imdb_widget_values['imdbwidgetsoundtrack'] == true )) {?>
 										<!-- soundtrack -->
 			<ul class="imdbelementSOUNDTRACKul">
-			<li class="imdbincluded-lined imdbelementSOUNDTRACKli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Soundtrack', 'Soundtracks', count($soundtrack), 'imdb')))); ?>:</span><?php
+			<li class="imdbincluded-lined imdbelementSOUNDTRACKli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Soundtrack', 'Soundtracks', count($soundtrack), 'lumiere-movies')))); ?>:</span><?php
 
 			// value $imdb_widget_values['imdbwidgetsoundtracknumber'] is selected, but value $imdb_widget_values['imdbwidgetsoundtracknumber'] is empty
 			if (empty($imdb_widget_values['imdbwidgetsoundtracknumber'])){
@@ -543,7 +543,7 @@ while ($imovie < count($imdballmeta)) {
 		if (! (empty($prodCompany)) && ($imdb_widget_values['imdbwidgetprodCompany'] == true )) {?>
 										<!-- Production company -->
 			<ul class="imdbelementPRODCOMPANYul">
-			<li class="imdbincluded-lined imdbelementPRODCOMPANYli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Production company', 'Production companies', count($prodCompany), 'imdb')))); ?>:</span><?php
+			<li class="imdbincluded-lined imdbelementPRODCOMPANYli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Production company', 'Production companies', count($prodCompany), 'lumiere-movies')))); ?>:</span><?php
 			for ($i = 0; $i < count ($prodCompany); $i++) { 
 					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
 						echo "<a href='".esc_url( $prodCompany[$i]['url'])."' title='".esc_attr($prodCompany[$i]['name'])."'>";
@@ -563,7 +563,7 @@ while ($imovie < count($imdballmeta)) {
 		if (! (empty($officialSites)) && ($imdb_widget_values['imdbwidgetofficialSites'] == true )) {?>
 										<!-- official websites -->
 			<ul class="imdbelementOFFICIALWEBSITEul">
-			<li class="imdbincluded-lined imdbelementOFFICIALWEBSITEli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Official website', 'Official websites', count($officialSites), 'imdb')))); ?>:</span><?php
+			<li class="imdbincluded-lined imdbelementOFFICIALWEBSITEli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Official website', 'Official websites', count($officialSites), 'lumiere-movies')))); ?>:</span><?php
 			for ($i = 0; $i < count ($officialSites); $i++) { 
 				echo "<a href='".esc_url($officialSites[$i]['url'])."' title='".esc_attr( $officialSites[$i]['name'] )."'>";
 				echo sanitize_text_field( $officialSites[$i]['name'] );
@@ -580,7 +580,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- director -->
 		<ul class="imdbelementDIRECTORul">
 		<li class="imdbincluded-lined imdbelementDIRECTORli"><?php
-			echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">' . sprintf(esc_html(_n('Director', 'Directors', count($director), 'imdb'))) . ':</span>&nbsp;'."\n\t\t\t";
+			echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">' . sprintf(esc_html(_n('Director', 'Directors', count($director), 'lumiere-movies'))) . ':</span>&nbsp;'."\n\t\t\t";
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomydirector'] == true ) && (lumiere_count_me('imdblt_director', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
@@ -594,10 +594,10 @@ while ($imovie < count($imdballmeta)) {
 					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
 						if ( $i > 0 ) echo ', ';
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup ?>
-							<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="<?php echo esc_html( $director[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'imdb'); ?>"><?php echo esc_html( $director[$i]["name"] ); ?></a>
+							<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="<?php echo esc_html( $director[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo esc_html( $director[$i]["name"] ); ?></a>
 <?php						} else { 
 							// classic popup ?>
-							<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="<?php echo $director[$i]["imdb"]; ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'imdb'); ?>"><?php echo $director[$i]["name"]; ?></a><?php
+							<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="<?php echo $director[$i]["imdb"]; ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo $director[$i]["name"]; ?></a><?php
 						} 
 					} else { // if "Remove all links" option is selected 
 						if ( $i > 0 ) echo ', ';
@@ -621,7 +621,7 @@ while ($imovie < count($imdballmeta)) {
 			echo "\n\t\t\t\t\t" . '<!-- creator -->';
 			echo "\n\t\t\t" . '<ul class="imdbelementCREATORul">';
 			echo "\n\t\t\t" . '<li class="imdbincluded-lined imdbelementCREATORli">';
-			echo "\n\t\t\t\t" . '<span class="imdbincluded-subtitle">'. sprintf(esc_html(_n('Creator', 'Creators', count($creator), 'imdb'))) . ':</span>&nbsp;';
+			echo "\n\t\t\t\t" . '<span class="imdbincluded-subtitle">'. sprintf(esc_html(_n('Creator', 'Creators', count($creator), 'lumiere-movies'))) . ':</span>&nbsp;';
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values[imdbtaxonomycreator] == true ) && (lumiere_count_me('imdblt_creator', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
@@ -635,9 +635,9 @@ while ($imovie < count($imdballmeta)) {
 					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
 						if ( $i > 0 ) echo ', ';
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup ?>
-							<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="<?php echo $creator[$i]["imdb"]; ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'imdb'); ?>"><?php echo $creator[$i]["name"]; ?></a>
+							<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="<?php echo $creator[$i]["imdb"]; ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo $creator[$i]["name"]; ?></a>
 <?php						} else { // classic popup ?>
-							<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="<?php echo $creator[$i]["imdb"]; ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'imdb'); ?>"><?php echo $creator[$i]["name"]; ?></a><?php		
+							<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="<?php echo $creator[$i]["imdb"]; ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo $creator[$i]["name"]; ?></a><?php		
 						echo sanitize_text_field( $creator[$i]["name"] )."</a>";
 						} 
 					} else { // if "Remove all links" option is selected 
@@ -660,7 +660,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- producers -->
 			<ul class="imdbelementPRODUCERul">
 			<li class="imdbincluded-lined imdbelementPRODUCERli">
-				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Producer', 'Producers', count($producer), 'imdb')))); ?>:</span><?php
+				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Producer', 'Producers', count($producer), 'lumiere-movies')))); ?>:</span><?php
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values[imdbtaxonomyproducer] == true ) && (lumiere_count_me('imdblt_producer', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
 				for ($i = 0; $i < count ($producer); $i++) {
@@ -674,9 +674,9 @@ while ($imovie < count($imdballmeta)) {
 							<div class="imdblt_float_left">
 <?php					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup ?>
-							<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="<?php echo esc_attr( $producer[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'imdb'); ?>"><?php echo sanitize_text_field( $producer[$i]["name"] ); ?></a>
+							<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="<?php echo esc_attr( $producer[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo sanitize_text_field( $producer[$i]["name"] ); ?></a>
 <?php						} else {  // classic popup ?>
-							<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="<?php echo esc_attr( $producer[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'imdb'); ?>"><?php echo sanitize_text_field( $producer[$i]["name"] ); ?></a><?php		
+							<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="<?php echo esc_attr( $producer[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo sanitize_text_field( $producer[$i]["name"] ); ?></a><?php		
 						} 
 					} else { // if "Remove all links" option is selected 
 						echo sanitize_text_field( $producer[$i]["name"] );
@@ -701,7 +701,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- writers -->
 		<ul class="imdbelementWRITERul">
 		<li class="imdbincluded-lined imdbelementWRITERli">
-			<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Writer', 'Writers', count($write), 'imdb')))); ?>:</span><?php
+			<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Writer', 'Writers', count($write), 'lumiere-movies')))); ?>:</span><?php
 			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values['imdbtaxonomywriter'] == true ) && (lumiere_count_me('imdblt_writer', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
 				for ($i = 0; $i < count ($writer); $i++) {
@@ -715,9 +715,9 @@ while ($imovie < count($imdballmeta)) {
 							<div class="imdblt_float_left">
 <?php					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup ?>
-							<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="<?php echo esc_attr( $writer[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'imdb'); ?>"><?php echo sanitize_text_field( $writer[$i]["name"] ); ?></a>
+							<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="<?php echo esc_attr( $writer[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo sanitize_text_field( $writer[$i]["name"] ); ?></a>
 <?php						} else {  // classic popup ?>
-							<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="<?php echo esc_attr( $writer[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'imdb'); ?>"><?php echo sanitize_text_field( $writer[$i]["name"] ); ?></a><?php		
+							<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="<?php echo esc_attr( $writer[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo sanitize_text_field( $writer[$i]["name"] ); ?></a><?php		
 						} 
 					} else { // if "Remove all links" option is selected 
 						echo sanitize_text_field( $writer[$i]["name"] );
@@ -743,7 +743,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- actors -->
 			<ul class="imdbelementACTORul">
 			<li class="imdbincluded-lined imdbelementACTORli">
-				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Actor', 'Actors', count($cast), 'imdb')))); ?>:</span><?php 
+				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Actor', 'Actors', count($cast), 'lumiere-movies')))); ?>:</span><?php 
 			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomyactor] == true ) && (lumiere_count_me('imdblt_actor', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
 				for ($i = 0; $i < $imdb_widget_values[imdbwidgetactornumber] && ($i < count($cast)); $i++) { 
@@ -769,9 +769,9 @@ while ($imovie < count($imdballmeta)) {
 					echo "\n\t\t\t\t\t". '<div align="right">';
 				if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
 					if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup
-						echo '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $cast[$i]["imdb"] ) . '" title="'. esc_html__('open a new window with IMDb informations', 'imdb') . '">' . esc_html( $cast[$i]["name"] ) . '</a>';
+						echo '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $cast[$i]["imdb"] ) . '" title="'. esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . esc_html( $cast[$i]["name"] ) . '</a>';
 					} else {  // classic popup ?>
-						<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="<?php echo esc_attr( $cast[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'imdb'); ?>"><?php echo esc_html( $cast[$i]["name"] ); ?></a><?php		
+						<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="<?php echo esc_attr( $cast[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo esc_html( $cast[$i]["name"] ); ?></a><?php		
 					} 
 				} else { // if "Remove all links" option is selected 
 					echo esc_html( $cast[$i]["name"] );
@@ -796,7 +796,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- Plots -->
 			<ul class="imdbelementPLOTul">
 			<li class="imdbincluded-lined imdbelementPLOTli">
-				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Plot', 'Plots', count($plot), 'imdb')))); ?>:</span><?php
+				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Plot', 'Plots', count($plot), 'lumiere-movies')))); ?>:</span><?php
 
 				// value $imdb_widget_values['imdbwidgetplotnumber'] is selected, but value $imdb_widget_values['imdbwidgetplotnumber'] is empty
 				if (empty($imdb_widget_values['imdbwidgetplotnumber'])){
@@ -832,7 +832,7 @@ while ($imovie < count($imdballmeta)) {
 	// if "Remove all links" option is not selected ?>
 	<ul class="imdbelementSOURCEul">
 	<li class="imdbincluded-lined imdbelementSOURCEli">
-		<span class="imdbincluded-subtitle"><?php esc_html_e('Source', 'imdb'); ?>:</span><?php esc_url( lumiere_source_imdb($midPremierResultat) );?>
+		<span class="imdbincluded-subtitle"><?php esc_html_e('Source', 'lumiere-movies'); ?>:</span><?php esc_url( lumiere_source_imdb($midPremierResultat) );?>
 	</li>
 	</ul>
 	<?php } 

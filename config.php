@@ -67,7 +67,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 	'PEAR' => false,
 	'imdbwordpress_bigmenu'=>false,
 	'imdbwordpress_tooladminmenu'=>true,
-	'imdbpopup_highslide'=>false,
+	'imdbpopup_highslide'=>true,
 	'imdbtaxonomy'=> false,
 	);
 	$imdbOptions = get_option($this->imdbAdminOptionsName);
@@ -194,7 +194,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 			check_admin_referer('update_imdbSettings_check', 'update_imdbSettings_check'); // check if the refer is ok before saving data
 
 			// display message on top
-			lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
 
 			update_option($this->imdbAdminOptionsName, $imdbOptions);
 
@@ -206,14 +206,14 @@ class lumiere_settings_conf extends lumiere_send_config {
 			update_option($this->imdbAdminOptionsName, $imdbAdminOptions);
 
 			// display message on top
-			lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
 
 			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
 				header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
 			} else {
-				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
+				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'lumiere-movies').'</a>'.'</strong>');
 			}
 
 		}
@@ -262,7 +262,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 					header("Location: ".esc_url($_SERVER[ "REQUEST_URI"]), false);
 					die();
 				} else {
-					lumiere_notice(1, '<strong>'. esc_html__( 'Error. You have to select a value.', 'imdb'). '</strong>' );
+					lumiere_notice(1, '<strong>'. esc_html__( 'Error. You have to select a value.', 'lumiere-movies'). '</strong>' );
 					die();
 				}
 			}
@@ -270,7 +270,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 			update_option($this->imdbWidgetOptionsName, $imdbOptionsw);
 
 			// display message on top
-			lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
 
 			// flush rewrite rules for taxonomy pages
 			flush_rewrite_rules();
@@ -282,14 +282,14 @@ class lumiere_settings_conf extends lumiere_send_config {
 			update_option($this->imdbWidgetOptionsName, $imdbWidgetOptionsw);
 
 			// display message on top
-			lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
 
 			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
 				header("Refresh: 0;url=".esc_url($_SERVER[ "REQUEST_URI"]."&reset=true"), false);
 			} else {
-				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
+				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'lumiere-movies').'</a>'.'</strong>');
 			}
 
 			// flush rewrite rules for taxonomy pages
@@ -313,7 +313,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 			check_admin_referer('update_cache_options_check', 'update_cache_options_check'); // check if the refer is ok before saving data
 
 			// display message on top
-			lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
 
 			update_option($this->imdbCacheOptionsName, $imdbOptionsc);
 
@@ -325,14 +325,14 @@ class lumiere_settings_conf extends lumiere_send_config {
 			update_option($this->imdbCacheOptionsName, $imdbCacheOptions);
 
 			// display message on top
-			lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
 
 			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
 				header("Refresh: 0;url=".esc_url( $_SERVER[ "REQUEST_URI"]."&reset=true" ), false);
 			} else {
-				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
+				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'lumiere-movies').'</a>'.'</strong>');
 			}
 
 		}
@@ -340,14 +340,14 @@ class lumiere_settings_conf extends lumiere_send_config {
 
 			check_admin_referer('reset_imdbltcache_check', 'reset_imdbltcache_check'); // check if the refer is ok before saving data
 
-			lumiere_notice(1, '<strong>'. esc_html__( 'All cache deleted.', 'imdb') .'</strong>');
+			lumiere_notice(1, '<strong>'. esc_html__( 'All cache deleted.', 'lumiere-movies') .'</strong>');
 
 			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
 				header("Refresh: 0;url=".esc_url( $_SERVER["REQUEST_URI"]."&reset=true" ), false);
 			} else {
-				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.esc_url($_SERVER["REQUEST_URI"]."&reset=true").'">'.esc_html__( 'this link.', 'imdb').'</a>'.'</strong>');
+				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.esc_url($_SERVER["REQUEST_URI"]."&reset=true").'">'.esc_html__( 'this link.', 'lumiere-movies').'</a>'.'</strong>');
 			}
 
 			lumiere_unlinkRecursive( $imdbOptionsc['imdbcachedir'] );
@@ -387,40 +387,40 @@ class lumiere_settings_conf extends lumiere_send_config {
 
 <div class=wrap>
 
-	<h2 class="imdblt_padding_bottom_right_fifteen"><img src="<?php echo esc_url ( $imdbOptions['imdbplugindirectory'] . "pics/lumiere-ico80x80.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;<i>Lumière!</i>&nbsp;<?php esc_html_e( "options", "imdb"); ?></h2>
+	<h2 class="imdblt_padding_bottom_right_fifteen"><img src="<?php echo esc_url ( $imdbOptions['imdbplugindirectory'] . "pics/lumiere-ico80x80.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;<i>Lumière!</i>&nbsp;<?php esc_html_e( "options", 'lumiere-movies'); ?></h2>
 
 	<div class="subpage">
 
 	<div align="left" class="imdblt_float_left">
 		<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-general.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-		<a title="<?php esc_html_e( 'General Options', 'imdb'); ?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options"); ?>"> <?php esc_html_e( 'General Options', 'imdb'); ?></a>
+		<a title="<?php esc_html_e( 'General Options', 'lumiere-movies'); ?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options"); ?>"> <?php esc_html_e( 'General Options', 'lumiere-movies'); ?></a>
 
 		<?php 	### sub-page is relative to what is activated
 			### check if widget is active, and/or direct search option
 		if ( ($imdbOptions['imdbdirectsearch'] == "1") && (is_active_widget(widget_imdbwidget)) ){ ?>
 
 		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?></a>
+		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a>
 		<?php } elseif ( ($imdbOptions['imdbdirectsearch'] == "1") && (! is_active_widget(widget_imdbwidget)) ) { ?>
 		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?></a> (<em><a href="widgets.php"><?php esc_html_e( 'Widget unactivated', 'imdb'); ?>)</a></em>)
+		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a> (<em><a href="widgets.php"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies'); ?>)</a></em>)
 
 		<?php } elseif ( (!$imdbOptions['imdbdirectsearch'] == "1") && (is_active_widget(widget_imdbwidget)) )  { ?>
 		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?></a> (<em><a href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'imdb'); ?></a> <?php esc_html_e( 'unactivated', 'imdb'); ?></em>)
+		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a> (<em><a href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'lumiere-movies'); ?></a> <?php esc_html_e( 'unactivated', 'lumiere-movies'); ?></em>)
 
 <?php		} else { ?>
 		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'imdb'); ?></a> (<em><a href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'imdb'); ?></a></em> & <em><a href="widgets.php"><?php esc_html_e( 'Widget unactivated', 'imdb'); ?></a></em>)
+		<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a> (<em><a href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'lumiere-movies'); ?></a></em> & <em><a href="widgets.php"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies'); ?></a></em>)
 
 <?php 		} ?>
 		&nbsp;&nbsp;<img src="<?php echo esc_url ( $imdbOptions['imdbplugindirectory'] . "pics/admin-cache.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-		<a title="<?php esc_html_e( 'Cache management', 'imdb'); ?>" href="<?php echo admin_url(); ?>admin.php?page=imdblt_options&subsection=cache"><?php esc_html_e( 'Cache management', 'imdb'); ?></a>
+		<a title="<?php esc_html_e( 'Cache management', 'lumiere-movies'); ?>" href="<?php echo admin_url(); ?>admin.php?page=imdblt_options&subsection=cache"><?php esc_html_e( 'Cache management', 'lumiere-movies'); ?></a>
 	</div>
 	<div align="right" >
 		&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-help.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-		<a title="<?php esc_html_e( 'How to use Lumière!, check FAQs & changelog', 'imdb');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help"); ?>">
-			<i>Lumière!</i> <?php esc_html_e( 'help', 'imdb'); ?>
+		<a title="<?php esc_html_e( 'How to use Lumière!, check FAQs & changelog', 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help"); ?>">
+			<i>Lumière!</i> <?php esc_html_e( 'help', 'lumiere-movies'); ?>
 		</a>
 	</div>
 	</div>
@@ -458,7 +458,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 // Where the language files resides
 // Edit only if you know what you are doing
 
-load_plugin_textdomain('imdb', false, IMDBLTURLPATH . 'language' );
+load_plugin_textdomain('lumiere-movies', false, IMDBLTURLPATH . 'language' );
 
 #--------------------------------------------------=[ Class to call from original imdb classes ]=--
 

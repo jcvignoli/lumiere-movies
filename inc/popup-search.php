@@ -48,12 +48,12 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 	//require_once ('popup-header.php'); 
 	get_header(); 
 ?>
-<h1><?php esc_html_e('Results related to', 'imdb'); echo $film_sanitized; ?></h1>
+<h1><?php esc_html_e('Results related to', 'lumiere-movies'); echo $film_sanitized; ?></h1>
 
 <table class="TableListeResultats">
 	<tr>
-		<th class="TableListeResultatsTitre"><?php esc_html_e('Titles matching', 'imdb'); ?></th>
-		<th class="TableListeResultatsTitre imdblt_titlematchingdirector"><?php esc_html_e('Director', 'imdb'); ?></th>
+		<th class="TableListeResultatsTitre"><?php esc_html_e('Titles matching', 'lumiere-movies'); ?></th>
+		<th class="TableListeResultatsTitre imdblt_titlematchingdirector"><?php esc_html_e('Director', 'lumiere-movies'); ?></th>
 	</tr>
 
 	<?php
@@ -61,11 +61,11 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 		echo "	<tr>\n";
 		
 		// ---- movie part
-		echo "		<td class='TableListeResultatsColGauche'><a href=\"".esc_url($imdb_admin_values['imdbplugindirectory']."inc/popup-imdb_movie.php?mid=".intval($res->imdbid()) )."&film=".$film_sanitized."\" title=\"".esc_html__('more on', 'imdb')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )."(".intval( $res->year() ).")"."</a> \n";
-		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"".esc_url( "https://www.imdb.com/title/tt".intval($res->imdbid()) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'imdb')." ".sanitize_text_field( $res->title() )."'>";
+		echo "		<td class='TableListeResultatsColGauche'><a href=\"".esc_url($imdb_admin_values['imdbplugindirectory']."inc/popup-imdb_movie.php?mid=".intval($res->imdbid()) )."&film=".$film_sanitized."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )."(".intval( $res->year() ).")"."</a> \n";
+		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"".esc_url( "https://www.imdb.com/title/tt".intval($res->imdbid()) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'>";
 
 		if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
-			echo "<img  class='img-imdb' src='".esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] )."' width='".intval($imdb_admin_values['imdbpicsize'])."' alt='".esc_html__('link to imdb for', 'imdb')." ".sanitize_text_field( $res->title() )."'/></a>";	
+			echo "<img  class='img-imdb' src='".esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] )."' width='".intval($imdb_admin_values['imdbpicsize'])."' alt='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'/></a>";	
 		}
 		echo "</td>\n";
 		flush ();
@@ -73,11 +73,11 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 		// ---- director part
 		$realisateur = $res->director();
 		if (! is_null ($realisateur['0']['name'])){
-			echo "		<td class='TableListeResultatsColDroite'><a class='link-imdb2' href=\"".esc_url($imdb_admin_values[imdbplugindirectory]."inc/popup-imdb_person.php?mid=".intval($realisateur['0']['imdb'])."&film=".sanitize_text_field($_GET['film']) )."\" title=\"".esc_html__('more on', 'imdb')." ".sanitize_text_field( $realisateur['0']['name'] )."\" >".sanitize_text_field( $realisateur['0']['name'] )."</a>";
+			echo "		<td class='TableListeResultatsColDroite'><a class='link-imdb2' href=\"".esc_url($imdb_admin_values[imdbplugindirectory]."inc/popup-imdb_person.php?mid=".intval($realisateur['0']["imdb"])."&film=".sanitize_text_field($_GET['film']) )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."\" >".sanitize_text_field( $realisateur['0']['name'] )."</a>";
 
 			if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
-				echo "&nbsp;&nbsp;<a class='link-imdb2' href=\"".esc_url( "https://www.imdb.com/name/nm".intval($realisateur['0']['imdb']) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'imdb')." ".sanitize_text_field( $realisateur['0']['name'] )."'>";
-				echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values[imdbplugindirectory].$imdb_admin_values[imdbpicurl] )."' width='".intval($imdb_admin_values[imdbpicsize])."' alt='".esc_html__('link to imdb for', 'imdb')." ".$realisateur['0']['name']."'/>";
+				echo "&nbsp;&nbsp;<a class='link-imdb2' href=\"".esc_url( "https://www.imdb.com/name/nm".intval($realisateur['0']["imdb"]) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."'>";
+				echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values[imdbplugindirectory].$imdb_admin_values[imdbpicurl] )."' width='".intval($imdb_admin_values[imdbpicsize])."' alt='".esc_html__('link to imdb for', 'lumiere-movies')." ".$realisateur['0']['name']."'/>";
 				echo "</a>";
 			}
 			echo "</td>\n";

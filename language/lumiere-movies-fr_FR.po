@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumiere Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-21 02:10-0400\n"
-"PO-Revision-Date: 2021-05-21 02:18-0400\n"
+"POT-Creation-Date: 2021-05-21 09:34-0400\n"
+"PO-Revision-Date: 2021-05-21 09:34-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -69,7 +69,7 @@ msgstr "Recherche directe"
 msgid "unactivated"
 msgstr "d&eacute;sactiv&eacute;"
 
-#: config.php:418 inc/options-cache.php:588 lumiere-movies.php:346
+#: config.php:418 inc/options-cache.php:588 lumiere-movies.php:415
 msgid "Cache management"
 msgstr "Gestion du cache"
 
@@ -1195,8 +1195,8 @@ msgstr "Cela ne peut fonctionner comme cela."
 msgid "This file does not exist."
 msgstr "Ce fichier n'existe pas."
 
-#: inc/options-cache.php:323 inc/options-cache.php:474 lumiere-movies.php:344
-#: lumiere-movies.php:462
+#: inc/options-cache.php:323 inc/options-cache.php:474 lumiere-movies.php:413
+#: lumiere-movies.php:531
 msgid "General options"
 msgstr "Options g&eacute;n&eacute;rales"
 
@@ -1310,7 +1310,7 @@ msgstr "R&eacute;pertoire photo (url)"
 msgid "URL corresponding to photo directory."
 msgstr "URL correspondant au r&eacute;pertoire photo."
 
-#: inc/options-cache.php:469 lumiere-movies.php:466
+#: inc/options-cache.php:469 lumiere-movies.php:535
 msgid "Cache options"
 msgstr "Options de cache"
 
@@ -2429,43 +2429,43 @@ msgstr "IMDb donn&eacute;es"
 msgid "Title:"
 msgstr "Titre :"
 
-#: lumiere-movies.php:85 lumiere-movies.php:87
+#: lumiere-movies.php:154 lumiere-movies.php:156
 msgid "There was an error when generating the htaccess file."
 msgstr "Une erreur s'est produite lors de la génération du fichier htaccess."
 
-#: lumiere-movies.php:119
+#: lumiere-movies.php:188
 msgid "Failed creating htaccess file."
 msgstr "Echec lors de la création du fichier htaccess."
 
-#: lumiere-movies.php:344
+#: lumiere-movies.php:413
 msgid "Lumière options page"
 msgstr "Pages d'options Lumière!"
 
-#: lumiere-movies.php:345
+#: lumiere-movies.php:414
 msgid "Widget & In post options page"
 msgstr "Options du Widget/Dans un message"
 
-#: lumiere-movies.php:345
+#: lumiere-movies.php:414
 msgid "Widget/In post"
 msgstr "Widget/Dans un message"
 
-#: lumiere-movies.php:346
+#: lumiere-movies.php:415
 msgid "Cache management options page"
 msgstr "Options de la gestion du cache"
 
-#: lumiere-movies.php:347
+#: lumiere-movies.php:416
 msgid "Help page"
 msgstr "Page d'aide"
 
-#: lumiere-movies.php:347 lumiere-movies.php:468
+#: lumiere-movies.php:416 lumiere-movies.php:537
 msgid "Help"
 msgstr "Aide"
 
-#: lumiere-movies.php:460
+#: lumiere-movies.php:529
 msgid "Lumière Menu"
 msgstr "Menu Lumière"
 
-#: lumiere-movies.php:464
+#: lumiere-movies.php:533
 msgid "Widget options"
 msgstr "Options Widget"
 

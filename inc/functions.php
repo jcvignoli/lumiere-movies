@@ -86,9 +86,9 @@ if ( ! function_exists('lumiere_convert_txtwithhtml_into_popup_people')){
 		global $imdb_admin_values;
 
 		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup
-				$result = '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . "\${6}" . '" title="' . esc_html__("open a new window with IMDb informations", "imdb") . '">';
+				$result = '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . "\${6}" . '" title="' . esc_html__("open a new window with IMDb informations", 'lumiere-movies') . '">';
 		} else {						// classic popup
-		    		$result = '<a class="link-imdblt-classicpeople" data-classicpeople="' . "\${6}" . '" title="' . esc_html__("open a new window with IMDb informations", "imdb") . '">';
+		    		$result = '<a class="link-imdblt-classicpeople" data-classicpeople="' . "\${6}" . '" title="' . esc_html__("open a new window with IMDb informations", 'lumiere-movies') . '">';
 		}
 
 		$convert = preg_replace("~(<a )((href=)(.+?))(nm)([[:alnum:]]*)\/((.+?)\">)~", $result, $convert);
@@ -106,9 +106,9 @@ if ( ! function_exists('lumiere_admin_signature')){
 	function lumiere_admin_signature(){
 		echo "\t\t<div class=\"soustitre\">\n";
 		echo "\t\t\t<div class=\"lumiere_intro_options\">".
-			wp_kses( __( '<strong>Licensing Info:</strong> Under a GPL licence, "Lumiere Movies" is based on <a href="https://github.com/tboothman/imdbphp/">tboothman</a> classes. Nevertheless, a considerable amount of work was required to implement it in wordpress; check the support page for', 'imdb'), $allowed_html_for_esc_html_functions ). "<a href=\"" .
+			wp_kses( __( '<strong>Licensing Info:</strong> Under a GPL licence, "Lumiere Movies" is based on <a href="https://github.com/tboothman/imdbphp/">tboothman</a> classes. Nevertheless, a considerable amount of work was required to implement it in wordpress; check the support page for', 'lumiere-movies'), $allowed_html_for_esc_html_functions ). "<a href=\"" .
 			esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=support"). "\"> ".
-			esc_html__('more', 'imdb') ."</a>.</div>";
+			esc_html__('more', 'lumiere-movies') ."</a>.</div>";
 		echo "\t\t\t<td>\n\t\t\t\t<div class=\"explain\"> &copy; 2005-" . date("Y") . " <a href=\"" .  IMDBHOMEPAGE . "\">Lost Highway</a>\n";
 		echo "\t\t</div>\n";
 	} 
@@ -124,40 +124,40 @@ if ( ! function_exists('lumiere_create_taxonomies')){
 		global $imdb_admin_values,$imdb_widget_values;
 
 		if ($imdb_widget_values['imdbtaxonomytitle'] ==  true) {
-			register_taxonomy('imdblt_title', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière titles", 'imdb'), 'query_var' => 'imdblt_title', 'rewrite' => array( 'slug' => 'imdblt_title' ) )  ) ; }
+			register_taxonomy('imdblt_title', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière titles", 'lumiere-movies'), 'query_var' => 'imdblt_title', 'rewrite' => array( 'slug' => 'imdblt_title' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomygenre'] ==  true) {
-			register_taxonomy('imdblt_genre', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière genres", 'imdb'), 'query_var' => 'imdblt_genre', 'rewrite' => array( 'slug' => 'imdblt_genre' ) )  ) ; }
+			register_taxonomy('imdblt_genre', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière genres", 'lumiere-movies'), 'query_var' => 'imdblt_genre', 'rewrite' => array( 'slug' => 'imdblt_genre' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomykeywords'] ==  true) {
-			register_taxonomy('imdblt_keywords', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière keywords", 'imdb'), 'query_var' => 'imdblt_keywords', 'rewrite' => array( 'slug' => 'imdblt_keywords' ) )  ) ; }
+			register_taxonomy('imdblt_keywords', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière keywords", 'lumiere-movies'), 'query_var' => 'imdblt_keywords', 'rewrite' => array( 'slug' => 'imdblt_keywords' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomycountry'] == true) {
-			register_taxonomy('imdblt_country', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière countries", 'imdb'), 'query_var' => 'imdblt_country', 'rewrite' => array( 'slug' => 'imdblt_country' ) )  ) ; }
+			register_taxonomy('imdblt_country', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière countries", 'lumiere-movies'), 'query_var' => 'imdblt_country', 'rewrite' => array( 'slug' => 'imdblt_country' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomylanguage'] == true) {
-			register_taxonomy('imdblt_language', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière languages", 'imdb'), 'query_var' => 'imdblt_language', 'rewrite' => array( 'slug' => 'imdblt_language' ) )  ) ; }
+			register_taxonomy('imdblt_language', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière languages", 'lumiere-movies'), 'query_var' => 'imdblt_language', 'rewrite' => array( 'slug' => 'imdblt_language' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomycomposer'] == true) {
-			register_taxonomy('imdblt_composer', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière composers", 'imdb'), 'query_var' => 'imdblt_composer', 'rewrite' => array( 'slug' => 'imdblt_composer' ) )  ) ; }
+			register_taxonomy('imdblt_composer', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière composers", 'lumiere-movies'), 'query_var' => 'imdblt_composer', 'rewrite' => array( 'slug' => 'imdblt_composer' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomycolor'] == true) {
-			register_taxonomy('imdblt_color', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière colors", 'imdb'), 'query_var' => 'imdblt_color', 'rewrite' => array( 'slug' => 'imdblt_color' ) )  ) ; }
+			register_taxonomy('imdblt_color', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière colors", 'lumiere-movies'), 'query_var' => 'imdblt_color', 'rewrite' => array( 'slug' => 'imdblt_color' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomydirector'] == true) {
-			register_taxonomy('imdblt_director', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière directors", 'imdb'), 'query_var' => 'imdblt_director', 'rewrite' => array( 'slug' => 'imdblt_director' ) )  ) ; }
+			register_taxonomy('imdblt_director', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière directors", 'lumiere-movies'), 'query_var' => 'imdblt_director', 'rewrite' => array( 'slug' => 'imdblt_director' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomycreator'] == true) {
-			register_taxonomy('imdblt_creator', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière creators", 'imdb'), 'query_var' => 'imdblt_creator', 'rewrite' => array( 'slug' => 'imdblt_creator' ) )  ) ; }
+			register_taxonomy('imdblt_creator', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière creators", 'lumiere-movies'), 'query_var' => 'imdblt_creator', 'rewrite' => array( 'slug' => 'imdblt_creator' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomyproducer'] == true) {
-			register_taxonomy('imdblt_producer', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière producers", 'imdb'), 'query_var' => 'imdblt_producer', 'rewrite' => array( 'slug' => 'imdblt_producer' ) )  ) ; }
+			register_taxonomy('imdblt_producer', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière producers", 'lumiere-movies'), 'query_var' => 'imdblt_producer', 'rewrite' => array( 'slug' => 'imdblt_producer' ) )  ) ; }
 
 		if ($imdb_widget_values['imdbtaxonomyactor'] == true) {
-			register_taxonomy('imdblt_actor', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière actors", 'imdb'), 'query_var' => 'imdblt_actor', 'rewrite' => array( 'slug' => 'imdblt_actor' ) )  ) ; }
+			register_taxonomy('imdblt_actor', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière actors", 'lumiere-movies'), 'query_var' => 'imdblt_actor', 'rewrite' => array( 'slug' => 'imdblt_actor' ) )  ) ; }
 			
 		if ($imdb_widget_values['imdbtaxonomywriter'] == true) {
-			register_taxonomy('imdblt_writer', array('page','post'), array( 'hierarchical' => true, 'label' => esc_html__("Lumière writers", 'imdb'), 'query_var' => 'imdblt_writer', 'rewrite' => array( 'slug' => 'imdblt_writer' ) )  ) ; }
+			register_taxonomy('imdblt_writer', array('page','post'), array( 'hierarchical' => true, 'label' => esc_html__("Lumière writers", 'lumiere-movies'), 'query_var' => 'imdblt_writer', 'rewrite' => array( 'slug' => 'imdblt_writer' ) )  ) ; }
 	}
 }
 
@@ -168,7 +168,7 @@ if ( ! function_exists('lumiere_create_taxonomies')){
 if ( ! function_exists('lumiere_noresults_text')){
 	function lumiere_noresults_text(){ 
 		echo "<br />";
-		echo "<div class='noresult'>".esc_html_e('Sorry, no result found for this reference', 'imdb')."</div>";
+		echo "<div class='noresult'>".esc_html_e('Sorry, no result found for this reference', 'lumiere-movies')."</div>";
 		echo "<br />";
 	} 
 }
@@ -224,9 +224,9 @@ if ( ! function_exists('lumiere_source_imdb')){
 		$midPremierResultat_sanitized = intval( $midPremierResultat );
 
 		echo "&nbsp;&nbsp;";
-		echo '<a class="link-incmovie-sourceimdb" title="'.esc_html__("Go to IMDb website for this movie", "imdb").'" href="'. esc_url( "https://".$imdb_admin_values['imdbwebsite'] . '/title/tt' .$midPremierResultat_sanitized ) . '" >';
+		echo '<a class="link-incmovie-sourceimdb" title="'.esc_html__("Go to IMDb website for this movie", 'lumiere-movies').'" href="'. esc_url( "https://".$imdb_admin_values['imdbwebsite'] . '/title/tt' .$midPremierResultat_sanitized ) . '" >';
 		echo '<img class="imdbelementSOURCE-picture" src="' . esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/imdb-link.png" ) . '" />';
-		echo '&nbsp;&nbsp;' . esc_html__("IMDb's page for this movie", "imdb") . '</a>';
+		echo '&nbsp;&nbsp;' . esc_html__("IMDb's page for this movie", 'lumiere-movies') . '</a>';
 	}
 }
 
@@ -265,7 +265,7 @@ if ( ! function_exists('lumiere_popup_highslide_film_link')){
 		if (! $popuplong )
 			$popuplong=$imdb_admin_values["popupLong"];
 
-		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . lumiere_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", "imdb") . '">' . $link_parsed[1] . "</a>&nbsp;";
+		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . lumiere_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
 
 		return $parsed_result;
 	}
@@ -287,7 +287,7 @@ if ( ! function_exists('lumiere_popup_classical_film_link')){
 		if (! $popuplong )
 			$popuplong=$imdb_admin_values["popupLong"];
 
-		$parsed_result = '<a  class="link-imdblt-classicfilm" data-classicfilm="' . lumiere_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", "imdb") . '">' . $link_parsed[1] . "</a>&nbsp;";
+		$parsed_result = '<a  class="link-imdblt-classicfilm" data-classicfilm="' . lumiere_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
 		
 		return $parsed_result;
 	}

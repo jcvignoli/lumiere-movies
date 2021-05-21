@@ -18,13 +18,13 @@
 ** 
 */
 
-function widget_imdbwidget($args) {
+function lumiere_widget($args) {
 	global $imdb_admin_values, $imdb_widget_values, $wp_query;
 	extract($args);
 	$options = get_option('widget_imdbwidget');
 	//$name = get_post($filmid);
 	$name = get_post(intval( $filmid ));
-	$title_box = empty($options['title']) ? esc_html__('IMDb data', 'imdb') : sanitize_text_field( $options['title'] ); //this is the widget title, from *wordpress* widget options
+	$title_box = empty($options['title']) ? esc_html__('IMDb data', 'lumiere-movies') : sanitize_text_field( $options['title'] ); //this is the widget title, from *wordpress* widget options
 
 	$filmid = intval( $wp_query->post->ID );
 
@@ -92,7 +92,7 @@ function widget_imdbwidget($args) {
 /**
 Register the optional widget control form
 */
-function widget_imdbwidget_control() {
+function lumiere_widget_control() {
 	$options = $newoptions = get_option('widget_imdbwidget');
 	if ($_POST["imdbW-submit"]) {
 		$newoptions['title'] = sanitize_text_field($_POST["imdbW-title"]);
@@ -115,8 +115,8 @@ function register_lumiere_widget() {
 	if ( !function_exists('wp_register_sidebar_widget') || !class_exists('lumiere_settings_conf')) {
 		return;
 	} else {
-		wp_register_sidebar_widget('imdblt_widget_id', 'IMDb Widget', 'widget_imdbwidget');
-		wp_register_widget_control('imdblt_widget_id', 'IMDb Widget', 'widget_imdbwidget_control');
+		wp_register_sidebar_widget('lumiere_widget_id', 'Lumière! movies', 'lumiere_widget');
+		wp_register_widget_control('lumiere_widget_id', 'Lumière! movies', 'lumiere_widget_control');
 	}
 }	
 ?>
