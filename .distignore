@@ -1,0 +1,9 @@
+.wordpress-org
+.todo
+.git
+.gitignore
+vendor
+tmp
+README.md
+wp-cli.phar
+source

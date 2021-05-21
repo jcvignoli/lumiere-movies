@@ -1,7 +1,6 @@
 svn
 composer.lock
 .todo
-.distignore
 vendor
 tmp
 wp-cli.phar
