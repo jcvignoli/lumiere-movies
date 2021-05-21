@@ -4,6 +4,7 @@ v3.0
 * [major] updated to imdbphp-6.5 library
 * [major] rewritten the code to be compliant with wordpress security
 * [major] plugin is compatible with tablets/mobile phones (fully responsive)
+* [major] first block for Gutenberg (for [imdblt] movies included by name)
 * [medium] popups URLs are rewritten to (blog)/imdlt/(film|person)
 * [medium] updated to highslide 5.0
 * [medium] moved all inline javascripts to external files so the plugin is Content Security Policy (CSP) compliant
@@ -22,7 +23,12 @@ v3.0
 * [bug] fixed cache refresh for movies, only normal (not _big) pictures where retrieved
 * [bug] fixed longstanding bug of widget ordering
 * [bug] fixed broken [imdblt] calls into the post
+* [bug] fixed layout for standardized taxonomy templates
+* [bug] fixed Deprecated TinyMCE API call: "onPostProcess" (moved to new tinymce standards)
+* [bug] removed the use of movie_actress() in popup-imdb_person.php
+* [bug] fixed bad English grammar, sentences, but much more work to do. Seems like I've improved my skills over a decade.
 * [misc] renamed the plugin to Lumiere Movies, renamed all classes and functions accordingly
+* [misc] Under the hood, more robust plugin following (a bit more) wordpress & PHP standards
 
 v2.3.2
 * [major] updated to imdbphp-2.3.2 library
