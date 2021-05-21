@@ -458,7 +458,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 // Where the language files resides
 // Edit only if you know what you are doing
 
-load_plugin_textdomain('lumiere-movies', false, IMDBLTURLPATH . 'language' );
+load_plugin_textdomain('lumiere-movies', false, IMDBLTURLPATH . 'languages' );
 
 #--------------------------------------------------=[ Class to call from original imdb classes ]=--
 

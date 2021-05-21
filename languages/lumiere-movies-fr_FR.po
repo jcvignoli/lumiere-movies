@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumiere Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-21 09:34-0400\n"
-"PO-Revision-Date: 2021-05-21 09:34-0400\n"
+"POT-Creation-Date: 2021-05-21 10:17-0400\n"
+"PO-Revision-Date: 2021-05-21 10:20-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -69,7 +69,7 @@ msgstr "Recherche directe"
 msgid "unactivated"
 msgstr "d&eacute;sactiv&eacute;"
 
-#: config.php:418 inc/options-cache.php:588 lumiere-movies.php:415
+#: config.php:418 inc/options-cache.php:587 lumiere-movies.php:415
 msgid "Cache management"
 msgstr "Gestion du cache"
 
@@ -989,8 +989,8 @@ msgstr "Vous ne pouvez pas afficher cette page directement."
 msgid "Photo of"
 msgstr "Photo de"
 
-#: inc/imdb-movie.inc.php:140 inc/options-cache.php:647
-#: inc/options-cache.php:737 inc/popup-imdb_movie.php:183
+#: inc/imdb-movie.inc.php:140 inc/options-cache.php:646
+#: inc/options-cache.php:736 inc/popup-imdb_movie.php:183
 #: inc/popup-imdb_person.php:120
 msgid "no picture"
 msgstr "pas de photo"
@@ -1195,7 +1195,7 @@ msgstr "Cela ne peut fonctionner comme cela."
 msgid "This file does not exist."
 msgstr "Ce fichier n'existe pas."
 
-#: inc/options-cache.php:323 inc/options-cache.php:474 lumiere-movies.php:413
+#: inc/options-cache.php:323 inc/options-cache.php:476 lumiere-movies.php:413
 #: lumiere-movies.php:531
 msgid "General options"
 msgstr "Options g&eacute;n&eacute;rales"
@@ -1272,18 +1272,18 @@ msgstr ""
 msgid "by the webserver."
 msgstr "par le serveur web."
 
-#: inc/options-cache.php:446 inc/options-cache.php:459
-#: inc/options-cache.php:482 inc/options-cache.php:490
-#: inc/options-cache.php:500 inc/options-cache.php:515
-#: inc/options-cache.php:523 inc/options-cache.php:543
-#: inc/options-cache.php:555 inc/options-general.php:82
+#: inc/options-cache.php:446 inc/options-cache.php:460
+#: inc/options-cache.php:484 inc/options-cache.php:492
+#: inc/options-cache.php:502 inc/options-cache.php:517
+#: inc/options-cache.php:525 inc/options-cache.php:544
+#: inc/options-cache.php:556 inc/options-general.php:82
 #: inc/options-general.php:93 inc/options-general.php:124
 #: inc/options-general.php:132 inc/options-general.php:152
 #: inc/options-general.php:192 inc/options-general.php:201
 #: inc/options-general.php:210 inc/options-general.php:234
 #: inc/options-general.php:243 inc/options-general.php:310
-#: inc/options-general.php:323 inc/options-general.php:339
-#: inc/options-general.php:354 inc/options-general.php:366
+#: inc/options-general.php:323 inc/options-general.php:336
+#: inc/options-general.php:349 inc/options-general.php:364
 #: inc/options-widget.php:75 inc/options-widget.php:86
 #: inc/options-widget.php:96 inc/options-widget.php:111
 #: inc/options-widget.php:123 inc/options-widget.php:136
@@ -1306,29 +1306,29 @@ msgstr "D&eacute;faut :"
 msgid "Photo directory (url)"
 msgstr "R&eacute;pertoire photo (url)"
 
-#: inc/options-cache.php:459
+#: inc/options-cache.php:460
 msgid "URL corresponding to photo directory."
 msgstr "URL correspondant au r&eacute;pertoire photo."
 
-#: inc/options-cache.php:469 lumiere-movies.php:535
+#: inc/options-cache.php:471 lumiere-movies.php:535
 msgid "Cache options"
 msgstr "Options de cache"
 
-#: inc/options-cache.php:479
+#: inc/options-cache.php:481
 msgid "Store cache?"
 msgstr "Enregistrer le cache ?"
 
-#: inc/options-cache.php:480 inc/options-cache.php:482
-#: inc/options-cache.php:488 inc/options-cache.php:490
-#: inc/options-cache.php:513 inc/options-cache.php:515
-#: inc/options-cache.php:521 inc/options-cache.php:523
-#: inc/options-cache.php:539 inc/options-cache.php:550
+#: inc/options-cache.php:482 inc/options-cache.php:484
+#: inc/options-cache.php:490 inc/options-cache.php:492
+#: inc/options-cache.php:515 inc/options-cache.php:517
+#: inc/options-cache.php:523 inc/options-cache.php:525
+#: inc/options-cache.php:540 inc/options-cache.php:551
 #: inc/options-general.php:145 inc/options-general.php:152
 #: inc/options-general.php:187 inc/options-general.php:192
 #: inc/options-general.php:228 inc/options-general.php:306
 #: inc/options-general.php:310 inc/options-general.php:319
-#: inc/options-general.php:348 inc/options-general.php:362
-#: inc/options-general.php:366 inc/options-widget.php:72
+#: inc/options-general.php:332 inc/options-general.php:336
+#: inc/options-general.php:358 inc/options-widget.php:72
 #: inc/options-widget.php:75 inc/options-widget.php:83
 #: inc/options-widget.php:86 inc/options-widget.php:94
 #: inc/options-widget.php:108 inc/options-widget.php:111
@@ -1349,15 +1349,15 @@ msgstr "Enregistrer le cache ?"
 msgid "Yes"
 msgstr "Oui"
 
-#: inc/options-cache.php:480 inc/options-cache.php:488
-#: inc/options-cache.php:513 inc/options-cache.php:521
-#: inc/options-cache.php:541 inc/options-cache.php:543
-#: inc/options-cache.php:553 inc/options-cache.php:555
+#: inc/options-cache.php:482 inc/options-cache.php:490
+#: inc/options-cache.php:515 inc/options-cache.php:523
+#: inc/options-cache.php:542 inc/options-cache.php:544
+#: inc/options-cache.php:554 inc/options-cache.php:556
 #: inc/options-general.php:149 inc/options-general.php:190
 #: inc/options-general.php:232 inc/options-general.php:234
 #: inc/options-general.php:308 inc/options-general.php:321
-#: inc/options-general.php:323 inc/options-general.php:352
-#: inc/options-general.php:354 inc/options-general.php:364
+#: inc/options-general.php:323 inc/options-general.php:334
+#: inc/options-general.php:362 inc/options-general.php:364
 #: inc/options-widget.php:73 inc/options-widget.php:84
 #: inc/options-widget.php:95 inc/options-widget.php:96
 #: inc/options-widget.php:109 inc/options-widget.php:121
@@ -1387,7 +1387,7 @@ msgstr "Oui"
 msgid "No"
 msgstr "Non"
 
-#: inc/options-cache.php:482
+#: inc/options-cache.php:484
 msgid ""
 "Whether to store the pages retrieved for later use. When activated, you have "
 "to check you created the folders"
@@ -1396,38 +1396,38 @@ msgstr ""
 "ult&eacute;rieure. Lorsque activ&eacute;, v&eacute;rifiez que vous avez bien "
 "cr&eacute;&eacute; les dossiers"
 
-#: inc/options-cache.php:482
+#: inc/options-cache.php:484
 msgid "Cache directory"
 msgstr "R&eacute;pertoire cache"
 
-#: inc/options-cache.php:482
+#: inc/options-cache.php:484
 msgid "and"
 msgstr "et"
 
-#: inc/options-cache.php:482
+#: inc/options-cache.php:484
 msgid "Photo directory (folder)"
 msgstr "R&eacute;pertoire photo (dossier)"
 
-#: inc/options-cache.php:487
+#: inc/options-cache.php:489
 msgid "Use cache?"
 msgstr "Utiliser cache ?"
 
-#: inc/options-cache.php:490
+#: inc/options-cache.php:492
 msgid ""
 "Whether to use a cached page to retrieve the information (if available)."
 msgstr ""
 "Utiliser des pages de cache pour r&eacute;cup&eacute;rer les informations "
 "(si disponible)."
 
-#: inc/options-cache.php:495
+#: inc/options-cache.php:497
 msgid "Cache expire"
 msgstr "Expiration cache"
 
-#: inc/options-cache.php:498
+#: inc/options-cache.php:500
 msgid "(never)"
 msgstr "(jamais)"
 
-#: inc/options-cache.php:500
+#: inc/options-cache.php:502
 msgid ""
 "Cache files older than this value (in seconds) will be automatically "
 "deleted. Insert \"0\" or click \"never\" to keep cache files forever."
@@ -1436,41 +1436,41 @@ msgstr ""
 "automatiquement effac&eacute;s. Ins&eacute;rer \"0\" or cliquer sur \"jamais"
 "\" pour garder ind&eacute;finiment les donn&eacute;es de cache."
 
-#: inc/options-cache.php:500
+#: inc/options-cache.php:502
 msgid "(one month)"
 msgstr "(un mois)"
 
-#: inc/options-cache.php:507
+#: inc/options-cache.php:509
 msgid "Cache zip options"
 msgstr "Options de cache zipp&eacute;"
 
-#: inc/options-cache.php:512
+#: inc/options-cache.php:514
 msgid "Convert to zip?"
 msgstr "Convertir en zip ?"
 
-#: inc/options-cache.php:515
+#: inc/options-cache.php:517
 msgid "Convert non-zip cache-files to zip (check file permissions!)"
 msgstr ""
 "Compresser les fichiers non compress&eacute;s en zip (v&eacute;rifiez les "
 "permissions sur les fichiers)"
 
-#: inc/options-cache.php:520
+#: inc/options-cache.php:522
 msgid "Use zip?"
 msgstr "Utiliser zip ?"
 
-#: inc/options-cache.php:523
+#: inc/options-cache.php:525
 msgid "Use zip compression for caching the retrieved html-files."
 msgstr "Compresser en zip les fichiers HTML mis en cache. "
 
-#: inc/options-cache.php:532
+#: inc/options-cache.php:533
 msgid "Cache details"
 msgstr "D&eacute;tails du cache"
 
-#: inc/options-cache.php:537
+#: inc/options-cache.php:538
 msgid "Show advanced cache details"
 msgstr "Afficher les d&eacute;tails avanc&eacute;s de cache"
 
-#: inc/options-cache.php:543
+#: inc/options-cache.php:544
 msgid ""
 "To show or not advanced cache details, which allows to specifically delete a "
 "movie cache. Be carefull with this option, if you have a lot of cached "
@@ -1484,11 +1484,11 @@ msgstr ""
 "lectionn&eacute;, un menu suppl&eacute;mentaire appara&icirc;t &agrave; "
 "droite du menu options g&eacute;n&eacute;rales du cache."
 
-#: inc/options-cache.php:548
+#: inc/options-cache.php:549
 msgid "Quick advanced cache details"
 msgstr "D&eacute;tails avanc&eacute;s rapides de cache"
 
-#: inc/options-cache.php:555
+#: inc/options-cache.php:556
 msgid ""
 "Allow faster loading time for the \"manage cache\" page, by displaying "
 "shorter movies and people presentation. Usefull when you have several of "
@@ -1501,33 +1501,33 @@ msgstr ""
 "disponible lorsque \"Afficher les d&eacute;tails avancés de cache\" est "
 "activ&eacute;."
 
-#: inc/options-cache.php:568 inc/options-general.php:377
+#: inc/options-cache.php:567 inc/options-general.php:379
 #: inc/options-widget.php:775
 msgid "Reset settings"
 msgstr "R&eacute;initialiser"
 
-#: inc/options-cache.php:570 inc/options-general.php:379
+#: inc/options-cache.php:569 inc/options-general.php:381
 #: inc/options-widget.php:777
 msgid "Update settings"
 msgstr "Enregistrer les modifications"
 
-#: inc/options-cache.php:591
+#: inc/options-cache.php:590
 msgid "Total cache size:"
 msgstr "Taille totale du cache :"
 
-#: inc/options-cache.php:594
+#: inc/options-cache.php:593
 msgid "files"
 msgstr "fichiers"
 
-#: inc/options-cache.php:595
+#: inc/options-cache.php:594
 msgid "for"
 msgstr "pour"
 
-#: inc/options-cache.php:606
+#: inc/options-cache.php:605
 msgid "Movie's detailed cache"
 msgstr "Cache sp&eacute;cifique aux films"
 
-#: inc/options-cache.php:613
+#: inc/options-cache.php:612
 msgid ""
 "If you want to refresh movie's cache regardless the cache expiration time, "
 "you may either tick movie's checkbox(es) related to the movie you want to "
@@ -1542,65 +1542,65 @@ msgstr ""
 "premier moyen demandera un rafra&icirc;chissement suppl&eacute;mentaire - "
 "depuis votre message, par exemple."
 
-#: inc/options-cache.php:616 inc/options-cache.php:719
+#: inc/options-cache.php:615 inc/options-cache.php:718
 msgid "You may also either delete individually the cache or by group."
 msgstr ""
 "Vous pouvez &eacute;galement soit effacer individuellement le cache ou le "
 "faire par groupe."
 
-#: inc/options-cache.php:655 inc/options-cache.php:741
+#: inc/options-cache.php:654 inc/options-cache.php:740
 msgid "last updated on "
 msgstr "derni&egrave;re mise &agrave; jour le "
 
-#: inc/options-cache.php:657
+#: inc/options-cache.php:656
 msgid "Refresh cache for *"
 msgstr "Rafra&icirc;chir le cache pour *"
 
-#: inc/options-cache.php:657 inc/options-cache.php:744
+#: inc/options-cache.php:656 inc/options-cache.php:743
 msgid "refresh"
 msgstr "rafra&icirc;chir"
 
-#: inc/options-cache.php:659
+#: inc/options-cache.php:658
 msgid "Delete *"
 msgstr "Effacer *"
 
-#: inc/options-cache.php:659
+#: inc/options-cache.php:658
 msgid "* from cache?"
 msgstr "* du cache ?"
 
-#: inc/options-cache.php:659 inc/options-cache.php:746
+#: inc/options-cache.php:658 inc/options-cache.php:745
 msgid "delete"
 msgstr "effacer"
 
-#: inc/options-cache.php:672 inc/options-cache.php:758
+#: inc/options-cache.php:671 inc/options-cache.php:757
 msgid "No file found in cache folder."
 msgstr "Pas de fichier trouv&eacute; dans le r&eacute;pertoire de cache."
 
-#: inc/options-cache.php:697 inc/options-cache.php:781
+#: inc/options-cache.php:696 inc/options-cache.php:780
 msgid "Delete selected cache?"
 msgstr "Effacer le cache sélectionné ?"
 
-#: inc/options-cache.php:697 inc/options-cache.php:781
+#: inc/options-cache.php:696 inc/options-cache.php:780
 msgid "Delete cache"
 msgstr "Effacer le cache"
 
-#: inc/options-cache.php:699 inc/options-cache.php:783
-#: inc/options-cache.php:801
+#: inc/options-cache.php:698 inc/options-cache.php:782
+#: inc/options-cache.php:800
 msgid "Warning!"
 msgstr "Attention !"
 
-#: inc/options-cache.php:700 inc/options-cache.php:784
+#: inc/options-cache.php:699 inc/options-cache.php:783
 msgid ""
 "This button will to delete specific cache files selected from cache folder."
 msgstr ""
 "Ce bouton efface les fichiers s&eacute;lectionn&eacute;s du r&eacute;"
 "pertoire de cache."
 
-#: inc/options-cache.php:710
+#: inc/options-cache.php:709
 msgid "People's detailed cache"
 msgstr "Cache sp&eacute;cifique aux personnes"
 
-#: inc/options-cache.php:716
+#: inc/options-cache.php:715
 msgid ""
 "If you want to refresh people's cache regardless the cache expiration time, "
 "you may either tick people checkbox(es) related to the person you want to "
@@ -1615,11 +1615,11 @@ msgstr ""
 "\"rafraîchir\" des personnes. Le premier moyen demandera un rafra&icirc;"
 "chissement suppl&eacute;mentaire - depuis votre message, par exemple."
 
-#: inc/options-cache.php:795
+#: inc/options-cache.php:794
 msgid "Global cache"
 msgstr "Cache g&eacute;n&eacute;ral"
 
-#: inc/options-cache.php:799
+#: inc/options-cache.php:798
 msgid ""
 "If you want to reset the entire cache (including names & pictures cache) "
 "click on \"reset cache\". Beware, there is no undo."
@@ -1629,22 +1629,22 @@ msgstr ""
 "dez avec pr&eacute;caution, il n'y a pas de retour en arri&egrave;re "
 "possible."
 
-#: inc/options-cache.php:807
+#: inc/options-cache.php:806
 msgid "Delete all cache? Really?"
 msgstr "Effacer tout le cache ? Vraiment ?"
 
-#: inc/options-cache.php:807
+#: inc/options-cache.php:806
 msgid "Delete all cache"
 msgstr "Effacer tout le cache"
 
-#: inc/options-cache.php:809
+#: inc/options-cache.php:808
 msgid ""
 "This button will <strong>delete all cache</strong> stored in cache folder."
 msgstr ""
 "Ce bouton efface <strong>tout le cache</strong> enregistr&eacute; dans le "
 "r&eacute;pertoire de cache."
 
-#: inc/options-cache.php:817
+#: inc/options-cache.php:816
 msgid ""
 "A cache folder has to be created and the cache storage option has to be "
 "activated before having the opportunity to manage cache!"
@@ -1872,22 +1872,37 @@ msgstr ""
 "options seront cach&eacute;es ou affich&eacute;es selon la s&eacute;lection."
 
 #: inc/options-general.php:315
-msgid "Menu for Lumière options"
-msgstr "Menu pour les options de Lumière"
+msgid "Left menu for Lumière options"
+msgstr "Menu de gauche des options de Lumière"
 
 #: inc/options-general.php:323
 msgid ""
-"When enabled, Lumiere options are displayed separately from the settings "
-"menu. It will create a dedicated menu to the Lumiere options."
+"When enabled, Lumiere options are fully displayed on the left menu - and not "
+"anymore limited to the settings directory. It creates a dedicated menu for "
+"Lumiere options."
 msgstr ""
-"Lorsqu'activ&eacute;, affiche les options de Lumière! dans un menu séparé "
-"des options générales. Cela créera un menu dédié pour les options de Lumière!"
+"Lorsqu'activ&eacute;, affiche les options de Lumière! dans un menu sur la "
+"gauche - et ne se cantonne plus aux options générales. Cela créera un menu "
+"dédié pour les options de Lumière!"
 
-#: inc/options-general.php:335
+#: inc/options-general.php:329
+msgid "Top menu for Lumière options"
+msgstr "Menu en haut des options de Lumière"
+
+#: inc/options-general.php:336
+msgid ""
+"When activated, Lumière options are displayed on the top menu of Wordpress. "
+"Deactivate it if you have many plugins already occupying that area."
+msgstr ""
+"Lorsqu'activ&eacute;, les options de Lumière! apparaissent dans le menu du "
+"haut de Wordpress. Désactivez si vous possédez un trop grand nombre de "
+"plugins qui occuppent cet zone."
+
+#: inc/options-general.php:345
 msgid "Limit results"
 msgstr "Limiter r&eacute;sultats"
 
-#: inc/options-general.php:339
+#: inc/options-general.php:349
 msgid ""
 "This the limit for the result set of researches. Use 0 for no limit, or the "
 "number of maximum entries you wish. When \"direct search\" option is turned "
@@ -1898,11 +1913,11 @@ msgstr ""
 "aucune limite.  Lorsque l'option \"recherche directe\" est mise sur oui, "
 "cette option est cach&eacute;e."
 
-#: inc/options-general.php:344
+#: inc/options-general.php:354
 msgid "Use automatical genre taxonomy?"
 msgstr "Utiliser la taxonomie automatique de genre ?"
 
-#: inc/options-general.php:354
+#: inc/options-general.php:364
 msgid ""
 "This will automatically add \"genre\" terms found for the movie into "
 "wordpress database, as "
@@ -1910,30 +1925,18 @@ msgstr ""
 "Ceci ajoutera automatiquement les tags \"genre\" trouv&eacute;s pour un film "
 "dans la base de donn&eacute;es de wordpress, en tant que "
 
-#: inc/options-general.php:354
+#: inc/options-general.php:364
 msgid "Activating this option opens "
 msgstr "Si activ&eacute;e, cette option ouvre "
 
-#: inc/options-general.php:354
+#: inc/options-general.php:364
 msgid "others taxonomy options"
 msgstr "autres options de taxonomie"
 
-#: inc/options-general.php:354
+#: inc/options-general.php:364
 msgid "Taxonomy terms are uninstalled when removing the plugin."
 msgstr ""
 "Les termes de taxonomie sont désinstallés lorsque le plugin est désinstallé."
-
-#: inc/options-general.php:359
-msgid "Toolbar Lumière admin menu"
-msgstr "Barre d'outils d'administration pour Lumière!"
-
-#: inc/options-general.php:366
-msgid ""
-"When activated, Lumière options are displayed in the toolbar admin menu of "
-"Wordpress."
-msgstr ""
-"Lorsqu'activ&eacute;, affiche le menu administration de Lumière! dans la "
-"barre d'outils de Wordpress."
 
 #: inc/options-widget.php:45 inc/options-widget.php:65
 msgid "What to display"
@@ -2492,6 +2495,9 @@ msgstr "Taxonomie : "
 #: theme/taxonomy-imdblt_standard.php:54
 msgid "No post found."
 msgstr "Pas de message trouv&eacute."
+
+#~ msgid "Toolbar Lumière admin menu"
+#~ msgstr "Barre d'outils d'administration pour Lumière!"
 
 #~ msgid "vote for Lumière on its own"
 #~ msgstr "voter pour Lumière! sur son propre"
