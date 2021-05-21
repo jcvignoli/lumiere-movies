@@ -277,7 +277,7 @@ text-align:justify;
 .imdbelementSOURCEli {
 }
 .imdbelementSOURCE-picture {
-	height: 14px;
+	vertical-align:text-bottom;
 }
 
 
@@ -295,6 +295,8 @@ background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;padding-left: 
 
 .link-imdblt-classicpeople, .link-imdblt-highslidepeople  { /*link to a people popup, from imdb-movie.inc.php*/
 text-decoration: none;cursor:pointer;}
+
+.link-incmovie-sourceimdb {color:dimgrey;} /* from functions.php, build the link to imdb */
 
 .noresult { /*text displayed when no imdbLT results found*/
 color: red;}

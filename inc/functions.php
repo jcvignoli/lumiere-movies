@@ -221,12 +221,12 @@ if ( ! function_exists('lumiere_source_imdb')){
 		global $imdb_admin_values;
 
 		// Sanitize
-		$midPremierResultat_sanitized = sanitize_text_field( $midPremierResultat );
+		$midPremierResultat_sanitized = intval( $midPremierResultat );
 
 		echo "&nbsp;&nbsp;";
-		echo "<a href=\"". esc_url( "https://".$imdb_admin_values['imdbwebsite']."/title/tt".$midPremierResultat_sanitized )."\" >";
-		echo "<img class=\"imdbelementSOURCE-picture\" src=\"".esc_url( $imdb_admin_values['imdbplugindirectory']."pics/imdb-link.png" ) . "\" />";
-		echo "&nbsp;&nbsp;" . esc_html__("IMDb's page for this movie", "imdb") . "</a>";
+		echo '<a class="link-incmovie-sourceimdb" title="'.esc_html__("Go to IMDb website for this movie", "imdb").'" href="'. esc_url( "https://".$imdb_admin_values['imdbwebsite'] . '/title/tt' .$midPremierResultat_sanitized ) . '" >';
+		echo '<img class="imdbelementSOURCE-picture" src="' . esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/imdb-link.png" ) . '" />';
+		echo '&nbsp;&nbsp;' . esc_html__("IMDb's page for this movie", "imdb") . '</a>';
 	}
 }
 
@@ -369,6 +369,18 @@ if ( ! function_exists('lumiere_notice')){
 				break;
 		}
 	}
+}
+
+/**
+ * Function str_contains
+ * Returns if a string is contained in a value
+ * Introduced in PHP 8
+ */
+
+if (!function_exists('str_contains')) {
+    function str_contains($haystack, $needle) {
+        return $needle !== '' && mb_strpos($haystack, $needle) !== false;
+    }
 }
 
 ?>

@@ -68,7 +68,7 @@ if (class_exists("lumiere_core")) {
 //namespace imdblt;
 
 class lumiere_core {
-	public $bypass;
+	private $bypass;
 
 	/*constructor*/
 	function __construct () {
@@ -191,52 +191,48 @@ class lumiere_core {
 	**/
 
 	##### a) HTML part
-	function lumiere_add_quicktag() {
+	function lumiere_register_quicktag() {
 		global $imdb_admin_values;
-		wp_enqueue_script( "lumiere_add_quicktag_addbutton", $imdb_admin_values['imdbplugindirectory'] ."js/quicktags-classiceditor-addbutton.js", array( 'quicktags' ));
+		wp_enqueue_script( "lumiere_quicktag_addbutton", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_admin_quicktags.js", array( 'quicktags' ));
 	}
 
 	##### b) tinymce part (wysiwyg display)
 
-	function lumiere_add_tinymce() {
+	function lumiere_register_tinymce() {
 		// Don't bother doing this stuff if the current user lacks permissions
 		if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
 			return;
 
 		// Add only in Rich Editor mode
 		if ( get_user_option('rich_editing') == 'true') {
-			add_filter("mce_external_plugins", [ $this, "add_lumiere_tinymce_plugin" ] );
-			add_filter('mce_buttons', [ $this, 'register_lumiere_tinymce_button' ] );
+			add_filter("mce_external_plugins", [ $this, "lumiere_tinymce_addbutton" ] );
+			add_filter('mce_buttons', [ $this, 'lumiere_tinymce_button_position' ] );
 		}
 	}
 
-	function register_lumiere_tinymce_button($buttons) {
+	function lumiere_tinymce_button_position($buttons) {
 		array_push($buttons, "separator", "lumiere_tiny");
 		return $buttons;
 	}
 	// Load the TinyMCE plugin
-	function add_lumiere_tinymce_plugin($plugin_array) {
+	function lumiere_tinymce_addbutton($plugin_array) {
 		global $imdb_admin_values;
-		$plugin_array['lumiere_tiny'] = $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere_scripts_admin_tinymce_editor.js';
+		$plugin_array['lumiere_tiny'] = $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere_admin_tinymce_editor.js';
 		return $plugin_array;
 	}
 
 	##### c) guntenberg block
-	function lumiere_add_block_gutenberg_addtags() {
+	function lumiere_register_gutenberg_block() {
 		global $imdb_admin_values;
 
-		// Check if Gutenberg is active.
-		if ( ! function_exists( 'register_block_type' ) )
-			return;
+		wp_register_script( "lumiere_gutenberg_block_intothepost", $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.js', [ 'wp-blocks', 'wp-element', 'wp-editor' ], filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.js') );
 
-		wp_register_script( "lumiere_gutenberg_addtags", $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere-gutenberg.js', [ 'wp-blocks', 'wp-element', 'wp-editor' ], filemtime( $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere-gutenberg.js') );
-
-		wp_register_style( "lumiere_gutenberg_addtags", $imdb_admin_values['imdbplugindirectory'] . 'css/lumiere-gutenberg.css', [ 'wp-edit-blocks' ], filemtime( $imdb_admin_values['imdbplugindirectory'] . 'css/lumiere-gutenberg.css') );
+		wp_register_style( "lumiere_gutenberg_block_intothepost", $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.css', [ 'wp-edit-blocks' ], filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.css') );
 
 		// Register block script and style.
-		register_block_type( 'lumiere/addtags', [
-			'style' => 'lumiere_gutenberg_addtags', // Loads both on editor and frontend.
-			'editor_script' => 'lumiere_gutenberg_addtags', // Loads only on editor.
+		register_block_type( 'lumiere/intothepost', [
+			'style' => 'lumiere_gutenberg_block_intothepost', // Loads both on editor and frontend.
+			'editor_script' => 'lumiere_gutenberg_block_intothepost', // Loads only on editor.
 		] );
 
 	}
@@ -246,11 +242,11 @@ class lumiere_core {
 	**/
 
 	##### a) outside admin part
-	public function lumiere_add_head_blog ($bypass=NULL){
+	function lumiere_add_head_blog ($bypass=NULL){
 		global $imdb_admin_values;
 
 		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_head_blog("inc.movie")
-		if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
+		if ( ($bypass="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
 
 			// Highslide popup
 			if ($imdb_admin_values['imdbpopup_highslide'] == 1) {
@@ -265,23 +261,19 @@ class lumiere_core {
 
 			// Use local template lumiere.css if it exists in current theme folder
 			if (file_exists (TEMPLATEPATH . "/lumiere.css") ) { // an lumiere.css exists inside theme folder, take it!
-				wp_enqueue_style('imdblt_lumierecss', bloginfo('stylesheet_directory') . "lumiere.css");
+				wp_enqueue_style('imdblt_lumierecss', get_stylesheet_directory_uri() . '/lumiere.css');
 		 	} else {
-				wp_enqueue_style('imdblt_lumierecss', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere.css");
+				wp_enqueue_style('imdblt_lumierecss', $imdb_admin_values['imdbplugindirectory'] .'css/lumiere.css');
 		 	}
 
 			// OceanWp template css fix
 			// enqueue lumiere.css only if using oceanwp template
-
 			# Popups
-			if ( ( stripos( TEMPLATEPATH, '/wp-content/themes/oceanwp' ) ) && ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) ) {
+			if ( ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ) && ( str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) ) {
 				wp_enqueue_style('lumiere_subpages_css_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_subpages-oceanwpfixes.css");
 			# Wordpress posts/pages
-			} elseif ( stripos( TEMPLATEPATH, '/wp-content/themes/oceanwp' ) ) { 
-?><style type="text/css">
-	.single-post:not(.elementor-page) .entry-content a {text-decoration:none !important;}
-	body{margin:0px !important;}
-</style><?php
+			} elseif ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ){ 
+				wp_enqueue_style('lumiere_extrapagescss_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_extrapages-oceanwpfixes.css");
 			} 
 		}
 	}
@@ -417,7 +409,7 @@ class lumiere_core {
 			$imdballmeta = $moviename;
 
 			// not /imdblt/ path, but needs scripts and css to work, added 'inc.movie'
-			add_action('wp_head', $this->lumiere_add_head_blog('inc.movie') ,1 );
+			add_action('wp_head',  $this->lumiere_add_head_blog('inc.movie')  ,1 );
 
 			echo "<div class='imdbincluded'>";
 			require_once ( IMDBLTABSPATH . "inc/imdb-movie.inc.php" );
@@ -593,27 +585,6 @@ class lumiere_core {
 			add_action( 'init', [ $this, 'lumiere_popup_redirect' ], 0);
 			add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 0);
 
-			add_action( 'init', [ $this, 'lumiere_highslide_download_redirect' ], 0);
-			add_action( 'init', [ $this, 'lumiere_copy_template_taxo_redirect' ], 0);
-
-		    	// css for main blog
-			add_action('wp_head', [ $this, 'lumiere_add_head_blog' ],1 );
-			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
-
-			// add new name to popups
-			add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
-
-			// add links to popup
-			add_filter('the_content', [ $this, 'lumiere_linking' ], 11);
-			add_filter('the_excerpt', [ $this, 'lumiere_linking' ], 11);
-
-		    	// delete next line if you don't want to run Lumiere Movies through comments
-			add_filter('comment_text', [ $this, 'lumiere_linking' ], 11);
-
-			// add data inside a post
-			add_action('the_content', [ $this, 'lumiere_tags_transform' ], 11);
-			add_action('the_content', [ $this, 'lumiere_tags_transform_id' ], 11);
-
 			// add taxonomies in wordpress (from functions.php)
 			if ($imdb_admin_values['imdbtaxonomy'] == 1) {
 				add_action( 'init', 'lumiere_create_taxonomies', 0 );
@@ -626,8 +597,14 @@ class lumiere_core {
 						add_filter( $filter_taxonomy, [ $this, 'lumiere_taxonomy_add_class_to_links'] );
 					}
 				}
-
+				add_action( 'init', [ $this, 'lumiere_copy_template_taxo_redirect' ], 0);
 			}
+
+			#add_action( 'init', [ $this, 'lumiere_highslide_download_redirect' ], 0);#function deactivated upon wordpress plugin team request
+
+			// Check if Gutenberg is active
+			if ( function_exists( 'register_block_type' ) )
+				add_action('init', [ $this, 'lumiere_register_gutenberg_block' ]);
 
 			if (is_admin()) {
 				// add admin menu
@@ -638,13 +615,29 @@ class lumiere_core {
 				// add admin scripts & css
 				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
 				// add admin quicktag button for text editor
-				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_quicktag' ], 100);
+				add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_quicktag' ], 100);
 				// add admin tinymce button for wysiwig editor
-				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_tinymce' ] );
-
-				add_action('init', [ $this, 'lumiere_add_block_gutenberg_addtags' ]);
-
+				add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_tinymce' ] );
 			}
+
+		    	// head for main blog
+			add_action('wp_head', [ $this, 'lumiere_add_head_blog' ], 0);
+
+			// add new name to popups
+			add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
+
+			// add links to popup
+			add_filter('the_content', [ $this, 'lumiere_linking' ] );
+			add_filter('the_excerpt', [ $this, 'lumiere_linking' ] );
+
+		    	// delete next line if you don't want to run Lumiere Movies through comments
+			add_filter('comment_text', [ $this, 'lumiere_linking' ] );
+
+			// add data inside a post
+			add_action('the_content', [ $this, 'lumiere_tags_transform' ] );
+			add_action('the_content', [ $this, 'lumiere_tags_transform_id' ] );
+
+			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
 
 			// register widget
 			add_action('plugins_loaded', 'register_lumiere_widget');
