@@ -1,5 +1,5 @@
 === Lumiere Movies ===
-Contributors: jcv
+Contributors: psykonevro
 Donate link: https://www.paypal.me/jcvignoli and https://en.tipeee.com/lost-highway
 Tags: cinema, film, imdb, link, movie, plugin, review, tag, widget, taxonomy, popup, modal window
 Requires at least: 3.0
@@ -50,7 +50,6 @@ There are three ways to use Lumiere Movies: with the popup link maker, with a wi
 
 1. The files inc/imdb-movie.inc.php, popup-search.php, popup-movie.php and popup-person.php can be edited to match your theme.
 2. A (front) page can be created to include all you movies' related messages. Have a look there : [movie review's page](https://www.jcvignoli.com/blog/critiques-de-cinema "Lost highway's movies reviews").
-3. If your language is not available, translate the .po file (located in the folder /language of the plugin) to your language. Then [send it to me](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Lumiere Movies home"). You may also just go to [Wordpress Translate](https://translate.wordpress.org/projects/wp-plugins/lumiere-movies "Wordpress Translate").
 
 = Advanced =
 
