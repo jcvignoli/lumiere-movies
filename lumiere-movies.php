@@ -378,7 +378,7 @@ class lumiere_core {
 		wp_enqueue_script('common'); // script needed for meta_boxes (in help.php)
 		wp_enqueue_script('wp-lists'); // script needed for meta_boxes (in help.php)
 		wp_enqueue_script('postbox'); // script needed for meta_boxes (in help.php)
-
+		wp_enqueue_script('jquery'); // script needed by all js
 		wp_enqueue_script('imdblt_un-active-boxes', $imdb_admin_values['imdbplugindirectory'] . "js/un-active-boxes.js");
 		wp_enqueue_script('imdblt_movevalues-formeselectboxes', $imdb_admin_values['imdbplugindirectory'] . "js/movevalues-formselectboxes.js");
 
