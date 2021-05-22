@@ -101,3 +101,15 @@ jQuery('.historyback').click(function(event){
 	window.history.back();
 });
 
+
+/**** popups all
+*
+*/
+
+// send close command on click on X of highslide popup
+// this is a trick to make highslide CSP compliant
+document.addEventListener('DOMContentLoaded', function () {
+	jQuery(document).click(function(event) {
+		hs.close(event.target);
+	});
+});
