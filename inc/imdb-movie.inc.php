@@ -134,7 +134,7 @@ while ($imovie < count($imdballmeta)) {
 			// check if a picture exists
 			if ($photo_url_sanitized != FALSE){
 				// a picture exists, therefore show it!
-				echo $photo_url_sanitized .'" alt="'.esc_html__('Photo of','lumiere-movies').sanitize_text_field( $movie->title() ).'" '; 
+				echo $photo_url_sanitized .'" alt="'.esc_html__('Photo of','lumiere-movies') .' ' . esc_attr( $movie->title() ).'" '; 
 			} else { 
 				// no picture found, display the replacement pic
 				echo esc_url( $imdb_admin_values['imdbplugindirectory'].'pics/no_pics.gif"').' alt="'.esc_html__('no picture', 'lumiere-movies').'" '; 

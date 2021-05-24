@@ -14,7 +14,7 @@
 Plugin Name: Lumière
 Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
 Description: Add to every movie title tagged with &lt;!--imdb--&gt; (...) &lt;!--/imdb--&gt; a link to an <a href="https://www.imdb.com"><acronym title="internet movie database">imdb</acronym></a> popup. Can also display data related to movies either in a <a href="widgets.php">widget</a> or inside a post. Perfect for your movie reviews. Cache handling. Have a look at the <a href="admin.php?page=imdblt_options">options page</a>.
-Version: 3.0
+Version: 3.0.1
 Requires at least: 4.6
 Text Domain: lumiere-movies
 Domain Path: /languages
@@ -297,9 +297,15 @@ class lumiere_core {
 	function lumiere_register_gutenberg_block() {
 		global $imdb_admin_values;
 
-		wp_register_script( "lumiere_gutenberg_block_intothepost", $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.js', [ 'wp-blocks', 'wp-element', 'wp-editor' ], filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.js') );
+		wp_register_script( "lumiere_gutenberg_block_intothepost", 
+			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.js',
+			[ 'wp-blocks', 'wp-element', 'wp-editor','wp-components','wp-i18n','wp-data' ], 
+			filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.js') );
 
-		wp_register_style( "lumiere_gutenberg_block_intothepost", $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.css', [ 'wp-edit-blocks' ], filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.css') );
+		wp_register_style( "lumiere_gutenberg_block_intothepost", 
+			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.css',
+			[ 'wp-edit-blocks' ], 
+filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.css') );
 
 		// Register block script and style.
 		register_block_type( 'lumiere/intothepost', [

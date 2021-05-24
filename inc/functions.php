@@ -223,9 +223,8 @@ if ( ! function_exists('lumiere_source_imdb')){
 		// Sanitize
 		$midPremierResultat_sanitized = intval( $midPremierResultat );
 
-		echo "&nbsp;&nbsp;";
+		echo '<img class="imdbelementSOURCE-picture" width="33" height="15" src="' . esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/imdb-link.png" ) . '" />';
 		echo '<a class="link-incmovie-sourceimdb" title="'.esc_html__("Go to IMDb website for this movie", 'lumiere-movies').'" href="'. esc_url( "https://".$imdb_admin_values['imdbwebsite'] . '/title/tt' .$midPremierResultat_sanitized ) . '" >';
-		echo '<img class="imdbelementSOURCE-picture" src="' . esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/imdb-link.png" ) . '" />';
 		echo '&nbsp;&nbsp;' . esc_html__("IMDb's page for this movie", 'lumiere-movies') . '</a>';
 	}
 }

@@ -1,4 +1,7 @@
-.lumiere_gutenberg_block_intothepost{background: #ffde00;padding: 40px 20px;color:#494633;}
+.lumiere_gutenberg_block_intothepost{border: 1px solid black;padding:20px;color:#494633;display:flex;flex-wrap:wrap;}
 
-.lumiere_gutenberg_block_intothepost-content {border: 1px solid #494633;background: grey;color:white;justify-content: space-between;font-size: 18px;text-align:center;}
+.lumiere_gutenberg_block_intothepost-select {padding:10px;font-size: 14px;flex:30%;}
+
+.lumiere_gutenberg_block_intothepost-content {padding-top:10px;padding-bottom:10px;background: grey;color:white;justify-content: space-between;font-size: 18px;text-align:center;flex:65%;}
+
 

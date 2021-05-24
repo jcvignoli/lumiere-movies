@@ -1,5 +1,17 @@
 Changelog
 
+v3.0.1
+* Translation: renamed all calls in __() and the likes from 'imdb' to 'lumiere-movies', changed the language system according to the (new) Wordpress language system
+* Explaination:  "Toolbar Lumière admin menu" and "Menu for Lumière options" where a mess in terms of explanation. Rewrote.
+* Taxonomy standard template file was missing translation options
+* Renamed the widget's name for the wordpress widget page
+* Converted onclick=\"return hs.close(this)\" from highslide-options.js into a jQuery function
+* Bug: Issues of mobile responsiveness in options-cache.php
+* Bug: highslide popup unactive by default. imdbpopup_highslide set on true in config
+* Bug: banner wrong name
+* Bug: The new name for the widget hook register wasn't updated in config.php (the check failed in Lumière options)
+* Bug: chmod'ing process upon plugin activation wasn't taking in consideration if a cache folder already exists
+
 v3.0
 * [major] updated to imdbphp-6.5 library
 * [major] rewritten the code to be compliant with wordpress security
