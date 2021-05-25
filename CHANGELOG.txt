@@ -2,6 +2,7 @@ Changelog
 
 v3.0.1
 * Gutenberg Block: better layout, implemented selection of either [imdblt] or [imdbltid]
+* Gutenberg Block: created a new page gutenberg-search.php for searching movies from gutenberg
 * Translation: renamed all calls in __() and the likes from 'imdb' to 'lumiere-movies', changed the language system according to the (new) Wordpress language system
 * Explaination:  "Toolbar Lumière admin menu" and "Menu for Lumière options" where a mess in terms of explanation. Rewrote.
 * Taxonomy standard template file was missing translation options
