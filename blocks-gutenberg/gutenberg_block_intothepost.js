@@ -39,10 +39,6 @@
 				type: 'string',
 				default: intro_words
 			},
-			supports: {
-			    // Declare support for specific alignment options.
-			    align: [ 'left', 'right', 'full' ],
-			}
 		},
 		edit: function( props ) {
 			return ( 
