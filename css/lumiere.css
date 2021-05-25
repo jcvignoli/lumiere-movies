@@ -1,11 +1,11 @@
 
-/***********************************************************
-******************** POPUP
-***********************************************************/
+/**************************************************************
+******************** Lumiere Movies CSS standard for frontpages
+**************************************************************/
 
-/* ------------------ Basic */
+/* ---------------------------------------- Basic */
 
-body {font-family: Verdana, Tahoma, Georgia, Geneva, Arial;color: #575757;background: #FFFFFF;margin:10px;}
+body.lumiere_body {font-family: Verdana, Tahoma, Georgia, Geneva, Arial;color: #575757;background: #FFFFFF;padding:10px;}
 
 /*body h1 {text-align:center;font-size:20px;padding-bottom:10px;}*/
 
@@ -13,9 +13,19 @@ body {font-family: Verdana, Tahoma, Georgia, Geneva, Arial;color: #575757;backgr
 .activatehidesection {cursor:pointer;}
 .historyback, .searchaka{cursor:pointer;font-style:italic;color:#808080;}
 
-/* ------------------ Tables */
+.lumiere_bold{font-weight:bold;}
+.lumiere_italic{font-style:italic !important;}
+.lumiere_align_center{align-self:center;text-align:center;}
 
-/* ---- Top menu */
+/* ---------------------------------------- Divs flex */
+
+.lumiere_container{display:flex;flex-wrap:wrap;}
+.lumiere_container_border{border: 1px black solid;border-radius:10px;padding:5px;margin:5px;background-color:white;}
+.lumiere_container_flex50{flex:50%;}
+
+/* ---------------------------------------- Tables */
+
+/* ------------------- Top menu */
 
 .tabletitrecolonne{background-color:#FFFFFF;/*display:block;*/ margin-bottom:0px;height:25px;left:10px;right:10px;}
 
@@ -25,7 +35,7 @@ body {font-family: Verdana, Tahoma, Georgia, Geneva, Arial;color: #575757;backgr
 .imdblt_titlematchingdirector {width: 40%;}
 .imdblt_float_left{float:left;}
 
-/* ---- Results list */
+/* ------------------- Results list */
 
 .TableListeResultats{font-size: medium;margin-left:2%;padding: 5px;width: 96%;}
 
@@ -43,7 +53,7 @@ body {font-family: Verdana, Tahoma, Georgia, Geneva, Arial;color: #575757;backgr
 
 .picture {/*border:#000000 thick ridge;*/}
 
-/* ---- Left menu */
+/* ------------------- Left menu */
 
 .TableauSousRubrique {padding: 0px 0px 0px 0px;width:100%;}
 
@@ -52,7 +62,7 @@ body {font-family: Verdana, Tahoma, Georgia, Geneva, Arial;color: #575757;backgr
 .TitreSousRubriqueColDroite {text-align:center;font-size:12px;padding-right:13px;padding-left:13px;}
 
 
-/* ------------------ Misc */
+/* ------------------- Misc */
 
 /* ---- Div */
 
@@ -60,12 +70,11 @@ body {font-family: Verdana, Tahoma, Georgia, Geneva, Arial;color: #575757;backgr
 
 .titrefilm a:hover, .identity a:hover {color: #FFEAFD;}
 
-.soustitreidentity, .soustitrefilm {font-size: large;text-align:center;}
+.soustitreidentity, .soustitrefilm {text-align:center;padding:5px;}
 
 .TitreSousRubrique{font-size : 1.0em;border-bottom: 1px solid #333333;border-right: 1px solid #333333;text-align : right;padding: 3px 3px 3px 3px;}
 
-
-/* ---- Others */
+/* ---------------------------------------- Others */
 
 .TitreSousRubriqueColDroite li {list-style-type:none;text-align:justify;}
 
@@ -103,186 +112,96 @@ border: 2px solid #333333;
 
 /* ---- imdbincluded */
 
-.imdbincluded { /* div */
-text-align : center;
-padding-bottom:10px;
-padding-left:5px;
-/* width:60%; */ /* uncomment this to limit imdb container information size, great inside post, useless for widgets */
-/* float:right; */ /* uncomment this to have a more advanced layout */
-}
+.imdbincluded {			/* div */
+text-align : center;padding-bottom:10px;padding-left:5px;}
 
-.imdbincluded-subtitle { /* span */
-font-weight:bold;
-display: block;
-}
+.imdbincluded-subtitle {		/* span */
+font-weight:bold;display: block;}
 
-.imdbincluded-picture { /* img */
+.imdbincluded-picture {		/* img */}
 
-}
+/* elements inside imdb-movie.inc.php, allows to manage specific cases */
 
-/* elements inside imdb inc, allows to manage specific cases */
-
-.imdbincluded-lined { /* common LI  to all elements */
-padding-top:15px;
-padding-left: 2px;
-text-align:left;
-}
+.imdbincluded-lined {		/* common LI  to all elements */
+padding-top:15px;padding-left: 2px;text-align:left;}
 
 .imdbelementTITLE { 			/*TITLE*/
-text-align: left;
-font-weight:bold;
-font-size:140%;
-}
-
+text-align: left;font-weight:bold;font-size:140%;}
 
 .imdbelementPICdiv {			/*PIC*/
-padding-top:10px;
-padding-bottom:10px;
-/*float:left;*/
-}
-.imdbelementPICimg {
-}
+padding-top:10px;padding-bottom:10px;}
+.imdbelementPICimg {}
 
+.imdbelementCOUNTRYul {		/*COUNTRY*/}
+.imdbelementCOUNTRYli {}
 
-.imdbelementCOUNTRYul {          /*COUNTRY*/
-}
-.imdbelementCOUNTRYli {
-}
+.imdbelementRUNTIMEul {		/*RUNTIME*/}
+.imdbelementRUNTIMEli {}
 
+.imdbelementLANGUAGEul {		/*LANGUAGE*/}
+.imdbelementLANGUAGEli {}
 
-.imdbelementRUNTIMEul {          /*RUNTIME*/
-}
-.imdbelementRUNTIMEli {
-}
+.imdbelementRATINGul {		/*RATING*/}
+.imdbelementRATINGli {}
 
+.imdbelementGENREul {		/*GENRE*/}
+.imdbelementGENREli {}
 
-.imdbelementLANGUAGEul {          /*LANGUAGE*/
-}
-.imdbelementLANGUAGEli {
-}
+.imdbelementGOOFul {			/*GOOF*/}
+.imdbelementGOOFli {}
 
+.imdbelementCOMMENTul {		/*COMMENT*/}
+.imdbelementCOMMENTli {}
 
-.imdbelementRATINGul {          /*RATING*/
-}
-.imdbelementRATINGli {
-}
+.imdbelementQUOTEul {		/*QUOTE*/}
+.imdbelementQUOTEli {}
 
+.imdbelementTAGLINEul {		/*TAGLINE*/}
+.imdbelementTAGLINEli {}
 
-.imdbelementGENREul {          /*GENRE*/
-}
-.imdbelementGENREli {
-}
+.imdbelementCOLORul {		/*COLOR*/}
+.imdbelementCOLORli {}
 
+.imdbelementALSOKNOWul {		/*ALSOKNOW*/}
+.imdbelementALSOKNOWli {}
 
-.imdbelementGOOFul {          /*GOOF*/
-}
-.imdbelementGOOFli {
-}
+.imdbelementCOMPOSERul {		/*COMPOSER*/}
+.imdbelementCOMPOSERli {}
 
+.imdbelementSOUNDTRACKul {		/*SOUNDTRACK*/}
+.imdbelementSOUNDTRACKli {}
 
-.imdbelementCOMMENTul {          /*COMMENT*/
-}
-.imdbelementCOMMENTli {
-}
+.imdbelementKEYWORDSul {		/*KEYWORDS*/}
+.imdbelementKEYWORDSli {}
 
+.imdbelementOFFICIALWEBSITEul {	/*OFFICIAL WEBSITE*/}
+.imdbelementOFFICIALWEBSITEli {}
 
-.imdbelementQUOTEul {          /*QUOTE*/
-}
-.imdbelementQUOTEli {
-}
+.imdbelementDIRECTORul {		/*DIRECTOR*/}
+.imdbelementDIRECTORli {}
 
+.imdbelementPRODUCERul {		/*PRODUCER*/
+padding-top:1px;padding-bottom:1px;}
+.imdbelementPRODUCERli {}
 
-.imdbelementTAGLINEul {          /*TAGLINE*/
-}
-.imdbelementTAGLINEli {
-}
+.imdbelementPRODCOMPANYul {		/*PRODUCTION COMPANIES*/}
+.imdbelementPRODCOMPANYli {}
 
+.imdbelementWRITERul {		/*WRITER*/
+padding-top:1px;padding-bottom:1px;}
+.imdbelementWRITERli {}
 
-.imdbelementCOLORul {          /*COLOR*/
-}
-.imdbelementCOLORli {
-}
+.imdbelementACTORlul {		/*ACTOR*/}
+.imdbelementACTORli {}
 
+.imdbelementPLOTul {			/*PLOT*/}
+.imdbelementPLOTli {text-align:justify;}
 
-.imdbelementALSOKNOWul {          /*ALSOKNOW*/
-}
-.imdbelementALSOKNOWli {
-}
+.imdbelementSOURCEul {		/*SOURCE*/}
+.imdbelementSOURCEli {}
+.imdbelementSOURCE-picture {vertical-align:text-bottom;}
 
-
-.imdbelementCOMPOSERul {          /*COMPOSER*/
-}
-.imdbelementCOMPOSERli {
-}
-
-
-.imdbelementSOUNDTRACKul {          /*SOUNDTRACK*/
-}
-.imdbelementSOUNDTRACKli {
-}
-
-
-.imdbelementKEYWORDSul {          /*KEYWORDS*/
-}
-.imdbelementKEYWORDSli {
-}
-
-
-.imdbelementOFFICIALWEBSITEul {          /*DIRECTOR*/
-}
-.imdbelementOFFICIALWEBSITEli {
-}
-
-
-.imdbelementDIRECTORul {          /*DIRECTOR*/
-}
-.imdbelementDIRECTORli {
-}
-
-
-.imdbelementPRODUCERul {          /*PRODUCER*/
-padding-top:1px;
-padding-bottom:1px;
-}
-.imdbelementPRODUCERli {
-}
-
-.imdbelementPRODCOMPANYul {          /*PRODUCTION COMPANIES*/
-}
-.imdbelementPRODCOMPANYli {
-}
-
-.imdbelementWRITERul {          /*WRITER*/
-padding-top:1px;
-padding-bottom:1px;
-}
-.imdbelementWRITERli {
-}
-
-
-.imdbelementACTORlul {          /*ACTOR*/
-}
-.imdbelementACTORli {
-}
-
-
-.imdbelementPLOTul {          /*PLOT*/
-}
-.imdbelementPLOTli {
-text-align:justify;
-}
-
-.imdbelementSOURCEul {          /*SOURCE*/
-}
-.imdbelementSOURCEli {
-}
-.imdbelementSOURCE-picture {
-	vertical-align:text-bottom;
-}
-
-
-
-/* ---- Others */
+/* ---------------------------------------- Others */
 
 .linkpopup {color: #909090;text-decoration: none;cursor:pointer;}/*link to the internal popup, from popups*/
 .linkpopup:hover {color: #A8A8A8;text-decoration: none;cursor:pointer;}/*link to the internal popup, from popups*/
@@ -300,4 +219,11 @@ text-decoration: none;cursor:pointer;}
 
 .noresult { /*text displayed when no imdbLT results found*/
 color: red;}
+
+/* ---------------------------------------- Gutenberg-search.php */
+
+body#gutenberg_search{margin:20px !important;background-color:lightyellow;}
+h1#searchmovie_title {padding:20px;}
+input#moviesearched{ width:60%;background-color:white;}
+span.label_moviesearched{font-size:larger !important;padding:10px;}
 

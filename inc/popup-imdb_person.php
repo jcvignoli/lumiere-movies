@@ -61,10 +61,13 @@ if (isset ($mid_sanitized)) {
 	$person_name_sanitized = sanitize_text_field( $person->name() );
 
 //--------------------------------------=[Layout]=---------------
+?>
+<html>
+<head>
+<?php wp_head();?>
 
-	//require_once ('popup-header.php'); 
-	get_header();  ?>
-
+</head>
+<body class="lumiere_body">
 
                                                 <!-- top page menu -->
 <table class='tabletitrecolonne'>

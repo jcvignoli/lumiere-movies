@@ -58,6 +58,18 @@ if ( ! function_exists('lumiere_remove_link')){
 		return $toremove;
 	}
 }
+
+/**
+ * Create an html link for taxonomy
+ */
+
+if ( ! function_exists('lumiere_make_taxonomy_link')){
+	function lumiere_make_taxonomy_link ($taxonomy) {
+		$taxonomy = preg_replace("/\s/", "-", $taxonomy);# replace space by hyphen
+		$taxonomy = strtolower($taxonomy); # convert to small characters
+		return $taxonomy;
+	}
+}
 /**
  * Sanitize an array
  * 

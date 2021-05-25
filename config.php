@@ -269,22 +269,25 @@ class lumiere_settings_conf extends lumiere_send_config {
 
 			update_option($this->imdbWidgetOptionsName, $imdbOptionsw);
 
-			// display message on top
+			// flush rewrite rules for taxonomy pages; expensive, but only when if updating widget options
+			add_action('init', function (){ flush_rewrite_rules(true);}, 10, 2);
+
+			// display confirmation message
 			lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
-
-			// flush rewrite rules for taxonomy pages
-			flush_rewrite_rules();
-
 		 }
 		if (isset($_POST['reset_imdbwidgetSettings'])) { // reset options selected  (widget options)
 
-			check_admin_referer('reset_imdbwidgetSettings_check', 'reset_imdbwidgetSettings_check'); // check if the refer is ok before saving data
+			// check if the refer is ok before saving data
+			check_admin_referer('reset_imdbwidgetSettings_check', 'reset_imdbwidgetSettings_check'); 
+
+			// Save the data
 			update_option($this->imdbWidgetOptionsName, $imdbWidgetOptionsw);
 
-			// display message on top
-			lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
+			// flush rewrite rules for taxonomy pages; expensive, but only when if reseting widget options
+			add_action('init', function (){ flush_rewrite_rules(true);}, 10, 2);
 
-			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
+			// refresh the page to reset display for values; &reset=true is the only way to 
+			// reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
 				header("Refresh: 0;url=".esc_url($_SERVER[ "REQUEST_URI"]."&reset=true"), false);
@@ -292,8 +295,9 @@ class lumiere_settings_conf extends lumiere_send_config {
 				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'lumiere-movies').'</a>'.'</strong>');
 			}
 
-			// flush rewrite rules for taxonomy pages
-			flush_rewrite_rules();
+			// display confirmation message
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
+
 		}
 
 		if (isset($_POST['update_cache_options'])) { // save data selected (cache options)

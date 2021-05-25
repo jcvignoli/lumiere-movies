@@ -44,10 +44,16 @@ else
 
 //--------------------------------------=[Layout]=---------------
 
-if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] == 'yes')) { //------------------------- 1. recherche, comportement classique
-	//require_once ('popup-header.php'); 
-	get_header(); 
+//------------------------- 1. recherche, comportement classique
+if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] == 'yes')) { 
 ?>
+<html>
+<head>
+<?php wp_head();?>
+
+</head>
+<body class="lumiere_body">
+
 <h1><?php esc_html_e('Results related to', 'lumiere-movies'); echo $film_sanitized; ?></h1>
 
 <table class="TableListeResultats">
@@ -88,11 +94,9 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 
 </table>
 <?php
-	wp_meta();
-	wp_footer(); 
+wp_meta();
+wp_footer(); 
 ?>
-</body>
-</html> 
 
 <?php exit(); // quit the call of the page, to avoid double loading process ?>
 

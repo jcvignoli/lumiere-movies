@@ -61,16 +61,22 @@ if ((isset ($movieid_sanitized)) && !empty ($movieid_sanitized)) {
 		$movie = $search->search ($filmid_sanitized, array(\Imdb\TitleSearch::MOVIE))[0];
 	}
 }
-
-if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] == 'yes')) { //------------------------- 1. search all results related to the name of the movie
+//------------------------- 1. search all results related to the name of the movie
+if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] == 'yes')) { 
 
 	if ($_GET["searchtype"]=="episode") 
 		$results = $search->search ( $filmid_sanitized, array(\Imdb\TitleSearch::TV_SERIES));
 	else 
 		$results = $search->search ( $filmid_sanitized, array(\Imdb\TitleSearch::MOVIE));
 
-	//require_once ('popup-header.php'); 
-	get_header(); 
+// Head?>
+<html>
+<head>
+<?php wp_head();?>
+</head>
+<body class="lumiere_body">
+<?php
+
 
 	// if no movie was found at all
 	if (empty($movie) ){
@@ -121,15 +127,11 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 
 </table>
 <?php
-// call wordpress footer functions;
+
 wp_meta();
-//get_footer(); // this one gets too much uneeded information
-wp_footer(); ?>
+wp_footer(); 
 
-</body>
-</html>
-
-<?php exit(); // quit the call of the page, to avoid double loading process ?>
+exit(); // quit the call of the page, to avoid double loading process ?>
 
 
 <?php
@@ -137,9 +139,12 @@ wp_footer(); ?>
 
 //--------------------------------------=[Layout]=---------------
 
-		//require_once ('popup-header.php'); 
-get_header(); 
-?>
+// Head ?>
+<html>
+<head>
+<?php wp_head();?>
+</head>
+<body class="lumiere_body">
                                                 <!-- top page menu -->
 <table class='tabletitrecolonne'>
     <tr>
@@ -607,13 +612,10 @@ echo '/ >'; ?>
 
 </table>
 <br />
-<?php 	// call wordpress footer functions;
+<?php 	
 	wp_meta();
-	//get_footer(); // this one gets too much uneeded information
 	wp_footer(); 
-?>
-</body>
-</html>
-<?php 	exit(); // quit the call of the page, to avoid double loading process 
+
+	exit(); // quit the call of the page, to avoid double loading process 
 }
 ?>
