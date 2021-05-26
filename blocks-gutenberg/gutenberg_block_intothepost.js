@@ -1,7 +1,10 @@
 ( function( blocks, blockEditor, element, components, data, i18n ) {
 
 	var el = element.createElement;
+	var elwithhtml = element.RawHTML; /* this type of block can include html */
+
 	var { registerBlockType } = blocks;
+
 	var intro_words = i18n.__( 'Type the name or IMDb movie' , 'lumiere-movies') ;
 	var empty = '';
 
@@ -26,6 +29,7 @@
 
 	registerBlockType( 'lumiere/intothepost', {
 		title: i18n.__('Lumière: movie inside a post', 'lumiere-movies'),
+		description: i18n.__('Insert a series of details related to a movie in your post.', 'lumiere-movies'),		
 		icon: iconLumiere,
 		category: 'embed',
 		keywords: [ 'embed', 'inside post', 'imdb', 'movies', 'film' ],
@@ -55,24 +59,28 @@
 						},
 					),// end img
 
-					el( blockEditor.RichText, { 
+					elwithhtml( { /* this type of block can include html */
 						className: props.className,
-						tagName: 'h2',
 						className: 'lumiere_gutenberg_block_intothepost-title',
-						value: 'Lumière! movies',
+						children: 'Lumière! movies',
 						},
 					),// end h2 title
 
-					el( blockEditor.RichText, { 
+					elwithhtml( { /* this type of block can include html */
 						className: props.className,
 						className: 'lumiere_gutenberg_block_intothepost-explanation',
-						value: i18n.__( 'Use this block to retrieve movie or people information from the IMDb and insert in your post.' , 'lumiere-movies') 
+						tagName: 'gutenberg',
+						children: i18n.__( 'Use this block to retrieve movie or people information from the IMDb and insert in your post.' , 'lumiere-movies') 
 							+ '<br />'
 							+ i18n.__( 'You can also click on this link to get the' , 'lumiere-movies') 
-							+ ' <a href="' + lumiere_admin_vars.imdb_path 
-							+ 'inc/gutenberg-search.php?gutenberg=yes">' 
+							+ ' <a data-gutenberg="yes" ' 
+							+ 'class="linkincmovie link-imdblt-highslidepeople highslide" '
+							+ 'href="'+ lumiere_admin_vars.imdb_path+'inc/gutenberg-search.php?gutenberg=yes">' 
 							+ i18n.__( 'IMDb movie id' , 'lumiere-movies') 
 							+ '</a> ' + i18n.__( 'and insert it.' , 'lumiere-movies'),
+						className: props.className,
+						className: 'lumiere_gutenberg_block_intothepost-explanation',
+
 						},
 					),// end explanation div
 

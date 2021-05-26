@@ -1,8 +1,8 @@
 <?php
 
  #############################################################################
- # Lumiere Movies                                                            #
- # written by Prometheus group                                               #
+ # Lumière Movies                                                            #
+ # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
  # This program is free software; you can redistribute and/or modify it      #
@@ -36,28 +36,29 @@ function lumiere_widget($args) {
 		// automatically takes the post name to display the movie related, according to Lumiere Movies preferences (-> widget -> misc)
 			$imdballmeta[0] = sanitize_text_field( $name_sanitized->post_title );
 
+			//removed, pointless
 			// Initialize lumiere_core class, add head that is only for /imdblt/ URLs
-			$start = new lumiere_core();
-			add_action('wp_head', $start->lumiere_add_head_blog('inc.movie') ,1 );
+			//$start = new lumiere_core();
+			//add_action('wp_head', $start->lumiere_add_head_blog('inc.movie') ,1 );
 
 			echo $before_widget;
 			echo $before_title . $title_box . $after_title;
 			echo "<div class='imdbincluded'>";
-			/*$content = "";
-			echo $content;*/
 			require_once( $imdb_admin_values['imdbpluginpath'] . 'inc/imdb-movie.inc.php');
 			echo "</div>";
 			echo $after_widget;
 
-			add_action('wp_footer', $start->lumiere_add_footer_blog('inc.movie') ,1 );
+			//removed, pointless
+			//add_action('wp_footer', $start->lumiere_add_footer_blog('inc.movie') ,1 );
 		}
 
 		foreach (get_post_meta($filmid, 'imdb-movie-widget', false) as $key => $value) {
 		// if meta tag "imdb-movie-widget" can be found
 
+			//removed, pointless
 			// Initialize lumiere_core class, add head that is only for /imdblt/ URLs
-			$start = new lumiere_core();
-			add_action('wp_head', $start->lumiere_add_head_blog('inc.movie') ,1 );
+			//$start = new lumiere_core();
+			//add_action('wp_head', $start->lumiere_add_head_blog('inc.movie') ,1 );
 			
 			$imdballmeta[0] = $value;
 			echo $before_widget;
@@ -67,16 +68,18 @@ function lumiere_widget($args) {
 			echo "</div>";
 			echo $after_widget;
 
-			add_action('wp_footer', $start->lumiere_add_footer_blog('inc.movie') ,1 );
+			//removed, pointless
+			//add_action('wp_footer', $start->lumiere_add_footer_blog('inc.movie') ,1 );
 		}
 		foreach (get_post_meta($filmid, 'imdb-movie-widget-bymid', false) as $key => $value) {
 		// if ID movie has been provided through "imdb-movie-widget-bymid"
 			$imdballmeta = 'imdb-movie-widget-noname';
 			$moviespecificid = str_pad($value, 7, "0", STR_PAD_LEFT);
 
+			//removed, pointless
 			// Initialize lumiere_core class, add head that is only for /imdblt/ URLs
-			$start = new lumiere_core();
-			add_action('wp_head', $start->lumiere_add_head_blog('inc.movie') ,1 );
+			//$start = new lumiere_core();
+			//add_action('wp_head', $start->lumiere_add_head_blog('inc.movie') ,1 );
 
 			echo $before_widget;
 			echo $before_title . $title_box . $after_title;
@@ -85,7 +88,8 @@ function lumiere_widget($args) {
 			echo "</div>";
 			echo $after_widget;
 
-			add_action('wp_footer', $start->lumiere_add_footer_blog('inc.movie') ,1 );
+			//removed, pointless
+			//add_action('wp_footer', $start->lumiere_add_footer_blog('inc.movie') ,1 );
 		}
 	}
 }

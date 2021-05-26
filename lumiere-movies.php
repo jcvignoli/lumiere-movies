@@ -14,7 +14,7 @@
 Plugin Name: Lumière
 Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
 Description: Add to every movie title tagged with &lt;!--imdb--&gt; (...) &lt;!--/imdb--&gt; a link to an <a href="https://www.imdb.com"><acronym title="internet movie database">imdb</acronym></a> popup. Can also display data related to movies either in a <a href="widgets.php">widget</a> or inside a post. Perfect for your movie reviews. Cache handling. Have a look at the <a href="admin.php?page=imdblt_options">options page</a>.
-Version: 3.0.1
+Version: 3.0.2
 Requires at least: 4.6
 Text Domain: lumiere-movies
 Domain Path: /languages
@@ -74,7 +74,7 @@ if (class_exists("lumiere_core")) {
 //namespace imdblt;
 
 class lumiere_core {
-	private $bypass;
+	private $bypass; /* this value is not in use anymore, to be removed */
 
 	/*constructor*/
 	function __construct () {
@@ -219,6 +219,7 @@ class lumiere_core {
 	function lumiere_linking($text) {
 		$pattern = '/<!--imdb-->(.*?)<!--\/imdb-->/i';
 		$text = preg_replace_callback($pattern, [ $this, 'parse_imdb_tags' ] ,$text);
+
 		return $text;
 	}
 
@@ -359,8 +360,11 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenbe
 	function lumiere_add_footer_blog( $bypass=NULL ){
 		global $imdb_admin_values;
 
+// Unactivated, so the scripts can be run anywhere
+// To do: add an option in admin to activate/unactivate a pass-by
+
 		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_footer_blog("inc.movie")
-		if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
+		//if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
 
 			wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js");
 
@@ -372,7 +376,7 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenbe
 				'popupLong' => $imdb_admin_values['popupLong'],
 				'imdb_path' => $imdb_admin_values['imdbplugindirectory']
 			) ) , 'before');
-		}
+		//}
 	}
 
 	##### b) admin part
@@ -448,14 +452,16 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenbe
 			$imdballmeta[0] = $moviename;// especially made to be integrated (ie, inside a php code)
 							// can't accept caching through ob_start
 
+			//removed, pointless
 			// add head that is only for /imdblt/ URLs
-			add_action('wp_head', $this->lumiere_add_head_blog('inc.movie') ,1 );
+			//add_action('wp_head', $this->lumiere_add_head_blog('inc.movie') ,1 );
 
 			echo "<div class='imdbincluded'>";
 			require_once ( IMDBLTABSPATH . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
-			add_action('wp_footer', $this->lumiere_add_footer_blog('inc.movie') ,1 );
+			//removed, pointless
+			//add_action('wp_footer', $this->lumiere_add_footer_blog('inc.movie') ,1 );
 		}
 
 		if (($external == "external") && ($filmid))  {	// call function from external (using parameter "external" )
@@ -464,14 +470,16 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenbe
 			$imdballmeta = 'imdb-movie-widget-noname';
 			$moviespecificid = $filmid;
 
+			//removed, pointless
 			// add head that is only for /imdblt/ URLs
-			add_action('wp_head', $this->lumiere_add_head_blog('inc.movie') ,1 );
+			//add_action('wp_head', $this->lumiere_add_head_blog('inc.movie') ,1 );
 
 			echo "<div class='imdbincluded'>";
 			require_once ( IMDBLTABSPATH . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
-			add_action('wp_footer', $this->lumiere_add_footer_blog('inc.movie') ,1 );
+			//removed, pointless
+			//add_action('wp_footer', $this->lumiere_add_footer_blog('inc.movie') ,1 );
 		}
 
 		ob_start(); // ob_start (cache) system to display data precisely where there're wished) -> start record
@@ -479,14 +487,16 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenbe
 		if (!empty($moviename) && (empty($external))) {	// new way (using a parameter - imdb movie name)
 			$imdballmeta = $moviename;
 
+			//removed, pointless
 			// not /imdblt/ path, but needs scripts and css to work, added 'inc.movie'
-			add_action('wp_head',  $this->lumiere_add_head_blog('inc.movie')  ,1 );
+			//add_action('wp_head',  $this->lumiere_add_head_blog('inc.movie')  ,1 );
 
 			echo "<div class='imdbincluded'>";
 			require_once ( IMDBLTABSPATH . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
-			add_action('wp_footer', $this->lumiere_add_footer_blog('inc.movie') ,1 );
+			//removed, pointless
+			//add_action('wp_footer', $this->lumiere_add_footer_blog('inc.movie') ,1 );
 
 			$out1 = ob_get_contents(); //put the record into value
 		}
@@ -495,14 +505,16 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenbe
 			$imdballmeta = 'imdb-movie-widget-noname';
 			$moviespecificid = $filmid;
 
+			//removed, pointless
 			// not /imdblt/ path, but needs scripts and css to work, added 'inc.movie'
-			add_action('wp_head', $this->lumiere_add_head_blog('inc.movie') ,1 );
+			//add_action('wp_head', $this->lumiere_add_head_blog('inc.movie') ,1 );
 
 			echo "<div class='imdbincluded'>";
 			require_once ( IMDBLTABSPATH . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
-			add_action('wp_footer', $this->lumiere_add_footer_blog('inc.movie') ,1 );
+			//removed, pointless
+			//add_action('wp_footer', $this->lumiere_add_footer_blog('inc.movie') ,1 );
 
 			$out2 = ob_get_contents(); //put the record into value
 		}

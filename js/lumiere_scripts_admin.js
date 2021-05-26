@@ -163,3 +163,27 @@ jQuery(document).ready( function($) {
 	// postboxes
 	postboxes.add_postbox_toggles('imdblt_help');
 });
+
+/************************************** Gutenberg
+*
+*/
+
+document.addEventListener('DOMContentLoaded', function () {
+
+	/* highslide gutenberg, search */
+
+	jQuery('a[data-gutenberg]').click(function(){
+		// vars from imdb-link-transformer.php
+		var url_imdbperso = lumiere_admin_vars.imdb_path + 'inc/gutenberg-search.php?gutenberg=yes';
+		// highslide popup
+		return hs.htmlExpand(this, { 
+			allowWidthReduction: true,
+			objectType: 'iframe', 
+			width: tmppopupLarg, 
+
+			headingEval: 'this.a.innerHTML', 
+			wrapperClassName: 'titlebar', 
+			src: url_imdbperso
+		});
+	});
+});

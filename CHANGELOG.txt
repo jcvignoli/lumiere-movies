@@ -1,5 +1,9 @@
 Changelog
 
+v3.0.2
+* Bug: the lumiere's scripts weren't loaded outside the Lumiere's dedicated pages. Removed checks in lumiere_add_footer_blog()'s lumiere-movies.php, deactivated calls to head and footer construction for imbd-movies.inc.php in lumiere-movies.php and widget (head and footer are already loaded!)
+* Bug: removed CSP compliance in js/lumiere_scripts.js and js/highslide-options.js as it prevented a correct running of the highslide popups -> highslide should close windows under CSP
+
 v3.0.1
 * Gutenberg Block: better layout, implemented selection of either [imdblt] or [imdbltid]
 * Gutenberg Block: created a new page gutenberg-search.php for searching movies from gutenberg

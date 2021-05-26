@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-imdb_person.php?mid=' + misc_term;
 		
 		// classic popup
-		window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width='+tmppopupLong+', height='+tmppopupLarg+', top=5, left=5')
+		window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width='+tmppopupLarg+', height='+tmppopupLong+', top=5, left=5')
 	});
 
 	/* classic popup, movie */
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
 		
 		// classic popup
-		window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width='+tmppopupLong+', height='+tmppopupLarg+', top=5, left=5');
+		window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width='+tmppopupLarg+', height='+tmppopupLong+', top=5, left=5');
 	});
 });
 
@@ -108,8 +108,10 @@ jQuery('.historyback').click(function(event){
 
 // send close command on click on X of highslide popup
 // this is a trick to make highslide CSP compliant
+/* doesn't work
 document.addEventListener('DOMContentLoaded', function () {
-	jQuery(document).click(function(event) {
+    	jQuery(document).click(function(event) {
 		hs.close(event.target);
 	});
 });
+*/

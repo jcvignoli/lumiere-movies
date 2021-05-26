@@ -4,3 +4,10 @@ composer.lock
 vendor
 tmp
 wp-cli.phar
+.gitignore-building
+.babelrc
+node_modules
+package-lock.json
+package.json
+testing
+webpack.config.js

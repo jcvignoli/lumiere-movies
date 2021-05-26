@@ -2,8 +2,10 @@
 .todo
 .git
 .gitignore
+.gitignore-building
 vendor
 tmp
 README.md
 wp-cli.phar
 source
+composer.lock

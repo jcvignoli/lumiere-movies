@@ -298,7 +298,7 @@ if ( ! function_exists('lumiere_popup_classical_film_link')){
 		if (! $popuplong )
 			$popuplong=$imdb_admin_values["popupLong"];
 
-		$parsed_result = '<a  class="link-imdblt-classicfilm" data-classicfilm="' . lumiere_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
+		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . lumiere_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
 		
 		return $parsed_result;
 	}

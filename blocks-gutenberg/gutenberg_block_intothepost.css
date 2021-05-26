@@ -1,6 +1,6 @@
 .lumiere_gutenberg_block_intothepost{border: 1px solid black;padding:20px;color:#494633;}
 
-.lumiere_gutenberg_block_intothepost-title {float:right;text-align:left;padding:5px 5px 5px 15px;width:90%;}
+.lumiere_gutenberg_block_intothepost-title {float:right;text-align:left;padding:5px 5px 5px 15px;width:90%;font-size: 2rem;font-weight: 600;}
 
 .lumiere_gutenberg_block_intothepost-image {float:left;width:10%;height:auto;vertical-align:middle;}
 
