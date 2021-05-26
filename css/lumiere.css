@@ -222,8 +222,8 @@ color: red;}
 
 /* ---------------------------------------- Gutenberg-search.php */
 
-body#gutenberg_search{margin:20px !important;background-color:lightyellow;}
+body#gutenberg_search{margin:20px !important;}
 h1#searchmovie_title {padding:20px;}
-input#moviesearched{ width:60%;background-color:white;}
+input#moviesearched{ width:60%;background-color:lightyellow;}
 span.label_moviesearched{font-size:larger !important;padding:10px;}
 

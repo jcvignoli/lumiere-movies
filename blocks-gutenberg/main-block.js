@@ -27,7 +27,7 @@
 		)
 	);
 
-	registerBlockType( 'lumiere/intothepost', {
+	registerBlockType( 'lumiere/main', {
 		title: i18n.__('Lumière: movie inside a post', 'lumiere-movies'),
 		description: i18n.__('Insert a series of details related to a movie in your post.', 'lumiere-movies'),		
 		icon: iconLumiere,
@@ -74,8 +74,10 @@
 							+ '<br />'
 							+ i18n.__( 'You can also click on this link to get the' , 'lumiere-movies') 
 							+ ' <a data-gutenberg="yes" ' 
+							+ 'onclick="window.open(\''+ lumiere_admin_vars.imdb_path + 'inc/gutenberg-search.php?gutenberg=yes\', \'_blank\', \'location=yes,height=400,width=500,scrollbars=yes,status=yes\');" '
 							+ 'class="linkincmovie link-imdblt-highslidepeople highslide" '
-							+ 'href="'+ lumiere_admin_vars.imdb_path+'inc/gutenberg-search.php?gutenberg=yes">' 
+							//+ 'href="'+ lumiere_admin_vars.imdb_path+'inc/gutenberg-search.php?gutenberg=yes" ' 
+							+ '>'
 							+ i18n.__( 'IMDb movie id' , 'lumiere-movies') 
 							+ '</a> ' + i18n.__( 'and insert it.' , 'lumiere-movies'),
 						className: props.className,

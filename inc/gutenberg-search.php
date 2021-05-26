@@ -1,7 +1,7 @@
 <?php
 
  #############################################################################
- # Lumiere Movies wordpress plugin                                           #
+ # Lumière Movies wordpress plugin                                           #
  # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
@@ -12,9 +12,6 @@
  #  Function : Displays a popup with search results related to a movie       #
  #									              #
  #############################################################################
-
-# test
-require_once ('../../../../wp-load.php');
 
 require_once (plugin_dir_path( __FILE__ ).'/../bootstrap.php');
 
@@ -107,3 +104,4 @@ foreach ($results as $res) {
 
 </body>
 </html> 
+<?php exit(); ?>

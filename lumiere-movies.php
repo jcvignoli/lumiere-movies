@@ -105,9 +105,11 @@ class lumiere_core {
 
 			#add_action( 'init', [ $this, 'lumiere_highslide_download_redirect' ], 0);#function deactivated upon wordpress plugin team request
 
+			add_action( 'init', [ $this, 'lumiere_gutenberg_search_redirect' ], 0);
+
 			// Check if Gutenberg is active
 			if ( function_exists( 'register_block_type' ) )
-				add_action('init', [ $this, 'lumiere_register_gutenberg_block' ]);
+				add_action('init', [ $this, 'lumiere_register_gutenberg_blocks' ]);
 
 			if (is_admin()) {
 				// add admin menu
@@ -163,11 +165,14 @@ class lumiere_core {
 		// .htaccess text, including Rewritebase with $blog_subdomain
 		$imdblt_htaccess_file_txt = "<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase ".$imdblt_blog_subdomain."/"."\n\n";
 
+		# Gutenberg search
+		$imdblt_htaccess_file_txt .= "## gutenberg-search.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/inc/gutenberg-search.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/gutenberg/search/ [L,R,QSA]"."\n\n";
+
 		# highslide
 		$imdblt_htaccess_file_txt .= "## highslide_download.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/highslide_download.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options [L,R,QSA]"."\n\n";
 
 		## move_template_taxonomy.php
-		$imdblt_htaccess_file_txt .= "## highslide_download.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/move_template_taxonomy.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "## move_template_taxonomy.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/move_template_taxonomy.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo [L,R,QSA]"."\n\n";
 
 		# popup-search
 		$imdblt_htaccess_file_txt .= "## popup-search.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-search.php\?film=([^\s]+)(&norecursive=[^\s]+)?"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_movie."/%1/ [L,R,QSA]"."\n\n";
@@ -295,24 +300,43 @@ class lumiere_core {
 	}
 
 	##### c) guntenberg block
-	function lumiere_register_gutenberg_block() {
+	function lumiere_register_gutenberg_blocks() {
 		global $imdb_admin_values;
 
-		wp_register_script( "lumiere_gutenberg_block_intothepost", 
-			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.js',
+		wp_register_script( "lumiere_gutenberg_main", 
+			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-block.js',
 			[ 'wp-blocks', 'wp-element', 'wp-editor','wp-components','wp-i18n','wp-data' ], 
-			filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.js') );
+			filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-block.js') );
 
-		wp_register_style( "lumiere_gutenberg_block_intothepost", 
-			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.css',
+		wp_register_script( "lumiere_gutenberg_buttons", 
+			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/buttons.js',
+			[ 'wp-element', 'wp-compose','wp-i18n','wp-data' ], 
+			filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/buttons.js') );
+
+		/*wp_register_script( "lumiere_gutenberg_sidebar", 
+			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/sidebar.js',
+			[ 'wp-blocks', 'wp-element', 'wp-plugins', 'wp-compose', 'wp-edit-post', 'wp-editor','wp-components','wp-i18n','wp-data' ], 
+			filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/sidebar.js') );
+		*/
+
+		wp_register_style( "lumiere_gutenberg_main", 
+			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-block.css',
 			[ 'wp-edit-blocks' ], 
-filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenberg_block_intothepost.css') );
+filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-block.css') );
 
 		// Register block script and style.
-		register_block_type( 'lumiere/intothepost', [
-			'style' => 'lumiere_gutenberg_block_intothepost', // Loads both on editor and frontend.
-			'editor_script' => 'lumiere_gutenberg_block_intothepost', // Loads only on editor.
+		register_block_type( 'lumiere/main', [
+			'style' => 'lumiere_gutenberg_main', // Loads both on editor and frontend.
+			'editor_script' => 'lumiere_gutenberg_main', // Loads only on editor.
 		] );
+
+		register_block_type( 'lumiere/buttons', [
+			'editor_script' => 'lumiere_gutenberg_buttons', // Loads only on editor.
+		] );
+
+		/*register_block_type( 'lumiere/sidebar', [
+			'editor_script' => 'lumiere_gutenberg_sidebar', // Loads only on editor.
+		] );*/
 
 	}
 
@@ -596,7 +620,6 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenbe
 			wp_safe_redirect( add_query_arg( array( 'mid' => $match_query_person_mid[0], 'film' => $match_query_person_film[1][0], 'info' => $match_query_person_info[0]), get_site_url(null, $url ) ) );
 			exit();
 		}
-
 	}
 
 	// pages to be included when the redirection is done
@@ -620,7 +643,7 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenbe
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ){
 
 			if ($_GET['film'])
-				$title = sanitize_text_field($_GET['film']). " - Lumi&egrave;re movies - ";
+				$title = sanitize_text_field($_GET['film']). " - Lumi&egrave;re movies ";
 			/* find a way to get person's name
 			elseif ($_GET['person'])
 				$title = sanitize_text_field($_GET['person']). " - Lumi&egrave;re movies - ";
@@ -630,11 +653,19 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenbe
 		}
 	}
 	/**
-	13.- Include highslide_download.php if string highslide=yes
+	13.- A Include highslide_download.php if string highslide=yes
 	**/
 	function lumiere_highslide_download_redirect() {
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&highslide=yes' ) ) {
 			require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/highslide_download.php' );
+		}
+	}
+	/**
+	13.- B Include gutenberg-search.php if string gutenberg=yes
+	**/
+	function lumiere_gutenberg_search_redirect() {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/gutenberg/search/' ) ) {
+			require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/gutenberg-search.php' );
 		}
 	}
 
@@ -655,42 +686,5 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/gutenbe
 	}
 
 } // end class
-
-/* Function: create_imdblt_table
-* Create mysql Preferences Tables
-*/
-
-/*
-add_action('activate_lumiere-movies/lumiere-movies.php', 'create_imdblt_table');
-function create_imdblt_table() {
-	global $wpdb;
-	if(@is_file(ABSPATH.'/wp-admin/upgrade-functions.php')) {
-		include_once(ABSPATH.'/wp-admin/upgrade-functions.php');
-	} elseif(@is_file(ABSPATH.'/wp-admin/includes/upgrade.php')) {
-		include_once(ABSPATH.'/wp-admin/includes/upgrade.php');
-	} else {
-		die('We have problem finding your \'/wp-admin/upgrade-functions.php\' and \'/wp-admin/includes/upgrade.php\'');
-	}
-	// Create IMDbLT Table
-	$charset_collate = '';
-	if($wpdb->supports_collation()) {
-		if(!empty($wpdb->charset)) {
-			$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-		}
-		if(!empty($wpdb->collate)) {
-			$charset_collate .= " COLLATE $wpdb->collate";
-		}
-	}
-	$create_table = array();
-	$create_table['imdblt'] = "CREATE TABLE $wpdb->imdblt (".
-				"id int(10) NOT NULL auto_increment,".
-				"category varchar(20) character set utf8 NOT NULL default '',".
-				"option varchar(100) character set utf8 NOT NULL default '',".
-				"value varchar(200) character set utf8 NOT NULL default '',".
-				"PRIMARY KEY (imdblt_id)) $charset_collate;";
-	maybe_create_table($wpdb->prepare($wpdb->imdblt), $create_table['imdblt']);
-}
-* To be implemented at some point
-*/
 
 ?>
