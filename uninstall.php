@@ -1,16 +1,16 @@
 <?php
 
  #############################################################################
- # IMDb Link transformer                                                     #
- # written by Prometheus group                                               #
+ # Lumière! Movies plugin                                                    #
+ # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
  # This program is free software; you can redistribute and/or modify it      #
  # under the terms of the GNU General Public License (see LICENSE)           #
  # ------------------------------------------------------------------------- #
- #       			                                             #
- #  Function : Uninstall completely IMDb LT when deleting the plugin	     #
- #       	  			                                     #
+ #       			                                                 #
+ #  Function : Uninstall completely Lumière! when removing the plugin	       #
+ #       	  			                                          #
  #############################################################################
 
 

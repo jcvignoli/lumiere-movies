@@ -13,6 +13,8 @@ Lumière! Movies retrieves information from www.imdb.com into your blog. Cache m
 
 == Description ==
 
+Important! Due to compatibility reasons with Gutenberg, as of version 3.1 the way to call links for internal popupups has changed from '<!--imdb--><!--/imdb-->' to '<span class="lumiere_link_maker"></span>'. Compatibility with the previous call currently maintained.
+
 Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Official website").
 
 "Lumière! Movies" is the continuation of [IMDb Link Transformer plugin](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer") with more that 20'000 downloads. 

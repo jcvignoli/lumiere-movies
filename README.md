@@ -5,7 +5,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 4.0 \
 **Tested up to:** 5.7.1 \
-**Stable tag:** 3.0.2 \
+**Stable tag:** 3.1 \
 **Requires PHP:** 7.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -14,11 +14,17 @@ Lumière! Movies retrieves information from www.imdb.com into your blog. Cache m
 
 ## Description
 
+Important! Due to compatibility reasons with Gutenberg, as of version 3.1 the way to call links for internal popupups has changed from '<!--imdb--><!--/imdb-->' to '<span class
+
+### "lumiere_link_maker"></span>'. Compatibility with the previous call currently maintained.
+
 Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Official website").
 
 "Lumière! Movies" is the continuation of [IMDb Link Transformer plugin](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer") with more that 20'000 downloads. 
 
-**Lumiere Movies** aims to ease the search for info on movies. All movies names which are tagged between < !--imdb-->nameMovie< !--/imdb--> are automatically turned into an url in your posts. On click, the link opens a new window  including much data related to the movie. Lumière! **transforms all the words you tagged into links to an informative windows**. It means one can view the filmmaker, the casting or the goofs that [IMDb](https://www.imdb.com "Internet movie database") (or similar) website includes with one click; it can show either the director or the movie related data (biography, filmography, miscellaneous related to the director; casting, goofs, AKA titles, crew and many others related to the movie). 
+**Lumiere Movies** aims to ease the search for info on movies. All movies names which are tagged between < span class
+
+### "lumiere_link_maker">nameMovie< span> are automatically turned into an url in your posts. On click, the link opens a new window  including much data related to the movie. Lumière! **transforms all the words you tagged into links to an informative windows**. It means one can view the filmmaker, the casting or the goofs that [IMDb](https://www.imdb.com "Internet movie database") (or similar) website includes with one click; it can show either the director or the movie related data (biography, filmography, miscellaneous related to the director; casting, goofs, AKA titles, crew and many others related to the movie).
 
 Many features are available in the wordpress editing interfaces (Gutenberg, Visual editor, and HTML editor).
 
@@ -135,6 +141,14 @@ Please visit [contact page](https://www.jcvignoli.com/blog/about "Lumière! Movi
 Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.txt "latest changelog") to find out the latest developments. Or for even more extensive and recent changes available at my [GIT repository](https://github.com/jcvignoli/lumiere-movies "GIT repository").
 
 Major changes:
+
+### 3.1
+
+* Due to compatibility reasons with Gutenberg, the way to display links to internal popupups has changed from '<!--imdb--><!--/imdb-->' to '<span class
+
+### "lumiere_link_maker"></span>'. Compatibility with the old way currently maintained.
+
+* Gutenberg interface finished.
 
 ### 3.0
 
