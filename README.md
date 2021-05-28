@@ -14,9 +14,9 @@ Lumière! Movies retrieves information from www.imdb.com into your blog. Cache m
 
 ## Description
 
-Important! Due to compatibility reasons with Gutenberg, as of version 3.1 the way to call links for internal popupups has changed from '<!--imdb--><!--/imdb-->' to '<span class
+Important! Due to compatibility reasons with Gutenberg, as of version 3.1 the way to call links for internal popupups has changed from '<!--imdb--><!--/imdb-->' to 'span class
 
-### "lumiere_link_maker"></span>'. Compatibility with the previous call currently maintained.
+### "lumiere_link_maker" /span '. Compatibility with the previous call currently maintained.
 
 Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Official website").
 
@@ -130,11 +130,15 @@ Yes, just add in the post as many custom fields you want.
 
 * If you activate both "Display highslide popup" option and in [Next-Gen Gallery's](https://wordpress.org/plugins/nextgen-gallery/ "Next-Gen Gallery home") highslide effect option, NGG picture display will be broken. **Workaround:** Do not use "Display highslide popup" option or use another effect option for NGG.
 
+* TinyMCE is not working the way it should. Only basic features are available at the moment. I'm working on it.
+
 * If you are updating from the previous IMDb Link Transformer plugin, the plugin's option will be messed up. Reset Lumière! options.
 
 ## Support
 
-Please visit [contact page](https://www.jcvignoli.com/blog/about "Lumière! Movies contact page")
+Use the [WordPress Support](https://wordpress.org/support/plugin/lumiere-movies/ "WordPress Support") for general issues, the [GIT repository](https://github.com/jcvignoli/lumiere-movies "GIT repository") for technical requests.
+
+It's always a good idea to look at the [official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Lumière! official website")
 
 ## Changelog
 
