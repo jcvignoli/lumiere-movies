@@ -25,7 +25,9 @@
 				onclick : function() {
 				  var selected_text = ed.selection.getContent();
 				  var return_text = '';
-				  return_text = imdbImg + '<!--imdb-->' + selected_text + '<!--/imdb-->';
+/*				  return_text = imdbImg + '<span class="lumiere_link_maker">' + selected_text + '</span>';
+					// can't get rid of the image anymore, removed */
+				  return_text = '<span class="lumiere_link_maker">' + selected_text + '</span>';
 				  ed.execCommand('mceInsertContent', 0, return_text);
 				}
 			});
@@ -33,19 +35,22 @@
 
 		setup: function (ed) { /* these functions don't work, something is broken */
 			// Replace images with imdb tag
-			ed.on('PostProcess', function(ed, o) {
-				if (o.get)
-					o.content = o.content.replace(/<img[^>]+><!--imdb-->/g, '<!--imdb-->');
+/*			ed.on('PostProcess', function(ed, o) {
+				if (o.get)*/
+			ed.onPostProcess.add (function(ed, o) {
+					o.content = o.content.replace(/<img[^>]+><span class="lumiere_link_maker">/g, '<span class="lumiere_link_maker">');
 			});
 
 			// Replace imdb tag with image
-			ed.on('BeforeSetContent', function(ed, o) {
-				var imdbImgRep = imdbImg + '<!--imdb-->';
-				o.content = o.content.replace(/<!--imdb-->/g, imdbImgRep);
+/*			ed.on('BeforeSetContent', function(ed, o) { */
+			ed.onBeforeSetContent.add(function(ed, o) {
+				var imdbImgRep = imdbImg + '<span class="lumiere_link_maker">';
+				o.content = o.content.replace(/<span class="lumiere_link_maker">/g, imdbImgRep);
 			});	
 			
 			// Set active buttons if user selected pagebreak or more break
-			ed.on('NodeChange', function(ed, cm, n) {
+/*			ed.on('NodeChange', function(ed, cm, n) {*/
+			ed.onNodeChange.add (function(ed, cm, n) {
 				cm.setActive('lumiere_tiny', n.nodeName === 'IMG' && ed.dom.hasClass(n, 'lumiere_admin_tiny_img'));
 			});
 		},
@@ -74,7 +79,7 @@
 				longname : "Lumière TinyMCE editor",
 				author : 'JCV',
 				authorurl : 'https://www.jcvignoli.com/blog',
-				infourl : 'https://www.jcvignoli.com/lumiere-movies-wordpress-plugin/',
+				infourl : 'https://www.jcvignoli.com/en/lumiere-movies-wordpress-plugin/',
 				version : "3.0"
 			};
 		}

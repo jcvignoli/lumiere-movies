@@ -5,20 +5,25 @@
 
 	var { registerBlockType } = blocks;
 
+	/* Remove useless formatting options 
+	-> removes it everywhere, unactivated
+	wp.domReady(function () {
+		wp.richText.unregisterFormatType('core/bold');
+		wp.richText.unregisterFormatType('core/italic');
+		wp.richText.unregisterFormatType('core/link');
+		wp.richText.unregisterFormatType('core/strikethrough');
+		wp.richText.unregisterFormatType('core/underline');
+		wp.richText.unregisterFormatType('core/code');
+		wp.richText.unregisterFormatType('core/image');
+		wp.richText.unregisterFormatType('core/subscript');
+		wp.richText.unregisterFormatType('core/superscript');
+
+	})
+	formattingControls= [ 'bold' , 'superscript' ];
+	*/
+
 	var intro_words = i18n.__( 'Type the name or IMDb movie' , 'lumiere-movies') ;
 	var empty = '';
-
-	/* trying to remove panels, but doesn't work
-	wp.domReady( () => {
-	wp.data.dispatch('core/edit-post').removeEditorPanel( 'taxonomy-panel-category' ) ; // category
-	wp.data.dispatch('core/edit-post').removeEditorPanel( 'taxonomy-panel-post_tag' ); // tags
-	wp.data.dispatch('core/edit-post').removeEditorPanel( 'featured-image' ); // featured image
-	wp.data.dispatch('core/edit-post').removeEditorPanel( 'post-link' ); // permalink
-	wp.data.dispatch('core/edit-post').removeEditorPanel( 'page-attributes' ); // page attributes
-	wp.data.dispatch('core/edit-post').removeEditorPanel( 'post-excerpt' ); // Excerpt
-	wp.data.dispatch('core/edit-post').removeEditorPanel( 'discussion-panel' ); // Discussion
-	} );
-	*/
 
 	const iconLumiere = el('svg', { width: 35, height: 35, viewBox: "0 0 200 200" },
 		el( 'path', 
@@ -74,15 +79,12 @@
 							+ '<br />'
 							+ i18n.__( 'You can also click on this link to get the' , 'lumiere-movies') 
 							+ ' <a data-gutenberg="yes" ' 
-							+ 'onclick="window.open(\''+ lumiere_admin_vars.imdb_path + 'inc/gutenberg-search.php?gutenberg=yes\', \'_blank\', \'location=yes,height=400,width=500,scrollbars=yes,status=yes\');" '
+							+ 'onclick="window.open(\''+ lumiere_admin_vars.wordpress_path + '/wp-admin/lumiere/search/?gutenberg=yes\', \'_blank\', \'location=yes,height=400,width=500,scrollbars=yes,status=yes\');" '
 							+ 'class="linkincmovie link-imdblt-highslidepeople highslide" '
 							//+ 'href="'+ lumiere_admin_vars.imdb_path+'inc/gutenberg-search.php?gutenberg=yes" ' 
-							+ '>'
+							+ 'target="_blank">'
 							+ i18n.__( 'IMDb movie id' , 'lumiere-movies') 
 							+ '</a> ' + i18n.__( 'and insert it.' , 'lumiere-movies'),
-						className: props.className,
-						className: 'lumiere_gutenberg_block_intothepost-explanation',
-
 						},
 					),// end explanation div
 

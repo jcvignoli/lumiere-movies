@@ -14,7 +14,7 @@
 Plugin Name: Lumière
 Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
 Description: Add to every movie title tagged with &lt;!--imdb--&gt; (...) &lt;!--/imdb--&gt; a link to an <a href="https://www.imdb.com"><acronym title="internet movie database">imdb</acronym></a> popup. Can also display data related to movies either in a <a href="widgets.php">widget</a> or inside a post. Perfect for your movie reviews. Cache handling. Have a look at the <a href="admin.php?page=imdblt_options">options page</a>.
-Version: 3.0.2
+Version: 3.1
 Requires at least: 4.6
 Text Domain: lumiere-movies
 Domain Path: /languages
@@ -109,7 +109,7 @@ class lumiere_core {
 
 			// Check if Gutenberg is active
 			if ( function_exists( 'register_block_type' ) )
-				add_action('init', [ $this, 'lumiere_register_gutenberg_blocks' ]);
+				add_action('init', [ $this, 'lumiere_register_gutenberg_blocks' ],0);
 
 			if (is_admin()) {
 				// add admin menu
@@ -166,7 +166,7 @@ class lumiere_core {
 		$imdblt_htaccess_file_txt = "<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase ".$imdblt_blog_subdomain."/"."\n\n";
 
 		# Gutenberg search
-		$imdblt_htaccess_file_txt .= "## gutenberg-search.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/inc/gutenberg-search.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/gutenberg/search/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "## gutenberg-search.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/gutenberg-search.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/lumiere/search/ [L,R,QSA]"."\n\n";
 
 		# highslide
 		$imdblt_htaccess_file_txt .= "## highslide_download.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/highslide_download.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options [L,R,QSA]"."\n\n";
@@ -199,11 +199,30 @@ class lumiere_core {
 	}
 
 	/**
-	2.- Replace <!--imdb--> tags inside the posts
+	2.- Replace <span class="lumiere_link_maker"> tags inside the posts
 	**/
 
-	##### a) Looks for what is inside tags  <!--imdb--> ...  <!--/imdb--> and constructs a link
-	function parse_imdb_tags($correspondances){
+	##### a) Looks for what is inside tags  <span class="lumiere_link_maker"> ... </span> 
+	#####    and build a popup link
+	function lumiere_link_finder($correspondances){
+		global $imdb_admin_values;
+
+		$correspondances = $correspondances[0];
+		preg_match('/<span class="lumiere_link_maker">(.+?)<\/span>/i', $correspondances, $link_parsed);
+
+		// link construction
+
+		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup
+			$link_parsed = lumiere_popup_highslide_film_link ($link_parsed) ;
+		} else {						// classic popup
+		    	$link_parsed = lumiere_popup_classical_film_link ($link_parsed) ;
+		}
+
+		return $link_parsed;
+	}
+
+	// Kept for compatibility purposes:  <!--imdb--> still works
+	function lumiere_link_finder_oldway($correspondances){
 		global $imdb_admin_values;
 
 		$correspondances = $correspondances[0];
@@ -220,12 +239,19 @@ class lumiere_core {
 		return $link_parsed;
 	}
 
-	##### b) Replace  <!--imdb--> tags with links
-	function lumiere_linking($text) {
-		$pattern = '/<!--imdb-->(.*?)<!--\/imdb-->/i';
-		$text = preg_replace_callback($pattern, [ $this, 'parse_imdb_tags' ] ,$text);
 
-		return $text;
+	##### b) Replace <span class="lumiere_link_maker"></span> with links
+	function lumiere_linking($text) {
+		// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
+		$pattern = '/<span class="lumiere_link_maker">(.+?)<\/span>/i';
+		$text = preg_replace_callback($pattern, [ $this, 'lumiere_link_finder' ] ,$text);
+
+		// Kept for compatibility purposes:  <!--imdb--> still works
+		$pattern_two = '/<!--imdb-->(.*?)<!--\/imdb-->/i';
+		$text_two = preg_replace_callback($pattern_two, [ $this, 'lumiere_link_finder_oldway' ] ,$text);
+
+
+		return $text_two;
 	}
 
 	/**
@@ -265,7 +291,7 @@ class lumiere_core {
 	}
 
 	/**
-	5.-  Add tags buttons <!--imdb--> <!--/imdb--> to editing admin page
+	5.-  Add tags buttons <span class="lumiere_link_maker"> to editing interfaces
 	**/
 
 	##### a) HTML part
@@ -310,7 +336,7 @@ class lumiere_core {
 
 		wp_register_script( "lumiere_gutenberg_buttons", 
 			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/buttons.js',
-			[ 'wp-element', 'wp-compose','wp-i18n','wp-data' ], 
+			[ 'wp-element', 'wp-compose','wp-components','wp-i18n','wp-data' ], 
 			filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/buttons.js') );
 
 		/*wp_register_script( "lumiere_gutenberg_sidebar", 
@@ -417,7 +443,8 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-bl
 		wp_enqueue_script( "lumiere_scripts_admin", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin.js");
 		// Pass variable to javascripts in admin part
 		wp_add_inline_script( 'lumiere_scripts_admin', 'const lumiere_admin_vars = ' . json_encode( array(
-			'imdb_path' => $imdb_admin_values['imdbplugindirectory']
+			'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
+			'wordpress_path' => site_url(),
 		) ) , 'before');
 	}
 
@@ -664,7 +691,7 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-bl
 	13.- B Include gutenberg-search.php if string gutenberg=yes
 	**/
 	function lumiere_gutenberg_search_redirect() {
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/gutenberg/search/' ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/lumiere/search/' ) ) {
 			require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/gutenberg-search.php' );
 		}
 	}

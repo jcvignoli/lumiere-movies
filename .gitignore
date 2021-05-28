@@ -7,7 +7,6 @@ composer.lock
 node_modules
 package.json
 package-lock.json
-source
 TESTING
 tmp
 vendor

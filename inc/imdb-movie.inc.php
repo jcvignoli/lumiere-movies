@@ -378,7 +378,7 @@ while ($imovie < count($imdballmeta)) {
 			for ($i = 0; $i < $nbusercomments && ($i < count($comments)); $i++) { 
 				echo  "<i>". sanitize_text_field( $comments[$i]['title'] ). "</i> by ";
 
-				if  ($imdb_widget_values[imdblinkingkill] == false ) { 
+				if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
 				// if "Remove all links" option is not selected 
 					echo "<a href=\"".esc_url($comments[$i]["author"]["url"])."\">" .  sanitize_text_field($comments[$i]["author"]["name"] ). "</a><br /><br />";
 				} else {
@@ -545,7 +545,7 @@ while ($imovie < count($imdballmeta)) {
 
 			} else { 
 				for ($i = 0; $i < count ($composer); $i++) {
-					if  ($imdb_widget_values[imdblinkingkill] == false ) { // if "Remove all links" option is not selected 
+					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup
 							echo '<a  class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . sanitize_text_field( $composer[$i]["imdb"] ). '" title="' . esc_html__("Link to local IMDb", "imdb") . '">' . sanitize_text_field( $composer[$i]["name"] ) . "</a>&nbsp;";
 						} else {// classic popup
