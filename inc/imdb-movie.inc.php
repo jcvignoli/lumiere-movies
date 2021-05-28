@@ -1,8 +1,8 @@
 <?php
 
  #############################################################################
- # Lumiere Movies                                                            #
- # written by Prometheus group                                               #
+ # Lumière Wordpress plug                                                    #
+ # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
  # This program is free software; you can redistribute and/or modify it      #
@@ -10,7 +10,7 @@
  # ------------------------------------------------------------------------- #
  #									              #
  #  Function : this page is externally called (usually by a widget, but      #
- #  also from lumiere_external_call() function ) and displays information       #
+ #  also from lumiere_external_call() function ) and displays information    #
  #  related to the movie                                                     #
  #									              #
  #############################################################################
