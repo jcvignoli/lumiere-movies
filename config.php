@@ -85,15 +85,15 @@ class lumiere_settings_conf extends lumiere_send_config {
 
 	$imdbCacheOptions = array(
 	#--------------------------------------------------=[ Cache ]=--
-	'imdbcachedir' => IMDBLTABSPATH . 'cache/',
-	'imdbphotoroot' => IMDBLTABSPATH . 'cache/images/',
-	'imdbphotodir' => IMDBLTURLPATH . 'cache/images/',
+	'imdbcachedir' => WP_CONTENT_DIR . '/cache/lumiere/',
+	'imdbphotoroot' => WP_CONTENT_DIR . '/cache/lumiere/images/',
+	'imdbphotodir' => content_url() . '/cache/lumiere/images/',
 	'imdbstorecache' => true,
 	'imdbusecache' => true,
 	'imdbconverttozip' => true,
 	'imdbusezip' => true,
 	'imdbcacheexpire' => "2592000", // one month
-	'imdbcachedetails'=> false,
+	'imdbcachedetails'=> true,
 	'imdbcachedetailsshort'=> false,
 	);
 	$imdbOptionsc = get_option($this->imdbCacheOptionsName);
@@ -328,34 +328,37 @@ class lumiere_settings_conf extends lumiere_send_config {
 
 			update_option($this->imdbCacheOptionsName, $imdbCacheOptions);
 
-			// display message on top
-			lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
-
 			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
-				header("Refresh: 0;url=".esc_url( $_SERVER[ "REQUEST_URI"]."&reset=true" ), false);
+				wp_redirect( add_query_arg( 
+					array( 'reset' => 'true',
+    					'msg' => 'cache_update_success' ), 
+					wp_get_referer() 
+					) 
+				); 
+				exit();
 			} else {
 				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.$_SERVER[ "REQUEST_URI"].'&reset=true">'.esc_html__( 'this link.', 'lumiere-movies').'</a>'.'</strong>');
 			}
 
 		}
-		if (isset($_POST['reset_imdbltcache'])) {  // reset detected, delete all cache files (cache options)
+		// reset detected, delete all cache files (cache options)
+		if (isset($_POST['delete_imdbltcache'])) {  
 
-			check_admin_referer('reset_imdbltcache_check', 'reset_imdbltcache_check'); // check if the refer is ok before saving data
+			// check if the refer is ok before saving data
+			check_admin_referer('delete_imdbltcache_check', 'delete_imdbltcache_check'); 
+			
+			// Delete cache
+			lumiere_unlinkRecursive( $imdbOptionsc['imdbcachedir'] );
 
-			lumiere_notice(1, '<strong>'. esc_html__( 'All cache deleted.', 'lumiere-movies') .'</strong>');
-
-			// refresh the page to reset display for values; &reset=true is the only way to reset all values and truly see them reset
 			// also check plugin collision -> follow a link instead of automatic refresh
 			if (!headers_sent()) {
-				header("Refresh: 0;url=".esc_url( $_SERVER["REQUEST_URI"]."&reset=true" ), false);
+				wp_safe_redirect( add_query_arg( "msg", "cache_delete_success", wp_get_referer() ) ); 
+				exit();
 			} else {
 				lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'.esc_url($_SERVER["REQUEST_URI"]."&reset=true").'">'.esc_html__( 'this link.', 'lumiere-movies').'</a>'.'</strong>');
 			}
-
-			lumiere_unlinkRecursive( $imdbOptionsc['imdbcachedir'] );
-
 
 		}
 		if (isset($_POST['update_imdbltcache'])) { // update detected, delete some cache files (cache options)
