@@ -39,15 +39,20 @@ function lumiere_activation() {
 		$start->lumiere_make_htaccess();
 	}
 
-	$lumiere_folder_cache = IMDBLTABSPATH . 'cache';
-	$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
-	if ( ! is_dir( $lumiere_folder_cache ) ) {
+	$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
+	$lumiere_folder_cache_images = WP_CONTENT_DIR . '/cache/lumiere/images';
+
+	// We can write in wp-content/cache
+	if ( wp_mkdir_p( $lumiere_folder_cache ) &&  wp_mkdir_p( $lumiere_folder_cache_images ) ) {
+		chmod( $lumiere_folder_cache, 0777 );
+		chmod( $lumiere_folder_cache_images, 0777 );
+	// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
+	} else {
+		$lumiere_folder_cache = IMDBLTABSPATH . 'cache';
+		$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
 		wp_mkdir_p( $lumiere_folder_cache );
 		chmod( $lumiere_folder_cache, 0777 );
 		wp_mkdir_p( $lumiere_folder_cache_images );
-		chmod( $lumiere_folder_cache_images, 0777 );
-	} else {
-		chmod( $lumiere_folder_cache, 0777 );
 		chmod( $lumiere_folder_cache_images, 0777 );
 	}
 	flush_rewrite_rules();
@@ -117,12 +122,14 @@ class lumiere_core {
 					add_action('admin_menu', [ $this, 'lumiere_admin_panel' ] );
 				}
 
-				// add admin scripts & css
+				// add admin header
 				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
-				// add admin quicktag button for text editor
-				add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_quicktag' ], 100);
 				// add admin tinymce button for wysiwig editor
 				add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_tinymce' ] );
+				// add admin quicktag button for text editor
+				add_action('admin_footer', [ $this, 'lumiere_register_quicktag' ], 100);
+				// add footer
+				add_action('admin_footer', [ $this, 'lumiere_add_footer_admin' ], 100 );
 			}
 
 		    	// head for main blog
@@ -446,6 +453,13 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-bl
 			'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
 			'wordpress_path' => site_url(),
 		) ) , 'before');
+	}
+
+	function lumiere_add_footer_admin () {
+		global $imdb_admin_values;
+
+		wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js");
+
 	}
 
 	/**

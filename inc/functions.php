@@ -26,7 +26,7 @@ if ( ! function_exists('lumiere_unlinkRecursive')){
 			}
 
 			if (!@unlink($dir . '/' . $obj)){
-				imdblt_unlinkRecursive($dir.'/'.$obj, true);
+				lumiere_unlinkRecursive($dir.'/'.$obj, true);
 			}
 		}
 		closedir($dh);
