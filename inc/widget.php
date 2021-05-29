@@ -44,7 +44,7 @@ function lumiere_widget($args) {
 			echo $before_widget;
 			echo $before_title . $title_box . $after_title;
 			echo "<div class='imdbincluded'>";
-			require_once( $imdb_admin_values['imdbpluginpath'] . 'inc/imdb-movie.inc.php');
+			require( plugin_dir_path( __FILE__ ) . 'imdb-movie.inc.php');
 			echo "</div>";
 			echo $after_widget;
 
@@ -64,7 +64,7 @@ function lumiere_widget($args) {
 			echo $before_widget;
 			echo $before_title . $title_box . $after_title;
 			echo "<div class='imdbincluded'>";
-			require_once( $imdb_admin_values['imdbpluginpath'] . 'inc/imdb-movie.inc.php');
+			require( plugin_dir_path( __FILE__ ) . 'imdb-movie.inc.php');
 			echo "</div>";
 			echo $after_widget;
 
@@ -84,7 +84,7 @@ function lumiere_widget($args) {
 			echo $before_widget;
 			echo $before_title . $title_box . $after_title;
 			echo "<div class='imdbincluded'>";
-			require_once( $imdb_admin_values['imdbpluginpath'] . 'inc/imdb-movie.inc.php');
+			require( plugin_dir_path( __FILE__ ) . 'imdb-movie.inc.php');
 			echo "</div>";
 			echo $after_widget;
 

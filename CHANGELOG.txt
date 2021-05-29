@@ -3,10 +3,12 @@ Changelog
 v3.1
 * Major: Due to compatibility reasons with Gutenberg, the way to call links for internal popupups has changed from '<!--imdb--><!--/imdb-->' to '<span class="lumiere_link_maker"></span>'. Compatibility with the old way currently maintained.
 * Major: Finished Gutenberg interface, two buttons added.
+* Layout: polished general options -> advanced, should be more easier to understand
 * Bug: the lumiere's scripts weren't loaded outside the Lumiere's dedicated pages. Removed checks in lumiere_add_footer_blog()'s lumiere-movies.php, deactivated calls to head and footer construction for imbd-movies.inc.php in lumiere-movies.php and widget (head and footer are already loaded!)
 * Bug: removed CSP compliance in js/lumiere_scripts.js and js/highslide-options.js as it prevented a correct running of the highslide popups -> highslide should close windows under CSP
 * Bug: Removed adding automatically image in tinyMCE, I can't get rid of it when posting (imdbImg in lumiere_admin_tinymce_editor.js)
-* Bug: uninstall wasn't removing taxonomy terms. Simplified the function and it's now working.
+* Bug: uninstall wasn't removing taxonomy terms. Simplified the function and now it works.
+* Bug introduced in v3.0, couldn't display more than one film in widgets. Replaced 			require_once( $imdb_admin_values['imdbpluginpath'] . 'inc/imdb-movie.inc.php'); by require( plugin_dir_path( __FILE__ ) . 'imdb-movie.inc.php'); in widget.php
 
 v3.0.1
 * Gutenberg Block: better layout, implemented selection of either [imdblt] or [imdbltid]

@@ -135,41 +135,14 @@ if ( ! function_exists('lumiere_create_taxonomies')){
 	function lumiere_create_taxonomies() {
 		global $imdb_admin_values,$imdb_widget_values;
 
-		if ($imdb_widget_values['imdbtaxonomytitle'] ==  true) {
-			register_taxonomy('imdblt_title', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière titles", 'lumiere-movies'), 'query_var' => 'imdblt_title', 'rewrite' => array( 'slug' => 'imdblt_title' ) )  ) ; }
+		foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
+			$filter_taxonomy = str_replace('imdbtaxonomy', '', $key );
 
-		if ($imdb_widget_values['imdbtaxonomygenre'] ==  true) {
-			register_taxonomy('imdblt_genre', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière genres", 'lumiere-movies'), 'query_var' => 'imdblt_genre', 'rewrite' => array( 'slug' => 'imdblt_genre' ) )  ) ; }
+			if ($imdb_widget_values[ 'imdbtaxonomy'.$filter_taxonomy ] ==  true) {
+				register_taxonomy('imdblt_'.$filter_taxonomy, array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière ".$filter_taxonomy, 'lumiere-movies'), 'query_var' => 'imdblt_'.$filter_taxonomy, 'rewrite' => array( 'slug' => 'imdblt_'.$filter_taxonomy ) )  ) ; 
+			}
+		}
 
-		if ($imdb_widget_values['imdbtaxonomykeywords'] ==  true) {
-			register_taxonomy('imdblt_keywords', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière keywords", 'lumiere-movies'), 'query_var' => 'imdblt_keywords', 'rewrite' => array( 'slug' => 'imdblt_keywords' ) )  ) ; }
-
-		if ($imdb_widget_values['imdbtaxonomycountry'] == true) {
-			register_taxonomy('imdblt_country', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière countries", 'lumiere-movies'), 'query_var' => 'imdblt_country', 'rewrite' => array( 'slug' => 'imdblt_country' ) )  ) ; }
-
-		if ($imdb_widget_values['imdbtaxonomylanguage'] == true) {
-			register_taxonomy('imdblt_language', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière languages", 'lumiere-movies'), 'query_var' => 'imdblt_language', 'rewrite' => array( 'slug' => 'imdblt_language' ) )  ) ; }
-
-		if ($imdb_widget_values['imdbtaxonomycomposer'] == true) {
-			register_taxonomy('imdblt_composer', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière composers", 'lumiere-movies'), 'query_var' => 'imdblt_composer', 'rewrite' => array( 'slug' => 'imdblt_composer' ) )  ) ; }
-
-		if ($imdb_widget_values['imdbtaxonomycolor'] == true) {
-			register_taxonomy('imdblt_color', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière colors", 'lumiere-movies'), 'query_var' => 'imdblt_color', 'rewrite' => array( 'slug' => 'imdblt_color' ) )  ) ; }
-
-		if ($imdb_widget_values['imdbtaxonomydirector'] == true) {
-			register_taxonomy('imdblt_director', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière directors", 'lumiere-movies'), 'query_var' => 'imdblt_director', 'rewrite' => array( 'slug' => 'imdblt_director' ) )  ) ; }
-
-		if ($imdb_widget_values['imdbtaxonomycreator'] == true) {
-			register_taxonomy('imdblt_creator', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière creators", 'lumiere-movies'), 'query_var' => 'imdblt_creator', 'rewrite' => array( 'slug' => 'imdblt_creator' ) )  ) ; }
-
-		if ($imdb_widget_values['imdbtaxonomyproducer'] == true) {
-			register_taxonomy('imdblt_producer', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière producers", 'lumiere-movies'), 'query_var' => 'imdblt_producer', 'rewrite' => array( 'slug' => 'imdblt_producer' ) )  ) ; }
-
-		if ($imdb_widget_values['imdbtaxonomyactor'] == true) {
-			register_taxonomy('imdblt_actor', array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière actors", 'lumiere-movies'), 'query_var' => 'imdblt_actor', 'rewrite' => array( 'slug' => 'imdblt_actor' ) )  ) ; }
-			
-		if ($imdb_widget_values['imdbtaxonomywriter'] == true) {
-			register_taxonomy('imdblt_writer', array('page','post'), array( 'hierarchical' => true, 'label' => esc_html__("Lumière writers", 'lumiere-movies'), 'query_var' => 'imdblt_writer', 'rewrite' => array( 'slug' => 'imdblt_writer' ) )  ) ; }
 	}
 }
 

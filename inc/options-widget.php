@@ -435,7 +435,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 
 			if ($imdbOptions['imdbtaxonomy'] != "1") { //check if taxonomy is activated
 
-				echo "<div align='center' class='accesstaxo'>".__('Please ', 'lumiere-movies')."<a href='".esc_url ( admin_url().'admin.php?page=imdblt_options&generaloption=advanced') . '">' . __('activate taxonomy', 'lumiere-movies') . '</a>' . __(' priorly', 'lumiere-movies') . '<br />' . __('to access taxonomies options.', 'lumiere-movies') . "</div>";
+				echo "<div align='center' class='accesstaxo'>".esc_html__('Please ', 'lumiere-movies')."<a href='".esc_url ( admin_url().'admin.php?page=imdblt_options&generaloption=advanced') . "'>" . __('activate taxonomy', 'lumiere-movies') . '</a>' . esc_html__(' priorly', 'lumiere-movies') . '<br />' . esc_html__('to access taxonomies options.', 'lumiere-movies') . "</div>";
 
 			} else { // taxonomy is activated ?>
 
