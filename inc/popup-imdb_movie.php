@@ -1,8 +1,8 @@
 <?php
 
  #############################################################################
- # Lumiere Movies                                                            #
- # written by Prometheus group                                               #
+ # Lumière! wordpress plugin                                                 #
+ # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
  # This program is free software; you can redistribute and/or modify it      #
@@ -13,7 +13,7 @@
  #									              #
  #############################################################################
 
-require_once (plugin_dir_path( __FILE__ ).'/../bootstrap.php');
+require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
 do_action('wp_loaded'); // execute wordpress first codes
 
