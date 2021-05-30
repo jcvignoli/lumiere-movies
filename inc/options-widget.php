@@ -17,7 +17,7 @@
 global $imdb_admin_values;
 
 /* included files */
-require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
+require_once ( plugin_dir_path( __FILE__ ) . '/../class/functions.php');
 
 /* vars */
 $messages = array( /* Template message notification options */
