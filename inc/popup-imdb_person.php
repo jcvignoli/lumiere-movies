@@ -118,13 +118,13 @@ if (isset ($mid_sanitized)) {
                                                 <!-- displaying photo -->
         <td rowspan=110 class="colpicture">
              <?php if (($photo_url = $person->photo_localurl() ) != FALSE){ 
-	            echo '<img class="imdbincluded-picture" src="'.esc_url($photo_url).'" alt="'.$person_name_sanitized.'" '; 
+	            echo '<img loading="eager" class="imdbincluded-picture" src="'.esc_url($photo_url).'" alt="'.$person_name_sanitized.'" '; 
               } else{ 
-                echo '<img class="imdbincluded-picture" src="'.esc_url($imdb_admin_values[imdbplugindirectory]."pics/no_pics.gif").'" alt="'.esc_html__('no picture', 'lumiere-movies').'" '; 
+                echo '<img loading="eager" class="imdbincluded-picture" src="'.esc_url($imdb_admin_values['imdbplugindirectory']."pics/no_pics.gif").'" alt="'.esc_html__('no picture', 'lumiere-movies').'" '; 
              } 
 	// add width only if "Display only thumbnail" is on "no"
-	if ($imdb_admin_values[imdbcoversize] == FALSE){
-		echo 'width="'.intval($imdb_admin_values[imdbcoversizewidth]).'px" ';
+	if ($imdb_admin_values['imdbcoversize'] == FALSE){
+		echo 'width="'.intval($imdb_admin_values['imdbcoversizewidth']).'px" ';
 	}
 
 echo '/ >'; ?>

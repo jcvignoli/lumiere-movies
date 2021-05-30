@@ -120,7 +120,7 @@ while ($imovie < count($imdballmeta)) {
 
 
 
-	if  (($imdb_widget_values[imdbwidgetpic] == true ) && ($magicnumber == $imdb_widget_values['imdbwidgetorder']['pic'] )) { 
+	if  (($imdb_widget_values['imdbwidgetpic'] == true ) && ($magicnumber == $imdb_widget_values['imdbwidgetorder']['pic'] )) { 
 	$photo_url = $movie->photo_localurl(); // create the normal picture for the cache refresh
 	$photo_url_sanitized = $movie->photo_localurl(intval($imdb_admin_values['imdbcoversize'])) ; ?>
 										<!-- pic -->
@@ -133,10 +133,10 @@ while ($imovie < count($imdballmeta)) {
 				// value to store if previous checking is valid, call in lumiere_scripts.js
 				$highslidephotook = "ok";
 				echo '<a href="'.$photo_url_sanitized.'" class="highslide" id="highslide-pic" title="';
-				echo sanitize_text_field( $movie->title() ).'"> <img class="imdbelementPICimg" src="';
+				echo sanitize_text_field( $movie->title() ).'"> <img loading="eager" class="imdbelementPICimg" src="';
 			} else {
 				// no big picture OR no highslide popup
-				echo '<img class="imdbelementPICimg" src="';
+				echo '<img loading="eager" class="imdbelementPICimg" src="';
 			}
 
 			// check if a picture exists
