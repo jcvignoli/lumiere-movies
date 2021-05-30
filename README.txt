@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/jcvignoli and https://en.tipeee.com/lost-high
 Tags: cinema, film, imdb, movie, actor
 Requires at least: 4.0
 Tested up to: 5.7.1
-Stable tag: 3.1
+Stable tag: 3.1.1
 Requires PHP: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -13,7 +13,7 @@ Lumière! Movies retrieves information from www.imdb.com into your blog. Cache m
 
 == Description ==
 
-Important! Due to compatibility reasons with Gutenberg, as of version 3.1 the way to call links for internal popupups has changed from '<!--imdb--><!--/imdb-->' to 'span class="lumiere_link_maker" /span '. Compatibility with the previous call currently maintained.
+Important! Due to compatibility reasons with Gutenberg, as of version 3.1 the way to call links for internal popupups has changed from '< !--imdb-->< !--/imdb-->' to 'span class="lumiere_link_maker" /span '. Compatibility with the previous call currently maintained.
 
 Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Official website").
 

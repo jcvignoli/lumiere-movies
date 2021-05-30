@@ -14,7 +14,7 @@
 Plugin Name: Lumière
 Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
 Description: Add to every movie title tagged with &lt;!--imdb--&gt; (...) &lt;!--/imdb--&gt; a link to an <a href="https://www.imdb.com"><acronym title="internet movie database">imdb</acronym></a> popup. Can also display data related to movies either in a <a href="widgets.php">widget</a> or inside a post. Perfect for your movie reviews. Cache handling. Have a look at the <a href="admin.php?page=imdblt_options">options page</a>.
-Version: 3.1
+Version: 3.1.1
 Requires at least: 4.6
 Text Domain: lumiere-movies
 Domain Path: /languages
@@ -339,12 +339,12 @@ class lumiere_core {
 		wp_register_script( "lumiere_gutenberg_main", 
 			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-block.js',
 			[ 'wp-blocks', 'wp-element', 'wp-editor','wp-components','wp-i18n','wp-data' ], 
-			filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-block.js') );
+			LUMIERE_VERSION );
 
 		wp_register_script( "lumiere_gutenberg_buttons", 
 			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/buttons.js',
 			[ 'wp-element', 'wp-compose','wp-components','wp-i18n','wp-data' ], 
-			filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/buttons.js') );
+			LUMIERE_VERSION );
 
 		/*wp_register_script( "lumiere_gutenberg_sidebar", 
 			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/sidebar.js',
@@ -355,7 +355,7 @@ class lumiere_core {
 		wp_register_style( "lumiere_gutenberg_main", 
 			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-block.css',
 			[ 'wp-edit-blocks' ], 
-filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-block.css') );
+			LUMIERE_VERSION );
 
 		// Register block script and style.
 		register_block_type( 'lumiere/main', [
@@ -386,30 +386,30 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-bl
 
 			// Highslide popup
 			if ($imdb_admin_values['imdbpopup_highslide'] == 1) {
-				wp_enqueue_script( "lumiere_highslide", $imdb_admin_values['imdbplugindirectory'] ."js/highslide/highslide-with-html.min.js", array(), "5.0");
-				wp_enqueue_script( "lumiere_highslide_options", $imdb_admin_values['imdbplugindirectory'] ."js/highslide-options.js");
+				wp_enqueue_script( "lumiere_highslide", $imdb_admin_values['imdbplugindirectory'] ."js/highslide/highslide-with-html.min.js", array(), LUMIERE_VERSION);
+				wp_enqueue_script( "lumiere_highslide_options", $imdb_admin_values['imdbplugindirectory'] ."js/highslide-options.js", array(), LUMIERE_VERSION);
 				// Pass variable to javascript highslide-options.js
 				wp_add_inline_script( 'lumiere_highslide_options', 'const highslide_vars = ' . json_encode( array(
     					'imdb_path' => $imdb_admin_values['imdbplugindirectory']
 				) ) , 'before');
-				wp_enqueue_style( "lumiere_highslide", $imdb_admin_values['imdbplugindirectory'] ."css/highslide.css");
+				wp_enqueue_style( "lumiere_highslide", $imdb_admin_values['imdbplugindirectory'] ."css/highslide.css", array(), LUMIERE_VERSION);
 			}
 
 			// Use local template lumiere.css if it exists in current theme folder
 			if (file_exists (TEMPLATEPATH . "/lumiere.css") ) { // an lumiere.css exists inside theme folder, take it!
-				wp_enqueue_style('imdblt_lumierecss', get_stylesheet_directory_uri() . '/lumiere.css');
+				wp_enqueue_style('imdblt_lumierecss', get_stylesheet_directory_uri() . '/lumiere.css', array(), LUMIERE_VERSION);
 		 	} else {
-				wp_enqueue_style('imdblt_lumierecss', $imdb_admin_values['imdbplugindirectory'] .'css/lumiere.css');
+				wp_enqueue_style('imdblt_lumierecss', $imdb_admin_values['imdbplugindirectory'] .'css/lumiere.css', array(), LUMIERE_VERSION);
 		 	}
 
 			// OceanWp template css fix
 			// enqueue lumiere.css only if using oceanwp template
 			# Popups
 			if ( ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ) && ( str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) ) {
-				wp_enqueue_style('lumiere_subpages_css_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_subpages-oceanwpfixes.css");
+				wp_enqueue_style('lumiere_subpages_css_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_subpages-oceanwpfixes.css", array(), LUMIERE_VERSION);
 			# Wordpress posts/pages
 			} elseif ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ){ 
-				wp_enqueue_style('lumiere_extrapagescss_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_extrapages-oceanwpfixes.css");
+				wp_enqueue_style('lumiere_extrapagescss_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_extrapages-oceanwpfixes.css", array(), LUMIERE_VERSION);
 			} 
 		}
 	}
@@ -423,9 +423,9 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-bl
 		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_footer_blog("inc.movie")
 		//if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
 
-			wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js");
+			wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array(), LUMIERE_VERSION);
 
-			wp_enqueue_script( "lumiere_scripts", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts.js");
+			wp_enqueue_script( "lumiere_scripts", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts.js", array(), LUMIERE_VERSION);
 
 			// Pass variable to javascript lumiere_scripts.js
 			wp_add_inline_script( 'lumiere_scripts', 'const lumiere_vars = ' . json_encode( array(
@@ -440,14 +440,14 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-bl
 	function lumiere_add_head_admin () {
 		global $imdb_admin_values;
 
-		wp_enqueue_style('lumiere_css_admin', $imdb_admin_values['imdbplugindirectory'] . "css/lumiere-admin.css");
+		wp_enqueue_style('lumiere_css_admin', $imdb_admin_values['imdbplugindirectory'] . "css/lumiere-admin.css", array(), LUMIERE_VERSION);
 
 		wp_enqueue_script('common'); // script needed for meta_boxes (in help.php)
 		wp_enqueue_script('wp-lists'); // script needed for meta_boxes (in help.php)
 		wp_enqueue_script('postbox'); // script needed for meta_boxes (in help.php)
 		wp_enqueue_script('jquery'); // script needed by all js
 
-		wp_enqueue_script( "lumiere_scripts_admin", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin.js");
+		wp_enqueue_script( "lumiere_scripts_admin", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin.js", array(), LUMIERE_VERSION);
 		// Pass variable to javascripts in admin part
 		wp_add_inline_script( 'lumiere_scripts_admin', 'const lumiere_admin_vars = ' . json_encode( array(
 			'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
@@ -458,7 +458,7 @@ filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-bl
 	function lumiere_add_footer_admin () {
 		global $imdb_admin_values;
 
-		wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js");
+		wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array(), LUMIERE_VERSION);
 
 	}
 
