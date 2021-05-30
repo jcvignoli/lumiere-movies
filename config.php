@@ -22,7 +22,9 @@ define('IMDBBLOG', "https://www.jcvignoli.com/blog");
 define('IMDBBLOGHIGHSLIDE', IMDBBLOG . "/wp-content/files/wordpress-lumiere-highslide-5.0.0.zip");
 define('IMDBHOMEPAGE', IMDBBLOG . '/lumiere-movies-wordpress-plugin');
 define('IMDBPHP_CONFIG',dirname(__FILE__) . '/config.php');
-
+$lumiere_version_recherche= file_get_contents(dirname(__FILE__) . '/README.txt');
+$lumiere_version=preg_match('#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match);
+define('LUMIERE_VERSION', $lumiere_version_match[1]);
 #--------------------------------------------------=[ configuration class ]=--
 
 // use the original class in src/Imdb/Config.php
