@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Lumière plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Lumière 3.1\n"
+"Project-Id-Version: Lumière 3.1.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/working-env\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-05-29T21:30:04-03:00\n"
+"POT-Creation-Date: 2021-05-30T15:24:45-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
@@ -34,73 +34,73 @@ msgstr ""
 msgid "https://www.jcvignoli.com/blog"
 msgstr ""
 
-#: config.php:197
-#: config.php:276
-#: config.php:320
+#: class/config.php:199
+#: class/config.php:265
+#: class/config.php:323
 msgid "Options saved."
 msgstr ""
 
-#: config.php:209
-#: config.php:299
+#: class/config.php:211
+#: class/config.php:302
 msgid "Options reset."
 msgstr ""
 
-#: config.php:216
-#: config.php:295
-#: config.php:342
-#: config.php:360
+#: class/config.php:218
+#: class/config.php:298
+#: class/config.php:345
+#: class/config.php:363
 msgid "this link."
 msgstr ""
 
-#: config.php:265
+#: class/config.php:275
 msgid "Error. You have to select a value."
 msgstr ""
 
-#: config.php:397
+#: class/config.php:401
 msgid "options"
 msgstr ""
 
-#: config.php:403
+#: class/config.php:407
 msgid "General Options"
 msgstr ""
 
-#: config.php:410
-#: config.php:414
-#: config.php:418
-#: config.php:423
+#: class/config.php:414
+#: class/config.php:418
+#: class/config.php:422
+#: class/config.php:427
 msgid "Widget/Inside post Options"
 msgstr ""
 
-#: config.php:414
-#: config.php:423
+#: class/config.php:418
+#: class/config.php:427
 msgid "Widget unactivated"
 msgstr ""
 
-#: config.php:418
-#: config.php:423
+#: class/config.php:422
+#: class/config.php:427
 #: inc/options-general.php:251
 msgid "Direct search"
 msgstr ""
 
-#: config.php:418
+#: class/config.php:422
 msgid "unactivated"
 msgstr ""
 
-#: config.php:428
+#: class/config.php:432
 #: lumiere-movies.php:486
 msgid "Cache management"
 msgstr ""
 
-#: config.php:433
+#: class/config.php:437
 msgid "How to use Lumière!, check FAQs & changelog"
 msgstr ""
 
-#: config.php:434
+#: class/config.php:438
 msgid "help"
 msgstr ""
 
-#: inc/functions.php:101
-#: inc/functions.php:103
+#: class/functions.php:101
+#: class/functions.php:103
 #: inc/imdb-movie.inc.php:668
 #: inc/imdb-movie.inc.php:671
 #: inc/imdb-movie.inc.php:718
@@ -114,32 +114,32 @@ msgstr ""
 msgid "open a new window with IMDb informations"
 msgstr ""
 
-#: inc/functions.php:121
+#: class/functions.php:121
 msgid "<strong>Licensing Info:</strong> Under a GPL licence, \"Lumiere Movies\" is based on <a href=\"https://github.com/tboothman/imdbphp/\">tboothman</a> classes. Nevertheless, a considerable amount of work was required to implement it in wordpress; check the support page for"
 msgstr ""
 
-#: inc/functions.php:123
+#: class/functions.php:123
 msgid "more"
 msgstr ""
 
-#: inc/functions.php:142
+#: class/functions.php:143
 msgid "Lumière "
 msgstr ""
 
-#: inc/functions.php:156
+#: class/functions.php:157
 msgid "Sorry, no result found for this reference"
 msgstr ""
 
-#: inc/functions.php:212
+#: class/functions.php:213
 msgid "Go to IMDb website for this movie"
 msgstr ""
 
-#: inc/functions.php:213
+#: class/functions.php:214
 msgid "IMDb's page for this movie"
 msgstr ""
 
-#: inc/functions.php:252
-#: inc/functions.php:274
+#: class/functions.php:253
+#: class/functions.php:275
 msgid "Open a new window with IMDb informations"
 msgstr ""
 
@@ -996,8 +996,8 @@ msgstr ""
 #: inc/options-general.php:296
 #: inc/options-general.php:308
 #: inc/options-general.php:324
-#: inc/options-general.php:347
-#: inc/options-general.php:358
+#: inc/options-general.php:356
+#: inc/options-general.php:367
 #: inc/options-widget.php:75
 #: inc/options-widget.php:86
 #: inc/options-widget.php:96
@@ -1060,14 +1060,14 @@ msgstr ""
 
 #: inc/options-cache.php:458
 #: inc/options-cache.php:889
-#: inc/options-general.php:371
+#: inc/options-general.php:381
 #: inc/options-widget.php:775
 msgid "Reset settings"
 msgstr ""
 
 #: inc/options-cache.php:460
 #: inc/options-cache.php:891
-#: inc/options-general.php:373
+#: inc/options-general.php:383
 #: inc/options-widget.php:777
 msgid "Update settings"
 msgstr ""
@@ -1206,6 +1206,7 @@ msgid "Edit the following values only if need so. You can break the caching syst
 msgstr ""
 
 #: inc/options-cache.php:763
+#: inc/options-general.php:342
 msgid "Click here to display options"
 msgstr ""
 
@@ -1444,15 +1445,15 @@ msgid "When activated, Lumière options are displayed on the top menu of Wordpre
 msgstr ""
 
 #: inc/options-general.php:314
-msgid "Use automatical genre taxonomy?"
+msgid "Use automatic taxonomy?"
 msgstr ""
 
 #: inc/options-general.php:324
-msgid "This will automatically add \"genre\" terms found for the movie into wordpress database, as "
+msgid "This will automatically add a taxonomy term found for the movie, as explained in"
 msgstr ""
 
 #: inc/options-general.php:324
-msgid "Activating this option opens "
+msgid "Upon activation, this option opens "
 msgstr ""
 
 #: inc/options-general.php:324
@@ -1467,19 +1468,23 @@ msgstr ""
 msgid "Paths: url & folders"
 msgstr ""
 
-#: inc/options-general.php:343
+#: inc/options-general.php:339
+msgid "Edit the following values only if need so. You can break the plugin."
+msgstr ""
+
+#: inc/options-general.php:352
 msgid "Blog address"
 msgstr ""
 
-#: inc/options-general.php:347
+#: inc/options-general.php:356
 msgid "Where the blog is installed."
 msgstr ""
 
-#: inc/options-general.php:354
+#: inc/options-general.php:363
 msgid "Plugin directory"
 msgstr ""
 
-#: inc/options-general.php:358
+#: inc/options-general.php:367
 msgid "Where <strong>Lumiere</strong> is installed."
 msgstr ""
 
