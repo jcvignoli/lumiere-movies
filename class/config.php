@@ -14,16 +14,16 @@
  #############################################################################
 
 #--------------------------------------------------=[ define constants ]=--
-$imdb_admin_values['imdbplugindirectory'] = isset($imdb_admin_values['imdbplugindirectory']) ? $imdb_admin_values['imdbplugindirectory'] : plugins_url() . '/' . plugin_basename( dirname(__FILE__) ) . '/';
+$imdb_admin_values['imdbplugindirectory'] = isset($imdb_admin_values['imdbplugindirectory']) ? $imdb_admin_values['imdbplugindirectory'] : plugin_dir_url( __DIR__ );
 define('IMDBLTURLPATH', $imdb_admin_values['imdbplugindirectory'] );
+define('IMDBLTABSPATH',  plugin_dir_path( __DIR__ ) );
 define('IMDBLTFILE', plugin_basename( dirname(__FILE__)) );
-define('IMDBLTABSPATH', str_replace("\\","/", WP_PLUGIN_DIR . '/' . plugin_basename( dirname(__FILE__) ) . '/' ));
 define('IMDBBLOG', "https://www.jcvignoli.com/blog");
 define('IMDBBLOGHIGHSLIDE', IMDBBLOG . "/wp-content/files/wordpress-lumiere-highslide-5.0.0.zip");
 define('IMDBHOMEPAGE', IMDBBLOG . '/lumiere-movies-wordpress-plugin');
-define('IMDBPHP_CONFIG',dirname(__FILE__) . '/config.php');
-$lumiere_version_recherche= file_get_contents(dirname(__FILE__) . '/README.txt');
-$lumiere_version=preg_match('#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match);
+define('IMDBPHP_CONFIG', IMDBLTABSPATH . 'config.php');
+$lumiere_version_recherche = file_get_contents( IMDBLTABSPATH . 'README.txt');
+$lumiere_version = preg_match('#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match);
 define('LUMIERE_VERSION', $lumiere_version_match[1]);
 #--------------------------------------------------=[ configuration class ]=--
 
@@ -256,6 +256,14 @@ class lumiere_settings_conf extends lumiere_send_config {
 			// check if the refer is ok before saving data
 			check_admin_referer('update_imdbwidgetSettings_check', 'update_imdbwidgetSettings_check');
 
+			update_option($this->imdbWidgetOptionsName, $imdbOptionsw);
+
+			// flush rewrite rules for taxonomy pages; expensive, but only when if updating widget options
+			add_action('init', function (){ flush_rewrite_rules(true); }, 0);
+
+			// display confirmation message
+			lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
+
 			// make sure that data posted in imdb_imdbwidgetorder (options-widget.php) is not empty; 
 			// otherwise, it will replace $imdbOptions['imdbwidgetorder'] values by an empty one.
 			if ( $_POST['imdb_imdbwidgetorder'] == "empty") {
@@ -269,13 +277,6 @@ class lumiere_settings_conf extends lumiere_send_config {
 				}
 			}
 
-			update_option($this->imdbWidgetOptionsName, $imdbOptionsw);
-
-			// flush rewrite rules for taxonomy pages; expensive, but only when if updating widget options
-			add_action('init', function (){ flush_rewrite_rules(true);}, 10, 2);
-
-			// display confirmation message
-			lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
 		 }
 		if (isset($_POST['reset_imdbwidgetSettings'])) { // reset options selected  (widget options)
 
@@ -286,7 +287,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 			update_option($this->imdbWidgetOptionsName, $imdbWidgetOptionsw);
 
 			// flush rewrite rules for taxonomy pages; expensive, but only when if reseting widget options
-			add_action('init', function (){ flush_rewrite_rules(true);}, 10, 2);
+			add_action('init', function (){ flush_rewrite_rules(true);}, 0);
 
 			// refresh the page to reset display for values; &reset=true is the only way to 
 			// reset all values and truly see them reset
@@ -363,6 +364,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 			}
 
 		}
+
 		if (isset($_POST['update_imdbltcache'])) { // update detected, delete some cache files (cache options)
 
 			check_admin_referer('update_imdbltcache_check', 'update_imdbltcache_check'); // check if the refer is ok before saving data
