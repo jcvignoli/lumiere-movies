@@ -1,39 +1,39 @@
 Changelog
 
 v3.1.1
-* CSS & JS automatically take LUMIERE_VERSION string in URL when they're called, so every new Lumière! version trigger a cache refresh
-* Added into popups and imdb-movies.inc movie/people images the code 'loading="eager"' so they're not lazy-loaded (otherwise they're not displayed)
-* Bug: Taxonomy was not registred and not appearing in Posts, fixed function lumiere_create_taxonomies()
+* [new] CSS & JS automatically take LUMIERE_VERSION string in URL when they're called, so every new Lumière! version trigger a cache refresh
+* [new] Added into popups and imdb-movies.inc movie/people images the code 'loading="eager"' so they're not lazy-loaded (otherwise they're not displayed)
+* [Bug] Taxonomy was not registred and not appearing in Posts, fixed function lumiere_create_taxonomies()
 
 v3.1
-* Major: Due to compatibility reasons with Gutenberg, the way to call links for internal popupups has changed from '<!--imdb--><!--/imdb-->' to '<span class="lumiere_link_maker"></span>'. Compatibility with the old way currently maintained.
-* Major: Finished Gutenberg interface, two buttons added.
-* Major: Updated to IMDbPHP 6.5.1 library.
-* Caching system: Changed the path of Lumière! cache (now in wp-content/cache) so it will survive the plugin updates. If wp-content/cache is not writable, it uses wp-content/plugins/lumiere/cache path.
-* Caching layout: Vastly simplified the cache menu. Moved the paths options to manage cache submenu (options are hidden by default), merged store and use cache (store is not available anymore), removed the zip options.
-* General options layout: polished general options, moved many option to advanced tab, should be easier to understand
-* Minor: Variable imdbcachedetails set to true by default (no real reason to not show the cache management) in options-cache.php and config.php
-* Bug: the lumiere's scripts weren't loaded outside the Lumiere's dedicated pages. Removed checks in lumiere_add_footer_blog()'s lumiere-movies.php, deactivated calls to head and footer construction for imbd-movies.inc.php in lumiere-movies.php and widget (head and footer are already loaded!)
-* Bug: removed CSP compliance in js/lumiere_scripts.js and js/highslide-options.js as it prevented a correct running of the highslide popups -> highslide should close windows under CSP
-* Bug: Removed adding automatically image in tinyMCE, I can't get rid of it when posting (imdbImg in lumiere_admin_tinymce_editor.js)
-* Bug: uninstall wasn't removing taxonomy terms. Simplified the function and now it works.
-* Bug introduced in v3.0, couldn't display more than one film in widgets. Replaced 			require_once( $imdb_admin_values['imdbpluginpath'] . 'inc/imdb-movie.inc.php'); by require( plugin_dir_path( __FILE__ ) . 'imdb-movie.inc.php'); in widget.php
+* [Major] Due to compatibility reasons with Gutenberg, the way to call links for internal popupups has changed from '<!--imdb--><!--/imdb-->' to '<span class="lumiere_link_maker"></span>'. Compatibility with the old way currently maintained.
+* [Major] Finished Gutenberg interface, two buttons added.
+* [Major] Updated to IMDbPHP 6.5.1 library.
+* [new] Caching system: Changed the path of Lumière! cache (now in wp-content/cache) so it will survive the plugin updates. If wp-content/cache is not writable, it uses wp-content/plugins/lumiere/cache path.
+* [new] Caching layout: Vastly simplified the cache menu. Moved the paths options to manage cache submenu (options are hidden by default), merged store and use cache (store is not available anymore), removed the zip options.
+* [new] General options layout: polished general options, moved many option to advanced tab, should be easier to understand
+* [minor] Variable imdbcachedetails set to true by default (no real reason to not show the cache management) in options-cache.php and config.php
+* [Bug] the lumiere's scripts weren't loaded outside the Lumiere's dedicated pages. Removed checks in lumiere_add_footer_blog()'s lumiere-movies.php, deactivated calls to head and footer construction for imbd-movies.inc.php in lumiere-movies.php and widget (head and footer are already loaded!)
+* [Bug] removed CSP compliance in js/lumiere_scripts.js and js/highslide-options.js as it prevented a correct running of the highslide popups -> highslide should close windows under CSP
+* [Bug] Removed adding automatically image in tinyMCE, I can't get rid of it when posting (imdbImg in lumiere_admin_tinymce_editor.js)
+* [Bug] uninstall wasn't removing taxonomy terms. Simplified the function and now it works.
+* [Bug] introduced in v3.0, couldn't display more than one film in widgets. Replaced 			require_once( $imdb_admin_values['imdbpluginpath'] . 'inc/imdb-movie.inc.php'); by require( plugin_dir_path( __FILE__ ) . 'imdb-movie.inc.php'); in widget.php
 
 v3.0.1
-* Gutenberg Block: better layout, implemented selection of either [imdblt] or [imdbltid]
-* Gutenberg Block: created a new page gutenberg-search.php for searching movies from gutenberg
-* Translation: renamed all calls in __() and the likes from 'imdb' to 'lumiere-movies', changed the language system according to the (new) Wordpress language system
-* Explaination:  "Toolbar Lumière admin menu" and "Menu for Lumière options" where a mess in terms of explanation. Rewrote.
-* Taxonomy standard template file was missing translation options
-* Renamed the widget's name for the wordpress widget page
-* Converted onclick=\"return hs.close(this)\" from highslide-options.js into a jQuery function
-* Bug: Issues of mobile responsiveness in options-cache.php
-* Bug: highslide popup unactive by default. "imdbpopup_highslide" set on true in config
-* Bug: banner wrong name
-* Bug: The new name for the widget hook register wasn't updated in config.php (the check failed in Lumière options)
-* Bug: chmod'ing process upon plugin activation wasn't taking in consideration if a cache folder already exists
-* Bug: loooongstanding bug for taxonomy links in imdb-movie.inc.php, rewrote how taxonomy links are called, created a function
-* Bug: update taxonomy activation/deactivation didn't refresh rewrite rules, refresh of taxonomy should now make the taxonomy links
+* [new] Gutenberg Block: better layout, implemented selection of either [imdblt] or [imdbltid]
+* [new] Gutenberg Block: created a new page gutenberg-search.php for searching movies from gutenberg
+* [new] Translation: renamed all calls in __() and the likes from 'imdb' to 'lumiere-movies', changed the language system according to the (new) Wordpress language system
+* [new] Explaination: "Toolbar Lumière admin menu" and "Menu for Lumière options" where a mess in terms of explanation. Rewrote.
+* [new] Taxonomy standard template file was missing translation options
+* [new] Renamed the widget's name for the wordpress widget page
+* [new] Converted onclick=\"return hs.close(this)\" from highslide-options.js into a jQuery function
+* [Bug] Issues of mobile responsiveness in options-cache.php
+* [Bug] highslide popup unactive by default. "imdbpopup_highslide" set on true in config
+* [Bug] banner wrong name
+* [Bug] The new name for the widget hook register wasn't updated in config.php (the check failed in Lumière options)
+* [Bug] chmod'ing process upon plugin activation wasn't taking in consideration if a cache folder already exists
+* [Bug] loooongstanding bug for taxonomy links in imdb-movie.inc.php, rewrote how taxonomy links are called, created a function
+* [Bug] update taxonomy activation/deactivation didn't refresh rewrite rules, refresh of taxonomy should now make the taxonomy links
 
 v3.0
 * [major] updated to imdbphp-6.5 library

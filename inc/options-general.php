@@ -27,7 +27,7 @@ $messages = array( /* highslide message notification options */
 );
 
 // included files
-require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/functions.php');
+require_once ( $imdb_admin_values['imdbplugindirectory'] . 'class/functions.php');
 
 // If $_GET["msg"] is found, display a related notice
 if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $messages ) ){

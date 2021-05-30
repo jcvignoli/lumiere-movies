@@ -18,7 +18,7 @@ require_once __DIR__ . '/class/imdbphp/Imdb/Title.php';
 require_once __DIR__ . '/class/imdbphp/Imdb/TitleSearch.php';
 require_once __DIR__ . '/class/imdbphp/Imdb/TitleSearchAdvanced.php';
 #	Lumiere Libraries
-require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/class/config.php';
 //require_once __DIR__ . '/class/lumiere.class.php'; #learn more about classes first
 require_once __DIR__ . '/class/functions.php';
 require_once __DIR__ . '/inc/widget.php';
