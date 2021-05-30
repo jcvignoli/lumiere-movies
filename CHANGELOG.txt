@@ -1,8 +1,9 @@
 Changelog
 
 v3.1.1
-* [new] CSS & JS automatically take LUMIERE_VERSION string in URL when they're called, so every new Lumière! version trigger a cache refresh
-* [new] Added into popups and imdb-movies.inc movie/people images the code 'loading="eager"' so they're not lazy-loaded (otherwise they're not displayed)
+* [technical] CSS & JS automatically take LUMIERE_VERSION string in URL when they're called, so every new Lumière! version triggers a cache refresh
+* [technical] Moved imdbphp classes from /src to /class/imdbphp, moved config.php, functions.php, into that same folder
+* [bug] Added into popups and imdb-movies.inc movie/people images the code 'loading="eager"' so they're not lazy-loaded (otherwise they're not displayed)
 * [Bug] Taxonomy was not registred and not appearing in Posts, fixed function lumiere_create_taxonomies()
 
 v3.1

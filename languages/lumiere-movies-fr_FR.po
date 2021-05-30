@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-29 19:42-0400\n"
-"PO-Revision-Date: 2021-05-29 19:59-0400\n"
+"POT-Creation-Date: 2021-05-30 14:24-0400\n"
+"PO-Revision-Date: 2021-05-30 14:26-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -122,63 +122,66 @@ msgstr ""
 msgid "Send Preview"
 msgstr ""
 
-#: config.php:197 config.php:276 config.php:320
+#: class/config.php:199 class/config.php:265 class/config.php:323
 msgid "Options saved."
 msgstr "Options sauvegard&eacute;es."
 
-#: config.php:209 config.php:299
+#: class/config.php:211 class/config.php:302
 msgid "Options reset."
 msgstr "Options r&eacute;initialis&eacute;es."
 
-#: config.php:216 config.php:295 config.php:342 config.php:360
+#: class/config.php:218 class/config.php:298 class/config.php:345
+#: class/config.php:363
 msgid "Plugin collision. Please follow "
 msgstr "Collision de plugin. Veuillez suivre "
 
-#: config.php:216 config.php:295 config.php:342 config.php:360
+#: class/config.php:218 class/config.php:298 class/config.php:345
+#: class/config.php:363
 msgid "this link."
 msgstr "ce lien."
 
-#: config.php:265
+#: class/config.php:275
 msgid "Error. You have to select a value."
 msgstr "Erreur. Vous devez s&eacute;lectionner une valeur."
 
-#: config.php:397
+#: class/config.php:401
 msgid "options"
 msgstr "options"
 
-#: config.php:403
+#: class/config.php:407
 msgid "General Options"
 msgstr "Options g&eacute;n&eacute;rales"
 
-#: config.php:410 config.php:414 config.php:418 config.php:423
+#: class/config.php:414 class/config.php:418 class/config.php:422
+#: class/config.php:427
 msgid "Widget/Inside post Options"
 msgstr "Options du Widget/Dans un message"
 
-#: config.php:414 config.php:423
+#: class/config.php:418 class/config.php:427
 msgid "Widget unactivated"
 msgstr "Widget désactivé"
 
-#: config.php:418 config.php:423 inc/options-general.php:251
+#: class/config.php:422 class/config.php:427 inc/options-general.php:251
 msgid "Direct search"
 msgstr "Recherche directe"
 
-#: config.php:418
+#: class/config.php:422
 msgid "unactivated"
 msgstr "désactivé"
 
-#: config.php:428 lumiere-movies.php:486
+#: class/config.php:432 lumiere-movies.php:486
 msgid "Cache management"
 msgstr "Gestion du cache"
 
-#: config.php:433
+#: class/config.php:437
 msgid "How to use Lumière!, check FAQs & changelog"
 msgstr "Comment utiliser Lumière!, consulter les FAQs & changelog"
 
-#: config.php:434
+#: class/config.php:438
 msgid "help"
 msgstr "aide"
 
-#: inc/functions.php:101 inc/functions.php:103 inc/imdb-movie.inc.php:668
+#: class/functions.php:101 class/functions.php:103 inc/imdb-movie.inc.php:668
 #: inc/imdb-movie.inc.php:671 inc/imdb-movie.inc.php:718
 #: inc/imdb-movie.inc.php:720 inc/imdb-movie.inc.php:766
 #: inc/imdb-movie.inc.php:768 inc/imdb-movie.inc.php:824
@@ -187,7 +190,7 @@ msgstr "aide"
 msgid "open a new window with IMDb informations"
 msgstr "ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
 
-#: inc/functions.php:121
+#: class/functions.php:121
 msgid ""
 "<strong>Licensing Info:</strong> Under a GPL licence, \"Lumiere Movies\" is "
 "based on <a href=\"https://github.com/tboothman/imdbphp/\">tboothman</a> "
@@ -200,29 +203,29 @@ msgstr ""
 "d'adaptation a &eacute;t&eacute; op&eacute;r&eacute; pour cr&eacute;er ce "
 "plugin; visitez la page d'aide pour"
 
-#: inc/functions.php:123
+#: class/functions.php:123
 msgid "more"
 msgstr "plus d'informations"
 
-#: inc/functions.php:142
+#: class/functions.php:143
 msgid "Lumière "
 msgstr "Lumière "
 
-#: inc/functions.php:156
+#: class/functions.php:157
 msgid "Sorry, no result found for this reference"
 msgstr ""
 "D&eacute;sol&eacute;, aucun r&eacute;sultat trouv&eacute; pour cette "
 "r&eacute;f&eacute;rence"
 
-#: inc/functions.php:212
+#: class/functions.php:213
 msgid "Go to IMDb website for this movie"
 msgstr "Allez sur le site internet de IMDb pour ce film"
 
-#: inc/functions.php:213
+#: class/functions.php:214
 msgid "IMDb's page for this movie"
 msgstr "Page IMDb pour ce film"
 
-#: inc/functions.php:252 inc/functions.php:274
+#: class/functions.php:253 class/functions.php:275
 msgid "Open a new window with IMDb informations"
 msgstr "Ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
 
@@ -1066,8 +1069,8 @@ msgstr "Vous ne pouvez pas afficher cette page directement."
 msgid "Photo of"
 msgstr "Photo de"
 
-#: inc/imdb-movie.inc.php:148 inc/options-cache.php:587
-#: inc/options-cache.php:697 inc/popup-imdb_movie.php:188
+#: inc/imdb-movie.inc.php:148 inc/options-cache.php:588
+#: inc/options-cache.php:698 inc/popup-imdb_movie.php:188
 #: inc/popup-imdb_person.php:123
 msgid "no picture"
 msgstr "pas de photo"
@@ -1371,15 +1374,15 @@ msgstr ""
 "(si disponible)."
 
 #: inc/options-cache.php:373 inc/options-cache.php:383
-#: inc/options-cache.php:447 inc/options-cache.php:860
-#: inc/options-cache.php:874 inc/options-general.php:91
+#: inc/options-cache.php:447 inc/options-cache.php:861
+#: inc/options-cache.php:875 inc/options-general.php:91
 #: inc/options-general.php:99 inc/options-general.php:119
 #: inc/options-general.php:159 inc/options-general.php:168
 #: inc/options-general.php:177 inc/options-general.php:201
 #: inc/options-general.php:210 inc/options-general.php:258
 #: inc/options-general.php:268 inc/options-general.php:296
 #: inc/options-general.php:308 inc/options-general.php:324
-#: inc/options-general.php:347 inc/options-general.php:358
+#: inc/options-general.php:356 inc/options-general.php:367
 #: inc/options-widget.php:75 inc/options-widget.php:86
 #: inc/options-widget.php:96 inc/options-widget.php:111
 #: inc/options-widget.php:123 inc/options-widget.php:136
@@ -1440,13 +1443,13 @@ msgstr ""
 "disponible lorsque \"Afficher les d&eacute;tails avancés de cache\" est "
 "activ&eacute;."
 
-#: inc/options-cache.php:458 inc/options-cache.php:888
-#: inc/options-general.php:371 inc/options-widget.php:775
+#: inc/options-cache.php:458 inc/options-cache.php:889
+#: inc/options-general.php:381 inc/options-widget.php:775
 msgid "Reset settings"
 msgstr "R&eacute;initialiser"
 
-#: inc/options-cache.php:460 inc/options-cache.php:890
-#: inc/options-general.php:373 inc/options-widget.php:777
+#: inc/options-cache.php:460 inc/options-cache.php:891
+#: inc/options-general.php:383 inc/options-widget.php:777
 msgid "Update settings"
 msgstr "Enregistrer les modifications"
 
@@ -1458,18 +1461,18 @@ msgstr "Gestion du cache général"
 msgid "Total cache size:"
 msgstr "Taille totale du cache :"
 
-#: inc/options-cache.php:498
+#: inc/options-cache.php:499
 #, php-format
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s fichier"
 msgstr[1] "%s fichiers"
 
-#: inc/options-cache.php:499
+#: inc/options-cache.php:500
 msgid "using"
 msgstr "utilisant"
 
-#: inc/options-cache.php:507
+#: inc/options-cache.php:508
 msgid ""
 "If you want to reset the entire cache (this includes queries, names, and "
 "pictures) click on the button below."
@@ -1477,38 +1480,38 @@ msgstr ""
 "Si vous voulez r&eacute;initialiser le cache entier (cela inclut les caches "
 "de recherches, de noms et d'images), cliquez sur le bouton ci-dessous."
 
-#: inc/options-cache.php:509
+#: inc/options-cache.php:510
 msgid "Beware, there is no undo."
 msgstr "Attention, il n'y a pas de retour en arrière possible."
 
-#: inc/options-cache.php:517
+#: inc/options-cache.php:518
 msgid "Delete all cache? Really?"
 msgstr "Effacer tout le cache ? Vraiment ?"
 
-#: inc/options-cache.php:517
+#: inc/options-cache.php:518
 msgid "Delete all cache"
 msgstr "Effacer tout le cache"
 
-#: inc/options-cache.php:521
+#: inc/options-cache.php:522
 msgid ""
 "This button will <strong>delete all cache</strong> stored in cache folder."
 msgstr ""
 "Ce bouton efface <strong>tout le cache</strong> enregistr&eacute; dans le "
 "r&eacute;pertoire de cache."
 
-#: inc/options-cache.php:526
+#: inc/options-cache.php:527
 msgid "Lumière! cache is empty."
 msgstr "Le cache Lumière! est vide."
 
-#: inc/options-cache.php:542
+#: inc/options-cache.php:543
 msgid "Movie's detailed cache"
 msgstr "Cache sp&eacute;cifique aux films"
 
-#: inc/options-cache.php:559
+#: inc/options-cache.php:560
 msgid "No movie's cache found."
 msgstr "Pas de cache de film trouv&eacute."
 
-#: inc/options-cache.php:565
+#: inc/options-cache.php:566
 msgid ""
 "If you want to refresh movie's cache regardless the cache expiration time, "
 "you may either tick movie's checkbox(es) related to the movie you want to "
@@ -1521,61 +1524,61 @@ msgstr ""
 "\", soit s&eacute;lectionner individuellement l'option \"rafraîchir\" des "
 "films."
 
-#: inc/options-cache.php:568
+#: inc/options-cache.php:569
 msgid "You may also select a group of movies to delete."
 msgstr "Vous pouvez également sélectionner un groupe de film à effacer."
 
-#: inc/options-cache.php:595 inc/options-cache.php:701
+#: inc/options-cache.php:596 inc/options-cache.php:702
 msgid "last updated on "
 msgstr "derni&egrave;re mise &agrave; jour le "
 
-#: inc/options-cache.php:597
+#: inc/options-cache.php:598
 msgid "Refresh cache for *"
 msgstr "Rafra&icirc;chir le cache pour *"
 
-#: inc/options-cache.php:597 inc/options-cache.php:704
+#: inc/options-cache.php:598 inc/options-cache.php:705
 msgid "refresh"
 msgstr "rafra&icirc;chir"
 
-#: inc/options-cache.php:599
+#: inc/options-cache.php:600
 msgid "Delete *"
 msgstr "Effacer *"
 
-#: inc/options-cache.php:599
+#: inc/options-cache.php:600
 msgid "* from cache?"
 msgstr "* du cache ?"
 
-#: inc/options-cache.php:599 inc/options-cache.php:706
+#: inc/options-cache.php:600 inc/options-cache.php:707
 msgid "delete"
 msgstr "effacer"
 
-#: inc/options-cache.php:634 inc/options-cache.php:736
+#: inc/options-cache.php:635 inc/options-cache.php:737
 msgid "Delete selected cache?"
 msgstr "Effacer le cache sélectionné ?"
 
-#: inc/options-cache.php:634 inc/options-cache.php:736
+#: inc/options-cache.php:635 inc/options-cache.php:737
 msgid "Delete cache"
 msgstr "Effacer le cache"
 
-#: inc/options-cache.php:637 inc/options-cache.php:739
+#: inc/options-cache.php:638 inc/options-cache.php:740
 msgid "Warning!"
 msgstr "Attention !"
 
-#: inc/options-cache.php:639
+#: inc/options-cache.php:640
 msgid "This button will delete the selected movies' cache files."
 msgstr ""
 "Ce bouton efface les fichiers des films s&eacute;lectionn&eacute;s du "
 "r&eacute;pertoire de cache."
 
-#: inc/options-cache.php:653
+#: inc/options-cache.php:654
 msgid "People's detailed cache"
 msgstr "Cache sp&eacute;cifique aux personnes"
 
-#: inc/options-cache.php:671
+#: inc/options-cache.php:672
 msgid "No people's cache found."
 msgstr "Pas de cache de personnes trouv&eacute."
 
-#: inc/options-cache.php:676
+#: inc/options-cache.php:677
 msgid ""
 "If you want to refresh people's cache regardless the cache expiration time, "
 "you may either tick people checkbox(es) related to the person you want to "
@@ -1590,93 +1593,93 @@ msgstr ""
 "\"rafraîchir\" des personnes. Le premier moyen demandera un rafra&icirc;"
 "chissement suppl&eacute;mentaire - depuis votre message, par exemple."
 
-#: inc/options-cache.php:679
+#: inc/options-cache.php:680
 msgid "You may also either delete individually the cache or by group."
 msgstr ""
 "Vous pouvez &eacute;galement soit effacer individuellement le cache ou le "
 "faire par groupe."
 
-#: inc/options-cache.php:741
+#: inc/options-cache.php:742
 msgid "This button will delete the selected people's cache files."
 msgstr ""
 "Ce bouton efface les fichiers des personnes s&eacute;lectionn&eacute;s du "
 "r&eacute;pertoire de cache."
 
-#: inc/options-cache.php:753
+#: inc/options-cache.php:754
 msgid "Cache directories"
 msgstr "R&eacute;pertoires cache"
 
-#: inc/options-cache.php:758
+#: inc/options-cache.php:759
 msgid ""
 "Edit the following values only if need so. You can break the caching system."
 msgstr ""
 "Ne modifiez les valeurs suivantes que si cela est nécessaire. Vous pouvez "
 "casser le système de cache."
 
-#: inc/options-cache.php:762
+#: inc/options-cache.php:763 inc/options-general.php:342
 msgid "Click here to display options"
 msgstr "Cliquez ici pour afficher les options"
 
-#: inc/options-cache.php:769
+#: inc/options-cache.php:770
 msgid "Cache directory (absolute path)"
 msgstr "R&eacute;pertoire cache (chemin absolu)"
 
-#: inc/options-cache.php:777
+#: inc/options-cache.php:778
 msgid "Movies cache is using"
 msgstr "Le cache de films utilise"
 
-#: inc/options-cache.php:778
+#: inc/options-cache.php:779
 msgid "Movies cache is empty."
 msgstr "Le cache de films est vide."
 
-#: inc/options-cache.php:791 inc/options-cache.php:841
+#: inc/options-cache.php:792 inc/options-cache.php:842
 msgid "Folder exists."
 msgstr "Le r&eacute;pertoire existe."
 
-#: inc/options-cache.php:795 inc/options-cache.php:845
+#: inc/options-cache.php:796 inc/options-cache.php:846
 msgid "Folder doesn't exist!"
 msgstr "Le r&eacute;pertoire n'existe pas!"
 
-#: inc/options-cache.php:801 inc/options-cache.php:850
+#: inc/options-cache.php:802 inc/options-cache.php:851
 msgid "Permissions OK."
 msgstr "Permissions OK."
 
-#: inc/options-cache.php:805 inc/options-cache.php:854
+#: inc/options-cache.php:806 inc/options-cache.php:855
 msgid "Check folder permissions!"
 msgstr "V&eacute;rifier les permissions de r&eacute;pertoire !"
 
-#: inc/options-cache.php:818
+#: inc/options-cache.php:819
 msgid "Photo directory (absolute path)"
 msgstr "R&eacute;pertoire photo (chemin absolu)"
 
-#: inc/options-cache.php:827
+#: inc/options-cache.php:828
 msgid "Images cache is using"
 msgstr "Le cache image utilise"
 
-#: inc/options-cache.php:828
+#: inc/options-cache.php:829
 msgid "Image cache is empty."
 msgstr "Le cache image est vide."
 
-#: inc/options-cache.php:860
+#: inc/options-cache.php:861
 msgid ""
 "Absolute path to store images retrieved from the IMDb website. Has to be "
 msgstr ""
 "Chemin absolu du r&eacute;pertoire o&ugrave; stocker les images "
 "rapatri&eacute;es du site de l'IMDb. Doit &ecirc;tre "
 
-#: inc/options-cache.php:860
+#: inc/options-cache.php:861
 msgid "by the webserver."
 msgstr "par le serveur web."
 
-#: inc/options-cache.php:867
+#: inc/options-cache.php:868
 msgid "Photo directory (url)"
 msgstr "R&eacute;pertoire photo (url)"
 
-#: inc/options-cache.php:874
+#: inc/options-cache.php:875
 msgid "URL corresponding to photo directory."
 msgstr "URL correspondant au r&eacute;pertoire photo."
 
-#: inc/options-cache.php:901
+#: inc/options-cache.php:902
 msgid ""
 "A cache folder has to be created and the cache storage option has to be "
 "activated before you can manage the cache."
@@ -1926,19 +1929,19 @@ msgstr ""
 "plugins qui occuppent cet zone."
 
 #: inc/options-general.php:314
-msgid "Use automatical genre taxonomy?"
-msgstr "Utiliser la taxonomie automatique de genre ?"
+msgid "Use automatic taxonomy?"
+msgstr "Utiliser la taxonomie automatique ?"
 
 #: inc/options-general.php:324
 msgid ""
-"This will automatically add \"genre\" terms found for the movie into "
-"wordpress database, as "
+"This will automatically add a taxonomy term found for the movie, as "
+"explained in"
 msgstr ""
-"Ceci ajoutera automatiquement les tags \"genre\" trouv&eacute;s pour un film "
-"dans la base de donn&eacute;es de wordpress, en tant que "
+"Ceci ajoutera automatiquement les taxonomies trouv&eacute;s pour un film, "
+"comme expliqué dans"
 
 #: inc/options-general.php:324
-msgid "Activating this option opens "
+msgid "Upon activation, this option opens "
 msgstr "Si activ&eacute;e, cette option ouvre "
 
 #: inc/options-general.php:324
@@ -1954,19 +1957,25 @@ msgstr ""
 msgid "Paths: url & folders"
 msgstr "Chemins : url & dossiers"
 
-#: inc/options-general.php:343
+#: inc/options-general.php:339
+msgid "Edit the following values only if need so. You can break the plugin."
+msgstr ""
+"Ne modifiez les valeurs suivantes que si cela est nécessaire. Vous pouvez "
+"casser le plugin."
+
+#: inc/options-general.php:352
 msgid "Blog address"
 msgstr "Adresse du blog"
 
-#: inc/options-general.php:347
+#: inc/options-general.php:356
 msgid "Where the blog is installed."
 msgstr "O&ugrave; le blog est install&eacute;."
 
-#: inc/options-general.php:354
+#: inc/options-general.php:363
 msgid "Plugin directory"
 msgstr "R&eacute;pertoire plugin"
 
-#: inc/options-general.php:358
+#: inc/options-general.php:367
 msgid "Where <strong>Lumiere</strong> is installed."
 msgstr "O&ugrave; <strong>Lumière</strong> est install&eacute;."
 
