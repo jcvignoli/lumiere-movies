@@ -311,7 +311,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 
 			<div class="imdblt_double_container_content_third imdblt_padding_five">
 
-				<label for="imdb_imdbtaxonomy"><?php esc_html_e( 'Use automatical genre taxonomy?', 'lumiere-movies'); ?></label><br /><br />
+				<label for="imdb_imdbtaxonomy"><?php esc_html_e( 'Use automatic taxonomy?', 'lumiere-movies'); ?></label><br /><br />
 
 				<input type="radio" id="imdb_imdbtaxonomy_yes" name="imdb_imdbtaxonomy" value="1" <?php if ($imdbOptions['imdbtaxonomy'] == "1") { echo 'checked="checked"'; }?> />
 
@@ -321,7 +321,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 
 				<label for="imdb_imdbtaxonomy_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<div class="explain"><?php esc_html_e( 'This will automatically add "genre" terms found for the movie into wordpress database, as ', 'lumiere-movies') ?><a href="http://codex.wordpress.org/WordPress_Taxonomy">taxonomy</a>. <?php esc_html_e( 'Activating this option opens ', 'lumiere-movies'); ?><a href="<?php echo admin_url(); ?>admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo"><?php esc_html_e( 'others taxonomy options', 'lumiere-movies');  ?></a>. <?php esc_html_e( 'Taxonomy terms are uninstalled when removing the plugin.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies'); ?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+				<div class="explain"><?php esc_html_e( 'This will automatically add a taxonomy term found for the movie, as explained in', 'lumiere-movies') ?><a href="http://codex.wordpress.org/WordPress_Taxonomy">taxonomy</a>. <?php esc_html_e( 'Upon activation, this option opens ', 'lumiere-movies'); ?><a href="<?php echo admin_url(); ?>admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo"><?php esc_html_e( 'others taxonomy options', 'lumiere-movies');  ?></a>. <?php esc_html_e( 'Taxonomy terms are uninstalled when removing the plugin.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies'); ?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
 		</div>
@@ -336,6 +336,15 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 	</div>
 
 	<div class="inside imblt_border_shadow">
+		<div class="lumiere_intro_options"><?php esc_html_e('Edit the following values only if need so. You can break the plugin.', 'lumiere-movies'); ?></div>
+		<br />
+		<br />
+	<div class="activatehidesection" align="center">[+] <?php esc_html_e('Click here to display options', 'lumiere-movies'); ?> [+]</div>
+
+	<div class="hidesection">
+		<br />
+		<br />
+
 		<?php //------------------------------------------------------------------=[ web adresses ]=- ?>
 
 		<div class="imdblt_double_container">
@@ -356,6 +365,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 			<div class="imdblt_double_container_content_eighty">
 				<input type="text" class="imdblt_width_fillall" name="imdb_imdbplugindirectory" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbplugindirectory']), 'lumiere-movies') ?>">
 				<div class="explain"><?php wp_kses( _e( 'Where <strong>Lumiere</strong> is installed.', 'lumiere-movies'), $allowed_html_for_esc_html_functions ); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo IMDBLTURLPATH; ?>"</div>
+		</div>
 		</div>
 	</div>
 		

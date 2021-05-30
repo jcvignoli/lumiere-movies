@@ -3,6 +3,7 @@ Changelog
 v3.1
 * Major: Due to compatibility reasons with Gutenberg, the way to call links for internal popupups has changed from '<!--imdb--><!--/imdb-->' to '<span class="lumiere_link_maker"></span>'. Compatibility with the old way currently maintained.
 * Major: Finished Gutenberg interface, two buttons added.
+* Major: Updated to IMDbPHP 6.5.1 library.
 * Caching system: Changed the path of Lumière! cache (now in wp-content/cache) so it will survive the plugin updates. If wp-content/cache is not writable, it uses wp-content/plugins/lumiere/cache path.
 * Caching layout: Vastly simplified the cache menu. Moved the paths options to manage cache submenu (options are hidden by default), merged store and use cache (store is not available anymore), removed the zip options.
 * General options layout: polished general options, moved many option to advanced tab, should be easier to understand
