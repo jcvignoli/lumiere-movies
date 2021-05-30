@@ -495,7 +495,8 @@ if (!lumiere_isEmptyDir($imdb_cache_values['imdbcachedir'])) { // from functions
 		$filenamesize1 += filesize($filename);
 	}
 
-	echo "&nbsp;" . sprintf( _n( '%s file', '%s files', $imdltcacheFileCount, 'lumiere-movies'), $imdltcacheFileCount) ;
+	/* translators: %s is replaced with the number of files */
+	echo "&nbsp;" . sprintf( _n( '%s file', '%s files', $imdltcacheFileCount, 'lumiere-movies'), number_format_i18n( $imdltcacheFileCount )) ;
 	echo "&nbsp;" . esc_html__( 'using', 'lumiere-movies'); 
 	echo ' ' . lumiere_formatBytes( $filenamesize1 ) . "\n";
 	echo "</strong>"; 
@@ -587,7 +588,7 @@ if ((!isset($files)) || (empty($files)) ){
 				$moviepicturelink = (($photo_url = $res->photo_localurl() ) != FALSE) ? 'src="'.$imdb_cache_values['imdbphotodir'].$obj_sanitized.'.jpg" alt="'.$title_sanitized.'"' : 'src="'.IMDBLTURLPATH.'pics/no_pics.gif" alt="'.esc_html__('no picture', 'lumiere-movies').'"'; // get either local picture or if no local picture exists, display the default one
 
 
-				// no flex class so the browser decides how many data to display per lines (up to ten data per line)
+				// no flex class so the browser decides how many data to display per lines
 				// table so "row-actions" wordpress class works
 				$data[] = '	<div><table><tr><td>
 							<img id="pic_'.$title_sanitized.'" class="picfloat" '.$moviepicturelink.' width="40px">
