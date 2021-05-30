@@ -1,7 +1,7 @@
 <?php
 
  #############################################################################
- # Lumiere Movies wordpress plugin                                           #
+ # Lumière! Movies wordpress plugin                                          #
  # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
@@ -13,7 +13,7 @@
  #									              #
  #############################################################################
 
-require_once (plugin_dir_path( __FILE__ ).'/../bootstrap.php');
+require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
 do_action('wp_loaded'); // execute wordpress first codes
 

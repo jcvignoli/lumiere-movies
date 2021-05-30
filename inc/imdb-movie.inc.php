@@ -1,7 +1,7 @@
 <?php
 
  #############################################################################
- # Lumière Wordpress plug                                                    #
+ # Lumière! wordpress plugin                                                 #
  # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
@@ -15,7 +15,7 @@
  #									              #
  #############################################################################
 
-require_once (dirname(__FILE__).'/../bootstrap.php');
+require_once ( plugin_dir_path(__DIR__) . 'bootstrap.php');
 
 //---------------------------------------=[Vars]=----------------
 
