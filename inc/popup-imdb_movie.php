@@ -103,7 +103,7 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"https://www.imdb.com/title/tt". sanitize_text_field( $res->imdbid() )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'>";
 
 			if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
-		echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values[imdbplugindirectory].$imdb_admin_values[imdbpicurl] )."' width='".intval( $imdb_admin_values[imdbpicsize] )."' alt='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'/></a>";	
+		echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] )."' width='".intval( $imdb_admin_values['imdbpicsize'] )."' alt='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'/></a>";	
 			}
 		echo "</td>\n";
 		flush ();
@@ -111,11 +111,11 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 		// ---- director part
 		$realisateur =  $res->director() ;
 		if (! is_null ($realisateur['0']['name'])){
-		echo "\t<td class='TableListeResultatsColDroite'><a class='linkpopup' href=\"" . esc_url( $imdb_admin_values[imdbplugindirectory] ) . "inc/popup-imdb_person.php?mid=" . sanitize_text_field( $realisateur['0']["imdb"] )."&film=" . $filmid_sanitized."\" title=\"".esc_html__('more on', 'lumiere-movies') . " " . sanitize_text_field( $realisateur['0']['name'] ) . "\" >" . sanitize_text_field( $realisateur['0']['name'] ) . "</a>";
+		echo "\t<td class='TableListeResultatsColDroite'><a class='linkpopup' href=\"" . esc_url( $imdb_admin_values['imdbplugindirectory'] ) . "inc/popup-imdb_person.php?mid=" . sanitize_text_field( $realisateur['0']["imdb"] )."&film=" . $filmid_sanitized."\" title=\"".esc_html__('more on', 'lumiere-movies') . " " . sanitize_text_field( $realisateur['0']['name'] ) . "\" >" . sanitize_text_field( $realisateur['0']['name'] ) . "</a>";
 
-			if ($imdb_admin_values[imdbdisplaylinktoimdb] == true) { # if the user has selected so
+			if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
 		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"".esc_url("https://imdb.com/name/nm".$realisateur['0']["imdb"] )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."'>";
-		echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values[imdbplugindirectory].$imdb_admin_values[imdbpicurl] )."' width='".intval( $imdb_admin_values[imdbpicsize] )."' alt='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."'/>";
+		echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] )."' width='".intval( $imdb_admin_values['imdbpicsize'] )."' alt='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."'/>";
 		echo "</a>";
 			}
 			
@@ -149,22 +149,22 @@ exit(); // quit the call of the page, to avoid double loading process ?>
 <table class='tabletitrecolonne'>
     <tr>
         <td class='titrecolonne'>
-            <a class="searchaka" href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] . "inc/" . "popup-search.php?film=" . sanitize_text_field( lumiere_htmlize( $movie->title() ) ) . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'lumiere-movies'); ?>"><?php esc_html_e('Search AKAs', 'lumiere-movies'); ?></a>
+            <a class="searchaka" href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "inc/" . "popup-search.php?film=" . sanitize_text_field( lumiere_htmlize( $movie->title() ) ) . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'lumiere-movies'); ?>"><?php esc_html_e('Search AKAs', 'lumiere-movies'); ?></a>
         </td>
         <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Movie', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Movie', 'lumiere-movies'); ?></a>
 	</td>
         <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=actors" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Actors', 'lumiere-movies'); ?>'><?php esc_html_e('Actors', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=actors" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Actors', 'lumiere-movies'); ?>'><?php esc_html_e('Actors', 'lumiere-movies'); ?></a>
 	</td>
         <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=crew" ); ?>" title='<?php echo sanitize_title ( $movie->title() ).": ".esc_html__('Crew', 'lumiere-movies'); ?>'><?php esc_html_e('Crew', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=crew" ); ?>" title='<?php echo sanitize_title ( $movie->title() ).": ".esc_html__('Crew', 'lumiere-movies'); ?>'><?php esc_html_e('Crew', 'lumiere-movies'); ?></a>
 	</td>
         <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=resume" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Plot', 'lumiere-movies'); ?>'><?php esc_html_e('Plot', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=resume" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Plot', 'lumiere-movies'); ?>'><?php esc_html_e('Plot', 'lumiere-movies'); ?></a>
 	</td>
         <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=divers" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=divers" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
 	</td>
     </tr>
 </table>
@@ -180,7 +180,7 @@ exit(); // quit the call of the page, to avoid double loading process ?>
         <td class="colpicture">
 	 <?php 	## The picture is either taken from the movie itself or if it doesn't exist, from a standard "no exist" picture.
 		## The width value is taken from plugin settings, and added if the "thumbnail" option is unactivated
-echo '<img class="imdbincluded-picture" src="';
+echo '<img loading="eager" class="imdbincluded-picture" src="';
 
 	if ($photo_url = $movie->photo_localurl() ) { 
 		echo esc_url( $photo_url ).'" alt="'.esc_attr( $movie->title() ).'" '; 

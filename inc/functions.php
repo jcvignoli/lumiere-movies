@@ -138,7 +138,8 @@ if ( ! function_exists('lumiere_create_taxonomies')){
 		foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
 			$filter_taxonomy = str_replace('imdbtaxonomy', '', $key );
 
-			if ($imdb_widget_values[ 'imdbtaxonomy'.$filter_taxonomy ] ==  true) {
+			if ($imdb_widget_values[ 'imdbtaxonomy'.$filter_taxonomy ] ==  1) {
+
 				register_taxonomy('imdblt_'.$filter_taxonomy, array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière ".$filter_taxonomy, 'lumiere-movies'), 'query_var' => 'imdblt_'.$filter_taxonomy, 'rewrite' => array( 'slug' => 'imdblt_'.$filter_taxonomy ) )  ) ; 
 			}
 		}
