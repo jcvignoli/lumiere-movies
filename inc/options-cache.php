@@ -108,6 +108,7 @@ if ( isset( $_POST['update_imdbltcache_check'] ) && wp_verify_nonce( $_POST['upd
 			 	if (file_exists($filetodeletetriviatab )) unlink ($filetodeletetriviatab);
 			 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 			 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
+
 			} else {
 				wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'lumiere-movies') .'</strong>') );
 			}
@@ -135,6 +136,10 @@ if ( isset( $_POST['update_imdbltcache_check'] ) && wp_verify_nonce( $_POST['upd
 			}
 		}
 	}
+	wp_redirect( add_query_arg( "msg", "cache_delete_success", admin_url() . '/admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' ) );
+
+	lumiere_notice(1, '<strong>'. esc_html__("Cache files successfully deleted.", 'lumiere-movies').'</strong>');
+exit();
 }
 
 ##################################### delete a peliculiar file
@@ -186,6 +191,7 @@ if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
 		 	if (file_exists($filetodeletetriviatab )) unlink ($filetodeletetriviatab);
 		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
 		 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
+
 		}  else {
 			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'lumiere-movies') .'</strong>') ) ;
 		}
@@ -211,10 +217,10 @@ if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
 		}
 	}
 
-	// display message on top
-//	lumiere_notice(1, '<strong>'. esc_html__("Cache successfully deleted.", 'lumiere-movies').'</strong>');
-	wp_safe_redirect( add_query_arg( "msg", "cache_delete_success", wp_get_referer() ) );
-	exit();
+	wp_redirect( add_query_arg( "msg", "cache_delete_success", admin_url() . '/admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' ) );
+
+	lumiere_notice(1, '<strong>'. esc_html__("Cache successfully deleted.", 'lumiere-movies').'</strong>');
+
 }
 
 ##################################### refresh a peliculiar file
@@ -309,10 +315,11 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 	}
 
 	// display message on top
-	wp_safe_redirect( add_query_arg( "msg", "cache_update_success", wp_get_referer() ) );
+	wp_safe_redirect( add_query_arg( "msg", "cache_update_success", admin_url() . '/admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' ) );
+
 //	wp_safe_redirect( wp_get_referer() );
-//	lumiere_notice(1, '<strong>'. esc_html__( 'Cache succesfully refreshed.', 'lumiere-movies') .'</strong>');
-	exit();
+	lumiere_notice(1, '<strong>'. esc_html__( 'Cache succesfully refreshed.', 'lumiere-movies') .'</strong>');
+//	exit(); can't use exit here?
 }
 
 ##################################### let's display real cache option page

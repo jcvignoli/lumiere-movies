@@ -391,7 +391,8 @@ class lumiere_settings_conf extends lumiere_send_config {
 				}
 
 			}
-
+			wp_safe_redirect( add_query_arg( "msg", "cache_update_success", admin_url() . '/admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' ) );
+			exit();
 		}
 
 		//----------------------------------------------------------display the admin settings options ?>
