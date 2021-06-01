@@ -128,8 +128,8 @@ for (i = 0; i < field.length; i++)
 /* check all inputs */
 	/* movies */
 	(function ($) {
-	  $(document).on('click', 'input[data-check]',function(e){
-		checkAll(document.getElementsByName('imdb_cachedeletefor[]'));
+	  $(document).on('click', 'input[data-check-movies]',function(e){
+		checkAll(document.getElementsByName('imdb_cachedeletefor_movies[]'));
 	  });
 	})(jQuery);
 	/* people */
@@ -142,8 +142,8 @@ for (i = 0; i < field.length; i++)
 /* uncheck all inputs */
 	/* movies */
 	(function ($) {
-	  $(document).on('click', 'input[data-uncheck]',function(e){
-		uncheckAll(document.getElementsByName('imdb_cachedeletefor[]'));
+	  $(document).on('click', 'input[data-uncheck-movies]',function(e){
+		uncheckAll(document.getElementsByName('imdb_cachedeletefor_movies[]'));
 	  });
 	})(jQuery);
 	/* people */

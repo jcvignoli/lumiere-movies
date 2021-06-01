@@ -5,7 +5,8 @@ v3.1.1
 * [technical] Moved imdbphp classes from /src to /class/imdbphp, moved config.php, functions.php, into that same folder
 * [bug] Added into popups and imdb-movies.inc movie/people images the code 'loading="eager"' so they're not lazy-loaded (otherwise they're not displayed)
 * [bug] Taxonomy was not registred and not appearing in Posts, fixed function lumiere_create_taxonomies()
-* [bug] redirection when deleting/updating cache details was broken
+* [bug] Redirection when deleting/updating cache details was broken
+* [bug] Fixed cache refresh/delete redirect + move form functions to options cache
 
 v3.1
 * [Major] Due to compatibility reasons with Gutenberg, the way to call links for internal popupups has changed from '<!--imdb--><!--/imdb-->' to '<span class="lumiere_link_maker"></span>'. Compatibility with the old way currently maintained.

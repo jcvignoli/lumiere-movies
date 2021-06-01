@@ -91,7 +91,7 @@ while ($imovie < count($imdballmeta)) {
 	$title_sanitized=sanitize_text_field( $movie->title() );?>
 										<!-- title -->
 		<div class="imdbelementTITLE"><?php
-			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomytitle] == true ) && (lumiere_count_me('imdblt_title', $count_me_siffer) == "nomore") ) { 
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomytitle'] == true ) && (lumiere_count_me('imdblt_title', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's titles...
 				for ($i = 0; $i + 1 < count ($title_sanitized); $i++) { 
 					wp_set_object_terms($wp_query->post->ID, $title_sanitized, 'imdblt_title', true); #add taxonomy terms to posts' terms

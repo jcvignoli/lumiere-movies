@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-05-30T15:24:45-03:00\n"
+"POT-Creation-Date: 2021-06-01T01:28:09-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
@@ -36,7 +36,6 @@ msgstr ""
 
 #: class/config.php:199
 #: class/config.php:265
-#: class/config.php:323
 msgid "Options saved."
 msgstr ""
 
@@ -47,8 +46,6 @@ msgstr ""
 
 #: class/config.php:218
 #: class/config.php:298
-#: class/config.php:345
-#: class/config.php:363
 msgid "this link."
 msgstr ""
 
@@ -56,46 +53,46 @@ msgstr ""
 msgid "Error. You have to select a value."
 msgstr ""
 
-#: class/config.php:401
+#: class/config.php:311
 msgid "options"
 msgstr ""
 
-#: class/config.php:407
+#: class/config.php:317
 msgid "General Options"
 msgstr ""
 
-#: class/config.php:414
-#: class/config.php:418
-#: class/config.php:422
-#: class/config.php:427
+#: class/config.php:324
+#: class/config.php:328
+#: class/config.php:332
+#: class/config.php:337
 msgid "Widget/Inside post Options"
 msgstr ""
 
-#: class/config.php:418
-#: class/config.php:427
+#: class/config.php:328
+#: class/config.php:337
 msgid "Widget unactivated"
 msgstr ""
 
-#: class/config.php:422
-#: class/config.php:427
+#: class/config.php:332
+#: class/config.php:337
 #: inc/options-general.php:251
 msgid "Direct search"
 msgstr ""
 
-#: class/config.php:422
+#: class/config.php:332
 msgid "unactivated"
 msgstr ""
 
-#: class/config.php:432
+#: class/config.php:342
 #: lumiere-movies.php:486
 msgid "Cache management"
 msgstr ""
 
-#: class/config.php:437
+#: class/config.php:347
 msgid "How to use Lumière!, check FAQs & changelog"
 msgstr ""
 
-#: class/config.php:438
+#: class/config.php:348
 msgid "help"
 msgstr ""
 
@@ -590,8 +587,8 @@ msgid "Photo of"
 msgstr ""
 
 #: inc/imdb-movie.inc.php:148
-#: inc/options-cache.php:588
-#: inc/options-cache.php:698
+#: inc/options-cache.php:565
+#: inc/options-cache.php:670
 #: inc/popup-imdb_movie.php:188
 #: inc/popup-imdb_person.php:123
 msgid "no picture"
@@ -817,46 +814,81 @@ msgstr[1] ""
 msgid "Source"
 msgstr ""
 
-#: inc/options-cache.php:68
-#: inc/options-cache.php:146
-#: inc/options-cache.php:226
-msgid "Cannot work this way."
+#: inc/options-cache.php:92
+msgid "Cache options saved."
 msgstr ""
 
-#: inc/options-cache.php:112
-#: inc/options-cache.php:134
-#: inc/options-cache.php:190
-#: inc/options-cache.php:210
-#: inc/options-cache.php:270
-#: inc/options-cache.php:299
+#: inc/options-cache.php:93
+#: inc/options-cache.php:105
+#: inc/options-cache.php:122
+#: inc/options-cache.php:176
+msgid "Go back"
+msgstr ""
+
+#: inc/options-cache.php:104
+msgid "Cache options reset."
+msgstr ""
+
+#: inc/options-cache.php:115
+#: inc/options-cache.php:133
+msgid "No cache folder found."
+msgstr ""
+
+#: inc/options-cache.php:121
+msgid "All cache files deleted."
+msgstr ""
+
+#: inc/options-cache.php:148
+#: inc/options-cache.php:167
+#: inc/options-cache.php:198
+#: inc/options-cache.php:218
+#: inc/options-cache.php:250
+#: inc/options-cache.php:275
 msgid "This file does not exist."
 msgstr ""
 
-#: inc/options-cache.php:323
-#: inc/options-cache.php:352
+#: inc/options-cache.php:175
+msgid "Selected ticked cache file(s) deleted."
+msgstr ""
+
+#: inc/options-cache.php:188
+#: inc/options-cache.php:241
+msgid "Cannot work this way."
+msgstr ""
+
+#: inc/options-cache.php:230
+msgid "Selected cache file deleted."
+msgstr ""
+
+#: inc/options-cache.php:294
+msgid "Selected cache file successfully refreshed."
+msgstr ""
+
+#: inc/options-cache.php:304
+#: inc/options-cache.php:333
 #: lumiere-movies.php:484
 msgid "General options"
 msgstr ""
 
-#: inc/options-cache.php:325
+#: inc/options-cache.php:306
 msgid "Manage Cache"
 msgstr ""
 
-#: inc/options-cache.php:332
+#: inc/options-cache.php:313
 msgid "Cache is crucial for Lumière! operations. Initial IMDb queries are quite time consuming, so if you do not want to kill your server and look for a smooth experience for your users, do not delete often your cache."
 msgstr ""
 
-#: inc/options-cache.php:347
+#: inc/options-cache.php:328
 msgid "Cache options"
 msgstr ""
 
-#: inc/options-cache.php:370
+#: inc/options-cache.php:351
 msgid "Use cache?"
 msgstr ""
 
-#: inc/options-cache.php:371
-#: inc/options-cache.php:373
-#: inc/options-cache.php:442
+#: inc/options-cache.php:352
+#: inc/options-cache.php:354
+#: inc/options-cache.php:423
 #: inc/options-general.php:112
 #: inc/options-general.php:119
 #: inc/options-general.php:154
@@ -906,9 +938,9 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: inc/options-cache.php:371
-#: inc/options-cache.php:445
-#: inc/options-cache.php:447
+#: inc/options-cache.php:352
+#: inc/options-cache.php:426
+#: inc/options-cache.php:428
 #: inc/options-general.php:116
 #: inc/options-general.php:157
 #: inc/options-general.php:199
@@ -974,15 +1006,16 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: inc/options-cache.php:373
+#: inc/options-cache.php:354
 msgid "Whether to use a cached page to retrieve the information (if available)."
 msgstr ""
 
-#: inc/options-cache.php:373
-#: inc/options-cache.php:383
-#: inc/options-cache.php:447
+#: inc/options-cache.php:354
+#: inc/options-cache.php:364
+#: inc/options-cache.php:428
+#: inc/options-cache.php:793
+#: inc/options-cache.php:847
 #: inc/options-cache.php:861
-#: inc/options-cache.php:875
 #: inc/options-general.php:91
 #: inc/options-general.php:99
 #: inc/options-general.php:119
@@ -1030,248 +1063,263 @@ msgstr ""
 msgid "Default:"
 msgstr ""
 
-#: inc/options-cache.php:378
+#: inc/options-cache.php:359
 msgid "Cache expire"
 msgstr ""
 
-#: inc/options-cache.php:381
+#: inc/options-cache.php:362
 msgid "(never)"
 msgstr ""
 
-#: inc/options-cache.php:383
+#: inc/options-cache.php:364
 msgid "Cache files older than this value (in seconds) will be automatically deleted. Insert \"0\" or click \"never\" to keep cache files forever."
 msgstr ""
 
-#: inc/options-cache.php:383
+#: inc/options-cache.php:364
 msgid "(one month)"
 msgstr ""
 
-#: inc/options-cache.php:417
+#: inc/options-cache.php:398
 msgid "Cache details"
 msgstr ""
 
-#: inc/options-cache.php:440
+#: inc/options-cache.php:421
 msgid "Simplified cache details"
 msgstr ""
 
-#: inc/options-cache.php:447
+#: inc/options-cache.php:428
 msgid "Allow faster loading time for the \"manage cache\" page, by displaying shorter movies and people presentation. Usefull when you have several of those. This option is available when \"Show advanced cache details\" is activated."
 msgstr ""
 
-#: inc/options-cache.php:458
-#: inc/options-cache.php:889
+#: inc/options-cache.php:439
+#: inc/options-cache.php:875
+#: inc/options-cache.php:895
 #: inc/options-general.php:381
 #: inc/options-widget.php:775
 msgid "Reset settings"
 msgstr ""
 
-#: inc/options-cache.php:460
-#: inc/options-cache.php:891
+#: inc/options-cache.php:440
+#: inc/options-cache.php:876
 #: inc/options-general.php:383
 #: inc/options-widget.php:777
 msgid "Update settings"
 msgstr ""
 
-#: inc/options-cache.php:478
+#: inc/options-cache.php:460
 msgid "Global cache management"
 msgstr ""
 
-#: inc/options-cache.php:492
+#: inc/options-cache.php:474
 msgid "Total cache size:"
 msgstr ""
 
 #. translators: %s is replaced with the number of files
-#: inc/options-cache.php:499
+#: inc/options-cache.php:481
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/options-cache.php:500
+#: inc/options-cache.php:482
 msgid "using"
 msgstr ""
 
-#: inc/options-cache.php:508
+#: inc/options-cache.php:490
 msgid "If you want to reset the entire cache (this includes queries, names, and pictures) click on the button below."
 msgstr ""
 
-#: inc/options-cache.php:510
+#: inc/options-cache.php:492
 msgid "Beware, there is no undo."
 msgstr ""
 
-#: inc/options-cache.php:518
+#: inc/options-cache.php:497
 msgid "Delete all cache? Really?"
 msgstr ""
 
-#: inc/options-cache.php:518
+#: inc/options-cache.php:497
 msgid "Delete all cache"
 msgstr ""
 
-#: inc/options-cache.php:522
+#: inc/options-cache.php:501
 msgid "This button will <strong>delete all cache</strong> stored in cache folder."
 msgstr ""
 
-#: inc/options-cache.php:527
+#: inc/options-cache.php:506
 msgid "Lumière! cache is empty."
 msgstr ""
 
-#: inc/options-cache.php:543
+#: inc/options-cache.php:520
 msgid "Movie's detailed cache"
 msgstr ""
 
-#: inc/options-cache.php:560
+#: inc/options-cache.php:537
 msgid "No movie's cache found."
 msgstr ""
 
-#: inc/options-cache.php:566
+#: inc/options-cache.php:543
 msgid "If you want to refresh movie's cache regardless the cache expiration time, you may either tick movie's checkbox(es) related to the movie you want to delete and click on \"delete cache\". you may also click on \"refresh\" to update a movie series of details."
 msgstr ""
 
-#: inc/options-cache.php:569
+#: inc/options-cache.php:546
 msgid "You may also select a group of movies to delete."
 msgstr ""
 
-#: inc/options-cache.php:596
-#: inc/options-cache.php:702
+#: inc/options-cache.php:573
+#: inc/options-cache.php:674
 msgid "last updated on "
 msgstr ""
 
-#: inc/options-cache.php:598
+#: inc/options-cache.php:575
 msgid "Refresh cache for *"
 msgstr ""
 
-#: inc/options-cache.php:598
-#: inc/options-cache.php:705
+#: inc/options-cache.php:575
+#: inc/options-cache.php:677
 msgid "refresh"
 msgstr ""
 
-#: inc/options-cache.php:600
+#: inc/options-cache.php:577
 msgid "Delete *"
 msgstr ""
 
-#: inc/options-cache.php:600
+#: inc/options-cache.php:577
 msgid "* from cache?"
 msgstr ""
 
-#: inc/options-cache.php:600
-#: inc/options-cache.php:707
+#: inc/options-cache.php:577
+#: inc/options-cache.php:679
 msgid "delete"
 msgstr ""
 
-#: inc/options-cache.php:635
-#: inc/options-cache.php:737
+#: inc/options-cache.php:609
+#: inc/options-cache.php:708
 msgid "Delete selected cache?"
 msgstr ""
 
-#: inc/options-cache.php:635
-#: inc/options-cache.php:737
+#: inc/options-cache.php:609
+#: inc/options-cache.php:708
 msgid "Delete cache"
 msgstr ""
 
-#: inc/options-cache.php:638
-#: inc/options-cache.php:740
+#: inc/options-cache.php:612
+#: inc/options-cache.php:711
 msgid "Warning!"
 msgstr ""
 
-#: inc/options-cache.php:640
+#: inc/options-cache.php:614
 msgid "This button will delete the selected movies' cache files."
 msgstr ""
 
-#: inc/options-cache.php:654
+#: inc/options-cache.php:626
 msgid "People's detailed cache"
 msgstr ""
 
-#: inc/options-cache.php:672
+#: inc/options-cache.php:644
 msgid "No people's cache found."
 msgstr ""
 
-#: inc/options-cache.php:677
+#: inc/options-cache.php:649
 msgid "If you want to refresh people's cache regardless the cache expiration time, you may either tick people checkbox(es) related to the person you want to delete and click on \"delete cache\", or you may click on individual people's \"refresh\". The first way will require an additional people refresh - from you post, for instance."
 msgstr ""
 
-#: inc/options-cache.php:680
+#: inc/options-cache.php:652
 msgid "You may also either delete individually the cache or by group."
 msgstr ""
 
-#: inc/options-cache.php:742
+#: inc/options-cache.php:713
 msgid "This button will delete the selected people's cache files."
 msgstr ""
 
-#: inc/options-cache.php:754
+#: inc/options-cache.php:725
 msgid "Cache directories"
 msgstr ""
 
-#: inc/options-cache.php:759
+#: inc/options-cache.php:731
 msgid "Edit the following values only if need so. You can break the caching system."
 msgstr ""
 
-#: inc/options-cache.php:763
+#: inc/options-cache.php:735
 #: inc/options-general.php:342
 msgid "Click here to display options"
 msgstr ""
 
-#: inc/options-cache.php:770
+#: inc/options-cache.php:742
 msgid "Cache directory (absolute path)"
 msgstr ""
 
-#: inc/options-cache.php:778
+#: inc/options-cache.php:758
 msgid "Movies cache is using"
 msgstr ""
 
-#: inc/options-cache.php:779
+#: inc/options-cache.php:759
 msgid "Movies cache is empty."
 msgstr ""
 
-#: inc/options-cache.php:792
-#: inc/options-cache.php:842
+#: inc/options-cache.php:772
+#: inc/options-cache.php:828
 msgid "Folder exists."
 msgstr ""
 
-#: inc/options-cache.php:796
-#: inc/options-cache.php:846
+#: inc/options-cache.php:776
+#: inc/options-cache.php:832
 msgid "Folder doesn't exist!"
 msgstr ""
 
-#: inc/options-cache.php:802
-#: inc/options-cache.php:851
+#: inc/options-cache.php:782
+#: inc/options-cache.php:837
 msgid "Permissions OK."
 msgstr ""
 
-#: inc/options-cache.php:806
-#: inc/options-cache.php:855
+#: inc/options-cache.php:786
+#: inc/options-cache.php:841
 msgid "Check folder permissions!"
 msgstr ""
 
-#: inc/options-cache.php:819
-msgid "Photo directory (absolute path)"
+#: inc/options-cache.php:793
+msgid "Absolute path to store cache retrieved from the IMDb website. Has to be "
 msgstr ""
 
-#: inc/options-cache.php:828
-msgid "Images cache is using"
-msgstr ""
-
-#: inc/options-cache.php:829
-msgid "Image cache is empty."
-msgstr ""
-
-#: inc/options-cache.php:861
-msgid "Absolute path to store images retrieved from the IMDb website. Has to be "
-msgstr ""
-
-#: inc/options-cache.php:861
+#: inc/options-cache.php:793
+#: inc/options-cache.php:847
 msgid "by the webserver."
 msgstr ""
 
-#: inc/options-cache.php:868
+#: inc/options-cache.php:800
+msgid "Photo directory (absolute path)"
+msgstr ""
+
+#: inc/options-cache.php:814
+msgid "Images cache is using"
+msgstr ""
+
+#: inc/options-cache.php:815
+msgid "Image cache is empty."
+msgstr ""
+
+#: inc/options-cache.php:847
+msgid "Absolute path to store images retrieved from the IMDb website. Has to be "
+msgstr ""
+
+#: inc/options-cache.php:854
 msgid "Photo directory (url)"
 msgstr ""
 
-#: inc/options-cache.php:875
+#: inc/options-cache.php:861
 msgid "URL corresponding to photo directory."
 msgstr ""
 
+#: inc/options-cache.php:886
 #: inc/options-cache.php:902
 msgid "A cache folder has to be created and the cache storage option has to be activated before you can manage the cache."
+msgstr ""
+
+#: inc/options-cache.php:888
+msgid "Apparently, you have not such a cache folder."
+msgstr ""
+
+#: inc/options-cache.php:890
+msgid "Click on \"reset settings\" to refresh the values."
 msgstr ""
 
 #: inc/options-general.php:41
