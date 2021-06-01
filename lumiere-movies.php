@@ -728,5 +728,4 @@ class lumiere_core {
 
 } // end class
 
-
 ?>

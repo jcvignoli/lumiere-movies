@@ -120,8 +120,8 @@ if ( ! function_exists('lumiere_admin_signature')){
 		echo "\t\t\t<div class=\"lumiere_intro_options\">".
 			wp_kses( __( '<strong>Licensing Info:</strong> Under a GPL licence, "Lumiere Movies" is based on <a href="https://github.com/tboothman/imdbphp/">tboothman</a> classes. Nevertheless, a considerable amount of work was required to implement it in wordpress; check the support page for', 'lumiere-movies'), $allowed_html_for_esc_html_functions ). "<a href=\"" .
 			esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=support"). "\"> ".
-			esc_html__('more', 'lumiere-movies') ."</a>.</div>";
-		echo "\t\t\t<td>\n\t\t\t\t<div class=\"explain\"> &copy; 2005-" . date("Y") . " <a href=\"" .  IMDBHOMEPAGE . "\">Lost Highway</a>\n";
+			esc_html__('more', 'lumiere-movies') ."</a>.";
+		echo "\t\t\t<td>\n\t\t\t\t<div> &copy; 2005-" . date("Y") . " <a href=\"" .  IMDBHOMEPAGE . "\">Lost Highway</a>\n</div>";
 		echo "\t\t</div>\n";
 	} 
 }

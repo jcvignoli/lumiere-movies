@@ -14,315 +14,289 @@
  #############################################################################
 
 // included files
-require_once (dirname(__FILE__).'/../bootstrap.php');
-
-use \Imdb\Title;
-use \Imdb\Person;
+require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
 // Vars
 global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 $allowed_html_for_esc_html_functions = [
     'strong',
 ];
-$messages = array( /* highslide message notification options */
-    'cache_update_success' => 'Cache succesfully refreshed.',
-    'cache_doesnt_exist' => 'This file does not exist.',
-    'cache_delete_success' => 'Cache successfully deleted.'
+
+// If $_GET["msg"] is found, display a related notice
+ 	/* get the $_GET */
+if ((isset($_GET['msg'])) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $messages) ){
+	if (sanitize_text_field($_GET['msg'])=="cache_options_update_success_msg") {
+		lumiere_notice(1, esc_html__( $messages["cache_options_update_success_msg"], 'lumiere-movies' ) );
+	} elseif (sanitize_text_field($_GET['msg'])=="cache_options_refresh_success_msg") {
+		lumiere_notice(1, esc_html__( $messages["cache_options_refresh_success_msg"], 'lumiere-movies' ) );
+	} elseif (sanitize_text_field($_GET['msg'])=="cache_delete_all_msg") {
+		lumiere_notice(1, esc_html__( $messages["cache_delete_all_msg"], 'lumiere-movies' ) );
+	} elseif (sanitize_text_field($_GET['msg'])=="cache_delete_ticked_msg") {
+		lumiere_notice(1, esc_html__( $messages["cache_delete_ticked_msg"], 'lumiere-movies' ) );
+	} elseif (sanitize_text_field($_GET['msg'])=="cache_delete_individual_msg") {
+		lumiere_notice(1, esc_html__( $messages["cache_delete_individual_msg"], 'lumiere-movies' ) );
+	} elseif (sanitize_text_field($_GET['msg'])=="cache_refresh_individual_msg") {
+		lumiere_notice(1, esc_html__( $messages["cache_refresh_individual_msg"], 'lumiere-movies' ) );
+	}
+}
+	/* message notification options */
+$messages = array(
+	'cache_options_update_success_msg' => 'Cache options saved.',
+	'cache_options_refresh_success_msg' => 'Cache options successfully reset.',
+	'cache_delete_all_msg' => 'All cache files deleted.',
+	'cache_delete_ticked_msg' => 'Selected ticked file(s) deleted.',
+	'cache_delete_individual_msg' => 'Selected cache file successfully deleted.',
+	'cache_refresh_individual_msg' => 'Selected cache file successfully refreshed.',
+
 );
 
-// Start config class for $config in below Imdb\Title class calls
+// Start config class for imdbphp
+use \Imdb\Title;
+use \Imdb\Person;
+
 if (class_exists("lumiere_settings_conf")) {
 	$config = new lumiere_settings_conf();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
+	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
 	$config->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
-	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 	$config->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
 	$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
 }
 
 
-// If $_GET["msg"] is found, display a related notice
-if ((isset($_GET['msg'])) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $messages) ){
-	// Message Message for cache updated successfully
-	if (sanitize_text_field($_GET['msg'])=="cache_update_success") {
-		lumiere_notice(1, esc_html__( $messages["cache_update_success"], 'lumiere-movies' ) );
-	// Message for cache doesn't exist
-	} elseif (sanitize_text_field($_GET['msg'])=="cache_doesnt_exist") {
-		lumiere_notice(3, esc_html__( $messages["cache_doesnt_exist"], 'lumiere-movies' ) );
-	// Message for cache deleted successfully
-	} elseif (sanitize_text_field($_GET['msg'])=="cache_delete_success") {
-		lumiere_notice(1, esc_html__( $messages["cache_delete_success"], 'lumiere-movies' ) );
+// Data is posted using the form
+if (current_user_can( 'manage_options' ) ) { 
 
-	}
-}
+	##################################### Saving options
 
+	// save data selected
+	if ( (isset($_POST['update_cache_options'])) && (check_admin_referer('cache_options_check', 'cache_options_check')) ) { 
 
-##################################### delete several files
+		foreach ($_POST as $key=>$postvalue) {
+			// Sanitize
+			$key_sanitized = sanitize_key($key);
 
-if ( isset( $_POST['update_imdbltcache_check'] ) && wp_verify_nonce( $_POST['update_imdbltcache_check'], 'update_imdbltcache_check' ) ) {
-
-	// prevent drama
-	if ( is_null($imdb_cache_values['imdbcachedir']))
-		exit( esc_html__("Cannot work this way.", 'lumiere-movies') );
-
-	if ( isset( $_POST['imdb_cachedeletefor'] ) ) {
-		foreach( $_POST["imdb_cachedeletefor"] as $number_to_delete ) {
-
-			// things to delete
-			$filetodeletetitle=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete;
-			$filetodeletetaglines=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete.".taglines";
-			$filetodeletesoundtrack=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete.".soundtrack";
-			$filetodeletereleaseinfo=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete.".releaseinfo";
-			$filetodeletefullcredits=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete.".fullcredits";
-			$filetodeleteplotsummary=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete.".plotsummary";
-			$filetodeletecompanycredits=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete.".companycredits";
-			$filetodeletemovieconnections=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete.".MovieConnections";
-			$filetodeleteexternalsites=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete.".externalsites";
-			$filetodeleteplot=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete."plot";
-			$filetodeletequotes=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete.".quotes";
-			$filetodeletetrivia=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete.".trivia";
-			$filetodeletevideogallery=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete.".videogallery.content_type-trailer";
-			$filetodeletetechnical=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete.".technical";
-			$filetodeletetriviatab=$imdb_cache_values['imdbcachedir']."title.tt".$number_to_delete.".trivia.tab=gf";
-			$filetodeletepics=$imdb_cache_values['imdbphotodir'].$number_to_delete."_big.jpg";
-			$filetodeletepics2=$imdb_cache_values['imdbphotodir'].$number_to_delete.".jpg";
-
-			// delete things
-			if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w')  ) {
-			 	if (file_exists($filetodeletetitle )) unlink ($filetodeletetitle);
-			 	if (file_exists($filetodeletetaglines )) unlink ($filetodeletetaglines);
-			 	if (file_exists($filetodeletesoundtrack )) unlink ($filetodeletesoundtrack);
-			 	if (file_exists($filetodeletereleaseinfo )) unlink ($filetodeletereleaseinfo);
-			 	if (file_exists($filetodeletefullcredits )) unlink ($filetodeletefullcredits);
-			 	if (file_exists($filetodeleteplotsummary )) unlink ($filetodeleteplotsummary);
-			 	if (file_exists($filetodeletecompanycredits )) unlink ($filetodeletecompanycredits);
-			 	if (file_exists($filetodeletemovieconnections )) unlink ($filetodeletemovieconnections);
-			 	if (file_exists($filetodeleteexternalsites )) unlink ($filetodeleteexternalsites);
-			 	if (file_exists($filetodeleteplot )) unlink ($filetodeleteplot);
-			 	if (file_exists($filetodeletequotes )) unlink ($filetodeletequotes);
-			 	if (file_exists($filetodeletetrivia )) unlink ($filetodeletetrivia);
-			 	if (file_exists($filetodeletevideogallery )) unlink ($filetodeletevideogallery);
-			 	if (file_exists($filetodeletetechnical )) unlink ($filetodeletetechnical);
-			 	if (file_exists($filetodeletetriviatab )) unlink ($filetodeletetriviatab);
-			 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
-			 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
-
-			} else {
-				wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'lumiere-movies') .'</strong>') );
-			}
-
-		}
-	}
-
-	if ( isset( $_POST['imdb_cachedeletefor_people'] ) ) {
-		foreach( $_POST["imdb_cachedeletefor_people"] as $number_to_delete ) {
-
-			// things to delete
-			$filetodeletebio=$imdb_cache_values['imdbcachedir']."name.nm".$number_to_delete.".bio";
-			$filetodeletename=$imdb_cache_values['imdbcachedir']."name.nm".$number_to_delete;
-			$filetodeletepublicity=$imdb_cache_values['imdbcachedir']."name.nm".$number_to_delete.".publicity";
-			$filetodeletepics=$imdb_cache_values['imdbphotodir']."nm".$number_to_delete.".jpg";
-
-			// delete things
-			if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w') ) {
-			 	if (file_exists($filetodeletebio )) unlink ($filetodeletebio);
-			 	if (file_exists($filetodeletename )) unlink ($filetodeletename);
-			 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
-			 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
-			} else {
-				wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'lumiere-movies') .'</strong>') ); 
+			$keynoimdb = str_replace ( "imdb_", "", $key_sanitized);
+			if (isset($_POST["$key_sanitized"])) {
+				//$imdbOptionsc["$keynoimdb"] = $_POST["$key_sanitized"];
+				// 2021 05 12 Sanitization, let's see if works
+				$imdbOptionsc["$keynoimdb"] = sanitize_text_field($_POST["$key_sanitized"]);
 			}
 		}
+
+		update_option($this->imdbCacheOptionsName, $imdbOptionsc);
+
+		// display message on top
+		lumiere_notice(1, '<strong>'. esc_html__( 'Cache options saved.', 'lumiere-movies') .'</strong>');
+		lumiere_notice(1, '<div align="center"><a href="'.admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a></div>');
+		wp_safe_redirect( add_query_arg( "msg", "cache_options_update_success_msg", admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' ) ); // doesn't work
+		exit();
 	}
-	wp_redirect( add_query_arg( "msg", "cache_delete_success", admin_url() . '/admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' ) );
 
-	lumiere_notice(1, '<strong>'. esc_html__("Cache files successfully deleted.", 'lumiere-movies').'</strong>');
-exit();
-}
+	// reset options selected
+	if ( (isset($_POST['reset_cache_options'])) && (check_admin_referer('cache_options_check', 'cache_options_check')) ){ 
 
-##################################### delete a peliculiar file
+		update_option($this->imdbCacheOptionsName, $imdbCacheOptions);
 
-if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
+		// display message on top
+		lumiere_notice(1, '<strong>'. esc_html__( 'Cache options reset.', 'lumiere-movies') .'</strong>');
+		lumiere_notice(1, '<div align="center"><a href="'.admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a></div>');
+		wp_safe_redirect( add_query_arg( "msg", "cache_options_refresh_success_msg", admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' ) ); // doesn't work
+		exit();
+	}
 
-	// prevent drama
-	if ( (is_null($imdb_cache_values['imdbcachedir'])) || (!is_numeric($_GET['where']))  )
-		exit( esc_html__("Cannot work this way.", 'lumiere-movies') );
+	// delete all cache files
+	if ( (isset($_POST['delete_all_cache'])) && (check_admin_referer('cache_options_check', 'cache_options_check')) ){  
 
-	if (($_GET['type'])== 'movie') {
-		$wheresanitized = filter_var( $_GET["where"], FILTER_SANITIZE_NUMBER_INT) ?? NULL;
+		// prevent drama
+		if ( is_null($imdb_cache_values['imdbcachedir']))
+			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
 		
-		// things to delete
-		$filetodeletetitle=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized;
-		$filetodeletetaglines=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".taglines";
-		$filetodeletesoundtrack=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".soundtrack";
-		$filetodeletereleaseinfo=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".releaseinfo";
-		$filetodeletefullcredits=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".fullcredits";
-		$filetodeleteplotsummary=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".plotsummary";
-		$filetodeletecompanycredits=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".companycredits";
-		$filetodeletemovieconnections=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".MovieConnections";
-		$filetodeleteexternalsites=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".externalsites";
-		$filetodeleteplot=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized."plot";
-		$filetodeletequotes=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".quotes";
-		$filetodeletetrivia=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".trivia";
-		$filetodeletevideogallery=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".videogallery.content_type-trailer";
-		$filetodeletetechnical=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".technical";
-		$filetodeletetriviatab=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".trivia.tab=gf";
-		$filetodeletepics=$imdb_cache_values['imdbphotodir'].$wheresanitized."_big.jpg";
-		$filetodeletepics2=$imdb_cache_values['imdbphotodir'].$wheresanitized.".jpg";
+		// Delete cache
+		lumiere_unlinkRecursive( $imdb_cache_values['imdbcachedir'] );
 
-		// delete things
-		if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w')  ) {
-		 	if (file_exists($filetodeletetitle )) unlink ($filetodeletetitle);
-		 	if (file_exists($filetodeletetaglines )) unlink ($filetodeletetaglines);
-		 	if (file_exists($filetodeletesoundtrack )) unlink ($filetodeletesoundtrack);
-		 	if (file_exists($filetodeletereleaseinfo )) unlink ($filetodeletereleaseinfo);
-		 	if (file_exists($filetodeletefullcredits )) unlink ($filetodeletefullcredits);
-		 	if (file_exists($filetodeleteplotsummary )) unlink ($filetodeleteplotsummary);
-		 	if (file_exists($filetodeletecompanycredits )) unlink ($filetodeletecompanycredits);
-		 	if (file_exists($filetodeletemovieconnections )) unlink ($filetodeletemovieconnections);
-		 	if (file_exists($filetodeleteexternalsites )) unlink ($filetodeleteexternalsites);
-		 	if (file_exists($filetodeleteplot )) unlink ($filetodeleteplot);
-		 	if (file_exists($filetodeletequotes )) unlink ($filetodeletequotes);
-		 	if (file_exists($filetodeletetrivia )) unlink ($filetodeletetrivia);
-		 	if (file_exists($filetodeletevideogallery )) unlink ($filetodeletevideogallery);
-		 	if (file_exists($filetodeletetechnical )) unlink ($filetodeletetechnical);
-		 	if (file_exists($filetodeletetriviatab )) unlink ($filetodeletetriviatab);
-		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
-		 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
-
-		}  else {
-			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'lumiere-movies') .'</strong>') ) ;
-		}
+		// display message on top
+		lumiere_notice(1, '<strong>'. esc_html__( 'All cache files deleted.', 'lumiere-movies') .'</strong>');
+		lumiere_notice(1, '<div align="center"><a href="'.admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a></div>');
+		wp_safe_redirect( add_query_arg( "msg", "cache_delete_all_msg", admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' ) ); // doesn't work
+		exit();
 	}
 
-	if (($_GET['type'])== 'people') {
-		$wheresanitized = filter_var( $_GET["where"], FILTER_SANITIZE_NUMBER_INT) ?? NULL;
+	##################################### delete several ticked files
 
-		// things to delete
-		$filetodeletebio=$imdb_cache_values['imdbcachedir']."name.nm".$wheresanitized.".bio";
-		$filetodeletename=$imdb_cache_values['imdbcachedir']."name.nm".$wheresanitized;
-		$filetodeletepublicity=$imdb_cache_values['imdbcachedir']."name.nm".$wheresanitized.".publicity";
-		$filetodeletepics=$imdb_cache_values['imdbphotodir']."nm".$wheresanitized.".jpg";
+	if ( (isset($_POST['delete_ticked_cache'])) && (check_admin_referer('cache_options_check', 'cache_options_check')) ){  
 
-		// delete things
-		if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w')  ) {
-		 	if (file_exists($filetodeletebio )) unlink ($filetodeletebio);
-		 	if (file_exists($filetodeletename )) unlink ($filetodeletename);
-		 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
-		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
-		} else {
-			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'lumiere-movies') .'</strong>') ) ;
+		// prevent drama
+		if ( is_null($imdb_cache_values['imdbcachedir']))
+			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
+
+
+		// for movies
+		if (isset($_POST ['imdb_cachedeletefor_movies'])) {
+			for ($i = 0; $i < count ($_POST ['imdb_cachedeletefor_movies']); $i++) {
+				$id_sanitized = sanitize_key( $_POST['imdb_cachedeletefor_movies'][$i] );
+
+				foreach ( glob($imdb_cache_values['imdbcachedir'].'title.tt'.$id_sanitized."*") as $cacheTOdelete) {
+					if($cacheTOdelete == $imdb_cache_values['imdbcachedir'].'.' || $cacheTOdelete == $imdb_cache_values['imdbcachedir'].'..') {
+						continue;
+					}
+					if (file_exists($cacheTOdelete )) {
+						unlink( esc_url( $cacheTOdelete ));
+					}  else {
+						wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+					}
+				}
+			}
 		}
+
+		// for people
+		if (isset($_POST ['imdb_cachedeletefor_people'])) {
+			for ($i = 0; $i < count ($_POST ['imdb_cachedeletefor_people']); $i++) {
+
+				$id_sanitized = sanitize_key( $_POST['imdb_cachedeletefor_people'][$i] );
+
+				foreach ( glob($imdb_cache_values['imdbcachedir'].'name.nm'.$id_sanitized."*") as $cacheTOdelete) {
+					if($cacheTOdelete == $imdb_cache_values['imdbcachedir'].'.' || $cacheTOdelete == $imdb_cache_values['imdbcachedir'].'..') {
+						continue;
+					}
+					if (file_exists($cacheTOdelete )) {
+						unlink( esc_url( $cacheTOdelete ));
+					}  else {
+						wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+					}
+				}
+
+			}
+		}
+
+		// display message on top
+		lumiere_notice(1, esc_html__( 'Selected ticked cache file(s) deleted.', 'lumiere-movies') );
+		lumiere_notice(1, '<div align="center"><a href="'.admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a></div>');
+		wp_safe_redirect( add_query_arg( "msg", "cache_delete_ticked_msg", admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' ) ); // doesn't work
+		exit();
+
 	}
 
-	wp_redirect( add_query_arg( "msg", "cache_delete_success", admin_url() . '/admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' ) );
+	##################################### delete a specific file by clicking on it
 
-	lumiere_notice(1, '<strong>'. esc_html__("Cache successfully deleted.", 'lumiere-movies').'</strong>');
+	if (($_GET['dothis'] == 'delete') && ($_GET['type'])) {
+
+		// prevent drama
+		if ( (is_null($imdb_cache_values['imdbcachedir'])) || (!is_numeric($_GET['where']))  )
+			exit( esc_html__("Cannot work this way.", 'lumiere-movies') );
+
+		// delete single movie
+		if (($_GET['type'])== 'movie')  {
+
+			$id_sanitized =  sanitize_key( $_GET['where'] ) ?? NULL;
+			$name_sanitized = glob($imdb_cache_values['imdbcachedir'].'title.tt'.$id_sanitized."*") ?? NULL;
+
+			// if file doesn't exist
+			if  ( (is_null($name_sanitized)) || (count($name_sanitized) < 1) )
+				wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+
+			foreach ( $name_sanitized as $cacheTOdelete) {
+
+				if($cacheTOdelete == $imdb_cache_values['imdbcachedir'].'.' || $cacheTOdelete == $imdb_cache_values['imdbcachedir'].'..') {
+					continue;
+				}
+
+				unlink( esc_url( $cacheTOdelete ));
+			}
+		}
+
+		// delete single person
+		if (($_GET['type'])== 'people') {
+
+			$id_sanitized =  sanitize_key( $_GET['where'] ) ?? NULL;
+			$name_sanitized = glob($imdb_cache_values['imdbcachedir'].'name.nm'.$id_sanitized."*") ?? NULL;
+
+			// if file doesn't exist
+			if  ( (is_null($name_sanitized)) || (count($name_sanitized) < 1) )
+				wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+
+			foreach ( $name_sanitized as $cacheTOdelete) {
+
+				if($cacheTOdelete == $imdb_cache_values['imdbcachedir'].'.' || $cacheTOdelete == $imdb_cache_values['imdbcachedir'].'..') {
+					continue;
+				}
+
+				unlink( esc_url( $cacheTOdelete ));
+			}
+		}
+
+		lumiere_notice(1, esc_html__( 'Selected cache file deleted.', 'lumiere-movies') );
+		//wp_safe_redirect( add_query_arg( "msg", "cache_delete_individual_msg", admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' ) )
+	}
+
+
+	##################################### refresh a specific file by clicking on it
+
+	if ( (isset($_GET['dothis'])) && ($_GET['dothis'] == 'refresh') && (isset($_GET['type'])) ) {
+
+		// prevent drama
+		if ( (is_null($imdb_cache_values['imdbcachedir'])) || (!is_numeric($_GET['where']))  )
+			exit( esc_html__("Cannot work this way.", 'lumiere-movies') );
+
+		if ( ($_GET['type']) == 'movie') {
+			$id_sanitized = filter_var( $_GET["where"], FILTER_SANITIZE_NUMBER_INT) ?? NULL;
+
+			$name_sanitized = glob($imdb_cache_values['imdbcachedir'].'title.tt'.$id_sanitized."*") ?? NULL;
+
+			// if file doesn't exist
+			if  ( (is_null($name_sanitized)) || (count($name_sanitized) < 1) )
+				wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+
+			foreach ( $name_sanitized as $cacheTOdelete) {
+
+				if($cacheTOdelete == $imdb_cache_values['imdbcachedir'].'.' || $cacheTOdelete == $imdb_cache_values['imdbcachedir'].'..') {
+					continue;
+				}
+
+				unlink( esc_url( $cacheTOdelete ));
+			}
+
+			// get again the movie
+			$movie = new Imdb\Title($id_sanitized, $config);
+
+			$movie->alsoknow(); $movie->cast(); $movie->colors(); $movie->composer(); $movie->comment_split(); $movie->country(); $movie->creator(); $movie->director(); $movie->genres(); $movie->goofs(); $movie->keywords(); $movie->languages(); $movie->officialSites(); $movie->photo_localurl(); $movie->plot(); $movie->prodCompany(); $movie->producer(); $movie->quotes(); $movie->rating(); $movie->runtime(); $movie->soundtrack(); $movie->taglines(); $movie->title(); $movie->trailers(TRUE); $movie->votes(); $movie->writing(); $movie->year();
+
+		}
+
+		if (($_GET['type'])== 'people') {
+
+			$id_people_sanitized =  $_GET['where'] ?? NULL;
+			$name_people_sanitized = glob($imdb_cache_values['imdbcachedir'].'name.nm'.$id_people_sanitized."*") ?? NULL;
+
+			// if file doesn't exist
+			if  ( (is_null($name_people_sanitized)) || (count($name_people_sanitized) < 1) )
+				wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+
+			foreach ( $name_people_sanitized as $cacheTOdelete) {
+
+				if($cacheTOdelete == $imdb_cache_values['imdbcachedir'].'.' || $cacheTOdelete == $imdb_cache_values['imdbcachedir'].'..') {
+					continue;
+				}
+
+				unlink( esc_url( $cacheTOdelete ));
+
+			}
+
+			// get again the person
+			$person = new Imdb\Person($id_people_sanitized, $config);
+
+			$person->bio(); $person->birthname();$person->born();$person->died();	$person->movies_all(); $person->movies_archive(); $person->movies_soundtrack(); $person->movies_writer(); $person->name(); $person->photo_localurl(); $person->pubmovies(); $person->pubportraits(); $person->quotes(); $person->trivia(); $person->trademark();
+
+		}
+
+		lumiere_notice(1, esc_html__( 'Selected cache file successfully refreshed.', 'lumiere-movies') );
+	}
 
 }
 
-##################################### refresh a peliculiar file
-
-if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
-
-	// prevent drama
-	if ( (is_null($imdb_cache_values['imdbcachedir'])) || (!is_numeric($_GET['where']))  )
-		exit( esc_html__("Cannot work this way.", 'lumiere-movies') );
-
-	if ( ($_GET['type']) == 'movie') {
-		$wheresanitized = filter_var( $_GET["where"], FILTER_SANITIZE_NUMBER_INT) ?? NULL;
-
-		// things to delete
-		$filetodeletetitle=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized;
-		$filetodeletetaglines=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".taglines";
-		$filetodeletesoundtrack=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".soundtrack";
-		$filetodeletereleaseinfo=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".releaseinfo";
-		$filetodeletefullcredits=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".fullcredits";
-		$filetodeleteplotsummary=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".plotsummary";
-		$filetodeletecompanycredits=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".companycredits";
-		$filetodeletemovieconnections=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".MovieConnections";
-		$filetodeleteexternalsites=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".externalsites";
-		$filetodeleteplot=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized."plot";
-		$filetodeletequotes=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".quotes";
-		$filetodeletetrivia=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".trivia";
-		$filetodeletevideogallery=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".videogallery.content_type-trailer";
-		$filetodeletetechnical=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".technical";
-		$filetodeletetriviatab=$imdb_cache_values['imdbcachedir']."title.tt".$wheresanitized.".trivia.tab=gf";
-		$filetodeletepics=$imdb_cache_values['imdbphotodir'].$wheresanitized."_big.jpg";
-		$filetodeletepics2=$imdb_cache_values['imdbphotodir'].$wheresanitized.".jpg";
-
-		// delete things
-		if( file_exists($filetodeletetitle ) && fopen($filetodeletetitle, 'w') ) {
-		 	if (file_exists($filetodeletetitle )) unlink ($filetodeletetitle);
-		 	if (file_exists($filetodeletetaglines )) unlink ($filetodeletetaglines);
-		 	if (file_exists($filetodeletesoundtrack )) unlink ($filetodeletesoundtrack);
-		 	if (file_exists($filetodeletereleaseinfo )) unlink ($filetodeletereleaseinfo);
-		 	if (file_exists($filetodeletefullcredits )) unlink ($filetodeletefullcredits);
-		 	if (file_exists($filetodeleteplotsummary )) unlink ($filetodeleteplotsummary);
-		 	if (file_exists($filetodeletecompanycredits )) unlink ($filetodeletecompanycredits);
-		 	if (file_exists($filetodeletemovieconnections )) unlink ($filetodeletemovieconnections);
-		 	if (file_exists($filetodeleteexternalsites )) unlink ($filetodeleteexternalsites);
-		 	if (file_exists($filetodeleteplot )) unlink ($filetodeleteplot);
-		 	if (file_exists($filetodeletequotes )) unlink ($filetodeletequotes);
-		 	if (file_exists($filetodeletetrivia )) unlink ($filetodeletetrivia);
-		 	if (file_exists($filetodeletevideogallery )) unlink ($filetodeletevideogallery);
-		 	if (file_exists($filetodeletetechnical )) unlink ($filetodeletetechnical);
-		 	if (file_exists($filetodeletetriviatab )) unlink ($filetodeletetriviatab);
-		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
-		 	if (file_exists($filetodeletepics2 )) unlink ($filetodeletepics2);
-		} else {
-			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'lumiere-movies') .'</strong>') ) ;
-		}
-
-		// get again the movie
-		ob_start();
-		$moviespecificid = $wheresanitized;
-		$imdballmeta = "imdb-movie-widget-noname";
-		include( IMDBLTABSPATH . 'inc/imdb-movie.inc.php');
-		$out = ob_get_contents();
-		ob_end_clean();
-	}
-
-	if (($_GET['type'])== 'people') {
-
-		$wheresanitized = filter_var( $_GET["where"], FILTER_SANITIZE_NUMBER_INT) ?? NULL;
-
-		// things to delete
-		$filetodeletebio=$imdb_cache_values['imdbcachedir']."name.nm".$wheresanitized.".bio";
-		$filetodeletename=$imdb_cache_values['imdbcachedir']."name.nm".$wheresanitized;
-		$filetodeletepublicity=$imdb_cache_values['imdbcachedir']."name.nm".$wheresanitized.".publicity";
-		$filetodeletepics=$imdb_cache_values['imdbphotodir']."nm".$wheresanitized.".jpg";
-
-		// delete things
-		if( file_exists($filetodeletename ) && fopen($filetodeletename, 'w') ) {
-		 	if (file_exists($filetodeletebio )) unlink ($filetodeletebio);
-		 	if (file_exists($filetodeletename )) unlink ($filetodeletename);
-		 	if (file_exists($filetodeletepublicity )) unlink ($filetodeletepublicity);
-		 	if (file_exists($filetodeletepics )) unlink ($filetodeletepics);
-		} else {
-			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'This file does not exist.', 'lumiere-movies') .'</strong>') );
-		}
-
-		// get again the person
-		$person = new Imdb\Person($wheresanitized, $config);
-
-		$name = $person->name(); // search title related to movie id
-		$bio = $person->bio(); 
-		$pubmovies = $person->pubmovies();
-		$photo_url = $person->photo_localurl();
-	}
-
-	// display message on top
-	wp_safe_redirect( add_query_arg( "msg", "cache_update_success", admin_url() . '/admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' ) );
-
-//	wp_safe_redirect( wp_get_referer() );
-	lumiere_notice(1, '<strong>'. esc_html__( 'Cache succesfully refreshed.', 'lumiere-movies') .'</strong>');
-//	exit(); can't use exit here?
-}
-
-##################################### let's display real cache option page
+##################################### Cache option page
 ?>
 
 <div id="tabswrap">
@@ -461,24 +435,25 @@ if (($_GET['dothis'] == 'refresh') && ($_GET['type'])) {
 </div>		
 		<?php //------------------------------------------------------------------ =[Submit selection]=- ?>
 			<div class="submit submit-imdb" align="center">
-				<?php wp_nonce_field('reset_cache_options_check', 'reset_cache_options_check'); //check that data has been sent only once ?>
+				<?php wp_nonce_field('cache_options_check', 'cache_options_check'); //check that data has been sent only once ?>
 				<input type="submit" class="button-primary" name="reset_cache_options" value="<?php esc_html_e('Reset settings', 'lumiere-movies') ?>" />
-				<?php wp_nonce_field('update_cache_options_check', 'update_cache_options_check', false);  //check that data has been sent only once -- don't send _wp_http_referer twice, already sent with first wp_nonce_field -> 3rd option to "false" ?>
 				<input type="submit" class="button-primary" name="update_cache_options" value="<?php esc_html_e('Update settings', 'lumiere-movies') ?>" />
 			</div>
 		</form>
 
 <?php	}  // end cache options
 
-	if ($_GET['cacheoption'] == "manage")  { 	////////////////////////////////////////////// Cache management ?>
+	if ($_GET['cacheoption'] == "manage")  { 	////////////////////////////////////////////// Cache management 
 
+		// check if folder exists & store cache option is selected
+		if (file_exists($imdb_cache_values['imdbcachedir']) && ($imdb_cache_values['imdbusecache'])) { ?>
 
 	<div class="postbox-container">
 		<div id="left-sortables" class="meta-box-sortables" >
 
 
 		<?php //------------------------------------------------------------------ =[cache delete]=- ?>
-		<form method="post" name="manage_imdbltcache" id="manage_imdbltcache" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>">			
+		<form method="post" name="manage_imdbltcache" id="manage_imdbltcache" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>">		
 
 
 		<div class="postbox">
@@ -505,7 +480,7 @@ if (!lumiere_isEmptyDir($imdb_cache_values['imdbcachedir'])) { // from functions
 	/* translators: %s is replaced with the number of files */
 	echo "&nbsp;" . sprintf( _n( '%s file', '%s files', $imdltcacheFileCount, 'lumiere-movies'), number_format_i18n( $imdltcacheFileCount )) ;
 	echo "&nbsp;" . esc_html__( 'using', 'lumiere-movies'); 
-	echo ' ' . lumiere_formatBytes( $filenamesize1 ) . "\n";
+	echo ' ' . lumiere_formatBytes( intval($filenamesize1) ) . "\n";
 	echo "</strong>"; 
 
 ?>
@@ -519,10 +494,7 @@ if (!lumiere_isEmptyDir($imdb_cache_values['imdbcachedir'])) { // from functions
 
 				<br />
 
-<?php				//check that data has been sent only once -- don't send _wp_http_referer twice, 
-				//already sent with first wp_nonce_field -> 3rd option to "false" 
-				wp_nonce_field('delete_imdbltcache_check', 'delete_imdbltcache_check', false); ?>
-				<input type="submit" class="button-primary" name="delete_imdbltcache"  data-confirm="<?php esc_html_e( "Delete all cache? Really?", 'lumiere-movies'); ?>" value="<?php esc_html_e('Delete all cache', 'lumiere-movies') ?>" /> 
+				<input type="submit" class="button-primary" name="delete_all_cache" data-confirm="<?php esc_html_e( "Delete all cache? Really?", 'lumiere-movies'); ?>" value="<?php esc_html_e('Delete all cache', 'lumiere-movies') ?>" /> 
 				<br />
 				<br />
 <?php 
@@ -542,9 +514,7 @@ if (!lumiere_isEmptyDir($imdb_cache_values['imdbcachedir'])) { // from functions
 		<br />
 		<br />
 
-<?php	if (file_exists($imdbOptionsc['imdbcachedir']) && ($imdbOptionsc['imdbusecache'])) { // check if folder exists & store cache option is selected
-
-			 //------------------------------------------------------------------ =[movies management]=- ?>
+<?php		 //------------------------------------------------------------------ =[movies management]=- ?>
 
 	<div class="postbox">
 		<h3 class="hndle" id="cachemovies" name="cachemovies"><?php esc_html_e('Movie\'s detailed cache', 'lumiere-movies'); ?></h3>
@@ -586,9 +556,9 @@ if ((!isset($files)) || (empty($files)) ){
 			if (get_class($res) === 'Imdb\Title') {
 				$title_sanitized = sanitize_text_field( $res->title() ); // search title related to movie id
 				$obj_sanitized = sanitize_text_field( $res->imdbid() );
-				$filepath_sanitized = esc_url( $imdbOptionsc['imdbcachedir']."title.tt".substr($obj_sanitized, 0, 7) );
+				$filepath_sanitized = esc_url( $imdb_cache_values['imdbcachedir']."title.tt".substr($obj_sanitized, 0, 7) );
 				if ($imdbOptionsc['imdbcachedetailsshort'] == 1)  { // display only cache movies' names, quicker loading
-					$data[] = '<input type="checkbox" id="imdb_cachedeletefor_'.$title_sanitized.'" name="imdb_cachedeletefor[]" value="'.$obj_sanitized.'" /><label for="imdb_cachedeletefor[]">'.$title_sanitized.'</label>'; // send input and results into array
+					$data[] = '<input type="checkbox" id="imdb_cachedeletefor_movies_'.$title_sanitized.'" name="imdb_cachedeletefor_movies[]" value="'.$obj_sanitized.'" /><label for="imdb_cachedeletefor_movies[]">'.$title_sanitized.'</label>'; // send input and results into array
 					flush();
 				} else { // display every cache movie details, longer loading
 
@@ -597,10 +567,10 @@ if ((!isset($files)) || (empty($files)) ){
 
 				// no flex class so the browser decides how many data to display per lines
 				// table so "row-actions" wordpress class works
-				$data[] = '	<div><table><tr><td>
+				$data[] = '	<div class="imdblt_double_container_content_third lumiere_breakall"><table><tr><td>
 							<img id="pic_'.$title_sanitized.'" class="picfloat" '.$moviepicturelink.' width="40px">
 
-							<input type="checkbox" id="imdb_cachedeletefor_'.$title_sanitized.'" name="imdb_cachedeletefor[]" value="'.$obj_sanitized.'" /><label for="imdb_cachedeletefor[]" class="imdblt_bold">'.$title_sanitized.'</label> <br />'. esc_html__("last updated on ", 'lumiere-movies').date ("j M Y H:i:s", filemtime($filepath_sanitized)).' 
+							<input type="checkbox" id="imdb_cachedeletefor_movies_'.$title_sanitized.'" name="imdb_cachedeletefor_movies[]" value="'.$obj_sanitized.'" /><label for="imdb_cachedeletefor_movies[]" class="imdblt_bold">'.$title_sanitized.'</label> <br />'. esc_html__("last updated on ", 'lumiere-movies').date ("j M Y H:i:s", filemtime($filepath_sanitized)).' 
 							<div id="refresh_edit_'.$title_sanitized.'" class="row-actions">
 								<span class="edit"><a href="'.esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage&dothis=refresh&where='.$obj_sanitized.'&type=movie').'" class="admin-cache-confirm-refresh" data-confirm="'. esc_html__("Refresh cache for *", 'lumiere-movies') .$title_sanitized.'*?">'.esc_html__("refresh", 'lumiere-movies').'</a></span>
 
@@ -624,22 +594,19 @@ if ((!isset($files)) || (empty($files)) ){
 		echo $inputline;
 	}
 ?>
-
 				</div>
-
 				<br />
 
 				<div class="imdblt_align_center">
-					<input type="button" name="CheckAll" value="Check All" data-check="">
-					<input type="button" name="UnCheckAll" value="Uncheck All" data-uncheck="">
+					<input type="button" name="CheckAll" value="Check All" data-check-movies="">
+					<input type="button" name="UnCheckAll" value="Uncheck All" data-uncheck-movies="">
 				</div>
 
 				<br />
 				<br />
 
 				<div class="imdblt_align_center">
-					<?php wp_nonce_field('update_imdbltcache_check', 'update_imdbltcache_check'); //check that data has been sent only once  ?>
-					<input type="submit" class="button-primary" name="update_imdbltcache" data-confirm="<?php esc_html_e( "Delete selected cache?", 'lumiere-movies'); ?>" value="<?php esc_html_e('Delete cache', 'lumiere-movies') ?>" />
+					<input type="submit" class="button-primary" name="delete_ticked_cache" data-confirm="<?php esc_html_e( "Delete selected cache?", 'lumiere-movies'); ?>" value="<?php esc_html_e('Delete cache', 'lumiere-movies') ?>" />
 					<br/>
 					<br/>
 					<?php echo esc_html_e('Warning!', 'lumiere-movies'); ?>
@@ -649,13 +616,11 @@ if ((!isset($files)) || (empty($files)) ){
 
 <?php } // end if cache folder is empty
 ?>
-
 			</div>
 	<br />
 	<br />
 
-
-		<?php //------------------------------------------------------------------ =[people delete]=- ?>
+	<?php //------------------------------------------------------------------------ =[people delete]=- ?>
 
 	<div class="postbox">
 		<h3 class="hndle" id="cachepeople" name="cachepeople"><?php esc_html_e('People\'s detailed cache', 'lumiere-movies'); ?></h3>
@@ -697,14 +662,14 @@ if (!empty($results)){
 		if (get_class($res) === 'Imdb\Person') {
 			$name_sanitized = sanitize_text_field( $res->name() ); // search title related to movie id
 			$objpiple_sanitized = sanitize_text_field( $res->imdbid() );
-			$filepath_sanitized = esc_url($imdbOptionsc['imdbcachedir']."name.nm".substr($objpiple_sanitized, 0, 7));
+			$filepath_sanitized = esc_url($imdb_cache_values['imdbcachedir']."name.nm".substr($objpiple_sanitized, 0, 7));
 			if ($imdbOptionsc['imdbcachedetailsshort'] == 1)  { // display only cache peoples' names, quicker loading
 				$datapeople[] = '<input type="checkbox" id="imdb_cachedeletefor_people_'.$name_sanitized.'" name="imdb_cachedeletefor_people[]" value="'.$objpiple_sanitized.'" /><label for="imdb_cachedeletefor_people[]">'.$name_sanitized.'</label>'; // send input and results into array
 				flush();
 			} else { // display every cache people details, longer loading
 				$picturelink = (($photo_url = $res->photo_localurl() ) != FALSE) ? 'src="'.esc_url($imdb_cache_values['imdbphotodir']."nm".$objpiple_sanitized.'.jpg').'" alt="'.$name_sanitized.'"' : 'src="'.esc_url( IMDBLTURLPATH.'pics/no_pics.gif').'" alt="'.esc_html__('no picture', 'lumiere-movies').'"'; // get either local picture or if no local picture exists, display the default one
 				$datapeople[] = '	
-						<div><table><tr><td>
+						<div class="imdblt_double_container_content_third lumiere_breakall"><table><tr><td>
 							<img id="pic_'.$name_sanitized.'" class="picfloat" '.$picturelink.' width="40px" alt="no pic">
 							<input type="checkbox" id="imdb_cachedeletefor_people_'.$name_sanitized.'" name="imdb_cachedeletefor_people[]" value="'.$objpiple_sanitized.'" /><label for="imdb_cachedeletefor_people_[]" class="imdblt_bold">'.$name_sanitized.'</label><br />'. esc_html__('last updated on ', 'lumiere-movies').date ("j M Y H:i:s", filemtime($filepath_sanitized)).'
 							
@@ -740,8 +705,7 @@ if (!empty($results)){
 					<br />
 
 					<div align="center">
-						<?php wp_nonce_field('update_imdbltcache_check', 'update_imdbltcache_check'); //check that data has been sent only once  ?>
-						<input type="submit" class="button-primary" data-confirm="<?php esc_html_e( "Delete selected cache?", 'lumiere-movies'); ?>" name="update_imdbltcache" value="<?php esc_html_e('Delete cache', 'lumiere-movies') ?>" />
+						<input type="submit" class="button-primary" data-confirm="<?php esc_html_e( "Delete selected cache?", 'lumiere-movies'); ?>" name="delete_ticked_cache" value="<?php esc_html_e('Delete cache', 'lumiere-movies') ?>" />
 						<br/>
 						<br/>
 						<?php echo esc_html_e('Warning!', 'lumiere-movies'); ?>
@@ -762,6 +726,7 @@ if (!empty($results)){
 	</div>
 
 	<div class="inside imblt_border_shadow">
+		<form method="post" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
 
 		<div class="lumiere_intro_options"><?php esc_html_e('Edit the following values only if need so. You can break the caching system.', 'lumiere-movies'); ?></div>
 		<br />
@@ -778,11 +743,19 @@ if (!empty($results)){
 
 					<span class="imdblt_smaller">
 					<?php 	// display cache folder size
-					if (!lumiere_isEmptyDir($imdbOptionsc['imdbcachedir'])) { // from functions.php
-						foreach (glob($imdbOptionsc['imdbcachedir']."*") as $filename) {
-							$filenamesize1 += filesize($filename);
+					if (!lumiere_isEmptyDir($imdb_cache_values['imdbcachedir'])) { // from functions.php
+
+						clearstatcache();
+
+						$path = realpath($imdb_cache_values['imdbcachedir']);
+$filenamesize1=0;
+						if($path!==false && $path!='' && file_exists($path) ){
+							foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){
+								$filenamesize1 += $object->getSize();
+							}
 						}
-						echo esc_html_e('Movies cache is using', 'lumiere-movies') . ' ' . lumiere_formatBytes( $filenamesize1 ) . "\n";
+				
+						echo esc_html_e('Movies cache is using', 'lumiere-movies') . ' ' . lumiere_formatBytes( intval($filenamesize1) ) . "\n";
 					} else {  echo esc_html_e('Movies cache is empty.', 'lumiere-movies'); }
 					?>
 					</span>
@@ -791,10 +764,10 @@ if (!empty($results)){
 			</div>
 			<div class="imdblt_double_container_content_eighty imdblt_padding_five">
 
-				<input type="text" name="imdb_imdbcachedir" class="imdblt_width_fillall" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbcachedir']), 'lumiere-movies') ?>">
+				<input type="text" name="imdb_imdbcachedir" class="imdblt_width_fillall" value="<?php esc_html_e(apply_filters('format_to_edit',$imdb_cache_values['imdbcachedir']), 'lumiere-movies') ?>">
 
 				<div class="explain">
-				<?php if (file_exists($imdbOptionsc['imdbcachedir'])) { // check if folder exists
+				<?php if (file_exists($imdb_cache_values['imdbcachedir'])) { // check if folder exists
 					echo '<span class="imdblt_green">';
 					esc_html_e("Folder exists.", 'lumiere-movies');
 					echo '</span>';
@@ -803,8 +776,8 @@ if (!empty($results)){
 					esc_html_e("Folder doesn't exist!", 'lumiere-movies');
 					echo '</span>'; 
 				}
-				if (file_exists($imdbOptionsc['imdbcachedir'])) { // check if permissions are ok
-					if ( substr(sprintf('%o', fileperms($imdbOptionsc['imdbcachedir'])), -3) == "777") { 
+				if (file_exists($imdb_cache_values['imdbcachedir'])) { // check if permissions are ok
+					if ( substr(sprintf('%o', fileperms($imdb_cache_values['imdbcachedir'])), -3) == "777") { 
 						echo ' <span class="imdblt_green">';
 						esc_html_e("Permissions OK.", 'lumiere-movies');
 						echo '</span>';
@@ -817,6 +790,7 @@ if (!empty($results)){
 				</div>
 			</div>
 
+				<div class="explain explain_breakall"><?php esc_html_e('Absolute path to store cache retrieved from the IMDb website. Has to be ', 'lumiere-movies'); ?><a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> <?php esc_html_e('by the webserver.', 'lumiere-movies');?> <br /><?php esc_html_e('Default:','lumiere-movies');?> "<?php echo esc_url ( WP_CONTENT_DIR . '/cache/lumiere/' ); ?>"</div>
 		</div>
 
 		<div class="imdblt_double_container">
@@ -828,11 +802,16 @@ if (!empty($results)){
 					<span class="imdblt_smaller">
 					<?php						
 					// display cache folder size
-					if (!lumiere_isEmptyDir($imdbOptionsc['imdbphotoroot'], "2")) { // from functions.php
-						foreach (glob($imdbOptionsc['imdbphotoroot']."*") as $filename) {
-							$filenamesize2 += filesize($filename);
+					if (!lumiere_isEmptyDir($imdb_cache_values['imdbphotoroot'], "2")) { // from functions.php
+						clearstatcache();
+
+						$path = realpath($imdb_cache_values['imdbphotoroot']);
+						if($path!==false && $path!='' && file_exists($path)){
+							foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){
+								$filenamesize2 += $object->getSize();
+							}
 						}
-						echo esc_html_e('Images cache is using', 'lumiere-movies') . ' ' . lumiere_formatBytes($filenamesize2) . "\n";
+						echo esc_html_e('Images cache is using', 'lumiere-movies') . ' ' . lumiere_formatBytes( intval( $filenamesize2) ) . "\n";
 					} else {  echo esc_html_e('Image cache is empty.', 'lumiere-movies') . "\n"; }
 					?>
 					</span>
@@ -841,10 +820,10 @@ if (!empty($results)){
 			</div>
 			<div class="imdblt_double_container_content_eighty imdblt_padding_five">
 
-				<input type="text" class="imdblt_width_fillall" name="imdb_imdbphotoroot" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbphotoroot']), 'lumiere-movies') ?>">
+				<input type="text" class="imdblt_width_fillall" name="imdb_imdbphotoroot" value="<?php esc_html_e(apply_filters('format_to_edit',$imdb_cache_values['imdbphotoroot']), 'lumiere-movies') ?>">
 
 				<div class="explain">
-				<?php if (file_exists($imdbOptionsc['imdbphotoroot'])) { // check if folder exists
+				<?php if (file_exists($imdb_cache_values['imdbphotoroot'])) { // check if folder exists
 				echo '<span class="imdblt_green">';
 				esc_html_e("Folder exists.", 'lumiere-movies');
 				echo '</span>';
@@ -852,8 +831,8 @@ if (!empty($results)){
 				echo '<span class="imdblt_red">';
 				esc_html_e("Folder doesn't exist!", 'lumiere-movies');
 				echo '</span>'; } 
-				if (file_exists($imdbOptionsc['imdbphotoroot'])) { // check if permissions are ok
-					if ( substr(sprintf('%o', fileperms($imdbOptionsc['imdbphotoroot'])), -3) == "777") { 
+				if (file_exists($imdb_cache_values['imdbphotoroot'])) { // check if permissions are ok
+					if ( substr(sprintf('%o', fileperms($imdb_cache_values['imdbphotoroot'])), -3) == "777") { 
 						echo ' <span class="imdblt_green">';
 						esc_html_e("Permissions OK.", 'lumiere-movies');
 						echo '</span>';
@@ -865,7 +844,7 @@ if (!empty($results)){
 				} ?>
 				</div>
 
-				<div class="explain explain_breakall"><?php esc_html_e('Absolute path to store images retrieved from the IMDb website. Has to be ', 'lumiere-movies'); ?><a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> <?php esc_html_e('by the webserver.', 'lumiere-movies');?> <br /><?php esc_html_e('Default:','lumiere-movies');?> "<?php esc_html_e ( IMDBLTABSPATH ); ?>cache/images/"</div>
+				<div class="explain explain_breakall"><?php esc_html_e('Absolute path to store images retrieved from the IMDb website. Has to be ', 'lumiere-movies'); ?><a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> <?php esc_html_e('by the webserver.', 'lumiere-movies');?> <br /><?php esc_html_e('Default:','lumiere-movies');?> "<?php echo esc_url ( WP_CONTENT_DIR . '/cache/lumiere/images/' ); ?>"</div>
 			</div>
 		</div>
 
@@ -877,7 +856,7 @@ if (!empty($results)){
 			</div>
 			<div class="imdblt_double_container_content_eighty imdblt_padding_five">
 
-				<input type="text" name="imdb_imdbphotodir" class="imdblt_width_fillall" value="<?php esc_html_e(apply_filters('format_to_edit', $imdbOptionsc['imdbphotodir']), 'lumiere-movies') ?>">
+				<input type="text" name="imdb_imdbphotodir" class="imdblt_width_fillall" value="<?php esc_html_e(apply_filters('format_to_edit', $imdb_cache_values['imdbphotodir']), 'lumiere-movies') ?>">
 
 				<div class="explain"><?php esc_html_e('URL corresponding to photo directory.','lumiere-movies');?> <br /><?php esc_html_e('Default:','lumiere-movies');?> "<?php echo esc_url( IMDBLTURLPATH . "cache/images/"); ?>"
 				</div>
@@ -892,27 +871,38 @@ if (!empty($results)){
 
 <?php //------------------------------------------------------------------ =[Submit selection]=- ?>
 	<div class="submit submit-imdb" align="center">
-		<?php wp_nonce_field('reset_cache_options_check', 'reset_cache_options_check'); //check that data has been sent only once ?>
+		<?php wp_nonce_field('cache_options_check', 'cache_options_check'); //check that data has been sent only once ?>
 		<input type="submit" class="button-primary" name="reset_cache_options" value="<?php esc_html_e('Reset settings', 'lumiere-movies') ?>" />
-		<?php wp_nonce_field('update_cache_options_check', 'update_cache_options_check', false);  //check that data has been sent only once -- don't send _wp_http_referer twice, already sent with first wp_nonce_field -> 3rd option to "false" ?>
 		<input type="submit" class="button-primary" name="update_cache_options" value="<?php esc_html_e('Update settings', 'lumiere-movies') ?>" />
 	</div>
 </form>
-<?php		} // end $imdbOptionsc['imdbcachedetails'] check ?>
+<?php		} else { // end if cache folder exists ?>
 
 
-</div>
 
 
-		<?php } else {  // else (if folder exists) -> if folder does not exist  ?>
+	<div class="inside lumiere_border_shadow_red">
+		<?php 
+		esc_html_e('A cache folder has to be created and the cache storage option has to be activated before you can manage the cache.', 'lumiere-movies');
+		echo '<br /><br />'; 
+		esc_html_e('Apparently, you have not such a cache folder.', 'lumiere-movies');
+		echo '<br /><br />'; 
+		esc_html_e( 'Click on "reset settings" to refresh the values.', 'lumiere-movies'); ?>
+	</div>
+	<div class="submit submit-imdb" align="center">
+		<form method="post" name="imdbconfig_save">
+		<?php wp_nonce_field('cache_options_check', 'cache_options_check'); //check that data has been sent only once ?>
+		<input type="submit" class="button-primary" name="reset_cache_options" value="<?php esc_html_e('Reset settings', 'lumiere-movies') ?>" />
+		</form>
+	</div>
+<?php 
+		} // end else cache folder exists
+	} else {  //end $_GET['cacheoption'] == "manage" ?>
 		<div>
 			<?php echo esc_html_e('A cache folder has to be created and the cache storage option has to be activated before you can manage the cache.', 'lumiere-movies');?>
 		</div>
 
-<?php } //end cache management ?>
-
-</form>
-
+<?php }  // end $_GET['cacheoption'] == "option"  ?>
 
 	</div>
 </div>
@@ -920,3 +910,6 @@ if (!empty($results)){
 <br />
 <br />
 
+<?php
+
+?>
