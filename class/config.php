@@ -18,9 +18,11 @@ $imdb_admin_values['imdbplugindirectory'] = isset($imdb_admin_values['imdbplugin
 define('IMDBLTURLPATH', $imdb_admin_values['imdbplugindirectory'] );
 define('IMDBLTABSPATH',  plugin_dir_path( __DIR__ ) );
 define('IMDBLTFILE', plugin_basename( dirname(__FILE__)) );
-define('IMDBBLOG', "https://www.jcvignoli.com/blog");
-define('IMDBBLOGHIGHSLIDE', IMDBBLOG . "/wp-content/files/wordpress-lumiere-highslide-5.0.0.zip");
-define('IMDBHOMEPAGE', IMDBBLOG . '/lumiere-movies-wordpress-plugin');
+define('IMDBBLOG', 'https://www.jcvignoli.com/blog');
+define('IMDBBLOGENGLISH', IMDBBLOG . "/en");
+define('IMDBBLOGHIGHSLIDE', IMDBBLOG . '/wp-content/files/wordpress-lumiere-highslide-5.0.0.zip');
+define('IMDBHOMEPAGE', IMDBBLOGENGLISH . '/lumiere-movies-wordpress-plugin');
+define('IMDBABOUTENGLISH', IMDBBLOGENGLISH . '/presentation-of-jean-claude-vignoli');
 define('IMDBPHP_CONFIG', IMDBLTABSPATH . 'config.php');
 $lumiere_version_recherche = file_get_contents( IMDBLTABSPATH . 'README.txt');
 $lumiere_version = preg_match('#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match);
@@ -308,7 +310,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 
 <div class=wrap>
 
-	<h2 class="imdblt_padding_bottom_right_fifteen"><img src="<?php echo esc_url ( $imdbOptions['imdbplugindirectory'] . "pics/lumiere-ico80x80.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;<i>Lumière!</i>&nbsp;<?php esc_html_e( "options", 'lumiere-movies'); ?></h2>
+	<h2 class="imdblt_padding_bottom_right_fifteen"><img src="<?php echo esc_url ( $imdbOptions['imdbplugindirectory'] . "pics/lumiere-ico80x80.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;<i>Lumière!</i>&nbsp;<?php  echo 'v' . LUMIERE_VERSION . ' '; esc_html_e( "options ", 'lumiere-movies'); ?></h2>
 
 	<div class="subpage">
 
