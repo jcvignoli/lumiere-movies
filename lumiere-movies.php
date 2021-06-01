@@ -1,7 +1,7 @@
 <?php
 // Lumière wordpress plugin
 //
-// (c) 2005-21 Prometheus group
+// (c) 2005-21 Lost Highway
 // https://www.jcvignoli.com/blog
 //
 // **********************************************************************
@@ -11,10 +11,10 @@
 // *****************************************************************
 
 /*
-Plugin Name: Lumière
+Plugin Name: Lumière! Movies
 Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
 Description: Add to every movie title tagged with &lt;!--imdb--&gt; (...) &lt;!--/imdb--&gt; a link to an <a href="https://www.imdb.com"><acronym title="internet movie database">imdb</acronym></a> popup. Can also display data related to movies either in a <a href="widgets.php">widget</a> or inside a post. Perfect for your movie reviews. Cache handling. Have a look at the <a href="admin.php?page=imdblt_options">options page</a>.
-Version: 3.1.1
+Version: 3.1.2
 Requires at least: 4.6
 Text Domain: lumiere-movies
 Domain Path: /languages

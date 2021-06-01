@@ -1,5 +1,8 @@
 Changelog
 
+v3.1.2
+* [bug] Redirection when deleting/updating cache details was still broken, changed the method
+
 v3.1.1
 * [technical] CSS & JS automatically take LUMIERE_VERSION string in URL when they're called, so every new Lumière! version triggers a cache refresh
 * [technical] Moved imdbphp classes from /src to /class/imdbphp, moved config.php, functions.php, into that same folder
