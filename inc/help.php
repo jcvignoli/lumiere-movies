@@ -2,23 +2,23 @@
 <?php
 
  #############################################################################
- # Lumiere Movies                                                            #
- # written by Prometheus group                                               #
+ # Lumière! Movies wordpress plugin                                                      #
+ # written by Lost Highway                                               #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
  # This program is free software; you can redistribute and/or modify it      #
  # under the terms of the GNU General Public License (see LICENSE)           #
  # ------------------------------------------------------------------------- #
  #									              #
- #  Function : Help to configure Lumiere Movies plugin                       #
+ #  Function : Help configure Lumièr! Movies plugin                       #
  #									              #
  #############################################################################
 
 // constants
 global $imdb_admin_values;
 
-$readmefile = $imdb_admin_values['imdbplugindirectory'] . "README.txt";
-$changelogfile = $imdb_admin_values['imdbplugindirectory']."CHANGELOG.txt";
+$readmefile = plugin_dir_path( __DIR__ ) . "README.txt";
+$changelogfile = plugin_dir_path( __DIR__ ) . "CHANGELOG.txt";
 
 $allowed_html_for_esc_html_functions = [
 	'i',
