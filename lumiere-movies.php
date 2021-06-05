@@ -657,12 +657,17 @@ class lumiere_core {
 	12.- Change the title of the popups according to the movie's or person's data
 	**/
 	function lumiere_change_popup_title($title) {
+		global $imdb_cache_values, $imdb_ft;
+
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ){
+
+			// Add cache dir to properly save data in real cache dir
+			$imdb_ft->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 
 			// Display the title if /url/films
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
 				$movieid_sanitized = sanitize_text_field( $_GET['mid'] );
-				$movie = new Imdb\Title($movieid_sanitized);
+				$movie = new Imdb\Title($movieid_sanitized, $imdb_ft);
 				$filmid_sanitized = esc_html($movie->title());
 				$title_name = isset($movieid_sanitized) ? $filmid_sanitized : sanitize_text_field($_GET['film']);
 				$title = "Informations about " . $title_name . " - Lumi&egrave;re movies ";
@@ -670,7 +675,7 @@ class lumiere_core {
 			// Display the title if /url/person
 			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ){
 				$mid_sanitized = sanitize_text_field($_GET['mid']);
-				$person = new Imdb\Person($mid_sanitized);
+				$person = new Imdb\Person($mid_sanitized, $imdb_ft);
 				$person_name_sanitized = sanitize_text_field( $person->name() );
 				$title = "Informations about " . $person_name_sanitized. " - Lumi&egrave;re movies";
 
