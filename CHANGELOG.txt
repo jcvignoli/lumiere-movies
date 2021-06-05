@@ -12,6 +12,8 @@ v3.2
 * [technical] change the custom url to call /imdblt/(film|person) instead of lumiere-moves/inc/popupup*
 * [technical] the custom url /imdblt/(film|person) is now a constant
 * [technical] Robust htaccess that takes into account all possiblities of the popups
+* [technical] Made the custom url /imdblt/(film|person) an editable variable in admin/ moved the constants to the end of config.php
+* [technical] Removed useless data in htacces making (let wordpress deal with it)
 
 v3.1.1
 * [technical] CSS & JS automatically take LUMIERE_VERSION string in URL when they're called, so every new Lumière! version triggers a cache refresh

@@ -418,6 +418,7 @@ if (!function_exists('lumiere_make_htaccess')) {
 		## move_template_taxonomy.php
 		$imdblt_htaccess_file_txt .= "## move_template_taxonomy.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/move_template_taxonomy.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo [L,R,QSA]"."\n\n";
 
+/* We don't need it
 		# popup-search
 		$imdblt_htaccess_file_txt .= "## popup-search.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-search.php\?film=([^\s]+)(&norecursive=[^\s]+)?"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_search."%1/ [L,R,QSA]"."\n\n";
 
@@ -430,7 +431,9 @@ if (!function_exists('lumiere_make_htaccess')) {
 		# popup-imdb_person.php
 		$imdblt_htaccess_file_txt .= "## popup-imdb_person.php"."\n"."RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_person.php\?mid=([^&#]+)&(film=[^\s]+)(&info=[^\s]+)? [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_person."%1/ [L,R,QSA]"."\n\n";
 		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_person.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_person."%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "</IfModule>"."\n";
+*/
+
+		$imdblt_htaccess_file_txt .= "</IfModule>";
 
 		// write the .htaccess file and close
 		if (isset($imdblt_htaccess_file)) {
