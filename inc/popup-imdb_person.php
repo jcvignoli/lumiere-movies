@@ -431,10 +431,10 @@ echo '/ >'; ?>
      <?php } //------------------------------------------------------------------------------ end misc part ?>		   
 </table>
 <br />
-<?php 	// call wordpress footer functions;
+<?php 	
 	wp_meta();
-	//get_footer(); // this one gets too much uneeded information
-	wp_footer(); 
+	wp_footer();
+
 ?>
 </body>
 </html>

@@ -29,10 +29,6 @@ if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug']
 	libxml_use_internal_errors(true); // avoid endless loops with imdbphp parsing errors 
 }
 
-
-do_action('wp_loaded'); // execute wordpress first codes
-
-
 // Start config class for $config in below Imdb\Title class calls
 if (class_exists("lumiere_settings_conf")) {
 	$config = new lumiere_settings_conf();
@@ -60,6 +56,9 @@ else
 
 //------------------------- 1. recherche, comportement classique
 if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] == 'yes')) { 
+
+do_action('wp_loaded'); // execute wordpress first codes
+
 ?>
 <html>
 <head>
@@ -108,11 +107,12 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 
 </table>
 <?php
-wp_meta();
 wp_footer(); 
 ?>
-
-<?php exit(); // quit the call of the page, to avoid double loading process ?>
+</body>
+</html>
+<?php
+exit(); // quit the call of the page, to avoid double loading process ?>
 
 <?php
 } else {  //-------------------------------------------------------------------------- 2. direct access, special option

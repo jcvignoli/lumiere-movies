@@ -16,18 +16,16 @@
 require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
 /* VARS */
-global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+global $imdb_admin_values, $imdb_cache_values;
 
 // Enter in debug mode
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
-	print_r($imdb_admin_values);
+	print_r($imdb_cache_values);
 	error_reporting(E_ALL);
 	ini_set("display_errors", 1);
 	set_error_handler("var_dump");
 	libxml_use_internal_errors(true); // avoid endless loops with imdbphp parsing errors 
 }
-
-do_action('wp_loaded'); // execute wordpress first codes
 
 // Start config class for $config in below Imdb\Title class calls
 if (class_exists("lumiere_settings_conf")) {
@@ -63,19 +61,23 @@ if (empty($movieid_sanitized ) && empty($filmid_sanitized)){
 	return $template;
 }
 
-if ((isset ($movieid_sanitized)) && !empty ($movieid_sanitized)) {
+if ( (isset ($movieid_sanitized)) && (!empty ($movieid_sanitized)) && (!empty ($config)) ) {
 	$movie = new Imdb\Title($movieid_sanitized, $config);
 	$filmid_sanitized = lumiere_name_htmlize($movie->title());
 	$film_sanitized_for_title = sanitize_text_field($movie->title());
 
-} else {
+} elseif (!empty ($config)) {
 	$search = new Imdb\TitleSearch($config);
 	if ( (isset($_GET["searchtype"])) && ($_GET["searchtype"]=="episode") ) {
 		$movie = $search->search ($filmid_sanitized, array(\Imdb\TitleSearch::TV_SERIES))[0];
 	} else {
 		$movie = $search->search ($filmid_sanitized, array(\Imdb\TitleSearch::MOVIE))[0];
 	}
+} else {
+	esc_html_e('No config option set', 'lumiere-movies');
+	exit();
 }
+
 //------------------------- 1. search all results related to the name of the movie
 if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ( (isset($_GET["norecursive"])) && ($_GET["norecursive"] == 'yes')) ) { 
 
@@ -84,7 +86,9 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ( (isset($_GET["norecu
 	else 
 		$results = $search->search ( $filmid_sanitized, array(\Imdb\TitleSearch::MOVIE));
 
-// Head?>
+do_action('wp_loaded'); // execute wordpress first codes # still useful?
+
+?>
 <html>
 <head>
 <?php wp_head();?>
@@ -96,7 +100,7 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ( (isset($_GET["norecu
 	// if no movie was found at all
 	if (empty($movie) ){
 		echo "<h1 align='center'>".esc_html__( "No result found for", 'lumiere-movies')." <i>".$filmid_sanitized."</i></h1>";
-		wp_footer(); 
+		get_footer(); 
 		die();
 	}
 
@@ -143,7 +147,10 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ( (isset($_GET["norecu
 <?php
 
 wp_meta();
-wp_footer(); 
+wp_footer(); ?>
+</body>
+</html>
+<?php 
 
 exit(); // quit the call of the page, to avoid double loading process ?>
 
@@ -375,23 +382,27 @@ echo '/ >'; ?>
      </tr>
 */ ?>
                                                 <!-- Sound -->
+	<?php
+	$sound = $movie->sound () ?? NULL;
+
+	if ( (isset($sound)) && (!empty($sound)) ) { ?>
      <tr>
         <td class="TitreSousRubriqueColGauche">
             <div class="TitreSousRubrique"><?php esc_html_e('Sound', 'lumiere-movies'); ?>&nbsp;</div>
         </td>
         
         <td colspan="2" class="TitreSousRubriqueColDroite">
-		<li><?php	$sound = $movie->sound () ?? NULL;
-				if (isset($sound)) {
-				   	for ($i = 0; $i + 1 < count ($sound); $i++) {
-						echo sanitize_text_field( $sound[$i] );
-						echo ", ";
-					}
-					echo sanitize_text_field( $sound );
-				}
+		<li><?php	
+		   	for ($i = 0; $i + 1 < count ($sound); $i++) {
+				echo sanitize_text_field( $sound[$i] );
+				echo ", ";
+			}
+			echo sanitize_text_field( $sound[0] );
             ?></li>
         </td>
      </tr>
+	<?php	
+	} ?>
 
 <?php } //------------------------------------------------------------------------------ introduction part end ?>
 
@@ -634,13 +645,13 @@ echo '/ >'; ?>
     	<?php } ?>
 
 <?php	 } // ------------------------------------------------------------------------------ misc part end ?>
-
 </table>
 <br />
 <?php 	
-	wp_meta();
 	wp_footer(); 
-
-	exit(); // quit the call of the page, to avoid double loading process 
+?>
+</body>
+</html>
+<?php exit(); // quit the call of the page, to avoid double loading process 
 }
 ?>
