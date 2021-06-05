@@ -89,17 +89,13 @@ if (current_user_can( 'manage_options' ) ) {
 		// display confirmation message
 		lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
 
-		// make sure that data posted in imdb_imdbwidgetorder (options-widget.php) is not empty; 
-		// otherwise, it will replace $imdbOptions['imdbwidgetorder'] values by an empty one.
-		if ( $_POST['imdb_imdbwidgetorder'] == "empty") {
-
-			if (!headers_sent()) {
-				header("Location: ".esc_url($_SERVER[ "REQUEST_URI"]), false);
-				die();
-			} else {
-				lumiere_notice(1, '<strong>'. esc_html__( 'Error. You have to select a value.', 'lumiere-movies'). '</strong>' );
-				die();
-			}
+		// Display a refresh link otherwise refreshed data is not seen
+		if (!headers_sent()) {
+			header("Location: ".esc_url($_SERVER[ "REQUEST_URI"]), false);
+			die();
+		} else {
+			lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			die();
 		}
 
 	 }
@@ -128,7 +124,6 @@ if (current_user_can( 'manage_options' ) ) {
 	}
 
 ?>
-<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
 <div id="tabswrap">
 	<ul id="tabs">
 		<li><img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside-whattodisplay.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to display", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=what"); ?>"><?php esc_html_e( 'What to display', 'lumiere-movies'); ?></a></li>
@@ -147,6 +142,7 @@ if (current_user_can( 'manage_options' ) ) {
 	<div class="inside">
 		
 		<?php //-------------------------------------------------------------------=[title, pic, runtime]=- ?>		
+	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
 
 <?php if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!isset($_GET['widgetoption'] )) ) { 	// What to display  ?>
 

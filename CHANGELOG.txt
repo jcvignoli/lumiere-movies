@@ -9,6 +9,7 @@ v3.2
 * [bug] Fixed WordPress credits in admin were not shown (added two closing divs in inc/admin_pages.php)
 * [technical] removed calls to options from class/config.php and created inc/admin_pages.php. Moved the $_POST checks from admin_pages.php to their dedicated sections in options-*.php.
 * [technical] (re)Added debugging mode
+* [technical] Added the option to delete query cache
 * [technical] Added check defined( 'WPINC' ) on the top of included pages to avoid direct calls
 * [technical] Added the isset() in functions for further compatibility with PHP8
 * [technical] Change the custom url to call /imdblt/(film|person) instead of lumiere-moves/inc/popupup*
