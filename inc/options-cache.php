@@ -96,13 +96,14 @@ if (current_user_can( 'manage_options' ) ) {
 
 		// display message on top
 		lumiere_notice(1, '<strong>'. esc_html__( 'Cache options saved.', 'lumiere-movies') .'</strong>');
-		/*if (!headers_sent()) {
+		if (!headers_sent()) {
 			//header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
 			wp_safe_redirect( add_query_arg( "msg", "cache_options_update_success_msg", wp_get_referer() ) ); 
 			exit();
 		} else {
-			lumiere_notice(1, '<strong>'. esc_html__( 'Plugin collision. Please follow ').'<a href="'. $_SERVER[ "REQUEST_URI"] .'">'.esc_html__( 'this link.', 'lumiere-movies').'</a>'.'</strong>');
-		}*/
+			lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			exit();
+		}
 	}
 
 	// reset options selected

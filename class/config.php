@@ -32,15 +32,9 @@ define('IMDBABOUTENGLISH', IMDBBLOGENGLISH . '/presentation-of-jean-claude-vigno
 define('IMDBPHP_CONFIG', IMDBLTABSPATH . 'config.php');
 $lumiere_version_recherche = file_get_contents( IMDBLTABSPATH . 'README.txt');
 $lumiere_version = preg_match('#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match);
-define('LUMIERE_VERSION', $lumiere_version_match[1]);
-$LUMIERE_URLSTRING = (isset($imdb_admin_values['imdburlpopups'])) ? $imdb_admin_values['imdburlpopups'] : "/imdblt/";
-define('LUMIERE_URLSTRING', $LUMIERE_URLSTRING );
-define('LUMIERE_URLSTRINGFILMS', LUMIERE_URLSTRING . "film/");
-define('LUMIERE_URLSTRINGPERSON', LUMIERE_URLSTRING. "person/");
-define('LUMIERE_URLSTRINGSEARCH', LUMIERE_URLSTRING . "search/");
-define('LUMIERE_URLPOPUPSFILMS', site_url() . LUMIERE_URLSTRINGFILMS );
-define('LUMIERE_URLPOPUPSPERSON', site_url() . LUMIERE_URLSTRINGPERSON );
-define('LUMIERE_URLPOPUPSSEARCH', site_url() . LUMIERE_URLSTRINGSEARCH );
+# more constants at the end of the file
+
+
 #--------------------------------------------------=[ configuration class ]=--
 
 
@@ -252,5 +246,21 @@ class lumiere_send_config extends Config {
 	$this->trigger_referer = TRUE;
 	}
 }
+
+/* CONSTANTS related to the strings */
+
+# put a the end so they can be called through a new class
+
+$internal_call = new lumiere_settings_conf();
+$imdb_admin_values = $internal_call->get_imdb_admin_option();
+define('LUMIERE_VERSION', $lumiere_version_match[1]);
+$LUMIERE_URLSTRING = (isset($imdb_admin_values['imdburlpopups'])) ? $imdb_admin_values['imdburlpopups'] : "/imdblt/";
+define('LUMIERE_URLSTRING', $LUMIERE_URLSTRING );
+define('LUMIERE_URLSTRINGFILMS', LUMIERE_URLSTRING . "film/");
+define('LUMIERE_URLSTRINGPERSON', LUMIERE_URLSTRING. "person/");
+define('LUMIERE_URLSTRINGSEARCH', LUMIERE_URLSTRING . "search/");
+define('LUMIERE_URLPOPUPSFILMS', site_url() . LUMIERE_URLSTRINGFILMS );
+define('LUMIERE_URLPOPUPSPERSON', site_url() . LUMIERE_URLSTRINGPERSON );
+define('LUMIERE_URLPOPUPSSEARCH', site_url() . LUMIERE_URLSTRINGSEARCH );
 
 ?>

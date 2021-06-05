@@ -659,12 +659,12 @@ class lumiere_core {
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ){
 
 			if ( (isset($_GET['film'])) && (!empty($_GET['film'])) ) {
-				$title = "Informations on " . sanitize_text_field($_GET['film']). " - Lumi&egrave;re movies ";
+				$title = "Informations about " . sanitize_text_field($_GET['film']). " - Lumi&egrave;re movies ";
 			} elseif ( (isset($_GET['mid'])) && (!empty($_GET['mid'])) ){
 				$mid_sanitized = sanitize_text_field($_GET['mid']);
 				$person = new Imdb\Person($mid_sanitized);
 				$person_name_sanitized = sanitize_text_field( $person->name() );
-				$title = "Informations on " . $person_name_sanitized. " - Lumi&egrave;re movies";
+				$title = "Informations about " . $person_name_sanitized. " - Lumi&egrave;re movies";
 			}
 			return $title;
 		}

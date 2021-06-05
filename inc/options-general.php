@@ -85,6 +85,18 @@ if (current_user_can( 'manage_options' ) ) {
 
 		// display message on top
 		lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
+
+		// Display a refresh link otherwise refreshed data is not seen
+		if (!headers_sent()) {
+			//header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
+			wp_safe_redirect( wp_get_referer() ); 
+			exit();
+		} else {
+			lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			exit();
+		}
+
+
 	}
 	elseif ( (isset($_POST['reset_imdbSettings'])) && check_admin_referer('options_general_check', 'options_general_check') ){ //---------------------reset options selected
 
