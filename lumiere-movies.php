@@ -675,7 +675,7 @@ class lumiere_core {
 				$title = "Informations about " . $person_name_sanitized. " - Lumi&egrave;re movies";
 
 			// Display the title if /url/person
-			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLPOPUPSSEARCH ) ){
+			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) ){
 				$title_name = isset($_GET['film']) ? esc_html($_GET['film']) : esc_html__('No query entered', 'lumiere-movies');
 				$title = "Search query for " . $title_name . " - Lumi&egrave;re movies ";
 			}
