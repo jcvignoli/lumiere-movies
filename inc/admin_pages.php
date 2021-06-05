@@ -53,37 +53,31 @@ function printAdminPage() {
 				<a title="<?php esc_html_e( 'General Options', 'lumiere-movies'); ?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options"); ?>"> <?php esc_html_e( 'General Options', 'lumiere-movies'); ?></a>
 			</div>
 
-			<?php 	### sub-page is relative to what is activated
-				### check if widget is active, and/or direct search option
-			if ( ($imdbOptions['imdbdirectsearch'] == "1") && (is_active_widget('lumiere_widget')) ){ ?>
+			<?php 	### Widget subpage is relative to what is activated ?>
 
 			<div class="imdblt_padding_five imdblt_flex_auto">
 				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
+
+
 				<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a>
+
+<?php 			if ( ! is_active_widget('lumiere_widget') ) { ?>
+
+				- <em><font size=-2><a href="<?php echo esc_url( admin_url() . '/widgets.php'); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies'); ?>)</a></font></em>
+
+<?php 			} 
+			if ( ($imdbOptions['imdbdirectsearch'] == "0")  || (!isset($imdbOptions['imdbdirectsearch'])) ) { ?>
+
+				- <em><font size=-2><a href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'lumiere-movies'); ?></a> <?php esc_html_e( 'unactivated', 'lumiere-movies'); ?></font></em> 
+
+<?php			} 
+			if( ($imdbOptions['imdbtaxonomy'] == "0")  || (empty($imdbOptions['imdbtaxonomy'])) ) { ?>
+
+				- <em><font size=-2><a href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbtaxonomy_yes"); ?>"><?php esc_html_e( 'Auto taxonomy', 'lumiere-movies'); ?></a> <?php esc_html_e( 'unactivated', 'lumiere-movies'); ?></font></em>
+
+<?php 			} ?>
+
 			</div>
-
-			<?php } elseif ( ($imdbOptions['imdbdirectsearch'] == "1") && (! is_active_widget('lumiere_widget')) ) { ?>
-
-			<div class="imdblt_padding_five imdblt_flex_auto">
-				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-				<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a> (<em><a href="<?php echo esc_url( admin_url() . '/widgets.php'); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies'); ?>)</a></em>)
-			</div>
-
-			<?php } elseif ( (!$imdbOptions['imdbdirectsearch'] == "1") && (is_active_widget('lumiere_widget')) )  { ?>
-
-			<div class="imdblt_padding_five imdblt_flex_auto">
-				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-				<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a> (<em><a href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'lumiere-movies'); ?></a> <?php esc_html_e( 'unactivated', 'lumiere-movies'); ?></em>)
-			</div>
-
-		<?php		} else { ?>
-
-			<div class="imdblt_padding_five imdblt_flex_auto">
-				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-				<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a> (<em><a href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'lumiere-movies'); ?></a></em> & <em><a href="widgets.php"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies'); ?></a></em>)
-			</div>
-
-		<?php 		} ?>
 
 			<div class="imdblt_padding_five imdblt_flex_auto">			
 				<img src="<?php echo esc_url ( $imdbOptions['imdbplugindirectory'] . "pics/admin-cache.png"); ?>" align="absmiddle" width="16px" />&nbsp;
