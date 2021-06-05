@@ -125,7 +125,7 @@ if (current_user_can( 'manage_options' ) ) {
 	}
 
 	// delete all cache files
-	if ( (isset($_POST['delete_all_cache'])) && (check_admin_referer('cache_options_check', 'cache_options_check')) ){  
+	if ( (isset($_POST['delete_all_cache'])) && (check_admin_referer('cache_all_and_query_check', 'cache_all_and_query_check')) ){  
 
 		// prevent drama
 		if ( is_null($imdb_cache_values['imdbcachedir']))
@@ -140,9 +140,47 @@ if (current_user_can( 'manage_options' ) ) {
 			wp_safe_redirect( add_query_arg( "msg", "cache_delete_all_msg", wp_get_referer() ) );
 			exit();
 		} else {
-			lumiere_notice(1, '<div align="center"><a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a></div>');
+			lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			exit();
 		}
 	}
+
+	// delete all cache files
+	if ( (isset($_POST['delete_query_cache'])) && (check_admin_referer('cache_all_and_query_check', 'cache_all_and_query_check')) ){  
+
+		// prevent drama
+		if ( is_null($imdb_cache_values['imdbcachedir']))
+			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
+		
+		// Delete cache
+		$files_query = glob($imdb_cache_values['imdbcachedir'] . "find.s*") ?? NULL;
+		foreach ( $files_query as $cacheTOdelete) {
+
+			// if file doesn't exist
+			if  ( (!isset($cacheTOdelete)) || (is_null($cacheTOdelete)) || (count($cacheTOdelete) < 1) ) {
+				lumiere_notice(3, esc_html__( 'No query files found.', 'lumiere-movies')) ;
+				lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+				wp_die( ) ;
+			}
+
+			if($cacheTOdelete == $imdb_cache_values['imdbcachedir'].'.' || $cacheTOdelete == $imdb_cache_values['imdbcachedir'].'..')
+				continue; 
+
+			// the file exist, is not . or .., so delete!
+			unlink( $cacheTOdelete );
+		}
+
+		// display messages on top
+		lumiere_notice(1, '<strong>'. esc_html__( 'Query cache files deleted.', 'lumiere-movies') .'</strong>');
+		if (!header_sent){
+			wp_safe_redirect( add_query_arg( "msg", "cache_delete_query_msg", wp_get_referer() ) );
+			exit();
+		} else {
+			lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			exit();
+		}
+	}
+
 
 	##################################### delete several ticked files
 
@@ -494,42 +532,42 @@ if ( (isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "manage") ){ 	///
 		</div>
 
 		<div class="inside imblt_border_shadow">
-						
-<?php 				
-$imdltcacheFileCount = (count( lumiere_glob_recursive($imdb_cache_values['imdbcachedir'] . '*') )) -1; /* -1 so do not count images folder */
+			<form method="post" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
+<?php 			wp_nonce_field('cache_all_and_query_check', 'cache_all_and_query_check');
+			echo "\n";
 
-if (!lumiere_isEmptyDir($imdb_cache_values['imdbcachedir'])) { // from functions.php
-	$imdltcacheFileCount = (count( lumiere_glob_recursive( $imdb_cache_values['imdbcachedir'] . '*') ) ) -1; /* -1 do not count images folder */
+$imdltcacheFile = lumiere_glob_recursive( $imdb_cache_values['imdbcachedir'] . '*');
+$imdltcacheFileCount = (count( $imdltcacheFile ) ) -1; /* -1 do not count images folder */
 
-	echo '<div class="detailedcacheexplaination imdblt_padding_bottom_ten imdblt_align_center">';
-	echo '<br />';
+if (!lumiere_isEmptyDir($imdltcacheFile)) { // from functions.php
+
+	echo "\n\t\t\t" . '<div class="detailedcacheexplaination imdblt_padding_bottom_ten imdblt_align_center">';
 
 	echo "<strong>". esc_html__('Total cache size:', 'lumiere-movies'); 
-	$filenamesize1=0;
-	foreach (lumiere_glob_recursive($imdb_cache_values['imdbcachedir']."*") as $filename){
-		if (is_numeric(filesize($filename)))
-			$filenamesize1 += intval(filesize($filename));
+	$size_cache_tmp=0;
+	foreach ( $imdltcacheFile as $filename ){
+		if ( is_numeric(filesize($filename)) )
+			$size_cache_tmp += intval(filesize($filename));
 	}
-
+	$size_cache_total = $size_cache_tmp;
 	/* translators: %s is replaced with the number of files */
 	echo "&nbsp;" . sprintf( _n( '%s file', '%s files', $imdltcacheFileCount, 'lumiere-movies'), number_format_i18n( $imdltcacheFileCount )) ;
 	echo "&nbsp;" . esc_html__( 'using', 'lumiere-movies'); 
-	echo ' ' . lumiere_formatBytes( intval($filenamesize1) ) . "\n";
-	echo "</strong>"; 
+	echo ' ' . lumiere_formatBytes( intval($size_cache_total) ) ;
+	echo "</strong>\n"; 
 
 ?>
 			</div>
 
 			<div>
-<?php 			esc_html_e('If you want to reset the entire cache (this includes queries, names, and pictures) click on the button below.', 'lumiere-movies');
+<?php	if ($imdltcacheFileCount > 0) { 
+			esc_html_e('If you want to reset the entire cache (this includes queries, names, and pictures) click on the button below.', 'lumiere-movies');
 			echo "<br />";
 			esc_html_e('Beware, there is no undo.', 'lumiere-movies'); ?></div>
 				<div class="submit submit-imdb" align="center">
 
-				<br />
-				<form method="post" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
 				<input type="submit" class="button-primary" name="delete_all_cache" data-confirm="<?php esc_html_e( "Delete all cache? Really?", 'lumiere-movies'); ?>" value="<?php esc_html_e('Delete all cache', 'lumiere-movies') ?>" /> 
-				</form>
+
 				<br />
 				<br />
 <?php 
@@ -540,14 +578,61 @@ if (!lumiere_isEmptyDir($imdb_cache_values['imdbcachedir'])) { // from functions
 
 		echo '<div class="imdblt_error">' . esc_html__('Lumière! cache is empty.', 'lumiere-movies') . '</div>'; 
 
-	} // end lumiere_isEmptyDir
+	}  // end no cache files
+}// end no cache folder
+?>
+
+				</div>
+				<br />
+				<br />
+<?php
+$imdltcacheFileQuery = lumiere_glob_recursive($imdb_cache_values['imdbcachedir'] . 'find.s*');
+$imdltcacheFileQueryCount = count( $imdltcacheFileQuery ) ; 
+
+if (!empty($imdb_cache_values['imdbcachedir'])) { 
+
+	echo "\n\t\t\t" . '<div class="detailedcacheexplaination imdblt_padding_bottom_ten imdblt_align_center">';
+
+	echo "\n\t\t\t\t" . "<strong>". esc_html__('Total query cache size:', 'lumiere-movies'); 
+	$size_cache_query_tmp=0;
+	foreach ( $imdltcacheFileQuery as $filenamecachequery){
+		if (is_numeric(filesize($filenamecachequery)))
+			$size_cache_query_tmp += intval(filesize($filenamecachequery));
+	}
+	$size_cache_query_total = $size_cache_query_tmp;
+	/* translators: %s is replaced with the number of files */
+	echo "&nbsp;" . sprintf( _n( '%s file', '%s files', $imdltcacheFileQueryCount, 'lumiere-movies'), number_format_i18n( $imdltcacheFileQueryCount )) ;
+	echo "&nbsp;" . esc_html__( 'using', 'lumiere-movies'); 
+	echo ' ' . lumiere_formatBytes( intval($size_cache_query_total) ) ;
+	echo "</strong>"; 
+?>
+			</div>
+
+			<div>
+<?php	if ($imdltcacheFileQueryCount > 0) { 
+			esc_html_e('If you want to reset the query cache (every search creates a cache file) click on the button below.', 'lumiere-movies');
+			echo "<br />";
+			?></div>
+			<div class="submit submit-imdb" align="center">
+
+			<input type="submit" class="button-primary" name="delete_query_cache" data-confirm="<?php esc_html_e( "Delete query cache?", 'lumiere-movies'); ?>" value="<?php esc_html_e('Delete query cache', 'lumiere-movies') ?>" /> 
+<?php 
+	// No files in cache
+	} else {  
+
+		echo '<div class="imdblt_error">' . esc_html__('Lumière! query cache is empty.', 'lumiere-movies') . '</div>'; 
+
+	} // end no cache files
+
+} // end no cache folder
 ?>
 
 			</div>
+			</form>
 		</div>
+		<br />
+		<br />
 
-		<br />
-		<br />
 
 <?php		 //------------------------------------------------------------------ =[movies management]=- ?>
 
@@ -557,8 +642,8 @@ if (!lumiere_isEmptyDir($imdb_cache_values['imdbcachedir'])) { // from functions
 
 	<div class="inside imblt_border_shadow">
 <?php
-// Scope of the files to be managed
-$files = glob($imdb_cache_values['imdbcachedir'] . '{title.tt*}', GLOB_BRACE);
+	// Scope of the files to be managed
+	$files = glob($imdb_cache_values['imdbcachedir'] . '{title.tt*}', GLOB_BRACE);
 
 	if (is_dir($imdb_cache_values['imdbcachedir'])) {
 		foreach ($files as $file) {
@@ -790,18 +875,10 @@ if (!empty($results)){
 					<?php 	// display cache folder size
 					if (!lumiere_isEmptyDir($imdb_cache_values['imdbcachedir'])) { // from functions.php
 
-						clearstatcache();
-
-						$path = realpath($imdb_cache_values['imdbcachedir']);
-$filenamesize1=0;
-						if($path!==false && $path!='' && file_exists($path) ){
-							foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){
-								$filenamesize1 += $object->getSize();
-							}
-						}
-				
-						echo esc_html_e('Movies cache is using', 'lumiere-movies') . ' ' . lumiere_formatBytes( intval($filenamesize1) ) . "\n";
-					} else {  echo esc_html_e('Movies cache is empty.', 'lumiere-movies'); }
+						echo esc_html_e('Movies\' cache is using', 'lumiere-movies') . ' ' . lumiere_formatBytes( intval($size_cache_total) ) . "\n";
+					} else {  
+						echo esc_html_e('Movies\' cache is empty.', 'lumiere-movies'); 
+					}
 					?>
 					</span>
 					</label>
@@ -848,15 +925,13 @@ $filenamesize1=0;
 					<?php						
 					// display cache folder size
 					if (!lumiere_isEmptyDir($imdb_cache_values['imdbphotoroot'], "2")) { // from functions.php
-						clearstatcache();
-
 						$path = realpath($imdb_cache_values['imdbphotoroot']);
 						if($path!==false && $path!='' && file_exists($path)){
 							foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){
-								$filenamesize2 += $object->getSize();
+								$size_cache_pics += $object->getSize();
 							}
 						}
-						echo esc_html_e('Images cache is using', 'lumiere-movies') . ' ' . lumiere_formatBytes( intval( $filenamesize2) ) . "\n";
+						echo esc_html_e('Images cache is using', 'lumiere-movies') . ' ' . lumiere_formatBytes( intval( $size_cache_pics) ) . "\n";
 					} else {  echo esc_html_e('Image cache is empty.', 'lumiere-movies') . "\n"; }
 					?>
 					</span>
