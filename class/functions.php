@@ -400,7 +400,7 @@ if (!function_exists('lumiere_make_htaccess')) {
 		/* vars */
 		$imdblt_blog_subdomain = site_url( '', 'relative' ) ?? ""; #ie: /subdirectory-if-exists/
 		$imdblt_plugin_full_path = plugin_dir_path( __DIR__ ) ?? wp_die( esc_html__("There was an error when generating the htaccess file.", 'lumiere-movies') ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/
-		$imdblt_plugin_path = str_replace( $imdblt_blog_subdomain, "", wp_make_link_relative( plugin_dir_url( __FILE__ ))); #ie: /wp-content/plugins/lumiere-movies/
+		$imdblt_plugin_path = str_replace( $imdblt_blog_subdomain, "", wp_make_link_relative( plugin_dir_url( __DIR__ ))); #ie: /wp-content/plugins/lumiere-movies/
 		$imdblt_htaccess_file = $imdblt_plugin_full_path  . "inc/.htaccess" ?? wp_die( esc_html__("There was an error when generating the htaccess file.", 'lumiere-movies') ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/inc/.htaccess
 		$imdblt_slug_path_movie = substr(LUMIERE_URLSTRINGFILMS, 1);
 		$imdblt_slug_path_search = substr(LUMIERE_URLSTRING, 1);
