@@ -323,7 +323,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 <div id="tabswrap">
 	<ul id="tabs">
-		<li><img src="<?php echo esc_url( IMDBLTURLPATH . "pics/admin-cache-options.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Cache options", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=option'); ?>"><?php esc_html_e( 'Cache  options', 'lumiere-movies'); ?></a></li>
+		<li><img src="<?php echo esc_url( IMDBLTURLPATH . "pics/admin-cache-options.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Cache options", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=option'); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies'); ?></a></li>
  		<?php 
 	if ($imdbOptionsc['imdbusecache'] == "1") { ?>
 		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( IMDBLTURLPATH . "pics/admin-cache-management.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Manage Cache", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage'); ?>"><?php esc_html_e( "Manage Cache", 'lumiere-movies'); ?></a></li>

@@ -142,6 +142,7 @@ class lumiere_core {
 
 		    	// head for main blog
 			add_action('wp_head', [ $this, 'lumiere_add_head_blog' ], 0);
+			add_action('wp_head', [ $this, 'lumiere_add_metas' ], 5);
 
 			// add new name to popups
 			add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
@@ -658,9 +659,14 @@ class lumiere_core {
 	function lumiere_change_popup_title($title) {
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ){
 
-			if ( (isset($_GET['film'])) && (!empty($_GET['film'])) ) {
-				$title = "Informations about " . sanitize_text_field($_GET['film']). " - Lumi&egrave;re movies ";
-			} elseif ( (isset($_GET['mid'])) && (!empty($_GET['mid'])) ){
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
+				$movieid_sanitized = sanitize_text_field( $_GET['mid'] );
+				$movie = new Imdb\Title($movieid_sanitized);
+				$filmid_sanitized = lumiere_name_htmlize($movie->title());
+				$title_name = isset($movieid_sanitized) ? $filmid_sanitized : sanitize_text_field($_GET['film']);
+				$title = "Informations about " . $title_name . " - Lumi&egrave;re movies ";
+			// Display as popup <title> the name of the person only if there is no film name
+			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ){
 				$mid_sanitized = sanitize_text_field($_GET['mid']);
 				$person = new Imdb\Person($mid_sanitized);
 				$person_name_sanitized = sanitize_text_field( $person->name() );
@@ -701,6 +707,50 @@ class lumiere_core {
 	function lumiere_taxonomy_add_class_to_links($links) {
 	    return str_replace('<a href="', '<a class="linktaxonomy" href="', $links);
 	}
+
+	/**
+	16.- Add new meta tags
+	**/
+	function lumiere_add_metas() {
+// Change the metas only for popups
+if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ) )
+{
+
+		# ADD METAS
+		echo "\t\t" . '<!-- Lumiere Movies -->';
+		echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . IMDBLTURLPATH . 'pics/favicon/apple-touch-icon.png" />';
+		echo "\n" . '<link rel="icon" type="image/png" sizes="32x32" href="' . IMDBLTURLPATH . 'pics/favicon/favicon-32x32.png" />';
+		echo "\n" . '<link rel="icon" type="image/png" sizes="16x16" href="' . IMDBLTURLPATH . 'pics/favicon/favicon-16x16.png" />';
+		echo "\n" . '<link rel="manifest" href="' . IMDBLTURLPATH . 'pics/favicon/site.webmanifest" />';
+
+		# ADD CANONICAL
+		// Canonical for search popup
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) )
+			$my_canon = LUMIERE_URLPOPUPSSEARCH ;
+
+		// Canonical for movies popups
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
+			$mid_sanitized = isset($_GET['mid']) ? sanitize_text_field($_GET['mid']) : "";
+			$film_sanitized = ""; $film_sanitized = isset($_GET['film']) ? lumiere_name_htmlize($_GET['film']) : "";
+			$info_sanitized = ""; $info_sanitized = isset($_GET['info']) ? esc_html($_GET['info']) : "";
+			$my_canon = LUMIERE_URLPOPUPSFILMS . '?film=' . $film_sanitized . '&mid=' . $mid_sanitized. '&info=' . $info_sanitized;
+		}
+
+		// Canonical for people popups
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ) {
+			$mid_sanitized = isset($_GET['mid']) ? sanitize_text_field($_GET['mid']) : "";
+			$info_sanitized = isset($_GET['info']) ? esc_html($_GET['info']) : "";
+			$my_canon = LUMIERE_URLPOPUPSPERSON . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=' . $info_sanitized;
+		}
+
+		echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
+		echo "\n\t\t" . '<!-- Lumiere Movies -->'."\n";
+
+		remove_action('wp_head', 'rel_canonical'); # prevents Wordpress from inserting a canon tag
+		remove_action('wp_head', 'wp_site_icon', 99); # prevents Wordpress from inserting favicons
+		}
+	}
+
 
 } // end class
 
