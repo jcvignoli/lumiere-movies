@@ -1,6 +1,6 @@
 === Lumiere Movies ===
 Contributors: psykonevro
-Donate link: https://www.paypal.me/jcvignoli and https://en.tipeee.com/lost-highway
+Donate link: https://www.paypal.me/jcvignoli
 Tags: cinema, film, imdb, movie, actor
 Requires at least: 4.0
 Tested up to: 5.7.1

@@ -18,6 +18,20 @@
 ** 
 */
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	wp_die('You can not call directly this page');
+}
+
+// Enter in debug mode
+if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
+	print_r($imdbOptions);
+	error_reporting(E_ALL);
+	ini_set("display_errors", 1);
+	set_error_handler("var_dump");
+}
+
+
 function lumiere_widget($args) {
 	global $imdb_admin_values, $imdb_widget_values, $wp_query;
 	extract($args);
@@ -44,7 +58,7 @@ function lumiere_widget($args) {
 			echo $before_widget;
 			echo $before_title . $title_box . $after_title;
 			echo "<div class='imdbincluded'>";
-			require( plugin_dir_path( __FILE__ ) . 'imdb-movie.inc.php');
+			require( plugin_dir_path( __DIR__ ) . 'inc/imdb-movie.inc.php');
 			echo "</div>";
 			echo $after_widget;
 
@@ -64,7 +78,7 @@ function lumiere_widget($args) {
 			echo $before_widget;
 			echo $before_title . $title_box . $after_title;
 			echo "<div class='imdbincluded'>";
-			require( plugin_dir_path( __FILE__ ) . 'imdb-movie.inc.php');
+			require( plugin_dir_path( __DIR__ ) . 'inc/imdb-movie.inc.php');
 			echo "</div>";
 			echo $after_widget;
 
@@ -84,7 +98,7 @@ function lumiere_widget($args) {
 			echo $before_widget;
 			echo $before_title . $title_box . $after_title;
 			echo "<div class='imdbincluded'>";
-			require( plugin_dir_path( __FILE__ ) . 'imdb-movie.inc.php');
+			require( plugin_dir_path( __DIR__ ) . 'inc/imdb-movie.inc.php');
 			echo "</div>";
 			echo $after_widget;
 

@@ -44,6 +44,7 @@ $imovie = 0;
 
 while ($imovie < count($imdballmeta)) {	
 
+	$film = "";
 	$film = $imdballmeta[$imovie];  // get meta data (movie's name) 
 
 	// from custom post's field imdb-movie-widget

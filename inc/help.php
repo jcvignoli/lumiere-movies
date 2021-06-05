@@ -2,23 +2,37 @@
 <?php
 
  #############################################################################
- # Lumière! Movies wordpress plugin                                                      #
- # written by Lost Highway                                               #
+ # Lumière! Movies WordPress Plugin                                          #
+ # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
  # This program is free software; you can redistribute and/or modify it      #
  # under the terms of the GNU General Public License (see LICENSE)           #
  # ------------------------------------------------------------------------- #
  #									              #
- #  Function : Help configure Lumièr! Movies plugin                       #
+ #  Function : Help configure Lumière! Movies plugin                          #
  #									              #
  #############################################################################
 
-// constants
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	wp_die('You can not call directly this page');
+}
+
+// Enter in debug mode
+if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
+	error_reporting(E_ALL);
+	ini_set("display_errors", 1);
+	set_error_handler("var_dump");
+}
+
+/* Vars */
 global $imdb_admin_values;
 
 $readmefile = plugin_dir_path( __DIR__ ) . "README.txt";
 $changelogfile = plugin_dir_path( __DIR__ ) . "CHANGELOG.txt";
+$acknowfile = plugin_dir_path( __DIR__ ) . "ACKNOWLEDGMENTS.md";
+
 
 $allowed_html_for_esc_html_functions = [
 	'i',
@@ -39,20 +53,20 @@ add_meta_box('lumiere_help_autowidget', esc_html__( 'Widget auto according post\
 
 <div id="tabswrap">
 	<ul id="tabs">
-		<li><img src="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] ."pics/admin-help-howto.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "How to use Lumiere Movies", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=howto"); ?>"><?php esc_html_e( 'How to', 'lumiere-movies'); ?></a></li>
+		<li><img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] ."pics/admin-help-howto.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "How to use Lumiere Movies", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=howto"); ?>"><?php esc_html_e( 'How to', 'lumiere-movies'); ?></a></li>
 
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] . "pics/admin-help-faq.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Frequently asked questions", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=faqs"); ?>"><?php esc_html_e( 'FAQs', 'lumiere-movies'); ?></a></li>
+		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-help-faq.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Frequently asked questions", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=faqs"); ?>"><?php esc_html_e( 'FAQs', 'lumiere-movies'); ?></a></li>
 
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] . "pics/admin-help-changelog.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "What's new", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=changelog"); ?>"><?php esc_html_e( 'Changelog', 'lumiere-movies'); ?></a></li>
+		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-help-changelog.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "What's new", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=changelog"); ?>"><?php esc_html_e( 'Changelog', 'lumiere-movies'); ?></a></li>
 
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] . "pics/admin-help-support.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "To get support and to support what you get", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=support"); ?>"><?php esc_html_e( 'Support, donate & credits', 'lumiere-movies'); ?></a></li>
+		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-help-support.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "To get support and to support what you get", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=support"); ?>"><?php esc_html_e( 'Support, donate & credits', 'lumiere-movies'); ?></a></li>
 	</ul>
 </div>
 
 <div id="poststuff" class="metabox-holder">
 
 <?php
-if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
+if (isset($_GET['helpsub']) && ($_GET['helpsub'] == "faqs"))  { 	// Readme section ?>
 
 	<div class="postbox-container">
 		<div id="left-sortables" class="meta-box-sortables">
@@ -95,7 +109,7 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 	</div>
 
 <?php
-	} elseif ($_GET['helpsub'] == "changelog")  { 	// Changlog section ?>
+	} elseif ((isset($_GET['helpsub'])) && ($_GET['helpsub'] == "changelog"))  { 	// Changlog section ?>
 
 
 	<div class="postbox-container">
@@ -110,7 +124,7 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 					// replace **...** by strong and i
 					$changlelogfile = preg_replace("~(\*\s\[)(.*?)(\])~","<strong><i>\${2}</i></strong>",$changlelogfile);
 					// replace links from (specially formated for wordpress website) readme with casual html
-					$patternlink = '~(\\[{1}(.*?)\\]\()(http://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
+					$patternlink = '~(\\[{1}(.*?)\\]\()(htt(p|ps)://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
 
 					$changlelogfile = preg_replace($patternlink,"<a href=\"\${3}\${4}\" title=\"\${7}\">\${2}</a>",$changlelogfile);
 					$i=0;
@@ -133,7 +147,7 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 
 
 <?php
-	} elseif ($_GET['helpsub'] == "support")  { 	// Support section
+	} elseif ((isset($_GET['helpsub'])) && ($_GET['helpsub'] == "support") ) { 	// Support section
 ?>
 	<div align="center"><?php wp_kses( _e( 'Two ways to match <strong>Lumiere Movies</strong> and <strong>support</strong>', 'lumiere-movies'), $allowed_html_for_esc_html_functions); ?>:</div>
 	<br />
@@ -165,7 +179,7 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 				<div class="inside">
 					<div class="helpdiv-noborderimage">
 						<?php esc_html_e( 'You will never believe there is so many ways to thank me. Yes, you can:', 'lumiere-movies'); ?><br />
-		<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'lumiere-movies'); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] . "pics/paypal-donate.png"); ?>" width="40px" class="imdblt_align_bottom" /></a> <?php esc_html_e( 'or on', 'lumiere-movies'); ?> <a href="https://en.tipeee.com/lost-highway">tipeee.com</a>.<br />
+		<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'lumiere-movies'); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/paypal-donate.png"); ?>" width="40px" class="imdblt_align_bottom" /></a> <?php esc_html_e( 'or on', 'lumiere-movies'); ?> <a href="https://en.tipeee.com/lost-highway">tipeee.com</a>.<br />
 		<strong>2</strong>. <?php esc_html_e( 'vote on', 'lumiere-movies'); ?> <a href="<?php echo IMDBHOMEPAGE ?>"><?php esc_html_e( "Lumière's website", 'lumiere-movies'); ?></a> <?php esc_html_e( 'or on', 'lumiere-movies'); ?> <a href="https://wordpress.org/extend/plugins/lumiere-movies/"><?php esc_html_e( "Wordpress' website", 'lumiere-movies'); ?></a>.<br />
 		<strong>3</strong>. <?php esc_html_e( "send as many bugfixes and propositions as you can on Lumiere Movies website.", 'lumiere-movies'); ?><br />
 		<strong>4</strong>. <?php esc_html_e( "translate the plugin into your own language.", 'lumiere-movies'); ?><br />
@@ -185,14 +199,33 @@ if ($_GET['helpsub'] == "faqs")  { 	// Readme section ?>
 				<h3 class="hndle"><span><?php esc_html_e( 'Credits:', 'lumiere-movies'); ?></span></h3>
 				<div class="inside">
 					<div class="helpdiv">
-						<?php esc_html_e( 'Special thanks to:', 'lumiere-movies'); ?><br /><br />
-						<li><a href="https://github.com/tboothman/imdbphp">tboothman</a>, imdbphp project classes (core)</li>
-						<li>Murillo Ferrari, Brazilian translation</li>
-						<li>Andr&eacute;s Cabrera, Spanish translation</li>
-						<li>Peter, Bulgarian translation</li>
-						<li>Web Geek Sciense (<a href="https://webhostinggeeks.com/">Web Hosting Geeks</a>), Romanian translation</li>
-						<li><a href="http://highslide.com">Highslide JS</a>, a smart & pretty js libraries collection</li>
-						<li>Most of the administration interface icons are made by <a href="https://p.yusukekamiyamane.com/">Yusuke Kamiyamane</a></li>
+<?php
+					$acknowfile = file($acknowfile, FILE_BINARY);
+
+					// replace # by div
+					$acknowfile = preg_replace('~\# (.*)~','<div><strong>${1}</strong></div>',$acknowfile);
+					// remove **{}**
+					$acknowfile = preg_replace('~\*\*(.*)\*\*~','${1}',$acknowfile);
+
+					// replace # by div
+					$acknowfile = preg_replace('~\n~','<br />',$acknowfile);
+
+					// replace links from (specially formated for wordpress website) readme with casual html
+					$patternlink = '~(\\[{1}(.*?)\\]\()(htt(p|ps)://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
+
+					$acknowfile = preg_replace($patternlink,"<a href=\"\${3}\${5}\" title=\"\${7}\">\${2}</a>",$acknowfile);
+					$i=0;
+					echo "<ul>";
+					foreach ($acknowfile as $texte) {
+						if  ($i > "1") {
+
+							// display text formatted
+							echo "\t\t\t\t\t\t<li>".str_replace("\n", "", nl2br($texte))."</li>\n";
+						}
+					$i++;
+					}
+					echo "\t\t\t\t\t</ul>\n";
+					?>
 					</div>
 				</div>
 			</div>

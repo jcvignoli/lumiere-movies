@@ -17,4 +17,4 @@
 
 # Tools
 **CLI tool for converting WordPress Plugin readme.txt to Markdown** by [sunchaserinfo](https://github.com/wpreadme2markdown/wp2md "CLI tool Github homepage")
-**Highslide JS Thumbnail viewer** by [Highslide](http://highslide.com/)
+**Highslide JS Thumbnail viewer** by [Highslide](https://highslide.com/ "Highslide website")

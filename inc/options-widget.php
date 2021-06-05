@@ -1,25 +1,33 @@
 <?php
 
  #############################################################################
- # Lumiere Movies                                                            #
- # written by Prometheus group                                               #
+ # Lumière! Movies WordPress Plugin                                          #
+ # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
  # This program is free software; you can redistribute and/or modify it      #
  # under the terms of the GNU General Public License (see LICENSE)           #
  # ------------------------------------------------------------------------- #
  #									              #
- #  Function : widget configuration admin page                               #
+ #  Function : Widget configuration admin page                               #
  #									              #
  #############################################################################
 
-/* vars */
-global $imdb_admin_values;
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	wp_die('You can not call directly this page');
+}
 
-/* included files */
-require_once ( plugin_dir_path( __FILE__ ) . '/../class/functions.php');
+// Enter in debug mode
+if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
+	print_r($imdbOptionsw);
+	error_reporting(E_ALL);
+	ini_set("display_errors", 1);
+	set_error_handler("var_dump");
+}
 
 /* vars */
+
 $messages = array( /* Template message notification options */
     'taxotemplatecopy_success' => 'Template successfully copied.',
     'taxotemplatecopy_failed' => 'Template copy failed!',
@@ -37,19 +45,100 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 	} 
 }
 
+// Data is posted using the form
+if (current_user_can( 'manage_options' ) ) { 
+
+	if ( (isset($_POST['update_imdbwidgetSettings'])) && check_admin_referer('imdbwidgetSettings_check', 'imdbwidgetSettings_check') ) { //--------------save data selected (widget options)
+
+		foreach ($_POST as $key=>$postvalue) {
+			// Sanitize
+			$key_sanitized = sanitize_key($key);
+
+			// Keep $_POST['imdbwidgetorderContainer'] untouched 
+			if ($key_sanitized == 'imdbwidgetorderContainer') continue;
+
+			// remove "imdb_" from $key
+			$keynoimdb = str_replace ( "imdb_", "", $key_sanitized);
+
+			// Copy $_POST to $imdbOptionsw var
+			if (isset($_POST["$key"])) {
+				$imdbOptionsw["$keynoimdb"] = sanitize_text_field($_POST["$key_sanitized"]);
+			}
+		}
+
+		// Special part related to details order
+		if (isset($_POST['imdbwidgetorderContainer']) ){
+			// Sanitize
+			$myinputs_sanitized = lumiere_recursive_sanitize_text_field($_POST['imdbwidgetorderContainer']);
+			// increment the $key of one
+			$data = array_combine(range(1, count($myinputs_sanitized)), array_values($myinputs_sanitized));
+
+			// flip $key with $value
+			$data = array_flip($data);
+
+			// Put in the option
+			$imdbOptionsw['imdbwidgetorder'] = $data;
+		}
+
+		// update options
+		update_option($imdb_ft->imdbWidgetOptionsName, $imdbOptionsw);
+
+		// flush rewrite rules for taxonomy pages; expensive, but only when if updating widget options
+		add_action('init', function (){ flush_rewrite_rules(true); }, 0);
+
+		// display confirmation message
+		lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
+
+		// make sure that data posted in imdb_imdbwidgetorder (options-widget.php) is not empty; 
+		// otherwise, it will replace $imdbOptions['imdbwidgetorder'] values by an empty one.
+		if ( $_POST['imdb_imdbwidgetorder'] == "empty") {
+
+			if (!headers_sent()) {
+				header("Location: ".esc_url($_SERVER[ "REQUEST_URI"]), false);
+				die();
+			} else {
+				lumiere_notice(1, '<strong>'. esc_html__( 'Error. You have to select a value.', 'lumiere-movies'). '</strong>' );
+				die();
+			}
+		}
+
+	 }
+
+	if ( (isset($_POST['reset_imdbwidgetSettings'])) && check_admin_referer('imdbwidgetSettings_check', 'imdbwidgetSettings_check') ) { // reset options selected  (widget options)
+
+		// Save the data
+		delete_option($imdb_ft->imdbWidgetOptionsName);
+
+		// flush rewrite rules for taxonomy pages; expensive, but only when if reseting widget options
+		add_action('init', function (){ flush_rewrite_rules();}, 0);
+
+		// Display a refresh link otherwise refreshed data is not seen
+		if (!headers_sent()) {
+			//header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
+			wp_safe_redirect( wp_get_referer() ); 
+			exit();
+		} else {
+			lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			exit();
+		}
+
+		// display confirmation message
+		lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
+
+	}
 
 ?>
-
+<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
 <div id="tabswrap">
 	<ul id="tabs">
-		<li><img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-inside-whattodisplay.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to display", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=what"); ?>"><?php esc_html_e( 'What to display', 'lumiere-movies'); ?></a></li>
+		<li><img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside-whattodisplay.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to display", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=what"); ?>"><?php esc_html_e( 'What to display', 'lumiere-movies'); ?></a></li>
 			<?php if ($imdbOptions['imdbtaxonomy'] == "1") { ?>
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-inside-whattotaxo.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to taxonomize", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo"); ?>"><?php esc_html_e( "What to taxonomize", 'lumiere-movies'); ?></a></li>
+		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside-whattotaxo.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to taxonomize", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo"); ?>"><?php esc_html_e( "What to taxonomize", 'lumiere-movies'); ?></a></li>
 			<?php } else { ?>
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] ."pics/admin-widget-inside-whattodisplay.png"); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( "Taxonomy unactivated", 'lumiere-movies');?></i></li>
+		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] ."pics/admin-widget-inside-whattodisplay.png"); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( "Taxonomy unactivated", 'lumiere-movies');?></i></li>
 			<?php }?>
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-inside-order.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "Display order", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=order"); ?>"><?php esc_html_e( "Display order", 'lumiere-movies'); ?></a></li>
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory']. "pics/admin-widget-inside-misc.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "Misc", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=misc"); ?>"><?php esc_html_e( 'Misc', 'lumiere-movies'); ?></a></li>
+		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside-order.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "Display order", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=order"); ?>"><?php esc_html_e( "Display order", 'lumiere-movies'); ?></a></li>
+		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory']. "pics/admin-widget-inside-misc.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "Misc", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=misc"); ?>"><?php esc_html_e( 'Misc', 'lumiere-movies'); ?></a></li>
 	</ul>
 </div>
 
@@ -59,7 +148,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 		
 		<?php //-------------------------------------------------------------------=[title, pic, runtime]=- ?>		
 
-<?php if ( ($_GET['widgetoption'] == "what") || (!isset($_GET['widgetoption'] )) ) { 	// What to display  ?>
+<?php if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!isset($_GET['widgetoption'] )) ) { 	// What to display  ?>
 
 		<div class="imblt_border_shadow">
 			<div class="titresection"><?php esc_html_e( 'What to display', 'lumiere-movies'); ?></div>
@@ -430,7 +519,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 	</div>
 
 <?php	} 
-		if ($_GET['widgetoption'] == "taxo")  { 	// Taxonomy ?>
+		if ( (isset($_GET['widgetoption'])) && ($_GET['widgetoption'] == "taxo") ) { 	// Taxonomy ?>
 		<?php //-------------------------------------------------------------------=[Taxonomy]=-
 
 			if ($imdbOptions['imdbtaxonomy'] != "1") { //check if taxonomy is activated
@@ -685,7 +774,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 } 
 
 
-		if ($_GET['widgetoption'] == "order")  { 	// Order ?>
+		if ( (isset($_GET['widgetoption'])) && ($_GET['widgetoption'] == "order") ) { 	// Order ?>
 		<?php //-------------------------------------------------------------------=[Order]=- ?>		
 
 	<div class="postbox">
@@ -734,7 +823,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 		</div>
 	</div>
 <?php	} 
-		if ($_GET['widgetoption'] == "misc")  { 	// Misc ?>
+		if ( (isset($_GET['widgetoption'])) && ($_GET['widgetoption'] == "misc") ) { 	// Misc ?>
 		<?php //-------------------------------------------------------------------=[Misc]=- ?>		
 
 		<div class="imblt_border_shadow">
@@ -771,10 +860,11 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 	
 	<?php //------------------------------------------------------------------ =[Submit selection]=- ?>
 	<div class="submit submit-imdb" align="center">
-		<?php wp_nonce_field('reset_imdbwidgetSettings_check', 'reset_imdbwidgetSettings_check'); //check that data has been sent only once ?>
+		<?php wp_nonce_field('imdbwidgetSettings_check', 'imdbwidgetSettings_check'); //check that data has been sent only once ?>
 		<input type="submit" class="button-primary" name="reset_imdbwidgetSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />
-		<?php wp_nonce_field('update_imdbwidgetSettings_check', 'update_imdbwidgetSettings_check', false); //check that data has been sent only once -- don't send _wp_http_referer twice, already sent with first wp_nonce_field -> 3rd option to "false" ?>
 		<input type="submit" class="button-primary" id="update_imdbwidgetSettings" name="update_imdbwidgetSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
 	</div>
 	<br />
 </div>
+</form>
+<?php	} // end user can manage options ?>

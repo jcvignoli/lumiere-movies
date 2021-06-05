@@ -1,8 +1,8 @@
 <?php
 
  #############################################################################
- # Lumière! wordpress plugin                                                 #
- # written by Lost Higway                                                    #
+ # Lumière! Movies WordPress Plugin                                          #
+ # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
  # This program is free software; you can redistribute and/or modify it      #
@@ -13,8 +13,20 @@
  #									              #
  #############################################################################
 
-global $imdb_admin_values;
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	wp_die('You can not call directly this page');
+}
 
+// Enter in debug mode
+if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
+	print_r($imdbOptions);
+	error_reporting(E_ALL);
+	ini_set("display_errors", 1);
+	set_error_handler("var_dump");
+}
+
+/* Vars */
 $allowed_html_for_esc_html_functions = [ /* accept these html tags in wp_kses escaping function */
 	'strong',
 	'br',
@@ -26,9 +38,6 @@ $messages = array( /* highslide message notification options */
 	'highslide_website_unkown' => 'Website variable is not set.'
 );
 
-// included files
-require_once (plugin_dir_path( __DIR__ ) . 'class/functions.php');
-
 // If $_GET["msg"] is found, display a related notice
 if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $messages ) ){
 	switch (sanitize_text_field( $_GET['msg'] )) {
@@ -38,7 +47,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 			break;
 		// Message for failure
 		case "highslide_failure":
-			lumiere_notice(3, esc_html__( $messages["highslide_failure"] , 'lumiere-movies') . " " .  esc_html__( 'Your folder might be protected. Download highslide manually', 'lumiere-movies')." <a href='". esc_url ( IMDBBLOGHIGHSLIDE ) ."'>".esc_html__("here", 'lumiere-movies')."</a> ".esc_html__("and extract the zip into" ) . "<br />" .  esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" ) );
+			lumiere_notice(3, esc_html__( $messages["highslide_failure"] , 'lumiere-movies') . " " .  esc_html__( 'Your folder might be protected. Download highslide manually', 'lumiere-movies')." <a href='". esc_url ( IMDBBLOGHIGHSLIDE ) ."'>".esc_html__("here", 'lumiere-movies')."</a> ".esc_html__("and extract the zip into" ) . "<br />" .  esc_url( $imdbOptions['imdbpluginpath'] ."js/" ) );
 			break;
 		// Message for website down
 		case "highslide_down":
@@ -50,20 +59,67 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 			break;	
 	}
 }
-?>
 
+// Data is posted using the form
+if (current_user_can( 'manage_options' ) ) { 
+
+	if ( (isset($_POST['update_imdbSettings'])) && check_admin_referer('options_general_check', 'options_general_check') ) { //--------------------save data selected 
+
+		foreach ($_POST as $key=>$postvalue) {
+			$key_sanitized = sanitize_key($key);
+			$keynoimdb = str_replace ( "imdb_", "", $key_sanitized);
+			if (isset($_POST["$key_sanitized"])) {
+				$imdbOptions["$keynoimdb"] = sanitize_text_field( $_POST["$key_sanitized"] );
+			}
+		}
+
+		// update options
+		update_option($imdb_ft->imdbAdminOptionsName, $imdbOptions);
+
+		// flush rewrite rules for matches the new $imdbOptions['imdbplugindirectory'] path
+		add_action('init', function (){ flush_rewrite_rules(); }, 0);
+		flush_rewrite_rules();
+
+		// Rewrite the htaccess so it matches the new $imdbOptions['imdbplugindirectory'] path
+		lumiere_make_htaccess();
+
+		// display message on top
+		lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
+	}
+	elseif ( (isset($_POST['reset_imdbSettings'])) && check_admin_referer('options_general_check', 'options_general_check') ){ //---------------------reset options selected
+
+		delete_option($imdb_ft->imdbAdminOptionsName);
+		// display message on top
+		lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
+
+		// Display a refresh link otherwise refreshed data is not seen
+		if (!headers_sent()) {
+			//header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
+			wp_safe_redirect( wp_get_referer() ); 
+			exit();
+		} else {
+			lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			exit();
+		}
+
+	}
+
+
+echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . $_SERVER[ "REQUEST_URI" ] . '">';
+
+?>
 <div id="tabswrap">
 	<ul id="tabs">
-		<li><img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-general-path.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Paths & Layout", 'lumiere-movies');?>" href="<?php echo esc_url(admin_url() . "admin.php?page=imdblt_options&generaloption=base" ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies'); ?></a></li>
+		<li><img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-general-path.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Paths & Layout", 'lumiere-movies');?>" href="<?php echo esc_url(admin_url() . "admin.php?page=imdblt_options&generaloption=base" ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies'); ?></a></li>
 
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-general-advanced.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Advanced", 'lumiere-movies');?>" href="<?php echo esc_url (admin_url() . "admin.php?page=imdblt_options&generaloption=advanced" ); ?>"><?php esc_html_e( "Advanced", 'lumiere-movies'); ?></a></li>
+		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-general-advanced.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Advanced", 'lumiere-movies');?>" href="<?php echo esc_url (admin_url() . "admin.php?page=imdblt_options&generaloption=advanced" ); ?>"><?php esc_html_e( "Advanced", 'lumiere-movies'); ?></a></li>
 	</ul>
 </div>
 
 
 <div id="poststuff" class="metabox-holder">
 
-<?php if ( ($_GET['generaloption'] == "base") || (!isset($_GET['generaloption'] )) ) { 	////////// Paths & Layout section  ?>
+<?php if ( ( (isset($_GET['generaloption'])) && ($_GET['generaloption'] == "base") ) || (!isset($_GET['generaloption'] )) ) { 	////////// Paths & Layout section  ?>
 
 	<div class="intro_cache"><?php esc_html_e( "The following options usually do not need further action. Nevertheless, Lumière! can be widely customized to match your needs.", 'lumiere-movies'); ?></div>
 
@@ -219,7 +275,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 
 
 <?php	} 
-	if ($_GET['generaloption'] == "advanced") { 				//////////////// Advanced section  ?>
+	if ( (isset($_GET['generaloption'])) && ($_GET['generaloption'] == "advanced") ) { 				//////////////// Advanced section  ?>
 
 	<div class="intro_cache"><?php esc_html_e( "The options hereafter can break a lot of things. Edit them only if you know what you are doing.", 'lumiere-movies'); ?></div>
 
@@ -326,6 +382,22 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 			</div>
 		</div>
 
+		<div class="imdblt_double_container">
+			<div class="imdblt_padding_five">
+
+				<?php esc_html_e( 'Debug Lumière!', 'lumiere-movies'); ?><br /><br />
+
+				<input type="radio" id="imdb_imdbdebug_yes" name="imdb_imdbdebug" value="1" <?php if ($imdbOptions['imdbdebug'] == "1") { echo 'checked="checked"'; }?> />
+
+				<label for="imdb_imdbdebug_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbdebug_no" name="imdb_imdbdebug" value="" <?php if ($imdbOptions['imdbdebug'] == 0) { echo 'checked="checked"'; } ?>  />
+				
+				<label for="imdb_imdbdebug_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+
+				<div class="explain"><?php esc_html_e( "When enabled, Lumière can be debugged.", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+
+			</div>
+		</div>
+
 	</div>
 
 	<br />
@@ -345,7 +417,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 		<br />
 		<br />
 
-		<?php //------------------------------------------------------------------=[ web adresses ]=- ?>
+		<?php //------------------------------------------------------------------=[ URL blog ]=- ?>
 
 		<div class="imdblt_double_container">
 			<div class="imdblt_double_container_content_twenty">
@@ -355,32 +427,50 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 				<input class="imdblt_width_fillall" type="text" name="imdb_blog_adress" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['blog_adress']), 'lumiere-movies') ?>" >
 				<div class="explain"><?php esc_html_e( 'Where the blog is installed.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo esc_url( $imdbOptions['blog_adress'] ); ?>"</div>
 			</div>
-			
 		</div>
 
+		<br /><br />
+
+		<?php //------------------------------------------------------------------=[ PATH Lumière! ]=- ?>
 		<div class="imdblt_double_container">
 			<div class="imdblt_double_container_content_twenty">
 				<label for="imdb_imdbplugindirectory"><?php esc_html_e( 'Plugin directory', 'lumiere-movies'); ?></label>
 			</div>
 			<div class="imdblt_double_container_content_eighty">
 				<input type="text" class="imdblt_width_fillall" name="imdb_imdbplugindirectory" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbplugindirectory']), 'lumiere-movies') ?>">
-				<div class="explain"><?php wp_kses( _e( 'Where <strong>Lumiere</strong> is installed.', 'lumiere-movies'), $allowed_html_for_esc_html_functions ); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo IMDBLTURLPATH; ?>"</div>
+				<div class="explain"><?php wp_kses( _e( 'Where <strong>Lumiere</strong> is installed.', 'lumiere-movies'), $allowed_html_for_esc_html_functions ); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo IMDBLTURLPATH; ?>"
+				</div>
+			</div>
 		</div>
-		</div>
-	</div>
-		
-	</div>
 
+		<br /><br />
+
+		<?php //------------------------------------------------------------------=[ URL Popups ]=---- ?>
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_twenty">
+				<label for="imdb_imdburlpopups"><?php esc_html_e( 'URL for the popups', 'lumiere-movies'); ?></label>
+			</div>
+			<div class="imdblt_double_container_content_eighty">
+				<input type="text" class="imdblt_width_fillall" name="imdb_imdburlpopups" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdburlpopups']), 'lumiere-movies') ?>">
+				<div class="explain"><?php wp_kses( _e( 'The URL that will be displayed for the movies\' and people\'s popups.', 'lumiere-movies'), $allowed_html_for_esc_html_functions ); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo "/imdblt/"; ?>"
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <?php	} // end of advanced section ?>
 		
 
 	<?php //------------------------------------------------------------------ =[Submit selection]=- ?>
 	<div class="submit submit-imdb" align="center">
-		<?php wp_nonce_field('reset_imdbSettings_check', 'reset_imdbSettings_check'); //check that data has been sent only once ?>
+		<?php wp_nonce_field('options_general_check', 'options_general_check');   ?>
 		<input type="submit" class="button-primary" name="reset_imdbSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />
-		<?php wp_nonce_field('update_imdbSettings_check', 'update_imdbSettings_check', false);  //check that data has been sent only once -- don't send _wp_http_referer twice, already sent with first wp_nonce_field -> 3rd option to "false" ?>
 		<input type="submit" class="button-primary" name="update_imdbSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
 	</div>
 	<br />
+</form>
 </div>
+<?php
+} // end user can manage options 
+?>

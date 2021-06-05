@@ -1,7 +1,7 @@
 # Lumiere Movies
 
 **Contributors:** psykonevro \
-**Donate link:** https://www.paypal.me/jcvignoli and https://en.tipeee.com/lost-highway \
+**Donate link:** https://www.paypal.me/jcvignoli \
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 4.0 \
 **Tested up to:** 5.7.1 \
@@ -37,8 +37,8 @@ Similarly, this plugin can display **many movie's related details inside a post*
 PHP 7 is required. PHP 8 will soon be mandatory.
 
 1. Activate the plugin
-2. Configure the plugin (in admin settings). Values are automatically filled.
-3. Make sure the cache directories (cache and photo directories) have been created (in cache settings). The plugin is preconfigured to work with "/wp-content/plugins/lumiere-movies/cache/". The plugin will work with or without the cache.
+2. Configure the plugin (in admin settings). Default values are automatically filled. In most cases, no change is required.
+3. Make sure the cache directories (cache and photo directories) have been created (in cache settings). The plugin is preconfigured to work with "/wp-content/cache/lumiere-movies/". The plugin works with or without cache.
 
 ### basic options
 

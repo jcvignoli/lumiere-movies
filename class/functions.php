@@ -116,12 +116,13 @@ if ( ! function_exists('lumiere_convert_txtwithhtml_into_popup_people')){
 
 if ( ! function_exists('lumiere_admin_signature')){
 	function lumiere_admin_signature(){
+		global $allowed_html_for_esc_html_functions;
 		echo "\t\t<div class=\"soustitre\">\n";
 		echo "\t\t\t<div class=\"lumiere_intro_options\">".
 			wp_kses( __( '<strong>Licensing Info:</strong> Under a GPL licence, "Lumiere Movies" is based on <a href="https://github.com/tboothman/imdbphp/" target="_blank">tboothman</a> classes. Nevertheless, a considerable amount of work was required to implement it in wordpress; check the support page for', 'lumiere-movies'), $allowed_html_for_esc_html_functions ). "<a href=\"" .
 			esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=support"). "\"> ".
 			esc_html__('more', 'lumiere-movies') ."</a>.";
-		echo "\t\t\t<td>\n\t\t\t\t<div> &copy; 2005-" . date("Y") . " <a href=\"" .  IMDBABOUTENGLISH . '" target="_blank">Lost Highway</a>, <a href="' . IMDBHOMEPAGE . '" target="_blank">Lumière! wordpress plugin' . '</a> version ' . LUMIERE_VERSION . "\n</div>";
+		echo "\t\t\t<br /><br /><div>\n\t\t\t\t<div> &copy; 2005-" . date("Y") . " <a href=\"" .  IMDBABOUTENGLISH . '" target="_blank">Lost Highway</a>, <a href="' . IMDBHOMEPAGE . '" target="_blank">Lumière! wordpress plugin' . '</a>, version ' . LUMIERE_VERSION . "\n</div>";
 		echo "\t\t</div>\n";
 	} 
 }
@@ -250,7 +251,7 @@ if ( ! function_exists('lumiere_popup_highslide_film_link')){
 		if (! $popuplong )
 			$popuplong=$imdb_admin_values["popupLong"];
 
-		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . lumiere_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
+		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
 
 		return $parsed_result;
 	}
@@ -272,9 +273,30 @@ if ( ! function_exists('lumiere_popup_classical_film_link')){
 		if (! $popuplong )
 			$popuplong=$imdb_admin_values["popupLong"];
 
-		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . lumiere_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
+		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
 		
 		return $parsed_result;
+	}
+}
+
+/** OBSOLETE, replaced by lumiere_name_htmlize()
+ * HTMLizing function
+ * transforms movie's name in a way to be able to be searchable (ie "ô" becomes "&ocirc;") 
+ * ----> should use a wordpress dedicated function instead, like esc_url() ?
+ */
+
+if ( ! function_exists('lumiere_htmlize')){
+	function lumiere_htmlize ($link) {
+	    // a. quotes escape
+	    $lienhtmlize = addslashes($link);      
+	    // b.converts db to html -> no more needed
+	    //$lienhtmlize = htmlentities($lienhtmlize,ENT_NOQUOTES,"UTF-8");
+	    // c. regular expression to convert all accents; weird function...
+	    $lienhtmlize = preg_replace('/&(?!#[0-9]+;)/s', '&amp;', $lienhtmlize);
+	    // d. turns spaces to "+", which allows titles including several words
+	    $lienhtmlize = str_replace(array(' '), array('+'), $lienhtmlize);
+	    
+	    return $lienhtmlize; 
 	}
 }
 
@@ -284,8 +306,8 @@ if ( ! function_exists('lumiere_popup_classical_film_link')){
  * ----> should use a wordpress dedicated function instead, like esc_url() ?
  */
 
-if ( ! function_exists('lumiere_htmlize')){
-	function lumiere_htmlize ($link) {
+if ( ! function_exists('lumiere_name_htmlize')){
+	function lumiere_name_htmlize ($link) {
 	    // a. quotes escape
 	    $lienhtmlize = addslashes($link);      
 	    // b.converts db to html -> no more needed
@@ -367,5 +389,58 @@ if (!function_exists('str_contains')) {
         return $needle !== '' && mb_strpos($haystack, $needle) !== false;
     }
 }
+
+
+/* lumiere_make_htaccess()
+ * Create inc/.htaccess upon plugin activation
+ * called in inc/options-general.php and lumiere-movies.php (upon activation)
+ */
+if (!function_exists('lumiere_make_htaccess')) {
+	function lumiere_make_htaccess(){
+		/* vars */
+		$imdblt_blog_subdomain = site_url( '', 'relative' ) ?? ""; #ie: /subdirectory-if-exists/
+		$imdblt_plugin_full_path = plugin_dir_path( __DIR__ ) ?? wp_die( esc_html__("There was an error when generating the htaccess file.", 'lumiere-movies') ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/
+		$imdblt_plugin_path = str_replace( $imdblt_blog_subdomain, "", wp_make_link_relative( plugin_dir_url( __FILE__ ))); #ie: /wp-content/plugins/lumiere-movies/
+		$imdblt_htaccess_file = $imdblt_plugin_full_path  . "inc/.htaccess" ?? wp_die( esc_html__("There was an error when generating the htaccess file.", 'lumiere-movies') ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/inc/.htaccess
+		$imdblt_slug_path_movie = substr(LUMIERE_URLSTRINGFILMS, 1);
+		$imdblt_slug_path_search = substr(LUMIERE_URLSTRING, 1);
+		$imdblt_slug_path_person = substr(LUMIERE_URLSTRINGPERSON, 1);
+
+		// .htaccess text, including Rewritebase with $blog_subdomain
+		$imdblt_htaccess_file_txt = "<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase ".$imdblt_blog_subdomain."/"."\n\n";
+
+		# Gutenberg search
+		$imdblt_htaccess_file_txt .= "## gutenberg-search.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/gutenberg-search.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/lumiere/search/ [L,R,QSA]"."\n\n";
+
+		# highslide
+		$imdblt_htaccess_file_txt .= "## highslide_download.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/highslide_download.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options [L,R,QSA]"."\n\n";
+
+		## move_template_taxonomy.php
+		$imdblt_htaccess_file_txt .= "## move_template_taxonomy.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/move_template_taxonomy.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo [L,R,QSA]"."\n\n";
+
+		# popup-search
+		$imdblt_htaccess_file_txt .= "## popup-search.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-search.php\?film=([^\s]+)(&norecursive=[^\s]+)?"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_search."%1/ [L,R,QSA]"."\n\n";
+
+		# popup-imdb-movie.php
+		$imdblt_htaccess_file_txt .= "## popup-imdb_movie.php"."\n"."RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_movie.php\?film=([^\s]+) [NC]\nRewriteRule ^.+$ ".$imdblt_slug_path_movie."%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_movie.php\?mid=([^\s]+)&film=&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_movie."%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_movie.php\?mid=?([^&#]+)&film=([^\s]+)?(&info=[^\s]*) [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_movie."%2/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_movie.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_movie."%1/ [L,R,QSA]"."\n\n";
+
+		# popup-imdb_person.php
+		$imdblt_htaccess_file_txt .= "## popup-imdb_person.php"."\n"."RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_person.php\?mid=([^&#]+)&(film=[^\s]+)(&info=[^\s]+)? [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_person."%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_person.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_person."%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "</IfModule>"."\n";
+
+		// write the .htaccess file and close
+		if (isset($imdblt_htaccess_file)) {
+			file_put_contents($imdblt_htaccess_file, $imdblt_htaccess_file_txt.PHP_EOL);
+			// lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'lumiere-movies') ); # is not displayed
+		} else {
+			wp_die(lumiere_notice(3, esc_html__( 'Failed creating htaccess file.', 'lumiere-movies') ));
+		}
+	}
+}
+
 
 ?>
