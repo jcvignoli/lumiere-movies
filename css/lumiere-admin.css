@@ -59,6 +59,8 @@ width: 100%;border-color: black;}
 
 #tabs li {display:inline;}
 
+#imdbwidgetorderContainer{height:auto;color:grey;border-radius:15px;-webkit-text-emphasis-style: dot;font-size:medium;vertical-align: middle;}
+
 .helpdiv, .helpdiv-noborderimage {line-height:20px;padding-left:20px;padding-right:20px;padding-bottom:20px;text-align:justify;}
 
 .helpdiv img {padding:8px;margin:5px;border: 2px black solid;}
@@ -92,8 +94,10 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .imdblt_double_container_content{flex:50%;}
 
 .imdblt_flex_auto{flex:auto;}
-.imdblt_double_container_content_third{flex:30%;}
 .imdblt_double_container_content_twenty{flex:20%;}
+.imdblt_double_container_content_third{flex:30%;}
+.imdblt_double_container_content_fourtyfive{flex:45%;}
+
 .imdblt_double_container_content_seventy{flex:70%;}
 .imdblt_double_container_content_eighty{flex:80%;}
 .imdblt_hidden{visibility:hidden;}
@@ -107,16 +111,18 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .imdblt_valign_middle{vertical-align:middle;}
 .imdblt_align_left{text-align:left;}
 .imdblt_align_center{text-align:center;}
+.imdblt_align_webkit_center{text-align: -webkit-center;}
 .imdblt_align_bottom{vertical-align:bottom;}
+.imdblt_align_last_center{text-align-last:center;}
 .imdblt_float_right{float:right;}
 .imdblt_float_left{float:left;}
 .imdblt_width_twohundredfifty{width: 250px;}
 .imdblt_width_onehundredpercent{width:100%;}
 .imdblt_width_fillall{width:-webkit-fill-available;}
 .accesstaxo{border:1px solid black;padding:20px;margin-left:40%;margin-right:40%;}
-.imdbwidgetorderContainer{width: 300px;height:auto;background-color:black;border-radius:10px;}
 .imblt_border_shadow{background-color:white;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgb(0 0 0 / 4%);padding:15px;}
 .lumiere_border_shadow_red{background-color:red;color:white;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgb(0 0 0 / 4%);padding:15px;}
 
+.lumiere_writing_vertical{writing-mode: vertical-lr;}
 /*#imdbconfig_save #tabswrap {margin:5px;padding:15px;}*/
 

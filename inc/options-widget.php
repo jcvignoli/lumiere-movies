@@ -55,7 +55,11 @@ if (current_user_can( 'manage_options' ) ) {
 			$key_sanitized = sanitize_key($key);
 
 			// Keep $_POST['imdbwidgetorderContainer'] untouched 
-			if ($key_sanitized == 'imdbwidgetorderContainer') continue;
+			if ($key == 'imdbwidgetorderContainer') continue;
+
+			// Those $_POST values shouldn't be processed
+			if ($key_sanitized == 'imdbwidgetsettings_check') continue;
+			if ($key_sanitized == 'update_imdbwidgetsettings') continue;
 
 			// remove "imdb_" from $key
 			$keynoimdb = str_replace ( "imdb_", "", $key_sanitized);
@@ -125,16 +129,16 @@ if (current_user_can( 'manage_options' ) ) {
 
 ?>
 <div id="tabswrap">
-	<ul id="tabs">
-		<li><img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside-whattodisplay.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to display", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=what"); ?>"><?php esc_html_e( 'What to display', 'lumiere-movies'); ?></a></li>
+	<div class="imdblt_double_container imdblt_padding_five">
+		<div class="imdblt_flex_auto"><img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside-whattodisplay.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to display", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=what"); ?>"><?php esc_html_e( 'What to display', 'lumiere-movies'); ?></a></div>
 			<?php if ($imdbOptions['imdbtaxonomy'] == "1") { ?>
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside-whattotaxo.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to taxonomize", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo"); ?>"><?php esc_html_e( "What to taxonomize", 'lumiere-movies'); ?></a></li>
+		<div class="imdblt_flex_auto">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside-whattotaxo.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to taxonomize", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo"); ?>"><?php esc_html_e( "What to taxonomize", 'lumiere-movies'); ?></a></div>
 			<?php } else { ?>
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] ."pics/admin-widget-inside-whattodisplay.png"); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( "Taxonomy unactivated", 'lumiere-movies');?></i></li>
+		<div class="imdblt_flex_auto">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] ."pics/admin-widget-inside-whattodisplay.png"); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( "Taxonomy unactivated", 'lumiere-movies');?></i></div>
 			<?php }?>
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside-order.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "Display order", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=order"); ?>"><?php esc_html_e( "Display order", 'lumiere-movies'); ?></a></li>
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory']. "pics/admin-widget-inside-misc.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "Misc", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=misc"); ?>"><?php esc_html_e( 'Misc', 'lumiere-movies'); ?></a></li>
-	</ul>
+		<div class="imdblt_flex_auto">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside-order.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "Display order", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=order"); ?>"><?php esc_html_e( "Display order", 'lumiere-movies'); ?></a></div>
+		<div class=" imdblt_flex_auto">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory']. "pics/admin-widget-inside-misc.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "Misc", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=misc"); ?>"><?php esc_html_e( 'Misc', 'lumiere-movies'); ?></a></div>
+	</div>
 </div>
 
 <div id="poststuff" class="metabox-holder">
@@ -777,7 +781,7 @@ if (current_user_can( 'manage_options' ) ) {
 		<h3 class="hndle" id="taxoorder" name="taxoorder"><?php esc_html_e( 'Position of data', 'lumiere-movies'); ?></h3>
 	</div>
 
-		<div class="imblt_border_shadow">
+		<div class="imblt_border_shadow imdblt_align_webkit_center">
 
 
 		<div class="lumiere_intro_options">
@@ -786,8 +790,22 @@ if (current_user_can( 'manage_options' ) ) {
 			<?php esc_html_e( '"Source" movie detail cannot be selected; if it is selected from "what to display" section, it will always appear after others movie details', 'lumiere-movies'); ?>
 		</div>
 
-		<div class="imdblt_double_container imdblt_padding_top_twenty">
-			<div class="imdblt_double_container_content_seventy imdblt_align_center">
+		<div class="imdblt_double_container imdblt_padding_top_twenty imdblt_align_center lumiere_writing_vertical">
+
+			<div class="imdblt_padding_ten imdblt_align_last_center imdblt_flex_auto">
+
+				<input type="button" value="up" name="movemovieup" id="movemovieup" data-moveform="-1" /> 
+				
+				<input type="button" value="down" name="movemoviedown" id="movemoviedown" data-moveform="+1" />
+
+				<div><?php esc_html_e( 'Move selected movie detail:', 'lumiere-movies') ?></div>
+
+				<? 
+				// add "empty", to eliminate false submissions which could crush database values ?>	
+				<input type="hidden" name="imdb_imdbwidgetorder" id="imdb_imdbwidgetorder" value="" class="imdblt_hidden" />
+			</div>
+
+			<div class="imdblt_padding_ten imdblt_align_last_center imdblt_flex_auto">
 
 			<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo (count( $imdbOptionsw['imdbwidgetorder'] )/2); ?>" style="height:100%;" multiple>
 <?php 
@@ -805,17 +823,6 @@ if (current_user_can( 'manage_options' ) ) {
 			?>				</select>
 			</div>
 
-			<div class="imdblt_double_container_content_third imdblt_align_center">
-
-				<?php esc_html_e( 'Move selected movie detail:', 'lumiere-movies') ?><br />
-				<input type="button" value="up" name="movemovieup" id="movemovieup" data-moveform="-1" /> 
-				
-				<input type="button" value="down" name="movemoviedown" id="movemoviedown" data-moveform="+1" />
-				<? 
-				// add "empty", to eliminate false submissions which could crush database values ?>	
-				<input type="hidden" name="imdb_imdbwidgetorder" id="imdb_imdbwidgetorder" value="" class="imdblt_hidden" />
-
-			</div>
 		</div>
 	</div>
 <?php	} 
@@ -861,6 +868,8 @@ if (current_user_can( 'manage_options' ) ) {
 		<input type="submit" class="button-primary" id="update_imdbwidgetSettings" name="update_imdbwidgetSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
 	</div>
 	<br />
-</div>
 </form>
-<?php	} // end user can manage options ?>
+</div>
+<?php	
+} // end user can manage options 
+?>
