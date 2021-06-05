@@ -659,19 +659,27 @@ class lumiere_core {
 	function lumiere_change_popup_title($title) {
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ){
 
+			// Display the title if /url/films
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
 				$movieid_sanitized = sanitize_text_field( $_GET['mid'] );
 				$movie = new Imdb\Title($movieid_sanitized);
-				$filmid_sanitized = lumiere_name_htmlize($movie->title());
+				$filmid_sanitized = esc_html($movie->title());
 				$title_name = isset($movieid_sanitized) ? $filmid_sanitized : sanitize_text_field($_GET['film']);
 				$title = "Informations about " . $title_name . " - Lumi&egrave;re movies ";
-			// Display as popup <title> the name of the person only if there is no film name
+
+			// Display the title if /url/person
 			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ){
 				$mid_sanitized = sanitize_text_field($_GET['mid']);
 				$person = new Imdb\Person($mid_sanitized);
 				$person_name_sanitized = sanitize_text_field( $person->name() );
 				$title = "Informations about " . $person_name_sanitized. " - Lumi&egrave;re movies";
+
+			// Display the title if /url/person
+			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLPOPUPSSEARCH ) ){
+				$title_name = isset($_GET['film']) ? esc_html($_GET['film']) : esc_html__('No query entered', 'lumiere-movies');
+				$title = "Search query for " . $title_name . " - Lumi&egrave;re movies ";
 			}
+
 			return $title;
 		}
 	}
@@ -712,42 +720,45 @@ class lumiere_core {
 	16.- Add new meta tags
 	**/
 	function lumiere_add_metas() {
-// Change the metas only for popups
-if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ) )
+
+		// Change the metas only for popups
+		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ) )
 {
 
-		# ADD METAS
-		echo "\t\t" . '<!-- Lumiere Movies -->';
-		echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . IMDBLTURLPATH . 'pics/favicon/apple-touch-icon.png" />';
-		echo "\n" . '<link rel="icon" type="image/png" sizes="32x32" href="' . IMDBLTURLPATH . 'pics/favicon/favicon-32x32.png" />';
-		echo "\n" . '<link rel="icon" type="image/png" sizes="16x16" href="' . IMDBLTURLPATH . 'pics/favicon/favicon-16x16.png" />';
-		echo "\n" . '<link rel="manifest" href="' . IMDBLTURLPATH . 'pics/favicon/site.webmanifest" />';
+			# ADD FAVICONS
+			echo "\t\t" . '<!-- Lumiere Movies -->';
+			echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . IMDBLTURLPATH . 'pics/favicon/apple-touch-icon.png" />';
+			echo "\n" . '<link rel="icon" type="image/png" sizes="32x32" href="' . IMDBLTURLPATH . 'pics/favicon/favicon-32x32.png" />';
+			echo "\n" . '<link rel="icon" type="image/png" sizes="16x16" href="' . IMDBLTURLPATH . 'pics/favicon/favicon-16x16.png" />';
+			echo "\n" . '<link rel="manifest" href="' . IMDBLTURLPATH . 'pics/favicon/site.webmanifest" />';
 
-		# ADD CANONICAL
-		// Canonical for search popup
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) )
-			$my_canon = LUMIERE_URLPOPUPSSEARCH ;
+			# ADD CANONICAL
+			// Canonical for search popup
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) ) {
+				$film_sanitized = ""; $film_sanitized = isset($_GET['film']) ? lumiere_name_htmlize($_GET['film']) : "";
+				$my_canon = LUMIERE_URLPOPUPSSEARCH . '?film=' . $film_sanitized . '&norecursive=yes' ;
+			}
 
-		// Canonical for movies popups
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
-			$mid_sanitized = isset($_GET['mid']) ? sanitize_text_field($_GET['mid']) : "";
-			$film_sanitized = ""; $film_sanitized = isset($_GET['film']) ? lumiere_name_htmlize($_GET['film']) : "";
-			$info_sanitized = ""; $info_sanitized = isset($_GET['info']) ? esc_html($_GET['info']) : "";
-			$my_canon = LUMIERE_URLPOPUPSFILMS . '?film=' . $film_sanitized . '&mid=' . $mid_sanitized. '&info=' . $info_sanitized;
-		}
+			// Canonical for movies popups
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
+				$mid_sanitized = isset($_GET['mid']) ? sanitize_text_field($_GET['mid']) : "";
+				$film_sanitized = ""; $film_sanitized = isset($_GET['film']) ? lumiere_name_htmlize($_GET['film']) : "";
+				$info_sanitized = ""; $info_sanitized = isset($_GET['info']) ? esc_html($_GET['info']) : "";
+				$my_canon = LUMIERE_URLPOPUPSFILMS . '?film=' . $film_sanitized . '&mid=' . $mid_sanitized. '&info=' . $info_sanitized;
+			}
 
-		// Canonical for people popups
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ) {
-			$mid_sanitized = isset($_GET['mid']) ? sanitize_text_field($_GET['mid']) : "";
-			$info_sanitized = isset($_GET['info']) ? esc_html($_GET['info']) : "";
-			$my_canon = LUMIERE_URLPOPUPSPERSON . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=' . $info_sanitized;
-		}
+			// Canonical for people popups
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ) {
+				$mid_sanitized = isset($_GET['mid']) ? sanitize_text_field($_GET['mid']) : "";
+				$info_sanitized = isset($_GET['info']) ? esc_html($_GET['info']) : "";
+				$my_canon = LUMIERE_URLPOPUPSPERSON . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=' . $info_sanitized;
+			}
 
-		echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
-		echo "\n\t\t" . '<!-- Lumiere Movies -->'."\n";
+			echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
+			echo "\n\t\t" . '<!-- Lumiere Movies -->'."\n";
 
-		remove_action('wp_head', 'rel_canonical'); # prevents Wordpress from inserting a canon tag
-		remove_action('wp_head', 'wp_site_icon', 99); # prevents Wordpress from inserting favicons
+			remove_action('wp_head', 'rel_canonical'); # prevents Wordpress from inserting a canon tag
+			remove_action('wp_head', 'wp_site_icon', 99); # prevents Wordpress from inserting favicons
 		}
 	}
 

@@ -163,7 +163,7 @@ exit(); // quit the call of the page, to avoid double loading process ?>
 <table class='tabletitrecolonne'>
     <tr>
         <td class='titrecolonne'>
-            <a class="searchaka" href="<?php echo esc_url( LUMIERE_URLPOPUPSSEARCH . $filmid_sanitized . "/?film=" . $filmid_sanitized . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'lumiere-movies'); ?>"><?php esc_html_e('Search AKAs', 'lumiere-movies'); ?></a>
+            <a class="searchaka" href="<?php echo esc_url( LUMIERE_URLPOPUPSSEARCH . "/?film=" . $filmid_sanitized . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'lumiere-movies'); ?>"><?php esc_html_e('Search AKAs', 'lumiere-movies'); ?></a>
         </td>
         <td class='titrecolonne'>
 		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Movie', 'lumiere-movies'); ?></a>

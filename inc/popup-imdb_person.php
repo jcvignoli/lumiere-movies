@@ -105,19 +105,13 @@ if (isset ($mid_sanitized)) {
             <div class="identity"><?php echo $person_name_sanitized; ?> &nbsp;&nbsp;</div>
             <div class="soustitreidentity">
 			<?php  // Born
-if (null !== $person->born() ){
-$birthday = array();
-$birthday = $person->born(); 
-} else {
-$birthday = NULL;
-}
-
-			  
+			  $birthday = count($person->born() ) ? $person->born() : ""; 
 			  if ( (isset($birthday)) && (!empty($birthday)) ) {
-		      $birthday_day = (isset( $birthday["day"] ) ) ? intval($birthday["day"]) : "";
-		      $birthday_month = (isset( $birthday["month"] ) ) ? sanitize_text_field($birthday["month"]) : "";
+				$birthday_day = (isset( $birthday["day"] ) ) ? intval($birthday["day"]) : "";
+				$birthday_month = (isset( $birthday["month"] ) ) ? sanitize_text_field($birthday["month"]) : "";
+				$birthday_year = (isset( $birthday["year"] ) ) ? intval($birthday["year"]) : "";
 
-			  echo "<strong>".esc_html__('Born on', 'lumiere-movies')."</strong> ".$birthday_day . " " .$birthday_month . " " . intval($birthday["year"]);
+				echo "<strong>".esc_html__('Born on', 'lumiere-movies')."</strong> ".$birthday_day . " " .$birthday_month . " " . $birthday_year ;
 			  }
 			  if ( (isset($birthday["place"])) && (!empty($birthday["place"])) ){ echo ", ".esc_html__('in', 'lumiere-movies')." ".sanitize_text_field($birthday["place"]);} ?>
 			  <?php // Dead
