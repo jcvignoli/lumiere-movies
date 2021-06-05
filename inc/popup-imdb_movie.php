@@ -472,7 +472,7 @@ echo '/ >'; ?>
 			<li>
 				<div align="center" class="imdbdiv-liees">
 					<div class="imdblt_float_left">
-						<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory']."inc/popup-imdb_person.php?mid=" . $write[$i]["imdb"] . "&film=".  $title_sanitized  ) ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'>
+						<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $write[$i]["imdb"] . "/?mid=" . $write[$i]["imdb"] . "&film=".  $title_sanitized  ) ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'>
 						<?php echo sanitize_text_field( $write[$i]["name"] ); ?></a>
 					</div>
 					<div align="right">
@@ -500,7 +500,7 @@ echo '/ >'; ?>
 			<li>
 				<div align="center" class="imdbdiv-liees">
 					<div class="imdblt_float_left">
-                		            	<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory']."inc/popup-imdb_person.php?mid=" . $produce[$i]["imdb"] . "&film=".  $title_sanitized  ); ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'>
+                		            	<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $produce[$i]["imdb"] . "/?mid=" . $produce[$i]["imdb"] . "&film=".  $title_sanitized  ); ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'>
                 		            	<?php echo sanitize_text_field( $produce[$i]["name"] ); ?></a>
 					</div>
 					<div align="right">

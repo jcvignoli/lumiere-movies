@@ -2,15 +2,17 @@ Changelog
 
 v3.2
 * [minor] Display person's name in popup's title page, generaly rewritten the tite's naming and links to popups
+* [minor] added metas (favicons and canonical) link in popups
 * [bug] Redirection when deleting/updating cache details was still broken, changed the method
 * [bug] Fixed the reset buttons in admin pages, reset buttons will now display a "go back" message
 * [bug] imdbwidgettrailernumber variable missing in class/config.php (probably since the inception of the plugin!)
+* [bug] Fixed WordPress credits in admin were not shown (added two closing divs in inc/admin_pages.php)
 * [technical] removed calls to options from class/config.php and created inc/admin_pages.php. Moved the $_POST checks from admin_pages.php to their dedicated sections in options-*.php.
 * [technical] (re)Added debugging mode
 * [technical] Added check defined( 'WPINC' ) on the top of included pages to avoid direct calls
-* [technical] added the isset() in functions for further compatibility with PHP8
-* [technical] change the custom url to call /imdblt/(film|person) instead of lumiere-moves/inc/popupup*
-* [technical] the custom url /imdblt/(film|person) is now a constant
+* [technical] Added the isset() in functions for further compatibility with PHP8
+* [technical] Change the custom url to call /imdblt/(film|person) instead of lumiere-moves/inc/popupup*
+* [technical] The custom url /imdblt/(film|person) is now a constant
 * [technical] Robust htaccess that takes into account all possiblities of the popups
 * [technical] Made the custom url /imdblt/(film|person) an editable variable in admin/ moved the constants to the end of config.php
 * [technical] Removed useless data in htacces making (let wordpress deal with it)

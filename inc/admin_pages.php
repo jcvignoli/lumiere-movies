@@ -107,8 +107,10 @@ echo '<div class="subpage">';
 	// end subselection 
 
 	lumiere_admin_signature ();
-	echo '<!-- .wrap -->';
 
+	echo '</div>';
+	echo '</div>';
+	echo '<!-- .wrap -->';
 } //End function printAdminPage()
 
 ?>

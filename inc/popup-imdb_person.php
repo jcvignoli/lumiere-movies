@@ -82,15 +82,15 @@ if (isset ($mid_sanitized)) {
             <a class="historyback"><?php esc_html_e('Back', 'lumiere-movies'); ?></a>
         </td>
  		<td class='titrecolonne'>
-			<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . "?mid=". $mid_sanitized . "&info=" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Filmography', 'lumiere-movies'); ?>'><?php esc_html_e('Filmography', 'lumiere-movies'); ?></a>
+			<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Filmography', 'lumiere-movies'); ?>'><?php esc_html_e('Filmography', 'lumiere-movies'); ?></a>
 		</td>
 		
 		<td class='titrecolonne'>
-			<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . "?mid=". $mid_sanitized . "&info=bio" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Biography', 'lumiere-movies'); ?>'><?php esc_html_e('Biography', 'lumiere-movies'); ?></a>
+			<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=bio" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Biography', 'lumiere-movies'); ?>'><?php esc_html_e('Biography', 'lumiere-movies'); ?></a>
 		</td>
 		
 		<td class="titrecolonne">
-			<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . "?mid=". $mid_sanitized . "&info=divers" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?>
+			<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=divers" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?>
 		</td>
 		
 		<td class='titrecolonne'></td>
@@ -105,17 +105,27 @@ if (isset ($mid_sanitized)) {
             <div class="identity"><?php echo $person_name_sanitized; ?> &nbsp;&nbsp;</div>
             <div class="soustitreidentity">
 			<?php  // Born
-			  $birthday = $person->born(); 
-			  if (!empty($birthday)) {
-			  echo "<strong>".esc_html__('Born on', 'lumiere-movies')."</strong> ".intval($birthday["day"])." ".sanitize_text_field($birthday["month"])." ".intval($birthday["year"]);
+if (null !== $person->born() ){
+$birthday = array();
+$birthday = $person->born(); 
+} else {
+$birthday = NULL;
+}
+
+			  
+			  if ( (isset($birthday)) && (!empty($birthday)) ) {
+		      $birthday_day = (isset( $birthday["day"] ) ) ? intval($birthday["day"]) : "";
+		      $birthday_month = (isset( $birthday["month"] ) ) ? sanitize_text_field($birthday["month"]) : "";
+
+			  echo "<strong>".esc_html__('Born on', 'lumiere-movies')."</strong> ".$birthday_day . " " .$birthday_month . " " . intval($birthday["year"]);
 			  }
-			  if (!empty($birthday["place"])) { echo ", ".esc_html__('in', 'lumiere-movies')." ".sanitize_text_field($birthday["place"]);} ?>
+			  if ( (isset($birthday["place"])) && (!empty($birthday["place"])) ){ echo ", ".esc_html__('in', 'lumiere-movies')." ".sanitize_text_field($birthday["place"]);} ?>
 			  <?php // Dead
-		      $death = $person->died();
-			  if (!empty($death)) {
+		      $death = (null !== $person->died() ) ? $person->died() : "";
+			  if ( (isset($death)) && (!empty($death)) ){
 			  echo "<br /><strong>".esc_html__('Died on', 'lumiere-movies')."</strong> ".intval($death["day"])." ".sanitize_text_field($death["month"])." ".intval($death["year"]);			
-			  if (!empty($death["place"])) echo ", ".esc_html__('in', 'lumiere-movies')." ".sanitize_text_field($death["place"]);
-			  if (!empty($death["cause"])) echo ", ".esc_html__('cause', 'lumiere-movies')." ".sanitize_text_field($death["cause"]);
+			  if ( (isset($death["place"])) && (!empty($death["place"])) ) echo ", ".esc_html__('in', 'lumiere-movies')." ".sanitize_text_field($death["place"]);
+			  if ( (isset($death["cause"])) && (!empty($death["cause"])) ) echo ", ".esc_html__('cause', 'lumiere-movies')." ".sanitize_text_field($death["cause"]);
 			  }	?>
 			</div>
 			
@@ -165,7 +175,7 @@ echo '/ >'; ?>
 				$tc = count($filmo);
 			  	foreach ($filmo as $film) {
 			  		$nbfilms = $tc-$ii;
-					echo "<li><strong>($nbfilms)</strong> <a class='linkpopup' href='".esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/popup-imdb_movie.php?mid=".$film["mid"])."'>".sanitize_text_field( $film["name"] )."</a>";
+					echo "<li><strong>($nbfilms)</strong> <a class='linkpopup' href='".esc_url( LUMIERE_URLPOPUPSFILMS . '?mid=' . esc_html($film["mid"]) )."'>".sanitize_text_field( $film["name"] )."</a>";
 
 					if (!empty($film["year"])) {
 						echo " (".intval($film["year"]).")";
@@ -210,7 +220,7 @@ echo '/ >'; ?>
 						for ($i=0;$i<count($soundtrack);++$i) {
 							$ii = $i+"1";
 							echo "<li><strong>($ii)</strong> ";
-							echo "<a class='linkpopup' href='popup-imdb_movie.php?mid=".intval($soundtrack[$i]["mid"])."'>".sanitize_text_field($soundtrack[$i]["name"])."</a>";
+							echo "<a class='linkpopup' href='" . LUMIERE_URLPOPUPSPERSON . "?mid=".intval($soundtrack[$i]["mid"])."'>".sanitize_text_field($soundtrack[$i]["name"])."</a>";
 							if (!empty($soundtrack[$i]["name"])) 
 								echo " (".$soundtrack[$i]["year"].")";
 							echo "</li>\n";
@@ -246,7 +256,7 @@ echo '/ >'; ?>
 				for ($i=0;$i<count($pm);++$i) {
 					$ii = $i+"1";
 					echo "<li><strong>($ii)</strong> ";
-					echo "<a class='linkpopup' href='". esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/popup-imdb_movie.php?mid=".intval($pm[$i]["imdb"]) )."'>".$pm[$i]["name"]."</a>";
+					echo "<a class='linkpopup' href='". esc_url( LUMIERE_URLPOPUPSFILMS ."?mid=".intval($pm[$i]["imdb"]) )."'>".$pm[$i]["name"]."</a>";
 					if (!empty($pm[$i]["year"])) 
 						echo " (".intval($pm[$i]["year"]).")";
 					echo "</li>\n";
@@ -404,7 +414,7 @@ echo '/ >'; ?>
 				$tc = count($filmo);
 			  foreach ($filmo as $film) {
 			  	$nbfilms = $tc-$ii;
-				echo "<li><strong>($nbfilms)</strong> <a class='linkpopup' href='".esc_url($imdb_admin_values['imdbplugindirectory'] ."inc/popup-imdb_movie.php?mid=".intval($film["mid"]) )."'>".sanitize_text_field($film["name"])."</a>";
+				echo "<li><strong>($nbfilms)</strong> <a class='linkpopup' href='".esc_url( LUMIERE_URLPOPUPSFILMS ."?mid=".intval($film["mid"]) )."'>".sanitize_text_field($film["name"])."</a>";
 				if (!empty($film["year"])) {
 				echo " (".intval($film["year"]).")";
 				} 
