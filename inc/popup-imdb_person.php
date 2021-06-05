@@ -13,14 +13,20 @@
  #									              #
  #############################################################################
 
-//---------------------------------------=[Vars]=----------------
-
 require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
-do_action('wp_loaded'); // execute wordpress first codes
-
-//---------------------------------------=[Vars]=----------------
+/* VARS */
 global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+
+// Enter in debug mode
+if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
+	print_r($imdb_admin_values);
+	error_reporting(E_ALL);
+	ini_set("display_errors", 1);
+	set_error_handler("var_dump");
+}
+
+do_action('wp_loaded'); // execute wordpress first codes
 
 // Start config class for $config in below Imdb\Title class calls
 if (class_exists("lumiere_settings_conf")) {
@@ -57,8 +63,8 @@ if (empty($film_sanitized ) && empty($mid_sanitized)){
 }
 
 if (isset ($mid_sanitized)) {
-	$person = new Imdb\Person($mid_sanitized, $config);
-	$person_name_sanitized = sanitize_text_field( $person->name() );
+	$person = new Imdb\Person($mid_sanitized, $config) ?? NULL;
+	$person_name_sanitized = sanitize_text_field( $person->name() ) ?? NULL;
 
 //--------------------------------------=[Layout]=---------------
 ?>
@@ -76,15 +82,15 @@ if (isset ($mid_sanitized)) {
             <a class="historyback"><?php esc_html_e('Back', 'lumiere-movies'); ?></a>
         </td>
  		<td class='titrecolonne'>
-			<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] ."inc/popup-imdb_person.php?mid=". $mid_sanitized . "&film=" . $film_sanitized . "&info=" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Filmography', 'lumiere-movies'); ?>'><?php esc_html_e('Filmography', 'lumiere-movies'); ?></a>
+			<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . "?mid=". $mid_sanitized . "&info=" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Filmography', 'lumiere-movies'); ?>'><?php esc_html_e('Filmography', 'lumiere-movies'); ?></a>
 		</td>
 		
 		<td class='titrecolonne'>
-			<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] ."inc/popup-imdb_person.php?mid=". $mid_sanitized . "&film=" . $film_sanitized . "&info=bio" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Biography', 'lumiere-movies'); ?>'><?php esc_html_e('Biography', 'lumiere-movies'); ?></a>
+			<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . "?mid=". $mid_sanitized . "&info=bio" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Biography', 'lumiere-movies'); ?>'><?php esc_html_e('Biography', 'lumiere-movies'); ?></a>
 		</td>
 		
 		<td class="titrecolonne">
-			<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory] ."inc/popup-imdb_person.php?mid=". $mid_sanitized . "&film=" . $film_sanitized . "&info=divers" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?>
+			<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . "?mid=". $mid_sanitized . "&info=divers" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?>
 		</td>
 		
 		<td class='titrecolonne'></td>
@@ -136,7 +142,7 @@ echo '/ >'; ?>
                                                 <!-- under section  -->
 
 <table class="TableauSousRubrique">
-	<?php if (empty($_GET['info'])){      // display only when nothing is selected from the menu
+	<?php if ( (!isset($_GET['info'])) || (empty($_GET['info'])) ){      // display only when nothing is selected from the menu
 	//---------------------------------------------------------------------------start filmography part ?>
 
                                        <!-- Filmography -->
@@ -159,7 +165,7 @@ echo '/ >'; ?>
 				$tc = count($filmo);
 			  	foreach ($filmo as $film) {
 			  		$nbfilms = $tc-$ii;
-					echo "<li><strong>($nbfilms)</strong> <a class='linkpopup' href='".esc_url( $imdb_admin_values[imdbplugindirectory] ."inc/popup-imdb_movie.php?mid=".$film["mid"])."'>".sanitize_text_field( $film["name"] )."</a>";
+					echo "<li><strong>($nbfilms)</strong> <a class='linkpopup' href='".esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/popup-imdb_movie.php?mid=".$film["mid"])."'>".sanitize_text_field( $film["name"] )."</a>";
 
 					if (!empty($film["year"])) {
 						echo " (".intval($film["year"]).")";
@@ -219,7 +225,7 @@ echo '/ >'; ?>
 
 		} //------------------------------------------------------------------------------ end filmo part ?>
 
-     <?php if ($_GET['info'] == 'bio'){ 
+     <?php if ( (isset($_GET['info'] )) && ($_GET['info'] == 'bio') ){ 
             	// ------------------------------------------------------------------------------ partie bio ?>
                                        <!-- Biographie -->
 
@@ -240,7 +246,7 @@ echo '/ >'; ?>
 				for ($i=0;$i<count($pm);++$i) {
 					$ii = $i+"1";
 					echo "<li><strong>($ii)</strong> ";
-					echo "<a class='linkpopup' href='". esc_url( $imdb_admin_values[imdbplugindirectory] ."inc/popup-imdb_movie.php?mid=".intval($pm[$i]["imdb"]) )."'>".$pm[$i]["name"]."</a>";
+					echo "<a class='linkpopup' href='". esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/popup-imdb_movie.php?mid=".intval($pm[$i]["imdb"]) )."'>".$pm[$i]["name"]."</a>";
 					if (!empty($pm[$i]["year"])) 
 						echo " (".intval($pm[$i]["year"]).")";
 					echo "</li>\n";
@@ -272,7 +278,7 @@ echo '/ >'; ?>
 <br />
      <?php } //------------------------------------------------------------------------------ end bio's part ?>
 
-     <?php if ($_GET['info'] == 'divers'){ 
+     <?php if ( (isset($_GET['info'] )) && ($_GET['info'] == 'divers') ){ 
             // ------------------------------------------------------------------------------ misc part ?>
                                        <!-- Misc -->
 
@@ -398,7 +404,7 @@ echo '/ >'; ?>
 				$tc = count($filmo);
 			  foreach ($filmo as $film) {
 			  	$nbfilms = $tc-$ii;
-				echo "<li><strong>($nbfilms)</strong> <a class='linkpopup' href='".esc_url($imdb_admin_values[imdbplugindirectory] ."inc/popup-imdb_movie.php?mid=".intval($film["mid"]) )."'>".sanitize_text_field($film["name"])."</a>";
+				echo "<li><strong>($nbfilms)</strong> <a class='linkpopup' href='".esc_url($imdb_admin_values['imdbplugindirectory'] ."inc/popup-imdb_movie.php?mid=".intval($film["mid"]) )."'>".sanitize_text_field($film["name"])."</a>";
 				if (!empty($film["year"])) {
 				echo " (".intval($film["year"]).")";
 				} 

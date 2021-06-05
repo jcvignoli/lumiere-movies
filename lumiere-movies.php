@@ -13,8 +13,8 @@
 /*
 Plugin Name: Lumière! Movies
 Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
-Description: Add to every movie title tagged with &lt;!--imdb--&gt; (...) &lt;!--/imdb--&gt; a link to an <a href="https://www.imdb.com"><acronym title="internet movie database">imdb</acronym></a> popup. Can also display data related to movies either in a <a href="widgets.php">widget</a> or inside a post. Perfect for your movie reviews. Cache handling. Have a look at the <a href="admin.php?page=imdblt_options">options page</a>.
-Version: 3.1.2
+Description: Add clickable links to informative popups about movies with information extracted from the IMDb. Display data related to movies and people in a widget or inside your post. Fully customizable. The most comprehensive and simplest plugin if you write about movies.
+Version: 3.2
 Requires at least: 4.6
 Text Domain: lumiere-movies
 Domain Path: /languages
@@ -23,20 +23,25 @@ Author URI: https://www.jcvignoli.com/blog
 */
 
 // Stop direct call
-if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF']))
+if ( ! defined( 'WPINC' ) ) 
 	die('You are not allowed to call this page directly.');
 
+
 # Bootstrap with requires
-require_once ( plugin_dir_path( __FILE__ ) . '/bootstrap.php' );
+require_once ( plugin_dir_path( __FILE__ ) . 'bootstrap.php' );
+require_once ( plugin_dir_path( __FILE__ ) . 'inc/admin_pages.php' );
 
 # Executed upon plugin activated/deactivated
 register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
 register_activation_hook( __FILE__, 'lumiere_activation' );
 
 function lumiere_activation() {
+	/* debug
+	ob_start(); */
+
 	if (is_admin()) { // Prevents activation bug with Fatal Error: Table ‘actionscheduler_actions’ doesn’t exist
 		$start = new lumiere_core;
-		$start->lumiere_make_htaccess();
+		$start->lumiere_make_htaccess_admin();
 	}
 
 	$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
@@ -56,6 +61,9 @@ function lumiere_activation() {
 		chmod( $lumiere_folder_cache_images, 0777 );
 	}
 	flush_rewrite_rules();
+
+	/* debug
+	trigger_error(ob_get_contents(),E_USER_ERROR);*/
 }
 
 ### Lumiere Classes start
@@ -160,49 +168,8 @@ class lumiere_core {
 	1.- Create inc/.htaccess upon plugin activation
 	**/
 
-	function lumiere_make_htaccess(){
-		/* vars */
-		$imdblt_blog_subdomain = site_url( '', 'relative' ) ?? ""; #ie: /subdirectory-if-exists/
-		$imdblt_plugin_full_path = plugin_dir_path( __FILE__ ) ?? wp_die( esc_html__("There was an error when generating the htaccess file.", 'lumiere-movies') ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/
-		$imdblt_plugin_path = str_replace( $imdblt_blog_subdomain, "", wp_make_link_relative( plugin_dir_url( __FILE__ ))); #ie: /wp-content/plugins/lumiere-movies/
-		$imdblt_htaccess_file = $imdblt_plugin_full_path  . "/inc/.htaccess" ?? wp_die( esc_html__("There was an error when generating the htaccess file.", 'lumiere-movies') ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/inc/.htaccess
-		$imdblt_slug_path_movie = "imdblt/film";
-		$imdblt_slug_path_person = "imdblt/person";
-
-		// .htaccess text, including Rewritebase with $blog_subdomain
-		$imdblt_htaccess_file_txt = "<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase ".$imdblt_blog_subdomain."/"."\n\n";
-
-		# Gutenberg search
-		$imdblt_htaccess_file_txt .= "## gutenberg-search.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/gutenberg-search.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/lumiere/search/ [L,R,QSA]"."\n\n";
-
-		# highslide
-		$imdblt_htaccess_file_txt .= "## highslide_download.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/highslide_download.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options [L,R,QSA]"."\n\n";
-
-		## move_template_taxonomy.php
-		$imdblt_htaccess_file_txt .= "## move_template_taxonomy.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/move_template_taxonomy.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo [L,R,QSA]"."\n\n";
-
-		# popup-search
-		$imdblt_htaccess_file_txt .= "## popup-search.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-search.php\?film=([^\s]+)(&norecursive=[^\s]+)?"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_movie."/%1/ [L,R,QSA]"."\n\n";
-
-		# popup-imdb-movie.php
-		$imdblt_htaccess_file_txt .= "## popup-imdb_movie.php"."\n"."RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_movie.php\?film=([^\s]+) [NC]\nRewriteRule ^.+$ ".$imdblt_slug_path_movie."/%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_movie.php\?mid=([^\s]+)&film=&info=([^\s]+)? [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_movie."/%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_movie.php\?mid=?([^&#]+)&film=([^\s]+)?(&info=[^\s]*) [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_movie."/%2/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_movie.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_movie."/%1/ [L,R,QSA]"."\n\n";
-
-		# popup-imdb_person.php
-		$imdblt_htaccess_file_txt .= "## popup-imdb_person.php"."\n"."RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_person.php\?mid=([^&#]+)&(film=[^\s]+)(&info=[^\s]+)? [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_person."/%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_person.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_person."/%1/ [L,R,QSA]"."\n\n";
-		$imdblt_htaccess_file_txt .= "</IfModule>"."\n";
-
-		// write the .htaccess file and close
-		if (isset($imdblt_htaccess_file)) {
-			file_put_contents($imdblt_htaccess_file, $imdblt_htaccess_file_txt.PHP_EOL);
-			// lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'lumiere-movies') ); # is not displayed
-		} else {
-			wp_die(lumiere_notice(3, esc_html__( 'Failed creating htaccess file.', 'lumiere-movies') ));
-			//lumiere_notice(3, esc_html__( 'Failed creating htaccess file.', 'lumiere-movies') );
-		}
+	function lumiere_make_htaccess_admin(){
+		lumiere_make_htaccess(); // in class/functions.php
 	}
 
 	/**
@@ -382,7 +349,7 @@ class lumiere_core {
 		global $imdb_admin_values;
 
 		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_head_blog("inc.movie")
-		if ( ($bypass="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
+		if ( ($bypass="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
 
 			// Highslide popup
 			if ($imdb_admin_values['imdbpopup_highslide'] == 1) {
@@ -390,7 +357,8 @@ class lumiere_core {
 				wp_enqueue_script( "lumiere_highslide_options", $imdb_admin_values['imdbplugindirectory'] ."js/highslide-options.js", array(), LUMIERE_VERSION);
 				// Pass variable to javascript highslide-options.js
 				wp_add_inline_script( 'lumiere_highslide_options', 'const highslide_vars = ' . json_encode( array(
-    					'imdb_path' => $imdb_admin_values['imdbplugindirectory']
+    					'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
+    					'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
 				) ) , 'before');
 				wp_enqueue_style( "lumiere_highslide", $imdb_admin_values['imdbplugindirectory'] ."css/highslide.css", array(), LUMIERE_VERSION);
 			}
@@ -405,7 +373,7 @@ class lumiere_core {
 			// OceanWp template css fix
 			// enqueue lumiere.css only if using oceanwp template
 			# Popups
-			if ( ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ) && ( str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) ) {
+			if ( ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ) && ( str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ) ) {
 				wp_enqueue_style('lumiere_subpages_css_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_subpages-oceanwpfixes.css", array(), LUMIERE_VERSION);
 			# Wordpress posts/pages
 			} elseif ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ){ 
@@ -421,7 +389,7 @@ class lumiere_core {
 // To do: add an option in admin to activate/unactivate a pass-by
 
 		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_footer_blog("inc.movie")
-		//if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
+		//if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
 
 			wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array(), LUMIERE_VERSION);
 
@@ -431,7 +399,9 @@ class lumiere_core {
 			wp_add_inline_script( 'lumiere_scripts', 'const lumiere_vars = ' . json_encode( array(
 				'popupLarg' => $imdb_admin_values['popupLarg'],
 				'popupLong' => $imdb_admin_values['popupLong'],
-				'imdb_path' => $imdb_admin_values['imdbplugindirectory']
+				'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
+				'urlpopup_film' => LUMIERE_URLPOPUPSFILMS,
+				'urlpopup_person' => LUMIERE_URLPOPUPSPERSON,
 			) ) , 'before');
 		//}
 	}
@@ -473,18 +443,18 @@ class lumiere_core {
 		}
 
 		if (function_exists('add_options_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 0 ) ) {
-			add_options_page('Lumière Options', '<img src="'. $imdb_admin_values['imdbplugindirectory']. 'pics/lumiere-ico13x13.png" align="absmiddle"> Lumière', 'administrator', 'imdblt_options', [ $imdb_ft, 'printAdminPage'] );
+			add_options_page('Lumière Options', '<img src="'. $imdb_admin_values['imdbplugindirectory']. 'pics/lumiere-ico13x13.png" align="absmiddle"> Lumière', 'administrator', 'imdblt_options', 'printAdminPage' );
 
 			// third party plugin
 			add_filter('ozh_adminmenu_icon_imdblt_options', [ $this, 'ozh_imdblt_icon' ] );
 		}
 		if (function_exists('add_submenu_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 1 ) ) {
 			// big menu for many pages for admin sidebar
-			add_menu_page( 'Lumière Options', '<i>Lumière</i>' , 8, 'imdblt_options', [ $imdb_ft, 'printAdminPage' ], $imdb_admin_values['imdbplugindirectory'].'pics/lumiere-ico13x13.png');
+			add_menu_page( 'Lumière Options', '<i>Lumière</i>' , 8, 'imdblt_options', 'printAdminPage', $imdb_admin_values['imdbplugindirectory'].'pics/lumiere-ico13x13.png', 65);
 			add_submenu_page( 'imdblt_options' , esc_html__('Lumière options page', 'lumiere-movies'), esc_html__('General options', 'lumiere-movies'), 8, 'imdblt_options');
-			add_submenu_page( 'imdblt_options' , esc_html__('Widget & In post options page', 'lumiere-movies'), esc_html__('Widget/In post', 'lumiere-movies'), 8, 'imdblt_options&subsection=widgetoption', [ $imdb_ft, 'printAdminPage'] );
-			add_submenu_page( 'imdblt_options',  esc_html__('Cache management options page', 'lumiere-movies'), esc_html__('Cache management', 'lumiere-movies'), 8, 'imdblt_options&subsection=cache', [ $imdb_ft, 'printAdminPage' ]);
-			add_submenu_page( 'imdblt_options' , esc_html__('Help page', 'lumiere-movies'), esc_html__('Help', 'lumiere-movies'), 8, 'imdblt_options&subsection=help', [ $imdb_ft, 'printAdminPage'] );
+			add_submenu_page( 'imdblt_options' , esc_html__('Widget & In post options page', 'lumiere-movies'), esc_html__('Widget/In post', 'lumiere-movies'), 8, 'imdblt_options&subsection=widgetoption', 'printAdminPage' );
+			add_submenu_page( 'imdblt_options',  esc_html__('Cache management options page', 'lumiere-movies'), esc_html__('Cache management', 'lumiere-movies'), 8, 'imdblt_options&subsection=cache', 'printAdminPage');
+			add_submenu_page( 'imdblt_options' , esc_html__('Help page', 'lumiere-movies'), esc_html__('Help', 'lumiere-movies'), 8, 'imdblt_options&subsection=help', 'printAdminPage' );
 			//
 		}
 
@@ -630,7 +600,7 @@ class lumiere_core {
 			$query_info=preg_match_all('#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
 			$query_norecursive=preg_match_all('#norecursive=(.*)#', $_SERVER['REQUEST_URI'], $match_query_norecursive, PREG_UNMATCHED_AS_NULL );
 
-			$url = (!empty($match_query_film_film[0])) ? "/imdblt/film/" . $match_query_film_film[0] . "/" : "/imdblt/film/" . $match_query_film_mid[0] . "/" ;
+			$url = (!empty($match_query_film_film[0])) ? LUMIERE_URLSTRINGFILMS . $match_query_film_film[0] . "/" : LUMIERE_URLSTRINGFILMS . $match_query_film_mid[0] . "/" ;
 			wp_safe_redirect( add_query_arg( array( 'film' => $match_query_film_film[0], 'mid' => $match_query_film_mid[0],'info' => $match_query_info[1][0], 'norecursive' => $match_query_norecursive[1][0]), get_site_url(null, $url ) ) );
 			exit();
 		}
@@ -642,7 +612,7 @@ class lumiere_core {
 			$match_query_film_mid=explode("&",$match_query_mid[1][0]);
 			$query_info=preg_match_all('#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
 			$query_norecursive=preg_match_all('#norecursive=(.*)#', $_SERVER['REQUEST_URI'], $match_query_norecursive, PREG_UNMATCHED_AS_NULL );
-			$url = (!empty($match_query_film_film[0])) ? "/imdblt/film/" . $match_query_film_film[0] . "/" : "/imdblt/film/" . $match_query_film_mid[0] . "/" ;
+			$url = (!empty($match_query_film_film[0])) ? LUMIERE_URLSTRINGFILMS . $match_query_film_film[0] . "/" : LUMIERE_URLSTRINGFILMS . $match_query_film_mid[0] . "/" ;
 
 			wp_safe_redirect( add_query_arg( array( 'film' => $match_query_film_film[0], 'mid' => $match_query_film_mid[0],'info' => $match_query_info[1][0], 'norecursive' => $match_query_norecursive[1][0]), get_site_url(null, $url ) ) );
 			exit();
@@ -655,7 +625,7 @@ class lumiere_core {
 			$query_person_info=preg_match_all('#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
 			$match_query_person_info=explode ( "&", $match_query_info[1] );
 			$query_person_film=preg_match_all('#film=(.*)&?#', $_SERVER['REQUEST_URI'], $match_query_person_film, PREG_UNMATCHED_AS_NULL );
-			$url = "/imdblt/person/" . $match_query_person_mid[0] . "/" ;
+			$url = LUMIERE_URLSTRINGPERSON . $match_query_person_mid[0] . "/" ;
 
 	      		//wp_redirect(  add_query_arg( 'mid' => $match_query_mid[1][0], $url ) , 301 ); # one arg only
 			wp_safe_redirect( add_query_arg( array( 'mid' => $match_query_person_mid[0], 'film' => $match_query_person_film[1][0], 'info' => $match_query_person_info[0]), get_site_url(null, $url ) ) );
@@ -667,12 +637,17 @@ class lumiere_core {
 	function lumiere_popup_redirect_include() {
 
 		// Include films popup
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/film/' ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) ) {
+			require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/popup-search.php' );
+		}
+
+		// Include films popup
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
 			require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/popup-imdb_movie.php' );
 		}
 
 		// Include persons popup
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/person/' ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ) {
 			require_once ( $imdb_admin_values['imdbplugindirectory'] . 'inc/popup-imdb_person.php' );
 		}
 	}
@@ -681,15 +656,16 @@ class lumiere_core {
 	12.- Change the title of the popups according to the movie's or person's data
 	**/
 	function lumiere_change_popup_title($title) {
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/imdblt/' ) ){
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ){
 
-			if ($_GET['film'])
-				$title = sanitize_text_field($_GET['film']). " - Lumi&egrave;re movies ";
-			/* find a way to get person's name
-			elseif ($_GET['person'])
-				$title = sanitize_text_field($_GET['person']). " - Lumi&egrave;re movies - ";
-			*/
-
+			if ( (isset($_GET['film'])) && (!empty($_GET['film'])) ) {
+				$title = "Informations on " . sanitize_text_field($_GET['film']). " - Lumi&egrave;re movies ";
+			} elseif ( (isset($_GET['mid'])) && (!empty($_GET['mid'])) ){
+				$mid_sanitized = sanitize_text_field($_GET['mid']);
+				$person = new Imdb\Person($mid_sanitized);
+				$person_name_sanitized = sanitize_text_field( $person->name() );
+				$title = "Informations on " . $person_name_sanitized. " - Lumi&egrave;re movies";
+			}
 			return $title;
 		}
 	}

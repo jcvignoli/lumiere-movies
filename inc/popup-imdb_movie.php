@@ -15,10 +15,19 @@
 
 require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
-do_action('wp_loaded'); // execute wordpress first codes
-
-//---------------------------------------=[Vars]=----------------
+/* VARS */
 global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+
+// Enter in debug mode
+if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
+	print_r($imdb_admin_values);
+	error_reporting(E_ALL);
+	ini_set("display_errors", 1);
+	set_error_handler("var_dump");
+	libxml_use_internal_errors(true); // avoid endless loops with imdbphp parsing errors 
+}
+
+do_action('wp_loaded'); // execute wordpress first codes
 
 // Start config class for $config in below Imdb\Title class calls
 if (class_exists("lumiere_settings_conf")) {
@@ -30,8 +39,11 @@ if (class_exists("lumiere_settings_conf")) {
 	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
 }
 
-$movieid_sanitized = filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT) ?? NULL;
-$filmid_sanitized = sanitize_title_for_query( $_GET["film"]) ?? NULL;
+$movieid=$_GET["mid"] ?? NULL;
+$movieid_sanitized = filter_var( $movieid, FILTER_SANITIZE_NUMBER_INT) ?? NULL;
+$filmid = $_GET["film"] ?? NULL;
+$filmid_sanitized = lumiere_name_htmlize( $filmid) ?? NULL;
+$film_sanitized_for_title = sanitize_text_field($filmid) ?? NULL;
 
 // if neither film nor mid are set, throw a 404 error
 if (empty($movieid_sanitized ) && empty($filmid_sanitized)){
@@ -53,18 +65,21 @@ if (empty($movieid_sanitized ) && empty($filmid_sanitized)){
 
 if ((isset ($movieid_sanitized)) && !empty ($movieid_sanitized)) {
 	$movie = new Imdb\Title($movieid_sanitized, $config);
+	$filmid_sanitized = lumiere_name_htmlize($movie->title());
+	$film_sanitized_for_title = sanitize_text_field($movie->title());
+
 } else {
 	$search = new Imdb\TitleSearch($config);
-	if ($_GET["searchtype"]=="episode") {
+	if ( (isset($_GET["searchtype"])) && ($_GET["searchtype"]=="episode") ) {
 		$movie = $search->search ($filmid_sanitized, array(\Imdb\TitleSearch::TV_SERIES))[0];
 	} else {
 		$movie = $search->search ($filmid_sanitized, array(\Imdb\TitleSearch::MOVIE))[0];
 	}
 }
 //------------------------- 1. search all results related to the name of the movie
-if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] == 'yes')) { 
+if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ( (isset($_GET["norecursive"])) && ($_GET["norecursive"] == 'yes')) ) { 
 
-	if ($_GET["searchtype"]=="episode") 
+	if ( (isset($_GET["searchtype"])) && ($_GET["searchtype"]=="episode") )
 		$results = $search->search ( $filmid_sanitized, array(\Imdb\TitleSearch::TV_SERIES));
 	else 
 		$results = $search->search ( $filmid_sanitized, array(\Imdb\TitleSearch::MOVIE));
@@ -86,7 +101,7 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 	}
 
 ?>
-<h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . sanitize_text_field( $movie->title() ); ?></i></h1>
+<h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . $filmid_sanitized_for_title; ?></i></h1>
 
 <table class='TableListeResultats'>
 	<tr>
@@ -99,19 +114,18 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ($_GET["norecursive"] 
 		echo "	<tr>\n";
 		
 		// ---- movie part
-		echo "		<td class='TableListeResultatsColGauche'><a class='linkpopup' href=\"".esc_url( $imdb_admin_values['imdbplugindirectory']."inc/popup-imdb_movie.php?mid=".sanitize_text_field( $res->imdbid() ) . "&film=".sanitize_text_field( $res->title() ) )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
+		echo "		<td class='TableListeResultatsColGauche'><a class='linkpopup' href=\"".esc_url( LUMIERE_URLPOPUPSFILMS . sanitize_text_field( $res->title() ) . "/?mid=".sanitize_text_field( $res->imdbid() ) . "&film=".sanitize_text_field( $res->title() ) )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
 		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"https://www.imdb.com/title/tt". sanitize_text_field( $res->imdbid() )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'>";
 
 			if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
 		echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] )."' width='".intval( $imdb_admin_values['imdbpicsize'] )."' alt='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'/></a>";	
 			}
-		echo "</td>\n";
 		flush ();
 	
 		// ---- director part
 		$realisateur =  $res->director() ;
-		if (! is_null ($realisateur['0']['name'])){
-		echo "\t<td class='TableListeResultatsColDroite'><a class='linkpopup' href=\"" . esc_url( $imdb_admin_values['imdbplugindirectory'] ) . "inc/popup-imdb_person.php?mid=" . sanitize_text_field( $realisateur['0']["imdb"] )."&film=" . $filmid_sanitized."\" title=\"".esc_html__('more on', 'lumiere-movies') . " " . sanitize_text_field( $realisateur['0']['name'] ) . "\" >" . sanitize_text_field( $realisateur['0']['name'] ) . "</a>";
+		if ( (isset($realisateur['0']['name'])) && (! is_null ($realisateur['0']['name'])) ){
+		echo "\t<td class='TableListeResultatsColDroite'><a class='linkpopup' href=\"" . esc_url( LUMIERE_URLPOPUPSPERSON . sanitize_text_field( $realisateur['0']["imdb"] ) . "/?mid=" . sanitize_text_field( $realisateur['0']["imdb"] )."&film=" . $filmid_sanitized ) ."\" title=\"".esc_html__('more on', 'lumiere-movies') . " " . sanitize_text_field( $realisateur['0']['name'] ) . "\" >" . sanitize_text_field( $realisateur['0']['name'] ) . "</a>";
 
 			if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
 		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"".esc_url("https://imdb.com/name/nm".$realisateur['0']["imdb"] )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."'>";
@@ -149,22 +163,22 @@ exit(); // quit the call of the page, to avoid double loading process ?>
 <table class='tabletitrecolonne'>
     <tr>
         <td class='titrecolonne'>
-            <a class="searchaka" href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "inc/" . "popup-search.php?film=" . sanitize_text_field( lumiere_htmlize( $movie->title() ) ) . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'lumiere-movies'); ?>"><?php esc_html_e('Search AKAs', 'lumiere-movies'); ?></a>
+            <a class="searchaka" href="<?php echo esc_url( LUMIERE_URLPOPUPSSEARCH . $filmid_sanitized . "/?film=" . $filmid_sanitized . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'lumiere-movies'); ?>"><?php esc_html_e('Search AKAs', 'lumiere-movies'); ?></a>
         </td>
         <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Movie', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Movie', 'lumiere-movies'); ?></a>
 	</td>
         <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=actors" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Actors', 'lumiere-movies'); ?>'><?php esc_html_e('Actors', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=actors" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Actors', 'lumiere-movies'); ?>'><?php esc_html_e('Actors', 'lumiere-movies'); ?></a>
 	</td>
         <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=crew" ); ?>" title='<?php echo sanitize_title ( $movie->title() ).": ".esc_html__('Crew', 'lumiere-movies'); ?>'><?php esc_html_e('Crew', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=crew" ); ?>" title='<?php echo sanitize_title ( $movie->title() ).": ".esc_html__('Crew', 'lumiere-movies'); ?>'><?php esc_html_e('Crew', 'lumiere-movies'); ?></a>
 	</td>
         <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=resume" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Plot', 'lumiere-movies'); ?>'><?php esc_html_e('Plot', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=resume" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Plot', 'lumiere-movies'); ?>'><?php esc_html_e('Plot', 'lumiere-movies'); ?></a>
 	</td>
         <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] ."inc/" . "popup-imdb_movie.php?mid=" . $movieid_sanitized . "&film=" . sanitize_text_field( $_GET['film'] ) . "&info=divers" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=divers" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
 	</td>
     </tr>
 </table>
@@ -202,7 +216,7 @@ echo '/ >'; ?>
  
 <table class="TableauSousRubrique">
 
-<?php if (empty($_GET['info'])){      // display something when nothing has been selected in the menu
+<?php if ( (!isset($_GET['info'])) || (empty($_GET['info'])) ){      // display something when nothing has been selected in the menu
          //---------------------------------------------------------------------------introduction part start ?>
      
                                                 <!-- Title akas -->         
@@ -212,15 +226,16 @@ echo '/ >'; ?>
          </td>
          <td colspan="2" class="TitreSousRubriqueColDroite">
 		 	<li>
-<?php 	$aka = $movie->alsoknow();
+<?php	
+ 	$aka = $movie->alsoknow();
 	//$cc  = count($aka);
-	if (!empty($aka)) {
+	if ( (isset($aka)) && (!empty($aka)) ) {
 		foreach ( $aka as $ak){
       			echo sanitize_text_field( $ak["title"] );
-			if (!empty($ak["year"])) {
+			if ( (isset($ak["year"])) && (!empty($ak["year"]))) {
 				echo " ". intval( $ak["year"] );
 			};
-      			if (!empty($ak["country"])) {
+      			if ( (isset($ak["country"])) && (!empty($ak["country"])) ) {
       				echo  " (".sanitize_text_field($ak["country"].")" );
 			}
 			/*if (empty($ak["lang"])) { 
@@ -263,7 +278,7 @@ echo '/ >'; ?>
         </td>
      </tr>
      
-     <?php if ($movie->votes()) { ?>              <!-- Rating and votes -->
+     <?php if (null !== ($movie->votes() ) ) { ?>              <!-- Rating and votes -->
      <tr>
         <td class="TitreSousRubriqueColGauche">
            <div class="TitreSousRubrique"><?php esc_html_e('Rating', 'lumiere-movies'); ?>&nbsp;</div>
@@ -277,7 +292,7 @@ echo '/ >'; ?>
      
                                                 <!-- Language -->
 	<?php   $languages = $movie->languages();
-	if (!empty($languages)) { ?>
+	if ( (isset($languages)) && (!empty($languages)) ) { ?>
      <tr>
         <td class="TitreSousRubriqueColGauche">
             <div class="TitreSousRubrique"><?php echo(sprintf(_n('Language', 'Languages', count($languages), 'lumiere-movies'))); ?>&nbsp;</div>
@@ -298,7 +313,7 @@ echo '/ >'; ?>
              
 			                                    <!-- Country -->
 	<?php $country = $movie->country();
-	if (!empty($country)) { ?>
+	if ( (isset($country)) && (!empty($country)) ) { ?>
      <tr>
         <td class="TitreSousRubriqueColGauche">
             <div class="TitreSousRubrique"><?php echo(sprintf(_n('Country', 'Countries', count($country), 'lumiere-movies'))); ?>&nbsp;</div>
@@ -324,8 +339,8 @@ echo '/ >'; ?>
         
         <td colspan="2" class="TitreSousRubriqueColDroite">
 		<li><?php 
-		$test = $movie->genre ();  
-		if (! empty($test)) {
+		$genres = $movie->genre ();  
+		if ( (isset($genres)) && (! empty($genres)) ) {
 			$gen = $movie->genres();
 			
                         for ($i = 0; $i + 1 < count ($gen); $i++) {
@@ -338,6 +353,8 @@ echo '/ >'; ?>
 		?></li>
         </td>
      </tr>
+<? /* useless info, removed 2021 06 04
+
                                                 <!-- Colors -->
      <tr>
         <td class="TitreSousRubriqueColGauche">
@@ -346,14 +363,17 @@ echo '/ >'; ?>
         
         <td colspan="2" class="TitreSousRubriqueColDroite">
 		<li><?php	$col = $movie->colors ();
-                   	for ($i = 0; $i + 1 < count ($col); $i++) {
-	           		echo sanitize_text_field( $col[$i] );
-	           		echo ", ";
-                      	}
-                       	echo sanitize_text_field( $col[$i] );
+			if (isset($col)) {
+		            	for ($i = 0; $i + 1 < count ($col); $i++) {
+			    		echo sanitize_text_field( $col[$i] );
+			    		echo ", ";
+	               	}
+	                	echo sanitize_text_field( $col[$i] );
+			}
 		?></li>
         </td>
      </tr>
+*/ ?>
                                                 <!-- Sound -->
      <tr>
         <td class="TitreSousRubriqueColGauche">
@@ -361,12 +381,14 @@ echo '/ >'; ?>
         </td>
         
         <td colspan="2" class="TitreSousRubriqueColDroite">
-            <li><?php   $sound = $movie->sound ();
-                        for ($i = 0; $i + 1 < count ($sound); $i++) {
-	                    echo sanitize_text_field( $sound[$i] );
-	                    echo ", ";
-                        }
-            echo $sound[$i];
+		<li><?php	$sound = $movie->sound () ?? NULL;
+				if (isset($sound)) {
+				   	for ($i = 0; $i + 1 < count ($sound); $i++) {
+						echo sanitize_text_field( $sound[$i] );
+						echo ", ";
+					}
+					echo sanitize_text_field( $sound );
+				}
             ?></li>
         </td>
      </tr>
@@ -374,7 +396,7 @@ echo '/ >'; ?>
 <?php } //------------------------------------------------------------------------------ introduction part end ?>
 
 
-<?php  if ($_GET['info'] == 'actors'){ 
+<?php  if ( (isset($_GET['info'])) && ($_GET['info'] == 'actors') ){ 
             // ------------------------------------------------------------------------------ casting part start ?>
 
                                                 <!-- casting --> 
@@ -393,7 +415,7 @@ echo '/ >'; ?>
 								<?php echo sanitize_text_field( $cast[$i]["role"] ); ?>
 							</div>
 							<div align="right">
-								<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory]."inc/" . "popup-imdb_person.php?mid=" . $cast[$i]["imdb"] . "&film=".  $title_sanitized ); ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'>
+								<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON  . $cast[$i]["imdb"] . "/?mid=" . $cast[$i]["imdb"] ); ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'>
 								<?php echo sanitize_text_field( $cast[$i]["name"] ); ?></a>
 							</div>
 						</div>
@@ -405,24 +427,25 @@ echo '/ >'; ?>
 		
 <?php } // ------------------------------------------------------------------------------ casting part end ?>
 
-<?php if ($_GET['info'] == 'crew'){ 
+<?php  if ( (isset($_GET['info'])) && ($_GET['info'] == 'crew') ){ 
             // ------------------------------------------------------------------------------ crew part start ?>
 
                                                 <!-- director -->
         <?php $director = $movie->director(); 
-		  if (!empty($director)) {?>
+		  if ( (isset($director)) && (!empty($director)) ) {
+			$director_count=count($director);?>
         <tr>
             <td class="TitreSousRubriqueColGauche">
-                <div class="TitreSousRubrique"><?php echo(sprintf(_n('Director', 'Directors', count($director), 'lumiere-movies'))); ?>&nbsp;</div>
+                <div class="TitreSousRubrique"><?php echo(sprintf(_n('Director', 'Directors', $director_count, 'lumiere-movies'),  number_format_i18n( $director_count ))); ?>&nbsp;</div>
             </td>
             
             <td colspan="2" class="TitreSousRubriqueColDroite">
-                <?php for ($i = 0; $i < count ($director); $i++) { ?>
+                <?php for ($i = 0; $i < $director_count; $i++) { ?>
 					<li>
 						<div align="center">
 							<div class="imdblt_float_left">
 								<?php if ( $i > 0 ) echo ', '; ?>
-								<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory]."inc/" . "popup-imdb_person.php?mid=" . $director[$i]["imdb"] . "&film=".  $title_sanitized  ); ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'>
+								<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $director[$i]["imdb"] . "/?mid=" . $director[$i]["imdb"] . "&film=".  $title_sanitized  ); ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'>
 								<?php echo sanitize_text_field( $director[$i]["name"] ); ?></a>
 							</div>
 							<div align="right">
@@ -449,7 +472,7 @@ echo '/ >'; ?>
 			<li>
 				<div align="center" class="imdbdiv-liees">
 					<div class="imdblt_float_left">
-						<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory]."inc/popup-imdb_person.php?mid=" . $write[$i]["imdb"] . "&film=".  $title_sanitized  ) ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'>
+						<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory']."inc/popup-imdb_person.php?mid=" . $write[$i]["imdb"] . "&film=".  $title_sanitized  ) ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'>
 						<?php echo sanitize_text_field( $write[$i]["name"] ); ?></a>
 					</div>
 					<div align="right">
@@ -477,7 +500,7 @@ echo '/ >'; ?>
 			<li>
 				<div align="center" class="imdbdiv-liees">
 					<div class="imdblt_float_left">
-                		            	<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values[imdbplugindirectory]."inc/popup-imdb_person.php?mid=" . $produce[$i]["imdb"] . "&film=".  $title_sanitized  ); ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'>
+                		            	<a class='linkpopup' href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory']."inc/popup-imdb_person.php?mid=" . $produce[$i]["imdb"] . "&film=".  $title_sanitized  ); ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'>
                 		            	<?php echo sanitize_text_field( $produce[$i]["name"] ); ?></a>
 					</div>
 					<div align="right">
@@ -494,15 +517,16 @@ echo '/ >'; ?>
 <?php } //----------------------------------------------------------------------------- crew part end ?>
 
      
-<?php  if ($_GET['info'] == 'resume'){ 
+<?php  if ( (isset($_GET['info'])) && ($_GET['info'] == 'resume') ){ 
             // ------------------------------------------------------------------------------ resume part start ?>
 
                                                 <!-- resume short --> 
         <?php $plotoutline = $movie->plotoutline();
-				if (!empty($plotoutline)) { ?>
+				if (!empty($plotoutline)) { 
+					$plotoutline_count=count(array($plotoutline));?>
         <tr>
             <td class="TitreSousRubriqueColGauche">
-                <div class="TitreSousRubrique"><?php echo(sprintf(_n('Plot outline', 'Plots outline', count($plotoutline), 'lumiere-movies'))); ?>&nbsp;</div>
+                <div class="TitreSousRubrique"><?php echo(sprintf(_n('Plot outline', 'Plots outline', $plotoutline_count, 'lumiere-movies'), number_format_i18n( $plotoutline_count ) )); ?>&nbsp;</div>
             </td>
             
             <td colspan="2" class="TitreSousRubriqueColDroite">
@@ -516,7 +540,7 @@ echo '/ >'; ?>
 			if (!empty($plot)) { ?>
 	<tr>
 		<td class="TitreSousRubriqueColGauche">
-			<div class="TitreSousRubrique"><?php echo(sprintf(_n('Plot', 'Plots', count($plot), 'lumiere-movies'))); ?>&nbsp;&nbsp;</div>
+			<div class="TitreSousRubrique"><?php echo(sprintf(_n('Plot', 'Plots', $plot, 'lumiere-movies',count($plot)))); ?>&nbsp;&nbsp;</div>
 		</td>
             
 		<td colspan="2" class="TitreSousRubriqueColDroite">
@@ -532,7 +556,7 @@ echo '/ >'; ?>
 <?php	 } // ------------------------------------------------------------------------------ resume part end ?>
 
 
-<?php 	if ($_GET['info'] == 'divers'){ 
+<?php  if ( (isset($_GET['info'])) && ($_GET['info'] == 'divers') ){ 
             // ------------------------------------------------------------------------------ misc part start ?>
 
                                                 <!-- Trivia --> 
@@ -576,8 +600,9 @@ echo '/ >'; ?>
 	 			<?php for ($i=0;$i<$gc;++$i) {
 						$ii = $i+"1";
 							if (empty($soundtracks[$i])) break;
+						$credits2_isset = (isset($soundtracks[$i]["credits"][1])) ? $soundtracks[$i]["credits"][1] : "" ;
 						$credit1 = preg_replace("/https\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//","popup-imdb_person.php?mid=\\1",sanitize_text_field( $soundtracks[$i]["credits"][0] ));
-						$credit2 = preg_replace("/http\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//","popup-imdb_person.php?mid=\\1",sanitize_text_field( $soundtracks[$i]["credits"][1] ));
+						$credit2 = preg_replace("/http\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//","popup-imdb_person.php?mid=\\1",sanitize_text_field($credits2_isset));
 						echo "<li><strong>($ii)</strong> ".sanitize_text_field( $soundtracks[$i]["soundtrack"] )." ".$credit1." ".$credit2."</li><br />";
     				} 
 				flush(); // send to user data already run through ?>
