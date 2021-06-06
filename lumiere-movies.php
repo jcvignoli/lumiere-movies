@@ -760,6 +760,8 @@ class lumiere_core {
 			}
 
 			echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
+			if (isset($film_sanitized))
+				echo "\n" . '<meta property="article:tag" content="' . $film_sanitized . '" />';
 			echo "\n\t\t" . '<!-- Lumiere Movies -->'."\n";
 
 			remove_action('wp_head', 'rel_canonical'); # prevents Wordpress from inserting a canon tag
