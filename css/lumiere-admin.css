@@ -43,10 +43,10 @@ width: 100%;border-color: black;}
 
 .td-aligntop {vertical-align:text-top;}
 
-.explain {font-size:10px;padding-top:10px;padding-right:25px;text-align:justify;font-weight:normal;word-break:break-words;}
+.explain {font-size:10px;padding-top:10px;padding-right:25px;text-align:justify;font-weight:normal;word-break:break-word;}
 .explain_breakall, .lumiere_breakall {word-break:break-all;}
 .detailedcacheexplaination{padding-left:5%;padding-right:5%;}
-.lumiere_intro_options {font-size:14;padding-top:10px;padding-right:25px;text-align:justify;font-weight:normal;word-break:break-words;}
+.lumiere_intro_options {font-size:14px;padding-top:10px;padding-right:25px;text-align:justify;font-weight:normal;word-break:break-word;}
 
 #tabswrap {/*border-color:lightgrey black black lightgrey;border-style:solid;border-width:1px;*/background-color:lightgrey;border-radius:10px;margin:5px 10px 0 0;padding:5px 10px 5px 10px;}
 

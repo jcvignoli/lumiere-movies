@@ -466,11 +466,11 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<input type="text" class="imdblt_width_fillall" name="imdb_imdburlpopups" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdburlpopups']), 'lumiere-movies') ?>">
 				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the movies\' and people\'s popups.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo "/imdblt/"; ?>"
 <br />
-<?php esc_html_e( 'The full URL for the popups for movies\' popups will be:', 'lumiere-movies'); ?>
+<?php esc_html_e( 'The full URL for the movies\' popups will be:', 'lumiere-movies'); ?>
 <br />
 <?php echo $imdbOptions['blog_adress'] . $imdbOptions['imdburlpopups'] . 'film' ; ?>
 <br />
-<?php esc_html_e( 'The full URL for the popups for people\'s popup will be:', 'lumiere-movies'); ?>
+<?php esc_html_e( 'The full URL for the people\'s popup will be:', 'lumiere-movies'); ?>
 <br />
 <?php echo $imdbOptions['blog_adress'] . $imdbOptions['imdburlpopups'] . 'person' ; ?>
 				</div>
