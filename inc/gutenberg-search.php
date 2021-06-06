@@ -13,6 +13,11 @@
  #									              #
  #############################################################################
 
+// If this file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) {
+	wp_die('You can not call directly this page');
+}
+
 require_once (plugin_dir_path( __FILE__ ).'/../bootstrap.php');
 
 do_action('wp_loaded'); // execute wordpress first codes
