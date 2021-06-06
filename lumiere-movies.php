@@ -1,4 +1,5 @@
 <?php
+defined( 'ABSPATH' ) OR exit;
 // Lumière wordpress plugin
 //
 // (c) 2005-21 Lost Highway
@@ -31,41 +32,6 @@ if ( ! defined( 'ABSPATH' ) )
 require_once ( plugin_dir_path( __FILE__ ) . 'bootstrap.php' );
 require_once ( plugin_dir_path( __FILE__ ) . 'inc/admin_pages.php' );
 
-# Executed upon plugin activated/deactivated
-register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
-register_activation_hook( __FILE__, 'lumiere_activation' );
-
-function lumiere_activation() {
-	/* debug
-	ob_start(); */
-
-	if (is_admin()) { // Prevents activation bug with Fatal Error: Table ‘actionscheduler_actions’ doesn’t exist
-		$start = new lumiere_core;
-		$start->lumiere_make_htaccess_admin();
-	}
-
-	$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
-	$lumiere_folder_cache_images = WP_CONTENT_DIR . '/cache/lumiere/images';
-
-	// We can write in wp-content/cache
-	if ( wp_mkdir_p( $lumiere_folder_cache ) &&  wp_mkdir_p( $lumiere_folder_cache_images ) ) {
-		chmod( $lumiere_folder_cache, 0777 );
-		chmod( $lumiere_folder_cache_images, 0777 );
-	// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
-	} else {
-		$lumiere_folder_cache = IMDBLTABSPATH . 'cache';
-		$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
-		wp_mkdir_p( $lumiere_folder_cache );
-		chmod( $lumiere_folder_cache, 0777 );
-		wp_mkdir_p( $lumiere_folder_cache_images );
-		chmod( $lumiere_folder_cache_images, 0777 );
-	}
-	flush_rewrite_rules();
-
-	/* debug
-	trigger_error(ob_get_contents(),E_USER_ERROR);*/
-}
-
 ### Lumiere Classes start
 
 if (class_exists("lumiere_settings_conf")) {
@@ -79,6 +45,11 @@ if (class_exists("lumiere_core")) {
 	global $imdb_ft, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 	$start = new lumiere_core();
 }
+
+# Executed upon plugin activated/deactivated
+register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
+register_activation_hook( __FILE__, [ $start , 'lumiere_on_activation' ] );
+
 
 // *********************
 // ********************* CLASS lumiere_core
@@ -158,7 +129,12 @@ class lumiere_core {
 			add_action('the_content', [ $this, 'lumiere_tags_transform' ] );
 			add_action('the_content', [ $this, 'lumiere_tags_transform_id' ] );
 
+			// Footer actions
 			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
+
+			// On updating plugin
+			// add_action( 'upgrader_process_complete', 'lumiere_on_upgrade_completed', 10, 2 ); # don't know if it works
+			add_action( 'plugins_loaded', 'lumiere_on_upgrade_completed' );
 
 			// register widget
 			add_action('plugins_loaded', 'lumiere_register_widget');
@@ -666,33 +642,37 @@ class lumiere_core {
 
 			// Display the title if /url/films
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
-				if (isset($_GET['mid'])){
+				if ( (isset($_GET['mid'])) && (!empty($_GET['mid'])) ) {
 					$movieid_sanitized = sanitize_text_field( $_GET['mid'] );
 					$movie = new Imdb\Title($movieid_sanitized, $imdb_ft);
 					$filmid_sanitized = esc_html($movie->title());
-				} elseif (isset($_GET['film'])){
+				} elseif ( (!isset($_GET['mid'])) && (isset($_GET['film'])) ){
 					$filmid_sanitized = lumiere_name_htmlize($_GET['film']);
 				}
 
 				$title_name = isset($movieid_sanitized) ? $filmid_sanitized : sanitize_text_field($_GET['film']);
-				$title = "Informations about " . $title_name . " - Lumi&egrave;re movies ";
+				$title = isset($title_name ) ? esc_html__('Informations about ', 'lumiere-movies') . $title_name. " - Lumi&egrave;re movies" : esc_html__('Unknown', 'lumiere-movies') . '- Lumi&egrave;re movies';
 
 			// Display the title if /url/person
 			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ){
-				$mid_sanitized = sanitize_text_field($_GET['mid']);
-				$person = new Imdb\Person($mid_sanitized, $imdb_ft);
-				$person_name_sanitized = sanitize_text_field( $person->name() );
-				$title = "Informations about " . $person_name_sanitized. " - Lumi&egrave;re movies";
 
-			// Display the title if /url/person
+				if ( (isset($_GET['mid'])) && (!empty($_GET['mid'])) ) {
+					$mid_sanitized = sanitize_text_field($_GET['mid']);
+					$person = new Imdb\Person($mid_sanitized, $imdb_ft);
+					$person_name_sanitized = sanitize_text_field( $person->name() );
+				}
+				$title = isset($person_name_sanitized ) ? esc_html__('Informations about ', 'lumiere-movies') . $person_name_sanitized. " - Lumi&egrave;re movies" : esc_html__('Unknown', 'lumiere-movies') . '- Lumi&egrave;re movies';
+
+			// Display the title if /url/search
 			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) ){
 				$title_name = isset($_GET['film']) ? esc_html($_GET['film']) : esc_html__('No query entered', 'lumiere-movies');
-				$title = "Search query for " . $title_name . " - Lumi&egrave;re movies ";
+				$title = esc_html__('Search query for ', 'lumiere-movies') . $title_name . " - Lumi&egrave;re movies ";
 			}
 
 			return $title;
 		}
 	}
+
 	/**
 	13.- A Include highslide_download.php if string highslide=yes
 	**/
@@ -772,6 +752,93 @@ class lumiere_core {
 			remove_action('wp_head', 'rel_canonical'); # prevents Wordpress from inserting a canon tag
 			remove_action('wp_head', 'wp_site_icon', 99); # prevents Wordpress from inserting favicons
 		}
+	}
+
+	/**
+	17.- Create cache folder
+	**/
+	function lumiere_create_cache() {
+
+		/* Cache folder paths */
+		$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
+		$lumiere_folder_cache_images = WP_CONTENT_DIR . '/cache/lumiere/images';
+
+		// We can write in wp-content/cache
+		if ( wp_mkdir_p( $lumiere_folder_cache ) &&  wp_mkdir_p( $lumiere_folder_cache_images ) ) {
+			chmod( $lumiere_folder_cache, 0777 );
+			chmod( $lumiere_folder_cache_images, 0777 );
+		// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
+		} else {
+			$lumiere_folder_cache = IMDBLTABSPATH . 'cache';
+			$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
+			wp_mkdir_p( $lumiere_folder_cache );
+			chmod( $lumiere_folder_cache, 0777 );
+			wp_mkdir_p( $lumiere_folder_cache_images );
+			chmod( $lumiere_folder_cache_images, 0777 );
+		}
+	}
+
+	/**
+	18.- Run on plugin update
+	**/
+	function lumiere_on_upgrade_completed( $upgrader_object, $options ) {
+
+		/* Prevent wrong user to activate the plugin */
+		if ( ! current_user_can( 'activate_plugins' ) )
+			 return;
+
+		// The path to plugin's main file
+		$plugin_version = plugin_basename( __FILE__ );
+
+		// If an update has taken place and the updated type is plugins and the plugins element exists
+		if( $options['action'] == 'update' && $options['type'] == 'plugin' && isset( $options['plugins'] ) ) {
+
+			// Iterate through the plugins being updated and check if ours is there
+			foreach( $options['plugins'] as $plugin ) {
+
+				// It is Lumière Plugin, so do that
+				if( $plugin == $plugin_version ) {
+
+					/* Create/update htaccess file */
+					$this->lumiere_make_htaccess_admin();
+
+					/* Refresh rewrite rules */
+					flush_rewrite_rules();
+
+					/* update options, for new options for exemple */
+					update_option($imdb_ft->imdbAdminOptionsName, $imdb_admin_values);
+					update_option($imdb_ft->imdbWidgetOptionsName, $imdb_widget_values);
+					update_option($imdb_ft->imdbCacheOptionsName, $imdb_cache_values);
+				}
+			}
+		}
+	}
+
+	/**
+	19.- Run on plugin activation
+	**/
+	function lumiere_on_activation() {
+		/* debug
+		ob_start(); */
+
+		/* Prevent wrong user to activate the plugin */
+		if ( ! current_user_can( 'activate_plugins' ) )
+			 return;
+
+		$plugin = isset( $_REQUEST['plugin'] ) ? $_REQUEST['plugin'] : '';
+		check_admin_referer( "activate-plugin_{$plugin}" );
+
+		/* Start the class */
+		if (is_admin()) { // Prevents activation bug with Fatal Error: Table ‘actionscheduler_actions’ doesn’t exist
+			$this->lumiere_make_htaccess_admin();
+			$this->lumiere_create_cache();
+		}
+
+		/* Refresh rewrite rules */
+		flush_rewrite_rules();
+
+		/* debug
+		trigger_error(ob_get_contents(),E_USER_ERROR);*/
 	}
 
 
