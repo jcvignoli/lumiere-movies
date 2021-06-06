@@ -666,9 +666,14 @@ class lumiere_core {
 
 			// Display the title if /url/films
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
-				$movieid_sanitized = sanitize_text_field( $_GET['mid'] );
-				$movie = new Imdb\Title($movieid_sanitized, $imdb_ft);
-				$filmid_sanitized = esc_html($movie->title());
+				if (isset($_GET['mid'])){
+					$movieid_sanitized = sanitize_text_field( $_GET['mid'] );
+					$movie = new Imdb\Title($movieid_sanitized, $imdb_ft);
+					$filmid_sanitized = esc_html($movie->title());
+				} elseif (isset($_GET['film'])){
+					$filmid_sanitized = lumiere_name_htmlize($_GET['film']);
+				}
+
 				$title_name = isset($movieid_sanitized) ? $filmid_sanitized : sanitize_text_field($_GET['film']);
 				$title = "Informations about " . $title_name . " - Lumi&egrave;re movies ";
 

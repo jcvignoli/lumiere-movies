@@ -28,9 +28,6 @@ if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
 
 //Prints out the admin page
 function printAdminPage() {
-	if (isset($_POST))  { 
-	    header("Location: $_SERVER[PHP_SELF]");
-	}
 
 	if (class_exists("lumiere_settings_conf")) {
 		$imdb_ft = new lumiere_settings_conf();
