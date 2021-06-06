@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-05 22:36-0400\n"
-"PO-Revision-Date: 2021-06-05 22:37-0400\n"
+"POT-Creation-Date: 2021-06-06 11:37-0400\n"
+"PO-Revision-Date: 2021-06-06 11:37-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -27,8 +27,8 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-8: tmp\n"
 
 #: blocks-gutenberg/main-block.js:25
-msgid "Type the name or IMDb movie"
-msgstr "Entrez le nom ou le film IMDb"
+msgid "Enter the name or the IMDb ID movie"
+msgstr "Entrez le nom ou le numéro l'IMDb du film"
 
 #: blocks-gutenberg/main-block.js:36
 msgid "Lumière: movie inside a post"
@@ -130,43 +130,43 @@ msgstr "IMDb donn&eacute;es"
 msgid "Title:"
 msgstr "Titre :"
 
-#: inc/admin_pages.php:46
+#: inc/admin_pages.php:43
 msgid "admin options"
 msgstr "Options d'administration"
 
-#: inc/admin_pages.php:53
+#: inc/admin_pages.php:50
 msgid "General Options"
 msgstr "Options g&eacute;n&eacute;rales"
 
-#: inc/admin_pages.php:62
+#: inc/admin_pages.php:59
 msgid "Widget/Inside post Options"
 msgstr "Options du Widget/Dans un message"
 
-#: inc/admin_pages.php:66
+#: inc/admin_pages.php:63
 msgid "Widget unactivated"
 msgstr "Widget désactivé"
 
-#: inc/admin_pages.php:71 inc/options-general.php:319
+#: inc/admin_pages.php:68 inc/options-general.php:319
 msgid "Direct search"
 msgstr "Recherche directe"
 
-#: inc/admin_pages.php:71 inc/admin_pages.php:76
+#: inc/admin_pages.php:68 inc/admin_pages.php:73
 msgid "unactivated"
 msgstr "désactivé"
 
-#: inc/admin_pages.php:76
+#: inc/admin_pages.php:73
 msgid "Auto taxonomy"
 msgstr "Taxonomie automatique"
 
-#: inc/admin_pages.php:84 lumiere-movies.php:457
+#: inc/admin_pages.php:81 lumiere-movies.php:457
 msgid "Cache management"
 msgstr "Gestion du cache"
 
-#: inc/admin_pages.php:89
+#: inc/admin_pages.php:86
 msgid "How to use Lumière!, check FAQs & changelog"
 msgstr "Comment utiliser Lumière!, consulter les FAQs & changelog"
 
-#: inc/admin_pages.php:90
+#: inc/admin_pages.php:87
 msgid "help"
 msgstr "aide"
 
@@ -2556,7 +2556,7 @@ msgstr "Menu Lumière"
 msgid "Widget options"
 msgstr "Options Widget"
 
-#: lumiere-movies.php:684
+#: lumiere-movies.php:689
 msgid "No query entered"
 msgstr "Aucune recherche entrée"
 

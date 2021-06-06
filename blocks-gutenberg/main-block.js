@@ -22,7 +22,7 @@
 	formattingControls= [ 'bold' , 'superscript' ];
 	*/
 
-	var intro_words = i18n.__( 'Type the name or IMDb movie' , 'lumiere-movies') ;
+	var intro_words = i18n.__( 'Enter the name or the IMDb ID movie' , 'lumiere-movies') ;
 	var empty = '';
 
 	const iconLumiere = el('svg', { width: 35, height: 35, viewBox: "0 0 200 200" },

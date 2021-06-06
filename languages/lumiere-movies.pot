@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Lumière! Movies plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Lumière! Movies 3.2\n"
+"Project-Id-Version: Lumière! Movies 3.2.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/working-env\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-05T23:37:51-03:00\n"
+"POT-Creation-Date: 2021-06-06T12:34:14-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
@@ -95,46 +95,46 @@ msgstr ""
 msgid "Title:"
 msgstr ""
 
-#: inc/admin_pages.php:46
+#: inc/admin_pages.php:43
 msgid "admin options"
 msgstr ""
 
-#: inc/admin_pages.php:53
+#: inc/admin_pages.php:50
 msgid "General Options"
 msgstr ""
 
-#: inc/admin_pages.php:62
+#: inc/admin_pages.php:59
 msgid "Widget/Inside post Options"
 msgstr ""
 
-#: inc/admin_pages.php:66
+#: inc/admin_pages.php:63
 msgid "Widget unactivated"
 msgstr ""
 
-#: inc/admin_pages.php:71
+#: inc/admin_pages.php:68
 #: inc/options-general.php:319
 msgid "Direct search"
 msgstr ""
 
-#: inc/admin_pages.php:71
-#: inc/admin_pages.php:76
+#: inc/admin_pages.php:68
+#: inc/admin_pages.php:73
 msgid "unactivated"
 msgstr ""
 
-#: inc/admin_pages.php:76
+#: inc/admin_pages.php:73
 msgid "Auto taxonomy"
 msgstr ""
 
-#: inc/admin_pages.php:84
+#: inc/admin_pages.php:81
 #: lumiere-movies.php:457
 msgid "Cache management"
 msgstr ""
 
-#: inc/admin_pages.php:89
+#: inc/admin_pages.php:86
 msgid "How to use Lumière!, check FAQs & changelog"
 msgstr ""
 
-#: inc/admin_pages.php:90
+#: inc/admin_pages.php:87
 msgid "help"
 msgstr ""
 
@@ -2095,7 +2095,7 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: lumiere-movies.php:684
+#: lumiere-movies.php:689
 msgid "No query entered"
 msgstr ""
 
