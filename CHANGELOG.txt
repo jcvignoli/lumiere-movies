@@ -1,5 +1,9 @@
 Changelog
 
+v3.2.1
+* [bug] admin panel wasn't displayed, bug in inc/admin_pages.php
+* [bug] popup titles function in lumiere-movies.php was preventing the popup from working
+
 v3.2
 * [minor] Display person's name in popup's title page, generaly rewritten the tite's naming and links to popups
 * [minor] added metas (favicons and canonical) link in popups
