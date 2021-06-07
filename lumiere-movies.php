@@ -133,8 +133,7 @@ class lumiere_core {
 			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
 
 			// On updating plugin
-			// add_action( 'upgrader_process_complete', 'lumiere_on_upgrade_completed', 10, 2 ); # don't know if it works
-			add_action( 'plugins_loaded', 'lumiere_on_upgrade_completed' );
+			add_action( 'upgrader_process_complete', 'lumiere_on_upgrade_completed' );
 
 			// register widget
 			add_action('plugins_loaded', 'lumiere_register_widget');
