@@ -1,5 +1,9 @@
 Changelog
 
+v.3.2.3
+* [minor] Limiting the number of results never worked. Now it does. Use the general options -> advanced 
+* [technical] Admin forms submit/reset are now sticky -> easier for the user to submit
+
 v.3.2.2
 * [medium] Implemented a selection for popup colors in admin menu 
 * [minor] Changed AKA design in popups

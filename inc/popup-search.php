@@ -60,18 +60,37 @@ do_action('wp_loaded'); // execute wordpress first codes
 <?php wp_head();?>
 
 </head>
-<body class="lumiere_body<?php if (isset($imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopuptheme'];?>">
+<body class="lumiere_popup_search lumiere_body<?php if (isset($imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopuptheme'];?>">
+
 
 <h1><?php esc_html_e('Results related to', 'lumiere-movies'); echo " " . $film_sanitized_for_title ?></h1>
+
+<?php
+// if no movie was found at all
+if (empty($results) ){
+	echo "<h2 align='center'><i>".esc_html__( "No result found.", 'lumiere-movies') . "</i></h2>";
+	wp_footer(); 
+?></body></html><?php
+	die();
+}?>
+
+
 
 <table class="TableListeResultats">
 	<tr>
 		<th class="TableListeResultatsTitre"><?php esc_html_e('Titles matching', 'lumiere-movies'); ?></th>
 		<th class="TableListeResultatsTitre imdblt_titlematchingdirector"><?php esc_html_e('Director', 'lumiere-movies'); ?></th>
 	</tr>
-
 	<?php
+
+	$current_line=0;
 	foreach ($results as $res) {
+
+		// Limit the number of results according to value set in admin		
+		$current_line++;
+		if ( $current_line > $imdb_admin_values['imdbmaxresults']){
+			echo '</table>';wp_footer(); echo '</body></html>';exit();}
+
 		echo "	<tr>\n";
 		
 		// ---- movie part

@@ -90,17 +90,15 @@ do_action('wp_loaded'); // execute wordpress first codes # still useful?
 <?php wp_head();?>
 </head>
 <body class="lumiere_body<?php if (isset($imdb_admin_values['imdbpopupcolor'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopupcolor'];?>">
+
 <?php
+// if no movie was found at all
+if (empty($movie) ){
+	echo "<h1 align='center'>".esc_html__( "No result found for", 'lumiere-movies')." <i>".$filmid_sanitized."</i></h1>";
+	get_footer(); 
+	die();
+}?>
 
-
-	// if no movie was found at all
-	if (empty($movie) ){
-		echo "<h1 align='center'>".esc_html__( "No result found for", 'lumiere-movies')." <i>".$filmid_sanitized."</i></h1>";
-		get_footer(); 
-		die();
-	}
-
-?>
 <h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . $filmid_sanitized_for_title; ?></i></h1>
 
 <table class='TableListeResultats'>
@@ -110,7 +108,15 @@ do_action('wp_loaded'); // execute wordpress first codes # still useful?
 	</tr>
 
 	<?php
+	$current_line=0;
+
 	foreach ($results as $res) {
+
+		// Limit the number of results according to value set in admin		
+		$current_line++;
+		if ( $current_line > $imdb_admin_values['imdbmaxresults']){
+			echo '</table>';wp_footer(); echo '</body></html>';exit();}
+
 		echo "	<tr>\n";
 		
 		// ---- movie part

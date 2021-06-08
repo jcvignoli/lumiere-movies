@@ -7,6 +7,7 @@
 
 /* Default values */
 body.lumiere_body {font-family: Verdana, Tahoma, Georgia, Geneva, Arial;padding:10px;}
+body.lumiere_popup_search {margin:10px;}
 /* From the admin selection */
 body.lumiere_body_white {color: #575757;background: #FFFFFF;}
 body.lumiere_body_black {color: #FFFFFF;background: black;}
