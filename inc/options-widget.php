@@ -860,7 +860,7 @@ if (current_user_can( 'manage_options' ) ) {
 </div>
 	
 	<?php //------------------------------------------------------------------ =[Submit selection]=- ?>
-	<div class="submit submit-imdb lumiere_sticky_small lumiere_flex_container" align="center">
+	<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_flex_container" align="center">
 		<?php wp_nonce_field('imdbwidgetSettings_check', 'imdbwidgetSettings_check'); //check that data has been sent only once ?>
 		<div class="imdblt_padding_five"><input type="submit" class="button-primary" name="reset_imdbwidgetSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" /></div>
 		<div class="imdblt_padding_five"><input type="submit" class="button-primary" id="update_imdbwidgetSettings" name="update_imdbwidgetSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" /></div>

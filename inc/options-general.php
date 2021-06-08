@@ -515,7 +515,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 		
 
 	<?php //------------------------------------------------------------------ =[Submit selection]=- ?>
-	<div class="submit submit-imdb lumiere_sticky_small" align="center">
+	<div class="submit submit-imdb lumiere_sticky_boxshadow" align="center">
 		<?php wp_nonce_field('options_general_check', 'options_general_check');   ?>
 		<input type="submit" class="button-primary" name="reset_imdbSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />
 		<input type="submit" class="button-primary" name="update_imdbSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
