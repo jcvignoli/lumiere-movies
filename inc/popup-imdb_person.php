@@ -20,10 +20,7 @@ global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
 // Enter in debug mode
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
-	print_r($imdb_admin_values);
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
-	set_error_handler("var_dump");
+	lumiere_debug_display($imdb_cache_values, 'SetError', '');
 }
 
 do_action('wp_loaded'); // execute wordpress first codes
@@ -73,7 +70,7 @@ if (isset ($mid_sanitized)) {
 <?php wp_head();?>
 
 </head>
-<body class="lumiere_body">
+<body class="lumiere_body<?php if (isset($imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopuptheme'];?>">
 
                                                 <!-- top page menu -->
 <table class='tabletitrecolonne'>
@@ -214,7 +211,7 @@ echo '/ >'; ?>
 						for ($i=0;$i<count($soundtrack);++$i) {
 							$ii = $i+"1";
 							echo "<li><strong>($ii)</strong> ";
-							echo "<a class='linkpopup' href='" . LUMIERE_URLPOPUPSPERSON . "?mid=".intval($soundtrack[$i]["mid"])."'>".sanitize_text_field($soundtrack[$i]["name"])."</a>";
+							echo "<a class='linkpopup' href='" . LUMIERE_URLPOPUPSFILMS . "?mid=".intval($soundtrack[$i]["mid"])."'>".sanitize_text_field($soundtrack[$i]["name"])."</a>";
 							if (!empty($soundtrack[$i]["name"])) 
 								echo " (".$soundtrack[$i]["year"].")";
 							echo "</li>\n";

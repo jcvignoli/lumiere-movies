@@ -89,7 +89,6 @@ function printAdminPage() {
 			</div>
 		</div>
 	</div>
-</div>
 
 <?php ### select the sub-page
 
@@ -116,8 +115,7 @@ function printAdminPage() {
 
 	lumiere_admin_signature (); 
 
-?>	</div>
-</div><!-- .wrap -->
+?></div><!-- .wrap -->
 
 <?php
 } //End function printAdminPage()

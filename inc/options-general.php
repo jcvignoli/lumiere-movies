@@ -15,15 +15,12 @@
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
-	wp_die('You can not call directly this page');
+	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 }
 
 // Enter in debug mode
 if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
-	print_r($imdbOptions);
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
-	set_error_handler("var_dump");
+	lumiere_debug_display($imdbOptions, 'SetError', ''); 
 }
 
 /* Vars */
@@ -150,59 +147,82 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<?php esc_html_e( 'Popup', 'lumiere-movies'); ?>
 			</div>
 		
-		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container">
+				<div class="imdblt_double_container_content_third imdblt_padding_five">
 
-				<label for="imdb_popupLarg"><?php esc_html_e( 'Width', 'lumiere-movies'); ?></label><br /><br />
-				<input type="text" name="imdb_popupLarg" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['popupLarg']), 'lumiere-movies') ?>" >
+					<label for="imdb_popupLarg"><?php esc_html_e( 'Width', 'lumiere-movies'); ?></label><br /><br />
+					<input type="text" name="imdb_popupLarg" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['popupLarg']), 'lumiere-movies') ?>" >
 
-				<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?>"540"</div>
+					<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?>"540"</div>
 
+				</div>
+				<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+					<label for="imdb_popupLong"><?php esc_html_e( 'Height', 'lumiere-movies'); ?></label><br /><br />
+					<input type="text" name="imdb_popupLong" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['popupLong']), 'lumiere-movies') ?>" >
+
+					<div class="explain"> <?php esc_html_e( 'Popup height, in pixels', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?>"350"</div>
+
+				</div>
+
+				<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+					<label for="imdb_imdbpopuptheme"><?php esc_html_e( 'Theme color', 'lumiere-movies'); ?></label><br /><br />
+
+					<select name="imdb_imdbpopuptheme">
+						<option <?php if( ($imdbOptions['imdbpopuptheme'] == "white") || (empty($imdbOptions['imdbpopuptheme'])) ) echo 'selected="selected"'; ?>value="white"><?php esc_html_e( 'white (default)', 'lumiere-movies'); ?></option>
+						<option <?php if($imdbOptions['imdbpopuptheme'] == "black") echo 'selected="selected"'; ?>value="black"><?php esc_html_e( 'black', 'lumiere-movies'); ?></option>
+						<option <?php if($imdbOptions['imdbpopuptheme'] == "grey") echo 'selected="selected"'; ?>value="grey"><?php esc_html_e( 'grey', 'lumiere-movies'); ?></option>
+
+					</select>
+
+					<div class="explain"> <?php esc_html_e( 'Popup color theme', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?>"white"</div>
+
+				</div>
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
 
-				<label for="imdb_popupLong"><?php esc_html_e( 'Height', 'lumiere-movies'); ?></label><br /><br />
-				<input type="text" name="imdb_popupLong" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['popupLong']), 'lumiere-movies') ?>" >
 
-				<div class="explain"> <?php esc_html_e( 'Popup height, in pixels', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?>"350"</div>
+			<div class="imdblt_double_container">
+				<div class="imdblt_double_container_content_third imdblt_padding_five">
 
+				<?php 
+				// If the folder "highslide" exists
+				if(is_dir(IMDBLTABSPATH . 'js/highslide')) { 
+					esc_html_e( 'Display highslide popup', 'lumiere-movies'); 
+					echo '<br /><br /> 
+					<input type="radio" id="imdb_imdbpopup_highslide_yes" name="imdb_imdbpopup_highslide" value="1" ';
+					if ($imdbOptions['imdbpopup_highslide'] == "1") { echo 'checked="checked"'; }
+					echo ' /><label for="imdb_imdbpopup_highslide_yes">';
+					esc_html_e( 'Yes', 'lumiere-movies');
+					echo '</label><input type="radio" id="imdb_imdbpopup_highslide_no" name="imdb_imdbpopup_highslide" value="" ';
+					 if ($imdbOptions['imdbpopup_highslide'] == 0) { echo 'checked="checked"'; } 
+					echo '/><label for="imdb_imdbpopup_highslide_no">';
+					 esc_html_e( 'No', 'lumiere-movies'); 
+					echo '</label>';
+
+					echo '<div class="explain">' . esc_html__( 'Highslide popup is a more stylished popup, and allows to open movie details directly in the webpage instead of opening a new window.', 'lumiere-movies'). '<br />'. esc_html__( 'Default:','lumiere-movies') . esc_html__( 'Yes', 'lumiere-movies') .'</div>';
+
+				// No "highslide" folder is found
+				} else { 
+					// Say so!
+					lumiere_notice(4, '<span class="imdblt_red_bold">'.esc_html__('Warning! No Highslide folder was found.', 'lumiere-movies') .'</span>');
+					echo "<br />";
+
+					// Automatic download deactivated as per Wordpress's plugin staff request
+					// echo "<a href='". esc_url( $imdbOptions['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes") . "' title='".esc_html__('Click here to install Highslide', 'lumiere-movies') ."'><img src='".esc_url($imdbOptions['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />&nbsp;&nbsp;".esc_html__('Install automatically Highslide', 'lumiere-movies') .'</a><br /><br />';
+
+					// Add a link to highslide website
+					echo '<a href="http://highslide.com/" title="' . esc_html__('Click here to visit Highslide website', 'lumiere-movies') .'"><img src="'.esc_url( $imdbOptions['imdbplugindirectory'] . 'pics/admin-general-install-highslide.png') . '" align="absmiddle" />&nbsp;&nbsp;'.esc_html__('Get Highslide JS library', 'lumiere-movies') . '</a><br /><br />';
+				} 
+
+	?>
+				</div>
+
+				<div class="imdblt_double_container_content_third imdblt_padding_five">
+				</div>
+				<div class="imdblt_double_container_content_third imdblt_padding_five">
+				</div>
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
-
-			<?php 
-			// If the folder "highslide" exists
-			if(is_dir(IMDBLTABSPATH . 'js/highslide')) { 
-				esc_html_e( 'Display highslide popup', 'lumiere-movies'); 
-				echo '<br /><br /> 
-				<input type="radio" id="imdb_imdbpopup_highslide_yes" name="imdb_imdbpopup_highslide" value="1" ';
-				if ($imdbOptions['imdbpopup_highslide'] == "1") { echo 'checked="checked"'; }
-				echo ' /><label for="imdb_imdbpopup_highslide_yes">';
-				esc_html_e( 'Yes', 'lumiere-movies');
-				echo '</label><input type="radio" id="imdb_imdbpopup_highslide_no" name="imdb_imdbpopup_highslide" value="" ';
-				 if ($imdbOptions['imdbpopup_highslide'] == 0) { echo 'checked="checked"'; } 
-				echo '/><label for="imdb_imdbpopup_highslide_no">';
-				 esc_html_e( 'No', 'lumiere-movies'); 
-				echo '</label>';
-
-				echo '<div class="explain">' . esc_html__( 'Highslide popup is a more stylished popup, and allows to open movie details directly in the webpage instead of opening a new window.', 'lumiere-movies'). '<br />'. esc_html__( 'Default:','lumiere-movies') . esc_html__( 'Yes', 'lumiere-movies') .'</div>';
-
-			// No "highslide" folder is found
-			} else { 
-				// Say so!
-				lumiere_notice(4, '<span class="imdblt_red_bold">'.esc_html__('Warning! No Highslide folder was found.', 'lumiere-movies') .'</span>');
-				echo "<br />";
-
-				// Automatic download deactivated as per Wordpress's plugin staff request
-				// echo "<a href='". esc_url( $imdbOptions['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes") . "' title='".esc_html__('Click here to install Highslide', 'lumiere-movies') ."'><img src='".esc_url($imdbOptions['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />&nbsp;&nbsp;".esc_html__('Install automatically Highslide', 'lumiere-movies') .'</a><br /><br />';
-
-				// Add a link to highslide website
-				echo '<a href="http://highslide.com/" title="' . esc_html__('Click here to visit Highslide website', 'lumiere-movies') .'"><img src="'.esc_url( $imdbOptions['imdbplugindirectory'] . 'pics/admin-general-install-highslide.png') . '" align="absmiddle" />&nbsp;&nbsp;'.esc_html__('Get Highslide JS library', 'lumiere-movies') . '</a><br /><br />';
-			} 
-
-?>
-
-			</div>
-		</div>
 
 	
 		<?php //------------------------------------------------------------------ =[Imdb link picture]=- ?>
@@ -251,7 +271,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 			<div class="titresection">
 				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/cover.jpg"); ?>" width="60" align="absmiddle" />&nbsp;&nbsp;&nbsp;
-				<?php esc_html_e( 'Imdb cover picture', 'lumiere-movies'); ?>
+				<?php esc_html_e( 'Cover picture', 'lumiere-movies'); ?>
 			</div>
 
 		<div class="imdblt_double_container">
@@ -436,7 +456,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<label for="imdb_blog_adress"><?php esc_html_e( 'Blog address', 'lumiere-movies'); ?></label>
 			</div>
 			<div class="imdblt_double_container_content_eighty">
-				<input class="imdblt_width_fillall" type="text" name="imdb_blog_adress" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['blog_adress']), 'lumiere-movies') ?>" >
+				<input class="lumiere_border_width_medium imdblt_width_fillall" type="text" name="imdb_blog_adress" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['blog_adress']), 'lumiere-movies') ?>" >
 				<div class="explain"><?php esc_html_e( 'Where the blog is installed.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo esc_url( $imdbOptions['blog_adress'] ); ?>"</div>
 			</div>
 		</div>
@@ -449,8 +469,15 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<label for="imdb_imdbplugindirectory"><?php esc_html_e( 'Plugin directory', 'lumiere-movies'); ?></label>
 			</div>
 			<div class="imdblt_double_container_content_eighty">
-				<input type="text" class="imdblt_width_fillall" name="imdb_imdbplugindirectory" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbplugindirectory']), 'lumiere-movies') ?>">
-				<div class="explain"><?php wp_kses( _e( 'Where <strong>Lumiere</strong> is installed.', 'lumiere-movies'), $allowed_html_for_esc_html_functions ); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo IMDBLTURLPATH; ?>"
+				<div class="lumiere_align_items_center">
+					<?php echo $imdbOptions['blog_adress']; ?>
+					<input type="text" class="lumiere_border_width_medium" name="imdb_imdbplugindirectory_partial" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbplugindirectory_partial']), 'lumiere-movies') ?>">
+				</div>
+				<div class="explain">
+					<?php wp_kses( _e( 'Where <strong>Lumiere</strong> is installed.', 'lumiere-movies'), $allowed_html_for_esc_html_functions ); ?> 
+					<br />
+					<?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo IMDBLTURLPATH; ?>"
+
 				</div>
 			</div>
 		</div>
@@ -463,8 +490,13 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<label for="imdb_imdburlpopups"><?php esc_html_e( 'URL for the popups', 'lumiere-movies'); ?></label>
 			</div>
 			<div class="imdblt_double_container_content_eighty">
-				<input type="text" class="imdblt_width_fillall" name="imdb_imdburlpopups" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdburlpopups']), 'lumiere-movies') ?>">
-				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the movies\' and people\'s popups.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo "/imdblt/"; ?>"
+				<div class="lumiere_align_items_center">
+					<?php echo $imdbOptions['imdbplugindirectory']; ?>
+					<input type="text" class="lumiere_border_width_medium" name="imdb_imdburlpopups" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdburlpopups']), 'lumiere-movies') ?>">
+				</div>
+				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the movies\' and people\'s popups.', 'lumiere-movies'); ?> 
+				<br />
+				<?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo "/imdblt/"; ?>"
 				<br />
 				<?php esc_html_e( 'The full URL for the movies\' popups will be:', 'lumiere-movies'); ?>
 				<br />

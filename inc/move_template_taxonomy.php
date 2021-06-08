@@ -5,13 +5,13 @@
  */
 
 // prevent direct call
-if (empty(wp_get_referer()) && (0 !== stripos( wp_get_referer(), admin_url() . 'admin.php?page=imdblt_options&subsection=widgetoption&taxo&widgetoption=taxo' )) )
-	wp_die(esc_html__("You can not call directly this page.", "imdb"));
+if ( (empty(wp_get_referer()) && (0 !== stripos( wp_get_referer(), admin_url() . 'admin.php?page=imdblt_options&subsection=widgetoption&taxo&widgetoption=taxo' )) ) || ( ! defined( 'ABSPATH' ) ) )
+	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 
 /************* Vars **************/
 global $imdb_admin_values, $imdb_widget_values;
 
-$lumiere_taxo_title = sanitize_key( $_GET['taxotype'] );
+$lumiere_taxo_title = esc_html( $_GET['taxotype'] );
 
 $lumiere_taxo_file_tocopy = "taxonomy-imdblt_standard.php";
 $lumiere_taxo_file_copied = "taxonomy-imdblt_". $lumiere_taxo_title . ".php";
@@ -48,7 +48,7 @@ if ( (isset($imdb_admin_values['imdbtaxonomy'])) && (!empty($imdb_admin_values['
 	}
 // empty $_GET
 } else {
-	wp_die(esc_html__("You can not call directly this page.", "imdb"));
+	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 }
 
 ?>

@@ -1,5 +1,4 @@
 <?php
-defined( 'ABSPATH' ) OR exit;
 // Lumière wordpress plugin
 //
 // (c) 2005-21 Lost Highway
@@ -25,8 +24,7 @@ Author URI: https://www.jcvignoli.com/blog
 
 // Stop direct call
 if ( ! defined( 'ABSPATH' ) ) 
-	die('You are not allowed to call this page directly.');
-
+	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 
 # Bootstrap with requires
 require_once ( plugin_dir_path( __FILE__ ) . 'bootstrap.php' );
