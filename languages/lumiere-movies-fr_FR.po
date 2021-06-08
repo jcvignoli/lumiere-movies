@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-07 21:04-0400\n"
-"PO-Revision-Date: 2021-06-07 21:13-0400\n"
+"POT-Creation-Date: 2021-06-08 02:15-0400\n"
+"PO-Revision-Date: 2021-06-08 02:16-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -146,7 +146,7 @@ msgstr "Options du Widget/Dans un message"
 msgid "Widget unactivated"
 msgstr "Widget désactivé"
 
-#: inc/admin_pages.php:68 inc/options-general.php:339
+#: inc/admin_pages.php:68
 msgid "Direct search"
 msgstr "Recherche directe"
 
@@ -190,7 +190,7 @@ msgstr "Numéro IMDb:"
 msgid "Search a movie"
 msgstr "Rechercher un film"
 
-#: inc/gutenberg-search.php:99 inc/options-general.php:319
+#: inc/gutenberg-search.php:99 inc/options-general.php:312
 msgid "Search"
 msgstr "Recherche"
 
@@ -1012,36 +1012,36 @@ msgid "Photo of"
 msgstr "Photo de"
 
 #: inc/imdb-movie.inc.php:149 inc/options-cache.php:683
-#: inc/options-cache.php:793 inc/popup-imdb_movie.php:205
+#: inc/options-cache.php:793 inc/popup-imdb_movie.php:211
 #: inc/popup-imdb_person.php:130
 msgid "no picture"
 msgstr "pas de photo"
 
 #: inc/imdb-movie.inc.php:169 inc/options-widget.php:202
-#: inc/options-widget.php:203 inc/popup-imdb_movie.php:323
+#: inc/options-widget.php:203 inc/popup-imdb_movie.php:329
 msgid "Country"
 msgid_plural "Countries"
 msgstr[0] "Pays"
 msgstr[1] "Pays"
 
 #: inc/imdb-movie.inc.php:204 inc/options-widget.php:177
-#: inc/options-widget.php:178 inc/popup-imdb_movie.php:272
+#: inc/options-widget.php:178 inc/popup-imdb_movie.php:278
 msgid "Runtime"
 msgstr "Dur&eacute;e"
 
-#: inc/imdb-movie.inc.php:205 inc/popup-imdb_movie.php:279
+#: inc/imdb-movie.inc.php:205 inc/popup-imdb_movie.php:285
 msgid "minutes"
 msgstr "minutes"
 
 #: inc/imdb-movie.inc.php:218 inc/options-widget.php:463
-#: inc/options-widget.php:464 inc/popup-imdb_movie.php:302
+#: inc/options-widget.php:464 inc/popup-imdb_movie.php:308
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "Langue"
 msgstr[1] "Langues"
 
 #: inc/imdb-movie.inc.php:253 inc/options-widget.php:451
-#: inc/options-widget.php:452 inc/popup-imdb_movie.php:288
+#: inc/options-widget.php:452 inc/popup-imdb_movie.php:294
 msgid "Rating"
 msgstr "Note"
 
@@ -1062,12 +1062,12 @@ msgstr "moyenne de votes "
 msgid " out of 10"
 msgstr " sur 10"
 
-#: inc/imdb-movie.inc.php:263 inc/popup-imdb_movie.php:292
+#: inc/imdb-movie.inc.php:263 inc/popup-imdb_movie.php:298
 msgid "votes"
 msgstr "votes"
 
 #: inc/imdb-movie.inc.php:277 inc/options-widget.php:249
-#: inc/options-widget.php:250 inc/popup-imdb_movie.php:341
+#: inc/options-widget.php:250 inc/popup-imdb_movie.php:347
 msgid "Genre"
 msgid_plural "Genres"
 msgstr[0] "Genre"
@@ -1079,7 +1079,7 @@ msgid_plural "Keywords"
 msgstr[0] "Mot-cl&eacute;"
 msgstr[1] "Mot-cl&eacute;s"
 
-#: inc/imdb-movie.inc.php:346 inc/popup-imdb_movie.php:628
+#: inc/imdb-movie.inc.php:346 inc/popup-imdb_movie.php:634
 msgid "Goof"
 msgid_plural "Goofs"
 msgstr[0] "Erreur"
@@ -1137,7 +1137,7 @@ msgid "Link to local IMDb"
 msgstr "Lien vers l'IMDb en local"
 
 #: inc/imdb-movie.inc.php:570 inc/options-widget.php:406
-#: inc/options-widget.php:407 inc/popup-imdb_movie.php:601
+#: inc/options-widget.php:407 inc/popup-imdb_movie.php:607
 #: inc/popup-imdb_person.php:205
 msgid "Soundtrack"
 msgid_plural "Soundtracks"
@@ -1158,8 +1158,8 @@ msgstr[0] "Site web officiel"
 msgstr[1] "Sites web officiels"
 
 #: inc/imdb-movie.inc.php:646 inc/options-widget.php:191
-#: inc/options-widget.php:192 inc/popup-imdb_movie.php:109
-#: inc/popup-imdb_movie.php:447 inc/popup-search.php:70
+#: inc/options-widget.php:192 inc/popup-imdb_movie.php:107
+#: inc/popup-imdb_movie.php:453 inc/popup-search.php:82
 msgid "Director"
 msgid_plural "Directors"
 msgstr[0] "R&eacute;alisateur"
@@ -1173,14 +1173,14 @@ msgstr[0] "Cr&eacute;ateur"
 msgstr[1] "Cr&eacute;ateur"
 
 #: inc/imdb-movie.inc.php:744 inc/options-widget.php:278
-#: inc/options-widget.php:279 inc/popup-imdb_movie.php:503
+#: inc/options-widget.php:279 inc/popup-imdb_movie.php:509
 msgid "Producer"
 msgid_plural "Producers"
 msgstr[0] "Producteur"
 msgstr[1] "Producteurs"
 
 #: inc/imdb-movie.inc.php:794 inc/options-widget.php:266
-#: inc/options-widget.php:267 inc/popup-imdb_movie.php:475
+#: inc/options-widget.php:267 inc/popup-imdb_movie.php:481
 msgid "Writer"
 msgid_plural "Writers"
 msgstr[0] "Sc&eacute;nariste"
@@ -1194,8 +1194,8 @@ msgstr[0] "Acteur"
 msgstr[1] "Acteur"
 
 #: inc/imdb-movie.inc.php:925 inc/options-widget.php:289
-#: inc/options-widget.php:290 inc/popup-imdb_movie.php:181
-#: inc/popup-imdb_movie.php:551
+#: inc/options-widget.php:290 inc/popup-imdb_movie.php:187
+#: inc/popup-imdb_movie.php:557
 msgid "Plot"
 msgid_plural "Plots"
 msgstr[0] "Synopsis"
@@ -1289,10 +1289,9 @@ msgid "Use cache?"
 msgstr "Utiliser cache ?"
 
 #: inc/options-cache.php:413 inc/options-cache.php:415
-#: inc/options-cache.php:491 inc/options-general.php:196
-#: inc/options-general.php:203 inc/options-general.php:242
-#: inc/options-general.php:247 inc/options-general.php:283
-#: inc/options-general.php:342 inc/options-general.php:346
+#: inc/options-cache.php:491 inc/options-general.php:193
+#: inc/options-general.php:200 inc/options-general.php:235
+#: inc/options-general.php:240 inc/options-general.php:276
 #: inc/options-general.php:380 inc/options-general.php:392
 #: inc/options-general.php:396 inc/options-general.php:406
 #: inc/options-general.php:424 inc/options-widget.php:158
@@ -1317,39 +1316,38 @@ msgid "Yes"
 msgstr "Oui"
 
 #: inc/options-cache.php:413 inc/options-cache.php:494
-#: inc/options-cache.php:496 inc/options-general.php:200
-#: inc/options-general.php:245 inc/options-general.php:287
-#: inc/options-general.php:289 inc/options-general.php:344
-#: inc/options-general.php:382 inc/options-general.php:384
-#: inc/options-general.php:394 inc/options-general.php:410
-#: inc/options-general.php:412 inc/options-general.php:426
-#: inc/options-general.php:428 inc/options-widget.php:159
-#: inc/options-widget.php:170 inc/options-widget.php:181
-#: inc/options-widget.php:182 inc/options-widget.php:195
-#: inc/options-widget.php:207 inc/options-widget.php:209
-#: inc/options-widget.php:218 inc/options-widget.php:233
-#: inc/options-widget.php:235 inc/options-widget.php:243
-#: inc/options-widget.php:244 inc/options-widget.php:254
-#: inc/options-widget.php:256 inc/options-widget.php:271
-#: inc/options-widget.php:282 inc/options-widget.php:284
-#: inc/options-widget.php:294 inc/options-widget.php:298
-#: inc/options-widget.php:313 inc/options-widget.php:315
-#: inc/options-widget.php:325 inc/options-widget.php:327
-#: inc/options-widget.php:337 inc/options-widget.php:341
-#: inc/options-widget.php:356 inc/options-widget.php:360
-#: inc/options-widget.php:370 inc/options-widget.php:372
-#: inc/options-widget.php:382 inc/options-widget.php:384
-#: inc/options-widget.php:399 inc/options-widget.php:401
-#: inc/options-widget.php:411 inc/options-widget.php:415
-#: inc/options-widget.php:425 inc/options-widget.php:429
-#: inc/options-widget.php:444 inc/options-widget.php:446
-#: inc/options-widget.php:456 inc/options-widget.php:458
-#: inc/options-widget.php:468 inc/options-widget.php:470
-#: inc/options-widget.php:483 inc/options-widget.php:487
-#: inc/options-widget.php:497 inc/options-widget.php:501
-#: inc/options-widget.php:511 inc/options-widget.php:839
-#: inc/options-widget.php:841 inc/options-widget.php:850
-#: inc/options-widget.php:852
+#: inc/options-cache.php:496 inc/options-general.php:197
+#: inc/options-general.php:238 inc/options-general.php:280
+#: inc/options-general.php:282 inc/options-general.php:382
+#: inc/options-general.php:384 inc/options-general.php:394
+#: inc/options-general.php:410 inc/options-general.php:412
+#: inc/options-general.php:426 inc/options-general.php:428
+#: inc/options-widget.php:159 inc/options-widget.php:170
+#: inc/options-widget.php:181 inc/options-widget.php:182
+#: inc/options-widget.php:195 inc/options-widget.php:207
+#: inc/options-widget.php:209 inc/options-widget.php:218
+#: inc/options-widget.php:233 inc/options-widget.php:235
+#: inc/options-widget.php:243 inc/options-widget.php:244
+#: inc/options-widget.php:254 inc/options-widget.php:256
+#: inc/options-widget.php:271 inc/options-widget.php:282
+#: inc/options-widget.php:284 inc/options-widget.php:294
+#: inc/options-widget.php:298 inc/options-widget.php:313
+#: inc/options-widget.php:315 inc/options-widget.php:325
+#: inc/options-widget.php:327 inc/options-widget.php:337
+#: inc/options-widget.php:341 inc/options-widget.php:356
+#: inc/options-widget.php:360 inc/options-widget.php:370
+#: inc/options-widget.php:372 inc/options-widget.php:382
+#: inc/options-widget.php:384 inc/options-widget.php:399
+#: inc/options-widget.php:401 inc/options-widget.php:411
+#: inc/options-widget.php:415 inc/options-widget.php:425
+#: inc/options-widget.php:429 inc/options-widget.php:444
+#: inc/options-widget.php:446 inc/options-widget.php:456
+#: inc/options-widget.php:458 inc/options-widget.php:468
+#: inc/options-widget.php:470 inc/options-widget.php:483
+#: inc/options-widget.php:487 inc/options-widget.php:497
+#: inc/options-widget.php:501 inc/options-widget.php:511
+#: inc/options-widget.php:839 inc/options-widget.php:841
+#: inc/options-widget.php:850 inc/options-widget.php:852
 msgid "No"
 msgstr "Non"
 
@@ -1363,29 +1361,28 @@ msgstr ""
 #: inc/options-cache.php:415 inc/options-cache.php:432
 #: inc/options-cache.php:496 inc/options-cache.php:919
 #: inc/options-general.php:156 inc/options-general.php:164
-#: inc/options-general.php:179 inc/options-general.php:203
-#: inc/options-general.php:247 inc/options-general.php:256
-#: inc/options-general.php:265 inc/options-general.php:289
-#: inc/options-general.php:298 inc/options-general.php:346
-#: inc/options-general.php:356 inc/options-general.php:384
-#: inc/options-general.php:396 inc/options-general.php:412
-#: inc/options-general.php:428 inc/options-general.php:460
-#: inc/options-general.php:479 inc/options-general.php:499
-#: inc/options-widget.php:161 inc/options-widget.php:172
-#: inc/options-widget.php:182 inc/options-widget.php:197
-#: inc/options-widget.php:209 inc/options-widget.php:222
-#: inc/options-widget.php:235 inc/options-widget.php:244
-#: inc/options-widget.php:256 inc/options-widget.php:273
-#: inc/options-widget.php:284 inc/options-widget.php:298
-#: inc/options-widget.php:315 inc/options-widget.php:327
-#: inc/options-widget.php:341 inc/options-widget.php:360
-#: inc/options-widget.php:372 inc/options-widget.php:384
-#: inc/options-widget.php:401 inc/options-widget.php:415
-#: inc/options-widget.php:429 inc/options-widget.php:446
-#: inc/options-widget.php:458 inc/options-widget.php:470
-#: inc/options-widget.php:487 inc/options-widget.php:501
-#: inc/options-widget.php:513 inc/options-widget.php:841
-#: inc/options-widget.php:852
+#: inc/options-general.php:179 inc/options-general.php:200
+#: inc/options-general.php:240 inc/options-general.php:249
+#: inc/options-general.php:258 inc/options-general.php:282
+#: inc/options-general.php:291 inc/options-general.php:356
+#: inc/options-general.php:384 inc/options-general.php:396
+#: inc/options-general.php:412 inc/options-general.php:428
+#: inc/options-general.php:460 inc/options-general.php:479
+#: inc/options-general.php:499 inc/options-widget.php:161
+#: inc/options-widget.php:172 inc/options-widget.php:182
+#: inc/options-widget.php:197 inc/options-widget.php:209
+#: inc/options-widget.php:222 inc/options-widget.php:235
+#: inc/options-widget.php:244 inc/options-widget.php:256
+#: inc/options-widget.php:273 inc/options-widget.php:284
+#: inc/options-widget.php:298 inc/options-widget.php:315
+#: inc/options-widget.php:327 inc/options-widget.php:341
+#: inc/options-widget.php:360 inc/options-widget.php:372
+#: inc/options-widget.php:384 inc/options-widget.php:401
+#: inc/options-widget.php:415 inc/options-widget.php:429
+#: inc/options-widget.php:446 inc/options-widget.php:458
+#: inc/options-widget.php:470 inc/options-widget.php:487
+#: inc/options-widget.php:501 inc/options-widget.php:513
+#: inc/options-widget.php:841 inc/options-widget.php:852
 msgid "Default:"
 msgstr "D&eacute;faut :"
 
@@ -1432,7 +1429,7 @@ msgstr ""
 "activ&eacute;."
 
 #: inc/options-cache.php:508 inc/options-cache.php:1002
-#: inc/options-cache.php:1023 inc/options-cache.php:1024
+#: inc/options-cache.php:1022 inc/options-cache.php:1023
 #: inc/options-general.php:520 inc/options-widget.php:865
 msgid "Reset settings"
 msgstr "R&eacute;initialiser"
@@ -1802,11 +1799,11 @@ msgstr "gris"
 msgid "Popup color theme"
 msgstr "Thème de couleur pour le popup"
 
-#: inc/options-general.php:191
+#: inc/options-general.php:188
 msgid "Display highslide popup"
 msgstr "Afficher le popup highslide"
 
-#: inc/options-general.php:203
+#: inc/options-general.php:200
 msgid ""
 "Highslide popup is a more stylished popup, and allows to open movie details "
 "directly in the webpage instead of opening a new window."
@@ -1815,27 +1812,27 @@ msgstr ""
 "&eacute;galement de ne pas ouvrir de nouvelle fen&ecirc;tre &agrave; "
 "l'&eacute;cran."
 
-#: inc/options-general.php:208
+#: inc/options-general.php:205
 msgid "Warning! No Highslide folder was found."
 msgstr "Attention ! Aucun dossier highslide n'a été trouvé."
 
-#: inc/options-general.php:215
+#: inc/options-general.php:212
 msgid "Click here to visit Highslide website"
 msgstr "Cliquez ici pour visiter le site internet de Highslide JS"
 
-#: inc/options-general.php:215
+#: inc/options-general.php:212
 msgid "Get Highslide JS library"
 msgstr "Téléchargez Highslide JS"
 
-#: inc/options-general.php:232
+#: inc/options-general.php:225
 msgid "Imdb link picture"
 msgstr "Image du lien imdb"
 
-#: inc/options-general.php:238
+#: inc/options-general.php:231
 msgid "Display imdb pic?"
 msgstr "Afficher imdb image ?"
 
-#: inc/options-general.php:247
+#: inc/options-general.php:240
 msgid ""
 "Whether display imdb link (the yellow icon) or not. This picture can be "
 "found into the popup when looking for akas movies. If the option is "
@@ -1848,32 +1845,32 @@ msgstr ""
 "suivre les liens vers l'IMDb (mais il pourra encore suivre les liens "
 "internes)."
 
-#: inc/options-general.php:252 inc/options-general.php:294
+#: inc/options-general.php:245 inc/options-general.php:287
 msgid "Size"
 msgstr "Taille"
 
-#: inc/options-general.php:256
+#: inc/options-general.php:249
 msgid ""
 "Size of the imdb picture. The value will correspond to the width in pixels."
 msgstr "Taille de l'image IMDb. La valeur indique la largeur en pixels."
 
-#: inc/options-general.php:261
+#: inc/options-general.php:254
 msgid "Url"
 msgstr "Url"
 
-#: inc/options-general.php:265
+#: inc/options-general.php:258
 msgid "Url for the imdb picture"
 msgstr "Url de l'image IMDb"
 
-#: inc/options-general.php:274
+#: inc/options-general.php:267
 msgid "Cover picture"
 msgstr "Photo de couverture"
 
-#: inc/options-general.php:280
+#: inc/options-general.php:273
 msgid "Display only thumbnail"
 msgstr "Afficher uniquement la miniature"
 
-#: inc/options-general.php:289
+#: inc/options-general.php:282
 msgid ""
 "Whether to display a thumbnail or a large image cover for movies inside a "
 "post or a widget. Select \"No\" to choose cover picture width (a new option "
@@ -1883,7 +1880,7 @@ msgstr ""
 "message ou widget. Choisir \"Non\" pour pouvoir choisir la largeur des "
 "pochettes (une nouvelle option sur la droite sera disponible)."
 
-#: inc/options-general.php:298
+#: inc/options-general.php:291
 msgid ""
 "Size of the imdb cover picture. The value will correspond to the width in "
 "pixels. Delete any value to get maximum width."
@@ -1891,7 +1888,7 @@ msgstr ""
 "Taille de la pochette IMDb. La valeur indique la largeur en pixels. Effacer "
 "toute valeur pour afficher la largeur maximale."
 
-#: inc/options-general.php:312
+#: inc/options-general.php:305
 msgid ""
 "The options hereafter can break a lot of things. Edit them only if you know "
 "what you are doing."
@@ -1899,23 +1896,23 @@ msgstr ""
 "Les options ci-dessous peuvent casser bien des choses. Ne les modifiez que "
 "si vous savez ce que vous faites."
 
-#: inc/options-general.php:327
+#: inc/options-general.php:320
 msgid "Search language"
 msgstr "Langues de recherche"
 
-#: inc/options-general.php:329
+#: inc/options-general.php:322
 msgid "English (default)"
 msgstr "Anglais (d&eacute;faut)"
 
-#: inc/options-general.php:330
+#: inc/options-general.php:323
 msgid "French"
 msgstr "Fran&ccedil;ais"
 
-#: inc/options-general.php:331
+#: inc/options-general.php:324
 msgid "Spanish"
 msgstr "Espagnol"
 
-#: inc/options-general.php:334
+#: inc/options-general.php:327
 msgid ""
 "Language used for the movie search. Very usefull for a non-English blog "
 "using Lumiere as a widget."
@@ -1923,40 +1920,16 @@ msgstr ""
 "Langue utilisée pour la recherche par film. Pratique pour un blog qui n'est "
 "pas en anglais utilisant le widget Lumière."
 
-#: inc/options-general.php:346
-msgid ""
-"When enabled, instead of displaying several results related to a name "
-"searched, only the first result is returned and directly displayed. That "
-"means no more window results is displayed, but straightforwardly related "
-"data. <br />This option allows to use the 'IMDb widget' and 'inside the "
-"post' options; if deactivated, these options will not work anymore. <br /"
-">Some options will be hidden and other will be shown depending if it is "
-"turned on yes or no."
-msgstr ""
-"Lorsqu'activ&eacute;e, au lieu d'afficher tous les r&eacute;sultats "
-"possibles d'un film, seul le premier est retenu et directement "
-"affich&eacute;. Ainsi, la fen&ecirc;tre de recherche ne s'affiche plus, mais "
-"directement celle du premier film d'une recherche. <br />Cette option permet "
-"l'utilisation du widget et de la fonction Dans le message. <br />Certaines "
-"options seront cach&eacute;es ou affich&eacute;es selon la s&eacute;lection."
+#: inc/options-general.php:347
+msgid "Limit number of results"
+msgstr "Limiter le nombre de r&eacute;sultats"
 
-#: inc/options-general.php:352
-msgid "Limit results"
-msgstr "Limiter r&eacute;sultats"
-
-#: inc/options-general.php:356
-msgid ""
-"This the limit for the result set of researches. Use 0 for no limit, or the "
-"number of maximum entries you wish. When \"direct search\" option is turned "
-"to yes, this option is hidden."
-msgstr ""
-"Limiter le nombre de r&eacute;sultats pour une recherche. Mettre le nombre "
-"maximum d'entr&eacute;es retourn&eacute;es souhait&eacute;es, ou 0 pour "
-"aucune limite.  Lorsque l'option \"recherche directe\" est mise sur oui, "
-"cette option est cach&eacute;e."
+#: inc/options-general.php:354
+msgid "This limits the number of results in a movie query."
+msgstr "Ceci limit le nombre de résultat dans une recherche de film."
 
 #: inc/options-general.php:368 inc/options-widget.php:137
-#: inc/options-widget.php:830 inc/popup-imdb_movie.php:184
+#: inc/options-widget.php:830 inc/popup-imdb_movie.php:190
 #: inc/popup-imdb_person.php:90
 msgid "Misc"
 msgstr "Divers"
@@ -2116,7 +2089,7 @@ msgid "Display Creator"
 msgstr "Afficher cr&eacute;ateur"
 
 #: inc/options-widget.php:239 inc/options-widget.php:240
-#: inc/popup-imdb_movie.php:263
+#: inc/popup-imdb_movie.php:269
 msgid "Year"
 msgstr "Ann&eacute;e"
 
@@ -2293,7 +2266,7 @@ msgstr ""
 "nouvelle option pour copier un modèle de taxonomie directement dans votre "
 "répertoire de modèles."
 
-#: inc/options-widget.php:548 inc/popup-imdb_movie.php:175
+#: inc/options-widget.php:548 inc/popup-imdb_movie.php:181
 msgid "Actors"
 msgstr "Acteurs"
 
@@ -2421,85 +2394,89 @@ msgstr ""
 msgid "No config option set"
 msgstr "Aucune option de configuration enregistrée"
 
-#: inc/popup-imdb_movie.php:98
+#: inc/popup-imdb_movie.php:97
 msgid "No result found for"
 msgstr "Pas de message trouv&eacute pour"
 
-#: inc/popup-imdb_movie.php:104 inc/popup-search.php:65
+#: inc/popup-imdb_movie.php:102 inc/popup-search.php:66
 msgid "Results related to"
 msgstr "Choix correspondants &agrave;"
 
-#: inc/popup-imdb_movie.php:108 inc/popup-search.php:69
+#: inc/popup-imdb_movie.php:106 inc/popup-search.php:81
 msgid "Titles matching"
 msgstr "Titre(s) possible(s)"
 
-#: inc/popup-imdb_movie.php:117 inc/popup-imdb_movie.php:128
-#: inc/popup-search.php:78 inc/popup-search.php:90
+#: inc/popup-imdb_movie.php:118 inc/popup-search.php:92
+msgid "Maximum of results reached."
+msgstr "Maximum de résultats atteint."
+
+#: inc/popup-imdb_movie.php:123 inc/popup-imdb_movie.php:134
+#: inc/popup-search.php:97 inc/popup-search.php:109
 msgid "more on"
 msgstr "plus sur"
 
-#: inc/popup-imdb_movie.php:118 inc/popup-imdb_movie.php:121
-#: inc/popup-imdb_movie.php:131 inc/popup-imdb_movie.php:132
-#: inc/popup-search.php:79 inc/popup-search.php:82 inc/popup-search.php:93
-#: inc/popup-search.php:94
+#: inc/popup-imdb_movie.php:124 inc/popup-imdb_movie.php:127
+#: inc/popup-imdb_movie.php:137 inc/popup-imdb_movie.php:138
+#: inc/popup-search.php:98 inc/popup-search.php:101 inc/popup-search.php:112
+#: inc/popup-search.php:113
 msgid "link to imdb for"
 msgstr "lien vers imdb pour"
 
-#: inc/popup-imdb_movie.php:169
+#: inc/popup-imdb_movie.php:175
 msgid "Search for movies with the same name"
 msgstr "Rechercher les films avec le m&ecirc;me nom"
 
-#: inc/popup-imdb_movie.php:169
+#: inc/popup-imdb_movie.php:175
 msgid "Search AKAs"
 msgstr "Rechercher AKAs"
 
-#: inc/popup-imdb_movie.php:172
+#: inc/popup-imdb_movie.php:178
 msgid "Movie"
 msgstr "Film"
 
-#: inc/popup-imdb_movie.php:178
+#: inc/popup-imdb_movie.php:184
 msgid "Crew"
 msgstr "Equipe"
 
-#: inc/popup-imdb_movie.php:228
+#: inc/popup-imdb_movie.php:234
 msgid "AKA"
 msgstr "Autres titres"
 
-#: inc/popup-imdb_movie.php:292
+#: inc/popup-imdb_movie.php:298
 msgid "Vote average"
 msgstr "Votes avec une moyenne de"
 
-#: inc/popup-imdb_movie.php:292
+#: inc/popup-imdb_movie.php:298
 msgid "with "
 msgstr "avec "
 
-#: inc/popup-imdb_movie.php:388
+#: inc/popup-imdb_movie.php:394
 msgid "Sound"
 msgstr "Son"
 
-#: inc/popup-imdb_movie.php:415
+#: inc/popup-imdb_movie.php:421
 msgid "Casting"
 msgstr "R&ocirc;les"
 
-#: inc/popup-imdb_movie.php:426 inc/popup-imdb_movie.php:456
-#: inc/popup-imdb_movie.php:483 inc/popup-imdb_movie.php:511
+#: inc/popup-imdb_movie.php:432 inc/popup-imdb_movie.php:462
+#: inc/popup-imdb_movie.php:489 inc/popup-imdb_movie.php:517
 msgid "link to imdb"
 msgstr "lien vers imdb"
 
-#: inc/popup-imdb_movie.php:537
+#: inc/popup-imdb_movie.php:543
 msgid "Plot outline"
 msgid_plural "Plots outline"
 msgstr[0] "R&eacute;sum&eacute;"
 msgstr[1] "R&eacute;sum&eacute;s"
 
-#: inc/popup-imdb_movie.php:576 inc/popup-imdb_person.php:293
+#: inc/popup-imdb_movie.php:582 inc/popup-imdb_person.php:293
 msgid "Trivia"
 msgid_plural "Trivias"
 msgstr[0] "Anecdote"
 msgstr[1] "Anecdotes"
 
-#: inc/popup-imdb_movie.php:579 inc/popup-imdb_movie.php:606
-#: inc/popup-imdb_movie.php:631 inc/popup-imdb_person.php:162
+#: inc/popup-imdb_movie.php:585 inc/popup-imdb_movie.php:612
+#: inc/popup-imdb_movie.php:637 inc/popup-imdb_person.php:162
 #: inc/popup-imdb_person.php:208 inc/popup-imdb_person.php:244
 #: inc/popup-imdb_person.php:298 inc/popup-imdb_person.php:321
 #: inc/popup-imdb_person.php:348 inc/popup-imdb_person.php:373
@@ -2552,6 +2529,10 @@ msgstr "Citations"
 #: inc/popup-imdb_person.php:368
 msgid "Trademarks"
 msgstr "Marques de fabrique"
+
+#: inc/popup-search.php:71
+msgid "No result found."
+msgstr "Aucun résultat trouvé."
 
 #: lumiere-movies.php:428
 msgid "Lumière options page"
@@ -2624,6 +2605,28 @@ msgstr "Taxonomie : "
 #: theme/taxonomy-imdblt_standard.php:54
 msgid "No post found."
 msgstr "Pas de message trouv&eacute."
+
+#~ msgid ""
+#~ "This limits the number of results in a query. When \"direct search\" "
+#~ "option is turned to yes, this option is unactivated."
+#~ msgstr "Limiter le nombre de r&eacute;sultats pour une recherche. "
+
+#~ msgid ""
+#~ "When enabled, instead of displaying several results related to a name "
+#~ "searched, only the first result is returned and directly displayed. That "
+#~ "means no more window results is displayed, but straightforwardly related "
+#~ "data. <br />This option allows to use the 'IMDb widget' and 'inside the "
+#~ "post' options; if deactivated, these options will not work anymore. <br /"
+#~ ">Some options will be hidden and other will be shown depending if it is "
+#~ "turned on yes or no."
+#~ msgstr ""
+#~ "Lorsqu'activ&eacute;e, au lieu d'afficher tous les r&eacute;sultats "
+#~ "possibles d'un film, seul le premier est retenu et directement "
+#~ "affich&eacute;. Ainsi, la fen&ecirc;tre de recherche ne s'affiche plus, "
+#~ "mais directement celle du premier film d'une recherche. <br />Cette "
+#~ "option permet l'utilisation du widget et de la fonction Dans le message. "
+#~ "<br />Certaines options seront cach&eacute;es ou affich&eacute;es selon "
+#~ "la s&eacute;lection."
 
 #~ msgid "Photo directory (absolute path)"
 #~ msgstr "R&eacute;pertoire photo (chemin absolu)"
