@@ -133,8 +133,11 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .lumiere_writing_vertical{writing-mode: vertical-lr;}
 /*#imdbconfig_save #tabswrap {margin:5px;padding:15px;}*/
 
-.lumiere_sticky_white{ position: fixed;right: 0;bottom: 0;width: 100%; background-color: white;text-align: center;}
-.lumiere_sticky_small{ position: fixed;right: 0;bottom: 0;text-align: center;}
+/* sticky */
+[class*="lumiere_sticky_"] {
+position: -webkit-sticky; position: sticky; bottom: 0;  z-index: 10;}
+.lumiere_sticky_white{ background-color: white;}
+.lumiere_sticky_boxshadow{ background-color: white;box-shadow: 1px 1px 10px 1px #ddd;}
 
 
 
