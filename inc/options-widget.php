@@ -781,13 +781,13 @@ if (current_user_can( 'manage_options' ) ) {
 		<div class="imblt_border_shadow imdblt_align_webkit_center">
 
 
-		<div class="lumiere_intro_options">
+		<div class="lumiere_intro_options_small">
 			<?php esc_html_e( 'You can select the order for the information selected from "what to display" section. Select first the movie detail you want to move, use "up" or "down" to reorder Lumiere Movies display. Once you are happy with the new layout, click on "update settings" to keep it.', 'lumiere-movies'); ?>
 			<br /><br />
 			<?php esc_html_e( '"Source" movie detail cannot be selected; if it is selected from "what to display" section, it will always appear after others movie details', 'lumiere-movies'); ?>
 		</div>
 
-		<div class="imdblt_double_container imdblt_padding_top_twenty imdblt_align_center lumiere_writing_vertical">
+		<div id="container_imdbwidgetorderContainer" class="imdblt_double_container imdblt_padding_top_twenty lumiere_align_center lumiere_writing_vertical">
 
 			<div class="imdblt_padding_ten imdblt_align_last_center imdblt_flex_auto">
 
@@ -860,10 +860,10 @@ if (current_user_can( 'manage_options' ) ) {
 </div>
 	
 	<?php //------------------------------------------------------------------ =[Submit selection]=- ?>
-	<div class="submit submit-imdb" align="center">
+	<div class="submit submit-imdb lumiere_sticky_small lumiere_flex_container" align="center">
 		<?php wp_nonce_field('imdbwidgetSettings_check', 'imdbwidgetSettings_check'); //check that data has been sent only once ?>
-		<input type="submit" class="button-primary" name="reset_imdbwidgetSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />
-		<input type="submit" class="button-primary" id="update_imdbwidgetSettings" name="update_imdbwidgetSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
+		<div class="imdblt_padding_five"><input type="submit" class="button-primary" name="reset_imdbwidgetSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" /></div>
+		<div class="imdblt_padding_five"><input type="submit" class="button-primary" id="update_imdbwidgetSettings" name="update_imdbwidgetSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" /></div>
 	</div>
 	<br />
 </form>

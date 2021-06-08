@@ -393,11 +393,11 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 
 	<div class="titresection"><?php esc_html_e('General options', 'lumiere-movies'); ?></div>
 
-		<div class="imdblt_double_container">
+		<div class="lumiere_flex_container">
 <?php 
 /* don't need to change those options, unactivated
 
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<?php esc_html_e('Store cache?', 'lumiere-movies'); ?><br /><br />
 				<input type="radio" id="imdb_imdbstorecache_yes" name="imdb_imdbstorecache" value="1" <?php if ($imdbOptionsc['imdbstorecache'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbusecache_yes" data-field_to_change_value="0" data-modificator2="yes" data-field_to_change2="imdb_imdbconverttozip_yes" data-field_to_change_value2="0" data-modificator3="yes" data-field_to_change3="imdb_imdbusezip_yes" data-field_to_change_value3="0" /><label for="imdb_imdbstorecache_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbstorecache_no" name="imdb_imdbstorecache" value="" <?php if ($imdbOptionsc['imdbstorecache'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbusecache_yes" data-field_to_change_value="1" data-modificator2="yes" data-field_to_change2="imdb_imdbconverttozip_yes" data-field_to_change_value2="1" data-modificator3="yes" data-field_to_change3="imdb_imdbusezip_yes" data-field_to_change_value3="1" /><label for="imdb_imdbstorecache_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
@@ -407,7 +407,7 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 			</div>
 */
 ?>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<?php esc_html_e('Use cache?', 'lumiere-movies'); ?><br /><br />
 				<input type="radio" id="imdb_imdbusecache_yes" name="imdb_imdbusecache" value="1" <?php if ($imdbOptionsc['imdbusecache'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbcacheexpire" data-field_to_change_value="0" data-modificator2="yes" data-field_to_change2="imdb_imdbcachedetailsshort_yes" data-field_to_change_value2="0" /><label for="imdb_imdbusecache_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbconverttozip_no" name="imdb_imdbusecache" value="" <?php if ($imdbOptionsc['imdbusecache'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbcacheexpire" data-field_to_change_value="1" data-modificator2="yes" data-field_to_change2="imdb_imdbcachedetailsshort_no" data-field_to_change_value2="1"/><label for="imdb_imdbusecache_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
@@ -415,10 +415,10 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 				<div class="explain"><?php esc_html_e('Whether to use a cached page to retrieve the information (if available).', 'lumiere-movies'); ?> <br /><?php esc_html_e('Default:','lumiere-movies');?> <?php esc_html_e('Yes', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<label for="imdb_imdbcacheexpire"><?php esc_html_e('Cache expire', 'lumiere-movies'); ?></label><br /><br />
-				<div class="imdblt_double_container">
+				<div class="lumiere_flex_container">
 
 					<div>
 						<input type="text" id="imdb_imdbcacheexpire" name="imdb_imdbcacheexpire" size="7" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbcacheexpire']), 'lumiere-movies') ?>" <?php if ( ($imdbOptionsc['imdbusecache'] == 0) || ($imdbOptionsc['imdbstorecache'] == 0) ) { echo 'disabled="disabled"'; }; ?> />
@@ -440,8 +440,8 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 ?>
 		<div class="titresection"><?php esc_html_e('Cache zip options', 'lumiere-movies'); ?></div>
 
-		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+		<div class="lumiere_flex_container">
+			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<?php esc_html_e('Convert to zip?', 'lumiere-movies'); ?><br /><br />
 				<input type="radio" id="imdb_imdbconverttozip_yes" name="imdb_imdbconverttozip" value="1" <?php if ($imdbOptionsc['imdbconverttozip'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbconverttozip_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbconverttozip_no" name="imdb_imdbconverttozip" value="" <?php if ($imdbOptionsc['imdbconverttozip'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbconverttozip_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
@@ -449,7 +449,7 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 				<div class="explain"><?php esc_html_e('Convert non-zip cache-files to zip (check file permissions!)', 'lumiere-movies'); ?> <br /><?php esc_html_e('Default:','lumiere-movies');?> <?php esc_html_e('Yes', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<?php esc_html_e('Use zip?', 'lumiere-movies'); ?><br /><br />
 				<input type="radio" id="imdb_imdbusezip_yes" name="imdb_imdbusezip" value="1" <?php if ($imdbOptionsc['imdbusezip'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbusezip_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbusezip_no" name="imdb_imdbusezip" value="" <?php if ($imdbOptionsc['imdbusezip'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdbusezip_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
@@ -465,12 +465,12 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 		//------------------------------------------------------------------ =[cache details]=- ?>
 		<div class="titresection"><?php esc_html_e('Cache details', 'lumiere-movies'); ?></div>
 
-		<div class="imdblt_double_container">
+		<div class="lumiere_flex_container">
 		<?php
 /* don't need to change this options, unactivated
 ?>
 
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<?php esc_html_e('Show advanced cache details', 'lumiere-movies'); ?><br /><br />
 				<input type="radio" id="imdb_imdbcachedetails_yes" name="imdb_imdbcachedetails" value="1" <?php if ($imdbOptionsc['imdbcachedetails'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbcachedetailsshort_yes" data-field_to_change_value="0" />
@@ -484,7 +484,7 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 <?php
 */
 ?>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<?php esc_html_e('Simplified cache details', 'lumiere-movies'); ?><br /><br />
 				<input type="radio" id="imdb_imdbcachedetailsshort_yes" name="imdb_imdbcachedetailsshort" value="1" <?php if ($imdbOptionsc['imdbcachedetailsshort'] == "1") { echo 'checked="checked"'; }?> <?php if ($imdbOptionsc['imdbcachedetails'] == 0) { echo 'disabled="disabled"'; }; ?> />
@@ -501,16 +501,16 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 		</div>
 	</div>
 </div>		
-	<?php 
-	//------------------------------------------------------------------ =[Submit selection]=-
-	echo "\n\t\t\t".'<div class="submit submit-imdb" align="center">';
-	wp_nonce_field('cache_options_check', 'cache_options_check'); //check that data has been sent only once
-	echo "\n\t\t\t\t". '<input type="submit" class="button-primary" name="reset_cache_options" value="'. esc_html__('Reset settings', 'lumiere-movies') . '" />';
-	echo "\n\t\t\t\t". '<input type="submit" class="button-primary" name="update_cache_options" value="' .  esc_html__('Update settings', 'lumiere-movies') . '" />';
-	echo "\n\t\t\t". '</div>';
-	echo "\n\t\t". '</form>';
+<?php 
+	//------------------------------------------------------------------ =[Submit selection] ?>
+			<div class="submit submit-imdb lumiere_sticky_small" align="center">
+			<?php wp_nonce_field('cache_options_check', 'cache_options_check'); ?>
+				<input type="submit" class="button-primary" name="reset_cache_options" value="<?php  esc_html_e('Reset settings', 'lumiere-movies'); ?>" />
+				<input type="submit" class="button-primary" name="update_cache_options" value="<?php  esc_html_e('Update settings', 'lumiere-movies'); ?>" />
+			</div>
+		</form>
 
-
+<?php 
 }  // end $_GET['cacheoption'] == "option"
 
 if ( (isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "manage") ){ 	////////////////////////////////////////////// Cache management 
@@ -665,7 +665,7 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 			<br />
 		</div>
 
-		<div class="imdblt_double_container">
+		<div class="lumiere_flex_container">
 
 <?php
 	if (!empty($results)){
@@ -688,7 +688,7 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 
 				// no flex class so the browser decides how many data to display per lines
 				// table so "row-actions" wordpress class works
-				$data[] = '	<div class="imdblt_double_container_content_third lumiere_breakall"><table><tr><td>
+				$data[] = '	<div class="lumiere_flex_container_content_third lumiere_breakall"><table><tr><td>
 							<img id="pic_'.$title_sanitized.'" class="picfloat" '.$moviepicturelink.' width="40px">
 
 							<input type="checkbox" id="imdb_cachedeletefor_movies_'.$title_sanitized.'" name="imdb_cachedeletefor_movies[]" value="'.$obj_sanitized.'" /><label for="imdb_cachedeletefor_movies[]" class="imdblt_bold">'.$title_sanitized.'</label> <br />'. esc_html__("last updated on ", 'lumiere-movies').date ("j M Y H:i:s", filemtime($filepath_sanitized)).' 
@@ -775,7 +775,7 @@ if ((!isset($files)) || (empty($files)) ){
 		<br />
 	</div>
 
-	<div class="imdblt_double_container">
+	<div class="lumiere_flex_container">
 
 		<?php
 if (!empty($results)){
@@ -796,7 +796,7 @@ if (!empty($results)){
 				}
 
 				$datapeople[] = '	
-						<div class="imdblt_double_container_content_third lumiere_breakall"><table><tr><td>
+						<div class="lumiere_flex_container_content_third lumiere_breakall"><table><tr><td>
 							<img id="pic_'.$name_sanitized.'" class="picfloat" '.$picturelink.' width="40px" alt="no pic">
 							<input type="checkbox" id="imdb_cachedeletefor_people_'.$name_sanitized.'" name="imdb_cachedeletefor_people[]" value="'.$objpiple_sanitized.'" /><label for="imdb_cachedeletefor_people_[]" class="imdblt_bold">'.$name_sanitized.'</label><br />'. esc_html__('last updated on ', 'lumiere-movies').date ("j M Y H:i:s", filemtime($filepath_sanitized)).'
 							
@@ -862,8 +862,8 @@ if (!empty($results)){
 		<div class="activatehidesection" align="center">[+] <?php esc_html_e('Click here to display options', 'lumiere-movies'); ?> [+]</div>
 		<div class="hidesection">
 
-		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_twenty imdblt_padding_five">
+		<div class="lumiere_flex_container">
+			<div class="lumiere_flex_container_content_twenty imdblt_padding_five">
 
 				<label for="imdb_imdbcachedir">
 					<div class="titresection"><?php esc_html_e('Cache directory (absolute path)', 'lumiere-movies'); ?></div>
@@ -881,7 +881,7 @@ if (!empty($results)){
 					</label>
 
 			</div>
-			<div class="imdblt_double_container_content_eighty imdblt_padding_five">
+			<div class="lumiere_flex_container_content_eighty imdblt_padding_five">
 
 				<div class="lumiere_breakall">
 					<?php echo ABSPATH; ?>
@@ -1002,29 +1002,28 @@ if (!empty($results)){
 	<input type="submit" class="button-primary" name="reset_cache_options" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />
 	<input type="submit" class="button-primary" name="update_cache_options" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
 
-</form>
-</div>
+		</form>
+	</div>
 
-<?php		} else { // end if cache folder exists 
+<?php		} else { // end if cache folder exists ?>
 
-		echo "\n\t\t".'<div class="inside lumiere_border_shadow_red">';
-			esc_html_e('A cache folder has to be created and the cache storage option has to be activated before you can manage the cache.', 'lumiere-movies');
-			echo "\n\t\t\t".'<br /><br />'; 
-			echo "\n\t\t\t".esc_html__('Apparently, you have not such a cache folder.', 'lumiere-movies');
-			echo "\n\t\t\t".'<br /><br />'; 
-			echo "\n\t\t\t".esc_html__( 'Click on "reset settings" to refresh the values.', 'lumiere-movies');
-		echo "\n\t\t".'</div>';
+		<div class="inside lumiere_border_shadow_red">
+		<?php esc_html_e('A cache folder has to be created and the cache storage option has to be activated before you can manage the cache.', 'lumiere-movies'); ?>
+			<br /><br />
+			<?php esc_html_e('Apparently, you have not such a cache folder.', 'lumiere-movies'); ?> 
+			<br /><br />
+			<?php esc_html_e( 'Click on "reset settings" to refresh the values.', 'lumiere-movies'); ?>
+		</div>
 
-		# Form
-		echo "\n\t\t".'<div class="submit submit-imdb" align="center">';
-			echo "\n\t\t\t".'<form method="post" name="imdbconfig_save" action="' . $_SERVER[ "REQUEST_URI"] . '" >';
-				//check that data has been sent only once 
+		<div class="submit submit-imdb" align="center">
+			<form method="post" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>">
+			<?php	//check that data has been sent only once 
 				wp_nonce_field('cache_options_check', 'cache_options_check'); 
-				get_submit_button(	esc_html__('Reset settings', 'lumiere-movies'), 'primary large', 'reset_cache_options');
-				echo "\n\t\t\t\t".'<input type="submit" class="button-primary" name="reset_cache_options" value="' . esc_html__('Reset settings', 'lumiere-movies') . '" />';
-			echo "\n\t\t\t".'</form>';
-		echo "\n\t\t".'</div>';
-
+				get_submit_button(	esc_html__('Reset settings', 'lumiere-movies'), 'primary large', 'reset_cache_options'); ?>
+				<input type="submit" class="button-primary" name="reset_cache_options" value="<?php esc_html_e('Reset settings', 'lumiere-movies'); ?> " />
+			</form>
+		</div>
+<?php
 	} // end else cache folder exists
 
 }  //end if $_GET['cacheoption'] == "manage"   ?>
