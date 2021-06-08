@@ -115,7 +115,7 @@ if (empty($movie) ){
 		// Limit the number of results according to value set in admin		
 		$current_line++;
 		if ( $current_line > $imdb_admin_values['imdbmaxresults']){
-			echo '</table>';wp_footer(); echo '</body></html>';exit();}
+			echo '</table>';echo '<div align="center">' . esc_html__('Maximum of results reached.', 'lumiere-movies') . '</div>'; wp_footer(); echo '</body></html>';exit();}
 
 		echo "	<tr>\n";
 		

@@ -351,7 +351,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<input type="text" name="imdb_imdbmaxresults" id="imdb_imdbmaxresults" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbmaxresults']), 'lumiere-movies') ?>" />
 
 				<div class="explain">
-					<?php esc_html_e( 'This limits the number of results in a query. Use 0 for no limit, or the number of maximum entries you wish. When "direct search" option is turned to yes, this option is unactivated.', 'lumiere-movies'); ?> 
+					<?php esc_html_e( 'This limits the number of results in a movie query.', 'lumiere-movies'); ?> 
 					<br />
 					<?php esc_html_e( 'Default:','lumiere-movies'); ?> "10"
 				</div>
