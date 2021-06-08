@@ -15,15 +15,12 @@
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
-	wp_die('You can not call directly this page');
+	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 }
 
 // Enter in debug mode
 if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
-	print_r($imdbOptionsw);
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
-	set_error_handler("var_dump");
+	lumiere_debug_display($imdbOptionsw, 'SetError', ''); 
 }
 
 /* vars */
@@ -766,9 +763,9 @@ if (current_user_can( 'manage_options' ) ) {
 					"</a>";
 				}
 				?> 
+			</div>
 		</div>
-	</div>
-</div>
+
 <?php 
 	} //end check taxonomy option
 } 
@@ -824,7 +821,7 @@ if (current_user_can( 'manage_options' ) ) {
 			</div>
 
 		</div>
-	</div>
+
 <?php	} 
 		if ( (isset($_GET['widgetoption'])) && ($_GET['widgetoption'] == "misc") ) { 	// Misc ?>
 		<?php //-------------------------------------------------------------------=[Misc]=- ?>		
@@ -859,6 +856,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 <?php	} // end of misc subsection ?>
 
+	</div>
 </div>
 	
 	<?php //------------------------------------------------------------------ =[Submit selection]=- ?>

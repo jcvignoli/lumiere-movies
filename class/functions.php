@@ -118,11 +118,11 @@ if ( ! function_exists('lumiere_admin_signature')){
 	function lumiere_admin_signature(){
 		global $allowed_html_for_esc_html_functions;
 		echo "\t\t<div class=\"soustitre\">\n";
-		echo "\t\t\t<div class=\"lumiere_intro_options\">".
+		echo "\t\t\t".
 			wp_kses( __( '<strong>Licensing Info:</strong> Under a GPL licence, "Lumiere Movies" is based on <a href="https://github.com/tboothman/imdbphp/" target="_blank">tboothman</a> classes. Nevertheless, a considerable amount of work was required to implement it in wordpress; check the support page for', 'lumiere-movies'), $allowed_html_for_esc_html_functions ). "<a href=\"" .
 			esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=support"). "\"> ".
 			esc_html__('more', 'lumiere-movies') ."</a>.";
-		echo "\t\t\t<br /><br /><div>\n\t\t\t\t<div> &copy; 2005-" . date("Y") . " <a href=\"" .  IMDBABOUTENGLISH . '" target="_blank">Lost Highway</a>, <a href="' . IMDBHOMEPAGE . '" target="_blank">Lumière! wordpress plugin' . '</a>, version ' . LUMIERE_VERSION . "\n</div>";
+		echo "\t\t\t<br /><br /><div>\n\t\t\t\t<div> &copy; 2005-" . date("Y") . " <a href=\"" .  IMDBABOUTENGLISH . '" target="_blank">Lost Highway</a>, <a href="' . IMDBHOMEPAGE . '" target="_blank">Lumière! wordpress plugin' . '</a>, version ' . LUMIERE_VERSION . "\n</div>". "\n</div>";
 		echo "\t\t</div>\n";
 	} 
 }
@@ -445,5 +445,30 @@ if (!function_exists('lumiere_make_htaccess')) {
 	}
 }
 
+/**
+ * Function lumiere_debug_display
+ * Returns a debug
+ * 
+ */
+
+if (!function_exists('lumiere_debug_display')) {
+	function lumiere_debug_display($options = "no array of options found", $set_error = NULL, $libxml_use = NULL) {
+
+		echo '<div><font size="-2">';
+
+		print_r($options);
+		error_reporting(E_ALL);
+		ini_set("display_errors", 1);
+
+		if ( (isset($set_error)) && ($set_error == "SetError") )
+			set_error_handler("var_dump"); # unset in options-cache.php as it breaks the pictures part of cache
+
+		echo '</font></div>';
+
+		if ( (isset($libxml_use)) && ($libxml_use == "libxml") )
+			libxml_use_internal_errors(true); // avoid endless loops with imdbphp parsing errors 
+
+	}
+}
 
 ?>

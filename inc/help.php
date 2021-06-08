@@ -21,9 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Enter in debug mode
 if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
-	set_error_handler("var_dump");
+	lumiere_debug_display($imdbOptions, 'SetError', ''); 
 }
 
 /* Vars */

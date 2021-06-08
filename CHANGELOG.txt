@@ -1,5 +1,17 @@
 Changelog
 
+v.3.2.2
+* [medium] Implemented a selection for popup colors in admin menu 
+* [minor] Changed AKA design in popups
+* [technical] Remove options for photo path and directory in options-cache.php, now automatically generated
+* [technical] Contrained options for "Plugin directory" and "URL for the popups" in options-general.php, now partially automatically generated
+* [technical] Changed $imdbAdminOptions $imdbCacheOptions arrays in config.php, imdbplugindirectory, photo path, and directory are now relative
+* [technical] Added a plugin update function to make htaccess file and update config on update
+* [technical] Debug is now a function implemented in all relevant pages
+* [bug] Popup-imdb_person: soundtrack film was redirecting to popup-imdb_person instead of popup-imdb_movie
+* [bug] New fix for popup titles function in lumiere-movies.php
+* [bug] Fixed link with extra "/" in URL for akas in popup-imdb_movie.php
+
 v3.2.1
 * [bug] admin panel wasn't displayed, bug in inc/admin_pages.php
 * [bug] popup titles function in lumiere-movies.php was preventing the popup from working

@@ -19,14 +19,9 @@ require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
 global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;;
 
-
 // Enter in debug mode
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
-	print_r($imdb_admin_values);
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
-	set_error_handler("var_dump");
-	libxml_use_internal_errors(true); // avoid endless loops with imdbphp parsing errors 
+	lumiere_debug_display($imdb_cache_values, 'SetError', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 }
 
 // Start config class for $config in below Imdb\Title class calls
@@ -65,7 +60,7 @@ do_action('wp_loaded'); // execute wordpress first codes
 <?php wp_head();?>
 
 </head>
-<body class="lumiere_body">
+<body class="lumiere_body<?php if (isset($imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopuptheme'];?>">
 
 <h1><?php esc_html_e('Results related to', 'lumiere-movies'); echo " " . $film_sanitized_for_title ?></h1>
 

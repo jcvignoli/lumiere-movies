@@ -20,11 +20,7 @@ global $imdb_admin_values, $imdb_cache_values;
 
 // Enter in debug mode
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
-	print_r($imdb_cache_values);
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
-	set_error_handler("var_dump");
-	libxml_use_internal_errors(true); // avoid endless loops with imdbphp parsing errors 
+	lumiere_debug_display($imdb_cache_values, 'SetError', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 }
 
 // Start config class for $config in below Imdb\Title class calls
@@ -93,7 +89,7 @@ do_action('wp_loaded'); // execute wordpress first codes # still useful?
 <head>
 <?php wp_head();?>
 </head>
-<body class="lumiere_body">
+<body class="lumiere_body<?php if (isset($imdb_admin_values['imdbpopupcolor'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopupcolor'];?>">
 <?php
 
 
@@ -165,7 +161,7 @@ exit(); // quit the call of the page, to avoid double loading process ?>
 <head>
 <?php wp_head();?>
 </head>
-<body class="lumiere_body">
+<body class="lumiere_body<?php if (isset($imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopuptheme'];?>">
                                                 <!-- top page menu -->
 <table class='tabletitrecolonne'>
     <tr>
@@ -238,13 +234,15 @@ echo '/ >'; ?>
 	//$cc  = count($aka);
 	if ( (isset($aka)) && (!empty($aka)) ) {
 		foreach ( $aka as $ak){
+
+      			if ( (isset($ak["country"])) && (!empty($ak["country"])) )
+      				echo  " <i><font size='+0.5'>" . sanitize_text_field($ak["country"] ) . "</font></i>: ";
+
       			echo sanitize_text_field( $ak["title"] );
-			if ( (isset($ak["year"])) && (!empty($ak["year"]))) {
+
+			if ( (isset($ak["year"])) && (!empty($ak["year"])))
 				echo " ". intval( $ak["year"] );
-			};
-      			if ( (isset($ak["country"])) && (!empty($ak["country"])) ) {
-      				echo  " (".sanitize_text_field($ak["country"].")" );
-			}
+
 			/*if (empty($ak["lang"])) { 
 					if (!empty($ak["comment"])) {
 					echo ", ".$ak["comment"]; }
@@ -253,7 +251,6 @@ echo '/ >'; ?>
 					echo ", ".$ak["comment"];}
 			echo " [".$ak["lang"]."]";
 	  			}*/
-	  		echo "<br />";
 		}
 		flush();
   	}  ?>

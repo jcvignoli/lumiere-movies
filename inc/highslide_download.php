@@ -6,7 +6,7 @@
 
 // prevent direct calls
 if (empty(wp_get_referer()) && (0 !== stripos( wp_get_referer(), admin_url() . 'admin.php?page=imdblt_options' )) )
-	wp_die(esc_html__("You can not call directly this page.", "imdb"));
+	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 
 /************* Vars **************/
 
@@ -56,7 +56,7 @@ if ( (isset($_GET["highslide"])) && (  $_GET["highslide"]  = "yes" ) ) {
 
 // Wrong $_GET
 } else {
-	wp_die(esc_html__("You can not call directly this page.", "imdb"));
+	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 }
 
 ?>

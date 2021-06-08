@@ -15,15 +15,12 @@
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
-	wp_die('You can not call directly this page');
+	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 }
 
 // Enter in debug mode
 if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
-	print_r($imdbOptionsc);
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
-	//set_error_handler("var_dump"); --> break display of pictures
+	lumiere_debug_display($imdbOptionsc, '', ''); # don't display set_error_handler("var_dump") which breaks the images sections
 }
 
 // Vars
@@ -56,9 +53,9 @@ $messages = array(
 	'cache_delete_all_msg' => 'All cache files deleted.',
 	'cache_delete_ticked_msg' => 'Selected ticked file(s) deleted.',
 	'cache_delete_individual_msg' => 'Selected cache file successfully deleted.',
-	'cache_refresh_individual_msg' => 'Selected cache file successfully refreshed.',
-
+	'cache_refresh_individual_msg' => 'Selected cache file successfully refreshed.'
 );
+
 // Start config class for imdbphp
 use \Imdb\Title;
 use \Imdb\Person;
@@ -678,7 +675,7 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 				$obj_sanitized = sanitize_text_field( $res->imdbid() );
 				$filepath_sanitized = esc_url( $imdb_cache_values['imdbcachedir']."title.tt".substr($obj_sanitized, 0, 7) );
 				if ($imdbOptionsc['imdbcachedetailsshort'] == 1)  { // display only cache movies' names, quicker loading
-					$data[] = '<input type="checkbox" id="imdb_cachedeletefor_movies_'.$title_sanitized.'" name="imdb_cachedeletefor_movies[]" value="'.$obj_sanitized.'" /><label for="imdb_cachedeletefor_movies[]">'.$title_sanitized.'</label>'; // send input and results into array
+					$data[] = '<span class="lumiere_short_titles"><input type="checkbox" id="imdb_cachedeletefor_movies_'.$title_sanitized.'" name="imdb_cachedeletefor_movies[]" value="'.$obj_sanitized.'" /><label for="imdb_cachedeletefor_movies[]">'.$title_sanitized.'</label></span>'."\n"; // send input and results into array
 					flush();
 				} else { // display every cache movie details, longer loading
 					// get either local picture or if no local picture exists, display the default one
@@ -788,7 +785,7 @@ if (!empty($results)){
 			$objpiple_sanitized = sanitize_text_field( $res->imdbid() );
 			$filepath_sanitized = esc_url($imdb_cache_values['imdbcachedir']."name.nm".substr($objpiple_sanitized, 0, 7));
 			if ($imdbOptionsc['imdbcachedetailsshort'] == 1)  { // display only cache peoples' names, quicker loading
-				$datapeople[] = '<input type="checkbox" id="imdb_cachedeletefor_people_'.$name_sanitized.'" name="imdb_cachedeletefor_people[]" value="'.$objpiple_sanitized.'" /><label for="imdb_cachedeletefor_people[]">'.$name_sanitized.'</label>'; // send input and results into array
+				$datapeople[] = '<span class="lumiere_short_titles"><input type="checkbox" id="imdb_cachedeletefor_people_'.$name_sanitized.'" name="imdb_cachedeletefor_people[]" value="'.$objpiple_sanitized.'" /><label for="imdb_cachedeletefor_people[]">'.$name_sanitized.'</label></span>'; // send input and results into array
 				flush();
 			} else { // display every cache people details, longer loading
 				// get either local picture or if no local picture exists, display the default one
@@ -858,7 +855,7 @@ if (!empty($results)){
 	<div class="inside imblt_border_shadow">
 		<form method="post" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
 
-		<div class="lumiere_intro_options"><?php esc_html_e('Edit the following values only if need so. You can break the caching system.', 'lumiere-movies'); ?></div>
+		<div class="lumiere_intro_options"><?php esc_html_e('Edit the following value only if need so. You can break the caching system.', 'lumiere-movies'); ?></div>
 		<br />
 		<br />
 
@@ -886,7 +883,10 @@ if (!empty($results)){
 			</div>
 			<div class="imdblt_double_container_content_eighty imdblt_padding_five">
 
-				<input type="text" name="imdb_imdbcachedir" class="imdblt_width_fillall" value="<?php esc_html_e(apply_filters('format_to_edit',$imdb_cache_values['imdbcachedir']), 'lumiere-movies') ?>">
+				<div class="lumiere_breakall">
+					<?php echo ABSPATH; ?>
+					<input type="text" name="imdbcachedir_partial" class="lumiere_border_width_medium" value="<?php esc_html_e(apply_filters('format_to_edit',$imdb_cache_values['imdbcachedir_partial']), 'lumiere-movies') ?>">
+				</div>
 
 				<div class="explain">
 				<?php if (file_exists($imdb_cache_values['imdbcachedir'])) { // check if folder exists
@@ -910,91 +910,100 @@ if (!empty($results)){
 					}
 				} ?>
 				</div>
-			</div>
 
-				<div class="explain explain_breakall"><?php esc_html_e('Absolute path to store cache retrieved from the IMDb website. Has to be ', 'lumiere-movies'); ?><a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> <?php esc_html_e('by the webserver.', 'lumiere-movies');?> <br /><?php esc_html_e('Default:','lumiere-movies');?> "<?php echo esc_url ( WP_CONTENT_DIR . '/cache/lumiere/' ); ?>"</div>
-		</div>
-
-		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_twenty imdblt_padding_five">
-
-				<label for="imdb_imdbphotoroot">
-				<div class="titresection"><?php esc_html_e('Photo directory (absolute path)', 'lumiere-movies'); ?></div>
-
-					<span class="imdblt_smaller">
-					<?php						
-					// display cache folder size
-					if (!lumiere_isEmptyDir($imdb_cache_values['imdbphotoroot'], "2")) { // from functions.php
-						$path = realpath($imdb_cache_values['imdbphotoroot']);
-						if($path!==false && $path!='' && file_exists($path)){
-							foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){
-								$size_cache_pics += $object->getSize();
-							}
-						}
-						echo esc_html_e('Images cache is using', 'lumiere-movies') . ' ' . lumiere_formatBytes( intval( $size_cache_pics) ) . "\n";
-					} else {  echo esc_html_e('Image cache is empty.', 'lumiere-movies') . "\n"; }
-					?>
-					</span>
-				</label>
-
-			</div>
-			<div class="imdblt_double_container_content_eighty imdblt_padding_five">
-
-				<input type="text" class="imdblt_width_fillall" name="imdb_imdbphotoroot" value="<?php esc_html_e(apply_filters('format_to_edit',$imdb_cache_values['imdbphotoroot']), 'lumiere-movies') ?>">
-
-				<div class="explain">
-				<?php if (file_exists($imdb_cache_values['imdbphotoroot'])) { // check if folder exists
-				echo '<span class="imdblt_green">';
-				esc_html_e("Folder exists.", 'lumiere-movies');
-				echo '</span>';
-				} else {
-				echo '<span class="imdblt_red">';
-				esc_html_e("Folder doesn't exist!", 'lumiere-movies');
-				echo '</span>'; } 
-				if (file_exists($imdb_cache_values['imdbphotoroot'])) { // check if permissions are ok
-					if ( substr(sprintf('%o', fileperms($imdb_cache_values['imdbphotoroot'])), -3) == "777") { 
-						echo ' <span class="imdblt_green">';
-						esc_html_e("Permissions OK.", 'lumiere-movies');
-						echo '</span>';
-					} else { 
-						echo ' <span class="imdblt_red">';
-						esc_html_e("Check folder permissions!", 'lumiere-movies');
-						echo '</span>'; 
-					}
-				} ?>
-				</div>
-
-				<div class="explain explain_breakall"><?php esc_html_e('Absolute path to store images retrieved from the IMDb website. Has to be ', 'lumiere-movies'); ?><a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> <?php esc_html_e('by the webserver.', 'lumiere-movies');?> <br /><?php esc_html_e('Default:','lumiere-movies');?> "<?php echo esc_url ( WP_CONTENT_DIR . '/cache/lumiere/images/' ); ?>"</div>
-			</div>
-		</div>
-
-		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_twenty imdblt_padding_five">
-
-			<div class="titresection"><label for="imdb_imdbphotodir"><?php esc_html_e('Photo directory (url)', 'lumiere-movies'); ?></label></div>
-			
-			</div>
-			<div class="imdblt_double_container_content_eighty imdblt_padding_five">
-
-				<input type="text" name="imdb_imdbphotodir" class="imdblt_width_fillall" value="<?php esc_html_e(apply_filters('format_to_edit', $imdb_cache_values['imdbphotodir']), 'lumiere-movies') ?>">
-
-				<div class="explain"><?php esc_html_e('URL corresponding to photo directory.','lumiere-movies');?> <br /><?php esc_html_e('Default:','lumiere-movies');?> "<?php echo esc_url( IMDBLTURLPATH . "cache/images/"); ?>"
+				<div class="explain lumiere_breakall">
+					<?php esc_html_e('Absolute path to store cache retrieved from the IMDb website. Has to be ', 'lumiere-movies'); ?>
+					<a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> 
+					<?php esc_html_e('by the webserver.', 'lumiere-movies');?> 
+					<br />
+					<?php esc_html_e('Default:','lumiere-movies');?> "<?php echo esc_url ( WP_CONTENT_DIR . '/cache/lumiere/' ); ?>"
 				</div>
 			</div>
+		</div>
+
+		<div>
+
+			<div class="titresection imdblt_padding_five">
+				<?php esc_html_e('Photo path (relative to the cache path)', 'lumiere-movies'); ?>
+			</div>
+
+			<div class="explain">
+			<?php // display cache folder size
+		if (!lumiere_isEmptyDir($imdb_cache_values['imdbphotoroot'], "2")) { // from functions.php
+			$path = realpath($imdb_cache_values['imdbphotoroot']);
+			if($path!==false && $path!='' && file_exists($path)){
+				foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){
+					$size_cache_pics += $object->getSize();
+				}
+			}
+			echo esc_html_e('Images cache is using', 'lumiere-movies') . ' ' . lumiere_formatBytes( intval( $size_cache_pics) ) . "\n";
+		} else {  echo esc_html_e('Image cache is empty.', 'lumiere-movies') . "\n"; }?>
+			</div>
+
+			<div class="explain lumiere_breakall">
+				<?php esc_html_e('Absolute path to store images retrieved from the IMDb website. Has to be ', 'lumiere-movies'); ?>
+				<a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> 
+				<?php esc_html_e('by the webserver.', 'lumiere-movies');?>
+				<br />
+			</div>
+
+			<div class="imdblt_smaller lumiere_breakall">
+			<?php esc_html_e('Current:','lumiere-movies');?> "<?php echo esc_url ( $imdb_cache_values['imdbphotoroot'] ); ?>"
+			</div>
+			<br />
+
+			<div class="imdblt_smaller">
+<?php 				if (file_exists($imdb_cache_values['imdbphotoroot'])) { // check if folder exists
+			echo '<span class="imdblt_green">';
+			esc_html_e("Folder exists.", 'lumiere-movies');
+			echo '</span>';
+			} else {
+			echo '<span class="imdblt_red">';
+			esc_html_e("Folder doesn't exist!", 'lumiere-movies');
+			echo '</span>'; } 
+			if (file_exists($imdb_cache_values['imdbphotoroot'])) { // check if permissions are ok
+				if ( substr(sprintf('%o', fileperms($imdb_cache_values['imdbphotoroot'])), -3) == "777") { 
+					echo ' <span class="imdblt_green">';
+					esc_html_e("Permissions OK.", 'lumiere-movies');
+					echo '</span>';
+				} else { 
+					echo ' <span class="imdblt_red">';
+					esc_html_e("Check folder permissions!", 'lumiere-movies');
+					echo '</span>'; 
+				}
+			} 
+
+			?>
+
+			</div>
+		</div>
+
+		<div>
+
+			<div class="titresection imdblt_padding_five">
+				<?php esc_html_e('Photo URL (relative to the website and the cache path)', 'lumiere-movies'); ?>
+			</div>			
+
+			<div class="explain lumiere_breakall">
+				<?php esc_html_e('URL corresponding to photo directory.','lumiere-movies');?> 
+				<br />
+				<?php esc_html_e('Current:','lumiere-movies');?> "<?php echo esc_url ( $imdb_cache_values['imdbphotodir'] ); ?>"
 			</div>
 
 		</div>
-	</div>
-	<br />
-	<br />
 
-	<div class="submit submit-imdb" align="center">
-		<?php wp_nonce_field('cache_options_check', 'cache_options_check'); ?>
-		<input type="submit" class="button-primary" name="reset_cache_options" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />
-		<input type="submit" class="button-primary" name="update_cache_options" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
-
-	</form>
 	</div>
+</div>
+<br />
+<br />
+
+<div class="submit submit-imdb" align="center">
+	<?php wp_nonce_field('cache_options_check', 'cache_options_check'); ?>
+	<input type="submit" class="button-primary" name="reset_cache_options" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />
+	<input type="submit" class="button-primary" name="update_cache_options" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
+
+</form>
+</div>
 
 <?php		} else { // end if cache folder exists 
 
