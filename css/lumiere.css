@@ -39,7 +39,7 @@ body.lumiere_body_grey {color: black;background: lightgrey;}
 .titrecolonne a:hover {color: #A8A8A8;/* text-decoration: underline; */}
 
 .imdblt_titlematchingdirector {width: 40%;}
-.imdblt_float_left{float:left;}
+.lumiere_float_left, .imdblt_float_left{float:left;}
 
 /* ------------------- Results list */
 

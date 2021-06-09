@@ -491,7 +491,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 			</div>
 			<div class="lumiere_flex_container_content_eighty">
 				<div class="lumiere_align_items_center">
-					<?php echo $imdbOptions['imdbplugindirectory']; ?>
+					<?php echo $imdbOptions['blog_adress']; ?>
 					<input type="text" class="lumiere_border_width_medium" name="imdb_imdburlpopups" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdburlpopups']), 'lumiere-movies') ?>">
 				</div>
 				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the movies\' and people\'s popups.', 'lumiere-movies'); ?> 
@@ -511,30 +511,27 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 		<br /><br />
 
-		<?php
-
-/* still need work
- //------------------------------------------------------------------=[ URL Taxonomy ]=---- ?>
+		<?php //------------------------------------------------------------------=[ URL Taxonomy ]=---- ?>
 		<div class="lumiere_flex_container">
 			<div class="lumiere_flex_container_content_twenty">
 				<label for="imdb_imdburlstringtaxo"><?php esc_html_e( 'URL for the taxonomy pages', 'lumiere-movies'); ?></label>
 			</div>
 			<div class="lumiere_flex_container_content_eighty">
 				<div class="lumiere_align_items_center">
-					<?php echo $imdbOptions['imdbplugindirectory']; ?>
+					<?php echo $imdbOptions['blog_adress']; ?>/
 					<input type="text" class="lumiere_border_width_medium" name="imdb_imdburlstringtaxo" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdburlstringtaxo']), 'lumiere-movies') ?>">
 				</div>
-				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the taxonomy\'s pages.', 'lumiere-movies'); ?> 
+				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the taxonomy\'s pages. Warning! It cannot be identical to the URL of popups above.', 'lumiere-movies'); ?> 
 				<br />
-				<?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo "/imdblt_"; ?>"
+				<?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo "imdblt_"; ?>"
 				<br />
-				<?php esc_html_e( 'The full URL for the movies\' popups will be:', 'lumiere-movies'); ?>
+				<?php esc_html_e( 'The full URL utilized for the director taxonomy page will be:', 'lumiere-movies'); ?>
 				<br />
-				<?php echo $imdbOptions['blog_adress'] . $imdbOptions['imdburlstringtaxo'] . 'film' ; ?>
+				<?php echo $imdbOptions['blog_adress'] . '/' . $imdbOptions['imdburlstringtaxo'] . 'director' ; ?>
 				</div>
 			</div>
 		</div>
-*/ ?>
+
 	</div>
 </div>
 

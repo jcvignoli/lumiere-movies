@@ -14,7 +14,7 @@ global $imdb_admin_values, $imdb_widget_values;
 $lumiere_taxo_title = esc_html( $_GET['taxotype'] );
 
 $lumiere_taxo_file_tocopy = "taxonomy-imdblt_standard.php";
-$lumiere_taxo_file_copied = "taxonomy-imdblt_". $lumiere_taxo_title . ".php";
+$lumiere_taxo_file_copied = "taxonomy-" . $imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . ".php";
 $lumiere_current_theme_path = get_stylesheet_directory()."/";
 $lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied ;
 $lumiere_taxonomy_theme_path = $imdb_admin_values['imdbpluginpath'] . "theme/";

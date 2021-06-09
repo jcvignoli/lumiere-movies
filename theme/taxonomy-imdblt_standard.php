@@ -11,8 +11,7 @@ do_action('wp_loaded'); // execute wordpress first codes
 get_header();
 
 echo "<br />";
-
-get_sidebar(); ?>
+?>
 
 <main id="main" class="site-main clr" role="main">
 	<div id="content-wrap" class="container clr">
@@ -60,6 +59,8 @@ get_sidebar(); ?>
 </main>
 
 <?php
+get_sidebar();
+
 wp_meta();
 
 get_footer(); 

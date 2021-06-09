@@ -7,6 +7,7 @@ v.3.2.3
 * [technical] Removed options update in plugin update process, options are already automatically updates when visiting options
 * [technical] Enhanced tinyMCE, but still work to do
 * [technical] Moved class from inside lumiere-movies.php to class/class.lumiere.php
+* [technical] Implemented a taxonomy slug URL. By changing the options in the admin panel, the URL for taxonomy pages can be changed.
 
 v.3.2.2
 * [medium] Implemented a selection for popup colors in admin menu 

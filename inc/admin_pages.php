@@ -88,6 +88,7 @@ function printAdminPage() {
 	if (!isset($_GET['subsection'])) {
 
 		require_once ( plugin_dir_path( __DIR__ ). 'inc/options-general.php'  );
+
 	}
 
 	if ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "widgetoption") ) {
