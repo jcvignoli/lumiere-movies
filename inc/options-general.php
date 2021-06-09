@@ -74,8 +74,7 @@ if (current_user_can( 'manage_options' ) ) {
 		update_option($imdb_ft->imdbAdminOptionsName, $imdbOptions);
 
 		// flush rewrite rules for matches the new $imdbOptions['imdbplugindirectory'] path
-		add_action('init', function (){ flush_rewrite_rules(); }, 0);
-		flush_rewrite_rules();
+		add_action('admin_init', function (){ flush_rewrite_rules(); }, 0);
 
 		// Rewrite the htaccess so it matches the new $imdbOptions['imdbplugindirectory'] path
 		lumiere_make_htaccess();
@@ -98,6 +97,7 @@ if (current_user_can( 'manage_options' ) ) {
 	elseif ( (isset($_POST['reset_imdbSettings'])) && check_admin_referer('options_general_check', 'options_general_check') ){ //---------------------reset options selected
 
 		delete_option($imdb_ft->imdbAdminOptionsName);
+
 		// display message on top
 		lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
 
@@ -508,6 +508,33 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				</div>
 			</div>
 		</div>
+
+		<br /><br />
+
+		<?php
+
+/* still need work
+ //------------------------------------------------------------------=[ URL Taxonomy ]=---- ?>
+		<div class="lumiere_flex_container">
+			<div class="lumiere_flex_container_content_twenty">
+				<label for="imdb_imdburlstringtaxo"><?php esc_html_e( 'URL for the taxonomy pages', 'lumiere-movies'); ?></label>
+			</div>
+			<div class="lumiere_flex_container_content_eighty">
+				<div class="lumiere_align_items_center">
+					<?php echo $imdbOptions['imdbplugindirectory']; ?>
+					<input type="text" class="lumiere_border_width_medium" name="imdb_imdburlstringtaxo" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdburlstringtaxo']), 'lumiere-movies') ?>">
+				</div>
+				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the taxonomy\'s pages.', 'lumiere-movies'); ?> 
+				<br />
+				<?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo "/imdblt_"; ?>"
+				<br />
+				<?php esc_html_e( 'The full URL for the movies\' popups will be:', 'lumiere-movies'); ?>
+				<br />
+				<?php echo $imdbOptions['blog_adress'] . $imdbOptions['imdburlstringtaxo'] . 'film' ; ?>
+				</div>
+			</div>
+		</div>
+*/ ?>
 	</div>
 </div>
 
