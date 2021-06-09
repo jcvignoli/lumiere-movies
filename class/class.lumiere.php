@@ -4,7 +4,7 @@
 // ********************* CLASS lumiere_core
 // *********************
 
-// namespace imdblt;
+// namespace Lumiere;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -41,7 +41,7 @@ class lumiere_core {
 				// if active write a filter to add a class to the link to the taxonomy page
 				foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
 					if ($value == 1) {
-						$filter_taxonomy = str_replace('imdbtaxonomy', '', "term_links-imdblt_".$key);
+						$filter_taxonomy = str_replace('imdbtaxonomy', '', "term_links-" . $imdb_admin_values['imdburlstringtaxo'] . $key);
 						add_filter( $filter_taxonomy, [ $this, 'lumiere_taxonomy_add_class_to_links'] );
 					}
 				}
