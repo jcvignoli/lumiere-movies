@@ -503,7 +503,7 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 </div>		
 <?php 
 	//------------------------------------------------------------------ =[Submit selection] ?>
-			<div class="submit submit-imdb lumiere_sticky_boxshadow" align="center">
+			<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">
 			<?php wp_nonce_field('cache_options_check', 'cache_options_check'); ?>
 				<input type="submit" class="button-primary" name="reset_cache_options" value="<?php  esc_html_e('Reset settings', 'lumiere-movies'); ?>" />
 				<input type="submit" class="button-primary" name="update_cache_options" value="<?php  esc_html_e('Update settings', 'lumiere-movies'); ?>" />
