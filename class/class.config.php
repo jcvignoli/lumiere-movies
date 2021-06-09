@@ -161,7 +161,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 	'imdbwidgetwriter' => true,
 	'imdbwidgetproducer' => false,
 	'imdbwidgetkeywords' => false,
-	'imdbwidgetprodCompany' => false,
+	'imdbwidgetprodcompany' => false,
 	'imdbwidgetplot' => false,
 	'imdbwidgetplotnumber' => false,
 	'imdbwidgetgoofs' => false,
@@ -177,7 +177,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 	'imdbwidgetcomposer' => false,
 	'imdbwidgetsoundtrack' => false,
 	'imdbwidgetsoundtracknumber' => false,
-	'imdbwidgetofficialSites' => false,
+	'imdbwidgetofficialsites' => false,
 	'imdbwidgetsource' => true,
 	'imdbwidgetonpost' => true,
 	'imdbwidgetonpage' => true,
@@ -185,7 +185,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 	'imdbwidgettrailer' => false,
 	'imdbwidgettrailernumber' => false,
 
-	'imdbwidgetorder'=>array("title" => "1", "pic" => "2","runtime" => "3", "director" => "4", "country" => "5", "actor" => "6", "creator" => "7", "rating" => "8", "language" => "9","genre" => "10","writer" => "11","producer" => "12", "keywords" => "13", "prodCompany" => "14", "plot" => "15", "goofs" => "16", "comments" => "17", "quotes" => "18", "taglines" => "19", "colors" => "20", "alsoknow" => "21", "composer" => "22", "soundtrack" => "23", "trailer" => "24", "officialSites" => "25", "source" => "26" ),
+	'imdbwidgetorder'=>array("title" => "1", "pic" => "2","runtime" => "3", "director" => "4", "country" => "5", "actor" => "6", "creator" => "7", "rating" => "8", "language" => "9","genre" => "10","writer" => "11","producer" => "12", "keywords" => "13", "prodcompany" => "14", "plot" => "15", "goofs" => "16", "comments" => "17", "quotes" => "18", "taglines" => "19", "colors" => "20", "alsoknow" => "21", "composer" => "22", "soundtrack" => "23", "trailer" => "24", "officialsites" => "25", "source" => "26" ),
 
 	'imdbtaxonomycolor' => false,
 	'imdbtaxonomycomposer' => false,

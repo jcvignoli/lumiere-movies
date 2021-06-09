@@ -2,7 +2,10 @@ Changelog
 
 v.3.2.3
 * [minor] Limiting the number of results never worked. Now it does. Use the general options -> advanced 
+* [minor] Enhanced popup layout, more fancy and adapted to the theme selected in admin panel
 * [bug] Taxonomy rewrite rules does definitely work using lumiere_create_taxonomies() function in class/functions.php. Added a specific constraint to be called only in taxonomy pages since it calls the time consuming flush_rewrite_rules() function.
+* [bug] Bug values imdbwidgetofficialSites and imdbwidgetprodCompany prevented them from being saved in options-widget.php. Renamed them imdbwidgetofficialsites and imdbwidgetprodCompany so they can be saved.
+* [bug] various fixes for the layout in imdb-movie.inc.php
 * [technical] Admin forms submit/reset are now sticky -> easier for the user to submit
 * [technical] Removed options update in plugin update process, options are already automatically updates when visiting options
 * [technical] Enhanced tinyMCE, but still work to do

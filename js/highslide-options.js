@@ -2,6 +2,7 @@
 /* var highslide_vars.imdb_path passed from wp_localize_script in imdb-link-transformer.php */
 
 var url_highslide = highslide_vars.imdb_path + "js/highslide/graphics/";
+var popup_border_colour = highslide_vars.popup_border_colour;
 
 hs.allowWidthReduction = true;
 hs.graphicsDir = url_highslide;
@@ -10,6 +11,11 @@ hs.outlineType = 'custom';
 hs.easing = 'linearTween';
 hs.align = 'center';
 hs.useBox = true;
+hs.skin.contentWrapper = 
+	'<div class="highslide-header highslide-move" style="background-color:' + popup_border_colour + ';"></div>'+
+	'<div class="highslide-body highslide-move" style="background-color:' + popup_border_colour + ';"></div>'+
+	'<div class="highslide-footer highslide-resize" style="background-color:' + popup_border_colour + ';"><div>';
+
 hs.registerOverlay(
 /* bad javascrit, inline should be avoided; next line, and the function hs.Expander below, coupled to lumiere_script's jquery, simulate a click by sending an info once a div is clicked, then retried in lumiere_script.*/
 	{ html: '<div class=\"closebutton\" onclick=\"return hs.close(this)\" title=\"Close\"></div>',

@@ -295,7 +295,7 @@ class lumiere_core {
 				// Pass variable to javascript highslide-options.js
 				wp_add_inline_script( 'lumiere_highslide_options', 'const highslide_vars = ' . json_encode( array(
     					'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
-    					'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
+    					'popup_border_colour' => $imdb_admin_values['imdbpopuptheme'],
 				) ) , 'before');
 				wp_enqueue_style( "lumiere_highslide", $imdb_admin_values['imdbplugindirectory'] ."css/highslide.css", array(), LUMIERE_VERSION);
 			}

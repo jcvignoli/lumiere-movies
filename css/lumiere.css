@@ -9,9 +9,9 @@
 body.lumiere_body {font-family: Verdana, Tahoma, Georgia, Geneva, Arial;padding:10px;}
 body.lumiere_popup_search {margin:10px;}
 /* From the admin selection */
-body.lumiere_body_white {color: #575757;background: #FFFFFF;}
-body.lumiere_body_black {color: #FFFFFF;background: black;}
-body.lumiere_body_grey {color: black;background: lightgrey;}
+body.lumiere_body_white {color: #575757;background: white;}
+body.lumiere_body_black {color: white;background: black;}
+body.lumiere_body_lightgrey {color: black;background: lightgrey;}
 
 /*body h1 {text-align:center;font-size:20px;padding-bottom:10px;}*/
 

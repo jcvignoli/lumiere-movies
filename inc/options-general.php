@@ -62,6 +62,13 @@ if (current_user_can( 'manage_options' ) ) {
 
 	if ( (isset($_POST['update_imdbSettings'])) && check_admin_referer('options_general_check', 'options_general_check') ) { //--------------------save data selected 
 
+		// Check if $_POST['imdburlstringtaxo'] and $_POST['imdburlpopups'] are identical, as they can't
+		if ( stripslashes($_POST['imdburlstringtaxo']) == stripslashes($_POST['imdburlpopups']) ) {
+			lumiere_notice(3, esc_html__( 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 'lumiere-movies') );
+			lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			exit();
+		}
+
 		foreach ($_POST as $key=>$postvalue) {
 			$key_sanitized = sanitize_key($key);
 			$keynoimdb = str_replace ( "imdb_", "", $key_sanitized);
@@ -172,7 +179,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 					<select name="imdb_imdbpopuptheme">
 						<option <?php if( ($imdbOptions['imdbpopuptheme'] == "white") || (empty($imdbOptions['imdbpopuptheme'])) ) echo 'selected="selected"'; ?>value="white"><?php esc_html_e( 'white (default)', 'lumiere-movies'); ?></option>
 						<option <?php if($imdbOptions['imdbpopuptheme'] == "black") echo 'selected="selected"'; ?>value="black"><?php esc_html_e( 'black', 'lumiere-movies'); ?></option>
-						<option <?php if($imdbOptions['imdbpopuptheme'] == "grey") echo 'selected="selected"'; ?>value="grey"><?php esc_html_e( 'grey', 'lumiere-movies'); ?></option>
+						<option <?php if($imdbOptions['imdbpopuptheme'] == "lightgrey") echo 'selected="selected"'; ?>value="lightgrey"><?php esc_html_e( 'lightgrey', 'lumiere-movies'); ?></option>
 
 					</select>
 
@@ -498,11 +505,13 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<br />
 				<?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo "/imdblt/"; ?>"
 				<br />
-				<?php esc_html_e( 'The full URL for the movies\' popups will be:', 'lumiere-movies'); ?>
+				<br />
+				<?php esc_html_e( 'Example: the full URL utilized for the movies\' popups will be:', 'lumiere-movies'); ?>
 				<br />
 				<?php echo $imdbOptions['blog_adress'] . $imdbOptions['imdburlpopups'] . 'film' ; ?>
 				<br />
-				<?php esc_html_e( 'The full URL for the people\'s popup will be:', 'lumiere-movies'); ?>
+				<br />
+				<?php esc_html_e( 'Example: the full URL utilized for the people\'s popup will be:', 'lumiere-movies'); ?>
 				<br />
 				<?php echo $imdbOptions['blog_adress'] . $imdbOptions['imdburlpopups'] . 'person' ; ?>
 				</div>
@@ -524,6 +533,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the taxonomy\'s pages. Warning! It cannot be identical to the URL of popups above.', 'lumiere-movies'); ?> 
 				<br />
 				<?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo "imdblt_"; ?>"
+				<br />
 				<br />
 				<?php esc_html_e( 'The full URL utilized for the director taxonomy page will be:', 'lumiere-movies'); ?>
 				<br />

@@ -1,7 +1,7 @@
 <?php
 
  #############################################################################
- # Lumière! wordpress plugin                                                 #
+ # Lumière! Movies WordPress Plugin                                          #
  # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
@@ -179,6 +179,8 @@ while ($imovie < count($imdballmeta)) {
 					echo 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'country/' .lumiere_make_taxonomy_link( esc_html( $country[$i] ) ) . '" ';
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $country[$i] );
+						if ($i < count ($country) - 1)
+							echo ", ";
 					echo '</a>'; 
 				}
 
@@ -229,6 +231,8 @@ while ($imovie < count($imdballmeta)) {
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $languages[$i] );
 					echo '</a>'; 
+					if ($i < count ($languages) - 1)
+						echo ", ";
 				}
 
 			} else {
@@ -289,13 +293,15 @@ while ($imovie < count($imdballmeta)) {
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $genre[$i] );
 					echo '</a>'; 
+					if ($i < (count ($genre) - 1) )
+						echo ', '; 
 				}
 
 			} else {
 				for ($i = 0; $i + 1 < count ($genre); $i++) { 
-					echo sanitize_text_field( $genre[$i] ); echo ", "; 										
+					echo esc_html( $genre[$i] ); echo ", "; 										
 				} 
-					echo sanitize_text_field($genre[$i]); // endfor
+					echo esc_html($genre[$i]); // endfor
 			} // end if ?>
 				</li>
 			</ul>
@@ -324,13 +330,16 @@ while ($imovie < count($imdballmeta)) {
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $keywords[$i] );
 					echo '</a>'; 
+					if ($i < count ($keywords) - 1)
+						echo ", ";
 				}
 					
 			} else {
-				for ($i = 0; $i + 1 < count ($keywords); $i++) { 
-					echo sanitize_text_field( $keywords[$i] ); echo ", "; 										
+				for ($i = 0; $i < count ($keywords); $i++) { 
+					echo esc_html( $keywords[$i] ); 
+					if ($i < (count ($keywords) -1))
+						echo ", "; 										
 				} 
-					echo sanitize_text_field( $keywords[$i] ); // endfor
 			} // end if ?>
 				</li>
 			</ul>
@@ -489,6 +498,8 @@ while ($imovie < count($imdballmeta)) {
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $colors[$i] );
 					echo '</a>'; 
+					if ($i < count ($colors) - 1)
+						echo ", ";
 				}
 
 			} else {
@@ -601,29 +612,39 @@ while ($imovie < count($imdballmeta)) {
 	}; 
 	flush ();
 
-	if  ($magicnumber==$imdb_widget_values['imdbwidgetorder']['prodCompany'] ) {
-	$prodCompany = $movie->prodCompany ();
-		if (! (empty($prodCompany)) && ($imdb_widget_values['imdbwidgetprodCompany'] == true )) {?>
+	if  ($magicnumber==$imdb_widget_values['imdbwidgetorder']['prodcompany'] ) {
+	$prodcompany = $movie->prodCompany ();
+		if ( !empty($prodcompany) &&  ($imdb_widget_values['imdbwidgetprodcompany'] == true )) {?>
 										<!-- Production company -->
 			<ul class="imdbelementPRODCOMPANYul">
-			<li class="imdbincluded-lined imdbelementPRODCOMPANYli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Production company', 'Production companies', count($prodCompany), 'lumiere-movies')))); ?>:</span><?php
-			for ($i = 0; $i < count ($prodCompany); $i++) { 
-					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
-						echo "<a href='".esc_url( $prodCompany[$i]['url'])."' title='".esc_attr($prodCompany[$i]['name'])."'>";
-						echo sanitize_text_field( $prodCompany[$i]['name'] );
-						echo "</a><br />";
-					} else { // if "Remove all links" option is selected 
-						echo sanitize_text_field( $prodCompany[$i]['name'] )."<br />";
-					}  // end if remove popup
+			<li class="imdbincluded-lined imdbelementPRODCOMPANYli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Production company', 'Production companies', count($prodcompany), 'lumiere-movies')))); ?>:</span><?php
+			for ($i = 0; $i < count ($prodcompany); $i++) { 
+				if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
+					echo "\n\t\t\t\t". '<div align="center" class="imdbdiv-liees">';
+					echo "\n\t\t\t\t\t". '<div class="lumiere_float_left">';
+					echo "<a href='".esc_url( $prodcompany[$i]['url'])."' title='".esc_attr($prodcompany[$i]['name'])."'>";
+					echo esc_html( $prodcompany[$i]['name'] );
+					echo '</a>'; 
+					echo '</div>';
+					echo "\n\t\t\t\t\t". '<div align="right">';
+						if (!empty($prodcompany[$i]['notes']))
+							echo esc_html( $prodcompany[$i]['notes'] );
+						else
+							echo "&nbsp;";
+					echo '</div>';
+					echo "\n\t\t\t\t". '</div>';
+				} else { // if "Remove all links" option is selected 
+					echo esc_html( $prodcompany[$i]['name'] )."<br />";
+				}  // end if remove popup
 			}  // endfor ?></li>
 			</ul>
 	<?php } 
 	}; 
 	flush ();
 
-	if  ($magicnumber==$imdb_widget_values['imdbwidgetorder']['officialSites'] ) {
+	if  ($magicnumber==$imdb_widget_values['imdbwidgetorder']['officialsites'] ) {
 	$officialSites = $movie->officialSites ();
-		if (! (empty($officialSites)) && ($imdb_widget_values['imdbwidgetofficialSites'] == true )) {?>
+		if (! (empty($officialSites)) && ($imdb_widget_values['imdbwidgetofficialsites'] == true )) {?>
 										<!-- official websites -->
 			<ul class="imdbelementOFFICIALWEBSITEul">
 			<li class="imdbincluded-lined imdbelementOFFICIALWEBSITEli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Official website', 'Official websites', count($officialSites), 'lumiere-movies')))); ?>:</span><?php
@@ -631,6 +652,8 @@ while ($imovie < count($imdballmeta)) {
 				echo "<a href='".esc_url($officialSites[$i]['url'])."' title='".esc_attr( $officialSites[$i]['name'] )."'>";
 				echo sanitize_text_field( $officialSites[$i]['name'] );
 				echo "</a> ";
+				if ($i < count ($officialSites) - 1)
+					echo ", ";
 			}  // endfor ?></li>
 			</ul>
 	<?php } 
@@ -751,34 +774,50 @@ while ($imovie < count($imdballmeta)) {
 
 				# list URL taxonomy page
 				for ($i = 0; $i < count ($producer); $i++) {
+					echo "\n\t\t\t\t". '<div align="center" class="imdbdiv-liees">';
+					echo "\n\t\t\t\t\t". '<div class="lumiere_float_left">';
 					echo '<a class="linkincmovie" ';
-					echo 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'producer/' .lumiere_make_taxonomy_link( esc_html( $producer[$i]["name"] ) ) . '" ';
+					echo 'href="' . esc_url( site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'producer/' .lumiere_make_taxonomy_link( esc_html( $producer[$i]["name"] ) ) ). '" ';
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $producer[$i]["name"] );
 					echo '</a>'; 
+					echo '</div>';
+					echo "\n\t\t\t\t\t". '<div align="right">';
+					echo esc_html( $producer[$i]["role"] );
+					echo '</a>'; 
+					echo '</div>';
+					echo "\n\t\t\t\t". '</div>';
+
 				}
 
 			} else { 
 				for ($i = 0; $i < count ($producer); $i++) { ?>
+
 						<div align="center" class="imdbdiv-liees">
 							<div class="lumiere_float_left">
 <?php					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup ?>
-							<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="<?php echo esc_attr( $producer[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo sanitize_text_field( $producer[$i]["name"] ); ?></a>
+							<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="<?php echo esc_attr( $producer[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo esc_html( $producer[$i]["name"] ); ?></a>
 <?php						} else {  // classic popup ?>
-							<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="<?php echo esc_attr( $producer[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo sanitize_text_field( $producer[$i]["name"] ); ?></a><?php		
+							<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="<?php echo esc_attr( $producer[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo esc_html( $producer[$i]["name"] ); ?></a><?php		
 						} 
 					} else { // if "Remove all links" option is selected 
-						echo sanitize_text_field( $producer[$i]["name"] );
+						echo esc_html( $producer[$i]["name"] );
 					}  // end if remove popup ?>
 							</div>
 							<div align="right">
-								<?php if ($producer[$i]["role"] ) echo sanitize_text_field( $producer[$i]["role"] ); echo "&nbsp;"; ?>
+								<?php 
+								if (!empty($producer[$i]["role"] ) )
+									echo esc_html( $producer[$i]["role"] ); 
+								else
+									echo "&nbsp;"; ?>
+
 							</div>
 						</div><?php
 				} // endfor 
 				
 			} // end if imdbtaxonomyproducer ?>
+
 			</li>
 			</ul>
 	<?php } // end imdbwidgetproducer
@@ -804,7 +843,7 @@ while ($imovie < count($imdballmeta)) {
 					echo "\n\t\t\t\t". '<div align="center" class="imdbdiv-liees">';
 					echo "\n\t\t\t\t\t". '<div class="lumiere_float_left">';
 					echo '<a class="linkincmovie" ';
-					echo 'href="' . site_url() . '/' $imdb_admin_values['imdburlstringtaxo'] . 'writer/' .lumiere_make_taxonomy_link( esc_html( $writer[$i]["name"] ) ) . '" ';
+					echo 'href="' . esc_url( site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'writer/' .lumiere_make_taxonomy_link( esc_html( $writer[$i]["name"] ) ) ). '" ';
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $writer[$i]["name"] );
 					echo '</a>'; 
@@ -818,6 +857,7 @@ while ($imovie < count($imdballmeta)) {
 
 			} else { 
 				for ($i = 0; $i < count ($writer); $i++) { ?>
+
 						<div align="center" class="imdbdiv-liees">
 							<div class="lumiere_float_left">
 <?php					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
@@ -831,7 +871,12 @@ while ($imovie < count($imdballmeta)) {
 					}  // end if remove popup ?>
 							</div>
 							<div align="right">
-								<?php if ($writer[$i]["role"] ) echo sanitize_text_field( $producer[$i]["role"] ); echo "&nbsp;"; ?>
+								<?php 
+								if (!empty($writer[$i]["role"] ) )
+									echo sanitize_text_field( $writer[$i]["role"] ); 
+								else
+									echo "&nbsp;"; ?>
+
 							</div>
 						</div><?php
 				} // endfor 

@@ -120,7 +120,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 ?>
 <div id="tabswrap">
-	<div class="imdblt_double_container imdblt_padding_five">
+	<div class="imdblt_double_container lumiere_padding_five">
 		<div class="imdblt_flex_auto"><img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside-whattodisplay.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to display", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=what"); ?>"><?php esc_html_e( 'What to display', 'lumiere-movies'); ?></a></div>
 			<?php if ($imdbOptions['imdbtaxonomy'] == "1") { ?>
 		<div class="imdblt_flex_auto">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside-whattotaxo.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to taxonomize", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo"); ?>"><?php esc_html_e( "What to taxonomize", 'lumiere-movies'); ?></a></div>
@@ -146,7 +146,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<div class="imdblt_double_container">
 
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 				<?php if ($imdbOptionsw['imdbwidgettitle'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Title', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Title', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				<input type="radio" id="imdb_imdbwidgettitle_yes" name="imdb_imdbwidgettitle" value="1" <?php if ($imdbOptionsw['imdbwidgettitle'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgettitle_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
@@ -155,7 +155,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( 'Display the title', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetpic'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Picture', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Picture', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -166,7 +166,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( 'Display the picture', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetruntime'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Runtime', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Runtime', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -181,7 +181,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 		<div class="imdblt_double_container">
 
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 				<?php if ($imdbOptionsw['imdbwidgetdirector'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Director', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Director', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
@@ -191,7 +191,7 @@ if (current_user_can( 'manage_options' ) ) {
 			<div class="explain"><?php esc_html_e( 'Display directors', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetcountry'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Country', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Country', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -203,7 +203,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( 'Display country', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetactor'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Actor', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Actor', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -219,7 +219,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 		<?php //-------------------------------------------------------------------=[creator, release date, genre]=- ?>	
 		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 				<?php if ($imdbOptionsw['imdbwidgetcreator'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Creator', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Creator', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
@@ -229,7 +229,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( 'Display Creator', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 				<?php if ($imdbOptionsw['imdbwidgetyear'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Year', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Year', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
@@ -238,7 +238,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( "Display release year. Year will appear next title's movie, in brackets.", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetgenre'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Genre', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Genre', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -255,7 +255,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 		<?php //-------------------------------------------------------------------=[writer, producer, plot]=- ?>		
 		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetwriter'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Writer', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Writer', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -267,7 +267,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( 'Display writers', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetproducer'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Producer', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Producer', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -278,7 +278,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( 'Display producer(s)', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetplot'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Plot', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Plot', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -297,7 +297,7 @@ if (current_user_can( 'manage_options' ) ) {
 		<?php //-------------------------------------------------------------------=[keywords, production companies, quotes]=- ?>
 
 		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetkeywords'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Keywords', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Keywords', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -309,19 +309,19 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( 'Display keywords', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<?php if ($imdbOptionsw['imdbwidgetprodCompany'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Production company', 'lumiere-movies'); echo '</span>'; } else { ?>
+				<?php if ($imdbOptionsw['imdbwidgetprodcompany'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Production company', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Production company', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
-				<input type="radio" id="imdb_imdbwidgetprodCompany_yes" name="imdb_imdbwidgetprodCompany" value="1" <?php if ($imdbOptionsw['imdbwidgetprodCompany'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetprodCompany_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
+				<input type="radio" id="imdb_imdbwidgetprodcompany_yes" name="imdb_imdbwidgetprodcompany" value="1" <?php if ($imdbOptionsw['imdbwidgetprodcompany'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetprodcompany_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
 
-				<input type="radio" id="imdb_imdbwidgetprodCompany_no" name="imdb_imdbwidgetprodCompany" value="" <?php if ($imdbOptionsw['imdbwidgetprodCompany'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetprodCompany_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+				<input type="radio" id="imdb_imdbwidgetprodcompany_no" name="imdb_imdbwidgetprodcompany" value="" <?php if ($imdbOptionsw['imdbwidgetprodcompany'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetprodcompany_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
 				<div class="explain"><?php esc_html_e( 'Display the production companies', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetquotes'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Quotes', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Quotes', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -340,7 +340,7 @@ if (current_user_can( 'manage_options' ) ) {
 		<?php //-------------------------------------------------------------------=[taglines, colors, alsoknow]=- ?>
 
 		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgettaglines'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Tagline', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Tagline', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -354,7 +354,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( 'Display (how many) tagline', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetcolors'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Colors', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Colors', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -366,7 +366,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( "Display colors", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetalsoknow'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Also known as', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Also known as', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -383,7 +383,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 		<?php //-------------------------------------------------------------------=[composer, soundtrack, trailer]=- ?>
 		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetcomposer'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Composer', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Composer', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -395,7 +395,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( 'Display composer', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetsoundtrack'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Soundtrack', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Soundtrack', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -409,7 +409,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( "Display (how many) soundtrack", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgettrailer'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Trailers', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Trailers', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -428,19 +428,19 @@ if (current_user_can( 'manage_options' ) ) {
 
 		<?php //-------------------------------------------------------------------=[official websites, rating, language]=- ?>
 		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<?php if ($imdbOptionsw['imdbwidgetofficialSites'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Official websites', 'lumiere-movies'); echo '</span>'; } else { ?>
+				<?php if ($imdbOptionsw['imdbwidgetofficialsites'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Official websites', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Official websites', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
-				<input type="radio" id="imdb_imdbwidgetofficialSites_yes" name="imdb_imdbwidgetofficialSites" value="1" <?php if ($imdbOptionsw['imdbwidgetofficialSites'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetofficialSites_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
+				<input type="radio" id="imdb_imdbwidgetofficialsites_yes" name="imdb_imdbwidgetofficialsites" value="1" <?php if ($imdbOptionsw['imdbwidgetofficialsites'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetofficialsites_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
 
-				<input type="radio" id="imdb_imdbwidgetofficialSites_no" name="imdb_imdbwidgetofficialSites" value="" <?php if ($imdbOptionsw['imdbwidgetofficialSites'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetofficialSites_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+				<input type="radio" id="imdb_imdbwidgetofficialsites_no" name="imdb_imdbwidgetofficialsites" value="" <?php if ($imdbOptionsw['imdbwidgetofficialsites'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetofficialsites_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
 				<div class="explain"><?php esc_html_e( 'Display official websites', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetrating'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Rating', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Rating', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -452,7 +452,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( 'Display rating', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetlanguage'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Language', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Language', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -468,7 +468,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 		<?php //-------------------------------------------------------------------=[goofs, user comments, source]=- ?>
 		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 				<?php if ($imdbOptionsw['imdbwidgetgoofs'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Goofs', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Goofs', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
@@ -481,7 +481,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( 'Display (how many) goof', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetcomments'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Users comment', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Users comment', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -495,7 +495,7 @@ if (current_user_can( 'manage_options' ) ) {
 				<div class="explain"><?php esc_html_e( "Display (how many) users' comments", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<?php if ($imdbOptionsw['imdbwidgetsource'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Source', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Source', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
@@ -535,7 +535,7 @@ if (current_user_can( 'manage_options' ) ) {
 		<br /><br />
 
 		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<input type="checkbox" id="imdb_imdbtaxonomyactor" name="imdb_imdbtaxonomyactor" value="<?php if ($imdbOptionsw['imdbtaxonomyactor'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomyactor">
@@ -553,7 +553,7 @@ if (current_user_can( 'manage_options' ) ) {
 				?> 
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<input type="checkbox" id="imdb_imdbtaxonomycolor" name="imdb_imdbtaxonomycolor" value="<?php if ($imdbOptionsw['imdbtaxonomycolor'] == "1") { echo '0'; } else { echo '1'; }?>" />
 
@@ -573,7 +573,7 @@ if (current_user_can( 'manage_options' ) ) {
 				?> 
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<input type="checkbox" id="imdb_imdbtaxonomycomposer" name="imdb_imdbtaxonomycomposer" value="<?php if ($imdbOptionsw['imdbtaxonomycomposer'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomycomposer">
@@ -593,25 +593,8 @@ if (current_user_can( 'manage_options' ) ) {
 		</div>
 
 		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomycreator" name="imdb_imdbtaxonomycreator" value="<?php if ($imdbOptionsw['imdbtaxonomycreator'] == "1") { echo '0'; } else { echo '1'; }?>" />
-				<label for="imdb_imdbtaxonomycreator">
-					<?php if ($imdbOptionsw['imdbtaxonomycreator'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Creators', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Creators', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
-				</label> 
-				<?php
-				if ($imdbOptionsw['imdbtaxonomycreator'] == "1") {
-					echo "<br />";
-					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=creator") . "' " .
-						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
-						esc_html__("Copy template", 'lumiere-movies') .
-					"</a>";
-				}
-				?> 
-
-			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<input type="checkbox" id="imdb_imdbtaxonomycountry" name="imdb_imdbtaxonomycountry" value="<?php if ($imdbOptionsw['imdbtaxonomycountry'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomycountry">
@@ -629,7 +612,27 @@ if (current_user_can( 'manage_options' ) ) {
 				?> 
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
+
+				<input type="checkbox" id="imdb_imdbtaxonomycreator" name="imdb_imdbtaxonomycreator" value="<?php if ($imdbOptionsw['imdbtaxonomycreator'] == "1") { echo '0'; } else { echo '1'; }?>" />
+				<label for="imdb_imdbtaxonomycreator">
+					<?php if ($imdbOptionsw['imdbtaxonomycreator'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Creators', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Creators', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+				</label> 
+				<?php
+				if ($imdbOptionsw['imdbtaxonomycreator'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=creator") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
+						esc_html__("Copy template", 'lumiere-movies') .
+					"</a>";
+				}
+				?> 
+
+			</div>
+
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<input type="checkbox" id="imdb_imdbtaxonomydirector" name="imdb_imdbtaxonomydirector" value="<?php if ($imdbOptionsw['imdbtaxonomydirector'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomydirector">
@@ -649,7 +652,7 @@ if (current_user_can( 'manage_options' ) ) {
 		</div>
 
 		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<input type="checkbox" id="imdb_imdbtaxonomygenre" name="imdb_imdbtaxonomygenre" value="<?php if ($imdbOptionsw['imdbtaxonomygenre'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomygenre">
@@ -667,7 +670,25 @@ if (current_user_can( 'manage_options' ) ) {
 				?> 
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
+
+				<input type="checkbox" id="imdb_imdbtaxonomykeywords" name="imdb_imdbtaxonomykeywords" value="<?php if ($imdbOptionsw['imdbtaxonomykeywords'] == "1") { echo '0'; } else { echo '1'; }?>" />
+				<label for="imdb_imdbtaxonomykeywords">
+					<?php if ($imdbOptionsw['imdbtaxonomykeywords'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Keywords', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Keywords', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+				</label> 				
+				<?php
+				if ($imdbOptionsw['imdbtaxonomykeywords'] == "1") {
+					echo "<br />";
+					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=keywords") . "' " .
+						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
+						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
+						esc_html__("Copy template", 'lumiere-movies') .
+					"</a>";
+				}
+				?> 
+			</div>
+
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<input type="checkbox" id="imdb_imdbtaxonomylanguage" name="imdb_imdbtaxonomylanguage" value="<?php if ($imdbOptionsw['imdbtaxonomylanguage'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomylanguage">
@@ -685,7 +706,10 @@ if (current_user_can( 'manage_options' ) ) {
 				?> 
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+		</div>
+
+		<div class="imdblt_double_container">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<input type="checkbox" id="imdb_imdbtaxonomyproducer" name="imdb_imdbtaxonomyproducer" value="<?php if ($imdbOptionsw['imdbtaxonomyproducer'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomyproducer">
@@ -702,10 +726,8 @@ if (current_user_can( 'manage_options' ) ) {
 				}
 				?> 
 			</div>
-		</div>
 
-		<div class="imdblt_double_container">
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<input type="checkbox" id="imdb_imdbtaxonomytitle" name="imdb_imdbtaxonomytitle" value="<?php if ($imdbOptionsw['imdbtaxonomytitle'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomytitle">
@@ -723,7 +745,7 @@ if (current_user_can( 'manage_options' ) ) {
 				?> 
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
 				<input type="checkbox" id="imdb_imdbtaxonomywriter" name="imdb_imdbtaxonomywriter" value="<?php if ($imdbOptionsw['imdbtaxonomywriter'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomywriter">
@@ -741,23 +763,7 @@ if (current_user_can( 'manage_options' ) ) {
 				?> 
 
 			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomykeywords" name="imdb_imdbtaxonomykeywords" value="<?php if ($imdbOptionsw['imdbtaxonomykeywords'] == "1") { echo '0'; } else { echo '1'; }?>" />
-				<label for="imdb_imdbtaxonomykeywords">
-					<?php if ($imdbOptionsw['imdbtaxonomykeywords'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Keywords', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Keywords', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
-				</label> 				
-				<?php
-				if ($imdbOptionsw['imdbtaxonomykeywords'] == "1") {
-					echo "<br />";
-					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=keywords") . "' " .
-						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
-						esc_html__("Copy template", 'lumiere-movies') .
-					"</a>";
-				}
-				?> 
-			</div>
 		</div>
 
 <?php 
@@ -823,45 +829,46 @@ if (current_user_can( 'manage_options' ) ) {
 		<div class="imblt_border_shadow">
 			<div class="titresection"><?php esc_html_e( 'Misc', 'lumiere-movies'); ?></div>
 
-			<div class="imdblt_double_container">
-				<div class="imdblt_double_container_content_third imdblt_padding_five">
+			<div class="lumiere_flex_container">
+				<div class="lumiere_flex_container_content_third lumiere_padding_five">
 
-				<?php esc_html_e( 'Remove all links?', 'lumiere-movies'); ?><br /><br />
+					<?php esc_html_e( 'Remove all links?', 'lumiere-movies'); ?><br /><br />
 
-				<input type="radio" id="imdb_imdblinkingkill_yes" name="imdb_imdblinkingkill" value="1" <?php if ($imdbOptionsw['imdblinkingkill'] == "1") { echo 'checked="checked"'; }?> />
+					<input type="radio" id="imdb_imdblinkingkill_yes" name="imdb_imdblinkingkill" value="1" <?php if ($imdbOptionsw['imdblinkingkill'] == "1") { echo 'checked="checked"'; }?> />
 
-				<label for="imdb_imdblinkingkill_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdblinkingkill_no" name="imdb_imdblinkingkill" value="" <?php if ($imdbOptionsw['imdblinkingkill'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdblinkingkill_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+					<label for="imdb_imdblinkingkill_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdblinkingkill_no" name="imdb_imdblinkingkill" value="" <?php if ($imdbOptionsw['imdblinkingkill'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdblinkingkill_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<div class="explain"><?php esc_html_e( "Remove all links (popup and external ones) which are automatically added. Especially made for people who are not interested in popup function, but it will remove every single HTML link too.", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+					<div class="explain"><?php esc_html_e( "Remove all links (popup and external ones) which are automatically added. Usefull for users who are not interested in popup function. Please note it will remove every single HTML link too, such as the the links to official movie websites.", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
-			</div>
-			<div class="imdblt_double_container_content_third imdblt_padding_five">
+				</div>
 
-				<?php esc_html_e( 'Auto widget?', 'lumiere-movies'); ?><br /><br />
+				<div class="lumiere_flex_container_content_third lumiere_padding_five">
 
-				<input type="radio" id="imdb_imdbautopostwidget_yes" name="imdb_imdbautopostwidget" value="1" <?php if ($imdbOptionsw['imdbautopostwidget'] == "1") { echo 'checked="checked"'; }?> />
+					<?php esc_html_e( 'Auto widget?', 'lumiere-movies'); ?><br /><br />
 
-				<label for="imdb_imdbautopostwidget_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbautopostwidget_no" name="imdb_imdbautopostwidget" value="" <?php if ($imdbOptionsw['imdbautopostwidget'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdbautopostwidget_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+					<input type="radio" id="imdb_imdbautopostwidget_yes" name="imdb_imdbautopostwidget" value="1" <?php if ($imdbOptionsw['imdbautopostwidget'] == "1") { echo 'checked="checked"'; }?> />
 
-				<div class="explain"><?php esc_html_e( "Add automatically a widget according to post title. If 'imdb-movie-widget' or 'imdb-movie-widget-bymid' have also been added to post, the auto widget will be displayed before them.", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+					<label for="imdb_imdbautopostwidget_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbautopostwidget_no" name="imdb_imdbautopostwidget" value="" <?php if ($imdbOptionsw['imdbautopostwidget'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdbautopostwidget_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+
+					<div class="explain"><?php esc_html_e( "Add automatically a widget according to your post titles. If 'imdb-movie-widget' or 'imdb-movie-widget-bymid' have also been added to post, the auto widget will be displayed before them. Usefull if your entire blog is about movies; if a query the does not bring any result when using your post title, a message will be displayed saying so.", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+
+				</div>
 
 			</div>
 		</div>
 
 <?php	} // end of misc subsection ?>
-
-	</div>
-</div>
 	
-	<?php //------------------------------------------------------------------ =[Submit selection]=- ?>
-	<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">
-		<?php wp_nonce_field('imdbwidgetSettings_check', 'imdbwidgetSettings_check'); //check that data has been sent only once ?>
-		<input type="submit" class="button-primary" name="reset_imdbwidgetSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />
-		<input type="submit" class="button-primary" id="update_imdbwidgetSettings" name="update_imdbwidgetSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
+		<?php //------------------------------------------------------------------ =[Submit selection]=- ?>
+		<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">
+			<?php wp_nonce_field('imdbwidgetSettings_check', 'imdbwidgetSettings_check'); //check that data has been sent only once ?>
+			<input type="submit" class="button-primary" name="reset_imdbwidgetSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />
+			<input type="submit" class="button-primary" id="update_imdbwidgetSettings" name="update_imdbwidgetSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
+		</div>
+	</form>
 	</div>
-	<br />
-</form>
 </div>
+
 <?php	
 } // end user can manage options 
 ?>
