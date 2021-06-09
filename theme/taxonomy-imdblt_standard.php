@@ -6,11 +6,11 @@
 *
 */
 
-do_action('wp_loaded'); // execute wordpress first codes
-
 get_header();
 
 echo "<br />";
+
+// get_sidebar(); # unactivated, but can easily be activated!
 ?>
 
 <main id="main" class="site-main clr" role="main">
@@ -27,7 +27,14 @@ echo "<br />";
 						<?php the_title(); ?>
 					</a>
 				</h3>
-				<small><?php the_date("l j F Y"); ?></small> 
+
+				<?php if (get_terms('director')){ ?>
+
+				<div class="taxonomy">
+					<?php echo get_the_term_list($wp_query->post->ID, 'imdblt_director', esc_html__( 'Taxonomy: '), ', ', '' ); ?>
+					<br /><br />
+				</div>
+				<?php } ?>	
 				
 				<div class="entry">
 					<?php the_excerpt() ?>
@@ -40,9 +47,6 @@ echo "<br />";
 					<strong>|</strong>
 					<span class="tags"><?php the_tags(esc_html__( 'Tags: ', 'lumiere-movies'), ' &bull; ', ' '); ?></span><?php } ?>
 
-					<?php if (get_terms('director')){ ?>
-					<strong>|</strong> 
-					<span class="taxonomy"><?php echo get_the_term_list($wp_query->post->ID, 'imdblt_director', esc_html__( 'Taxonomy: '), ', ', '' ); ?></span><?php } ?>
 					<strong>|</strong> <?php edit_post_link('Edit','','<strong>|</strong>'); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?>
 				</p>
 			</div><?php
@@ -59,7 +63,6 @@ echo "<br />";
 </main>
 
 <?php
-get_sidebar();
 
 wp_meta();
 

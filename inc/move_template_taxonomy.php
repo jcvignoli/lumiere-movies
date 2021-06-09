@@ -35,6 +35,7 @@ if ( (isset($imdb_admin_values['imdbtaxonomy'])) && (!empty($imdb_admin_values['
 			// Edit the text according to the $_GET["taxotype"] passed
 			$content = file_get_contents($lumiere_current_theme_path_file); 
 			$content = str_replace( "director", $lumiere_taxo_title, $content);
+			$content = str_replace( "imdblt_", $imdb_admin_values['imdburlstringtaxo'], $content);
 			file_put_contents($lumiere_current_theme_path_file, $content); 
 
 			wp_safe_redirect( add_query_arg( "msg", "taxotemplatecopy_success", wp_get_referer() ) );

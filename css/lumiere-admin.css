@@ -106,7 +106,7 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .imdblt_double_container_content_eighty,.lumiere_flex_container_content_eighty{flex:80%;}
 
 .imdblt_hidden{visibility:hidden;}
-.imdblt_padding_five{padding:5px;}
+.imdblt_padding_five, .lumiere_padding_five{padding:5px;}
 .imdblt_padding_ten{padding:10px;}
 .imdblt_padding_left{padding-left:50px;}
 .imdblt_padding_top_twenty{padding-top:20px;}
