@@ -22,51 +22,33 @@
 			ed.addButton('lumiere_tiny', {
 				title : 'Lumière! add tags',
 				image : lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir13x13.png',
+
 				onclick : function() {
-				  var selected_text = ed.selection.getContent();
-				  var return_text = '';
-/*				  return_text = imdbImg + '<span class="lumiere_link_maker">' + selected_text + '</span>';
-					// can't get rid of the image anymore, removed */
-				  return_text = '<span class="lumiere_link_maker">' + selected_text + '</span>';
-				  ed.execCommand('mceInsertContent', 0, return_text);
+				var selected_text = ed.selection.getContent();
+				var return_text = '';
+				ed.dom.toggleClass( ed.selection.getNode(), 'lumiere_link_maker' );
+				this.active( !this.active() ); //toggle the button too
+				var LumTagActive = this.active();
+
+					if (LumTagActive) {
+//						return_text = imdbImg + '<span class="lumiere_link_maker">' + selected_text + '</span>';
+						return_text = '<span class="lumiere_link_maker">' + selected_text + '</span>';
+						ed.execCommand('mceInsertContent', 0, return_text);
+					} else {
+						return_text = selected_text;
+						ed.selection.setContent(selected_text);
+					}
+				},
+
+				onPostRender: function() {
+					var _this = this;   // reference to the button itself
+					ed.on('NodeChange', function(e) {
+						//activate the button if this parent has this class
+						var is_active = jQuery( ed.selection.getNode() ).hasClass('lumiere_link_maker');
+						_this.active( is_active );
+					})
 				}
 			});
-		},
-
-		setup: function (ed) { /* these functions don't work, something is broken */
-			// Replace images with imdb tag
-/*			ed.on('PostProcess', function(ed, o) {
-				if (o.get)*/
-			ed.onPostProcess.add (function(ed, o) {
-					o.content = o.content.replace(/<img[^>]+><span class="lumiere_link_maker">/g, '<span class="lumiere_link_maker">');
-			});
-
-			// Replace imdb tag with image
-/*			ed.on('BeforeSetContent', function(ed, o) { */
-			ed.onBeforeSetContent.add(function(ed, o) {
-				var imdbImgRep = imdbImg + '<span class="lumiere_link_maker">';
-				o.content = o.content.replace(/<span class="lumiere_link_maker">/g, imdbImgRep);
-			});	
-			
-			// Set active buttons if user selected pagebreak or more break
-/*			ed.on('NodeChange', function(ed, cm, n) {*/
-			ed.onNodeChange.add (function(ed, cm, n) {
-				cm.setActive('lumiere_tiny', n.nodeName === 'IMG' && ed.dom.hasClass(n, 'lumiere_admin_tiny_img'));
-			});
-		},
-
-		/**
-		 * Creates control instances based in the incoming name. This method is normally not
-		 * needed since the addButton method of the tinymce.Editor class is a more easy way of adding buttons
-		 * but you sometimes need to create more complex controls like listboxes, split buttons etc then this
-		 * method can be used to create those.
-		 *
-		 * @param {String} n Name of the control to create.
-		 * @param {tinymce.ControlManager} cm Control manager to use inorder to create new control.
-		 * @return {tinymce.ui.Control} New control instance or null if no control was created.
-		 */
-		createControl : function(n, cm) {
-			return null;
 		},
 		
 		/**

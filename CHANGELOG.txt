@@ -3,6 +3,9 @@ Changelog
 v.3.2.3
 * [minor] Limiting the number of results never worked. Now it does. Use the general options -> advanced 
 * [technical] Admin forms submit/reset are now sticky -> easier for the user to submit
+* [technical] Removed options update in plugin update process, options are already automatically updates when visiting options
+* [technical] Enhanced tinyMCE, but still work to do
+* [technical] Moved class from inside lumiere-movies.php to class/class.lumiere.php
 
 v.3.2.2
 * [medium] Implemented a selection for popup colors in admin menu 
