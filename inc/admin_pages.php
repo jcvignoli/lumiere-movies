@@ -18,14 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die('You can not call directly this page');
 }
 
-// Enter in debug mode
-if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
-	print_r($imdbOptions);
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
-	set_error_handler("var_dump");
-} 
-
 //Prints out the admin page
 function printAdminPage() {
 

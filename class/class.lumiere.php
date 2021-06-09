@@ -45,7 +45,7 @@ class lumiere_core {
 						add_filter( $filter_taxonomy, [ $this, 'lumiere_taxonomy_add_class_to_links'] );
 					}
 				}
-				add_action( 'init', [ $this, 'lumiere_copy_template_taxo_redirect' ], 0);
+				add_action( 'admin_init', [ $this, 'lumiere_copy_template_taxo_redirect' ], 0);
 			}
 
 			#add_action( 'init', [ $this, 'lumiere_highslide_download_redirect' ], 0);#function deactivated upon wordpress plugin team request
@@ -740,7 +740,7 @@ class lumiere_core {
 					$this->lumiere_make_htaccess_admin();
 
 					/* Refresh rewrite rules */
-					flush_rewrite_rules();
+					//flush_rewrite_rules(); # don't need anymore, it is executed in init
 
 					/* update options, not needed, done in config.php automatically
 					$all_lumiere_options[] = get_option($imdb_ft->imdbAdminOptionsName);

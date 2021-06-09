@@ -134,17 +134,24 @@ if ( ! function_exists('lumiere_admin_signature')){
 
 if ( ! function_exists('lumiere_create_taxonomies')){
 	function lumiere_create_taxonomies() {
+
 		global $imdb_admin_values,$imdb_widget_values;
 
-		foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
-			$filter_taxonomy = str_replace('imdbtaxonomy', '', $key );
+		// Limit the calls to taxonomy pages
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $imdb_widget_values['imdburlstringtaxo'] ) ) {
 
-			if ($imdb_widget_values[ 'imdbtaxonomy'.$filter_taxonomy ] ==  1) {
+			foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
+				$filter_taxonomy = str_replace('imdbtaxonomy', '', $key );
 
-				register_taxonomy('imdblt_'.$filter_taxonomy, array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière ".$filter_taxonomy, 'lumiere-movies'), 'query_var' => 'imdblt_'.$filter_taxonomy, 'rewrite' => array( 'slug' => 'imdblt_'.$filter_taxonomy ) )  ) ; 
+				if ($imdb_widget_values[ 'imdbtaxonomy'.$filter_taxonomy ] ==  1) {
+
+					register_taxonomy('imdblt_'.$filter_taxonomy, array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière ".$filter_taxonomy, 'lumiere-movies'), 'query_var' => 'imdblt_'.$filter_taxonomy, 'rewrite' => array( 'slug' => 'imdblt_'.$filter_taxonomy ) )  ) ; 
+				}
 			}
-		}
 
+			flush_rewrite_rules();
+
+		}
 	}
 }
 

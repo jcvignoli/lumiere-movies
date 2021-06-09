@@ -48,9 +48,9 @@ class lumiere_settings_conf extends lumiere_send_config {
 	var $imdbCacheOptionsName = "imdbCacheOptions";
 
 	function __construct() {
-			$this->get_imdb_admin_option();
-			$this->get_imdb_widget_option();
-			$this->get_imdb_cache_option();
+		$this->get_imdb_admin_option();
+		$this->get_imdb_widget_option();
+		$this->get_imdb_cache_option();
 	}
 
 	//Returns an array of admin options
@@ -62,6 +62,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 	'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
 	'imdbpluginpath' => IMDBLTABSPATH,
 	'imdburlpopups' => '/imdblt/',
+	'imdburlstringtaxo' => 'imdblt_',
 	'imdbwebsite' => "www.imdb.com",
 	'imdbcoversize' => false,
 	'imdbcoversizewidth' => '100',

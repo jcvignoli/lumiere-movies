@@ -84,9 +84,6 @@ if (current_user_can( 'manage_options' ) ) {
 		// update options
 		update_option($imdb_ft->imdbWidgetOptionsName, $imdbOptionsw);
 
-		// flush rewrite rules for taxonomy pages; expensive, but only when if updating widget options
-		add_action('init', function (){ flush_rewrite_rules(true); }, 0);
-
 		// display confirmation message
 		lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
 
@@ -105,9 +102,6 @@ if (current_user_can( 'manage_options' ) ) {
 
 		// Save the data
 		delete_option($imdb_ft->imdbWidgetOptionsName);
-
-		// flush rewrite rules for taxonomy pages; expensive, but only when if reseting widget options
-		add_action('init', function (){ flush_rewrite_rules();}, 0);
 
 		// Display a refresh link otherwise refreshed data is not seen
 		if (!headers_sent()) {
