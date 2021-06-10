@@ -91,6 +91,8 @@ do_action('wp_loaded'); // execute wordpress first codes # still useful?
 </head>
 <body class="lumiere_body<?php if (isset($imdb_admin_values['imdbpopupcolor'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopupcolor'];?>">
 
+<div id="lumiere_loader" class="center"></div>
+
 <?php
 // if no movie was found at all
 if (empty($movie) ){
@@ -165,6 +167,7 @@ exit(); // quit the call of the page, to avoid double loading process ?>
 <html>
 <head>
 <?php wp_head();?>
+
 </head>
 <body class="lumiere_body<?php if (isset($imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopuptheme'];?>">
 
