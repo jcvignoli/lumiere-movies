@@ -63,7 +63,14 @@ if (current_user_can( 'manage_options' ) ) {
 	if ( (isset($_POST['update_imdbSettings'])) && check_admin_referer('options_general_check', 'options_general_check') ) { //--------------------save data selected 
 
 		// Check if $_POST['imdburlstringtaxo'] and $_POST['imdburlpopups'] are identical, as they can't
-		if ( stripslashes($_POST['imdburlstringtaxo']) == stripslashes($_POST['imdburlpopups']) ) {
+			if ( 
+			(isset($_POST['imdb_imdburlstringtaxo'])) && 
+(str_replace('/','',$_POST['imdb_imdburlstringtaxo']) == str_replace('/','',$_POST['imdb_imdburlpopups']) ) || (str_replace('/','',$_POST['imdb_imdburlstringtaxo']) == str_replace('/','',$imdbOptions['imdburlpopups']) )
+									||
+			(isset($_POST['imdb_imdburlpopups'])) && 
+(str_replace('/','',$_POST['imdb_imdburlpopups']) == str_replace('/','',$_POST['imdb_imdburlstringtaxo']) ) || (str_replace('/','',$_POST['imdb_imdburlpopups']) == str_replace('/','',$imdbOptions['imdburlstringtaxo']) )
+			)
+{
 			lumiere_notice(3, esc_html__( 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 'lumiere-movies') );
 			lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
