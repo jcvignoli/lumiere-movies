@@ -98,7 +98,6 @@ if (empty($movie) ){
 	get_footer(); 
 	die();
 }?>
-
 <h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . $filmid_sanitized_for_title; ?></i></h1>
 
 <table class='TableListeResultats'>
@@ -168,29 +167,29 @@ exit(); // quit the call of the page, to avoid double loading process ?>
 <?php wp_head();?>
 </head>
 <body class="lumiere_body<?php if (isset($imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopuptheme'];?>">
+
                                                 <!-- top page menu -->
-<table class='tabletitrecolonne'>
-    <tr>
-        <td class='titrecolonne'>
+
+<div class="lumiere_container ">
+	<div class="titrecolonne lumiere_flex_auto">
             <a class="searchaka" href="<?php echo esc_url( LUMIERE_URLPOPUPSSEARCH . "?film=" . $filmid_sanitized . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'lumiere-movies'); ?>"><?php esc_html_e('Search AKAs', 'lumiere-movies'); ?></a>
-        </td>
-        <td class='titrecolonne'>
+        </div>
+	<div class="titrecolonne lumiere_flex_auto">
 		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Movie', 'lumiere-movies'); ?></a>
-	</td>
-        <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=actors" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Actors', 'lumiere-movies'); ?>'><?php esc_html_e('Actors', 'lumiere-movies'); ?></a>
-	</td>
-        <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=crew" ); ?>" title='<?php echo sanitize_title ( $movie->title() ).": ".esc_html__('Crew', 'lumiere-movies'); ?>'><?php esc_html_e('Crew', 'lumiere-movies'); ?></a>
-	</td>
-        <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=resume" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Plot', 'lumiere-movies'); ?>'><?php esc_html_e('Plot', 'lumiere-movies'); ?></a>
-	</td>
-        <td class='titrecolonne'>
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=divers" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
-	</td>
-    </tr>
-</table>
+        </div>
+	<div class="titrecolonne lumiere_flex_auto">
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=actors" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Actors', 'lumiere-movies'); ?>'><?php esc_html_e('Actors', 'lumiere-movies'); ?></a>
+        </div>
+	<div class="titrecolonne lumiere_flex_auto">
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=crew" ); ?>" title='<?php echo esc_html ( $movie->title() ).": ".esc_html__('Crew', 'lumiere-movies'); ?>'><?php esc_html_e('Crew', 'lumiere-movies'); ?></a>
+        </div>
+	<div class="titrecolonne lumiere_flex_auto">
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=resume" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Plot', 'lumiere-movies'); ?>'><?php esc_html_e('Plot', 'lumiere-movies'); ?></a>
+        </div>
+	<div class="titrecolonne lumiere_flex_auto">
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=divers" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
+	</div>
+</div>
 
 <table class="TableauPresentation" width="100%">
     <tr width="100%">
@@ -650,6 +649,7 @@ echo '/ >'; ?>
 <?php	 } // ------------------------------------------------------------------------------ misc part end ?>
 </table>
 <br />
+
 <?php 	
 	wp_footer(); 
 ?>
