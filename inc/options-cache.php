@@ -629,7 +629,7 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 		</div>
 		<br />
 		<br />
-
+		<form method="post" name="lumiere_delete_ticked_cache" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
 
 <?php		 //------------------------------------------------------------------ =[movies management]=- ?>
 
@@ -841,7 +841,12 @@ if (!empty($results)){
 					</div>
 			</div>
 	<?php
-	} // end if data found ?>
+	} // end if data found 
+
+		// End of form for ticked cache to delete
+		wp_nonce_field('cache_options_check', 'cache_options_check'); ?>
+
+		</form>
 	</div>
 	<br />
 	<br />

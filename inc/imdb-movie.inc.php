@@ -553,6 +553,9 @@ while ($imovie < count($imdballmeta)) {
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $composer[$i]["name"] );
 					echo '</a>'; 
+					if ($i < count ($composer) - 1)
+						echo ", ";
+
 				}
 
 			} else { 
@@ -651,7 +654,7 @@ while ($imovie < count($imdballmeta)) {
 			for ($i = 0; $i < count ($officialSites); $i++) { 
 				echo "<a href='".esc_url($officialSites[$i]['url'])."' title='".esc_attr( $officialSites[$i]['name'] )."'>";
 				echo sanitize_text_field( $officialSites[$i]['name'] );
-				echo "</a> ";
+				echo "</a>";
 				if ($i < count ($officialSites) - 1)
 					echo ", ";
 			}  // endfor ?></li>
@@ -666,7 +669,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- director -->
 		<ul class="imdbelementDIRECTORul">
 		<li class="imdbincluded-lined imdbelementDIRECTORli"><?php
-			echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">' . sprintf(esc_html(_n('Director', 'Directors', count($director), 'lumiere-movies'))) . ':</span>&nbsp;'."\n\t\t\t";
+			echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">' . sprintf(esc_html(_n('Director', 'Directors', count($director), 'lumiere-movies'))) . ':</span>'."\n\t\t\t";
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomydirector'] == true ) && (lumiere_count_me( $imdb_admin_values['imdburlstringtaxo'] . 'director', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
@@ -681,7 +684,9 @@ while ($imovie < count($imdballmeta)) {
 					echo 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'director/' .lumiere_make_taxonomy_link( esc_html( $director[$i]["name"] ) ) . '" ';
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $director[$i]["name"] );
-					echo '</a>'; 
+					echo '</a>';
+					if ($i < count ($director) - 1)
+						echo ", ";
 				}
 
 			} else { 
