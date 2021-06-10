@@ -119,3 +119,24 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 });
 */
+
+// executed only if div id lumiere_loader is found
+
+if (document.getElementById("lumiere_loader")) {
+	document.onreadystatechange = function() {
+
+
+		if (document.readyState !== "complete") {
+			document.querySelector(
+			"body").style.visibility = "hidden";
+			document.querySelector(
+			"#lumiere_loader").style.visibility = "visible";
+		} else {
+			document.querySelector(
+			"#lumiere_loader").style.display = "none";
+			document.querySelector(
+			"body").style.visibility = "visible";
+		}
+	}
+};
+

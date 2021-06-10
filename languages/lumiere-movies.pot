@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-09T14:34:36-03:00\n"
+"POT-Creation-Date: 2021-06-09T22:29:08-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
@@ -88,16 +88,16 @@ msgstr ""
 
 #: class/functions.php:101
 #: class/functions.php:103
-#: inc/imdb-movie.inc.php:692
-#: inc/imdb-movie.inc.php:695
-#: inc/imdb-movie.inc.php:742
-#: inc/imdb-movie.inc.php:744
-#: inc/imdb-movie.inc.php:800
-#: inc/imdb-movie.inc.php:802
-#: inc/imdb-movie.inc.php:865
-#: inc/imdb-movie.inc.php:867
-#: inc/imdb-movie.inc.php:943
-#: inc/imdb-movie.inc.php:945
+#: inc/imdb-movie.inc.php:697
+#: inc/imdb-movie.inc.php:700
+#: inc/imdb-movie.inc.php:747
+#: inc/imdb-movie.inc.php:749
+#: inc/imdb-movie.inc.php:805
+#: inc/imdb-movie.inc.php:807
+#: inc/imdb-movie.inc.php:870
+#: inc/imdb-movie.inc.php:872
+#: inc/imdb-movie.inc.php:948
+#: inc/imdb-movie.inc.php:950
 msgid "open a new window with IMDb informations"
 msgstr ""
 
@@ -640,7 +640,7 @@ msgstr ""
 #: inc/imdb-movie.inc.php:149
 #: inc/options-cache.php:683
 #: inc/options-cache.php:793
-#: inc/popup-imdb_movie.php:211
+#: inc/popup-imdb_movie.php:213
 #: inc/popup-imdb_person.php:130
 msgid "no picture"
 msgstr ""
@@ -648,7 +648,7 @@ msgstr ""
 #: inc/imdb-movie.inc.php:169
 #: inc/options-widget.php:196
 #: inc/options-widget.php:197
-#: inc/popup-imdb_movie.php:329
+#: inc/popup-imdb_movie.php:331
 msgid "Country"
 msgid_plural "Countries"
 msgstr[0] ""
@@ -657,19 +657,19 @@ msgstr[1] ""
 #: inc/imdb-movie.inc.php:206
 #: inc/options-widget.php:171
 #: inc/options-widget.php:172
-#: inc/popup-imdb_movie.php:278
+#: inc/popup-imdb_movie.php:280
 msgid "Runtime"
 msgstr ""
 
 #: inc/imdb-movie.inc.php:207
-#: inc/popup-imdb_movie.php:285
+#: inc/popup-imdb_movie.php:287
 msgid "minutes"
 msgstr ""
 
 #: inc/imdb-movie.inc.php:220
 #: inc/options-widget.php:457
 #: inc/options-widget.php:458
-#: inc/popup-imdb_movie.php:308
+#: inc/popup-imdb_movie.php:310
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] ""
@@ -678,7 +678,7 @@ msgstr[1] ""
 #: inc/imdb-movie.inc.php:257
 #: inc/options-widget.php:445
 #: inc/options-widget.php:446
-#: inc/popup-imdb_movie.php:294
+#: inc/popup-imdb_movie.php:296
 msgid "Rating"
 msgstr ""
 
@@ -699,14 +699,14 @@ msgid " out of 10"
 msgstr ""
 
 #: inc/imdb-movie.inc.php:267
-#: inc/popup-imdb_movie.php:298
+#: inc/popup-imdb_movie.php:300
 msgid "votes"
 msgstr ""
 
 #: inc/imdb-movie.inc.php:281
 #: inc/options-widget.php:243
 #: inc/options-widget.php:244
-#: inc/popup-imdb_movie.php:347
+#: inc/popup-imdb_movie.php:349
 msgid "Genre"
 msgid_plural "Genres"
 msgstr[0] ""
@@ -719,7 +719,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: inc/imdb-movie.inc.php:355
-#: inc/popup-imdb_movie.php:634
+#: inc/popup-imdb_movie.php:636
 msgid "Goof"
 msgid_plural "Goofs"
 msgstr[0] ""
@@ -756,7 +756,7 @@ msgid "Watch on IMBb website the trailer for "
 msgstr ""
 
 #: inc/imdb-movie.inc.php:486
-#: inc/popup-imdb_movie.php:371
+#: inc/popup-imdb_movie.php:373
 msgid "Color"
 msgid_plural "Colors"
 msgstr[0] ""
@@ -776,21 +776,21 @@ msgid_plural "Composers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/imdb-movie.inc.php:564
+#: inc/imdb-movie.inc.php:567
 msgid "Link to local IMDb"
 msgstr ""
 
-#: inc/imdb-movie.inc.php:581
+#: inc/imdb-movie.inc.php:584
 #: inc/options-widget.php:400
 #: inc/options-widget.php:401
-#: inc/popup-imdb_movie.php:607
+#: inc/popup-imdb_movie.php:609
 #: inc/popup-imdb_person.php:205
 msgid "Soundtrack"
 msgid_plural "Soundtracks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/imdb-movie.inc.php:620
+#: inc/imdb-movie.inc.php:623
 #: inc/options-widget.php:314
 #: inc/options-widget.php:315
 msgid "Production company"
@@ -798,24 +798,24 @@ msgid_plural "Production companies"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/imdb-movie.inc.php:650
+#: inc/imdb-movie.inc.php:653
 msgid "Official website"
 msgid_plural "Official websites"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/imdb-movie.inc.php:669
+#: inc/imdb-movie.inc.php:672
 #: inc/options-widget.php:185
 #: inc/options-widget.php:186
-#: inc/popup-imdb_movie.php:107
-#: inc/popup-imdb_movie.php:453
+#: inc/popup-imdb_movie.php:108
+#: inc/popup-imdb_movie.php:455
 #: inc/popup-search.php:82
 msgid "Director"
 msgid_plural "Directors"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/imdb-movie.inc.php:719
+#: inc/imdb-movie.inc.php:724
 #: inc/options-widget.php:223
 #: inc/options-widget.php:224
 msgid "Creator"
@@ -823,25 +823,25 @@ msgid_plural "Creators"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/imdb-movie.inc.php:767
+#: inc/imdb-movie.inc.php:772
 #: inc/options-widget.php:272
 #: inc/options-widget.php:273
-#: inc/popup-imdb_movie.php:509
+#: inc/popup-imdb_movie.php:511
 msgid "Producer"
 msgid_plural "Producers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/imdb-movie.inc.php:833
+#: inc/imdb-movie.inc.php:838
 #: inc/options-widget.php:260
 #: inc/options-widget.php:261
-#: inc/popup-imdb_movie.php:481
+#: inc/popup-imdb_movie.php:483
 msgid "Writer"
 msgid_plural "Writers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/imdb-movie.inc.php:898
+#: inc/imdb-movie.inc.php:903
 #: inc/options-widget.php:208
 #: inc/options-widget.php:209
 msgid "Actor"
@@ -849,17 +849,17 @@ msgid_plural "Actors"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/imdb-movie.inc.php:970
+#: inc/imdb-movie.inc.php:975
 #: inc/options-widget.php:283
 #: inc/options-widget.php:284
-#: inc/popup-imdb_movie.php:187
-#: inc/popup-imdb_movie.php:557
+#: inc/popup-imdb_movie.php:190
+#: inc/popup-imdb_movie.php:559
 msgid "Plot"
 msgid_plural "Plots"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/imdb-movie.inc.php:1006
+#: inc/imdb-movie.inc.php:1011
 #: inc/options-widget.php:500
 #: inc/options-widget.php:501
 msgid "Source"
@@ -1075,7 +1075,7 @@ msgstr ""
 #: inc/options-cache.php:415
 #: inc/options-cache.php:432
 #: inc/options-cache.php:496
-#: inc/options-cache.php:919
+#: inc/options-cache.php:924
 #: inc/options-general.php:163
 #: inc/options-general.php:171
 #: inc/options-general.php:186
@@ -1155,16 +1155,16 @@ msgid "Allow faster loading time for the \"manage cache\" page, by displaying sh
 msgstr ""
 
 #: inc/options-cache.php:508
-#: inc/options-cache.php:1002
-#: inc/options-cache.php:1022
-#: inc/options-cache.php:1023
+#: inc/options-cache.php:1007
+#: inc/options-cache.php:1027
+#: inc/options-cache.php:1028
 #: inc/options-general.php:554
 #: inc/options-widget.php:865
 msgid "Reset settings"
 msgstr ""
 
 #: inc/options-cache.php:509
-#: inc/options-cache.php:1003
+#: inc/options-cache.php:1008
 #: inc/options-general.php:555
 #: inc/options-widget.php:866
 msgid "Update settings"
@@ -1317,98 +1317,98 @@ msgstr ""
 msgid "This button will delete the selected people's cache files."
 msgstr ""
 
-#: inc/options-cache.php:852
+#: inc/options-cache.php:857
 msgid "Cache directories"
 msgstr ""
 
-#: inc/options-cache.php:858
+#: inc/options-cache.php:863
 msgid "Edit the following value only if need so. You can break the caching system."
 msgstr ""
 
-#: inc/options-cache.php:862
+#: inc/options-cache.php:867
 #: inc/options-general.php:453
 msgid "Click here to display options"
 msgstr ""
 
-#: inc/options-cache.php:869
+#: inc/options-cache.php:874
 msgid "Cache directory (absolute path)"
 msgstr ""
 
-#: inc/options-cache.php:875
+#: inc/options-cache.php:880
 msgid "Movies' cache is using"
 msgstr ""
 
-#: inc/options-cache.php:877
+#: inc/options-cache.php:882
 msgid "Movies' cache is empty."
 msgstr ""
 
-#: inc/options-cache.php:894
-#: inc/options-cache.php:958
+#: inc/options-cache.php:899
+#: inc/options-cache.php:963
 msgid "Folder exists."
 msgstr ""
 
-#: inc/options-cache.php:898
-#: inc/options-cache.php:962
+#: inc/options-cache.php:903
+#: inc/options-cache.php:967
 msgid "Folder doesn't exist!"
 msgstr ""
 
-#: inc/options-cache.php:904
-#: inc/options-cache.php:967
+#: inc/options-cache.php:909
+#: inc/options-cache.php:972
 msgid "Permissions OK."
 msgstr ""
 
-#: inc/options-cache.php:908
-#: inc/options-cache.php:971
+#: inc/options-cache.php:913
+#: inc/options-cache.php:976
 msgid "Check folder permissions!"
 msgstr ""
 
-#: inc/options-cache.php:915
+#: inc/options-cache.php:920
 msgid "Absolute path to store cache retrieved from the IMDb website. Has to be "
 msgstr ""
 
-#: inc/options-cache.php:917
-#: inc/options-cache.php:946
+#: inc/options-cache.php:922
+#: inc/options-cache.php:951
 msgid "by the webserver."
 msgstr ""
 
-#: inc/options-cache.php:927
+#: inc/options-cache.php:932
 msgid "Photo path (relative to the cache path)"
 msgstr ""
 
-#: inc/options-cache.php:939
+#: inc/options-cache.php:944
 msgid "Images cache is using"
 msgstr ""
 
-#: inc/options-cache.php:940
+#: inc/options-cache.php:945
 msgid "Image cache is empty."
 msgstr ""
 
-#: inc/options-cache.php:944
+#: inc/options-cache.php:949
 msgid "Absolute path to store images retrieved from the IMDb website. Has to be "
 msgstr ""
 
-#: inc/options-cache.php:951
-#: inc/options-cache.php:990
+#: inc/options-cache.php:956
+#: inc/options-cache.php:995
 msgid "Current:"
 msgstr ""
 
-#: inc/options-cache.php:984
+#: inc/options-cache.php:989
 msgid "Photo URL (relative to the website and the cache path)"
 msgstr ""
 
-#: inc/options-cache.php:988
+#: inc/options-cache.php:993
 msgid "URL corresponding to photo directory."
 msgstr ""
 
-#: inc/options-cache.php:1011
+#: inc/options-cache.php:1016
 msgid "A cache folder has to be created and the cache storage option has to be activated before you can manage the cache."
 msgstr ""
 
-#: inc/options-cache.php:1013
+#: inc/options-cache.php:1018
 msgid "Apparently, you have not such a cache folder."
 msgstr ""
 
-#: inc/options-cache.php:1015
+#: inc/options-cache.php:1020
 msgid "Click on \"reset settings\" to refresh the values."
 msgstr ""
 
@@ -1591,7 +1591,7 @@ msgstr ""
 #: inc/options-general.php:375
 #: inc/options-widget.php:131
 #: inc/options-widget.php:830
-#: inc/popup-imdb_movie.php:190
+#: inc/popup-imdb_movie.php:193
 #: inc/popup-imdb_person.php:90
 msgid "Misc"
 msgstr ""
@@ -1749,7 +1749,7 @@ msgstr ""
 
 #: inc/options-widget.php:233
 #: inc/options-widget.php:234
-#: inc/popup-imdb_movie.php:269
+#: inc/popup-imdb_movie.php:271
 msgid "Year"
 msgstr ""
 
@@ -1903,7 +1903,7 @@ msgid "Note: once activated, each taxonomy category will show a new option to co
 msgstr ""
 
 #: inc/options-widget.php:542
-#: inc/popup-imdb_movie.php:181
+#: inc/popup-imdb_movie.php:184
 msgid "Actors"
 msgstr ""
 
@@ -2009,36 +2009,36 @@ msgstr ""
 msgid "No config option set"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:97
+#: inc/popup-imdb_movie.php:99
 msgid "No result found for"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:102
+#: inc/popup-imdb_movie.php:103
 #: inc/popup-search.php:66
 msgid "Results related to"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:106
+#: inc/popup-imdb_movie.php:107
 #: inc/popup-search.php:81
 msgid "Titles matching"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:118
+#: inc/popup-imdb_movie.php:119
 #: inc/popup-search.php:92
 msgid "Maximum of results reached."
 msgstr ""
 
-#: inc/popup-imdb_movie.php:123
-#: inc/popup-imdb_movie.php:134
+#: inc/popup-imdb_movie.php:124
+#: inc/popup-imdb_movie.php:135
 #: inc/popup-search.php:97
 #: inc/popup-search.php:109
 msgid "more on"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:124
-#: inc/popup-imdb_movie.php:127
-#: inc/popup-imdb_movie.php:137
+#: inc/popup-imdb_movie.php:125
+#: inc/popup-imdb_movie.php:128
 #: inc/popup-imdb_movie.php:138
+#: inc/popup-imdb_movie.php:139
 #: inc/popup-search.php:98
 #: inc/popup-search.php:101
 #: inc/popup-search.php:112
@@ -2046,65 +2046,65 @@ msgstr ""
 msgid "link to imdb for"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:175
+#: inc/popup-imdb_movie.php:178
 msgid "Search for movies with the same name"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:175
+#: inc/popup-imdb_movie.php:178
 msgid "Search AKAs"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:178
+#: inc/popup-imdb_movie.php:181
 msgid "Movie"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:184
+#: inc/popup-imdb_movie.php:187
 msgid "Crew"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:234
+#: inc/popup-imdb_movie.php:236
 msgid "AKA"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:298
+#: inc/popup-imdb_movie.php:300
 msgid "Vote average"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:298
+#: inc/popup-imdb_movie.php:300
 msgid "with "
 msgstr ""
 
-#: inc/popup-imdb_movie.php:394
+#: inc/popup-imdb_movie.php:396
 msgid "Sound"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:421
+#: inc/popup-imdb_movie.php:423
 msgid "Casting"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:432
-#: inc/popup-imdb_movie.php:462
-#: inc/popup-imdb_movie.php:489
-#: inc/popup-imdb_movie.php:517
+#: inc/popup-imdb_movie.php:434
+#: inc/popup-imdb_movie.php:464
+#: inc/popup-imdb_movie.php:491
+#: inc/popup-imdb_movie.php:519
 msgid "link to imdb"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:543
+#: inc/popup-imdb_movie.php:545
 msgid "Plot outline"
 msgid_plural "Plots outline"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/popup-imdb_movie.php:582
+#: inc/popup-imdb_movie.php:584
 #: inc/popup-imdb_person.php:293
 msgid "Trivia"
 msgid_plural "Trivias"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/popup-imdb_movie.php:585
-#: inc/popup-imdb_movie.php:612
-#: inc/popup-imdb_movie.php:637
+#: inc/popup-imdb_movie.php:587
+#: inc/popup-imdb_movie.php:614
+#: inc/popup-imdb_movie.php:639
 #: inc/popup-imdb_person.php:162
 #: inc/popup-imdb_person.php:208
 #: inc/popup-imdb_person.php:244

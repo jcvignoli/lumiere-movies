@@ -58,10 +58,10 @@ do_action('wp_loaded'); // execute wordpress first codes
 <html>
 <head>
 <?php wp_head();?>
-
 </head>
 <body class="lumiere_popup_search lumiere_body<?php if (isset($imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopuptheme'];?>">
 
+<div id="lumiere_loader" class="center"></div>
 
 <h1><?php esc_html_e('Results related to', 'lumiere-movies'); echo " " . $film_sanitized_for_title ?></h1>
 
@@ -89,7 +89,7 @@ if (empty($results) ){
 		// Limit the number of results according to value set in admin		
 		$current_line++;
 		if ( $current_line > $imdb_admin_values['imdbmaxresults']){
-			echo '</table>';echo '<div align="center">' . esc_html__('Maximum of results reached.', 'lumiere-movies') . '</div>'; wp_footer(); echo '</body></html>';exit();}
+			echo '</table>';echo '<div align="center"><i>' . esc_html__('Maximum of results reached.', 'lumiere-movies') . '</div>'; wp_footer(); echo '</i></body></html>';exit();}
 
 		echo "	<tr>\n";
 		
