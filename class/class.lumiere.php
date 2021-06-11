@@ -361,6 +361,11 @@ class lumiere_core {
 			'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
 			'wordpress_path' => site_url(),
 		) ) , 'before');
+
+		// When on wordpress plugins.php admin page, show a confirmation dialogue if value imdbkeepsettings is set on delete Lumière! options
+		if ( ( (!isset($imdb_admin_values['imdbkeepsettings'])) || ( $imdb_admin_values['imdbkeepsettings'] == false ) ) && ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/plugins.php' )) )
+			wp_enqueue_script('lumiere_deactivation_plugin_message', $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere_admin_deactivation_msg.js', array());
+
 	}
 
 	function lumiere_add_footer_admin () {
