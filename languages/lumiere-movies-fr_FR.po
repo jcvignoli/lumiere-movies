@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-11 00:34-0400\n"
-"PO-Revision-Date: 2021-06-11 00:42-0400\n"
+"POT-Creation-Date: 2021-06-11 00:51-0400\n"
+"PO-Revision-Date: 2021-06-11 00:52-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -2060,8 +2060,8 @@ msgid "(Activated for \"genre\" taxonomy only)"
 msgstr "(Activé uniquement pour la taxonomie \"genre\")"
 
 #: inc/options-general.php:436
-msgid "Keep settings upon deactivation"
-msgstr "Sauvegarder la configuration lors de la désinstallatino"
+msgid "Keep settings upon uninstall"
+msgstr "Sauvegarder la configuration lors de la désinstallation"
 
 #: inc/options-general.php:444
 msgid ""
