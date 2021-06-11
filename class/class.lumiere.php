@@ -762,7 +762,7 @@ class lumiere_core {
 	/**
 	19.- Run on plugin activation
 	**/
-	function lumiere_on_activation() {
+	function lumiere_on_install() {
 		/* debug
 		ob_start(); */
 
@@ -785,6 +785,43 @@ class lumiere_core {
 		/* debug
 		trigger_error(ob_get_contents(),E_USER_ERROR);*/
 	}
+
+	/**
+	20.- Run on plugin uninstall
+	**/
+	function lumiere_on_uninstall() {
+
+		global $imdb_admin_values, $imdb_widget_values;
+
+		flush_rewrite_rules();
+
+		// Keep the settings is deactivate, exit
+		if ( (isset($imdb_admin_values['imdbkeepsettings'])) && ( $imdb_admin_values['imdbkeepsettings'] == true ) )
+			return;
+
+		// search for all imdbtaxonomy* in config array, 
+		// if a taxonomy is found, let's get related terms and delete them
+		foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
+			$filter_taxonomy = str_replace('imdbtaxonomy', '', $imdb_admin_values['imdburlstringtaxo']  . $key );
+
+			$terms = get_terms( array(
+				'taxonomy' => $filter_taxonomy,
+				'hide_empty' => false
+			) );
+
+			foreach ( $terms as $term ) {
+				wp_delete_term( $term->term_id, $filter_taxonomy ); 
+				unregister_taxonomy( $filter_taxonomy );
+			}
+		}
+
+		# Delete the options after needing them
+		delete_option( 'imdbAdminOptions' ); 
+		delete_option( 'imdbWidgetOptions' );
+		delete_option( 'imdbCacheOptions' );
+
+	}
+
 
 } // end class
 

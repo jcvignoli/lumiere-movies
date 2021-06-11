@@ -290,14 +290,21 @@ echo '/ >'; ?>
         </td>
      </tr>
      
-     <?php if (null !== ($movie->votes() ) ) { ?>              <!-- Rating and votes -->
+     <?php if (null !== ($movie->votes() ) ) { 
+	$votes_sanitized = esc_html($movie->votes());
+	$rating_sanitized = esc_html($movie->rating());?>              <!-- Rating and votes -->
      <tr>
         <td class="TitreSousRubriqueColGauche">
            <div class="TitreSousRubrique"><?php esc_html_e('Rating', 'lumiere-movies'); ?>&nbsp;</div>
         </td>
         
-        <td colspan="2" class="TitreSousRubriqueColDroite">
-            <li><?php esc_html_e('Vote average', 'lumiere-movies'); ?> <?php echo sanitize_text_field( $movie->rating() ); ?>, <?php esc_html_e('with ', 'lumiere-movies'); echo intval( $movie->votes() ) . " "; esc_html_e('votes', 'lumiere-movies'); ?></li>
+        <td colspan="2" class="TitreSousRubriqueColDroite lumiere_align_left">
+<?php 
+				echo " <img src=\"".$imdb_admin_values['imdbplugindirectory'].'pics/showtimes/'.(round($rating_sanitized*2, 0)/0.2).
+				".gif\" title=\"".esc_html__('vote average ', 'lumiere-movies').$rating_sanitized.esc_html__(' out of 10', 'lumiere-movies')."\"  / >";
+				echo " (".number_format($votes_sanitized, 0, '', "'")." ".esc_html__('votes', 'lumiere-movies').")";			
+?>
+
         </td>
      </tr>
      <?php }; ?>

@@ -72,8 +72,9 @@ width: 100%;border-color: black;}
 
 .submit-imdb {border:none;}
 
-.admin-option-selected { /* Span of options */
-font-weight:bold;color:#0066CC;}
+ /* Span of options */
+.admin-option-selected, .lumiere-option-taxo-activated {font-weight:bold;color:#0066CC;}
+.lumiere-option-taxo-deactivated {font-weight:bold;color:red;}
 
 .imdblt_success {padding:5px;background:lightYellow;border:1px solid #E6DB55;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
 .imdblt_error {padding:5px;background:red;color:white;border:1px solid #E6DB55;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}

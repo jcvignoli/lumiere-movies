@@ -1,18 +1,24 @@
 Changelog
 
-v.3.2.3
-* [minor] Limiting the number of results never worked. Now it does. Use the general options -> advanced 
+v.3.3
+* [major] More robust taxonomy system. More technical and systematic coherence to understand the taxonomy options. Rewrote the taxonomy injection in imdb-movie.inc.php using wp_set_post_terms and only once per taxonomy. Faster, cleaner, and fully working.
+* [medium] Added the option to keep the settings upon plugin deactivation.
+* [minor] Limiting the number of results in queries never worked. Now it does. Use the general options -> advanced 
 * [minor] Enhanced popup layout, fancier and more adapted to the theme selected in admin panel
-* [minor] Added loading css to loader ids (used in popup-search and popup-imdb_movie.php)
+* [minor] Added "loader" css to loader ids (used in popup-search and popup-imdb_movie.php)
+* [minor] Added nicer rating layout in the popups, copied from imdb-movie.inc.php
 * [bug] Taxonomy rewrite rules does definitely work using lumiere_create_taxonomies() function in class/functions.php. Added a specific constraint to be called only in taxonomy pages since it calls the time consuming flush_rewrite_rules() function.
+* [bug] Uninstall process now fully works. Deleted uninstall.php, moved function lumiere_unregister_taxonomy() into class.lumiere.php and renamed to lumiere_on_uninstall()
 * [bug] No form for detail cache delete, cache details to delete couldn't be submitted in options-cache.php
 * [bug] Values imdbwidgetofficialSites and imdbwidgetprodCompany prevented them from being saved in options-widget.php. Renamed them imdbwidgetofficialsites and imdbwidgetprodCompany so they can be saved.
 * [bug] Various fixes for the layout in imdb-movie.inc.php
+* [bug] Votes/rating were not working since mass sanitization. Change intval() by esc_html().
 * [technical] Admin forms submit/reset are now sticky -> easier for the user to submit
 * [technical] Removed options update in plugin update process, options are already automatically updates when visiting options
 * [technical] Enhanced tinyMCE, but still work to do
 * [technical] Moved class from inside lumiere-movies.php to class/class.lumiere.php
 * [technical] Implemented a taxonomy slug URL. By changing the options in the admin panel, the URL for taxonomy pages can be changed.
+* [technical] Taxonomy is now activated by default, allowing "genre" to be available. "genre" is also activated by default in "what to display" now.
 
 v.3.2.2
 * [medium] Implemented a selection for popup colors in admin menu 

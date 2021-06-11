@@ -94,21 +94,21 @@ while ($imovie < count($imdballmeta)) {
 		<div class="imdbelementTITLE"><?php
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomytitle'] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'title', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's titles...
-				for ($i = 0; $i + 1 < count ($title_sanitized); $i++) { 
-					wp_set_object_terms($wp_query->post->ID, $title_sanitized, $imdb_admin_values['imdburlstringtaxo'] . 'title', true); #add taxonomy terms to posts' terms
-				} 	wp_set_object_terms($wp_query->post->ID, $title_sanitized, $imdb_admin_values['imdburlstringtaxo'] .'title', true);  #add last taxonomy term to posts' terms
+
+				// add taxonomy terms to posts' terms
+				wp_set_post_terms($wp_query->post->ID, $title_sanitized, $imdb_admin_values['imdburlstringtaxo'] . 'title', false); 
 
 				# list URL taxonomy page
-				for ($i = 0; $i < count ($title_sanitized); $i++) {
-					echo '<a class="linkincmovie" ';
-					echo 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'title/' .lumiere_make_taxonomy_link( esc_html( $title_sanitized ) ) . '" ';
-					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
-					echo esc_html( $title_sanitized );
-					echo '</a>'; 
-				}
+				echo '<a class="linkincmovie" ';
+				echo 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'title/' .lumiere_make_taxonomy_link( esc_html( $title_sanitized ) ) . '" ';
+				echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
+				echo esc_html( $title_sanitized );
+				echo '</a>'; 
+
 
 			} else {
-					echo $title_sanitized;
+
+				echo $title_sanitized;
 			}
 
 			if (!empty($year) && ($imdb_widget_values['imdbwidgetyear'] == true ) ) { 
@@ -169,26 +169,27 @@ while ($imovie < count($imdballmeta)) {
 					<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Country', 'Countries', count($country), 'lumiere-movies')))); ?>:</span><?php 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycountry'] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'country', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
-				for ($i = 0; $i + 1 < count ($country); $i++) { 
-					wp_set_object_terms($wp_query->post->ID, sanitize_text_field($country[$i]), $imdb_admin_values['imdburlstringtaxo'] . 'country', true); #add taxonomy terms to posts' terms
-				} 	wp_set_object_terms($wp_query->post->ID, sanitize_text_field($country[$i]), $imdb_admin_values['imdburlstringtaxo'] . 'country', true);  #add last taxonomy term to posts' terms
 
-				# list URL taxonomy page
-				for ($i = 0; $i < count ($country); $i++) {
+				for ($i = 0; $i < count ($country); $i++) { 
+					// add taxonomy terms to posts' terms
+					wp_set_post_terms($wp_query->post->ID, sanitize_text_field($country[$i]), $imdb_admin_values['imdburlstringtaxo'] . 'country', false); 
+
+					# list URL taxonomy page
 					echo '<a class="linkincmovie" ';
 					echo 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'country/' .lumiere_make_taxonomy_link( esc_html( $country[$i] ) ) . '" ';
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $country[$i] );
-						if ($i < count ($country) - 1)
-							echo ", ";
 					echo '</a>'; 
+					if ( $i < count ($country) - 1 ) echo ", ";
 				}
 
 			} else {
-				for ($i = 0; $i + 1 < count ($country); $i++) { 
-					echo sanitize_text_field( $country[$i]); echo ", "; 										
+
+				for ($i = 0; $i < count ($country); $i++) { 
+					echo sanitize_text_field( $country[$i]);
+					if ( $i < count ($country) - 1 ) echo ", ";	
 				} // endfor
-				echo sanitize_text_field($country[$i]); 
+
 	} // end if ?>
 				</li>
 			</ul>
@@ -218,28 +219,27 @@ while ($imovie < count($imdballmeta)) {
 			<ul class="imdbelementLANGUAGEul">
 			<li class="imdbincluded-lined imdbelementLANGUAGEli">
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Language', 'Languages', count($languages), 'lumiere-movies')))); ?>:</span><?php
-			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomylanguage] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'languages', $count_me_siffer) == "nomore") ) { 
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomylanguage'] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'languages', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
-				for ($i = 0; $i + 1 < count ($languages); $i++) { 
-					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $languages[$i] ), $imdb_admin_values['imdburlstringtaxo'] . 'language', true); #add taxonomy terms to posts' terms
-				} 	wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $languages[$i]), $imdb_admin_values['imdburlstringtaxo'] . 'language', true);  #add last taxonomy term to posts' terms
 
-				# list URL taxonomy page
-				for ($i = 0; $i < count ($languages); $i++) {
+				for ($i = 0; $i < count ($languages); $i++) { 
+					// add taxonomy terms to posts' terms
+					wp_set_post_terms($wp_query->post->ID, sanitize_text_field( $languages[$i] ), $imdb_admin_values['imdburlstringtaxo'] . 'language', false); 
+
+					# list URL taxonomy page
 					echo '<a class="linkincmovie" ';
 					echo 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'language/' .lumiere_make_taxonomy_link( esc_html( $languages[$i] ) ) . '" ';
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $languages[$i] );
 					echo '</a>'; 
-					if ($i < count ($languages) - 1)
-						echo ", ";
+					if ( $i < count ($languages) - 1 )	echo ", ";
 				}
 
 			} else {
-				for ($i = 0; $i + 1 < count ($languages); $i++) { 
-					echo sanitize_text_field( $languages[$i] ); echo ", "; 										
+				for ($i = 0; $i < count ($languages); $i++) { 
+					echo sanitize_text_field( $languages[$i] );
+					if ( $i < count ($languages) - 1 )	echo ", "; 	
 				} 
-					echo sanitize_text_field( $languages[$i] ); // endfor
 			} // end if ?>
 				</li>
 			</ul>
@@ -248,8 +248,8 @@ while ($imovie < count($imdballmeta)) {
 	flush ();
 
 	if ($magicnumber== $imdb_widget_values['imdbwidgetorder']['rating'] ) {
-	$votes_sanitized = intval($movie->votes());
-	$rating_sanitized = intval($movie->rating());
+	$votes_sanitized = esc_html($movie->votes());
+	$rating_sanitized = esc_html($movie->rating());
 		if (($votes_sanitized) && ($imdb_widget_values['imdbwidgetrating'] == true ) ) { ?>
 										<!-- Rating et votes -->
 			<ul class="imdbelementRATINGul">
@@ -282,9 +282,11 @@ while ($imovie < count($imdballmeta)) {
 
 			if ( ( $imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomygenre'] == true ) && (lumiere_count_me( $imdb_admin_values['imdburlstringtaxo'] . 'genre', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
-				for ($i = 0; $i + 1 < count ($genre); $i++) { 
-					wp_set_object_terms($wp_query->post->ID, sanitize_text_field($genre[$i]), $imdb_admin_values['imdburlstringtaxo'] . 'genre', true); #add taxonomy terms to posts' terms
-				} 	wp_set_object_terms($wp_query->post->ID, sanitize_text_field($genre[$i]), $imdb_admin_values['imdburlstringtaxo'] . 'genre', true);  #add last taxonomy term to posts' terms
+
+				for ($i = 0; $i < count ($genre); $i++) { 
+					// add taxonomy terms to posts' terms
+					wp_set_post_terms($wp_query->post->ID, sanitize_text_field($genre[$i]), $imdb_admin_values['imdburlstringtaxo'] . 'genre', false); 
+				} 
 
 				# list URL taxonomy page
 				for ($i = 0; $i < count ($genre); $i++) {
@@ -293,15 +295,13 @@ while ($imovie < count($imdballmeta)) {
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $genre[$i] );
 					echo '</a>'; 
-					if ($i < (count ($genre) - 1) )
-						echo ', '; 
+					if ( $i < count ($genre) - 1 ) echo ', '; 
 				}
 
 			} else {
-				for ($i = 0; $i + 1 < count ($genre); $i++) { 
+				for ($i = 0; $i < count ($genre); $i++) { 
 					echo esc_html( $genre[$i] ); echo ", "; 										
 				} 
-					echo esc_html($genre[$i]); // endfor
 			} // end if ?>
 				</li>
 			</ul>
@@ -318,27 +318,24 @@ while ($imovie < count($imdballmeta)) {
 					<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Keyword', 'Keywords', count($keywords), 'lumiere-movies')))); ?>:</span><?php 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomykeywords'] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'keywords', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
-				for ($i = 0; $i + 1 < count ($keywords); $i++) { 
-					wp_set_object_terms($wp_query->post->ID, sanitize_text_field($keywords[$i]), $imdb_admin_values['imdburlstringtaxo'] . 'keywords', true); #add taxonomy terms to posts' terms
 
-				} 	wp_set_object_terms($wp_query->post->ID, sanitize_text_field($keywords[$i]), $imdb_admin_values['imdburlstringtaxo'] . 'keywords', true);  #add last taxonomy term to posts' terms
+				for ($i = 0; $i < count ($keywords); $i++) { 
+					// add taxonomy terms to posts' terms
+					wp_set_post_terms($wp_query->post->ID, sanitize_text_field($keywords[$i]), $imdb_admin_values['imdburlstringtaxo'] . 'keywords', false); 
 
-				# list URL taxonomy page
-				for ($i = 0; $i < count ($keywords); $i++) {
+					# list URL taxonomy page
 					echo '<a class="linkincmovie" ';
 					echo 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'keywords/' .lumiere_make_taxonomy_link( esc_html( $keywords[$i] ) ) . '" ';
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $keywords[$i] );
 					echo '</a>'; 
-					if ($i < count ($keywords) - 1)
-						echo ", ";
+					if ( $i < count ($keywords) - 1 )  echo ", ";
 				}
 					
 			} else {
 				for ($i = 0; $i < count ($keywords); $i++) { 
 					echo esc_html( $keywords[$i] ); 
-					if ($i < (count ($keywords) -1))
-						echo ", "; 										
+					if ( $i < count ($keywords) - 1 )  echo ", "; 										
 				} 
 			} // end if ?>
 				</li>
@@ -355,15 +352,11 @@ while ($imovie < count($imdballmeta)) {
 			<li class="imdbincluded-lined imdbelementGOOFli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Goof', 'Goofs', count($goofs), 'lumiere-movies')))); ?>:</span><?php
 
 			// value $imdb_widget_values['imdbwidgetgoofsnumber'] is selected, but value $imdb_widget_values['imdbwidgetgoofsnumber'] is empty
-			if (empty($imdb_widget_values['imdbwidgetgoofsnumber'])){
-				$nbgoofs =  "1";
-			} else {
-				$nbgoofs =  $imdb_widget_values['imdbwidgetgoofsnumber'];
-			}
+			if (empty($imdb_widget_values['imdbwidgetgoofsnumber'])){$nbgoofs =  "1";} else {$nbgoofs =  $imdb_widget_values['imdbwidgetgoofsnumber'];}
 
 			for ($i = 0; $i <  $nbgoofs && ($i < count($goofs)); $i++) { 
 				echo "<strong>".sanitize_text_field( $goofs[$i]['type'] )."</strong>&nbsp;"; 
-				echo sanitize_text_field( $goofs[$i]['content'] )."<br />\n"; 
+				echo sanitize_text_field( $goofs[$i]['content'] )."<br /><br />\n"; 
 			} // endfor ?></li>
 			</ul>
 	<?php } 
@@ -379,22 +372,18 @@ while ($imovie < count($imdballmeta)) {
 			<li class="imdbincluded-lined imdbelementCOMMENTli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n("User's comment", "User's comments", count($comments), 'lumiere-movies')))); ?>:</span><?php 
 
 			// value $imdb_widget_values['imdbwidgetcommentsnumber'] is selected, but value $imdb_widget_values['imdbwidgetcommentsnumber'] is empty
-			if (empty($imdb_widget_values['imdbwidgetcommentsnumber'])){
-				$nbusercomments =  "1";
-			} else {
-				$nbusercomments =  $imdb_widget_values['imdbwidgetcommentsnumber'];
-			}
+			if (empty($imdb_widget_values['imdbwidgetcommentsnumber'])){$nbusercomments =  "1";} else {	$nbusercomments =  $imdb_widget_values['imdbwidgetcommentsnumber'];}
 
 			for ($i = 0; $i < $nbusercomments && ($i < count($comments)); $i++) { 
 				echo  "<i>". sanitize_text_field( $comments[$i]['title'] ). "</i> by ";
 
 				if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
 				// if "Remove all links" option is not selected 
-					echo "<a href=\"".esc_url($comments[$i]["author"]["url"])."\">" .  sanitize_text_field($comments[$i]["author"]["name"] ). "</a><br /><br />";
+					echo "<a href=\"".esc_url($comments[$i]["author"]["url"])."\">" .  sanitize_text_field($comments[$i]["author"]["name"] ). "</a><hr>";
 				} else {
-					echo sanitize_text_field( $comments[$i]["author"]["name"] ). "<br /><br />";
+					echo sanitize_text_field( $comments[$i]["author"]["name"] ). "<hr>";
 				}
-					echo sanitize_text_field( $comments[$i]['comment'] ) . "<br />";
+					echo sanitize_text_field( $comments[$i]['comment'] ) . "<hr>";
 			} ?></li>
 			</ul>
 	<?php } 
@@ -409,18 +398,14 @@ while ($imovie < count($imdballmeta)) {
 			<li class="imdbincluded-lined imdbelementQUOTEli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Quote', 'Quotes', count($quotes), 'lumiere-movies')))); ?>:</span><?php
 
 			// value $imdb_widget_values['imdbwidgetquotesnumber'] is selected, but value $imdb_widget_values['imdbwidgetquotesnumber'] is empty
-			if (empty($imdb_widget_values['imdbwidgetquotesnumber'])){
-				$nbquotes =  "1";
-			} else {
-				$nbquotes =  $imdb_widget_values['imdbwidgetquotesnumber'];
-			}
+			if (empty($imdb_widget_values['imdbwidgetquotesnumber'])){$nbquotes =  "1";} else {	$nbquotes =  $imdb_widget_values['imdbwidgetquotesnumber'];}
 
 			for ($i = 0; $i < $nbquotes && ($i < count($quotes)); $i++) { 
 				if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
 				// if "Remove all links" option is not selected 
-					echo lumiere_convert_txtwithhtml_into_popup_people ($quotes[$i]) . "<br /><br />";
+					echo lumiere_convert_txtwithhtml_into_popup_people ($quotes[$i]) . "<hr />";
 				} else {
-					echo " ". lumiere_remove_link ($quotes[$i]) . "<br /><br />";
+					echo " ". lumiere_remove_link ($quotes[$i]) . "<hr />";
 				} 
 			}?></li>
 			</ul>
@@ -438,14 +423,11 @@ while ($imovie < count($imdballmeta)) {
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Tagline', 'Taglines', count($taglines), 'lumiere-movies')))); ?>:</span><?php 
 
 			// value $imdb_widget_values['imdbwidgettaglinesnumber'] is selected, but value $imdb_widget_values['imdbwidgettaglinesnumber'] is empty
-			if (empty($imdb_widget_values['imdbwidgettaglinesnumber'])){
-				$nbtaglines =  "1";
-			} else {
-				$nbtaglines =  $imdb_widget_values['imdbwidgettaglinesnumber'];
-			}
+			if (empty($imdb_widget_values['imdbwidgettaglinesnumber'])){$nbtaglines =  "1";} else {$nbtaglines =  $imdb_widget_values['imdbwidgettaglinesnumber'];}
 			
 			for ($i = 0; $i < $nbtaglines && ($i < count($taglines)); $i++) { 
-				echo sanitize_text_field( $taglines[$i] )." &raquo; ";
+				echo " &laquo; " . sanitize_text_field( $taglines[$i] )." &raquo; ";
+				if ($i < ( $nbtaglines -1 ) ) echo '<hr>';
 			} ?></li>
 			</ul>
 	<?php } }; flush ();	
@@ -460,11 +442,7 @@ while ($imovie < count($imdballmeta)) {
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Trailer', 'Trailers', $imdb_widget_values['imdbwidgettrailernumber'], 'lumiere-movies')))); ?>:</span><?php 
 
 			// value $imdb_widget_values['imdbwidgettrailer'] is selected, but value $imdb_widget_values['imdbwidgettrailernumber'] is empty
-			if (empty($imdb_widget_values['imdbwidgettrailernumber'])){
-				$nbtrailers =  "1";
-			} else {
-				$nbtrailers =  $imdb_widget_values['imdbwidgettrailernumber'];
-			}
+			if (empty($imdb_widget_values['imdbwidgettrailernumber'])){$nbtrailers =  "1";} else {$nbtrailers =  $imdb_widget_values['imdbwidgettrailernumber'];}
 
 			for ($i = 0; ($i < $nbtrailers  && ($i < count($trailers)) ); $i++) { 
 				if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
@@ -486,27 +464,25 @@ while ($imovie < count($imdballmeta)) {
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Color', 'Colors', count($colors), 'lumiere-movies')))); ?>:</span><?php
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycolor'] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'color', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
-				for ($i = 0; $i + 1 < count ($colors); $i++) { 
-					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $colors[$i] ), $imdb_admin_values['imdburlstringtaxo'] . 'color', true); #add taxonomy terms to posts' terms
-				} 	
-				wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $colors[$i] ), $imdb_admin_values['imdburlstringtaxo'] . 'color', true);  #add last taxonomy term to posts' terms
 
-				# list URL taxonomy page
-				for ($i = 0; $i < count ($colors); $i++) {
+				for ($i = 0; $i < count ($colors); $i++) { 
+					// add taxonomy terms to posts' terms
+					wp_set_post_terms($wp_query->post->ID, sanitize_text_field( $colors[$i] ), $imdb_admin_values['imdburlstringtaxo'] . 'color', false); 
+
+					# list URL taxonomy page
 					echo '<a class="linkincmovie" ';
 					echo 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'color/' .lumiere_make_taxonomy_link( esc_html( $colors[$i] ) ) . '" ';
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $colors[$i] );
 					echo '</a>'; 
-					if ($i < count ($colors) - 1)
-						echo ", ";
+					if ( $i < count ($colors) - 1 ) echo ", ";
 				}
 
 			} else {
-				for ($i = 0; $i + 1 < count ($colors); $i++) { 
-					echo sanitize_text_field( $colors[$i] ); echo ", "; 										
-				} 
-					echo sanitize_text_field( $colors[$i] ); // endfor
+				for ($i = 0; $i < count ($colors); $i++) { 
+					echo sanitize_text_field( $colors[$i] ); 
+					if ( $i < count ($colors) - 1 ) echo ", "; 										
+				}  // endfor
 			} // end if ?>
 				</li>
 			</ul>
@@ -534,27 +510,25 @@ while ($imovie < count($imdballmeta)) {
 	flush ();
 
 	if  ($magicnumber==$imdb_widget_values['imdbwidgetorder']['composer'] ) {
-	$composer = $movie->composer ();  
+	$composer = $movie->composer () ;
 		if (! (empty($composer)) && ($imdb_widget_values['imdbwidgetcomposer'] == true )) {?>
 										<!-- composer -->
 			<ul class="imdbelementCOMPOSERul">
 			<li class="imdbincluded-lined imdbelementCOMPOSERli"><span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Composer', 'Composers', count($composer), 'lumiere-movies')))); ?>:</span><?php 
-			if ( ($imdb_admin_values[imdbtaxonomy] == true ) && ($imdb_widget_values[imdbtaxonomycomposer] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'composer', $count_me_siffer) == "nomore") ) { 
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycomposer'] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'composer', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding evey taxonomy from several movies's genre...
-				for ($i = 0; $i < count ($composer); $i++) {
-					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $composer[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'composer', true); #add taxonomy terms to posts' terms
-				} 
-				wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $composer[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'composer', true);  #add last taxonomy term to posts' terms
 
-				# list URL taxonomy page
 				for ($i = 0; $i < count ($composer); $i++) {
+					// add taxonomy terms to posts' terms
+					wp_set_post_terms($wp_query->post->ID, sanitize_text_field( $composer[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'composer', false);
+
+					# list URL taxonomy page
 					echo '<a class="linkincmovie" ';
 					echo 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'composer/' .lumiere_make_taxonomy_link( esc_html( $composer[$i]["name"] ) ) . '" ';
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $composer[$i]["name"] );
 					echo '</a>'; 
-					if ($i < count ($composer) - 1)
-						echo ", ";
+					if ( $i < count ($composer) - 1 ) echo ", ";
 
 				}
 
@@ -655,8 +629,7 @@ while ($imovie < count($imdballmeta)) {
 				echo "<a href='".esc_url($officialSites[$i]['url'])."' title='".esc_attr( $officialSites[$i]['name'] )."'>";
 				echo sanitize_text_field( $officialSites[$i]['name'] );
 				echo "</a>";
-				if ($i < count ($officialSites) - 1)
-					echo ", ";
+				if ($i < count ($officialSites) - 1) echo ", ";
 			}  // endfor ?></li>
 			</ul>
 	<?php } 
@@ -671,28 +644,25 @@ while ($imovie < count($imdballmeta)) {
 		<li class="imdbincluded-lined imdbelementDIRECTORli"><?php
 			echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">' . sprintf(esc_html(_n('Director', 'Directors', count($director), 'lumiere-movies'))) . ':</span>'."\n\t\t\t";
 
-			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomydirector'] == true ) && (lumiere_count_me( $imdb_admin_values['imdburlstringtaxo'] . 'director', $count_me_siffer) == "nomore") ) { 
-			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
-				for ($i = 0; $i < count ($director); $i++) {
-					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $director[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'director', true); #add taxonomy terms to posts' terms
-				} 
-				wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $director[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'director', true);  #add last taxonomy term to posts' terms
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomydirector'] == true ) && (lumiere_count_me( $imdb_admin_values['imdburlstringtaxo'] . 'director', $count_me_siffer) == "nomore") ) { 			# lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
 
-				# list URL taxonomy page
 				for ($i = 0; $i < count ($director); $i++) {
+					// add taxonomy terms to posts' terms
+					wp_set_post_terms($wp_query->post->ID, sanitize_text_field( $director[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'director', false); 
+
+					# list URL taxonomy page
 					echo '<a class="linkincmovie" ';
 					echo 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'director/' .lumiere_make_taxonomy_link( esc_html( $director[$i]["name"] ) ) . '" ';
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
 					echo esc_html( $director[$i]["name"] );
 					echo '</a>';
-					if ($i < count ($director) - 1)
-						echo ", ";
+					if ( $i < count ($director) - 1 ) echo ", ";
 				}
 
 			} else { 
 				for ($i = 0; $i < count ($director); $i++) {
 					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
-						if ( $i > 0 ) echo ', ';
+						if ( $i < count ($director) - 1 ) echo ', ';
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup ?>
 							<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="<?php echo esc_html( $director[$i]["imdb"] ); ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo esc_html( $director[$i]["name"] ); ?></a>
 <?php						} else { 
@@ -723,15 +693,14 @@ while ($imovie < count($imdballmeta)) {
 			echo "\n\t\t\t" . '<li class="imdbincluded-lined imdbelementCREATORli">';
 			echo "\n\t\t\t\t" . '<span class="imdbincluded-subtitle">'. sprintf(esc_html(_n('Creator', 'Creators', count($creator), 'lumiere-movies'))) . ':</span>&nbsp;';
 
-			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values[imdbtaxonomycreator] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'creator', $count_me_siffer) == "nomore") ) { 
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycreator'] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'creator', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
+
 				for ($i = 0; $i < count ($creator); $i++) {
-					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $creator[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'creator', true); #add taxonomy terms to posts' terms
-				} 
-				wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $creator[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'creator', true);  #add last taxonomy term to posts' terms
+					// add taxonomy terms to posts' terms
+					wp_set_post_terms($wp_query->post->ID, sanitize_text_field( $creator[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'creator', false); 
 				
-				# list URL taxonomy page
-				for ($i = 0; $i < count ($creator); $i++) {
+					# list URL taxonomy page
 					echo '<a class="linkincmovie" ';
 					echo 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'creator/' .lumiere_make_taxonomy_link( esc_html( $creator[$i]["name"] ) ) . '" ';
 					echo 'title="' . esc_attr('Find similar taxonomy results', 'lumiere-movies') . '">';
@@ -742,7 +711,7 @@ while ($imovie < count($imdballmeta)) {
 			} else { 
 				for ($i = 0; $i < count ($creator); $i++) {
 					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
-						if ( $i > 0 ) echo ', ';
+						if ( $i < count ($creator) - 1 ) echo ', ';
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup ?>
 							<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="<?php echo $creator[$i]["imdb"]; ?>" title="<?php esc_html_e('open a new window with IMDb informations', 'lumiere-movies'); ?>"><?php echo $creator[$i]["name"]; ?></a>
 <?php						} else { // classic popup ?>
@@ -750,7 +719,7 @@ while ($imovie < count($imdballmeta)) {
 						echo sanitize_text_field( $creator[$i]["name"] )."</a>";
 						} 
 					} else { // if "Remove all links" option is selected 
-						if ( $i > 0 ) echo ', ';
+						if ( $i < count ($creator) - 1 ) echo ', ';
 						echo sanitize_text_field( $creator[$i]["name"] );
 					}  // end if remove popup
 				} // endfor 
@@ -770,15 +739,14 @@ while ($imovie < count($imdballmeta)) {
 			<ul class="imdbelementPRODUCERul">
 			<li class="imdbincluded-lined imdbelementPRODUCERli">
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Producer', 'Producers', count($producer), 'lumiere-movies')))); ?>:</span><?php
-			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values[imdbtaxonomyproducer] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'producer', $count_me_siffer) == "nomore") ) { 
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomyproducer'] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'producer', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
-				for ($i = 0; $i < count ($producer); $i++) {
-					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $producer[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'producer', true); #add taxonomy terms to posts' terms
-				} 
-				wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $producer[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'producer', true);  #add last taxonomy term to posts' terms
 
-				# list URL taxonomy page
 				for ($i = 0; $i < count ($producer); $i++) {
+					// add taxonomy terms to posts' terms
+					wp_set_post_terms($wp_query->post->ID, sanitize_text_field( $producer[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'producer', false); 
+
+					# list URL taxonomy page
 					echo "\n\t\t\t\t". '<div align="center" class="imdbdiv-liees">';
 					echo "\n\t\t\t\t\t". '<div class="lumiere_float_left">';
 					echo '<a class="linkincmovie" ';
@@ -838,13 +806,12 @@ while ($imovie < count($imdballmeta)) {
 			<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Writer', 'Writers', count($write), 'lumiere-movies')))); ?>:</span><?php
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomywriter'] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'writer', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
-				for ($i = 0; $i < count ($writer); $i++) {
-					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $writer[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'writer', true); #add taxonomy terms to posts' terms
-				} 
-				wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $writer[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'writer', true);  #add last taxonomy term to posts' terms
+
+				for ($i = 0; ($i < count($writer)); $i++) { 
+					// add taxonomy terms to posts' terms
+					wp_set_post_terms($wp_query->post->ID, sanitize_text_field( $writer[$i]["name"]), $imdb_admin_values['imdburlstringtaxo'] . 'writer', false); 
 				
-				# list URL taxonomy page
-				for ($i = 0; $i < count ($writer); $i++) {
+					# list URL taxonomy page
 					echo "\n\t\t\t\t". '<div align="center" class="imdbdiv-liees">';
 					echo "\n\t\t\t\t\t". '<div class="lumiere_float_left">';
 					echo '<a class="linkincmovie" ';
@@ -901,17 +868,17 @@ while ($imovie < count($imdballmeta)) {
 			<ul class="imdbelementACTORul">
 			<li class="imdbincluded-lined imdbelementACTORli">
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Actor', 'Actors', count($cast), 'lumiere-movies')))); ?>:</span><?php 
-			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values[imdbtaxonomyactor] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'actor', $count_me_siffer) == "nomore") ) { 
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomyactor'] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'actor', $count_me_siffer) == "nomore") ) {
 			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
-				for ($i = 0; $i < $imdb_widget_values[imdbwidgetactornumber] && ($i < count($cast)); $i++) { 
-					#add taxonomy terms to posts' terms
-					wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $cast[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'actor', true); 
-				} 
-				#add last taxonomy term to posts' terms
-				wp_set_object_terms($wp_query->post->ID, sanitize_text_field( $cast[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'actor', true);  
 
-				# list URL taxonomy page
-				for ($i = 0; $i < count ($cast); $i++) {
+				// value $imdb_widget_values['imdbwidgetactornumber'] is selected, but value $imdb_widget_values['imdbwidgetactornumber'] is empty
+				if ( (isset($imdb_widget_values['imdbwidgetactor'])) && (empty($imdb_widget_values['imdbwidgetactornumber'])) ) { $nbactors =  "1";} else {$nbactors =  $imdb_widget_values['imdbwidgetactornumber']; }
+
+				for ($i = 0; ($i < $nbactors) && ($i < count($cast)); $i++) { 
+					// add taxonomy terms to posts' terms
+					wp_set_post_terms($wp_query->post->ID, sanitize_text_field( $cast[$i]["name"]), $imdb_admin_values['imdburlstringtaxo'] . 'actor', false); 
+
+					# list URL taxonomy page
 					echo "\n\t\t\t\t". '<div align="center" class="imdbdiv-liees">';
 					echo "\n\t\t\t\t\t". '<div class="lumiere_float_left">';
 					// remove the <br> which break the layout
@@ -925,17 +892,14 @@ while ($imovie < count($imdballmeta)) {
 					echo '</a>'; 
 					echo '</div>';
 					echo "\n\t\t\t\t". '</div>';
+		
 				}
 
 
 			} else { 
 
-				// value $imdb_widget_values['imdbwidgetactornumber'] is selected, but value $imdb_widget_values['imdbwidgetactornumber'] is empty
-				if (empty($imdb_widget_values['imdbwidgetactornumber'])){
-					$nbactors =  "1";
-				} else {
-					$nbactors =  intval($imdb_widget_values['imdbwidgetactornumber'] );
-				}
+				// if $imdb_widget_values['imdbwidgetactornumber'] is selected, but value $imdb_widget_values['imdbwidgetactornumber'] is empty
+				if ( (isset($imdb_widget_values['imdbwidgetactor'])) && (empty($imdb_widget_values['imdbwidgetactornumber'])) ) { $nbactors =  "1";} else {$nbactors =  $imdb_widget_values['imdbwidgetactornumber']; }
 
 				for ($i = 0; $i < $nbactors && ($i < count($cast)); $i++) { 
 					echo "\n\t\t\t\t". '<div align="center" class="imdbdiv-liees">';
@@ -968,30 +932,23 @@ while ($imovie < count($imdballmeta)) {
 	if  ($magicnumber==$imdb_widget_values['imdbwidgetorder']['plot'] ) {
 	$plot = $movie->plot (); 
 		if (!lumiere_is_multiArrayEmpty($plot) && ($imdb_widget_values['imdbwidgetplot'] == true )) {
-		// here is tested if the array contains data; if not, doesn't go further ?>
+		// tested if the array contains data; if not, doesn't go further ?>
 										<!-- Plots -->
 			<ul class="imdbelementPLOTul">
 			<li class="imdbincluded-lined imdbelementPLOTli">
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Plot', 'Plots', count($plot), 'lumiere-movies')))); ?>:</span><?php
 
 				// value $imdb_widget_values['imdbwidgetplotnumber'] is selected, but value $imdb_widget_values['imdbwidgetplotnumber'] is empty
-				if (empty($imdb_widget_values['imdbwidgetplotnumber'])){
-					$nbplots =  "1";
-				} else {
-					$nbplots =  intval ($imdb_widget_values['imdbwidgetplotnumber'] );
-				}
-
+				if ( isset($imdb_widget_values['imdbwidgetplot']) && (empty($imdb_widget_values['imdbwidgetplotnumber'])) ){$nbplots =  "1";} else { $nbplots =  $imdb_widget_values['imdbwidgetplotnumber'];}
 				for ($i = 0; $i < $nbplots  && ($i < count ($plot)); $i++) { 
-					if ($i > 0) { echo '<hr>';} // add hr to every quote but the first
-
 					if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
 					// if "Remove all links" option is not selected 
-						echo sanitize_text_field( $plot[$i] );
+						echo wp_kses_post( $plot[$i] ) . "\n";
 					} else {
-						echo lumiere_remove_link ($plot[$i]);
+						echo lumiere_remove_link ($plot[$i]). "\n";
 					} 
-					
-				}// endfor ?></li> 
+					if ( $i < $nbplots ) { echo "\n<hr>\n";} // add hr to every quote but the first					
+				}// endfor ?>
 			</li>
 			</ul>
 	<?php } 
