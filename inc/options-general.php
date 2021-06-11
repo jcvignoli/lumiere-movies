@@ -433,7 +433,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 		<div class="lumiere_flex_container">
 			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
-				<?php esc_html_e( 'Keep settings upon deactivation', 'lumiere-movies'); ?><br /><br />
+				<?php esc_html_e( 'Keep settings upon uninstall', 'lumiere-movies'); ?><br /><br />
 
 				<input type="radio" id="imdb_imdbkeepsettings_yes" name="imdb_imdbkeepsettings" value="1" <?php if ($imdbOptions['imdbkeepsettings'] == "1") { echo 'checked="checked"'; }?> />
 
