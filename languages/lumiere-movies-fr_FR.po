@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-11 00:51-0400\n"
-"PO-Revision-Date: 2021-06-11 00:52-0400\n"
+"POT-Creation-Date: 2021-06-11 10:19-0400\n"
+"PO-Revision-Date: 2021-06-11 10:20-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -66,65 +66,65 @@ msgstr "Par nom de film"
 msgid "By IMDb's ID"
 msgstr "Par numéro IMDb"
 
-#: class/class.lumiere.php:391
+#: class/class.lumiere.php:392
 msgid "Lumière options page"
 msgstr "Pages d'options Lumière!"
 
-#: class/class.lumiere.php:391 class/class.lumiere.php:489
+#: class/class.lumiere.php:392 class/class.lumiere.php:490
 #: inc/options-cache.php:394
 msgid "General options"
 msgstr "Options g&eacute;n&eacute;rales"
 
-#: class/class.lumiere.php:392
+#: class/class.lumiere.php:393
 msgid "Widget & In post options page"
 msgstr "Options du Widget/Dans un message"
 
-#: class/class.lumiere.php:392
+#: class/class.lumiere.php:393
 msgid "Widget/In post"
 msgstr "Widget/Dans un message"
 
-#: class/class.lumiere.php:393
+#: class/class.lumiere.php:394
 msgid "Cache management options page"
 msgstr "Options de la gestion du cache"
 
-#: class/class.lumiere.php:393 inc/admin_pages.php:73
+#: class/class.lumiere.php:394 inc/admin_pages.php:73
 msgid "Cache management"
 msgstr "Gestion du cache"
 
-#: class/class.lumiere.php:394
+#: class/class.lumiere.php:395
 msgid "Help page"
 msgstr "Page d'aide"
 
-#: class/class.lumiere.php:394 class/class.lumiere.php:495
+#: class/class.lumiere.php:395 class/class.lumiere.php:496
 msgid "Help"
 msgstr "Aide"
 
-#: class/class.lumiere.php:487
+#: class/class.lumiere.php:488
 msgid "Lumière Menu"
 msgstr "Menu Lumière"
 
-#: class/class.lumiere.php:491
+#: class/class.lumiere.php:492
 msgid "Widget options"
 msgstr "Options Widget"
 
-#: class/class.lumiere.php:493 inc/options-cache.php:361
+#: class/class.lumiere.php:494 inc/options-cache.php:361
 #: inc/options-cache.php:389
 msgid "Cache options"
 msgstr "Options de cache"
 
-#: class/class.lumiere.php:587 class/class.lumiere.php:597
+#: class/class.lumiere.php:588 class/class.lumiere.php:598
 msgid "Informations about "
 msgstr "Information pour "
 
-#: class/class.lumiere.php:587 class/class.lumiere.php:597
+#: class/class.lumiere.php:588 class/class.lumiere.php:598
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: class/class.lumiere.php:601
+#: class/class.lumiere.php:602
 msgid "No query entered"
 msgstr "Aucune recherche entrée"
 
-#: class/class.lumiere.php:602
+#: class/class.lumiere.php:603
 msgid "Search query for "
 msgstr "Recherche pour "
 
@@ -2025,8 +2025,8 @@ msgstr ""
 "plugins qui occuppent cet zone."
 
 #: inc/options-general.php:418
-msgid "Use taxonomy?"
-msgstr "Utiliser la taxonomie ?"
+msgid "Use taxonomy"
+msgstr "Utiliser la taxonomie"
 
 #: inc/options-general.php:428
 msgid ""
@@ -2060,16 +2060,16 @@ msgid "(Activated for \"genre\" taxonomy only)"
 msgstr "(Activé uniquement pour la taxonomie \"genre\")"
 
 #: inc/options-general.php:436
-msgid "Keep settings upon uninstall"
-msgstr "Sauvegarder la configuration lors de la désinstallation"
+msgid "Keep settings upon deactivation"
+msgstr "Sauvegarder la configuration lors de la désactivation"
 
 #: inc/options-general.php:444
 msgid ""
-"Whether to keep or delete Lumière! settings upon plugin deactivation. Keep "
-"also the taxonomy terms."
+"Whether to keep or delete Lumière! settings upon plugin deactivation. "
+"Prevent from deleting the taxonomy terms and the cache too."
 msgstr ""
 "Conserver ou non la configuration de Lumière lors de la désactivation du "
-"plugin. Sauvegarde également les termes de taxonomie."
+"plugin. Evite également l'effacement des termes de taxonomie et du cache."
 
 #: inc/options-general.php:450
 msgid "Debug Lumière!"

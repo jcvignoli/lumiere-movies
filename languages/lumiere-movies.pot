@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-11T01:52:53-03:00\n"
+"POT-Creation-Date: 2021-06-11T11:21:02-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
@@ -34,55 +34,55 @@ msgstr ""
 msgid "https://www.jcvignoli.com/blog"
 msgstr ""
 
-#: class/class.lumiere.php:391
+#: class/class.lumiere.php:392
 msgid "Lumière options page"
 msgstr ""
 
-#: class/class.lumiere.php:391
+#: class/class.lumiere.php:392
 #: inc/options-cache.php:394
 msgid "General options"
 msgstr ""
 
-#: class/class.lumiere.php:392
+#: class/class.lumiere.php:393
 msgid "Widget & In post options page"
 msgstr ""
 
-#: class/class.lumiere.php:392
+#: class/class.lumiere.php:393
 msgid "Widget/In post"
 msgstr ""
 
-#: class/class.lumiere.php:393
+#: class/class.lumiere.php:394
 msgid "Cache management options page"
 msgstr ""
 
-#: class/class.lumiere.php:393
+#: class/class.lumiere.php:394
 #: inc/admin_pages.php:73
 msgid "Cache management"
 msgstr ""
 
-#: class/class.lumiere.php:394
+#: class/class.lumiere.php:395
 msgid "Help page"
 msgstr ""
 
-#: class/class.lumiere.php:394
+#: class/class.lumiere.php:395
 msgid "Help"
 msgstr ""
 
-#: class/class.lumiere.php:587
-#: class/class.lumiere.php:597
+#: class/class.lumiere.php:588
+#: class/class.lumiere.php:598
 msgid "Informations about "
 msgstr ""
 
-#: class/class.lumiere.php:587
-#: class/class.lumiere.php:597
+#: class/class.lumiere.php:588
+#: class/class.lumiere.php:598
 msgid "Unknown"
 msgstr ""
 
-#: class/class.lumiere.php:601
+#: class/class.lumiere.php:602
 msgid "No query entered"
 msgstr ""
 
-#: class/class.lumiere.php:602
+#: class/class.lumiere.php:603
 msgid "Search query for "
 msgstr ""
 
@@ -1620,7 +1620,7 @@ msgid "When activated, Lumière options are displayed on the top menu of Wordpre
 msgstr ""
 
 #: inc/options-general.php:418
-msgid "Use taxonomy?"
+msgid "Use taxonomy"
 msgstr ""
 
 #: inc/options-general.php:428
@@ -1644,11 +1644,11 @@ msgid "(Activated for \"genre\" taxonomy only)"
 msgstr ""
 
 #: inc/options-general.php:436
-msgid "Keep settings upon uninstall"
+msgid "Keep settings upon deactivation"
 msgstr ""
 
 #: inc/options-general.php:444
-msgid "Whether to keep or delete Lumière! settings upon plugin deactivation. Keep also the taxonomy terms."
+msgid "Whether to keep or delete Lumière! settings upon plugin deactivation. Prevent from deleting the taxonomy terms and the cache too."
 msgstr ""
 
 #: inc/options-general.php:450

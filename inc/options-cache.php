@@ -125,7 +125,7 @@ if (current_user_can( 'manage_options' ) ) {
 	if ( (isset($_POST['delete_all_cache'])) && (check_admin_referer('cache_all_and_query_check', 'cache_all_and_query_check')) ){  
 
 		// prevent drama
-		if ( is_null($imdb_cache_values['imdbcachedir']))
+		if ( (!isset($imdb_cache_values['imdbcachedir'])) || ( is_null($imdb_cache_values['imdbcachedir'])) )
 			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
 		
 		// Delete cache

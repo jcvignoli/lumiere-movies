@@ -99,6 +99,7 @@ class lumiere_core {
 			// register widget
 			add_action('plugins_loaded', 'lumiere_register_widget');
 		}
+
 	}
 
 	/**
@@ -695,23 +696,32 @@ class lumiere_core {
 	17.- Create cache folder
 	**/
 	function lumiere_create_cache() {
-
+		global $imdb_ft, $imdb_cache_values;
+		
 		/* Cache folder paths */
 		$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
 		$lumiere_folder_cache_images = WP_CONTENT_DIR . '/cache/lumiere/images';
 
-		// We can write in wp-content/cache
-		if ( wp_mkdir_p( $lumiere_folder_cache ) &&  wp_mkdir_p( $lumiere_folder_cache_images ) ) {
-			chmod( $lumiere_folder_cache, 0777 );
-			chmod( $lumiere_folder_cache_images, 0777 );
-		// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
-		} else {
-			$lumiere_folder_cache = IMDBLTABSPATH . 'cache';
-			$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
-			wp_mkdir_p( $lumiere_folder_cache );
-			chmod( $lumiere_folder_cache, 0777 );
-			wp_mkdir_p( $lumiere_folder_cache_images );
-			chmod( $lumiere_folder_cache_images, 0777 );
+		// Cache folders do not exist
+		if (!is_dir($lumiere_folder_cache_images)) {
+
+			// We can write in wp-content/cache
+			if ( wp_mkdir_p( $lumiere_folder_cache ) &&  wp_mkdir_p( $lumiere_folder_cache_images ) ) {
+				chmod( $lumiere_folder_cache, 0777 );
+				chmod( $lumiere_folder_cache_images, 0777 );
+			// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
+			} else {
+				$lumiere_folder_cache = IMDBLTABSPATH . 'cache';
+				$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
+				wp_mkdir_p( $lumiere_folder_cache );
+				chmod( $lumiere_folder_cache, 0777 );
+				wp_mkdir_p( $lumiere_folder_cache_images );
+				chmod( $lumiere_folder_cache_images, 0777 );
+
+				# Save the new option for the cache path
+				$imdb_cache_values['imdbcachedir'] = $lumiere_folder_cache;
+				update_option($imdb_ft->imdbCacheOptionsName, $imdb_cache_values['imdbcachedir']);
+			}
 		}
 	}
 
@@ -762,7 +772,7 @@ class lumiere_core {
 	/**
 	19.- Run on plugin activation
 	**/
-	function lumiere_on_install() {
+	function lumiere_on_activation() {
 		/* debug
 		ob_start(); */
 
@@ -787,15 +797,15 @@ class lumiere_core {
 	}
 
 	/**
-	20.- Run on plugin uninstall
+	20.- Run on plugin deactivation
 	**/
-	function lumiere_on_uninstall() {
+	function lumiere_on_deactivation() {
 
-		global $imdb_admin_values, $imdb_widget_values;
+		global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
 		flush_rewrite_rules();
 
-		// Keep the settings is deactivate, exit
+		// Keep the settings if selected so
 		if ( (isset($imdb_admin_values['imdbkeepsettings'])) && ( $imdb_admin_values['imdbkeepsettings'] == true ) )
 			return;
 
@@ -804,11 +814,13 @@ class lumiere_core {
 		foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
 			$filter_taxonomy = str_replace('imdbtaxonomy', '', $imdb_admin_values['imdburlstringtaxo']  . $key );
 
+			# get all terms, even if empty
 			$terms = get_terms( array(
 				'taxonomy' => $filter_taxonomy,
 				'hide_empty' => false
 			) );
 
+			# Delete taxonomy terms and unregister taxonomy
 			foreach ( $terms as $term ) {
 				wp_delete_term( $term->term_id, $filter_taxonomy ); 
 				unregister_taxonomy( $filter_taxonomy );
@@ -820,10 +832,10 @@ class lumiere_core {
 		delete_option( 'imdbWidgetOptions' );
 		delete_option( 'imdbCacheOptions' );
 
+		# Remove cache
+		if ( (isset($imdb_cache_values['imdbcachedir'])) && (is_dir($imdb_cache_values['imdbcachedir'])) )
+			lumiere_unlinkRecursive($imdb_cache_values['imdbcachedir']);
 	}
-
-
-} // end class
-
+} 
 
 ?>
