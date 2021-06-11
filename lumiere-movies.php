@@ -45,9 +45,9 @@ if (class_exists("lumiere_core")) {
 }
 
 # Executed upon plugin activation
-register_activation_hook( __FILE__, [ $start , 'lumiere_on_install' ] );
+register_activation_hook( __FILE__, [ $start , 'lumiere_on_activation' ] );
 
 # Executed upon plugin deactivation
-register_deactivation_hook( __FILE__, [ $start , 'lumiere_on_uninstall' ] );
+register_deactivation_hook( __FILE__, [ $start , 'lumiere_on_deactivation' ] );
 
 ?>

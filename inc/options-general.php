@@ -415,7 +415,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
-				<label for="imdb_imdbtaxonomy"><?php esc_html_e( 'Use taxonomy?', 'lumiere-movies'); ?></label><br /><br />
+				<label for="imdb_imdbtaxonomy"><?php esc_html_e( 'Use taxonomy', 'lumiere-movies'); ?></label><br /><br />
 
 				<input type="radio" id="imdb_imdbtaxonomy_yes" name="imdb_imdbtaxonomy" value="1" <?php if ($imdbOptions['imdbtaxonomy'] == "1") { echo 'checked="checked"'; }?> />
 
@@ -433,7 +433,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 		<div class="lumiere_flex_container">
 			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
-				<?php esc_html_e( 'Keep settings upon uninstall', 'lumiere-movies'); ?><br /><br />
+				<?php esc_html_e( 'Keep settings upon deactivation', 'lumiere-movies'); ?><br /><br />
 
 				<input type="radio" id="imdb_imdbkeepsettings_yes" name="imdb_imdbkeepsettings" value="1" <?php if ($imdbOptions['imdbkeepsettings'] == "1") { echo 'checked="checked"'; }?> />
 
@@ -441,7 +441,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				
 				<label for="imdb_imdbkeepsettings_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<div class="explain"><?php esc_html_e( "Whether to keep or delete Lumière! settings upon plugin deactivation. Keep also the taxonomy terms.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
+				<div class="explain"><?php esc_html_e( "Whether to keep or delete Lumière! settings upon plugin deactivation. Prevent from deleting the taxonomy terms and the cache too.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
 
 			</div>
 

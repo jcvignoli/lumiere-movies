@@ -8,7 +8,7 @@ v.3.3
 * [minor] Added "loader" css to loader ids (used in popup-search and popup-imdb_movie.php)
 * [minor] Added nicer rating layout in the popups, copied from imdb-movie.inc.php
 * [bug] Taxonomy rewrite rules does definitely work using lumiere_create_taxonomies() function in class/functions.php. Added a specific constraint to be called only in taxonomy pages since it calls the time consuming flush_rewrite_rules() function.
-* [bug] Uninstall process now fully works. Deleted uninstall.php, moved function lumiere_unregister_taxonomy() into class.lumiere.php and renamed to lumiere_on_uninstall()
+* [bug] Deactivation process (pseudo uninstall) now fully works. Deleted uninstall.php, moved function lumiere_unregister_taxonomy() into class.lumiere.php and renamed to lumiere_on_deactivation()
 * [bug] No form for detail cache delete, cache details to delete couldn't be submitted in options-cache.php
 * [bug] Values imdbwidgetofficialSites and imdbwidgetprodCompany prevented them from being saved in options-widget.php. Renamed them imdbwidgetofficialsites and imdbwidgetprodCompany so they can be saved.
 * [bug] Various fixes for the layout in imdb-movie.inc.php
