@@ -239,3 +239,6 @@ span.label_moviesearched{font-size:larger !important;padding:10px;}
 @keyframes spin {100% {transform: rotate(360deg);}}
 .center {position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto;}
 
+/* ---------------------------------------- Loader when searching */
+.lumiere_align_left{text-align:left;}
+

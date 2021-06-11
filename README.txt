@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/jcvignoli
 Tags: cinema, film, imdb, movie, actor
 Requires at least: 4.0
 Tested up to: 5.7.1
-Stable tag: 3.2.3
+Stable tag: 3.3
 Requires PHP: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -96,9 +96,7 @@ Yes, just add in the post as many custom fields you want.
 
 = Known issues =
 
-* If you activate both "Display highslide popup" option and in [Next-Gen Gallery's](https://wordpress.org/plugins/nextgen-gallery/ "Next-Gen Gallery home") highslide effect option, NGG picture display will be broken. **Workaround:** Do not use "Display highslide popup" option or use another effect option for NGG.
-
-* TinyMCE is not working the way it should. Only basic features are available at the moment. I'm working on it.
+ TinyMCE is not working the way it should. Only basic features are available at the moment. I'm working on it.
 
 * If you are updating from the previous IMDb Link Transformer plugin, the plugin's option will be messed up. Reset Lumière! options.
 
@@ -113,6 +111,9 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.txt "latest changelog") to find out the latest developments. Or for even more extensive and recent changes available at my [GIT repository](https://github.com/jcvignoli/lumiere-movies "GIT repository").
 
 Major changes:
+= 3.3 =
+Taxonomy system is fully versatile (URL is editable). Uninstalling the plugin now (really) delete settings and taxonomy terms. Introduced the option to keep the settings upon uninstall. Better design for the admin panels and popups. Under the hood, better coding.
+
 = 3.2 =
 * Many options related to the popups (favicon, change the URL, etc.), fixed missing/wrong variables all over the plugin, further compatibility with PHP8 added, fixed the submit buttons in the admin, much technical work and bug hunting
 

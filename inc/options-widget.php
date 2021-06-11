@@ -247,7 +247,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<input type="radio" id="imdb_imdbwidgetgenre_no" name="imdb_imdbwidgetgenre" value="" <?php if ($imdbOptionsw['imdbwidgetgenre'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetgenre_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<div class="explain"><?php esc_html_e( 'Display genre(s)', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+				<div class="explain"><?php esc_html_e( 'Display genre(s)', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
 
 			</div>
 		</div>
@@ -506,9 +506,10 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<div class="explain"><div class="explain"><?php esc_html_e( 'Display website source at the end of the post', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
 
+			</div>
 		</div>
 	</div>
-
+</div>
 <?php	} 
 		if ( (isset($_GET['widgetoption'])) && ($_GET['widgetoption'] == "taxo") ) { 	// Taxonomy ?>
 		<?php //-------------------------------------------------------------------=[Taxonomy]=-
@@ -525,9 +526,9 @@ if (current_user_can( 'manage_options' ) ) {
 
 	<div class="imblt_border_shadow">
 
-		<div class="lumiere_intro_options"><?php esc_html_e( "Use the checkbox to display (or not) taxonomy categories. When activated, categories become blue.", 'lumiere-movies'); ?>
+		<div class="lumiere_intro_options"><?php esc_html_e( "Use the checkbox to display the taxonomy tags. When activated, selected taxonomy will become blue if it is activated into 'What to display' section and will turn red otherwise.", 'lumiere-movies'); ?>
 		<br /><br />
-		<?php esc_html_e( "Cautiously select the categories you want to display: it may have unwanted effects, particularly if you display many movies in the same post at once. When selecting one of the following taxonomy options, it will supersede any other function or link created; for instance, you will not have access anymore to the popups for directors, if directors taxonomy is chosen. Taxonomy will always prevail over other Lumiere functionalities.", 'lumiere-movies'); ?>
+		<?php esc_html_e( "Cautiously select the categories you want to display: it may have some unwanted effects, in particular if you display many movies in the same post at once. When selecting one of the following taxonomy options, it will supersede any other function or link created; for instance, you will not have access anymore to the popups for directors, if directors taxonomy is chosen. Taxonomy will always prevail over other Lumiere functionalities.", 'lumiere-movies'); ?>
 
 		<br /><br />
 		<?php esc_html_e( "Note: once activated, each taxonomy category will show a new option to copy a taxonomy template directy into your template folder.", 'lumiere-movies'); ?>
@@ -539,7 +540,9 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<input type="checkbox" id="imdb_imdbtaxonomyactor" name="imdb_imdbtaxonomyactor" value="<?php if ($imdbOptionsw['imdbtaxonomyactor'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomyactor">
-					<?php if ($imdbOptionsw['imdbtaxonomyactor'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Actors', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Actors', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+					<?php if ($imdbOptionsw['imdbtaxonomyactor'] == "1") { 
+							if ($imdbOptionsw['imdbwidgetactor'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else {	echo '<span class="lumiere-option-taxo-deactivated">'; }
+							esc_html_e( 'Actors', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Actors', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
 				<?php
 				if ($imdbOptionsw['imdbtaxonomyactor'] == "1") {
@@ -558,7 +561,11 @@ if (current_user_can( 'manage_options' ) ) {
 				<input type="checkbox" id="imdb_imdbtaxonomycolor" name="imdb_imdbtaxonomycolor" value="<?php if ($imdbOptionsw['imdbtaxonomycolor'] == "1") { echo '0'; } else { echo '1'; }?>" />
 
 				<label for="imdb_imdbtaxonomycolor">
-					<?php if ($imdbOptionsw['imdbtaxonomycolor'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Colors', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Colors', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+					<?php if ($imdbOptionsw['imdbtaxonomycolor'] == "1") { 
+
+							if ($imdbOptionsw['imdbwidgetcolors'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else {	echo '<span class="lumiere-option-taxo-deactivated">'; }
+
+							esc_html_e( 'Colors', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Colors', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
 
 				<?php
@@ -577,7 +584,11 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<input type="checkbox" id="imdb_imdbtaxonomycomposer" name="imdb_imdbtaxonomycomposer" value="<?php if ($imdbOptionsw['imdbtaxonomycomposer'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomycomposer">
-					<?php if ($imdbOptionsw['imdbtaxonomycomposer'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Composers', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Composers', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+					<?php if ($imdbOptionsw['imdbtaxonomycomposer'] == "1") { 
+
+							if ($imdbOptionsw['imdbwidgetcomposer'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else { echo '<span class="lumiere-option-taxo-deactivated">'; }
+
+							esc_html_e( 'Composers', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Composers', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
 				<?php
 				if ($imdbOptionsw['imdbtaxonomycomposer'] == "1") {
@@ -598,7 +609,11 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<input type="checkbox" id="imdb_imdbtaxonomycountry" name="imdb_imdbtaxonomycountry" value="<?php if ($imdbOptionsw['imdbtaxonomycountry'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomycountry">
-					<?php if ($imdbOptionsw['imdbtaxonomycountry'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Countries', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Countries', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+					<?php if ($imdbOptionsw['imdbtaxonomycountry'] == "1") { 
+
+							if ($imdbOptionsw['imdbwidgetcountry'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else { echo '<span class="lumiere-option-taxo-deactivated">'; }
+
+							esc_html_e( 'Countries', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Countries', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
 				<?php
 				if ($imdbOptionsw['imdbtaxonomycountry'] == "1") {
@@ -617,7 +632,11 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<input type="checkbox" id="imdb_imdbtaxonomycreator" name="imdb_imdbtaxonomycreator" value="<?php if ($imdbOptionsw['imdbtaxonomycreator'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomycreator">
-					<?php if ($imdbOptionsw['imdbtaxonomycreator'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Creators', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Creators', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+					<?php if ($imdbOptionsw['imdbtaxonomycreator'] == "1") { 
+
+							if ($imdbOptionsw['imdbwidgetcreator'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else { echo '<span class="lumiere-option-taxo-deactivated">'; }
+
+							esc_html_e( 'Creators', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Creators', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
 				<?php
 				if ($imdbOptionsw['imdbtaxonomycreator'] == "1") {
@@ -636,7 +655,11 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<input type="checkbox" id="imdb_imdbtaxonomydirector" name="imdb_imdbtaxonomydirector" value="<?php if ($imdbOptionsw['imdbtaxonomydirector'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomydirector">
-					<?php if ($imdbOptionsw['imdbtaxonomydirector'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Directors', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Directors', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+					<?php if ($imdbOptionsw['imdbtaxonomydirector'] == "1") { 
+
+							if ($imdbOptionsw['imdbwidgetdirector'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else { echo '<span class="lumiere-option-taxo-deactivated">'; }
+
+							esc_html_e( 'Directors', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Directors', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
 				<?php
 				if ($imdbOptionsw['imdbtaxonomydirector'] == "1") {
@@ -656,7 +679,11 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<input type="checkbox" id="imdb_imdbtaxonomygenre" name="imdb_imdbtaxonomygenre" value="<?php if ($imdbOptionsw['imdbtaxonomygenre'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomygenre">
-					<?php if ($imdbOptionsw['imdbtaxonomygenre'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Genres', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Genres', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+					<?php if ($imdbOptionsw['imdbtaxonomygenre'] == "1") { 
+
+							if ($imdbOptionsw['imdbwidgetgenre'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else { echo '<span class="lumiere-option-taxo-deactivated">'; }
+
+							esc_html_e( 'Genres', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Genres', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
 				<?php
 				if ($imdbOptionsw['imdbtaxonomygenre'] == "1") {
@@ -674,7 +701,11 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<input type="checkbox" id="imdb_imdbtaxonomykeywords" name="imdb_imdbtaxonomykeywords" value="<?php if ($imdbOptionsw['imdbtaxonomykeywords'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomykeywords">
-					<?php if ($imdbOptionsw['imdbtaxonomykeywords'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Keywords', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Keywords', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+					<?php if ($imdbOptionsw['imdbtaxonomykeywords'] == "1") { 
+
+							if ($imdbOptionsw['imdbwidgetkeywords'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else { echo '<span class="lumiere-option-taxo-deactivated">'; }
+
+							esc_html_e( 'Keywords', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Keywords', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 				
 				<?php
 				if ($imdbOptionsw['imdbtaxonomykeywords'] == "1") {
@@ -692,7 +723,11 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<input type="checkbox" id="imdb_imdbtaxonomylanguage" name="imdb_imdbtaxonomylanguage" value="<?php if ($imdbOptionsw['imdbtaxonomylanguage'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomylanguage">
-					<?php if ($imdbOptionsw['imdbtaxonomylanguage'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Languages', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Languages', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+					<?php if ($imdbOptionsw['imdbtaxonomylanguage'] == "1") { 
+
+							if ($imdbOptionsw['imdbwidgetlanguage'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else { echo '<span class="lumiere-option-taxo-deactivated">'; }
+
+							esc_html_e( 'Languages', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Languages', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
 				<?php
 				if ($imdbOptionsw['imdbtaxonomylanguage'] == "1") {
@@ -713,7 +748,11 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<input type="checkbox" id="imdb_imdbtaxonomyproducer" name="imdb_imdbtaxonomyproducer" value="<?php if ($imdbOptionsw['imdbtaxonomyproducer'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomyproducer">
-					<?php if ($imdbOptionsw['imdbtaxonomyproducer'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Producers', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Producers', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+					<?php if ($imdbOptionsw['imdbtaxonomyproducer'] == "1") { 
+
+							if ($imdbOptionsw['imdbwidgetproducer'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else { echo '<span class="lumiere-option-taxo-deactivated">'; }
+
+							esc_html_e( 'Producers', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Producers', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
 				<?php
 				if ($imdbOptionsw['imdbtaxonomyproducer'] == "1") {
@@ -731,7 +770,11 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<input type="checkbox" id="imdb_imdbtaxonomytitle" name="imdb_imdbtaxonomytitle" value="<?php if ($imdbOptionsw['imdbtaxonomytitle'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomytitle">
-					<?php if ($imdbOptionsw['imdbtaxonomytitle'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Titles', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Titles', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+					<?php if ($imdbOptionsw['imdbtaxonomytitle'] == "1") { 
+
+							if ($imdbOptionsw['imdbwidgettitle'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else { echo '<span class="lumiere-option-taxo-deactivated">'; }
+
+							esc_html_e( 'Titles', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Titles', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
 				<?php
 				if ($imdbOptionsw['imdbtaxonomytitle'] == "1") {
@@ -749,7 +792,11 @@ if (current_user_can( 'manage_options' ) ) {
 
 				<input type="checkbox" id="imdb_imdbtaxonomywriter" name="imdb_imdbtaxonomywriter" value="<?php if ($imdbOptionsw['imdbtaxonomywriter'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomywriter">
-					<?php if ($imdbOptionsw['imdbtaxonomywriter'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Writers', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Writers', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
+					<?php if ($imdbOptionsw['imdbtaxonomywriter'] == "1") { 
+
+							if ($imdbOptionsw['imdbwidgetwriter'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else { echo '<span class="lumiere-option-taxo-deactivated">'; }
+
+							esc_html_e( 'Writers', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Writers', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
 				</label> 
 				<?php
 				if ($imdbOptionsw['imdbtaxonomywriter'] == "1") {
@@ -765,6 +812,7 @@ if (current_user_can( 'manage_options' ) ) {
 			</div>
 
 		</div>
+	</div>
 
 <?php 
 	} //end check taxonomy option
@@ -821,6 +869,7 @@ if (current_user_can( 'manage_options' ) ) {
 			</div>
 
 		</div>
+	</div>
 
 <?php	} 
 		if ( (isset($_GET['widgetoption'])) && ($_GET['widgetoption'] == "misc") ) { 	// Misc ?>
@@ -866,7 +915,6 @@ if (current_user_can( 'manage_options' ) ) {
 			<input type="submit" class="button-primary" id="update_imdbwidgetSettings" name="update_imdbwidgetSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
 		</div>
 	</form>
-	</div>
 </div>
 
 <?php	

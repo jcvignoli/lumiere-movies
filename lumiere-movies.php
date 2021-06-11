@@ -14,7 +14,7 @@
 Plugin Name: Lumière! Movies
 Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
 Description: Add clickable links to informative popups about movies with information extracted from the IMDb. Display data related to movies and people in a widget or inside your post. Fully customizable. The most comprehensive and simplest plugin if you write about movies.
-Version: 3.2.3
+Version: 3.3
 Requires at least: 4.6
 Text Domain: lumiere-movies
 Domain Path: /languages
@@ -44,8 +44,10 @@ if (class_exists("lumiere_core")) {
 	$start = new lumiere_core();
 }
 
-# Executed upon plugin activated/deactivated
-register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
-register_activation_hook( __FILE__, [ $start , 'lumiere_on_activation' ] );
+# Executed upon plugin activation
+register_activation_hook( __FILE__, [ $start , 'lumiere_on_install' ] );
+
+# Executed upon plugin deactivation
+register_deactivation_hook( __FILE__, [ $start , 'lumiere_on_uninstall' ] );
 
 ?>

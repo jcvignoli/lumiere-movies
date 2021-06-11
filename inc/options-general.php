@@ -333,13 +333,15 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<label for="imdb_imdblanguage"><?php esc_html_e( 'Search language', 'lumiere-movies'); ?></label><br /><br />
 				<select name="imdb_imdblanguage">
-					<option <?php if( ($imdbOptions['imdblanguage'] == "en-US") || (empty($imdbOptions['imdblanguage'])) ) echo 'selected="selected"'; ?>value="en-US"><?php esc_html_e( 'English (default)', 'lumiere-movies'); ?></option>
+					<option <?php if( ($imdbOptions['imdblanguage'] == "en-US") || (empty($imdbOptions['imdblanguage'])) ) echo 'selected="selected"'; ?> value="en-US"><?php esc_html_e( 'English', 'lumiere-movies'); ?></option>
 					<option <?php if($imdbOptions['imdblanguage'] == "fr-FR") echo 'selected="selected"'; ?>value="fr-FR"><?php esc_html_e( 'French', 'lumiere-movies'); ?></option>
 					<option <?php if($imdbOptions['imdblanguage'] == "es-ES") echo 'selected="selected"'; ?>value="es-ES"><?php esc_html_e( 'Spanish', 'lumiere-movies'); ?></option>
 				</select>
 
-				<div class="explain"><?php esc_html_e( 'Language used for the movie search. Very usefull for a non-English blog using Lumiere as a widget.', 'lumiere-movies'); ?></div>
-
+				<div class="explain"><?php esc_html_e( 'Language used for the movie search. Very usefull for a non-English blog using Lumière! as a widget.', 'lumiere-movies'); ?>
+					<br /><br />
+					<?php esc_html_e( 'Default:','lumiere-movies'); ?> "English"
+				</div>
 			</div>
 <?php /* 2021 06 08 deactivated, no utility
 
@@ -366,7 +368,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<div class="explain">
 					<?php esc_html_e( 'This limits the number of results in a movie query.', 'lumiere-movies'); ?> 
-					<br />
+					<br /><br />
 					<?php esc_html_e( 'Default:','lumiere-movies'); ?> "10"
 				</div>
 			</div>
@@ -395,7 +397,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				
 				<label for="imdb_imdbwordpress_bigmenu_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<div class="explain"><?php esc_html_e( "When enabled, Lumiere options are fully displayed on the left menu - and not anymore limited to the settings directory. It creates a dedicated menu for Lumiere options.", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+				<div class="explain"><?php esc_html_e( "When enabled, Lumiere options are fully displayed on the left menu - and not anymore limited to the settings directory. It creates a dedicated menu for Lumiere options.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
 			<div class="lumiere_flex_container_content_third imdblt_padding_five">
@@ -407,13 +409,13 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<label for="imdb_imdbwordpress_tooladminmenu_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<div class="explain"><?php esc_html_e( "When activated, Lumière options are displayed on the top menu of Wordpress. Deactivate it if you have many plugins already occupying that area.", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
+				<div class="explain"><?php esc_html_e( "When activated, Lumière options are displayed on the top menu of Wordpress. Deactivate it if you have many plugins already occupying that area.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
 
 			</div>
 
 			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
-				<label for="imdb_imdbtaxonomy"><?php esc_html_e( 'Use automatic taxonomy?', 'lumiere-movies'); ?></label><br /><br />
+				<label for="imdb_imdbtaxonomy"><?php esc_html_e( 'Use taxonomy?', 'lumiere-movies'); ?></label><br /><br />
 
 				<input type="radio" id="imdb_imdbtaxonomy_yes" name="imdb_imdbtaxonomy" value="1" <?php if ($imdbOptions['imdbtaxonomy'] == "1") { echo 'checked="checked"'; }?> />
 
@@ -423,13 +425,27 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<label for="imdb_imdbtaxonomy_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<div class="explain"><?php esc_html_e( 'This will automatically add a taxonomy term found for the movie, as explained in', 'lumiere-movies') ?> <a href="http://codex.wordpress.org/WordPress_Taxonomy">taxonomy</a>. <?php esc_html_e( 'Upon activation, this option opens ', 'lumiere-movies'); ?><a href="<?php echo admin_url(); ?>admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo"><?php esc_html_e( 'others taxonomy options', 'lumiere-movies');  ?></a>. <?php esc_html_e( 'Taxonomy terms are uninstalled when removing the plugin.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies'); ?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+				<div class="explain"><?php esc_html_e( 'This will add taxonomy terms found for the movie when display a page with a widget or a into a post. Taxonomy allows to group posts by a series of chosen terms, as explained in', 'lumiere-movies') ?> <a href="http://codex.wordpress.org/WordPress_Taxonomy">taxonomy</a>. <?php esc_html_e( 'When activated, this option opens ', 'lumiere-movies'); ?><a href="<?php echo esc_url( admin_url() . 'admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo') ?>"><?php esc_html_e( 'specific taxonomy options', 'lumiere-movies');  ?></a>. <?php esc_html_e( 'Taxonomy terms are uninstalled when removing the plugin if you selected not to keep the settings upon uninstall.', 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies'); ?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?> <?php esc_html_e( '(Activated for "genre" taxonomy only)', 'lumiere-movies'); ?></div>
 
 			</div>
 		</div>
 
 		<div class="lumiere_flex_container">
-			<div class="imdblt_padding_five">
+			<div class="lumiere_flex_container_content_third imdblt_padding_five">
+
+				<?php esc_html_e( 'Keep settings upon deactivation', 'lumiere-movies'); ?><br /><br />
+
+				<input type="radio" id="imdb_imdbkeepsettings_yes" name="imdb_imdbkeepsettings" value="1" <?php if ($imdbOptions['imdbkeepsettings'] == "1") { echo 'checked="checked"'; }?> />
+
+				<label for="imdb_imdbkeepsettings_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbkeepsettings_no" name="imdb_imdbkeepsettings" value="" <?php if ($imdbOptions['imdbkeepsettings'] == 0) { echo 'checked="checked"'; } ?>  />
+				
+				<label for="imdb_imdbkeepsettings_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+
+				<div class="explain"><?php esc_html_e( "Whether to keep or delete Lumière! settings upon plugin deactivation. Keep also the taxonomy terms.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
+
+			</div>
+
+			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<?php esc_html_e( 'Debug Lumière!', 'lumiere-movies'); ?><br /><br />
 
@@ -439,9 +455,12 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				
 				<label for="imdb_imdbdebug_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<div class="explain"><?php esc_html_e( "When enabled, Lumière can be debugged.", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
-
+				<div class="explain"><?php esc_html_e( "When enabled, Lumière can be debugged.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 			</div>
+
+			<div class="lumiere_flex_container_content_third imdblt_padding_five">
+			</div>
+
 		</div>
 
 	</div>

@@ -62,6 +62,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 	'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
 	'imdbpluginpath' => IMDBLTABSPATH,
 	'imdburlpopups' => '/imdblt/',
+	'imdbkeepsettings' => true,
 	'imdburlstringtaxo' => 'imdblt_',
 	'imdbwebsite' => "www.imdb.com",
 	'imdbcoversize' => false,
@@ -84,7 +85,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 	'imdbwordpress_bigmenu'=>false,
 	'imdbwordpress_tooladminmenu'=>true,
 	'imdbpopup_highslide'=>true,
-	'imdbtaxonomy'=> false,
+	'imdbtaxonomy'=> true,
 	);
 	$imdbAdminOptions['imdbplugindirectory'] = $imdbAdminOptions['blog_adress'] . $imdbAdminOptions['imdbplugindirectory_partial'];
 
@@ -157,7 +158,7 @@ class lumiere_settings_conf extends lumiere_send_config {
 	'imdbwidgetcreator' => false,
 	'imdbwidgetrating' => false,
 	'imdbwidgetlanguage' => false,
-	'imdbwidgetgenre' => false,
+	'imdbwidgetgenre' => true,
 	'imdbwidgetwriter' => true,
 	'imdbwidgetproducer' => false,
 	'imdbwidgetkeywords' => false,
