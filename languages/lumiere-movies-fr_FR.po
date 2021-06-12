@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-11 10:19-0400\n"
-"PO-Revision-Date: 2021-06-11 10:20-0400\n"
+"POT-Creation-Date: 2021-06-11 20:24-0400\n"
+"PO-Revision-Date: 2021-06-11 20:24-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -66,67 +66,79 @@ msgstr "Par nom de film"
 msgid "By IMDb's ID"
 msgstr "Par numéro IMDb"
 
-#: class/class.lumiere.php:392
+#: class/class.lumiere.php:396
 msgid "Lumière options page"
 msgstr "Pages d'options Lumière!"
 
-#: class/class.lumiere.php:392 class/class.lumiere.php:490
+#: class/class.lumiere.php:396 class/class.lumiere.php:494
 #: inc/options-cache.php:394
 msgid "General options"
 msgstr "Options g&eacute;n&eacute;rales"
 
-#: class/class.lumiere.php:393
+#: class/class.lumiere.php:397
 msgid "Widget & In post options page"
 msgstr "Options du Widget/Dans un message"
 
-#: class/class.lumiere.php:393
+#: class/class.lumiere.php:397
 msgid "Widget/In post"
 msgstr "Widget/Dans un message"
 
-#: class/class.lumiere.php:394
+#: class/class.lumiere.php:398
 msgid "Cache management options page"
 msgstr "Options de la gestion du cache"
 
-#: class/class.lumiere.php:394 inc/admin_pages.php:73
+#: class/class.lumiere.php:398 inc/admin_pages.php:73
 msgid "Cache management"
 msgstr "Gestion du cache"
 
-#: class/class.lumiere.php:395
+#: class/class.lumiere.php:399
 msgid "Help page"
 msgstr "Page d'aide"
 
-#: class/class.lumiere.php:395 class/class.lumiere.php:496
+#: class/class.lumiere.php:399 class/class.lumiere.php:500
 msgid "Help"
 msgstr "Aide"
 
-#: class/class.lumiere.php:488
+#: class/class.lumiere.php:492
 msgid "Lumière Menu"
 msgstr "Menu Lumière"
 
-#: class/class.lumiere.php:492
+#: class/class.lumiere.php:496
 msgid "Widget options"
 msgstr "Options Widget"
 
-#: class/class.lumiere.php:494 inc/options-cache.php:361
+#: class/class.lumiere.php:498 inc/options-cache.php:361
 #: inc/options-cache.php:389
 msgid "Cache options"
 msgstr "Options de cache"
 
-#: class/class.lumiere.php:588 class/class.lumiere.php:598
+#: class/class.lumiere.php:592 class/class.lumiere.php:602
 msgid "Informations about "
 msgstr "Information pour "
 
-#: class/class.lumiere.php:588 class/class.lumiere.php:598
+#: class/class.lumiere.php:592 class/class.lumiere.php:602
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: class/class.lumiere.php:602
+#: class/class.lumiere.php:606
 msgid "No query entered"
 msgstr "Aucune recherche entrée"
 
-#: class/class.lumiere.php:603
+#: class/class.lumiere.php:607
 msgid "Search query for "
 msgstr "Recherche pour "
+
+#: class/class.widget.php:73
+msgid "IMDb data"
+msgstr "IMDb donn&eacute;es"
+
+#: class/class.widget.php:135
+msgid "Lumière! Movies"
+msgstr "Lumière! Movies"
+
+#: class/class.widget.php:143
+msgid "Title:"
+msgstr "Titre :"
 
 #: class/functions.php:101 class/functions.php:103 inc/imdb-movie.inc.php:667
 #: inc/imdb-movie.inc.php:670 inc/imdb-movie.inc.php:716
@@ -183,14 +195,6 @@ msgstr "Une erreur s'est produite lors de la génération du fichier htaccess."
 #: class/functions.php:450
 msgid "Failed creating htaccess file."
 msgstr "Echec lors de la création du fichier htaccess."
-
-#: class/widget.php:42
-msgid "IMDb data"
-msgstr "IMDb donn&eacute;es"
-
-#: class/widget.php:124
-msgid "Title:"
-msgstr "Titre :"
 
 #: inc/admin_pages.php:35
 msgid "admin options"
@@ -2732,9 +2736,6 @@ msgstr "Pas de message trouv&eacute."
 
 #~ msgid "Special thanks to:"
 #~ msgstr "Remerciements particuliers &agrave; :"
-
-#~ msgid "Lumière titles"
-#~ msgstr "Lumière titres"
 
 #~ msgid "Lumière genres"
 #~ msgstr "Lumière genres"

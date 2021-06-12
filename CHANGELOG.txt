@@ -19,6 +19,7 @@ v.3.3
 * [technical] Moved class from inside lumiere-movies.php to class/class.lumiere.php
 * [technical] Implemented a taxonomy slug URL. By changing the options in the admin panel, the URL for taxonomy pages can be changed.
 * [technical] Taxonomy is now activated by default, allowing "genre" to be available. "genre" is also activated by default in "what to display" now.
+* [technical] Widget is now a class compliant with WordPress coding standards.
 
 v.3.2.2
 * [medium] Implemented a selection for popup colors in admin menu 
