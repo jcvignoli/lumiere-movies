@@ -58,16 +58,18 @@ class lumiere_core {
 
 			if (is_admin()) {
 				// add admin menu
-				if (isset($imdb_ft)) {
+				if (isset($imdb_ft)) 
 					add_action('admin_menu', [ $this, 'lumiere_admin_panel' ] );
-				}
 
 				// add admin header
 				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
+
 				// add admin tinymce button for wysiwig editor
 				add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_tinymce' ] );
+
 				// add admin quicktag button for text editor
 				add_action('admin_footer', [ $this, 'lumiere_register_quicktag' ], 100);
+
 				// add footer
 				add_action('admin_footer', [ $this, 'lumiere_add_footer_admin' ], 100 );
 			}
@@ -96,10 +98,7 @@ class lumiere_core {
 			// On updating plugin
 			add_action( 'upgrader_process_complete', 'lumiere_on_upgrade_completed' );
 
-			// register widget
-			add_action('plugins_loaded', 'lumiere_register_widget');
 		}
-
 	}
 
 	/**
@@ -650,7 +649,7 @@ class lumiere_core {
 	}
 
 	/**
-	16.- Add new meta tags
+	16.- Add new meta tags in popups <head>
 	**/
 	function lumiere_add_metas() {
 
@@ -755,9 +754,9 @@ class lumiere_core {
 					$this->lumiere_make_htaccess_admin();
 
 					/* Refresh rewrite rules */
-					//flush_rewrite_rules(); # don't need anymore, it is executed in init
+					flush_rewrite_rules();
 
-					/* update options, not needed, done in config.php automatically
+					/* update options, not needed, done in class/class.config.php automatically
 					$all_lumiere_options[] = get_option($imdb_ft->imdbAdminOptionsName);
 					$all_lumiere_options[] = get_option($imdb_ft->imdbWidgetOptionsName);
 					$all_lumiere_options[] = get_option($imdb_ft->imdbCacheOptionsName);
@@ -841,6 +840,7 @@ class lumiere_core {
 		if ( (isset($imdb_cache_values['imdbcachedir'])) && (is_dir($imdb_cache_values['imdbcachedir'])) )
 			lumiere_unlinkRecursive($imdb_cache_values['imdbcachedir']);
 	}
+
 } 
 
 ?>
