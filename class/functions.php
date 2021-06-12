@@ -142,7 +142,19 @@ if ( ! function_exists('lumiere_create_taxonomies')){
 
 			if ($imdb_widget_values[ 'imdbtaxonomy'.$filter_taxonomy ] ==  1) {
 
-				register_taxonomy($imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy, array('page','post'), array( 'hierarchical' => false, 'label' => esc_html__("Lumière ".$filter_taxonomy, 'lumiere-movies'), 'query_var' => $imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy, 'rewrite' => array( 'slug' => $imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy ) )  ) ; 
+				register_taxonomy($imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy, array('page','post'), 
+					array( 
+		/* remove metaboxes from edit interface, keep the menu of post */
+		'show_ui'                    => true,
+		'show_in_quick_edit'         => false,
+		'meta_box_cb'                => false,
+		/* other settings */
+		'hierarchical' => false, 
+		'label' => esc_html__("Lumière ".$filter_taxonomy, 'lumiere-movies'), 
+		'query_var' => $imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy, 
+		'rewrite' => array( 'slug' => $imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy ) 
+					)  
+				) ; 
 			}
 		}
 
