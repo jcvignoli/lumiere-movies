@@ -60,8 +60,8 @@ $messages = array(
 use \Imdb\Title;
 use \Imdb\Person;
 
-if (class_exists("lumiere_settings_conf")) {
-	$config = new lumiere_settings_conf();
+if (class_exists("\Lumiere\Settings")) {
+	$config = new \Lumiere\Settings();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
@@ -317,7 +317,7 @@ if (current_user_can( 'manage_options' ) ) {
 			}
 
 			// get again the movie
-			$movie = new Imdb\Title($id_sanitized, $config);
+			$movie = new \Imdb\Title($id_sanitized, $config);
 
 			$movie->alsoknow(); $movie->cast(); $movie->colors(); $movie->composer(); $movie->comment_split(); $movie->country(); $movie->creator(); $movie->director(); $movie->genres(); $movie->goofs(); $movie->keywords(); $movie->languages(); $movie->officialSites(); $movie->photo_localurl(); $movie->plot(); $movie->prodCompany(); $movie->producer(); $movie->quotes(); $movie->rating(); $movie->runtime(); $movie->soundtrack(); $movie->taglines(); $movie->title(); $movie->trailers(TRUE); $movie->votes(); $movie->writing(); $movie->year();
 
@@ -343,7 +343,7 @@ if (current_user_can( 'manage_options' ) ) {
 			}
 
 			// get again the person
-			$person = new Imdb\Person($id_people_sanitized, $config);
+			$person = new \Imdb\Person($id_people_sanitized, $config);
 
 			$person->bio(); $person->birthname();$person->born();$person->died();	$person->movies_all(); $person->movies_archive(); $person->movies_soundtrack(); $person->movies_writer(); $person->name(); $person->photo_localurl(); $person->pubmovies(); $person->pubportraits(); $person->quotes(); $person->trivia(); $person->trademark();
 

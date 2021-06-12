@@ -22,8 +22,8 @@ require_once ( plugin_dir_path(__DIR__) . 'bootstrap.php');
 global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
 // Start config class for $config in below Imdb\Title class calls
-if (class_exists("lumiere_settings_conf")) {
-	$config = new lumiere_settings_conf();
+if (class_exists("\Lumiere\Settings")) {
+	$config = new \Lumiere\Settings();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
@@ -35,9 +35,9 @@ $count_me_siffer= 0; // value to allow movie total count (called from every 'tax
 
 if (isset ($_GET["mid"])) {
 	$movieid = filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT);
-	$movie = new Imdb\Title($movieid, $config);
+	$movie = new \Imdb\Title($movieid, $config);
 } else {
-	$search = new Imdb\TitleSearch($config);
+	$search = new \Imdb\TitleSearch($config);
 }
 
 $imovie = 0;

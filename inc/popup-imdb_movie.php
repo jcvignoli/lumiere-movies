@@ -24,8 +24,8 @@ if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug']
 }
 
 // Start config class for $config in below Imdb\Title class calls
-if (class_exists("lumiere_settings_conf")) {
-	$config = new lumiere_settings_conf();
+if (class_exists("\Lumiere\Settings")) {
+	$config = new \Lumiere\Settings();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
@@ -58,12 +58,12 @@ if (empty($movieid_sanitized ) && empty($filmid_sanitized)){
 }
 
 if ( (isset ($movieid_sanitized)) && (!empty ($movieid_sanitized)) && (!empty ($config)) ) {
-	$movie = new Imdb\Title($movieid_sanitized, $config);
+	$movie = new \Imdb\Title($movieid_sanitized, $config);
 	$filmid_sanitized = lumiere_name_htmlize($movie->title());
 	$film_sanitized_for_title = sanitize_text_field($movie->title());
 
 } elseif (!empty ($config)) {
-	$search = new Imdb\TitleSearch($config);
+	$search = new \Imdb\TitleSearch($config);
 	if ( (isset($_GET["searchtype"])) && ($_GET["searchtype"]=="episode") ) {
 		$movie = $search->search ($filmid_sanitized, array(\Imdb\TitleSearch::TV_SERIES))[0];
 	} else {
