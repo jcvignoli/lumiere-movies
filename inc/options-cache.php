@@ -393,7 +393,7 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 
 	<div class="titresection"><?php esc_html_e('General options', 'lumiere-movies'); ?></div>
 
-		<div class="lumiere_flex_container">
+		<div class="lumiere_display_flex lumiere_flex_make_responsive">
 <?php 
 /* don't need to change those options, unactivated
 
@@ -407,7 +407,7 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 			</div>
 */
 ?>
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
+			<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
 
 				<?php esc_html_e('Use cache?', 'lumiere-movies'); ?><br /><br />
 				<input type="radio" id="imdb_imdbusecache_yes" name="imdb_imdbusecache" value="1" <?php if ($imdbOptionsc['imdbusecache'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbcacheexpire" data-field_to_change_value="0" data-modificator2="yes" data-field_to_change2="imdb_imdbcachedetailsshort_yes" data-field_to_change_value2="0" /><label for="imdb_imdbusecache_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbconverttozip_no" name="imdb_imdbusecache" value="" <?php if ($imdbOptionsc['imdbusecache'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbcacheexpire" data-field_to_change_value="1" data-modificator2="yes" data-field_to_change2="imdb_imdbcachedetailsshort_no" data-field_to_change_value2="1"/><label for="imdb_imdbusecache_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
@@ -415,7 +415,7 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 				<div class="explain"><?php esc_html_e('Whether to use a cached page to retrieve the information (if available).', 'lumiere-movies'); ?> <br /><?php esc_html_e('Default:','lumiere-movies');?> <?php esc_html_e('Yes', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
+			<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
 
 				<label for="imdb_imdbcacheexpire"><?php esc_html_e('Cache expire', 'lumiere-movies'); ?></label><br /><br />
 				<div class="lumiere_flex_container">

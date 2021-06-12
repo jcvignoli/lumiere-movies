@@ -1,8 +1,10 @@
 Changelog
 
 v.3.3
+* [major] Added a metabox in the edition of the posts (admin area). The movie's title or IMDb ID will be utilized to show a widget with the relevant movie. Included a popup to search for IMDb IDs.
 * [major] More robust taxonomy system. More technical and systematic coherence to understand the taxonomy options. Rewrote the taxonomy injection in imdb-movie.inc.php using wp_set_post_terms and only once per taxonomy. Faster, cleaner, and fully working.
 * [medium] Added the option to keep the settings upon plugin deactivation.
+* [minor] Removed taxonomy metaboxes from edit interface, it's useless
 * [minor] Limiting the number of results in queries never worked. Now it does. Use the general options -> advanced 
 * [minor] Enhanced popup layout, fancier and more adapted to the theme selected in admin panel
 * [minor] Added "loader" css to loader ids (used in popup-search and popup-imdb_movie.php)
