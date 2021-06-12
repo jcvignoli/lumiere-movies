@@ -50,9 +50,9 @@ function printAdminPage() {
 
 				<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a>
 
-<?php 			if ( ! is_active_widget('lumiere_widget') ) { ?>
+<?php			if ( ! is_active_widget( '', '', 'lumiere-movies-widget') ) { ?>
 
-				- <em><font size=-2><a href="<?php echo esc_url( admin_url() . '/widgets.php'); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies'); ?>)</a></font></em>
+				- <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'widgets.php'); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies'); ?></a></font></em>
 
 <?php 			} 
 			if ( ($imdbOptions['imdbdirectsearch'] == "0")  || (!isset($imdbOptions['imdbdirectsearch'])) ) { ?>
