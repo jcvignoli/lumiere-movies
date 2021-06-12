@@ -26,8 +26,8 @@ if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug']
 do_action('wp_loaded'); // execute wordpress first codes
 
 // Start config class for $config in below Imdb\Title class calls
-if (class_exists("lumiere_settings_conf")) {
-	$config = new lumiere_settings_conf();
+if (class_exists("\Lumiere\Settings")) {
+	$config = new \Lumiere\Settings();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
@@ -60,7 +60,7 @@ if (empty($film_sanitized ) && empty($mid_sanitized)){
 }
 
 if (isset ($mid_sanitized)) {
-	$person = new Imdb\Person($mid_sanitized, $config) ?? NULL;
+	$person = new \Imdb\Person($mid_sanitized, $config) ?? NULL;
 	$person_name_sanitized = sanitize_text_field( $person->name() ) ?? NULL;
 
 //--------------------------------------=[Layout]=---------------

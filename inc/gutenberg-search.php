@@ -25,8 +25,8 @@ require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;;
 
 // Start config class for $config in below Imdb\Title class calls
-if (class_exists("lumiere_settings_conf")) {
-	$config = new lumiere_settings_conf();
+if (class_exists("\Lumiere\Settings")) {
+	$config = new \Lumiere\Settings();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
@@ -35,7 +35,7 @@ if (class_exists("lumiere_settings_conf")) {
 }
 
 # Initialization of IMDBphp
-$search = new Imdb\TitleSearch($config);
+$search = new \Imdb\TitleSearch($config);
 ?>
 <html>
 <head>

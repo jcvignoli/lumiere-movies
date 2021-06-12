@@ -19,10 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 //Prints out the admin page
-function printAdminPage() {
+function lumiere_admin_pages() {
 
-	if (class_exists("lumiere_settings_conf")) {
-		$imdb_ft = new lumiere_settings_conf();
+	if (class_exists("\Lumiere\Settings")) {
+		$imdb_ft = new \Lumiere\Settings();
 		$imdbOptions = $imdb_ft->get_imdb_admin_option();
 		$imdbOptionsw = $imdb_ft->get_imdb_widget_option();
 		$imdbOptionsc = $imdb_ft->get_imdb_cache_option();

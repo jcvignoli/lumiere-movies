@@ -13,11 +13,12 @@
  #											#
  #############################################################################
 
+namespace Lumiere;
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	wp_die('You can not call directly this page');
 }
-
 
 /* CONSTANTS */
 $imdb_admin_values['imdbplugindirectory'] = isset($imdb_admin_values['imdbplugindirectory']) ? $imdb_admin_values['imdbplugindirectory'] : plugin_dir_url( __DIR__ );
@@ -41,7 +42,7 @@ $lumiere_version = preg_match('#Stable tag:\s(.+)\n#', $lumiere_version_recherch
 // use the original class in src/Imdb/Config.php
 use \Imdb\Config;
 
-class lumiere_settings_conf extends lumiere_send_config {
+class Settings extends Send_config {
 
 	var $imdbAdminOptionsName = "imdbAdminOptions";
 	var $imdbWidgetOptionsName = "imdbWidgetOptions";
@@ -220,7 +221,7 @@ load_plugin_textdomain('lumiere-movies', false, IMDBLTURLPATH . 'languages' );
 
 #--------------------------------------------------=[ Class to send data to the master IMDbPHP classes ]=--
 
-class lumiere_send_config extends Config {
+class Send_config extends Config {
 	var $imdb_admin_values;
 	var $imdb_cache_values;
 
@@ -270,7 +271,7 @@ class lumiere_send_config extends Config {
 
 # put a the end so they can be called through a new class
 
-$internal_call = new lumiere_settings_conf();
+$internal_call = new Settings();
 $imdb_admin_values = $internal_call->get_imdb_admin_option();
 define('LUMIERE_VERSION', $lumiere_version_match[1]);
 $LUMIERE_URLSTRING = (isset($imdb_admin_values['imdburlpopups'])) ? $imdb_admin_values['imdburlpopups'] : "/imdblt/";

@@ -4,21 +4,22 @@
 // ********************* CLASS lumiere_core
 // *********************
 
-// namespace Lumiere;
+namespace Lumiere;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	wp_die('You can not call directly this page');
 }
 
-if (class_exists("lumiere_settings_conf")) {
-	$imdb_ft = new lumiere_settings_conf();
+if (class_exists("\Lumiere\Settings")) {
+	$imdb_ft = new \Lumiere\Settings();
 	$imdb_admin_values = $imdb_ft->get_imdb_admin_option();
 	$imdb_widget_values = $imdb_ft->get_imdb_widget_option();
 	$imdb_cache_values = $imdb_ft->get_imdb_cache_option();
+	global $imdb_ft, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 }
 
-class lumiere_core {
+class Core {
 	private $bypass; /* this value is not in use anymore, to be removed */
 
 	/*constructor*/
@@ -389,18 +390,18 @@ class lumiere_core {
 			return;
 
 		if (function_exists('add_options_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 0 ) ) {
-			add_options_page('Lumière Options', '<img src="'. $imdb_admin_values['imdbplugindirectory']. 'pics/lumiere-ico13x13.png" align="absmiddle"> Lumière', 'administrator', 'imdblt_options', 'printAdminPage' );
+			add_options_page('Lumière Options', '<img src="'. $imdb_admin_values['imdbplugindirectory']. 'pics/lumiere-ico13x13.png" align="absmiddle"> Lumière', 'administrator', 'imdblt_options', 'lumiere_admin_pages' );
 
 			// third party plugin
 			add_filter('ozh_adminmenu_icon_imdblt_options', [ $this, 'ozh_imdblt_icon' ] );
 		}
 		if (function_exists('add_submenu_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 1 ) ) {
 			// big menu for many pages for admin sidebar
-			add_menu_page( 'Lumière Options', '<i>Lumière</i>' , 8, 'imdblt_options', 'printAdminPage', $imdb_admin_values['imdbplugindirectory'].'pics/lumiere-ico13x13.png', 65);
+			add_menu_page( 'Lumière Options', '<i>Lumière</i>' , 8, 'imdblt_options', 'lumiere_admin_pages', $imdb_admin_values['imdbplugindirectory'].'pics/lumiere-ico13x13.png', 65);
 			add_submenu_page( 'imdblt_options' , esc_html__('Lumière options page', 'lumiere-movies'), esc_html__('General options', 'lumiere-movies'), 8, 'imdblt_options');
-			add_submenu_page( 'imdblt_options' , esc_html__('Widget & In post options page', 'lumiere-movies'), esc_html__('Widget/In post', 'lumiere-movies'), 8, 'imdblt_options&subsection=widgetoption', 'printAdminPage' );
-			add_submenu_page( 'imdblt_options',  esc_html__('Cache management options page', 'lumiere-movies'), esc_html__('Cache management', 'lumiere-movies'), 8, 'imdblt_options&subsection=cache', 'printAdminPage');
-			add_submenu_page( 'imdblt_options' , esc_html__('Help page', 'lumiere-movies'), esc_html__('Help', 'lumiere-movies'), 8, 'imdblt_options&subsection=help', 'printAdminPage' );
+			add_submenu_page( 'imdblt_options' , esc_html__('Widget & In post options page', 'lumiere-movies'), esc_html__('Widget/In post', 'lumiere-movies'), 8, 'imdblt_options&subsection=widgetoption', 'lumiere_admin_pages' );
+			add_submenu_page( 'imdblt_options',  esc_html__('Cache management options page', 'lumiere-movies'), esc_html__('Cache management', 'lumiere-movies'), 8, 'imdblt_options&subsection=cache', 'lumiere_admin_pages');
+			add_submenu_page( 'imdblt_options' , esc_html__('Help page', 'lumiere-movies'), esc_html__('Help', 'lumiere-movies'), 8, 'imdblt_options&subsection=help', 'lumiere_admin_pages' );
 			//
 		}
 
@@ -586,7 +587,7 @@ class lumiere_core {
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
 				if ( (isset($_GET['mid'])) && (!empty($_GET['mid'])) ) {
 					$movieid_sanitized = sanitize_text_field( $_GET['mid'] );
-					$movie = new Imdb\Title($movieid_sanitized, $imdb_ft);
+					$movie = new \Imdb\Title($movieid_sanitized, $imdb_ft);
 					$filmid_sanitized = esc_html($movie->title());
 				} elseif ( (!isset($_GET['mid'])) && (isset($_GET['film'])) ){
 					$filmid_sanitized = lumiere_name_htmlize($_GET['film']);
@@ -600,7 +601,7 @@ class lumiere_core {
 
 				if ( (isset($_GET['mid'])) && (!empty($_GET['mid'])) ) {
 					$mid_sanitized = sanitize_text_field($_GET['mid']);
-					$person = new Imdb\Person($mid_sanitized, $imdb_ft);
+					$person = new \Imdb\Person($mid_sanitized, $imdb_ft);
 					$person_name_sanitized = sanitize_text_field( $person->name() );
 				}
 				$title = isset($person_name_sanitized ) ? esc_html__('Informations about ', 'lumiere-movies') . $person_name_sanitized. " - Lumi&egrave;re movies" : esc_html__('Unknown', 'lumiere-movies') . '- Lumi&egrave;re movies';

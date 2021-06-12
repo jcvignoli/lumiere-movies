@@ -13,12 +13,12 @@
  #									              #
  #############################################################################
 
+namespace Lumiere;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	wp_die('You can not call directly this page');
 }
-
 
 class LumiereMetabox {
 
@@ -161,7 +161,7 @@ class LumiereMetabox {
 		}
 	}
 }
-$my_metabox = new LumiereMetabox();
+$my_metabox = new \Lumiere\LumiereMetabox();
 
 
 	
