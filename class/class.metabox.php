@@ -41,7 +41,7 @@ class LumiereMetabox {
 
 		global $imdb_admin_values;
 
-		add_meta_box(  'lumiere_metabox_customfields', '<div>'.'<img class="lumiere_valign_middle" width="20" height="20" src="' . esc_url( $imdb_admin_values['imdbplugindirectory'] . 'pics/lumiere-ico-noir13x13.png' ) . '" />&nbsp;'.'Lumière! custom data'.'</div>' , [$this, 'custom_meta_box_markup'], array( 'post', 'page'), 'side', 'high', null ); 
+		add_meta_box(  'lumiere_metabox_customfields', '<div>'.'<img class="lumiere_valign_middle" width="20" height="20" src="' . esc_url( $imdb_admin_values['imdbplugindirectory'] . 'pics/lumiere-ico-noir13x13.png' ) . '" />&nbsp;'.'Lumière! widget'.'</div>' , [$this, 'custom_meta_box_markup'], array( 'post', 'page'), 'side', 'high', null ); 
 
 	}
 
@@ -56,7 +56,7 @@ class LumiereMetabox {
 		global $imdb_admin_values;
 		
 		// Option for the select, the two type of data to be taken over by imdb-movie.inc.php
-		$option_values = array( esc_html__( 'By movie\'s IMDb ID', 'lumiere-movies') => 'imdb-movie-widget-bymid', esc_html__( 'By movie\'s title', 'lumiere-movies') => 'imdb-movie-widget');
+		$option_values = array( esc_html__( 'By movie IMDb ID', 'lumiere-movies') => 'imdb-movie-widget-bymid', esc_html__( 'By movie title', 'lumiere-movies') => 'imdb-movie-widget');
 
 		wp_nonce_field( basename(__FILE__), 'lumiere_metabox_nonce'); ?>
 
@@ -66,7 +66,7 @@ class LumiereMetabox {
 			<?php esc_html_e( 'The movie you enter will be shown in your widget area.', 'lumiere-movies'); ?>
 		</div>
 
-		<div class="lumiere_display_flex">
+		<div class="lumiere_display_flex lumiere_flex_make_responsive_metabox">
 
 			<div class="lumiere_padding_five">
 				<label for="lumiere_queryid_widget"><?php esc_html_e( 'How to query the movie?', 'lumiere-movies'); ?></label>
@@ -157,6 +157,12 @@ class LumiereMetabox {
 		// Save imdb-movie-widget-bymid with the posted data, delete imdb-movie-widget
 		if ( $lumiere_metabox_submit == 'imdb-movie-widget-bymid' ) {
 			update_post_meta($post_id, 'imdb-movie-widget-bymid', sanitize_text_field( $_POST['lumiere_queryid_widget_input'] ) );
+			delete_post_meta($post_id, 'imdb-movie-widget');
+		}
+
+		// Delete the custom data if removed
+		if ( (!isset($_POST['lumiere_queryid_widget_input'])) || (empty($_POST['lumiere_queryid_widget_input'])) ){
+			delete_post_meta($post_id, 'imdb-movie-widget-bymid');
 			delete_post_meta($post_id, 'imdb-movie-widget');
 		}
 	}
