@@ -13,10 +13,6 @@
  #									              #
  #############################################################################
 
-/** Registers Lumiere Movies widget so it appears with the other available
-**  widgets and can be dragged and dropped into any active sidebars
-** 
-*/
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -34,8 +30,9 @@ class LumiereWidget extends WP_Widget {
 		global $imdb_admin_values;
 
 		 parent::__construct(
-		     'lumiere-movies',  // Base ID
-		     'Lumière! Movies'   // Name
+			'lumiere-movies-widget',  // Base ID
+			'Lumière! Movies',   // Name
+			array( 'description' => __( 'Add movie details to your pages with Lumière!', 'lumiere-movies' ),),
 		 );
 
 		/**
@@ -70,11 +67,18 @@ class LumiereWidget extends WP_Widget {
 		extract($args);
 		$options = get_option('widget_imdbwidget');
 		$name_sanitized = get_post(intval( $filmid ));
-		$title_box = empty($instance['title']) ? esc_html__('IMDb data', 'lumiere-movies') : $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title']; //this is the widget title, from *wordpress* widget options
+		// full title
+		$title_box = empty($instance['title']) ? esc_html__('IMDb data', 'lumiere-movies') : $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title']; 
+		// id/name of the movie to display
+		$imdballmeta = array();
+/*
+		$widget_type = $instance['lumiere_queryid_widget']; 
+		$widget_data = $instance['lumiere_queryid_widget_input']; 
+*/
 		$filmid = intval( $wp_query->post->ID );
 
 		// shows widget only for a post or a page, when option "direct search" is switched on
-		if ( ((is_single()) OR (is_page())) && ($imdb_admin_values['imdbdirectsearch'] == true) ) {
+		if ( (is_single()) || ( is_page()) )  {
 
 			echo $args['before_widget'];
 
@@ -82,7 +86,7 @@ class LumiereWidget extends WP_Widget {
 
 			if ( $imdb_widget_values['imdbautopostwidget'] == true) {
 
-				$imdballmeta[0] = sanitize_text_field( $name_sanitized->post_title );
+				$imdballmeta[] = sanitize_text_field( $name_sanitized->post_title );
 
 				echo $title_box;
 				echo "<div class='imdbincluded'>";
@@ -94,8 +98,8 @@ class LumiereWidget extends WP_Widget {
 			//------ Meta tag "imdb-movie-widget"
 
 			foreach (get_post_meta($filmid, 'imdb-movie-widget', false) as $key => $value) {
-				
-				$imdballmeta[0] = $value;
+
+				$imdballmeta[] = $value;
 				echo $title_box;
 				echo "<div class='imdbincluded'>";
 				require_once( plugin_dir_path( __DIR__ ) . 'inc/imdb-movie.inc.php');
@@ -107,7 +111,7 @@ class LumiereWidget extends WP_Widget {
 
 			foreach (get_post_meta($filmid, 'imdb-movie-widget-bymid', false) as $key => $value) {
 
-				$imdballmeta = 'imdb-movie-widget-noname';
+				$imdballmeta['bymid'] = 'imdb-movie-widget-noname';
 				$moviespecificid = str_pad($value, 7, "0", STR_PAD_LEFT);
 
 				echo $title_box;
@@ -116,6 +120,27 @@ class LumiereWidget extends WP_Widget {
 				echo "</div>";
 			}
 
+/*			//------ Name/ID movie provided in the widget
+
+			if ( (isset($widget_data)) && (!empty($widget_data)) ) {
+
+				// by movie title
+				if ( (isset($widget_type)) && ($widget_type == 'movie_title') ){
+					$imdballmeta[] = $widget_data;
+
+				}
+				// by movie id
+				elseif ( (isset($widget_type)) && ($widget_type == 'movie_id') ){
+					$imdballmeta['bymid'] = 'imdb-movie-widget-noname';
+					$moviespecificid = $widget_data;
+				}
+
+				echo $title_box;
+				echo "<div class='imdbincluded'>";
+				require_once( plugin_dir_path( __DIR__ ) . 'inc/imdb-movie.inc.php');
+				echo "</div>";
+			}
+*/
 			echo $args['after_widget'];
 
 		}
@@ -132,18 +157,36 @@ class LumiereWidget extends WP_Widget {
 
 		global $imdb_admin_values;
 
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Lumière! Movies', 'lumiere-movies' ); ?>
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Lumière! Movies', 'lumiere-movies' ); 
+		$lumiere_query_widget = ! empty( $instance['lumiere_queryid_widget'] ) ? $instance['lumiere_queryid_widget'] : '';
+		$lumiere_queryid_widget_input = ! empty( $instance['lumiere_queryid_widget_input'] ) ? $instance['lumiere_queryid_widget_input'] : '';
+?>
 
 		<p class="lumiere_padding_ten">
+
 		<div class="lumiere_display_inline_flex">
 			<div class="lumiere_padding_ten">
 				<img class="lumiere_flex_auto" width="40" height="40" src="<?php echo $imdb_admin_values['imdbplugindirectory'] . 'pics/lumiere-ico-noir80x80.png'; ?>" />
 			</div>
+
 			<div class="lumiere_flex_auto">
-				<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'lumiere-movies' ); ?></label>
+				<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Widget title:', 'lumiere-movies' ); ?></label>
 				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 			</div>
 		</div>
+
+<?php /* this is useless, nobody wants the same movie everywhere!
+		<div>
+			<select id="<?php echo esc_attr( $this->get_field_id( 'lumiere_queryid_widget' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'lumiere_queryid_widget' ) ); ?>">
+				<option value="movie_id"><?php esc_html_e( 'Movie id', 'lumiere-movies'); ?></option>
+				<option value="movie_title"><?php esc_html_e( 'Movie title', 'lumiere-movies'); ?></option>
+			</select>
+		</div>
+		<div>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'lumiere_queryid_widget_input' ) ); ?>"><?php esc_html_e( 'name/id', 'lumiere-movies'); ?></label>
+			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'lumiere_queryid_widget_input' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'lumiere_queryid_widget_input' ) ); ?>" type="text" value="<?php echo esc_attr( $lumiere_queryid_widget_input ); ?>" />
+		</div>
+*/ ?>
 		</p><!-- #lumiere-movies -->
 
 <?php
@@ -154,6 +197,8 @@ class LumiereWidget extends WP_Widget {
 		$instance = array();
 
 		$instance['title'] = ( !empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+		$instance['lumiere_queryid_widget'] = ( !empty( $new_instance['lumiere_queryid_widget'] ) ) ? $new_instance['lumiere_queryid_widget'] : '';
+ 		$instance['lumiere_queryid_widget_input'] = ( !empty( $new_instance['lumiere_queryid_widget_input'] ) ) ? $new_instance['lumiere_queryid_widget_input'] : '';
 
 		return $instance;
 	}

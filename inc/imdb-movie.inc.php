@@ -47,8 +47,8 @@ while ($imovie < count($imdballmeta)) {
 	$film = "";
 	$film = $imdballmeta[$imovie];  // get meta data (movie's name) 
 
-	// from custom post's field imdb-movie-widget
-	if ($imdballmeta == "imdb-movie-widget-noname") {
+	// from custom post's field in widget
+	if ($imdballmeta['bymid'] == "imdb-movie-widget-noname") {
 		// a movie ID has been specified
 		$midPremierResultat = $moviespecificid; // get the movie id entered
 
