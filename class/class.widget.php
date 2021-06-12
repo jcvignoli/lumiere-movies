@@ -166,7 +166,7 @@ class LumiereWidget extends WP_Widget {
 
 		<div class="lumiere_display_inline_flex">
 			<div class="lumiere_padding_ten">
-				<img class="lumiere_flex_auto" width="40" height="40" src="<?php echo $imdb_admin_values['imdbplugindirectory'] . 'pics/lumiere-ico-noir80x80.png'; ?>" />
+				<img class="lumiere_flex_auto" width="40" height="40" src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . 'pics/lumiere-ico-noir80x80.png'); ?>" />
 			</div>
 
 			<div class="lumiere_flex_auto">

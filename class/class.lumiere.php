@@ -70,6 +70,9 @@ class lumiere_core {
 				// add admin quicktag button for text editor
 				add_action('admin_footer', [ $this, 'lumiere_register_quicktag' ], 100);
 
+				// add metabox in admin edition of post
+				
+
 				// add footer
 				add_action('admin_footer', [ $this, 'lumiere_add_footer_admin' ], 100 );
 			}
@@ -359,6 +362,7 @@ class lumiere_core {
 		wp_add_inline_script( 'lumiere_scripts_admin', 'const lumiere_admin_vars = ' . json_encode( array(
 			'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
 			'wordpress_path' => site_url(),
+			'wordpress_admin_path' => admin_url(),
 		) ) , 'before');
 
 		// When on wordpress plugins.php admin page, show a confirmation dialogue if value imdbkeepsettings is set on delete Lumière! options
@@ -625,6 +629,8 @@ class lumiere_core {
 	13.- B Include gutenberg-search.php if string gutenberg=yes
 	**/
 	function lumiere_gutenberg_search_redirect() {
+		global $imdb_admin_values;
+
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/lumiere/search/' ) ) {
 			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/gutenberg-search.php' );
 		}

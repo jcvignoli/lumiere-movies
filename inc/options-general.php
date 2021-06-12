@@ -328,8 +328,8 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 	<div class="inside imblt_border_shadow">
 
-		<div class="lumiere_flex_container">
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
+		<div class="lumiere_display_flex lumiere_flex_make_responsive">
+			<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
 
 				<label for="imdb_imdblanguage"><?php esc_html_e( 'Search language', 'lumiere-movies'); ?></label><br /><br />
 				<select name="imdb_imdblanguage">
@@ -358,7 +358,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 			</div>
 */ ?>
 
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
+			<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
 
 				<label for="imdb_imdbmaxresults"><?php esc_html_e( 'Limit number of results', 'lumiere-movies'); ?></label>
 				<br />
@@ -386,8 +386,8 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 	<div class="inside imblt_border_shadow">
 
-		<div class="lumiere_flex_container">
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
+		<div class="lumiere_display_flex lumiere_flex_make_responsive">
+			<div class="imdblt_padding_five lumiere_flex_container_content_thirty">
 
 				<?php esc_html_e( 'Left menu for Lumière options', 'lumiere-movies'); ?><br /><br />
 
@@ -400,7 +400,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<div class="explain"><?php esc_html_e( "When enabled, Lumiere options are fully displayed on the left menu - and not anymore limited to the settings directory. It creates a dedicated menu for Lumiere options.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
+			<div class="imdblt_padding_five lumiere_flex_container_content_thirty">
 
 				<?php esc_html_e( 'Top menu for Lumière options', 'lumiere-movies'); ?><br /><br />
 				<input type="radio" id="imdb_imdbwordpress_tooladminmenu_yes" name="imdb_imdbwordpress_tooladminmenu" value="1" <?php if ($imdbOptions['imdbwordpress_tooladminmenu'] == "1") { echo 'checked="checked"'; }?> />
@@ -413,7 +413,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 			</div>
 
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
+			<div class="imdblt_padding_five lumiere_flex_container_content_thirty">
 
 				<label for="imdb_imdbtaxonomy"><?php esc_html_e( 'Use taxonomy', 'lumiere-movies'); ?></label><br /><br />
 
@@ -430,8 +430,8 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 			</div>
 		</div>
 
-		<div class="lumiere_flex_container">
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
+		<div class="lumiere_display_flex lumiere_flex_make_responsive">
+			<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
 
 				<?php esc_html_e( 'Keep settings upon deactivation', 'lumiere-movies'); ?><br /><br />
 
@@ -445,7 +445,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 			</div>
 
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
+			<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
 
 				<?php esc_html_e( 'Debug Lumière!', 'lumiere-movies'); ?><br /><br />
 

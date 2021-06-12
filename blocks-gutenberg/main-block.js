@@ -78,8 +78,8 @@
 						children: i18n.__( 'Use this block to retrieve movie or people information from the IMDb and insert in your post.' , 'lumiere-movies') 
 							+ '<br />'
 							+ i18n.__( 'You can also click on this link to get the' , 'lumiere-movies') 
-							+ ' <a data-gutenberg="yes" ' 
-							+ 'onclick="window.open(\''+ lumiere_admin_vars.wordpress_path + '/wp-admin/lumiere/search/?gutenberg=yes\', \'_blank\', \'location=yes,height=400,width=500,scrollbars=yes,status=yes\');" '
+							+ ' <a data-lumiere_admin_popup="yes" ' 
+							+ 'onclick="window.open(\''+ lumiere_admin_vars.wordpress_admin_path + 'lumiere/search/?gutenberg=yes\', \'_blank\', \'location=yes,height=400,width=500,scrollbars=yes,status=yes\');" '
 							+ 'class="linkincmovie link-imdblt-highslidepeople highslide" '
 							//+ 'href="'+ lumiere_admin_vars.imdb_path+'inc/gutenberg-search.php?gutenberg=yes" ' 
 							+ 'target="_blank">'

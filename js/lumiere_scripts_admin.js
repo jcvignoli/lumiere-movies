@@ -187,3 +187,21 @@ document.addEventListener('DOMContentLoaded', function () {
 		});
 	});
 });
+
+/************************************** Open a classic popup in admin pages
+*
+*/
+
+document.addEventListener('DOMContentLoaded', function () {
+
+	jQuery('a[data-lumiere_admin_popup]').click(function(){
+		var tmppopupLarg = 540;
+		var tmppopupLong = 350;
+		var url_imdbperso = lumiere_admin_vars.wordpress_admin_path + 'lumiere/search/?gutenberg=yes';
+		
+		// classic popup
+		window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width='+tmppopupLarg+', height='+tmppopupLong+', top=5, left=5');
+	});
+});
+
+

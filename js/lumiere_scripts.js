@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function () {
 if (document.getElementById("lumiere_loader")) {
 	document.onreadystatechange = function() {
 
-
 		if (document.readyState !== "complete") {
 			document.querySelector(
 			"body").style.visibility = "hidden";

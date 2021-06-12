@@ -9,13 +9,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-11T21:24:43-03:00\n"
+"POT-Creation-Date: 2021-06-12T06:06:37-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
 
 #. Plugin Name of the plugin
-#: class/class.widget.php:135
+#: class/class.widget.php:160
 msgid "Lumière! Movies"
 msgstr ""
 
@@ -35,64 +35,104 @@ msgstr ""
 msgid "https://www.jcvignoli.com/blog"
 msgstr ""
 
-#: class/class.lumiere.php:396
+#: class/class.lumiere.php:400
 msgid "Lumière options page"
 msgstr ""
 
-#: class/class.lumiere.php:396
+#: class/class.lumiere.php:400
 #: inc/options-cache.php:394
 msgid "General options"
 msgstr ""
 
-#: class/class.lumiere.php:397
+#: class/class.lumiere.php:401
 msgid "Widget & In post options page"
 msgstr ""
 
-#: class/class.lumiere.php:397
+#: class/class.lumiere.php:401
 msgid "Widget/In post"
 msgstr ""
 
-#: class/class.lumiere.php:398
+#: class/class.lumiere.php:402
 msgid "Cache management options page"
 msgstr ""
 
-#: class/class.lumiere.php:398
+#: class/class.lumiere.php:402
 #: inc/admin_pages.php:73
 msgid "Cache management"
 msgstr ""
 
-#: class/class.lumiere.php:399
+#: class/class.lumiere.php:403
 msgid "Help page"
 msgstr ""
 
-#: class/class.lumiere.php:399
+#: class/class.lumiere.php:403
 msgid "Help"
 msgstr ""
 
-#: class/class.lumiere.php:592
-#: class/class.lumiere.php:602
+#: class/class.lumiere.php:596
+#: class/class.lumiere.php:606
 msgid "Informations about "
 msgstr ""
 
-#: class/class.lumiere.php:592
-#: class/class.lumiere.php:602
+#: class/class.lumiere.php:596
+#: class/class.lumiere.php:606
 msgid "Unknown"
 msgstr ""
 
-#: class/class.lumiere.php:606
+#: class/class.lumiere.php:610
 msgid "No query entered"
 msgstr ""
 
-#: class/class.lumiere.php:607
+#: class/class.lumiere.php:611
 msgid "Search query for "
 msgstr ""
 
-#: class/class.widget.php:73
+#: class/class.metabox.php:59
+msgid "By movie's IMDb ID"
+msgstr ""
+
+#: class/class.metabox.php:59
+msgid "By movie's title"
+msgstr ""
+
+#: class/class.metabox.php:66
+msgid "The movie you enter will be shown in your widget area."
+msgstr ""
+
+#: class/class.metabox.php:72
+msgid "How to query the movie?"
+msgstr ""
+
+#: class/class.metabox.php:91
+msgid "Title or ID:"
+msgstr ""
+
+#: class/class.metabox.php:98
+msgid "Use "
+msgstr ""
+
+#: class/class.metabox.php:98
+msgid "Open a popup to search the movie's ID"
+msgstr ""
+
+#: class/class.metabox.php:98
+msgid "this tool "
+msgstr ""
+
+#: class/class.metabox.php:98
+msgid "to find the IMDb's ID."
+msgstr ""
+
+#: class/class.widget.php:35
+msgid "Add movie details to your pages with Lumière!"
+msgstr ""
+
+#: class/class.widget.php:71
 msgid "IMDb data"
 msgstr ""
 
-#: class/class.widget.php:143
-msgid "Title:"
+#: class/class.widget.php:173
+msgid "Widget title:"
 msgstr ""
 
 #: class/functions.php:101
@@ -118,33 +158,33 @@ msgstr ""
 msgid "more"
 msgstr ""
 
-#: class/functions.php:145
+#: class/functions.php:153
 msgid "Lumière "
 msgstr ""
 
-#: class/functions.php:165
+#: class/functions.php:177
 msgid "Sorry, no result found for this reference"
 msgstr ""
 
-#: class/functions.php:221
+#: class/functions.php:233
 msgid "Go to IMDb website for this movie"
 msgstr ""
 
-#: class/functions.php:222
+#: class/functions.php:234
 msgid "IMDb's page for this movie"
 msgstr ""
 
-#: class/functions.php:261
-#: class/functions.php:283
+#: class/functions.php:273
+#: class/functions.php:295
 msgid "Open a new window with IMDb informations"
 msgstr ""
 
-#: class/functions.php:409
-#: class/functions.php:411
+#: class/functions.php:421
+#: class/functions.php:423
 msgid "There was an error when generating the htaccess file."
 msgstr ""
 
-#: class/functions.php:450
+#: class/functions.php:462
 msgid "Failed creating htaccess file."
 msgstr ""
 
@@ -185,27 +225,27 @@ msgstr ""
 msgid "help"
 msgstr ""
 
-#: inc/gutenberg-search.php:59
+#: inc/gutenberg-search.php:57
 msgid "Results related to your query:"
 msgstr ""
 
-#: inc/gutenberg-search.php:62
+#: inc/gutenberg-search.php:60
 msgid "Titles results"
 msgstr ""
 
-#: inc/gutenberg-search.php:63
+#: inc/gutenberg-search.php:61
 msgid "IMDb identification number"
 msgstr ""
 
-#: inc/gutenberg-search.php:80
+#: inc/gutenberg-search.php:78
 msgid "IMDb ID:"
 msgstr ""
 
-#: inc/gutenberg-search.php:97
+#: inc/gutenberg-search.php:95
 msgid "Search a movie"
 msgstr ""
 
-#: inc/gutenberg-search.php:99
+#: inc/gutenberg-search.php:97
 #: inc/options-general.php:326
 msgid "Search"
 msgstr ""

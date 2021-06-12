@@ -1,7 +1,7 @@
 <?php
 
  #############################################################################
- # Lumière Movies wordpress plugin                                           #
+ # Lumière! Movies wordpress plugin                                          #
  # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
@@ -18,9 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die('You can not call directly this page');
 }
 
-require_once (plugin_dir_path( __FILE__ ).'/../bootstrap.php');
-
-do_action('wp_loaded'); // execute wordpress first codes
+require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
 //---------------------------------------=[Vars]=----------------
 
