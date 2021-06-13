@@ -1,20 +1,20 @@
+.wordpress-org
+build
+node_modules
+source
+test
+tmp
+vendor
 .babelrc
 .gitignore
 .gitignore-building
 .todo
-.wordpress-org
 .git
-BUILD
 composer.json
 composer.lock
-node_modules
 package.json
 package-lock.json
 README.md
-source
-TESTING
-tmp
-vendor
 webpack.config.js
 wp-cli.phar
 

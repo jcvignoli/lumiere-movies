@@ -32,7 +32,7 @@ class LumiereWidget extends WP_Widget {
 		 parent::__construct(
 			'lumiere-movies-widget',  // Base ID
 			'Lumière! Movies',   // Name
-			array( 'description' => __( 'Add movie details to your pages with Lumière!', 'lumiere-movies' ),),
+			array( 'description' => __( 'Add movie details to your pages with Lumière!', 'lumiere-movies' ))
 		 );
 
 		/**
