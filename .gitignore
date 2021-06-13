@@ -1,15 +1,15 @@
+build
+node_modules
+test
+tmp
+vendor
 .babelrc
 .gitignore-building
 .todo
-BUILD
 composer.json
 composer.lock
-node_modules
 package.json
 package-lock.json
-TESTING
-tmp
-vendor
 webpack.config.js
 wp-cli.phar
 
