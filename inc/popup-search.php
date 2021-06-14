@@ -63,7 +63,7 @@ do_action('wp_loaded'); // execute wordpress first codes
 </head>
 <body class="lumiere_popup_search lumiere_body<?php if (isset($imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopuptheme'];?>">
 
-<div id="lumiere_loader" class="center"></div>
+<div id="lumiere_loader" class="lumiere_loader_center"></div>
 
 <h1><?php esc_html_e('Results related to', 'lumiere-movies'); echo " " . $film_sanitized_for_title ?></h1>
 

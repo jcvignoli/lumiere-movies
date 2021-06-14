@@ -1,4 +1,5 @@
 build
+inc/.htaccess
 node_modules
 test
 tmp

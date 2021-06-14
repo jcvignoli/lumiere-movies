@@ -17,4 +17,4 @@ package-lock.json
 README.md
 webpack.config.js
 wp-cli.phar
-
+inc/.htaccess

@@ -372,28 +372,8 @@ echo '/ >'; ?>
 		?></li>
         </td>
      </tr>
-<? /* useless info, removed 2021 06 04
-
-                                                <!-- Colors -->
-     <tr>
-        <td class="TitreSousRubriqueColGauche">
-            <div class="TitreSousRubrique"><?php esc_html_e('Color', 'lumiere-movies'); ?>&nbsp;</div>
-        </td>
-        
-        <td colspan="2" class="TitreSousRubriqueColDroite">
-		<li><?php	$col = $movie->colors ();
-			if (isset($col)) {
-		            	for ($i = 0; $i + 1 < count ($col); $i++) {
-			    		echo sanitize_text_field( $col[$i] );
-			    		echo ", ";
-	               	}
-	                	echo sanitize_text_field( $col[$i] );
-			}
-		?></li>
-        </td>
-     </tr>
-*/ ?>
                                                 <!-- Sound -->
+
 	<?php
 	$sound = $movie->sound () ?? NULL;
 
