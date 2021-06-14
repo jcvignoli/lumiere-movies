@@ -10,7 +10,7 @@
  # ------------------------------------------------------------------------- #
  #									              #
  #  Function : this page is externally called (usually by a widget, but      #
- #  also from lumiere_external_call() function ) and displays information    #
+ #  also from lumiere_external_call() function) and displays information     #
  #  related to the movie                                                     #
  #									              #
  #############################################################################
@@ -19,7 +19,7 @@ require_once ( plugin_dir_path(__DIR__) . 'bootstrap.php');
 
 //---------------------------------------=[Vars]=----------------
 
-global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values,$test;
 
 // Start config class for $config in below Imdb\Title class calls
 if (class_exists("\Lumiere\Settings")) {
@@ -34,36 +34,50 @@ if (class_exists("\Lumiere\Settings")) {
 $count_me_siffer= 0; // value to allow movie total count (called from every 'taxonomised' part)
 
 if (isset ($_GET["mid"])) {
+
 	$movieid = filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT);
 	$movie = new \Imdb\Title($movieid, $config);
+
 } else {
+
 	$search = new \Imdb\TitleSearch($config);
+
 }
 
 $imovie = 0;
 
 while ($imovie < count($imdballmeta)) {	
 
-	$film = "";
-	$film = $imdballmeta[$imovie];  // get meta data (movie's name) 
+	$film = $imdballmeta[$imovie];  // get meta data from class widget or lumiere
 
-	// from custom post's field in widget
-	if ($imdballmeta['bymid'] == "imdb-movie-widget-noname") {
-		// a movie ID has been specified
-		$midPremierResultat = $moviespecificid; // get the movie id entered
+	// from custom post's field in widget or class in class.core.php
+	// a movie name has been specified
+	if (isset($film['byname']))  {
+
+		$film = $film['byname'];  // get meta data from class widget or lumiere
+		$results = $search->search ($film, array(\Imdb\TitleSearch::MOVIE));
+		$midPremierResultat = $results[0]->imdbid();
+
+	// from custom post's field in widget or class in class.core.php
+	// a movie ID has been specified
+	} elseif (isset($film['bymid']))  {
+
+		$midPremierResultat = $film['bymid']; // get the movie id entered
 
 	} else {
 
-		if ($_GET["searchtype"]=="episode") {
+		if ( (isset($_GET["searchtype"])) && ($_GET["searchtype"]=="episode") ) {
 			$results = $search->search ($film, array(\Imdb\TitleSearch::TV_SERIES));
 		} else {
 			$results = $search->search ($film, array(\Imdb\TitleSearch::MOVIE));
 		}
 
 		// no movie ID has been specified
-		if (! empty($results[0])) { 	// when imdb find everytime a result, which is not the case for moviepilot
+		if (! empty($results)) { 	// when imdb find everytime a result, which is not the case for moviepilot
+
 			$midPremierResultat = $results[0]->imdbid(); // search for the movie id
 		} else {			// escape if no result found, otherwise imdblt fails
+
 			lumiere_noresults_text();
 			break;
 		}
@@ -71,25 +85,21 @@ while ($imovie < count($imdballmeta)) {
 
 	$movie = new Imdb\Title($midPremierResultat, $config);
 
-	if (isset ($midPremierResultat) ) {
-		$movieid = $midPremierResultat;
-		
+	if (isset ($movie) ) {
 
-		$imovie++;
 
 //--------------------------------------=[Layout]=---------------
-
-
 ?>
-					<!-- imdb widget -->
+
+					<!-- Lumière! plugin -->
+
 <?php
 		foreach ( $imdb_widget_values['imdbwidgetorder'] as $magicnumber) {
 	
-
-
 	if  (($imdb_widget_values['imdbwidgettitle'] == true ) && ($magicnumber == $imdb_widget_values['imdbwidgetorder']['title'] )) { 
 	$year=intval($movie->year () );
-	$title_sanitized=sanitize_text_field( $movie->title() );?>
+	$title_sanitized=sanitize_text_field( $movie->title() ); ?>
+
 										<!-- title -->
 		<div class="imdbelementTITLE"><?php
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomytitle'] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'title', $count_me_siffer) == "nomore") ) { 
@@ -154,7 +164,7 @@ while ($imovie < count($imdballmeta)) {
 
 
 		echo "/ >"; 
-		if ($highslidephotook == "ok") { echo "</a>\n"; } else { echo "\n"; } // new verification, closure code related to previous if ?>
+		if ( (isset($highslidephotook))  && ($highslidephotook == "ok") ) { echo "</a>\n"; } else { echo "\n"; } // new verification, closure code related to previous if ?>
 		</div>
 	<?php 
 	}; 
@@ -803,7 +813,7 @@ while ($imovie < count($imdballmeta)) {
 										<!-- writers -->
 		<ul class="imdbelementWRITERul">
 		<li class="imdbincluded-lined imdbelementWRITERli">
-			<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Writer', 'Writers', count($write), 'lumiere-movies')))); ?>:</span><?php
+			<span class="imdbincluded-subtitle"><?php echo (sprintf(esc_attr(_n('Writer', 'Writers', count($writer), 'lumiere-movies')))); ?>:</span><?php
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomywriter'] == true ) && (lumiere_count_me($imdb_admin_values['imdburlstringtaxo'] . 'writer', $count_me_siffer) == "nomore") ) { 
 			// lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
 
@@ -934,7 +944,7 @@ while ($imovie < count($imdballmeta)) {
 		if (!lumiere_is_multiArrayEmpty($plot) && ($imdb_widget_values['imdbwidgetplot'] == true )) {
 		// tested if the array contains data; if not, doesn't go further ?>
 										<!-- Plots -->
-			<ul class="imdbelementPLOTul">
+		<ul class="imdbelementPLOTul">
 			<li class="imdbincluded-lined imdbelementPLOTli">
 				<span class="imdbincluded-subtitle"><?php echo(sprintf(esc_attr(_n('Plot', 'Plots', count($plot), 'lumiere-movies')))); ?>:</span><?php
 
@@ -950,27 +960,30 @@ while ($imovie < count($imdballmeta)) {
 					if ( $i < $nbplots ) { echo "\n<hr>\n";} // add hr to every quote but the first					
 				}// endfor ?>
 			</li>
-			</ul>
+		</ul>
+
 	<?php } 
 	}; flush ();
 
-
 		$magicnumber++; 
+
 		} // end foreach ?>
 
-
-
 									<!-- Source credit link -->
+
 	<?php if ( ($imdb_widget_values['imdblinkingkill'] == false ) && ($imdb_widget_values['imdbwidgetsource'] == true ) ) { 
 	// if "Remove all links" option is not selected ?>
 	<ul class="imdbelementSOURCEul">
-	<li class="imdbincluded-lined imdbelementSOURCEli">
-		<span class="imdbincluded-subtitle"><?php esc_html_e('Source', 'lumiere-movies'); ?>:</span><?php esc_url( lumiere_source_imdb($midPremierResultat) );?>
-	</li>
+		<li class="imdbincluded-lined imdbelementSOURCEli">
+			<span class="imdbincluded-subtitle"><?php esc_html_e('Source', 'lumiere-movies'); ?>:</span><?php esc_url( lumiere_source_imdb($midPremierResultat) );?>
+		</li>
 	</ul>
-	<?php } 
+
+<?php } 
 ?>
-					<!-- end imdb widget -->
+
+					<!-- End Lumière! plugin -->
+
 <?php 
  //--------------------------------------=[end Layout]=---------------
 
@@ -978,6 +991,7 @@ while ($imovie < count($imdballmeta)) {
 		lumiere_noresults_text();
 	} // end if is set a $midPremierResultat
 
+		$imovie++;
 } //end while
 
 ?>

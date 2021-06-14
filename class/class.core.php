@@ -11,21 +11,20 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die('You can not call directly this page');
 }
 
-if (class_exists("\Lumiere\Settings")) {
-	$imdb_ft = new \Lumiere\Settings();
-	$imdb_admin_values = $imdb_ft->get_imdb_admin_option();
-	$imdb_widget_values = $imdb_ft->get_imdb_widget_option();
-	$imdb_cache_values = $imdb_ft->get_imdb_cache_option();
-	global $imdb_ft, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
-}
-
 class Core {
 	private $bypass; /* this value is not in use anymore, to be removed */
+
+	protected $imdb_admin_values, $imdb_widget_values,$imdb_cache_values;
 
 	/*constructor*/
 	function __construct () {
 
-	global $imdb_ft, $imdb_admin_values, $imdb_widget_values;
+	global $imdb_ft, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+
+		$imdb_ft = new \Lumiere\Settings();
+		$imdb_admin_values = $imdb_ft->get_imdb_admin_option();
+		$imdb_widget_values = $imdb_ft->get_imdb_widget_option();
+		$imdb_cache_values = $imdb_ft->get_imdb_cache_option();
 
 		// Be sure WP is running
 		if (function_exists('add_action')) {
@@ -35,7 +34,7 @@ class Core {
 			add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 0);
 
 			// add taxonomies in wordpress (from functions.php)
-			if ($imdb_admin_values['imdbtaxonomy'] == 1) {
+			if ( (isset($imdb_admin_values['imdbtaxonomy'])) && ($imdb_admin_values['imdbtaxonomy'] == 1) ) {
 				add_action( 'init', 'lumiere_create_taxonomies', 0 );
 
 				// search for all imdbtaxonomy* in config array, 
@@ -57,26 +56,24 @@ class Core {
 			if ( function_exists( 'register_block_type' ) )
 				add_action('init', [ $this, 'lumiere_register_gutenberg_blocks' ],0);
 
-			if (is_admin()) {
-				// add admin menu
-				if (isset($imdb_ft)) 
-					add_action('admin_menu', [ $this, 'lumiere_admin_panel' ] );
+			// add admin menu
+			if (isset($imdb_ft)) 
+				add_action('admin_menu', [ $this, 'lumiere_admin_panel' ] );
 
-				// add admin header
-				add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
+			// add admin header
+			add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
 
-				// add admin tinymce button for wysiwig editor
-				add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_tinymce' ] );
+			// add admin tinymce button for wysiwig editor
+			add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_tinymce' ] );
 
-				// add admin quicktag button for text editor
-				add_action('admin_footer', [ $this, 'lumiere_register_quicktag' ], 100);
+			// add admin quicktag button for text editor
+			add_action('admin_footer', [ $this, 'lumiere_register_quicktag' ], 100);
 
-				// add metabox in admin edition of post
-				
+			// add metabox in admin edition of post
+			
 
-				// add footer
-				add_action('admin_footer', [ $this, 'lumiere_add_footer_admin' ], 100 );
-			}
+			// add footer
+			add_action('admin_footer', [ $this, 'lumiere_add_footer_admin' ], 100 );
 
 		    	// head for main blog
 			add_action('wp_head', [ $this, 'lumiere_add_head_blog' ], 0);
@@ -100,7 +97,7 @@ class Core {
 			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
 
 			// On updating plugin
-			add_action( 'upgrader_process_complete', 'lumiere_on_upgrade_completed' );
+			add_action( 'upgrader_process_complete', [$this, 'lumiere_on_upgrade_completed' ] );
 
 		}
 	}
@@ -195,7 +192,7 @@ class Core {
 
 	function parse_lumiere_tag_transform_id ($text) {
 		global $imdb_admin_values, $wp_query;
-		$imdballmeta = $text[1];
+		$imdballmeta[] = $text[1];
 		return $this->lumiere_external_call('','',$imdballmeta);
 	}
 
@@ -397,11 +394,11 @@ class Core {
 		}
 		if (function_exists('add_submenu_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 1 ) ) {
 			// big menu for many pages for admin sidebar
-			add_menu_page( 'Lumière Options', '<i>Lumière</i>' , 8, 'imdblt_options', 'lumiere_admin_pages', $imdb_admin_values['imdbplugindirectory'].'pics/lumiere-ico13x13.png', 65);
-			add_submenu_page( 'imdblt_options' , esc_html__('Lumière options page', 'lumiere-movies'), esc_html__('General options', 'lumiere-movies'), 8, 'imdblt_options');
-			add_submenu_page( 'imdblt_options' , esc_html__('Widget & In post options page', 'lumiere-movies'), esc_html__('Widget/In post', 'lumiere-movies'), 8, 'imdblt_options&subsection=widgetoption', 'lumiere_admin_pages' );
-			add_submenu_page( 'imdblt_options',  esc_html__('Cache management options page', 'lumiere-movies'), esc_html__('Cache management', 'lumiere-movies'), 8, 'imdblt_options&subsection=cache', 'lumiere_admin_pages');
-			add_submenu_page( 'imdblt_options' , esc_html__('Help page', 'lumiere-movies'), esc_html__('Help', 'lumiere-movies'), 8, 'imdblt_options&subsection=help', 'lumiere_admin_pages' );
+			add_menu_page( 'Lumière Options', '<i>Lumière</i>' , 'administrator', 'imdblt_options', 'lumiere_admin_pages', $imdb_admin_values['imdbplugindirectory'].'pics/lumiere-ico13x13.png', 65);
+			add_submenu_page( 'imdblt_options' , esc_html__('Lumière options page', 'lumiere-movies'), esc_html__('General options', 'lumiere-movies'), 'administrator', 'imdblt_options');
+			add_submenu_page( 'imdblt_options' , esc_html__('Widget & In post options page', 'lumiere-movies'), esc_html__('Widget/In post', 'lumiere-movies'), 'administrator', 'imdblt_options&subsection=widgetoption', 'lumiere_admin_pages' );
+			add_submenu_page( 'imdblt_options',  esc_html__('Cache management options page', 'lumiere-movies'), esc_html__('Cache management', 'lumiere-movies'), 'administrator', 'imdblt_options&subsection=cache', 'lumiere_admin_pages');
+			add_submenu_page( 'imdblt_options' , esc_html__('Help page', 'lumiere-movies'), esc_html__('Help', 'lumiere-movies'), 'administrator', 'imdblt_options&subsection=help', 'lumiere_admin_pages' );
 			//
 		}
 
@@ -419,62 +416,54 @@ class Core {
 	**/
 
 	function lumiere_external_call ($moviename="", $external="", $filmid="") {
+
 		global $imdb_admin_values, $imdb_widget_values, $wp_query;
 
-		if (!empty($moviename) && ($external == "external")) {	// call function from external (using parameter "external")
-			$imdballmeta[0] = $moviename;// especially made to be integrated (ie, inside a php code)
-							// can't accept caching through ob_start
+		// Call function from external (using parameter "external" )
+		// Especially made to be integrated (ie, inside a php code)
+		if ( ($external == "external") && isset($moviename) ) {	
+
+			$imdballmeta['byname'] = $moviename;
 
 			echo "<div class='imdbincluded'>";
-			require_once ( $imdb_admin_values['imdbpluginpath'] . "inc/imdb-movie.inc.php" );
+			require( $imdb_admin_values['imdbpluginpath'] . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
 		}
 
-		if (($external == "external") && ($filmid))  {	// call function from external (using parameter "external" )
-								// especially made to be integrated (ie, inside a php code)
-								// can't accept caching through ob_start
-			$imdballmeta = 'imdb-movie-widget-noname';
-			$moviespecificid = $filmid;
+		// Call function from external (using parameter "external" )
+		// Especially made to be integrated (ie, inside a php code)
+		if ( ($external == "external") && isset($filmid) )  {
+
+			$imdballmeta[]['bymid'] = $filmid[0];
 
 			echo "<div class='imdbincluded'>";
-			require_once ( $imdb_admin_values['imdbpluginpath'] . "inc/imdb-movie.inc.php" );
+			require( $imdb_admin_values['imdbpluginpath'] . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
 		}
 
-		ob_start(); // ob_start (cache) system to display data precisely where there're wished) -> start record
+		//  Call with the parameter - imdb movie name (imdblt)
+		if ( isset($moviename) && !empty($moviename) && empty($external)  ) {	
 
-		if (!empty($moviename) && (empty($external))) {	// new way (using a parameter - imdb movie name)
-			$imdballmeta = $moviename;
-
+			$imdballmeta[]['byname'] = $moviename[0];
 			echo "<div class='imdbincluded'>";
-			require_once ( $imdb_admin_values['imdbpluginpath'] . "inc/imdb-movie.inc.php" );
+			require( $imdb_admin_values['imdbpluginpath'] . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
-			$out1 = ob_get_contents(); //put the record into value
 		}
 
-		if (($filmid) && (empty($external)))  {		// new way (using a parameter - imdb movie id)
-			$imdballmeta = 'imdb-movie-widget-noname';
-			$moviespecificid = $filmid;
+		//  Call with the parameter - imdb movie id (imdbltid)
+		if ( isset($filmid) && !empty($filmid) && empty($external)  )  {
 
-			//removed, pointless
-			// not /imdblt/ path, but needs scripts and css to work, added 'inc.movie'
-			//add_action('wp_head', $this->lumiere_add_head_blog('inc.movie') ,1 );
+			$imdballmeta[]['bymid'] = $filmid[0];
 
 			echo "<div class='imdbincluded'>";
-			require_once ( IMDBLTABSPATH . "inc/imdb-movie.inc.php" );
+			require( $imdb_admin_values['imdbpluginpath'] . "inc/imdb-movie.inc.php" );
 			echo "</div>";
 
-			//removed, pointless
-			//add_action('wp_footer', $this->lumiere_add_footer_blog('inc.movie') ,1 );
-
-			$out2 = ob_get_contents(); //put the record into value
 		}
 
-		ob_end_clean(); // end record
-		return $out1.$out2;
 	}
 
 	/**
@@ -734,6 +723,7 @@ class Core {
 				update_option($imdb_ft->imdbCacheOptionsName, $imdb_cache_values['imdbcachedir']);
 			}
 		}
+
 	}
 
 	/**
@@ -794,11 +784,10 @@ class Core {
 		$plugin = isset( $_REQUEST['plugin'] ) ? $_REQUEST['plugin'] : '';
 		check_admin_referer( "activate-plugin_{$plugin}" );
 
-		/* Start the class */
-		if (is_admin()) { // Prevents activation bug with Fatal Error: Table ‘actionscheduler_actions’ doesn’t exist
-			$this->lumiere_make_htaccess_admin();
-			$this->lumiere_create_cache();
-		}
+		/* Actions from the class */
+		$this->lumiere_create_cache();
+		$this->lumiere_change_perms_inc();
+		$this->lumiere_make_htaccess_admin();
 
 		/* Refresh rewrite rules */
 		flush_rewrite_rules();
@@ -848,6 +837,19 @@ class Core {
 			lumiere_unlinkRecursive($imdb_cache_values['imdbcachedir']);
 	}
 
-} 
+	/**
+	21.- Change permissions for writting htaccess
+	**/
+	function lumiere_change_perms_inc() {
+		$inc_for_htaccess = plugin_dir_path( __DIR__ ) . 'inc/';
+
+		// if lumiere-movies/inc/ is not writtable
+		if ( substr(sprintf('%o', fileperms($inc_for_htaccess)), -3) != "777" )
+			// make it writable !
+			chmod( $inc_for_htaccess, 0777 );
+
+	}
+
+}
 
 ?>

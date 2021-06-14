@@ -673,7 +673,7 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 			if (get_class($res) === 'Imdb\Title') {
 				$title_sanitized = sanitize_text_field( $res->title() ); // search title related to movie id
 				$obj_sanitized = sanitize_text_field( $res->imdbid() );
-				$filepath_sanitized = esc_url( $imdb_cache_values['imdbcachedir']."title.tt".substr($obj_sanitized, 0, 7) );
+				$filepath_sanitized = esc_url( $imdb_cache_values['imdbcachedir']."title.tt".substr($obj_sanitized, 0, 8) );
 				if ($imdbOptionsc['imdbcachedetailsshort'] == 1)  { // display only cache movies' names, quicker loading
 					$data[] = '<span class="lumiere_short_titles"><input type="checkbox" id="imdb_cachedeletefor_movies_'.$title_sanitized.'" name="imdb_cachedeletefor_movies[]" value="'.$obj_sanitized.'" /><label for="imdb_cachedeletefor_movies[]">'.$title_sanitized.'</label></span>'."\n"; // send input and results into array
 					flush();
@@ -783,7 +783,7 @@ if (!empty($results)){
 		if (get_class($res) === 'Imdb\Person') {
 			$name_sanitized = sanitize_text_field( $res->name() ); // search title related to movie id
 			$objpiple_sanitized = sanitize_text_field( $res->imdbid() );
-			$filepath_sanitized = esc_url($imdb_cache_values['imdbcachedir']."name.nm".substr($objpiple_sanitized, 0, 7));
+			$filepath_sanitized = esc_url($imdb_cache_values['imdbcachedir']."name.nm".substr($objpiple_sanitized, 0, 8));
 			if ($imdbOptionsc['imdbcachedetailsshort'] == 1)  { // display only cache peoples' names, quicker loading
 				$datapeople[] = '<span class="lumiere_short_titles"><input type="checkbox" id="imdb_cachedeletefor_people_'.$name_sanitized.'" name="imdb_cachedeletefor_people[]" value="'.$objpiple_sanitized.'" /><label for="imdb_cachedeletefor_people[]">'.$name_sanitized.'</label></span>'; // send input and results into array
 				flush();

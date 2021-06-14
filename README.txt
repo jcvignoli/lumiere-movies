@@ -19,15 +19,13 @@ Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wo
 
 "Lumière! Movies" is the continuation of [IMDb Link Transformer plugin](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer") with more that 20'000 downloads. 
 
-**Lumiere Movies** aims to ease the search for info on movies. All movies names which are tagged between < span class lumiere_link_maker >nameMovie< span> are automatically turned into an url in your posts. On click, the link opens a new window  including much data related to the movie. Lumière! **transforms all the words you tagged into links to an informative windows**. It means one can view the filmmaker, the casting or the goofs that [IMDb](https://www.imdb.com "Internet movie database") (or similar) website includes with one click; it can show either the director or the movie related data (biography, filmography, miscellaneous related to the director; casting, goofs, AKA titles, crew and many others related to the movie). 
+**Lumiere Movies** aims to ease the search for info on movies. All movies names which are tagged between < span class lumiere_link_maker >nameMovie< span> are automatically turned into an url in your posts. On click, the link opens a new window  including much data related to the movie. Lumière! **transforms all the words you tagged into links to an informative windows**. It means one can view the filmmaker, the casting or the goofs that [IMDb](https://www.imdb.com "Internet movie database") (or similar) website includes with one click; it can show either the director or the movie related data (biography, filmography, miscellaneous related to the director; casting, goofs, AKA titles, crew and many others related to the movie). You also can easily include that very same data into your posts and widgets!
+
+This plugin can indeed display **many movie's related details inside a post** when putting an IMDb movie's ID inside [imdbltid][/imdbltid] tags or a movie's name inside [imdblt][/imdblt]. If you prefer to display that information into a widget, just add the name of the movie in Lumière! metabox when editing your post.
 
 Many features are available in the wordpress editing interfaces (Gutenberg, Visual editor, and HTML editor).
 
-You can also activate a Lumière! **widget**, which displays information parsed from IMDb straight to your sidebar. After widget activation, every time you add the key "imdb-movie-widget" in the custom field to your message *and* a movie's title in "value", the plugin will show the related information in your sidebar. Or **even simpler**: just add a widget, give a movie's name to your blog post and the widget will automatically retrieve the accurate info and display it in the widget!
-
-Similarly, this plugin can display **many movie's related details inside a post** when putting an IMDb movie's ID inside [imdbltid][/imdbltid] tags or a movie's name inside [imdblt][/imdblt]. No widget needed here, the data related to a movie can be displayed anywhere inside posts.
-
-**Lumière!** is a great tool that increases the value added of your posts. It is versatile and efficient. Bloggers can display movie details though many ways (with popups, a widget, and straight into a post). The plugin can be extensively fine-tuned with the admin options.
+**Lumière!** is a great tool that enhance your posts. It is versatile. Users can display movie details though many ways (with popups, a widget, and straight into a post). The plugin can be extensively fine-tuned in the admin panel.
 
 == Installation ==
 
@@ -44,20 +42,19 @@ PHP 7 is required. PHP 8 will soon be mandatory.
 There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a widget and 3/ inside a post. Each option can be combined with any other; there is no limitation!
 
 1. **Popup** When writing your post, add either < !--imdb-->movie's name< !--/imdb--> manually to your movie's name. Or use the visual buttons in Gutenberg or in the former Visual wordpress editor.A **link that opens a popup** will be created in your post. The popup contains much data about the movie.
-2. **Widget** can be activated and used to display movie's data. Once the widget activated, select closely what you want to display on your sidebar: the options are available in the Lumière! admin settings. You can also add a custom field imdb-movie-widget" or "imdb-movie-widget-bymid" into your posts; add as a value the movie you're looking for (first case, 'imdb-movie-widget') or the IMDb id (second case, 'imdb-movie-widget-bymid'). Check the FAQs.
-3. The plugin can **show IMDb data inside a post**. When writing your post, put the movie name inside tags [imdblt][/imdblt] so you get ie [imdblt]Fight club[/imdblt] in your post. Or better, use imdb movie's id instead of the name: [imdbltid]0137523[/imdbltid]. Check the FAQs.
+2. **Widget** can be activated and used to display movie's data. Once the widget activated, select accurately what information you want to display on your sidebar in the related admin panel of Lumière! administration settings. Then, when editing your post, just add either the name (can lead to unexpected results) or the IMDb ID (never fails) of the movie you want to be displayed in your widget. If you don't know the IMDb ID, you can use the tool provided at the end of the widget.
+3. The plugin can **show IMDb data inside a post**. When writing your post, put the movie name inside tags [imdblt][/imdblt] so you get ie [imdblt]Fight club[/imdblt] in your post. Or better, use IMDb ID instead of the movie name: [imdbltid]0137523[/imdbltid]. Here again, use the tool provided at the end of the widget to find the IMDb ID.
 
 = Fine tuning: =
 
-1. The files inc/imdb-movie.inc.php, popup-search.php, popup-movie.php and popup-person.php can be edited to match your theme.
-2. A (front) page can be created to include all you movies' related messages. Have a look there : [movie review's page](https://www.jcvignoli.com/blog/critiques-de-cinema "Lost highway's movies reviews").
-3. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. You can copy the lumiere.css file into your current template folder so your modification will make it in spite of Lumière!'s updates.
+1. A (front) page can be created to include all you movies' related messages. Have a look there : [movie review's page](https://www.jcvignoli.com/blog/critiques-de-cinema "Lost highway's movies reviews").
+2. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. You can copy the lumiere.css file into your current template folder so your modification will make it in spite of Lumière!'s updates.
 
 = Advanced =
 
 1. If you **do not want to show any link to open the popup windows** (in case you are only looking for information displayed in widget and inside posts), search for the option located in "widget options / Remove popup links?" and switch it to "yes". Links opening a popup (both in widget and posts) will not be be available anymore.
 2. You may use lumiere_call_external() function for externals calls to imdb functions. Have a look at the help section in the admin.
-3. Should you want to display automatically a widget according to the post's title, just switch on the "Widget/Inside post" option located in "Options -> Misc ->Auto widget" in the plugin admin. Usefull for blogs dedicated to sharing movie reviews.
+3. Should you want to display automatically a widget according to the post's title, just switch on the "Widget/Inside post" option located in "Options -> Misc ->Auto widget" in the plugin admin. Usefull for blogs dedicated to writing exclusively movie reviews.
 4. Lumière! Movies can create automatically tags and related tags'. Taxonomy templates are provided. Check plugin's help to figure out how to.
 
 == Screenshots ==
@@ -92,11 +89,11 @@ Look at "Cache management / Cache general options / Cache expire" and click on "
 
 = Is it possible to add several movies to sidebar/widget and inside my post?  =
 
-Yes, just add in the post as many custom fields you want.
+One widget only can be added per post. However, as many movies as you wish can be inserted into your post.
 
 = Known issues =
 
- TinyMCE is not working the way it should. Only basic features are available at the moment. I'm working on it.
+* TinyMCE is not working the way it should. Only basic features are available at the moment. I'm working on it.
 
 * If you are updating from the previous IMDb Link Transformer plugin, the plugin's option will be messed up. Reset Lumière! options.
 
@@ -112,7 +109,7 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 = 3.3 =
-Taxonomy system is fully versatile (URL is editable). Uninstalling the plugin now (really) delete settings and taxonomy terms. Introduced the option to keep the settings upon uninstall. Better design for the admin panels and popups. Under the hood, better coding.
+Considerably simplified the way to include widgets; Lumière! now has a metabox in the edit interface. Taxonomy system is fully versatile (URL is editable). Uninstall/deactivation fully functional. Introduced the option to keep the settings upon deactivation (therefore uninstall too). Better design for the admin panels and popups. Under the hood, coding better respecting WordPress and PHP standards.
 
 = 3.2 =
 * Many options related to the popups (favicon, change the URL, etc.), fixed missing/wrong variables all over the plugin, further compatibility with PHP8 added, fixed the submit buttons in the admin, much technical work and bug hunting
