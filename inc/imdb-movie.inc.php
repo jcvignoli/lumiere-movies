@@ -17,11 +17,23 @@
 
 require_once ( plugin_dir_path(__DIR__) . 'bootstrap.php');
 
-//---------------------------------------=[Vars]=----------------
+/* Vars */ 
 
 global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values,$test;
 
-// Start config class for $config in below Imdb\Title class calls
+$imovie = 0; # for counting the main loop
+
+$count_me_siffer= 0; # For movie total count in taxonomised sections
+
+$allowed_html_for_escape_functions = [
+    'a' => [
+        'id' => true,
+        'href'  => true,
+        'title' => true,
+    ]
+]; 
+
+/* Start config class for $config in below Imdb\Title class calls */
 if (class_exists("\Lumiere\Settings")) {
 	$config = new \Lumiere\Settings();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
@@ -30,8 +42,6 @@ if (class_exists("\Lumiere\Settings")) {
 	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
 }
-
-$count_me_siffer= 0; // value to allow movie total count (called from every 'taxonomised' part)
 
 if (isset ($_GET["mid"])) {
 
@@ -43,8 +53,6 @@ if (isset ($_GET["mid"])) {
 	$search = new \Imdb\TitleSearch($config);
 
 }
-
-$imovie = 0;
 
 while ($imovie < count($imdballmeta)) {	
 
@@ -266,7 +274,7 @@ while ($imovie < count($imdballmeta)) {
 			<li class="imdbincluded-lined imdbelementRATINGli">
 				<span class="imdbincluded-subtitle"><?php esc_html_e('Rating', 'lumiere-movies'); ?>:</span><?php
 			
-			if ( $imdb_widget_values['imdbwidgetratingnopics'] == true ) { // value which doesn't exist yet into plugin; has to be made
+			if  ( (isset($imdb_widget_values['imdbwidgetratingnopics'] )) && ( $imdb_widget_values['imdbwidgetratingnopics'] == true ) ) { // value which doesn't exist yet into plugin; has to be made
 				echo $votes_sanitized." "; 
 				echo esc_html_e('votes, average ', 'lumiere-movies'); 
 				echo " ".$rating_sanitized." ";
@@ -546,13 +554,16 @@ while ($imovie < count($imdballmeta)) {
 				for ($i = 0; $i < count ($composer); $i++) {
 					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup
-							echo '<a  class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . sanitize_text_field( $composer[$i]["imdb"] ). '" title="' . esc_html__("Link to local IMDb", "imdb") . '">' . sanitize_text_field( $composer[$i]["name"] ) . "</a>&nbsp;";
+							echo '<a  class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . sanitize_text_field( $composer[$i]["imdb"] ). '" title="' . esc_html__("Link to local IMDb", "imdb") . '">' . sanitize_text_field( $composer[$i]["name"] ) . "</a>";
 						} else {// classic popup
-							echo '<a  class="link-imdblt-highslidepeople" data-classicpeople="' . sanitize_text_field( $composer[$i]["imdb"] ). '" title="' . esc_html__("Link to local IMDb", 'lumiere-movies') . '">' . sanitize_text_field( $composer[$i]["name"] ). "</a>&nbsp;";
+							echo '<a  class="link-imdblt-highslidepeople" data-classicpeople="' . sanitize_text_field( $composer[$i]["imdb"] ). '" title="' . esc_html__("Link to local IMDb", 'lumiere-movies') . '">' . sanitize_text_field( $composer[$i]["name"] ). "</a>";
 						} 
 					} else { // if "Remove all links" option is selected 
 						echo sanitize_text_field( $composer[$i]["name"] );
 					}  // end if remove popup
+	
+					if ( $i < count ($composer) - 1 ) echo ", ";
+
 				} // endfor 
 			} // end if imdbtaxonomycomposer ?></li>
 		</ul>
@@ -578,14 +589,16 @@ while ($imovie < count($imdballmeta)) {
 				echo "<strong>".$soundtrack[$i]['soundtrack']."</strong>"; 
 				if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
 				// if "Remove all links" option is not selected 
-					if (!empty($soundtrack[$i]['credits'][0]) )
+					if ( (isset($soundtrack[$i]['credits'][0])) && (!empty($soundtrack[$i]['credits'][0]) ) )
 						echo " - <i>". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
 						echo " (". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][0]['desc']).") ";
-					if (!empty($soundtrack[$i]['credits'][1]) )
-						echo " - <i>". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
-						echo " (". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['desc']).") ";
+					if ( (isset($soundtrack[$i]['credits'][1])) && (!empty($soundtrack[$i]['credits'][1]) ) )
+						if ( (isset($soundtrack[$i]['credits'][1]['credit_to'])) && (!empty($soundtrack[$i]['credits'][1]['credit_to']) ) )
+							echo " - <i>". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
+						if ( (isset($soundtrack[$i]['credits'][1]['desc'])) && (!empty($soundtrack[$i]['credits'][1]['desc']) ) )
+							echo " (". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['desc']).") ";
 				} else {
-					if (!empty($soundtrack[$i][credits][0]) )
+					if ( (isset($soundtrack[$i][credits][0])) && (!empty($soundtrack[$i][credits][0]) ) )
 						echo " - <i>". lumiere_remove_link ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
 						echo " (". lumiere_remove_link ($soundtrack[$i]['credits'][0]['desc']).") ";
 					if (!empty($soundtrack[$i][credits][1]) )
@@ -953,7 +966,7 @@ while ($imovie < count($imdballmeta)) {
 				for ($i = 0; $i < $nbplots  && ($i < count ($plot)); $i++) { 
 					if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
 					// if "Remove all links" option is not selected 
-						echo wp_kses_post( $plot[$i] ) . "\n";
+						echo wp_kses_post( $plot[$i], $allowed_html_for_escape_functions ) . "\n";
 					} else {
 						echo lumiere_remove_link ($plot[$i]). "\n";
 					} 

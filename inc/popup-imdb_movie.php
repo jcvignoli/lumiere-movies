@@ -18,6 +18,10 @@ require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 /* VARS */
 global $imdb_admin_values, $imdb_cache_values;
 
+$movieid_sanitized = isset($_GET["mid"]) ? filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT) : NULL;
+$filmid_sanitized = isset($_GET["film"]) ? lumiere_name_htmlize( $_GET["film"] ) : NULL;
+$film_sanitized_for_title = isset($_GET["film"]) ? sanitize_text_field($_GET["film"]) : NULL;
+
 // Enter in debug mode
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
 	lumiere_debug_display($imdb_cache_values, 'SetError', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
@@ -32,12 +36,6 @@ if (class_exists("\Lumiere\Settings")) {
 	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
 }
-
-$movieid=$_GET["mid"] ?? NULL;
-$movieid_sanitized = filter_var( $movieid, FILTER_SANITIZE_NUMBER_INT) ?? NULL;
-$filmid = $_GET["film"] ?? NULL;
-$filmid_sanitized = lumiere_name_htmlize( $filmid) ?? NULL;
-$film_sanitized_for_title = sanitize_text_field($filmid) ?? NULL;
 
 // if neither film nor mid are set, throw a 404 error
 if (empty($movieid_sanitized ) && empty($filmid_sanitized)){

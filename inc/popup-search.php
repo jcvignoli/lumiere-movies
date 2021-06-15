@@ -1,7 +1,7 @@
 <?php
 
  #############################################################################
- # LumiÃ¨re! Movies wordpress plugin                                          #
+ # Lumière! Movies wordpress plugin                                          #
  # written by Lost Highway                                                   #
  # https://www.jcvignoli.com/blog                                            #
  # ------------------------------------------------------------------------- #
