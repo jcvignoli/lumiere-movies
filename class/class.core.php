@@ -786,8 +786,8 @@ class Core {
 
 		/* Actions from the class */
 		$this->lumiere_create_cache();
-		$this->lumiere_change_perms_inc();
-		$this->lumiere_make_htaccess_admin();
+		//$this->lumiere_change_perms_inc(); # normaly not needed, but allows lumiere_make_htaccess_admin() to work
+		$this->lumiere_make_htaccess_admin(); # normaly not needed, achieved through various functions _redirect
 
 		/* Refresh rewrite rules */
 		flush_rewrite_rules();

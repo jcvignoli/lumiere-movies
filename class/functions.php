@@ -454,13 +454,12 @@ if (!function_exists('lumiere_make_htaccess')) {
 
 		$imdblt_htaccess_file_txt .= "</IfModule>";
 
-		// write the .htaccess file and close
-		if (isset($imdblt_htaccess_file)) {
-			file_put_contents($imdblt_htaccess_file, $imdblt_htaccess_file_txt.PHP_EOL);
+		// write the .htaccess file if it can be written and close
+		$inc_folder_htaccess = plugin_dir_path( __DIR__ ) . 'inc';
+		if ( (isset($imdblt_htaccess_file)) && ( substr(sprintf('%o', fileperms( $inc_folder_htaccess )), -3) == "777" ) ) {
+			file_put_contents($imdblt_htaccess_file, $imdblt_htaccess_file_txt);
 			// lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'lumiere-movies') ); # is not displayed
-		} else {
-			wp_die(lumiere_notice(3, esc_html__( 'Failed creating htaccess file.', 'lumiere-movies') ));
-		}
+		} 
 	}
 }
 

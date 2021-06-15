@@ -63,12 +63,15 @@ if (current_user_can( 'manage_options' ) ) {
 	if ( (isset($_POST['update_imdbSettings'])) && check_admin_referer('options_general_check', 'options_general_check') ) { //--------------------save data selected 
 
 		// Check if $_POST['imdburlstringtaxo'] and $_POST['imdburlpopups'] are identical, as they can't
+$post_imdb_imdburlstringtaxo = isset($_POST['imdb_imdburlstringtaxo']) ? filter_var($_POST['imdb_imdburlstringtaxo'], FILTER_SANITIZE_STRING) : NULL;
+$post_imdb_imdburlpopups = isset($_POST['imdb_imdburlpopups']) ? filter_var($_POST['imdb_imdburlpopups'], FILTER_SANITIZE_STRING) : NULL;
+
 			if ( 
-			(isset($_POST['imdb_imdburlstringtaxo'])) && 
-(str_replace('/','',$_POST['imdb_imdburlstringtaxo']) == str_replace('/','',$_POST['imdb_imdburlpopups']) ) || (str_replace('/','',$_POST['imdb_imdburlstringtaxo']) == str_replace('/','',$imdbOptions['imdburlpopups']) )
+			(isset($post_imdb_imdburlstringtaxo)) && 
+(str_replace('/','',$post_imdb_imdburlstringtaxo) == str_replace('/','',$post_imdb_imdburlpopups) ) || isset($imdbOptions['imdburlpopups']) && (str_replace('/','',$post_imdb_imdburlstringtaxo) == str_replace('/','',$imdbOptions['imdburlpopups']) )
 									||
-			(isset($_POST['imdb_imdburlpopups'])) && 
-(str_replace('/','',$_POST['imdb_imdburlpopups']) == str_replace('/','',$_POST['imdb_imdburlstringtaxo']) ) || (str_replace('/','',$_POST['imdb_imdburlpopups']) == str_replace('/','',$imdbOptions['imdburlstringtaxo']) )
+			(isset($post_imdb_imdburlpopups)) && 
+(str_replace('/','',$post_imdb_imdburlpopups) == str_replace('/','',$post_imdb_imdburlstringtaxo) ) || isset($imdbOptions['imdburlstringtaxo']) && (str_replace('/','',$post_imdb_imdburlpopups) == str_replace('/','',$imdbOptions['imdburlstringtaxo']) )
 			)
 {
 			lumiere_notice(3, esc_html__( 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 'lumiere-movies') );
@@ -91,7 +94,10 @@ if (current_user_can( 'manage_options' ) ) {
 		add_action('admin_init', function (){ flush_rewrite_rules(); }, 0);
 
 		// Rewrite the htaccess so it matches the new $imdbOptions['imdbplugindirectory'] path
-		lumiere_make_htaccess();
+		if ( ! lumiere_make_htaccess() ) {
+			$inc_folder_htaccess = plugin_dir_path( __DIR__ ) . 'inc';
+			lumiere_notice(3, esc_html__( 'Failed creating htaccess file. Check you have permission 777 in folder ', 'lumiere-movies') . $inc_folder_htaccess );
+		}
 
 		// display message on top
 		lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
