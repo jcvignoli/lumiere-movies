@@ -3,13 +3,13 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Lumière! Movies 3.3\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/working-env\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lumiere-movies\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-15T10:09:33-03:00\n"
+"POT-Creation-Date: 2021-06-16T00:05:54-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: lumiere-movies\n"
@@ -184,6 +184,10 @@ msgstr ""
 msgid "There was an error when generating the htaccess file."
 msgstr ""
 
+#: class/functions.php:465
+msgid "htaccess file successfully generated."
+msgstr ""
+
 #: inc/admin_pages.php:35
 msgid "admin options"
 msgstr ""
@@ -242,7 +246,7 @@ msgid "Search a movie"
 msgstr ""
 
 #: inc/gutenberg-search.php:97
-#: inc/options-general.php:332
+#: inc/options-general.php:329
 msgid "Search"
 msgstr ""
 
@@ -914,8 +918,8 @@ msgstr ""
 #: inc/options-cache.php:176
 #: inc/options-cache.php:235
 #: inc/options-general.php:78
-#: inc/options-general.php:111
-#: inc/options-general.php:130
+#: inc/options-general.php:108
+#: inc/options-general.php:127
 #: inc/options-widget.php:95
 #: inc/options-widget.php:112
 msgid "Go back"
@@ -989,19 +993,19 @@ msgstr ""
 #: inc/options-cache.php:413
 #: inc/options-cache.php:415
 #: inc/options-cache.php:491
-#: inc/options-general.php:213
-#: inc/options-general.php:220
-#: inc/options-general.php:255
-#: inc/options-general.php:260
-#: inc/options-general.php:296
-#: inc/options-general.php:402
-#: inc/options-general.php:414
-#: inc/options-general.php:418
-#: inc/options-general.php:428
-#: inc/options-general.php:434
-#: inc/options-general.php:446
-#: inc/options-general.php:450
-#: inc/options-general.php:460
+#: inc/options-general.php:210
+#: inc/options-general.php:217
+#: inc/options-general.php:252
+#: inc/options-general.php:257
+#: inc/options-general.php:293
+#: inc/options-general.php:399
+#: inc/options-general.php:411
+#: inc/options-general.php:415
+#: inc/options-general.php:425
+#: inc/options-general.php:431
+#: inc/options-general.php:443
+#: inc/options-general.php:447
+#: inc/options-general.php:457
 #: inc/options-widget.php:152
 #: inc/options-widget.php:155
 #: inc/options-widget.php:163
@@ -1044,17 +1048,17 @@ msgstr ""
 #: inc/options-cache.php:413
 #: inc/options-cache.php:494
 #: inc/options-cache.php:496
-#: inc/options-general.php:217
-#: inc/options-general.php:258
-#: inc/options-general.php:300
-#: inc/options-general.php:302
-#: inc/options-general.php:404
-#: inc/options-general.php:406
-#: inc/options-general.php:416
-#: inc/options-general.php:432
-#: inc/options-general.php:448
-#: inc/options-general.php:462
-#: inc/options-general.php:464
+#: inc/options-general.php:214
+#: inc/options-general.php:255
+#: inc/options-general.php:297
+#: inc/options-general.php:299
+#: inc/options-general.php:401
+#: inc/options-general.php:403
+#: inc/options-general.php:413
+#: inc/options-general.php:429
+#: inc/options-general.php:445
+#: inc/options-general.php:459
+#: inc/options-general.php:461
 #: inc/options-widget.php:153
 #: inc/options-widget.php:164
 #: inc/options-widget.php:175
@@ -1117,26 +1121,26 @@ msgstr ""
 #: inc/options-cache.php:432
 #: inc/options-cache.php:496
 #: inc/options-cache.php:924
-#: inc/options-general.php:176
-#: inc/options-general.php:184
-#: inc/options-general.php:199
-#: inc/options-general.php:220
-#: inc/options-general.php:260
-#: inc/options-general.php:269
-#: inc/options-general.php:278
-#: inc/options-general.php:302
-#: inc/options-general.php:311
-#: inc/options-general.php:349
-#: inc/options-general.php:378
-#: inc/options-general.php:406
-#: inc/options-general.php:418
-#: inc/options-general.php:434
-#: inc/options-general.php:450
-#: inc/options-general.php:464
-#: inc/options-general.php:499
-#: inc/options-general.php:518
-#: inc/options-general.php:538
-#: inc/options-general.php:567
+#: inc/options-general.php:173
+#: inc/options-general.php:181
+#: inc/options-general.php:196
+#: inc/options-general.php:217
+#: inc/options-general.php:257
+#: inc/options-general.php:266
+#: inc/options-general.php:275
+#: inc/options-general.php:299
+#: inc/options-general.php:308
+#: inc/options-general.php:346
+#: inc/options-general.php:375
+#: inc/options-general.php:403
+#: inc/options-general.php:415
+#: inc/options-general.php:431
+#: inc/options-general.php:447
+#: inc/options-general.php:461
+#: inc/options-general.php:496
+#: inc/options-general.php:515
+#: inc/options-general.php:535
+#: inc/options-general.php:564
 #: inc/options-widget.php:155
 #: inc/options-widget.php:166
 #: inc/options-widget.php:176
@@ -1201,14 +1205,14 @@ msgstr ""
 #: inc/options-cache.php:1007
 #: inc/options-cache.php:1027
 #: inc/options-cache.php:1028
-#: inc/options-general.php:586
+#: inc/options-general.php:583
 #: inc/options-widget.php:914
 msgid "Reset settings"
 msgstr ""
 
 #: inc/options-cache.php:509
 #: inc/options-cache.php:1008
-#: inc/options-general.php:587
+#: inc/options-general.php:584
 #: inc/options-widget.php:915
 msgid "Update settings"
 msgstr ""
@@ -1369,7 +1373,7 @@ msgid "Edit the following value only if need so. You can break the caching syste
 msgstr ""
 
 #: inc/options-cache.php:867
-#: inc/options-general.php:485
+#: inc/options-general.php:482
 msgid "Click here to display options"
 msgstr ""
 
@@ -1467,175 +1471,171 @@ msgstr ""
 msgid "Wrong values. You can not select the same URL string for taxonomy pages and popups."
 msgstr ""
 
-#: inc/options-general.php:99
-msgid "Failed creating htaccess file. Check you have permission 777 in folder "
-msgstr ""
-
-#: inc/options-general.php:103
+#: inc/options-general.php:100
 #: inc/options-widget.php:88
 msgid "Options saved."
 msgstr ""
 
-#: inc/options-general.php:122
+#: inc/options-general.php:119
 #: inc/options-widget.php:117
 msgid "Options reset."
 msgstr ""
 
-#: inc/options-general.php:142
+#: inc/options-general.php:139
 msgid "Paths & Layout"
 msgstr ""
 
-#: inc/options-general.php:142
-#: inc/options-general.php:157
+#: inc/options-general.php:139
+#: inc/options-general.php:154
 msgid "Layout"
 msgstr ""
 
-#: inc/options-general.php:144
+#: inc/options-general.php:141
 msgid "Advanced"
 msgstr ""
 
-#: inc/options-general.php:153
+#: inc/options-general.php:150
 msgid "The following options usually do not need further action. Nevertheless, Lumière! can be widely customized to match your needs."
 msgstr ""
 
-#: inc/options-general.php:167
+#: inc/options-general.php:164
 msgid "Popup"
 msgstr ""
 
-#: inc/options-general.php:173
+#: inc/options-general.php:170
 msgid "Width"
 msgstr ""
 
-#: inc/options-general.php:176
+#: inc/options-general.php:173
 msgid "Popup width, in pixels"
 msgstr ""
 
-#: inc/options-general.php:181
+#: inc/options-general.php:178
 msgid "Height"
 msgstr ""
 
-#: inc/options-general.php:184
+#: inc/options-general.php:181
 msgid "Popup height, in pixels"
 msgstr ""
 
-#: inc/options-general.php:190
+#: inc/options-general.php:187
 msgid "Theme color"
 msgstr ""
 
-#: inc/options-general.php:193
+#: inc/options-general.php:190
 msgid "white (default)"
 msgstr ""
 
-#: inc/options-general.php:194
+#: inc/options-general.php:191
 msgid "black"
 msgstr ""
 
-#: inc/options-general.php:195
+#: inc/options-general.php:192
 msgid "lightgrey"
 msgstr ""
 
-#: inc/options-general.php:199
+#: inc/options-general.php:196
 msgid "Popup color theme"
 msgstr ""
 
-#: inc/options-general.php:208
+#: inc/options-general.php:205
 msgid "Display highslide popup"
 msgstr ""
 
-#: inc/options-general.php:220
+#: inc/options-general.php:217
 msgid "Highslide popup is a more stylished popup, and allows to open movie details directly in the webpage instead of opening a new window."
 msgstr ""
 
-#: inc/options-general.php:225
+#: inc/options-general.php:222
 msgid "Warning! No Highslide folder was found."
 msgstr ""
 
-#: inc/options-general.php:232
+#: inc/options-general.php:229
 msgid "Click here to visit Highslide website"
 msgstr ""
 
-#: inc/options-general.php:232
+#: inc/options-general.php:229
 msgid "Get Highslide JS library"
 msgstr ""
 
-#: inc/options-general.php:245
+#: inc/options-general.php:242
 msgid "Imdb link picture"
 msgstr ""
 
-#: inc/options-general.php:251
+#: inc/options-general.php:248
 msgid "Display imdb pic?"
 msgstr ""
 
-#: inc/options-general.php:260
+#: inc/options-general.php:257
 msgid "Whether display imdb link (the yellow icon) or not. This picture can be found into the popup when looking for akas movies. If the option is unselected, visitors will no more have opportunity to follow links to IMDb (even if they could still follow internal links)."
 msgstr ""
 
-#: inc/options-general.php:265
-#: inc/options-general.php:307
+#: inc/options-general.php:262
+#: inc/options-general.php:304
 msgid "Size"
 msgstr ""
 
-#: inc/options-general.php:269
+#: inc/options-general.php:266
 msgid "Size of the imdb picture. The value will correspond to the width in pixels."
 msgstr ""
 
-#: inc/options-general.php:274
+#: inc/options-general.php:271
 msgid "Url"
 msgstr ""
 
-#: inc/options-general.php:278
+#: inc/options-general.php:275
 msgid "Url for the imdb picture"
 msgstr ""
 
-#: inc/options-general.php:287
+#: inc/options-general.php:284
 msgid "Cover picture"
 msgstr ""
 
-#: inc/options-general.php:293
+#: inc/options-general.php:290
 msgid "Display only thumbnail"
 msgstr ""
 
-#: inc/options-general.php:302
+#: inc/options-general.php:299
 msgid "Whether to display a thumbnail or a large image cover for movies inside a post or a widget. Select \"No\" to choose cover picture width (a new option on the right will be available)."
 msgstr ""
 
-#: inc/options-general.php:311
+#: inc/options-general.php:308
 msgid "Size of the imdb cover picture. The value will correspond to the width in pixels. Delete any value to get maximum width."
 msgstr ""
 
-#: inc/options-general.php:325
+#: inc/options-general.php:322
 msgid "The options hereafter can break a lot of things. Edit them only if you know what you are doing."
 msgstr ""
 
-#: inc/options-general.php:340
+#: inc/options-general.php:337
 msgid "Search language"
 msgstr ""
 
-#: inc/options-general.php:342
+#: inc/options-general.php:339
 msgid "English"
 msgstr ""
 
-#: inc/options-general.php:343
+#: inc/options-general.php:340
 msgid "French"
 msgstr ""
 
-#: inc/options-general.php:344
+#: inc/options-general.php:341
 msgid "Spanish"
 msgstr ""
 
-#: inc/options-general.php:347
+#: inc/options-general.php:344
 msgid "Language used for the movie search. Very usefull for a non-English blog using Lumière! as a widget."
 msgstr ""
 
-#: inc/options-general.php:369
+#: inc/options-general.php:366
 msgid "Limit number of results"
 msgstr ""
 
-#: inc/options-general.php:376
+#: inc/options-general.php:373
 msgid "This limits the number of results in a movie query."
 msgstr ""
 
-#: inc/options-general.php:390
+#: inc/options-general.php:387
 #: inc/options-widget.php:131
 #: inc/options-widget.php:879
 #: inc/popup-imdb_movie.php:191
@@ -1643,111 +1643,111 @@ msgstr ""
 msgid "Misc"
 msgstr ""
 
-#: inc/options-general.php:398
+#: inc/options-general.php:395
 msgid "Left menu for Lumière options"
 msgstr ""
 
-#: inc/options-general.php:406
+#: inc/options-general.php:403
 msgid "When enabled, Lumiere options are fully displayed on the left menu - and not anymore limited to the settings directory. It creates a dedicated menu for Lumiere options."
 msgstr ""
 
-#: inc/options-general.php:411
+#: inc/options-general.php:408
 msgid "Top menu for Lumière options"
 msgstr ""
 
-#: inc/options-general.php:418
+#: inc/options-general.php:415
 msgid "When activated, Lumière options are displayed on the top menu of Wordpress. Deactivate it if you have many plugins already occupying that area."
 msgstr ""
 
-#: inc/options-general.php:424
+#: inc/options-general.php:421
 msgid "Use taxonomy"
 msgstr ""
 
-#: inc/options-general.php:434
+#: inc/options-general.php:431
 msgid "This will add taxonomy terms found for the movie when display a page with a widget or a into a post. Taxonomy allows to group posts by a series of chosen terms, as explained in"
 msgstr ""
 
-#: inc/options-general.php:434
+#: inc/options-general.php:431
 msgid "When activated, this option opens "
 msgstr ""
 
-#: inc/options-general.php:434
+#: inc/options-general.php:431
 msgid "specific taxonomy options"
 msgstr ""
 
-#: inc/options-general.php:434
+#: inc/options-general.php:431
 msgid "Taxonomy terms are uninstalled when removing the plugin if you selected not to keep the settings upon uninstall."
 msgstr ""
 
-#: inc/options-general.php:434
+#: inc/options-general.php:431
 msgid "(Activated for \"genre\" taxonomy only)"
 msgstr ""
 
-#: inc/options-general.php:442
+#: inc/options-general.php:439
 msgid "Keep settings upon deactivation"
 msgstr ""
 
-#: inc/options-general.php:450
+#: inc/options-general.php:447
 msgid "Whether to keep or delete Lumière! settings upon plugin deactivation. Prevent from deleting the taxonomy terms and the cache too."
 msgstr ""
 
-#: inc/options-general.php:456
+#: inc/options-general.php:453
 msgid "Debug Lumière!"
 msgstr ""
 
-#: inc/options-general.php:464
+#: inc/options-general.php:461
 msgid "When enabled, Lumière can be debugged."
 msgstr ""
 
-#: inc/options-general.php:478
+#: inc/options-general.php:475
 msgid "Paths: url & folders"
 msgstr ""
 
-#: inc/options-general.php:482
+#: inc/options-general.php:479
 msgid "Edit the following values only if need so. You can break the plugin."
 msgstr ""
 
-#: inc/options-general.php:495
+#: inc/options-general.php:492
 msgid "Blog address"
 msgstr ""
 
-#: inc/options-general.php:499
+#: inc/options-general.php:496
 msgid "Where the blog is installed."
 msgstr ""
 
-#: inc/options-general.php:508
+#: inc/options-general.php:505
 msgid "Plugin directory"
 msgstr ""
 
-#: inc/options-general.php:516
+#: inc/options-general.php:513
 msgid "Where <strong>Lumiere</strong> is installed."
 msgstr ""
 
-#: inc/options-general.php:529
+#: inc/options-general.php:526
 msgid "URL for the popups"
 msgstr ""
 
-#: inc/options-general.php:536
+#: inc/options-general.php:533
 msgid "The URL that will be displayed for the movies' and people's popups."
 msgstr ""
 
-#: inc/options-general.php:541
+#: inc/options-general.php:538
 msgid "Example: the full URL utilized for the movies' popups will be:"
 msgstr ""
 
-#: inc/options-general.php:546
+#: inc/options-general.php:543
 msgid "Example: the full URL utilized for the people's popup will be:"
 msgstr ""
 
-#: inc/options-general.php:558
+#: inc/options-general.php:555
 msgid "URL for the taxonomy pages"
 msgstr ""
 
-#: inc/options-general.php:565
+#: inc/options-general.php:562
 msgid "The URL that will be displayed for the taxonomy's pages. Warning! It cannot be identical to the URL of popups above."
 msgstr ""
 
-#: inc/options-general.php:570
+#: inc/options-general.php:567
 msgid "The full URL utilized for the director taxonomy page will be:"
 msgstr ""
 
@@ -2242,7 +2242,6 @@ msgid "Enter the name or the IMDb ID movie"
 msgstr ""
 
 #: blocks-gutenberg/main-block.js:36
-#: test/gutenberg_block_intothepost.js:30
 msgid "Lumière: movie inside a post"
 msgstr ""
 
@@ -2251,35 +2250,25 @@ msgid "Insert a series of details related to a movie in your post."
 msgstr ""
 
 #: blocks-gutenberg/main-block.js:78
-#: test/gutenberg_block_intothepost.js:71
 msgid "Use this block to retrieve movie or people information from the IMDb and insert in your post."
 msgstr ""
 
 #: blocks-gutenberg/main-block.js:80
-#: test/gutenberg_block_intothepost.js:73
 msgid "You can also click on this link to get the"
 msgstr ""
 
 #: blocks-gutenberg/main-block.js:86
-#: test/gutenberg_block_intothepost.js:76
 msgid "IMDb movie id"
 msgstr ""
 
 #: blocks-gutenberg/main-block.js:87
-#: test/gutenberg_block_intothepost.js:77
 msgid "and insert it."
 msgstr ""
 
 #: blocks-gutenberg/main-block.js:111
-#: test/gutenberg_block_intothepost.js:101
 msgid "By movie's name"
 msgstr ""
 
 #: blocks-gutenberg/main-block.js:112
-#: test/gutenberg_block_intothepost.js:102
 msgid "By IMDb's ID"
-msgstr ""
-
-#: test/gutenberg_block_intothepost.js:7
-msgid "Type the name or IMDb movie"
 msgstr ""
