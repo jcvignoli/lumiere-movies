@@ -60,7 +60,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ## Screenshots
 
-### 1. Popup displayed when an imdb link is selected. In background, a widget 
+### 1. Popup displayed when an imdb link is clicked.
 
 [missing image]
 
@@ -72,27 +72,23 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 [missing image]
 
-### 4. Admin preferences
+### 4. Admin preferences for cache
 
 [missing image]
 
-### 5. The field and the value to fill up to use the widget 
+### 5. The code [imdblt] to enter inside a post and the icon to attach a popup link
 
 [missing image]
 
-### 6. Option for adding a Lumière! URL in their post 
+### 6. The widget area to display a movie
 
 [missing image]
 
-### 7. Piece of code needed in order to display movie's data "inside a post"
+### 7. External tool to find a movie's IMDb ID
 
 [missing image]
 
-### 8. Help section contains many tips and how-to
-
-[missing image]
-
-### 9. Gutenberg block
+### 8. Gutenberg block
 
 [missing image]
 
@@ -124,6 +120,8 @@ One widget only can be added per post. However, as many movies as you wish can b
 * TinyMCE is not working the way it should. Only basic features are available at the moment. I'm working on it.
 
 * If you are updating from the previous IMDb Link Transformer plugin, the plugin's option will be messed up. Reset Lumière! options.
+
+* Lumière! help section in the administration of the plugin is massively outdated.
 
 ## Support
 

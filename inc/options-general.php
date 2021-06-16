@@ -94,10 +94,7 @@ $post_imdb_imdburlpopups = isset($_POST['imdb_imdburlpopups']) ? filter_var($_PO
 		add_action('admin_init', function (){ flush_rewrite_rules(); }, 0);
 
 		// Rewrite the htaccess so it matches the new $imdbOptions['imdbplugindirectory'] path
-		if ( ! lumiere_make_htaccess() ) {
-			$inc_folder_htaccess = plugin_dir_path( __DIR__ ) . 'inc';
-			lumiere_notice(3, esc_html__( 'Failed creating htaccess file. Check you have permission 777 in folder ', 'lumiere-movies') . $inc_folder_htaccess );
-		}
+		lumiere_make_htaccess();
 
 		// display message on top
 		lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');

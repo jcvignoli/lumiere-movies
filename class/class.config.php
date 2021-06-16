@@ -23,7 +23,7 @@ if ( ! defined( 'WPINC' ) ) {
 /* CONSTANTS */
 $imdb_admin_values['imdbplugindirectory'] = isset($imdb_admin_values['imdbplugindirectory']) ? $imdb_admin_values['imdbplugindirectory'] : plugin_dir_url( __DIR__ );
 define('IMDBLTURLPATH', $imdb_admin_values['imdbplugindirectory'] );
-define('IMDBLTABSPATH',  plugin_dir_path( __DIR__ ) );
+define('IMDBLTABSPATH',  plugin_dir_path( __DIR__ ) ); # would be better WP_PLUGIN_DIR . '/lumiere-movies/' ??
 define('IMDBLTFILE', plugin_basename( dirname(__FILE__)) );
 define('IMDBBLOG', 'https://www.jcvignoli.com/blog');
 define('IMDBBLOGENGLISH', IMDBBLOG . "/en");

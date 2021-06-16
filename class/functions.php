@@ -425,8 +425,10 @@ if (!function_exists('lumiere_make_htaccess')) {
 		$imdblt_slug_path_search = substr(LUMIERE_URLSTRING, 1);
 		$imdblt_slug_path_person = substr(LUMIERE_URLSTRINGPERSON, 1);
 
+		$imdblt_htaccess_file_txt = "";
+		$imdblt_htaccess_file_txt = "### Begin Lumiere plugin\n";
 		// .htaccess text, including Rewritebase with $blog_subdomain
-		$imdblt_htaccess_file_txt = "<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase ".$imdblt_blog_subdomain."/"."\n\n";
+		$imdblt_htaccess_file_txt .= "<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase ".$imdblt_blog_subdomain."/"."\n\n";
 
 		# Gutenberg search
 		$imdblt_htaccess_file_txt .= "## gutenberg-search.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/gutenberg-search.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/lumiere/search/ [L,R,QSA]"."\n\n";
@@ -448,18 +450,21 @@ if (!function_exists('lumiere_make_htaccess')) {
 		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_movie.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_movie."%1/ [L,R,QSA]"."\n\n";
 
 		# popup-imdb_person.php
-		$imdblt_htaccess_file_txt .= "## popup-imdb_person.php"."\n"."RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_person.php\?mid=([^&#]+)&(film=[^\s]+)(&info=[^\s]+)? [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_person."%1/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "## popup-imdb_person.php"."\n"."RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_person.php\?mid=([^&#]+)&(film=[^\s]+)(&info=[^\s]+)? [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_person."%1/ [L,R,QSA]"."\n\n"; 
 		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_person.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_person."%1/ [L,R,QSA]"."\n\n";
 */
 
-		$imdblt_htaccess_file_txt .= "</IfModule>";
+		$imdblt_htaccess_file_txt .= "</IfModule>\n";
+		$imdblt_htaccess_file_txt .= "### End Lumiere plugin\n\n";
 
 		// write the .htaccess file if it can be written and close
-		$inc_folder_htaccess = plugin_dir_path( __DIR__ ) . 'inc';
-		if ( (isset($imdblt_htaccess_file)) && ( substr(sprintf('%o', fileperms( $inc_folder_htaccess )), -3) == "777" ) ) {
-			file_put_contents($imdblt_htaccess_file, $imdblt_htaccess_file_txt);
-			// lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'lumiere-movies') ); # is not displayed
-		} 
+		// display confirmation message for general options
+		if ( file_put_contents( $imdblt_htaccess_file, $imdblt_htaccess_file_txt)) {
+			// is not displayed under plugin activation
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options' ) ) {
+				lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'lumiere-movies') ); 
+			} else { return false;}
+		} else { return false;}
 	}
 }
 
