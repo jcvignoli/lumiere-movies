@@ -855,9 +855,14 @@ if (current_user_can( 'manage_options' ) ) {
 			<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo (count( $imdbOptionsw['imdbwidgetorder'] )/2); ?>" style="height:100%;" multiple>
 <?php 
 				foreach ($imdbOptionsw['imdbwidgetorder'] as $key=>$value) {
-					if (!empty ( $key ) && ( $key ) != "source"  ) { // to eliminate empty keys, but also "source" which will always stays at the end (technical limitation, data outside the imdb-movie.inc.php loop)
+
+					if (!empty ( $key ) ) { // to eliminate empty keys
+
 						echo "\t\t\t\t\t<option value='".$key."'";
-						if ($imdbOptionsw["imdbwidget$key"] != 1 ) { // search if "imdbwidget'title'" (ie) is activated
+
+						// search if "imdbwidget'title'" (ie) is activated
+						if ($imdbOptionsw["imdbwidget$key"] != 1 ) { 
+
 							echo ' label="'.$key.' (unactivated)">'.$key;
 						} else { 
 							echo ' label="'.$key.'">'.$key; 

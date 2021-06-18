@@ -89,7 +89,7 @@ class LumiereWidget extends WP_Widget {
 
 				echo $title_box;
 				echo "<div class='imdbincluded'>";
-				require( plugin_dir_path( __DIR__ ) . 'inc/imdb-movie.inc.php');
+				$display = new \Lumiere\LumiereMovies();
 				echo "</div>";
 
 			}
@@ -102,7 +102,7 @@ class LumiereWidget extends WP_Widget {
 
 				echo $title_box;
 				echo "<div class='imdbincluded'>";
-				require( plugin_dir_path( __DIR__ ) . 'inc/imdb-movie.inc.php');
+				$display = new \Lumiere\LumiereMovies();
 				echo "</div>";
 
 			}
@@ -115,7 +115,7 @@ class LumiereWidget extends WP_Widget {
 				$imdballmeta[]['bymid'] = $moviespecificid;
 				echo $title_box;
 				echo "<div class='imdbincluded'>";
-				require( plugin_dir_path( __DIR__ ) . 'inc/imdb-movie.inc.php');
+				$display = new \Lumiere\LumiereMovies();
 				echo "</div>";
 
 			}
