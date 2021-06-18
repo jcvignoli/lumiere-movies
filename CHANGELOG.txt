@@ -1,5 +1,10 @@
 Changelog
 
+v.3.3.1
+* [technical] Transformed imdb-movie.inc.php into a class. More versality moving forward.
+* [bug] In options-widget.php, reactivated 'source'. It was deactivated in widget order.
+* [bug] Made sure only one call is made for every movie (imdblt, imdbltid, widget)
+
 v.3.3
 * [major] Added a metabox in the edition of the posts (admin area). The movie's title or IMDb ID will be utilized to show a widget with the relevant movie. Included a popup to search for IMDb IDs.
 * [major] More robust taxonomy system. More technical and systematic coherence to understand the taxonomy options. Rewrote the taxonomy injection in imdb-movie.inc.php using wp_set_post_terms and only once per taxonomy. Faster, cleaner, and fully working.

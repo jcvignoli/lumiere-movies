@@ -97,7 +97,7 @@ class Core {
 			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
 
 			// On updating plugin
-			add_action( 'upgrader_process_complete', [$this, 'lumiere_on_upgrade_completed' ] );
+			add_action( 'upgrader_process_complete', [$this, 'lumiere_on_upgrade_completed' ], 10, 2 );
 
 		}
 	}
@@ -417,7 +417,7 @@ class Core {
 
 	function lumiere_external_call ($moviename="", $external="", $filmid="") {
 
-		global $imdb_admin_values, $imdb_widget_values, $wp_query;
+		global $imdb_admin_values, $imdb_widget_values, $wp_query, $imdballmeta;
 
 		// Call function from external (using parameter "external" )
 		// Especially made to be integrated (ie, inside a php code)
@@ -425,9 +425,9 @@ class Core {
 
 			$imdballmeta['byname'] = $moviename;
 
-			echo "<div class='imdbincluded'>";
-			require( $imdb_admin_values['imdbpluginpath'] . "inc/imdb-movie.inc.php" );
-			echo "</div>";
+			echo "\n\t<div class='imdbincluded'>";
+			$display = new \Lumiere\LumiereMovies();
+			echo "\n\t</div>";
 
 		}
 
@@ -437,31 +437,31 @@ class Core {
 
 			$imdballmeta[]['bymid'] = $filmid[0];
 
-			echo "<div class='imdbincluded'>";
-			require( $imdb_admin_values['imdbpluginpath'] . "inc/imdb-movie.inc.php" );
-			echo "</div>";
+			echo "\n\t<div class='imdbincluded'>";
+			$display = new \Lumiere\LumiereMovies();
+			echo "\n\t</div>";
 
 		}
 
 		//  Call with the parameter - imdb movie name (imdblt)
-		if ( isset($moviename) && !empty($moviename) && empty($external)  ) {	
+		if ( isset($moviename) && !empty($moviename) && empty($external) ) {	
 
 			$imdballmeta[]['byname'] = $moviename[0];
-			echo "<div class='imdbincluded'>";
-			require( $imdb_admin_values['imdbpluginpath'] . "inc/imdb-movie.inc.php" );
-			echo "</div>";
+			echo "\n\t<div class='imdbincluded'>";
+			$display = new \Lumiere\LumiereMovies();
+			echo "\n\t</div>";
 
 		}
 
 		//  Call with the parameter - imdb movie id (imdbltid)
-		if ( isset($filmid) && !empty($filmid) && empty($external)  )  {
+		if ( isset($filmid) && !empty($filmid) && empty($external) )  {
 
 			$imdballmeta[]['bymid'] = $filmid[0];
 
-			echo "<div class='imdbincluded'>";
-			require( $imdb_admin_values['imdbpluginpath'] . "inc/imdb-movie.inc.php" );
-			echo "</div>";
-
+			echo "\n\t<div class='imdbincluded'>";
+			$display = new \Lumiere\LumiereMovies();
+			echo "\n\t</div>";
+			
 		}
 
 	}

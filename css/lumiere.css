@@ -117,20 +117,20 @@ border: 2px solid #333333;
 ******************** WIDGET & INSIDE POST
 ***********************************************************/
 
-/* ---- imdbincluded */
+/* ---- class.movie */
 
 .imdbincluded {			/* div */
 text-align : center;padding-bottom:10px;padding-left:5px;}
 
 .imdbincluded-subtitle {		/* span */
-font-weight:bold;display: block;}
+font-weight:bold;padding-right:3px;}
 
 .imdbincluded-picture {		/* img */}
 
 /* elements inside imdb-movie.inc.php, allows to manage specific cases */
 
-.imdbincluded-lined {		/* common LI  to all elements */
-padding-top:15px;padding-left: 2px;text-align:left;}
+.lumiere-lines-common {		/* common div to all elements */
+padding-top:5px;padding-left: 20px;text-align:left;}
 
 .imdbelementTITLE { 			/*TITLE*/
 text-align: left;font-weight:bold;font-size:140%;}
@@ -139,73 +139,55 @@ text-align: left;font-weight:bold;font-size:140%;}
 padding-top:10px;padding-bottom:10px;}
 .imdbelementPICimg {}
 
-.imdbelementCOUNTRYul {		/*COUNTRY*/}
-.imdbelementCOUNTRYli {}
+.imdbelementCOUNTRY {		/*COUNTRY*/}
 
-.imdbelementRUNTIMEul {		/*RUNTIME*/}
-.imdbelementRUNTIMEli {}
+.imdbelementRUNTIME {		/*RUNTIME*/}
 
-.imdbelementLANGUAGEul {		/*LANGUAGE*/}
-.imdbelementLANGUAGEli {}
+.imdbelementLANGUAGE {		/*LANGUAGE*/}
 
-.imdbelementRATINGul {		/*RATING*/}
-.imdbelementRATINGli {}
+.imdbelementRATING {			/*RATING*/}
 
-.imdbelementGENREul {		/*GENRE*/}
-.imdbelementGENREli {}
+.imdbelementGENRE {			/*GENRE*/}
 
-.imdbelementGOOFul {			/*GOOF*/}
-.imdbelementGOOFli {}
+.imdbelementGOOF {			/*GOOF*/}
 
-.imdbelementCOMMENTul {		/*COMMENT*/}
-.imdbelementCOMMENTli {}
+.imdbelementCOMMENT {		/*COMMENT*/}
 
-.imdbelementQUOTEul {		/*QUOTE*/}
-.imdbelementQUOTEli {}
+.imdbelementQUOTE {			/*QUOTE*/}
 
-.imdbelementTAGLINEul {		/*TAGLINE*/}
-.imdbelementTAGLINEli {}
+.imdbelementTAGLINE {		/*TAGLINE*/}
 
-.imdbelementCOLORul {		/*COLOR*/}
-.imdbelementCOLORli {}
+.imdbelementCOLOR {			/*COLOR*/}
 
-.imdbelementALSOKNOWul {		/*ALSOKNOW*/}
-.imdbelementALSOKNOWli {}
+.imdbelementTRAILER {		/*TRAILER*/}
 
-.imdbelementCOMPOSERul {		/*COMPOSER*/}
-.imdbelementCOMPOSERli {}
+.imdbelementALSOKNOW {		/*ALSOKNOW*/}
 
-.imdbelementSOUNDTRACKul {		/*SOUNDTRACK*/}
-.imdbelementSOUNDTRACKli {}
+.imdbelementCOMPOSER {		/*COMPOSER*/}
 
-.imdbelementKEYWORDSul {		/*KEYWORDS*/}
-.imdbelementKEYWORDSli {}
+.imdbelementSOUNDTRACK {		/*SOUNDTRACK*/}
 
-.imdbelementOFFICIALWEBSITEul {	/*OFFICIAL WEBSITE*/}
-.imdbelementOFFICIALWEBSITEli {}
+.imdbelementKEYWORDS {		/*KEYWORDS*/}
 
-.imdbelementDIRECTORul {		/*DIRECTOR*/}
-.imdbelementDIRECTORli {}
+.imdbelementPRODCOMPANY {		/*PRODUCTION COMPANIES*/}
 
-.imdbelementPRODUCERul {		/*PRODUCER*/
-padding-top:1px;padding-bottom:1px;}
-.imdbelementPRODUCERli {}
+.imdbelementOFFICIALWEBSITE {	/*OFFICIAL WEBSITE*/}
 
-.imdbelementPRODCOMPANYul {		/*PRODUCTION COMPANIES*/}
-.imdbelementPRODCOMPANYli {}
+.imdbelementDIRECTOR {		/*DIRECTOR*/}
 
-.imdbelementWRITERul {		/*WRITER*/
-padding-top:1px;padding-bottom:1px;}
-.imdbelementWRITERli {}
+.imdbelementCREATOR {		/*CREATOR*/}
 
-.imdbelementACTORlul {		/*ACTOR*/}
-.imdbelementACTORli {}
+.imdbelementPRODUCER {		/*PRODUCER*/}
 
-.imdbelementPLOTul {			/*PLOT*/}
-.imdbelementPLOTli {text-align:justify;}
+.imdbelementWRITER {			/*WRITER*/}
 
-.imdbelementSOURCEul {		/*SOURCE*/}
-.imdbelementSOURCEli {}
+.imdbelementACTORl {			/*ACTOR*/}
+
+.imdbelementPLOT {			/*PLOT*/
+text-align:justify;}
+
+.imdbelementSOURCE {			/*SOURCE*/}
+
 .imdbelementSOURCE-picture {vertical-align:text-bottom;}
 
 /* ---------------------------------------- Others */
