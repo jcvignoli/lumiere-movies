@@ -1,0 +1,3164 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Lumière movies\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-04 22:54-0400\n"
+"PO-Revision-Date: 2021-06-04 22:54-0400\n"
+"Last-Translator: psykotik <psykotik@ikiru.ch>\n"
+"Language-Team: Lost Highway <contact@jcvignoli.com>\n"
+"Language: ro_RO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;esc_html_e;esc_html__\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: BUILD\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+"X-Poedit-SearchPathExcluded-2: source\n"
+"X-Poedit-SearchPathExcluded-3: TESTING\n"
+"X-Poedit-SearchPathExcluded-4: tmp\n"
+"X-Poedit-SearchPathExcluded-5: vendor\n"
+
+#: blocks-gutenberg/main-block.js:25
+msgid "Type the name or IMDb movie"
+msgstr ""
+
+#: blocks-gutenberg/main-block.js:36
+#, fuzzy
+msgid "Lumière: movie inside a post"
+msgstr "Widget & în pagina de opţiuni de post"
+
+#: blocks-gutenberg/main-block.js:37
+msgid "Insert a series of details related to a movie in your post."
+msgstr ""
+
+#: blocks-gutenberg/main-block.js:78
+msgid ""
+"Use this block to retrieve movie or people information from the IMDb and "
+"insert in your post."
+msgstr ""
+
+#: blocks-gutenberg/main-block.js:80
+msgid "You can also click on this link to get the"
+msgstr ""
+
+#: blocks-gutenberg/main-block.js:86
+msgid "IMDb movie id"
+msgstr ""
+
+#: blocks-gutenberg/main-block.js:87
+msgid "and insert it."
+msgstr ""
+
+#: blocks-gutenberg/main-block.js:111
+#, fuzzy
+#| msgid "Display all movie's names"
+msgid "By movie's name"
+msgstr "Afişaţi numele filmului toate"
+
+#: blocks-gutenberg/main-block.js:112
+msgid "By IMDb's ID"
+msgstr ""
+
+#: class/functions.php:101 class/functions.php:103 inc/imdb-movie.inc.php:669
+#: inc/imdb-movie.inc.php:672 inc/imdb-movie.inc.php:719
+#: inc/imdb-movie.inc.php:721 inc/imdb-movie.inc.php:767
+#: inc/imdb-movie.inc.php:769 inc/imdb-movie.inc.php:825
+#: inc/imdb-movie.inc.php:827 inc/imdb-movie.inc.php:898
+#: inc/imdb-movie.inc.php:900
+msgid "open a new window with IMDb informations"
+msgstr "deschide o nouă fereastră cu informatii IMDb"
+
+#: class/functions.php:122
+#, fuzzy
+#| msgid ""
+#| "<strong>Licensing Info:</strong> Under the GPL licence, \"IMDb link "
+#| "transformer\" is based on <a href=\"http://www.izzysoft.de\">imdbphp "
+#| "project</a> classes. However, a huge customization work has been required "
+#| "to implement it to wordpress; check support page for"
+msgid ""
+"<strong>Licensing Info:</strong> Under a GPL licence, \"Lumiere Movies\" is "
+"based on <a href=\"https://github.com/tboothman/imdbphp/\" target=\"_blank"
+"\">tboothman</a> classes. Nevertheless, a considerable amount of work was "
+"required to implement it in wordpress; check the support page for"
+msgstr ""
+"> imdbphp proiect</a> clase. Cu toate acestea, o lucrare mare personalizare "
+"a fost necesar să pună în aplicare WordPress; Verificaţi pagina de asistenţă "
+"pentru"
+
+#: class/functions.php:124
+msgid "more"
+msgstr "mai multe"
+
+#: class/functions.php:144
+#, fuzzy
+msgid "Lumière "
+msgstr "Titlurile filmului"
+
+#: class/functions.php:158
+msgid "Sorry, no result found for this reference"
+msgstr ""
+
+#: class/functions.php:214
+msgid "Go to IMDb website for this movie"
+msgstr ""
+
+#: class/functions.php:215
+msgid "IMDb's page for this movie"
+msgstr ""
+
+#: class/functions.php:254 class/functions.php:276
+#, fuzzy
+#| msgid "open a new window with IMDb informations"
+msgid "Open a new window with IMDb informations"
+msgstr "deschide o nouă fereastră cu informatii IMDb"
+
+#: class/functions.php:402 class/functions.php:404
+msgid "There was an error when generating the htaccess file."
+msgstr ""
+
+#: class/functions.php:443
+msgid "Failed creating htaccess file."
+msgstr ""
+
+#: class/widget.php:42
+msgid "IMDb data"
+msgstr "IMDb date"
+
+#: class/widget.php:124
+msgid "Title:"
+msgstr "Titlu:"
+
+#: inc/admin_pages.php:46
+#, fuzzy
+msgid "options "
+msgstr "Opţiuni de cache-ul"
+
+#: inc/admin_pages.php:52
+msgid "General Options"
+msgstr "Opţiuni generale"
+
+#: inc/admin_pages.php:59 inc/admin_pages.php:63 inc/admin_pages.php:67
+#: inc/admin_pages.php:72
+msgid "Widget/Inside post Options"
+msgstr "Widget/interior post opţiuni"
+
+#: inc/admin_pages.php:63 inc/admin_pages.php:72
+msgid "Widget unactivated"
+msgstr "Widget unactivated"
+
+#: inc/admin_pages.php:67 inc/admin_pages.php:72 inc/options-general.php:319
+msgid "Direct search"
+msgstr "Căutare directă"
+
+#: inc/admin_pages.php:67
+msgid "unactivated"
+msgstr "unactivated"
+
+#: inc/admin_pages.php:77 lumiere-movies.php:456
+msgid "Cache management"
+msgstr "Cache management"
+
+#: inc/admin_pages.php:82
+#, fuzzy
+#| msgid "How to use IMDb link transformer, check FAQs & changelog"
+msgid "How to use Lumière!, check FAQs & changelog"
+msgstr ""
+"Cum să utilizaţi IMDb transformator de link-ul, verificaţi FAQ & changelog"
+
+#: inc/admin_pages.php:83
+msgid "help"
+msgstr ""
+
+#: inc/gutenberg-search.php:54
+#, fuzzy
+#| msgid "Results related to this film"
+msgid "Results related to your query:"
+msgstr "Rezultatele legate de acest film"
+
+#: inc/gutenberg-search.php:57
+#, fuzzy
+#| msgid "Limit results"
+msgid "Titles results"
+msgstr "Rezultatele limită"
+
+#: inc/gutenberg-search.php:58
+msgid "IMDb identification number"
+msgstr ""
+
+#: inc/gutenberg-search.php:75
+msgid "IMDb ID:"
+msgstr ""
+
+#: inc/gutenberg-search.php:92
+#, fuzzy
+#| msgid "Search, moviepilot part"
+msgid "Search a movie"
+msgstr "Căutare, partea moviepilot"
+
+#: inc/gutenberg-search.php:94 inc/options-general.php:299
+msgid "Search"
+msgstr "Căutare"
+
+#: inc/help.php:44
+msgid "Popup link builder"
+msgstr "Popup link builder"
+
+#: inc/help.php:45
+msgid "Inside the post"
+msgstr "În interiorul post"
+
+#: inc/help.php:46
+msgid "Widget"
+msgstr "Widget"
+
+#: inc/help.php:47
+msgid "Big admin menu"
+msgstr "Meniul de admin mare"
+
+#: inc/help.php:48
+msgid "Add a search form"
+msgstr "Adăugaţi un formular de căutare"
+
+#: inc/help.php:49
+msgid "Keep css through update"
+msgstr "Păstraţi css prin actualizare"
+
+#: inc/help.php:50
+msgid "Taxonomy with Wordpress"
+msgstr "Taxonomie cu Wordpress"
+
+#: inc/help.php:51
+msgid "Widget auto according post's title"
+msgstr "Auto widget în conformitate post's title"
+
+#: inc/help.php:56
+#, fuzzy
+#| msgid "How to use widget"
+msgid "How to use Lumiere Movies"
+msgstr "Cum pentru a utiliza widget"
+
+#: inc/help.php:56
+msgid "How to"
+msgstr "cum să"
+
+#: inc/help.php:58 inc/help.php:75
+msgid "Frequently asked questions"
+msgstr "Întrebări frecvente"
+
+#: inc/help.php:58
+msgid "FAQs"
+msgstr "Întrebări frecvente"
+
+#: inc/help.php:60
+msgid "What's new"
+msgstr "Ce mai e nou"
+
+#: inc/help.php:60 inc/help.php:119
+msgid "Changelog"
+msgstr "Changelog"
+
+#: inc/help.php:62
+#, fuzzy
+msgid "To get support and to support what you get"
+msgstr "Pentru a obţine sprijin și pentru a sprijini"
+
+#: inc/help.php:62
+msgid "Support, donate & credits"
+msgstr ""
+
+#: inc/help.php:152
+#, fuzzy
+#| msgid ""
+#| "Two ways to match <strong>IMDb link transformer</strong> and "
+#| "<strong>support</strong>"
+msgid ""
+"Two ways to match <strong>Lumiere Movies</strong> and <strong>support</"
+"strong>"
+msgstr ""
+"Două moduri de a se potrivi <strong>IMDb transformator de link-ul</strong> "
+"şi <strong>de sprijin</strong>"
+
+#: inc/help.php:160
+msgid "Be supported!"
+msgstr "Sprijinită!"
+
+#: inc/help.php:163
+#, fuzzy
+#| msgid ""
+#| "You will never believe there is so many ways to be supported. Yes, you "
+#| "can:"
+msgid "You will never believe there is so many ways to be supported. You can:"
+msgstr ""
+"Va credeţi nu există atât de multe moduri de a fi acceptate. Da, aveţi "
+"posibilitatea să:"
+
+#: inc/help.php:164
+#, fuzzy
+#| msgid "visit "
+msgid "visit"
+msgstr "Vizitaţi "
+
+#: inc/help.php:164
+#, fuzzy
+#| msgid "to ask for support. "
+msgid "to ask for help. "
+msgstr "pentru a solicita sprijinul. "
+
+#: inc/help.php:165 inc/help.php:166
+#, fuzzy
+#| msgid "check "
+msgid "check the"
+msgstr "selectare "
+
+#: inc/help.php:165
+msgid "FAQs "
+msgstr "Întrebări frecvente "
+
+#: inc/help.php:166
+msgid "how to"
+msgstr "cum să"
+
+#: inc/help.php:178
+msgid "Support me!"
+msgstr "Suport-mă!"
+
+#: inc/help.php:181
+msgid "You will never believe there is so many ways to thank me. Yes, you can:"
+msgstr ""
+"Vă va cred că nu există atât de multe moduri de a multumi. Da, aveţi "
+"posibilitatea să:"
+
+#: inc/help.php:182
+#, fuzzy
+#| msgid "pay whatever you want on paypal"
+msgid "pay whatever you want on"
+msgstr "plăti tot ce vrei pe paypal"
+
+#: inc/help.php:182 inc/help.php:183
+msgid "or on"
+msgstr ""
+
+#: inc/help.php:183
+#, fuzzy
+#| msgid "more on"
+msgid "vote on"
+msgstr "mai mult pe"
+
+#: inc/help.php:183
+msgid "Lumière's website"
+msgstr ""
+
+#: inc/help.php:183
+msgid "Wordpress' website"
+msgstr ""
+
+#: inc/help.php:184
+#, fuzzy
+#| msgid ""
+#| "send as many bugfixes and propositions as you can on IMDb link "
+#| "transformer website."
+msgid ""
+"send as many bugfixes and propositions as you can on Lumiere Movies website."
+msgstr ""
+"trimite câte bugfixes și propuneri ca pe link-ul IMDb transformator site."
+
+#: inc/help.php:185
+msgid "translate the plugin into your own language."
+msgstr "plugin-ul se traduce în limba dumneavoastră."
+
+#: inc/help.php:186
+#, fuzzy
+#| msgid "help me to improve the plugin's design. I'm not gifted at all."
+msgid "help me to improve the plugin."
+msgstr ""
+"ajută-mă pentru a îmbunătăţi design plugin-ul lui. I 'm talentat la toate."
+
+#: inc/help.php:186
+msgid "Report at the development"
+msgstr ""
+
+#: inc/help.php:186
+msgid "website"
+msgstr "site-ul Web"
+
+#: inc/help.php:187
+msgid "do a trackback, make some noise about this plugin!"
+msgstr ""
+
+#: inc/help.php:199
+msgid "Credits:"
+msgstr "Credite:"
+
+#: inc/help.php:238
+#, fuzzy
+msgid ""
+"Lumiere Movies evolves a lot. As a result of this, the plugin include many "
+"options, many ways to achieve bloggers wishes. Since then, Lumiere Movies "
+"main functions are explained hereafter, aiming to make the experience "
+"better. As you may discover, there are three main ways to display data from "
+"movies and there is many options. This is an attempt to document it, but "
+"please check also FAQs."
+msgstr ""
+"IMDb transformator de link-ul aferent foarte mult. Ca urmare a acestui fapt, "
+"plugin-ul include opţiuni de multe, multe moduri de a realiza bloggeri "
+"doreşte. De atunci, link-ul IMDb transformator funcţii principale sunt "
+"explicate mai jos, cu scopul de a face experienta mai bine. Cum pot "
+"descoperi, există trei moduri principale pentru a afişa date din filme şi "
+"există mai multe opţiuni. Aceasta este o încercare de a documentului este, "
+"dar vă rugăm să verificaţi, de asemenea, întrebări frecvente."
+
+#: inc/help.php:270
+msgid "Why a popup window?"
+msgstr "Ce o fereastră pop-up?"
+
+#: inc/help.php:271 inc/help.php:286 inc/help.php:291 inc/help.php:310
+#: inc/help.php:325 inc/help.php:345 inc/help.php:357 inc/help.php:391
+#: inc/help.php:400 inc/help.php:481 inc/help.php:493 inc/help.php:510
+#: inc/help.php:532
+#, fuzzy
+msgid "click to get a larger picture"
+msgstr "Faceţi clic pentru a obţine o imagine mai mare"
+
+#: inc/help.php:272
+#, fuzzy
+#| msgid ""
+#| "The first way to use Imdb link transformer is the first historically "
+#| "available. The idea behind was to find a solution for posts quoting many "
+#| "movies; blogger and reader would appreciate to have director's name, to "
+#| "know the alternative title's name, etc. And these data should not waste "
+#| "space in post itself; thus the popup idea."
+msgid ""
+"The first way to use Lumiere Movies is the first historically available. The "
+"idea behind was to find a solution for posts quoting many movies; blogger "
+"and reader would appreciate to have director's name, to know the alternative "
+"title's name, etc. And these data should not waste space in post itself; "
+"thus the popup idea."
+msgstr ""
+"Primul mod pentru a utiliza Imdb transformator de link-ul este primul punct "
+"de vedere istoric disponibile. Ideea din spatele a fost de a găsi o soluţie "
+"pentru posturi citând multe filme; Blogger si cititor ar aprecia pentru a "
+"avea numele directorului, să ştiu numele lui titlul alternative, etc. Şi "
+"aceste date ar trebui să nu deşeuri spaţiu în post astfel ideea popup."
+
+#: inc/help.php:276
+msgid ""
+"Popup, as an extra window opened on click, will permit to get director's and "
+"movie's data; it is fully browsable and when browsing a movie, one can also "
+"look for 'AKAs' (movies which have a name similar)."
+msgstr ""
+"Popup, ca o fereastră extra deschis pe clic, va permite pentru a obţine date "
+"directorului și filmul lui; este pe deplin răsfoit şi cînd browsing un film, "
+"unul, de asemenea, posibilitatea să căutaţi pentru 'Aliasuri' (filme care au "
+"un nume similar)."
+
+#: inc/help.php:280
+msgid ""
+"It is quite intuitive to understand how popup can help; when writing about "
+"many movies, if one would like to speak about every director or actor he "
+"mentions in his post, it would take ages and will not have the power of the "
+"linkage (once seen the director, looking for his filmography)."
+msgstr ""
+"Este destul de intuitiv pentru a înţelege cum poate ajuta popup; Când scris "
+"despre multe filme, dacă unul ar dori să vorbesc despre fiecare director sau "
+"actor, el menţionează în postul său, aceasta ar lua vârstele şi nu va "
+"puterea de legătura (o dată vazut directorul, în căutarea lui Filmografie)."
+
+#: inc/help.php:284
+msgid "How to get a popup window"
+msgstr "Cum să obţineţi o fereastră pop-up"
+
+#: inc/help.php:285
+#, fuzzy
+msgid ""
+"To create a link to a popup window, you only need to put the <b>movie's "
+"title</b> (it doesn't work with any other data) inside dedicated tags. "
+"Either you use the HTML style to write posts, and a new button could help "
+"you to achieve that:"
+msgstr ""
+"Pentru a crea un link într-o fereastră pop-up, trebuie doar să pune "
+"<b>titlul filmului</b> (nu funcţionează cu orice alte date) în interiorul "
+"Tag-uri dedicate. Fie utilizaţi stilul HTML pentru a scrie posturi, şi un "
+"nou buton ar putea ajuta să realizeze că:"
+
+#: inc/help.php:290
+msgid ""
+"Or you use the Visual style to write posts, and a new button could help you "
+"to achieve that :"
+msgstr ""
+"Sau utilizaţi stilul vizual pentru a scrie posturi, şi un nou buton ar putea "
+"ajuta să realizeze că:"
+
+#: inc/help.php:295
+msgid ""
+"Whatever the tool you choose, when you will save your post you will get a "
+"nice link added to your movie."
+msgstr ""
+"Oricare ar fi instrumentul selectaţi, când va salva mesajul tu vei a lua un "
+"link frumos adaugă la film."
+
+#: inc/help.php:309
+msgid "Why to use widget?"
+msgstr "De ce a utiliza widget?"
+
+#: inc/help.php:310
+msgid "key and value for custom fields"
+msgstr "cheie şi valoare pentru câmpuri particularizate"
+
+#: inc/help.php:312
+msgid ""
+"Widgets are widely used in wordpress. They allow to quickly select what "
+"information to display in an area, usually on sidebar. The main advantage is "
+"that blogger can easily select what information to display - or not, in what "
+"order."
+msgstr ""
+"Widget-uri sunt utilizate pe scară largă în wordpress. Acestea permit să "
+"selectaţi rapid informaţiile pentru a afişa într-o zonă, de obicei pe bara "
+"laterală. Avantajul este că blogger puteţi selecta cu uşurinţă informaţiile "
+"pentru a afişa - sau nu, în ce ordine."
+
+#: inc/help.php:316
+msgid "How to use widget"
+msgstr "Cum pentru a utiliza widget"
+
+#: inc/help.php:317
+msgid ""
+"<strong>Firstly</strong>, go to <a href='widgets.php'>widget</a> "
+"administration (<i>appearance</i> tab), drag <i>imdb widget</i> (from "
+"<i>inactive widgets</i>) to a sidebar, and modify the box's title (in case "
+"you don't want to have the box named <i>IMDb data</i>)."
+msgstr ""
+"<strong>Firstly</strong>, du-te la administrare <a href='widgets.php'> "
+"widget</a> (fila <i>aspect</i>), glisaţi <i>imdb widget</i> (de <i>widget-"
+"uri inactiv</i>) la o bara laterală şi modificarea lui caseta titlu (în "
+"cazul în care nu doriţi să aveţi caseta numit <i>IMDb date</i>)."
+
+#: inc/help.php:321
+#, fuzzy
+#| msgid ""
+#| "<strong>Secondly</strong>, open an old post (or write a new one) and add "
+#| "the key <i>imdb-movie-widget</i> to the <i>custom fields</i> of your "
+#| "message <strong>and</strong> the name of the movie you want to display to "
+#| "<i>value</i> (first case from the picture). IMDb link transformer will "
+#| "automatically display in the widget the movie selected."
+msgid ""
+"<strong>Secondly</strong>, open an old post (or write a new one) and add the "
+"key <i>imdb-movie-widget</i> to the <i>custom fields</i> of your message "
+"<strong>and</strong> the name of the movie you want to display to <i>value</"
+"i> (first case from the picture). Lumiere Movies will automatically display "
+"in the widget the movie selected."
+msgstr ""
+"<strong>Secondly</strong>, deschideţi un post vechi (sau scrie unul nou) şi "
+"adăugaţi <i>câmpuri particularizate</i> mesaj <strong>şi</strong> numele de "
+"film pe care doriţi să afişaţi <i>valoarea</i> cheie <i>imdb-film-widget</i> "
+"(primul caz din imagine). IMDb transformator de link-ul va afişa automat în "
+"widget la filmul selectat."
+
+#: inc/help.php:325 inc/help.php:345
+msgid "Lumiere Movies widget"
+msgstr ""
+
+#: inc/help.php:326
+#, fuzzy
+#| msgid ""
+#| "<strong>Another possibility:</strong> add to your post the key <i>imdb-"
+#| "movie-widget-bymid</i> into the <i>custom fields</i> from your message "
+#| "<strong>and</strong> the IMDb ID for the movie you want to be displayed "
+#| "on your sidebar to <i>value</i> (second case from the picture). Instead "
+#| "of looking for a name, IMDb link transformer would directly display the "
+#| "movie you want to display. Very useful when your movie's name does not "
+#| "work as it should (if there are many movies with the same name, the wrong "
+#| "movie is displayed, etc)."
+msgid ""
+"<strong>Another possibility:</strong> add to your post the key <i>imdb-movie-"
+"widget-bymid</i> into the <i>custom fields</i> from your message "
+"<strong>and</strong> the IMDb ID for the movie you want to be displayed on "
+"your sidebar to <i>value</i> (second case from the picture). Instead of "
+"looking for a name, Lumiere Movies would directly display the movie you want "
+"to display. Very useful when your movie's name does not work as it should "
+"(if there are many movies with the same name, the wrong movie is displayed, "
+"etc)."
+msgstr ""
+"<strong>o altă posibilitate:</strong> adăuga post cheie <i>imdb-film-widget-"
+"bymid</i> în <i>câmpurile particularizate</i> din mesaj <strong>şi</strong> "
+"ID-ul IMDb pentru filmul pe care doriţi să fie afişat pe bara laterală "
+"pentru <i>valoarea</i> (al doilea caz din imagine). În loc de a căuta un "
+"nume, IMDb transformator de link-ul direct ar afişa filmul pe care doriţi să "
+"afişaţi. Foarte util atunci când filmul lui nume nu funcţionează aşa cum ar "
+"trebui (dacă există mai multe filme cu acelaşi nume, filmul greşit este "
+"afişat, etc)."
+
+#: inc/help.php:330
+#, fuzzy
+#| msgid ""
+#| "To get the movie's IMDb id, search for a title on <a href='http://www."
+#| "imdb.com' >Internet movie database</a> website, look at the adress bar "
+#| "for a 'ttXXXXX' section, keep only the numerical part (XXXXX) and add "
+#| "result to the <i>value</i> custom field. However, in this specific case, "
+#| "do not mix with an <i>imdb-movie-widget</i> key. Only the first one will "
+#| "be displayed."
+msgid ""
+"To get the movie's IMDb id, search for a title on <a href='https://www.imdb."
+"com' >Internet movie database</a> website, look at the adress bar for a "
+"'ttXXXXX' section, keep only the numerical part (XXXXX) and add result to "
+"the <i>value</i> custom field. However, in this specific case, do not mix "
+"with an <i>imdb-movie-widget</i> key. Only the first one will be displayed."
+msgstr ""
+"Pentru a obţine filmului IMDb ID-ul, de căutare pentru un titlu de pe site-"
+"ul <a href='http://www.imdb.com' > Internet movie database</a>, uita-te la "
+"adress bar pentru o secţiune 'ttXXXXX', păstraţi numai partea numerică "
+"(XXXXX) şi adăuga rezultat <i>valoarea</i> câmpului particularizat. Cu toate "
+"acestea, în acest caz specific, nu amestece cu o cheie de <i>imdb-film-"
+"widget</i>. Vor fi afişate numai o prima."
+
+#: inc/help.php:344
+msgid "What's the point of displaying movie's data inside my post?"
+msgstr ""
+"Ceea ce este punctul de afişarea datelor filmului în interiorul meu post?"
+
+#: inc/help.php:346
+#, fuzzy
+#| msgid ""
+#| "Having movie's data inside the post is quite useful; it could ingeniously "
+#| "decorate your message, display crucial informations (director, actors) "
+#| "and in the same time add links to a popup which would include these "
+#| "informations (but with more details). At the begining, this function "
+#| "could only be achieved with a special plugin. Since release 1.1.14.3, "
+#| "IMDb link transformer does not need any third party plugin anymore to "
+#| "display movie's data inside you message. "
+msgid ""
+"Having movie's data inside the post is quite useful; it could ingeniously "
+"decorate your message, display crucial informations (director, actors) and "
+"in the same time add links to a popup which would include these informations "
+"(but with more details). At the begining, this function could only be "
+"achieved with a special plugin. Since release 1.1.14.3, Lumiere Movies does "
+"not need any third party plugin anymore to display movie's data inside you "
+"message. "
+msgstr ""
+"Filmul lui date în interiorul post este destul de utile; aceasta ar putea "
+"ingenios decora mesajul, afişa informaţii cruciale (director, actori) şi în "
+"acelaşi timp adăuga link-uri la un pop-up care să includă aceste informatii "
+"(dar cu mai multe detalii). La început, această funcţie ar putea fi realizat "
+"doar cu un plug-in special. Lansarea 1.1.14.3, IMDb transformator de link-ul "
+"nu nevoie orice plug-in terţ mai pentru a afişa date filmului în interiorul "
+"tine mesaj. "
+
+#: inc/help.php:350
+msgid ""
+"It means that you only need to put the movie's name into brackets, to get "
+"movie's data inside your post."
+msgstr ""
+"Aceasta înseamnă că trebuie doar pentru a pune numele filmului în paranteze, "
+"pentru a obţine date filmului în interiorul post dumneavoastră."
+
+#: inc/help.php:354
+msgid "How to display data inside my post"
+msgstr "Cum pentru a afişa datele în interiorul meu post"
+
+#: inc/help.php:356
+msgid ""
+"You only need to put the movie's name into brackets, to get movie's data "
+"inside your post. Data can be inserted exactly where you want, there is no "
+"limitation. Just be sure to put the movie's name inside [imdblt][/imdblt], "
+"like this:"
+msgstr ""
+"Ai nevoie doar de a pune numele filmului în paranteze, pentru a obţine date "
+"filmului în interiorul post dumneavoastră. Datele pot fi inserate exact în "
+"cazul în care doriţi, nu există nici o limitare. Doar asiguraţi-vă că pentru "
+"a pune numele filmului în interiorul [imdblt] [/imdblt], ca acest lucru:"
+
+#: inc/help.php:357
+msgid "Lumiere Movies Inside a post"
+msgstr ""
+
+#: inc/help.php:358
+msgid "And you are done."
+msgstr "Şi aţi terminat."
+
+#: inc/help.php:360
+msgid ""
+"You additionnaly can get a movie from its imdb id, using its imdb movie's id "
+"instead of its name. When writing your post, put the movie's imdb id inside "
+"tags [imdbltid][/imdbltid] (which gives ie [imdbltid]0137523[/imdbltid], for "
+"Fight Club movie). You can get movie's imdb id from imdb website, search for "
+"you movie, and check your browser's adress bar. The number after 'tt' part "
+"is the movie's id."
+msgstr ""
+"Additionnaly vă puteţi obţine un film de la său ID-ul imdb, utilizând ID-ul "
+"filmului imdb în loc de numele său. Când scris al tău post, pune filmului "
+"imdb id în interiorul Tag-uri [imdbltid] [/imdbltid] (care oferă ie "
+"[imdbltid] 0137523 [/imdbltid], pentru Fight Club film). Puteţi obţine "
+"filmului imdb ID-ul de la site-ul imdb, căutați pe film, şi verificaţi bara "
+"de adresă a browserului. După partea 'tt' numărul este ID-ul filmului."
+
+#: inc/help.php:365
+#, fuzzy
+msgid "How to display data inside my post - tricky way"
+msgstr "Cum pentru a afişa datele în interiorul meu post - mod complicat"
+
+#: inc/help.php:366
+msgid ""
+"It could happen you don't want to use the previous solution to display "
+"movie's data. For exemple, if you wish to use IMDbLT outside a post (in a "
+"personalized page), it won't work. In this case, and in this case only, you "
+"should (may be) to download Exec-PHP plugin (<a href='http://wordpress.org/"
+"extend/plugins/exec-php'>http://wordpress.org/extend/plugins/exec-php</a>), "
+"depending of your page."
+msgstr ""
+"Aceasta ar putea întâmpla nu doriţi să utilizaţi soluţia anterioară pentru a "
+"afişa date filmului. De exemplu, dacă doriţi să utilizaţi IMDbLT în afara un "
+"post (într-o pagină personalizată), nu va funcţiona. În acest caz, şi în "
+"acest caz, ar trebui să (poate fi) pentru a descărca Exec-PHP plugin-ul (<a "
+"href='http://wordpress.org/extend/plugins/exec-php'> http://wordpress.org/"
+"extend/plugins/exec-php</a>), în funcţie de pagină."
+
+#: inc/help.php:367
+msgid ""
+"The function to be called is <strong>imdb_call_external ()</strong>. It has "
+"two parameters, and both are mandatory. The first is the movie's name, and "
+"the second take always 'external'. For exemple, one'd like to display 'The "
+"Descent' should call the function like this:"
+msgstr ""
+"<strong>Funcţia să fie numit este imdb_call_external.</strong> Ea are doi "
+"parametri, şi ambele sunt obligatorii. Primul este numele filmului, şi să ia "
+"doua întotdeauna \"externe\". De exemplu, unul ar dori pentru a afişa "
+"\"coborâre\" ar trebui să apel funcţia ca aceasta:"
+
+#: inc/help.php:369
+msgid ""
+"The function can also be called using still 'external as second parameter, "
+"but the first will be blank and a new third parameter will take its IMDb "
+"movie's ID. For exemple, one'd like to display 'The Descent' should call the "
+"function this manner:"
+msgstr ""
+"Funcția, de asemenea, pot fi apelate folosind încă ' externe ca al doilea "
+"parametru, dar primul va fi necompletată şi un nou parametru terțe va avea "
+"ID-ul filmului IMDb. De exemplu, unul ar dori pentru a afişa \"coborâre\" ar "
+"trebui să apel funcţia în acest mod:"
+
+#: inc/help.php:374
+msgid ""
+"I like to display movie details, but I want to get rid of links which open a "
+"popup"
+msgstr ""
+"Îmi place pentru a afişa detalii film, dar vreau pentru a scăpa de link-uri "
+"care deschide un pop-up"
+
+#: inc/help.php:375
+#, fuzzy
+#| msgid ""
+#| "It could happen you do not want popups at all. Since by default IMDb link "
+#| "transformer add links whenever relevant to movie's details displayed "
+#| "inside posts, one may find this useless. To get rid of them, look for "
+#| "'Widget/Inside post Options / Misc / Remove popup links?' and switch the "
+#| "option to 'yes'. No links are created anymore, for both widget and inside "
+#| "a post."
+msgid ""
+"It could happen you do not want popups at all. Since by default Lumiere "
+"Movies add links whenever relevant to movie's details displayed inside "
+"posts, one may find this useless. To get rid of them, look for 'Widget/"
+"Inside post Options / Misc / Remove popup links?' and switch the option to "
+"'yes'. No links are created anymore, for both widget and inside a post."
+msgstr ""
+"Aceasta ar putea întâmpla nu doriţi popular la toate. Deoarece implicit IMDb "
+"transformator de link-ul adăuga link-uri ori de câte ori relevante pentru "
+"filmul lui detalii afişate în interiorul posturi, se pot găsi acest inutil. "
+"Pentru a scăpa de ei, uita-te pentru \"Widget/interior post opţiuni / Misc / "
+"eliminare popup link-uri?\" şi comutaţi opţiunea de a \"da\". Link-uri nu "
+"sunt create, pentru ambele widget şi în interiorul un post."
+
+#: inc/help.php:388
+#, fuzzy
+#| msgid "IMDb link transformer is a mess! I'm lost with so many options."
+msgid "Lumiere Movies is a mess! I'm lost with so many options."
+msgstr ""
+"IMDb transformator de link-ul este o mizerie! Am pierdut cu atât de multe "
+"opţiuni."
+
+#: inc/help.php:392
+#, fuzzy
+#| msgid ""
+#| "Wordpress admin area offers more and more options to user. Starting with "
+#| "2.7 release, it also offers the possibility to add new admin menu for "
+#| "plugins. IMDb link transformer makes the most of this possibility, and "
+#| "can add its own admin menu. It can be added - or removed. Depending of "
+#| "how many plugin's admin menus you already have, you would prefer to keep "
+#| "access to IMDb link transformer settings only through usual 'settings' "
+#| "tab; it's up to you to choose to either get a complet and bigger IMDb "
+#| "link transformer menu - or not."
+msgid ""
+"Wordpress admin area offers more and more options to user. Starting with 2.7 "
+"release, it also offers the possibility to add new admin menu for plugins. "
+"Lumiere Movies makes the most of this possibility, and can add its own admin "
+"menu. It can be added - or removed. Depending of how many plugin's admin "
+"menus you already have, you would prefer to keep access to Lumiere Movies "
+"settings only through usual 'settings' tab; it's up to you to choose to "
+"either get a complet and bigger Lumiere Movies menu - or not."
+msgstr ""
+"WordPress admin zona oferă mai multe şi mai multe opţiuni pentru utilizator. "
+"Începând cu lansarea 2.7, oferă, de asemenea, posibilitatea de a adăuga noi "
+"admin menu pentru plugin-uri. IMDb transformator de link-ul face cele mai "
+"multe de această posibilitate, şi puteţi adăuga propriile sale admin menu. "
+"Pot fi adăugate - sau înlăturate. În funcţie de cât de multe plugin-ul lui "
+"admin meniuri aveţi deja, preferaţi pentru a menţine accesul la IMDb link "
+"transformator setări numai prin fila de obicei 'Setari'; este de până la "
+"tine de a alege pentru a obţine fie un complet şi mai mare IMDb link "
+"transformator meniul - sau nu."
+
+#: inc/help.php:396
+msgid ""
+"In the case you want to, go to 'General options / Advanced / Display plugin "
+"in big admin menu' and turn to 'yes' the option. You will get a brand new "
+"menu, as shown on left."
+msgstr ""
+"În cazul pe care doriţi să, du-te la \"General Opţiuni / Advanced / afişa "
+"plugin-ul în meniu admin mare\" şi rândul său, la opţiunea \"da\". Veţi "
+"primi un brand nou meniu, așa cum se arată pe stânga."
+
+#: inc/help.php:401
+#, fuzzy
+#| msgid ""
+#| "One can go still further; if installing <a href='http://planetozh.com/"
+#| "blog/my-projects/wordpress-admin-menu-drop-down-css/ '>Ozh Admin Drop "
+#| "Down Menu</a>, a plugin to switch classical vertical admin menu to "
+#| "horizontal and which gives the admin area more of a 'desktop application' "
+#| "feel. IMDb link transformer is ready to use improvements from Ozh's "
+#| "plugin, adding icons (when user select IMDb's plugin from the settings "
+#| "menu). Also, if you activate both Ozh's plugin and IMDb link "
+#| "transformer's big admin menu, you will get a nice and complete horizontal "
+#| "menu. Very useful."
+msgid ""
+"One can go still further; if installing Ozh Admin Drop Down Menu (https://"
+"planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/), a "
+"plugin to switch classical vertical admin menu to horizontal and which gives "
+"the admin area more of a 'desktop application' feel. Lumiere Movies is ready "
+"to use improvements from Ozh's plugin, adding icons (when user select IMDb's "
+"plugin from the settings menu). Also, if you activate both Ozh's plugin and "
+"Lumiere Movies's big admin menu, you will get a nice and complete horizontal "
+"menu. Very useful."
+msgstr ""
+"Unul poate merge mai mult; Dacă instalarea <a href='http://planetozh.com/"
+"blog/my-projects/wordpress-admin-menu-drop-down-css/ '> Ozh Admin Drop jos "
+"meniu</a>, un plug-in pentru a comuta clasice admin verticale meniu la "
+"orizontală și care oferă zona de admin mai mult un simt \"pupitru cerere\". "
+"IMDb transformator de link-ul este pregătit pentru utilizare îmbunătăţiri la "
+"Ozh's plug-in, adăugarea icoane (atunci când utilizatorul selectează plugin-"
+"ul IMDb lui din meniul Setări). De asemenea, dacă activaţi plugin-ul lui Ozh "
+"şi IMDb transformator de link-ul a lui admin mare meniu, tu vei a lua un "
+"meniu orizontal frumos şi complete. Foarte utile."
+
+#: inc/help.php:415
+msgid ""
+"How to add a search function for movies in general, and not only for "
+"selected movies?"
+msgstr ""
+"Cum se adaugă o funcţie de căutare pentru filme în general şi nu numai "
+"pentru filme selectate?"
+
+#: inc/help.php:417
+msgid ""
+"It is indeed doable. Plugin is versatile enough to handle this function. By "
+"adding a form, you can add a search field which will allow users to search "
+"for every movie on your blog. Here is the code:"
+msgstr ""
+"Este într-adevăr greu de realizat. Plugin-ul este destul de versatil să se "
+"ocupe de această funcţie. Prin adăugarea unui formular, se poate adăuga un "
+"câmp de căutare care va permite utilizatorilor să caute pentru fiecare film "
+"pe blog-ul. Aici este codul:"
+
+#: inc/help.php:431
+msgid "It perfectly fits in your sidebar, for exemple."
+msgstr "Se potriveşte perfect în bara laterală, de exemplu."
+
+#: inc/help.php:448
+msgid "How to keep my own css through updated process?"
+msgstr "Cum să păstraţi propria mea css prin procesul actualizat?"
+
+#: inc/help.php:450
+#, fuzzy
+#| msgid ""
+#| "Fed up of losing your carefully handmade visual settings at every IMDbLT "
+#| "update? There is a solution."
+msgid ""
+"Fed up of losing your carefully handmade visual settings at every Lumière! "
+"update? There is a solution."
+msgstr ""
+"Săturat de a pierde setările vizuale manual cu atenţie la fiecare "
+"actualizare IMDbLT? Există o soluţie."
+
+#: inc/help.php:453
+#, fuzzy
+#| msgid ""
+#| "Every modification you can make is done in css/imdb.css file. Instead of "
+#| "using this file, put an imdb.css file in you template root folder; this "
+#| "css file will taken instead of plugin's css file. Whenever you update, "
+#| "your template's one will stay untouched!"
+msgid ""
+"Every modification you can make is done in css/lumiere.css file. Instead of "
+"using this file, put an lumiere.css file in you template root folder; this "
+"css file will taken instead of plugin's css file. Whenever you update, your "
+"template's one will stay untouched!"
+msgstr ""
+"Fiecare modificare puteţi face este adoptată în fişierul css/imdb.css. În "
+"loc de a folosi acest fişier, pune un fişier imdb.css în vă şablon folderul "
+"rădăcină; acest css fişier va luate în loc de plugin-ul lui css fişier. Ori "
+"de câte ori actualizaţi, şablonul dvs una vor rămâne neatinse!"
+
+#: inc/help.php:456
+#, fuzzy
+#| msgid ""
+#| "However, be careful with this manner, since css/imdb.css file can be "
+#| "updated from version to version, and you'd not be aware of changes made..."
+msgid ""
+"However, be careful with this manner, since css/lumiere.css file can be "
+"updated from version to version, and you'd not be aware of changes made..."
+msgstr ""
+"Cu toate acestea, fi atent cu acest mod, deoarece fişierul css/imdb.css "
+"poate fi actualizat la versiunea versiune, şi nu ar fi conştienţi de "
+"modificările..."
+
+#: inc/help.php:471
+msgid "What is Wordpress' taxonomy?"
+msgstr "Ce este Wordpress' taxonomie?"
+
+#: inc/help.php:473
+#, fuzzy
+#| msgid ""
+#| "Starting with Wordpress 2.3, plugins makers can use <a href='http://codex."
+#| "wordpress.org/WordPress_Taxonomy'>taxonomy</a>."
+msgid ""
+"Starting with Wordpress 2.3, wordpress users can make use taxonomy (https://"
+"codex.wordpress.org/WordPress_Taxonomy)."
+msgstr ""
+"Începând cu Wordpress 2.3, factorii de decizie de plugin-uri pot utiliza <a "
+"href='http://codex.wordpress.org/WordPress_Taxonomy'> taxonomie</a>."
+
+#: inc/help.php:474
+#, fuzzy
+#| msgid ""
+#| "Taxonomy is a feature adding a supplementary categorisation beside "
+#| "Categories and Tags; in other words, it is like having species (a block "
+#| "named 'genre') and subspecies (few words describing the genre, like "
+#| "'Adventure', 'Terror'). It is not fundamentaly different from Categories "
+#| "and Tags, but it is much more appropriate for IMDb Link Transformer needs."
+msgid ""
+"Taxonomy is a feature adding a supplementary categorisation beside "
+"Categories and Tags; in other words, it is like having species (a block "
+"named 'genre') and subspecies (few words describing the genre, like "
+"'Adventure', 'Terror'). It is not fundamentaly different from Categories and "
+"Tags, but it is much more appropriate for Lumiere Movies needs."
+msgstr ""
+"Taxonomie este o caracteristică adăugarea o clasificare suplimentară pe "
+"lângă categorii şi etichete; cu alte cuvinte, este ca având specii (un bloc "
+"numit \"gen\") și subspecii (câteva cuvinte care descriu genului, cum ar fi "
+"\"Aventura', 'Terror'). Nu este fundamentaly diferite categorii şi etichete, "
+"dar este mult mai potrivite pentru nevoile IMDb transformator de link-ul."
+
+#: inc/help.php:477
+msgid "How to use taxonomy Wordpress capability?"
+msgstr "Cum să utilizaţi taxonomie capacitatea de Wordpress?"
+
+#: inc/help.php:479
+#, fuzzy
+#| msgid ""
+#| "To activate the automatically generated taxonomy, turn 'General options -"
+#| "> Advanced ->  'Use automatical genre taxonomy?' to 'yes'. Of course, "
+#| "since taxonomy is to a movie detail related, the movie detail you want to "
+#| "be used as taxonomy has to be also activated from 'Widget/Inside post "
+#| "Options -> What to display'. Eventually, it will permit to select in "
+#| "'Widget/Inside post Options -> What to taxonomize' menu if you want to "
+#| "taxonomize Genres, but also actors, colors, composers, directors and so "
+#| "on."
+msgid ""
+"To activate the automatically generated taxonomy, turn 'General options -> "
+"Advanced ->  'Use automatical genre taxonomy?' to 'yes'. Note that since "
+"taxonomy is related to movie details, the movie detail you want to be used "
+"as taxonomy has to be also activated from 'Widget/Inside post Options -> "
+"What to display'. Eventually, it will permit to select in 'Widget/Inside "
+"post Options -> What to taxonomize' menu if you want to taxonomize Genres, "
+"but also actors, colors, composers, directors, etc."
+msgstr ""
+"Pentru a activa automat generate taxonomie, transforma ' Opţiuni generale-> "
+"Advanced-> 'Utilizaţi gen iniţierii taxonomie?' pentru 'da'. Desigur, "
+"deoarece taxonomie este un film detaliu legate, de detaliu de film pe care "
+"doriţi să fie utilizate în taxonomie trebuie să fi activat, de asemenea, din "
+"'Widget/interior post opţiuni-> ceea ce pentru a afişa'. În cele din urmă, "
+"aceasta va permite pentru a selecta meniul \"Widget/interior post opţiuni-> "
+"ce să taxonomize\" dacă doriţi să taxonomize genuri, dar, de asemenea, "
+"actori, culori, compozitori, directori, şi aşa mai departe."
+
+#: inc/help.php:485
+msgid ""
+"After that, pay a visit to your post/page; first refresh will not "
+"immediately display the movie detail (it will only generate them). Though, "
+"on a second refresh, you will see both movie details and (if you wordpress "
+"theme is configured to show it) taxonomy in your post."
+msgstr ""
+"După aceea, plătească o vizită la post/pagina; Reîmprospătare primul nu va "
+"afişa imediat detaliu film (acesta va numai generează le). Deşi, pe un al "
+"doilea reîmprospătare, veţi vedea ambele detalii film şi (dacă aveţi "
+"wordpress Tematica este configurat să-l arate) taxonomie în post "
+"dumneavoastră."
+
+#: inc/help.php:489
+msgid "New option(s) in 'Posts' menu"
+msgstr "Noi option(s) din meniul 'Mesaje'"
+
+#: inc/help.php:491
+msgid ""
+"Once you have activated all taxonomy options and have triggered its "
+"wordpress function (by visiting your post and refreshing the page), "
+"wordpress administration posts menu will include new option(s). Depending on "
+"movie details previously selected, you will find an option to manage the "
+"words automatically generated by the taxonomy function. For instance to "
+"select 'genre':"
+msgstr ""
+"Odată ce aţi activat toate opţiunile de taxonomie şi au declanşat funcția "
+"wordpress (de vizita dumneavoastră post şi Reîmprospătarea paginii), meniul "
+"de posturi de administrare wordpress va include noi option(s). În funcţie de "
+"detalii film selectat anterior, veţi găsi o opţiune pentru a gestiona "
+"cuvintele generate automat de funcţia de taxonomie. De exemplu, pentru a "
+"selecta 'gen':"
+
+#: inc/help.php:498
+#, fuzzy
+msgid "Limits"
+msgstr "Limite"
+
+#: inc/help.php:499
+msgid ""
+"There is a strong limitation: since eache page/post can contain only a "
+"unique taxonomy sequence, only the first movie (first 'inside the post', "
+"first 'widget') will use the taxonomy feature. If you have two movie's "
+"widgets, only the first widget will display the links to genre's taxonomy. "
+"If you have both a movie's widget and an inside the post data, the movie's "
+"widget will prevail."
+msgstr ""
+"Există o limitare puternic: deoarece eache pagină/post poate conţine numai o "
+"taxonomie unică secvenţă, numai primul film (primul \"în interiorul post,\" "
+"primul \"widget') va utiliza caracteristica de taxonomie. Dacă aveţi "
+"filmului două widget-uri, numai prima widget va afişa link-uri la taxonomia "
+"de gen. Dacă aveţi atât un film widget şi un interior datele post, filmul "
+"lui widget vor prevala."
+
+#: inc/help.php:502
+msgid ""
+"Also, select cautiously options you want to be displayed as taxonomies: it "
+"could happen it creates a conflict with other functions, especially if you "
+"display many movies in same post. When selecting one of the taxonomy options "
+"from 'What to taxonomize' section, it will supersede any other function or "
+"link created; for instance, you won't have anymore access to popup links for "
+"directors, if directors taxonomy is chosen. Taxonomy will always prevail."
+msgstr ""
+"De asemenea, precauţie selectaţi opţiunile dorite pentru a fi afişate ca "
+"taxonomii: s-ar putea întâmpla Creeaza un conflict cu alte funcții, mai ales "
+"dacă afişaţi multe filme în acelaşi post de. Atunci când selectaţi una din "
+"opţiunile de taxonomie din secţiunea „ce să taxonomize\", acesta va "
+"substituie orice altă funcţie sau link-ul creat; de exemplu, nu aveţi "
+"anymore acces la popup link-uri pentru directori, dacă este ales directori "
+"taxonomie. Taxonomie întotdeauna va prevala."
+
+#: inc/help.php:506
+msgid "Advanced: Customizing your theme according taxonomy"
+msgstr "Advanced: Particularizarea tema potrivit taxonomie"
+
+#: inc/help.php:508
+#, fuzzy
+#| msgid ""
+#| "To fully enjoy this feature, copy the file in IMDb link transformer "
+#| "folder 'theme/taxonomy-genre.php' to your 'theme' folder. Customize this "
+#| "page according to your tastes and theme design. The design is the same as "
+#| "(ie) the tag.php file."
+msgid ""
+"To fully enjoy this feature, copy the file in Lumiere Movies folder 'theme/"
+"taxonomy-genre.php' to your 'theme' folder. Customize this page according to "
+"your tastes and theme design. The design is the same as (ie) the tag.php "
+"file."
+msgstr ""
+"Să se bucure pe deplin această caracteristică, copiaţi fişierul în link-ul "
+"IMDb transformator folderul ' tema/taxonomie-genre.php' în folderul 'Tema'. "
+"Particularizaţi această pagină în funcţie de gusturile dumneavoastră şi tema "
+"de proiectare. Design-ul este la fel ca (ie) fişierul tag.php."
+
+#: inc/help.php:524
+msgid ""
+"How to get the movie retrieved automatically according to the post's title?"
+msgstr "Cum să obţineţi filmul adus automat conform post's title?"
+
+#: inc/help.php:526
+msgid ""
+"You have hundreds of posts, carrefully named as they could be found on IMDb, "
+"and you don't want to change hundreds of posts. There is a straightforward "
+"solution."
+msgstr ""
+"Aveţi sute de posturi, viaţa numit ca acestea ar putea fi găsite pe IMDb, şi "
+"nu doriţi să modificaţi sute de posturi. Există o soluţie simplă."
+
+#: inc/help.php:529
+#, fuzzy
+#| msgid ""
+#| "Activate Widget option in IMDbLT (it is activated by default), add the "
+#| "IMDbLT Widget to your sidebar, and go to 'Widget/Inside post Options' "
+#| "menu, select 'misc' from the new menu, and select « yes » from « Auto "
+#| "widget? » option at end."
+msgid ""
+"Activate Widget option in Lumière! (it is activated by default), add the "
+"Lumières!'s widget to your sidebar, and go to 'Widget/Inside post Options' "
+"menu, select 'misc' from the new menu, and select « yes » from « Auto "
+"widget? » option at end."
+msgstr ""
+"Activaţi opţiunea Widget în IMDbLT (aceasta este activată implicit), "
+"adăugaţi IMDbLT Widget la bara laterală, şi du-te la \"Widget/interior post "
+"opţiuni\" meniul, selectaţi 'diverse' din meniul nou şi selectaţi «da» din "
+"«Auto widget?» opţiune la sfârşitul."
+
+#: inc/help.php:537
+msgid ""
+"Next time you will look at your post, you will find the widget according to "
+"your post’s title."
+msgstr ""
+"Data viitoare când vă va uita-te la post, veţi găsi widget în conformitate "
+"cu titlul post-ului."
+
+#: inc/highslide_download.php:9 inc/highslide_download.php:25
+#: inc/highslide_download.php:59 inc/move_template_taxonomy.php:9
+#: inc/move_template_taxonomy.php:51
+msgid "You can not call directly this page."
+msgstr ""
+
+#: inc/imdb-movie.inc.php:146
+msgid "Photo of"
+msgstr ""
+
+#: inc/imdb-movie.inc.php:149 inc/options-cache.php:594
+#: inc/options-cache.php:704 inc/popup-imdb_movie.php:202
+#: inc/popup-imdb_person.php:129
+msgid "no picture"
+msgstr "nici o imagine"
+
+#: inc/imdb-movie.inc.php:169 inc/options-widget.php:205
+#: inc/options-widget.php:206 inc/popup-imdb_movie.php:319
+#, fuzzy
+msgid "Country"
+msgid_plural "Countries"
+msgstr[0] "Ţări"
+msgstr[1] "Ţări"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:204 inc/options-widget.php:180
+#: inc/options-widget.php:181 inc/popup-imdb_movie.php:268
+msgid "Runtime"
+msgstr "Runtime"
+
+#: inc/imdb-movie.inc.php:205 inc/popup-imdb_movie.php:275
+msgid "minutes"
+msgstr "minute"
+
+#: inc/imdb-movie.inc.php:218 inc/options-widget.php:466
+#: inc/options-widget.php:467 inc/popup-imdb_movie.php:298
+#, fuzzy
+msgid "Language"
+msgid_plural "Languages"
+msgstr[0] "Limbi"
+msgstr[1] "Limbi"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:253 inc/options-widget.php:454
+#: inc/options-widget.php:455 inc/popup-imdb_movie.php:284
+msgid "Rating"
+msgstr "Rating"
+
+#: inc/imdb-movie.inc.php:257
+msgid "votes, average "
+msgstr "voturi, medie "
+
+#: inc/imdb-movie.inc.php:259
+msgid "(max 10)"
+msgstr "(max 10)"
+
+#: inc/imdb-movie.inc.php:262
+msgid "vote average "
+msgstr "vot medie "
+
+# as "10 out of 10"
+#: inc/imdb-movie.inc.php:262
+msgid " out of 10"
+msgstr " din 10"
+
+#: inc/imdb-movie.inc.php:263 inc/popup-imdb_movie.php:288
+msgid "votes"
+msgstr "voturi"
+
+#: inc/imdb-movie.inc.php:277 inc/options-widget.php:252
+#: inc/options-widget.php:253 inc/popup-imdb_movie.php:337
+#, fuzzy
+msgid "Genre"
+msgid_plural "Genres"
+msgstr[0] "Genuri"
+msgstr[1] "Genuri"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:312
+msgid "Keyword"
+msgid_plural "Keywords"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:346 inc/popup-imdb_movie.php:620
+#, fuzzy
+msgid "Goof"
+msgid_plural "Goofs"
+msgstr[0] "Goofs"
+msgstr[1] "Goofs"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:370
+#, fuzzy
+msgid "User's comment"
+msgid_plural "User's comments"
+msgstr[0] "Comentariile utilizatorului"
+msgstr[1] "Comentariile utilizatorului"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:400
+#, fuzzy
+msgid "Quote"
+msgid_plural "Quotes"
+msgstr[0] "Citate"
+msgstr[1] "Citate"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:429 inc/options-widget.php:354
+#: inc/options-widget.php:355
+#, fuzzy
+msgid "Tagline"
+msgid_plural "Taglines"
+msgstr[0] "Taglines"
+msgstr[1] "Taglines"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:451
+#, fuzzy
+msgid "Trailer"
+msgid_plural "Trailers"
+msgstr[0] "Remorci"
+msgstr[1] "Remorci"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:462
+msgid "Watch on IMBb website the trailer for "
+msgstr ""
+
+#: inc/imdb-movie.inc.php:477
+#, fuzzy
+msgid "Color"
+msgid_plural "Colors"
+msgstr[0] "Culori"
+msgstr[1] "Culori"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:512 inc/options-widget.php:380
+#: inc/options-widget.php:381
+msgid "Also known as"
+msgstr "De asemenea, cunoscut ca"
+
+#: inc/imdb-movie.inc.php:530 inc/options-widget.php:397
+#: inc/options-widget.php:398
+#, fuzzy
+msgid "Composer"
+msgid_plural "Composers"
+msgstr[0] "Compozitori"
+msgstr[1] "Compozitori"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:551 inc/imdb-movie.inc.php:553
+#, fuzzy
+#| msgid "Link to local imdb"
+msgid "Link to local IMDb"
+msgstr "Link la imdb locale"
+
+#: inc/imdb-movie.inc.php:570 inc/options-widget.php:409
+#: inc/options-widget.php:410 inc/popup-imdb_movie.php:593
+#: inc/popup-imdb_person.php:204
+#, fuzzy
+msgid "Soundtrack"
+msgid_plural "Soundtracks"
+msgstr[0] "Coloane sonore"
+msgstr[1] "Coloane sonore"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:609 inc/options-widget.php:323
+#: inc/options-widget.php:324
+msgid "Production company"
+msgid_plural "Production companies"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:629
+#, fuzzy
+msgid "Official website"
+msgid_plural "Official websites"
+msgstr[0] "Site-urile oficiale"
+msgstr[1] "Site-urile oficiale"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:646 inc/options-widget.php:194
+#: inc/options-widget.php:195 inc/popup-imdb_movie.php:109
+#: inc/popup-imdb_movie.php:439 inc/popup-search.php:76
+#, fuzzy
+msgid "Director"
+msgid_plural "Directors"
+msgstr[0] "Directori"
+msgstr[1] "Directori"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:696 inc/options-widget.php:232
+#: inc/options-widget.php:233
+#, fuzzy
+msgid "Creator"
+msgid_plural "Creators"
+msgstr[0] "Creatorii"
+msgstr[1] "Creatorii"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:744 inc/options-widget.php:281
+#: inc/options-widget.php:282 inc/popup-imdb_movie.php:495
+#, fuzzy
+msgid "Producer"
+msgid_plural "Producers"
+msgstr[0] "Producători"
+msgstr[1] "Producători"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:794 inc/options-widget.php:269
+#: inc/options-widget.php:270 inc/popup-imdb_movie.php:467
+#, fuzzy
+msgid "Writer"
+msgid_plural "Writers"
+msgstr[0] "Scriitori"
+msgstr[1] "Scriitori"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:853 inc/options-widget.php:217
+#: inc/options-widget.php:218
+#, fuzzy
+msgid "Actor"
+msgid_plural "Actors"
+msgstr[0] "Actori"
+msgstr[1] "Actori"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:925 inc/options-widget.php:292
+#: inc/options-widget.php:293 inc/popup-imdb_movie.php:178
+#: inc/popup-imdb_movie.php:543
+#, fuzzy
+msgid "Plot"
+msgid_plural "Plots"
+msgstr[0] "Parcele"
+msgstr[1] "Parcele"
+msgstr[2] ""
+
+#: inc/imdb-movie.inc.php:961 inc/options-widget.php:509
+#: inc/options-widget.php:510
+#, fuzzy
+msgid "Source"
+msgstr "Sursă"
+
+#: inc/options-cache.php:98
+#, fuzzy
+msgid "Cache options saved."
+msgstr "Opţiuni de cache-ul"
+
+#: inc/options-cache.php:104 inc/options-cache.php:122
+#: inc/options-cache.php:143 inc/options-cache.php:200
+#: inc/options-general.php:95 inc/options-general.php:113
+#: inc/options-widget.php:121
+msgid "Go back"
+msgstr ""
+
+#: inc/options-cache.php:115
+#, fuzzy
+msgid "Cache options reset."
+msgstr "Opţiuni de cache-ul"
+
+#: inc/options-cache.php:132 inc/options-cache.php:153
+#, fuzzy
+#| msgid "No file found in cache folder."
+msgid "No cache folder found."
+msgstr "Nici un fişier găsit în folderul cache."
+
+#: inc/options-cache.php:138
+#, fuzzy
+#| msgid "All cache deleted."
+msgid "All cache files deleted."
+msgstr "Toate cache elimină."
+
+#: inc/options-cache.php:168 inc/options-cache.php:187
+#: inc/options-cache.php:222 inc/options-cache.php:242
+#: inc/options-cache.php:273 inc/options-cache.php:298
+#, fuzzy
+msgid "This file does not exist."
+msgstr "Acest fişier nu există"
+
+#: inc/options-cache.php:195
+msgid "Selected ticked cache file(s) deleted."
+msgstr ""
+
+#: inc/options-cache.php:212 inc/options-cache.php:264
+msgid "Cannot work this way."
+msgstr "Nu work this way."
+
+#: inc/options-cache.php:254
+#, fuzzy
+#| msgid "All cache deleted."
+msgid "Selected cache file deleted."
+msgstr "Toate cache elimină."
+
+#: inc/options-cache.php:317
+#, fuzzy
+#| msgid "Cache succesfully refreshed, close the window."
+msgid "Selected cache file successfully refreshed."
+msgstr "Cache-ul cu succes reîmprospătată, închideţi fereastra."
+
+#: inc/options-cache.php:326 inc/options-cache.php:354 lumiere-movies.php:584
+#, fuzzy
+msgid "Cache options"
+msgstr "Opţiuni de cache-ul"
+
+#: inc/options-cache.php:329
+msgid "Manage Cache"
+msgstr "Gestionaţi Cache"
+
+#: inc/options-cache.php:337
+#, fuzzy
+msgid ""
+"Cache is crucial for Lumière! operations. Initial IMDb queries are quite "
+"time consuming, so if you do not want to kill your server and look for a "
+"smooth experience for your users, do not delete often your cache."
+msgstr ""
+"Cache-ul este crucială pentru link-ul IMDb transformator operațiunii. Ca "
+"primul imdb searchs sunt destul consumatoare de timp, dacă nu doriţi să kill "
+"al tău a servi, dar în schimb doriţi quickest browsing experience, utilizaţi "
+"cache. O atenţie specială directoare pe care trebuie să fie creat."
+
+#: inc/options-cache.php:359 lumiere-movies.php:454 lumiere-movies.php:580
+#, fuzzy
+msgid "General options"
+msgstr "Opţiuni generale"
+
+#: inc/options-cache.php:377
+msgid "Use cache?"
+msgstr "Utilizaţi cache?"
+
+#: inc/options-cache.php:378 inc/options-cache.php:380
+#: inc/options-cache.php:449 inc/options-general.php:180
+#: inc/options-general.php:187 inc/options-general.php:222
+#: inc/options-general.php:227 inc/options-general.php:263
+#: inc/options-general.php:322 inc/options-general.php:326
+#: inc/options-general.php:360 inc/options-general.php:372
+#: inc/options-general.php:376 inc/options-general.php:386
+#: inc/options-general.php:404 inc/options-widget.php:161
+#: inc/options-widget.php:164 inc/options-widget.php:172
+#: inc/options-widget.php:175 inc/options-widget.php:183
+#: inc/options-widget.php:197 inc/options-widget.php:200
+#: inc/options-widget.php:208 inc/options-widget.php:220
+#: inc/options-widget.php:225 inc/options-widget.php:235
+#: inc/options-widget.php:245 inc/options-widget.php:255
+#: inc/options-widget.php:272 inc/options-widget.php:276
+#: inc/options-widget.php:284 inc/options-widget.php:295
+#: inc/options-widget.php:314 inc/options-widget.php:326
+#: inc/options-widget.php:338 inc/options-widget.php:357
+#: inc/options-widget.php:371 inc/options-widget.php:383
+#: inc/options-widget.php:400 inc/options-widget.php:412
+#: inc/options-widget.php:426 inc/options-widget.php:445
+#: inc/options-widget.php:457 inc/options-widget.php:469
+#: inc/options-widget.php:484 inc/options-widget.php:498
+#: inc/options-widget.php:512 inc/options-widget.php:516
+#: inc/options-widget.php:839 inc/options-widget.php:850
+msgid "Yes"
+msgstr "da"
+
+#: inc/options-cache.php:378 inc/options-cache.php:452
+#: inc/options-cache.php:454 inc/options-general.php:184
+#: inc/options-general.php:225 inc/options-general.php:267
+#: inc/options-general.php:269 inc/options-general.php:324
+#: inc/options-general.php:362 inc/options-general.php:364
+#: inc/options-general.php:374 inc/options-general.php:390
+#: inc/options-general.php:392 inc/options-general.php:406
+#: inc/options-general.php:408 inc/options-widget.php:162
+#: inc/options-widget.php:173 inc/options-widget.php:184
+#: inc/options-widget.php:185 inc/options-widget.php:198
+#: inc/options-widget.php:210 inc/options-widget.php:212
+#: inc/options-widget.php:221 inc/options-widget.php:236
+#: inc/options-widget.php:238 inc/options-widget.php:246
+#: inc/options-widget.php:247 inc/options-widget.php:257
+#: inc/options-widget.php:259 inc/options-widget.php:274
+#: inc/options-widget.php:285 inc/options-widget.php:287
+#: inc/options-widget.php:297 inc/options-widget.php:301
+#: inc/options-widget.php:316 inc/options-widget.php:318
+#: inc/options-widget.php:328 inc/options-widget.php:330
+#: inc/options-widget.php:340 inc/options-widget.php:344
+#: inc/options-widget.php:359 inc/options-widget.php:363
+#: inc/options-widget.php:373 inc/options-widget.php:375
+#: inc/options-widget.php:385 inc/options-widget.php:387
+#: inc/options-widget.php:402 inc/options-widget.php:404
+#: inc/options-widget.php:414 inc/options-widget.php:418
+#: inc/options-widget.php:428 inc/options-widget.php:432
+#: inc/options-widget.php:447 inc/options-widget.php:449
+#: inc/options-widget.php:459 inc/options-widget.php:461
+#: inc/options-widget.php:471 inc/options-widget.php:473
+#: inc/options-widget.php:486 inc/options-widget.php:490
+#: inc/options-widget.php:500 inc/options-widget.php:504
+#: inc/options-widget.php:514 inc/options-widget.php:839
+#: inc/options-widget.php:841 inc/options-widget.php:850
+#: inc/options-widget.php:852
+msgid "No"
+msgstr "nu"
+
+#: inc/options-cache.php:380
+msgid ""
+"Whether to use a cached page to retrieve the information (if available)."
+msgstr ""
+"Dacă utilizaţi o pagină cache pentru a prelua informaţiile (dacă sunt "
+"disponibile)."
+
+#: inc/options-cache.php:380 inc/options-cache.php:390
+#: inc/options-cache.php:454 inc/options-cache.php:831
+#: inc/options-cache.php:885 inc/options-cache.php:899
+#: inc/options-general.php:159 inc/options-general.php:167
+#: inc/options-general.php:187 inc/options-general.php:227
+#: inc/options-general.php:236 inc/options-general.php:245
+#: inc/options-general.php:269 inc/options-general.php:278
+#: inc/options-general.php:326 inc/options-general.php:336
+#: inc/options-general.php:364 inc/options-general.php:376
+#: inc/options-general.php:392 inc/options-general.php:408
+#: inc/options-general.php:440 inc/options-general.php:453
+#: inc/options-general.php:467 inc/options-widget.php:164
+#: inc/options-widget.php:175 inc/options-widget.php:185
+#: inc/options-widget.php:200 inc/options-widget.php:212
+#: inc/options-widget.php:225 inc/options-widget.php:238
+#: inc/options-widget.php:247 inc/options-widget.php:259
+#: inc/options-widget.php:276 inc/options-widget.php:287
+#: inc/options-widget.php:301 inc/options-widget.php:318
+#: inc/options-widget.php:330 inc/options-widget.php:344
+#: inc/options-widget.php:363 inc/options-widget.php:375
+#: inc/options-widget.php:387 inc/options-widget.php:404
+#: inc/options-widget.php:418 inc/options-widget.php:432
+#: inc/options-widget.php:449 inc/options-widget.php:461
+#: inc/options-widget.php:473 inc/options-widget.php:490
+#: inc/options-widget.php:504 inc/options-widget.php:516
+#: inc/options-widget.php:841 inc/options-widget.php:852
+msgid "Default:"
+msgstr "Implicit:"
+
+#: inc/options-cache.php:385
+msgid "Cache expire"
+msgstr "Cache-ul expira"
+
+#: inc/options-cache.php:388
+msgid "(never)"
+msgstr "(n)"
+
+#: inc/options-cache.php:390
+msgid ""
+"Cache files older than this value (in seconds) will be automatically "
+"deleted. Insert \"0\" or click \"never\" to keep cache files forever."
+msgstr " pentru a păstra fişierele cache pentru totdeauna."
+
+#: inc/options-cache.php:390
+msgid "(one month)"
+msgstr "(o lună)"
+
+#: inc/options-cache.php:424
+msgid "Cache details"
+msgstr "Cache-ul detalii"
+
+#: inc/options-cache.php:447
+#, fuzzy
+#| msgid "Show advanced cache details"
+msgid "Simplified cache details"
+msgstr "Afişează detalii avansate cache"
+
+#: inc/options-cache.php:454
+#, fuzzy
+#| msgid ""
+#| "Allow a quicker load time for the \"manage cache\" page, by displaying "
+#| "shorter movies and people presentation. Usefull when you have several of "
+#| "those. This option is available when \"Show advanced cache details\" is "
+#| "activated."
+msgid ""
+"Allow faster loading time for the \"manage cache\" page, by displaying "
+"shorter movies and people presentation. Usefull when you have several of "
+"those. This option is available when \"Show advanced cache details\" is "
+"activated."
+msgstr " este activat."
+
+#: inc/options-cache.php:466 inc/options-cache.php:911
+#: inc/options-cache.php:932 inc/options-cache.php:933
+#: inc/options-general.php:480 inc/options-widget.php:864
+msgid "Reset settings"
+msgstr "Reinițializarea setărilor"
+
+#: inc/options-cache.php:467 inc/options-cache.php:912
+#: inc/options-general.php:481 inc/options-widget.php:865
+msgid "Update settings"
+msgstr "Actualizaţi setările"
+
+#: inc/options-cache.php:486
+#, fuzzy
+#| msgid "Cache management"
+msgid "Global cache management"
+msgstr "Cache management"
+
+#: inc/options-cache.php:500
+#, fuzzy
+#| msgid "Global cache"
+msgid "Total cache size:"
+msgstr "Cache-ul global"
+
+#: inc/options-cache.php:508
+#, php-format
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: inc/options-cache.php:509
+msgid "using"
+msgstr ""
+
+#: inc/options-cache.php:517
+#, fuzzy
+#| msgid ""
+#| "If you want to reset the entire cache (including names & pictures cache) "
+#| "click on \"reset cache\". Beware, there is no undo."
+msgid ""
+"If you want to reset the entire cache (this includes queries, names, and "
+"pictures) click on the button below."
+msgstr ". Feriţi-vă, nu există nici o anulare."
+
+#: inc/options-cache.php:519
+msgid "Beware, there is no undo."
+msgstr ""
+
+#: inc/options-cache.php:524
+#, fuzzy
+#| msgid "Delete all cache"
+msgid "Delete all cache? Really?"
+msgstr "Ştergeţi toate cache"
+
+#: inc/options-cache.php:524
+msgid "Delete all cache"
+msgstr "Ştergeţi toate cache"
+
+#: inc/options-cache.php:529
+msgid ""
+"This button will <strong>delete all cache</strong> stored in cache folder."
+msgstr ""
+"Acest buton se va <strong>şterge toate cache</strong> stocate în folderul "
+"cache."
+
+#: inc/options-cache.php:534
+#, fuzzy
+#| msgid "Directors"
+msgid "Lumière! cache is empty."
+msgstr "Directori"
+
+#: inc/options-cache.php:548
+#, fuzzy
+msgid "Movie's detailed cache"
+msgstr "Cache-ul filmului detaliate"
+
+#: inc/options-cache.php:565
+#, fuzzy
+#| msgid "No post found."
+msgid "No movie's cache found."
+msgstr "Nu găsit post."
+
+#: inc/options-cache.php:571
+#, fuzzy
+#| msgid ""
+#| "If you want to refresh movie's cache regardless the cache expiration "
+#| "time, you may either tick movie's checkbox(es) related to the movie you "
+#| "want to delete and click on \"delete cache\", or you may click on "
+#| "individual movies \"refresh\". The first way will require an additional "
+#| "movie refresh - from you post, for instance."
+msgid ""
+"If you want to refresh movie's cache regardless the cache expiration time, "
+"you may either tick movie's checkbox(es) related to the movie you want to "
+"delete and click on \"delete cache\". you may also click on \"refresh\" to "
+"update a movie series of details."
+msgstr ""
+". Primul mod va necesita o reîmprospătare film suplimentare - la "
+"înregistraţi, de exemplu."
+
+#: inc/options-cache.php:574
+msgid "You may also select a group of movies to delete."
+msgstr ""
+
+#: inc/options-cache.php:605 inc/options-cache.php:712
+#, fuzzy
+msgid "last updated on "
+msgstr "ultima actualizare în "
+
+#: inc/options-cache.php:607
+msgid "Refresh cache for *"
+msgstr ""
+
+#: inc/options-cache.php:607 inc/options-cache.php:715
+msgid "refresh"
+msgstr "Reîmprospătare"
+
+#: inc/options-cache.php:609
+#, fuzzy
+msgid "Delete *"
+msgstr "Ştergere"
+
+#: inc/options-cache.php:609
+#, fuzzy
+#| msgid "Store cache?"
+msgid "* from cache?"
+msgstr "Magazin cache?"
+
+#: inc/options-cache.php:609 inc/options-cache.php:717
+#, fuzzy
+msgid "delete"
+msgstr "Ştergere"
+
+#: inc/options-cache.php:641 inc/options-cache.php:746
+#, fuzzy
+#| msgid "Delete all cache"
+msgid "Delete selected cache?"
+msgstr "Ştergeţi toate cache"
+
+#: inc/options-cache.php:641 inc/options-cache.php:746
+msgid "Delete cache"
+msgstr "Şterge memoria cache"
+
+#: inc/options-cache.php:644 inc/options-cache.php:749
+msgid "Warning!"
+msgstr "AVERTISMENT!"
+
+#: inc/options-cache.php:646
+#, fuzzy
+#| msgid ""
+#| "This button will to delete specific cache files selected from cache "
+#| "folder."
+msgid "This button will delete the selected movies' cache files."
+msgstr ""
+"Acest buton se va pentru a şterge fişierele cache specifice selectate din "
+"folderul cache."
+
+#: inc/options-cache.php:658
+#, fuzzy
+msgid "People's detailed cache"
+msgstr "Cache-ul oamenilor detaliate"
+
+#: inc/options-cache.php:676
+#, fuzzy
+#| msgid "No post found."
+msgid "No people's cache found."
+msgstr "Nu găsit post."
+
+#: inc/options-cache.php:681
+msgid ""
+"If you want to refresh people's cache regardless the cache expiration time, "
+"you may either tick people checkbox(es) related to the person you want to "
+"delete and click on \"delete cache\", or you may click on individual "
+"people's \"refresh\". The first way will require an additional people "
+"refresh - from you post, for instance."
+msgstr ""
+". Primul mod va necesita o reîmprospătare suplimentare de oameni - la "
+"înregistraţi, de exemplu."
+
+#: inc/options-cache.php:684
+msgid "You may also either delete individually the cache or by group."
+msgstr "Puteţi, de asemenea, fie ştergeţi individual cache-ul sau de grup."
+
+#: inc/options-cache.php:751
+#, fuzzy
+#| msgid ""
+#| "This button will to delete specific cache files selected from cache "
+#| "folder."
+msgid "This button will delete the selected people's cache files."
+msgstr ""
+"Acest buton se va pentru a şterge fişierele cache specifice selectate din "
+"folderul cache."
+
+#: inc/options-cache.php:763
+#, fuzzy
+#| msgid "Cache directory"
+msgid "Cache directories"
+msgstr "Directorul de cache-ul"
+
+#: inc/options-cache.php:769
+msgid ""
+"Edit the following values only if need so. You can break the caching system."
+msgstr ""
+
+#: inc/options-cache.php:773 inc/options-general.php:426
+#, fuzzy
+#| msgid "Cache zip options"
+msgid "Click here to display options"
+msgstr "Cache-ul zip opţiuni"
+
+#: inc/options-cache.php:780
+msgid "Cache directory (absolute path)"
+msgstr "Directorul de cache (calea absolută)"
+
+#: inc/options-cache.php:796
+msgid "Movies cache is using"
+msgstr ""
+
+#: inc/options-cache.php:797
+msgid "Movies cache is empty."
+msgstr ""
+
+#: inc/options-cache.php:810 inc/options-cache.php:866
+msgid "Folder exists."
+msgstr "Folderul există."
+
+#: inc/options-cache.php:814 inc/options-cache.php:870
+msgid "Folder doesn't exist!"
+msgstr "Folderul nu există!"
+
+#: inc/options-cache.php:820 inc/options-cache.php:875
+msgid "Permissions OK."
+msgstr "Permisiunile OK."
+
+#: inc/options-cache.php:824 inc/options-cache.php:879
+msgid "Check folder permissions!"
+msgstr "Verificaţi permisiunile folderului!"
+
+#: inc/options-cache.php:831
+msgid ""
+"Absolute path to store cache retrieved from the IMDb website. Has to be "
+msgstr ""
+
+#: inc/options-cache.php:831 inc/options-cache.php:885
+msgid "by the webserver."
+msgstr ""
+
+#: inc/options-cache.php:838
+msgid "Photo directory (absolute path)"
+msgstr "Director de fotografie (calea absolută)"
+
+#: inc/options-cache.php:852
+msgid "Images cache is using"
+msgstr ""
+
+#: inc/options-cache.php:853
+msgid "Image cache is empty."
+msgstr ""
+
+#: inc/options-cache.php:885
+msgid ""
+"Absolute path to store images retrieved from the IMDb website. Has to be "
+msgstr ""
+
+#: inc/options-cache.php:892
+msgid "Photo directory (url)"
+msgstr "Director de fotografie (url)"
+
+#: inc/options-cache.php:899
+msgid "URL corresponding to photo directory."
+msgstr "URL corespunzătoare Foto director."
+
+#: inc/options-cache.php:920
+#, fuzzy
+msgid ""
+"A cache folder has to be created and the cache storage option has to be "
+"activated before you can manage the cache."
+msgstr ""
+"Un folder cache a creat şi opţiunea de stocare cache-ul trebuie să fie "
+"activat înainte de a posibilitatea de a gestiona cache!"
+
+#: inc/options-cache.php:922
+msgid "Apparently, you have not such a cache folder."
+msgstr ""
+
+#: inc/options-cache.php:924
+msgid "Click on \"reset settings\" to refresh the values."
+msgstr ""
+
+#: inc/options-general.php:50
+msgid "Your folder might be protected. Download highslide manually"
+msgstr ""
+
+#: inc/options-general.php:50
+msgid "here"
+msgstr ""
+
+#: inc/options-general.php:50
+msgid "and extract the zip into"
+msgstr ""
+
+#: inc/options-general.php:87 inc/options-widget.php:90
+msgid "Options saved."
+msgstr "Opţiuni salvate."
+
+#: inc/options-general.php:105 inc/options-widget.php:126
+msgid "Options reset."
+msgstr "Opţiuni de resetare."
+
+#: inc/options-general.php:125
+#, fuzzy
+msgid "Paths & Layout"
+msgstr "Trasee & aspect"
+
+#: inc/options-general.php:125 inc/options-general.php:140
+msgid "Layout"
+msgstr "Aspect"
+
+#: inc/options-general.php:127
+msgid "Advanced"
+msgstr "Avansate"
+
+#: inc/options-general.php:136
+#, fuzzy
+#| msgid ""
+#| "Options below don't need usually any complementary setup. However, you "
+#| "can widely customize IMDb link transformer according your needs."
+msgid ""
+"The following options usually do not need further action. Nevertheless, "
+"Lumière! can be widely customized to match your needs."
+msgstr ""
+"Opţiunile de mai jos nu nevoie de obicei orice instalare complementare. Cu "
+"toate acestea, aveţi posibilitatea să particularizaţi pe scară largă IMDb "
+"transformator de link-ul potrivit necesităţilor."
+
+#: inc/options-general.php:150
+msgid "Popup"
+msgstr "Popup"
+
+#: inc/options-general.php:156
+msgid "Width"
+msgstr "Lăţime"
+
+#: inc/options-general.php:159
+msgid "Popup width, in pixels"
+msgstr "Popup lăţimea, în pixeli"
+
+#: inc/options-general.php:164
+msgid "Height"
+msgstr "Înălţime"
+
+#: inc/options-general.php:167
+msgid "Popup height, in pixels"
+msgstr "Înălțimea popup, în pixeli"
+
+#: inc/options-general.php:175
+msgid "Display highslide popup"
+msgstr "Afişare highslide popup"
+
+#: inc/options-general.php:187
+#, fuzzy
+msgid ""
+"Highslide popup is a more stylished popup, and allows to open movie details "
+"directly in the webpage instead of opening a new window."
+msgstr ""
+"Highslide popup este un pop-up stylished mai mult, şi permite de a deschide "
+"detalii film straightly în pagina în loc de o nouă fereastră pop-up."
+
+#: inc/options-general.php:192
+msgid "Warning! No Highslide folder was found."
+msgstr ""
+
+#: inc/options-general.php:199
+msgid "Click here to visit Highslide website"
+msgstr ""
+
+#: inc/options-general.php:199
+msgid "Get Highslide JS library"
+msgstr ""
+
+#: inc/options-general.php:212
+msgid "Imdb link picture"
+msgstr "IMDb link imagine"
+
+#: inc/options-general.php:218
+msgid "Display imdb pic?"
+msgstr "Afişare imdb pic?"
+
+#: inc/options-general.php:227
+msgid ""
+"Whether display imdb link (the yellow icon) or not. This picture can be "
+"found into the popup when looking for akas movies. If the option is "
+"unselected, visitors will no more have opportunity to follow links to IMDb "
+"(even if they could still follow internal links)."
+msgstr ""
+"Dacă afişaţi imdb link (pictograma galbenă) sau nu. Această imagine pot fi "
+"găsite în pop-up atunci când caută pentru aliasuri filme. Dacă opţiunea este "
+"selectată, vizitatorii vor nu mai au posibilitatea să urmeze link-uri la "
+"IMDb (chiar dacă acestea ar putea încă să urmaţi link-uri interne)."
+
+#: inc/options-general.php:232 inc/options-general.php:274
+msgid "Size"
+msgstr "Dimensiunea"
+
+#: inc/options-general.php:236
+msgid ""
+"Size of the imdb picture. The value will correspond to the width in pixels."
+msgstr ""
+"Dimensiunea imaginii imdb. Valoarea va corespunde cu lăţimea în pixeli."
+
+#: inc/options-general.php:241
+msgid "Url"
+msgstr "URL-ul"
+
+#: inc/options-general.php:245
+msgid "Url for the imdb picture"
+msgstr "URL-ul pentru imaginea imdb"
+
+#: inc/options-general.php:254
+msgid "Imdb cover picture"
+msgstr "IMDb acoperi imagine"
+
+#: inc/options-general.php:260
+msgid "Display only thumbnail"
+msgstr "Afişare numai miniatură"
+
+#: inc/options-general.php:269
+msgid ""
+"Whether to display a thumbnail or a large image cover for movies inside a "
+"post or a widget. Select \"No\" to choose cover picture width (a new option "
+"on the right will be available)."
+msgstr ""
+" pentru a alege acoperi imagine lăţime (o nouă opţiune din dreapta va fi "
+"disponibil)."
+
+#: inc/options-general.php:278
+msgid ""
+"Size of the imdb cover picture. The value will correspond to the width in "
+"pixels. Delete any value to get maximum width."
+msgstr ""
+"Dimensiunea imaginii imdb acoperire. Valoarea va corespunde cu lăţimea în "
+"pixeli. Ştergeţi orice valoare pentru a obţine lățimea maximă."
+
+#: inc/options-general.php:292
+#, fuzzy
+#| msgid ""
+#| "Options below can break a lot of things. Change them only if you know "
+#| "what you're doing."
+msgid ""
+"The options hereafter can break a lot of things. Edit them only if you know "
+"what you are doing."
+msgstr ""
+"Opţiunile de mai jos poate rupe o mulţime de lucruri. Schimbaţi-le doar dacă "
+"ştiţi că ceea ce faci."
+
+#: inc/options-general.php:307
+#, fuzzy
+#| msgid "Search variant"
+msgid "Search language"
+msgstr "Varianta de căutare"
+
+#: inc/options-general.php:309
+msgid "English (default)"
+msgstr ""
+
+#: inc/options-general.php:310
+msgid "French"
+msgstr ""
+
+#: inc/options-general.php:311
+msgid "Spanish"
+msgstr ""
+
+#: inc/options-general.php:314
+msgid ""
+"Language used for the movie search. Very usefull for a non-English blog "
+"using Lumiere as a widget."
+msgstr ""
+
+#: inc/options-general.php:326
+#, fuzzy
+msgid ""
+"When enabled, instead of displaying several results related to a name "
+"searched, only the first result is returned and directly displayed. That "
+"means no more window results is displayed, but straightforwardly related "
+"data. <br />This option allows to use the 'IMDb widget' and 'inside the "
+"post' options; if deactivated, these options will not work anymore. <br /"
+">Some options will be hidden and other will be shown depending if it is "
+"turned on yes or no."
+msgstr ""
+"Când este activată, în loc de afişarea mai multe rezultate legate un nume de "
+"căutat, numai primul rezultat este returnat şi afişate direct. Asta înseamnă "
+"că nu mai multe rezultate de fereastră este afişată, dar date ușor înrudite. "
+"< br / > această opţiune permite să utilizaţi \"IMDb widget\" şi \"în "
+"interiorul post' Opţiuni; Dacă dezactivat, aceste opţiuni vor nu work "
+"anymore. < br / > va fi ascuns anumite opţiuni şi alte va fi indicat în "
+"funcţie de dacă este activată da sau nu."
+
+#: inc/options-general.php:332
+msgid "Limit results"
+msgstr "Rezultatele limită"
+
+#: inc/options-general.php:336
+msgid ""
+"This the limit for the result set of researches. Use 0 for no limit, or the "
+"number of maximum entries you wish. When \"direct search\" option is turned "
+"to yes, this option is hidden."
+msgstr " opţiunea este activată la da, această opţiune este ascuns."
+
+#: inc/options-general.php:348 inc/options-widget.php:141
+#: inc/options-widget.php:830 inc/popup-imdb_movie.php:181
+#: inc/popup-imdb_person.php:93
+msgid "Misc"
+msgstr "Misc"
+
+#: inc/options-general.php:356
+#, fuzzy
+#| msgid "Menu for IMDB LT options"
+msgid "Left menu for Lumière options"
+msgstr "Meniul de opţiuni IMDB LT"
+
+#: inc/options-general.php:364
+#, fuzzy
+msgid ""
+"When enabled, Lumiere options are fully displayed on the left menu - and not "
+"anymore limited to the settings directory. It creates a dedicated menu for "
+"Lumiere options."
+msgstr ""
+"Când este activată, IMDb transformator de link-ul opţiuni sunt afişate "
+"separat din meniul Setări. Aceasta va crea un meniu dedicat opţiunile IMDB "
+"transformator de link-ul."
+
+#: inc/options-general.php:369
+#, fuzzy
+#| msgid "Menu for IMDB LT options"
+msgid "Top menu for Lumière options"
+msgstr "Meniul de opţiuni IMDB LT"
+
+#: inc/options-general.php:376
+msgid ""
+"When activated, Lumière options are displayed on the top menu of Wordpress. "
+"Deactivate it if you have many plugins already occupying that area."
+msgstr ""
+
+#: inc/options-general.php:382
+#, fuzzy
+#| msgid "Use automatical genre taxonomy?"
+msgid "Use automatic taxonomy?"
+msgstr "Utilizaţi gen iniţierii taxonomie?"
+
+#: inc/options-general.php:392
+msgid ""
+"This will automatically add a taxonomy term found for the movie, as "
+"explained in"
+msgstr ""
+
+#: inc/options-general.php:392
+msgid "Upon activation, this option opens "
+msgstr ""
+
+#: inc/options-general.php:392
+msgid "others taxonomy options"
+msgstr ""
+
+#: inc/options-general.php:392
+msgid "Taxonomy terms are uninstalled when removing the plugin."
+msgstr ""
+
+#: inc/options-general.php:400
+#, fuzzy
+#| msgid "Debug mode"
+msgid "Debug Lumière!"
+msgstr "Modul Debug"
+
+#: inc/options-general.php:408
+msgid "When enabled, Lumière can be debugged."
+msgstr ""
+
+#: inc/options-general.php:419
+msgid "Paths: url & folders"
+msgstr "Trasee: URL-ul & foldere"
+
+#: inc/options-general.php:423
+msgid "Edit the following values only if need so. You can break the plugin."
+msgstr ""
+
+#: inc/options-general.php:436
+#, fuzzy
+#| msgid "Blog adress"
+msgid "Blog address"
+msgstr "Adresa blog"
+
+#: inc/options-general.php:440
+msgid "Where the blog is installed."
+msgstr "În cazul în care blog-ul este instalat."
+
+#: inc/options-general.php:449
+msgid "Plugin directory"
+msgstr "Directorul de plugin-ul"
+
+#: inc/options-general.php:453
+#, fuzzy
+#| msgid "Where <strong>imdb link transformer</strong> is installed."
+msgid "Where <strong>Lumiere</strong> is installed."
+msgstr ""
+"În cazul în care este instalat <strong>imdb transformator de link-ul</"
+"strong>."
+
+#: inc/options-general.php:463
+msgid "URL for the popups"
+msgstr ""
+
+#: inc/options-general.php:467
+msgid "The URL that will be displayed for the movies' and people's popups."
+msgstr ""
+
+#: inc/options-widget.php:100
+msgid "Error. You have to select a value."
+msgstr "Eroare. Trebuie să selectaţi o valoare."
+
+#: inc/options-widget.php:134 inc/options-widget.php:154
+msgid "What to display"
+msgstr "Ceea ce pentru a afişa"
+
+#: inc/options-widget.php:136
+msgid "What to taxonomize"
+msgstr "Ce să taxonomize"
+
+#: inc/options-widget.php:138
+#, fuzzy
+msgid "Taxonomy unactivated"
+msgstr "Taxonomie unactivated"
+
+#: inc/options-widget.php:140
+msgid "Display order"
+msgstr "Ordinea de afişare"
+
+#: inc/options-widget.php:159 inc/options-widget.php:160
+msgid "Title"
+msgstr "Titlul"
+
+#: inc/options-widget.php:164
+msgid "Display the title"
+msgstr "Afişa titlul"
+
+#: inc/options-widget.php:169 inc/options-widget.php:170
+msgid "Picture"
+msgstr "Imagine"
+
+#: inc/options-widget.php:175
+msgid "Display the picture"
+msgstr "Afişare imagine"
+
+#: inc/options-widget.php:185
+msgid "Display the runtime"
+msgstr "Afişare runtime"
+
+#: inc/options-widget.php:200
+msgid "Display directors"
+msgstr "Directori de afişare"
+
+#: inc/options-widget.php:212
+msgid "Display country"
+msgstr "Afişa ţară"
+
+#: inc/options-widget.php:225
+msgid "Display (how many) actors"
+msgstr "Afişa actori (câte)"
+
+#: inc/options-widget.php:238
+msgid "Display Creator"
+msgstr "Afişare Creator"
+
+#: inc/options-widget.php:242 inc/options-widget.php:243
+#: inc/popup-imdb_movie.php:259
+msgid "Year"
+msgstr "An"
+
+#: inc/options-widget.php:247
+msgid "Display release year. Year will appear next title's movie, in brackets."
+msgstr ""
+"Afişare versiune an. An va apărea următorul titlu de film, în paranteze."
+
+#: inc/options-widget.php:259
+msgid "Display genre(s)"
+msgstr "Genuri de afişare"
+
+#: inc/options-widget.php:276
+msgid "Display writers"
+msgstr "Scriitori de afişare"
+
+#: inc/options-widget.php:287
+msgid "Display producer(s)"
+msgstr "Producătorilor de afişare"
+
+#: inc/options-widget.php:301
+#, fuzzy
+msgid ""
+"Display plot(s). Be careful, this field may need a lot of space. In ideal "
+"case, this plugin is used inside a post and not into a widget."
+msgstr ""
+"Afişa plot(s). Fii atent, acest câmp poate nevoie de o mulţime de spaţiu. În "
+"cazul ideal, acest plug-in este utilizat în interiorul un post şi nu într-un "
+"widget."
+
+#: inc/options-widget.php:311 inc/options-widget.php:312
+#: inc/options-widget.php:757
+msgid "Keywords"
+msgstr ""
+
+#: inc/options-widget.php:318
+#, fuzzy
+#| msgid "Display order"
+msgid "Display keywords"
+msgstr "Ordinea de afişare"
+
+#: inc/options-widget.php:330
+#, fuzzy
+#| msgid "Display the runtime"
+msgid "Display the production companies"
+msgstr "Afişare runtime"
+
+#: inc/options-widget.php:335 inc/options-widget.php:336
+#, fuzzy
+msgid "Quotes"
+msgstr "Citate"
+
+#: inc/options-widget.php:344
+msgid "Display (how many) quotes from movie"
+msgstr "Afişează citate (cât de multe) la film"
+
+#: inc/options-widget.php:363
+msgid "Display (how many) tagline"
+msgstr "Afişa tagline (câte)"
+
+#: inc/options-widget.php:368 inc/options-widget.php:369
+#: inc/options-widget.php:570
+#, fuzzy
+msgid "Colors"
+msgstr "Culori"
+
+#: inc/options-widget.php:375
+msgid "Display colors"
+msgstr "Afişează culori"
+
+#: inc/options-widget.php:387
+msgid "Display all movie's names"
+msgstr "Afişaţi numele filmului toate"
+
+#: inc/options-widget.php:404
+msgid "Display composer"
+msgstr "Afişare compozitor"
+
+#: inc/options-widget.php:418
+msgid "Display (how many) soundtrack"
+msgstr "Afişa soundtrack (câte)"
+
+#: inc/options-widget.php:423 inc/options-widget.php:424
+#, fuzzy
+msgid "Trailers"
+msgstr "Remorci"
+
+#: inc/options-widget.php:432
+#, fuzzy
+msgid "Display (how many) trailers"
+msgstr "Afişa remorci (câte)"
+
+#: inc/options-widget.php:442 inc/options-widget.php:443
+#, fuzzy
+msgid "Official websites"
+msgstr "Site-urile oficiale"
+
+#: inc/options-widget.php:449
+msgid "Display official websites"
+msgstr "Afişarea site-urile oficiale"
+
+#: inc/options-widget.php:461
+msgid "Display rating"
+msgstr "Afişa rating"
+
+#: inc/options-widget.php:473
+msgid "Display language(s)"
+msgstr "Afişa limba(ile)"
+
+#: inc/options-widget.php:481 inc/options-widget.php:482
+msgid "Goofs"
+msgstr "Goofs"
+
+#: inc/options-widget.php:490
+msgid "Display (how many) goof"
+msgstr "Afişa nating (câte)"
+
+#: inc/options-widget.php:495 inc/options-widget.php:496
+msgid "Users comment"
+msgstr "Comentariu de utilizatori"
+
+#: inc/options-widget.php:504
+msgid "Display (how many) users' comments"
+msgstr "Afişa comentariile utilizatorilor (câte)"
+
+#: inc/options-widget.php:516
+msgid "Display website source at the end of the post"
+msgstr "Afişarea site-ul sursă la sfârşitul de la post"
+
+#: inc/options-widget.php:527
+msgid "Please "
+msgstr ""
+
+#: inc/options-widget.php:527
+#, fuzzy
+#| msgid "What to taxonomize"
+msgid "activate taxonomy"
+msgstr "Ce să taxonomize"
+
+#: inc/options-widget.php:527
+msgid " priorly"
+msgstr ""
+
+#: inc/options-widget.php:527
+msgid "to access taxonomies options."
+msgstr ""
+
+#: inc/options-widget.php:532
+msgid "Select details to use as taxonomy"
+msgstr "Selectaþi Detalii pentru a utiliza ca taxonomie"
+
+#: inc/options-widget.php:537
+msgid ""
+"Use the checkbox to display (or not) taxonomy categories. When activated, "
+"categories become blue."
+msgstr ""
+
+#: inc/options-widget.php:539
+#, fuzzy
+#| msgid ""
+#| "Select cautiously options you want to be displayed as taxonomies: it "
+#| "could happen it creates a conflict with other functions, especially if "
+#| "you display many movies in same post. When selecting one of the following "
+#| "taxonomy options, it will supersede any other function or link created; "
+#| "for instance, you won't have anymore access to popup links for directors, "
+#| "if directors taxonomy is chosen. Taxonomy will always prevail."
+msgid ""
+"Cautiously select the categories you want to display: it may have unwanted "
+"effects, particularly if you display many movies in the same post at once. "
+"When selecting one of the following taxonomy options, it will supersede any "
+"other function or link created; for instance, you will not have access "
+"anymore to the popups for directors, if directors taxonomy is chosen. "
+"Taxonomy will always prevail over other Lumiere functionalities."
+msgstr ""
+"Precauţie selectaţi opţiunile dorite pentru a fi afişate ca taxonomii: s-ar "
+"putea întâmpla Creeaza un conflict cu alte funcții, mai ales dacă afişaţi "
+"multe filme în acelaşi post de. Când selectaţi una dintre următoarele "
+"opţiuni de taxonomie, acesta va substituie orice altă funcţie sau link-ul "
+"creat; de exemplu, nu aveţi anymore acces la popup link-uri pentru "
+"directori, dacă este ales directori taxonomie. Taxonomie întotdeauna va "
+"prevala."
+
+#: inc/options-widget.php:542
+msgid ""
+"Note: once activated, each taxonomy category will show a new option to copy "
+"a taxonomy template directy into your template folder."
+msgstr ""
+
+#: inc/options-widget.php:551 inc/popup-imdb_movie.php:172
+msgid "Actors"
+msgstr "Actori"
+
+#: inc/options-widget.php:557 inc/options-widget.php:577
+#: inc/options-widget.php:595 inc/options-widget.php:615
+#: inc/options-widget.php:633 inc/options-widget.php:651
+#: inc/options-widget.php:671 inc/options-widget.php:689
+#: inc/options-widget.php:707 inc/options-widget.php:727
+#: inc/options-widget.php:745 inc/options-widget.php:763
+msgid ""
+"Copy a standard taxonomy template to your template folder to display this "
+"taxonomy."
+msgstr ""
+
+#: inc/options-widget.php:559 inc/options-widget.php:579
+#: inc/options-widget.php:597 inc/options-widget.php:617
+#: inc/options-widget.php:635 inc/options-widget.php:653
+#: inc/options-widget.php:673 inc/options-widget.php:691
+#: inc/options-widget.php:709 inc/options-widget.php:729
+#: inc/options-widget.php:747 inc/options-widget.php:765
+msgid "Copy template"
+msgstr ""
+
+#: inc/options-widget.php:589
+msgid "Composers"
+msgstr "Compozitori"
+
+#: inc/options-widget.php:609
+msgid "Creators"
+msgstr "Creatorii"
+
+#: inc/options-widget.php:627
+#, fuzzy
+msgid "Countries"
+msgstr "Ţări"
+
+#: inc/options-widget.php:645
+msgid "Directors"
+msgstr "Directori"
+
+#: inc/options-widget.php:665
+#, fuzzy
+msgid "Genres"
+msgstr "Genuri"
+
+#: inc/options-widget.php:683
+#, fuzzy
+msgid "Languages"
+msgstr "Limbi"
+
+#: inc/options-widget.php:701
+#, fuzzy
+msgid "Producers"
+msgstr "Producători"
+
+#: inc/options-widget.php:721
+#, fuzzy
+msgid "Titles"
+msgstr "Titlurile"
+
+#: inc/options-widget.php:739
+msgid "Writers"
+msgstr "Scriitori"
+
+#: inc/options-widget.php:781
+msgid "Position of data"
+msgstr ""
+
+#: inc/options-widget.php:788
+#, fuzzy
+msgid ""
+"You can select the order for the information selected from \"what to display"
+"\" section. Select first the movie detail you want to move, use \"up\" or "
+"\"down\" to reorder Lumiere Movies display. Once you are happy with the new "
+"layout, click on \"update settings\" to keep it."
+msgstr " să-l păstraţi."
+
+#: inc/options-widget.php:790
+msgid ""
+"\"Source\" movie detail cannot be selected; if it is selected from \"what to "
+"display\" section, it will always appear after others movie details"
+msgstr " secţiunea, aceasta va apărea întotdeauna după altele detalii film"
+
+#: inc/options-widget.php:814
+msgid "Move selected movie detail:"
+msgstr ""
+
+#: inc/options-widget.php:835
+#, fuzzy
+msgid "Remove all links?"
+msgstr "Eliminaţi toate link-uri?"
+
+#: inc/options-widget.php:841
+#, fuzzy
+msgid ""
+"Remove all links (popup and external ones) which are automatically added. "
+"Especially made for people who are not interested in popup function, but it "
+"will remove every single HTML link too."
+msgstr ""
+"Eliminaţi toate link-uri (pop-up şi cele externe) care sunt adăugate "
+"automat. În special făcute pentru persoanele care nu sunt interesate în "
+"funcţia popup, dar se va elimina fiecare singur link HTML prea."
+
+#: inc/options-widget.php:846
+msgid "Auto widget?"
+msgstr "Auto widget?"
+
+#: inc/options-widget.php:852
+msgid ""
+"Add automatically a widget according to post title. If 'imdb-movie-widget' "
+"or 'imdb-movie-widget-bymid' have also been added to post, the auto widget "
+"will be displayed before them."
+msgstr ""
+"Adaugă automat un widget în conformitate cu post titlu. Dacă 'imdb-film-"
+"widget' sau \"imdb-film-widget-bymid\", de asemenea, au fost adăugate pentru "
+"a posta, auto widget va fi afişat înainte de a le."
+
+#: inc/popup-imdb_movie.php:98
+#, fuzzy
+#| msgid "No post found."
+msgid "No result found for"
+msgstr "Nu găsit post."
+
+#: inc/popup-imdb_movie.php:104 inc/popup-search.php:71
+#, fuzzy
+#| msgid "Results related to this film"
+msgid "Results related to"
+msgstr "Rezultatele legate de acest film"
+
+#: inc/popup-imdb_movie.php:108 inc/popup-search.php:75
+msgid "Titles matching"
+msgstr "Titluri de potrivire"
+
+#: inc/popup-imdb_movie.php:117 inc/popup-imdb_movie.php:128
+#: inc/popup-search.php:84 inc/popup-search.php:96
+msgid "more on"
+msgstr "mai mult pe"
+
+#: inc/popup-imdb_movie.php:118 inc/popup-imdb_movie.php:121
+#: inc/popup-imdb_movie.php:131 inc/popup-imdb_movie.php:132
+#: inc/popup-search.php:85 inc/popup-search.php:88 inc/popup-search.php:99
+#: inc/popup-search.php:100
+msgid "link to imdb for"
+msgstr "link la imdb pentru"
+
+#: inc/popup-imdb_movie.php:166
+msgid "Search for movies with the same name"
+msgstr "De căutare pentru filmele cu același nume"
+
+#: inc/popup-imdb_movie.php:166
+msgid "Search AKAs"
+msgstr "Căutare aliasuri"
+
+#: inc/popup-imdb_movie.php:169
+msgid "Movie"
+msgstr "Film"
+
+#: inc/popup-imdb_movie.php:175
+msgid "Crew"
+msgstr "Echipajului"
+
+#: inc/popup-imdb_movie.php:225
+msgid "AKA"
+msgstr "ALIAS"
+
+#: inc/popup-imdb_movie.php:288
+msgid "Vote average"
+msgstr "Vot medie"
+
+#: inc/popup-imdb_movie.php:288
+msgid "with "
+msgstr ""
+
+#: inc/popup-imdb_movie.php:380
+msgid "Sound"
+msgstr "Sunet"
+
+#: inc/popup-imdb_movie.php:407
+msgid "Casting"
+msgstr "Turnare"
+
+#: inc/popup-imdb_movie.php:418 inc/popup-imdb_movie.php:448
+#: inc/popup-imdb_movie.php:475 inc/popup-imdb_movie.php:503
+msgid "link to imdb"
+msgstr "link la imdb"
+
+#: inc/popup-imdb_movie.php:529
+#, fuzzy
+msgid "Plot outline"
+msgid_plural "Plots outline"
+msgstr[0] "Parcele schiţă"
+msgstr[1] "Parcele schiţă"
+msgstr[2] ""
+
+#: inc/popup-imdb_movie.php:568 inc/popup-imdb_person.php:292
+#, fuzzy
+msgid "Trivia"
+msgid_plural "Trivias"
+msgstr[0] "Trivias"
+msgstr[1] "Trivias"
+msgstr[2] ""
+
+#: inc/popup-imdb_movie.php:571 inc/popup-imdb_movie.php:598
+#: inc/popup-imdb_movie.php:623 inc/popup-imdb_person.php:161
+#: inc/popup-imdb_person.php:207 inc/popup-imdb_person.php:243
+#: inc/popup-imdb_person.php:297 inc/popup-imdb_person.php:320
+#: inc/popup-imdb_person.php:347 inc/popup-imdb_person.php:372
+#: inc/popup-imdb_person.php:400
+msgid "click to expand"
+msgstr "Faceţi clic pentru a extinde"
+
+#: inc/popup-imdb_person.php:82
+msgid "Back"
+msgstr "Spate"
+
+#: inc/popup-imdb_person.php:85
+msgid "Filmography"
+msgstr "Filmografie"
+
+#: inc/popup-imdb_person.php:89 inc/popup-imdb_person.php:263
+msgid "Biography"
+msgstr "Biografie"
+
+#: inc/popup-imdb_person.php:110
+msgid "Born on"
+msgstr "Născut la"
+
+# "in" as in the place of death
+#: inc/popup-imdb_person.php:112 inc/popup-imdb_person.php:117
+msgid "in"
+msgstr "în"
+
+#: inc/popup-imdb_person.php:116
+msgid "Died on"
+msgstr "A murit pe"
+
+# "cause" as a cause of death
+#: inc/popup-imdb_person.php:118
+msgid "cause"
+msgstr "cauza"
+
+#: inc/popup-imdb_person.php:238
+msgid "Biographical movies"
+msgstr "Filme biografice"
+
+#: inc/popup-imdb_person.php:316
+msgid "Nicknames"
+msgstr "Porecle"
+
+#: inc/popup-imdb_person.php:342
+msgid "Personal quotes"
+msgstr "Citate personale"
+
+#: inc/popup-imdb_person.php:367
+msgid "Trademarks"
+msgstr "Mărci comerciale"
+
+#: lumiere-movies.php:454
+#, fuzzy
+msgid "Lumière options page"
+msgstr "Widget & în pagina de opţiuni de post"
+
+#: lumiere-movies.php:455
+#, fuzzy
+msgid "Widget & In post options page"
+msgstr "Widget & în pagina de opţiuni de post"
+
+#: lumiere-movies.php:455
+#, fuzzy
+msgid "Widget/In post"
+msgstr "Widget/în post"
+
+#: lumiere-movies.php:456
+#, fuzzy
+msgid "Cache management options page"
+msgstr "Pagina de opţiuni de gestionare cache"
+
+#: lumiere-movies.php:457
+msgid "Help page"
+msgstr "Pagina de ajutor"
+
+#: lumiere-movies.php:457 lumiere-movies.php:586
+msgid "Help"
+msgstr "ajutor"
+
+#: lumiere-movies.php:578
+msgid "Lumière Menu"
+msgstr ""
+
+#: lumiere-movies.php:582
+#, fuzzy
+msgid "Widget options"
+msgstr "Opţiuni widget"
+
+#: theme/taxonomy-imdblt_standard.php:19
+msgid "Taxonomy"
+msgstr "Taxonomie"
+
+#: theme/taxonomy-imdblt_standard.php:27
+msgid "Open the blog "
+msgstr ""
+
+#: theme/taxonomy-imdblt_standard.php:38
+msgid "Filed under: "
+msgstr "Filed under: "
+
+#: theme/taxonomy-imdblt_standard.php:42
+msgid "Tags: "
+msgstr "Tag-uri: "
+
+#: theme/taxonomy-imdblt_standard.php:46
+msgid "Taxonomy: "
+msgstr "Taxonomie: "
+
+#: theme/taxonomy-imdblt_standard.php:54
+msgid "No post found."
+msgstr "Nu găsit post."
+
+#~ msgid "Plugin collision. Please follow "
+#~ msgstr "Plugin-ul coliziune. Vă rugăm să urmaţi "
+
+#~ msgid "this link."
+#~ msgstr "acest link."
+
+#, fuzzy
+#~ msgid "Lumière genres"
+#~ msgstr "Genuri de film"
+
+#, fuzzy
+#~ msgid "Lumière countries"
+#~ msgstr "Filmul lui ţări"
+
+#, fuzzy
+#~ msgid "Lumière languages"
+#~ msgstr "Filmul lui limbi"
+
+#, fuzzy
+#~ msgid "Lumière composers"
+#~ msgstr "Compozitori filmului"
+
+#, fuzzy
+#~ msgid "Lumière colors"
+#~ msgstr "Filmul lui culori"
+
+#, fuzzy
+#~ msgid "Lumière directors"
+#~ msgstr "Regizori de film"
+
+#, fuzzy
+#~ msgid "Lumière creators"
+#~ msgstr "Creatorii de film"
+
+#, fuzzy
+#~ msgid "Lumière producers"
+#~ msgstr "Producătorii filmului"
+
+#, fuzzy
+#~ msgid "Lumière writers"
+#~ msgstr "Filmul lui scriitori"
+
+#~ msgid "Special thanks to:"
+#~ msgstr "Mulţumiri speciale pentru:"
+
+#, fuzzy
+#~ msgid "Cache directories (folders have to be created and writable)"
+#~ msgstr ""
+#~ "Cache-ul directoare (folderele trebuie să fie create și inscriptibil)"
+
+#~ msgid "Store cache?"
+#~ msgstr "Magazin cache?"
+
+#~ msgid ""
+#~ "Whether to store the pages retrieved for later use. When activated, you "
+#~ "have to check you created the folders"
+#~ msgstr ""
+#~ "Dacă stocaţi paginile adus pentru o utilizare ulterioară. Când este "
+#~ "activat, va trebui să verificaţi creat folderele"
+
+#~ msgid "and"
+#~ msgstr "şi"
+
+#~ msgid "Photo directory (folder)"
+#~ msgstr "Director de fotografie (pliant)"
+
+#~ msgid "Convert to zip?"
+#~ msgstr "Conversia la zip?"
+
+#~ msgid "Convert non-zip cache-files to zip (check file permissions!)"
+#~ msgstr ""
+#~ "Converti non-zip cache-fişierele zip (selectare permisiunile de fişiere!)"
+
+#~ msgid "Use zip?"
+#~ msgstr "Utilizaţi zip?"
+
+#~ msgid "Use zip compression for caching the retrieved html-files."
+#~ msgstr "Utilizaţi comprimarea zip pentru regăsite html-fişierele în cache."
+
+#, fuzzy
+#~ msgid ""
+#~ "To show or not advanced cache details, which allows to specifically "
+#~ "delete a movie cache. Be carefull with this option, if you have a lot of "
+#~ "cached movies, it could crash this page. When yes is selected, an "
+#~ "additional menu \"manage cache\" will appear next to the cache \"General "
+#~ "Options\" menu."
+#~ msgstr " meniul."
+
+#, fuzzy
+#~ msgid "Quick advanced cache details"
+#~ msgstr "Cache-ul avansat rapid detalii"
+
+#~ msgid "Global cache"
+#~ msgstr "Cache-ul global"
+
+#~ msgid "Search, imdb part"
+#~ msgstr "Căutare, imdb parte"
+
+#~ msgid "Part cache deleted."
+#~ msgstr "Cache partea elimină."
+
+#~ msgid "IMDb link transformer help"
+#~ msgstr "Link-ul IMDb transformator de ajutor"
+
+#, fuzzy
+#~ msgid "IMDb link transformer options page"
+#~ msgstr "IMDb transformator de link-ul pagina cu opţiuni"
+
+#~ msgid "IMDB LT"
+#~ msgstr "IMDB LT"
+
+#~ msgid "IMDBLT Menu"
+#~ msgstr "IMDBLT meniu"
+
+#, fuzzy
+#~ msgid "Website:"
+#~ msgstr "site-ul Web"
+
+#, fuzzy
+#~ msgid "Imdb address"
+#~ msgstr "IMDb adresa"
+
+#~ msgid "Get rid of IMDb"
+#~ msgstr "A scăpa de IMDb"
+
+#~ msgid ""
+#~ "This is the imdb server to use. The localized ones (i.e. italian and "
+#~ "german) are only qualified to find the movies ID - but parsing for the "
+#~ "details will fail at the moment."
+#~ msgstr ""
+#~ "Acest lucru este serverul imdb pentru a utiliza. Localizate cele "
+#~ "(italiană și germană) sunt doar calificat pentru a găsi filme ID-ul - dar "
+#~ "parsarea de detalii nu va reuşi în acest moment."
+
+#~ msgid ""
+#~ "Moviename search variant. There are different ways of searching a movie "
+#~ "name, with slightly differing result sets. Set the variant you prefer."
+#~ msgstr ""
+#~ "Moviename căutare variantă. Există diferite moduri de a căuta un nume de "
+#~ "film, cu uşor diferite seturi de rezultat. Setaţi variantă preferaţi."
+
+#~ msgid ""
+#~ "IMDb LT can use sources other than IMDb. Select here if you want to get "
+#~ "rid of IMDb website as the main information source."
+#~ msgstr ""
+#~ "IMDb LT poate utiliza alte surse decât IMDb. Selectaţi aici dacă doriţi "
+#~ "să scape de site-ul IMDb ca sursă principală de informaţii."
+
+#~ msgid "MoviePilot language"
+#~ msgstr "Limba MoviePilot"
+
+#~ msgid "IMDb behaviour"
+#~ msgstr "IMDb comportamentul"
+
+#~ msgid "API Pilot key"
+#~ msgstr "Cheie API Pilot"
+
+#~ msgid ""
+#~ "Moviepilot website offers many languages to switch to. Make your "
+#~ "selection, and data will be rendered in language selected."
+#~ msgstr ""
+#~ "Moviepilot site-ul ofera mai multe limbi pentru a comuta la. Face "
+#~ "selecţia şi date vor fi prestate în limba selectată."
+
+#~ msgid ""
+#~ "API Pilot key is usefull when data are not - either partially or "
+#~ "completely - extracted from IMDb website (see \"Get rid of IMDb\" "
+#~ "option). Look at help (how to) section for a guideline."
+#~ msgstr ""
+#~ " opţiunea). Uita-te la secţiunea de ajutor (cum să) pentru orientare."
+
+#~ msgid "Enable debug mode?"
+#~ msgstr "Activează modul debug?"
+
+#, fuzzy
+#~ msgid "Toolbar IMDB LT admin menu"
+#~ msgstr "Bara de instrumente IMDB LT admin menu"
+
+#~ msgid ""
+#~ "This will automatically add \"genre\" terms found for the movie into "
+#~ "wordpress database, as <a href=\"http://codex.wordpress.org/"
+#~ "WordPress_Taxonomy\">taxonomy</a>. Activating this option open <a href=\"?"
+#~ "page=imdblt_options&subsection=widgetoption&widgetoption=taxo\">others "
+#~ "taxonomy options</a>. Taxonomy terms are uninstalled when removing the "
+#~ "plugin."
+#~ msgstr ""
+#~ "> alte opţiuni de taxonomie</a>. Taxonomie termeni sunt dezinstalată "
+#~ "atunci când eliminarea plugin-ul."
+
+#, fuzzy
+#~ msgid ""
+#~ "When activated, IMDb Link Transformer options are displayed in the "
+#~ "toolbar admin menu of Wordpress."
+#~ msgstr ""
+#~ "Când este activat, IMDb transformator de link-ul opţiuni sunt afişate în "
+#~ "meniul Instrumente admin de Wordpress."
+
+#~ msgid "How to use IMDb link transformer"
+#~ msgstr "Cum să utilizaţi IMDb transformator de link-ul"
+
+#~ msgid "vote for IMDb link transformer on "
+#~ msgstr "vot pentru IMDb transformator de link-ul "
+
+#~ msgid "vote for IMDb link transformer on its own"
+#~ msgstr "vot pentru IMDb transformator de link-ul pe cont propriu"
+
+#~ msgid "place a trackback, talk about this tool, and so on."
+#~ msgstr ""
+#~ "Plasaţi un trackback, vorbesc despre acest instrument, şi aşa mai departe."
+
+#~ msgid "IMDb link transformer widget"
+#~ msgstr "Link-ul IMDb transformator widget"
+
+#~ msgid "IMDb link transformer Inside a post"
+#~ msgstr "IMDb transformator de link-ul în interiorul un post"
+
+#~ msgid "How to switch to another website other than IMDb?"
+#~ msgstr "Cum pentru a comuta la un alt site, altele decât IMDb?"
+
+#~ msgid ""
+#~ "Starting with IMDbLT 1.6 release, you have the opportunity to use other "
+#~ "website source than IMDb."
+#~ msgstr ""
+#~ "Începând cu lansarea IMDbLT 1.6, aveţi posibilitatea de a folosi alte "
+#~ "site-ul sursă decât IMDb."
+
+#~ msgid ""
+#~ "Since IMDb website's licence of use is quite protective, you may choose "
+#~ "to use Moviepilot website instead (could have more choices in far "
+#~ "future). To completely comply with legal obligations, follow these steps:"
+#~ msgstr ""
+#~ "Deoarece IMDb site-ului licență de utilizare este destul de protecție, "
+#~ "puteţi alege să utilizaţi site-ul Moviepilot în schimb (ar putea avea mai "
+#~ "multe opţiuni în viitorul îndepărtat). Complet respectă obligațiile "
+#~ "juridice, urmaţi aceşti paşi:"
+
+#~ msgid ""
+#~ "You need an API key from moviepilot.com. Send an email to api@moviepilot."
+#~ "de asking for an API key, and copy-paste the code you have been given in "
+#~ "'General options -> Advanced -> Search, moviepilot part-> API Pilot key' "
+#~ "field."
+#~ msgstr ""
+#~ "Aveţi nevoie de un API-cheie din moviepilot.com. Trimite un e-mail la "
+#~ "api@moviepilot.de asking pentru un API-cheie, şi copy-paste codul s-au "
+#~ "dat în \"Opţiuni generale-> Advanced-> Search, partea moviepilot-> cheie "
+#~ "API Pilot\" câmp."
+
+#~ msgid "For a preformatted email"
+#~ msgstr "Pentru un email preformatat"
+
+#~ msgid "click here"
+#~ msgstr "Faceţi clic aici"
+
+#~ msgid "Switch 'Get rid of IMDb' option to 'on'"
+#~ msgstr "Comutare opţiune 'A lua rid de IMDb' la 'on'"
+
+#~ msgid ""
+#~ "You may now select both your local language and the accuracy level to "
+#~ "comply with (IMDb behaviour)."
+#~ msgstr ""
+#~ "Acum puteþi selecta limba locală şi nivelul de precizie pentru a se "
+#~ "conforma cu (IMDb comportamentul)."
+
+#~ msgid ""
+#~ "Please wait while data is retrieved... <br />Process can take some time."
+#~ msgstr ""
+#~ "Vă rugăm să aşteptaţi în timp ce datele sunt regăsite... < br / > "
+#~ "procesul poate dura ceva timp."
+
+#~ msgid "Cache successfully deleted, back to the"
+#~ msgstr "Cache-ul cu succes şterse, înapoi la"
+
+#~ msgid "previous page"
+#~ msgstr "Pagina anterioară"
+
+#~ msgid "Cache size is currently"
+#~ msgstr "Dimensiunea cache-ului este în prezent"
+
+#~ msgid ""
+#~ "Absolute path to store data retrieved from the IMDb website. Has to be <a "
+#~ "href=\"http://codex.wordpress.org/Changing_File_Permissions\" title="
+#~ "\"permissions how-to on wordpress website\">writable</a> by the webserver."
+#~ msgstr "> inscriptibil</a> de serverul Web."
+
+#~ msgid ""
+#~ "Absolute path to store images retrieved from the IMDb website. Has to be "
+#~ "<a href=\"http://codex.wordpress.org/Changing_File_Permissions\" title="
+#~ "\"permissions how-to on wordpress website\">writable</a> by the webserver."
+#~ msgstr "> inscriptibil</a> de serverul Web."
+
+#~ msgid "Cache general options"
+#~ msgstr "Opţiuni generale cache"
+
+#, fuzzy
+#~ msgid "Movie's actors"
+#~ msgstr "Filmul lui actori"
+
+#, fuzzy
+#~ msgid "Movie connection"
+#~ msgid_plural "Movie connections"
+#~ msgstr[0] "Conexiuni de film"
+#~ msgstr[1] "Conexiuni de film"
+
+#~ msgid "<i>Widget</i> and <i>Inside a post</i> settings"
+#~ msgstr "Setări <i>widget</i> şi <i>în interiorul un post</i>"
+
+#~ msgid "Display (how many) movie connections"
+#~ msgstr "Afişa (cât de multe) film conexiuni"
+
+#~ msgid ""
+#~ "Please <a href=\"?page=imdblt_options&generaloption=advanced\">activate "
+#~ "taxonomy</a> priorly<br /> to access taxonomies options."
+#~ msgstr "> activaţi taxonomie</a> priorly < br / > Opţiuni acces taxonomii."
+
+#~ msgid ""
+#~ "Use the checkbox to display (or not) details. When activated, details "
+#~ "names are turned to blue. Check the box to turn it back to black (and "
+#~ "thus deactivating detail as taxonomy)."
+#~ msgstr ""
+#~ "Utilizaţi caseta de selectare pentru a afişa (sau nu) detalii. Când este "
+#~ "activat, detalii nume sunt întoarse albastră. Selectaţi caseta de a "
+#~ "transforma înapoi la negru (şi astfel dezactivarea detaliu în taxonomie)."
+
+#~ msgid "Permanent Link to "
+#~ msgstr "Link permanent la "
+
+#~ msgid "Support"
+#~ msgstr "Suport"
+
+#~ msgid "Use a website other than IMDb"
+#~ msgstr "Utilizaţi un site de web, altele decât IMDb"
+
+#~ msgid "Order's display"
+#~ msgstr "Ordinea de afişare"
+
+#~ msgid "Display plugin options in big admin menu"
+#~ msgstr "Opţiuni de plugin-ul de afişare în meniul de admin mare"
+
+#~ msgid "Cache delete"
+#~ msgstr "Ştergere cache"
+
+#~ msgid "Manage cache files & folders"
+#~ msgstr "Gestionaţi cache dosar & pliant"
+
+#~ msgid ""
+#~ "If you want to do a movie cache refresh even though movie cache has not "
+#~ "yet expired, select movie corresponding and click on \"update cache\"."
+#~ msgstr ""
+#~ "Se você quiser atualizar o cache de filmes, mesmo que o cache ainda não "
+#~ "tenha expirado, selecione o filme correspondente e clique em \"atualizar "
+#~ "cache\"."
+
+#~ msgid ""
+#~ "Note that not all cache will be deleted, as names cache (directors, "
+#~ "actors, etc) and movies pictures will still be kept."
+#~ msgstr ""
+#~ "Note que nem todo o cache será deletado, os caches de nomes (diretores, "
+#~ "atores, etc) e as imagens dos filmes serão mantidas."
+
+#~ msgid "Settings"
+#~ msgstr "Setări"
+
+#, fuzzy
+#~ msgid "yes"
+#~ msgstr "da"
+
+#~ msgid "Writer(s)"
+#~ msgstr "Textier(i)"
+
+#~ msgid "Producer(s)"
+#~ msgstr "Producătorilor"
+
+#~ msgid "User(s) comment"
+#~ msgstr "Comentariu de utilizator(i)"
+
+#~ msgid "link to imdb informations; opens a new window"
+#~ msgstr "link-ul imdb informatii; deschide o fereastră nouă"
+
+#~ msgid "Update cache"
+#~ msgstr "Cache-ul actualizare"

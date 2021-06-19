@@ -1,0 +1,1 @@
+jQuery(".activatehidesection").click(function(){jQuery(this).next().slideToggle()}).next().hide();
