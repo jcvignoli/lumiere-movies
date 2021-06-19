@@ -1,16 +1,11 @@
-build
 inc/.htaccess
 node_modules
 test
 tmp
 vendor
-.babelrc
 .gitignore-building
 .todo
-composer.json
 composer.lock
-package.json
 package-lock.json
-webpack.config.js
 wp-cli.phar
 
