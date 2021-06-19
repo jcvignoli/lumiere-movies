@@ -88,8 +88,3 @@ gulp.task('build', gulp.parallel('javascripts', 'stylesheets', 'images', 'files_
 // Task 8 - Default
 gulp.task('default', gulp.series('build', 'watch' ) );
 
-
-
-
-
-
