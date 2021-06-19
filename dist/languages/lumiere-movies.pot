@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the Lumière! Movies plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Lumière! Movies 3.3\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lumiere-movies\n"
+"Project-Id-Version: Lumière! Movies 3.3.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-16T00:05:54-03:00\n"
+"POT-Creation-Date: 2021-06-19T13:53:57-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.4.0\n"
+"X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
 
 #. Plugin Name of the plugin
@@ -123,6 +123,254 @@ msgstr ""
 msgid "to find the IMDb's ID."
 msgstr ""
 
+#: class/class.movie.php:288
+msgid "Photo of"
+msgstr ""
+
+#: class/class.movie.php:291
+#: inc/options-cache.php:683
+#: inc/options-cache.php:793
+#: inc/popup-imdb_movie.php:211
+#: inc/popup-imdb_person.php:130
+msgid "no picture"
+msgstr ""
+
+#: class/class.movie.php:316
+#: inc/options-widget.php:196
+#: inc/options-widget.php:197
+#: inc/popup-imdb_movie.php:336
+msgid "Country"
+msgid_plural "Countries"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:355
+#: inc/options-widget.php:171
+#: inc/options-widget.php:172
+#: inc/popup-imdb_movie.php:278
+msgid "Runtime"
+msgstr ""
+
+#: class/class.movie.php:356
+#: inc/popup-imdb_movie.php:285
+msgid "minutes"
+msgstr ""
+
+#: class/class.movie.php:376
+#: inc/options-widget.php:457
+#: inc/options-widget.php:458
+#: inc/popup-imdb_movie.php:315
+msgid "Language"
+msgid_plural "Languages"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:418
+#: inc/options-widget.php:445
+#: inc/options-widget.php:446
+#: inc/popup-imdb_movie.php:296
+msgid "Rating"
+msgstr ""
+
+#: class/class.movie.php:422
+msgid "votes, average "
+msgstr ""
+
+#: class/class.movie.php:424
+msgid "(max 10)"
+msgstr ""
+
+#: class/class.movie.php:427
+#: inc/popup-imdb_movie.php:302
+msgid "vote average "
+msgstr ""
+
+#: class/class.movie.php:427
+#: inc/popup-imdb_movie.php:302
+msgid " out of 10"
+msgstr ""
+
+#: class/class.movie.php:428
+#: inc/popup-imdb_movie.php:303
+msgid "votes"
+msgstr ""
+
+#: class/class.movie.php:450
+#: inc/options-widget.php:243
+#: inc/options-widget.php:244
+#: inc/popup-imdb_movie.php:354
+msgid "Genre"
+msgid_plural "Genres"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:492
+msgid "Keyword"
+msgid_plural "Keywords"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:532
+#: inc/popup-imdb_movie.php:621
+msgid "Goof"
+msgid_plural "Goofs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:557
+msgid "User's comment"
+msgid_plural "User's comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:602
+msgid "Quote"
+msgid_plural "Quotes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:639
+#: inc/options-widget.php:345
+#: inc/options-widget.php:346
+msgid "Tagline"
+msgid_plural "Taglines"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:668
+msgid "Trailer"
+msgid_plural "Trailers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:675
+msgid "Watch on IMBb website the trailer for "
+msgstr ""
+
+#: class/class.movie.php:699
+msgid "Color"
+msgid_plural "Colors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:741
+#: inc/options-widget.php:371
+#: inc/options-widget.php:372
+msgid "Also known as"
+msgstr ""
+
+#: class/class.movie.php:767
+#: inc/options-widget.php:388
+#: inc/options-widget.php:389
+msgid "Composer"
+msgid_plural "Composers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:790
+msgid "Link to local IMDb"
+msgstr ""
+
+#: class/class.movie.php:818
+#: inc/options-widget.php:400
+#: inc/options-widget.php:401
+#: inc/popup-imdb_movie.php:594
+#: inc/popup-imdb_person.php:205
+msgid "Soundtrack"
+msgid_plural "Soundtracks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:869
+#: inc/options-widget.php:314
+#: inc/options-widget.php:315
+msgid "Production company"
+msgid_plural "Production companies"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:906
+msgid "Official website"
+msgid_plural "Official websites"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:931
+#: inc/options-widget.php:185
+#: inc/options-widget.php:186
+#: inc/popup-imdb_movie.php:106
+#: inc/popup-imdb_movie.php:440
+#: inc/popup-search.php:84
+msgid "Director"
+msgid_plural "Directors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:953
+#: class/class.movie.php:956
+#: class/class.movie.php:1006
+#: class/class.movie.php:1008
+#: class/class.movie.php:1069
+#: class/class.movie.php:1071
+#: class/class.movie.php:1139
+#: class/class.movie.php:1141
+#: class/class.movie.php:1220
+#: class/class.movie.php:1222
+#: class/functions.php:101
+#: class/functions.php:103
+msgid "open a new window with IMDb informations"
+msgstr ""
+
+#: class/class.movie.php:984
+#: inc/options-widget.php:223
+#: inc/options-widget.php:224
+msgid "Creator"
+msgid_plural "Creators"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:1038
+#: inc/options-widget.php:272
+#: inc/options-widget.php:273
+#: inc/popup-imdb_movie.php:496
+msgid "Producer"
+msgid_plural "Producers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:1108
+#: inc/options-widget.php:260
+#: inc/options-widget.php:261
+#: inc/popup-imdb_movie.php:468
+msgid "Writer"
+msgid_plural "Writers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:1178
+#: inc/options-widget.php:208
+#: inc/options-widget.php:209
+msgid "Actor"
+msgid_plural "Actors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:1252
+#: inc/options-widget.php:283
+#: inc/options-widget.php:284
+#: inc/popup-imdb_movie.php:188
+#: inc/popup-imdb_movie.php:544
+msgid "Plot"
+msgid_plural "Plots"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/class.movie.php:1283
+#: inc/options-widget.php:500
+#: inc/options-widget.php:501
+msgid "Source"
+msgstr ""
+
 #: class/class.widget.php:36
 msgid "Add movie details to your pages with Lumière!"
 msgstr ""
@@ -133,21 +381,6 @@ msgstr ""
 
 #: class/class.widget.php:152
 msgid "Widget title:"
-msgstr ""
-
-#: class/functions.php:101
-#: class/functions.php:103
-#: inc/imdb-movie.inc.php:690
-#: inc/imdb-movie.inc.php:693
-#: inc/imdb-movie.inc.php:739
-#: inc/imdb-movie.inc.php:741
-#: inc/imdb-movie.inc.php:796
-#: inc/imdb-movie.inc.php:798
-#: inc/imdb-movie.inc.php:860
-#: inc/imdb-movie.inc.php:862
-#: inc/imdb-movie.inc.php:935
-#: inc/imdb-movie.inc.php:937
-msgid "open a new window with IMDb informations"
 msgstr ""
 
 #: class/functions.php:122
@@ -674,239 +907,6 @@ msgstr ""
 msgid "You are not allowed to call this page directly."
 msgstr ""
 
-#: inc/imdb-movie.inc.php:164
-msgid "Photo of"
-msgstr ""
-
-#: inc/imdb-movie.inc.php:167
-#: inc/options-cache.php:683
-#: inc/options-cache.php:793
-#: inc/popup-imdb_movie.php:211
-#: inc/popup-imdb_person.php:130
-msgid "no picture"
-msgstr ""
-
-#: inc/imdb-movie.inc.php:187
-#: inc/options-widget.php:196
-#: inc/options-widget.php:197
-#: inc/popup-imdb_movie.php:336
-msgid "Country"
-msgid_plural "Countries"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:225
-#: inc/options-widget.php:171
-#: inc/options-widget.php:172
-#: inc/popup-imdb_movie.php:278
-msgid "Runtime"
-msgstr ""
-
-#: inc/imdb-movie.inc.php:226
-#: inc/popup-imdb_movie.php:285
-msgid "minutes"
-msgstr ""
-
-#: inc/imdb-movie.inc.php:239
-#: inc/options-widget.php:457
-#: inc/options-widget.php:458
-#: inc/popup-imdb_movie.php:315
-msgid "Language"
-msgid_plural "Languages"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:275
-#: inc/options-widget.php:445
-#: inc/options-widget.php:446
-#: inc/popup-imdb_movie.php:296
-msgid "Rating"
-msgstr ""
-
-#: inc/imdb-movie.inc.php:279
-msgid "votes, average "
-msgstr ""
-
-#: inc/imdb-movie.inc.php:281
-msgid "(max 10)"
-msgstr ""
-
-#: inc/imdb-movie.inc.php:284
-#: inc/popup-imdb_movie.php:302
-msgid "vote average "
-msgstr ""
-
-#: inc/imdb-movie.inc.php:284
-#: inc/popup-imdb_movie.php:302
-msgid " out of 10"
-msgstr ""
-
-#: inc/imdb-movie.inc.php:285
-#: inc/popup-imdb_movie.php:303
-msgid "votes"
-msgstr ""
-
-#: inc/imdb-movie.inc.php:299
-#: inc/options-widget.php:243
-#: inc/options-widget.php:244
-#: inc/popup-imdb_movie.php:354
-msgid "Genre"
-msgid_plural "Genres"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:336
-msgid "Keyword"
-msgid_plural "Keywords"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:370
-#: inc/popup-imdb_movie.php:621
-msgid "Goof"
-msgid_plural "Goofs"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:390
-msgid "User's comment"
-msgid_plural "User's comments"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:416
-msgid "Quote"
-msgid_plural "Quotes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:441
-#: inc/options-widget.php:345
-#: inc/options-widget.php:346
-msgid "Tagline"
-msgid_plural "Taglines"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:460
-msgid "Trailer"
-msgid_plural "Trailers"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:467
-msgid "Watch on IMBb website the trailer for "
-msgstr ""
-
-#: inc/imdb-movie.inc.php:482
-msgid "Color"
-msgid_plural "Colors"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:517
-#: inc/options-widget.php:371
-#: inc/options-widget.php:372
-msgid "Also known as"
-msgstr ""
-
-#: inc/imdb-movie.inc.php:535
-#: inc/options-widget.php:388
-#: inc/options-widget.php:389
-msgid "Composer"
-msgid_plural "Composers"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:559
-msgid "Link to local IMDb"
-msgstr ""
-
-#: inc/imdb-movie.inc.php:579
-#: inc/options-widget.php:400
-#: inc/options-widget.php:401
-#: inc/popup-imdb_movie.php:594
-#: inc/popup-imdb_person.php:205
-msgid "Soundtrack"
-msgid_plural "Soundtracks"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:620
-#: inc/options-widget.php:314
-#: inc/options-widget.php:315
-msgid "Production company"
-msgid_plural "Production companies"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:650
-msgid "Official website"
-msgid_plural "Official websites"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:668
-#: inc/options-widget.php:185
-#: inc/options-widget.php:186
-#: inc/popup-imdb_movie.php:106
-#: inc/popup-imdb_movie.php:440
-#: inc/popup-search.php:84
-msgid "Director"
-msgid_plural "Directors"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:717
-#: inc/options-widget.php:223
-#: inc/options-widget.php:224
-msgid "Creator"
-msgid_plural "Creators"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:764
-#: inc/options-widget.php:272
-#: inc/options-widget.php:273
-#: inc/popup-imdb_movie.php:496
-msgid "Producer"
-msgid_plural "Producers"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:829
-#: inc/options-widget.php:260
-#: inc/options-widget.php:261
-#: inc/popup-imdb_movie.php:468
-msgid "Writer"
-msgid_plural "Writers"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:893
-#: inc/options-widget.php:208
-#: inc/options-widget.php:209
-msgid "Actor"
-msgid_plural "Actors"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:962
-#: inc/options-widget.php:283
-#: inc/options-widget.php:284
-#: inc/popup-imdb_movie.php:188
-#: inc/popup-imdb_movie.php:544
-msgid "Plot"
-msgid_plural "Plots"
-msgstr[0] ""
-msgstr[1] ""
-
-#: inc/imdb-movie.inc.php:991
-#: inc/options-widget.php:500
-#: inc/options-widget.php:501
-msgid "Source"
-msgstr ""
-
 #: inc/options-cache.php:95
 msgid "Cache options saved."
 msgstr ""
@@ -1040,8 +1040,8 @@ msgstr ""
 #: inc/options-widget.php:489
 #: inc/options-widget.php:503
 #: inc/options-widget.php:507
-#: inc/options-widget.php:888
-#: inc/options-widget.php:900
+#: inc/options-widget.php:893
+#: inc/options-widget.php:905
 msgid "Yes"
 msgstr ""
 
@@ -1106,10 +1106,10 @@ msgstr ""
 #: inc/options-widget.php:491
 #: inc/options-widget.php:495
 #: inc/options-widget.php:505
-#: inc/options-widget.php:888
-#: inc/options-widget.php:890
-#: inc/options-widget.php:900
-#: inc/options-widget.php:902
+#: inc/options-widget.php:893
+#: inc/options-widget.php:895
+#: inc/options-widget.php:905
+#: inc/options-widget.php:907
 msgid "No"
 msgstr ""
 
@@ -1168,8 +1168,8 @@ msgstr ""
 #: inc/options-widget.php:481
 #: inc/options-widget.php:495
 #: inc/options-widget.php:507
-#: inc/options-widget.php:890
-#: inc/options-widget.php:902
+#: inc/options-widget.php:895
+#: inc/options-widget.php:907
 msgid "Default:"
 msgstr ""
 
@@ -1206,14 +1206,14 @@ msgstr ""
 #: inc/options-cache.php:1027
 #: inc/options-cache.php:1028
 #: inc/options-general.php:583
-#: inc/options-widget.php:914
+#: inc/options-widget.php:919
 msgid "Reset settings"
 msgstr ""
 
 #: inc/options-cache.php:509
 #: inc/options-cache.php:1008
 #: inc/options-general.php:584
-#: inc/options-widget.php:915
+#: inc/options-widget.php:920
 msgid "Update settings"
 msgstr ""
 
@@ -1637,7 +1637,7 @@ msgstr ""
 
 #: inc/options-general.php:387
 #: inc/options-widget.php:131
-#: inc/options-widget.php:879
+#: inc/options-widget.php:884
 #: inc/popup-imdb_movie.php:191
 #: inc/popup-imdb_person.php:90
 msgid "Misc"
@@ -2048,19 +2048,19 @@ msgstr ""
 msgid "Move selected movie detail:"
 msgstr ""
 
-#: inc/options-widget.php:884
+#: inc/options-widget.php:889
 msgid "Remove all links?"
 msgstr ""
 
-#: inc/options-widget.php:890
+#: inc/options-widget.php:895
 msgid "Remove all links (popup and external ones) which are automatically added. Usefull for users who are not interested in popup function. Please note it will remove every single HTML link too, such as the the links to official movie websites."
 msgstr ""
 
-#: inc/options-widget.php:896
+#: inc/options-widget.php:901
 msgid "Auto widget?"
 msgstr ""
 
-#: inc/options-widget.php:902
+#: inc/options-widget.php:907
 msgid "Add automatically a widget according to your post titles. If 'imdb-movie-widget' or 'imdb-movie-widget-bymid' have also been added to post, the auto widget will be displayed before them. Usefull if your entire blog is about movies; if a query the does not bring any result when using your post title, a message will be displayed saying so."
 msgstr ""
 
