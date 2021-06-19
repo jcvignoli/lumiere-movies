@@ -18,3 +18,4 @@ README.md
 webpack.config.js
 wp-cli.phar
 inc/.htaccess
+src

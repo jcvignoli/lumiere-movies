@@ -1,0 +1,1 @@
+QTags.addButton("lumiere_handler","Lumiere!",'<span class="lumiere_link_maker">',"</span>","","Lumi&egrave;re add link",150);
