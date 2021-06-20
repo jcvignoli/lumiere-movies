@@ -36,15 +36,6 @@ paths = {
 };
 
 
-// Task 1 - Run browser-sync
-gulp.task('browserWatch', function() {
-	browserSync.init({
-		proxy: 'local.lumiere/website/',
-		notify:false
-	});
-	gulp.watch( './dist/**/*.*' ).on('change', browserSync.reload);
-});
-
 // Task 2 - Minify CSS
 gulp.task('stylesheets', function () {
 	return gulp.src( paths.stylesheets.src , {base: './src'} )
@@ -86,11 +77,20 @@ gulp.task('files_copy', function () {
 });
 
 // Task 6 - Watch files
-gulp.task('watch', gulp.parallel( 'browserWatch', function(done){
+gulp.task('watch', function(){
 	gulp.watch( paths.stylesheets.src, gulp.series('stylesheets') );
 	gulp.watch( paths.javascripts.src,  gulp.series('javascripts') );
 	gulp.watch( paths.images.src,  gulp.series('images') );
 	gulp.watch( paths.files.src , gulp.series('files_copy') );
+});
+
+// Task 1 - Run browser-sync
+gulp.task('browserWatch', gulp.parallel( 'watch', function(done){
+	browserSync.init({
+		proxy: 'local.lumiere/website/',
+		notify:false
+	});
+	gulp.watch( './dist/**/*.*' ).on('change', browserSync.reload);
 	done();
 }));
 

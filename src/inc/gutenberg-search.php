@@ -22,7 +22,7 @@ require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
 //---------------------------------------=[Vars]=----------------
 
-global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;;
+global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
 // Start config class for $config in below Imdb\Title class calls
 if (class_exists("\Lumiere\Settings")) {
@@ -46,15 +46,15 @@ $search = new \Imdb\TitleSearch($config);
 <?php
 if ( (isset($_POST['submitsearchmovie'])) && (isset ($_POST["moviesearched"])) ) {
 
-	$search_sanitized = sanitize_text_field( $_POST["moviesearched"] ) ?? NULL;
+	$search_sanitized = isset($_POST["moviesearched"]) ? sanitize_text_field( $_POST["moviesearched"] ) : NULL;
 
-	if ($_GET["searchtype"]=="episode") 
+	if ( (isset($_GET["searchtype"])) && ($_GET["searchtype"]=="episode") )
 		$results = $search->search ($search_sanitized, array(\Imdb\TitleSearch::TV_SERIES));
 	else 
 		$results = $search->search ($search_sanitized, array(\Imdb\TitleSearch::MOVIE));
 ?>
 
-<h1 class="searchmovie_title"><?php esc_html_e('Results related to your query:', 'lumiere-movies'); echo " ".$film_sanitized; ?></h1>
+<h1 class="searchmovie_title"><?php esc_html_e('Results related to your query:', 'lumiere-movies'); ?> <i><?php echo $search_sanitized; ?></i></h1>
 
 <div class="lumiere_container">
 	<div class="lumiere_container_flex50"><h2><?php esc_html_e('Titles results', 'lumiere-movies'); ?></h2></div>

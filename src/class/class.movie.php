@@ -42,7 +42,7 @@ class LumiereMovies {
 
 		$imovie = 0; # for counting the main loop
 
-		$count_me_siffer = isset($count_me_siffer) ?? 0; # var for counting only one results
+		$count_me_siffer = isset($count_me_siffer) ? $count_me_siffer : 0; # var for counting only one results
 
 		/* Start config class for $config in below Imdb\Title class calls */
 		if (class_exists("\Lumiere\Settings")) {
@@ -107,9 +107,10 @@ class LumiereMovies {
 				$this->lumiere_movie_design($config, $midPremierResultat); # passed those two values to the design
 
 			$imovie++;
+
+			$count_me_siffer++; # increment counting only one results
 		}	
 
-		$count_me_siffer++; # increment counting only one results
 
 	}
 
