@@ -52,9 +52,7 @@ class Core {
 
 			add_action( 'init', [ $this, 'lumiere_gutenberg_search_redirect' ], 0);
 
-			// Check if Gutenberg is active
-			if ( function_exists( 'register_block_type' ) )
-				add_action('init', [ $this, 'lumiere_register_gutenberg_blocks' ],0);
+			add_action('admin_init', [ $this, 'lumiere_register_gutenberg_blocks' ],0);
 
 			// add admin menu
 			if (isset($imdb_ft)) 
@@ -69,8 +67,8 @@ class Core {
 			// add admin quicktag button for text editor
 			add_action('admin_footer', [ $this, 'lumiere_register_quicktag' ], 100);
 
-			// add metabox in admin edition of post
-			
+			// add metabox in admin edition of post 
+			// -> dealt by the widget class
 
 			// add footer
 			add_action('admin_footer', [ $this, 'lumiere_add_footer_admin' ], 100 );
@@ -82,16 +80,20 @@ class Core {
 			// add new name to popups
 			add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
 
-			// add links to popup
-			add_filter('the_content', [ $this, 'lumiere_linking' ] );
-			add_filter('the_excerpt', [ $this, 'lumiere_linking' ] );
+			if  (! is_admin() ) { 	// Run the transformation of [imdblt] and links to popups
+							// Do not execute for admin interface
+							// Avoids the execution in gutenberg that bring json error on updating posts
+				// add links to popup
+				add_filter('the_content', [ $this, 'lumiere_linking' ] );
+				add_filter('the_excerpt', [ $this, 'lumiere_linking' ] );
 
-		    	// delete next line if you don't want to run Lumiere Movies through comments
-			add_filter('comment_text', [ $this, 'lumiere_linking' ] );
+			    	// delete next line if you don't want to run Lumiere Movies through comments
+				add_filter('comment_text', [ $this, 'lumiere_linking' ] );
 
-			// add data inside a post
-			add_action('the_content', [ $this, 'lumiere_tags_transform' ] );
-			add_action('the_content', [ $this, 'lumiere_tags_transform_id' ] );
+				// add data inside a post
+				add_action('the_content', [ $this, 'lumiere_tags_transform' ] );
+				add_action('the_content', [ $this, 'lumiere_tags_transform_id' ] );
+			}
 
 			// Footer actions
 			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
@@ -259,7 +261,7 @@ class Core {
 
 		wp_register_style( "lumiere_gutenberg_main", 
 			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-block.css',
-			[ 'wp-edit-blocks' ], 
+			array('wp-edit-blocks'), 
 			LUMIERE_VERSION );
 
 		// Register block script and style.
@@ -603,6 +605,10 @@ class Core {
 
 			return $title;
 		}
+
+		// Change the title for the query search popup
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/lumiere/search/' ) )
+			return esc_html__('Lumiere Query Interface', 'lumiere-movies');
 	}
 
 	/**

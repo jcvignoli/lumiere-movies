@@ -3,6 +3,8 @@ Changelog
 v.3.3.1
 * [bug] In options-widget.php, reactivated 'source'. It was deactivated in widget order.
 * [bug] Made sure only one call is made for every movie (imdblt, imdbltid, widget)
+* [technical] Added title in wp-admin/lumiere/search/ popup
+* [technical] Links popup builder and short codes [imdblt] [imdbltid] are not run in the admin anymore 
 * [technical] Transformed imdb-movie.inc.php into a class. More versality moving forward.
 * [technical] Minification of javascripts and stylesheets, images are even more compressed
 
