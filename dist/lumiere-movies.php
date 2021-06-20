@@ -32,7 +32,7 @@ require_once ( plugin_dir_path( __FILE__ ) . 'inc/admin_pages.php' );
 
 ### Lumiere Classes start
 if (class_exists("\Lumiere\Core")) {
-	$start = new \Lumiere\Core();
+	$start = new \Lumiere\Core() ?? NULL;
 }
 
 # Executed upon plugin activation

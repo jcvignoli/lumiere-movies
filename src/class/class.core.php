@@ -14,12 +14,12 @@ if ( ! defined( 'WPINC' ) ) {
 class Core {
 	private $bypass; /* this value is not in use anymore, to be removed */
 
-	protected $imdb_admin_values, $imdb_widget_values,$imdb_cache_values;
+	protected $imdb_admin_values, $imdb_widget_values,$imdb_cache_values; # to be removed?
 
 	/*constructor*/
 	function __construct () {
 
-	global $imdb_ft, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+	global $imdb_ft, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values; # to be removed?
 
 		$imdb_ft = new \Lumiere\Settings();
 		$imdb_admin_values = $imdb_ft->get_imdb_admin_option();
