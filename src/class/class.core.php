@@ -439,9 +439,7 @@ class Core {
 
 			$imdballmeta[]['bymid'] = $filmid[0];
 
-			echo "\n\t<div class='imdbincluded'>";
 			$display = new \Lumiere\LumiereMovies();
-			echo "\n\t</div>";
 
 		}
 
@@ -449,9 +447,8 @@ class Core {
 		if ( isset($moviename) && !empty($moviename) && empty($external) ) {	
 
 			$imdballmeta[]['byname'] = $moviename[0];
-			echo "\n\t<div class='imdbincluded'>";
+
 			$display = new \Lumiere\LumiereMovies();
-			echo "\n\t</div>";
 
 		}
 
@@ -460,9 +457,7 @@ class Core {
 
 			$imdballmeta[]['bymid'] = $filmid[0];
 
-			echo "\n\t<div class='imdbincluded'>";
 			$display = new \Lumiere\LumiereMovies();
-			echo "\n\t</div>";
 			
 		}
 

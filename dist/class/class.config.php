@@ -145,6 +145,7 @@ class Settings extends Send_config {
 
 	$imdbWidgetOptions = array(
 		'imdbautopostwidget' => false,
+		'imdbintotheposttheme' => 'grey',
 		'imdblinkingkill' => false,
 		'imdbwidgettitle' => true,
 		'imdbwidgetpic' => true,

@@ -459,7 +459,7 @@ if (!function_exists('lumiere_make_htaccess')) {
 
 		// write the .htaccess file if it can be written and close
 		// display confirmation message for general options
-		if ( file_put_contents( $imdblt_htaccess_file, $imdblt_htaccess_file_txt)) {
+		if ( (is_writable($imdblt_htaccess_file)) && ( file_put_contents( $imdblt_htaccess_file, $imdblt_htaccess_file_txt)) ) {
 			// is not displayed under plugin activation
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options' ) ) {
 				lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'lumiere-movies') ); 
