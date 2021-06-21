@@ -768,28 +768,6 @@ if (current_user_can( 'manage_options' ) ) {
 
 			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomytitle" name="imdb_imdbtaxonomytitle" value="<?php if ($imdbOptionsw['imdbtaxonomytitle'] == "1") { echo '0'; } else { echo '1'; }?>" />
-				<label for="imdb_imdbtaxonomytitle">
-					<?php if ($imdbOptionsw['imdbtaxonomytitle'] == "1") { 
-
-							if ($imdbOptionsw['imdbwidgettitle'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else { echo '<span class="lumiere-option-taxo-deactivated">'; }
-
-							esc_html_e( 'Titles', 'lumiere-movies'); echo '</span>'; } else { ?><?php  esc_html_e( 'Titles', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?>
-				</label> 
-				<?php
-				if ($imdbOptionsw['imdbtaxonomytitle'] == "1") {
-					echo "<br />";
-					echo "<a href='" . esc_url( $imdbOptions['imdbplugindirectory'] . "inc/move_template_taxonomy.php?taxotype=title") . "' " .
-						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
-						"<img src='".esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
-						esc_html__("Copy template", 'lumiere-movies') .
-					"</a>";
-				}
-				?> 
-
-			</div>
-			<div class="imdblt_double_container_content_third lumiere_padding_five">
-
 				<input type="checkbox" id="imdb_imdbtaxonomywriter" name="imdb_imdbtaxonomywriter" value="<?php if ($imdbOptionsw['imdbtaxonomywriter'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomywriter">
 					<?php if ($imdbOptionsw['imdbtaxonomywriter'] == "1") { 
@@ -811,6 +789,9 @@ if (current_user_can( 'manage_options' ) ) {
 
 			</div>
 
+			<div class="imdblt_double_container_content_third lumiere_padding_five">
+			</div>
+			
 		</div>
 	</div>
 
@@ -905,6 +886,20 @@ if (current_user_can( 'manage_options' ) ) {
 					<label for="imdb_imdbautopostwidget_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbautopostwidget_no" name="imdb_imdbautopostwidget" value="" <?php if ($imdbOptionsw['imdbautopostwidget'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdbautopostwidget_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
 					<div class="explain"><?php esc_html_e( "Add automatically a widget according to your post titles. If 'imdb-movie-widget' or 'imdb-movie-widget-bymid' have also been added to post, the auto widget will be displayed before them. Usefull if your entire blog is about movies; if a query the does not bring any result when using your post title, a message will be displayed saying so.", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+
+				</div>
+
+				<div class="lumiere_flex_container_content_third lumiere_padding_five">
+
+					<label for="imdb_imdbintotheposttheme"><?php esc_html_e( 'Theme color', 'lumiere-movies'); ?></label><br /><br />
+
+					<select name="imdb_imdbintotheposttheme">
+						<option <?php if( ($imdbOptionsw['imdbintotheposttheme'] == "grey") || (empty($imdbOptionsw['imdbintotheposttheme'])) ) echo 'selected="selected"'; ?>value="grey"><?php esc_html_e( 'grey (default)', 'lumiere-movies'); ?></option>
+						<option <?php if($imdbOptionsw['imdbintotheposttheme'] == "white") echo 'selected="selected"'; ?>value="white"><?php esc_html_e( 'white', 'lumiere-movies'); ?></option>
+						<option <?php if($imdbOptionsw['imdbintotheposttheme'] == "black") echo 'selected="selected"'; ?>value="black"><?php esc_html_e( 'black', 'lumiere-movies'); ?></option>
+					</select>
+
+					<div class="explain"> <?php esc_html_e( 'Inside the post/widget color theme', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?>"grey"</div>
 
 				</div>
 

@@ -88,9 +88,8 @@ class LumiereWidget extends WP_Widget {
 				$imdballmeta[]['byname'] = sanitize_text_field( $name_sanitized->post_title );
 
 				echo $title_box;
-				echo "<div class='imdbincluded'>";
+
 				$display = new \Lumiere\LumiereMovies();
-				echo "</div>";
 
 			}
 
@@ -101,9 +100,8 @@ class LumiereWidget extends WP_Widget {
 				$imdballmeta[]['byname'] = $value;
 
 				echo $title_box;
-				echo "<div class='imdbincluded'>";
+
 				$display = new \Lumiere\LumiereMovies();
-				echo "</div>";
 
 			}
 
@@ -114,9 +112,8 @@ class LumiereWidget extends WP_Widget {
 				$moviespecificid = esc_html($value);
 				$imdballmeta[]['bymid'] = $moviespecificid;
 				echo $title_box;
-				echo "<div class='imdbincluded'>";
+
 				$display = new \Lumiere\LumiereMovies();
-				echo "</div>";
 
 			}
 

@@ -87,7 +87,7 @@ do_action('wp_loaded'); // execute wordpress first codes # still useful?
 <head>
 <?php wp_head();?>
 </head>
-<body class="lumiere_body<?php if (isset($imdb_admin_values['imdbpopupcolor'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopupcolor'];?>">
+<body class="lumiere_body<?php if (isset($imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopuptheme'];?>">
 
 <div id="lumiere_loader" class="center"></div>
 

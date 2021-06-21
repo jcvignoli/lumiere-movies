@@ -21,14 +21,14 @@ body.lumiere_body_lightgrey {color: black;background: lightgrey;}
 
 .lumiere_bold{font-weight:bold;}
 .lumiere_italic{font-style:italic !important;}
-.lumiere_align_center{-ms-flex-item-align:center;align-self:center;text-align:center;}
+.lumiere_align_center{align-self:center;text-align:center;}
 
 /* ---------------------------------------- Divs flex */
 
-.lumiere_container{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;}
-.lumiere_flex_auto{-webkit-box-flex:1;-ms-flex:auto;flex:auto;}
+.lumiere_container{display:flex;flex-wrap:wrap;}
+.lumiere_flex_auto{flex:auto;}
 .lumiere_container_border{border: 1px black solid;border-radius:10px;padding:5px;margin:5px;background-color:white;}
-.lumiere_container_flex50{-webkit-box-flex:50%;-ms-flex:50%;flex:50%;}
+.lumiere_container_flex50{flex:50%;}
 
 /* ---------------------------------------- Tables */
 
@@ -73,7 +73,7 @@ body.lumiere_body_lightgrey {color: black;background: lightgrey;}
 
 /* ---- Div */
 
-.titrefilm, .identity{text-align : center;font-size : x-large;	/*text-decoration: none;*/clear: both;}
+.titrefilm, .identity{text-align : center;font-size : x-large;	clear: both;}
 
 .titrefilm a:hover, .identity a:hover {color: #FFEAFD;}
 
@@ -85,8 +85,7 @@ body.lumiere_body_lightgrey {color: black;background: lightgrey;}
 
 .TitreSousRubriqueColDroite li {list-style-type:none;text-align:justify;}
 
-.imdbdiv-liees { /* to integrate two div in one */
-/*border-bottom:thin inset #000000;*/; padding-top:5px;}
+.imdbdiv-liees { /* to integrate two div in one */display:flex;flex-wrap:wrap;}
 .imdbdiv-liees a { text-decoration:none;}
 
 #triviafield, #nicknamesfield, #quotesfield, #selffilmofield, #biographicalfield, #tradmarksfield, #directorfilmofield, #producerfilmofield, #actorfilmofield, #actressfilmofield, #triviafieldmovie, #soundtrackfield, #goofsfield, #soundtrackfield {
@@ -117,27 +116,56 @@ border: 2px solid #333333;
 ******************** WIDGET & INSIDE POST
 ***********************************************************/
 
-/* ---- class.movie */
+/* ---- class.movie.php */
 
 .imdbincluded {			/* div */
-text-align : center;padding-bottom:10px;padding-left:5px;}
+padding-bottom:20px;}
 
 .imdbincluded-subtitle {		/* span */
-font-weight:bold;padding-right:3px;}
+font-weight:bold;font-size:115%;padding-right:5px;}
 
-.imdbincluded-picture {		/* img */}
-
-/* elements inside imdb-movie.inc.php, allows to manage specific cases */
+.imdbincluded-picture {		/* img */ }
 
 .lumiere-lines-common {		/* common div to all elements */
-padding-top:5px;padding-left: 20px;text-align:left;}
+padding: 0 10px 0 10px;text-align:left;}
+.lumiere-lines-common:nth-child(3) { 	/* first two children are the title and the picture */
+padding-top:20px;}
+.lumiere-lines-common:last-child { 	/* latest div */
+padding-bottom:20px;}
+/*grey, default*/
+.lumiere-lines-common_grey{	/* additional theme selected in the menu option */
+border-left:1px solid black;border-right:1px solid black;background-color:grey;color:white;}
+.lumiere-lines-common_grey a{color:gold;}
+.lumiere-lines-common_grey a:hover{color:white;}
+.lumiere-lines-common_grey:last-child { border-bottom:1px solid black;border-radius:0 0 10px 10px; }
+/*white*/
+.lumiere-lines-common_white{	/* additional theme selected in the menu option */
+border-left:1px solid black;border-right:1px solid black;background-color:white;color:black;}
+.lumiere-lines-common_white a{color:grey;}
+.lumiere-lines-common_white a:hover{color:black;}
+.lumiere-lines-common_white:last-child { border-bottom:1px solid black;border-radius:0 0 10px 10px;}
+/*black*/
+.lumiere-lines-common_black{	/* additional theme selected in the menu option */
+background-color:black;color:white;}
+.lumiere-lines-common_black a{color:darkgrey;}
+.lumiere-lines-common_black a:hover{color:white;}
+.lumiere-lines-common_black:last-child { border-radius:0 0 10px 10px;}
 
-.imdbelementTITLE { 			/*TITLE*/
-text-align: left;font-weight:bold;font-size:140%;}
 
-.imdbelementPICdiv {			/*PIC*/
-padding-top:10px;padding-bottom:10px;}
-.imdbelementPICimg {}
+.imdbelementTITLE { 			/*TITLE*/ 
+text-align: center;font-weight:bold;font-size:140%;padding:10px;}
+.imdbelementTITLE_grey{		/* additional theme selected in the menu option */
+background-color:black;border:1px solid black;border-radius:10px 10px 0 0;color:white;}
+.imdbelementTITLE_white{		/* additional theme selected in the menu option */
+background-color:grey;border-radius:10px 10px 0 0;color:white;}
+.imdbelementTITLE_black{		/* additional theme selected in the menu option */
+background-color:white;border:1px solid black;border-radius:10px 10px 0 0;color:black;}
+
+.imdbelementPIC {			/*PIC div tag */ 
+padding:20px 20px 0 20px;float:left;}
+
+.imdbelementPICimg {			/*PIC img tag */ 
+}
 
 .imdbelementCOUNTRY {		/*COUNTRY*/}
 
@@ -217,11 +245,11 @@ input#moviesearched{ width:60%;background-color:lightyellow;}
 span.label_moviesearched{font-size:larger !important;padding:10px;}
 
 /* ---------------------------------------- Loader when searching */
-#lumiere_loader {border: 12px solid #f3f3f3;border-radius: 50%;border-top: 12px solid #444444;width: 70px;height: 70px;-webkit-animation: spin 1s linear infinite;animation: spin 1s linear infinite;}
-@-webkit-keyframes spin {100% {-webkit-transform: rotate(360deg);transform: rotate(360deg);}}
-@keyframes spin {100% {-webkit-transform: rotate(360deg);transform: rotate(360deg);}}
+#lumiere_loader {border: 12px solid #f3f3f3;border-radius: 50%;border-top: 12px solid #444444;width: 70px;height: 70px;animation: spin 1s linear infinite;}
+@keyframes spin {100% {transform: rotate(360deg);}}
 .lumiere_loader_center {position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto;}
 /* ---------------------------------------- Loader when searching */
 
 .lumiere_align_left{text-align:left;}
+.lumiere_align_right{text-align:right;}
 

@@ -2,14 +2,17 @@
 *  Needs jquery						
 */
 
-/**** imdb-movie.inc.php
+/**** class.moviephp
 *
 */
 
-jQuery('a#highslide-pic').click(function(){
-	return hs.expand(this, { useBox: false 
+// Id in the movie image -> currently not in use
+if (document.getElementById("highslide_pic")) {
+	jQuery('a#highslide_pic').click(function(){
+		return hs.expand(this, { useBox: false, captionEval: "Poster of " + 'this.thumb.alt'  
+		});
 	});
-});
+};
 
 /* FUNCTION: build highslide or classic popup according to the classes
 *	This function on click on classes "link-imdblt-(.*)"
