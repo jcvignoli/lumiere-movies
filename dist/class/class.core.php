@@ -7,9 +7,8 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'WPINC' ) )
 	wp_die('You can not call directly this page');
-}
 
 class Core {
 	private $bypass; /* this value is not in use anymore, to be removed */
@@ -19,7 +18,7 @@ class Core {
 	/*constructor*/
 	function __construct () {
 
-	global $imdb_ft, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values; # to be removed?
+		global $imdb_ft, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
 		$imdb_ft = new \Lumiere\Settings();
 		$imdb_admin_values = $imdb_ft->get_imdb_admin_option();
@@ -35,6 +34,7 @@ class Core {
 
 			// add taxonomies in wordpress (from functions.php)
 			if ( (isset($imdb_admin_values['imdbtaxonomy'])) && ($imdb_admin_values['imdbtaxonomy'] == 1) ) {
+
 				add_action( 'init', 'lumiere_create_taxonomies', 0 );
 
 				// search for all imdbtaxonomy* in config array, 
@@ -52,6 +52,7 @@ class Core {
 
 			add_action( 'init', [ $this, 'lumiere_gutenberg_search_redirect' ], 0);
 
+	
 			add_action('admin_init', [ $this, 'lumiere_register_gutenberg_blocks' ],0);
 
 			// add admin menu
@@ -80,9 +81,9 @@ class Core {
 			// add new name to popups
 			add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
 
-			if  (! is_admin() ) { 	// Run the transformation of [imdblt] and links to popups
+			if  (! is_admin() ) { 	// Run the transformation of links to popups
 							// Do not execute for admin interface
-							// Avoids the execution in gutenberg that bring json error on updating posts
+							// -> Avoids the execution in gutenberg that brings json error on updating posts
 				// add links to popup
 				add_filter('the_content', [ $this, 'lumiere_linking' ] );
 				add_filter('the_excerpt', [ $this, 'lumiere_linking' ] );
@@ -90,9 +91,6 @@ class Core {
 			    	// delete next line if you don't want to run Lumiere Movies through comments
 				add_filter('comment_text', [ $this, 'lumiere_linking' ] );
 
-				// add data inside a post
-				add_action('the_content', [ $this, 'lumiere_tags_transform' ] );
-				add_action('the_content', [ $this, 'lumiere_tags_transform_id' ] );
 			}
 
 			// Footer actions
@@ -169,43 +167,7 @@ class Core {
 	}
 
 	/**
-	3.- Replace [imdblt]movieID[/imdblt] tags inside posts (as an automation of lumiere_external_call function)
-	**/
-
-	##### a) Looks for what is inside tags [imdblt] .... [/imdblt] and include the movies data
-
-	function parse_lumiere_tag_transform ($text) {
-		global $imdb_admin_values, $wp_query;
-		$imdballmeta[] = $text[1];
-		return $this->lumiere_external_call($imdballmeta);
-	}
-
-	##### b) Replace [imdblt] .... [/imdblt] tags with movies data
-	function lumiere_tags_transform ($text) {
-		$pattern = "'\[imdblt\](.*?)\[/imdblt\]'si";
-		return preg_replace_callback($pattern, [ $this, 'parse_lumiere_tag_transform' ], $text);
-	}
-
-	/**
-	4.- Replace [imdbltid]movieID[/imdbltid] tags inside posts (with lumiere_external_call function)
-	**/
-
-	##### a) Looks for what is inside tags [imdbltid] .... [/imdbltid] and include the movies data
-
-	function parse_lumiere_tag_transform_id ($text) {
-		global $imdb_admin_values, $wp_query;
-		$imdballmeta[] = $text[1];
-		return $this->lumiere_external_call('','',$imdballmeta);
-	}
-
-	##### b) Replace [imdblt] .... [/imdblt] tags with movies data
-	function lumiere_tags_transform_id ($text) {
-		$pattern = "'\[imdbltid\](.*?)\[/imdbltid\]'si";
-		return preg_replace_callback($pattern, [ $this, 'parse_lumiere_tag_transform_id' ], $text);
-	}
-
-	/**
-	5.-  Add tags buttons <span class="lumiere_link_maker"> to editing interfaces
+	3.-  Add tags buttons <span class="lumiere_link_maker"> to editing interfaces
 	**/
 
 	##### a) HTML part
@@ -281,7 +243,7 @@ class Core {
 	}
 
 	/**
-	6.- Add the stylesheet & javascript to pages head
+	4.- Add the stylesheet & javascript to pages head
 	**/
 
 	##### a) outside admin part
@@ -322,11 +284,14 @@ class Core {
 		}
 	}
 
+	/**
+	5.- Add the stylesheet & javascript to pages footer
+	**/
 	function lumiere_add_footer_blog( $bypass=NULL ){
 		global $imdb_admin_values;
 
-// Unactivated, so the scripts can be run anywhere
-// To do: add an option in admin to activate/unactivate a pass-by
+		// Limitation unactivated, so the scripts can be run anywhere
+		// To do: add an option in admin to activate/unactivate a pass-by
 
 		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_footer_blog("inc.movie")
 		//if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
@@ -379,7 +344,7 @@ class Core {
 	}
 
 	/**
-	7.- Add the admin menu
+	6.- Add the admin menu
 	**/
 
 	function lumiere_admin_panel() {
@@ -412,59 +377,9 @@ class Core {
 		}
 	}
 
-	/**
-	8.- Function external call (ie, inside a post)
-	    can come from [imdblt] and [imdbltid]
-	**/
-
-	function lumiere_external_call ($moviename="", $external="", $filmid="") {
-
-		global $imdb_admin_values, $imdb_widget_values, $wp_query, $imdballmeta;
-
-		// Call function from external (using parameter "external" )
-		// Especially made to be integrated (ie, inside a php code)
-		if ( ($external == "external") && isset($moviename) ) {	
-
-			$imdballmeta['byname'] = $moviename;
-
-			echo "\n\t<div class='imdbincluded'>";
-			$display = new \Lumiere\LumiereMovies();
-			echo "\n\t</div>";
-
-		}
-
-		// Call function from external (using parameter "external" )
-		// Especially made to be integrated (ie, inside a php code)
-		if ( ($external == "external") && isset($filmid) )  {
-
-			$imdballmeta[]['bymid'] = $filmid[0];
-
-			$display = new \Lumiere\LumiereMovies();
-
-		}
-
-		//  Call with the parameter - imdb movie name (imdblt)
-		if ( isset($moviename) && !empty($moviename) && empty($external) ) {	
-
-			$imdballmeta[]['byname'] = $moviename[0];
-
-			$display = new \Lumiere\LumiereMovies();
-
-		}
-
-		//  Call with the parameter - imdb movie id (imdbltid)
-		if ( isset($filmid) && !empty($filmid) && empty($external) )  {
-
-			$imdballmeta[]['bymid'] = $filmid[0];
-
-			$display = new \Lumiere\LumiereMovies();
-			
-		}
-
-	}
 
 	/**
-	9.- Add icon for Admin Drop Down Icons
+	7.- Add icon for Admin Drop Down Icons
 	* http://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/
 	**/
 
@@ -474,7 +389,7 @@ class Core {
 	}
 
 	/**
-	10.- Add admin menu to the toolbar
+	8.- Add admin menu to the toolbar
 	**/
 
 	function add_admin_toolbar_menu($admin_bar) {
@@ -493,7 +408,7 @@ class Core {
 	}
 
 	/**
-	11.- Redirect the popups to a proper URL (goes with to inc/.htaccess)
+	9.- Redirect the popups to a proper URL (goes with to inc/.htaccess)
 	**/
 	function lumiere_popup_redirect() {
 		// The popup is for films
@@ -559,7 +474,7 @@ class Core {
 	}
 
 	/**
-	12.- Change the title of the popups according to the movie's or person's data
+	10.- Change the title of the popups according to the movie's or person's data
 	**/
 	function lumiere_change_popup_title($title) {
 		global $imdb_cache_values, $imdb_ft;
@@ -607,7 +522,7 @@ class Core {
 	}
 
 	/**
-	13.- A Include highslide_download.php if string highslide=yes
+	11.- 	A Include highslide_download.php if string highslide=yes
 	**/
 	function lumiere_highslide_download_redirect() {
 		global $imdb_admin_values;
@@ -617,7 +532,7 @@ class Core {
 		}
 	}
 	/**
-	13.- B Include gutenberg-search.php if string gutenberg=yes
+	12.-	- B Include gutenberg-search.php if string gutenberg=yes
 	**/
 	function lumiere_gutenberg_search_redirect() {
 		global $imdb_admin_values;
@@ -628,7 +543,7 @@ class Core {
 	}
 
 	/**
-	14.- Include move_template_taxonomy.php if string taxotype=
+	13.	- C Include move_template_taxonomy.php if string taxotype=
 	**/
 	function lumiere_copy_template_taxo_redirect() {
 		global $imdb_admin_values;
@@ -639,14 +554,14 @@ class Core {
 	}
 
 	/**
-	15.- Add a class to taxonomy links (constructed in imbd-movie.inc.php)
+	14.- Add a class to taxonomy links (constructed in class.movie.php)
 	**/
 	function lumiere_taxonomy_add_class_to_links($links) {
 	    return str_replace('<a href="', '<a class="linktaxonomy" href="', $links);
 	}
 
 	/**
-	16.- Add new meta tags in popups <head>
+	15.- Add new meta tags in popups <head>
 	**/
 	function lumiere_add_metas() {
 
@@ -694,7 +609,7 @@ class Core {
 	}
 
 	/**
-	17.- Create cache folder
+	16.- Create cache folder
 	**/
 	function lumiere_create_cache() {
 		global $imdb_ft, $imdb_cache_values;
@@ -728,7 +643,7 @@ class Core {
 	}
 
 	/**
-	18.- Run on plugin update
+	17.- Run on plugin update
 	**/
 	function lumiere_on_upgrade_completed( $upgrader_object, $options ) {
 
@@ -772,7 +687,7 @@ class Core {
 	}
 
 	/**
-	19.- Run on plugin activation
+	18.- Run on plugin activation
 	**/
 	function lumiere_on_activation() {
 		/* debug
@@ -798,7 +713,7 @@ class Core {
 	}
 
 	/**
-	20.- Run on plugin deactivation
+	19.- Run on plugin deactivation
 	**/
 	function lumiere_on_deactivation() {
 
@@ -839,7 +754,7 @@ class Core {
 	}
 
 	/**
-	21.- Change permissions for writting htaccess
+	20.- Change permissions for writting htaccess
 	**/
 	function lumiere_change_perms_inc() {
 		$inc_for_htaccess = plugin_dir_path( __DIR__ ) . 'inc/';
