@@ -681,6 +681,7 @@ class Core {
 							}
 						}
 					}*/
+					require_once( plugin_dir_path( __DIR__ ) . 'class/update.options.php' );
 				}
 			}
 		}

@@ -41,7 +41,7 @@ class LumiereMetabox {
 
 		global $imdb_admin_values;
 
-		add_meta_box(  'lumiere_metabox_customfields', '<div>'.'<img class="lumiere_valign_middle" width="20" height="20" src="' . esc_url( $imdb_admin_values['imdbplugindirectory'] . 'pics/lumiere-ico-noir13x13.png' ) . '" />&nbsp;'.'Lumière! widget'.'</div>' , [$this, 'custom_meta_box_markup'], array( 'post', 'page'), 'side', 'high', null ); 
+		add_meta_box(  'lumiere_metabox_customfields', 'Lumière! movies' , [$this, 'custom_meta_box_markup'], array( 'post', 'page'), 'side', 'high', null ); 
 
 	}
 
