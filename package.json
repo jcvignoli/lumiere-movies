@@ -19,6 +19,7 @@
   "devDependencies": {
     "@wordpress/scripts": "16.1.0",
     "browser-sync": "^2.26.14",
+    "del": "^4.1.1",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4",
     "gulp": "^4.0.2",

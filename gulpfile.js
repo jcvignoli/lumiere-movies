@@ -10,6 +10,7 @@ var gulp = 	require('gulp'),
 		imagemin = require('gulp-imagemin'),		/* compress images */
 		eslint = require("gulp-eslint"),			/* check if javascript is correctly written */
 		notify = require('gulp-notify'),			/* add notification OSD system (needs notify-osd) */
+		del = require('del'),				/* delete files */
 		gulpIf = require('gulp-if');			/* add if function */
 
 /* Copied/watched files */
@@ -53,7 +54,6 @@ gulp.task('stylesheets', function () {
 			console.log(`${details.name}: ${details.stats.originalSize}`);
 			console.log(`${details.name}: ${details.stats.minifiedSize}`);
 		}))
-		.pipe(notify("CSS generated!"))
 		.pipe(gulp.dest( paths.stylesheets.dist ))
 		.pipe(browserSync.stream())
 });
@@ -123,13 +123,20 @@ gulp.task('browserWatch', gulp.parallel( 'watch', function(done){
 	done();
 }));
 
-// Task 7 - Build all files
-gulp.task('build', gulp.parallel('javascripts', 'stylesheets', 'images', 'files_copy' ) );
+// Task 7 - Remove pre-existing content from output folders
+gulp.task('cleanDist', function () {
+	del.sync([
+		paths.files.dist
+	]);
+});
 
-// Task 8 - Default
+// Task 8 - Build all files
+gulp.task('build', gulp.series( 'javascripts', 'stylesheets', 'images', 'files_copy' ) );
+
+// Task 9 - Default
 gulp.task('default', gulp.series('build', 'watch' ) );
 
-// Task 9 - Lint
+// Task 10 - Lint
 // Check correct javascript writing
 function isFixed(file) {
     // Has ESLint fixed the file contents?
