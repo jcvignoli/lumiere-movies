@@ -1,0 +1,195 @@
+v3.3.2
+
+8. dans popups, faire dans appels à la nouvelle class
+9. bug taxonomy items not added to posts if not in widget, such as the directors
+11. Implement check before add/deleting taxonomy
+12. Develop page of taxo with special details about the person
+13. Implement alternative to highslide with a jquery modal window
+22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
+
+
+v3.3.1
+OK--- 1. technical Transformed imdb-movie.inc.php into a class. More versality moving forward.
+OK--- 2. bug in options-widget.php, source was deactivated in widget order. Reactivated.
+OK--- 3. bug Make sure only one call is made for every movie (imdblt, imdbltid, widget)
+OK--- 4. Minification of javascripts and stylesheets, images are even more compressed
+OK--- 5. Changed the GIT structure for better development workflow, using gulp
+OK--- 6. Added title in wp-admin/lumiere/search/ popup
+OK--- 7. Links popup builder and short codes [imdblt] [imdbltid] are not called if is_admin()
+OK--- 8. technical Removed useless title taxonomy function, title are nomore taxonomised
+OK--- 9. medium added a color theme to "widget" and "into the post" sections. Option added in the into the post/widget administration (misc tab)
+OK-- 10. technical added var imdbintotheposttheme in config for selection of into the post/widget themes
+OK-- 11. Remplacer les preg_replace par add_shortcode for imdblt et imdbltid 
+OK-- 12. [bug] Removed $imdbwidgetcommentsnumber from config and options from options-widget.php. The new imdbphp classes retrieve only one comment. Adapted also class.movie.php.
+OK-- 13. [technical ] options are updated/deleted/added for new versions
+
+v3.3
+OK--- 1. Minor Limiting the number of results never worked. Now it does. Use the general options -> advanced 
+OK--- 2. Technical Admin forms submit/reset are now sticky
+OK--- 3. Technical Removed options update in plugin update process, options are already automatically updates when visiting options
+OK--- 4. Technical Enhanced tinyMCE, but still work to do
+OK--- 5. Moved class from lumiere-movies.php to class/class.lumiere.php
+OK--- 6. Bug Taxonomy rewrite rules does definitely work using lumiere_create_taxonomies() function in class/functions.php. Added a specific constraint to be called only in taxonomy pages since it calls the time consuming flush_rewrite_rules() function.
+OK--- 7. Technical implemented a taxonomy slug URL. By changing the options in the admin panel, the URL for taxonomy pages can be changed.
+OK--- 8. Bug values imdbwidgetofficialSites and imdbwidgetprodCompany prevented them from being saved in options-widget.php. Renamed them imdbwidgetofficialsites and imdbwidgetprodCompany so they can be saved.
+OK--- 9. Bug various fixes for the layout in imdb-movie.inc.php
+OK-- 10. Technical Taxonomy pages are now fully adapted to the new taxonomy slug URL.
+OK-- 11. Minor Enhanced popup layout, more fancy and adapted to the theme selected in admin panel
+OK-- 12. Alphabetical order widget options https://www.jcvignoli.com/blogpourext/wp-admin/admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo
+OK-- 13. Bug in options-cache.php, no form for detail cache delete, cache details to delete couldn't be submitted
+OK-- 14. Minor Added loading css to loader ids (used in popup-search and popup-imdb_movie.php)
+OK-- 15. Fixed issue with taxo not created. Was a mix of the new function to create taxo (too much constrain added to the page check) and various issues in imdb_movies.inc.php
+OK-- 16. Bug Uninstall process now fully works. Deleted uninstall.php, moved function lumiere_unregister_taxonomy() into class.lumiere.php and renamed to lumiere_on_uninstall()
+OK-- 17. medium Added the option to keep the settings upon plugin deactivation.
+OK-- 18. medium Robust taxonomy system. More technical and systematic coherence to understand the options. Rewrote the taxonomy injection in imdb-movie.inc.php using wp_set_post_terms and only once per taxonomy. 
+OK-- 19. technical Taxonomy is now activated by default, allowing "genre" to be available. "genre" is also activated by default in "what to display" now.
+OK-- 20. minor added nicer rating layout in the popups, copied from imdb-movie.inc.php
+OK-- 21. bug votes/rating were not working since mass sanitization. Change intval() by esc_html().
+OK-- 22. Removed taxonomy metaboxes from edit interface, it's useless
+OK-- 23. Added a metabox in the edition of the posts (admin area). The movie's title or IMDb ID will be utilized to show a widget with the relevant movie. Included a popup to search for IMDb IDs.
+OK-- 24. Using namespace in Lumiere classes
+OK-- 25. Adding more than one movie into the post stopped the second and more movies to be displayed. Adding a movie into the post stopped the widget to be displayed. Replaced the calls to imdb-movie.inc.php with require_once() by require().
+OK-- 26. Simplified $imdballmeta arrays management. These globals passing from widget and core classes are now structured as $imdballmeta[]['byname'] and $imdballmeta[]['bymid'] and retrieved in imdb-movie.inc.php
+
+v3.2.2
+OK--- 1. technical Added a plugin update function to make htaccess file and update config on update
+OK--- 2. Bug New fix for popup titles function in lumiere-movies.php
+OK--- 3. Bug Fixed link with extra "/" in URL for akas in popup-imdb_movie.php
+OK--- 4. Bug in popup-imdb_person: soundtrack film was redirecting to popup-imdb_person instead of popup-imdb_movie
+OK--- 5. technical Remove options for photo path and directory in options-cache.php, now automatically generated
+OK--- 6. technical Contrained options for "Plugin directory" and "URL for the popups" in options-general.php, now partially automatically generated
+OK--- 7. technical Changed $imdbAdminOptions $imdbCacheOptions arrays in config.php, imdbplugindirectory, photo path, and directory are now relative
+OK--- 8. Medium Implemented a selection of popup colors in admin menu 
+OK--- 9. Technical Debug is now a function implemented in all relevant pages
+OK-- 10. Changed AKA design in popups
+
+v.3.2.1
+
+OK--- 1. admin panel wasn't displayed, bug in inc/admin_pages.php
+OK--- 2. popup titles function in lumiere-movies.php was preventing the popup from working
+
+v3.2
+
+OK--- 1. Technical: removed calls to options from class/config.php and created inc/admin_pages.php. Moved the $_POST checks from admin_pages.php to their dedicated sections in options-*.php.
+OK--- 2. Fixed the reset buttons in admin pages, 
+OK--- 3. (re)Added debugging mode
+OK--- 4. Added check defined( 'WPINC' ) on the top of included pages to avoid direct calls
+OK--- 5. Fixed bug of imdbwidgettrailernumber variable missing in class/config.php
+OK--- 6. Technical: added the isset() values for further compatibility with PHP8
+OK--- 7. change the custom url to call /imdblt/(film|person) instead of lumiere-moves/inc/popupup*
+OK--- 8. the custom url /imdblt/(film|person) is now a constant
+OK--- 9. Robust htaccess that takes into account all possiblities of the popups
+OK-- 10. Display person's name in popup's title page -> take inspiration from options-cache.php to get names
+OK-- 11. replace all lumiere_htmlize() by lumiere_name_htmlize()
+OK-- 12. make the custom url /imdblt/(film|person) an editable variable in admin/ moved the constants to the end of config.php
+OK-- 13. removed useless data in htacces making (let wordpress deal with it)
+OK-- 14. added meta tags in popups
+OK-- 15. added favicons in popups
+OK-- 15. added favicons
+OK-- 16. fixed links for actors in popup-imdb_movie.php
+OK-- 17. fixed wordpress credits in admin were not shown (added two closing divs in inc/admin_pages.php)
+OK-- 18. fix the missing title for /imdblt/search/
+OK-- 19. a cache was saved in class/ instead of wp-content/cache; added the proper config in lumiere-movies.php lumiere_change_popup_title()
+OK-- 20. added the option to delete the queries cache in options-cache.php
+OK-- 21. fixed the text when direct search/auto taxo/widget are not active and trigger an automatic text near widget option menu in admin_pages.php
+OK-- 22. nicer layout for widget order of elements
+OK-- 23. added meta tag "tag" for the popups
+
+v3.1.1
+
+OK--- 1. CSS & JS automatically take LUMIERE_VERSION string in URL when they're called, so every new Lumière! version trigger a cache refresh
+OK--- 2. Added into popups and imdb-movies.inc movie/people images the code 'loading="eager"' so they're not lazy-loaded (otherwise they're not displayed)
+OK--- 3. Bug: Taxonomy was not registered and not appearing in Posts, fixed function lumiere_create_taxonomies()
+OK--- 4. Moved imdbphp classes from /src to /class/imdbphp, moved config.php, functions.php, into that same folder
+OK--- 5. Fixed cache refresh/delete redirect + move form functions to options cache
+
+v3.1
+
+OK--- 1. Bug: the lumiere's scripts weren't loaded outside the Lumiere's dedicated pages. Removed checks in lumiere_add_footer_blog()'s lumiere-movies.php, deactivated calls to head and footer construction for imbd-movies.inc.php in lumiere-movies.php and widget (head and footer are already loaded!)
+OK--- 2. Bug: removed CSP compliance in js/lumiere_scripts.js and js/highslide-options.js as it prevented a correct running of the highslide popups -> highslide should close windows under CSP
+OK--- 3. Created a popup for searching IMDB id in gutenberg, added button
+OK--- 4. Due to compatibility reasons with Gutenberg, the way to display links to internal popupups has changed from '<!--imdb--><!--/imdb-->' to '<span class="lumiere_link_maker"></span>'. Compatibility with the old way currently maintained. Renamed old parsing function to lumiere_link_finder_oldway() and created lumiere_link_finder()
+OK--- 5. remove panels in gutenberg, add a panel to go to https://www.jcvignoli.com/blogpourext/wp-content/plugins/lumiere-movies/inc/gutenberg-search.php?gutenberg=yes
+OK--- 6. Bug: uninstall wasn't removing taxonomy terms. Simplified the function and it's now working.
+OK--- 7. Bug: text in options-widget.php when widget and directsearch unactive was erroneous.
+OK--- 8. Redesigned options-general.php to simplify understanding of options
+OK--- 9. utiliser lumiere_array_key_exists_wildcard dans l'activation de la taxonomie (fonctions.php) et uninstall.php 
+OK--- 10. Bug introduced in v3.0, couldn't display more than one film in widgets. Replaced 			require_once( $imdb_admin_values['imdbpluginpath'] . 'inc/imdb-movie.inc.php'); by require( plugin_dir_path( __FILE__ ) . 'imdb-movie.inc.php'); in widget.php
+OK--- 11. Simplify general admin menu
+OK--- 12. Changed the path of Lumière! cache (now in wp-content/cache) so it survives plugin updates. If wp-content/cache is not writable, uses wp-content/plugins/lumiere/cache path.
+OK--- 13. Variable imdbcachedetails set to true by default (no real reason to not show the cache management) in options-cache.php and config.php
+OK--- 14. Vastly simplified the cache menu: moved paths options to manage cache submenu (and hide the options), merged store and use cache (store is not available anymore), removed zip options
+
+v.3.0.1
+OK---- 1. Banner ne s'affiche pas ? -> name was wrong
+OK---- 2. Cache ne se met pas à 777. Fixed dans l'activation dans lumiere-movies.php
+OK---- 3. Langue ne fonctionne pas ? -> renommé le slug
+OK---- 4. Value imdbpopup_highslide was on "false" by mistake in config.php
+OK---- 5. Option "Toolbar Lumière admin menu" fait quoi? Ne change rien... OK: "Menu for Lumière options" l'active. Corriger les explication, désactiver "Toolbar Lumière admin menu" lorsque "Menu for Lumière options" est sur "no". + faire un refresh lorsque les options sont activées/désactivés, actuellement on voit pas l'effet après changement de sélection.
+OK---- 6. Change the name of the widget from "imdb widget" to "Lumière! movies"
+OK---- 7. error of responsiveness in options-cache.php
+OK---- 8. taxonomy standard template file was missing the translation strings 
+OK---- 9. Bug: new name for the widget register, wasn't updated in config.php (the check failed)
+OK---- 10. convert onclick=\"return hs.close(this)\" from highslide-options.js into something CSP compliant -> highslide doesn't give the data to close the window
+OK---- 11. imdb-movie.inc.php fixed longstanding bug with taxonomy, display only the taxonomy related to the current IMDb detail 
+OK---- 12. create a gutenberg select option in the current lumiere for imdbltid option
+OK---- 13. rewrite rules refresh now working, taxonomy activation/deactivation should work
+
+v.3.0
+/******************** Fixes */
+OK---- 1. Rétablir la fonction d'effacement du cache
+OK---- 2. Problèmes de sécurités de wordpress https://developer.wordpress.org/themes/theme-security/data-sanitization-escaping/#example-simple-input-field
+OK---- with popup-imdb_movie.php, lumiere-movies.php, widget.php, popup-imdb_person.php, popup-search.php, imdb-movie.inc.php, options-widget.php, options-cache.php, options-general.php, help.php, config.php
+OK---- A modifier les _e() en esc_html_e(), __() en esc_html__()
+OK---- B sanitize $_POST & $_GET with sanitize_text_field() ORRRR with is_int()
+OK---- C enqueue scripts with wp_enqueue_script()
+OK---- D enqueue css with wp_enqueue_style()
+OK---- E remove direct calls to wp-blog-header.php https://codex.wordpress.org/Plugin_API https://ottopress.com/2010/dont-include-wp-load-please/
+OK---- 3. configuration, la faire matcher avec les nouvelles classes
+OK---- 4. move inline styles to files (CSP compliance)
+OK---- 5. move inline javascripts to files (CSP compliance)
+OK---- A move options-cache.php's checkall & uncheckall to csp_inline_scripts.js
+OK---- B move options-cache.php's GereControle to csp_inline_scripts.js
+OK---- 6. change the way translation is dealt by (dealt by wordpress, now?)
+OK---- 7. taxonomy page, not working?
+OK---- 8. use htaccess classes to rewrite htaccess it will adapt to each config
+OK---- 9. Replace all IMDBLTURLPATH by $imdb_admin_values[imdbplugindirectory]
+OK---- 10. imdb-link-transformer.php Todo: to enqueue everything
+OK---- 11. Include canonicals links in popups -> since it is now called by the template, ok
+OK---- 12. Check popup menu links on mobile, they are wider
+OK---- 13. Bug: lorsque highslide non activé + widget, la page ne se charge pas -> was bug with imdb_popup_link() from functions.php
+OK---- 14. Bug: imdblt tiny-mce is not loaded in admin post edit
+OK---- 15. Bug: imdb.css wasn't enqueued only for popups
+OK---- 16. Bug : show imdb.css fixes for oceanwpw only for popup
+OK---- 17. Check how to make taxonomy's template work
+OK---- 18. Check help's faq section
+OK---- 19. Check why trailers in imdb-movie.inc.php aren't displayed
+OK---- 20. Bug with trailer field in admin, when on yes it doesn't allow to enter a number. Must switch off then on to enter a number
+OK---- 21. Bug: manque "Production company" dans la selection des widgets
+OK---- 22. Trouver un moyen d'exécuter le refresh rules lors de l'activation de la taxonomie dans le menu
+OK---- 23. Add total cache used in admin
+OK---- 24. Bug avec le passage des options de imdbwidgetorderContainer de options-widget.php, tout n'est pas transmis à config.php
+OK---- 25. Change name IMDbLT to Lumiere Movies
+OK---- 26. Bugs: adding imdblt links to editor: 
+OK---- A. Deprecated TinyMCE API call: "onPostProcess" (http://www.tinymce.com/wiki.php/Tutorial:Migration_guide_from_3.x)
+OK---- B. quicktag not working https://code.tutsplus.com/tutorials/a-simple-guide-to-the-wordpress-quicktags-api--cms-22707
+OK---- 27. Bug: css pourri à corriger pour les [imdblt] tags https://www.jcvignoli.com/blogpourext/2021/test-imdblt/
+
+/******************** Improvements */
+OK---- 1. Remove highslide use in cache, transition to something more csp compliant
+OK---- 2. taille du highslide sur mobile
+OK---- 3. Update to highslide 5.0
+OK---- 4. Bug with retrieving movie's images cache on refresh, only _big are retrieved
+OK---- 5. Find a way to execute functions.php from child theme
+OK---- 6. remove the use of movie_actress() in popup-imdb_person.php, 
+OK---- 7. refresh permalinks for taxonomies, on change of taxonomy
+OK---- 8. Bug with retrieving persons's images cache on refresh
+OK---- 9. Make admin responsive
+OK---- 10. change the title of highslide pages to match the name of the movie/person
+OK---- 11. Add language support in config
+OK---- 16. Make gutenberg compatible edition
+OK---- 17. REMOVE $imdb_configs_values, change register_imdbwidget
+OK---- 18. change php_vars variables into something more understandable
+OK---- 24. check why lumiere_add_head_blog is not loaded in wp_head in lumiere-movies.php
+OK---- 25. fix layout taxonomy
+

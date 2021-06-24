@@ -1,11 +1,9 @@
-inc/.htaccess
+dist/inc/.htaccess
 node_modules
 test
 tmp
 vendor
 .gitignore-building
-.todo
 composer.lock
 package-lock.json
 wp-cli.phar
-
