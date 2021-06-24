@@ -1,15 +1,16 @@
 /* Require gulp packages */
 var gulp = 	require('gulp'),
-		browserSync = require('browser-sync'),
+		browserSync = require('browser-sync'),		/* open a proxy browser tab, auto refresh on files edit */
 		reload = browserSync.reload,
-		cleanCSS = require('gulp-clean-css');
-		autoprefixer = require('gulp-autoprefixer'),
-		plumber = require('gulp-plumber');
-		js = require('gulp-uglify'),
-		changed = require('gulp-changed');
-		imagemin = require('gulp-imagemin');
-		eslint = require("gulp-eslint");
-		gulpIf = require('gulp-if');
+		cleanCSS = require('gulp-clean-css'),		/* minify css */		
+		autoprefixer = require('gulp-autoprefixer'),	/* adds support for old browsers in CSS */
+		plumber = require('gulp-plumber'),			/* avoid running process to break for an error */
+		js = require('gulp-uglify'),			/* minify javascripts */
+		changed = require('gulp-changed'),			/* check if a file has changed */
+		imagemin = require('gulp-imagemin'),		/* compress images */
+		eslint = require("gulp-eslint"),			/* check if javascript is correctly written */
+		notify = require('gulp-notify'),			/* add notification OSD system (needs notify-osd) */
+		gulpIf = require('gulp-if');			/* add if function */
 
 /* Copied/watched files */
 paths = {
@@ -20,14 +21,14 @@ paths = {
 		src: [ './src/**/*.js', '!./src/js/highslide/**/**/*.*' ],
 		dist: './dist' },
 	images: {
-		src: [ './src/.wordpress-org/*.+(png|gif)', './src/pics/**/*.+(png|gif)' ],
+		src: [ './src/.**/*.*', './src/**/*.*' ],
 		dist: './dist' },
 	files: {
 		src: [	'./src/**/*.php', 
 			'./src/**/*.ico', 
 			'./src/**/*.webmanifest', 
-			'./src/**/*.+(jpg|jpeg|psd)', 
-			'./src/.**/*.+(jpg|jpeg|psd)', 
+			'./src/**/*.+(psd)', 
+			'./src/.**/*.+(psd)', 				/* for .wordpress.org */
 			'./src/**/*.txt', 
 			'./src/**/*.md', 
 			'./src/languages/*.*', 
@@ -36,47 +37,75 @@ paths = {
 };
 
 
-// Task 2 - Minify CSS
+// Task 1 - Minify CSS
 gulp.task('stylesheets', function () {
-	return gulp.src( paths.stylesheets.src , {base: './src'} )
+	return gulp
+		.src( paths.stylesheets.src , {base: './src'} )
+		.pipe(plumber({ errorHandler: function(err) {
+		     notify.onError({
+			  title: "Gulp error in " + err.plugin,
+			  message:  err.toString()
+		     })(err);
+		 }}))
 		.pipe(changed( paths.stylesheets.dist ))
-		.pipe(plumber())
 		.pipe(autoprefixer('last 2 versions'))
 		.pipe(cleanCSS({debug: true}, (details) => {
 			console.log(`${details.name}: ${details.stats.originalSize}`);
 			console.log(`${details.name}: ${details.stats.minifiedSize}`);
 		}))
+		.pipe(notify("CSS generated!"))
 		.pipe(gulp.dest( paths.stylesheets.dist ))
 		.pipe(browserSync.stream())
 });
 
-// Task 3 - Minify JS
+// Task 2 - Minify JS
 gulp.task('javascripts', function () {
-	return gulp.src( paths.javascripts.src , {base: './src'} )
+	return gulp
+		.src( paths.javascripts.src , {base: './src'} )
+		.pipe(plumber({ errorHandler: function(err) {
+		     notify.onError({
+		         title: "Gulp error in " + err.plugin,
+		         message:  err.toString()
+		     })(err);
+		 }}))
 		.pipe(changed( paths.javascripts.dist ))
 		.pipe(js())
 		.pipe(gulp.dest( paths.javascripts.dist ))
 		.pipe(browserSync.stream());
 });
 
-// Task 4 - Compress images -> jpg can't be compressed, selecting png and gif only
+// Task 3 - Compress images -> jpg can't be compressed, selecting png and gif only
 gulp.task('images', function () {
-	return gulp.src( paths.images.src, {base: './src'} )
+	return gulp
+		.src( paths.images.src, {base: './src'} )
+		.pipe(plumber({ errorHandler: function(err) {
+		     notify.onError({
+			  title: "Gulp error in " + err.plugin,
+			  message:  err.toString()
+		     })(err);
+		 }}))
 		.pipe(changed( paths.images.dist ))
 		.pipe(imagemin())
 		.pipe(gulp.dest( paths.images.dist ))
 		.pipe(browserSync.stream());
 });
 
-// Task 5 - Transfer untouched files -> jpg can't be compressed, transfered here
+// Task 4 - Transfer untouched files -> jpg can't be compressed, transfered here
 gulp.task('files_copy', function () {
-	return gulp.src( paths.files.src, {base: './src'} )
+	return gulp
+		.src( paths.files.src, {base: './src'} )
+		.pipe(plumber({ errorHandler: function(err) {
+		     notify.onError({
+			  title: "Gulp error in " + err.plugin,
+			  message:  err.toString()
+		     })(err);
+		 }}))
 		.pipe(changed( paths.files.dist ))
 		.pipe(gulp.dest( paths.files.dist ))
 		.pipe(browserSync.stream());
 });
 
-// Task 6 - Watch files
+// Task 5 - Watch files
 gulp.task('watch', function(){
 	gulp.watch( paths.stylesheets.src, gulp.series('stylesheets') );
 	gulp.watch( paths.javascripts.src,  gulp.series('javascripts') );
@@ -84,7 +113,7 @@ gulp.task('watch', function(){
 	gulp.watch( paths.files.src , gulp.series('files_copy') );
 });
 
-// Task 1 - Run browser-sync
+// Task 6 - Run browser-sync
 gulp.task('browserWatch', gulp.parallel( 'watch', function(done){
 	browserSync.init({
 		proxy: 'local.lumiere/website/',
@@ -111,6 +140,12 @@ gulp.task('lint', function(cb) {
 		.src( paths.javascripts.src )
 		// eslint() attaches the lint output to the "eslint" property
 		// of the file object so it can be used by other modules.
+		.pipe(plumber({ errorHandler: function(err) {
+		     notify.onError({
+			  title: "Gulp error in " + err.plugin,
+			  message:  err.toString()
+		     })(err);
+		 }}))
 		.pipe(eslint({fix:true}))
 		.pipe(eslint.format())
 		// if fixed, write the file to dest
@@ -120,9 +155,4 @@ gulp.task('lint', function(cb) {
 		// last.
 		.pipe(eslint.failAfterError());
 });
-
-
-
-
-
 

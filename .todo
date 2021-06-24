@@ -1,5 +1,7 @@
 v3.3.2
 
+
+
 8. dans popups, faire dans appels à la nouvelle class
 9. bug taxonomy items not added to posts if not in widget, such as the directors
 11. Implement check before add/deleting taxonomy
