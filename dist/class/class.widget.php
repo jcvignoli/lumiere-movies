@@ -64,7 +64,7 @@ class LumiereWidget extends WP_Widget {
 
 	public function widget( $args, $instance ) {
   
-		global $imdb_admin_values, $imdb_widget_values, $wp_query,$imdballmeta;
+		global $imdb_admin_values, $imdb_widget_values, $imdballmeta;
 
 		extract($args);
 		$options = get_option('widget_imdbwidget');
@@ -74,7 +74,7 @@ class LumiereWidget extends WP_Widget {
 		// id/name of the movie to display
 		$imdballmeta=array();
 
-		$filmid = intval( $wp_query->post->ID );
+		$post_id = intval( get_the_ID() );
 
 		// shows widget only for a post or a page, when option "direct search" is switched on
 		if ( (is_single()) || ( is_page()) )  {
@@ -90,30 +90,34 @@ class LumiereWidget extends WP_Widget {
 				echo $title_box;
 
 				$display = new \Lumiere\LumiereMovies();
+				echo $display->lumiere_result;
 
 			}
 
 			//------ Meta tag "imdb-movie-widget"
 
-			foreach (get_post_meta($filmid, 'imdb-movie-widget', false) as $key => $value) {
+			foreach (get_post_meta($post_id, 'imdb-movie-widget', false) as $key => $value) {
 
 				$imdballmeta[]['byname'] = $value;
 
 				echo $title_box;
 
 				$display = new \Lumiere\LumiereMovies();
+				echo $display->lumiere_result;
 
 			}
 
 			//------ ID movie provided in "imdb-movie-widget-bymid"
 
-			foreach (get_post_meta($filmid, 'imdb-movie-widget-bymid', false) as $key => $value) {
+			foreach (get_post_meta($post_id, 'imdb-movie-widget-bymid', false) as $key => $value) {
 
 				$moviespecificid = esc_html($value);
 				$imdballmeta[]['bymid'] = $moviespecificid;
+
 				echo $title_box;
 
 				$display = new \Lumiere\LumiereMovies();
+				echo $display->lumiere_result;
 
 			}
 

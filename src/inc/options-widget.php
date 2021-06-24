@@ -32,11 +32,15 @@ $messages = array( /* Template message notification options */
 
 // If $_GET["msg"] is found, display a related notice
 if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $messages ) ){
+
 	// Message for success
 	if (sanitize_text_field( $_GET['msg'] ) == "taxotemplatecopy_success" ) {
+
 		lumiere_notice(1, esc_html__( $messages["taxotemplatecopy_success"], 'lumiere-movies') );
+
 	// Message for failure
 	} elseif ( sanitize_text_field( $_GET['msg'] ) == "taxotemplatecopy_failed" ) {
+
 		lumiere_notice(3, esc_html__( $messages["taxotemplatecopy_failed"] , 'lumiere-movies') );
 
 	} 
@@ -98,17 +102,21 @@ if (current_user_can( 'manage_options' ) ) {
 
 	 }
 
-	if ( (isset($_POST['reset_imdbwidgetSettings'])) && check_admin_referer('imdbwidgetSettings_check', 'imdbwidgetSettings_check') ) { // reset options selected  (widget options)
+	// reset options selected  (widget options)
+	if ( (isset($_POST['reset_imdbwidgetSettings'])) && check_admin_referer('imdbwidgetSettings_check', 'imdbwidgetSettings_check') ) { 
 
-		// Save the data
+		// Delete the options to reset
 		delete_option($imdb_ft->imdbWidgetOptionsName);
 
 		// Display a refresh link otherwise refreshed data is not seen
 		if (!headers_sent()) {
+
 			//header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
 			wp_safe_redirect( wp_get_referer() ); 
 			exit();
+
 		} else {
+
 			lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
@@ -486,13 +494,11 @@ if (current_user_can( 'manage_options' ) ) {
 				<?php if ($imdbOptionsw['imdbwidgetcomments'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Users comment', 'lumiere-movies'); echo '</span>'; } else { ?>
 				<?php  esc_html_e( 'Users comment', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 				
-				<input type="radio" id="imdb_imdbwidgetcomments_yes" name="imdb_imdbwidgetcomments" value="1" <?php if ($imdbOptionsw['imdbwidgetcomments'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetcommentsnumber" data-field_to_change_value="0" /><label for="imdb_imdbwidgetcomments_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
+				<input type="radio" id="imdb_imdbwidgetcomments_yes" name="imdb_imdbwidgetcomments" value="1" <?php if ($imdbOptionsw['imdbwidgetcomments'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetcomments_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
 
-				<input type="radio" id="imdb_imdbwidgetcomments_no" name="imdb_imdbwidgetcomments" value="" <?php if ($imdbOptionsw['imdbwidgetcomments'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetcommentsnumber" data-field_to_change_value="1" /><label for="imdb_imdbwidgetcomments_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+				<input type="radio" id="imdb_imdbwidgetcomments_no" name="imdb_imdbwidgetcomments" value="" <?php if ($imdbOptionsw['imdbwidgetcomments'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetcomments_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<input type="text" id="imdb_imdbwidgetcommentsnumber" name="imdb_imdbwidgetcommentsnumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptionsw['imdbwidgetcommentsnumber']), 'lumiere-movies') ?>" <?php if ($imdbOptionsw['imdbwidgetcomments'] == 0){ echo 'disabled="disabled"'; }; ?> />
-
-				<div class="explain"><?php esc_html_e( "Display (how many) users' comments", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+				<div class="explain"><?php esc_html_e( "Display the main user comment", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
 			<div class="imdblt_double_container_content_third lumiere_padding_five">

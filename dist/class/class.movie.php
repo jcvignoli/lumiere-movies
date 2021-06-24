@@ -32,7 +32,7 @@ class LumiereMovies {
 	    ]
 	]; 
 
-	private $output;
+	public $lumiere_result = "";
 
 	/**
 	 * Constructor. Sets up the metabox
@@ -61,10 +61,12 @@ class LumiereMovies {
 
 		/* Start config class for $config in below Imdb\Title class calls */
 		if (class_exists("\Lumiere\Settings")) {
+
 			$config = new \Lumiere\Settings();
 			$imdb_admin_values = $config->get_imdb_admin_option();
 			$imdb_widget_values = $config->get_imdb_widget_option();
 			$imdb_cache_values = $config->get_imdb_cache_option();
+
 			// change configuration of cache
 			$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 			$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
@@ -125,12 +127,15 @@ class LumiereMovies {
 			// make sure only one result is displayed
 			if (lumiere_count_me($midPremierResultat, $count_me_siffer) == "nomore") {
 
+				$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- ### Lumière! movies plugin ### -->';
 				$output .= "\n\t<div class='imdbincluded";
+
 				// add dedicated class for themes
 				if (isset($imdb_widget_values['imdbintotheposttheme'])) 
 					$output .= ' imdbincluded_' . $imdb_widget_values['imdbintotheposttheme'];
 				$output .= "'>";
-				$output .=$this->lumiere_movie_design($config, $midPremierResultat); # passed those two values to the design
+
+				$output .= $this->lumiere_movie_design($config, $midPremierResultat); # passed those two values to the design
 				$output .= "\n\t</div>";
 			}
 
@@ -138,11 +143,14 @@ class LumiereMovies {
 
 			$count_me_siffer++; # increment counting only one results
 
-		}	
+		}
+
+		$this->lumiere_result = $output;
 
 		return $output;
 
 	}
+		
 
 	/**
 	* Replace [imdblt]movieName[/imdblt] and [imdbltid]movieID[/imdbltid] shortcodes inside posts/widgets 
@@ -246,78 +254,103 @@ class LumiereMovies {
 			if  ( ($magicnumber == $imdb_widget_values['imdbwidgetorder']['title'] ) 
 			&& ($imdb_widget_values['imdbwidgettitle'] == true ))
 				$outputfinal .= $this->lumiere_movies_title ($movie);
+
 			if  ( ($magicnumber == $imdb_widget_values['imdbwidgetorder']['pic'] ) 
 			&& ($imdb_widget_values['imdbwidgetpic'] == true ) ) 
 				$outputfinal .= $this->lumiere_movies_pics ($movie);
+
 			if ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['country'] ) 
 			&& ($imdb_widget_values['imdbwidgetcountry'] == true ) )
 				$outputfinal .= $this->lumiere_movies_country ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['runtime'] ) 
 			&& ($imdb_widget_values['imdbwidgetruntime'] == true ) )
 				$outputfinal .= $this->lumiere_movies_runtime ($movie);
+
 			if ( ($magicnumber== $imdb_widget_values['imdbwidgetorder']['rating'] ) 
 			&& ($imdb_widget_values['imdbwidgetrating'] == true ) )
 				$outputfinal .= $this->lumiere_movies_rating ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['language']) 
 			&& ($imdb_widget_values['imdbwidgetlanguage'] == true ) )
 				$outputfinal .= $this->lumiere_movies_language($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['genre'] )  
 			&& ($imdb_widget_values['imdbwidgetgenre'] == true ) )
 				$outputfinal .= $this->lumiere_movies_genre ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['keywords'] )  
 			&& ($imdb_widget_values['imdbwidgetkeywords'] == true ) )
 				$outputfinal .= $this->lumiere_movies_keywords ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['goofs'] ) 
 			&& ($imdb_widget_values['imdbwidgetgoofs'] == true ) )
 				$outputfinal .= $this->lumiere_movies_goofs ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['comments'] ) 
 			&& ($imdb_widget_values['imdbwidgetcomments'] == true ) )
 				$outputfinal .= $this->lumiere_movies_comment ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['quotes'] )
 			&& ($imdb_widget_values['imdbwidgetquotes'] == true ) )
 				$outputfinal .= $this->lumiere_movies_quotes ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['taglines'] ) 
 			&& ($imdb_widget_values['imdbwidgettaglines'] == true ) )
 				$outputfinal .= $this->lumiere_movies_taglines ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['trailer'] ) 
 			&& ($imdb_widget_values['imdbwidgettrailer'] == true ) )
 				$outputfinal .= $this->lumiere_movies_trailer ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['colors'] ) 
 			&& ($imdb_widget_values['imdbwidgetcolors'] == true ) )
 				$outputfinal .= $this->lumiere_movies_color ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['alsoknow'] )  
 			&& ($imdb_widget_values['imdbwidgetalsoknow'] == true ) )
 				$outputfinal .= $this->lumiere_movies_aka ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['composer'] ) 
 			&& ($imdb_widget_values['imdbwidgetcomposer'] == true ) )
 				$outputfinal .= $this->lumiere_movies_composer ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['soundtrack'] ) 
 			&& ($imdb_widget_values['imdbwidgetsoundtrack'] == true ) )
 				$outputfinal .= $this->lumiere_movies_soundtrack ($movie);
+
 			if ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['prodcompany'] ) 
 			&&  ($imdb_widget_values['imdbwidgetprodcompany'] == true ) )
 				$outputfinal .= $this->lumiere_movies_prodcompany ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['officialsites'] ) 
 			&& ($imdb_widget_values['imdbwidgetofficialsites'] == true ) )
 				$outputfinal .= $this->lumiere_movies_officialsite ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['source'] ) 
 			&&  ($imdb_widget_values['imdbwidgetsource'] == true ) )
 				$outputfinal .= $this->lumiere_movies_creditlink($midPremierResultat); # doesn't need class but movie id
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['director']) 
 			&& ($imdb_widget_values['imdbwidgetdirector'] == true ) )
 				$outputfinal .= $this->lumiere_movies_director ($movie);
+
 			if ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['creator']) 
 			&&  ($imdb_widget_values['imdbwidgetcreator'] == true ) )
 				$outputfinal .= $this->lumiere_movies_creator ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['producer'] ) 
 			&& ($imdb_widget_values['imdbwidgetproducer'] == true ) )
 				$outputfinal .= $this->lumiere_movies_producer ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['writer'] ) 
 			&& ($imdb_widget_values['imdbwidgetwriter'] == true ) )
 				$outputfinal .= $this->lumiere_movies_writer ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['actor'] ) 
 			&& ($imdb_widget_values['imdbwidgetactor'] == true ) )
 				$outputfinal .= $this->lumiere_movies_actor ($movie);
+
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['plot'] ) 
 			&& ($imdb_widget_values['imdbwidgetplot'] == true ) )
 				$outputfinal .= $this->lumiere_movies_plot ($movie);
@@ -329,7 +362,7 @@ class LumiereMovies {
 	}
 
 
-	/* Function to display the title and possibly the year
+	/* Display the title and possibly the year
 	 *
 	 * @param $movie -> takes the value of imdb class 
 	 */
@@ -341,16 +374,14 @@ class LumiereMovies {
 
 		$output="";
 		$year=intval($movie->year () );
-		$title_sanitized=sanitize_text_field( $movie->title() );
+		$title_sanitized = sanitize_text_field( $movie->title() );
 
-
-		$output .= "\n\t\t\t\t\t\t\t" . '<!-- Lumière! plugin -->';
 		$output .= "\n\t\t\t\t\t\t\t" . '<!-- title -->';
 
 		$output .= "\n\t\t" . '<div class="imdbelementTITLE'; 
 			if (isset($imdb_widget_values['imdbintotheposttheme'])) $output .= ' imdbelementTITLE_' . $imdb_widget_values['imdbintotheposttheme'];
 		$output .= '">';
-		$output .= $title_sanitized;
+		$output .= "\n\t\t\t" .$title_sanitized;
 
 			if (!empty($year) && ($imdb_widget_values['imdbwidgetyear'] == true ) ) { 
 				$output .= " (".$year.")"; 
@@ -363,7 +394,7 @@ class LumiereMovies {
 	}
 
 
-	/* Function to display the picture of the movie
+	/* Display the picture of the movie
 	 *
 	 * @param $movie -> takes the value of imdb class 
 	 */
@@ -388,13 +419,13 @@ class LumiereMovies {
 				// value to store if previous checking is valid, call in lumiere_scripts.js
 				$highslidephotook = "ok";
 				//echo "\t\t\t" . '<a href="' . $photo_url_sanitized . '" id="highslide_pic" class="highslide" title="';
-				$output .= "\t\t\t" . '<a href="' . $photo_url_sanitized . '" class="highslide" title="';
+				$output .= "\n\t\t\t" . '<a href="' . $photo_url_sanitized . '" class="highslide" title="';
 				// loading=eager to prevent wordpress loading lazy
-				$output .= sanitize_text_field( $movie->title() ) . "\">\n\t\t\t<img loading=\"eager\" class=\"imdbelementPICimg\" src=\"";
+				$output .= sanitize_text_field( $movie->title() ) . "\">\n\t\t\t\t<img loading=\"eager\" class=\"imdbelementPICimg\" src=\"";
 			} else {
 				// no big picture found OR no highslide popup selected
 				// loading=eager to prevent wordpress lazy loading
-				$output .= "\t\t\t".'<img loading="eager" class="imdbelementPICimg" src="';
+				$output .= "\n\t\t\t".'<img loading="eager" class="imdbelementPICimg" src="';
 			}
 
 			// check if a picture exists
@@ -410,14 +441,14 @@ class LumiereMovies {
 			$output .= "/ >"; 
 
 			// new verification, closure code related to previous if
-			if ( (isset($highslidephotook))  && ($highslidephotook == "ok") ) { $output .= "</a>\n"; } else { $output .= "\n"; } 
+			if ( (isset($highslidephotook))  && ($highslidephotook == "ok") ) { $output .= "\n\t\t\t</a>"; } else { $output .= "\n"; } 
 
 		$output .= "\n\t\t" . '</div>';
 
 		return $output;
 	}
 
-	/* Function to display the movie
+	/* Display the country of origin
 	 *
 	 * @param $movie -> takes the value of imdb class 
 	 */
@@ -428,6 +459,7 @@ class LumiereMovies {
 
 		$output = "";
 		$country = $movie->country();
+		$nbtotalcountry = intval(count($country));
 
 		if (!empty($country)) {
 
@@ -439,7 +471,7 @@ class LumiereMovies {
 		$output .= '">';
 
 		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-		$output .= (sprintf(esc_html__(_n('Country', 'Countries', count($country), 'lumiere-movies'))));
+		$output .= sprintf(esc_attr(_n('Country', 'Countries', $nbtotalcountry, 'lumiere-movies') ), number_format_i18n($nbtotalcountry) );
 		$output .= ':</span>';
 
 		if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycountry'] == true ) ) { 
@@ -474,7 +506,10 @@ class LumiereMovies {
 	}
 
 
-
+	/* Display the runtime
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_runtime($movie=NULL) {
 		global $imdb_widget_values;
 
@@ -502,7 +537,10 @@ class LumiereMovies {
 
 	}
 
-
+	/* Display the language
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_language($movie=NULL) {
 
 		/* Vars */ 
@@ -510,6 +548,7 @@ class LumiereMovies {
 
 		$output = "";
 		$languages = $movie->languages();
+		$nbtotallanguages = intval( count($languages) );
 
 		if (!empty($languages) ) { 
 
@@ -521,7 +560,7 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= (sprintf(esc_attr(_n('Language', 'Languages', count($languages), 'lumiere-movies'))));
+			$output .= sprintf(esc_attr(_n('Language', 'Languages', $nbtotallanguages, 'lumiere-movies') ), number_format_i18n($nbtotallanguages) );
 			$output .= ':</span>';
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomylanguage'] == true ) ) { 
@@ -554,6 +593,10 @@ class LumiereMovies {
 	}
 
 
+	/* Display the rating
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_rating($movie=NULL) {
 
 		/* Vars */ 
@@ -595,7 +638,10 @@ class LumiereMovies {
 	}
 
 
-
+	/* Display the genre
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_genre($movie=NULL) {
 
 		/* Vars */ 
@@ -603,6 +649,7 @@ class LumiereMovies {
 
 		$output = "";
 		$genre = $movie->genres ();	
+		$nbtotalgenre = intval( count($genre) );	
 
 		if (!empty($genre))  { 
 
@@ -614,12 +661,13 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= (sprintf(esc_attr(_n('Genre', 'Genres', count($genre), 'lumiere-movies'))));
+			$output .= sprintf(esc_attr(_n('Genre', 'Genres', $nbtotalgenre, 'lumiere-movies') ), number_format_i18n($nbtotalgenre) );
+
 			$output .= ':</span>';
 
 			if ( ( $imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomygenre'] == true ) ) { 
 
-				for ($i = 0; $i < count ($genre); $i++) { 
+				for ($i = 0; $i < $nbtotalgenre; $i++) { 
 
 					// add taxonomy terms to posts' terms
 					if (null !==(get_the_ID()))
@@ -632,12 +680,15 @@ class LumiereMovies {
 					$output .= 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
 					$output .= esc_html( $genre[$i] );
 					$output .= '</a>'; 
-					if ( $i < count ($genre) - 1 ) $output .= ', '; 
+					if ( $i < $nbtotalgenre - 1 ) $output .= ', '; 
 				}
 
 			} else {
-				for ($i = 0; $i < count ($genre); $i++) { 
-					$output .= esc_html( $genre[$i] ); $output .= ", "; 										
+				for ($i = 0; $i < $nbtotalgenre; $i++) { 
+
+					$output .= esc_html( $genre[$i] );
+					if ( $i < $nbtotalgenre - 1 ) $output .= ', ';  
+
 				} 
 			} // end if 		
 
@@ -648,7 +699,10 @@ class LumiereMovies {
 		return $output;
 	}
 
-
+	/* Display the keywords
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_keywords($movie=NULL) {
 
 		/* Vars */ 
@@ -656,6 +710,7 @@ class LumiereMovies {
 
 		$output = "";
 		$keywords = $movie->keywords();
+		$nbtotalkeywords = intval( count($keywords) );
 
 		if (!empty($keywords)) { 
 
@@ -667,7 +722,7 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= (sprintf(esc_attr(_n('Keyword', 'Keywords', count($keywords), 'lumiere-movies'))));
+			$output .= sprintf(esc_attr(_n('Keyword', 'Keywords', $nbtotalkeywords, 'lumiere-movies') ), number_format_i18n($nbtotalkeywords) );
 			$output .= ':</span>';
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomykeywords'] == true ) ) { 
@@ -702,6 +757,10 @@ class LumiereMovies {
 	}
 
 
+	/* Display the goofs
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_goofs($movie=NULL) {
 
 		/* Vars */ 
@@ -709,6 +768,8 @@ class LumiereMovies {
 
 		$output = "";
 		$goofs = $movie->goofs (); 
+		$nbgoofs = empty($imdb_widget_values['imdbwidgetgoofsnumber']) ? $nbgoofs =  "1" : $nbgoofs =  intval( $imdb_widget_values['imdbwidgetgoofsnumber'] );
+		$nbtotalgoofs = intval( count($goofs) );
 
 		if (!empty($goofs))  {
 
@@ -720,15 +781,12 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= sprintf(esc_html__(_n('Goof', 'Goofs', count($goofs), 'lumiere-movies')));
+			$output .= sprintf(esc_attr(_n('Goof', 'Goofs', $nbtotalgoofs, 'lumiere-movies') ), number_format_i18n($nbtotalgoofs) );
 			$output .= ':</span><br />';
 
-			// value $imdb_widget_values['imdbwidgetgoofsnumber'] is selected, but value $imdb_widget_values['imdbwidgetgoofsnumber'] is empty
-			if (empty($imdb_widget_values['imdbwidgetgoofsnumber'])){$nbgoofs =  "1";} else {$nbgoofs =  $imdb_widget_values['imdbwidgetgoofsnumber'];}
+			for ($i = 0; $i < $nbgoofs && ($i < $nbtotalgoofs ); $i++) { 
 
-			for ($i = 0; $i <  $nbgoofs && ($i < count($goofs)); $i++) { 
-
-				$output .= "<strong>".sanitize_text_field( $goofs[$i]['type'] )."</strong>&nbsp;"; 
+				$output .= "\n\t\t\t\t<strong>".sanitize_text_field( $goofs[$i]['type'] )."</strong>&nbsp;"; 
 				$output .= sanitize_text_field( $goofs[$i]['content'] )."<br />\n"; 
 
 			} // endfor
@@ -740,14 +798,21 @@ class LumiereMovies {
 	} 
 	
 
+	/* Display the user comments
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_comment($movie=NULL) {
 
 		/* Vars */ 
 		global $imdb_admin_values, $imdb_widget_values;
 
 		$output = "";
-		$comments[] = $movie->comment_split (); // this value is sent into an array!
-		$comment_split = $movie->comment_split (); // this value isn't sent into an array, for use in "if" right below
+		$comment[] = $movie->comment_split(); # this value is sent into an array!
+		$comment_split = $movie->comment_split(); # this value isn't sent into an array, for use in "if" right below
+		//$nbcomments = empty($imdb_widget_values['imdbwidgetcommentsnumber']) ? $nbcomments =  "1" : $nbcomments =  $imdb_widget_values['imdbwidgetcommentsnumber'] ;
+		//$nbtotalcomments = count($comments) ;
+
 		if (!empty($comment_split))  {
 
 			$output .= "\n\t\t\t\t\t\t\t" . '<!-- comments -->';
@@ -758,33 +823,25 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= (sprintf(esc_html__(_n("User's comment", "User's comments", count($comments), 'lumiere-movies'))));
+			$output .= esc_html__('User comment', 'lumiere-movies') ;
 			$output .= ':</span><br />';
 
-			// value $imdb_widget_values['imdbwidgetcommentsnumber'] is selected, but value $imdb_widget_values['imdbwidgetcommentsnumber'] is empty
-			if (empty($imdb_widget_values['imdbwidgetcommentsnumber'])){$nbusercomments =  "1";} else {	$nbusercomments =  $imdb_widget_values['imdbwidgetcommentsnumber'];}
+			$output .= "<";
+			$output .=  "<i>". sanitize_text_field( $comment[0]['title'] ). "</i> by ";
 
-			for ($i = 0; $i < $nbusercomments && ($i < count($comments)); $i++) { 
+			// if "Remove all links" option is not selected 
+			if  ( (isset($imdb_widget_values['imdblinkingkill'])) && ($imdb_widget_values['imdblinkingkill'] == false ) ){ 
 
-				$output .= "<";
-				$output .=  "<i>". sanitize_text_field( $comments[$i]['title'] ). "</i> by ";
+				$output .= "<a href=\"" . esc_url($comment[0]["author"]["url"]) . "\">" .  sanitize_text_field($comment[0]["author"]["name"] ). "</a>";
 
-				// if "Remove all links" option is not selected 
-				if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
+			} else {
 
-					$output .= "<a href=\"".esc_url($comments[$i]["author"]["url"])."\"> " .  sanitize_text_field($comments[$i]["author"]["name"] ). "</a>&nbsp;";
+				$output .= sanitize_text_field( $comment[0]["author"]["name"] );
 
-				} else {
+			}
 
-					$output .= sanitize_text_field( $comments[$i]["author"]["name"] ).'&nbsp;';
-
-				}
-
-				$output .= ">";
-				$output .= sanitize_text_field( $comments[$i]['comment'] ) ;
-
-				if ( $i < (count($comments) -1) ) $output .= "\n<hr>\n"; // add hr to every quote but the last					
-			} 
+			$output .= ">&nbsp;";
+			$output .= sanitize_text_field( $comment[0]['comment'] ) ;
 
 			$output .= "\n\t\t" . '</div>';
 
@@ -796,6 +853,10 @@ class LumiereMovies {
 
 
 
+	/* Display the quotes
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_quotes($movie=NULL) {
 
 		/* Vars */ 
@@ -803,6 +864,8 @@ class LumiereMovies {
 
 		$output = "";
 		$quotes = $movie->quotes ();  
+		$nbquotes = empty($imdb_widget_values['imdbwidgetquotesnumber']) ? $nbquotes =  "1" : $nbquotes =  intval( $imdb_widget_values['imdbwidgetquotesnumber'] );
+		$nbtotalquotes = intval( count($quotes) );
 
 		if (! empty($quotes)) {
 
@@ -814,32 +877,29 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= (sprintf(esc_html__(_n('Quote', 'Quotes', count($quotes), 'lumiere-movies'))));
+			$output .= sprintf(esc_attr(_n('Quote', 'Quotes', $nbtotalquotes, 'lumiere-movies') ), number_format_i18n($nbtotalquotes) );
 			$output .= ':</span><br />';
 
-			// value $imdb_widget_values['imdbwidgetquotesnumber'] is selected, but value $imdb_widget_values['imdbwidgetquotesnumber'] is empty
-			if (empty($imdb_widget_values['imdbwidgetquotesnumber'])){$nbquotes =  "1";} else {	$nbquotes =  $imdb_widget_values['imdbwidgetquotesnumber'];}
-
-			for ($i = 0; $i < $nbquotes && ($i < count($quotes)); $i++) { 
+			for ($i = 0; $i < $nbquotes && ($i < $nbtotalquotes); $i++) { 
 				
 				//transform <p> tags into <div> tags so they're not impacted by the theme
-				$currentquotes = preg_replace ( '~<p>~', '<div>', $quotes[$i]);
-				$currentquotes = preg_replace ( '~</p>~', '</div>', $currentquotes);
+				$currentquotes = preg_replace ( '~<p>~', "\n\t\t\t<div>", $quotes[$i]);
+				$currentquotes = preg_replace ( '~</p>~', "\n\t\t\t</div>", $currentquotes);
 
 				// if "Remove all links" option is not selected 
 				if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
-
-					$output .= "\t\t" . lumiere_convert_txtwithhtml_into_popup_people ($currentquotes) . "\n";
+					$output .= "\n\t\t\t";
+					$output .= lumiere_convert_txtwithhtml_into_popup_people ($currentquotes);
 
 				} else {
 
-					$output .= " ". lumiere_remove_link ($currentquotes) ;
+					$output .= "\n\t\t". lumiere_remove_link ($currentquotes) ;
 
 				} 
-				if ( $i < ($nbquotes -1) ) $output .= "\n\t\t<hr>\n"; // add hr to every quote but the last					
+				if ( $i < ($nbquotes -1) ) $output .= "\n\t\t\t<hr>"; // add hr to every quote but the last					
 			}
 
-			$output .= "" . '</div>';
+			$output .= "\n\t\t" . '</div>';
 
 		} 
 
@@ -847,7 +907,10 @@ class LumiereMovies {
 	}
 
 
-
+	/* Display the taglines
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_taglines($movie=NULL) {
 
 		/* Vars */ 
@@ -855,6 +918,8 @@ class LumiereMovies {
 
 		$output = "";
 		$taglines = $movie->taglines ();
+		$nbtaglines = empty($imdb_widget_values['imdbwidgettaglinesnumber']) ? $nbquotes =  "1" : $nbquotes =  intval( $imdb_widget_values['imdbwidgettaglinesnumber'] );
+		$nbtotaltaglines = intval( count($taglines) );
 
 		if (!empty($taglines))  {
 
@@ -866,20 +931,13 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= (sprintf(esc_html__(_n('Tagline', 'Taglines', count($taglines), 'lumiere-movies'))));
+			$output .= sprintf(esc_attr(_n('Tagline', 'Taglines', $nbtotaltaglines, 'lumiere-movies') ), number_format_i18n($nbtotaltaglines) );
 			$output .= ':</span>';
-
-			// value $imdb_widget_values['imdbwidgettaglinesnumber'] is selected, but value $imdb_widget_values['imdbwidgettaglinesnumber'] is empty
-			if (empty($imdb_widget_values['imdbwidgettaglinesnumber'])){$nbtaglines =  "1";} else {$nbtaglines =  $imdb_widget_values['imdbwidgettaglinesnumber'];}
 			
-			for ($i = 0; $i < $nbtaglines && ($i < count($taglines)); $i++) { 
+			for ($i = 0; $i < $nbtaglines && ($i < $nbtotaltaglines); $i++) { 
 
-				//transform <p> tags into <div> tags so they're not impacted by the theme
-				$currenttaglines = preg_replace ( '~<p>~', '', $taglines[$i]);
-				$currenttaglines = preg_replace ( '~</p>~', '', $currenttaglines);
-
-				$output .= " &laquo; " . sanitize_text_field( $currenttaglines )." &raquo; ";
-				if ($i < ( count($nbtaglines) -1 ) ) $output .= ", "; // add comma to every quote but the last
+				$output .= "\n\t\t\t&laquo; " . sanitize_text_field( $taglines[$i] )." &raquo; ";
+				if ($i < ( $nbtaglines -1 ) ) $output .= ", "; // add comma to every quote but the last
 
 			} 
 
@@ -892,6 +950,10 @@ class LumiereMovies {
 	}
 
 
+	/* Display the trailer
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_trailer($movie=NULL) {
 
 		/* Vars */ 
@@ -899,6 +961,8 @@ class LumiereMovies {
 
 		$output = "";
 		$trailers = $movie->trailers(TRUE);
+		$nbtrailers = empty($imdb_widget_values['imdbwidgettrailernumber']) ? $nbtrailers =  "1" : $nbtrailers =  intval( $imdb_widget_values['imdbwidgettrailernumber'] );
+		$nbtotaltrailers = intval( count($trailers) );
 
 		if (!empty($trailers))  {
 
@@ -910,25 +974,26 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= (sprintf(esc_html__(_n('Trailer', 'Trailers', $imdb_widget_values['imdbwidgettrailernumber'], 'lumiere-movies'))));
+			$output .= sprintf(esc_attr(_n('Trailer', 'Trailers', $nbtotaltrailers, 'lumiere-movies') ), number_format_i18n($nbtotaltrailers) );
 			$output .= ':</span>';
 
 			// value $imdb_widget_values['imdbwidgettrailer'] is selected, but value $imdb_widget_values['imdbwidgettrailernumber'] is empty
-			if (empty($imdb_widget_values['imdbwidgettrailernumber'])){$nbtrailers =  "1";} else {$nbtrailers =  $imdb_widget_values['imdbwidgettrailernumber'];}
 
-			for ($i = 0; ($i < $nbtrailers  && ($i < count($trailers)) ); $i++) { 
+			for ($i = 0; ($i < $nbtrailers  && ($i < $nbtotaltrailers) ); $i++) { 
 
 				if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
-					$output .= "<a href='".esc_url( $trailers[$i]['url'] )."' title='".esc_html__('Watch on IMBb website the trailer for ', 'lumiere-movies') . esc_html__( $trailers[$i]['title'] ) ."'>". sanitize_text_field( $trailers[$i]['title'] ) . "</a><br />\n";
+					$output .= "\n\t\t\t<a href='".esc_url( $trailers[$i]['url'] )."' title='".esc_html__('Watch on IMBb website the trailer for ', 'lumiere-movies') . esc_html__( $trailers[$i]['title'] ) ."'>". sanitize_text_field( $trailers[$i]['title'] ) . "</a>\n";
 
 				} else { // if "Remove all links" option is selected 
 
-					$output .= sanitize_text_field( $trailers[$i]['title'] ) . ", " . esc_url( $trailers[$i]['url'] ) . "<br />\n";
+					$output .= "\n\t\t\t" . sanitize_text_field( $trailers[$i]['title'] ) . ", " . esc_url( $trailers[$i]['url'] );
 
 				}
+
+				if ($i < ( $nbtrailers -1 ) ) $output .= ", "; // add comma to every quote but the last
 			} 
 
-			$output .= "" . '</div>';
+			$output .= "\n\t\t" . '</div>';
 
 		}
 
@@ -938,6 +1003,10 @@ class LumiereMovies {
 
 
 
+	/* Display the color
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_color($movie=NULL) {
 
 		/* Vars */ 
@@ -945,6 +1014,7 @@ class LumiereMovies {
 
 		$output = "";
 		$colors = $movie->colors ();  
+		$nbtotalcolors = intval( count($colors) );
 
 		if (!empty($colors))  { 
 
@@ -956,36 +1026,39 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= (sprintf(esc_attr(_n('Color', 'Colors', count($colors), 'lumiere-movies'))));
+			$output .= sprintf(esc_attr(_n('Color', 'Colors', $nbtotalcolors, 'lumiere-movies') ), number_format_i18n($nbtotalcolors) );
 			$output .= ':</span>';
 
+			// Taxonomy
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycolor'] == true ) ) { 
 
-				for ($i = 0; $i < count ($colors); $i++) { 
+				for ($i = 0; $i < $nbtotalcolors; $i++) { 
 
 					// add taxonomy terms to posts' terms
 					if (null !==(get_the_ID()))
 					wp_set_post_terms(get_the_ID(), sanitize_text_field( $colors[$i] ), $imdb_admin_values['imdburlstringtaxo'] . 'color', false); 
 
 					// list URL taxonomy page
-					$output .= '<a class="linkincmovie" ';
+					$output .= "\n\t\t\t" . '<a class="linkincmovie" ';
 					$output .= 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'color/' .lumiere_make_taxonomy_link( esc_html( $colors[$i] ) ) . '" ';
 					$output .= 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
 					$output .= esc_html( $colors[$i] );
 					$output .= '</a>'; 
-					if ( $i < count ($colors) - 1 ) $output .= ", ";
+					if ( $i < $nbtotalcolors - 1 ) $output .= ", ";
 				}
 
+			// No taxonomy
 			} else {
 
 				for ($i = 0; $i < count ($colors); $i++) { 
-					$output .= sanitize_text_field( $colors[$i] ); 
-					if ( $i < count ($colors) - 1 ) $output .= ", "; 										
+
+					$output .= "\n\t\t\t" . sanitize_text_field( $colors[$i] ); 
+					if ( $i < $nbtotalcolors - 1 ) $output .= ", "; 										
 				}  // endfor
 
 			} // end if
 
-			$output .= "" . '</div>';
+			$output .= "\n\t\t" . '</div>';
 
 		} 
 
@@ -995,6 +1068,10 @@ class LumiereMovies {
 
 
 
+	/* Display the as known as, aka
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_aka($movie=NULL) {
 
 		/* Vars */ 
@@ -1002,6 +1079,7 @@ class LumiereMovies {
 
 		$output = "";
 		$alsoknow = $movie->alsoknow ();
+		$nbtotalalsoknow = intval( count($alsoknow) );
 
 		if (!empty($alsoknow)) {
 
@@ -1018,13 +1096,13 @@ class LumiereMovies {
 			
 			for ($i = 0; $i < count ($alsoknow); $i++) { 
 
-				$output .= " <strong>".sanitize_text_field( $alsoknow[$i]['title'] )."</strong> "."(".sanitize_text_field( $alsoknow[$i]['country'] );
+				$output .= "\n\t\t\t<strong>".sanitize_text_field( $alsoknow[$i]['title'] )."</strong> "."(".sanitize_text_field( $alsoknow[$i]['country'] );
 
 				if (!empty($alsoknow[$i]['comment'])) 
 					$output .= " - <i>".sanitize_text_field( $alsoknow[$i]['comment'] )."</i>";
 
 				$output .= ")";
-				if ( $i < count ($alsoknow) - 1 ) $output .= ", ";
+				if ( $i < $nbtotalalsoknow - 1 ) $output .= ", ";
 
 			} // endfor 
 
@@ -1036,6 +1114,10 @@ class LumiereMovies {
 	}
 
 
+	/* Display the composers
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_composer($movie=NULL) {
 
 		/* Vars */ 
@@ -1043,6 +1125,7 @@ class LumiereMovies {
 
 		$output = "";
 		$composer = $movie->composer () ;
+		$nbtotalcomposer = intval( count($composer) );
 
 		if (!empty($composer))  {
 
@@ -1054,12 +1137,13 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= sprintf(esc_html__(_n('Composer', 'Composers', count($composer), 'lumiere-movies') ) );
+			$output .= sprintf(esc_attr(_n('Composer', 'Composers', $nbtotalcomposer, 'lumiere-movies') ), number_format_i18n($nbtotalcomposer) );
 			$output .= ':</span>';
 
+			// Taxonomy
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycomposer'] == true ) ) { 
 
-				for ($i = 0; $i < count ($composer); $i++) {
+				for ($i = 0; $i < $nbtotalcomposer; $i++) {
 
 					// add taxonomy terms to posts' terms
 					if (null !==(get_the_ID()))
@@ -1071,36 +1155,38 @@ class LumiereMovies {
 					$output .= 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
 					$output .= esc_html( $composer[$i]["name"] );
 					$output .= '</a>'; 
-					if ( $i < count ($composer) - 1 ) $output .= ", ";
+					if ( $i < $nbtotalcomposer - 1 ) $output .= ", ";
 
 				}
 
+			// No taxonomy
 			} else { 
-				for ($i = 0; $i < count ($composer); $i++) {
+				for ($i = 0; $i < $nbtotalcomposer; $i++) {
 					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup
 
-							$output .= '<a  class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . sanitize_text_field( $composer[$i]["imdb"] ). '" title="' . esc_html__("Link to local IMDb", "imdb") . '">' . sanitize_text_field( $composer[$i]["name"] ) . "</a>";
+							$output .= "\n\t\t\t" . '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . sanitize_text_field( $composer[$i]["imdb"] ). '" title="' . esc_html__("Link to local IMDb", "imdb") . '">' . sanitize_text_field( $composer[$i]["name"] ) . "</a>";
 
 						} else {// classic popup
 
-							$output .= '<a  class="link-imdblt-highslidepeople" data-classicpeople="' . sanitize_text_field( $composer[$i]["imdb"] ). '" title="' . esc_html__("Link to local IMDb", 'lumiere-movies') . '">' . sanitize_text_field( $composer[$i]["name"] ). "</a>";
+							$output .= "\n\t\t\t" . '<a class="link-imdblt-highslidepeople" data-classicpeople="' . sanitize_text_field( $composer[$i]["imdb"] ). '" title="' . esc_html__("Link to local IMDb", 'lumiere-movies') . '">' . sanitize_text_field( $composer[$i]["name"] ). "</a>";
 
 						} 
 
-					} else { // if "Remove all links" option is selected 
+					// if "Remove all links" option is selected
+					} else { 
 
 						$output .= sanitize_text_field( $composer[$i]["name"] );
 
-					}  // end if remove popup
+					} 
 	
-					if ( $i < count ($composer) - 1 ) $output .= ", ";
+					if ( $i < $nbtotalcomposer - 1 ) $output .= ", ";
 
 				} // endfor 
 
 			} // end if imdbtaxonomycomposer
 
-			$output .= "" . '</div>';
+			$output .= "\n\t\t" . '</div>';
 
 		}
 
@@ -1109,6 +1195,10 @@ class LumiereMovies {
 	}
 
 
+	/* Display the soundtrack
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_soundtrack($movie=NULL) {
 
 		/* Vars */ 
@@ -1116,6 +1206,8 @@ class LumiereMovies {
 
 		$output = "";
 		$soundtrack = $movie->soundtrack (); 
+		$nbsoundtracks = empty($imdb_widget_values['imdbwidgetsoundtracknumber']) ? $nbsoundtracks =  "1" : $nbsoundtracks =  intval( $imdb_widget_values['imdbwidgetsoundtracknumber'] );
+		$nbtotalsountracks = intval( count($soundtrack) );
 
 		if (!empty($soundtrack)) {
 
@@ -1127,43 +1219,34 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= sprintf(esc_html__(_n('Soundtrack', 'Soundtracks', count($soundtrack), 'lumiere-movies') ) );
+			$output .= sprintf(esc_attr(_n('Soundtrack', 'Soundtracks', $nbtotalsountracks, 'lumiere-movies') ), number_format_i18n($nbtotalsountracks) );
 			$output .= ':</span>';
 
-			// value $imdb_widget_values['imdbwidgetsoundtracknumber'] is selected, but value $imdb_widget_values['imdbwidgetsoundtracknumber'] is empty
-			if (empty($imdb_widget_values['imdbwidgetsoundtracknumber'])){
+			for ($i = 0; $i < $nbsoundtracks && ($i < $nbtotalsountracks); $i++) { 
 
-				$nbsoundtracks =  "1";
-
-			} else {
-
-				$nbsoundtracks =  $imdb_widget_values['imdbwidgetsoundtracknumber'];
-			}
-
-			for ($i = 0; $i < $nbsoundtracks && ($i < count($soundtrack)); $i++) { 
-
-				$output .= "<strong>".$soundtrack[$i]['soundtrack']."</strong>"; 
+				$output .= "\n\t\t\t<strong>".$soundtrack[$i]['soundtrack']."</strong>"; 
 
 				// if "Remove all links" option is not selected 
 				if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
 
 					if ( (isset($soundtrack[$i]['credits'][0])) && (!empty($soundtrack[$i]['credits'][0]) ) )
-						$output .= " - <i>". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
+						$output .= "\n\t\t\t - <i>". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
 						$output .= " (". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][0]['desc']).") ";
 					if ( (isset($soundtrack[$i]['credits'][1])) && (!empty($soundtrack[$i]['credits'][1]) ) )
 						if ( (isset($soundtrack[$i]['credits'][1]['credit_to'])) && (!empty($soundtrack[$i]['credits'][1]['credit_to']) ) )
-							$output .= " - <i>". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
+							$output .= "\n\t\t\t - <i>". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
 						if ( (isset($soundtrack[$i]['credits'][1]['desc'])) && (!empty($soundtrack[$i]['credits'][1]['desc']) ) )
 							$output .= " (". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['desc']).") ";
 				} else {
-					if ( (isset($soundtrack[$i][credits][0])) && (!empty($soundtrack[$i]['credits'][0]) ) )
-						$output .= " - <i>". lumiere_remove_link ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
+					if ( (isset($soundtrack[$i]['credits'][0])) && (!empty($soundtrack[$i]['credits'][0]) ) )
+						$output .= "\n\t\t\t - <i>". lumiere_remove_link ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
 						$output .= " (". lumiere_remove_link ($soundtrack[$i]['credits'][0]['desc']).") ";
-					if (!empty($soundtrack[$i][credits][1]) )
-						$output .= " - <i>". lumiere_remove_link ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
+					if (!empty($soundtrack[$i]['credits'][1]) )
+
+						$output .= "\n\t\t\t - <i>". lumiere_remove_link ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
 						$output .= " (". lumiere_remove_link ($soundtrack[$i]['credits'][1]['desc']).") ";
 				} // end if remove popup
-				$output .= "\n";
+
 			}  // endfor 
 
 			$output .= "\n\t\t" . '</div>';
@@ -1176,6 +1259,10 @@ class LumiereMovies {
 
 
 
+	/* Display the production companies
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_prodcompany($movie=NULL) {
 
 		/* Vars */ 
@@ -1183,6 +1270,7 @@ class LumiereMovies {
 
 		$output = "";
 		$prodcompany = $movie->prodCompany ();
+		$nbtotalprodcompany = intval( count($prodcompany) );
 
 		if (!empty($prodcompany))  {
 
@@ -1194,10 +1282,10 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= sprintf(esc_html__(_n('Production company', 'Production companies', count($prodcompany), 'lumiere-movies') ) );
+			$output .= sprintf(esc_attr(_n('Production company', 'Production companies', $nbtotalprodcompany, 'lumiere-movies') ), number_format_i18n($nbtotalprodcompany) );
 			$output .= ':</span>';
 
-			for ($i = 0; $i < count ($prodcompany); $i++) { 
+			for ($i = 0; $i < $nbtotalprodcompany; $i++) { 
 
 				if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
 					$output .= "\n\t\t\t\t". '<div align="center" class="lumiere_container">';
@@ -1230,6 +1318,10 @@ class LumiereMovies {
 	}
 
 
+	/* Display the official site
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_officialsite($movie=NULL) {
 
 		/* Vars */ 
@@ -1237,6 +1329,7 @@ class LumiereMovies {
 
 		$output = "";
 		$officialSites = $movie->officialSites ();
+		$nbtotalofficialSites = intval( count($officialSites) );
 
 		if (!empty($officialSites))  {
 
@@ -1248,15 +1341,15 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= sprintf(esc_html__(_n('Official website', 'Official websites', count($officialSites), 'lumiere-movies') ) );
+			$output .= sprintf(esc_attr(_n('Official website', 'Official websites', $nbtotalofficialSites, 'lumiere-movies') ), number_format_i18n($nbtotalofficialSites) );
 			$output .= ':</span>';
 
-			for ($i = 0; $i < count ($officialSites); $i++) { 
+			for ($i = 0; $i < $nbtotalofficialSites; $i++) { 
 
-				$output .= "<a href='".esc_url($officialSites[$i]['url'])."' title='".esc_html__( $officialSites[$i]['name'] )."'>";
+				$output .= "\n\t\t\t<a href='".esc_url($officialSites[$i]['url'])."' title='".esc_html__( $officialSites[$i]['name'] )."'>";
 				$output .= sanitize_text_field( $officialSites[$i]['name'] );
 				$output .= "</a>";
-				if ($i < count ($officialSites) - 1) $output .= ", ";
+				if ($i < $nbtotalofficialSites - 1) $output .= ", ";
 
 			} 
 
@@ -1268,6 +1361,10 @@ class LumiereMovies {
 	}
 
 
+	/* Display the director
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_director($movie=NULL) {
 
 		/* Vars */ 
@@ -1275,6 +1372,7 @@ class LumiereMovies {
 
 		$output = "";
 		$director = $movie->director(); 
+		$nbtotaldirector = intval( count($director) );
 
 		if (!empty($director)) {
 
@@ -1286,46 +1384,46 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= sprintf(esc_html(_n('Director', 'Directors', count($director), 'lumiere-movies')));
+			$output .= sprintf(esc_attr(_n('Director', 'Directors', $nbtotaldirector, 'lumiere-movies') ), number_format_i18n($nbtotaldirector) );
 			$output .= ':</span>';
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomydirector'] == true )  ) { 			# lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
 
-				for ($i = 0; $i < count ($director); $i++) {
+				for ($i = 0; $i < $nbtotaldirector; $i++) {
 
 					// add taxonomy terms to posts' terms
 					if (null !==(get_the_ID()))
 						wp_set_post_terms(get_the_ID(), sanitize_text_field( $director[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'director', false); 
 
 					// list URL taxonomy page
-					$output .= '<a class="linkincmovie" ';
+					$output .= "\n\t\t\t" . '<a class="linkincmovie" ';
 					$output .= 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'director/' .lumiere_make_taxonomy_link( esc_html( $director[$i]["name"] ) ) . '" ';
 					$output .= 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
-					$output .= esc_html( $director[$i]["name"] );
-					$output .= '</a>';
-					if ( $i < count ($director) - 1 ) $output .= ", ";
+					$output .= "\n\t\t\t\t" . esc_html( $director[$i]["name"] );
+					$output .= "\n\t\t\t\t" . '</a>';
+					if ( $i < $nbtotaldirector - 1 ) $output .= ", ";
 
 				}
 
 			} else { 
 
-				for ($i = 0; $i < count ($director); $i++) {
+				for ($i = 0; $i < $nbtotaldirector; $i++) {
 
 					if  ($imdb_widget_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
 						if ( $i < count ($director) - 1 ) $output .= ', ';
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup 
 
-							$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_html( $director[$i]["imdb"] ) . '" title="' . esc_html_e('open a new window with IMDb informations', 'lumiere-movies') . '">' . esc_html( $director[$i]["name"] ) . '</a>';
+							$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_html( $director[$i]["imdb"] ) . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . esc_html( $director[$i]["name"] ) . '</a>';
 
 						// classic popup 
 						} else { 
 
-							$output .= '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . $director[$i]["imdb"] . '" title="' . esc_html_e('open a new window with IMDb informations', 'lumiere-movies') . '">' . $director[$i]["name"] . '</a>';
+							$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . $director[$i]["imdb"] . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . $director[$i]["name"] . '</a>';
 						} 
 					} else { // if "Remove all links" option is selected 
 
-						if ( $i > 0 ) $output .= ', ';
 						$output .= esc_html( $director[$i]["name"] );
+						if ( $i < $nbtotaldirector - 1 ) $output .= ", ";
 
 					}  // end if remove popup
 
@@ -1342,6 +1440,10 @@ class LumiereMovies {
 	}
 
 
+	/* Display the creator (for series only)
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_creator($movie=NULL) {
 
 		/* Vars */ 
@@ -1349,6 +1451,7 @@ class LumiereMovies {
 
 		$output = "";
 		$creator = $movie->creator(); 
+		$nbtotalcreator = intval( count($creator) );
 
 		if (!empty($creator)) { 
 
@@ -1360,12 +1463,12 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= sprintf(esc_html(_n('Creator', 'Creators', count($creator), 'lumiere-movies')));
+			$output .= sprintf(esc_attr(_n('Creator', 'Creators', $nbtotalcreator, 'lumiere-movies') ), number_format_i18n($nbtotalcreator) );
 			$output .= ':</span>&nbsp;';
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycreator'] == true ) ) { 
 
-				for ($i = 0; $i < count ($creator); $i++) {
+				for ($i = 0; $i < $nbtotalcreator; $i++) {
 
 					// add taxonomy terms to posts' terms
 					wp_set_post_terms($wp_query->post->ID, sanitize_text_field( $creator[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'creator', false); 
@@ -1380,26 +1483,26 @@ class LumiereMovies {
 
 			} else { 
 
-				for ($i = 0; $i < count ($creator); $i++) {
+				for ($i = 0; $i < $nbtotalcreator; $i++) {
 
 					// if "Remove all links" option is not selected 
 					if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
-						if ( $i < count ($creator) - 1 ) $output .= ', ';
+						if ( $i < $nbtotalcreator - 1 ) $output .= ', ';
 
 							// highslide popup
 							if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 
-								$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . $creator[$i]["imdb"] . '" title="' . esc_html_e('open a new window with IMDb informations', 'lumiere-movies') . $creator[$i]["name"] . '</a>';
+								$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . $creator[$i]["imdb"] . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . $creator[$i]["name"] . '</a>';
 
 							// classic popup
 							} else { 
 
-								$output .= '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . $creator[$i]["imdb"] . '" title="' . esc_html_e('open a new window with IMDb informations', 'lumiere-movies') . '">' . $creator[$i]["name"] . '</a>';
+								$output .= '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . $creator[$i]["imdb"] . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . $creator[$i]["name"] . '</a>';
 							$output .= sanitize_text_field( $creator[$i]["name"] )."</a>";
 							} 
 					// if "Remove all links" option is selected 
 					} else { 
 
-						if ( $i < count ($creator) - 1 ) $output .= ', ';
+						if ( $i < $nbtotalcreator - 1 ) $output .= ', ';
 						$output .= sanitize_text_field( $creator[$i]["name"] );
 					}  
 				} 
@@ -1415,7 +1518,10 @@ class LumiereMovies {
 	}
 
 
-
+	/* Display the producer
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_producer($movie=NULL) {
 
 		/* Vars */ 
@@ -1423,6 +1529,7 @@ class LumiereMovies {
 
 		$output = "";
 		$producer = $movie->producer(); 
+		$nbtotalproducer = intval( count($producer) );
 
 		if (!empty($producer)) {
 
@@ -1434,12 +1541,13 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= sprintf(esc_attr(_n('Producer', 'Producers', count($producer), 'lumiere-movies') ) );
+			$output .= sprintf(esc_attr(_n('Producer', 'Producers', $nbtotalproducer, 'lumiere-movies') ), number_format_i18n($nbtotalproducer) );
+
 			$output .= ':</span>';
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomyproducer'] == true ) ) { 
 
-				for ($i = 0; $i < count ($producer); $i++) {
+				for ($i = 0; $i < $nbtotalproducer; $i++) {
 
 					// add taxonomy terms to posts' terms
 					if (null !==(get_the_ID()))
@@ -1460,7 +1568,48 @@ class LumiereMovies {
 
 				}
 
-			}
+			// no taxonomy
+			} else { 
+
+				for ($i = 0; $i < $nbtotalproducer; $i++) {
+
+					$output .= "\n\t\t\t\t". '<div align="center" class="lumiere_container">';
+					$output .= "\n\t\t\t\t\t". '<div class="lumiere_align_left lumiere_flex_auto">';
+
+					// if "Remove all links" option is not selected 
+					if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
+
+						// highslide popup
+						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 
+
+							$output .= "\n\t\t\t\t\t". '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $producer[$i]["imdb"] ) . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . esc_html( $producer[$i]["name"] ) . '</a>';
+
+						} else {  // classic popup
+
+							$output .= "\n\t\t\t\t\t". '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . esc_attr( $producer[$i]["imdb"] ) .'" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . esc_html( $producer[$i]["name"] ) . '</a>';
+
+						} 
+
+					// if "Remove all links" option is selected 
+					} else { 
+
+						$output .= esc_html( $producer[$i]["name"] );
+
+					} 
+					$output .= "\n\t\t\t\t\t". '</div>';
+					$output .= "\n\t\t\t\t\t". '<div align="right">';
+
+						if (!empty($producer[$i]["role"] ) )
+							$output .= esc_html( $producer[$i]["role"] ); 
+						else
+							$output .= "&nbsp;";
+
+					$output .= "\n\t\t\t\t". '</div>';
+					$output .= "\n\t\t\t". '</div>';
+
+				} // endfor 
+				
+			} // end if imdbtaxonomyproducer
 
 		$output .= "\n\t\t" . '</div>';
 
@@ -1471,6 +1620,10 @@ class LumiereMovies {
 
 
 
+	/* Display the writer
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_writer($movie=NULL) {
 
 		/* Vars */ 
@@ -1478,6 +1631,7 @@ class LumiereMovies {
 
 		$output = "";
 		$writer = $movie->writing(); 
+		$nbtotalwriters = intval( count($writer) );
 
 		if (!empty($writer)) {
 
@@ -1489,12 +1643,12 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= sprintf(esc_html__(_n('Writer', 'Writers', count($writer), 'lumiere-movies')));
+			$output .= sprintf(esc_attr(_n('Writer', 'Writers', $nbtotalwriters, 'lumiere-movies') ), number_format_i18n($nbtotalwriters) );
 			$output .= ':</span>';
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomywriter'] == true ) ) { 
 
-				for ($i = 0; ($i < count($writer)); $i++) { 
+				for ($i = 0; ($i < $nbtotalwriters ); $i++) { 
 
 					// add taxonomy terms to posts' terms
 					if (null !==(get_the_ID()))
@@ -1518,13 +1672,14 @@ class LumiereMovies {
 
 			} else { 
 
-				for ($i = 0; $i < count ($writer); $i++) {
+				for ($i = 0; $i < $nbtotalwriters; $i++) {
 
 					$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
 					$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 
 					// if "Remove all links" option is not selected 
 					if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
+
 						// highslide popup
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) {
 
@@ -1537,9 +1692,12 @@ class LumiereMovies {
 
 						} 
 
-					} else { // if "Remove all links" option is selected 
+					// if "Remove all links" option is selected 
+					} else { 
+
 						$output .= sanitize_text_field( $writer[$i]["name"] );
-					}  // end if remove popup 
+
+					} 
 						$output .= "\n\t\t\t\t" . '</div>';
 						$output .= "\n\t\t\t\t" . '<div align="right">';
 
@@ -1552,7 +1710,7 @@ class LumiereMovies {
 						$output .= "\n\t\t\t" . '</div>';
 				} // endfor 
 				
-			} // end if imdbtaxonomywriter
+			} 
 
 			$output .= "\n\t\t</div>";
 
@@ -1562,7 +1720,10 @@ class LumiereMovies {
 	}
 
 
-
+	/* Display the actor
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_actor($movie=NULL) {
 
 		/* Vars */ 
@@ -1570,6 +1731,8 @@ class LumiereMovies {
 
 		$output = "";
 		$cast = $movie->cast(); 
+		$nbactors = empty($imdb_widget_values['imdbwidgetactornumber']) ? $nbactors =  "1" : $nbactors =  intval( $imdb_widget_values['imdbwidgetactornumber'] );
+		$nbtotalactors = intval( count($cast) );
 
 		if (!empty($cast)) { 
 
@@ -1581,90 +1744,90 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= sprintf(esc_html__(_n('Actor', 'Actors', count($cast), 'lumiere-movies') ) );
+			$output .= sprintf(esc_attr(_n('Actor', 'Actors', $nbtotalactors, 'lumiere-movies') ), number_format_i18n($nbtotalactors) );
 			$output .= ':</span>';
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomyactor'] == true ) ) {
 
-			// value $imdb_widget_values['imdbwidgetactornumber'] is selected, but value $imdb_widget_values['imdbwidgetactornumber'] is empty
-				if ( (isset($imdb_widget_values['imdbwidgetactor'])) && (empty($imdb_widget_values['imdbwidgetactornumber'])) ) { $nbactors =  "1";} else {$nbactors =  $imdb_widget_values['imdbwidgetactornumber']; }
+				for ($i = 0; ($i < $nbactors) && ($i < $nbtotalactors); $i++) { 
 
-					for ($i = 0; ($i < $nbactors) && ($i < count($cast)); $i++) { 
+					// add taxonomy terms to posts' terms
+					if (null !==(get_the_ID()))
+						wp_set_post_terms(get_the_ID(), sanitize_text_field( $cast[$i]["name"]), $imdb_admin_values['imdburlstringtaxo'] . 'actor', false); 
 
-						// add taxonomy terms to posts' terms
-						if (null !==(get_the_ID()))
-							wp_set_post_terms(get_the_ID(), sanitize_text_field( $cast[$i]["name"]), $imdb_admin_values['imdburlstringtaxo'] . 'actor', false); 
+					// display the text
+					$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
+					$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+					$output .= esc_html( preg_replace('/\n/', "", $cast[$i]["role"]) ); # remove breaking space
+					$output .= "\n\t\t\t\t" . '</div>';
+					$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+					$output .= "\n\t\t\t\t\t<a class=\"linkincmovie\" href=\"" 
+. esc_url( site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'actor/' .lumiere_make_taxonomy_link( $cast[$i]["name"] ) ) . '" title="' . esc_html__("Find similar taxonomy results", "lumiere-movies") . "\">";
+					$output .= "\n\t\t\t\t\t" . esc_html( $cast[$i]["name"] );
+					$output .= "\n\t\t\t\t\t" . '</a>';
+					$output .= "\n\t\t\t\t" . '</div>';
+					$output .= "\n\t\t\t" . '</div>';
+				}
 
-						// display the text
-						$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
-						$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-						$output .= esc_html( preg_replace('/\n/', "", $cast[$i]["role"]) ); # remove breaking space
-						$output .= "\n\t\t\t\t" . '</div>';
-						$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-						$output .= "\n\t\t\t\t\t<a class=\"linkincmovie\" href=\"" 
-	. esc_url( site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'actor/' .lumiere_make_taxonomy_link( $cast[$i]["name"] ) ) . '" title="' . esc_html__("Find similar taxonomy results", "lumiere-movies") . "\">";
-						$output .= "\n\t\t\t\t\t" . esc_html( $cast[$i]["name"] );
-						$output .= "\n\t\t\t\t\t" . '</a>';
-						$output .= "\n\t\t\t\t" . '</div>';
-						$output .= "\n\t\t\t" . '</div>';
- 					}
+			} else { 
 
-				} else { 
+				for ($i = 0; $i < $nbactors && ($i < $nbtotalactors); $i++) { 
 
-				// if $imdb_widget_values['imdbwidgetactornumber'] is selected, but value $imdb_widget_values['imdbwidgetactornumber'] is empty
-				if ( (isset($imdb_widget_values['imdbwidgetactor'])) && (empty($imdb_widget_values['imdbwidgetactornumber'])) ) { $nbactors =  "1";} else {$nbactors =  $imdb_widget_values['imdbwidgetactornumber']; }
+					$output .= "\n\t\t\t\t". '<div align="center" class="lumiere_container">';
+					$output .= "\n\t\t\t\t\t". '<div class="lumiere_align_left lumiere_flex_auto">';
+					$output .= esc_html( preg_replace('/\n/', "", $cast[$i]["role"]) ); # remove the <br> which break the layout
+					$output .= '</div>';
+					$output .= "\n\t\t\t\t\t". '<div class="lumiere_align_right lumiere_flex_auto">';
 
-					for ($i = 0; $i < $nbactors && ($i < count($cast)); $i++) { 
+					// if "Remove all links" option is not selected 
+					if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
 
-						$output .= "\n\t\t\t\t". '<div align="center" class="lumiere_container">';
-						$output .= "\n\t\t\t\t\t". '<div class="lumiere_align_left lumiere_flex_auto">';
-						$output .= esc_html( preg_replace('/\n/', "", $cast[$i]["role"]) ); # remove the <br> which break the layout
-						$output .= '</div>';
-						$output .= "\n\t\t\t\t\t". '<div class="lumiere_align_right lumiere_flex_auto">';
+						// highslide popup
+						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 
+							$output .= "\n\t\t\t\t\t". '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $cast[$i]["imdb"] ) . '" title="'. esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . esc_html( $cast[$i]["name"] ) . '</a>';
 
-						// if "Remove all links" option is not selected 
-						if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
-
-							// highslide popup
-							if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 
-								$output .= "\n\t\t\t\t\t". '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $cast[$i]["imdb"] ) . '" title="'. esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . esc_html( $cast[$i]["name"] ) . '</a>';
-
-							// classic popup 
-							} else {  
-							
+						// classic popup 
+						} else {  
+						
 							$output .= "\n\t\t\t\t\t". '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . esc_attr( $cast[$i]["imdb"] ) . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . esc_html( $cast[$i]["name"] ) . '</a>';
 
-							} 
+						} 
 
-						} else { // if "Remove all links" option is selected 
+					} else { // if "Remove all links" option is selected 
 
 						$output .= esc_html( $cast[$i]["name"] );
 
-					} // end for
+					} 
 
 					$output .=  '</div>';
 					$output .=  "\n\t\t\t\t". '</div>';
 
 				} // endfor 
 				
-			} // end if imdbtaxonomyactor
+			} // end if taxonomy
 
 			$output .= "\n\t\t". '</div>';
 
-		} 
+		} // end check if not empty cast
 
 		return $output;
 	}
 
 
 
+	/* Display the plot
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_plot($movie=NULL) {
 
 		/* Vars */ 
 		global $imdb_admin_values, $imdb_widget_values;
 
 		$output = "";
-		$plot = $movie->plot (); 
+		$plot = $movie->plot(); 
+		$nbplots = empty($imdb_widget_values['imdbwidgetplotnumber']) ? $nbplots =  "1" : $nbplots =  intval( $imdb_widget_values['imdbwidgetplotnumber'] );
+		$nbtotalplots = intval( count($plot) );
 
 		// tested if the array contains data; if not, doesn't go further
 		if (!lumiere_is_multiArrayEmpty($plot)) { 
@@ -1677,13 +1840,10 @@ class LumiereMovies {
 			$output .= '">';
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= sprintf(esc_html__(_n('Plot', 'Plots', count($plot), 'lumiere-movies')));
+			$output .= sprintf(esc_attr(_n('Plot', 'Plots', $nbtotalplots, 'lumiere-movies') ), number_format_i18n($nbtotalplots) );
 			$output .= ':</span><br />';
 
-			// value $imdb_widget_values['imdbwidgetplotnumber'] is selected, but value $imdb_widget_values['imdbwidgetplotnumber'] is empty
-			if ( isset($imdb_widget_values['imdbwidgetplot']) && (empty($imdb_widget_values['imdbwidgetplotnumber'])) ){$nbplots =  "1";} else { $nbplots =  $imdb_widget_values['imdbwidgetplotnumber'];}
-
-			for ($i = 0; $i < $nbplots  && ($i < count ($plot)); $i++) { 
+			for ($i = 0; $i < $nbplots  && ($i < $nbtotalplots); $i++) { 
 
 				// if "Remove all links" option is not selected 
 				if  ($imdb_widget_values['imdblinkingkill'] == false ) { 
@@ -1705,6 +1865,10 @@ class LumiereMovies {
 
 
 
+	/* Display the credit link
+	 *
+	 * @param $movie -> takes the value of imdb class 
+	 */
 	public function lumiere_movies_creditlink($midPremierResultat=NULL) {
 
 		/* Vars */ 
@@ -1728,7 +1892,7 @@ class LumiereMovies {
 			$output .= ':</span>';
 			$output .= esc_url( lumiere_source_imdb($midPremierResultat) );
 
-			$output .= '<img class="imdbelementSOURCE-picture" width="33" height="15" src="' . esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/imdb-link.png" ) . '" />';
+			$output .= "\n\t\t\t\t" . '<img class="imdbelementSOURCE-picture" width="33" height="15" src="' . esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/imdb-link.png" ) . '" />';
 			$output .= '<a class="link-incmovie-sourceimdb" title="'.esc_html__("Go to IMDb website for this movie", 'lumiere-movies').'" href="'. esc_url( "https://".$imdb_admin_values['imdbwebsite'] . '/title/tt' .$midPremierResultat_sanitized ) . '" >';
 			$output .= '&nbsp;&nbsp;' . esc_html__("IMDb's page for this movie", 'lumiere-movies') . '</a>';
 

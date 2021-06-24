@@ -167,7 +167,7 @@ class Settings extends Send_config {
 		'imdbwidgetgoofs' => false,
 		'imdbwidgetgoofsnumber' => false,
 		'imdbwidgetcomments' => false,
-		'imdbwidgetcommentsnumber' => false,
+		/*'imdbwidgetcommentsnumber' => false, -> now retrieves only one comment */
 		'imdbwidgetquotes' => false,
 		'imdbwidgetquotesnumber' => false,
 		'imdbwidgettaglines' => false,
