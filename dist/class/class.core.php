@@ -97,8 +97,7 @@ class Core {
 			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
 
 			// On updating plugin
-			//add_action( 'upgrader_process_complete', [$this, 'lumiere_on_upgrade_completed' ], 10, 2 );
-			# 2021 06 25 deactivated due to a fatal error when updating the plugin
+			add_action( 'upgrader_process_complete', [$this, 'lumiere_on_upgrade_completed' ], 10, 2 );
 
 		}
 	}
