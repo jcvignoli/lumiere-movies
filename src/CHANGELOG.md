@@ -1,4 +1,5 @@
 Changelog
+v.3.3.2
 
 v.3.3.1
 * [medium] added a color theme to "widget" and "into the post" sections. Select option added in the "into the post/widget" administration panel (misc tab)

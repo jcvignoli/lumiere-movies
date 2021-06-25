@@ -11,6 +11,8 @@ var gulp = 	require('gulp'),
 		eslint = require("gulp-eslint"),			/* check if javascript is correctly written */
 		notify = require('gulp-notify'),			/* add notification OSD system (needs notify-osd) */
 		del = require('del'),				/* delete files */
+/*		shell = require('gulp-shell'),			 execute shell functions 
+										example: .pipe(shell(['echo <%= file.path %>'])) */
 		gulpIf = require('gulp-if');			/* add if function */
 
 /* Copied/watched files */
@@ -22,7 +24,7 @@ paths = {
 		src: [ './src/**/*.js', '!./src/js/highslide/**/**/*.*' ],
 		dist: './dist' },
 	images: {
-		src: [ './src/.**/*.*', './src/**/*.*' ],
+		src: [ './src/.**/*.+(jpg|jpeg|gif|png)', './src/**/*.+(jpg|jpeg|gif|png)' ],
 		dist: './dist' },
 	files: {
 		src: [	'./src/**/*.php', 

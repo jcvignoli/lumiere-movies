@@ -26,10 +26,11 @@ body.lumiere_body_lightgrey {color: black;background: lightgrey;}
 /* ---------------------------------------- Divs flex */
 
 .lumiere_container{display:flex;flex-wrap:wrap;}
+.lumiere_display_flex{display:flex;}
 .lumiere_flex_auto{flex:auto;}
 .lumiere_container_border{border: 1px black solid;border-radius:10px;padding:5px;margin:5px;background-color:white;}
-.lumiere_container_flex50{flex:50%;}
-
+.lumiere_container_flex50, .lumiere_container_flex_fifty{flex:50%;}
+.lumiere_container_flex_two{flex:2%;}
 /* ---------------------------------------- Tables */
 
 /* ------------------- Top menu */
@@ -41,6 +42,7 @@ body.lumiere_body_lightgrey {color: black;background: lightgrey;}
 
 .imdblt_titlematchingdirector {width: 40%;}
 .lumiere_float_left, .imdblt_float_left{float:left;}
+.lumiere_float_right, .imdblt_float_right{float:right;}
 
 /* ------------------- Results list */
 

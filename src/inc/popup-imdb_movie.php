@@ -16,7 +16,10 @@
 require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
 /* VARS */
-global $imdb_admin_values, $imdb_cache_values;
+global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values, $imdballmeta;
+
+// HTML tags to keep when using strip_tags()
+$striptags_keep = '<div><span><br><img>';
 
 $movieid_sanitized = isset($_GET["mid"]) ? filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT) : NULL;
 $filmid_sanitized = isset($_GET["film"]) ? lumiere_name_htmlize( $_GET["film"] ) : NULL;
@@ -72,6 +75,10 @@ if ( (isset ($movieid_sanitized)) && (!empty ($movieid_sanitized)) && (!empty ($
 	exit();
 }
 
+// run Lumière class
+$display = new \Lumiere\LumiereMovies();
+
+
 //------------------------- 1. search all results related to the name of the movie
 if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ( (isset($_GET["norecursive"])) && ($_GET["norecursive"] == 'yes')) ) { 
 
@@ -82,7 +89,7 @@ if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ( (isset($_GET["norecu
 
 do_action('wp_loaded'); // execute wordpress first codes # still useful?
 
-?>
+?><!DOCTYPE html>
 <html>
 <head>
 <?php wp_head();?>
@@ -161,7 +168,7 @@ exit(); // quit the call of the page, to avoid double loading process ?>
 
 //--------------------------------------=[Layout]=---------------
 
-// Head ?>
+// Head ?><!DOCTYPE html>
 <html>
 <head>
 <?php wp_head();?>
@@ -176,7 +183,7 @@ exit(); // quit the call of the page, to avoid double loading process ?>
             <a class="searchaka" href="<?php echo esc_url( LUMIERE_URLPOPUPSSEARCH . "?film=" . $filmid_sanitized . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'lumiere-movies'); ?>"><?php esc_html_e('Search AKAs', 'lumiere-movies'); ?></a>
         </div>
 	<div class="titrecolonne lumiere_flex_auto">
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Movie', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Summary', 'lumiere-movies'); ?></a>
         </div>
 	<div class="titrecolonne lumiere_flex_auto">
 		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=actors" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Actors', 'lumiere-movies'); ?>'><?php esc_html_e('Actors', 'lumiere-movies'); ?></a>
@@ -192,15 +199,13 @@ exit(); // quit the call of the page, to avoid double loading process ?>
 	</div>
 </div>
 
-<table class="TableauPresentation" width="100%">
-    <tr width="100%">
-        <td colspan="2">
-            <div class="titrefilm"><?php $title_sanitized=sanitize_text_field($movie->title()); echo $title_sanitized; ?> &nbsp;&nbsp;(<?php echo sanitize_text_field( $movie->year () ); ?>)</div>
-            <div class="soustitrefilm"><?php echo sanitize_text_field( $movie->tagline() ); ?> </div>
-            <?php flush (); ?>
-        </td>
+<div class="lumiere_display_flex">
+	<div class="lumiere_flex_auto">
+		<div class="titrefilm"><?php $title_sanitized=sanitize_text_field($movie->title()); echo $title_sanitized; ?> &nbsp;&nbsp;(<?php echo sanitize_text_field( $movie->year () ); ?>)</div>
+		<div class="soustitrefilm"><?php echo sanitize_text_field( $movie->tagline() ); ?> </div>
+	</div> 
+	<div>
                                                 <!-- Movie's picture display -->
-        <td class="colpicture">
 	 <?php 	## The picture is either taken from the movie itself or if it doesn't exist, from a standard "no exist" picture.
 		## The width value is taken from plugin settings, and added if the "thumbnail" option is unactivated
 echo '<img loading="eager" class="imdbincluded-picture" src="';
@@ -218,161 +223,81 @@ echo '<img loading="eager" class="imdbincluded-picture" src="';
 
 echo '/ >'; ?>
 
-         </td>
-    </tr>
-</table>
-  
- 
-<table class="TableauSousRubrique">
+	</div> 
+</div> 
 
 <?php if ( (!isset($_GET['info'])) || (empty($_GET['info'])) ){      // display something when nothing has been selected in the menu
          //---------------------------------------------------------------------------introduction part start ?>
-     
-                                                <!-- Title akas -->         
-     <tr> 
-         <td class="TitreSousRubriqueColGauche">
-            <div class="TitreSousRubrique"><?php esc_html_e('AKA', 'lumiere-movies'); ?>&nbsp;</div>
-         </td>
-         <td colspan="2" class="TitreSousRubriqueColDroite">
-		 	<li>
-<?php	
- 	$aka = $movie->alsoknow();
-	//$cc  = count($aka);
-	if ( (isset($aka)) && (!empty($aka)) ) {
-		foreach ( $aka as $ak){
 
-      			if ( (isset($ak["country"])) && (!empty($ak["country"])) )
-      				echo  " <i><font size='+0.5'>" . sanitize_text_field($ak["country"] ) . "</font></i>: ";
-
-      			echo sanitize_text_field( $ak["title"] );
-
-			if ( (isset($ak["year"])) && (!empty($ak["year"])))
-				echo " ". intval( $ak["year"] );
-
-			/*if (empty($ak["lang"])) { 
-					if (!empty($ak["comment"])) {
-					echo ", ".$ak["comment"]; }
-			} else {
-				if (!empty($ak["comment"])) {
-					echo ", ".$ak["comment"];}
-			echo " [".$ak["lang"]."]";
-	  			}*/
-		}
-		flush();
-  	}  ?>
-			</li>
-         </td>
-     </tr>
-                                                <!-- Year -->
-     <tr>
-        <td class="TitreSousRubriqueColGauche">
-            <div class="TitreSousRubrique"><?php esc_html_e('Year', 'lumiere-movies'); ?>&nbsp;</div>
-        </td>
-        <td colspan="2" class="TitreSousRubriqueColDroite">
-             <li><?php echo intval( $movie->year() ); ?></li>
-        </td>
-     </tr>
-                                                <!-- Runtime -->
-     <tr>
-        <td class="TitreSousRubriqueColGauche">
-            <div class="TitreSousRubrique"><?php esc_html_e('Runtime', 'lumiere-movies'); ?>&nbsp;</div>
-         </td>
-
-        
-        <td colspan="2" class="TitreSousRubriqueColDroite">
-		<?php $runtime = sanitize_text_field( $movie->runtime() );
-		if (!empty($runtime)) { ?>
-        	<li><?php echo $runtime." ".esc_html__('minutes', 'lumiere-movies'); ?></li>
-		<?php }; 
-		flush(); // send to user data already run through ?>
-        </td>
-     </tr>
-     
-     <?php if (null !== ($movie->votes() ) ) { 
-	$votes_sanitized = esc_html($movie->votes());
-	$rating_sanitized = esc_html($movie->rating());?>              <!-- Rating and votes -->
-     <tr>
-        <td class="TitreSousRubriqueColGauche">
-           <div class="TitreSousRubrique"><?php esc_html_e('Rating', 'lumiere-movies'); ?>&nbsp;</div>
-        </td>
-        
-        <td colspan="2" class="TitreSousRubriqueColDroite lumiere_align_left">
+                                                <!-- Director -->
+	<div>
 <?php 
-				echo " <img src=\"".$imdb_admin_values['imdbplugindirectory'].'pics/showtimes/'.(round($rating_sanitized*2, 0)/0.2).
-				".gif\" title=\"".esc_html__('vote average ', 'lumiere-movies').$rating_sanitized.esc_html__(' out of 10', 'lumiere-movies')."\"  / >";
-				echo " (".number_format($votes_sanitized, 0, '', "'")." ".esc_html__('votes', 'lumiere-movies').")";			
+	$director = $movie->director(); 
+	if ( (isset($director)) && (!empty($director)) ) {
+		$nbtotaldirector=count($director);
 ?>
+       <span class="imdbincluded-subtitle"><?php echo sprintf(esc_attr(_n('Director', 'Directors', $nbtotaldirector, 'lumiere-movies'),  number_format_i18n( $nbtotaldirector ))); ?></span>
+<?php		for ($i = 0; $i < $nbtotaldirector; $i++) { ?>
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $director[$i]["imdb"] . "/?mid=" . $director[$i]["imdb"] . "&film=".  $title_sanitized  ); ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'><?php
+ 			echo "\n\t\t\t" . sanitize_text_field( $director[$i]["name"] ); 
+			if ( $i < $nbtotaldirector -1 ) echo ', '; 
+?></a>
+<?php		} // endfor 
+	} // endisset ?>
+	</div>
+                                                <!-- Main actors -->
+	<div>
+<?php 	#### Main actors, limited by admin options
+	$cast = $movie->cast();
+	$nbactors = empty($imdb_widget_values['imdbwidgetactornumber']) ? $nbactors =  "1" : $nbactors =  intval( $imdb_widget_values['imdbwidgetactornumber'] );
+	$nbtotalactors = intval( count($cast) );
 
-        </td>
-     </tr>
-     <?php }; ?>
-     
+	if (!empty($cast)) { ?>
+		<span class="imdbincluded-subtitle"><?php esc_html_e('Actors', 'lumiere-movies'); ?></span>
+<?php 
+		for ($i = 0; ($i < $nbactors) && ($i < $nbtotalactors); $i++) { ?>
+			<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON  . $cast[$i]["imdb"] . "/?mid=" . $cast[$i]["imdb"] ); ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'><?php
+			 echo "\n\t\t\t" . sanitize_text_field( $cast[$i]["name"] ); ?></a>
+<?php		} // endfor 
+	} // endisset ?>
+	</div>    
+
+	<?php #### Runtime
+	$runtime = sanitize_text_field( $movie->runtime() );
+	if (!empty($runtime)) { ?>
+                                                <!-- Runtime -->
+	<div>
+	<?php	echo '<span class="imdbincluded-subtitle">' 
+		. esc_html__('Runtime', 'lumiere-movies')
+		. '</span>'
+		. $runtime
+		." "
+		.esc_html__('minutes', 'lumiere-movies');	?>
+	</div> 
+	<?php } ?>
+
+	<?php #### Votes
+	if (null !== ($movie->votes() ) ) { 
+		$votes_sanitized = esc_html($movie->votes());
+		$rating_sanitized = esc_html($movie->rating()); ?>                 
+	                              <!-- Rating -->
+	<div><?php 
+			echo '<span class="imdbincluded-subtitle">' 
+					. esc_html__('Rating', 'lumiere-movies')
+					. '</span>';
+			echo " <img src=\"".$imdb_admin_values['imdbplugindirectory'].'pics/showtimes/'.(round($rating_sanitized*2, 0)/0.2)
+				. ".gif\" title=\"".esc_html__('vote average ', 'lumiere-movies').$rating_sanitized.esc_html__(' out of 10', 'lumiere-movies')."\"  / >";
+			echo " (".number_format($votes_sanitized, 0, '', "'")." ".esc_html__('votes', 'lumiere-movies').")";	?>
+	</div> 
+	<?php } ?>
                                                 <!-- Language -->
-	<?php   $languages = $movie->languages();
-	if ( (isset($languages)) && (!empty($languages)) ) { ?>
-     <tr>
-        <td class="TitreSousRubriqueColGauche">
-            <div class="TitreSousRubrique"><?php echo(sprintf(_n('Language', 'Languages', count($languages), 'lumiere-movies'))); ?>&nbsp;</div>
-        </td>
-        
-        <td colspan="2" class="TitreSousRubriqueColDroite">
-	        <li><?php 
-		for ($i = 0; $i + 1 < count($languages); $i++) {
-			echo sanitize_text_field( $languages[$i] );
-			echo ", ";
-		}
-		echo sanitize_text_field( $languages[$i] ); 
-		?></li>
-        </td>
-     </tr>
-     <?php }; 
-	flush(); // send to user data already run through ?>
-             
-			                                    <!-- Country -->
-	<?php $country = $movie->country();
-	if ( (isset($country)) && (!empty($country)) ) { ?>
-     <tr>
-        <td class="TitreSousRubriqueColGauche">
-            <div class="TitreSousRubrique"><?php echo(sprintf(_n('Country', 'Countries', count($country), 'lumiere-movies'))); ?>&nbsp;</div>
-        </td>
-        
-        <td colspan="2" class="TitreSousRubriqueColDroite">
-            <li><?php
-                    for ($i = 0; $i + 1 < count ($country); $i++) {
-	                echo sanitize_text_field( $country[$i] );
-	                echo ", ";
-                    }
-                    echo sanitize_text_field( $country[$i] ); 
-            ?></li>
-        </td>
-     </tr>
-     <?php }; ?>
-
-                                                <!-- All Genres -->
-     <tr>
-        <td class="TitreSousRubriqueColGauche">
-            <div class="TitreSousRubrique"><?php esc_html_e('Genre', 'lumiere-movies'); ?>&nbsp;</div>
-        </td>
-        
-        <td colspan="2" class="TitreSousRubriqueColDroite">
-		<li><?php 
-		$genres = $movie->genre ();  
-		if ( (isset($genres)) && (! empty($genres)) ) {
-			$gen = $movie->genres();
-			
-                        for ($i = 0; $i + 1 < count ($gen); $i++) {
-	                    echo sanitize_text_field( $gen[$i] );
-	                    echo ", ";
-                        }
-            	echo $gen[$i];
-		}
-		flush(); // send to user data already run through  
-		?></li>
-        </td>
-     </tr>
+	<div><?php echo strip_tags( $display->lumiere_movies_language($movie, 'external'), $striptags_keep ) . "\n\t";?></div> 
+                                                <!-- Country -->
+	<div><?php echo strip_tags($display->lumiere_movies_country($movie, 'external'), $striptags_keep ) . "\n\t";?></div> 
+                                                <!-- Genre -->
+	<div><?php echo strip_tags($display->lumiere_movies_genre($movie, 'external'), $striptags_keep ) . "\n\t";?></div> 
+<?php /*
                                                 <!-- Sound -->
-
-	<?php
 	$sound = $movie->sound () ?? NULL;
 
 	if ( (isset($sound)) && (!empty($sound)) ) { ?>
@@ -392,39 +317,46 @@ echo '/ >'; ?>
         </td>
      </tr>
 	<?php	
-	} ?>
+	} */?>
 
 <?php } //------------------------------------------------------------------------------ introduction part end ?>
+
 
 
 <?php  if ( (isset($_GET['info'])) && ($_GET['info'] == 'actors') ){ 
             // ------------------------------------------------------------------------------ casting part start ?>
 
-                                                <!-- casting --> 
-        <?php $cast = $movie->cast(); 
-			if (!empty($cast)) { ?>
-        <tr>
-            <td class="TitreSousRubriqueColGauche">
-                <div class="TitreSousRubrique"><?php esc_html_e('Casting', 'lumiere-movies'); ?>&nbsp;</div>
-            </td>
-            
-            <td colspan="2" class="TitreSousRubriqueColDroite">
-                <?php for ($i = 0; $i < count ($cast); $i++) { ?>
-					<li>
-						<div align="center" class="imdbdiv-liees">
-							<div class="imdblt_float_left">
-								<?php echo sanitize_text_field( $cast[$i]["role"] ); ?>
-							</div>
-							<div align="right">
-								<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON  . $cast[$i]["imdb"] . "/?mid=" . $cast[$i]["imdb"] ); ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'>
-								<?php echo sanitize_text_field( $cast[$i]["name"] ); ?></a>
-							</div>
-						</div>
-					</li>
-                <?php }; // endfor ?>
-            </td>
-        </tr>
-        <?php }; ?>		
+                                                <!-- Actors --> 
+<?php 
+	$cast = $movie->cast();
+	$nbactors = empty($imdb_widget_values['imdbwidgetactornumber']) ? $nbactors =  "1" : $nbactors =  intval( $imdb_widget_values['imdbwidgetactornumber'] );
+	$nbtotalactors = intval( count($cast) );
+
+	if (!empty($cast)) { ?>
+
+	<div class="imdbincluded-subtitle"><?php echo sprintf(esc_attr(_n('Actor', 'Actors', $nbtotalactors, 'lumiere-movies') ), number_format_i18n($nbtotalactors) ); ?></div>
+
+           
+<?php 	for ($i = 0; ($i < $nbtotalactors); $i++) { 
+		echo "\n\t" . '<div align="center" class="lumiere_container">';
+		echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+		echo sanitize_text_field( $cast[$i]["role"] ); 
+		echo "\n\t\t" . '</div>';
+		echo "\n\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+		echo "\n\t\t" 
+			. '<a class="linkpopup" href="' 
+			. esc_url( LUMIERE_URLPOPUPSPERSON  
+			. $cast[$i]["imdb"] 
+			. "/?mid=" . $cast[$i]["imdb"] ) 
+			. '" title="' 
+			. esc_html__('link to imdb', 'lumiere-movies') 
+			. '">';
+		echo "\n\t\t" . sanitize_text_field( $cast[$i]["name"] ); 
+		echo "\n\t\t</a>";
+		echo "\n\t\t</div>";
+		echo "\n\t</div>";
+ 		} // endfor 
+	} //end endisset ?>		
 		
 <?php } // ------------------------------------------------------------------------------ casting part end ?>
 
