@@ -290,12 +290,61 @@ echo '/ >'; ?>
 			echo " (".number_format($votes_sanitized, 0, '', "'")." ".esc_html__('votes', 'lumiere-movies').")";	?>
 	</div> 
 	<?php } ?>
+
+	<?php #### Language
+	$languages = $movie->languages();
+	$nbtotallanguages = count($languages);
+	if ( (isset($languages)) && (!empty($languages)) ) { ?>
                                                 <!-- Language -->
-	<div><?php echo strip_tags( $display->lumiere_movies_language($movie, 'external'), $striptags_keep ) . "\n\t";?></div> 
+	<div>
+	<?php
+		echo '<span class="imdbincluded-subtitle">' 
+			. sprintf(esc_attr(_n('Language', 'Languages', $nbtotallanguages, 'lumiere-movies') ) )
+			. '</span>';
+		for ($i = 0; $i < $nbtotallanguages; $i++) {
+			echo sanitize_text_field( $languages[$i] );
+			if ($i < $nbtotallanguages -1) echo ", ";
+		}?>
+	</div> 
+	<?php } ?>
+
+
+	<?php #### Country
+	$country = $movie->country();
+	$nbtotalcountry = count($country);
+	if ( (isset($country)) && (!empty($country)) ) { ?>
                                                 <!-- Country -->
-	<div><?php echo strip_tags($display->lumiere_movies_country($movie, 'external'), $striptags_keep ) . "\n\t";?></div> 
+	<div>
+	<?php
+		echo '<span class="imdbincluded-subtitle">' 
+			. sprintf(esc_attr(_n('Country', 'Countries', $nbtotalcountry, 'lumiere-movies') ) )
+			. '</span>';
+		for ($i = 0; $i < $nbtotalcountry; $i++) {
+			echo sanitize_text_field( $country[$i] );
+			if ($i < $nbtotalcountry -1) echo ", ";
+		}?>
+	</div> 
+	<?php } ?>
+
+
+	<?php #### Genre
+	$genre = $movie->genre();
+	if ( (isset($genre)) && (!empty($genre)) ) { 
+		$gen = $movie->genres();
+		$nbtotalgenre = count($gen);?>
                                                 <!-- Genre -->
-	<div><?php echo strip_tags($display->lumiere_movies_genre($movie, 'external'), $striptags_keep ) . "\n\t";?></div> 
+	<div>
+	<?php
+		echo '<span class="imdbincluded-subtitle">' 
+			. sprintf(esc_attr(_n('Genre', 'Genres', $nbtotalgenre, 'lumiere-movies') ) )
+			. '</span>';
+		for ($i = 0; $i < $nbtotalgenre; $i++) {
+			echo sanitize_text_field( $gen[$i] );
+			if ($i < $nbtotalgenre -1) echo ", ";
+		}?>
+	</div> 
+	<?php } ?>
+
 <?php /*
                                                 <!-- Sound -->
 	$sound = $movie->sound () ?? NULL;

@@ -1,5 +1,7 @@
 Changelog
 v.3.3.2
+* [medium] new design for movies popups, movie popup is now controled by admin option (ie number of actors).
+* [bug] Fatal error when upgrading. Deactivated upgrade process.
 
 v.3.3.1
 * [medium] added a color theme to "widget" and "into the post" sections. Select option added in the "into the post/widget" administration panel (misc tab)
