@@ -2,7 +2,6 @@ v3.3.2
 OK--- 1. medium new design for movie popups, movie popup summary is now controled by admin option (ie number of actors).
 OK--- 2. WAS NO BUG, REINSTALLED. bug fatal error when upgrading. Deactivated upgrade process.
 Fatal error: Uncaught ArgumentCountError: Too few arguments to function Lumiere\Core::lumiere_on_upgrade_completed(), 1 passed in wp-includes/class-wp-hook.php on line 294 and exactly 2 expected in wp-content/plugins/lumiere-movies/class/class.core.php:732 Stack trace: #0 wp-includes/class-wp-hook.php(294): Lumiere\Core->lumiere_on_upgrade_completed(Object(Plugin_Upgrader)) #1 wp-includes/class-wp-hook.php(316): WP_Hook->apply_filters(NULL, Array) #2 wp-includes/plugin.php(484): WP_Hook->do_action(Array) #3 wp-admin/includes/class-plugin-upgrader.php(371): do_action('upgrader_proces...', Object(Plugin_Upgrader), Array) #4 wp-admin/update in wp-content/plugins/lumiere-movies/class/class.core.php on line 732
-
 OK--- 3. medium new design for person popups
 OK--- 4. minor added "portrayed in", "interviews", "printed publicity" infos in person popup biography
 OK--- 5. minor added full filmography in person popups
