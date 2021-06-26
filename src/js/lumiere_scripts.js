@@ -2,11 +2,11 @@
 *  Needs jquery						
 */
 
-/**** class.moviephp
+/**** popups, class movie
 *
 */
 
-// Id in the movie image -> currently not in use
+// Id in the movie image
 if (document.getElementById("highslide_pic")) {
 	jQuery('a#highslide_pic').click(function(){
 		return hs.expand(this, { useBox: false, captionEval: "Poster of " + 'this.thumb.alt'  

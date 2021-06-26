@@ -406,9 +406,13 @@ class LumiereMovies {
 				// value to store if previous checking is valid, call in lumiere_scripts.js
 				$highslidephotook = "ok";
 				//echo "\t\t\t" . '<a href="' . $photo_url_sanitized . '" id="highslide_pic" class="highslide" title="';
-				$output .= "\n\t\t\t" . '<a href="' . $photo_url_sanitized . '" class="highslide" title="';
+				$output .= "\n\t\t\t" . '<a id="highslide_pic" href="' 
+					. $photo_url_sanitized 
+					. '" title="'
+					.sanitize_text_field( $movie->title() ) 
+					.'" >';
 				// loading=eager to prevent wordpress loading lazy
-				$output .= sanitize_text_field( $movie->title() ) . "\">\n\t\t\t\t<img loading=\"eager\" class=\"imdbelementPICimg\" src=\"";
+				$output .= "\n\t\t\t\t<img loading=\"eager\" class=\"imdbelementPICimg\" src=\"";
 			} else {
 				// no big picture found OR no highslide popup selected
 				// loading=eager to prevent wordpress lazy loading
@@ -624,7 +628,9 @@ class LumiereMovies {
 				$output .= esc_html__('votes, average ', 'lumiere-movies'); 
 				$output .= " ".$rating_sanitized." ";
 				$output .= esc_html__('(max 10)', 'lumiere-movies'); 
-			} else {							// by default, display pictures and votes amount	
+
+			// by default, display pictures and votes amount	
+			} else {							
 				$output .= " <img src=\"".$imdb_admin_values['imdbplugindirectory'].'pics/showtimes/'.(round($rating_sanitized*2, 0)/0.2).
 				".gif\" title=\"".esc_html__('vote average ', 'lumiere-movies').$rating_sanitized.esc_html__(' out of 10', 'lumiere-movies')."\"  / >";
 				$output .= " (".number_format($votes_sanitized, 0, '', "'")." ".esc_html__('votes', 'lumiere-movies').")";			
@@ -1733,7 +1739,7 @@ class LumiereMovies {
 						// highslide popup
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) {
 
-							$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $writer[$i]["imdb"] ) . '>" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . sanitize_text_field( $writer[$i]["name"] ) . '</a>';
+							$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $writer[$i]["imdb"] ) . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . sanitize_text_field( $writer[$i]["name"] ) . '</a>';
 
 						// classic popup
 						} else {
