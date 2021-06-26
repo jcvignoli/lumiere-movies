@@ -96,8 +96,8 @@ if (empty($results) ){
 		echo "	<tr>\n";
 		
 		// ---- movie part
-		echo "		<td class='TableListeResultatsColGauche'><a href=\"".esc_url( LUMIERE_URLPOPUPSFILMS . lumiere_name_htmlize( $res->title() ) . "/?mid=".intval($res->imdbid()) )."&film=".lumiere_name_htmlize( $res->title() )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
-		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"".esc_url( "https://www.imdb.com/title/tt".intval($res->imdbid()) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'>";
+		echo "		<td class='TableListeResultatsColGauche'><a href=\"".esc_url( LUMIERE_URLPOPUPSFILMS . lumiere_name_htmlize( $res->title() ) . "/?mid=".sanitize_text_field($res->imdbid()) )."&film=".lumiere_name_htmlize( $res->title() )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
+		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"".esc_url( "https://www.imdb.com/title/tt".sanitize_text_field($res->imdbid()) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'>";
 
 		if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
 			echo '<img loading="eager" class="img-imdb" src="'.esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] ).'" width="'.intval($imdb_admin_values['imdbpicsize']).'" alt="'.esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() ).'"/></a>';
@@ -108,7 +108,7 @@ if (empty($results) ){
 		// ---- director part
 		$realisateur = $res->director();
 		if ( (isset($realisateur['0']['name'])) && (! is_null ($realisateur['0']['name'])) ){
-			echo "		<td class='TableListeResultatsColDroite'><a class='link-imdb2' href=\"".esc_url( LUMIERE_URLPOPUPSPERSON . intval($realisateur['0']["imdb"]) . "/?mid=".intval($realisateur['0']["imdb"]) ). "\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."\" >".sanitize_text_field( $realisateur['0']['name'] )."</a>";
+			echo "		<td class='TableListeResultatsColDroite'><a class='link-imdb2' href=\"".esc_url( LUMIERE_URLPOPUPSPERSON . sanitize_text_field($realisateur['0']["imdb"]) . "/?mid=".sanitize_text_field($realisateur['0']["imdb"]) ). "\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."\" >".sanitize_text_field( $realisateur['0']['name'] )."</a>";
 
 			if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
 				echo "&nbsp;&nbsp;<a class='link-imdb2' href=\"".esc_url( "https://www.imdb.com/name/nm".intval($realisateur['0']["imdb"]) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."'>";
