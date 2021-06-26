@@ -39,7 +39,7 @@ if (isset ($_GET["film"]))
 	$film_sanitized = sanitize_text_field( $_GET["film"] ) ?? NULL;
 
 if (isset ($_GET["mid"]))
-	$mid_sanitized = filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT) ?? NULL;
+	$mid_sanitized = sanitize_text_field( $_GET["mid"] ) ?? NULL;
 
 // if neither film nor mid are set, throw a 404 error
 if (empty($film_sanitized ) && empty($mid_sanitized)){
@@ -64,7 +64,8 @@ if (isset ($mid_sanitized)) {
 	$person_name_sanitized = sanitize_text_field( $person->name() ) ?? NULL;
 
 //--------------------------------------=[Layout]=---------------
-?>
+
+?><!DOCTYPE html>
 <html>
 <head>
 <?php wp_head();?>
@@ -73,57 +74,94 @@ if (isset ($mid_sanitized)) {
 <body class="lumiere_body<?php if (isset($imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopuptheme'];?>">
 
                                                 <!-- top page menu -->
-<table class='tabletitrecolonne'>
-    <tr>
-        <td class='titrecolonne'>
+
+
+<div class="lumiere_container">
+	<div class="titrecolonne lumiere_flex_auto">
             <a class="historyback"><?php esc_html_e('Back', 'lumiere-movies'); ?></a>
-        </td>
- 		<td class='titrecolonne'>
-			<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Filmography', 'lumiere-movies'); ?>'><?php esc_html_e('Filmography', 'lumiere-movies'); ?></a>
-		</td>
-		
-		<td class='titrecolonne'>
-			<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=bio" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Biography', 'lumiere-movies'); ?>'><?php esc_html_e('Biography', 'lumiere-movies'); ?></a>
-		</td>
-		
-		<td class="titrecolonne">
-			<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=divers" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?>
-		</td>
-		
-		<td class='titrecolonne'></td>
-   </tr>
-</table>
+        </div>
+	<div class="titrecolonne lumiere_flex_auto">
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Summary', 'lumiere-movies'); ?>'><?php esc_html_e('Summary', 'lumiere-movies'); ?></a>
+        </div>
+	<div class="titrecolonne lumiere_flex_auto">
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=filmo" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Full filmography', 'lumiere-movies'); ?>'><?php esc_html_e('Full filmography', 'lumiere-movies'); ?></a>
+        </div>
+	<div class="titrecolonne lumiere_flex_auto">
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=bio" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Full biography', 'lumiere-movies'); ?>'><?php esc_html_e('Full biography', 'lumiere-movies'); ?></a>
+        </div>
+	<div class="titrecolonne lumiere_flex_auto">
+		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=misc" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
+        </div>
+</div>
 
                                                 <!-- Photo & identity -->
 
-<table class="TableauPresentation">
-    <tr>
-        <td colspan="2">
-            <div class="identity"><?php echo $person_name_sanitized; ?> &nbsp;&nbsp;</div>
+<div class="lumiere_display_flex lumiere_font_em_11">
+	<div class="lumiere_flex_auto lumiere_width_eighty_perc">
+            <div class="identity"><?php echo $person_name_sanitized; ?></div>
             <div class="soustitreidentity">
-			<?php  // Born
-			  $birthday = count($person->born() ) ? $person->born() : ""; 
-			  if ( (isset($birthday)) && (!empty($birthday)) ) {
-				$birthday_day = (isset( $birthday["day"] ) ) ? intval($birthday["day"]) : "";
-				$birthday_month = (isset( $birthday["month"] ) ) ? sanitize_text_field($birthday["month"]) : "";
-				$birthday_year = (isset( $birthday["year"] ) ) ? intval($birthday["year"]) : "";
+		<?php  
+		# Birth
+		$birthday = count($person->born() ) ? $person->born() : ""; 
+		if ( (isset($birthday)) && (!empty($birthday)) ) {
+			$birthday_day = (isset( $birthday["day"] ) ) ? intval($birthday["day"]) : "";
+			$birthday_month = (isset( $birthday["month"] ) ) ? sanitize_text_field($birthday["month"]) : "";
+			$birthday_year = (isset( $birthday["year"] ) ) ? intval($birthday["year"]) : "";
 
-				echo "<strong>".esc_html__('Born on', 'lumiere-movies')."</strong> ".$birthday_day . " " .$birthday_month . " " . $birthday_year ;
-			  }
-			  if ( (isset($birthday["place"])) && (!empty($birthday["place"])) ){ echo ", ".esc_html__('in', 'lumiere-movies')." ".sanitize_text_field($birthday["place"]);} ?>
-			  <?php // Dead
-		      $death = (null !== $person->died() ) ? $person->died() : "";
-			  if ( (isset($death)) && (!empty($death)) ){
-			  echo "<br /><strong>".esc_html__('Died on', 'lumiere-movies')."</strong> ".intval($death["day"])." ".sanitize_text_field($death["month"])." ".intval($death["year"]);			
-			  if ( (isset($death["place"])) && (!empty($death["place"])) ) echo ", ".esc_html__('in', 'lumiere-movies')." ".sanitize_text_field($death["place"]);
-			  if ( (isset($death["cause"])) && (!empty($death["cause"])) ) echo ", ".esc_html__('cause', 'lumiere-movies')." ".sanitize_text_field($death["cause"]);
-			  }	?>
-			</div>
+			echo '<span class="imdbincluded-subtitle">'.esc_html__('Born on', 'lumiere-movies')."</span> ".$birthday_day . " " .$birthday_month . " " . $birthday_year ;
+		}
+		if ( (isset($birthday["place"])) && (!empty($birthday["place"])) ){ echo ", ".esc_html__('in', 'lumiere-movies')." ".sanitize_text_field($birthday["place"]);}
+
+		echo '</div>';
+		echo '<div class="soustitreidentity">';
+
+		# Death
+		$death = (null !== $person->died() ) ? $person->died() : "";
+		if ( (isset($death)) && (!empty($death)) ){
+		echo '<span class="imdbincluded-subtitle">' . esc_html__('Died on', 'lumiere-movies')."</span> ".intval($death["day"])." ".sanitize_text_field($death["month"])." ".intval($death["year"]);			
+		if ( (isset($death["place"])) && (!empty($death["place"])) ) echo ", ".esc_html__('in', 'lumiere-movies')." ".sanitize_text_field($death["place"]);
+		if ( (isset($death["cause"])) && (!empty($death["cause"])) ) echo ", ".esc_html__('cause', 'lumiere-movies')." ".sanitize_text_field($death["cause"]);
+		  }
+
+		echo '</div>';
+		echo '<div class="lumiere_padding_two">';
+
+		# Biography
+		$bio = $person->bio();
+		$nbtotalbio = count($bio);
+		
+		echo '<font size="-1"><span class="imdbincluded-subtitle">' 
+			. esc_html__('Biography', 'lumiere-movies') 
+			. '</span>';
+
+    		if ( $nbtotalbio < 2 ) $idx = 0; else $idx = 1;
+
+		$bio_text = sanitize_text_field( $bio[$idx]["desc"] );
+		$click_text = esc_html__('click to expand', 'lumiere-movies');
+		$max_length = 200; # number of characters
+
+		if( strlen( $bio_text ) > $max_length) {
+
+			$str_one = substr( $bio_text, 0, $max_length);
+			$str_two = substr( $bio_text, $max_length, strlen( $bio_text ) );
+			$final_text = $str_one
+				. '&nbsp;<span class="activatehidesection"><font size="-1"><strong>(' . $click_text . ')</strong></font></span> '
+				. '<span class="hidesection">' . $str_two . '</span>';
+			echo $final_text;
+
+		} else {
+
+			echo $bio_text;
+
+		}
+		echo '</font>';
+
+		?>
+		</div>
 			
-            <?php flush (); ?>
-        </td>
-                                                <!-- displaying photo -->
-        <td rowspan=110 class="colpicture">
+	</div> 
+	<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two">
+                                                <!-- star photo -->
              <?php if (($photo_url = $person->photo_localurl() ) != FALSE){ 
 	            echo '<img loading="eager" class="imdbincluded-picture" src="'.esc_url($photo_url).'" alt="'.$person_name_sanitized.'" '; 
               } else{ 
@@ -136,298 +174,458 @@ if (isset ($mid_sanitized)) {
 
 echo '/ >'; ?>
 
-         </td>
-    </tr>
-</table>
+	</div> 
+</div> 
 
-                                                <!-- under section  -->
+<hr>
 
-<table class="TableauSousRubrique">
-	<?php if ( (!isset($_GET['info'])) || (empty($_GET['info'])) ){      // display only when nothing is selected from the menu
-	//---------------------------------------------------------------------------start filmography part ?>
 
-                                       <!-- Filmography -->
-		<?php $ff = array("director","actor", "producer");
-		  foreach ($ff as $var) {
-			$fdt = "movies_$var";
-			$filmo = $person->$fdt();
-			$flname = ucfirst($var);
-			if (!empty($filmo)) { ?>
-			  <tr>
-				<td class="TitreSousRubriqueColGauche">
-					<div class="TitreSousRubrique"><?php echo sanitize_text_field($flname);?> filmo</div>
-				</td>
-			
-				<td colspan="2" class="TitreSousRubriqueColDroite">
-					<div class="activatehidesection">[+] <?php esc_html_e('click to expand', 'lumiere-movies'); ?> [+]</div>
-					<div class="hidesection">
-			<?php
-				$ii = "0";
-				$tc = count($filmo);
-			  	foreach ($filmo as $film) {
-			  		$nbfilms = $tc-$ii;
-					echo "<li><strong>($nbfilms)</strong> <a class='linkpopup' href='".esc_url( LUMIERE_URLPOPUPSFILMS . '?mid=' . esc_html($film["mid"]) )."'>".sanitize_text_field( $film["name"] )."</a>";
+<?php 
+//---------------------------------------------------------------------------summary 
+if ( (!isset($_GET['info'])) || (empty($_GET['info'])) ){      // display only when nothing is selected from the menu
 
-					if (!empty($film["year"])) {
-						echo " (".intval($film["year"]).")";
-					} 
+
+	############## Director actor and producer filmography
+
+	$list_all_movies_functions = array("director","actor");
+
+	foreach ($list_all_movies_functions as $var) {
+		$all_movies_functions = "movies_$var";
+		$filmo = $person->$all_movies_functions();
+		$flname = ucfirst($var);
+
+		if ( (isset($filmo)) && (!empty($filmo)) ) {
+			$nbfilmpercat=0;
+			$nbtotalfilmo = count($filmo);
+			$nbtotalfilms = $nbtotalfilmo-$nbfilmpercat;
+
+			echo "\n\t\t\t\t\t\t\t" .' <!-- ' .  sanitize_text_field($flname) . ' filmography -->';
+			echo "\n\t" . '<div align="center" class="lumiere_container">';
+			echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+
+			echo "\n\t" . '<div>';
+			echo "\n\t\t" . '<span class="imdbincluded-subtitle">' . sanitize_text_field($flname) . ' filmography' . ' </span>';
+
+		  	for($i=0; $i < $nbtotalfilmo; $i++) {
+
+				echo " <a class='linkpopup' href='".esc_url( LUMIERE_URLPOPUPSFILMS . '?mid=' . esc_html($filmo[$i]["mid"]) )."'>".sanitize_text_field( $filmo[$i]["name"] )."</a>";
+
+				if (!empty($filmo[$i]["year"])) {
+					echo " (";
+					echo intval($filmo[$i]["year"]);
+					echo ")";
+				} 
 
 				// if (empty($film["chname"])) { 		//-> the result sent is not empty, but a breakline instead
-				if ($film["chname"]=="
-") {
+				if ($filmo[$i]["chname"]=="\n") {
 					echo "";
 				} else {
-					if (empty($film["chid"])) { 
-						if (!empty($film["chname"]))
-							echo " as ".sanitize_text_field($film["chname"]);
+					if (empty($filmo["chid"])) { 
+						if (!empty($filmo[$i]["chname"]))
+							echo ' as <i>' . sanitize_text_field($filmo[$i]["chname"]) . '</i>';
 					} else { 
-						echo " as <a class='linkpopup' href='".esc_url("https://".$person->imdbsite."/character/ch".intval($film["chid"]) )."/'>".$film["chname"]."</a>"; }
+						echo ' as <i><a class="linkpopup" href="' . esc_url("https://".$person->imdbsite."/character/ch".intval($filmo["chid"]) ) . '/">' . $filmo[$i]["chname"] . '</a></i>'; }
+
+					// Display a "show more" after 10 results
+					if ($i == 9) 
+						echo '&nbsp;<span class="activatehidesection"><font size="-1"><strong>(' 
+							. esc_html__( 'see all', 'lumiere-movies' ) 
+							. ')</strong></font></span> '
+							. '<span class="hidesection">';
+
+					if ($i == $nbtotalfilmo ) 
+						echo '</span>';
+
 				}
 
-				echo "</li>\n\t\t";
-				$ii++;
+				$nbfilmpercat++;
+			} //end for each filmo
 
-			  } //end for each filmo
-			} // endif filmo ?>
-		    			</div>
-		    		</td>
-	    	    	</tr>			
-		<?php } //endforeach
-		flush(); // send to user data already run through ?>
+			echo "\n\t" . '</div>';
 
+		} // end if
 
+	} // endforeach main
 
-                                       <!-- Filmography as soundtrack -->
-		<?php 	$soundtrack=$person->movies_soundtrack() ;
- 			if (!empty($soundtrack)) { ?>
-				  <tr>
-					<td class="TitreSousRubriqueColGauche">
-						<div class="TitreSousRubrique"><?php esc_html_e('Soundtrack', 'lumiere-movies'); ?> filmo</div>
-					</td>		
-				<td colspan="2" class="TitreSousRubriqueColDroite">
-					<div class="activatehidesection">[+] <?php esc_html_e('click to expand', 'lumiere-movies'); ?> [+]</div>
-					<div class="hidesection">
-						<?php
-						for ($i=0;$i<count($soundtrack);++$i) {
-							$ii = $i+"1";
-							echo "<li><strong>($ii)</strong> ";
-							echo "<a class='linkpopup' href='" . LUMIERE_URLPOPUPSFILMS . "?mid=".intval($soundtrack[$i]["mid"])."'>".sanitize_text_field($soundtrack[$i]["name"])."</a>";
-							if (!empty($soundtrack[$i]["name"])) 
-								echo " (".$soundtrack[$i]["year"].")";
-							echo "</li>\n";
-						} ?>
-		    			</div>
-		    		</td>
-	    	    	</tr>
-
-	<?php		}
+}
 
 
-
-		} //------------------------------------------------------------------------------ end filmo part ?>
-
-     <?php if ( (isset($_GET['info'] )) && ($_GET['info'] == 'bio') ){ 
-            	// ------------------------------------------------------------------------------ partie bio ?>
-                                       <!-- Biographie -->
-
-                        				<!-- Biographical movies -->
-		<?php $pm = $person->pubmovies();
-			  if (!empty($pm)) { ?>
-        <tr>
-            <td class="TitreSousRubriqueColGauche">
-                <div class="TitreSousRubrique">
-					<?php esc_html_e('Biographical movies', 'lumiere-movies') ?>
-				</div>
- 			</td>
-			
-				<td colspan="2" class="TitreSousRubriqueColDroite">
-					<div class="activatehidesection">[+] <?php esc_html_e('click to expand', 'lumiere-movies'); ?> [+]</div>
-					<div class="hidesection">
-			<?php
-				for ($i=0;$i<count($pm);++$i) {
-					$ii = $i+"1";
-					echo "<li><strong>($ii)</strong> ";
-					echo "<a class='linkpopup' href='". esc_url( LUMIERE_URLPOPUPSFILMS ."?mid=".intval($pm[$i]["imdb"]) )."'>".$pm[$i]["name"]."</a>";
-					if (!empty($pm[$i]["year"])) 
-						echo " (".intval($pm[$i]["year"]).")";
-					echo "</li>\n";
-				} ?>
-				</div>
-           		</td>
-        	</tr>
-		<?php	} 
-		flush(); // send to user data already run through ?>
-
-        <?php $bio = $person->bio(); ?>
-        <tr>
-            <td class="TitreSousRubriqueColGauche">
-                <div class="TitreSousRubrique"><?php esc_html_e('Biography', 'lumiere-movies'); ?>&nbsp;</div>
-            </td>
-            
-            <td colspan="2" class="TitreSousRubriqueColDroite">
-		<li>
-
-		<?php // echo preg_replace('/http\:\/\/'.str_replace(".","\.",$person->imdbsite).'\/name\/nm(\d{7})\//','?mid=\\1&engine='.$_GET['engine'],$bio[$idx]["desc"]);		
-    		if (count($bio)<2) $idx = 0; else $idx = 1;
-			echo sanitize_text_field( $bio[$idx]["desc"] ); // above's doesn't work, made this one 
- ?>
-		</li>
-            </td>
-        </tr>
-
-</table>
-<br />
-     <?php } //------------------------------------------------------------------------------ end bio's part ?>
-
-     <?php if ( (isset($_GET['info'] )) && ($_GET['info'] == 'divers') ){ 
-            // ------------------------------------------------------------------------------ misc part ?>
-                                       <!-- Misc -->
-
-                           <!-- Trivia -->
-		<?php $trivia = $person->trivia();
-		if (!empty($trivia)) {
-		$tc = count($trivia); ?>
-        <tr>
-            <td class="TitreSousRubriqueColGauche">
-                <div class="TitreSousRubrique">
-					<?php esc_html_e('Trivia', 'lumiere-movies'); ?>
-				</div>
-            </td>
-			
-				<td colspan="2" class="TitreSousRubriqueColDroite">
-					<div class="activatehidesection">[+] <?php esc_html_e('click to expand', 'lumiere-movies'); ?> [+]</div>
-					<div class="hidesection">
-			            
- 			<?php 	for ($i=0;$i<$tc;++$i) {
-					$ii = $i+"1";
-					echo "<li><strong>($ii)</strong> ".sanitize_text_field( $trivia[$i] )."</li>\n";
-				} ?>
-					</div>
-				</td>
-       			</tr>
-		<?php } 
-		flush(); // send to user data already run through ?>
+//---------------------------------------------------------------------------full filmography
+if ( (isset($_GET['info'] )) && ($_GET['info'] == 'filmo') ){ 
 
 
-                           <!-- Nicknames -->
-		<?php $nicks = $person->nickname();
-			  if (!empty($nicks)) {?>
-        <tr>
-            <td class="TitreSousRubriqueColGauche">
-                <div class="TitreSousRubrique"><?php echo esc_html_e('Nicknames', 'lumiere-movies') ?></div>
-            </td>
-			
-		<td colspan="2" class="TitreSousRubriqueColDroite">
-			<div class="activatehidesection">[+] <?php esc_html_e('click to expand', 'lumiere-movies'); ?> [+]</div>
-			<div class="hidesection">
-			<?php 
-			$txt = "";
-			$i = "1";
-   			foreach ($nicks as $nick) {
-				$txt = "<br><li><strong>($i)</strong> ".sanitize_text_field( $nick );
-				echo substr($txt,4)."</li>\n";
-				$i++;
-  			} ?>
-			</div>
-            	</td>
-        </tr>
-		<?php } ?>
-		
-                           <!-- Personal Quotes -->
-		<?php $quotes = $person->quotes();
-			  if (!empty($quotes)) { 
-	  			$tc = count($quotes); ?>
-        <tr>
-            	<td class="TitreSousRubriqueColGauche">
-               		<div class="TitreSousRubrique">
-				<?php esc_html_e('Personal quotes', 'lumiere-movies') ?>
-			</div>
- 		</td>
-			
-		<td colspan="2" class="TitreSousRubriqueColDroite">
-			<div class="activatehidesection">[+] <?php esc_html_e('click to expand', 'lumiere-movies'); ?> [+]</div>
-			<div class="hidesection">
-				<?php 
-				for ($i=0;$i<$tc;++$i) {
-					$ii = $i+"1";
-					echo "<li><strong>($ii)</strong> ".sanitize_text_field( $quotes[$i] )."</li>\n";
-				} ?>
-			</div>
-           	 </td>
-        </tr>
-		<?php } 
-		flush(); // send to user data already run through ?>
+	############## All filmography
 
+	/* vars */
+	$list_all_movies_functions = array("director","actor", "producer", 'archive', 'crew', 'self', 'soundtrack',  'thanx', 'writer' ); # list of types of movies to query
+	$nblimitmovies = 5; # max number of movies before breaking with "see all"
 
-                           <!-- Trademarks -->
-		<?php $tm = $person->trademark();
-			  if (!empty($tm)) { ?>
-        <tr>
-            <td class="TitreSousRubriqueColGauche">
-                <div class="TitreSousRubrique">
-					<?php esc_html_e('Trademarks', 'lumiere-movies') ?>
-				</div>
- 			</td>
-			
-		<td colspan="2" class="TitreSousRubriqueColDroite">
-			<div class="activatehidesection">[+] <?php esc_html_e('click to expand', 'lumiere-movies'); ?> [+]</div>
-			<div class="hidesection">
-			<?php 
-				for ($i=0;$i<count($tm);++$i) {
-					$ii = $i+"1";
-					echo "<li><strong>($ii)</strong> ".sanitize_text_field( $tm[$i] )."</li>\n";
-				} ?>
-		</div>
-            </td>
-        </tr>
-		<?php } 
-		flush(); // send to user data already run through ?>
+	foreach ($list_all_movies_functions as $var) {
+		$all_movies_functions = "movies_$var";
+		$filmo = $person->$all_movies_functions();
+		$catname = ucfirst($var);
 
+		if ( (isset($filmo)) && (!empty($filmo)) ) {
+			$nbfilmpercat=0;
+			$nbtotalfilmo = count($filmo);
+			$nbtotalfilms = $nbtotalfilmo-$nbfilmpercat;
 
+			echo "\n\t\t\t\t\t\t\t" .' <!-- ' .  sanitize_text_field($catname) . ' filmography -->';
+			echo "\n\t" . '<div>';
+			echo "\n\t\t" . '<span class="imdbincluded-subtitle">' . sanitize_text_field($catname) . ' filmography' . ' </span> (' .$nbtotalfilms. ')';
 
-                           <!-- selffilmo -->
-		<?php $ff = array("self");
-		  foreach ($ff as $var) {
-			$fdt = "movies_$var";
-			$filmo = $person->$fdt();
-			$flname = ucfirst($var);
-			if (!empty($filmo)) { ?>
-			  <tr>
-				<td class="TitreSousRubriqueColGauche">
-					<div class="TitreSousRubrique"><?php echo sanitize_text_field( $flname );?> filmo</div>
-				</td>
-			
-		<td colspan="2" class="TitreSousRubriqueColDroite">
-			<div class="activatehidesection">[+] <?php esc_html_e('click to expand', 'lumiere-movies'); ?> [+]</div>
-			<div class="hidesection">
-			<?php
-				$ii = "0";
-				$tc = count($filmo);
-			  foreach ($filmo as $film) {
-			  	$nbfilms = $tc-$ii;
-				echo "<li><strong>($nbfilms)</strong> <a class='linkpopup' href='".esc_url( LUMIERE_URLPOPUPSFILMS ."?mid=".intval($film["mid"]) )."'>".sanitize_text_field($film["name"])."</a>";
-				if (!empty($film["year"])) {
-				echo " (".intval($film["year"]).")";
+		  	for($i=0; $i < $nbtotalfilmo; $i++) {
+
+				// Display a "show more" after XX results
+				if ($i == $nblimitmovies) 
+					echo '&nbsp;<span class="activatehidesection"><font size="-1"><strong>(' 
+						. esc_html__( 'see all', 'lumiere-movies' ) 
+						. ')</strong></font></span> '
+						. '<div class="hidesection">'; # start of hidden div
+
+				// after XX results, show a table like list of results
+
+				if ($i >= $nblimitmovies) {
+
+					echo "\n\t" . '<div align="center" class="lumiere_container">';
+					echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+					echo " <a class='linkpopup' href='"
+						.esc_url( LUMIERE_URLPOPUPSFILMS 
+						. '?mid=' . esc_html($filmo[$i]["mid"]) )
+						."'>"
+						.sanitize_text_field( $filmo[$i]["name"] )
+						."</a>";
+					if (!empty($filmo[$i]["year"])) {
+						echo " (";
+						echo intval($filmo[$i]["year"]);
+						echo ")";
+					} 
+					echo "\n\t\t" . '</div>';
+					echo "\n\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+							if ($filmo[$i]["chname"]=="\n") {
+								echo "";
+							} else {
+
+								if (empty($filmo["chid"])) { 
+									if (!empty($filmo[$i]["chname"]))
+										echo ' as <i>' 
+										. sanitize_text_field($filmo[$i]["chname"]) 
+										. '</i>';
+								} else { 
+									echo ' as <i><a class="linkpopup" href="' 
+									. esc_url("https://"
+									.$person->imdbsite
+									."/character/ch"
+									.intval($filmo["chid"]) ) 
+									. '/">' 
+									. $filmo[$i]["chname"] 
+									. '</a></i>'; 
+								}
+
+							}
+					echo "\n\t\t</div>";
+					echo "\n\t</div>";
+					continue;
+				}
+
+				// before XX results, show a shortened list of results
+
+				echo " <a class='linkpopup' href='"
+						.esc_url( LUMIERE_URLPOPUPSFILMS 
+						. '?mid=' . esc_html($filmo[$i]["mid"]) )
+						."'>".sanitize_text_field( $filmo[$i]["name"] )
+						."</a>";
+
+				if (!empty($filmo[$i]["year"])) {
+					echo " (";
+					echo intval($filmo[$i]["year"]);
+					echo ")";
 				} 
-				if (empty($film["chname"])) echo "";
-				else {
-				  if (empty($film["chid"])) echo " as ".sanitize_text_field( $film["chname"] );
-				  else echo " as <a class='linkpopup' href='". esc_url("https://".$person->imdbsite."/character/ch".intval($film["chid"]))."/'>".$film["chname"]."</a>";
+
+				// if (empty($film["chname"])) { 		//-> the result sent is not empty, but a breakline instead
+				if ($filmo[$i]["chname"]=="\n") {
+					echo "";
+				} else {
+
+					if (empty($filmo["chid"])) { 
+						if (!empty($filmo[$i]["chname"]))
+							echo ' as <i>' . sanitize_text_field($filmo[$i]["chname"]) . '</i>';
+					} else { 
+						echo ' as <i><a class="linkpopup" href="' 
+							. esc_url("https://"
+							.$person->imdbsite
+							."/character/ch"
+							.intval($filmo["chid"]) ) 
+							. '/">' 
+							. $filmo[$i]["chname"] 
+							. '</a></i>'; 
+					}
+
 				}
-				echo "</li>\n\t\t";
-				$ii++;
-			  }
-			}?>
-					</div>
-            			</td>
-    	    		</tr>			
-			<?php }?>			
+
+				// Last movie, close the hidden div
+				if ($i == $nbtotalfilmo ) 
+					echo '</div>';
+
+				$nbfilmpercat++;
+
+			} //end for each filmo
+
+			echo "\n\t" . '</div>';
+
+		} // end if
+
+	} // endforeach main
+
+}
+
+// ------------------------------------------------------------------------------ partie bio 
+if ( (isset($_GET['info'] )) && ($_GET['info'] == 'bio') ){ 
 
 
-		  
-     <?php } //------------------------------------------------------------------------------ end misc part ?>		   
-</table>
-<br />
+	############## Biographical movies
+
+	$biomovie = $person->pubmovies();
+	$nbtotalbiomovie = count($biomovie);
+
+	if ( (isset($biomovie)) && (!empty($biomovie)) ) { 
+
+		echo "\n\t\t\t\t\t\t\t" .' <!-- Biographical movies -->';
+		echo "\n" . '<div id="lumiere_popup_biomovies">';
+		echo "\n\t" .'<span class="imdbincluded-subtitle">' . esc_html__('Biographical movies', 'lumiere-movies') . '</span>';
+
+		for ($i=0; $i < $nbtotalbiomovie; ++$i) {
+			$ii = $i+"1";
+			echo "<a class='linkpopup' href='". esc_url( LUMIERE_URLPOPUPSFILMS ."?mid=".intval($biomovie[$i]["imdb"]) )."'>".$biomovie[$i]["name"]."</a>";
+			if (!empty($biomovie[$i]["year"])) 
+				echo " (".intval($biomovie[$i]["year"]).")";
+		} 
+
+		echo '</div>';
+
+	} 
+
+	############## Portrayed in
+
+	$portrayedmovie = $person->pubportraits();
+	$nbtotalportrayedmovie = count($portrayedmovie);
+
+	if ( (isset($portrayedmovie)) && (!empty($portrayedmovie)) ) { 
+
+		echo "\n\t\t\t\t\t\t\t" .' <!-- Portrayed in -->';
+		echo "\n" . '<div id="lumiere_popup_biomovies">';
+		echo "\n\t" .'<span class="imdbincluded-subtitle">' . esc_html__('Portrayed in', 'lumiere-movies') . '</span>';
+
+		for ($i=0; $i < $nbtotalportrayedmovie; ++$i) {
+			$ii = $i+"1";
+			echo "<a class='linkpopup' href='". esc_url( LUMIERE_URLPOPUPSFILMS ."?mid=".intval($portrayedmovie[$i]["imdb"]) )."'>".$portrayedmovie[$i]["name"]."</a>";
+			if (!empty($portrayedmovie[$i]["year"])) 
+				echo " (".intval($portrayedmovie[$i]["year"]).")";
+		} 
+
+		echo '</div>';
+
+	}
+
+	############## Interviews
+
+	$interviews = $person->interviews();
+	$nbtotalinterviews = count($interviews);
+
+	if ( (isset($interviews)) && (!empty($interviews)) ) { 
+
+		echo "\n\t\t\t\t\t\t\t" .' <!-- Interviews -->';
+		echo "\n" . '<div id="lumiere_popup_biomovies">';
+		echo "\n\t" .'<span class="imdbincluded-subtitle">' . esc_html__('Interviews', 'lumiere-movies') . '</span>';
+
+		for ($i=0; $i < $nbtotalinterviews; $i++) {
+
+			echo $interviews[$i]["name"] . ' ';
+
+			if (!empty($interviews[$i]["full"])) 
+				echo " (".intval($interviews[$i]["full"]) . ') ';
+
+			if (!empty($interviews[$i]["details"])) 
+				echo $interviews[$i]["details"] . '';
+
+			if ($i < $nbtotalinterviews -1)
+				echo ', ';
+
+		} 
+
+		echo '</div>';
+
+	}
+
+	############## Publicity printed
+
+	$pubprints = $person->pubprints();
+	$nbtotalpubprints = count($pubprints);
+
+	if ( (isset($pubprints)) && (!empty($pubprints)) ) { 
+
+		echo "\n\t\t\t\t\t\t\t" .' <!-- Publicity printed -->';
+		echo "\n" . '<div id="lumiere_popup_biomovies">';
+		echo "\n\t" .'<span class="imdbincluded-subtitle">' 
+			. esc_html__( 'Printed publicity', 'lumiere-movies' )
+			. '</span>';
+
+		for ($i=0; $i < $nbtotalpubprints; $i++) {
+
+			if (!empty($pubprints[$i]["author"])) 
+				echo esc_html( $pubprints[$i]["author"] );
+
+			if (!empty($pubprints[$i]["title"])) 
+				echo ' <i>' . esc_html( $pubprints[$i]["title"] ) . '</i>';
+
+			if (!empty($pubprints[$i]["year"])) 
+				echo ' (' . intval($pubprints[$i]["year"]) . ')';
+
+			if (!empty($pubprints[$i]["details"])) 
+				echo ' ' . esc_html( $pubprints[$i]["details"] );
+
+			if ($i < $nbtotalpubprints -1)
+				echo ', ';
+
+		} 
+
+		echo '</div>';
+
+	}
+
+	echo '<br />';
+
+} 
+
+// ------------------------------------------------------------------------------ misc part 
+if ( (isset($_GET['info'] )) && ($_GET['info'] == 'misc') ){ 
+
+
+	############## Trivia
+
+	$trivia = $person->trivia();
+	$nbtotaltrivia = count($trivia);
+
+	if ( (isset($trivia)) && (!empty($trivia)) ) { 
+
+		echo "\n\t\t\t\t\t\t\t" .' <!-- Trivia -->';
+		echo "\n" . '<div id="lumiere_popup_biomovies">';
+		echo "\n\t" .'<span class="imdbincluded-subtitle">' . esc_html__('Trivia', 'lumiere-movies') . ' </span>' . '(' . $nbtotaltrivia . ') <br />';
+
+		for ($i=0; $i < $nbtotaltrivia; $i++) {
+
+			// Display a "show more" after 3 results
+			if ($i == 3) 
+				echo "\n\t\t" .'<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>(' 
+					. esc_html__( 'see all', 'lumiere-movies' ) 
+					. ')</strong></font></div>'
+					. "\n\t\t" .'<div class="hidesection">';
+
+			echo "\n\t\t" .'<div>';
+			$text = preg_replace( '~https\:\/\/\www\.imdb\.com\/name/nm(\d{7})\?(.+)\"~', LUMIERE_URLPOPUPSPERSON . "popup-imdb_person.php?mid=\\1\"", $trivia[$i] );
+			echo "\n\t\t" .' * ' . $text;
+			echo "\n\t\t" .'</div>';
+
+			if ($i == $nbtotaltrivia ) 
+				echo "\n\t\t" .'</div>';
+
+
+		} 
+
+		echo "\n\t" . '</div>';
+		echo "\n" . '</div>';
+
+	}
+
+
+
+	############## Nicknames
+
+	$nickname = $person->nickname();
+	$nbtotalnickname = count($nickname);
+
+	if ( (isset($nickname)) && (!empty($nickname)) ) { 
+
+		echo "\n\t\t\t\t\t\t\t" .' <!-- Nicknames -->';
+		echo "\n" . '<div id="lumiere_popup_biomovies">';
+		echo "\n\t" .'<span class="imdbincluded-subtitle">' . esc_html__('Nicknames', 'lumiere-movies') . ' </span>';
+
+		for ($i=0; $i < $nbtotalnickname; $i++) {
+
+			$txt = "";
+
+   			foreach ($nickname as $nick) {
+				$txt = str_replace('<br>', ', ', $nick)."\n";
+				echo sanitize_text_field( $txt );
+  			} 
+		}
+
+		echo "\n" . '</div>';
+
+	}
+
+
+	############## Personal quotes
+
+	$quotes = $person->quotes();
+	$nbtotalnickname = count($quotes);
+
+	if ( (isset($quotes)) && (!empty($quotes)) ) { 
+
+		echo "\n\t\t\t\t\t\t\t" .' <!-- Personal quotes -->';
+		echo "\n" . '<div id="lumiere_popup_quotes">';
+		echo "\n\t" .'<span class="imdbincluded-subtitle">' . esc_html__('Personal quotes', 'lumiere-movies') . ' </span> (' . $nbtotalnickname . ')';
+
+		for ($i=0; $i < $nbtotalnickname; $i++) {
+
+			// Display a "show more" after 3 results
+			if ($i == 3) 
+				echo "\n\t\t" .'<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>(' 
+					. esc_html__( 'see all', 'lumiere-movies' ) 
+					. ')</strong></font></div>'
+					. "\n\t\t" .'<div class="hidesection">';
+
+			echo "\n\t\t" .'<div>';
+			echo ' * ' . sanitize_text_field( $quotes[$i] );
+			echo "\n\t\t" .'</div>';
+
+			if ($i == $nbtotalnickname ) 
+				echo "\n\t\t" .'</div>';
+
+		}
+
+		echo "\n" . '</div>';
+
+	}
+
+
+
+	############## Trademarks
+
+	$trademark = $person->trademark();
+	$nbtotaltrademark = count($trademark);
+
+	if ( (isset($trademark)) && (!empty($trademark)) ) { 
+
+		echo "\n\t\t\t\t\t\t\t" .' <!-- Trademarks -->';
+		echo "\n" . '<div id="lumiere_popup_biomovies">';
+		echo "\n\t" .'<span class="imdbincluded-subtitle">' . esc_html__('Trademarks', 'lumiere-movies') . ' </span>';
+
+		for ($i=0; $i < $nbtotaltrademark; $i++) {
+
+			echo '@ ';
+			echo sanitize_text_field( $trademark[$i] );
+
+		}
+
+		echo "\n" . '</div>';
+
+	}
+
+} 
+//------------------------------------------------------------------------------ end misc part ?>		   
+
+<br /><br />
 <?php 	
 	wp_meta();
 	wp_footer();
