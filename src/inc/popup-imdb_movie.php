@@ -174,7 +174,7 @@ if (empty($movie) ){
 
                                                 <!-- top page menu -->
 
-<div class="lumiere_container">
+<div class="lumiere_container lumiere_font_em_11">
 	<div class="titrecolonne lumiere_flex_auto">
             <a class="searchaka" href="<?php echo esc_url( LUMIERE_URLPOPUPSSEARCH . "?film=" . $filmid_sanitized . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'lumiere-movies'); ?>"><?php esc_html_e('Search AKAs', 'lumiere-movies'); ?></a>
         </div>
@@ -202,9 +202,9 @@ if (empty($movie) ){
 	</div> 
 	<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two">
                                                 <!-- Movie's picture display -->
-	 <?php 	## The picture is either taken from the movie itself or if it doesn't exist, from a standard "no exist" picture.
+	 <?php ## The picture is either taken from the movie itself or if it doesn't exist, from a standard "no exist" picture.
 		## The width value is taken from plugin settings, and added if the "thumbnail" option is unactivated
-echo '<img loading="eager" class="imdbincluded-picture" src="';
+echo '<a id="highslide_pic"><img loading="eager" class="imdbincluded-picture" src="';
 
 	if ($photo_url = $movie->photo_localurl() ) { 
 		echo esc_url( $photo_url ).'" alt="'.esc_attr( $movie->title() ).'" '; 
@@ -217,7 +217,7 @@ echo '<img loading="eager" class="imdbincluded-picture" src="';
 		echo 'width="'.intval( $imdb_admin_values['imdbcoversizewidth'] ).'px" ';
 	}
 
-echo '/ >'; ?>
+	echo '/ ></a>'; ?>
 
 	</div> 
 </div> 
@@ -595,14 +595,14 @@ if ( (isset($_GET['info'])) && ($_GET['info'] == 'divers') ){
 
 			if ( $i == 0 ) {
 				echo "\n\t" . '<div>'
-					. preg_replace("/https\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//", LUMIERE_URLPOPUPSPERSON . "popup-imdb_person.php?mid=\\1",sanitize_text_field( $trivia[$i]) )
+					. preg_replace("/https\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//", LUMIERE_URLPOPUPSPERSON . "popup-imdb_person.php?mid=\\1 class=\"linkpopup\"",sanitize_text_field( $trivia[$i]) )
 					. '&nbsp;&nbsp;&nbsp;'
 				 	. '<span class="activatehidesection"><strong>(' . esc_html__('click to show more trivias', 'lumiere-movies') . ')</strong></span>'
 					. "\n\t" . '<div class="hidesection">'
 					. '<br />';
 
 			} elseif ( $i > 0 ) {
-				echo "\n\t\t<strong>($ii)</strong>&nbsp;" . preg_replace("/https\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//", LUMIERE_URLPOPUPSPERSON . "popup-imdb_person.php?mid=\\1",sanitize_text_field( $trivia[$i]) )
+				echo "\n\t\t<strong>($ii)</strong>&nbsp;" . preg_replace("/https\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//", LUMIERE_URLPOPUPSPERSON . "popup-imdb_person.php?mid=\\1 class=\"linkpopup\"",sanitize_text_field( $trivia[$i]) )
 					. "\n\t\t<hr>";
 			}
 
@@ -629,7 +629,7 @@ if ( (isset($_GET['info'])) && ($_GET['info'] == 'divers') ){
 
 		for ($i = 0; $i < $nbtotalsoundtrack; $i++) {
 
-			$credit = preg_replace("/http\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//", LUMIERE_URLPOPUPSPERSON . "popup-imdb_person.php?mid=\\1",sanitize_text_field($soundtrack[$i]['credits'][0]['credit_to'] ));
+			$credit = preg_replace("/http\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//", LUMIERE_URLPOPUPSPERSON . "popup-imdb_person.php?mid=\\1 class=\"linkpopup\"",sanitize_text_field($soundtrack[$i]['credits'][0]['credit_to'] ));
 			echo "\n\t\t"
 				. $credit
 				. '&nbsp;<i>'

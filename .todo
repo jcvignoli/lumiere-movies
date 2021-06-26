@@ -6,6 +6,8 @@ OK--- 3. medium new design for person popups
 OK--- 4. minor added "portrayed in", "interviews", "printed publicity" infos in person popup biography
 OK--- 5. minor added full filmography in person popups
 
+OK--- 6. bug writer popup wasn't working in class.movie.php
+
 8. tester update procedure
 9. bug taxonomy items not added to posts if not in widget, such as the directors
 11. Implement check before add/deleting taxonomy
