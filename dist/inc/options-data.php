@@ -9,7 +9,7 @@
  # under the terms of the GNU General Public License (see LICENSE)           #
  # ------------------------------------------------------------------------- #
  #									              #
- #  Function : Widget configuration admin page                               #
+ #  Function : Data management configuration admin page                      #
  #									              #
  #############################################################################
 
@@ -167,7 +167,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 						<input type="text" id="imdb_imdbwidgetactornumber" name="imdb_imdbwidgetactornumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptionsw['imdbwidgetactornumber']), 'lumiere-movies') ?>" <?php if ($imdbOptionsw['imdbwidgetactor'] == 0){ echo 'disabled="disabled"'; }; ?> />
 
-						<div class="explain"><?php esc_html_e( 'Display (how many) actors', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?> & 10</div>
+						<div class="explain"><?php esc_html_e( 'Display (how many) actors. These options also applies to the pop-up summary.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?> & 10</div>
 					</div>
 
 					<div class="imdblt_double_container_content_third lumiere_padding_five">
@@ -224,7 +224,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 						<input type="radio" id="imdb_imdbwidgetcountry_no" name="imdb_imdbwidgetcountry" value="" <?php if ($imdbOptionsw['imdbwidgetcountry'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetcountry_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-						<div class="explain"><?php esc_html_e( 'Display country', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+						<div class="explain"><?php esc_html_e( 'Display country. This option also applies to the pop-up summary.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 					</div>
 
@@ -249,7 +249,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						<input type="radio" id="imdb_imdbwidgetdirector_yes" name="imdb_imdbwidgetdirector" value="1" <?php if ($imdbOptionsw['imdbwidgetdirector'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetdirector_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
 						<input type="radio" id="imdb_imdbwidgetdirector_no" name="imdb_imdbwidgetdirector" value="" <?php if ($imdbOptionsw['imdbwidgetdirector'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetdirector_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-					<div class="explain"><?php esc_html_e( 'Display directors', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
+					<div class="explain"><?php esc_html_e( 'Display directors. This option also applies to the pop-up summary.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
 
 					</div>
 
@@ -262,7 +262,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 						<input type="radio" id="imdb_imdbwidgetgenre_no" name="imdb_imdbwidgetgenre" value="" <?php if ($imdbOptionsw['imdbwidgetgenre'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetgenre_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-						<div class="explain"><?php esc_html_e( 'Display genre(s)', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
+						<div class="explain"><?php esc_html_e( 'Display genre. This option also applies to the pop-up summary.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
 
 					</div>
 
@@ -307,7 +307,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 						<input type="radio" id="imdb_imdbwidgetlanguage_no" name="imdb_imdbwidgetlanguage" value="" <?php if ($imdbOptionsw['imdbwidgetlanguage'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetlanguage_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-						<div class="explain"><?php esc_html_e( 'Display language(s)', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+						<div class="explain"><?php esc_html_e( 'Display languages. This option also applies to the pop-up summary.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 					</div>
 
@@ -351,7 +351,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 						<input type="text" id="imdb_imdbwidgetplotnumber" name="imdb_imdbwidgetplotnumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptionsw['imdbwidgetplotnumber']), 'lumiere-movies') ?>" <?php if ($imdbOptionsw['imdbwidgetplot'] == 0){ echo 'disabled="disabled"'; }; ?> />
 
-						<div class="explain"><?php esc_html_e( 'Display plot(s). Be careful, this field may need a lot of space. In ideal case, this plugin is used inside a post and not into a widget.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+						<div class="explain"><?php esc_html_e( 'Display plots. Be careful, this field may need a lot of space. In ideal case, this plugin is used inside a post and not into a widget.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 					</div>
 
@@ -363,7 +363,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						<input type="radio" id="imdb_imdbwidgetproducer_yes" name="imdb_imdbwidgetproducer" value="1" <?php if ($imdbOptionsw['imdbwidgetproducer'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetproducer_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
 						<input type="radio" id="imdb_imdbwidgetproducer_no" name="imdb_imdbwidgetproducer" value="" <?php if ($imdbOptionsw['imdbwidgetproducer'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetproducer_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-						<div class="explain"><?php esc_html_e( 'Display producer(s)', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+						<div class="explain"><?php esc_html_e( 'Display producers', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 					</div>
 
@@ -407,7 +407,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 						<input type="radio" id="imdb_imdbwidgetrating_no" name="imdb_imdbwidgetrating" value="" <?php if ($imdbOptionsw['imdbwidgetrating'] == 0) { echo 'checked="checked"'; } ?>  /><label for="imdb_imdbwidgetrating_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-						<div class="explain"><?php esc_html_e( 'Display rating', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+						<div class="explain"><?php esc_html_e( 'Display rating. This option also applies to the pop-up summary.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 					</div>
 
@@ -422,7 +422,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						
 						<input type="radio" id="imdb_imdbwidgetruntime_yes" name="imdb_imdbwidgetruntime" value="1" <?php if ($imdbOptionsw['imdbwidgetruntime'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetruntime_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
 						<input type="radio" id="imdb_imdbwidgetruntime_no" name="imdb_imdbwidgetruntime" value="" <?php if ($imdbOptionsw['imdbwidgetruntime'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetruntime_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
-						<div class="explain"><?php esc_html_e( 'Display the runtime', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+						<div class="explain"><?php esc_html_e( 'Display the runtime. This option also applies to the pop-up summary.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 					</div>
 

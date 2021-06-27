@@ -198,7 +198,7 @@ if (empty($movie) ){
 <div class="lumiere_display_flex lumiere_font_em_11">
 	<div class="lumiere_flex_auto lumiere_width_eighty_perc">
 		<div class="titrefilm"><?php $title_sanitized=sanitize_text_field($movie->title()); echo $title_sanitized; ?> &nbsp;&nbsp;(<?php echo sanitize_text_field( $movie->year () ); ?>)</div>
-		<div class=""><font size="-1"><?php echo sanitize_text_field( $movie->tagline() ); ?></font></div>
+		<div class="lumiere_align_center"><font size="-1"><?php echo sanitize_text_field( $movie->tagline() ); ?></font></div>
 	</div> 
 	<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two">
                                                 <!-- Movie's picture display -->
@@ -208,7 +208,7 @@ if (empty($movie) ){
 
 	if ($photo_url = $movie->photo_localurl() ) { 
 
-		echo '<a id="highslide_pic" href="'.esc_url($photo_url).'">';
+		echo '<a id="highslide_pic" class="highslide-image" href="'.esc_url($photo_url).'">';
 		echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="';
 		echo esc_url( $photo_url ).'" alt="'.esc_attr( $movie->title() ).'" '; 
 		// add width only if "Display only thumbnail" is on "no"
@@ -244,30 +244,52 @@ if ( (!isset($_GET['info'])) || (empty($_GET['info'])) ){
 
 	//---------------------------------------------------------------------------introduction part start ?>
 
-                                                <!-- Director -->
-	<div>
 <?php 
+
+	###  Director summary, limited by admin options
+
 	$director = $movie->director(); 
-	if ( (isset($director)) && (!empty($director)) ) {
+	$optiondirectoractive = intval($imdb_widget_values['imdbwidgetdirector']) ?? NULL; # director shown only if selected so in options 
+
+	if ( (isset($director)) && (!empty($director)) && ( $optiondirectoractive == 1 ) ) {
+
 		$nbtotaldirector=count($director);
-?>
-       <span class="imdbincluded-subtitle"><?php echo sprintf(esc_attr(_n('Director', 'Directors', $nbtotaldirector, 'lumiere-movies'),  number_format_i18n( $nbtotaldirector ))); ?></span>
-<?php		for ($i = 0; $i < $nbtotaldirector; $i++) { ?>
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $director[$i]["imdb"] . "/?mid=" . $director[$i]["imdb"] . "&film=".  $title_sanitized  ); ?>" title='<?php esc_html_e('link to imdb', 'lumiere-movies'); ?>'><?php
- 			echo "\n\t\t\t" . sanitize_text_field( $director[$i]["name"] ); 
+		echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Director -->";
+		echo "\n\t<div>";
+
+		echo '<span class="imdbincluded-subtitle">' 
+			. sprintf(esc_attr(_n('Director', 'Directors', $nbtotaldirector, 'lumiere-movies'),  number_format_i18n( $nbtotaldirector ))) 
+			. '</span>';
+		for ($i = 0; $i < $nbtotaldirector; $i++) { 
+
+			echo '<a class="linkpopup" href="' 
+				. esc_url( LUMIERE_URLPOPUPSPERSON . $director[$i]["imdb"] 
+				. "/?mid=" . $director[$i]["imdb"] . "&film=".  $title_sanitized  ) 
+				. '" title="' . esc_html__('link to imdb', 'lumiere-movies') . '">';
+			echo "\n\t\t\t" . sanitize_text_field( $director[$i]["name"] ); 
 			if ( $i < $nbtotaldirector -1 ) echo ', '; 
-?></a>
-<?php		} // endfor 
-	} // endisset ?>
-	</div>
-                                                <!-- Main actors -->
-	<div>
-<?php 	#### Main actors, limited by admin options
+
+			echo '</a>';
+
+		} // endfor 
+
+		echo "\n\t</div>";
+
+	} // endisset
+
+
+ 	#### Main actors, limited by admin options
+
 	$cast = $movie->cast();
 	$nbactors = empty($imdb_widget_values['imdbwidgetactornumber']) ? $nbactors =  "1" : $nbactors =  intval( $imdb_widget_values['imdbwidgetactornumber'] );
+	$optionactoractive = intval($imdb_widget_values['imdbwidgetactor']) ?? NULL; # actor shown only if selected so in options 
+
 	$nbtotalactors = intval( count($cast) );
 
-	if (!empty($cast)) { 
+	if ( (isset($cast)) && (!empty($cast)) && ( $optionactoractive == 1) ) { 
+
+		echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Main actors -->";
+		echo "\n\t<div>";
 
 		echo '<span class="imdbincluded-subtitle">' . esc_html__('Main actors', 'lumiere-movies') . '</span>';
 
@@ -281,92 +303,119 @@ if ( (!isset($_GET['info'])) || (empty($_GET['info'])) ){
 
 		echo '</div>';
 
-	} // endisset ?>
+	} // endisset 
 
-	<?php #### Runtime
+
+	#### Runtime, limited by admin options
+
 	$runtime = sanitize_text_field( $movie->runtime() );
-	if (!empty($runtime)) { ?>
-                                                <!-- Runtime -->
-	<div>
-	<?php	echo '<span class="imdbincluded-subtitle">' 
-		. esc_html__('Runtime', 'lumiere-movies')
-		. '</span>'
-		. $runtime
-		." "
-		.esc_html__('minutes', 'lumiere-movies');	?>
-	</div> 
-	<?php } ?>
+	$optionruntimeactive = intval($imdb_widget_values['imdbwidgetruntime']) ?? NULL; # runtime shown only if selected so in options
 
-	<?php #### Votes
-	if (null !== ($movie->votes() ) ) { 
+	if ( (!empty($runtime)) && ($optionruntimeactive == 1) ) { 
+
+		echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Runtime -->";
+		echo "\n\t<div>";
+		echo '<span class="imdbincluded-subtitle">' 
+			. esc_html__('Runtime', 'lumiere-movies')
+			. '</span>'
+			. $runtime
+			." "
+			.esc_html__('minutes', 'lumiere-movies');	
+		echo "\n\t</div>";
+
+	} 
+
+	#### Votes, limited by admin options
+
+	$optionratingactive = intval( $imdb_widget_values['imdbwidgetrating']) ?? NULL; # rating shown only if selected so in options
+	if ( (null !== ($movie->votes() ) ) && ( $optionratingactive == 1 ) ) { 
 		$votes_sanitized = esc_html($movie->votes());
-		$rating_sanitized = esc_html($movie->rating()); ?>                 
-	                              <!-- Rating -->
-	<div><?php 
-			echo '<span class="imdbincluded-subtitle">' 
-					. esc_html__('Rating', 'lumiere-movies')
-					. '</span>';
-			echo " <img src=\"".$imdb_admin_values['imdbplugindirectory'].'pics/showtimes/'.(round($rating_sanitized*2, 0)/0.2)
-				. ".gif\" title=\"".esc_html__('vote average ', 'lumiere-movies').$rating_sanitized.esc_html__(' out of 10', 'lumiere-movies')."\"  / >";
-			echo " (".number_format($votes_sanitized, 0, '', "'")." ".esc_html__('votes', 'lumiere-movies').")";	?>
-	</div> 
-	<?php } ?>
+		$rating_sanitized = esc_html($movie->rating()); 
 
-	<?php #### Language
+		echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Rating -->";
+		echo "\n\t<div>";
+
+		echo '<span class="imdbincluded-subtitle">' 
+				. esc_html__('Rating', 'lumiere-movies')
+				. '</span>';
+		echo " <img src=\"".$imdb_admin_values['imdbplugindirectory'].'pics/showtimes/'.(round($rating_sanitized*2, 0)/0.2)
+			. ".gif\" title=\"".esc_html__('vote average ', 'lumiere-movies').$rating_sanitized.esc_html__(' out of 10', 'lumiere-movies')."\"  / >";
+		echo " (".number_format($votes_sanitized, 0, '', "'")." ".esc_html__('votes', 'lumiere-movies').")";
+
+		echo "\n\t</div>";
+
+	} 
+
+	#### Language, limited by admin options
+
 	$languages = $movie->languages();
 	$nbtotallanguages = count($languages);
-	if ( (isset($languages)) && (!empty($languages)) ) { ?>
-                                                <!-- Language -->
-	<div>
-	<?php
+	$optionlanguageactive = intval( $imdb_widget_values['imdbwidgetlanguage'] ) ?? NULL; # language shown only if selected so in options
+
+	if ( ((isset($languages)) && (!empty($languages))) && ( $optionlanguageactive == 1 ) ) {
+
+		echo "\n\t\t\t\t\t\t\t<!-- Language -->";
+		echo "\n\t<div>";
+
 		echo '<span class="imdbincluded-subtitle">' 
 			. sprintf(esc_attr(_n('Language', 'Languages', $nbtotallanguages, 'lumiere-movies') ) )
 			. '</span>';
 		for ($i = 0; $i < $nbtotallanguages; $i++) {
 			echo sanitize_text_field( $languages[$i] );
 			if ($i < $nbtotallanguages -1) echo ", ";
-		}?>
-	</div> 
-	<?php } ?>
+		}
 
+		echo "\n\t</div>";
 
-	<?php #### Country
+	} 
+
+	 #### Country, limited by admin options
+
 	$country = $movie->country();
 	$nbtotalcountry = count($country);
-	if ( (isset($country)) && (!empty($country)) ) { ?>
-                                                <!-- Country -->
-	<div>
-	<?php
+	$optioncountryactive = intval( $imdb_widget_values['imdbwidgetcountry'] ) ?? NULL; # country shown only if selected so in options
+
+	if ( ((isset($country)) && (!empty($country)) ) && ($optioncountryactive == 1 ) ) { 
+
+		echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Country -->";
+		echo "\n\t<div>";
+
 		echo '<span class="imdbincluded-subtitle">' 
 			. sprintf(esc_attr(_n('Country', 'Countries', $nbtotalcountry, 'lumiere-movies') ) )
 			. '</span>';
 		for ($i = 0; $i < $nbtotalcountry; $i++) {
 			echo sanitize_text_field( $country[$i] );
 			if ($i < $nbtotalcountry -1) echo ", ";
-		}?>
-	</div> 
-	<?php } ?>
+		}
+
+		echo "\n\t</div>";
+
+	}
 
 
-	<?php #### Genre
+	#### Genre
+	$optiongenreactive = intval( $imdb_widget_values['imdbwidgetgenre'] ) ?? NULL; # genre shown only if selected so in options
 	$genre = $movie->genre();
-	if ( (isset($genre)) && (!empty($genre)) ) { 
+
+	if ( ((isset($genre)) && (!empty($genre)) ) && ($optiongenreactive == 1) ){ 
 		$gen = $movie->genres();
-		$nbtotalgenre = count($gen);?>
-                                                <!-- Genre -->
-	<div>
-	<?php
+		$nbtotalgenre = count($gen);
+
+		echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Genre -->";
+		echo "\n\t<div>";
+
 		echo '<span class="imdbincluded-subtitle">' 
 			. sprintf(esc_attr(_n('Genre', 'Genres', $nbtotalgenre, 'lumiere-movies') ) )
 			. '</span>';
 		for ($i = 0; $i < $nbtotalgenre; $i++) {
 			echo sanitize_text_field( $gen[$i] );
 			if ($i < $nbtotalgenre -1) echo ", ";
-		}?>
-	</div> 
-	<?php } ?>
+		}
 
-<?php /*
+		echo "\n\t</div>";
+	} 
+
+	/*
                                                 <!-- Sound -->
 	$sound = $movie->sound () ?? NULL;
 
@@ -394,26 +443,27 @@ if ( (!isset($_GET['info'])) || (empty($_GET['info'])) ){
 
 	// ------------------------------------------------------------------------------ casting part start 
 if ( (isset($_GET['info'])) && ($_GET['info'] == 'actors') ){ 
-?>
 
-                                                <!-- Actors --> 
-<?php 
+	#### Actors
+
 	$cast = $movie->cast();
 	$nbactors = empty($imdb_widget_values['imdbwidgetactornumber']) ? $nbactors =  "1" : $nbactors =  intval( $imdb_widget_values['imdbwidgetactornumber'] );
+	$optionactoractive = intval($imdb_widget_values['imdbwidgetactor']) ?? NULL; # actor shown only if selected so in options
 	$nbtotalactors = intval( count($cast) );
 
-	if (!empty($cast)) { ?>
+	if ( (!empty($cast)) && ($optionactoractive == 1) ) { 
 
-	<div class="imdbincluded-subtitle"><?php echo sprintf(esc_attr(_n('Actor', 'Actors', $nbtotalactors, 'lumiere-movies') ), number_format_i18n($nbtotalactors) ); ?></div>
+	echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Actors -->";
+	echo "\n\t" . '<div class="imdbincluded-subtitle">' . sprintf(esc_attr(_n('Actor', 'Actors', $nbtotalactors, 'lumiere-movies') ), number_format_i18n($nbtotalactors) ) . '</div>';
 
            
-<?php 	for ($i = 0; ($i < $nbtotalactors); $i++) { 
-		echo "\n\t" . '<div align="center" class="lumiere_container">';
-		echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+ 	for ($i = 0; ($i < $nbtotalactors); $i++) { 
+		echo "\n\t\t" . '<div align="center" class="lumiere_container">';
+		echo "\n\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 		echo sanitize_text_field( $cast[$i]["role"] ); 
-		echo "\n\t\t" . '</div>';
-		echo "\n\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-		echo "\n\t\t" 
+		echo '</div>';
+		echo "\n\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+		echo "\n\t\t\t\t" 
 			. '<a class="linkpopup" href="' 
 			. esc_url( LUMIERE_URLPOPUPSPERSON  
 			. $cast[$i]["imdb"] 
@@ -422,17 +472,20 @@ if ( (isset($_GET['info'])) && ($_GET['info'] == 'actors') ){
 			. '" title="' 
 			. esc_html__('link to imdb', 'lumiere-movies') 
 			. '">';
-		echo "\n\t\t" . sanitize_text_field( $cast[$i]["name"] ); 
-		echo "\n\t\t</a>";
+		echo "\n\t\t\t\t" . sanitize_text_field( $cast[$i]["name"] ); 
+		echo '</a>';
+		echo "\n\t\t\t</div>";
 		echo "\n\t\t</div>";
 		echo "\n\t</div>";
+
  		} // endfor 
+
 	} //end endisset 
 
-} 	// ------------------------------------------------------------------------------ casting part end 
+}
 
 
-	// ------------------------------------------------------------------------------ crew part start
+// ------------------------------------------------------------------------------ crew part start
 
 if ( (isset($_GET['info'])) && ($_GET['info'] == 'crew') ){ 
 
@@ -440,15 +493,16 @@ if ( (isset($_GET['info'])) && ($_GET['info'] == 'crew') ){
 	############## Directors
 
 	$director = $movie->director(); 
+
 	if ( (isset($director)) && (!empty($director)) ) {
 
-		$director_count=count($director);
+		$nbtotaldirector = count($director);
 
 		echo "\n\t\t\t\t\t\t\t" .' <!-- director -->';
 		echo "\n" . '<div id="lumiere_popup_director_group">';
-		echo "\n\t" .'<span class="imdbincluded-subtitle">' . sprintf(esc_attr(_n('Director', 'Directors', $director_count, 'lumiere-movies'),  number_format_i18n( $director_count ) ) ) . '</span>';
+		echo "\n\t" .'<span class="imdbincluded-subtitle">' . sprintf(esc_attr(_n('Director', 'Directors', $nbtotaldirector, 'lumiere-movies'),  number_format_i18n( $nbtotaldirector ) ) ) . '</span>';
 
-		for ($i = 0; $i < $director_count; $i++) { 
+		for ($i = 0; $i < $nbtotaldirector; $i++) { 
 			echo "\n\t" . '<div align="center" class="lumiere_container">';
 			echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 			echo "\n\t\t" 
@@ -460,6 +514,7 @@ if ( (isset($_GET['info'])) && ($_GET['info'] == 'crew') ){
 				. '" title="' 
 				. esc_html__('link to imdb', 'lumiere-movies') 
 				. '">';
+
 			echo "\n\t\t" .  sanitize_text_field( $director[$i]["name"] ); 
 			echo "\n\t\t</a>";
 			echo "\n\t\t</div>";
@@ -468,7 +523,9 @@ if ( (isset($_GET['info'])) && ($_GET['info'] == 'crew') ){
 			echo "\n\t\t" . '</div>';
 			echo "\n\t</div>";
 			echo "\n</div>";
+
  		} // endfor 
+
 	} //end endisset
 
 
