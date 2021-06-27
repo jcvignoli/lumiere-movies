@@ -5,11 +5,14 @@ Fatal error: Uncaught ArgumentCountError: Too few arguments to function Lumiere\
 OK--- 3. medium new design for person popups
 OK--- 4. minor added "portrayed in", "interviews", "printed publicity" infos in person popup biography
 OK--- 5. minor added full filmography in person popups
-
 OK--- 6. bug writer popup wasn't working in class.movie.php
+OK--- 7. update procedure tested and OK
+OK--- 8. main widget options alphabetically ordered
 
-8. tester update procedure
+7. rename widget/inside post options (becomes general)
+7. get rid of table in popup search and movies
 9. bug taxonomy items not added to posts if not in widget, such as the directors
+10. procedure in update.options.php doesn't seems to work
 11. Implement check before add/deleting taxonomy
 12. Develop page of taxo with special details about the person
 13. Implement alternative to highslide with a jquery modal window
