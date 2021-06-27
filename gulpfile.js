@@ -1,3 +1,9 @@
+/**** Lumière WordPress plugin workflow
+** Files are concatened, minified, copied from src to dist, then uploaded to the main server by ssh
+** Rsync available to upload everything
+** Errors not blocking (plumber) and notified (notify)
+**/
+
 /* Require gulp packages */
 var gulp = 	require('gulp'),
 		browserSync = require('browser-sync'),		/* open a proxy browser tab, auto refresh on files edit */
@@ -13,10 +19,29 @@ var gulp = 	require('gulp'),
 		del = require('del'),				/* delete files */
 /*		shell = require('gulp-shell'),			 execute shell functions 
 										example: .pipe(shell(['echo <%= file.path %>'])) */
-		gulpIf = require('gulp-if');			/* add if function */
+		gulpIf = require('gulp-if'),			/* if function */
+ 		ssh = require('gulp-ssh'),				/* ssh functions */
+		fs = require ('fs'),					/* filesystem functions */
+		rsync = require('gulp-rsync'),			/* rsync functions */
+		ext_cred = require( './.gulpcredentials.js' );
+
+
+var 		sshMain = new ssh ({					/* ssh functions with mainserver */
+			ignoreErrors: false,
+			sshConfig: {
+				host: ext_cred.mainserver.hostname,
+				port: ext_cred.mainserver.port,
+				username: ext_cred.mainserver.username,
+				privateKey: fs.readFileSync( ext_cred.mainserver.key )
+			}
+		})
 
 /* Copied/watched files */
 paths = {
+	base: {
+		src: './src',						/* main lumiere path source */
+		dist: './dist',					/* main lumiere path destination */
+		watch: './dist/**/*.*' },				/* main watch folder */
 	stylesheets: {
 		src: [ './src/**/*.css', '!./src/js/highslide/*.*' ],
 		dist: './dist' },
@@ -36,14 +61,15 @@ paths = {
 			'./src/**/*.md', 
 			'./src/languages/*.*', 
 			'./src/js/highslide/**/**/*.*'],
-		dist: './dist' }
+		dist: './dist' },
+	rsync: {
+		excludedpath: ''}
 };
-
 
 // Task 1 - Minify CSS
 gulp.task('stylesheets', function () {
 	return gulp
-		.src( paths.stylesheets.src , {base: './src'} )
+		.src( paths.stylesheets.src , {base: paths.base.src } )
 		.pipe(plumber({ errorHandler: function(err) {
 		     notify.onError({
 			  title: "Gulp error in " + err.plugin,
@@ -57,13 +83,14 @@ gulp.task('stylesheets', function () {
 			console.log(`${details.name}: ${details.stats.minifiedSize}`);
 		}))
 		.pipe(gulp.dest( paths.stylesheets.dist ))
+		.pipe(sshMain.dest( ext_cred.mainserver.dist ))
 		.pipe(browserSync.stream())
 });
 
 // Task 2 - Minify JS
 gulp.task('javascripts', function () {
 	return gulp
-		.src( paths.javascripts.src , {base: './src'} )
+		.src( paths.javascripts.src , {base: paths.base.src } )
 		.pipe(plumber({ errorHandler: function(err) {
 		     notify.onError({
 		         title: "Gulp error in " + err.plugin,
@@ -73,13 +100,14 @@ gulp.task('javascripts', function () {
 		.pipe(changed( paths.javascripts.dist ))
 		.pipe(js())
 		.pipe(gulp.dest( paths.javascripts.dist ))
+		.pipe(sshMain.dest( ext_cred.mainserver.dist ))
 		.pipe(browserSync.stream());
 });
 
 // Task 3 - Compress images -> jpg can't be compressed, selecting png and gif only
 gulp.task('images', function () {
 	return gulp
-		.src( paths.images.src, {base: './src'} )
+		.src( paths.images.src, {base: paths.base.src } )
 		.pipe(plumber({ errorHandler: function(err) {
 		     notify.onError({
 			  title: "Gulp error in " + err.plugin,
@@ -89,13 +117,14 @@ gulp.task('images', function () {
 		.pipe(changed( paths.images.dist ))
 		.pipe(imagemin())
 		.pipe(gulp.dest( paths.images.dist ))
+		.pipe(sshMain.dest( ext_cred.mainserver.dist ))
 		.pipe(browserSync.stream());
 });
 
 // Task 4 - Transfer untouched files -> jpg can't be compressed, transfered here
 gulp.task('files_copy', function () {
 	return gulp
-		.src( paths.files.src, {base: './src'} )
+		.src( paths.files.src, {base: paths.base.src } )
 		.pipe(plumber({ errorHandler: function(err) {
 		     notify.onError({
 			  title: "Gulp error in " + err.plugin,
@@ -104,6 +133,7 @@ gulp.task('files_copy', function () {
 		 }}))
 		.pipe(changed( paths.files.dist ))
 		.pipe(gulp.dest( paths.files.dist ))
+		.pipe(sshMain.dest( ext_cred.mainserver.dist ))
 		.pipe(browserSync.stream());
 });
 
@@ -118,10 +148,10 @@ gulp.task('watch', function(){
 // Task 6 - Run browser-sync
 gulp.task('browserWatch', gulp.parallel( 'watch', function(done){
 	browserSync.init({
-		proxy: 'local.lumiere/website/',
+		proxy: ext_cred.proxy.address,
 		notify:false
 	});
-	gulp.watch( './dist/**/*.*' ).on('change', browserSync.reload);
+	gulp.watch( paths.base.watch ).on('change', browserSync.reload);
 	done();
 }));
 
@@ -163,5 +193,23 @@ gulp.task('lint', function(cb) {
 		// lint error, return the stream and pipe to failAfterError 
 		// last.
 		.pipe(eslint.failAfterError());
+});
+
+// Task 10 - Rsync local dist rsynced to mainserver
+gulp.task('rsync', function(){
+	return gulp.src( paths.base.dist )
+		.pipe(rsync({
+			root: ext_cred.mainserver.src,
+			hostname: ext_cred.mainserver.hostname,
+			username: ext_cred.mainserver.username,
+			destination: ext_cred.mainserver.dist,
+			recursive: true,
+			incremental: true,
+			progress: true,
+			dryrun: true,
+			compress: true,
+			silent: false,
+			exclude: [ paths.rsync.excludepath ]
+		}));
 });
 

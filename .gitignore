@@ -4,6 +4,7 @@ test
 tmp
 vendor
 .gitignore-building
+.gulpcredentials.js
 composer.lock
 package-lock.json
 wp-cli.phar

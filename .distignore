@@ -8,6 +8,7 @@ vendor
 .babelrc
 .gitignore
 .gitignore-building
+.gulpcredentials.js
 .todo
 .git
 composer.json
