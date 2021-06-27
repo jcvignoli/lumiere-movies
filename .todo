@@ -1,3 +1,13 @@
+
+7. get rid of table in popup search and movies
+9. bug taxonomy items not added to posts if not in widget, such as the directors
+10. procedure in update.options.php doesn't seems to work
+11. Implement check before add/deleting taxonomy
+12. Develop page of taxo with special details about the person
+13. Implement alternative to highslide with a jquery modal window
+22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
+
+
 v3.3.2
 OK--- 1. medium new design for movie popups
 OK--- 2. WAS NO BUG, REINSTALLED. bug fatal error when upgrading. Deactivated upgrade process.
@@ -8,18 +18,8 @@ OK--- 5. minor added full filmography in person popups
 OK--- 6. bug writer popup wasn't working in class.movie.php
 OK--- 7. update procedure tested and OK
 OK--- 8. main widget options alphabetically ordered
-
 OK--- 9. technical renamed widget/inside post options to data management in admin
 OK-- 10. medium movie popup summary is now dependent of the admin Data options (actors+number of actors, rating, language, runtime, director).
-
-7. get rid of table in popup search and movies
-9. bug taxonomy items not added to posts if not in widget, such as the directors
-10. procedure in update.options.php doesn't seems to work
-11. Implement check before add/deleting taxonomy
-12. Develop page of taxo with special details about the person
-13. Implement alternative to highslide with a jquery modal window
-22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
-
 
 v3.3.1
 OK--- 1. technical Transformed imdb-movie.inc.php into a class. More versality moving forward.
