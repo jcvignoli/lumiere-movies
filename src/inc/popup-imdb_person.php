@@ -190,26 +190,24 @@ if (isset ($mid_sanitized)) {
 
 			// add width only if "Display only thumbnail" is on "no"
 			if ($imdb_admin_values['imdbcoversize'] == FALSE)
-				echo 'width="' . intval($imdb_admin_values['imdbcoversizewidth']) . 'px" ';
+				echo 'width="' . intval($imdb_admin_values['imdbcoversizewidth']) . 'px" />';
 
-			echo '/ >'; 
 			echo '</a>'; 
 
               } else{
  
 			echo '<a id="highslide_pic">';
 			echo "\n\t\t" 
-			. '<img loading="eager" class="imdbincluded-picture" src="'
-			.esc_url($imdb_admin_values['imdbplugindirectory']."pics/no_pics.gif")
-			.'" alt="'
-			.esc_html__('no picture', 'lumiere-movies')
-			.'" '; 
+				. '<img loading="eager" class="imdbincluded-picture" src="'
+				.esc_url($imdb_admin_values['imdbplugindirectory']."pics/no_pics.gif")
+				.'" alt="'
+				.esc_html__('no picture', 'lumiere-movies')
+				.'" '; 
 
 			// add width only if "Display only thumbnail" is on "no"
 			if ($imdb_admin_values['imdbcoversize'] == FALSE)
-				echo 'width="' . intval($imdb_admin_values['imdbcoversizewidth']) . 'px" ';
+				echo 'width="' . intval($imdb_admin_values['imdbcoversizewidth']) . 'px" />';
 
-			echo '/ >'; 
 			echo '</a>'; 
              } 
 ?>

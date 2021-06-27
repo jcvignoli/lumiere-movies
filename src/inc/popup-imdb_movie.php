@@ -174,23 +174,23 @@ if (empty($movie) ){
 
                                                 <!-- top page menu -->
 
-<div class="lumiere_container lumiere_font_em_11">
-	<div class="titrecolonne lumiere_flex_auto">
+<div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
+	<div class="lumiere_flex_auto">
             <a class="searchaka" href="<?php echo esc_url( LUMIERE_URLPOPUPSSEARCH . "?film=" . $filmid_sanitized . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'lumiere-movies'); ?>"><?php esc_html_e('Search AKAs', 'lumiere-movies'); ?></a>
         </div>
-	<div class="titrecolonne lumiere_flex_auto">
+	<div class="lumiere_flex_auto">
 		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Summary', 'lumiere-movies'); ?></a>
         </div>
-	<div class="titrecolonne lumiere_flex_auto">
+	<div class="lumiere_flex_auto">
 		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=actors" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Actors', 'lumiere-movies'); ?>'><?php esc_html_e('Actors', 'lumiere-movies'); ?></a>
         </div>
-	<div class="titrecolonne lumiere_flex_auto">
+	<div class="lumiere_flex_auto">
 		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=crew" ); ?>" title='<?php echo esc_html ( $movie->title() ).": ".esc_html__('Crew', 'lumiere-movies'); ?>'><?php esc_html_e('Crew', 'lumiere-movies'); ?></a>
         </div>
-	<div class="titrecolonne lumiere_flex_auto">
+	<div class="lumiere_flex_auto">
 		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=resume" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Plots', 'lumiere-movies'); ?>'><?php esc_html_e('Plots', 'lumiere-movies'); ?></a>
         </div>
-	<div class="titrecolonne lumiere_flex_auto">
+	<div class="lumiere_flex_auto">
 		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=divers" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
 	</div>
 </div>
@@ -198,26 +198,41 @@ if (empty($movie) ){
 <div class="lumiere_display_flex lumiere_font_em_11">
 	<div class="lumiere_flex_auto lumiere_width_eighty_perc">
 		<div class="titrefilm"><?php $title_sanitized=sanitize_text_field($movie->title()); echo $title_sanitized; ?> &nbsp;&nbsp;(<?php echo sanitize_text_field( $movie->year () ); ?>)</div>
-		<div class="soustitrefilm"><?php echo sanitize_text_field( $movie->tagline() ); ?> </div>
+		<div class=""><font size="-1"><?php echo sanitize_text_field( $movie->tagline() ); ?></font></div>
 	</div> 
 	<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two">
                                                 <!-- Movie's picture display -->
 	 <?php ## The picture is either taken from the movie itself or if it doesn't exist, from a standard "no exist" picture.
 		## The width value is taken from plugin settings, and added if the "thumbnail" option is unactivated
-echo '<a id="highslide_pic"><img loading="eager" class="imdbincluded-picture" src="';
+
 
 	if ($photo_url = $movie->photo_localurl() ) { 
+
+		echo '<a id="highslide_pic" href="'.esc_url($photo_url).'">';
+		echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="';
 		echo esc_url( $photo_url ).'" alt="'.esc_attr( $movie->title() ).'" '; 
+		// add width only if "Display only thumbnail" is on "no"
+		if ($imdb_admin_values['imdbcoversize'] == FALSE)
+			echo 'width="'.intval( $imdb_admin_values['imdbcoversizewidth'] ).'px" />';
+
+		echo '</a>';
+
 	} else { 
-		echo $imdb_admin_values['imdbplugindirectory'].'pics/no_pics.gif" alt="'.esc_html__('no picture', 'lumiere-movies').'" '; 
-	}
 
-	// add width only if "Display only thumbnail" is on "no"
-	if ($imdb_admin_values['imdbcoversize'] == FALSE){
-		echo 'width="'.intval( $imdb_admin_values['imdbcoversizewidth'] ).'px" ';
-	}
+		echo '<a id="highslide_pic">';
+		echo "\n\t\t" 
+			. '<img loading="eager" class="imdbincluded-picture" src="'
+			.esc_url($imdb_admin_values['imdbplugindirectory']."pics/no_pics.gif")
+			.'" alt="'
+			.esc_html__('no picture', 'lumiere-movies')
+			.'" '; 
 
-	echo '/ ></a>'; ?>
+		// add width only if "Display only thumbnail" is on "no"
+		if ($imdb_admin_values['imdbcoversize'] == FALSE)
+			echo 'width="'.intval( $imdb_admin_values['imdbcoversizewidth'] ).'px" />';
+
+		echo '</a>';
+	} ?>
 
 	</div> 
 </div> 

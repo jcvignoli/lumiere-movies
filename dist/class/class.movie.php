@@ -409,11 +409,14 @@ class LumiereMovies {
 				$output .= "\n\t\t\t" . '<a id="highslide_pic" href="' 
 					. $photo_url_sanitized 
 					. '" title="'
-					.sanitize_text_field( $movie->title() ) 
-					.'" >';
+					. esc_attr( $movie->title() ) 
+					. '">';
+
 				// loading=eager to prevent wordpress loading lazy
 				$output .= "\n\t\t\t\t<img loading=\"eager\" class=\"imdbelementPICimg\" src=\"";
+
 			} else {
+
 				// no big picture found OR no highslide popup selected
 				// loading=eager to prevent wordpress lazy loading
 				$output .= "\n\t\t\t".'<img loading="eager" class="imdbelementPICimg" src="';
@@ -422,17 +425,23 @@ class LumiereMovies {
 			// check if a picture exists
 			if ($photo_url_sanitized != FALSE){
 				// a picture exists, so show it
-				$output .= $photo_url_sanitized .'" alt="'.esc_html__('Photo of','lumiere-movies') .' ' . esc_attr( $movie->title() ) . '" '; 
+				$output .= $photo_url_sanitized 
+					.'" alt="'
+					. esc_html__('Photo of','lumiere-movies') 
+					.' ' 
+					. esc_attr( $movie->title() ) . '" '; 
 			} else { 
 				// no picture found, display the replacement pic
 				$output .= esc_url( $imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif') . '" alt="'.esc_html__('no picture found', 'lumiere-movies').'" '; 
 			}
 
-			$output .= 'width="'.intval( $imdb_admin_values['imdbcoversizewidth'] ).'" ';
-			$output .= "/ >"; 
+			$output .= 'width="' . intval( $imdb_admin_values['imdbcoversizewidth'] ) . '" />';
 
 			// new verification, closure code related to previous if
-			if ( (isset($highslidephotook))  && ($highslidephotook == "ok") ) { $output .= "\n\t\t\t</a>"; } else { $output .= "\n"; } 
+			if ( (isset($highslidephotook))  && ($highslidephotook == "ok") ) 
+				$output .= "\n\t\t\t</a>"; 
+			else 
+				$output .= "\n";
 
 		$output .= "\n\t\t" . '</div>';
 
