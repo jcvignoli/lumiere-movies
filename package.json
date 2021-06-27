@@ -1,18 +1,7 @@
 {
   "name": "Lumiere_wordpress",
   "description": "Wordpress plugin Lumière Movies",
-  "main": "index.js",
-  "scripts": {
-    "gulp": "gulp",
-    "wpbuild": "wp-scripts build",
-    "wpstart": "wp-scripts start",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "sass-build": "node-sass website/wp-content/plugins/lumiere-movies/scss -o website/wp-content/plugins/lumiere-movies/css",
-    "sass-watch": "node-sass website/wp-content/plugins/lumiere-movies/scss -o website/wp-content/plugins/lumiere-movies/css -w",
-    "browser-start": "browser-sync 'http://local.lumiere/website/' -f='**/**.*' -w",
-    "dev-complet": "npm-run-all sass-build --parallel sass-watch wpstart browser-start",
-    "dev": "npm-run-all wpstart browser-start"
-  },
+  "main": "gulpfile.js",
   "keywords": [],
   "author": "dev@jcvignoli.com",
   "license": "ISC",
@@ -35,7 +24,6 @@
     "gulp-plumber": "^1.2.1",
     "gulp-shell": "^0.8.0",
     "gulp-ssh": "^0.7.0",
-    "gulp-uglify": "^3.0.2",
-    "npm-run-all": "^4.1.5"
+    "gulp-uglify": "^3.0.2"
   }
 }
