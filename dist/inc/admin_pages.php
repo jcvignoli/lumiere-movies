@@ -42,13 +42,13 @@ function lumiere_admin_pages() {
 				<a title="<?php esc_html_e( 'General Options', 'lumiere-movies'); ?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options"); ?>"> <?php esc_html_e( 'General Options', 'lumiere-movies'); ?></a>
 			</div>
 
-			<?php 	### Widget subpage is relative to what is activated ?>
+			<?php 	### Data subpage is relative to what is activated ?>
 
 			<div class="imdblt_padding_five imdblt_flex_auto">
 				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
 
 
-				<a title="<?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=widgetoption"); ?>"><?php esc_html_e( 'Widget/Inside post Options', 'lumiere-movies'); ?></a>
+				<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=dataoption"); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies'); ?></a>
 
 <?php			if ( ! is_active_widget( '', '', 'lumiere-movies-widget') ) { ?>
 
@@ -91,9 +91,9 @@ function lumiere_admin_pages() {
 
 	}
 
-	if ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "widgetoption") ) {
+	if ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "dataoption") ) {
 
-		require_once ( plugin_dir_path( __DIR__ ) . 'inc/options-widget.php' ); 
+		require_once ( plugin_dir_path( __DIR__ ) . 'inc/options-data.php' ); 
 
 	} elseif ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "cache") ) {
 
