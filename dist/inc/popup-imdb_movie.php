@@ -15,30 +15,30 @@
 
 require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
-/* VARS */
-global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
-
-// HTML tags to keep when using strip_tags()
-$striptags_keep = '<div><span><br><img>';
-
-$movieid_sanitized = isset($_GET["mid"]) ? filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT) : NULL;
-$filmid_sanitized = isset($_GET["film"]) ? lumiere_name_htmlize( $_GET["film"] ) : NULL;
-$film_sanitized_for_title = isset($_GET["film"]) ? sanitize_text_field($_GET["film"]) : NULL;
-
-// Enter in debug mode
-if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
-	lumiere_debug_display($imdb_cache_values, 'SetError', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
-}
-
 // Start config class for $config in below Imdb\Title class calls
 if (class_exists("\Lumiere\Settings")) {
 	$config = new \Lumiere\Settings();
+	$imdb_admin_values = $config->get_imdb_admin_option();
+	$imdb_widget_values = $config->get_imdb_widget_option();
+	$imdb_cache_values = $config->get_imdb_cache_option();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
 	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
 }
+
+/* GET Vars sanitized */
+$movieid_sanitized = isset($_GET["mid"]) ? filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT) : NULL;
+$filmid_sanitized = isset($_GET["film"]) ? lumiere_name_htmlize( $_GET["film"] ) : NULL;
+$film_sanitized_for_title = isset($_GET["film"]) ? sanitize_text_field($_GET["film"]) : NULL;
+
+// HTML tags to keep when using strip_tags()
+$striptags_keep = '<div><span><br><img>';
+
+// Enter in debug mode
+if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1"))
+	lumiere_debug_display($imdb_cache_values, 'SetError', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
 // if neither film nor mid are set, throw a 404 error
 if (empty($movieid_sanitized ) && empty($filmid_sanitized)){

@@ -203,6 +203,12 @@ gulp.task('lint', function(cb) {
 // Task 10 - Rsync local dist rsynced to mainserver
 gulp.task('rsync', function(){
 	return gulp.src( paths.base.dist )
+		.pipe(plugins.plumber({ errorHandler: function(err) {
+		     plugins.notify.onError({
+			  title: "Gulp error in " + err.plugin,
+			  message:  err.toString()
+		     })(err);
+		 }}))
 		.pipe(plugins.rsync({
 			root: ext_cred.mainserver.src,
 			hostname: ext_cred.mainserver.hostname,

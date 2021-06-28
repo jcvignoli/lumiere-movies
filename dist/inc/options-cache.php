@@ -699,8 +699,6 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 							</div></td></tr></table>
 						</div>';// send input and results into array
 
-				flush();
-
 				} //end quick/long loading $imdbOptionsc['imdbcachedetailsshort']
 
 			}
