@@ -15,18 +15,12 @@
 
 require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
-/* VARS */
-
-global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;;
-
-// Enter in debug mode
-if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
-	lumiere_debug_display($imdb_cache_values, 'SetError', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
-}
-
 // Start config class for $config in below Imdb\Title class calls
 if (class_exists("\Lumiere\Settings")) {
 	$config = new \Lumiere\Settings();
+	$imdb_admin_values = $config->get_imdb_admin_option();
+	$imdb_widget_values = $config->get_imdb_widget_option();
+	$imdb_cache_values = $config->get_imdb_cache_option();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
@@ -34,7 +28,11 @@ if (class_exists("\Lumiere\Settings")) {
 	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
 }
 
-# Initialization of IMDBphp
+// Enter in debug mode
+if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1"))
+	lumiere_debug_display($imdb_cache_values, 'SetError', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+
+# Initialization of IMDBphp classes
 if (class_exists("\Imdb\TitleSearch")) 
 	$search = new \Imdb\TitleSearch($config);
 

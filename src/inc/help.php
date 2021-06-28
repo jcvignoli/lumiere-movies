@@ -28,7 +28,7 @@ if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
 global $imdb_admin_values;
 
 $readmefile = plugin_dir_path( __DIR__ ) . "README.txt";
-$changelogfile = plugin_dir_path( __DIR__ ) . "CHANGELOG.txt";
+$changelogfile = plugin_dir_path( __DIR__ ) . "CHANGELOG.md";
 $acknowfile = plugin_dir_path( __DIR__ ) . "ACKNOWLEDGMENTS.md";
 
 

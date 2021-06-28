@@ -386,18 +386,19 @@ if ( ! function_exists('lumiere_notice')){
 		switch ($code) {
 			default:
 			case 1: // success notice, green
-				echo '<div class="notice notice-success"><p>'. $msg .'</p></div>';
+				return '<div class="notice notice-success"><p>'. $msg .'</p></div>';
 				break;
 			case 2: // info notice, blue
-				echo '<div class="notice notice-info"><p>'. $msg .'</p></div>';
+				return '<div class="notice notice-info"><p>'. $msg .'</p></div>';
 				break;
 			case 3: // simple error, red
-				echo '<div class="notice notice-error"><p>'. $msg .'</p></div>';
+				return '<div class="notice notice-error"><p>'. $msg .'</p></div>';
 				break;
 			case 4: // warning error, yellow
-				echo '<div "notice notice-warning">'. $msg .'</div>';
+				return '<div "notice notice-warning">'. $msg .'</div>';
 				break;
 		}
+		return false;
 	}
 }
 
