@@ -63,7 +63,7 @@ do_action('wp_loaded'); // execute wordpress first codes
 
 <div id="lumiere_loader" class="lumiere_loader_center"></div>
 
-<h1><?php esc_html_e('Results related to', 'lumiere-movies'); echo " " . $film_sanitized_for_title ?></h1>
+<h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . $film_sanitized_for_title; ?></i></h1>
 
 <?php
 // if no movie was found at all
@@ -74,14 +74,16 @@ if (empty($results) ){
 	die();
 }?>
 
+<div class="lumiere_display_flex lumiere_align_center">
+	<div class="lumiere_flex_auto lumiere_width_fifty_perc">
+		<?php esc_html_e('Titles matching', 'lumiere-movies'); ?>
+	</div>
+	<div class="lumiere_flex_auto lumiere_width_fifty_perc">
+		<?php esc_html_e('Director', 'lumiere-movies'); ?>
+	</div>
+</div>
 
-
-<table class="TableListeResultats">
-	<tr>
-		<th class="TableListeResultatsTitre"><?php esc_html_e('Titles matching', 'lumiere-movies'); ?></th>
-		<th class="TableListeResultatsTitre imdblt_titlematchingdirector"><?php esc_html_e('Director', 'lumiere-movies'); ?></th>
-	</tr>
-	<?php
+<?php
 
 	$current_line=0;
 	foreach ($results as $res) {
@@ -89,37 +91,39 @@ if (empty($results) ){
 		// Limit the number of results according to value set in admin		
 		$current_line++;
 		if ( $current_line > $imdb_admin_values['imdbmaxresults']){
-			echo '</table>';echo '<div align="center"><i>' . esc_html__('Maximum of results reached.', 'lumiere-movies') . '</div>'; wp_footer(); echo '</i></body></html>';exit();}
+			echo '</div>';echo '<div align="center"><i>' . esc_html__('Maximum of results reached.', 'lumiere-movies') . '</div>'; wp_footer(); echo '</i></body></html>';exit();}
 
-		echo "	<tr>\n";
-		
+		echo "\n<div class='lumiere_display_flex lumiere_align_center'>";
+	
 		// ---- movie part
-		echo "		<td class='TableListeResultatsColGauche'><a href=\"".esc_url( LUMIERE_URLPOPUPSFILMS . lumiere_name_htmlize( $res->title() ) . "/?mid=".sanitize_text_field($res->imdbid()) )."&film=".lumiere_name_htmlize( $res->title() )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
+		echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
+		echo "\n\t\t<a href=\"".esc_url( LUMIERE_URLPOPUPSFILMS . lumiere_name_htmlize( $res->title() ) . "/?mid=".sanitize_text_field($res->imdbid()) )."&film=".lumiere_name_htmlize( $res->title() )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
 		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"".esc_url( "https://www.imdb.com/title/tt".sanitize_text_field($res->imdbid()) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'>";
 
 		if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
 			echo '<img loading="eager" class="img-imdb" src="'.esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] ).'" width="'.intval($imdb_admin_values['imdbpicsize']).'" alt="'.esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() ).'"/></a>';
 		}
-		echo "</td>\n";
-		flush ();
-	
+
+		echo "\n\t</div>";
+		echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_right'>";
+
 		// ---- director part
 		$realisateur = $res->director();
 		if ( (isset($realisateur['0']['name'])) && (! is_null ($realisateur['0']['name'])) ){
-			echo "		<td class='TableListeResultatsColDroite'><a class='link-imdb2' href=\"".esc_url( LUMIERE_URLPOPUPSPERSON . sanitize_text_field($realisateur['0']["imdb"]) . "/?mid=".sanitize_text_field($realisateur['0']["imdb"]) ). "\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."\" >".sanitize_text_field( $realisateur['0']['name'] )."</a>";
+			echo "\n\t\t<a class='link-imdb2' href=\"".esc_url( LUMIERE_URLPOPUPSPERSON . sanitize_text_field($realisateur['0']["imdb"]) . "/?mid=".sanitize_text_field($realisateur['0']["imdb"]) ). "\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."\" >".sanitize_text_field( $realisateur['0']['name'] )."</a>";
 
 			if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
 				echo "&nbsp;&nbsp;<a class='link-imdb2' href=\"".esc_url( "https://www.imdb.com/name/nm".intval($realisateur['0']["imdb"]) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."'>";
 				echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] )."' width='".intval($imdb_admin_values['imdbpicsize'])."' alt='".esc_html__('link to imdb for', 'lumiere-movies')." ".$realisateur['0']['name']."'/>";
 				echo "</a>";
 			}
-			echo "</td>\n";
+			echo "\n\t</div>";
 		}
-		echo "	</tr>\n";
-		flush ();
+		echo "\n</div>";
+
 	} // end foreach  ?> 
 
-</table>
+</div>
 <?php
 wp_footer(); 
 ?>
