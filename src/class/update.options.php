@@ -33,9 +33,9 @@ if (version_compare( LUMIERE_VERSION, "3.3.3" ) >= 0 ){
 
 	// Update 'imdbwidgetsource'
 	// No need to display the source by default
-	$updateLumiereOptions = $imdb_widget_values['imdbwidgetsource'] = false;
-	if ( update_option($config->imdbWidgetOptionsName, $updateLumiereOptions) )
-		echo lumiere_notice(1, esc_html__( 'Lumière option successfully update.', 'lumiere-movies') );
+	$updateLumiereOptions = $imdb_widget_values['imdbwidgetsource'] = true;
+	if ( TRUE === lumiere_update_options($config->imdbWidgetOptionsName, 'imdbwidgetsource', '1') )
+		echo lumiere_notice(1, esc_html__( 'Lumière option successfully updated.', 'lumiere-movies') );
 
 }
 
@@ -68,10 +68,10 @@ if (version_compare( LUMIERE_VERSION, "3.3.1" ) >= 0 ){
 function lumiere_add_options($option_array=NULL,$option_key=NULL,$option_value=NULL) {
 
 	if (!isset($option_array))
-		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, "$option_array" is undefined.', 'lumiere-movies') );
+		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, ($option_array) is undefined.', 'lumiere-movies') );
 
 	if (!isset($option_key))
-		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, "$option_key" is undefined.', 'lumiere-movies') );
+		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, ($option_key) is undefined.', 'lumiere-movies') );
 
 	$option_array_search = get_option($option_array);
 	$check_if_exists = array_key_exists ($option_key, $option_array_search);
@@ -81,7 +81,39 @@ function lumiere_add_options($option_array=NULL,$option_key=NULL,$option_value=N
 		update_option($option_array, $option_array_search);
 		return true;
 	} else {
-		echo lumiere_notice(3, esc_html__( "Lumière option '$option_key' already exists.", 'lumiere-movies') );
+		echo lumiere_notice(3, esc_html__( "Lumière option ($option_key) already exists.", 'lumiere-movies') );
+	}
+
+	return false;
+
+}
+
+/*** Update option in array of WordPress options
+ *** WordPress doesn't know how to handle updating a specific key in a array of options
+ **
+ ** @parameter mandatory $option_array : the array of options, such as $config->imdbWidgetOptionsName
+ ** @parameter mandatory $option_key : the key in the array of options to be added, such as 'imdbintotheposttheme'
+ ** @parameter optional $option_key : the value to add to the key, NULL if not specified
+ **
+ ** returns TRUE if successful, a wordpress notice if missing mandatory parameters, FALSE if option already exists
+ **/
+function lumiere_update_options($option_array=NULL,$option_key=NULL,$option_value=NULL) {
+
+	if (!isset($option_array))
+		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, ($option_array) is undefined.', 'lumiere-movies') );
+
+	if (!isset($option_key))
+		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, ($option_key) is undefined.', 'lumiere-movies') );
+
+	$option_array_search = get_option($option_array);
+	$check_if_exists = array_key_exists ($option_key, $option_array_search);
+
+	if ( TRUE === $check_if_exists) {
+		$option_array_search[$option_key] = $option_value;
+		update_option($option_array, $option_array_search);
+		return true;
+	} else {
+		echo lumiere_notice(3, esc_html__( "Lumière option ($option_key) was not found.", 'lumiere-movies') );
 	}
 
 	return false;
@@ -100,10 +132,10 @@ function lumiere_add_options($option_array=NULL,$option_key=NULL,$option_value=N
 function lumiere_remove_options($option_array=NULL,$option_key=NULL) {
 
 	if (!isset($option_array))
-		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, "$option_array" is undefined.', 'lumiere-movies') );
+		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, ($option_array) is undefined.', 'lumiere-movies') );
 
 	if (!isset($option_key))
-		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, "$option_key" is undefined.', 'lumiere-movies') );
+		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, ($option_key) is undefined.', 'lumiere-movies') );
 
 	$option_array_search = get_option($option_array);
 	$check_if_exists = array_key_exists ($option_key, $option_array_search);

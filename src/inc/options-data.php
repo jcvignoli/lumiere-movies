@@ -36,12 +36,12 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 	// Message for success
 	if (sanitize_text_field( $_GET['msg'] ) == "taxotemplatecopy_success" ) {
 
-		lumiere_notice(1, esc_html__( $messages["taxotemplatecopy_success"], 'lumiere-movies') );
+		echo lumiere_notice(1, esc_html__( $messages["taxotemplatecopy_success"], 'lumiere-movies') );
 
 	// Message for failure
 	} elseif ( sanitize_text_field( $_GET['msg'] ) == "taxotemplatecopy_failed" ) {
 
-		lumiere_notice(3, esc_html__( $messages["taxotemplatecopy_failed"] , 'lumiere-movies') );
+		echo lumiere_notice(3, esc_html__( $messages["taxotemplatecopy_failed"] , 'lumiere-movies') );
 
 	} 
 }
@@ -89,14 +89,14 @@ if (current_user_can( 'manage_options' ) ) {
 		update_option($imdb_ft->imdbWidgetOptionsName, $imdbOptionsw);
 
 		// display confirmation message
-		lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
+		echo lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
 
 		// Display a refresh link otherwise refreshed data is not seen
 		if (!headers_sent()) {
 			header("Location: ".esc_url($_SERVER[ "REQUEST_URI"]), false);
 			die();
 		} else {
-			lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			die();
 		}
 
@@ -116,13 +116,13 @@ if (current_user_can( 'manage_options' ) ) {
 			exit();
 
 		} else {
-
-			lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
+			echo lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
 
 		// display confirmation message
-		lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
+		echo lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
 
 	}
 
