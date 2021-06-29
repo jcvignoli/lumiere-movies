@@ -1,5 +1,7 @@
 Changelog
 
+v.3.3.3
+
 v.3.3.2
 * [medium] New design for movies popups
 * [medium] New design for persons popups
