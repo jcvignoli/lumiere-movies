@@ -178,7 +178,7 @@ class Settings extends Send_config {
 		'imdbwidgetsoundtrack' => false,
 		'imdbwidgetsoundtracknumber' => false,
 		'imdbwidgetofficialsites' => false,
-		'imdbwidgetsource' => true,
+		'imdbwidgetsource' => false,
 		'imdbwidgetonpost' => true,
 		'imdbwidgetonpage' => true,
 		'imdbwidgetyear' => false,

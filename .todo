@@ -1,10 +1,10 @@
 v3.3.3
+OK--- 1. technical Set 'imdbwidgetsource' to false, so no more link to imdb for movies by default.
 
 
 
 
-
-7. get rid of table in popup search and movies
+7. get rid of tables in popup search and movies
 9. bug taxonomy items not added to posts if not in widget, such as the directors
 10. procedure in update.options.php doesn't seems to work
 11. Implement check before add/deleting taxonomy

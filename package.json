@@ -19,6 +19,8 @@
     "watch": "gulp watch",
     "build": "gulp build",
     "browserWatch": "gulp browserWatch",
+    "rsyncnodry": "gulp rsync --rsync nodry",
+    "rsync": "gulp rsync",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
@@ -34,6 +36,7 @@
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-eslint": "^6.0.0",
+    "gulp-exec": "^5.0.0",
     "gulp-if": "^3.0.0",
     "gulp-imagemin": "^7.1.0",
     "gulp-load-plugins": "^2.0.7",
@@ -42,6 +45,7 @@
     "gulp-rsync": "^0.0.9",
     "gulp-shell": "^0.8.0",
     "gulp-ssh": "^0.7.0",
-    "gulp-uglify": "^3.0.2"
+    "gulp-uglify": "^3.0.2",
+    "node-notifier": "^9.0.1"
   }
 }

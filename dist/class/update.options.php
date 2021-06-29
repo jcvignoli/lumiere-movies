@@ -26,6 +26,18 @@ if (class_exists("\Lumiere\Settings")) {
 	wp_die('Lumière files have been moved. Can not update Lumière!');
 }
 
+/************************************************** 3.3.3
+*/
+
+if (version_compare( LUMIERE_VERSION, "3.3.3" ) >= 0 ){
+
+	// Update 'imdbwidgetsource'
+	// No need to display the source by default
+	$updateLumiereOptions = $imdb_widget_values['imdbwidgetsource'] = false;
+	if ( update_option($config->imdbWidgetOptionsName, $updateLumiereOptions) )
+		echo lumiere_notice(1, esc_html__( 'Lumière option successfully update.', 'lumiere-movies') );
+
+}
 
 /************************************************** 3.3.1
 */
