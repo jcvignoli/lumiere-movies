@@ -33,17 +33,17 @@ $allowed_html_for_esc_html_functions = [
  	/* get the $_GET */
 if ((isset($_GET['msg'])) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $messages) ){
 	if (sanitize_text_field($_GET['msg'])=="cache_options_update_success_msg") {
-		lumiere_notice(1, esc_html__( $messages["cache_options_update_success_msg"], 'lumiere-movies' ) );
+		echo lumiere_notice(1, esc_html__( $messages["cache_options_update_success_msg"], 'lumiere-movies' ) );
 	} elseif (sanitize_text_field($_GET['msg'])=="cache_options_refresh_success_msg") {
-		lumiere_notice(1, esc_html__( $messages["cache_options_refresh_success_msg"], 'lumiere-movies' ) );
+		echo lumiere_notice(1, esc_html__( $messages["cache_options_refresh_success_msg"], 'lumiere-movies' ) );
 	} elseif (sanitize_text_field($_GET['msg'])=="cache_delete_all_msg") {
-		lumiere_notice(1, esc_html__( $messages["cache_delete_all_msg"], 'lumiere-movies' ) );
+		echo lumiere_notice(1, esc_html__( $messages["cache_delete_all_msg"], 'lumiere-movies' ) );
 	} elseif (sanitize_text_field($_GET['msg'])=="cache_delete_ticked_msg") {
-		lumiere_notice(1, esc_html__( $messages["cache_delete_ticked_msg"], 'lumiere-movies' ) );
+		echo lumiere_notice(1, esc_html__( $messages["cache_delete_ticked_msg"], 'lumiere-movies' ) );
 	} elseif (sanitize_text_field($_GET['msg'])=="cache_delete_individual_msg") {
-		lumiere_notice(1, esc_html__( $messages["cache_delete_individual_msg"], 'lumiere-movies' ) );
+		echo lumiere_notice(1, esc_html__( $messages["cache_delete_individual_msg"], 'lumiere-movies' ) );
 	} elseif (sanitize_text_field($_GET['msg'])=="cache_refresh_individual_msg") {
-		lumiere_notice(1, esc_html__( $messages["cache_refresh_individual_msg"], 'lumiere-movies' ) );
+		echo lumiere_notice(1, esc_html__( $messages["cache_refresh_individual_msg"], 'lumiere-movies' ) );
 	}
 }
 	/* message notification options */
@@ -92,13 +92,13 @@ if (current_user_can( 'manage_options' ) ) {
 		update_option($imdb_ft->imdbCacheOptionsName, $imdbOptionsc);
 
 		// display message on top
-		lumiere_notice(1, '<strong>'. esc_html__( 'Cache options saved.', 'lumiere-movies') .'</strong>');
+		echo lumiere_notice(1, '<strong>'. esc_html__( 'Cache options saved.', 'lumiere-movies') .'</strong>');
 		if (!headers_sent()) {
 			//header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
 			wp_safe_redirect( add_query_arg( "msg", "cache_options_update_success_msg", wp_get_referer() ) ); 
 			exit();
 		} else {
-			lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
 	}
@@ -109,14 +109,14 @@ if (current_user_can( 'manage_options' ) ) {
 		delete_option($imdb_ft->imdbCacheOptionsName);
 
 		// display message on top
-		lumiere_notice(1, '<strong>'. esc_html__( 'Cache options reset.', 'lumiere-movies') .'</strong>');
+		echo lumiere_notice(1, '<strong>'. esc_html__( 'Cache options reset.', 'lumiere-movies') .'</strong>');
 
 		// Display a refresh link otherwise refreshed data is not seen
 		if (!headers_sent()){
 			wp_safe_redirect( add_query_arg( "msg", "cache_options_refresh_success_msg", wp_get_referer() ) ); 
 			exit();
 		} else {
-			lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
 	}
@@ -126,18 +126,18 @@ if (current_user_can( 'manage_options' ) ) {
 
 		// prevent drama
 		if ( (!isset($imdb_cache_values['imdbcachedir'])) || ( is_null($imdb_cache_values['imdbcachedir'])) )
-			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
+			wp_die( echo lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
 		
 		// Delete cache
 		lumiere_unlinkRecursive( $imdb_cache_values['imdbcachedir'] );
 
 		// display message on top
-		lumiere_notice(1, '<strong>'. esc_html__( 'All cache files deleted.', 'lumiere-movies') .'</strong>');
+		echo lumiere_notice(1, '<strong>'. esc_html__( 'All cache files deleted.', 'lumiere-movies') .'</strong>');
 		if (!header_sent){
 			wp_safe_redirect( add_query_arg( "msg", "cache_delete_all_msg", wp_get_referer() ) );
 			exit();
 		} else {
-			lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
 	}
@@ -147,7 +147,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 		// prevent drama
 		if ( is_null($imdb_cache_values['imdbcachedir']))
-			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
+			wp_die( echo lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
 		
 		// Delete cache
 		$files_query = glob($imdb_cache_values['imdbcachedir'] . "find.s*") ?? NULL;
@@ -155,8 +155,8 @@ if (current_user_can( 'manage_options' ) ) {
 
 			// if file doesn't exist
 			if  ( (!isset($cacheTOdelete)) || (is_null($cacheTOdelete)) || (count($cacheTOdelete) < 1) ) {
-				lumiere_notice(3, esc_html__( 'No query files found.', 'lumiere-movies')) ;
-				lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+				echo lumiere_notice(3, esc_html__( 'No query files found.', 'lumiere-movies')) ;
+				echo lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 				wp_die( ) ;
 			}
 
@@ -168,12 +168,12 @@ if (current_user_can( 'manage_options' ) ) {
 		}
 
 		// display messages on top
-		lumiere_notice(1, '<strong>'. esc_html__( 'Query cache files deleted.', 'lumiere-movies') .'</strong>');
+		echo lumiere_notice(1, '<strong>'. esc_html__( 'Query cache files deleted.', 'lumiere-movies') .'</strong>');
 		if (!header_sent){
 			wp_safe_redirect( add_query_arg( "msg", "cache_delete_query_msg", wp_get_referer() ) );
 			exit();
 		} else {
-			lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
 	}
@@ -185,7 +185,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 		// prevent drama
 		if ( is_null($imdb_cache_values['imdbcachedir']))
-			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
+			wp_die( echo lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
 
 
 		// for movies
@@ -200,7 +200,7 @@ if (current_user_can( 'manage_options' ) ) {
 					if (file_exists($cacheTOdelete )) {
 						unlink( esc_url( $cacheTOdelete ));
 					}  else {
-						wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+						wp_die( echo lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
 					}
 				}
 			}
@@ -219,7 +219,7 @@ if (current_user_can( 'manage_options' ) ) {
 					if (file_exists($cacheTOdelete )) {
 						unlink( esc_url( $cacheTOdelete ));
 					}  else {
-						wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+						wp_die( echo lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
 					}
 				}
 
@@ -227,12 +227,12 @@ if (current_user_can( 'manage_options' ) ) {
 		}
 
 		// display message on top
-		lumiere_notice(1, esc_html__( 'Selected ticked cache file(s) deleted.', 'lumiere-movies') );
+		echo lumiere_notice(1, esc_html__( 'Selected ticked cache file(s) deleted.', 'lumiere-movies') );
 		if (!header_sent){
 			wp_safe_redirect( add_query_arg( "msg", "cache_delete_ticked_msg", wp_get_referer() ) );
 			exit();
 		} else {
-			lumiere_notice(1, '<div align="center"><a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a></div>');
+			echo lumiere_notice(1, '<div align="center"><a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a></div>');
 			exit();
 		}
 
@@ -254,7 +254,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 			// if file doesn't exist
 			if  ( (is_null($name_sanitized)) || (count($name_sanitized) < 1) )
-				wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+				wp_die( echo lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
 
 			foreach ( $name_sanitized as $cacheTOdelete) {
 
@@ -274,7 +274,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 			// if file doesn't exist
 			if  ( (is_null($name_sanitized)) || (count($name_sanitized) < 1) )
-				wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+				wp_die( echo lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
 
 			foreach ( $name_sanitized as $cacheTOdelete) {
 
@@ -286,7 +286,7 @@ if (current_user_can( 'manage_options' ) ) {
 			}
 		}
 
-		lumiere_notice(1, esc_html__( 'Selected cache file deleted.', 'lumiere-movies') );
+		echo lumiere_notice(1, esc_html__( 'Selected cache file deleted.', 'lumiere-movies') );
 	}
 
 
@@ -305,7 +305,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 			// if file doesn't exist
 			if  ( (is_null($name_sanitized)) || (count($name_sanitized) < 1) )
-				wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+				wp_die( echo lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
 
 			foreach ( $name_sanitized as $cacheTOdelete) {
 
@@ -330,7 +330,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 			// if file doesn't exist
 			if  ( (is_null($name_people_sanitized)) || (count($name_people_sanitized) < 1) )
-				wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+				wp_die( echo lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
 
 			foreach ( $name_people_sanitized as $cacheTOdelete) {
 
@@ -349,7 +349,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 		}
 
-		lumiere_notice(1, esc_html__( 'Selected cache file successfully refreshed.', 'lumiere-movies') );
+		echo lumiere_notice(1, esc_html__( 'Selected cache file successfully refreshed.', 'lumiere-movies') );
 	}
 
 

@@ -2,6 +2,7 @@ Changelog
 
 v.3.3.3
 * [technical] Set 'imdbwidgetsource' to false, so no more link to imdb for movies by default.
+* [bug] No more info shown on update/reset of admin options. lumiere_notice() was changed to return from echo. Added echo to all calls of that function.
 
 v.3.3.2
 * [medium] New design for movies popups

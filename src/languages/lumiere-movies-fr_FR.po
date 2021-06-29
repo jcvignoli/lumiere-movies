@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-28 20:37-0400\n"
-"PO-Revision-Date: 2021-06-28 20:40-0400\n"
+"POT-Creation-Date: 2021-06-29 12:33-0400\n"
+"PO-Revision-Date: 2021-06-29 12:33-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -434,24 +434,30 @@ msgstr "Une erreur s'est produite lors de la génération du fichier htaccess."
 msgid "htaccess file successfully generated."
 msgstr "fichier htaccess g avec succès."
 
-#: class/update.options.php:37
+#: class/update.options.php:38
+msgid "Lumière option successfully updated."
+msgstr "Options de Lumière! mises à jour avec succès."
+
+#: class/update.options.php:49
 msgid "Lumière option successfully removed."
 msgstr "Options de Lumière! effacées avec succès."
 
-#: class/update.options.php:42
+#: class/update.options.php:54
 msgid "Lumière option successfully added."
 msgstr "Options de Lumière! ajoutées avec succès."
 
-#: class/update.options.php:59 class/update.options.php:91
-msgid "Cannot update Lumière options, \"$option_array\" is undefined."
+#: class/update.options.php:71 class/update.options.php:103
+#: class/update.options.php:135
+msgid "Cannot update Lumière options, ($option_array) is undefined."
 msgstr ""
-"Impossible de mettre à jour les options de Lumière, \"$option_array\" est "
+"Impossible de mettre à jour les options de Lumière, ($option_array) est "
 "indéfini."
 
-#: class/update.options.php:62 class/update.options.php:94
-msgid "Cannot update Lumière options, \"$option_key\" is undefined."
+#: class/update.options.php:74 class/update.options.php:106
+#: class/update.options.php:138
+msgid "Cannot update Lumière options, ($option_key) is undefined."
 msgstr ""
-"Impossible de mettre à jour les options de Lumière, \"$option_array\" est "
+"Impossible de mettre à jour les options de Lumière, ($option_key) est "
 "indéfini."
 
 #: inc/admin_pages.php:35
@@ -1822,7 +1828,8 @@ msgstr "Cliquez sur \"reset settings\" pour rafraîchir les valeurs."
 msgid "Options saved."
 msgstr "Options sauvegard&eacute;es."
 
-#: inc/options-data.php:125 inc/options-general.php:119
+#: inc/options-data.php:119 inc/options-data.php:125
+#: inc/options-general.php:119
 msgid "Options reset."
 msgstr "Options r&eacute;initialis&eacute;es."
 

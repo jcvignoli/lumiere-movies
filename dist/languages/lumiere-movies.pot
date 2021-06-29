@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the Lumière! Movies plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Lumière! Movies 3.3.2\n"
+"Project-Id-Version: Lumière! Movies 3.3.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-28T21:06:40-03:00\n"
+"POT-Creation-Date: 2021-06-29T13:34:34-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.4.0\n"
+"X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
 
 #. Plugin Name of the plugin
@@ -45,11 +45,7 @@ msgid "General options"
 msgstr ""
 
 #: class/class.core.php:366
-msgid "Widget & In post options page"
-msgstr ""
-
-#: class/class.core.php:366
-msgid "Widget/In post"
+msgid "Data management"
 msgstr ""
 
 #: class/class.core.php:367
@@ -388,12 +384,12 @@ msgid "Source"
 msgstr ""
 
 #: class/class.movie.php:2056
-#: class/functions.php:235
+#: class/functions.php:239
 msgid "Go to IMDb website for this movie"
 msgstr ""
 
 #: class/class.movie.php:2057
-#: class/functions.php:236
+#: class/functions.php:240
 msgid "IMDb's page for this movie"
 msgstr ""
 
@@ -409,52 +405,58 @@ msgstr ""
 msgid "Widget title:"
 msgstr ""
 
-#: class/functions.php:122
+#: class/functions.php:123
 msgid "<strong>Licensing Info:</strong> Under a GPL licence, \"Lumiere Movies\" is based on <a href=\"https://github.com/tboothman/imdbphp/\" target=\"_blank\">tboothman</a> classes. Nevertheless, a considerable amount of work was required to implement it in wordpress; check the support page for"
 msgstr ""
 
-#: class/functions.php:124
+#: class/functions.php:125
 msgid "more"
 msgstr ""
 
-#: class/functions.php:153
+#: class/functions.php:157
 msgid "Lumière "
 msgstr ""
 
-#: class/functions.php:177
+#: class/functions.php:181
 msgid "Sorry, no result found for this reference"
 msgstr ""
 
-#: class/functions.php:277
-#: class/functions.php:299
+#: class/functions.php:281
+#: class/functions.php:303
 msgid "Open a new window with IMDb informations"
 msgstr ""
 
-#: class/functions.php:426
-#: class/functions.php:428
+#: class/functions.php:430
+#: class/functions.php:432
 msgid "There was an error when generating the htaccess file."
 msgstr ""
 
-#: class/functions.php:470
+#: class/functions.php:474
 msgid "htaccess file successfully generated."
 msgstr ""
 
-#: class/update.options.php:36
+#: class/update.options.php:38
+msgid "Lumière option successfully updated."
+msgstr ""
+
+#: class/update.options.php:49
 msgid "Lumière option successfully removed."
 msgstr ""
 
-#: class/update.options.php:40
+#: class/update.options.php:54
 msgid "Lumière option successfully added."
 msgstr ""
 
-#: class/update.options.php:57
-#: class/update.options.php:89
-msgid "Cannot update Lumière, \"$option_array\" is undefined."
+#: class/update.options.php:71
+#: class/update.options.php:103
+#: class/update.options.php:135
+msgid "Cannot update Lumière options, ($option_array) is undefined."
 msgstr ""
 
-#: class/update.options.php:60
-#: class/update.options.php:92
-msgid "Cannot update Lumière, \"$option_key\" is undefined."
+#: class/update.options.php:74
+#: class/update.options.php:106
+#: class/update.options.php:138
+msgid "Cannot update Lumière options, ($option_key) is undefined."
 msgstr ""
 
 #: inc/admin_pages.php:35
@@ -1508,6 +1510,7 @@ msgstr ""
 msgid "Options saved."
 msgstr ""
 
+#: inc/options-data.php:119
 #: inc/options-data.php:125
 #: inc/options-general.php:119
 msgid "Options reset."
@@ -1695,7 +1698,7 @@ msgid "Year"
 msgstr ""
 
 #: inc/options-data.php:537
-msgid "Display release year. Year will appear next title's movie, in brackets."
+msgid "Display release year. The release year will appear next to the movie's title into brackets."
 msgstr ""
 
 #: inc/options-data.php:552
