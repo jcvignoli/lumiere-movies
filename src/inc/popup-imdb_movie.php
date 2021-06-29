@@ -104,13 +104,18 @@ if (empty($movie) ){
 }?>
 <h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . $filmid_sanitized_for_title; ?></i></h1>
 
-<table class='TableListeResultats'>
-	<tr>
-		<th class="TableListeResultatsTitre"><?php esc_html_e('Titles matching', 'lumiere-movies'); ?></th>
-		<th class="TableListeResultatsTitre imdblt_titlematchingdirector"><?php esc_html_e('Director', 'lumiere-movies'); ?></th>
-	</tr>
+<h1><?php esc_html_e('Query results', 'lumiere-movies'); ?></h1>
 
-	<?php
+<div class="lumiere_display_flex lumiere_align_center">
+	<div class="lumiere_flex_auto lumiere_width_fifty_perc">
+		<?php esc_html_e('Titles matching', 'lumiere-movies'); ?>
+	</div>
+	<div class="lumiere_flex_auto lumiere_width_fifty_perc">
+		<?php esc_html_e('Director', 'lumiere-movies'); ?>
+	</div>
+</div>
+<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center"><?php
+
 	$current_line=0;
 
 	foreach ($results as $res) {
@@ -118,37 +123,44 @@ if (empty($movie) ){
 		// Limit the number of results according to value set in admin		
 		$current_line++;
 		if ( $current_line > $imdb_admin_values['imdbmaxresults']){
-			echo '</table>';echo '<div align="center">' . esc_html__('Maximum of results reached.', 'lumiere-movies') . '</div>'; wp_footer(); echo '</body></html>';exit();}
+			echo '</div>';echo '<div align="center">' . esc_html__('Maximum of results reached.', 'lumiere-movies') . '</div>'; wp_footer(); echo '</body></html>';exit();
+		}
 
-		echo "	<tr>\n";
+		echo "\n<div class='lumiere_display_flex lumiere_align_center'>";
 		
-		// ---- movie part
-		echo "		<td class='TableListeResultatsColGauche'><a class='linkpopup' href=\"".esc_url( LUMIERE_URLPOPUPSFILMS . sanitize_text_field( $res->title() ) . "/?mid=".sanitize_text_field( $res->imdbid() ) . "&film=".sanitize_text_field( $res->title() ) )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
+		// ---- movie part		
+		echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
+		echo "\n\t\t<div><a class='linkpopup' href=\"".esc_url( LUMIERE_URLPOPUPSFILMS . sanitize_text_field( $res->title() ) . "/?mid=".sanitize_text_field( $res->imdbid() ) . "&film=".sanitize_text_field( $res->title() ) )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
 		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"https://www.imdb.com/title/tt". sanitize_text_field( $res->imdbid() )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'>";
 
 			if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
 		echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] )."' width='".intval( $imdb_admin_values['imdbpicsize'] )."' alt='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'/></a>";	
 			}
-		flush ();
+
+		echo "\n\t</div>";
+		echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_right'>";
 	
 		// ---- director part
 		$realisateur =  $res->director() ;
 		if ( (isset($realisateur['0']['name'])) && (! is_null ($realisateur['0']['name'])) ){
-		echo "\t<td class='TableListeResultatsColDroite'><a class='linkpopup' href=\"" . esc_url( LUMIERE_URLPOPUPSPERSON . sanitize_text_field( $realisateur['0']["imdb"] ) . "/?mid=" . sanitize_text_field( $realisateur['0']["imdb"] )."&film=" . $filmid_sanitized ) ."\" title=\"".esc_html__('more on', 'lumiere-movies') . " " . sanitize_text_field( $realisateur['0']['name'] ) . "\" >" . sanitize_text_field( $realisateur['0']['name'] ) . "</a>";
+			echo "\n\t\t<div><a class='linkpopup' href=\"" . esc_url( LUMIERE_URLPOPUPSPERSON . sanitize_text_field( $realisateur['0']["imdb"] ) . "/?mid=" . sanitize_text_field( $realisateur['0']["imdb"] )."&film=" . $filmid_sanitized ) ."\" title=\"".esc_html__('more on', 'lumiere-movies') . " " . sanitize_text_field( $realisateur['0']['name'] ) . "\" >" . sanitize_text_field( $realisateur['0']['name'] ) . "</a>";
 
-			if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
-		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"".esc_url("https://imdb.com/name/nm".$realisateur['0']["imdb"] )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."'>";
-		echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] )."' width='".intval( $imdb_admin_values['imdbpicsize'] )."' alt='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."'/>";
-		echo "</a>";
-			}
-			
-		echo "</td>\n";
+				if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
+			echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"".esc_url("https://imdb.com/name/nm".$realisateur['0']["imdb"] )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."'>";
+			echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] )."' width='".intval( $imdb_admin_values['imdbpicsize'] )."' alt='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."'/>";
+			echo "</a>";
+				}
+				
+			echo "\n\t</div>";
+
 		}
-		echo "	</tr>\n";
-		flush ();
+
+		echo "\n</div>";
+
 	} // end foreach  ?> 
 
-</table>
+</div>
+
 <?php
 	wp_footer(); 
 ?>
@@ -176,22 +188,22 @@ if (empty($movie) ){
 
 <div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
 	<div class="lumiere_flex_auto">
-            <a class="searchaka" href="<?php echo esc_url( LUMIERE_URLPOPUPSSEARCH . "?film=" . $filmid_sanitized . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'lumiere-movies'); ?>"><?php esc_html_e('Search AKAs', 'lumiere-movies'); ?></a>
+       	&nbsp;<a class="searchaka" href="<?php echo esc_url( LUMIERE_URLPOPUPSSEARCH . "?film=" . $filmid_sanitized . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'lumiere-movies'); ?>"><?php esc_html_e('Search AKAs', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Summary', 'lumiere-movies'); ?></a>
+		&nbsp;<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Summary', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=actors" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Actors', 'lumiere-movies'); ?>'><?php esc_html_e('Actors', 'lumiere-movies'); ?></a>
+		&nbsp;<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=actors" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Actors', 'lumiere-movies'); ?>'><?php esc_html_e('Actors', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=crew" ); ?>" title='<?php echo esc_html ( $movie->title() ).": ".esc_html__('Crew', 'lumiere-movies'); ?>'><?php esc_html_e('Crew', 'lumiere-movies'); ?></a>
+		&nbsp;<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=crew" ); ?>" title='<?php echo esc_html ( $movie->title() ).": ".esc_html__('Crew', 'lumiere-movies'); ?>'><?php esc_html_e('Crew', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=resume" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Plots', 'lumiere-movies'); ?>'><?php esc_html_e('Plots', 'lumiere-movies'); ?></a>
+		&nbsp;<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=resume" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Plots', 'lumiere-movies'); ?>'><?php esc_html_e('Plots', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=divers" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
+		&nbsp;<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=divers" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
 	</div>
 </div>
 
