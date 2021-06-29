@@ -31,10 +31,12 @@ if (class_exists("\Lumiere\Settings")) {
 */
 if (version_compare( LUMIERE_VERSION, "3.3.1" ) >= 0 ){
 
+	// Remove 'imdbwidgetcommentsnumber'
 	// Deprecated: only one comment is returned by imdbphp libraries
-	if ( TRUE === lumiere_remove_options($config->imdbWidgetOptionsName, 'imdbwidgetedst') )
+	if ( TRUE === lumiere_remove_options($config->imdbWidgetOptionsName, 'imdbwidgetcommentsnumber') )
 		echo lumiere_notice(1, esc_html__( 'Lumière option successfully removed.', 'lumiere-movies') );
 
+	// Add 'imdbintotheposttheme'
 	// New option to manage theme colors for into the post/widget
 	if ( TRUE === lumiere_add_options($config->imdbWidgetOptionsName, 'imdbintotheposttheme', 'grey') )
 		echo lumiere_notice(1, esc_html__( 'Lumière option successfully added.', 'lumiere-movies') );
@@ -54,10 +56,10 @@ if (version_compare( LUMIERE_VERSION, "3.3.1" ) >= 0 ){
 function lumiere_add_options($option_array=NULL,$option_key=NULL,$option_value=NULL) {
 
 	if (!isset($option_array))
-		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière, "$option_array" is undefined.', 'lumiere-movies') );
+		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, "$option_array" is undefined.', 'lumiere-movies') );
 
 	if (!isset($option_key))
-		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière, "$option_key" is undefined.', 'lumiere-movies') );
+		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, "$option_key" is undefined.', 'lumiere-movies') );
 
 	$option_array_search = get_option($option_array);
 	$check_if_exists = array_key_exists ($option_key, $option_array_search);
@@ -86,10 +88,10 @@ function lumiere_add_options($option_array=NULL,$option_key=NULL,$option_value=N
 function lumiere_remove_options($option_array=NULL,$option_key=NULL) {
 
 	if (!isset($option_array))
-		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière, "$option_array" is undefined.', 'lumiere-movies') );
+		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, "$option_array" is undefined.', 'lumiere-movies') );
 
 	if (!isset($option_key))
-		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière, "$option_key" is undefined.', 'lumiere-movies') );
+		echo lumiere_notice(3, esc_html__( 'Cannot update Lumière options, "$option_key" is undefined.', 'lumiere-movies') );
 
 	$option_array_search = get_option($option_array);
 	$check_if_exists = array_key_exists ($option_key, $option_array_search);

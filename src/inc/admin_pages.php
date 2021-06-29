@@ -106,7 +106,7 @@ function lumiere_admin_pages() {
 	}
 	// end subselection 
 
-	lumiere_admin_signature (); 
+	echo lumiere_admin_signature(); 
 
 ?></div><!-- .wrap -->
 

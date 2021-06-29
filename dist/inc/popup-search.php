@@ -28,9 +28,9 @@ if (class_exists("\Lumiere\Settings")) {
 	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
 }
 
-// Enter in debug mode
-if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1"))
-	lumiere_debug_display($imdb_cache_values, 'SetError', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+// Enter in debug mode, for development version only
+//if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1"))
+//	lumiere_debug_display($imdb_cache_values, 'SetError', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
 # Initialization of IMDBphp classes
 if (class_exists("\Imdb\TitleSearch")) 

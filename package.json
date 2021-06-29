@@ -3,7 +3,13 @@
   "description": "Lumière Movies WordPress plugin",
   "main": "gulpfile.js",
   "private": true,
-  "keywords": ["movies", "imdb", "wordpress", "plugin", "film"],
+  "keywords": [
+    "movies",
+    "imdb",
+    "wordpress",
+    "plugin",
+    "film"
+  ],
   "author": "JC Vignoli <dev@jcvignoli.com> (https://www.jcvignoli.com)",
   "homepage": "https://github.com/jcvignoli/lumiere-movies#README",
   "license": "GPL-3.0",

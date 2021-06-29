@@ -36,9 +36,9 @@ $film_sanitized_for_title = isset($_GET["film"]) ? sanitize_text_field($_GET["fi
 // HTML tags to keep when using strip_tags()
 $striptags_keep = '<div><span><br><img>';
 
-// Enter in debug mode
-if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1"))
-	lumiere_debug_display($imdb_cache_values, 'SetError', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+// Enter in debug mode, for development version only
+//if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1"))
+//	lumiere_debug_display($imdb_cache_values, 'SetError', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
 // if neither film nor mid are set, throw a 404 error
 if (empty($movieid_sanitized ) && empty($filmid_sanitized)){

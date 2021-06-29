@@ -363,7 +363,7 @@ class Core {
 			// big menu for many pages for admin sidebar
 			add_menu_page( 'Lumière Options', '<i>Lumière</i>' , 'administrator', 'imdblt_options', 'lumiere_admin_pages', $imdb_admin_values['imdbplugindirectory'].'pics/lumiere-ico13x13.png', 65);
 			add_submenu_page( 'imdblt_options' , esc_html__('Lumière options page', 'lumiere-movies'), esc_html__('General options', 'lumiere-movies'), 'administrator', 'imdblt_options');
-			add_submenu_page( 'imdblt_options' , esc_html__('Widget & In post options page', 'lumiere-movies'), esc_html__('Widget/In post', 'lumiere-movies'), 'administrator', 'imdblt_options&subsection=widgetoption', 'lumiere_admin_pages' );
+			add_submenu_page( 'imdblt_options' , esc_html__('Data management', 'lumiere-movies'), esc_html__('Data management', 'lumiere-movies'), 'administrator', 'imdblt_options&subsection=dataoption', 'lumiere_admin_pages' );
 			add_submenu_page( 'imdblt_options',  esc_html__('Cache management options page', 'lumiere-movies'), esc_html__('Cache management', 'lumiere-movies'), 'administrator', 'imdblt_options&subsection=cache', 'lumiere_admin_pages');
 			add_submenu_page( 'imdblt_options' , esc_html__('Help page', 'lumiere-movies'), esc_html__('Help', 'lumiere-movies'), 'administrator', 'imdblt_options&subsection=help', 'lumiere_admin_pages' );
 			//
@@ -399,7 +399,7 @@ class Core {
 
 		$admin_bar->add_menu( array('parent' => 'imdblt-menu','id' => 'imdblt-menu-options','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/admin-general.png' width='16px' />&nbsp;&nbsp;".esc_html__('General options'),'href'  =>'admin.php?page=imdblt_options','meta'  => array('title' => esc_html__('General options'),),) );
 
-		$admin_bar->add_menu( array('parent' => 'imdblt-menu','id' => 'imdblt-menu-widget-options','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/admin-widget-inside.png' width='16px' />&nbsp;&nbsp;".esc_html__('Widget options'),'href'  =>'admin.php?page=imdblt_options&subsection=widgetoption','meta'  => array('title' => esc_html__('Widget options'),),) );
+		$admin_bar->add_menu( array('parent' => 'imdblt-menu','id' => 'imdblt-menu-widget-options','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/admin-widget-inside.png' width='16px' />&nbsp;&nbsp;".esc_html__('Data options'),'href'  =>'admin.php?page=imdblt_options&subsection=dataoption','meta'  => array('title' => esc_html__('Data options'),),) );
 
 		$admin_bar->add_menu( array('parent' => 'imdblt-menu','id' => 'imdblt-menu-cache-options','title' => "<img src='".$imdb_admin_values['imdbplugindirectory']."pics/admin-cache.png' width='16px' />&nbsp;&nbsp;".esc_html__('Cache options'),'href'  =>'admin.php?page=imdblt_options&subsection=cache','meta' => array('title' => esc_html__('Cache options'),),) );
 
@@ -548,7 +548,7 @@ class Core {
 	function lumiere_copy_template_taxo_redirect() {
 		global $imdb_admin_values;
 
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo&taxotype=' ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=' ) ) {
 			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/move_template_taxonomy.php' );
 		}
 	}
