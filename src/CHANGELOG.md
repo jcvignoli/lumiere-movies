@@ -8,6 +8,7 @@ v.3.3.2
 * [minor] Data management main options alphabetically ordered
 * [minor] Added full filmography in person popups
 * [technical] Renamed widget/inside post options to data management in admin
+* [technical] deactivated debug for popups
 * [bug] Writer data in popup wasn't working (issue in class.movie.php)
 
 v.3.3.1
