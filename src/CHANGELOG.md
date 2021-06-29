@@ -1,6 +1,7 @@
 Changelog
 
 v.3.3.3
+* [technical] Set 'imdbwidgetsource' to false, so no more link to imdb for movies by default.
 
 v.3.3.2
 * [medium] New design for movies popups
