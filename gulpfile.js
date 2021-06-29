@@ -1,7 +1,7 @@
 /**** Lumière WordPress plugin workflow
-** Files are concatened, minified, copied from src to dist, then uploaded to the main server by ssh
+** When "build" Files are concatened, minified, copied from src to dist, then uploaded to the main server by ssh
 ** Rsync available to upload everything
-** Errors not blocking (plumber) and notified (notify)
+** Errors notified (notify)
 **/
 
 var plugins = require("gulp-load-plugins")({
@@ -16,7 +16,7 @@ var gulp = 	require('gulp'),
 /*gulpplugins	browserSync = require('browser-sync'),		/* open a proxy browser tab, auto refresh on files edit */
 /*gulpplugins	cleanCSS = require('gulp-clean-css'),		/* minify css */		
 /*gulpplugins	autoprefixer = require('gulp-autoprefixer'),	/* adds support for old browsers in CSS */
-/*gulpplugins	plumber = require('gulp-plumber'),			/* avoid running process to break for an error */
+/*gulpplugins	plumber = require('gulp-plumber'),			/* avoid running process that breaks when error */
 /*gulpplugins	js = require('gulp-uglify'),			/* minify javascripts */
 /*gulpplugins	changed = require('gulp-changed'),			/* check if a file has changed */
 /*gulpplugins	imagemin = require('gulp-imagemin'),		/* compress images */
@@ -30,6 +30,17 @@ var gulp = 	require('gulp'),
 /*gulpplugins	fs = require ('fs'),					/* filesystem functions */
 /*gulpplugins	rsync = require('gulp-rsync'),			/* rsync functions */
 		ext_cred = require( './.gulpcredentials.js' );
+
+
+var errorHandler = function(error) {						/* handle and display errors with notify */
+    plugins.notify.onError({
+        title: 'Task Failed [' + error.plugin + ']',
+        message: error.message,
+        sound: true
+    })(error);
+    this.emit('end');
+
+};
 
 var 		sshMain = new plugins.ssh ({					/* ssh functions with mainserver */
 			ignoreErrors: false,
@@ -75,12 +86,6 @@ paths = {
 gulp.task('stylesheets', function () {
 	return gulp
 		.src( paths.stylesheets.src , {base: paths.base.src } )
-		.pipe(plugins.plumber({ errorHandler: function(err) {
-		     plugins.notify.onError({
-			  title: "Gulp error in " + err.plugin,
-			  message:  err.toString()
-		     })(err);
-		 }}))
 		.pipe(plugins.changed( paths.stylesheets.dist ))
 		.pipe(plugins.autoprefixer('last 2 versions'))
 		.pipe(plugins.cleanCss({debug: true}, (details) => {
@@ -90,56 +95,46 @@ gulp.task('stylesheets', function () {
 		.pipe(gulp.dest( paths.stylesheets.dist ))
 		.pipe(sshMain.dest( ext_cred.mainserver.dist ))
 		.pipe(plugins.browserSync.stream())
+		.on("error", errorHandler)
+		.on("error", function (err) { console.log("Error:", err); })
 });
 
 // Task 2 - Minify JS
 gulp.task('javascripts', function () {
 	return gulp
 		.src( paths.javascripts.src , {base: paths.base.src } )
-		.pipe(plugins.plumber({ errorHandler: function(err) {
-		     plugins.notify.onError({
-		         title: "Gulp error in " + err.plugin,
-		         message:  err.toString()
-		     })(err);
-		 }}))
 		.pipe(plugins.changed( paths.javascripts.dist ))
 		.pipe(plugins.uglify())
 		.pipe(gulp.dest( paths.javascripts.dist ))
 		.pipe(sshMain.dest( ext_cred.mainserver.dist ))
-		.pipe(plugins.browserSync.stream());
+		.pipe(plugins.browserSync.stream())
+		.on("error", errorHandler)
+		.on("error", function (err) { console.log("Error:", err); })
 });
 
 // Task 3 - Compress images -> jpg can't be compressed, selecting png and gif only
 gulp.task('images', function () {
 	return gulp
 		.src( paths.images.src, {base: paths.base.src } )
-		.pipe(plugins.plumber({ errorHandler: function(err) {
-		     plugins.notify.onError({
-			  title: "Gulp error in " + err.plugin,
-			  message:  err.toString()
-		     })(err);
-		 }}))
 		.pipe(plugins.changed( paths.images.dist ))
 		.pipe(plugins.imagemin())
 		.pipe(gulp.dest( paths.images.dist ))
 		.pipe(sshMain.dest( ext_cred.mainserver.dist ))
-		.pipe(plugins.browserSync.stream());
+		.pipe(plugins.browserSync.stream())
+		.on("error", errorHandler)
+		.on("error", function (err) { console.log("Error:", err); })
 });
 
 // Task 4 - Transfer untouched files -> jpg can't be compressed, transfered here
 gulp.task('files_copy', function () {
 	return gulp
 		.src( paths.files.src, {base: paths.base.src } )
-		.pipe(plugins.plumber({ errorHandler: function(err) {
-		     plugins.notify.onError({
-			  title: "Gulp error in " + err.plugin,
-			  message:  err.toString()
-		     })(err);
-		 }}))
 		.pipe(plugins.changed( paths.files.dist ))
 		.pipe(gulp.dest( paths.files.dist ))
 		.pipe(sshMain.dest( ext_cred.mainserver.dist ))
-		.pipe(plugins.browserSync.stream());
+		.pipe(plugins.browserSync.stream())
+		.on("error", errorHandler)
+		.on("error", function (err) { console.log("Error:", err); })
 });
 
 // Task 5 - Watch files
@@ -184,12 +179,6 @@ gulp.task('lint', function(cb) {
 		.src( paths.javascripts.src )
 		// eslint() attaches the lint output to the "eslint" property
 		// of the file object so it can be used by other modules.
-		.pipe(plugins.plumber({ errorHandler: function(err) {
-		     plugins.notify.onError({
-			  title: "Gulp error in " + err.plugin,
-			  message:  err.toString()
-		     })(err);
-		 }}))
 		.pipe(plugins.eslint({fix:true}))
 		.pipe(plugins.eslint.format())
 		// if fixed, write the file to dest
@@ -197,12 +186,15 @@ gulp.task('lint', function(cb) {
 		// To have the process exit with an error code (1) on
 		// lint error, return the stream and pipe to failAfterError 
 		// last.
-		.pipe(plugins.eslint.failAfterError());
+		.pipe(plugins.eslint.failAfterError())
+		.on("error", errorHandler)
+		.on("error", function (err) { console.log("Error:", err); })
 });
 
 // Task 10 - Rsync local dist rsynced to mainserver
 gulp.task('rsync', function(){
 	return gulp.src( paths.base.dist )
+		/* notify error with plumber, but I don't use plumber anymore */
 		.pipe(plugins.plumber({ errorHandler: function(err) {
 		     plugins.notify.onError({
 			  title: "Gulp error in " + err.plugin,
@@ -221,6 +213,7 @@ gulp.task('rsync', function(){
 			compress: true,
 			silent: false,
 			exclude: [ paths.rsync.excludepath ]
-		}));
-});
+		}))
+		.on("error", errorHandler)
+		.on("error", function (err) { console.log("Error:", err); })});
 

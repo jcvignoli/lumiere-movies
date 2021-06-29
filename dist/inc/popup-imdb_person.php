@@ -28,9 +28,9 @@ if (class_exists("\Lumiere\Settings")) {
 	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
 }
 
-// Enter in debug mode
-if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1"))
-	lumiere_debug_display($imdb_cache_values, 'SetError', '');
+// Enter in debug mode, for development version only
+//if (is_admin() && (isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1"))
+//	lumiere_debug_display($imdb_cache_values, 'SetError', '');
 
 if (isset ($_GET["film"]))
 	$film_sanitized = sanitize_text_field( $_GET["film"] ) ?? NULL;

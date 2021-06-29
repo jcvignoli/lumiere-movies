@@ -534,7 +534,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						
 						<input type="radio" id="imdb_imdbwidgetyear_yes" name="imdb_imdbwidgetyear" value="1" <?php if ($imdbOptionsw['imdbwidgetyear'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetyear_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
 						<input type="radio" id="imdb_imdbwidgetyear_no" name="imdb_imdbwidgetyear" value="" <?php if ($imdbOptionsw['imdbwidgetyear'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetyear_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
-						<div class="explain"><?php esc_html_e( "Display release year. Year will appear next title's movie, in brackets.", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+						<div class="explain"><?php esc_html_e( "Display release year. The release year will appear next to the movie's title into brackets.", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 					</div>
 

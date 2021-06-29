@@ -20,6 +20,7 @@ OK--- 7. update procedure tested and OK
 OK--- 8. main widget options alphabetically ordered
 OK--- 9. technical renamed widget/inside post options to data management in admin
 OK-- 10. medium movie popup summary is now dependent of the admin Data options (actors+number of actors, rating, language, runtime, director).
+OK-- 11. technical deactivated debug for popups
 
 v3.3.1
 OK--- 1. technical Transformed imdb-movie.inc.php into a class. More versality moving forward.

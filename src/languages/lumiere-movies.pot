@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-27T14:20:44-03:00\n"
+"POT-Creation-Date: 2021-06-28T21:06:40-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: lumiere-movies\n"
@@ -313,7 +313,7 @@ msgstr[1] ""
 #: inc/popup-imdb_movie.php:110
 #: inc/popup-imdb_movie.php:261
 #: inc/popup-imdb_movie.php:503
-#: inc/popup-search.php:84
+#: inc/popup-search.php:82
 msgid "Director"
 msgid_plural "Directors"
 msgstr[0] ""
@@ -430,13 +430,31 @@ msgstr ""
 msgid "Open a new window with IMDb informations"
 msgstr ""
 
-#: class/functions.php:425
-#: class/functions.php:427
+#: class/functions.php:426
+#: class/functions.php:428
 msgid "There was an error when generating the htaccess file."
 msgstr ""
 
-#: class/functions.php:469
+#: class/functions.php:470
 msgid "htaccess file successfully generated."
+msgstr ""
+
+#: class/update.options.php:36
+msgid "Lumière option successfully removed."
+msgstr ""
+
+#: class/update.options.php:40
+msgid "Lumière option successfully added."
+msgstr ""
+
+#: class/update.options.php:57
+#: class/update.options.php:89
+msgid "Cannot update Lumière, \"$option_array\" is undefined."
+msgstr ""
+
+#: class/update.options.php:60
+#: class/update.options.php:92
+msgid "Cannot update Lumière, \"$option_key\" is undefined."
 msgstr ""
 
 #: inc/admin_pages.php:35
@@ -1138,7 +1156,7 @@ msgstr ""
 #: inc/options-cache.php:415
 #: inc/options-cache.php:432
 #: inc/options-cache.php:496
-#: inc/options-cache.php:924
+#: inc/options-cache.php:922
 #: inc/options-data.php:170
 #: inc/options-data.php:182
 #: inc/options-data.php:195
@@ -1221,16 +1239,16 @@ msgid "Allow faster loading time for the \"manage cache\" page, by displaying sh
 msgstr ""
 
 #: inc/options-cache.php:508
-#: inc/options-cache.php:1007
-#: inc/options-cache.php:1027
-#: inc/options-cache.php:1028
+#: inc/options-cache.php:1005
+#: inc/options-cache.php:1025
+#: inc/options-cache.php:1026
 #: inc/options-data.php:947
 #: inc/options-general.php:583
 msgid "Reset settings"
 msgstr ""
 
 #: inc/options-cache.php:509
-#: inc/options-cache.php:1008
+#: inc/options-cache.php:1006
 #: inc/options-data.php:948
 #: inc/options-general.php:584
 msgid "Update settings"
@@ -1318,14 +1336,14 @@ msgid "You may also select a group of movies to delete."
 msgstr ""
 
 #: inc/options-cache.php:683
-#: inc/options-cache.php:793
+#: inc/options-cache.php:791
 #: inc/popup-imdb_movie.php:227
-#: inc/popup-imdb_person.php:204
+#: inc/popup-imdb_person.php:201
 msgid "no picture"
 msgstr ""
 
 #: inc/options-cache.php:694
-#: inc/options-cache.php:801
+#: inc/options-cache.php:799
 msgid "last updated on "
 msgstr ""
 
@@ -1334,7 +1352,7 @@ msgid "Refresh cache for *"
 msgstr ""
 
 #: inc/options-cache.php:696
-#: inc/options-cache.php:804
+#: inc/options-cache.php:802
 msgid "refresh"
 msgstr ""
 
@@ -1347,141 +1365,141 @@ msgid "* from cache?"
 msgstr ""
 
 #: inc/options-cache.php:698
-#: inc/options-cache.php:806
+#: inc/options-cache.php:804
 msgid "delete"
 msgstr ""
 
-#: inc/options-cache.php:730
-#: inc/options-cache.php:835
+#: inc/options-cache.php:728
+#: inc/options-cache.php:833
 msgid "Delete selected cache?"
 msgstr ""
 
-#: inc/options-cache.php:730
-#: inc/options-cache.php:835
+#: inc/options-cache.php:728
+#: inc/options-cache.php:833
 msgid "Delete cache"
 msgstr ""
 
-#: inc/options-cache.php:733
-#: inc/options-cache.php:838
+#: inc/options-cache.php:731
+#: inc/options-cache.php:836
 msgid "Warning!"
 msgstr ""
 
-#: inc/options-cache.php:735
+#: inc/options-cache.php:733
 msgid "This button will delete the selected movies' cache files."
 msgstr ""
 
-#: inc/options-cache.php:747
+#: inc/options-cache.php:745
 msgid "People's detailed cache"
 msgstr ""
 
-#: inc/options-cache.php:765
+#: inc/options-cache.php:763
 msgid "No people's cache found."
 msgstr ""
 
-#: inc/options-cache.php:770
+#: inc/options-cache.php:768
 msgid "If you want to refresh people's cache regardless the cache expiration time, you may either tick people checkbox(es) related to the person you want to delete and click on \"delete cache\", or you may click on individual people's \"refresh\". The first way will require an additional people refresh - from you post, for instance."
 msgstr ""
 
-#: inc/options-cache.php:773
+#: inc/options-cache.php:771
 msgid "You may also either delete individually the cache or by group."
 msgstr ""
 
-#: inc/options-cache.php:840
+#: inc/options-cache.php:838
 msgid "This button will delete the selected people's cache files."
 msgstr ""
 
-#: inc/options-cache.php:857
+#: inc/options-cache.php:855
 msgid "Cache directories"
 msgstr ""
 
-#: inc/options-cache.php:863
+#: inc/options-cache.php:861
 msgid "Edit the following value only if need so. You can break the caching system."
 msgstr ""
 
-#: inc/options-cache.php:867
+#: inc/options-cache.php:865
 #: inc/options-general.php:482
 msgid "Click here to display options"
 msgstr ""
 
-#: inc/options-cache.php:874
+#: inc/options-cache.php:872
 msgid "Cache directory (absolute path)"
 msgstr ""
 
-#: inc/options-cache.php:880
+#: inc/options-cache.php:878
 msgid "Movies' cache is using"
 msgstr ""
 
-#: inc/options-cache.php:882
+#: inc/options-cache.php:880
 msgid "Movies' cache is empty."
 msgstr ""
 
-#: inc/options-cache.php:899
-#: inc/options-cache.php:963
+#: inc/options-cache.php:897
+#: inc/options-cache.php:961
 msgid "Folder exists."
 msgstr ""
 
-#: inc/options-cache.php:903
-#: inc/options-cache.php:967
+#: inc/options-cache.php:901
+#: inc/options-cache.php:965
 msgid "Folder doesn't exist!"
 msgstr ""
 
-#: inc/options-cache.php:909
-#: inc/options-cache.php:972
+#: inc/options-cache.php:907
+#: inc/options-cache.php:970
 msgid "Permissions OK."
 msgstr ""
 
-#: inc/options-cache.php:913
-#: inc/options-cache.php:976
+#: inc/options-cache.php:911
+#: inc/options-cache.php:974
 msgid "Check folder permissions!"
 msgstr ""
 
-#: inc/options-cache.php:920
+#: inc/options-cache.php:918
 msgid "Absolute path to store cache retrieved from the IMDb website. Has to be "
 msgstr ""
 
-#: inc/options-cache.php:922
-#: inc/options-cache.php:951
+#: inc/options-cache.php:920
+#: inc/options-cache.php:949
 msgid "by the webserver."
 msgstr ""
 
-#: inc/options-cache.php:932
+#: inc/options-cache.php:930
 msgid "Photo path (relative to the cache path)"
 msgstr ""
 
-#: inc/options-cache.php:944
+#: inc/options-cache.php:942
 msgid "Images cache is using"
 msgstr ""
 
-#: inc/options-cache.php:945
+#: inc/options-cache.php:943
 msgid "Image cache is empty."
 msgstr ""
 
-#: inc/options-cache.php:949
+#: inc/options-cache.php:947
 msgid "Absolute path to store images retrieved from the IMDb website. Has to be "
 msgstr ""
 
-#: inc/options-cache.php:956
-#: inc/options-cache.php:995
+#: inc/options-cache.php:954
+#: inc/options-cache.php:993
 msgid "Current:"
 msgstr ""
 
-#: inc/options-cache.php:989
+#: inc/options-cache.php:987
 msgid "Photo URL (relative to the website and the cache path)"
 msgstr ""
 
-#: inc/options-cache.php:993
+#: inc/options-cache.php:991
 msgid "URL corresponding to photo directory."
 msgstr ""
 
-#: inc/options-cache.php:1016
+#: inc/options-cache.php:1014
 msgid "A cache folder has to be created and the cache storage option has to be activated before you can manage the cache."
 msgstr ""
 
-#: inc/options-cache.php:1018
+#: inc/options-cache.php:1016
 msgid "Apparently, you have not such a cache folder."
 msgstr ""
 
-#: inc/options-cache.php:1020
+#: inc/options-cache.php:1018
 msgid "Click on \"reset settings\" to refresh the values."
 msgstr ""
 
@@ -1516,7 +1534,7 @@ msgstr ""
 #: inc/options-data.php:898
 #: inc/options-general.php:387
 #: inc/popup-imdb_movie.php:194
-#: inc/popup-imdb_person.php:93
+#: inc/popup-imdb_person.php:90
 msgid "Misc"
 msgstr ""
 
@@ -2106,24 +2124,24 @@ msgid "No result found for"
 msgstr ""
 
 #: inc/popup-imdb_movie.php:105
-#: inc/popup-search.php:68
+#: inc/popup-search.php:66
 msgid "Results related to"
 msgstr ""
 
 #: inc/popup-imdb_movie.php:109
-#: inc/popup-search.php:83
+#: inc/popup-search.php:81
 msgid "Titles matching"
 msgstr ""
 
 #: inc/popup-imdb_movie.php:121
-#: inc/popup-search.php:94
+#: inc/popup-search.php:92
 msgid "Maximum of results reached."
 msgstr ""
 
 #: inc/popup-imdb_movie.php:126
 #: inc/popup-imdb_movie.php:137
-#: inc/popup-search.php:99
-#: inc/popup-search.php:111
+#: inc/popup-search.php:97
+#: inc/popup-search.php:109
 msgid "more on"
 msgstr ""
 
@@ -2131,10 +2149,10 @@ msgstr ""
 #: inc/popup-imdb_movie.php:130
 #: inc/popup-imdb_movie.php:140
 #: inc/popup-imdb_movie.php:141
-#: inc/popup-search.php:100
-#: inc/popup-search.php:103
-#: inc/popup-search.php:114
-#: inc/popup-search.php:115
+#: inc/popup-search.php:98
+#: inc/popup-search.php:101
+#: inc/popup-search.php:112
+#: inc/popup-search.php:113
 msgid "link to imdb for"
 msgstr ""
 
@@ -2151,7 +2169,7 @@ msgid "Movie"
 msgstr ""
 
 #: inc/popup-imdb_movie.php:182
-#: inc/popup-imdb_person.php:84
+#: inc/popup-imdb_person.php:81
 msgid "Summary"
 msgstr ""
 
@@ -2181,7 +2199,7 @@ msgid "Plot summary"
 msgstr ""
 
 #: inc/popup-imdb_movie.php:663
-#: inc/popup-imdb_person.php:566
+#: inc/popup-imdb_person.php:562
 msgid "Trivia"
 msgid_plural "Trivias"
 msgstr[0] ""
@@ -2195,81 +2213,81 @@ msgstr ""
 msgid "click to show more goofs"
 msgstr ""
 
-#: inc/popup-imdb_person.php:81
+#: inc/popup-imdb_person.php:78
 msgid "Back"
 msgstr ""
 
-#: inc/popup-imdb_person.php:87
+#: inc/popup-imdb_person.php:84
 msgid "Full filmography"
 msgstr ""
 
-#: inc/popup-imdb_person.php:90
+#: inc/popup-imdb_person.php:87
 msgid "Full biography"
 msgstr ""
 
-#: inc/popup-imdb_person.php:111
+#: inc/popup-imdb_person.php:108
 msgid "Born on"
 msgstr ""
 
-#: inc/popup-imdb_person.php:118
-#: inc/popup-imdb_person.php:135
+#: inc/popup-imdb_person.php:115
+#: inc/popup-imdb_person.php:132
 msgid "in"
 msgstr ""
 
-#: inc/popup-imdb_person.php:129
+#: inc/popup-imdb_person.php:126
 msgid "Died on"
 msgstr ""
 
-#: inc/popup-imdb_person.php:138
+#: inc/popup-imdb_person.php:135
 msgid "cause"
 msgstr ""
 
-#: inc/popup-imdb_person.php:150
+#: inc/popup-imdb_person.php:147
 msgid "Biography"
 msgstr ""
 
-#: inc/popup-imdb_person.php:156
+#: inc/popup-imdb_person.php:153
 msgid "click to expand"
 msgstr ""
 
-#: inc/popup-imdb_person.php:271
-#: inc/popup-imdb_person.php:321
-#: inc/popup-imdb_person.php:520
-#: inc/popup-imdb_person.php:573
-#: inc/popup-imdb_person.php:640
-#: inc/popup-imdb_person.php:676
+#: inc/popup-imdb_person.php:267
+#: inc/popup-imdb_person.php:317
+#: inc/popup-imdb_person.php:516
+#: inc/popup-imdb_person.php:569
+#: inc/popup-imdb_person.php:636
+#: inc/popup-imdb_person.php:672
 msgid "see all"
 msgstr ""
 
-#: inc/popup-imdb_person.php:436
+#: inc/popup-imdb_person.php:432
 msgid "Biographical movies"
 msgstr ""
 
-#: inc/popup-imdb_person.php:458
+#: inc/popup-imdb_person.php:454
 msgid "Portrayed in"
 msgstr ""
 
-#: inc/popup-imdb_person.php:480
+#: inc/popup-imdb_person.php:476
 msgid "Interviews"
 msgstr ""
 
-#: inc/popup-imdb_person.php:512
+#: inc/popup-imdb_person.php:508
 msgid "Printed publicity"
 msgstr ""
 
-#: inc/popup-imdb_person.php:606
+#: inc/popup-imdb_person.php:602
 msgid "Nicknames"
 msgstr ""
 
-#: inc/popup-imdb_person.php:633
+#: inc/popup-imdb_person.php:629
 msgid "Personal quotes"
 msgstr ""
 
-#: inc/popup-imdb_person.php:669
+#: inc/popup-imdb_person.php:665
 msgid "Trademarks"
 msgstr ""
 
-#: inc/popup-search.php:73
+#: inc/popup-search.php:71
 msgid "No result found."
 msgstr ""
 
