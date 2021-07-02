@@ -89,6 +89,10 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 [missing image]
 
+### 9. Taxonomy page for a person
+
+[missing image]
+
 
 ## Frequently Asked Questions
 

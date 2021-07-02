@@ -1,6 +1,7 @@
 Changelog
 
 v.3.3.3
+* [medium] Taxonomy pages related to people include personal details about the person, such as birth, picture, death, biographie. Templates are now separated between people and items.
 * [technical] Set 'imdbwidgetsource' to false, so no more link to imdb for movies by default.
 * [technical] Added check to ensure taxonomy category and term exist before adding them.
 * [bug] No more info shown on update/reset of admin options. lumiere_notice() was changed to return from echo. Added echo to all calls of that function.
