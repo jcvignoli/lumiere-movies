@@ -13,7 +13,9 @@ global $imdb_admin_values, $imdb_widget_values;
 
 $lumiere_taxo_title = esc_html( $_GET['taxotype'] );
 
-$lumiere_taxo_file_tocopy = "taxonomy-imdblt_standard.php";
+$array_people = array( 'actor', 'composer', 'creator', 'director', 'producer', 'writer' );
+$array_items = array( 'color', 'country', 'genre', 'keywords', 'language' );
+$lumiere_taxo_file_tocopy = in_array($lumiere_taxo_title, $array_people, true) ? $lumiere_taxo_file_tocopy = "taxonomy-imdblt_people.php" : $lumiere_taxo_file_tocopy = "taxonomy-imdblt_items.php";
 $lumiere_taxo_file_copied = "taxonomy-" . $imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . ".php";
 $lumiere_current_theme_path = get_stylesheet_directory()."/";
 $lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied ;
@@ -34,8 +36,7 @@ if ( (isset($imdb_admin_values['imdbtaxonomy'])) && (!empty($imdb_admin_values['
 		} else {
 			// Edit the text according to the $_GET["taxotype"] passed
 			$content = file_get_contents($lumiere_current_theme_path_file); 
-			$content = str_replace( "director", $lumiere_taxo_title, $content);
-			$content = str_replace( "imdblt_", $imdb_admin_values['imdburlstringtaxo'], $content);
+			$content = str_replace( "standard", $lumiere_taxo_title, $content);
 			file_put_contents($lumiere_current_theme_path_file, $content); 
 
 			wp_safe_redirect( add_query_arg( "msg", "taxotemplatecopy_success", wp_get_referer() ) );

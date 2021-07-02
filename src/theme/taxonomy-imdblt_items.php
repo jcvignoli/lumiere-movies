@@ -1,6 +1,6 @@
 <?php 
 
-/* Template Name: Taxonomy for Lumière! wordpress plugin (set up for color taxonomy) 
+/* Template Name: Taxonomy for Lumière! wordpress plugin (set up for standard taxonomy) 
 *  This file should be edited, renamed, and then copied in your theme folder but you also can
 *  use the admin taxonomy interface to do it automatically
 *
@@ -15,7 +15,7 @@ echo "<br />";
 
 <main id="main" class="site-main clr" role="main">
 	<div id="content-wrap" class="container clr">
-		<h1 class="pagetitle"><?php esc_html_e( 'Taxonomy', 'lumiere-movies'); ?> <i>color</i></h1>
+		<h1 class="pagetitle"><?php esc_html_e( 'Taxonomy', 'lumiere-movies'); ?> <i>standard</i></h1>
 
 <?php	if ( have_posts() ) { // there is post
 		while ( have_posts() ) { 
@@ -28,10 +28,10 @@ echo "<br />";
 					</a>
 				</h3>
 
-				<?php if (get_terms('color')){ ?>
+				<?php if (get_terms('standard')){ ?>
 
 				<div class="taxonomy">
-					<?php echo get_the_term_list(get_the_ID(), esc_html( $imdb_admin_values['imdburlstringtaxo'] ) . 'color', esc_html__( 'Taxonomy: '), ', ', '' ); ?>
+					<?php echo get_the_term_list(get_the_ID(), esc_html( $imdb_admin_values['imdburlstringtaxo'] ) . 'standard', esc_html__( 'Taxonomy: '), ', ', '' ); ?>
 					<br /><br />
 				</div>
 				<?php } ?>	
