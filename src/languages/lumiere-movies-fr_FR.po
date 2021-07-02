@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-29 12:33-0400\n"
-"PO-Revision-Date: 2021-06-29 12:33-0400\n"
+"POT-Creation-Date: 2021-06-29 20:48-0400\n"
+"PO-Revision-Date: 2021-06-29 20:48-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -173,7 +173,7 @@ msgid "no picture found"
 msgstr "pas de photo trouvée"
 
 #: class/class.movie.php:476 inc/options-data.php:220 inc/options-data.php:221
-#: inc/popup-imdb_movie.php:384
+#: inc/popup-imdb_movie.php:396
 msgid "Country"
 msgid_plural "Countries"
 msgstr[0] "Pays"
@@ -189,23 +189,23 @@ msgid "Find similar taxonomy results"
 msgstr "Trouver des résultats de taxonomie similaires"
 
 #: class/class.movie.php:534 inc/options-data.php:420 inc/options-data.php:421
-#: inc/popup-imdb_movie.php:319
+#: inc/popup-imdb_movie.php:331
 msgid "Runtime"
 msgstr "Dur&eacute;e"
 
-#: class/class.movie.php:536 inc/popup-imdb_movie.php:323
+#: class/class.movie.php:536 inc/popup-imdb_movie.php:335
 msgid "minutes"
 msgstr "minutes"
 
 #: class/class.movie.php:573 inc/options-data.php:303 inc/options-data.php:304
-#: inc/popup-imdb_movie.php:361
+#: inc/popup-imdb_movie.php:373
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "Langue"
 msgstr[1] "Langues"
 
 #: class/class.movie.php:632 inc/options-data.php:403 inc/options-data.php:404
-#: inc/popup-imdb_movie.php:339
+#: inc/popup-imdb_movie.php:351
 msgid "Rating"
 msgstr "Note"
 
@@ -217,21 +217,21 @@ msgstr "votes, avec une moyenne de "
 msgid "(max 10)"
 msgstr "(max 10)"
 
-#: class/class.movie.php:644 inc/popup-imdb_movie.php:342
+#: class/class.movie.php:644 inc/popup-imdb_movie.php:354
 msgid "vote average "
 msgstr "moyenne de votes "
 
 # as "10 out of 10"
-#: class/class.movie.php:644 inc/popup-imdb_movie.php:342
+#: class/class.movie.php:644 inc/popup-imdb_movie.php:354
 msgid " out of 10"
 msgstr " sur 10"
 
-#: class/class.movie.php:645 inc/popup-imdb_movie.php:343
+#: class/class.movie.php:645 inc/popup-imdb_movie.php:355
 msgid "votes"
 msgstr "votes"
 
 #: class/class.movie.php:681 inc/options-data.php:258 inc/options-data.php:259
-#: inc/popup-imdb_movie.php:408
+#: inc/popup-imdb_movie.php:420
 msgid "Genre"
 msgid_plural "Genres"
 msgstr[0] "Genre"
@@ -243,7 +243,7 @@ msgid_plural "Keywords"
 msgstr[0] "Mot-cl&eacute;"
 msgstr[1] "Mot-cl&eacute;s"
 
-#: class/class.movie.php:806 inc/popup-imdb_movie.php:729
+#: class/class.movie.php:806 inc/popup-imdb_movie.php:741
 msgid "Goof"
 msgid_plural "Goofs"
 msgstr[0] "Erreur"
@@ -296,7 +296,7 @@ msgid "Link to local IMDb"
 msgstr "Lien vers l'IMDb en local"
 
 #: class/class.movie.php:1269 inc/options-data.php:431 inc/options-data.php:432
-#: inc/popup-imdb_movie.php:700
+#: inc/popup-imdb_movie.php:712
 msgid "Soundtrack"
 msgid_plural "Soundtracks"
 msgstr[0] "Bande originale"
@@ -315,8 +315,8 @@ msgstr[0] "Site web officiel"
 msgstr[1] "Sites web officiels"
 
 #: class/class.movie.php:1443 inc/options-data.php:246 inc/options-data.php:247
-#: inc/popup-imdb_movie.php:110 inc/popup-imdb_movie.php:261
-#: inc/popup-imdb_movie.php:503 inc/popup-search.php:82
+#: inc/popup-imdb_movie.php:114 inc/popup-imdb_movie.php:273
+#: inc/popup-imdb_movie.php:515 inc/popup-search.php:82
 msgid "Director"
 msgid_plural "Directors"
 msgstr[0] "R&eacute;alisateur"
@@ -339,14 +339,14 @@ msgstr[0] "Cr&eacute;ateur"
 msgstr[1] "Cr&eacute;ateur"
 
 #: class/class.movie.php:1606 inc/options-data.php:360 inc/options-data.php:361
-#: inc/popup-imdb_movie.php:576
+#: inc/popup-imdb_movie.php:588
 msgid "Producer"
 msgid_plural "Producers"
 msgstr[0] "Producteur"
 msgstr[1] "Producteurs"
 
 #: class/class.movie.php:1711 inc/options-data.php:520 inc/options-data.php:521
-#: inc/popup-imdb_movie.php:541
+#: inc/popup-imdb_movie.php:553
 msgid "Writer"
 msgid_plural "Writers"
 msgstr[0] "Sc&eacute;nariste"
@@ -354,14 +354,14 @@ msgstr[1] "Sc&eacute;naristes"
 
 #: class/class.movie.php:1815 class/class.movie.php:1912
 #: inc/options-data.php:162 inc/options-data.php:163
-#: inc/popup-imdb_movie.php:457
+#: inc/popup-imdb_movie.php:469
 msgid "Actor"
 msgid_plural "Actors"
 msgstr[0] "Acteur"
 msgstr[1] "Acteur"
 
 #: class/class.movie.php:2000 inc/options-data.php:345 inc/options-data.php:346
-#: inc/popup-imdb_movie.php:634
+#: inc/popup-imdb_movie.php:646
 msgid "Plot"
 msgid_plural "Plots"
 msgstr[0] "Synopsis"
@@ -1642,7 +1642,7 @@ msgid "You may also select a group of movies to delete."
 msgstr "Vous pouvez également sélectionner un groupe de film à effacer."
 
 #: inc/options-cache.php:683 inc/options-cache.php:791
-#: inc/popup-imdb_movie.php:227 inc/popup-imdb_person.php:201
+#: inc/popup-imdb_movie.php:239 inc/popup-imdb_person.php:201
 msgid "no picture"
 msgstr "pas de photo"
 
@@ -1850,7 +1850,7 @@ msgid "Display order"
 msgstr "Ordre d'affichage"
 
 #: inc/options-data.php:139 inc/options-data.php:898
-#: inc/options-general.php:387 inc/popup-imdb_movie.php:194
+#: inc/options-general.php:387 inc/popup-imdb_movie.php:206
 #: inc/popup-imdb_person.php:90
 msgid "Misc"
 msgstr "Divers"
@@ -2079,7 +2079,7 @@ msgstr ""
 "nouvelle option pour copier un modèle de taxonomie directement dans votre "
 "répertoire de modèles."
 
-#: inc/options-data.php:578 inc/popup-imdb_movie.php:185
+#: inc/options-data.php:578 inc/popup-imdb_movie.php:197
 msgid "Actors"
 msgstr "Acteurs"
 
@@ -2577,75 +2577,79 @@ msgstr "Pas de message trouv&eacute pour"
 msgid "Results related to"
 msgstr "Choix correspondants &agrave;"
 
-#: inc/popup-imdb_movie.php:109 inc/popup-search.php:81
+#: inc/popup-imdb_movie.php:107
+msgid "Query results"
+msgstr "Résultats de la recherche"
+
+#: inc/popup-imdb_movie.php:111 inc/popup-search.php:79
 msgid "Titles matching"
 msgstr "Titre(s) possible(s)"
 
-#: inc/popup-imdb_movie.php:121 inc/popup-search.php:92
+#: inc/popup-imdb_movie.php:126 inc/popup-search.php:94
 msgid "Maximum of results reached."
 msgstr "Maximum de résultats atteint."
 
-#: inc/popup-imdb_movie.php:126 inc/popup-imdb_movie.php:137
-#: inc/popup-search.php:97 inc/popup-search.php:109
+#: inc/popup-imdb_movie.php:133 inc/popup-imdb_movie.php:146
+#: inc/popup-search.php:100 inc/popup-search.php:113
 msgid "more on"
 msgstr "plus sur"
 
-#: inc/popup-imdb_movie.php:127 inc/popup-imdb_movie.php:130
-#: inc/popup-imdb_movie.php:140 inc/popup-imdb_movie.php:141
-#: inc/popup-search.php:98 inc/popup-search.php:101 inc/popup-search.php:112
-#: inc/popup-search.php:113
+#: inc/popup-imdb_movie.php:134 inc/popup-imdb_movie.php:137
+#: inc/popup-imdb_movie.php:149 inc/popup-imdb_movie.php:150
+#: inc/popup-search.php:101 inc/popup-search.php:104 inc/popup-search.php:116
+#: inc/popup-search.php:117
 msgid "link to imdb for"
 msgstr "lien vers imdb pour"
 
-#: inc/popup-imdb_movie.php:179
+#: inc/popup-imdb_movie.php:191
 msgid "Search for movies with the same name"
 msgstr "Rechercher les films avec le m&ecirc;me nom"
 
-#: inc/popup-imdb_movie.php:179
+#: inc/popup-imdb_movie.php:191
 msgid "Search AKAs"
 msgstr "Rechercher AKAs"
 
-#: inc/popup-imdb_movie.php:182
+#: inc/popup-imdb_movie.php:194
 msgid "Movie"
 msgstr "Film"
 
-#: inc/popup-imdb_movie.php:182 inc/popup-imdb_person.php:81
+#: inc/popup-imdb_movie.php:194 inc/popup-imdb_person.php:81
 msgid "Summary"
 msgstr "Résumé"
 
-#: inc/popup-imdb_movie.php:188
+#: inc/popup-imdb_movie.php:200
 msgid "Crew"
 msgstr "Equipe"
 
-#: inc/popup-imdb_movie.php:191
+#: inc/popup-imdb_movie.php:203
 msgid "Plots"
 msgstr "Synopsis"
 
-#: inc/popup-imdb_movie.php:268 inc/popup-imdb_movie.php:297
-#: inc/popup-imdb_movie.php:473 inc/popup-imdb_movie.php:515
-#: inc/popup-imdb_movie.php:553 inc/popup-imdb_movie.php:588
+#: inc/popup-imdb_movie.php:280 inc/popup-imdb_movie.php:309
+#: inc/popup-imdb_movie.php:485 inc/popup-imdb_movie.php:527
+#: inc/popup-imdb_movie.php:565 inc/popup-imdb_movie.php:600
 msgid "link to imdb"
 msgstr "lien vers imdb"
 
-#: inc/popup-imdb_movie.php:294
+#: inc/popup-imdb_movie.php:306
 msgid "Main actors"
 msgstr "Acteurs principaux"
 
-#: inc/popup-imdb_movie.php:616
+#: inc/popup-imdb_movie.php:628
 msgid "Plot summary"
 msgstr "Résumé synopsys"
 
-#: inc/popup-imdb_movie.php:663 inc/popup-imdb_person.php:562
+#: inc/popup-imdb_movie.php:675 inc/popup-imdb_person.php:562
 msgid "Trivia"
 msgid_plural "Trivias"
 msgstr[0] "Anecdote"
 msgstr[1] "Anecdotes"
 
-#: inc/popup-imdb_movie.php:672
+#: inc/popup-imdb_movie.php:684
 msgid "click to show more trivias"
 msgstr "cliquez pour plus de trvias"
 
-#: inc/popup-imdb_movie.php:738
+#: inc/popup-imdb_movie.php:750
 msgid "click to show more goofs"
 msgstr "cliquez pour plus de gaffes"
 

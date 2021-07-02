@@ -39,6 +39,18 @@ class LumiereMovies {
 	 */
 	function __construct() {
 
+		// Start config class to get the vars
+		if (class_exists("\Lumiere\Settings")) {
+			$mainvars = new \Lumiere\Settings();
+			if (!isset($imdb_admin_values))
+				$imdb_admin_values = $mainvars->get_imdb_admin_option();
+			if (!isset($imdb_widget_values))
+				$imdb_widget_values = $mainvars->get_imdb_widget_option();
+			if (!isset($imdb_cache_values))
+				$imdb_cache_values = $mainvars->get_imdb_widget_option();
+		}
+
+		// Start 
 		$this->init();
 
 		if  (! is_admin() ) {
@@ -62,9 +74,14 @@ class LumiereMovies {
 		if (class_exists("\Lumiere\Settings")) {
 
 			$config = new \Lumiere\Settings();
-			$imdb_admin_values = $config->get_imdb_admin_option();
-			$imdb_widget_values = $config->get_imdb_widget_option();
-			$imdb_cache_values = $config->get_imdb_cache_option();
+
+			// Get main vars
+			if (!isset($imdb_admin_values))
+				$imdb_admin_values = $config->get_imdb_admin_option();
+			if (!isset($imdb_widget_values))
+				$imdb_widget_values = $config->get_imdb_widget_option();
+			if (!isset($imdb_cache_values))
+				$imdb_cache_values = $config->get_imdb_cache_option();
 
 			// change configuration of cache
 			$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
@@ -216,12 +233,12 @@ class LumiereMovies {
 
 	}
 
+
 	/* Function to display the layout and calls all subfonctions
 	 *
 	 * @param $config -> takes the value of imdb class 
 	 * @param $midPremierResultat -> takes the IMDb ID to be displayed
 	 */
-
 	public function lumiere_movie_design($config=NULL, $midPremierResultat=NULL){
 
 		/* Vars */ 
@@ -477,25 +494,59 @@ class LumiereMovies {
 		$output .= ':</span>';
 
 		if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycountry'] == true ) ) { 
-			for ($i = 0; $i < count ($country); $i++) { 
-				// add taxonomy terms to posts' terms
-				if (null !==(get_the_ID()))
-				wp_set_post_terms(get_the_ID(), sanitize_text_field($country[$i]), $imdb_admin_values['imdburlstringtaxo'] . 'country', false); 
 
-				# list URL taxonomy page
+			/* vars */
+			$list_taxonomy_term = "";
+			$taxonomy_url_string_first = esc_html( $imdb_admin_values['imdburlstringtaxo'] );
+			$taxonomy_category = 'country';
+			$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
+
+			for ($i = 0; $i < $nbtotalcountry; $i++) {
+
+				/* vars */
+				$taxonomy_term = esc_html( $country[$i] );
+
+				// add taxonomy terms to posts' terms
+				if (null !==(get_the_ID())) {
+
+					// delete if exists, for development purposes
+					# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
+						# wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
+
+					if ( taxonomy_exists( $taxonomy_category_full ) ){
+
+						// if the term doesn't exist
+						if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) )
+							// insert it and get its id
+							$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array(), false );
+
+						// Create a list of taxonomy terms meant to be inserted
+						$list_taxonomy_term .= $taxonomy_term . ", " ;
+
+					}
+				}
+				if ( $term && !is_wp_error( $term ) ) {
+
+					// Insert the list of taxonomy terms
+					wp_set_post_terms(get_the_ID(), $list_taxonomy_term , $taxonomy_category_full, true);  
+					// add tags to the current post, but we don't want it
+					# wp_set_post_tags(get_the_ID(), $list_taxonomy_term,true); 
+				}
+
+				// display the text
 				$output .= '<a class="linkincmovie" ';
-				$output .= 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'country/' .lumiere_make_taxonomy_link( esc_html( $country[$i] ) ) . '" ';
+				$output .= 'href="' . site_url() . '/' . $taxonomy_category_full . '/' .lumiere_make_taxonomy_link( $taxonomy_term ) . '" ';
 				$output .= 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
-				$output .= esc_html( $country[$i] );
+				$output .= $taxonomy_term;
 				$output .= '</a>'; 
-				if ( $i < count ($country) - 1 ) $output .= ", ";
+				if ( $i < $nbtotalcountry - 1 ) $output .= ", ";
 			}
 
 		} else {
 
-			for ($i = 0; $i < count ($country); $i++) { 
+			for ($i = 0; $i < $nbtotalcountry; $i++) { 
 				$output .= sanitize_text_field( $country[$i]);
-				if ( $i < count ($country) - 1 ) $output .= ", ";	
+				if ( $i < $nbtotalcountry - 1 ) $output .= ", ";	
 			} // endfor
 
 		} // end if
@@ -575,24 +626,57 @@ class LumiereMovies {
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomylanguage'] == true ) ) { 
 
-				for ($i = 0; $i < count ($languages); $i++) { 
-					// add taxonomy terms to posts' terms
-					if (null !==(get_the_ID()))
-					wp_set_post_terms(get_the_ID(), sanitize_text_field( $languages[$i] ), $imdb_admin_values['imdburlstringtaxo'] . 'language', false); 
+				/* vars */
+				$list_taxonomy_term = "";
+				$taxonomy_url_string_first = esc_html( $imdb_admin_values['imdburlstringtaxo'] );
+				$taxonomy_category = 'language';
+				$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
 
-					# list URL taxonomy page
+				for ($i = 0; $i < $nbtotallanguages; $i++) {
+
+					/* vars */
+					$taxonomy_term = esc_html( $languages[$i] );
+
+					// add taxonomy terms to posts' terms
+					if (null !==(get_the_ID())) {
+
+						// delete if exists, for development purposes
+						# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
+							# wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
+
+						if ( taxonomy_exists( $taxonomy_category_full ) ){
+
+							// if the term doesn't exist
+							if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) )
+								// insert it and get its id
+								$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array(), false );
+
+							// Create a list of taxonomy terms meant to be inserted
+							$list_taxonomy_term .= $taxonomy_term . ", " ;
+
+						}
+					}
+					if ( $term && !is_wp_error( $term ) ) {
+
+						// Insert the list of taxonomy terms
+						wp_set_post_terms(get_the_ID(), $list_taxonomy_term , $taxonomy_category_full, true);  
+						// add tags to the current post, but we don't want it
+						# wp_set_post_tags(get_the_ID(), $list_taxonomy_term,true); 
+					}
+
+					// display the text
 					$output .= '<a class="linkincmovie" ';
-					$output .= 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'language/' .lumiere_make_taxonomy_link( esc_html( $languages[$i] ) ) . '" ';
+					$output .= 'href="' . site_url() . '/' . $taxonomy_category_full . '/' .lumiere_make_taxonomy_link( $taxonomy_term ) . '" ';
 					$output .= 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
-					$output .= esc_html( $languages[$i] );
+					$output .= $taxonomy_term;
 					$output .= '</a>'; 
-					if ( $i < count ($languages) - 1 )	$output .= ", ";
+					if ( $i < $nbtotallanguages - 1 )	$output .= ", ";
 				}
 
 			} else {
-				for ($i = 0; $i < count ($languages); $i++) { 
+				for ($i = 0; $i < $nbtotallanguages; $i++) { 
 					$output .= sanitize_text_field( $languages[$i] );
-					if ( $i < count ($languages) - 1 )	$output .= ", "; 	
+					if ( $i < $nbtotallanguages - 1 )	$output .= ", "; 	
 				} 
 			} // end if 
 
@@ -684,19 +768,52 @@ class LumiereMovies {
 
 			if ( ( $imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomygenre'] == true ) ) { 
 
-				for ($i = 0; $i < $nbtotalgenre; $i++) { 
+				/* vars */
+				$list_taxonomy_term = "";
+				$taxonomy_url_string_first = esc_html( $imdb_admin_values['imdburlstringtaxo'] );
+				$taxonomy_category = 'genre';
+				$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
+
+				for ($i = 0; $i < $nbtotalgenre; $i++) {
+
+					/* vars */
+					$taxonomy_term = esc_html( $genre[$i] );
 
 					// add taxonomy terms to posts' terms
-					if (null !==(get_the_ID()))
-						wp_set_post_terms(get_the_ID(), sanitize_text_field($genre[$i]), $imdb_admin_values['imdburlstringtaxo'] . 'genre', false); 
+					if (null !==(get_the_ID())) {
+
+						// delete if exists, for development purposes
+						# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
+							# wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
+
+						if ( taxonomy_exists( $taxonomy_category_full ) ){
+
+							// if the term doesn't exist
+							if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) )
+								// insert it and get its id
+								$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array(), false );
+
+							// Create a list of taxonomy terms meant to be inserted
+							$list_taxonomy_term .= $taxonomy_term . ", " ;
+
+						}
+					}
+					if ( $term && !is_wp_error( $term ) ) {
+
+						// Insert the list of taxonomy terms
+						wp_set_post_terms(get_the_ID(), $list_taxonomy_term , $taxonomy_category_full, true);  
+						// add tags to the current post, but we don't want it
+						# wp_set_post_tags(get_the_ID(), $list_taxonomy_term,true); 
+					}
 
 					// list URL taxonomy page
-					$output .= '<a class="linkincmovie" ';
-					$output .= 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'genre/' .lumiere_make_taxonomy_link( esc_html( $genre[$i] ) ) . '" ';
+					$output .= "\n\t\t\t" . '<a class="linkincmovie" ';
+					$output .= 'href="' . site_url() . '/' . $taxonomy_category_full . '/' .lumiere_make_taxonomy_link( $taxonomy_term ) . '" ';
 					$output .= 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
-					$output .= esc_html( $genre[$i] );
-					$output .= '</a>'; 
-					if ( $i < $nbtotalgenre - 1 ) $output .= ', '; 
+					$output .= "\n\t\t\t\t" . $taxonomy_term;
+					$output .= "\n\t\t\t\t" . '</a>';
+					if ( $i < $nbtotalgenre - 1 ) $output .= ", ";
+
 				}
 
 			} else {
@@ -746,25 +863,57 @@ class LumiereMovies {
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomykeywords'] == true ) ) { 
 
-				for ($i = 0; $i < count ($keywords); $i++) {
- 
-					// add taxonomy terms to posts' terms
-					if (null !==(get_the_ID()))
-						wp_set_post_terms(get_the_ID(), sanitize_text_field($keywords[$i]), $imdb_admin_values['imdburlstringtaxo'] . 'keywords', false); 
+				/* vars */
+				$list_taxonomy_term = "";
+				$taxonomy_url_string_first = esc_html( $imdb_admin_values['imdburlstringtaxo'] );
+				$taxonomy_category = 'keywords';
+				$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
 
-					// list URL taxonomy page
+				for ($i = 0; $i < $nbtotalkeywords; $i++) {
+
+					/* vars */
+					$taxonomy_term = esc_html( $keywords[$i] );
+
+					// add taxonomy terms to posts' terms
+					if (null !==(get_the_ID())) {
+
+						// delete if exists, for development purposes
+						# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
+							# wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
+
+						if ( taxonomy_exists( $taxonomy_category_full ) ){
+
+							// if the term doesn't exist
+							if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) )
+								// insert it and get its id
+								$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array(), false );
+
+							// Create a list of taxonomy terms meant to be inserted
+							$list_taxonomy_term .= $taxonomy_term . ", " ;
+
+						}
+					}
+					if ( $term && !is_wp_error( $term ) ) {
+
+						// Insert the list of taxonomy terms
+						wp_set_post_terms(get_the_ID(), $list_taxonomy_term , $taxonomy_category_full, true);  
+						// add tags to the current post, but we don't want it
+						# wp_set_post_tags(get_the_ID(), $list_taxonomy_term,true); 
+					}
+
+					// display the text
 					$output .= '<a class="linkincmovie" ';
-					$output .= 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'keywords/' . lumiere_make_taxonomy_link( esc_html( $keywords[$i] ) ) . '" ';
+					$output .= 'href="' . site_url() . '/' . $taxonomy_category_full . '/' . lumiere_make_taxonomy_link( $taxonomy_term ) . '" ';
 					$output .= 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
-					$output .= esc_html( $keywords[$i] );
+					$output .= $taxonomy_term;
 					$output .= '</a>'; 
-					if ( $i < count ($keywords) - 1 )  $output .= ", ";
+					if ( $i < $nbtotalkeywords - 1 )  $output .= ", ";
 				}
 					
 			} else {
-				for ($i = 0; $i < count ($keywords); $i++) { 
+				for ($i = 0; $i < $nbtotalkeywords; $i++) { 
 					$output .= esc_html( $keywords[$i] ); 
-					if ( $i < count ($keywords) - 1 )  $output .= ", "; 										
+					if ( $i < $nbtotalkeywords - 1 )  $output .= ", "; 										
 				} 
 			} // end if 
 
@@ -1069,17 +1218,49 @@ class LumiereMovies {
 			// Taxonomy
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycolor'] == true ) ) { 
 
-				for ($i = 0; $i < $nbtotalcolors; $i++) { 
+				/* vars */
+				$list_taxonomy_term = "";
+				$taxonomy_url_string_first = esc_html( $imdb_admin_values['imdburlstringtaxo'] );
+				$taxonomy_category = 'color';
+				$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
+
+				for ($i = 0; $i < $nbtotalcolors; $i++) {
+
+					/* vars */
+					$taxonomy_term = esc_html( $colors[$i] );
 
 					// add taxonomy terms to posts' terms
-					if (null !==(get_the_ID()))
-					wp_set_post_terms(get_the_ID(), sanitize_text_field( $colors[$i] ), $imdb_admin_values['imdburlstringtaxo'] . 'color', false); 
+					if (null !==(get_the_ID())) {
 
-					// list URL taxonomy page
+						// delete if exists, for development purposes
+						# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
+							# wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
+
+						if ( taxonomy_exists( $taxonomy_category_full ) ){
+
+							// if the term doesn't exist
+							if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) )
+								// insert it and get its id
+								$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array(), false );
+
+							// Create a list of taxonomy terms meant to be inserted
+							$list_taxonomy_term .= $taxonomy_term . ", " ;
+
+						}
+					}
+					if ( $term && !is_wp_error( $term ) ) {
+
+						// Insert the list of taxonomy terms
+						wp_set_post_terms(get_the_ID(), $list_taxonomy_term , $taxonomy_category_full, true);  
+						// add tags to the current post, but we don't want it
+						# wp_set_post_tags(get_the_ID(), $list_taxonomy_term,true); 
+					}
+
+					// display the text
 					$output .= "\n\t\t\t" . '<a class="linkincmovie" ';
-					$output .= 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'color/' .lumiere_make_taxonomy_link( esc_html( $colors[$i] ) ) . '" ';
+					$output .= 'href="' . site_url() . '/' . $taxonomy_category_full . '/' .lumiere_make_taxonomy_link( $taxonomy_term ) . '" ';
 					$output .= 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
-					$output .= esc_html( $colors[$i] );
+					$output .= $taxonomy_term;
 					$output .= '</a>'; 
 					if ( $i < $nbtotalcolors - 1 ) $output .= ", ";
 				}
@@ -1186,17 +1367,49 @@ class LumiereMovies {
 			// Taxonomy
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycomposer'] == true ) ) { 
 
+				/* vars */
+				$list_taxonomy_term = "";
+				$taxonomy_url_string_first = esc_html( $imdb_admin_values['imdburlstringtaxo'] );
+				$taxonomy_category = 'composer';
+				$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
+
 				for ($i = 0; $i < $nbtotalcomposer; $i++) {
 
-					// add taxonomy terms to posts' terms
-					if (null !==(get_the_ID()))
-					wp_set_post_terms(get_the_ID(), sanitize_text_field( $composer[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'composer', false);
+					/* vars */
+					$taxonomy_term = esc_html( $composer[$i]["name"] );
 
-					// list URL taxonomy page
+					// add taxonomy terms to posts' terms
+					if (null !==(get_the_ID())) {
+
+						// delete if exists, for development purposes
+						# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
+							# wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
+
+						if ( taxonomy_exists( $taxonomy_category_full ) ){
+
+							// if the term doesn't exist
+							if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) )
+								// insert it and get its id
+								$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array(), false );
+
+							// Create a list of taxonomy terms meant to be inserted
+							$list_taxonomy_term .= $taxonomy_term . ", " ;
+
+						}
+					}
+					if ( $term && !is_wp_error( $term ) ) {
+
+						// Insert the list of taxonomy terms
+						wp_set_post_terms(get_the_ID(), $list_taxonomy_term , $taxonomy_category_full, true);  
+						// add tags to the current post, but we don't want it
+						# wp_set_post_tags(get_the_ID(), $list_taxonomy_term,true); 
+					}
+
+					// display the text
 					$output .= '<a class="linkincmovie" ';
-					$output .= 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'composer/' .lumiere_make_taxonomy_link( esc_html( $composer[$i]["name"] ) ) . '" ';
+					$output .= 'href="' . site_url() . '/' . $taxonomy_category_full . '/' .lumiere_make_taxonomy_link( $taxonomy_term ) . '" ';
 					$output .= 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
-					$output .= esc_html( $composer[$i]["name"] );
+					$output .= $taxonomy_term;
 					$output .= '</a>'; 
 					if ( $i < $nbtotalcomposer - 1 ) $output .= ", ";
 
@@ -1422,7 +1635,7 @@ class LumiereMovies {
 	public function lumiere_movies_director($movie=NULL, $external=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values, $wp_query;
+		global $imdb_admin_values, $imdb_widget_values;
 
 		$output = "";
 		$director = $movie->director(); 
@@ -1443,19 +1656,51 @@ class LumiereMovies {
 			$output .= sprintf(esc_attr(_n('Director', 'Directors', $nbtotaldirector, 'lumiere-movies') ), number_format_i18n($nbtotaldirector) );
 			$output .= ':</span>';
 
-			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomydirector'] == true )  ) { 			# lumiere_count_me() to avoid adding every taxonomy from several movies's genre...
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomydirector'] == true )  ) {
+
+				/* vars */
+				$list_taxonomy_term = "";
+				$taxonomy_url_string_first = esc_html( $imdb_admin_values['imdburlstringtaxo'] );
+				$taxonomy_category = 'director';
+				$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
 
 				for ($i = 0; $i < $nbtotaldirector; $i++) {
 
+					/* vars */
+					$taxonomy_term = esc_html( $director[$i]["name"] );
+
 					// add taxonomy terms to posts' terms
-					if (null !==(get_the_ID()))
-						wp_set_post_terms(get_the_ID(), sanitize_text_field( $director[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'director', false); 
+					if (null !==(get_the_ID())) {
+
+						// delete if exists, for development purposes
+						# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
+							# wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
+
+						if ( taxonomy_exists( $taxonomy_category_full ) ){
+
+							// if the term doesn't exist
+							if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) )
+								// insert it and get its id
+								$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array(), false );
+
+							// Create a list of taxonomy terms meant to be inserted
+							$list_taxonomy_term .= $taxonomy_term . ", " ;
+
+						}
+					}
+					if ( $term && !is_wp_error( $term ) ) {
+
+						// Insert the list of taxonomy terms
+						wp_set_post_terms(get_the_ID(), $list_taxonomy_term , $taxonomy_category_full, true);  
+						// add tags to the current post, but we don't want it
+						# wp_set_post_tags(get_the_ID(), $list_taxonomy_term,true); 
+					}
 
 					// list URL taxonomy page
 					$output .= "\n\t\t\t" . '<a class="linkincmovie" ';
-					$output .= 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'director/' .lumiere_make_taxonomy_link( esc_html( $director[$i]["name"] ) ) . '" ';
+					$output .= 'href="' . site_url() . '/' . $taxonomy_category_full . '/' .lumiere_make_taxonomy_link( $taxonomy_term ) . '" ';
 					$output .= 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
-					$output .= "\n\t\t\t\t" . esc_html( $director[$i]["name"] );
+					$output .= "\n\t\t\t\t" . $taxonomy_term;
 					$output .= "\n\t\t\t\t" . '</a>';
 					if ( $i < $nbtotaldirector - 1 ) $output .= ", ";
 
@@ -1527,16 +1772,49 @@ class LumiereMovies {
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomycreator'] == true ) ) { 
 
+				/* vars */
+				$list_taxonomy_term = "";
+				$taxonomy_url_string_first = esc_html( $imdb_admin_values['imdburlstringtaxo'] );
+				$taxonomy_category = 'creator';
+				$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
+
 				for ($i = 0; $i < $nbtotalcreator; $i++) {
 
+					/* vars */
+					$taxonomy_term = esc_html( $creator[$i]["name"] );
+
 					// add taxonomy terms to posts' terms
-					wp_set_post_terms($wp_query->post->ID, sanitize_text_field( $creator[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'creator', false); 
-				
-					// list URL taxonomy page
+					if (null !==(get_the_ID())) {
+
+						// delete if exists, for development purposes
+						# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
+							# wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
+
+						if ( taxonomy_exists( $taxonomy_category_full ) ){
+
+							// if the term doesn't exist
+							if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) )
+								// insert it and get its id
+								$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array(), false );
+
+							// Create a list of taxonomy terms meant to be inserted
+							$list_taxonomy_term .= $taxonomy_term . ", " ;
+
+						}
+					}
+					if ( $term && !is_wp_error( $term ) ) {
+
+						// Insert the list of taxonomy terms
+						wp_set_post_terms(get_the_ID(), $list_taxonomy_term , $taxonomy_category_full, true);  
+						// add tags to the current post, but we don't want it
+						# wp_set_post_tags(get_the_ID(), $list_taxonomy_term,true); 
+					}
+
+					// display the text
 					$output .= '<a class="linkincmovie" ';
-					$output .= 'href="' . site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'creator/' .lumiere_make_taxonomy_link( esc_html( $creator[$i]["name"] ) ) . '" ';
+					$output .= 'href="' . site_url() . '/' . $taxonomy_category_full . '/' .lumiere_make_taxonomy_link( $taxonomy_term ) . '" ';
 					$output .= 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
-					$output .= esc_html( $creator[$i]["name"] );
+					$output .= $taxonomy_term;
 					$output .= '</a>'; 
 				}
 
@@ -1609,17 +1887,49 @@ class LumiereMovies {
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomyproducer'] == true ) ) { 
 
+				/* vars */
+				$list_taxonomy_term = "";
+				$taxonomy_url_string_first = esc_html( $imdb_admin_values['imdburlstringtaxo'] );
+				$taxonomy_category = 'producer';
+				$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
+
 				for ($i = 0; $i < $nbtotalproducer; $i++) {
 
-					// add taxonomy terms to posts' terms
-					if (null !==(get_the_ID()))
-						wp_set_post_terms(get_the_ID(), sanitize_text_field( $producer[$i]["name"] ), $imdb_admin_values['imdburlstringtaxo'] . 'producer', false); 
+					/* vars */
+					$taxonomy_term = esc_html( $producer[$i]["name"] );
 
-					# list URL taxonomy page
+					// add taxonomy terms to posts' terms
+					if (null !==(get_the_ID())) {
+
+						// delete if exists, for development purposes
+						# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
+							# wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
+
+						if ( taxonomy_exists( $taxonomy_category_full ) ){
+
+							// if the term doesn't exist
+							if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) )
+								// insert it and get its id
+								$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array(), false );
+
+							// Create a list of taxonomy terms meant to be inserted
+							$list_taxonomy_term .= $taxonomy_term . ", " ;
+
+						}
+					}
+					if ( $term && !is_wp_error( $term ) ) {
+
+						// Insert the list of taxonomy terms
+						wp_set_post_terms(get_the_ID(), $list_taxonomy_term , $taxonomy_category_full, true);  
+						// add tags to the current post, but we don't want it
+						# wp_set_post_tags(get_the_ID(), $list_taxonomy_term,true); 
+					}
+
+					// display the text
 					$output .= "\n\t\t\t\t". '<div align="center" class="lumiere_container">';
 					$output .= "\n\t\t\t\t\t". '<div class="lumiere_align_left lumiere_flex_auto">';
-					$output .= '<a class="linkincmovie" ' . 'href="' . esc_url( site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'producer/' .lumiere_make_taxonomy_link( esc_html( $producer[$i]["name"] ) ) ). '" ' . 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
-					$output .= esc_html( $producer[$i]["name"] );
+					$output .= '<a class="linkincmovie" ' . 'href="' . esc_url( site_url() . '/' . $taxonomy_category_full . '/' .lumiere_make_taxonomy_link( $taxonomy_term ) ). '" ' . 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
+					$output .= $taxonomy_term;
 					$output .= '</a>'; 
 					$output .= '</div>';
 					$output .= "\n\t\t\t\t\t". '<div align="right">';
@@ -1690,7 +2000,7 @@ class LumiereMovies {
 	public function lumiere_movies_writer($movie=NULL, $external=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values, $wp_query;
+		global $imdb_admin_values, $imdb_widget_values;
 
 		$output = "";
 		$writer = $movie->writing(); 
@@ -1713,19 +2023,51 @@ class LumiereMovies {
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomywriter'] == true ) ) { 
 
-				for ($i = 0; ($i < $nbtotalwriters ); $i++) { 
+				/* vars */
+				$list_taxonomy_term = "";
+				$taxonomy_url_string_first = esc_html( $imdb_admin_values['imdburlstringtaxo'] );
+				$taxonomy_category = 'writer';
+				$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
+
+				for ($i = 0; $i < $nbtotalwriters; $i++) {
+
+					/* vars */
+					$taxonomy_term = esc_html( $writer[$i]["name"] );
 
 					// add taxonomy terms to posts' terms
-					if (null !==(get_the_ID()))
-						wp_set_post_terms(get_the_ID(), sanitize_text_field( $writer[$i]["name"]), $imdb_admin_values['imdburlstringtaxo'] . 'writer', false); 
-				
-					// list URL taxonomy page
+					if (null !==(get_the_ID())) {
+
+						// delete if exists, for development purposes
+						# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
+							# wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
+
+						if ( taxonomy_exists( $taxonomy_category_full ) ){
+print_r(get_term_by('name', $taxonomy_term, $taxonomy_category_full ));print_r($taxonomy_category_full);print_r($taxonomy_term);
+							// if the term doesn't exist
+							if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) )
+								// insert it and get its id
+								$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array(), false );
+
+							// Create a list of taxonomy terms meant to be inserted
+							$list_taxonomy_term .= $taxonomy_term . ", " ;
+
+						}
+					}
+					if ( $term && !is_wp_error( $term ) ) {
+
+						// Insert the list of taxonomy terms
+						wp_set_post_terms(get_the_ID(), $list_taxonomy_term , $taxonomy_category_full, true);  
+						// add tags to the current post, but we don't want it
+						# wp_set_post_tags(get_the_ID(), $list_taxonomy_term,true); 
+					}
+
+					// display the text
 					$output .= "\n\t\t\t\t". '<div align="center" class="lumiere_container">';
 					$output .= "\n\t\t\t\t\t". '<div class="lumiere_align_left lumiere_flex_auto">';
 					$output .= '<a class="linkincmovie" ';
-					$output .= 'href="' . esc_url( site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'writer/' .lumiere_make_taxonomy_link( esc_html( $writer[$i]["name"] ) ) ). '" ';
+					$output .= 'href="' . esc_url( site_url() . '/' . $taxonomy_category_full . '/' . lumiere_make_taxonomy_link( $taxonomy_term ) ). '" ';
 					$output .= 'title="' . esc_html__('Find similar taxonomy results', 'lumiere-movies') . '">';
-					$output .= esc_html( $writer[$i]["name"] );
+					$output .= $taxonomy_term;
 					$output .= '</a>'; 
 					$output .= '</div>';
 					$output .= "\n\t\t\t\t\t". '<div class="lumiere_align_right lumiere_flex_auto">';
@@ -1817,11 +2159,43 @@ class LumiereMovies {
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomyactor'] == true ) ) {
 
-				for ($i = 0; ($i < $nbactors) && ($i < $nbtotalactors); $i++) { 
+				/* vars */
+				$list_taxonomy_term = "";
+				$taxonomy_url_string_first = esc_html( $imdb_admin_values['imdburlstringtaxo'] );
+				$taxonomy_category = 'actor';
+				$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
+
+				for ($i = 0; ($i < $nbactors) && ($i < $nbtotalactors); $i++) {
+
+					/* vars */
+					$taxonomy_term = esc_html( $cast[$i]["name"] );
 
 					// add taxonomy terms to posts' terms
-					if (null !==(get_the_ID()))
-						wp_set_post_terms(get_the_ID(), sanitize_text_field( $cast[$i]["name"]), $imdb_admin_values['imdburlstringtaxo'] . 'actor', false); 
+					if (null !==(get_the_ID())) {
+
+						// delete if exists, for development purposes
+						# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
+							# wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
+
+						if ( taxonomy_exists( $taxonomy_category_full ) ){
+
+							// if the term doesn't exist
+							if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) )
+								// insert it and get its id
+								$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array(), false );
+
+							// Create a list of taxonomy terms meant to be inserted
+							$list_taxonomy_term .= $taxonomy_term . ", " ;
+
+						}
+					}
+					if ( $term && !is_wp_error( $term ) ) {
+
+						// Insert the list of taxonomy terms
+						wp_set_post_terms(get_the_ID(), $list_taxonomy_term , $taxonomy_category_full, true);  
+						// add tags to the current post, but we don't want it
+						# wp_set_post_tags(get_the_ID(), $list_taxonomy_term,true); 
+					}
 
 					// display the text
 					$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
@@ -1830,8 +2204,8 @@ class LumiereMovies {
 					$output .= "\n\t\t\t\t" . '</div>';
 					$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
 					$output .= "\n\t\t\t\t\t<a class=\"linkincmovie\" href=\"" 
-. esc_url( site_url() . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'actor/' .lumiere_make_taxonomy_link( $cast[$i]["name"] ) ) . '" title="' . esc_html__("Find similar taxonomy results", "lumiere-movies") . "\">";
-					$output .= "\n\t\t\t\t\t" . esc_html( $cast[$i]["name"] );
+. esc_url( site_url() . '/' . $taxonomy_category_full . '/' .lumiere_make_taxonomy_link( $taxonomy_term ) ) . '" title="' . esc_html__("Find similar taxonomy results", "lumiere-movies") . "\">";
+					$output .= "\n\t\t\t\t\t" . $taxonomy_term;
 					$output .= "\n\t\t\t\t\t" . '</a>';
 					$output .= "\n\t\t\t\t" . '</div>';
 					$output .= "\n\t\t\t" . '</div>';
@@ -2063,6 +2437,7 @@ class LumiereMovies {
 
 		return $output;
 	}
+
 
 } // end of class
 
