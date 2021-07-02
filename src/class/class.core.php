@@ -669,19 +669,9 @@ class Core {
 					/* Refresh rewrite rules */
 					flush_rewrite_rules();
 
-					/* update options, not needed, done in class/class.config.php automatically
-					$all_lumiere_options[] = get_option($imdb_ft->imdbAdminOptionsName);
-					$all_lumiere_options[] = get_option($imdb_ft->imdbWidgetOptionsName);
-					$all_lumiere_options[] = get_option($imdb_ft->imdbCacheOptionsName);
-					foreach ($all_lumiere_options as $each_lumiere_option){
-						foreach ($each_lumiere_option as $key => $option){
-							if(!isset($key)){
-								$each_lumiere_option[$key] = $option;
-								add_option($each_lumiere_option, $imdbOptions[$key]);
-							}
-						}
-					}*/
+					// Call the updating options process
 					require_once( plugin_dir_path( __DIR__ ) . 'class/update.options.php' );
+
 				}
 			}
 		}

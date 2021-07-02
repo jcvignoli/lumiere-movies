@@ -178,7 +178,7 @@ gulp.task('stylesheets', function (cb) {
 	flagssh = flagssh ? flagssh : isSSH();
 
 	// Notify the user how to run for sshing
-	const withsshmsg = "** Notice: Run stylesheets with --withssh 'yes' for uploading with ssh **";
+	const withsshmsg = "** Notice: Run stylesheets with '--withssh yes' for uploading with ssh **";
 	if (flagssh != true)
 		console.dir( withsshmsg );
 
@@ -206,11 +206,11 @@ gulp.task('javascripts', function () {
 		2/ if flagssh doesn't exists, check if the files_copy task was called with "--withssh yes"
 	*/
 	flagssh = flagssh ? flagssh : isSSH();
-	if (flagssh != true)
-		console.dir( withsshmsg );
 
 	// Notify the user how to run for sshing
-	const withsshmsg = "** Notice: Run javascripts with --withssh 'yes' for uploading with ssh **";
+	const withsshmsg = "** Notice: Run javascripts with '--withssh yes' for uploading with ssh **";
+	if (flagssh != true)
+		console.dir( withsshmsg );
 
 	return gulp
 		.src( paths.javascripts.src , {base: paths.base.src } )
@@ -233,7 +233,7 @@ gulp.task('images', function () {
 	flagssh = flagssh ? flagssh : isSSH();
 
 	// Notify the user how to run for sshing
-	const withsshmsg = "** Notice: Run images with --withssh 'yes' for uploading with ssh **";
+	const withsshmsg = "** Notice: Run images with '--withssh yes' for uploading with ssh **";
 	if (flagssh != true)
 		console.dir( withsshmsg );
 
@@ -258,7 +258,7 @@ gulp.task('files_copy', function() {
 	flagssh = flagssh ? flagssh : isSSH();
 
 	// Notify the user how to run for sshing
-	const withsshmsg = "** Notice: Run files_copy with --withssh 'yes for uploading with ssh **";
+	const withsshmsg = "** Notice: Run files_copy with '--withssh yes' for uploading with ssh **";
 	if (flagssh != true) 
 		console.dir( withsshmsg );
 
@@ -340,7 +340,7 @@ gulp.task('cleanDist', function (done) {
 gulp.task('build', function (cb) {
 
 	if (arg.clean != "yes") {
-	 	console.dir( '** Notice: Run build with --clean "yes" to clean ' + paths.files.dist + ' before building **' );
+	 	console.dir( '** Notice: Run build with "--clean yes" to clean ' + paths.files.dist + ' before building **' );
 		gulp.series( 'javascripts', 'stylesheets', 'images', 'files_copy' )(cb);
 	} else {
 	 	console.dir( 'Deleting ' + paths.files.dist + '...' );
@@ -381,7 +381,7 @@ gulp.task('lint', function(cb) {
 gulp.task('rsync', function(){
 
 	// Notify the user how to run for avoiding a dryrun
-	const rsyncmsg = "** Notice: Run with --rsyncnodry 'yes' for actual syncronization **";
+	const rsyncmsg = "** Notice: Run with '--rsyncnodry yes' for actual syncronization **";
 	if (arg.rsyncnodry != "yes") {
 	 	console.dir( rsyncmsg );
 		plugins.nodeNotifier.notify({ 
