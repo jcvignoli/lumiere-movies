@@ -382,7 +382,14 @@ gulp.task('rsync', function(){
 	const rsyncmsg = "** Notice: Run with --rsyncnodry 'yes' for actual syncronization **";
 	if (arg.rsyncnodry != "yes") {
 	 	console.dir( rsyncmsg );
-		plugins.nodeNotifier.notify({ title: 'Rsync task:', message: rsyncmsg });
+		plugins.nodeNotifier.notify({ 
+			title: 'Rsync task:', 
+			message: rsyncmsg,
+			icon: './source/gulp.png',
+		       templateOptions: {
+        			date: new Date()
+      			}
+		 });
 	}
 
 	return gulp.src( paths.base.dist )
