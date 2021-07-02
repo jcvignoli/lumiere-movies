@@ -132,7 +132,9 @@ paths = {
 	base: {
 		src: './src',						/* main lumiere path source */
 		dist: './dist',					/* main lumiere path destination */
-		watch: './dist/**/*.*' },				/* main browsersync watch folder */
+		watch: './dist/**/*.*',				/* main browsersync watch folder */
+		sourcemap: '../tmp/sourcemap',			/* sourcemap output folder */
+		lint: './tmp/lint' },				/* lint output folder */
 	stylesheets: {
 		src: [ './src/**/*.css', '!./src/js/highslide/*.*' ],
 		dist: './dist' },
@@ -156,8 +158,6 @@ paths = {
 	rsync: {
 		src: './dist',
 		excludedpath: ''},
-	lint: {
-		output: './tmp/lint' },					/* lint output  folder */
 };
 
 // Function to check if the var --withssh yes has been passed, or called such as isSSH('yes') (ie; from watch task)
@@ -325,7 +325,7 @@ gulp.task('browserWatch', gulp.parallel( 'watch', function(done){
 	done();
 }));
 
-// Task 7 - Remove pre-existing content from output folders
+// Task 7 - Remove pre-existing content from ./dist folders
 gulp.task('cleanDist', function (done) {
 	plugins.del.sync([
 		paths.files.dist
@@ -366,7 +366,7 @@ gulp.task('lint', function(cb) {
 		.pipe(plugins.eslint({fix:true}))
 		.pipe(plugins.eslint.format())
 		// if fixed, write the file to dest
-		.pipe(plugins.if(isFixed, gulp.dest( paths.lint.output )))
+		.pipe(plugins.if(isFixed, gulp.dest( paths.base.lint )))
 		// To have the process exit with an error code (1) on
 		// lint error, return the stream and pipe to failAfterError 
 		// last.
