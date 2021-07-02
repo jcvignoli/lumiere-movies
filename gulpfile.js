@@ -41,6 +41,7 @@ var errorHandler = function(error) {				/* handle and display errors with notify
 	plugins.notify.onError({
 		title: 'Task Failed [' + error.plugin + ']',
 		message: error.message,
+		icon: ext_cred.base.gulpimg,
 		sound: true
 	})(error);
 	this.emit('end');
@@ -264,11 +265,12 @@ gulp.task('files_copy', function() {
 	return gulp
 		.src( paths.files.src, {base: paths.base.src } )
 		.pipe(plugins.plumber({ errorHandler: function(err) {
-		     plugins.notify.onError({
-			  title: "Gulp error in " + err.plugin,
-			  message:  err.toString()
-		     })(err);
-		 }}))
+			plugins.notify.onError({
+				title: "Gulp error in " + err.plugin,
+				icon: ext_cred.base.gulpimg,
+				message:  err.toString()
+			})(err);
+		}}))
 		.pipe(plugins.changed( paths.files.dist ))
 		.pipe(gulp.dest( paths.files.dist ))
 		.pipe(plugins.if(flagssh == true,sshMain.dest( ext_cred.mainserver.dist ) ) )
@@ -385,10 +387,7 @@ gulp.task('rsync', function(){
 		plugins.nodeNotifier.notify({ 
 			title: 'Rsync task:', 
 			message: rsyncmsg,
-			icon: './source/gulp.png',
-		       templateOptions: {
-        			date: new Date()
-      			}
+			icon: ext_cred.base.gulpimg,
 		 });
 	}
 
