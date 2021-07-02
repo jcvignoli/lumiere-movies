@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-02 01:47-0400\n"
-"PO-Revision-Date: 2021-07-02 01:48-0400\n"
+"POT-Creation-Date: 2021-07-02 11:50-0400\n"
+"PO-Revision-Date: 2021-07-02 11:51-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -1415,8 +1415,8 @@ msgstr "Utiliser cache ?"
 #: inc/options-data.php:434 inc/options-data.php:449 inc/options-data.php:453
 #: inc/options-data.php:465 inc/options-data.php:479 inc/options-data.php:482
 #: inc/options-data.php:492 inc/options-data.php:510 inc/options-data.php:523
-#: inc/options-data.php:527 inc/options-data.php:535 inc/options-data.php:907
-#: inc/options-data.php:919 inc/options-general.php:214
+#: inc/options-data.php:527 inc/options-data.php:535 inc/options-data.php:900
+#: inc/options-data.php:912 inc/options-general.php:214
 #: inc/options-general.php:221 inc/options-general.php:256
 #: inc/options-general.php:261 inc/options-general.php:297
 #: inc/options-general.php:403 inc/options-general.php:415
@@ -1443,8 +1443,8 @@ msgstr "Oui"
 #: inc/options-data.php:471 inc/options-data.php:480 inc/options-data.php:494
 #: inc/options-data.php:498 inc/options-data.php:512 inc/options-data.php:514
 #: inc/options-data.php:525 inc/options-data.php:536 inc/options-data.php:537
-#: inc/options-data.php:907 inc/options-data.php:909 inc/options-data.php:919
-#: inc/options-data.php:921 inc/options-general.php:218
+#: inc/options-data.php:900 inc/options-data.php:902 inc/options-data.php:912
+#: inc/options-data.php:914 inc/options-general.php:218
 #: inc/options-general.php:259 inc/options-general.php:301
 #: inc/options-general.php:303 inc/options-general.php:405
 #: inc/options-general.php:407 inc/options-general.php:417
@@ -1470,8 +1470,8 @@ msgstr ""
 #: inc/options-data.php:397 inc/options-data.php:410 inc/options-data.php:425
 #: inc/options-data.php:440 inc/options-data.php:453 inc/options-data.php:471
 #: inc/options-data.php:482 inc/options-data.php:498 inc/options-data.php:514
-#: inc/options-data.php:527 inc/options-data.php:537 inc/options-data.php:909
-#: inc/options-data.php:921 inc/options-data.php:935
+#: inc/options-data.php:527 inc/options-data.php:537 inc/options-data.php:902
+#: inc/options-data.php:914 inc/options-data.php:928
 #: inc/options-general.php:177 inc/options-general.php:185
 #: inc/options-general.php:200 inc/options-general.php:221
 #: inc/options-general.php:261 inc/options-general.php:270
@@ -1529,12 +1529,12 @@ msgstr ""
 
 #: inc/options-cache.php:508 inc/options-cache.php:1005
 #: inc/options-cache.php:1025 inc/options-cache.php:1026
-#: inc/options-data.php:947 inc/options-general.php:587
+#: inc/options-data.php:940 inc/options-general.php:587
 msgid "Reset settings"
 msgstr "R&eacute;initialiser"
 
 #: inc/options-cache.php:509 inc/options-cache.php:1006
-#: inc/options-data.php:948 inc/options-general.php:588
+#: inc/options-data.php:941 inc/options-general.php:588
 msgid "Update settings"
 msgstr "Enregistrer les modifications"
 
@@ -1639,7 +1639,7 @@ msgstr "Vous pouvez également sélectionner un groupe de film à effacer."
 
 #: inc/options-cache.php:683 inc/options-cache.php:791
 #: inc/popup-imdb_movie.php:239 inc/popup-imdb_person.php:201
-#: theme/taxonomy-imdblt_people.php:172
+#: theme/taxonomy-imdblt_people.php:91
 msgid "no picture"
 msgstr "pas de photo"
 
@@ -1834,19 +1834,27 @@ msgstr "Options r&eacute;initialis&eacute;es."
 msgid "What to display"
 msgstr "&Agrave; afficher"
 
-#: inc/options-data.php:134
-msgid "What to taxonomize"
-msgstr "&Agrave; taxonomiser"
+#: inc/options-data.php:132
+msgid "Display"
+msgstr "Affichage"
 
-#: inc/options-data.php:136
-msgid "Taxonomy unactivated"
-msgstr "Taxonomie d&eacute;sactiv&eacute;e"
-
-#: inc/options-data.php:138
+#: inc/options-data.php:133
 msgid "Display order"
 msgstr "Ordre d'affichage"
 
-#: inc/options-data.php:139 inc/options-data.php:898
+#: inc/options-data.php:135
+msgid "What to taxonomize"
+msgstr "&Agrave; taxonomiser"
+
+#: inc/options-data.php:135 theme/taxonomy-imdblt_items.php:18
+msgid "Taxonomy"
+msgstr "Taxonomie"
+
+#: inc/options-data.php:137
+msgid "Taxonomy unactivated"
+msgstr "Taxonomie d&eacute;sactiv&eacute;e"
+
+#: inc/options-data.php:139 inc/options-data.php:891
 #: inc/options-general.php:391 inc/popup-imdb_movie.php:206
 #: inc/popup-imdb_person.php:90
 msgid "Misc"
@@ -1903,7 +1911,7 @@ msgstr "Erreurs"
 msgid "Display (how many) goof"
 msgstr "Afficher (combien d') erreur"
 
-#: inc/options-data.php:290 inc/options-data.php:291 inc/options-data.php:741
+#: inc/options-data.php:290 inc/options-data.php:291 inc/options-data.php:736
 msgid "Keywords"
 msgstr "Mot-cl&eacute;s"
 
@@ -2081,9 +2089,9 @@ msgid "Actors"
 msgstr "Acteurs"
 
 #: inc/options-data.php:584 inc/options-data.php:608 inc/options-data.php:630
-#: inc/options-data.php:655 inc/options-data.php:678 inc/options-data.php:701
-#: inc/options-data.php:725 inc/options-data.php:747 inc/options-data.php:769
-#: inc/options-data.php:794 inc/options-data.php:816
+#: inc/options-data.php:652 inc/options-data.php:675 inc/options-data.php:698
+#: inc/options-data.php:720 inc/options-data.php:742 inc/options-data.php:764
+#: inc/options-data.php:787 inc/options-data.php:809
 msgid ""
 "Copy a standard taxonomy template to your template folder to display this "
 "taxonomy."
@@ -2092,9 +2100,9 @@ msgstr ""
 "afficher cette taxonomie."
 
 #: inc/options-data.php:586 inc/options-data.php:610 inc/options-data.php:632
-#: inc/options-data.php:657 inc/options-data.php:680 inc/options-data.php:703
-#: inc/options-data.php:727 inc/options-data.php:749 inc/options-data.php:771
-#: inc/options-data.php:796 inc/options-data.php:818
+#: inc/options-data.php:654 inc/options-data.php:677 inc/options-data.php:700
+#: inc/options-data.php:722 inc/options-data.php:744 inc/options-data.php:766
+#: inc/options-data.php:789 inc/options-data.php:811
 msgid "Copy template"
 msgstr "Copier le modèle"
 
@@ -2102,39 +2110,39 @@ msgstr "Copier le modèle"
 msgid "Composers"
 msgstr "Compositeurs"
 
-#: inc/options-data.php:649
+#: inc/options-data.php:646
 msgid "Countries"
 msgstr "Pays"
 
-#: inc/options-data.php:672
+#: inc/options-data.php:669
 msgid "Creators"
 msgstr "Cr&eacute;ateurs"
 
-#: inc/options-data.php:695
+#: inc/options-data.php:692
 msgid "Directors"
 msgstr "R&eacute;alisateurs"
 
-#: inc/options-data.php:719
+#: inc/options-data.php:714
 msgid "Genres"
 msgstr "Genres"
 
-#: inc/options-data.php:763
+#: inc/options-data.php:758
 msgid "Languages"
 msgstr "Langues"
 
-#: inc/options-data.php:788
+#: inc/options-data.php:781
 msgid "Producers"
 msgstr "Producteurs"
 
-#: inc/options-data.php:810
+#: inc/options-data.php:803
 msgid "Writers"
 msgstr "Sc&eacute;naristes"
 
-#: inc/options-data.php:840
+#: inc/options-data.php:833
 msgid "Position of data"
 msgstr "Ordre des donn&eacute;es"
 
-#: inc/options-data.php:847
+#: inc/options-data.php:840
 msgid ""
 "You can select the order for the information selected from \"what to display"
 "\" section. Select first the movie detail you want to move, use \"up\" or "
@@ -2148,7 +2156,7 @@ msgstr ""
 "satisfait de la nouvelle disposition, cliquez sur \"Enregistrer les "
 "modifications\" pour les garder."
 
-#: inc/options-data.php:849
+#: inc/options-data.php:842
 msgid ""
 "\"Source\" movie detail cannot be selected; if it is selected from \"what to "
 "display\" section, it will always appear after others movie details"
@@ -2158,15 +2166,15 @@ msgstr ""
 "\"&Agrave; afficher\", il appara&icirc;tra toujours après tous les autres "
 "d&eacute;tails de film."
 
-#: inc/options-data.php:860
+#: inc/options-data.php:853
 msgid "Move selected movie detail:"
 msgstr "Déplacer le détails de film sélectionné :"
 
-#: inc/options-data.php:903
+#: inc/options-data.php:896
 msgid "Remove all links?"
 msgstr "Enlever tous les liens ?"
 
-#: inc/options-data.php:909
+#: inc/options-data.php:902
 msgid ""
 "Remove all links (popup and external ones) which are automatically added. "
 "Usefull for users who are not interested in popup function. Please note it "
@@ -2178,11 +2186,11 @@ msgstr ""
 "les fonctions de popup. Veuillez noter que cela effacera toutes les liens "
 "HTML, tels que les liens vers les sites officiels des films."
 
-#: inc/options-data.php:915
+#: inc/options-data.php:908
 msgid "Auto widget?"
 msgstr "Widget auto ?"
 
-#: inc/options-data.php:921
+#: inc/options-data.php:914
 msgid ""
 "Add automatically a widget according to your post titles. If 'imdb-movie-"
 "widget' or 'imdb-movie-widget-bymid' have also been added to post, the auto "
@@ -2197,25 +2205,25 @@ msgstr ""
 "ne renvoit aucun résultat selon votre titre d'article, un message sera "
 "affiché l'indiquant."
 
-#: inc/options-data.php:927 inc/options-general.php:191
+#: inc/options-data.php:920 inc/options-general.php:191
 msgid "Theme color"
 msgstr "Thème Lumière"
 
-#: inc/options-data.php:930
+#: inc/options-data.php:923
 msgid "grey (default)"
 msgstr "gris (d&eacute;faut)"
 
-#: inc/options-data.php:931
+#: inc/options-data.php:924
 msgid "white"
 msgstr "blanc"
 
-#: inc/options-data.php:932 inc/options-general.php:195
+#: inc/options-data.php:925 inc/options-general.php:195
 msgid "black"
 msgstr "noir"
 
-#: inc/options-data.php:935
-msgid "Inside the post/widget color theme"
-msgstr "Thème dans les articles/widget"
+#: inc/options-data.php:928
+msgid "Inside the post/widget/taxonomy color theme"
+msgstr "Thème dans les articles/widget/taxonomie"
 
 #: inc/options-general.php:47
 msgid "Your folder might be protected. Download highslide manually"
@@ -2670,30 +2678,30 @@ msgstr "Filmographie complète"
 msgid "Full biography"
 msgstr "Biographie complète"
 
-#: inc/popup-imdb_person.php:108 theme/taxonomy-imdblt_people.php:73
+#: inc/popup-imdb_person.php:108 theme/taxonomy-imdblt_people.php:116
 msgid "Born on"
 msgstr "N&eacute; le"
 
 # "in" as in the place of death
 #: inc/popup-imdb_person.php:115 inc/popup-imdb_person.php:132
-#: theme/taxonomy-imdblt_people.php:80 theme/taxonomy-imdblt_people.php:100
+#: theme/taxonomy-imdblt_people.php:125 theme/taxonomy-imdblt_people.php:146
 msgid "in"
 msgstr "&agrave;"
 
-#: inc/popup-imdb_person.php:126 theme/taxonomy-imdblt_people.php:94
+#: inc/popup-imdb_person.php:126 theme/taxonomy-imdblt_people.php:140
 msgid "Died on"
 msgstr "Mort le"
 
 # "cause" as a cause of death
-#: inc/popup-imdb_person.php:135 theme/taxonomy-imdblt_people.php:103
+#: inc/popup-imdb_person.php:135 theme/taxonomy-imdblt_people.php:149
 msgid "cause"
 msgstr "de"
 
-#: inc/popup-imdb_person.php:147 theme/taxonomy-imdblt_people.php:118
+#: inc/popup-imdb_person.php:147 theme/taxonomy-imdblt_people.php:167
 msgid "Biography"
 msgstr "Biographie"
 
-#: inc/popup-imdb_person.php:153 theme/taxonomy-imdblt_people.php:124
+#: inc/popup-imdb_person.php:153 theme/taxonomy-imdblt_people.php:173
 msgid "click to expand"
 msgstr "cliquez pour ouvrir"
 
@@ -2735,31 +2743,31 @@ msgstr "Marques de fabrique"
 msgid "No result found."
 msgstr "Aucun résultat trouvé."
 
-#: theme/taxonomy-imdblt_items.php:18
-msgid "Taxonomy"
-msgstr "Taxonomie"
-
-#: theme/taxonomy-imdblt_items.php:26 theme/taxonomy-imdblt_people.php:210
+#: theme/taxonomy-imdblt_items.php:26 theme/taxonomy-imdblt_people.php:219
 msgid "Open the blog "
 msgstr "Ouvrir le blog "
 
-#: theme/taxonomy-imdblt_items.php:34 theme/taxonomy-imdblt_people.php:218
+#: theme/taxonomy-imdblt_items.php:34 theme/taxonomy-imdblt_people.php:227
 msgid "Taxonomy: "
 msgstr "Taxonomie : "
 
-#: theme/taxonomy-imdblt_items.php:44 theme/taxonomy-imdblt_people.php:228
+#: theme/taxonomy-imdblt_items.php:44 theme/taxonomy-imdblt_people.php:237
 msgid "Filed under: "
 msgstr "Cat&eacute;goris&eacute; sous : "
 
-#: theme/taxonomy-imdblt_items.php:48 theme/taxonomy-imdblt_people.php:232
+#: theme/taxonomy-imdblt_items.php:48 theme/taxonomy-imdblt_people.php:241
 msgid "Tags: "
 msgstr "Tags : "
 
-#: theme/taxonomy-imdblt_items.php:57 theme/taxonomy-imdblt_people.php:241
+#: theme/taxonomy-imdblt_items.php:57 theme/taxonomy-imdblt_people.php:250
 msgid "No post found."
 msgstr "Pas de message trouv&eacute."
 
-#: theme/taxonomy-imdblt_people.php:200
+#: theme/taxonomy-imdblt_people.php:202
+msgid "Mentioned in:"
+msgstr "Mentionné dans:"
+
+#: theme/taxonomy-imdblt_people.php:209
 msgid "Taxonomy for "
 msgstr "Taxonomie pour "
 

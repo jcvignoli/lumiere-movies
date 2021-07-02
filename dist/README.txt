@@ -64,6 +64,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 6. The widget area to display a movie
 7. External tool to find a movie's IMDb ID
 8. Gutenberg block
+9. Taxonomy page for a person
 
 == Frequently Asked Questions ==
 

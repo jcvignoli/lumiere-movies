@@ -39,6 +39,7 @@ if (class_exists("\Lumiere\Settings")) {
 	}
 
 }
+
 get_header();
 
 echo "<br />";
@@ -48,152 +49,160 @@ echo "<br />";
 
 <main id="main" class="site-main clr" role="main">
 	<div id="content-wrap" class="container clr">
+<?php if (!is_null($person_name_sanitized)){
+						
+	echo "\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Photo & identity -->';
+	echo "\n\t\t" . '<div class="lumiere_container lumiere_font_em_11 lumiere_align_center">';
+	echo "\n\t\t\t" . '<div class="lumiere_flex_auto">';
 
-<?php if (!is_null($person_name_sanitized)){ ?>
+	echo "\n\t\t\t\t" . '<div class="imdbelementTITLE ';
+	if (isset($imdb_widget_values['imdbintotheposttheme']))
+		echo ' imdbelementTITLE_' . $imdb_widget_values['imdbintotheposttheme']; 
+	echo '">';
+	echo $person_name_sanitized; 
+	echo '</div>';
 
-						<!-- Photo & identity -->
-		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center">
-			<div class="lumiere_flex_auto lumiere_width_eighty_perc">
+	echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- star photo -->';
 
-<div class="imdbelementTITLE <?php  if (isset($imdb_widget_values['imdbintotheposttheme'])) echo ' imdbelementTITLE_' . $imdb_widget_values['imdbintotheposttheme']; ?>"><?php echo $person_name_sanitized; ?></div><?php  
+	echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
+	if (isset($imdb_widget_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_widget_values['imdbintotheposttheme'];
+	echo ' lumiere-padding-lines-common-picture">';
 
-				echo "\n\t\t" . '<div class="lumiere-lines-common';
-				if (isset($imdb_widget_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_widget_values['imdbintotheposttheme'];
-				echo '">';
-				echo '<font size="-1">';
+	if (($photo_url = $person->photo_localurl() ) != FALSE){ 
 
-				# Birth
-				$birthday = count($person->born() ) ? $person->born() : ""; 
-				if ( (isset($birthday)) && (!empty($birthday)) ) {
-					$birthday_day = (isset( $birthday["day"] ) ) ? intval($birthday["day"]) : "";
-					$birthday_month = (isset( $birthday["month"] ) ) ? sanitize_text_field($birthday["month"]) : "";
-					$birthday_year = (isset( $birthday["year"] ) ) ? intval($birthday["year"]) : "";
+		echo "\n\t\t\t\t\t" . '<a id="highslide_pic" href="'.esc_url($photo_url).'">';
+		echo "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right" src="'
+			.esc_url($photo_url)
+			.'" alt="'
+			.$person_name_sanitized.'" '; 
 
-					echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
-						. esc_html__('Born on', 'lumiere-movies')."</span>"
-						. $birthday_day . " " 
-						. $birthday_month . " " 
-						. $birthday_year ;
-				}
+		// add width only if "Display only thumbnail" is on "no"
+		if ($imdb_admin_values['imdbcoversize'] == FALSE)
+			echo 'width="' . intval($imdb_admin_values['imdbcoversizewidth']) . 'px" />';
 
-				if ( (isset($birthday["place"])) && (!empty($birthday["place"])) ){ 
-					echo ", ".esc_html__('in', 'lumiere-movies')." ".sanitize_text_field($birthday["place"]);
-				}
+		echo "\n\t\t\t\t\t" . '</a>'; 
 
-				echo "\n\t\t" . '</font></div>';
-				echo "\n\t\t" . '<div class="lumiere-lines-common';
-				if (isset($imdb_widget_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_widget_values['imdbintotheposttheme'];
-				echo '">';
-				echo '<font size="-1">';
+	} else{
 
-				# Death
-				$death = (null !== $person->died() ) ? $person->died() : "";
-				if ( (isset($death)) && (!empty($death)) ){
+		echo "\n\t\t\t\t\t" . '<a id="highslide_pic">';
+		echo  "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right" src="'
+			.esc_url($imdb_admin_values['imdbplugindirectory']."pics/no_pics.gif")
+			.'" alt="'
+			.esc_html__('no picture', 'lumiere-movies')
+			.'" '; 
 
-					echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">' 
-						. esc_html__('Died on', 'lumiere-movies')."</span>"
-						.intval($death["day"])." "
-						.sanitize_text_field($death["month"]) . " "
-						.intval($death["year"]);
+		// add width only if "Display only thumbnail" is on "no"
+		if ($imdb_admin_values['imdbcoversize'] == FALSE)
+			echo 'width="' . intval($imdb_admin_values['imdbcoversizewidth']) . 'px" />';
 
-					if ( (isset($death["place"])) && (!empty($death["place"])) ) 
-						echo ", ".esc_html__('in', 'lumiere-movies') . " " . sanitize_text_field($death["place"]);
+		echo "\n\t\t\t\t\t" . '</a>'; 
+      } 
 
-					if ( (isset($death["cause"])) && (!empty($death["cause"])) )
-						echo ", ".esc_html__('cause', 'lumiere-movies') . " " . sanitize_text_field($death["cause"]);
-				}
+	echo "\n\t\t\t\t" . '</div>';
+	echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Birth -->';
+	echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
+	if (isset($imdb_widget_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_widget_values['imdbintotheposttheme'];
+	echo '">';
+	echo '<font size="-1">';
 
-				echo "\n\t\t" .'</font></div>';
-				echo "\n\t\t" . '<div class="lumiere-lines-common';
-				if (isset($imdb_widget_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_widget_values['imdbintotheposttheme'];
-				echo '">';
-				echo '<font size="-1">';
+	# Birth
+	$birthday = count($person->born() ) ? $person->born() : ""; 
+	if ( (isset($birthday)) && (!empty($birthday)) ) {
+		$birthday_day = (isset( $birthday["day"] ) ) ? intval($birthday["day"]) : "";
+		$birthday_month = (isset( $birthday["month"] ) ) ? sanitize_text_field($birthday["month"]) : "";
+		$birthday_year = (isset( $birthday["year"] ) ) ? intval($birthday["year"]) : "";
 
-				# Biography
-				$bio = $person->bio();
-				$nbtotalbio = count($bio);
+		echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
+			. esc_html__('Born on', 'lumiere-movies')."</span>"
+			. $birthday_day . " " 
+			. $birthday_month . " " 
+			. $birthday_year ;
+	} else {
+		echo '&nbsp;';
+	}
 
-				if ( (isset($bio)) && (!empty($bio)) ) {
-					echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">' 
-						. esc_html__('Biography', 'lumiere-movies') 
-						. '</span>';
+	if ( (isset($birthday["place"])) && (!empty($birthday["place"])) ){ 
+		echo ", ".esc_html__('in', 'lumiere-movies')." ".sanitize_text_field($birthday["place"]);
+	}
 
-			    		if ( $nbtotalbio < 2 ) $idx = 0; else $idx = 1;
+	echo "\n\t\t\t\t" . '</font></div>';
+	echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Death -->';
+	echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
+	if (isset($imdb_widget_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_widget_values['imdbintotheposttheme'];
+	echo '">';
+	echo '<font size="-1">';
 
-					$bio_text = sanitize_text_field( $bio[$idx]["desc"] );
-					$click_text = esc_html__('click to expand', 'lumiere-movies');
-					$max_length = 200; # number of characters
+	# Death
+	$death = (null !== $person->died() ) ? $person->died() : "";
+	if ( (isset($death)) && (!empty($death)) ){
 
-					if( strlen( $bio_text ) > $max_length) {
+		echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">' 
+			. esc_html__('Died on', 'lumiere-movies')."</span>"
+			.intval($death["day"])." "
+			.sanitize_text_field($death["month"]) . " "
+			.intval($death["year"]);
 
-						$str_one = substr( $bio_text, 0, $max_length);
-						$str_two = substr( $bio_text, $max_length, strlen( $bio_text ) );
-						$final_text = "\n\t\t\t" . $str_one
-							. "\n\t\t\t" .'<span class="activatehidesection"><strong>&nbsp;(' . $click_text . ')</strong></span> '
-							. "\n\t\t\t" .'<span class="hidesection">' 
-							. "\n\t\t\t" . $str_two 
-							. "\n\t\t\t" .'</span>';
-						echo $final_text;
+		if ( (isset($death["place"])) && (!empty($death["place"])) ) 
+			echo ", ".esc_html__('in', 'lumiere-movies') . " " . sanitize_text_field($death["place"]);
 
-					} else {
+		if ( (isset($death["cause"])) && (!empty($death["cause"])) )
+			echo ", ".esc_html__('cause', 'lumiere-movies') . " " . sanitize_text_field($death["cause"]);
+	} else {
+		echo '&nbsp;';
+	}
 
-						echo $bio_text;
+	echo "\n\t\t\t\t" .'</font></div>';
+	echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Biography -->';
+	echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
+	if (isset($imdb_widget_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_widget_values['imdbintotheposttheme'];
+	echo ' lumiere-lines-common-fix">';
+	echo '<font size="-1">';
 
-					}
+	# Biography
+	$bio = $person->bio();
+	$nbtotalbio = count($bio);
 
-				}?>
+	if ( (isset($bio)) && (!empty($bio)) ) {
+		echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">' 
+			. esc_html__('Biography', 'lumiere-movies') 
+			. '</span>';
 
-				</font></div>
-			</div> 
-					                           <!-- star photo -->
-			<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two"><?php 		
+    		if ( $nbtotalbio < 2 ) $idx = 0; else $idx = 1;
 
-				if (($photo_url = $person->photo_localurl() ) != FALSE){ 
+		$bio_text = sanitize_text_field( $bio[$idx]["desc"] );
+		$click_text = esc_html__('click to expand', 'lumiere-movies');
+		$max_length = 300; # number of characters
 
-					echo '<a id="highslide_pic" href="'.esc_url($photo_url).'">';
-					echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="'
-						.esc_url($photo_url)
-						.'" alt="'
-						.$person_name_sanitized.'" '; 
+		if( strlen( $bio_text ) > $max_length) {
 
-					// add width only if "Display only thumbnail" is on "no"
-					if ($imdb_admin_values['imdbcoversize'] == FALSE)
-						echo 'width="' . intval($imdb_admin_values['imdbcoversizewidth']) . 'px" />';
+			$str_one = substr( $bio_text, 0, $max_length);
+			$str_two = substr( $bio_text, $max_length, strlen( $bio_text ) );
+			$final_text = "\n\t\t\t\t\t" . $str_one
+				. "\n\t\t\t\t\t" .'<span class="activatehidesection"><strong>&nbsp;(' . $click_text . ')</strong></span> '
+				. "\n\t\t\t\t\t" .'<span class="hidesection">' 
+				. "\n\t\t\t\t\t" . $str_two 
+				. "\n\t\t\t\t\t" .'</span>';
+			echo $final_text;
 
-					echo '</a>'; 
+		} else {
 
-				} else{
-		 
-					echo '<a id="highslide_pic">';
-					echo "\n\t\t" 
-						. '<img loading="eager" class="imdbincluded-picture" src="'
-						.esc_url($imdb_admin_values['imdbplugindirectory']."pics/no_pics.gif")
-						.'" alt="'
-						.esc_html__('no picture', 'lumiere-movies')
-						.'" '; 
+			echo $bio_text;
 
-					// add width only if "Display only thumbnail" is on "no"
-					if ($imdb_admin_values['imdbcoversize'] == FALSE)
-						echo 'width="' . intval($imdb_admin_values['imdbcoversizewidth']) . 'px" />';
+		}
 
-					echo '</a>'; 
-			      } ?>
-
-			</div> 
-		</div> 
-
-						<!-- Photo & identity -->
-		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center">
-			<div class="lumiere_flex_auto lumiere_width_eighty_perc"><font size="-1"><?php  
+	} else {
+		echo '&nbsp;';
+	}
 
 
+	echo "\n\t\t\t\t\t" . '</font></div>';
+	echo "\n\t\t\t\t" . '</div>';
+	echo "\n\t\t\t" . '</div>';
+	echo "\n\t\t\t" . '<br />';
+	echo "\n\t\t\t" . '<h2 align="center">' . esc_html__( 'Mentioned in:', 'lumiere-movies') . '</h2>';
+	echo "\n\n\t\t\t" . '<hr>' . "\n";
 
-			?></font></div> 
-		</div> 
 
-		<hr>
-
-<?php	
 } else { # end of section if a result was found for the taxonomy
 
 	// No imdb result, so display a basic title	

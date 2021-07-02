@@ -221,6 +221,14 @@ padding:20px 20px 0 20px;float:left;}
 
 .imdbelementSOURCE-picture {vertical-align:text-bottom;}
 
+/* ---------------------------------------- Taxonomy page */
+
+
+.lumiere-padding-lines-common-picture{
+	padding: 20px 20px 0 10px;
+}
+.lumiere-lines-common-fix{min-height:100px}
+
 /* ---------------------------------------- Others */
 
 .linkpopup {color: #909090;text-decoration: none;cursor:pointer;}/*link to the internal popup, from popups*/

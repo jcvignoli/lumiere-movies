@@ -1,3 +1,6 @@
+v3.3.4
+
+
 10. procedure in update.options.php isn't seems to work
 13. Implement alternative to highslide with a jquery modal window
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
@@ -12,7 +15,6 @@ OK--- 4. bug taxonomy terms were incorrectly taxonomized
 OK--- 5. technical checking if taxonomy category or term exist before adding them.
 OK--- 6. bug htaccess file wasn't created anymore. Fixed the checking writeable process (changed is_writable() by touch()). Merged lumiere_change_perms_inc() (class.core) with lumiere_make_htaccess() (functions). Fixed lumiere_make_htaccess() function to write the correct path in htaccess for move_template_taxonomy.php.
 OK--- 7. bug copying taxonomy template wasn't working anymore. Fixed path check.
-
 OK--- 8. medium Taxonomy pages related to people include personal details about the person, such as birth, picture, death, biographie. Templates are now separated between people and items.
 
 
