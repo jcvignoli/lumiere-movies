@@ -35,7 +35,7 @@ class Core {
 			// add taxonomies in wordpress (from functions.php)
 			if ( (isset($imdb_admin_values['imdbtaxonomy'])) && ($imdb_admin_values['imdbtaxonomy'] == 1) ) {
 
-				add_action( 'init', 'lumiere_create_taxonomies', 0 );
+				add_action( 'init', [$this, 'lumiere_create_taxonomies' ], 0 );
 
 				// search for all imdbtaxonomy* in config array, 
 				// if active write a filter to add a class to the link to the taxonomy page
@@ -537,9 +537,9 @@ class Core {
 	function lumiere_gutenberg_search_redirect() {
 		global $imdb_admin_values;
 
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/lumiere/search/' ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/lumiere/search/' ) )
 			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/gutenberg-search.php' );
-		}
+
 	}
 
 	/**
@@ -548,9 +548,9 @@ class Core {
 	function lumiere_copy_template_taxo_redirect() {
 		global $imdb_admin_values;
 
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=' ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=' ) )
 			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/move_template_taxonomy.php' );
-		}
+
 	}
 
 	/**
@@ -703,7 +703,6 @@ class Core {
 
 		/* Actions from the class */
 		$this->lumiere_create_cache();
-		//$this->lumiere_change_perms_inc(); # normaly not needed, but allows lumiere_make_htaccess_admin() to work
 		$this->lumiere_make_htaccess_admin(); # normaly not needed, achieved through various functions _redirect
 
 		/* Refresh rewrite rules */
@@ -755,16 +754,40 @@ class Core {
 	}
 
 	/**
-	20.- Change permissions for writting htaccess
-	**/
-	function lumiere_change_perms_inc() {
-		$inc_for_htaccess = plugin_dir_path( __DIR__ ) . 'inc/';
+	20.- Register taxomony
+	 *
+	 */
+	function lumiere_create_taxonomies() {
 
-		// if lumiere-movies/inc/ is not writtable
-		if ( substr(sprintf('%o', fileperms($inc_for_htaccess)), -3) != "777" )
-			// make it writable !
-			chmod( $inc_for_htaccess, 0777 );
+		global $imdb_admin_values,$imdb_widget_values;
 
+		foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
+			$filter_taxonomy = str_replace('imdbtaxonomy', '', $key );
+
+			if ($imdb_widget_values[ 'imdbtaxonomy'.$filter_taxonomy ] ==  1) {
+
+				register_taxonomy($imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy, array('page','post'), 
+					array( 
+		/* remove metaboxes from edit interface, keep the menu of post */
+		'show_ui'                    => true,
+		'show_in_quick_edit'         => false,
+		'meta_box_cb'                => false,
+		/* other settings */
+		'hierarchical' => false, 
+		'label' => esc_html__("Lumière ".$filter_taxonomy, 'lumiere-movies'), 
+		'query_var' => $imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy, 
+		'rewrite' => array( 'slug' => $imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy ) 
+					)  
+				) ; 
+			}
+		}
+
+		// Limit rewrites calls to taxonomy pages and admin interface
+		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], esc_url( site_url( '', 'relative' ) . '/' . $imdb_admin_values['imdburlstringtaxo']) ) ) || ( is_admin() ) ){
+
+			flush_rewrite_rules();
+
+		}
 	}
 
 }

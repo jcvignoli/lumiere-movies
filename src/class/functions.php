@@ -132,46 +132,6 @@ if ( ! function_exists('lumiere_admin_signature')){
 }
 
 /**
- * Activate taxomony from wordpress
- *
- */
-
-if ( ! function_exists('lumiere_create_taxonomies')){
-	function lumiere_create_taxonomies() {
-
-		global $imdb_admin_values,$imdb_widget_values;
-
-		foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
-			$filter_taxonomy = str_replace('imdbtaxonomy', '', $key );
-
-			if ($imdb_widget_values[ 'imdbtaxonomy'.$filter_taxonomy ] ==  1) {
-
-				register_taxonomy($imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy, array('page','post'), 
-					array( 
-		/* remove metaboxes from edit interface, keep the menu of post */
-		'show_ui'                    => true,
-		'show_in_quick_edit'         => false,
-		'meta_box_cb'                => false,
-		/* other settings */
-		'hierarchical' => false, 
-		'label' => esc_html__("Lumière ".$filter_taxonomy, 'lumiere-movies'), 
-		'query_var' => $imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy, 
-		'rewrite' => array( 'slug' => $imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy ) 
-					)  
-				) ; 
-			}
-		}
-
-		// Limit rewrites calls to taxonomy pages and admin interface
-		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], esc_url( site_url( '', 'relative' ) . '/' . $imdb_admin_values['imdburlstringtaxo']) ) ) || ( is_admin() ) ){
-
-			flush_rewrite_rules();
-
-		}
-	}
-}
-
-/**
  * Text displayed when no result is found
  *
  */
@@ -418,18 +378,21 @@ if (!function_exists('str_contains')) {
     }
 }
 
-
 /* lumiere_make_htaccess()
  * Create inc/.htaccess upon plugin activation
  * called in inc/options-general.php and lumiere-movies.php (upon activation)
  */
 if (!function_exists('lumiere_make_htaccess')) {
 	function lumiere_make_htaccess(){
+
 		/* vars */
 		$imdblt_blog_subdomain = site_url( '', 'relative' ) ?? ""; #ie: /subdirectory-if-exists/
 		$imdblt_plugin_full_path = plugin_dir_path( __DIR__ ) ?? wp_die( esc_html__("There was an error when generating the htaccess file.", 'lumiere-movies') ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/
 		$imdblt_plugin_path = str_replace( $imdblt_blog_subdomain, "", wp_make_link_relative( plugin_dir_url( __DIR__ ))); #ie: /wp-content/plugins/lumiere-movies/
-		$imdblt_htaccess_file = $imdblt_plugin_full_path  . "inc/.htaccess" ?? wp_die( esc_html__("There was an error when generating the htaccess file.", 'lumiere-movies') ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/inc/.htaccess
+		$full_path_to_containing_htaccess_folder = $imdblt_plugin_full_path . 'inc/' ; # folder including htaccess
+		$imdblt_htaccess_file = $full_path_to_containing_htaccess_folder  . ".htaccess" ?? wp_die( esc_html__("There was an error when generating the htaccess file.", 'lumiere-movies') ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/inc/.htaccess
+
+
 		$imdblt_slug_path_movie = substr(LUMIERE_URLSTRINGFILMS, 1);
 		$imdblt_slug_path_search = substr(LUMIERE_URLSTRING, 1);
 		$imdblt_slug_path_person = substr(LUMIERE_URLSTRINGPERSON, 1);
@@ -446,7 +409,7 @@ if (!function_exists('lumiere_make_htaccess')) {
 		$imdblt_htaccess_file_txt .= "## highslide_download.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/highslide_download.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options [L,R,QSA]"."\n\n";
 
 		## move_template_taxonomy.php
-		$imdblt_htaccess_file_txt .= "## move_template_taxonomy.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/move_template_taxonomy.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "## move_template_taxonomy.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/move_template_taxonomy.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options&subsection=dataoption&widgetoption=taxo [L,R,QSA]"."\n\n";
 
 /* We don't need it
 		# popup-search
@@ -466,14 +429,23 @@ if (!function_exists('lumiere_make_htaccess')) {
 		$imdblt_htaccess_file_txt .= "</IfModule>\n";
 		$imdblt_htaccess_file_txt .= "### End Lumiere plugin\n\n";
 
+
+		// Is the folder including htaccess writable? Check if it is chmod 777
+		if ( substr(sprintf('%o', fileperms( $full_path_to_containing_htaccess_folder )), -3) != "777" )
+			// If we can't change permissions to chmod 777 for writing htaccess file, exit
+			if (!chmod( $full_path_to_containing_htaccess_folder, 0777 ))
+				return false;
+
 		// write the .htaccess file if it can be written and close
 		// display confirmation message for general options
-		if ( (is_writable($imdblt_htaccess_file)) && ( file_put_contents( $imdblt_htaccess_file, $imdblt_htaccess_file_txt)) ) {
-			// is not displayed under plugin activation
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options' ) ) {
-				echo lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'lumiere-movies') ); 
-			} else { return false;}
-		} else { return false;}
+		if ( (touch($imdblt_htaccess_file)) && ( file_put_contents( $imdblt_htaccess_file, $imdblt_htaccess_file_txt)) ) {
+
+			return true;
+
+		} else { 
+		
+			return false;
+		}
 	}
 }
 

@@ -3,15 +3,17 @@ OK--- 1. technical Set 'imdbwidgetsource' to false, so no more link to imdb for 
 OK--- 2. bug No more info shown on update/reset of admin options. lumiere_notice() was changed to return from echo. Added echo to all calls of that function.
 OK--- 3. got rid of tables in popup search and movies
 
+OK--- 4. bug taxonomy terms were incorrectly taxonomised
+OK--- 5. technical checking if taxonomy category or term exist before adding them.
+OK--- 6. bug htaccess file wasn't created anymore. Fixed the checking writeable process (changed is_writable() by touch()). Merged lumiere_change_perms_inc() (class.core) with lumiere_make_htaccess() (functions). Fixed lumiere_make_htaccess() function to write the correct path in htaccess for move_template_taxonomy.php.
+OK--- 7. bug copying taxonomy template wasn't working anymore. Fixed path check.
 
 
-9. bug taxonomy items not added to posts if not in widget, such as the directors
-10. procedure in update.options.php doesn't seems to work
-11. Implement check before add/deleting taxonomy
+10. procedure in update.options.php isn't seems to work
 12. Develop page of taxo with special details about the person
 13. Implement alternative to highslide with a jquery modal window
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
-
+23. see how to get rid from htaccess and use only wordpress redirections
 
 v3.3.2
 OK--- 1. medium new design for movie popups
