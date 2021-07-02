@@ -2,7 +2,11 @@ Changelog
 
 v.3.3.3
 * [technical] Set 'imdbwidgetsource' to false, so no more link to imdb for movies by default.
+* [technical] Added check to ensure taxonomy category and term exist before adding them.
 * [bug] No more info shown on update/reset of admin options. lumiere_notice() was changed to return from echo. Added echo to all calls of that function.
+* [bug] Taxonomy terms were incorrectly taxonomized, rewrote the process of adding taxonomies (rewrote functions in class.movie)
+* [bug] htaccess file wasn't created anymore. Fixed the checking writeable process (changed is_writable() by touch()). Merged lumiere_change_perms_inc() (class.core) with lumiere_make_htaccess() (functions). Fixed lumiere_make_htaccess() function to write the correct path in htaccess for move_template_taxonomy.php.
+* [bug] Copying taxonomy template wasn't working anymore. Fixed path check.
 
 v.3.3.2
 * [medium] New design for movies popups

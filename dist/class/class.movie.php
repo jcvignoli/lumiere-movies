@@ -2042,7 +2042,7 @@ class LumiereMovies {
 							# wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
 
 						if ( taxonomy_exists( $taxonomy_category_full ) ){
-print_r(get_term_by('name', $taxonomy_term, $taxonomy_category_full ));print_r($taxonomy_category_full);print_r($taxonomy_term);
+
 							// if the term doesn't exist
 							if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) )
 								// insert it and get its id
