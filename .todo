@@ -1,12 +1,14 @@
 v3.3.4
 OK--- 1. technical Not using htaccess generation anymore, all admin pages are redirected from the core. Simplification of the code.
+OK--- 2. change popup pic in admin general options
+OK--- 3. remove imdb link from general options (useless)
 
-
-10. procedure in update.options.php isn't seems to work
+23. move options from misc to general options
+10. procedure in update.options.php doesn't work
 13. Implement alternative to highslide with a jquery modal window
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
-23. move options from misc to general options
-24. remove imdb link from general options (useless)
+23. write a class for the settings page
+
 
 v3.3.3
 OK--- 1. technical Set 'imdbwidgetsource' to false, so no more link to imdb for movies by default.

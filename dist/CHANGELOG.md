@@ -1,6 +1,8 @@
 Changelog
 
 v.3.3.4
+* [minor] Removed option to edit imdb-links to simplify general options. Removed these links in popup-search and popup-movies, quite useless.
+* [technical] Update popup image in admin general options.
 * [technical] Not using htaccess generation anymore, all admin pages are redirected from the core. Simplification of the code.
 
 v.3.3.3

@@ -133,9 +133,6 @@ if (empty($movie) ){
 		echo "\n\t\t<div><a class='linkpopup' href=\"".esc_url( LUMIERE_URLPOPUPSFILMS . sanitize_text_field( $res->title() ) . "/?mid=".sanitize_text_field( $res->imdbid() ) . "&film=".sanitize_text_field( $res->title() ) )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
 		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"https://www.imdb.com/title/tt". sanitize_text_field( $res->imdbid() )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'>";
 
-			if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
-		echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] )."' width='".intval( $imdb_admin_values['imdbpicsize'] )."' alt='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'/></a>";	
-			}
 
 		echo "\n\t</div>";
 		echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_right'>";
@@ -145,12 +142,6 @@ if (empty($movie) ){
 		if ( (isset($realisateur['0']['name'])) && (! is_null ($realisateur['0']['name'])) ){
 			echo "\n\t\t<div><a class='linkpopup' href=\"" . esc_url( LUMIERE_URLPOPUPSPERSON . sanitize_text_field( $realisateur['0']["imdb"] ) . "/?mid=" . sanitize_text_field( $realisateur['0']["imdb"] )."&film=" . $filmid_sanitized ) ."\" title=\"".esc_html__('more on', 'lumiere-movies') . " " . sanitize_text_field( $realisateur['0']['name'] ) . "\" >" . sanitize_text_field( $realisateur['0']['name'] ) . "</a>";
 
-				if ($imdb_admin_values['imdbdisplaylinktoimdb'] == true) { # if the user has selected so
-			echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"".esc_url("https://imdb.com/name/nm".$realisateur['0']["imdb"] )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."'>";
-			echo "<img class='img-imdb' src='".esc_url( $imdb_admin_values['imdbplugindirectory'].$imdb_admin_values['imdbpicurl'] )."' width='".intval( $imdb_admin_values['imdbpicsize'] )."' alt='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."'/>";
-			echo "</a>";
-				}
-				
 			echo "\n\t</div>";
 
 		}

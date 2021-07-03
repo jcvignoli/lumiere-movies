@@ -26,8 +26,27 @@ if (class_exists("\Lumiere\Settings")) {
 	wp_die('Lumière files have been moved. Can not update Lumière!');
 }
 
-/************************************************** 3.3.3
-*/
+
+/************************************************** 3.3.4 */
+if (version_compare( LUMIERE_VERSION, "3.3.4" ) >= 0 ){
+
+	// Remove 'imdbdisplaylinktoimdb'
+	// Deprecated: removed links to IMDb in popup search and movie
+	if ( TRUE === lumiere_remove_options($config->imdbWidgetOptionsName, 'imdbdisplaylinktoimdb') )
+		echo lumiere_notice(1, esc_html__( 'Lumière option successfully removed.', 'lumiere-movies') );
+
+	// Remove 'imdbpicsize'
+	// Deprecated: removed links to IMDb in popup search and movie
+	if ( TRUE === lumiere_remove_options($config->imdbWidgetOptionsName, 'imdbpicsize') )
+		echo lumiere_notice(1, esc_html__( 'Lumière option successfully removed.', 'lumiere-movies') );
+
+	// Remove 'imdbpicurl'
+	// Deprecated: removed links to IMDb in popup search and movie
+	if ( TRUE === lumiere_remove_options($config->imdbWidgetOptionsName, 'imdbpicurl') )
+		echo lumiere_notice(1, esc_html__( 'Lumière option successfully removed.', 'lumiere-movies') );
+}
+
+/************************************************** 3.3.3 */
 
 if (version_compare( LUMIERE_VERSION, "3.3.3" ) >= 0 ){
 
@@ -39,8 +58,7 @@ if (version_compare( LUMIERE_VERSION, "3.3.3" ) >= 0 ){
 
 }
 
-/************************************************** 3.3.1
-*/
+/************************************************** 3.3.1 */
 if (version_compare( LUMIERE_VERSION, "3.3.1" ) >= 0 ){
 
 	// Remove 'imdbwidgetcommentsnumber'
