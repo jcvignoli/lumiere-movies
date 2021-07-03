@@ -2,9 +2,9 @@
 ** When "build" Files are concatened, minified, copied from src to dist, then uploaded to the main server by ssh
 ** Rsync available to syncronize it all
 ** Errors notified (notify)
-** Can use external parameters to modify tasks behaviour (--clean yes, --rsyncnodry yes, --withssh yes)
+** Can use external parameters to modify tasks behaviour (--clean yes, --rsyncnodry yes, --ssh yes)
 ** Using gulp-load-plugins to load plugins on demand
-** Copying taks must be run --withssh yes to upload to ssh external server
+** Copying taks must be run --ssh yes to upload to ssh external server
 **/
 
 var plugins = require("gulp-load-plugins")({
@@ -47,10 +47,10 @@ var errorHandler = function(error) {				/* handle and display errors with notify
 	this.emit('end');
 };
 
-// Constant to get from the command-line "--rsync nodry" for rsync task or "--build clean" for build task or "--withssh yes" for running building tasks with ssh upload
+// Constant to get from the command-line "--rsync nodry" for rsync task or "--build clean" for build task or "--ssh yes" for running building tasks with ssh upload
 var arg = (argList => {
 
-	let arg = {}, rsyncnodry, clean, withssh, opt, thisOpt, curOpt;
+	let arg = {}, rsyncnodry, clean, ssh, opt, thisOpt, curOpt;
 
 	for (rsyncnodry = 0; rsyncnodry < argList.length; rsyncnodry++) {
 
@@ -93,9 +93,9 @@ var arg = (argList => {
 		}
 	}
 
-	for (withssh = 0; withssh < argList.length; withssh++) {
+	for (ssh = 0; ssh < argList.length; ssh++) {
 
-		thisOpt = argList[withssh].trim();
+		thisOpt = argList[ssh].trim();
 		opt = thisOpt.replace(/^\-+/, '');
 
 		if (opt === thisOpt) {
@@ -160,27 +160,27 @@ paths = {
 		excludedpath: ''},
 };
 
-// Function to check if the var --withssh yes has been passed, or called such as isSSH('yes') (ie; from watch task)
+// Function to check if the var --ssh yes has been passed, or called such as isSSH('yes') (ie; from watch task)
 var flagssh = false;
 function isSSH( handler ) {
-	if ( (arg.withssh == "yes") || (handler == "yes") ) {
+	if ( (arg.ssh == "yes") || (handler == "yes") ) {
 		return flagssh = true;
 	} 
 }
 
 // Task 1 - Minify CSS
-gulp.task('stylesheets', function (cb) {
+exports.stylesheets = function stylesheets() {
 
 	/* Set the flag to whether do ssh upload or not to: 
 		1/ if flagssh exists, takes its current value; (ie: call with function in gulp.watch)
-		2/ if flagssh doesn't exists, check if the files_copy task was called with "--withssh yes"
+		2/ if flagssh doesn't exists, check if the files_copy task was called with "--ssh yes"
 	*/
-	flagssh = flagssh ? flagssh : isSSH();
+	flagssh = flagssh ? true : isSSH();
 
 	// Notify the user how to run for sshing
-	const withsshmsg = "** Notice: Run stylesheets with '--withssh yes' for uploading with ssh **";
+	const sshmsg = "** Notice: Run stylesheets with '--ssh yes' for uploading with ssh **";
 	if (flagssh != true)
-		console.dir( withsshmsg );
+		console.dir( sshmsg );
 
 	return gulp
 		.src( paths.stylesheets.src , {base: paths.base.src } )
@@ -191,76 +191,76 @@ gulp.task('stylesheets', function (cb) {
 			console.log(`${details.name}: ${details.stats.minifiedSize}`);
 		}))
 		.pipe(gulp.dest( paths.stylesheets.dist ))
-		.pipe(plugins.if(flagssh == true, sshMain.dest( ext_cred.mainserver.dist )))
+		.pipe(plugins.if(flagssh, sshMain.dest( ext_cred.mainserver.dist )))
 		.pipe(plugins.browserSync.stream())
 		.on("error", errorHandler)
-		.on("error", function (err) { console.log("Error:", err); })
-	cb();
-});
+		.on("error", function (err) { console.log("Error:", err); });
+};
 
 // Task 2 - Minify JS
-gulp.task('javascripts', function () {
+exports.javascripts = function javascripts() {
 
 	/* Set the flag to whether do ssh upload or not to: 
 		1/ if flagssh exists, takes its current value; (ie: call with function in gulp.watch)
-		2/ if flagssh doesn't exists, check if the files_copy task was called with "--withssh yes"
+		2/ if flagssh doesn't exists, check if the files_copy task was called with "--ssh yes"
 	*/
-	flagssh = flagssh ? flagssh : isSSH();
+	flagssh = flagssh ? true : isSSH();
 
 	// Notify the user how to run for sshing
-	const withsshmsg = "** Notice: Run javascripts with '--withssh yes' for uploading with ssh **";
+	const sshmsg = "** Notice: Run javascripts with '--ssh yes' for uploading with ssh **";
 	if (flagssh != true)
-		console.dir( withsshmsg );
+		console.dir( sshmsg );
 
 	return gulp
 		.src( paths.javascripts.src , {base: paths.base.src } )
 		.pipe(plugins.changed( paths.javascripts.dist ))
 		.pipe(plugins.uglify())
 		.pipe(gulp.dest( paths.javascripts.dist ))
-		.pipe(plugins.if(flagssh == true, sshMain.dest( ext_cred.mainserver.dist )))
+		.pipe(plugins.if(flagssh, sshMain.dest( ext_cred.mainserver.dist )))
 		.pipe(plugins.browserSync.stream())
 		.on("error", errorHandler)
-		.on("error", function (err) { console.log("Error:", err); })
-});
+		.on("error", function (err) { console.log("Error:", err); });
+};
+
 
 // Task 3 - Compress images -> jpg can't be compressed, selecting png and gif only
-gulp.task('images', function () {
+exports.images = function images() {
 
 	/* Set the flag to whether do ssh upload or not to: 
 		1/ if flagssh exists, takes its current value; (ie: call with function in gulp.watch)
-		2/ if flagssh doesn't exists, check if the files_copy task was called with "--withssh yes"
+		2/ if flagssh doesn't exists, check if the files_copy task was called with "--ssh yes"
 	*/
-	flagssh = flagssh ? flagssh : isSSH();
+	flagssh = flagssh ? true : isSSH();
 
 	// Notify the user how to run for sshing
-	const withsshmsg = "** Notice: Run images with '--withssh yes' for uploading with ssh **";
+	const sshmsg = "** Notice: Run images with '--ssh yes' for uploading with ssh **";
 	if (flagssh != true)
-		console.dir( withsshmsg );
+		console.dir( sshmsg );
 
 	return gulp
 		.src( paths.images.src, {base: paths.base.src } )
 		.pipe(plugins.changed( paths.images.dist ))
 		.pipe(plugins.imagemin())
 		.pipe(gulp.dest( paths.images.dist ))
-		.pipe(plugins.if(flagssh == true, sshMain.dest( ext_cred.mainserver.dist )))
+		.pipe(plugins.if(flagssh, sshMain.dest( ext_cred.mainserver.dist )))
 		.pipe(plugins.browserSync.stream())
 		.on("error", errorHandler)
-		.on("error", function (err) { console.log("Error:", err); })
-});
+		.on("error", function (err) { console.log("Error:", err); });
+};
 
 // Task 4 - Transfer untouched files -> jpg can't be compressed, transfered here
-gulp.task('files_copy', function() {
+exports.files_copy = function files_copy() {
 
 	/* Set the flag to whether do ssh upload or not to: 
 		1/ if flagssh exists, takes its current value; (ie: call with function in gulp.watch)
-		2/ if flagssh doesn't exists, check if the files_copy task was called with "--withssh yes"
+		2/ if flagssh doesn't exists, check if the files_copy task was called with "--ssh yes"
 	*/
-	flagssh = flagssh ? flagssh : isSSH();
+	flagssh = flagssh ? true : isSSH();
 
 	// Notify the user how to run for sshing
-	const withsshmsg = "** Notice: Run files_copy with '--withssh yes' for uploading with ssh **";
+	const sshmsg = "** Notice: Run files_copy with '--ssh yes' for uploading with ssh **";
 	if (flagssh != true) 
-		console.dir( withsshmsg );
+		console.dir( sshmsg );
 
 	return gulp
 		.src( paths.files.src, {base: paths.base.src } )
@@ -273,19 +273,19 @@ gulp.task('files_copy', function() {
 		}}))
 		.pipe(plugins.changed( paths.files.dist ))
 		.pipe(gulp.dest( paths.files.dist ))
-		.pipe(plugins.if(flagssh == true,sshMain.dest( ext_cred.mainserver.dist ) ) )
+		.pipe(plugins.if(flagssh,sshMain.dest( ext_cred.mainserver.dist ) ) )
 		.on('ssh2Data', function(data){ console.dir( "test"+data.toString() ) } ) // supposed to return ssh errors
 		.pipe(plugins.browserSync.stream())
 		.on("error", errorHandler)
-		.on("error", function (err) { console.log("Error:", err); })
-});
+		.on("error", function (err) { console.log("Error:", err); });
+};
 
 // Task 5 - Watch files
 gulp.task('watch', function(){			/* call tasks with ssh upload by default using var flagssh */
 //old	gulp.watch( paths.files.src, gulp.parallel( function() { flagssh = true;}, 'stylesheets' ) );
 	gulp.watch( paths.stylesheets.src, gulp.series('stylesheets'), flagssh = true);
 	gulp.watch( paths.javascripts.src, gulp.series('javascripts'), flagssh = true);
-	gulp.watch( paths.images.src, gulp.series('images'), flagssh = true) ;
+	gulp.watch( paths.images.src, gulp.series('images'), flagssh = true);
 	gulp.watch( paths.files.src, gulp.series('files_copy'), flagssh = true)  ;
 });
 
@@ -326,12 +326,12 @@ gulp.task('browserWatch', gulp.parallel( 'watch', function(done){
 }));
 
 // Task 7 - Remove pre-existing content from ./dist folders
-gulp.task('cleanDist', function (done) {
+exports.cleanDist = function cleanDist(done) {
 	plugins.del.sync([
 		paths.files.dist
 	]);
 	done();
-});
+};
 
 // Task 8 - Build all files
 // @param build 	if the taks is run with "--clean yes" as parameter, run cleanDist first
@@ -339,18 +339,22 @@ gulp.task('cleanDist', function (done) {
 
 gulp.task('build', function (cb) {
 
-	if (arg.clean != "yes") {
-	 	console.dir( '** Notice: Run build with "--clean yes" to clean ' + paths.files.dist + ' before building **' );
-		gulp.series( 'javascripts', 'stylesheets', 'images', 'files_copy' )(cb);
-	} else {
+	flagssh = false;
+
+	if (arg.clean == "yes") {
 	 	console.dir( 'Deleting ' + paths.files.dist + '...' );
 	 	gulp.series( 'cleanDist', gulp.parallel( 'javascripts', 'stylesheets', 'images', 'files_copy' ) )(cb);
+
+	} else {
+		var nocleanmsg = '** Notice: Run build with "--clean yes" to clean ' + paths.files.dist + ' before building **';
+	 	console.dir( nocleanmsg );
+		gulp.series( 'javascripts', 'stylesheets', 'images', 'files_copy' )(cb);
 	}
-	return true;
+	cb();
 })
 
 // Task 9 - Default
-gulp.task('default', gulp.series('build', 'watch' ) );
+exports.default =  gulp.series('build', 'watch' );
 
 // Task 10 - Lint
 // Check correct javascript writing
@@ -358,7 +362,8 @@ function isFixed(file) {
     // Has ESLint fixed the file contents?
     return file.eslint != null && file.eslint.fixed;
 }
-gulp.task('lint', function(cb) {
+exports.lint = function lint(cb) {
+
 	return gulp    
 		.src( paths.javascripts.src )
 		// eslint() attaches the lint output to the "eslint" property
@@ -373,12 +378,13 @@ gulp.task('lint', function(cb) {
 		.pipe(plugins.eslint.failAfterError())
 		.on("error", errorHandler)
 		.on("error", function (err) { console.log("Error:", err); })
-});
+};
 
 // Task 10 - Rsync local dist rsynced to mainserver
 // @param rsync 	if the taks is run with "--rsync nodry" as parameter, doesn't run with dryrun
 // 			without that parameter, dryrun is run and text is displayed in the console+notification
-gulp.task('rsync', function(){
+
+exports.rsync = function rsync() {
 
 	// Notify the user how to run for avoiding a dryrun
 	const rsyncmsg = "** Notice: Run with '--rsyncnodry yes' for actual syncronization **";
@@ -427,5 +433,5 @@ gulp.task('rsync', function(){
 		))
 		.on("error", errorHandler)
 		.on("error", function (err) { console.log("Error:", err); })
-});
+};
 
