@@ -283,9 +283,9 @@ class Core {
 
 			// Use local template lumiere.css if it exists in current theme folder
 			if (file_exists (TEMPLATEPATH . "/lumiere.css") ) { // an lumiere.css exists inside theme folder, take it!
-				wp_enqueue_style('imdblt_lumierecss', get_stylesheet_directory_uri() . '/lumiere.css', array(), LUMIERE_VERSION);
+				wp_enqueue_style('lumiere_css', get_stylesheet_directory_uri() . '/lumiere.css', array(), LUMIERE_VERSION);
 		 	} else {
-				wp_enqueue_style('imdblt_lumierecss', $imdb_admin_values['imdbplugindirectory'] .'css/lumiere.css', array(), LUMIERE_VERSION);
+				wp_enqueue_style('lumiere_css', $imdb_admin_values['imdbplugindirectory'] .'css/lumiere.css', array(), LUMIERE_VERSION);
 		 	}
 
 			// OceanWp template css fix
@@ -312,9 +312,9 @@ class Core {
 		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_footer_blog("inc.movie")
 		//if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
 
-			wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array(), LUMIERE_VERSION);
+			wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array('jquery'), LUMIERE_VERSION);
 
-			wp_enqueue_script( "lumiere_scripts", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts.js", array(), LUMIERE_VERSION);
+			wp_enqueue_script( "lumiere_scripts", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts.js", array('jquery'), LUMIERE_VERSION);
 
 			// Pass variable to javascript lumiere_scripts.js
 			wp_add_inline_script( 'lumiere_scripts', 'const lumiere_vars = ' . json_encode( array(
@@ -336,9 +336,8 @@ class Core {
 		wp_enqueue_script('common'); // script needed for meta_boxes (in help.php)
 		wp_enqueue_script('wp-lists'); // script needed for meta_boxes (in help.php)
 		wp_enqueue_script('postbox'); // script needed for meta_boxes (in help.php)
-		wp_enqueue_script('jquery'); // script needed by all js
 
-		wp_enqueue_script( "lumiere_scripts_admin", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin.js", array(), LUMIERE_VERSION);
+		wp_enqueue_script( "lumiere_scripts_admin", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin.js", array('jquery'), LUMIERE_VERSION);
 		// Pass variable to javascripts in admin part
 		wp_add_inline_script( 'lumiere_scripts_admin', 'const lumiere_admin_vars = ' . json_encode( array(
 			'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
@@ -348,14 +347,14 @@ class Core {
 
 		// When on wordpress plugins.php admin page, show a confirmation dialogue if value imdbkeepsettings is set on delete Lumière! options
 		if ( ( (!isset($imdb_admin_values['imdbkeepsettings'])) || ( $imdb_admin_values['imdbkeepsettings'] == false ) ) && ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/plugins.php' )) )
-			wp_enqueue_script('lumiere_deactivation_plugin_message', $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere_admin_deactivation_msg.js', array());
+			wp_enqueue_script('lumiere_deactivation_plugin_message', $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere_admin_deactivation_msg.js', array('jquery') );
 
 	}
 
 	function lumiere_add_footer_admin () {
 		global $imdb_admin_values;
 
-		wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array(), LUMIERE_VERSION);
+		wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array('jquery'), LUMIERE_VERSION);
 
 	}
 
