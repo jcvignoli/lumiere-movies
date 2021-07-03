@@ -75,13 +75,10 @@ class Settings extends Send_config {
 	'imdbpopuptheme' => 'white',
 	'popupLarg' => '540',
 	'popupLong' => '350',
-	'imdbpicsize' => '25',
-	'imdbpicurl' => 'pics/imdb-link.png',
 	'imdbimgdir' => 'pics/',
 	'imdblanguage' => "en-EN",
 	'imdbdirectsearch' => true,
 	/*'imdbsourceout' => false,*/
-	'imdbdisplaylinktoimdb' => true,
 	'imdbdebug' => false,
 	'imdbwordpress_bigmenu'=>false,
 	'imdbwordpress_tooladminmenu'=>true,

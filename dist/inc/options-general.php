@@ -165,12 +165,12 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 		<?php //------------------------------------------------------------------ =[Popup]=- ?>
 
 			<div class="titresection">
-				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/popup.png"); ?>" width="60" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-title-popup.png"); ?>" width="60" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 				<?php esc_html_e( 'Popup', 'lumiere-movies'); ?>
 			</div>
 		
 			<div class="lumiere_flex_container">
-				<div class="lumiere_flex_auto imdblt_padding_five">
+				<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
 
 					<label for="imdb_popupLarg"><?php esc_html_e( 'Width', 'lumiere-movies'); ?></label><br /><br />
 					<input type="text" name="imdb_popupLarg" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['popupLarg']), 'lumiere-movies') ?>" >
@@ -178,7 +178,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 					<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?>"540"</div>
 
 				</div>
-				<div class="lumiere_flex_auto imdblt_padding_five">
+				<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
 
 					<label for="imdb_popupLong"><?php esc_html_e( 'Height', 'lumiere-movies'); ?></label><br /><br />
 					<input type="text" name="imdb_popupLong" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['popupLong']), 'lumiere-movies') ?>" >
@@ -187,7 +187,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				</div>
 
-				<div class="lumiere_flex_auto imdblt_padding_five">
+				<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
 
 					<label for="imdb_imdbpopuptheme"><?php esc_html_e( 'Theme color', 'lumiere-movies'); ?></label><br /><br />
 
@@ -202,7 +202,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				</div>
 
-				<div class="lumiere_flex_auto imdblt_padding_five">
+				<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
 
 				<?php 
 				// If the folder "highslide" exists
@@ -240,49 +240,10 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 			</div>
 
 	
-		<?php //------------------------------------------------------------------ =[Imdb link picture]=- ?>
+		<?php //------------------------------------------------------------------ =[Theme taxo/inside post/widget]=- ?>
 			
-			<div colspan="3" class="titresection">
-				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'].$imdbOptions['imdbpicurl'] ); ?>" width="40" align="absmiddle" />
-				<?php esc_html_e( 'Imdb link picture', 'lumiere-movies'); ?>
-			</div>
-
-		<div class="lumiere_flex_container">
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
-
-				<?php esc_html_e( 'Display imdb pic?', 'lumiere-movies'); ?><br /><br />
-
-				<input type="radio" id="imdb_imdbdisplaylinktoimdb_yes" name="imdb_imdbdisplaylinktoimdb" value="1" <?php if ($imdbOptions['imdbdisplaylinktoimdb'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbpicsize" data-field_to_change_value="1" />
-
-				<label for="imdb_imdbdisplaylinktoimdb_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
-				<input type="radio" id="imdb_imdbdisplaylinktoimdb_no" name="imdb_imdbdisplaylinktoimdb" value="" <?php if ($imdbOptions['imdbdisplaylinktoimdb'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbpicsize" data-field_to_change_value="0" />
-
-				<label for="imdb_imdbdisplaylinktoimdb_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
-
-				<div class="explain"><?php esc_html_e( "Whether display imdb link (the yellow icon) or not. This picture can be found into the popup when looking for akas movies. If the option is unselected, visitors will no more have opportunity to follow links to IMDb (even if they could still follow internal links).", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
-
-			</div>
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
-
-				<label for="imdb_imdbpicsize"><?php esc_html_e( 'Size', 'lumiere-movies'); ?></label><br /><br />
-
-				<input type="text" name="imdb_imdbpicsize" id="imdb_imdbpicsize" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbpicsize']), 'lumiere-movies') ?>" <?php if ($imdbOptions['imdbdisplaylinktoimdb'] == 0) { echo 'disabled="disabled"'; }; ?> />
-
-				<div class="explain"><?php esc_html_e( 'Size of the imdb picture. The value will correspond to the width in pixels.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "25"</div>
-
-			</div>
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
-
-				<label for="imdb_imdbpicurl"><?php esc_html_e( 'Url', 'lumiere-movies'); ?></label><br /><br />
-
-				<input type="text" name="imdb_imdbpicurl" id="imdb_imdbpicurl" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbpicurl']), 'lumiere-movies') ?>" <?php if ($imdbOptions['imdbdisplaylinktoimdb'] == 0) { echo 'disabled="disabled"'; }; ?> />
-
-				<div class="explain"><?php esc_html_e( 'Url for the imdb picture', 'lumiere-movies'); ?><br /><?php esc_html_e( 'Default:','lumiere-movies');?> "pics/imdb-link.png"</div>
-
-			</div>
-		</div>
 		
-		<?php //------------------------------------------------------------------ =[Imdb cover picture]=- ?>
+		<?php //------------------------------------------------------------------ =[Cover picture]=- ?>
 
 			<div class="titresection">
 				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/cover.jpg"); ?>" width="60" align="absmiddle" />&nbsp;&nbsp;&nbsp;
