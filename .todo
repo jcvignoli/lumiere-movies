@@ -1,10 +1,10 @@
 v3.3.4
 
 
+23. see how to get rid from htaccess and use only wordpress redirections
 10. procedure in update.options.php isn't seems to work
 13. Implement alternative to highslide with a jquery modal window
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
-23. see how to get rid from htaccess and use only wordpress redirections
 
 
 v3.3.3

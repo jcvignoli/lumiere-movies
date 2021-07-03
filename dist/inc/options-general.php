@@ -93,12 +93,13 @@ $post_imdb_imdburlpopups = isset($_POST['imdb_imdburlpopups']) ? filter_var($_PO
 		// flush rewrite rules for matches the new $imdbOptions['imdbplugindirectory'] path
 		add_action('admin_init', function (){ flush_rewrite_rules(); }, 0);
 
+		# 2021 07 04 function obsolete
 		// Rewrite the htaccess so it matches the new $imdbOptions['imdbplugindirectory'] path
-		if ( lumiere_make_htaccess() ) {
+		/*if ( lumiere_make_htaccess() ) {
 			echo lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'lumiere-movies') ); 
 		} else {
 			echo lumiere_notice(3, esc_html__( 'Can not write htaccess file, check permissions.', 'lumiere-movies') );
-		}
+		}*/
 
 		// display message on top
 		echo lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
