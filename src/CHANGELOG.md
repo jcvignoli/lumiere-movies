@@ -1,6 +1,7 @@
 Changelog
 
 v.3.3.4
+* [technical] Not using htaccess generation anymore, all admin pages are redirected from the core. Simplification of the code.
 
 v.3.3.3
 * [medium] Taxonomy pages related to people include personal details about the person, such as birth, picture, death, biographie. Templates are now separated between people and items.

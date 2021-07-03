@@ -223,9 +223,11 @@ echo "<br />";
 
 				<?php if (get_terms('standard')){ ?>
 
-				<div class="taxonomy">
-					<?php echo get_the_term_list($wp_query->post->ID, esc_html( $imdb_admin_values['imdburlstringtaxo'] ) . 'standard', esc_html__( 'Taxonomy: '), ', ', '' ); ?>
-					<br /><br />
+				<div class="taxonomy"><?php
+					esc_html_e( 'Taxonomy', 'lumiere-movies' ); 
+					echo ' standard:';
+					echo get_the_term_list(get_the_ID(), esc_html( $imdb_admin_values['imdburlstringtaxo'] ) . 'standard', ' ', ', ', '' ); ?>
+				<br /><br />
 				</div>
 				<?php } ?>	
 				

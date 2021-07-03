@@ -378,20 +378,20 @@ if (!function_exists('str_contains')) {
     }
 }
 
+# 2021 07 04 function obsolete
 /* lumiere_make_htaccess()
  * Create inc/.htaccess upon plugin activation
  * called in inc/options-general.php and lumiere-movies.php (upon activation)
  */
+/*
 if (!function_exists('lumiere_make_htaccess')) {
 	function lumiere_make_htaccess(){
 
-		/* vars */
 		$imdblt_blog_subdomain = site_url( '', 'relative' ) ?? ""; #ie: /subdirectory-if-exists/
 		$imdblt_plugin_full_path = plugin_dir_path( __DIR__ ) ?? wp_die( esc_html__("There was an error when generating the htaccess file.", 'lumiere-movies') ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/
 		$imdblt_plugin_path = str_replace( $imdblt_blog_subdomain, "", wp_make_link_relative( plugin_dir_url( __DIR__ ))); #ie: /wp-content/plugins/lumiere-movies/
 		$full_path_to_containing_htaccess_folder = $imdblt_plugin_full_path . 'inc/' ; # folder including htaccess
 		$imdblt_htaccess_file = $full_path_to_containing_htaccess_folder  . ".htaccess" ?? wp_die( esc_html__("There was an error when generating the htaccess file.", 'lumiere-movies') ); # ie: /fullpathtoplugin/subdirectory-if-exists/wp-content/plugins/lumiere-movies/inc/.htaccess
-
 
 		$imdblt_slug_path_movie = substr(LUMIERE_URLSTRINGFILMS, 1);
 		$imdblt_slug_path_search = substr(LUMIERE_URLSTRING, 1);
@@ -424,7 +424,7 @@ if (!function_exists('lumiere_make_htaccess')) {
 		# popup-imdb_person.php
 		$imdblt_htaccess_file_txt .= "## popup-imdb_person.php"."\n"."RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_person.php\?mid=([^&#]+)&(film=[^\s]+)(&info=[^\s]+)? [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_person."%1/ [L,R,QSA]"."\n\n"; 
 		$imdblt_htaccess_file_txt .= "RewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/popup-imdb_person.php\?mid=([^\s]+) [NC]"."\n"."RewriteRule ^.+$ ".$imdblt_slug_path_person."%1/ [L,R,QSA]"."\n\n";
-*/
+//
 
 		$imdblt_htaccess_file_txt .= "</IfModule>\n";
 		$imdblt_htaccess_file_txt .= "### End Lumiere plugin\n\n";
@@ -447,7 +447,7 @@ if (!function_exists('lumiere_make_htaccess')) {
 			return false;
 		}
 	}
-}
+}*/
 
 /**
  * Function lumiere_debug_display

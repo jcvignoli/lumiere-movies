@@ -28,7 +28,7 @@ class Core {
 		// Be sure WP is running
 		if (function_exists('add_action')) {
 
-			// redirect popups URLs to follow inc/.htaccess rules
+			// redirect popups URLs
 			add_action( 'init', [ $this, 'lumiere_popup_redirect' ], 0);
 			add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 0);
 
@@ -45,12 +45,28 @@ class Core {
 						add_filter( $filter_taxonomy, [ $this, 'lumiere_taxonomy_add_class_to_links'] );
 					}
 				}
-				add_action( 'admin_init', [ $this, 'lumiere_copy_template_taxo_redirect' ], 0);
+
+				// redirect calls to move_template_taxonomy.php
+				add_filter( 'admin_init', function( $template ) {
+					if ( isset( $_GET['taxotype'] ) ) {
+						require( IMDBLTABSPATH . 'inc/move_template_taxonomy.php' );
+
+					}
+				} );
 			}
 
-			#add_action( 'init', [ $this, 'lumiere_highslide_download_redirect' ], 0);#function deactivated upon wordpress plugin team request
+			/* ## function deactivated upon wordpress plugin team request
+			add_filter( 'init', function( $template ) {
+				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&highslide=yes' ) )
+					require_once ( IMDBLTABSPATH . 'inc/highslide_download.php' );
 
-			add_action( 'init', [ $this, 'lumiere_gutenberg_search_redirect' ], 0);
+			} );*/
+
+			add_filter( 'init', function( $template ) {
+				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/lumiere/search/' ) )
+					require_once ( IMDBLTABSPATH . 'inc/gutenberg-search.php' );
+
+			} );
 
 	
 			add_action('admin_init', [ $this, 'lumiere_register_gutenberg_blocks' ],0);
@@ -105,10 +121,10 @@ class Core {
 	/**
 	1.- Create inc/.htaccess upon plugin activation
 	**/
-
+	/* 2021 07 04 function is obsolete
 	function lumiere_make_htaccess_admin(){
 		lumiere_make_htaccess(); // in class/functions.php
-	}
+	}*/
 
 	/**
 	2.- Replace <span class="lumiere_link_maker"> tags inside the posts
@@ -408,7 +424,7 @@ class Core {
 	}
 
 	/**
-	9.- Redirect the popups to a proper URL (goes with to inc/.htaccess)
+	9.- Redirect the popups to a proper URL
 	**/
 	function lumiere_popup_redirect() {
 		// The popup is for films
@@ -458,19 +474,19 @@ class Core {
 		global $imdb_admin_values;
 
 		// Include films popup
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) )
 			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/popup-search.php' );
-		}
+
 
 		// Include films popup
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) )
 			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/popup-imdb_movie.php' );
-		}
+
 
 		// Include persons popup
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) )
 			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/popup-imdb_person.php' );
-		}
+
 	}
 
 	/**
@@ -521,37 +537,38 @@ class Core {
 			return esc_html__('Lumiere Query Interface', 'lumiere-movies');
 	}
 
-	/**
+	/** # 2021 07 04 function obsolete
 	11.- 	A Include highslide_download.php if string highslide=yes
 	**/
-	function lumiere_highslide_download_redirect() {
+	/*function lumiere_highslide_download_redirect() {
 		global $imdb_admin_values;
 
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&highslide=yes' ) ) {
 			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/highslide_download.php' );
 		}
-	}
-	/**
+	}*/
+
+	/** # 2021 07 04 function obsolete
 	12.-	- B Include gutenberg-search.php if string gutenberg=yes
 	**/
-	function lumiere_gutenberg_search_redirect() {
+	/*function lumiere_gutenberg_search_redirect() {
 		global $imdb_admin_values;
 
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/lumiere/search/' ) )
 			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/gutenberg-search.php' );
 
-	}
+	}*/
 
-	/**
+	/** # 2021 07 04 function obsolete
 	13.	- C Include move_template_taxonomy.php if string taxotype=
 	**/
-	function lumiere_copy_template_taxo_redirect() {
+	/*function lumiere_copy_template_taxo_redirect() {
 		global $imdb_admin_values;
 
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=' ) )
 			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/move_template_taxonomy.php' );
 
-	}
+	}*/
 
 	/**
 	14.- Add a class to taxonomy links (constructed in class.movie.php)
@@ -664,10 +681,10 @@ class Core {
 				if( $plugin == $plugin_version ) {
 
 					/* Create/update htaccess file */
-					$this->lumiere_make_htaccess_admin();
+					// $this->lumiere_make_htaccess_admin(); # 2021 07 04 function obsolete
 
 					/* Refresh rewrite rules */
-					flush_rewrite_rules();
+					// flush_rewrite_rules(); # 2021 07 04 function obsolete
 
 					// Call the updating options process
 					require_once( plugin_dir_path( __DIR__ ) . 'class/update.options.php' );
@@ -693,7 +710,7 @@ class Core {
 
 		/* Actions from the class */
 		$this->lumiere_create_cache();
-		$this->lumiere_make_htaccess_admin(); # normaly not needed, achieved through various functions _redirect
+		// $this->lumiere_make_htaccess_admin(); # 2021 07 04 function obsolete
 
 		/* Refresh rewrite rules */
 		flush_rewrite_rules();

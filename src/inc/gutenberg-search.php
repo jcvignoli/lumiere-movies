@@ -14,9 +14,9 @@
  #############################################################################
 
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	wp_die('You can not call directly this page');
-}
+if ( ! defined( 'ABSPATH' ) ) 
+	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
+
 
 require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
