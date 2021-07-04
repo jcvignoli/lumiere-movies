@@ -2,9 +2,10 @@ v3.3.4
 OK--- 1. technical Not using htaccess generation anymore, all admin pages are redirected from the core. Simplification of the code.
 OK--- 2. change popup pic in admin general options
 OK--- 3. remove imdb link from general options (useless)
-
 OK--- 4. moved options from data misc to general options
 OK--- 5. bug Auto widget was throwing fatal error. Fixed class.movie and class.widget.
+
+
 
 10. procedure in update.options.php doesn't work
 13. Implement alternative to highslide with a jquery modal window
