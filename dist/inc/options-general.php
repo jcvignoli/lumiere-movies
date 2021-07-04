@@ -115,8 +115,7 @@ $post_imdb_imdburlpopups = isset($_POST['imdb_imdburlpopups']) ? filter_var($_PO
 		}
 
 
-	}
-	elseif ( (isset($_POST['reset_imdbSettings'])) && check_admin_referer('options_general_check', 'options_general_check') ){ //---------------------reset options selected
+	} elseif ( (isset($_POST['reset_imdbSettings'])) && check_admin_referer('options_general_check', 'options_general_check') ){ //---------------------reset options selected
 
 		delete_option($imdb_ft->imdbAdminOptionsName);
 
@@ -140,11 +139,11 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 ?>
 <div id="tabswrap">
-	<ul id="tabs">
-		<li><img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-general-path.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Paths & Layout", 'lumiere-movies');?>" href="<?php echo esc_url(admin_url() . "admin.php?page=imdblt_options&generaloption=base" ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies'); ?></a></li>
+	<div class="imdblt_double_container lumiere_padding_five">
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-general-path.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Paths & Layout", 'lumiere-movies');?>" href="<?php echo esc_url(admin_url() . "admin.php?page=imdblt_options&generaloption=base" ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies'); ?></a></div>
 
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-general-advanced.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Advanced", 'lumiere-movies');?>" href="<?php echo esc_url (admin_url() . "admin.php?page=imdblt_options&generaloption=advanced" ); ?>"><?php esc_html_e( "Advanced", 'lumiere-movies'); ?></a></li>
-	</ul>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-general-advanced.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Advanced", 'lumiere-movies');?>" href="<?php echo esc_url (admin_url() . "admin.php?page=imdblt_options&generaloption=advanced" ); ?>"><?php esc_html_e( "Advanced", 'lumiere-movies'); ?></a></div>
+	</div>
 </div>
 
 
@@ -165,7 +164,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 		<?php //------------------------------------------------------------------ =[Popup]=- ?>
 
 			<div class="titresection">
-				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-title-popup.png"); ?>" width="60" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-title-popup.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 				<?php esc_html_e( 'Popup', 'lumiere-movies'); ?>
 			</div>
 		
@@ -241,14 +240,34 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 	
 		<?php //------------------------------------------------------------------ =[Theme taxo/inside post/widget]=- ?>
-			
+
+			<div class="titresection">
+				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-title-taxonomy.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+				<?php esc_html_e( 'Plain pages', 'lumiere-movies'); ?>
+			</div>
+
+
+			<div class="lumiere_flex_container_content_third lumiere_padding_five lumiere_align_center">
+
+				<label for="imdb_imdbintotheposttheme"><?php esc_html_e( 'Theme color', 'lumiere-movies'); ?></label><br /><br />
+
+				<select name="imdb_imdbintotheposttheme">
+					<option <?php if( ($imdbOptions['imdbintotheposttheme'] == "grey") || (empty($imdbOptions['imdbintotheposttheme'])) ) echo 'selected="selected"'; ?>value="grey"><?php esc_html_e( 'grey (default)', 'lumiere-movies'); ?></option>
+					<option <?php if($imdbOptions['imdbintotheposttheme'] == "white") echo 'selected="selected"'; ?>value="white"><?php esc_html_e( 'white', 'lumiere-movies'); ?></option>
+					<option <?php if($imdbOptions['imdbintotheposttheme'] == "black") echo 'selected="selected"'; ?>value="black"><?php esc_html_e( 'black', 'lumiere-movies'); ?></option>
+				</select>
+
+				<div class="explain"> <?php esc_html_e( 'Inside the post/widget/taxonomy color theme', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?>"grey"</div>
+
+			</div>
+
 		
 		<?php //------------------------------------------------------------------ =[Cover picture]=- ?>
 
-			<div class="titresection">
-				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/cover.jpg"); ?>" width="60" align="absmiddle" />&nbsp;&nbsp;&nbsp;
-				<?php esc_html_e( 'Cover picture', 'lumiere-movies'); ?>
-			</div>
+		<div class="titresection">
+			<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/cover.jpg"); ?>" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+			<?php esc_html_e( 'Cover picture', 'lumiere-movies'); ?>
+		</div>
 
 		<div class="lumiere_flex_container">
 			<div class="lumiere_flex_container_content_third imdblt_padding_five">
@@ -312,20 +331,6 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 					<?php esc_html_e( 'Default:','lumiere-movies'); ?> "English"
 				</div>
 			</div>
-<?php /* 2021 06 08 deactivated, no utility
-
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
-				<?php esc_html_e( 'Direct search', 'lumiere-movies'); ?><br /><br />
-				<input type="radio" id="imdb_imdbdirectsearch_yes" name="imdb_imdbdirectsearch" value="1" <?php if ($imdbOptions['imdbdirectsearch'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbmaxresults" data-field_to_change_value="1" />
-
-				<label for="imdb_imdbdirectsearch_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbdirectsearch_no" name="imdb_imdbdirectsearch" value="0" <?php if ($imdbOptions['imdbdirectsearch'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes"  data-field_to_change="imdb_imdbmaxresults" data-field_to_change_value="0" />
-
-				<label for="imdb_imdbdirectsearch_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
-
-				<div class="explain"><?php wp_kses( _e( "When enabled, instead of displaying several results related to a name searched, only the first result is returned and directly displayed. That means no more window results is displayed, but straightforwardly related data. <br />This option allows to use the 'IMDb widget' and 'inside the post' options; if deactivated, these options will not work anymore. <br />Some options will be hidden and other will be shown depending if it is turned on yes or no.", 'lumiere-movies'), $allowed_html_for_esc_html_functions ); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
-
-			</div>
-*/ ?>
 
 			<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
 
@@ -355,8 +360,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 	<div class="inside imblt_border_shadow">
 
-		<div class="lumiere_display_flex lumiere_flex_make_responsive">
-			<div class="imdblt_padding_five lumiere_flex_container_content_thirty">
+		<div class="lumiere_flex_container">
+
+			<div class="lumiere_flex_container_content_thirty lumiere_padding_five lumiere_align_center">
 
 				<?php esc_html_e( 'Left menu for Lumière options', 'lumiere-movies'); ?><br /><br />
 
@@ -366,10 +372,10 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				
 				<label for="imdb_imdbwordpress_bigmenu_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<div class="explain"><?php esc_html_e( "When enabled, Lumiere options are fully displayed on the left menu - and not anymore limited to the settings directory. It creates a dedicated menu for Lumiere options.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+				<div class="explain"><?php esc_html_e( "If enabled, Lumiere options are displayed in a dedicated menu on the left panel instead of being displayed in the settings menu.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="imdblt_padding_five lumiere_flex_container_content_thirty">
+			<div class="lumiere_flex_container_content_thirty lumiere_padding_five lumiere_align_center">
 
 				<?php esc_html_e( 'Top menu for Lumière options', 'lumiere-movies'); ?><br /><br />
 				<input type="radio" id="imdb_imdbwordpress_tooladminmenu_yes" name="imdb_imdbwordpress_tooladminmenu" value="1" <?php if ($imdbOptions['imdbwordpress_tooladminmenu'] == "1") { echo 'checked="checked"'; }?> />
@@ -378,11 +384,11 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<label for="imdb_imdbwordpress_tooladminmenu_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<div class="explain"><?php esc_html_e( "When activated, Lumière options are displayed on the top menu of Wordpress. Deactivate it if you have many plugins already occupying that area.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
+				<div class="explain"><?php esc_html_e( "If activated, Lumière options are displayed in a  top menu. Not recommended f you have many plugins already occupying that area.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
 
 			</div>
 
-			<div class="imdblt_padding_five lumiere_flex_container_content_thirty">
+			<div class="lumiere_flex_container_content_thirty lumiere_padding_five lumiere_align_center">
 
 				<label for="imdb_imdbtaxonomy"><?php esc_html_e( 'Use taxonomy', 'lumiere-movies'); ?></label><br /><br />
 
@@ -394,13 +400,35 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<label for="imdb_imdbtaxonomy_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<div class="explain"><?php esc_html_e( 'This will add taxonomy terms found for the movie when display a page with a widget or a into a post. Taxonomy allows to group posts by a series of chosen terms, as explained in', 'lumiere-movies') ?> <a href="http://codex.wordpress.org/WordPress_Taxonomy">taxonomy</a>. <?php esc_html_e( 'When activated, this option opens ', 'lumiere-movies'); ?><a href="<?php echo esc_url( admin_url() . 'admin.php?page=imdblt_options&subsection=widgetoption&widgetoption=taxo') ?>"><?php esc_html_e( 'specific taxonomy options', 'lumiere-movies');  ?></a>. <?php esc_html_e( 'Taxonomy terms are uninstalled when removing the plugin if you selected not to keep the settings upon uninstall.', 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies'); ?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?> <?php esc_html_e( '(Activated for "genre" taxonomy only)', 'lumiere-movies'); ?></div>
+				<div class="explain"><?php esc_html_e( 'This will add taxonomy terms found for the movie when display a page with a widget or a into a post. Taxonomy allows to group posts by a series of chosen terms, as explained in', 'lumiere-movies') ?> <a href="http://codex.wordpress.org/WordPress_Taxonomy">taxonomy</a>. <?php esc_html_e( 'Taxonomy terms are uninstalled when removing the plugin if you selected not to keep the settings upon uninstall.', 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies'); ?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?> <?php esc_html_e( '(Activated for "genre" taxonomy only)', 'lumiere-movies'); ?></div>
 
 			</div>
-		</div>
 
-		<div class="lumiere_display_flex lumiere_flex_make_responsive">
-			<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
+			<div class="lumiere_flex_container_content_thirty lumiere_padding_five lumiere_align_center">
+
+				<?php esc_html_e( 'Remove all links?', 'lumiere-movies'); ?><br /><br />
+
+				<input type="radio" id="imdb_imdblinkingkill_yes" name="imdb_imdblinkingkill" value="1" <?php if ($imdbOptions['imdblinkingkill'] == "1") { echo 'checked="checked"'; }?> />
+
+				<label for="imdb_imdblinkingkill_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdblinkingkill_no" name="imdb_imdblinkingkill" value="" <?php if ($imdbOptions['imdblinkingkill'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdblinkingkill_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+
+				<div class="explain"><?php esc_html_e( "Remove all links (popup and external ones) which are automatically added. Usefull for users who are not interested in popup function. Please note that it will remove every single HTML link as well, such as the the links to the official IMDb website.", 'lumiere-movies'); ?><br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+
+			</div>
+
+			<div class="lumiere_flex_container_content_thirty lumiere_padding_five lumiere_align_center">
+
+				<?php esc_html_e( 'Auto widget?', 'lumiere-movies'); ?><br /><br />
+
+				<input type="radio" id="imdb_imdbautopostwidget_yes" name="imdb_imdbautopostwidget" value="1" <?php if ($imdbOptions['imdbautopostwidget'] == "1") { echo 'checked="checked"'; }?> />
+
+				<label for="imdb_imdbautopostwidget_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbautopostwidget_no" name="imdb_imdbautopostwidget" value="" <?php if ($imdbOptions['imdbautopostwidget'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdbautopostwidget_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+
+				<div class="explain"><?php esc_html_e( "Add automatically a widget according to your post title. If regular widgets have been added to post too, the auto widget will be displayed before them. Usefull if blog a lot about movies; if a query does not bring any result with the post title, nothing is displayed.", 'lumiere-movies'); ?><br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?><?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+
+			</div>
+
+			<div class="lumiere_flex_container_content_thirty lumiere_padding_five lumiere_align_center">
 
 				<?php esc_html_e( 'Keep settings upon deactivation', 'lumiere-movies'); ?><br /><br />
 
@@ -410,11 +438,11 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				
 				<label for="imdb_imdbkeepsettings_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<div class="explain"><?php esc_html_e( "Whether to keep or delete Lumière! settings upon plugin deactivation. Prevent from deleting the taxonomy terms and the cache too.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
+				<div class="explain"><?php esc_html_e( "Whether to keep or delete Lumière! settings upon plugin deactivation. Prevent from deleting the taxonomy terms and the cache too.", 'lumiere-movies'); ?><br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
 
 			</div>
 
-			<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
+			<div class="lumiere_flex_container_content_thirty lumiere_padding_five lumiere_align_center">
 
 				<?php esc_html_e( 'Debug Lumière!', 'lumiere-movies'); ?><br /><br />
 
@@ -424,10 +452,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				
 				<label for="imdb_imdbdebug_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<div class="explain"><?php esc_html_e( "When enabled, Lumière can be debugged.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
-			</div>
-
-			<div class="lumiere_flex_container_content_third imdblt_padding_five">
+				<div class="explain"><?php esc_html_e( "Activate to debug Lumière! plugin.", 'lumiere-movies'); ?><br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 			</div>
 
 		</div>

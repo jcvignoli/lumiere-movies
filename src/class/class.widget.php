@@ -64,65 +64,64 @@ class LumiereWidget extends WP_Widget {
 
 	public function widget( $args, $instance ) {
   
-		global $imdb_admin_values, $imdb_widget_values, $imdballmeta;
+		global $imdb_admin_values, $imdballmeta;
 
 		extract($args);
-		$options = get_option('widget_imdbwidget');
 
 		// full title
 		$title_box = empty($instance['title']) ? esc_html__('IMDb data', 'lumiere-movies') : $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title']; 
-		// id/name of the movie to display
+
+		// Initialize var for id/name of the movie to display
 		$imdballmeta=array();
 
 		$post_id = intval( get_the_ID() );
 
-		// shows widget only for a post or a page, when option "direct search" is switched on
+		// shows widget only for a post or a page
 		if ( (is_single()) || ( is_page()) )  {
 
-			echo $args['before_widget'];
+			// 
+			if ( (get_post_meta($post_id, 'imdb-movie-widget', false)) || (get_post_meta($post_id, 'imdb-movie-widget-bymid', false)) ) {
 
-			//------ Display the movie according to the post's name (setting in -> widget -> misc)
+				//------ Display the movie according to the post's title (setting in -> general -> advanced)
 
-			if ( (isset($imdb_widget_values['imdbautopostwidget'])) && ($imdb_widget_values['imdbautopostwidget'] == true) ) {
+				if ( (isset($imdb_admin_values['imdbautopostwidget'])) && ($imdb_admin_values['imdbautopostwidget'] == true) ) {
 
-				$imdballmeta[]['byname'] = sanitize_text_field( $name_sanitized->post_title );
+					$imdballmeta[]['byname'] = sanitize_text_field( get_the_title() ); # this var is global and sent to class.movie.php
 
-				echo $title_box;
+				}
 
-				$display = new \Lumiere\LumiereMovies();
-				echo $display->lumiere_result;
+				//------ Meta tag "imdb-movie-widget"
+
+				foreach (get_post_meta($post_id, 'imdb-movie-widget', false) as $key => $value) {
+
+					$imdballmeta[]['byname'] = sanitize_text_field($value); # this var is global and sent to class.movie.php
+
+				}
+
+				//------ ID movie provided in "imdb-movie-widget-bymid"
+
+				foreach (get_post_meta($post_id, 'imdb-movie-widget-bymid', false) as $key => $value) {
+
+					$moviespecificid = $value;
+					$imdballmeta[]['bymid'] = $moviespecificid; # this var is global and sent to class.movie.php
+
+				}
+
+				$widget_count = count($imdballmeta); # this var is global and sent to class.movie.php
+				for ($i=0; $i<count($widget_count); $i++) {
+
+					echo $args['before_widget'];
+
+					echo $title_box;
+
+					$display = new \Lumiere\LumiereMovies();
+					if ($output = $display->lumiere_result)
+						echo $output;
+
+					echo $args['after_widget'];
+				}
 
 			}
-
-			//------ Meta tag "imdb-movie-widget"
-
-			foreach (get_post_meta($post_id, 'imdb-movie-widget', false) as $key => $value) {
-
-				$imdballmeta[]['byname'] = $value;
-
-				echo $title_box;
-
-				$display = new \Lumiere\LumiereMovies();
-				echo $display->lumiere_result;
-
-			}
-
-			//------ ID movie provided in "imdb-movie-widget-bymid"
-
-			foreach (get_post_meta($post_id, 'imdb-movie-widget-bymid', false) as $key => $value) {
-
-				$moviespecificid = esc_html($value);
-				$imdballmeta[]['bymid'] = $moviespecificid;
-
-				echo $title_box;
-
-				$display = new \Lumiere\LumiereMovies();
-				echo $display->lumiere_result;
-
-			}
-
-			echo $args['after_widget'];
-
 		}
 	}
 

@@ -3,12 +3,14 @@ OK--- 1. technical Not using htaccess generation anymore, all admin pages are re
 OK--- 2. change popup pic in admin general options
 OK--- 3. remove imdb link from general options (useless)
 
-23. move options from misc to general options
+OK--- 4. moved options from data misc to general options
+OK--- 5. bug Auto widget was throwing fatal error. Fixed class.movie and class.widget.
+
 10. procedure in update.options.php doesn't work
 13. Implement alternative to highslide with a jquery modal window
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the settings page
-
+24. add \Imdb\TitleSearch::TV_SERIES in searches to find also tv shows?
 
 v3.3.3
 OK--- 1. technical Set 'imdbwidgetsource' to false, so no more link to imdb for movies by default.

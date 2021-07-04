@@ -138,7 +138,7 @@ if ( ! function_exists('lumiere_admin_signature')){
 if ( ! function_exists('lumiere_noresults_text')){
 	function lumiere_noresults_text(){ 
 		echo "<br />";
-		echo "<div class='noresult'>".esc_html_e('Sorry, no result found for this reference', 'lumiere-movies')."</div>";
+		echo "<div class='noresult'>".esc_html_e('No result found for this query.', 'lumiere-movies')."</div>";
 		echo "<br />";
 	} 
 }

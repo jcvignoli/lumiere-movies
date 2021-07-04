@@ -56,8 +56,8 @@ echo "<br />";
 	echo "\n\t\t\t" . '<div class="lumiere_flex_auto">';
 
 	echo "\n\t\t\t\t" . '<div class="imdbelementTITLE ';
-	if (isset($imdb_widget_values['imdbintotheposttheme']))
-		echo ' imdbelementTITLE_' . $imdb_widget_values['imdbintotheposttheme']; 
+	if (isset($imdb_admin_values['imdbintotheposttheme']))
+		echo ' imdbelementTITLE_' . $imdb_admin_values['imdbintotheposttheme']; 
 	echo '">';
 	echo $person_name_sanitized; 
 	echo '</div>';
@@ -65,7 +65,7 @@ echo "<br />";
 	echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- star photo -->';
 
 	echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-	if (isset($imdb_widget_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_widget_values['imdbintotheposttheme'];
+	if (isset($imdb_admin_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_admin_values['imdbintotheposttheme'];
 	echo ' lumiere-padding-lines-common-picture">';
 
 	if (($photo_url = $person->photo_localurl() ) != FALSE){ 
@@ -101,7 +101,7 @@ echo "<br />";
 	echo "\n\t\t\t\t" . '</div>';
 	echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Birth -->';
 	echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-	if (isset($imdb_widget_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_widget_values['imdbintotheposttheme'];
+	if (isset($imdb_admin_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_admin_values['imdbintotheposttheme'];
 	echo '">';
 	echo '<font size="-1">';
 
@@ -128,7 +128,7 @@ echo "<br />";
 	echo "\n\t\t\t\t" . '</font></div>';
 	echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Death -->';
 	echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-	if (isset($imdb_widget_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_widget_values['imdbintotheposttheme'];
+	if (isset($imdb_admin_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_admin_values['imdbintotheposttheme'];
 	echo '">';
 	echo '<font size="-1">';
 
@@ -154,7 +154,7 @@ echo "<br />";
 	echo "\n\t\t\t\t" .'</font></div>';
 	echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Biography -->';
 	echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-	if (isset($imdb_widget_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_widget_values['imdbintotheposttheme'];
+	if (isset($imdb_admin_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_admin_values['imdbintotheposttheme'];
 	echo ' lumiere-lines-common-fix">';
 	echo '<font size="-1">';
 

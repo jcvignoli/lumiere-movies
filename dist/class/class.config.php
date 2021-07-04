@@ -75,9 +75,12 @@ class Settings extends Send_config {
 	'imdbpopuptheme' => 'white',
 	'popupLarg' => '540',
 	'popupLong' => '350',
+	'imdbintotheposttheme' => 'grey',
+	'imdblinkingkill' => false,
+	'imdbautopostwidget' => false,
 	'imdbimgdir' => 'pics/',
 	'imdblanguage' => "en-EN",
-	'imdbdirectsearch' => true,
+	'imdbdirectsearch' => true, /* this option is not available in the admin, therefore it's always on */
 	/*'imdbsourceout' => false,*/
 	'imdbdebug' => false,
 	'imdbwordpress_bigmenu'=>false,
@@ -141,9 +144,6 @@ class Settings extends Send_config {
 	#--------------------------------------------------=[ Widget ]=--
 
 	$imdbWidgetOptions = array(
-		'imdbautopostwidget' => false,
-		'imdbintotheposttheme' => 'grey',
-		'imdblinkingkill' => false,
 		'imdbwidgettitle' => true,
 		'imdbwidgetpic' => true,
 		'imdbwidgetruntime' => false,
