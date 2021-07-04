@@ -32,18 +32,40 @@ if (version_compare( LUMIERE_VERSION, "3.3.4" ) >= 0 ){
 
 	// Remove 'imdbdisplaylinktoimdb'
 	// Deprecated: removed links to IMDb in popup search and movie
-	if ( TRUE === lumiere_remove_options($config->imdbWidgetOptionsName, 'imdbdisplaylinktoimdb') )
+	if ( TRUE === lumiere_remove_options($config->imdbAdminOptionsName, 'imdbdisplaylinktoimdb') )
 		echo lumiere_notice(1, esc_html__( 'Lumière option successfully removed.', 'lumiere-movies') );
 
 	// Remove 'imdbpicsize'
 	// Deprecated: removed links to IMDb in popup search and movie
-	if ( TRUE === lumiere_remove_options($config->imdbWidgetOptionsName, 'imdbpicsize') )
+	if ( TRUE === lumiere_remove_options($config->imdbAdminOptionsName, 'imdbpicsize') )
 		echo lumiere_notice(1, esc_html__( 'Lumière option successfully removed.', 'lumiere-movies') );
 
 	// Remove 'imdbpicurl'
 	// Deprecated: removed links to IMDb in popup search and movie
-	if ( TRUE === lumiere_remove_options($config->imdbWidgetOptionsName, 'imdbpicurl') )
+	if ( TRUE === lumiere_remove_options($config->imdbAdminOptionsName, 'imdbpicurl') )
 		echo lumiere_notice(1, esc_html__( 'Lumière option successfully removed.', 'lumiere-movies') );
+
+	// Move 'imdblinkingkill'
+	// Variable moved from widget options to admin
+	if ( TRUE === lumiere_remove_options($config->imdbWidgetOptionsName, 'imdblinkingkill') )
+		echo lumiere_notice(1, esc_html__( 'Lumière option successfully removed.', 'lumiere-movies') );
+	if ( TRUE === lumiere_add_options($config->imdbAdminOptionsName, 'imdblinkingkill', 'false') )
+		echo lumiere_notice(1, esc_html__( 'Lumière option successfully added.', 'lumiere-movies') );
+
+	// Move 'imdbautopostwidget'
+	// Variable moved from widget options to admin
+	if ( TRUE === lumiere_remove_options($config->imdbWidgetOptionsName, 'imdbautopostwidget') )
+		echo lumiere_notice(1, esc_html__( 'Lumière option successfully removed.', 'lumiere-movies') );
+	if ( TRUE === lumiere_add_options($config->imdbAdminOptionsName, 'imdbautopostwidget', 'false') )
+		echo lumiere_notice(1, esc_html__( 'Lumière option successfully added.', 'lumiere-movies') );
+
+	// Move 'imdbintotheposttheme'
+	// Variable moved from widget options to admin
+	if ( TRUE === lumiere_remove_options($config->imdbWidgetOptionsName, 'imdbintotheposttheme') )
+		echo lumiere_notice(1, esc_html__( 'Lumière option successfully removed.', 'lumiere-movies') );
+	if ( TRUE === lumiere_add_options($config->imdbAdminOptionsName, 'imdbintotheposttheme', 'grey') )
+		echo lumiere_notice(1, esc_html__( 'Lumière option successfully added.', 'lumiere-movies') );
+
 }
 
 /************************************************** 3.3.3 */

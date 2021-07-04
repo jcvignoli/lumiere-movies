@@ -2,8 +2,11 @@ Changelog
 
 v.3.3.4
 * [minor] Removed option to edit imdb-links to simplify general options. Removed these links in popup-search and popup-movies, quite useless.
-* [technical] Update popup image in admin general options.
-* [technical] Not using htaccess generation anymore, all admin pages are redirected from the core. Simplification of the code.
+* [minor] Moved 'data options - misc' to 'general options - advanced' for more userfriendliness.
+* [minor] Simplified explaination of some admin options. Looking forward to a more userfriendly option settings panel.
+* [technical] Updated popup image in admin general options.
+* [technical] Not using htaccess generation anymore, all admin pages are redirected in the core class. Simplification of the code.
+* [bug] Auto widget was throwing fatal error, probably since transforming imdb-movies into movie.class. Fixed class.movie and class.widget.
 
 v.3.3.3
 * [medium] Taxonomy pages related to people include personal details about the person, such as birth, picture, death, biographie. Templates are now separated between people and items.

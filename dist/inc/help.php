@@ -503,7 +503,7 @@ function lumiere_help_usetaxonomy_function () {
 	<div class="helpdiv">
 		<h4><?php esc_html_e( "Advanced: Customizing your theme according taxonomy", 'lumiere-movies'); ?></h4>
 
-		<?php esc_html_e( "To fully enjoy this feature, copy the file in Lumiere Movies folder 'theme/taxonomy-genre.php' to your 'theme' folder. To do so, you can use the automated process in Lumière Taxonomy options.", 'lumiere-movies'); ?><br />
+		<?php esc_html_e( "To fully enjoy this feature, copy one of the files located in the Lumière! movies folder 'lumiere-movies/theme/' into your 'theme' folder. In order to help you, an automated process is available in Lumière! taxonomy options.", 'lumiere-movies'); ?><br />
 		<div align="center">
 			<a href="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . ".wordpress-org/screenshot-9.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="center" width="80%" src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . ".wordpress-org/screenshot-9.jpg"); ?>" alt="taxonomy result" /></a>
 		</div>
