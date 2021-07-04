@@ -169,7 +169,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 			</div>
 		
 			<div class="lumiere_flex_container">
-				<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
+				<div class="lumiere_flex_auto imdblt_padding_five">
 
 					<label for="imdb_popupLarg"><?php esc_html_e( 'Width', 'lumiere-movies'); ?></label><br /><br />
 					<input type="text" name="imdb_popupLarg" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['popupLarg']), 'lumiere-movies') ?>" >
@@ -177,7 +177,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 					<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?>"540"</div>
 
 				</div>
-				<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
+				<div class="lumiere_flex_auto imdblt_padding_five">
 
 					<label for="imdb_popupLong"><?php esc_html_e( 'Height', 'lumiere-movies'); ?></label><br /><br />
 					<input type="text" name="imdb_popupLong" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['popupLong']), 'lumiere-movies') ?>" >
@@ -186,7 +186,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				</div>
 
-				<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
+				<div class="lumiere_flex_auto imdblt_padding_five">
 
 					<label for="imdb_imdbpopuptheme"><?php esc_html_e( 'Theme color', 'lumiere-movies'); ?></label><br /><br />
 
@@ -201,7 +201,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				</div>
 
-				<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
+				<div class="lumiere_flex_auto imdblt_padding_five">
 
 				<?php 
 				// If the folder "highslide" exists
