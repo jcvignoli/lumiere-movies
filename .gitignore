@@ -1,6 +1,7 @@
 node_modules
 tmp
 vendor
+.env.testing
 .gulpcredentials.js
 composer.lock
 package-lock.json

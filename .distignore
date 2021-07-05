@@ -7,8 +7,8 @@ tests
 tmp
 vendor
 .babelrc
+.env.testing
 .gitignore
-.gitignore-building
 .gulpcredentials.js
 .todo
 .git
