@@ -1,9 +1,6 @@
-dist/inc/.htaccess
 node_modules
-test
 tmp
 vendor
-.gitignore-building
 .gulpcredentials.js
 composer.lock
 package-lock.json

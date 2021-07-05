@@ -2,7 +2,8 @@
 build
 node_modules
 source
-test
+src
+tests
 tmp
 vendor
 .babelrc
@@ -18,5 +19,4 @@ package-lock.json
 README.md
 webpack.config.js
 wp-cli.phar
-inc/.htaccess
-src
+

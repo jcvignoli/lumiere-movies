@@ -17,11 +17,9 @@
     "wpbuild": "wp-scripts build",
     "wpstart": "wp-scripts start",
     "watch": "gulp watch",
-    "build": "gulp build",
-    "browserWatch": "gulp browserWatch",
-    "rsyncnodry": "gulp rsync --rsync nodry",
+    "build": "gulp build --clean yes",
     "rsync": "gulp rsync",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "testplugin": "php vendor/bin/codecept run"
   },
   "devDependencies": {
     "@wordpress/scripts": "16.1.0",

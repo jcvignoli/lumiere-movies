@@ -1,9 +1,12 @@
 {
     "require": {
         "imdbphp/imdbphp": "dev-master",
-	"wp-cli/wp-cli-bundle": "*"
+        "wp-cli/wp-cli-bundle": "*"
     },
     "require-dev": {
-        "wpreadme2markdown/wpreadme2markdown": "^3.1"
+        "wpreadme2markdown/wpreadme2markdown": "^3.1",
+        "codeception/codeception": "^4.1",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0"
     }
 }
