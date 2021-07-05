@@ -19,7 +19,8 @@
     "watch": "gulp watch",
     "build": "gulp build --clean yes",
     "rsync": "gulp rsync",
-    "testplugin": "php vendor/bin/codecept run"
+    "testplugin": "php vendor/bin/codecept run --env server",
+    "testpluginlocal": "php vendor/bin/codecept run --env local"
   },
   "devDependencies": {
     "@wordpress/scripts": "16.1.0",

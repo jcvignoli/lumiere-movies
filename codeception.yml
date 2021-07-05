@@ -4,7 +4,33 @@ paths:
     data: tests/_data
     support: tests/_support
     envs: tests/_envs
+params:
+    - .env.testing
 actor_suffix: Tester
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
+        - Codeception\Extension\RunProcess:
+            - ./tests/geckodriver
+env:
+    local:
+        modules:
+            enabled:
+              - WebDriver:
+                  url: "%TEST_LOCAL_SITE_WP_URL%"
+                  browser: firefox
+                  path: ''
+                  capabilities:
+                    moz:firefoxOptions:
+                       args: ["-headless"] # Run Firefox in headless mode
+    server:
+        modules:
+            enabled:
+              - WebDriver:
+                  url: "%TEST_SITE_WP_URL%"
+                  browser: firefox
+                  path: ''
+                  capabilities:
+                    moz:firefoxOptions:
+                       args: ["-headless"] # Run Firefox in headless mode
+
