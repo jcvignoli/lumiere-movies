@@ -7,7 +7,16 @@
 actor: AcceptanceTester
 modules:
     enabled:
-        - PhpBrowser:
-            url: http://local.lumiere/website
+        - WebDriver:
+            url: 'http://local.lumiere/website'
+            browser: firefox
+            path: ''
+            capabilities:
+             moz:firefoxOptions:
+                 args: ["-headless"] # Run Firefox in headless mode
         - \Helper\Acceptance
+extensions:
+    enabled:
+        - Codeception\Extension\RunProcess:
+            - './tests/geckodriver'
 step_decorators: ~        
