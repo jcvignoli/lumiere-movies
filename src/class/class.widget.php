@@ -79,18 +79,19 @@ class LumiereWidget extends WP_Widget {
 		// shows widget only for a post or a page
 		if ( (is_single()) || ( is_page()) )  {
 
-			// 
+
+			//------ 
+
+			if ( (isset($imdb_admin_values['imdbautopostwidget'])) && ($imdb_admin_values['imdbautopostwidget'] == true) ) {
+				// Display the movie according to the post's title (setting in -> general -> advanced)
+				$imdballmeta[]['byname'] = sanitize_text_field( get_the_title() ); # this var is global and sent to class.movie.php
+
+			}
+
+			//------  show widget only if custom field 'imdb-movie-widget' or 'imdb-movie-widget-bymid' is found
 			if ( (get_post_meta($post_id, 'imdb-movie-widget', false)) || (get_post_meta($post_id, 'imdb-movie-widget-bymid', false)) ) {
 
-				//------ Display the movie according to the post's title (setting in -> general -> advanced)
-
-				if ( (isset($imdb_admin_values['imdbautopostwidget'])) && ($imdb_admin_values['imdbautopostwidget'] == true) ) {
-
-					$imdballmeta[]['byname'] = sanitize_text_field( get_the_title() ); # this var is global and sent to class.movie.php
-
-				}
-
-				//------ Meta tag "imdb-movie-widget"
+				// "imdb-movie-widget"
 
 				foreach (get_post_meta($post_id, 'imdb-movie-widget', false) as $key => $value) {
 
@@ -98,7 +99,7 @@ class LumiereWidget extends WP_Widget {
 
 				}
 
-				//------ ID movie provided in "imdb-movie-widget-bymid"
+				// imdb-movie-widget-bymid" (with proper movie ID)
 
 				foreach (get_post_meta($post_id, 'imdb-movie-widget-bymid', false) as $key => $value) {
 
@@ -107,8 +108,7 @@ class LumiereWidget extends WP_Widget {
 
 				}
 
-				$widget_count = count($imdballmeta); # this var is global and sent to class.movie.php
-				for ($i=0; $i<count($widget_count); $i++) {
+				for ($i=0; $i < ( count( $imdballmeta ) -1 ); $i++) {
 
 					echo $args['before_widget'];
 

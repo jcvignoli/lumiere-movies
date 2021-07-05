@@ -10,6 +10,8 @@
  # ------------------------------------------------------------------------- #
  #									              #
  #  Updates to do to the options according to the current plugin version     #
+ #	-> Always put a version earlier for updates, 		              #
+ #	as Wordpress checks with previous version.				#
  #									              #
  #############################################################################
 
@@ -28,7 +30,7 @@ if (class_exists("\Lumiere\Settings")) {
 
 
 /************************************************** 3.3.4 */
-if (version_compare( LUMIERE_VERSION, "3.3.4" ) >= 0 ){
+if (version_compare( LUMIERE_VERSION, "3.3.3" ) >= 0 ){
 
 	// Remove 'imdbdisplaylinktoimdb'
 	// Deprecated: removed links to IMDb in popup search and movie
@@ -70,7 +72,7 @@ if (version_compare( LUMIERE_VERSION, "3.3.4" ) >= 0 ){
 
 /************************************************** 3.3.3 */
 
-if (version_compare( LUMIERE_VERSION, "3.3.3" ) >= 0 ){
+if (version_compare( LUMIERE_VERSION, "3.3.2" ) >= 0 ){
 
 	// Update 'imdbwidgetsource'
 	// No need to display the source by default
@@ -81,7 +83,7 @@ if (version_compare( LUMIERE_VERSION, "3.3.3" ) >= 0 ){
 }
 
 /************************************************** 3.3.1 */
-if (version_compare( LUMIERE_VERSION, "3.3.1" ) >= 0 ){
+if (version_compare( LUMIERE_VERSION, "3.3" ) >= 0 ){
 
 	// Remove 'imdbwidgetcommentsnumber'
 	// Deprecated: only one comment is returned by imdbphp libraries
