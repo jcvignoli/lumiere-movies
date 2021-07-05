@@ -108,7 +108,9 @@ class LumiereWidget extends WP_Widget {
 
 				}
 
-				for ($i=0; $i < ( count( $imdballmeta ) -1 ); $i++) {
+				// if imdbautopostwidget is set, the count has to be decreased
+				$count_total = ($imdb_admin_values['imdbautopostwidget'] == true) ? (count( $imdballmeta ) -1) : count( $imdballmeta );
+				for ($i=0; $i < $count_total; $i++) {
 
 					echo $args['before_widget'];
 
