@@ -14,6 +14,7 @@ OK--- 2. change popup pic in admin general options
 OK--- 3. remove imdb link from general options (useless)
 OK--- 4. moved options from data misc to general options
 OK--- 5. bug Auto widget was throwing fatal error. Fixed class.movie and class.widget.
+OK--- 6. bug On some configurations, headers_sent() in admin panel was redirecting to general options when submiting reset/update form in options data. Deactivated it.
 
 v3.3.3
 OK--- 1. technical Set 'imdbwidgetsource' to false, so no more link to imdb for movies by default.
