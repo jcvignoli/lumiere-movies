@@ -7,6 +7,7 @@ v.3.3.4
 * [technical] Updated popup image in admin general options.
 * [technical] Not using htaccess generation anymore, all admin pages are redirected in the core class. Simplification of the code.
 * [bug] Auto widget was throwing fatal error, probably since transforming imdb-movies into movie.class. Fixed class.movie and class.widget.
+* [bug] On some configurations, headers_sent() in admin panel was redirecting to general options when submiting reset/update form in options data. Deactivated it.
 
 v.3.3.3
 * [medium] Taxonomy pages related to people include personal details about the person, such as birth, picture, death, biographie. Templates are now separated between people and items.

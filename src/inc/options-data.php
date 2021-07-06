@@ -93,8 +93,9 @@ if (current_user_can( 'manage_options' ) ) {
 
 		// Display a refresh link otherwise refreshed data is not seen
 		if (!headers_sent()) {
+			/* 2021 07 06 Shouldn't do anything here, to be removed
 			header("Location: ".esc_url($_SERVER[ "REQUEST_URI"]), false);
-			die();
+			die(); */
 		} else {
 			echo lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			die();
@@ -111,9 +112,10 @@ if (current_user_can( 'manage_options' ) ) {
 		// Display a refresh link otherwise refreshed data is not seen
 		if (!headers_sent()) {
 
-			//header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
+			/* 2021 07 06 Shouldn't do anything here, to be removed
+			header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
 			wp_safe_redirect( wp_get_referer() ); 
-			exit();
+			exit();*/
 
 		} else {
 			echo lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
