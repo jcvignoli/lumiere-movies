@@ -5,7 +5,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 4.0 \
 **Tested up to:** 5.7.1 \
-**Stable tag:** 3.3.3 \
+**Stable tag:** 3.3.4 \
 **Requires PHP:** 7.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -51,8 +51,8 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ### Advanced
 
-1. If you **do not want to show any link to open the popup windows** (in case you are only looking for information displayed in widget and inside posts), search for the option located in "widget options / Remove popup links?" and switch it to "yes". Links opening a popup (both in widget and posts) will not be be available anymore.
-2. Should you want to display automatically a widget according to the post's title, just switch on the "Widget/Inside post" option located in "Options -> Misc ->Auto widget" in the plugin admin. Usefull for blogs exclusively dedicated to movie reviews.
+1. If you **do not want to show any link to open the popup windows** (in the case you are only looking for information displayed in widget and inside posts), search for the option located in "General options -> Advanced -> Remove popup links?" and select "yes". Links opening a popup (both in widget and posts) will not be be available anymore.
+2. Should you want to display automatically a widget according to the post's title, just switch on the "Widget/Inside post" option located in "Options -> Advanced ->Auto widget" in the plugin admin. Usefull for blogs exclusively dedicated to movie reviews.
 3. Lumière! Movies can create automatically tags and pages to include all movies identically tagged (known as taxonomy). Taxonomy templates are provided. Check plugin's help to figure out how to.
 
 ## Screenshots

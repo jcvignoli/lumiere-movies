@@ -1,8 +1,10 @@
 <?php
 
-# Class meant to test remote wordpress install (a WebDriver is needed for JS execution)
+# Class meant to test local wordpress install  (a WebDriver is needed for JS execution)
 
-class LumiereCest {
+use AcceptanceTester;
+
+class LumiereLocalCest {
 
 	public function frontpageWorks(AcceptanceTester $I) {
 		$I->wantTo('check frontpage');
@@ -10,16 +12,14 @@ class LumiereCest {
 		$I->see('Here you are');	
 	}
 
-	public function popupMoviesCanOpen(AcceptanceTester $I, \Codeception\Scenario $scenario) {
-		/* const */
-		// Get url depending on the environment called in acceptance.suite.yml
-		$current_env = $scenario->current('env');
-		$config_base = \Codeception\Configuration::config(); # config in codeception.yml
-   		$config = \Codeception\Configuration::suiteSettings("acceptance", $config_base);
-		$url_base = $config['env'][$current_env]['modules']['enabled']['config']['WebDriver']['url'];
-		// $url = $_ENV['TEST_SITE_WP_URL']; # more direct, but can be wrong
 
-		/* settings */
+	public function popupMoviesCanOpen(AcceptanceTester $I, \Codeception\Scenario $scenario) {
+		/* vars */
+		// Get url depending on the environment called in codeception.yml
+/*		$current_env = $scenario->current('env');
+		$config = \Codeception\Configuration::config();
+		$url_base = $config['env'][$current_env]['modules']['enabled'][0]['WebDriver']['url'];
+*/		$url_base = $_ENV['TEST_LOCAL_SITE_WP_URL']; # more direct, but can be wrong
 		// popup link movie interstellar
 		$element = 'a[data-highslidefilm="interstellar"]';
 		$sub_url = '/imdblt/film/interstellar/?film=interstellar';
@@ -33,14 +33,12 @@ class LumiereCest {
 	}
 
 	public function popupPersonCanOpen(AcceptanceTester $I, \Codeception\Scenario $scenario) {
-		/* const */
-		// Get url depending on the environment called in acceptance.suite.yml
-		$current_env = $scenario->current('env');
-		$config_base = \Codeception\Configuration::config(); # config in codeception.yml
-   		$config = \Codeception\Configuration::suiteSettings("acceptance", $config_base);
-		$url_base = $config['env'][$current_env]['modules']['enabled']['config']['WebDriver']['url'];
-
-		/* settings */
+		/* vars */
+		// Get url depending on the environment called in codeception.yml
+/*		$current_env = $scenario->current('env');
+		$config = \Codeception\Configuration::config();
+		$url_base = $config['env'][$current_env]['modules']['enabled'][0]['WebDriver']['url'];
+*/		$url_base = $_ENV['TEST_LOCAL_SITE_WP_URL']; # more direct, but can be wrong
 		// popup link actor Jorge Rivero
 		$element = 'a[data-highslidepeople="0729473"]';
 		$sub_url = '/imdblt/person/0729473/?mid=0729473';
@@ -55,6 +53,9 @@ class LumiereCest {
 
 	public function taxonomyPage(AcceptanceTester $I) {
 		$I->wantTo('taxonomy person page');
+		$I->loginAsAdmin();
+		$I->amOnPluginsPage();
+		$I->seePluginActivated('lumiere-movies');
 		$I->amOnPage('/2021/test-codeception/');
 		$I->click( "Tony Zarindast");
 		$I->see('Tehran');

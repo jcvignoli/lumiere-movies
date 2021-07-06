@@ -9,13 +9,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-07-03T20:59:52-03:00\n"
+"POT-Creation-Date: 2021-07-06T19:42:40-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
 
 #. Plugin Name of the plugin
-#: class/class.widget.php:139
+#: class/class.widget.php:141
 msgid "Lumière! Movies"
 msgstr ""
 
@@ -127,15 +127,15 @@ msgstr ""
 msgid "to find the IMDb's ID."
 msgstr ""
 
-#: class/class.movie.php:464
+#: class/class.movie.php:488
 msgid "Photo of"
 msgstr ""
 
-#: class/class.movie.php:469
+#: class/class.movie.php:493
 msgid "no picture found"
 msgstr ""
 
-#: class/class.movie.php:510
+#: class/class.movie.php:525
 #: inc/options-data.php:223
 #: inc/options-data.php:224
 #: inc/popup-imdb_movie.php:387
@@ -144,34 +144,34 @@ msgid_plural "Countries"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:556
-#: class/class.movie.php:687
-#: class/class.movie.php:829
-#: class/class.movie.php:924
-#: class/class.movie.php:1279
-#: class/class.movie.php:1428
-#: class/class.movie.php:1719
-#: class/class.movie.php:1833
-#: class/class.movie.php:1948
-#: class/class.movie.php:2086
-#: class/class.movie.php:2224
-#: class/class.movie.php:2317
+#: class/class.movie.php:571
+#: class/class.movie.php:678
+#: class/class.movie.php:797
+#: class/class.movie.php:880
+#: class/class.movie.php:1164
+#: class/class.movie.php:1289
+#: class/class.movie.php:1533
+#: class/class.movie.php:1635
+#: class/class.movie.php:1738
+#: class/class.movie.php:1864
+#: class/class.movie.php:1990
+#: class/class.movie.php:2070
 msgid "Find similar taxonomy results"
 msgstr ""
 
-#: class/class.movie.php:602
+#: class/class.movie.php:606
 #: inc/options-data.php:423
 #: inc/options-data.php:424
 #: inc/popup-imdb_movie.php:322
 msgid "Runtime"
 msgstr ""
 
-#: class/class.movie.php:604
+#: class/class.movie.php:608
 #: inc/popup-imdb_movie.php:326
 msgid "minutes"
 msgstr ""
 
-#: class/class.movie.php:641
+#: class/class.movie.php:632
 #: inc/options-data.php:306
 #: inc/options-data.php:307
 #: inc/popup-imdb_movie.php:364
@@ -180,37 +180,37 @@ msgid_plural "Languages"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:733
+#: class/class.movie.php:712
 #: inc/options-data.php:406
 #: inc/options-data.php:407
 #: inc/popup-imdb_movie.php:342
 msgid "Rating"
 msgstr ""
 
-#: class/class.movie.php:738
+#: class/class.movie.php:717
 msgid "votes, average "
 msgstr ""
 
-#: class/class.movie.php:740
+#: class/class.movie.php:719
 msgid "(max 10)"
 msgstr ""
 
-#: class/class.movie.php:745
+#: class/class.movie.php:724
 #: inc/popup-imdb_movie.php:345
 msgid "vote average "
 msgstr ""
 
-#: class/class.movie.php:745
+#: class/class.movie.php:724
 #: inc/popup-imdb_movie.php:345
 msgid " out of 10"
 msgstr ""
 
-#: class/class.movie.php:746
+#: class/class.movie.php:725
 #: inc/popup-imdb_movie.php:346
 msgid "votes"
 msgstr ""
 
-#: class/class.movie.php:782
+#: class/class.movie.php:750
 #: inc/options-data.php:261
 #: inc/options-data.php:262
 #: inc/popup-imdb_movie.php:411
@@ -219,30 +219,30 @@ msgid_plural "Genres"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:878
+#: class/class.movie.php:834
 msgid "Keyword"
 msgid_plural "Keywords"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:972
+#: class/class.movie.php:916
 #: inc/popup-imdb_movie.php:732
 msgid "Goof"
 msgid_plural "Goofs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:1017
+#: class/class.movie.php:950
 msgid "User comment"
 msgstr ""
 
-#: class/class.movie.php:1074
+#: class/class.movie.php:995
 msgid "Quote"
 msgid_plural "Quotes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:1131
+#: class/class.movie.php:1040
 #: inc/options-data.php:465
 #: inc/options-data.php:466
 msgid "Tagline"
@@ -250,29 +250,29 @@ msgid_plural "Taglines"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:1177
+#: class/class.movie.php:1074
 msgid "Trailer"
 msgid_plural "Trailers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:1185
+#: class/class.movie.php:1082
 msgid "Watch on IMBb website the trailer for "
 msgstr ""
 
-#: class/class.movie.php:1232
+#: class/class.movie.php:1117
 msgid "Color"
 msgid_plural "Colors"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:1332
+#: class/class.movie.php:1205
 #: inc/options-data.php:178
 #: inc/options-data.php:179
 msgid "Also known as"
 msgstr ""
 
-#: class/class.movie.php:1381
+#: class/class.movie.php:1242
 #: inc/options-data.php:209
 #: inc/options-data.php:210
 msgid "Composer"
@@ -280,11 +280,11 @@ msgid_plural "Composers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:1445
+#: class/class.movie.php:1306
 msgid "Link to local IMDb"
 msgstr ""
 
-#: class/class.movie.php:1499
+#: class/class.movie.php:1348
 #: inc/options-data.php:434
 #: inc/options-data.php:435
 #: inc/popup-imdb_movie.php:703
@@ -293,7 +293,7 @@ msgid_plural "Soundtracks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:1565
+#: class/class.movie.php:1402
 #: inc/options-data.php:378
 #: inc/options-data.php:379
 msgid "Production company"
@@ -301,13 +301,13 @@ msgid_plural "Production companies"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:1627
+#: class/class.movie.php:1453
 msgid "Official website"
 msgid_plural "Official websites"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:1673
+#: class/class.movie.php:1487
 #: inc/options-data.php:249
 #: inc/options-data.php:250
 #: inc/popup-imdb_movie.php:114
@@ -319,24 +319,24 @@ msgid_plural "Directors"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:1734
-#: class/class.movie.php:1739
-#: class/class.movie.php:1848
-#: class/class.movie.php:1853
-#: class/class.movie.php:1974
-#: class/class.movie.php:1978
-#: class/class.movie.php:2110
-#: class/class.movie.php:2115
-#: class/class.movie.php:2246
-#: class/class.movie.php:2251
-#: class/class.movie.php:2334
-#: class/class.movie.php:2339
+#: class/class.movie.php:1548
+#: class/class.movie.php:1553
+#: class/class.movie.php:1650
+#: class/class.movie.php:1655
+#: class/class.movie.php:1764
+#: class/class.movie.php:1768
+#: class/class.movie.php:1888
+#: class/class.movie.php:1893
+#: class/class.movie.php:2012
+#: class/class.movie.php:2017
+#: class/class.movie.php:2087
+#: class/class.movie.php:2092
 #: class/functions.php:101
 #: class/functions.php:103
 msgid "open a new window with IMDb informations"
 msgstr ""
 
-#: class/class.movie.php:1787
+#: class/class.movie.php:1589
 #: inc/options-data.php:235
 #: inc/options-data.php:236
 msgid "Creator"
@@ -344,7 +344,7 @@ msgid_plural "Creators"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:1901
+#: class/class.movie.php:1691
 #: inc/options-data.php:363
 #: inc/options-data.php:364
 #: inc/popup-imdb_movie.php:579
@@ -353,7 +353,7 @@ msgid_plural "Producers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:2038
+#: class/class.movie.php:1816
 #: inc/options-data.php:523
 #: inc/options-data.php:524
 #: inc/popup-imdb_movie.php:544
@@ -362,8 +362,8 @@ msgid_plural "Writers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:2174
-#: class/class.movie.php:2303
+#: class/class.movie.php:1940
+#: class/class.movie.php:2056
 #: inc/options-data.php:165
 #: inc/options-data.php:166
 #: inc/popup-imdb_movie.php:460
@@ -372,7 +372,7 @@ msgid_plural "Actors"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:2391
+#: class/class.movie.php:2132
 #: inc/options-data.php:348
 #: inc/options-data.php:349
 #: inc/popup-imdb_movie.php:637
@@ -381,18 +381,18 @@ msgid_plural "Plots"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/class.movie.php:2442
+#: class/class.movie.php:2171
 #: inc/options-data.php:449
 #: inc/options-data.php:450
 msgid "Source"
 msgstr ""
 
-#: class/class.movie.php:2447
+#: class/class.movie.php:2176
 #: class/functions.php:199
 msgid "Go to IMDb website for this movie"
 msgstr ""
 
-#: class/class.movie.php:2448
+#: class/class.movie.php:2177
 #: class/functions.php:200
 msgid "IMDb's page for this movie"
 msgstr ""
@@ -405,7 +405,7 @@ msgstr ""
 msgid "IMDb data"
 msgstr ""
 
-#: class/class.widget.php:151
+#: class/class.widget.php:153
 msgid "Widget title:"
 msgstr ""
 
@@ -426,36 +426,36 @@ msgstr ""
 msgid "Open a new window with IMDb informations"
 msgstr ""
 
-#: class/update.options.php:36
-#: class/update.options.php:41
-#: class/update.options.php:46
-#: class/update.options.php:51
-#: class/update.options.php:58
-#: class/update.options.php:65
-#: class/update.options.php:89
-msgid "Lumière option successfully removed."
-msgstr ""
-
+#: class/update.options.php:38
+#: class/update.options.php:43
+#: class/update.options.php:48
 #: class/update.options.php:53
 #: class/update.options.php:60
 #: class/update.options.php:67
-#: class/update.options.php:94
+#: class/update.options.php:91
+msgid "Lumière option successfully removed."
+msgstr ""
+
+#: class/update.options.php:55
+#: class/update.options.php:62
+#: class/update.options.php:69
+#: class/update.options.php:96
 msgid "Lumière option successfully added."
 msgstr ""
 
-#: class/update.options.php:79
+#: class/update.options.php:81
 msgid "Lumière option successfully updated."
 msgstr ""
 
-#: class/update.options.php:111
-#: class/update.options.php:143
-#: class/update.options.php:175
+#: class/update.options.php:113
+#: class/update.options.php:145
+#: class/update.options.php:177
 msgid "Cannot update Lumière options, ($option_array) is undefined."
 msgstr ""
 
-#: class/update.options.php:114
-#: class/update.options.php:146
-#: class/update.options.php:178
+#: class/update.options.php:116
+#: class/update.options.php:148
+#: class/update.options.php:180
 msgid "Cannot update Lumière options, ($option_key) is undefined."
 msgstr ""
 
@@ -927,7 +927,7 @@ msgid "Advanced: Customizing your theme according taxonomy"
 msgstr ""
 
 #: inc/help.php:506
-msgid "To fully enjoy this feature, copy the file in Lumiere Movies folder 'theme/taxonomy-genre.php' to your 'theme' folder. To do so, you can use the automated process in Lumière Taxonomy options."
+msgid "To fully enjoy this feature, copy one of the files located in the Lumière! movies folder 'lumiere-movies/theme/' into your 'theme' folder. In order to help you, an automated process is available in Lumière! taxonomy options."
 msgstr ""
 
 #: inc/help.php:522
