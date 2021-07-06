@@ -19,8 +19,8 @@
     "watch": "gulp watch",
     "build": "gulp build --clean yes",
     "rsync": "gulp rsync",
-    "testplugin": "php vendor/bin/codecept run --env server",
-    "testpluginlocal": "php vendor/bin/codecept run --env local"
+    "testplugin": "php vendor/bin/codecept run -vvv tests/acceptance/LumiereCest.php --env remotefirefox",
+    "testpluginlocal": "php vendor/bin/codecept run -vvv tests/acceptance/LumiereLocalCest.php --env wpfirefox"
   },
   "devDependencies": {
     "@wordpress/scripts": "16.1.0",

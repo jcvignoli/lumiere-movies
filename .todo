@@ -5,7 +5,7 @@ v3.3.5
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the settings page
 24. add \Imdb\TitleSearch::TV_SERIES in searches to find also tv shows?
-
+25. bug widget in case of polylang? Seems like the metadata doesn't get populated. Same for taxonomy. For pages in english?
 
 
 v3.3.4
