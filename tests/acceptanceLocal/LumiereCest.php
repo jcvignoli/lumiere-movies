@@ -2,18 +2,16 @@
 
 # Class meant to test local wordpress install  (a WebDriver is needed for JS execution)
 
-use AcceptanceTester;
+class LumiereCest {
 
-class LumiereLocalCest {
-
-	public function frontpageWorks(AcceptanceTester $I) {
+	public function frontpageWorks(AcceptanceLocalTester $I) {
 		$I->wantTo('check frontpage');
 		$I->amOnPage('/');
 		$I->see('Here you are');	
 	}
 
 
-	public function popupMoviesCanOpen(AcceptanceTester $I, \Codeception\Scenario $scenario) {
+	public function popupMoviesCanOpen(AcceptanceLocalTester $I, \Codeception\Scenario $scenario) {
 		/* vars */
 		// Get url depending on the environment called in codeception.yml
 /*		$current_env = $scenario->current('env');
@@ -32,7 +30,7 @@ class LumiereLocalCest {
 		$I->see('Christopher Nolan');
 	}
 
-	public function popupPersonCanOpen(AcceptanceTester $I, \Codeception\Scenario $scenario) {
+	public function popupPersonCanOpen(AcceptanceLocalTester $I, \Codeception\Scenario $scenario) {
 		/* vars */
 		// Get url depending on the environment called in codeception.yml
 /*		$current_env = $scenario->current('env');
@@ -51,7 +49,7 @@ class LumiereLocalCest {
 		$I->see('Pajarero');
 	}
 
-	public function taxonomyPage(AcceptanceTester $I) {
+	public function taxonomyPage(AcceptanceLocalTester $I) {
 		$I->wantTo('taxonomy person page');
 		$I->loginAsAdmin();
 		$I->amOnPluginsPage();
