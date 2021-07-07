@@ -39,12 +39,13 @@ var gulp = 	require('gulp'),
 
 var errorHandler = function(error) {				/* handle and display errors with notify */
 	plugins.notify.onError({
-		title: 'Task Failed [' + error.plugin + ']',
+		title: '[' + error.plugin + '] Task Failed',
 		message: error.message,
 		icon: ext_cred.base.gulpimg,
 		sound: true
 	})(error);
-	this.emit('end');
+	console.log("Error:", error.toString()); 
+	/* this.emit('end'); removed, now called in plumber */
 };
 
 // Constant to get from the command-line "--rsync nodry" for rsync task or "--build clean" for build task or "--ssh yes" for running building tasks with ssh upload
@@ -184,6 +185,7 @@ exports.stylesheets = function stylesheets() {
 
 	return gulp
 		.src( paths.stylesheets.src , {base: paths.base.src } )
+		.pipe(plugins.plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
 		.pipe(plugins.changed( paths.stylesheets.dist ))
 		.pipe(plugins.autoprefixer('last 2 versions'))
 		.pipe(plugins.cleanCss({debug: true}, (details) => {
@@ -193,8 +195,6 @@ exports.stylesheets = function stylesheets() {
 		.pipe(gulp.dest( paths.stylesheets.dist ))
 		.pipe(plugins.if(flagssh, sshMain.dest( ext_cred.mainserver.dist )))
 		.pipe(plugins.browserSync.stream())
-		.on("error", errorHandler)
-		.on("error", function (err) { console.log("Error:", err); });
 };
 
 // Task 2 - Minify JS
@@ -213,13 +213,12 @@ exports.javascripts = function javascripts() {
 
 	return gulp
 		.src( paths.javascripts.src , {base: paths.base.src } )
+		.pipe(plugins.plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
 		.pipe(plugins.changed( paths.javascripts.dist ))
 		.pipe(plugins.uglify())
 		.pipe(gulp.dest( paths.javascripts.dist ))
 		.pipe(plugins.if(flagssh, sshMain.dest( ext_cred.mainserver.dist )))
 		.pipe(plugins.browserSync.stream())
-		.on("error", errorHandler)
-		.on("error", function (err) { console.log("Error:", err); });
 };
 
 
@@ -239,13 +238,12 @@ exports.images = function images() {
 
 	return gulp
 		.src( paths.images.src, {base: paths.base.src } )
+		.pipe(plugins.plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
 		.pipe(plugins.changed( paths.images.dist ))
 		.pipe(plugins.imagemin())
 		.pipe(gulp.dest( paths.images.dist ))
 		.pipe(plugins.if(flagssh, sshMain.dest( ext_cred.mainserver.dist )))
 		.pipe(plugins.browserSync.stream())
-		.on("error", errorHandler)
-		.on("error", function (err) { console.log("Error:", err); });
 };
 
 // Task 4 - Transfer untouched files -> jpg can't be compressed, transfered here
@@ -264,20 +262,12 @@ exports.files_copy = function files_copy() {
 
 	return gulp
 		.src( paths.files.src, {base: paths.base.src } )
-		.pipe(plugins.plumber({ errorHandler: function(err) {
-			plugins.notify.onError({
-				title: "Gulp error in " + err.plugin,
-				icon: ext_cred.base.gulpimg,
-				message:  err.toString()
-			})(err);
-		}}))
+		.pipe(plugins.plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
 		.pipe(plugins.changed( paths.files.dist ))
 		.pipe(gulp.dest( paths.files.dist ))
 		.pipe(plugins.if(flagssh,sshMain.dest( ext_cred.mainserver.dist ) ) )
-		.on('ssh2Data', function(data){ console.dir( "test"+data.toString() ) } ) // supposed to return ssh errors
+		.on("error", function (err) { errorHandler(err); console.log("Error:", err); }) /* old way, but maybe need to get an actual ssh error msg? */
 		.pipe(plugins.browserSync.stream())
-		.on("error", errorHandler)
-		.on("error", function (err) { console.log("Error:", err); });
 };
 
 // Task 5 - Watch files
@@ -366,6 +356,7 @@ exports.lint = function lint(cb) {
 
 	return gulp    
 		.src( paths.javascripts.src )
+		.pipe(plugins.plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
 		// eslint() attaches the lint output to the "eslint" property
 		// of the file object so it can be used by other modules.
 		.pipe(plugins.eslint({fix:true}))
@@ -376,8 +367,6 @@ exports.lint = function lint(cb) {
 		// lint error, return the stream and pipe to failAfterError 
 		// last.
 		.pipe(plugins.eslint.failAfterError())
-		.on("error", errorHandler)
-		.on("error", function (err) { console.log("Error:", err); })
 };
 
 // Task 10 - Rsync local dist rsynced to mainserver
@@ -398,14 +387,7 @@ exports.rsync = function rsync() {
 	}
 
 	return gulp.src( paths.base.dist )
-		/* notify error with plumber, but I don't use plumber anymore */
-/*		.pipe(plugins.plumber({ errorHandler: function(err) {
-		     plugins.notify.onError({
-			  title: "Gulp error in " + err.plugin,
-			  message:  err.toString()
-		     })(err);
-		 }}))
-*/
+		.pipe(plugins.plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
 		.pipe(plugins.if(arg.rsyncnodry == "yes", 		/* function without dry-run, correct argument passed */ 
 			plugins.rsync({
 				root: paths.rsync.src,
@@ -431,7 +413,5 @@ exports.rsync = function rsync() {
 				exclude: [ paths.rsync.excludepath ]
 			})
 		))
-		.on("error", errorHandler)
-		.on("error", function (err) { console.log("Error:", err); })
 };
 

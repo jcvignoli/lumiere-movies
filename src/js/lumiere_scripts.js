@@ -2,17 +2,27 @@
 *  Needs jquery						
 */
 
-/**** popups, class movie
+/**** popups
 *
 */
 
-// Id in the movie image
-if (document.getElementById("highslide_pic")) {
-	jQuery('a#highslide_pic').click(function(){
+
+/* class in the popup images, movies and persons, useBox to false */
+if (jQuery(".highslide_pic_popup")) {
+	jQuery('.highslide_pic_popup').click(function(){
 		return hs.expand(this, { useBox: false, captionEval: "Poster of " + 'this.thumb.alt'  
 		});
 	});
 };
+
+/* Class in class.movie.php, useBox to true */
+if (jQuery(".highslide_pic")) {
+	jQuery('.highslide_pic').click(function(){
+		return hs.expand(this, { useBox: true, captionEval: "Poster of " + 'this.thumb.alt'  
+		});
+	});
+};
+
 
 /* FUNCTION: build highslide or classic popup according to the classes
 *	This function on click on classes "link-imdblt-(.*)"

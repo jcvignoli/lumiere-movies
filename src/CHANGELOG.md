@@ -1,11 +1,21 @@
 Changelog
 
-v.3.3.5
+v.3.4
+* [major] A bug (see technical _passing all Lumière options_ )was preventing cache functions from imdbphp libraries to be fully utilised. Speed greatly improved.
+* [minor] Lumiere search gutenberg now searches also TV series. Increased number of max results to 15.
+* [technical] Added debug imdbphp to lumiere_debug function
+* [technical] Passing all Lumiere options to imdbphp libraries through the $config. Language and cache_expire were missing in admin, popups and class.movie pages.
+* [technical] Abandonned function lumiere_source_imdb() in functions.php, merged it in class.movie.php
+* [technical] Reincluded debug function in all pages (admin+frontpage)
+* [bug] In admin cache, pictures (big+small) were not deleted when refreshing/deleting movies.
+* [bug] Source imdb link was buggy due to intval(). Using the reliable php filter_var now.
+* [bug] Layout with max-width:XX% removed from container classes in lumiere_admin.css
+* [bug] Fixed longstanding bug with highslide opening two windows for pictures in class.movie. Created two js functions in lumiere_scripts.js dealing differently (useBox var) between with highslide_pic_popup and highslide_pic
 
 v.3.3.4
 * [minor] Removed option to edit imdb-links to simplify general options. Removed these links in popup-search and popup-movies, quite useless.
 * [minor] Moved 'data options - misc' to 'general options - advanced' for more userfriendliness.
-* [minor] Simplified explaination of some admin options. Looking forward to a more userfriendly option settings panel.
+* [minor] Simplified explanation of some admin options. Looking forward to a more userfriendly option settings panel.
 * [technical] Updated popup image in admin general options.
 * [technical] Not using htaccess generation anymore, all admin pages are redirected in the core class. Simplification of the code.
 * [bug] Auto widget was throwing fatal error, probably since transforming imdb-movies into movie.class. Fixed class.movie and class.widget.
@@ -42,7 +52,7 @@ v.3.3.1
 * [technical] Minification of javascripts and stylesheets, images are even more compressed
 * [technical] Removed useless title taxonomy function, title are nomore taxonomised
 * [technical] added var imdbintotheposttheme in config for selection of into the post/widget themes
-* [technical ] options are updated/deleted/added for new versions
+* [technical] options are updated/deleted/added for new versions
 
 v.3.3
 * [major] Added a metabox in the edition of the posts (admin area). The movie's title or IMDb ID will be utilized to show a widget with the relevant movie. Included a popup to search for IMDb IDs.

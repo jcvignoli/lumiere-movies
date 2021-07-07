@@ -32,6 +32,9 @@ if (class_exists("\Lumiere\Settings")) {
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
 	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
+	$config->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
+	$config->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
+	$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
 }
 
 # Initialization of IMDBphp
@@ -48,10 +51,8 @@ if ( (isset($_POST['submitsearchmovie'])) && (isset ($_POST["moviesearched"])) )
 
 	$search_sanitized = isset($_POST["moviesearched"]) ? sanitize_text_field( $_POST["moviesearched"] ) : NULL;
 
-	if ( (isset($_GET["searchtype"])) && ($_GET["searchtype"]=="episode") )
-		$results = $search->search ($search_sanitized, array(\Imdb\TitleSearch::TV_SERIES));
-	else 
-		$results = $search->search ($search_sanitized, array(\Imdb\TitleSearch::MOVIE));
+	$results = $search->search ($search_sanitized, array(\Imdb\TitleSearch::MOVIE, \Imdb\TitleSearch::TV_SERIES));
+
 ?>
 
 <h1 class="searchmovie_title"><?php esc_html_e('Results related to your query:', 'lumiere-movies'); ?> <i><?php echo $search_sanitized; ?></i></h1>
@@ -63,7 +64,7 @@ if ( (isset($_POST['submitsearchmovie'])) && (isset ($_POST["moviesearched"])) )
 
 
 <?php
-$limit_search=5;
+$limit_search=15;
 $i=1;
 foreach ($results as $res) {
 	if ($i > $limit_search)

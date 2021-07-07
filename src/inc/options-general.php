@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Enter in debug mode
 if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
-	lumiere_debug_display($imdbOptions, 'SetError', ''); 
+	lumiere_debug_display($imdbOptions, '', '', $config); # $config comes from admin_page
 }
 
 /* Vars */
@@ -88,7 +88,7 @@ $post_imdb_imdburlpopups = isset($_POST['imdb_imdburlpopups']) ? filter_var($_PO
 		}
 
 		// update options
-		update_option($imdb_ft->imdbAdminOptionsName, $imdbOptions);
+		update_option($config->imdbAdminOptionsName, $imdbOptions);
 
 		// flush rewrite rules for matches the new $imdbOptions['imdbplugindirectory'] path
 		add_action('admin_init', function (){ flush_rewrite_rules(); }, 0);
@@ -118,7 +118,7 @@ $post_imdb_imdburlpopups = isset($_POST['imdb_imdburlpopups']) ? filter_var($_PO
 
 	} elseif ( (isset($_POST['reset_imdbSettings'])) && check_admin_referer('options_general_check', 'options_general_check') ){ //---------------------reset options selected
 
-		delete_option($imdb_ft->imdbAdminOptionsName);
+		delete_option($config->imdbAdminOptionsName);
 
 		// display message on top
 		echo lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');

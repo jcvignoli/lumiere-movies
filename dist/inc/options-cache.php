@@ -18,11 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 }
 
-// Enter in debug mode
-if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
-	lumiere_debug_display($imdbOptionsc, '', ''); # don't display set_error_handler("var_dump") which breaks the images sections
-}
-
 // Vars
 global $imdb_cache_values;
 $allowed_html_for_esc_html_functions = [
@@ -61,15 +56,21 @@ use \Imdb\Title;
 use \Imdb\Person;
 
 if (class_exists("\Lumiere\Settings")) {
-	$config = new \Lumiere\Settings();
+	# $config = new \Lumiere\Settings(); # class already started in admin_pages.php
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
 	$config->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
 	$config->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
+	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
 	$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
 }
+
+// Enter in debug mode, for development version only
+if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")) 
+	lumiere_debug_display($imdb_cache_values, 'no_var_dump', '', $config); # don't display set_error_handler("var_dump") that gets the page stuck in an endless loop, $config comes from admin_page
+
 
 // Data is posted using the form
 if (current_user_can( 'manage_options' ) ) { 
@@ -89,7 +90,7 @@ if (current_user_can( 'manage_options' ) ) {
 			}
 		}
 
-		update_option($imdb_ft->imdbCacheOptionsName, $imdbOptionsc);
+		update_option($config->imdbCacheOptionsName, $imdbOptionsc);
 
 		// display message on top
 		echo lumiere_notice(1, '<strong>'. esc_html__( 'Cache options saved.', 'lumiere-movies') .'</strong>');
@@ -107,7 +108,7 @@ if (current_user_can( 'manage_options' ) ) {
 	// reset options selected
 	if ( (isset($_POST['reset_cache_options'])) && (check_admin_referer('cache_options_check', 'cache_options_check')) ){ 
 
-		delete_option($imdb_ft->imdbCacheOptionsName);
+		delete_option($config->imdbCacheOptionsName);
 
 		// display message on top
 		echo lumiere_notice(1, '<strong>'. esc_html__( 'Cache options reset.', 'lumiere-movies') .'</strong>');
@@ -135,9 +136,10 @@ if (current_user_can( 'manage_options' ) ) {
 
 		// display message on top
 		echo lumiere_notice(1, '<strong>'. esc_html__( 'All cache files deleted.', 'lumiere-movies') .'</strong>');
-		if (!header_sent){
+		if (!headers_sent){
+			/* 2021 07 06 Shouldn't do anything here, to be removed
 			wp_safe_redirect( add_query_arg( "msg", "cache_delete_all_msg", wp_get_referer() ) );
-			exit();
+			exit();*/
 		} else {
 			echo lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
@@ -171,9 +173,10 @@ if (current_user_can( 'manage_options' ) ) {
 
 		// display messages on top
 		echo lumiere_notice(1, '<strong>'. esc_html__( 'Query cache files deleted.', 'lumiere-movies') .'</strong>');
-		if (!header_sent){
+		if (!headers_sent){
+			/* 2021 07 06 Shouldn't do anything here, to be removed
 			wp_safe_redirect( add_query_arg( "msg", "cache_delete_query_msg", wp_get_referer() ) );
-			exit();
+			exit();*/
 		} else {
 			echo lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
@@ -206,6 +209,14 @@ if (current_user_can( 'manage_options' ) ) {
 					}
 				}
 			}
+
+			// delete pictures, small and big
+			$pic_small_sanitized = $imdb_cache_values['imdbphotoroot'].$id_sanitized.".jpg" ?? NULL;
+			$pic_big_sanitized = $imdb_cache_values['imdbphotoroot'].$id_sanitized."_big.jpg" ?? NULL;
+			if ( file_exists($pic_small_sanitized) )
+				unlink( $pic_small_sanitized );
+			if ( file_exists($pic_big_sanitized) )
+				unlink( $pic_big_sanitized );
 		}
 
 		// for people
@@ -230,9 +241,10 @@ if (current_user_can( 'manage_options' ) ) {
 
 		// display message on top
 		echo lumiere_notice(1, esc_html__( 'Selected ticked cache file(s) deleted.', 'lumiere-movies') );
-		if (!header_sent){
+		if (!headers_sent){
+			/* 2021 07 06 Shouldn't do anything here, to be removed
 			wp_safe_redirect( add_query_arg( "msg", "cache_delete_ticked_msg", wp_get_referer() ) );
-			exit();
+			exit();*/
 		} else {
 			echo lumiere_notice(1, '<div align="center"><a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a></div>');
 			exit();
@@ -266,6 +278,14 @@ if (current_user_can( 'manage_options' ) ) {
 
 				unlink( esc_url( $cacheTOdelete ));
 			}
+
+			// delete pictures, small and big
+			$pic_small_sanitized = $imdb_cache_values['imdbphotoroot'].$id_sanitized.".jpg" ?? NULL;
+			$pic_big_sanitized = $imdb_cache_values['imdbphotoroot'].$id_sanitized."_big.jpg" ?? NULL;
+			if ( file_exists($pic_small_sanitized) )
+				unlink( $pic_small_sanitized );
+			if ( file_exists($pic_big_sanitized) )
+				unlink( $pic_big_sanitized );
 		}
 
 		// delete single person
@@ -318,11 +338,19 @@ if (current_user_can( 'manage_options' ) ) {
 				unlink( esc_url( $cacheTOdelete ));
 			}
 
+			// delete pictures, small and big
+			$pic_small_sanitized = $imdb_cache_values['imdbphotoroot'].$id_sanitized.".jpg" ?? NULL;
+			$pic_big_sanitized = $imdb_cache_values['imdbphotoroot'].$id_sanitized."_big.jpg" ?? NULL;
+			if ( file_exists($pic_small_sanitized) )
+				unlink( $pic_small_sanitized );
+			if ( file_exists($pic_big_sanitized) )
+				unlink( $pic_big_sanitized );
+
 			// get again the movie
 			$movie = new \Imdb\Title($id_sanitized, $config);
 
 			// create cache for everything
-			$movie->alsoknow(); $movie->cast(); $movie->colors(); $movie->composer(); $movie->comment_split(); $movie->country(); $movie->creator(); $movie->director(); $movie->genres(); $movie->goofs(); $movie->keywords(); $movie->languages(); $movie->officialSites(); $movie->photo_localurl(); $movie->plot(); $movie->prodCompany(); $movie->producer(); $movie->quotes(); $movie->rating(); $movie->runtime(); $movie->soundtrack(); $movie->taglines(); $movie->title(); $movie->trailers(TRUE); $movie->votes(); $movie->writing(); $movie->year();
+			$movie->alsoknow(); $movie->cast(); $movie->colors(); $movie->composer(); $movie->comment_split(); $movie->country(); $movie->creator(); $movie->director(); $movie->genres(); $movie->goofs(); $movie->keywords(); $movie->languages(); $movie->officialSites(); $movie->photo_localurl(true); $movie->photo_localurl(false); $movie->plot(); $movie->prodCompany(); $movie->producer(); $movie->quotes(); $movie->rating(); $movie->runtime(); $movie->soundtrack(); $movie->taglines(); $movie->title(); $movie->trailers(TRUE); $movie->votes(); $movie->writing(); $movie->year();
 
 		}
 

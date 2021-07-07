@@ -182,28 +182,6 @@ if ( ! function_exists('lumiere_array_key_exists_wildcard')){
 }
 
 /**
- * IMDb source link display
- *
- */
-
-if ( ! function_exists('lumiere_source_imdb')){
-	function lumiere_source_imdb($midPremierResultat){
-		global $imdb_admin_values;
-
-		$output = "";
-
-		// Sanitize
-		$midPremierResultat_sanitized = intval( $midPremierResultat );
-
-		$output .= '<img class="imdbelementSOURCE-picture" width="33" height="15" src="' . esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/imdb-link.png" ) . '" />';
-		$output .= '<a class="link-incmovie-sourceimdb" title="'.esc_html__("Go to IMDb website for this movie", 'lumiere-movies').'" href="'. esc_url( "https://".$imdb_admin_values['imdbwebsite'] . '/title/tt' .$midPremierResultat_sanitized ) . '" >';
-		$output .= '&nbsp;&nbsp;' . esc_html__("IMDb's page for this movie", 'lumiere-movies') . '</a>';
-
-		return $output;
-	}
-}
-
-/**
  * Count me function
  * allows movie total count (how many time a movie is called by plugin
  *
@@ -453,21 +431,32 @@ if (!function_exists('lumiere_make_htaccess')) {
  * Function lumiere_debug_display
  * Returns a debug
  * 
+ * @param options the array of the passed Lumière options
+ * @param set_error set to 'no_var_dump' to avoid the call to var_dump function (usefull for options-cache.php)
+ * @param libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
+ * @param imdbphpclass pass the class so we can call the debug function
  */
 
 if (!function_exists('lumiere_debug_display')) {
-	function lumiere_debug_display($options = "no array of options found", $set_error = NULL, $libxml_use = NULL) {
+	function lumiere_debug_display($options = "no array of options found", $set_error = NULL, $libxml_use = false, $imdbphpclass = false) {
 
-		echo '<div><font size="-2">';
+		global $imdb_admin_values;
+
+		// Debug function from imdbphp libraries
+		if (isset($imdbphpclass)) {
+			$imdbphpclass->debug = $imdb_admin_values['imdbdebug'] ?? NULL;
+		}
+
+		echo '<div><strong>[Lumière options]</strong><font size="-3"> ';
 
 		print_r($options);
 		error_reporting(E_ALL);
 		ini_set("display_errors", 1);
 
-		if ( (isset($set_error)) && ($set_error == "SetError") )
-			set_error_handler("var_dump"); # unset in options-cache.php as it breaks the pictures part of cache
+		if ( $set_error != "no_var_dump" )
+			set_error_handler("var_dump"); 
 
-		echo '</font></div>';
+		echo ' </font><strong>[/Lumière options]</strong></div>';
 
 		if ( (isset($libxml_use)) && ($libxml_use == "libxml") )
 			libxml_use_internal_errors(true); // avoid endless loops with imdbphp parsing errors 

@@ -224,44 +224,45 @@ class Send_config extends Config {
 	var $imdb_cache_values;
 
 	function __construct() {
-	global $imdb_admin_values, $imdb_cache_values;
 
-	$this->imdb_utf8recode = $imdb_admin_values['imdb_utf8recode'] ?? NULL;
-	$this->imdbsite = $imdb_admin_values['imdbwebsite'] ?? NULL;
-	$this->imdbplugindirectory = $imdb_admin_values['imdbplugindirectory'] ?? NULL;
-	$this->language = $imdb_admin_values['imdblanguage'] ?? NULL;
-	$this->maxresults = $imdb_admin_values['imdbmaxresults'] ?? NULL;
-	$this->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
-	$this->photodir = $imdb_cache_values['imdbphotodir'] ?? NULL;
-	$this->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
-	$this->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
-	$this->photoroot = $imdb_cache_values['imdbphotoroot'] ?? NULL;
-	$this->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
-	$this->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
-	$this->converttozip = $imdb_cache_values['imdbconverttozip'] ?? NULL;
-	$this->usezip = $imdb_cache_values['imdbusezip'] ?? NULL;
+		global $imdb_admin_values, $imdb_cache_values;
 
-	/** Where the local IMDB images reside (look for the "showtimes/" directory)
-	*  This should be either a relative, an absolute, or an URL including the
-	*  protocol (e.g. when a different server shall deliver them)
-	* Cannot be changed in wordpress plugin
-	*/
-	$this->imdb_img_url = isset($imdb_admin_values['imdbplugindirectory']).'/pics/showtimes' ?? NULL;
+		$this->imdb_utf8recode = $imdb_admin_values['imdb_utf8recode'] ?? NULL;
+		$this->imdbsite = $imdb_admin_values['imdbwebsite'] ?? NULL;
+		$this->imdbplugindirectory = $imdb_admin_values['imdbplugindirectory'] ?? NULL;
+		$this->language = $imdb_admin_values['imdblanguage'] ?? NULL;
+		$this->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
+		$this->photodir = $imdb_cache_values['imdbphotodir'] ?? NULL;
+		$this->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
+		$this->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
+		$this->photoroot = $imdb_cache_values['imdbphotoroot'] ?? NULL;
+		$this->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
+		$this->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
+		$this->converttozip = $imdb_cache_values['imdbconverttozip'] ?? NULL;
+		$this->usezip = $imdb_cache_values['imdbusezip'] ?? NULL;
+		$this->debug = $imdb_admin_values['imdbdebug'] ?? NULL;
 
-	################################################# Browser agent used to get data; usually, doesn't need any change
-	/** Set the default user agent (if none is detected)
-	* @attribute string user_agent
-	*/
-	$this->default_agent = 'Mozilla/5.0 (X11; U; Linux i686; en; rv:1.9.2.3) Gecko/20100101 Firefox/80.0';
-	/** Enforce the use of a special user agent
-	* @attribute string force_agent
-	*/
-	$this->force_agent = '';
-	/** Trigger the HTTP referer
-	*  This is required in some places. However, if you think you need to disable
-	*  this behaviour, do it here.
-	*/
-	$this->trigger_referer = TRUE;
+		/** Where the local IMDB images reside (look for the "showtimes/" directory)
+		*  This should be either a relative, an absolute, or an URL including the
+		*  protocol (e.g. when a different server shall deliver them)
+		* Cannot be changed in wordpress plugin
+		*/
+		$this->imdb_img_url = isset($imdb_admin_values['imdbplugindirectory']).'/pics/showtimes' ?? NULL;
+
+		################################################# Browser agent used to get data; usually, doesn't need any change
+		/** Set the default user agent (if none is detected)
+		* @attribute string user_agent
+		*/
+		$this->default_agent = 'Mozilla/5.0 (X11; U; Linux i686; en; rv:1.9.2.3) Gecko/20100101 Firefox/80.0';
+		/** Enforce the use of a special user agent
+		* @attribute string force_agent
+		*/
+		$this->force_agent = '';
+		/** Trigger the HTTP referer
+		*  This is required in some places. However, if you think you need to disable
+		*  this behaviour, do it here.
+		*/
+		$this->trigger_referer = TRUE;
 	}
 }
 
