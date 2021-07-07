@@ -1,5 +1,7 @@
 Changelog
 
+v.3.3.5
+
 v.3.3.4
 * [minor] Removed option to edit imdb-links to simplify general options. Removed these links in popup-search and popup-movies, quite useless.
 * [minor] Moved 'data options - misc' to 'general options - advanced' for more userfriendliness.
