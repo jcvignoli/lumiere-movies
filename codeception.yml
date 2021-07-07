@@ -12,20 +12,15 @@ extensions:
         - Codeception\Extension\RunFailed
 env:
     # Environment with classic firefox local
-    localfirefox:
+    firefox:
         extensions:
             enabled:
               - Codeception\Extension\RunProcess:
                   0: ./tests/geckodriver
                   sleep: 7 # seconds before processing boot, otherwise it fails sometimes
-    # Environment with remote webserver
-    remotefirefox:
-        extensions:
-            enabled:
-              - Codeception\Extension\RunProcess:
-                  0: ./tests/geckodriver
-                  sleep: 7 # seconds to process boot, otherwise it fails sometimes
+
     # WordPress specific libraries, allow many things like using admin, runs localy only
+
     # Environment with WPBrowser
     wp:
         modules:
@@ -41,7 +36,8 @@ env:
                 - Codeception\Command\GenerateWPAjax
                 - Codeception\Command\GenerateWPCanonical
                 - Codeception\Command\GenerateWPXMLRPC
-    # Environment with Firefox driver
+
+    # Environment with WPWebDriver+Firefox driver
     wpfirefox:
         modules:
              enabled:
@@ -60,7 +56,8 @@ env:
                 - Codeception\Command\GenerateWPAjax
                 - Codeception\Command\GenerateWPCanonical
                 - Codeception\Command\GenerateWPXMLRPC
-    # Environment with Chrome driver
+
+    # Environment with WPWebDriver"Chrome driver
     wpchrome:
         modules:
              enabled:

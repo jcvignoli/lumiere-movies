@@ -4,18 +4,18 @@
 
 class LumiereCest {
 
-	public function frontpageWorks(AcceptanceTester $I) {
+	public function frontpageWorks(AcceptanceRemoteTester $I) {
 		$I->wantTo('check frontpage');
 		$I->amOnPage('/');
 		$I->see('Here you are');	
 	}
 
-	public function popupMoviesCanOpen(AcceptanceTester $I, \Codeception\Scenario $scenario) {
+	public function popupMoviesCanOpen(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
 		/* const */
 		// Get url depending on the environment called in acceptance.suite.yml
 		$current_env = $scenario->current('env');
 		$config_base = \Codeception\Configuration::config(); # config in codeception.yml
-   		$config = \Codeception\Configuration::suiteSettings("acceptance", $config_base);
+   		$config = \Codeception\Configuration::suiteSettings("acceptanceRemote", $config_base);
 		$url_base = $config['env'][$current_env]['modules']['enabled']['config']['WebDriver']['url'];
 		// $url = $_ENV['TEST_SITE_WP_URL']; # more direct, but can be wrong
 
@@ -32,13 +32,13 @@ class LumiereCest {
 		$I->see('Christopher Nolan');
 	}
 
-	public function popupPersonCanOpen(AcceptanceTester $I, \Codeception\Scenario $scenario) {
+	public function popupPersonCanOpen(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
 		/* const */
 		// Get url depending on the environment called in acceptance.suite.yml
 		$current_env = $scenario->current('env');
 		$config_base = \Codeception\Configuration::config(); # config in codeception.yml
-   		$config = \Codeception\Configuration::suiteSettings("acceptance", $config_base);
-		$url_base = $config['env'][$current_env]['modules']['enabled']['config']['WebDriver']['url'];
+   		$config = \Codeception\Configuration::suiteSettings("acceptanceRemote", $config_base);
+		$url_base = $config['env'][$current_env]['modules']['enabled']['config']['WebDriver']['url']; # must be changed if run with something different than webdriver, find a way to automatise it by getting the webdriver/WPWebDriver
 
 		/* settings */
 		// popup link actor Jorge Rivero
@@ -53,7 +53,7 @@ class LumiereCest {
 		$I->see('Pajarero');
 	}
 
-	public function taxonomyPage(AcceptanceTester $I) {
+	public function taxonomyPage(AcceptanceRemoteTester $I) {
 		$I->wantTo('taxonomy person page');
 		$I->amOnPage('/2021/test-codeception/');
 		$I->click( "Tony Zarindast");

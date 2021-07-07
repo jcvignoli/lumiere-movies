@@ -1,30 +1,30 @@
-# Codeception Test Suite Configuration
+# Codeception Test Suite Configuration -> For a remote server
 #
 # Suite for acceptance tests.
 # Perform tests in browser using the WPWebDriver or WPBrowser.
 # Use WPDb to set up your initial database fixture.
 # If you need both WPWebDriver and WPBrowser tests - create a separate suite.
 
-actor: AcceptanceTester
+actor: AcceptanceRemoteTester
 modules:
     enabled:
-        - \Helper\Acceptance
+        - \Helper\AcceptanceRemote
     config:
         WPDb:
             dsn: '%TEST_SITE_DB_DSN%'
             user: '%TEST_SITE_DB_USER%'
             password: '%TEST_SITE_DB_PASSWORD%'
-            dump: 'tests/_data/lumiere_db_dump.sql'
+            dump: 'tests/_data/XXXXX.sql'
             #import the dump before the tests; this means the test site database will be repopulated before the tests.
             populate: false
             # re-import the dump between tests; this means the test site database will be repopulated between the tests.
             cleanup: false
             waitlock: 10
-            url: '%TEST_LOCAL_SITE_WP_URL%'
+            url: '%TEST_SITE_WP_URL%'
             urlReplacement: true #replace the hardcoded dump URL with the one above
             tablePrefix: '%TEST_SITE_TABLE_PREFIX%'
         WPBrowser:
-            url: '%TEST_LOCAL_SITE_WP_URL%'
+            url: '%TEST_SITE_WP_URL%'
             adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
             adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
             adminPath: '%TEST_SITE_WP_ADMIN_PATH%'
@@ -32,18 +32,7 @@ modules:
                 X_TEST_REQUEST: 1
                 X_WPBROWSER_REQUEST: 1
 env:
-   localfirefox:
-        modules:
-            enabled:
-              config:
-                 WebDriver:
-                     url: "%TEST_LOCAL_SITE_WP_URL%"
-                     browser: firefox
-                     path: ''
-                     capabilities:
-                       moz:firefoxOptions:
-                            args: ["-headless"] # Run Firefox in headless mode
-   remotefirefox:
+   firefox:
         modules:
             enabled:
               config:
@@ -59,7 +48,7 @@ env:
           enabled:
               config:
                  WPWebDriver:
-                     url: '%TEST_LOCAL_SITE_WP_URL%'
+                     url: '%TEST_SITE_WP_URL%'
                      adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
                      adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
                      adminPath: '%TEST_SITE_WP_ADMIN_PATH%'
@@ -74,7 +63,7 @@ env:
           enabled:
               config:
                  WPWebDriver:
-                     url: '%TEST_LOCAL_SITE_WP_URL%'
+                     url: '%TEST_SITE_WP_URL%'
                      adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
                      adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
                      adminPath: '%TEST_SITE_WP_ADMIN_PATH%'
