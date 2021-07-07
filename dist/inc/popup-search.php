@@ -26,11 +26,14 @@ if (class_exists("\Lumiere\Settings")) {
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
 	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
+	$config->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
+	$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
+	$config->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
 }
 
 // Enter in debug mode, for development version only
-//if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1"))
-//	lumiere_debug_display($imdb_cache_values, 'SetError', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")) 
+	lumiere_debug_display($imdb_cache_values, '', 'libxml', $config);# add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
 # Initialization of IMDBphp classes
 if (class_exists("\Imdb\TitleSearch")) 

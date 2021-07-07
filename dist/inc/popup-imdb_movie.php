@@ -21,11 +21,14 @@ if (class_exists("\Lumiere\Settings")) {
 	$imdb_admin_values = $config->get_imdb_admin_option();
 	$imdb_widget_values = $config->get_imdb_widget_option();
 	$imdb_cache_values = $config->get_imdb_cache_option();
+	$config->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
 	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
+	$config->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
+	$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
 }
 
 /* GET Vars sanitized */
@@ -36,9 +39,10 @@ $film_sanitized_for_title = isset($_GET["film"]) ? sanitize_text_field($_GET["fi
 // HTML tags to keep when using strip_tags()
 $striptags_keep = '<div><span><br><img>';
 
+
 // Enter in debug mode, for development version only
-//if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1"))
-//	lumiere_debug_display($imdb_cache_values, 'SetError', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")) 
+	lumiere_debug_display($imdb_cache_values, '', 'libxml', $config); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
 // if neither film nor mid are set, throw a 404 error
 if (empty($movieid_sanitized ) && empty($filmid_sanitized)){
@@ -208,11 +212,13 @@ if (empty($movie) ){
 	 <?php ## The picture is either taken from the movie itself or if it doesn't exist, from a standard "no exist" picture.
 		## The width value is taken from plugin settings, and added if the "thumbnail" option is unactivated
 
+	$small_picture = $movie->photo_localurl(false); // get small poster for cache
+	$big_picture = $movie->photo_localurl(true); // get big poster for cache
+	$photo_url = $small_picture ? $small_picture : $big_picture; // take the smaller first, the big if no small found
+	if ( $photo_url ) { 
 
-	if ($photo_url = $movie->photo_localurl() ) { 
-
-		echo '<a id="highslide_pic" class="highslide-image" href="'.esc_url($photo_url).'">';
-		echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="';
+		echo '<a class="highslide_pic_popup" class="highslide-image" href="'.esc_url($photo_url).'">';
+		echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="'; # loading="eager" to prevent wordpress loading lazy that doesn't go well with cache scripts
 		echo esc_url( $photo_url ).'" alt="'.esc_attr( $movie->title() ).'" '; 
 		// add width only if "Display only thumbnail" is on "no"
 		if ($imdb_admin_values['imdbcoversize'] == FALSE)
@@ -222,7 +228,7 @@ if (empty($movie) ){
 
 	} else { 
 
-		echo '<a id="highslide_pic">';
+		echo '<a class="highslide_pic_popup">';
 		echo "\n\t\t" 
 			. '<img loading="eager" class="imdbincluded-picture" src="'
 			.esc_url($imdb_admin_values['imdbplugindirectory']."pics/no_pics.gif")

@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Enter in debug mode
 if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
-	lumiere_debug_display($imdbOptionsw, 'SetError', ''); 
+	lumiere_debug_display($imdbOptionsw, '', '', $config); # $config comes from admin_page
 }
 
 /* vars */
@@ -86,7 +86,7 @@ if (current_user_can( 'manage_options' ) ) {
 		}
 
 		// update options
-		update_option($imdb_ft->imdbWidgetOptionsName, $imdbOptionsw);
+		update_option($config->imdbWidgetOptionsName, $imdbOptionsw);
 
 		// display confirmation message
 		echo lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
@@ -107,7 +107,7 @@ if (current_user_can( 'manage_options' ) ) {
 	if ( (isset($_POST['reset_imdbwidgetSettings'])) && check_admin_referer('imdbwidgetSettings_check', 'imdbwidgetSettings_check') ) { 
 
 		// Delete the options to reset
-		delete_option($imdb_ft->imdbWidgetOptionsName);
+		delete_option($config->imdbWidgetOptionsName);
 
 		// Display a refresh link otherwise refreshed data is not seen
 		if (!headers_sent()) {

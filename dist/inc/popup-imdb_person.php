@@ -21,16 +21,19 @@ if (class_exists("\Lumiere\Settings")) {
 	$imdb_admin_values = $config->get_imdb_admin_option();
 	$imdb_widget_values = $config->get_imdb_widget_option();
 	$imdb_cache_values = $config->get_imdb_cache_option();
+	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
 	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
-	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
+	$config->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
+	$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
+	$config->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
 }
 
 // Enter in debug mode, for development version only
-//if (is_admin() && (isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1"))
-//	lumiere_debug_display($imdb_cache_values, 'SetError', '');
+if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")) 
+	lumiere_debug_display($imdb_cache_values, '', '', $config);
 
 if (isset ($_GET["film"]))
 	$film_sanitized = sanitize_text_field( $_GET["film"] ) ?? NULL;
@@ -177,9 +180,12 @@ if (isset ($mid_sanitized)) {
                                                 <!-- star photo -->
 	<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two"><?php 		
 
-		if (($photo_url = $person->photo_localurl() ) != FALSE){ 
+		$small_picture = $person->photo_localurl(false); // get small poster for cache
+		$big_picture = $person->photo_localurl(true); // get big poster for cache
+		$photo_url = $small_picture ? $small_picture : $big_picture; // take the smaller first, the big if no small found
+		if (isset($photo_url)){ 
 
-			echo '<a id="highslide_pic" href="'.esc_url($photo_url).'">';
+			echo '<a class="highslide_pic_popup" href="'.esc_url($photo_url).'">';
 			echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="'
 				.esc_url($photo_url)
 				.'" alt="'
@@ -193,7 +199,7 @@ if (isset ($mid_sanitized)) {
 
               } else{
  
-			echo '<a id="highslide_pic">';
+			echo '<a class="highslide_pic_popup">';
 			echo "\n\t\t" 
 				. '<img loading="eager" class="imdbincluded-picture" src="'
 				.esc_url($imdb_admin_values['imdbplugindirectory']."pics/no_pics.gif")

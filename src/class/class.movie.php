@@ -82,13 +82,15 @@ class LumiereMovies {
 			if (!isset($imdb_cache_values))
 				$imdb_cache_values = $config->get_imdb_cache_option();
 
-			// change configuration of cache
+			// load configuration of cache
 			$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 			$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
 			$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
 			$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 			$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
-
+			$config->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
+			$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
+			$config->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
 		}
 
 		if (isset ($_GET["mid"])) {
@@ -450,8 +452,8 @@ class LumiereMovies {
 
 		$output="";
 
-		$photo_url = $movie->photo_localurl(); // create the normal picture for the cache refresh
-		$photo_url_sanitized = $movie->photo_localurl(false) ;
+		$photo_url = $movie->photo_localurl(true); // create the picture thumbnail for the cache refresh
+		$photo_url_sanitized = $movie->photo_localurl(false) ? $movie->photo_localurl(false) : $movie->photo_localurl(true) ;
 
 		$output .= "\n\t\t\t\t\t\t\t" . '<!-- pic -->';
 		$output .= "\n\t\t" . '<div class="imdbelementPIC">';
@@ -463,25 +465,25 @@ class LumiereMovies {
 			if ( (substr( $photo_url_sanitized, -7, -4) == "big" ) && ($imdb_admin_values['imdbpopup_highslide'] == 1) ) {
 				// value to store if previous checking is valid, call in lumiere_scripts.js
 				$highslidephotook = "ok";
-				//echo "\t\t\t" . '<a href="' . $photo_url_sanitized . '" id="highslide_pic" class="highslide" title="';
-				$output .= "\n\t\t\t" . '<a id="highslide_pic" href="' 
+				//echo "\t\t\t" . '<a href="' . $photo_url_sanitized . '" id="highslide_pic"  title="';
+				$output .= "\n\t\t\t" . '<a class="highslide_pic" href="' 
 					. $photo_url_sanitized 
 					. '" title="'
 					. esc_attr( $movie->title() ) 
 					. '">';
 
-				// loading=eager to prevent wordpress loading lazy
+				// loading=\"eager\" to prevent wordpress loading lazy that doesn't go well with cache scripts
 				$output .= "\n\t\t\t\t<img loading=\"eager\" class=\"imdbelementPICimg\" src=\"";
 
 			} else {
 
 				// no big picture found OR no highslide popup selected
-				// loading=eager to prevent wordpress lazy loading
+				// loading=\"eager\" to prevent wordpress loading lazy that doesn't go well with cache scripts
 				$output .= "\n\t\t\t".'<img loading="eager" class="imdbelementPICimg" src="';
 			}
 
 			// check if a picture exists
-			if ($photo_url_sanitized != FALSE){
+			if ($photo_url_sanitized == true){
 				// a picture exists, so show it
 				$output .= $photo_url_sanitized 
 					.'" alt="'
@@ -2162,7 +2164,7 @@ class LumiereMovies {
 		global $imdb_admin_values, $imdb_widget_values; 
 
 		$output = "";
-		$midPremierResultat_sanitized = intval( $midPremierResultat );
+		$midPremierResultat_sanitized = filter_var( $midPremierResultat, FILTER_SANITIZE_NUMBER_INT );
 
  		// if "Remove all links" option is not selected 
 		if ( ($imdb_admin_values['imdblinkingkill'] == false ) && ($imdb_widget_values['imdbwidgetsource'] == true ) ) {
@@ -2170,11 +2172,13 @@ class LumiereMovies {
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
 			$output .= esc_html__('Source', 'lumiere-movies');
 			$output .= ':</span>';
-			$output .= esc_url( lumiere_source_imdb($midPremierResultat) );
 
 			$output .= "\n\t\t\t\t" . '<img class="imdbelementSOURCE-picture" width="33" height="15" src="' . esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/imdb-link.png" ) . '" />';
-			$output .= '<a class="link-incmovie-sourceimdb" title="'.esc_html__("Go to IMDb website for this movie", 'lumiere-movies').'" href="'. esc_url( "https://".$imdb_admin_values['imdbwebsite'] . '/title/tt' .$midPremierResultat_sanitized ) . '" >';
-			$output .= '&nbsp;&nbsp;' . esc_html__("IMDb's page for this movie", 'lumiere-movies') . '</a>';
+			$output .= 	'<a class="link-incmovie-sourceimdb" title="'
+					.esc_html__("Go to IMDb website for this movie", 'lumiere-movies').'" href="'
+					. esc_url( 'https://www.imdb.com/title/tt' .$midPremierResultat_sanitized ) . '" >'
+					.'&nbsp;&nbsp;' 
+					. esc_html__("IMDb's page for this movie", 'lumiere-movies') . '</a>';
 
  		} 
 

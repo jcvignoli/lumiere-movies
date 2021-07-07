@@ -22,10 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 function lumiere_admin_pages() {
 
 	if (class_exists("\Lumiere\Settings")) {
-		$imdb_ft = new \Lumiere\Settings();
-		$imdbOptions = $imdb_ft->get_imdb_admin_option();
-		$imdbOptionsw = $imdb_ft->get_imdb_widget_option();
-		$imdbOptionsc = $imdb_ft->get_imdb_cache_option();
+		$config = new \Lumiere\Settings();
+		$imdbOptions = $config->get_imdb_admin_option();
+		$imdbOptionsw = $config->get_imdb_widget_option();
+		$imdbOptionsc = $config->get_imdb_cache_option();
 	}
 
 	//----------------------------------------------------------display the admin settings options ?>

@@ -17,7 +17,7 @@ hs.skin.contentWrapper =
 	'<div class="highslide-footer highslide-resize" style="background-color:' + popup_border_colour + ';"><div>';
 
 hs.registerOverlay(
-/* bad javascrit, inline should be avoided; next line, and the function hs.Expander below, coupled to lumiere_script's jquery, simulate a click by sending an info once a div is clicked, then retried in lumiere_script.*/
+/* bad javascript, inline should be avoided; next line, and the function hs.Expander below, coupled to lumiere_script's jquery, simulate a click by sending an info once a div is clicked, then retried in lumiere_script.*/
 	{ html: '<div class=\"closebutton\" onclick=\"return hs.close(this)\" title=\"Close\"></div>',
 
 /* doesn't work	{ html: '<div class=\"closebutton\" title=\"Close\"></div>',*/
