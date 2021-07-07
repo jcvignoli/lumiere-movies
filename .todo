@@ -6,6 +6,7 @@ v3.3.5
 23. write a class for the settings page
 24. add \Imdb\TitleSearch::TV_SERIES in searches to find also tv shows?
 25. bug widget in case of polylang? Seems like the metadata doesn't get populated. Same for taxonomy. For pages in english?
+-> try to get the data from the original version
 
 
 v3.3.4
