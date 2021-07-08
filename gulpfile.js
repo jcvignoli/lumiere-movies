@@ -2,7 +2,7 @@
 ** When "build" Files are concatened, minified, copied from src to dist, then uploaded to the main server by ssh
 ** Rsync available to syncronize it all
 ** Errors notified (notify)
-** Can use external parameters to modify tasks behaviour (--clean yes, --rsyncnodry yes, --ssh yes)
+** Can use external parameters to modify tasks behaviour (--clean yes, --nodry yes, --ssh yes)
 ** Using gulp-load-plugins to load plugins on demand
 ** Copying taks must be run --ssh yes to upload to ssh external server
 **/
@@ -51,11 +51,11 @@ var errorHandler = function(error) {				/* handle and display errors with notify
 // Constant to get from the command-line "--rsync nodry" for rsync task or "--build clean" for build task or "--ssh yes" for running building tasks with ssh upload
 var arg = (argList => {
 
-	let arg = {}, rsyncnodry, clean, ssh, opt, thisOpt, curOpt;
+	let arg = {}, nodry, clean, ssh, opt, thisOpt, curOpt;
 
-	for (rsyncnodry = 0; rsyncnodry < argList.length; rsyncnodry++) {
+	for (nodry = 0; nodry < argList.length; nodry++) {
 
-		thisOpt = argList[rsyncnodry].trim();
+		thisOpt = argList[nodry].trim();
 		opt = thisOpt.replace(/^\-+/, '');
 
 		if (opt === thisOpt) {
@@ -376,8 +376,8 @@ exports.lint = function lint(cb) {
 exports.rsync = function rsync() {
 
 	// Notify the user how to run for avoiding a dryrun
-	const rsyncmsg = "** Notice: Run with '--rsyncnodry yes' for actual syncronization **";
-	if (arg.rsyncnodry != "yes") {
+	const rsyncmsg = "** Notice: Run with '--nodry yes' for actual syncronization **";
+	if (arg.nodry != "yes") {
 	 	console.dir( rsyncmsg );
 		plugins.nodeNotifier.notify({ 
 			title: 'Rsync task:', 
@@ -388,7 +388,7 @@ exports.rsync = function rsync() {
 
 	return gulp.src( paths.base.dist )
 		.pipe(plugins.plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
-		.pipe(plugins.if(arg.rsyncnodry == "yes", 		/* function without dry-run, correct argument passed */ 
+		.pipe(plugins.if(arg.nodry == "yes", 		/* function without dry-run, correct argument passed */ 
 			plugins.rsync({
 				root: paths.rsync.src,
 				hostname: ext_cred.mainserver.hostname,
@@ -397,10 +397,11 @@ exports.rsync = function rsync() {
 				incremental: true,
 				progress: true,
 				compress: true,
+				clean: true,
 				exclude: [ paths.rsync.excludepath ]
 			})
 		))
-		.pipe(plugins.if(arg.rsyncnodry != "yes", 		/* function with dry-run, no argument passed */
+		.pipe(plugins.if(arg.nodry != "yes", 		/* function with dry-run, no argument passed */
 			plugins.rsync({
 				root: paths.rsync.src,
 				hostname: ext_cred.mainserver.hostname,
@@ -408,6 +409,7 @@ exports.rsync = function rsync() {
 				recursive: true,
 				incremental: true,
 				progress: true,
+				clean: true,
 				dryrun: true,
 				compress: true,
 				exclude: [ paths.rsync.excludepath ]
