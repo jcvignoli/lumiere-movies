@@ -7,6 +7,7 @@ v.3.4
 * [technical] Passing all Lumiere options to imdbphp libraries through the $config. Language and cache_expire were missing in admin, popups and class.movie pages.
 * [technical] Abandonned function lumiere_source_imdb() in functions.php, merged it in class.movie.php
 * [technical] Reincluded debug function in all pages (admin+frontpage)
+* [technical] Procedure to update options reviewed. created class.update-options, check how many updates have been fired, the version, and runs on any page. Debug text included.
 * [bug] In admin cache, pictures (big+small) were not deleted when refreshing/deleting movies.
 * [bug] Source imdb link was buggy due to intval(). Using the reliable php filter_var now.
 * [bug] Layout with max-width:XX% removed from container classes in lumiere_admin.css

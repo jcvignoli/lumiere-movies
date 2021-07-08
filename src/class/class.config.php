@@ -33,6 +33,7 @@ define('IMDBABOUTENGLISH', IMDBBLOGENGLISH . '/presentation-of-jean-claude-vigno
 define('IMDBPHP_CONFIG', IMDBLTABSPATH . 'config.php');
 $lumiere_version_recherche = file_get_contents( IMDBLTABSPATH . 'README.txt');
 $lumiere_version = preg_match('#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match);
+
 # more constants at the end of the file
 
 
@@ -49,94 +50,121 @@ class Settings extends Send_config {
 	var $imdbCacheOptionsName = "imdbCacheOptions";
 
 	function __construct() {
+
 		$this->get_imdb_admin_option();
 		$this->get_imdb_widget_option();
 		$this->get_imdb_cache_option();
+
 	}
 
 	//Returns an array of admin options
 	function get_imdb_admin_option() {
 
-	$imdbAdminOptions = array(
-	#--------------------------------------------------=[ Basic ]=--
-	'blog_adress' => get_bloginfo('url'),
-	'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
-	'imdbpluginpath' => IMDBLTABSPATH,
-	'imdburlpopups' => '/imdblt/',
-	'imdbkeepsettings' => true,
-	'imdburlstringtaxo' => 'imdblt_',
-	'imdbwebsite' => "www.imdb.com",
-	'imdbcoversize' => false,
-	'imdbcoversizewidth' => '100',
-	#--------------------------------------------------=[ Technical ]=--
+		$imdbAdminOptions = array(
 
-	'imdb_utf8recode'=> true,
-	'imdbmaxresults' => 10,
-	'imdbpopuptheme' => 'white',
-	'popupLarg' => '540',
-	'popupLong' => '350',
-	'imdbintotheposttheme' => 'grey',
-	'imdblinkingkill' => false,
-	'imdbautopostwidget' => false,
-	'imdbimgdir' => 'pics/',
-	'imdblanguage' => "en-EN",
-	'imdbdirectsearch' => true, /* this option is not available in the admin, therefore it's always on */
-	/*'imdbsourceout' => false,*/
-	'imdbdebug' => false,
-	'imdbwordpress_bigmenu'=>false,
-	'imdbwordpress_tooladminmenu'=>true,
-	'imdbpopup_highslide'=>true,
-	'imdbtaxonomy'=> true,
-	);
-	$imdbAdminOptions['imdbplugindirectory'] = $imdbAdminOptions['blog_adress'] . $imdbAdminOptions['imdbplugindirectory_partial'];
+			#--------------------------------------------------=[ Basic ]=--
+			'blog_adress' => get_bloginfo('url'),
+			'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
+			'imdbpluginpath' => IMDBLTABSPATH,
+			'imdburlpopups' => '/imdblt/',
+			'imdbkeepsettings' => true,
+			'imdburlstringtaxo' => 'imdblt_',
+			'imdbwebsite' => "www.imdb.com",
+			'imdbcoversize' => false,
+			'imdbcoversizewidth' => '100',
+			#--------------------------------------------------=[ Technical ]=--
 
-	$imdbOptions = get_option($this->imdbAdminOptionsName);
+			'imdb_utf8recode'=> true,
+			'imdbmaxresults' => 10,
+			'imdbpopuptheme' => 'white',
+			'popupLarg' => '540',
+			'popupLong' => '350',
+			'imdbintotheposttheme' => 'grey',
+			'imdblinkingkill' => false,
+			'imdbautopostwidget' => false,
+			'imdbimgdir' => 'pics/',
+			'imdblanguage' => "en-EN",
+			'imdbdirectsearch' => true, /* this option is not available in the admin, therefore it's always on */
+			/*'imdbsourceout' => false,*/
+			'imdbdebug' => false,
+			'imdbwordpress_bigmenu'=>false,
+			'imdbwordpress_tooladminmenu'=>true,
+			'imdbpopup_highslide'=>true,
+			'imdbtaxonomy'=> true,
+			'imdbHowManyUpdates'=> 1, # for use in class.update-options.php
+			'imdbSerieMovies' => 'movies', /* options: by movies, series, moviesandseries */
+
+		);
+		$imdbAdminOptions['imdbplugindirectory'] = $imdbAdminOptions['blog_adress'] 
+									. $imdbAdminOptions['imdbplugindirectory_partial'];
+
+		$imdbOptions = get_option($this->imdbAdminOptionsName);
+
 		if (!empty($imdbOptions)) {
-			foreach ($imdbOptions as $key => $option)
-				$imdbAdminOptions[$key] = $option;
-			// Since this value is outside of the main array, special treatment
-			$imdbAdminOptions['imdbplugindirectory'] = $imdbAdminOptions['blog_adress'] .$imdbAdminOptions['imdbplugindirectory_partial'];
 
+			foreach ($imdbOptions as $key => $option) {
+				$imdbAdminOptions[$key] = $option;
+			}
+
+			// Agregate two var to construct 'imdbplugindirectory'
+			$imdbAdminOptions['imdbplugindirectory'] = $imdbAdminOptions['blog_adress'] 
+										. $imdbAdminOptions['imdbplugindirectory_partial'];
 		}
+
 		update_option($this->imdbAdminOptionsName, $imdbAdminOptions);
+
 		return $imdbAdminOptions;
+
 	} // end function get_imdb_admin_option ()
 
 
 	//Returns an array of cache options
 	function get_imdb_cache_option() {
 
-	$imdbCacheOptions = array(
-	#--------------------------------------------------=[ Cache ]=--
-		'imdbcachedir_partial' => 'wp-content/cache/lumiere/',
-		'imdbstorecache' => true,
-		'imdbusecache' => true,
-		'imdbconverttozip' => true,
-		'imdbusezip' => true,
-		'imdbcacheexpire' => "2592000", // one month
-		'imdbcachedetails'=> true,
-		'imdbcachedetailsshort'=> false,
-	);
-	$imdbCacheOptions['imdbcachedir'] = ABSPATH . $imdbCacheOptions['imdbcachedir_partial'];
-	$imdbCacheOptions['imdbphotoroot'] = $imdbCacheOptions['imdbcachedir'] . 'images/';
-	$imdbCacheOptions['imdbphotodir'] = content_url() . '/cache/lumiere/images/';
+		$imdbCacheOptions = array(
+		#--------------------------------------------------=[ Cache ]=--
+			'imdbcachedir_partial' => 'wp-content/cache/lumiere/',
+			'imdbstorecache' => true,
+			'imdbusecache' => true,
+			'imdbconverttozip' => true,
+			'imdbusezip' => true,
+			'imdbcacheexpire' => "2592000", // one month
+			'imdbcachedetails'=> true,
+			'imdbcachedetailsshort'=> false,
+		);
 
-	$imdbOptionsc = get_option($this->imdbCacheOptionsName);
-	$imdbOptions = get_option($this->imdbAdminOptionsName);
+		$imdbCacheOptions['imdbcachedir'] = ABSPATH . $imdbCacheOptions['imdbcachedir_partial'];
+		$imdbCacheOptions['imdbphotoroot'] = $imdbCacheOptions['imdbcachedir'] . 'images/';
+		$imdbCacheOptions['imdbphotodir'] = content_url() . '/cache/lumiere/images/';
+
+		$imdbOptionsc = get_option($this->imdbCacheOptionsName);
+		$imdbOptions = get_option($this->imdbAdminOptionsName);
+
 		if (!empty($imdbOptionsc)) {
-			foreach ($imdbOptionsc as $key => $option)
-				$imdbCacheOptions[$key] = $option;
 
-			// Since these values are outside of the main array, special treatment
+			foreach ($imdbOptionsc as $key => $option) {
+				$imdbCacheOptions[$key] = $option;
+			}
+
+			// Agregate two vars to construct 'imdbcachedir
 			$imdbCacheOptions['imdbcachedir'] =  ABSPATH . $imdbCacheOptions['imdbcachedir_partial'];
+
+			// Agregate two vars to construct 'imdbphotoroot
 			$imdbCacheOptions['imdbphotoroot'] =  $imdbCacheOptions['imdbcachedir'] . 'images/';
 		}
-		if (!empty($imdbOptions))
-			// Since this value is outside of the main array, special treatment
-			$imdbCacheOptions['imdbphotodir'] =  $imdbOptions['blog_adress'] . '/' . $imdbCacheOptions['imdbcachedir_partial'] . 'images/';
+		if (!empty($imdbOptions)){
+
+			// Agregate four vars to construct 'imdbphotodir'
+			$imdbCacheOptions['imdbphotodir'] =  $imdbOptions['blog_adress'] 
+									. '/' 
+									. $imdbCacheOptions['imdbcachedir_partial'] 
+									. 'images/';
+		}
 
 		update_option($this->imdbCacheOptionsName, $imdbCacheOptions);
+
 		return $imdbCacheOptions;
+
 	} // end function get_imdb_cache_option ()
 
 	//Returns an array of widget options
@@ -144,6 +172,7 @@ class Settings extends Send_config {
 	#--------------------------------------------------=[ Widget ]=--
 
 	$imdbWidgetOptions = array(
+
 		'imdbwidgettitle' => true,
 		'imdbwidgetpic' => true,
 		'imdbwidgetruntime' => false,
@@ -164,7 +193,6 @@ class Settings extends Send_config {
 		'imdbwidgetgoofs' => false,
 		'imdbwidgetgoofsnumber' => false,
 		'imdbwidgetcomments' => false,
-		/*'imdbwidgetcommentsnumber' => false, -> now retrieves only one comment */
 		'imdbwidgetquotes' => false,
 		'imdbwidgetquotesnumber' => false,
 		'imdbwidgettaglines' => false,
@@ -196,15 +224,20 @@ class Settings extends Send_config {
 		'imdbtaxonomyactor' => false,
 		'imdbtaxonomywriter' => false,
 		'imdbtaxonomytitle' => false,
+
 	);
 
 	$imdbOptionsw = get_option($this->imdbWidgetOptionsName);
+
 		if (!empty($imdbOptionsw)) {
 			foreach ($imdbOptionsw as $key => $option)
 				$imdbWidgetOptions[$key] = $option;
 		}
+
 		update_option($this->imdbWidgetOptionsName, $imdbWidgetOptions);
+
 		return $imdbWidgetOptions;
+
 	} // end function get_imdb_widget_option ()
 
 } //End lumiere_settings_conf class
