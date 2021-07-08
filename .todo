@@ -1,7 +1,18 @@
-v3.3.5
+v3.4.1
+
+
+
+24. add \Imdb\TitleSearch::TV_SERIES in searches to find also tv shows? Add a new config var for selection
+25. bug widget in case of polylang? Seems like the metadata doesn't get populated. Same for taxonomy. For pages in english?
+-> try to get the data from the original version
+22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
+23. write a class for the admin pages using WordPress API
+13. Implement alternative to highslide with a jquery modal window
+26. bug in imdbphp library 6.5 with retrieving small poster images, waiting on the next imdbphp release to see if fixed
+
+v3.4
 OK--- 1. bug In admin cache, pictures (big+small) were not deleted when refreshing/deleting movies.
 OK--- 2. technical Added debug imdbphp to lumiere_debug function
-
 OK--- 3. technical Passing all Lumiere options to imdbphp libraries through the $config. Language and cache_expire were missing in admin, popups and class.movie pages.
 OK--- 4. minor lumiere search gutenberg now searches also TV series
 OK--- 5. technical abandonned function lumiere_source_imdb() in functions.php, merged it in class.movie.php
@@ -10,18 +21,7 @@ OK--- 7. technical reincluded debug function in all pages (admin+frontpage)
 OK--- 8. bug layout with max-width:XX% removed from container classes in lumiere_admin.css
 OK--- 9. major a bug was preventing cache functions from imdbphp libraries to be fully utilised. Speed greatly improved.
 OK-- 10. bug fixed longstanding bug with highslide opening two windows for pictures in class.movie. created two js functions in lumiere_scripts dealing differently (useBox var) between with highslide_pic_popup and highslide_pic
-
-
-24. add \Imdb\TitleSearch::TV_SERIES in searches to find also tv shows? Add a new config var for selection
-10. procedure in update.options.php doesn't work if manual update
-13. Implement alternative to highslide with a jquery modal window
-22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
-23. write a class for the settings page
-25. bug widget in case of polylang? Seems like the metadata doesn't get populated. Same for taxonomy. For pages in english?
--> try to get the data from the original version
-26. bug in imdbphp library 6.5 with retrieving small poster images, waiting on the next imdbphp release to see if fixed
-
-
+OK-- 11. technical Procedure to update options reviewed. created class.update-options, check how many updates have been fired, the version, and runs on any page. Debug text included.
 
 v3.3.4
 OK--- 1. technical Not using htaccess generation anymore, all admin pages are redirected from the core. Simplification of the code.

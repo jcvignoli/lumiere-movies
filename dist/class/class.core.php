@@ -112,8 +112,8 @@ class Core {
 			// Footer actions
 			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
 
-			// On updating plugin
-			add_action( 'upgrader_process_complete', [$this, 'lumiere_on_upgrade_completed' ], 10, 2 );
+			// On updating lumiere plugin
+			add_action( 'upgrader_process_complete', [$this, 'lumiere_on_lumiere_upgrade_completed' ], 10, 2 );
 
 		}
 	}
@@ -659,9 +659,9 @@ class Core {
 	}
 
 	/**
-	17.- Run on plugin update
+	17.- Run on lumiere update
 	**/
-	function lumiere_on_upgrade_completed( $upgrader_object, $options ) {
+	function lumiere_on_lumiere_upgrade_completed( $upgrader_object, $options ) {
 
 		/* Prevent wrong user to activate the plugin */
 		if ( ! current_user_can( 'activate_plugins' ) )
@@ -686,7 +686,7 @@ class Core {
 					// flush_rewrite_rules(); # 2021 07 04 function obsolete
 
 					// Call the updating options process
-					require_once( plugin_dir_path( __DIR__ ) . 'class/update.options.php' );
+					//require_once( plugin_dir_path( __DIR__ ) . 'class/update.options.php' );# 2021 07 04 call obsolete, this is now a class automatically called
 
 				}
 			}
