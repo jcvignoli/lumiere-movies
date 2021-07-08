@@ -5,7 +5,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 4.0 \
 **Tested up to:** 5.7.1 \
-**Stable tag:** 3.3.4 \
+**Stable tag:** 3.4 \
 **Requires PHP:** 7.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -120,7 +120,7 @@ One widget only can be added per post. However, as many movies as you wish can b
 
 * TinyMCE is not working the way it should. Only basic features are available at the moment. I'm working on it.
 
-* If you are updating from the previous IMDb Link Transformer plugin, the plugin's option will be messed up. Reset Lumière! options.
+* If you are using Polylang plugin to run a multilanguage site, make sure you do not select to translate Lumière's custom taxonomies, otherwise it breaks the custom taxonomies pages.
 
 * Lumière! help section in the administration of the plugin is massively outdated.
 
@@ -132,9 +132,14 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 
 ## Changelog
 
-Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.txt "latest changelog") to find out the latest developments. Or for even more extensive and recent changes available at my [GIT repository](https://github.com/jcvignoli/lumiere-movies "GIT repository").
+Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.txt "latest changelog") to find out the latest developments. Or for even more extensive and recent changes available at my [GIT commits](https://github.com/jcvignoli/lumiere-movies/commits/master "GIT commits").
 
 Major changes:
+
+### 3.4
+
+* Cache improvement, fixed longstanding bugs, admin design ameliorated, popups design ameliorated, lumière variables are now automatically updated, code simplification (notably droped htaccess generation), taxonomy pages for people created (huge boost for reasons of using taxonomy). Updated to imdbphp 7.0 library.
+* Due to recent changes on IMDb website, the new imdbphp library has been rewritten. You must clear your cache folder to make sure the new pages are downloaded, as the olde pages are no longer supported. Just go to the admin panel, go to Lumière plugin settings, then 'cache management' panel -> 'manage cache', click on 'delete all cache', and you're done.
 
 ### 3.3
 

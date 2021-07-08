@@ -8,7 +8,7 @@ v3.4.1
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the admin pages using WordPress API
 13. Implement alternative to highslide with a jquery modal window
-26. bug in imdbphp library 6.5 with retrieving small poster images, waiting on the next imdbphp release to see if fixed
+
 
 v3.4
 OK--- 1. bug In admin cache, pictures (big+small) were not deleted when refreshing/deleting movies.
@@ -22,6 +22,7 @@ OK--- 8. bug layout with max-width:XX% removed from container classes in lumiere
 OK--- 9. major a bug was preventing cache functions from imdbphp libraries to be fully utilised. Speed greatly improved.
 OK-- 10. bug fixed longstanding bug with highslide opening two windows for pictures in class.movie. created two js functions in lumiere_scripts dealing differently (useBox var) between with highslide_pic_popup and highslide_pic
 OK-- 11. technical Procedure to update options reviewed. created class.update-options, check how many updates have been fired, the version, and runs on any page. Debug text included.
+OK-- 12. major updated to imdbphp 7.0 library
 
 v3.3.4
 OK--- 1. technical Not using htaccess generation anymore, all admin pages are redirected from the core. Simplification of the code.
