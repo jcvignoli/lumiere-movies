@@ -53,6 +53,7 @@ class Core {
 
 					}
 				} );
+
 			}
 
 			/* ## function deactivated upon wordpress plugin team request
@@ -775,25 +776,30 @@ class Core {
 				register_taxonomy($imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy, array('page','post'), 
 					array( 
 		/* remove metaboxes from edit interface, keep the menu of post */
-		'show_ui'                    => true,
-		'show_in_quick_edit'         => false,
-		'meta_box_cb'                => false,
+		'show_ui'			=> true,		/* whether to manage taxo in UI */
+		'show_in_quick_edit'		=> false,		/* whether to show taxo in edit interface */
+		'meta_box_cb'			=> false,		/* whether to show taxo in metabox */
 		/* other settings */
-		'hierarchical' => false, 
-		'label' => esc_html__("Lumière ".$filter_taxonomy, 'lumiere-movies'), 
-		'query_var' => $imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy, 
-		'rewrite' => array( 'slug' => $imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy ) 
+		'hierarchical' 		=> false, 
+		'public' 			=> true,
+		'args'				=> array('lang' => 'en'),
+		'menu_icon' 			=> $imdb_admin_values['imdbplugindirectory'].'pics/lumiere-ico13x13.png',
+		'label' 			=> esc_html__("Lumière ".$filter_taxonomy, 'lumiere-movies'),
+		'query_var' 			=> $imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy, 
+		'rewrite' 			=> array( 'slug' => $imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy ) 
 					)  
-				) ; 
+				);
 			}
 		}
 
-		// Limit rewrites calls to taxonomy pages and admin interface
-		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], esc_url( site_url( '', 'relative' ) . '/' . $imdb_admin_values['imdburlstringtaxo']) ) ) || ( is_admin() ) ){
+		// Limit rewrites calls to taxonomy pages
+/* too much resources utilised too often
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], esc_url( site_url( '', 'relative' ) . '/' . $imdb_admin_values['imdburlstringtaxo']) ) ) {
 
 			flush_rewrite_rules();
 
 		}
+*/
 	}
 
 }

@@ -6,6 +6,7 @@ v.3.4
 * [major] Added the option to search by movies, by tv shows, by both, and by videogames
 * [major] A bug (see technical _passing all Lumière options_ )was preventing cache functions from imdbphp libraries to be fully utilised. Speed greatly improved.
 * [minor] Lumiere search gutenberg now searches also TV series. Increased number of max results to 15.
+* [minor] Added compatibility with Polylang plugin for taxonomy. Created lumiere_add_taxo_lang_to_polylang() in class.movie.php that push a lang string into polylang.
 * [technical] Added debug imdbphp to lumiere_debug function
 * [technical] Passing all Lumiere options to imdbphp libraries through the $config. Language and cache_expire were missing in admin, popups and class.movie pages.
 * [technical] Abandonned function lumiere_source_imdb() in functions.php, merged it in class.movie.php
@@ -16,6 +17,7 @@ v.3.4
 * [bug] Layout with max-width:XX% removed from container classes in lumiere_admin.css
 * [bug] Fixed longstanding bug with highslide opening two windows for pictures in class.movie. Created two js functions in lumiere_scripts.js dealing differently (useBox var) between with highslide_pic_popup and highslide_pic
 * [bug] Gutenberg main block was getting corrupted when editing a post using shortcode imdbltid (the value was not properly defined in main-block.js)
+* [bug] Creator highslide taxonomy within a post was not working
 
 v.3.3.4
 * [minor] Removed option to edit imdb-links to simplify general options. Removed these links in popup-search and popup-movies, quite useless.
