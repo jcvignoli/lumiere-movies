@@ -30,6 +30,11 @@ if (class_exists("\Lumiere\Settings")) {
 	$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
 	$config->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
 }
+// Get the type of search from local class
+if (class_exists("\Lumiere\LumiereMovies")) {
+	$imdbmoviesclass = new \Lumiere\LumiereMovies();
+	$typeSearch = $imdbmoviesclass->lumiere_select_type_search();
+}
 
 // Enter in debug mode, for development version only
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")) 
@@ -45,10 +50,7 @@ if (isset ($_GET["film"])){
 	$film_sanitized_for_title = sanitize_text_field($_GET['film']);
 }
 
-if ( (isset($_GET["searchtype"])) && ($_GET["searchtype"]=="episode") )
-	$results = $search->search ($film_sanitized, array(\Imdb\TitleSearch::TV_SERIES));
-else 
-	$results = $search->search ($film_sanitized, array(\Imdb\TitleSearch::MOVIE));
+$results = $search->search ($film_sanitized, $typeSearch );
 
 //--------------------------------------=[Layout]=---------------
 
@@ -94,7 +96,7 @@ if (empty($results) ){
 		// Limit the number of results according to value set in admin		
 		$current_line++;
 		if ( $current_line > $imdb_admin_values['imdbmaxresults']){
-			echo '</div>';echo '<div align="center"><i>' . esc_html__('Maximum of results reached.', 'lumiere-movies') . '</div>'; wp_footer(); echo '</i></body></html>';exit();}
+			echo '</div>';echo '<div align="center"><i>' . esc_html__('Maximum of results reached. You can increase it in admin options.', 'lumiere-movies') . '</div>'; wp_footer(); echo '</i></body></html>';exit();}
 
 		echo "\n<div class='lumiere_display_flex lumiere_align_center'>";
 	

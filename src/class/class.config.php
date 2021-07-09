@@ -92,7 +92,7 @@ class Settings extends Send_config {
 			'imdbpopup_highslide'=>true,
 			'imdbtaxonomy'=> true,
 			'imdbHowManyUpdates'=> 1, # for use in class.update-options.php
-			'imdbSerieMovies' => 'movies', /* options: by movies, series, moviesandseries */
+			'imdbseriemovies' => 'movies+series', /* options: by movies, series, movies+series, videogames */
 
 		);
 		$imdbAdminOptions['imdbplugindirectory'] = $imdbAdminOptions['blog_adress'] 

@@ -1,14 +1,15 @@
 v3.4.1
 
+replicate in popups
 
-
-24. add \Imdb\TitleSearch::TV_SERIES in searches to find also tv shows? Add a new config var for selection
 25. bug widget in case of polylang? Seems like the metadata doesn't get populated. Same for taxonomy. For pages in english?
 -> try to get the data from the original version
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the admin pages using WordPress API
 13. Implement alternative to highslide with a jquery modal window
-
+14. remove lumiere_create_taxonomy from functions.php if unused
+15. add limit number for producers and akas
+16. check bug with gutenberg movie imdbltid qui semble se corrompre lorsqu'on ouvre l'édition
 
 v3.4
 OK--- 1. bug In admin cache, pictures (big+small) were not deleted when refreshing/deleting movies.
@@ -23,6 +24,8 @@ OK--- 9. major a bug was preventing cache functions from imdbphp libraries to be
 OK-- 10. bug fixed longstanding bug with highslide opening two windows for pictures in class.movie. created two js functions in lumiere_scripts dealing differently (useBox var) between with highslide_pic_popup and highslide_pic
 OK-- 11. technical Procedure to update options reviewed. created class.update-options, check how many updates have been fired, the version, and runs on any page. Debug text included.
 OK-- 12. major updated to imdbphp 7.0 library
+OK-- 13. technical taxonomy in class.movies is now a function, easier to maintain and include special functions
+OK-- 14. major added the option to search by movies, by tv shows, by both, and by videogames
 
 v3.3.4
 OK--- 1. technical Not using htaccess generation anymore, all admin pages are redirected from the core. Simplification of the code.

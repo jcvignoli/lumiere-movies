@@ -319,6 +319,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 	<div class="inside imblt_border_shadow">
 
 		<div class="lumiere_display_flex lumiere_flex_make_responsive">
+
 			<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
 
 				<label for="imdb_imdblanguage"><?php esc_html_e( 'Search language', 'lumiere-movies'); ?></label><br /><br />
@@ -331,6 +332,22 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<div class="explain"><?php esc_html_e( 'Language used for the movie search. Very usefull for a non-English blog using Lumière! as a widget.', 'lumiere-movies'); ?>
 					<br /><br />
 					<?php esc_html_e( 'Default:','lumiere-movies'); ?> "English"
+				</div>
+			</div>
+
+			<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
+
+				<label for="imdb_imdbseriemovies"><?php esc_html_e( 'Search categories', 'lumiere-movies'); ?></label><br /><br />
+				<select name="imdb_imdbseriemovies">
+					<option <?php if( ($imdbOptions['imdbseriemovies'] == "movies+series") || (empty($imdbOptions['imdbSerieMovies'])) ) echo 'selected="selected"'; ?> value="movies+series"><?php esc_html_e( 'Movies and series', 'lumiere-movies'); ?></option>
+					<option <?php if($imdbOptions['imdbseriemovies'] == "movies") echo 'selected="selected"'; ?>value="movies"><?php esc_html_e( 'Movies only', 'lumiere-movies'); ?></option>
+					<option <?php if($imdbOptions['imdbseriemovies'] == "series") echo 'selected="selected"'; ?>value="series"><?php esc_html_e( 'Series only', 'lumiere-movies'); ?></option>
+					<option <?php if($imdbOptions['imdbseriemovies'] == "games") echo 'selected="selected"'; ?>value="videogames"><?php esc_html_e( 'Video games only', 'lumiere-movies'); ?></option>
+				</select>
+
+				<div class="explain"><?php esc_html_e( 'What type of movies to search, such as movies, series (for TV Shows), movies, series, and videogames.', 'lumiere-movies'); ?>
+					<br /><br />
+					<?php esc_html_e( 'Default:','lumiere-movies'); ?> "Movies and series"
 				</div>
 			</div>
 

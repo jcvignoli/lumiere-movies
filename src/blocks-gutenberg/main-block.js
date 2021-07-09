@@ -23,6 +23,7 @@
 	*/
 
 	var intro_words = i18n.__( 'Enter the name or the IMDb ID movie' , 'lumiere-movies') ;
+	var options_list = [{value: 'imdblt'},{value: 'imdbltid'}];
 	var empty = '';
 
 	const iconLumiere = el('svg', { width: 35, height: 35, viewBox: "0 0 200 200" },
@@ -37,11 +38,12 @@
 		description: i18n.__('Insert a series of details related to a movie in your post.', 'lumiere-movies'),		
 		icon: iconLumiere,
 		category: 'embed',
-		keywords: [ 'embed', 'inside post', 'imdb', 'movies', 'film' ],
+		keywords: [ 'embed', 'lumiere', 'imdb', 'movies', 'film' ],
 
 		attributes: {
 			lumiere_imdblt_select: {
 				type: 'array',
+				option: options_list, /* doesn't help to validate the list, bug still here */
 				default: 'imdblt'
 			},
 			content: {
@@ -79,9 +81,8 @@
 							+ '<br />'
 							+ i18n.__( 'You can also click on this link to get the' , 'lumiere-movies') 
 							+ ' <a data-lumiere_admin_popup="yes" ' 
-							+ 'onclick="window.open(\''+ lumiere_admin_vars.wordpress_admin_path + 'lumiere/search/?gutenberg=yes\', \'_blank\', \'location=yes,height=400,width=500,scrollbars=yes,status=yes\');" '
+							+ 'onclick="window.open(\''+ lumiere_admin_vars.wordpress_admin_path + 'lumiere/search/\', \'_blank\', \'location=yes,height=400,width=500,scrollbars=yes,status=yes\');" '
 							+ 'class="linkincmovie link-imdblt-highslidepeople highslide" '
-							//+ 'href="'+ lumiere_admin_vars.imdb_path+'inc/gutenberg-search.php?gutenberg=yes" ' 
 							+ 'target="_blank">'
 							+ i18n.__( 'IMDb movie id' , 'lumiere-movies') 
 							+ '</a> ' + i18n.__( 'and insert it.' , 'lumiere-movies'),
@@ -101,10 +102,11 @@
 							},
 							el( 'select', {
 								value: props.attributes.lumiere_imdblt_select,
-								onChange:  function updateType( event ) {
-							// reset the text field when changing the option
-							props.setAttributes( { content: empty });
 
+								onChange:  function updateType( event ) {
+								/* deactivated
+							// reset the text field when changing the option
+							props.setAttributes( { content: empty });*/
 							props.setAttributes({lumiere_imdblt_select: event.target.value });
 									},
 							  	},
