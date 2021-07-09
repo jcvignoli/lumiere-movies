@@ -47,29 +47,7 @@ if ( ! function_exists('lumiere_isEmptyDir')){
 	}
 } 
 
-/**
- * Remove an html link
- * @param string $toremove Data wherefrom remove every html link
- */
 
-if ( ! function_exists('lumiere_remove_link')){
-	function lumiere_remove_link ($toremove) {
-		$toremove = preg_replace("/<a(.*?)>/", "", $toremove);
-		return $toremove;
-	}
-}
-
-/**
- * Create an html link for taxonomy
- */
-
-if ( ! function_exists('lumiere_make_taxonomy_link')){
-	function lumiere_make_taxonomy_link ($taxonomy) {
-		$taxonomy = preg_replace("/\s/", "-", $taxonomy);# replace space by hyphen
-		$taxonomy = strtolower($taxonomy); # convert to small characters
-		return $taxonomy;
-	}
-}
 /**
  * Sanitize an array
  * 
@@ -86,26 +64,6 @@ if ( ! function_exists('lumiere_recursive_sanitize_text_field')){
 		 }
 	    }
 	    return $array;
-	}
-}
-/**
- * Convert an imdb link to a highslide/classic popup link (called 
- * @param string $convert Link to convert into popup highslide link
- */
-
-if ( ! function_exists('lumiere_convert_txtwithhtml_into_popup_people')){
-	function lumiere_convert_txtwithhtml_into_popup_people ($convert) {
-		global $imdb_admin_values;
-
-		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup
-				$result = '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . "\${6}" . '" title="' . esc_html__("open a new window with IMDb informations", 'lumiere-movies') . '">';
-		} else {						// classic popup
-		    		$result = '<a class="link-imdblt-classicpeople" data-classicpeople="' . "\${6}" . '" title="' . esc_html__("open a new window with IMDb informations", 'lumiere-movies') . '">';
-		}
-
-		$convert = preg_replace("~(<a )((href=)(.+?))(nm)([[:alnum:]]*)\/((.+?)\">)~", $result, $convert);
-
-		return $convert;
 	}
 }
 
@@ -178,90 +136,6 @@ if ( ! function_exists('lumiere_array_key_exists_wildcard')){
 	    if ( $return == 'key-value' )
 		 return array_intersect_key( $array, array_flip( $result ) );
 	    return $result;
-	}
-}
-
-/**
- * Count me function
- * allows movie total count (how many time a movie is called by plugin
- *
- */
-
-if ( ! function_exists('lumiere_count_me')){
-	function lumiere_count_me($thema, &$count_me_siffer) {
-		global $count_me_siffer, $test;
-		$count_me_siffer++;
-		$test[$count_me_siffer] = $thema;
-		$ici=array_count_values($test);
-
-		if ($ici[$thema] < 2) 
-			return "nomore";
-	}
-}
-
-
-/**
- * Highslide popup function
- * constructs a HTML link to open a popup with highslide for searching a movie (using js/lumiere_scripts.js)
- * (called from lumiere-movies.php)
- */
-
-if ( ! function_exists('lumiere_popup_highslide_film_link')){
-	function lumiere_popup_highslide_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
-		global $imdb_admin_values;
-			
-		if (! $popuplarg )
-			$popuplarg=$imdb_admin_values["popupLarg"];
-
-		if (! $popuplong )
-			$popuplong=$imdb_admin_values["popupLong"];
-
-		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
-
-		return $parsed_result;
-	}
-}
-
-/**
- * Classical popup function
- * constructs a HTML link to open a popup for searching a movie (using js/lumiere_scripts.js)
- * (called from lumiere-movies.php)
- */
-
-if ( ! function_exists('lumiere_popup_classical_film_link')){
-	function lumiere_popup_classical_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
-		global $imdb_admin_values;
-		
-		if (! $popuplarg )
-			$popuplarg=$imdb_admin_values["popupLarg"];
-
-		if (! $popuplong )
-			$popuplong=$imdb_admin_values["popupLong"];
-
-		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
-		
-		return $parsed_result;
-	}
-}
-
-/** OBSOLETE, replaced by lumiere_name_htmlize()
- * HTMLizing function
- * transforms movie's name in a way to be able to be searchable (ie "ô" becomes "&ocirc;") 
- * ----> should use a wordpress dedicated function instead, like esc_url() ?
- */
-
-if ( ! function_exists('lumiere_htmlize')){
-	function lumiere_htmlize ($link) {
-	    // a. quotes escape
-	    $lienhtmlize = addslashes($link);      
-	    // b.converts db to html -> no more needed
-	    //$lienhtmlize = htmlentities($lienhtmlize,ENT_NOQUOTES,"UTF-8");
-	    // c. regular expression to convert all accents; weird function...
-	    $lienhtmlize = preg_replace('/&(?!#[0-9]+;)/s', '&amp;', $lienhtmlize);
-	    // d. turns spaces to "+", which allows titles including several words
-	    $lienhtmlize = str_replace(array(' '), array('+'), $lienhtmlize);
-	    
-	    return $lienhtmlize; 
 	}
 }
 

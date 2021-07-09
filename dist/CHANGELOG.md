@@ -17,7 +17,7 @@ v.3.4
 * [bug] Layout with max-width:XX% removed from container classes in lumiere_admin.css
 * [bug] Fixed longstanding bug with highslide opening two windows for pictures in class.movie. Created two js functions in lumiere_scripts.js dealing differently (useBox var) between with highslide_pic_popup and highslide_pic
 * [bug] Gutenberg main block was getting corrupted when editing a post using shortcode imdbltid (the value was not properly defined in main-block.js)
-* [bug] Creator highslide taxonomy within a post was not working
+* [bug] Creator highslide version within a post wasn't working
 
 v.3.3.4
 * [minor] Removed option to edit imdb-links to simplify general options. Removed these links in popup-search and popup-movies, quite useless.

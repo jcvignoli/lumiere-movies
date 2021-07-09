@@ -141,10 +141,14 @@ class Core {
 
 		// link construction
 
-		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup
-			$link_parsed = lumiere_popup_highslide_film_link ($link_parsed) ;
-		} else {						// classic popup
-		    	$link_parsed = lumiere_popup_classical_film_link ($link_parsed) ;
+		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 	// highslide popup
+
+			$link_parsed = $this->lumiere_popup_highslide_film_link ($link_parsed) ;
+
+		} else {							// classic popup
+
+		    	$link_parsed = $this->lumiere_popup_classical_film_link ($link_parsed) ;
+
 		}
 
 		return $link_parsed;
@@ -159,10 +163,14 @@ class Core {
 
 		// link construction
 
-		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup
-			$link_parsed = lumiere_popup_highslide_film_link ($link_parsed) ;
-		} else {						// classic popup
-		    	$link_parsed = lumiere_popup_classical_film_link ($link_parsed) ;
+		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 	// highslide popup
+
+			$link_parsed = $this->lumiere_popup_highslide_film_link ($link_parsed) ;
+
+		} else {							// classic popup
+
+		    	$link_parsed = $this->lumiere_popup_classical_film_link ($link_parsed) ;
+
 		}
 
 		return $link_parsed;
@@ -756,8 +764,12 @@ class Core {
 		delete_option( 'imdbCacheOptions' );
 
 		# Remove cache
-		if ( (isset($imdb_cache_values['imdbcachedir'])) && (is_dir($imdb_cache_values['imdbcachedir'])) )
+		if ( (isset($imdb_cache_values['imdbcachedir'])) && (is_dir($imdb_cache_values['imdbcachedir'])) ) {
+
 			lumiere_unlinkRecursive($imdb_cache_values['imdbcachedir']);
+
+		}
+
 	}
 
 	/**
@@ -800,6 +812,44 @@ class Core {
 
 		}
 */
+	}
+
+	/** Highslide popup function
+	 ** 
+	 ** constructs a HTML link to open a popup with highslide for searching a movie (using js/lumiere_scripts.js)
+	 ** 
+	 **/
+	function lumiere_popup_highslide_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
+		global $imdb_admin_values;
+			
+		if (! $popuplarg )
+			$popuplarg=$imdb_admin_values["popupLarg"];
+
+		if (! $popuplong )
+			$popuplong=$imdb_admin_values["popupLong"];
+
+		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
+
+		return $parsed_result;
+	}
+
+	/** Classical popup function
+	 ** 
+	 ** constructs a HTML link to open a popup for searching a movie (using js/lumiere_scripts.js)
+	 ** 
+	 **/
+	function lumiere_popup_classical_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
+		global $imdb_admin_values;
+		
+		if (! $popuplarg )
+			$popuplarg=$imdb_admin_values["popupLarg"];
+
+		if (! $popuplong )
+			$popuplong=$imdb_admin_values["popupLong"];
+
+		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
+		
+		return $parsed_result;
 	}
 
 }
