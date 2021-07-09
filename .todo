@@ -2,13 +2,12 @@ v3.4.1
 
 
 
--> try to get the data from the original version
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the admin pages using WordPress API
 13. Implement alternative to highslide with a jquery modal window
-14. remove lumiere_create_taxonomy from functions.php if unused
 15. add limit number for producers and akas
 16. Push custom field text from Lumière widgets to polylang
+
 
 v3.4
 OK--- 1. bug In admin cache, pictures (big+small) were not deleted when refreshing/deleting movies.
@@ -28,6 +27,7 @@ OK-- 14. major added the option to search by movies, by tv shows, by both, and b
 OK-- 15. bug Gutenberg main block was getting corrupted when editing a post using shortcode imdbltid (the value was not properly defined in main-block.js)
 OK-- 16. minor Added compatibility with Polylang plugin for taxonomy. Created lumiere_add_taxo_lang_to_polylang() in class.movie.php that push a lang string into polylang.
 OK-- 17. bug Creator highslide version within a post wasn't working
+OK-- 18. cleaned functions.php, removed obsolete functions, transfered those pertaining to one php class only to that class
 
 v3.3.4
 OK--- 1. technical Not using htaccess generation anymore, all admin pages are redirected from the core. Simplification of the code.

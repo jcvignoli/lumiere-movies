@@ -156,7 +156,7 @@ class LumiereMovies {
 			}
 
 			// make sure only one result is displayed
-			if (lumiere_count_me($midPremierResultat, $count_me_siffer) == "nomore") {
+			if ($this->lumiere_count_me($midPremierResultat, $count_me_siffer) == "nomore") {
 
 				$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- ### Lumière! movies plugin ### -->';
 				$output .= "\n\t<div class='imdbincluded";
@@ -849,11 +849,11 @@ class LumiereMovies {
 				// if "Remove all links" option is not selected 
 				if  ($imdb_admin_values['imdblinkingkill'] == false ) { 
 					$output .= "\n\t\t\t";
-					$output .= lumiere_convert_txtwithhtml_into_popup_people ($currentquotes);
+					$output .= $this->lumiere_convert_txtwithhtml_into_popup_people ($currentquotes);
 
 				} else {
 
-					$output .= "\n\t\t". lumiere_remove_link ($currentquotes) ;
+					$output .= "\n\t\t". $this->lumiere_remove_link ($currentquotes) ;
 
 				} 
 				if ( $i < ($nbquotes -1) ) $output .= "\n\t\t\t<hr>"; // add hr to every quote but the last					
@@ -1123,21 +1123,21 @@ class LumiereMovies {
 				if  ($imdb_admin_values['imdblinkingkill'] == false ) { 
 
 					if ( (isset($soundtrack[$i]['credits'][0])) && (!empty($soundtrack[$i]['credits'][0]) ) )
-						$output .= "\n\t\t\t - <i>". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
-						$output .= " (". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][0]['desc']).") ";
+						$output .= "\n\t\t\t - <i>". $this->lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
+						$output .= " (". $this->lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][0]['desc']).") ";
 					if ( (isset($soundtrack[$i]['credits'][1])) && (!empty($soundtrack[$i]['credits'][1]) ) )
 						if ( (isset($soundtrack[$i]['credits'][1]['credit_to'])) && (!empty($soundtrack[$i]['credits'][1]['credit_to']) ) )
-							$output .= "\n\t\t\t - <i>". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
+							$output .= "\n\t\t\t - <i>". $this->lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
 						if ( (isset($soundtrack[$i]['credits'][1]['desc'])) && (!empty($soundtrack[$i]['credits'][1]['desc']) ) )
-							$output .= " (". lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['desc']).") ";
+							$output .= " (". $this->lumiere_convert_txtwithhtml_into_popup_people ($soundtrack[$i]['credits'][1]['desc']).") ";
 				} else {
 					if ( (isset($soundtrack[$i]['credits'][0])) && (!empty($soundtrack[$i]['credits'][0]) ) )
-						$output .= "\n\t\t\t - <i>". lumiere_remove_link ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
-						$output .= " (". lumiere_remove_link ($soundtrack[$i]['credits'][0]['desc']).") ";
+						$output .= "\n\t\t\t - <i>". $this->lumiere_remove_link ($soundtrack[$i]['credits'][0]['credit_to'])."</i> ";
+						$output .= " (". $this->lumiere_remove_link ($soundtrack[$i]['credits'][0]['desc']).") ";
 					if (!empty($soundtrack[$i]['credits'][1]) )
 
-						$output .= "\n\t\t\t - <i>". lumiere_remove_link ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
-						$output .= " (". lumiere_remove_link ($soundtrack[$i]['credits'][1]['desc']).") ";
+						$output .= "\n\t\t\t - <i>". $this->lumiere_remove_link ($soundtrack[$i]['credits'][1]['credit_to'])."</i> ";
+						$output .= " (". $this->lumiere_remove_link ($soundtrack[$i]['credits'][1]['desc']).") ";
 				} // end if remove popup
 
 			} 
@@ -1691,7 +1691,7 @@ print_r($creator);
 					$output .= wp_kses_post( $plot[$i], $this->allowed_html_for_escape_functions ) . "\n";
 				} else {
 
-					$output .= lumiere_remove_link ($plot[$i]). "\n";
+					$output .= $this->lumiere_remove_link ($plot[$i]). "\n";
 				} 
 
 				if ( $i < ( ($i < ($nbtotalplots -1) ) && ($i < ($nbplots -1) ) ) ) { 
@@ -1703,7 +1703,6 @@ print_r($creator);
 
 		return $output;
 	}
-
 
 
 	/* Display the credit link
@@ -1833,6 +1832,52 @@ print_r($creator);
 		return $output;
 	}
 
+
+	/** Convert an imdb link to a highslide/classic popup link
+	 ** 
+	 ** @param string $convert Link to be converted into popup highslide link
+	 **/
+
+	function lumiere_convert_txtwithhtml_into_popup_people ($convert) {
+
+		global $imdb_admin_values;
+
+		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup
+				$result = '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . "\${6}" . '" title="' . esc_html__("open a new window with IMDb informations", 'lumiere-movies') . '">';
+		} else {						// classic popup
+		    		$result = '<a class="link-imdblt-classicpeople" data-classicpeople="' . "\${6}" . '" title="' . esc_html__("open a new window with IMDb informations", 'lumiere-movies') . '">';
+		}
+
+		$convert = preg_replace("~(<a )((href=)(.+?))(nm)([[:alnum:]]*)\/((.+?)\">)~", $result, $convert);
+
+		return $convert;
+	}
+
+	/** Count me function
+	 ** allows movie total count (how many time a movie is called by plugin
+	 ** probably can be replaced by in_array()...?
+	 **/
+	function lumiere_count_me($thema, &$count_me_siffer) {
+		global $count_me_siffer, $test;
+		$count_me_siffer++;
+		$test[$count_me_siffer] = $thema;
+		$ici=array_count_values($test);
+
+		if ($ici[$thema] < 2) 
+			return "nomore";
+	}
+
+	/** Remove an html link
+	 ** 
+	 ** @param mandatory string $text text to be cleaned from every html link
+	 **/
+	function lumiere_remove_link ($text) {
+
+		$output = preg_replace("/<a(.*?)>/", "", $text);
+
+		return $output;
+
+	}
 
 	/**
 	 * Create an html link for taxonomy
