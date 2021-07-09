@@ -23,7 +23,7 @@
 	*/
 
 	var intro_words = i18n.__( 'Enter the name or the IMDb ID movie' , 'lumiere-movies') ;
-	var options_list = [{value: 'imdblt'},{value: 'imdbltid'}];
+
 	var empty = '';
 
 	const iconLumiere = el('svg', { width: 35, height: 35, viewBox: "0 0 200 200" },
@@ -42,8 +42,8 @@
 
 		attributes: {
 			lumiere_imdblt_select: {
-				type: 'array',
-				option: options_list, /* doesn't help to validate the list, bug still here */
+				type: 'string',
+				options: 'html',
 				default: 'imdblt'
 			},
 			content: {
@@ -104,14 +104,13 @@
 								value: props.attributes.lumiere_imdblt_select,
 
 								onChange:  function updateType( event ) {
-								/* deactivated
 							// reset the text field when changing the option
-							props.setAttributes( { content: empty });*/
+							props.setAttributes( { content: empty });
 							props.setAttributes({lumiere_imdblt_select: event.target.value });
 									},
 							  	},
-							el("option", {value: "imdblt" }, i18n.__("By movie's name", 'lumiere-movies') ),
-							el("option", {value: "imdbltid" }, i18n.__("By IMDb's ID", 'lumiere-movies') ),
+							el("option", {value: "imdblt", label: i18n.__("By movie title", 'lumiere-movies')} ),
+							el("option", {value: "imdbltid", label: i18n.__("By IMDb ID", 'lumiere-movies')} ),
 							)
 						),
 						el(	blockEditor.RichText,

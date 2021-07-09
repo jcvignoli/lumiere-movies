@@ -1,6 +1,6 @@
 v3.4.1
 
-replicate in popups
+
 
 25. bug widget in case of polylang? Seems like the metadata doesn't get populated. Same for taxonomy. For pages in english?
 -> try to get the data from the original version
@@ -9,7 +9,6 @@ replicate in popups
 13. Implement alternative to highslide with a jquery modal window
 14. remove lumiere_create_taxonomy from functions.php if unused
 15. add limit number for producers and akas
-16. check bug with gutenberg movie imdbltid qui semble se corrompre lorsqu'on ouvre l'édition
 
 v3.4
 OK--- 1. bug In admin cache, pictures (big+small) were not deleted when refreshing/deleting movies.
@@ -26,6 +25,7 @@ OK-- 11. technical Procedure to update options reviewed. created class.update-op
 OK-- 12. major updated to imdbphp 7.0 library
 OK-- 13. technical taxonomy in class.movies is now a function, easier to maintain and include special functions
 OK-- 14. major added the option to search by movies, by tv shows, by both, and by videogames
+OK-- 15. bug Gutenberg main block was getting corrupted when editing a post using shortcode imdbltid (the value was not properly defined in main-block.js)
 
 v3.3.4
 OK--- 1. technical Not using htaccess generation anymore, all admin pages are redirected from the core. Simplification of the code.

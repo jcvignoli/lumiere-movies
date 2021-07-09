@@ -345,7 +345,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 					<option <?php if($imdbOptions['imdbseriemovies'] == "games") echo 'selected="selected"'; ?>value="videogames"><?php esc_html_e( 'Video games only', 'lumiere-movies'); ?></option>
 				</select>
 
-				<div class="explain"><?php esc_html_e( 'What type of movies to search, such as movies, series (for TV Shows), movies, series, and videogames.', 'lumiere-movies'); ?>
+				<div class="explain"><?php esc_html_e( 'What type to use for the search, such as movies, series (for TV Shows), and videogames.', 'lumiere-movies'); ?>
 					<br /><br />
 					<?php esc_html_e( 'Default:','lumiere-movies'); ?> "Movies and series"
 				</div>
