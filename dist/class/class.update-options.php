@@ -87,7 +87,7 @@ class UpdateOptions {
 
 			// Add 'imdbSerieMovies'
 			// New option to select to search for movies, series, or both
-			if ( TRUE === $this->lumiere_add_options($config->imdbAdminOptionsName, 'imdbSerieMovies', 'movies') ) {
+			if ( TRUE === $this->lumiere_add_options($config->imdbAdminOptionsName, 'imdbseriemovies', 'movies+series') ) {
 				$output .= $this->print_debug(1, '<strong>Lumière option imdbSerieMovies successfully added.</strong>');
 			} else {
 				$output .= $this->print_debug(2, '<strong>Lumière option imdbSerieMovies could not be added.</strong>');

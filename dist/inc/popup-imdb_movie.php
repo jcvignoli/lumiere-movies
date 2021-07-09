@@ -31,6 +31,12 @@ if (class_exists("\Lumiere\Settings")) {
 	$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
 }
 
+// Get the type of search from local class
+if (class_exists("\Lumiere\LumiereMovies")) {
+	$imdbmoviesclass = new \Lumiere\LumiereMovies();
+	$typeSearch = $imdbmoviesclass->lumiere_select_type_search();
+}
+
 /* GET Vars sanitized */
 $movieid_sanitized = isset($_GET["mid"]) ? filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT) : NULL;
 $filmid_sanitized = isset($_GET["film"]) ? lumiere_name_htmlize( $_GET["film"] ) : NULL;
@@ -68,12 +74,10 @@ if ( (isset ($movieid_sanitized)) && (!empty ($movieid_sanitized)) && (!empty ($
 	$film_sanitized_for_title = sanitize_text_field($movie->title());
 
 } elseif (!empty ($config)) {
+
 	$search = new \Imdb\TitleSearch($config);
-	if ( (isset($_GET["searchtype"])) && ($_GET["searchtype"]=="episode") ) {
-		$movie = $search->search ($filmid_sanitized, array(\Imdb\TitleSearch::TV_SERIES))[0];
-	} else {
-		$movie = $search->search ($filmid_sanitized, array(\Imdb\TitleSearch::MOVIE))[0];
-	}
+	$movie = $search->search ($filmid_sanitized, $typeSearch )[0];
+
 } else {
 	esc_html_e('No config option set', 'lumiere-movies');
 	exit();
@@ -83,10 +87,7 @@ if ( (isset ($movieid_sanitized)) && (!empty ($movieid_sanitized)) && (!empty ($
 //------------------------- 1. search all results related to the name of the movie
 if (($imdb_admin_values['imdbdirectsearch'] == false ) OR ( (isset($_GET["norecursive"])) && ($_GET["norecursive"] == 'yes')) ) { 
 
-	if ( (isset($_GET["searchtype"])) && ($_GET["searchtype"]=="episode") )
-		$results = $search->search ( $filmid_sanitized, array(\Imdb\TitleSearch::TV_SERIES));
-	else 
-		$results = $search->search ( $filmid_sanitized, array(\Imdb\TitleSearch::MOVIE));
+	$results = $search->search ($filmid_sanitized, $typeSearch );
 
 do_action('wp_loaded'); // execute wordpress first codes # still useful?
 

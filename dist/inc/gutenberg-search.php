@@ -26,6 +26,7 @@ global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
 // Start config class for $config in below Imdb\Title class calls
 if (class_exists("\Lumiere\Settings")) {
+
 	$config = new \Lumiere\Settings();
 	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
@@ -35,6 +36,12 @@ if (class_exists("\Lumiere\Settings")) {
 	$config->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
 	$config->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
 	$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
+
+}
+// Get the type of search from local class
+if (class_exists("\Lumiere\LumiereMovies")) {
+	$imdbmoviesclass = new \Lumiere\LumiereMovies();
+	$typeSearch = $imdbmoviesclass->lumiere_select_type_search();
 }
 
 # Initialization of IMDBphp
@@ -51,7 +58,7 @@ if ( (isset($_POST['submitsearchmovie'])) && (isset ($_POST["moviesearched"])) )
 
 	$search_sanitized = isset($_POST["moviesearched"]) ? sanitize_text_field( $_POST["moviesearched"] ) : NULL;
 
-	$results = $search->search ($search_sanitized, array(\Imdb\TitleSearch::MOVIE, \Imdb\TitleSearch::TV_SERIES));
+	$results = $search->search ($search_sanitized, $typeSearch );
 
 ?>
 
@@ -64,11 +71,15 @@ if ( (isset($_POST['submitsearchmovie'])) && (isset ($_POST["moviesearched"])) )
 
 
 <?php
-$limit_search=15;
+$limit_search = $imdb_admin_values['imdbmaxresults']; # from admin selection
 $i=1;
 foreach ($results as $res) {
-	if ($i > $limit_search)
+	if ($i > $limit_search){
+		echo '<div align="center"><i>' 
+			. esc_html__('Maximum of results reached. You can increase it in admin options.', 'lumiere-movies');
+		echo '</i></div>';
 		break;
+	}
 
 	echo "\n" . '<div class="lumiere_container lumiere_container_border">';
 	
@@ -82,15 +93,16 @@ foreach ($results as $res) {
 	echo '</div>';
 	echo "\n</div>";
 
+
 	$i++;
 } // end foreach  ?> 
 
-<?php echo '<div align="center"><a href="' . esc_url(wp_get_referer()) . '">Try again</a></div>' ; ?>
+<?php echo '<div align="center"><a href="' . esc_url(wp_get_referer()) . '">Do a new query</a></div>' ; ?>
 
 <?php
 } else {
 	//---------------------------------------------------------------- No data entered, show the search form 
-	if ( (!isset ($_GET["film"])) && ($_GET["gutenberg"] == 'yes') ) {   
+	if (!isset ($_GET["film"]) ) {   
 
 		echo "\n<div align='center'>";
 		echo "\n".'<h1 id="searchmovie_title">'.esc_html__('Search a movie', 'lumiere-movies').'</h1>';
