@@ -44,7 +44,7 @@ class LumiereMovies {
 	 * Constructor. Sets up the metabox
 	 */
 	function __construct() {
-
+ 
 		// Start config class to get the vars
 		if (class_exists("\Lumiere\Settings")) {
 			$this->imdbphpclass = new \Lumiere\Settings();
@@ -1269,7 +1269,6 @@ class LumiereMovies {
 				for ($i = 0; $i < $nbtotaldirector; $i++) {
 
 					if  ($imdb_admin_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected 
-						if ( $i < count ($director) - 1 ) $output .= ', ';
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup 
 
 							$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $director[$i]["imdb"] ) . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . esc_attr( $director[$i]["name"] ) . '</a>';
@@ -1279,12 +1278,14 @@ class LumiereMovies {
 
 							$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . $director[$i]["imdb"] . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . $director[$i]["name"] . '</a>';
 						} 
+
 					} else { // if "Remove all links" option is selected 
 
 						$output .= esc_attr( $director[$i]["name"] );
-						if ( $i < $nbtotaldirector - 1 ) $output .= ", ";
 
 					}  // end if remove popup
+
+					if ( $i < $nbtotaldirector - 1 ) $output .= ', ';
 
 				} // endfor 
 				
@@ -1309,7 +1310,7 @@ class LumiereMovies {
 		$output = "";
 		$creator = $movie->creator(); 
 		$nbtotalcreator = intval( count($creator) );
-
+print_r($creator);
 		if (!empty($creator)) { 
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
@@ -1332,23 +1333,25 @@ class LumiereMovies {
 
 					// if "Remove all links" option is not selected 
 					if  ($imdb_admin_values['imdblinkingkill'] == false ) { 
-						if ( $i < $nbtotalcreator - 1 ) $output .= ', ';
 
-							// highslide popup
-							if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 
-								$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . $creator[$i]["imdb"] . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . $creator[$i]["name"] . '</a>';
+						// highslide popup
+						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 
+							$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . $creator[$i]["imdb"] . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . $creator[$i]["name"] . '</a>';
 
-							// classic popup
-							} else { 
+						// classic popup
+						} else { 
 
-								$output .= '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . $creator[$i]["imdb"] . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . $creator[$i]["name"] . '</a>';
+							$output .= '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . $creator[$i]["imdb"] . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . $creator[$i]["name"] . '</a>';
 							$output .= sanitize_text_field( $creator[$i]["name"] )."</a>";
 							} 
 					// if "Remove all links" option is selected 
-					} else { 
 
 						if ( $i < $nbtotalcreator - 1 ) $output .= ', ';
+
+					} else { 
+
 						$output .= sanitize_text_field( $creator[$i]["name"] );
+						if ( $i < $nbtotalcreator - 1 ) $output .= ', ';
 					}  
 				} 
 				
@@ -1548,9 +1551,6 @@ class LumiereMovies {
 
 					$output .= "\n\t\t\t\t". '<div align="center" class="lumiere_container">';
 					$output .= "\n\t\t\t\t\t". '<div class="lumiere_align_left lumiere_flex_auto">';
-					$output .= esc_attr( preg_replace('/\n/', "", $cast[$i]["role"]) ); # remove the <br> which break the layout
-					$output .= '</div>';
-					$output .= "\n\t\t\t\t\t". '<div class="lumiere_align_right lumiere_flex_auto">';
 
 					// if "Remove all links" option is not selected 
 					if  ($imdb_admin_values['imdblinkingkill'] == false ) { 
@@ -1573,6 +1573,9 @@ class LumiereMovies {
 					} 
 
 					$output .=  '</div>';
+					$output .= "\n\t\t\t\t\t". '<div class="lumiere_align_right lumiere_flex_auto">';
+					$output .= esc_attr( preg_replace('/\n/', "", $cast[$i]["role"]) ); # remove the <br> which break the layout
+					$output .= '</div>';
 					$output .=  "\n\t\t\t\t". '</div>';
 
 				} // endfor 
@@ -1747,28 +1750,32 @@ class LumiereMovies {
 
 		global $imdb_admin_values;
 		
-		/* vars */
+		// ************** Vars and sanitization */
+		$lang_term = 'en'; # language to register the term with
 		$output = "";
 		$list_taxonomy_term = "";
-		$secondTitle = $secondTitle;
-		$taxonomy_url_string_first = esc_attr( $imdb_admin_values['imdburlstringtaxo'] );
-		$taxonomy_category = $typeItem; # from the function param
-		$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
+		$layout = esc_attr($layout);
+		$taxonomy_category = esc_attr($typeItem);
 		$taxonomy_term = esc_attr( $firstTitle );
+		$secondTitle = esc_attr($secondTitle);
+		$taxonomy_url_string_first = esc_attr( $imdb_admin_values['imdburlstringtaxo'] );
+		$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
 
-		// add taxonomy terms to posts' terms
+
+		// ************** Add taxonomy
+
 		if (null !==(get_the_ID())) {
 
 			// delete if exists, for development purposes
-			# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
-				# wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
+			#if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
+			#	 wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
 
 			if ( taxonomy_exists( $taxonomy_category_full ) ){
 
 				// if the term doesn't exist
-				if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) )
+				if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) ) 
 					// insert it and get its id
-					$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array(), false );
+					$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array('lang' => $lang_term), false );
 
 				// Create a list of taxonomy terms meant to be inserted
 				$list_taxonomy_term .= $taxonomy_term . ", " ;
@@ -1779,9 +1786,12 @@ class LumiereMovies {
 
 			// Insert the list of taxonomy terms
 			wp_set_post_terms(get_the_ID(), $list_taxonomy_term , $taxonomy_category_full, true);  
-			// add tags to the current post, but we don't want it
+
+			// Can add tags to the current WordPress post, but we don't want it
 			# wp_set_post_tags(get_the_ID(), $list_taxonomy_term,true); 
 		}
+
+		// ************** Return layout
 
 		// layout=two: display the layout for double entry details, ie actors
 		if ( $layout =='two') {
@@ -1814,6 +1824,12 @@ class LumiereMovies {
 
 		}
 
+		// Compatibility with Polylang WordPress plugin, add a language to the taxonomy term
+		// No idea why, but the language is added only in the second page refresh
+		if ( function_exists('pll_set_term_language') ) {
+			$this->lumiere_add_taxo_lang_to_polylang( $term['term_id'], $lang_term );
+		}
+
 		return $output;
 	}
 
@@ -1830,7 +1846,8 @@ class LumiereMovies {
 	}
 
 	/** Retrieve selected type of search in admin
-	 **
+	 ** Depends of $imdb_admin_values['imdbseriemovies'] option
+	 ** Utilised by popups
 	 **/
 	public function lumiere_select_type_search () {
 
@@ -1856,6 +1873,20 @@ class LumiereMovies {
 		}
 
 		return false;
+
+	}
+
+
+	/** Polylang WordPress Plugin Compatibility
+	** Add a language to the taxonomy term in Polylang 
+	** Perhaps needed to keep the rewrite path to ie /imdblt_director/name_of_director functional with Polylang
+	**
+	** @param mandatory string $term_id -> id of the taxonomy term, usually got after taxonomy term insertition
+	** @param optional string $lang -> language of the taxonomy term utilised by Polylang
+	 **/
+	function lumiere_add_taxo_lang_to_polylang( $term_id, $lang = 'en' ) {
+
+		pll_set_term_language($term_id, $lang);
 
 	}
 
