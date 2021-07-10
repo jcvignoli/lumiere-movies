@@ -32,17 +32,17 @@ class LumiereMovies {
 	    ]
 	]; 
 
-	public $lumiere_result = ""; # used to store all returned data 
+	public $lumiere_result = ""; # store all returned movie details search result
 
-	private $imdbphpclass;
+	private $imdbphpclass; # store Lumière settings class
 	private $imdb_admin_values;
 	private $imdb_widget_values; 
 	private $imdb_cache_values;
 
 
-	/**
-	 * Constructor. Sets up the metabox
-	 */
+	/** Class constructor
+	 ** 
+	 **/
 	function __construct() {
  
 		// Start config class to get the vars
@@ -174,7 +174,7 @@ class LumiereMovies {
 
 		}
 
-		$this->lumiere_result = $output;
+		$this->lumiere_result = $output; # send to meta var the result
 
 		return $output;
 
@@ -410,9 +410,10 @@ class LumiereMovies {
 		return $outputfinal;
 
 	}
+
 	/* Display the title and possibly the year
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_title ($movie=NULL) {
 
@@ -437,7 +438,7 @@ class LumiereMovies {
 
 	/* Display the picture of the movie
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_pics ($movie=NULL) {
 
@@ -457,9 +458,11 @@ class LumiereMovies {
 
 			// check if big pictures are selected (extract "_big.jpg" from picture's names, if exists), AND if highslide popup is activated
 			if ( (substr( $photo_url_sanitized, -7, -4) == "big" ) && ($imdb_admin_values['imdbpopup_highslide'] == 1) ) {
+
 				// value to store if previous checking is valid, call in lumiere_scripts.js
 				$highslidephotook = "ok";
-				//echo "\t\t\t" . '<a href="' . $photo_url_sanitized . '" id="highslide_pic"  title="';
+
+				// Link
 				$output .= "\n\t\t\t" . '<a class="highslide_pic" href="' 
 					. $photo_url_sanitized 
 					. '" title="'
@@ -504,7 +507,7 @@ class LumiereMovies {
 
 	/* Display the country of origin
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_country ($movie=NULL) {
 
@@ -549,7 +552,7 @@ class LumiereMovies {
 
 	/* Display the runtime
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_runtime($movie=NULL) {
 		global $imdb_admin_values;
@@ -572,7 +575,7 @@ class LumiereMovies {
 
 	/* Display the language
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_language($movie=NULL) {
 
@@ -617,7 +620,7 @@ class LumiereMovies {
 
 	/* Display the rating
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_rating($movie=NULL) {
 
@@ -654,7 +657,7 @@ class LumiereMovies {
 
 	/* Display the genre
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_genre($movie=NULL) {
 
@@ -699,7 +702,7 @@ class LumiereMovies {
 
 	/* Display the keywords
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_keywords($movie=NULL) {
 
@@ -743,7 +746,7 @@ class LumiereMovies {
 
 	/* Display the goofs
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_goofs($movie=NULL) {
 
@@ -776,7 +779,7 @@ class LumiereMovies {
 
 	/* Display the main user comment
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_comment($movie=NULL) {
 
@@ -822,7 +825,7 @@ class LumiereMovies {
 
 	/* Display the quotes
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_quotes($movie=NULL) {
 
@@ -867,7 +870,7 @@ class LumiereMovies {
 
 	/* Display the taglines
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_taglines($movie=NULL) {
 
@@ -901,7 +904,7 @@ class LumiereMovies {
 
 	/* Display the trailer
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_trailer($movie=NULL) {
 
@@ -945,7 +948,7 @@ class LumiereMovies {
 
 	/* Display the color
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_color($movie=NULL) {
 
@@ -994,7 +997,7 @@ class LumiereMovies {
 
 	/* Display the as known as, aka
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_aka($movie=NULL) {
 
@@ -1031,7 +1034,7 @@ class LumiereMovies {
 
 	/* Display the composers
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_composer($movie=NULL) {
 
@@ -1097,7 +1100,7 @@ class LumiereMovies {
 
 	/* Display the soundtrack
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_soundtrack($movie=NULL) {
 
@@ -1152,7 +1155,7 @@ class LumiereMovies {
 
 	/* Display the production companies
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_prodcompany($movie=NULL) {
 
@@ -1203,7 +1206,7 @@ class LumiereMovies {
 
 	/* Display the official site
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_officialsite($movie=NULL) {
 
@@ -1237,7 +1240,7 @@ class LumiereMovies {
 
 	/* Display the director
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_director($movie=NULL) {
 
@@ -1300,7 +1303,7 @@ class LumiereMovies {
 
 	/* Display the creator (for series only)
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_creator($movie=NULL) {
 
@@ -1310,7 +1313,7 @@ class LumiereMovies {
 		$output = "";
 		$creator = $movie->creator(); 
 		$nbtotalcreator = intval( count($creator) );
-print_r($creator);
+
 		if (!empty($creator)) { 
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
@@ -1366,7 +1369,7 @@ print_r($creator);
 
 	/* Display the producer
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_producer($movie=NULL) {
 
@@ -1444,7 +1447,7 @@ print_r($creator);
 
 	/* Display the writer
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_writer($movie=NULL) {
 
@@ -1519,7 +1522,7 @@ print_r($creator);
 
 	/* Display the actor
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_actor($movie=NULL) {
 
@@ -1589,7 +1592,7 @@ print_r($creator);
 
 	/* Display the actor, simplified way : only actor's names
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_actor_short($movie=NULL) {
 
@@ -1664,7 +1667,7 @@ print_r($creator);
 
 	/* Display the plot
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_plot($movie=NULL) {
 
@@ -1707,7 +1710,7 @@ print_r($creator);
 
 	/* Display the credit link
 	 *
-	 * @param $movie -> takes the value of imdb class 
+	 * @param mandatory (int) $midPremierResultat -> IMDb ID
 	 */
 	public function lumiere_movies_creditlink($midPremierResultat=NULL) {
 
