@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-09 11:06-0400\n"
-"PO-Revision-Date: 2021-07-09 11:07-0400\n"
+"POT-Creation-Date: 2021-07-09 19:53-0400\n"
+"PO-Revision-Date: 2021-07-09 19:54-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -59,85 +59,85 @@ msgstr "Numéro IMDb de film"
 msgid "and insert it."
 msgstr "et l'insérer."
 
-#: blocks-gutenberg/main-block.js:113
-msgid "By movie's name"
-msgstr "Par nom de film"
+#: blocks-gutenberg/main-block.js:112 class/class.metabox.php:59
+msgid "By movie title"
+msgstr "Par titre du film"
 
-#: blocks-gutenberg/main-block.js:114
-msgid "By IMDb's ID"
+#: blocks-gutenberg/main-block.js:113
+msgid "By IMDb ID"
 msgstr "Par numéro IMDb"
 
-#: class/class.core.php:380
+#: class/class.core.php:389
 msgid "Lumière options page"
 msgstr "Pages d'options Lumière!"
 
-#: class/class.core.php:380 class/class.core.php:415 inc/options-cache.php:426
+#: class/class.core.php:389 class/class.core.php:424 inc/options-cache.php:426
 msgid "General options"
 msgstr "Options g&eacute;n&eacute;rales"
 
-#: class/class.core.php:381
+#: class/class.core.php:390
 msgid "Data management"
 msgstr "Gestion des données"
 
-#: class/class.core.php:382
+#: class/class.core.php:391
 msgid "Cache management options page"
 msgstr "Options de la gestion du cache"
 
-#: class/class.core.php:382 inc/admin_pages.php:73
+#: class/class.core.php:391 inc/admin_pages.php:73
 msgid "Cache management"
 msgstr "Gestion du cache"
 
-#: class/class.core.php:383
+#: class/class.core.php:392
 msgid "Help page"
 msgstr "Page d'aide"
 
-#: class/class.core.php:383 class/class.core.php:421
+#: class/class.core.php:392 class/class.core.php:430
 msgid "Help"
 msgstr "Aide"
 
-#: class/class.core.php:413
+#: class/class.core.php:422
 msgid "Lumière Menu"
 msgstr "Menu Lumière"
 
-#: class/class.core.php:417
+#: class/class.core.php:426
 msgid "Data options"
 msgstr "Options de cache"
 
-#: class/class.core.php:419 inc/options-cache.php:393 inc/options-cache.php:421
+#: class/class.core.php:428 inc/options-cache.php:393 inc/options-cache.php:421
 msgid "Cache options"
 msgstr "Options de cache"
 
-#: class/class.core.php:513 class/class.core.php:523
+#: class/class.core.php:522 class/class.core.php:532
 msgid "Informations about "
 msgstr "Information pour "
 
-#: class/class.core.php:513 class/class.core.php:523
+#: class/class.core.php:522 class/class.core.php:532
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: class/class.core.php:527
+#: class/class.core.php:536
 msgid "No query entered"
 msgstr "Aucune recherche entrée"
 
-#: class/class.core.php:528
+#: class/class.core.php:537
 msgid "Search query for "
 msgstr "Recherche pour "
 
-#: class/class.core.php:536
+#: class/class.core.php:545
 msgid "Lumiere Query Interface"
 msgstr "Lumière Interface de recherche"
 
-#: class/class.core.php:783
+#: class/class.core.php:799
 msgid "Lumière "
 msgstr "Lumière "
+
+#: class/class.core.php:831 class/class.core.php:850
+msgid "Open a new window with IMDb informations"
+msgstr "Ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
 
 #: class/class.metabox.php:59
 msgid "By movie IMDb ID"
 msgstr "Par numéro IMDb du film"
-
-#: class/class.metabox.php:59
-msgid "By movie title"
-msgstr "Par titre du film"
 
 #: class/class.metabox.php:66
 msgid "The movie you enter will be shown in your widget area."
@@ -317,37 +317,37 @@ msgid_plural "Directors"
 msgstr[0] "R&eacute;alisateur"
 msgstr[1] "R&eacute;alisateurs"
 
-#: class/class.movie.php:1275 class/class.movie.php:1280
+#: class/class.movie.php:1274 class/class.movie.php:1279
 #: class/class.movie.php:1339 class/class.movie.php:1344
-#: class/class.movie.php:1406 class/class.movie.php:1410
-#: class/class.movie.php:1482 class/class.movie.php:1487
+#: class/class.movie.php:1409 class/class.movie.php:1413
+#: class/class.movie.php:1485 class/class.movie.php:1490
 #: class/class.movie.php:1560 class/class.movie.php:1565
-#: class/class.movie.php:1635 class/class.movie.php:1640
-#: class/functions.php:101 class/functions.php:103
+#: class/class.movie.php:1638 class/class.movie.php:1643
+#: class/class.movie.php:1846 class/class.movie.php:1848
 msgid "open a new window with IMDb informations"
 msgstr "ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
 
-#: class/class.movie.php:1316 inc/options-data.php:237 inc/options-data.php:238
+#: class/class.movie.php:1317 inc/options-data.php:237 inc/options-data.php:238
 msgid "Creator"
 msgid_plural "Creators"
 msgstr[0] "Cr&eacute;ateur"
 msgstr[1] "Cr&eacute;ateur"
 
-#: class/class.movie.php:1380 inc/options-data.php:365 inc/options-data.php:366
+#: class/class.movie.php:1383 inc/options-data.php:365 inc/options-data.php:366
 #: inc/popup-imdb_movie.php:586
 msgid "Producer"
 msgid_plural "Producers"
 msgstr[0] "Producteur"
 msgstr[1] "Producteurs"
 
-#: class/class.movie.php:1458 inc/options-data.php:525 inc/options-data.php:526
+#: class/class.movie.php:1461 inc/options-data.php:525 inc/options-data.php:526
 #: inc/popup-imdb_movie.php:551
 msgid "Writer"
 msgid_plural "Writers"
 msgstr[0] "Sc&eacute;nariste"
 msgstr[1] "Sc&eacute;naristes"
 
-#: class/class.movie.php:1534 class/class.movie.php:1604
+#: class/class.movie.php:1537 class/class.movie.php:1607
 #: inc/options-data.php:167 inc/options-data.php:168
 #: inc/popup-imdb_movie.php:467
 msgid "Actor"
@@ -355,27 +355,27 @@ msgid_plural "Actors"
 msgstr[0] "Acteur"
 msgstr[1] "Acteur"
 
-#: class/class.movie.php:1618 class/class.movie.php:1794
-#: class/class.movie.php:1811
+#: class/class.movie.php:1621 class/class.movie.php:1803
+#: class/class.movie.php:1820
 msgid "Find similar taxonomy results"
 msgstr "Trouver des résultats de taxonomie similaires"
 
-#: class/class.movie.php:1680 inc/options-data.php:350 inc/options-data.php:351
+#: class/class.movie.php:1683 inc/options-data.php:350 inc/options-data.php:351
 #: inc/popup-imdb_movie.php:644
 msgid "Plot"
 msgid_plural "Plots"
 msgstr[0] "Synopsis"
 msgstr[1] "Synopsis"
 
-#: class/class.movie.php:1722 inc/options-data.php:451 inc/options-data.php:452
+#: class/class.movie.php:1724 inc/options-data.php:451 inc/options-data.php:452
 msgid "Source"
 msgstr "Source"
 
-#: class/class.movie.php:1727
+#: class/class.movie.php:1729
 msgid "Go to IMDb website for this movie"
 msgstr "Allez sur le site internet de IMDb pour ce film"
 
-#: class/class.movie.php:1730
+#: class/class.movie.php:1732
 msgid "IMDb's page for this movie"
 msgstr "Page IMDb pour ce film"
 
@@ -395,7 +395,7 @@ msgstr "Lumière! Movies"
 msgid "Widget title:"
 msgstr "Titre de widget :"
 
-#: class/functions.php:123
+#: class/functions.php:81
 msgid ""
 "<strong>Licensing Info:</strong> Under a GPL licence, \"Lumiere Movies\" is "
 "based on <a href=\"https://github.com/tboothman/imdbphp/\" target=\"_blank"
@@ -408,17 +408,13 @@ msgstr ""
 "rable travail d'adaptation a &eacute;t&eacute; op&eacute;r&eacute; pour "
 "cr&eacute;er ce plugin; visitez la page d'aide pour"
 
-#: class/functions.php:125
+#: class/functions.php:83
 msgid "more"
 msgstr "plus d'informations"
 
-#: class/functions.php:141
+#: class/functions.php:99
 msgid "No result found for this query."
 msgstr "Aucun résultat trouvé pour cette recherche."
-
-#: class/functions.php:219 class/functions.php:241
-msgid "Open a new window with IMDb informations"
-msgstr "Ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
 
 #: inc/admin_pages.php:35
 msgid "admin options"
@@ -2712,6 +2708,9 @@ msgstr "Mentionné dans:"
 #: theme/taxonomy-imdblt_people.php:209
 msgid "Taxonomy for "
 msgstr "Taxonomie pour "
+
+#~ msgid "By movie's name"
+#~ msgstr "Par nom de film"
 
 #~ msgid "Lumière option successfully removed."
 #~ msgstr "Options de Lumière! effacées avec succès."

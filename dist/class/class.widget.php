@@ -74,6 +74,8 @@ class LumiereWidget extends WP_Widget {
 		// Initialize var for id/name of the movie to display
 		$imdballmeta=array();
 
+		$output = "";
+
 		$post_id = intval( get_the_ID() );
 
 		// shows widget only for a post or a page
@@ -112,19 +114,27 @@ class LumiereWidget extends WP_Widget {
 				$count_total = ($imdb_admin_values['imdbautopostwidget'] == true) ? (count( $imdballmeta ) -1) : count( $imdballmeta );
 				for ($i=0; $i < $count_total; $i++) {
 
-					echo $args['before_widget'];
-
-					echo $title_box;
-
 					$display = new \Lumiere\LumiereMovies();
-					if ($output = $display->lumiere_result)
-						echo $output;
 
-					echo $args['after_widget'];
+					// If there is a result in var $lumiere_result of class, display the widget
+					if (!empty($output = $display->lumiere_result)) {
+
+						$output .= $args['before_widget'];
+
+						$output .= $title_box; // title of widget
+
+						$output .= $output; // Movie
+
+						$output .= $args['after_widget'];
+
+					}
+
 				}
 
 			}
 		}
+
+		echo $output;
 	}
 
 	/**
