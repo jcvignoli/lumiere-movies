@@ -117,13 +117,13 @@ class LumiereWidget extends WP_Widget {
 					$display = new \Lumiere\LumiereMovies();
 
 					// If there is a result in var $lumiere_result of class, display the widget
-					if (!empty($output = $display->lumiere_result)) {
+					if (!empty($output_movie = $display->lumiere_result)) {
 
 						$output .= $args['before_widget'];
 
 						$output .= $title_box; // title of widget
 
-						$output .= $output; // Movie
+						$output .= $output_movie; // Movie
 
 						$output .= $args['after_widget'];
 

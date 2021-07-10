@@ -852,6 +852,12 @@ class Core {
 		return $parsed_result;
 	}
 
+	/** Copy metas from one post in original language to another post in other language
+	 ** Polylang version
+	 ** not yet implemented, not sure if needed, maybe not, need further tests
+	 ** to be called: add_filter('pll_copy_post_metas', 'lumiere_copy_post_metas_polylang', 10, 2)
+	 **/
+/*
 	function lumiere_copy_post_metas_polylang( $metas, $sync) {
 
 		if(!is_admin()) return false;
@@ -866,6 +872,7 @@ class Core {
 		return $metas;
 
 	}
+*/
 
 }
 
