@@ -1,5 +1,7 @@
 Changelog
 
+v.3.4.1
+
 v.3.4
 * [info] Due to recent changes on IMDb website, the new imdbphp library has been rewritten. You must clear your cache folder to make sure the new pages are downloaded, as the olde pages are no longer supported. Just go to the admin panel, go to Lumière plugin settings, then 'cache management' panel -> 'manage cache', click on 'delete all cache', and you're done.
 * [major] Updated to IMDbPHP 7.0 library. Meant to address the new IMDB website format.
