@@ -1,5 +1,8 @@
 Changelog
 
+v.3.4.2
+
+
 v.3.4.1
 * [bug] auto widget was not working anymore due to recent changes in class.widget.php
 
