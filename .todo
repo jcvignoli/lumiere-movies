@@ -6,7 +6,7 @@ v3.4.1
 23. write a class for the admin pages using WordPress API
 13. Implement alternative to highslide with a jquery modal window
 15. add limit number for producers and akas
-16. Push custom field text from Lumière widgets to polylang
+16. To test: If Polylang needs to copy the metas when doing a new post in another lang, can activate lumiere_copy_post_metas_polylang() in class.core.php
 
 
 v3.4
