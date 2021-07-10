@@ -1,13 +1,16 @@
-v3.4.1
-OK--- 1. bug auto widget was not working anymore due to recent changes in class.widget.php
-
+v3.4.2
 
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the admin pages using WordPress API
 13. Implement alternative to highslide with a jquery modal window
 15. add limit number for producers and akas
 16. To test: If Polylang needs to copy the metas when doing a new post in another lang, can activate lumiere_copy_post_metas_polylang() in class.core.php
+17. find a way to limit execution of class.update-options (using $imdb_admin_values['imdbHowManyUpdates'] ?)
 
+
+
+v3.4.1
+OK--- 1. bug auto widget was not working anymore due to recent changes in class.widget.php
 
 v3.4
 OK--- 1. bug In admin cache, pictures (big+small) were not deleted when refreshing/deleting movies.
