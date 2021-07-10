@@ -90,8 +90,8 @@ class LumiereWidget extends WP_Widget {
 
 			}
 
-			//------  show widget only if custom field 'imdb-movie-widget' or 'imdb-movie-widget-bymid' is found
-			if ( (get_post_meta($post_id, 'imdb-movie-widget', false)) || (get_post_meta($post_id, 'imdb-movie-widget-bymid', false)) ) {
+			//------  show widget only if custom fields or imdbautopostwidget option is found
+			if ( (get_post_meta($post_id, 'imdb-movie-widget', false)) || (get_post_meta($post_id, 'imdb-movie-widget-bymid', false)) || (isset($imdb_admin_values['imdbautopostwidget'])) ) {
 
 				// "imdb-movie-widget"
 
@@ -110,9 +110,7 @@ class LumiereWidget extends WP_Widget {
 
 				}
 
-				// if imdbautopostwidget is set, the count has to be decreased
-				$count_total = ($imdb_admin_values['imdbautopostwidget'] == true) ? (count( $imdballmeta ) -1) : count( $imdballmeta );
-				for ($i=0; $i < $count_total; $i++) {
+				for ($i=0; $i < count( $imdballmeta ); $i++) {
 
 					$display = new \Lumiere\LumiereMovies();
 

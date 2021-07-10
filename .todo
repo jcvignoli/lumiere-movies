@@ -1,5 +1,5 @@
 v3.4.1
-
+OK--- 1. bug auto widget was not working anymore due to recent changes in class.widget.php
 
 
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
