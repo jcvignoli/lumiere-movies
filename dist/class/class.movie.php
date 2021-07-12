@@ -22,6 +22,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die('You can not call directly this page');
 }
 
+
 class LumiereMovies {
 
 	private $allowed_html_for_escape_functions = [
@@ -32,26 +33,46 @@ class LumiereMovies {
 	    ]
 	]; 
 
-	public $lumiere_result = ""; # store all returned movie details search result
+	/* Store all returned movie details search result
+	 * Usefull for access from outside the class
+	 */
+	public $lumiere_result = "";
 
-	private $configclass; # store Lumière settings class
-	private $imdb_admin_values;
-	private $imdb_widget_values; 
-	private $imdb_cache_values;
+	/* Store the class of Lumière settings
+	 * Usefull to start a new IMDbphp query
+	 */
+	private $configclass;
 
+	/* Vars from Lumière settings
+	 *
+	 */
+	private $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+
+	/* Store the class for logging using the Monolog library
+	 *
+	 */
+	private $loggerclass;
 
 	/** Class constructor
 	 ** 
 	 **/
 	function __construct() {
- 
-		// Start config class to get the vars
+
+		// Start logger class
+		$logger = new \Monolog\Logger('movies');
+		$this->loggerclass = $logger;
+
+		// Start config class and get the vars
 		if (class_exists("\Lumiere\Settings")) {
 			$configclass = new \Lumiere\Settings();
 			$this->configclass = $configclass;
 			$this->imdb_admin_values = $configclass->get_imdb_admin_option();
 			$this->imdb_widget_values = $configclass->get_imdb_widget_option();
 			$this->imdb_cache_values = $configclass->get_imdb_widget_option();
+		} else {
+
+			wp_die( esc_html__('Cannot start class movie, class not found', 'lumiere-movies') );
+
 		}
 
 		// Start 
@@ -81,11 +102,11 @@ class LumiereMovies {
 		if (isset ($_GET["mid"])) {
 
 			$movieid = filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT);
-			$movie = new \Imdb\Title($movieid, $this->configclass);
+			$movie = new \Imdb\Title($movieid, $this->configclass, $this->loggerclass);
 
 		} else {
 
-			$search = new \Imdb\TitleSearch($this->configclass);
+			$search = new \Imdb\TitleSearch($this->configclass, $this->loggerclass);
 
 		}
 
@@ -250,7 +271,7 @@ class LumiereMovies {
 
 		$outputfinal ="";
 
-		/* Start config class for $config in below Imdb\Title class calls */
+		/* Start imdbphp class for new query based upon $midPremierResultat */
 		$movie = new \Imdb\Title($midPremierResultat, $this->configclass);
 
 		foreach ( $imdb_widget_values['imdbwidgetorder'] as $magicnumber) {

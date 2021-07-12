@@ -13,6 +13,7 @@ OK--- 2. bug Taxonomy (english term+additional language related post) were added
 OK--- 3. technical class movie used to include two classes. Now they're merged. All calls to class movie trigger an automatic sending of the settings to imdbphp.
 OK--- 4. technical Class config has been cleaned. Constants have been included into the class. A lot of polishing is still needed.
 OK--- 5. renamed these strange vars such as $imdbOptionsc, $imdbOptionsw and $imdbOptions in admin pages to their natural names such as $imdb_cache_options, $imdb_widget_options and $imdb_admin_options.
+OK--- 6. Implemented Monolog as new debug parser
 
 v3.4.1
 OK--- 1. bug auto widget was not working anymore due to recent changes in class.widget.php

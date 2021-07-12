@@ -1,8 +1,11 @@
 <?php
 
-#	IMDB Libraries
+#	IMDbphp related classes
 require_once 'imdbphp/Psr/Log/LoggerInterface.php';
 require_once 'imdbphp/Psr/SimpleCache/CacheInterface.php';
+require_once 'imdbphp/Monolog/ResettableInterface.php';
+require_once 'imdbphp/Monolog/Logger.php';
+#	IMDbphp classes
 require_once 'imdbphp/Imdb/Exception.php';
 require_once 'imdbphp/Imdb/Exception/Http.php';
 require_once 'imdbphp/Imdb/Config.php';
@@ -18,3 +21,6 @@ require_once 'imdbphp/Imdb/PersonSearch.php';
 require_once 'imdbphp/Imdb/Title.php';
 require_once 'imdbphp/Imdb/TitleSearch.php';
 require_once 'imdbphp/Imdb/TitleSearchAdvanced.php';
+
+
+
