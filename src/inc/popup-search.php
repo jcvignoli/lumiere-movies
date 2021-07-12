@@ -15,22 +15,15 @@
 
 require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
-// Start config class for $config in below Imdb\Title class calls
+// Start Lumière config class
 if (class_exists("\Lumiere\Settings")) {
 	$config = new \Lumiere\Settings();
-	$imdb_admin_values = $config->get_imdb_admin_option();
-	$imdb_widget_values = $config->get_imdb_widget_option();
-	$imdb_cache_values = $config->get_imdb_cache_option();
-	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
-	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
-	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
-	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
-	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
-	$config->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
-	$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
-	$config->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
+	$imdb_admin_values = $config->imdb_admin_values;
+	$imdb_widget_values = $config->imdb_widget_values;
+	$imdb_cache_values = $config->imdb_cache_values;
 }
-// Get the type of search from local class
+
+// Get the type of search from movies class
 if (class_exists("\Lumiere\LumiereMovies")) {
 	$imdbmoviesclass = new \Lumiere\LumiereMovies();
 	$typeSearch = $imdbmoviesclass->lumiere_select_type_search();

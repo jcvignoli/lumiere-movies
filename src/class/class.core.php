@@ -11,19 +11,18 @@ if ( ! defined( 'WPINC' ) )
 	wp_die('You can not call directly this page');
 
 class Core {
-	private $bypass; /* this value is not in use anymore, to be removed */
 
-	protected $imdb_admin_values, $imdb_widget_values,$imdb_cache_values; # to be removed?
+	private $imdb_admin_values, $imdb_widget_values,$imdb_cache_values; # to be removed?
 
 	/*constructor*/
 	function __construct () {
 
-		global $imdb_ft, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+		global $config, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
-		$imdb_ft = new \Lumiere\Settings();
-		$imdb_admin_values = $imdb_ft->get_imdb_admin_option();
-		$imdb_widget_values = $imdb_ft->get_imdb_widget_option();
-		$imdb_cache_values = $imdb_ft->get_imdb_cache_option();
+		$config = new \Lumiere\Settings();
+		$imdb_admin_values = $config->get_imdb_admin_option();
+		$imdb_widget_values = $config->get_imdb_widget_option();
+		$imdb_cache_values = $config->get_imdb_cache_option();
 
 		// Be sure WP is running
 		if (function_exists('add_action')) {
@@ -73,7 +72,7 @@ class Core {
 			add_action('admin_init', [ $this, 'lumiere_register_gutenberg_blocks' ],0);
 
 			// add admin menu
-			if (isset($imdb_ft)) 
+			if (isset($config)) 
 				add_action('admin_menu', [ $this, 'lumiere_admin_panel' ] );
 
 			// add admin header
@@ -116,15 +115,18 @@ class Core {
 			// On updating lumiere plugin
 			add_action( 'upgrader_process_complete', [$this, 'lumiere_on_lumiere_upgrade_completed' ], 10, 2 );
 
+			// Add cron schedules
+			add_action('lumiere_cron_hook', [$this, 'lumiere_cron_exec_once'], 0);
 		}
 	}
 
 	/**
-	1.- Create inc/.htaccess upon plugin activation
+	1.- Do the add_actions and add filters
 	**/
-	/* 2021 07 04 function is obsolete
-	function lumiere_make_htaccess_admin(){
-		lumiere_make_htaccess(); // in class/functions.php
+	/*
+	function lumiere_run_actions_filters(){
+
+		// insert here the filters and actions
 	}*/
 
 	/**
@@ -272,11 +274,11 @@ class Core {
 	**/
 
 	##### a) outside admin part
-	function lumiere_add_head_blog ($bypass=NULL){
+	function lumiere_add_head_blog (){
 		global $imdb_admin_values;
 
-		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_head_blog("inc.movie")
-		if ( ($bypass="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
+		// Load js and css in /imdblt/, inc/, LUMIERE_URLSTRING URLs
+		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) || ($bypass="inc.movie") ) {
 
 			// Highslide popup
 			if ($imdb_admin_values['imdbpopup_highslide'] == 1) {
@@ -312,14 +314,14 @@ class Core {
 	/**
 	5.- Add the stylesheet & javascript to pages footer
 	**/
-	function lumiere_add_footer_blog( $bypass=NULL ){
+	function lumiere_add_footer_blog(){
 		global $imdb_admin_values;
 
 		// Limitation unactivated, so the scripts can be run anywhere
 		// To do: add an option in admin to activate/unactivate a pass-by
 
 		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_footer_blog("inc.movie")
-		//if ( ($bypass=="inc.movie") || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
+		//if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
 
 			wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array('jquery'), LUMIERE_VERSION);
 
@@ -372,9 +374,9 @@ class Core {
 	**/
 
 	function lumiere_admin_panel() {
-		global $imdb_ft, $imdb_admin_values;
+		global $config, $imdb_admin_values;
 
-		if (!isset($imdb_ft)) 
+		if (!isset($config)) 
 			return;
 
 		if (function_exists('add_options_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 0 ) ) {
@@ -501,18 +503,18 @@ class Core {
 	10.- Change the title of the popups according to the movie's or person's data
 	**/
 	function lumiere_change_popup_title($title) {
-		global $imdb_cache_values, $imdb_ft;
+		global $imdb_cache_values, $config;
 
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ){
 
 			// Add cache dir to properly save data in real cache dir
-			$imdb_ft->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
+			$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 
 			// Display the title if /url/films
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
 				if ( (isset($_GET['mid'])) && (!empty($_GET['mid'])) ) {
 					$movieid_sanitized = sanitize_text_field( $_GET['mid'] );
-					$movie = new \Imdb\Title($movieid_sanitized, $imdb_ft);
+					$movie = new \Imdb\Title($movieid_sanitized, $config);
 					$filmid_sanitized = esc_html($movie->title());
 				} elseif ( (!isset($_GET['mid'])) && (isset($_GET['film'])) ){
 					$filmid_sanitized = lumiere_name_htmlize($_GET['film']);
@@ -526,7 +528,7 @@ class Core {
 
 				if ( (isset($_GET['mid'])) && (!empty($_GET['mid'])) ) {
 					$mid_sanitized = sanitize_text_field($_GET['mid']);
-					$person = new \Imdb\Person($mid_sanitized, $imdb_ft);
+					$person = new \Imdb\Person($mid_sanitized, $config);
 					$person_name_sanitized = sanitize_text_field( $person->name() );
 				}
 				$title = isset($person_name_sanitized ) ? esc_html__('Informations about ', 'lumiere-movies') . $person_name_sanitized. " - Lumi&egrave;re movies" : esc_html__('Unknown', 'lumiere-movies') . '- Lumi&egrave;re movies';
@@ -582,7 +584,9 @@ class Core {
 	14.- Add a class to taxonomy links (constructed in class.movie.php)
 	**/
 	function lumiere_taxonomy_add_class_to_links($links) {
+
 	    return str_replace('<a href="', '<a class="linktaxonomy" href="', $links);
+
 	}
 
 	/**
@@ -637,7 +641,7 @@ class Core {
 	16.- Create cache folder
 	**/
 	function lumiere_create_cache() {
-		global $imdb_ft, $imdb_cache_values;
+		global $config, $imdb_cache_values;
 		
 		/* Cache folder paths */
 		$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
@@ -661,7 +665,7 @@ class Core {
 
 				# Save the new option for the cache path
 				$imdb_cache_values['imdbcachedir'] = $lumiere_folder_cache;
-				update_option($imdb_ft->imdbCacheOptionsName, $imdb_cache_values['imdbcachedir']);
+				update_option($config->imdbCacheOptionsName, $imdb_cache_values['imdbcachedir']);
 			}
 		}
 
@@ -672,15 +676,13 @@ class Core {
 	**/
 	function lumiere_on_lumiere_upgrade_completed( $upgrader_object, $options ) {
 
-		/* Prevent wrong user to activate the plugin */
-		if ( ! current_user_can( 'activate_plugins' ) )
-			 return;
-
 		// The path to plugin's main file
 		$plugin_version = plugin_basename( __FILE__ );
 
 		// If an update has taken place and the updated type is plugins and the plugins element exists
 		if( $options['action'] == 'update' && $options['type'] == 'plugin' && isset( $options['plugins'] ) ) {
+
+			/* write here what we want to do for any plugin */
 
 			// Iterate through the plugins being updated and check if ours is there
 			foreach( $options['plugins'] as $plugin ) {
@@ -688,14 +690,11 @@ class Core {
 				// If it is Lumière!, update
 				if( $plugin == $plugin_version ) {
 
-					/* Create/update htaccess file */
-					// $this->lumiere_make_htaccess_admin(); # 2021 07 04 function obsolete
+					/* write here what we want to do for Lumière */
 
-					/* Refresh rewrite rules */
-					// flush_rewrite_rules(); # 2021 07 04 function obsolete
-
-					// Call the updating options process
-					//require_once( plugin_dir_path( __DIR__ ) . 'class/update.options.php' );# 2021 07 04 call obsolete, this is now a class automatically called
+					// Call the class to update options
+					require_once __DIR__ . '/class.update-options.php';
+					$start_update_options = new \Lumiere\UpdateOptions();
 
 				}
 			}
@@ -709,16 +708,21 @@ class Core {
 		/* debug
 		ob_start(); */
 
-		/* Prevent wrong user to activate the plugin */
-		if ( ! current_user_can( 'activate_plugins' ) )
-			 return;
-
 		$plugin = isset( $_REQUEST['plugin'] ) ? $_REQUEST['plugin'] : '';
 		check_admin_referer( "activate-plugin_{$plugin}" );
 
 		/* Actions from the class */
 		$this->lumiere_create_cache();
-		// $this->lumiere_make_htaccess_admin(); # 2021 07 04 function obsolete
+
+		/* Set up the WP Cron */
+		if (! wp_next_scheduled ( 'lumiere_cron_hook' )) {
+
+			// Cron to run once, in 10 minutes
+			wp_schedule_single_event( time() + 600, 'lumiere_cron_hook' );
+
+			// Run week call
+			//wp_schedule_event(time(), 'weekly', 'lumiere_cron_hook');
+		}
 
 		/* Refresh rewrite rules */
 		flush_rewrite_rules();
@@ -734,11 +738,18 @@ class Core {
 
 		global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
-		flush_rewrite_rules();
+		/****** Below actions are executed for everybody */
+
+		// Remove WP Cron shoud it exists
+		$timestamp = wp_next_scheduled( 'lumiere_cron_hook' );
+		wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
 
 		// Keep the settings if selected so
-		if ( (isset($imdb_admin_values['imdbkeepsettings'])) && ( $imdb_admin_values['imdbkeepsettings'] == true ) )
+		if ( (isset($imdb_admin_values['imdbkeepsettings'])) && ( $imdb_admin_values['imdbkeepsettings'] == true ) ) {
 			return;
+		}
+
+		/****** Below actions are not executed if the user selected to keep their settings */
 
 		// search for all imdbtaxonomy* in config array, 
 		// if a taxonomy is found, let's get related terms and delete them
@@ -873,6 +884,28 @@ class Core {
 
 	}
 */
+
+	/** Cron to run execute once
+	 ** 
+	 ** 
+	 **/
+	function lumiere_cron_exec_once() {
+
+		// Update options
+		// this udpate is also run in upgrader_process_complete, but the process is not reliable
+		// Using the same updating process in a WP Cron
+		require_once __DIR__ . '/class.update-options.php';
+		$start_update_options = new \Lumiere\UpdateOptions();
+
+		/* Debugging purposes, add 'imdbTestKey'		
+		$config = new \Lumiere\Settings();
+		$option_array_search = get_option($config->imdbAdminOptionsName);
+		$option_array_search['imdbTestKey'] = 'imdbTestValue';
+		update_option($config->imdbAdminOptionsName, $option_array_search);
+		*/
+
+
+	}
 
 }
 

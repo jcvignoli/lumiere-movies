@@ -1,7 +1,10 @@
 Changelog
 
 v.3.4.2
-
+* [technical] Use WP cron to update options. Uses less resources, better optimisation.
+* [technical] Class config used to include two classes. Now they're merged. All calls to class config trigger an automatic sending of the settings to imdbphp. Debug is now displayed everywhere.
+* [technical] Class config has been cleaned. Constants have been included into the class. A lot of polishing is still needed.
+* [bug] Taxonomy (english term+additional language related post) were added on the display of a post.
 
 v.3.4.1
 * [bug] auto widget was not working anymore due to recent changes in class.widget.php

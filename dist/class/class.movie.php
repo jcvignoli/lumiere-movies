@@ -34,7 +34,7 @@ class LumiereMovies {
 
 	public $lumiere_result = ""; # store all returned movie details search result
 
-	private $imdbphpclass; # store Lumière settings class
+	private $configclass; # store Lumière settings class
 	private $imdb_admin_values;
 	private $imdb_widget_values; 
 	private $imdb_cache_values;
@@ -47,10 +47,11 @@ class LumiereMovies {
  
 		// Start config class to get the vars
 		if (class_exists("\Lumiere\Settings")) {
-			$this->imdbphpclass = new \Lumiere\Settings();
-			$this->imdb_admin_values = $this->imdbphpclass->get_imdb_admin_option();
-			$this->imdb_widget_values = $this->imdbphpclass->get_imdb_widget_option();
-			$this->imdb_cache_values = $this->imdbphpclass->get_imdb_widget_option();
+			$configclass = new \Lumiere\Settings();
+			$this->configclass = $configclass;
+			$this->imdb_admin_values = $configclass->get_imdb_admin_option();
+			$this->imdb_widget_values = $configclass->get_imdb_widget_option();
+			$this->imdb_cache_values = $configclass->get_imdb_widget_option();
 		}
 
 		// Start 
@@ -72,33 +73,19 @@ class LumiereMovies {
 		$imdballmeta = isset($imdballmeta) ? $imdballmeta : array();
 		$output = "";
 
-		/* Start settings class */
-		$config = $this->imdbphpclass;
-
-		// Get main vars from the class (can't get privates like $this->imdb_cache_values)
-		$imdb_admin_values = $config->get_imdb_admin_option();
-		$imdb_widget_values = $config->get_imdb_widget_option();
-		$imdb_cache_values = $config->get_imdb_cache_option();
-
-		// load configuration for imdbphp class
-		$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
-		$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
-		$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
-		$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
-		$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
-		$config->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
-		$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
-		$config->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
-
+		// Get main vars from the class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
+		$imdb_cache_values = $this->imdb_cache_values;
 
 		if (isset ($_GET["mid"])) {
 
 			$movieid = filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT);
-			$movie = new \Imdb\Title($movieid, $config);
+			$movie = new \Imdb\Title($movieid, $this->configclass);
 
 		} else {
 
-			$search = new \Imdb\TitleSearch($config);
+			$search = new \Imdb\TitleSearch($this->configclass);
 
 		}
 
@@ -166,7 +153,7 @@ class LumiereMovies {
 					$output .= ' imdbincluded_' . $imdb_admin_values['imdbintotheposttheme'];
 				$output .= "'>";
 
-				$output .= $this->lumiere_movie_design($config, $midPremierResultat); # passed those two values to the design
+				$output .= $this->lumiere_movie_design($this->configclass, $midPremierResultat); # passed those two values to the design
 				$output .= "\n\t</div>";
 			}
 
@@ -255,12 +242,16 @@ class LumiereMovies {
 	public function lumiere_movie_design($config=NULL, $midPremierResultat=NULL){
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values,$magicnumber;
+		global $magicnumber;
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
+		$imdb_cache_values = $this->imdb_cache_values;
 
 		$outputfinal ="";
 
 		/* Start config class for $config in below Imdb\Title class calls */
-		$movie = new \Imdb\Title($midPremierResultat, $config);
+		$movie = new \Imdb\Title($midPremierResultat, $this->configclass);
 
 		foreach ( $imdb_widget_values['imdbwidgetorder'] as $magicnumber) {
 
@@ -382,7 +373,9 @@ class LumiereMovies {
 	 */
 	public function lumiere_movie_design_addwrapper($html, $item){
 
-		global $imdb_admin_values;
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+
 		$outputfinal ="";
 		$item = sanitize_text_field( $item );
 		$item_caps = strtoupper($item);
@@ -419,7 +412,9 @@ class LumiereMovies {
 
 		/* Vars */ 
 
-		global $imdb_admin_values, $imdb_widget_values; 
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output="";
 		$year=intval($movie->year ());
@@ -442,8 +437,9 @@ class LumiereMovies {
 	 */
 	public function lumiere_movies_pics ($movie=NULL) {
 
-		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output="";
 
@@ -512,7 +508,10 @@ class LumiereMovies {
 	public function lumiere_movies_country ($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$country = $movie->country();
@@ -555,7 +554,9 @@ class LumiereMovies {
 	 * @param mandatory object $movie -> takes the value of imdb class 
 	 */
 	public function lumiere_movies_runtime($movie=NULL) {
-		global $imdb_admin_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
 
 		$output = "";
 		$runtime_sanitized = sanitize_text_field( $movie->runtime() ); 
@@ -579,8 +580,9 @@ class LumiereMovies {
 	 */
 	public function lumiere_movies_language($movie=NULL) {
 
-		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$languages = $movie->languages();
@@ -625,7 +627,11 @@ class LumiereMovies {
 	public function lumiere_movies_rating($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
+
 		$output = "";
 		$votes_sanitized = esc_attr($movie->votes());
 		$rating_sanitized = esc_attr($movie->rating());
@@ -662,7 +668,10 @@ class LumiereMovies {
 	public function lumiere_movies_genre($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values,$imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$genre = $movie->genres ();	
@@ -707,7 +716,10 @@ class LumiereMovies {
 	public function lumiere_movies_keywords($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$keywords = $movie->keywords();
@@ -751,7 +763,10 @@ class LumiereMovies {
 	public function lumiere_movies_goofs($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$goofs = $movie->goofs (); 
@@ -784,7 +799,10 @@ class LumiereMovies {
 	public function lumiere_movies_comment($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$comment[] = $movie->comment_split(); # this value is sent into an array!
@@ -830,7 +848,10 @@ class LumiereMovies {
 	public function lumiere_movies_quotes($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$quotes = $movie->quotes ();  
@@ -875,7 +896,10 @@ class LumiereMovies {
 	public function lumiere_movies_taglines($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$taglines = $movie->taglines ();
@@ -909,7 +933,10 @@ class LumiereMovies {
 	public function lumiere_movies_trailer($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$trailers = $movie->trailers(TRUE);
@@ -953,7 +980,10 @@ class LumiereMovies {
 	public function lumiere_movies_color($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$colors = $movie->colors ();  
@@ -1002,7 +1032,10 @@ class LumiereMovies {
 	public function lumiere_movies_aka($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$alsoknow = $movie->alsoknow ();
@@ -1039,7 +1072,10 @@ class LumiereMovies {
 	public function lumiere_movies_composer($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$composer = $movie->composer () ;
@@ -1105,7 +1141,10 @@ class LumiereMovies {
 	public function lumiere_movies_soundtrack($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$soundtrack = $movie->soundtrack (); 
@@ -1160,7 +1199,10 @@ class LumiereMovies {
 	public function lumiere_movies_prodcompany($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$prodcompany = $movie->prodCompany ();
@@ -1211,7 +1253,10 @@ class LumiereMovies {
 	public function lumiere_movies_officialsite($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$officialSites = $movie->officialSites ();
@@ -1245,7 +1290,10 @@ class LumiereMovies {
 	public function lumiere_movies_director($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$director = $movie->director(); 
@@ -1308,7 +1356,10 @@ class LumiereMovies {
 	public function lumiere_movies_creator($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$creator = $movie->creator(); 
@@ -1374,7 +1425,10 @@ class LumiereMovies {
 	public function lumiere_movies_producer($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$producer = $movie->producer(); 
@@ -1452,7 +1506,10 @@ class LumiereMovies {
 	public function lumiere_movies_writer($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$writer = $movie->writing(); 
@@ -1527,7 +1584,10 @@ class LumiereMovies {
 	public function lumiere_movies_actor($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$cast = $movie->cast(); 
@@ -1597,7 +1657,10 @@ class LumiereMovies {
 	public function lumiere_movies_actor_short($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$cast = $movie->cast(); 
@@ -1672,7 +1735,10 @@ class LumiereMovies {
 	public function lumiere_movies_plot($movie=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values;
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$plot = $movie->plot(); 
@@ -1715,7 +1781,10 @@ class LumiereMovies {
 	public function lumiere_movies_creditlink($midPremierResultat=NULL) {
 
 		/* Vars */ 
-		global $imdb_admin_values, $imdb_widget_values; 
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = "";
 		$midPremierResultat_sanitized = filter_var( $midPremierResultat, FILTER_SANITIZE_NUMBER_INT );
@@ -1750,10 +1819,11 @@ class LumiereMovies {
 	 **/
 	function lumiere_make_display_taxonomy( $typeItem, $firstTitle, $secondTitle=NULL, $layout = 'one') {
 
-		global $imdb_admin_values;
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
 		
 		// ************** Vars and sanitization */
-		$lang_term = 'en'; # language to register the term with
+		$lang_term = 'en'; # language to register the term with, always English
 		$output = "";
 		$list_taxonomy_term = "";
 		$layout = esc_attr($layout);
@@ -1768,30 +1838,37 @@ class LumiereMovies {
 
 		if (null !==(get_the_ID())) {
 
-			// delete if exists, for development purposes
-			#if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
+			// delete if exists, for debugging purposes
+			# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
 			#	 wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
 
 			if ( taxonomy_exists( $taxonomy_category_full ) ){
 
-				// if the term doesn't exist
+				// if the tag doesn't exist
 				if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) ) 
 					// insert it and get its id
-					$term .= wp_insert_term($taxonomy_term, $taxonomy_category_full, array('lang' => $lang_term), false );
+					$term = wp_insert_term($taxonomy_term, $taxonomy_category_full, array('lang' => $lang_term) );
 
-				// Create a list of taxonomy terms meant to be inserted
+				// Create a list of Lumière tags meant to be inserted to Lumière Taxonomy
 				$list_taxonomy_term .= $taxonomy_term . ", " ;
 
 			}
 		}
 		if ( $term && !is_wp_error( $term ) ) {
 
-			// Insert the list of taxonomy terms
-			wp_set_post_terms(get_the_ID(), $list_taxonomy_term , $taxonomy_category_full, true);  
+			// Link Lumière tags to Lumière Taxonomy
+			wp_set_post_terms(get_the_ID(), $taxonomy_term , $taxonomy_category_full, true);  
 
-			// Can add tags to the current WordPress post, but we don't want it
-			# wp_set_post_tags(get_the_ID(), $list_taxonomy_term,true); 
+			// Add Lumière tags to the current WordPress post, but we don't want it
+			# wp_set_post_tags(get_the_ID(), $list_taxonomy_term, 'post_tag', true); 
+
 		}
+
+		// Compatibility with Polylang WordPress plugin, add a language to the taxonomy term
+		if ( function_exists('pll_set_term_language') ) 
+			$this->lumiere_add_taxo_lang_to_polylang( $term['term_id'], $lang_term );
+
+
 
 		// ************** Return layout
 
@@ -1826,13 +1903,8 @@ class LumiereMovies {
 
 		}
 
-		// Compatibility with Polylang WordPress plugin, add a language to the taxonomy term
-		// No idea why, but the language is added only in the second page refresh
-		if ( function_exists('pll_set_term_language') ) {
-			$this->lumiere_add_taxo_lang_to_polylang( $term['term_id'], $lang_term );
-		}
-
 		return $output;
+
 	}
 
 
@@ -1843,7 +1915,8 @@ class LumiereMovies {
 
 	function lumiere_convert_txtwithhtml_into_popup_people ($convert) {
 
-		global $imdb_admin_values;
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
 
 		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { // highslide popup
 				$result = '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . "\${6}" . '" title="' . esc_html__("open a new window with IMDb informations", 'lumiere-movies') . '">';
@@ -1861,6 +1934,7 @@ class LumiereMovies {
 	 ** probably can be replaced by in_array()...?
 	 **/
 	function lumiere_count_me($thema, &$count_me_siffer) {
+
 		global $count_me_siffer, $test;
 		$count_me_siffer++;
 		$test[$count_me_siffer] = $thema;
@@ -1868,6 +1942,7 @@ class LumiereMovies {
 
 		if ($ici[$thema] < 2) 
 			return "nomore";
+
 	}
 
 	/** Remove an html link
@@ -1899,7 +1974,8 @@ class LumiereMovies {
 	 **/
 	public function lumiere_select_type_search () {
 
-		global $imdb_admin_values;
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
 
 		switch ($imdb_admin_values['imdbseriemovies']) {
 
@@ -1934,7 +2010,7 @@ class LumiereMovies {
 	 **/
 	function lumiere_add_taxo_lang_to_polylang( $term_id, $lang = 'en' ) {
 
-		pll_set_term_language($term_id, $lang);
+		return pll_set_term_language($term_id, $lang);
 
 	}
 
