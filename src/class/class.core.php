@@ -278,6 +278,7 @@ class Core {
 		global $imdb_admin_values;
 
 		// Load js and css in /imdblt/, inc/, LUMIERE_URLSTRING URLs
+		// Dunno why removing $bypass condition prevents to load below assets
 		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) || ($bypass="inc.movie") ) {
 
 			// Highslide popup

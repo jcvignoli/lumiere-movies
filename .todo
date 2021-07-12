@@ -1,9 +1,3 @@
-v3.4.2
-OK--- 1. technical Use WP cron to update options. Uses less resources, better optimisation.
-OK--- 2. bug Taxonomy (english term+additional language related post) were added on the second display of a post.
-OK--- 3. technical class movie used to include two classes. Now they're merged. All calls to class movie trigger an automatic sending of the settings to imdbphp.
-OK--- 4. technical Class config has been cleaned. Constants have been included into the class. A lot of polishing is still needed.
-OK--- 5. renamed these strange vars such as $imdbOptionsc, $imdbOptionsw and $imdbOptions in admin pages to their natural names such as $imdb_cache_options, $imdb_widget_options and $imdb_admin_options.
 
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the admin pages using WordPress API
@@ -11,6 +5,14 @@ OK--- 5. renamed these strange vars such as $imdbOptionsc, $imdbOptionsw and $im
 15. add limit number for producers and akas
 16. To test: If Polylang needs to copy the metas when doing a new post in another lang, can activate lumiere_copy_post_metas_polylang() in class.core.php
 
+
+
+v3.4.2
+OK--- 1. technical Use WP cron to update options. Uses less resources, better optimisation.
+OK--- 2. bug Taxonomy (english term+additional language related post) were added on the second display of a post.
+OK--- 3. technical class movie used to include two classes. Now they're merged. All calls to class movie trigger an automatic sending of the settings to imdbphp.
+OK--- 4. technical Class config has been cleaned. Constants have been included into the class. A lot of polishing is still needed.
+OK--- 5. renamed these strange vars such as $imdbOptionsc, $imdbOptionsw and $imdbOptions in admin pages to their natural names such as $imdb_cache_options, $imdb_widget_options and $imdb_admin_options.
 
 v3.4.1
 OK--- 1. bug auto widget was not working anymore due to recent changes in class.widget.php
