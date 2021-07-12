@@ -22,7 +22,6 @@ if ( ! defined( 'WPINC' ) )
 // use the original class in src/Imdb/Config.php
 use \Imdb\Config;
 
-
 class Settings extends Config {
 
 	var $imdbAdminOptionsName = "imdbAdminOptions";
@@ -43,6 +42,7 @@ class Settings extends Config {
 		// Define Lumière constants
 		$this->lumiere_define_constants();
 
+$this->lumiere_create_cache();
 		// Send to the global vars the options
 		$this->imdb_admin_values = $this->get_imdb_admin_option();
 		$this->imdb_widget_values = $this->get_imdb_widget_option();
@@ -140,7 +140,7 @@ class Settings extends Config {
 			'imdbautopostwidget' => false,
 			'imdbimgdir' => 'pics/',
 			'imdblanguage' => "en-EN",
-			'imdbdirectsearch' => true, /* this option is not available in the admin, therefore it's always on */
+			'imdbdirectsearch' => true, 		/* not available in the admin interface */
 			/*'imdbsourceout' => false,*/
 			'imdbdebug' => false,
 			'imdbwordpress_bigmenu'=>false,
@@ -162,7 +162,7 @@ class Settings extends Config {
 				$imdbAdminOptions[$key] = $option;
 			}
 
-			// Agregate two var to construct 'imdbplugindirectory'
+			// Agregate var to construct 'imdbplugindirectory'
 			$imdbAdminOptions['imdbplugindirectory'] = $imdbAdminOptions['blog_adress'] 
 										. $imdbAdminOptions['imdbplugindirectory_partial'];
 		}
@@ -183,10 +183,10 @@ class Settings extends Config {
 		$imdbCacheOptions = array(
 
 			'imdbcachedir_partial' => 'wp-content/cache/lumiere/',
-			'imdbstorecache' => true,
+			'imdbstorecache' => true, 			/* not available in the admin interface */
 			'imdbusecache' => true,
-			'imdbconverttozip' => true,
-			'imdbusezip' => true,
+			'imdbconverttozip' => true, 		/* not available in the admin interface */
+			'imdbusezip' => true, 			/* not available in the admin interface */
 			'imdbcacheexpire' => "2592000", // one month
 			'imdbcachedetails'=> true,
 			'imdbcachedetailsshort'=> false,
@@ -206,15 +206,15 @@ class Settings extends Config {
 				$imdbCacheOptions[$key] = $option;
 			}
 
-			// Agregate two vars to construct 'imdbcachedir
+			// Agregate vars to construct 'imdbcachedir
 			$imdbCacheOptions['imdbcachedir'] =  ABSPATH . $imdbCacheOptions['imdbcachedir_partial'];
 
-			// Agregate two vars to construct 'imdbphotoroot
+			// Agregate vars to construct 'imdbphotoroot
 			$imdbCacheOptions['imdbphotoroot'] =  $imdbCacheOptions['imdbcachedir'] . 'images/';
 		}
 		if (!empty($imdbOptions)){
 
-			// Agregate four vars to construct 'imdbphotodir'
+			// Agregate vars to construct 'imdbphotodir'
 			$imdbCacheOptions['imdbphotodir'] =  $imdbOptions['blog_adress'] 
 									. '/' 
 									. $imdbCacheOptions['imdbcachedir_partial'] 
@@ -336,7 +336,7 @@ class Settings extends Config {
 	function lumiere_maybe_display_debug_pages() {
 
 		// Display debug in admin for imdblt_options pages
-		if ( (is_admin()) && ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&subsection=cache&cacheoption=manage' ) ) ) {
+		if ( (is_admin()) && ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options' ) ) ) {
 
 			$this->debug = $this->imdb_admin_values['imdbdebug'] ?? NULL;
 
@@ -353,6 +353,47 @@ class Settings extends Config {
 		}
 
 	}
+
+	/**
+	 ** Create cache folder
+	 **/
+	function lumiere_create_cache() {
+
+		$imdb_admin_values = $this->imdb_admin_values;
+		
+		/* Cache folder paths */
+		$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
+		$lumiere_folder_cache_images = WP_CONTENT_DIR . '/cache/lumiere/images';
+
+		// Cache folder exist, exit
+		if ( (is_dir($lumiere_folder_cache)) || (is_dir($lumiere_folder_cache_images)) )
+			return;
+
+		// We can write in wp-content/cache
+		if ( wp_mkdir_p( $lumiere_folder_cache ) ) {
+			chmod( $lumiere_folder_cache, 0777 );
+		// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
+		} else {
+			$lumiere_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
+			wp_mkdir_p( $lumiere_folder_cache );
+			chmod( $lumiere_folder_cache, 0777 );
+		}
+
+		// We can write in wp-content/cache/images
+		if ( wp_mkdir_p( $lumiere_folder_cache_images ) ) {
+			chmod( $lumiere_folder_cache_images, 0777 );
+		// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
+		} else {
+			$lumiere_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
+			$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
+			wp_mkdir_p( $lumiere_folder_cache_images );
+			chmod( $lumiere_folder_cache_images, 0777 );
+
+		}
+
+
+	}
+
 
 } //End class
 
