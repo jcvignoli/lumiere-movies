@@ -7,17 +7,12 @@
 *  This template retrieves automatically the first occurence for the name utilized in the taxonomy
 */
 
-// Start config class for imdbphp research
+// Start Lumière config class
 if (class_exists("\Lumiere\Settings")) {
 	$config = new \Lumiere\Settings();
-	$imdb_admin_values = $config->get_imdb_admin_option();
-	$imdb_widget_values = $config->get_imdb_widget_option();
-	$imdb_cache_values = $config->get_imdb_cache_option();
-	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
-	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
-	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
-	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
-	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
+	$imdb_admin_values = $config->imdb_admin_values;
+	$imdb_widget_values = $config->imdb_widget_values;
+	$imdb_cache_values = $config->imdb_cache_values;
 
 	// Get the tag name from the taxonomy in current page
 	$name = single_tag_title('', false);

@@ -55,20 +55,8 @@ $messages = array(
 use \Imdb\Title;
 use \Imdb\Person;
 
-if (class_exists("\Lumiere\Settings")) {
-	# $config = new \Lumiere\Settings(); # class already started in admin_pages.php
-	$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
-	$config->photodir = $imdb_cache_values['imdbphotoroot'] ?? NULL; // ?imdbphotoroot? Bug imdbphp?
-	$config->photoroot = $imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
-	$config->imdb_img_url = $imdb_cache_values['imdbimgdir'] ?? NULL;
-	$config->cache_expire = $imdb_cache_values['imdbcacheexpire'] ?? NULL;
-	$config->storecache = $imdb_cache_values['imdbstorecache'] ?? NULL;
-	$config->language = $imdb_admin_values['imdblanguage'] ?? NULL;
-	$config->usecache = $imdb_cache_values['imdbusecache'] ?? NULL;
-}
-
 // Enter in debug mode, for development version only
-if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")) 
+if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")) 
 	lumiere_debug_display($imdb_cache_values, 'no_var_dump', '', $config); # don't display set_error_handler("var_dump") that gets the page stuck in an endless loop, $config comes from admin_page
 
 
@@ -86,11 +74,11 @@ if (current_user_can( 'manage_options' ) ) {
 
 			$keynoimdb = str_replace ( "imdb_", "", $key_sanitized);
 			if (isset($_POST["$key_sanitized"])) {
-				$imdbOptionsc["$keynoimdb"] = sanitize_text_field($_POST["$key_sanitized"]);
+				$imdb_cache_values["$keynoimdb"] = sanitize_text_field($_POST["$key_sanitized"]);
 			}
 		}
 
-		update_option($config->imdbCacheOptionsName, $imdbOptionsc);
+		update_option($config->imdbCacheOptionsName, $imdb_cache_values);
 
 		// display message on top
 		echo lumiere_notice(1, '<strong>'. esc_html__( 'Cache options saved.', 'lumiere-movies') .'</strong>');
@@ -392,7 +380,7 @@ if (current_user_can( 'manage_options' ) ) {
 	<div class="imdblt_double_container lumiere_padding_five">
 		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( IMDBLTURLPATH . "pics/admin-cache-options.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Cache options", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=option'); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies'); ?></a></div>
  		<?php 
-	if ($imdbOptionsc['imdbusecache'] == "1") { ?>
+	if ($imdb_cache_values['imdbusecache'] == "1") { ?>
 		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( IMDBLTURLPATH . "pics/admin-cache-management.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Manage Cache", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage'); ?>"><?php esc_html_e( "Manage Cache", 'lumiere-movies'); ?></a></div>
 <?php 
 	}; ?>
@@ -432,7 +420,7 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<?php esc_html_e('Store cache?', 'lumiere-movies'); ?><br /><br />
-				<input type="radio" id="imdb_imdbstorecache_yes" name="imdb_imdbstorecache" value="1" <?php if ($imdbOptionsc['imdbstorecache'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbusecache_yes" data-field_to_change_value="0" data-modificator2="yes" data-field_to_change2="imdb_imdbconverttozip_yes" data-field_to_change_value2="0" data-modificator3="yes" data-field_to_change3="imdb_imdbusezip_yes" data-field_to_change_value3="0" /><label for="imdb_imdbstorecache_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbstorecache_no" name="imdb_imdbstorecache" value="" <?php if ($imdbOptionsc['imdbstorecache'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbusecache_yes" data-field_to_change_value="1" data-modificator2="yes" data-field_to_change2="imdb_imdbconverttozip_yes" data-field_to_change_value2="1" data-modificator3="yes" data-field_to_change3="imdb_imdbusezip_yes" data-field_to_change_value3="1" /><label for="imdb_imdbstorecache_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
+				<input type="radio" id="imdb_imdbstorecache_yes" name="imdb_imdbstorecache" value="1" <?php if ($imdb_cache_values['imdbstorecache'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbusecache_yes" data-field_to_change_value="0" data-modificator2="yes" data-field_to_change2="imdb_imdbconverttozip_yes" data-field_to_change_value2="0" data-modificator3="yes" data-field_to_change3="imdb_imdbusezip_yes" data-field_to_change_value3="0" /><label for="imdb_imdbstorecache_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbstorecache_no" name="imdb_imdbstorecache" value="" <?php if ($imdb_cache_values['imdbstorecache'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbusecache_yes" data-field_to_change_value="1" data-modificator2="yes" data-field_to_change2="imdb_imdbconverttozip_yes" data-field_to_change_value2="1" data-modificator3="yes" data-field_to_change3="imdb_imdbusezip_yes" data-field_to_change_value3="1" /><label for="imdb_imdbstorecache_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
 
 				<div class="explain"><?php esc_html_e('Whether to store the pages retrieved for later use. When activated, you have to check you created the folders', 'lumiere-movies'); ?> <?php esc_html_e('Cache directory', 'lumiere-movies'); ?> <?php esc_html_e('and', 'lumiere-movies'); ?> <?php esc_html_e('Photo directory (folder)', 'lumiere-movies'); ?>. <br /><?php esc_html_e('Default:','lumiere-movies');?> <?php esc_html_e('Yes', 'lumiere-movies'); ?></div>
 
@@ -442,7 +430,7 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 			<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
 
 				<?php esc_html_e('Use cache?', 'lumiere-movies'); ?><br /><br />
-				<input type="radio" id="imdb_imdbusecache_yes" name="imdb_imdbusecache" value="1" <?php if ($imdbOptionsc['imdbusecache'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbcacheexpire" data-field_to_change_value="0" data-modificator2="yes" data-field_to_change2="imdb_imdbcachedetailsshort_yes" data-field_to_change_value2="0" /><label for="imdb_imdbusecache_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbconverttozip_no" name="imdb_imdbusecache" value="" <?php if ($imdbOptionsc['imdbusecache'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbcacheexpire" data-field_to_change_value="1" data-modificator2="yes" data-field_to_change2="imdb_imdbcachedetailsshort_no" data-field_to_change_value2="1"/><label for="imdb_imdbusecache_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
+				<input type="radio" id="imdb_imdbusecache_yes" name="imdb_imdbusecache" value="1" <?php if ($imdb_cache_values['imdbusecache'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbcacheexpire" data-field_to_change_value="0" data-modificator2="yes" data-field_to_change2="imdb_imdbcachedetailsshort_yes" data-field_to_change_value2="0" /><label for="imdb_imdbusecache_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbconverttozip_no" name="imdb_imdbusecache" value="" <?php if ($imdb_cache_values['imdbusecache'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbcacheexpire" data-field_to_change_value="1" data-modificator2="yes" data-field_to_change2="imdb_imdbcachedetailsshort_no" data-field_to_change_value2="1"/><label for="imdb_imdbusecache_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
 
 				<div class="explain"><?php esc_html_e('Whether to use a cached page to retrieve the information (if available).', 'lumiere-movies'); ?> <br /><?php esc_html_e('Default:','lumiere-movies');?> <?php esc_html_e('Yes', 'lumiere-movies'); ?></div>
 
@@ -453,11 +441,11 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 				<div class="lumiere_flex_container">
 
 					<div>
-						<input type="text" id="imdb_imdbcacheexpire" name="imdb_imdbcacheexpire" size="7" value="<?php esc_html_e(apply_filters('format_to_edit',$imdbOptionsc['imdbcacheexpire']), 'lumiere-movies') ?>" <?php if ( ($imdbOptionsc['imdbusecache'] == 0) || ($imdbOptionsc['imdbstorecache'] == 0) ) { echo 'disabled="disabled"'; }; ?> />
+						<input type="text" id="imdb_imdbcacheexpire" name="imdb_imdbcacheexpire" size="7" value="<?php esc_html_e(apply_filters('format_to_edit',$imdb_cache_values['imdbcacheexpire']), 'lumiere-movies') ?>" <?php if ( ($imdb_cache_values['imdbusecache'] == 0) || ($imdb_cache_values['imdbstorecache'] == 0) ) { echo 'disabled="disabled"'; }; ?> />
 					</div>				
  
 					<div class="imdblt_padding_ten">
-						<input type="checkbox" value="0" id="imdb_imdbcacheexpire_definitive" name="imdb_imdbcacheexpire_definitive" data-valuemodificator="yes" data-valuemodificator_field="imdb_imdbcacheexpire" data-valuemodificator_default="2592000"<?php if ($imdbOptionsc['imdbcacheexpire'] == 0) { echo 'checked="checked"'; }; ?> /><label for="imdb_imdbcacheexpire"><?php esc_html_e('(never)','lumiere-movies');?></label>
+						<input type="checkbox" value="0" id="imdb_imdbcacheexpire_definitive" name="imdb_imdbcacheexpire_definitive" data-valuemodificator="yes" data-valuemodificator_field="imdb_imdbcacheexpire" data-valuemodificator_default="2592000"<?php if ($imdb_cache_values['imdbcacheexpire'] == 0) { echo 'checked="checked"'; }; ?> /><label for="imdb_imdbcacheexpire"><?php esc_html_e('(never)','lumiere-movies');?></label>
 					</div>
 				</div>
 
@@ -476,7 +464,7 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<?php esc_html_e('Convert to zip?', 'lumiere-movies'); ?><br /><br />
-				<input type="radio" id="imdb_imdbconverttozip_yes" name="imdb_imdbconverttozip" value="1" <?php if ($imdbOptionsc['imdbconverttozip'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbconverttozip_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbconverttozip_no" name="imdb_imdbconverttozip" value="" <?php if ($imdbOptionsc['imdbconverttozip'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbconverttozip_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
+				<input type="radio" id="imdb_imdbconverttozip_yes" name="imdb_imdbconverttozip" value="1" <?php if ($imdb_cache_values['imdbconverttozip'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbconverttozip_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbconverttozip_no" name="imdb_imdbconverttozip" value="" <?php if ($imdb_cache_values['imdbconverttozip'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbconverttozip_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
 
 				<div class="explain"><?php esc_html_e('Convert non-zip cache-files to zip (check file permissions!)', 'lumiere-movies'); ?> <br /><?php esc_html_e('Default:','lumiere-movies');?> <?php esc_html_e('Yes', 'lumiere-movies'); ?></div>
 
@@ -484,7 +472,7 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<?php esc_html_e('Use zip?', 'lumiere-movies'); ?><br /><br />
-				<input type="radio" id="imdb_imdbusezip_yes" name="imdb_imdbusezip" value="1" <?php if ($imdbOptionsc['imdbusezip'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbusezip_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbusezip_no" name="imdb_imdbusezip" value="" <?php if ($imdbOptionsc['imdbusezip'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdbusezip_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
+				<input type="radio" id="imdb_imdbusezip_yes" name="imdb_imdbusezip" value="1" <?php if ($imdb_cache_values['imdbusezip'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbusezip_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbusezip_no" name="imdb_imdbusezip" value="" <?php if ($imdb_cache_values['imdbusezip'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdbusezip_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
 
 				<div class="explain"><?php esc_html_e('Use zip compression for caching the retrieved html-files.', 'lumiere-movies'); ?> <br /><?php esc_html_e('Default:','lumiere-movies');?> <?php esc_html_e('Yes', 'lumiere-movies'); ?></div>
 			</div>
@@ -505,9 +493,9 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<?php esc_html_e('Show advanced cache details', 'lumiere-movies'); ?><br /><br />
-				<input type="radio" id="imdb_imdbcachedetails_yes" name="imdb_imdbcachedetails" value="1" <?php if ($imdbOptionsc['imdbcachedetails'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbcachedetailsshort_yes" data-field_to_change_value="0" />
+				<input type="radio" id="imdb_imdbcachedetails_yes" name="imdb_imdbcachedetails" value="1" <?php if ($imdb_cache_values['imdbcachedetails'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbcachedetailsshort_yes" data-field_to_change_value="0" />
 				<label for="imdb_imdbcachedetails_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label>
-				<input type="radio" id="imdb_imdbcachedetails_no" name="imdb_imdbcachedetails" value="" <?php if ($imdbOptionsc['imdbcachedetails'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbcachedetailsshort_yes" data-field_to_change_value="1" />
+				<input type="radio" id="imdb_imdbcachedetails_no" name="imdb_imdbcachedetails" value="" <?php if ($imdb_cache_values['imdbcachedetails'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbcachedetailsshort_yes" data-field_to_change_value="1" />
 				<label for="imdb_imdbcachedetails_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
 
 				<div class="explain"><?php esc_html_e('To show or not advanced cache details, which allows to specifically delete a movie cache. Be carefull with this option, if you have a lot of cached movies, it could crash this page. When yes is selected, an additional menu "manage cache" will appear next to the cache "General Options" menu.', 'lumiere-movies'); ?> <br /><?php esc_html_e('Default:','lumiere-movies');?> <?php esc_html_e('Yes', 'lumiere-movies'); ?></div>
@@ -519,10 +507,10 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<?php esc_html_e('Simplified cache details', 'lumiere-movies'); ?><br /><br />
-				<input type="radio" id="imdb_imdbcachedetailsshort_yes" name="imdb_imdbcachedetailsshort" value="1" <?php if ($imdbOptionsc['imdbcachedetailsshort'] == "1") { echo 'checked="checked"'; }?> <?php if ($imdbOptionsc['imdbcachedetails'] == 0) { echo 'disabled="disabled"'; }; ?> />
+				<input type="radio" id="imdb_imdbcachedetailsshort_yes" name="imdb_imdbcachedetailsshort" value="1" <?php if ($imdb_cache_values['imdbcachedetailsshort'] == "1") { echo 'checked="checked"'; }?> <?php if ($imdb_cache_values['imdbcachedetails'] == 0) { echo 'disabled="disabled"'; }; ?> />
 				<label for="imdb_imdbcachedetailsshort_yes"><?php esc_html_e('Yes', 'lumiere-movies'); ?></label>
 
-				<input type="radio" id="imdb_imdbcachedetailsshort_no" name="imdb_imdbcachedetailsshort" value="" <?php if ($imdbOptionsc['imdbcachedetailsshort'] == 0) { echo 'checked="checked"'; } ?> <?php if ($imdbOptionsc['imdbcachedetails'] == 0) { echo 'disabled="disabled"'; }; ?> />
+				<input type="radio" id="imdb_imdbcachedetailsshort_no" name="imdb_imdbcachedetailsshort" value="" <?php if ($imdb_cache_values['imdbcachedetailsshort'] == 0) { echo 'checked="checked"'; } ?> <?php if ($imdb_cache_values['imdbcachedetails'] == 0) { echo 'disabled="disabled"'; }; ?> />
 				<label for="imdb_imdbcachedetailsshort_no"><?php esc_html_e('No', 'lumiere-movies'); ?></label>
 
 				<div class="explain"><?php esc_html_e('Allow faster loading time for the "manage cache" page, by displaying shorter movies and people presentation. Usefull when you have several of those. This option is available when "Show advanced cache details" is activated.', 'lumiere-movies'); ?> <br /><?php esc_html_e('Default:','lumiere-movies');?> <?php esc_html_e('No', 'lumiere-movies'); ?></div>
@@ -706,7 +694,7 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 				$title_sanitized = sanitize_text_field( $res->title() ); // search title related to movie id
 				$obj_sanitized = sanitize_text_field( $res->imdbid() );
 				$filepath_sanitized = esc_url( $imdb_cache_values['imdbcachedir']."title.tt".substr($obj_sanitized, 0, 8) );
-				if ($imdbOptionsc['imdbcachedetailsshort'] == 1)  { // display only cache movies' names, quicker loading
+				if ($imdb_cache_values['imdbcachedetailsshort'] == 1)  { // display only cache movies' names, quicker loading
 					$data[] = '<span class="lumiere_short_titles"><input type="checkbox" id="imdb_cachedeletefor_movies_'.$title_sanitized.'" name="imdb_cachedeletefor_movies[]" value="'.$obj_sanitized.'" /><label for="imdb_cachedeletefor_movies[]">'.$title_sanitized.'</label></span>'."\n"; // send input and results into array
 					flush();
 				} else { // display every cache movie details, longer loading
@@ -731,7 +719,7 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 							</div></td></tr></table>
 						</div>';// send input and results into array
 
-				} //end quick/long loading $imdbOptionsc['imdbcachedetailsshort']
+				} //end quick/long loading $imdb_cache_values['imdbcachedetailsshort']
 
 			}
 		} 
@@ -814,7 +802,7 @@ if (!empty($results)){
 			$name_sanitized = sanitize_text_field( $res->name() ); // search title related to movie id
 			$objpiple_sanitized = sanitize_text_field( $res->imdbid() );
 			$filepath_sanitized = esc_url($imdb_cache_values['imdbcachedir']."name.nm".substr($objpiple_sanitized, 0, 8));
-			if ($imdbOptionsc['imdbcachedetailsshort'] == 1)  { // display only cache peoples' names, quicker loading
+			if ($imdb_cache_values['imdbcachedetailsshort'] == 1)  { // display only cache peoples' names, quicker loading
 				$datapeople[] = '<span class="lumiere_short_titles"><input type="checkbox" id="imdb_cachedeletefor_people_'.$name_sanitized.'" name="imdb_cachedeletefor_people[]" value="'.$objpiple_sanitized.'" /><label for="imdb_cachedeletefor_people[]">'.$name_sanitized.'</label></span>'; // send input and results into array
 				flush();
 			} else { // display every cache people details, longer loading
@@ -838,7 +826,7 @@ if (!empty($results)){
 					</div>'; // send input and results into array
 
 				flush();
-			} //end quick/long loading $imdbOptionsc['imdbcachedetailsshort']
+			} //end quick/long loading $imdb_cache_values['imdbcachedetailsshort']
 
 		}
 	} 

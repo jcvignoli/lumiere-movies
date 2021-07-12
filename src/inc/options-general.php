@@ -19,8 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Enter in debug mode
-if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
-	lumiere_debug_display($imdbOptions, '', '', $config); # $config comes from admin_page
+if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
+	lumiere_debug_display($imdb_admin_values, '', '', $config); # $config comes from admin_page
 }
 
 /* Vars */
@@ -44,7 +44,7 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 			break;
 		// Message for failure
 		case "highslide_failure":
-			echo lumiere_notice(3, esc_html__( $messages["highslide_failure"] , 'lumiere-movies') . " " .  esc_html__( 'Your folder might be protected. Download highslide manually', 'lumiere-movies')." <a href='". esc_url ( IMDBBLOGHIGHSLIDE ) ."'>".esc_html__("here", 'lumiere-movies')."</a> ".esc_html__("and extract the zip into" ) . "<br />" .  esc_url( $imdbOptions['imdbpluginpath'] ."js/" ) );
+			echo lumiere_notice(3, esc_html__( $messages["highslide_failure"] , 'lumiere-movies') . " " .  esc_html__( 'Your folder might be protected. Download highslide manually', 'lumiere-movies')." <a href='". esc_url ( IMDBBLOGHIGHSLIDE ) ."'>".esc_html__("here", 'lumiere-movies')."</a> ".esc_html__("and extract the zip into" ) . "<br />" .  esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" ) );
 			break;
 		// Message for website down
 		case "highslide_down":
@@ -68,10 +68,10 @@ $post_imdb_imdburlpopups = isset($_POST['imdb_imdburlpopups']) ? filter_var($_PO
 
 			if ( 
 			(isset($post_imdb_imdburlstringtaxo)) && 
-(str_replace('/','',$post_imdb_imdburlstringtaxo) == str_replace('/','',$post_imdb_imdburlpopups) ) || isset($imdbOptions['imdburlpopups']) && (str_replace('/','',$post_imdb_imdburlstringtaxo) == str_replace('/','',$imdbOptions['imdburlpopups']) )
+(str_replace('/','',$post_imdb_imdburlstringtaxo) == str_replace('/','',$post_imdb_imdburlpopups) ) || isset($imdb_admin_values['imdburlpopups']) && (str_replace('/','',$post_imdb_imdburlstringtaxo) == str_replace('/','',$imdb_admin_values['imdburlpopups']) )
 									||
 			(isset($post_imdb_imdburlpopups)) && 
-(str_replace('/','',$post_imdb_imdburlpopups) == str_replace('/','',$post_imdb_imdburlstringtaxo) ) || isset($imdbOptions['imdburlstringtaxo']) && (str_replace('/','',$post_imdb_imdburlpopups) == str_replace('/','',$imdbOptions['imdburlstringtaxo']) )
+(str_replace('/','',$post_imdb_imdburlpopups) == str_replace('/','',$post_imdb_imdburlstringtaxo) ) || isset($imdb_admin_values['imdburlstringtaxo']) && (str_replace('/','',$post_imdb_imdburlpopups) == str_replace('/','',$imdb_admin_values['imdburlstringtaxo']) )
 			)
 {
 			echo lumiere_notice(3, esc_html__( 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 'lumiere-movies') );
@@ -83,18 +83,18 @@ $post_imdb_imdburlpopups = isset($_POST['imdb_imdburlpopups']) ? filter_var($_PO
 			$key_sanitized = sanitize_key($key);
 			$keynoimdb = str_replace ( "imdb_", "", $key_sanitized);
 			if (isset($_POST["$key_sanitized"])) {
-				$imdbOptions["$keynoimdb"] = sanitize_text_field( $_POST["$key_sanitized"] );
+				$imdb_admin_values["$keynoimdb"] = sanitize_text_field( $_POST["$key_sanitized"] );
 			}
 		}
 
 		// update options
-		update_option($config->imdbAdminOptionsName, $imdbOptions);
+		update_option($config->imdbAdminOptionsName, $imdb_admin_values);
 
-		// flush rewrite rules for matches the new $imdbOptions['imdbplugindirectory'] path
+		// flush rewrite rules for matches the new $imdb_admin_values['imdbplugindirectory'] path
 		add_action('admin_init', function (){ flush_rewrite_rules(); }, 0);
 
 		# 2021 07 04 function obsolete
-		// Rewrite the htaccess so it matches the new $imdbOptions['imdbplugindirectory'] path
+		// Rewrite the htaccess so it matches the new $imdb_admin_values['imdbplugindirectory'] path
 		/*if ( lumiere_make_htaccess() ) {
 			echo lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'lumiere-movies') ); 
 		} else {
@@ -142,9 +142,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 ?>
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-general-path.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Paths & Layout", 'lumiere-movies');?>" href="<?php echo esc_url(admin_url() . "admin.php?page=imdblt_options&generaloption=base" ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-general-path.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Paths & Layout", 'lumiere-movies');?>" href="<?php echo esc_url(admin_url() . "admin.php?page=imdblt_options&generaloption=base" ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies'); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-general-advanced.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Advanced", 'lumiere-movies');?>" href="<?php echo esc_url (admin_url() . "admin.php?page=imdblt_options&generaloption=advanced" ); ?>"><?php esc_html_e( "Advanced", 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-general-advanced.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Advanced", 'lumiere-movies');?>" href="<?php echo esc_url (admin_url() . "admin.php?page=imdblt_options&generaloption=advanced" ); ?>"><?php esc_html_e( "Advanced", 'lumiere-movies'); ?></a></div>
 	</div>
 </div>
 
@@ -166,7 +166,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 		<?php //------------------------------------------------------------------ =[Popup]=- ?>
 
 			<div class="titresection">
-				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-title-popup.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+				<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-title-popup.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 				<?php esc_html_e( 'Popup', 'lumiere-movies'); ?>
 			</div>
 		
@@ -174,7 +174,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<div class="lumiere_flex_auto imdblt_padding_five">
 
 					<label for="imdb_popupLarg"><?php esc_html_e( 'Width', 'lumiere-movies'); ?></label><br /><br />
-					<input type="text" name="imdb_popupLarg" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['popupLarg']), 'lumiere-movies') ?>" >
+					<input type="text" name="imdb_popupLarg" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdb_admin_values['popupLarg']), 'lumiere-movies') ?>" >
 
 					<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?>"540"</div>
 
@@ -182,7 +182,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<div class="lumiere_flex_auto imdblt_padding_five">
 
 					<label for="imdb_popupLong"><?php esc_html_e( 'Height', 'lumiere-movies'); ?></label><br /><br />
-					<input type="text" name="imdb_popupLong" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['popupLong']), 'lumiere-movies') ?>" >
+					<input type="text" name="imdb_popupLong" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdb_admin_values['popupLong']), 'lumiere-movies') ?>" >
 
 					<div class="explain"> <?php esc_html_e( 'Popup height, in pixels', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?>"350"</div>
 
@@ -193,9 +193,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 					<label for="imdb_imdbpopuptheme"><?php esc_html_e( 'Theme color', 'lumiere-movies'); ?></label><br /><br />
 
 					<select name="imdb_imdbpopuptheme">
-						<option <?php if( ($imdbOptions['imdbpopuptheme'] == "white") || (empty($imdbOptions['imdbpopuptheme'])) ) echo 'selected="selected"'; ?>value="white"><?php esc_html_e( 'white (default)', 'lumiere-movies'); ?></option>
-						<option <?php if($imdbOptions['imdbpopuptheme'] == "black") echo 'selected="selected"'; ?>value="black"><?php esc_html_e( 'black', 'lumiere-movies'); ?></option>
-						<option <?php if($imdbOptions['imdbpopuptheme'] == "lightgrey") echo 'selected="selected"'; ?>value="lightgrey"><?php esc_html_e( 'lightgrey', 'lumiere-movies'); ?></option>
+						<option <?php if( ($imdb_admin_values['imdbpopuptheme'] == "white") || (empty($imdb_admin_values['imdbpopuptheme'])) ) echo 'selected="selected"'; ?>value="white"><?php esc_html_e( 'white (default)', 'lumiere-movies'); ?></option>
+						<option <?php if($imdb_admin_values['imdbpopuptheme'] == "black") echo 'selected="selected"'; ?>value="black"><?php esc_html_e( 'black', 'lumiere-movies'); ?></option>
+						<option <?php if($imdb_admin_values['imdbpopuptheme'] == "lightgrey") echo 'selected="selected"'; ?>value="lightgrey"><?php esc_html_e( 'lightgrey', 'lumiere-movies'); ?></option>
 
 					</select>
 
@@ -211,11 +211,11 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 					esc_html_e( 'Display highslide popup', 'lumiere-movies'); 
 					echo '<br /><br /> 
 					<input type="radio" id="imdb_imdbpopup_highslide_yes" name="imdb_imdbpopup_highslide" value="1" ';
-					if ($imdbOptions['imdbpopup_highslide'] == "1") { echo 'checked="checked"'; }
+					if ($imdb_admin_values['imdbpopup_highslide'] == "1") { echo 'checked="checked"'; }
 					echo ' /><label for="imdb_imdbpopup_highslide_yes">';
 					esc_html_e( 'Yes', 'lumiere-movies');
 					echo '</label><input type="radio" id="imdb_imdbpopup_highslide_no" name="imdb_imdbpopup_highslide" value="" ';
-					 if ($imdbOptions['imdbpopup_highslide'] == 0) { echo 'checked="checked"'; } 
+					 if ($imdb_admin_values['imdbpopup_highslide'] == 0) { echo 'checked="checked"'; } 
 					echo '/><label for="imdb_imdbpopup_highslide_no">';
 					 esc_html_e( 'No', 'lumiere-movies'); 
 					echo '</label>';
@@ -229,10 +229,10 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 					echo "<br />";
 
 					// Automatic download deactivated as per Wordpress's plugin staff request
-					// echo "<a href='". esc_url( $imdbOptions['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes") . "' title='".esc_html__('Click here to install Highslide', 'lumiere-movies') ."'><img src='".esc_url($imdbOptions['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />&nbsp;&nbsp;".esc_html__('Install automatically Highslide', 'lumiere-movies') .'</a><br /><br />';
+					// echo "<a href='". esc_url( $imdb_admin_values['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes") . "' title='".esc_html__('Click here to install Highslide', 'lumiere-movies') ."'><img src='".esc_url($imdb_admin_values['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />&nbsp;&nbsp;".esc_html__('Install automatically Highslide', 'lumiere-movies') .'</a><br /><br />';
 
 					// Add a link to highslide website
-					echo '<a href="http://highslide.com/" title="' . esc_html__('Click here to visit Highslide website', 'lumiere-movies') .'"><img src="'.esc_url( $imdbOptions['imdbplugindirectory'] . 'pics/admin-general-install-highslide.png') . '" align="absmiddle" />&nbsp;&nbsp;'.esc_html__('Get Highslide JS library', 'lumiere-movies') . '</a><br /><br />';
+					echo '<a href="http://highslide.com/" title="' . esc_html__('Click here to visit Highslide website', 'lumiere-movies') .'"><img src="'.esc_url( $imdb_admin_values['imdbplugindirectory'] . 'pics/admin-general-install-highslide.png') . '" align="absmiddle" />&nbsp;&nbsp;'.esc_html__('Get Highslide JS library', 'lumiere-movies') . '</a><br /><br />';
 				} 
 
 	?>
@@ -244,7 +244,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 		<?php //------------------------------------------------------------------ =[Theme taxo/inside post/widget]=- ?>
 
 			<div class="titresection">
-				<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/admin-title-taxonomy.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+				<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-title-taxonomy.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 				<?php esc_html_e( 'Plain pages', 'lumiere-movies'); ?>
 			</div>
 
@@ -254,9 +254,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<label for="imdb_imdbintotheposttheme"><?php esc_html_e( 'Theme color', 'lumiere-movies'); ?></label><br /><br />
 
 				<select name="imdb_imdbintotheposttheme">
-					<option <?php if( ($imdbOptions['imdbintotheposttheme'] == "grey") || (empty($imdbOptions['imdbintotheposttheme'])) ) echo 'selected="selected"'; ?>value="grey"><?php esc_html_e( 'grey (default)', 'lumiere-movies'); ?></option>
-					<option <?php if($imdbOptions['imdbintotheposttheme'] == "white") echo 'selected="selected"'; ?>value="white"><?php esc_html_e( 'white', 'lumiere-movies'); ?></option>
-					<option <?php if($imdbOptions['imdbintotheposttheme'] == "black") echo 'selected="selected"'; ?>value="black"><?php esc_html_e( 'black', 'lumiere-movies'); ?></option>
+					<option <?php if( ($imdb_admin_values['imdbintotheposttheme'] == "grey") || (empty($imdb_admin_values['imdbintotheposttheme'])) ) echo 'selected="selected"'; ?>value="grey"><?php esc_html_e( 'grey (default)', 'lumiere-movies'); ?></option>
+					<option <?php if($imdb_admin_values['imdbintotheposttheme'] == "white") echo 'selected="selected"'; ?>value="white"><?php esc_html_e( 'white', 'lumiere-movies'); ?></option>
+					<option <?php if($imdb_admin_values['imdbintotheposttheme'] == "black") echo 'selected="selected"'; ?>value="black"><?php esc_html_e( 'black', 'lumiere-movies'); ?></option>
 				</select>
 
 				<div class="explain"> <?php esc_html_e( 'Inside the post/widget/taxonomy color theme', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?>"grey"</div>
@@ -267,7 +267,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 		<?php //------------------------------------------------------------------ =[Cover picture]=- ?>
 
 		<div class="titresection">
-			<img src="<?php echo esc_url( $imdbOptions['imdbplugindirectory'] . "pics/cover.jpg"); ?>" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+			<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/cover.jpg"); ?>" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 			<?php esc_html_e( 'Cover picture', 'lumiere-movies'); ?>
 		</div>
 
@@ -275,11 +275,11 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 			<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
 				<label for="imdb_popupLarg"><?php esc_html_e( 'Display only thumbnail', 'lumiere-movies'); ?><br /><br />
-				<input type="radio" id="imdb_imdbcoversize_yes" name="imdb_imdbcoversize" value="1" <?php if ($imdbOptions['imdbcoversize'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbcoversizewidth" data-field_to_change_value="1" />
+				<input type="radio" id="imdb_imdbcoversize_yes" name="imdb_imdbcoversize" value="1" <?php if ($imdb_admin_values['imdbcoversize'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbcoversizewidth" data-field_to_change_value="1" />
 
 				<label for="imdb_imdbcoversize_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
 
-				<input type="radio" id="imdb_imdbcoversize_no" name="imdb_imdbcoversize" value="" <?php if ($imdbOptions['imdbcoversize'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbcoversizewidth" data-field_to_change_value="0" />
+				<input type="radio" id="imdb_imdbcoversize_no" name="imdb_imdbcoversize" value="" <?php if ($imdb_admin_values['imdbcoversize'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbcoversizewidth" data-field_to_change_value="0" />
 
 				<label for="imdb_imdbcoversize_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
@@ -290,7 +290,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<label for="imdb_imdbcoversizewidth"><?php esc_html_e( 'Size', 'lumiere-movies'); ?></label><br /><br />
 
-				<input type="text" name="imdb_imdbcoversizewidth" id="imdb_imdbcoversizewidth" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbcoversizewidth']), 'lumiere-movies'); ?>" />
+				<input type="text" name="imdb_imdbcoversizewidth" id="imdb_imdbcoversizewidth" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdb_admin_values['imdbcoversizewidth']), 'lumiere-movies'); ?>" />
 
 				<div class="explain"><?php esc_html_e( 'Size of the imdb cover picture. The value will correspond to the width in pixels. Delete any value to get maximum width.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "100"</div>
 
@@ -324,9 +324,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<label for="imdb_imdblanguage"><?php esc_html_e( 'Search language', 'lumiere-movies'); ?></label><br /><br />
 				<select name="imdb_imdblanguage">
-					<option <?php if( ($imdbOptions['imdblanguage'] == "en-US") || (empty($imdbOptions['imdblanguage'])) ) echo 'selected="selected"'; ?> value="en-US"><?php esc_html_e( 'English', 'lumiere-movies'); ?></option>
-					<option <?php if($imdbOptions['imdblanguage'] == "fr-FR") echo 'selected="selected"'; ?>value="fr-FR"><?php esc_html_e( 'French', 'lumiere-movies'); ?></option>
-					<option <?php if($imdbOptions['imdblanguage'] == "es-ES") echo 'selected="selected"'; ?>value="es-ES"><?php esc_html_e( 'Spanish', 'lumiere-movies'); ?></option>
+					<option <?php if( ($imdb_admin_values['imdblanguage'] == "en-US") || (empty($imdb_admin_values['imdblanguage'])) ) echo 'selected="selected"'; ?> value="en-US"><?php esc_html_e( 'English', 'lumiere-movies'); ?></option>
+					<option <?php if($imdb_admin_values['imdblanguage'] == "fr-FR") echo 'selected="selected"'; ?>value="fr-FR"><?php esc_html_e( 'French', 'lumiere-movies'); ?></option>
+					<option <?php if($imdb_admin_values['imdblanguage'] == "es-ES") echo 'selected="selected"'; ?>value="es-ES"><?php esc_html_e( 'Spanish', 'lumiere-movies'); ?></option>
 				</select>
 
 				<div class="explain"><?php esc_html_e( 'Language used for the movie search. Very usefull for a non-English blog using Lumière! as a widget.', 'lumiere-movies'); ?>
@@ -339,10 +339,10 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<label for="imdb_imdbseriemovies"><?php esc_html_e( 'Search categories', 'lumiere-movies'); ?></label><br /><br />
 				<select name="imdb_imdbseriemovies">
-					<option <?php if( ($imdbOptions['imdbseriemovies'] == "movies+series") || (empty($imdbOptions['imdbSerieMovies'])) ) echo 'selected="selected"'; ?> value="movies+series"><?php esc_html_e( 'Movies and series', 'lumiere-movies'); ?></option>
-					<option <?php if($imdbOptions['imdbseriemovies'] == "movies") echo 'selected="selected"'; ?>value="movies"><?php esc_html_e( 'Movies only', 'lumiere-movies'); ?></option>
-					<option <?php if($imdbOptions['imdbseriemovies'] == "series") echo 'selected="selected"'; ?>value="series"><?php esc_html_e( 'Series only', 'lumiere-movies'); ?></option>
-					<option <?php if($imdbOptions['imdbseriemovies'] == "games") echo 'selected="selected"'; ?>value="videogames"><?php esc_html_e( 'Video games only', 'lumiere-movies'); ?></option>
+					<option <?php if( ($imdb_admin_values['imdbseriemovies'] == "movies+series") || (empty($imdb_admin_values['imdbSerieMovies'])) ) echo 'selected="selected"'; ?> value="movies+series"><?php esc_html_e( 'Movies and series', 'lumiere-movies'); ?></option>
+					<option <?php if($imdb_admin_values['imdbseriemovies'] == "movies") echo 'selected="selected"'; ?>value="movies"><?php esc_html_e( 'Movies only', 'lumiere-movies'); ?></option>
+					<option <?php if($imdb_admin_values['imdbseriemovies'] == "series") echo 'selected="selected"'; ?>value="series"><?php esc_html_e( 'Series only', 'lumiere-movies'); ?></option>
+					<option <?php if($imdb_admin_values['imdbseriemovies'] == "games") echo 'selected="selected"'; ?>value="videogames"><?php esc_html_e( 'Video games only', 'lumiere-movies'); ?></option>
 				</select>
 
 				<div class="explain"><?php esc_html_e( 'What type to use for the search, such as movies, series (for TV Shows), and videogames.', 'lumiere-movies'); ?>
@@ -357,7 +357,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<br />
 				<br />
 
-				<input type="text" name="imdb_imdbmaxresults" id="imdb_imdbmaxresults" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbmaxresults']), 'lumiere-movies') ?>" />
+				<input type="text" name="imdb_imdbmaxresults" id="imdb_imdbmaxresults" size="5" value="<?php esc_html_e( apply_filters('format_to_edit',$imdb_admin_values['imdbmaxresults']), 'lumiere-movies') ?>" />
 
 				<div class="explain">
 					<?php esc_html_e( 'This limits the number of results in a movie query.', 'lumiere-movies'); ?> 
@@ -385,9 +385,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<?php esc_html_e( 'Left menu for Lumière options', 'lumiere-movies'); ?><br /><br />
 
-				<input type="radio" id="imdb_imdbwordpress_bigmenu_yes" name="imdb_imdbwordpress_bigmenu" value="1" <?php if ($imdbOptions['imdbwordpress_bigmenu'] == "1") { echo 'checked="checked"'; }?> />
+				<input type="radio" id="imdb_imdbwordpress_bigmenu_yes" name="imdb_imdbwordpress_bigmenu" value="1" <?php if ($imdb_admin_values['imdbwordpress_bigmenu'] == "1") { echo 'checked="checked"'; }?> />
 
-				<label for="imdb_imdbwordpress_bigmenu_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbwordpress_bigmenu_no" name="imdb_imdbwordpress_bigmenu" value="" <?php if ($imdbOptions['imdbwordpress_bigmenu'] == 0) { echo 'checked="checked"'; } ?>  />
+				<label for="imdb_imdbwordpress_bigmenu_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbwordpress_bigmenu_no" name="imdb_imdbwordpress_bigmenu" value="" <?php if ($imdb_admin_values['imdbwordpress_bigmenu'] == 0) { echo 'checked="checked"'; } ?>  />
 				
 				<label for="imdb_imdbwordpress_bigmenu_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
@@ -397,9 +397,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 			<div class="lumiere_flex_auto lumiere_padding_five">
 
 				<?php esc_html_e( 'Top menu for Lumière options', 'lumiere-movies'); ?><br /><br />
-				<input type="radio" id="imdb_imdbwordpress_tooladminmenu_yes" name="imdb_imdbwordpress_tooladminmenu" value="1" <?php if ($imdbOptions['imdbwordpress_tooladminmenu'] == "1") { echo 'checked="checked"'; }?> />
+				<input type="radio" id="imdb_imdbwordpress_tooladminmenu_yes" name="imdb_imdbwordpress_tooladminmenu" value="1" <?php if ($imdb_admin_values['imdbwordpress_tooladminmenu'] == "1") { echo 'checked="checked"'; }?> />
 
-				<label for="imdb_imdbwordpress_tooladminmenu_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbwordpress_tooladminmenu_no" name="imdb_imdbwordpress_tooladminmenu" value="" <?php if ($imdbOptions['imdbwordpress_tooladminmenu'] == 0) { echo 'checked="checked"'; } ?>  />
+				<label for="imdb_imdbwordpress_tooladminmenu_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbwordpress_tooladminmenu_no" name="imdb_imdbwordpress_tooladminmenu" value="" <?php if ($imdb_admin_values['imdbwordpress_tooladminmenu'] == 0) { echo 'checked="checked"'; } ?>  />
 
 				<label for="imdb_imdbwordpress_tooladminmenu_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
@@ -411,11 +411,11 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<label for="imdb_imdbtaxonomy"><?php esc_html_e( 'Use taxonomy', 'lumiere-movies'); ?></label><br /><br />
 
-				<input type="radio" id="imdb_imdbtaxonomy_yes" name="imdb_imdbtaxonomy" value="1" <?php if ($imdbOptions['imdbtaxonomy'] == "1") { echo 'checked="checked"'; }?> />
+				<input type="radio" id="imdb_imdbtaxonomy_yes" name="imdb_imdbtaxonomy" value="1" <?php if ($imdb_admin_values['imdbtaxonomy'] == "1") { echo 'checked="checked"'; }?> />
 
 				<label for="imdb_imdbtaxonomy_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
 
-				<input type="radio" id="imdb_imdbtaxonomy_no" name="imdb_imdbtaxonomy" value="" <?php if ($imdbOptions['imdbtaxonomy'] == 0) { echo 'checked="checked"'; } ?>  />
+				<input type="radio" id="imdb_imdbtaxonomy_no" name="imdb_imdbtaxonomy" value="" <?php if ($imdb_admin_values['imdbtaxonomy'] == 0) { echo 'checked="checked"'; } ?>  />
 
 				<label for="imdb_imdbtaxonomy_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
@@ -427,9 +427,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<?php esc_html_e( 'Remove all links?', 'lumiere-movies'); ?><br /><br />
 
-				<input type="radio" id="imdb_imdblinkingkill_yes" name="imdb_imdblinkingkill" value="1" <?php if ($imdbOptions['imdblinkingkill'] == "1") { echo 'checked="checked"'; }?> />
+				<input type="radio" id="imdb_imdblinkingkill_yes" name="imdb_imdblinkingkill" value="1" <?php if ($imdb_admin_values['imdblinkingkill'] == "1") { echo 'checked="checked"'; }?> />
 
-				<label for="imdb_imdblinkingkill_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdblinkingkill_no" name="imdb_imdblinkingkill" value="" <?php if ($imdbOptions['imdblinkingkill'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdblinkingkill_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+				<label for="imdb_imdblinkingkill_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdblinkingkill_no" name="imdb_imdblinkingkill" value="" <?php if ($imdb_admin_values['imdblinkingkill'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdblinkingkill_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
 				<div class="explain"><?php esc_html_e( "Remove all links (popup and external ones) which are automatically added. Usefull for users who are not interested in popup function. Please note that it will remove every single HTML link as well, such as the the links to the official IMDb website.", 'lumiere-movies'); ?><br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
@@ -439,9 +439,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<?php esc_html_e( 'Auto widget?', 'lumiere-movies'); ?><br /><br />
 
-				<input type="radio" id="imdb_imdbautopostwidget_yes" name="imdb_imdbautopostwidget" value="1" <?php if ($imdbOptions['imdbautopostwidget'] == "1") { echo 'checked="checked"'; }?> />
+				<input type="radio" id="imdb_imdbautopostwidget_yes" name="imdb_imdbautopostwidget" value="1" <?php if ($imdb_admin_values['imdbautopostwidget'] == "1") { echo 'checked="checked"'; }?> />
 
-				<label for="imdb_imdbautopostwidget_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbautopostwidget_no" name="imdb_imdbautopostwidget" value="" <?php if ($imdbOptions['imdbautopostwidget'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdbautopostwidget_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+				<label for="imdb_imdbautopostwidget_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbautopostwidget_no" name="imdb_imdbautopostwidget" value="" <?php if ($imdb_admin_values['imdbautopostwidget'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdbautopostwidget_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
 				<div class="explain"><?php esc_html_e( "Add automatically a widget according to your post title. If regular widgets have been added to post too, the auto widget will be displayed before them. Usefull if blog a lot about movies; if a query does not bring any result with the post title, nothing is displayed.", 'lumiere-movies'); ?><br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?><?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
@@ -451,9 +451,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<?php esc_html_e( 'Keep settings upon deactivation', 'lumiere-movies'); ?><br /><br />
 
-				<input type="radio" id="imdb_imdbkeepsettings_yes" name="imdb_imdbkeepsettings" value="1" <?php if ($imdbOptions['imdbkeepsettings'] == "1") { echo 'checked="checked"'; }?> />
+				<input type="radio" id="imdb_imdbkeepsettings_yes" name="imdb_imdbkeepsettings" value="1" <?php if ($imdb_admin_values['imdbkeepsettings'] == "1") { echo 'checked="checked"'; }?> />
 
-				<label for="imdb_imdbkeepsettings_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbkeepsettings_no" name="imdb_imdbkeepsettings" value="" <?php if ($imdbOptions['imdbkeepsettings'] == 0) { echo 'checked="checked"'; } ?>  />
+				<label for="imdb_imdbkeepsettings_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbkeepsettings_no" name="imdb_imdbkeepsettings" value="" <?php if ($imdb_admin_values['imdbkeepsettings'] == 0) { echo 'checked="checked"'; } ?>  />
 				
 				<label for="imdb_imdbkeepsettings_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
@@ -465,9 +465,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<?php esc_html_e( 'Debug Lumière!', 'lumiere-movies'); ?><br /><br />
 
-				<input type="radio" id="imdb_imdbdebug_yes" name="imdb_imdbdebug" value="1" <?php if ($imdbOptions['imdbdebug'] == "1") { echo 'checked="checked"'; }?> />
+				<input type="radio" id="imdb_imdbdebug_yes" name="imdb_imdbdebug" value="1" <?php if ($imdb_admin_values['imdbdebug'] == "1") { echo 'checked="checked"'; }?> />
 
-				<label for="imdb_imdbdebug_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbdebug_no" name="imdb_imdbdebug" value="" <?php if ($imdbOptions['imdbdebug'] == 0) { echo 'checked="checked"'; } ?>  />
+				<label for="imdb_imdbdebug_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbdebug_no" name="imdb_imdbdebug" value="" <?php if ($imdb_admin_values['imdbdebug'] == 0) { echo 'checked="checked"'; } ?>  />
 				
 				<label for="imdb_imdbdebug_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
@@ -502,8 +502,8 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<label for="imdb_blog_adress"><?php esc_html_e( 'Blog address', 'lumiere-movies'); ?></label>
 			</div>
 			<div class="lumiere_flex_container_content_eighty">
-				<input class="lumiere_border_width_medium imdblt_width_fillall" type="text" name="imdb_blog_adress" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['blog_adress']), 'lumiere-movies') ?>" >
-				<div class="explain"><?php esc_html_e( 'Where the blog is installed.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo esc_url( $imdbOptions['blog_adress'] ); ?>"</div>
+				<input class="lumiere_border_width_medium imdblt_width_fillall" type="text" name="imdb_blog_adress" value="<?php esc_html_e( apply_filters('format_to_edit',$imdb_admin_values['blog_adress']), 'lumiere-movies') ?>" >
+				<div class="explain"><?php esc_html_e( 'Where the blog is installed.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo esc_url( $imdb_admin_values['blog_adress'] ); ?>"</div>
 			</div>
 		</div>
 
@@ -516,8 +516,8 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 			</div>
 			<div class="lumiere_flex_container_content_eighty">
 				<div class="lumiere_align_items_center">
-					<?php echo $imdbOptions['blog_adress']; ?>
-					<input type="text" class="lumiere_border_width_medium" name="imdb_imdbplugindirectory_partial" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdbplugindirectory_partial']), 'lumiere-movies') ?>">
+					<?php echo $imdb_admin_values['blog_adress']; ?>
+					<input type="text" class="lumiere_border_width_medium" name="imdb_imdbplugindirectory_partial" value="<?php esc_html_e( apply_filters('format_to_edit',$imdb_admin_values['imdbplugindirectory_partial']), 'lumiere-movies') ?>">
 				</div>
 				<div class="explain">
 					<?php wp_kses( _e( 'Where <strong>Lumiere</strong> is installed.', 'lumiere-movies'), $allowed_html_for_esc_html_functions ); ?> 
@@ -537,8 +537,8 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 			</div>
 			<div class="lumiere_flex_container_content_eighty">
 				<div class="lumiere_align_items_center">
-					<?php echo $imdbOptions['blog_adress']; ?>
-					<input type="text" class="lumiere_border_width_medium" name="imdb_imdburlpopups" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdburlpopups']), 'lumiere-movies') ?>">
+					<?php echo $imdb_admin_values['blog_adress']; ?>
+					<input type="text" class="lumiere_border_width_medium" name="imdb_imdburlpopups" value="<?php esc_html_e( apply_filters('format_to_edit',$imdb_admin_values['imdburlpopups']), 'lumiere-movies') ?>">
 				</div>
 				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the movies\' and people\'s popups.', 'lumiere-movies'); ?> 
 				<br />
@@ -547,12 +547,12 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<br />
 				<?php esc_html_e( 'Example: the full URL utilized for the movies\' popups will be:', 'lumiere-movies'); ?>
 				<br />
-				<?php echo $imdbOptions['blog_adress'] . $imdbOptions['imdburlpopups'] . 'film' ; ?>
+				<?php echo $imdb_admin_values['blog_adress'] . $imdb_admin_values['imdburlpopups'] . 'film' ; ?>
 				<br />
 				<br />
 				<?php esc_html_e( 'Example: the full URL utilized for the people\'s popup will be:', 'lumiere-movies'); ?>
 				<br />
-				<?php echo $imdbOptions['blog_adress'] . $imdbOptions['imdburlpopups'] . 'person' ; ?>
+				<?php echo $imdb_admin_values['blog_adress'] . $imdb_admin_values['imdburlpopups'] . 'person' ; ?>
 				</div>
 			</div>
 		</div>
@@ -566,8 +566,8 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 			</div>
 			<div class="lumiere_flex_container_content_eighty">
 				<div class="lumiere_align_items_center">
-					<?php echo $imdbOptions['blog_adress']; ?>/
-					<input type="text" class="lumiere_border_width_medium" name="imdb_imdburlstringtaxo" value="<?php esc_html_e( apply_filters('format_to_edit',$imdbOptions['imdburlstringtaxo']), 'lumiere-movies') ?>">
+					<?php echo $imdb_admin_values['blog_adress']; ?>/
+					<input type="text" class="lumiere_border_width_medium" name="imdb_imdburlstringtaxo" value="<?php esc_html_e( apply_filters('format_to_edit',$imdb_admin_values['imdburlstringtaxo']), 'lumiere-movies') ?>">
 				</div>
 				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the taxonomy\'s pages. Warning! It cannot be identical to the URL of popups above.', 'lumiere-movies'); ?> 
 				<br />
@@ -576,7 +576,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<br />
 				<?php esc_html_e( 'The full URL utilized for the director taxonomy page will be:', 'lumiere-movies'); ?>
 				<br />
-				<?php echo $imdbOptions['blog_adress'] . '/' . $imdbOptions['imdburlstringtaxo'] . 'director' ; ?>
+				<?php echo $imdb_admin_values['blog_adress'] . '/' . $imdb_admin_values['imdburlstringtaxo'] . 'director' ; ?>
 				</div>
 			</div>
 		</div>

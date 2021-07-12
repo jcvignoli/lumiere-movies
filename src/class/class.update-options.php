@@ -33,7 +33,8 @@ class UpdateOptions {
 
 		$this->getLumiereVersions();
 
-		add_filter ( 'wp_head', [ $this, 'runUpdateOptions' ], 0);
+		// add_filter ( 'wp_head', [ $this, 'runUpdateOptions' ], 0); # executes on every frontpage, but now use cron instead
+		$this->runUpdateOptions();
 
 	}
 
@@ -63,21 +64,19 @@ class UpdateOptions {
 	 **/
 	function runUpdateOptions() {
 
+		/* VARS */
+		$output = "";
+
 		if (class_exists("\Lumiere\Settings")) {
 
 			$config = new \Lumiere\Settings();
 			$imdb_admin_values = $config->get_imdb_admin_option();
 			$this->isDebug = $imdb_admin_values['imdbdebug'];
-			$imdb_widget_values = $config->get_imdb_widget_option();
-			$imdb_cache_values = $config->get_imdb_cache_option();
 
 		} else {
 			wp_die('Lumière files have been moved. Can not update Lumière!');
 		}
 
-		$output = "";
-
-		
 		/************************************************** 3.4 */
 		if ( (version_compare( $this->lumiereVersionPlugin, "3.3.4" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 4 ) ){				# update 4
@@ -94,16 +93,21 @@ class UpdateOptions {
 			}
 
 			// Add 'imdbHowManyUpdates'
-			// New option to manage the number of 
+			// New option to manage the number of updates made
+			// Without such an option, all updates are went through
 			if ( TRUE === $this->lumiere_add_options($config->imdbAdminOptionsName, 'imdbHowManyUpdates', 1 ) ) {
 				$output .= $this->print_debug(1, '<strong>Lumière option imdbHowManyUpdates successfully added.</strong>');
 			} else {
 				$output .= $this->print_debug(2, '<strong>Lumière option imdbHowManyUpdates could not be added.</strong>');
 			}
 
+			return $output;
+
+		}
+
 		/************************************************** 3.3.4 */
 
-		} elseif ( (version_compare( $this->lumiereVersionPlugin, "3.3.3" ) >= 0 )
+		if ( (version_compare( $this->lumiereVersionPlugin, "3.3.3" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 3 ) ){ 				# update 3
 
 			$nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
@@ -173,10 +177,13 @@ class UpdateOptions {
 				$output .= $this->print_debug(2, '<strong>Lumière option imdbintotheposttheme not added.</strong>');
 			}
 
+			return $output;
 
+		}
+		
 		/************************************************** 3.3.3 */
 
-		} elseif ( (version_compare( $this->lumiereVersionPlugin, "3.3.2" ) >= 0 ) 
+		if ( (version_compare( $this->lumiereVersionPlugin, "3.3.2" ) >= 0 ) 
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 2 ) ){				# update 2
 
 			$nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
@@ -184,16 +191,19 @@ class UpdateOptions {
 
 			// Update 'imdbwidgetsource'
 			// No need to display the source by default
-			$updateLumiereOptions = $imdb_widget_values['imdbwidgetsource'] = true;
 			if ( TRUE === $this->lumiere_update_options($config->imdbWidgetOptionsName, 'imdbwidgetsource', '0') ) {
 				$output .= $this->print_debug(1, '<strong>Lumière option imdbwidgetsource successfully updated.</strong>');
 			} else {
 				$output .= $this->print_debug(2, '<strong>Lumière option imdbwidgetsource not updated.</strong>');
 			}
 
+			return $output;
+
+		}
+
 		/************************************************** 3.3.1 */
 
-		} elseif ( (version_compare( $this->lumiereVersionPlugin, "3.3" ) >= 0 )
+		if ( (version_compare( $this->lumiereVersionPlugin, "3.3" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 1 ) ){				# update 1
 
 			$nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
@@ -215,9 +225,9 @@ class UpdateOptions {
 				$output .= $this->print_debug(2, '<strong>Lumière option imdbintotheposttheme not added.</strong>');
 			}
 
-		}
+			return $output;
 
-		echo $output; 
+		}
 
 	}
 
@@ -345,6 +355,7 @@ class UpdateOptions {
 	}
 }
 
-$start_update_options = new \Lumiere\UpdateOptions();
+// Executed by WP Cron, deactivated
+//$start_update_options = new \Lumiere\UpdateOptions();
 
 ?>

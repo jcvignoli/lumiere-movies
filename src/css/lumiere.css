@@ -225,8 +225,7 @@ padding:20px 20px 0 20px;float:left;}
 
 
 .lumiere-padding-lines-common-picture{
-	padding: 20px 20px 0 10px;
-}
+padding: 20px 20px 0 10px;}
 .lumiere-lines-common-fix{min-height:100px}
 
 /* ---------------------------------------- Others */
@@ -234,13 +233,13 @@ padding:20px 20px 0 20px;float:left;}
 .linkpopup {color: #909090;text-decoration: none;cursor:pointer;}/*link to the internal popup, from popups*/
 .linkpopup:hover {color: #A8A8A8;text-decoration: none;cursor:pointer;}/*link to the internal popup, from popups*/
 
-.linkincmovie, .linktaxonomy {color: #909090;text-decoration: none;}/*link to a popup, from imdb-movie.inc.php, also from taxonomy function in starting class*/
-.linkincmovie:hover, .linktaxonomy:hover {color: #A8A8A8;text-decoration:none;}/*link to a popup, from imdb-movie.inc.php, also from taxonomy function in starting class */
+.linkincmovie, .linktaxonomy {color: #909090;text-decoration: none;}/*link to a popup, from class.movie.php, also from taxonomy function in starting class*/
+.linkincmovie:hover, .linktaxonomy:hover {color: #A8A8A8;text-decoration:none;}/*link to a popup, from class.movie.php, also from taxonomy function in starting class */
 
-.link-imdblt-classicfilm, .link-imdblt-highslidefilm { /*link to a movie popup, from imdb-movie.inc.php*/
+.link-imdblt-classicfilm, .link-imdblt-highslidefilm { /*link to a movie popup, from class.movie.php*/
 background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;padding-left: 16px;text-decoration: none;cursor:pointer;}
 
-.link-imdblt-classicpeople, .link-imdblt-highslidepeople  { /*link to a people popup, from imdb-movie.inc.php*/
+.link-imdblt-classicpeople, .link-imdblt-highslidepeople  { /*link to a people popup, from class.movie.php*/
 text-decoration: none;cursor:pointer;}
 
 .link-incmovie-sourceimdb {color:dimgrey;} /* from functions.php, build the link to imdb */
