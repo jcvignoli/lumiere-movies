@@ -1,5 +1,7 @@
 Changelog
 
+v.3.4.3
+
 v.3.4.2
 * [major] Updated to imdbphp library 7.1
 * [minor] Added a number limit for producers and akas
