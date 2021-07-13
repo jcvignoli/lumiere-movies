@@ -1,6 +1,8 @@
 Changelog
 
 v.3.4.3
+* [technical] Use of vars and constants in class config, changed php calls accordingly
+* [bug] HTML Links are properly linking to plot authors (class movie).
 
 v.3.4.2
 * [major] Updated to imdbphp library 7.1

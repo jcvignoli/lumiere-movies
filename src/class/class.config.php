@@ -47,7 +47,7 @@ class Settings extends Config {
 	$lumiere_urlstringsearch, $lumiere_urlpopupsfilms, $lumiere_urlpopupsperson, 
 	$lumiere_urlpopupsearch;
 
-	/* Internal URL constants */
+	/* Internal URL pages constants */
 	const move_template_taxonomy_page = 'inc/move_template_taxonomy.php';
 	const highslide_download_page = 'inc/highslide_download.php';
 	const gutenberg_search_page = 'inc/gutenberg-search.php';
@@ -91,7 +91,7 @@ class Settings extends Config {
 	 **
 	 **
 	 **/
-	/* @TODO: work on the consistancy with function get_imdb_*_option, so this can be called either before or after, right now it's a mess */
+	/* @TODO: work on the consistancy with function get_imdb_*_option, so this can be called either before or after */
 	function lumiere_define_constants() {
 
 		global $imdb_admin_values;

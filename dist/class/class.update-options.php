@@ -25,8 +25,14 @@ if ( ! defined( 'WPINC' ) )
 
 class UpdateOptions {
 
-	private $lumiereVersionPlugin; # store the version for use in runUpdateOptions() function
+	/* Lumière plugin version
+	 * For runUpdateOptions() function
+	 */
+	private $lumiereVersionPlugin;
 
+	/* If debug is active, store it
+	 * 
+	 */
 	private $isDebug;
 
 	function __construct() {
@@ -38,9 +44,9 @@ class UpdateOptions {
 
 	}
 
-	/*** Get current Lumière version
-	 *** Extracts from the readme file
-	 **
+	/** Get current Lumière version
+	 ** Extracts from the readme file
+	 ** @TODO Should be replaced by $config->lumiere_version from class.config.php
 	 **/
 	function getLumiereVersions () {
 
