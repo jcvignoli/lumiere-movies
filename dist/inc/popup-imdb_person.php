@@ -85,16 +85,16 @@ if (isset ($mid_sanitized)) {
             <a class="historyback"><?php esc_html_e('Back', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Summary', 'lumiere-movies'); ?>'><?php esc_html_e('Summary', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( $config->lumiere_urlpopupsperson . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Summary', 'lumiere-movies'); ?>'><?php esc_html_e('Summary', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=filmo" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Full filmography', 'lumiere-movies'); ?>'><?php esc_html_e('Full filmography', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( $config->lumiere_urlpopupsperson . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=filmo" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Full filmography', 'lumiere-movies'); ?>'><?php esc_html_e('Full filmography', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=bio" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Full biography', 'lumiere-movies'); ?>'><?php esc_html_e('Full biography', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( $config->lumiere_urlpopupsperson . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=bio" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Full biography', 'lumiere-movies'); ?>'><?php esc_html_e('Full biography', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSPERSON . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=misc" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
+		<a class='linkpopup' href="<?php echo esc_url( $config->lumiere_urlpopupsperson . $mid_sanitized . "/?mid=". $mid_sanitized . "&info=misc" ); ?>" title='<?php echo $person_name_sanitized.": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
         </div>
 </div>
 
@@ -253,7 +253,7 @@ if ( (!isset($_GET['info'])) || (empty($_GET['info'])) ){      // display only w
 
 		  	for($i=0; $i < $nbtotalfilmo; $i++) {
 
-				echo " <a class='linkpopup' href='".esc_url( LUMIERE_URLPOPUPSFILMS . '?mid=' . esc_html($filmo[$i]["mid"]) )."'>".sanitize_text_field( $filmo[$i]["name"] )."</a>";
+				echo " <a class='linkpopup' href='".esc_url( $config->lumiere_urlpopupsfilms . '?mid=' . esc_html($filmo[$i]["mid"]) )."'>".sanitize_text_field( $filmo[$i]["name"] )."</a>";
 
 				if (!empty($filmo[$i]["year"])) {
 					echo " (";
@@ -335,7 +335,7 @@ if ( (isset($_GET['info'] )) && ($_GET['info'] == 'filmo') ){
 					echo "\n\t\t" . '<div align="center" class="lumiere_container">';
 					echo "\n\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 					echo "\n\t\t\t\t" ." <a class='linkpopup' href='"
-						.esc_url( LUMIERE_URLPOPUPSFILMS 
+						.esc_url( $config->lumiere_urlpopupsfilms 
 						. '?mid=' . esc_html($filmo[$i]["mid"]) )
 						."'>"
 						.sanitize_text_field( $filmo[$i]["name"] )
@@ -382,7 +382,7 @@ if ( (isset($_GET['info'] )) && ($_GET['info'] == 'filmo') ){
 				// before XX results, show a shortened list of results
 
 				echo "\n\t" ." <a class='linkpopup' href='"
-						.esc_url( LUMIERE_URLPOPUPSFILMS 
+						.esc_url( $config->lumiere_urlpopupsfilms 
 						. '?mid=' . esc_html($filmo[$i]["mid"]) )
 						."'>".sanitize_text_field( $filmo[$i]["name"] )
 						."</a>";
@@ -443,7 +443,7 @@ if ( (isset($_GET['info'] )) && ($_GET['info'] == 'bio') ){
 
 		for ($i=0; $i < $nbtotalbiomovie; ++$i) {
 			$ii = $i+"1";
-			echo "<a class='linkpopup' href='". esc_url( LUMIERE_URLPOPUPSFILMS ."?mid=".intval($biomovie[$i]["imdb"]) )."'>".$biomovie[$i]["name"]."</a>";
+			echo "<a class='linkpopup' href='". esc_url( $config->lumiere_urlpopupsfilms ."?mid=".intval($biomovie[$i]["imdb"]) )."'>".$biomovie[$i]["name"]."</a>";
 			if (!empty($biomovie[$i]["year"])) 
 				echo " (".intval($biomovie[$i]["year"]).")";
 		} 
@@ -465,7 +465,7 @@ if ( (isset($_GET['info'] )) && ($_GET['info'] == 'bio') ){
 
 		for ($i=0; $i < $nbtotalportrayedmovie; ++$i) {
 			$ii = $i+"1";
-			echo "<a class='linkpopup' href='". esc_url( LUMIERE_URLPOPUPSFILMS ."?mid=".intval($portrayedmovie[$i]["imdb"]) )."'>".$portrayedmovie[$i]["name"]."</a>";
+			echo "<a class='linkpopup' href='". esc_url( $config->lumiere_urlpopupsfilms ."?mid=".intval($portrayedmovie[$i]["imdb"]) )."'>".$portrayedmovie[$i]["name"]."</a>";
 			if (!empty($portrayedmovie[$i]["year"])) 
 				echo " (".intval($portrayedmovie[$i]["year"]).") ";
 		} 
@@ -528,7 +528,7 @@ if ( (isset($_GET['info'] )) && ($_GET['info'] == 'bio') ){
 					. "\n\t" .'<span class="hidesection">';
 
 			if (!empty($pubprints[$i]["author"])) {
-				$text = preg_replace( '~/name/nm(\d{7})\/\"~', LUMIERE_URLPOPUPSPERSON . "popup-imdb_person.php?mid=\\1\" class=\"linkpopup\"", $pubprints[$i]["author"] ); # transform imdb to local link
+				$text = preg_replace( '~/name/nm(\d{7})\/\"~', $config->lumiere_urlpopupsperson . "popup-imdb_person.php?mid=\\1\" class=\"linkpopup\"", $pubprints[$i]["author"] ); # transform imdb to local link
 				echo "\n\t\t" .$text;
 			}
 
@@ -581,7 +581,7 @@ if ( (isset($_GET['info'] )) && ($_GET['info'] == 'misc') ){
 					. "\n\t\t" .'<div class="hidesection">';
 
 			echo "\n\t\t\t" .'<div>';
-			$text = preg_replace( '~https\:\/\/\www\.imdb\.com\/name/nm(\d{7})\?(.+?)\"~', LUMIERE_URLPOPUPSPERSON . "popup-imdb_person.php?mid=\\1\" class=\"linkpopup\"", $trivia[$i] ); # transform imdb to local link
+			$text = preg_replace( '~https\:\/\/\www\.imdb\.com\/name/nm(\d{7})\?(.+?)\"~', $config->lumiere_urlpopupsperson . "popup-imdb_person.php?mid=\\1\" class=\"linkpopup\"", $trivia[$i] ); # transform imdb to local link
 			$text = preg_replace( '~^\s\s\s\s\s\s\s(.*)<br \/>\s\s\s\s\s$~', "\\1", $text ); # clean output
 
 			echo "\n\t\t\t\t" .' * ' . $text;

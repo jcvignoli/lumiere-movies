@@ -30,7 +30,7 @@ class LumiereMovies {
 	/* HTML allowed for use of wp_kses_post()
 	 * Usefull for access from outside the class
 	 */
-	private static $allowed_html_for_escape_functions = [
+	const allowed_html_for_escape_functions = [
 	    'a' => [
 		 'id' => true,
 		 'href'  => true,

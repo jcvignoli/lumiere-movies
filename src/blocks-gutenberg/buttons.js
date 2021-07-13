@@ -23,7 +23,7 @@
 			icon: iconLumiereWindow,
 			title: 'Open search IMDB ID',
 			onClick: function () {
-				open( lumiere_admin_vars.wordpress_path + '/wp-admin/lumiere/search/?gutenberg=yes' );
+				open( lumiere_admin_vars.wordpress_path + lumiere_admin_vars.gutenberg_search_url_string );
 			},
 			isActive: props.isActive,
         	} );

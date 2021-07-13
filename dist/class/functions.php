@@ -1,14 +1,5 @@
 <?php
 
-/* General vars */
-
-$allowed_html_for_esc_html_functions = [
-    'a'      => [
-        'href'  => [],
-        'title' => [],
-    ],
-];
-
 /**
  * Recursively delete a directory
  *
@@ -74,14 +65,24 @@ if ( ! function_exists('lumiere_recursive_sanitize_text_field')){
 
 if ( ! function_exists('lumiere_admin_signature')){
 	function lumiere_admin_signature(){
-		global $allowed_html_for_esc_html_functions;
+
+		// Config settings
+		$config = new \Lumiere\Settings();
+
+		// Authorise this html tags wp_kses()
+		$allowed_html_for_esc_html_functions = [
+		    'a'      => [
+			 'href'  => [],
+			 'title' => [],
+		    ],
+		];
 
 		$output = "\t\t<div class=\"soustitre\">\n";
 		$output .= "\t\t\t".
 			wp_kses( __( '<strong>Licensing Info:</strong> Under a GPL licence, "Lumiere Movies" is based on <a href="https://github.com/tboothman/imdbphp/" target="_blank">tboothman</a> classes. Nevertheless, a considerable amount of work was required to implement it in wordpress; check the support page for', 'lumiere-movies'), $allowed_html_for_esc_html_functions ). "<a href=\"" .
 			esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=support"). "\"> ".
 			esc_html__('more', 'lumiere-movies') ."</a>.";
-		$output .= "\t\t\t<br /><br /><div>\n\t\t\t\t<div> &copy; 2005-" . date("Y") . " <a href=\"" .  IMDBABOUTENGLISH . '" target="_blank">Lost Highway</a>, <a href="' . IMDBHOMEPAGE . '" target="_blank">Lumière! wordpress plugin' . '</a>, version ' . LUMIERE_VERSION . "\n</div>". "\n</div>";
+		$output .= "\t\t\t<br /><br /><div>\n\t\t\t\t<div> &copy; 2005-" . date("Y") . " <a href=\"" .  \Lumiere\Settings::IMDBABOUTENGLISH . '" target="_blank">Lost Highway</a>, <a href="' . \Lumiere\Settings::IMDBHOMEPAGE . '" target="_blank">Lumière! wordpress plugin' . '</a>, version ' . $config->lumiere_version . "\n</div>". "\n</div>";
 		$output .= "\t\t</div>\n";
 
 		return $output;
@@ -255,7 +256,7 @@ if (!function_exists('lumiere_make_htaccess')) {
 		$imdblt_htaccess_file_txt .= "<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase ".$imdblt_blog_subdomain."/"."\n\n";
 
 		# Gutenberg search
-		$imdblt_htaccess_file_txt .= "## gutenberg-search.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/gutenberg-search.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/lumiere/search/ [L,R,QSA]"."\n\n";
+		$imdblt_htaccess_file_txt .= "## gutenberg-search.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path.\Lumiere\Settings::gutenberg_search_page." [NC]"."\n"."RewriteRule ^.+$ wp-admin/".\Lumiere\Settings::gutenberg_search_url." [L,R,QSA]"."\n\n";
 
 		# highslide
 		$imdblt_htaccess_file_txt .= "## highslide_download.php\nRewriteCond %{THE_REQUEST} ".$imdblt_plugin_path."inc/highslide_download.php [NC]"."\n"."RewriteRule ^.+$ wp-admin/admin.php?page=imdblt_options [L,R,QSA]"."\n\n";

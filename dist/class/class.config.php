@@ -22,16 +22,42 @@ if ( ! defined( 'WPINC' ) )
 // use the original class in src/Imdb/Config.php
 use \Imdb\Config;
 
-use \Monolog\Logger;
-
 class Settings extends Config {
 
+	/* Editable Options vars */
 	var $imdbAdminOptionsName = "imdbAdminOptions";
 	var $imdbWidgetOptionsName = "imdbWidgetOptions";
 	var $imdbCacheOptionsName = "imdbCacheOptions";
-	public $imdb_admin_values;
-	public $imdb_widget_values;
-	public $imdb_cache_values;
+
+	/* Options vars */
+	public $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+
+	/* Websites constants */
+	const IMDBBLOG = 'https://www.jcvignoli.com/blog';
+	const IMDBBLOGENGLISH = self::IMDBBLOG . '/en';
+	const IMDBBLOGHIGHSLIDE = self::IMDBBLOG . '/wp-content/files/wordpress-lumiere-highslide-5.0.0.zip';
+	const IMDBHOMEPAGE =  self::IMDBBLOGENGLISH . '/lumiere-movies-wordpress-plugin';
+	const IMDBABOUTENGLISH = self::IMDBBLOGENGLISH . '/presentation-of-jean-claude-vignoli';
+	const IMDBPHPGIT = 'https://github.com/tboothman/imdbphp/';
+	const LUMIERE_WORDPRESS = 'https://wordpress.org/extend/plugins/lumiere-movies/';
+	const LUMIERE_GIT = 'https://github.com/jcvignoli/lumiere-movies';
+
+	/* URL Strings for popups */
+	public $lumiere_urlstring, $lumiere_urlstringfilms, $lumiere_urlstringperson, 
+	$lumiere_urlstringsearch, $lumiere_urlpopupsfilms, $lumiere_urlpopupsperson, 
+	$lumiere_urlpopupsearch;
+
+	/* Internal URL constants */
+	const move_template_taxonomy_page = 'inc/move_template_taxonomy.php';
+	const highslide_download_page = 'inc/highslide_download.php';
+	const gutenberg_search_page = 'inc/gutenberg-search.php';
+	const gutenberg_search_url_string = 'lumiere/search/';
+	const gutenberg_search_url = '/wp-admin/' . self::gutenberg_search_url_string;
+	const popup_search_url = 'inc/popup-search.php';
+	const popup_movie_url = 'inc/popup-imdb_movie.php';
+	const popup_person_url = 'inc/popup-imdb_person.php';
+
+	public $lumiere_version;
 
 	/** Constructor
 	 **
@@ -44,14 +70,16 @@ class Settings extends Config {
 		// Define Lumière constants
 		$this->lumiere_define_constants();
 
-$this->lumiere_create_cache();
+		// Make sure cache folder exists and is writable
+		$this->lumiere_create_cache();
+
 		// Send to the global vars the options
 		$this->imdb_admin_values = $this->get_imdb_admin_option();
 		$this->imdb_widget_values = $this->get_imdb_widget_option();
 		$this->imdb_cache_values = $this->get_imdb_cache_option();
 
 		// Call the plugin translation
-		load_plugin_textdomain('lumiere-movies', false, IMDBLTURLPATH . 'languages' );
+		load_plugin_textdomain('lumiere-movies', false, plugin_dir_url( __DIR__ ) . 'languages' );
 
 		// Call the function to send the selected settings to imdbphp library
 		$this->lumiere_send_config_imdbphp();
@@ -68,47 +96,22 @@ $this->lumiere_create_cache();
 
 		global $imdb_admin_values;
 
-		/* CONSTANTS */
+		/* BUILD $imdb_admin_values['imdbplugindirectory'] */
 		$imdb_admin_values['imdbplugindirectory'] = isset($imdb_admin_values['imdbplugindirectory']) ? $imdb_admin_values['imdbplugindirectory'] : plugin_dir_url( __DIR__ );
-		if(!defined('IMDBLTURLPATH'))
-			define('IMDBLTURLPATH', $imdb_admin_values['imdbplugindirectory'] );
-		if(!defined('IMDBLTABSPATH'))
-			define('IMDBLTABSPATH',  plugin_dir_path( __DIR__ ) ); # would be better WP_PLUGIN_DIR . '/lumiere-movies/' ??
-		if(!defined('IMDBLTFILE'))
-			define('IMDBLTFILE', plugin_basename( dirname(__FILE__)) );
-		if(!defined('IMDBBLOG'))
-			define('IMDBBLOG', 'https://www.jcvignoli.com/blog');
-		if(!defined('IMDBBLOGENGLISH'))
-			define('IMDBBLOGENGLISH', IMDBBLOG . "/en");
-		if(!defined('IMDBBLOG'))
-			define('IMDBBLOGHIGHSLIDE', IMDBBLOG . '/wp-content/files/wordpress-lumiere-highslide-5.0.0.zip');
-		if(!defined('IMDBHOMEPAGE'))
-			define('IMDBHOMEPAGE', IMDBBLOGENGLISH . '/lumiere-movies-wordpress-plugin');
-		if(!defined('IMDBABOUTENGLISH'))
-			define('IMDBABOUTENGLISH', IMDBBLOGENGLISH . '/presentation-of-jean-claude-vignoli');
-		if(!defined('IMDBPHP_CONFIG'))
-			define('IMDBPHP_CONFIG', IMDBLTABSPATH . 'config.php');
-		if(!defined('LUMIERE_VERSION')){
-			$lumiere_version_recherche = file_get_contents( IMDBLTABSPATH . 'README.txt');
-			$lumiere_version = preg_match('#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match);
-			define('LUMIERE_VERSION', $lumiere_version_match[1]);
-		}
-		if(!defined('LUMIERE_URLSTRING')){
-			$LUMIERE_URLSTRING = (isset($imdb_admin_values['imdburlpopups'])) ? $imdb_admin_values['imdburlpopups'] : "/imdblt/";
-			define('LUMIERE_URLSTRING', $LUMIERE_URLSTRING );
-		}
-		if(!defined('LUMIERE_URLSTRINGFILMS'))
-			define('LUMIERE_URLSTRINGFILMS', LUMIERE_URLSTRING . "film/");
-		if(!defined('LUMIERE_URLSTRINGPERSON'))
-			define('LUMIERE_URLSTRINGPERSON', LUMIERE_URLSTRING. "person/");
-		if(!defined('LUMIERE_URLSTRINGSEARCH'))
-			define('LUMIERE_URLSTRINGSEARCH', LUMIERE_URLSTRING . "search/");
-		if(!defined('LUMIERE_URLPOPUPSFILMS'))
-			define('LUMIERE_URLPOPUPSFILMS', site_url() . LUMIERE_URLSTRINGFILMS );
-		if(!defined('LUMIERE_URLPOPUPSPERSON'))
-			define('LUMIERE_URLPOPUPSPERSON', site_url() . LUMIERE_URLSTRINGPERSON );
-		if(!defined('LUMIERE_URLPOPUPSSEARCH'))
-			define('LUMIERE_URLPOPUPSSEARCH', site_url() . LUMIERE_URLSTRINGSEARCH );
+
+		/* BUILD LUMIERE_VERSION */
+		$lumiere_version_recherche = file_get_contents( plugin_dir_path( __DIR__ ) . 'README.txt');
+		$lumiere_version = preg_match('#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match);
+		$this->lumiere_version = $lumiere_version_match[1];
+
+		/* BUILD URLSTRINGS for popups */
+		$this->lumiere_urlstring = (isset($imdb_admin_values['imdburlpopups'])) ? $imdb_admin_values['imdburlpopups'] : "/imdblt/";
+		$this->lumiere_urlstringfilms = $this->lumiere_urlstring . "film/";
+		$this->lumiere_urlstringperson = $this->lumiere_urlstring . "person/";
+		$this->lumiere_urlstringsearch = $this->lumiere_urlstring . "search/";
+		$this->lumiere_urlpopupsfilms = site_url() . $this->lumiere_urlstringfilms;
+		$this->lumiere_urlpopupsperson = site_url() . $this->lumiere_urlstringperson;
+		$this->lumiere_urlpopupssearch = site_url() . $this->lumiere_urlstringsearch;	
 
 	}
 
@@ -123,7 +126,7 @@ $this->lumiere_create_cache();
 			#--------------------------------------------------=[ Basic ]=--
 			'blog_adress' => get_bloginfo('url'),
 			'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
-			'imdbpluginpath' => IMDBLTABSPATH,
+			'imdbpluginpath' => plugin_dir_path( __DIR__ ),
 			'imdburlpopups' => '/imdblt/',
 			'imdbkeepsettings' => true,
 			'imdburlstringtaxo' => 'imdblt_',
@@ -358,8 +361,8 @@ $this->lumiere_create_cache();
 
 	}
 
-	/**
-	 ** Create cache folder
+	/** Create cache folder if it does not exist
+	 ** 
 	 **/
 	function lumiere_create_cache() {
 
@@ -369,7 +372,7 @@ $this->lumiere_create_cache();
 		$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
 		$lumiere_folder_cache_images = WP_CONTENT_DIR . '/cache/lumiere/images';
 
-		// Cache folder exist, exit
+		// Cache folders exist, exit
 		if ( (is_dir($lumiere_folder_cache)) || (is_dir($lumiere_folder_cache_images)) )
 			return;
 

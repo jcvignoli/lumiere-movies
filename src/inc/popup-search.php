@@ -100,7 +100,7 @@ if (empty($results) ){
 	
 		// ---- movie part
 		echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
-		echo "\n\t\t<a href=\"".esc_url( LUMIERE_URLPOPUPSFILMS . lumiere_name_htmlize( $res->title() ) . "/?mid=".sanitize_text_field($res->imdbid()) )."&film=".lumiere_name_htmlize( $res->title() )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
+		echo "\n\t\t<a href=\"".esc_url( $config->lumiere_urlpopupsfilms . lumiere_name_htmlize( $res->title() ) . "/?mid=".sanitize_text_field($res->imdbid()) )."&film=".lumiere_name_htmlize( $res->title() )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
 		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"".esc_url( "https://www.imdb.com/title/tt".sanitize_text_field($res->imdbid()) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'>";
 
 		echo "\n\t</div>";
@@ -110,7 +110,7 @@ if (empty($results) ){
 
 		$realisateur = $res->director();
 		if ( (isset($realisateur['0']['name'])) && (! is_null ($realisateur['0']['name'])) ){
-			echo "\n\t\t<a class='link-imdb2' href=\"".esc_url( LUMIERE_URLPOPUPSPERSON . sanitize_text_field($realisateur['0']["imdb"]) . "/?mid=".sanitize_text_field($realisateur['0']["imdb"]) ). "\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."\" >".sanitize_text_field( $realisateur['0']['name'] )."</a>";
+			echo "\n\t\t<a class='link-imdb2' href=\"".esc_url( $config->lumiere_urlpopupsperson . sanitize_text_field($realisateur['0']["imdb"]) . "/?mid=".sanitize_text_field($realisateur['0']["imdb"]) ). "\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."\" >".sanitize_text_field( $realisateur['0']['name'] )."</a>";
 
 		} else {
 			echo "\n\t\t"; esc_html_e('No director found.', 'lumiere-movies');

@@ -133,7 +133,7 @@ if (empty($movie) ){
 		
 		// ---- movie part		
 		echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
-		echo "\n\t\t<div><a class='linkpopup' href=\"".esc_url( LUMIERE_URLPOPUPSFILMS . sanitize_text_field( $res->title() ) . "/?mid=".sanitize_text_field( $res->imdbid() ) . "&film=".sanitize_text_field( $res->title() ) )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
+		echo "\n\t\t<div><a class='linkpopup' href=\"".esc_url( $config->lumiere_urlpopupsfilms . sanitize_text_field( $res->title() ) . "/?mid=".sanitize_text_field( $res->imdbid() ) . "&film=".sanitize_text_field( $res->title() ) )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
 		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"https://www.imdb.com/title/tt". sanitize_text_field( $res->imdbid() )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'>";
 
 
@@ -143,7 +143,7 @@ if (empty($movie) ){
 		// ---- director part
 		$realisateur =  $res->director() ;
 		if ( (isset($realisateur['0']['name'])) && (! is_null ($realisateur['0']['name'])) ){
-			echo "\n\t\t<div><a class='linkpopup' href=\"" . esc_url( LUMIERE_URLPOPUPSPERSON . sanitize_text_field( $realisateur['0']["imdb"] ) . "/?mid=" . sanitize_text_field( $realisateur['0']["imdb"] )."&film=" . $filmid_sanitized ) ."\" title=\"".esc_html__('more on', 'lumiere-movies') . " " . sanitize_text_field( $realisateur['0']['name'] ) . "\" >" . sanitize_text_field( $realisateur['0']['name'] ) . "</a>";
+			echo "\n\t\t<div><a class='linkpopup' href=\"" . esc_url( $config->lumiere_urlpopupsperson . sanitize_text_field( $realisateur['0']["imdb"] ) . "/?mid=" . sanitize_text_field( $realisateur['0']["imdb"] )."&film=" . $filmid_sanitized ) ."\" title=\"".esc_html__('more on', 'lumiere-movies') . " " . sanitize_text_field( $realisateur['0']['name'] ) . "\" >" . sanitize_text_field( $realisateur['0']['name'] ) . "</a>";
 
 			echo "\n\t</div>";
 
@@ -182,22 +182,22 @@ if (empty($movie) ){
 
 <div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
 	<div class="lumiere_flex_auto">
-       	&nbsp;<a class="searchaka" href="<?php echo esc_url( LUMIERE_URLPOPUPSSEARCH . "?film=" . $filmid_sanitized . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for other movies with the same title', 'lumiere-movies'); ?>"><?php esc_html_e('Similar Titles', 'lumiere-movies'); ?></a>
+       	&nbsp;<a class="searchaka" href="<?php echo esc_url( $config->lumiere_urlpopupssearch . "?film=" . $filmid_sanitized . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for other movies with the same title', 'lumiere-movies'); ?>"><?php esc_html_e('Similar Titles', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		&nbsp;<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Summary', 'lumiere-movies'); ?></a>
+		&nbsp;<a class='linkpopup' href="<?php echo esc_url( $config->lumiere_urlpopupsfilms . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Summary', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		&nbsp;<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=actors" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Actors', 'lumiere-movies'); ?>'><?php esc_html_e('Actors', 'lumiere-movies'); ?></a>
+		&nbsp;<a class='linkpopup' href="<?php echo esc_url( $config->lumiere_urlpopupsfilms . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=actors" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Actors', 'lumiere-movies'); ?>'><?php esc_html_e('Actors', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		&nbsp;<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=crew" ); ?>" title='<?php echo esc_html ( $movie->title() ).": ".esc_html__('Crew', 'lumiere-movies'); ?>'><?php esc_html_e('Crew', 'lumiere-movies'); ?></a>
+		&nbsp;<a class='linkpopup' href="<?php echo esc_url( $config->lumiere_urlpopupsfilms . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=crew" ); ?>" title='<?php echo esc_html ( $movie->title() ).": ".esc_html__('Crew', 'lumiere-movies'); ?>'><?php esc_html_e('Crew', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		&nbsp;<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=resume" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Plots', 'lumiere-movies'); ?>'><?php esc_html_e('Plots', 'lumiere-movies'); ?></a>
+		&nbsp;<a class='linkpopup' href="<?php echo esc_url( $config->lumiere_urlpopupsfilms . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=resume" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Plots', 'lumiere-movies'); ?>'><?php esc_html_e('Plots', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
-		&nbsp;<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=divers" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
+		&nbsp;<a class='linkpopup' href="<?php echo esc_url( $config->lumiere_urlpopupsfilms . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized  . "&info=divers" ); ?>" title='<?php echo esc_html( $movie->title() ).": ".esc_html__('Misc', 'lumiere-movies'); ?>'><?php esc_html_e('Misc', 'lumiere-movies'); ?></a>
 	</div>
 </div>
 
@@ -271,7 +271,7 @@ if ( (!isset($_GET['info'])) || (empty($_GET['info'])) ){
 		for ($i = 0; $i < $nbtotaldirector; $i++) { 
 
 			echo '<a class="linkpopup" href="' 
-				. esc_url( LUMIERE_URLPOPUPSPERSON . $director[$i]["imdb"] 
+				. esc_url( $config->lumiere_urlpopupsperson . $director[$i]["imdb"] 
 				. "/?mid=" . $director[$i]["imdb"] . "&film=".  $title_sanitized  ) 
 				. '" title="' . esc_html__('link to imdb', 'lumiere-movies') . '">';
 			echo "\n\t\t\t" . sanitize_text_field( $director[$i]["name"] ); 
@@ -302,7 +302,7 @@ if ( (!isset($_GET['info'])) || (empty($_GET['info'])) ){
 		echo '<span class="imdbincluded-subtitle">' . esc_html__('Main actors', 'lumiere-movies') . '</span>';
 
 		for ($i = 0; ($i < $nbactors) && ($i < $nbtotalactors); $i++) {
-			echo '<a class="linkpopup" href="' . esc_url( LUMIERE_URLPOPUPSPERSON  . $cast[$i]["imdb"] . '/?mid=' . $cast[$i]["imdb"] ) . '" title="' . esc_html__('link to imdb', 'lumiere-movies') . '">';
+			echo '<a class="linkpopup" href="' . esc_url( $config->lumiere_urlpopupsperson  . $cast[$i]["imdb"] . '/?mid=' . $cast[$i]["imdb"] ) . '" title="' . esc_html__('link to imdb', 'lumiere-movies') . '">';
 			 echo "\n\t\t\t" . sanitize_text_field( $cast[$i]["name"] ) . '</a>';
 
 			if ( ($i < $nbactors -1) && ($i < $nbtotalactors -1 ) )
@@ -473,7 +473,7 @@ if ( (isset($_GET['info'])) && ($_GET['info'] == 'actors') ){
 		echo "\n\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
 		echo "\n\t\t\t\t" 
 			. '<a class="linkpopup" href="' 
-			. esc_url( LUMIERE_URLPOPUPSPERSON  
+			. esc_url( $config->lumiere_urlpopupsperson  
 			. $cast[$i]["imdb"] 
 			. "/?mid=" . $cast[$i]["imdb"] 
 			. "&film=".  $title_sanitized  )
@@ -515,7 +515,7 @@ if ( (isset($_GET['info'])) && ($_GET['info'] == 'crew') ){
 			echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 			echo "\n\t\t" 
 				. '<a class="linkpopup" href="' 
-				. esc_url( LUMIERE_URLPOPUPSPERSON  
+				. esc_url( $config->lumiere_urlpopupsperson  
 				. $director[$i]["imdb"] 
 				. "/?mid=" . $director[$i]["imdb"]
 				. "&film=".  $title_sanitized  )
@@ -553,7 +553,7 @@ if ( (isset($_GET['info'])) && ($_GET['info'] == 'crew') ){
 			echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 			echo "\n\t\t" 
 				. '<a class="linkpopup" href="' 
-				. esc_url( LUMIERE_URLPOPUPSPERSON  
+				. esc_url( $config->lumiere_urlpopupsperson  
 				. $writer[$i]["imdb"] 
 				. "/?mid=" . $writer[$i]["imdb"]
 				. "&film=".  $title_sanitized  )
@@ -588,7 +588,7 @@ if ( (isset($_GET['info'])) && ($_GET['info'] == 'crew') ){
 			echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 			echo "\n\t\t" 
 				. '<a class="linkpopup" href="' 
-				. esc_url( LUMIERE_URLPOPUPSPERSON  
+				. esc_url( $config->lumiere_urlpopupsperson  
 				. $producer[$i]["imdb"] 
 				. "/?mid=" . $producer[$i]["imdb"]
 				. "&film=".  $title_sanitized  )
@@ -675,14 +675,14 @@ if ( (isset($_GET['info'])) && ($_GET['info'] == 'divers') ){
 
 			if ( $i == 0 ) {
 				echo "\n\t" . '<div>'
-					. preg_replace("/https\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//", LUMIERE_URLPOPUPSPERSON . "popup-imdb_person.php?mid=\\1 class=\"linkpopup\"",sanitize_text_field( $trivia[$i]) )
+					. preg_replace("/https\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//", $config->lumiere_urlpopupsperson . "popup-imdb_person.php?mid=\\1 class=\"linkpopup\"",sanitize_text_field( $trivia[$i]) )
 					. '&nbsp;&nbsp;&nbsp;'
 				 	. '<span class="activatehidesection"><strong>(' . esc_html__('click to show more trivias', 'lumiere-movies') . ')</strong></span>'
 					. "\n\t" . '<div class="hidesection">'
 					. '<br />';
 
 			} elseif ( $i > 0 ) {
-				echo "\n\t\t<strong>($ii)</strong>&nbsp;" . preg_replace("/https\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//", LUMIERE_URLPOPUPSPERSON . "popup-imdb_person.php?mid=\\1 class=\"linkpopup\"",sanitize_text_field( $trivia[$i]) )
+				echo "\n\t\t<strong>($ii)</strong>&nbsp;" . preg_replace("/https\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//", $config->lumiere_urlpopupsperson . "popup-imdb_person.php?mid=\\1 class=\"linkpopup\"",sanitize_text_field( $trivia[$i]) )
 					. "\n\t\t<hr>";
 			}
 
@@ -709,7 +709,7 @@ if ( (isset($_GET['info'])) && ($_GET['info'] == 'divers') ){
 
 		for ($i = 0; $i < $nbtotalsoundtrack; $i++) {
 
-			$credit = preg_replace("/http\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//", LUMIERE_URLPOPUPSPERSON . "popup-imdb_person.php?mid=\\1 class=\"linkpopup\"",sanitize_text_field($soundtrack[$i]['credits'][0]['credit_to'] ));
+			$credit = preg_replace("/http\:\/\/".str_replace(".","\.",$movie->imdbsite)."\/name\/nm(\d{7})\//", $config->lumiere_urlpopupsperson . "popup-imdb_person.php?mid=\\1 class=\"linkpopup\"",sanitize_text_field($soundtrack[$i]['credits'][0]['credit_to'] ));
 			echo "\n\t\t"
 				. $credit
 				. '&nbsp;<i>'
