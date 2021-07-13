@@ -81,7 +81,7 @@
 							+ '<br />'
 							+ i18n.__( 'You can also click on this link to get the' , 'lumiere-movies') 
 							+ ' <a data-lumiere_admin_popup="yes" ' 
-							+ 'onclick="window.open(\''+ lumiere_admin_vars.wordpress_admin_path + 'lumiere/search/\', \'_blank\', \'location=yes,height=400,width=500,scrollbars=yes,status=yes\');" '
+							+ 'onclick="window.open(\''+ lumiere_admin_vars.wordpress_admin_path + lumiere_admin_vars.gutenberg_search_url_string + '\', \'_blank\', \'location=yes,height=400,width=500,scrollbars=yes,status=yes\');" '
 							+ 'class="linkincmovie link-imdblt-highslidepeople highslide" '
 							+ 'target="_blank">'
 							+ i18n.__( 'IMDb movie id' , 'lumiere-movies') 

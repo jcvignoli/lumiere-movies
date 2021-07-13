@@ -12,7 +12,9 @@ if ( ! defined( 'WPINC' ) )
 
 class Core {
 
-	private $imdb_admin_values, $imdb_widget_values,$imdb_cache_values; # to be removed?
+	private $imdb_admin_values, $imdb_widget_values,$imdb_cache_values;
+
+	private $settingsclass;
 
 	/*constructor*/
 	function __construct () {
@@ -20,6 +22,7 @@ class Core {
 		global $config, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
 		$config = new \Lumiere\Settings();
+		$this->settingsclass = $config;
 		$imdb_admin_values = $config->get_imdb_admin_option();
 		$imdb_widget_values = $config->get_imdb_widget_option();
 		$imdb_cache_values = $config->get_imdb_cache_option();
@@ -48,7 +51,7 @@ class Core {
 				// redirect calls to move_template_taxonomy.php
 				add_filter( 'admin_init', function( $template ) {
 					if ( isset( $_GET['taxotype'] ) ) {
-						require( IMDBLTABSPATH . 'inc/move_template_taxonomy.php' );
+						require( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::move_template_taxonomy_page );
 
 					}
 				} );
@@ -58,13 +61,13 @@ class Core {
 			/* ## function deactivated upon wordpress plugin team request
 			add_filter( 'init', function( $template ) {
 				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&highslide=yes' ) )
-					require_once ( IMDBLTABSPATH . 'inc/highslide_download.php' );
+					require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::highslide_download_page );
 
 			} );*/
 
 			add_filter( 'init', function( $template ) {
-				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/lumiere/search/' ) )
-					require_once ( IMDBLTABSPATH . 'inc/gutenberg-search.php' );
+				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) )
+					require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::move_template_taxonomy_page );
 
 			} );
 
@@ -235,12 +238,12 @@ class Core {
 		wp_register_script( "lumiere_gutenberg_main", 
 			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-block.js',
 			[ 'wp-blocks', 'wp-element', 'wp-editor','wp-components','wp-i18n','wp-data' ], 
-			LUMIERE_VERSION );
+			$this->settingsclass->lumiere_version );
 
 		wp_register_script( "lumiere_gutenberg_buttons", 
 			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/buttons.js',
 			[ 'wp-element', 'wp-compose','wp-components','wp-i18n','wp-data' ], 
-			LUMIERE_VERSION );
+			$this->settingsclass->lumiere_version );
 
 		/*wp_register_script( "lumiere_gutenberg_sidebar", 
 			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/sidebar.js',
@@ -251,7 +254,7 @@ class Core {
 		wp_register_style( "lumiere_gutenberg_main", 
 			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-block.css',
 			array('wp-edit-blocks'), 
-			LUMIERE_VERSION );
+			$this->settingsclass->lumiere_version );
 
 		// Register block script and style.
 		register_block_type( 'lumiere/main', [
@@ -279,35 +282,35 @@ class Core {
 
 		// Load js and css in /imdblt/, inc/, LUMIERE_URLSTRING URLs
 		// Dunno why removing $bypass condition prevents to load below assets
-		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) || ($bypass="inc.movie") ) {
+		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringfilms ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) || ($bypass="inc.movie") ) {
 
 			// Highslide popup
 			if ($imdb_admin_values['imdbpopup_highslide'] == 1) {
-				wp_enqueue_script( "lumiere_highslide", $imdb_admin_values['imdbplugindirectory'] ."js/highslide/highslide-with-html.min.js", array(), LUMIERE_VERSION);
-				wp_enqueue_script( "lumiere_highslide_options", $imdb_admin_values['imdbplugindirectory'] ."js/highslide-options.js", array(), LUMIERE_VERSION);
+				wp_enqueue_script( "lumiere_highslide", $imdb_admin_values['imdbplugindirectory'] ."js/highslide/highslide-with-html.min.js", array(), $this->settingsclass->lumiere_version);
+				wp_enqueue_script( "lumiere_highslide_options", $imdb_admin_values['imdbplugindirectory'] ."js/highslide-options.js", array(), $this->settingsclass->lumiere_version);
 				// Pass variable to javascript highslide-options.js
 				wp_add_inline_script( 'lumiere_highslide_options', 'const highslide_vars = ' . json_encode( array(
     					'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
     					'popup_border_colour' => $imdb_admin_values['imdbpopuptheme'],
 				) ) , 'before');
-				wp_enqueue_style( "lumiere_highslide", $imdb_admin_values['imdbplugindirectory'] ."css/highslide.css", array(), LUMIERE_VERSION);
+				wp_enqueue_style( "lumiere_highslide", $imdb_admin_values['imdbplugindirectory'] ."css/highslide.css", array(), $this->settingsclass->lumiere_version);
 			}
 
 			// Use local template lumiere.css if it exists in current theme folder
 			if (file_exists (TEMPLATEPATH . "/lumiere.css") ) { // an lumiere.css exists inside theme folder, take it!
-				wp_enqueue_style('lumiere_css', get_stylesheet_directory_uri() . '/lumiere.css', array(), LUMIERE_VERSION);
+				wp_enqueue_style('lumiere_css', get_stylesheet_directory_uri() . '/lumiere.css', array(), $this->settingsclass->lumiere_version);
 		 	} else {
-				wp_enqueue_style('lumiere_css', $imdb_admin_values['imdbplugindirectory'] .'css/lumiere.css', array(), LUMIERE_VERSION);
+				wp_enqueue_style('lumiere_css', $imdb_admin_values['imdbplugindirectory'] .'css/lumiere.css', array(), $this->settingsclass->lumiere_version);
 		 	}
 
 			// OceanWp template css fix
 			// enqueue lumiere.css only if using oceanwp template
 			# Popups
-			if ( ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ) && ( str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ) ) {
-				wp_enqueue_style('lumiere_subpages_css_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_subpages-oceanwpfixes.css", array(), LUMIERE_VERSION);
+			if ( ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ) && ( str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstring ) ) ) {
+				wp_enqueue_style('lumiere_subpages_css_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_subpages-oceanwpfixes.css", array(), $this->settingsclass->lumiere_version);
 			# Wordpress posts/pages
 			} elseif ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ){ 
-				wp_enqueue_style('lumiere_extrapagescss_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_extrapages-oceanwpfixes.css", array(), LUMIERE_VERSION);
+				wp_enqueue_style('lumiere_extrapagescss_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_extrapages-oceanwpfixes.css", array(), $this->settingsclass->lumiere_version);
 			} 
 		}
 	}
@@ -322,19 +325,19 @@ class Core {
 		// To do: add an option in admin to activate/unactivate a pass-by
 
 		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_footer_blog("inc.movie")
-		//if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
+		//if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstring ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
 
-			wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array('jquery'), LUMIERE_VERSION);
+			wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array('jquery'), $this->settingsclass->lumiere_version);
 
-			wp_enqueue_script( "lumiere_scripts", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts.js", array('jquery'), LUMIERE_VERSION);
+			wp_enqueue_script( "lumiere_scripts", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts.js", array('jquery'), $this->settingsclass->lumiere_version);
 
 			// Pass variable to javascript lumiere_scripts.js
 			wp_add_inline_script( 'lumiere_scripts', 'const lumiere_vars = ' . json_encode( array(
 				'popupLarg' => $imdb_admin_values['popupLarg'],
 				'popupLong' => $imdb_admin_values['popupLong'],
 				'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
-				'urlpopup_film' => LUMIERE_URLPOPUPSFILMS,
-				'urlpopup_person' => LUMIERE_URLPOPUPSPERSON,
+				'urlpopup_film' => $this->settingsclass->lumiere_urlpopupsfilms,
+				'urlpopup_person' => $this->settingsclass->lumiere_urlpopupsperson,
 			) ) , 'before');
 		//}
 	}
@@ -343,18 +346,20 @@ class Core {
 	function lumiere_add_head_admin () {
 		global $imdb_admin_values;
 
-		wp_enqueue_style('lumiere_css_admin', $imdb_admin_values['imdbplugindirectory'] . "css/lumiere-admin.css", array(), LUMIERE_VERSION);
+		wp_enqueue_style('lumiere_css_admin', $imdb_admin_values['imdbplugindirectory'] . "css/lumiere-admin.css", array(), $this->settingsclass->lumiere_version);
 
 		wp_enqueue_script('common'); // script needed for meta_boxes (in help.php)
 		wp_enqueue_script('wp-lists'); // script needed for meta_boxes (in help.php)
 		wp_enqueue_script('postbox'); // script needed for meta_boxes (in help.php)
 
-		wp_enqueue_script( "lumiere_scripts_admin", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin.js", array('jquery'), LUMIERE_VERSION);
+		wp_enqueue_script( "lumiere_scripts_admin", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin.js", array('jquery'), $this->settingsclass->lumiere_version);
 		// Pass variable to javascripts in admin part
 		wp_add_inline_script( 'lumiere_scripts_admin', 'const lumiere_admin_vars = ' . json_encode( array(
 			'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
 			'wordpress_path' => site_url(),
 			'wordpress_admin_path' => admin_url(),
+			'gutenberg_search_url_string' => \Lumiere\Settings::gutenberg_search_url_string,
+			'gutenberg_search_url' => \Lumiere\Settings::gutenberg_search_url,
 		) ) , 'before');
 
 		// When on wordpress plugins.php admin page, show a confirmation dialogue if value imdbkeepsettings is set on delete Lumière! options
@@ -366,7 +371,7 @@ class Core {
 	function lumiere_add_footer_admin () {
 		global $imdb_admin_values;
 
-		wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array('jquery'), LUMIERE_VERSION);
+		wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array('jquery'), $this->settingsclass->lumiere_version);
 
 	}
 
@@ -439,7 +444,7 @@ class Core {
 	**/
 	function lumiere_popup_redirect() {
 		// The popup is for films
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/popup-search.php' ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::popup_search_url ) ) {
 			$query_film=preg_match_all('#film=(.*)#', $_SERVER['REQUEST_URI'], $match_query_film, PREG_UNMATCHED_AS_NULL );
 			$match_query_film_film=explode("&",$match_query_film[1][0]);
 			$query_mid=preg_match_all('#mid=(.*)#', $_SERVER['REQUEST_URI'], $match_query_mid, PREG_UNMATCHED_AS_NULL );
@@ -447,11 +452,11 @@ class Core {
 			$query_info=preg_match_all('#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
 			$query_norecursive=preg_match_all('#norecursive=(.*)#', $_SERVER['REQUEST_URI'], $match_query_norecursive, PREG_UNMATCHED_AS_NULL );
 
-			$url = (!empty($match_query_film_film[0])) ? LUMIERE_URLSTRINGFILMS . $match_query_film_film[0] . "/" : LUMIERE_URLSTRINGFILMS . $match_query_film_mid[0] . "/" ;
+			$url = (!empty($match_query_film_film[0])) ? $this->settingsclass->lumiere_urlstringfilms . $match_query_film_film[0] . "/" : $this->settingsclass->lumiere_urlstringfilms . $match_query_film_mid[0] . "/" ;
 			wp_safe_redirect( add_query_arg( array( 'film' => $match_query_film_film[0], 'mid' => $match_query_film_mid[0],'info' => $match_query_info[1][0], 'norecursive' => $match_query_norecursive[1][0]), get_site_url(null, $url ) ) );
 			exit();
 		}
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/popup-imdb_movie.php' ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::popup_movie_url ) ) {
 
 			$query_film=preg_match_all('#film=(.*)#', $_SERVER['REQUEST_URI'], $match_query_film, PREG_UNMATCHED_AS_NULL );
 			$match_query_film_film=explode("&",$match_query_film[1][0]);
@@ -459,20 +464,20 @@ class Core {
 			$match_query_film_mid=explode("&",$match_query_mid[1][0]);
 			$query_info=preg_match_all('#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
 			$query_norecursive=preg_match_all('#norecursive=(.*)#', $_SERVER['REQUEST_URI'], $match_query_norecursive, PREG_UNMATCHED_AS_NULL );
-			$url = (!empty($match_query_film_film[0])) ? LUMIERE_URLSTRINGFILMS . $match_query_film_film[0] . "/" : LUMIERE_URLSTRINGFILMS . $match_query_film_mid[0] . "/" ;
+			$url = (!empty($match_query_film_film[0])) ? $this->settingsclass->lumiere_urlstringfilms . $match_query_film_film[0] . "/" : $this->settingsclass->lumiere_urlstringfilms . $match_query_film_mid[0] . "/" ;
 
 			wp_safe_redirect( add_query_arg( array( 'film' => $match_query_film_film[0], 'mid' => $match_query_film_mid[0],'info' => $match_query_info[1][0], 'norecursive' => $match_query_norecursive[1][0]), get_site_url(null, $url ) ) );
 			exit();
 
 		}
 		// The popup is for persons
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/popup-imdb_person.php' ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::popup_person_url ) ) {
 			$query_person_mid=preg_match('#mid=(.*)#', $_SERVER['REQUEST_URI'], $match_query_mid, PREG_UNMATCHED_AS_NULL );
 			$match_query_person_mid=explode ( "&", $match_query_mid[1] );
 			$query_person_info=preg_match_all('#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
 			$match_query_person_info=explode ( "&", $match_query_info[1] );
 			$query_person_film=preg_match_all('#film=(.*)&?#', $_SERVER['REQUEST_URI'], $match_query_person_film, PREG_UNMATCHED_AS_NULL );
-			$url = LUMIERE_URLSTRINGPERSON . $match_query_person_mid[0] . "/" ;
+			$url = $this->settingsclass->lumiere_urlstringperson . $match_query_person_mid[0] . "/" ;
 
 	      		//wp_redirect(  add_query_arg( 'mid' => $match_query_mid[1][0], $url ) , 301 ); # one arg only
 			wp_safe_redirect( add_query_arg( array( 'mid' => $match_query_person_mid[0], 'film' => $match_query_person_film[1][0], 'info' => $match_query_person_info[0]), get_site_url(null, $url ) ) );
@@ -485,18 +490,18 @@ class Core {
 		global $imdb_admin_values;
 
 		// Include films popup
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) )
-			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/popup-search.php' );
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringsearch ) )
+			require_once ( $imdb_admin_values['imdbpluginpath'] . \Lumiere\Settings::popup_search_url );
 
 
 		// Include films popup
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) )
-			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/popup-imdb_movie.php' );
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringfilms ) )
+			require_once ( $imdb_admin_values['imdbpluginpath'] . \Lumiere\Settings::popup_movie_url );
 
 
 		// Include persons popup
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) )
-			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/popup-imdb_person.php' );
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringperson ) )
+			require_once ( $imdb_admin_values['imdbpluginpath'] . \Lumiere\Settings::popup_person_url );
 
 	}
 
@@ -506,13 +511,13 @@ class Core {
 	function lumiere_change_popup_title($title) {
 		global $imdb_cache_values, $config;
 
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRING ) ){
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstring ) ){
 
 			// Add cache dir to properly save data in real cache dir
 			$config->cachedir = $imdb_cache_values['imdbcachedir'] ?? NULL;
 
 			// Display the title if /url/films
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringfilms ) ) {
 				if ( (isset($_GET['mid'])) && (!empty($_GET['mid'])) ) {
 					$movieid_sanitized = sanitize_text_field( $_GET['mid'] );
 					$movie = new \Imdb\Title($movieid_sanitized, $config);
@@ -525,7 +530,7 @@ class Core {
 				$title = isset($title_name ) ? esc_html__('Informations about ', 'lumiere-movies') . $title_name. " - Lumi&egrave;re movies" : esc_html__('Unknown', 'lumiere-movies') . '- Lumi&egrave;re movies';
 
 			// Display the title if /url/person
-			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ){
+			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringperson ) ){
 
 				if ( (isset($_GET['mid'])) && (!empty($_GET['mid'])) ) {
 					$mid_sanitized = sanitize_text_field($_GET['mid']);
@@ -535,7 +540,7 @@ class Core {
 				$title = isset($person_name_sanitized ) ? esc_html__('Informations about ', 'lumiere-movies') . $person_name_sanitized. " - Lumi&egrave;re movies" : esc_html__('Unknown', 'lumiere-movies') . '- Lumi&egrave;re movies';
 
 			// Display the title if /url/search
-			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) ){
+			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringsearch ) ){
 				$title_name = isset($_GET['film']) ? esc_html($_GET['film']) : esc_html__('No query entered', 'lumiere-movies');
 				$title = esc_html__('Search query for ', 'lumiere-movies') . $title_name . " - Lumi&egrave;re movies ";
 			}
@@ -544,7 +549,7 @@ class Core {
 		}
 
 		// Change the title for the query search popup
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/lumiere/search/' ) )
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) )
 			return esc_html__('Lumiere Query Interface', 'lumiere-movies');
 	}
 
@@ -555,7 +560,7 @@ class Core {
 		global $imdb_admin_values;
 
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&highslide=yes' ) ) {
-			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/highslide_download.php' );
+			require_once ( $imdb_admin_values['imdbpluginpath'] . \Lumiere\Settings::highslide_download_page );
 		}
 	}*/
 
@@ -565,8 +570,8 @@ class Core {
 	/*function lumiere_gutenberg_search_redirect() {
 		global $imdb_admin_values;
 
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/lumiere/search/' ) )
-			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/gutenberg-search.php' );
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) )
+			require_once ( $imdb_admin_values['imdbpluginpath'] . \Lumiere\Settings::move_template_taxonomy_page );
 
 	}*/
 
@@ -577,7 +582,7 @@ class Core {
 		global $imdb_admin_values;
 
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=' ) )
-			require_once ( $imdb_admin_values['imdbpluginpath'] . 'inc/move_template_taxonomy.php' );
+			require_once ( $imdb_admin_values['imdbpluginpath'] . \Lumiere\Settings::move_template_taxonomy );
 
 	}*/
 
@@ -596,36 +601,36 @@ class Core {
 	function lumiere_add_metas() {
 
 		// Change the metas only for popups
-		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ) )
+		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringfilms ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringsearch ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringperson ) ) )
 {
 
 			# ADD FAVICONS
 			echo "\t\t" . '<!-- Lumiere Movies -->';
-			echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . IMDBLTURLPATH . 'pics/favicon/apple-touch-icon.png" />';
-			echo "\n" . '<link rel="icon" type="image/png" sizes="32x32" href="' . IMDBLTURLPATH . 'pics/favicon/favicon-32x32.png" />';
-			echo "\n" . '<link rel="icon" type="image/png" sizes="16x16" href="' . IMDBLTURLPATH . 'pics/favicon/favicon-16x16.png" />';
-			echo "\n" . '<link rel="manifest" href="' . IMDBLTURLPATH . 'pics/favicon/site.webmanifest" />';
+			echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . plugin_dir_url( __DIR__ ) . 'pics/favicon/apple-touch-icon.png" />';
+			echo "\n" . '<link rel="icon" type="image/png" sizes="32x32" href="' . plugin_dir_url( __DIR__ ) . 'pics/favicon/favicon-32x32.png" />';
+			echo "\n" . '<link rel="icon" type="image/png" sizes="16x16" href="' . plugin_dir_url( __DIR__ ) . 'pics/favicon/favicon-16x16.png" />';
+			echo "\n" . '<link rel="manifest" href="' . plugin_dir_url( __DIR__ ) . 'pics/favicon/site.webmanifest" />';
 
 			# ADD CANONICAL
 			// Canonical for search popup
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGSEARCH ) ) {
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringsearch ) ) {
 				$film_sanitized = ""; $film_sanitized = isset($_GET['film']) ? lumiere_name_htmlize($_GET['film']) : "";
-				$my_canon = LUMIERE_URLPOPUPSSEARCH . '?film=' . $film_sanitized . '&norecursive=yes' ;
+				$my_canon = $this->settingsclass->lumiere_urlpopupssearch . '?film=' . $film_sanitized . '&norecursive=yes' ;
 			}
 
 			// Canonical for movies popups
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGFILMS ) ) {
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringfilms ) ) {
 				$mid_sanitized = isset($_GET['mid']) ? sanitize_text_field($_GET['mid']) : "";
 				$film_sanitized = ""; $film_sanitized = isset($_GET['film']) ? lumiere_name_htmlize($_GET['film']) : "";
 				$info_sanitized = ""; $info_sanitized = isset($_GET['info']) ? esc_html($_GET['info']) : "";
-				$my_canon = LUMIERE_URLPOPUPSFILMS . '?film=' . $film_sanitized . '&mid=' . $mid_sanitized. '&info=' . $info_sanitized;
+				$my_canon = $this->settingsclass->lumiere_urlpopupsfilms . '?film=' . $film_sanitized . '&mid=' . $mid_sanitized. '&info=' . $info_sanitized;
 			}
 
 			// Canonical for people popups
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . LUMIERE_URLSTRINGPERSON ) ) {
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringperson ) ) {
 				$mid_sanitized = isset($_GET['mid']) ? sanitize_text_field($_GET['mid']) : "";
 				$info_sanitized = isset($_GET['info']) ? esc_html($_GET['info']) : "";
-				$my_canon = LUMIERE_URLPOPUPSPERSON . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=' . $info_sanitized;
+				$my_canon = $this->settingsclass->lumiere_urlpopupsperson . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=' . $info_sanitized;
 			}
 
 			echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
@@ -657,7 +662,7 @@ class Core {
 				chmod( $lumiere_folder_cache_images, 0777 );
 			// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
 			} else {
-				$lumiere_folder_cache = IMDBLTABSPATH . 'cache';
+				$lumiere_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
 				$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
 				wp_mkdir_p( $lumiere_folder_cache );
 				chmod( $lumiere_folder_cache, 0777 );

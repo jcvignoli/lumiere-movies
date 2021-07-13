@@ -1,6 +1,6 @@
 <?php
 
-/* This pages automatically download, extract and delete highslide library
+/* This page automatically downloads, extracts and deletes highslide library
  *
  */
 
@@ -10,12 +10,10 @@ if (empty(wp_get_referer()) && (0 !== stripos( wp_get_referer(), admin_url() . '
 
 /************* Vars **************/
 
-global $imdb_admin_values;
-
-$highslidefile_remote_zip = esc_url( IMDBBLOGHIGHSLIDE );
+$highslidefile_remote_zip = esc_url( \Lumiere\Settings::IMDBBLOGHIGHSLIDE );
 $highslide_tmp_name = "highslidetmp.zip";
-$highslidefile_local_zip = esc_url( $imdb_admin_values['imdbpluginpath'] . $highslide_tmp_name );
-$highslidefile_local_folder = esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" );
+$highslidefile_local_zip = esc_url( plugin_dir_path( __DIR__ ) . $highslide_tmp_name );
+$highslidefile_local_folder = esc_url( plugin_dir_path( __DIR__ ) ."js/" );
 
 // If is_admin include WP API libraries, else exit
 if (is_admin()) {
