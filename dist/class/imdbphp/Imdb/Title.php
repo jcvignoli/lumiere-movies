@@ -201,7 +201,11 @@ class Title extends MdbBase
         }
 
         if (preg_match('!^Episodes-(-?\d+)$!', $pageName, $match)) {
-            return '/episodes?season=' . $match[1];
+            if (strlen($match[1]) == 4) {
+                return '/episodes?year=' . $match[1];
+            } else {
+                return '/episodes?season=' . $match[1];
+            }
         }
 
         throw new \Exception("Could not find URL for page $pageName");
@@ -293,7 +297,7 @@ class Title extends MdbBase
 
     /**
      * Get movie original title
-     * @return string original movie title (name), if it differs from the result of title(). null otherwise
+     * @return string|null original movie title (name), if it differs from the result of title(). null otherwise
      * @see IMDB page / (TitlePage)
      */
     public function orig_title()
@@ -581,13 +585,17 @@ class Title extends MdbBase
                     $movie['title'] = utf8_decode(trim($get_link_and_name->item(0)->nodeValue));
                     $movie['imdbid'] = $ref[1];
                     $get_rating = $xp->query(".//span[contains(@class, 'ipc-rating-star--imdb')]", $cell);
-                    if (!empty($get_rating)) {
+                    if (!empty($get_rating->item(0))) {
                         $movie['rating'] = trim($get_rating->item(0)->nodeValue);
                     } else {
                         $movie['rating'] = -1;
                     }
                     $getImage = $xp->query(".//div[contains(@class, 'ipc-media ipc-media--poster')]//img", $cell);
-                    $movie['img'] = $getImage->item(0)->getAttribute('src');
+                    if (!empty($getImage->item(0)) && !empty($getImage->item(0)->getAttribute('src'))) {
+                        $movie['img'] = $getImage->item(0)->getAttribute('src');
+                    } else {
+                        $movie['img'] = "";
+                    }
                     $this->movierecommendations[] = $movie;
                 }
             }
@@ -1004,8 +1012,8 @@ class Title extends MdbBase
 
     #--------------------------------------------------------[ Photo specific ]---
 
-    /** Setup cover photo (thumbnail and big variant)
-     * @return boolean success (TRUE if found, FALSE otherwise)
+    /**
+     * Setup cover photo (thumbnail and big variant)
      * @see IMDB page / (TitlePage)
      */
     private function populatePoster()
@@ -1904,7 +1912,7 @@ class Title extends MdbBase
     #--------------------------------------------------------[ Episodes Array ]---
     /**
      * Get the series episode(s)
-     * @return array episodes (array[0..n] of array[0..m] of array[imdbid,title,airdate,plot,season,episode])
+     * @return array episodes (array[0..n] of array[0..m] of array[imdbid,title,airdate,plot,season,episode,image_url])
      * @see IMDB page /episodes
      * @version Attention: Starting with revision 506 (version 2.1.3), the outer array no longer starts at 0 but reflects the real season number!
      */
@@ -1918,7 +1926,7 @@ class Title extends MdbBase
             if ($this->isEpisode()) {
                 $ser = $this->get_episode_details();
                 if (isset($ser['imdbid'])) {
-                    $show = new Title($ser['imdbid'], $this->config);
+                    $show = new Title($ser['imdbid'], $this->config, $this->logger, $this->cache);
                     return $this->season_episodes = $show->episodes();
                 } else {
                     return array();
@@ -1927,21 +1935,46 @@ class Title extends MdbBase
             $page = $this->getPage("Episodes");
             if (empty($page)) {
                 return $this->season_episodes;
-            } // no such page
-            if (preg_match('!<select id="bySeason"(.*?)</select!ims', $page, $match)) {
+            }
+
+            // There are two select boxes: one per season and one per year. IMDb picks one select to use by default and the other starts with an empty option.
+            // The one which starts with a numeric option is the one we need to loop over sometimes the other doesn't work
+            // (e.g. a show without seasons might have 100s of episodes in season 1 and its page won't load)
+            if (preg_match('!<select id="bySeason"(.*?)</select!ims', $page, $matchSeason)) {
+                preg_match_all('#<\s*?option\b[^>]*>(.*?)</option\b[^>]*>#s', $matchSeason[1], $matchOptionSeason);
+                if (is_numeric(trim($matchOptionSeason[1][0]))) {
+                    //season based
+                    $selectId = 'id="bySeason"';
+                } else {
+                    // year based
+                    $selectId = 'id="byYear"';
+                }
+            }
+
+            if (preg_match('!<select ' . $selectId . '(.*?)</select!ims', $page, $match)) {
                 preg_match_all('!<option\s+(selected="selected" |)value="([^"]+)">!i', $match[1], $matches);
-                for ($i = 0; $i < count($matches[0]); ++$i) {
+                $count = count($matches[0]);
+                for ($i = 0; $i < $count; ++$i) {
                     $s = $matches[2][$i];
                     $page = $this->getPage("Episodes-$s");
                     if (empty($page)) {
-                        continue;
-                    } // no such page
+                        continue; // no such page
+                    }
+                    // fetch episodes images
+                    preg_match_all('!<div class="image">\s*(?<img>.*?)\s*</div>\s*!ims', $page, $img);
+                    $urlIndex = 0;
                     $preg = '!<div class="info" itemprop="episodes".+?>\s*<meta itemprop="episodeNumber" content="(?<episodeNumber>-?\d+)"/>\s*'
                         . '<div class="airdate">\s*(?<airdate>.*?)\s*</div>\s*'
                         . '.+?\shref="/title/tt(?<imdbid>\d{7,8})/[^"]+?"\s+title="(?<title>[^"]+?)"\s+itemprop="name"'
                         . '.+?<div class="item_description" itemprop="description">(?<plot>.*?)</div>!ims';
                     preg_match_all($preg, $page, $eps, PREG_SET_ORDER);
                     foreach ($eps as $ep) {
+                        //Fetch episodes image url
+                        if (preg_match('/(?<!_)src=([\'"])?(.*?)\\1/', $img['img'][$urlIndex], $foundUrl)) {
+                            $image_url = $foundUrl[2];
+                        } else {
+                            $image_url = "";
+                        }
                         $plot = preg_replace('#<a href="[^"]+"\s+>Add a Plot</a>#', '', trim($ep['plot']));
                         $plot = preg_replace('#Know what this is about\?<br>\s*<a href="[^"]+"\s*> Be the first one to add a plot.\s*</a>#ims',
                             '', $plot);
@@ -1950,10 +1983,12 @@ class Title extends MdbBase
                             'imdbid' => $ep['imdbid'],
                             'title' => trim($ep['title']),
                             'airdate' => $ep['airdate'],
-                            'plot' => $plot,
-                            'season' => $s,
-                            'episode' => $ep['episodeNumber']
+                            'plot' => strip_tags($plot),
+                            'season' => (int)$s,
+                            'episode' => (int)$ep['episodeNumber'],
+                            'image_url' => $image_url
                         );
+                        $urlIndex = $urlIndex + 1;
 
                         if ($ep['episodeNumber'] == -1) {
                             $this->season_episodes[$s][] = $episode;

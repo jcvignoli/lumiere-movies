@@ -33,7 +33,7 @@ class UpdateOptions {
 
 		$this->getLumiereVersions();
 
-		// add_filter ( 'wp_head', [ $this, 'runUpdateOptions' ], 0); # executes on every frontpage, but now use cron instead
+		// add_filter ( 'wp_head', [ $this, 'runUpdateOptions' ], 0); # executes on every frontpage, but now uses cron instead
 		$this->runUpdateOptions();
 
 	}
@@ -56,11 +56,11 @@ class UpdateOptions {
 		return false;
 	}
 
-	/*** Run updates of options
+	/*** Main function: Run updates of options
 	 *** add/remove/update options 
 	 **
 	 **
-	 ** returns the feedback of options updated/removed/added
+	 ** returns feedback of options updated/removed/added
 	 **/
 	function runUpdateOptions() {
 
@@ -77,6 +77,39 @@ class UpdateOptions {
 			wp_die('Lumière files have been moved. Can not update Lumière!');
 		}
 
+		/************************************************** 3.4.2 */
+		if ( (version_compare( $this->lumiereVersionPlugin, "3.4.1" ) >= 0 )
+			&& ($imdb_admin_values['imdbHowManyUpdates'] == 5 ) ){				# update 5
+
+			$nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
+			$this->lumiere_update_options($config->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
+
+			// Fix 'imdblanguage'
+			// Correct language extensions should take two letters only to include all dialects
+			if ( TRUE === $this->lumiere_update_options($config->imdbAdminOptionsName, 'imdblanguage', 'en') ) {
+				$output .= $this->print_debug(1, '<strong>Lumière option imdblanguage successfully added.</strong>');
+			} else {
+				$output .= $this->print_debug(2, '<strong>Lumière option imdblanguage could not be added.</strong>');
+			}
+
+			// Add 'imdbwidgetalsoknownumber'
+			// New option the number of akas displayed
+			if ( TRUE === $this->lumiere_add_options($config->imdbWidgetOptionsName, 'imdbwidgetalsoknownumber', false) ) {
+				$output .= $this->print_debug(1, '<strong>Lumière option imdbwidgetalsoknownumber successfully added.</strong>');
+			} else {
+				$output .= $this->print_debug(2, '<strong>Lumière option imdbwidgetalsoknownumber could not be added.</strong>');
+			}
+
+			// Add 'imdbwidgetproducernumber'
+			// New option to limit the number of producers displayed
+			if ( TRUE === $this->lumiere_add_options($config->imdbWidgetOptionsName, 'imdbwidgetproducernumber', false) ) {
+				$output .= $this->print_debug(1, '<strong>Lumière option imdbwidgetproducernumber successfully added.</strong>');
+			} else {
+				$output .= $this->print_debug(2, '<strong>Lumière option imdbwidgetproducernumber could not be added.</strong>');
+			}
+
+
+		}
 		/************************************************** 3.4 */
 		if ( (version_compare( $this->lumiereVersionPlugin, "3.3.4" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 4 ) ){				# update 4
@@ -101,7 +134,6 @@ class UpdateOptions {
 				$output .= $this->print_debug(2, '<strong>Lumière option imdbHowManyUpdates could not be added.</strong>');
 			}
 
-			return $output;
 
 		}
 
@@ -177,8 +209,6 @@ class UpdateOptions {
 				$output .= $this->print_debug(2, '<strong>Lumière option imdbintotheposttheme not added.</strong>');
 			}
 
-			return $output;
-
 		}
 		
 		/************************************************** 3.3.3 */
@@ -196,8 +226,6 @@ class UpdateOptions {
 			} else {
 				$output .= $this->print_debug(2, '<strong>Lumière option imdbwidgetsource not updated.</strong>');
 			}
-
-			return $output;
 
 		}
 
@@ -225,9 +253,10 @@ class UpdateOptions {
 				$output .= $this->print_debug(2, '<strong>Lumière option imdbintotheposttheme not added.</strong>');
 			}
 
-			return $output;
-
 		}
+
+
+		return $output;
 
 	}
 

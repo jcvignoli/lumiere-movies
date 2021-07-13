@@ -15,12 +15,17 @@
 
 require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
-/// Start Lumière config class
+// Start Lumière config class
 if (class_exists("\Lumiere\Settings")) {
 	$config = new \Lumiere\Settings();
 	$imdb_admin_values = $config->imdb_admin_values;
 	$imdb_widget_values = $config->imdb_widget_values;
 	$imdb_cache_values = $config->imdb_cache_values;
+
+} else {
+
+	wp_die( esc_html__('Cannot start popup person, class Lumière Settings not found', 'lumiere-movies') );
+
 }
 
 
@@ -53,9 +58,15 @@ if (empty($film_sanitized ) && empty($mid_sanitized)){
 }
 
 if (isset ($mid_sanitized)) {
-	$person = new \Imdb\Person($mid_sanitized, $config) ?? NULL;
+	$person = new \Imdb\Person($mid_sanitized, $config ) ?? NULL;
 	$person_name_sanitized = sanitize_text_field( $person->name() ) ?? NULL;
 
+} else { // escape if no result found, otherwise imdblt fails
+
+	lumiere_noresults_text();
+	exit();
+
+}
 //--------------------------------------=[Layout]=---------------
 
 ?><!DOCTYPE html>
@@ -698,8 +709,3 @@ if ( (isset($_GET['info'] )) && ($_GET['info'] == 'misc') ){
 </html>
 <?php 	exit(); // quit the call of the page, to avoid double loading process ?>
 
-<?php
-	} else { // escape if no result found, otherwise imdblt fails
-		lumiere_noresults_text();
-}
-?>

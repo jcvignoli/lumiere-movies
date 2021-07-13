@@ -22,6 +22,8 @@ if ( ! defined( 'WPINC' ) )
 // use the original class in src/Imdb/Config.php
 use \Imdb\Config;
 
+use \Monolog\Logger;
+
 class Settings extends Config {
 
 	var $imdbAdminOptionsName = "imdbAdminOptions";
@@ -139,7 +141,7 @@ $this->lumiere_create_cache();
 			'imdblinkingkill' => false,
 			'imdbautopostwidget' => false,
 			'imdbimgdir' => 'pics/',
-			'imdblanguage' => "en-EN",
+			'imdblanguage' => "en",
 			'imdbdirectsearch' => true, 		/* not available in the admin interface */
 			/*'imdbsourceout' => false,*/
 			'imdbdebug' => false,
@@ -248,6 +250,7 @@ $this->lumiere_create_cache();
 			'imdbwidgetgenre' => true,
 			'imdbwidgetwriter' => true,
 			'imdbwidgetproducer' => false,
+			'imdbwidgetproducernumber' => false,
 			'imdbwidgetkeywords' => false,
 			'imdbwidgetprodcompany' => false,
 			'imdbwidgetplot' => false,
@@ -261,6 +264,7 @@ $this->lumiere_create_cache();
 			'imdbwidgettaglinesnumber' => false,
 			'imdbwidgetcolors' => false,
 			'imdbwidgetalsoknow' => false,
+			'imdbwidgetalsoknownumber' => false,
 			'imdbwidgetcomposer' => false,
 			'imdbwidgetsoundtrack' => false,
 			'imdbwidgetsoundtracknumber' => false,

@@ -1,11 +1,12 @@
+v3.4.3
+
+
 
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the admin pages using WordPress API
 13. Implement alternative to highslide with a jquery modal window
-15. add limit number for producers and akas
 16. To test: If Polylang needs to copy the metas when doing a new post in another lang, can activate lumiere_copy_post_metas_polylang() in class.core.php
-
-
+17. Clean constants in class.config.php
 
 v3.4.2
 OK--- 1. technical Use WP cron to update options. Uses less resources, better optimisation.
@@ -14,6 +15,8 @@ OK--- 3. technical class movie used to include two classes. Now they're merged. 
 OK--- 4. technical Class config has been cleaned. Constants have been included into the class. A lot of polishing is still needed.
 OK--- 5. renamed these strange vars such as $imdbOptionsc, $imdbOptionsw and $imdbOptions in admin pages to their natural names such as $imdb_cache_options, $imdb_widget_options and $imdb_admin_options.
 OK--- 6. Implemented Monolog as new debug parser
+OK--- 7. minor Added a number limit for producers and akas
+OK--- 8. major Updated to imdbphp 7.1
 
 v3.4.1
 OK--- 1. bug auto widget was not working anymore due to recent changes in class.widget.php

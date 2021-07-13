@@ -3,8 +3,26 @@
 #	IMDbphp related classes
 require_once 'imdbphp/Psr/Log/LoggerInterface.php';
 require_once 'imdbphp/Psr/SimpleCache/CacheInterface.php';
+/* To fully use Monolog, such as writing to logs, activate this */
+/*
+require_once 'imdbphp/Monolog/Formatter/FormatterInterface.php';
+require_once 'imdbphp/Monolog/Formatter/NormalizerFormatter.php';
+require_once 'imdbphp/Monolog/Formatter/LineFormatter.php';
+require_once 'imdbphp/Monolog/DateTimeImmutable.php';
+require_once 'imdbphp/Monolog/Utils.php';
+*/
+require_once 'imdbphp/Monolog/Handler/HandlerInterface.php';
+require_once 'imdbphp/Monolog/Handler/Handler.php';
 require_once 'imdbphp/Monolog/ResettableInterface.php';
+require_once 'imdbphp/Monolog/Handler/FormattableHandlerTrait.php';
+require_once 'imdbphp/Monolog/Handler/ProcessableHandlerTrait.php';
+require_once 'imdbphp/Monolog/Handler/FormattableHandlerInterface.php';
+require_once 'imdbphp/Monolog/Handler/ProcessableHandlerInterface.php';
+require_once 'imdbphp/Monolog/Handler/AbstractHandler.php';
+require_once 'imdbphp/Monolog/Handler/AbstractProcessingHandler.php';
 require_once 'imdbphp/Monolog/Logger.php';
+require_once 'imdbphp/Monolog/Handler/StreamHandler.php';
+
 #	IMDbphp classes
 require_once 'imdbphp/Imdb/Exception.php';
 require_once 'imdbphp/Imdb/Exception/Http.php';

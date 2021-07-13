@@ -22,6 +22,8 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die('You can not call directly this page');
 }
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class LumiereMovies {
 
@@ -61,6 +63,7 @@ class LumiereMovies {
 		// Start logger class
 		$logger = new \Monolog\Logger('movies');
 		$this->loggerclass = $logger;
+		// $logger->pushHandler(new StreamHandler( './wp-content/debug.log', Logger::DEBUG));
 
 		// Start config class and get the vars
 		if (class_exists("\Lumiere\Settings")) {
@@ -71,7 +74,7 @@ class LumiereMovies {
 			$this->imdb_cache_values = $configclass->get_imdb_widget_option();
 		} else {
 
-			wp_die( esc_html__('Cannot start class movie, class not found', 'lumiere-movies') );
+			wp_die( esc_html__('Cannot start class movie, class Lumière Settings not found', 'lumiere-movies') );
 
 		}
 
@@ -106,7 +109,7 @@ class LumiereMovies {
 
 		} else {
 
-			$search = new \Imdb\TitleSearch($this->configclass, $this->loggerclass);
+			$search = new \Imdb\TitleSearch($this->configclass, $this->loggerclass );
 
 		}
 
@@ -272,7 +275,7 @@ class LumiereMovies {
 		$outputfinal ="";
 
 		/* Start imdbphp class for new query based upon $midPremierResultat */
-		$movie = new \Imdb\Title($midPremierResultat, $this->configclass);
+		$movie = new \Imdb\Title($midPremierResultat, $this->configclass /*, $this->loggerclass */);
 
 		foreach ( $imdb_widget_values['imdbwidgetorder'] as $magicnumber) {
 
@@ -1060,6 +1063,7 @@ class LumiereMovies {
 
 		$output = "";
 		$alsoknow = $movie->alsoknow ();
+		$nbalsoknow = empty($imdb_widget_values['imdbwidgetalsoknownumber']) ? $nbalsoknow =  "1" : $nbalsoknow =  intval( $imdb_widget_values['imdbwidgetalsoknownumber'] );
 		$nbtotalalsoknow = intval( count($alsoknow) );
 
 		if (!empty($alsoknow)) {
@@ -1068,7 +1072,7 @@ class LumiereMovies {
 			$output .= esc_html__('Also known as', 'lumiere-movies');
 			$output .= ':</span>';
 			
-			for ($i = 0; $i < count ($alsoknow); $i++) { 
+			for ($i = 0; ($i < $nbtotalalsoknow) && ($i < $nbalsoknow) ; $i++) { 
 
 				$output .= "\n\t\t\t<strong>".sanitize_text_field( $alsoknow[$i]['title'] )."</strong> "."(".sanitize_text_field( $alsoknow[$i]['country'] );
 
@@ -1453,6 +1457,7 @@ class LumiereMovies {
 
 		$output = "";
 		$producer = $movie->producer(); 
+		$nbproducer = empty($imdb_widget_values['imdbwidgetproducernumber']) ? $nbproducer =  "1" : $nbproducer =  intval( $imdb_widget_values['imdbwidgetproducernumber'] );
 		$nbtotalproducer = intval( count($producer) );
 
 		if (!empty($producer)) {
@@ -1464,7 +1469,7 @@ class LumiereMovies {
 
 			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomyproducer'] == true ) ) { 
 
-				for ($i = 0; $i < $nbtotalproducer; $i++) {
+				for ($i = 0; ($i < $nbtotalproducer) && ($i < $nbproducer); $i++) {
 
 					$output .= $this->lumiere_make_display_taxonomy( 'producer', esc_attr($producer[$i]["name"]), esc_attr($producer[$i]["role"]), 'two');
 
@@ -1473,7 +1478,7 @@ class LumiereMovies {
 			// no taxonomy
 			} else { 
 
-				for ($i = 0; $i < $nbtotalproducer; $i++) {
+				for ($i = 0; ($i < $nbtotalproducer) && ($i < $nbproducer); $i++) {
 
 					$output .= "\n\t\t\t\t". '<div align="center" class="lumiere_container">';
 					$output .= "\n\t\t\t\t\t". '<div class="lumiere_align_left lumiere_flex_auto">';

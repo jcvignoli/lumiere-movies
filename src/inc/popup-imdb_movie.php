@@ -21,9 +21,14 @@ if (class_exists("\Lumiere\Settings")) {
 	$imdb_admin_values = $config->imdb_admin_values;
 	$imdb_widget_values = $config->imdb_widget_values;
 	$imdb_cache_values = $config->imdb_cache_values;
+
+}else {
+
+	wp_die( esc_html__('Cannot start popup movies, class Lumière Settings not found', 'lumiere-movies') );
+
 }
 
-// Get the type of search from local class
+// Get the type of search: movies, series, games
 if (class_exists("\Lumiere\LumiereMovies")) {
 	$imdbmoviesclass = new \Lumiere\LumiereMovies();
 	$typeSearch = $imdbmoviesclass->lumiere_select_type_search();
@@ -61,13 +66,14 @@ if (empty($movieid_sanitized ) && empty($filmid_sanitized)){
 }
 
 if ( (isset ($movieid_sanitized)) && (!empty ($movieid_sanitized)) && (!empty ($config)) ) {
-	$movie = new \Imdb\Title($movieid_sanitized, $config);
+
+	$movie = new \Imdb\Title($movieid_sanitized, $config );
 	$filmid_sanitized = lumiere_name_htmlize($movie->title());
 	$film_sanitized_for_title = sanitize_text_field($movie->title());
 
 } elseif (!empty ($config)) {
 
-	$search = new \Imdb\TitleSearch($config);
+	$search = new \Imdb\TitleSearch( $config );
 	$movie = $search->search ($filmid_sanitized, $typeSearch )[0];
 
 } else {
@@ -176,7 +182,7 @@ if (empty($movie) ){
 
 <div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
 	<div class="lumiere_flex_auto">
-       	&nbsp;<a class="searchaka" href="<?php echo esc_url( LUMIERE_URLPOPUPSSEARCH . "?film=" . $filmid_sanitized . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for movies with the same name', 'lumiere-movies'); ?>"><?php esc_html_e('Search AKAs', 'lumiere-movies'); ?></a>
+       	&nbsp;<a class="searchaka" href="<?php echo esc_url( LUMIERE_URLPOPUPSSEARCH . "?film=" . $filmid_sanitized . "&norecursive=yes" ); ?>" title="<?php esc_html_e('Search for other movies with the same title', 'lumiere-movies'); ?>"><?php esc_html_e('Similar Titles', 'lumiere-movies'); ?></a>
         </div>
 	<div class="lumiere_flex_auto">
 		&nbsp;<a class='linkpopup' href="<?php echo esc_url( LUMIERE_URLPOPUPSFILMS . $filmid_sanitized . "/?mid=" . $movieid_sanitized . "&film=" . $filmid_sanitized . "&info=" ); ?>" title='<?php echo sanitize_title( $movie->title() ).": ".esc_html__('Movie', 'lumiere-movies'); ?>'><?php esc_html_e('Summary', 'lumiere-movies'); ?></a>
