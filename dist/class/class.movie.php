@@ -27,7 +27,10 @@ use Monolog\Handler\StreamHandler;
 
 class LumiereMovies {
 
-	private $allowed_html_for_escape_functions = [
+	/* HTML allowed for use of wp_kses_post()
+	 * Usefull for access from outside the class
+	 */
+	private static $allowed_html_for_escape_functions = [
 	    'a' => [
 		 'id' => true,
 		 'href'  => true,
@@ -1783,10 +1786,10 @@ class LumiereMovies {
 				// if "Remove all links" option is not selected 
 				if  ($imdb_admin_values['imdblinkingkill'] == false ) { 
 
-					$output .= wp_kses_post( $plot[$i], $this->allowed_html_for_escape_functions ) . "\n";
+					$output .= wp_kses_post( $plot[$i], self::allowed_html_for_escape_functions ) . "\n";
 				} else {
 
-					$output .= $this->lumiere_remove_link ($plot[$i]). "\n";
+					$output .= wp_kses_post( $this->lumiere_remove_link ($plot[$i]), self::allowed_html_for_escape_functions ) . "\n";
 				} 
 
 				if ( $i < ( ($i < ($nbtotalplots -1) ) && ($i < ($nbplots -1) ) ) ) { 
