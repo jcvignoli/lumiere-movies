@@ -12,8 +12,14 @@ if ( ! defined( 'WPINC' ) )
 
 class Core {
 
+	/* Options vars
+	 * 
+	 */
 	private $imdb_admin_values, $imdb_widget_values,$imdb_cache_values;
 
+	/* \Lumiere\Settings class
+	 * 
+	 */
 	private $settingsclass;
 
 	/*constructor*/
@@ -443,8 +449,10 @@ class Core {
 	9.- Redirect the popups to a proper URL
 	**/
 	function lumiere_popup_redirect() {
+
 		// The popup is for films
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::popup_search_url ) ) {
+
 			$query_film=preg_match_all('#film=(.*)#', $_SERVER['REQUEST_URI'], $match_query_film, PREG_UNMATCHED_AS_NULL );
 			$match_query_film_film=explode("&",$match_query_film[1][0]);
 			$query_mid=preg_match_all('#mid=(.*)#', $_SERVER['REQUEST_URI'], $match_query_mid, PREG_UNMATCHED_AS_NULL );
