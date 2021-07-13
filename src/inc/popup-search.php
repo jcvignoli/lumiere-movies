@@ -21,9 +21,14 @@ if (class_exists("\Lumiere\Settings")) {
 	$imdb_admin_values = $config->imdb_admin_values;
 	$imdb_widget_values = $config->imdb_widget_values;
 	$imdb_cache_values = $config->imdb_cache_values;
+
+}else {
+
+	wp_die( 'Cannot start popup movies, class Lumière Settings not found' );
+
 }
 
-// Get the type of search from movies class
+// Get the type of search: movies, series, games
 if (class_exists("\Lumiere\LumiereMovies")) {
 	$imdbmoviesclass = new \Lumiere\LumiereMovies();
 	$typeSearch = $imdbmoviesclass->lumiere_select_type_search();
@@ -34,9 +39,9 @@ if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug']
 	lumiere_debug_display($imdb_cache_values, '', 'libxml', $config);# add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
 # Initialization of IMDBphp classes
-if (class_exists("\Imdb\TitleSearch")) 
-	$search = new \Imdb\TitleSearch($config);
-
+if (class_exists("\Imdb\TitleSearch")) {
+	$search = new \Imdb\TitleSearch( $config );
+}
 
 if (isset ($_GET["film"])){
 	$film_sanitized = lumiere_name_htmlize( $_GET["film"] ) ?? NULL;
@@ -74,7 +79,7 @@ if (empty($results) ){
 
 <div class="lumiere_display_flex lumiere_align_center">
 	<div class="lumiere_flex_auto lumiere_width_fifty_perc">
-		<?php esc_html_e('Titles matching', 'lumiere-movies'); ?>
+		<?php esc_html_e('Matching titles', 'lumiere-movies'); ?>
 	</div>
 	<div class="lumiere_flex_auto lumiere_width_fifty_perc">
 		<?php esc_html_e('Director', 'lumiere-movies'); ?>
@@ -99,15 +104,20 @@ if (empty($results) ){
 		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"".esc_url( "https://www.imdb.com/title/tt".sanitize_text_field($res->imdbid()) )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'>";
 
 		echo "\n\t</div>";
-		echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_right'>";
 
 		// ---- director part
+		echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_right'>";
+
 		$realisateur = $res->director();
 		if ( (isset($realisateur['0']['name'])) && (! is_null ($realisateur['0']['name'])) ){
 			echo "\n\t\t<a class='link-imdb2' href=\"".esc_url( LUMIERE_URLPOPUPSPERSON . sanitize_text_field($realisateur['0']["imdb"]) . "/?mid=".sanitize_text_field($realisateur['0']["imdb"]) ). "\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $realisateur['0']['name'] )."\" >".sanitize_text_field( $realisateur['0']['name'] )."</a>";
 
-			echo "\n\t</div>";
+		} else {
+			echo "\n\t\t"; esc_html_e('No director found.', 'lumiere-movies');
 		}
+
+		echo "\n\t</div>";
+
 		echo "\n</div>";
 
 	} // end foreach  ?> 

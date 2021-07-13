@@ -1,6 +1,8 @@
 Changelog
 
 v.3.4.2
+* [major] Updated to imdbphp library 7.1
+* [minor] Added a number limit for producers and akas
 * [technical] Use WP cron to update options. Uses less resources, better optimisation.
 * [technical] Class config used to include two classes. Now they're merged. All calls to class config trigger an automatic sending of the settings to imdbphp. Debug is now displayed everywhere.
 * [technical] Class config has been cleaned. Constants have been included into the class. A lot of polishing is still needed.

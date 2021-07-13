@@ -168,6 +168,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						<?php  esc_html_e( 'Actor', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 						
 						<input type="radio" id="imdb_imdbwidgetactor_yes" name="imdb_imdbwidgetactor" value="1" <?php if ($imdb_widget_values['imdbwidgetactor'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetactornumber" data-field_to_change_value="0" /><label for="imdb_imdbwidgetactor_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
+
 						<input type="radio" id="imdb_imdbwidgetactor_no" name="imdb_imdbwidgetactor" value="" <?php if ($imdb_widget_values['imdbwidgetactor'] == 0) { echo 'checked="checked"'; } ?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetactornumber" data-field_to_change_value="1" /><label for="imdb_imdbwidgetactor_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
 						<input type="text" id="imdb_imdbwidgetactornumber" name="imdb_imdbwidgetactornumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdb_widget_values['imdbwidgetactornumber']), 'lumiere-movies') ?>" <?php if ($imdb_widget_values['imdbwidgetactor'] == 0){ echo 'disabled="disabled"'; }; ?> />
@@ -180,11 +181,13 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						<?php if ($imdb_widget_values['imdbwidgetalsoknow'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Also known as', 'lumiere-movies'); echo '</span>'; } else { ?>
 						<?php  esc_html_e( 'Also known as', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 						
-						<input type="radio" id="imdb_imdbwidgetalsoknow_yes" name="imdb_imdbwidgetalsoknow" value="1" <?php if ($imdb_widget_values['imdbwidgetalsoknow'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetalsoknow_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
+						<input type="radio" id="imdb_imdbwidgetalsoknow_yes" name="imdb_imdbwidgetalsoknow" value="1" <?php if ($imdb_widget_values['imdbwidgetalsoknow'] == "1") { echo 'checked="checked"'; }?>  data-modificator="yes" data-field_to_change="imdb_imdbwidgetalsoknownumber" data-field_to_change_value="0" /><label for="imdb_imdbwidgetalsoknow_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
 
-						<input type="radio" id="imdb_imdbwidgetalsoknow_no" name="imdb_imdbwidgetalsoknow" value="" <?php if ($imdb_widget_values['imdbwidgetalsoknow'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetalsoknow_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+						<input type="radio" id="imdb_imdbwidgetalsoknow_no" name="imdb_imdbwidgetalsoknow" value="" <?php if ($imdb_widget_values['imdbwidgetalsoknow'] == 0) { echo 'checked="checked"'; } ?>  data-modificator="yes" data-field_to_change="imdb_imdbwidgetalsoknownumber" data-field_to_change_value="1" /><label for="imdb_imdbwidgetalsoknow_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-						<div class="explain"><?php esc_html_e( "Display all movie's names", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+						<input type="text" id="imdb_imdbwidgetalsoknownumber" name="imdb_imdbwidgetalsoknownumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdb_widget_values['imdbwidgetalsoknownumber']), 'lumiere-movies') ?>" <?php if ($imdb_widget_values['imdbwidgetalsoknow'] == 0){ echo 'disabled="disabled"'; }; ?> />
+
+						<div class="explain"><?php esc_html_e( "Display (how many) alternative movie names and in other languages", 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 					</div>
 
@@ -365,10 +368,12 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						<?php if ($imdb_widget_values['imdbwidgetproducer'] == "1") { echo '<span class="admin-option-selected">'; esc_html_e( 'Producer', 'lumiere-movies'); echo '</span>'; } else { ?>
 						<?php  esc_html_e( 'Producer', 'lumiere-movies'); echo '&nbsp;&nbsp;'; } ?><br /><br />
 						
-						<input type="radio" id="imdb_imdbwidgetproducer_yes" name="imdb_imdbwidgetproducer" value="1" <?php if ($imdb_widget_values['imdbwidgetproducer'] == "1") { echo 'checked="checked"'; }?> /><label for="imdb_imdbwidgetproducer_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
-						<input type="radio" id="imdb_imdbwidgetproducer_no" name="imdb_imdbwidgetproducer" value="" <?php if ($imdb_widget_values['imdbwidgetproducer'] == 0) { echo 'checked="checked"'; } ?> /><label for="imdb_imdbwidgetproducer_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+						<input type="radio" id="imdb_imdbwidgetproducer_yes" name="imdb_imdbwidgetproducer" value="1" <?php if ($imdb_widget_values['imdbwidgetproducer'] == "1") { echo 'checked="checked"'; }?> data-modificator="yes" data-field_to_change="imdb_imdbwidgetproducernumber" data-field_to_change_value="0" /><label for="imdb_imdbwidgetproducer_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
+						<input type="radio" id="imdb_imdbwidgetproducer_no" name="imdb_imdbwidgetproducer" value="" <?php if ($imdb_widget_values['imdbwidgetproducer'] == 0) { echo 'checked="checked"'; } ?>  data-modificator="yes" data-field_to_change="imdb_imdbwidgetproducernumber" data-field_to_change_value="1" /><label for="imdb_imdbwidgetproducer_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-						<div class="explain"><?php esc_html_e( 'Display producers', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+						<input type="text" id="imdb_imdbwidgetproducernumber" name="imdb_imdbwidgetproducernumber" size="3" value="<?php esc_html_e( apply_filters('format_to_edit',$imdb_widget_values['imdbwidgetproducernumber']), 'lumiere-movies') ?>" <?php if ($imdb_widget_values['imdbwidgetproducer'] == 0){ echo 'disabled="disabled"'; }; ?> />
+
+						<div class="explain"><?php esc_html_e( 'Display (how many) producers', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 					</div>
 

@@ -324,9 +324,10 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<label for="imdb_imdblanguage"><?php esc_html_e( 'Search language', 'lumiere-movies'); ?></label><br /><br />
 				<select name="imdb_imdblanguage">
-					<option <?php if( ($imdb_admin_values['imdblanguage'] == "en-US") || (empty($imdb_admin_values['imdblanguage'])) ) echo 'selected="selected"'; ?> value="en-US"><?php esc_html_e( 'English', 'lumiere-movies'); ?></option>
-					<option <?php if($imdb_admin_values['imdblanguage'] == "fr-FR") echo 'selected="selected"'; ?>value="fr-FR"><?php esc_html_e( 'French', 'lumiere-movies'); ?></option>
-					<option <?php if($imdb_admin_values['imdblanguage'] == "es-ES") echo 'selected="selected"'; ?>value="es-ES"><?php esc_html_e( 'Spanish', 'lumiere-movies'); ?></option>
+					<option <?php if( ($imdb_admin_values['imdblanguage'] == "en") || (empty($imdb_admin_values['imdblanguage'])) ) echo 'selected="selected"'; ?> value="en"><?php esc_html_e( 'English', 'lumiere-movies'); ?></option>
+					<option <?php if($imdb_admin_values['imdblanguage'] == "fr,en") echo 'selected="selected"'; ?>value="fr,en"><?php esc_html_e( 'French', 'lumiere-movies'); ?></option>
+					<option <?php if($imdb_admin_values['imdblanguage'] == "de,en") echo 'selected="selected"'; ?>value="de,en"><?php esc_html_e( 'German', 'lumiere-movies'); ?></option>
+					<option <?php if($imdb_admin_values['imdblanguage'] == "es,en") echo 'selected="selected"'; ?>value="es,en"><?php esc_html_e( 'Spanish', 'lumiere-movies'); ?></option>
 				</select>
 
 				<div class="explain"><?php esc_html_e( 'Language used for the movie search. Very usefull for a non-English blog using Lumière! as a widget.', 'lumiere-movies'); ?>

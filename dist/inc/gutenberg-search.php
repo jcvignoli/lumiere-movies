@@ -25,6 +25,11 @@ if (class_exists("\Lumiere\Settings")) {
 	$imdb_admin_values = $config->imdb_admin_values;
 	$imdb_widget_values = $config->imdb_widget_values;
 	$imdb_cache_values = $config->imdb_cache_values;
+
+	// Start logger class
+	$logger = new \Monolog\Logger('popup-search');
+	//$logger->pushHandler(new StreamHandler( './wp-content/debug.log', Logger::DEBUG));
+
 }
 
 
@@ -35,7 +40,7 @@ if (class_exists("\Lumiere\LumiereMovies")) {
 }
 
 # Initialization of IMDBphp
-$search = new \Imdb\TitleSearch($config);
+$search = new \Imdb\TitleSearch($config /*, $logger*/ );
 ?>
 <html>
 <head>

@@ -7,12 +7,19 @@
 *  This template retrieves automatically the first occurence for the name utilized in the taxonomy
 */
 
+get_header();
+
 // Start Lumière config class
 if (class_exists("\Lumiere\Settings")) {
+
 	$config = new \Lumiere\Settings();
 	$imdb_admin_values = $config->imdb_admin_values;
 	$imdb_widget_values = $config->imdb_widget_values;
 	$imdb_cache_values = $config->imdb_cache_values;
+
+	// Start logger class
+	$logger = new \Monolog\Logger('popup-search');
+//	$logger->pushHandler(new StreamHandler( './wp-content/debug.log', Logger::DEBUG));
 
 	// Get the tag name from the taxonomy in current page
 	$name = single_tag_title('', false);
@@ -20,11 +27,11 @@ if (class_exists("\Lumiere\Settings")) {
 	// Get the info from imdbphp libraries
 	if ( (class_exists("\Imdb\Person")) && !empty($name) && isset($name) ) {
 
-		$search = new \Imdb\PersonSearch( $config );
+		$search = new \Imdb\PersonSearch( $config /*, $logger */ );
 		$results = $search->search( $name ) ?? NULL; # search for the person using the taxonomy tag
 		$mid = $results[0]->imdbid() ?? NULL; # keep the first result only
 		$mid_sanitized = intval( $mid ); # sanitize the first result
-		$person = new \Imdb\Person( $mid_sanitized, $config ) ?? NULL; # search the profile using the first result
+		$person = new \Imdb\Person( $mid_sanitized, $config /*, $logger */ ) ?? NULL; # search the profile using the first result
 		$person_name_sanitized = sanitize_text_field( $person->name() ) ?? NULL;
 
 	} else {
@@ -34,8 +41,6 @@ if (class_exists("\Lumiere\Settings")) {
 	}
 
 }
-
-get_header();
 
 echo "<br />";
 
