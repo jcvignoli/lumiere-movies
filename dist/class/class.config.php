@@ -22,6 +22,9 @@ if ( ! defined( 'WPINC' ) )
 // use the original class in src/Imdb/Config.php
 use \Imdb\Config;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 class Settings extends Config {
 
 	/* Editable Options vars */
@@ -59,6 +62,14 @@ class Settings extends Config {
 
 	public $lumiere_version;
 
+	public $isGutenberg;
+
+	/* List of types of people available */
+	var $array_people = array( 'actor', 'composer', 'creator', 'director', 'producer', 'writer' );
+
+	/* List of types of people available */
+	var $array_items = array( 'color', 'country', 'genre', 'keywords', 'language' );
+
 	/** Constructor
 	 **
 	 **/
@@ -66,6 +77,9 @@ class Settings extends Config {
 
 		// Construct parent class so we can send the settings
 		parent::__construct();
+
+		// Detect if it is gutenberg, but doesn't work
+		// add_action ('current_screen', [$this, 'lumiere_is_gutenberg'] );
 
 		// Define Lumière constants
 		$this->lumiere_define_constants();
@@ -325,7 +339,8 @@ class Settings extends Config {
 		$this->converttozip = $this->imdb_cache_values['imdbconverttozip'] ?? NULL;
 		$this->usezip = $this->imdb_cache_values['imdbusezip'] ?? NULL;
 
-		$this->lumiere_maybe_display_debug_pages();
+		/* In order to avoid Gutenberg error when saving posts, load at a later stage the debug function */
+		add_action('template_redirect', [$this, 'lumiere_maybe_display_debug_pages']);
 
 		/** Where the local IMDB images reside (look for the "showtimes/" directory)
 		*  This should be either a relative, an absolute, or an URL including the
@@ -352,8 +367,8 @@ class Settings extends Config {
 
 			$this->debug = false;
 
-		// Diplay debug for all front pages
-		} elseif (!is_admin())  {
+		// Diplay debug for all front pages except for gutenberg edition
+		} elseif ( (!is_admin())  /* && ($this->isGutenberg == false) doesn't work */ ) {
 
 			$this->debug = $this->imdb_admin_values['imdbdebug'] ?? NULL;
 
@@ -395,6 +410,28 @@ class Settings extends Config {
 			$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
 			wp_mkdir_p( $lumiere_folder_cache_images );
 			chmod( $lumiere_folder_cache_images, 0777 );
+
+		}
+
+
+	}
+
+	/* Try to detect if the current page is gutenberg editor
+	 * Doesn't work
+	 */
+	function lumiere_is_gutenberg(){
+
+		global $current_screen;
+
+		$screen = get_current_screen();
+		
+		if ( $screen->is_block_editor() ) {
+
+			$this->isGutenberg == true;
+
+		} else {
+
+			$this->isGutenberg == false;
 
 		}
 

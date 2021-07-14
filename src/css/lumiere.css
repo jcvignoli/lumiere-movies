@@ -30,6 +30,8 @@ body.lumiere_body_lightgrey {color: black;background: lightgrey;}
 .lumiere_container_border{border: 1px black solid;border-radius:10px;padding:5px;margin:5px;background-color:white;}
 .lumiere_container_flex50, .lumiere_container_flex_fifty{flex:50%;}
 .lumiere_container_flex_two{flex:2%;}
+.lumiere_container_flex_30{flex:30%;}
+.lumiere_container_flex_70{flex:70%;}
 /* ---------------------------------------- Tables */
 
 /* ------------------- Top menu */
@@ -247,6 +249,23 @@ text-decoration: none;cursor:pointer;}
 .noresult { /*text displayed when no imdbLT results found*/
 color: red;}
 
+/* ---------------------------------------- taxonomy page */
+
+.lumiere_font_12 {font-size:12px;}
+.lumiere_img_taxo_thumbnail{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    background-color: rgba(0,0,0,0.2);
+    opacity: 0;
+    text-align: center;
+    transition: all .3s ease;
+}
+
 /* ---------------------------------------- Gutenberg-search.php */
 
 body#gutenberg_search{margin:20px !important;}
@@ -269,4 +288,7 @@ span.label_moviesearched{font-size:larger !important;padding:10px;}
 .lumiere_width_twenty_perc{width:20%;}
 .lumiere_font_em_11{font-size:1.1em;}
 .lumiere_padding_two{padding:2px;}
+.lumiere_padding_five{padding:5px;}
+.lumiere_padding_15{padding:15px;}
+
 

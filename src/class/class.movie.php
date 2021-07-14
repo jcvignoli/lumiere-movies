@@ -1886,18 +1886,16 @@ class LumiereMovies {
 		if ( $term && !is_wp_error( $term ) ) {
 
 			// Link Lumière tags to Lumière Taxonomy
-			wp_set_post_terms(get_the_ID(), $taxonomy_term , $taxonomy_category_full, true);  
+			wp_set_post_terms(get_the_ID(), $list_taxonomy_term, $taxonomy_category_full, true);  
 
 			// Add Lumière tags to the current WordPress post, but we don't want it
 			# wp_set_post_tags(get_the_ID(), $list_taxonomy_term, 'post_tag', true); 
 
+			// Compatibility with Polylang WordPress plugin, add a language to the taxonomy term
+			if ( function_exists('pll_set_term_language') ) 
+				$this->lumiere_add_taxo_lang_to_polylang( $term['term_id'], $lang_term );
+
 		}
-
-		// Compatibility with Polylang WordPress plugin, add a language to the taxonomy term
-		if ( function_exists('pll_set_term_language') ) 
-			$this->lumiere_add_taxo_lang_to_polylang( $term['term_id'], $lang_term );
-
-
 
 		// ************** Return layout
 
