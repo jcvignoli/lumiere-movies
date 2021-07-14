@@ -8,13 +8,21 @@
 if ( (empty(wp_get_referer()) && (0 !== stripos( wp_get_referer(), admin_url() . 'admin.php?page=imdblt_options&subsection=dataoption&widgetoption=taxo' )) ) || ( ! defined( 'ABSPATH' ) ) )
 	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 
-/************* Vars **************/
-global $imdb_admin_values, $imdb_widget_values;
+// Start Lumière config class and get the vars
+if (class_exists("\Lumiere\Settings")) {
+
+	$config = new \Lumiere\Settings();
+	$imdb_admin_values = $config->imdb_admin_values;
+	$imdb_widget_values = $config->imdb_widget_values;
+
+	// List of potential types for a person
+	$array_people = $config->array_people; # array
+
+	// List of potential types for an item
+	$array_items = $config->array_items; # array
+}
 
 $lumiere_taxo_title = esc_html( $_GET['taxotype'] );
-
-$array_people = array( 'actor', 'composer', 'creator', 'director', 'producer', 'writer' );
-$array_items = array( 'color', 'country', 'genre', 'keywords', 'language' );
 $lumiere_taxo_file_tocopy = in_array($lumiere_taxo_title, $array_people, true) ? $lumiere_taxo_file_tocopy = "taxonomy-imdblt_people.php" : $lumiere_taxo_file_tocopy = "taxonomy-imdblt_items.php";
 $lumiere_taxo_file_copied = "taxonomy-" . $imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . ".php";
 $lumiere_current_theme_path = get_stylesheet_directory()."/";

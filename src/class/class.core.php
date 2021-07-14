@@ -304,9 +304,9 @@ class Core {
 
 			// Use local template lumiere.css if it exists in current theme folder
 			if (file_exists (TEMPLATEPATH . "/lumiere.css") ) { // an lumiere.css exists inside theme folder, take it!
-				wp_enqueue_style('lumiere_css', get_stylesheet_directory_uri() . '/lumiere.css', array(), $this->settingsclass->lumiere_version);
+				wp_enqueue_style('lumiere_main', get_stylesheet_directory_uri() . '/lumiere.css', array(), $this->settingsclass->lumiere_version);
 		 	} else {
-				wp_enqueue_style('lumiere_css', $imdb_admin_values['imdbplugindirectory'] .'css/lumiere.css', array(), $this->settingsclass->lumiere_version);
+				wp_enqueue_style('lumiere_main', $imdb_admin_values['imdbplugindirectory'] .'css/lumiere.css', array(), $this->settingsclass->lumiere_version);
 		 	}
 
 			// OceanWp template css fix

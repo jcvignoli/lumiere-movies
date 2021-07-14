@@ -2,10 +2,13 @@
 
 /* Template Person: Taxonomy for Lumière! person wordpress plugin (set up for standard taxonomy) 
 *  This file can be edited, renamed, and then copied in your theme folder or you also can
-*  use the admin taxonomy interface to do it automatically
+*  use the admin taxonomy interface to do it automaticaly
 *
-*  This template retrieves automatically the first occurence for the name utilized in the taxonomy
+*  This template retrieves automaticaly the occurence of the name selected
+*  If used along with Polylang WordPress plugin, an automatic selection to filter by language will be displayed
 */
+
+$activate_sidebar = false; # set on true to activate the sidebar
 
 get_header();
 
@@ -17,9 +20,11 @@ if (class_exists("\Lumiere\Settings")) {
 	$imdb_widget_values = $config->imdb_widget_values;
 	$imdb_cache_values = $config->imdb_cache_values;
 
+	// List of potential parameters for a person
+	$array_people = $config->array_people; # array
+
 	// Start logger class
-	$logger = new \Monolog\Logger('popup-search');
-//	$logger->pushHandler(new StreamHandler( './wp-content/debug.log', Logger::DEBUG));
+	$logger = new \Monolog\Logger('taxonomy-standard');
 
 	// Get the tag name from the taxonomy in current page
 	$name = single_tag_title('', false);
@@ -42,9 +47,12 @@ if (class_exists("\Lumiere\Settings")) {
 
 }
 
+$lumiere_taxonomy_full = esc_html( $imdb_admin_values['imdburlstringtaxo'] ) . 'standard';
+
 echo "<br />";
 
-// get_sidebar(); # unactivated, but you can uncomment it to activate!
+if ($activate_sidebar === true)
+	get_sidebar(); # selected in settings above
 ?>
 
 <main id="main" class="site-main clr" role="main">
@@ -191,17 +199,19 @@ echo "<br />";
 		}
 
 	} else {
-		echo '&nbsp;';
-	}
 
+		echo '&nbsp;';
+
+	}
 
 	echo "\n\t\t\t\t\t" . '</font></div>';
 	echo "\n\t\t\t\t" . '</div>';
 	echo "\n\t\t\t" . '</div>';
 	echo "\n\t\t\t" . '<br />';
-	echo "\n\t\t\t" . '<h2 align="center">' . esc_html__( 'Mentioned in:', 'lumiere-movies') . '</h2>';
-	echo "\n\n\t\t\t" . '<hr>' . "\n";
 
+	lumiere_get_form_polylang_selection( $lumiere_taxonomy_full );
+
+	echo "\n\t\t\t" . '<br />';
 
 } else { # end of section if a result was found for the taxonomy
 
@@ -210,35 +220,76 @@ echo "<br />";
 
 } 
 
-	if ( have_posts() ) { // there is post
-		while ( have_posts() ) { 
-			the_post(); ?>
+// Language from the form
+$language = isset($_GET['tag_lang']) ? sanitize_text_field($_GET['tag_lang']) : "";
+
+/* For every type of role (writer, director) do a WP Query Loop
+*
+*/
+
+// Var to include all rows and check if it is null
+$check_if_no_result = "";
+
+foreach ($array_people as $people) {
+
+	// The query arguments
+	$args = array(
+		'lang' => $language,
+		'tax_query' => array(
+			array(
+				'taxonomy' => esc_html( $imdb_admin_values['imdburlstringtaxo'] ) . $people,
+				'field'    => 'name',
+				'terms'    => $person_name_sanitized,
+			),
+		),
+	);
+
+	// The Query
+	$the_query = new WP_Query( $args );
+	 
+
+	// The loop
+	if ( $the_query->have_posts() )  { // there is post
+
+		echo "\n\t\t\t\t" . '<h3 class="lumiere_italic lumiere_align_center">' . esc_html__( 'In the role of', 'lumiere-movies') . ' ' . $people . '</h3>';
+
+		while ( $the_query->have_posts() ) { 
+			$the_query->the_post(); ?>
 			
 			<div class="postList">
 				<h3 id="post-<?php the_ID(); ?>">
 					<a href="<?php the_permalink() ?>" rel="bookmark" title="<?php esc_html_e( 'Open the blog ', 'lumiere-movies')?><?php the_title(); ?>">
-						<?php the_title(); ?>
+						<?php the_title(); ?> <span class="lumiere_font_12">(<?php the_time("d/m/Y") ?>)</span>
 					</a>
 				</h3>
 
-				<?php if (get_terms('standard')){ ?>
+				<?php /* Too many results, deactivated
+					if (get_terms( esc_html( $lumiere_taxonomy_full )){ ?>
 
 				<div class="taxonomy"><?php
 					esc_html_e( 'Taxonomy', 'lumiere-movies' ); 
-					echo ' standard:';
-					echo get_the_term_list(get_the_ID(), esc_html( $imdb_admin_values['imdburlstringtaxo'] ) . 'standard', ' ', ', ', '' ); ?>
+					echo " $people:";
+					echo get_the_term_list(get_the_ID(), $lumiere_taxonomy_full, ' ', ', ', '' ); ?>
 				<br /><br />
 				</div>
-				<?php } ?>	
+				<?php } */?>	
 				
-				<div class="entry">
-					<?php the_excerpt() ?>
+				<div class="lumiere_display_flex">
+					<div class="lumiere_padding_15">	
+						<?php
+			 				// Display the post's thumbnail
+							echo get_the_post_thumbnail('', '', array( 'class' => '' )); 
+						?>
+					</div>
+					<div class="">
+						<?php the_excerpt() ?>
+					</div>
 				</div>
 		
-				<p class="postmetadata">
+				<p class="postmetadata lumiere_align_center lumiere_padding_five">
 					<span class="category"><?php esc_html_e( "Filed under: ", 'lumiere-movies'); ?> <?php the_category(', ') ?></span> 
 
-					<?php if (has_tag()){ ?>
+					<?php if ($the_query->has_tag()){ ?>
 					<strong>|</strong>
 					<span class="tags"><?php the_tags(esc_html__( 'Tags: ', 'lumiere-movies'), ' &bull; ', ' '); ?></span><?php } ?>
 
@@ -248,10 +299,34 @@ echo "<br />";
 
 		}
 
-	} else { // there is no post
-			esc_html_e( 'No post found.', 'lumiere-movies'); 
-			echo "<br /><br /><br />";
-	} ?>
+	$check_if_no_result .= get_the_title();
+
+	// there is no post
+	} else { 
+
+		$logger->debug("[Lumiere] No post found for $people");
+//		esc_html_e( 'No post found.', 'lumiere-movies'); 
+//		echo "<br /><br /><br />";
+
+	} 
+
+}
+
+/* Restore original Post Data */
+wp_reset_postdata();
+
+/* If no results are found at all
+ *
+ */
+if ( (isset( $check_if_no_result )) && (empty( $check_if_no_result )) ){ 
+
+	$logger->debug("[Lumiere] No post found about $people using this query: <pre>$args</pre>");
+	echo "<div class=\"lumiere_align_center lumiere_italic lumiere_padding_five\">No post written about $person_name_sanitized</div>";
+
+}
+
+
+?>
 
 	
 	</div>
@@ -262,4 +337,58 @@ echo "<br />";
 wp_meta();
 
 get_footer(); 
+
+
+ /**  Polylang form
+  **  Display a form to change the language if Polylang plugin is active
+  **
+  ** @ param string mandatory $taxonomy -> the current taxonomy to check and build the form according to it
+  **/
+function lumiere_get_form_polylang_selection($taxonomy) {
+
+	global $logger;
+
+	// Is Polylang plugin active?
+	if (!function_exists('pll_is_translated_taxonomy') ) {
+		$logger->debug("[taxonomy] Polylang is not active.");
+		return;
+	}
+
+	// Is the current taxonomy, such as "lumiere_actor", registered and activated for translation?
+	if ( pll_is_translated_taxonomy($taxonomy) ) {
+
+		// Retrieve all languages
+		$polylang_array_lang_list = pll_languages_list();
+
+		// Build the form
+		echo "\n\t\t\t" . '<div align="center">';
+		echo "\n\t\t\t\t" . '<form method="get" id="lang_form" name="lang_form" action="' . esc_url( $_SERVER[ "REQUEST_URI" ] ) . '">';
+		echo "\n\t\t\t\t\t" .'<select name="tag_lang" style="width:100px;">';
+
+		// Build an option html tag for every language
+		foreach ($polylang_array_lang_list as $lang){
+			$lang = esc_html( $lang );
+			echo "<option value=\"$lang\"";
+			if( $_GET['tag_lang'] == $lang ) 
+				echo 'selected="selected"';
+			echo ">$lang</option>";
+		}
+
+		echo '</select>&nbsp;&nbsp;&nbsp;';
+
+		wp_nonce_field('submit_lang', 'submit_lang'); 
+
+		submit_button( esc_html__('Change language', 'lumiere-movies' ), 'primary', 'submit_lang', false);
+
+		echo '</form>';
+
+		echo "\n\t\t\t" . '</div>';
+	} else {
+
+		$logger->debug("[taxonomy] No activated taxonomy found.");
+		return false;
+
+	}
+
+}
 ?>

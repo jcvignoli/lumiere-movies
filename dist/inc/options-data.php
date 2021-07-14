@@ -46,10 +46,18 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 	} 
 }
 
-// Data is posted using the form
+/* Authorised user to submit the form
+ *
+ */
 if (current_user_can( 'manage_options' ) ) { 
 
-	if ( (isset($_POST['update_imdbwidgetSettings'])) && check_admin_referer('imdbwidgetSettings_check', 'imdbwidgetSettings_check') ) { //--------------save data selected (widget options)
+	/* Update options selected
+	 *
+	 */
+	if ( (isset($_POST['update_imdbwidgetSettings'])) && check_admin_referer('imdbwidgetSettings_check', 'imdbwidgetSettings_check') ) { 
+
+		// Bug: It doesn't refresh as it should when removing/adding a taxonomy
+		flush_rewrite_rules();
 
 		foreach ($_POST as $key=>$postvalue) {
 			// Sanitize
@@ -103,8 +111,13 @@ if (current_user_can( 'manage_options' ) ) {
 
 	 }
 
-	// reset options selected  (widget options)
+	/* Reset options selected
+	 *
+	 */
 	if ( (isset($_POST['reset_imdbwidgetSettings'])) && check_admin_referer('imdbwidgetSettings_check', 'imdbwidgetSettings_check') ) { 
+
+		// Bug: It doesn't refresh as it should when removing/adding a taxonomy
+		flush_rewrite_rules();
 
 		// Delete the options to reset
 		delete_option($config->imdbWidgetOptionsName);
