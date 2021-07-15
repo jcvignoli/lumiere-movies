@@ -73,7 +73,7 @@ class Core {
 
 			add_filter( 'init', function( $template ) {
 				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) )
-					require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::move_template_taxonomy_page );
+					require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::gutenberg_search_page );
 
 			} );
 

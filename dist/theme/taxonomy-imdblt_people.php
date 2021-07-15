@@ -20,11 +20,21 @@ if (class_exists("\Lumiere\Settings")) {
 	$imdb_widget_values = $config->imdb_widget_values;
 	$imdb_cache_values = $config->imdb_cache_values;
 
+	// Start logger class if debug is selected
+	if ( (isset($config->imdb_admin_values['imdbdebug'])) && ($config->imdb_admin_values['imdbdebug'] == 1) ){
+
+		// Start the class Utils to activate debug
+		$debug_start = new \Lumiere\Utils();
+		$debug_start->lumiere_activate_debug($imdb_admin_values, '', 'libxml', $config); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+
+		// Start the logger
+		$config->lumiere_start_logger('taxonomy-standard');
+		$logger = $config->loggerclass;
+
+	} 
+
 	// List of potential parameters for a person
 	$array_people = $config->array_people; # array
-
-	// Start logger class
-	$logger = new \Monolog\Logger('taxonomy-standard');
 
 	// Get the tag name from the taxonomy in current page
 	$name = single_tag_title('', false);
@@ -32,11 +42,11 @@ if (class_exists("\Lumiere\Settings")) {
 	// Get the info from imdbphp libraries
 	if ( (class_exists("\Imdb\Person")) && !empty($name) && isset($name) ) {
 
-		$search = new \Imdb\PersonSearch( $config /*, $logger */ );
+		$search = new \Imdb\PersonSearch( $config, $logger );
 		$results = $search->search( $name ) ?? NULL; # search for the person using the taxonomy tag
 		$mid = $results[0]->imdbid() ?? NULL; # keep the first result only
 		$mid_sanitized = intval( $mid ); # sanitize the first result
-		$person = new \Imdb\Person( $mid_sanitized, $config /*, $logger */ ) ?? NULL; # search the profile using the first result
+		$person = new \Imdb\Person( $mid_sanitized, $config, $logger) ?? NULL; # search the profile using the first result
 		$person_name_sanitized = sanitize_text_field( $person->name() ) ?? NULL;
 
 	} else {
@@ -304,9 +314,9 @@ foreach ($array_people as $people) {
 	// there is no post
 	} else { 
 
-		$logger->debug("[Lumiere] No post found for $people");
-//		esc_html_e( 'No post found.', 'lumiere-movies'); 
-//		echo "<br /><br /><br />";
+		if($logger !== NULL) {
+			$logger->debug("[Lumiere][taxonomy] No post found for $person_name_sanitized in $people");
+		}
 
 	} 
 
@@ -320,14 +330,13 @@ wp_reset_postdata();
  */
 if ( (isset( $check_if_no_result )) && (empty( $check_if_no_result )) ){ 
 
-	$logger->debug("[Lumiere] No post found about $people using this query: <pre>$args</pre>");
+	if($logger !== NULL) {
+		$logger->debug("[Lumiere] No post found about $people using this query: <pre>$args</pre>");
+	}
+
 	echo "<div class=\"lumiere_align_center lumiere_italic lumiere_padding_five\">No post written about $person_name_sanitized</div>";
 
-}
-
-
-?>
-
+} ?>
 	
 	</div>
 </main>
@@ -346,12 +355,16 @@ get_footer();
   **/
 function lumiere_get_form_polylang_selection($taxonomy) {
 
-	global $logger;
+	global $logger, $person_name_sanitized;
 
 	// Is Polylang plugin active?
 	if (!function_exists('pll_is_translated_taxonomy') ) {
-		$logger->debug("[taxonomy] Polylang is not active.");
+
+		if($logger !== NULL) {
+			$logger->debug("[taxonomy] Polylang is not active.");
+		}
 		return;
+
 	}
 
 	// Is the current taxonomy, such as "lumiere_actor", registered and activated for translation?
@@ -385,7 +398,9 @@ function lumiere_get_form_polylang_selection($taxonomy) {
 		echo "\n\t\t\t" . '</div>';
 	} else {
 
-		$logger->debug("[taxonomy] No activated taxonomy found.");
+		if($logger !== NULL){
+			$logger->debug("[Lumiere][taxonomy] No activated taxonomy found for $person_name_sanitized with $taxonomy.");
+		}
 		return false;
 
 	}

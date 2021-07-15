@@ -21,26 +21,33 @@ if ( ! defined( 'ABSPATH' ) )
 require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
 if (class_exists("\Lumiere\Settings")) {
+
 	$config = new \Lumiere\Settings();
 	$imdb_admin_values = $config->imdb_admin_values;
 	$imdb_widget_values = $config->imdb_widget_values;
 	$imdb_cache_values = $config->imdb_cache_values;
 
-	// Start logger class
-	$logger = new \Monolog\Logger('popup-search');
-	//$logger->pushHandler(new StreamHandler( './wp-content/debug.log', Logger::DEBUG));
+	// Get the type of search: movies, series, games
+	$typeSearch = $config->lumiere_select_type_search();
 
-}
+	// Start utils and logger class if debug is selected
+	if ( (isset($config->imdb_admin_values['imdbdebug'])) && ($config->imdb_admin_values['imdbdebug'] == 1) ){
 
+		// Start the class Utils to activate debug
+		$debug_start = new \Lumiere\Utils();
+		$debug_start->lumiere_activate_debug(NULL, '', 'libxml', $config); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
-// Get the type of search from local class
-if (class_exists("\Lumiere\LumiereMovies")) {
-	$imdbmoviesclass = new \Lumiere\LumiereMovies();
-	$typeSearch = $imdbmoviesclass->lumiere_select_type_search();
+		// Start the logger
+		$config->lumiere_start_logger('gutenbergSearch');
+
+		// Store the class so we can use in imdbphp class
+		$logger = $config->loggerclass;
+	} 
+
 }
 
 # Initialization of IMDBphp
-$search = new \Imdb\TitleSearch($config /*, $logger*/ );
+$search = new \Imdb\TitleSearch($config, $logger );
 ?>
 <html>
 <head>
@@ -57,7 +64,7 @@ if ( (isset($_POST['submitsearchmovie'])) && (isset ($_POST["moviesearched"])) )
 
 ?>
 
-<h1 class="searchmovie_title"><?php esc_html_e('Results related to your query:', 'lumiere-movies'); ?> <i><?php echo $search_sanitized; ?></i></h1>
+<h1 class="searchmovie_title"><?php esc_html_e('Results related to your query:', 'lumiere-movies'); ?> <font color="blue"><i><?php echo $search_sanitized; ?></i></font></h1>
 
 <div class="lumiere_container">
 	<div class="lumiere_container_flex50"><h2><?php esc_html_e('Titles results', 'lumiere-movies'); ?></h2></div>

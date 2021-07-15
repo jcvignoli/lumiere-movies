@@ -5,26 +5,24 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 4.0 \
 **Tested up to:** 5.8 \
-**Stable tag:** 3.4.2 \
+**Stable tag:** 3.4.3 \
 **Requires PHP:** 7.2 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html
 
-Lumière! Movies retrieves information from www.imdb.com into your blog. Cache management, widget available, this is the most versatile and comprehensive plugin to retrieve data from IMDb. 
+Lumière! Movies retrieves information from www.imdb.com to include it in your blog. This is the most versatile and comprehensive plugin for blogs dedicated to movies.
 
 ## Description
 
-Important! Due to compatibility reasons with Gutenberg, as of version 3.1 the way to call links for internal popupups has changed from '< !--imdb-->< !--/imdb-->' to '< span class lumiere_link_maker> < /span>'. Compatibility with the previous call currently maintained.
+Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Official website") to see how the plugin can improve your website.
 
-Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Official website").
-
-"Lumière! Movies" is the continuation of [IMDb Link Transformer plugin](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer") that reached over 20'000 downloads. 
-
-**Lumiere Movies** helps you integrate loads of information about movies and starts. Widgets, links to informative popup, dedicated taxonomy pages, are available. You even can include movie's information into your posts ! Everything is automatised: although the plugin works flawlessly without any need to change the settings, your can change the themes, add taxonomy to your pages. Directors, pictures, all the information is retrieved from the famous [IMDb](https://www.imdb.com "Internet movie database") website. It ensures that you have the most accurate and reliable information always available on your blog.
+**Lumiere! Movies** helps you integrate loads of information about movies and stars. Widgets, links to informative popup, and dedicated taxonomy pages are available. You even in a click include movie's information into your posts. Everything is automatised: although the plugin works out of the box and doesn't need any further change in the settings, your can change the themes, add taxonomy to your pages, remove links, and use many hidden features. Information about movie directors, pictures, all the information is retrieved from the famous [IMDb](https://www.imdb.com "Internet movie database") website. Lumière! ensures that you have the most accurate and reliable information always available on your blog.
 
 Many features are available in the wordpress editing interfaces (Gutenberg, Visual editor, and HTML editor).
 
-**Lumière!** is a great tool to illustrate your articles. It is an amazingly versatile plugin: users can display movie details through many ways: popups, widget, and straight inside the article. Finally, it can be extensively fine-tuned in the admin panel.
+**Lumière!** is a great tool to illustrate your articles. It is an amazingly versatile plugin: users can display movie details through many ways: popups, widget, and straight inside the article. It can be extensively fine-tuned in the admin panel.
+
+"Lumière! Movies" is the continuation of [IMDb Link Transformer plugin](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer") that reached over 20'000 downloads. 
 
 ## Installation
 
@@ -34,7 +32,7 @@ PHP 7 is required. PHP 8 will soon be mandatory.
 
 1. Activate the plugin
 2. Configure the plugin (in admin settings). Default values are automatically filled. In most cases, no change is required.
-3. Make sure the cache directories (cache and photo directories) have been created (in cache settings). The plugin is preconfigured to work with "/wp-content/cache/lumiere-movies/". The plugin works with or without cache.
+3. Make sure the cache directories (cache and photo directories) have been created (check the cache settings in Lumière cache settings). The plugin is preconfigured to work with "/wp-content/cache/lumiere-movies/".
 
 ### basic options
 
@@ -46,14 +44,14 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ### Fine tuning:
 
-1. A (front) page can be created to include all your movie related articles. Have a look there : [movie review's page](https://www.jcvignoli.com/blog/critiques-de-cinema "Lost highway's movies reviews").
-2. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. You can copy the lumiere.css file into your current template folder so your modification will make it in spite of Lumière!'s updates.
+1. Lumière! Movies can create automatically tags and pages to include all movies identically tagged (known as taxonomy). Taxonomy templates are provided. Check plugin's help to figure out how to use it.
+2. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. You can copy the lumiere.css file into your current template folder so your modification will be kept through Lumière!'s updates.
 
 ### Advanced
 
-1. If you **do not want to show any link to open the popup windows** (in the case you are only looking for information displayed in widget and inside posts), search for the option located in "General options -> Advanced -> Remove popup links?" and select "yes". Links opening a popup (both in widget and posts) will not be be available anymore.
-2. Should you want to display automatically a widget according to the post's title, just switch on the "Widget/Inside post" option located in "Options -> Advanced ->Auto widget" in the plugin admin. Usefull for blogs exclusively dedicated to movie reviews.
-3. Lumière! Movies can create automatically tags and pages to include all movies identically tagged (known as taxonomy). Taxonomy templates are provided. Check plugin's help to figure out how to.
+1. If you **do not want Lumière to add any link** (in the case you are only looking for information displayed in widget and inside posts), search for the option located in "General options -> Advanced -> Remove popup links?" and select "yes". Links opening a popup (both in widget and posts) will not be be available anymore.
+2. Should you want to display automatically a widget according to the post's title, just switch on the "Auto widget" option located in "Options -> Advanced -> Auto widget" in the plugin admin panel. Usefull for blogs exclusively dedicated to movie reviews.
+3. A (front) page can be created to include all your movie related articles. Have a look there : [movie review's page](https://www.jcvignoli.com/blog/critiques-de-cinema "Lost highway's movies reviews").
 
 ## Screenshots
 
@@ -98,7 +96,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ### How to use the plugin?
 
-How to use Lumière! is explained in the **How to** page of the plugin settings (so install the plugin first, then take a look at the section "Lumière! Movies help")
+You can find further explanation about how to use the features of Lumière! in the dedicated page of the plugin settings. After installing the plugin, take a look at the section "Lumière! help".
 
 ### Can I suggest a feature/report a bug regarding the plugin?
 
@@ -110,17 +108,19 @@ Look at "Widget/Inside post Options / Misc / Remove all links?" and switch the o
 
 ### I want to keep data forever on my disk/server
 
-Look at "Cache management / Cache general options / Cache expire" and click on "never" to keep forever data download from IMDb. Be carefull with that option: changes made on IMDb will not be reflected in your cache. Should you want to keep your data forever, you have nevertheless the option to refresh a given movie only. Pay a visit to Cache options in order to delete/refresh a specific movie.
+Look at "Cache management / Cache general options / Cache expire" and click on "never" to keep forever the downloaded data from IMDb. Be carefull with that option: changes made on IMDb will not be anymore reflected in your cache. Should you have selected that option, you can still delete/refresh any specific movie you want in the cache options.
 
 ### Is it possible to add several movies to sidebar/widget and inside my post?
 
-One widget only can be added per post. However, as many movies as you wish can be inserted inside your article.
+While one widget only can be added per post, you can insert as many movies as you want inside your articles.
+
+### Does it integrate with Polylang plugin?
+
+If Polylang is installed, new features for taxonomy are added, such as selecting a specific installed language to show in taxonomy pages.
 
 ### Known issues
 
 * TinyMCE is not working the way it should. Only basic features are available at the moment. I'm working on it.
-
-* If you are using Polylang plugin to run a multilanguage site, make sure you do not select to translate Lumière's custom taxonomies, otherwise it breaks the custom taxonomies pages.
 
 * Lumière! help section in the administration of the plugin is massively outdated.
 
@@ -152,9 +152,9 @@ Major changes:
 
 ### 3.1
 
-* Due to compatibility reasons with Gutenberg, the way to display links to internal popupups has changed from '<!--imdb--><!--/imdb-->' to '<span class
+* Due to compatibility reasons with Gutenberg, the way to display links to internal popupups has changed from '< !--imdb-->< !--/imdb-->' to 'span class
 
-### "lumiere_link_maker"></span>'. Compatibility with the old way currently maintained.
+### "lumiere_link_maker"'. Compatibility with the old way currently maintained.
 
 * Gutenberg interface finished.
 

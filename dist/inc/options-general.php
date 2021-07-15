@@ -20,7 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Enter in debug mode
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
-	lumiere_debug_display($imdb_admin_values, '', '', $config); # $config comes from admin_page
+	// Start the class Utils to activate debug
+	$debug_start = new \Lumiere\Utils();
+	$debug_start->lumiere_activate_debug($imdb_admin_values, '', '', $config); # $config comes from admin_page
 }
 
 /* Vars */
@@ -343,7 +345,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 					<option <?php if( ($imdb_admin_values['imdbseriemovies'] == "movies+series") || (empty($imdb_admin_values['imdbSerieMovies'])) ) echo 'selected="selected"'; ?> value="movies+series"><?php esc_html_e( 'Movies and series', 'lumiere-movies'); ?></option>
 					<option <?php if($imdb_admin_values['imdbseriemovies'] == "movies") echo 'selected="selected"'; ?>value="movies"><?php esc_html_e( 'Movies only', 'lumiere-movies'); ?></option>
 					<option <?php if($imdb_admin_values['imdbseriemovies'] == "series") echo 'selected="selected"'; ?>value="series"><?php esc_html_e( 'Series only', 'lumiere-movies'); ?></option>
-					<option <?php if($imdb_admin_values['imdbseriemovies'] == "games") echo 'selected="selected"'; ?>value="videogames"><?php esc_html_e( 'Video games only', 'lumiere-movies'); ?></option>
+					<option <?php if($imdb_admin_values['imdbseriemovies'] == "videogames") echo 'selected="selected"'; ?>value="videogames"><?php esc_html_e( 'Video games only', 'lumiere-movies'); ?></option>
 				</select>
 
 				<div class="explain"><?php esc_html_e( 'What type to use for the search, such as movies, series (for TV Shows), and videogames.', 'lumiere-movies'); ?>
