@@ -1,12 +1,13 @@
 Changelog
 
 v.3.4.3
+* [major] Updated to [imdbphp library 7.2](https://github.com/tboothman/imdbphp/releases/tag/v7.2.0 "imdbphp library 7.2")
 * [feature] Major improvement for taxonomy pages people-related. Takes into consideration if you are using Polylang  allowing to change the language. Displays all types of roles for people.
 * [technical] Use of vars and constants in class config, changed php calls accordingly.
 * [bug] HTML Links are properly linking to plot authors (class movie).
 
 v.3.4.2
-* [major] Updated to imdbphp library 7.1
+* [major] Updated to [imdbphp library 7.1](https://github.com/tboothman/imdbphp/releases/tag/v7.1.0 "imdbphp library 7.1")
 * [feature] Added a number limit for producers and akas
 * [technical] Use WP cron to update options. Uses less resources, better optimisation.
 * [technical] Class config used to include two classes. Now they're merged. All calls to class config trigger an automatic sending of the settings to imdbphp. Debug is now displayed everywhere.
@@ -146,7 +147,7 @@ v3.1.1
 * [bug] Fixed cache refresh/delete redirect + move form functions to options cache
 
 v3.1
-* [Major] Due to compatibility reasons with Gutenberg, the way to call links for internal popupups has changed from '<!--imdb--><!--/imdb-->' to '<span class="lumiere_link_maker"></span>'. Compatibility with the old way currently maintained.
+* [Major] Due to compatibility reasons with Gutenberg, the way to call links for internal popupups has changed from '< !--imdb-- > < !--/imdb-->' to 'span class="lumiere_link_maker"'. Compatibility with the old way currently maintained.
 * [Major] Finished Gutenberg interface, two buttons added.
 * [Major] Updated to IMDbPHP 6.5.1 library.
 * [new] Caching system: Changed the path of Lumière! cache (now in wp-content/cache) so it will survive the plugin updates. If wp-content/cache is not writable, it uses wp-content/plugins/lumiere/cache path.
@@ -187,7 +188,7 @@ v3.0
 * [feature] new icons, new layout
 * [feature] removed Pilot search options
 * [feature] removed js support for IE
-* [feature] removed support for wordpress < 5.7
+* [feature] removed support for wordpress smaller to 5.7
 * [feature] added a tool to copy taxonomy templates in the admin interface
 * [feature] added a css fix for OceanWP template users
 * [feature] css/js are now loaded only on /imdblt/ and widget pages
