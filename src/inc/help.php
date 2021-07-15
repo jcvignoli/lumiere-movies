@@ -50,15 +50,16 @@ add_meta_box('lumiere_help_autowidget', esc_html__( 'Widget auto according post\
 ?>
 
 <div id="tabswrap">
-	<ul id="tabs">
-		<li><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) ."pics/admin-help-howto.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "How to use Lumiere Movies", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=howto"); ?>"><?php esc_html_e( 'How to', 'lumiere-movies'); ?></a></li>
+	<div class="imdblt_double_container lumiere_padding_five">
 
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-help-faq.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Frequently asked questions", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=faqs"); ?>"><?php esc_html_e( 'FAQs', 'lumiere-movies'); ?></a></li>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) ."pics/admin-help-howto.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "How to use Lumiere Movies", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=howto"); ?>"><?php esc_html_e( 'How to', 'lumiere-movies'); ?></a></div>
 
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-help-changelog.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "What's new", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=changelog"); ?>"><?php esc_html_e( 'Changelog', 'lumiere-movies'); ?></a></li>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-help-faq.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Frequently asked questions", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=faqs"); ?>"><?php esc_html_e( 'FAQs', 'lumiere-movies'); ?></a></div>
 
-		<li>&nbsp;&nbsp;<img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-help-support.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "To get support and to support what you get", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=support"); ?>"><?php esc_html_e( 'Support, donate & credits', 'lumiere-movies'); ?></a></li>
-	</ul>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-help-changelog.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "What's new", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=changelog"); ?>"><?php esc_html_e( 'Changelog', 'lumiere-movies'); ?></a></div>
+
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-help-support.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "To get support and to support what you get", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help&helpsub=support"); ?>"><?php esc_html_e( 'Support, donate & credits', 'lumiere-movies'); ?></a></div>
+	</div>
 </div>
 
 <div id="poststuff" class="metabox-holder">
@@ -121,8 +122,8 @@ if (isset($_GET['helpsub']) && ($_GET['helpsub'] == "faqs"))  { 	// Readme secti
 					$changlelogfile = file($changelogfile, FILE_BINARY);
 					// replace **...** by strong and i
 					$changlelogfile = preg_replace("~(\*\s\[)(.*?)(\])~","<strong><i>\${2}</i></strong>",$changlelogfile);
-					// replace links from (specially formated for wordpress website) readme with casual html
-					$patternlink = '~(\\[{1}(.*?)\\]\()(htt(p|ps)://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
+					// replace links from (specially formated for wordpress website) changlog with casual html
+					$patternlink = '~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
 
 					$changlelogfile = preg_replace($patternlink,"<a href=\"\${3}\${4}\" title=\"\${7}\">\${2}</a>",$changlelogfile);
 					$i=0;
