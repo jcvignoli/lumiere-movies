@@ -3,9 +3,10 @@ OK--- 1. bug fixed use of $allowed_html_for_escape_functions (was private, now p
 OK--- 2. technical Use of vars and constants in class config, changed php calls accordingly
 OK--- 3. medium Major improvement for taxonomy pages people-related. Takes into consideration if you are using Polylang  allowing to change the language. Displays all types of roles for people.
 OK--- 4. bug search popup layout was broken when no director was found
+OK--- 5. major updated to imdbphp 7.2
 
 
-
+21. check update process, add a weekly cron to update
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the admin pages using WordPress API
 13. Implement alternative to highslide with a jquery modal window
