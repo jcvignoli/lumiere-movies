@@ -22,30 +22,36 @@ if (class_exists("\Lumiere\Settings")) {
 	$imdb_widget_values = $config->imdb_widget_values;
 	$imdb_cache_values = $config->imdb_cache_values;
 
-}else {
+	// Get the type of search: movies, series, games
+	$typeSearch = $config->lumiere_select_type_search();
+
+	// Start utils and logger class if debug is selected
+	if ( (isset($config->imdb_admin_values['imdbdebug'])) && ($config->imdb_admin_values['imdbdebug'] == 1) ){
+
+		// Start the class Utils to activate debug
+		$utils = new \Lumiere\Utils();
+		$utils->lumiere_activate_debug($imdb_cache_values, '', 'libxml', $config); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+
+		// Start the logger
+		$config->lumiere_start_logger('popupMovie');
+
+		// Store the class so we can use it later for imdbphp class call
+		$logger = $config->loggerclass;
+	} 
+
+} else {
 
 	wp_die( esc_html__('Cannot start popup movies, class Lumière Settings not found', 'lumiere-movies') );
 
 }
 
-// Get the type of search: movies, series, games
-if (class_exists("\Lumiere\LumiereMovies")) {
-	$imdbmoviesclass = new \Lumiere\LumiereMovies();
-	$typeSearch = $imdbmoviesclass->lumiere_select_type_search();
-}
-
 /* GET Vars sanitized */
 $movieid_sanitized = isset($_GET["mid"]) ? filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT) : NULL;
-$filmid_sanitized = isset($_GET["film"]) ? lumiere_name_htmlize( $_GET["film"] ) : NULL;
+$filmid_sanitized = isset($_GET["film"]) ? $utils->lumiere_name_htmlize( $_GET["film"] ) : NULL;
 $film_sanitized_for_title = isset($_GET["film"]) ? sanitize_text_field($_GET["film"]) : NULL;
 
 // HTML tags to keep when using strip_tags()
 $striptags_keep = '<div><span><br><img>';
-
-
-// Enter in debug mode, for development version only
-if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")) 
-	lumiere_debug_display($imdb_cache_values, '', 'libxml', $config); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
 // if neither film nor mid are set, throw a 404 error
 if (empty($movieid_sanitized ) && empty($filmid_sanitized)){
@@ -67,13 +73,13 @@ if (empty($movieid_sanitized ) && empty($filmid_sanitized)){
 
 if ( (isset ($movieid_sanitized)) && (!empty ($movieid_sanitized)) && (!empty ($config)) ) {
 
-	$movie = new \Imdb\Title($movieid_sanitized, $config );
-	$filmid_sanitized = lumiere_name_htmlize($movie->title());
+	$movie = new \Imdb\Title($movieid_sanitized, $config, $logger );
+	$filmid_sanitized = $utils->lumiere_name_htmlize($movie->title());
 	$film_sanitized_for_title = sanitize_text_field($movie->title());
 
 } elseif (!empty ($config)) {
 
-	$search = new \Imdb\TitleSearch( $config );
+	$search = new \Imdb\TitleSearch( $config, $logger );
 	$movie = $search->search ($filmid_sanitized, $typeSearch )[0];
 
 } else {
@@ -105,13 +111,12 @@ if (empty($movie) ){
 	get_footer(); 
 	die();
 }?>
-<h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . $filmid_sanitized_for_title; ?></i></h1>
 
-<h1><?php esc_html_e('Query results', 'lumiere-movies'); ?></h1>
+<h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . $filmid_sanitized_for_title; ?></i></h1>
 
 <div class="lumiere_display_flex lumiere_align_center">
 	<div class="lumiere_flex_auto lumiere_width_fifty_perc">
-		<?php esc_html_e('Titles matching', 'lumiere-movies'); ?>
+		<?php esc_html_e('Matching titles', 'lumiere-movies'); ?>
 	</div>
 	<div class="lumiere_flex_auto lumiere_width_fifty_perc">
 		<?php esc_html_e('Director', 'lumiere-movies'); ?>
@@ -133,22 +138,24 @@ if (empty($movie) ){
 		
 		// ---- movie part		
 		echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
-		echo "\n\t\t<div><a class='linkpopup' href=\"".esc_url( $config->lumiere_urlpopupsfilms . sanitize_text_field( $res->title() ) . "/?mid=".sanitize_text_field( $res->imdbid() ) . "&film=".sanitize_text_field( $res->title() ) )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a> \n";
-		echo "&nbsp;&nbsp;<a class=\"linkpopup\" href=\"https://www.imdb.com/title/tt". sanitize_text_field( $res->imdbid() )."\" target=\"_blank\" title='".esc_html__('link to imdb for', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."'>";
 
-
+		echo "\n\t\t<div><a class='linkpopup' href=\"".esc_url( $config->lumiere_urlpopupsfilms . sanitize_text_field( $res->title() ) . "/?mid=".sanitize_text_field( $res->imdbid() ) . "&film=".sanitize_text_field( $res->title() ) )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a>";
 		echo "\n\t</div>";
 		echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_right'>";
 	
 		// ---- director part
 		$realisateur =  $res->director() ;
 		if ( (isset($realisateur['0']['name'])) && (! is_null ($realisateur['0']['name'])) ){
-			echo "\n\t\t<div><a class='linkpopup' href=\"" . esc_url( $config->lumiere_urlpopupsperson . sanitize_text_field( $realisateur['0']["imdb"] ) . "/?mid=" . sanitize_text_field( $realisateur['0']["imdb"] )."&film=" . $filmid_sanitized ) ."\" title=\"".esc_html__('more on', 'lumiere-movies') . " " . sanitize_text_field( $realisateur['0']['name'] ) . "\" >" . sanitize_text_field( $realisateur['0']['name'] ) . "</a>";
 
-			echo "\n\t</div>";
+			echo "\n\t\t<a class='linkpopup' href=\"" . esc_url( $config->lumiere_urlpopupsperson . sanitize_text_field( $realisateur['0']["imdb"] ) . "/?mid=" . sanitize_text_field( $realisateur['0']["imdb"] )."&film=" . $filmid_sanitized ) ."\" title=\"".esc_html__('more on', 'lumiere-movies') . " " . sanitize_text_field( $realisateur['0']['name'] ) . "\" >" . sanitize_text_field( $realisateur['0']['name'] ) . "</a>";
+
+		} else {
+
+			echo "\n\t\t<i>" . esc_html__('No director found.', 'lumiere-movies') . '</i>';
 
 		}
 
+		echo "\n\t</div>";
 		echo "\n</div>";
 
 	} // end foreach  ?> 
@@ -203,7 +210,7 @@ if (empty($movie) ){
 
 <div class="lumiere_display_flex lumiere_font_em_11">
 	<div class="lumiere_flex_auto lumiere_width_eighty_perc">
-		<div class="titrefilm"><?php $title_sanitized=sanitize_text_field($movie->title()); echo $title_sanitized; ?> &nbsp;&nbsp;(<?php echo sanitize_text_field( $movie->year () ); ?>)</div>
+		<div class="titrefilm"><?php $title_sanitized = sanitize_text_field($movie->title()); echo $title_sanitized; ?> &nbsp;&nbsp;(<?php echo sanitize_text_field( $movie->year () ); ?>)</div>
 		<div class="lumiere_align_center"><font size="-1"><?php echo sanitize_text_field( $movie->tagline() ); ?></font></div>
 	</div> 
 	<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two">

@@ -9,9 +9,9 @@
  # under the terms of the GNU General Public License (see LICENSE)           #
  # ------------------------------------------------------------------------- #
  #									              #
- #  Class : this class is externally called (usually by a widget, but        #
- #  also from lumiere_external_call() function) and displays information     #
- #  related to the movie                                                     #
+ #  LumiereMovies Class : this class is automatically called so shortags     #
+ #  are caught. It displays taxonomy links and add taxonomy according to     #
+ #  selected options                                                         #
  #									              #
  #############################################################################
 
@@ -22,8 +22,10 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die('You can not call directly this page');
 }
 
+// use Monolog classes in class/imdbphp/Monolog/
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Handler\FirePHPHandler;
 
 class LumiereMovies {
 
@@ -63,11 +65,6 @@ class LumiereMovies {
 	 **/
 	function __construct() {
 
-		// Start logger class
-		$logger = new \Monolog\Logger('movies');
-		$this->loggerclass = $logger;
-		// $logger->pushHandler(new StreamHandler( './wp-content/debug.log', Logger::DEBUG));
-
 		// Start config class and get the vars
 		if (class_exists("\Lumiere\Settings")) {
 			$configclass = new \Lumiere\Settings();
@@ -75,6 +72,26 @@ class LumiereMovies {
 			$this->imdb_admin_values = $configclass->get_imdb_admin_option();
 			$this->imdb_widget_values = $configclass->get_imdb_widget_option();
 			$this->imdb_cache_values = $configclass->get_imdb_widget_option();
+
+			// Start logger class if debug is selected
+			if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
+
+				// Start the debugging class
+				/* if starting this, everything get screwed up and gutenberg editor can't save anymore
+				tried to use add_action() instead of calling the function, but no difference made
+				$debug_start = new \Lumiere\Utils();
+				add_action ('admin_init', $debug_start->lumiere_activate_debug($this->imdb_admin_values, '', ''), 99, 4); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+				*/
+
+				// Start the logger
+				$this->configclass->lumiere_start_logger('movies');
+				$this->loggerclass = $this->configclass->loggerclass;
+
+			} else {
+
+				$this->loggerclass = NULL;
+			}
+
 		} else {
 
 			wp_die( esc_html__('Cannot start class movie, class Lumière Settings not found', 'lumiere-movies') );
@@ -131,7 +148,7 @@ class LumiereMovies {
 				// check a the movie title exists
 				if ( ($film !== null) && !empty($film) && isset($film) ) {
 
-					$results = $search->search ($film, $this->lumiere_select_type_search() );
+					$results = $search->search ($film, $this->configclass->lumiere_select_type_search() );
 
 				}
 				// if a result was found in previous query
@@ -154,7 +171,7 @@ class LumiereMovies {
 			// nothing was specified
 			} else {
 
-				$results = $search->search ($film, $this->lumiere_select_type_search() );
+				$results = $search->search ($film, $this->configclass->lumiere_select_type_search() );
 
 				// a result is found
 				if ( ($results !== null) && !empty($results) ) {	
@@ -180,7 +197,7 @@ class LumiereMovies {
 					$output .= ' imdbincluded_' . $imdb_admin_values['imdbintotheposttheme'];
 				$output .= "'>";
 
-				$output .= $this->lumiere_movie_design($this->configclass, $midPremierResultat); # passed those two values to the design
+				$output .= $this->lumiere_movie_design($midPremierResultat); # passed those two values to the design
 				$output .= "\n\t</div>";
 			}
 
@@ -266,7 +283,7 @@ class LumiereMovies {
 	 * @param $config -> takes the value of imdb class 
 	 * @param $midPremierResultat -> takes the IMDb ID to be displayed
 	 */
-	public function lumiere_movie_design($config=NULL, $midPremierResultat=NULL){
+	public function lumiere_movie_design($midPremierResultat=NULL){
 
 		/* Vars */ 
 		global $magicnumber;
@@ -278,7 +295,7 @@ class LumiereMovies {
 		$outputfinal ="";
 
 		/* Start imdbphp class for new query based upon $midPremierResultat */
-		$movie = new \Imdb\Title($midPremierResultat, $this->configclass /*, $this->loggerclass */);
+		$movie = new \Imdb\Title($midPremierResultat, $this->configclass, $this->loggerclass );
 
 		foreach ( $imdb_widget_values['imdbwidgetorder'] as $magicnumber) {
 
@@ -1995,39 +2012,6 @@ class LumiereMovies {
 
 	}
 
-	/** Retrieve selected type of search in admin
-	 ** Depends of $imdb_admin_values['imdbseriemovies'] option
-	 ** Utilised by popups
-	 **/
-	public function lumiere_select_type_search () {
-
-		// Get main vars from the current class
-		$imdb_admin_values = $this->imdb_admin_values;
-
-		switch ($imdb_admin_values['imdbseriemovies']) {
-
-			case "movies" : 
-			return array( \Imdb\TitleSearch::MOVIE );
-			break;
-	
-			case "movies+series" : 
-			return array( \Imdb\TitleSearch::MOVIE, \Imdb\TitleSearch::TV_SERIES );
-			break;
-
-			case "series" : 
-			return array( \Imdb\TitleSearch::TV_SERIES );
-			break;	
-
-			case "games" :
-			return array( \Imdb\Title::GAME );
-			break;
-		}
-
-		return false;
-
-	}
-
-
 	/** Polylang WordPress Plugin Compatibility
 	** Add a language to the taxonomy term in Polylang 
 	** Perhaps needed to keep the rewrite path to ie /imdblt_director/name_of_director functional with Polylang
@@ -2044,6 +2028,21 @@ class LumiereMovies {
 
 } // end of class
 
-$lumiere_movie=new LumiereMovies();
 
+/* Auto load the class
+ * Conditions: not admin area, not already page of Lumière 
+ * (as if it is the case the class is manually called from these pages whenever it's needed)
+ */
+if(!is_admin()){
+
+	$config = new \Lumiere\Settings();
+	$lumiere_list_urls  = $config->lumiere_list_all_pages;
+	$utils = new \Lumiere\Utils();
+
+	if (!$utils->lumiere_array_contains_term($lumiere_list_urls, $_SERVER['REQUEST_URI'])){
+
+		$lumiere_movie = new LumiereMovies();
+
+	}
+}
 ?>

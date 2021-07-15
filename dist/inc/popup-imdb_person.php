@@ -22,16 +22,25 @@ if (class_exists("\Lumiere\Settings")) {
 	$imdb_widget_values = $config->imdb_widget_values;
 	$imdb_cache_values = $config->imdb_cache_values;
 
+	// Start utils and logger class if debug is selected
+	if ( (isset($config->imdb_admin_values['imdbdebug'])) && ($config->imdb_admin_values['imdbdebug'] == 1) ){
+
+		// Start the class Utils to activate debug
+		$debug_start = new \Lumiere\Utils();
+		$debug_start->lumiere_activate_debug($imdb_cache_values, '', 'libxml', $config); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+
+		// Start the logger
+		$config->lumiere_start_logger('popupPerson');
+
+		// Store the class so we can use it later for imdbphp class call
+		$logger = $config->loggerclass;
+	} 
+
 } else {
 
 	wp_die( esc_html__('Cannot start popup person, class Lumière Settings not found', 'lumiere-movies') );
 
 }
-
-
-// Enter in debug mode, for development version only
-if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")) 
-	lumiere_debug_display($imdb_cache_values, '', '', $config);
 
 if (isset ($_GET["film"]))
 	$film_sanitized = sanitize_text_field( $_GET["film"] ) ?? NULL;
@@ -58,7 +67,7 @@ if (empty($film_sanitized ) && empty($mid_sanitized)){
 }
 
 if (isset ($mid_sanitized)) {
-	$person = new \Imdb\Person($mid_sanitized, $config ) ?? NULL;
+	$person = new \Imdb\Person($mid_sanitized, $config, $logger ) ?? NULL;
 	$person_name_sanitized = sanitize_text_field( $person->name() ) ?? NULL;
 
 } else { // escape if no result found, otherwise imdblt fails

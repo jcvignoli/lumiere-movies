@@ -19,11 +19,14 @@ namespace Lumiere;
 if ( ! defined( 'WPINC' ) ) 
 	wp_die('You can not call directly this page');
 
-// use the original class in src/Imdb/Config.php
+// use IMDbPHP config class in class/imdbphp/Imdb/Config.php
 use \Imdb\Config;
 
+// use Monolog classes in class/imdbphp/Monolog/
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Handler\WebProcessor;
+
 
 class Settings extends Config {
 
@@ -59,9 +62,28 @@ class Settings extends Config {
 	const popup_search_url = 'inc/popup-search.php';
 	const popup_movie_url = 'inc/popup-imdb_movie.php';
 	const popup_person_url = 'inc/popup-imdb_person.php';
+	/* Include all pages of Lumière plugin */
+	public $lumiere_list_all_pages;
 
+	/* Store Lumière plugin version
+	 *
+	 */
 	public $lumiere_version;
 
+	/* Logger class built by lumiere_start_logger() 
+	 * Meant to be utilised by movie/person pages
+	 * 
+	 */
+	public $loggerclass;
+	/* Where to write the log (here default WordPress log) */
+	const debug_log_path = WP_CONTENT_DIR . '/debug.log';
+	/* Set to false to use Logger instead of Monolog */
+	var $isMonologActive = true;
+
+
+	/* Is the current page WordPress Gutenberg editor?
+	 *
+	 */
 	public $isGutenberg;
 
 	/* List of types of people available */
@@ -79,7 +101,7 @@ class Settings extends Config {
 		parent::__construct();
 
 		// Detect if it is gutenberg, but doesn't work
-		// add_action ('current_screen', [$this, 'lumiere_is_gutenberg'] );
+		add_action ('current_screen', [$this, 'lumiere_is_gutenberg'] );
 
 		// Define Lumière constants
 		$this->lumiere_define_constants();
@@ -98,7 +120,20 @@ class Settings extends Config {
 		// Call the function to send the selected settings to imdbphp library
 		$this->lumiere_send_config_imdbphp();
 
-
+		// Build the list of all pages included in Lumière plugin (utilised to load class.movie.php)
+		$this->lumiere_list_all_pages = array( 
+			$this->imdb_admin_values['imdburlstringtaxo'],
+			$this->lumiere_urlstringfilms, 
+			$this->lumiere_urlstringperson, 
+			$this->lumiere_urlstringsearch, 
+			self::move_template_taxonomy_page, 
+			self::highslide_download_page, 
+			self::gutenberg_search_page, 
+			self::gutenberg_search_url, 
+			self::popup_search_url, 
+			self::popup_movie_url, 
+			self::popup_person_url
+		);
 	}
 
 	/** Define global constants
@@ -323,7 +358,7 @@ class Settings extends Config {
 
 	} 
 
-	/** Send WordPress options to imdbphp library
+	/** Send Lumiere options to imdbphp parent class
 	 **
 	 **
 	 **/
@@ -339,7 +374,8 @@ class Settings extends Config {
 		$this->converttozip = $this->imdb_cache_values['imdbconverttozip'] ?? NULL;
 		$this->usezip = $this->imdb_cache_values['imdbusezip'] ?? NULL;
 
-		/* In order to avoid Gutenberg error when saving posts, load at a later stage the debug function */
+		// Execute the lumiere_maybe_display_debug_pages() through add action so gutenberg save doesn't get broken
+		// @TODO: check if can be removed, all pages call it directly
 		add_action('template_redirect', [$this, 'lumiere_maybe_display_debug_pages']);
 
 		/** Where the local IMDB images reside (look for the "showtimes/" directory)
@@ -352,7 +388,7 @@ class Settings extends Config {
 	}
 
 	/** Prevent some pages to display debug
-	 **
+	 ** Sends to parent imdbphp class the debug var
 	 **
 	 **/
 	function lumiere_maybe_display_debug_pages() {
@@ -366,9 +402,10 @@ class Settings extends Config {
 		} elseif ( (is_admin()) && (! 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options' ) ) ) {
 
 			$this->debug = false;
+			return false;
 
 		// Diplay debug for all front pages except for gutenberg edition
-		} elseif ( (!is_admin())  /* && ($this->isGutenberg == false) doesn't work */ ) {
+		} elseif ( (!is_admin()) && ($this->isGutenberg == false) /* latest condition doesn't work */ ) {
 
 			$this->debug = $this->imdb_admin_values['imdbdebug'] ?? NULL;
 
@@ -435,11 +472,69 @@ class Settings extends Config {
 
 		}
 
+	}
+
+	/** Start and select which Logger to use
+	 ** 
+	 ** By default, Logger is utilised if the var $isMonologActive is set "false", Monolog is set "true"
+	 **/
+	public function lumiere_start_logger($page_name="originUnknown") {
+
+		if ( ($this->imdb_admin_values['imdbdebug'] == 1) && ($this->isMonologActive == true) ){
+
+			// We 
+			$logger = new \Monolog\Logger( $page_name );
+
+			// Add current url and referrer to the log
+			//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
+
+			// Write to log, default to WordPress default log
+			//$logger->pushHandler (new StreamHandler( self::debug_log_path, Logger::DEBUG) );
+
+			// Send the logger class to a current class var
+			$logger->debug('[Lumiere] Monolog logger has been started...');
+			$this->loggerclass = $logger; # this var is then utilised in the call in other pages
+
+		} else {
+
+			$this->loggerclass = NULL;# this var is then utilised in the call in other pages
+
+		}
 
 	}
 
+	/** Retrieve selected type of search in admin
+	 ** Depends of $imdb_admin_values['imdbseriemovies'] option
+	 ** Utilised by popups
+	 **/
+	public function lumiere_select_type_search () {
+
+		// Get main vars from the current class
+		$imdb_admin_values = $this->imdb_admin_values;
+
+		switch ($imdb_admin_values['imdbseriemovies']) {
+
+			case "movies" : 
+			return array( \Imdb\TitleSearch::MOVIE );
+			break;
+	
+			case "movies+series" : 
+			return array( \Imdb\TitleSearch::MOVIE, \Imdb\TitleSearch::TV_SERIES );
+			break;
+
+			case "series" : 
+			return array( \Imdb\TitleSearch::TV_SERIES );
+			break;	
+
+			case "videogames" :
+			return array( \Imdb\Title::GAME );
+			break;
+		}
+
+		return false;
+
+	}
 
 } //End class
-
 
 ?>

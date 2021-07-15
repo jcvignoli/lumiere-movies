@@ -56,9 +56,11 @@ use \Imdb\Title;
 use \Imdb\Person;
 
 // Enter in debug mode, for development version only
-if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")) 
-	lumiere_debug_display($imdb_cache_values, 'no_var_dump', '', $config); # don't display set_error_handler("var_dump") that gets the page stuck in an endless loop, $config comes from admin_page
-
+if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")) {
+	// Start the class Utils to activate debug
+	$debug_start = new \Lumiere\Utils();
+	$debug_start->lumiere_activate_debug($imdb_cache_values, 'no_var_dump', '', $config); # don't display set_error_handler("var_dump") that gets the page stuck in an endless loop, $config comes from admin_page
+}
 
 // Data is posted using the form
 if (current_user_can( 'manage_options' ) ) { 
@@ -335,7 +337,7 @@ if (current_user_can( 'manage_options' ) ) {
 				unlink( $pic_big_sanitized );
 
 			// get again the movie
-			$movie = new \Imdb\Title($id_sanitized, $config);
+			$movie = new \Imdb\Title($id_sanitized, $config, $logger);
 
 			// create cache for everything
 			$movie->alsoknow(); $movie->cast(); $movie->colors(); $movie->composer(); $movie->comment_split(); $movie->country(); $movie->creator(); $movie->director(); $movie->genres(); $movie->goofs(); $movie->keywords(); $movie->languages(); $movie->officialSites(); $movie->photo_localurl(true); $movie->photo_localurl(false); $movie->plot(); $movie->prodCompany(); $movie->producer(); $movie->quotes(); $movie->rating(); $movie->runtime(); $movie->soundtrack(); $movie->taglines(); $movie->title(); $movie->trailers(TRUE); $movie->votes(); $movie->writing(); $movie->year();
@@ -362,7 +364,7 @@ if (current_user_can( 'manage_options' ) ) {
 			}
 
 			// get again the person
-			$person = new \Imdb\Person($id_people_sanitized, $config);
+			$person = new \Imdb\Person($id_people_sanitized, $config, $logger);
 
 			// Create cache for everything
 			$person->bio(); $person->birthname();$person->born();$person->died();	$person->movies_all(); $person->movies_archive(); $person->movies_soundtrack(); $person->movies_writer(); $person->name(); $person->photo_localurl(); $person->pubmovies(); $person->pubportraits(); $person->quotes(); $person->trivia(); $person->trademark();
@@ -665,7 +667,7 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 	if (is_dir($imdb_cache_values['imdbcachedir'])) {
 		foreach ($files as $file) {
 			if (preg_match('!^title\.tt(\d{7,8})$!i', basename($file), $match)) {
-				$results[] = new Title($match[1], $config);
+				$results[] = new Title($match[1], $config, $logger);
 			}
 		}
 	}
@@ -774,7 +776,7 @@ $files = glob($imdb_cache_values['imdbcachedir'] . '{name.nm*}', GLOB_BRACE);
 if (is_dir($imdb_cache_values['imdbcachedir'])) {
 	foreach ($files as $file) {
 		if (preg_match('!^name\.nm(\d{7,8})$!i', basename($file), $match)) {
-			$results[] = new Person($match[1], $config);
+			$results[] = new Person($match[1], $config, $logger);
 		}
 	}
 }

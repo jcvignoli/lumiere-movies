@@ -26,6 +26,12 @@ function lumiere_admin_pages() {
 		$imdb_admin_values = $config->get_imdb_admin_option();
 		$imdb_widget_values = $config->get_imdb_widget_option();
 		$imdb_cache_values = $config->get_imdb_cache_option();
+
+		// Start logger class if debug is selected
+		if ($config->imdb_admin_values['imdbdebug'] == 1){
+			$config->lumiere_start_logger('adminLumiere');
+			$logger = $config->loggerclass;
+		} 
 	}
 
 	//----------------------------------------------------------display the admin settings options ?>
