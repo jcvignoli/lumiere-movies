@@ -1,8 +1,18 @@
 <?php
 
-// *********************
-// ********************* CLASS lumiere_core
-// *********************
+ #############################################################################
+ # Lumière! Movies WordPress Plugin                                          #
+ # written by Lost Highway                                                   #
+ # https://www.jcvignoli.com/blog                                            #
+ # ------------------------------------------------------------------------- #
+ # This program is free software; you can redistribute and/or modify it      #
+ # under the terms of the GNU General Public License (see LICENSE)           #
+ # ------------------------------------------------------------------------- #
+ #									              #
+ #  Core Class : Main WordPress related actions happen here                  #
+ #                                                                           #
+ #									              #
+ #############################################################################
 
 namespace Lumiere;
 
