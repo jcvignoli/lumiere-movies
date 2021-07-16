@@ -99,7 +99,8 @@ class LumiereMovies {
 		$this->utilsclass = $utilsclass;
 
 		// Run the initialisation of the class
-		$this->init();
+		//$this->init();
+		add_action ('the_loop', [$this, 'init'], 0);
 
 		// Add the shortcodes to parse the texte
 		if  (! is_admin() ) {

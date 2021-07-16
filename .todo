@@ -7,6 +7,7 @@ OK--- 5. major updated to imdbphp 7.2
 OK--- 6. technical Use of Monolog implemented everywhere but in the widget. Debug can now be saved to file.
 
 
+!remove accents for links created to taxonomy pages
 21. check update process, add a weekly cron to update
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the admin pages using WordPress API

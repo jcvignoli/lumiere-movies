@@ -174,6 +174,7 @@ class LumiereWidget extends WP_Widget {
 				for ($i=0; $i < count( $imdballmeta ); $i++) {
 
 					$movieClass = new \Lumiere\LumiereMovies();
+					$movieClass->init(); #initialise the class, otherwise doesn't work
 
 					// If there is a result in var $lumiere_result of class, display the widget
 					if (!empty($output_movie = $movieClass->lumiere_result)) {
