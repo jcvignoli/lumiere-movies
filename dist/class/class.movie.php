@@ -2029,6 +2029,7 @@ class LumiereMovies {
 
 		$taxonomy = preg_replace("/\s/", "-", $taxonomy);# replace space by hyphen
 		$taxonomy = strtolower($taxonomy); # convert to small characters
+		$taxonomy = remove_accents($taxonomy); # convert accentuated charaters to unaccentuated counterpart
 		return $taxonomy;
 
 	}
