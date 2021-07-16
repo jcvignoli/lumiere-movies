@@ -26,17 +26,22 @@ class LumiereWidget extends WP_Widget {
 	/* Store the class of Lumière settings
 	 * Usefull to start a new IMDbphp query
 	 */
-	private $configclass;
+	private $configClass;
 
 	/* Vars from Lumière settings
 	 *
 	 */
 	private $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
-	/* Store the class for logging using the Monolog library
+	/* Store the class for movies
 	 *
 	 */
-	private $loggerclass;
+	private $movieClass;
+
+	/* Store the class of utilities
+	 *
+	 */
+	private $utilsClass;
 
 	/* Store the name or the ID of a movie
 	 * @TODO Get rid of $imdballmeta and use this instead
@@ -64,20 +69,19 @@ class LumiereWidget extends WP_Widget {
 		// Start config class and get the vars
 		if (class_exists("\Lumiere\Settings")) {
 
-			$configclass = new \Lumiere\Settings();
-			$this->configclass = $configclass;
-			$this->imdb_admin_values = $configclass->get_imdb_admin_option();
-			$this->imdb_widget_values = $configclass->get_imdb_widget_option();
-			$this->imdb_cache_values = $configclass->get_imdb_widget_option();
+			$configClass = new \Lumiere\Settings();
+			$this->configClass = $configClass;
+			$this->imdb_admin_values = $configClass->get_imdb_admin_option();
+			$this->imdb_widget_values = $configClass->get_imdb_widget_option();
+			$this->imdb_cache_values = $configClass->get_imdb_widget_option();
 
+			// Start the movie class
+			$movieClass = new \Lumiere\LumiereMovies();
+			$this->movieClass = $movieClass;
 
-			// Start the debugging class
-			/* None of the solutions work
-			add_action('loop_start', [$this, 'lumiere_start_logger_wrapper'], 0);
-			$utilsclass = new \Lumiere\Utils();
-			$utilsclass->lumiere_activate_debug();
-			$configclass->lumiere_start_logger('LumiereWidget');
-			*/
+			// Start the utilities class
+			$utilsClass = new \Lumiere\Utils();
+			$this->utilsClass = $utilsClass;
 
 		} else {
 
@@ -99,7 +103,7 @@ class LumiereWidget extends WP_Widget {
 		// Start logger class if debug is selected
 		if ( (isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == 1) ){
 
-			$this->configclass->lumiere_start_logger('movies');
+			$this->configClass->lumiere_start_logger('movies');
 
 		} 
 
@@ -122,22 +126,34 @@ class LumiereWidget extends WP_Widget {
 	 * @param array $instance Saved values from database.
 	 */
 	public function widget( $args, $instance ) {
-  
+
+		/* Vars */  
 		global $imdballmeta;
-
+		$output = "";
 		$imdb_admin_values = $this->imdb_admin_values;
-
 		extract($args);
-
 		// full title
 		$title_box = empty($instance['title']) ? esc_html__('IMDb data', 'lumiere-movies') : $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title']; 
-
 		// Initialize var for id/name of the movie to display
 		$imdballmeta=array();
-
-		$output = "";
-
+		// Get the post id
 		$post_id = intval( get_the_ID() );
+
+		// Activate debug
+		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
+
+			// Start debugging mode
+			$this->utilsClass->lumiere_activate_debug();
+
+			// Start the logger
+			$this->configClass->lumiere_start_logger('lumiereWidget');
+			$logger = $this->configClass->loggerclass;
+
+			if($logger !== NULL) {
+				$logger->debug("[Lumiere][widget] Started logger...");
+			}
+
+		}
 
 		// shows widget only for a post or a page
 		if ( (is_single()) || ( is_page()) )  {
@@ -173,20 +189,28 @@ class LumiereWidget extends WP_Widget {
 
 				for ($i=0; $i < count( $imdballmeta ); $i++) {
 
-					$movieClass = new \Lumiere\LumiereMovies();
-					$movieClass->init(); #initialise the class, otherwise doesn't work
+					$this->movieClass->init($imdballmeta); #initialise the class, otherwise doesn't work
 
 					// If there is a result in var $lumiere_result of class, display the widget
-					if (!empty($output_movie = $movieClass->lumiere_result)) {
+					if (!empty($this->movieClass->lumiere_result)) {
 
 						$output .= $args['before_widget'];
 
 						$output .= $title_box; // title of widget
 
-						$output .= $output_movie; // Movie
+						$output .= $this->movieClass->lumiere_result; // Movie
 
 						$output .= $args['after_widget'];
 
+					} else {
+
+						// Check if logger is activated
+						if($logger !== NULL) {
+
+							$query = implode("-", $imdballmeta[$i]);
+							$logger->debug("[Lumiere][widget] No result for $query");
+
+						}
 					}
 
 				}

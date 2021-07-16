@@ -84,8 +84,7 @@ class LumiereMovies {
 			$this->imdb_widget_values = $configclass->get_imdb_widget_option();
 			$this->imdb_cache_values = $configclass->get_imdb_widget_option();
 
-			// Start the debugging class
-			# If the action is added earlier (ie: init), it breaks gutenberg
+			// Start the logger class
 			add_action('loop_start', [$this, 'lumiere_start_logger_wrapper'], 0);
 
 		} else {
@@ -119,6 +118,7 @@ class LumiereMovies {
 		// Start logger class if debug is selected
 		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
 
+			// Start the logger
 			$this->configclass->lumiere_start_logger('movies');
 			$this->loggerclass = $this->configclass->loggerclass;
 
