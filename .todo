@@ -5,7 +5,7 @@ OK--- 3. medium Major improvement for taxonomy pages people-related. Takes into 
 OK--- 4. bug search popup layout was broken when no director was found
 OK--- 5. major updated to imdbphp 7.2
 OK--- 6. technical Use of Monolog implemented everywhere but in the widget. Debug can now be saved to file.
-
+OK--- 7. bug Failing to build html links for taxonomy pages for people with accentuated names. The accents were kept. 
 
 !remove accents for links created to taxonomy pages
 21. check update process, add a weekly cron to update
