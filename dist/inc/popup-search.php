@@ -26,11 +26,13 @@ if (class_exists("\Lumiere\Settings")) {
 	// Get the type of search: movies, series, games
 	$typeSearch = $config->lumiere_select_type_search();
 
-	// Start utils and logger class if debug is selected
+	// Start the class Utils
+	$utils = new \Lumiere\Utils();
+
+	// Activate debug and start logger class if debug is selected
 	if ( (isset($config->imdb_admin_values['imdbdebug'])) && ($config->imdb_admin_values['imdbdebug'] == 1) ){
 
-		// Start the class Utils to activate debug
-		$utils = new \Lumiere\Utils();
+		// Activate debug
 		$utils->lumiere_activate_debug($imdb_cache_values, '', 'libxml', $config); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
 		// Start the logger

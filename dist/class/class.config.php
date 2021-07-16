@@ -72,10 +72,8 @@ class Settings extends Config {
 	 * Follow the const and vars related to the function
 	 */
 	public $loggerclass;
-	/* Where to write the log (here default WordPress log) */
+	/* Where to write the log (below WordPress default log) */
 	const debug_log_path = WP_CONTENT_DIR . '/debug.log';
-	/* Set to true to log the output in the previous file */
-	var $isLogToFile = false;
 	/* Set to false to use Logger instead of Monolog */
 	var $isMonologActive = true;
 
@@ -195,6 +193,8 @@ class Settings extends Config {
 			'imdbdirectsearch' => true, 		/* not available in the admin interface */
 			/*'imdbsourceout' => false,*/
 			'imdbdebug' => false,
+			'imdbdebuglog' => false,
+			'imdbdebuglogpath' => self::debug_log_path,
 			'imdbwordpress_bigmenu'=>false,
 			'imdbwordpress_tooladminmenu'=>true,
 			'imdbpopup_highslide'=>true,
@@ -483,16 +483,16 @@ class Settings extends Config {
 			// We start the logger Monolog that replaces Psr
 			$logger = new \Monolog\Logger( $page_name );
 
-			if ($this->isLogToFile == true) {
+			if ($this->imdb_admin_values['imdbdebuglog'] == 1) {
 
 				// Add current url and referrer to the log
 				//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
 
 				// Add the file, the line, the class, the function
-				//$logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor(Logger::DEBUG));
+				$logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor(Logger::DEBUG));
 
 				// Write to log, default to WordPress default log
-				$filelogger = new \Monolog\Handler\StreamHandler( self::debug_log_path, Logger::DEBUG);
+				$filelogger = new \Monolog\Handler\StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], Logger::DEBUG);
 				$logger->pushHandler ( $filelogger );
 
 			}

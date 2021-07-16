@@ -74,8 +74,9 @@ if ($activate_sidebar === true)
 	echo "\n\t\t\t" . '<div class="lumiere_flex_auto">';
 
 	echo "\n\t\t\t\t" . '<div class="imdbelementTITLE ';
-	if (isset($imdb_admin_values['imdbintotheposttheme']))
+	if (isset($imdb_admin_values['imdbintotheposttheme'])){
 		echo ' imdbelementTITLE_' . $imdb_admin_values['imdbintotheposttheme']; 
+	}
 	echo '">';
 	echo $person_name_sanitized; 
 	echo '</div>';
@@ -83,12 +84,17 @@ if ($activate_sidebar === true)
 	echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- star photo -->';
 
 	echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-	if (isset($imdb_admin_values['imdbintotheposttheme'])) echo ' lumiere-lines-common_' . $imdb_admin_values['imdbintotheposttheme'];
+	if (isset($imdb_admin_values['imdbintotheposttheme'])) {
+		echo ' lumiere-lines-common_' . $imdb_admin_values['imdbintotheposttheme'];
+	}
 	echo ' lumiere-padding-lines-common-picture">';
 
-	if (($photo_url = $person->photo_localurl() ) != FALSE){ 
+	$small_picture = $person->photo_localurl(false); // get small poster for cache
+	$big_picture = $person->photo_localurl(true); // get big poster for cache
+	$photo_url = isset($small_picture) ? $small_picture : $big_picture; // take the smaller first, the big if no small found
+	if ( (isset($photo_url)) && (!empty($photo_url)) ){ 
 
-		echo "\n\t\t\t\t\t" . '<a id="highslide_pic" href="'.esc_url($photo_url).'">';
+		echo "\n\t\t\t\t\t" . '<a id="highslide_pic_popup" href="'.esc_url($photo_url).'">';
 		echo "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right" src="'
 			.esc_url($photo_url)
 			.'" alt="'
@@ -100,6 +106,7 @@ if ($activate_sidebar === true)
 
 		echo "\n\t\t\t\t\t" . '</a>'; 
 
+	// No picture was downloaded, display "no picture"
 	} else{
 
 		echo "\n\t\t\t\t\t" . '<a id="highslide_pic">';
@@ -399,7 +406,7 @@ function lumiere_get_form_polylang_selection($taxonomy) {
 	} else {
 
 		if($logger !== NULL){
-			$logger->debug("[Lumiere][taxonomy] No activated taxonomy found for $person_name_sanitized with $taxonomy.");
+			$logger->debug("[Lumiere][taxonomy][polylang plugin] No activated taxonomy found for $person_name_sanitized with $taxonomy.");
 		}
 		return false;
 
