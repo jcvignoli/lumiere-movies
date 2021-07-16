@@ -22,14 +22,16 @@ if (class_exists("\Lumiere\Settings")) {
 	$imdb_widget_values = $config->imdb_widget_values;
 	$imdb_cache_values = $config->imdb_cache_values;
 
+	// Start the class Utils
+	$utils = new \Lumiere\Utils();
+
 	// Get the type of search: movies, series, games
 	$typeSearch = $config->lumiere_select_type_search();
 
-	// Start utils and logger class if debug is selected
+	// Activate debug and start logger class if debug is selected
 	if ( (isset($config->imdb_admin_values['imdbdebug'])) && ($config->imdb_admin_values['imdbdebug'] == 1) ){
 
-		// Start the class Utils to activate debug
-		$utils = new \Lumiere\Utils();
+		// Activate debug
 		$utils->lumiere_activate_debug($imdb_cache_values, '', 'libxml', $config); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
 		// Start the logger
@@ -221,7 +223,7 @@ if (empty($movie) ){
 	$small_picture = $movie->photo_localurl(false); // get small poster for cache
 	$big_picture = $movie->photo_localurl(true); // get big poster for cache
 	$photo_url = $small_picture ? $small_picture : $big_picture; // take the smaller first, the big if no small found
-	if ( $photo_url ) { 
+	if ( (isset($photo_url)) && (!empty($photo_url)) ){ 
 
 		echo '<a class="highslide_pic_popup" class="highslide-image" href="'.esc_url($photo_url).'">';
 		echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="'; # loading="eager" to prevent wordpress loading lazy that doesn't go well with cache scripts

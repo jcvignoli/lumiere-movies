@@ -443,8 +443,10 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<?php esc_html_e( 'Auto widget?', 'lumiere-movies'); ?><br /><br />
 
 				<input type="radio" id="imdb_imdbautopostwidget_yes" name="imdb_imdbautopostwidget" value="1" <?php if ($imdb_admin_values['imdbautopostwidget'] == "1") { echo 'checked="checked"'; }?> />
+				<label for="imdb_imdbautopostwidget_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
 
-				<label for="imdb_imdbautopostwidget_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbautopostwidget_no" name="imdb_imdbautopostwidget" value="" <?php if ($imdb_admin_values['imdbautopostwidget'] == 0) { echo 'checked="checked"'; } ?>/><label for="imdb_imdbautopostwidget_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+				<input type="radio" id="imdb_imdbautopostwidget_no" name="imdb_imdbautopostwidget" value="" <?php if ($imdb_admin_values['imdbautopostwidget'] == 0) { echo 'checked="checked"'; } ?>/>
+				<label for="imdb_imdbautopostwidget_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
 				<div class="explain"><?php esc_html_e( "Add automatically a widget according to your post title. If regular widgets have been added to post too, the auto widget will be displayed before them. Usefull if blog a lot about movies; if a query does not bring any result with the post title, nothing is displayed.", 'lumiere-movies'); ?><br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?><?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
@@ -455,9 +457,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<?php esc_html_e( 'Keep settings upon deactivation', 'lumiere-movies'); ?><br /><br />
 
 				<input type="radio" id="imdb_imdbkeepsettings_yes" name="imdb_imdbkeepsettings" value="1" <?php if ($imdb_admin_values['imdbkeepsettings'] == "1") { echo 'checked="checked"'; }?> />
+				<label for="imdb_imdbkeepsettings_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
 
-				<label for="imdb_imdbkeepsettings_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbkeepsettings_no" name="imdb_imdbkeepsettings" value="" <?php if ($imdb_admin_values['imdbkeepsettings'] == 0) { echo 'checked="checked"'; } ?>  />
-
+				<input type="radio" id="imdb_imdbkeepsettings_no" name="imdb_imdbkeepsettings" value="" <?php if ($imdb_admin_values['imdbkeepsettings'] == 0) { echo 'checked="checked"'; } ?>  />
 				<label for="imdb_imdbkeepsettings_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
 				<div class="explain"><?php esc_html_e( "Whether to keep or delete Lumière! settings upon plugin deactivation. Prevent from deleting the taxonomy terms and the cache too.", 'lumiere-movies'); ?><br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
@@ -468,13 +470,35 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<?php esc_html_e( 'Debug Lumière!', 'lumiere-movies'); ?><br /><br />
 
-				<input type="radio" id="imdb_imdbdebug_yes" name="imdb_imdbdebug" value="1" <?php if ($imdb_admin_values['imdbdebug'] == "1") { echo 'checked="checked"'; }?> />
+				<input type="radio" id="imdb_imdbdebug_yes" class="activatehidesectionAdd" name="imdb_imdbdebug" value="1" <?php if ($imdb_admin_values['imdbdebug'] == "1") { echo 'checked="checked"'; }?> />
+				<label for="imdb_imdbdebug_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
 
-				<label for="imdb_imdbdebug_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label><input type="radio" id="imdb_imdbdebug_no" name="imdb_imdbdebug" value="" <?php if ($imdb_admin_values['imdbdebug'] == 0) { echo 'checked="checked"'; } ?>  />
-
+				<input type="radio" id="imdb_imdbdebug_no" class="activatehidesectionRemove" name="imdb_imdbdebug" value="" <?php if ($imdb_admin_values['imdbdebug'] == 0) { echo 'checked="checked"'; } ?>  />
 				<label for="imdb_imdbdebug_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
 				<div class="explain"><?php esc_html_e( "Activate to debug Lumière! plugin.", 'lumiere-movies'); ?><br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+			</div>
+
+			<div class="lumiere_padding_five hidesectionOfRadio">
+
+				<?php esc_html_e( 'Extra debugging option: Save logs?', 'lumiere-movies'); ?><br /><br />
+
+				<input type="radio" id="imdb_imdbdebuglog_yes" class="activatehidesectionAddTwo" name="imdb_imdbdebuglog" value="1" <?php if ($imdb_admin_values['imdbdebuglog'] == "1") { echo 'checked="checked"'; }?> />
+				<label for="imdb_imdbdebuglog_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
+
+				<input type="radio" id="imdb_imdbdebuglog_no" class="activatehidesectionRemoveTwo" name="imdb_imdbdebuglog" value="" <?php if ($imdb_admin_values['imdbdebuglog'] == 0) { echo 'checked="checked"'; } ?>  />
+				<label for="imdb_imdbdebuglog_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+
+				<br /><br />
+
+				<div class="hidesectionOfRadioTwo">
+					<label for="imdb_imdbdebuglogpath"><?php esc_html_e( 'Path:', 'lumiere-movies'); ?></label>
+
+					<input class="lumiere_border_width_medium" type="text" name="imdb_imdbdebuglogpath" value="<?php echo $imdb_admin_values['imdbdebuglogpath']; ?>" >
+
+					<div class="explain"><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'WordPress default debug log', 'lumiere-movies'); ?></div>
+				</div>
+
 			</div>
 
 		</div>

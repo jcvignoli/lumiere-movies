@@ -27,11 +27,11 @@ function lumiere_admin_pages() {
 		$imdb_widget_values = $config->get_imdb_widget_option();
 		$imdb_cache_values = $config->get_imdb_cache_option();
 
-		// Start utils and logger class if debug is selected
-		if ( (isset($config->imdb_admin_values['imdbdebug'])) && ($config->imdb_admin_values['imdbdebug'] == 1) ){
+		// Start the class Utils
+		$utils = new \Lumiere\Utils();
 
-			// Start the class Utils to activate debug
-			$utils = new \Lumiere\Utils();
+		// Start logger class if debug is selected
+		if ( (isset($config->imdb_admin_values['imdbdebug'])) && ($config->imdb_admin_values['imdbdebug'] == 1) ){
 
 			// Start the logger
 			$config->lumiere_start_logger('adminLumiere');
