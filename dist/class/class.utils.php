@@ -27,13 +27,61 @@ if ( ! defined( 'WPINC' ) )
 
 class Utils {
 
+	/* Store the class of Lumière settings
+	 * Usefull to start a new IMDbphp query
+	 */
+	private $configclass;
+
+	/* Vars from Lumière settings
+	 *
+	 */
+	private $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+
+	/* Store the class for logging using the Monolog library
+	 *
+	 */
+	private $loggerclass;
+
+	/** Class constructor
+	 ** 
+	 **/
+	function __construct () {
+
+		// Start config class and get the vars
+		if (class_exists("\Lumiere\Settings")) {
+
+			$configclass = new \Lumiere\Settings();
+			$this->configclass = $configclass;
+			$this->imdb_admin_values = $configclass->get_imdb_admin_option();
+			$this->imdb_widget_values = $configclass->get_imdb_widget_option();
+			$this->imdb_cache_values = $configclass->get_imdb_widget_option();
+
+			// Start logger class if debug is selected
+			if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
+				// Start the logger
+				$this->configclass->lumiere_start_logger('utils');
+				$this->loggerclass = $this->configclass->loggerclass;
+
+			} else {
+
+				$this->loggerclass = NULL;
+			}
+
+		} else {
+
+			wp_die( esc_html__('Cannot start class utils, class Lumière Settings not found', 'lumiere-movies') );
+
+		}
+
+	}
+
 	/**
 	 * Recursively delete a directory
 	 *
 	 * @param string $dir Directory name
 	 * credits to http://ch.php.net/manual/en/function.unlink.php#87045
 	 */
-	function lumiere_unlinkRecursive($dir){
+	public function lumiere_unlinkRecursive($dir){
 		if(!$dh = @opendir($dir)){
 			return;
 		}
@@ -57,7 +105,7 @@ class Utils {
 	 * @param string $filesbydefault it's the count of files contained in folder and not taken into account for the count
 	 * credits to http://ch2.php.net/manual/en/function.is-dir.php#85961 & myself
 	 */
-	function lumiere_isEmptyDir($dir, $filesbydefault= "3"){	
+	public function lumiere_isEmptyDir($dir, $filesbydefault= "3"){	
 
 		return (($files = @scandir($dir)) && count($files) <= $filesbydefault);
 
@@ -68,7 +116,7 @@ class Utils {
 	 * Sanitize an array
 	 * 
 	 */
-	function lumiere_recursive_sanitize_text_field($array) {
+	public function lumiere_recursive_sanitize_text_field($array) {
 	    foreach ( $array as $key => &$value ) {
 		 if ( is_array( $value ) ) {
 		     $value = recursive_sanitize_text_field($value);
@@ -84,7 +132,7 @@ class Utils {
 	 * Personal signature for administration
 	 *
 	 */
-	function lumiere_admin_signature(){
+	public function lumiere_admin_signature(){
 
 		// Config settings
 		$config = new \Lumiere\Settings();
@@ -117,12 +165,19 @@ class Utils {
 
 	/**
 	 * Text displayed when no result is found
-	 *
+	 * @param string $text: if no text provided, default 
+	 * This text is logged if the debugin is activated
 	 */
-	function lumiere_noresults_text(){ 
-		echo "<br />";
-		echo "<div class='noresult'>".esc_html_e('No result found for this query.', 'lumiere-movies')."</div>";
-		echo "<br />";
+	public function lumiere_noresults_text($text='No result found for this query.'){ 
+
+		if($this->loggerclass !== NULL) {
+			$this->loggerclass->debug("[Lumiere] $text");
+		}
+
+		echo "\n".'<div class="noresult" align="center" style="font-size:16px;color:red;padding:15px;">'
+			. $text
+		 	. "</div>\n";
+
 	} 
 
 	/**
@@ -310,12 +365,13 @@ class Utils {
 		echo '<div><strong>[Lumière options]</strong><font size="-3"> ';
 
 		if(NULL !== $options)
-			print_r($options);
+			print_r( $options );
 
 		if ( $set_error != "no_var_dump" )
 			set_error_handler("var_dump"); 
 
 		echo ' </font><strong>[/Lumière options]</strong></div>';
+
 
 	}
 }

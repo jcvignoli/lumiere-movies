@@ -4,11 +4,13 @@ OK--- 2. technical Use of vars and constants in class config, changed php calls 
 OK--- 3. medium Major improvement for taxonomy pages people-related. Takes into consideration if you are using Polylang  allowing to change the language. Displays all types of roles for people.
 OK--- 4. bug search popup layout was broken when no director was found
 OK--- 5. major updated to imdbphp 7.2
+OK--- 6. technical Use of Monolog implemented everywhere but in the widget. Debug can now be saved to file.
 
 
 21. check update process, add a weekly cron to update
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the admin pages using WordPress API
+24. Update help with new infos
 13. Implement alternative to highslide with a jquery modal window
 16. To test: If Polylang needs to copy the metas when doing a new post in another lang, can activate lumiere_copy_post_metas_polylang() in class.core.php
 

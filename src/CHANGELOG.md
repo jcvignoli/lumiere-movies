@@ -4,6 +4,7 @@ v.3.4.3
 * [major] Updated to [imdbphp library 7.2](https://github.com/tboothman/imdbphp/releases/tag/v7.2.0 "imdbphp library 7.2")
 * [feature] Major improvement for taxonomy pages people-related. Takes into consideration if you are using Polylang  allowing to change the language. Displays all types of roles for people.
 * [technical] Use of vars and constants in class config, changed php calls accordingly.
+* [technical] Use of Monolog logger implemented everywhere but in the widget. Debug can now be saved to file.
 * [bug] HTML Links are properly linking to plot authors (class movie).
 
 v.3.4.2

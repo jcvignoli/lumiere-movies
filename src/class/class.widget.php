@@ -9,8 +9,9 @@
  # under the terms of the GNU General Public License (see LICENSE)           #
  # ------------------------------------------------------------------------- #
  #									              #
- #  Class : Add widget function                                              #
- #									              #
+ #  Class : Add a widget including a movie                                   #
+ #		(either by auto widget option or the metabox in the editor)    #
+ #          The widget is automatically started, as per Wordpress standards  #
  #############################################################################
 
 
@@ -22,13 +23,30 @@ if ( ! defined( 'WPINC' ) ) {
 
 class LumiereWidget extends WP_Widget {
 
+	/* Store the class of Lumière settings
+	 * Usefull to start a new IMDbphp query
+	 */
+	private $configclass;
+
+	/* Vars from Lumière settings
+	 *
+	 */
+	private $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+
+	/* Store the class for logging using the Monolog library
+	 *
+	 */
+	private $loggerclass;
+
+	/* Store the name or the ID of a movie
+	 * @TODO Get rid of $imdballmeta and use this instead
+	 */
+	private $imdbIdOrTitle;
 
 	/**
 	 * Constructor. Sets up the widget name, description, etc.
 	 */
 	function __construct() {
-
-		global $imdb_admin_values;
 
 		 parent::__construct(
 			'lumiere-movies-widget',  // Base ID
@@ -42,6 +60,48 @@ class LumiereWidget extends WP_Widget {
 		 add_action( 'widgets_init', function() {
 			register_widget( 'LumiereWidget' );
 		 });
+
+		// Start config class and get the vars
+		if (class_exists("\Lumiere\Settings")) {
+
+			$configclass = new \Lumiere\Settings();
+			$this->configclass = $configclass;
+			$this->imdb_admin_values = $configclass->get_imdb_admin_option();
+			$this->imdb_widget_values = $configclass->get_imdb_widget_option();
+			$this->imdb_cache_values = $configclass->get_imdb_widget_option();
+
+
+			// Start the debugging class
+			/* None of the solutions work
+			add_action('loop_start', [$this, 'lumiere_start_logger_wrapper'], 0);
+			$utilsclass = new \Lumiere\Utils();
+			$utilsclass->lumiere_activate_debug();
+			$configclass->lumiere_start_logger('LumiereWidget');
+			*/
+
+		} else {
+
+			wp_die( esc_html__('Cannot start class movie, class Lumière Settings not found', 'lumiere-movies') );
+
+		}
+
+
+	}
+
+	/** Wrapps the start of the logger
+	 ** Allows to start later in the process, and not to break gutenberg by adding text before html code
+	 ** Copied from class.movie, but doesn't work here
+	 **/
+	function lumiere_start_logger_wrapper_widget(){
+
+		$imdb_admin_values = $this->imdb_admin_values;
+
+		// Start logger class if debug is selected
+		if ( (isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == 1) ){
+
+			$this->configclass->lumiere_start_logger('movies');
+
+		} 
 
 	}
 
@@ -61,10 +121,11 @@ class LumiereWidget extends WP_Widget {
 	 * @param array $args     Widget arguments.
 	 * @param array $instance Saved values from database.
 	 */
-
 	public function widget( $args, $instance ) {
   
-		global $imdb_admin_values, $imdballmeta;
+		global $imdballmeta;
+
+		$imdb_admin_values = $this->imdb_admin_values;
 
 		extract($args);
 
@@ -112,10 +173,10 @@ class LumiereWidget extends WP_Widget {
 
 				for ($i=0; $i < count( $imdballmeta ); $i++) {
 
-					$display = new \Lumiere\LumiereMovies();
+					$movieClass = new \Lumiere\LumiereMovies();
 
 					// If there is a result in var $lumiere_result of class, display the widget
-					if (!empty($output_movie = $display->lumiere_result)) {
+					if (!empty($output_movie = $movieClass->lumiere_result)) {
 
 						$output .= $args['before_widget'];
 
@@ -144,7 +205,7 @@ class LumiereWidget extends WP_Widget {
 	*/
 	public function form( $instance ) {
 
-		global $imdb_admin_values;
+		$imdb_admin_values = $this->imdb_admin_values;
 
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Lumière! Movies', 'lumiere-movies' ); 
 		$lumiere_query_widget = ! empty( $instance['lumiere_queryid_widget'] ) ? $instance['lumiere_queryid_widget'] : '';
@@ -169,6 +230,7 @@ class LumiereWidget extends WP_Widget {
 	}
 
 	public function update( $new_instance, $old_instance ) {
+
 		$instance = array();
 
 		$instance['title'] = ( !empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
@@ -179,8 +241,7 @@ class LumiereWidget extends WP_Widget {
 	}
 
 }
-$my_widget = new LumiereWidget();
 
-
-	
+// Auto start, run on all pages
+$lumiere_widget = new LumiereWidget();
 ?>

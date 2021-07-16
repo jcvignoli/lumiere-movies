@@ -22,11 +22,8 @@ if ( ! defined( 'WPINC' ) )
 // use IMDbPHP config class in class/imdbphp/Imdb/Config.php
 use \Imdb\Config;
 
-// use Monolog classes in class/imdbphp/Monolog/
+// use Monolog library in class/imdbphp/Monolog/
 use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Handler\WebProcessor;
-
 
 class Settings extends Config {
 
@@ -72,14 +69,15 @@ class Settings extends Config {
 
 	/* Logger class built by lumiere_start_logger() 
 	 * Meant to be utilised by movie/person pages
-	 * 
+	 * Follow the const and vars related to the function
 	 */
 	public $loggerclass;
 	/* Where to write the log (here default WordPress log) */
 	const debug_log_path = WP_CONTENT_DIR . '/debug.log';
+	/* Set to true to log the output in the previous file */
+	var $isLogToFile = false;
 	/* Set to false to use Logger instead of Monolog */
 	var $isMonologActive = true;
-
 
 	/* Is the current page WordPress Gutenberg editor?
 	 *
@@ -478,21 +476,35 @@ class Settings extends Config {
 	 ** 
 	 ** By default, Logger is utilised if the var $isMonologActive is set "false", Monolog is set "true"
 	 **/
-	public function lumiere_start_logger($page_name="originUnknown") {
+	public function lumiere_start_logger ($page_name="originUnknown") {
 
 		if ( ($this->imdb_admin_values['imdbdebug'] == 1) && ($this->isMonologActive == true) ){
 
-			// We 
+			// We start the logger Monolog that replaces Psr
 			$logger = new \Monolog\Logger( $page_name );
 
-			// Add current url and referrer to the log
-			//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
+			if ($this->isLogToFile == true) {
 
-			// Write to log, default to WordPress default log
-			//$logger->pushHandler (new StreamHandler( self::debug_log_path, Logger::DEBUG) );
+				// Add current url and referrer to the log
+				//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
+
+				// Add the file, the line, the class, the function
+				//$logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor(Logger::DEBUG));
+
+				// Write to log, default to WordPress default log
+				$filelogger = new \Monolog\Handler\StreamHandler( self::debug_log_path, Logger::DEBUG);
+				$logger->pushHandler ( $filelogger );
+
+			}
+
+			// Display on screen the errors
+			$output = "[%level_name%] %message%<br />\n";
+			$screenformater = new \Monolog\Formatter\LineFormatter($output);
+			$screenlogger = new \Monolog\Handler\StreamHandler( 'php://output', Logger::DEBUG);
+			$screenlogger->setFormatter($screenformater);
+			$logger->pushHandler ( $screenlogger );
 
 			// Send the logger class to a current class var
-			$logger->debug('[Lumiere] Monolog logger has been started...');
 			$this->loggerclass = $logger; # this var is then utilised in the call in other pages
 
 		} else {

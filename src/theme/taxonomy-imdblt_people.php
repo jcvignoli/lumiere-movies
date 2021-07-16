@@ -331,7 +331,7 @@ wp_reset_postdata();
 if ( (isset( $check_if_no_result )) && (empty( $check_if_no_result )) ){ 
 
 	if($logger !== NULL) {
-		$logger->debug("[Lumiere] No post found about $people using this query: <pre>$args</pre>");
+		$logger->debug("[Lumiere] No post found for $person_name_sanitized about $people");
 	}
 
 	echo "<div class=\"lumiere_align_center lumiere_italic lumiere_padding_five\">No post written about $person_name_sanitized</div>";
