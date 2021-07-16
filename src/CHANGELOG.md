@@ -6,6 +6,7 @@ v.3.4.3
 * [technical] Use of vars and constants in class config, changed php calls accordingly.
 * [technical] Use of Monolog logger implemented everywhere but in the widget. Debug can now be saved to file.
 * [bug] HTML Links are properly linking to plot authors (class movie).
+* [bug] Failing to build html links for taxonomy pages for people with accentuated names. The accents were kept.
 
 v.3.4.2
 * [major] Updated to [imdbphp library 7.1](https://github.com/tboothman/imdbphp/releases/tag/v7.1.0 "imdbphp library 7.1")
