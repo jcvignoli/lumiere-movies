@@ -22,11 +22,6 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die('You can not call directly this page');
 }
 
-// use Monolog classes in class/imdbphp/Monolog/
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Handler\FirePHPHandler;
-
 class LumiereMovies {
 
 	/* HTML allowed for use of wp_kses_post()
