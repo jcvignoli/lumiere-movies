@@ -25,6 +25,21 @@ if ( ! defined( 'WPINC' ) )
 
 class UpdateOptions {
 
+
+	/* Logger class built by lumiere_start_logger() 
+	 * Meant to be utilised by movie/person pages
+	 * Follow the const and vars related to the function
+	 */
+	public $loggerClass;
+
+	public $imdb_admin_values;
+
+	/* Logger class built by lumiere_start_logger() 
+	 * Meant to be utilised by movie/person pages
+	 * Follow the const and vars related to the function
+	 */
+	public $utilsClass;
+
 	/* Lumière plugin version
 	 * For runUpdateOptions() function
 	 */
@@ -36,6 +51,34 @@ class UpdateOptions {
 	private $isDebug;
 
 	function __construct() {
+
+		if (class_exists("\Lumiere\Settings")) {
+
+			// Start the settings class
+			$configClass = new \Lumiere\Settings();
+			$this->imdb_admin_values = $configClass->imdb_admin_values;
+
+			// Start the Utils class 
+			$utilsClass = new \Lumiere\Utils();
+			$this->utilsClass = $utilsClass;
+
+			// Activate debug and start logger class if debug is selected
+			if ( (isset($configClass->imdb_admin_values['imdbdebug'])) && ($configClass->imdb_admin_values['imdbdebug'] == 1) ){
+
+				// Activate debug
+				$this->utilsClass->lumiere_activate_debug(NULL, NULL, NULL, $configClass);
+
+				// Start the logger
+				$configClass->lumiere_start_logger('updaterLumiere');
+
+				// Store the class so we can use it later for imdbphp class call
+				$this->loggerClass = $configClass->loggerClass;
+
+			}
+
+		} else {
+			wp_die('Lumière files have been moved. Can not update Lumière!');
+		}
 
 		$this->getLumiereVersions();
 
@@ -72,17 +115,58 @@ class UpdateOptions {
 
 		/* VARS */
 		$output = "";
+		$imdb_admin_values = $this->imdb_admin_values;
+		$this->isDebug = $imdb_admin_values['imdbdebug'];
+		$logger = $this->loggerclass;
 
-		if (class_exists("\Lumiere\Settings")) {
+		/************************************************** 3.4.3 */
+		if ( (version_compare( $this->lumiereVersionPlugin, "3.4.2" ) >= 0 )
+			&& ($imdb_admin_values['imdbHowManyUpdates'] == 6 ) ){				# update 6
 
-			$config = new \Lumiere\Settings();
-			$imdb_admin_values = $config->get_imdb_admin_option();
-			$this->isDebug = $imdb_admin_values['imdbdebug'];
+			$nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
+			$this->lumiere_update_options($config->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
 
-		} else {
-			wp_die('Lumière files have been moved. Can not update Lumière!');
+			// Add 'imdbdebuglog'
+			// New option to select if to write a debug log
+			if ( TRUE === $this->lumiere_add_options($config->imdbWidgetOptionsName, 'imdbdebuglog', false) ) {
+				$text = "Lumière option imdbdebuglog successfully added.";
+
+				$output .= $this->print_debug(1, "<strong>$text</strong>");
+				if($logger !== NULL) {
+					$logger->debug("[Lumiere][updater] Lumière option imdbdebuglog successfully added.");
+				}
+
+			} else {
+				$text = "Lumière option imdbdebuglog could not be added.";
+
+				$output .= $this->print_debug(2, "<strong>$text</strong>");
+				if($logger !== NULL) {
+					$logger->critical("[Lumiere][updater] $text");
+				}
+			}
+
+			// Add 'imdbdebuglogpath'
+			// New option to enter a path for the log
+			if ( TRUE === $this->lumiere_add_options($config->imdbWidgetOptionsName, 'imdbdebuglogpath', WP_CONTENT_DIR . '/debug.log' ) ) {
+
+				$text = "Lumière option imdbdebuglogpath successfully added.";
+
+				$output .= $this->print_debug(1, "<strong>$text</strong>");
+				if($logger !== NULL) {
+					$logger->debug("[Lumiere][updater] Lumière option imdbdebuglog successfully added.");
+				}
+
+			} else {
+
+				$text = "Lumière option imdbdebuglogpath could not be added.";
+
+				$output .= $this->print_debug(2, "<strong>$text</strong>");
+				if($logger !== NULL) {
+					$logger->critical("[Lumiere][updater] $text");
+				}
+			}
+
 		}
-
 		/************************************************** 3.4.2 */
 		if ( (version_compare( $this->lumiereVersionPlugin, "3.4.1" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 5 ) ){				# update 5
