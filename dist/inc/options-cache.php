@@ -57,9 +57,10 @@ use \Imdb\Person;
 
 // Enter in debug mode, for development version only
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")) {
-	// Start the class Utils to activate debug
-	$debug_start = new \Lumiere\Utils();
-	$debug_start->lumiere_activate_debug($imdb_cache_values, 'no_var_dump', '', $config); # don't display set_error_handler("var_dump") that gets the page stuck in an endless loop, $config comes from admin_page
+
+	// Start the class Utils to activate debug -> already started in admin_pages
+	$utils->lumiere_activate_debug($imdb_cache_values, 'no_var_dump', '', $config); # don't display set_error_handler("var_dump") that gets the page stuck in an endless loop
+
 }
 
 // Data is posted using the form
@@ -122,7 +123,7 @@ if (current_user_can( 'manage_options' ) ) {
 			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
 		
 		// Delete cache
-		lumiere_unlinkRecursive( $imdb_cache_values['imdbcachedir'] );
+		$utils->lumiere_unlinkRecursive( $imdb_cache_values['imdbcachedir'] );
 
 		// display message on top
 		echo lumiere_notice(1, '<strong>'. esc_html__( 'All cache files deleted.', 'lumiere-movies') .'</strong>');
@@ -558,7 +559,7 @@ if ( (isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "manage") ){ 	///
 $imdltcacheFile = lumiere_glob_recursive( $imdb_cache_values['imdbcachedir'] . '*');
 $imdltcacheFileCount = (count( $imdltcacheFile ) ) -1; /* -1 do not count images folder */
 
-if (!lumiere_isEmptyDir($imdltcacheFile)) { // from functions.php
+if (!$utils->lumiere_isEmptyDir($imdltcacheFile)) {
 
 	echo "\n\t\t\t" . '<div class="detailedcacheexplaination imdblt_padding_bottom_ten imdblt_align_center">';
 
@@ -895,7 +896,7 @@ if (!empty($results)){
 
 					<span class="imdblt_smaller">
 					<?php 	// display cache folder size
-					if (!lumiere_isEmptyDir($imdb_cache_values['imdbcachedir'])) { // from functions.php
+					if (!$utils->lumiere_isEmptyDir($imdb_cache_values['imdbcachedir'])) {
 
 						echo esc_html_e('Movies\' cache is using', 'lumiere-movies') . ' ' . lumiere_formatBytes( intval($size_cache_total) ) . "\n";
 					} else {  
@@ -954,7 +955,7 @@ if (!empty($results)){
 
 			<div class="explain">
 			<?php // display cache folder size
-		if (!lumiere_isEmptyDir($imdb_cache_values['imdbphotoroot'], "2")) { // from functions.php
+		if (!$utils->lumiere_isEmptyDir($imdb_cache_values['imdbphotoroot'], "2")) {
 			$path = realpath($imdb_cache_values['imdbphotoroot']);
 			if($path!==false && $path!='' && file_exists($path)){
 				foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){

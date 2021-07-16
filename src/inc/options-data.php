@@ -20,9 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Enter in debug mode
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
-	// Start the class Utils to activate debug
-	$debug_start = new \Lumiere\Utils();
-	$debug_start->lumiere_activate_debug($imdb_widget_values, '', '', $config); # $config comes from admin_page
+
+	// Start the class Utils to activate debug -> already started in admin_pages
+	$utils->lumiere_activate_debug($imdb_widget_values, '', '', $config); # $config comes from admin_page
 }
 
 /* vars */
@@ -84,7 +84,7 @@ if (current_user_can( 'manage_options' ) ) {
 		// Special part related to details order
 		if (isset($_POST['imdbwidgetorderContainer']) ){
 			// Sanitize
-			$myinputs_sanitized = lumiere_recursive_sanitize_text_field($_POST['imdbwidgetorderContainer']);
+			$myinputs_sanitized = $utils->lumiere_recursive_sanitize_text_field($_POST['imdbwidgetorderContainer']);
 			// increment the $key of one
 			$data = array_combine(range(1, count($myinputs_sanitized)), array_values($myinputs_sanitized));
 

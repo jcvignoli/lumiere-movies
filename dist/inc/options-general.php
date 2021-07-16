@@ -20,9 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Enter in debug mode
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
-	// Start the class Utils to activate debug
-	$debug_start = new \Lumiere\Utils();
-	$debug_start->lumiere_activate_debug($imdb_admin_values, '', '', $config); # $config comes from admin_page
+
+	// Start the class Utils to activate debug -> already started in admin_pages
+	$utils->lumiere_activate_debug($imdb_admin_values, '', '', $config); # $config comes from admin_page
 }
 
 /* Vars */

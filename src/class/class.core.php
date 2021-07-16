@@ -32,6 +32,12 @@ class Core {
 		$imdb_admin_values = $config->get_imdb_admin_option();
 		$imdb_widget_values = $config->get_imdb_widget_option();
 		$imdb_cache_values = $config->get_imdb_cache_option();
+		$this->imdb_admin_values = $config->get_imdb_admin_option();
+		$this->imdb_widget_values = $config->get_imdb_widget_option();
+		$this->imdb_cache_values = $config->get_imdb_cache_option();
+
+		// Start Utils class
+		$utils = new \Lumiere\Utils();
 
 		// Be sure WP is running
 		if (function_exists('add_action')) {
@@ -64,7 +70,7 @@ class Core {
 
 			}
 
-			/* ## function deactivated upon wordpress plugin team request
+			/* ## Highslide download library, function deactivated upon wordpress plugin team request
 			add_filter( 'init', function( $template ) {
 				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&highslide=yes' ) )
 					require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::highslide_download_page );
@@ -93,17 +99,14 @@ class Core {
 			// add admin quicktag button for text editor
 			add_action('admin_footer', [ $this, 'lumiere_register_quicktag' ], 100);
 
-			// add metabox in admin edition of post 
-			// -> dealt by the widget class
-
 			// add footer
 			add_action('admin_footer', [ $this, 'lumiere_add_footer_admin' ], 100 );
 
-		    	// head for main blog
+		    	// head for frontpage blog
 			add_action('wp_head', [ $this, 'lumiere_add_head_blog' ], 0);
 			add_action('wp_head', [ $this, 'lumiere_add_metas' ], 5);
 
-			// add new name to popups
+			// add new title to popups
 			add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
 
 			if  (! is_admin() ) { 	// Run the transformation of links to popups
@@ -791,7 +794,7 @@ class Core {
 		# Remove cache
 		if ( (isset($imdb_cache_values['imdbcachedir'])) && (is_dir($imdb_cache_values['imdbcachedir'])) ) {
 
-			lumiere_unlinkRecursive($imdb_cache_values['imdbcachedir']);
+			$utils->lumiere_unlinkRecursive($imdb_cache_values['imdbcachedir']);
 
 		}
 

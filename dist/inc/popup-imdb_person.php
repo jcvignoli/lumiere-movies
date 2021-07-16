@@ -9,7 +9,7 @@
  # under the terms of the GNU General Public License (see LICENSE)           #
  # ------------------------------------------------------------------------- #
  #									              #
- #  Function : Popup people section    					       #
+ #  Function : Popup people           					       #
  #									              #
  #############################################################################
 
@@ -17,6 +17,8 @@ require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
 // Start Lumière config class
 if (class_exists("\Lumiere\Settings")) {
+
+	// Get the main vars
 	$config = new \Lumiere\Settings();
 	$imdb_admin_values = $config->imdb_admin_values;
 	$imdb_widget_values = $config->imdb_widget_values;
@@ -26,8 +28,8 @@ if (class_exists("\Lumiere\Settings")) {
 	if ( (isset($config->imdb_admin_values['imdbdebug'])) && ($config->imdb_admin_values['imdbdebug'] == 1) ){
 
 		// Start the class Utils to activate debug
-		$debug_start = new \Lumiere\Utils();
-		$debug_start->lumiere_activate_debug($imdb_cache_values, '', 'libxml', $config); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+		$utils = new \Lumiere\Utils();
+		$utils->lumiere_activate_debug($imdb_cache_values, '', 'libxml', $config); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
 		// Start the logger
 		$config->lumiere_start_logger('popupPerson');
@@ -46,7 +48,7 @@ if (isset ($_GET["film"]))
 	$film_sanitized = sanitize_text_field( $_GET["film"] ) ?? NULL;
 
 if (isset ($_GET["mid"]))
-	$mid_sanitized = sanitize_text_field( $_GET["mid"] ) ?? NULL;
+	$mid_sanitized = filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT) ?? NULL;
 
 // if neither film nor mid are set, throw a 404 error
 if (empty($film_sanitized ) && empty($mid_sanitized)){
@@ -64,19 +66,35 @@ if (empty($film_sanitized ) && empty($mid_sanitized)){
 
 	$template = get_404_template();
 	return $template;
+
+} elseif (!empty ($mid_sanitized)) {
+
+	// Since the class \Imdb\Person doesn't return Null but throws a fatal error if no result is found with imdbid
+	try {
+
+		// If result is null, throw an exception
+		if (NULL == ($person = new \Imdb\Person($mid_sanitized, $config, $logger ))) {
+
+			throw new Exception ($e);
+
+		// Result is not null, create the var utilised later on
+		} else {
+
+			$person_name_sanitized = sanitize_text_field( $person->name() );	
+
+		}
+		
+	// Catch the error throw (if any) and show the error, then exit
+	} catch (Error|Exception $e) { 
+
+		$utils->lumiere_noresults_text($e->getMessage());
+		exit();
+	}
+
+} else {
+
+	$utils->lumiere_noresults_text();
 }
-
-if (isset ($mid_sanitized)) {
-	$person = new \Imdb\Person($mid_sanitized, $config, $logger ) ?? NULL;
-	$person_name_sanitized = sanitize_text_field( $person->name() ) ?? NULL;
-
-} else { // escape if no result found, otherwise imdblt fails
-
-	lumiere_noresults_text();
-	exit();
-
-}
-//--------------------------------------=[Layout]=---------------
 
 ?><!DOCTYPE html>
 <html>
@@ -87,7 +105,6 @@ if (isset ($mid_sanitized)) {
 <body class="lumiere_body<?php if (isset($imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $imdb_admin_values['imdbpopuptheme'];?>">
 
                                                 <!-- top page menu -->
-
 
 <div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
 	<div class="lumiere_flex_auto">

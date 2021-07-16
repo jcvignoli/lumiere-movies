@@ -60,6 +60,16 @@ class LumiereMovies {
 	 */
 	private $loggerclass;
 
+	/* Store the class for extra functions
+	 *
+	 */
+	private $utilsclass;
+
+	/* Store the name or the ID of a movie
+	 * @TODO Get rid of $imdballmeta and use this instead
+	 */
+	private $imdbIdOrTitle;
+
 	/** Class constructor
 	 ** 
 	 **/
@@ -67,30 +77,16 @@ class LumiereMovies {
 
 		// Start config class and get the vars
 		if (class_exists("\Lumiere\Settings")) {
+
 			$configclass = new \Lumiere\Settings();
 			$this->configclass = $configclass;
 			$this->imdb_admin_values = $configclass->get_imdb_admin_option();
 			$this->imdb_widget_values = $configclass->get_imdb_widget_option();
 			$this->imdb_cache_values = $configclass->get_imdb_widget_option();
 
-			// Start logger class if debug is selected
-			if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
-
-				// Start the debugging class
-				/* if starting this, everything get screwed up and gutenberg editor can't save anymore
-				tried to use add_action() instead of calling the function, but no difference made
-				$debug_start = new \Lumiere\Utils();
-				add_action ('admin_init', $debug_start->lumiere_activate_debug($this->imdb_admin_values, '', ''), 99, 4); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
-				*/
-
-				// Start the logger
-				$this->configclass->lumiere_start_logger('movies');
-				$this->loggerclass = $this->configclass->loggerclass;
-
-			} else {
-
-				$this->loggerclass = NULL;
-			}
+			// Start the debugging class
+			# If the action is added earlier (ie: init), it breaks gutenberg
+			add_action('loop_start', [$this, 'lumiere_start_logger_wrapper'], 0);
 
 		} else {
 
@@ -98,12 +94,36 @@ class LumiereMovies {
 
 		}
 
-		// Start 
+		// Start the tools class
+		$utilsclass = new \Lumiere\Utils();
+		$this->utilsclass = $utilsclass;
+
+		// Run the initialisation of the class
 		$this->init();
 
+		// Add the shortcodes to parse the texte
 		if  (! is_admin() ) {
 			add_shortcode( 'imdblt', [$this, 'parse_lumiere_tag_transform'] );
 			add_shortcode( 'imdbltid', [$this, 'parse_lumiere_tag_transform_id'] );
+		}
+
+	}
+
+	/** Wrapps the start of the logger
+	 ** Allows to start later in the process, and not to break gutenberg by adding text before html code
+	 **
+	 **/
+	function lumiere_start_logger_wrapper(){
+
+		// Start logger class if debug is selected
+		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
+
+			$this->configclass->lumiere_start_logger('movies');
+			$this->loggerclass = $this->configclass->loggerclass;
+
+		} else {
+
+			$this->loggerclass = NULL;
 		}
 
 	}
@@ -181,7 +201,7 @@ class LumiereMovies {
 				// break if no result found, otherwise imdbphp library trigger fatal error
 				} else {
 
-					lumiere_noresults_text();
+					$this->utilsclass->lumiere_noresults_text();
 					break;
 				}
 			}
@@ -205,7 +225,7 @@ class LumiereMovies {
 
 		}
 
-		$this->lumiere_result = $output; # send to meta var the result
+		$this->lumiere_result = $output; # send to class var the result
 
 		return $output;
 
