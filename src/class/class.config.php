@@ -534,6 +534,23 @@ class Settings extends Config {
 
 	}
 
+	/** Return the current loggerclass if not null
+	 ** Prevents fatal errors if loggerclass is null
+	 ** 
+	 ** @param string mandatory $function the log function to be called (log, debug, warning,...)
+	 ** @param string mandatory $text the text to be displayed by the logger
+	 **/
+	public function lumiere_maybe_log($function, $text) {
+
+		if (NULL !== $this->loggerclass) {
+
+			return $this->loggerclass->$function($text);
+
+		}
+
+		return false;
+	}
+
 	/** Retrieve selected type of search in admin
 	 ** Depends of $imdb_admin_values['imdbseriemovies'] option
 	 ** Utilised by popups

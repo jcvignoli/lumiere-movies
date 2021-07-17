@@ -131,6 +131,8 @@ class LumiereMovies {
 
 		/* Vars */ 
 		global $imdballmeta,$count_me_siffer;
+		$logger = $this->loggerClass;
+		$configClass = $this->configClass;
 
 		$count_me_siffer = isset($count_me_siffer) ? $count_me_siffer : 0; # var for counting only one results
 		$imdballmeta = isset($imdballmeta) ? $imdballmeta : array();
@@ -141,16 +143,9 @@ class LumiereMovies {
 		$imdb_widget_values = $this->imdb_widget_values;
 		$imdb_cache_values = $this->imdb_cache_values;
 
-		if (isset ($_GET["mid"])) {
+		$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Calling IMDbPHP class.");
 
-			$movieid = filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT);
-			$movie = new \Imdb\Title($movieid, $this->configClass, $this->loggerClass);
-
-		} else {
-
-			$search = new \Imdb\TitleSearch($this->configClass, $this->loggerClass );
-
-		}
+		$search = new \Imdb\TitleSearch($this->configClass, $logger );
 
 		// $imdballmeta var comes from custom post's field in widget or in post
 		for ($i=0; $i < count($imdballmeta); $i++) {	
@@ -164,49 +159,70 @@ class LumiereMovies {
 				// get meta data from class widget or lumiere
 				$film = $film['byname'];  
 
+				$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Movie title provided: '$film'");
+
 				// check a the movie title exists
 				if ( ($film !== null) && !empty($film) && isset($film) ) {
 
+					$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] searching for '$film'");
+
 					$results = $search->search ($film, $this->configClass->lumiere_select_type_search() );
 
+
 				}
+
 				// if a result was found in previous query
 				if ( isset($results) && ($results !== null) && !empty($results) ) {
 
 					$midPremierResultat = $results[0]->imdbid();
 
+					$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Result found: $midPremierResultat.");
+
 				// no result, so jump to the next query and forget the current
 				} else {
 
-					continue; 
-				}
+					$configClass->lumiere_maybe_log('info', "[Lumiere][movieClass] No movie found, aborting.");
 
+					continue; 
+
+				}
 
 			// no movie's title but a movie's ID has been specified
 			} elseif (isset($film['bymid']))  {
 
-				$midPremierResultat = $film['bymid']; // get the movie id entered
+				$midPremierResultat = esc_html($film['bymid']); // get the movie id entered
+
+				$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Movie ID provided: '$midPremierResultat'.");
 
 			// nothing was specified
 			} else {
 
-				$results = $search->search ($film, $this->configClass->lumiere_select_type_search() );
+				$configClass->lumiere_maybe_log('debug', "[[Lumiere][imdballmeta] No movie title provided, doing a query for $film'.");
+
+				$results = $search->search($film, $this->configClass->lumiere_select_type_search() );
 
 				// a result is found
 				if ( ($results !== null) && !empty($results) ) {	
 
 					$midPremierResultat = $results[0]->imdbid(); 
 
+				$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Found matching movie title: '$midPremierResultat'");
+
 				// break if no result found, otherwise imdbphp library trigger fatal error
 				} else {
 
 					$this->utilsClass->lumiere_noresults_text();
+
+					$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] No matching movie title found.");
+
 					break;
 				}
 			}
 
 			// make sure only one result is displayed
 			if ($this->lumiere_count_me($midPremierResultat, $count_me_siffer) == "nomore") {
+
+				$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Displaying rows for '$midPremierResultat'");
 
 				$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- ### Lumière! movies plugin ### -->';
 				$output .= "\n\t<div class='imdbincluded";
@@ -218,6 +234,11 @@ class LumiereMovies {
 
 				$output .= $this->lumiere_movie_design($midPremierResultat); # passed those two values to the design
 				$output .= "\n\t</div>";
+
+			} else {
+
+				$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] $midPremierResultat already called, skipping");
+
 			}
 
 			$count_me_siffer++; # increment counting only one results
@@ -247,11 +268,10 @@ class LumiereMovies {
 
 	}
 
-	/**
-	* Function external call (ie, inside a post)
-	    can come from [imdblt] and [imdbltid]
-	**/
-
+	/** Function external call (ie, inside a post)
+	 ** 
+	 ** Utilized to bild from [imdblt] and [imdbltid] shortcodes
+	 **/
 	function lumiere_external_call ($moviename=NULL, $filmid=NULL, $external=NULL) {
 
 		global $imdballmeta;
@@ -297,7 +317,7 @@ class LumiereMovies {
 	}
 
 
-	/* Function to display the layout and calls all subfonctions
+	/* Function to display the layout and call all subfonctions
 	 *
 	 * @param $config -> takes the value of imdb class 
 	 * @param $midPremierResultat -> takes the IMDb ID to be displayed
@@ -306,15 +326,16 @@ class LumiereMovies {
 
 		/* Vars */ 
 		global $magicnumber;
-		// Get main vars from the current class
+		// Simplify the coding
 		$imdb_admin_values = $this->imdb_admin_values;
 		$imdb_widget_values = $this->imdb_widget_values;
 		$imdb_cache_values = $this->imdb_cache_values;
+		$logger = $this->loggerClass;
 
 		$outputfinal ="";
 
 		/* Start imdbphp class for new query based upon $midPremierResultat */
-		$movie = new \Imdb\Title($midPremierResultat, $this->configClass, $this->loggerClass );
+		$movie = new \Imdb\Title($midPremierResultat, $this->configClass, $logger );
 
 		foreach ( $imdb_widget_values['imdbwidgetorder'] as $magicnumber) {
 
@@ -1992,9 +2013,9 @@ class LumiereMovies {
 		return $convert;
 	}
 
-	/** Count me function
+	/** Avoid the same movie to be displayed twice or more
 	 ** allows movie total count (how many time a movie is called by plugin
-	 ** probably can be replaced by in_array()...?
+	 ** @TODO: rename it to lumiere_filter_single_movies() if no other classes use it
 	 **/
 	function lumiere_count_me($thema, &$count_me_siffer) {
 
@@ -2044,7 +2065,6 @@ class LumiereMovies {
 		return pll_set_term_language($term_id, $lang);
 
 	}
-
 
 } // end of class
 

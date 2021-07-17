@@ -27,15 +27,18 @@ use Monolog\Logger;
 
 class Settings extends Config {
 
-	/* Editable Options vars */
+	/* Editable Options vars 
+	*/
 	var $imdbAdminOptionsName = "imdbAdminOptions";
 	var $imdbWidgetOptionsName = "imdbWidgetOptions";
 	var $imdbCacheOptionsName = "imdbCacheOptions";
 
-	/* Options vars */
+	/* Options vars 
+	*/
 	public $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
-	/* Websites constants */
+	/* Websites constants
+	*/
 	const IMDBBLOG = 'https://www.jcvignoli.com/blog';
 	const IMDBBLOGENGLISH = self::IMDBBLOG . '/en';
 	const IMDBBLOGHIGHSLIDE = self::IMDBBLOG . '/wp-content/files/wordpress-lumiere-highslide-5.0.0.zip';
@@ -45,12 +48,14 @@ class Settings extends Config {
 	const LUMIERE_WORDPRESS = 'https://wordpress.org/extend/plugins/lumiere-movies/';
 	const LUMIERE_GIT = 'https://github.com/jcvignoli/lumiere-movies';
 
-	/* URL Strings for popups */
+	/* URL Strings for popups, built in lumiere_define_constants()
+	*/
 	public $lumiere_urlstring, $lumiere_urlstringfilms, $lumiere_urlstringperson, 
 	$lumiere_urlstringsearch, $lumiere_urlpopupsfilms, $lumiere_urlpopupsperson, 
 	$lumiere_urlpopupsearch;
 
-	/* Internal URL pages constants */
+	/* Internal URL pages constants
+	*/
 	const move_template_taxonomy_page = 'inc/move_template_taxonomy.php';
 	const highslide_download_page = 'inc/highslide_download.php';
 	const gutenberg_search_page = 'inc/gutenberg-search.php';
@@ -59,12 +64,13 @@ class Settings extends Config {
 	const popup_search_url = 'inc/popup-search.php';
 	const popup_movie_url = 'inc/popup-imdb_movie.php';
 	const popup_person_url = 'inc/popup-imdb_person.php';
-	/* Include all pages of Lumière plugin */
+
+	/* Include all pages of Lumière plugin 
+	*/
 	public $lumiere_list_all_pages;
 
 	/* Store Lumière plugin version
-	 *
-	 */
+	*/
 	public $lumiere_version;
 
 	/* Logger class built by lumiere_start_logger() 
@@ -78,14 +84,15 @@ class Settings extends Config {
 	var $isMonologActive = true;
 
 	/* Is the current page WordPress Gutenberg editor?
-	 *
 	 */
 	public $isGutenberg;
 
-	/* List of types of people available */
+	/* List of types of people available 
+	*/
 	var $array_people = array( 'actor', 'composer', 'creator', 'director', 'producer', 'writer' );
 
-	/* List of types of people available */
+	/* List of types of people available 
+	*/
 	var $array_items = array( 'color', 'country', 'genre', 'keywords', 'language' );
 
 	/** Constructor
@@ -525,6 +532,23 @@ class Settings extends Config {
 
 		}
 
+	}
+
+	/** Return the current loggerclass if not null
+	 ** Prevents fatal errors if loggerclass is null
+	 ** 
+	 ** @param string mandatory $function the log function to be called (log, debug, warning,...)
+	 ** @param string mandatory $text the text to be displayed by the logger
+	 **/
+	public function lumiere_maybe_log($function, $text) {
+
+		if (NULL !== $this->loggerclass) {
+
+			return $this->loggerclass->$function($text);
+
+		}
+
+		return false;
 	}
 
 	/** Retrieve selected type of search in admin
