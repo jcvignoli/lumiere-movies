@@ -169,18 +169,18 @@ class Settings extends Config {
 		$imdbAdminOptions = array(
 
 			#--------------------------------------------------=[ Basic ]=--
-			'blog_adress' => get_bloginfo('url'),
+			'blog_adress' => get_bloginfo('url'),	/* @TODO useless, remove */
 			'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
 			'imdbpluginpath' => plugin_dir_path( __DIR__ ),
 			'imdburlpopups' => '/imdblt/',
 			'imdbkeepsettings' => true,
 			'imdburlstringtaxo' => 'imdblt_',
-			'imdbwebsite' => "www.imdb.com",
+			'imdbwebsite' => "www.imdb.com",		/* @TODO useless, remove */
 			'imdbcoversize' => false,
 			'imdbcoversizewidth' => '100',
 			#--------------------------------------------------=[ Technical ]=--
 
-			'imdb_utf8recode'=> true,
+			'imdb_utf8recode'=> true,			/* @TODO useless, remove */
 			'imdbmaxresults' => 10,
 			'imdbpopuptheme' => 'white',
 			'popupLarg' => '540',
@@ -188,19 +188,20 @@ class Settings extends Config {
 			'imdbintotheposttheme' => 'grey',
 			'imdblinkingkill' => false,
 			'imdbautopostwidget' => false,
-			'imdbimgdir' => 'pics/',
+			'imdbimgdir' => 'pics/',			/* @TODO useless, remove */
 			'imdblanguage' => "en",
-			'imdbdirectsearch' => true, 		/* not available in the admin interface */
+			'imdbdirectsearch' => true, 		/* @TODO useless, remove */
 			/*'imdbsourceout' => false,*/
-			'imdbdebug' => false,
-			'imdbdebuglog' => false,
+			'imdbdebug' => false,			/* Debug? */
+			'imdbdebuglog' => false,			/* Log debug? */
 			'imdbdebuglogpath' => self::debug_log_path,
-			'imdbwordpress_bigmenu'=>false,
-			'imdbwordpress_tooladminmenu'=>true,
+			'imdbdebugscreen' => true,			/* Show debug on screen? */
+			'imdbwordpress_bigmenu'=>false,		/* @TODO useless, remove */
+			'imdbwordpress_tooladminmenu'=>true,	/* @TODO useless, remove */
 			'imdbpopup_highslide'=>true,
 			'imdbtaxonomy'=> true,
 			'imdbHowManyUpdates'=> 1, # for use in class.update-options.php
-			'imdbseriemovies' => 'movies+series', /* options: by movies, series, movies+series, videogames */
+			'imdbseriemovies' => 'movies+series', /* options: movies, series, movies+series, videogames */
 
 		);
 		$imdbAdminOptions['imdbplugindirectory'] = $imdbAdminOptions['blog_adress'] 
@@ -498,11 +499,15 @@ class Settings extends Config {
 			}
 
 			// Display on screen the errors
-			$output = "[%level_name%] %message%<br />\n";
-			$screenformater = new \Monolog\Formatter\LineFormatter($output);
-			$screenlogger = new \Monolog\Handler\StreamHandler( 'php://output', Logger::DEBUG);
-			$screenlogger->setFormatter($screenformater);
-			$logger->pushHandler ( $screenlogger );
+			if ($this->imdb_admin_values['imdbdebugscreen'] == 1) {
+
+				$output = "[%level_name%] %message%<br />\n";
+				$screenformater = new \Monolog\Formatter\LineFormatter($output);
+				$screenlogger = new \Monolog\Handler\StreamHandler( 'php://output', Logger::DEBUG);
+				$screenlogger->setFormatter($screenformater);
+				$logger->pushHandler ( $screenlogger );
+
+			}
 
 			// Send the logger class to a current class var
 			$this->loggerclass = $logger; # this var is then utilised in the call in other pages

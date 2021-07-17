@@ -481,7 +481,21 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 			<div class="lumiere_padding_five hidesectionOfRadio">
 
-				<?php esc_html_e( 'Extra debugging option: Save logs?', 'lumiere-movies'); ?><br /><br />
+
+				<?php esc_html_e( '[Extra debugging options]', 'lumiere-movies'); ?><br /><br />
+
+				<?php esc_html_e( 'Show debug on screen?', 'lumiere-movies'); ?><br /><br />
+				<input type="radio" id="imdb_imdbdebugscreen_yes" name="imdb_imdbdebugscreen" value="1" <?php if ($imdb_admin_values['imdbdebugscreen'] == "1") { echo 'checked="checked"'; }?> />
+				<label for="imdb_imdbdebugscreen_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
+
+				<input type="radio" id="imdb_imdbdebugscreen_no" name="imdb_imdbdebugscreen" value="" <?php if ($imdb_admin_values['imdbdebugscreen'] == 0) { echo 'checked="checked"'; } ?>  />
+				<label for="imdb_imdbdebugscreen_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
+
+				<div class="explain"><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'Yes', 'lumiere-movies'); ?></div>
+
+				<br />
+
+				<?php esc_html_e( 'Save logs?', 'lumiere-movies'); ?><br /><br />
 
 				<input type="radio" id="imdb_imdbdebuglog_yes" class="activatehidesectionAddTwo" name="imdb_imdbdebuglog" value="1" <?php if ($imdb_admin_values['imdbdebuglog'] == "1") { echo 'checked="checked"'; }?> />
 				<label for="imdb_imdbdebuglog_yes"><?php esc_html_e( 'Yes', 'lumiere-movies'); ?></label>
@@ -489,10 +503,10 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<input type="radio" id="imdb_imdbdebuglog_no" class="activatehidesectionRemoveTwo" name="imdb_imdbdebuglog" value="" <?php if ($imdb_admin_values['imdbdebuglog'] == 0) { echo 'checked="checked"'; } ?>  />
 				<label for="imdb_imdbdebuglog_no"><?php esc_html_e( 'No', 'lumiere-movies'); ?></label>
 
-				<br /><br />
+				<div class="explain"><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 				<div class="hidesectionOfRadioTwo">
-					<label for="imdb_imdbdebuglogpath"><?php esc_html_e( 'Path:', 'lumiere-movies'); ?></label>
+					<label for="imdb_imdbdebuglogpath"><?php esc_html_e( 'Path', 'lumiere-movies'); ?></label>
 
 					<input class="lumiere_border_width_medium" type="text" name="imdb_imdbdebuglogpath" value="<?php echo $imdb_admin_values['imdbdebuglogpath']; ?>" >
 
@@ -521,41 +535,6 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 	<div class="hidesection">
 		<br />
 		<br />
-
-		<?php //------------------------------------------------------------------=[ URL blog ]=- ?>
-
-		<div class="lumiere_flex_container">
-			<div class="lumiere_flex_container_content_twenty">
-				<label for="imdb_blog_adress"><?php esc_html_e( 'Blog address', 'lumiere-movies'); ?></label>
-			</div>
-			<div class="lumiere_flex_container_content_eighty">
-				<input class="lumiere_border_width_medium imdblt_width_fillall" type="text" name="imdb_blog_adress" value="<?php esc_html_e( apply_filters('format_to_edit',$imdb_admin_values['blog_adress']), 'lumiere-movies') ?>" >
-				<div class="explain"><?php esc_html_e( 'Where the blog is installed.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo esc_url( $imdb_admin_values['blog_adress'] ); ?>"</div>
-			</div>
-		</div>
-
-		<br /><br />
-
-		<?php //------------------------------------------------------------------=[ PATH Lumière! ]=- ?>
-		<div class="lumiere_flex_container">
-			<div class="lumiere_flex_container_content_twenty">
-				<label for="imdb_imdbplugindirectory"><?php esc_html_e( 'Plugin directory', 'lumiere-movies'); ?></label>
-			</div>
-			<div class="lumiere_flex_container_content_eighty">
-				<div class="lumiere_align_items_center">
-					<?php echo $imdb_admin_values['blog_adress']; ?>
-					<input type="text" class="lumiere_border_width_medium" name="imdb_imdbplugindirectory_partial" value="<?php esc_html_e( apply_filters('format_to_edit',$imdb_admin_values['imdbplugindirectory_partial']), 'lumiere-movies') ?>">
-				</div>
-				<div class="explain">
-					<?php wp_kses( _e( 'Where <strong>Lumiere</strong> is installed.', 'lumiere-movies'), $allowed_html_for_esc_html_functions ); ?>
-					<br />
-					<?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo plugin_dir_url( __DIR__ ); ?>"
-
-				</div>
-			</div>
-		</div>
-
-		<br /><br />
 
 		<?php //------------------------------------------------------------------=[ URL Popups ]=---- ?>
 		<div class="lumiere_flex_container">
