@@ -1,12 +1,13 @@
-Changelog
+**Changelog**
 
 v.3.4.3
 * [major] Updated to [imdbphp library 7.2](https://github.com/tboothman/imdbphp/releases/tag/v7.2.0 "imdbphp library 7.2")
-* [feature] Major improvement for taxonomy pages people-related. Takes into consideration if you are using Polylang  allowing to change the language. Displays all types of roles for people.
+* [feature] Major improvement for taxonomy pages people-related. Fully versatile if you are using Polylang, it detects it and display a option for allowing to switch the language. Displays all types of roles for people.
 * [technical] Use of vars and constants in class config, changed php calls accordingly.
-* [technical] Use of Monolog logger implemented everywhere but in the widget. Debug can now be saved to file.
+* [technical] Use of Monolog logger implemented in all Lumière classes and pages. Debug can now be saved to file. Everything can be set up in Lumière admin interface.
+* [technical] Removed the option to change the URL of the blog. Option inherited from the times where WordPress was very different. Useless now.
 * [bug] HTML Links are properly linking to plot authors (class movie).
-* [bug] Failing to build html links for taxonomy pages for people with accentuated names. The accents were kept.
+* [bug] Failing to build html links for taxonomy pages for people with accentuated names. The accents were kept in URL.
 
 v.3.4.2
 * [major] Updated to [imdbphp library 7.1](https://github.com/tboothman/imdbphp/releases/tag/v7.1.0 "imdbphp library 7.1")
@@ -14,7 +15,7 @@ v.3.4.2
 * [technical] Use WP cron to update options. Uses less resources, better optimisation.
 * [technical] Class config used to include two classes. Now they're merged. All calls to class config trigger an automatic sending of the settings to imdbphp. Debug is now displayed everywhere.
 * [technical] Class config has been cleaned. Constants have been included into the class. A lot of polishing is still needed.
-* [technical] Implemented Monolog as new debug parser
+* [technical] Implemented [Monolog](https://github.com/Seldaek/monolog/ "Monolo GIT") as new debug parser
 * [bug] Taxonomy (english term+additional language related post) were added on the display of a post.
 
 v.3.4.1

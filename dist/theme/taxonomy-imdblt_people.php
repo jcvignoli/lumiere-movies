@@ -25,7 +25,7 @@ if (class_exists("\Lumiere\Settings")) {
 
 		// Start the class Utils to activate debug
 		$debug_start = new \Lumiere\Utils();
-		$debug_start->lumiere_activate_debug($imdb_admin_values, '', 'libxml', $config); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+		$debug_start->lumiere_activate_debug($imdb_admin_values, '', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
 		// Start the logger
 		$config->lumiere_start_logger('taxonomy-standard');

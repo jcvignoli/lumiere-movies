@@ -27,15 +27,18 @@ use Monolog\Logger;
 
 class Settings extends Config {
 
-	/* Editable Options vars */
+	/* Editable Options vars 
+	*/
 	var $imdbAdminOptionsName = "imdbAdminOptions";
 	var $imdbWidgetOptionsName = "imdbWidgetOptions";
 	var $imdbCacheOptionsName = "imdbCacheOptions";
 
-	/* Options vars */
+	/* Options vars 
+	*/
 	public $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
-	/* Websites constants */
+	/* Websites constants
+	*/
 	const IMDBBLOG = 'https://www.jcvignoli.com/blog';
 	const IMDBBLOGENGLISH = self::IMDBBLOG . '/en';
 	const IMDBBLOGHIGHSLIDE = self::IMDBBLOG . '/wp-content/files/wordpress-lumiere-highslide-5.0.0.zip';
@@ -45,12 +48,14 @@ class Settings extends Config {
 	const LUMIERE_WORDPRESS = 'https://wordpress.org/extend/plugins/lumiere-movies/';
 	const LUMIERE_GIT = 'https://github.com/jcvignoli/lumiere-movies';
 
-	/* URL Strings for popups */
+	/* URL Strings for popups, built in lumiere_define_constants()
+	*/
 	public $lumiere_urlstring, $lumiere_urlstringfilms, $lumiere_urlstringperson, 
 	$lumiere_urlstringsearch, $lumiere_urlpopupsfilms, $lumiere_urlpopupsperson, 
 	$lumiere_urlpopupsearch;
 
-	/* Internal URL pages constants */
+	/* Internal URL pages constants
+	*/
 	const move_template_taxonomy_page = 'inc/move_template_taxonomy.php';
 	const highslide_download_page = 'inc/highslide_download.php';
 	const gutenberg_search_page = 'inc/gutenberg-search.php';
@@ -59,12 +64,13 @@ class Settings extends Config {
 	const popup_search_url = 'inc/popup-search.php';
 	const popup_movie_url = 'inc/popup-imdb_movie.php';
 	const popup_person_url = 'inc/popup-imdb_person.php';
-	/* Include all pages of Lumière plugin */
+
+	/* Include all pages of Lumière plugin 
+	*/
 	public $lumiere_list_all_pages;
 
 	/* Store Lumière plugin version
-	 *
-	 */
+	*/
 	public $lumiere_version;
 
 	/* Logger class built by lumiere_start_logger() 
@@ -78,14 +84,15 @@ class Settings extends Config {
 	var $isMonologActive = true;
 
 	/* Is the current page WordPress Gutenberg editor?
-	 *
 	 */
 	public $isGutenberg;
 
-	/* List of types of people available */
+	/* List of types of people available 
+	*/
 	var $array_people = array( 'actor', 'composer', 'creator', 'director', 'producer', 'writer' );
 
-	/* List of types of people available */
+	/* List of types of people available 
+	*/
 	var $array_items = array( 'color', 'country', 'genre', 'keywords', 'language' );
 
 	/** Constructor
@@ -196,7 +203,7 @@ class Settings extends Config {
 			'imdbdebuglog' => false,			/* Log debug? */
 			'imdbdebuglogpath' => self::debug_log_path,
 			'imdbdebugscreen' => true,			/* Show debug on screen? */
-			'imdbwordpress_bigmenu'=>false,		/* @TODO useless, remove */
+			'imdbwordpress_bigmenu'=>false,		/* @TODO see if it can be removed */
 			'imdbwordpress_tooladminmenu'=>true,	/* @TODO useless, remove */
 			'imdbpopup_highslide'=>true,
 			'imdbtaxonomy'=> true,
@@ -373,10 +380,6 @@ class Settings extends Config {
 		$this->converttozip = $this->imdb_cache_values['imdbconverttozip'] ?? NULL;
 		$this->usezip = $this->imdb_cache_values['imdbusezip'] ?? NULL;
 
-		// Execute the lumiere_maybe_display_debug_pages() through add action so gutenberg save doesn't get broken
-		// @TODO: check if can be removed, all pages call it directly
-		add_action('template_redirect', [$this, 'lumiere_maybe_display_debug_pages']);
-
 		/** Where the local IMDB images reside (look for the "showtimes/" directory)
 		*  This should be either a relative, an absolute, or an URL including the
 		*  protocol (e.g. when a different server shall deliver them)
@@ -388,7 +391,7 @@ class Settings extends Config {
 
 	/** Prevent some pages to display debug
 	 ** Sends to parent imdbphp class the debug var
-	 **
+	 ** Obsolete: was needed when class.movie.php was executed everywhere, which not the case anymore
 	 **/
 	function lumiere_maybe_display_debug_pages() {
 
@@ -404,7 +407,7 @@ class Settings extends Config {
 			return false;
 
 		// Diplay debug for all front pages except for gutenberg edition
-		} elseif ( (!is_admin()) && ($this->isGutenberg == false) /* latest condition doesn't work */ ) {
+		} elseif ( (!is_admin()) && ($this->isGutenberg == false) /* latest condition $isGutenberg doesn't work */ ) {
 
 			$this->debug = $this->imdb_admin_values['imdbdebug'] ?? NULL;
 
@@ -413,7 +416,7 @@ class Settings extends Config {
 	}
 
 	/** Create cache folder if it does not exist
-	 ** 
+	 ** Return false if cache already exist, true if it had to create cache folders
 	 **/
 	function lumiere_create_cache() {
 
@@ -425,23 +428,30 @@ class Settings extends Config {
 
 		// Cache folders exist, exit
 		if ( (is_dir($lumiere_folder_cache)) || (is_dir($lumiere_folder_cache_images)) )
-			return;
+			return false;
 
 		// We can write in wp-content/cache
 		if ( wp_mkdir_p( $lumiere_folder_cache ) ) {
+
 			chmod( $lumiere_folder_cache, 0777 );
+
 		// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
 		} else {
+
 			$lumiere_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
 			wp_mkdir_p( $lumiere_folder_cache );
 			chmod( $lumiere_folder_cache, 0777 );
+
 		}
 
 		// We can write in wp-content/cache/images
 		if ( wp_mkdir_p( $lumiere_folder_cache_images ) ) {
+
 			chmod( $lumiere_folder_cache_images, 0777 );
+
 		// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
 		} else {
+
 			$lumiere_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
 			$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
 			wp_mkdir_p( $lumiere_folder_cache_images );
@@ -449,7 +459,7 @@ class Settings extends Config {
 
 		}
 
-
+		return true;
 	}
 
 	/* Try to detect if the current page is gutenberg editor
@@ -476,8 +486,11 @@ class Settings extends Config {
 	/** Start and select which Logger to use
 	 ** 
 	 ** By default, Logger is utilised if the var $isMonologActive is set "false", Monolog is set "true"
+	 ** 
+	 ** @ param (string) $page_name: title applied to the logger in the logs under origin
+	 ** @ param (bool) $screenOutput: whether to display the screen output, usefull for plugin activationin class core
 	 **/
-	public function lumiere_start_logger ($page_name="originUnknown") {
+	public function lumiere_start_logger ($page_name="originUnknown", $screenOutput=true) {
 
 		if ( ($this->imdb_admin_values['imdbdebug'] == 1) && ($this->isMonologActive == true) ){
 
@@ -499,7 +512,7 @@ class Settings extends Config {
 			}
 
 			// Display on screen the errors
-			if ($this->imdb_admin_values['imdbdebugscreen'] == 1) {
+			if ( ($this->imdb_admin_values['imdbdebugscreen'] == 1)  && ( $screenOutput == true ) ){
 
 				$output = "[%level_name%] %message%<br />\n";
 				$screenformater = new \Monolog\Formatter\LineFormatter($output);
@@ -512,6 +525,7 @@ class Settings extends Config {
 			// Send the logger class to a current class var
 			$this->loggerclass = $logger; # this var is then utilised in the call in other pages
 
+		// Default PSR logger will be utilised
 		} else {
 
 			$this->loggerclass = NULL;# this var is then utilised in the call in other pages

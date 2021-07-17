@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
 
 	// Start the class Utils to activate debug -> already started in admin_pages
-	$utils->lumiere_activate_debug($imdb_widget_values, '', '', $config); # $config comes from admin_page
+	$utils->lumiere_activate_debug($imdb_widget_values, '', '');
 }
 
 /* vars */

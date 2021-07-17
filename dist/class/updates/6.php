@@ -8,6 +8,24 @@ if($logger !== NULL)
 $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
 $this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
 
+// Add 'imdbdebugscreen'
+// New option to show the debug on screen
+if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbdebugscreen', true) ) {
+
+	$text = "Lumière option imdbdebugscreen successfully added.";
+
+	if($logger !== NULL)
+		$logger->debug("[Lumiere][updater] $text");
+
+} else {
+
+	$text = "Lumière option imdbdebugscreen could not be added.";
+
+	if($logger !== NULL)
+		$logger->critical("[Lumiere][updater] $text");
+
+}
+
 // Add 'imdbdebuglog'
 // New option to select if to write a debug log
 if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbdebuglog', false) ) {

@@ -32,7 +32,7 @@ if (class_exists("\Lumiere\Settings")) {
 	if ( (isset($config->imdb_admin_values['imdbdebug'])) && ($config->imdb_admin_values['imdbdebug'] == 1) ){
 
 		// Activate debug
-		$utils->lumiere_activate_debug($imdb_cache_values, '', 'libxml', $config); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+		$utils->lumiere_activate_debug($imdb_cache_values, NULL, 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
 		// Start the logger
 		$config->lumiere_start_logger('popupMovie');

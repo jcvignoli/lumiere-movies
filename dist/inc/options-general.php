@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
 
 	// Start the class Utils to activate debug -> already started in admin_pages
-	$utils->lumiere_activate_debug($imdb_admin_values, '', '', $config); # $config comes from admin_page
+	$utils->lumiere_activate_debug($imdb_admin_values, NULL, NULL);
 }
 
 /* Vars */
@@ -527,15 +527,11 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 	</div>
 
 	<div class="inside imblt_border_shadow">
-		<div class="lumiere_intro_options"><?php esc_html_e('Edit the following values only if need so. You can break the plugin.', 'lumiere-movies'); ?></div>
-		<br />
-		<br />
-	<div class="activatehidesection" align="center">[+] <?php esc_html_e('Click here to display options', 'lumiere-movies'); ?> [+]</div>
-
-	<div class="hidesection">
+		<div class="lumiere_intro_options"><?php esc_html_e('Edit the following values with caution. It can have unattended effects on your WordPress installation.', 'lumiere-movies'); ?></div>
 		<br />
 		<br />
 
+	<div>
 		<?php //------------------------------------------------------------------=[ URL Popups ]=---- ?>
 		<div class="lumiere_flex_container">
 			<div class="lumiere_flex_container_content_twenty">
