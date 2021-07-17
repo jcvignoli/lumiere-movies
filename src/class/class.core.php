@@ -341,7 +341,7 @@ class Core {
 		global $imdb_admin_values;
 
 		// Limitation unactivated, so the scripts can be run anywhere
-		// To do: add an option in admin to activate/unactivate a pass-by
+		// @TODO: use the list of pages $lumiere_list_all_pages in class config to limit the load
 
 		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_footer_blog("inc.movie")
 		//if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstring ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
@@ -363,6 +363,7 @@ class Core {
 
 	##### b) admin part
 	function lumiere_add_head_admin () {
+
 		global $imdb_admin_values;
 
 		wp_enqueue_style('lumiere_css_admin', $imdb_admin_values['imdbplugindirectory'] . "css/lumiere-admin.css", array(), $this->settingsclass->lumiere_version);
@@ -397,8 +398,8 @@ class Core {
 	/**
 	6.- Add the admin menu
 	**/
-
 	function lumiere_admin_panel() {
+
 		global $config, $imdb_admin_values;
 
 		if (!isset($config)) 
@@ -461,6 +462,7 @@ class Core {
 	/**
 	9.- Redirect the popups to a proper URL
 	**/
+
 	function lumiere_popup_redirect() {
 
 		// The popup is for films
@@ -530,6 +532,7 @@ class Core {
 	10.- Change the title of the popups according to the movie's or person's data
 	**/
 	function lumiere_change_popup_title($title) {
+
 		global $imdb_cache_values, $config;
 
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstring ) ){
@@ -624,7 +627,6 @@ class Core {
 		// Change the metas only for popups
 		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringfilms ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringsearch ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settingsclass->lumiere_urlstringperson ) ) )
 {
-
 			# ADD FAVICONS
 			echo "\t\t" . '<!-- Lumiere Movies -->';
 			echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . plugin_dir_url( __DIR__ ) . 'pics/favicon/apple-touch-icon.png" />';
@@ -659,15 +661,18 @@ class Core {
 				echo "\n" . '<meta property="article:tag" content="' . $film_sanitized . '" />';
 			echo "\n\t\t" . '<!-- Lumiere Movies -->'."\n";
 
-			remove_action('wp_head', 'rel_canonical'); # prevents Wordpress from inserting a canon tag
+			remove_action('wp_head', 'rel_canonical'); # prevents Wordpress from inserting a canonical tag
 			remove_action('wp_head', 'wp_site_icon', 99); # prevents Wordpress from inserting favicons
+
 		}
+
 	}
 
 	/**
 	16.- Create cache folder
 	**/
 	function lumiere_create_cache() {
+
 		global $config, $imdb_cache_values;
 		
 		/* Cache folder paths */
@@ -738,17 +743,32 @@ class Core {
 		$plugin = isset( $_REQUEST['plugin'] ) ? $_REQUEST['plugin'] : '';
 		check_admin_referer( "activate-plugin_{$plugin}" );
 
-		/* Actions from the class */
+		/* Create the cache folders */
 		$this->lumiere_create_cache();
 
 		/* Set up the WP Cron */
 		if (! wp_next_scheduled ( 'lumiere_cron_hook' )) {
 
+			// Runned four times to make sure no update is missed
+
+			// Cron to run once, in 1 minute
+			wp_schedule_single_event( time() + 60, 'lumiere_cron_hook' );
+
+			// Cron to run once, in 2 minutes
+			wp_schedule_single_event( time() + 120, 'lumiere_cron_hook' );
+
+			// Cron to run once, in 3 minutes
+			wp_schedule_single_event( time() + 180, 'lumiere_cron_hook' );
+
 			// Cron to run once, in 10 minutes
 			wp_schedule_single_event( time() + 600, 'lumiere_cron_hook' );
 
+			// Cron to run once, in 30 minutes
+			wp_schedule_single_event( time() + 1800, 'lumiere_cron_hook' );
+
 			// Run week call
 			//wp_schedule_event(time(), 'weekly', 'lumiere_cron_hook');
+
 		}
 
 		/* Refresh rewrite rules */
@@ -924,13 +944,15 @@ class Core {
 		require_once __DIR__ . '/class.update-options.php';
 		$start_update_options = new \Lumiere\UpdateOptions();
 
-		/* Debugging purposes, add 'imdbTestKey'		
+/*		For debugging purposes
 		$config = new \Lumiere\Settings();
 		$option_array_search = get_option($config->imdbAdminOptionsName);
-		$option_array_search['imdbTestKey'] = 'imdbTestValue';
+		$option_array_search['imdbHowManyUpdates'] = '6';
 		update_option($config->imdbAdminOptionsName, $option_array_search);
-		*/
-
+		$option_array_search = get_option($config->imdbAdminOptionsName);
+		unset($option_array_search['imdbdebuglogpath']);
+		update_option($config->imdbAdminOptionsName, $option_array_search);
+*/
 
 	}
 
