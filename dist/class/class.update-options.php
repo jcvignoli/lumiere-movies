@@ -23,32 +23,27 @@ namespace Lumiere;
 if ( ! defined( 'WPINC' ) )
 	wp_die('You can not call directly this page');
 
+
 class UpdateOptions {
 
-
-	/* Logger class built by lumiere_start_logger() 
-	 * Meant to be utilised by movie/person pages
-	 * Follow the const and vars related to the function
+	/* Lumière Settings class
+	 * Store the settings
+	 * 
 	 */
-	public $loggerClass;
+	private $configClass;
 
-	public $imdb_admin_values;
+	private $imdb_admin_values;
 
-	/* Logger class built by lumiere_start_logger() 
-	 * Meant to be utilised by movie/person pages
-	 * Follow the const and vars related to the function
+	/* Lumière Utilies class
+	 * 
+	 * 
 	 */
-	public $utilsClass;
+	private $utilsClass;
 
 	/* Lumière plugin version
 	 * For runUpdateOptions() function
 	 */
 	private $lumiereVersionPlugin;
-
-	/* If debug is active, store it
-	 * 
-	 */
-	private $isDebug;
 
 	function __construct() {
 
@@ -56,25 +51,12 @@ class UpdateOptions {
 
 			// Start the settings class
 			$configClass = new \Lumiere\Settings();
-			$this->imdb_admin_values = $configClass->imdb_admin_values;
+			$this->configClass = $configClass;
+			$this->imdb_admin_values = $configClass->get_imdb_admin_option();
 
 			// Start the Utils class 
 			$utilsClass = new \Lumiere\Utils();
 			$this->utilsClass = $utilsClass;
-
-			// Activate debug and start logger class if debug is selected
-			if ( (isset($configClass->imdb_admin_values['imdbdebug'])) && ($configClass->imdb_admin_values['imdbdebug'] == 1) ){
-
-				// Activate debug
-				$this->utilsClass->lumiere_activate_debug(NULL, NULL, NULL, $configClass);
-
-				// Start the logger
-				$configClass->lumiere_start_logger('updaterLumiere');
-
-				// Store the class so we can use it later for imdbphp class call
-				$this->loggerClass = $configClass->loggerClass;
-
-			}
 
 		} else {
 			wp_die('Lumière files have been moved. Can not update Lumière!');
@@ -107,123 +89,54 @@ class UpdateOptions {
 
 	/*** Main function: Run updates of options
 	 *** add/remove/update options 
+	 ** Uses the files in folder updates to proceed with the update
 	 **
-	 **
-	 ** returns feedback of options updated/removed/added
+	 ** logger feedback if debugging is activated
 	 **/
 	function runUpdateOptions() {
 
 		/* VARS */
 		$output = "";
+
+		// Retrieve the globals
 		$imdb_admin_values = $this->imdb_admin_values;
-		$this->isDebug = $imdb_admin_values['imdbdebug'];
-		$logger = $this->loggerclass;
+		$configClass = $this->configClass;
+
+		// Activate debug
+		$this->utilsClass->lumiere_activate_debug();
+
+		// Start the logger
+		$this->configClass->lumiere_start_logger('updaterLumiere');
+
+		// Store the class so we can use it later
+		$logger = $this->configClass->loggerclass;
+
 
 		/************************************************** 3.4.3 */
 		if ( (version_compare( $this->lumiereVersionPlugin, "3.4.2" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 6 ) ){				# update 6
 
-			$nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
-			$this->lumiere_update_options($config->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
+			require_once('updates/6.php');
 
-			// Add 'imdbdebuglog'
-			// New option to select if to write a debug log
-			if ( TRUE === $this->lumiere_add_options($config->imdbWidgetOptionsName, 'imdbdebuglog', false) ) {
-				$text = "Lumière option imdbdebuglog successfully added.";
-
-				$output .= $this->print_debug(1, "<strong>$text</strong>");
-				if($logger !== NULL) {
-					$logger->debug("[Lumiere][updater] Lumière option imdbdebuglog successfully added.");
-				}
-
-			} else {
-				$text = "Lumière option imdbdebuglog could not be added.";
-
-				$output .= $this->print_debug(2, "<strong>$text</strong>");
-				if($logger !== NULL) {
-					$logger->critical("[Lumiere][updater] $text");
-				}
-			}
-
-			// Add 'imdbdebuglogpath'
-			// New option to enter a path for the log
-			if ( TRUE === $this->lumiere_add_options($config->imdbWidgetOptionsName, 'imdbdebuglogpath', WP_CONTENT_DIR . '/debug.log' ) ) {
-
-				$text = "Lumière option imdbdebuglogpath successfully added.";
-
-				$output .= $this->print_debug(1, "<strong>$text</strong>");
-				if($logger !== NULL) {
-					$logger->debug("[Lumiere][updater] Lumière option imdbdebuglog successfully added.");
-				}
-
-			} else {
-
-				$text = "Lumière option imdbdebuglogpath could not be added.";
-
-				$output .= $this->print_debug(2, "<strong>$text</strong>");
-				if($logger !== NULL) {
-					$logger->critical("[Lumiere][updater] $text");
-				}
-			}
+			return true;
 
 		}
 		/************************************************** 3.4.2 */
 		if ( (version_compare( $this->lumiereVersionPlugin, "3.4.1" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 5 ) ){				# update 5
 
-			$nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
-			$this->lumiere_update_options($config->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
+			require_once('updates/5.php');
 
-			// Fix 'imdblanguage'
-			// Correct language extensions should take two letters only to include all dialects
-			if ( TRUE === $this->lumiere_update_options($config->imdbAdminOptionsName, 'imdblanguage', 'en') ) {
-				$output .= $this->print_debug(1, '<strong>Lumière option imdblanguage successfully added.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdblanguage could not be added.</strong>');
-			}
-
-			// Add 'imdbwidgetalsoknownumber'
-			// New option the number of akas displayed
-			if ( TRUE === $this->lumiere_add_options($config->imdbWidgetOptionsName, 'imdbwidgetalsoknownumber', false) ) {
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbwidgetalsoknownumber successfully added.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbwidgetalsoknownumber could not be added.</strong>');
-			}
-
-			// Add 'imdbwidgetproducernumber'
-			// New option to limit the number of producers displayed
-			if ( TRUE === $this->lumiere_add_options($config->imdbWidgetOptionsName, 'imdbwidgetproducernumber', false) ) {
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbwidgetproducernumber successfully added.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbwidgetproducernumber could not be added.</strong>');
-			}
-
+			return true;
 
 		}
 		/************************************************** 3.4 */
 		if ( (version_compare( $this->lumiereVersionPlugin, "3.3.4" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 4 ) ){				# update 4
 
-			$nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
-			$this->lumiere_update_options($config->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
+			require_once('updates/4.php');
 
-			// Add 'imdbSerieMovies'
-			// New option to select to search for movies, series, or both
-			if ( TRUE === $this->lumiere_add_options($config->imdbAdminOptionsName, 'imdbseriemovies', 'movies+series') ) {
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbSerieMovies successfully added.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbSerieMovies could not be added.</strong>');
-			}
-
-			// Add 'imdbHowManyUpdates'
-			// New option to manage the number of updates made
-			// Without such an option, all updates are went through
-			if ( TRUE === $this->lumiere_add_options($config->imdbAdminOptionsName, 'imdbHowManyUpdates', 1 ) ) {
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbHowManyUpdates successfully added.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbHowManyUpdates could not be added.</strong>');
-			}
-
+			return true;
 
 		}
 
@@ -232,72 +145,9 @@ class UpdateOptions {
 		if ( (version_compare( $this->lumiereVersionPlugin, "3.3.3" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 3 ) ){ 				# update 3
 
-			$nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
-			$this->lumiere_update_options($config->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
+			require_once('updates/3.php');
 
-			// Remove 'imdbdisplaylinktoimdb'
-			// Deprecated: removed links to IMDb in popup search and movie
-			if ( TRUE === $this->lumiere_remove_options($config->imdbAdminOptionsName, 'imdbdisplaylinktoimdb') ){
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbdisplaylinktoimdb successfully removed.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbdisplaylinktoimdb not removed.</strong>');
-			}
-
-			// Remove 'imdbpicsize'
-			// Deprecated: removed links to IMDb in popup search and movie
-			if ( TRUE === $this->lumiere_remove_options($config->imdbAdminOptionsName, 'imdbpicsize') ){
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbpicsize successfully removed.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbpicsize not removed.</strong>');
-			}
-
-			// Remove 'imdbpicurl'
-			// Deprecated: removed links to IMDb in popup search and movie
-			if ( TRUE === $this->lumiere_remove_options($config->imdbAdminOptionsName, 'imdbpicurl') ){
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbpicurl successfully removed.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbpicurl not removed.</strong>');
-			}
-
-			// Move 'imdblinkingkill'
-			// Variable moved from widget options to admin
-			if ( TRUE === $this->lumiere_remove_options($config->imdbWidgetOptionsName, 'imdblinkingkill') ){
-				$output .= $this->print_debug(1, '<strong>Lumière option imdblinkingkill successfully removed.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdblinkingkill not removed.</strong>');
-			}
-			if ( TRUE === $this->lumiere_add_options($config->imdbAdminOptionsName, 'imdblinkingkill', 'false') ){
-				$output .= $this->print_debug(1, '<strong>Lumière option imdblinkingkill successfully added.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdblinkingkill not added.</strong>');
-			}
-
-			// Move 'imdbautopostwidget'
-			// Variable moved from widget options to admin
-			if ( TRUE === $this->lumiere_remove_options($config->imdbWidgetOptionsName, 'imdbautopostwidget') ){
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbautopostwidget successfully removed.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbautopostwidget not removed.</strong>');
-			}
-
-			if ( TRUE === $this->lumiere_add_options($config->imdbAdminOptionsName, 'imdbautopostwidget', 'false') ){
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbautopostwidget successfully added.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbautopostwidget not added.</strong>');
-			}
-
-			// Move 'imdbintotheposttheme'
-			// Variable moved from widget options to admin
-			if ( TRUE === $this->lumiere_remove_options($config->imdbWidgetOptionsName, 'imdbintotheposttheme') ) {
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbintotheposttheme successfully removed.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbintotheposttheme not removed.</strong>');
-			}
-			if ( TRUE === $this->lumiere_add_options($config->imdbAdminOptionsName, 'imdbintotheposttheme', 'grey') ) {
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbintotheposttheme successfully added.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbintotheposttheme not added.</strong>');
-			}
+			return true;
 
 		}
 		
@@ -306,16 +156,9 @@ class UpdateOptions {
 		if ( (version_compare( $this->lumiereVersionPlugin, "3.3.2" ) >= 0 ) 
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 2 ) ){				# update 2
 
-			$nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
-			$this->lumiere_update_options($config->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
+			require_once('updates/2.php');
 
-			// Update 'imdbwidgetsource'
-			// No need to display the source by default
-			if ( TRUE === $this->lumiere_update_options($config->imdbWidgetOptionsName, 'imdbwidgetsource', '0') ) {
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbwidgetsource successfully updated.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbwidgetsource not updated.</strong>');
-			}
+			return true;
 
 		}
 
@@ -324,36 +167,19 @@ class UpdateOptions {
 		if ( (version_compare( $this->lumiereVersionPlugin, "3.3" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 1 ) ){				# update 1
 
-			$nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
-			$this->lumiere_update_options($config->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
+			require_once('updates/1.php');
 
-			// Remove 'imdbwidgetcommentsnumber'
-			// Deprecated: only one comment is returned by imdbphp libraries
-			if ( TRUE === $this->lumiere_remove_options($config->imdbWidgetOptionsName, 'imdbwidgetcommentsnumber') ){
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbwidgetcommentsnumber successfully removed.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbwidgetcommentsnumber not removed.</strong>');
-			}
-
-			// Add 'imdbintotheposttheme'
-			// New option to manage theme colors for into the post/widget
-			if ( TRUE === $this->lumiere_add_options($config->imdbWidgetOptionsName, 'imdbintotheposttheme', 'grey') ) {
-				$output .= $this->print_debug(1, '<strong>Lumière option imdbintotheposttheme successfully added.</strong>');
-			} else {
-				$output .= $this->print_debug(2, '<strong>Lumière option imdbintotheposttheme not added.</strong>');
-			}
-
+			return true;
 		}
 
-
-		return $output;
+		return false;
 
 	}
 
 	/*** Add option in array of WordPress options
 	 *** WordPress doesn't know how to handle adding a specific key in a array of options
 	 **
-	 ** @parameter mandatory $option_array : the array of options, such as $config->imdbWidgetOptionsName
+	 ** @parameter mandatory $option_array : the array of options, such as $configClass->imdbWidgetOptionsName
 	 ** @parameter mandatory $option_key : the key in the array of options to be added, such as 'imdbintotheposttheme'
 	 ** @parameter optional $option_key : the value to add to the key, NULL if not specified
 	 **
@@ -362,11 +188,18 @@ class UpdateOptions {
 
 	function lumiere_add_options($option_array=NULL,$option_key=NULL,$option_value=NULL) {
 
-		if (!isset($option_array))
-			echo $this->print_debug(2, "[lumiere_add_options] Cannot update Lumière options, ($option_array) is undefined." );
+		// Activate debug
+		$this->utilsClass->lumiere_activate_debug();
+		// Start the logger
+		$this->configClass->lumiere_start_logger('updaterLumiere');
+		// Store the class so we can use it later
+		$logger = $this->configClass->loggerclass;
 
-		if (!isset($option_key))
-			echo $this->print_debug(2, "[lumiere_add_options] Cannot update Lumière options, ($option_key) is undefined." );
+		if ( (!isset($option_array)) && ($logger !== NULL) )
+			$logger->critical("[Lumiere][updater][lumiere_add_options] Cannot update Lumière options, ($option_array) is undefined.");
+
+		if ( (!isset($option_key)) && ($logger !== NULL) )
+			$logger->critical("[Lumiere][updater][lumiere_add_options] Cannot update Lumière options, ($option_key) is undefined.");
 
 		$option_array_search = get_option($option_array);
 		$check_if_exists = array_key_exists ($option_key, $option_array_search);
@@ -374,9 +207,15 @@ class UpdateOptions {
 		if ( FALSE === $check_if_exists) {
 			$option_array_search[$option_key] = $option_value;
 			update_option($option_array, $option_array_search);
+			if($logger !== NULL)
+				$logger->debug("[Lumiere][updater][lumiere_add_options] Lumière option ($option_key) added.");
+
 			return true;
+
 		} else {
-			echo $this->print_debug(2, "[lumiere_add_options] Lumière option ($option_key) already exists." );
+			if($logger !== NULL)
+				$logger->critical("[Lumiere][updater][lumiere_add_options] Lumière option ($option_key) already exists.");
+
 		}
 
 		return false;
@@ -386,7 +225,7 @@ class UpdateOptions {
 	/*** Update option in array of WordPress options
 	 *** WordPress doesn't know how to handle updating a specific key in a array of options
 	 **
-	 ** @parameter mandatory $option_array : the array of options, such as $config->imdbWidgetOptionsName
+	 ** @parameter mandatory $option_array : the array of options, such as $configClass->imdbWidgetOptionsName
 	 ** @parameter mandatory $option_key : the key in the array of options to be added, such as 'imdbintotheposttheme'
 	 ** @parameter optional $option_key : the value to add to the key, NULL if not specified
 	 **
@@ -394,11 +233,18 @@ class UpdateOptions {
 	 **/
 	function lumiere_update_options($option_array=NULL,$option_key=NULL,$option_value=NULL) {
 
-		if (!isset($option_array))
-			echo $this->print_debug(2, "[lumiere_update_options] Cannot update Lumière options, ($option_array) is undefined." );
+		// Activate debug
+		$this->utilsClass->lumiere_activate_debug();
+		// Start the logger
+		$this->configClass->lumiere_start_logger('updaterLumiere');
+		// Store the class so we can use it later
+		$logger = $this->configClass->loggerclass;
 
-		if (!isset($option_key))
-			echo $this->print_debug(2, "[lumiere_update_options] Cannot update Lumière options, ($option_array) is undefined." );
+		if ( (!isset($option_array)) && ($logger !== NULL) )
+			$logger->critical("[Lumiere][updater][lumiere_update_options] Cannot update Lumière options, ($option_array) is undefined.");
+
+		if ( (!isset($option_key)) && ($logger !== NULL) )
+			$logger->critical("[Lumiere][updater][lumiere_update_options] Cannot update Lumière options, ($option_array) is undefined.");
 
 		$option_array_search = get_option($option_array);
 		$check_if_exists = array_key_exists ($option_key, $option_array_search);
@@ -406,9 +252,17 @@ class UpdateOptions {
 		if ( TRUE === $check_if_exists) {
 			$option_array_search[$option_key] = $option_value;
 			update_option($option_array, $option_array_search);
+
+			if($logger !== NULL)
+				$logger->debug("[Lumiere][updater][lumiere_update_options] Lumière option ($option_key) was successfully update.");
+
 			return true;
+
 		} else {
-			echo $this->print_debug(2, "[lumiere_update_options] Lumière option ($option_key) was not found." );
+
+			if($logger !== NULL)
+				$logger->critical("[Lumiere][updater][lumiere_update_options] Lumière option ($option_key) was not found.");
+
 		}
 
 		return false;
@@ -418,18 +272,25 @@ class UpdateOptions {
 	/*** Remove option in array of WordPress options
 	 *** WordPress doesn't know how to handle removing a specific key in a array of options
 	 **
-	 ** @parameter mandatory $option_array : the array of options, such as $config->imdbWidgetOptionsName
+	 ** @parameter mandatory $option_array : the array of options, such as $configClass->imdbWidgetOptionsName
 	 ** @parameter mandatory $option_key : the key in the array of options to be added, such as 'imdbintotheposttheme'
 	 **
 	 ** returns TRUE if successful, a notice if missing mandatory parameters, FALSE if option is not found
 	 **/
 	function lumiere_remove_options($option_array=NULL,$option_key=NULL) {
 
-		if (!isset($option_array))
-			echo $this->print_debug(2, "[lumiere_remove_options] Cannot update Lumière options, ($option_array) is undefined." );
+		// Activate debug
+		$this->utilsClass->lumiere_activate_debug();
+		// Start the logger
+		$this->configClass->lumiere_start_logger('updaterLumiere');
+		// Store the class so we can use it later
+		$logger = $this->configClass->loggerclass;
 
-		if (!isset($option_key))
-			echo $this->print_debug(2, "[lumiere_remove_options] Cannot update Lumière options, ($option_array) is undefined." );
+		if ( (!isset($option_array)) && ($logger !== NULL) )
+			$logger->critical("[Lumiere][updater][lumiere_remove_options] Cannot update Lumière options, ($option_array) is undefined.");
+
+		if ( (!isset($option_key)) && ($logger !== NULL) )
+			$logger->critical("[Lumiere][updater][lumiere_remove_options] Cannot update Lumière options, ($option_array) is undefined.");
 
 		$option_array_search = get_option($option_array);
 		$check_if_exists = array_key_exists ($option_key, $option_array_search);
@@ -437,16 +298,24 @@ class UpdateOptions {
 		if (TRUE === $check_if_exists) {
 			unset($option_array_search[$option_key]);
 			update_option($option_array, $option_array_search);
+
+			if($logger !== NULL)
+				$logger->debug("[Lumiere][updater][lumiere_remove_options] Lumière options ($option_key) successfully added.");
+
 			return true;
+
 		} else {
-			echo $this->print_debug(2, "[lumiere_remove_options] Cannot remove Lumière options, ($option_key) does not exist." );
+
+			if($logger !== NULL)
+				$logger->critical("[Lumiere][updater][lumiere_remove_options] Cannot remove Lumière options, ($option_key) does not exist.");
+
 		}
 
 		return false;
 
 	}
 
-	/*** Print debug text
+	/*** Print debug text ( obsolete, switched to Monolog )
 	 **
 	 ** @parameter optional $code: type of message
 	 ** @parameter mandatory $text: text to embed and return
