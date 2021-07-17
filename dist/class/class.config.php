@@ -196,7 +196,7 @@ class Settings extends Config {
 			'imdbdebuglog' => false,			/* Log debug? */
 			'imdbdebuglogpath' => self::debug_log_path,
 			'imdbdebugscreen' => true,			/* Show debug on screen? */
-			'imdbwordpress_bigmenu'=>false,		/* @TODO useless, remove */
+			'imdbwordpress_bigmenu'=>false,		/* @TODO see if it can be removed */
 			'imdbwordpress_tooladminmenu'=>true,	/* @TODO useless, remove */
 			'imdbpopup_highslide'=>true,
 			'imdbtaxonomy'=> true,
@@ -373,10 +373,6 @@ class Settings extends Config {
 		$this->converttozip = $this->imdb_cache_values['imdbconverttozip'] ?? NULL;
 		$this->usezip = $this->imdb_cache_values['imdbusezip'] ?? NULL;
 
-		// Execute the lumiere_maybe_display_debug_pages() through add action so gutenberg save doesn't get broken
-		// @TODO: check if can be removed, all pages call it directly
-		add_action('template_redirect', [$this, 'lumiere_maybe_display_debug_pages']);
-
 		/** Where the local IMDB images reside (look for the "showtimes/" directory)
 		*  This should be either a relative, an absolute, or an URL including the
 		*  protocol (e.g. when a different server shall deliver them)
@@ -388,7 +384,7 @@ class Settings extends Config {
 
 	/** Prevent some pages to display debug
 	 ** Sends to parent imdbphp class the debug var
-	 **
+	 ** Obsolete: was needed when class.movie.php was executed everywhere, which not the case anymore
 	 **/
 	function lumiere_maybe_display_debug_pages() {
 
@@ -404,7 +400,7 @@ class Settings extends Config {
 			return false;
 
 		// Diplay debug for all front pages except for gutenberg edition
-		} elseif ( (!is_admin()) && ($this->isGutenberg == false) /* latest condition doesn't work */ ) {
+		} elseif ( (!is_admin()) && ($this->isGutenberg == false) /* latest condition $isGutenberg doesn't work */ ) {
 
 			$this->debug = $this->imdb_admin_values['imdbdebug'] ?? NULL;
 
@@ -413,7 +409,7 @@ class Settings extends Config {
 	}
 
 	/** Create cache folder if it does not exist
-	 ** 
+	 ** Return false if cache already exist, true if it had to create cache folders
 	 **/
 	function lumiere_create_cache() {
 
@@ -425,23 +421,30 @@ class Settings extends Config {
 
 		// Cache folders exist, exit
 		if ( (is_dir($lumiere_folder_cache)) || (is_dir($lumiere_folder_cache_images)) )
-			return;
+			return false;
 
 		// We can write in wp-content/cache
 		if ( wp_mkdir_p( $lumiere_folder_cache ) ) {
+
 			chmod( $lumiere_folder_cache, 0777 );
+
 		// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
 		} else {
+
 			$lumiere_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
 			wp_mkdir_p( $lumiere_folder_cache );
 			chmod( $lumiere_folder_cache, 0777 );
+
 		}
 
 		// We can write in wp-content/cache/images
 		if ( wp_mkdir_p( $lumiere_folder_cache_images ) ) {
+
 			chmod( $lumiere_folder_cache_images, 0777 );
+
 		// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
 		} else {
+
 			$lumiere_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
 			$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
 			wp_mkdir_p( $lumiere_folder_cache_images );
@@ -449,7 +452,7 @@ class Settings extends Config {
 
 		}
 
-
+		return true;
 	}
 
 	/* Try to detect if the current page is gutenberg editor
@@ -476,8 +479,11 @@ class Settings extends Config {
 	/** Start and select which Logger to use
 	 ** 
 	 ** By default, Logger is utilised if the var $isMonologActive is set "false", Monolog is set "true"
+	 ** 
+	 ** @ param (string) $page_name: title applied to the logger in the logs under origin
+	 ** @ param (bool) $screenOutput: whether to display the screen output, usefull for plugin activationin class core
 	 **/
-	public function lumiere_start_logger ($page_name="originUnknown") {
+	public function lumiere_start_logger ($page_name="originUnknown", $screenOutput=true) {
 
 		if ( ($this->imdb_admin_values['imdbdebug'] == 1) && ($this->isMonologActive == true) ){
 
@@ -499,7 +505,7 @@ class Settings extends Config {
 			}
 
 			// Display on screen the errors
-			if ($this->imdb_admin_values['imdbdebugscreen'] == 1) {
+			if ( ($this->imdb_admin_values['imdbdebugscreen'] == 1)  && ( $screenOutput == true ) ){
 
 				$output = "[%level_name%] %message%<br />\n";
 				$screenformater = new \Monolog\Formatter\LineFormatter($output);
@@ -512,6 +518,7 @@ class Settings extends Config {
 			// Send the logger class to a current class var
 			$this->loggerclass = $logger; # this var is then utilised in the call in other pages
 
+		// Default PSR logger will be utilised
 		} else {
 
 			$this->loggerclass = NULL;# this var is then utilised in the call in other pages

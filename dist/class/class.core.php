@@ -9,7 +9,7 @@
  # under the terms of the GNU General Public License (see LICENSE)           #
  # ------------------------------------------------------------------------- #
  #									              #
- #  Core Class : Main WordPress related actions happen here                  #
+ #  Core Class : Main WordPress actions happen here                          #
  #                                                                           #
  #									              #
  #############################################################################
@@ -159,9 +159,9 @@ class Core {
 		// insert here the filters and actions
 	}*/
 
-	/**
-	2.- Replace <span class="lumiere_link_maker"> tags inside the posts
-	**/
+	/** Replace <span class="lumiere_link_maker"> tags inside the posts
+	 **  
+	 **/
 
 	##### a) Looks for what is inside tags  <span class="lumiere_link_maker"> ... </span> 
 	#####    and build a popup link
@@ -188,6 +188,7 @@ class Core {
 
 	// Kept for compatibility purposes:  <!--imdb--> still works
 	function lumiere_link_finder_oldway($correspondances){
+
 		global $imdb_admin_values;
 
 		$correspondances = $correspondances[0];
@@ -208,9 +209,9 @@ class Core {
 		return $link_parsed;
 	}
 
-
 	##### b) Replace <span class="lumiere_link_maker"></span> with links
 	function lumiere_linking($text) {
+
 		// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
 		$pattern = '/<span class="lumiere_link_maker">(.+?)<\/span>/i';
 		$text = preg_replace_callback($pattern, [ $this, 'lumiere_link_finder' ] ,$text);
@@ -219,23 +220,26 @@ class Core {
 		$pattern_two = '/<!--imdb-->(.*?)<!--\/imdb-->/i';
 		$text_two = preg_replace_callback($pattern_two, [ $this, 'lumiere_link_finder_oldway' ] ,$text);
 
-
 		return $text_two;
 	}
 
 	/**
-	3.-  Add tags buttons <span class="lumiere_link_maker"> to editing interfaces
-	**/
+	 **  Add tags buttons <span class="lumiere_link_maker"> to editing interfaces
+	 **/
 
 	##### a) HTML part
 	function lumiere_register_quicktag() {
+
 		global $imdb_admin_values;
+
 		wp_enqueue_script( "lumiere_quicktag_addbutton", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_admin_quicktags.js", array( 'quicktags' ));
+
 	}
 
 	##### b) tinymce part (wysiwyg display)
 
 	function lumiere_register_tinymce() {
+
 		// Don't bother doing this stuff if the current user lacks permissions
 		if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
 			return;
@@ -248,18 +252,25 @@ class Core {
 	}
 
 	function lumiere_tinymce_button_position($buttons) {
+
 		array_push($buttons, "separator", "lumiere_tiny");
+
 		return $buttons;
+
 	}
 	// Load the TinyMCE plugin
 	function lumiere_tinymce_addbutton($plugin_array) {
+
 		global $imdb_admin_values;
+
 		$plugin_array['lumiere_tiny'] = $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere_admin_tinymce_editor.js';
 		return $plugin_array;
+
 	}
 
 	##### c) guntenberg block
 	function lumiere_register_gutenberg_blocks() {
+
 		global $imdb_admin_values;
 
 		wp_register_script( "lumiere_gutenberg_main", 
@@ -300,11 +311,12 @@ class Core {
 	}
 
 	/**
-	4.- Add the stylesheet & javascript to pages head
-	**/
+	 **  Add the stylesheet & javascript to pages head
+	 **/
 
 	##### a) outside admin part
 	function lumiere_add_head_blog (){
+
 		global $imdb_admin_values;
 
 		// Load js and css in /imdblt/, inc/, LUMIERE_URLSTRING URLs
@@ -343,9 +355,10 @@ class Core {
 	}
 
 	/**
-	5.- Add the stylesheet & javascript to pages footer
-	**/
+	 ** Add the stylesheet & javascript to pages footer
+	 **/
 	function lumiere_add_footer_blog(){
+
 		global $imdb_admin_values;
 
 		// Limitation unactivated, so the scripts can be run anywhere
@@ -397,6 +410,7 @@ class Core {
 	}
 
 	function lumiere_add_footer_admin () {
+
 		global $imdb_admin_values;
 
 		wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array('jquery'), $this->configClass->lumiere_version);
@@ -404,8 +418,8 @@ class Core {
 	}
 
 	/**
-	6.- Add the admin menu
-	**/
+	 **  Add the admin menu
+	 **/
 	function lumiere_admin_panel() {
 
 		global $config, $imdb_admin_values;
@@ -419,14 +433,16 @@ class Core {
 			// third party plugin
 			add_filter('ozh_adminmenu_icon_imdblt_options', [ $this, 'ozh_imdblt_icon' ] );
 		}
+
 		if (function_exists('add_submenu_page') && ($imdb_admin_values['imdbwordpress_bigmenu'] == 1 ) ) {
+
 			// big menu for many pages for admin sidebar
 			add_menu_page( 'Lumière Options', '<i>Lumière</i>' , 'administrator', 'imdblt_options', 'lumiere_admin_pages', $imdb_admin_values['imdbplugindirectory'].'pics/lumiere-ico13x13.png', 65);
 			add_submenu_page( 'imdblt_options' , esc_html__('Lumière options page', 'lumiere-movies'), esc_html__('General options', 'lumiere-movies'), 'administrator', 'imdblt_options');
 			add_submenu_page( 'imdblt_options' , esc_html__('Data management', 'lumiere-movies'), esc_html__('Data management', 'lumiere-movies'), 'administrator', 'imdblt_options&subsection=dataoption', 'lumiere_admin_pages' );
 			add_submenu_page( 'imdblt_options',  esc_html__('Cache management options page', 'lumiere-movies'), esc_html__('Cache management', 'lumiere-movies'), 'administrator', 'imdblt_options&subsection=cache', 'lumiere_admin_pages');
 			add_submenu_page( 'imdblt_options' , esc_html__('Help page', 'lumiere-movies'), esc_html__('Help', 'lumiere-movies'), 'administrator', 'imdblt_options&subsection=help', 'lumiere_admin_pages' );
-			//
+
 		}
 
 		if (function_exists('add_action') ) {
@@ -434,23 +450,28 @@ class Core {
 			// add imdblt menu in toolbar menu (top wordpress menu)
 			if ($imdb_admin_values['imdbwordpress_tooladminmenu'] == 1 )
 				add_action('admin_bar_menu', [ $this, 'add_admin_toolbar_menu' ],70 );
+
 		}
+
 	}
 
 
 	/**
-	7.- Add icon for Admin Drop Down Icons
-	* http://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/
-	**/
+	 ** Add icon for Admin Drop Down Icons
+	 ** http://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/
+	 **/
 
 	function ozh_imdblt_icon() {
+
 		global $imdb_admin_values;
+
 		return $imdb_admin_values['imdbplugindirectory']. 'pics/lumiere-ico13x13.png';
+
 	}
 
 	/**
-	8.- Add admin menu to the toolbar
-	**/
+	 **  Add admin menu to the toolbar
+	 **/
 
 	function add_admin_toolbar_menu($admin_bar) {
 		global $imdb_admin_values;
@@ -468,9 +489,8 @@ class Core {
 	}
 
 	/**
-	9.- Redirect the popups to a proper URL
-	**/
-
+	 **  Redirect the popups to a proper URL
+	 **/
 	function lumiere_popup_redirect() {
 
 		// The popup is for films
@@ -537,8 +557,8 @@ class Core {
 	}
 
 	/**
-	10.- Change the title of the popups according to the movie's or person's data
-	**/
+	 **  Change the title of the popups according to the movie's or person's data
+	 **/
 	function lumiere_change_popup_title($title) {
 
 		global $imdb_cache_values, $config;
@@ -585,42 +605,9 @@ class Core {
 			return esc_html__('Lumiere Query Interface', 'lumiere-movies');
 	}
 
-	/** # 2021 07 04 function obsolete
-	11.- 	A Include highslide_download.php if string highslide=yes
-	**/
-	/*function lumiere_highslide_download_redirect() {
-		global $imdb_admin_values;
-
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&highslide=yes' ) ) {
-			require_once ( $imdb_admin_values['imdbpluginpath'] . \Lumiere\Settings::highslide_download_page );
-		}
-	}*/
-
-	/** # 2021 07 04 function obsolete
-	12.-	- B Include gutenberg-search.php if string gutenberg=yes
-	**/
-	/*function lumiere_gutenberg_search_redirect() {
-		global $imdb_admin_values;
-
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) )
-			require_once ( $imdb_admin_values['imdbpluginpath'] . \Lumiere\Settings::move_template_taxonomy_page );
-
-	}*/
-
-	/** # 2021 07 04 function obsolete
-	13.	- C Include move_template_taxonomy.php if string taxotype=
-	**/
-	/*function lumiere_copy_template_taxo_redirect() {
-		global $imdb_admin_values;
-
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=' ) )
-			require_once ( $imdb_admin_values['imdbpluginpath'] . \Lumiere\Settings::move_template_taxonomy );
-
-	}*/
-
 	/**
-	14.- Add a class to taxonomy links (constructed in class.movie.php)
-	**/
+	 **  Add a class to taxonomy links (constructed in class.movie.php)
+	 **/
 	function lumiere_taxonomy_add_class_to_links($links) {
 
 	    return str_replace('<a href="', '<a class="linktaxonomy" href="', $links);
@@ -628,8 +615,8 @@ class Core {
 	}
 
 	/**
-	15.- Add new meta tags in popups <head>
-	**/
+	 ** Add new meta tags in popups <head>
+	 **/
 	function lumiere_add_metas() {
 
 		// Change the metas only for popups
@@ -677,49 +664,14 @@ class Core {
 	}
 
 	/**
-	16.- Create cache folder
-	**/
-	function lumiere_create_cache() {
-
-		global $config, $imdb_cache_values;
-		
-		/* Cache folder paths */
-		$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
-		$lumiere_folder_cache_images = WP_CONTENT_DIR . '/cache/lumiere/images';
-
-		// Cache folders do not exist
-		if (!is_dir($lumiere_folder_cache_images)) {
-
-			// We can write in wp-content/cache
-			if ( wp_mkdir_p( $lumiere_folder_cache ) &&  wp_mkdir_p( $lumiere_folder_cache_images ) ) {
-				chmod( $lumiere_folder_cache, 0777 );
-				chmod( $lumiere_folder_cache_images, 0777 );
-			// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
-			} else {
-				$lumiere_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
-				$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
-				wp_mkdir_p( $lumiere_folder_cache );
-				chmod( $lumiere_folder_cache, 0777 );
-				wp_mkdir_p( $lumiere_folder_cache_images );
-				chmod( $lumiere_folder_cache_images, 0777 );
-
-				# Save the new option for the cache path
-				$imdb_cache_values['imdbcachedir'] = $lumiere_folder_cache;
-				update_option($config->imdbCacheOptionsName, $imdb_cache_values['imdbcachedir']);
-			}
-		}
-
-	}
-
-	/**
-	17.- Run on lumiere update
-	**/
+	 ** Run on lumiere WordPress update
+	 **/
 	function lumiere_on_lumiere_upgrade_completed( $upgrader_object, $options ) {
 
 		// Activate debug
 		$this->utilsClass->lumiere_activate_debug();
 		// Start the logger
-		$this->configClass->lumiere_start_logger('core');
+		$this->configClass->lumiere_start_logger('coreLumiere');
 		// Store the class so we can use it later
 		$logger = $this->configClass->loggerclass;
 
@@ -744,7 +696,7 @@ class Core {
 					$start_update_options = new \Lumiere\UpdateOptions();
 
 					if ( ($logger !== NULL) )
-						$logger->debug("[Lumiere][core][updater] Lumière _on_plugin_upgrade_ successfully updated.");
+						$logger->debug("[Lumiere][core][updater] Lumière _on_plugin_upgrade_ hook successfully updated.");
 
 				}
 			}
@@ -752,17 +704,36 @@ class Core {
 	}
 
 	/**
-	18.- Run on plugin activation
-	**/
+	 ** Run on plugin activation, mostly manual installation
+	 **/
 	function lumiere_on_activation() {
+
 		/* debug
 		ob_start(); */
+
+		// Activate debug
+		$this->utilsClass->lumiere_activate_debug();
+		// Start the logger
+		$this->configClass->lumiere_start_logger('coreLumiere', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error */ );
+		// Store the class so we can use it later
+		$logger = $this->configClass->loggerclass;
 
 		$plugin = isset( $_REQUEST['plugin'] ) ? $_REQUEST['plugin'] : '';
 		check_admin_referer( "activate-plugin_{$plugin}" );
 
-		/* Create the cache folders */
-		$this->lumiere_create_cache();
+		/* Create the cache folders, from class.config */
+		if ($this->configClass->lumiere_create_cache() == true){
+
+			if ( ($logger !== NULL) )
+				$logger->debug("[Lumiere][core][updater] Lumière _on_activation_ hook: cache successfully created.");
+
+		} else {
+
+			if ( ($logger !== NULL) )
+				$logger->debug("[Lumiere][core][updater] Lumière _on_activation_ hook: cache folders already exist, no folder created.");
+
+		}
+
 
 		/* Set up the WP Cron */
 		if (! wp_next_scheduled ( 'lumiere_cron_hook' )) {
@@ -787,6 +758,14 @@ class Core {
 			// Run week call
 			//wp_schedule_event(time(), 'weekly', 'lumiere_cron_hook');
 
+			if ( ($logger !== NULL) )
+				$logger->debug("[Lumiere][core][updater] Lumière _on_activation_ hook: crons successfully set up.");
+
+		} else {
+
+			if ( ($logger !== NULL) )
+				$logger->critical("[Lumiere][core][updater] Lumière _on_activation_ hook: could not set up crons.");
+
 		}
 
 		/* Refresh rewrite rules */
@@ -797,11 +776,18 @@ class Core {
 	}
 
 	/**
-	19.- Run on plugin deactivation
-	**/
+	 ** Run on plugin deactivation
+	 **/
 	function lumiere_on_deactivation() {
 
 		global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+
+		// Activate debug
+		$this->utilsClass->lumiere_activate_debug();
+		// Start the logger
+		$this->configClass->lumiere_start_logger('coreLumiere');
+		// Store the class so we can use it later
+		$logger = $this->configClass->loggerclass;
 
 		$utilsClass = $this->utilsClass;
 
@@ -813,6 +799,9 @@ class Core {
 
 		// Keep the settings if selected so
 		if ( (isset($imdb_admin_values['imdbkeepsettings'])) && ( $imdb_admin_values['imdbkeepsettings'] == true ) ) {
+			if ( ($logger !== NULL) )
+				$logger->debug("[Lumiere][core][deactivation] Lumière deactivation: keep settings selected, process finished.");
+
 			return;
 		}
 
@@ -832,7 +821,13 @@ class Core {
 			# Delete taxonomy terms and unregister taxonomy
 			foreach ( $terms as $term ) {
 				wp_delete_term( $term->term_id, $filter_taxonomy ); 
+
+				if ( ($logger !== NULL) )
+					$logger->debug("[Lumiere][core][deactivation] Taxonomy: term $term in $filter_taxonomy deleted .");
 				unregister_taxonomy( $filter_taxonomy );
+
+				if ( ($logger !== NULL) )
+					$logger->debug("[Lumiere][core][deactivation] Taxonomy: taxonomy $filter_taxonomy deleted .");
 			}
 		}
 
@@ -841,19 +836,112 @@ class Core {
 		delete_option( 'imdbWidgetOptions' );
 		delete_option( 'imdbCacheOptions' );
 
+		if ( ($logger !== NULL) )
+			$logger->debug("[Lumiere][core][deactivation] Lumière options deleted.");
+
 		# Remove cache
 		if ( (isset($imdb_cache_values['imdbcachedir'])) && (is_dir($imdb_cache_values['imdbcachedir'])) ) {
 
 			$utilsClass->lumiere_unlinkRecursive($imdb_cache_values['imdbcachedir']);
+
+			if ( ($logger !== NULL) )
+				$logger->debug("[Lumiere][core][deactivation] Cache files and folder deleted.");
+
+		} else {
+
+			if ( ($logger !== NULL) )
+				$logger->warning("[Lumiere][core][deactivation] Cache was not removed .");
 
 		}
 
 	}
 
 	/**
-	20.- Register taxomony
-	 *
-	 */
+	 **  Run on plugin uninstall 
+	 **  @TODO Function not active, should go into an uninstall.php
+	 **/
+	function lumiere_on_uninstall() {
+
+		global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+
+		// Activate debug
+		$this->utilsClass->lumiere_activate_debug();
+		// Start the logger
+		$this->configClass->lumiere_start_logger('coreLumiere');
+		// Store the class so we can use it later
+		$logger = $this->configClass->loggerclass;
+
+		$utilsClass = $this->utilsClass;
+
+		/****** Below actions are executed for everybody */
+
+		// Remove WP Cron shoud it exists
+		$timestamp = wp_next_scheduled( 'lumiere_cron_hook' );
+		wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
+
+		// Keep the settings if selected so
+		if ( (isset($imdb_admin_values['imdbkeepsettings'])) && ( $imdb_admin_values['imdbkeepsettings'] == true ) ) {
+			if ( ($logger !== NULL) )
+				$logger->debug("[Lumiere][core][uninstall] Lumière uninstall: keep settings selected, process finished.");
+
+			return;
+		}
+
+		/****** Below actions are not executed if the user selected to keep their settings */
+
+		// search for all imdbtaxonomy* in config array, 
+		// if a taxonomy is found, let's get related terms and delete them
+		foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
+			$filter_taxonomy = str_replace('imdbtaxonomy', '', $imdb_admin_values['imdburlstringtaxo']  . $key );
+
+			# get all terms, even if empty
+			$terms = get_terms( array(
+				'taxonomy' => $filter_taxonomy,
+				'hide_empty' => false
+			) );
+
+			# Delete taxonomy terms and unregister taxonomy
+			foreach ( $terms as $term ) {
+				wp_delete_term( $term->term_id, $filter_taxonomy ); 
+
+				if ( ($logger !== NULL) )
+					$logger->debug("[Lumiere][core][uninstall] Taxonomy: term $term in $filter_taxonomy deleted .");
+				unregister_taxonomy( $filter_taxonomy );
+
+				if ( ($logger !== NULL) )
+					$logger->debug("[Lumiere][core][uninstall] Taxonomy: taxonomy $filter_taxonomy deleted .");
+			}
+		}
+
+		# Delete the options after needing them
+		delete_option( 'imdbAdminOptions' ); 
+		delete_option( 'imdbWidgetOptions' );
+		delete_option( 'imdbCacheOptions' );
+
+		if ( ($logger !== NULL) )
+			$logger->debug("[Lumiere][core][uninstall] Lumière options deleted.");
+
+		# Remove cache
+		if ( (isset($imdb_cache_values['imdbcachedir'])) && (is_dir($imdb_cache_values['imdbcachedir'])) ) {
+
+			$utilsClass->lumiere_unlinkRecursive($imdb_cache_values['imdbcachedir']);
+
+			if ( ($logger !== NULL) )
+				$logger->debug("[Lumiere][core][uninstall] Cache files and folder deleted.");
+
+		} else {
+
+			if ( ($logger !== NULL) )
+				$logger->warning("[Lumiere][core][uninstall] Cache was not removed .");
+
+		}
+
+	}
+
+
+	/**
+	 ** Register taxomony
+	 **/
 	function lumiere_create_taxonomies() {
 
 		global $imdb_admin_values,$imdb_widget_values;
@@ -898,6 +986,7 @@ class Core {
 	 ** 
 	 **/
 	function lumiere_popup_highslide_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
+
 		global $imdb_admin_values;
 			
 		if (! $popuplarg )
@@ -909,6 +998,7 @@ class Core {
 		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
 
 		return $parsed_result;
+
 	}
 
 	/** Classical popup function
@@ -917,6 +1007,7 @@ class Core {
 	 ** 
 	 **/
 	function lumiere_popup_classical_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
+
 		global $imdb_admin_values;
 		
 		if (! $popuplarg )
@@ -965,10 +1056,12 @@ class Core {
 		$start_update_options = new \Lumiere\UpdateOptions();
 
 /*		For debugging purposes
+		// Update imdbHowManyUpdates option
 		$config = new \Lumiere\Settings();
 		$option_array_search = get_option($config->imdbAdminOptionsName);
 		$option_array_search['imdbHowManyUpdates'] = '6';
 		update_option($config->imdbAdminOptionsName, $option_array_search);
+		// Delete imdbdebuglogpath option
 		$option_array_search = get_option($config->imdbAdminOptionsName);
 		unset($option_array_search['imdbdebuglogpath']);
 		update_option($config->imdbAdminOptionsName, $option_array_search);
@@ -977,5 +1070,4 @@ class Core {
 	}
 
 }
-
 ?>

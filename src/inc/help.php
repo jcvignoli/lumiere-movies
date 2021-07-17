@@ -148,89 +148,75 @@ if (isset($_GET['helpsub']) && ($_GET['helpsub'] == "faqs"))  { 	// Readme secti
 <?php
 	} elseif ((isset($_GET['helpsub'])) && ($_GET['helpsub'] == "support") ) { 	// Support section
 ?>
-	<div align="center"><?php wp_kses( _e( 'Two ways to match <strong>Lumiere Movies</strong> and <strong>support</strong>', 'lumiere-movies'), $allowed_html_for_esc_html_functions); ?>:</div>
-	<br />
-	<br />
+	<div class="inside imblt_border_shadow" align="center">
+		<h3 class="hndle" id="help_support" name="help_support"><?php wp_kses( _e( 'Two ways to support <strong>Lumiere Movies</strong> plugin development', 'lumiere-movies'), $allowed_html_for_esc_html_functions); ?></h3>
+	</div>
 
-	<div class="postbox-container" class="imdblt_float_right">
-		<div id="right-sortables" class="meta-box-sortables">
-			<div id="imdbLT_support" class="postbox">
-				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle"><?php esc_html_e( 'Be supported!', 'lumiere-movies'); ?></h3>
-				<div class="inside">
-					<div class="helpdiv">
-						<?php esc_html_e( 'You will never believe there is so many ways to be supported. You can:', 'lumiere-movies'); ?><br />
-			<strong>1</strong>. <?php esc_html_e( 'visit', 'lumiere-movies'); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::IMDBHOMEPAGE ) ?>">Lumière website</a> <?php esc_html_e( 'to ask for help. ', 'lumiere-movies'); ?><br />
-			<strong>2</strong>. <?php esc_html_e( 'check the', 'lumiere-movies'); ?> <a href="?page=imdblt_options&subsection=help&helpsub=faqs"><?php esc_html_e( 'FAQs ', 'lumiere-movies'); ?></a>.<br />
-			<strong>3</strong>. <?php esc_html_e( 'check the', 'lumiere-movies'); ?> <a href="?page=imdblt_options&subsection=help&helpsub=howto"><?php esc_html_e( 'how to', 'lumiere-movies'); ?></a>.<br />
-					</div>
-				</div>
-			</div>
+	<div class="inside imblt_border_shadow">
+		<h3 class="hndle"><?php esc_html_e( 'Be supported!', 'lumiere-movies'); ?></h3>
+		<div class="inside">
+
+			<?php esc_html_e( 'You will never believe there is so many ways to be supported. You can:', 'lumiere-movies'); ?><br />
+
+	<strong>1</strong>. <?php esc_html_e( 'visit', 'lumiere-movies'); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::IMDBHOMEPAGE ) ?>">Lumière website</a> <?php esc_html_e( 'to ask for help. ', 'lumiere-movies'); ?><br />
+
+	<strong>2</strong>. <?php esc_html_e( 'check the', 'lumiere-movies'); ?> <a href="?page=imdblt_options&subsection=help&helpsub=faqs"><?php esc_html_e( 'FAQs ', 'lumiere-movies'); ?></a>.<br />
+
+	<strong>3</strong>. <?php esc_html_e( 'check the', 'lumiere-movies'); ?> <a href="?page=imdblt_options&subsection=help&helpsub=howto"><?php esc_html_e( 'how to', 'lumiere-movies'); ?></a>.<br />
+
 		</div>
 	</div>
 
 
-	<div class="postbox-container" class="imdblt_float_left">
-		<div id="left-sortables" class="meta-box-sortables">
-			<div id="imdbLT_support" class="postbox">
-				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle"><?php esc_html_e( 'Support me!', 'lumiere-movies'); ?></h3>
-				<div class="inside">
-					<div class="helpdiv-noborderimage">
-						<?php esc_html_e( 'You will never believe there is so many ways to thank me. Yes, you can:', 'lumiere-movies'); ?><br />
-		<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'lumiere-movies'); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/paypal-donate.png"); ?>" width="40px" class="imdblt_align_bottom" /></a> <?php esc_html_e( 'or on', 'lumiere-movies'); ?> <a href="https://en.tipeee.com/lost-highway">tipeee.com</a>.<br />
-		<strong>2</strong>. <?php esc_html_e( 'vote on', 'lumiere-movies'); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::IMDBHOMEPAGE ); ?>"><?php esc_html_e( "Lumière's website", 'lumiere-movies'); ?></a> <?php esc_html_e( 'or on', 'lumiere-movies'); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::LUMIERE_WORDPRESS ); ?>"><?php esc_html_e( "Wordpress' website", 'lumiere-movies'); ?></a>.<br />
-		<strong>3</strong>. <?php esc_html_e( "send as many bugfixes and propositions as you can on Lumiere Movies website.", 'lumiere-movies'); ?><br />
-		<strong>4</strong>. <?php esc_html_e( "translate the plugin into your own language.", 'lumiere-movies'); ?><br />
-		<strong>5</strong>. <?php esc_html_e( "help me to improve the plugin.", 'lumiere-movies'); ?> <?php esc_html_e( "Report at the development", 'lumiere-movies'); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::LUMIERE_GIT ); ?>">GIT</a>'s <?php esc_html_e( 'website', 'lumiere-movies'); ?> <br />
-		<strong>6</strong>. <?php esc_html_e( 'do a trackback, make some noise about this plugin!', 'lumiere-movies'); ?><br />
-					</div>
-				</div>
-			</div>
+	<div class="inside imblt_border_shadow">
+
+		<h3 class="hndle"><?php esc_html_e( 'Support me!', 'lumiere-movies'); ?></h3>
+
+		<div class="helpdiv-noborderimage">
+			<?php esc_html_e( 'You will never believe there is so many ways to thank me. Yes, you can:', 'lumiere-movies'); ?><br />
+<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'lumiere-movies'); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/paypal-donate.png"); ?>" width="40px" class="imdblt_align_bottom" /></a> <?php esc_html_e( 'or on', 'lumiere-movies'); ?> <a href="https://en.tipeee.com/lost-highway">tipeee.com</a>.<br />
+<strong>2</strong>. <?php esc_html_e( 'vote on', 'lumiere-movies'); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::IMDBHOMEPAGE ); ?>"><?php esc_html_e( "Lumière's website", 'lumiere-movies'); ?></a> <?php esc_html_e( 'or on', 'lumiere-movies'); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::LUMIERE_WORDPRESS ); ?>"><?php esc_html_e( "Wordpress' website", 'lumiere-movies'); ?></a>.<br />
+<strong>3</strong>. <?php esc_html_e( "send as many bugfixes and propositions as you can on Lumiere Movies website.", 'lumiere-movies'); ?><br />
+<strong>4</strong>. <?php esc_html_e( "translate the plugin into your own language.", 'lumiere-movies'); ?><br />
+<strong>5</strong>. <?php esc_html_e( "help me to improve the plugin.", 'lumiere-movies'); ?> <?php esc_html_e( "Report at the development", 'lumiere-movies'); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::LUMIERE_GIT ); ?>">GIT</a>'s <?php esc_html_e( 'website', 'lumiere-movies'); ?> <br />
+<strong>6</strong>. <?php esc_html_e( 'do a trackback, make some noise about this plugin!', 'lumiere-movies'); ?><br />
 		</div>
 	</div>
 
+	<div class="inside imblt_border_shadow">
 
-	<div class="postbox-container" class="imdblt_float_left">
-		<div id="left-sortables" class="meta-box-sortables">
-			<div id="imdbLT_support" class="postbox">
-				<div class="handlediv" title="Click to toggle"><br></div>
-				<h3 class="hndle"><span><?php esc_html_e( 'Credits:', 'lumiere-movies'); ?></span></h3>
-				<div class="inside">
-					<div class="helpdiv">
+		<h3 class="hndle"><span><?php esc_html_e( 'Credits:', 'lumiere-movies'); ?></span></h3>
+
+		<div class="helpdiv">
 <?php
-					$acknowfile = file($acknowfile, FILE_BINARY);
+			$acknowfile = file($acknowfile, FILE_BINARY);
 
-					// replace # by div
-					$acknowfile = preg_replace('~\# (.*)~','<div><strong>${1}</strong></div>',$acknowfile);
-					// remove **{}**
-					$acknowfile = preg_replace('~\*\*(.*)\*\*~','${1}',$acknowfile);
+			// replace # by div
+			$acknowfile = preg_replace('~\# (.*)~','<div><strong>${1}</strong></div>',$acknowfile);
+			// remove **{}**
+			$acknowfile = preg_replace('~\*\*(.*)\*\*~','${1}',$acknowfile);
 
-					// replace # by div
-					$acknowfile = preg_replace('~\n~','<br />',$acknowfile);
+			// replace # by div
+			$acknowfile = preg_replace('~\n~','<br />',$acknowfile);
 
-					// replace links from (specially formated for wordpress website) readme with casual html
-					$patternlink = '~(\\[{1}(.*?)\\]\()(htt(p|ps)://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
+			// replace links from (specially formated for wordpress website) readme with casual html
+			$patternlink = '~(\\[{1}(.*?)\\]\()(htt(p|ps)://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
 
-					$acknowfile = preg_replace($patternlink,"<a href=\"\${3}\${5}\" title=\"\${7}\">\${2}</a>",$acknowfile);
-					$i=0;
-					echo "<ul>";
-					foreach ($acknowfile as $texte) {
-						if  ($i > "1") {
+			$acknowfile = preg_replace($patternlink,"<a href=\"\${3}\${5}\" title=\"\${7}\">\${2}</a>",$acknowfile);
+			$i=0;
+			echo "<ul>";
+			foreach ($acknowfile as $texte) {
+				if  ($i > "1") {
 
-							// display text formatted
-							echo "\t\t\t\t\t\t<li>".str_replace("\n", "", nl2br($texte))."</li>\n";
-						}
-					$i++;
-					}
-					echo "\t\t\t\t\t</ul>\n";
-					?>
-					</div>
-				</div>
-			</div>
+					// display text formatted
+					echo "\t\t\t\t\t\t<li>".str_replace("\n", "", nl2br($texte))."</li>\n";
+				}
+			$i++;
+			}
+			echo "\t\t\t\t\t</ul>\n";
+			?>
 		</div>
 	</div>
-
 
 <?php } else { 				// How to display ?>
 

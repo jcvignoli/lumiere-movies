@@ -43,7 +43,7 @@ class LumiereMovies {
 	/* Store the class of Lumière settings
 	 * Usefull to start a new IMDbphp query
 	 */
-	private $configclass;
+	private $configClass;
 
 	/* Vars from Lumière settings
 	 *
@@ -53,12 +53,12 @@ class LumiereMovies {
 	/* Store the class for logging using the Monolog library
 	 *
 	 */
-	private $loggerclass;
+	private $loggerClass;
 
 	/* Store the class for extra functions
 	 *
 	 */
-	private $utilsclass;
+	private $utilsClass;
 
 	/* Store the name or the ID of a movie
 	 * @TODO Get rid of $imdballmeta and use this instead
@@ -73,11 +73,15 @@ class LumiereMovies {
 		// Start config class and get the vars
 		if (class_exists("\Lumiere\Settings")) {
 
-			$configclass = new \Lumiere\Settings();
-			$this->configclass = $configclass;
-			$this->imdb_admin_values = $configclass->get_imdb_admin_option();
-			$this->imdb_widget_values = $configclass->get_imdb_widget_option();
-			$this->imdb_cache_values = $configclass->get_imdb_widget_option();
+			$configClass = new \Lumiere\Settings();
+			$this->configClass = $configClass;
+			$this->imdb_admin_values = $configClass->get_imdb_admin_option();
+			$this->imdb_widget_values = $configClass->get_imdb_widget_option();
+			$this->imdb_cache_values = $configClass->get_imdb_widget_option();
+
+			// Start the tools class
+			$utilsClass = new \Lumiere\Utils();
+			$this->utilsClass = $utilsClass;
 
 			// Start the logger class
 			add_action('loop_start', [$this, 'lumiere_start_logger_wrapper'], 0);
@@ -87,10 +91,6 @@ class LumiereMovies {
 			wp_die( esc_html__('Cannot start class movie, class Lumière Settings not found', 'lumiere-movies') );
 
 		}
-
-		// Start the tools class
-		$utilsclass = new \Lumiere\Utils();
-		$this->utilsclass = $utilsclass;
 
 		// Run the initialisation of the class
 		//$this->init();
@@ -105,7 +105,7 @@ class LumiereMovies {
 	}
 
 	/** Wrapps the start of the logger
-	 ** Allows to start later in the process, and not to break gutenberg by adding text before html code
+	 ** Allows to start later in the process, and to not break gutenberg editor by adding text before html code
 	 **
 	 **/
 	function lumiere_start_logger_wrapper(){
@@ -113,13 +113,16 @@ class LumiereMovies {
 		// Start logger class if debug is selected
 		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
 
+			// Activate debug
+			$this->utilsClass->lumiere_activate_debug();
+
 			// Start the logger
-			$this->configclass->lumiere_start_logger('movies');
-			$this->loggerclass = $this->configclass->loggerclass;
+			$this->configClass->lumiere_start_logger('movieClass');
+			$this->loggerClass = $this->configClass->loggerclass;
 
 		} else {
 
-			$this->loggerclass = NULL;
+			$this->loggerClass = NULL;
 		}
 
 	}
@@ -141,11 +144,11 @@ class LumiereMovies {
 		if (isset ($_GET["mid"])) {
 
 			$movieid = filter_var( $_GET["mid"], FILTER_SANITIZE_NUMBER_INT);
-			$movie = new \Imdb\Title($movieid, $this->configclass, $this->loggerclass);
+			$movie = new \Imdb\Title($movieid, $this->configClass, $this->loggerClass);
 
 		} else {
 
-			$search = new \Imdb\TitleSearch($this->configclass, $this->loggerclass );
+			$search = new \Imdb\TitleSearch($this->configClass, $this->loggerClass );
 
 		}
 
@@ -164,7 +167,7 @@ class LumiereMovies {
 				// check a the movie title exists
 				if ( ($film !== null) && !empty($film) && isset($film) ) {
 
-					$results = $search->search ($film, $this->configclass->lumiere_select_type_search() );
+					$results = $search->search ($film, $this->configClass->lumiere_select_type_search() );
 
 				}
 				// if a result was found in previous query
@@ -187,7 +190,7 @@ class LumiereMovies {
 			// nothing was specified
 			} else {
 
-				$results = $search->search ($film, $this->configclass->lumiere_select_type_search() );
+				$results = $search->search ($film, $this->configClass->lumiere_select_type_search() );
 
 				// a result is found
 				if ( ($results !== null) && !empty($results) ) {	
@@ -197,7 +200,7 @@ class LumiereMovies {
 				// break if no result found, otherwise imdbphp library trigger fatal error
 				} else {
 
-					$this->utilsclass->lumiere_noresults_text();
+					$this->utilsClass->lumiere_noresults_text();
 					break;
 				}
 			}
@@ -311,7 +314,7 @@ class LumiereMovies {
 		$outputfinal ="";
 
 		/* Start imdbphp class for new query based upon $midPremierResultat */
-		$movie = new \Imdb\Title($midPremierResultat, $this->configclass, $this->loggerclass );
+		$movie = new \Imdb\Title($midPremierResultat, $this->configClass, $this->loggerClass );
 
 		foreach ( $imdb_widget_values['imdbwidgetorder'] as $magicnumber) {
 

@@ -59,7 +59,7 @@ use \Imdb\Person;
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")) {
 
 	// Start the class Utils to activate debug -> already started in admin_pages
-	$utils->lumiere_activate_debug($imdb_cache_values, 'no_var_dump', '', $config); # don't display set_error_handler("var_dump") that gets the page stuck in an endless loop
+	$utils->lumiere_activate_debug($imdb_cache_values, 'no_var_dump', NULL); # don't display set_error_handler("var_dump") that gets the page stuck in an endless loop
 
 }
 
@@ -879,14 +879,8 @@ if (!empty($results)){
 	</div>
 
 	<div class="inside imblt_border_shadow">
+
 		<form method="post" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
-
-		<div class="lumiere_intro_options"><?php esc_html_e('Edit the following value only if need so. You can break the caching system.', 'lumiere-movies'); ?></div>
-		<br />
-		<br />
-
-		<div class="activatehidesection" align="center">[+] <?php esc_html_e('Click here to display options', 'lumiere-movies'); ?> [+]</div>
-		<div class="hidesection">
 
 		<div class="lumiere_flex_container">
 			<div class="lumiere_flex_container_content_twenty imdblt_padding_five">
@@ -1019,14 +1013,15 @@ if (!empty($results)){
 		</div>
 
 	</div>
-</div>
-<br />
-<br />
 
-<div class="submit submit-imdb" align="center">
-	<?php wp_nonce_field('cache_options_check', 'cache_options_check'); ?>
-	<input type="submit" class="button-primary" name="reset_cache_options" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />
-	<input type="submit" class="button-primary" name="update_cache_options" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
+	<br />
+	<br />
+
+	<div class="submit submit-imdb" align="center">
+
+		<?php wp_nonce_field('cache_options_check', 'cache_options_check'); ?>
+		<input type="submit" class="button-primary" name="reset_cache_options" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />
+		<input type="submit" class="button-primary" name="update_cache_options" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
 
 		</form>
 	</div>

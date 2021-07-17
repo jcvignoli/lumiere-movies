@@ -334,22 +334,13 @@ class Utils {
 
 	/**
 	 * Function lumiere_debug_display
-	 * Returns a debug
+	 * Returns optionaly an array of the options passed
 	 * 
-	 * @param options the array of the passed Lumière options
-	 * @param set_error set to 'no_var_dump' to avoid the call to var_dump function (usefull for options-cache.php)
-	 * @param libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
-	 * @param imdbphpclass pass the class so we can activate the debug function in class.config.php
+	 * @param array optional $options array of Lumière options, do not display anything on screen if empty
+	 * @param string optional $set_error set to 'no_var_dump' to avoid the call to var_dump function
+	 * @param string optional $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
 	 */
-	function lumiere_activate_debug($options = NULL, $set_error = NULL, $libxml_use = false, $imdbphpclass = false) {
-
-		// Debug function from imdbphp libraries, stored in class.config.php
-		if ( (isset($imdbphpclass)) && (!empty($imdbphpclass)) && (false != $imdbphpclass) )  {
-
-			// Function that activates imdphp debug
-			$imdbphpclass->lumiere_maybe_display_debug_pages();
-
-		}
+	function lumiere_activate_debug($options = NULL, $set_error = NULL, $libxml_use = false) {
 
 		// Set high level of debug reporting
 		error_reporting(E_ALL);
@@ -371,7 +362,6 @@ class Utils {
 			set_error_handler("var_dump"); 
 
 		echo ' </font><strong>[/Lumière options]</strong></div>';
-
 
 	}
 }
