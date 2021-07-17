@@ -92,24 +92,6 @@ class LumiereWidget extends WP_Widget {
 
 	}
 
-	/** Wrapps the start of the logger
-	 ** Allows to start later in the process, and not to break gutenberg by adding text before html code
-	 ** Copied from class.movie, but doesn't work here
-	 **/
-	function lumiere_start_logger_wrapper_widget(){
-
-		$imdb_admin_values = $this->imdb_admin_values;
-
-		// Start logger class if debug is selected
-		if ( (isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == 1) ){
-
-			$this->configClass->lumiere_start_logger('movies');
-
-		} 
-
-	}
-
-
 	public $args = array(
 		'before_title'  => '', /*'<h4 class="widgettitle">',*/
 		'after_title'   => '', /*'</h4>',*/
@@ -147,11 +129,10 @@ class LumiereWidget extends WP_Widget {
 
 			// Start the logger
 			$this->configClass->lumiere_start_logger('lumiereWidget');
-			$logger = $this->configClass->loggerclass;
 
-			if($logger !== NULL) {
-				$logger->debug("[Lumiere][widget] Started logger...");
-			}
+			$configClass = $this->configClass;
+
+			$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] Started logger...");
 
 		}
 
@@ -159,37 +140,41 @@ class LumiereWidget extends WP_Widget {
 		if ( (is_single()) || ( is_page()) )  {
 
 
-			//------ 
-
+			// Display the movie according to the post's title (option in -> general -> advanced)
 			if ( (isset($imdb_admin_values['imdbautopostwidget'])) && ($imdb_admin_values['imdbautopostwidget'] == true) ) {
-				// Display the movie according to the post's title (setting in -> general -> advanced)
-				$imdballmeta[]['byname'] = sanitize_text_field( get_the_title() ); # this var is global and sent to class.movie.php
+				$imdballmeta[]['byname'] = sanitize_text_field( get_the_title() ); 
+
+				$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] Auto widget activated, using the post title for querying");
 
 			}
 
-			//------  show widget only if custom fields or imdbautopostwidget option is found
+			// Show widget only if custom fields or imdbautopostwidget option is found
 			if ( (get_post_meta($post_id, 'imdb-movie-widget', false)) || (get_post_meta($post_id, 'imdb-movie-widget-bymid', false)) || (isset($imdb_admin_values['imdbautopostwidget'])) ) {
 
-				// "imdb-movie-widget"
-
+				// Custom field "imdb-movie-widget"
 				foreach (get_post_meta($post_id, 'imdb-movie-widget', false) as $key => $value) {
 
-					$imdballmeta[]['byname'] = sanitize_text_field($value); # this var is global and sent to class.movie.php
+					$imdballmeta[]['byname'] = sanitize_text_field($value); 
+
+					$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] Custom field imdb-movie-widget found, using $value for querying");
 
 				}
 
-				// imdb-movie-widget-bymid" (with proper movie ID)
-
+				// Custom field imdb-movie-widget-bymid" (with proper movie ID)
 				foreach (get_post_meta($post_id, 'imdb-movie-widget-bymid', false) as $key => $value) {
 
 					$moviespecificid = $value;
-					$imdballmeta[]['bymid'] = $moviespecificid; # this var is global and sent to class.movie.php
+					$imdballmeta[]['bymid'] = $moviespecificid; 
+
+					$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] Custom field imdb-movie-widget-bymid found, using $value for querying");
 
 				}
 
+
+				// Aggreate all the fields into global var $imdallmeta and send it to class movie
 				for ($i=0; $i < count( $imdballmeta ); $i++) {
 
-					$this->movieClass->init($imdballmeta); #initialise the class, otherwise doesn't work
+					$this->movieClass->init($imdballmeta); #initialise movie class with global var
 
 					// If there is a result in var $lumiere_result of class, display the widget
 					if (!empty($this->movieClass->lumiere_result)) {
@@ -204,13 +189,10 @@ class LumiereWidget extends WP_Widget {
 
 					} else {
 
-						// Check if logger is activated
-						if($logger !== NULL) {
+						$query = implode("-", $imdballmeta[$i]);
 
-							$query = implode("-", $imdballmeta[$i]);
-							$logger->debug("[Lumiere][widget] No result for $query");
+						$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] Not showing $query");
 
-						}
 					}
 
 				}
