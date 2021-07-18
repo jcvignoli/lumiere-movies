@@ -408,7 +408,7 @@ if ( ((isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "option")) || (!
 
 		 //------------------------------------------------------------------ =[cache options]=- ?>
 
-		<div class="postbox">
+		<div class="inside imblt_border_shadow">
 			<h3 class="hndle" id="cachegeneral" name="cachegeneral"><?php esc_html_e('Cache options', 'lumiere-movies'); ?></h3>
 		</div>
 
@@ -541,13 +541,11 @@ if ( (isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "manage") ){ 	///
 	// check if folder exists & store cache option is selected
 	if (file_exists($imdb_cache_values['imdbcachedir']) && ($imdb_cache_values['imdbusecache'])) { ?>
 
-	<div class="postbox-container">
-		<div id="left-sortables" class="meta-box-sortables" >
-
+	<div>
 
 		<?php //------------------------------------------------------------------ =[cache delete]=- ?>
 
-		<div class="postbox">
+		<div class="inside imblt_border_shadow">
 			<h3 class="hndle" id="cachegeneral" name="cachegeneral"><?php esc_html_e('Global cache management', 'lumiere-movies'); ?></h3>
 		</div>
 
@@ -647,16 +645,16 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 } // end no cache folder
 ?>
 
-			</div>
-			</form>
 		</div>
-		<br />
-		<br />
-		<form method="post" name="lumiere_delete_ticked_cache" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
+		</form>
+	</div>
+	<br />
+	<br />
+	<form method="post" name="lumiere_delete_ticked_cache" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
 
 <?php		 //------------------------------------------------------------------ =[movies management]=- ?>
 
-	<div class="postbox">
+	<div class="inside imblt_border_shadow">
 		<h3 class="hndle" id="cachemovies" name="cachemovies"><?php esc_html_e('Movie\'s detailed cache', 'lumiere-movies'); ?></h3>
 	</div>
 
@@ -764,7 +762,7 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 
 	<?php //------------------------------------------------------------------------ =[people delete]=- ?>
 
-	<div class="postbox">
+	<div class="inside imblt_border_shadow">
 		<h3 class="hndle" id="cachepeople" name="cachepeople"><?php esc_html_e('People\'s detailed cache', 'lumiere-movies'); ?></h3>
 	</div>
 
@@ -874,7 +872,7 @@ if (!empty($results)){
 
 	<?php //------------------------------------------------------------------ =[cache directories]=- ?>
 
-	<div class="postbox">
+	<div class="inside imblt_border_shadow">
 		<h3 class="hndle" id="cachedirectory" name="cachedirectory"><?php esc_html_e('Cache directories', 'lumiere-movies'); ?></h3>
 	</div>
 

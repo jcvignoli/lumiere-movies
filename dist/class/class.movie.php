@@ -1046,7 +1046,9 @@ class LumiereMovies {
 
 				}
 
-				if ($i < ( $nbtrailers -1 ) ) $output .= ", "; // add comma to every quote but the last
+				if ( ($i < ( $nbtrailers -1) )  && ($i < ( $nbtotaltrailers -1 ) ) ){
+					$output .= ", "; // add comma to every quote but the last
+				}
 			} 
 
 		}
@@ -1140,7 +1142,10 @@ class LumiereMovies {
 					$output .= " - <i>".sanitize_text_field( $alsoknow[$i]['comment'] )."</i>";
 
 				$output .= ")";
-				if ( $i < $nbtotalalsoknow - 1 ) $output .= ", ";
+
+				if ( ($i < ($nbtotalalsoknow -1) ) && ($i < ($nbalsoknow -1) ) ) {
+					$output .= ", ";
+				}
 
 			} // endfor 
 
@@ -1475,18 +1480,18 @@ class LumiereMovies {
 
 						// highslide popup
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 
-							$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . $creator[$i]["imdb"] . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . $creator[$i]["name"] . '</a>';
+							$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr($creator[$i]["imdb"]) . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . esc_attr($creator[$i]["name"]) . '</a>';
 
 						// classic popup
 						} else { 
 
-							$output .= '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . $creator[$i]["imdb"] . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . $creator[$i]["name"] . '</a>';
-							$output .= sanitize_text_field( $creator[$i]["name"] )."</a>";
-							} 
-					// if "Remove all links" option is selected 
+							$output .= '<a class="linkincmovie link-imdblt-classicpeople" data-classicpeople="' . esc_attr($creator[$i]["imdb"]) . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . esc_attr($creator[$i]["name"]) . '</a>';
+
+						} 
 
 						if ( $i < $nbtotalcreator - 1 ) $output .= ', ';
 
+					// if "Remove all links" option is selected 
 					} else { 
 
 						$output .= sanitize_text_field( $creator[$i]["name"] );
@@ -1706,12 +1711,13 @@ class LumiereMovies {
 
 						// highslide popup
 						if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 
+
 							$output .= "\n\t\t\t\t\t". '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $cast[$i]["imdb"] ) . '" title="'. esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . esc_attr( $cast[$i]["name"] ) . '</a>';
 
 						// classic popup 
 						} else {  
 						
-							$output .= "\n\t\t\t\t\t". '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . esc_attr( $cast[$i]["imdb"] ) . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . esc_attr( $cast[$i]["name"] ) . '</a>';
+							$output .= "\n\t\t\t\t\t". '<a class="linkincmovie link-imdblt-classicpeople" data-classicpeople="' . esc_attr( $cast[$i]["imdb"] ) . '" title="' . esc_html__('open a new window with IMDb informations', 'lumiere-movies') . '">' . esc_attr( $cast[$i]["name"] ) . '</a>';
 
 						} 
 

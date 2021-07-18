@@ -121,6 +121,8 @@ class LumiereWidget extends WP_Widget {
 		// Get the post id
 		$post_id = intval( get_the_ID() );
 
+		$configClass = $this->configClass;
+
 		// Activate debug
 		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
 
@@ -130,7 +132,6 @@ class LumiereWidget extends WP_Widget {
 			// Start the logger
 			$this->configClass->lumiere_start_logger('lumiereWidget');
 
-			$configClass = $this->configClass;
 
 			$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] Started logger...");
 
