@@ -13,42 +13,32 @@ jQuery(".activatehidesection").click(function () {
 }).next().hide();
 
 
-/* Show the next hidden div if clicking a radio button class="activatehidesectionAdd"
- * The next div must have the class="hidesectionOfRadio"
- * And a css "display:none;" to work
- * Then a new radio button class="activatehidesectionAdd2" does the same
+/* Show the next hidden div if clicking a checkbox button class="activatehidesectionAdd"
+ * The (next) div to be impacted must have the class="hidesectionOfRadio" and a css "display:none;" to work
+ * Works similarly with a second checkbox child of the first checkbox, if button class="activatehidesectionAdd2" is added
  * source: Lost Highway
 */
 
+document.addEventListener('DOMContentLoaded', function () {
 
-if(jQuery("input.activatehidesectionAdd").checked === true){
-	jQuery(".hidesectionOfRadio").hide();
-} else {
-	jQuery(".hidesectionOfRadio").show();
-}
+	if(jQuery("input.activatehidesectionAdd").prop("checked") == true){
+		jQuery(".hidesectionOfCheckbox").show();
+	} else if (jQuery(".activatehidesectionRemove").prop("checked") == true){
+		jQuery(".hidesectionOfCheckbox").hide();
+	} 
 
-jQuery("input.activatehidesectionAdd").click(function () {
-    jQuery(".hidesectionOfRadio").slideToggle();
-}).nextAll(".hidesectionOfRadio").show();
+	jQuery("input.activatehidesectionAdd").click(function () {
+	    jQuery(".hidesectionOfCheckbox").slideToggle();
+	}).nextAll(".hidesectionOfCheckbox").show();
 
-jQuery("input.activatehidesectionRemove").click(function () {
-    jQuery(".hidesectionOfRadio").slideToggle();
-}).nextAll(".hidesectionOfRadio").hide();
+	if(jQuery("input.activatehidesectionAddTwo").prop("checked") == true){
+		jQuery(".hidesectionOfCheckboxTwo").show();
+	} else if (jQuery("input.activatehidesectionRemoveTwo").prop("checked") == true){
+		jQuery(".hidesectionOfCheckboxTwo").hide();
+	}
 
-if(jQuery("input.activatehidesectionAddTwo").checked == true){
-	jQuery(".hidesectionOfRadioTwo").hide();
-} else {
-	jQuery(".hidesectionOfRadioTwo").show();
-}
+	jQuery("input.activatehidesectionAddTwo").click(function () {
+	    jQuery(".hidesectionOfCheckboxTwo").slideToggle();
+	}).nextAll(".hidesectionOfCheckboxTwo").hide();
 
-jQuery("input.activatehidesectionAddTwo").click(function () {
-    jQuery(".hidesectionOfRadioTwo").slideToggle();
-}).nextAll(".hidesectionOfRadioTwo").hide();
-
-jQuery("input.activatehidesectionRemoveTwo").click(function () {
-    jQuery(".hidesectionOfRadioTwo").slideToggle();
-}).nextAll(".hidesectionOfRadioTwo").show();
-
-
-
-
+});

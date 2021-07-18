@@ -578,7 +578,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 			} else { // taxonomy is activated ?>
 
-	<div class="postbox">
+	<div class="inside imblt_border_shadow">
 		<h3 class="hndle" id="taxodetails" name="taxodetails"><?php esc_html_e( 'Select details to use as taxonomy', 'lumiere-movies'); ?></h3>
 	</div>
 
@@ -854,7 +854,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 		if ( (isset($_GET['widgetoption'])) && ($_GET['widgetoption'] == "order") ) { 	// Order ?>
 		<?php //-------------------------------------------------------------------=[Order]=- ?>		
 
-	<div class="postbox">
+	<div class="inside imblt_border_shadow">
 		<h3 class="hndle" id="taxoorder" name="taxoorder"><?php esc_html_e( 'Position of data', 'lumiere-movies'); ?></h3>
 	</div>
 

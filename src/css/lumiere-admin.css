@@ -4,7 +4,7 @@ a { text-decoration:none;}
 
 h3{font-size: 18px;}
 
-.hidesection, .hidesectionOfRadio{display:none;}
+.hidesection, .hidesectionOfCheckbox, .hidesectionOfCheckboxTwo{display:none;}
 .activatehidesection {cursor:pointer;}
 
 .subpage {border:thin grey solid;padding:15px;background: #999 20px 10px;color:beige;border-radius: 6px;}
