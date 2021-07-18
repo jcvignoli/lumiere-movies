@@ -38,8 +38,13 @@ if (class_exists("\Lumiere\Settings")) {
 		// Start the logger
 		$config->lumiere_start_logger('popupSearch');
 
-		// Store the class so we can use it later for imdbphp class call
-		$logger = $config->loggerclass;
+		// If admin, store the class so we can use it later for imdbphp class call
+		if ( current_user_can( 'manage_options' ) ) {
+			$logger = $config->loggerclass;
+		} else {
+			$logger = NULL;
+		}
+
 	} 
 
 } else {

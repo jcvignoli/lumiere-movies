@@ -11,34 +11,43 @@ $this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdbHowManyUp
 // Fix 'imdblanguage'
 // Correct language extensions should take two letters only to include all dialects
 if ( TRUE === $this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdblanguage', 'en') ) {
-	$text = "Lumière option imdblanguage successfully added.";
 
-	if($logger !== NULL)
-		$logger->debug("[Lumiere][updater] $text");
+	$text = "Lumière option imdblanguage successfully added.";
+	$configClass->lumiere_maybe_log('debug', "[Lumiere][updater] $text");
 
 } else {
 
 	$text = "Lumière option imdblanguage could not be added.";
-
-	if($logger !== NULL)
-		$logger->critical("[Lumiere][updater] $text");
+	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
 
 }
 
 // Add 'imdbwidgetalsoknownumber'
 // New option the number of akas displayed
 if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbwidgetalsoknownumber', false) ) {
-	$output .= $this->print_debug(1, '<strong>Lumière option imdbwidgetalsoknownumber successfully added.</strong>');
+
+	$text = "Lumière option imdbwidgetalsoknownumber successfully added..";
+	$configClass->lumiere_maybe_log('debug', "[Lumiere][updater] $text");
+
 } else {
-	$output .= $this->print_debug(2, '<strong>Lumière option imdbwidgetalsoknownumber could not be added.</strong>');
+
+	$text = "Lumière option imdbwidgetalsoknownumber could not be added..";
+	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
+
 }
 
 // Add 'imdbwidgetproducernumber'
 // New option to limit the number of producers displayed
 if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbwidgetproducernumber', false) ) {
-	$output .= $this->print_debug(1, '<strong>Lumière option imdbwidgetproducernumber successfully added.</strong>');
+
+	$text = "Lumière option imdbwidgetproducernumber successfully added.";
+	$configClass->lumiere_maybe_log('debug', "[Lumiere][updater] $text");
+
 } else {
-	$output .= $this->print_debug(2, '<strong>Lumière option imdbwidgetproducernumber could not be added.</strong>');
+
+	$text = "Lumière option imdbwidgetproducernumber could not be added..";
+	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
+
 }
 
 ?>

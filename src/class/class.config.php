@@ -80,6 +80,8 @@ class Settings extends Config {
 	public $loggerclass;
 	/* Where to write the log (below WordPress default log) */
 	const debug_log_path = WP_CONTENT_DIR . '/debug.log';
+	/* Debug levels: emergency, alert, critical, error, warning, notice, info, debug */
+	const debugLevel = Logger::DEBUG;
 	/* Set to false to use Logger instead of Monolog */
 	var $isMonologActive = true;
 
@@ -503,10 +505,10 @@ class Settings extends Config {
 				//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
 
 				// Add the file, the line, the class, the function
-				$logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor(Logger::DEBUG));
+				$logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor(self::debugLevel));
 
 				// Write to log, default to WordPress default log
-				$filelogger = new \Monolog\Handler\StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], Logger::DEBUG);
+				$filelogger = new \Monolog\Handler\StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], self::debugLevel);
 				$logger->pushHandler ( $filelogger );
 
 			}
@@ -516,7 +518,7 @@ class Settings extends Config {
 
 				$output = "[%level_name%] %message%<br />\n";
 				$screenformater = new \Monolog\Formatter\LineFormatter($output);
-				$screenlogger = new \Monolog\Handler\StreamHandler( 'php://output', Logger::DEBUG);
+				$screenlogger = new \Monolog\Handler\StreamHandler( 'php://output', self::debugLevel);
 				$screenlogger->setFormatter($screenformater);
 				$logger->pushHandler ( $screenlogger );
 
@@ -528,7 +530,7 @@ class Settings extends Config {
 		// Default PSR logger will be utilised
 		} else {
 
-			$this->loggerclass = NULL;# this var is then utilised in the call in other pages
+			return $this->loggerclass = NULL;
 
 		}
 
@@ -542,13 +544,11 @@ class Settings extends Config {
 	 **/
 	public function lumiere_maybe_log($function, $text) {
 
-		if (NULL !== $this->loggerclass) {
-
+		if (NULL !== $this->loggerclass)
 			return $this->loggerclass->$function($text);
 
-		}
-
 		return false;
+
 	}
 
 	/** Retrieve selected type of search in admin

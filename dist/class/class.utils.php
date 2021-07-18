@@ -342,6 +342,10 @@ class Utils {
 	 */
 	function lumiere_activate_debug($options = NULL, $set_error = NULL, $libxml_use = false) {
 
+		// If the user can't manage options, exit
+		if ( !current_user_can( 'manage_options' ) ) 
+			return false;
+
 		// Set high level of debug reporting
 		error_reporting(E_ALL);
 		ini_set("display_errors", 1);
@@ -351,7 +355,7 @@ class Utils {
 
 		// Exit if no Lumière option array requested to show
 		if ( (NULL == $options) || empty($options) || !isset($options) )
-			return;
+			return false;
 
 		echo '<div><strong>[Lumière options]</strong><font size="-3"> ';
 

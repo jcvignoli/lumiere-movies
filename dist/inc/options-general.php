@@ -458,7 +458,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<label for="imdb_imdbdebug"></label>
 				<br />
 				<br />
-				<div class="explain"><?php esc_html_e( 'Use integrated debuging functions.','lumiere-movies');?></div>
+				<div class="explain"><?php esc_html_e( 'Use integrated debugging functions.','lumiere-movies');?></div>
 			</div>
 
 			<div class="lumiere_flex_auto lumiere_padding_five hidesectionOfCheckbox">
@@ -473,7 +473,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<input type="checkbox" id="imdb_imdbdebugscreen_yes" name="imdb_imdbdebugscreen" value="1" <?php if ($imdb_admin_values['imdbdebugscreen'] == "1") { echo 'checked="checked"'; }?> />
 
 				<br />
-				<div class="explain"><?php esc_html_e( 'Show the debug log on screen. Anyone visiting your website can access the log.','lumiere-movies');?></div>
+				<div class="explain"><?php esc_html_e( 'Show the debug log on screen (for admin only).','lumiere-movies');?></div>
 
 				<br />
 				<?php esc_html_e( 'Save logs?', 'lumiere-movies'); ?>&nbsp;
