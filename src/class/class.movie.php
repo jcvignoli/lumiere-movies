@@ -60,8 +60,8 @@ class LumiereMovies {
 	 */
 	private $utilsClass;
 
-	/* Store the name or the ID of a movie
-	 * @TODO Get rid of $imdballmeta and use this instead
+	/* Store the name or the ID of a movie and avoid globals
+	 * Not yet utilised, passing the movie's title or id right now into init()
 	 */
 	private $imdbIdOrTitle;
 
@@ -130,15 +130,14 @@ class LumiereMovies {
 
 	}
 
-	function init($imdballmeta=NULL){
+	function init($imdbIdOrTitleOutside=NULL){
 
 		/* Vars */ 
-		global $imdballmeta,$count_me_siffer;
+		global $count_me_siffer;
 		$logger = $this->loggerClass;
 		$configClass = $this->configClass;
-
 		$count_me_siffer = isset($count_me_siffer) ? $count_me_siffer : 0; # var for counting only one results
-		$imdballmeta = isset($imdballmeta) ? $imdballmeta : array();
+		$imdbIdOrTitle = isset($imdbIdOrTitleOutside) ? $imdbIdOrTitleOutside : $this->imdbIdOrTitle;
 		$output = "";
 
 		// Get main vars from the class
@@ -150,11 +149,11 @@ class LumiereMovies {
 
 		$search = new \Imdb\TitleSearch($this->configClass, $logger );
 
-		// $imdballmeta var comes from custom post's field in widget or in post
-		for ($i=0; $i < count($imdballmeta); $i++) {	
+		// $imdbIdOrTitle var comes from custom post's field in widget or in post
+		for ($i=0; $i < count($imdbIdOrTitle); $i++) {	
 
 			// sanitize
-			$film = $imdballmeta[$i]; 
+			$film = $imdbIdOrTitle[$i]; 
 
 			// A movie's title has been specified
 			if (isset($film['byname']))  {
@@ -200,7 +199,7 @@ class LumiereMovies {
 			// nothing was specified
 			} else {
 
-				$configClass->lumiere_maybe_log('debug', "[[Lumiere][imdballmeta] No movie title provided, doing a query for $film'.");
+				$configClass->lumiere_maybe_log('debug', "[[Lumiere][imdbIdOrTitle] No movie title provided, doing a query for $film'.");
 
 				$results = $search->search($film, $this->configClass->lumiere_select_type_search() );
 
@@ -223,7 +222,7 @@ class LumiereMovies {
 			}
 
 			// make sure only one result is displayed
-			if ($this->lumiere_count_me($midPremierResultat, $count_me_siffer) == "nomore") {
+			if ($this->lumiere_filter_single_movies($midPremierResultat, $count_me_siffer) == "nomore") {
 
 				$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Displaying rows for '$midPremierResultat'");
 
@@ -259,15 +258,15 @@ class LumiereMovies {
 
 		//shortcode_atts(array( 'id' => 'default id', 'film' => 'default film'), $atts);
 
-		$imdballmeta[] = $content;
-		return $this->lumiere_external_call($imdballmeta,'','');
+		$imdbIdOrTitle[] = $content;
+		return $this->lumiere_external_call($imdbIdOrTitle,'','');
 
 	}
 
 	function parse_lumiere_tag_transform_id($atts = array(), $content = null, $tag){
 
-		$imdballmeta[] = $content;
-		return $this->lumiere_external_call('',$imdballmeta,'');
+		$imdbIdOrTitle[] = $content;
+		return $this->lumiere_external_call('',$imdbIdOrTitle,'');
 
 	}
 
@@ -277,15 +276,13 @@ class LumiereMovies {
 	 **/
 	function lumiere_external_call ($moviename=NULL, $filmid=NULL, $external=NULL) {
 
-		global $imdballmeta;
-
 		// Call function from external (using parameter "external" )
 		// Especially made to be integrated (ie, inside a php code)
 		if ( ($external == "external") && isset($moviename) ) {	
 
-			$imdballmeta[]['byname'] = $moviename;
+			$imdbIdOrTitle[]['byname'] = $moviename;
 
-			return $this->init($imdballmeta);
+			return $this->init($imdbIdOrTitle);
 
 		}
 
@@ -293,27 +290,27 @@ class LumiereMovies {
 		// Especially made to be integrated (ie, inside a php code)
 		if ( ($external == "external") && isset($filmid) )  {
 
-			$imdballmeta[]['bymid'] = $filmid[0];
+			$imdbIdOrTitle[]['bymid'] = $filmid[0];
 
-			return $this->init($imdballmeta);
+			return $this->init($imdbIdOrTitle);
 
 		}
 
 		//  Call with the parameter - imdb movie name (imdblt)
 		if ( isset($moviename) && !empty($moviename) && empty($external) ) {	
 
-			$imdballmeta[]['byname'] = $moviename[0];
+			$imdbIdOrTitle[]['byname'] = $moviename[0];
 
-			return $this->init($imdballmeta);
+			return $this->init($imdbIdOrTitle);
 
 		}
 
 		//  Call with the parameter - imdb movie id (imdbltid)
 		if ( isset($filmid) && !empty($filmid) && empty($external) )  {
 
-			$imdballmeta[]['bymid'] = $filmid[0];
+			$imdbIdOrTitle[]['bymid'] = $filmid[0];
 
-			return $this->init($imdballmeta);
+			return $this->init($imdbIdOrTitle);
 			
 		}
 
@@ -2026,7 +2023,7 @@ class LumiereMovies {
 	 ** allows movie total count (how many time a movie is called by plugin
 	 ** @TODO: rename it to lumiere_filter_single_movies() if no other classes use it
 	 **/
-	function lumiere_count_me($thema, &$count_me_siffer) {
+	function lumiere_filter_single_movies($thema, &$count_me_siffer) {
 
 		global $count_me_siffer, $test;
 		$count_me_siffer++;

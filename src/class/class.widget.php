@@ -43,11 +43,6 @@ class LumiereWidget extends WP_Widget {
 	 */
 	private $utilsClass;
 
-	/* Store the name or the ID of a movie
-	 * @TODO Get rid of $imdballmeta and use this instead
-	 */
-	private $imdbIdOrTitle;
-
 	/**
 	 * Constructor. Sets up the widget name, description, etc.
 	 */
@@ -110,14 +105,13 @@ class LumiereWidget extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		/* Vars */  
-		global $imdballmeta;
 		$output = "";
 		$imdb_admin_values = $this->imdb_admin_values;
 		extract($args);
 		// full title
 		$title_box = empty($instance['title']) ? esc_html__('IMDb data', 'lumiere-movies') : $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title']; 
 		// Initialize var for id/name of the movie to display
-		$imdballmeta=array();
+		$imdbIdOrTitle = array();
 		// Get the post id
 		$post_id = intval( get_the_ID() );
 
@@ -143,7 +137,7 @@ class LumiereWidget extends WP_Widget {
 
 			// Display the movie according to the post's title (option in -> general -> advanced)
 			if ( (isset($imdb_admin_values['imdbautopostwidget'])) && ($imdb_admin_values['imdbautopostwidget'] == true) ) {
-				$imdballmeta[]['byname'] = sanitize_text_field( get_the_title() ); 
+				$imdbIdOrTitle[]['byname'] = sanitize_text_field( get_the_title() ); 
 
 				$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] Auto widget activated, using the post title for querying");
 
@@ -155,7 +149,7 @@ class LumiereWidget extends WP_Widget {
 				// Custom field "imdb-movie-widget"
 				foreach (get_post_meta($post_id, 'imdb-movie-widget', false) as $key => $value) {
 
-					$imdballmeta[]['byname'] = sanitize_text_field($value); 
+					$imdbIdOrTitle[]['byname'] = sanitize_text_field($value); 
 
 					$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] Custom field imdb-movie-widget found, using $value for querying");
 
@@ -165,7 +159,7 @@ class LumiereWidget extends WP_Widget {
 				foreach (get_post_meta($post_id, 'imdb-movie-widget-bymid', false) as $key => $value) {
 
 					$moviespecificid = $value;
-					$imdballmeta[]['bymid'] = $moviespecificid; 
+					$imdbIdOrTitle[]['bymid'] = $moviespecificid; 
 
 					$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] Custom field imdb-movie-widget-bymid found, using $value for querying");
 
@@ -173,9 +167,9 @@ class LumiereWidget extends WP_Widget {
 
 
 				// Aggreate all the fields into global var $imdallmeta and send it to class movie
-				for ($i=0; $i < count( $imdballmeta ); $i++) {
+				for ($i=0; $i < count( $imdbIdOrTitle[$i] ); $i++) {
 
-					$this->movieClass->init($imdballmeta); #initialise movie class with global var
+					$this->movieClass->init($imdbIdOrTitle); #initialise movie class with global var
 
 					// If there is a result in var $lumiere_result of class, display the widget
 					if (!empty($this->movieClass->lumiere_result)) {
@@ -190,7 +184,7 @@ class LumiereWidget extends WP_Widget {
 
 					} else {
 
-						$query = implode("-", $imdballmeta[$i]);
+						$query = implode("-", $imdbIdOrTitle[$i]);
 
 						$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] Not showing $query");
 

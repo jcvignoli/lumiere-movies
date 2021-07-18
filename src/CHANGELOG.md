@@ -9,6 +9,7 @@ v.3.4.3
 * [technical] Using checkboxes instead of radio buttons in General Options
 * [bug] HTML Links are properly linking to plot authors (class movie).
 * [bug] Failing to build html links for taxonomy pages for people with accentuated names. The accents were kept in URL.
+* [bug] Same movie could be called several times, which lead to many useless iterations. Got rid of the globals in classes movies and widget. Optimisation of the resources.
 
 v.3.4.2
 * [major] Updated to [imdbphp library 7.1](https://github.com/tboothman/imdbphp/releases/tag/v7.1.0 "imdbphp library 7.1")
