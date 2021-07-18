@@ -673,7 +673,7 @@ class Core {
 		// Start the logger
 		$this->configClass->lumiere_start_logger('coreLumiere');
 		// Store the class so we can use it later
-		$logger = $this->configClass->loggerclass;
+		$configClass = $this->configClass;
 
 		// The path to plugin's main file
 		$plugin_version = plugin_basename( __FILE__ );
@@ -695,8 +695,7 @@ class Core {
 					require_once __DIR__ . '/class.update-options.php';
 					$start_update_options = new \Lumiere\UpdateOptions();
 
-					if ( ($logger !== NULL) )
-						$logger->debug("[Lumiere][core][updater] Lumière _on_plugin_upgrade_ hook successfully updated.");
+					$configClass->lumiere_maybe_log('info', "[Lumiere][core][updater] Lumière _on_plugin_upgrade_ hook successfully updated.");
 
 				}
 			}
@@ -716,7 +715,7 @@ class Core {
 		// Start the logger
 		$this->configClass->lumiere_start_logger('coreLumiere', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error */ );
 		// Store the class so we can use it later
-		$logger = $this->configClass->loggerclass;
+		$configClass = $this->configClass;
 
 		$plugin = isset( $_REQUEST['plugin'] ) ? $_REQUEST['plugin'] : '';
 		check_admin_referer( "activate-plugin_{$plugin}" );
@@ -724,13 +723,11 @@ class Core {
 		/* Create the cache folders, from class.config */
 		if ($this->configClass->lumiere_create_cache() == true){
 
-			if ( ($logger !== NULL) )
-				$logger->debug("[Lumiere][core][updater] Lumière _on_activation_ hook: cache successfully created.");
+			$configClass->lumiere_maybe_log('info', "[Lumiere][core][updater] Lumière _on_activation_ hook: cache successfully created.");
 
 		} else {
 
-			if ( ($logger !== NULL) )
-				$logger->debug("[Lumiere][core][updater] Lumière _on_activation_ hook: cache folders already exist, no folder created.");
+			$configClass->lumiere_maybe_log('debug', "[Lumiere][core][updater] Lumière _on_activation_ hook: cache folders already exist, no folder created.");
 
 		}
 
@@ -758,18 +755,13 @@ class Core {
 			// Run week call
 			//wp_schedule_event(time(), 'weekly', 'lumiere_cron_hook');
 
-			if ( ($logger !== NULL) )
-				$logger->debug("[Lumiere][core][updater] Lumière _on_activation_ hook: crons successfully set up.");
+			$configClass->lumiere_maybe_log('debug', "[Lumiere][core][updater] Lumière _on_activation_ hook: crons successfully set up.");
 
 		} else {
 
-			if ( ($logger !== NULL) )
-				$logger->critical("[Lumiere][core][updater] Lumière _on_activation_ hook: could not set up crons.");
+			$configClass->lumiere_maybe_log('error', "[Lumiere][core][updater] Lumière _on_activation_ hook: could not set up crons.");
 
 		}
-
-		/* Refresh rewrite rules */
-		flush_rewrite_rules();
 
 		/* debug
 		trigger_error(ob_get_contents(),E_USER_ERROR);*/
@@ -786,9 +778,8 @@ class Core {
 		$this->utilsClass->lumiere_activate_debug();
 		// Start the logger
 		$this->configClass->lumiere_start_logger('coreLumiere');
-		// Store the class so we can use it later
-		$logger = $this->configClass->loggerclass;
-
+		// Store the classes so we can use it later
+		$configClass = $this->configClass;
 		$utilsClass = $this->utilsClass;
 
 		/****** Below actions are executed for everybody */
@@ -799,8 +790,8 @@ class Core {
 
 		// Keep the settings if selected so
 		if ( (isset($imdb_admin_values['imdbkeepsettings'])) && ( $imdb_admin_values['imdbkeepsettings'] == true ) ) {
-			if ( ($logger !== NULL) )
-				$logger->debug("[Lumiere][core][deactivation] Lumière deactivation: keep settings selected, process finished.");
+
+			$configClass->lumiere_maybe_log('info', "[Lumiere][core][deactivation] Lumière deactivation: keep settings selected, process finished.");
 
 			return;
 		}
@@ -822,12 +813,12 @@ class Core {
 			foreach ( $terms as $term ) {
 				wp_delete_term( $term->term_id, $filter_taxonomy ); 
 
-				if ( ($logger !== NULL) )
-					$logger->debug("[Lumiere][core][deactivation] Taxonomy: term $term in $filter_taxonomy deleted .");
+				$configClass->lumiere_maybe_log('info', "[Lumiere][core][deactivation] Taxonomy: term $term in $filter_taxonomy deleted.");
+
 				unregister_taxonomy( $filter_taxonomy );
 
-				if ( ($logger !== NULL) )
-					$logger->debug("[Lumiere][core][deactivation] Taxonomy: taxonomy $filter_taxonomy deleted .");
+				$configClass->lumiere_maybe_log('info', "[Lumiere][core][deactivation] Taxonomy: taxonomy $filter_taxonomy deleted.");
+
 			}
 		}
 
@@ -836,21 +827,18 @@ class Core {
 		delete_option( 'imdbWidgetOptions' );
 		delete_option( 'imdbCacheOptions' );
 
-		if ( ($logger !== NULL) )
-			$logger->debug("[Lumiere][core][deactivation] Lumière options deleted.");
+		$configClass->lumiere_maybe_log('info', "[Lumiere][core][deactivation] Lumière options deleted.");
 
 		# Remove cache
 		if ( (isset($imdb_cache_values['imdbcachedir'])) && (is_dir($imdb_cache_values['imdbcachedir'])) ) {
 
 			$utilsClass->lumiere_unlinkRecursive($imdb_cache_values['imdbcachedir']);
 
-			if ( ($logger !== NULL) )
-				$logger->debug("[Lumiere][core][deactivation] Cache files and folder deleted.");
+			$configClass->lumiere_maybe_log('info', "[Lumiere][core][deactivation] Cache files and folder deleted.");
 
 		} else {
 
-			if ( ($logger !== NULL) )
-				$logger->warning("[Lumiere][core][deactivation] Cache was not removed .");
+			$configClass->lumiere_maybe_log('warning', "[Lumiere][core][deactivation] Cache was not removed.");
 
 		}
 
@@ -868,9 +856,8 @@ class Core {
 		$this->utilsClass->lumiere_activate_debug();
 		// Start the logger
 		$this->configClass->lumiere_start_logger('coreLumiere');
-		// Store the class so we can use it later
-		$logger = $this->configClass->loggerclass;
-
+		// Store the classes so we can use it later
+		$configClass = $this->configClass;
 		$utilsClass = $this->utilsClass;
 
 		/****** Below actions are executed for everybody */
@@ -881,8 +868,8 @@ class Core {
 
 		// Keep the settings if selected so
 		if ( (isset($imdb_admin_values['imdbkeepsettings'])) && ( $imdb_admin_values['imdbkeepsettings'] == true ) ) {
-			if ( ($logger !== NULL) )
-				$logger->debug("[Lumiere][core][uninstall] Lumière uninstall: keep settings selected, process finished.");
+
+			$configClass->lumiere_maybe_log('info', "[Lumiere][core][uninstall] Lumière uninstall: keep settings selected, process finished.");
 
 			return;
 		}
@@ -904,12 +891,12 @@ class Core {
 			foreach ( $terms as $term ) {
 				wp_delete_term( $term->term_id, $filter_taxonomy ); 
 
-				if ( ($logger !== NULL) )
-					$logger->debug("[Lumiere][core][uninstall] Taxonomy: term $term in $filter_taxonomy deleted .");
+				$configClass->lumiere_maybe_log('info', "[Lumiere][core][uninstall] Taxonomy: term $term in $filter_taxonomy deleted.");
+
 				unregister_taxonomy( $filter_taxonomy );
 
-				if ( ($logger !== NULL) )
-					$logger->debug("[Lumiere][core][uninstall] Taxonomy: taxonomy $filter_taxonomy deleted .");
+				$configClass->lumiere_maybe_log('info', "[Lumiere][core][uninstall] Taxonomy: taxonomy $filter_taxonomy deleted.");
+
 			}
 		}
 
@@ -918,21 +905,18 @@ class Core {
 		delete_option( 'imdbWidgetOptions' );
 		delete_option( 'imdbCacheOptions' );
 
-		if ( ($logger !== NULL) )
-			$logger->debug("[Lumiere][core][uninstall] Lumière options deleted.");
+		$configClass->lumiere_maybe_log('info', "[Lumiere][core][uninstall] Lumière options deleted.");
 
 		# Remove cache
 		if ( (isset($imdb_cache_values['imdbcachedir'])) && (is_dir($imdb_cache_values['imdbcachedir'])) ) {
 
 			$utilsClass->lumiere_unlinkRecursive($imdb_cache_values['imdbcachedir']);
 
-			if ( ($logger !== NULL) )
-				$logger->debug("[Lumiere][core][uninstall] Cache files and folder deleted.");
+			$configClass->lumiere_maybe_log('info', "[Lumiere][core][uninstall] Cache files and folder deleted.");
 
 		} else {
 
-			if ( ($logger !== NULL) )
-				$logger->warning("[Lumiere][core][uninstall] Cache was not removed .");
+			$configClass->lumiere_maybe_log('warning', "[Lumiere][core][uninstall] Cache was not removed.");
 
 		}
 
@@ -1055,12 +1039,13 @@ class Core {
 		require_once __DIR__ . '/class.update-options.php';
 		$start_update_options = new \Lumiere\UpdateOptions();
 
-/*		For debugging purposes
+		// For debugging purpose
 		// Update imdbHowManyUpdates option
 		$config = new \Lumiere\Settings();
 		$option_array_search = get_option($config->imdbAdminOptionsName);
 		$option_array_search['imdbHowManyUpdates'] = '6';
 		update_option($config->imdbAdminOptionsName, $option_array_search);
+/*
 		// Delete imdbdebuglogpath option
 		$option_array_search = get_option($config->imdbAdminOptionsName);
 		unset($option_array_search['imdbdebuglogpath']);

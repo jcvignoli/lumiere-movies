@@ -14,15 +14,13 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'i
 
 	$text = "Lumière option imdbdebugscreen successfully added.";
 
-	if($logger !== NULL)
-		$logger->debug("[Lumiere][updater] $text");
+	$configClass->lumiere_maybe_log('info', "[Lumiere][updater] $text");
 
 } else {
 
 	$text = "Lumière option imdbdebugscreen could not be added.";
 
-	if($logger !== NULL)
-		$logger->critical("[Lumiere][updater] $text");
+	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
 
 }
 
@@ -32,15 +30,13 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'i
 
 	$text = "Lumière option imdbdebuglog successfully added.";
 
-	if($logger !== NULL)
-		$logger->debug("[Lumiere][updater] $text");
+	$configClass->lumiere_maybe_log('info', "[Lumiere][updater] $text");
 
 } else {
 
 	$text = "Lumière option imdbdebuglog could not be added.";
 
-	if($logger !== NULL)
-		$logger->critical("[Lumiere][updater] $text");
+	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
 
 }
 
@@ -50,15 +46,13 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'i
 
 	$text = "Lumière option imdbdebuglogpath successfully added.";
 
-	if($logger !== NULL)
-		$logger->debug("[Lumiere][updater] Lumière option imdbdebuglog successfully added.");
+	$configClass->lumiere_maybe_log('info', "[Lumiere][updater] $text");
 
 } else {
 
 	$text = "Lumière option imdbdebuglogpath could not be added.";
 
-	if($logger !== NULL) 
-		$logger->critical("[Lumiere][updater] $text");
+	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
 
 }
 

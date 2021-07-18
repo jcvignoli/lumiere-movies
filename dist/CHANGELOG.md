@@ -6,6 +6,7 @@ v.3.4.3
 * [technical] Use of vars and constants in class config, changed php calls accordingly.
 * [technical] Use of Monolog logger implemented in all Lumière classes and pages. Debug can now be saved to file. Everything can be set up in Lumière admin interface.
 * [technical] Removed the option to change the URL of the blog. Option inherited from the times where WordPress was very different. Useless now.
+* [technical] Using checkboxes instead of radio buttons in General Options
 * [bug] HTML Links are properly linking to plot authors (class movie).
 * [bug] Failing to build html links for taxonomy pages for people with accentuated names. The accents were kept in URL.
 

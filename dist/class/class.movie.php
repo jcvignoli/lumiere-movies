@@ -93,10 +93,9 @@ class LumiereMovies {
 		}
 
 		// Run the initialisation of the class
-		//$this->init();
 		add_action ('the_loop', [$this, 'init'], 0);
 
-		// Add the shortcodes to parse the texte
+		// Add the shortcodes to parse the texte, not in admin pages
 		if  (! is_admin() ) {
 			add_shortcode( 'imdblt', [$this, 'parse_lumiere_tag_transform'] );
 			add_shortcode( 'imdbltid', [$this, 'parse_lumiere_tag_transform_id'] );
@@ -109,6 +108,10 @@ class LumiereMovies {
 	 **
 	 **/
 	function lumiere_start_logger_wrapper(){
+
+		// If the user can't manage options, exit
+		if ( !current_user_can( 'manage_options' ) ) 
+			return $this->loggerclass = NULL;
 
 		// Start logger class if debug is selected
 		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){

@@ -33,12 +33,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	if(jQuery("input.activatehidesectionAddTwo").prop("checked") == true){
 		jQuery(".hidesectionOfCheckboxTwo").show();
-	} else if (jQuery("input.activatehidesectionRemoveTwo").prop("checked") == true){
+	} else if (jQuery(".activatehidesectionRemoveTwo").prop("checked") == true){
 		jQuery(".hidesectionOfCheckboxTwo").hide();
 	}
 
 	jQuery("input.activatehidesectionAddTwo").click(function () {
 	    jQuery(".hidesectionOfCheckboxTwo").slideToggle();
-	}).nextAll(".hidesectionOfCheckboxTwo").hide();
+	}).nextAll(".hidesectionOfCheckboxTwo").show();
 
 });
