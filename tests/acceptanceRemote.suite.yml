@@ -10,11 +10,12 @@ modules:
     enabled:
         - \Helper\AcceptanceRemote
     config:
+	#REMOTE HOST DOESNT OPEN MYSQL SERVER TO EXTERNAL CONNECTIONS!
         WPDb:
             dsn: '%TEST_SITE_DB_DSN%'
             user: '%TEST_SITE_DB_USER%'
             password: '%TEST_SITE_DB_PASSWORD%'
-            dump: 'tests/_data/XXXXX.sql'
+            dump: 'tests/_data/lumiere_db_dump_blogpourext_202107.sql'
             #import the dump before the tests; this means the test site database will be repopulated before the tests.
             populate: false
             # re-import the dump between tests; this means the test site database will be repopulated between the tests.

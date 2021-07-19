@@ -8,9 +8,13 @@ OK--- 6. technical Use of Monolog implemented everywhere but in the widget. Debu
 OK--- 7. bug Failing to build html links for taxonomy pages for people with accentuated names. The accents were kept. 
 OK--- 8. technical Added new option for logging in advanced admin, whether to write a log and to which path
 OK--- 9. technical Using checkboxes instead of radio buttons in General Options
-
 OK-- 10. bug Same movie could be called several times, which lead to many useless iterations. Got rid of the globals in classes movies and widget. Optimisation of the resources.
 
+
+add var based on latest update file in config
+add check for level constant and make sure there is something
+
+add a var for the level of debugging (info, debug, etc)
 errors in bio to fix https://www.jcvignoli.com/blogpourext/imdblt_director/tony-zarindast/
 
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js

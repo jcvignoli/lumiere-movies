@@ -374,17 +374,13 @@ function lumiere_help_adminbigmenu_function () {
 	</div>
 	<div class="helpdiv">
 		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/imdblt_menubig.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="10%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/imdblt_menubig.jpg"); ?>" alt="imdblt big menu" /></a>
-		<?php esc_html_e( "Wordpress admin area offers more and more options to user. Starting with 2.7 release, it also offers the possibility to add new admin menu for plugins. Lumiere Movies makes the most of this possibility, and can add its own admin menu. It can be added - or removed. Depending of how many plugin's admin menus you already have, you would prefer to keep access to Lumiere Movies settings only through usual 'settings' tab; it's up to you to choose to either get a complet and bigger Lumiere Movies menu - or not.", 'lumiere-movies'); ?>
+		<?php esc_html_e( "Wordpress admin area offers more and more options to user. Starting with 2.7 release, it also offers the possibility to add new admin menu for plugins. Lumiere Movies makes the most of this possibility, and can add its own admin menu. It can be added - or removed. Depending of how many plugin's admin menus you already have, you would prefer to keep access to Lumiere Movies settings only through usual 'settings' tab; it's up to you to choose to either get a more complete and bigger Lumiere Movies menu - or not.", 'lumiere-movies'); ?>
 	</div>
 
 	<div class="helpdiv">
 		<?php esc_html_e( "In the case you want to, go to 'General options / Advanced / Display plugin in big admin menu' and turn to 'yes' the option. You will get a brand new menu, as shown on left.", 'lumiere-movies'); ?>
 	</div>
 
-	<div class="helpdiv">
-		<a href="<?php echo plugin_dir_url( __DIR__ ); ?>pics/imdblt_menubig_ozh.jpg" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="left" width="20%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/imdblt_menubig_ozh.jpg"); ?>" alt="imdblt big menu with Admin Drop Down Menu plugin" /></a>
-		<?php esc_html_e( "One can go still further; if installing Ozh Admin Drop Down Menu (https://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/), a plugin to switch classical vertical admin menu to horizontal and which gives the admin area more of a 'desktop application' feel. Lumiere Movies is ready to use improvements from Ozh's plugin, adding icons (when user select IMDb's plugin from the settings menu). Also, if you activate both Ozh's plugin and Lumiere Movies's big admin menu, you will get a nice and complete horizontal menu. Very useful.", 'lumiere-movies'); ?>
-	</div>
 <?php } // end function lumiere_help_adminbigmenu_function
 
 

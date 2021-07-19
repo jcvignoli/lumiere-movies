@@ -9,13 +9,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-07-17T21:58:34-03:00\n"
+"POT-Creation-Date: 2021-07-19T10:01:13-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
 
 #. Plugin Name of the plugin
-#: class/class.widget.php:218
+#: class/class.widget.php:212
 msgid "Lumière! Movies"
 msgstr ""
 
@@ -35,64 +35,64 @@ msgstr ""
 msgid "https://www.jcvignoli.com/blog"
 msgstr ""
 
-#: class/class.core.php:441
+#: class/class.core.php:420
 msgid "Lumière options page"
 msgstr ""
 
-#: class/class.core.php:441
+#: class/class.core.php:420
 #: inc/options-cache.php:417
 msgid "General options"
 msgstr ""
 
-#: class/class.core.php:442
+#: class/class.core.php:421
 msgid "Data management"
 msgstr ""
 
-#: class/class.core.php:443
+#: class/class.core.php:422
 msgid "Cache management options page"
 msgstr ""
 
-#: class/class.core.php:443
+#: class/class.core.php:422
 #: inc/admin_pages.php:88
 msgid "Cache management"
 msgstr ""
 
-#: class/class.core.php:444
+#: class/class.core.php:423
 msgid "Help page"
 msgstr ""
 
-#: class/class.core.php:444
+#: class/class.core.php:423
 msgid "Help"
 msgstr ""
 
-#: class/class.core.php:582
-#: class/class.core.php:592
+#: class/class.core.php:550
+#: class/class.core.php:560
 msgid "Informations about "
 msgstr ""
 
-#: class/class.core.php:582
-#: class/class.core.php:592
+#: class/class.core.php:550
+#: class/class.core.php:560
 msgid "Unknown"
 msgstr ""
 
-#: class/class.core.php:596
+#: class/class.core.php:564
 msgid "No query entered"
 msgstr ""
 
-#: class/class.core.php:597
+#: class/class.core.php:565
 msgid "Search query for "
 msgstr ""
 
-#: class/class.core.php:605
+#: class/class.core.php:573
 msgid "Lumiere Query Interface"
 msgstr ""
 
-#: class/class.core.php:965
+#: class/class.core.php:922
 msgid "Lumière "
 msgstr ""
 
-#: class/class.core.php:998
-#: class/class.core.php:1019
+#: class/class.core.php:955
+#: class/class.core.php:976
 msgid "Open a new window with IMDb informations"
 msgstr ""
 
@@ -134,7 +134,7 @@ msgid "to find the IMDb's ID."
 msgstr ""
 
 #: class/class.movie.php:91
-#: class/class.widget.php:88
+#: class/class.widget.php:83
 msgid "Cannot start class movie, class Lumière Settings not found"
 msgstr ""
 
@@ -149,7 +149,7 @@ msgstr ""
 #: class/class.movie.php:607
 #: inc/options-data.php:243
 #: inc/options-data.php:244
-#: inc/popup-imdb_movie.php:401
+#: inc/popup-imdb_movie.php:406
 msgid "Country"
 msgid_plural "Countries"
 msgstr[0] ""
@@ -158,19 +158,19 @@ msgstr[1] ""
 #: class/class.movie.php:651
 #: inc/options-data.php:445
 #: inc/options-data.php:446
-#: inc/popup-imdb_movie.php:336
+#: inc/popup-imdb_movie.php:341
 msgid "Runtime"
 msgstr ""
 
 #: class/class.movie.php:653
-#: inc/popup-imdb_movie.php:340
+#: inc/popup-imdb_movie.php:345
 msgid "minutes"
 msgstr ""
 
 #: class/class.movie.php:678
 #: inc/options-data.php:326
 #: inc/options-data.php:327
-#: inc/popup-imdb_movie.php:378
+#: inc/popup-imdb_movie.php:383
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] ""
@@ -179,7 +179,7 @@ msgstr[1] ""
 #: class/class.movie.php:726
 #: inc/options-data.php:428
 #: inc/options-data.php:429
-#: inc/popup-imdb_movie.php:356
+#: inc/popup-imdb_movie.php:361
 msgid "Rating"
 msgstr ""
 
@@ -192,24 +192,24 @@ msgid "(max 10)"
 msgstr ""
 
 #: class/class.movie.php:738
-#: inc/popup-imdb_movie.php:359
+#: inc/popup-imdb_movie.php:364
 msgid "vote average "
 msgstr ""
 
 #: class/class.movie.php:738
-#: inc/popup-imdb_movie.php:359
+#: inc/popup-imdb_movie.php:364
 msgid " out of 10"
 msgstr ""
 
 #: class/class.movie.php:739
-#: inc/popup-imdb_movie.php:360
+#: inc/popup-imdb_movie.php:365
 msgid "votes"
 msgstr ""
 
 #: class/class.movie.php:767
 #: inc/options-data.php:281
 #: inc/options-data.php:282
-#: inc/popup-imdb_movie.php:425
+#: inc/popup-imdb_movie.php:430
 msgid "Genre"
 msgid_plural "Genres"
 msgstr[0] ""
@@ -222,7 +222,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/class.movie.php:863
-#: inc/popup-imdb_movie.php:746
+#: inc/popup-imdb_movie.php:751
 msgid "Goof"
 msgid_plural "Goofs"
 msgstr[0] ""
@@ -283,7 +283,7 @@ msgstr ""
 #: class/class.movie.php:1247
 #: inc/options-data.php:456
 #: inc/options-data.php:457
-#: inc/popup-imdb_movie.php:717
+#: inc/popup-imdb_movie.php:722
 msgid "Soundtrack"
 msgid_plural "Soundtracks"
 msgstr[0] ""
@@ -306,10 +306,10 @@ msgstr[1] ""
 #: class/class.movie.php:1395
 #: inc/options-data.php:269
 #: inc/options-data.php:270
-#: inc/popup-imdb_movie.php:124
-#: inc/popup-imdb_movie.php:278
-#: inc/popup-imdb_movie.php:520
-#: inc/popup-search.php:95
+#: inc/popup-imdb_movie.php:129
+#: inc/popup-imdb_movie.php:283
+#: inc/popup-imdb_movie.php:525
+#: inc/popup-search.php:100
 msgid "Director"
 msgid_plural "Directors"
 msgstr[0] ""
@@ -343,7 +343,7 @@ msgstr[1] ""
 #: class/class.movie.php:1531
 #: inc/options-data.php:383
 #: inc/options-data.php:384
-#: inc/popup-imdb_movie.php:593
+#: inc/popup-imdb_movie.php:598
 msgid "Producer"
 msgid_plural "Producers"
 msgstr[0] ""
@@ -352,7 +352,7 @@ msgstr[1] ""
 #: class/class.movie.php:1612
 #: inc/options-data.php:545
 #: inc/options-data.php:546
-#: inc/popup-imdb_movie.php:558
+#: inc/popup-imdb_movie.php:563
 msgid "Writer"
 msgid_plural "Writers"
 msgstr[0] ""
@@ -362,7 +362,7 @@ msgstr[1] ""
 #: class/class.movie.php:1765
 #: inc/options-data.php:182
 #: inc/options-data.php:183
-#: inc/popup-imdb_movie.php:474
+#: inc/popup-imdb_movie.php:479
 msgid "Actor"
 msgid_plural "Actors"
 msgstr[0] ""
@@ -377,7 +377,7 @@ msgstr ""
 #: class/class.movie.php:1844
 #: inc/options-data.php:368
 #: inc/options-data.php:369
-#: inc/popup-imdb_movie.php:651
+#: inc/popup-imdb_movie.php:656
 msgid "Plot"
 msgid_plural "Plots"
 msgstr[0] ""
@@ -412,15 +412,15 @@ msgstr ""
 msgid "more"
 msgstr ""
 
-#: class/class.widget.php:59
+#: class/class.widget.php:54
 msgid "Add movie details to your pages with Lumière!"
 msgstr ""
 
-#: class/class.widget.php:118
+#: class/class.widget.php:112
 msgid "IMDb data"
 msgstr ""
 
-#: class/class.widget.php:230
+#: class/class.widget.php:224
 msgid "Widget title:"
 msgstr ""
 
@@ -490,7 +490,7 @@ msgid "IMDb identification number"
 msgstr ""
 
 #: inc/gutenberg-search.php:81
-#: inc/popup-search.php:109
+#: inc/popup-search.php:114
 msgid "Maximum of results reached. You can increase it in admin options."
 msgstr ""
 
@@ -679,11 +679,10 @@ msgstr ""
 #: inc/help.php:330
 #: inc/help.php:342
 #: inc/help.php:376
-#: inc/help.php:385
-#: inc/help.php:466
-#: inc/help.php:478
-#: inc/help.php:495
-#: inc/help.php:517
+#: inc/help.php:462
+#: inc/help.php:474
+#: inc/help.php:491
+#: inc/help.php:513
 msgid "click to get a larger picture"
 msgstr ""
 
@@ -813,110 +812,106 @@ msgid "Lumiere Movies is a mess! I'm lost with so many options."
 msgstr ""
 
 #: inc/help.php:377
-msgid "Wordpress admin area offers more and more options to user. Starting with 2.7 release, it also offers the possibility to add new admin menu for plugins. Lumiere Movies makes the most of this possibility, and can add its own admin menu. It can be added - or removed. Depending of how many plugin's admin menus you already have, you would prefer to keep access to Lumiere Movies settings only through usual 'settings' tab; it's up to you to choose to either get a complet and bigger Lumiere Movies menu - or not."
+msgid "Wordpress admin area offers more and more options to user. Starting with 2.7 release, it also offers the possibility to add new admin menu for plugins. Lumiere Movies makes the most of this possibility, and can add its own admin menu. It can be added - or removed. Depending of how many plugin's admin menus you already have, you would prefer to keep access to Lumiere Movies settings only through usual 'settings' tab; it's up to you to choose to either get a more complete and bigger Lumiere Movies menu - or not."
 msgstr ""
 
 #: inc/help.php:381
 msgid "In the case you want to, go to 'General options / Advanced / Display plugin in big admin menu' and turn to 'yes' the option. You will get a brand new menu, as shown on left."
 msgstr ""
 
-#: inc/help.php:386
-msgid "One can go still further; if installing Ozh Admin Drop Down Menu (https://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/), a plugin to switch classical vertical admin menu to horizontal and which gives the admin area more of a 'desktop application' feel. Lumiere Movies is ready to use improvements from Ozh's plugin, adding icons (when user select IMDb's plugin from the settings menu). Also, if you activate both Ozh's plugin and Lumiere Movies's big admin menu, you will get a nice and complete horizontal menu. Very useful."
-msgstr ""
-
-#: inc/help.php:400
+#: inc/help.php:396
 msgid "How to add a search function for movies in general, and not only for selected movies?"
 msgstr ""
 
-#: inc/help.php:402
+#: inc/help.php:398
 msgid "It is indeed doable. Plugin is versatile enough to handle this function. By adding a form, you can add a search field which will allow users to search for every movie on your blog. Here is the code:"
 msgstr ""
 
-#: inc/help.php:416
+#: inc/help.php:412
 msgid "It perfectly fits in your sidebar, for exemple."
 msgstr ""
 
-#: inc/help.php:433
+#: inc/help.php:429
 msgid "How to keep my own css through updated process?"
 msgstr ""
 
-#: inc/help.php:435
+#: inc/help.php:431
 msgid "Fed up of losing your carefully handmade visual settings at every Lumière! update? There is a solution."
 msgstr ""
 
-#: inc/help.php:438
+#: inc/help.php:434
 msgid "Every modification you can make is done in css/lumiere.css file. Instead of using this file, put an lumiere.css file in you template root folder; this css file will taken instead of plugin's css file. Whenever you update, your template's one will stay untouched!"
 msgstr ""
 
-#: inc/help.php:441
+#: inc/help.php:437
 msgid "However, be careful with this manner, since css/lumiere.css file can be updated from version to version, and you'd not be aware of changes made..."
 msgstr ""
 
-#: inc/help.php:456
+#: inc/help.php:452
 msgid "What is Wordpress' taxonomy?"
 msgstr ""
 
-#: inc/help.php:458
+#: inc/help.php:454
 msgid "Starting with Wordpress 2.3, wordpress users can make use taxonomy (https://codex.wordpress.org/WordPress_Taxonomy)."
 msgstr ""
 
-#: inc/help.php:459
+#: inc/help.php:455
 msgid "Taxonomy is a feature adding a supplementary categorisation beside Categories and Tags; in other words, it is like having species (a block named 'genre') and subspecies (few words describing the genre, like 'Adventure', 'Terror'). It is not fundamentaly different from Categories and Tags, but it is much more appropriate for Lumiere Movies needs."
 msgstr ""
 
-#: inc/help.php:462
+#: inc/help.php:458
 msgid "How to use taxonomy Wordpress capability?"
 msgstr ""
 
-#: inc/help.php:464
+#: inc/help.php:460
 msgid "To activate the automatically generated taxonomy, turn 'General options -> Advanced ->  'Use automatical genre taxonomy?' to 'yes'. Note that since taxonomy is related to movie details, the movie detail you want to be used as taxonomy has to be also activated from 'Widget/Inside post Options -> What to display'. Eventually, it will permit to select in 'Widget/Inside post Options -> What to taxonomize' menu if you want to taxonomize Genres, but also actors, colors, composers, directors, etc."
 msgstr ""
 
-#: inc/help.php:470
+#: inc/help.php:466
 msgid "After that, pay a visit to your post/page; first refresh will not immediately display the movie detail (it will only generate them). Though, on a second refresh, you will see both movie details and (if you wordpress theme is configured to show it) taxonomy in your post."
 msgstr ""
 
-#: inc/help.php:474
+#: inc/help.php:470
 msgid "New option(s) in 'Posts' menu"
 msgstr ""
 
-#: inc/help.php:476
+#: inc/help.php:472
 msgid "Once you have activated all taxonomy options and have triggered its wordpress function (by visiting your post and refreshing the page), wordpress administration posts menu will include new option(s). Depending on movie details previously selected, you will find an option to manage the words automatically generated by the taxonomy function. For instance to select 'genre':"
 msgstr ""
 
-#: inc/help.php:483
+#: inc/help.php:479
 msgid "Limits"
 msgstr ""
 
-#: inc/help.php:484
+#: inc/help.php:480
 msgid "There is a strong limitation: since eache page/post can contain only a unique taxonomy sequence, only the first movie (first 'inside the post', first 'widget') will use the taxonomy feature. If you have two movie's widgets, only the first widget will display the links to genre's taxonomy. If you have both a movie's widget and an inside the post data, the movie's widget will prevail."
 msgstr ""
 
-#: inc/help.php:487
+#: inc/help.php:483
 msgid "Also, select cautiously options you want to be displayed as taxonomies: it could happen it creates a conflict with other functions, especially if you display many movies in same post. When selecting one of the taxonomy options from 'What to taxonomize' section, it will supersede any other function or link created; for instance, you won't have anymore access to popup links for directors, if directors taxonomy is chosen. Taxonomy will always prevail."
 msgstr ""
 
-#: inc/help.php:491
+#: inc/help.php:487
 msgid "Advanced: Customizing your theme according taxonomy"
 msgstr ""
 
-#: inc/help.php:493
+#: inc/help.php:489
 msgid "To fully enjoy this feature, copy one of the files located in the Lumière! movies folder 'lumiere-movies/theme/' into your 'theme' folder. In order to help you, an automated process is available in Lumière! taxonomy options."
 msgstr ""
 
-#: inc/help.php:509
+#: inc/help.php:505
 msgid "How to get the movie retrieved automatically according to the post's title?"
 msgstr ""
 
-#: inc/help.php:511
+#: inc/help.php:507
 msgid "You have hundreds of posts, carrefully named as they could be found on IMDb, and you don't want to change hundreds of posts. There is a straightforward solution."
 msgstr ""
 
-#: inc/help.php:514
+#: inc/help.php:510
 msgid "Activate Widget option in Lumière! (it is activated by default), add the Lumières!'s widget to your sidebar, and go to 'Widget/Inside post Options' menu, select 'misc' from the new menu, and select « yes » from « Auto widget? » option at end."
 msgstr ""
 
-#: inc/help.php:522
+#: inc/help.php:518
 msgid "Next time you will look at your post, you will find the widget according to your post’s title."
 msgstr ""
 
@@ -1288,9 +1283,9 @@ msgstr ""
 
 #: inc/options-cache.php:704
 #: inc/options-cache.php:812
-#: inc/popup-imdb_movie.php:244
-#: inc/popup-imdb_person.php:240
-#: theme/taxonomy-imdblt_people.php:116
+#: inc/popup-imdb_movie.php:249
+#: inc/popup-imdb_person.php:245
+#: theme/taxonomy-imdblt_people.php:122
 msgid "no picture"
 msgstr ""
 
@@ -1676,7 +1671,7 @@ msgid "Note: once activated, each taxonomy category will show a new option to co
 msgstr ""
 
 #: inc/options-data.php:603
-#: inc/popup-imdb_movie.php:200
+#: inc/popup-imdb_movie.php:205
 msgid "Actors"
 msgstr ""
 
@@ -1944,8 +1939,8 @@ msgid "This limits the number of results in a movie query."
 msgstr ""
 
 #: inc/options-general.php:372
-#: inc/popup-imdb_movie.php:209
-#: inc/popup-imdb_person.php:125
+#: inc/popup-imdb_movie.php:214
+#: inc/popup-imdb_person.php:130
 msgid "Misc"
 msgstr ""
 
@@ -2022,7 +2017,7 @@ msgid "Display debug on screen?"
 msgstr ""
 
 #: inc/options-general.php:476
-msgid "Show the debug log on screen. Anyone visiting your website can access the log."
+msgid "Show the debug log on screen (for admin only)."
 msgstr ""
 
 #: inc/options-general.php:479
@@ -2073,202 +2068,202 @@ msgstr ""
 msgid "The full URL utilized for the director taxonomy page will be:"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:46
+#: inc/popup-imdb_movie.php:51
 msgid "Cannot start popup movies, class Lumière Settings not found"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:88
+#: inc/popup-imdb_movie.php:93
 msgid "No config option set"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:112
+#: inc/popup-imdb_movie.php:117
 msgid "No result found for"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:117
-#: inc/popup-search.php:79
+#: inc/popup-imdb_movie.php:122
+#: inc/popup-search.php:84
 msgid "Results related to"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:121
-#: inc/popup-search.php:92
+#: inc/popup-imdb_movie.php:126
+#: inc/popup-search.php:97
 msgid "Matching titles"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:136
+#: inc/popup-imdb_movie.php:141
 msgid "Maximum of results reached."
 msgstr ""
 
-#: inc/popup-imdb_movie.php:144
-#: inc/popup-imdb_movie.php:152
-#: inc/popup-search.php:125
-#: inc/popup-search.php:142
+#: inc/popup-imdb_movie.php:149
+#: inc/popup-imdb_movie.php:157
+#: inc/popup-search.php:130
+#: inc/popup-search.php:147
 msgid "more on"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:156
-#: inc/popup-search.php:149
+#: inc/popup-imdb_movie.php:161
+#: inc/popup-search.php:154
 msgid "No director found."
 msgstr ""
 
-#: inc/popup-imdb_movie.php:194
+#: inc/popup-imdb_movie.php:199
 msgid "Search for other movies with the same title"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:194
+#: inc/popup-imdb_movie.php:199
 msgid "Similar Titles"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:197
+#: inc/popup-imdb_movie.php:202
 msgid "Movie"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:197
-#: inc/popup-imdb_person.php:116
+#: inc/popup-imdb_movie.php:202
+#: inc/popup-imdb_person.php:121
 msgid "Summary"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:203
+#: inc/popup-imdb_movie.php:208
 msgid "Crew"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:206
+#: inc/popup-imdb_movie.php:211
 msgid "Plots"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:285
-#: inc/popup-imdb_movie.php:314
-#: inc/popup-imdb_movie.php:490
-#: inc/popup-imdb_movie.php:532
-#: inc/popup-imdb_movie.php:570
-#: inc/popup-imdb_movie.php:605
+#: inc/popup-imdb_movie.php:290
+#: inc/popup-imdb_movie.php:319
+#: inc/popup-imdb_movie.php:495
+#: inc/popup-imdb_movie.php:537
+#: inc/popup-imdb_movie.php:575
+#: inc/popup-imdb_movie.php:610
 msgid "link to imdb"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:311
+#: inc/popup-imdb_movie.php:316
 msgid "Main actors"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:633
+#: inc/popup-imdb_movie.php:638
 msgid "Plot summary"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:680
-#: inc/popup-imdb_person.php:601
+#: inc/popup-imdb_movie.php:685
+#: inc/popup-imdb_person.php:606
 msgid "Trivia"
 msgid_plural "Trivias"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/popup-imdb_movie.php:689
+#: inc/popup-imdb_movie.php:694
 msgid "click to show more trivias"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:755
+#: inc/popup-imdb_movie.php:760
 msgid "click to show more goofs"
 msgstr ""
 
-#: inc/popup-imdb_person.php:45
+#: inc/popup-imdb_person.php:50
 msgid "Cannot start popup person, class Lumière Settings not found"
 msgstr ""
 
-#: inc/popup-imdb_person.php:113
+#: inc/popup-imdb_person.php:118
 msgid "Back"
 msgstr ""
 
-#: inc/popup-imdb_person.php:119
+#: inc/popup-imdb_person.php:124
 msgid "Full filmography"
 msgstr ""
 
-#: inc/popup-imdb_person.php:122
+#: inc/popup-imdb_person.php:127
 msgid "Full biography"
 msgstr ""
 
-#: inc/popup-imdb_person.php:143
-#: theme/taxonomy-imdblt_people.php:141
+#: inc/popup-imdb_person.php:148
+#: theme/taxonomy-imdblt_people.php:147
 msgid "Born on"
 msgstr ""
 
-#: inc/popup-imdb_person.php:150
-#: inc/popup-imdb_person.php:167
-#: theme/taxonomy-imdblt_people.php:150
-#: theme/taxonomy-imdblt_people.php:171
+#: inc/popup-imdb_person.php:155
+#: inc/popup-imdb_person.php:172
+#: theme/taxonomy-imdblt_people.php:156
+#: theme/taxonomy-imdblt_people.php:177
 msgid "in"
 msgstr ""
 
-#: inc/popup-imdb_person.php:161
-#: theme/taxonomy-imdblt_people.php:165
+#: inc/popup-imdb_person.php:166
+#: theme/taxonomy-imdblt_people.php:171
 msgid "Died on"
 msgstr ""
 
-#: inc/popup-imdb_person.php:170
-#: theme/taxonomy-imdblt_people.php:174
+#: inc/popup-imdb_person.php:175
+#: theme/taxonomy-imdblt_people.php:180
 msgid "cause"
 msgstr ""
 
-#: inc/popup-imdb_person.php:182
-#: theme/taxonomy-imdblt_people.php:192
+#: inc/popup-imdb_person.php:187
+#: theme/taxonomy-imdblt_people.php:198
 msgid "Biography"
 msgstr ""
 
-#: inc/popup-imdb_person.php:188
-#: theme/taxonomy-imdblt_people.php:198
+#: inc/popup-imdb_person.php:193
+#: theme/taxonomy-imdblt_people.php:204
 msgid "click to expand"
 msgstr ""
 
-#: inc/popup-imdb_person.php:306
-#: inc/popup-imdb_person.php:356
-#: inc/popup-imdb_person.php:555
-#: inc/popup-imdb_person.php:608
-#: inc/popup-imdb_person.php:675
-#: inc/popup-imdb_person.php:711
+#: inc/popup-imdb_person.php:311
+#: inc/popup-imdb_person.php:361
+#: inc/popup-imdb_person.php:560
+#: inc/popup-imdb_person.php:613
+#: inc/popup-imdb_person.php:680
+#: inc/popup-imdb_person.php:716
 msgid "see all"
 msgstr ""
 
-#: inc/popup-imdb_person.php:471
+#: inc/popup-imdb_person.php:476
 msgid "Biographical movies"
 msgstr ""
 
-#: inc/popup-imdb_person.php:493
+#: inc/popup-imdb_person.php:498
 msgid "Portrayed in"
 msgstr ""
 
-#: inc/popup-imdb_person.php:515
+#: inc/popup-imdb_person.php:520
 msgid "Interviews"
 msgstr ""
 
-#: inc/popup-imdb_person.php:547
+#: inc/popup-imdb_person.php:552
 msgid "Printed publicity"
 msgstr ""
 
-#: inc/popup-imdb_person.php:641
+#: inc/popup-imdb_person.php:646
 msgid "Nicknames"
 msgstr ""
 
-#: inc/popup-imdb_person.php:668
+#: inc/popup-imdb_person.php:673
 msgid "Personal quotes"
 msgstr ""
 
-#: inc/popup-imdb_person.php:704
+#: inc/popup-imdb_person.php:709
 msgid "Trademarks"
 msgstr ""
 
-#: inc/popup-search.php:84
+#: inc/popup-search.php:89
 msgid "No result found."
 msgstr ""
 
 #: theme/taxonomy-imdblt_items.php:26
-#: theme/taxonomy-imdblt_people.php:278
+#: theme/taxonomy-imdblt_people.php:284
 msgid "Open the blog "
 msgstr ""
 
 #: theme/taxonomy-imdblt_items.php:44
-#: theme/taxonomy-imdblt_people.php:307
+#: theme/taxonomy-imdblt_people.php:313
 msgid "Filed under: "
 msgstr ""
 
 #: theme/taxonomy-imdblt_items.php:48
-#: theme/taxonomy-imdblt_people.php:311
+#: theme/taxonomy-imdblt_people.php:317
 msgid "Tags: "
 msgstr ""
 
@@ -2276,15 +2271,15 @@ msgstr ""
 msgid "No post found."
 msgstr ""
 
-#: theme/taxonomy-imdblt_people.php:236
+#: theme/taxonomy-imdblt_people.php:242
 msgid "Taxonomy for "
 msgstr ""
 
-#: theme/taxonomy-imdblt_people.php:271
+#: theme/taxonomy-imdblt_people.php:277
 msgid "In the role of"
 msgstr ""
 
-#: theme/taxonomy-imdblt_people.php:401
+#: theme/taxonomy-imdblt_people.php:407
 msgid "Change language"
 msgstr ""
 

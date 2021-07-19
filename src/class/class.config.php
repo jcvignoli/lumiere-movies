@@ -80,8 +80,6 @@ class Settings extends Config {
 	public $loggerclass;
 	/* Where to write the log (below WordPress default log) */
 	const debug_log_path = WP_CONTENT_DIR . '/debug.log';
-	/* Debug levels: emergency, alert, critical, error, warning, notice, info, debug */
-	const debugLevel = Logger::DEBUG;
 	/* Set to false to use Logger instead of Monolog */
 	var $isMonologActive = true;
 
@@ -201,12 +199,13 @@ class Settings extends Config {
 			'imdblanguage' => "en",
 			'imdbdirectsearch' => true, 		/* @TODO useless, remove */
 			/*'imdbsourceout' => false,*/
-			'imdbdebug' => false,			/* Debug? */
-			'imdbdebuglog' => false,			/* Log debug? */
+			'imdbdebug' => false,			/* Debug */
+			'imdbdebuglog' => false,			/* Log debug */
 			'imdbdebuglogpath' => self::debug_log_path,
-			'imdbdebugscreen' => true,			/* Show debug on screen? */
-			'imdbwordpress_bigmenu'=>false,		/* @TODO see if it can be removed */
-			'imdbwordpress_tooladminmenu'=>true,	/* @TODO useless, remove */
+			'imdbdebuglevel' => 'DEBUG',			/* Debug levels: emergency, alert, critical, error, warning, notice, info, debug */
+			'imdbdebugscreen' => true,			/* Show debug on screen */
+			'imdbwordpress_bigmenu'=>false,		/* Left menu */
+			'imdbwordpress_tooladminmenu'=>true,	/* Top menu */
 			'imdbpopup_highslide'=>true,
 			'imdbtaxonomy'=> true,
 			'imdbHowManyUpdates'=> 1, # for use in class.update-options.php
@@ -489,8 +488,8 @@ class Settings extends Config {
 	 ** 
 	 ** By default, Logger is utilised if the var $isMonologActive is set "false", Monolog is set "true"
 	 ** 
-	 ** @ param (string) $page_name: title applied to the logger in the logs under origin
-	 ** @ param (bool) $screenOutput: whether to display the screen output, usefull for plugin activationin class core
+	 ** @ param (string) optional $page_name: title applied to the logger in the logs under origin
+	 ** @ param (bool) optional $screenOutput: whether to display the screen output. Useful for plugin activation.
 	 **/
 	public function lumiere_start_logger ($page_name="originUnknown", $screenOutput=true) {
 
@@ -505,10 +504,10 @@ class Settings extends Config {
 				//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
 
 				// Add the file, the line, the class, the function
-				$logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor(self::debugLevel));
+				$logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor( constant('\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel']) ));
 
 				// Write to log, default to WordPress default log
-				$filelogger = new \Monolog\Handler\StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], self::debugLevel);
+				$filelogger = new \Monolog\Handler\StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], constant('\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel']) );
 				$logger->pushHandler ( $filelogger );
 
 			}
@@ -518,7 +517,7 @@ class Settings extends Config {
 
 				$output = "[%level_name%] %message%<br />\n";
 				$screenformater = new \Monolog\Formatter\LineFormatter($output);
-				$screenlogger = new \Monolog\Handler\StreamHandler( 'php://output', self::debugLevel);
+				$screenlogger = new \Monolog\Handler\StreamHandler( 'php://output', constant('\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel']) );
 				$screenlogger->setFormatter($screenformater);
 				$logger->pushHandler ( $screenlogger );
 

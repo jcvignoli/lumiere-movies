@@ -2,15 +2,30 @@
 
 /************************************************** Lumière version 3.4.3, update 6 */
 
-if($logger !== NULL)
-	$logger->debug("[Lumiere][updater] Starting update 6");
+$configClass->lumiere_maybe_log('info', "[Lumiere][updater] Starting update 6");
 
 $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
 $this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
 
+// Add 'imdbdebuglevel'
+// New option to select the level of verbosity
+if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'imdbdebuglevel', 'DEBUG' ) ) {
+
+	$text = "Lumière option imdbdebuglevel successfully added.";
+
+	$configClass->lumiere_maybe_log('info', "[Lumiere][updater] $text");
+
+} else {
+
+	$text = "Lumière option imdbdebuglevel could not be added.";
+
+	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
+
+}
+
 // Add 'imdbdebugscreen'
 // New option to show the debug on screen
-if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbdebugscreen', true) ) {
+if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'imdbdebugscreen', true) ) {
 
 	$text = "Lumière option imdbdebugscreen successfully added.";
 
@@ -26,7 +41,7 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'i
 
 // Add 'imdbdebuglog'
 // New option to select if to write a debug log
-if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbdebuglog', false) ) {
+if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'imdbdebuglog', false) ) {
 
 	$text = "Lumière option imdbdebuglog successfully added.";
 
@@ -42,7 +57,7 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'i
 
 // Add 'imdbdebuglogpath'
 // New option to enter a path for the log
-if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbdebuglogpath', WP_CONTENT_DIR . '/debug.log' ) ) {
+if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'imdbdebuglogpath', WP_CONTENT_DIR . '/debug.log' ) ) {
 
 	$text = "Lumière option imdbdebuglogpath successfully added.";
 

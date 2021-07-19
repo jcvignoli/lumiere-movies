@@ -2,8 +2,7 @@
 
 /************************************************** Lumière version 3.4, update 4 */
 
-if($logger !== NULL)
-	$logger->debug("[Lumiere][updater] Starting update 4");
+$configClass->lumiere_maybe_log('info', "[Lumiere][updater] Starting update 4");
 
 $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
 $this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
