@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-19 09:01-0400\n"
-"PO-Revision-Date: 2021-07-19 09:03-0400\n"
+"POT-Creation-Date: 2021-07-19 18:29-0400\n"
+"PO-Revision-Date: 2021-07-19 18:29-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -67,71 +67,71 @@ msgstr "Par titre du film"
 msgid "By IMDb ID"
 msgstr "Par numéro IMDb"
 
-#: class/class.core.php:420
+#: class/class.core.php:424
 msgid "Lumière options page"
 msgstr "Pages d'options Lumière!"
 
-#: class/class.core.php:420 class/class.core.php:447 inc/options-cache.php:417
+#: class/class.core.php:424 class/class.core.php:451 inc/options-cache.php:417
 msgid "General options"
 msgstr "Options g&eacute;n&eacute;rales"
 
-#: class/class.core.php:421
+#: class/class.core.php:425
 msgid "Data management"
 msgstr "Gestion des données"
 
-#: class/class.core.php:422
+#: class/class.core.php:426
 msgid "Cache management options page"
 msgstr "Options de la gestion du cache"
 
-#: class/class.core.php:422 inc/admin_pages.php:88
+#: class/class.core.php:426 inc/admin_pages.php:88
 msgid "Cache management"
 msgstr "Gestion du cache"
 
-#: class/class.core.php:423
+#: class/class.core.php:427
 msgid "Help page"
 msgstr "Page d'aide"
 
-#: class/class.core.php:423 class/class.core.php:453
+#: class/class.core.php:427 class/class.core.php:457
 msgid "Help"
 msgstr "Aide"
 
-#: class/class.core.php:445
+#: class/class.core.php:449
 msgid "Lumière Menu"
 msgstr "Menu Lumière"
 
-#: class/class.core.php:449
+#: class/class.core.php:453
 msgid "Data options"
 msgstr "Options de cache"
 
-#: class/class.core.php:451 inc/options-cache.php:384 inc/options-cache.php:412
+#: class/class.core.php:455 inc/options-cache.php:384 inc/options-cache.php:412
 msgid "Cache options"
 msgstr "Options de cache"
 
-#: class/class.core.php:550 class/class.core.php:560
+#: class/class.core.php:554 class/class.core.php:564
 msgid "Informations about "
 msgstr "Information pour "
 
-#: class/class.core.php:550 class/class.core.php:560
+#: class/class.core.php:554 class/class.core.php:564
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: class/class.core.php:564
+#: class/class.core.php:568
 msgid "No query entered"
 msgstr "Aucune recherche entrée"
 
-#: class/class.core.php:565
+#: class/class.core.php:569
 msgid "Search query for "
 msgstr "Recherche pour "
 
-#: class/class.core.php:573
+#: class/class.core.php:577
 msgid "Lumiere Query Interface"
 msgstr "Lumière Interface de recherche"
 
-#: class/class.core.php:922
+#: class/class.core.php:926
 msgid "Lumière "
 msgstr "Lumière "
 
-#: class/class.core.php:955 class/class.core.php:976
+#: class/class.core.php:959 class/class.core.php:980
 msgid "Open a new window with IMDb informations"
 msgstr "Ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
 
@@ -1419,8 +1419,8 @@ msgstr ""
 #: inc/options-general.php:387 inc/options-general.php:398
 #: inc/options-general.php:410 inc/options-general.php:422
 #: inc/options-general.php:434 inc/options-general.php:446
-#: inc/options-general.php:489 inc/options-general.php:523
-#: inc/options-general.php:552
+#: inc/options-general.php:506 inc/options-general.php:539
+#: inc/options-general.php:568
 msgid "Default:"
 msgstr "D&eacute;faut :"
 
@@ -1468,12 +1468,12 @@ msgstr ""
 
 #: inc/options-cache.php:531 inc/options-cache.php:1021
 #: inc/options-cache.php:1041 inc/options-cache.php:1042
-#: inc/options-data.php:917 inc/options-general.php:571
+#: inc/options-data.php:917 inc/options-general.php:587
 msgid "Reset settings"
 msgstr "R&eacute;initialiser"
 
 #: inc/options-cache.php:532 inc/options-cache.php:1022
-#: inc/options-data.php:918 inc/options-general.php:572
+#: inc/options-data.php:918 inc/options-general.php:588
 msgid "Update settings"
 msgstr "Enregistrer les modifications"
 
@@ -2228,11 +2228,12 @@ msgstr "Afficher uniquement la miniature"
 #: inc/options-general.php:280
 msgid ""
 "Whether to display a thumbnail or a large image cover for movies inside a "
-"post or a widget. Untick the box to choose the cover picture width."
+"post or a widget. Untick the box to open a new option and chose the cover "
+"picture width."
 msgstr ""
 "Afficher la miniature ou l'image agrandie de pochette pour les films dans un "
-"message ou widget. Désélectionnez la box pour choisir la largeur de l'image "
-"de couverture."
+"message ou widget. Désélectionnez la boîte pour choisir la largeur de "
+"l'image de couverture."
 
 #: inc/options-general.php:285
 msgid "Size"
@@ -2431,31 +2432,41 @@ msgstr "Utiliser les fonctions intégrées de debug."
 msgid "[Extra debugging options]"
 msgstr "[Options additionnelles de debug]"
 
-#: inc/options-general.php:469
-msgid "Display debug on screen?"
-msgstr "Afficher le debug à l'écran ?"
+#: inc/options-general.php:470
+msgid "Debug verbosity"
+msgstr "Verbosité du debug"
 
-#: inc/options-general.php:476
-msgid "Show the debug log on screen (for admin only)."
-msgstr "Afficher le debug à l'écran (seulement pour administrateurs)."
-
-#: inc/options-general.php:479
-msgid "Save logs?"
-msgstr "Sauvegarder les logs ?"
+#: inc/options-general.php:482
+msgid "From lowest to highest verbosity level."
+msgstr "Du plus bas au plus haut niveau de verbosité."
 
 #: inc/options-general.php:486
+msgid "Display debug on screen"
+msgstr "Afficher le debug à l'écran"
+
+#: inc/options-general.php:492
+#, fuzzy
+#| msgid "Show the debug log on screen (for administrator user only)."
+msgid "Show the debug log on screen (for administrators only)."
+msgstr "Afficher le debug à l'écran (seulement pour administrateurs)."
+
+#: inc/options-general.php:496
+msgid "Save logs"
+msgstr "Sauvegarder les logs"
+
+#: inc/options-general.php:503
 msgid "Path"
 msgstr "Chemin"
 
-#: inc/options-general.php:489
+#: inc/options-general.php:506
 msgid "WordPress default debug log"
 msgstr "Log de debug de WordPress par défaut"
 
-#: inc/options-general.php:502
+#: inc/options-general.php:518
 msgid "Paths: url & folders"
 msgstr "Chemins : url & dossiers"
 
-#: inc/options-general.php:506
+#: inc/options-general.php:522
 msgid ""
 "Edit the following values with caution. It can have unattended effects on "
 "your WordPress installation."
@@ -2463,28 +2474,28 @@ msgstr ""
 "Modifiez avec précaution les valeurs suivantes. Cela peut avoir un effet "
 "inattendu sur votre installation WordPress."
 
-#: inc/options-general.php:514
+#: inc/options-general.php:530
 msgid "URL for the popups"
 msgstr "L'URL pour les popups"
 
-#: inc/options-general.php:521
+#: inc/options-general.php:537
 msgid "The URL that will be displayed for the movies' and people's popups."
 msgstr "L'URL qui sera affichée pour les popups de films et de personnes."
 
-#: inc/options-general.php:526
+#: inc/options-general.php:542
 msgid "Example: the full URL utilized for the movies' popups will be:"
 msgstr "Exemple: l'URL complète utilisée pour les popups pour les films sera :"
 
-#: inc/options-general.php:531
+#: inc/options-general.php:547
 msgid "Example: the full URL utilized for the people's popup will be:"
 msgstr ""
 "Exemple: l'URL complète utilisée pour les popups pour les personnes sera :"
 
-#: inc/options-general.php:543
+#: inc/options-general.php:559
 msgid "URL for the taxonomy pages"
 msgstr "L'URL pour les pages de taxonomie"
 
-#: inc/options-general.php:550
+#: inc/options-general.php:566
 msgid ""
 "The URL that will be displayed for the taxonomy's pages. Warning! It cannot "
 "be identical to the URL of popups above."
@@ -2492,7 +2503,7 @@ msgstr ""
 "L'URL qui sera affichée pour les pages de taxonomie. Attation! Elle ne peut "
 "être identique à l'URL des popups ci-dessus."
 
-#: inc/options-general.php:555
+#: inc/options-general.php:571
 msgid "The full URL utilized for the director taxonomy page will be:"
 msgstr "L'URL complète utilisée pour la page de taxonomie de réalisateur sera:"
 
