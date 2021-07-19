@@ -380,7 +380,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<?php esc_html_e( 'Left menu for Lumière options', 'lumiere-movies'); ?>&nbsp;
 
-				<input type="hidden" id="imdb_imdbwordpress_bigmenu_no" name="imdb_imdbwordpress_bigmenu" value="0" />
+				<input type="hidden" id="imdb_imdbwordpress_bigmenu_no" name="imdb_imdbwordpress_bigmenu" value="0" <?php if ($imdb_admin_values['imdbwordpress_bigmenu'] == "1") { echo 'checked="checked"'; }?> />
 
 				<input type="checkbox" id="imdb_imdbwordpress_bigmenu_yes" name="imdb_imdbwordpress_bigmenu" value="1" <?php if ($imdb_admin_values['imdbwordpress_bigmenu'] == "1") { echo 'checked="checked"'; }?> />
 
@@ -391,7 +391,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<?php esc_html_e( 'Top menu for Lumière options', 'lumiere-movies'); ?>&nbsp;
 
-				<input type="hidden" id="imdb_imdbwordpress_tooladminmenu_no" name="imdb_imdbwordpress_tooladminmenu" value="0" />
+				<input type="hidden" id="imdb_imdbwordpress_tooladminmenu_no" name="imdb_imdbwordpress_tooladminmenu" value="0" <?php if ($imdb_admin_values['imdbwordpress_bigmenu'] == "1") { echo 'checked="checked"'; }?> />
 
 				<input type="checkbox" id="imdb_imdbwordpress_tooladminmenu_yes" name="imdb_imdbwordpress_tooladminmenu" value="1" <?php if ($imdb_admin_values['imdbwordpress_tooladminmenu'] == "1") { echo 'checked="checked"'; }?> />
 
@@ -466,31 +466,45 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<?php esc_html_e( '[Extra debugging options]', 'lumiere-movies'); ?><br /><br />
 
-				<?php esc_html_e( 'Display debug on screen?', 'lumiere-movies'); ?>&nbsp;
+				<div class="lumiere_padding_five">
+					<?php esc_html_e( 'Display debug on screen', 'lumiere-movies'); ?>&nbsp;
 
-				<input type="hidden" id="imdb_imdbdebugscreen_no" name="imdb_imdbdebugscreen" value="0" />
+					<input type="hidden" id="imdb_imdbdebugscreen_no" name="imdb_imdbdebugscreen" value="0" />
 
-				<input type="checkbox" id="imdb_imdbdebugscreen_yes" name="imdb_imdbdebugscreen" value="1" <?php if ($imdb_admin_values['imdbdebugscreen'] == "1") { echo 'checked="checked"'; }?> />
+					<input type="checkbox" id="imdb_imdbdebugscreen_yes" name="imdb_imdbdebugscreen" value="1" <?php if ($imdb_admin_values['imdbdebugscreen'] == "1") { echo 'checked="checked"'; }?> />
 
-				<br />
-				<div class="explain"><?php esc_html_e( 'Show the debug log on screen (for admin only).','lumiere-movies');?></div>
-
-				<br />
-				<?php esc_html_e( 'Save logs?', 'lumiere-movies'); ?>&nbsp;
-
-				<input type="hidden" id="imdb_imdbdebuglog_no" class="activatehidesectionRemoveTwo" name="imdb_imdbdebuglog" value="0" />
-
-				<input type="checkbox" id="imdb_imdbdebuglog_yes" class="activatehidesectionAddTwo" name="imdb_imdbdebuglog" value="1" <?php if ($imdb_admin_values['imdbdebuglog'] == "1") { echo 'checked="checked"'; }?> />
-				<div class="hidesectionOfCheckboxTwo">
-				<br />
-					<label for="imdb_imdbdebuglogpath"><?php esc_html_e( 'Path', 'lumiere-movies'); ?></label>
-					<input class="lumiere_border_width_medium" type="text" name="imdb_imdbdebuglogpath" value="<?php echo $imdb_admin_values['imdbdebuglogpath']; ?>" >
-
-					<div class="explain"><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'WordPress default debug log', 'lumiere-movies'); ?></div>
+					<div class="explain"><?php esc_html_e( 'Show the debug log on screen (for administrator user only).','lumiere-movies');?></div>
 				</div>
+				<div class="lumiere_padding_five">
+					<?php esc_html_e( 'Level of debug', 'lumiere-movies'); ?>&nbsp;
 
-			</div>
+					<select name="imdb_imdbdebuglevel">
+						<option <?php if( ($imdb_admin_values['imdbdebuglevel'] == "DEBUG") || (empty($imdb_admin_values['imdbdebuglevel'])) ) echo 'selected="selected"'; ?> value="DEBUG">Debug</option>
+						<option <?php if($imdb_admin_values['imdbdebuglevel'] == "INFO") echo 'selected="selected"'; ?>value="INFO">Info</option>
+						<option <?php if($imdb_admin_values['imdbdebuglevel'] == "NOTICE") echo 'selected="selected"'; ?>value="NOTICE">Notice</option>
+						<option <?php if($imdb_admin_values['imdbdebuglevel'] == "WARNING") echo 'selected="selected"'; ?>value="WARNING">Warning</option>
+						<option <?php if($imdb_admin_values['imdbdebuglevel'] == "ERROR") echo 'selected="selected"'; ?>value="ERROR">Error</option>
+						<option <?php if($imdb_admin_values['imdbdebuglevel'] == "CRITICAL") echo 'selected="selected"'; ?>value="CRITICAL">Critical</option>
+						<option <?php if($imdb_admin_values['imdbdebuglevel'] == "ALERT") echo 'selected="selected"'; ?>value="ALERT">Alert</option>
+						<option <?php if($imdb_admin_values['imdbdebuglevel'] == "EMERGENCY") echo 'selected="selected"'; ?>value="EMERGENCY">Emergency</option>
+					</select>
+					<div class="explain"><?php esc_html_e( 'From lowest to highest debug level.','lumiere-movies');?></div>
+				</div>
+				<div class="lumiere_padding_five">
+					<?php esc_html_e( 'Save logs', 'lumiere-movies'); ?>&nbsp;
 
+					<input type="hidden" id="imdb_imdbdebuglog_no" class="activatehidesectionRemoveTwo" name="imdb_imdbdebuglog" value="0" />
+
+					<input type="checkbox" id="imdb_imdbdebuglog_yes" class="activatehidesectionAddTwo" name="imdb_imdbdebuglog" value="1" <?php if ($imdb_admin_values['imdbdebuglog'] == "1") { echo 'checked="checked"'; }?> />
+					<div class="hidesectionOfCheckboxTwo">
+						<label for="imdb_imdbdebuglogpath"><?php esc_html_e( 'Path', 'lumiere-movies'); ?></label>
+						<input class="lumiere_border_width_medium" type="text" name="imdb_imdbdebuglogpath" value="<?php echo $imdb_admin_values['imdbdebuglogpath']; ?>" >
+
+						<div class="explain"><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'WordPress default debug log', 'lumiere-movies'); ?></div>
+						</div>
+	
+					</div>
+				</div>
 		</div>
 
 	</div>
@@ -498,7 +512,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 	<br />
 	<br />
 
-	<div class="postbox">
+	<div class="imblt_border_shadow">
 		<h3 class="hndle" id="directories" name="directories"><?php esc_html_e( 'Paths: url & folders', 'lumiere-movies'); ?></h3>
 	</div>
 

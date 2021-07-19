@@ -3,6 +3,7 @@
 v.3.4.3
 * [major] Updated to [imdbphp library 7.2](https://github.com/tboothman/imdbphp/releases/tag/v7.2.0 "imdbphp library 7.2")
 * [feature] Major improvement for taxonomy pages people-related. Fully versatile if you are using Polylang, it detects it and display a option for allowing to switch the language. Displays all types of roles for people.
+* [feature] Dropped support for Ozh admin menu plugin. The plugin is not supported anymore.
 * [technical] Use of vars and constants in class config, changed php calls accordingly.
 * [technical] Use of Monolog logger implemented in all Lumière classes and pages. Debug can now be saved to file. Everything can be set up in Lumière admin interface.
 * [technical] Removed the option to change the URL of the blog. Option inherited from the times where WordPress was very different. Useless now.
