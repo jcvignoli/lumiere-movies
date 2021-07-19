@@ -493,31 +493,36 @@ class Settings extends Config {
 	 **/
 	public function lumiere_start_logger ($page_name="originUnknown", $screenOutput=true) {
 
+		// Debug mode is activated
 		if ( ($this->imdb_admin_values['imdbdebug'] == 1) && ($this->isMonologActive == true) ){
 
 			// We start the logger Monolog that replaces Psr
 			$logger = new \Monolog\Logger( $page_name );
 
+			// Get the verbosity from options and build the constant
+			$logger_verbosity = isset($this->imdb_admin_values['imdbdebuglevel']) ? constant('\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel']) : constant('\Monolog\Logger::DEBUG') ;
+
+			// Logging debeg is activated
 			if ($this->imdb_admin_values['imdbdebuglog'] == 1) {
 
 				// Add current url and referrer to the log
 				//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
 
 				// Add the file, the line, the class, the function
-				$logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor( constant('\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel']) ));
+				$logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor( $logger_verbosity ));
 
 				// Write to log, default to WordPress default log
-				$filelogger = new \Monolog\Handler\StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], constant('\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel']) );
+				$filelogger = new \Monolog\Handler\StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], $logger_verbosity );
 				$logger->pushHandler ( $filelogger );
 
 			}
 
-			// Display on screen the errors
+			// Display on screen the errors is activated
 			if ( ($this->imdb_admin_values['imdbdebugscreen'] == 1)  && ( $screenOutput == true ) ){
 
 				$output = "[%level_name%] %message%<br />\n";
 				$screenformater = new \Monolog\Formatter\LineFormatter($output);
-				$screenlogger = new \Monolog\Handler\StreamHandler( 'php://output', constant('\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel']) );
+				$screenlogger = new \Monolog\Handler\StreamHandler( 'php://output', $logger_verbosity );
 				$screenlogger->setFormatter($screenformater);
 				$logger->pushHandler ( $screenlogger );
 

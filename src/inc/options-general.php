@@ -476,7 +476,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 					<div class="explain"><?php esc_html_e( 'Show the debug log on screen (for administrator user only).','lumiere-movies');?></div>
 				</div>
 				<div class="lumiere_padding_five">
-					<?php esc_html_e( 'Level of debug', 'lumiere-movies'); ?>&nbsp;
+					<?php esc_html_e( 'Debug verbosity', 'lumiere-movies'); ?>&nbsp;
 
 					<select name="imdb_imdbdebuglevel">
 						<option <?php if( ($imdb_admin_values['imdbdebuglevel'] == "DEBUG") || (empty($imdb_admin_values['imdbdebuglevel'])) ) echo 'selected="selected"'; ?> value="DEBUG">Debug</option>
@@ -488,7 +488,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 						<option <?php if($imdb_admin_values['imdbdebuglevel'] == "ALERT") echo 'selected="selected"'; ?>value="ALERT">Alert</option>
 						<option <?php if($imdb_admin_values['imdbdebuglevel'] == "EMERGENCY") echo 'selected="selected"'; ?>value="EMERGENCY">Emergency</option>
 					</select>
-					<div class="explain"><?php esc_html_e( 'From lowest to highest debug level.','lumiere-movies');?></div>
+					<div class="explain"><?php esc_html_e( 'From lowest to highest verbosity level.','lumiere-movies');?></div>
 				</div>
 				<div class="lumiere_padding_five">
 					<?php esc_html_e( 'Save logs', 'lumiere-movies'); ?>&nbsp;
