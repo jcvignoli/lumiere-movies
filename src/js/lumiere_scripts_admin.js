@@ -13,7 +13,9 @@
 
 // If input with data-modificator is selected, get the data-field_to_change (id of the other field to activate or unactivate) and data-field_to_change_value (if activate (1) or unactivate (0))
 document.addEventListener('DOMContentLoaded', function () {
+
 	jQuery('input[data-modificator]').change(function(){
+
 	    if(jQuery(this).is(":checked")){
 		var optionOne = jQuery(this).closest('input').data('field_to_change');
 		var optionTwo = jQuery(this).closest('input').data('field_to_change_value');
@@ -47,6 +49,15 @@ document.addEventListener('DOMContentLoaded', function () {
 			document.getElementById (field_option).value = jQuery(this).closest('input').data('valuemodificator_default');
 		}
 	});
+
+
+	// Simple function to enable/disable a field according to the id passed in <input data-fieldid_to_change="">
+	jQuery('input[data-checkbox_activate]').change(function(){
+		var htmltag_id_to_change = jQuery(this).closest('input').data('checkbox_activate');
+		jQuery('#'+htmltag_id_to_change).toggle(jQuery(this).closest('input').is(':checked'));
+	});
+	jQuery('input[data-checkbox_activate]').trigger('change');
+
 });
 
 // Function that activate or unactivate the other field selected previously

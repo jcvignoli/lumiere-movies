@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-07-19T10:01:13-03:00\n"
+"POT-Creation-Date: 2021-07-19T19:01:03-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
@@ -35,64 +35,64 @@ msgstr ""
 msgid "https://www.jcvignoli.com/blog"
 msgstr ""
 
-#: class/class.core.php:420
+#: class/class.core.php:424
 msgid "Lumière options page"
 msgstr ""
 
-#: class/class.core.php:420
+#: class/class.core.php:424
 #: inc/options-cache.php:417
 msgid "General options"
 msgstr ""
 
-#: class/class.core.php:421
+#: class/class.core.php:425
 msgid "Data management"
 msgstr ""
 
-#: class/class.core.php:422
+#: class/class.core.php:426
 msgid "Cache management options page"
 msgstr ""
 
-#: class/class.core.php:422
+#: class/class.core.php:426
 #: inc/admin_pages.php:88
 msgid "Cache management"
 msgstr ""
 
-#: class/class.core.php:423
+#: class/class.core.php:427
 msgid "Help page"
 msgstr ""
 
-#: class/class.core.php:423
+#: class/class.core.php:427
 msgid "Help"
 msgstr ""
 
-#: class/class.core.php:550
-#: class/class.core.php:560
+#: class/class.core.php:554
+#: class/class.core.php:564
 msgid "Informations about "
 msgstr ""
 
-#: class/class.core.php:550
-#: class/class.core.php:560
+#: class/class.core.php:554
+#: class/class.core.php:564
 msgid "Unknown"
 msgstr ""
 
-#: class/class.core.php:564
+#: class/class.core.php:568
 msgid "No query entered"
 msgstr ""
 
-#: class/class.core.php:565
+#: class/class.core.php:569
 msgid "Search query for "
 msgstr ""
 
-#: class/class.core.php:573
+#: class/class.core.php:577
 msgid "Lumiere Query Interface"
 msgstr ""
 
-#: class/class.core.php:922
+#: class/class.core.php:926
 msgid "Lumière "
 msgstr ""
 
-#: class/class.core.php:955
-#: class/class.core.php:976
+#: class/class.core.php:959
+#: class/class.core.php:980
 msgid "Open a new window with IMDb informations"
 msgstr ""
 
@@ -1150,9 +1150,9 @@ msgstr ""
 #: inc/options-general.php:422
 #: inc/options-general.php:434
 #: inc/options-general.php:446
-#: inc/options-general.php:489
-#: inc/options-general.php:523
-#: inc/options-general.php:552
+#: inc/options-general.php:506
+#: inc/options-general.php:539
+#: inc/options-general.php:568
 msgid "Default:"
 msgstr ""
 
@@ -1189,14 +1189,14 @@ msgstr ""
 #: inc/options-cache.php:1041
 #: inc/options-cache.php:1042
 #: inc/options-data.php:917
-#: inc/options-general.php:571
+#: inc/options-general.php:587
 msgid "Reset settings"
 msgstr ""
 
 #: inc/options-cache.php:532
 #: inc/options-cache.php:1022
 #: inc/options-data.php:918
-#: inc/options-general.php:572
+#: inc/options-general.php:588
 msgid "Update settings"
 msgstr ""
 
@@ -1867,7 +1867,7 @@ msgid "Display only thumbnail"
 msgstr ""
 
 #: inc/options-general.php:280
-msgid "Whether to display a thumbnail or a large image cover for movies inside a post or a widget. Untick the box to choose the cover picture width."
+msgid "Whether to display a thumbnail or a large image cover for movies inside a post or a widget. Untick the box to open a new option and chose the cover picture width."
 msgstr ""
 
 #: inc/options-general.php:285
@@ -2012,59 +2012,67 @@ msgstr ""
 msgid "[Extra debugging options]"
 msgstr ""
 
-#: inc/options-general.php:469
-msgid "Display debug on screen?"
+#: inc/options-general.php:470
+msgid "Debug verbosity"
 msgstr ""
 
-#: inc/options-general.php:476
-msgid "Show the debug log on screen (for admin only)."
-msgstr ""
-
-#: inc/options-general.php:479
-msgid "Save logs?"
+#: inc/options-general.php:482
+msgid "From lowest to highest verbosity level."
 msgstr ""
 
 #: inc/options-general.php:486
+msgid "Display debug on screen"
+msgstr ""
+
+#: inc/options-general.php:492
+msgid "Show the debug log on screen (for administrator user only)."
+msgstr ""
+
+#: inc/options-general.php:496
+msgid "Save logs"
+msgstr ""
+
+#: inc/options-general.php:503
 msgid "Path"
 msgstr ""
 
-#: inc/options-general.php:489
+#: inc/options-general.php:506
 msgid "WordPress default debug log"
 msgstr ""
 
-#: inc/options-general.php:502
+#: inc/options-general.php:518
 msgid "Paths: url & folders"
 msgstr ""
 
-#: inc/options-general.php:506
+#: inc/options-general.php:522
 msgid "Edit the following values with caution. It can have unattended effects on your WordPress installation."
 msgstr ""
 
-#: inc/options-general.php:514
+#: inc/options-general.php:530
 msgid "URL for the popups"
 msgstr ""
 
-#: inc/options-general.php:521
+#: inc/options-general.php:537
 msgid "The URL that will be displayed for the movies' and people's popups."
 msgstr ""
 
-#: inc/options-general.php:526
+#: inc/options-general.php:542
 msgid "Example: the full URL utilized for the movies' popups will be:"
 msgstr ""
 
-#: inc/options-general.php:531
+#: inc/options-general.php:547
 msgid "Example: the full URL utilized for the people's popup will be:"
 msgstr ""
 
-#: inc/options-general.php:543
+#: inc/options-general.php:559
 msgid "URL for the taxonomy pages"
 msgstr ""
 
-#: inc/options-general.php:550
+#: inc/options-general.php:566
 msgid "The URL that will be displayed for the taxonomy's pages. Warning! It cannot be identical to the URL of popups above."
 msgstr ""
 
-#: inc/options-general.php:555
+#: inc/options-general.php:571
 msgid "The full URL utilized for the director taxonomy page will be:"
 msgstr ""
 

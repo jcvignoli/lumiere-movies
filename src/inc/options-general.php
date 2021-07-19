@@ -273,14 +273,14 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<label for="imdb_imdbcoversize"><?php esc_html_e( 'Display only thumbnail', 'lumiere-movies'); ?>&nbsp;
 
-				<input type="hidden" id="imdb_imdbcoversize_no" name="imdb_imdbcoversize" value="0" data-modificator="yes" data-field_to_change="imdb_imdbcoversizewidth" data-field_to_change_value="1" />
+				<input type="hidden" id="imdb_imdbcoversize_no" name="imdb_imdbcoversize" value="0" data-checkbox_activate="imdb_imdbcoversizewidth_id" />
 
-				<input type="checkbox" id="imdb_imdbcoversize_yes" name="imdb_imdbcoversize" value="1" data-modificator="yes" data-field_to_change="imdb_imdbcoversizewidth" data-field_to_change_value="0" <?php if ($imdb_admin_values['imdbcoversize'] == "1") { echo 'checked="checked"'; }?> />
+				<input type="checkbox" id="imdb_imdbcoversize_yes" name="imdb_imdbcoversize" value="1" data-checkbox_activate="imdb_imdbcoversizewidth_id" <?php if ($imdb_admin_values['imdbcoversize'] == "1") { echo 'checked="checked"'; }?> />
 
-				<div class="explain"><?php esc_html_e( 'Whether to display a thumbnail or a large image cover for movies inside a post or a widget. Untick the box to choose the cover picture width.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
+				<div class="explain"><?php esc_html_e( 'Whether to display a thumbnail or a large image cover for movies inside a post or a widget. Untick the box to open a new option and chose the cover picture width.', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="lumiere_flex_container_content_third imdblt_padding_five >
+			<div class="lumiere_flex_container_content_third imdblt_padding_five" id="imdb_imdbcoversizewidth_id">
 
 				<label for="imdb_imdbcoversizewidth"><?php esc_html_e( 'Size', 'lumiere-movies'); ?></label><br /><br />
 
@@ -466,16 +466,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 				<?php esc_html_e( '[Extra debugging options]', 'lumiere-movies'); ?><br /><br />
 
-				<div class="lumiere_padding_five">
-					<?php esc_html_e( 'Display debug on screen', 'lumiere-movies'); ?>&nbsp;
-
-					<input type="hidden" id="imdb_imdbdebugscreen_no" name="imdb_imdbdebugscreen" value="0" />
-
-					<input type="checkbox" id="imdb_imdbdebugscreen_yes" name="imdb_imdbdebugscreen" value="1" <?php if ($imdb_admin_values['imdbdebugscreen'] == "1") { echo 'checked="checked"'; }?> />
-
-					<div class="explain"><?php esc_html_e( 'Show the debug log on screen (for administrator user only).','lumiere-movies');?></div>
-				</div>
-				<div class="lumiere_padding_five">
+				<div class="lumiere_padding_top_bottom_ten">
 					<?php esc_html_e( 'Debug verbosity', 'lumiere-movies'); ?>&nbsp;
 
 					<select name="imdb_imdbdebuglevel">
@@ -490,19 +481,30 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 					</select>
 					<div class="explain"><?php esc_html_e( 'From lowest to highest verbosity level.','lumiere-movies');?></div>
 				</div>
-				<div class="lumiere_padding_five">
+
+				<div class="lumiere_padding_top_bottom_ten">
+					<?php esc_html_e( 'Display debug on screen', 'lumiere-movies'); ?>&nbsp;
+
+					<input type="hidden" id="imdb_imdbdebugscreen_no" name="imdb_imdbdebugscreen" value="0" />
+
+					<input type="checkbox" id="imdb_imdbdebugscreen_yes" name="imdb_imdbdebugscreen" value="1" <?php if ($imdb_admin_values['imdbdebugscreen'] == "1") { echo 'checked="checked"'; }?> />
+
+					<div class="explain"><?php esc_html_e( 'Show the debug log on screen (for administrators only).','lumiere-movies');?></div>
+				</div>
+
+				<div class="lumiere_padding_top_bottom_ten">
 					<?php esc_html_e( 'Save logs', 'lumiere-movies'); ?>&nbsp;
 
-					<input type="hidden" id="imdb_imdbdebuglog_no" class="activatehidesectionRemoveTwo" name="imdb_imdbdebuglog" value="0" />
+					<input type="hidden" id="imdb_imdbdebuglog_no" data-checkbox_activate="imdb_imdbdebuglogpath_id" name="imdb_imdbdebuglog" value="0" />
 
-					<input type="checkbox" id="imdb_imdbdebuglog_yes" class="activatehidesectionAddTwo" name="imdb_imdbdebuglog" value="1" <?php if ($imdb_admin_values['imdbdebuglog'] == "1") { echo 'checked="checked"'; }?> />
-					<div class="hidesectionOfCheckboxTwo">
+					<input type="checkbox" id="imdb_imdbdebuglog_yes" data-checkbox_activate="imdb_imdbdebuglogpath_id" name="imdb_imdbdebuglog" value="1" <?php if ($imdb_admin_values['imdbdebuglog'] == "1") { echo 'checked="checked"'; }?> />
+
+					<div id="imdb_imdbdebuglogpath_id" class="lumiere_padding_top_bottom_ten" >
 						<label for="imdb_imdbdebuglogpath"><?php esc_html_e( 'Path', 'lumiere-movies'); ?></label>
-						<input class="lumiere_border_width_medium" type="text" name="imdb_imdbdebuglogpath" value="<?php echo $imdb_admin_values['imdbdebuglogpath']; ?>" >
+						<input class="lumiere_border_width_medium imdb_imdbdebuglogpath" type="text" name="imdb_imdbdebuglogpath" value="<?php echo $imdb_admin_values['imdbdebuglogpath']; ?>" >
 
 						<div class="explain"><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'WordPress default debug log', 'lumiere-movies'); ?></div>
 						</div>
-	
 					</div>
 				</div>
 		</div>
