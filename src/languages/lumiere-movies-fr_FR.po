@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-19 18:29-0400\n"
-"PO-Revision-Date: 2021-07-19 18:29-0400\n"
+"POT-Creation-Date: 2021-07-19 21:03-0400\n"
+"PO-Revision-Date: 2021-07-19 21:04-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -415,11 +415,11 @@ msgstr "Ajoutez les détails de film à vos pages avec Lumière!"
 msgid "IMDb data"
 msgstr "IMDb donn&eacute;es"
 
-#: class/class.widget.php:212
+#: class/class.widget.php:215
 msgid "Lumière! Movies"
 msgstr "Lumière! Movies"
 
-#: class/class.widget.php:224
+#: class/class.widget.php:227
 msgid "Widget title:"
 msgstr "Titre de widget :"
 
@@ -2445,8 +2445,6 @@ msgid "Display debug on screen"
 msgstr "Afficher le debug à l'écran"
 
 #: inc/options-general.php:492
-#, fuzzy
-#| msgid "Show the debug log on screen (for administrator user only)."
 msgid "Show the debug log on screen (for administrators only)."
 msgstr "Afficher le debug à l'écran (seulement pour administrateurs)."
 

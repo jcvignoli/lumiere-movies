@@ -10,18 +10,30 @@ $this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdbHowManyUp
 // Add 'imdbSerieMovies'
 // New option to select to search for movies, series, or both
 if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'imdbseriemovies', 'movies+series') ) {
-	$output .= $this->print_debug(1, '<strong>Lumière option imdbSerieMovies successfully added.</strong>');
+
+	$text = "Lumière option imdbSerieMovies successfully added.";
+	$configClass->lumiere_maybe_log('debug', "[Lumiere][updater] $text");
+
 } else {
-	$output .= $this->print_debug(2, '<strong>Lumière option imdbSerieMovies could not be added.</strong>');
+
+	$text = "Lumière option imdbSerieMovies could not be added..";
+	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
+
 }
 
 // Add 'imdbHowManyUpdates'
 // New option to manage the number of updates made
 // Without such an option, all updates are went through
 if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', 1 ) ) {
-	$output .= $this->print_debug(1, '<strong>Lumière option imdbHowManyUpdates successfully added.</strong>');
+
+	$text = "Lumière option imdbHowManyUpdates successfully added.";
+	$configClass->lumiere_maybe_log('debug', "[Lumiere][updater] $text");
+
 } else {
-	$output .= $this->print_debug(2, '<strong>Lumière option imdbHowManyUpdates could not be added.</strong>');
+
+	$text = "Lumière option imdbHowManyUpdates could not be added.";
+	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
+
 }
 
 ?>

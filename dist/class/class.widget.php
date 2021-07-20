@@ -126,10 +126,9 @@ class LumiereWidget extends WP_Widget {
 			// Start the logger
 			$this->configClass->lumiere_start_logger('lumiereWidget');
 
-
 			$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] Started logger...");
 
-		}
+		} 
 
 		// shows widget only for a post or a page
 		if ( (is_single()) || ( is_page()) )  {
@@ -140,6 +139,10 @@ class LumiereWidget extends WP_Widget {
 				$imdbIdOrTitle[]['byname'] = sanitize_text_field( get_the_title() ); 
 
 				$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] Auto widget activated, using the post title for querying");
+
+			} else {
+
+				$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] Auto widget is disabled, no query made for the current post title.");
 
 			}
 

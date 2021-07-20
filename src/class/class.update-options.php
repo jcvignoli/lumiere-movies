@@ -23,7 +23,17 @@ namespace Lumiere;
 if ( ! defined( 'WPINC' ) )
 	wp_die('You can not call directly this page');
 
-
+/** Class to update Lumière options 
+ ** Uses the files in /updates/ to updates the database
+ ** Checks the current Lumière version against the updates and uses $configClass->imdb_admin_values['imdbHowManyUpdates'] var to know if new updates have to be made
+ ** Everytime an update is processed, imdbHowManyUpdates increases of 1
+ **
+ ** Main external vars/functions:
+ ** @$configClass->lumiere_version: get extracted from class.config.php 
+ ** @$utilsClass->lumiere_activate_debug(): activate the debugging options
+ ** @$configClass->lumiere_start_logger(): run the logger class
+ ** @$configClass->lumiere_maybe_log(): write/display a log of events if conditions are met
+ **/
 class UpdateOptions {
 
 	/* Lumière Settings class
@@ -39,11 +49,6 @@ class UpdateOptions {
 	 * 
 	 */
 	private $utilsClass;
-
-	/* Lumière plugin version
-	 * For runUpdateOptions() function
-	 */
-	private $lumiereVersionPlugin;
 
 	function __construct() {
 
@@ -62,29 +67,9 @@ class UpdateOptions {
 			wp_die('Lumière files have been moved. Can not update Lumière!');
 		}
 
-		$this->getLumiereVersions();
-
 		// add_filter ( 'wp_head', [ $this, 'runUpdateOptions' ], 0); # executes on every frontpage, but now uses cron instead
 		$this->runUpdateOptions();
 
-	}
-
-	/** Get current Lumière version
-	 ** Extracts from the readme file
-	 ** @TODO Should be replaced by $config->lumiere_version from class.config.php
-	 **/
-	function getLumiereVersions () {
-
-		$lumiere_version_recherche="";
-		$lumiere_version="";
-
-		$lumiere_version_recherche = file_get_contents( plugin_dir_path( __DIR__ ) . 'README.txt');
-		$lumiere_version = preg_match('#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match);
-
-		if ($this->lumiereVersionPlugin = $lumiere_version_match[1])
-			return true;
-
-		return false;
 	}
 
 	/*** Main function: Run updates of options
@@ -108,12 +93,8 @@ class UpdateOptions {
 		// Start the logger
 		$this->configClass->lumiere_start_logger('updaterLumiere');
 
-		// Store the class so we can use it later
-		$logger = $this->configClass->loggerclass;
-
-
 		/************************************************** 3.4.3 */
-		if ( (version_compare( $this->lumiereVersionPlugin, "3.4.2" ) >= 0 )
+		if ( (version_compare( $configClass->lumiere_version, "3.4.3" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 6 ) ){				# update 6
 
 			require_once('updates/6.php');
@@ -122,7 +103,7 @@ class UpdateOptions {
 
 		}
 		/************************************************** 3.4.2 */
-		if ( (version_compare( $this->lumiereVersionPlugin, "3.4.1" ) >= 0 )
+		if ( (version_compare( $configClass->lumiere_version, "3.4.2" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 5 ) ){				# update 5
 
 			require_once('updates/5.php');
@@ -131,7 +112,7 @@ class UpdateOptions {
 
 		}
 		/************************************************** 3.4 */
-		if ( (version_compare( $this->lumiereVersionPlugin, "3.3.4" ) >= 0 )
+		if ( (version_compare( $configClass->lumiere_version, "3.4" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 4 ) ){				# update 4
 
 			require_once('updates/4.php');
@@ -142,7 +123,7 @@ class UpdateOptions {
 
 		/************************************************** 3.3.4 */
 
-		if ( (version_compare( $this->lumiereVersionPlugin, "3.3.3" ) >= 0 )
+		if ( (version_compare( $configClass->lumiere_version, "3.3.4" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 3 ) ){ 				# update 3
 
 			require_once('updates/3.php');
@@ -153,7 +134,7 @@ class UpdateOptions {
 		
 		/************************************************** 3.3.3 */
 
-		if ( (version_compare( $this->lumiereVersionPlugin, "3.3.2" ) >= 0 ) 
+		if ( (version_compare( $configClass->lumiere_version, "3.3.3" ) >= 0 ) 
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 2 ) ){				# update 2
 
 			require_once('updates/2.php');
@@ -164,12 +145,13 @@ class UpdateOptions {
 
 		/************************************************** 3.3.1 */
 
-		if ( (version_compare( $this->lumiereVersionPlugin, "3.3" ) >= 0 )
+		if ( (version_compare( $configClass->lumiere_version, "3.3.1" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 1 ) ){				# update 1
 
 			require_once('updates/1.php');
 
 			return true;
+
 		}
 
 		return false;
@@ -185,7 +167,6 @@ class UpdateOptions {
 	 **
 	 ** returns text if successful, a notice if missing mandatory parameters,FALSE if option already exists
 	 **/
-
 	function lumiere_add_options($option_array=NULL,$option_key=NULL,$option_value=NULL) {
 
 		// Activate debug
@@ -254,8 +235,7 @@ class UpdateOptions {
 			$option_array_search[$option_key] = $option_value;
 			update_option($option_array, $option_array_search);
 
-			if($logger !== NULL)
-				$configClass->lumiere_maybe_log('info', "[Lumiere][updater][lumiere_update_options] Lumière option ($option_key) was successfully update.");
+			$configClass->lumiere_maybe_log('info', "[Lumiere][updater][lumiere_update_options] Lumière option ($option_key) was successfully update.");
 
 			return true;
 
@@ -341,8 +321,5 @@ class UpdateOptions {
 		return false;
 	}
 }
-
-// Executed by WP Cron, deactivated
-//$start_update_options = new \Lumiere\UpdateOptions();
 
 ?>
