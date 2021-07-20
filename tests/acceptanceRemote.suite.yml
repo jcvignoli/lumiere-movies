@@ -10,25 +10,24 @@ modules:
     enabled:
         - \Helper\AcceptanceRemote
     config:
-	#REMOTE HOST DOESNT OPEN MYSQL SERVER TO EXTERNAL CONNECTIONS!
         WPDb:
-            dsn: '%TEST_SITE_DB_DSN%'
-            user: '%TEST_SITE_DB_USER%'
-            password: '%TEST_SITE_DB_PASSWORD%'
+            dsn: '%TEST_REMOTE_DB_DSN%' 	#REMOTE HOST DOESNT OPEN MYSQL SERVER TO EXTERNAL CONNECTIONS!
+            user: '%TEST_REMOTE_DB_USER%'
+            password: '%TEST_REMOTE_DB_PASSWORD%'
             dump: 'tests/_data/lumiere_db_dump_blogpourext_202107.sql'
             #import the dump before the tests; this means the test site database will be repopulated before the tests.
             populate: false
             # re-import the dump between tests; this means the test site database will be repopulated between the tests.
             cleanup: false
             waitlock: 10
-            url: '%TEST_SITE_WP_URL%'
+            url: '%TEST_REMOTE_WP_URL%'
             urlReplacement: true #replace the hardcoded dump URL with the one above
-            tablePrefix: '%TEST_SITE_TABLE_PREFIX%'
+            tablePrefix: '%TEST_TABLE_PREFIX%'
         WPBrowser:
-            url: '%TEST_SITE_WP_URL%'
-            adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
-            adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
-            adminPath: '%TEST_SITE_WP_ADMIN_PATH%'
+            url: '%TEST_REMOTE_WP_URL%'
+            adminUsername: '%TEST_WP_ADMIN_USERNAME%'
+            adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
+            adminPath: '%TEST_WP_ADMIN_PATH%'
             headers:
                 X_TEST_REQUEST: 1
                 X_WPBROWSER_REQUEST: 1
@@ -38,7 +37,7 @@ env:
             enabled:
               config:
                  WebDriver:
-                     url: "%TEST_SITE_WP_URL%"
+                     url: "%TEST_REMOTE_WP_URL%"
                      browser: firefox
                      path: ''
                      capabilities:
@@ -49,10 +48,10 @@ env:
           enabled:
               config:
                  WPWebDriver:
-                     url: '%TEST_SITE_WP_URL%'
-                     adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
-                     adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
-                     adminPath: '%TEST_SITE_WP_ADMIN_PATH%'
+                     url: '%TEST_REMOTE_WP_URL%'
+                     adminUsername: '%TEST_WP_ADMIN_USERNAME%'
+                     adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
+                     adminPath: '%TEST_WP_ADMIN_PATH%'
                      browser: firefox
                      path: ''
                      capabilities:
@@ -64,10 +63,10 @@ env:
           enabled:
               config:
                  WPWebDriver:
-                     url: '%TEST_SITE_WP_URL%'
-                     adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
-                     adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
-                     adminPath: '%TEST_SITE_WP_ADMIN_PATH%'
+                     url: '%TEST_REMOTE_WP_URL%'
+                     adminUsername: '%TEST_WP_ADMIN_USERNAME%'
+                     adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
+                     adminPath: '%TEST_WP_ADMIN_PATH%'
                      host: localhost
                      browser: chrome
                      port: 4444

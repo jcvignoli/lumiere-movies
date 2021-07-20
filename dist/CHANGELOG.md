@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.4.4
+
 v.3.4.3
 * [major] Updated to [imdbphp library 7.2](https://github.com/tboothman/imdbphp/releases/tag/v7.2.0 "imdbphp library 7.2")
 * [feature] Major improvement for taxonomy pages people-related. Fully versatile if you are using Polylang, it detects it and display a option for allowing to switch the language. Displays all types of roles for people.
