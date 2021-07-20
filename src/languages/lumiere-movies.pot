@@ -9,13 +9,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-07-19T19:01:03-03:00\n"
+"POT-Creation-Date: 2021-07-19T22:02:11-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
 
 #. Plugin Name of the plugin
-#: class/class.widget.php:212
+#: class/class.widget.php:215
 msgid "Lumière! Movies"
 msgstr ""
 
@@ -420,7 +420,7 @@ msgstr ""
 msgid "IMDb data"
 msgstr ""
 
-#: class/class.widget.php:224
+#: class/class.widget.php:227
 msgid "Widget title:"
 msgstr ""
 
@@ -2025,7 +2025,7 @@ msgid "Display debug on screen"
 msgstr ""
 
 #: inc/options-general.php:492
-msgid "Show the debug log on screen (for administrator user only)."
+msgid "Show the debug log on screen (for administrators only)."
 msgstr ""
 
 #: inc/options-general.php:496

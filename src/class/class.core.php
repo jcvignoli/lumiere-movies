@@ -1010,24 +1010,19 @@ class Core {
 	 **/
 	function lumiere_cron_exec_once() {
 
+		// For debugging purpose
+		// Update imdbHowManyUpdates option
+/*		$config = new \Lumiere\Settings();
+		$option_array_search = get_option($config->imdbAdminOptionsName);
+		$option_array_search['imdbHowManyUpdates'] = '6'; # current number of updates
+		update_option($config->imdbAdminOptionsName, $option_array_search);
+*/
+
 		// Update options
 		// this udpate is also run in upgrader_process_complete, but the process is not reliable
 		// Using the same updating process in a WP Cron
 		require_once __DIR__ . '/class.update-options.php';
 		$start_update_options = new \Lumiere\UpdateOptions();
-
-		// For debugging purpose
-		// Update imdbHowManyUpdates option
-		$config = new \Lumiere\Settings();
-		$option_array_search = get_option($config->imdbAdminOptionsName);
-		$option_array_search['imdbHowManyUpdates'] = '6';
-		update_option($config->imdbAdminOptionsName, $option_array_search);
-/*
-		// Delete imdbdebuglogpath option
-		$option_array_search = get_option($config->imdbAdminOptionsName);
-		unset($option_array_search['imdbdebuglogpath']);
-		update_option($config->imdbAdminOptionsName, $option_array_search);
-*/
 
 	}
 

@@ -74,11 +74,10 @@ class Settings extends Config {
 	public $lumiere_version;
 
 	/* Logger class built by lumiere_start_logger() 
-	 * Meant to be utilised by movie/person pages
-	 * Follow the const and vars related to the function
+	 * Meant to be utilised through all the plugin
 	 */
 	public $loggerclass;
-	/* Where to write the log (below WordPress default log) */
+	/* Where to write the log (WordPress default path here) */
 	const debug_log_path = WP_CONTENT_DIR . '/debug.log';
 	/* Set to false to use Logger instead of Monolog */
 	var $isMonologActive = true;
@@ -94,6 +93,13 @@ class Settings extends Config {
 	/* List of types of people available 
 	*/
 	var $array_items = array( 'color', 'country', 'genre', 'keywords', 'language' );
+
+	/* Store the number of files inside /class/updates
+	 * Allows to start with a fresh Lumière installation with the right
+	 * number of updates already made
+	  " Is buillt in $this->lumiere_define_constants()
+	 */
+	private $current_number_updates;
 
 	/** Constructor
 	 **
@@ -163,8 +169,12 @@ class Settings extends Config {
 		$this->lumiere_urlstringsearch = $this->lumiere_urlstring . "search/";
 		$this->lumiere_urlpopupsfilms = site_url() . $this->lumiere_urlstringfilms;
 		$this->lumiere_urlpopupsperson = site_url() . $this->lumiere_urlstringperson;
-		$this->lumiere_urlpopupssearch = site_url() . $this->lumiere_urlstringsearch;	
+		$this->lumiere_urlpopupssearch = site_url() . $this->lumiere_urlstringsearch;
 
+		// Find the number of update files to get the right 
+		// number of updates when installing Lumière
+		$fi = new \FilesystemIterator(plugin_dir_path(__DIR__).'class/updates/', \FilesystemIterator::SKIP_DOTS);
+		$this->current_number_updates = iterator_count($fi);
 	}
 
 	/** Returns the array of ADMIN options
@@ -202,13 +212,14 @@ class Settings extends Config {
 			'imdbdebug' => false,			/* Debug */
 			'imdbdebuglog' => false,			/* Log debug */
 			'imdbdebuglogpath' => self::debug_log_path,
-			'imdbdebuglevel' => 'DEBUG',			/* Debug levels: emergency, alert, critical, error, warning, notice, info, debug */
+			'imdbdebuglevel' => 'DEBUG',		/* Debug levels: emergency, alert, critical, 
+									error, warning, notice, info, debug */
 			'imdbdebugscreen' => true,			/* Show debug on screen */
 			'imdbwordpress_bigmenu'=>false,		/* Left menu */
 			'imdbwordpress_tooladminmenu'=>true,	/* Top menu */
 			'imdbpopup_highslide'=>true,
 			'imdbtaxonomy'=> true,
-			'imdbHowManyUpdates'=> 1, # for use in class.update-options.php
+			'imdbHowManyUpdates'=> $this->current_number_updates, # for use in class.update-options.php
 			'imdbseriemovies' => 'movies+series', /* options: movies, series, movies+series, videogames */
 
 		);

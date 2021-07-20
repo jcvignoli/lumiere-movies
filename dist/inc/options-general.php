@@ -489,7 +489,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 					<input type="checkbox" id="imdb_imdbdebugscreen_yes" name="imdb_imdbdebugscreen" value="1" <?php if ($imdb_admin_values['imdbdebugscreen'] == "1") { echo 'checked="checked"'; }?> />
 
-					<div class="explain"><?php esc_html_e( 'Show the debug log on screen (for administrator user only).','lumiere-movies');?></div>
+					<div class="explain"><?php esc_html_e( 'Show the debug log on screen (for administrators only).','lumiere-movies');?></div>
 				</div>
 
 				<div class="lumiere_padding_top_bottom_ten">
