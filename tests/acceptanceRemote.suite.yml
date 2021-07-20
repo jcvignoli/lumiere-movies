@@ -11,7 +11,7 @@ modules:
         - \Helper\AcceptanceRemote
     config:
         WPDb:
-            dsn: '%TEST_REMOTE_DB_DSN%' 	#REMOTE HOST DOESNT OPEN MYSQL SERVER TO EXTERNAL CONNECTIONS!
+            dsn: '%TEST_REMOTE_DB_DSN%'
             user: '%TEST_REMOTE_DB_USER%'
             password: '%TEST_REMOTE_DB_PASSWORD%'
             dump: 'tests/_data/lumiere_db_dump_blogpourext_202107.sql'
@@ -43,7 +43,7 @@ env:
                      capabilities:
                        moz:firefoxOptions:
                             args: ["-headless"] # Run Firefox in headless mode
-   wpfirefox:
+   wpfirefox: #CAN ONLY BE USED IF HOST OPENS MYSQL SERVER TO EXTERNAL CONNECTIONS!
        modules:
           enabled:
               config:
@@ -58,7 +58,7 @@ env:
                          # Used in more recent releases of Selenium.
                          moz:firefoxOptions:
                              args: ["-headless"] # Run Firefox in headless mode
-   wpchrome:
+   wpchrome: #CAN ONLY BE USED IF HOST OPENS MYSQL SERVER TO EXTERNAL CONNECTIONS!
        modules:
           enabled:
               config:

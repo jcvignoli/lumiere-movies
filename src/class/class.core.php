@@ -707,16 +707,10 @@ class Core {
 		/* Set up the WP Cron */
 		if (! wp_next_scheduled ( 'lumiere_cron_hook' )) {
 
-			// Runned four times to make sure no update is missed
-
-			// Cron to run once, in 1 minute
-			wp_schedule_single_event( time() + 60, 'lumiere_cron_hook' );
+			// Runned thee times to make sure that no update is missed
 
 			// Cron to run once, in 2 minutes
 			wp_schedule_single_event( time() + 120, 'lumiere_cron_hook' );
-
-			// Cron to run once, in 3 minutes
-			wp_schedule_single_event( time() + 180, 'lumiere_cron_hook' );
 
 			// Cron to run once, in 10 minutes
 			wp_schedule_single_event( time() + 600, 'lumiere_cron_hook' );
