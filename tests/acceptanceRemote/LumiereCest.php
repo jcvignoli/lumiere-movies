@@ -4,6 +4,14 @@
 
 class LumiereCest {
 
+	public function activateDebug(AcceptanceLocalTester $I) {
+		$I->wantTo('log in');
+		$I->amOnPluginsPage();
+		$I->seePluginActivated('lumiere-movies');
+		$I->amOnPage("/wp-admin/admin.php?page=imdblt_options&generaloption=advanced");
+		$I->selectOption('form input[id=imdb_imdbdebug_yes]');
+	}
+
 	public function frontpageWorks(AcceptanceRemoteTester $I) {
 		$I->wantTo('check frontpage');
 		$I->amOnPage('/');

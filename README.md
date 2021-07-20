@@ -57,39 +57,39 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ### 1. Popup displayed when an imdb link is clicked.
 
-[missing image]
+![Popup displayed when an imdb link is clicked.](https://ps.w.org/lumiere-movies/assets/screenshot-1.jpg)
 
 ### 2. How movie's data is displayed "inside a post" 
 
-[missing image]
+![How movie's data is displayed "inside a post" ](https://ps.w.org/lumiere-movies/assets/screenshot-2.jpg)
 
 ### 3. How movie's data is displayed in a "widget" 
 
-[missing image]
+![How movie's data is displayed in a "widget" ](https://ps.w.org/lumiere-movies/assets/screenshot-3.jpg)
 
 ### 4. Admin preferences for cache
 
-[missing image]
+![Admin preferences for cache](https://ps.w.org/lumiere-movies/assets/screenshot-4.jpg)
 
 ### 5. The code [imdblt] to enter inside a post and the icon to attach a popup link
 
-[missing image]
+![The code [imdblt] to enter inside a post and the icon to attach a popup link](https://ps.w.org/lumiere-movies/assets/screenshot-5.jpg)
 
 ### 6. The widget area to display a movie
 
-[missing image]
+![The widget area to display a movie](https://ps.w.org/lumiere-movies/assets/screenshot-6.jpg)
 
 ### 7. External tool to find a movie's IMDb ID
 
-[missing image]
+![External tool to find a movie's IMDb ID](https://ps.w.org/lumiere-movies/assets/screenshot-7.jpg)
 
 ### 8. Gutenberg block
 
-[missing image]
+![Gutenberg block](https://ps.w.org/lumiere-movies/assets/screenshot-8.jpg)
 
 ### 9. Taxonomy page for a person
 
-[missing image]
+![Taxonomy page for a person](https://ps.w.org/lumiere-movies/assets/screenshot-9.jpg)
 
 
 ## Frequently Asked Questions
