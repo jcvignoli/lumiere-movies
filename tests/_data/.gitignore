@@ -1,2 +1,3 @@
-lumiere_db_dump_blogpourext_202107.sql
+lumiere_db_blogpourext_202107_dump.sql
+lumiere_db_local_lumiere_dump.sql
 !.gitignore

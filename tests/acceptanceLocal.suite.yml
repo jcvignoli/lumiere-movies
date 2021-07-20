@@ -11,10 +11,10 @@ modules:
         - \Helper\AcceptanceLocal
     config:
         WPDb:
-            dsn: '%TEST_SITE_DB_DSN%'
-            user: '%TEST_SITE_DB_USER%'
-            password: '%TEST_SITE_DB_PASSWORD%'
-            dump: 'tests/_data/lumiere_db_dump.sql'
+            dsn: '%TEST_LOCAL_DB_DSN%'
+            user: '%TEST_LOCAL_DB_USER%'
+            password: '%TEST_LOCAL_DB_PASSWORD%'
+            dump: 'tests/_data/lumiere_db_local_dump.sql'
             #import the dump before the tests; this means the test site database will be repopulated before the tests.
             populate: false
             # re-import the dump between tests; this means the test site database will be repopulated between the tests.
@@ -22,12 +22,12 @@ modules:
             waitlock: 10
             url: '%TEST_LOCAL_SITE_WP_URL%'
             urlReplacement: true #replace the hardcoded dump URL with the one above
-            tablePrefix: '%TEST_SITE_TABLE_PREFIX%'
+            tablePrefix: '%TEST_TABLE_PREFIX%'
         WPBrowser:
             url: '%TEST_LOCAL_SITE_WP_URL%'
-            adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
-            adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
-            adminPath: '%TEST_SITE_WP_ADMIN_PATH%'
+            adminUsername: '%TEST_WP_ADMIN_USERNAME%'
+            adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
+            adminPath: '%TEST_WP_ADMIN_PATH%'
             headers:
                 X_TEST_REQUEST: 1
                 X_WPBROWSER_REQUEST: 1
@@ -38,9 +38,9 @@ env:
               config:
                  WebDriver:
                      url: "%TEST_LOCAL_SITE_WP_URL%"
-                     adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
-                     adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
-                     adminPath: '%TEST_SITE_WP_ADMIN_PATH%'
+                     adminUsername: '%TEST_WP_ADMIN_USERNAME%'
+                     adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
+                     adminPath: '%TEST_WP_ADMIN_PATH%'
                      browser: firefox
                      path: ''
                      capabilities:
@@ -52,9 +52,9 @@ env:
               config:
                  WPWebDriver:
                      url: '%TEST_LOCAL_SITE_WP_URL%'
-                     adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
-                     adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
-                     adminPath: '%TEST_SITE_WP_ADMIN_PATH%'
+                     adminUsername: '%TEST_WP_ADMIN_USERNAME%'
+                     adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
+                     adminPath: '%TEST_WP_ADMIN_PATH%'
                      browser: firefox
                      path: ''
                      capabilities:
@@ -67,9 +67,9 @@ env:
               config:
                  WPWebDriver:
                      url: '%TEST_LOCAL_SITE_WP_URL%'
-                     adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
-                     adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
-                     adminPath: '%TEST_SITE_WP_ADMIN_PATH%'
+                     adminUsername: '%TEST_WP_ADMIN_USERNAME%'
+                     adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
+                     adminPath: '%TEST_WP_ADMIN_PATH%'
                      host: localhost
                      browser: chrome
                      port: 4444
