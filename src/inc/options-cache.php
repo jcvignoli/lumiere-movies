@@ -28,17 +28,17 @@ $allowed_html_for_esc_html_functions = [
  	/* get the $_GET */
 if ((isset($_GET['msg'])) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $messages) ){
 	if (sanitize_text_field($_GET['msg'])=="cache_options_update_success_msg") {
-		echo lumiere_notice(1, esc_html__( $messages["cache_options_update_success_msg"], 'lumiere-movies' ) );
+		echo $utils->lumiere_notice(1, esc_html__( $messages["cache_options_update_success_msg"], 'lumiere-movies' ) );
 	} elseif (sanitize_text_field($_GET['msg'])=="cache_options_refresh_success_msg") {
-		echo lumiere_notice(1, esc_html__( $messages["cache_options_refresh_success_msg"], 'lumiere-movies' ) );
+		echo $utils->lumiere_notice(1, esc_html__( $messages["cache_options_refresh_success_msg"], 'lumiere-movies' ) );
 	} elseif (sanitize_text_field($_GET['msg'])=="cache_delete_all_msg") {
-		echo lumiere_notice(1, esc_html__( $messages["cache_delete_all_msg"], 'lumiere-movies' ) );
+		echo $utils->lumiere_notice(1, esc_html__( $messages["cache_delete_all_msg"], 'lumiere-movies' ) );
 	} elseif (sanitize_text_field($_GET['msg'])=="cache_delete_ticked_msg") {
-		echo lumiere_notice(1, esc_html__( $messages["cache_delete_ticked_msg"], 'lumiere-movies' ) );
+		echo $utils->lumiere_notice(1, esc_html__( $messages["cache_delete_ticked_msg"], 'lumiere-movies' ) );
 	} elseif (sanitize_text_field($_GET['msg'])=="cache_delete_individual_msg") {
-		echo lumiere_notice(1, esc_html__( $messages["cache_delete_individual_msg"], 'lumiere-movies' ) );
+		echo $utils->lumiere_notice(1, esc_html__( $messages["cache_delete_individual_msg"], 'lumiere-movies' ) );
 	} elseif (sanitize_text_field($_GET['msg'])=="cache_refresh_individual_msg") {
-		echo lumiere_notice(1, esc_html__( $messages["cache_refresh_individual_msg"], 'lumiere-movies' ) );
+		echo $utils->lumiere_notice(1, esc_html__( $messages["cache_refresh_individual_msg"], 'lumiere-movies' ) );
 	}
 }
 	/* message notification options */
@@ -84,14 +84,14 @@ if (current_user_can( 'manage_options' ) ) {
 		update_option($config->imdbCacheOptionsName, $imdb_cache_values);
 
 		// display message on top
-		echo lumiere_notice(1, '<strong>'. esc_html__( 'Cache options saved.', 'lumiere-movies') .'</strong>');
+		echo $utils->lumiere_notice(1, '<strong>'. esc_html__( 'Cache options saved.', 'lumiere-movies') .'</strong>');
 		if (!headers_sent()) {
 			/* 2021 07 06 Shouldn't do anything here, to be removed
 			//header("Refresh: 0;url=".$_SERVER[ "REQUEST_URI"]."&reset=true", false);
 			wp_safe_redirect( add_query_arg( "msg", "cache_options_update_success_msg", wp_get_referer() ) ); 
 			exit();*/
 		} else {
-			echo lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo $utils->lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
 	}
@@ -102,7 +102,7 @@ if (current_user_can( 'manage_options' ) ) {
 		delete_option($config->imdbCacheOptionsName);
 
 		// display message on top
-		echo lumiere_notice(1, '<strong>'. esc_html__( 'Cache options reset.', 'lumiere-movies') .'</strong>');
+		echo $utils->lumiere_notice(1, '<strong>'. esc_html__( 'Cache options reset.', 'lumiere-movies') .'</strong>');
 
 		// Display a refresh link otherwise refreshed data is not seen
 		if (!headers_sent()){
@@ -110,7 +110,7 @@ if (current_user_can( 'manage_options' ) ) {
 			wp_safe_redirect( add_query_arg( "msg", "cache_options_refresh_success_msg", wp_get_referer() ) ); 
 			exit();*/
 		} else {
-			echo lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo $utils->lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
 	}
@@ -120,19 +120,19 @@ if (current_user_can( 'manage_options' ) ) {
 
 		// prevent drama
 		if ( (!isset($imdb_cache_values['imdbcachedir'])) || ( is_null($imdb_cache_values['imdbcachedir'])) )
-			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
+			wp_die( $utils->lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
 		
 		// Delete cache
 		$utils->lumiere_unlinkRecursive( $imdb_cache_values['imdbcachedir'] );
 
 		// display message on top
-		echo lumiere_notice(1, '<strong>'. esc_html__( 'All cache files deleted.', 'lumiere-movies') .'</strong>');
+		echo $utils->lumiere_notice(1, '<strong>'. esc_html__( 'All cache files deleted.', 'lumiere-movies') .'</strong>');
 		if (!headers_sent){
 			/* 2021 07 06 Shouldn't do anything here, to be removed
 			wp_safe_redirect( add_query_arg( "msg", "cache_delete_all_msg", wp_get_referer() ) );
 			exit();*/
 		} else {
-			echo lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo $utils->lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
 	}
@@ -142,7 +142,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 		// prevent drama
 		if ( is_null($imdb_cache_values['imdbcachedir']))
-			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
+			wp_die( $utils->lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
 		
 		// Delete cache
 		$files_query = glob($imdb_cache_values['imdbcachedir'] . "find.s*") ?? NULL;
@@ -150,8 +150,8 @@ if (current_user_can( 'manage_options' ) ) {
 
 			// if file doesn't exist
 			if  ( (!isset($cacheTOdelete)) || (is_null($cacheTOdelete)) || (count($cacheTOdelete) < 1) ) {
-				echo lumiere_notice(3, esc_html__( 'No query files found.', 'lumiere-movies')) ;
-				echo lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+				echo $utils->lumiere_notice(3, esc_html__( 'No query files found.', 'lumiere-movies')) ;
+				echo $utils->lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 				wp_die( ) ;
 			}
 
@@ -163,13 +163,13 @@ if (current_user_can( 'manage_options' ) ) {
 		}
 
 		// display messages on top
-		echo lumiere_notice(1, '<strong>'. esc_html__( 'Query cache files deleted.', 'lumiere-movies') .'</strong>');
+		echo $utils->lumiere_notice(1, '<strong>'. esc_html__( 'Query cache files deleted.', 'lumiere-movies') .'</strong>');
 		if (!headers_sent){
 			/* 2021 07 06 Shouldn't do anything here, to be removed
 			wp_safe_redirect( add_query_arg( "msg", "cache_delete_query_msg", wp_get_referer() ) );
 			exit();*/
 		} else {
-			echo lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo $utils->lumiere_notice(1, '<a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
 	}
@@ -181,7 +181,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 		// prevent drama
 		if ( is_null($imdb_cache_values['imdbcachedir']))
-			wp_die( lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
+			wp_die( $utils->lumiere_notice(3, '<strong>'. esc_html__( 'No cache folder found.', 'lumiere-movies') .'</strong>') );
 
 
 		// for movies
@@ -196,7 +196,7 @@ if (current_user_can( 'manage_options' ) ) {
 					if (file_exists($cacheTOdelete )) {
 						unlink( esc_url( $cacheTOdelete ));
 					}  else {
-						wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+						wp_die( $utils->lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
 					}
 				}
 			}
@@ -223,7 +223,7 @@ if (current_user_can( 'manage_options' ) ) {
 					if (file_exists($cacheTOdelete )) {
 						unlink( esc_url( $cacheTOdelete ));
 					}  else {
-						wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+						wp_die( $utils->lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
 					}
 				}
 
@@ -231,13 +231,13 @@ if (current_user_can( 'manage_options' ) ) {
 		}
 
 		// display message on top
-		echo lumiere_notice(1, esc_html__( 'Selected ticked cache file(s) deleted.', 'lumiere-movies') );
+		echo $utils->lumiere_notice(1, esc_html__( 'Selected ticked cache file(s) deleted.', 'lumiere-movies') );
 		if (!headers_sent){
 			/* 2021 07 06 Shouldn't do anything here, to be removed
 			wp_safe_redirect( add_query_arg( "msg", "cache_delete_ticked_msg", wp_get_referer() ) );
 			exit();*/
 		} else {
-			echo lumiere_notice(1, '<div align="center"><a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a></div>');
+			echo $utils->lumiere_notice(1, '<div align="center"><a href="'. wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a></div>');
 			exit();
 		}
 
@@ -259,7 +259,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 			// if file doesn't exist
 			if  ( (is_null($name_sanitized)) || (count($name_sanitized) < 1) )
-				wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+				wp_die( $utils->lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
 
 			foreach ( $name_sanitized as $cacheTOdelete) {
 
@@ -287,7 +287,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 			// if file doesn't exist
 			if  ( (is_null($name_sanitized)) || (count($name_sanitized) < 1) )
-				wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+				wp_die( $utils->lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
 
 			foreach ( $name_sanitized as $cacheTOdelete) {
 
@@ -299,7 +299,7 @@ if (current_user_can( 'manage_options' ) ) {
 			}
 		}
 
-		echo lumiere_notice(1, esc_html__( 'Selected cache file deleted.', 'lumiere-movies') );
+		echo $utils->lumiere_notice(1, esc_html__( 'Selected cache file deleted.', 'lumiere-movies') );
 	}
 
 
@@ -318,7 +318,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 			// if file doesn't exist
 			if  ( (is_null($name_sanitized)) || (count($name_sanitized) < 1) )
-				wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+				wp_die( $utils->lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
 
 			foreach ( $name_sanitized as $cacheTOdelete) {
 
@@ -352,7 +352,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 			// if file doesn't exist
 			if  ( (is_null($name_people_sanitized)) || (count($name_people_sanitized) < 1) )
-				wp_die( lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
+				wp_die( $utils->lumiere_notice(3, esc_html__( 'This file does not exist.', 'lumiere-movies')) ) ;
 
 			foreach ( $name_people_sanitized as $cacheTOdelete) {
 
@@ -372,7 +372,7 @@ if (current_user_can( 'manage_options' ) ) {
 
 		}
 
-		echo lumiere_notice(1, esc_html__( 'Selected cache file successfully refreshed.', 'lumiere-movies') );
+		echo $utils->lumiere_notice(1, esc_html__( 'Selected cache file successfully refreshed.', 'lumiere-movies') );
 	}
 
 
@@ -554,7 +554,7 @@ if ( (isset($_GET['cacheoption'])) && ($_GET['cacheoption'] == "manage") ){ 	///
 <?php 			wp_nonce_field('cache_all_and_query_check', 'cache_all_and_query_check');
 			echo "\n";
 
-$imdltcacheFile = lumiere_glob_recursive( $imdb_cache_values['imdbcachedir'] . '*');
+$imdltcacheFile = $utils->lumiere_glob_recursive( $imdb_cache_values['imdbcachedir'] . '*');
 $imdltcacheFileCount = (count( $imdltcacheFile ) ) -1; /* -1 do not count images folder */
 
 if (!$utils->lumiere_isEmptyDir($imdltcacheFile)) {
@@ -604,7 +604,7 @@ if (!$utils->lumiere_isEmptyDir($imdltcacheFile)) {
 				<br />
 				<br />
 <?php
-$imdltcacheFileQuery = lumiere_glob_recursive($imdb_cache_values['imdbcachedir'] . 'find.s*');
+$imdltcacheFileQuery = $utils->lumiere_glob_recursive($imdb_cache_values['imdbcachedir'] . 'find.s*');
 $imdltcacheFileQueryCount = count( $imdltcacheFileQuery ) ; 
 
 if (!empty($imdb_cache_values['imdbcachedir'])) { 
@@ -953,7 +953,7 @@ if (!empty($results)){
 					$size_cache_pics += $object->getSize();
 				}
 			}
-			echo esc_html_e('Images cache is using', 'lumiere-movies') . ' ' . lumiere_formatBytes( intval( $size_cache_pics) ) . "\n";
+			echo esc_html_e('Images cache is using', 'lumiere-movies') . ' ' . $utils->lumiere_formatBytes( intval( $size_cache_pics) ) . "\n";
 		} else {  echo esc_html_e('Image cache is empty.', 'lumiere-movies') . "\n"; }?>
 			</div>
 

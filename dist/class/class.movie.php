@@ -1838,7 +1838,7 @@ class LumiereMovies {
 		$nbtotalplots = intval( count($plot) );
 
 		// tested if the array contains data; if not, doesn't go further
-		if (!lumiere_is_multiArrayEmpty($plot)) { 
+		if (!$this->utilsClass->lumiere_is_multiArrayEmpty($plot)) { 
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
 			$output .= sprintf(esc_attr(_n('Plot', 'Plots', $nbtotalplots, 'lumiere-movies') ), number_format_i18n($nbtotalplots) );

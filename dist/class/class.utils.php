@@ -192,7 +192,7 @@ class Utils {
 
 		 foreach ($mixed as $value) {
 
-		     if (!lumiere_is_multiArrayEmpty($value)) {
+		     if (!$this->lumiere_is_multiArrayEmpty($value)) {
 
 			  return false;
 
@@ -271,7 +271,7 @@ class Utils {
 
 		foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
 
-			$files = array_merge($files, lumiere_glob_recursive($dir.'/'.basename($pattern), $flags));
+			$files = array_merge($files, $this->lumiere_glob_recursive($dir.'/'.basename($pattern), $flags));
 
 		}
 
@@ -333,7 +333,7 @@ class Utils {
 	}
 
 	/**
-	 * Function lumiere_debug_display
+	 * Function lumiere_activate_debug
 	 * Returns optionaly an array of the options passed
 	 * 
 	 * @param array optional $options array of Lumière options, do not display anything on screen if empty

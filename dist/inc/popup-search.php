@@ -124,9 +124,9 @@ if (empty($results) ){
 		echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
 
 		echo "\n\t\t<a href=\"".esc_url( $config->lumiere_urlpopupsfilms 
-			. lumiere_name_htmlize( $res->title() ) 
+			. $utils->lumiere_name_htmlize( $res->title() ) 
 			. "/?mid=".sanitize_text_field($res->imdbid()) )
-			."&film=".lumiere_name_htmlize( $res->title() )
+			."&film=" . $utils->lumiere_name_htmlize( $res->title() )
 			."\" title=\"".esc_html__('more on', 'lumiere-movies')." "
 			.sanitize_text_field( $res->title() )."\" >"
 			.sanitize_text_field( $res->title() )
