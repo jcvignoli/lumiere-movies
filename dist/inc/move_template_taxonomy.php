@@ -5,7 +5,7 @@
  */
 
 // prevent direct call
-if ( (empty(wp_get_referer()) && (0 !== stripos( wp_get_referer(), admin_url() . 'admin.php?page=imdblt_options&subsection=dataoption&widgetoption=taxo' )) ) || ( ! defined( 'ABSPATH' ) ) )
+if ( (empty(wp_get_referer()) && (0 !== stripos( wp_get_referer(), admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo' )) ) || ( ! defined( 'ABSPATH' ) ) )
 	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 
 // Start Lumière config class and get the vars

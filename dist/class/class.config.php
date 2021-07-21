@@ -404,13 +404,13 @@ class Settings extends Config {
 	 **/
 	function lumiere_maybe_display_debug_pages() {
 
-		// Display debug in admin for imdblt_options pages
-		if ( (is_admin()) && ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options' ) ) ) {
+		// Display debug in admin for lumiere_options pages
+		if ( (is_admin()) && ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=lumiere_options' ) ) ) {
 
 			$this->debug = $this->imdb_admin_values['imdbdebug'] ?? NULL;
 
-		// Do not display debug for admin pages that are not imdblt_options
-		} elseif ( (is_admin()) && (! 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=imdblt_options' ) ) ) {
+		// Do not display debug for admin pages that are not lumiere_options
+		} elseif ( (is_admin()) && (! 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=lumiere_options' ) ) ) {
 
 			$this->debug = false;
 			return false;

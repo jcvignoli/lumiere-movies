@@ -57,7 +57,7 @@ function lumiere_admin_pages() {
 
 			<div class="imdblt_padding_five imdblt_flex_auto">
 				<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-general.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-				<a title="<?php esc_html_e( 'General Options', 'lumiere-movies'); ?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options"); ?>"> <?php esc_html_e( 'General Options', 'lumiere-movies'); ?></a>
+				<a title="<?php esc_html_e( 'General Options', 'lumiere-movies'); ?>" href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options"); ?>"> <?php esc_html_e( 'General Options', 'lumiere-movies'); ?></a>
 			</div>
 
 			<?php 	### Data subpage is relative to what is activated ?>
@@ -66,7 +66,7 @@ function lumiere_admin_pages() {
 				<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-inside.png"); ?>" align="absmiddle" width="16px" />&nbsp;
 
 
-				<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=dataoption"); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies'); ?></a>
+				<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption"); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies'); ?></a>
 
 <?php			if ( ! is_active_widget( '', '', 'lumiere-movies-widget') ) { ?>
 
@@ -75,12 +75,12 @@ function lumiere_admin_pages() {
 <?php 			} 
 			if ( ($imdb_admin_values['imdbdirectsearch'] == "0")  || (!isset($imdb_admin_values['imdbdirectsearch'])) ) { ?>
 
-				- <em><font size=-2><a href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'lumiere-movies'); ?></a> <?php esc_html_e( 'unactivated', 'lumiere-movies'); ?></font></em> 
+				- <em><font size=-2><a href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'lumiere-movies'); ?></a> <?php esc_html_e( 'unactivated', 'lumiere-movies'); ?></font></em> 
 
 <?php			} 
 			if( ($imdb_admin_values['imdbtaxonomy'] == "0")  || (empty($imdb_admin_values['imdbtaxonomy'])) ) { ?>
 
-				- <em><font size=-2><a href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&generaloption=advanced#imdb_imdbtaxonomy_yes"); ?>"><?php esc_html_e( 'Auto taxonomy', 'lumiere-movies'); ?></a> <?php esc_html_e( 'unactivated', 'lumiere-movies'); ?></font></em>
+				- <em><font size=-2><a href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options&generaloption=advanced#imdb_imdbtaxonomy_yes"); ?>"><?php esc_html_e( 'Auto taxonomy', 'lumiere-movies'); ?></a> <?php esc_html_e( 'unactivated', 'lumiere-movies'); ?></font></em>
 
 <?php 			} ?>
 
@@ -88,12 +88,12 @@ function lumiere_admin_pages() {
 
 			<div class="imdblt_padding_five imdblt_flex_auto">			
 				<img src="<?php echo esc_url ( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-cache.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-				<a title="<?php esc_html_e( 'Cache management', 'lumiere-movies'); ?>" href="<?php echo admin_url(); ?>admin.php?page=imdblt_options&subsection=cache"><?php esc_html_e( 'Cache management', 'lumiere-movies'); ?></a>
+				<a title="<?php esc_html_e( 'Cache management', 'lumiere-movies'); ?>" href="<?php echo admin_url(); ?>admin.php?page=lumiere_options&subsection=cache"><?php esc_html_e( 'Cache management', 'lumiere-movies'); ?></a>
 			</div>
 
 			<div align="right" class="imdblt_padding_five imdblt_flex_auto" >
 				<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-help.png"); ?>" align="absmiddle" width="16px" />&nbsp;
-				<a title="<?php esc_html_e( 'How to use Lumière!, check FAQs & changelog', 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=imdblt_options&subsection=help"); ?>">
+				<a title="<?php esc_html_e( 'How to use Lumière!, check FAQs & changelog', 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=help"); ?>">
 					<i>Lumière!</i> <?php esc_html_e( 'help', 'lumiere-movies'); ?>
 				</a>
 			</div>

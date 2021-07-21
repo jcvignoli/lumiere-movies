@@ -381,10 +381,10 @@ if (current_user_can( 'manage_options' ) ) {
 
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-cache-options.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Cache options", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=option'); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-cache-options.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Cache options", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url().'admin.php?page=lumiere_options&subsection=cache&cacheoption=option'); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies'); ?></a></div>
  		<?php 
 	if ($imdb_cache_values['imdbusecache'] == "1") { ?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-cache-management.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Manage Cache", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage'); ?>"><?php esc_html_e( "Manage Cache", 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-cache-management.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Manage Cache", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url().'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage'); ?>"><?php esc_html_e( "Manage Cache", 'lumiere-movies'); ?></a></div>
 <?php 
 	}; ?>
 	</div>
@@ -714,9 +714,9 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 
 							<input type="checkbox" id="imdb_cachedeletefor_movies_'.$title_sanitized.'" name="imdb_cachedeletefor_movies[]" value="'.$obj_sanitized.'" /><label for="imdb_cachedeletefor_movies[]" class="imdblt_bold">'.$title_sanitized.'</label> <br />'. esc_html__("last updated on ", 'lumiere-movies').date ("j M Y H:i:s", filemtime($filepath_sanitized)).' 
 							<div id="refresh_edit_'.$title_sanitized.'" class="row-actions">
-								<span class="edit"><a href="'.esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage&dothis=refresh&where='.$obj_sanitized.'&type=movie').'" class="admin-cache-confirm-refresh" data-confirm="'. esc_html__("Refresh cache for *", 'lumiere-movies') .$title_sanitized.'*?">'.esc_html__("refresh", 'lumiere-movies').'</a></span>
+								<span class="edit"><a href="'.esc_url( admin_url().'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage&dothis=refresh&where='.$obj_sanitized.'&type=movie').'" class="admin-cache-confirm-refresh" data-confirm="'. esc_html__("Refresh cache for *", 'lumiere-movies') .$title_sanitized.'*?">'.esc_html__("refresh", 'lumiere-movies').'</a></span>
 
-								<span class="delete"><a href="'.esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage&dothis=delete&where='.$obj_sanitized.'&type=movie').'" class="admin-cache-confirm-delete" data-confirm="'. esc_html__("Delete *", 'lumiere-movies') . $title_sanitized.esc_html__("* from cache?", 'lumiere-movies').'" title="'. esc_html__("Delete *", 'lumiere-movies') . $title_sanitized.esc_html__("* from cache?", 'lumiere-movies').'">'.esc_html__("delete", 'lumiere-movies').'</a></span>
+								<span class="delete"><a href="'.esc_url( admin_url().'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage&dothis=delete&where='.$obj_sanitized.'&type=movie').'" class="admin-cache-confirm-delete" data-confirm="'. esc_html__("Delete *", 'lumiere-movies') . $title_sanitized.esc_html__("* from cache?", 'lumiere-movies').'" title="'. esc_html__("Delete *", 'lumiere-movies') . $title_sanitized.esc_html__("* from cache?", 'lumiere-movies').'">'.esc_html__("delete", 'lumiere-movies').'</a></span>
 							</div></td></tr></table>
 						</div>';// send input and results into array
 
@@ -820,9 +820,9 @@ if (!empty($results)){
 							<input type="checkbox" id="imdb_cachedeletefor_people_'.$name_sanitized.'" name="imdb_cachedeletefor_people[]" value="'.$objpiple_sanitized.'" /><label for="imdb_cachedeletefor_people_[]" class="imdblt_bold">'.$name_sanitized.'</label><br />'. esc_html__('last updated on ', 'lumiere-movies').date ("j M Y H:i:s", filemtime($filepath_sanitized)).'
 							
 							<div class="row-actions">
-								<span class="view"><a href="'.esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage&dothis=refresh&where='.$objpiple_sanitized.'&type=people').'" class="admin-cache-confirm-refresh" data-confirm="Refresh cache for *'.$name_sanitized.'*" title="Refresh cache for *'.$name_sanitized.'*">'.esc_html__("refresh", 'lumiere-movies').'</a></span> 
+								<span class="view"><a href="'.esc_url( admin_url().'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage&dothis=refresh&where='.$objpiple_sanitized.'&type=people').'" class="admin-cache-confirm-refresh" data-confirm="Refresh cache for *'.$name_sanitized.'*" title="Refresh cache for *'.$name_sanitized.'*">'.esc_html__("refresh", 'lumiere-movies').'</a></span> 
 
-								<span class="delete"><a href="'.esc_url( admin_url().'admin.php?page=imdblt_options&subsection=cache&cacheoption=manage&dothis=delete&where='.$objpiple_sanitized.'&type=people').'" class="admin-cache-confirm-delete" data-confirm="You are about to delete *'.$name_sanitized.'* from cache. Click Cancel to stop or OK to continue." title="Delete cache for *'.$name_sanitized.'*">'.esc_html__("delete", 'lumiere-movies').'</a></span>
+								<span class="delete"><a href="'.esc_url( admin_url().'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage&dothis=delete&where='.$objpiple_sanitized.'&type=people').'" class="admin-cache-confirm-delete" data-confirm="You are about to delete *'.$name_sanitized.'* from cache. Click Cancel to stop or OK to continue." title="Delete cache for *'.$name_sanitized.'*">'.esc_html__("delete", 'lumiere-movies').'</a></span>
 							</div></td></tr></table>
 					</div>'; // send input and results into array
 

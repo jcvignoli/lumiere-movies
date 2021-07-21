@@ -5,7 +5,7 @@
  */
 
 // prevent direct calls
-if (empty(wp_get_referer()) && (0 !== stripos( wp_get_referer(), admin_url() . 'admin.php?page=imdblt_options' )) )
+if (empty(wp_get_referer()) && (0 !== stripos( wp_get_referer(), admin_url() . 'admin.php?page=lumiere_options' )) )
 	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 
 /************* Vars **************/
