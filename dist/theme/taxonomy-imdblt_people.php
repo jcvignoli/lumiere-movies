@@ -4,6 +4,8 @@
 *  This file can be edited, renamed, and then copied in your theme folder or you also can
 *  use the admin taxonomy interface to do it automaticaly
 *
+*  Version: 2.0
+*
 *  This template retrieves automaticaly the occurence of the name selected
 *  If used along with Polylang WordPress plugin, an automatic selection to filter by language will be displayed
 */
