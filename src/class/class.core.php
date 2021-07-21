@@ -697,10 +697,6 @@ class Core {
 
 			$configClass->lumiere_maybe_log('info', "[Lumiere][core][updater] Lumière _on_activation_ hook: cache successfully created.");
 
-		} else {
-
-			$configClass->lumiere_maybe_log('debug', "[Lumiere][core][updater] Lumière _on_activation_ hook: cache folders already exist, no folder created.");
-
 		}
 
 
