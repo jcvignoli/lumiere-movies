@@ -1,10 +1,6 @@
-v3.4.4
-OK--- 1. Added loggging to cache creation function.
-OK--- 2. Reporting of the cache size in admin panel 'Cache directory (absolute path)' was empty. Fixed layout of that section.
-OK--- 3. Cache creation was called in loop in Lumière admin. Now it is called once on every Lumière admin page. Resource optimisation.
-OK--- 4. All calls to functions.php redirected to class.utils.php. Removed functions.php.
+v.3.4.5
 
-9. pass functions utilised in functions.php to class.utils.php
+
 10. errors in bio to fix https://www.jcvignoli.com/blogpourext/imdblt_director/tony-zarindast/
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the admin pages using WordPress API
@@ -12,6 +8,12 @@ OK--- 4. All calls to functions.php redirected to class.utils.php. Removed funct
 13. Implement alternative to highslide with a jquery modal window
 16. To test: If Polylang needs to copy the metas when doing a new post in another lang, can activate lumiere_copy_post_metas_polylang() in class.core.php
 
+
+v3.4.4
+OK--- 1. Added loggging to cache creation function.
+OK--- 2. Reporting of the cache size in admin panel 'Cache directory (absolute path)' was empty. Fixed layout of that section.
+OK--- 3. Cache creation was called in loop in Lumière admin. Now it is called once on every Lumière admin page. Resource optimisation.
+OK--- 4. All calls to functions.php redirected to class.utils.php. Removed functions.php.
 
 v3.4.3
 OK--- 1. bug fixed use of $allowed_html_for_escape_functions (was private, now private static) in class movie.
