@@ -147,12 +147,12 @@ if (current_user_can( 'manage_options' ) ) {
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-inside-whattodisplay.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to display", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=dataoption&widgetoption=what"); ?>"><?php esc_html_e( 'Display', 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-inside-whattodisplay.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to display", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what"); ?>"><?php esc_html_e( 'Display', 'lumiere-movies'); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-inside-order.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "Display order", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=dataoption&widgetoption=order"); ?>"><?php esc_html_e( "Display order", 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-inside-order.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "Display order", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=order"); ?>"><?php esc_html_e( "Display order", 'lumiere-movies'); ?></a></div>
 
 			<?php if ($imdb_admin_values['imdbtaxonomy'] == "1") { ?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-inside-whattotaxo.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to taxonomize", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=imdblt_options&subsection=dataoption&widgetoption=taxo"); ?>"><?php esc_html_e( "Taxonomy", 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-inside-whattotaxo.png"); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( "What to taxonomize", 'lumiere-movies');?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo"); ?>"><?php esc_html_e( "Taxonomy", 'lumiere-movies'); ?></a></div>
 			<?php } else { ?>
 		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] ."pics/admin-widget-inside-whattodisplay.png"); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( "Taxonomy unactivated", 'lumiere-movies');?></i></div>
 			<?php }?>
@@ -574,13 +574,14 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 			if ($imdb_admin_values['imdbtaxonomy'] != "1") { //check if taxonomy is activated
 
-				echo "<div align='center' class='accesstaxo'>".esc_html__('Please ', 'lumiere-movies')."<a href='".esc_url ( admin_url().'admin.php?page=imdblt_options&generaloption=advanced') . "'>" . __('activate taxonomy', 'lumiere-movies') . '</a>' . esc_html__(' priorly', 'lumiere-movies') . '<br />' . esc_html__('to access taxonomies options.', 'lumiere-movies') . "</div>";
+				echo "<div align='center' class='accesstaxo'>".esc_html__('Please ', 'lumiere-movies')."<a href='".esc_url ( admin_url().'admin.php?page=lumiere_options&generaloption=advanced') . "'>" . __('activate taxonomy', 'lumiere-movies') . '</a>' . esc_html__(' priorly', 'lumiere-movies') . '<br />' . esc_html__('to access taxonomies options.', 'lumiere-movies') . "</div>";
 
 			} else { // taxonomy is activated ?>
 
 	<div class="inside imblt_border_shadow">
 		<h3 class="hndle" id="taxodetails" name="taxodetails"><?php esc_html_e( 'Select details to use as taxonomy', 'lumiere-movies'); ?></h3>
 	</div>
+	<br />
 
 	<div class="imblt_border_shadow">
 
@@ -605,7 +606,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				<?php
 				if ($imdb_widget_values['imdbtaxonomyactor'] == "1") {
 					echo "<br />";
-					echo "<a href='" . esc_url( admin_url() . "admin.php?page=imdblt_options&?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=actor" ) . "' " .
+					echo "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=actor" ) . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
@@ -629,7 +630,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				<?php
 				if ($imdb_widget_values['imdbtaxonomycolor'] == "1") {
 					echo "<br />";
-					echo "<a href='" . esc_url( admin_url() . "admin.php?page=imdblt_options&?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=color" ) . "' " .
+					echo "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=color" ) . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
@@ -651,7 +652,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				<?php
 				if ($imdb_widget_values['imdbtaxonomycomposer'] == "1") {
 					echo "<br />";
-					echo "<a href='" . esc_url( admin_url() . "admin.php?page=imdblt_options&?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=composer" ) . "' " .
+					echo "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=composer" ) . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
@@ -673,7 +674,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				<?php
 				if ($imdb_widget_values['imdbtaxonomycountry'] == "1") {
 					echo "<br />";
-					echo "<a href='" . esc_url( admin_url() . "admin.php?page=imdblt_options&?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=country" ) . "' " .
+					echo "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=country" ) . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
@@ -696,7 +697,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				<?php
 				if ($imdb_widget_values['imdbtaxonomycreator'] == "1") {
 					echo "<br />";
-					echo "<a href='" . esc_url( admin_url() . "admin.php?page=imdblt_options&?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=creator" ) . "' " .
+					echo "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=creator" ) . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
@@ -719,7 +720,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				<?php
 				if ($imdb_widget_values['imdbtaxonomydirector'] == "1") {
 					echo "<br />";
-					echo "<a href='" . esc_url( admin_url() . "admin.php?page=imdblt_options&?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=director" ) . "' " .
+					echo "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=director" ) . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
@@ -741,7 +742,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				<?php
 				if ($imdb_widget_values['imdbtaxonomygenre'] == "1") {
 					echo "<br />";
-					echo "<a href='" . esc_url( admin_url() . "admin.php?page=imdblt_options&?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=genre" ) . "' " .
+					echo "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=genre" ) . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
@@ -763,7 +764,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				<?php
 				if ($imdb_widget_values['imdbtaxonomykeywords'] == "1") {
 					echo "<br />";
-					echo "<a href='" . esc_url( admin_url() . "admin.php?page=imdblt_options&?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=keywords" ) . "' " .
+					echo "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=keywords" ) . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
@@ -785,7 +786,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				<?php
 				if ($imdb_widget_values['imdbtaxonomylanguage'] == "1") {
 					echo "<br />";
-					echo "<a href='" . esc_url( admin_url() . "admin.php?page=imdblt_options&?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=language" ) . "' " .
+					echo "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=language" ) . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
@@ -808,7 +809,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				<?php
 				if ($imdb_widget_values['imdbtaxonomyproducer'] == "1") {
 					echo "<br />";
-					echo "<a href='" . esc_url( admin_url() . "admin.php?page=imdblt_options&?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=producer" ) . "' " .
+					echo "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=producer" ) . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
@@ -830,7 +831,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				<?php
 				if ($imdb_widget_values['imdbtaxonomywriter'] == "1") {
 					echo "<br />";
-					echo "<a href='" . esc_url( admin_url() . "admin.php?page=imdblt_options&?page=imdblt_options&subsection=dataoption&widgetoption=taxo&taxotype=writer") . "' " .
+					echo "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=writer") . "' " .
 						"title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >".
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
