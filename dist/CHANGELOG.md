@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.4.5
+
 v.3.4.4
 * [technical] Added loggging to cache creation function.
 * [bug] Reporting of the cache size in admin panel 'Cache directory (absolute path)' was empty. Fixed layout of that section.
