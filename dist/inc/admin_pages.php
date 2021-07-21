@@ -27,6 +27,9 @@ function lumiere_admin_pages() {
 		$imdb_widget_values = $config->get_imdb_widget_option();
 		$imdb_cache_values = $config->get_imdb_cache_option();
 
+		// Make sure cache folder exists and is writable
+		$config->lumiere_create_cache();
+
 		// Start the class Utils
 		$utils = new \Lumiere\Utils();
 

@@ -1,6 +1,9 @@
 **Changelog**
 
 v.3.4.4
+* [technical] Added loggging to cache creation function.
+* [bug] Reporting of the cache size in admin panel 'Cache directory (absolute path)' was empty. Fixed layout of that section.
+* [bug] Cache creation was called in loop in Lumière admin. Now it is called once on every Lumière admin page. Resource optimisation.
 
 v.3.4.3
 * [major] Updated to [imdbphp library 7.2](https://github.com/tboothman/imdbphp/releases/tag/v7.2.0 "imdbphp library 7.2")

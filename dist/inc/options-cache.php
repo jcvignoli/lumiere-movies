@@ -571,7 +571,7 @@ if (!$utils->lumiere_isEmptyDir($imdltcacheFile)) {
 	/* translators: %s is replaced with the number of files */
 	echo "&nbsp;" . sprintf( _n( '%s file', '%s files', $imdltcacheFileCount, 'lumiere-movies'), number_format_i18n( $imdltcacheFileCount )) ;
 	echo "&nbsp;" . esc_html__( 'using', 'lumiere-movies'); 
-	echo ' ' . lumiere_formatBytes( intval($size_cache_total) ) ;
+	echo ' ' . $utils->lumiere_formatBytes( intval($size_cache_total) ) ;
 	echo "</strong>\n"; 
 
 ?>
@@ -621,7 +621,7 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 	/* translators: %s is replaced with the number of files */
 	echo "&nbsp;" . sprintf( _n( '%s file', '%s files', $imdltcacheFileQueryCount, 'lumiere-movies'), number_format_i18n( $imdltcacheFileQueryCount )) ;
 	echo "&nbsp;" . esc_html__( 'using', 'lumiere-movies'); 
-	echo ' ' . lumiere_formatBytes( intval($size_cache_query_total) ) ;
+	echo ' ' . $utils->lumiere_formatBytes( intval($size_cache_query_total) ) ;
 	echo "</strong>"; 
 ?>
 			</div>
@@ -880,68 +880,67 @@ if (!empty($results)){
 
 		<form method="post" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
 
-		<div class="lumiere_flex_container">
-			<div class="lumiere_flex_container_content_twenty imdblt_padding_five">
+		<div class="titresection lumiere_padding_five"><?php esc_html_e('Cache directory (absolute path)', 'lumiere-movies'); ?></div>
 
-				<label for="imdb_imdbcachedir">
-					<div class="titresection"><?php esc_html_e('Cache directory (absolute path)', 'lumiere-movies'); ?></div>
+		<div class="lumiere_padding_five">
+			<span class="imdblt_smaller">
+			<?php 	// display cache folder size
+			if (!$utils->lumiere_isEmptyDir($imdb_cache_values['imdbcachedir'])) {
 
-					<span class="imdblt_smaller">
-					<?php 	// display cache folder size
-					if (!$utils->lumiere_isEmptyDir($imdb_cache_values['imdbcachedir'])) {
+				echo esc_html__('Movies\' cache is using', 'lumiere-movies') . ' ' . $utils->lumiere_formatBytes( intval($size_cache_total) ) . "\n";
 
-						echo esc_html_e('Movies\' cache is using', 'lumiere-movies') . ' ' . lumiere_formatBytes( intval($size_cache_total) ) . "\n";
-					} else {  
-						echo esc_html_e('Movies\' cache is empty.', 'lumiere-movies'); 
-					}
-					?>
-					</span>
-					</label>
+			} else {  
 
+				echo esc_html__('Movies\' cache is empty.', 'lumiere-movies'); 
+
+			}
+			?>
+			</span>
+
+		</div>
+		<div class="imdblt_padding_five">
+
+			<div class="lumiere_breakall">
+				<?php echo ABSPATH; ?>
+				<input type="text" name="imdbcachedir_partial" class="lumiere_border_width_medium" value="<?php esc_html_e(apply_filters('format_to_edit',$imdb_cache_values['imdbcachedir_partial']), 'lumiere-movies') ?>">
 			</div>
-			<div class="lumiere_flex_container_content_eighty imdblt_padding_five">
 
-				<div class="lumiere_breakall">
-					<?php echo ABSPATH; ?>
-					<input type="text" name="imdbcachedir_partial" class="lumiere_border_width_medium" value="<?php esc_html_e(apply_filters('format_to_edit',$imdb_cache_values['imdbcachedir_partial']), 'lumiere-movies') ?>">
-				</div>
-
-				<div class="explain">
-				<?php if (file_exists($imdb_cache_values['imdbcachedir'])) { // check if folder exists
-					echo '<span class="imdblt_green">';
-					esc_html_e("Folder exists.", 'lumiere-movies');
+			<div class="explain">
+			<?php if (file_exists($imdb_cache_values['imdbcachedir'])) { // check if folder exists
+				echo '<span class="imdblt_green">';
+				esc_html_e("Folder exists.", 'lumiere-movies');
+				echo '</span>';
+			} else {
+				echo '<span class="imdblt_red">';
+				esc_html_e("Folder doesn't exist!", 'lumiere-movies');
+				echo '</span>'; 
+			}
+			if (file_exists($imdb_cache_values['imdbcachedir'])) { // check if permissions are ok
+				if ( substr(sprintf('%o', fileperms($imdb_cache_values['imdbcachedir'])), -3) == "777") { 
+					echo ' <span class="imdblt_green">';
+					esc_html_e("Permissions OK.", 'lumiere-movies');
 					echo '</span>';
-				} else {
-					echo '<span class="imdblt_red">';
-					esc_html_e("Folder doesn't exist!", 'lumiere-movies');
+				} else { 
+					echo ' <span class="imdblt_red">';
+					esc_html_e("Check folder permissions!", 'lumiere-movies');
 					echo '</span>'; 
 				}
-				if (file_exists($imdb_cache_values['imdbcachedir'])) { // check if permissions are ok
-					if ( substr(sprintf('%o', fileperms($imdb_cache_values['imdbcachedir'])), -3) == "777") { 
-						echo ' <span class="imdblt_green">';
-						esc_html_e("Permissions OK.", 'lumiere-movies');
-						echo '</span>';
-					} else { 
-						echo ' <span class="imdblt_red">';
-						esc_html_e("Check folder permissions!", 'lumiere-movies');
-						echo '</span>'; 
-					}
-				} ?>
-				</div>
+			} ?>
+			</div>
 
-				<div class="explain lumiere_breakall">
-					<?php esc_html_e('Absolute path to store cache retrieved from the IMDb website. Has to be ', 'lumiere-movies'); ?>
-					<a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> 
-					<?php esc_html_e('by the webserver.', 'lumiere-movies');?> 
-					<br />
-					<?php esc_html_e('Default:','lumiere-movies');?> "<?php echo esc_url ( WP_CONTENT_DIR . '/cache/lumiere/' ); ?>"
-				</div>
+			<div class="explain lumiere_breakall">
+				<?php esc_html_e('Absolute path to store cache retrieved from the IMDb website. Has to be ', 'lumiere-movies'); ?>
+				<a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> 
+				<?php esc_html_e('by the webserver.', 'lumiere-movies');?> 
+				<br />
+				<?php esc_html_e('Default:','lumiere-movies');?> "<?php echo esc_url ( WP_CONTENT_DIR . '/cache/lumiere/' ); ?>"
 			</div>
 		</div>
 
+
 		<div>
 
-			<div class="titresection imdblt_padding_five">
+			<div class="titresection lumiere_padding_five">
 				<?php esc_html_e('Photo path (relative to the cache path)', 'lumiere-movies'); ?>
 			</div>
 
@@ -997,7 +996,6 @@ if (!empty($results)){
 		</div>
 
 		<div>
-
 			<div class="titresection imdblt_padding_five">
 				<?php esc_html_e('Photo URL (relative to the website and the cache path)', 'lumiere-movies'); ?>
 			</div>			
