@@ -20,8 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Enter in debug mode
-if ((isset($imdbOptions['imdbdebug'])) && ($imdbOptions['imdbdebug'] == "1")){
-	lumiere_debug_display($imdbOptions, 'SetError', ''); 
+if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
+
+	// Start the class Utils to activate debug -> already started in admin_pages
+	$utils->lumiere_activate_debug();
+
 }
 
 /* Vars */
@@ -35,6 +38,12 @@ $acknowfile = plugin_dir_path( __DIR__ ) . "ACKNOWLEDGMENTS.md";
 $allowed_html_for_esc_html_functions = [
 	'i',
 	'strong',
+	'b',
+	'a' => [
+		'id' => true,
+		'href'  => true,
+		'title' => true,
+	],
 ];
 
 
@@ -348,7 +357,7 @@ function lumiere_help_itp_function () {
 
 	<div class="helpdiv">
 		<h4><?php esc_html_e( 'How to display data inside my post - tricky way', 'lumiere-movies'); ?></h4>
-		<div><?php esc_html_e( "It could happen you don't want to use the previous solution to display movie's data. For exemple, if you wish to use IMDbLT outside a post (in a personalized page), it won't work. In this case, and in this case only, you should (may be) to download Exec-PHP plugin (<a href='http://wordpress.org/extend/plugins/exec-php'>http://wordpress.org/extend/plugins/exec-php</a>), depending of your page.", 'lumiere-movies'); ?></div><br />
+		<div><?php esc_html_e( "It could happen you don't want to use the previous solution to display movie's data. For exemple, if you wish to use IMDbLT outside a post (in a personalized page), it won't work. In this case, and in this case only, you should (may be) to download", 'lumiere-movies'); echo ' Exec-PHP plugin (<a href="http://wordpress.org/extend/plugins/exec-php">http://wordpress.org/extend/plugins/exec-php</a>) '; ?></div><br />
 		<div><?php esc_html_e( "The function to be called is <strong>imdb_call_external ()</strong>. It has two parameters, and both are mandatory. The first is the movie's name, and the second take always 'external'. For exemple, one'd like to display 'The Descent' should call the function like this:", 'lumiere-movies'); ?></div><br />
 		<blockquote align="center" class="imdblt_padding_left">$imdblt = new imdblt;<br />$imdblt->lumiere_external_call('Descent', 'external')</blockquote>
 		<div><?php esc_html_e( "The function can also be called using still 'external as second parameter, but the first will be blank and a new third parameter will take its IMDb movie's ID. For exemple, one'd like to display 'The Descent' should call the function this manner:", 'lumiere-movies'); ?></div><br />

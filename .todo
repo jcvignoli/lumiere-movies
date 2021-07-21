@@ -2,8 +2,9 @@ v3.4.4
 OK--- 1. Added loggging to cache creation function.
 OK--- 2. Reporting of the cache size in admin panel 'Cache directory (absolute path)' was empty. Fixed layout of that section.
 OK--- 3. Cache creation was called in loop in Lumière admin. Now it is called once on every Lumière admin page. Resource optimisation.
+OK--- 4. All calls to functions.php redirected to class.utils.php. Removed functions.php.
 
-
+9. pass functions utilised in functions.php to class.utils.php
 10. errors in bio to fix https://www.jcvignoli.com/blogpourext/imdblt_director/tony-zarindast/
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the admin pages using WordPress API

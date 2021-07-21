@@ -68,7 +68,7 @@ class Core {
 
 			// search for all imdbtaxonomy* in config array, 
 			// if active write a filter to add a class to the link to the taxonomy page
-			foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
+			foreach ( $this->utilsClass->lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
 				if ($value == 1) {
 					$filter_taxonomy = str_replace('imdbtaxonomy', '', "term_links-" . $imdb_admin_values['imdburlstringtaxo'] . $key);
 					add_filter( $filter_taxonomy, [ $this, 'lumiere_taxonomy_add_class_to_links'] );
@@ -334,7 +334,7 @@ class Core {
 			// OceanWp template css fix
 			// enqueue lumiere.css only if using oceanwp template
 			# Popups
-			if ( ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ) && ( str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstring ) ) ) {
+			if ( ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ) && ( $this->utilsClass->str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstring ) ) ) {
 				wp_enqueue_style('lumiere_subpages_css_oceanwpfixes', $imdb_admin_values['imdbplugindirectory'] ."css/lumiere_subpages-oceanwpfixes.css", array(), $this->configClass->lumiere_version);
 			# Wordpress posts/pages
 			} elseif ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ){ 
@@ -547,7 +547,7 @@ class Core {
 					$movie = new \Imdb\Title($movieid_sanitized, $config);
 					$filmid_sanitized = esc_html($movie->title());
 				} elseif ( (!isset($_GET['mid'])) && (isset($_GET['film'])) ){
-					$filmid_sanitized = lumiere_name_htmlize($_GET['film']);
+					$filmid_sanitized = $this->utilsClass->lumiere_name_htmlize($_GET['film']);
 				}
 
 				$title_name = isset($movieid_sanitized) ? $filmid_sanitized : sanitize_text_field($_GET['film']);
@@ -604,14 +604,14 @@ class Core {
 			# ADD CANONICAL
 			// Canonical for search popup
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringsearch ) ) {
-				$film_sanitized = ""; $film_sanitized = isset($_GET['film']) ? lumiere_name_htmlize($_GET['film']) : "";
+				$film_sanitized = ""; $film_sanitized = isset($_GET['film']) ? $this->utilsClass->lumiere_name_htmlize($_GET['film']) : "";
 				$my_canon = $this->configClass->lumiere_urlpopupssearch . '?film=' . $film_sanitized . '&norecursive=yes' ;
 			}
 
 			// Canonical for movies popups
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) {
 				$mid_sanitized = isset($_GET['mid']) ? sanitize_text_field($_GET['mid']) : "";
-				$film_sanitized = ""; $film_sanitized = isset($_GET['film']) ? lumiere_name_htmlize($_GET['film']) : "";
+				$film_sanitized = ""; $film_sanitized = isset($_GET['film']) ? $this->utilsClass->lumiere_name_htmlize($_GET['film']) : "";
 				$info_sanitized = ""; $info_sanitized = isset($_GET['info']) ? esc_html($_GET['info']) : "";
 				$my_canon = $this->configClass->lumiere_urlpopupsfilms . '?film=' . $film_sanitized . '&mid=' . $mid_sanitized. '&info=' . $info_sanitized;
 			}
@@ -764,7 +764,7 @@ class Core {
 
 		// search for all imdbtaxonomy* in config array, 
 		// if a taxonomy is found, let's get related terms and delete them
-		foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
+		foreach ( $this->utilsClass->lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
 			$filter_taxonomy = str_replace('imdbtaxonomy', '', $imdb_admin_values['imdburlstringtaxo']  . $key );
 
 			# get all terms, even if empty
@@ -844,7 +844,7 @@ class Core {
 
 		// search for all imdbtaxonomy* in config array, 
 		// if a taxonomy is found, let's get related terms and delete them
-		foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
+		foreach ( $this->utilsClass->lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
 			$filter_taxonomy = str_replace('imdbtaxonomy', '', $imdb_admin_values['imdburlstringtaxo']  . $key );
 
 			# get all terms, even if empty
@@ -897,7 +897,7 @@ class Core {
 		$imdb_admin_values = $this->imdb_admin_values;
 		$imdb_widget_values = $this->imdb_widget_values;
 
-		foreach ( lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
+		foreach ( $this->utilsClass->lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
 			$filter_taxonomy = str_replace('imdbtaxonomy', '', $key );
 
 			if ($imdb_widget_values[ 'imdbtaxonomy'.$filter_taxonomy ] ==  1) {
@@ -946,7 +946,7 @@ class Core {
 		if (! $popuplong )
 			$popuplong=$imdb_admin_values["popupLong"];
 
-		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
+		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . $this->utilsClass->lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
 
 		return $parsed_result;
 
@@ -967,7 +967,7 @@ class Core {
 		if (! $popuplong )
 			$popuplong=$imdb_admin_values["popupLong"];
 
-		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
+		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . $this->utilsClass->lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
 		
 		return $parsed_result;
 	}
