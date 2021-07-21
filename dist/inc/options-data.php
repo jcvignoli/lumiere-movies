@@ -611,6 +611,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
 					"</a>";
+
+				// If new template version available, notify
+				echo $utils->lumiere_new_taxo_template_available('actor');
 				}
 				?> 
 
@@ -635,6 +638,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
 					"</a>";
+
+				// If new template version available, notify
+				echo $utils->lumiere_new_taxo_template_available('color');
 				}
 				?> 
 
@@ -657,6 +663,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
 					"</a>";
+
+				// If new template version available, notify
+				echo $utils->lumiere_new_taxo_template_available('composer');
 				}
 				?> 
 			</div>
@@ -679,6 +688,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
 					"</a>";
+
+				// If new template version available, notify
+				echo $utils->lumiere_new_taxo_template_available('country');
 				}
 				?> 
 
@@ -702,6 +714,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
 					"</a>";
+
+				// If new template version available, notify
+				echo $utils->lumiere_new_taxo_template_available('creator');
 				}
 				?> 
 
@@ -725,6 +740,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
 					"</a>";
+
+				// If new template version available, notify
+				echo $utils->lumiere_new_taxo_template_available('director');
 				}
 				?> 
 			</div>
@@ -747,7 +765,11 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
 					"</a>";
+
+					// If new template version available, notify
+					echo $utils->lumiere_new_taxo_template_available('genre');
 				}
+
 				?> 
 
 			</div>
@@ -769,6 +791,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
 					"</a>";
+
+					// If new template version available, notify
+					echo $utils->lumiere_new_taxo_template_available('keywords');
 				}
 				?> 
 			</div>
@@ -791,6 +816,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
 					"</a>";
+
+					// If new template version available, notify
+					echo $utils->lumiere_new_taxo_template_available('language');
 				}
 				?> 
 
@@ -814,6 +842,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
 					"</a>";
+
+					// If new template version available, notify
+					echo $utils->lumiere_new_taxo_template_available('producer');
 				}
 				?> 
 			</div>
@@ -836,6 +867,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 						"<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />".
 						esc_html__("Copy template", 'lumiere-movies') .
 					"</a>";
+
+					// If new template version available, notify
+					echo $utils->lumiere_new_taxo_template_available('writer');
 				}
 				?> 
 

@@ -1,6 +1,8 @@
 **Changelog**
 
 v.3.4.5
+* [feature] If a new taxonomy template is available, display a message in taxonomy admin panel
+* [technical] Replace admin url imdblt_options by lumiere_options
 
 v.3.4.4
 * [technical] Added loggging to cache creation function.

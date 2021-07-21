@@ -368,5 +368,79 @@ class Utils {
 		echo ' </font><strong>[/Lumière options]</strong></div>';
 
 	}
+
+	/**
+	 * Function lumiere_find_version_taxo_template
+	 * Returns if there is a new version of the template
+	 * 
+	 * @param array mandatory $type type to search (actor, genre, etc)
+	 */
+	public function lumiere_new_taxo_template_available($type) {
+
+		// Get the type to build the links
+		$lumiere_taxo_title = esc_html($type);
+
+		// Files paths
+		$lumiere_taxo_file_tocopy = in_array($lumiere_taxo_title, $this->configclass->array_people, true) ? $lumiere_taxo_file_tocopy = "taxonomy-imdblt_people.php" : $lumiere_taxo_file_tocopy = "taxonomy-imdblt_items.php";
+		$lumiere_taxo_file_copied = "taxonomy-" . $this->configclass->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . ".php";
+		$lumiere_current_theme_path = get_stylesheet_directory()."/";
+		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied ;
+		$lumiere_taxonomy_theme_path = $this->configclass->imdb_admin_values['imdbpluginpath'] . "theme/";
+		$lumiere_taxonomy_theme_file = $lumiere_taxonomy_theme_path . $lumiere_taxo_file_tocopy;
+
+		// Find the version
+		$pattern="~Version: (.+)~i";
+		# Copied version to the user theme folder
+		if (file_exists($lumiere_current_theme_path_file)){
+
+			$content = file_get_contents($lumiere_current_theme_path_file);
+
+			if (preg_match($pattern, $content, $match)){
+
+				$version_theme = $match[1];
+
+			} else {
+
+				$version_theme = "no_theme";
+
+			}
+
+		} else {
+
+			return false;
+
+		}
+		# Original version
+		if (file_exists($lumiere_taxonomy_theme_file)) {
+
+			$content = file_get_contents($lumiere_taxonomy_theme_file); 
+
+			if (preg_match($pattern, $content, $match)){
+
+				$version_origin = $match[1];
+
+			} else {
+
+				$version_theme = "no_origin";
+
+			}
+
+		} else {
+
+			return false;
+		}		
+
+		// Return a message if there is a new version of the template
+		if ($version_theme != $version_origin)  {
+
+			return '<div><font color="red">'
+				. esc_html__('New template version available, please copy', 'lumiere-movies')
+				. '</font></div>';
+
+		}
+
+		return false;
+	}
+
 }
 ?>

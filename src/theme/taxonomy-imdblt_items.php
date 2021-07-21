@@ -4,6 +4,7 @@
 *  This file should be edited, renamed, and then copied in your theme folder but you also can
 *  use the admin taxonomy interface to do it automatically
 *
+*  Version: 1.0
 */
 
 get_header();
