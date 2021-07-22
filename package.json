@@ -20,7 +20,7 @@
     "build": "gulp build --clean yes",
     "rsync": "gulp rsync",
     "codeceptionremote": "php vendor/bin/codecept run -vvv acceptanceRemote LumiereCest.php --env wpfirefox",
-    "codeceptionlocal": "php vendor/bin/codecept run -vvv acceptanceLocal LumiereCest.php --env wpdbfirefox"
+    "codeceptionlocal": "php vendor/bin/codecept run -vvv acceptanceLocal LumiereCest.php --env wpfirefox"
   },
   "devDependencies": {
     "@wordpress/scripts": "16.1.0",
