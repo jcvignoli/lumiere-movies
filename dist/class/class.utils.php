@@ -30,7 +30,7 @@ class Utils {
 	/* Store the class of Lumière settings
 	 * Usefull to start a new IMDbphp query
 	 */
-	private $configclass;
+	private $configClass;
 
 	/* Vars from Lumière settings
 	 *
@@ -40,7 +40,7 @@ class Utils {
 	/* Store the class for logging using the Monolog library
 	 *
 	 */
-	private $loggerclass;
+	private $loggerClass;
 
 	/** Class constructor
 	 ** 
@@ -50,21 +50,21 @@ class Utils {
 		// Start config class and get the vars
 		if (class_exists("\Lumiere\Settings")) {
 
-			$configclass = new \Lumiere\Settings();
-			$this->configclass = $configclass;
-			$this->imdb_admin_values = $configclass->get_imdb_admin_option();
-			$this->imdb_widget_values = $configclass->get_imdb_widget_option();
-			$this->imdb_cache_values = $configclass->get_imdb_widget_option();
+			$configClass = new \Lumiere\Settings();
+			$this->configClass = $configClass;
+			$this->imdb_admin_values = $configClass->get_imdb_admin_option();
+			$this->imdb_widget_values = $configClass->get_imdb_widget_option();
+			$this->imdb_cache_values = $configClass->get_imdb_widget_option();
 
 			// Start logger class if debug is selected
 			if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
 				// Start the logger
-				$this->configclass->lumiere_start_logger('utils');
-				$this->loggerclass = $this->configclass->loggerclass;
+				$this->configClass->lumiere_start_logger('utils');
+				$this->loggerClass = $this->configClass->loggerclass;
 
 			} else {
 
-				$this->loggerclass = NULL;
+				$this->loggerClass = NULL;
 			}
 
 		} else {
@@ -135,7 +135,7 @@ class Utils {
 	public function lumiere_admin_signature(){
 
 		// Config settings
-		$config = new \Lumiere\Settings();
+		$config = $this->configClass;
 
 		// Authorise this html tags wp_kses()
 		$allowed_html_for_esc_html_functions = [
@@ -165,14 +165,13 @@ class Utils {
 
 	/**
 	 * Text displayed when no result is found
-	 * @param string $text: if no text provided, default 
-	 * This text is logged if the debugin is activated
+	 * This text is logged if the debug logging is activated
+	 *
+	 * @param string optional $text: text to display/log. if no text provided, default text is provided
 	 */
 	public function lumiere_noresults_text($text='No result found for this query.'){ 
 
-		if($this->loggerclass !== NULL) {
-			$this->loggerclass->debug("[Lumiere] $text");
-		}
+		$this->loggerClass->lumiere_maybe_log('debug', "[Lumiere] $text");
 
 		echo "\n".'<div class="noresult" align="center" style="font-size:16px;color:red;padding:15px;">'
 			. $text
@@ -183,7 +182,7 @@ class Utils {
 	/**
 	 * Recursively test an multi-dimensionnal array
 	 *
-	 * @param string $multiarray Array name
+	 * @param array mandatory $multiarray Array name
 	 * credits to http://in2.php.net/manual/fr/function.empty.php#94786
 	 */
 	function lumiere_is_multiArrayEmpty($mixed) {
@@ -252,6 +251,8 @@ class Utils {
 	 * Function lumiere_formatBytes
 	 * Returns in a proper format a size
 	 * 
+	 * @param integer mandatory $size the unformatted number of the size
+	 * @param integer optional $precision how many numbers after comma, two by default
 	 */
 	function lumiere_formatBytes($size, $precision = 2) { 
 		$base = log($size, 1024); 
@@ -282,6 +283,9 @@ class Utils {
 	/**
 	 * Function lumiere_notice
 	 * Display a confirmation notice, such as "options saved"
+	 *
+	 * @param integer mandatory $code type of message
+	 * @param string mandatory $msg text to display
 	 */
 	function lumiere_notice($code, $msg) { 
 
@@ -336,7 +340,7 @@ class Utils {
 	 * Function lumiere_activate_debug
 	 * Returns optionaly an array of the options passed
 	 * 
-	 * @param array optional $options array of Lumière options, do not display anything on screen if empty
+	 * @param object optional $options array of Lumière options, do not display anything on screen if empty
 	 * @param string optional $set_error set to 'no_var_dump' to avoid the call to var_dump function
 	 * @param string optional $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
 	 */
@@ -346,7 +350,7 @@ class Utils {
 		if ( !current_user_can( 'manage_options' ) ) 
 			return false;
 
-		// Set high level of debug reporting
+		// Set the highest level of debug reporting
 		error_reporting(E_ALL);
 		ini_set("display_errors", 1);
 
@@ -370,22 +374,25 @@ class Utils {
 	}
 
 	/**
-	 * Function lumiere_find_version_taxo_template
-	 * Returns if there is a new version of the template
+	 * Function checking if item/person template is missing or if a new one is available
+	 * Returns a link to copy the template if true and a message explaining if missing/update the template
 	 * 
 	 * @param array mandatory $type type to search (actor, genre, etc)
 	 */
-	public function lumiere_new_taxo_template_available($type) {
+	public function lumiere_check_taxo_template($type) {
+
+		$imdb_admin_values = $this->imdb_admin_values;
+		$output = "";
 
 		// Get the type to build the links
 		$lumiere_taxo_title = esc_html($type);
 
 		// Files paths
-		$lumiere_taxo_file_tocopy = in_array($lumiere_taxo_title, $this->configclass->array_people, true) ? $lumiere_taxo_file_tocopy = "taxonomy-imdblt_people.php" : $lumiere_taxo_file_tocopy = "taxonomy-imdblt_items.php";
-		$lumiere_taxo_file_copied = "taxonomy-" . $this->configclass->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . ".php";
+		$lumiere_taxo_file_tocopy = in_array($lumiere_taxo_title, $this->configClass->array_people, true) ? $lumiere_taxo_file_tocopy = "taxonomy-imdblt_people.php" : $lumiere_taxo_file_tocopy = "taxonomy-imdblt_items.php";
+		$lumiere_taxo_file_copied = "taxonomy-" . $this->configClass->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . ".php";
 		$lumiere_current_theme_path = get_stylesheet_directory()."/";
 		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied ;
-		$lumiere_taxonomy_theme_path = $this->configclass->imdb_admin_values['imdbpluginpath'] . "theme/";
+		$lumiere_taxonomy_theme_path = $this->configClass->imdb_admin_values['imdbpluginpath'] . "theme/";
 		$lumiere_taxonomy_theme_file = $lumiere_taxonomy_theme_path . $lumiere_taxo_file_tocopy;
 
 		// Find the version
@@ -407,8 +414,17 @@ class Utils {
 
 		} else {
 
-			return false;
+			$output .= "<br />";
+			$output .= "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=" . $lumiere_taxo_title ) . "' " 
+					."title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >"
+					. "<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
+					. esc_html__("Copy template", 'lumiere-movies') . "</a>";
 
+			$output .= '<div><font color="red">'
+				. esc_html__("No $lumiere_taxo_title template found", 'lumiere-movies')
+				. '</font></div>';
+
+			return $output;
 		}
 		# Original version
 		if (file_exists($lumiere_taxonomy_theme_file)) {
@@ -433,9 +449,17 @@ class Utils {
 		// Return a message if there is a new version of the template
 		if ($version_theme != $version_origin)  {
 
-			return '<div><font color="red">'
-				. esc_html__('New template version available, please copy', 'lumiere-movies')
+			$output .= "<br />";
+			$output .= "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=" . $lumiere_taxo_title ) . "' " 
+					."title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >"
+					. "<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
+					. esc_html__("Copy template", 'lumiere-movies') . "</a>";
+
+			$output .= '<div><font color="red">'
+				. esc_html__("New $lumiere_taxo_title template version available", 'lumiere-movies')
 				. '</font></div>';
+
+			return $output;
 
 		}
 
