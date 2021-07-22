@@ -26,14 +26,14 @@ if (class_exists("\Lumiere\Settings")) {
 	if ( (isset($config->imdb_admin_values['imdbdebug'])) && ($config->imdb_admin_values['imdbdebug'] == 1) ){
 
 		// Start the class Utils to activate debug
-		$debug_start = new \Lumiere\Utils();
-		$debug_start->lumiere_activate_debug($imdb_admin_values, '', 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
-
-		// Start the logger
-		$config->lumiere_start_logger('taxonomy-standard');
+		$utilsClass = new \Lumiere\Utils();
+		$utilsClass->lumiere_activate_debug($imdb_admin_values);
 
 		// If admin, store the class so we can use it later for imdbphp class call
 		if ( current_user_can( 'manage_options' ) ) {
+			// Start the logger
+			$config->lumiere_start_logger('taxonomy-standard');
+
 			$logger = $config->loggerclass;
 		} else {
 			$logger = NULL;
@@ -146,6 +146,7 @@ if ($activate_sidebar === true)
 		$birthday_year = (isset( $birthday["year"] ) ) ? intval($birthday["year"]) : "";
 
 		echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
+			. '&#9788;&nbsp;'
 			. esc_html__('Born on', 'lumiere-movies')."</span>"
 			. $birthday_day . " " 
 			. $birthday_month . " " 
@@ -170,6 +171,7 @@ if ($activate_sidebar === true)
 	if ( (isset($death)) && (!empty($death)) ){
 
 		echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">' 
+			. '&#8224;&nbsp;'
 			. esc_html__('Died on', 'lumiere-movies')."</span>"
 			.intval($death["day"])." "
 			.sanitize_text_field($death["month"]) . " "
