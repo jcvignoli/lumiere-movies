@@ -4,68 +4,151 @@
 
 class LumiereCest {
 
-	public function activateDebug(AcceptanceLocalTester $I) {
-		$I->wantTo('log in');
-		$I->amOnPluginsPage();
-		$I->seePluginActivated('lumiere-movies');
-		$I->amOnPage("/wp-admin/admin.php?page=imdblt_options&generaloption=advanced");
-		$I->selectOption('form input[id=imdb_imdbdebug_yes]');
+	public function _before(AcceptanceRemoteTester $I){
+		$I->comment('#Code _before#');
 	}
 
-	public function frontpageWorks(AcceptanceRemoteTester $I) {
+	public function _after(AcceptanceRemoteTester $I){
+		$I->comment('#Code _after#');
+	}
+
+	/** Disable debug functions
+	 *
+	 */
+	private function disableDebug(AcceptanceRemoteTester $I) {
+		$I->wantTo('Unactive debug');
+		$I->loginAsAdmin();
+		$I->scrollTo('#imdblinkingkill');
+		$I->CustomCanUncheckOptionThenSubmit('#imdb_imdbkeepsettings_yes', '#update_imdbSettings');	}
+
+	/** Login to Wordpress
+	 *
+	 */
+	private function login(AcceptanceRemoteTester $I) {
+		$I->wantTo('Start an admin session');
+		$I->loginAsAdmin();
+	}
+
+	/** Is frontpage available?
+	 *
+	 */
+	public function checkFrontpage(AcceptanceRemoteTester $I) {
 		$I->wantTo('check frontpage');
 		$I->amOnPage('/');
-		$I->see('Here you are');	
+		$I->see('Blog ext');	
 	}
 
-	public function popupMoviesCanOpen(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
+	/** Check if auto widget option display a widget based on the title of the page
+	 *
+	 * @before login
+	 *
+	 */
+	public function checkTaxonomyOptionAndPage(AcceptanceRemoteTester $I) {
+
 		/* const */
-		// Get url depending on the environment called in acceptance.suite.yml
+		$url_base = $_ENV['TEST_REMOTE_WP_URL'];
+		// popup link person Tony Zarindast
+		$element = 'a[data-highslidepeople="0953494"]';
+		$sub_url = '/imdblt/person/0953494/?mid=0953494';
+
+		$I->wantTo('Check if taxonomy option works');
+
+		// Enable taxonomy
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbwordpress_tooladminmenu');
+		/*	Conditional custom (in _support/AcceptanceRemoteTester.php)
+			If first element is clickable, click it and then submit the second (form) */
+		$I->CustomCanCheckOptionThenSubmit('#imdb_imdbtaxonomy_yes', '#update_imdbSettings');
+		$I->amOnPage('/2021/test-codeception/');
+		$I->click( "Tony Zarindast");
+		$I->see('Tehran');
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbwordpress_tooladminmenu');
+		/*	Conditional custom (in _support/AcceptanceRemoteTester.php)
+			If first element is clickable, click it and then submit the second (form) */
+		$I->CustomCanUncheckOptionThenSubmit('#imdb_imdbtaxonomy_yes', '#update_imdbSettings');
+		$I->amOnPage('/2021/test-codeception/');
+		$I->click( "Tony Zarindast");
+		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
+		$I->wait(7);
+		$I->switchToIFrame("//iframe[@src='$url_base$sub_url']");
+		$I->see('Golden Cage');
+
+	}
+
+	/** Check if auto widget option display a widget based on the title of the page
+	 *
+	 * @before login
+	 *
+	 */
+	public function checkAutoTitleWidget(AcceptanceRemoteTester $I) {
+		$I->wantTo('check auto title widget option');
+
+		// Activate Auto Widget
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdblinkingkill');
+		/*	Conditional custom (in _support/AcceptanceRemoteTester.php)
+			If first element is clickable, click it and then submit the second (form) */
+		$I->CustomCanCheckOptionThenSubmit('#imdb_imdbautopostwidget_yes', '#update_imdbSettings');
+		$I->amOnPage("/2021/y-tu-mama-tambien/");
+		$I->see('Y tu mamá también');
+
+		// Disable Auto Widget
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdblinkingkill');
+		$I->CustomCanUncheckOptionThenSubmit('#imdb_imdbautopostwidget_yes', '#update_imdbSettings');
+		$I->amOnPage("/2021/y-tu-mama-tambien/");
+		$I->dontSee('Y tu mamá también');
+	}
+
+
+	/** Is popup movie functional?
+	 *
+	 */
+	public function checkPopupMovie(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
+		/* const */
+/*		// Get url depending on the environment called in acceptance.suite.yml
 		$current_env = $scenario->current('env');
 		$config_base = \Codeception\Configuration::config(); # config in codeception.yml
    		$config = \Codeception\Configuration::suiteSettings("acceptanceRemote", $config_base);
-		$url_base = $config['env'][$current_env]['modules']['enabled']['config']['WebDriver']['url'];
-		// $url = $_ENV['TEST_SITE_WP_URL']; # more direct, but can be wrong
-
-		/* settings */
+		$url_base = $config['env'][$current_env]['modules']['enabled']['config']['WPWebDriver']['url'];
+*/
+		$url_base = $_ENV['TEST_REMOTE_WP_URL'];
 		// popup link movie interstellar
 		$element = 'a[data-highslidefilm="interstellar"]';
 		$sub_url = '/imdblt/film/interstellar/?film=interstellar';
 
-		$I->wantTo('popup movies can open');
+		$I->wantTo('Check if popup movie can be open');
 		$I->amOnPage('/2021/test-codeception/');
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
-		$I->wait(5);
+		$I->wait(7);
 		$I->switchToIFrame("//iframe[@src='$url_base$sub_url']");
 		$I->see('Christopher Nolan');
 	}
 
-	public function popupPersonCanOpen(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
+	/** Is popup person functional?
+	 ** (also tested with checkTaxonomyOptionAndPage() 
+	 *
+	 */
+	public function checkPopupPerson(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
 		/* const */
-		// Get url depending on the environment called in acceptance.suite.yml
+/*		// Get url depending on the environment called in acceptance.suite.yml
 		$current_env = $scenario->current('env');
 		$config_base = \Codeception\Configuration::config(); # config in codeception.yml
    		$config = \Codeception\Configuration::suiteSettings("acceptanceRemote", $config_base);
-		$url_base = $config['env'][$current_env]['modules']['enabled']['config']['WebDriver']['url']; # must be changed if run with something different than webdriver, find a way to automatise it by getting the webdriver/WPWebDriver
-
-		/* settings */
+		$url_base = $config['env'][$current_env]['modules']['enabled']['config']['WPWebDriver']['url'];
+*/
+		$url_base = $_ENV['TEST_REMOTE_WP_URL'];
 		// popup link actor Jorge Rivero
 		$element = 'a[data-highslidepeople="0729473"]';
 		$sub_url = '/imdblt/person/0729473/?mid=0729473';
 
-		$I->wantTo('popup person can open');
+		$I->wantTo('Check if popup person can be open');
 		$I->amOnPage('/2021/test-codeception/');
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
-		$I->wait(5);
+		$I->wait(7);
 		$I->switchToIFrame("//iframe[@src='$url_base$sub_url']");
 		$I->see('Pajarero');
-	}
-
-	public function taxonomyPage(AcceptanceRemoteTester $I) {
-		$I->wantTo('taxonomy person page');
-		$I->amOnPage('/2021/test-codeception/');
-		$I->click( "Tony Zarindast");
-		$I->see('Tehran');
 	}
 
 }

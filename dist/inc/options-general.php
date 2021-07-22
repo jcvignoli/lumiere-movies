@@ -376,7 +376,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 		<div class="lumiere_flex_container">
 
-			<div class="lumiere_flex_auto lumiere_padding_five">
+			<div id="imdbwordpress_bigmenu" class="lumiere_flex_auto lumiere_padding_five">
 
 				<?php esc_html_e( 'Left menu for Lumière options', 'lumiere-movies'); ?>&nbsp;
 
@@ -387,7 +387,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<div class="explain"><?php esc_html_e( "If enabled, Lumiere options are displayed in a dedicated menu on the left panel instead of being displayed in the settings menu.", 'lumiere-movies'); ?> <br /><br /><?php esc_html_e( 'Default:','lumiere-movies');?> <?php esc_html_e( 'No', 'lumiere-movies'); ?></div>
 
 			</div>
-			<div class="lumiere_flex_auto lumiere_padding_five">
+			<div id="imdbwordpress_tooladminmenu" class="lumiere_flex_auto lumiere_padding_five">
 
 				<?php esc_html_e( 'Top menu for Lumière options', 'lumiere-movies'); ?>&nbsp;
 
@@ -399,7 +399,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 			</div>
 
-			<div class="lumiere_flex_auto lumiere_padding_five">
+			<div id="imdbtaxonomy" class="lumiere_flex_auto lumiere_padding_five">
 
 				<?php esc_html_e( 'Use taxonomy', 'lumiere-movies'); ?>&nbsp;
 
@@ -411,7 +411,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 			</div>
 
-			<div class="lumiere_flex_auto lumiere_padding_five">
+			<div id="imdblinkingkill" class="lumiere_flex_auto lumiere_padding_five">
 
 				<?php esc_html_e( 'Remove all links?', 'lumiere-movies'); ?>&nbsp;
 
@@ -423,7 +423,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 			</div>
 
-			<div class="lumiere_flex_auto lumiere_padding_five">
+			<div id="imdbautopostwidget" class="lumiere_flex_auto lumiere_padding_five">
 
 				<?php esc_html_e( 'Auto widget?', 'lumiere-movies'); ?>&nbsp;
 
@@ -435,7 +435,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 			</div>
 
-			<div class="lumiere_flex_auto lumiere_padding_five">
+			<div id="imdbkeepsettings" class="lumiere_flex_auto lumiere_padding_five">
 
 				<?php esc_html_e( 'Keep settings upon deactivation', 'lumiere-movies'); ?>&nbsp;
 
@@ -447,7 +447,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 			</div>
 
-			<div class="lumiere_flex_auto lumiere_padding_five">
+			<div id="imdbdebug" class="lumiere_flex_auto lumiere_padding_five">
 
 				<?php esc_html_e( 'Debug Lumière!', 'lumiere-movies'); ?>&nbsp;
 
@@ -584,8 +584,8 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 	<?php //------------------------------------------------------------------ =[Submit selection]=- ?>
 	<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">
 		<?php wp_nonce_field('options_general_check', 'options_general_check');   ?>
-		<input type="submit" class="button-primary" name="reset_imdbSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />
-		<input type="submit" class="button-primary" name="update_imdbSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
+		<input type="submit" id="reset_imdbSettings" class="button-primary" name="reset_imdbSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />&nbsp;&nbsp;
+		<input type="submit"  id="update_imdbSettings" class="button-primary" name="update_imdbSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
 	</div>
 	<br />
 </form>

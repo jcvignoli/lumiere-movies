@@ -18,9 +18,16 @@
 */
 class AcceptanceRemoteTester extends \Codeception\Actor
 {
-    use _generated\AcceptanceRemoteTesterActions;
+	use _generated\AcceptanceRemoteTesterActions;
 
-    /**
-     * Define custom actions here
-     */
+	/**  Use custom trait
+	 * 
+	 */
+	use AcceptanceCustom;
+
+	/** Define custom Remote actions here
+	 * 
+	 */
+
+
 }

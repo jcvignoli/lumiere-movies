@@ -581,6 +581,10 @@ class Settings extends Config {
 	 **/
 	public function lumiere_maybe_log($function, $text) {
 
+		// If the user can't manage options, exit
+		if ( !current_user_can( 'manage_options' ) ) 
+			return false;
+
 		if (NULL !== $this->loggerclass)
 			return $this->loggerclass->$function($text);
 

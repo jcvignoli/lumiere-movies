@@ -3,6 +3,7 @@
 v.3.4.5
 * [feature] If a new taxonomy template is available, display a message in taxonomy admin panel
 * [technical] Replace admin url imdblt_options by lumiere_options
+* [bug] Piece of widget log was displayed to visitors. Fixed in class.config function lumiere_maybe_log()
 
 v.3.4.4
 * [technical] Added loggging to cache creation function.

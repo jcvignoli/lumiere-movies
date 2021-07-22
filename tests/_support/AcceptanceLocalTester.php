@@ -16,11 +16,17 @@
  *
  * @SuppressWarnings(PHPMD)
 */
-class AcceptanceLocalTester extends \Codeception\Actor
-{
-    use _generated\AcceptanceLocalTesterActions;
+class AcceptanceLocalTester extends \Codeception\Actor{
 
-    /**
-     * Define custom actions here
-     */
+	use _generated\AcceptanceLocalTesterActions;
+
+	/**  Use custom trait
+	 * 
+	 */
+	use AcceptanceCustom;
+
+	/** Define custom Local actions here
+	 * 
+	 */
+
 }
