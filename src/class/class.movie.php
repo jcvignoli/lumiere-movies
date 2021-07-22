@@ -504,11 +504,12 @@ class LumiereMovies {
 		$year=intval($movie->year ());
 		$title_sanitized = sanitize_text_field( $movie->title() );
 
-		$output .= "\n\t\t\t" .$title_sanitized;
+		$output .= "\n\t\t\t<span id=\"title_$title_sanitized\">" .$title_sanitized;
 
 		if (!empty($year) && ($imdb_widget_values['imdbwidgetyear'] == true ) ) { 
 			$output .= " (".$year.")"; 
 		}
+		$output .= "</span>";
 
 		return $output;
 

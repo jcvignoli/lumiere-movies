@@ -21,8 +21,8 @@ env:
 
     # WordPress specific libraries, allow many things like using admin, runs localy only
 
-    # Environment with WPBrowser
-    wp:
+    # Environment with WPBrowser (codeception default browser)
+    wpbrowser:
         modules:
              enabled:
                 - WPDb
@@ -39,6 +39,25 @@ env:
 
     # Environment with WPWebDriver+Firefox driver
     wpfirefox:
+        modules:
+             enabled:
+                - WPWebDriver
+        extensions:
+            enabled:
+              - Codeception\Extension\RunProcess:
+                  0: ./tests/geckodriver
+                  sleep: 7 # seconds to process boot, otherwise it fails sometimes
+            commands:
+                - Codeception\Command\GenerateWPUnit
+                - Codeception\Command\GenerateWPRestApi
+                - Codeception\Command\GenerateWPRestController
+                - Codeception\Command\GenerateWPRestPostTypeController
+                - Codeception\Command\GenerateWPAjax
+                - Codeception\Command\GenerateWPCanonical
+                - Codeception\Command\GenerateWPXMLRPC
+
+    # Environment with WPWebDriver+WPDb+Firefox driver
+    wpdbfirefox:
         modules:
              enabled:
                 - WPDb
@@ -61,7 +80,7 @@ env:
     wpchrome:
         modules:
              enabled:
-                - WPDb
+#                - WPDb		# Can't currently use with remote server
                 - WPWebDriver
         extensions:
             enabled:

@@ -43,7 +43,7 @@ env:
                      capabilities:
                        moz:firefoxOptions:
                             args: ["-headless"] # Run Firefox in headless mode
-   wpfirefox: #CAN ONLY BE USED IF HOST OPENS MYSQL SERVER TO EXTERNAL CONNECTIONS!
+   wpfirefox:
        modules:
           enabled:
               config:
@@ -58,7 +58,7 @@ env:
                          # Used in more recent releases of Selenium.
                          moz:firefoxOptions:
                              args: ["-headless"] # Run Firefox in headless mode
-   wpchrome: #CAN ONLY BE USED IF HOST OPENS MYSQL SERVER TO EXTERNAL CONNECTIONS!
+   wpchrome:
        modules:
           enabled:
               config:
