@@ -19,7 +19,8 @@ class LumiereCest {
 		$I->wantTo('Unactive debug');
 		$I->loginAsAdmin();
 		$I->scrollTo('#imdblinkingkill');
-		$I->CustomCanUncheckOptionThenSubmit('#imdb_imdbkeepsettings_yes', '#update_imdbSettings');	}
+		$I->CustomCanUncheckOptionThenSubmit('#imdb_imdbkeepsettings_yes', '#update_imdbSettings');
+	}
 
 	/** Login to Wordpress
 	 *

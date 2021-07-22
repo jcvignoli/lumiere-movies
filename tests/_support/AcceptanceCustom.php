@@ -1,30 +1,10 @@
 <?php
 
-
-/**
- * Inherited Methods
- * @method void wantToTest($text)
- * @method void wantTo($text)
- * @method void execute($callable)
- * @method void expectTo($prediction)
- * @method void expect($prediction)
- * @method void amGoingTo($argumentation)
- * @method void am($role)
- * @method void lookForwardTo($achieveValue)
- * @method void comment($description)
- * @method void pause()
- *
- * @SuppressWarnings(PHPMD)
-*/
-
-
-
 /** Trait for common functions used by both remote and local Acceptance tests
  * 
  */
 trait AcceptanceCustom {
 
-    use _generated\AcceptanceRemoteTesterActions;
 
 	/** If can *check* a checkbox, then submit a form
 	 * 
