@@ -21,7 +21,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 
-class LumiereWidget extends WP_Widget {
+class LumiereWidget extends \WP_Widget {
 
 	/* Store the class of Lumière settings
 	 * Usefull to start a new IMDbphp query
@@ -43,23 +43,28 @@ class LumiereWidget extends WP_Widget {
 	 */
 	private $utilsClass;
 
+	/* Add extra layout pieces to the widget
+	 *
+	 */
+	var $args = array(
+		'before_title'  => '<h4 class="widget-title">',
+		'after_title'   => '</h4>',
+		'before_widget' => '<div id="lumiere_movies_widget" class="sidebar-box widget_lumiere_movies_widget clr">', /*'<div class="widget-wrap">',*/
+		'after_widget'  => '</div>', /*'</div>'*/
+	);
+
 	/**
 	 * Constructor. Sets up the widget name, description, etc.
 	 */
 	function __construct() {
 
 		 parent::__construct(
-			'lumiere-movies-widget',  // Base ID
-			'Lumière! Movies',   // Name
-			array( 'description' => __( 'Add movie details to your pages with Lumière!', 'lumiere-movies' ))
+			'lumiere_movies_widget',  // Base ID
+			'Lumière! Widget',   // Name
+			array( 'description' => __( 'Add movie details to your pages with Lumière!', 'lumiere-movies' ),
+				'show_instance_in_rest' => true,/* # we use a proper gutenberg block */
+				)
 		 );
-
-		/**
-		 * Register the widget. Should be hooked to 'widgets_init'.
-		 */
-		 add_action( 'widgets_init', function() {
-			register_widget( 'LumiereWidget' );
-		 });
 
 		// Start config class and get the vars
 		if (class_exists("\Lumiere\Settings")) {
@@ -85,33 +90,96 @@ class LumiereWidget extends WP_Widget {
 		}
 
 
+		/**
+		 * Register the widget. Should be hooked to 'widgets_init'.
+		 */
+		 add_action( 'widgets_init', function() {
+			register_widget( '\LumiereWidget' );
+		 }, 2);
+		add_action('admin_init', [ $this, 'lumiere_register_widget_block' ]);
+
+		/**
+		 * Hide the widget in legacy widgets menu, but we don't want this
+		 */
+		 //add_action( 'widget_types_to_hide_from_legacy_widget_block', 'hide_widget' );
+
+		// Add the shortcodes to parse the text, not in admin pages
+		add_shortcode( 'lumiereWidget', [$this, 'lumiere_widget_shortcodes_parser'] );
+
 	}
 
-	public $args = array(
-		'before_title'  => '', /*'<h4 class="widgettitle">',*/
-		'after_title'   => '', /*'</h4>',*/
-		'before_widget' => '', /*'<div class="widget-wrap">',*/
-		'after_widget'  => '', /*'</div></div>'*/
-	);
- 
+
+	/* Shortcode [lumiereWidget][/lumiereWidget]
+	 * Find that shortcode in the sidebar, retrieve the widget title and activate the function widget()
+	 *
+	 * Utilised to get widget-block title and call widget() function
+	 */
+	function lumiere_widget_shortcodes_parser($atts = array(), $content = null, $tag){
+
+		// Get the widget title and pass it to the correct format
+		$instance['title'] = $content;
+
+		// Send to widget() with class var $args and the widget title
+		return $this->widget($this->args, $instance);
+	}
+
+
+	/* Hide Lumière legacy widget from WordPress legacy widgets list
+	 *
+	 */
+	function hide_widget( $widget_types ) {
+
+		$widget_types[] = 'lumiere_movies_widget';
+		return $widget_types;
+
+	}
+
+	/* Register the block at the right moment
+	 *
+	 */
+	function lumiere_register_widget_block() {
+
+		wp_register_script( "lumiere_gutenberg_widget", 
+			$this->imdb_admin_values['imdbplugindirectory'] . 'blocks/widget-block.js',
+			[ 'wp-blocks', 'wp-element', 'wp-editor','wp-components','wp-i18n','wp-data'  ], 
+			$this->configClass->lumiere_version );
+
+		wp_register_style( "lumiere_gutenberg_widget", 
+			$this->imdb_admin_values['imdbplugindirectory'] . 'blocks/widget-block.css',
+			array(), 
+			$this->configClass->lumiere_version );
+
+		register_block_type( 'lumiere/widget', [
+			'api_version' => 2,
+			'style' => 'lumiere_gutenberg_widget', // Loads both on editor and frontend.
+			'editor_script' => 'lumiere_gutenberg_widget', // Loads only on editor.
+		] );
+
+	}
+
 	/**
 	 * Front end output
 	 *
 	 * @see WP_Widget::widget()
 	 *
-	 * @param array $args     Widget arguments.
-	 * @param array $instance Saved values from database.
+	 * @param array mandatory $args widget arguments.
+	 * @param array mandatory $instance the widget with its values.
 	 */
 	public function widget( $args, $instance ) {
 
 		/* Vars */  
 		$output = "";
 		$imdb_admin_values = $this->imdb_admin_values;
+
+		$args = isset($args) ? $args : $this->args;
 		extract($args);
+
 		// full title
-		$title_box = empty($instance['title']) ? esc_html__('IMDb data', 'lumiere-movies') : $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title']; 
+		$title_box = empty($instance['title']) ? esc_html__('Lumière Movies', 'lumiere-movies') : $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title']; 
+
 		// Initialize var for id/name of the movie to display
 		$imdbIdOrTitle = array();
+
 		// Get the post id
 		$post_id = intval( get_the_ID() );
 
@@ -196,6 +264,12 @@ class LumiereWidget extends WP_Widget {
 				}
 
 			}
+			
+		}
+
+		// Display debug message if no metabox was found with an IMDb id/title
+		if ( (get_post_meta($post_id, 'imdb-movie-widget', false)) || empty(get_post_meta($post_id, 'imdb-movie-widget-bymid', false)) ) {
+			$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] No metabox with IMDb id/title is added to this post.");
 		}
 
 		echo $output;
@@ -220,7 +294,7 @@ class LumiereWidget extends WP_Widget {
 
 		<div class="lumiere_display_inline_flex">
 			<div class="lumiere_padding_ten">
-				<img class="lumiere_flex_auto" width="40" height="40" src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . 'pics/lumiere-ico-noir80x80.png'); ?>" />
+				<img class="lumiere_flex_auto" width="40" height="40" src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . 'pics/lumiere-ico80x80.png'); ?>" />
 			</div>
 
 			<div class="lumiere_flex_auto">
@@ -248,5 +322,5 @@ class LumiereWidget extends WP_Widget {
 }
 
 // Auto start, run on all pages
-$lumiere_widget = new LumiereWidget();
+$lumiere_widget = new \LumiereWidget();
 ?>

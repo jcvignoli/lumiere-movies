@@ -1,0 +1,1 @@
+const settings={title:"Lumière Widget",description:"Lumière Widget adds movies to your posts",transforms:{from:[{type:"block",blocks:["core/legacy-widget"],isMatch:({idBase:e,instance:t})=>!!t?.raw&&"lumiere_movies_widget"===e,transform:({instance:e})=>createBlock("lumiere/widget",{name:e.raw.name})}]}};export{settings};

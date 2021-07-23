@@ -95,11 +95,10 @@ class LumiereMovies {
 		// Run the initialisation of the class
 		add_action ('the_loop', [$this, 'init'], 0);
 
-		// Add the shortcodes to parse the texte, not in admin pages
-		if  (! is_admin() ) {
-			add_shortcode( 'imdblt', [$this, 'parse_lumiere_tag_transform'] );
-			add_shortcode( 'imdbltid', [$this, 'parse_lumiere_tag_transform_id'] );
-		}
+		// Add the shortcodes to parse the text, not in admin pages
+		add_shortcode( 'imdblt', [$this, 'parse_lumiere_tag_transform'] );
+		add_shortcode( 'imdbltid', [$this, 'parse_lumiere_tag_transform_id'] );
+
 
 	}
 
@@ -272,7 +271,7 @@ class LumiereMovies {
 
 	/** Function external call (ie, inside a post)
 	 ** 
-	 ** Utilized to bild from [imdblt] and [imdbltid] shortcodes
+	 ** Utilized to build from [imdblt] and [imdbltid] shortcodes
 	 **/
 	function lumiere_external_call ($moviename=NULL, $filmid=NULL, $external=NULL) {
 

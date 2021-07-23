@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-07-22T02:06:21-03:00\n"
+"POT-Creation-Date: 2021-07-22T03:44:54-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
@@ -412,8 +412,14 @@ msgstr ""
 msgid "more"
 msgstr ""
 
-#: class/class.utils.php:437
-msgid "New template version available, please copy"
+#: class/class.utils.php:419
+#: class/class.utils.php:454
+msgid "Copy a standard taxonomy template to your template folder to display this taxonomy."
+msgstr ""
+
+#: class/class.utils.php:421
+#: class/class.utils.php:456
+msgid "Copy template"
 msgstr ""
 
 #: class/class.widget.php:54
@@ -473,7 +479,7 @@ msgstr ""
 #: inc/highslide_download.php:9
 #: inc/highslide_download.php:57
 #: inc/move_template_taxonomy.php:9
-#: inc/move_template_taxonomy.php:61
+#: inc/move_template_taxonomy.php:62
 #: inc/options-cache.php:18
 #: inc/options-data.php:18
 #: inc/options-general.php:18
@@ -1196,14 +1202,14 @@ msgstr ""
 #: inc/options-cache.php:1019
 #: inc/options-cache.php:1039
 #: inc/options-cache.php:1040
-#: inc/options-data.php:952
+#: inc/options-data.php:886
 #: inc/options-general.php:587
 msgid "Reset settings"
 msgstr ""
 
 #: inc/options-cache.php:532
 #: inc/options-cache.php:1020
-#: inc/options-data.php:953
+#: inc/options-data.php:887
 #: inc/options-general.php:588
 msgid "Update settings"
 msgstr ""
@@ -1496,7 +1502,7 @@ msgstr ""
 
 #: inc/options-data.php:211
 #: inc/options-data.php:212
-#: inc/options-data.php:630
+#: inc/options-data.php:624
 msgid "Colors"
 msgstr ""
 
@@ -1535,7 +1541,7 @@ msgstr ""
 
 #: inc/options-data.php:313
 #: inc/options-data.php:314
-#: inc/options-data.php:784
+#: inc/options-data.php:742
 msgid "Keywords"
 msgstr ""
 
@@ -1683,79 +1689,51 @@ msgstr ""
 msgid "Actors"
 msgstr ""
 
-#: inc/options-data.php:610
-#: inc/options-data.php:637
-#: inc/options-data.php:662
-#: inc/options-data.php:687
-#: inc/options-data.php:713
-#: inc/options-data.php:739
-#: inc/options-data.php:764
-#: inc/options-data.php:790
-#: inc/options-data.php:815
-#: inc/options-data.php:841
-#: inc/options-data.php:866
-msgid "Copy a standard taxonomy template to your template folder to display this taxonomy."
-msgstr ""
-
-#: inc/options-data.php:612
-#: inc/options-data.php:639
-#: inc/options-data.php:664
-#: inc/options-data.php:689
-#: inc/options-data.php:715
-#: inc/options-data.php:741
-#: inc/options-data.php:766
-#: inc/options-data.php:792
-#: inc/options-data.php:817
-#: inc/options-data.php:843
-#: inc/options-data.php:868
-msgid "Copy template"
-msgstr ""
-
-#: inc/options-data.php:656
+#: inc/options-data.php:644
 msgid "Composers"
 msgstr ""
 
-#: inc/options-data.php:681
+#: inc/options-data.php:663
 msgid "Countries"
 msgstr ""
 
-#: inc/options-data.php:707
+#: inc/options-data.php:683
 msgid "Creators"
 msgstr ""
 
-#: inc/options-data.php:733
+#: inc/options-data.php:703
 msgid "Directors"
 msgstr ""
 
-#: inc/options-data.php:758
+#: inc/options-data.php:722
 msgid "Genres"
 msgstr ""
 
-#: inc/options-data.php:809
+#: inc/options-data.php:761
 msgid "Languages"
 msgstr ""
 
-#: inc/options-data.php:835
+#: inc/options-data.php:781
 msgid "Producers"
 msgstr ""
 
-#: inc/options-data.php:860
+#: inc/options-data.php:800
 msgid "Writers"
 msgstr ""
 
-#: inc/options-data.php:893
+#: inc/options-data.php:827
 msgid "Position of data"
 msgstr ""
 
-#: inc/options-data.php:900
+#: inc/options-data.php:834
 msgid "You can select the order for the information selected from \"what to display\" section. Select first the movie detail you want to move, use \"up\" or \"down\" to reorder Lumiere Movies display. Once you are happy with the new layout, click on \"update settings\" to keep it."
 msgstr ""
 
-#: inc/options-data.php:902
+#: inc/options-data.php:836
 msgid "\"Source\" movie detail cannot be selected; if it is selected from \"what to display\" section, it will always appear after others movie details"
 msgstr ""
 
-#: inc/options-data.php:913
+#: inc/options-data.php:847
 msgid "Move selected movie detail:"
 msgstr ""
 
@@ -2196,34 +2174,34 @@ msgid "Full biography"
 msgstr ""
 
 #: inc/popup-imdb_person.php:148
-#: theme/taxonomy-imdblt_people.php:149
+#: theme/taxonomy-imdblt_people.php:150
 msgid "Born on"
 msgstr ""
 
 #: inc/popup-imdb_person.php:155
 #: inc/popup-imdb_person.php:172
-#: theme/taxonomy-imdblt_people.php:158
-#: theme/taxonomy-imdblt_people.php:179
+#: theme/taxonomy-imdblt_people.php:159
+#: theme/taxonomy-imdblt_people.php:181
 msgid "in"
 msgstr ""
 
 #: inc/popup-imdb_person.php:166
-#: theme/taxonomy-imdblt_people.php:173
+#: theme/taxonomy-imdblt_people.php:175
 msgid "Died on"
 msgstr ""
 
 #: inc/popup-imdb_person.php:175
-#: theme/taxonomy-imdblt_people.php:182
+#: theme/taxonomy-imdblt_people.php:184
 msgid "cause"
 msgstr ""
 
 #: inc/popup-imdb_person.php:187
-#: theme/taxonomy-imdblt_people.php:200
+#: theme/taxonomy-imdblt_people.php:202
 msgid "Biography"
 msgstr ""
 
 #: inc/popup-imdb_person.php:193
-#: theme/taxonomy-imdblt_people.php:206
+#: theme/taxonomy-imdblt_people.php:208
 msgid "click to expand"
 msgstr ""
 
@@ -2269,17 +2247,17 @@ msgid "No result found."
 msgstr ""
 
 #: theme/taxonomy-imdblt_items.php:27
-#: theme/taxonomy-imdblt_people.php:286
+#: theme/taxonomy-imdblt_people.php:288
 msgid "Open the blog "
 msgstr ""
 
 #: theme/taxonomy-imdblt_items.php:45
-#: theme/taxonomy-imdblt_people.php:315
+#: theme/taxonomy-imdblt_people.php:317
 msgid "Filed under: "
 msgstr ""
 
 #: theme/taxonomy-imdblt_items.php:49
-#: theme/taxonomy-imdblt_people.php:319
+#: theme/taxonomy-imdblt_people.php:321
 msgid "Tags: "
 msgstr ""
 
@@ -2287,15 +2265,15 @@ msgstr ""
 msgid "No post found."
 msgstr ""
 
-#: theme/taxonomy-imdblt_people.php:244
+#: theme/taxonomy-imdblt_people.php:246
 msgid "Taxonomy for "
 msgstr ""
 
-#: theme/taxonomy-imdblt_people.php:279
+#: theme/taxonomy-imdblt_people.php:281
 msgid "In the role of"
 msgstr ""
 
-#: theme/taxonomy-imdblt_people.php:409
+#: theme/taxonomy-imdblt_people.php:411
 msgid "Change language"
 msgstr ""
 

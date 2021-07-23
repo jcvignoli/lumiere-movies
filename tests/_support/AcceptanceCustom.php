@@ -5,60 +5,31 @@
  */
 trait AcceptanceCustom {
 
-
-	/** If can *check* a checkbox, then submit a form
+	/** Check if a checkbox is disabled, if activated uncheck it and then submit a form
 	 * 
 	 */
-	function CustomCanCheckOptionThenSubmit($element, $submit) {
+	function CustomDisableCheckbox($element, $submit){
 		try {
-			$this->checkOption("$element");
-			$this->click($submit);
-			$this->comment("[Action] Checkbox $element was disabled, it has been activated");
-		} catch (\PHPUnit_Framework_AssertionFailedError $f) {
-			$this->comment("[No action] Checkbox $element was already activated");
-			return false;
-		}
-		return true;
-	}
-
-	/** If can *uncheck* a checkbox, then submit a form
-	 * 
-	 */
-	function CustomCanUncheckOptionThenSubmit($element, $submit) {
-		try {
-			$this->uncheckOption("$element");
+			$this->seeCheckboxIsChecked("$element");
+			$this->uncheckOption($element);
 			$this->click($submit);
 			$this->comment("[Action] Checkbox $element was activated, it has been disabled");
-		} catch (\PHPUnit_Framework_AssertionFailedError $f) {
-			$this->comment("[No action] Checkbox $element was already disabled");
-			return false;
-		}
-		return true;
+		} catch (\PHPUnit_Framework_AssertionFailedError | \NoSuchElementException | \Exception $f) {
+			$this->comment("[No Action] Checkbox $element was already disabled");
+		} 
 	}
 
-	/** If can *check* a checkbox, then
+	/** Check if a checkbox is activated, if disabled check it and then submit a form
 	 * 
 	 */
-	function CustomCanCheckOption($element){
+	function CustomActivateCheckbox($element, $submit){
 		try {
-			$this->checkOption("$element");
-		} catch (\PHPUnit_Framework_AssertionFailedError $f) {
-			return false;
-		}
-		return true;
+			$this->seeCheckboxIsChecked("$element");
+			$this->comment("[No Action] Checkbox $element was already activated");
+		} catch (\PHPUnit_Framework_AssertionFailedError | \NoSuchElementException | \Exception $f) {
+			$this->checkOption($element);
+			$this->click($submit);
+			$this->comment("[Action] Checkbox $element was disabled, it has been activated");
+		} 
 	}
-
-
-	/** If can *uncheck* a checkbox, then
-	 * 
-	 */
-	function CustomCanUncheckOption($element){
-		try {
-			$this->uncheckOption("$element");
-		} catch (\PHPUnit_Framework_AssertionFailedError $f) {
-			return false;
-		}
-		return true;
-	}
-
 }
