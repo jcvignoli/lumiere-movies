@@ -263,23 +263,23 @@ class Core {
 		$imdb_admin_values = $this->imdb_admin_values;
 
 		wp_register_script( "lumiere_gutenberg_main", 
-			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-block.js',
+			$imdb_admin_values['imdbplugindirectory'] . 'blocks/main-block.js',
 			[ 'wp-blocks', 'wp-element', 'wp-editor','wp-components','wp-i18n','wp-data' ], 
 			$this->configClass->lumiere_version );
 
 		wp_register_script( "lumiere_gutenberg_buttons", 
-			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/buttons.js',
+			$imdb_admin_values['imdbplugindirectory'] . 'blocks/buttons.js',
 			[ 'wp-element', 'wp-compose','wp-components','wp-i18n','wp-data' ], 
 			$this->configClass->lumiere_version );
 
 		/*wp_register_script( "lumiere_gutenberg_sidebar", 
-			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/sidebar.js',
+			$imdb_admin_values['imdbplugindirectory'] . 'blocks/sidebar.js',
 			[ 'wp-blocks', 'wp-element', 'wp-plugins', 'wp-compose', 'wp-edit-post', 'wp-editor','wp-components','wp-i18n','wp-data' ], 
 			filemtime( $imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/sidebar.js') );
 		*/
 
 		wp_register_style( "lumiere_gutenberg_main", 
-			$imdb_admin_values['imdbplugindirectory'] . 'blocks-gutenberg/main-block.css',
+			$imdb_admin_values['imdbplugindirectory'] . 'blocks/main-block.css',
 			array('wp-edit-blocks'), 
 			$this->configClass->lumiere_version );
 

@@ -2,11 +2,10 @@ v.3.4.5
 OK--- 1. If a new taxonomy template is available, display a message in taxonomy admin panel. If template has not been copied, display a message.
 OK--- 2. Piece of widget log was displayed to visitors. Fixed in class.config function lumiere_maybe_log()
 OK--- 3. Replace admin url imdblt_options by lumiere_options
+OK--- 4. New widget written as Gutenberg block, legacy widget works.
 
 
 
-
-10. errors in bio to fix https://www.jcvignoli.com/blogpourext/imdblt_director/tony-zarindast/
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
 23. write a class for the admin pages using WordPress API
 24. Update help with new infos
