@@ -49,18 +49,21 @@ class LumiereCest {
 		// Enable taxonomy
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
 		$I->scrollTo('#imdbwordpress_tooladminmenu');
-		/*	Conditional custom (in _support/AcceptanceLocalTester.php)
-			If first element is clickable, click it and then submit the second (form) */
-		$I->CustomCanCheckOptionThenSubmit('#imdb_imdbtaxonomy_yes', '#update_imdbSettings');
+		/*	Conditional checkbox activation (in _support/AcceptanceRemoteTester.php)
+			Avoid to throw error if untrue, normal behaviour of codeception 
+			If $element is disabled, check it and then click $submit (form) */
+		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#update_imdbSettings' );
 		$I->amOnPage('/2021/test-codeception/');
 		$I->click( "Tony Zarindast");
 		$I->wait(7);
 		$I->see('Tehran');
+
+		// Disable taxonomy
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
-		$I->scrollTo('#imdbwordpress_tooladminmenu');
-		/*	Conditional custom (in _support/AcceptanceLocalTester.php)
-			If first element is clickable, click it and then submit the second (form) */
-		$I->CustomCanUncheckOptionThenSubmit('#imdb_imdbtaxonomy_yes', '#update_imdbSettings');
+		/*	Conditional checkbox unactivation (in _support/AcceptanceRemoteTester.php)
+			Avoid to throw error if untrue, normal behaviour of codeception 
+			If $element is activated, uncheck it and then click $submit (form) */
+		$I->CustomDisableCheckbox('#imdb_imdbtaxonomy_yes', '#update_imdbSettings' );
 		$I->amOnPage('/2021/test-codeception/');
 		$I->click( "Tony Zarindast");
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
@@ -81,16 +84,21 @@ class LumiereCest {
 		// Activate Auto Widget
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
 		$I->scrollTo('#imdblinkingkill');
-		/*	Conditional custom (in _support/AcceptanceLocalTester.php)
-			If first element is clickable, click it and then submit the second (form) */
-		$I->CustomCanCheckOptionThenSubmit('#imdb_imdbautopostwidget_yes', '#update_imdbSettings');
+		/*	Conditional checkbox activation (in _support/AcceptanceRemoteTester.php)
+			Avoid to throw error if untrue, normal behaviour of codeception 
+			If $element is disabled, check it and then click $submit (form) */
+		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#update_imdbSettings' );
 		$I->amOnPage("/2021/y-tu-mama-tambien/");
 		$I->see('Y tu mamá también');
 
 		// Disable Auto Widget
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
 		$I->scrollTo('#imdblinkingkill');
-		$I->CustomCanUncheckOptionThenSubmit('#imdb_imdbautopostwidget_yes', '#update_imdbSettings');
+		$I->scrollTo('#imdblinkingkill');
+		/*	Conditional checkbox unactivation (in _support/AcceptanceRemoteTester.php)
+			Avoid to throw error if untrue, normal behaviour of codeception 
+			If $element is disabled, check it and then click $submit (form) */
+		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#update_imdbSettings' );
 		$I->amOnPage("/2021/y-tu-mama-tambien/");
 		$I->dontSee('Y tu mamá también');
 	}

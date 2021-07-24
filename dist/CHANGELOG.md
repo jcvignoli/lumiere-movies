@@ -3,6 +3,7 @@
 v.3.4.5
 * [feature] New widget written as Gutenberg block, legacy widget works. Both are fully compatible with WordPress 5.8
 * [feature] If a new taxonomy template is available, display a message in taxonomy admin panel. If template has not been copied, display a message too.
+* [techical] Updated Monolog
 * [technical] Replace admin url imdblt_options by lumiere_options
 * [bug] Piece of widget log was displayed to visitors. Fixed in class.config function lumiere_maybe_log()
 
