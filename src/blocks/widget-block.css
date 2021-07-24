@@ -1,16 +1,16 @@
 
-.lumiere_gutenberg_block_widget{border: 1px solid black;padding:20px;color:#494633;}
+.lumiere_block_widget{border: 1px solid black;padding:20px;color:#494633;}
 
-.lumiere_gutenberg_block_widget-title {float:right;text-align:left;padding:15px 0 5px 15px;width:90%;font-size: 1.4em;font-weight: 600;}
+.lumiere_block_widget_title {float:right;text-align:left;padding:15px 0 5px 15px;width:90%;font-size: 1.4em;font-weight: 600;}
 
-.lumiere_gutenberg_block_widget-image {float:left;width:10%;height:auto;vertical-align:middle;}
+.lumiere_block_widget_image {float:left;width:10%;height:auto;vertical-align:middle;}
 
-.lumiere_gutenberg_block_widget-explanation {clear:both;padding:10px;font-style:italic;text-align:center;width:100%;font-size: 1em;}
+.lumiere_block_widget_explanation {clear:both;padding:10px;font-style:italic;text-align:center;width:100%;font-size: 1em;}
 
-.lumiere_gutenberg_block_widget-container {display:flex;flex-wrap:wrap;text-align:center;}
+.lumiere_block_widget_container {display:flex;flex-wrap:wrap;text-align:center;}
 
-.lumiere_gutenberg_block_widget-entertitle {padding:10px 10px 10px 0;background: grey;color:white;justify-content: space-between;font-size: 1.3em;}
+.lumiere_block_widget_entertitle {padding:10px 10px 10px 0;font-size: 1.3em;flex:50%;text-align:right;}
 
-.lumiere_gutenberg_block_widget-enterinput {flex:50%;text-align:right;padding-right:10px;font-size:1.2em;font-weight:bold;}
+.lumiere_block_widget_enterinput {padding-right:10px;font-size:1.2em;font-weight:bold;flex:50%;text-align:left;}
 
-.lumiere_gutenberg_block_widget-input {padding:10px 10px 10px 0;font-size: 1em;flex:50%;text-align:left;}
+.lumiere_block_widget_input {padding:10px 10px 10px 0;text-align:center;background: grey;color:white;}

@@ -12,14 +12,13 @@
 		)
 	);
 
-	var empty = '';
-
 	registerBlockType(  'lumiere/widget', {  
 
-		title: i18n.__('Lumière Widget', 'lumiere-movies'),
-		description: i18n.__('Lumière Widget adds movies to your widgets sidebar', 'lumiere-movies'),
+		title: i18n.__('Lumière! Widget', 'lumiere-movies'),
+		description: i18n.__('Lumière Widget adds movies to your widgets sidebar and enhance your posts about cinema.', 'lumiere-movies'),
 		icon: iconLumiere,
 		category: 'widgets',
+		keywords: [ 'widget', 'lumiere', 'imdb', 'movie', 'film' ],
 		attributes: {
 			lumiere_input: {
 				type: 'string',
@@ -27,6 +26,7 @@
 				default: 'Lumière Movies'
 			},
 		},
+/*
 		example: {
 			attributes: {
 				backgroundColor: '#000000',
@@ -36,36 +36,36 @@
 				title: i18n.__('Lumière widget example', 'lumiere-movies'),
 			},
 		},
-
+*/
 		edit: function( props ) {
 			return ( 
 			el( 'div', 	{ 
 					className: props.className,
 					tagName: 'div',
-					className: 'lumiere_gutenberg_block_widget',
+					className: 'lumiere_block_widget',
 					},
 
 					el( 'img', { 
 						className: props.className,
-						className: 'lumiere_gutenberg_block_widget-image',
-						src: lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir80x80.png',
+						className: 'lumiere_block_widget_image',
+						src: lumiere_admin_vars.imdb_path + 'pics/lumiere-ico80x80.png',
 						},
 					),// end img
 
 					elwithhtml( { /* this type of block can include html */
 						className: props.className,
-						className: 'lumiere_gutenberg_block_widget-title',
+						className: 'lumiere_block_widget_title',
 						children: 'Lumière! Widget',
 						},
 					),// end h2 title
 
 					elwithhtml( { /* this type of block can include html */
 						className: props.className,
-						className: 'lumiere_gutenberg_block_widget-explanation',
+						className: 'lumiere_block_widget_explanation',
 						tagName: 'gutenberg',
-						children: i18n.__('This widget will enable the display of movies in your articles.', 'lumiere-movies')
+						children: i18n.__('This widget will display movies in your articles.', 'lumiere-movies')
 							+ '<br />'
-							+ i18n.__('When editing a post or a page, the movie title or id you enter in your sidebar will be displayed in the widget location.', 'lumiere-movies')
+							+ i18n.__('When editing a post or a page, simply add a movie title or id using the Lumière tool in your sidebar to show a movie.', 'lumiere-movies')
 							+ '<br />'
 						},
 					),// end explanation div
@@ -73,12 +73,12 @@
 					el( 'div', { 
 						className: props.className,
 						tagName: 'div',
-						className: 'lumiere_gutenberg_block_widget-container',
+						className: 'lumiere_block_widget_container',
 						},
 						el( 'div', {
 							className: props.className,
 							tagName: 'div',
-							className: 'lumiere_gutenberg_block_intothepost-entertitle',
+							className: 'lumiere_block_widget_entertitle',
 							children: 'Enter widget title:',
 							onChange:  function updateType( event ) {
 									props.setAttributes({lumiere_input: event.target.value });
@@ -90,14 +90,14 @@
 						el( 'div', {
 							className: props.className,
 							tagName: 'div',
-							className: 'lumiere_gutenberg_block_intothepost-enterinput',
+							className: 'lumiere_block_widget_enterinput',
 						  	},
 
 							el( 'input', {
 								value: props.attributes.lumiere_input,
 								className: props.className,
 								tagName: 'input',
-								className: 'lumiere_gutenberg_block_intothepost-input',
+								className: 'lumiere_block_widget_input',
 
 								onChange:  function updateType( event ) {
 										props.setAttributes({lumiere_input: event.target.value });
@@ -116,7 +116,7 @@
 			return (
 				el( 'div', { className: props.className },
 					el( blockEditor.RichText.Content, {
-						className: 'lumiere_gutenberg_block_widget-input',
+						className: 'lumiere_block_widget_input',
 						value: '[lumiereWidget]' + props.attributes.lumiere_input + '[/lumiereWidget]',
 					} )
 				)
