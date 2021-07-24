@@ -55,6 +55,7 @@ add_meta_box('imdblt_help_addsearchform', esc_html__( 'Add a search form', 'lumi
 add_meta_box('imdblt_help_keepcss', esc_html__( 'Keep css through update', 'lumiere-movies'), 'lumiere_help_keepcss_function', 'imdblt_help', 'right', 'core');
 add_meta_box('imdblt_help_usetaxonomy', esc_html__( 'Taxonomy with Wordpress', 'lumiere-movies'), 'lumiere_help_usetaxonomy_function', 'imdblt_help', 'left', 'core');
 add_meta_box('lumiere_help_autowidget', esc_html__( 'Widget auto according post\'s title', 'lumiere-movies'), 'lumiere_help_autowidget_function', 'imdblt_help', 'right', 'core');
+
 ?>
 
 <div id="tabswrap">
@@ -233,10 +234,10 @@ if (isset($_GET['helpsub']) && ($_GET['helpsub'] == "faqs"))  { 	// Readme secti
 
 	<div class="imdblt_double_container">
 		<div class="postbox-container imdblt_double_container_content">
-			<?php do_meta_boxes('imdblt_help', 'left', null); ?>
+			<?php do_meta_boxes( 'imdblt_help', 'left', null); ?>
 		</div>
 		<div class="postbox-container imdblt_double_container_content">
-			<?php do_meta_boxes('imdblt_help', 'right', null); ?>
+			<?php do_meta_boxes( 'imdblt_help', 'right', null); ?>
 		</div>
 	</div>
 <?php

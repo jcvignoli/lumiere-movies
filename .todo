@@ -1,9 +1,4 @@
-v.3.4.5
-OK--- 1. If a new taxonomy template is available, display a message in taxonomy admin panel. If template has not been copied, display a message.
-OK--- 2. Piece of widget log was displayed to visitors. Fixed in class.config function lumiere_maybe_log()
-OK--- 3. Replace admin url imdblt_options by lumiere_options
-OK--- 4. New widget written as Gutenberg block, legacy widget works.
-OK--- 5. Updated Monolog
+v.3.4.6
 
 
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
@@ -12,6 +7,14 @@ OK--- 5. Updated Monolog
 13. Implement alternative to highslide with a jquery modal window
 16. To test: If Polylang needs to copy the metas when doing a new post in another lang, can activate lumiere_copy_post_metas_polylang() in class.core.php
 
+
+v.3.4.5
+OK--- 1. If a new taxonomy template is available, display a message in taxonomy admin panel. If template has not been copied, display a message.
+OK--- 2. Piece of widget log was displayed to visitors. Fixed in class.config function lumiere_maybe_log()
+OK--- 3. Replace admin url imdblt_options by lumiere_options
+OK--- 4. New widget written as Gutenberg block, legacy widget works.
+OK--- 5. Updated Monolog
+OK--- 6. javascript error in admin js: postbox not defined.
 
 v3.4.4
 OK--- 1. Added loggging to cache creation function.

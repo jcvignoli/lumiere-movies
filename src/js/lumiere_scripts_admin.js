@@ -168,11 +168,13 @@ for (i = 0; i < field.length; i++)
 *
 */
 jQuery(document).ready( function($) {
-	// close postboxes that should be closed
-	jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
+	if (jQuery('.if-js-closed')){
+		// close postboxes that should be closed
+		jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
 
-	// postboxes
-	postboxes.add_postbox_toggles('imdblt_help');
+		// postboxes
+		postboxes.add_postbox_toggles('imdblt_help');
+	}
 });
 
 /************************************** Gutenberg
