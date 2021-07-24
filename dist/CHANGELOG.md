@@ -6,6 +6,7 @@ v.3.4.5
 * [techical] Updated Monolog
 * [technical] Replace admin url imdblt_options by lumiere_options
 * [bug] Piece of widget log was displayed to visitors. Fixed in class.config function lumiere_maybe_log()
+* [bug] javascript error in admin js: postbox not defined.
 
 v.3.4.4
 * [technical] Added loggging to cache creation function.
