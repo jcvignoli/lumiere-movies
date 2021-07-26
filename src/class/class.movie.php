@@ -61,7 +61,7 @@ class LumiereMovies {
 	private $utilsClass;
 
 	/* Store the name or the ID of a movie and avoid globals
-	 * Not yet utilised, passing the movie's title or id right now into init()
+	 * Not yet utilised, passing the movie's title or id right now into lumiere_show()
 	 */
 	private $imdbIdOrTitle;
 
@@ -84,7 +84,7 @@ class LumiereMovies {
 			$this->utilsClass = $utilsClass;
 
 			// Start the logger class
-			add_action('loop_start', [$this, 'lumiere_start_logger_wrapper'], 0);
+			add_action('init', [$this, 'lumiere_start_logger_wrapper'], 0);
 
 		} else {
 
@@ -93,12 +93,20 @@ class LumiereMovies {
 		}
 
 		// Run the initialisation of the class
-		add_action ('the_loop', [$this, 'init'], 0);
+		// Not needed since lumiere_show() is externally called
+		// add_action ('the_loop', [$this, 'lumiere_show'], 0); 
 
-		// Add the shortcodes to parse the text, not in admin pages
+		// Parse the content to add the movies
+		add_action('the_content', [ $this, 'lumiere_parse_spans' ] );
+
+		// transform span into links to popups
+		add_filter('the_content', [ $this, 'lumiere_link_popup_maker' ] );
+		add_filter('the_excerpt', [ $this, 'lumiere_link_popup_maker' ] );
+
+		// Add the shortcodes to parse the text, old way
+		// Kept for compatibility purpose
 		add_shortcode( 'imdblt', [$this, 'parse_lumiere_tag_transform'] );
 		add_shortcode( 'imdbltid', [$this, 'parse_lumiere_tag_transform_id'] );
-
 
 	}
 
@@ -129,7 +137,11 @@ class LumiereMovies {
 
 	}
 
-	function init($imdbIdOrTitleOutside=NULL){
+	/** Search the movie and output the results
+	 ** 
+	 **
+	 **/
+	function lumiere_show($imdbIdOrTitleOutside=NULL){
 
 		/* Vars */ 
 		global $count_me_siffer;
@@ -207,7 +219,7 @@ class LumiereMovies {
 
 					$midPremierResultat = $results[0]->imdbid(); 
 
-				$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Found matching movie title: '$midPremierResultat'");
+					$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Found matching movie title: '$midPremierResultat'");
 
 				// break if no result found, otherwise imdbphp library trigger fatal error
 				} else {
@@ -252,7 +264,53 @@ class LumiereMovies {
 
 	}
 		
+	/** Find in content the span to build the movies
+	 ** Looks for <span data-lum_movie_maker="[1]"></span> where [1] is movie_title or movie_id
+	 **
+	 **/
+	function lumiere_parse_spans($content){
 
+		if (preg_match('~<span data-lum_movie_maker="movie_id">(.+?)<\/span>~',$content, $match)){
+
+			 $content = preg_replace_callback('~<span data-lum_movie_maker="movie_id">(.+?)<\/span>~i', [$this, 'lumiere_parse_spans_callback_id' ], $content);
+
+		}
+
+		if (preg_match('~<span data-lum_movie_maker="movie_title">(.+?)<\/span>~',$content, $match)){
+
+			 $content = preg_replace_callback('~<span data-lum_movie_maker="movie_title">(.+?)<\/span>~i', [$this, 'lumiere_parse_spans_callback_title' ], $content);
+
+		}
+
+		return $content;
+
+	}
+
+	/** Callback for movies by imdb id
+	 ** 
+	 **
+	 **/
+	function lumiere_parse_spans_callback_id($block_span){
+
+		$imdbIdOrTitle[]['bymid'] = $block_span[1];
+		return $this->lumiere_show($imdbIdOrTitle);
+
+	}
+
+	/** Callback for movies by imdb title
+	 ** 
+	 **
+	 **/
+	function lumiere_parse_spans_callback_title($block_span){
+
+		$imdbIdOrTitle[]['byname'] = $block_span[1];
+		return $this->lumiere_show($imdbIdOrTitle);
+
+	}
+
+	/** Replace [imdblt] shortcode by the movie
+	 ** Obsolete, kept for compatibility purposes
+	 **/
 	function parse_lumiere_tag_transform($atts = array(), $content = null, $tag){
 
 		//shortcode_atts(array( 'id' => 'default id', 'film' => 'default film'), $atts);
@@ -262,11 +320,120 @@ class LumiereMovies {
 
 	}
 
+	/** Replace [imdbltid] shortcode by the movie
+	 ** Obsolete, kept for compatibility purposes
+	 **/
 	function parse_lumiere_tag_transform_id($atts = array(), $content = null, $tag){
 
 		$imdbIdOrTitle[] = $content;
 		return $this->lumiere_external_call('',$imdbIdOrTitle,'');
 
+	}
+
+	/** Replace <span class="lumiere_link_maker"> tags inside the posts
+	 **  
+	 **/
+
+	##### a) Looks for what is inside tags  <span class="lumiere_link_maker"> ... </span> 
+	#####    and build a popup link
+	function lumiere_link_finder($correspondances){
+
+		$imdb_admin_values = $this->imdb_admin_values;
+
+		$correspondances = $correspondances[0];
+		preg_match('/<span class="lumiere_link_maker">(.+?)<\/span>/i', $correspondances, $link_parsed);
+
+		// link construction
+
+		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 	// highslide popup
+
+			$link_parsed = $this->lumiere_popup_highslide_film_link ($link_parsed) ;
+
+		} else {							// classic popup
+
+		    	$link_parsed = $this->lumiere_popup_classical_film_link ($link_parsed) ;
+
+		}
+
+		return $link_parsed;
+	}
+
+	// Kept for compatibility purposes:  <!--imdb--> still works
+	function lumiere_link_finder_oldway($correspondances){
+
+		$imdb_admin_values = $this->imdb_admin_values;
+
+		$correspondances = $correspondances[0];
+		preg_match("/<!--imdb-->(.*?)<!--\/imdb-->/i", $correspondances, $link_parsed);
+
+		// link construction
+
+		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 	// highslide popup
+
+			$link_parsed = $this->lumiere_popup_highslide_film_link ($link_parsed) ;
+
+		} else {							// classic popup
+
+		    	$link_parsed = $this->lumiere_popup_classical_film_link ($link_parsed) ;
+
+		}
+
+		return $link_parsed;
+	}
+
+	##### b) Replace <span class="lumiere_link_maker"></span> with links
+	function lumiere_link_popup_maker($text) {
+
+		// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
+		$pattern = '/<span class="lumiere_link_maker">(.+?)<\/span>/i';
+		$text = preg_replace_callback($pattern, [ $this, 'lumiere_link_finder' ] ,$text);
+
+		// Kept for compatibility purposes:  <!--imdb--> still works
+		$pattern_two = '/<!--imdb-->(.*?)<!--\/imdb-->/i';
+		$text_two = preg_replace_callback($pattern_two, [ $this, 'lumiere_link_finder_oldway' ] ,$text);
+
+		return $text_two;
+	}
+
+	/** Highslide popup function
+	 ** 
+	 ** constructs a HTML link to open a popup with highslide for searching a movie (using js/lumiere_scripts.js)
+	 ** 
+	 **/
+	function lumiere_popup_highslide_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
+
+		global $imdb_admin_values;
+			
+		if (! $popuplarg )
+			$popuplarg=$imdb_admin_values["popupLarg"];
+
+		if (! $popuplong )
+			$popuplong=$imdb_admin_values["popupLong"];
+
+		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . $this->utilsClass->lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
+
+		return $parsed_result;
+
+	}
+
+	/** Classical popup function
+	 ** 
+	 ** constructs a HTML link to open a popup for searching a movie (using js/lumiere_scripts.js)
+	 ** 
+	 **/
+	function lumiere_popup_classical_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
+
+		$imdb_admin_values = $this->imdb_admin_values;
+		
+		if (! $popuplarg )
+			$popuplarg=$imdb_admin_values["popupLarg"];
+
+		if (! $popuplong )
+			$popuplong=$imdb_admin_values["popupLong"];
+
+		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . $this->utilsClass->lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
+		
+		return $parsed_result;
 	}
 
 	/** Function external call (ie, inside a post)
@@ -281,7 +448,7 @@ class LumiereMovies {
 
 			$imdbIdOrTitle[]['byname'] = $moviename;
 
-			return $this->init($imdbIdOrTitle);
+			return $this->lumiere_show($imdbIdOrTitle);
 
 		}
 
@@ -291,7 +458,7 @@ class LumiereMovies {
 
 			$imdbIdOrTitle[]['bymid'] = $filmid[0];
 
-			return $this->init($imdbIdOrTitle);
+			return $this->lumiere_show($imdbIdOrTitle);
 
 		}
 
@@ -300,7 +467,7 @@ class LumiereMovies {
 
 			$imdbIdOrTitle[]['byname'] = $moviename[0];
 
-			return $this->init($imdbIdOrTitle);
+			return $this->lumiere_show($imdbIdOrTitle);
 
 		}
 
@@ -309,7 +476,7 @@ class LumiereMovies {
 
 			$imdbIdOrTitle[]['bymid'] = $filmid[0];
 
-			return $this->init($imdbIdOrTitle);
+			return $this->lumiere_show($imdbIdOrTitle);
 			
 		}
 
@@ -1996,7 +2163,6 @@ class LumiereMovies {
 		return $output;
 
 	}
-
 
 	/** Convert an imdb link to a highslide/classic popup link
 	 ** 

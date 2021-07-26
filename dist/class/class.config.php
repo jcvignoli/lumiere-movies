@@ -432,7 +432,7 @@ class Settings extends Config {
 		$imdb_admin_values = $this->imdb_admin_values;
 
 		// Starth the logger
-		$this->lumiere_start_logger('configMain');
+		$this->lumiere_start_logger('configMain', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */);
 		
 		/* Cache folder paths */
 		$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';

@@ -1,4 +1,8 @@
 v.3.4.6
+OK--- 1. bug Log in lumiere_noresults_text() class.utils wasn't being activated when called
+OK--- 2. bug delete all cache wasn't working (function utils lumiere_unlinkRecursive() was missing a $this->)
+Ok--- 3. bug activation triggers notice error. Deactivated onscreen debug in class.core lumiere_create_cache() so doesn't throw an error anymore.
+OK--- 4. feature Not using shortcodes [imdbltid] and [imdblt] anymore. Replaced by /span data-lum_movie_maker="movie_id"/ and /span data-lum_movie_maker="movie_title"/. This way, if Lumière is uninstalled no garbage is left in posts. Kept the old shortcodes working for compatibility purpose.
 
 
 22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
