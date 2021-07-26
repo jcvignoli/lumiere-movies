@@ -44,7 +44,7 @@
 			lumiere_imdblt_select: {
 				type: 'string',
 				options: 'html',
-				default: 'imdblt'
+				default: 'movie_title'
 			},
 			content: {
 				type: 'string',
@@ -56,26 +56,26 @@
 			el( 'div', 	{ 
 					className: props.className,
 					tagName: 'div',
-					className: 'lumiere_gutenberg_block_intothepost',
+					className: 'lumiere_block_intothepost',
 					},
 
 					el( 'img', { 
 						className: props.className,
-						className: 'lumiere_gutenberg_block_intothepost-image',
+						className: 'lumiere_block_intothepost-image',
 						src: lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir80x80.png',
 						},
 					),// end img
 
 					elwithhtml( { /* this type of block can include html */
 						className: props.className,
-						className: 'lumiere_gutenberg_block_intothepost-title',
+						className: 'lumiere_block_intothepost-title',
 						children: 'Lumière! movies',
 						},
 					),// end h2 title
 
 					elwithhtml( { /* this type of block can include html */
 						className: props.className,
-						className: 'lumiere_gutenberg_block_intothepost-explanation',
+						className: 'lumiere_block_intothepost-explanation',
 						tagName: 'gutenberg',
 						children: i18n.__( 'Use this block to retrieve movie or people information from the IMDb and insert in your post.' , 'lumiere-movies') 
 							+ '<br />'
@@ -92,13 +92,13 @@
 					el( 'div', { 
 						className: props.className,
 						tagName: 'div',
-						className: 'lumiere_gutenberg_block_intothepost-container',
+						className: 'lumiere_block_intothepost-container',
 						},
 
 						el( 'div', { 
 							className: props.className,
 							tagName: 'div',
-							className: 'lumiere_gutenberg_block_intothepost-select',
+							className: 'lumiere_block_intothepost-select',
 							},
 							el( 'select', {
 								value: props.attributes.lumiere_imdblt_select,
@@ -109,14 +109,14 @@
 							props.setAttributes({lumiere_imdblt_select: event.target.value });
 									},
 							  	},
-							el("option", {value: "imdblt", label: i18n.__("By movie title", 'lumiere-movies')} ),
-							el("option", {value: "imdbltid", label: i18n.__("By IMDb ID", 'lumiere-movies')} ),
+							el("option", {value: "movie_title", label: i18n.__("By movie title", 'lumiere-movies')} ),
+							el("option", {value: "movie_id", label: i18n.__("By IMDb ID", 'lumiere-movies')} ),
 							)
 						),
 						el(	blockEditor.RichText,
 							{
 								tagName: 'div',
-								className: 'lumiere_gutenberg_block_intothepost-content',
+								className: 'lumiere_block_intothepost-content',
 								value: props.attributes.content,
 								onChange: function( content ) {
 									props.setAttributes( { content: content });
@@ -132,8 +132,8 @@
 			return (
 				el( 'div', { className: props.className },
 					el( blockEditor.RichText.Content, {
-						className: 'lumiere_gutenberg_block_intothepost-content',
-						value: '[' + props.attributes.lumiere_imdblt_select + ']' + props.attributes.content + '[/' + props.attributes.lumiere_imdblt_select + ']',
+						className: 'lumiere_block_intothepost-content',
+						value: '<span data-lum_movie_maker="' + props.attributes.lumiere_imdblt_select + '">' + props.attributes.content + '</span>',
 					} )
 				)
 			);

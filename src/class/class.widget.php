@@ -44,11 +44,13 @@ class LumiereWidget extends \WP_Widget {
 	private $utilsClass;
 
 	/* Shortcode to be used by add_shortcodes, ie [lumiereWidget][/lumiereWidget]
+	 * This shortcode is a temporary one only created by the widget
+	 * It doesn't need to be deleted when uninstalling Lumière plugin
 	 *
 	 */
 	const widget_shortcode = 'lumiereWidget';
 
-	/* Add extra layout pieces to the widget
+	/* Add layout wrapping html to the widget
 	 *
 	 */
 	var $args = array(
@@ -99,7 +101,7 @@ class LumiereWidget extends \WP_Widget {
 		 */
 		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
 
-			add_action('init', [ $this, 'lumiere_widget_start_debug' ]);
+			add_action('widget_init', [ $this, 'lumiere_widget_start_debug' ]);
 
 		} 
 
@@ -116,7 +118,7 @@ class LumiereWidget extends \WP_Widget {
 		 */
 		 //add_action( 'widget_types_to_hide_from_legacy_widget_block', 'hide_widget' );
 
-		// Add the shortcode to parse the text, not in admin pages
+		// Add the shortcode to parse the text
 		add_shortcode( self::widget_shortcode, [$this, 'lumiere_widget_shortcodes_parser'] );
 
 	}
@@ -256,16 +258,15 @@ class LumiereWidget extends \WP_Widget {
 				// Aggreate all the fields into global var $imdallmeta and send it to class movie
 				for ($i=0; $i < count( $imdbIdOrTitle[$i] ); $i++) {
 
-					$this->movieClass->init($imdbIdOrTitle); #initialise movie class with global var
 
 					// If there is a result in var $lumiere_result of class, display the widget
-					if (!empty($this->movieClass->lumiere_result)) {
+					if ($movie = $this->movieClass->lumiere_show($imdbIdOrTitle)) {
 
 						$output .= $args['before_widget'];
 
 						$output .= $title_box; // title of widget
 
-						$output .= $this->movieClass->lumiere_result; // Movie
+						$output .= $movie;
 
 						$output .= $args['after_widget'];
 

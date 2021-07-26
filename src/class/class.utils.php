@@ -91,7 +91,7 @@ class Utils {
 			}
 
 			if (!@unlink($dir . '/' . $obj)){
-				lumiere_unlinkRecursive($dir.'/'.$obj, true);
+				$this->lumiere_unlinkRecursive($dir.'/'.$obj, true);
 			}
 		}
 		closedir($dh);
@@ -171,7 +171,7 @@ class Utils {
 	 */
 	public function lumiere_noresults_text($text='No result found for this query.'){ 
 
-		$this->loggerClass->lumiere_maybe_log('debug', "[Lumiere] $text");
+		$this->configClass->lumiere_maybe_log('debug', "[Lumiere] $text");
 
 		echo "\n".'<div class="noresult" align="center" style="font-size:16px;color:red;padding:15px;">'
 			. $text

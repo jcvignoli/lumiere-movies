@@ -1,6 +1,10 @@
 **Changelog**
 
 v.3.4.6
+* [feature] Not using shortcodes [imdbltid] and [imdblt] anymore. Replaced by /span data-lum_movie_maker="movie_id"/ and /span data-lum_movie_maker="movie_title"/. This way, if Lumière is uninstalled no garbage is left in posts. Kept the old shortcodes working for compatibility purpose.
+* [bug] activation triggers notice error. Deactivated onscreen debug in class.core lumiere_create_cache() so doesn't throw an error anymore.
+* [bug] delete all cache wasn't working (in class utils function lumiere_unlinkRecursive() was missing a "$this->")
+* [bug] Logger in lumiere_noresults_text() class.utils wasn't being activated when called.
 
 v.3.4.5
 * [feature] New widget written as Gutenberg block, legacy widget works. Both are fully compatible with WordPress 5.8

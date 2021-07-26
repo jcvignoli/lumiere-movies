@@ -92,6 +92,7 @@ class Core {
 
 		} );*/
 
+		// redirect to gutenberg-search.php
 		add_filter( 'init', function( $template ) {
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) )
 				require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::gutenberg_search_page );
@@ -124,18 +125,6 @@ class Core {
 		// add new title to popups
 		add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
 
-		if  (! is_admin() ) { 	// Run the transformation of links to popups
-						// Do not execute for admin interface
-						// -> Avoids the execution in gutenberg that brings json error on updating posts
-			// add links to popup
-			add_filter('the_content', [ $this, 'lumiere_linking' ] );
-			add_filter('the_excerpt', [ $this, 'lumiere_linking' ] );
-
-		    	// delete next line if you don't want to run Lumiere Movies through comments
-			add_filter('comment_text', [ $this, 'lumiere_linking' ] );
-
-		}
-
 		// Footer actions
 		add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
 
@@ -145,71 +134,6 @@ class Core {
 		// Add cron schedules
 		add_action('lumiere_cron_hook', [$this, 'lumiere_cron_exec_once'], 0);
 
-	}
-
-	/** Replace <span class="lumiere_link_maker"> tags inside the posts
-	 **  
-	 **/
-
-	##### a) Looks for what is inside tags  <span class="lumiere_link_maker"> ... </span> 
-	#####    and build a popup link
-	function lumiere_link_finder($correspondances){
-
-		$imdb_admin_values = $this->imdb_admin_values;
-
-		$correspondances = $correspondances[0];
-		preg_match('/<span class="lumiere_link_maker">(.+?)<\/span>/i', $correspondances, $link_parsed);
-
-		// link construction
-
-		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 	// highslide popup
-
-			$link_parsed = $this->lumiere_popup_highslide_film_link ($link_parsed) ;
-
-		} else {							// classic popup
-
-		    	$link_parsed = $this->lumiere_popup_classical_film_link ($link_parsed) ;
-
-		}
-
-		return $link_parsed;
-	}
-
-	// Kept for compatibility purposes:  <!--imdb--> still works
-	function lumiere_link_finder_oldway($correspondances){
-
-		$imdb_admin_values = $this->imdb_admin_values;
-
-		$correspondances = $correspondances[0];
-		preg_match("/<!--imdb-->(.*?)<!--\/imdb-->/i", $correspondances, $link_parsed);
-
-		// link construction
-
-		if ($imdb_admin_values['imdbpopup_highslide'] == 1) { 	// highslide popup
-
-			$link_parsed = $this->lumiere_popup_highslide_film_link ($link_parsed) ;
-
-		} else {							// classic popup
-
-		    	$link_parsed = $this->lumiere_popup_classical_film_link ($link_parsed) ;
-
-		}
-
-		return $link_parsed;
-	}
-
-	##### b) Replace <span class="lumiere_link_maker"></span> with links
-	function lumiere_linking($text) {
-
-		// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
-		$pattern = '/<span class="lumiere_link_maker">(.+?)<\/span>/i';
-		$text = preg_replace_callback($pattern, [ $this, 'lumiere_link_finder' ] ,$text);
-
-		// Kept for compatibility purposes:  <!--imdb--> still works
-		$pattern_two = '/<!--imdb-->(.*?)<!--\/imdb-->/i';
-		$text_two = preg_replace_callback($pattern_two, [ $this, 'lumiere_link_finder_oldway' ] ,$text);
-
-		return $text_two;
 	}
 
 	/**
@@ -699,8 +623,7 @@ class Core {
 
 		}
 
-
-		/* Set up the WP Cron */
+		/* Set up WP Cron */
 		if (! wp_next_scheduled ( 'lumiere_cron_hook' )) {
 
 			// Runned thee times to make sure that no update is missed
@@ -931,46 +854,6 @@ class Core {
 */
 	}
 
-	/** Highslide popup function
-	 ** 
-	 ** constructs a HTML link to open a popup with highslide for searching a movie (using js/lumiere_scripts.js)
-	 ** 
-	 **/
-	function lumiere_popup_highslide_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
-
-		global $imdb_admin_values;
-			
-		if (! $popuplarg )
-			$popuplarg=$imdb_admin_values["popupLarg"];
-
-		if (! $popuplong )
-			$popuplong=$imdb_admin_values["popupLong"];
-
-		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . $this->utilsClass->lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
-
-		return $parsed_result;
-
-	}
-
-	/** Classical popup function
-	 ** 
-	 ** constructs a HTML link to open a popup for searching a movie (using js/lumiere_scripts.js)
-	 ** 
-	 **/
-	function lumiere_popup_classical_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
-
-		$imdb_admin_values = $this->imdb_admin_values;
-		
-		if (! $popuplarg )
-			$popuplarg=$imdb_admin_values["popupLarg"];
-
-		if (! $popuplong )
-			$popuplong=$imdb_admin_values["popupLong"];
-
-		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . $this->utilsClass->lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
-		
-		return $parsed_result;
-	}
 
 	/** Copy metas from one post in original language to another post in other language
 	 ** Polylang version
