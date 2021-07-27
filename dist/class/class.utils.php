@@ -1,17 +1,13 @@
 <?php
 
- #############################################################################
- # Lumière! Movies WordPress Plugin                                          #
- # written by Lost Highway                                                   #
- # https://www.jcvignoli.com/blog                                            #
- # ------------------------------------------------------------------------- #
- # This program is free software; you can redistribute and/or modify it      #
- # under the terms of the GNU General Public License (see LICENSE)           #
- # ------------------------------------------------------------------------- #
- #       			                                                	#
- #  Function : Utilities class             				     	#
- #											#
- #############################################################################
+/**
+ * Class of tools: general utilities available for any class
+ *
+ * @author        Lost Highway <https://www.jcvignoli.com/blog>
+ * @copyright (c) 2021, Lost Highway
+ *
+ * @version       2.0
+ */
 
 namespace Lumiere;
 

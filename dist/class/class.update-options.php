@@ -1,21 +1,17 @@
 <?php
 
- #############################################################################
- # Lumière! Movies WordPress Plugin                                          #
- # written by Lost Highway                                                   #
- # https://www.jcvignoli.com/blog                                            #
- # ------------------------------------------------------------------------- #
- # This program is free software; you can redistribute and/or modify it      #
- # under the terms of the GNU General Public License (see LICENSE)           #
- # ------------------------------------------------------------------------- #
- #				->					              #
- # Class: Option updates to make according to the current plugin version     #
- #	-> Always put a version earlier for updates, 		              #
- #	as Wordpress checks with previous version.				#
- #	-> progressive increment of the updates,                              #
- #	using $imdb_admin_values['imdbHowManyUpdates']                        #
- #									              #
- #############################################################################
+/**
+ * Class of update : Option updates to make according to the current plugin version
+ *	-> Always put a version earlier for updates,
+ *	as Wordpress checks with previous version.
+ *	-> progressive increment of the updates,
+ *	using $imdb_admin_values['imdbHowManyUpdates'] 
+ *
+ * @author        Lost Highway <https://www.jcvignoli.com/blog>
+ * @copyright (c) 2021, Lost Highway
+ *
+ * @version       2.0
+ */
 
 namespace Lumiere;
 
