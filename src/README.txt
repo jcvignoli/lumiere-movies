@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/jcvignoli
 Tags: cinema, film, imdb, movie, actor
 Requires at least: 4.0
 Tested up to: 5.8
-Stable tag: 3.4.6
+Stable tag: 3.5
 Requires PHP: 7.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -37,7 +37,7 @@ PHP 7.2 is required. PHP 8 will soon be mandatory.
 
 There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a widget and 3/ inside a post. Each option can be combined with any other; there is no limitation!
 
-1. **Popup** When writing your post, embed your movie's title using the visual button in Gutenberg or in the former visual editor to add < span class="lumiere_link_maker" > movie's title < /span > . A **link that opens a popup** will be created in your post. The popup contains data about the movie.
+1. **Popup** When writing your post, embed your movie's title using the visual button in Gutenberg or in the former visual editor to add < span data-lum_link_maker="popup"> movie's title < /span> . A **link that opens a popup** will be created in your post. The popup contains data about the movie.
 2. **Widget** can be activated and used to display movie's data. Once the widget activated, select accurately what information you want to display on your sidebar in the related admin panel of Lumière! administration settings. Then, when editing your post, just add either the name (can lead to unexpected results) or the IMDb ID (never fails) of the movie you want to be displayed in your widget. If you don't know the IMDb ID, you can use the query link provided in Lumière widget.
 3. The plugin can **show IMDb data inside a post**. When writing your post, frame the movie title inside html tags < span data-lum_movie_maker="movie_title"> so you get ie < span data-lum_movie_maker="movie_title">Fight club< /span> in your post. Tools are provided in the form of blocks to do it automatically in gutenberg editor (the new WordPress editor). Or better, use IMDb ID instead of the movie name: < span data-lum_movie_maker="movie_id" >0137523< /span>. To find the Imdbid, just use the query link provided in Lumière block.
 
@@ -108,8 +108,9 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 
-= 3.4.6 = 
-* Shortcodes [imdblt] and [imdbltid] are now obsolete, using span html tags instead. It ensures that upon Lumière uninstall, no garbage is left in your articles. Install and uninstall will be smoothly processed!
+= 3.5 = 
+* Shortcodes [imdblt] and [imdbltid] are now obsolete, using span html tags instead. It ensures that upon Lumière uninstall, no garbage is left in your articles. Install and uninstall will be smoothly processed! Compatibility with obsolete shortcodes ensured.
+* link to popups are now dealt by a < span data-lum_link_maker="popup"> instead of < span class="lumiere_link_maker"> for plugin code consistency. No compatibility with the latter ensured, since it was recently introduced.
 
 = 3.4 =
 * Cache improvement, fixed longstanding bugs, admin design ameliorated, popups design ameliorated, lumière variables are now automatically updated, code simplification (notably droped htaccess generation), taxonomy pages for people created (huge boost for reasons of using taxonomy). Updated to imdbphp 7.0 library.* New types of search: you can select to search movies, tv shows, and even videogames!

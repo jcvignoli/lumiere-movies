@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die('You can not call directly this page');
 }
 
+
 //Prints out the admin page
 function lumiere_admin_pages() {
 
@@ -68,7 +69,10 @@ function lumiere_admin_pages() {
 
 				<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies'); ?>" href="<?php echo esc_url ( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption"); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies'); ?></a>
 
-<?php			if ( ! is_active_widget( '', '', 'lumiere-movies-widget') ) { ?>
+<?php
+			// Check if any widget is active:
+			// is_active_widget() (pre 5.8 wordpress) or lumiere_block_widget_isactive() (post 5.8)
+			if ( ( is_active_widget( '', '', \Lumiere\LumiereWidget::widget_name) == false ) && ( $utils->lumiere_block_widget_isactive() == false ) ) { ?>
 
 				- <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'widgets.php'); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies'); ?></a></font></em>
 
@@ -102,7 +106,6 @@ function lumiere_admin_pages() {
 
 <?php ### select the sub-page
 
-
 	if (!isset($_GET['subsection'])) {
 
 		require_once ( plugin_dir_path( __DIR__ ). 'inc/options-general.php'  );
@@ -130,5 +133,6 @@ function lumiere_admin_pages() {
 
 <?php
 } //End function printAdminPage()
+
 
 ?>

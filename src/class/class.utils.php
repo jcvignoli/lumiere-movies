@@ -466,5 +466,20 @@ class Utils {
 		return false;
 	}
 
+
+	/* Check if the block widget is active
+	 * Use the current name by default
+	 */
+	function lumiere_block_widget_isactive( $blockname = \Lumiere\LumiereWidget::block_widget_name ){
+	    $widget_blocks = get_option( 'widget_block' );
+	    foreach( $widget_blocks as $widget_block ) {
+		 if ( ! empty( $widget_block['content'] ) 
+		      && has_block( $blockname, $widget_block['content'] ) 
+		 ) {
+		     return true;
+		 }
+	    }
+	    return false;
+	}
 }
 ?>
