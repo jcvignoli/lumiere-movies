@@ -6,10 +6,13 @@
 * 2/ Add a movie section based either on movie's title or IMDb ID
 * 3/ Open a search window to find IMDb ID
 * 
+* It temporary adds a Lumière! icon to spot the Lumière! title or ID currently utilised 
+*	for the plugin (the icon is not saved in the database)
+*
 * @author        Lost Highway <https://www.jcvignoli.com/blog>
 * @copyright (c) 2021, Lost Highway
 *
-* @version       2.0
+* @version       4.0
 */
 (function($) {
 
@@ -24,7 +27,7 @@
 		init : function(ed, url) {
 			
 			// picture to display berfore the tagged word is
-			var lum_icon = '<img src="' + lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir13x13.png" class="lumiere_admin_tiny_img" width="13" />';
+			var lum_image = '<img src="' + lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir13x13.png" class="lumiere_admin_tiny_img" width="13" />';
 
 			// initialise the menu
 			var menu = [];
@@ -38,7 +41,6 @@
 				menu: [
 				{
 					text: 'Add a popup',
-					image : lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir13x13.png',
 					onclick : function() {
 						var selected_text = ed.selection.getContent();
 						ed.windowManager.open({
@@ -58,7 +60,7 @@
 								if(e.data.blank === true) {
 									target += 'newtab="on"';
 								}
-								ed.insertContent(' <span data-lum_link_maker="popup">' + e.data.textboxName + '</span> ');
+								ed.insertContent( ' <span data-lum_link_maker="popup">' + e.data.textboxName + '</span> ');
 							}
 						});
 					},
@@ -76,6 +78,7 @@
 					text: 'Add a movie section',
 					onclick : function() {
 						var selected_text = ed.selection.getContent();
+						var query_title = selected_text ? selected_text : '';
 						ed.windowManager.open({
 							width: 450,
 							height: 200,
@@ -92,7 +95,6 @@
 								// Dropdown list to select type of movie input
 								{
 									type: 'listbox', 
-				image : lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir13x13.png',
 									name: 'movieFormat', 
 									label: 'My movie is inserted by:', 
 									'values': [
@@ -110,7 +112,9 @@
 									ed.windowManager.open(
 										{
 											title: 'Internal Query to find IMDb ID',
-											file:  lumiere_admin_vars.wordpress_path + lumiere_admin_vars.gutenberg_search_url,
+											file:  lumiere_admin_vars.wordpress_path 
+											+ lumiere_admin_vars.gutenberg_search_url 
+											+ "?moviesearched=" + query_title,
 											width: 500,
 											height: 400, 
 											 // Whether to use modal dialog instead of separate browser window.
@@ -154,12 +158,16 @@
 				{
 					text: 'Find IMDb ID',
 					onclick : function() {
-					     ed.windowManager.open(
+						var selected_text = ed.selection.getContent();
+						var query_title = selected_text ? selected_text : '';
+						ed.windowManager.open(
 							{
 							title: 'Internal Query to find IMDb ID',
-							file:  lumiere_admin_vars.wordpress_path + lumiere_admin_vars.gutenberg_search_url,
-							width: 600,
-							height: 500,
+							file:  lumiere_admin_vars.wordpress_path 
+									+ lumiere_admin_vars.gutenberg_search_url 
+									+ "?moviesearched=" + query_title,
+							width: 500,
+							height: 400,
 							// Whether to use modal dialog instead of separate browser window.
 							inline: 1,
 							},
@@ -176,7 +184,43 @@
 
 				],// end menu
 			}); // end add button menu
+
+			// Remove var lum_image
+			ed.on('PostProcess', function(o){
+				if (o.get)
+					o.content = o.content.replace(/<img class="lumiere_admin_tiny_img"[^>]+>/g, '');
+			});
+
+			// Add var lum_image to spans (only on display)
+			ed.on('BeforeSetContent', function(o){
+				var lum_image_span_popup = lum_image + ' <span data-lum_link_maker="popup">';
+				var lum_image_span_movie_title = lum_image + ' <span data-lum_movie_maker="movie_title">';
+				var lum_image_span_movie_id = lum_image + ' <span data-lum_movie_maker="movie_id">';
+				o.content = o.content.replace(/<span data-lum_link_maker=[^>]+>/g, lum_image_span_popup);
+				o.content = o.content.replace(/<span data-lum_movie_maker="movie_title">/g, lum_image_span_movie_title);
+				o.content = o.content.replace(/<span data-lum_movie_maker="movie_id">/g, lum_image_span_movie_id);
+			});	
+			
+			// Set active buttons if user selected pagebreak or more break
+			ed.on('NodeChange', function(cm, n){
+				cm.setActive('lumiere_tiny', n.nodeName === 'SPAN' && jQuery( ed.selection).attr('data-lum_link_maker') );
+			});
+
 		},// end init
+
+		/**
+		 * Creates control instances based in the incomming name. This method is normally not
+		 * needed since the addButton method of the tinymce.Editor class is a more easy way of adding buttons
+		 * but you sometimes need to create more complex controls like listboxes, split buttons etc then this
+		 * method can be used to create those.
+		 *
+		 * @param {String} n Name of the control to create.
+		 * @param {tinymce.ControlManager} cm Control manager to use inorder to create new control.
+		 * @return {tinymce.ui.Control} New control instance or null if no control was created.
+		 */
+		createControl : function(n, cm) {
+			return null;
+		},
 		
 		/**
 		 * Returns information about the plugin as a name/value array.

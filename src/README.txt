@@ -37,9 +37,9 @@ PHP 7.2 is required. PHP 8 will soon be mandatory.
 
 There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a widget and 3/ inside a post. Each option can be combined with any other; there is no limitation!
 
-1. **Popup** When writing your post, embed your movie's title using the visual button in Gutenberg or in the former visual editor to add < span data-lum_link_maker= "popup"> movie's title< /span> . A **link that opens a popup** will be created in your post. The popup contains data about the movie.
+1. **Popup** When writing your post, embed your movie's title using the visual button in Gutenberg or in the former visual editor to add < span data-lum_link_maker\="popup"> movie's title</span> . A **link that opens a popup** will be created in your post. The popup contains data about the movie.
 2. **Widget** can be activated and used to display movie's data. Once the widget activated, select accurately what information you want to display on your sidebar in the related admin panel of Lumière! administration settings. Then, when editing your post, just add either the name (can lead to unexpected results) or the IMDb ID (never fails) of the movie you want to be displayed in your widget. If you don't know the IMDb ID, you can use the query link provided in Lumière widget.
-3. The plugin can **show IMDb data inside a post**. When writing your post, frame the movie title inside html tags (span data-lum_movie_maker="movie_title") so you get ie (span data-lum_movie_maker="movie_title")Fight club(/span) in your post. Tools are provided in the form of blocks to do it automatically in gutenberg editor (the new WordPress editor). Or better, use IMDb ID instead of the movie name: (span data-lum_movie_maker="movie_id")0137523(/span). To find the Imdbid, just use the query link provided in Lumière block.
+3. The plugin can **show IMDb data inside a post**. When writing your post, frame the movie title inside html tags < span data-lum_movie_maker\="movie_title"> so you get ie < span data-lum_movie_maker\="movie_title">Fight club< /span> in your post. Tools are provided in the form of blocks to do it automatically in gutenberg editor (the new WordPress editor). Or better, use IMDb ID instead of the movie name: <span data-lum_movie_maker\="movie_id">0137523< /span>. To find the Imdbid, just use the query link provided in Lumière block.
 
 = Fine tuning: =
 
@@ -110,7 +110,7 @@ Major changes:
 
 = 3.5 = 
 * Shortcodes [imdblt] and [imdbltid] are now obsolete, using span html tags instead. It ensures that upon Lumière uninstall, no garbage is left in your articles. Install and uninstall will be smoothly processed! Compatibility with obsolete shortcodes ensured.
-* link to popups are now dealt by a (span data-lum_link_maker="popup") instead of (span class="lumiere_link_maker") for plugin code consistency. No compatibility with the latter ensured, since it was recently introduced.
+* link to popups are now dealt by a < span data-lum_link_maker\="popup"> instead of < span class\="lumiere_link_maker"> for plugin code consistency. No compatibility with the latter ensured, since it was recently introduced.
 
 = 3.4 =
 * Cache improvement, fixed longstanding bugs, admin design ameliorated, popups design ameliorated, lumière variables are now automatically updated, code simplification (notably droped htaccess generation), taxonomy pages for people created (huge boost for reasons of using taxonomy). Updated to imdbphp 7.0 library.* New types of search: you can select to search movies, tv shows, and even videogames!
@@ -123,7 +123,7 @@ Major changes:
 * Many options related to the popups (favicon, change the URL, etc.), fixed missing/wrong variables all over the plugin, further compatibility with PHP8 added, fixed the submit buttons in the admin, much technical work and bug hunting
 
 = 3.1 =
-* Due to compatibility reasons with Gutenberg, the way to display links to internal popupups has changed from '(!--imdb--)(!--/imdb--)' to '(span class="lumiere_link_maker")'. Compatibility with the old way currently maintained.
+* Due to compatibility reasons with Gutenberg, the way to display links to internal popupups has changed from '(!--imdb--)(!--/imdb--)' to '< span class\="lumiere_link_maker">'. Compatibility with the old way currently maintained.
 * Gutenberg interface finished.
 
 = 3.0 =

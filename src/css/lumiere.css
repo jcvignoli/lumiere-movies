@@ -268,10 +268,15 @@ color: red;}
 
 /* ---------------------------------------- Gutenberg-search.php */
 
-body#gutenberg_search{margin:20px !important;}
-h1#searchmovie_title {padding:20px;}
+body#gutenberg_search{margin:20px !important;background-color:grey;color:white;}
+body#gutenberg_search a{background-color:darkslategrey;color:darkgrey;border-radius:10px;padding:5px;}
+body#gutenberg_search a:hover{color:darkslategrey;background-color:darkgrey;border-radius:10px;padding:5px;}
+h1#searchmovie_title {padding:20px;color:white;}
 input#moviesearched{ width:60%;background-color:lightyellow;}
 span.label_moviesearched{font-size:larger !important;padding:10px;}
+.lumiere_container_gutenberg_border{border-radius:10px;padding:10px;margin:5px;background-color:darkgrey;}
+.lumiere_gutenberg_results{color:lavender;}
+span.lumiere_gutenberg_copy_class{background-color: cornsilk;color:darkgrey;padding:10px;border-radius:10px;margin:5px;border: 1px solid black;}
 
 /* ---------------------------------------- Loader when searching */
 #lumiere_loader {border: 12px solid #f3f3f3;border-radius: 50%;border-top: 12px solid #444444;width: 70px;height: 70px;animation: spin 1s linear infinite;}

@@ -1,0 +1,1 @@
+spans=document.querySelectorAll(".lumiere_gutenberg_copy_class");for(const a of spans)a.onclick=function(){document.execCommand("copy")},a.addEventListener("copy",function(t){t.preventDefault(),t.clipboardData&&(t.clipboardData.setData("text/plain",a.textContent),alert("Successfully copied "+t.clipboardData.getData("text")),console.log(t.clipboardData.getData("text")))});
