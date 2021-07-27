@@ -84,7 +84,7 @@ class LumiereMovies {
 			$this->utilsClass = $utilsClass;
 
 			// Start the logger class
-			add_action('init', [$this, 'lumiere_start_logger_wrapper'], 0);
+			add_action('wp', [$this, 'lumiere_start_logger_wrapper'], 0);
 
 		} else {
 
@@ -330,18 +330,18 @@ class LumiereMovies {
 
 	}
 
-	/** Replace <span class="lumiere_link_maker"> tags inside the posts
+	/** Replace <span data-lum_link_maker="popup"> tags inside the posts
 	 **  
 	 **/
 
-	##### a) Looks for what is inside tags  <span class="lumiere_link_maker"> ... </span> 
+	##### a) Looks for what is inside tags <span data-lum_link_maker="popup"> ... </span> 
 	#####    and build a popup link
 	function lumiere_link_finder($correspondances){
 
 		$imdb_admin_values = $this->imdb_admin_values;
 
 		$correspondances = $correspondances[0];
-		preg_match('/<span class="lumiere_link_maker">(.+?)<\/span>/i', $correspondances, $link_parsed);
+		preg_match('/<span data-lum_link_maker="popup">(.+?)<\/span>/i', $correspondances, $link_parsed);
 
 		// link construction
 
@@ -385,7 +385,7 @@ class LumiereMovies {
 	function lumiere_link_popup_maker($text) {
 
 		// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
-		$pattern = '/<span class="lumiere_link_maker">(.+?)<\/span>/i';
+		$pattern = '/<span data-lum_link_maker="popup">(.+?)<\/span>/i';
 		$text = preg_replace_callback($pattern, [ $this, 'lumiere_link_finder' ] ,$text);
 
 		// Kept for compatibility purposes:  <!--imdb--> still works

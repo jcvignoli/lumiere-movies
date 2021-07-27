@@ -71,6 +71,11 @@ class LumiereCest {
 		$I->switchToIFrame("//iframe[@src='$url_base$sub_url']");
 		$I->see('Golden Cage');
 
+		// Re-enable taxonomy
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbwordpress_tooladminmenu');
+		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#update_imdbSettings' );
+
 	}
 
 	/** Check if auto widget option display a widget based on the title of the page
