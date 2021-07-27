@@ -1,18 +1,12 @@
 <?php
-
- #############################################################################
- # Lumière Movies wordpress plugin                                           #
- # written by Lost Highway                                                   #
- # https://www.jcvignoli.com/blog                                            #
- # ------------------------------------------------------------------------- #
- # This program is free software; you can redistribute and/or modify it      #
- # under the terms of the GNU General Public License (see LICENSE)           #
- # ------------------------------------------------------------------------- #
- #									              #
- #  Class : Add a widget including a movie                                   #
- #		(either by auto widget option or the metabox in the editor)    #
- #          The widget is automatically started, as per Wordpress standards  #
- #############################################################################
+/**
+ * Class of widget: Add a widget including a moviev(either by auto widget option or the editor metabox) 
+ *
+ * @author        Lost Highway <https://www.jcvignoli.com/blog>
+ * @copyright (c) 2021, Lost Highway
+ *
+ * @version       2.0
+ */
 
 namespace Lumiere;
 

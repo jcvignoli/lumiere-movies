@@ -1,17 +1,13 @@
 <?php
 
- #############################################################################
- # Lumière! Movies wordpress plugin                                          #
- # written by Lost Highway                                                   #
- # https://www.jcvignoli.com/blog                                            #
- # ------------------------------------------------------------------------- #
- # This program is free software; you can redistribute and/or modify it      #
- # under the terms of the GNU General Public License (see LICENSE)           #
- # ------------------------------------------------------------------------- #
- #									              #
- #  Class : Add a metabox in admin post editing interface                    #
- #									              #
- #############################################################################
+/**
+ * Metabox Class : Add a metabox in admin post editing interface
+ *
+ * @author        Lost Highway <https://www.jcvignoli.com/blog>
+ * @copyright (c) 2021, Lost Highway
+ *
+ * @version       2.0
+ */
 
 namespace Lumiere;
 
