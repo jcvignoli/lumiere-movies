@@ -193,17 +193,23 @@
 
 			// Add var lum_image to spans (only on display)
 			ed.on('BeforeSetContent', function(o){
-				var lum_image_span_popup = lum_image + ' <span data-lum_link_maker="popup">';
-				var lum_image_span_movie_title = lum_image + ' <span data-lum_movie_maker="movie_title">';
-				var lum_image_span_movie_id = lum_image + ' <span data-lum_movie_maker="movie_id">';
+				var lum_image_span_popup = lum_image + '&nbsp;<span data-lum_link_maker="popup">';
+				var lum_image_span_movie_title = lum_image + '&nbsp;<span data-lum_movie_maker="movie_title">';
+				var lum_image_span_movie_id = lum_image + '&nbsp;<span data-lum_movie_maker="movie_id">';
 				o.content = o.content.replace(/<span data-lum_link_maker=[^>]+>/g, lum_image_span_popup);
 				o.content = o.content.replace(/<span data-lum_movie_maker="movie_title">/g, lum_image_span_movie_title);
 				o.content = o.content.replace(/<span data-lum_movie_maker="movie_id">/g, lum_image_span_movie_id);
 			});	
-			
+
 			// Set active buttons if user selected pagebreak or more break
-			ed.on('NodeChange', function(cm, n){
-				cm.setActive('lumiere_tiny', n.nodeName === 'SPAN' && jQuery( ed.selection).attr('data-lum_link_maker') );
+			ed.on('PostRender', function(){
+				var _this = this;   // reference to the button itself				
+				ed.on('NodeChange', function(e) {
+					//activate the button if this parent has this class
+					var is_active = jQuery( ed.selection).attr('data-lum_link_maker')
+					_this.active( is_active );
+				})
+
 			});
 
 		},// end init
