@@ -206,7 +206,7 @@
 				var _this = this;   // reference to the button itself				
 				ed.on('NodeChange', function(e) {
 					//activate the button if this parent has this class
-					var is_active = jQuery( ed.selection).attr('data-lum_link_maker')
+					var is_active = jQuery( ed.selection).attr('data-lum_link_maker');
 					_this.active( is_active );
 				})
 
