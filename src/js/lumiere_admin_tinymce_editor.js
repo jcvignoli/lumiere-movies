@@ -1,18 +1,26 @@
+/**
+*
+* This TinyMCE function createds a visual editor for Lumière! plugin
+* It adds an option in the toolbar with Lumière! tools to:
+* 1/ Add a link creating a popup in posts
+* 2/ Add a movie section based either on movie's title or IMDb ID
+* 3/ Open a search window to find IMDb ID
+* 
+* @author        Lost Highway <https://www.jcvignoli.com/blog>
+* @copyright (c) 2021, Lost Highway
+*
+* @version       2.0
+*/
 (function($) {
 
 	tinymce.create('tinymce.plugins.lumiere_link_maker', {
+
 		/**
-		 * This function is meant to allow Lumière! to be used within the tinymce editor
-		 * Basically, it adds the tags used by the plugin to display the movie & people popups. 
-		 * It replaces the tags with a image when tinymce is used (and do the opposite when switching
-		 * to a HTML view, or when posting), which is much more convenient. 
+		 * Initialisation of Tinymce
 		 *
 		 * @param {tinymce.Editor} ed Editor instance that the plugin is initialized in.
 		 * @param {string} url Absolute URL to where the plugin is located.
 		 */
-
-		extended_valid_elements: ["+@[data-lum_link_maker]","+@[data-lum_movie_maker]"],
-
 		init : function(ed, url) {
 			
 			// picture to display berfore the tagged word is
@@ -29,60 +37,110 @@
 				menu: menu,
 				menu: [
 				{
-					title : 'Add popup span',
-					text: 'Turn into popup',
+					text: 'Add a popup',
+					image : lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir13x13.png',
 					onclick : function() {
 						var selected_text = ed.selection.getContent();
-						var content_final = '';
-						this.active( !this.active() ); //toggle the button too
-						var LumTagActive = this.active();
-
-						if (LumTagActive) {
-
-							content_final = '<span data-lum_link_maker="popup">' + selected_text + '</span>';
-							ed.execCommand('mceInsertContent', 0, content_final);
-
-						} else {
-
-							content_final = selected_text;
-							content_final = selected_text.replace( /<\/?img(.*)>/ig, '' );
-							content_final = ed.selection.setContent(content_final);
-							ed.execCommand('mceReplaceContent', 0, content_final);
-						}
+						ed.windowManager.open({
+							width: 300,
+							height: 150,
+							  title: 'Lumière! Add a link to a popup',
+							  body: [
+							      {
+								   type: 'textbox',
+								   name: 'textboxName',
+								   label: 'Movie title',
+								   value: selected_text,
+								},
+							],
+							onsubmit: function (e) {
+								target = '';
+								if(e.data.blank === true) {
+									target += 'newtab="on"';
+								}
+								ed.insertContent(' <span data-lum_link_maker="popup">' + e.data.textboxName + '</span> ');
+							}
+						});
 					},
-
 					onPostRender: function() {
 						var _this = this;   // reference to the button itself
 						ed.on('NodeChange', function(e) {
 							//activate the button if this parent has this class
-							var is_active = jQuery( ed.selection).attr('data-lum_link_maker')
+							var is_active = jQuery( ed.selection).attr('data-lum_link_maker');
 							_this.active( is_active );
 						})
 					}
 				}, // end 'Add popup span' menu item
 
 				{
-					title : 'Use this title for a movie section based on title',
-					text: 'Movie section using movie title',
+					text: 'Add a movie section',
 					onclick : function() {
 						var selected_text = ed.selection.getContent();
-						var content_final = '';
-						this.active( !this.active() );
-						var LumTagMovieTitleActive = this.active();
+						ed.windowManager.open({
+							width: 450,
+							height: 200,
+							title: 'Lumière! Add a movie section inside the post',
+							body: [
+								// Movie title/id
+								{
+									type: 'textbox',
+									name: 'movieReference',
+									label: 'Movie title/IMDb ID',
+									value: selected_text,
 
-						if (LumTagMovieTitleActive) {
+								},
+								// Dropdown list to select type of movie input
+								{
+									type: 'listbox', 
+				image : lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir13x13.png',
+									name: 'movieFormat', 
+									label: 'My movie is inserted by:', 
+									'values': [
+											{text: 'By title', value: 'movie_title'},
+											{text: 'By id', value: 'movie_id'}
+										]
+								},
+								// Button to open search window
+								{
+									type: 'button',
+									name: 'IMDbID',
+									label: 'Find IMDb ID',
+									text: 'Open Search Window',
+									onclick : function() {
+									ed.windowManager.open(
+										{
+											title: 'Internal Query to find IMDb ID',
+											file:  lumiere_admin_vars.wordpress_path + lumiere_admin_vars.gutenberg_search_url,
+											width: 500,
+											height: 400, 
+											 // Whether to use modal dialog instead of separate browser window.
+											inline: 1,
+										},
 
-							content_final = '<span data-lum_movie_maker="movie_title">' + selected_text + '</span>';
-							ed.execCommand('mceInsertContent', 0, content_final);
-
-						} else {
-
-							content_final = selected_text;
-ed.selection.setContent(content_final);
-							ed.execCommand('mceReplaceContent', 0, content_final);
-						}
+										//  Parameters and arguments we want available to the window.
+										{
+											editor: ed,
+											jquery: $,
+											valid_value: 'value',
+										}
+									);// end windowmanager IMDbID
+									},// end onclick function
+							      },// end button IMDbID
+							],// end all buttons
+							onsubmit: function (e) {
+								target = '';
+								if(e.data.blank === true) {
+									target += 'newtab="on"';
+								}
+									ed.insertContent(' <span data-lum_movie_maker="'
+										+ e.data.movieFormat
+										+ '">' 
+										+ e.data.movieReference 
+										+ '</span> ',
+									);
+								}
+							});
 					},
-
 					onPostRender: function() {
 						var _this = this;   // reference to the button itself
 						ed.on('NodeChange', function(e) {
@@ -94,39 +152,31 @@ ed.selection.setContent(content_final);
 				}, // end 'Movie section using movie title' menu item
 
 				{
-					title : 'Use this imdb id for a movie section based on title',
-					text: 'Movie section using movie IMDb ID',
+					text: 'Find IMDb ID',
 					onclick : function() {
-						var selected_text = ed.selection.getContent();
-						var content_final = '';
-						this.active( !this.active() );
-						var LumTagMovieIDActive = this.active();
+					     ed.windowManager.open(
+							{
+							title: 'Internal Query to find IMDb ID',
+							file:  lumiere_admin_vars.wordpress_path + lumiere_admin_vars.gutenberg_search_url,
+							width: 600,
+							height: 500,
+							// Whether to use modal dialog instead of separate browser window.
+							inline: 1,
+							},
 
-						if (LumTagMovieIDActive) {
-
-							content_final = '<span data-lum_movie_maker="movie_id">' + selected_text + '</span>';
-							ed.execCommand('mceInsertContent', 0, content_final);
-
-						} else {
-
-							content_final = selected_text;
-							ed.execCommand('mceReplaceContent', 0, content_final);
-						}
+							//  Parameters and arguments we want available to the window.
+							{
+								editor: ed,
+								jquery: $,
+								valid_value: 'value',
+							}
+						);
 					},
+				}, // end 'Find IMDb ID'
 
-					onPostRender: function() {
-						var _this = this;   // reference to the button itself
-						ed.on('NodeChange', function(e) {
-							//activate the button if this parent has this class
-							var is_active = jQuery( ed.selection).attr('data-lum_movie_maker');
-							_this.active( is_active );
-						})
-					}
-				}, // end 'Movie section using movie IMDb ID' menu item
 				],// end menu
-				}, // end add button
-			);
-		},
+			}); // end add button menu
+		},// end init
 		
 		/**
 		 * Returns information about the plugin as a name/value array.
@@ -139,7 +189,7 @@ ed.selection.setContent(content_final);
 				author : 'JCV',
 				authorurl : 'https://www.jcvignoli.com/blog',
 				infourl : 'https://www.jcvignoli.com/en/lumiere-movies-wordpress-plugin/',
-				version : "3.0"
+				version : "4.0"
 			};
 		},
 

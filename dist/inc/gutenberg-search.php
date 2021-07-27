@@ -14,9 +14,9 @@
  #############################################################################
 
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) 
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
-
+}
 
 require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
@@ -90,7 +90,9 @@ foreach ($results as $res) {
 
 	// ---- imdb id results
 	echo "\n\t<div class='lumiere_container_flex50 lumiere_align_center'><span class='lumiere_bold'>".esc_html__('IMDb ID:', 'lumiere-movies').'</span> ';
+	echo '<span style="background-color: yellow;" class="lumiere_bold">';
 	echo esc_html($res->imdbid() );
+	echo '</span>';
 
 	echo '</div>';
 	echo "\n</div>";
@@ -107,7 +109,7 @@ foreach ($results as $res) {
 	if (!isset ($_GET["film"]) ) {   
 
 		echo "\n<div align='center'>";
-		echo "\n".'<h1 id="searchmovie_title">'.esc_html__('Search a movie', 'lumiere-movies').'</h1>';
+		echo "\n".'<h1 id="searchmovie_title">'.esc_html__('Search a movie IMDb ID', 'lumiere-movies').'</h1>';
 		echo "\n".'<form action="" method="post" id="searchmovie">';
 		echo "\n\t".'<label for="moviesearched"><span class="label_moviesearched">'.esc_html__('Search', 'lumiere-movies').'</span></label>';
 		echo "\n\t".'<input type="text" id="moviesearched" name="moviesearched">';
@@ -115,7 +117,7 @@ foreach ($results as $res) {
 		echo "\n".'</form>';
 		echo '</div>';
 	} else {
-		wp_die("you can't call this page directly");
+		wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 	}
 }
 ?>
