@@ -7,7 +7,7 @@ OK--- 5 feature: link to popups are now dealt by a < span data-lum_link_maker="p
 OK--- 6 bug Block widget type wasn't taken into account when checking if a widget was active in admin panel. Added new condition in admin_pages.php
 OK--- 7. feature In visual editing (with tinymce, old way), new function to add popup, movies by id and by title.
 
-22. fix setup: function (ed) in lumiere_scripts_admin_tinymce_editor.js
+
 23. write a class for the admin pages using WordPress API
 24. Update help with new infos
 13. Implement alternative to highslide with a jquery modal window

@@ -18,6 +18,8 @@
 
 	tinymce.create('tinymce.plugins.lumiere_link_maker', {
 
+		extended_valid_elements: ["+@[data-lum_link_maker]","+@[data-lum_movie_maker]" ],
+
 		/**
 		 * Initialisation of Tinymce
 		 *
@@ -25,14 +27,26 @@
 		 * @param {string} url Absolute URL to where the plugin is located.
 		 */
 		init : function(ed, url) {
+
+			// Full URL for Querying /wp-admin/lumiere/search
+			var gutenberg_url = lumiere_admin_vars.wordpress_path 
+							+ lumiere_admin_vars.gutenberg_search_url 
+							+ "?moviesearched=";
 			
-			// picture to display berfore the tagged word is
+			// ICON to display before tagged words
 			var lum_image = '<img src="' + lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir13x13.png" class="lumiere_admin_tiny_img" width="13" />';
 
-			// initialise the menu
+			// SPANS
+			var span_popup = '<span data-lum_link_maker="popup">';
+			var span_movie_attr = 'data-lum_movie_maker';
+			var span_movie_begin = '<span ' + span_movie_attr + '="';
+				var span_movie_title = span_movie_begin + 'movie_title">';
+				var span_movie_id = span_movie_begin + 'movie_id">';
+
+			// Initialise MENU
 			var menu = [];
 
-			// add tags to current selection
+			// Build the MENU
 			ed.addButton('lumiere_tiny', {
 				title : 'Lumière! add info',
 				image : lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir13x13.png',
@@ -40,11 +54,13 @@
 				menu: menu,
 				menu: [
 				{
-					text: 'Add a popup',
+					text: 'Add a popup link',
 					onclick : function() {
+						this.active( !this.active() );
+						var LumTagActive = this.active();
 						var selected_text = ed.selection.getContent();
 						ed.windowManager.open({
-							width: 300,
+							width: 400,
 							height: 150,
 							  title: 'Lumière! Add a link to a popup',
 							  body: [
@@ -60,18 +76,10 @@
 								if(e.data.blank === true) {
 									target += 'newtab="on"';
 								}
-								ed.insertContent( ' <span data-lum_link_maker="popup">' + e.data.textboxName + '</span> ');
+								ed.insertContent( ' ' + span_popup + e.data.textboxName + '</span> ');
 							}
 						});
 					},
-					onPostRender: function() {
-						var _this = this;   // reference to the button itself
-						ed.on('NodeChange', function(e) {
-							//activate the button if this parent has this class
-							var is_active = jQuery( ed.selection).attr('data-lum_link_maker');
-							_this.active( is_active );
-						})
-					}
 				}, // end 'Add popup span' menu item
 
 				{
@@ -90,7 +98,6 @@
 									name: 'movieReference',
 									label: 'Movie title/IMDb ID',
 									value: selected_text,
-
 								},
 								// Dropdown list to select type of movie input
 								{
@@ -112,15 +119,12 @@
 									ed.windowManager.open(
 										{
 											title: 'Internal Query to find IMDb ID',
-											file:  lumiere_admin_vars.wordpress_path 
-											+ lumiere_admin_vars.gutenberg_search_url 
-											+ "?moviesearched=" + query_title,
+											file:  gutenberg_url + query_title,
 											width: 500,
 											height: 400, 
 											 // Whether to use modal dialog instead of separate browser window.
 											inline: 1,
 										},
-
 										//  Parameters and arguments we want available to the window.
 										{
 											editor: ed,
@@ -136,7 +140,7 @@
 								if(e.data.blank === true) {
 									target += 'newtab="on"';
 								}
-									ed.insertContent(' <span data-lum_movie_maker="'
+									ed.insertContent(' ' + span_movie_begin
 										+ e.data.movieFormat
 										+ '">' 
 										+ e.data.movieReference 
@@ -145,14 +149,6 @@
 								}
 							});
 					},
-					onPostRender: function() {
-						var _this = this;   // reference to the button itself
-						ed.on('NodeChange', function(e) {
-							//activate the button if this parent has this class
-							var is_active = jQuery( ed.selection).attr('data-lum_movie_maker');
-							_this.active( is_active );
-						})
-					}
 				}, // end 'Movie section using movie title' menu item
 
 				{
@@ -163,9 +159,7 @@
 						ed.windowManager.open(
 							{
 							title: 'Internal Query to find IMDb ID',
-							file:  lumiere_admin_vars.wordpress_path 
-									+ lumiere_admin_vars.gutenberg_search_url 
-									+ "?moviesearched=" + query_title,
+							file:  gutenberg_url + query_title,
 							width: 500,
 							height: 400,
 							// Whether to use modal dialog instead of separate browser window.
@@ -183,36 +177,80 @@
 				}, // end 'Find IMDb ID'
 
 				],// end menu
+
+				onPostRender: function() {
+					// Unactivate/activate the button depending on the click
+					var _this = this;
+					ed.on('click', function(e) {
+						click_popup = $(e.target).data("lum_link_maker");
+						click_movie = $(e.target).data("lum_movie_maker");
+
+						if( click_popup){
+							_this.active( click_popup );
+							console.log('activated'+click_popup);
+						} else if (click_movie) {
+							_this.active( click_movie );
+							console.log('activated'+click_movie);
+						} else {
+							!_this.active( click_popup );
+							!_this.active( click_movie );
+						};
+					});
+
+				},
+
+				onclick : function() {
+
+					this.active( !this.active() ); 
+					var LumActive = this.active();
+					old_text = ed.selection.getContent();
+
+					if (LumActive) {
+						console.log(old_text+' added');
+					} else {
+						// On menu click, remove the span of current selection
+						new_text = old_text.replace(/<span data-lum_[^>]+>(.+)<\/span>/, '$1');
+						ed.selection.setContent(new_text);
+						console.log('current selection: ' + old_text + ' deleted');
+					}
+				},
+
 			}); // end add button menu
 
-			// Remove var lum_image
+			// Remove var lum_image when saving or switching to text view
 			ed.on('PostProcess', function(o){
-				if (o.get)
-					o.content = o.content.replace(/<img class="lumiere_admin_tiny_img"[^>]+>/g, '');
+				if (o.get) {
+					// Adding two optional blanks in replacement to make sure everything is removed
+					o.content = o.content.replace(/<img class="lumiere_admin_tiny_img"[^>]+>\s?\s?/g, '');
+				}
 			});
 
-			// Add var lum_image to spans (only on display)
-			ed.on('BeforeSetContent', function(o){
-				var lum_image_span_popup = lum_image + '&nbsp;<span data-lum_link_maker="popup">';
-				var lum_image_span_movie_title = lum_image + '&nbsp;<span data-lum_movie_maker="movie_title">';
-				var lum_image_span_movie_id = lum_image + '&nbsp;<span data-lum_movie_maker="movie_id">';
-				o.content = o.content.replace(/<span data-lum_link_maker=[^>]+>/g, lum_image_span_popup);
-				o.content = o.content.replace(/<span data-lum_movie_maker="movie_title">/g, lum_image_span_movie_title);
-				o.content = o.content.replace(/<span data-lum_movie_maker="movie_id">/g, lum_image_span_movie_id);
-			});	
-
-			// Set active buttons if user selected pagebreak or more break
-			ed.on('PostRender', function(){
-				var _this = this;   // reference to the button itself				
-				ed.on('NodeChange', function(e) {
-					//activate the button if this parent has this class
-					var is_active = jQuery( ed.selection).attr('data-lum_link_maker');
-					_this.active( is_active );
-				})
-
+			// Add var lum_image to spans (on display only, not saved)
+			ed.on('BeforeSetContent', function(e){
+				// Build vars lum_image + spans
+				var lum_image_span_popup = lum_image + '&nbsp;' + span_popup;
+				var lum_image_span_movie_title = lum_image + '&nbsp;' + span_movie_title;
+				var lum_image_span_movie_id = lum_image + '&nbsp;' + span_movie_id;
+				// Build vars to be replace, to include 'g' which is match all cases
+				var span_popup_replace = new RegExp("(" + span_popup + ")", "g");
+				var span_movie_title_replace = new RegExp("(" + span_movie_title + ")", "g");
+				var span_movie_id_replace = new RegExp("(" + span_movie_id + ")", "g");
+				// Replace the content
+				e.content = e.content.replace(span_popup_replace, lum_image_span_popup);
+				e.content = e.content.replace(span_movie_title_replace, lum_image_span_movie_title);
+				e.content = e.content.replace(span_movie_id_replace, lum_image_span_movie_id);
 			});
 
 		},// end init
+
+		setup: function (ed) { /* Doesn't work */
+			// Set active buttons if user selected SPAN
+			ed.on('click', function(ed, cm, n){
+				console.log('node changed');
+				cm.setActive('lumiere_tiny', n.nodeName === 'SPAN'  );
+			});
+		},
+
 
 		/**
 		 * Creates control instances based in the incomming name. This method is normally not
