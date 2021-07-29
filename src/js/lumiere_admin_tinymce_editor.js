@@ -208,9 +208,11 @@
 						/* On menu click, remove the span of current selection
 						 * This works only if the entire span is selected by the user
 						 */
+						/*
 						new_text = old_text.replace(/<span data-lum_[^>]+>(.+)<\/span>/, '$1');
 						ed.selection.setContent(new_text);
 						//console.log('current selection: ' + old_text + ' deleted');
+						*/
 					// }
 				},
 

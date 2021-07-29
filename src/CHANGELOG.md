@@ -8,6 +8,7 @@ v.3.5
 * [bug] delete all cache wasn't working (in class utils function lumiere_unlinkRecursive() was missing a "$this->")
 * [bug] Logger in lumiere_noresults_text() class.utils wasn't being activated when called.
 * [bug] Block widget type wasn't taken into account when checking if a widget was active in admin panel. Added new condition in admin_pages.php
+* [bug] Can't open/close metaboxes in post edition. Metabox script added in lumiere_scripts_admin.js was collinding with other WordPress scripts. Removed from lumiere_scripts_admin.js, added to help.php. Took advantage of removing useless 'common','wp-lists', 'postbox' javascripts from loading in every admin page; now loads only in help.php
 
 v.3.4.5
 * [feature] New widget written as Gutenberg block, legacy widget works. Both are fully compatible with WordPress 5.8
