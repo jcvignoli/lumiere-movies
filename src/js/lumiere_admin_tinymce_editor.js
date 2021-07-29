@@ -198,9 +198,6 @@
 					this.active( !this.active() ); 
 					var LumActive = this.active();
 
-					// old_text = $(e.target)[0].outerHTML;
-					old_text = ed.selection.getContent();
-
 					// Execute only if active
 					//if (LumActive) {
 						//console.log(old_text+' added');
@@ -208,7 +205,8 @@
 						/* On menu click, remove the span of current selection
 						 * This works only if the entire span is selected by the user
 						 */
-						/*
+						/* Deactivated, removes the possibility to get selected text in the windows
+						old_text = ed.selection.getContent();
 						new_text = old_text.replace(/<span data-lum_[^>]+>(.+)<\/span>/, '$1');
 						ed.selection.setContent(new_text);
 						//console.log('current selection: ' + old_text + ' deleted');
