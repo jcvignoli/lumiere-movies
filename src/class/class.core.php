@@ -140,7 +140,7 @@ class Core {
 
 		$imdb_admin_values = $this->imdb_admin_values;
 
-		wp_enqueue_script( "lumiere_quicktag_addbutton", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_admin_quicktags.js", array( 'quicktags' ));
+		wp_enqueue_script( "lumiere_quicktag_addbutton", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_admin_quicktags.js", array( 'quicktags' ), $this->configClass->lumiere_version);
 
 	}
 

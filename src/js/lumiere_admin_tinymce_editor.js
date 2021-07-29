@@ -14,6 +14,7 @@
 *
 * @version       4.0
 */
+
 (function($) {
 
 	tinymce.create('tinymce.plugins.lumiere_link_maker', {
@@ -28,17 +29,24 @@
 		 */
 		init : function(ed, url) {
 
+			// Var to save temporary 'THIS' inside the button and use it later
+			var temp_this = null;
+
 			// Full URL for Querying /wp-admin/lumiere/search
 			var gutenberg_url = lumiere_admin_vars.wordpress_path 
 							+ lumiere_admin_vars.gutenberg_search_url 
 							+ "?moviesearched=";
 			
 			// ICON to display before tagged words
-			var lum_image = '<img src="' + lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir13x13.png" class="lumiere_admin_tiny_img" width="13" />';
+			var lum_image = '<img src="' 
+						+ lumiere_admin_vars.imdb_path 
+						+ 'pics/lumiere-ico-noir13x13.png" class="lumiere_admin_tiny_img" width="13" />';
 
 			// SPANS
-			var span_popup = '<span data-lum_link_maker="popup">';
-			var span_movie_attr = 'data-lum_movie_maker';
+			var data_popup_key = 'lum_link_maker';
+			var span_popup = '<span data-' + data_popup_key + '="popup">';
+			var data_movie_key = 'lum_movie_maker';
+			var span_movie_attr = 'data-'+data_movie_key;
 			var span_movie_begin = '<span ' + span_movie_attr + '="';
 				var span_movie_title = span_movie_begin + 'movie_title">';
 				var span_movie_id = span_movie_begin + 'movie_id">';
@@ -178,41 +186,32 @@
 
 				],// end menu
 
-				onPostRender: function() {
-					// Unactivate/activate the button depending on the click
-					var _this = this;
-					ed.on('click', function(e) {
-						click_popup = $(e.target).data("lum_link_maker");
-						click_movie = $(e.target).data("lum_movie_maker");
+				onPostRender: function(e) {
 
-						if( click_popup){
-							_this.active( click_popup );
-							console.log('activated'+click_popup);
-						} else if (click_movie) {
-							_this.active( click_movie );
-							console.log('activated'+click_movie);
-						} else {
-							!_this.active( click_popup );
-							!_this.active( click_movie );
-						};
-					});
+					/* Save value of 'this' for later use */
+					temp_this = this; 
 
 				},
 
-				onclick : function() {
+				onclick : function(e) {
 
 					this.active( !this.active() ); 
 					var LumActive = this.active();
+
+					// old_text = $(e.target)[0].outerHTML;
 					old_text = ed.selection.getContent();
 
-					if (LumActive) {
-						console.log(old_text+' added');
-					} else {
-						// On menu click, remove the span of current selection
+					// Execute only if active
+					//if (LumActive) {
+						//console.log(old_text+' added');
+					//} else {
+						/* On menu click, remove the span of current selection
+						 * This works only if the entire span is selected by the user
+						 */
 						new_text = old_text.replace(/<span data-lum_[^>]+>(.+)<\/span>/, '$1');
 						ed.selection.setContent(new_text);
-						console.log('current selection: ' + old_text + ' deleted');
-					}
+						//console.log('current selection: ' + old_text + ' deleted');
+					// }
 				},
 
 			}); // end add button menu
@@ -241,11 +240,37 @@
 				e.content = e.content.replace(span_movie_id_replace, lum_image_span_movie_id);
 			});
 
+			// Activate Lumière button in toolbar depending on what type of node is clicked
+			ed.on('click', function(e){
+
+				//var outer = $(e.target)[0].outerHTML;
+				//console.log('11'+outer);
+
+				/* Select only when target node includes specific 'data-key=""' attribute */
+				click_popup = $( e.target ).data( data_popup_key );
+				click_movie = $( e.target ).data( data_movie_key );
+
+				/* Var retrieved from onPostRender inside 'lumiere_tiny' button  */
+				var _this = temp_this; 
+
+				if ( (click_popup) && _this.active( _this.active() ) ) {
+					_this.active( _this.active(false) );
+					//console.log("activated " + click_popup + _this);
+				} else if ( (click_movie) && _this.active( _this.active() ) ) {
+					_this.active( _this.active(false) );
+					//console.log("activated " + click_movie + _this);
+				} else {
+					!_this.active( _this.active(true) );
+					//console.log("disabled" + _this);
+				};
+			});
+
+
 		},// end init
 
 		setup: function (ed) { /* Doesn't work */
 			// Set active buttons if user selected SPAN
-			ed.on('click', function(ed, cm, n){
+			ed.on('NodeChanged', function(cm, n){
 				console.log('node changed');
 				cm.setActive('lumiere_tiny', n.nodeName === 'SPAN'  );
 			});
