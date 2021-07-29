@@ -71,25 +71,29 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ![Admin preferences for cache](https://ps.w.org/lumiere-movies/assets/screenshot-4.jpg)
 
-### 5. The code [imdblt] to enter inside a post and the icon to attach a popup link
+### 5. The widget area to display a movie
 
-![The code [imdblt] to enter inside a post and the icon to attach a popup link](https://ps.w.org/lumiere-movies/assets/screenshot-5.jpg)
+![The widget area to display a movie](https://ps.w.org/lumiere-movies/assets/screenshot-5.jpg)
 
-### 6. The widget area to display a movie
+### 6. Menu in visual editor (tinyMCE) for inclusion of a movie section or popup
 
-![The widget area to display a movie](https://ps.w.org/lumiere-movies/assets/screenshot-6.jpg)
+![Menu in visual editor (tinyMCE) for inclusion of a movie section or popup](https://ps.w.org/lumiere-movies/assets/screenshot-6.jpg)
 
-### 7. External tool to find a movie's IMDb ID
+### 7. Tool to insert a movie section or a popup in a post
 
-![External tool to find a movie's IMDb ID](https://ps.w.org/lumiere-movies/assets/screenshot-7.jpg)
+![Tool to insert a movie section or a popup in a post](https://ps.w.org/lumiere-movies/assets/screenshot-7.jpg)
 
-### 8. Gutenberg block
+### 8. Query page to find a movie IMDb ID
 
-![Gutenberg block](https://ps.w.org/lumiere-movies/assets/screenshot-8.jpg)
+![Query page to find a movie IMDb ID](https://ps.w.org/lumiere-movies/assets/screenshot-8.jpg)
 
-### 9. Taxonomy page for a person
+### 9. Gutenberg block
 
-![Taxonomy page for a person](https://ps.w.org/lumiere-movies/assets/screenshot-9.jpg)
+![Gutenberg block](https://ps.w.org/lumiere-movies/assets/screenshot-9.jpg)
+
+### 10. Taxonomy page for a person
+
+![Taxonomy page for a person](https://s.w.org/plugins/lumiere-movies/screenshot-10.jpg)
 
 
 ## Frequently Asked Questions
@@ -140,6 +144,7 @@ Major changes:
 
 * Shortcodes [imdblt] and [imdbltid] have become obsolete, using span html tags instead. It ensures that upon Lumière uninstall, no garbage is left in your articles. Install and uninstall will be smoothly processed! Compatibility with obsolete shortcodes ensured.
 * link to popups are now dealt by a < span data-lum_link_maker "popup"> instead of < span class "lumiere_link_maker"> for plugin code consistency. No compatibility with the latter ensured, since it was recently introduced.
+* Support for the plugin in Help admin section has been improved and updated
 
 ### 3.4
 

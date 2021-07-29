@@ -53,7 +53,6 @@ lumiere_help_extrascript ();
 add_meta_box('lumiere_help_plb', esc_html__( 'Popup link builder', 'lumiere-movies'), 'lumiere_help_plb_function', 'imdblt_help', 'left', 'core');
 add_meta_box('imdblt_help_itp', esc_html__( 'Inside the post', 'lumiere-movies'), 'lumiere_help_itp_function', 'imdblt_help', 'right', 'core');
 add_meta_box('imdblt_help_w', esc_html__( 'Widget', 'lumiere-movies'), 'lumiere_help_w_function', 'imdblt_help', 'left', 'core');
-add_meta_box('imdblt_help_adminmenubig', esc_html__( 'Big admin menu', 'lumiere-movies'), 'lumiere_help_adminbigmenu_function', 'imdblt_help', 'right', 'core');
 add_meta_box('imdblt_help_addsearchform', esc_html__( 'Add a search form', 'lumiere-movies'), 'lumiere_help_addsearchform_function', 'imdblt_help', 'left', 'core');
 add_meta_box('imdblt_help_keepcss', esc_html__( 'Keep css through update', 'lumiere-movies'), 'lumiere_help_keepcss_function', 'imdblt_help', 'right', 'core');
 add_meta_box('imdblt_help_usetaxonomy', esc_html__( 'Taxonomy with Wordpress', 'lumiere-movies'), 'lumiere_help_usetaxonomy_function', 'imdblt_help', 'left', 'core');
@@ -232,7 +231,10 @@ if (isset($_GET['helpsub']) && ($_GET['helpsub'] == "faqs"))  { 	// Readme secti
 
 <?php } else { 				// How to display ?>
 
-	<div class="intro_cache"><?php esc_html_e( "Lumiere Movies evolves a lot. Lumiere Movies main functions are explained hereafter, aiming to fullfill your needs. There are three main ways to show data from movies and there are many options to modify the plugin's behaviour.", 'lumiere-movies'); ?>
+	<div class="intro_cache">
+		<?php esc_html_e( "This section covers the three main ways to display movie data and some related options in Lumière.", 'lumiere-movies'); ?>
+		<br /><br />
+		<?php esc_html_e( "Lumiere Movies is a plugin under intense development; this help section might be innacurate with regard to the latest functions. Main functions of the plugin are explained below, aiming to be as much user-friendly as possible.", 'lumiere-movies'); ?>
 	</div>
 
 	<div class="imdblt_double_container">
@@ -264,15 +266,11 @@ function lumiere_help_plb_function () {
 	<div class="helpdiv">
 		<h4><?php esc_html_e( 'Why a popup window?', 'lumiere-movies'); ?></h4>
 		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-1.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="55%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-1.jpg"); ?>" alt="screenshot Link creator" /></a>
-		<?php esc_html_e( "The first way to use Lumiere Movies is the first historically available. The idea behind was to find a solution for posts quoting many movies; blogger and reader would appreciate to have director's name, to know the alternative title's name, etc. And these data should not waste space in post itself; thus the popup idea.", 'lumiere-movies'); ?>
+		<?php esc_html_e( "The first way to use Lumiere Movies is to add links to movie titles that opens popups with information about that very same movies. It is a usefull for posts that mention movies title; just add a link to your movie title, and let visitors knowing more about the details of the movie you mention.", 'lumiere-movies'); ?>
 	</div>
 
 	<div class="helpdiv">
-		<?php esc_html_e( "Popup, as an extra window opened on click, will permit to get director's and movie's data; it is fully browsable and when browsing a movie, one can also look for 'AKAs' (movies which have a name similar).", 'lumiere-movies'); ?>
-	</div>
-
-	<div class="helpdiv">
-		<?php esc_html_e( 'It is quite intuitive to understand how popup can help; when writing about many movies, if one would like to speak about every director or actor he mentions in his post, it would take ages and will not have the power of the linkage (once seen the director, looking for his filmography).', 'lumiere-movies'); ?>
+		<?php esc_html_e( "Popup is a window that opened on click, which allows to consult director's and movie's information; if browsing a movie, one can read more about the movie but also the people who took part in the movie, such as actors, directors, etc.", 'lumiere-movies'); ?>
 	</div>
 
 	<div class="helpdiv">
@@ -370,29 +368,6 @@ function lumiere_help_itp_function () {
 		<?php esc_html_e( "It could happen you do not want popups at all. Since by default Lumiere Movies add links whenever relevant to movie's details displayed inside posts, one may find this useless. To get rid of them, look for 'Widget/Inside post Options / Misc / Remove popup links?' and switch the option to 'yes'. No links are created anymore, for both widget and inside a post.", 'lumiere-movies'); ?>
 	</div>
 <?php }
-
-
-
-/* Admin big menu explanation
- *
- *
- */
-function lumiere_help_adminbigmenu_function () {
-	global $imdb_admin_values; ?>
-
-	<div class="helpdiv">
-		<h4><?php esc_html_e( "Lumiere Movies is a mess! I'm lost with so many options.", 'lumiere-movies'); ?></h4>
-	</div>
-	<div class="helpdiv">
-		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/imdblt_menubig.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="10%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/imdblt_menubig.jpg"); ?>" alt="imdblt big menu" /></a>
-		<?php esc_html_e( "Wordpress admin area offers more and more options to user. Starting with 2.7 release, it also offers the possibility to add new admin menu for plugins. Lumiere Movies makes the most of this possibility, and can add its own admin menu. It can be added - or removed. Depending of how many plugin's admin menus you already have, you would prefer to keep access to Lumiere Movies settings only through usual 'settings' tab; it's up to you to choose to either get a more complete and bigger Lumiere Movies menu - or not.", 'lumiere-movies'); ?>
-	</div>
-
-	<div class="helpdiv">
-		<?php esc_html_e( "In the case you want to, go to 'General options / Advanced / Display plugin in big admin menu' and turn to 'yes' the option. You will get a brand new menu, as shown on left.", 'lumiere-movies'); ?>
-	</div>
-
-<?php } 
 
 
 /* Add search form explanation

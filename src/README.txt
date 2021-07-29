@@ -58,11 +58,12 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 2. How movie's data is displayed "inside a post" 
 3. How movie's data is displayed in a "widget" 
 4. Admin preferences for cache
-5. Visual editor options to insert a movie section or a popup
-6. The widget area to display a movie
-7. External tool to find a movie's IMDb ID
-8. Gutenberg block
-9. Taxonomy page for a person
+5. The widget area to display a movie
+6. Menu in visual editor (tinyMCE) for inclusion of a movie section or popup
+7. Tool to insert a movie section or a popup in a post
+8. Query page to find a movie IMDb ID
+9. Gutenberg block
+10. Taxonomy page for a person
 
 == Frequently Asked Questions ==
 
@@ -111,6 +112,7 @@ Major changes:
 = 3.5 = 
 * Shortcodes [imdblt] and [imdbltid] have become obsolete, using span html tags instead. It ensures that upon Lumière uninstall, no garbage is left in your articles. Install and uninstall will be smoothly processed! Compatibility with obsolete shortcodes ensured.
 * link to popups are now dealt by a < span data-lum_link_maker "popup"> instead of < span class "lumiere_link_maker"> for plugin code consistency. No compatibility with the latter ensured, since it was recently introduced.
+* Support for the plugin in Help admin section has been improved and updated
 
 = 3.4 =
 * Cache improvement, fixed longstanding bugs, admin design ameliorated, popups design ameliorated, lumière variables are now automatically updated, code simplification (notably droped htaccess generation), taxonomy pages for people created (huge boost for reasons of using taxonomy). Updated to imdbphp 7.0 library.* New types of search: you can select to search movies, tv shows, and even videogames!
