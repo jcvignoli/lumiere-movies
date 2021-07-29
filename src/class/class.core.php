@@ -297,11 +297,10 @@ class Core {
 
 		wp_enqueue_style('lumiere_css_admin', $imdb_admin_values['imdbplugindirectory'] . "css/lumiere-admin.css", array(), $this->configClass->lumiere_version);
 
+		// Enqueue needed extra scripts
 		wp_enqueue_script( "lumiere_scripts_admin", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin.js", array(		'jquery',	// Needed by all scripts 
-						'common',	// script needed for meta_boxes (in help.php)
-						'wp-lists',	// script needed for meta_boxes (in help.php)
-						'postbox'	// script needed for meta_boxes (in help.php)
 					), $this->configClass->lumiere_version);
+
 		// Pass variable to javascripts in admin part
 		wp_add_inline_script( 'lumiere_scripts_admin', 'const lumiere_admin_vars = ' . json_encode( array(
 			'imdb_path' => $imdb_admin_values['imdbplugindirectory'],

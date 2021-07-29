@@ -1,3 +1,10 @@
+23. write a class for the admin pages using WordPress API
+24. Update help with new infos
+13. Implement alternative to highslide with a jquery modal window
+16. To test: If Polylang needs to copy the metas when doing a new post in another lang, can activate lumiere_copy_post_metas_polylang() in class.core.php
+
+
+
 v.3.5
 OK--- 1. bug Log in lumiere_noresults_text() class.utils wasn't being activated when called
 OK--- 2. bug delete all cache wasn't working (function utils lumiere_unlinkRecursive() was missing a $this->)
@@ -6,13 +13,7 @@ OK--- 4. feature Not using shortcodes [imdbltid] and [imdblt] anymore. Replaced 
 OK--- 5 feature: link to popups are now dealt by a < span data-lum_link_maker="popup"> instead of < span class="lumiere_link_maker"> for consistency.
 OK--- 6 bug Block widget type wasn't taken into account when checking if a widget was active in admin panel. Added new condition in admin_pages.php
 OK--- 7. feature In visual editing (with tinymce, old way), new function to add popup, movies by id and by title.
-
-
-23. write a class for the admin pages using WordPress API
-24. Update help with new infos
-13. Implement alternative to highslide with a jquery modal window
-16. To test: If Polylang needs to copy the metas when doing a new post in another lang, can activate lumiere_copy_post_metas_polylang() in class.core.php
-
+OK--- 8. bug Can't open/close metaboxes in post edition. Metabox script added in lumiere_scripts_admin.js was collinding with other WordPress scripts. Removed from lumiere_scripts_admin.js, added to help.php. Took advantage of removing useless 'common','wp-lists', 'postbox' javascripts from loading in every admin page; now loads only in help.php
 
 v.3.4.5
 OK--- 1. If a new taxonomy template is available, display a message in taxonomy admin panel. If template has not been copied, display a message.

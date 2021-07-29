@@ -58,7 +58,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 2. How movie's data is displayed "inside a post" 
 3. How movie's data is displayed in a "widget" 
 4. Admin preferences for cache
-5. The code [imdblt] to enter inside a post and the icon to attach a popup link
+5. Visual editor options to insert a movie section or a popup
 6. The widget area to display a movie
 7. External tool to find a movie's IMDb ID
 8. Gutenberg block

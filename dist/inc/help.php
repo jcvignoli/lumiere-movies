@@ -45,6 +45,9 @@ $allowed_html_for_esc_html_functions = [
 	],
 ];
 
+// Add specific script for metaboxes
+// add_action('admin_enqueue_scripts', 'lumiere_help_extrascript'); # can't use add_action
+lumiere_help_extrascript ();
 
 // Boxes
 add_meta_box('lumiere_help_plb', esc_html__( 'Popup link builder', 'lumiere-movies'), 'lumiere_help_plb_function', 'imdblt_help', 'left', 'core');
@@ -229,7 +232,7 @@ if (isset($_GET['helpsub']) && ($_GET['helpsub'] == "faqs"))  { 	// Readme secti
 
 <?php } else { 				// How to display ?>
 
-	<div class="intro_cache"><?php esc_html_e( "Lumiere Movies evolves a lot. As a result of this, the plugin includes many options, many ways to achieve bloggers wishes. Lumiere Movies main functions are explained hereafter, aiming to make the experience better. As you may discover, there are three main ways to show data from movies and there are many related options. This is an attempt to document it, but please check also FAQs.", 'lumiere-movies'); ?>
+	<div class="intro_cache"><?php esc_html_e( "Lumiere Movies evolves a lot. Lumiere Movies main functions are explained hereafter, aiming to fullfill your needs. There are three main ways to show data from movies and there are many options to modify the plugin's behaviour.", 'lumiere-movies'); ?>
 	</div>
 
 	<div class="imdblt_double_container">
@@ -251,12 +254,10 @@ if (isset($_GET['helpsub']) && ($_GET['helpsub'] == "faqs"))  { 	// Readme secti
 
 <?php
 
-//-------------functions boxes (layout above)
-
-############################
-## lumiere_help_plb_function
-############################
-
+/* Popup explanation
+ *
+ *
+ */
 function lumiere_help_plb_function () {
 	global $imdb_admin_values; ?>
 
@@ -289,13 +290,13 @@ function lumiere_help_plb_function () {
 		<?php esc_html_e( "Whatever the tool you choose, when you will save your post you will get a nice link added to your movie.", 'lumiere-movies'); ?>
 	</div>
 
-<?php } // end function lumiere_help_plb_function
+<?php } 
 
 
-#######################
-## lumiere_help_w_function
-######################
-
+/* Inside the post explanation
+ *
+ *
+ */
 function lumiere_help_w_function () {
 	global $imdb_admin_values; ?>
 
@@ -324,13 +325,13 @@ function lumiere_help_w_function () {
 		<?php wp_kses( _e( "To get the movie's IMDb id, search for a title on <a href='https://www.imdb.com' >Internet movie database</a> website, look at the adress bar for a 'ttXXXXX' section, keep only the numerical part (XXXXX) and add result to the <i>value</i> custom field. However, in this specific case, do not mix with an <i>imdb-movie-widget</i> key. Only the first one will be displayed.", 'lumiere-movies'), $allowed_html_for_esc_html_functions); ?>
 	</div>
 
-<?php } // end function lumiere_help_w_function
+<?php } 
 
 
-#######################
-## lumiere_help_itp_function
-######################
-
+/* Inside the post explanation
+ *
+ *
+ */
 function lumiere_help_itp_function () {
 	global $imdb_admin_values; ?>
 
@@ -368,13 +369,14 @@ function lumiere_help_itp_function () {
 		<h4><?php esc_html_e( "I like to display movie details, but I want to get rid of links which open a popup", 'lumiere-movies'); ?></h4>
 		<?php esc_html_e( "It could happen you do not want popups at all. Since by default Lumiere Movies add links whenever relevant to movie's details displayed inside posts, one may find this useless. To get rid of them, look for 'Widget/Inside post Options / Misc / Remove popup links?' and switch the option to 'yes'. No links are created anymore, for both widget and inside a post.", 'lumiere-movies'); ?>
 	</div>
-<?php } // end function lumiere_help_w_function
+<?php }
 
 
-#######################
-## lumiere_help_adminbigmenu_function
-######################
 
+/* Admin big menu explanation
+ *
+ *
+ */
 function lumiere_help_adminbigmenu_function () {
 	global $imdb_admin_values; ?>
 
@@ -390,14 +392,13 @@ function lumiere_help_adminbigmenu_function () {
 		<?php esc_html_e( "In the case you want to, go to 'General options / Advanced / Display plugin in big admin menu' and turn to 'yes' the option. You will get a brand new menu, as shown on left.", 'lumiere-movies'); ?>
 	</div>
 
-<?php } // end function lumiere_help_adminbigmenu_function
+<?php } 
 
 
-
-#######################
-## lumiere_help_addsearchform_function
-######################
-
+/* Add search form explanation
+ *
+ *
+ */
 function lumiere_help_addsearchform_function () {
 	global $imdb_admin_values; ?>
 
@@ -424,13 +425,13 @@ function lumiere_help_addsearchform_function () {
 
 
 
-<?php } // end function lumiere_help_addsearchform_function
+<?php } 
 
 
-#######################
-## lumiere_help_keepcss_function
-######################
-
+/* Keep CSS explanation
+ *
+ *
+ */
 function lumiere_help_keepcss_function () {
 	global $imdb_admin_values; ?>
 
@@ -450,10 +451,10 @@ function lumiere_help_keepcss_function () {
 <?php } // end function lumiere_help_keepcss_function
 
 
-#######################
-## lumiere_help_usetaxonomy_function
-######################
-
+/* Taxonomy explanation
+ *
+ *
+ */
 function lumiere_help_usetaxonomy_function () {
 	global $imdb_admin_values; ?>
 
@@ -500,13 +501,13 @@ function lumiere_help_usetaxonomy_function () {
 			<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-9.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="center" width="80%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-9.jpg"); ?>" alt="taxonomy result" /></a>
 		</div>
 	</div>
-<?php } // end function lumiere_help_usetaxonomy_function
+<?php }
 
 
-#######################
-## lumiere_help_keepcss_function
-######################
-
+/* Auto widget explanation
+ *
+ *
+ */
 function lumiere_help_autowidget_function () {
 	global $imdb_admin_values; ?>
 
@@ -527,5 +528,33 @@ function lumiere_help_autowidget_function () {
 		<?php esc_html_e( "Next time you will look at your post, you will find the widget according to your post’s title.", 'lumiere-movies'); ?>
 	</div>
 <?php
-} // end function lumiere_help_keepcss_function
+} 
+
+/* Add extra scripts to this page only
+ *
+ *
+ */
+function lumiere_help_extrascript () {
+
+	wp_register_script("lumiere_help_scripts", '', array(						
+							'common',	// script needed for meta_boxes
+							'wp-lists',	// script needed for meta_boxes
+							'postbox'	// script needed for meta_boxes
+						), $config->lumiere_version, true );
+
+	wp_enqueue_script( 'lumiere_help_scripts');
+
+	$lumiere_help_extrascript = "document.addEventListener('DOMContentLoaded', function () {
+		if (jQuery('.if-js-closed')){
+			// close postboxes that should be closed
+			jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
+
+			// postboxes
+			postboxes.add_postbox_toggles(pagenow);
+		}
+	});";
+
+	wp_add_inline_script( 'lumiere_help_scripts', $lumiere_help_extrascript );
+
+}
 ?>
