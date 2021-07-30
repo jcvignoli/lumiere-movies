@@ -26,9 +26,6 @@ if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug']
 
 }
 
-/* Vars */
-global $imdb_admin_values;
-
 $readmefile = plugin_dir_path( __DIR__ ) . "README.txt";
 $changelogfile = plugin_dir_path( __DIR__ ) . "CHANGELOG.md";
 $acknowfile = plugin_dir_path( __DIR__ ) . "ACKNOWLEDGMENTS.md";
@@ -53,10 +50,10 @@ lumiere_help_extrascript ();
 add_meta_box('lumiere_help_plb', esc_html__( 'Popup link builder', 'lumiere-movies'), 'lumiere_help_plb_function', 'imdblt_help', 'left', 'core');
 add_meta_box('imdblt_help_itp', esc_html__( 'Inside the post', 'lumiere-movies'), 'lumiere_help_itp_function', 'imdblt_help', 'right', 'core');
 add_meta_box('imdblt_help_w', esc_html__( 'Widget', 'lumiere-movies'), 'lumiere_help_w_function', 'imdblt_help', 'left', 'core');
-add_meta_box('imdblt_help_addsearchform', esc_html__( 'Add a search form', 'lumiere-movies'), 'lumiere_help_addsearchform_function', 'imdblt_help', 'left', 'core');
-add_meta_box('imdblt_help_keepcss', esc_html__( 'Keep css through update', 'lumiere-movies'), 'lumiere_help_keepcss_function', 'imdblt_help', 'right', 'core');
-add_meta_box('imdblt_help_usetaxonomy', esc_html__( 'Taxonomy with Wordpress', 'lumiere-movies'), 'lumiere_help_usetaxonomy_function', 'imdblt_help', 'left', 'core');
-add_meta_box('lumiere_help_autowidget', esc_html__( 'Widget auto according post\'s title', 'lumiere-movies'), 'lumiere_help_autowidget_function', 'imdblt_help', 'right', 'core');
+add_meta_box('imdblt_help_addsearchform', esc_html__( 'Add a search form', 'lumiere-movies'), 'lumiere_help_addsearchform', 'imdblt_help', 'left', 'core');
+add_meta_box('imdblt_help_keepcss', esc_html__( 'Keep css through update', 'lumiere-movies'), 'lumiere_help_keepcss', 'imdblt_help', 'right', 'core');
+add_meta_box('imdblt_help_usetaxonomy', esc_html__( 'Taxonomy with Wordpress', 'lumiere-movies'), 'lumiere_help_usetaxonomy', 'imdblt_help', 'left', 'core');
+add_meta_box('lumiere_help_autowidget', esc_html__( 'Widget auto according post\'s title', 'lumiere-movies'), 'lumiere_help_autowidget', 'imdblt_help', 'right', 'core');
 
 ?>
 
@@ -238,10 +235,10 @@ if (isset($_GET['helpsub']) && ($_GET['helpsub'] == "faqs"))  { 	// Readme secti
 	</div>
 
 	<div class="imdblt_double_container">
-		<div class="postbox-container imdblt_double_container_content">
+		<div class="postbox-container imdblt_double_container_content" style="flex:40%">
 			<?php do_meta_boxes( 'imdblt_help', 'left', null); ?>
 		</div>
-		<div class="postbox-container imdblt_double_container_content">
+		<div class="postbox-container imdblt_double_container_content" style="flex:40%">
 			<?php do_meta_boxes( 'imdblt_help', 'right', null); ?>
 		</div>
 	</div>
@@ -260,32 +257,52 @@ if (isset($_GET['helpsub']) && ($_GET['helpsub'] == "faqs"))  { 	// Readme secti
  *
  *
  */
-function lumiere_help_plb_function () {
-	global $imdb_admin_values; ?>
+function lumiere_help_plb_function () { ?>
 
 	<div class="helpdiv">
+
 		<h4><?php esc_html_e( 'Why a popup window?', 'lumiere-movies'); ?></h4>
-		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-1.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="55%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-1.jpg"); ?>" alt="screenshot Link creator" /></a>
+
+		<br clear="both"/>
+
+		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-1.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="50%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-1.jpg"); ?>" alt="screenshot Link creator" /></a>
+
 		<?php esc_html_e( "The first way to use Lumiere Movies is to add links to movie titles that opens popups with information about that very same movies. It is a usefull for posts that mention movies title; just add a link to your movie title, and let visitors knowing more about the details of the movie you mention.", 'lumiere-movies'); ?>
-	</div>
 
-	<div class="helpdiv">
 		<?php esc_html_e( "Popup is a window that opened on click, which allows to consult director's and movie's information; if browsing a movie, one can read more about the movie but also the people who took part in the movie, such as actors, directors, etc.", 'lumiere-movies'); ?>
-	</div>
 
-	<div class="helpdiv">
-		<h4><?php esc_html_e( 'How to get a popup window', 'lumiere-movies'); ?></h4>
-		<?php esc_html_e( "To create a link to a popup window, you only need to put the <b>movie's title</b> (it doesn't work with any other data) inside dedicated tags. Either you use the HTML style to write posts, and a new button could help you to achieve that:", 'lumiere-movies'); ?><br />
-		<div align="center"><a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-7.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img width="90%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-7.jpg"); ?>" alt="screenshot Link creator button added for bloggers who prefer HTML writing way" /></a></div>
-	</div>
+		<h4><?php esc_html_e( 'How to make a popup link', 'lumiere-movies'); ?></h4>
 
-	<div class="helpdiv">
-		<?php esc_html_e( 'Or you use the Visual style to write posts, and a new button could help you to achieve that :', 'lumiere-movies'); ?>
-		<div align="center"><a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-6.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img width="90%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-6.jpg"); ?>" alt="screenshot Link creator New button added for bloggers who prefer Visual writing way" /></a></div>
-	</div>
+		<?php echo wp_kses( __( "To create a link to a popup window, you only need to put the <b>movie's title</b> inside dedicated tags. Depending on the visual interface you use (modern WordPress, wysiwig old WordPress, or pure text interface), you may add these tags in different ways.", 'lumiere-movies'), $allowed_html_for_esc_html_functions); ?>
 
-	<div class="helpdiv">
-		<?php esc_html_e( "Whatever the tool you choose, when you will save your post you will get a nice link added to your movie.", 'lumiere-movies'); ?>
+		<br clear="both"/><br />
+
+		<?php esc_html_e( "If you use a recent WordPress and have not activated a plugin to continue using the old editor interface, you can add a Lumière link to a popup by selecting the title of your movie, then adding the link with the dedicated contextual menu option:", 'lumiere-movies'); ?>
+
+		<br clear="both"/>
+
+		<div align="center"><a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-help-addimdblink-gutenberg.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img width="80%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-help-addimdblink-gutenberg.png"); ?>" alt="add link in gutenberg" /></a></div>
+
+		<br clear="both"/>
+
+		<?php esc_html_e( "If you use an old WordPress version or a recent WordPress with the plugin 'classic editor' installed, you can access in the dedicated menu to 'add a popup link:", 'lumiere-movies'); ?>
+
+		<br clear="both"/>
+
+		<div align="center"><a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-7.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img width="80%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-6.jpg"); ?>" alt="screenshot Link creator button added for bloggers who prefer HTML writing way" /></a></div>
+
+		<br clear="both"/>
+
+		<?php esc_html_e( "No explanation is need for those who prefer to write directly in HTML editor; it goes without saying they know how to add an HTML tag. But even in that interface a button is available for adding the code. For references, here is the HTML tag to wrap your movie's title with:", 'lumiere-movies'); ?>
+
+		<div align="center" clear="both"><pre>
+&lt;span data-lum_movie_maker="popup"&gt;
+movie's title
+&lt;/span&gt;
+		</pre></div>
+
+
+		<?php esc_html_e( "Whatever the tool you prefer, when you add such a link a small icon confirming that the link is Lumière compliant is added to your movie's title.", 'lumiere-movies'); ?>
 	</div>
 
 <?php } 
@@ -295,32 +312,43 @@ function lumiere_help_plb_function () {
  *
  *
  */
-function lumiere_help_w_function () {
-	global $imdb_admin_values; ?>
+function lumiere_help_w_function () { ?>
 
 	<div class="helpdiv">
 		<h4><?php esc_html_e( "Why to use widget?", 'lumiere-movies'); ?></h4>
+
 		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-3.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="50%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-3.jpg"); ?>" alt="<?php esc_html_e( 'key and value for custom fields', 'lumiere-movies'); ?>" /></a>
 
-		<?php esc_html_e( 'Widgets are widely used in wordpress. They allow to quickly select what information to display in an area, usually on sidebar. The main advantage is that blogger can easily select what information to display - or not, in what order.', 'lumiere-movies'); ?>
-	</div>
+		<?php esc_html_e( 'Widgets are widely used in WordPress. It allows to easily select what information to display in an area, usually on sidebar. Lumière allows to display any movie in your sidebar.', 'lumiere-movies'); ?>
 
-	<div class="helpdiv">
-		<h4><?php esc_html_e( "How to use widget", 'lumiere-movies'); ?></h4>
-		<?php wp_kses( _e( "<strong>Firstly</strong>, go to <a href='widgets.php'>widget</a> administration (<i>appearance</i> tab), drag <i>imdb widget</i> (from <i>inactive widgets</i>) to a sidebar, and modify the box's title (in case you don't want to have the box named <i>IMDb data</i>).", 'lumiere-movies'), $allowed_html_for_esc_html_functions); ?>
-	</div>
+		<br clear="both"/>
 
-	<div class="helpdiv">
-		<?php wp_kses( _e( "<strong>Secondly</strong>, open an old post (or write a new one) and add the key <i>imdb-movie-widget</i> to the <i>custom fields</i> of your message <strong>and</strong> the name of the movie you want to display to <i>value</i> (first case from the picture). Lumiere Movies will automatically display in the widget the movie selected.", 'lumiere-movies'), $allowed_html_for_esc_html_functions); ?>
-	</div>
+		<h4><?php esc_html_e( "How to use the widget", 'lumiere-movies'); ?></h4>
 
-	<div class="helpdiv">
-		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-5.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="left" width="50%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-5.jpg"); ?>" alt="<?php esc_html_e( 'Lumiere Movies widget', 'lumiere-movies'); ?>" /></a>
-		<?php wp_kses( _e( "<strong>Another possibility:</strong> add to your post the key <i>imdb-movie-widget-bymid</i> into the <i>custom fields</i> from your message <strong>and</strong> the IMDb ID for the movie you want to be displayed on your sidebar to <i>value</i> (second case from the picture). Instead of looking for a name, Lumiere Movies would directly display the movie you want to display. Very useful when your movie's name does not work as it should (if there are many movies with the same name, the wrong movie is displayed, etc).", 'lumiere-movies'),  $allowed_html_for_esc_html_functions); ?>
-	</div>
+		<?php echo wp_kses( __( "<strong>First</strong>, prior to WordPress 5.8, go to <a href='widgets.php'>widget</a> administration (<i>appearance</i> tab), drag <i>imdb widget</i> (from <i>inactive widgets</i>) to a sidebar, and modify the box's title (in case you don't want to have the box named <i>IMDb data</i>). After WordPress 5.8, widgets are blocks selected by the user, but the process is identical.", 'lumiere-movies'), $allowed_html_for_esc_html_functions); ?>
 
-	<div class="helpdiv">
-		<?php wp_kses( _e( "To get the movie's IMDb id, search for a title on <a href='https://www.imdb.com' >Internet movie database</a> website, look at the adress bar for a 'ttXXXXX' section, keep only the numerical part (XXXXX) and add result to the <i>value</i> custom field. However, in this specific case, do not mix with an <i>imdb-movie-widget</i> key. Only the first one will be displayed.", 'lumiere-movies'), $allowed_html_for_esc_html_functions); ?>
+		<br />
+		<br />
+
+		<?php wp_kses( _e( "<strong>Second</strong>, edit your post and add the name of the movie in the box to the sidebar on your right-hand. Lumiere Movies will automatically display in the widget the movie selected.", 'lumiere-movies'), $allowed_html_for_esc_html_functions); ?>
+
+		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-5.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="50%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-5.jpg"); ?>" alt="<?php esc_html_e( 'Lumière metabox to add a movie in a widget', 'lumiere-movies'); ?>" /></a>
+
+		<br />
+		<br />
+
+		<?php echo wp_kses( __( "As in many other sections of Lumière plugin, you can add the movie's IMDb id instead of the movie's title to make sure that the right movie is display. Should you want to find the movie's IMDb id, click on 'use this tool' and a new windows will be displayed; search for your movie, copy-paste its IMDb id into the sidebar, and select by 'movie id' in the dropdown list.", 'lumiere-movies'), $allowed_html_for_esc_html_functions); ?>
+
+		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-8.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="left" width="50%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-8.jpg"); ?>" alt="<?php esc_html_e( 'Lumiere Movies query interface', 'lumiere-movies'); ?>" /></a>
+
+		<br /><br />
+
+		<?php wp_kses( _e( "Using the movie's IMDb id allows more security: instead of searching for a title, Lumiere Movies can display directly the movie you are looking for. Very useful when your movie's name does not work as it should, due to movies with the same title, if a incorrect movie is displayed, etc.", 'lumiere-movies'),  $allowed_html_for_esc_html_functions); ?>
+
+		<br clear="both"/>
+
+		<?php /* translators: %s is replaced with an URL */
+		echo wp_kses( sprintf( __( "Get IMDb ids from links provided everywhere in the plugin interface. Even <a href='%s'>here</a>.", 'lumiere-movies'), esc_url( admin_url() .  \Lumiere\Settings::gutenberg_search_url_string ) ), $allowed_html_for_esc_html_functions ); ?>
 	</div>
 
 <?php } 
@@ -330,42 +358,49 @@ function lumiere_help_w_function () {
  *
  *
  */
-function lumiere_help_itp_function () {
-	global $imdb_admin_values; ?>
+function lumiere_help_itp_function () {  ?>
 
 	<div class="helpdiv">
-		<h4><?php esc_html_e( "What's the point of displaying movie's data inside my post?", 'lumiere-movies'); ?></h4>
+		<h4><?php esc_html_e( "Why display movie's data inside my post?", 'lumiere-movies'); ?></h4>
 		<a href="<?php echo esc_url (plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-2.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="50%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-2.jpg"); ?>" alt="<?php esc_html_e( 'Lumiere Movies widget', 'lumiere-movies'); ?>" /></a>
-		<?php esc_html_e( "Having movie's data inside the post is quite useful; it could ingeniously decorate your message, display crucial informations (director, actors) and in the same time add links to a popup which would include these informations (but with more details). At the begining, this function could only be achieved with a special plugin. Since release 1.1.14.3, Lumiere Movies does not need any third party plugin anymore to display movie's data inside you message. ", 'lumiere-movies'); ?>
-	</div>
+		<?php esc_html_e( "Including movie information within your article is quite useful; it can ingeniously illustrate your post, displays crucial data (directors, actors) and at the same time add links to further popups that include even more detailed information.", 'lumiere-movies'); ?>
 
-	<div class="helpdiv">
-		<?php esc_html_e( "It means that you only need to put the movie's name into brackets, to get movie's data inside your post.", 'lumiere-movies'); ?>
 	</div>
 
 	<div class="helpdiv">
 		<h4><?php esc_html_e( 'How to display data inside my post', 'lumiere-movies'); ?></h4>
-		<div align="center">**[IMDBLT]**</div>
-		<div><?php esc_html_e( "You only need to put the movie's name into brackets, to get movie's data inside your post. Data can be inserted exactly where you want, there is no limitation. Just be sure to put the movie's name inside [imdblt][/imdblt], like this:", 'lumiere-movies'); ?></div>
-		<div align="center"><a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-8.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img width="90%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-8.jpg"); ?>" alt="<?php esc_html_e( 'Lumiere Movies Inside a post', 'lumiere-movies'); ?>" /></a></div>
-		<div><?php esc_html_e( "And you are done.", 'lumiere-movies'); ?></div>
-		<div align="center">**[IMDBLTID]**</div>
-		<div><?php esc_html_e( "You additionnaly can get a movie from its imdb id, using its imdb movie's id instead of its name. When writing your post, put the movie's imdb id inside tags [imdbltid][/imdbltid] (which gives ie [imdbltid]0137523[/imdbltid], for Fight Club movie). You can get movie's imdb id from imdb website, search for you movie, and check your browser's adress bar. The number after 'tt' part is the movie's id.", 'lumiere-movies'); ?></div>
-	</div>
 
 
-	<div class="helpdiv">
-		<h4><?php esc_html_e( 'How to display data inside my post - tricky way', 'lumiere-movies'); ?></h4>
-		<div><?php esc_html_e( "It could happen you don't want to use the previous solution to display movie's data. For exemple, if you wish to use IMDbLT outside a post (in a personalized page), it won't work. In this case, and in this case only, you should (may be) to download", 'lumiere-movies'); echo ' Exec-PHP plugin (<a href="http://wordpress.org/extend/plugins/exec-php">http://wordpress.org/extend/plugins/exec-php</a>) '; ?></div><br />
-		<div><?php esc_html_e( "The function to be called is <strong>imdb_call_external ()</strong>. It has two parameters, and both are mandatory. The first is the movie's name, and the second take always 'external'. For exemple, one'd like to display 'The Descent' should call the function like this:", 'lumiere-movies'); ?></div><br />
-		<blockquote align="center" class="imdblt_padding_left">$imdblt = new imdblt;<br />$imdblt->lumiere_external_call('Descent', 'external')</blockquote>
-		<div><?php esc_html_e( "The function can also be called using still 'external as second parameter, but the first will be blank and a new third parameter will take its IMDb movie's ID. For exemple, one'd like to display 'The Descent' should call the function this manner:", 'lumiere-movies'); ?></div><br />
-		<blockquote align="center" class="imdblt_padding_left">$imdblt = new imdblt;<br />$imdblt->lumiere_external_call('', 'external', '0435625')</blockquote>
-	</div>
+		<?php esc_html_e( "Lumière provides you with tools to add 'HTML tags' (span) to wrapp your movie's title when writting your article. These 'HTML tags' will be then converted into movie's details. In the same way as for for popups, three tools are provided depending upon your the WordPress interface you used to publish your posts. If you use the modern WordPress interface, a Lumière block is provided; just enter the movie's title or IMDb id, and you are done!", 'lumiere-movies'); ?>
+		
+		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-9.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img width="90%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-9.jpg"); ?>" alt="<?php esc_html_e( 'Lumiere Movies Inside a post gutenberg block', 'lumiere-movies'); ?>" /></a>
 
-	<div class="helpdiv">
-		<h4><?php esc_html_e( "I like to display movie details, but I want to get rid of links which open a popup", 'lumiere-movies'); ?></h4>
-		<?php esc_html_e( "It could happen you do not want popups at all. Since by default Lumiere Movies add links whenever relevant to movie's details displayed inside posts, one may find this useless. To get rid of them, look for 'Widget/Inside post Options / Misc / Remove popup links?' and switch the option to 'yes'. No links are created anymore, for both widget and inside a post.", 'lumiere-movies'); ?>
+		<?php esc_html_e( "You can add as many blocks as you whish; there is no limitation in the number of movies you can display per article.", 'lumiere-movies'); ?>
+
+
+		<h4><?php esc_html_e( 'How to display data inside my post - advanced users', 'lumiere-movies'); ?></h4>
+
+		<?php esc_html_e( "It could happen you don't want to use the previous solution to display movie's data. For exemple, if you wish to use Lumière outside a post (in a customised page), it won't work. Lumière is written around classes, so ", 'lumiere-movies'); ; ?>
+
+		<br />
+
+		<?php esc_html_e( "The function to be called is <strong>imdb_call_external ()</strong>. It has two parameters, and both are mandatory. The first is the movie's name, and the second take always 'external'. For exemple, one'd like to display 'The Descent' should call the function like this:", 'lumiere-movies'); ?>
+
+		<blockquote align="center" class="imdblt_padding_left">
+$movieClass = new \Lumière\LumiereMovies;<br />
+$movieClass->lumiere_external_call('Descent', false, 'external');
+		</blockquote>
+
+		<?php esc_html_e( "Should you want to call the function using an IMDb ID instead:", 'lumiere-movies'); ?>
+
+		<blockquote align="center" class="imdblt_padding_left">
+$movieClass = new \Lumière\LumiereMovies;<br />
+$movieClass->lumiere_external_call(false, '0435625', 'external');
+		</blockquote>
+
+
+		<h4><?php esc_html_e( "I want to get rid of thoses links opening popups", 'lumiere-movies'); ?></h4>
+		<?php esc_html_e( "It could happen you do not want popups at all. Since by default Lumière Movies adds links whenever relevant to movie's details inside your article, you may change that behaviour. In order to do so, look for 'General options / Advanced / Remove popup links' and uncheck the box. No links will be displayed, both for the widget and within your articles.", 'lumiere-movies'); ?>
 	</div>
 <?php }
 
@@ -374,27 +409,48 @@ function lumiere_help_itp_function () {
  *
  *
  */
-function lumiere_help_addsearchform_function () {
-	global $imdb_admin_values; ?>
+function lumiere_help_addsearchform() { ?>
 
 	<div class="helpdiv">
-		<h4><?php esc_html_e( "How to add a search function for movies in general, and not only for selected movies?", 'lumiere-movies'); ?></h4>
+		<h4><?php esc_html_e( "How to add a search function for movies in my page? (advanced users)", 'lumiere-movies'); ?></h4>
 
-		<?php esc_html_e( "It is indeed doable. Plugin is versatile enough to handle this function. By adding a form, you can add a search field which will allow users to search for every movie on your blog. Here is the code:", 'lumiere-movies'); ?>
-	</div>
+		<?php esc_html_e( "It is doable. Lumière is versatile enough to handle this function. With the help of a form, you can add a query field to search for every movie on your blog. Here is the code:", 'lumiere-movies'); ?>
 
-	<div class="helpdiv">
+
 		<blockquote class="imdblt_align_left">
-							&lt;form action="" method="post" id="searchmovie" onSubmit="&lt;?php echo "window.open('".plugin_dir_url( __DIR__ )."inc/popup-search.php?film="."' + document.getElementById('moviesearched').value"; ?&gt, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=&lt;?php echo intval($imdb_admin_values[popupLarg]); ?&gt, height=&lt;?php echo intval($imdb_admin_values['popupLong']); ?>, top=5, left=5')"&gt<br />
-								&lt;div&gt Search a movie: &lt;/div&gt<br />
-								&lt;input type="text" id="moviesearched" name="moviesearched" &gt<br />
-								&lt;input type="submit" value="Go"&gt<br />
-							&lt;/form&gt<br />
+			&lt;form action="" method="post" method="get" id="searchmovie" &gt<br />
+				&lt;div&gt Search a movie: &lt;/div&gt<br />
+				&lt;input type="text" id="moviesearched" name="moviesearched" &gt<br />
+				&lt;input type="submit" value="Go"&gt<br />
+			&lt;/form&gt<br />
 		</blockquote>
-	</div>
 
-	<div class="helpdiv">
-		<?php esc_html_e( "It perfectly fits in your sidebar, for exemple.", 'lumiere-movies'); ?>
+		<?php esc_html_e( "Then the PHP code:", 'lumiere-movies'); ?>
+
+		<blockquote class="imdblt_align_left">
+&lt;?php<br />
+if (class_exists("\Lumiere\Settings")) {<br />
+	$configClass = new \Lumiere\Settings();<br />
+	// Get the type of search: movies, series, games<br />
+	$typeSearch = $configClass->lumiere_select_type_search();<br />
+}<br />
+<br />
+# Initialization of IMDBphp libraries<br />
+$search = new \Imdb\TitleSearch($configClass );<br />
+
+if ( (isset ($_GET["moviesearched"])) && (!empty ($_GET["moviesearched"])) ){<br />
+	$search_sanitized = isset($_GET["moviesearched"]) ? sanitize_text_field( $_GET["moviesearched"] ) : NULL;<br />
+	$results = $search->search ($search_sanitized, $typeSearch );<br />
+}<br />
+<br />
+foreach ($results as $res) {<br />
+	// ---- movie title and year<br />
+	echo "\n\t&lt;div class='lumiere_container_flex50 lumiere_italic lumiere_gutenberg_results'&gt".esc_html( $res->title() )." (".intval( $res->year() ).")".'&lt;/div&gt';<br />
+}<br />
+?&gt<br />
+		</blockquote>
+
+		<?php esc_html_e( "It perfectly fits in your sidebar, for example.", 'lumiere-movies'); ?>
 	</div>
 
 
@@ -407,74 +463,69 @@ function lumiere_help_addsearchform_function () {
  *
  *
  */
-function lumiere_help_keepcss_function () {
-	global $imdb_admin_values; ?>
+function lumiere_help_keepcss () {  ?>
 
 	<div class="helpdiv">
-		<h4><?php esc_html_e( "How to keep my own css through updated process?", 'lumiere-movies'); ?></h4>
+		<h4><?php esc_html_e( "How to ensure that my css edits remain through plugin updates?", 'lumiere-movies'); ?></h4>
 
-		<?php esc_html_e( "Fed up of losing your carefully handmade visual settings at every Lumière! update? There is a solution.", 'lumiere-movies'); ?>
-	</div>
-	<div class="helpdiv">
-		<?php esc_html_e( "Every modification you can make is done in css/lumiere.css file. Instead of using this file, put an lumiere.css file in you template root folder; this css file will taken instead of plugin's css file. Whenever you update, your template's one will stay untouched!", 'lumiere-movies'); ?>
-	</div>
-	<div class="helpdiv">
-		<?php esc_html_e( "However, be careful with this manner, since css/lumiere.css file can be updated from version to version, and you'd not be aware of changes made...", 'lumiere-movies'); ?>
+		<?php esc_html_e( "Are tired of losing your carefully hand-made CSS edits at every Lumière! update? There is a solution.", 'lumiere-movies'); ?>
+
+		<br clear="both"/>
+		<br clear="both"/>
+
+		<?php esc_html_e( "Every modification you make should be done in your template folder instead of using lumiere-movies/css/lumiere.css file. Add a file named 'lumiere.css' in you template folder; that css file will superseed the plugin's one. Whenever you update, your template's file will remain untouched and your edits will make it. Just make sure you are using a child theme, not an official theme, otherwise your customised lumiere.css will be deleted during the next template update.", 'lumiere-movies'); ?>
 	</div>
 
 
-<?php } // end function lumiere_help_keepcss_function
+<?php }
 
 
 /* Taxonomy explanation
  *
  *
  */
-function lumiere_help_usetaxonomy_function () {
-	global $imdb_admin_values; ?>
+function lumiere_help_usetaxonomy() {  ?>
 
 	<div class="helpdiv">
 		<h4><?php esc_html_e( "What is Wordpress' taxonomy?", 'lumiere-movies'); ?></h4>
 
-		<?php esc_html_e( "Starting with Wordpress 2.3, wordpress users can make use taxonomy (https://codex.wordpress.org/WordPress_Taxonomy).", 'lumiere-movies'); ?>
-		<?php esc_html_e( "Taxonomy is a feature adding a supplementary categorisation beside Categories and Tags; in other words, it is like having species (a block named 'genre') and subspecies (few words describing the genre, like 'Adventure', 'Terror'). It is not fundamentaly different from Categories and Tags, but it is much more appropriate for Lumiere Movies needs.", 'lumiere-movies'); ?>
-	</div>
-	<div class="helpdiv">
-		<h4><?php esc_html_e( "How to use taxonomy Wordpress capability?", 'lumiere-movies'); ?></h4>
+		<?php esc_html_e( "Since Wordpress 2.3, Wordpress users can use taxonomy.", 'lumiere-movies'); ?>
 
-		<?php esc_html_e( "To activate the automatically generated taxonomy, turn 'General options -> Advanced ->  'Use automatical genre taxonomy?' to 'yes'. Note that since taxonomy is related to movie details, the movie detail you want to be used as taxonomy has to be also activated from 'Widget/Inside post Options -> What to display'. Eventually, it will permit to select in 'Widget/Inside post Options -> What to taxonomize' menu if you want to taxonomize Genres, but also actors, colors, composers, directors, etc.", 'lumiere-movies'); ?><br />
-		<div align="center">
-			<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/taxonomy_details.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="center" width="60%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/taxonomy_details.png"); ?>" alt="taxonomy details" /></a>
-		</div>
-	</div>
-	<div class="helpdiv">
-		<?php esc_html_e( "After that, pay a visit to your post/page; first refresh will not immediately display the movie detail (it will only generate them). Though, on a second refresh, you will see both movie details and (if you wordpress theme is configured to show it) taxonomy in your post.", 'lumiere-movies'); ?>
-	</div>
+		<?php esc_html_e( "Taxonomy is a feature adding an extra layer of category in addition to the already existing Categories and Tags; in other words, it is like having species (a block named 'genre') and subspecies (few words describing the genre, like 'Adventure', 'Terror'). It is not fundamentaly different from Categories and Tags, but it is extremly useful for Lumière Movies.", 'lumiere-movies'); ?>
 
-	<div class="helpdiv">
-		<h4><?php esc_html_e( "New option(s) in 'Posts' menu", 'lumiere-movies'); ?></h4>
+		<h4><?php esc_html_e( "How to use taxonomy in Wordpress?", 'lumiere-movies'); ?></h4>
 
-		<?php esc_html_e( "Once you have activated all taxonomy options and have triggered its wordpress function (by visiting your post and refreshing the page), wordpress administration posts menu will include new option(s). Depending on movie details previously selected, you will find an option to manage the words automatically generated by the taxonomy function. For instance to select 'genre':", 'lumiere-movies'); ?><br />
-		<div align="center">
-		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/taxonomy_newmenu.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="center" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/taxonomy_newmenu.png"); ?>" alt="taxonomy new options" /></a>
-		</div>
-	</div>
+		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-taxonomy-details.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="40%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-taxonomy-details.png"); ?>" alt="taxonomy details" /></a>
 
-	<div class="helpdiv">
-		<h4><?php esc_html_e( "Limits", 'lumiere-movies'); ?></h4>
-		<?php esc_html_e( "There is a strong limitation: since eache page/post can contain only a unique taxonomy sequence, only the first movie (first 'inside the post', first 'widget') will use the taxonomy feature. If you have two movie's widgets, only the first widget will display the links to genre's taxonomy. If you have both a movie's widget and an inside the post data, the movie's widget will prevail.", 'lumiere-movies'); ?>
-	</div>
-	<div class="helpdiv">
-		<?php esc_html_e( "Also, select cautiously options you want to be displayed as taxonomies: it could happen it creates a conflict with other functions, especially if you display many movies in same post. When selecting one of the taxonomy options from 'What to taxonomize' section, it will supersede any other function or link created; for instance, you won't have anymore access to popup links for directors, if directors taxonomy is chosen. Taxonomy will always prevail.", 'lumiere-movies'); ?>
-	</div>
+		<?php esc_html_e( "Taxonomy is automatically generated in Lumière! and already activated. You can however disable it by unchecking the box in 'General options -> Advanced -> 'Use automatical genre taxonomy?'. Note that since taxonomy is related to movie details (such as directors, actors, etc), the movie detail you want to be used as taxonomy has to be also activated in 'Data -> Display'.", 'lumiere-movies'); ?><br />
 
-	<div class="helpdiv">
-		<h4><?php esc_html_e( "Advanced: Customizing your theme according taxonomy", 'lumiere-movies'); ?></h4>
+		<?php esc_html_e( "After that, pay a visit to your post or page; on the first refresh, links to taxonomy pages will be processed. You can now visit pages that include all your posts grouped by movie details. For instance, if you write a lot about the same movie director, the taxonomy page will include all your posts written about them.", 'lumiere-movies'); ?>
 
-		<?php esc_html_e( "To fully enjoy this feature, copy one of the files located in the Lumière! movies folder 'lumiere-movies/theme/' into your 'theme' folder. In order to help you, an automated process is available in Lumière! taxonomy options.", 'lumiere-movies'); ?><br />
-		<div align="center">
-			<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-9.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="center" width="80%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-9.jpg"); ?>" alt="taxonomy result" /></a>
-		</div>
+		<h4><?php esc_html_e( "New option in 'Posts' menu", 'lumiere-movies'); ?></h4>
+
+		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-taxonomy-postlist.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="left" width="30%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-taxonomy-postlist.png"); ?>" alt="taxonomy new options" /></a>
+
+		<?php esc_html_e( "Once you have published your first article including a movie (both widget and inside a post trigger that function) WordPress will display the new taxonomy under 'posts' admin section. Depending on the movie details you have selected, you will find them in the menu.", 'lumiere-movies'); ?>
+
+		<br />
+
+		<h4><?php esc_html_e( "Advanced: Customize your theme for your taxonomy pages", 'lumiere-movies'); ?></h4>
+
+		<?php esc_html_e( "To fully enjoy this taxonomy, make sure you copy the template files located in the Lumière! movies folder 'lumiere-movies/theme/' into your 'theme' folder. This can be automatized by using the options available in Lumière! taxonomy :", 'lumiere-movies'); ?>
+
+		<br />
+
+		<a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-taxonomy-copytemplate.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="40%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-taxonomy-copytemplate.png"); ?>" alt="taxonomy new options" /></a>
+
+		<?php esc_html_e( "Click on 'copy template, that's it! A warning will be given to you when a new template is available. You can customized even further the template that was copied into your template to match your specific needs. By default, the new taxonomy template will show you the person/item and the posts and pages mentioning them:", 'lumiere-movies'); ?><br />
+
+		<br clear="both">
+		<br clear="both">
+
+		<div align="center"><a href="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-10.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="center" width="40%" src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . ".wordpress-org/screenshot-10.jpg"); ?>" alt="taxonomy result" /></a></div>
+
+		<br clear="both">
+
 	</div>
 <?php }
 
@@ -483,8 +534,7 @@ function lumiere_help_usetaxonomy_function () {
  *
  *
  */
-function lumiere_help_autowidget_function () {
-	global $imdb_admin_values; ?>
+function lumiere_help_autowidget() {  ?>
 
 	<div class="helpdiv">
 		<h4><?php esc_html_e( "How to get the movie retrieved automatically according to the post's title?", 'lumiere-movies'); ?></h4>
@@ -525,7 +575,7 @@ function lumiere_help_extrascript () {
 			jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
 
 			// postboxes
-			postboxes.add_postbox_toggles(pagenow);
+			postboxes.add_postbox_toggles('imdblt_help');
 		}
 	});";
 
