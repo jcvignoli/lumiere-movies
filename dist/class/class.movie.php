@@ -431,7 +431,7 @@ class LumiereMovies {
 
 	/** Function external call (ie, inside a post)
 	 ** 
-	 ** Utilized to build from [imdblt] and [imdbltid] shortcodes
+	 ** Utilized to build from shortcodes/span tags
 	 **/
 	function lumiere_external_call ($moviename=NULL, $filmid=NULL, $external=NULL) {
 
