@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-26 01:24-0400\n"
-"PO-Revision-Date: 2021-07-26 01:24-0400\n"
+"POT-Creation-Date: 2021-07-30 13:35-0400\n"
+"PO-Revision-Date: 2021-07-30 13:46-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -59,7 +59,7 @@ msgstr "Numéro IMDb de film"
 msgid "and insert it."
 msgstr "et l'insérer."
 
-#: blocks/main-block.js:112 class/class.metabox.php:59
+#: blocks/main-block.js:112 class/class.metabox.php:55
 msgid "By movie title"
 msgstr "Par titre du film"
 
@@ -92,266 +92,1000 @@ msgstr ""
 "un id de film en utilisant l'outil de Lumière dans votre barre latérale pour "
 "afficher un film."
 
-#: class/class.core.php:348
+#: class/admin/class.help.php:77
+msgid "Popup link builder"
+msgstr "Lien pour popup"
+
+#: class/admin/class.help.php:78
+msgid "Inside the post"
+msgstr "Dans le message"
+
+#: class/admin/class.help.php:79
+msgid "Widget"
+msgstr "Widget"
+
+#: class/admin/class.help.php:80
+msgid "Add a search form"
+msgstr "Ajouter un formulaire de recherche"
+
+#: class/admin/class.help.php:81
+msgid "Keep css through update"
+msgstr "Garder le css lors de la mise-&agrave;-jour"
+
+#: class/admin/class.help.php:82
+msgid "Taxonomy with Wordpress"
+msgstr "Taxonomie avec Wordpress"
+
+#: class/admin/class.help.php:83
+msgid "Widget auto according post's title"
+msgstr "Auto-widget selon le titre du message"
+
+#: class/admin/class.help.php:84
+msgid "Search options"
+msgstr "Options de recherche"
+
+#: class/admin/class.help.php:143
+msgid "How to use Lumiere Movies"
+msgstr "Comment utiliser Lumière"
+
+#: class/admin/class.help.php:143
+msgid "How to"
+msgstr "How to"
+
+#: class/admin/class.help.php:145 class/admin/class.help.php:165
+msgid "Frequently asked questions"
+msgstr "Questions les plus fr&eacute;quemment pos&eacute;es."
+
+#: class/admin/class.help.php:145
+msgid "FAQs"
+msgstr "FAQs"
+
+#: class/admin/class.help.php:147
+msgid "What's new"
+msgstr "Nouveaut&eacute;s"
+
+#: class/admin/class.help.php:147 class/admin/class.help.php:208
+msgid "Changelog"
+msgstr "Mise &agrave; jour"
+
+#: class/admin/class.help.php:149
+msgid "To get support and to support what you get"
+msgstr "Obtenir de l'aide et fournir de l'aide pour l'obtenir"
+
+#: class/admin/class.help.php:149
+msgid "Support, donate & credits"
+msgstr "Aide, dons et cr&eacute;dits"
+
+#: class/admin/class.help.php:248
+msgid "Two ways to support <strong>Lumiere Movies</strong> plugin development"
+msgstr ""
+"Deux moyens de soutenir le développement de <strong>Lumière Movies</strong>"
+
+#: class/admin/class.help.php:250
+msgid "Be supported!"
+msgstr "&Ecirc;tre aid&eacute; !"
+
+#: class/admin/class.help.php:254
+msgid "You will never believe there is so many ways to be supported. You can:"
+msgstr ""
+"Vous ne croirez jamais qu'il existe autant de moyens d'&ecirc;tre "
+"aid&eacute;. Vous pouvez :"
+
+#: class/admin/class.help.php:256
+msgid "visit"
+msgstr "visiter"
+
+#: class/admin/class.help.php:256
+msgid "to ask for help. "
+msgstr "pour demander de l'aide. "
+
+#: class/admin/class.help.php:258 class/admin/class.help.php:260
+msgid "check the"
+msgstr "consulter"
+
+#: class/admin/class.help.php:258
+msgid "FAQs "
+msgstr "FAQ "
+
+#: class/admin/class.help.php:260
+msgid "how to"
+msgstr "instructions"
+
+#: class/admin/class.help.php:265
+msgid "Support me!"
+msgstr "Aidez-moi!"
+
+#: class/admin/class.help.php:268
+msgid "You will never believe there is so many ways to thank me. Yes, you can:"
+msgstr ""
+"Vous ne croirez jamais qu'il y a autant de moyens de me remercier. Vous "
+"pouvez :"
+
+#: class/admin/class.help.php:269
+msgid "pay whatever you want on"
+msgstr "payer ce que vous voulez sur"
+
+#: class/admin/class.help.php:269 class/admin/class.help.php:270
+msgid "or on"
+msgstr "ou sur"
+
+#: class/admin/class.help.php:270
+msgid "vote on"
+msgstr "votez sur"
+
+#: class/admin/class.help.php:270
+msgid "Lumière's website"
+msgstr "Site internet de Lumière"
+
+#: class/admin/class.help.php:270
+msgid "Wordpress' website"
+msgstr "Site internet de Wordpress"
+
+#: class/admin/class.help.php:271
+msgid ""
+"send as many bugfixes and propositions as you can on Lumiere Movies website."
+msgstr ""
+"envoyer autant de corrections et propositions que vous pouvez sur le site "
+"web de Lumière."
+
+#: class/admin/class.help.php:272
+msgid "translate the plugin into your own language."
+msgstr "traduire le plugin dans votre propre langue."
+
+#: class/admin/class.help.php:273
+msgid "help me to improve the plugin."
+msgstr "aidez-moi &agrave; am&eacute;liorer le plugin."
+
+#: class/admin/class.help.php:273
+msgid "Report at the development"
+msgstr "Notifiez le développement"
+
+#: class/admin/class.help.php:273
+msgid "website"
+msgstr "site web"
+
+#: class/admin/class.help.php:274
+msgid "do a trackback, make some noise about this plugin!"
+msgstr "faites un trackback, faites du bruit autour de ce plugin !"
+
+#: class/admin/class.help.php:278
+msgid "Credits:"
+msgstr "Cr&eacute;dits :"
+
+#: class/admin/class.help.php:322
+msgid ""
+"This section covers the three main ways to display movie data and some "
+"related options in Lumière."
+msgstr ""
+"Cette section couvre les trois principales manières d'afficher les données "
+"d'un film et certaines options associées dans Lumière."
+
+#: class/admin/class.help.php:324
+msgid ""
+"Lumiere Movies is a plugin under intense development; this help section "
+"might be innacurate with regard to the latest functions. Main functions of "
+"the plugin are explained below, aiming to be as much user-friendly as "
+"possible."
+msgstr ""
+"Lumière Movies est un plugin en cours de développement intense ; cette "
+"section d'aide peut être inexacte en ce qui concerne les dernières "
+"fonctions. Les principales fonctions du plugin sont expliquées ci-dessous, "
+"dans le but d'être aussi conviviales que possible."
+
+#: class/admin/class.help.php:352
+msgid "Why a popup window?"
+msgstr "Pourquoi une fen&ecirc;tre popup ?"
+
+#: class/admin/class.help.php:356 class/admin/class.help.php:372
+#: class/admin/class.help.php:380 class/admin/class.help.php:410
+#: class/admin/class.help.php:425 class/admin/class.help.php:432
+#: class/admin/class.help.php:455 class/admin/class.help.php:466
+#: class/admin/class.help.php:588 class/admin/class.help.php:596
+#: class/admin/class.help.php:608 class/admin/class.help.php:615
+#: class/admin/class.help.php:640
+msgid "click to get a larger picture"
+msgstr "cliquer pour obtenir une plus grande image"
+
+#: class/admin/class.help.php:358
+msgid ""
+"The first way to use Lumiere Movies is to add links to movie titles that "
+"opens popups with information about that very same movies. It is a usefull "
+"for posts that mention movies title; just add a link to your movie title, "
+"and let visitors knowing more about the details of the movie you mention."
+msgstr ""
+"La première façon d'utiliser Lumiere Movies consiste à ajouter des liens "
+"vers des titres de films qui ouvrent des fenêtres contextuelles contenant "
+"des informations sur ces mêmes films. C'est utile pour les articles qui "
+"mentionnent le titre des films ; ajoutez simplement un lien vers le titre de "
+"votre film et permettez aux visiteurs d'en savoir plus sur les détails du "
+"film que vous mentionnez."
+
+#: class/admin/class.help.php:360
+msgid ""
+"Popup is a window that opened on click, which allows to consult director's "
+"and movie's information; if browsing a movie, one can read more about the "
+"movie but also the people who took part in the movie, such as actors, "
+"directors, etc."
+msgstr ""
+"Popup est une fenêtre qui s'ouvre au clic, qui permet de consulter les "
+"informations du réalisateur et du film ; en parcourant un film, on peut en "
+"savoir plus sur le film mais aussi sur les personnes qui ont participé au "
+"film, comme les acteurs, les réalisateurs, etc."
+
+#: class/admin/class.help.php:362
+msgid "How to make a popup link"
+msgstr "Comment faire un lien popup"
+
+#: class/admin/class.help.php:364
+msgid ""
+"To create a link to a popup window, you only need to put the <b>movie's "
+"title</b> inside dedicated tags. Depending on the visual interface you use "
+"(modern WordPress, wysiwig old WordPress, or pure text interface), you may "
+"add these tags in different ways."
+msgstr ""
+"Pour créer un lien vers une fenêtre popup, il vous suffit de mettre le "
+"<b>titre du film</b> dans des balises dédiées. Selon l'interface visuelle "
+"que vous utilisez (WordPress moderne, ancien WordPress wysiwig ou interface "
+"de texte pur), vous pouvez ajouter ces balises de différentes manières."
+
+#: class/admin/class.help.php:368
+msgid ""
+"If you use a recent WordPress and have not activated a plugin to continue "
+"using the old editor interface, you can add a Lumière link to a popup by "
+"selecting the title of your movie, then adding the link with the dedicated "
+"contextual menu option:"
+msgstr ""
+"Si vous utilisez un WordPress récent et n'avez pas activé de plugin pour "
+"continuer à utiliser l'ancienne interface de l'éditeur, vous pouvez ajouter "
+"un lien Lumière dans une popup en sélectionnant le titre de votre film, puis "
+"en ajoutant le lien avec l'option de menu contextuel dédiée :"
+
+#: class/admin/class.help.php:376
+msgid ""
+"If you use an old WordPress version or a recent WordPress with the plugin "
+"'classic editor' installed, you can access in the dedicated menu to 'add a "
+"popup link:"
+msgstr ""
+"Si vous utilisez une ancienne version de WordPress ou un WordPress récent "
+"avec le plugin 'classic editor' installé, vous pouvez accéder dans le menu "
+"dédié à 'ajouter un lien popup :"
+
+#: class/admin/class.help.php:384
+msgid ""
+"No explanation is need for those who prefer to write directly in HTML "
+"editor; it goes without saying they know how to add an HTML tag. But even in "
+"that interface a button is available for adding the code. For references, "
+"here is the HTML tag to wrap your movie's title with:"
+msgstr ""
+"Aucune explication n'est nécessaire pour ceux qui préfèrent écrire "
+"directement dans l'éditeur HTML ; il va sans dire qu'ils savent comment "
+"ajouter une balise HTML. Mais même dans cette interface, un bouton est "
+"disponible pour ajouter le code. Pour les références, voici la balise HTML "
+"avec laquelle envelopper le titre de votre film :"
+
+#: class/admin/class.help.php:393
+msgid ""
+"Whatever the tool you prefer, when you add such a link a small icon "
+"confirming that the link is Lumière compliant is added to your movie's title."
+msgstr ""
+"Quel que soit l'outil que vous préférez, lorsque vous ajoutez un tel lien, "
+"une petite icône confirmant que le lien est compatible Lumière est ajoutée "
+"au titre de votre film."
+
+#: class/admin/class.help.php:408
+msgid "Why to use widget?"
+msgstr "Pourquoi utiliser le widget ?"
+
+#: class/admin/class.help.php:410
+msgid "key and value for custom fields"
+msgstr "nom et valeur des champs personnalis&eacute;s"
+
+#: class/admin/class.help.php:412
+msgid ""
+"Widgets are widely used in WordPress. It allows to easily select what "
+"information to display in an area, usually on sidebar. Lumière allows to "
+"display any movie in your sidebar."
+msgstr ""
+"Les widgets sont largement utilisés dans WordPress. Il permet de "
+"sélectionner facilement les informations à afficher dans une zone, "
+"généralement sur la barre latérale. Lumière permet d'afficher n'importe quel "
+"film dans votre barre latérale."
+
+#: class/admin/class.help.php:416
+msgid "How to use the widget"
+msgstr "Comment utiliser le widget"
+
+#: class/admin/class.help.php:418
+msgid ""
+"<strong>First</strong>, prior to WordPress 5.8, go to <a href='widgets."
+"php'>widget</a> administration (<i>appearance</i> tab), drag <i>imdb widget</"
+"i> (from <i>inactive widgets</i>) to a sidebar, and modify the box's title "
+"(in case you don't want to have the box named <i>IMDb data</i>). After "
+"WordPress 5.8, widgets are blocks selected by the user, but the process is "
+"identical."
+msgstr ""
+"<strong>Tout d'abord</strong>, avant WordPress 5.8, accédez à "
+"l'administration du <a href='widgets.php'>widget</a> (onglet <i>apparence</"
+"i>), faites glisser le widget <i>imdb </i> (à partir des <i>widgets "
+"inactifs</i>) vers une barre latérale et modifiez le titre de la boîte (au "
+"cas où vous ne voudriez pas que la boîte s'appelle <i>données IMDb</i>). "
+"Après WordPress 5.8, les widgets sont des blocs sélectionnés par "
+"l'utilisateur, mais le processus est identique."
+
+#: class/admin/class.help.php:423
+msgid ""
+"<strong>Second</strong>, edit your post and add the name of the movie in the "
+"box to the sidebar on your right-hand. Lumiere Movies will automatically "
+"display in the widget the movie selected."
+msgstr ""
+"<strong>Deuxièmement</strong>, modifiez votre message et ajoutez le nom du "
+"film dans la case de la barre latérale sur votre droite. Lumière Films "
+"affichera automatiquement dans le widget le film sélectionné."
+
+#: class/admin/class.help.php:425
+msgid "Lumière metabox to add a movie in a widget"
+msgstr "Metabox Lumière pour ajouter un film dans un widget"
+
+#: class/admin/class.help.php:430
+msgid ""
+"As in many other sections of Lumière plugin, you can add the movie's IMDb id "
+"instead of the movie's title to make sure that the right movie is display. "
+"Should you want to find the movie's IMDb id, click on 'use this tool' and a "
+"new windows will be displayed; search for your movie, copy-paste its IMDb id "
+"into the sidebar, and select by 'movie id' in the dropdown list."
+msgstr ""
+"Comme dans de nombreuses autres sections du plugin Lumière, vous pouvez "
+"ajouter l'identifiant IMDb du film au lieu du titre du film pour vous "
+"assurer que le bon film est affiché. Si vous voulez trouver l'identifiant "
+"IMDb du film, cliquez sur « utiliser cet outil » et une nouvelle fenêtre "
+"s'affichera ; recherchez votre film, copiez-collez son identifiant IMDb dans "
+"la barre latérale et sélectionnez par « ID de film » dans la liste "
+"déroulante."
+
+#: class/admin/class.help.php:432
+msgid "Lumiere Movies query interface"
+msgstr "Interface de requête de films Lumière"
+
+#: class/admin/class.help.php:436
+msgid ""
+"Using the movie's IMDb id allows more security: instead of searching for a "
+"title, Lumiere Movies can display directly the movie you are looking for. "
+"Very useful when your movie's name does not work as it should, due to movies "
+"with the same title, if a incorrect movie is displayed, etc."
+msgstr ""
+"L'utilisation de l'identifiant IMDb du film permet plus de sécurité : au "
+"lieu de rechercher un titre, Lumière Movies peut afficher directement le "
+"film que vous recherchez. Très utile lorsque le nom de votre film ne "
+"fonctionne pas comme il le devrait, en raison de films avec le même titre, "
+"si un film incorrect est affiché, etc."
+
+#: class/admin/class.help.php:441
+#, php-format
+msgid ""
+"Get IMDb ids from links provided everywhere in the plugin interface. Even <a "
+"href='%s'>here</a>."
+msgstr ""
+"Obtenez les identifiants IMDb à partir des liens fournis partout dans "
+"l'interface du plugin. Même <a href='%s'>ici</a>."
+
+#: class/admin/class.help.php:454
+msgid "Why display movie's data inside my post?"
+msgstr "Pourquoi afficher les données du film dans mon article ?"
+
+#: class/admin/class.help.php:455
+msgid "Lumiere Movies widget"
+msgstr "Widget Lumière Movies"
+
+#: class/admin/class.help.php:456
+msgid ""
+"Including movie information within your article is quite useful; it can "
+"ingeniously illustrate your post, displays crucial data (directors, actors) "
+"and at the same time add links to further popups that include even more "
+"detailed information."
+msgstr ""
+"Inclure des informations sur le film dans votre article est très utile ; il "
+"peut illustrer ingénieusement votre message, afficher des données cruciales "
+"(réalisateurs, acteurs) et en même temps ajouter des liens vers d'autres "
+"fenêtres contextuelles contenant des informations encore plus détaillées."
+
+#: class/admin/class.help.php:461
+msgid "How to display data inside my post"
+msgstr "Comment afficher les donn&eacute;es dans mon message"
+
+#: class/admin/class.help.php:464
+msgid ""
+"Lumière provides you with tools to add 'HTML tags' (span) to wrapp your "
+"movie's title when writting your article. These 'HTML tags' will be then "
+"converted into movie's details. In the same way as for for popups, three "
+"tools are provided depending upon your the WordPress interface you used to "
+"publish your posts. If you use the modern WordPress interface, a Lumière "
+"block is provided; just enter the movie's title or IMDb id, and you are done!"
+msgstr ""
+"Lumière met à votre disposition des outils pour ajouter des « balises HTML "
+"» (span) pour envelopper le titre de votre film lors de la rédaction de "
+"votre article. Ces « balises HTML » seront ensuite converties en détails du "
+"film. De la même manière que pour les popups, trois outils sont fournis en "
+"fonction de l'interface WordPress que vous avez utilisée pour publier vos "
+"articles. Si vous utilisez l'interface WordPress moderne, un bloc Lumière "
+"est fourni ; entrez simplement le titre du film ou l'identifiant IMDb, et le "
+"tour est joué !"
+
+#: class/admin/class.help.php:466
+msgid "Lumiere Movies Inside a post gutenberg block"
+msgstr "Lumière! Movies à l'intérieur d'un bloc post gutenberg"
+
+#: class/admin/class.help.php:468
+msgid ""
+"You can add as many blocks as you whish; there is no limitation in the "
+"number of movies you can display per article."
+msgstr ""
+"Vous pouvez ajouter autant de blocs que vous le souhaitez ; il n'y a aucune "
+"limitation dans le nombre de films que vous pouvez afficher par article."
+
+#: class/admin/class.help.php:471
+msgid "How to display data inside my post - advanced users"
+msgstr "Comment afficher les données dans mon message - utilisateurs avancés"
+
+#: class/admin/class.help.php:473
+msgid ""
+"It could happen you don't want to use the previous solution to display "
+"movie's data. For exemple, if you wish to use Lumière outside a post (in a "
+"customised page), it won't work. Lumière is written around classes, so it is "
+"easy to achieve what you want."
+msgstr ""
+"Il se peut que vous ne souhaitiez pas utiliser la solution précédente pour "
+"afficher les données du film. Par exemple, si vous souhaitez utiliser "
+"Lumière en dehors d'un article (dans une page personnalisée), cela ne "
+"fonctionnera pas. Lumière est écrit autour des cours, il est donc facile de "
+"réaliser ce que vous voulez."
+
+#: class/admin/class.help.php:477
+msgid ""
+"The function to be called is <strong>imdb_call_external ()</strong>. It has "
+"two parameters, and both are mandatory. The first is the movie's name, and "
+"the second take always 'external'. For exemple, one'd like to display 'The "
+"Descent' should call the function like this:"
+msgstr ""
+"La fonctionne &agrave; appeler est <strong>imdb_call_external ()</strong>. "
+"Cette fonction a deux param&egrave;tres, et tous les deux sont obligatoires. "
+"Le premier est le nom du film, et le second prend toujours 'external'. Par "
+"exemple, quelqu'un qui voudrait afficher 'The Descent' devrait appeler la "
+"fonction de cette mani&egrave;re :"
+
+#: class/admin/class.help.php:484
+msgid "Should you want to call the function using an IMDb ID instead:"
+msgstr "Si vous souhaitez plutôt appeler la fonction en utilisant un ID IMDb :"
+
+#: class/admin/class.help.php:492
+msgid "I want to get rid of thoses links opening popups"
+msgstr "Je veux me débarrasser de ces liens ouvrant des popups"
+
+#: class/admin/class.help.php:493
+msgid ""
+"It could happen you do not want popups at all. Since by default Lumière "
+"Movies adds links whenever relevant to movie's details inside your article, "
+"you may change that behaviour. In order to do so, look for 'General "
+"options / Advanced / Remove popup links' and uncheck the box. No links will "
+"be displayed, both for the widget and within your articles."
+msgstr ""
+"Il se peut que vous ne vouliez pas du tout de popups. Étant donné que par "
+"défaut, Lumière Movies ajoute des liens chaque fois que cela est pertinent "
+"vers les détails du film dans votre article, vous pouvez modifier ce "
+"comportement. Pour ce faire, recherchez « Options générales / Avancé / "
+"Supprimer les liens popups » et décochez la case. Aucun lien ne sera "
+"affiché, à la fois pour le widget et dans vos articles."
+
+#: class/admin/class.help.php:505
+msgid "How to add a search function for movies in my page? (advanced users)"
+msgstr ""
+"Comment ajouter une fonction de recherche de films sur ma page ? "
+"(utilisateurs avancés)"
+
+#: class/admin/class.help.php:507
+msgid ""
+"It is doable. Lumière is versatile enough to handle this function. With the "
+"help of a form, you can add a query field to search for every movie on your "
+"blog. Here is the code:"
+msgstr ""
+"C'est faisable. Lumière est suffisamment polyvalent pour gérer cette "
+"fonction. À l'aide d'un formulaire, vous pouvez ajouter un champ de requête "
+"pour rechercher chaque film sur votre blog. Voici le code :"
+
+#: class/admin/class.help.php:518
+msgid "Then the PHP code:"
+msgstr "Ensuite le code PHP :"
+
+#: class/admin/class.help.php:543
+msgid "It perfectly fits in your sidebar, for example."
+msgstr "Il s'intègre parfaitement dans votre barre latérale, par exemple."
+
+#: class/admin/class.help.php:559
+msgid "How to ensure that my css edits remain through plugin updates?"
+msgstr ""
+"Comment s'assurer que mes modifications CSS restent via les mises à jour du "
+"plugin ?"
+
+#: class/admin/class.help.php:561
+msgid ""
+"Are you tired of losing your carefully hand-made CSS edits at every Lumière! "
+"update? There is a solution."
+msgstr ""
+"Êtes-vous fatigué de perdre vos modifications CSS soigneusement faites à la "
+"main à chaque Lumière ! mettre à jour? Il y a une solution."
+
+#: class/admin/class.help.php:566
+msgid ""
+"Every modification you make should be done in your template folder instead "
+"of using lumiere-movies/css/lumiere.css file. Add a file named 'lumiere.css' "
+"in you template folder; that css file will superseed the plugin's one. "
+"Whenever you update, your template's file will remain untouched and your "
+"edits will make it. Just make sure you are using a child theme, not an "
+"official theme, otherwise your customised lumiere.css will be deleted during "
+"the next template update."
+msgstr ""
+"Chaque modification que vous apportez doit être effectuée dans votre dossier "
+"de modèles au lieu d'utiliser le fichier lumiere-movies/css/lumiere.css. "
+"Ajoutez un fichier nommé \"lumiere.css\" dans votre dossier de modèles ; ce "
+"fichier css remplacera celui du plugin. Chaque fois que vous mettez à jour, "
+"le fichier de votre modèle restera intact et vos modifications le feront. "
+"Assurez-vous simplement que vous utilisez un thème enfant, pas un thème "
+"officiel, sinon votre lumiere.css personnalisé sera supprimé lors de la "
+"prochaine mise à jour du modèle."
+
+#: class/admin/class.help.php:580
+msgid "What is Wordpress' taxonomy?"
+msgstr "Qu'est-ce que la taxonomie pour Wordpress ?"
+
+#: class/admin/class.help.php:582
+msgid "Since Wordpress 2.3, Wordpress users can use taxonomy."
+msgstr ""
+"Depuis Wordpress 2.3, les utilisateurs de Wordpress peuvent utiliser la "
+"taxonomie."
+
+#: class/admin/class.help.php:584
+msgid ""
+"Taxonomy is a feature adding an extra layer of category in addition to the "
+"already existing Categories and Tags; in other words, it is like having "
+"species (a block named 'genre') and subspecies (few words describing the "
+"genre, like 'Adventure', 'Terror'). It is not fundamentaly different from "
+"Categories and Tags, but it is extremly useful for Lumière Movies."
+msgstr ""
+"La taxonomie est une fonctionnalité ajoutant une couche supplémentaire de "
+"catégorie en plus des catégories et des balises déjà existantes ; en "
+"d'autres termes, c'est comme avoir des espèces (un bloc nommé 'genre') et "
+"des sous-espèces (quelques mots décrivant le genre, comme 'Aventure', "
+"'Terreur'). Ce n'est pas fondamentalement différent des Catégories et des "
+"Tags, mais c'est extrêmement utile pour Lumière."
+
+#: class/admin/class.help.php:586
+msgid "How to use taxonomy in Wordpress?"
+msgstr "Comment utiliser la taxonomie dans Wordpress ?"
+
+#: class/admin/class.help.php:590
+msgid ""
+"Taxonomy is automatically generated in Lumière! and already activated. You "
+"can however disable it by unchecking the box in 'General options -> Advanced "
+"-> 'Use automatical genre taxonomy?'. Note that since taxonomy is related to "
+"movie details (such as directors, actors, etc), the movie detail you want to "
+"be used as taxonomy has to be also activated in 'Data -> Display'."
+msgstr ""
+"La taxonomie est générée automatiquement dans Lumière ! et déjà activé. Vous "
+"pouvez cependant le désactiver en décochant la case dans 'Options générales -"
+"> Avancé -> 'Utiliser la taxonomie automatique des genres ?'. Notez que "
+"puisque la taxonomie est liée aux détails du film (tels que les "
+"réalisateurs, les acteurs, etc.), le détail du film que vous souhaitez "
+"utiliser comme taxonomie doit également être activé dans 'Données -> "
+"Affichage'."
+
+#: class/admin/class.help.php:592
+msgid ""
+"After that, pay a visit to your post or page; on the first refresh, links to "
+"taxonomy pages will be processed. You can now visit pages that include all "
+"your posts grouped by movie details. For instance, if you write a lot about "
+"the same movie director, the taxonomy page will include all your posts "
+"written about them."
+msgstr ""
+"Après cela, visitez votre article ou votre page ; lors de la première "
+"actualisation, les liens vers les pages de taxonomie seront traités. Vous "
+"pouvez désormais visiter des pages qui incluent tous vos messages regroupés "
+"par détails de film. Par exemple, si vous écrivez beaucoup sur le même "
+"réalisateur, la page de taxonomie inclura tous vos articles écrits à leur "
+"sujet."
+
+#: class/admin/class.help.php:594
+msgid "New option in 'Posts' menu"
+msgstr "Nouvelle option dans le menu 'Posts'"
+
+#: class/admin/class.help.php:598
+msgid ""
+"Once you have published your first article including a movie (both widget "
+"and inside a post trigger that function) WordPress will display the new "
+"taxonomy under 'posts' admin section. Depending on the movie details you "
+"have selected, you will find them in the menu."
+msgstr ""
+"Une fois que vous avez publié votre premier article comprenant un film (à la "
+"fois un widget et à l'intérieur d'un déclencheur de publication cette "
+"fonction), WordPress affichera la nouvelle taxonomie dans la section "
+"d'administration « messages ». Selon les détails du film que vous avez "
+"sélectionnés, vous les trouverez dans le menu."
+
+#: class/admin/class.help.php:602
+msgid "Advanced: Customize your theme for your taxonomy pages"
+msgstr "Avancé : Personnalisez votre thème pour vos pages de taxonomie"
+
+#: class/admin/class.help.php:604
+msgid ""
+"To fully enjoy this taxonomy, make sure you copy the template files located "
+"in the Lumière! movies folder 'lumiere-movies/theme/' into your 'theme' "
+"folder. This can be automatized by using the options available in Lumière! "
+"taxonomy :"
+msgstr ""
+"Pour profiter pleinement de cette taxonomie, assurez-vous de copier les "
+"fichiers modèles situés dans le Lumière ! films 'lumiere-movies/theme/' dans "
+"votre dossier 'theme'. Cela peut être automatisé en utilisant les options "
+"disponibles dans Lumière ! taxonomie :"
+
+#: class/admin/class.help.php:610
+msgid ""
+"Click on 'copy template, that's it! A warning will be given to you when a "
+"new template is available. You can customized even further the template that "
+"was copied into your template to match your specific needs. By default, the "
+"new taxonomy template will show you the person/item and the posts and pages "
+"mentioning them:"
+msgstr ""
+"Cliquez sur 'copier le modèle, c'est tout ! Un avertissement vous sera donné "
+"lorsqu'un nouveau modèle sera disponible. Vous pouvez personnaliser encore "
+"plus le modèle qui a été copié dans votre modèle pour répondre à vos besoins "
+"spécifiques. Par défaut, le nouveau modèle de taxonomie vous montrera la "
+"personne/l'élément et les articles et pages les mentionnant :"
+
+#: class/admin/class.help.php:631
+msgid "How to get movies retrieved automatically according to post's titles?"
+msgstr ""
+"Comment récupérer automatiquement les films en fonction des titres des "
+"articles ?"
+
+#: class/admin/class.help.php:633
+msgid ""
+"You have hundreds of posts, carefully named after movies. You don't want to "
+"edit all of them and widget/inside the post section but you want to display "
+"information about movies anyway. There is a  solution."
+msgstr ""
+"Vous avez des centaines de messages, soigneusement nommés d'après des films. "
+"Vous ne voulez pas les éditer tous et le widget/à l'intérieur de la section "
+"de publication, mais vous souhaitez quand même afficher des informations sur "
+"les films. Il y a une solution."
+
+#: class/admin/class.help.php:643
+msgid ""
+"Next time you will look at your post, you will find the widget according to "
+"your post’s title."
+msgstr ""
+"La prochaine fois que vous visiterez votre message, vous trouverez un widget "
+"li&eacute au titre du message."
+
+#: class/admin/class.help.php:655
+msgid "Changing default IMDb search options"
+msgstr "Modification des options de recherche IMDb par défaut"
+
+#: class/admin/class.help.php:657
+msgid ""
+"Lumière queries the IMDb for every movie or person you are looking for. You "
+"can modify the results from the IMDb displayed in your blog will tweaking "
+"the search options available in menu options 'General / Advanced'."
+msgstr ""
+"Lumière interroge l'IMDb pour chaque film ou personne que vous recherchez. "
+"Vous pouvez modifier les résultats de l'IMDb affiché dans votre blog en "
+"peaufinant les options de recherche disponibles dans les options de menu "
+"« Général / Avancé »."
+
+#: class/admin/class.help.php:662
+msgid ""
+"Three options are available: search language, search categories and the "
+"limit of the number of results."
+msgstr ""
+"Trois options sont disponibles : la langue de recherche, les catégories de "
+"recherche et la limite du nombre de résultats."
+
+#: class/admin/class.help.php:667
+msgid ""
+"1. Search language allows to modify the language of the query. This is not "
+"the language of the output: the details will always be returned in English "
+"by the IMDb. What this options modifies is the lanuage query only; if the "
+"query is run in French, movie's original title will be first returned "
+"instead of the English title."
+msgstr ""
+"1. La langue de recherche permet de modifier la langue de la requête. Ce "
+"n'est pas la langue de sortie : les détails seront toujours renvoyés en "
+"anglais par l'IMDb. Ce que cette option modifie, c'est la requête de langue "
+"uniquement ; si la requête est exécutée en français, le titre original du "
+"film sera d'abord renvoyé au lieu du titre anglais."
+
+#: class/admin/class.help.php:672
+msgid ""
+"2. Search category allows to modify the type of material your searching. If "
+"your blog is about series only, select in the dropdown list 'series only'. "
+"If it is about videogames, select the option accordingly."
+msgstr ""
+"2. La catégorie de recherche permet de modifier le type de matériel que vous "
+"recherchez. Si votre blog concerne uniquement les séries, sélectionnez dans "
+"la liste déroulante 'séries uniquement'. S'il s'agit de jeux vidéo, "
+"sélectionnez l'option en conséquence."
+
+#: class/admin/class.help.php:677
+msgid ""
+"3. It is possible to limit the number of results in the queries using its "
+"dedicated option. The less results there is, the less server resources are "
+"required and the faster the output is displayed. This limit number applies "
+"to the search of movies with a similar name (menu option in movies popups) "
+"and in "
+msgstr ""
+"3. Il est possible de limiter le nombre de résultats dans les requêtes grâce "
+"à son option dédiée. Moins il y a de résultats, moins de ressources serveur "
+"sont nécessaires et plus la sortie s'affiche rapidement. Ce nombre limite "
+"s'applique à la recherche de films avec un nom similaire (option de menu "
+"dans les popups de films) et dans "
+
+#: class/class.core.php:342
 msgid "Lumière options page"
 msgstr "Pages d'options Lumière!"
 
-#: class/class.core.php:348 class/class.core.php:375
+#: class/class.core.php:342 class/class.core.php:369
 msgid "General"
 msgstr "Principal"
 
-#: class/class.core.php:349
+#: class/class.core.php:343
 msgid "Data management"
 msgstr "Gestion des données"
 
-#: class/class.core.php:349 class/class.core.php:377
+#: class/class.core.php:343 class/class.core.php:371
 msgid "Data"
 msgstr "Données"
 
-#: class/class.core.php:350
+#: class/class.core.php:344
 msgid "Cache management options page"
 msgstr "Options de la gestion du cache"
 
-#: class/class.core.php:350 class/class.core.php:379
+#: class/class.core.php:344 class/class.core.php:373
 msgid "Cache"
 msgstr "Cache"
 
-#: class/class.core.php:351
+#: class/class.core.php:345
 msgid "Help page"
 msgstr "Page d'aide"
 
-#: class/class.core.php:351 class/class.core.php:381
+#: class/class.core.php:345 class/class.core.php:375
 msgid "Help"
 msgstr "Aide"
 
-#: class/class.core.php:373
+#: class/class.core.php:367
 msgid "Lumière Menu"
 msgstr "Menu Lumière"
 
-#: class/class.core.php:375
+#: class/class.core.php:369
 msgid "Main and advanced options"
 msgstr "Options principales et avancées"
 
-#: class/class.core.php:377
+#: class/class.core.php:371
 msgid "Data option and taxonomy"
 msgstr "Options des données et de taxonomie"
 
-#: class/class.core.php:379 inc/options-cache.php:384 inc/options-cache.php:412
+#: class/class.core.php:373 inc/options-cache.php:384 inc/options-cache.php:412
 msgid "Cache options"
 msgstr "Options de cache"
 
-#: class/class.core.php:381
+#: class/class.core.php:375
 msgid "Get support and support plugin development"
 msgstr "Obtenir de l'aide et fournir de l'aide pour le dévelopement du plugin"
 
-#: class/class.core.php:478 class/class.core.php:488
+#: class/class.core.php:472 class/class.core.php:482
 msgid "Informations about "
 msgstr "Information pour "
 
-#: class/class.core.php:478 class/class.core.php:488
+#: class/class.core.php:472 class/class.core.php:482
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: class/class.core.php:492
+#: class/class.core.php:486
 msgid "No query entered"
 msgstr "Aucune recherche entrée"
 
-#: class/class.core.php:493
+#: class/class.core.php:487
 msgid "Search query for "
 msgstr "Recherche pour "
 
-#: class/class.core.php:501
+#: class/class.core.php:495
 msgid "Lumiere Query Interface"
 msgstr "Lumière Interface de recherche"
 
-#: class/class.core.php:839
+#: class/class.core.php:833
 msgid "Lumière "
 msgstr "Lumière "
 
-#: class/class.metabox.php:59
+#: class/class.metabox.php:55
 msgid "By movie IMDb ID"
 msgstr "Par numéro IMDb du film"
 
-#: class/class.metabox.php:66
+#: class/class.metabox.php:62
 msgid "The movie you enter will be shown in your widget area."
 msgstr ""
 "Le film que vous renseignez ici sera affiché dans votre zone de widget."
 
-#: class/class.metabox.php:72
+#: class/class.metabox.php:68
 msgid "How to query the movie?"
 msgstr "Comment rechercher le film ?"
 
-#: class/class.metabox.php:91
+#: class/class.metabox.php:87
 msgid "Title or ID:"
 msgstr "Titre ou ID :"
 
-#: class/class.metabox.php:98
+#: class/class.metabox.php:94
 msgid "Use "
 msgstr "Utiliser "
 
-#: class/class.metabox.php:98
+#: class/class.metabox.php:94
 msgid "Open a popup to search the movie's ID"
 msgstr "Ouvrir une popup pour recherche l'ID de film."
 
-#: class/class.metabox.php:98
+#: class/class.metabox.php:94
 msgid "this tool "
 msgstr "cet outil "
 
-#: class/class.metabox.php:98
+#: class/class.metabox.php:94
 msgid "to find the IMDb's ID."
 msgstr "pour trouver l'ID IMDb."
 
-#: class/class.movie.php:91 class/class.widget.php:95
+#: class/class.movie.php:84 class/class.widget.php:96
 msgid "Cannot start class movie, class Lumière Settings not found"
 msgstr ""
 "Impossible de démarrer la classe movie, classe Lumière Settings non trouvée"
 
-#: class/class.movie.php:413 class/class.movie.php:434
+#: class/class.movie.php:406 class/class.movie.php:427
 msgid "Open a new window with IMDb informations"
 msgstr "Ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
 
-#: class/class.movie.php:734
+#: class/class.movie.php:727
 msgid "Photo of"
 msgstr "Photo de"
 
-#: class/class.movie.php:739
+#: class/class.movie.php:732
 msgid "no picture found"
 msgstr "pas de photo trouvée"
 
-#: class/class.movie.php:774 inc/options-data.php:243 inc/options-data.php:244
+#: class/class.movie.php:767 inc/options-data.php:243 inc/options-data.php:244
 #: inc/popup-imdb_movie.php:406
 msgid "Country"
 msgid_plural "Countries"
 msgstr[0] "Pays"
 msgstr[1] "Pays"
 
-#: class/class.movie.php:818 inc/options-data.php:445 inc/options-data.php:446
+#: class/class.movie.php:811 inc/options-data.php:445 inc/options-data.php:446
 #: inc/popup-imdb_movie.php:341
 msgid "Runtime"
 msgstr "Dur&eacute;e"
 
-#: class/class.movie.php:820 inc/popup-imdb_movie.php:345
+#: class/class.movie.php:813 inc/popup-imdb_movie.php:345
 msgid "minutes"
 msgstr "minutes"
 
-#: class/class.movie.php:845 inc/options-data.php:326 inc/options-data.php:327
+#: class/class.movie.php:838 inc/options-data.php:326 inc/options-data.php:327
 #: inc/popup-imdb_movie.php:383
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "Langue"
 msgstr[1] "Langues"
 
-#: class/class.movie.php:893 inc/options-data.php:428 inc/options-data.php:429
+#: class/class.movie.php:886 inc/options-data.php:428 inc/options-data.php:429
 #: inc/popup-imdb_movie.php:361
 msgid "Rating"
 msgstr "Note"
 
-#: class/class.movie.php:898
+#: class/class.movie.php:891
 msgid "votes, average "
 msgstr "votes, avec une moyenne de "
 
-#: class/class.movie.php:900
+#: class/class.movie.php:893
 msgid "(max 10)"
 msgstr "(max 10)"
 
-#: class/class.movie.php:905 inc/popup-imdb_movie.php:364
+#: class/class.movie.php:898 inc/popup-imdb_movie.php:364
 msgid "vote average "
 msgstr "moyenne de votes "
 
 # as "10 out of 10"
-#: class/class.movie.php:905 inc/popup-imdb_movie.php:364
+#: class/class.movie.php:898 inc/popup-imdb_movie.php:364
 msgid " out of 10"
 msgstr " sur 10"
 
-#: class/class.movie.php:906 inc/popup-imdb_movie.php:365
+#: class/class.movie.php:899 inc/popup-imdb_movie.php:365
 msgid "votes"
 msgstr "votes"
 
-#: class/class.movie.php:934 inc/options-data.php:281 inc/options-data.php:282
+#: class/class.movie.php:927 inc/options-data.php:281 inc/options-data.php:282
 #: inc/popup-imdb_movie.php:430
 msgid "Genre"
 msgid_plural "Genres"
 msgstr[0] "Genre"
 msgstr[1] "Genre"
 
-#: class/class.movie.php:982
+#: class/class.movie.php:975
 msgid "Keyword"
 msgid_plural "Keywords"
 msgstr[0] "Mot-cl&eacute;"
 msgstr[1] "Mot-cl&eacute;s"
 
-#: class/class.movie.php:1030 inc/popup-imdb_movie.php:751
+#: class/class.movie.php:1023 inc/popup-imdb_movie.php:751
 msgid "Goof"
 msgid_plural "Goofs"
 msgstr[0] "Erreur"
 msgstr[1] "Erreurs"
 
-#: class/class.movie.php:1067
+#: class/class.movie.php:1060
 msgid "User comment"
 msgstr "Commentaire d'utilisateur"
 
-#: class/class.movie.php:1115
+#: class/class.movie.php:1108
 msgid "Quote"
 msgid_plural "Quotes"
 msgstr[0] "Citation"
 msgstr[1] "Citations"
 
-#: class/class.movie.php:1163 inc/options-data.php:487 inc/options-data.php:488
+#: class/class.movie.php:1156 inc/options-data.php:487 inc/options-data.php:488
 msgid "Tagline"
 msgid_plural "Taglines"
 msgstr[0] "Slogan"
 msgstr[1] "Slogan"
 
-#: class/class.movie.php:1200
+#: class/class.movie.php:1193
 msgid "Trailer"
 msgid_plural "Trailers"
 msgstr[0] "Bande annonce"
 msgstr[1] "Bandes annonce"
 
-#: class/class.movie.php:1208
+#: class/class.movie.php:1201
 msgid "Watch on IMBb website the trailer for "
 msgstr "Voir la bande annonce sur le site IMDb pour "
 
-#: class/class.movie.php:1248
+#: class/class.movie.php:1241
 msgid "Color"
 msgid_plural "Colors"
 msgstr[0] "Couleur"
 msgstr[1] "Couleur"
 
-#: class/class.movie.php:1301 inc/options-data.php:196 inc/options-data.php:197
+#: class/class.movie.php:1294 inc/options-data.php:196 inc/options-data.php:197
 msgid "Also known as"
 msgstr "Aussi connu sous"
 
-#: class/class.movie.php:1344 inc/options-data.php:229 inc/options-data.php:230
+#: class/class.movie.php:1337 inc/options-data.php:229 inc/options-data.php:230
 msgid "Composer"
 msgid_plural "Composers"
 msgstr[0] "Compositeur"
 msgstr[1] "Compositeur"
 
-#: class/class.movie.php:1365 class/class.movie.php:1369
+#: class/class.movie.php:1358 class/class.movie.php:1362
 msgid "Link to local IMDb"
 msgstr "Lien vers l'IMDb en local"
 
-#: class/class.movie.php:1414 inc/options-data.php:456 inc/options-data.php:457
+#: class/class.movie.php:1407 inc/options-data.php:456 inc/options-data.php:457
 #: inc/popup-imdb_movie.php:722
 msgid "Soundtrack"
 msgid_plural "Soundtracks"
 msgstr[0] "Bande originale"
 msgstr[1] "Bandes originales"
 
-#: class/class.movie.php:1471 inc/options-data.php:400 inc/options-data.php:401
+#: class/class.movie.php:1464 inc/options-data.php:400 inc/options-data.php:401
 msgid "Production company"
 msgid_plural "Production companies"
 msgstr[0] "Compagnie de production"
 msgstr[1] "Compagnies de production"
 
-#: class/class.movie.php:1525
+#: class/class.movie.php:1518
 msgid "Official website"
 msgid_plural "Official websites"
 msgstr[0] "Site web officiel"
 msgstr[1] "Sites web officiels"
 
-#: class/class.movie.php:1562 inc/options-data.php:269 inc/options-data.php:270
+#: class/class.movie.php:1555 inc/options-data.php:269 inc/options-data.php:270
 #: inc/popup-imdb_movie.php:129 inc/popup-imdb_movie.php:283
 #: inc/popup-imdb_movie.php:525 inc/popup-search.php:100
 msgid "Director"
@@ -359,37 +1093,37 @@ msgid_plural "Directors"
 msgstr[0] "R&eacute;alisateur"
 msgstr[1] "R&eacute;alisateurs"
 
-#: class/class.movie.php:1582 class/class.movie.php:1587
-#: class/class.movie.php:1650 class/class.movie.php:1655
-#: class/class.movie.php:1724 class/class.movie.php:1728
-#: class/class.movie.php:1803 class/class.movie.php:1808
-#: class/class.movie.php:1882 class/class.movie.php:1887
-#: class/class.movie.php:1963 class/class.movie.php:1968
-#: class/class.movie.php:2178 class/class.movie.php:2180
+#: class/class.movie.php:1575 class/class.movie.php:1580
+#: class/class.movie.php:1643 class/class.movie.php:1648
+#: class/class.movie.php:1717 class/class.movie.php:1721
+#: class/class.movie.php:1796 class/class.movie.php:1801
+#: class/class.movie.php:1875 class/class.movie.php:1880
+#: class/class.movie.php:1956 class/class.movie.php:1961
+#: class/class.movie.php:2171 class/class.movie.php:2173
 msgid "open a new window with IMDb informations"
 msgstr "ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
 
-#: class/class.movie.php:1628 inc/options-data.php:255 inc/options-data.php:256
+#: class/class.movie.php:1621 inc/options-data.php:255 inc/options-data.php:256
 msgid "Creator"
 msgid_plural "Creators"
 msgstr[0] "Cr&eacute;ateur"
 msgstr[1] "Cr&eacute;ateur"
 
-#: class/class.movie.php:1698 inc/options-data.php:383 inc/options-data.php:384
+#: class/class.movie.php:1691 inc/options-data.php:383 inc/options-data.php:384
 #: inc/popup-imdb_movie.php:598
 msgid "Producer"
 msgid_plural "Producers"
 msgstr[0] "Producteur"
 msgstr[1] "Producteurs"
 
-#: class/class.movie.php:1779 inc/options-data.php:545 inc/options-data.php:546
+#: class/class.movie.php:1772 inc/options-data.php:545 inc/options-data.php:546
 #: inc/popup-imdb_movie.php:563
 msgid "Writer"
 msgid_plural "Writers"
 msgstr[0] "Sc&eacute;nariste"
 msgstr[1] "Sc&eacute;naristes"
 
-#: class/class.movie.php:1858 class/class.movie.php:1932
+#: class/class.movie.php:1851 class/class.movie.php:1925
 #: inc/options-data.php:182 inc/options-data.php:183
 #: inc/popup-imdb_movie.php:479
 msgid "Actor"
@@ -397,36 +1131,36 @@ msgid_plural "Actors"
 msgstr[0] "Acteur"
 msgstr[1] "Acteur"
 
-#: class/class.movie.php:1946 class/class.movie.php:2140
-#: class/class.movie.php:2157
+#: class/class.movie.php:1939 class/class.movie.php:2133
+#: class/class.movie.php:2150
 msgid "Find similar taxonomy results"
 msgstr "Trouver des résultats de taxonomie similaires"
 
-#: class/class.movie.php:2011 inc/options-data.php:368 inc/options-data.php:369
+#: class/class.movie.php:2004 inc/options-data.php:368 inc/options-data.php:369
 #: inc/popup-imdb_movie.php:656
 msgid "Plot"
 msgid_plural "Plots"
 msgstr[0] "Synopsis"
 msgstr[1] "Synopsis"
 
-#: class/class.movie.php:2055 inc/options-data.php:471 inc/options-data.php:472
+#: class/class.movie.php:2048 inc/options-data.php:471 inc/options-data.php:472
 msgid "Source"
 msgstr "Source"
 
-#: class/class.movie.php:2060
+#: class/class.movie.php:2053
 msgid "Go to IMDb website for this movie"
 msgstr "Allez sur le site internet de IMDb pour ce film"
 
-#: class/class.movie.php:2063
+#: class/class.movie.php:2056
 msgid "IMDb's page for this movie"
 msgstr "Page IMDb pour ce film"
 
-#: class/class.utils.php:72
+#: class/class.utils.php:68
 msgid "Cannot start class utils, class Lumière Settings not found"
 msgstr ""
 "Impossible de démarrer la classe utils, classe Lumière Settings non trouvée"
 
-#: class/class.utils.php:152
+#: class/class.utils.php:148
 #, php-format
 msgid ""
 "<strong>Licensing Info:</strong> Under a GPL licence, \"Lumiere Movies\" is "
@@ -440,11 +1174,11 @@ msgstr ""
 "t&eacute; op&eacute;r&eacute; pour cr&eacute;er ce plugin; visitez la page "
 "d'aide pour"
 
-#: class/class.utils.php:156
+#: class/class.utils.php:152
 msgid "more"
 msgstr "plus d'informations"
 
-#: class/class.utils.php:419 class/class.utils.php:454
+#: class/class.utils.php:415 class/class.utils.php:450
 msgid ""
 "Copy a standard taxonomy template to your template folder to display this "
 "taxonomy."
@@ -452,11 +1186,11 @@ msgstr ""
 "Copier un modèle standardisé de taxomie dans votre dossier de modèles pour "
 "afficher cette taxonomie."
 
-#: class/class.utils.php:421 class/class.utils.php:456
+#: class/class.utils.php:417 class/class.utils.php:452
 msgid "Copy template"
 msgstr "Copier le modèle"
 
-#: class/class.widget.php:71
+#: class/class.widget.php:72
 msgid ""
 "Add movie details to your pages with Lumière! Legacy version: as of "
 "WordPress 5.8, prefer the new widget."
@@ -464,865 +1198,95 @@ msgstr ""
 "Ajoutez les détails de films à vos pages avec Lumière ancienne version: dès "
 "la version WordPress 5.8, préférez le nouveau widget."
 
-#: class/class.widget.php:209
+#: class/class.widget.php:213
 msgid "Lumière! Movies (legacy)"
 msgstr "Lumière! Movies (ancienne version)"
 
-#: class/class.widget.php:308
+#: class/class.widget.php:321
 msgid "Lumière! Movies"
 msgstr "Lumière! Movies"
 
-#: class/class.widget.php:320
+#: class/class.widget.php:333
 msgid "Widget title:"
 msgstr "Titre de widget :"
 
-#: inc/admin_pages.php:53
+#: inc/admin_pages.php:56
 msgid "admin options"
 msgstr "options d'administration"
 
-#: inc/admin_pages.php:60
+#: inc/admin_pages.php:63
 msgid "General Options"
 msgstr "Options g&eacute;n&eacute;rales"
 
-#: inc/admin_pages.php:69
+#: inc/admin_pages.php:72
 msgid "Data Management"
 msgstr "Gestion des données"
 
-#: inc/admin_pages.php:73
+#: inc/admin_pages.php:79
 msgid "Widget unactivated"
 msgstr "Widget désactivé"
 
-#: inc/admin_pages.php:78
+#: inc/admin_pages.php:84
 msgid "Direct search"
 msgstr "Recherche directe"
 
-#: inc/admin_pages.php:78 inc/admin_pages.php:83
+#: inc/admin_pages.php:84 inc/admin_pages.php:89
 msgid "unactivated"
 msgstr "désactivé"
 
-#: inc/admin_pages.php:83
+#: inc/admin_pages.php:89
 msgid "Auto taxonomy"
 msgstr "Taxonomie automatique"
 
-#: inc/admin_pages.php:91
+#: inc/admin_pages.php:97
 msgid "Cache management"
 msgstr "Gestion du cache"
 
-#: inc/admin_pages.php:96
+#: inc/admin_pages.php:102
 msgid "How to use Lumière!, check FAQs & changelog"
 msgstr "Comment utiliser Lumière!, consulter les FAQs & changelog"
 
-#: inc/admin_pages.php:97
+#: inc/admin_pages.php:103
 msgid "help"
 msgstr "aide"
 
-#: inc/gutenberg-search.php:18 inc/highslide_download.php:9
-#: inc/highslide_download.php:57 inc/move_template_taxonomy.php:9
-#: inc/move_template_taxonomy.php:62 inc/options-cache.php:18
-#: inc/options-data.php:18 inc/options-general.php:18 lumiere-movies.php:27
+#: inc/gutenberg-search.php:18 inc/gutenberg-search.php:129
+#: inc/highslide_download.php:9 inc/highslide_download.php:57
+#: inc/move_template_taxonomy.php:9 inc/move_template_taxonomy.php:62
+#: inc/options-cache.php:18 inc/options-data.php:18 inc/options-general.php:18
+#: lumiere-movies.php:27
 msgid "You are not allowed to call this page directly."
 msgstr "Vous n'êtes pas autorisé à afficher cette page directement."
 
-#: inc/gutenberg-search.php:67
+#: inc/gutenberg-search.php:71
 msgid "Results related to your query:"
 msgstr "Résultats correspondants à votre recherche :"
 
-#: inc/gutenberg-search.php:70
+#: inc/gutenberg-search.php:74
 msgid "Titles results"
 msgstr "Résultats par titres"
 
-#: inc/gutenberg-search.php:71
-msgid "IMDb identification number"
-msgstr "Numéro d'identification IMDB"
+#: inc/gutenberg-search.php:75
+msgid "Identification number"
+msgstr "Numéro d'identification"
 
-#: inc/gutenberg-search.php:81 inc/popup-search.php:114
+#: inc/gutenberg-search.php:86 inc/popup-search.php:114
 msgid "Maximum of results reached. You can increase it in admin options."
 msgstr ""
 "Maximum de résultats atteint. Vous pouvez l'augmenter dans les options "
 "d'administration."
 
-#: inc/gutenberg-search.php:92
+#: inc/gutenberg-search.php:97
 msgid "IMDb ID:"
 msgstr "Numéro IMDb:"
 
-#: inc/gutenberg-search.php:110
-msgid "Search a movie"
-msgstr "Rechercher un film"
+#: inc/gutenberg-search.php:117
+msgid "Search a movie IMDb ID"
+msgstr "Rechercher une ID IMDb de film"
 
-#: inc/gutenberg-search.php:112 inc/options-general.php:310
+#: inc/gutenberg-search.php:119 inc/options-general.php:310
 msgid "Search"
 msgstr "Recherche"
-
-#: inc/help.php:50
-msgid "Popup link builder"
-msgstr "Lien pour popup"
-
-#: inc/help.php:51
-msgid "Inside the post"
-msgstr "Dans le message"
-
-#: inc/help.php:52
-msgid "Widget"
-msgstr "Widget"
-
-#: inc/help.php:53
-msgid "Big admin menu"
-msgstr "Grand menu d'administration"
-
-#: inc/help.php:54
-msgid "Add a search form"
-msgstr "Ajouter un formulaire de recherche"
-
-#: inc/help.php:55
-msgid "Keep css through update"
-msgstr "Garder le css lors de la mise-&agrave;-jour"
-
-#: inc/help.php:56
-msgid "Taxonomy with Wordpress"
-msgstr "Taxonomie avec Wordpress"
-
-#: inc/help.php:57
-msgid "Widget auto according post's title"
-msgstr "Auto-widget selon le titre du message"
-
-#: inc/help.php:64
-msgid "How to use Lumiere Movies"
-msgstr "Comment utiliser Lumière"
-
-#: inc/help.php:64
-msgid "How to"
-msgstr "How to"
-
-#: inc/help.php:66 inc/help.php:83
-msgid "Frequently asked questions"
-msgstr "Questions les plus fr&eacute;quemment pos&eacute;es."
-
-#: inc/help.php:66
-msgid "FAQs"
-msgstr "FAQs"
-
-#: inc/help.php:68
-msgid "What's new"
-msgstr "Nouveaut&eacute;s"
-
-#: inc/help.php:68 inc/help.php:127
-msgid "Changelog"
-msgstr "Mise &agrave; jour"
-
-#: inc/help.php:70
-msgid "To get support and to support what you get"
-msgstr "Obtenir de l'aide et fournir de l'aide pour l'obtenir"
-
-#: inc/help.php:70
-msgid "Support, donate & credits"
-msgstr "Aide, dons et cr&eacute;dits"
-
-#: inc/help.php:161
-msgid "Two ways to support <strong>Lumiere Movies</strong> plugin development"
-msgstr ""
-"Deux moyens de soutenir le développement de <strong>Lumière Movies</strong>"
-
-#: inc/help.php:165
-msgid "Be supported!"
-msgstr "&Ecirc;tre aid&eacute; !"
-
-#: inc/help.php:168
-msgid "You will never believe there is so many ways to be supported. You can:"
-msgstr ""
-"Vous ne croirez jamais qu'il existe autant de moyens d'&ecirc;tre "
-"aid&eacute;. Vous pouvez :"
-
-#: inc/help.php:170
-msgid "visit"
-msgstr "visiter"
-
-#: inc/help.php:170
-msgid "to ask for help. "
-msgstr "pour demander de l'aide. "
-
-#: inc/help.php:172 inc/help.php:174
-msgid "check the"
-msgstr "consulter"
-
-#: inc/help.php:172
-msgid "FAQs "
-msgstr "FAQ "
-
-#: inc/help.php:174
-msgid "how to"
-msgstr "instructions"
-
-#: inc/help.php:182
-msgid "Support me!"
-msgstr "Aidez-moi!"
-
-#: inc/help.php:185
-msgid "You will never believe there is so many ways to thank me. Yes, you can:"
-msgstr ""
-"Vous ne croirez jamais qu'il y a autant de moyens de me remercier. Vous "
-"pouvez :"
-
-#: inc/help.php:186
-msgid "pay whatever you want on"
-msgstr "payer ce que vous voulez sur"
-
-#: inc/help.php:186 inc/help.php:187
-msgid "or on"
-msgstr "ou sur"
-
-#: inc/help.php:187
-msgid "vote on"
-msgstr "votez sur"
-
-#: inc/help.php:187
-msgid "Lumière's website"
-msgstr "Site internet de Lumière"
-
-#: inc/help.php:187
-msgid "Wordpress' website"
-msgstr "Site internet de Wordpress"
-
-#: inc/help.php:188
-msgid ""
-"send as many bugfixes and propositions as you can on Lumiere Movies website."
-msgstr ""
-"envoyer autant de corrections et propositions que vous pouvez sur le site "
-"web de Lumière."
-
-#: inc/help.php:189
-msgid "translate the plugin into your own language."
-msgstr "traduire le plugin dans votre propre langue."
-
-#: inc/help.php:190
-msgid "help me to improve the plugin."
-msgstr "aidez-moi &agrave; am&eacute;liorer le plugin."
-
-#: inc/help.php:190
-msgid "Report at the development"
-msgstr "Notifiez le développement"
-
-#: inc/help.php:190
-msgid "website"
-msgstr "site web"
-
-#: inc/help.php:191
-msgid "do a trackback, make some noise about this plugin!"
-msgstr "faites un trackback, faites du bruit autour de ce plugin !"
-
-#: inc/help.php:197
-msgid "Credits:"
-msgstr "Cr&eacute;dits :"
-
-#: inc/help.php:232
-msgid ""
-"Lumiere Movies evolves a lot. As a result of this, the plugin includes many "
-"options, many ways to achieve bloggers wishes. Lumiere Movies main functions "
-"are explained hereafter, aiming to make the experience better. As you may "
-"discover, there are three main ways to show data from movies and there are "
-"many related options. This is an attempt to document it, but please check "
-"also FAQs."
-msgstr ""
-"Lumière évolue beaucoup. En conséquence, ce plugin inclut de nombreuses "
-"options afin que les utilisateurs puissent réaliser leurs attentes. Ainsi, "
-"les fonctions principales de Lumière sont expliquées par la suite, visant à "
-"améliorer l'expérience. Comme vous le découvrirez, il y a trois moyens "
-"principaux d'afficher les données de films et beaucoup d'options sont "
-"disponibles. Ceci est une tentative de le documenter, mais veuillez "
-"également consulter les FAQ."
-
-#: inc/help.php:264
-msgid "Why a popup window?"
-msgstr "Pourquoi une fen&ecirc;tre popup ?"
-
-#: inc/help.php:265 inc/help.php:280 inc/help.php:285 inc/help.php:304
-#: inc/help.php:319 inc/help.php:339 inc/help.php:351 inc/help.php:385
-#: inc/help.php:471 inc/help.php:483 inc/help.php:500 inc/help.php:522
-msgid "click to get a larger picture"
-msgstr "cliquer pour obtenir une plus grande image"
-
-#: inc/help.php:266
-msgid ""
-"The first way to use Lumiere Movies is the first historically available. The "
-"idea behind was to find a solution for posts quoting many movies; blogger "
-"and reader would appreciate to have director's name, to know the alternative "
-"title's name, etc. And these data should not waste space in post itself; "
-"thus the popup idea."
-msgstr ""
-"Le premier moyen d'utiliser Lumière est le premier historiquement r&eacute;"
-"alis&eacute;. L'id&eacute;e originale visait &agrave; trouver une solution "
-"pour les message citant plusieurs films; les bloggers est lecteurs "
-"appr&eacute;cient d'avoir le nom du r&eacute;alisateur, de conna&icirc;tre "
-"les titres alternatifs, etc. Et ces donn&eacute;es ne devaient pas prendre "
-"d'espace dans le message lui-m&ecirc;me; d'o&ugrave; l'id&eacute; d'un popup."
-
-#: inc/help.php:270
-msgid ""
-"Popup, as an extra window opened on click, will permit to get director's and "
-"movie's data; it is fully browsable and when browsing a movie, one can also "
-"look for 'AKAs' (movies which have a name similar)."
-msgstr ""
-"Popup, une fen&ecirc;tre ouverte par click, permet d'obtenir les donn&eacute;"
-"es des r&eacute;alisateur et film; elle est enti&egrave;rement navigable et, "
-"lorsqu'on navigue dans un film, on peut &eacute;galement voir les "
-"'AKAs' (des films qui ont un nom proche ou similaire)."
-
-#: inc/help.php:274
-msgid ""
-"It is quite intuitive to understand how popup can help; when writing about "
-"many movies, if one would like to speak about every director or actor he "
-"mentions in his post, it would take ages and will not have the power of the "
-"linkage (once seen the director, looking for his filmography)."
-msgstr ""
-"Il assez intuitif de comprendre coment les popups peuvent aider; lorsqu'on "
-"&eacute;crit sur plusieurs films, si l'on voulait parler de tous les "
-"nombreux acteurs ou r&eacute;alisateurs dans le corps du message, cela "
-"prendrait beaucoup de temps et place sans avoir la force des liens html (une "
-"fois trouv&eacute; le r&eacute;alisateur, on peut voir toute sa "
-"filmographie)."
-
-#: inc/help.php:278
-msgid "How to get a popup window"
-msgstr "Comment afficher une popup"
-
-#: inc/help.php:279
-msgid ""
-"To create a link to a popup window, you only need to put the <b>movie's "
-"title</b> (it doesn't work with any other data) inside dedicated tags. "
-"Either you use the HTML style to write posts, and a new button could help "
-"you to achieve that:"
-msgstr ""
-"Pour cr&eacute;er un lien vers une fen&ecirc;tre popup, il est seulement "
-"n&eacute;cessaire d'entourer le <b>nom du film</b> (ne fonctionne pas avec "
-"d'autres donn&eacute;es) d&eacute;sir&eacute; entre des tags d&eacute;"
-"di&eacute;s. Soit on utilise le style HTML pour &eacute;crire les messages, "
-"et on peut utiliser un nouveau bouton pour le faire :"
-
-#: inc/help.php:284
-msgid ""
-"Or you use the Visual style to write posts, and a new button could help you "
-"to achieve that :"
-msgstr ""
-"Ou utilisez le style Visuel d'&eacute;criture des messages, au moyen du "
-"nouveau bouton qui peut vous aider &agrave; le faire :"
-
-#: inc/help.php:289
-msgid ""
-"Whatever the tool you choose, when you will save your post you will get a "
-"nice link added to your movie."
-msgstr ""
-"Quel que soit l'outil retenu, lorsque le message est sauvegard&eacute; un "
-"superbe lien sera ajout&eacute; au film."
-
-#: inc/help.php:303
-msgid "Why to use widget?"
-msgstr "Pourquoi utiliser le widget ?"
-
-#: inc/help.php:304
-msgid "key and value for custom fields"
-msgstr "nom et valeur des champs personnalis&eacute;s"
-
-#: inc/help.php:306
-msgid ""
-"Widgets are widely used in wordpress. They allow to quickly select what "
-"information to display in an area, usually on sidebar. The main advantage is "
-"that blogger can easily select what information to display - or not, in what "
-"order."
-msgstr ""
-"Les widget sont largement utilis&eacute; dans wordpress. Ils permettent de "
-"s&eacute;lectionner rapidement quelles informations afficher dans un espace, "
-"habituellement dans une sidebar. L'avantage principale r&eacute;side dans le "
-"fait que le blogger peut facilement choisir les informations &agrave; "
-"afficher - ou non, et dans quel ordre."
-
-#: inc/help.php:310
-msgid "How to use widget"
-msgstr "Comment utiliser le widget"
-
-#: inc/help.php:311
-msgid ""
-"<strong>Firstly</strong>, go to <a href='widgets.php'>widget</a> "
-"administration (<i>appearance</i> tab), drag <i>imdb widget</i> (from "
-"<i>inactive widgets</i>) to a sidebar, and modify the box's title (in case "
-"you don't want to have the box named <i>IMDb data</i>)."
-msgstr ""
-"<strong>Premi&egrave;rement</strong>, se rendre sur l'administration des <a "
-"href='widgets.php'>widgets</a> (onglet <i>apparence</i>), glisser le "
-"<i>widget IMDb</i> (depuis les <i>widgets inactifs</i>) vers la sidebar, et "
-"modifier le titre de la bo&icirc;te (dans le cas o&ugrave; celui par "
-"d&eacute;faut, <i>IMDb data</i>, ne convient pas)."
-
-#: inc/help.php:315
-msgid ""
-"<strong>Secondly</strong>, open an old post (or write a new one) and add the "
-"key <i>imdb-movie-widget</i> to the <i>custom fields</i> of your message "
-"<strong>and</strong> the name of the movie you want to display to <i>value</"
-"i> (first case from the picture). Lumiere Movies will automatically display "
-"in the widget the movie selected."
-msgstr ""
-"<strong>Deuxi&egrave;mement</strong>, ouvrez un vieux message (ou &eacute;"
-"crivez-en un nouveau) et ajoutez <i>imdb-movie-widget</i> dans le <i>nom</i> "
-"les champs personnalis&eacute;s de votre message <strong>ainsi que</strong> "
-"le nom du film que vous souhaitez afficher dans la <i>valeur</i> (premier "
-"cas en image). Lumière! affichera automatiquement dans le widget le film "
-"s&eacute;lectionn&eacute;."
-
-#: inc/help.php:319 inc/help.php:339
-msgid "Lumiere Movies widget"
-msgstr "Widget Lumière Movies"
-
-#: inc/help.php:320
-msgid ""
-"<strong>Another possibility:</strong> add to your post the key <i>imdb-movie-"
-"widget-bymid</i> into the <i>custom fields</i> from your message "
-"<strong>and</strong> the IMDb ID for the movie you want to be displayed on "
-"your sidebar to <i>value</i> (second case from the picture). Instead of "
-"looking for a name, Lumiere Movies would directly display the movie you want "
-"to display. Very useful when your movie's name does not work as it should "
-"(if there are many movies with the same name, the wrong movie is displayed, "
-"etc)."
-msgstr ""
-"<strong>Autre possiblit&eacute; :</strong> ajouter &agrave; votre message la "
-"dans le champ nom le texte <i>imdb-movie-widget-bymid</i> des <i>champs "
-"personalis&eacute;</i> de votre message <strong>et</strong> l'id IMDb du "
-"film que vous souhaitez afficher dans la sidebar dans le champ <i>valeur</i> "
-"(second exemple dans l'image). Ainsi, au lieu de faire une chercher en "
-"fonction d'un nom, Lumière! affichera directement le film souhait&eacute;. "
-"Tr&egrave;s pratique lorsque le film retourn&eacute; n'est pas celui "
-"souhait&eacute; (lorsqu'il existe plusieurs films du m&ecirc;me nom, le "
-"mauvais film peut s'affich&eacute;, etc)."
-
-#: inc/help.php:324
-msgid ""
-"To get the movie's IMDb id, search for a title on <a href='https://www.imdb."
-"com' >Internet movie database</a> website, look at the adress bar for a "
-"'ttXXXXX' section, keep only the numerical part (XXXXX) and add result to "
-"the <i>value</i> custom field. However, in this specific case, do not mix "
-"with an <i>imdb-movie-widget</i> key. Only the first one will be displayed."
-msgstr ""
-"Pour obtenir l'id IMDb d'un film, recherchez un titre sur le site web de "
-"l'<a href='http://www.imdb.com' >Internet movie database</a>, et regardez "
-"sur la barre d'adresse la section 'ttXXXXX'; prenez seulement la partie "
-"num&eacute;rique (XXXXX), et ajoutez le r&eacute;sultat dans le champ "
-"<i>valeur</i> dans les champs personnalis&eacute;s. Cependant, dans ce cas "
-"particulier, ne m&eacute;langez pas avec une valeur <i>imdb-movie-widget</"
-"i>. Seul le premier sera affich&eacute;."
-
-#: inc/help.php:338
-msgid "What's the point of displaying movie's data inside my post?"
-msgstr ""
-"Quel est l'int&eacute;r&ecirc;t d'afficher les donn&eacute;es dans mon "
-"message ?"
-
-#: inc/help.php:340
-msgid ""
-"Having movie's data inside the post is quite useful; it could ingeniously "
-"decorate your message, display crucial informations (director, actors) and "
-"in the same time add links to a popup which would include these informations "
-"(but with more details). At the begining, this function could only be "
-"achieved with a special plugin. Since release 1.1.14.3, Lumiere Movies does "
-"not need any third party plugin anymore to display movie's data inside you "
-"message. "
-msgstr ""
-"Pouvoir afficher les donn&eacute;es d'un film dans un message est tr&egrave;"
-"s pratique; cela peut astucieusement agr&eacute;menter votre message, "
-"afficher des informations cruciales (r&eacute;alisateur, acteurs) and dans "
-"le m&ecirc;me temps ajouter des liens vers une popup contenant ces "
-"informations (en plus d&eacute;taill&eacute;). Au commencement, cette "
-"fonction pouvait &ecirc;tre activ&eacute;e uniquement gr&acirc;ce &agrave; "
-"un plugin sp&eacute;cial. Depuis sa version 1.1.14.3, Lumière (ex-IMDb link "
-"transformer) n'a plus besoin d'aucun plugin tiers pour afficher les "
-"donn&eacute;es des films &agrave; l'int&eacute;rieur d'un message. "
-
-#: inc/help.php:344
-msgid ""
-"It means that you only need to put the movie's name into brackets, to get "
-"movie's data inside your post."
-msgstr ""
-"Cela signifie qu'il suffit d'entourer le nom du film entre les crochets, "
-"pour obtenir les donn&eacute;es dans le message."
-
-#: inc/help.php:348
-msgid "How to display data inside my post"
-msgstr "Comment afficher les donn&eacute;es dans mon message"
-
-#: inc/help.php:350
-msgid ""
-"You only need to put the movie's name into brackets, to get movie's data "
-"inside your post. Data can be inserted exactly where you want, there is no "
-"limitation. Just be sure to put the movie's name inside [imdblt][/imdblt], "
-"like this:"
-msgstr ""
-"Il suffit de mettre entre crochets le nom du film pour afficher les "
-"donn&eacute;es du film dans votre message. Les donn&eacute;es peuvent &ecirc;"
-"tre ins&eacute;r&eacute;es exactement l&agrave; o&ugrave; vous souhaitez, il "
-"n'y pas de limitation. Assurez-vous de mettre le nom du film &agrave; "
-"l'int&eacute;rieur de , comme ceci :"
-
-#: inc/help.php:351
-msgid "Lumiere Movies Inside a post"
-msgstr "Lumière Movies Inside a post"
-
-#: inc/help.php:352
-msgid "And you are done."
-msgstr "Et vous avez termin&eacute;."
-
-#: inc/help.php:354
-msgid ""
-"You additionnaly can get a movie from its imdb id, using its imdb movie's id "
-"instead of its name. When writing your post, put the movie's imdb id inside "
-"tags [imdbltid][/imdbltid] (which gives ie [imdbltid]0137523[/imdbltid], for "
-"Fight Club movie). You can get movie's imdb id from imdb website, search for "
-"you movie, and check your browser's adress bar. The number after 'tt' part "
-"is the movie's id."
-msgstr ""
-"Vous pouvez &eacute;galement obtenir un film depuis son ID IMDb au lieu de "
-"l'obtenir depuis son nom. Lorsque vous &eacute;crivez votre message, mettez "
-"l'ID IMDb entre tags [imdbltid][/imdbltid] (ce qui donnerait pour Fight Club "
-"par exemple [imdbltid]0137523[/imdbltid]). Vous pouvez obtenir l'ID IMDb "
-"depuis le site de l'IMDb, en recherchant votre film. Dans votre barre "
-"d'adresse du navigateur, vous trouverez une suite de chiffres apr&egrave;s "
-"la partie 'tt', qui correspondond &agrave; l'ID."
-
-#: inc/help.php:359
-msgid "How to display data inside my post - tricky way"
-msgstr ""
-"Comment afficher les donn&eacute;es dans mon message - partie "
-"compliqu&eacute;e"
-
-#: inc/help.php:360
-msgid ""
-"It could happen you don't want to use the previous solution to display "
-"movie's data. For exemple, if you wish to use IMDbLT outside a post (in a "
-"personalized page), it won't work. In this case, and in this case only, you "
-"should (may be) to download"
-msgstr ""
-"Il peut arriver que vous ne souhaitiez pas utiliser la pr&eacute;c&eacute;"
-"dente m&eacute;thode pour afficher les d&eacute;tails des films. Par "
-"exemple, si vous souhaitez utiliser IMDbLT en dehors d'un message (dans une "
-"page personnalis&eacute;e), cela ne fonctionnera pas. Dans ce cas, et dans "
-"ce cas uniquement, vous devriez (peut-&ecirc;tre) t&eacute;l&eacute;charger"
-
-#: inc/help.php:361
-msgid ""
-"The function to be called is <strong>imdb_call_external ()</strong>. It has "
-"two parameters, and both are mandatory. The first is the movie's name, and "
-"the second take always 'external'. For exemple, one'd like to display 'The "
-"Descent' should call the function like this:"
-msgstr ""
-"La fonctionne &agrave; appeler est <strong>imdb_call_external ()</strong>. "
-"Cette fonction a deux param&egrave;tres, et tous les deux sont obligatoires. "
-"Le premier est le nom du film, et le second prend toujours 'external'. Par "
-"exemple, quelqu'un qui voudrait afficher 'The Descent' devrait appeler la "
-"fonction de cette mani&egrave;re :"
-
-#: inc/help.php:363
-msgid ""
-"The function can also be called using still 'external as second parameter, "
-"but the first will be blank and a new third parameter will take its IMDb "
-"movie's ID. For exemple, one'd like to display 'The Descent' should call the "
-"function this manner:"
-msgstr ""
-"La fonctionne &agrave; appeler est <strong>imdb_call_external ()</strong>. "
-"Cette fonction a deux param&egrave;tres, et tous les deux sont obligatoires. "
-"Le premier est le nom du film, et le second prend toujours 'external'. Par "
-"exemple, quelqu'un qui voudrait afficher 'The Descent' devrait appeler la "
-"fonction de cette mani&egrave;re :"
-
-#: inc/help.php:368
-msgid ""
-"I like to display movie details, but I want to get rid of links which open a "
-"popup"
-msgstr ""
-"J'aime pouvoir afficher les d&eacute;tails de film, mais j'aimerais ne pas "
-"avoir de liens qui ouvrent une popup"
-
-#: inc/help.php:369
-msgid ""
-"It could happen you do not want popups at all. Since by default Lumiere "
-"Movies add links whenever relevant to movie's details displayed inside "
-"posts, one may find this useless. To get rid of them, look for 'Widget/"
-"Inside post Options / Misc / Remove popup links?' and switch the option to "
-"'yes'. No links are created anymore, for both widget and inside a post."
-msgstr ""
-"Il est possible que vous ne souhaitiez pas du tout avoir de popup. Puisque "
-"par d&eacute;faut, Lumière! ajoute des liens relatifs aux d&eacute;tails des "
-"films &agrave; l'int&eacute;rieur des message, on pourrait trouver ce "
-"comportement inutile. Pour s'en d&eacute;barasser, regardez sous \"Options "
-"du Widget/Dans un message / Divers / Enlever les liens imdb ?\" et mettez "
-"l'option sur \"oui\". Plus aucun lien ne sera dor&eacute;navant cr&eacute;"
-"&eacute;, ni pour le widget ni &agrave; l'int&eacute;rieur du message."
-
-#: inc/help.php:382
-msgid "Lumiere Movies is a mess! I'm lost with so many options."
-msgstr ""
-"On ne s'y retrouve pas avec Lumière! Je suis perdu avec toutes ces options."
-
-#: inc/help.php:386
-msgid ""
-"Wordpress admin area offers more and more options to user. Starting with 2.7 "
-"release, it also offers the possibility to add new admin menu for plugins. "
-"Lumiere Movies makes the most of this possibility, and can add its own admin "
-"menu. It can be added - or removed. Depending of how many plugin's admin "
-"menus you already have, you would prefer to keep access to Lumiere Movies "
-"settings only through usual 'settings' tab; it's up to you to choose to "
-"either get a more complete and bigger Lumiere Movies menu - or not."
-msgstr ""
-"L'interface d'administration de Wordpress offre de plus en plus d'options. "
-"Depuis la version 2.7, elle offre aussi la possibilit&eacute; d'ajouter un "
-"nouveau menu pour les plugins. Lumière! utilise au maximum cette "
-"possibilit&eacute;, et ajoute son propre menu d'administration. Il peut "
-"&ecirc;tre ajout&eacute; - ou enlev&eacute;. Selon le nombre de plugins dans "
-"les menus d'administration que vous avez d&eacute;j&agrave;, vous pr&eacute;"
-"fererez pr&eacute;server l'acc&egrave;s aux options d'IMDb link transformer "
-"seulement par l'onglet habituel; c'est vous qui choisissez d'afficher un "
-"complet et plus grand menu pour Lumière - ou non."
-
-#: inc/help.php:390
-msgid ""
-"In the case you want to, go to 'General options / Advanced / Display plugin "
-"in big admin menu' and turn to 'yes' the option. You will get a brand new "
-"menu, as shown on left."
-msgstr ""
-"Si c'est ce que vous souhaitez, allez dans \"Options g&eacute;n&eacute;"
-"rales / Avanc&eacute; / Afficher le grand menu d'administration du plugin\" "
-"et mettez \"oui\". Vous obtiendrez un tout nouveau menu, comme visible sur "
-"la gauche."
-
-#: inc/help.php:405
-msgid ""
-"How to add a search function for movies in general, and not only for "
-"selected movies?"
-msgstr ""
-"Comment ajouter une fonction de recherche pour des films en g&eacute;"
-"n&eacute;ral, et pas uniquement pour des films choisis ?"
-
-#: inc/help.php:407
-msgid ""
-"It is indeed doable. Plugin is versatile enough to handle this function. By "
-"adding a form, you can add a search field which will allow users to search "
-"for every movie on your blog. Here is the code:"
-msgstr ""
-"C'est effectivement r&eacute;alisable. Le plugin est suffisamment versatile "
-"pour le faire. En ajoutant un formulaire, vous pouvez ajouter un champs de "
-"recherche qui permet aux utilisateurs de faire une recherche sur n'importe "
-"quel film sur votre blog. Voici le code :"
-
-#: inc/help.php:421
-msgid "It perfectly fits in your sidebar, for exemple."
-msgstr ""
-"Cela peut s'ins&eacute;rer parfaitement dans votre sidebar, par exemple."
-
-#: inc/help.php:438
-msgid "How to keep my own css through updated process?"
-msgstr "Comment garder mes propres css lors d'une mise &agrave; jour ?"
-
-#: inc/help.php:440
-msgid ""
-"Fed up of losing your carefully handmade visual settings at every Lumière! "
-"update? There is a solution."
-msgstr ""
-"Fatigu&eacute; de perdre vos modifications visuelles &agrave; chaque mise "
-"&agrave; jour de Lumière ? Voici une solution."
-
-#: inc/help.php:443
-msgid ""
-"Every modification you can make is done in css/lumiere.css file. Instead of "
-"using this file, put an lumiere.css file in you template root folder; this "
-"css file will taken instead of plugin's css file. Whenever you update, your "
-"template's one will stay untouched!"
-msgstr ""
-"Chaque modification que vous faites l'est dans le fichier css/imdb.css. Au "
-"lieu d'utiliser ce fichier, mettez un fichier lumiere.css &agrave; la racine "
-"de r&eacute;pertoire de votre th&egrave;me; ce css sera utilis&eacute; "
-"&agrave; la place du css du plugin. Lorsque vous effectuerez la mise "
-"&agrave; jour du plugin, votre css restera identique !"
-
-#: inc/help.php:446
-msgid ""
-"However, be careful with this manner, since css/lumiere.css file can be "
-"updated from version to version, and you'd not be aware of changes made..."
-msgstr ""
-"Toutefois, attention avec cet mani&egrave;re de faire, puisque le fichier "
-"css/lumiere.css peut subir des modification d'une version &agrave; l'autre, "
-"sans que vous r&eacute;alisiez que des modifications ont &eacute;t&eacute; "
-"apport&eacute;es..."
-
-#: inc/help.php:461
-msgid "What is Wordpress' taxonomy?"
-msgstr "Qu'est-ce que la taxonomie pour Wordpress ?"
-
-#: inc/help.php:463
-msgid ""
-"Starting with Wordpress 2.3, wordpress users can make use taxonomy (https://"
-"codex.wordpress.org/WordPress_Taxonomy)."
-msgstr ""
-"Depuis la version de Wordpress 2.3, les cr&eacute;ateurs de plugin peuvent "
-"utiliser la (https://codex.wordpress.org/WordPress_Taxonomy)."
-
-#: inc/help.php:464
-msgid ""
-"Taxonomy is a feature adding a supplementary categorisation beside "
-"Categories and Tags; in other words, it is like having species (a block "
-"named 'genre') and subspecies (few words describing the genre, like "
-"'Adventure', 'Terror'). It is not fundamentaly different from Categories and "
-"Tags, but it is much more appropriate for Lumiere Movies needs."
-msgstr ""
-"La taxonomie est une fonctionnalit&eacute; ajoutant une cat&eacute;"
-"gorisation suppl&eacute;mentaire en sus des Cat&eacute;gories et Tags; "
-"autrement dit, c'est comme avoir les esp&egrave;ces (un bloc nomm&eacute; "
-"'genre') et ses sous-esp&egrave;ces (quelques mots d&eacute;crivant le "
-"genre, comme 'Aventure', 'Terreur'). Ce n'est pas fondamentalement "
-"diff&eacute;rent des Cat&eacute;gories et Tags, mais c'est bien plus "
-"adapt&eacute; aux besoins de Lumière."
-
-#: inc/help.php:467
-msgid "How to use taxonomy Wordpress capability?"
-msgstr ""
-"Comment utiliser la fonctionnalit&eacute; de taxonomie sous Wordpress ?"
-
-#: inc/help.php:469
-msgid ""
-"To activate the automatically generated taxonomy, turn 'General options -> "
-"Advanced ->  'Use automatical genre taxonomy?' to 'yes'. Note that since "
-"taxonomy is related to movie details, the movie detail you want to be used "
-"as taxonomy has to be also activated from 'Widget/Inside post Options -> "
-"What to display'. Eventually, it will permit to select in 'Widget/Inside "
-"post Options -> What to taxonomize' menu if you want to taxonomize Genres, "
-"but also actors, colors, composers, directors, etc."
-msgstr ""
-"Pour activer les taxonomies automatiquement g&eacute;n&eacute;r&eacute;es, "
-"mettez 'Options g&eacute;n&eacute;rales -> Avanc&eacute; ->  'Utiliser la "
-"taxonomie automatique de genre ?' sur 'oui'. Bien s&ucirc;r, comme la "
-"taxonomie est relative aux d&eacute;tails de film choisis, il est aussi "
-"n&eacute;cessaire que soit activ&eacute;e le d&eacute;tail de film 'Options "
-"du Widget/Dans le message -> &Agrave; afficher'. Finallement, cela vous "
-"permettra de choisir dans le menu 'Options du Widget/Dans le message -> "
-"&Agrave; taxonomiser' si vous voulez transformer en taxonomie les genres, "
-"les acteurs, les couleurs, les compositeurs, les réalisateurs, etc."
-
-#: inc/help.php:475
-msgid ""
-"After that, pay a visit to your post/page; first refresh will not "
-"immediately display the movie detail (it will only generate them). Though, "
-"on a second refresh, you will see both movie details and (if you wordpress "
-"theme is configured to show it) taxonomy in your post."
-msgstr ""
-"Apr&egrave;s cela, visitez votre page/message; le premier rafra&icirc;"
-"chissement n'affichera pas imm&eacute;diatement les genres (il les g&eacute;"
-"n&eacute;ra seulement), faites en donc un second."
-
-#: inc/help.php:479
-msgid "New option(s) in 'Posts' menu"
-msgstr "Nouvelle(s) option(s) dans le menu 'Articles'"
-
-#: inc/help.php:481
-msgid ""
-"Once you have activated all taxonomy options and have triggered its "
-"wordpress function (by visiting your post and refreshing the page), "
-"wordpress administration posts menu will include new option(s). Depending on "
-"movie details previously selected, you will find an option to manage the "
-"words automatically generated by the taxonomy function. For instance to "
-"select 'genre':"
-msgstr ""
-"Une fois activ&eacute;es les options de taxonomie et d&eacute;clench&eacute; "
-"la fonction de taxonomie de Wordpress (en visitant votre message et "
-"rafra&icirc;chissant la page), le menu 'Articles' de la partie "
-"d'administration de Wordpress affichera de nouvelle(s) option(s). Selon les "
-"d&eacute;tails de film pr&eacute;c&eacute;demment s&eacute;lectionn&eacute;"
-"s, vous trouverez une nouvelle option pour g&eacute;rer les mots "
-"automatiquement g&eacute;n&eacute;r&eacute;s par la fonction de taxonomie. "
-"Par exemple, pour choisir le 'genre' :"
-
-#: inc/help.php:488
-msgid "Limits"
-msgstr "Limites"
-
-#: inc/help.php:489
-msgid ""
-"There is a strong limitation: since eache page/post can contain only a "
-"unique taxonomy sequence, only the first movie (first 'inside the post', "
-"first 'widget') will use the taxonomy feature. If you have two movie's "
-"widgets, only the first widget will display the links to genre's taxonomy. "
-"If you have both a movie's widget and an inside the post data, the movie's "
-"widget will prevail."
-msgstr ""
-"Il existe une forte limitation : puisque chaque page/message peut contenir "
-"seulement une seule suite de taxonomies, seul le premier film (le premier "
-"dans le message, le premier dans le widget) utilisera la "
-"fonctionnalit&eacute; de taxonomie. Si vous avez deux widgets de film, seul "
-"le premier widget affichera le lien vers la taxonomie genre. Si vous avez "
-"&agrave; la fois un widget et des donn&eacute;es 'dans le message', le "
-"widget prendra le pas sur ce dernier."
-
-#: inc/help.php:492
-msgid ""
-"Also, select cautiously options you want to be displayed as taxonomies: it "
-"could happen it creates a conflict with other functions, especially if you "
-"display many movies in same post. When selecting one of the taxonomy options "
-"from 'What to taxonomize' section, it will supersede any other function or "
-"link created; for instance, you won't have anymore access to popup links for "
-"directors, if directors taxonomy is chosen. Taxonomy will always prevail."
-msgstr ""
-"Soyez prudent avec les options choisies pour &ecirc;tre affich&eacute;es "
-"comme taxonomies; elles peuvent entrer en conflit avec d'autres fonctions, "
-"notamment si vous afficher plusieurs films dans le m&ecirc;me message. "
-"Lorsque vous s&eacute;lectionnez l'une des options de taxonomie ci-dessous, "
-"elle prendra le pas sur toute autre fonction; par exemple, vous n'aurez plus "
-"acc&egrave;s aux liens pour les r&eacute;alisateurs, si la taxonomie "
-"r&eacute;alisateurs est choisie. La taxonomie prendra toujours le pas."
-
-#: inc/help.php:496
-msgid "Advanced: Customizing your theme according taxonomy"
-msgstr "Avanc&eacute;: Personnalisez votre th&egrave;me selon la taxonomie"
-
-#: inc/help.php:498
-msgid ""
-"To fully enjoy this feature, copy one of the files located in the Lumière! "
-"movies folder 'lumiere-movies/theme/' into your 'theme' folder. In order to "
-"help you, an automated process is available in Lumière! taxonomy options."
-msgstr ""
-"Pour pleinement profiter de cette fonction, copiez l'un des fichiers présent "
-"dans le répertoire Lumière! '/theme/' vers votre r&eacute;pertoire de "
-"'th&egrave;me'. Pour vous aider, un processus automatique est disponible "
-"dans les options de taxonomie de Lumière!"
-
-#: inc/help.php:514
-msgid ""
-"How to get the movie retrieved automatically according to the post's title?"
-msgstr ""
-"Comment obtenir automatiquement un film selon le titre donn&eacute; au "
-"message ?"
-
-#: inc/help.php:516
-msgid ""
-"You have hundreds of posts, carrefully named as they could be found on IMDb, "
-"and you don't want to change hundreds of posts. There is a straightforward "
-"solution."
-msgstr ""
-"Vous avez des centaines de messages, nomm&eacute;s tels qu'on peut les "
-"trouvers sur l'IMDb, et vous ne souhaitez pas changer ces centaines de "
-"messages. Il existe une solution rapide et im&eacute;diate."
-
-#: inc/help.php:519
-msgid ""
-"Activate Widget option in Lumière! (it is activated by default), add the "
-"Lumières!'s widget to your sidebar, and go to 'Widget/Inside post Options' "
-"menu, select 'misc' from the new menu, and select « yes » from « Auto "
-"widget? » option at end."
-msgstr ""
-"Activez l'option widget dans IMDbLT (activ&eacute;e par d&eacute;faut), "
-"ajoutez le widget Lumière! sur votre barre latérale, puis rendez vous dans "
-"le menu \"Options du widget/Dans un message\", choisissez \"divers\" dans le "
-"nouveau menu, et enfin s&eacute;lectionnez \"oui\" pour l'option \"Widget "
-"auto\" à la fin."
-
-#: inc/help.php:527
-msgid ""
-"Next time you will look at your post, you will find the widget according to "
-"your post’s title."
-msgstr ""
-"La prochaine fois que vous visiterez votre message, vous trouverez un widget "
-"li&eacute au titre du message."
 
 #: inc/highslide_download.php:23
 msgid "You can not call directly this page."
@@ -2739,6 +2703,351 @@ msgstr "Dans le rôle de"
 #: theme/taxonomy-imdblt_people.php:411
 msgid "Change language"
 msgstr "Changer la langue"
+
+#~ msgid "Big admin menu"
+#~ msgstr "Grand menu d'administration"
+
+#~ msgid ""
+#~ "Lumiere Movies evolves a lot. As a result of this, the plugin includes "
+#~ "many options, many ways to achieve bloggers wishes. Lumiere Movies main "
+#~ "functions are explained hereafter, aiming to make the experience better. "
+#~ "As you may discover, there are three main ways to show data from movies "
+#~ "and there are many related options. This is an attempt to document it, "
+#~ "but please check also FAQs."
+#~ msgstr ""
+#~ "Lumière évolue beaucoup. En conséquence, ce plugin inclut de nombreuses "
+#~ "options afin que les utilisateurs puissent réaliser leurs attentes. "
+#~ "Ainsi, les fonctions principales de Lumière sont expliquées par la suite, "
+#~ "visant à améliorer l'expérience. Comme vous le découvrirez, il y a trois "
+#~ "moyens principaux d'afficher les données de films et beaucoup d'options "
+#~ "sont disponibles. Ceci est une tentative de le documenter, mais veuillez "
+#~ "également consulter les FAQ."
+
+#~ msgid ""
+#~ "The first way to use Lumiere Movies is the first historically available. "
+#~ "The idea behind was to find a solution for posts quoting many movies; "
+#~ "blogger and reader would appreciate to have director's name, to know the "
+#~ "alternative title's name, etc. And these data should not waste space in "
+#~ "post itself; thus the popup idea."
+#~ msgstr ""
+#~ "Le premier moyen d'utiliser Lumière est le premier historiquement "
+#~ "r&eacute;alis&eacute;. L'id&eacute;e originale visait &agrave; trouver "
+#~ "une solution pour les message citant plusieurs films; les bloggers est "
+#~ "lecteurs appr&eacute;cient d'avoir le nom du r&eacute;alisateur, de "
+#~ "conna&icirc;tre les titres alternatifs, etc. Et ces donn&eacute;es ne "
+#~ "devaient pas prendre d'espace dans le message lui-m&ecirc;me; d'o&ugrave; "
+#~ "l'id&eacute; d'un popup."
+
+#~ msgid ""
+#~ "Popup, as an extra window opened on click, will permit to get director's "
+#~ "and movie's data; it is fully browsable and when browsing a movie, one "
+#~ "can also look for 'AKAs' (movies which have a name similar)."
+#~ msgstr ""
+#~ "Popup, une fen&ecirc;tre ouverte par click, permet d'obtenir les "
+#~ "donn&eacute;es des r&eacute;alisateur et film; elle est enti&egrave;"
+#~ "rement navigable et, lorsqu'on navigue dans un film, on peut &eacute;"
+#~ "galement voir les 'AKAs' (des films qui ont un nom proche ou similaire)."
+
+#~ msgid ""
+#~ "It is quite intuitive to understand how popup can help; when writing "
+#~ "about many movies, if one would like to speak about every director or "
+#~ "actor he mentions in his post, it would take ages and will not have the "
+#~ "power of the linkage (once seen the director, looking for his "
+#~ "filmography)."
+#~ msgstr ""
+#~ "Il assez intuitif de comprendre coment les popups peuvent aider; "
+#~ "lorsqu'on &eacute;crit sur plusieurs films, si l'on voulait parler de "
+#~ "tous les nombreux acteurs ou r&eacute;alisateurs dans le corps du "
+#~ "message, cela prendrait beaucoup de temps et place sans avoir la force "
+#~ "des liens html (une fois trouv&eacute; le r&eacute;alisateur, on peut "
+#~ "voir toute sa filmographie)."
+
+#~ msgid ""
+#~ "Or you use the Visual style to write posts, and a new button could help "
+#~ "you to achieve that :"
+#~ msgstr ""
+#~ "Ou utilisez le style Visuel d'&eacute;criture des messages, au moyen du "
+#~ "nouveau bouton qui peut vous aider &agrave; le faire :"
+
+#~ msgid ""
+#~ "<strong>Another possibility:</strong> add to your post the key <i>imdb-"
+#~ "movie-widget-bymid</i> into the <i>custom fields</i> from your message "
+#~ "<strong>and</strong> the IMDb ID for the movie you want to be displayed "
+#~ "on your sidebar to <i>value</i> (second case from the picture). Instead "
+#~ "of looking for a name, Lumiere Movies would directly display the movie "
+#~ "you want to display. Very useful when your movie's name does not work as "
+#~ "it should (if there are many movies with the same name, the wrong movie "
+#~ "is displayed, etc)."
+#~ msgstr ""
+#~ "<strong>Autre possiblit&eacute; :</strong> ajouter &agrave; votre message "
+#~ "la dans le champ nom le texte <i>imdb-movie-widget-bymid</i> des "
+#~ "<i>champs personalis&eacute;</i> de votre message <strong>et</strong> "
+#~ "l'id IMDb du film que vous souhaitez afficher dans la sidebar dans le "
+#~ "champ <i>valeur</i> (second exemple dans l'image). Ainsi, au lieu de "
+#~ "faire une chercher en fonction d'un nom, Lumière! affichera directement "
+#~ "le film souhait&eacute;. Tr&egrave;s pratique lorsque le film "
+#~ "retourn&eacute; n'est pas celui souhait&eacute; (lorsqu'il existe "
+#~ "plusieurs films du m&ecirc;me nom, le mauvais film peut s'affich&eacute;, "
+#~ "etc)."
+
+#~ msgid ""
+#~ "To get the movie's IMDb id, search for a title on <a href='https://www."
+#~ "imdb.com' >Internet movie database</a> website, look at the adress bar "
+#~ "for a 'ttXXXXX' section, keep only the numerical part (XXXXX) and add "
+#~ "result to the <i>value</i> custom field. However, in this specific case, "
+#~ "do not mix with an <i>imdb-movie-widget</i> key. Only the first one will "
+#~ "be displayed."
+#~ msgstr ""
+#~ "Pour obtenir l'id IMDb d'un film, recherchez un titre sur le site web de "
+#~ "l'<a href='http://www.imdb.com' >Internet movie database</a>, et regardez "
+#~ "sur la barre d'adresse la section 'ttXXXXX'; prenez seulement la partie "
+#~ "num&eacute;rique (XXXXX), et ajoutez le r&eacute;sultat dans le champ "
+#~ "<i>valeur</i> dans les champs personnalis&eacute;s. Cependant, dans ce "
+#~ "cas particulier, ne m&eacute;langez pas avec une valeur <i>imdb-movie-"
+#~ "widget</i>. Seul le premier sera affich&eacute;."
+
+#~ msgid ""
+#~ "Having movie's data inside the post is quite useful; it could ingeniously "
+#~ "decorate your message, display crucial informations (director, actors) "
+#~ "and in the same time add links to a popup which would include these "
+#~ "informations (but with more details). At the begining, this function "
+#~ "could only be achieved with a special plugin. Since release 1.1.14.3, "
+#~ "Lumiere Movies does not need any third party plugin anymore to display "
+#~ "movie's data inside you message. "
+#~ msgstr ""
+#~ "Pouvoir afficher les donn&eacute;es d'un film dans un message est "
+#~ "tr&egrave;s pratique; cela peut astucieusement agr&eacute;menter votre "
+#~ "message, afficher des informations cruciales (r&eacute;alisateur, "
+#~ "acteurs) and dans le m&ecirc;me temps ajouter des liens vers une popup "
+#~ "contenant ces informations (en plus d&eacute;taill&eacute;). Au "
+#~ "commencement, cette fonction pouvait &ecirc;tre activ&eacute;e uniquement "
+#~ "gr&acirc;ce &agrave; un plugin sp&eacute;cial. Depuis sa version "
+#~ "1.1.14.3, Lumière (ex-IMDb link transformer) n'a plus besoin d'aucun "
+#~ "plugin tiers pour afficher les donn&eacute;es des films &agrave; "
+#~ "l'int&eacute;rieur d'un message. "
+
+#~ msgid ""
+#~ "It means that you only need to put the movie's name into brackets, to get "
+#~ "movie's data inside your post."
+#~ msgstr ""
+#~ "Cela signifie qu'il suffit d'entourer le nom du film entre les crochets, "
+#~ "pour obtenir les donn&eacute;es dans le message."
+
+#~ msgid ""
+#~ "You only need to put the movie's name into brackets, to get movie's data "
+#~ "inside your post. Data can be inserted exactly where you want, there is "
+#~ "no limitation. Just be sure to put the movie's name inside [imdblt][/"
+#~ "imdblt], like this:"
+#~ msgstr ""
+#~ "Il suffit de mettre entre crochets le nom du film pour afficher les "
+#~ "donn&eacute;es du film dans votre message. Les donn&eacute;es peuvent "
+#~ "&ecirc;tre ins&eacute;r&eacute;es exactement l&agrave; o&ugrave; vous "
+#~ "souhaitez, il n'y pas de limitation. Assurez-vous de mettre le nom du "
+#~ "film &agrave; l'int&eacute;rieur de , comme ceci :"
+
+#~ msgid "And you are done."
+#~ msgstr "Et vous avez termin&eacute;."
+
+#~ msgid ""
+#~ "You additionnaly can get a movie from its imdb id, using its imdb movie's "
+#~ "id instead of its name. When writing your post, put the movie's imdb id "
+#~ "inside tags [imdbltid][/imdbltid] (which gives ie [imdbltid]0137523[/"
+#~ "imdbltid], for Fight Club movie). You can get movie's imdb id from imdb "
+#~ "website, search for you movie, and check your browser's adress bar. The "
+#~ "number after 'tt' part is the movie's id."
+#~ msgstr ""
+#~ "Vous pouvez &eacute;galement obtenir un film depuis son ID IMDb au lieu "
+#~ "de l'obtenir depuis son nom. Lorsque vous &eacute;crivez votre message, "
+#~ "mettez l'ID IMDb entre tags [imdbltid][/imdbltid] (ce qui donnerait pour "
+#~ "Fight Club par exemple [imdbltid]0137523[/imdbltid]). Vous pouvez obtenir "
+#~ "l'ID IMDb depuis le site de l'IMDb, en recherchant votre film. Dans votre "
+#~ "barre d'adresse du navigateur, vous trouverez une suite de chiffres "
+#~ "apr&egrave;s la partie 'tt', qui correspondond &agrave; l'ID."
+
+#~ msgid "How to display data inside my post - tricky way"
+#~ msgstr ""
+#~ "Comment afficher les donn&eacute;es dans mon message - partie "
+#~ "compliqu&eacute;e"
+
+#~ msgid ""
+#~ "The function can also be called using still 'external as second "
+#~ "parameter, but the first will be blank and a new third parameter will "
+#~ "take its IMDb movie's ID. For exemple, one'd like to display 'The "
+#~ "Descent' should call the function this manner:"
+#~ msgstr ""
+#~ "La fonctionne &agrave; appeler est <strong>imdb_call_external ()</"
+#~ "strong>. Cette fonction a deux param&egrave;tres, et tous les deux sont "
+#~ "obligatoires. Le premier est le nom du film, et le second prend toujours "
+#~ "'external'. Par exemple, quelqu'un qui voudrait afficher 'The Descent' "
+#~ "devrait appeler la fonction de cette mani&egrave;re :"
+
+#~ msgid ""
+#~ "I like to display movie details, but I want to get rid of links which "
+#~ "open a popup"
+#~ msgstr ""
+#~ "J'aime pouvoir afficher les d&eacute;tails de film, mais j'aimerais ne "
+#~ "pas avoir de liens qui ouvrent une popup"
+
+#~ msgid "Lumiere Movies is a mess! I'm lost with so many options."
+#~ msgstr ""
+#~ "On ne s'y retrouve pas avec Lumière! Je suis perdu avec toutes ces "
+#~ "options."
+
+#~ msgid ""
+#~ "Wordpress admin area offers more and more options to user. Starting with "
+#~ "2.7 release, it also offers the possibility to add new admin menu for "
+#~ "plugins. Lumiere Movies makes the most of this possibility, and can add "
+#~ "its own admin menu. It can be added - or removed. Depending of how many "
+#~ "plugin's admin menus you already have, you would prefer to keep access to "
+#~ "Lumiere Movies settings only through usual 'settings' tab; it's up to you "
+#~ "to choose to either get a more complete and bigger Lumiere Movies menu - "
+#~ "or not."
+#~ msgstr ""
+#~ "L'interface d'administration de Wordpress offre de plus en plus "
+#~ "d'options. Depuis la version 2.7, elle offre aussi la possibilit&eacute; "
+#~ "d'ajouter un nouveau menu pour les plugins. Lumière! utilise au maximum "
+#~ "cette possibilit&eacute;, et ajoute son propre menu d'administration. Il "
+#~ "peut &ecirc;tre ajout&eacute; - ou enlev&eacute;. Selon le nombre de "
+#~ "plugins dans les menus d'administration que vous avez d&eacute;j&agrave;, "
+#~ "vous pr&eacute;fererez pr&eacute;server l'acc&egrave;s aux options d'IMDb "
+#~ "link transformer seulement par l'onglet habituel; c'est vous qui "
+#~ "choisissez d'afficher un complet et plus grand menu pour Lumière - ou non."
+
+#~ msgid ""
+#~ "In the case you want to, go to 'General options / Advanced / Display "
+#~ "plugin in big admin menu' and turn to 'yes' the option. You will get a "
+#~ "brand new menu, as shown on left."
+#~ msgstr ""
+#~ "Si c'est ce que vous souhaitez, allez dans \"Options g&eacute;n&eacute;"
+#~ "rales / Avanc&eacute; / Afficher le grand menu d'administration du plugin"
+#~ "\" et mettez \"oui\". Vous obtiendrez un tout nouveau menu, comme visible "
+#~ "sur la gauche."
+
+#~ msgid ""
+#~ "Every modification you can make is done in css/lumiere.css file. Instead "
+#~ "of using this file, put an lumiere.css file in you template root folder; "
+#~ "this css file will taken instead of plugin's css file. Whenever you "
+#~ "update, your template's one will stay untouched!"
+#~ msgstr ""
+#~ "Chaque modification que vous faites l'est dans le fichier css/imdb.css. "
+#~ "Au lieu d'utiliser ce fichier, mettez un fichier lumiere.css &agrave; la "
+#~ "racine de r&eacute;pertoire de votre th&egrave;me; ce css sera "
+#~ "utilis&eacute; &agrave; la place du css du plugin. Lorsque vous "
+#~ "effectuerez la mise &agrave; jour du plugin, votre css restera identique !"
+
+#~ msgid ""
+#~ "However, be careful with this manner, since css/lumiere.css file can be "
+#~ "updated from version to version, and you'd not be aware of changes made..."
+#~ msgstr ""
+#~ "Toutefois, attention avec cet mani&egrave;re de faire, puisque le fichier "
+#~ "css/lumiere.css peut subir des modification d'une version &agrave; "
+#~ "l'autre, sans que vous r&eacute;alisiez que des modifications ont &eacute;"
+#~ "t&eacute; apport&eacute;es..."
+
+#~ msgid ""
+#~ "To activate the automatically generated taxonomy, turn 'General options -"
+#~ "> Advanced ->  'Use automatical genre taxonomy?' to 'yes'. Note that "
+#~ "since taxonomy is related to movie details, the movie detail you want to "
+#~ "be used as taxonomy has to be also activated from 'Widget/Inside post "
+#~ "Options -> What to display'. Eventually, it will permit to select in "
+#~ "'Widget/Inside post Options -> What to taxonomize' menu if you want to "
+#~ "taxonomize Genres, but also actors, colors, composers, directors, etc."
+#~ msgstr ""
+#~ "Pour activer les taxonomies automatiquement g&eacute;n&eacute;r&eacute;"
+#~ "es, mettez 'Options g&eacute;n&eacute;rales -> Avanc&eacute; ->  "
+#~ "'Utiliser la taxonomie automatique de genre ?' sur 'oui'. Bien s&ucirc;r, "
+#~ "comme la taxonomie est relative aux d&eacute;tails de film choisis, il "
+#~ "est aussi n&eacute;cessaire que soit activ&eacute;e le d&eacute;tail de "
+#~ "film 'Options du Widget/Dans le message -> &Agrave; afficher'. "
+#~ "Finallement, cela vous permettra de choisir dans le menu 'Options du "
+#~ "Widget/Dans le message -> &Agrave; taxonomiser' si vous voulez "
+#~ "transformer en taxonomie les genres, les acteurs, les couleurs, les "
+#~ "compositeurs, les réalisateurs, etc."
+
+#~ msgid ""
+#~ "After that, pay a visit to your post/page; first refresh will not "
+#~ "immediately display the movie detail (it will only generate them). "
+#~ "Though, on a second refresh, you will see both movie details and (if you "
+#~ "wordpress theme is configured to show it) taxonomy in your post."
+#~ msgstr ""
+#~ "Apr&egrave;s cela, visitez votre page/message; le premier rafra&icirc;"
+#~ "chissement n'affichera pas imm&eacute;diatement les genres (il les "
+#~ "g&eacute;n&eacute;ra seulement), faites en donc un second."
+
+#~ msgid ""
+#~ "Once you have activated all taxonomy options and have triggered its "
+#~ "wordpress function (by visiting your post and refreshing the page), "
+#~ "wordpress administration posts menu will include new option(s). Depending "
+#~ "on movie details previously selected, you will find an option to manage "
+#~ "the words automatically generated by the taxonomy function. For instance "
+#~ "to select 'genre':"
+#~ msgstr ""
+#~ "Une fois activ&eacute;es les options de taxonomie et d&eacute;"
+#~ "clench&eacute; la fonction de taxonomie de Wordpress (en visitant votre "
+#~ "message et rafra&icirc;chissant la page), le menu 'Articles' de la partie "
+#~ "d'administration de Wordpress affichera de nouvelle(s) option(s). Selon "
+#~ "les d&eacute;tails de film pr&eacute;c&eacute;demment s&eacute;"
+#~ "lectionn&eacute;s, vous trouverez une nouvelle option pour g&eacute;rer "
+#~ "les mots automatiquement g&eacute;n&eacute;r&eacute;s par la fonction de "
+#~ "taxonomie. Par exemple, pour choisir le 'genre' :"
+
+#~ msgid "Limits"
+#~ msgstr "Limites"
+
+#~ msgid ""
+#~ "There is a strong limitation: since eache page/post can contain only a "
+#~ "unique taxonomy sequence, only the first movie (first 'inside the post', "
+#~ "first 'widget') will use the taxonomy feature. If you have two movie's "
+#~ "widgets, only the first widget will display the links to genre's "
+#~ "taxonomy. If you have both a movie's widget and an inside the post data, "
+#~ "the movie's widget will prevail."
+#~ msgstr ""
+#~ "Il existe une forte limitation : puisque chaque page/message peut "
+#~ "contenir seulement une seule suite de taxonomies, seul le premier film "
+#~ "(le premier dans le message, le premier dans le widget) utilisera la "
+#~ "fonctionnalit&eacute; de taxonomie. Si vous avez deux widgets de film, "
+#~ "seul le premier widget affichera le lien vers la taxonomie genre. Si vous "
+#~ "avez &agrave; la fois un widget et des donn&eacute;es 'dans le message', "
+#~ "le widget prendra le pas sur ce dernier."
+
+#~ msgid ""
+#~ "Also, select cautiously options you want to be displayed as taxonomies: "
+#~ "it could happen it creates a conflict with other functions, especially if "
+#~ "you display many movies in same post. When selecting one of the taxonomy "
+#~ "options from 'What to taxonomize' section, it will supersede any other "
+#~ "function or link created; for instance, you won't have anymore access to "
+#~ "popup links for directors, if directors taxonomy is chosen. Taxonomy will "
+#~ "always prevail."
+#~ msgstr ""
+#~ "Soyez prudent avec les options choisies pour &ecirc;tre affich&eacute;es "
+#~ "comme taxonomies; elles peuvent entrer en conflit avec d'autres "
+#~ "fonctions, notamment si vous afficher plusieurs films dans le m&ecirc;me "
+#~ "message. Lorsque vous s&eacute;lectionnez l'une des options de taxonomie "
+#~ "ci-dessous, elle prendra le pas sur toute autre fonction; par exemple, "
+#~ "vous n'aurez plus acc&egrave;s aux liens pour les r&eacute;alisateurs, si "
+#~ "la taxonomie r&eacute;alisateurs est choisie. La taxonomie prendra "
+#~ "toujours le pas."
+
+#~ msgid ""
+#~ "You have hundreds of posts, carrefully named as they could be found on "
+#~ "IMDb, and you don't want to change hundreds of posts. There is a "
+#~ "straightforward solution."
+#~ msgstr ""
+#~ "Vous avez des centaines de messages, nomm&eacute;s tels qu'on peut les "
+#~ "trouvers sur l'IMDb, et vous ne souhaitez pas changer ces centaines de "
+#~ "messages. Il existe une solution rapide et im&eacute;diate."
+
+#~ msgid ""
+#~ "Activate Widget option in Lumière! (it is activated by default), add the "
+#~ "Lumières!'s widget to your sidebar, and go to 'Widget/Inside post "
+#~ "Options' menu, select 'misc' from the new menu, and select « yes » from « "
+#~ "Auto widget? » option at end."
+#~ msgstr ""
+#~ "Activez l'option widget dans IMDbLT (activ&eacute;e par d&eacute;faut), "
+#~ "ajoutez le widget Lumière! sur votre barre latérale, puis rendez vous "
+#~ "dans le menu \"Options du widget/Dans un message\", choisissez \"divers\" "
+#~ "dans le nouveau menu, et enfin s&eacute;lectionnez \"oui\" pour l'option "
+#~ "\"Widget auto\" à la fin."
 
 #~ msgid "New template version available, please copy"
 #~ msgstr "Nouvelle version de template disponible, veuillez copier"
