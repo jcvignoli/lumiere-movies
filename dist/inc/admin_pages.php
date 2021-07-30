@@ -18,6 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die('You can not call directly this page');
 }
 
+# Bootstrap with requires
+require_once ( plugin_dir_path( __DIR__ ) . 'class/admin/bootstrap.php' );
 
 //Prints out the admin page
 function lumiere_admin_pages() {
@@ -122,7 +124,7 @@ function lumiere_admin_pages() {
 
 	} elseif ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "help") ) {
 
-		require_once ( plugin_dir_path( __DIR__ ) . 'inc/help.php' );
+		$adminHelp = new \Lumiere\AdminHelp();
 
 	}
 	// end subselection 
