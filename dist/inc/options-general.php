@@ -144,9 +144,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 ?>
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-general-path.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Paths & Layout", 'lumiere-movies');?>" href="<?php echo esc_url(admin_url() . "admin.php?page=lumiere_options&generaloption=base" ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-general-path.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Paths & Layout", 'lumiere-movies');?>" href="<?php echo esc_url(admin_url() . "admin.php?page=lumiere_options&generaloption=base" ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies'); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-general-advanced.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Advanced", 'lumiere-movies');?>" href="<?php echo esc_url (admin_url() . "admin.php?page=lumiere_options&generaloption=advanced" ); ?>"><?php esc_html_e( "Advanced", 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-general-advanced.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Advanced", 'lumiere-movies');?>" href="<?php echo esc_url (admin_url() . "admin.php?page=lumiere_options&generaloption=advanced" ); ?>"><?php esc_html_e( "Advanced", 'lumiere-movies'); ?></a></div>
 	</div>
 </div>
 
@@ -168,7 +168,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 		<?php //------------------------------------------------------------------ =[Popup]=- ?>
 
 			<div class="titresection">
-				<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-title-popup.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+				<img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-title-popup.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 				<?php esc_html_e( 'Popup', 'lumiere-movies'); ?>
 			</div>
 
@@ -229,7 +229,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 					// echo "<a href='". esc_url( $imdb_admin_values['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes") . "' title='".esc_html__('Click here to install Highslide', 'lumiere-movies') ."'><img src='".esc_url($imdb_admin_values['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />&nbsp;&nbsp;".esc_html__('Install automatically Highslide', 'lumiere-movies') .'</a><br /><br />';
 
 					// Add a link to highslide website
-					echo '<a href="http://highslide.com/" title="' . esc_html__('Click here to visit Highslide website', 'lumiere-movies') .'"><img src="'.esc_url( $imdb_admin_values['imdbplugindirectory'] . 'pics/admin-general-install-highslide.png') . '" align="absmiddle" />&nbsp;&nbsp;'.esc_html__('Get Highslide JS library', 'lumiere-movies') . '</a><br /><br />';
+					echo '<a href="http://highslide.com/" title="' . esc_html__('Click here to visit Highslide website', 'lumiere-movies') .'"><img src="'.esc_url( plugin_dir_url( __DIR__ ) . 'pics/admin-general-install-highslide.png') . '" align="absmiddle" />&nbsp;&nbsp;'.esc_html__('Get Highslide JS library', 'lumiere-movies') . '</a><br /><br />';
 				}
 
 	?>
@@ -241,7 +241,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 		<?php //------------------------------------------------------------------ =[Theme taxo/inside post/widget]=- ?>
 
 			<div class="titresection">
-				<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-title-taxonomy.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+				<img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-title-taxonomy.png"); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 				<?php esc_html_e( 'Plain pages', 'lumiere-movies'); ?>
 			</div>
 
@@ -264,7 +264,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 		<?php //------------------------------------------------------------------ =[Cover picture]=- ?>
 
 		<div class="titresection">
-			<img src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/cover.jpg"); ?>" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+			<img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/cover.jpg"); ?>" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 			<?php esc_html_e( 'Cover picture', 'lumiere-movies'); ?>
 		</div>
 

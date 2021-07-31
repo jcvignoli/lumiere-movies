@@ -39,8 +39,6 @@ class Core {
 
 		global $config, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
-		// Requires
-		require_once __DIR__ . '/Admin.php';
 
 		$config = new \Lumiere\Settings();
 		$this->configClass = $config;
@@ -56,13 +54,30 @@ class Core {
 		$this->utilsClass = $utilsClass;
 
 		// Start Admin class
-		$adminClass = new \Lumiere\Admin();
+		if (is_admin()){
+			require_once __DIR__ . '/Admin.php';
+			$adminClass = new \Lumiere\Admin();
+		}
 
 		// redirect popups URLs
 		add_action( 'init', [ $this, 'lumiere_popup_redirect' ], 0);
 		add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 0);
 
-		// add taxonomies in wordpress (from functions.php)
+		/* ## Highslide download library, function deactivated upon wordpress plugin team request
+		add_filter( 'init', function( $template ) {
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=lumiere_options&highslide=yes' ) )
+				require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::highslide_download_page );
+
+		} );*/
+
+		// Redirect gutenberg-search.php
+		add_filter( 'init', function( $template ) {
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) )
+				require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::gutenberg_search_page );
+
+		} );
+
+		// Add Lumière taxonomy
 		if ( (isset($imdb_admin_values['imdbtaxonomy'])) && ($imdb_admin_values['imdbtaxonomy'] == 1) ) {
 
 			add_action( 'init', [$this, 'lumiere_create_taxonomies' ], 0 );
@@ -86,34 +101,23 @@ class Core {
 
 		}
 
-		/* ## Highslide download library, function deactivated upon wordpress plugin team request
-		add_filter( 'init', function( $template ) {
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=lumiere_options&highslide=yes' ) )
-				require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::highslide_download_page );
+		if (is_admin()){
 
-		} );*/
+			// add admin menu
+			add_action('init', [ $adminClass, 'lumiere_admin_menu' ] );
 
-		// redirect to gutenberg-search.php
-		add_filter( 'init', function( $template ) {
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) )
-				require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::gutenberg_search_page );
+			// add admin header
+			add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
 
-		} );
+			// add admin tinymce button for wysiwig editor
+			add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_tinymce' ] );
 
+			// add admin quicktag button for text editor
+			add_action('admin_footer', [ $this, 'lumiere_register_quicktag' ], 100);
+
+		}
 
 		add_action('admin_init', [ $this, 'lumiere_register_gutenberg_blocks' ],0);
-
-		// add admin menu
-		add_action('admin_menu', [ $adminClass, 'lumiere_admin_panel' ] );
-
-		// add admin header
-		add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_head_admin' ] );
-
-		// add admin tinymce button for wysiwig editor
-		add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_tinymce' ] );
-
-		// add admin quicktag button for text editor
-		add_action('admin_footer', [ $this, 'lumiere_register_quicktag' ], 100);
 
 		// add footer
 		add_action('admin_footer', [ $this, 'lumiere_add_footer_admin' ], 100 );
