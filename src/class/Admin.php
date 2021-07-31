@@ -127,7 +127,13 @@ class Admin {
 		// Menu inside settings
 		if (function_exists('add_options_page') && ( (isset($imdb_admin_values['imdbwordpress_bigmenu'])) && ($imdb_admin_values['imdbwordpress_bigmenu'] == 0 ) ) ) {
 
-			add_options_page('Lumière Options', '<img src="'. $this->rootURL . 'pics/lumiere-ico13x13.png" align="absmiddle"> Lumière', 'administrator', 'lumiere_options', [$this, 'lumiere_admin_pages' ] );
+			add_options_page(
+				'Lumière Options',
+				'<img src="'. $this->rootURL . 'pics/lumiere-ico13x13.png" align="absmiddle"> Lumière',
+				'administrator', 
+				'lumiere_options', 
+				[$this, 'lumiere_admin_pages' ] 
+			);
 
 		// Left menu
 		} elseif (function_exists('add_submenu_page') && ( (isset($imdb_admin_values['imdbwordpress_bigmenu'])) && ($imdb_admin_values['imdbwordpress_bigmenu'] == 1 ) ) ) {
@@ -344,6 +350,8 @@ class Admin {
 			require_once ( $this->rootPath. 'inc/options-general.php'  );
 
 		}
+$screen = get_current_screen();
+print_r($screen);
 
 		if ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "dataoption") ) {
 

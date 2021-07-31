@@ -1,5 +1,5 @@
 /* Confirmation message to display when deactivating the plugin
- *
+ * Needs jQuery
  */
 
 (function ($) {
