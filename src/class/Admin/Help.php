@@ -39,20 +39,12 @@ class Help extends \Lumiere\Admin {
 		],
 	];
 
-	/* Store the path of the plugin
-	 * 
-	 */
-	private $rootPath = '';
-	private $rootURL = '';
-
 	function __construct() {
 
 		// Construct parent class
 		parent::__construct();
 
 		// Build constants
-		$this->rootURL = $this->configClass->imdb_admin_values['imdbplugindirectory'];
-		$this->rootPath = $this->configClass->imdb_admin_values['imdbpluginpath'];
 		$this->readmefile = $this->rootPath . "README.txt";
 		$this->changelogfile = $this->rootPath . "CHANGELOG.md";
 		$this->acknowfile = $this->rootPath . "ACKNOWLEDGMENTS.md";
