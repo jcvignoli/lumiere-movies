@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
 
 	// Start the class Utils to activate debug -> already started in admin_pages
-	$utils->lumiere_activate_debug($imdb_admin_values, NULL, NULL);
+	$utilsClass->lumiere_activate_debug($imdb_admin_values, NULL, NULL);
 }
 
 /* Vars */
@@ -42,19 +42,19 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 	switch (sanitize_text_field( $_GET['msg'] )) {
 		// Message for success
 		case "highslide_success":
-			echo $utils->lumiere_notice(1, esc_html__( $messages["highslide_success"], 'lumiere-movies') );
+			echo $utilsClass->lumiere_notice(1, esc_html__( $messages["highslide_success"], 'lumiere-movies') );
 			break;
 		// Message for failure
 		case "highslide_failure":
-			echo $utils->lumiere_notice(3, esc_html__( $messages["highslide_failure"] , 'lumiere-movies') . " " .  esc_html__( 'Your folder might be protected. Download highslide manually', 'lumiere-movies')." <a href='". esc_url ( \Lumiere\Settings::IMDBBLOGHIGHSLIDE ) ."'>".esc_html__("here", 'lumiere-movies')."</a> ".esc_html__("and extract the zip into" ) . "<br />" .  esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" ) );
+			echo $utilsClass->lumiere_notice(3, esc_html__( $messages["highslide_failure"] , 'lumiere-movies') . " " .  esc_html__( 'Your folder might be protected. Download highslide manually', 'lumiere-movies')." <a href='". esc_url ( \Lumiere\Settings::IMDBBLOGHIGHSLIDE ) ."'>".esc_html__("here", 'lumiere-movies')."</a> ".esc_html__("and extract the zip into" ) . "<br />" .  esc_url( $imdb_admin_values['imdbpluginpath'] ."js/" ) );
 			break;
 		// Message for website down
 		case "highslide_down":
-			echo $utils->lumiere_notice(3, esc_html__( $messages["highslide_down"] , 'lumiere-movies')  );
+			echo $utilsClass->lumiere_notice(3, esc_html__( $messages["highslide_down"] , 'lumiere-movies')  );
 			break;
 		// Message for website unkown
 		case "highslide_website_unkown":
-			echo $utils->lumiere_notice(3, esc_html__( $messages["highslide_website_unkown"] , 'lumiere-movies')  );
+			echo $utilsClass->lumiere_notice(3, esc_html__( $messages["highslide_website_unkown"] , 'lumiere-movies')  );
 			break;
 	}
 }
@@ -76,8 +76,8 @@ $post_imdb_imdburlpopups = isset($_POST['imdb_imdburlpopups']) ? filter_var($_PO
 (str_replace('/','',$post_imdb_imdburlpopups) == str_replace('/','',$post_imdb_imdburlstringtaxo) ) || isset($imdb_admin_values['imdburlstringtaxo']) && (str_replace('/','',$post_imdb_imdburlpopups) == str_replace('/','',$imdb_admin_values['imdburlstringtaxo']) )
 			)
 {
-			echo $utils->lumiere_notice(3, esc_html__( 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 'lumiere-movies') );
-			echo $utils->lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo $utilsClass->lumiere_notice(3, esc_html__( 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 'lumiere-movies') );
+			echo $utilsClass->lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
 
@@ -90,7 +90,7 @@ $post_imdb_imdburlpopups = isset($_POST['imdb_imdburlpopups']) ? filter_var($_PO
 		}
 
 		// update options
-		update_option($config->imdbAdminOptionsName, $imdb_admin_values);
+		update_option($configClass->imdbAdminOptionsName, $imdb_admin_values);
 
 		// flush rewrite rules for matches the new $imdb_admin_values['imdbplugindirectory'] path
 		add_action('admin_init', function (){ flush_rewrite_rules(); }, 0);
@@ -98,13 +98,13 @@ $post_imdb_imdburlpopups = isset($_POST['imdb_imdburlpopups']) ? filter_var($_PO
 		# 2021 07 04 function obsolete
 		// Rewrite the htaccess so it matches the new $imdb_admin_values['imdbplugindirectory'] path
 		/*if ( lumiere_make_htaccess() ) {
-			echo $utils->lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'lumiere-movies') );
+			echo $utilsClass->lumiere_notice(1, esc_html__( 'htaccess file successfully generated.', 'lumiere-movies') );
 		} else {
-			echo $utils->lumiere_notice(3, esc_html__( 'Can not write htaccess file, check permissions.', 'lumiere-movies') );
+			echo $utilsClass->lumiere_notice(3, esc_html__( 'Can not write htaccess file, check permissions.', 'lumiere-movies') );
 		}*/
 
 		// display message on top
-		echo $utils->lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
+		echo $utilsClass->lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
 
 		// Display a refresh link otherwise refreshed data is not seen
 		if (!headers_sent()) {
@@ -113,17 +113,17 @@ $post_imdb_imdburlpopups = isset($_POST['imdb_imdburlpopups']) ? filter_var($_PO
 			wp_safe_redirect( wp_get_referer() );
 			exit();*/
 		} else {
-			echo $utils->lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo $utilsClass->lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
 
 
 	} elseif ( (isset($_POST['reset_imdbSettings'])) && check_admin_referer('options_general_check', 'options_general_check') ){ //---------------------reset options selected
 
-		delete_option($config->imdbAdminOptionsName);
+		delete_option($configClass->imdbAdminOptionsName);
 
 		// display message on top
-		echo $utils->lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
+		echo $utilsClass->lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
 
 		// Display a refresh link otherwise refreshed data is not seen
 		if (!headers_sent()) {
@@ -132,7 +132,7 @@ $post_imdb_imdburlpopups = isset($_POST['imdb_imdburlpopups']) ? filter_var($_PO
 			wp_safe_redirect( wp_get_referer() );
 			exit(); */
 		} else {
-			echo $utils->lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo $utilsClass->lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
 
@@ -222,7 +222,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				// No "highslide" folder is found
 				} else {
 					// Say so!
-					echo $utils->lumiere_notice(4, '<span class="imdblt_red_bold">'.esc_html__('Warning! No Highslide folder was found.', 'lumiere-movies') .'</span>');
+					echo $utilsClass->lumiere_notice(4, '<span class="imdblt_red_bold">'.esc_html__('Warning! No Highslide folder was found.', 'lumiere-movies') .'</span>');
 					echo "<br />";
 
 					// Automatic download deactivated as per Wordpress's plugin staff request

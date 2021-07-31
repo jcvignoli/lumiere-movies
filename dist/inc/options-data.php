@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ((isset($imdb_admin_values['imdbdebug'])) && ($imdb_admin_values['imdbdebug'] == "1")){
 
 	// Start the class Utils to activate debug -> already started in admin_pages
-	$utils->lumiere_activate_debug($imdb_widget_values, '', '');
+	$utilsClass->lumiere_activate_debug($imdb_widget_values, '', '');
 }
 
 /* vars */
@@ -38,12 +38,12 @@ if ((isset($_GET['msg'])) && array_key_exists( sanitize_key( $_GET['msg'] ), $me
 	// Message for success
 	if (sanitize_text_field( $_GET['msg'] ) == "taxotemplatecopy_success" ) {
 
-		echo $utils->lumiere_notice(1, esc_html__( $messages["taxotemplatecopy_success"], 'lumiere-movies') );
+		echo $utilsClass->lumiere_notice(1, esc_html__( $messages["taxotemplatecopy_success"], 'lumiere-movies') );
 
 	// Message for failure
 	} elseif ( sanitize_text_field( $_GET['msg'] ) == "taxotemplatecopy_failed" ) {
 
-		echo $utils->lumiere_notice(3, esc_html__( $messages["taxotemplatecopy_failed"] , 'lumiere-movies') );
+		echo $utilsClass->lumiere_notice(3, esc_html__( $messages["taxotemplatecopy_failed"] , 'lumiere-movies') );
 
 	} 
 }
@@ -84,7 +84,7 @@ if (current_user_can( 'manage_options' ) ) {
 		// Special part related to details order
 		if (isset($_POST['imdbwidgetorderContainer']) ){
 			// Sanitize
-			$myinputs_sanitized = $utils->lumiere_recursive_sanitize_text_field($_POST['imdbwidgetorderContainer']);
+			$myinputs_sanitized = $utilsClass->lumiere_recursive_sanitize_text_field($_POST['imdbwidgetorderContainer']);
 			// increment the $key of one
 			$data = array_combine(range(1, count($myinputs_sanitized)), array_values($myinputs_sanitized));
 
@@ -96,10 +96,10 @@ if (current_user_can( 'manage_options' ) ) {
 		}
 
 		// update options
-		update_option($config->imdbWidgetOptionsName, $imdb_widget_values);
+		update_option($configClass->imdbWidgetOptionsName, $imdb_widget_values);
 
 		// display confirmation message
-		echo $utils->lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
+		echo $utilsClass->lumiere_notice(1, '<strong>'. esc_html__( 'Options saved.', 'lumiere-movies') .'</strong>');
 
 		// Display a refresh link otherwise refreshed data is not seen
 		if (!headers_sent()) {
@@ -107,7 +107,7 @@ if (current_user_can( 'manage_options' ) ) {
 			header("Location: ".esc_url($_SERVER[ "REQUEST_URI"]), false);
 			die(); */
 		} else {
-			echo $utils->lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo $utilsClass->lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			die();
 		}
 
@@ -122,7 +122,7 @@ if (current_user_can( 'manage_options' ) ) {
 		flush_rewrite_rules();
 
 		// Delete the options to reset
-		delete_option($config->imdbWidgetOptionsName);
+		delete_option($configClass->imdbWidgetOptionsName);
 
 		// Display a refresh link otherwise refreshed data is not seen
 		if (!headers_sent()) {
@@ -133,13 +133,13 @@ if (current_user_can( 'manage_options' ) ) {
 			exit();*/
 
 		} else {
-			echo $utils->lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
-			echo $utils->lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
+			echo $utilsClass->lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
+			echo $utilsClass->lumiere_notice(1, '<a href="'.wp_get_referer() .'">'. esc_html__( 'Go back', 'lumiere-movies') .'</a>');
 			exit();
 		}
 
 		// display confirmation message
-		echo $utils->lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
+		echo $utilsClass->lumiere_notice(1, '<strong>'. esc_html__( 'Options reset.', 'lumiere-movies') .'</strong>');
 
 	}
 
@@ -607,7 +607,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				if ($imdb_widget_values['imdbtaxonomyactor'] == "1") {
 
 					// If new template version available, notify
-					echo $utils->lumiere_check_taxo_template('actor');
+					echo $utilsClass->lumiere_check_taxo_template('actor');
 				}
 				?> 
 
@@ -628,7 +628,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				if ($imdb_widget_values['imdbtaxonomycolor'] == "1") {
 
 					// If new template version available, notify
-					echo $utils->lumiere_check_taxo_template('color');
+					echo $utilsClass->lumiere_check_taxo_template('color');
 				}
 				?> 
 
@@ -647,7 +647,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				if ($imdb_widget_values['imdbtaxonomycomposer'] == "1") {
 
 					// If new template version available, notify
-					echo $utils->lumiere_check_taxo_template('composer');
+					echo $utilsClass->lumiere_check_taxo_template('composer');
 				}
 				?> 
 			</div>
@@ -666,7 +666,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				if ($imdb_widget_values['imdbtaxonomycountry'] == "1") {
 
 					// If new template version available, notify
-					echo $utils->lumiere_check_taxo_template('country');
+					echo $utilsClass->lumiere_check_taxo_template('country');
 				}
 				?> 
 
@@ -686,7 +686,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				if ($imdb_widget_values['imdbtaxonomycreator'] == "1") {
 
 					// If new template version available, notify
-					echo $utils->lumiere_check_taxo_template('creator');
+					echo $utilsClass->lumiere_check_taxo_template('creator');
 				}
 				?> 
 
@@ -706,7 +706,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				if ($imdb_widget_values['imdbtaxonomydirector'] == "1") {
 
 					// If new template version available, notify
-					echo $utils->lumiere_check_taxo_template('director');
+					echo $utilsClass->lumiere_check_taxo_template('director');
 				}
 				?> 
 			</div>
@@ -725,7 +725,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				if ($imdb_widget_values['imdbtaxonomygenre'] == "1") {
 
 					// If new template version available, notify
-					echo $utils->lumiere_check_taxo_template('genre');
+					echo $utilsClass->lumiere_check_taxo_template('genre');
 				}
 
 				?> 
@@ -745,7 +745,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				if ($imdb_widget_values['imdbtaxonomykeywords'] == "1") {
 
 					// If new template version available, notify
-					echo $utils->lumiere_check_taxo_template('keywords');
+					echo $utilsClass->lumiere_check_taxo_template('keywords');
 				}
 				?> 
 			</div>
@@ -764,7 +764,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				if ($imdb_widget_values['imdbtaxonomylanguage'] == "1") {
 
 					// If new template version available, notify
-					echo $utils->lumiere_check_taxo_template('language');
+					echo $utilsClass->lumiere_check_taxo_template('language');
 				}
 				?> 
 
@@ -784,7 +784,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				if ($imdb_widget_values['imdbtaxonomyproducer'] == "1") {
 
 					// If new template version available, notify
-					echo $utils->lumiere_check_taxo_template('producer');
+					echo $utilsClass->lumiere_check_taxo_template('producer');
 				}
 				?> 
 			</div>
@@ -803,7 +803,7 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 				if ($imdb_widget_values['imdbtaxonomywriter'] == "1") {
 
 					// If new template version available, notify
-					echo $utils->lumiere_check_taxo_template('writer');
+					echo $utilsClass->lumiere_check_taxo_template('writer');
 				}
 				?> 
 

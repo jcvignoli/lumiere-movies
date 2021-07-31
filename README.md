@@ -124,9 +124,7 @@ If Polylang is installed, new features for taxonomy are added, such as selecting
 
 ### Known issues
 
-* TinyMCE is not working the way it should. Only basic features are available at the moment. I'm working on it.
-
-* Lumière! help section in the administration of the plugin is massively outdated.
+* No known issue.
 
 ## Support
 
