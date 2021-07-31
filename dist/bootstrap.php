@@ -1,9 +1,9 @@
 <?php
 
-#	IMDB Libraries
-require_once __DIR__ . '/class/bootstrap_imdbphp.php';
+#	Vendor Libraries (notably IMDbPHP)
+require_once __DIR__ . '/vendor/autoload.php';
 
-#	Lumiere Classes
+#	Lumiere Classes (no autoload, don't want all classes)
 require_once __DIR__ . '/class/Utils.php';
 require_once __DIR__ . '/class/Core.php';
 require_once __DIR__ . '/class/Config.php';

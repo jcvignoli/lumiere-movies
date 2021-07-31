@@ -44,13 +44,13 @@ class Help extends \Lumiere\Admin {
 		// Construct parent class
 		parent::__construct();
 
-		// Build constants
+		// Build constants not in parent class
 		$this->readmefile = $this->rootPath . "README.txt";
 		$this->changelogfile = $this->rootPath . "CHANGELOG.md";
 		$this->acknowfile = $this->rootPath . "ACKNOWLEDGMENTS.md";
 
 		// Add specific script for metaboxes
-		//add_action('admin_enqueue_scripts', [$this, 'lumiere_help_extrascript' ]); # can't use add_action, call in class.core is made through options
+		//add_action('admin_enqueue_scripts', [$this, 'lumiere_help_extrascript' ]); # can't use add_action, call in parent class too late
 		$this->lumiere_help_extrascript ();
 
 		// Meta boxes

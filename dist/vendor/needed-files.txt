@@ -1,5 +1,9 @@
 <?php
 
+/* Before implementing the autoload, these were the files needed by the plugin:
+ *
+ */
+
 #	IMDbphp related classes
 # Psr Logger
 require_once 'imdbphp/Psr/Log/LoggerInterface.php';

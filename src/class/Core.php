@@ -101,6 +101,7 @@ class Core {
 
 		}
 
+		// Admin interface
 		if (is_admin()){
 
 			// add admin menu
@@ -115,22 +116,24 @@ class Core {
 			// add admin quicktag button for text editor
 			add_action('admin_footer', [ $this, 'lumiere_register_quicktag' ], 100);
 
+			// add footer
+			add_action('admin_footer', [ $this, 'lumiere_add_footer_admin' ], 100 );
+
 		}
 
+		// Frontpage
+		if (!is_admin()) {
+
+			add_action('wp_head', [ $this, 'lumiere_add_head_blog' ], 0);
+			add_action('wp_head', [ $this, 'lumiere_add_metas' ], 5);
+			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
+
+			// add new title to popups
+			add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
+		}
+
+		// Activate Gutenberg blocks
 		add_action('admin_init', [ $this, 'lumiere_register_gutenberg_blocks' ],0);
-
-		// add footer
-		add_action('admin_footer', [ $this, 'lumiere_add_footer_admin' ], 100 );
-
-	    	// head for frontpage blog
-		add_action('wp_head', [ $this, 'lumiere_add_head_blog' ], 0);
-		add_action('wp_head', [ $this, 'lumiere_add_metas' ], 5);
-
-		// add new title to popups
-		add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
-
-		// Footer actions
-		add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
 
 		// On updating lumiere plugin
 		add_action( 'upgrader_process_complete', [$this, 'lumiere_on_lumiere_upgrade_completed' ], 10, 2 );
@@ -796,14 +799,6 @@ class Core {
 			}
 		}
 
-		// Limit rewrites calls to taxonomy pages
-/* too much resources utilised too often
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], esc_url( site_url( '', 'relative' ) . '/' . $imdb_admin_values['imdburlstringtaxo']) ) ) {
-
-			flush_rewrite_rules();
-
-		}
-*/
 	}
 
 

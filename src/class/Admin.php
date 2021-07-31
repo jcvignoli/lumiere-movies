@@ -15,9 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die('You can not call directly this page');
 }
 
-// Load all classes in class/Admin folder, will be loaded when needed
-spl_autoload_register( [ 'Lumiere\Admin', 'admin_loader' ] );
-
 class Admin {
 
 	/* Options vars
@@ -54,6 +51,9 @@ class Admin {
 	 * 
 	 */
 	public function __construct() {
+
+		// Load all classes in class/Admin folder, will be loaded when needed
+		spl_autoload_register( [ 'Lumiere\Admin', 'admin_loader' ] );
 
 		// Start Settings class
 		$this->configClass = new \Lumiere\Settings();
@@ -106,58 +106,143 @@ class Admin {
 	 */
 	public function lumiere_admin_menu() {
 
-		add_action('admin_menu', [ $this, 'lumiere_add_top_menu' ] );
+		add_action('admin_menu', [ $this, 'lumiere_add_left_menu' ] );
 
 		// add imdblt menu in toolbar menu (top wordpress menu)
 		if ($this->imdb_admin_values['imdbwordpress_tooladminmenu'] == 1 ) {
 
-			add_action('admin_bar_menu', [ $this, 'admin_add_toolbar_menu' ],70 );
+			add_action('admin_bar_menu', [ $this, 'admin_add_top_menu' ],70 );
 
 		}
 	}
 
-	/* Add the admin menu
+	/* Add left admin menu
 	 * 
 	 *
 	 */
-	public function lumiere_add_top_menu() {
+	public function lumiere_add_left_menu() {
 
 		$imdb_admin_values = $this->imdb_admin_values;
 
+		// Menu inside settings
 		if (function_exists('add_options_page') && ( (isset($imdb_admin_values['imdbwordpress_bigmenu'])) && ($imdb_admin_values['imdbwordpress_bigmenu'] == 0 ) ) ) {
 
 			add_options_page('Lumière Options', '<img src="'. $this->rootURL . 'pics/lumiere-ico13x13.png" align="absmiddle"> Lumière', 'administrator', 'lumiere_options', [$this, 'lumiere_admin_pages' ] );
 
+		// Left menu
 		} elseif (function_exists('add_submenu_page') && ( (isset($imdb_admin_values['imdbwordpress_bigmenu'])) && ($imdb_admin_values['imdbwordpress_bigmenu'] == 1 ) ) ) {
 
-			// big menu for left menu
-			add_menu_page( 'Lumière Options', '<i>Lumière</i>' , 'administrator', 'lumiere_options', [$this, 'lumiere_admin_pages' ], $this->rootURL . 'pics/lumiere-ico13x13.png', 65);
-			add_submenu_page( 'lumiere_options' , esc_html__('Lumière options page', 'lumiere-movies'), esc_html__('General', 'lumiere-movies'), 'administrator', 'lumiere_options', [$this, 'lumiere_admin_pages' ]);
-			add_submenu_page( 'lumiere_options' , esc_html__('Data management', 'lumiere-movies'), esc_html__('Data', 'lumiere-movies'), 'administrator', 'lumiere_options&subsection=dataoption', [$this, 'lumiere_admin_pages' ] );
-			add_submenu_page( 'lumiere_options',  esc_html__('Cache management options page', 'lumiere-movies'), esc_html__('Cache', 'lumiere-movies'), 'administrator', 'lumiere_options&subsection=cache', [$this, 'lumiere_admin_pages' ] );
-			add_submenu_page( 'lumiere_options' , esc_html__('Help page', 'lumiere-movies'), esc_html__('Help', 'lumiere-movies'), 'administrator', 'lumiere_options&subsection=help', [$this, 'lumiere_admin_pages'] );
+			add_menu_page( 
+				'Lumière Options', 
+				'<i>Lumière</i>' , 
+				'administrator', 
+				'lumiere_options', 
+				[$this, 'lumiere_admin_pages' ], 
+				$this->rootURL . 'pics/lumiere-ico13x13.png', 
+				65
+			);
+			add_submenu_page( 
+				'lumiere_options' , 
+				esc_html__('Lumière options page', 
+				'lumiere-movies'), 
+				esc_html__('General', 'lumiere-movies'), 
+				'administrator', 
+				'lumiere_options', 
+				[$this, 'lumiere_admin_pages' ]
+			);
+			add_submenu_page( 
+				'lumiere_options' , 
+				esc_html__('Data management', 'lumiere-movies'), 
+				esc_html__('Data', 'lumiere-movies'), 
+				'administrator', 
+				'lumiere_options&subsection=dataoption', 
+				[$this, 'lumiere_admin_pages' ] 
+			);
+			add_submenu_page( 
+				'lumiere_options',  
+				esc_html__('Cache management options page', 'lumiere-movies'), 
+				esc_html__('Cache', 'lumiere-movies'), 
+				'administrator', 'lumiere_options&subsection=cache', 
+				[$this, 'lumiere_admin_pages' ] 
+			);
+			add_submenu_page( 
+				'lumiere_options' , 
+				esc_html__('Help page', 'lumiere-movies'), 
+				esc_html__('Help', 'lumiere-movies'), 
+				'administrator', 
+				'lumiere_options&subsection=help', 
+				[$this, 'lumiere_admin_pages'] 
+			);
 
 		}
 
 	}
 
 
-	/* Add admin menu to the top menu
+	/* Add top admin menu
 	 *  
 	 */
-	function admin_add_toolbar_menu($admin_bar) {
+	function admin_add_top_menu($admin_bar) {
 
 		$imdb_admin_values = $this->imdb_admin_values;
 
-		$admin_bar->add_menu( array('id'=>'lumiere_top_menu','title' => "<img src='" . $this->rootURL . "pics/lumiere-ico13x13.png' width='16' height='16' />&nbsp;&nbsp;". 'Lumière','href'  => 'admin.php?page=lumiere_options', 'meta'  => array('title' => esc_html__('Lumière Menu'), ),) );
+		$admin_bar->add_menu( 
+			array(
+				'id'=>'lumiere_top_menu',
+				'title' => "<img src='" . $this->rootURL . "pics/lumiere-ico13x13.png' width='16' height='16' />&nbsp;&nbsp;". 'Lumière',
+				'href'  => 'admin.php?page=lumiere_options', 
+				'meta'  => 
+					array('title' => esc_html__('Lumière Menu'), 
+					),
+			) 
+		);
 
-		$admin_bar->add_menu( array('parent' => 'lumiere_top_menu','id' => 'lumiere_top_menu_general','title' => "<img src='". $this->rootURL ."pics/admin-general.png' width='16px' />&nbsp;&nbsp;".esc_html__('General'),'href'  =>'admin.php?page=lumiere_options','meta'  => array('title' => esc_html__('Main and advanced options'),),) );
+		$admin_bar->add_menu( 
+			array(
+				'parent' => 'lumiere_top_menu',
+				'id' => 'lumiere_top_menu_general',
+				'title' => "<img src='". $this->rootURL ."pics/admin-general.png' width='16px' />&nbsp;&nbsp;".esc_html__('General'),
+				'href'  =>'admin.php?page=lumiere_options',
+				'meta'  => 
+					array('title' => esc_html__('Main and advanced options'),
+					),
+			) 
+		);
+		$admin_bar->add_menu( 
+			array(
+				'parent' => 'lumiere_top_menu',
+				'id' => 'lumiere_top_menu_data',
+				'title' => "<img src='". $this->rootURL ."pics/admin-widget-inside.png' width='16px' />&nbsp;&nbsp;".esc_html__('Data'),
+				'href'  =>'admin.php?page=lumiere_options&subsection=dataoption',
+				'meta'  => 
+					array('title' => esc_html__('Data option and taxonomy'),
+					),
+			) 
+		);
+		$admin_bar->add_menu( 
+			array(
+				'parent' => 'lumiere_top_menu',
+				'id' => 'lumiere_top_menu_cache',
+				'title' => "<img src='".$this->rootURL."pics/admin-cache.png' width='16px' />&nbsp;&nbsp;".esc_html__('Cache'),
+				'href'  =>'admin.php?page=lumiere_options&subsection=cache',
+				'meta' => 
+					array('title' => esc_html__('Cache options'),
+				),
+			) 
+		);
 
-		$admin_bar->add_menu( array('parent' => 'lumiere_top_menu','id' => 'lumiere_top_menu_data','title' => "<img src='". $this->rootURL ."pics/admin-widget-inside.png' width='16px' />&nbsp;&nbsp;".esc_html__('Data'),'href'  =>'admin.php?page=lumiere_options&subsection=dataoption','meta'  => array('title' => esc_html__('Data option and taxonomy'),),) );
+		$admin_bar->add_menu( 
+			array(
+				'parent' => 'lumiere_top_menu',
+				'id' => 'lumiere_top_menu_help',
+				'title' => "<img src='" . $this->rootURL . "pics/admin-help.png' width='16px' />&nbsp;&nbsp;" . esc_html__('Help'),
+				'href' =>'admin.php?page=lumiere_options&subsection=help',
+				'meta'  => 
+					array('title' => esc_html__('Get support and support plugin development'),
 
-		$admin_bar->add_menu( array('parent' => 'lumiere_top_menu','id' => 'lumiere_top_menu_cache','title' => "<img src='".$this->rootURL."pics/admin-cache.png' width='16px' />&nbsp;&nbsp;".esc_html__('Cache'),'href'  =>'admin.php?page=lumiere_options&subsection=cache','meta' => array('title' => esc_html__('Cache options'),),) );
-
-		$admin_bar->add_menu( array('parent' => 'lumiere_top_menu','id' => 'lumiere_top_menu_help','title' => "<img src='".$this->rootURL."pics/admin-help.png' width='16px' />&nbsp;&nbsp;".esc_html__('Help'),'href' =>'admin.php?page=lumiere_options&subsection=help','meta'  => array('title' => esc_html__('Get support and support plugin development'),),) );
+					),
+			) 
+		);
 
 	}
 
@@ -166,9 +251,9 @@ class Admin {
 	 */
 	function lumiere_admin_pages() {
 
-		echo $this->display_admin_menu();
+		$this->display_admin_menu();
 
-		echo $this->display_admin_menu_subpages();
+		$this->display_admin_menu_subpages();
 
 	}
 
@@ -211,11 +296,6 @@ class Admin {
 					- <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'widgets.php'); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies'); ?></a></font></em>
 
 	<?php 			} 
-				if ( ($imdb_admin_values['imdbdirectsearch'] == "0")  || (!isset($imdb_admin_values['imdbdirectsearch'])) ) { ?>
-
-					- <em><font size=-2><a href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options&generaloption=advanced#imdb_imdbdirectsearch_yes"); ?>"><?php esc_html_e( 'Direct search', 'lumiere-movies'); ?></a> <?php esc_html_e( 'unactivated', 'lumiere-movies'); ?></font></em> 
-
-	<?php			} 
 				if( ($imdb_admin_values['imdbtaxonomy'] == "0")  || (empty($imdb_admin_values['imdbtaxonomy'])) ) { ?>
 
 					- <em><font size=-2><a href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options&generaloption=advanced#imdb_imdbtaxonomy_yes"); ?>"><?php esc_html_e( 'Auto taxonomy', 'lumiere-movies'); ?></a> <?php esc_html_e( 'unactivated', 'lumiere-movies'); ?></font></em>
