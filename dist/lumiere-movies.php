@@ -28,7 +28,6 @@ if ( ! defined( 'ABSPATH' ) )
 
 # Bootstrap with requires
 require_once ( plugin_dir_path( __FILE__ ) . 'bootstrap.php' );
-require_once ( plugin_dir_path( __FILE__ ) . 'inc/admin_pages.php' );
 
 ### Lumiere Classes start
 if (class_exists("\Lumiere\Core")) {

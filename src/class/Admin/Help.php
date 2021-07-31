@@ -1,6 +1,7 @@
 <?php
 /**
- * Class for displaying help sections.   
+ * Child class for displaying help sections.   
+ * Child of Admin
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -8,14 +9,14 @@
  * @version       1.0
  */
 
-namespace Lumiere;
+namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
 	wp_die('You can not call directly this page');
 }
 
-class AdminHelp {
+class Help extends \Lumiere\Admin {
 
 	/* Paths to files to be read
 	 * 
@@ -23,16 +24,6 @@ class AdminHelp {
 	private $readmefile = '';
 	private $changelogfile = '';
 	private $acknowfile = '';
-
-	/* Store the class of Lumière settings
-	 * Usefull to start a new IMDbphp query
-	 */
-	private $configClass;
-
-	/* Store the class of tools
-	 * 
-	 */
-	private $utilsClass;
 
 	/* HTML allowed for use of wp_kses_post()
 	 * Usefull for access from outside the class
@@ -52,19 +43,16 @@ class AdminHelp {
 	 * 
 	 */
 	private $rootPath = '';
+	private $rootURL = '';
 
 	function __construct() {
 
-		// Start classes
-		$configClass = new \Lumiere\Settings();
-		$this->configClass = $configClass;
-
-		// Start the class Utils
-		$utilsClass = new \Lumiere\Utils();
-		$this->utilsClass = $utilsClass;
+		// Construct parent class
+		parent::__construct();
 
 		// Build constants
-		$this->rootPath = $this->configClass->imdb_admin_values['imdbplugindirectory'];
+		$this->rootURL = $this->configClass->imdb_admin_values['imdbplugindirectory'];
+		$this->rootPath = $this->configClass->imdb_admin_values['imdbpluginpath'];
 		$this->readmefile = $this->rootPath . "README.txt";
 		$this->changelogfile = $this->rootPath . "CHANGELOG.md";
 		$this->acknowfile = $this->rootPath . "ACKNOWLEDGMENTS.md";
@@ -140,13 +128,13 @@ class AdminHelp {
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->rootPath ."pics/admin-help-howto.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "How to use Lumiere Movies", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=help&helpsub=howto"); ?>"><?php esc_html_e( 'How to', 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->rootURL ."pics/admin-help-howto.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "How to use Lumiere Movies", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=help&helpsub=howto"); ?>"><?php esc_html_e( 'How to', 'lumiere-movies'); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->rootPath . "pics/admin-help-faq.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Frequently asked questions", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=help&helpsub=faqs"); ?>"><?php esc_html_e( 'FAQs', 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->rootURL . "pics/admin-help-faq.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "Frequently asked questions", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=help&helpsub=faqs"); ?>"><?php esc_html_e( 'FAQs', 'lumiere-movies'); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->rootPath . "pics/admin-help-changelog.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "What's new", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=help&helpsub=changelog"); ?>"><?php esc_html_e( 'Changelog', 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->rootURL . "pics/admin-help-changelog.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "What's new", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=help&helpsub=changelog"); ?>"><?php esc_html_e( 'Changelog', 'lumiere-movies'); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->rootPath . "pics/admin-help-support.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "To get support and to support what you get", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=help&helpsub=support"); ?>"><?php esc_html_e( 'Support, donate & credits', 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->rootURL . "pics/admin-help-support.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "To get support and to support what you get", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=help&helpsub=support"); ?>"><?php esc_html_e( 'Support, donate & credits', 'lumiere-movies'); ?></a></div>
 
 	</div>
 </div>
@@ -211,16 +199,16 @@ class AdminHelp {
 
 			<div class="helpdiv">
 			<?php
-			$changlelogfile = file($this->changelogfile, FILE_BINARY);
+			$changelogfile = file($this->changelogfile, FILE_BINARY);
 			// replace **...** by strong and i
-			$changlelogfile = preg_replace("~(\*\s\[)(.*?)(\])~","<strong><i>\${2}</i></strong>",$changlelogfile);
+			$changelogfile = preg_replace("~(\*\s\[)(.*?)(\])~","<strong><i>\${2}</i></strong>",$changelogfile);
 			// replace links from (specially formated for wordpress website) changlog with casual html
 			$patternlink = '~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
 
-			$changlelogfile = preg_replace($patternlink,"<a href=\"\${3}\${4}\" title=\"\${7}\">\${2}</a>",$changlelogfile);
+			$changelogfile = preg_replace($patternlink,"<a href=\"\${3}\${4}\" title=\"\${7}\">\${2}</a>",$changelogfile);
 			$i=0;
 			echo "<ul>";
-			foreach ($changlelogfile as $texte) {
+			foreach ($changelogfile as $texte) {
 				if  ($i > "1") {
 
 					// display text formatted
@@ -266,7 +254,7 @@ class AdminHelp {
 
 		<div class="helpdiv-noborderimage">
 			<?php esc_html_e( 'You will never believe there is so many ways to thank me. Yes, you can:', 'lumiere-movies'); ?><br />
-<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'lumiere-movies'); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( $this->rootPath . "pics/paypal-donate.png"); ?>" width="40px" class="imdblt_align_bottom" /></a> <?php esc_html_e( 'or on', 'lumiere-movies'); ?> <a href="https://en.tipeee.com/lost-highway">tipeee.com</a>.<br />
+<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'lumiere-movies'); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( $this->rootURL . "pics/paypal-donate.png"); ?>" width="40px" class="imdblt_align_bottom" /></a> <?php esc_html_e( 'or on', 'lumiere-movies'); ?> <a href="https://en.tipeee.com/lost-highway">tipeee.com</a>.<br />
 <strong>2</strong>. <?php esc_html_e( 'vote on', 'lumiere-movies'); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::IMDBHOMEPAGE ); ?>"><?php esc_html_e( "Lumière's website", 'lumiere-movies'); ?></a> <?php esc_html_e( 'or on', 'lumiere-movies'); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::LUMIERE_WORDPRESS ); ?>"><?php esc_html_e( "Wordpress' website", 'lumiere-movies'); ?></a>.<br />
 <strong>3</strong>. <?php esc_html_e( "send as many bugfixes and propositions as you can on Lumiere Movies website.", 'lumiere-movies'); ?><br />
 <strong>4</strong>. <?php esc_html_e( "translate the plugin into your own language.", 'lumiere-movies'); ?><br />
@@ -353,7 +341,7 @@ class AdminHelp {
 
 			<br clear="both"/>
 
-			<a href="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-1.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="50%" src="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-1.jpg"); ?>" alt="screenshot Link creator" /></a>
+			<a href="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-1.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="50%" src="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-1.jpg"); ?>" alt="screenshot Link creator" /></a>
 
 			<?php esc_html_e( "The first way to use Lumiere Movies is to add links to movie titles that opens popups with information about that very same movies. It is a usefull for posts that mention movies title; just add a link to your movie title, and let visitors knowing more about the details of the movie you mention.", 'lumiere-movies'); ?>
 
@@ -369,7 +357,7 @@ class AdminHelp {
 
 			<br clear="both"/>
 
-			<div align="center"><a href="<?php echo esc_url( $this->rootPath . "pics/admin-help-addimdblink-gutenberg.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img width="80%" src="<?php echo esc_url( $this->rootPath . "pics/admin-help-addimdblink-gutenberg.png"); ?>" alt="add link in gutenberg" /></a></div>
+			<div align="center"><a href="<?php echo esc_url( $this->rootURL . "pics/admin-help-addimdblink-gutenberg.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img width="80%" src="<?php echo esc_url( $this->rootURL . "pics/admin-help-addimdblink-gutenberg.png"); ?>" alt="add link in gutenberg" /></a></div>
 
 			<br clear="both"/>
 
@@ -377,7 +365,7 @@ class AdminHelp {
 
 			<br clear="both"/>
 
-			<div align="center"><a href="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-7.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img width="80%" src="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-6.jpg"); ?>" alt="screenshot Link creator button added for bloggers who prefer HTML writing way" /></a></div>
+			<div align="center"><a href="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-7.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img width="80%" src="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-6.jpg"); ?>" alt="screenshot Link creator button added for bloggers who prefer HTML writing way" /></a></div>
 
 			<br clear="both"/>
 
@@ -407,7 +395,7 @@ class AdminHelp {
 		<div class="helpdiv">
 			<h4><?php esc_html_e( "Why to use widget?", 'lumiere-movies'); ?></h4>
 
-			<a href="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-3.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="50%" src="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-3.jpg"); ?>" alt="<?php esc_html_e( 'key and value for custom fields', 'lumiere-movies'); ?>" /></a>
+			<a href="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-3.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="50%" src="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-3.jpg"); ?>" alt="<?php esc_html_e( 'key and value for custom fields', 'lumiere-movies'); ?>" /></a>
 
 			<?php esc_html_e( 'Widgets are widely used in WordPress. It allows to easily select what information to display in an area, usually on sidebar. Lumière allows to display any movie in your sidebar.', 'lumiere-movies'); ?>
 
@@ -422,14 +410,14 @@ class AdminHelp {
 
 			<?php wp_kses( _e( "<strong>Second</strong>, edit your post and add the name of the movie in the box to the sidebar on your right-hand. Lumiere Movies will automatically display in the widget the movie selected.", 'lumiere-movies'), $this->allowed_html_for_esc_html_functions); ?>
 
-			<a href="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-5.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="50%" src="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-5.jpg"); ?>" alt="<?php esc_html_e( 'Lumière metabox to add a movie in a widget', 'lumiere-movies'); ?>" /></a>
+			<a href="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-5.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="50%" src="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-5.jpg"); ?>" alt="<?php esc_html_e( 'Lumière metabox to add a movie in a widget', 'lumiere-movies'); ?>" /></a>
 
 			<br />
 			<br />
 
 			<?php echo wp_kses( __( "As in many other sections of Lumière plugin, you can add the movie's IMDb id instead of the movie's title to make sure that the right movie is display. Should you want to find the movie's IMDb id, click on 'use this tool' and a new windows will be displayed; search for your movie, copy-paste its IMDb id into the sidebar, and select by 'movie id' in the dropdown list.", 'lumiere-movies'), $this->allowed_html_for_esc_html_functions); ?>
 
-			<a href="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-8.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="left" width="50%" src="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-8.jpg"); ?>" alt="<?php esc_html_e( 'Lumiere Movies query interface', 'lumiere-movies'); ?>" /></a>
+			<a href="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-8.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="left" width="50%" src="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-8.jpg"); ?>" alt="<?php esc_html_e( 'Lumiere Movies query interface', 'lumiere-movies'); ?>" /></a>
 
 			<br /><br />
 
@@ -452,7 +440,7 @@ class AdminHelp {
 
 		<div class="helpdiv">
 			<h4><?php esc_html_e( "Why display movie's data inside my post?", 'lumiere-movies'); ?></h4>
-			<a href="<?php echo esc_url ($this->rootPath . ".wordpress-org/screenshot-2.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="50%" src="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-2.jpg"); ?>" alt="<?php esc_html_e( 'Lumiere Movies widget', 'lumiere-movies'); ?>" /></a>
+			<a href="<?php echo esc_url ($this->rootURL . ".wordpress-org/screenshot-2.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="50%" src="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-2.jpg"); ?>" alt="<?php esc_html_e( 'Lumiere Movies widget', 'lumiere-movies'); ?>" /></a>
 			<?php esc_html_e( "Including movie information within your article is quite useful; it can ingeniously illustrate your post, displays crucial data (directors, actors) and at the same time add links to further popups that include even more detailed information.", 'lumiere-movies'); ?>
 
 		</div>
@@ -463,7 +451,7 @@ class AdminHelp {
 
 			<?php esc_html_e( "Lumière provides you with tools to add 'HTML tags' (span) to wrapp your movie's title when writting your article. These 'HTML tags' will be then converted into movie's details. In the same way as for for popups, three tools are provided depending upon your the WordPress interface you used to publish your posts. If you use the modern WordPress interface, a Lumière block is provided; just enter the movie's title or IMDb id, and you are done!", 'lumiere-movies'); ?>
 			
-			<a href="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-9.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img width="90%" src="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-9.jpg"); ?>" alt="<?php esc_html_e( 'Lumiere Movies Inside a post gutenberg block', 'lumiere-movies'); ?>" /></a>
+			<a href="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-9.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img width="90%" src="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-9.jpg"); ?>" alt="<?php esc_html_e( 'Lumiere Movies Inside a post gutenberg block', 'lumiere-movies'); ?>" /></a>
 
 			<?php esc_html_e( "You can add as many blocks as you whish; there is no limitation in the number of movies you can display per article.", 'lumiere-movies'); ?>
 
@@ -585,7 +573,7 @@ class AdminHelp {
 
 			<h4><?php esc_html_e( "How to use taxonomy in Wordpress?", 'lumiere-movies'); ?></h4>
 
-			<a href="<?php echo esc_url( $this->rootPath . "pics/admin-taxonomy-details.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="40%" src="<?php echo esc_url( $this->rootPath . "pics/admin-taxonomy-details.png"); ?>" alt="taxonomy details" /></a>
+			<a href="<?php echo esc_url( $this->rootURL . "pics/admin-taxonomy-details.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="40%" src="<?php echo esc_url( $this->rootURL . "pics/admin-taxonomy-details.png"); ?>" alt="taxonomy details" /></a>
 
 			<?php esc_html_e( "Taxonomy is automatically generated in Lumière! and already activated. You can however disable it by unchecking the box in 'General options -> Advanced -> 'Use automatical genre taxonomy?'. Note that since taxonomy is related to movie details (such as directors, actors, etc), the movie detail you want to be used as taxonomy has to be also activated in 'Data -> Display'.", 'lumiere-movies'); ?><br />
 
@@ -593,7 +581,7 @@ class AdminHelp {
 
 			<h4><?php esc_html_e( "New option in 'Posts' menu", 'lumiere-movies'); ?></h4>
 
-			<a href="<?php echo esc_url( $this->rootPath . "pics/admin-taxonomy-postlist.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="left" width="30%" src="<?php echo esc_url( $this->rootPath . "pics/admin-taxonomy-postlist.png"); ?>" alt="taxonomy new options" /></a>
+			<a href="<?php echo esc_url( $this->rootURL . "pics/admin-taxonomy-postlist.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="left" width="30%" src="<?php echo esc_url( $this->rootURL . "pics/admin-taxonomy-postlist.png"); ?>" alt="taxonomy new options" /></a>
 
 			<?php esc_html_e( "Once you have published your first article including a movie (both widget and inside a post trigger that function) WordPress will display the new taxonomy under 'posts' admin section. Depending on the movie details you have selected, you will find them in the menu.", 'lumiere-movies'); ?>
 
@@ -605,14 +593,14 @@ class AdminHelp {
 
 			<br />
 
-			<a href="<?php echo esc_url( $this->rootPath . "pics/admin-taxonomy-copytemplate.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="40%" src="<?php echo esc_url( $this->rootPath . "pics/admin-taxonomy-copytemplate.png"); ?>" alt="taxonomy new options" /></a>
+			<a href="<?php echo esc_url( $this->rootURL . "pics/admin-taxonomy-copytemplate.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="right" width="40%" src="<?php echo esc_url( $this->rootURL . "pics/admin-taxonomy-copytemplate.png"); ?>" alt="taxonomy new options" /></a>
 
 			<?php esc_html_e( "Click on 'copy template, that's it! A warning will be given to you when a new template is available. You can customized even further the template that was copied into your template to match your specific needs. By default, the new taxonomy template will show you the person/item and the posts and pages mentioning them:", 'lumiere-movies'); ?><br />
 
 			<br clear="both">
 			<br clear="both">
 
-			<div align="center"><a href="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-10.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="center" width="40%" src="<?php echo esc_url( $this->rootPath . ".wordpress-org/screenshot-10.jpg"); ?>" alt="taxonomy result" /></a></div>
+			<div align="center"><a href="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-10.jpg"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="center" width="40%" src="<?php echo esc_url( $this->rootURL . ".wordpress-org/screenshot-10.jpg"); ?>" alt="taxonomy result" /></a></div>
 
 			<br clear="both">
 
@@ -637,7 +625,7 @@ class AdminHelp {
 			echo wp_kses( __( sprintf( "Add a Lumières!'s %s widget %s to your sidebar, and go to 'General Options / Advanced and check « Auto widget » option.", '<a href="widgets.php">', '</a>'), 'lumiere-movies'), $this->allowed_html_for_esc_html_functions ); ?>
 
 			<div align="center">
-				<a href="<?php echo esc_url( $this->rootPath . "pics/auto-widget.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="center" width="80%" src="<?php echo esc_url( $this->rootPath . "pics/auto-widget.png"); ?>" alt="auto widget option" /></a>
+				<a href="<?php echo esc_url( $this->rootURL . "pics/auto-widget.png"); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies'); ?>"><img align="center" width="80%" src="<?php echo esc_url( $this->rootURL . "pics/auto-widget.png"); ?>" alt="auto widget option" /></a>
 			</div>
 
 			<?php esc_html_e( "Next time you will look at your post, you will find the widget according to your post’s title.", 'lumiere-movies'); ?>
