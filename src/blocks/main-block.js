@@ -34,7 +34,7 @@
 	);
 
 	registerBlockType( 'lumiere/main', {
-		title: i18n.__('Lumière: movie inside a post', 'lumiere-movies'),
+		title: i18n.__('Lumière! movie blocks', 'lumiere-movies'),
 		description: i18n.__('Insert a series of details related to a movie in your post.', 'lumiere-movies'),		
 		icon: iconLumiere,
 		category: 'embed',
@@ -80,7 +80,7 @@
 						children: i18n.__( 'Use this block to retrieve movie or people information from the IMDb and insert in your post.' , 'lumiere-movies') 
 							+ '<br />'
 							+ i18n.__( 'You can also click on this link to get the' , 'lumiere-movies') 
-							+ ' <a data-lumiere_admin_popup="yes" ' 
+							+ ' <a data-lumiere_admin_popup="somevalue" ' 
 							+ 'onclick="window.open(\''+ lumiere_admin_vars.wordpress_admin_path + lumiere_admin_vars.gutenberg_search_url_string + '\', \'_blank\', \'location=yes,height=400,width=500,scrollbars=yes,status=yes\');" '
 							+ 'class="linkincmovie link-imdblt-highslidepeople highslide" '
 							+ 'target="_blank">'

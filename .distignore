@@ -1,11 +1,11 @@
+/build
+/node_modules
+/source
+/src
+/tests
+/tmp
+/vendor
 .wordpress-org
-build
-node_modules
-source
-src
-tests
-tmp
-vendor
 .babelrc
 .env.testing
 .gitignore
@@ -16,7 +16,6 @@ composer.json
 composer.lock
 package.json
 package-lock.json
-README.md
+/README.md
 webpack.config.js
 wp-cli.phar
-

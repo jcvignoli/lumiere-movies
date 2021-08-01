@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",function(){jQuery("a[data-lumiere_admin_popup]").click(function(){var e=lumiere_admin_vars.wordpress_admin_path+lumiere_admin_vars.gutenberg_search_url_string;window.open(e,"popup","resizable=yes, toolbar=no, scrollbars=yes, location=no, width=540, height=350, top=5, left=5")})});
