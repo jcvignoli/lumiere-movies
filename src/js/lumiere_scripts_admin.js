@@ -1,6 +1,6 @@
 /* Functions here are Content Security Policy (CSP) Compliant
 *  Needs jquery
-*  For admin pages						
+*  For admin pages
 */
 
 /************************************** options-widget.php
@@ -165,31 +165,7 @@ for (i = 0; i < field.length; i++)
 	})(jQuery);
 
 
-/************************************** Gutenberg
-*
-*/
-
-document.addEventListener('DOMContentLoaded', function () {
-
-	/* highslide gutenberg, search */
-
-	jQuery('a[data-gutenberg]').click(function(){
-		// vars from class.core.php
-		var url_imdbperso = lumiere_admin_vars.wordpress_admin_path + lumiere_admin_vars.gutenberg_search_url_string;
-		// highslide popup
-		return hs.htmlExpand(this, { 
-			allowWidthReduction: true,
-			objectType: 'iframe', 
-			width: tmppopupLarg, 
-
-			headingEval: 'this.a.innerHTML', 
-			wrapperClassName: 'titlebar', 
-			src: url_imdbperso
-		});
-	});
-});
-
-/************************************** Open a query popup in admin pages
+/************************************** Open a query popup in any admin pages
 *
 */
 

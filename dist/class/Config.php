@@ -41,6 +41,7 @@ class Settings extends Config {
 	const IMDBABOUTENGLISH = self::IMDBBLOGENGLISH . '/presentation-of-jean-claude-vignoli';
 	const IMDBPHPGIT = 'https://github.com/tboothman/imdbphp/';
 	const LUMIERE_WORDPRESS = 'https://wordpress.org/extend/plugins/lumiere-movies/';
+	const LUMIERE_WORDPRESS_IMAGES = 'https://ps.w.org/lumiere-movies/assets';
 	const LUMIERE_GIT = 'https://github.com/jcvignoli/lumiere-movies';
 
 	/* URL Strings for popups, built in lumiere_define_constants()
@@ -48,6 +49,10 @@ class Settings extends Config {
 	public $lumiere_urlstring, $lumiere_urlstringfilms, $lumiere_urlstringperson, 
 	$lumiere_urlstringsearch, $lumiere_urlpopupsfilms, $lumiere_urlpopupsperson, 
 	$lumiere_urlpopupsearch;
+
+	/* URL for menu small images directory, built in lumiere_define_constants()
+	*/
+	public $lumiere_pics_dir;
 
 	/* Internal URL pages constants
 	*/
@@ -92,7 +97,7 @@ class Settings extends Config {
 	/* Store the number of files inside /class/updates
 	 * Allows to start with a fresh Lumière installation with the right
 	 * number of updates already made
-	  " Is buillt in $this->lumiere_define_constants()
+	 * Is built in lumiere_define_constants()
 	 */
 	private $current_number_updates;
 
@@ -149,6 +154,9 @@ class Settings extends Config {
 		/* BUILD $imdb_admin_values['imdbplugindirectory'] */
 		$imdb_admin_values['imdbplugindirectory'] = isset($imdb_admin_values['imdbplugindirectory']) ? $imdb_admin_values['imdbplugindirectory'] : plugin_dir_url( __DIR__ );
 
+		/* BUILD directory for pictures */
+		$this->lumiere_pics_dir =  plugin_dir_url( __DIR__ ) . 'pics/';
+
 		/* BUILD LUMIERE_VERSION */
 		$lumiere_version_recherche = file_get_contents( plugin_dir_path( __DIR__ ) . 'README.txt');
 		$lumiere_version = preg_match('#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match);
@@ -163,10 +171,23 @@ class Settings extends Config {
 		$this->lumiere_urlpopupsperson = site_url() . $this->lumiere_urlstringperson;
 		$this->lumiere_urlpopupssearch = site_url() . $this->lumiere_urlstringsearch;
 
-		// Find the number of update files to get the right 
-		// number of updates when installing Lumière
-		$fi = new \FilesystemIterator(plugin_dir_path(__DIR__).'class/updates/', \FilesystemIterator::SKIP_DOTS);
-		$this->current_number_updates = iterator_count($fi);
+	}
+
+	/* Define the number of updates on first install
+	 * Called from \Lumiere\Core
+	 *
+	 */
+	public function lumiere_define_nb_updates() {
+
+		// If var current_number_updates doesn't exist, make it
+		if ( (!isset($this->current_number_updates)) || (empty($this->current_number_updates)) ) {
+
+			// Find the number of update files to get the right 
+			// number of updates when installing Lumière
+			$fi = new \FilesystemIterator(plugin_dir_path(__DIR__).'class/updates/', \FilesystemIterator::SKIP_DOTS);
+			$this->current_number_updates = iterator_count($fi);
+
+		}
 	}
 
 	/** Returns the array of ADMIN options

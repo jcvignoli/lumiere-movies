@@ -413,7 +413,7 @@ class Utils {
 			$output .= "<br />";
 			$output .= "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=" . $lumiere_taxo_title ) . "' " 
 					."title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >"
-					. "<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
+					. "<img src='".esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png') . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
 					. esc_html__("Copy template", 'lumiere-movies') . "</a>";
 
 			$output .= '<div><font color="red">'
@@ -448,7 +448,7 @@ class Utils {
 			$output .= "<br />";
 			$output .= "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=" . $lumiere_taxo_title ) . "' " 
 					."title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >"
-					. "<img src='".esc_url( $imdb_admin_values['imdbplugindirectory'] . "pics/admin-widget-copy-theme.png") . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
+					. "<img src='".esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png') . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
 					. esc_html__("Copy template", 'lumiere-movies') . "</a>";
 
 			$output .= '<div><font color="red">'

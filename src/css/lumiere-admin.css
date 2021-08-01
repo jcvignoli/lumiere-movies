@@ -7,6 +7,8 @@ h3{font-size: 18px;}
 .hidesection, .hidesectionOfCheckbox, .hidesectionOfCheckboxTwo{display:none;}
 .activatehidesection {cursor:pointer;}
 
+a[data-lumiere_admin_popup]{cursor:pointer;}
+
 .subpage {border:thin grey solid;padding:15px;background: #999 20px 10px;color:beige;border-radius: 6px;}
 
 .subpage a { color:beige;}
@@ -69,7 +71,7 @@ width: 100%;border-color: black;}
 
 
 .lumiere_admin_tiny_img {} /* tinyMCE image in editor */
-.lumiere_link_maker { /* span used to process a link - doesn't work, is not process by tinyMCE */
+.lumiere_link_maker {
 background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;padding-left: 16px;text-decoration: none;cursor:pointer;}
 
 /* for refresh/delete in cache options - cache management */
@@ -147,5 +149,4 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .linkpopup {color: #0073aa;text-decoration: none;cursor:pointer;}
 .linkpopup:hover {color: #005177;text-decoration: none;cursor:pointer;}
 
-/* for gutenberg search */
-/* in lumiere.css */
+

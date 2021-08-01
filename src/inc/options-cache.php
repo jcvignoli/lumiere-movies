@@ -381,10 +381,10 @@ if (current_user_can( 'manage_options' ) ) {
 
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-cache-options.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Cache options", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url().'admin.php?page=lumiere_options&subsection=cache&cacheoption=option'); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $configClass->lumiere_pics_dir . 'menu/admin-cache-options.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Cache options", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url().'admin.php?page=lumiere_options&subsection=cache&cacheoption=option'); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies'); ?></a></div>
  		<?php 
 	if ($imdb_cache_values['imdbusecache'] == "1") { ?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( plugin_dir_url( __DIR__ ) . "pics/admin-cache-management.png"); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Manage Cache", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url().'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage'); ?>"><?php esc_html_e( "Manage Cache", 'lumiere-movies'); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $configClass->lumiere_pics_dir . 'menu/admin-cache-management.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e("Manage Cache", 'lumiere-movies');?>" href="<?php echo esc_url( admin_url().'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage'); ?>"><?php esc_html_e( "Manage Cache", 'lumiere-movies'); ?></a></div>
 <?php 
 	}; ?>
 	</div>
@@ -701,7 +701,7 @@ if (!empty($imdb_cache_values['imdbcachedir'])) {
 				} else { // display every cache movie details, longer loading
 					// get either local picture or if no local picture exists, display the default one
 					if (false === $res->photo_localurl() ){
-						$moviepicturelink = 'src="'.plugin_dir_url( __DIR__ ).'pics/no_pics.gif" alt="'.esc_html__('no picture', 'lumiere-movies').'"';							
+						$moviepicturelink = 'src="'.esc_url( $configClass->lumiere_pics_dir . 'no_pics.gif' ) . '" alt="' . esc_html__('no picture', 'lumiere-movies') . '"';							
 					} else {
 						$moviepicturelink = 'src="'.$imdb_cache_values['imdbphotodir'].$obj_sanitized.'.jpg" alt="'.$title_sanitized.'"'; 
 					}
@@ -809,7 +809,7 @@ if (!empty($results)){
 			} else { // display every cache people details, longer loading
 				// get either local picture or if no local picture exists, display the default one
 				if (false === $res->photo_localurl() ){
-					$picturelink = 'src="'.esc_url( plugin_dir_url( __DIR__ ).'pics/no_pics.gif').'" alt="'.esc_html__('no picture', 'lumiere-movies').'"'; 	
+					$picturelink = 'src="'.esc_url( $configClass->lumiere_pics_dir . 'no_pics.gif').'" alt="'.esc_html__('no picture', 'lumiere-movies').'"'; 	
 				} else {
 					$picturelink = 'src="'.esc_url($imdb_cache_values['imdbphotodir']."nm".$objpiple_sanitized.'.jpg').'" alt="'.$name_sanitized.'"';
 				}

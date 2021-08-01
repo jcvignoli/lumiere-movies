@@ -300,7 +300,7 @@ class LumiereWidget extends \WP_Widget {
 		// Display debug message if no metabox was found with an IMDb id/title
 		if ( (empty(get_post_meta($post_id, 'imdb-movie-widget', false))) && (empty(get_post_meta($post_id, 'imdb-movie-widget-bymid', false))) ) {
 
-			$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] No metabox with IMDb id/title is added to this post.");
+			$configClass->lumiere_maybe_log('debug', "[Lumiere][widget] No metabox with IMDb id/title was added to this post.");
 
 		}
 
