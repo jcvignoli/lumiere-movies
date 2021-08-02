@@ -33,12 +33,6 @@ class Core {
 	 */
 	private $utilsClass;
 
-	/* Constants defined for javascript paths
-	 * 
-	 * 
-	 */
-	private $lumiere_javascript_constants;
-
 	/* Constructor
 	 *
 	 */
@@ -110,39 +104,37 @@ class Core {
 			require_once __DIR__ . '/Admin.php';
 			$adminClass = new \Lumiere\Admin();
 			add_action('init', [ $adminClass, 'lumiere_admin_menu' ] );
-
-			// Add admin header
-			add_action('admin_enqueue_scripts', [ $this, 'lumiere_add_header_admin' ] );
-
-			// Add admin tinymce button for wysiwig editor
-			add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_tinymce' ] );
-
-			// Add admin quicktag button for text editor
-			add_action('admin_footer', [ $this, 'lumiere_register_quicktag' ], 100);
-
-			// Add admin footer
-			add_action('admin_footer', [ $this, 'lumiere_add_footer_admin' ], 100 );
 		}
+
+		// Register admin scripts
+		add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ], 0 );
+
+		// Add admin header
+		add_action('admin_enqueue_scripts', [ $this, 'lumiere_execute_admin_assets' ] );
+
+		// Add admin tinymce button for wysiwig editor
+		add_action('admin_enqueue_scripts', [ $this, 'lumiere_execute_tinymce' ], 2);
+
 
 		// Frontpage
 		if (!is_admin()) {
 
-			// Add header
-			add_action('wp_head', [ $this, 'lumiere_add_head_blog' ], 0);
+			// Registers javascripts and styles
+			add_action('wp_enqueue_scripts', [ $this, 'lumiere_register_assets' ], 0);
+
+			// Execute javascripts and styles
+			add_action('wp_enqueue_scripts', [ $this, 'lumiere_execute_assets' ], 0);
 
 			// Add metas tags
 			add_action('wp_head', [ $this, 'lumiere_add_metas' ], 5);
-
-			// Add footer
-			add_action('wp_footer', [ $this, 'lumiere_add_footer_blog' ] );
 
 			// Change title of popups
 			add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
 
 		}
 
-		// Activate Gutenberg blocks
-		add_action('admin_init', [ $this, 'lumiere_register_gutenberg_blocks' ],0);
+		// Register Gutenberg blocks
+		add_action('enqueue_block_editor_assets', [ $this, 'lumiere_register_gutenberg_blocks' ]);
 
 		// On updating lumiere plugin
 		add_action( 'upgrader_process_complete', [$this, 'lumiere_on_lumiere_upgrade_completed' ], 10, 2 );
@@ -150,65 +142,182 @@ class Core {
 		// Add cron schedules
 		add_action('lumiere_cron_hook', [$this, 'lumiere_cron_exec_once'], 0);
 
-		// Build constants
-		$this->lumiere_javascript_constants = 'const lumiere_admin_vars = ' . json_encode( 
-				array(
-					'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
-					'wordpress_path' => site_url(),
-					'wordpress_admin_path' => admin_url(),
-					'gutenberg_search_url_string' => \Lumiere\Settings::gutenberg_search_url_string,
-					'gutenberg_search_url' => \Lumiere\Settings::gutenberg_search_url,
-					) 
-				) ;
-
 	}
 
-	/*  Add Quicktag
+	/*  Register frontpage scripts and styles
 	 * 
 	 */
-	function lumiere_register_quicktag() {
+	function lumiere_register_assets(){
 
-		$imdb_admin_values = $this->imdb_admin_values;
+		// Common assets to admin and frontpage
+		$this->lumiere_register_both_assets();
 
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], esc_url( site_url( '', 'relative' ) . '/wp-admin/post.php' ) ) ) {
+		// Register frontpage script
+		wp_register_script( 
+			"lumiere_scripts", 
+			$this->imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts.js", 
+			[ 'jquery' ], 
+			$this->configClass->lumiere_version,
+			true
+		);
 
-			wp_enqueue_script( 
-				"lumiere_quicktag_addbutton", 
-				$imdb_admin_values['imdbplugindirectory'] ."js/lumiere_admin_quicktags.js",
-				array( 'quicktags' ), 
-				$this->configClass->lumiere_version
-			);
+		// Register highslide scripts and styles
+		wp_register_script( 
+			'lumiere_highslide', 
+			$this->imdb_admin_values['imdbplugindirectory'] ."js/highslide/highslide-with-html.min.js",
+			array(), 
+			$this->configClass->lumiere_version
+		);
+		wp_enqueue_script( 
+			"lumiere_highslide_options", 
+			$this->imdb_admin_values['imdbplugindirectory'] ."js/highslide-options.js", 
+			[ 'lumiere_highslide' ], 
+			$this->configClass->lumiere_version,
+			true
+		);
+		wp_enqueue_style( 
+			"lumiere_highslide", 
+			$this->imdb_admin_values['imdbplugindirectory'] ."css/highslide.css", 
+			array(), 
+			$this->configClass->lumiere_version
+		);
 
-		}
+		// Register customised main style, located in active theme directory
+		wp_register_style(
+			'lumiere_style_custom',
+			get_stylesheet_directory_uri() . '/lumiere.css', 
+			array(), 
+			$this->configClass->lumiere_version
+		);
+
+		// Register main style
+		wp_register_style( 
+			'lumiere_style_main', 
+			$this->imdb_admin_values['imdbplugindirectory'] .'css/lumiere.css', 
+			array(), 
+			$this->configClass->lumiere_version
+		);
+
+		// Register OceanWP theme fixes for popups only
+		wp_register_style(
+			'lumiere_style_oceanwpfixes_popups', 
+			$this->imdb_admin_values['imdbplugindirectory'] ."css/lumiere_subpages-oceanwpfixes.css",
+			 array(), 
+			$this->configClass->lumiere_version
+		);
+
+		// Register OceanWP theme fixes for all pages but popups
+		wp_register_style(
+			'lumiere_style_oceanwpfixes_general', 
+			$this->imdb_admin_values['imdbplugindirectory'] ."css/lumiere_extrapages-oceanwpfixes.css",
+			array(), 
+			$this->configClass->lumiere_version
+		);
+	}
+
+	/*  Register admin scripts and styles
+	 * 
+	 */
+	function lumiere_register_admin_assets() {
+
+		// Common assets to admin and frontpage
+		$this->lumiere_register_both_assets();
+
+		// Register paths, fake script to get a hook for add inline scripts
+		wp_register_script(
+			"lumiere_scripts_admin_vars", 
+			'', 
+			array(), 
+			$this->configClass->lumiere_version, true 
+		);	
+
+		// Register admin styles
+		wp_register_style(
+			'lumiere_css_admin', 
+			$this->imdb_admin_values['imdbplugindirectory'] . "css/lumiere-admin.css", 
+			array(), 
+			$this->configClass->lumiere_version
+		);
+
+		// Register admin scripts
+		wp_register_script( 
+			"lumiere_scripts_admin", 
+			$this->imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin.js",
+			[ 'jquery' ], 
+			$this->configClass->lumiere_version
+		);
+
+		// Register gutenberg admin scripts
+		wp_register_script( 
+			"lumiere_scripts_admin_gutenberg", 
+			$this->imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin_gutenberg.js",
+			[ 'jquery' ],
+			$this->configClass->lumiere_version
+		);
+
+		// Register confirmation script upon deactivation
+		wp_register_script(
+			'lumiere_deactivation_plugin_message', 
+			$this->imdb_admin_values['imdbplugindirectory'] . 'js/lumiere_admin_deactivation_msg.js',
+			[ 'jquery' ],
+			$this->configClass->lumiere_version,
+			true
+		);
+
+		// Quicktag
+		wp_register_script( 
+			"lumiere_quicktag_addbutton", 
+			$this->imdb_admin_values['imdbplugindirectory'] ."js/lumiere_admin_quicktags.js",
+			[ 'quicktags' ], 
+			$this->configClass->lumiere_version,
+			true
+		);
 
 	}
+
+	/*  Common assets registration
+	 *  For both admin and frontpage utilisation scripts and styles
+	 * 
+	 */
+	function lumiere_register_both_assets() {
+
+		// Register hide/show script
+		wp_register_script( 
+			"lumiere_hide_show", 
+			$this->imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", 
+			[ 'jquery' ], 
+			$this->configClass->lumiere_version,
+			true
+		);
+
+	}
+
 
 	/*  Register TinyMCE
 	 * 
 	 */
-	function lumiere_register_tinymce() {
+	function lumiere_execute_tinymce($hook) {
 
 		// Don't bother doing this stuff if the current user lacks permissions
 		if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
 			return;
 
-		// Add only in Rich Editor mode for post.php page
-		if ( ( get_user_option('rich_editing') == 'true') && ( 0 === stripos( $_SERVER['REQUEST_URI'], esc_url( site_url( '', 'relative' ) . '/wp-admin/post.php' ) ) ) ) {
+		// Add only in Rich Editor mode for post.php and post-new.php pages
+		if ( 
+			( 
+				get_user_option('rich_editing') == 'true') && 
+				( ('post.php' === $hook) || ('post-new.php' === $hook) 
+			) 
+		) {
 
 			add_filter("mce_external_plugins", [ $this, "lumiere_tinymce_addbutton" ] );
 			add_filter('mce_buttons', [ $this, 'lumiere_tinymce_button_position' ] );
 
 			// Pass path variables to javascripts
-			wp_register_script(
-				"lumiere_scripts_admin_editor_interface", 
-				'', 
-				array(), 
-				$this->configClass->lumiere_version, true 
-			);
-			wp_enqueue_script( 'lumiere_scripts_admin_editor_interface');
+			wp_enqueue_script( 'lumiere_scripts_admin_vars');
 			wp_add_inline_script( 
-				'lumiere_scripts_admin_editor_interface', 
-				$this->lumiere_javascript_constants,
+				'lumiere_scripts_admin_vars', 
+				$this->configClass->lumiere_scripts_admin_vars,
 				'before'
 			);
 
@@ -243,43 +352,24 @@ class Core {
 	 */
 	function lumiere_register_gutenberg_blocks() {
 
-		$imdb_admin_values = $this->imdb_admin_values;
-
 		wp_register_script( 
 			"lumiere_gutenberg_main", 
-			$imdb_admin_values['imdbplugindirectory'] . 'blocks/main-block.js',
+			$this->imdb_admin_values['imdbplugindirectory'] . 'blocks/main-block.js',
 			[ 'wp-blocks', 'wp-element', 'wp-editor','wp-components','wp-i18n','wp-data' ], 
 			$this->configClass->lumiere_version 
 		);
 
 		wp_register_script( 
 			"lumiere_gutenberg_buttons", 
-			$imdb_admin_values['imdbplugindirectory'] . 'blocks/buttons.js',
+			$this->imdb_admin_values['imdbplugindirectory'] . 'blocks/buttons.js',
 			[ 'wp-element', 'wp-compose','wp-components','wp-i18n','wp-data' ], 
 			$this->configClass->lumiere_version 
 		);
 
-		// Pass variables to javascripts
-		wp_add_inline_script( 
-			'lumiere_scripts_admin_editor_interface', 
-			$this->lumiere_javascript_constants,
-			'before'
-		);
-
-		wp_enqueue_script( 
-			"lumiere_scripts_admin_gutenberg", 
-			$imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin_gutenberg.js",
-			array(
-				'jquery', # Needed by all scripts 
-			),
-			$this->configClass->lumiere_version
-		);
-		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg');
-
 		// Style
 		wp_register_style( 
 			"lumiere_gutenberg_main", 
-			$imdb_admin_values['imdbplugindirectory'] . 'blocks/main-block.css',
+			$this->imdb_admin_values['imdbplugindirectory'] . 'blocks/main-block.css',
 			array( 'wp-edit-blocks' ), 
 			$this->configClass->lumiere_version 
 		);
@@ -298,197 +388,125 @@ class Core {
 			] 
 		);
 
+		// Pass variables to javascripts
+		wp_add_inline_script( 
+			'lumiere_scripts_admin_vars', 
+			$this->configClass->lumiere_scripts_admin_vars,
+			'before'
+		);
+
+		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg');
+
 	}
 
-	/*  Add the stylesheet & javascript to frontpage head
+	/*  Add the stylesheet & javascript to frontpage
 	 * 
 	 */
-	function lumiere_add_head_blog (){
+	function lumiere_execute_assets (){
 
-		$imdb_admin_values = $this->imdb_admin_values;
 
-		// Load js and css in /imdblt/, inc/, LUMIERE_URLSTRING URLs
-		// Dunno why removing $bypass condition prevents to load below assets
-		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) || ($bypass="inc.movie") ) {
+		// Use local template lumiere.css if there is one in current theme folder
+		if (file_exists ( TEMPLATEPATH . "/lumiere.css" ) ) { # a lumiere.css exists inside theme folder, use it!
+			wp_enqueue_style( 'lumiere_style_custom' );
 
-			// Highslide popup
-			if ($imdb_admin_values['imdbpopup_highslide'] == 1) {
+	 	} else {
 
-				wp_enqueue_script( 
-					"lumiere_highslide", 
-					$imdb_admin_values['imdbplugindirectory'] ."js/highslide/highslide-with-html.min.js",
-					 array(), 
-					$this->configClass->lumiere_version
-				);
-				wp_enqueue_script( 
-					"lumiere_highslide_options", 
-					$imdb_admin_values['imdbplugindirectory'] ."js/highslide-options.js", 
-					array(), $this->configClass->lumiere_version
-				);
-				// Pass variable to javascript highslide-options.js
-				wp_add_inline_script( 
-					'lumiere_highslide_options', 
-					'const highslide_vars = ' . json_encode( 
-						array(
-		    					'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
-		    					'popup_border_colour' => $imdb_admin_values['imdbpopuptheme'],
-						) 
-					), 
-					'before'
-				);
-				wp_enqueue_style( 
-					"lumiere_highslide", 
-					$imdb_admin_values['imdbplugindirectory'] ."css/highslide.css", 
-					array(), $this->configClass->lumiere_version
-				);
-			}
+			wp_enqueue_style( 'lumiere_style_main' );
+	 	}
 
-			// Use local template lumiere.css if there is one in current theme folder
-			if (file_exists ( TEMPLATEPATH . "/lumiere.css" ) ) { # a lumiere.css exists inside theme folder, use it!
-				wp_enqueue_style(
-					'lumiere_main', get_stylesheet_directory_uri() . '/lumiere.css', 
-					array(), 
-					$this->configClass->lumiere_version
-				);
+		// OceanWp template css fix
+		// enqueue lumiere.css only if using oceanwp template
+		# Popups
+		if ( 
+			( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) )
+			 && 
+			( $this->utilsClass->str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstring ) ) 
+		) {
 
-		 	} else {
+			wp_enqueue_style( 'lumiere_style_oceanwpfixes_popups' );
 
-				wp_enqueue_style(
-					'lumiere_main', 
-					$imdb_admin_values['imdbplugindirectory'] .'css/lumiere.css', 
-					array(), 
-					$this->configClass->lumiere_version
-				);
-		 	}
+		# All other cases
+		} elseif ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp') ) ){ 
 
-			// OceanWp template css fix
-			// enqueue lumiere.css only if using oceanwp template
-			# Popups
-			if ( ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ) && ( $this->utilsClass->str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstring ) ) ) {
+			wp_enqueue_style( 'lumiere_style_oceanwpfixes_general' );
 
-				wp_enqueue_style(
-					'lumiere_subpages_css_oceanwpfixes', 
-					$imdb_admin_values['imdbplugindirectory'] ."css/lumiere_subpages-oceanwpfixes.css",
-					 array(), 
-					$this->configClass->lumiere_version
-				);
+		} 
 
-			# Wordpress posts/pages
-			} elseif ( 0 === stripos( get_template_directory_uri(), site_url() . '/wp-content/themes/oceanwp' ) ){ 
-				wp_enqueue_style(
-					'lumiere_extrapagescss_oceanwpfixes', 
-					$imdb_admin_values['imdbplugindirectory'] ."css/lumiere_extrapages-oceanwpfixes.css",
-					array(), 
-					$this->configClass->lumiere_version
-				);
-			} 
-		}
-	}
+		// Highslide popup
+		if ($this->imdb_admin_values['imdbpopup_highslide'] == 1) {
 
-	/*  Add the stylesheet & javascript to frontpage footer
-	 * 
-	 */
-	function lumiere_add_footer_blog(){
+			wp_enqueue_style('lumiere_highslide' );
 
-		$imdb_admin_values = $this->imdb_admin_values;
+			wp_enqueue_script( 'lumiere_highslide');
 
-		// Limitation unactivated, so the scripts can be run anywhere
-		// @TODO: use the list of pages $lumiere_list_all_pages in class config to limit the load
-
-		// Load js and css in /imdblt/ URLs or if the function is called with lumiere_add_footer_blog("inc.movie")
-		//if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstring ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/inc/' ) ) ) {
-
-			wp_enqueue_script( "lumiere_hide_show", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", array('jquery'), $this->configClass->lumiere_version);
-
-			wp_enqueue_script( "lumiere_scripts", $imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts.js", array('jquery'), $this->configClass->lumiere_version);
-
-			// Pass variable to javascript lumiere_scripts.js
+			// Pass variables to javascript highslide-options.js
 			wp_add_inline_script( 
-				'lumiere_scripts', 
-				'const lumiere_vars = ' . json_encode( 
-					array(
-						'popupLarg' => $imdb_admin_values['popupLarg'],
-						'popupLong' => $imdb_admin_values['popupLong'],
-						'imdb_path' => $imdb_admin_values['imdbplugindirectory'],
-						'urlpopup_film' => $this->configClass->lumiere_urlpopupsfilms,
-						'urlpopup_person' => $this->configClass->lumiere_urlpopupsperson,
-					) 
-				), 
-				'before'
+				'lumiere_highslide_options', 
+				$this->configClass->lumiere_scripts_highslide_vars,
+				'before',
 			);
-		//}
+
+			wp_enqueue_script( 'lumiere_highslide_options' );
+
+		}
+
+		wp_enqueue_script( 'lumiere_hide_show' );
+
+		wp_enqueue_script( 'lumiere_scripts');
+
+		// Pass variable to javascript lumiere_scripts.js
+		wp_add_inline_script( 
+			'lumiere_scripts', 
+			$this->configClass->lumiere_scripts_vars, 
+			'before'
+		);
+
 	}
 
-	/*  Add header of Lumière admin pages
+	/*  Add assets of Lumière admin pages
 	 * 
 	 */
-	function lumiere_add_header_admin ($hook) {
+	function lumiere_execute_admin_assets ($hook) {
 
 		$imdb_admin_values = $this->imdb_admin_values;
 
-		// Load scripts only on Lumière admin pages
-		// and on Lumière pages (non-admin pages were already excluded before the call)
+		// Load scripts only on Lumière admin pages + on Lumière pages (ie: gutenberg search)
 		if ( ('toplevel_page_lumiere_options' === $hook) || ($this->utilsClass->lumiere_array_contains_term($this->configClass->lumiere_list_all_pages, $_SERVER['REQUEST_URI'])) ) {
 
-			wp_enqueue_style(
-				'lumiere_css_admin', 
-				$imdb_admin_values['imdbplugindirectory'] . "css/lumiere-admin.css", 
-				array(), 
-				$this->configClass->lumiere_version
-			);
+			// Load main css
+			wp_enqueue_style( 'lumiere_css_admin');
 
-			// Enqueue needed extra scripts
-			wp_enqueue_script( 
-				"lumiere_scripts_admin", 
-				$imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin.js",
-				array(
-					'jquery', # Needed by all scripts 
-				), 
-				$this->configClass->lumiere_version
-			);
+			// Load main js
+			wp_enqueue_script( 'lumiere_scripts_admin');
 
 			// Pass path variables to javascripts
 			wp_add_inline_script( 
 				'lumiere_scripts_admin', 
-				$this->lumiere_javascript_constants,
+				$this->configClass->lumiere_scripts_admin_vars,
 				'before'
 			);
+
+			// Load hide/show js
+			wp_enqueue_script( 'lumiere_hide_show' );
 
 		}
 
 		// On 'plugins.php' show a confirmation dialogue if
 		// 'imdbkeepsettings' is set on delete Lumière! options
-		if ( ( (!isset($imdb_admin_values['imdbkeepsettings'])) || ( $imdb_admin_values['imdbkeepsettings'] == false ) ) && ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/plugins.php' )) ) {
+		if ( ( (!isset($imdb_admin_values['imdbkeepsettings'])) || ( $imdb_admin_values['imdbkeepsettings'] == false ) ) && ('plugins.php' === $hook)  ) {
 
-			wp_enqueue_script(
-				'lumiere_deactivation_plugin_message', 
-				$imdb_admin_values['imdbplugindirectory'] . 'js/lumiere_admin_deactivation_msg.js',
- 				array('jquery') 
-			);
+			wp_enqueue_script( 'lumiere_deactivation_plugin_message' );
 
 		}
-	}
 
-	/*  Add footer of Lumière admin pages
-	 * 
-	 */
-	function lumiere_add_footer_admin ($hook) {
+		//  Add Quicktag
+		if ( ('post.php' === $hook) || ('post-new.php' === $hook) ) {
 
-		$imdb_admin_values = $this->imdb_admin_values;
+			wp_enqueue_script( 'lumiere_quicktag_addbutton');
 
-		// Load scripts only on Lumière admin pages
-		// and on Lumière pages (non-admin pages were already excluded before the call)
-		if ( ('toplevel_page_lumiere_options' === $hook) || ($this->utilsClass->lumiere_array_contains_term($this->configClass->lumiere_list_all_pages, $_SERVER['REQUEST_URI'])) ) {
-
-			wp_enqueue_script( 
-				"lumiere_hide_show", 
-				$imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", 
-				array('jquery'), # needed by lumiere hide/show js
-				$this->configClass->lumiere_version
-			);
 		}
-	}
 
+	}
 
 	/**
 	 **  Redirect the popups to a proper URL
