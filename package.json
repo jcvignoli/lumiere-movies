@@ -19,8 +19,9 @@
     "watch": "gulp watch",
     "build": "gulp build --clean yes",
     "rsync": "gulp rsync",
-    "codeceptionremote": "php vendor/bin/codecept run -vvv acceptanceRemote LumiereCest.php --env wpfirefox",
-    "codeceptionlocal": "php vendor/bin/codecept run -vvv acceptanceLocal LumiereCest.php --env wpfirefox"
+    "codeceptionRemote": "php vendor/bin/codecept run -vvv acceptanceRemote --env wpfirefox",
+    "codeceptionRemoteWidget": "php vendor/bin/codecept run -vvv acceptanceRemote WidgetCest.php --env wpfirefox",
+    "codeceptionLocal": "php vendor/bin/codecept run -vvv acceptanceLocal --env wpfirefox"
   },
   "devDependencies": {
     "@wordpress/scripts": "16.1.0",

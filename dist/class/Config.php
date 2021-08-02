@@ -184,7 +184,7 @@ class Settings extends Config {
 	 */
 	function lumiere_define_constants_after_globals(){
 
-		/* BUILD javascripts paths constant */
+		/* BUILD options constant for javascripts  */
 		$this->lumiere_scripts_admin_vars = 'const lumiere_admin_vars = ' . json_encode( 
 			array(
 				'imdb_path' => $this->imdb_admin_values['imdbplugindirectory'],
@@ -204,7 +204,7 @@ class Settings extends Config {
 			) 
 		);
 
-		$this->lumiere_script_highslide_vars = 'const highslide_vars = ' . json_encode( 
+		$this->lumiere_scripts_highslide_vars = 'const highslide_vars = ' . json_encode( 
 			array(
 				'imdb_path' => $this->imdb_admin_values['imdbplugindirectory'],
 				'popup_border_colour' => $this->imdb_admin_values['imdbpopuptheme'],

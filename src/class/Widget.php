@@ -110,10 +110,10 @@ class LumiereWidget extends \WP_Widget {
 		/**
 		 * Register the widget. Should be hooked to 'widgets_init'.
 		 */
-		 add_action( 'widgets_init', function() {
+		 add_action( 'widgets_init', function() { # Register legacy widget
 			register_widget( '\Lumiere\LumiereWidget' );
 		 });
-		add_action('widgets_init', [ $this, 'lumiere_register_widget_block' ]); #Register WordPress Widget Block
+		add_action('enqueue_block_editor_assets', [ $this, 'lumiere_register_widget_block' ]); #Register new block
 
 		/**
 		 * Hide the widget in legacy widgets menu, but we don't want this
@@ -170,7 +170,7 @@ class LumiereWidget extends \WP_Widget {
 
 	}
 
-	/* Wrapper to register widget block (>= WordPress 5.8)
+	/* Register widget block (>= WordPress 5.8)
 	 *
 	 */
 	function lumiere_register_widget_block() {
@@ -189,6 +189,7 @@ class LumiereWidget extends \WP_Widget {
 			'style' => 'lumiere_block_widget', // Loads both on editor and frontend.
 			'editor_script' => 'lumiere_block_widget', // Loads only on editor.
 		] );
+
 
 	}
 

@@ -40,7 +40,6 @@ class Core {
 
 		global $config, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
-
 		$config = new \Lumiere\Settings();
 		$this->configClass = $config;
 		$imdb_admin_values = $config->get_imdb_admin_option();
@@ -98,26 +97,26 @@ class Core {
 
 		// Admin interface
 
-		if ( is_admin() ){
+			// Admin class
+			if ( is_admin() ){
 
-			// Add admin menu
-			require_once __DIR__ . '/Admin.php';
-			$adminClass = new \Lumiere\Admin();
-			add_action('init', [ $adminClass, 'lumiere_admin_menu' ] );
-		}
+				// Add admin menu
+				require_once __DIR__ . '/Admin.php';
+				$adminClass = new \Lumiere\Admin();
+				add_action('init', [ $adminClass, 'lumiere_admin_menu' ] );
+			}
 
-		// Register admin scripts
-		add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ], 0 );
+			// Register admin scripts
+			add_action('admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ], 0 );
 
-		// Add admin header
-		add_action('admin_enqueue_scripts', [ $this, 'lumiere_execute_admin_assets' ] );
+			// Add admin header
+			add_action('admin_enqueue_scripts', [ $this, 'lumiere_execute_admin_assets' ] );
 
-		// Add admin tinymce button for wysiwig editor
-		add_action('admin_enqueue_scripts', [ $this, 'lumiere_execute_tinymce' ], 2);
+			// Add admin tinymce button for wysiwig editor
+			add_action('admin_enqueue_scripts', [ $this, 'lumiere_execute_tinymce' ], 2);
 
 
 		// Frontpage
-		if (!is_admin()) {
 
 			// Registers javascripts and styles
 			add_action('wp_enqueue_scripts', [ $this, 'lumiere_register_assets' ], 0);
@@ -130,8 +129,6 @@ class Core {
 
 			// Change title of popups
 			add_filter('pre_get_document_title', [ $this, 'lumiere_change_popup_title' ]);
-
-		}
 
 		// Register Gutenberg blocks
 		add_action('enqueue_block_editor_assets', [ $this, 'lumiere_register_gutenberg_blocks' ]);
@@ -304,22 +301,12 @@ class Core {
 
 		// Add only in Rich Editor mode for post.php and post-new.php pages
 		if ( 
-			( 
-				get_user_option('rich_editing') == 'true') && 
-				( ('post.php' === $hook) || ('post-new.php' === $hook) 
-			) 
+			( get_user_option('rich_editing') == 'true') 
+			&& ( ('post.php' === $hook) || ('post-new.php' === $hook) ) 
 		) {
 
 			add_filter("mce_external_plugins", [ $this, "lumiere_tinymce_addbutton" ] );
 			add_filter('mce_buttons', [ $this, 'lumiere_tinymce_button_position' ] );
-
-			// Pass path variables to javascripts
-			wp_enqueue_script( 'lumiere_scripts_admin_vars');
-			wp_add_inline_script( 
-				'lumiere_scripts_admin_vars', 
-				$this->configClass->lumiere_scripts_admin_vars,
-				'before'
-			);
 
 		}
 	}
@@ -386,13 +373,6 @@ class Core {
 			'lumiere/buttons', [
 				'editor_script' => 'lumiere_gutenberg_buttons', // Loads only on editor.
 			] 
-		);
-
-		// Pass variables to javascripts
-		wp_add_inline_script( 
-			'lumiere_scripts_admin_vars', 
-			$this->configClass->lumiere_scripts_admin_vars,
-			'before'
 		);
 
 		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg');
@@ -470,8 +450,15 @@ class Core {
 
 		$imdb_admin_values = $this->imdb_admin_values;
 
-		// Load scripts only on Lumière admin pages + on Lumière pages (ie: gutenberg search)
-		if ( ('toplevel_page_lumiere_options' === $hook) || ($this->utilsClass->lumiere_array_contains_term($this->configClass->lumiere_list_all_pages, $_SERVER['REQUEST_URI'])) ) {
+		// Load scripts only on Lumière admin pages
+		// + WordPress edition pages + Lumière own pages (ie gutenberg search)
+		if ( 
+			('toplevel_page_lumiere_options' === $hook) 
+			|| ('widgets.php' === $hook) 
+			|| ('post.php' === $hook) 
+			|| ('post-new.php' === $hook) 
+			|| ($this->utilsClass->lumiere_array_contains_term($this->configClass->lumiere_list_all_pages, $_SERVER['REQUEST_URI'])) 
+		) {
 
 			// Load main css
 			wp_enqueue_style( 'lumiere_css_admin');
@@ -500,7 +487,7 @@ class Core {
 		}
 
 		//  Add Quicktag
-		if ( ('post.php' === $hook) || ('post-new.php' === $hook) ) {
+		if ( (('post.php' === $hook) || ('post-new.php' === $hook)) && ( wp_script_is('quicktags' )) ) {
 
 			wp_enqueue_script( 'lumiere_quicktag_addbutton');
 

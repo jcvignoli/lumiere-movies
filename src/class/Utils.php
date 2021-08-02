@@ -339,8 +339,12 @@ class Utils {
 	 * @param object optional $options array of Lumière options, do not display anything on screen if empty
 	 * @param string optional $set_error set to 'no_var_dump' to avoid the call to var_dump function
 	 * @param string optional $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
+	 *
+	 * @since 3.5
+	 * @param string optional $get_screen set to 'screen' to display wp function get_current_screen()
+	 *
 	 */
-	function lumiere_activate_debug($options = NULL, $set_error = NULL, $libxml_use = false) {
+	function lumiere_activate_debug($options = NULL, $set_error = NULL, $libxml_use = false, $get_screen = NULL) {
 
 		// If the user can't manage options, exit
 		if ( !current_user_can( 'manage_options' ) ) 
@@ -366,6 +370,13 @@ class Utils {
 			set_error_handler("var_dump"); 
 
 		echo ' </font><strong>[/Lumière options]</strong></div>';
+
+		if ( $get_screen == "screen" ) {
+			$currentScreen = get_current_screen();
+			echo  '<div align="center"><strong>[WP current screen]</strong>';
+			print_r( $currentScreen );
+			echo '</div>';
+		}
 
 	}
 

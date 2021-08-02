@@ -167,7 +167,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 		<?php //------------------------------------------------------------------ =[Popup]=- ?>
 
-			<div class="titresection">
+			<div id="popup" class="titresection">
 				<img src="<?php echo esc_url( $configClass->lumiere_pics_dir . 'admin-title-popup.png'); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 				<?php esc_html_e( 'Popup', 'lumiere-movies'); ?>
 			</div>
@@ -240,7 +240,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 		<?php //------------------------------------------------------------------ =[Theme taxo/inside post/widget]=- ?>
 
-			<div class="titresection">
+			<div id="plainpages" class="titresection">
 				<img src="<?php echo esc_url( $configClass->lumiere_pics_dir . 'admin-title-taxonomy.png'); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 				<?php esc_html_e( 'Plain pages', 'lumiere-movies'); ?>
 			</div>
@@ -251,9 +251,9 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 				<label for="imdb_imdbintotheposttheme"><?php esc_html_e( 'Theme color', 'lumiere-movies'); ?></label><br /><br />
 
 				<select name="imdb_imdbintotheposttheme">
-					<option <?php if( ($imdb_admin_values['imdbintotheposttheme'] == "grey") || (empty($imdb_admin_values['imdbintotheposttheme'])) ) echo 'selected="selected"'; ?>value="grey"><?php esc_html_e( 'grey (default)', 'lumiere-movies'); ?></option>
-					<option <?php if($imdb_admin_values['imdbintotheposttheme'] == "white") echo 'selected="selected"'; ?>value="white"><?php esc_html_e( 'white', 'lumiere-movies'); ?></option>
-					<option <?php if($imdb_admin_values['imdbintotheposttheme'] == "black") echo 'selected="selected"'; ?>value="black"><?php esc_html_e( 'black', 'lumiere-movies'); ?></option>
+					<option value="grey"<?php if( ($imdb_admin_values['imdbintotheposttheme'] == "grey") || (empty($imdb_admin_values['imdbintotheposttheme'])) ) echo ' selected="selected"'; ?>><?php esc_html_e( 'grey (default)', 'lumiere-movies'); ?></option>
+					<option value="white"<?php if($imdb_admin_values['imdbintotheposttheme'] == "white") echo ' selected="selected"'; ?>><?php esc_html_e( 'white', 'lumiere-movies'); ?></option>
+					<option value="black"<?php if($imdb_admin_values['imdbintotheposttheme'] == "black") echo ' selected="selected"'; ?>><?php esc_html_e( 'black', 'lumiere-movies'); ?></option>
 				</select>
 
 				<div class="explain"> <?php esc_html_e( 'Inside the post/widget/taxonomy color theme', 'lumiere-movies'); ?> <br /><?php esc_html_e( 'Default:','lumiere-movies');?>"grey"</div>
@@ -263,7 +263,7 @@ echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' 
 
 		<?php //------------------------------------------------------------------ =[Cover picture]=- ?>
 
-		<div class="titresection">
+		<div id="coverpicture" class="titresection">
 			<img src="<?php echo esc_url( $configClass->lumiere_pics_dir . 'cover.jpg'); ?>" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 			<?php esc_html_e( 'Cover picture', 'lumiere-movies'); ?>
 		</div>
