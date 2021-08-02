@@ -2240,11 +2240,10 @@ class LumiereMovies {
  */
 if(!is_admin()){
 
-	$config = new \Lumiere\Settings();
-	$lumiere_list_urls  = $config->lumiere_list_all_pages;
-	$utils = new \Lumiere\Utils();
+	$configClass = new \Lumiere\Settings();
+	$utilsClass = new \Lumiere\Utils();
 
-	if (!$utils->lumiere_array_contains_term($lumiere_list_urls, $_SERVER['REQUEST_URI'])){
+	if (!$utilsClass->lumiere_array_contains_term($configClass->lumiere_list_all_pages, $_SERVER['REQUEST_URI'])){
 
 		$lumiere_movie = new LumiereMovies();
 

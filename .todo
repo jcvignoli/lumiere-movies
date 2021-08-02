@@ -1,4 +1,8 @@
 
+
+1. modifier les register et enqueues des scripts et styles
+
+
 23. write a class for the admin pages using WordPress API
 13. Implement alternative to highslide with a jquery modal window
 16. To test: If Polylang needs to copy the metas when doing a new post in another lang, can activate lumiere_copy_post_metas_polylang() in class.core.php

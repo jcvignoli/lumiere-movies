@@ -69,6 +69,21 @@ class Settings extends Config {
 	*/
 	public $lumiere_list_all_pages;
 
+	/* Paths for javascript frontpage javascripts
+	 * 
+	 */
+	public $lumiere_scripts_vars;
+
+	/* Options for highslide javascript
+	 * 
+	 */
+	public $lumiere_scripts_highslide_vars;
+
+	/* Vars for javascripts in admin zone
+	 * 
+	 */
+	public $lumiere_scripts_admin_vars;
+
 	/* Store Lumière plugin version
 	*/
 	public $lumiere_version;
@@ -115,10 +130,13 @@ class Settings extends Config {
 		// Define Lumière constants
 		$this->lumiere_define_constants();
 
-		// Send to the global vars the options
+		// Send options to the global vars
 		$this->imdb_admin_values = $this->get_imdb_admin_option();
 		$this->imdb_widget_values = $this->get_imdb_widget_option();
 		$this->imdb_cache_values = $this->get_imdb_cache_option();
+
+		// Define Lumière constants once global options have been created
+		$this->lumiere_define_constants_after_globals();
 
 		// Call the plugin translation
 		load_plugin_textdomain('lumiere-movies', false, plugin_dir_url( __DIR__ ) . 'languages' );
@@ -126,27 +144,14 @@ class Settings extends Config {
 		// Call the function to send the selected settings to imdbphp library
 		$this->lumiere_send_config_imdbphp();
 
-		// Build the list of all pages included in Lumière plugin (utilised to load class.movie.php)
-		$this->lumiere_list_all_pages = array( 
-			$this->imdb_admin_values['imdburlstringtaxo'],
-			$this->lumiere_urlstringfilms, 
-			$this->lumiere_urlstringperson, 
-			$this->lumiere_urlstringsearch, 
-			self::move_template_taxonomy_page, 
-			self::highslide_download_page, 
-			self::gutenberg_search_page, 
-			self::gutenberg_search_url, 
-			self::popup_search_url, 
-			self::popup_movie_url, 
-			self::popup_person_url
-		);
 	}
 
 	/** Define global constants
-	 **
+	 ** Run before the creation of the global options, global options may need these constants
 	 **
 	 **/
 	/* @TODO: work on the consistancy with function get_imdb_*_option, so this can be called either before or after */
+	/* @TODO: get rid of the global $imdb_admin_values */
 	function lumiere_define_constants() {
 
 		global $imdb_admin_values;
@@ -171,6 +176,56 @@ class Settings extends Config {
 		$this->lumiere_urlpopupsperson = site_url() . $this->lumiere_urlstringperson;
 		$this->lumiere_urlpopupssearch = site_url() . $this->lumiere_urlstringsearch;
 
+	}
+
+	/* Define global constants after global options are available
+	 * Why: they need global options to work
+	 *
+	 */
+	function lumiere_define_constants_after_globals(){
+
+		/* BUILD javascripts paths constant */
+		$this->lumiere_scripts_admin_vars = 'const lumiere_admin_vars = ' . json_encode( 
+			array(
+				'imdb_path' => $this->imdb_admin_values['imdbplugindirectory'],
+				'wordpress_path' => site_url(),
+				'wordpress_admin_path' => admin_url(),
+				'gutenberg_search_url_string' => \Lumiere\Settings::gutenberg_search_url_string,
+				'gutenberg_search_url' => \Lumiere\Settings::gutenberg_search_url,
+				) 
+		) ;
+		$this->lumiere_scripts_vars = 'const lumiere_vars = ' . json_encode( 
+			array(
+				'popupLarg' => $this->imdb_admin_values['popupLarg'],
+				'popupLong' => $this->imdb_admin_values['popupLong'],
+				'imdb_path' => $this->imdb_admin_values['imdbplugindirectory'],
+				'urlpopup_film' => $this->lumiere_urlpopupsfilms,
+				'urlpopup_person' => $this->lumiere_urlpopupsperson,
+			) 
+		);
+
+		$this->lumiere_script_highslide_vars = 'const highslide_vars = ' . json_encode( 
+			array(
+				'imdb_path' => $this->imdb_admin_values['imdbplugindirectory'],
+				'popup_border_colour' => $this->imdb_admin_values['imdbpopuptheme'],
+			) 
+		);
+
+
+		// Build the list of all pages included in Lumière plugin
+		$this->lumiere_list_all_pages = array( 
+			$this->imdb_admin_values['imdburlstringtaxo'],
+			$this->lumiere_urlstringfilms, 
+			$this->lumiere_urlstringperson, 
+			$this->lumiere_urlstringsearch, 
+			self::move_template_taxonomy_page, 
+			self::highslide_download_page, 
+			self::gutenberg_search_page, 
+			self::gutenberg_search_url, 
+			self::popup_search_url, 
+			self::popup_movie_url, 
+			self::popup_person_url
+		);
 	}
 
 	/* Define the number of updates on first install

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-07-31T02:04:08-03:00\n"
+"POT-Creation-Date: 2021-08-01T23:30:36-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
@@ -35,534 +35,527 @@ msgstr ""
 msgid "https://www.jcvignoli.com/blog"
 msgstr ""
 
-#: class/Admin.php:102
+#: class/Admin.php:167
 msgid "Lumière options page"
 msgstr ""
 
-#: class/Admin.php:102
+#: class/Admin.php:169
 msgid "General"
 msgstr ""
 
-#: class/Admin.php:103
+#: class/Admin.php:176
 msgid "Data management"
 msgstr ""
 
-#: class/Admin.php:103
+#: class/Admin.php:177
 msgid "Data"
 msgstr ""
 
-#: class/Admin.php:104
+#: class/Admin.php:184
 msgid "Cache management options page"
 msgstr ""
 
-#: class/Admin.php:104
+#: class/Admin.php:185
 msgid "Cache"
 msgstr ""
 
-#: class/Admin.php:105
+#: class/Admin.php:191
 msgid "Help page"
 msgstr ""
 
-#: class/Admin.php:105
+#: class/Admin.php:192
 msgid "Help"
 msgstr ""
 
-#: class/Admin.php:144
+#: class/Admin.php:294
 #: inc/admin_pages.php:56
 msgid "admin options"
 msgstr ""
 
-#: class/Admin.php:151
+#: class/Admin.php:301
 #: inc/admin_pages.php:63
 msgid "General Options"
 msgstr ""
 
-#: class/Admin.php:160
+#: class/Admin.php:310
 #: inc/admin_pages.php:72
 msgid "Data Management"
 msgstr ""
 
-#: class/Admin.php:167
+#: class/Admin.php:317
 #: inc/admin_pages.php:79
 msgid "Widget unactivated"
 msgstr ""
 
-#: class/Admin.php:172
-#: inc/admin_pages.php:84
-msgid "Direct search"
+#: class/Admin.php:322
+#: inc/admin_pages.php:89
+msgid "Auto taxonomy"
 msgstr ""
 
-#: class/Admin.php:172
-#: class/Admin.php:177
+#: class/Admin.php:322
 #: inc/admin_pages.php:84
 #: inc/admin_pages.php:89
 msgid "unactivated"
 msgstr ""
 
-#: class/Admin.php:177
-#: inc/admin_pages.php:89
-msgid "Auto taxonomy"
-msgstr ""
-
-#: class/Admin.php:185
+#: class/Admin.php:330
 #: inc/admin_pages.php:97
 msgid "Cache management"
 msgstr ""
 
-#: class/Admin.php:190
+#: class/Admin.php:335
 #: inc/admin_pages.php:102
 msgid "How to use Lumière!, check FAQs & changelog"
 msgstr ""
 
-#: class/Admin.php:191
+#: class/Admin.php:336
 #: inc/admin_pages.php:103
 msgid "help"
 msgstr ""
 
-#: class/Admin/Help.php:80
+#: class/Admin/Help.php:43
 msgid "Popup link builder"
 msgstr ""
 
-#: class/Admin/Help.php:81
+#: class/Admin/Help.php:44
 msgid "Inside the post"
 msgstr ""
 
-#: class/Admin/Help.php:82
+#: class/Admin/Help.php:45
 msgid "Widget"
 msgstr ""
 
-#: class/Admin/Help.php:83
+#: class/Admin/Help.php:46
 msgid "Add a search form"
 msgstr ""
 
-#: class/Admin/Help.php:84
+#: class/Admin/Help.php:47
 msgid "Keep css through update"
 msgstr ""
 
-#: class/Admin/Help.php:85
+#: class/Admin/Help.php:48
 msgid "Taxonomy with Wordpress"
 msgstr ""
 
-#: class/Admin/Help.php:86
+#: class/Admin/Help.php:49
 msgid "Widget auto according post's title"
 msgstr ""
 
-#: class/Admin/Help.php:87
+#: class/Admin/Help.php:50
 msgid "Search options"
 msgstr ""
 
-#: class/Admin/Help.php:146
+#: class/Admin/Help.php:109
 msgid "How to use Lumiere Movies"
 msgstr ""
 
-#: class/Admin/Help.php:146
+#: class/Admin/Help.php:109
 msgid "How to"
 msgstr ""
 
-#: class/Admin/Help.php:148
-#: class/Admin/Help.php:168
+#: class/Admin/Help.php:111
+#: class/Admin/Help.php:131
 msgid "Frequently asked questions"
 msgstr ""
 
-#: class/Admin/Help.php:148
+#: class/Admin/Help.php:111
 msgid "FAQs"
 msgstr ""
 
-#: class/Admin/Help.php:150
+#: class/Admin/Help.php:113
 msgid "What's new"
 msgstr ""
 
-#: class/Admin/Help.php:150
-#: class/Admin/Help.php:211
+#: class/Admin/Help.php:113
+#: class/Admin/Help.php:174
 msgid "Changelog"
 msgstr ""
 
-#: class/Admin/Help.php:152
+#: class/Admin/Help.php:115
 msgid "To get support and to support what you get"
 msgstr ""
 
-#: class/Admin/Help.php:152
+#: class/Admin/Help.php:115
 msgid "Support, donate & credits"
 msgstr ""
 
-#: class/Admin/Help.php:251
+#: class/Admin/Help.php:214
 msgid "Two ways to support <strong>Lumiere Movies</strong> plugin development"
 msgstr ""
 
-#: class/Admin/Help.php:253
+#: class/Admin/Help.php:216
 msgid "Be supported!"
 msgstr ""
 
-#: class/Admin/Help.php:257
+#: class/Admin/Help.php:220
 msgid "You will never believe there is so many ways to be supported. You can:"
 msgstr ""
 
-#: class/Admin/Help.php:259
+#: class/Admin/Help.php:222
 msgid "visit"
 msgstr ""
 
-#: class/Admin/Help.php:259
+#: class/Admin/Help.php:222
 msgid "to ask for help. "
 msgstr ""
 
-#: class/Admin/Help.php:261
-#: class/Admin/Help.php:263
+#: class/Admin/Help.php:224
+#: class/Admin/Help.php:226
 msgid "check the"
 msgstr ""
 
-#: class/Admin/Help.php:261
+#: class/Admin/Help.php:224
 msgid "FAQs "
 msgstr ""
 
-#: class/Admin/Help.php:263
+#: class/Admin/Help.php:226
 msgid "how to"
 msgstr ""
 
-#: class/Admin/Help.php:268
+#: class/Admin/Help.php:231
 msgid "Support me!"
 msgstr ""
 
-#: class/Admin/Help.php:271
+#: class/Admin/Help.php:234
 msgid "You will never believe there is so many ways to thank me. Yes, you can:"
 msgstr ""
 
-#: class/Admin/Help.php:272
+#: class/Admin/Help.php:235
 msgid "pay whatever you want on"
 msgstr ""
 
-#: class/Admin/Help.php:272
-#: class/Admin/Help.php:273
+#: class/Admin/Help.php:235
+#: class/Admin/Help.php:236
 msgid "or on"
 msgstr ""
 
-#: class/Admin/Help.php:273
+#: class/Admin/Help.php:236
 msgid "vote on"
 msgstr ""
 
-#: class/Admin/Help.php:273
+#: class/Admin/Help.php:236
 msgid "Lumière's website"
 msgstr ""
 
-#: class/Admin/Help.php:273
+#: class/Admin/Help.php:236
 msgid "Wordpress' website"
 msgstr ""
 
-#: class/Admin/Help.php:274
+#: class/Admin/Help.php:237
 msgid "send as many bugfixes and propositions as you can on Lumiere Movies website."
 msgstr ""
 
-#: class/Admin/Help.php:275
+#: class/Admin/Help.php:238
 msgid "translate the plugin into your own language."
 msgstr ""
 
-#: class/Admin/Help.php:276
+#: class/Admin/Help.php:239
 msgid "help me to improve the plugin."
 msgstr ""
 
-#: class/Admin/Help.php:276
+#: class/Admin/Help.php:239
 msgid "Report at the development"
 msgstr ""
 
-#: class/Admin/Help.php:276
+#: class/Admin/Help.php:239
 msgid "website"
 msgstr ""
 
-#: class/Admin/Help.php:277
+#: class/Admin/Help.php:240
 msgid "do a trackback, make some noise about this plugin!"
 msgstr ""
 
-#: class/Admin/Help.php:281
+#: class/Admin/Help.php:244
 msgid "Credits:"
 msgstr ""
 
-#: class/Admin/Help.php:325
+#: class/Admin/Help.php:288
 msgid "This section covers the three main ways to display movie data and some related options in Lumière."
 msgstr ""
 
-#: class/Admin/Help.php:327
+#: class/Admin/Help.php:290
 msgid "Lumiere Movies is a plugin under intense development; this help section might be innacurate with regard to the latest functions. Main functions of the plugin are explained below, aiming to be as much user-friendly as possible."
 msgstr ""
 
-#: class/Admin/Help.php:355
+#: class/Admin/Help.php:318
 msgid "Why a popup window?"
 msgstr ""
 
-#: class/Admin/Help.php:359
-#: class/Admin/Help.php:375
-#: class/Admin/Help.php:383
-#: class/Admin/Help.php:413
-#: class/Admin/Help.php:428
-#: class/Admin/Help.php:435
-#: class/Admin/Help.php:458
-#: class/Admin/Help.php:469
-#: class/Admin/Help.php:591
-#: class/Admin/Help.php:599
-#: class/Admin/Help.php:611
-#: class/Admin/Help.php:618
-#: class/Admin/Help.php:643
+#: class/Admin/Help.php:322
+#: class/Admin/Help.php:338
+#: class/Admin/Help.php:346
+#: class/Admin/Help.php:376
+#: class/Admin/Help.php:391
+#: class/Admin/Help.php:398
+#: class/Admin/Help.php:421
+#: class/Admin/Help.php:432
+#: class/Admin/Help.php:554
+#: class/Admin/Help.php:562
+#: class/Admin/Help.php:574
+#: class/Admin/Help.php:581
+#: class/Admin/Help.php:606
 msgid "click to get a larger picture"
 msgstr ""
 
-#: class/Admin/Help.php:361
+#: class/Admin/Help.php:324
 msgid "The first way to use Lumiere Movies is to add links to movie titles that opens popups with information about that very same movies. It is a usefull for posts that mention movies title; just add a link to your movie title, and let visitors knowing more about the details of the movie you mention."
 msgstr ""
 
-#: class/Admin/Help.php:363
+#: class/Admin/Help.php:326
 msgid "Popup is a window that opened on click, which allows to consult director's and movie's information; if browsing a movie, one can read more about the movie but also the people who took part in the movie, such as actors, directors, etc."
 msgstr ""
 
-#: class/Admin/Help.php:365
+#: class/Admin/Help.php:328
 msgid "How to make a popup link"
 msgstr ""
 
-#: class/Admin/Help.php:367
+#: class/Admin/Help.php:330
 msgid "To create a link to a popup window, you only need to put the <b>movie's title</b> inside dedicated tags. Depending on the visual interface you use (modern WordPress, wysiwig old WordPress, or pure text interface), you may add these tags in different ways."
 msgstr ""
 
-#: class/Admin/Help.php:371
+#: class/Admin/Help.php:334
 msgid "If you use a recent WordPress and have not activated a plugin to continue using the old editor interface, you can add a Lumière link to a popup by selecting the title of your movie, then adding the link with the dedicated contextual menu option:"
 msgstr ""
 
-#: class/Admin/Help.php:379
+#: class/Admin/Help.php:342
 msgid "If you use an old WordPress version or a recent WordPress with the plugin 'classic editor' installed, you can access in the dedicated menu to 'add a popup link:"
 msgstr ""
 
-#: class/Admin/Help.php:387
+#: class/Admin/Help.php:350
 msgid "No explanation is need for those who prefer to write directly in HTML editor; it goes without saying they know how to add an HTML tag. But even in that interface a button is available for adding the code. For references, here is the HTML tag to wrap your movie's title with:"
 msgstr ""
 
-#: class/Admin/Help.php:396
+#: class/Admin/Help.php:359
 msgid "Whatever the tool you prefer, when you add such a link a small icon confirming that the link is Lumière compliant is added to your movie's title."
 msgstr ""
 
-#: class/Admin/Help.php:411
+#: class/Admin/Help.php:374
 msgid "Why to use widget?"
 msgstr ""
 
-#: class/Admin/Help.php:413
+#: class/Admin/Help.php:376
 msgid "key and value for custom fields"
 msgstr ""
 
-#: class/Admin/Help.php:415
+#: class/Admin/Help.php:378
 msgid "Widgets are widely used in WordPress. It allows to easily select what information to display in an area, usually on sidebar. Lumière allows to display any movie in your sidebar."
 msgstr ""
 
-#: class/Admin/Help.php:419
+#: class/Admin/Help.php:382
 msgid "How to use the widget"
 msgstr ""
 
-#: class/Admin/Help.php:421
+#: class/Admin/Help.php:384
 msgid "<strong>First</strong>, prior to WordPress 5.8, go to <a href='widgets.php'>widget</a> administration (<i>appearance</i> tab), drag <i>imdb widget</i> (from <i>inactive widgets</i>) to a sidebar, and modify the box's title (in case you don't want to have the box named <i>IMDb data</i>). After WordPress 5.8, widgets are blocks selected by the user, but the process is identical."
 msgstr ""
 
-#: class/Admin/Help.php:426
+#: class/Admin/Help.php:389
 msgid "<strong>Second</strong>, edit your post and add the name of the movie in the box to the sidebar on your right-hand. Lumiere Movies will automatically display in the widget the movie selected."
 msgstr ""
 
-#: class/Admin/Help.php:428
+#: class/Admin/Help.php:391
 msgid "Lumière metabox to add a movie in a widget"
 msgstr ""
 
-#: class/Admin/Help.php:433
+#: class/Admin/Help.php:396
 msgid "As in many other sections of Lumière plugin, you can add the movie's IMDb id instead of the movie's title to make sure that the right movie is display. Should you want to find the movie's IMDb id, click on 'use this tool' and a new windows will be displayed; search for your movie, copy-paste its IMDb id into the sidebar, and select by 'movie id' in the dropdown list."
 msgstr ""
 
-#: class/Admin/Help.php:435
+#: class/Admin/Help.php:398
 msgid "Lumiere Movies query interface"
 msgstr ""
 
-#: class/Admin/Help.php:439
+#: class/Admin/Help.php:402
 msgid "Using the movie's IMDb id allows more security: instead of searching for a title, Lumiere Movies can display directly the movie you are looking for. Very useful when your movie's name does not work as it should, due to movies with the same title, if a incorrect movie is displayed, etc."
 msgstr ""
 
-#. translators: %s is replaced with an URL
-#: class/Admin/Help.php:444
-msgid "Get IMDb ids from links provided everywhere in the plugin interface. Even <a href='%s'>here</a>."
+#: class/Admin/Help.php:407
+msgid "Get IMDb ids from links provided everywhere in the plugin interface. Even <a data-lumiere_admin_popup='openApopup'>here</a>."
 msgstr ""
 
-#: class/Admin/Help.php:457
+#: class/Admin/Help.php:420
 msgid "Why display movie's data inside my post?"
 msgstr ""
 
-#: class/Admin/Help.php:458
+#: class/Admin/Help.php:421
 msgid "Lumiere Movies widget"
 msgstr ""
 
-#: class/Admin/Help.php:459
+#: class/Admin/Help.php:422
 msgid "Including movie information within your article is quite useful; it can ingeniously illustrate your post, displays crucial data (directors, actors) and at the same time add links to further popups that include even more detailed information."
 msgstr ""
 
-#: class/Admin/Help.php:464
+#: class/Admin/Help.php:427
 msgid "How to display data inside my post"
 msgstr ""
 
-#: class/Admin/Help.php:467
+#: class/Admin/Help.php:430
 msgid "Lumière provides you with tools to add 'HTML tags' (span) to wrapp your movie's title when writting your article. These 'HTML tags' will be then converted into movie's details. In the same way as for for popups, three tools are provided depending upon your the WordPress interface you used to publish your posts. If you use the modern WordPress interface, a Lumière block is provided; just enter the movie's title or IMDb id, and you are done!"
 msgstr ""
 
-#: class/Admin/Help.php:469
+#: class/Admin/Help.php:432
 msgid "Lumiere Movies Inside a post gutenberg block"
 msgstr ""
 
-#: class/Admin/Help.php:471
+#: class/Admin/Help.php:434
 msgid "You can add as many blocks as you whish; there is no limitation in the number of movies you can display per article."
 msgstr ""
 
-#: class/Admin/Help.php:474
+#: class/Admin/Help.php:437
 msgid "How to display data inside my post - advanced users"
 msgstr ""
 
-#: class/Admin/Help.php:476
+#: class/Admin/Help.php:439
 msgid "It could happen you don't want to use the previous solution to display movie's data. For exemple, if you wish to use Lumière outside a post (in a customised page), it won't work. Lumière is written around classes, so it is easy to achieve what you want."
 msgstr ""
 
-#: class/Admin/Help.php:480
+#: class/Admin/Help.php:443
 msgid "The function to be called is <strong>imdb_call_external ()</strong>. It has two parameters, and both are mandatory. The first is the movie's name, and the second take always 'external'. For exemple, one'd like to display 'The Descent' should call the function like this:"
 msgstr ""
 
-#: class/Admin/Help.php:487
+#: class/Admin/Help.php:450
 msgid "Should you want to call the function using an IMDb ID instead:"
 msgstr ""
 
-#: class/Admin/Help.php:495
+#: class/Admin/Help.php:458
 msgid "I want to get rid of thoses links opening popups"
 msgstr ""
 
-#: class/Admin/Help.php:496
+#: class/Admin/Help.php:459
 msgid "It could happen you do not want popups at all. Since by default Lumière Movies adds links whenever relevant to movie's details inside your article, you may change that behaviour. In order to do so, look for 'General options / Advanced / Remove popup links' and uncheck the box. No links will be displayed, both for the widget and within your articles."
 msgstr ""
 
-#: class/Admin/Help.php:508
+#: class/Admin/Help.php:471
 msgid "How to add a search function for movies in my page? (advanced users)"
 msgstr ""
 
-#: class/Admin/Help.php:510
+#: class/Admin/Help.php:473
 msgid "It is doable. Lumière is versatile enough to handle this function. With the help of a form, you can add a query field to search for every movie on your blog. Here is the code:"
 msgstr ""
 
-#: class/Admin/Help.php:521
+#: class/Admin/Help.php:484
 msgid "Then the PHP code:"
 msgstr ""
 
-#: class/Admin/Help.php:546
+#: class/Admin/Help.php:509
 msgid "It perfectly fits in your sidebar, for example."
 msgstr ""
 
-#: class/Admin/Help.php:562
+#: class/Admin/Help.php:525
 msgid "How to ensure that my css edits remain through plugin updates?"
 msgstr ""
 
-#: class/Admin/Help.php:564
+#: class/Admin/Help.php:527
 msgid "Are you tired of losing your carefully hand-made CSS edits at every Lumière! update? There is a solution."
 msgstr ""
 
-#: class/Admin/Help.php:569
+#: class/Admin/Help.php:532
 msgid "Every modification you make should be done in your template folder instead of using lumiere-movies/css/lumiere.css file. Add a file named 'lumiere.css' in you template folder; that css file will superseed the plugin's one. Whenever you update, your template's file will remain untouched and your edits will make it. Just make sure you are using a child theme, not an official theme, otherwise your customised lumiere.css will be deleted during the next template update."
 msgstr ""
 
-#: class/Admin/Help.php:583
+#: class/Admin/Help.php:546
 msgid "What is Wordpress' taxonomy?"
 msgstr ""
 
-#: class/Admin/Help.php:585
+#: class/Admin/Help.php:548
 msgid "Since Wordpress 2.3, Wordpress users can use taxonomy."
 msgstr ""
 
-#: class/Admin/Help.php:587
+#: class/Admin/Help.php:550
 msgid "Taxonomy is a feature adding an extra layer of category in addition to the already existing Categories and Tags; in other words, it is like having species (a block named 'genre') and subspecies (few words describing the genre, like 'Adventure', 'Terror'). It is not fundamentaly different from Categories and Tags, but it is extremly useful for Lumière Movies."
 msgstr ""
 
-#: class/Admin/Help.php:589
+#: class/Admin/Help.php:552
 msgid "How to use taxonomy in Wordpress?"
 msgstr ""
 
-#: class/Admin/Help.php:593
+#: class/Admin/Help.php:556
 msgid "Taxonomy is automatically generated in Lumière! and already activated. You can however disable it by unchecking the box in 'General options -> Advanced -> 'Use automatical genre taxonomy?'. Note that since taxonomy is related to movie details (such as directors, actors, etc), the movie detail you want to be used as taxonomy has to be also activated in 'Data -> Display'."
 msgstr ""
 
-#: class/Admin/Help.php:595
+#: class/Admin/Help.php:558
 msgid "After that, pay a visit to your post or page; on the first refresh, links to taxonomy pages will be processed. You can now visit pages that include all your posts grouped by movie details. For instance, if you write a lot about the same movie director, the taxonomy page will include all your posts written about them."
 msgstr ""
 
-#: class/Admin/Help.php:597
+#: class/Admin/Help.php:560
 msgid "New option in 'Posts' menu"
 msgstr ""
 
-#: class/Admin/Help.php:601
+#: class/Admin/Help.php:564
 msgid "Once you have published your first article including a movie (both widget and inside a post trigger that function) WordPress will display the new taxonomy under 'posts' admin section. Depending on the movie details you have selected, you will find them in the menu."
 msgstr ""
 
-#: class/Admin/Help.php:605
+#: class/Admin/Help.php:568
 msgid "Advanced: Customize your theme for your taxonomy pages"
 msgstr ""
 
-#: class/Admin/Help.php:607
+#: class/Admin/Help.php:570
 msgid "To fully enjoy this taxonomy, make sure you copy the template files located in the Lumière! movies folder 'lumiere-movies/theme/' into your 'theme' folder. This can be automatized by using the options available in Lumière! taxonomy :"
 msgstr ""
 
-#: class/Admin/Help.php:613
+#: class/Admin/Help.php:576
 msgid "Click on 'copy template, that's it! A warning will be given to you when a new template is available. You can customized even further the template that was copied into your template to match your specific needs. By default, the new taxonomy template will show you the person/item and the posts and pages mentioning them:"
 msgstr ""
 
-#: class/Admin/Help.php:634
+#: class/Admin/Help.php:597
 msgid "How to get movies retrieved automatically according to post's titles?"
 msgstr ""
 
-#: class/Admin/Help.php:636
+#: class/Admin/Help.php:599
 msgid "You have hundreds of posts, carefully named after movies. You don't want to edit all of them and widget/inside the post section but you want to display information about movies anyway. There is a  solution."
 msgstr ""
 
-#: class/Admin/Help.php:646
+#: class/Admin/Help.php:609
 msgid "Next time you will look at your post, you will find the widget according to your post’s title."
 msgstr ""
 
-#: class/Admin/Help.php:658
+#: class/Admin/Help.php:621
 msgid "Changing default IMDb search options"
 msgstr ""
 
-#: class/Admin/Help.php:660
+#: class/Admin/Help.php:623
 msgid "Lumière queries the IMDb for every movie or person you are looking for. You can modify the results from the IMDb displayed in your blog will tweaking the search options available in menu options 'General / Advanced'."
 msgstr ""
 
-#: class/Admin/Help.php:665
+#: class/Admin/Help.php:628
 msgid "Three options are available: search language, search categories and the limit of the number of results."
 msgstr ""
 
-#: class/Admin/Help.php:670
+#: class/Admin/Help.php:633
 msgid "1. Search language allows to modify the language of the query. This is not the language of the output: the details will always be returned in English by the IMDb. What this options modifies is the lanuage query only; if the query is run in French, movie's original title will be first returned instead of the English title."
 msgstr ""
 
-#: class/Admin/Help.php:675
+#: class/Admin/Help.php:638
 msgid "2. Search category allows to modify the type of material your searching. If your blog is about series only, select in the dropdown list 'series only'. If it is about videogames, select the option accordingly."
 msgstr ""
 
-#: class/Admin/Help.php:680
+#: class/Admin/Help.php:643
 msgid "3. It is possible to limit the number of results in the queries using its dedicated option. The less results there is, the less server resources are required and the faster the output is displayed. This limit number applies to the search of movies with a similar name (menu option in movies popups) and in "
 msgstr ""
 
-#: class/Core.php:445
-#: class/Core.php:455
+#: class/Core.php:604
+#: class/Core.php:614
 msgid "Informations about "
 msgstr ""
 
-#: class/Core.php:445
-#: class/Core.php:455
+#: class/Core.php:604
+#: class/Core.php:614
 msgid "Unknown"
 msgstr ""
 
-#: class/Core.php:459
+#: class/Core.php:618
 msgid "No query entered"
 msgstr ""
 
-#: class/Core.php:460
+#: class/Core.php:619
 msgid "Search query for "
 msgstr ""
 
-#: class/Core.php:468
+#: class/Core.php:627
 msgid "Lumiere Query Interface"
 msgstr ""
 
-#: class/Core.php:806
+#: class/Core.php:968
 msgid "Lumière "
 msgstr ""
 
@@ -905,6 +898,10 @@ msgstr ""
 
 #: class/Widget.php:333
 msgid "Widget title:"
+msgstr ""
+
+#: inc/admin_pages.php:84
+msgid "Direct search"
 msgstr ""
 
 #: inc/gutenberg-search.php:18
@@ -2307,7 +2304,7 @@ msgid "Enter the name or the IMDb ID movie"
 msgstr ""
 
 #: blocks/main-block.js:37
-msgid "Lumière: movie inside a post"
+msgid "Lumière! movie blocks"
 msgstr ""
 
 #: blocks/main-block.js:38
