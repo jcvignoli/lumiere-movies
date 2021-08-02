@@ -23,7 +23,7 @@ class AcceptanceRemoteTester extends \Codeception\Actor
 	/**  Use custom trait
 	 * 
 	 */
-	use AcceptanceCustom;
+	use AcceptanceTrait;
 
 	/** Define custom Remote actions here
 	 * 

@@ -655,11 +655,17 @@ movie's title
 	 */
 	function lumiere_help_extrascript () {
 
-		wp_register_script("lumiere_help_scripts", '', array(						
-								'common',	// script needed for meta_boxes
-								'wp-lists',	// script needed for meta_boxes
-								'postbox'	// script needed for meta_boxes
-							), $this->configClass->lumiere_version, true );
+		wp_register_script(
+			'lumiere_help_scripts', 
+			'', 
+			[						
+				'common',	// script needed for meta_boxes
+				'wp-lists',	// script needed for meta_boxes
+				'postbox'	// script needed for meta_boxes
+			], 
+			$this->configClass->lumiere_version, 
+			true 
+		);
 
 		wp_enqueue_script( 'lumiere_help_scripts');
 

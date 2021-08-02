@@ -23,7 +23,7 @@ class AcceptanceLocalTester extends \Codeception\Actor{
 	/**  Use custom trait
 	 * 
 	 */
-	use AcceptanceCustom;
+	use AcceptanceTrait;
 
 	/** Define custom Local actions here
 	 * 
