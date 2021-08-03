@@ -421,15 +421,17 @@ class Utils {
 
 		} else {
 
-			$output .= "<br />";
-			$output .= "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=" . $lumiere_taxo_title ) . "' " 
+			$output .= "\n\t"."<br />";
+			$output .= "\n\t".'<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
+			$output .= "\n\t\t"."<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=" . $lumiere_taxo_title ) . "' " 
 					."title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >"
 					. "<img src='".esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png') . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
 					. esc_html__("Copy template", 'lumiere-movies') . "</a>";
 
-			$output .= '<div><font color="red">'
+			$output .= "\n\t".'<div><font color="red">'
 				. esc_html__("No $lumiere_taxo_title template found", 'lumiere-movies')
 				. '</font></div>';
+			$output .= "\n\t".'</div>';
 
 			return $output;
 		}
@@ -456,15 +458,17 @@ class Utils {
 		// Return a message if there is a new version of the template
 		if ($version_theme != $version_origin)  {
 
-			$output .= "<br />";
-			$output .= "<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=" . $lumiere_taxo_title ) . "' " 
+			$output .= "\n\t"."<br />";
+			$output .= "\n\t".'<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
+			$output .= "\n\t\t"."<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=" . $lumiere_taxo_title ) . "' " 
 					."title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >"
 					. "<img src='".esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png') . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
 					. esc_html__("Copy template", 'lumiere-movies') . "</a>";
 
-			$output .= '<div><font color="red">'
+			$output .= "\n\t".'<div><font color="red">'
 				. esc_html__("New $lumiere_taxo_title template version available", 'lumiere-movies')
 				. '</font></div>';
+			$output .= "\n\t".'</div>';
 
 			return $output;
 
