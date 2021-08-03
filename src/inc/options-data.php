@@ -597,7 +597,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 		<div class="imdblt_double_container">
 			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomyactor" name="imdb_imdbtaxonomyactor" value="<?php if ($imdb_widget_values['imdbtaxonomyactor'] == "1") { echo '0'; } else { echo '1'; }?>" />
+				<input type="hidden" id="imdb_imdbtaxonomyactor_no" name="imdb_imdbtaxonomyactor" value="0" />
+
+				<input type="checkbox" id="imdb_imdbtaxonomyactor_yes" name="imdb_imdbtaxonomyactor" value="<?php if ($imdb_widget_values['imdbtaxonomyactor'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomyactor">
 					<?php if ($imdb_widget_values['imdbtaxonomyactor'] == "1") { 
 							if ($imdb_widget_values['imdbwidgetactor'] == 1){echo '<span class="lumiere-option-taxo-activated">'; } else {	echo '<span class="lumiere-option-taxo-deactivated">'; }
@@ -614,7 +616,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 			</div>
 			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomycolor" name="imdb_imdbtaxonomycolor" value="<?php if ($imdb_widget_values['imdbtaxonomycolor'] == "1") { echo '0'; } else { echo '1'; }?>" />
+				<input type="hidden" id="imdb_imdbtaxonomycolor_no" name="imdb_imdbtaxonomycolor" value="0" />
+
+				<input type="checkbox" id="imdb_imdbtaxonomycolor_yes" name="imdb_imdbtaxonomycolor" value="<?php if ($imdb_widget_values['imdbtaxonomycolor'] == "1") { echo '0'; } else { echo '1'; }?>" />
 
 				<label for="imdb_imdbtaxonomycolor">
 					<?php if ($imdb_widget_values['imdbtaxonomycolor'] == "1") { 
@@ -635,7 +639,8 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 			</div>
 			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomycomposer" name="imdb_imdbtaxonomycomposer" value="<?php if ($imdb_widget_values['imdbtaxonomycomposer'] == "1") { echo '0'; } else { echo '1'; }?>" />
+				<input type="hidden" id="imdb_imdbtaxonomycomposer_no" name="imdb_imdbtaxonomycomposer" value="0" />
+				<input type="checkbox" id="imdb_imdbtaxonomycomposer_yes" name="imdb_imdbtaxonomycomposer" value="<?php if ($imdb_widget_values['imdbtaxonomycomposer'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomycomposer">
 					<?php if ($imdb_widget_values['imdbtaxonomycomposer'] == "1") { 
 
@@ -654,7 +659,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomycountry" name="imdb_imdbtaxonomycountry" value="<?php if ($imdb_widget_values['imdbtaxonomycountry'] == "1") { echo '0'; } else { echo '1'; }?>" />
+				<input type="hidden" id="imdb_imdbtaxonomycountry_no" name="imdb_imdbtaxonomycountry" value="0" />
+
+				<input type="checkbox" id="imdb_imdbtaxonomycountry_yes" name="imdb_imdbtaxonomycountry" value="<?php if ($imdb_widget_values['imdbtaxonomycountry'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomycountry">
 					<?php if ($imdb_widget_values['imdbtaxonomycountry'] == "1") { 
 
@@ -674,7 +681,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomycreator" name="imdb_imdbtaxonomycreator" value="<?php if ($imdb_widget_values['imdbtaxonomycreator'] == "1") { echo '0'; } else { echo '1'; }?>" />
+				<input type="hidden" id="imdb_imdbtaxonomycreator_no" name="imdb_imdbtaxonomycreator" value="0" />
+
+				<input type="checkbox" id="imdb_imdbtaxonomycreator_yes" name="imdb_imdbtaxonomycreator" value="<?php if ($imdb_widget_values['imdbtaxonomycreator'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomycreator">
 					<?php if ($imdb_widget_values['imdbtaxonomycreator'] == "1") { 
 
@@ -694,7 +703,10 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomydirector" name="imdb_imdbtaxonomydirector" value="<?php if ($imdb_widget_values['imdbtaxonomydirector'] == "1") { echo '0'; } else { echo '1'; }?>" />
+				<input type="hidden" id="imdb_imdbtaxonomydirector_no" name="imdb_imdbtaxonomydirector" value="0" />
+
+				<input type="checkbox" id="imdb_imdbtaxonomydirector_yes" name="imdb_imdbtaxonomydirector" value="<?php if ($imdb_widget_values['imdbtaxonomydirector'] == "1") { echo '0'; } else { echo '1'; }?>" />
+
 				<label for="imdb_imdbtaxonomydirector">
 					<?php if ($imdb_widget_values['imdbtaxonomydirector'] == "1") { 
 
@@ -713,7 +725,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomygenre" name="imdb_imdbtaxonomygenre" value="<?php if ($imdb_widget_values['imdbtaxonomygenre'] == "1") { echo '0'; } else { echo '1'; }?>" />
+				<input type="hidden" id="imdb_imdbtaxonomygenre_no" name="imdb_imdbtaxonomygenre" value="0" />
+
+				<input type="checkbox" id="imdb_imdbtaxonomygenre_yes" name="imdb_imdbtaxonomygenre" value="<?php if ($imdb_widget_values['imdbtaxonomygenre'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomygenre">
 					<?php if ($imdb_widget_values['imdbtaxonomygenre'] == "1") { 
 
@@ -733,7 +747,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 			</div>
 			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomykeywords" name="imdb_imdbtaxonomykeywords" value="<?php if ($imdb_widget_values['imdbtaxonomykeywords'] == "1") { echo '0'; } else { echo '1'; }?>" />
+				<input type="hidden" id="imdb_imdbtaxonomykeywords_no" name="imdb_imdbtaxonomykeywords" value="0" />
+
+				<input type="checkbox" id="imdb_imdbtaxonomykeywords_yes" name="imdb_imdbtaxonomykeywords" value="<?php if ($imdb_widget_values['imdbtaxonomykeywords'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomykeywords">
 					<?php if ($imdb_widget_values['imdbtaxonomykeywords'] == "1") { 
 
@@ -752,7 +768,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomylanguage" name="imdb_imdbtaxonomylanguage" value="<?php if ($imdb_widget_values['imdbtaxonomylanguage'] == "1") { echo '0'; } else { echo '1'; }?>" />
+				<input type="hidden" id="imdb_imdbtaxonomylanguage_no" name="imdb_imdbtaxonomylanguage" value="0" />
+
+				<input type="checkbox" id="imdb_imdbtaxonomylanguage_yes" name="imdb_imdbtaxonomylanguage" value="<?php if ($imdb_widget_values['imdbtaxonomylanguage'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomylanguage">
 					<?php if ($imdb_widget_values['imdbtaxonomylanguage'] == "1") { 
 
@@ -772,7 +790,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomyproducer" name="imdb_imdbtaxonomyproducer" value="<?php if ($imdb_widget_values['imdbtaxonomyproducer'] == "1") { echo '0'; } else { echo '1'; }?>" />
+				<input type="hidden" id="imdb_imdbtaxonomyproducer_no" name="imdb_imdbtaxonomyproducer" value="0" />
+
+				<input type="checkbox" id="imdb_imdbtaxonomyproducer_yes" name="imdb_imdbtaxonomyproducer" value="<?php if ($imdb_widget_values['imdbtaxonomyproducer'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomyproducer">
 					<?php if ($imdb_widget_values['imdbtaxonomyproducer'] == "1") { 
 
@@ -791,7 +811,9 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 
 			<div class="imdblt_double_container_content_third lumiere_padding_five">
 
-				<input type="checkbox" id="imdb_imdbtaxonomywriter" name="imdb_imdbtaxonomywriter" value="<?php if ($imdb_widget_values['imdbtaxonomywriter'] == "1") { echo '0'; } else { echo '1'; }?>" />
+				<input type="hidden" id="imdb_imdbtaxonomywriter_no" name="imdb_imdbtaxonomywriter" value="0" />
+
+				<input type="checkbox" id="imdb_imdbtaxonomywriter_yes" name="imdb_imdbtaxonomywriter" value="<?php if ($imdb_widget_values['imdbtaxonomywriter'] == "1") { echo '0'; } else { echo '1'; }?>" />
 				<label for="imdb_imdbtaxonomywriter">
 					<?php if ($imdb_widget_values['imdbtaxonomywriter'] == "1") { 
 
@@ -828,7 +850,6 @@ if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!is
 	</div>
 
 		<div class="imblt_border_shadow imdblt_align_webkit_center">
-
 
 		<div class="lumiere_intro_options_small">
 			<?php esc_html_e( 'You can select the order for the information selected from "what to display" section. Select first the movie detail you want to move, use "up" or "down" to reorder Lumiere Movies display. Once you are happy with the new layout, click on "update settings" to keep it.', 'lumiere-movies'); ?>

@@ -9,7 +9,10 @@ actor: AcceptanceRemoteTester
 modules:
     enabled:
         - \Helper\AcceptanceRemote
+        - WPFilesystem
     config:
+        WPFilesystem:
+            wpRootFolder: home/clients/56e2f1092650a93981e5ea2ac69b6745/web/blogpourext
         WPDb:
             dsn: '%TEST_REMOTE_DB_DSN%'
             user: '%TEST_REMOTE_DB_USER%'
@@ -45,19 +48,17 @@ env:
                             args: ["-headless"] # Run Firefox in headless mode
    wpfirefox:
        modules:
-          enabled:
-              config:
-                 WPWebDriver:
-                     url: '%TEST_REMOTE_WP_URL%'
-                     adminUsername: '%TEST_WP_ADMIN_USERNAME%'
-                     adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
-                     adminPath: '%TEST_WP_ADMIN_PATH%'
-                     browser: firefox
-                     path: ''
-                     capabilities:
-                         # Used in more recent releases of Selenium.
-                         moz:firefoxOptions:
-                             args: ["-headless"] # Run Firefox in headless mode
+          config:
+             WPWebDriver:
+                 url: '%TEST_REMOTE_WP_URL%'
+                 adminUsername: '%TEST_WP_ADMIN_USERNAME%'
+                 adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
+                 adminPath: '%TEST_WP_ADMIN_PATH%'
+                 browser: firefox
+                 capabilities:
+                     # Used in more recent releases of Selenium.
+                     moz:firefoxOptions:
+                         args: ["-headless"] # Run Firefox in headless mode
    wpchrome:
        modules:
           enabled:
