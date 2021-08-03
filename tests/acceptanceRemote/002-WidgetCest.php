@@ -13,11 +13,11 @@ class WidgetCest {
 	}
 
 	/** Login to Wordpress
+	 *  Trait function to keep the cookie active
 	 *
 	 */
 	private function login(AcceptanceRemoteTester $I) {
-		$I->wantTo('Start an admin session');
-		$I->loginAsAdmin();
+		AcceptanceTrait::login_universal($I);
 	}
 
 	/** Check if auto widget option display a widget based on the title of the page
@@ -32,7 +32,7 @@ class WidgetCest {
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
 		$I->scrollTo('#imdblinkingkill');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
-			Avoid to throw error if untrue, normal behaviour of codeception 
+			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#update_imdbSettings' );
 		$I->amOnPage("/2021/y-tu-mama-tambien/");
@@ -42,7 +42,7 @@ class WidgetCest {
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
 		$I->scrollTo('#imdblinkingkill');
 		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
-			Avoid to throw error if untrue, normal behaviour of codeception 
+			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#update_imdbSettings' );
 		$I->amOnPage("/2021/y-tu-mama-tambien/");

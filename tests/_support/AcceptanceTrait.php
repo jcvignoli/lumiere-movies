@@ -6,11 +6,13 @@
 trait AcceptanceTrait {
 
 	/** Login to Wordpress
-	 *
+	 *  Save the cookies so no need to log again
 	 */
-	function login_universal() {
-		$this->wantTo('Start an admin session');
-		$this->loginAsAdmin();
+	function login_universal(AcceptanceRemoteTester $I) {
+		if ($I->loadSessionSnapshot('login')) return;
+		$I->wantTo('Start an admin session');
+		$I->loginAsAdmin();
+		$I->saveSessionSnapshot('login');
 	}
 
 	/** Check if a checkbox is disabled, if activated uncheck it and then submit a form
@@ -90,9 +92,16 @@ trait AcceptanceTrait {
 		$this->comment("[Action] Selection has been switch to '$option");
 
 	}
+
 }
 
 
 
 
+/*		// Get url depending on the environment called in acceptance.suite.yml
+		$current_env = $scenario->current('env');
+		$config_base = \Codeception\Configuration::config(); # config in codeception.yml
+   		$config = \Codeception\Configuration::suiteSettings("acceptanceRemote", $config_base);
+		$url_base = $config['env'][$current_env]['modules']['enabled']['config']['WPWebDriver']['url'];
+*/
 

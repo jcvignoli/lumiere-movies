@@ -23,11 +23,11 @@ class StartCest {
 */
 
 	/** Login to Wordpress
+	 *  Trait function to keep the cookie active
 	 *
 	 */
 	private function login(AcceptanceRemoteTester $I) {
-		$I->wantTo('Start an admin session');
-		$I->loginAsAdmin();
+		AcceptanceTrait::login_universal($I);
 	}
 
 	/** 	Check if website is online, otherwise exit
@@ -39,7 +39,6 @@ class StartCest {
 		//$I->see('Blog ext'); # can also use _failed() and _passed() instead
 		$I->CustomSeeExit('Blog ext');
 	}
-
 
 	/** Disable debug functions
 	 *
