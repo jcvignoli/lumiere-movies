@@ -13,47 +13,68 @@ class EndCest {
 	}
 
 	/** Login to Wordpress
+	 *  Trait function to keep the cookie active
 	 *
 	 */
 	private function login(AcceptanceRemoteTester $I) {
-		$I->wantTo('Start an admin session');
-		$I->loginAsAdmin();
+		AcceptanceTrait::login_universal($I);
 	}
 
-	/** Enable debug functions
-	 *
-	 */
-	private function enableDebug(AcceptanceRemoteTester $I) {
-		$I->wantTo('Activate debug option');
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
-		$I->scrollTo('#imdbautopostwidget');
-		$I->CustomActivateCheckbox('#imdb_imdbdebug_yes', '#update_imdbSettings');
-	}
-
-	/** Reset options to what they should be
+	/** Enable debug function
 	 *
 	 * @before login
-	 * @after enableDebug
+	 */
+	public function enableDebug(AcceptanceRemoteTester $I) {
+
+		$I->wantTo('Enable debug (normal state)');
+
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbautopostwidget');
+
+		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
+			Avoid throwing error if untrue, normal behaviour of codeception 
+			If $element is disabled, check it and then click $submit (form) */
+		$I->CustomActivateCheckbox('#imdb_imdbdebug_yes', '#update_imdbSettings');
+
+	}
+
+	/** Enable Taxonomy
+	 *
+	 * @before login
 	 *
 	 */
-	public function resetOptions(AcceptanceRemoteTester $I) {
+	public function enableTaxonomy(AcceptanceRemoteTester $I) {
 
-		/* const */
-		$url_base = $_ENV['TEST_REMOTE_WP_URL'];
+		$I->wantTo('Enable taxonomy (normal state)');
 
-		$I->wantTo('Reset options to their normal state');
-
-		// Re-enable taxonomy
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
 		$I->scrollTo('#imdbwordpress_tooladminmenu');
+
+		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
+			Avoid throwing error if untrue, normal behaviour of codeception 
+			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#update_imdbSettings' );
 
-		// Re-enable classic editor plugni
+	}
+
+	/** Enable Classic editor Plugin
+	 *
+	 * @before login
+	 *
+	 */
+	public function enableClassEditor(AcceptanceRemoteTester $I) {
+
+		$I->wantTo('Enable taxonomy (normal state)');
+
 		$I->amOnPluginsPage();
+
 		/*	Conditional plugin activation (in _support/AcceptanceTrait.php)
-			Avoid to throw error if untrue, normal behaviour of codeception 
+			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $plugin is disabled, activate it */
 		$I->CustomActivatePlugin('classic-editor');
+
 	}
 
 }
+
+

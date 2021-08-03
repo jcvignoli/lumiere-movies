@@ -1,8 +1,5 @@
 
 
-1. modifier les register et enqueues des scripts et styles
-
-
 23. write a class for the admin pages using WordPress API
 13. Implement alternative to highslide with a jquery modal window
 16. To test: If Polylang needs to copy the metas when doing a new post in another lang, can activate lumiere_copy_post_metas_polylang() in class.core.php
@@ -19,6 +16,7 @@ OK--- 6 bug Block widget type wasn't taken into account when checking if a widge
 OK--- 7. feature In visual editing (with tinymce, old way), new function to add popup, movies by id and by title.
 OK--- 8. bug Can't open/close metaboxes in post edition. Metabox script added in lumiere_scripts_admin.js was collinding with other WordPress scripts. Removed from lumiere_scripts_admin.js, added to help.php. Took advantage of removing useless 'common','wp-lists', 'postbox' javascripts from loading in every admin page; now loads only in help.php
 OK--- 9. feature Help section has been updated according to the many changes of the last months and vastly improved
+OK---10. Simplified and organised better the script/style registration and enqueuing in core class
 
 v.3.4.5
 OK--- 1. If a new taxonomy template is available, display a message in taxonomy admin panel. If template has not been copied, display a message.

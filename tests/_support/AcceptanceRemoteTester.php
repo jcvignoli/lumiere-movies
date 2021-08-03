@@ -28,6 +28,14 @@ class AcceptanceRemoteTester extends \Codeception\Actor
 	/** Define custom Remote actions here
 	 * 
 	 */
+	public $url_base = "";
 
+	public function url_base() {
+		// Base URL
+		return $this->url_base = $_ENV['TEST_REMOTE_WP_URL'];
+	}
 
 }
+
+
+

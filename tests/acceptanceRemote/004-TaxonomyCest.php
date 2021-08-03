@@ -13,11 +13,11 @@ class TaxonomyCest {
 	}
 
 	/** Login to Wordpress
+	 *  Trait function to keep the cookie active
 	 *
 	 */
 	private function login(AcceptanceRemoteTester $I) {
-		$I->wantTo('Start an admin session');
-		$I->loginAsAdmin();
+		AcceptanceTrait::login_universal($I);
 	}
 
 	/** Check if auto widget option display a widget based on the title of the page

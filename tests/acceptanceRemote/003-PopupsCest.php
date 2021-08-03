@@ -12,18 +12,22 @@ class PopupsCest {
 		$I->comment('#Code _after#');
 	}
 
+	/** Login to Wordpress
+	 *  Trait function to keep the cookie active
+	 *
+	 */
+	private function login(AcceptanceRemoteTester $I) {
+		AcceptanceTrait::login_universal($I);
+	}
+
 	/** Is popup movie functional?
 	 *
 	 */
 	public function checkPopupMovie(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
+
 		/* const */
-/*		// Get url depending on the environment called in acceptance.suite.yml
-		$current_env = $scenario->current('env');
-		$config_base = \Codeception\Configuration::config(); # config in codeception.yml
-   		$config = \Codeception\Configuration::suiteSettings("acceptanceRemote", $config_base);
-		$url_base = $config['env'][$current_env]['modules']['enabled']['config']['WPWebDriver']['url'];
-*/
 		$url_base = $_ENV['TEST_REMOTE_WP_URL'];
+
 		// popup link movie interstellar
 		$element = 'a[data-highslidefilm="interstellar"]';
 		$sub_url = '/imdblt/film/interstellar/?film=interstellar';
@@ -41,13 +45,8 @@ class PopupsCest {
 	 *
 	 */
 	public function checkPopupPerson(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
+
 		/* const */
-/*		// Get url depending on the environment called in acceptance.suite.yml
-		$current_env = $scenario->current('env');
-		$config_base = \Codeception\Configuration::config(); # config in codeception.yml
-   		$config = \Codeception\Configuration::suiteSettings("acceptanceRemote", $config_base);
-		$url_base = $config['env'][$current_env]['modules']['enabled']['config']['WPWebDriver']['url'];
-*/
 		$url_base = $_ENV['TEST_REMOTE_WP_URL'];
 		// popup link actor Jorge Rivero
 		$element = 'a[data-highslidepeople="0729473"]';
