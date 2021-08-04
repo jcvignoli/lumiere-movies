@@ -526,24 +526,24 @@ class LumiereMovies {
 			&& ($imdb_widget_values['imdbwidgetgenre'] == true ) )
 				$outputfinal .= $this->lumiere_movie_design_addwrapper($this->lumiere_movies_genre ($movie), 'genre');
 
-			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['keywords'] )  
-			&& ($imdb_widget_values['imdbwidgetkeywords'] == true ) )
+			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['keyword'] )  
+			&& ($imdb_widget_values['imdbwidgetkeyword'] == true ) )
 				$outputfinal .= $this->lumiere_movie_design_addwrapper($this->lumiere_movies_keywords ($movie), 'keyword');
 
-			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['goofs'] ) 
-			&& ($imdb_widget_values['imdbwidgetgoofs'] == true ) )
+			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['goof'] ) 
+			&& ($imdb_widget_values['imdbwidgetgoof'] == true ) )
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_goofs ($movie), 'goof');
 
-			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['comments'] ) 
-			&& ($imdb_widget_values['imdbwidgetcomments'] == true ) )
+			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['comment'] ) 
+			&& ($imdb_widget_values['imdbwidgetcomment'] == true ) )
 				$outputfinal .= $this->lumiere_movie_design_addwrapper($this->lumiere_movies_comment ($movie), 'comment');
 
-			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['quotes'] )
-			&& ($imdb_widget_values['imdbwidgetquotes'] == true ) )
+			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['quote'] )
+			&& ($imdb_widget_values['imdbwidgetquote'] == true ) )
 				$outputfinal .= $this->lumiere_movie_design_addwrapper($this->lumiere_movies_quotes ($movie), 'quote');
 
-			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['taglines'] ) 
-			&& ($imdb_widget_values['imdbwidgettaglines'] == true ) )
+			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['tagline'] ) 
+			&& ($imdb_widget_values['imdbwidgettagline'] == true ) )
 				$outputfinal .= $this->lumiere_movie_design_addwrapper($this->lumiere_movies_taglines ($movie), 'tagline');
 
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['trailer'] ) 
@@ -975,11 +975,11 @@ class LumiereMovies {
 			$output .= sprintf(esc_attr(_n('Keyword', 'Keywords', $nbtotalkeywords, 'lumiere-movies') ), number_format_i18n($nbtotalkeywords) );
 			$output .= ':</span>';
 
-			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomykeywords'] == true ) ) { 
+			if ( ($imdb_admin_values['imdbtaxonomy'] == true ) && ($imdb_widget_values['imdbtaxonomykeyword'] == true ) ) { 
 
 				for ($i = 0; $i < $nbtotalkeywords; $i++) {
 
-					$output .= $this->lumiere_make_display_taxonomy( 'keywords', esc_attr($keywords[$i]), '', 'one');
+					$output .= $this->lumiere_make_display_taxonomy( 'keyword', esc_attr($keywords[$i]), '', 'one');
 					if ( $i < $nbtotalkeywords - 1 )
 						$output .= ", ";
 
@@ -1014,7 +1014,7 @@ class LumiereMovies {
 
 		$output = "";
 		$goofs = $movie->goofs (); 
-		$nbgoofs = empty($imdb_widget_values['imdbwidgetgoofsnumber']) ? $nbgoofs =  "1" : $nbgoofs =  intval( $imdb_widget_values['imdbwidgetgoofsnumber'] );
+		$nbgoofs = empty($imdb_widget_values['imdbwidgetgoofnumber']) ? $nbgoofs =  "1" : $nbgoofs =  intval( $imdb_widget_values['imdbwidgetgoofnumber'] );
 		$nbtotalgoofs = intval( count($goofs) );
 
 		if (!empty($goofs))  {
@@ -1051,7 +1051,7 @@ class LumiereMovies {
 		$output = "";
 		$comment[] = $movie->comment_split(); # this value is sent into an array!
 		$comment_split = $movie->comment_split(); # this value isn't sent into an array, for use in "if" right below
-		//$nbcomments = empty($imdb_widget_values['imdbwidgetcommentsnumber']) ? $nbcomments =  "1" : $nbcomments =  $imdb_widget_values['imdbwidgetcommentsnumber'] ;
+		//$nbcomments = empty($imdb_widget_values['imdbwidgetcommentnumber']) ? $nbcomments =  "1" : $nbcomments =  $imdb_widget_values['imdbwidgetcommentnumber'] ;
 		//$nbtotalcomments = count($comments) ;
 
 		if (!empty($comment_split))  {
@@ -1099,7 +1099,7 @@ class LumiereMovies {
 
 		$output = "";
 		$quotes = $movie->quotes ();  
-		$nbquotes = empty($imdb_widget_values['imdbwidgetquotesnumber']) ? $nbquotes =  "1" : $nbquotes =  intval( $imdb_widget_values['imdbwidgetquotesnumber'] );
+		$nbquotes = empty($imdb_widget_values['imdbwidgetquotenumber']) ? $nbquotes =  "1" : $nbquotes =  intval( $imdb_widget_values['imdbwidgetquotenumber'] );
 		$nbtotalquotes = intval( count($quotes) );
 
 		if (! empty($quotes)) {
@@ -1147,7 +1147,7 @@ class LumiereMovies {
 
 		$output = "";
 		$taglines = $movie->taglines ();
-		$nbtaglines = empty($imdb_widget_values['imdbwidgettaglinesnumber']) ? $nbquotes =  "1" : $nbquotes =  intval( $imdb_widget_values['imdbwidgettaglinesnumber'] );
+		$nbtaglines = empty($imdb_widget_values['imdbwidgettaglinenumber']) ? $nbquotes =  "1" : $nbquotes =  intval( $imdb_widget_values['imdbwidgettaglinenumber'] );
 		$nbtotaltaglines = intval( count($taglines) );
 
 		if (!empty($taglines))  {

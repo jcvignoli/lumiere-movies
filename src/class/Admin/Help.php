@@ -54,11 +54,11 @@ class Help extends \Lumiere\Admin {
 	}
 
 
-	/* Display the menu
+	/* Display the layout
 	 *
 	 *
 	 */
-	function layout () { 
+	private function layout () { 
 
 		echo "\n\t".'<div id="poststuff">';
 

@@ -368,7 +368,7 @@ class Admin {
 
 		if ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "dataoption") ) {
 
-			require_once ( $this->rootPath . 'inc/options-data.php' ); 
+			$adminHelp = new \Lumiere\Admin\Data();
 
 		} elseif ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "cache") ) {
 

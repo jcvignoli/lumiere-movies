@@ -39,9 +39,6 @@ env:
 
     # Environment with WPWebDriver+Firefox driver
     wpfirefox:
-        modules:
-             enabled:
-                - WPWebDriver
         extensions:
             enabled:
               - Codeception\Extension\RunProcess:
