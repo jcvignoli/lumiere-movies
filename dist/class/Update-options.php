@@ -89,6 +89,16 @@ class UpdateOptions {
 		// Start the logger
 		$this->configClass->lumiere_start_logger('updaterLumiere');
 
+		/************************************************** 3.5 */
+		if ( (version_compare( $configClass->lumiere_version, "3.5" ) >= 0 )
+			&& ($imdb_admin_values['imdbHowManyUpdates'] == 7 ) ){				# update 7
+
+			require_once('updates/7.php');
+
+			return true;
+
+		}
+
 		/************************************************** 3.4.3 */
 		if ( (version_compare( $configClass->lumiere_version, "3.4.3" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 6 ) ){				# update 6

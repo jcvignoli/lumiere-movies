@@ -9,6 +9,7 @@ actor: AcceptanceLocalTester
 modules:
     enabled:
         - \Helper\AcceptanceLocal
+        - WPWebDriver
     config:
         WPDb:
             dsn: '%TEST_LOCAL_DB_DSN%'

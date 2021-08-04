@@ -136,6 +136,7 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .accesstaxo{border:1px solid black;padding:20px;margin-left:40%;margin-right:40%;}
 .imblt_border_shadow{background-color:white;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgb(0 0 0 / 4%);padding:15px;}
 .lumiere_border_shadow_red{background-color:red;color:white;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgb(0 0 0 / 4%);padding:15px;}
+.lumiere_width_three_em {width:3em;}
 
 .lumiere_border_width_medium{border-width: medium !important;}
 .lumiere_writing_vertical{writing-mode: vertical-lr;}

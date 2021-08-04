@@ -103,11 +103,11 @@ class Settings extends Config {
 
 	/* List of types of people available 
 	*/
-	var $array_people = array( 'actor', 'composer', 'creator', 'director', 'producer', 'writer' );
+	public $array_people = "";
 
 	/* List of types of people available 
 	*/
-	var $array_items = array( 'color', 'country', 'genre', 'keywords', 'language' );
+	public $array_items = "";
 
 	/* Store the number of files inside /class/updates
 	 * Allows to start with a fresh Lumière installation with the right
@@ -226,6 +226,24 @@ class Settings extends Config {
 			self::popup_movie_url, 
 			self::popup_person_url
 		);
+
+		// Build list of people and items
+		$this->array_people = array( 
+			__( 'actor', 'lumiere-movies') => __( 'actor', 'lumiere-movies'), 
+			__('composer', 'lumiere-movies') => __( 'composer', 'lumiere-movies'), 
+			__('creator', 'lumiere-movies') => __( 'creator', 'lumiere-movies'), 
+			__('director', 'lumiere-movies') => __( 'director', 'lumiere-movies'), 
+			__( 'producer', 'lumiere-movies') => __( 'producer', 'lumiere-movies'), 
+			__( 'writer', 'lumiere-movies')  => __( 'writer', 'lumiere-movies')
+		);
+		$this->array_items = array( 
+			__( 'color', 'lumiere-movies') => __( 'color', 'lumiere-movies'),
+			__( 'country', 'lumiere-movies') => __( 'country', 'lumiere-movies'), 
+			__( 'genre', 'lumiere-movies') => __( 'genre', 'lumiere-movies'),
+			__( 'keyword', 'lumiere-movies') => __( 'keyword', 'lumiere-movies'), 
+			__( 'language', 'lumiere-movies') => __( 'language', 'lumiere-movies') 
+		);
+
 	}
 
 	/* Define the number of updates on first install
@@ -389,18 +407,18 @@ class Settings extends Config {
 			'imdbwidgetwriter' => true,
 			'imdbwidgetproducer' => false,
 			'imdbwidgetproducernumber' => false,
-			'imdbwidgetkeywords' => false,
+			'imdbwidgetkeyword' => false,
 			'imdbwidgetprodcompany' => false,
 			'imdbwidgetplot' => false,
 			'imdbwidgetplotnumber' => false,
-			'imdbwidgetgoofs' => false,
-			'imdbwidgetgoofsnumber' => false,
-			'imdbwidgetcomments' => false,
-			'imdbwidgetquotes' => false,
-			'imdbwidgetquotesnumber' => false,
-			'imdbwidgettaglines' => false,
-			'imdbwidgettaglinesnumber' => false,
-			'imdbwidgetcolors' => false,
+			'imdbwidgetgoof' => false,
+			'imdbwidgetgoofnumber' => false,
+			'imdbwidgetcomment' => false,
+			'imdbwidgetquote' => false,
+			'imdbwidgetquotenumber' => false,
+			'imdbwidgettagline' => false,
+			'imdbwidgettaglinenumber' => false,
+			'imdbwidgetcolor' => false,
 			'imdbwidgetalsoknow' => false,
 			'imdbwidgetalsoknownumber' => false,
 			'imdbwidgetcomposer' => false,
@@ -414,7 +432,7 @@ class Settings extends Config {
 			'imdbwidgettrailer' => false,
 			'imdbwidgettrailernumber' => false,
 
-			'imdbwidgetorder'=>array("title" => "1", "pic" => "2","runtime" => "3", "director" => "4", "country" => "5", "actor" => "6", "creator" => "7", "rating" => "8", "language" => "9","genre" => "10","writer" => "11","producer" => "12", "keywords" => "13", "prodcompany" => "14", "plot" => "15", "goofs" => "16", "comments" => "17", "quotes" => "18", "taglines" => "19", "colors" => "20", "alsoknow" => "21", "composer" => "22", "soundtrack" => "23", "trailer" => "24", "officialsites" => "25", "source" => "26" ),
+			'imdbwidgetorder'=>array("title" => "1", "pic" => "2","runtime" => "3", "director" => "4", "country" => "5", "actor" => "6", "creator" => "7", "rating" => "8", "language" => "9","genre" => "10","writer" => "11","producer" => "12", "keyword" => "13", "prodcompany" => "14", "plot" => "15", "goof" => "16", "comment" => "17", "quote" => "18", "tagline" => "19", "color" => "20", "alsoknow" => "21", "composer" => "22", "soundtrack" => "23", "trailer" => "24", "officialsites" => "25", "source" => "26" ),
 
 			'imdbtaxonomycolor' => false,
 			'imdbtaxonomycomposer' => false,
@@ -422,7 +440,7 @@ class Settings extends Config {
 			'imdbtaxonomycreator' => false,
 			'imdbtaxonomydirector' => false,
 			'imdbtaxonomygenre' => true,
-			'imdbtaxonomykeywords' => false,
+			'imdbtaxonomykeyword' => false,
 			'imdbtaxonomylanguage' => false,
 			'imdbtaxonomyproducer' => false,
 			'imdbtaxonomyactor' => false,
