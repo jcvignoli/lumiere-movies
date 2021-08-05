@@ -54,6 +54,10 @@ class Settings extends Config {
 	*/
 	public $lumiere_pics_dir;
 
+	/* URL for javascript path, built in lumiere_define_constants()
+	*/
+	public $lumiere_js_path;
+
 	/* Internal URL pages constants
 	*/
 	const move_template_taxonomy_page = 'inc/move_template_taxonomy.php';
@@ -161,6 +165,9 @@ class Settings extends Config {
 
 		/* BUILD directory for pictures */
 		$this->lumiere_pics_dir =  plugin_dir_url( __DIR__ ) . 'pics/';
+
+		/* BUILD directory for javascripts */
+		$this->lumiere_js_path =  plugin_dir_path( __DIR__ ) . 'js/';
 
 		/* BUILD LUMIERE_VERSION */
 		$lumiere_version_recherche = file_get_contents( plugin_dir_path( __DIR__ ) . 'README.txt');

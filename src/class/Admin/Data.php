@@ -75,6 +75,12 @@ class Data extends \Lumiere\Admin {
 			__( 'year', 'lumiere-movies')  => __( 'year of release', 'lumiere-movies')
 		);
 
+		// Debugging mode
+		if ((isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == "1")){
+
+			// Start the class Utils to activate debug -> already started in admin_pages
+			$this->utilsClass->lumiere_activate_debug($this->imdb_widget_values, '', '');
+		}
 
 		// Display the page
 		$this->lumiere_data_layout();
