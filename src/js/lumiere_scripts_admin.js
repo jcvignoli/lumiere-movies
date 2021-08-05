@@ -3,7 +3,7 @@
 *  For admin pages
 */
 
-/************************************** options-widget.php
+/************************************** class Widget.php && General.php
 *
 */
 
@@ -51,13 +51,25 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 
 
-	// Simple function to enable/disable a field according to the id passed in <input data-fieldid_to_change="">
+	// Enable/disable a field according to the id passed in <input data-fieldid_to_change="">
 	jQuery('input[data-checkbox_activate]').change(function(){
 		var htmltag_id_to_change = jQuery(this).closest('input').data('checkbox_activate');
 		jQuery('#'+htmltag_id_to_change).toggle(jQuery(this).closest('input').is(':checked'));
 	});
 	jQuery('input[data-checkbox_activate]').trigger('change');
 
+	// Enable/disable a field according to the id passed in <* data-fieldid_to_change="">
+	jQuery('[data-field_activate]').click(function(){
+
+		var htmltag_id_to_change = jQuery(this).data('field_activate');
+
+		if  (jQuery(this).is(':checked')) {
+			jQuery('#'+htmltag_id_to_change).prop('disabled',false);
+		} else{
+			jQuery('#'+htmltag_id_to_change).prop('disabled',true);
+		}
+	});
+	jQuery('[data-field_activate]').trigger('change');
 });
 
 // Function that activate or unactivate the other field selected previously

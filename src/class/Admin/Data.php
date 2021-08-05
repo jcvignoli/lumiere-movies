@@ -58,7 +58,7 @@ class Data extends \Lumiere\Admin {
 		// Build the list of data details that include a number limit
 		$this->details_with_numbers = array( 
 			__( 'actor', 'lumiere-movies') => __( 'actor', 'lumiere-movies'), 
-			__( 'alsoknow', 'lumiere-movies') => __( 'Also known as', 'lumiere-movies'), 
+			__( 'alsoknow', 'lumiere-movies') => __( 'also known as', 'lumiere-movies'), 
 			__( 'goof', 'lumiere-movies') => __( 'goof', 'lumiere-movies'), 
 			__( 'plot', 'lumiere-movies') => __( 'plot', 'lumiere-movies'), 
 			__( 'producer', 'lumiere-movies') => __( 'producer', 'lumiere-movies'), 
@@ -69,9 +69,10 @@ class Data extends \Lumiere\Admin {
 		);
 
 		$this->details_extra = array( 
-			__( 'officialsites', 'lumiere-movies') => __( 'Official websites', 'lumiere-movies'), 
-			__( 'prodcompany', 'lumiere-movies') => __( 'Production company', 'lumiere-movies'),
-			__( 'rating', 'lumiere-movies')  => __( 'rating', 'lumiere-movies')
+			__( 'officialsites', 'lumiere-movies') => __( 'official websites', 'lumiere-movies'), 
+			__( 'prodcompany', 'lumiere-movies') => __( 'production company', 'lumiere-movies'),
+			__( 'rating', 'lumiere-movies')  => __( 'rating', 'lumiere-movies'),
+			__( 'year', 'lumiere-movies')  => __( 'year of release', 'lumiere-movies')
 		);
 
 
@@ -241,16 +242,15 @@ class Data extends \Lumiere\Admin {
 	 *  Display the body
 	 *
 	 */
-	function lumiere_data_display_body() { ?>
+	function lumiere_data_display_body() {
 
-	<div id="poststuff" class="metabox-holder">
+		echo "\n\t" . '<div id="poststuff" class="metabox-holder">';
+		echo "\n\t\t" . '<div class="inside">';
 
-		<div class="inside">
+		//------------------------------------------------------------------ =[Submit selection]=- 
+		echo "\n\t\t" .'<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="'. $_SERVER[ "REQUEST_URI"] . '" >';
 
-		<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo $_SERVER[ "REQUEST_URI"]; ?>" >
-
-<?php		//-------------------------------------------------------------------=[Data selection]=-
-
+		//-------------------------------------------------------------------=[Data selection]=-
 		if ( (isset($_GET['widgetoption']) && ($_GET['widgetoption'] == "what")) || (!isset($_GET['widgetoption'] )) ) {
 
 			echo $this->lumiere_data_display_dataselection();
@@ -258,33 +258,34 @@ class Data extends \Lumiere\Admin {
 		} 
 
 		//-------------------------------------------------------------------=[Taxonomy]=-
-
 		if ( (isset($_GET['widgetoption'])) && ($_GET['widgetoption'] == "taxo") ) { 	
 
 			echo $this->lumiere_data_display_taxonomy();
 
 		} 
 
-
-		if ( (isset($_GET['widgetoption'])) && ($_GET['widgetoption'] == "order") ) {
 		 //-------------------------------------------------------------------=[Order]=-
+		if ( (isset($_GET['widgetoption'])) && ($_GET['widgetoption'] == "order") ) {
 
 			echo $this->lumiere_data_display_order();
 
-
 		} 
 
-	//------------------------------------------------------------------ =[Submit selection]=- ?>
+		//------------------------------------------------------------------ =[Submit selection]=- 
+		echo "\n\t\t\t\t" . '<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">'."\n";
+		wp_nonce_field('imdbwidgetSettings_check', 'imdbwidgetSettings_check'); 
+		echo "\n\t\t\t\t" . '<input type="submit" class="button-primary" name="reset_imdbwidgetSettings" value="' 
+			. esc_html__( 'Reset settings', 'lumiere-movies') 
+			. '" />';
+		echo "\n\t\t\t" 
+			. '<input type="submit" class="button-primary" id="update_imdbwidgetSettings" name="update_imdbwidgetSettings" value="' 
+			. esc_html__( 'Update settings', 'lumiere-movies') 
+			. '" />';
+		echo "\n\t\t\t" . '</div>';
+		echo "\n\t\t" .'</form>';
+		echo "\n\t\t" . '</div>';
 
-			<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">
-				<?php wp_nonce_field('imdbwidgetSettings_check', 'imdbwidgetSettings_check'); //check that data has been sent only once ?>
-				<input type="submit" class="button-primary" name="reset_imdbwidgetSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies') ?>" />
-				<input type="submit" class="button-primary" id="update_imdbwidgetSettings" name="update_imdbwidgetSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies') ?>" />
-			</div>
-		</form>
-	</div>
-
-<?php	}
+	}
 
 
 	/*
@@ -339,7 +340,7 @@ class Data extends \Lumiere\Admin {
 
 
 	/*
-	 *  Display data details sorting selection
+	 *  Display Page Order of Data Details
 	 *
 	 */
 	function lumiere_data_display_order() { ?>
@@ -403,7 +404,7 @@ class Data extends \Lumiere\Admin {
 
 
 	/*
-	 *  Display taxonomy
+	 *  Display Page Taxonomy
 	 *
 	 */
 	function lumiere_data_display_taxonomy() { 
@@ -453,28 +454,59 @@ class Data extends \Lumiere\Admin {
 }
 
 	/*
-	 *  Display page of data selection
+	 *  Display Page of Data Selection
 	 *
 	 */
 	function lumiere_data_display_dataselection(){ 
 
 		// Merge the list of items and people with two extra lists
 		// 
-		$array_full = array_flip( # array_flip() also does array_unique()
+		$array_full = array_unique(
 			array_merge(
 				$this->array_people, 
 				$this->array_items , 	
+				$this->details_extra,
 				$this->details_with_numbers, 
-				$this->details_extra
 			)
 		);
 
 		// Sort the array to display in alphabetical order
 		asort($array_full);
 
+		$comment = array( 
+			'actor' => esc_html__( 'Display (how many) actors. These options also applies to the pop-up summary', 'lumiere-movies'),
+			'alsoknow' => esc_html__( 'Display (how many) alternative movie names and in other languages', 'lumiere-movies'),
+			'color' => esc_html__( 'Display colors', 'lumiere-movies'),
+			'composer' => esc_html__( 'Display composer', 'lumiere-movies'),
+			'country' => esc_html__( 'Display country. This option also applies to the pop-up summary', 'lumiere-movies'),
+			'creator' => esc_html__( 'Display Creator', 'lumiere-movies'),
+			'director' => esc_html__( 'Display directors. This option also applies to the pop-up summary', 'lumiere-movies'),
+			'genre' => esc_html__( 'Display genre. This option also applies to the pop-up summary', 'lumiere-movies'),
+			'goof' => esc_html__( 'Display (how many) goofs', 'lumiere-movies'),
+			'keyword' => esc_html__( 'Display keywords', 'lumiere-movies'),
+			'language' => esc_html__( 'Display languages. This option also applies to the pop-up summary', 'lumiere-movies'),
+			'officialsites' => esc_html__( 'Display official websites', 'lumiere-movies'),
+			'pic' => esc_html__( 'Display the main poster', 'lumiere-movies'),
+			'plot' => esc_html__( 'Display plots. This field may need a lot of space.', 'lumiere-movies'),
+			'producer' => esc_html__( 'Display (how many) producers', 'lumiere-movies'),
+			'prodcompany' => esc_html__( 'Display the production companies', 'lumiere-movies'),
+			'quote' => esc_html__( 'Display (how many) quotes from movie.', 'lumiere-movies'),
+			'rating' => esc_html__( 'Display rating. This option also applies to the pop-up summary', 'lumiere-movies'),
+			'runtime' => esc_html__( 'Display the runtime. This option also applies to the pop-up summary', 'lumiere-movies'),
+			'soundtrack' => esc_html__( 'Display (how many) soundtracks', 'lumiere-movies'),
+			'sources' => esc_html__( 'Display website source at the end of the post', 'lumiere-movies'),
+			'tagline' => esc_html__( 'Display (how many) taglines', 'lumiere-movies'),
+			'title' => esc_html__( 'Display the title', 'lumiere-movies'),
+			'trailer' => esc_html__( 'Display (how many) trailers', 'lumiere-movies'),
+			'usercomment' => esc_html__( 'Display the main user comment', 'lumiere-movies'),
+			'writer' => esc_html__( 'Display writers', 'lumiere-movies'),
+			'year' => esc_html__( 'Display release year. The release year will appear next to the movie title into brackets', 'lumiere-movies'),
+		);
+
+
 		echo "\n\t\t" . '<div class="inside imblt_border_shadow">';
 		echo "\n\t\t\t" . '<h3 class="hndle" id="taxodetails" name="taxodetails">'
-			. esc_html__ ('What to display', 'lumiere-movies')
+			. esc_html__('What to display', 'lumiere-movies')
 			.'</h3>';
 		echo "\n\t\t" . '</div>';
 		echo "\n\t\t" . '<br />';
@@ -483,11 +515,11 @@ class Data extends \Lumiere\Admin {
 
 		echo "\n\t\t\t" . '<div class="lumiere_flex_container lumiere_align_center">';
 
-		foreach ($array_full as $title => $item) {
+		foreach ($array_full as $item => $title) {
 
-			echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_third lumiere_padding_five lumiere_align_center">';
+			echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_third lumiere_padding_ten lumiere_align_center">';
 
-			// Add a special span if the item is selected
+			// Add extra color through span if the item is selected
 			if ($this->configClass->imdb_widget_values['imdbwidget'.$item] == "1") { 
 
 				echo "\n\t\t\t\t\t" .'<span class="admin-option-selected">'. ucfirst($title) . '</span>'; 
@@ -511,13 +543,16 @@ class Data extends \Lumiere\Admin {
 			}
 
 			// If item is in list of $details_with_numbers, add special section
-			if (in_array($item, $this->details_with_numbers)) {
-				echo ' data-checkbox_activate="imdb_imdbwidget'.$item.'number_wrapper" />';
+			if (array_key_exists($item, $this->details_with_numbers)) {
+				echo ' data-field_activate="imdb_imdbwidget'.$item.'number" />';
 
-				echo "\n\t\t\t\t\t" . '<div id="imdb_imdbwidget'.$item.'number_wrapper" class="lumiere_flex_container">';
+				echo "\n\t\t\t\t\t" . '<div id="imdb_imdbwidget'.$item.'number_div" class="lumiere_flex_container lumiere_padding_five">';
+
+				echo "\n\t\t\t\t\t\t" .'<div class="lumiere_flex_container_content_seventy lumiere_font_ten">' . esc_html__ ( 'Enter the maximum of items you want to display', 'lumiere-movies') . '<br /></div>';
+
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_twenty">';
-				echo "\n\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_three_em" id="imdb_imdbwidget'.$item.'number" name="imdb_imdbwidget'.$item.'number" size="3" ';
-				echo 'value="'.
+				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" id="imdb_imdbwidget'.$item.'number" name="imdb_imdbwidget'.$item.'number" size="3"';
+				echo ' value="'.
 					esc_html__( 
 						apply_filters('format_to_edit',
 							$this->configClass->imdb_widget_values['imdbwidget'.$item.'number']
@@ -529,21 +564,32 @@ class Data extends \Lumiere\Admin {
 
 				echo ' />';
 				echo "\n\t\t\t\t\t\t" . '</div>';
-				echo "\n\t\t\t\t\t" .'<div class="lumiere_flex_container_content_seventy">Select the maximum number of <b>' . $title . '</b> to display<br /></div>';
+
+
 				echo "\n\t\t\t\t\t" . '</div>';
 
 			// item is not in list of $details_with_numbers
 			} else {
 
 				echo ' >';
-				echo "\n\t\t\t\t\t" .'<div class="explain">Whether to display <b>' . $title . '</b></div><br />';
 
 			}
+
+			echo "\n\t\t\t\t\t".'<div class="explain">' .$comment[$item].'</div>';
 
 			echo "\n\t\t\t\t" .'</div>';
 		}	
 
-		echo "\n\t\t\t" .'</div><!-- end double container -->';
+		// Reach a multiple of three for layout
+		// Include extra lines if not multiple of three
+		$operand = (count($array_full)/(count($array_full)/3));
+		for($i=1; $i < $operand; $i++){
+			if ($i % 3 != 0) {
+				echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_third lumiere_padding_ten lumiere_align_center"></div>';
+			}
+		}
+
+		echo "\n\t\t\t" .'</div>';
 		echo "\n\t\t" .'</div>';
 		echo "\n\t" .'</div>';
 

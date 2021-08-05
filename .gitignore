@@ -1,4 +1,5 @@
 /node_modules
+/source
 /tmp
 /vendor
 .env.testing

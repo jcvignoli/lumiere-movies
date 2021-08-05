@@ -4,6 +4,14 @@
 
 class PopupsCest {
 
+	var $url_base = "";
+
+	public function __construct(){
+
+		$this->url_base = $_ENV['TEST_REMOTE_WP_URL'];
+
+	}
+
 	public function _before(AcceptanceRemoteTester $I){
 		$I->comment('#Code _before#');
 	}
@@ -25,9 +33,6 @@ class PopupsCest {
 	 */
 	public function checkPopupMovie(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
 
-		/* const */
-		$url_base = $_ENV['TEST_REMOTE_WP_URL'];
-
 		// popup link movie interstellar
 		$element = 'a[data-highslidefilm="interstellar"]';
 		$sub_url = '/imdblt/film/interstellar/?film=interstellar';
@@ -36,7 +41,7 @@ class PopupsCest {
 		$I->amOnPage('/2021/test-codeception/');
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait(7);
-		$I->switchToIFrame("//iframe[@src='$url_base$sub_url']");
+		$I->switchToIFrame("//iframe[@src='$this->url_base$sub_url']");
 		$I->see('Christopher Nolan');
 	}
 
@@ -46,8 +51,6 @@ class PopupsCest {
 	 */
 	public function checkPopupPerson(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
 
-		/* const */
-		$url_base = $_ENV['TEST_REMOTE_WP_URL'];
 		// popup link actor Jorge Rivero
 		$element = 'a[data-highslidepeople="0729473"]';
 		$sub_url = '/imdblt/person/0729473/?mid=0729473';
@@ -56,7 +59,7 @@ class PopupsCest {
 		$I->amOnPage('/2021/test-codeception/');
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait(7);
-		$I->switchToIFrame("//iframe[@src='$url_base$sub_url']");
+		$I->switchToIFrame("//iframe[@src='$this->url_base$sub_url']");
 		$I->see('Pajarero');
 	}
 
