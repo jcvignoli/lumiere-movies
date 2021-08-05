@@ -5,7 +5,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 4.0 \
 **Tested up to:** 5.8 \
-**Stable tag:** 3.5 \
+**Stable tag:** 3.5.1 \
 **Requires PHP:** 7.2 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -93,7 +93,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ### 10. Taxonomy page for a person
 
-![Taxonomy page for a person](https://s.w.org/plugins/lumiere-movies/screenshot-10.jpg)
+![Taxonomy page for a person](https://ps.w.org/lumiere-movies/assets/screenshot-10.jpg)
 
 
 ## Frequently Asked Questions
