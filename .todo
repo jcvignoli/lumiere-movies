@@ -4,7 +4,9 @@
 13. Implement alternative to highslide with a jquery modal window
 16. To test: If Polylang needs to copy the metas when doing a new post in another lang, can activate lumiere_copy_post_metas_polylang() in class.core.php
 
-
+v.3.5.1
+OK--- 1. bug Fatal error upon installation. "Vendor" folder wasn't included. Changed in lumiere-movies.php management of dependencies.
+OK--- 2. feature if new block-based widget is found, do not load pre-5.8 widget.
 
 v.3.5
 OK--- 1. bug Log in lumiere_noresults_text() class.utils wasn't being activated when called

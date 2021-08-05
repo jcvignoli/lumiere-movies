@@ -1,20 +1,9 @@
 <?php
-// Lumière wordpress plugin
-//
-// (c) 2005-21 Lost Highway
-// https://www.jcvignoli.com/blog
-//
-// **********************************************************************
-// This program is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// *****************************************************************
-
 /*
 Plugin Name: Lumière! Movies
 Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
 Description: Add clickable links to informative popups about movies with information extracted from the IMDb. Display data related to movies and people in a widget or inside your post. Fully customizable. The most comprehensive and simplest plugin if you write about movies.
-Version: 3.5
+Version: 3.5.1
 Requires at least: 4.6
 Text Domain: lumiere-movies
 Domain Path: /languages
@@ -26,22 +15,47 @@ Author URI: https://www.jcvignoli.com/blog
 if ( ! defined( 'ABSPATH' ) ) 
 	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 
-# Bootstrap with requires
-require_once ( plugin_dir_path( __FILE__ ) . 'bootstrap.php' );
+// Include bootstrap if main files exist
+if ( (file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload.php' )) && (file_exists( plugin_dir_path( __FILE__ ) . 'class/Core.php' )) ) {
 
-### Lumiere Classes start
-if (class_exists("\Lumiere\Core")) {
-	$start = new \Lumiere\Core() ?? NULL;
+	include_once ( plugin_dir_path( __FILE__ ) . 'bootstrap.php' );
+
 }
 
-# Executed upon plugin activation
-register_activation_hook( __FILE__, [ $start , 'lumiere_on_activation' ] );
+// Start the plugin if classes are loaded
+if ( (class_exists("\Lumiere\Core")) && (class_exists('\Imdb\Config')) ){
 
-# Executed upon plugin deactivation
-register_deactivation_hook( __FILE__, [ $start , 'lumiere_on_deactivation' ] );
+	$start = new \Lumiere\Core() ?? NULL;
 
-# Executed upon plugin deactivation
-// @TODO: stop using deactivation to do uninstall work
-//register_uninstall_hook(__FILE__, 'lumiere_on_uninstall' );
+	# Executed upon plugin activation
+	register_activation_hook( __FILE__, [ $start , 'lumiere_on_activation' ] );
 
-?>
+	# Executed upon plugin deactivation
+	register_deactivation_hook( __FILE__, [ $start , 'lumiere_on_deactivation' ] );
+
+	# Executed upon plugin deactivation
+	// @TODO: stop using deactivation to do uninstall work
+	//register_uninstall_hook(__FILE__, 'lumiere_on_uninstall' );
+
+// Display error notice, plugin is not properly installed
+} else {
+
+	add_action('admin_notices', 'lumiere_installation_error');
+
+}
+
+/* Display error notice upon bad installation
+ *
+ */
+function lumiere_installation_error() {
+
+	$class = 'notice notice-error';
+	$message = 'Lumière Movies WordPress plugin has been incorrectly installed. Check your install or reinstall the plugin.';
+
+	printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );		
+
+}
+
+
+
+

@@ -180,7 +180,7 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'i
 	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
 
 }
- Replace 'imdbtaxonomykeywords' by 'imdbtaxonomykeyword'
+// Replace 'imdbtaxonomykeywords' by 'imdbtaxonomykeyword'
 // Singularizing items
 if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName, 'imdbtaxonomykeywords' ) ) {
 

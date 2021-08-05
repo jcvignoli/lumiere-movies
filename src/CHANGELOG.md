@@ -1,5 +1,9 @@
 **Changelog**
 
+v.3.5.1
+* [bug] Fatal error upon installation. "Vendor" folder wasn't included. Changed in lumiere-movies.php management of dependencies.
+* [feature] If new block-based widget is found, do not load pre-5.8 widget.
+
 v.3.5
 * [feature] In visual editing (with tinymce, old way), new function to add popup, movies by id and by title.
 * [feature] Not using shortcodes [imdbltid] and [imdblt] anymore. Replaced by /span data-lum_movie_maker="movie_id"/ and /span data-lum_movie_maker="movie_title"/. This way, if Lumière is uninstalled no garbage is left in posts. Kept the old shortcodes working for compatibility purpose.
