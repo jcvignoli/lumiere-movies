@@ -5,6 +5,7 @@ v.3.5
 * [feature] Not using shortcodes [imdbltid] and [imdblt] anymore. Replaced by /span data-lum_movie_maker="movie_id"/ and /span data-lum_movie_maker="movie_title"/. This way, if Lumière is uninstalled no garbage is left in posts. Kept the old shortcodes working for compatibility purpose.
 * [feature] link to popups are now dealt by a < span data-lum_link_maker="popup"> instead of < span class="lumiere_link_maker"> for consistency.
 * [feature] Help section has been updated according to the many changes of the last months and vastly improved
+* [technical] Renamed various options in order to mainstream functions and classes. Admin is now only made of classes.
 * [bug] activation triggers notice error. Deactivated onscreen debug in class.core lumiere_create_cache() so doesn't throw an error anymore.
 * [bug] delete all cache wasn't working (in class utils function lumiere_unlinkRecursive() was missing a "$this->")
 * [bug] Logger in lumiere_noresults_text() class.utils wasn't being activated when called.

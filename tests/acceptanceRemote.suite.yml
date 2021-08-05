@@ -9,7 +9,8 @@ actor: AcceptanceRemoteTester
 modules:
     enabled:
         - \Helper\AcceptanceRemote
-        - WPFilesystem # needs local access,use it with remote machine localy mounted
+#        - WPFilesystem # needs local access,use it with remote machine localy mounted
+        - Filesystem  # needs local access,use it with remote machine localy mounted
         - WPWebDriver
 #        - FTP # forces to use WBrowser instead of WPWebDriver
     config:

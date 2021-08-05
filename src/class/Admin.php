@@ -362,17 +362,17 @@ class Admin {
 
 		if (!isset($_GET['subsection'])) {
 
-			require_once ( $this->rootPath. 'inc/options-general.php'  );
+			$adminGeneral = new \Lumiere\Admin\General();
 
 		}
 
 		if ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "dataoption") ) {
 
-			$adminHelp = new \Lumiere\Admin\Data();
+			$adminData = new \Lumiere\Admin\Data();
 
 		} elseif ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "cache") ) {
 
-			require_once ( $this->rootPath. 'inc/options-cache.php' );
+			$adminCache = new \Lumiere\Admin\Cache();
 
 		} elseif ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "help") ) {
 

@@ -128,6 +128,7 @@ class TaxonomyCest {
 	 */
 	public function checkTaxonomyTemplateSystem(AcceptanceRemoteTester $I, \Codeception\Example $example, \Codeception\Module\Cli $shell) {
 
+		// Make local connexion
 		$shell->runShellCommand( 'touch ' . $this->root_remote . '/wp-content/cache/testcodeception.txt' );
 
 		$I->wantTo("Check if Taxonomy template system works");

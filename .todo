@@ -17,6 +17,7 @@ OK--- 7. feature In visual editing (with tinymce, old way), new function to add 
 OK--- 8. bug Can't open/close metaboxes in post edition. Metabox script added in lumiere_scripts_admin.js was collinding with other WordPress scripts. Removed from lumiere_scripts_admin.js, added to help.php. Took advantage of removing useless 'common','wp-lists', 'postbox' javascripts from loading in every admin page; now loads only in help.php
 OK--- 9. feature Help section has been updated according to the many changes of the last months and vastly improved
 OK---10. Simplified and organised better the script/style registration and enqueuing in core class
+OK---11. Admin is only made of classes.
 
 v.3.4.5
 OK--- 1. If a new taxonomy template is available, display a message in taxonomy admin panel. If template has not been copied, display a message.
