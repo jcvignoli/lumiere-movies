@@ -5,6 +5,7 @@
 /tests
 /tmp
 /vendor
+!dist/vendor
 .wordpress-org
 .babelrc
 .env.testing

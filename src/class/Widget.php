@@ -1,6 +1,6 @@
 <?php
 /**
- * Class of widget: Add a widget including a moviev(either by auto widget option or the editor metabox) 
+ * Widget class: Add a widget including a movie (either by auto widget option or the editor metabox) 
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -108,12 +108,17 @@ class LumiereWidget extends \WP_Widget {
 		} 
 
 		/**
-		 * Register the widget. Should be hooked to 'widgets_init'.
+		 * Register the widget
+		 * Give priority to post-5.8 WordPress Widget block. If not found, register pre-5.8 widget.
 		 */
-		 add_action( 'widgets_init', function() { # Register legacy widget
-			register_widget( '\Lumiere\LumiereWidget' );
-		 });
 		add_action('enqueue_block_editor_assets', [ $this, 'lumiere_register_widget_block' ]); #Register new block
+		if ( $this->utilsClass->lumiere_block_widget_isactive() == false ){
+
+			// Should be hooked to 'widgets_init'.
+			add_action( 'widgets_init', function() { # Register legacy widget
+				register_widget( '\Lumiere\LumiereWidget' );
+			});
+		}
 
 		/**
 		 * Hide the widget in legacy widgets menu, but we don't want this
