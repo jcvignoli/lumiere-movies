@@ -9,13 +9,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-08-01T23:30:36-03:00\n"
+"POT-Creation-Date: 2021-08-05T01:13:58-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
 
 #. Plugin Name of the plugin
-#: class/Widget.php:321
+#: class/Widget.php:322
 msgid "Lumière! Movies"
 msgstr ""
 
@@ -111,6 +111,342 @@ msgstr ""
 #: class/Admin.php:336
 #: inc/admin_pages.php:103
 msgid "help"
+msgstr ""
+
+#: class/Admin/Data.php:60
+#: class/Config.php:232
+msgid "actor"
+msgstr ""
+
+#: class/Admin/Data.php:61
+msgid "alsoknow"
+msgstr ""
+
+#: class/Admin/Data.php:61
+msgid "also known as"
+msgstr ""
+
+#: class/Admin/Data.php:62
+msgid "goof"
+msgstr ""
+
+#: class/Admin/Data.php:63
+msgid "plot"
+msgstr ""
+
+#: class/Admin/Data.php:64
+#: class/Config.php:236
+msgid "producer"
+msgstr ""
+
+#: class/Admin/Data.php:65
+msgid "quote"
+msgstr ""
+
+#: class/Admin/Data.php:66
+msgid "soundtrack"
+msgstr ""
+
+#: class/Admin/Data.php:67
+msgid "tagline"
+msgstr ""
+
+#: class/Admin/Data.php:68
+msgid "trailer"
+msgstr ""
+
+#: class/Admin/Data.php:72
+msgid "officialsites"
+msgstr ""
+
+#: class/Admin/Data.php:72
+msgid "official websites"
+msgstr ""
+
+#: class/Admin/Data.php:73
+msgid "prodcompany"
+msgstr ""
+
+#: class/Admin/Data.php:73
+msgid "production company"
+msgstr ""
+
+#: class/Admin/Data.php:74
+msgid "rating"
+msgstr ""
+
+#: class/Admin/Data.php:75
+msgid "year"
+msgstr ""
+
+#: class/Admin/Data.php:75
+msgid "year of release"
+msgstr ""
+
+#: class/Admin/Data.php:169
+#: inc/options-data.php:121
+#: inc/options-general.php:107
+msgid "Options saved."
+msgstr ""
+
+#: class/Admin/Data.php:177
+#: class/Admin/Data.php:204
+#: inc/options-cache.php:94
+#: inc/options-cache.php:113
+#: inc/options-cache.php:135
+#: inc/options-cache.php:154
+#: inc/options-cache.php:172
+#: inc/options-cache.php:240
+#: inc/options-data.php:129
+#: inc/options-data.php:156
+#: inc/options-general.php:80
+#: inc/options-general.php:116
+#: inc/options-general.php:135
+msgid "Go back"
+msgstr ""
+
+#: class/Admin/Data.php:203
+#: class/Admin/Data.php:209
+#: inc/options-data.php:155
+#: inc/options-data.php:161
+#: inc/options-general.php:126
+msgid "Options reset."
+msgstr ""
+
+#: class/Admin/Data.php:224
+#: class/Admin/Data.php:509
+#: inc/options-data.php:181
+#: inc/options-data.php:440
+msgid "What to display"
+msgstr ""
+
+#: class/Admin/Data.php:224
+#: inc/options-data.php:181
+msgid "Display"
+msgstr ""
+
+#: class/Admin/Data.php:226
+#: inc/options-data.php:183
+msgid "Display order"
+msgstr ""
+
+#: class/Admin/Data.php:229
+#: inc/options-data.php:186
+msgid "What to taxonomize"
+msgstr ""
+
+#: class/Admin/Data.php:229
+#: inc/options-data.php:186
+#: theme/taxonomy-imdblt_items.php:19
+msgid "Taxonomy"
+msgstr ""
+
+#: class/Admin/Data.php:231
+#: inc/options-data.php:188
+msgid "Taxonomy unactivated"
+msgstr ""
+
+#: class/Admin/Data.php:278
+#: inc/options-cache.php:531
+#: inc/options-cache.php:1019
+#: inc/options-cache.php:1039
+#: inc/options-cache.php:1040
+#: inc/options-data.php:244
+#: inc/options-general.php:587
+msgid "Reset settings"
+msgstr ""
+
+#: class/Admin/Data.php:282
+#: inc/options-cache.php:532
+#: inc/options-cache.php:1020
+#: inc/options-data.php:245
+#: inc/options-general.php:588
+msgid "Update settings"
+msgstr ""
+
+#: class/Admin/Data.php:349
+#: inc/options-data.php:317
+msgid "Position of data"
+msgstr ""
+
+#: class/Admin/Data.php:357
+#: inc/options-data.php:325
+msgid "You can select the order for the information selected from \"what to display\" section. Select first the movie detail you want to move, use \"up\" or \"down\" to reorder Lumiere Movies display. Once you are happy with the new layout, click on \"update settings\" to keep it."
+msgstr ""
+
+#: class/Admin/Data.php:359
+#: inc/options-data.php:327
+msgid "\"Source\" movie detail cannot be selected; if it is selected from \"what to display\" section, it will always appear after others movie details"
+msgstr ""
+
+#: class/Admin/Data.php:370
+#: inc/options-data.php:338
+msgid "Move selected movie detail:"
+msgstr ""
+
+#: class/Admin/Data.php:416
+#: inc/options-data.php:387
+msgid "Please "
+msgstr ""
+
+#: class/Admin/Data.php:419
+#: inc/options-data.php:390
+msgid "activate taxonomy"
+msgstr ""
+
+#: class/Admin/Data.php:420
+#: inc/options-data.php:391
+msgid " priorly"
+msgstr ""
+
+#: class/Admin/Data.php:421
+#: inc/options-data.php:392
+msgid "to access taxonomies options."
+msgstr ""
+
+#: class/Admin/Data.php:427
+#: inc/options-data.php:398
+msgid "Select details to use as taxonomy"
+msgstr ""
+
+#: class/Admin/Data.php:433
+#: inc/options-data.php:404
+msgid "Use the checkbox to display the taxonomy tags. When activated, selected taxonomy will become blue if it is activated into 'What to display' section and will turn red otherwise."
+msgstr ""
+
+#: class/Admin/Data.php:435
+#: inc/options-data.php:406
+msgid "Cautiously select the categories you want to display: it may have some unwanted effects, in particular if you display many movies in the same post at once. When selecting one of the following taxonomy options, it will supersede any other function or link created; for instance, you will not have access anymore to the popups for directors, if directors taxonomy is chosen. Taxonomy will always prevail over other Lumiere functionalities."
+msgstr ""
+
+#: class/Admin/Data.php:438
+#: inc/options-data.php:409
+msgid "Note: once activated, each taxonomy category will show a new option to copy a taxonomy template directy into your template folder."
+msgstr ""
+
+#: class/Admin/Data.php:477
+msgid "Display (how many) actors. These options also applies to the pop-up summary"
+msgstr ""
+
+#: class/Admin/Data.php:478
+#: inc/options-data.php:469
+msgid "Display (how many) alternative movie names and in other languages"
+msgstr ""
+
+#: class/Admin/Data.php:479
+#: inc/options-data.php:482
+msgid "Display colors"
+msgstr ""
+
+#: class/Admin/Data.php:480
+#: inc/options-data.php:500
+msgid "Display composer"
+msgstr ""
+
+#: class/Admin/Data.php:481
+msgid "Display country. This option also applies to the pop-up summary"
+msgstr ""
+
+#: class/Admin/Data.php:482
+#: inc/options-data.php:525
+msgid "Display Creator"
+msgstr ""
+
+#: class/Admin/Data.php:483
+msgid "Display directors. This option also applies to the pop-up summary"
+msgstr ""
+
+#: class/Admin/Data.php:484
+msgid "Display genre. This option also applies to the pop-up summary"
+msgstr ""
+
+#: class/Admin/Data.php:485
+msgid "Display (how many) goofs"
+msgstr ""
+
+#: class/Admin/Data.php:486
+#: inc/options-data.php:584
+msgid "Display keywords"
+msgstr ""
+
+#: class/Admin/Data.php:487
+msgid "Display languages. This option also applies to the pop-up summary"
+msgstr ""
+
+#: class/Admin/Data.php:488
+#: inc/options-data.php:611
+msgid "Display official websites"
+msgstr ""
+
+#: class/Admin/Data.php:489
+msgid "Display the main poster"
+msgstr ""
+
+#: class/Admin/Data.php:490
+msgid "Display plots. This field may need a lot of space."
+msgstr ""
+
+#: class/Admin/Data.php:491
+#: inc/options-data.php:655
+msgid "Display (how many) producers"
+msgstr ""
+
+#: class/Admin/Data.php:492
+#: inc/options-data.php:671
+msgid "Display the production companies"
+msgstr ""
+
+#: class/Admin/Data.php:493
+msgid "Display (how many) quotes from movie."
+msgstr ""
+
+#: class/Admin/Data.php:494
+msgid "Display rating. This option also applies to the pop-up summary"
+msgstr ""
+
+#: class/Admin/Data.php:495
+msgid "Display the runtime. This option also applies to the pop-up summary"
+msgstr ""
+
+#: class/Admin/Data.php:496
+msgid "Display (how many) soundtracks"
+msgstr ""
+
+#: class/Admin/Data.php:497
+#: inc/options-data.php:742
+msgid "Display website source at the end of the post"
+msgstr ""
+
+#: class/Admin/Data.php:498
+msgid "Display (how many) taglines"
+msgstr ""
+
+#: class/Admin/Data.php:499
+#: inc/options-data.php:771
+msgid "Display the title"
+msgstr ""
+
+#: class/Admin/Data.php:500
+#: inc/options-data.php:787
+msgid "Display (how many) trailers"
+msgstr ""
+
+#: class/Admin/Data.php:501
+#: inc/options-data.php:803
+msgid "Display the main user comment"
+msgstr ""
+
+#: class/Admin/Data.php:502
+#: inc/options-data.php:816
+msgid "Display writers"
+msgstr ""
+
+#: class/Admin/Data.php:503
+msgid "Display release year. The release year will appear next to the movie title into brackets"
+msgstr ""
+
+#: class/Admin/Data.php:551
+msgid "Enter the maximum of items you want to display"
 msgstr ""
 
 #: class/Admin/Help.php:43
@@ -533,29 +869,65 @@ msgstr ""
 msgid "3. It is possible to limit the number of results in the queries using its dedicated option. The less results there is, the less server resources are required and the faster the output is displayed. This limit number applies to the search of movies with a similar name (menu option in movies popups) and in "
 msgstr ""
 
-#: class/Core.php:604
-#: class/Core.php:614
+#: class/Config.php:233
+msgid "composer"
+msgstr ""
+
+#: class/Config.php:234
+msgid "creator"
+msgstr ""
+
+#: class/Config.php:235
+msgid "director"
+msgstr ""
+
+#: class/Config.php:237
+msgid "writer"
+msgstr ""
+
+#: class/Config.php:240
+msgid "color"
+msgstr ""
+
+#: class/Config.php:241
+msgid "country"
+msgstr ""
+
+#: class/Config.php:242
+msgid "genre"
+msgstr ""
+
+#: class/Config.php:243
+msgid "keyword"
+msgstr ""
+
+#: class/Config.php:244
+msgid "language"
+msgstr ""
+
+#: class/Core.php:591
+#: class/Core.php:601
 msgid "Informations about "
 msgstr ""
 
-#: class/Core.php:604
-#: class/Core.php:614
+#: class/Core.php:591
+#: class/Core.php:601
 msgid "Unknown"
 msgstr ""
 
-#: class/Core.php:618
+#: class/Core.php:605
 msgid "No query entered"
 msgstr ""
 
-#: class/Core.php:619
+#: class/Core.php:606
 msgid "Search query for "
 msgstr ""
 
-#: class/Core.php:627
+#: class/Core.php:614
 msgid "Lumiere Query Interface"
 msgstr ""
 
-#: class/Core.php:968
+#: class/Core.php:955
 msgid "Lumière "
 msgstr ""
 
@@ -615,8 +987,8 @@ msgid "no picture found"
 msgstr ""
 
 #: class/Movie.php:767
-#: inc/options-data.php:243
-#: inc/options-data.php:244
+#: inc/options-data.php:507
+#: inc/options-data.php:508
 #: inc/popup-imdb_movie.php:406
 msgid "Country"
 msgid_plural "Countries"
@@ -624,8 +996,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:811
-#: inc/options-data.php:445
-#: inc/options-data.php:446
+#: inc/options-data.php:709
+#: inc/options-data.php:710
 #: inc/popup-imdb_movie.php:341
 msgid "Runtime"
 msgstr ""
@@ -636,8 +1008,8 @@ msgid "minutes"
 msgstr ""
 
 #: class/Movie.php:838
-#: inc/options-data.php:326
-#: inc/options-data.php:327
+#: inc/options-data.php:590
+#: inc/options-data.php:591
 #: inc/popup-imdb_movie.php:383
 msgid "Language"
 msgid_plural "Languages"
@@ -645,8 +1017,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:886
-#: inc/options-data.php:428
-#: inc/options-data.php:429
+#: inc/options-data.php:692
+#: inc/options-data.php:693
 #: inc/popup-imdb_movie.php:361
 msgid "Rating"
 msgstr ""
@@ -675,8 +1047,8 @@ msgid "votes"
 msgstr ""
 
 #: class/Movie.php:927
-#: inc/options-data.php:281
-#: inc/options-data.php:282
+#: inc/options-data.php:545
+#: inc/options-data.php:546
 #: inc/popup-imdb_movie.php:430
 msgid "Genre"
 msgid_plural "Genres"
@@ -684,6 +1056,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:975
+#: inc/options-data.php:578
 msgid "Keyword"
 msgid_plural "Keywords"
 msgstr[0] ""
@@ -707,8 +1080,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:1156
-#: inc/options-data.php:487
-#: inc/options-data.php:488
+#: inc/options-data.php:751
+#: inc/options-data.php:752
 msgid "Tagline"
 msgid_plural "Taglines"
 msgstr[0] ""
@@ -731,14 +1104,14 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:1294
-#: inc/options-data.php:196
-#: inc/options-data.php:197
+#: inc/options-data.php:460
+#: inc/options-data.php:461
 msgid "Also known as"
 msgstr ""
 
 #: class/Movie.php:1337
-#: inc/options-data.php:229
-#: inc/options-data.php:230
+#: inc/options-data.php:493
+#: inc/options-data.php:494
 msgid "Composer"
 msgid_plural "Composers"
 msgstr[0] ""
@@ -749,8 +1122,8 @@ msgid "Link to local IMDb"
 msgstr ""
 
 #: class/Movie.php:1407
-#: inc/options-data.php:456
-#: inc/options-data.php:457
+#: inc/options-data.php:720
+#: inc/options-data.php:721
 #: inc/popup-imdb_movie.php:722
 msgid "Soundtrack"
 msgid_plural "Soundtracks"
@@ -758,8 +1131,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:1464
-#: inc/options-data.php:400
-#: inc/options-data.php:401
+#: inc/options-data.php:664
+#: inc/options-data.php:665
 msgid "Production company"
 msgid_plural "Production companies"
 msgstr[0] ""
@@ -772,8 +1145,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:1555
-#: inc/options-data.php:269
-#: inc/options-data.php:270
+#: inc/options-data.php:533
+#: inc/options-data.php:534
 #: inc/popup-imdb_movie.php:129
 #: inc/popup-imdb_movie.php:283
 #: inc/popup-imdb_movie.php:525
@@ -801,16 +1174,16 @@ msgid "open a new window with IMDb informations"
 msgstr ""
 
 #: class/Movie.php:1621
-#: inc/options-data.php:255
-#: inc/options-data.php:256
+#: inc/options-data.php:519
+#: inc/options-data.php:520
 msgid "Creator"
 msgid_plural "Creators"
 msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:1691
-#: inc/options-data.php:383
-#: inc/options-data.php:384
+#: inc/options-data.php:647
+#: inc/options-data.php:648
 #: inc/popup-imdb_movie.php:598
 msgid "Producer"
 msgid_plural "Producers"
@@ -818,8 +1191,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:1772
-#: inc/options-data.php:545
-#: inc/options-data.php:546
+#: inc/options-data.php:809
+#: inc/options-data.php:810
 #: inc/popup-imdb_movie.php:563
 msgid "Writer"
 msgid_plural "Writers"
@@ -828,8 +1201,8 @@ msgstr[1] ""
 
 #: class/Movie.php:1851
 #: class/Movie.php:1925
-#: inc/options-data.php:182
-#: inc/options-data.php:183
+#: inc/options-data.php:446
+#: inc/options-data.php:447
 #: inc/popup-imdb_movie.php:479
 msgid "Actor"
 msgid_plural "Actors"
@@ -843,8 +1216,8 @@ msgid "Find similar taxonomy results"
 msgstr ""
 
 #: class/Movie.php:2004
-#: inc/options-data.php:368
-#: inc/options-data.php:369
+#: inc/options-data.php:632
+#: inc/options-data.php:633
 #: inc/popup-imdb_movie.php:656
 msgid "Plot"
 msgid_plural "Plots"
@@ -852,8 +1225,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:2048
-#: inc/options-data.php:471
-#: inc/options-data.php:472
+#: inc/options-data.php:735
+#: inc/options-data.php:736
 msgid "Source"
 msgstr ""
 
@@ -878,13 +1251,13 @@ msgstr ""
 msgid "more"
 msgstr ""
 
-#: class/Utils.php:415
-#: class/Utils.php:450
+#: class/Utils.php:427
+#: class/Utils.php:464
 msgid "Copy a standard taxonomy template to your template folder to display this taxonomy."
 msgstr ""
 
-#: class/Utils.php:417
-#: class/Utils.php:452
+#: class/Utils.php:429
+#: class/Utils.php:466
 msgid "Copy template"
 msgstr ""
 
@@ -892,11 +1265,11 @@ msgstr ""
 msgid "Add movie details to your pages with Lumière! Legacy version: as of WordPress 5.8, prefer the new widget."
 msgstr ""
 
-#: class/Widget.php:213
+#: class/Widget.php:214
 msgid "Lumière! Movies (legacy)"
 msgstr ""
 
-#: class/Widget.php:333
+#: class/Widget.php:334
 msgid "Widget title:"
 msgstr ""
 
@@ -949,20 +1322,6 @@ msgstr ""
 
 #: inc/options-cache.php:87
 msgid "Cache options saved."
-msgstr ""
-
-#: inc/options-cache.php:94
-#: inc/options-cache.php:113
-#: inc/options-cache.php:135
-#: inc/options-cache.php:154
-#: inc/options-cache.php:172
-#: inc/options-cache.php:240
-#: inc/options-data.php:110
-#: inc/options-data.php:137
-#: inc/options-general.php:80
-#: inc/options-general.php:116
-#: inc/options-general.php:135
-msgid "Go back"
 msgstr ""
 
 #: inc/options-cache.php:105
@@ -1037,40 +1396,40 @@ msgstr ""
 #: inc/options-cache.php:436
 #: inc/options-cache.php:438
 #: inc/options-cache.php:514
-#: inc/options-data.php:185
-#: inc/options-data.php:191
-#: inc/options-data.php:199
-#: inc/options-data.php:214
-#: inc/options-data.php:232
-#: inc/options-data.php:246
-#: inc/options-data.php:258
-#: inc/options-data.php:272
-#: inc/options-data.php:275
-#: inc/options-data.php:284
-#: inc/options-data.php:288
-#: inc/options-data.php:296
-#: inc/options-data.php:316
-#: inc/options-data.php:329
-#: inc/options-data.php:343
-#: inc/options-data.php:359
-#: inc/options-data.php:362
-#: inc/options-data.php:371
-#: inc/options-data.php:386
-#: inc/options-data.php:403
-#: inc/options-data.php:416
-#: inc/options-data.php:431
-#: inc/options-data.php:448
-#: inc/options-data.php:459
-#: inc/options-data.php:474
+#: inc/options-data.php:449
+#: inc/options-data.php:455
+#: inc/options-data.php:463
 #: inc/options-data.php:478
-#: inc/options-data.php:490
-#: inc/options-data.php:504
-#: inc/options-data.php:507
-#: inc/options-data.php:517
-#: inc/options-data.php:535
+#: inc/options-data.php:496
+#: inc/options-data.php:510
+#: inc/options-data.php:522
+#: inc/options-data.php:536
+#: inc/options-data.php:539
 #: inc/options-data.php:548
 #: inc/options-data.php:552
 #: inc/options-data.php:560
+#: inc/options-data.php:580
+#: inc/options-data.php:593
+#: inc/options-data.php:607
+#: inc/options-data.php:623
+#: inc/options-data.php:626
+#: inc/options-data.php:635
+#: inc/options-data.php:650
+#: inc/options-data.php:667
+#: inc/options-data.php:680
+#: inc/options-data.php:695
+#: inc/options-data.php:712
+#: inc/options-data.php:723
+#: inc/options-data.php:738
+#: inc/options-data.php:742
+#: inc/options-data.php:754
+#: inc/options-data.php:768
+#: inc/options-data.php:771
+#: inc/options-data.php:781
+#: inc/options-data.php:799
+#: inc/options-data.php:812
+#: inc/options-data.php:816
+#: inc/options-data.php:824
 #: inc/options-general.php:220
 #: inc/options-general.php:398
 #: inc/options-general.php:410
@@ -1081,53 +1440,53 @@ msgstr ""
 #: inc/options-cache.php:436
 #: inc/options-cache.php:517
 #: inc/options-cache.php:519
-#: inc/options-data.php:187
-#: inc/options-data.php:201
-#: inc/options-data.php:205
-#: inc/options-data.php:216
-#: inc/options-data.php:218
-#: inc/options-data.php:234
-#: inc/options-data.php:236
-#: inc/options-data.php:248
-#: inc/options-data.php:250
-#: inc/options-data.php:259
-#: inc/options-data.php:261
-#: inc/options-data.php:273
-#: inc/options-data.php:286
-#: inc/options-data.php:298
-#: inc/options-data.php:302
-#: inc/options-data.php:318
-#: inc/options-data.php:320
-#: inc/options-data.php:331
-#: inc/options-data.php:333
-#: inc/options-data.php:345
-#: inc/options-data.php:347
-#: inc/options-data.php:360
-#: inc/options-data.php:373
-#: inc/options-data.php:377
-#: inc/options-data.php:387
-#: inc/options-data.php:391
-#: inc/options-data.php:405
-#: inc/options-data.php:407
-#: inc/options-data.php:418
-#: inc/options-data.php:422
-#: inc/options-data.php:433
-#: inc/options-data.php:435
-#: inc/options-data.php:449
-#: inc/options-data.php:450
-#: inc/options-data.php:461
+#: inc/options-data.php:451
 #: inc/options-data.php:465
-#: inc/options-data.php:476
-#: inc/options-data.php:492
-#: inc/options-data.php:496
-#: inc/options-data.php:505
-#: inc/options-data.php:519
+#: inc/options-data.php:469
+#: inc/options-data.php:480
+#: inc/options-data.php:482
+#: inc/options-data.php:498
+#: inc/options-data.php:500
+#: inc/options-data.php:512
+#: inc/options-data.php:514
 #: inc/options-data.php:523
+#: inc/options-data.php:525
 #: inc/options-data.php:537
-#: inc/options-data.php:539
 #: inc/options-data.php:550
-#: inc/options-data.php:561
 #: inc/options-data.php:562
+#: inc/options-data.php:566
+#: inc/options-data.php:582
+#: inc/options-data.php:584
+#: inc/options-data.php:595
+#: inc/options-data.php:597
+#: inc/options-data.php:609
+#: inc/options-data.php:611
+#: inc/options-data.php:624
+#: inc/options-data.php:637
+#: inc/options-data.php:641
+#: inc/options-data.php:651
+#: inc/options-data.php:655
+#: inc/options-data.php:669
+#: inc/options-data.php:671
+#: inc/options-data.php:682
+#: inc/options-data.php:686
+#: inc/options-data.php:697
+#: inc/options-data.php:699
+#: inc/options-data.php:713
+#: inc/options-data.php:714
+#: inc/options-data.php:725
+#: inc/options-data.php:729
+#: inc/options-data.php:740
+#: inc/options-data.php:756
+#: inc/options-data.php:760
+#: inc/options-data.php:769
+#: inc/options-data.php:783
+#: inc/options-data.php:787
+#: inc/options-data.php:801
+#: inc/options-data.php:803
+#: inc/options-data.php:814
+#: inc/options-data.php:825
+#: inc/options-data.php:826
 #: inc/options-general.php:280
 #: inc/options-general.php:387
 #: inc/options-general.php:422
@@ -1143,33 +1502,33 @@ msgstr ""
 #: inc/options-cache.php:455
 #: inc/options-cache.php:519
 #: inc/options-cache.php:936
-#: inc/options-data.php:191
-#: inc/options-data.php:205
-#: inc/options-data.php:218
-#: inc/options-data.php:236
-#: inc/options-data.php:250
-#: inc/options-data.php:261
-#: inc/options-data.php:275
-#: inc/options-data.php:288
-#: inc/options-data.php:302
-#: inc/options-data.php:320
-#: inc/options-data.php:333
-#: inc/options-data.php:347
-#: inc/options-data.php:362
-#: inc/options-data.php:377
-#: inc/options-data.php:391
-#: inc/options-data.php:407
-#: inc/options-data.php:422
-#: inc/options-data.php:435
-#: inc/options-data.php:450
-#: inc/options-data.php:465
-#: inc/options-data.php:478
-#: inc/options-data.php:496
-#: inc/options-data.php:507
-#: inc/options-data.php:523
+#: inc/options-data.php:455
+#: inc/options-data.php:469
+#: inc/options-data.php:482
+#: inc/options-data.php:500
+#: inc/options-data.php:514
+#: inc/options-data.php:525
 #: inc/options-data.php:539
 #: inc/options-data.php:552
-#: inc/options-data.php:562
+#: inc/options-data.php:566
+#: inc/options-data.php:584
+#: inc/options-data.php:597
+#: inc/options-data.php:611
+#: inc/options-data.php:626
+#: inc/options-data.php:641
+#: inc/options-data.php:655
+#: inc/options-data.php:671
+#: inc/options-data.php:686
+#: inc/options-data.php:699
+#: inc/options-data.php:714
+#: inc/options-data.php:729
+#: inc/options-data.php:742
+#: inc/options-data.php:760
+#: inc/options-data.php:771
+#: inc/options-data.php:787
+#: inc/options-data.php:803
+#: inc/options-data.php:816
+#: inc/options-data.php:826
 #: inc/options-general.php:181
 #: inc/options-general.php:189
 #: inc/options-general.php:204
@@ -1218,22 +1577,6 @@ msgstr ""
 
 #: inc/options-cache.php:519
 msgid "Allow faster loading time for the \"manage cache\" page, by displaying shorter movies and people presentation. Usefull when you have several of those. This option is available when \"Show advanced cache details\" is activated."
-msgstr ""
-
-#: inc/options-cache.php:531
-#: inc/options-cache.php:1019
-#: inc/options-cache.php:1039
-#: inc/options-cache.php:1040
-#: inc/options-data.php:886
-#: inc/options-general.php:587
-msgid "Reset settings"
-msgstr ""
-
-#: inc/options-cache.php:532
-#: inc/options-cache.php:1020
-#: inc/options-data.php:887
-#: inc/options-general.php:588
-msgid "Update settings"
 msgstr ""
 
 #: inc/options-cache.php:549
@@ -1477,286 +1820,109 @@ msgstr ""
 msgid "Click on \"reset settings\" to refresh the values."
 msgstr ""
 
-#: inc/options-data.php:102
-#: inc/options-general.php:107
-msgid "Options saved."
-msgstr ""
-
-#: inc/options-data.php:136
-#: inc/options-data.php:142
-#: inc/options-general.php:126
-msgid "Options reset."
-msgstr ""
-
-#: inc/options-data.php:150
-#: inc/options-data.php:176
-msgid "What to display"
-msgstr ""
-
-#: inc/options-data.php:150
-msgid "Display"
-msgstr ""
-
-#: inc/options-data.php:152
-msgid "Display order"
-msgstr ""
-
-#: inc/options-data.php:155
-msgid "What to taxonomize"
-msgstr ""
-
-#: inc/options-data.php:155
-#: theme/taxonomy-imdblt_items.php:19
-msgid "Taxonomy"
-msgstr ""
-
-#: inc/options-data.php:157
-msgid "Taxonomy unactivated"
-msgstr ""
-
-#: inc/options-data.php:191
+#: inc/options-data.php:455
 msgid "Display (how many) actors. These options also applies to the pop-up summary."
 msgstr ""
 
-#: inc/options-data.php:205
-msgid "Display (how many) alternative movie names and in other languages"
-msgstr ""
-
-#: inc/options-data.php:211
-#: inc/options-data.php:212
-#: inc/options-data.php:624
+#: inc/options-data.php:475
+#: inc/options-data.php:476
 msgid "Colors"
 msgstr ""
 
-#: inc/options-data.php:218
-msgid "Display colors"
-msgstr ""
-
-#: inc/options-data.php:236
-msgid "Display composer"
-msgstr ""
-
-#: inc/options-data.php:250
+#: inc/options-data.php:514
 msgid "Display country. This option also applies to the pop-up summary."
 msgstr ""
 
-#: inc/options-data.php:261
-msgid "Display Creator"
-msgstr ""
-
-#: inc/options-data.php:275
+#: inc/options-data.php:539
 msgid "Display directors. This option also applies to the pop-up summary."
 msgstr ""
 
-#: inc/options-data.php:288
-msgid "Display genre. This option also applies to the pop-up summary."
-msgstr ""
-
-#: inc/options-data.php:293
-#: inc/options-data.php:294
-msgid "Goofs"
-msgstr ""
-
-#: inc/options-data.php:302
-msgid "Display (how many) goof"
-msgstr ""
-
-#: inc/options-data.php:313
-#: inc/options-data.php:314
-#: inc/options-data.php:742
-msgid "Keywords"
-msgstr ""
-
-#: inc/options-data.php:320
-msgid "Display keywords"
-msgstr ""
-
-#: inc/options-data.php:333
-msgid "Display languages. This option also applies to the pop-up summary."
-msgstr ""
-
-#: inc/options-data.php:340
-#: inc/options-data.php:341
-msgid "Official websites"
-msgstr ""
-
-#: inc/options-data.php:347
-msgid "Display official websites"
-msgstr ""
-
-#: inc/options-data.php:356
-#: inc/options-data.php:357
-msgid "Picture"
-msgstr ""
-
-#: inc/options-data.php:362
-msgid "Display the picture"
-msgstr ""
-
-#: inc/options-data.php:377
-msgid "Display plots. Be careful, this field may need a lot of space. In ideal case, this plugin is used inside a post and not into a widget."
-msgstr ""
-
-#: inc/options-data.php:391
-msgid "Display (how many) producers"
-msgstr ""
-
-#: inc/options-data.php:407
-msgid "Display the production companies"
-msgstr ""
-
-#: inc/options-data.php:413
-#: inc/options-data.php:414
-msgid "Quotes"
-msgstr ""
-
-#: inc/options-data.php:422
-msgid "Display (how many) quotes from movie"
-msgstr ""
-
-#: inc/options-data.php:435
-msgid "Display rating. This option also applies to the pop-up summary."
-msgstr ""
-
-#: inc/options-data.php:450
-msgid "Display the runtime. This option also applies to the pop-up summary."
-msgstr ""
-
-#: inc/options-data.php:465
-msgid "Display (how many) soundtrack"
-msgstr ""
-
-#: inc/options-data.php:478
-msgid "Display website source at the end of the post"
-msgstr ""
-
-#: inc/options-data.php:496
-msgid "Display (how many) tagline"
-msgstr ""
-
-#: inc/options-data.php:502
-#: inc/options-data.php:503
-msgid "Title"
-msgstr ""
-
-#: inc/options-data.php:507
-msgid "Display the title"
-msgstr ""
-
-#: inc/options-data.php:514
-#: inc/options-data.php:515
-msgid "Trailers"
-msgstr ""
-
-#: inc/options-data.php:523
-msgid "Display (how many) trailers"
-msgstr ""
-
-#: inc/options-data.php:532
-#: inc/options-data.php:533
-msgid "Users comment"
-msgstr ""
-
-#: inc/options-data.php:539
-msgid "Display the main user comment"
-msgstr ""
-
 #: inc/options-data.php:552
-msgid "Display writers"
+msgid "Display genre. This option also applies to the pop-up summary."
 msgstr ""
 
 #: inc/options-data.php:557
 #: inc/options-data.php:558
-msgid "Year"
+msgid "Goofs"
 msgstr ""
 
-#: inc/options-data.php:562
-msgid "Display release year. The release year will appear next to the movie's title into brackets."
-msgstr ""
-
-#: inc/options-data.php:577
-msgid "Please "
+#: inc/options-data.php:566
+msgid "Display (how many) goof"
 msgstr ""
 
 #: inc/options-data.php:577
-msgid "activate taxonomy"
+msgid "Keywords"
 msgstr ""
 
-#: inc/options-data.php:577
-msgid " priorly"
-msgstr ""
-
-#: inc/options-data.php:577
-msgid "to access taxonomies options."
-msgstr ""
-
-#: inc/options-data.php:582
-msgid "Select details to use as taxonomy"
-msgstr ""
-
-#: inc/options-data.php:588
-msgid "Use the checkbox to display the taxonomy tags. When activated, selected taxonomy will become blue if it is activated into 'What to display' section and will turn red otherwise."
-msgstr ""
-
-#: inc/options-data.php:590
-msgid "Cautiously select the categories you want to display: it may have some unwanted effects, in particular if you display many movies in the same post at once. When selecting one of the following taxonomy options, it will supersede any other function or link created; for instance, you will not have access anymore to the popups for directors, if directors taxonomy is chosen. Taxonomy will always prevail over other Lumiere functionalities."
-msgstr ""
-
-#: inc/options-data.php:593
-msgid "Note: once activated, each taxonomy category will show a new option to copy a taxonomy template directy into your template folder."
+#: inc/options-data.php:597
+msgid "Display languages. This option also applies to the pop-up summary."
 msgstr ""
 
 #: inc/options-data.php:604
-#: inc/popup-imdb_movie.php:205
-msgid "Actors"
+#: inc/options-data.php:605
+msgid "Official websites"
 msgstr ""
 
-#: inc/options-data.php:644
-msgid "Composers"
+#: inc/options-data.php:620
+#: inc/options-data.php:621
+msgid "Picture"
 msgstr ""
 
-#: inc/options-data.php:663
-msgid "Countries"
+#: inc/options-data.php:626
+msgid "Display the picture"
 msgstr ""
 
-#: inc/options-data.php:683
-msgid "Creators"
+#: inc/options-data.php:641
+msgid "Display plots. Be careful, this field may need a lot of space. In ideal case, this plugin is used inside a post and not into a widget."
 msgstr ""
 
-#: inc/options-data.php:703
-msgid "Directors"
+#: inc/options-data.php:677
+#: inc/options-data.php:678
+msgid "Quotes"
 msgstr ""
 
-#: inc/options-data.php:722
-msgid "Genres"
+#: inc/options-data.php:686
+msgid "Display (how many) quotes from movie"
 msgstr ""
 
-#: inc/options-data.php:761
-msgid "Languages"
+#: inc/options-data.php:699
+msgid "Display rating. This option also applies to the pop-up summary."
 msgstr ""
 
-#: inc/options-data.php:781
-msgid "Producers"
+#: inc/options-data.php:714
+msgid "Display the runtime. This option also applies to the pop-up summary."
 msgstr ""
 
-#: inc/options-data.php:800
-msgid "Writers"
+#: inc/options-data.php:729
+msgid "Display (how many) soundtrack"
 msgstr ""
 
-#: inc/options-data.php:827
-msgid "Position of data"
+#: inc/options-data.php:760
+msgid "Display (how many) tagline"
 msgstr ""
 
-#: inc/options-data.php:834
-msgid "You can select the order for the information selected from \"what to display\" section. Select first the movie detail you want to move, use \"up\" or \"down\" to reorder Lumiere Movies display. Once you are happy with the new layout, click on \"update settings\" to keep it."
+#: inc/options-data.php:766
+#: inc/options-data.php:767
+msgid "Title"
 msgstr ""
 
-#: inc/options-data.php:836
-msgid "\"Source\" movie detail cannot be selected; if it is selected from \"what to display\" section, it will always appear after others movie details"
+#: inc/options-data.php:778
+#: inc/options-data.php:779
+msgid "Trailers"
 msgstr ""
 
-#: inc/options-data.php:847
-msgid "Move selected movie detail:"
+#: inc/options-data.php:796
+#: inc/options-data.php:797
+msgid "Users comment"
+msgstr ""
+
+#: inc/options-data.php:821
+#: inc/options-data.php:822
+msgid "Year"
+msgstr ""
+
+#: inc/options-data.php:826
+msgid "Display release year. The release year will appear next to the movie's title into brackets."
 msgstr ""
 
 #: inc/options-general.php:49
@@ -2137,6 +2303,10 @@ msgstr ""
 #: inc/popup-imdb_movie.php:202
 #: inc/popup-imdb_person.php:121
 msgid "Summary"
+msgstr ""
+
+#: inc/popup-imdb_movie.php:205
+msgid "Actors"
 msgstr ""
 
 #: inc/popup-imdb_movie.php:208

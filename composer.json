@@ -8,13 +8,15 @@
         "codeception/module-phpbrowser": "^1.0.0",
         "codeception/module-asserts": "^1.0.0",
         "codeception/module-webdriver": "^1.2",
-        "codeception/module-db": "^1.0",                                           
-        "codeception/module-filesystem": "^1.0",                                   
-        "codeception/module-cli": "^1.0",                                          
+        "codeception/module-db": "^1.0",
+        "codeception/module-cli": "^1.0",
+        "codeception/module-filesystem": "^1.0",
+        "codeception/module-ftp": "^1.0",
         "codeception/util-universalframework": "^1.0",
         "vlucas/phpdotenv": "^5.3",
         "lucatume/wp-browser": "^3.0",
         "wp-cli/wp-cli-bundle": "^2.5",
-        "wpreadme2markdown/wpreadme2markdown": "^4.0"
+        "wpreadme2markdown/wpreadme2markdown": "^4.0",
+        "phpseclib/phpseclib": "^2.0.14"
     }
 }

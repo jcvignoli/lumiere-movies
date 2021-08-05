@@ -9,11 +9,12 @@ actor: AcceptanceRemoteTester
 modules:
     enabled:
         - \Helper\AcceptanceRemote
-        - WPFilesystem
-#        - WPWebDriver
+        - WPFilesystem # needs local access,use it with remote machine localy mounted
+        - WPWebDriver
+#        - FTP # forces to use WBrowser instead of WPWebDriver
     config:
         WPFilesystem:
-            wpRootFolder: '%TEST_REMOTE_ROOT_FOLDER%'
+            wpRootFolder: '%WP_ROOT_REMOTE_FOLDER%'
         WPDb:
             dsn: '%TEST_REMOTE_DB_DSN%'
             user: '%TEST_REMOTE_DB_USER%'
@@ -35,6 +36,16 @@ modules:
             headers:
                 X_TEST_REQUEST: 1
                 X_WPBROWSER_REQUEST: 1
+        FTP:
+           type: sftp
+           host: '%TEST_REMOTE_FTP_HOST%'
+           port: '%TEST_REMOTE_FTP_PORT%'
+           timeout: 120
+           user: '%TEST_REMOTE_FTP_USERNAME%'
+           password: '%TEST_REMOTE_FTP_PASSWORD%'
+           key: '%TEST_REMOTE_FTP_SSHKEY%'
+           tmp: 'tests/_data/ftp'
+           cleanup: false
 env:
    firefox:
         modules:

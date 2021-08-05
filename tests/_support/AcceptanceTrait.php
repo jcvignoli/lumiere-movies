@@ -93,6 +93,36 @@ trait AcceptanceTrait {
 
 	}
 
+	/** Delete theme file if it exists
+	 * 
+	 */
+	function customThemeFileExistsDelete($file){
+
+		try {
+			$this->seeThemeFileFound("$file");
+			$this->deleteThemeFile("$file");
+			$this->comment("[Action] File $file successfully deleted.");
+		} catch (\PHPUnit_Framework_AssertionFailedError | \NoSuchElementException | \Exception $f) {
+			$this->comment("[No Action] No file $file was found.");
+		} 
+
+	}
+
+	/** Copy theme file if it doesn't exists
+	 * 
+	 */
+	function maybeCopyThemeFile($item){
+
+		try {
+			$this->seeElement("#lumiere_copy_".$item);
+			$this->click("#lumiere_copy_".$item." a");
+			$this->comment("[Action] Template $item was successfully copied to theme folder.");
+		} catch (\PHPUnit_Framework_AssertionFailedError | \NoSuchElementException | \Exception $f) {
+			$this->comment("[No Action] Template $item was already available in theme folder.");
+		} 
+
+	}
+
 }
 
 

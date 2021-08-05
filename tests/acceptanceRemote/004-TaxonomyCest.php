@@ -4,11 +4,20 @@
 
 class TaxonomyCest {
 
-	var $url_base = "";
+	/* Stock the base remote URL
+	 *
+	 */
+	var $url_base_remote = "";
+
+	/* Stock the root remote path
+	 *
+	 */
+	var $root_remote = "";
 
 	public function __construct(){
 
-		$this->url_base = $_ENV['TEST_REMOTE_WP_URL'];
+		$this->url_base_remote = $_ENV['TEST_REMOTE_WP_URL'];
+		$this->root_remote = $_ENV['WP_ROOT_REMOTE_FOLDER'];
 
 	}
 
@@ -41,7 +50,7 @@ class TaxonomyCest {
 	 * @before login
 	 *
 	 */
-	private function enableTaxonomy(AcceptanceRemoteTester $I) {
+	private function maybeEnableTaxonomy(AcceptanceRemoteTester $I) {
 
 		$I->wantTo('Activate taxonomy if disabled');
 
@@ -59,9 +68,9 @@ class TaxonomyCest {
 	 * @before login
 	 *
 	 */
-	private function disableTaxonomy(AcceptanceRemoteTester $I) {
+	private function maybeDisableTaxonomy(AcceptanceRemoteTester $I) {
 
-		$I->wantTo('Activate taxonomy if disabled');
+		$I->wantTo('Disable taxonomy if active');
 
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
 		$I->scrollTo('#imdbwordpress_tooladminmenu');
@@ -78,7 +87,7 @@ class TaxonomyCest {
 	 */
 	public function startingCest(AcceptanceRemoteTester $I){
 
-		$this->enableTaxonomy($I);
+		$this->maybeEnableTaxonomy($I);
 	}
 
 	/** Check if auto widget option display a widget based on the title of the page
@@ -100,13 +109,13 @@ class TaxonomyCest {
 		$I->see('Tehran');
 
 		// Disable taxonomy
-		$this->disableTaxonomy($I);
+		$this->maybeDisableTaxonomy($I);
 
 		$I->amOnPage('/2021/test-codeception/');
 		$I->click( "Tony Zarindast");
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait(7);
-		$I->switchToIFrame("//iframe[@src='$this->url_base$sub_url']");
+		$I->switchToIFrame("//iframe[@src='$this->url_base_remote$sub_url']");
 		$I->see('Golden Cage');
 
 	}
@@ -114,23 +123,75 @@ class TaxonomyCest {
 	/** Check if auto widget option display a widget based on the title of the page
 	 *
 	 * @before login
+	 * @example ["director", "composer"]
+	 *
 	 */
-	public function checkTaxonomyTemplateSystem(AcceptanceRemoteTester $I) {
+	public function checkTaxonomyTemplateSystem(AcceptanceRemoteTester $I, \Codeception\Example $example, \Codeception\Module\Cli $shell) {
 
-		$who = 'director';
+		$shell->runShellCommand( 'touch ' . $this->root_remote . '/wp-content/cache/testcodeception.txt' );
 
-		$I->wantTo("Check if Taxonomy template system works, using $who example");
+		$I->wantTo("Check if Taxonomy template system works");
 
-		// R
-		$I->deleteThemeFile('oceanwp/taxonomy-imdblt_' . $who . '.php');
+		$this->maybeEnableTaxonomy($I);
 
-		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo');
-		$I->scrollTo('#imdb_imdbtaxonomy' . $who .'_yes');
+		// Delete Lumière taxonomy template in theme folder if it exists
+		$I->customThemeFileExistsDelete('oceanwp/taxonomy-imdblt_' . $example[0] . '.php');
+
+		// Activate $item in 'what to display'
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->scrollTo('#imdb_imdbwidget' . $example[1] .'_yes');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy'.$who.'_yes', '#imdbconfig_save' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#update_imdbwidgetSettings' );
 
+		// Activate $item in 'Taxonomy'
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo');
+		$I->scrollTo('#imdb_imdbtaxonomy' . $example[0] .'_yes');
+		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
+			Avoid to throw error if untrue, normal behaviour of codeception 
+			If $element is disabled, check it and then click $submit (form) */
+		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy'.$example[0].'_yes', '#update_imdbwidgetSettings' );
+		/*	Conditional click to copy if the theme is found (in _support/AcceptanceTrait.php)
+			Avoid to throw error if untrue, normal behaviour of codeception 
+			If $element is disabled, check it and then click $submit (form) */
+
+		// Copy Lumière taxonomy template to theme folder
+		$I->maybeCopyThemeFile($example[0]);
+
+		// Check that the template has been successfully implemented
+		$I->amOnPage('/2021/test-codeception/');
+		$I->click( "Tony Zarindast");
+		$I->see('Tehran');
+
+		// Disable $item in 'what to display'
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->scrollTo('#imdb_imdbwidget' . $example[1] .'_yes');
+		$I->CustomDisableCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#update_imdbwidgetSettings' );
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->scrollTo('#taxodetails');
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetactor_yes', '#update_imdbwidgetSettings' );
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetwriter_yes', '#update_imdbwidgetSettings' );
+
+		// Check that the template has been successfully removed
+		$I->amOnPage('/2021/test-codeception/');
+		$I->dontSee('Tony Zarindast');
+
+		// Re-activate $item in 'what to display'
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->scrollTo('#imdb_imdbwidget' . $example[1] .'_yes');
+		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
+			Avoid to throw error if untrue, normal behaviour of codeception 
+			If $element is disabled, check it and then click $submit (form) */
+		$I->CustomActivateCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#update_imdbwidgetSettings' );
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->scrollTo('#taxodetails');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetactor_yes', '#update_imdbwidgetSettings' );
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#update_imdbwidgetSettings' );
 
 	}
 
@@ -142,7 +203,7 @@ class TaxonomyCest {
 	 */
 	public function closingCest(AcceptanceRemoteTester $I){
 
-		$this->enableTaxonomy($I);
+		$this->maybeEnableTaxonomy($I);
 
 	}
 }

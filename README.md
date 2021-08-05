@@ -1,6 +1,6 @@
 # Lumiere Movies
 
-**Contributors:** jcvignoli \
+**Contributors:** @jcvignoli \
 **Donate link:** https://www.paypal.me/jcvignoli \
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 4.0 \
