@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.5.2
+
 v.3.5.1
 * [bug] Fatal error upon installation. "Vendor" folder wasn't included. Changed in lumiere-movies.php management of dependencies.
 * [feature] If new block-based widget is found, do not load pre-5.8 widget.
