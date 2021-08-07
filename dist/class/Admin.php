@@ -346,21 +346,12 @@ class Admin {
 	 */
 	function display_admin_menu_subpages() {
 
-		global $imdb_admin_values, $imdb_widget_values, $imdb_cache_values, $configClass, $utilsClass, $logger;
-
-		$imdb_admin_values = $this->imdb_admin_values;
-		$imdb_widget_values = $this->imdb_widget_values;
-		$imdb_cache_values = $this->imdb_cache_values;
-		$configClass = $this->configClass;
-		$utilsClass = $this->utilsClass;
-		$logger = $this->logger;
-
-		// Make sure cache folder exists and is writable
-		$this->configClass->lumiere_create_cache();
-
 		 ### select the sub-page
 
 		if (!isset($_GET['subsection'])) {
+
+			// Make sure cache folder exists and is writable
+			$this->configClass->lumiere_create_cache();
 
 			$adminGeneral = new \Lumiere\Admin\General();
 
@@ -371,6 +362,9 @@ class Admin {
 			$adminData = new \Lumiere\Admin\Data();
 
 		} elseif ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "cache") ) {
+
+			// Make sure cache folder exists and is writable
+			$this->configClass->lumiere_create_cache();
 
 			$adminCache = new \Lumiere\Admin\Cache();
 
