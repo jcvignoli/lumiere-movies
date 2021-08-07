@@ -89,32 +89,35 @@ class UpdateOptions {
 		// Start the logger
 		$this->configClass->lumiere_start_logger('updaterLumiere');
 
+		// Debug info
+		$this->configClass->lumiere_maybe_log('debug', "[Lumiere][updater] Running updates...");
+
 		/************************************************** 3.5 */
-		if ( (version_compare( $configClass->lumiere_version, "3.5" ) >= 0 )
+		if ( (version_compare( $this->configClass->lumiere_version, "3.5" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 7 ) ){				# update 7
 
 			require_once('updates/7.php');
 
-			return true;
+			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][updater] Update 7 has been run.");
 
 		}
 
 		/************************************************** 3.4.3 */
-		if ( (version_compare( $configClass->lumiere_version, "3.4.3" ) >= 0 )
+		if ( (version_compare( $this->configClass->lumiere_version, "3.4.3" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 6 ) ){				# update 6
 
 			require_once('updates/6.php');
 
-			return true;
+			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][updater] Update 6 has been run.");
 
 		}
 		/************************************************** 3.4.2 */
-		if ( (version_compare( $configClass->lumiere_version, "3.4.2" ) >= 0 )
+		if ( (version_compare( $this->configClass->lumiere_version, "3.4.2" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 5 ) ){				# update 5
 
 			require_once('updates/5.php');
 
-			return true;
+			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][updater] Update 5 has been run.");
 
 		}
 		/************************************************** 3.4 */
@@ -123,18 +126,18 @@ class UpdateOptions {
 
 			require_once('updates/4.php');
 
-			return true;
+			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][updater] Update 4 has been run.");
 
 		}
 
 		/************************************************** 3.3.4 */
 
-		if ( (version_compare( $configClass->lumiere_version, "3.3.4" ) >= 0 )
+		if ( (version_compare( $this->configClass->lumiere_version, "3.3.4" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 3 ) ){ 				# update 3
 
 			require_once('updates/3.php');
 
-			return true;
+			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][updater] Update 3 has been run.");
 
 		}
 		
@@ -145,7 +148,7 @@ class UpdateOptions {
 
 			require_once('updates/2.php');
 
-			return true;
+			$configClass->lumiere_maybe_log('debug', "[Lumiere][updater] Update 2 has been run.");
 
 		}
 
@@ -156,11 +159,10 @@ class UpdateOptions {
 
 			require_once('updates/1.php');
 
-			return true;
+			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][updater] Update 1 has been run.");
 
 		}
 
-		return false;
 
 	}
 

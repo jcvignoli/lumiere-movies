@@ -677,8 +677,8 @@ class Settings extends Config {
 	 **/
 	public function lumiere_maybe_log($function, $text) {
 
-		// If the user can't manage options, exit
-		if ( !current_user_can( 'manage_options' ) ) 
+		// If the user can't manage options and it's not a cron, exit
+		if ( ( !current_user_can( 'manage_options' ) ) && !DOING_CRON )
 			return false;
 
 		if (NULL !== $this->loggerclass)

@@ -1,6 +1,8 @@
 **Changelog**
 
 v.3.5.2
+* [bug] Updates were not running upon updates (only upon activation)
+* [bug] Cronjobs were not throwing debugging text. Added DOING_CRON as new condition in settings class lumiere_maybe_log() & utils class lumiere_activate_debug()
 
 v.3.5.1
 * [bug] Fatal error upon installation. "Vendor" folder wasn't included. Changed in lumiere-movies.php management of dependencies.

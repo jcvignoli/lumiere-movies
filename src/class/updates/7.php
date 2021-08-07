@@ -208,4 +208,4 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'i
 	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
 
 }
-?>
+
