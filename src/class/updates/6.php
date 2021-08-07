@@ -71,4 +71,4 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'im
 
 }
 
-?>
+

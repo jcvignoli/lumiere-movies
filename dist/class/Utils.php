@@ -346,8 +346,8 @@ class Utils {
 	 */
 	function lumiere_activate_debug($options = NULL, $set_error = NULL, $libxml_use = false, $get_screen = NULL) {
 
-		// If the user can't manage options, exit
-		if ( !current_user_can( 'manage_options' ) ) 
+		// If the user can't manage options and it's not a cron, exit
+		if ( ( !current_user_can( 'manage_options' ) ) && !DOING_CRON )
 			return false;
 
 		// Set the highest level of debug reporting

@@ -41,20 +41,21 @@ class InstallCest {
 		AcceptanceTrait::login_universal($I);
 
 	}
-
+	private function test(AcceptanceRemoteTester $I) {
+		$I->loginAsAdmin();
+		$I->saveSessionSnapshot('login');
+}
 	/** Check if plugin can be installed
 	 *
-	 * @before login
 	 *
 	 */
 	public function checkCanInstallLumiere(AcceptanceRemoteTester $I, \Codeception\Module\Cli $shell) {
 
 		$I->wantTo('Check if Lumière plugin can be installed');
+		$I->loginAsAdmin();
 		$I->amOnPluginsPage();
-
-		$I->deactivatePlugin('lumiere-movies');
 		$I->activatePlugin('lumiere-movies');
-
+$I->makeScreenshot('activate');
 		// Check if cron has been installed
 		$I->amOnPage("/wp-admin/tools.php?page=crontrol_admin_manage_page");
 		$I->see('lumiere_cron_hook');
