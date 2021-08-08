@@ -1,15 +1,24 @@
 <?php
 /*
-Plugin Name: Lumière! Movies
-Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
-Description: Add clickable links to informative popups about movies with information extracted from the IMDb. Display data related to movies and people in a widget or inside your post. Fully customizable. The most comprehensive and simplest plugin if you write about movies.
-Version: 3.5.2
-Requires at least: 4.6
-Text Domain: lumiere-movies
-Domain Path: /languages
-Author: psykonevro
-Author URI: https://www.jcvignoli.com/blog
-*/
+ * Lumière Movies
+ * 
+ * Plugin Name: Lumière! Movies
+ * Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
+ * Description: Add informative popups about movies with information extracted from the IMDb. Display data related to movies in a widget and inside your post. The most comprehensive and simplest plugin for adding movies information.
+ * Version: 3.5.2
+ * Requires at least: 4.6
+ * Text Domain: lumiere-movies
+ * Domain Path: /languages
+ * Author: psykonevro
+ * Author URI: https://www.jcvignoli.com/blog
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License version 3, as published by the Free Software Foundation. You may NOT assume
+ * that you can use any other version of the GPL.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 
 // Stop direct call
 if ( ! defined( 'ABSPATH' ) ) 
@@ -31,11 +40,11 @@ if ( (class_exists("\Lumiere\Core")) && (class_exists('\Imdb\Config')) ){
 	register_activation_hook( __FILE__, [ $start , 'lumiere_on_activation' ] );
 
 	# Executed upon plugin deactivation
-	register_deactivation_hook( __FILE__, [ $start , 'lumiere_on_deactivation' ] );
+//	register_deactivation_hook( __FILE__, [ $start , 'lumiere_on_deactivation' ] );
 
 	# Executed upon plugin deactivation
 	// @TODO: stop using deactivation to do uninstall work
-	//register_uninstall_hook(__FILE__, 'lumiere_on_uninstall' );
+	register_uninstall_hook( __FILE__, 'lumiere_on_uninstall' );
 
 // Display error notice, plugin is not properly installed
 } else {

@@ -855,29 +855,29 @@ class Core {
 		// Start the logger
 		$this->configClass->lumiere_start_logger('coreLumiere');
 		// Store the classes so we can use it later
-		$configClass = $this->configClass;
-		$utilsClass = $this->utilsClass;
+
+		$this->configClass->lumiere_maybe_log('debug', "[Lumiere][coreClass][uninstall] Lumière uninstall process debug message.");
 
 		/****** Below actions are executed for everybody */
 
 		// Remove WP Cron shoud it exists
-		$timestamp = wp_next_scheduled( 'lumiere_cron_hook' );
+/*		$timestamp = wp_next_scheduled( 'lumiere_cron_hook' );
 		wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
 
 		// Keep the settings if selected so
-		if ( (isset($imdb_admin_values['imdbkeepsettings'])) && ( $imdb_admin_values['imdbkeepsettings'] == true ) ) {
+		if ( (isset($this->imdb_admin_values['imdbkeepsettings'])) && ( $this->imdb_admin_values['imdbkeepsettings'] == true ) ) {
 
-			$configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][uninstall] Lumière uninstall: keep settings selected, process finished.");
+			$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][uninstall] Lumière uninstall: keep settings selected, process finished.");
 
 			return;
 		}
 
-		/****** Below actions are not executed if the user selected to keep their settings */
+		// Below actions are not executed if the user selected to keep their settings 
 
 		// search for all imdbtaxonomy* in config array, 
 		// if a taxonomy is found, let's get related terms and delete them
-		foreach ( $this->utilsClass->lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
-			$filter_taxonomy = str_replace('imdbtaxonomy', '', $imdb_admin_values['imdburlstringtaxo']  . $key );
+		foreach ( $this->utilsClass->lumiere_array_key_exists_wildcard($this->imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
+			$filter_taxonomy = str_replace('imdbtaxonomy', '', $this->imdb_admin_values['imdburlstringtaxo']  . $key );
 
 			# get all terms, even if empty
 			$terms = get_terms( array(
@@ -889,11 +889,11 @@ class Core {
 			foreach ( $terms as $term ) {
 				wp_delete_term( $term->term_id, $filter_taxonomy ); 
 
-				$configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][uninstall] Taxonomy: term $term in $filter_taxonomy deleted.");
+				$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][uninstall] Taxonomy: term $term in $filter_taxonomy deleted.");
 
 				unregister_taxonomy( $filter_taxonomy );
 
-				$configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][uninstall] Taxonomy: taxonomy $filter_taxonomy deleted.");
+				$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][uninstall] Taxonomy: taxonomy $filter_taxonomy deleted.");
 
 			}
 		}
@@ -903,21 +903,21 @@ class Core {
 		delete_option( 'imdbWidgetOptions' );
 		delete_option( 'imdbCacheOptions' );
 
-		$configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][uninstall] Lumière options deleted.");
+		$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][uninstall] Lumière options deleted.");
 
 		# Remove cache
-		if ( (isset($imdb_cache_values['imdbcachedir'])) && (is_dir($imdb_cache_values['imdbcachedir'])) ) {
+		if ( (isset($this->imdb_cache_values['imdbcachedir'])) && (is_dir($this->imdb_cache_values['imdbcachedir'])) ) {
 
-			$utilsClass->lumiere_unlinkRecursive($imdb_cache_values['imdbcachedir']);
+			$this->utilsClass->lumiere_unlinkRecursive($this->imdb_cache_values['imdbcachedir']);
 
-			$configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][uninstall] Cache files and folder deleted.");
+			$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][uninstall] Cache files and folder deleted.");
 
 		} else {
 
-			$configClass->lumiere_maybe_log('warning', "[Lumiere][coreClass][uninstall] Cache was not removed.");
+			$this->configClass->lumiere_maybe_log('warning', "[Lumiere][coreClass][uninstall] Cache was not removed.");
 
 		}
-
+*/
 	}
 
 
@@ -943,7 +943,7 @@ class Core {
 		/* other settings */
 		'hierarchical' 		=> false, 
 		'public' 			=> true,
-		'args'				=> array('lang' => 'en'),
+/*		'args'				=> array('lang' => 'en'), REMOVED 2021 08 07, what's the point? */
 		'menu_icon' 			=> $imdb_admin_values['imdbplugindirectory'].'pics/lumiere-ico13x13.png',
 		'label' 			=> esc_html__("Lumière ".$filter_taxonomy, 'lumiere-movies'),
 		'query_var' 			=> $imdb_admin_values['imdburlstringtaxo'].$filter_taxonomy, 

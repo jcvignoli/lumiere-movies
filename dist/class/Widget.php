@@ -77,35 +77,28 @@ class LumiereWidget extends \WP_Widget {
 		// Start config class and get the vars
 		if (class_exists("\Lumiere\Settings")) {
 
-			$configClass = new \Lumiere\Settings();
-			$this->configClass = $configClass;
-			$this->imdb_admin_values = $configClass->get_imdb_admin_option();
-			$this->imdb_widget_values = $configClass->get_imdb_widget_option();
-			$this->imdb_cache_values = $configClass->get_imdb_widget_option();
+			$this->configClass = new \Lumiere\Settings();
+			$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
+			$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
+			$this->imdb_cache_values = $this->configClass->get_imdb_widget_option();
 
 			// Start the movie class
-			$movieClass = new \Lumiere\LumiereMovies();
-			$this->movieClass = $movieClass;
+			$this->movieClass = new \Lumiere\LumiereMovies();
 
 			// Start the utilities class
-			$utilsClass = new \Lumiere\Utils();
-			$this->utilsClass = $utilsClass;
+			$this->utilsClass = new \Lumiere\Utils();
+
+			/**
+			 * Activate debug
+			 */
+			# Must match add_action('wp', [$this, 'lumiere_start_logger_wrapper']) timing in class.movie
+			add_action('wp', [ $this, 'lumiere_widget_maybe_start_debug' ]); 
 
 		} else {
 
 			wp_die( esc_html__('Cannot start class movie, class Lumière Settings not found', 'lumiere-movies') );
 
 		}
-
-		/**
-		 * Activate debug
-		 */
-		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
-
-			# Must match add_action('wp', [$this, 'lumiere_start_logger_wrapper']) timing in class.movie
-			add_action('wp', [ $this, 'lumiere_widget_start_debug' ]); 
-
-		} 
 
 		/**
 		 * Register the widget
@@ -137,13 +130,22 @@ class LumiereWidget extends \WP_Widget {
 	 * 
 	 *
 	 */
-	function lumiere_widget_start_debug() {
+	function lumiere_widget_maybe_start_debug() {
 
-		// Start debugging mode
-		$this->utilsClass->lumiere_activate_debug();
+		// If the user can't manage options, exit
+		if ( !current_user_can( 'manage_options' ) ) 
+			return $this->loggerclass = NULL;
 
-		// Start the logger
-		$this->configClass->lumiere_start_logger('lumiereWidget');
+		// Start logger class if debug is selected
+		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
+
+			// Start debugging mode
+			$this->utilsClass->lumiere_activate_debug();
+
+			// Start the logger
+			$this->configClass->lumiere_start_logger('lumiereWidget');
+
+		}
 
 	}
 
