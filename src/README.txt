@@ -93,7 +93,7 @@ If Polylang is installed, new features for taxonomy are added, such as selecting
 
 = Known issues =
 
-* No known issue.
+* None
 
 == Support ==
 

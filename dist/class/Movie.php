@@ -1,6 +1,6 @@
 <?php
 /**
- * Class for displaying movies. This class is automatically catch spans. It displays taxonomy links and add taxonomy according to selected options   
+ * Class for displaying movies. This class automatically catches spans. It displays taxonomy links and add taxonomy according to the selected options   
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -111,7 +111,7 @@ class LumiereMovies {
 
 		// If the user can't manage options, exit
 		if ( !current_user_can( 'manage_options' ) ) 
-			return $this->loggerclass = NULL;
+			return $this->loggerClass = NULL;
 
 		// Start logger class if debug is selected
 		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
@@ -2075,7 +2075,7 @@ class LumiereMovies {
 		$imdb_admin_values = $this->imdb_admin_values;
 		
 		// ************** Vars and sanitization */
-		$lang_term = 'en'; # language to register the term with, always English
+		$lang_term = 'en'; # language to register the term with, English by default
 		$output = "";
 		$list_taxonomy_term = "";
 		$layout = esc_attr($layout);
@@ -2099,10 +2099,12 @@ class LumiereMovies {
 				// if the tag doesn't exist
 				if ( ! $term = term_exists( $taxonomy_term, $taxonomy_category_full ) ) 
 					// insert it and get its id
-					$term = wp_insert_term($taxonomy_term, $taxonomy_category_full, array('lang' => $lang_term) );
+					// $term = wp_insert_term($taxonomy_term, $taxonomy_category_full, array('lang' => $lang_term) );
+					// I believe adding the above array is useless
+					$term = wp_insert_term($taxonomy_term, $taxonomy_category_full );
 
-				// Create a list of Lumière tags meant to be inserted to Lumière Taxonomy
-				$list_taxonomy_term .= $taxonomy_term . ", " ;
+					// Create a list of Lumière tags meant to be inserted to Lumière Taxonomy
+					$list_taxonomy_term .= $taxonomy_term . ", " ;
 
 			}
 		}
@@ -2115,8 +2117,17 @@ class LumiereMovies {
 			# wp_set_post_tags(get_the_ID(), $list_taxonomy_term, 'post_tag', true); 
 
 			// Compatibility with Polylang WordPress plugin, add a language to the taxonomy term
-			if ( function_exists('pll_set_term_language') ) 
-				$this->lumiere_add_taxo_lang_to_polylang( $term['term_id'], $lang_term );
+			if ( function_exists('pll_set_term_language') ) {
+
+				// Get current language of the post, and add it to the term
+				if ( pll_current_language() ) {
+
+					$lang = pll_current_language();
+
+				} 
+
+				$this->lumiere_add_taxo_lang_to_polylang( $term['term_id'], $lang );
+			}
 
 		}
 
@@ -2218,16 +2229,18 @@ class LumiereMovies {
 
 	}
 
-	/** Polylang WordPress Plugin Compatibility
-	** Add a language to the taxonomy term in Polylang 
-	** Perhaps needed to keep the rewrite path to ie /imdblt_director/name_of_director functional with Polylang
-	**
-	** @param mandatory string $term_id -> id of the taxonomy term, usually got after taxonomy term insertition
-	** @param optional string $lang -> language of the taxonomy term utilised by Polylang
-	 **/
-	function lumiere_add_taxo_lang_to_polylang( $term_id, $lang = 'en' ) {
+	/* Polylang WordPress Plugin Compatibility
+	 * Add a language to the taxonomy term in Polylang 
+	 *
+	 * @param mandatory string $term_id -> id of the taxonomy term, usually got after taxonomy term insertition
+	 * @param mandatory string $lang -> language of the taxonomy term utilised by Polylang
+	 */
+	function lumiere_add_taxo_lang_to_polylang( $term_id, $lang ) {
 
-		return pll_set_term_language($term_id, $lang);
+//		if ( pll_default_language() == $lang )
+//			pll_save_term_translations( array ( $lang, $term_id) );
+
+		pll_set_term_language($term_id, $lang);
 
 	}
 

@@ -2,20 +2,20 @@
 # This file is distributed under the same license as the Lumière! Movies plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Lumière! Movies 3.5.1\n"
+"Project-Id-Version: Lumière! Movies 3.5.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-08-05T18:58:16-03:00\n"
+"POT-Creation-Date: 2021-08-08T14:24:38-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
 
 #. Plugin Name of the plugin
-#: class/Widget.php:327
+#: class/Widget.php:329
 msgid "Lumière! Movies"
 msgstr ""
 
@@ -24,7 +24,7 @@ msgid "https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin"
 msgstr ""
 
 #. Description of the plugin
-msgid "Add clickable links to informative popups about movies with information extracted from the IMDb. Display data related to movies and people in a widget or inside your post. Fully customizable. The most comprehensive and simplest plugin if you write about movies."
+msgid "Add informative popups about movies with information extracted from the IMDb. Display data related to movies in a widget and inside your post. The most comprehensive and simplest plugin for adding movies information."
 msgstr ""
 
 #. Author of the plugin
@@ -379,7 +379,7 @@ msgstr ""
 #: class/Admin/Cache.php:803
 #: inc/popup-imdb_movie.php:249
 #: inc/popup-imdb_person.php:245
-#: theme/taxonomy-imdblt_people.php:124
+#: theme/taxonomy-imdblt_people.php:203
 msgid "no picture"
 msgstr ""
 
@@ -1610,7 +1610,7 @@ msgstr ""
 msgid "Lumiere Query Interface"
 msgstr ""
 
-#: class/Core.php:955
+#: class/Core.php:948
 msgid "Lumière "
 msgstr ""
 
@@ -1652,7 +1652,7 @@ msgid "to find the IMDb's ID."
 msgstr ""
 
 #: class/Movie.php:84
-#: class/Widget.php:96
+#: class/Widget.php:99
 msgid "Cannot start class movie, class Lumière Settings not found"
 msgstr ""
 
@@ -1828,8 +1828,8 @@ msgstr[1] ""
 #: class/Movie.php:1880
 #: class/Movie.php:1956
 #: class/Movie.php:1961
-#: class/Movie.php:2171
-#: class/Movie.php:2173
+#: class/Movie.php:2182
+#: class/Movie.php:2184
 msgid "open a new window with IMDb informations"
 msgstr ""
 
@@ -1862,8 +1862,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:1939
-#: class/Movie.php:2133
-#: class/Movie.php:2150
+#: class/Movie.php:2144
+#: class/Movie.php:2161
 msgid "Find similar taxonomy results"
 msgstr ""
 
@@ -1913,11 +1913,11 @@ msgstr ""
 msgid "Add movie details to your pages with Lumière! Legacy version: as of WordPress 5.8, prefer the new widget."
 msgstr ""
 
-#: class/Widget.php:219
+#: class/Widget.php:221
 msgid "Lumière! Movies (legacy)"
 msgstr ""
 
-#: class/Widget.php:339
+#: class/Widget.php:341
 msgid "Widget title:"
 msgstr ""
 
@@ -1931,7 +1931,7 @@ msgstr ""
 #: inc/highslide_download.php:57
 #: inc/move_template_taxonomy.php:9
 #: inc/move_template_taxonomy.php:62
-#: lumiere-movies.php:16
+#: lumiere-movies.php:25
 msgid "You are not allowed to call this page directly."
 msgstr ""
 
@@ -2076,34 +2076,34 @@ msgid "Full biography"
 msgstr ""
 
 #: inc/popup-imdb_person.php:148
-#: theme/taxonomy-imdblt_people.php:150
+#: theme/taxonomy-imdblt_people.php:230
 msgid "Born on"
 msgstr ""
 
 #: inc/popup-imdb_person.php:155
 #: inc/popup-imdb_person.php:172
-#: theme/taxonomy-imdblt_people.php:159
-#: theme/taxonomy-imdblt_people.php:181
+#: theme/taxonomy-imdblt_people.php:239
+#: theme/taxonomy-imdblt_people.php:261
 msgid "in"
 msgstr ""
 
 #: inc/popup-imdb_person.php:166
-#: theme/taxonomy-imdblt_people.php:175
+#: theme/taxonomy-imdblt_people.php:255
 msgid "Died on"
 msgstr ""
 
 #: inc/popup-imdb_person.php:175
-#: theme/taxonomy-imdblt_people.php:184
+#: theme/taxonomy-imdblt_people.php:264
 msgid "cause"
 msgstr ""
 
 #: inc/popup-imdb_person.php:187
-#: theme/taxonomy-imdblt_people.php:202
+#: theme/taxonomy-imdblt_people.php:282
 msgid "Biography"
 msgstr ""
 
 #: inc/popup-imdb_person.php:193
-#: theme/taxonomy-imdblt_people.php:208
+#: theme/taxonomy-imdblt_people.php:288
 msgid "click to expand"
 msgstr ""
 
@@ -2149,17 +2149,17 @@ msgid "No result found."
 msgstr ""
 
 #: theme/taxonomy-imdblt_items.php:27
-#: theme/taxonomy-imdblt_people.php:288
+#: theme/taxonomy-imdblt_people.php:398
 msgid "Open the blog "
 msgstr ""
 
 #: theme/taxonomy-imdblt_items.php:45
-#: theme/taxonomy-imdblt_people.php:317
+#: theme/taxonomy-imdblt_people.php:427
 msgid "Filed under: "
 msgstr ""
 
 #: theme/taxonomy-imdblt_items.php:49
-#: theme/taxonomy-imdblt_people.php:321
+#: theme/taxonomy-imdblt_people.php:430
 msgid "Tags: "
 msgstr ""
 
@@ -2167,16 +2167,21 @@ msgstr ""
 msgid "No post found."
 msgstr ""
 
-#: theme/taxonomy-imdblt_people.php:246
+#: theme/taxonomy-imdblt_people.php:327
 msgid "Taxonomy for "
 msgstr ""
 
-#: theme/taxonomy-imdblt_people.php:281
+#: theme/taxonomy-imdblt_people.php:391
 msgid "In the role of"
 msgstr ""
 
-#: theme/taxonomy-imdblt_people.php:411
-msgid "Change language"
+#: theme/taxonomy-imdblt_people.php:506
+msgid "All"
+msgstr ""
+
+#: theme/taxonomy-imdblt_people.php:524
+#: theme/taxonomy-imdblt_people.php:526
+msgid "Filter language"
 msgstr ""
 
 #: blocks/main-block.js:25
