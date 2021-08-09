@@ -346,7 +346,6 @@ class Taxonomystandard {
 				$args = array(
 					'post_type'      => ['post', 'page'],
 					'post_status'    => 'publish',
-
 					'tax_query' => array(
 						array(
 							'taxonomy' => esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . $people,

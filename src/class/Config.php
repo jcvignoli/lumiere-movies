@@ -14,10 +14,10 @@ namespace Lumiere;
 if ( ! defined( 'WPINC' ) ) 
 	wp_die('You can not call directly this page');
 
-// use IMDbPHP config class in class/imdbphp/Imdb/Config.php
+// use IMDbPHP config class in /vendor/
 use \Imdb\Config;
 
-// use Monolog library in class/imdbphp/Monolog/
+// use Monolog library in /vendor/
 use Monolog\Logger;
 
 class Settings extends Config {
@@ -54,9 +54,18 @@ class Settings extends Config {
 	*/
 	public $lumiere_pics_dir;
 
-	/* URL for javascript path, built in lumiere_define_constants()
+	/* URL for javascript dir & path, built in lumiere_define_constants()
 	*/
 	public $lumiere_js_path;
+	public $lumiere_js_dir;
+
+	/* URL for blocks dir, built in lumiere_define_constants()
+	*/
+	public $lumiere_blocks_dir;
+
+	/* URL for javascript dir, built in lumiere_define_constants()
+	*/
+	public $lumiere_css_dir;
 
 	/* Internal URL pages constants
 	*/
@@ -155,19 +164,23 @@ class Settings extends Config {
 	 **
 	 **/
 	/* @TODO: work on the consistancy with function get_imdb_*_option, so this can be called either before or after */
-	/* @TODO: get rid of the global $imdb_admin_values */
 	function lumiere_define_constants() {
 
-		global $imdb_admin_values;
-
 		/* BUILD $imdb_admin_values['imdbplugindirectory'] */
-		$imdb_admin_values['imdbplugindirectory'] = isset($imdb_admin_values['imdbplugindirectory']) ? $imdb_admin_values['imdbplugindirectory'] : plugin_dir_url( __DIR__ );
+		$this->imdb_admin_values['imdbplugindirectory'] = isset($this->imdb_admin_values['imdbplugindirectory']) ? $this->imdb_admin_values['imdbplugindirectory'] : plugin_dir_url( __DIR__ );
 
 		/* BUILD directory for pictures */
 		$this->lumiere_pics_dir =  plugin_dir_url( __DIR__ ) . 'pics/';
 
 		/* BUILD directory for javascripts */
 		$this->lumiere_js_path =  plugin_dir_path( __DIR__ ) . 'js/';
+		$this->lumiere_js_dir =  plugin_dir_url( __DIR__ ) . 'js/';
+
+		/* BUILD directory for css */
+		$this->lumiere_css_dir =  plugin_dir_url( __DIR__ ) . 'css/';
+
+		/* BUILD directory for blocks */
+		$this->lumiere_blocks_dir =  plugin_dir_url( __DIR__ ) . 'blocks/';
 
 		/* BUILD LUMIERE_VERSION */
 		$lumiere_version_recherche = file_get_contents( plugin_dir_path( __DIR__ ) . 'README.txt');
@@ -175,7 +188,7 @@ class Settings extends Config {
 		$this->lumiere_version = $lumiere_version_match[1];
 
 		/* BUILD URLSTRINGS for popups */
-		$this->lumiere_urlstring = (isset($imdb_admin_values['imdburlpopups'])) ? $imdb_admin_values['imdburlpopups'] : "/imdblt/";
+		$this->lumiere_urlstring = (isset($this->imdb_admin_values['imdburlpopups'])) ? $this->imdb_admin_values['imdburlpopups'] : "/imdblt/";
 		$this->lumiere_urlstringfilms = $this->lumiere_urlstring . "film/";
 		$this->lumiere_urlstringperson = $this->lumiere_urlstring . "person/";
 		$this->lumiere_urlstringsearch = $this->lumiere_urlstring . "search/";

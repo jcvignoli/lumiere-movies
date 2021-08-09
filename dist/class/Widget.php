@@ -183,12 +183,12 @@ class LumiereWidget extends \WP_Widget {
 	function lumiere_register_widget_block() {
 
 		wp_register_script( "lumiere_block_widget", 
-			$this->imdb_admin_values['imdbplugindirectory'] . 'blocks/widget-block.js',
+			$this->configClass->lumiere_blocks_dir . 'widget-block.js',
 			[ 'wp-blocks', 'wp-element', 'wp-editor','wp-components','wp-i18n','wp-data'  ], 
 			$this->configClass->lumiere_version );
 
 		wp_register_style( "lumiere_block_widget", 
-			$this->imdb_admin_values['imdbplugindirectory'] . 'blocks/widget-block.css',
+			$this->configClass->lumiere_blocks_dir . 'widget-block.css',
 			array(), 
 			$this->configClass->lumiere_version );
 

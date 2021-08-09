@@ -141,7 +141,7 @@ padding-bottom:20px;}
 /*grey, default*/
 .lumiere-lines-common_grey{	/* additional theme selected in the menu option */
 border-left:1px solid black;border-right:1px solid black;background-color:grey;color:white;}
-.lumiere-lines-common_grey a{color:gold;}
+.lumiere-lines-common_grey a{color:gold;text-decoration:none !important;}
 .lumiere-lines-common_grey a:hover{color:white;}
 .lumiere-lines-common_grey:last-child { border-bottom:1px solid black;border-radius:0 0 10px 10px; }
 /*white*/

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-08-08T14:24:38-03:00\n"
+"POT-Creation-Date: 2021-08-09T03:44:00-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
@@ -68,48 +68,38 @@ msgid "Help"
 msgstr ""
 
 #: class/Admin.php:294
-#: inc/admin_pages.php:56
 msgid "admin options"
 msgstr ""
 
 #: class/Admin.php:301
-#: inc/admin_pages.php:63
 msgid "General Options"
 msgstr ""
 
 #: class/Admin.php:310
-#: inc/admin_pages.php:72
 msgid "Data Management"
 msgstr ""
 
 #: class/Admin.php:317
-#: inc/admin_pages.php:79
 msgid "Widget unactivated"
 msgstr ""
 
 #: class/Admin.php:322
-#: inc/admin_pages.php:89
 msgid "Auto taxonomy"
 msgstr ""
 
 #: class/Admin.php:322
-#: inc/admin_pages.php:84
-#: inc/admin_pages.php:89
 msgid "unactivated"
 msgstr ""
 
 #: class/Admin.php:330
-#: inc/admin_pages.php:97
 msgid "Cache management"
 msgstr ""
 
 #: class/Admin.php:335
-#: inc/admin_pages.php:102
 msgid "How to use Lumière!, check FAQs & changelog"
 msgstr ""
 
 #: class/Admin.php:336
-#: inc/admin_pages.php:103
 msgid "help"
 msgstr ""
 
@@ -377,8 +367,8 @@ msgstr ""
 
 #: class/Admin/Cache.php:694
 #: class/Admin/Cache.php:803
-#: inc/popup-imdb_movie.php:249
-#: inc/popup-imdb_person.php:245
+#: inc/popup-imdb_movie.php:280
+#: inc/popup-imdb_person.php:269
 #: theme/taxonomy-imdblt_people.php:203
 msgid "no picture"
 msgstr ""
@@ -536,7 +526,7 @@ msgid "Click on \"reset settings\" to refresh the values."
 msgstr ""
 
 #: class/Admin/Data.php:60
-#: class/Config.php:239
+#: class/Config.php:252
 msgid "actor"
 msgstr ""
 
@@ -557,7 +547,7 @@ msgid "plot"
 msgstr ""
 
 #: class/Admin/Data.php:64
-#: class/Config.php:243
+#: class/Config.php:256
 msgid "producer"
 msgstr ""
 
@@ -995,8 +985,8 @@ msgid "This limits the number of results in a movie query."
 msgstr ""
 
 #: class/Admin/General.php:414
-#: inc/popup-imdb_movie.php:214
-#: inc/popup-imdb_person.php:130
+#: inc/popup-imdb_movie.php:245
+#: inc/popup-imdb_person.php:154
 msgid "Misc"
 msgstr ""
 
@@ -1552,65 +1542,65 @@ msgstr ""
 msgid "3. It is possible to limit the number of results in the queries using its dedicated option. The less results there is, the less server resources are required and the faster the output is displayed. This limit number applies to the search of movies with a similar name (menu option in movies popups) and in "
 msgstr ""
 
-#: class/Config.php:240
+#: class/Config.php:253
 msgid "composer"
 msgstr ""
 
-#: class/Config.php:241
+#: class/Config.php:254
 msgid "creator"
 msgstr ""
 
-#: class/Config.php:242
+#: class/Config.php:255
 msgid "director"
 msgstr ""
 
-#: class/Config.php:244
+#: class/Config.php:257
 msgid "writer"
 msgstr ""
 
-#: class/Config.php:247
+#: class/Config.php:260
 msgid "color"
 msgstr ""
 
-#: class/Config.php:248
+#: class/Config.php:261
 msgid "country"
 msgstr ""
 
-#: class/Config.php:249
+#: class/Config.php:262
 msgid "genre"
 msgstr ""
 
-#: class/Config.php:250
+#: class/Config.php:263
 msgid "keyword"
 msgstr ""
 
-#: class/Config.php:251
+#: class/Config.php:264
 msgid "language"
 msgstr ""
 
-#: class/Core.php:591
-#: class/Core.php:601
+#: class/Core.php:586
+#: class/Core.php:596
 msgid "Informations about "
 msgstr ""
 
-#: class/Core.php:591
-#: class/Core.php:601
+#: class/Core.php:586
+#: class/Core.php:596
 msgid "Unknown"
 msgstr ""
 
-#: class/Core.php:605
+#: class/Core.php:600
 msgid "No query entered"
 msgstr ""
 
-#: class/Core.php:606
+#: class/Core.php:601
 msgid "Search query for "
 msgstr ""
 
-#: class/Core.php:614
+#: class/Core.php:609
 msgid "Lumiere Query Interface"
 msgstr ""
 
-#: class/Core.php:948
+#: class/Core.php:943
 msgid "Lumière "
 msgstr ""
 
@@ -1670,31 +1660,31 @@ msgid "no picture found"
 msgstr ""
 
 #: class/Movie.php:767
-#: inc/popup-imdb_movie.php:406
+#: inc/popup-imdb_movie.php:437
 msgid "Country"
 msgid_plural "Countries"
 msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:811
-#: inc/popup-imdb_movie.php:341
+#: inc/popup-imdb_movie.php:372
 msgid "Runtime"
 msgstr ""
 
 #: class/Movie.php:813
-#: inc/popup-imdb_movie.php:345
+#: inc/popup-imdb_movie.php:376
 msgid "minutes"
 msgstr ""
 
 #: class/Movie.php:838
-#: inc/popup-imdb_movie.php:383
+#: inc/popup-imdb_movie.php:414
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:886
-#: inc/popup-imdb_movie.php:361
+#: inc/popup-imdb_movie.php:392
 msgid "Rating"
 msgstr ""
 
@@ -1707,22 +1697,22 @@ msgid "(max 10)"
 msgstr ""
 
 #: class/Movie.php:898
-#: inc/popup-imdb_movie.php:364
+#: inc/popup-imdb_movie.php:395
 msgid "vote average "
 msgstr ""
 
 #: class/Movie.php:898
-#: inc/popup-imdb_movie.php:364
+#: inc/popup-imdb_movie.php:395
 msgid " out of 10"
 msgstr ""
 
 #: class/Movie.php:899
-#: inc/popup-imdb_movie.php:365
+#: inc/popup-imdb_movie.php:396
 msgid "votes"
 msgstr ""
 
 #: class/Movie.php:927
-#: inc/popup-imdb_movie.php:430
+#: inc/popup-imdb_movie.php:462
 msgid "Genre"
 msgid_plural "Genres"
 msgstr[0] ""
@@ -1735,7 +1725,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:1023
-#: inc/popup-imdb_movie.php:751
+#: inc/popup-imdb_movie.php:784
 msgid "Goof"
 msgid_plural "Goofs"
 msgstr[0] ""
@@ -1788,7 +1778,7 @@ msgid "Link to local IMDb"
 msgstr ""
 
 #: class/Movie.php:1407
-#: inc/popup-imdb_movie.php:722
+#: inc/popup-imdb_movie.php:755
 msgid "Soundtrack"
 msgid_plural "Soundtracks"
 msgstr[0] ""
@@ -1807,10 +1797,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:1555
-#: inc/popup-imdb_movie.php:129
-#: inc/popup-imdb_movie.php:283
-#: inc/popup-imdb_movie.php:525
-#: inc/popup-search.php:100
+#: inc/popup-imdb_movie.php:160
+#: inc/popup-imdb_movie.php:314
+#: inc/popup-imdb_movie.php:558
+#: inc/popup-search.php:127
 msgid "Director"
 msgid_plural "Directors"
 msgstr[0] ""
@@ -1840,14 +1830,14 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:1691
-#: inc/popup-imdb_movie.php:598
+#: inc/popup-imdb_movie.php:631
 msgid "Producer"
 msgid_plural "Producers"
 msgstr[0] ""
 msgstr[1] ""
 
 #: class/Movie.php:1772
-#: inc/popup-imdb_movie.php:563
+#: inc/popup-imdb_movie.php:596
 msgid "Writer"
 msgid_plural "Writers"
 msgstr[0] ""
@@ -1855,7 +1845,7 @@ msgstr[1] ""
 
 #: class/Movie.php:1851
 #: class/Movie.php:1925
-#: inc/popup-imdb_movie.php:479
+#: inc/popup-imdb_movie.php:512
 msgid "Actor"
 msgid_plural "Actors"
 msgstr[0] ""
@@ -1868,7 +1858,7 @@ msgid "Find similar taxonomy results"
 msgstr ""
 
 #: class/Movie.php:2004
-#: inc/popup-imdb_movie.php:656
+#: inc/popup-imdb_movie.php:689
 msgid "Plot"
 msgid_plural "Plots"
 msgstr[0] ""
@@ -1921,10 +1911,6 @@ msgstr ""
 msgid "Widget title:"
 msgstr ""
 
-#: inc/admin_pages.php:84
-msgid "Direct search"
-msgstr ""
-
 #: inc/gutenberg-search.php:18
 #: inc/gutenberg-search.php:129
 #: inc/highslide_download.php:9
@@ -1948,7 +1934,7 @@ msgid "Identification number"
 msgstr ""
 
 #: inc/gutenberg-search.php:86
-#: inc/popup-search.php:114
+#: inc/popup-search.php:141
 msgid "Maximum of results reached. You can increase it in admin options."
 msgstr ""
 
@@ -1960,206 +1946,206 @@ msgstr ""
 msgid "Search a movie IMDb ID"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:51
+#: inc/popup-imdb_movie.php:76
 msgid "Cannot start popup movies, class Lumière Settings not found"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:93
+#: inc/popup-imdb_movie.php:124
 msgid "No config option set"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:117
+#: inc/popup-imdb_movie.php:148
 msgid "No result found for"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:122
-#: inc/popup-search.php:84
+#: inc/popup-imdb_movie.php:153
+#: inc/popup-search.php:111
 msgid "Results related to"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:126
-#: inc/popup-search.php:97
+#: inc/popup-imdb_movie.php:157
+#: inc/popup-search.php:124
 msgid "Matching titles"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:141
+#: inc/popup-imdb_movie.php:172
 msgid "Maximum of results reached."
 msgstr ""
 
-#: inc/popup-imdb_movie.php:149
-#: inc/popup-imdb_movie.php:157
-#: inc/popup-search.php:130
-#: inc/popup-search.php:147
+#: inc/popup-imdb_movie.php:180
+#: inc/popup-imdb_movie.php:188
+#: inc/popup-search.php:157
+#: inc/popup-search.php:174
 msgid "more on"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:161
-#: inc/popup-search.php:154
+#: inc/popup-imdb_movie.php:192
+#: inc/popup-search.php:181
 msgid "No director found."
 msgstr ""
 
-#: inc/popup-imdb_movie.php:199
+#: inc/popup-imdb_movie.php:230
 msgid "Search for other movies with the same title"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:199
+#: inc/popup-imdb_movie.php:230
 msgid "Similar Titles"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:202
+#: inc/popup-imdb_movie.php:233
 msgid "Movie"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:202
-#: inc/popup-imdb_person.php:121
+#: inc/popup-imdb_movie.php:233
+#: inc/popup-imdb_person.php:145
 msgid "Summary"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:205
+#: inc/popup-imdb_movie.php:236
 msgid "Actors"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:208
+#: inc/popup-imdb_movie.php:239
 msgid "Crew"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:211
+#: inc/popup-imdb_movie.php:242
 msgid "Plots"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:290
-#: inc/popup-imdb_movie.php:319
-#: inc/popup-imdb_movie.php:495
-#: inc/popup-imdb_movie.php:537
-#: inc/popup-imdb_movie.php:575
-#: inc/popup-imdb_movie.php:610
+#: inc/popup-imdb_movie.php:321
+#: inc/popup-imdb_movie.php:350
+#: inc/popup-imdb_movie.php:528
+#: inc/popup-imdb_movie.php:570
+#: inc/popup-imdb_movie.php:608
+#: inc/popup-imdb_movie.php:643
 msgid "link to imdb"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:316
+#: inc/popup-imdb_movie.php:347
 msgid "Main actors"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:638
+#: inc/popup-imdb_movie.php:671
 msgid "Plot summary"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:685
-#: inc/popup-imdb_person.php:606
+#: inc/popup-imdb_movie.php:718
+#: inc/popup-imdb_person.php:630
 msgid "Trivia"
 msgid_plural "Trivias"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/popup-imdb_movie.php:694
+#: inc/popup-imdb_movie.php:727
 msgid "click to show more trivias"
 msgstr ""
 
-#: inc/popup-imdb_movie.php:760
+#: inc/popup-imdb_movie.php:793
 msgid "click to show more goofs"
 msgstr ""
 
-#: inc/popup-imdb_person.php:50
+#: inc/popup-imdb_person.php:69
 msgid "Cannot start popup person, class Lumière Settings not found"
 msgstr ""
 
-#: inc/popup-imdb_person.php:118
+#: inc/popup-imdb_person.php:142
 msgid "Back"
 msgstr ""
 
-#: inc/popup-imdb_person.php:124
+#: inc/popup-imdb_person.php:148
 msgid "Full filmography"
 msgstr ""
 
-#: inc/popup-imdb_person.php:127
+#: inc/popup-imdb_person.php:151
 msgid "Full biography"
 msgstr ""
 
-#: inc/popup-imdb_person.php:148
+#: inc/popup-imdb_person.php:172
 #: theme/taxonomy-imdblt_people.php:230
 msgid "Born on"
 msgstr ""
 
-#: inc/popup-imdb_person.php:155
-#: inc/popup-imdb_person.php:172
+#: inc/popup-imdb_person.php:179
+#: inc/popup-imdb_person.php:196
 #: theme/taxonomy-imdblt_people.php:239
 #: theme/taxonomy-imdblt_people.php:261
 msgid "in"
 msgstr ""
 
-#: inc/popup-imdb_person.php:166
+#: inc/popup-imdb_person.php:190
 #: theme/taxonomy-imdblt_people.php:255
 msgid "Died on"
 msgstr ""
 
-#: inc/popup-imdb_person.php:175
+#: inc/popup-imdb_person.php:199
 #: theme/taxonomy-imdblt_people.php:264
 msgid "cause"
 msgstr ""
 
-#: inc/popup-imdb_person.php:187
+#: inc/popup-imdb_person.php:211
 #: theme/taxonomy-imdblt_people.php:282
 msgid "Biography"
 msgstr ""
 
-#: inc/popup-imdb_person.php:193
+#: inc/popup-imdb_person.php:217
 #: theme/taxonomy-imdblt_people.php:288
 msgid "click to expand"
 msgstr ""
 
-#: inc/popup-imdb_person.php:311
-#: inc/popup-imdb_person.php:361
-#: inc/popup-imdb_person.php:560
-#: inc/popup-imdb_person.php:613
-#: inc/popup-imdb_person.php:680
-#: inc/popup-imdb_person.php:716
+#: inc/popup-imdb_person.php:335
+#: inc/popup-imdb_person.php:385
+#: inc/popup-imdb_person.php:584
+#: inc/popup-imdb_person.php:637
+#: inc/popup-imdb_person.php:704
+#: inc/popup-imdb_person.php:740
 msgid "see all"
 msgstr ""
 
-#: inc/popup-imdb_person.php:476
+#: inc/popup-imdb_person.php:500
 msgid "Biographical movies"
 msgstr ""
 
-#: inc/popup-imdb_person.php:498
+#: inc/popup-imdb_person.php:522
 msgid "Portrayed in"
 msgstr ""
 
-#: inc/popup-imdb_person.php:520
+#: inc/popup-imdb_person.php:544
 msgid "Interviews"
 msgstr ""
 
-#: inc/popup-imdb_person.php:552
+#: inc/popup-imdb_person.php:576
 msgid "Printed publicity"
 msgstr ""
 
-#: inc/popup-imdb_person.php:646
+#: inc/popup-imdb_person.php:670
 msgid "Nicknames"
 msgstr ""
 
-#: inc/popup-imdb_person.php:673
+#: inc/popup-imdb_person.php:697
 msgid "Personal quotes"
 msgstr ""
 
-#: inc/popup-imdb_person.php:709
+#: inc/popup-imdb_person.php:733
 msgid "Trademarks"
 msgstr ""
 
-#: inc/popup-search.php:89
+#: inc/popup-search.php:116
 msgid "No result found."
 msgstr ""
 
 #: theme/taxonomy-imdblt_items.php:27
-#: theme/taxonomy-imdblt_people.php:398
+#: theme/taxonomy-imdblt_people.php:397
 msgid "Open the blog "
 msgstr ""
 
 #: theme/taxonomy-imdblt_items.php:45
-#: theme/taxonomy-imdblt_people.php:427
+#: theme/taxonomy-imdblt_people.php:426
 msgid "Filed under: "
 msgstr ""
 
 #: theme/taxonomy-imdblt_items.php:49
-#: theme/taxonomy-imdblt_people.php:430
+#: theme/taxonomy-imdblt_people.php:429
 msgid "Tags: "
 msgstr ""
 
@@ -2171,16 +2157,16 @@ msgstr ""
 msgid "Taxonomy for "
 msgstr ""
 
-#: theme/taxonomy-imdblt_people.php:391
+#: theme/taxonomy-imdblt_people.php:390
 msgid "In the role of"
 msgstr ""
 
-#: theme/taxonomy-imdblt_people.php:506
+#: theme/taxonomy-imdblt_people.php:505
 msgid "All"
 msgstr ""
 
-#: theme/taxonomy-imdblt_people.php:524
-#: theme/taxonomy-imdblt_people.php:526
+#: theme/taxonomy-imdblt_people.php:523
+#: theme/taxonomy-imdblt_people.php:525
 msgid "Filter language"
 msgstr ""
 
