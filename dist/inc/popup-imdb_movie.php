@@ -56,10 +56,10 @@ class PopupMovie {
 			$this->typeSearch = $this->configClass->lumiere_select_type_search();
 
 			// Activate debug and start logger class if debug is selected
-			if ( (isset($this->configClass->imdb_admin_values['imdbdebug'])) && ($this->configClass->imdb_admin_values['imdbdebug'] == 1) && ( current_user_can( 'manage_options' ) ) ){
+			if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) && ( current_user_can( 'manage_options' ) ) ){
 
 				// Activate debug
-				$this->utilsClass->lumiere_activate_debug($this->imdb_admin_values, NULL, 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+				$this->utilsClass->lumiere_activate_debug(NULL, NULL, 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
 				// Start the logger
 				$this->configClass->lumiere_start_logger('popupMovie');
