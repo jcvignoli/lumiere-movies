@@ -325,8 +325,8 @@ class Settings extends Config {
 			'imdbwordpress_tooladminmenu'=>true,	/* Top menu */
 			'imdbpopup_highslide'=>true,
 			'imdbtaxonomy'=> true,
-			'imdbHowManyUpdates'=> $this->current_number_updates, # for use in class.update-options.php
-			'imdbseriemovies' => 'movies+series', /* options: movies, series, movies+series, videogames */
+			'imdbHowManyUpdates'=> $this->current_number_updates, # for use in class UpdateOptions
+			'imdbseriemovies' => 'movies+series', 	/* options: movies, series, movies+series, videogames */
 
 		);
 		$imdbAdminOptions['imdbplugindirectory'] = $imdbAdminOptions['blog_adress'] 
@@ -452,7 +452,34 @@ class Settings extends Config {
 			'imdbwidgettrailer' => false,
 			'imdbwidgettrailernumber' => false,
 
-			'imdbwidgetorder'=>array("title" => "1", "pic" => "2","runtime" => "3", "director" => "4", "country" => "5", "actor" => "6", "creator" => "7", "rating" => "8", "language" => "9","genre" => "10","writer" => "11","producer" => "12", "keyword" => "13", "prodcompany" => "14", "plot" => "15", "goof" => "16", "comment" => "17", "quote" => "18", "tagline" => "19", "color" => "20", "alsoknow" => "21", "composer" => "22", "soundtrack" => "23", "trailer" => "24", "officialsites" => "25", "source" => "26" ),
+			'imdbwidgetorder'=>array(
+							"title" => "1", 
+							"pic" => "2",
+							"runtime" => "3", 
+							"director" => "4", 
+							"country" => "5", 
+							"actor" => "6", 
+							"creator" => "7", 
+							"rating" => "8", 
+							"language" => "9",
+							"genre" => "10",
+							"writer" => "11",
+							"producer" => "12", 
+							"keyword" => "13", 
+							"prodcompany" => "14", 
+							"plot" => "15", 
+							"goof" => "16", 
+							"comment" => "17", 
+							"quote" => "18", 
+							"tagline" => "19", 
+							"color" => "20", 
+							"alsoknow" => "21", 
+							"composer" => "22", 
+							"soundtrack" => "23", 
+							"trailer" => "24", 
+							"officialsites" => "25", 
+							"source" => "26" 
+						),
 
 			'imdbtaxonomycolor' => false,
 			'imdbtaxonomycomposer' => false,

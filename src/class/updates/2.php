@@ -10,9 +10,16 @@ $this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdbHowManyUp
 // Update 'imdbwidgetsource'
 // No need to display the source by default
 if ( TRUE === $this->lumiere_update_options($configClass->imdbWidgetOptionsName, 'imdbwidgetsource', '0') ) {
-	$output .= $this->print_debug(1, '<strong>Lumière option imdbwidgetsource successfully updated.</strong>');
+
+	$text = "Lumière option imdbwidgetsource successfully updated.";
+
+	$configClass->lumiere_maybe_log('info', "[Lumiere][updater] $text");
+
 } else {
-	$output .= $this->print_debug(2, '<strong>Lumière option imdbwidgetsource not updated.</strong>');
+
+	$text = "Lumière option imdbwidgetsource could not be updated.";
+
+	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
+
 }
 
-?>

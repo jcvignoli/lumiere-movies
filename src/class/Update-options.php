@@ -94,6 +94,16 @@ class UpdateOptions {
 
 		/************************************************** 3.5 */
 		if ( (version_compare( $this->configClass->lumiere_version, "3.5" ) >= 0 )
+			&& ($imdb_admin_values['imdbHowManyUpdates'] == 8 ) ){				# update 8
+
+			require_once('updates/8.php');
+
+			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][updater] Update 8 has been run.");
+
+		}
+
+		/************************************************** 3.5 */
+		if ( (version_compare( $this->configClass->lumiere_version, "3.5" ) >= 0 )
 			&& ($imdb_admin_values['imdbHowManyUpdates'] == 7 ) ){				# update 7
 
 			require_once('updates/7.php');
@@ -308,6 +318,7 @@ class UpdateOptions {
 	 ** @parameter mandatory $text: text to embed and return
 	 **
 	 ** returns the text embed with styles, false if no text was provided
+	 ** @TODO: check if still utilised and remove 
 	 **/
 	function print_debug($code=1,$text) {
 

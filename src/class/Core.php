@@ -38,6 +38,7 @@ class Core {
 	 */
 	function __construct () {
 
+		// @TODO: remove globals
 		global $config, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
 		$this->configClass = new \Lumiere\Settings();
