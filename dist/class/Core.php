@@ -40,18 +40,13 @@ class Core {
 
 		global $config, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
-		$config = new \Lumiere\Settings();
-		$this->configClass = $config;
-		$imdb_admin_values = $config->get_imdb_admin_option();
-		$imdb_widget_values = $config->get_imdb_widget_option();
-		$imdb_cache_values = $config->get_imdb_cache_option();
-		$this->imdb_admin_values = $config->get_imdb_admin_option();
-		$this->imdb_widget_values = $config->get_imdb_widget_option();
-		$this->imdb_cache_values = $config->get_imdb_cache_option();
+		$this->configClass = new \Lumiere\Settings();
+		$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
+		$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
+		$this->imdb_cache_values = $this->configClass->get_imdb_cache_option();
 
 		// Start Utils class
-		$utilsClass = new \Lumiere\Utils();
-		$this->utilsClass = $utilsClass;
+		$this->utilsClass = new \Lumiere\Utils();
 
 		// redirect popups URLs
 		add_action( 'init', [ $this, 'lumiere_popup_redirect' ], 0);
@@ -152,7 +147,7 @@ class Core {
 		// Register frontpage script
 		wp_register_script( 
 			"lumiere_scripts", 
-			$this->imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts.js", 
+			$this->configClass->lumiere_js_dir . 'lumiere_scripts.min.js', 
 			[ 'jquery' ], 
 			$this->configClass->lumiere_version,
 			true
@@ -161,36 +156,38 @@ class Core {
 		// Register highslide scripts and styles
 		wp_register_script( 
 			'lumiere_highslide', 
-			$this->imdb_admin_values['imdbplugindirectory'] ."js/highslide/highslide-with-html.min.js",
+			$this->configClass->lumiere_js_dir . 'highslide/highslide-with-html.min.js',
 			array(), 
 			$this->configClass->lumiere_version
 		);
 		wp_enqueue_script( 
 			"lumiere_highslide_options", 
-			$this->imdb_admin_values['imdbplugindirectory'] ."js/highslide-options.js", 
+			$this->configClass->lumiere_js_dir . 'highslide-options.min.js',
 			[ 'lumiere_highslide' ], 
 			$this->configClass->lumiere_version,
 			true
 		);
 		wp_enqueue_style( 
 			"lumiere_highslide", 
-			$this->imdb_admin_values['imdbplugindirectory'] ."css/highslide.css", 
+			$this->configClass->lumiere_css_dir . 'highslide.min.css',
 			array(), 
 			$this->configClass->lumiere_version
 		);
 
 		// Register customised main style, located in active theme directory
-		wp_register_style(
-			'lumiere_style_custom',
-			get_stylesheet_directory_uri() . '/lumiere.css', 
-			array(), 
-			$this->configClass->lumiere_version
-		);
+		if ( file_exists(get_stylesheet_directory_uri() . '/lumiere.css')){
+			wp_register_style(
+				'lumiere_style_custom',
+				get_stylesheet_directory_uri() . '/lumiere.css', 
+				array(), 
+				$this->configClass->lumiere_version
+			);
+		}
 
 		// Register main style
 		wp_register_style( 
 			'lumiere_style_main', 
-			$this->imdb_admin_values['imdbplugindirectory'] .'css/lumiere.css', 
+			$this->configClass->lumiere_css_dir . 'lumiere.min.css', 
 			array(), 
 			$this->configClass->lumiere_version
 		);
@@ -198,7 +195,7 @@ class Core {
 		// Register OceanWP theme fixes for popups only
 		wp_register_style(
 			'lumiere_style_oceanwpfixes_popups', 
-			$this->imdb_admin_values['imdbplugindirectory'] ."css/lumiere_subpages-oceanwpfixes.css",
+			$this->configClass->lumiere_css_dir . 'lumiere_subpages-oceanwpfixes.min.css',
 			 array(), 
 			$this->configClass->lumiere_version
 		);
@@ -206,7 +203,7 @@ class Core {
 		// Register OceanWP theme fixes for all pages but popups
 		wp_register_style(
 			'lumiere_style_oceanwpfixes_general', 
-			$this->imdb_admin_values['imdbplugindirectory'] ."css/lumiere_extrapages-oceanwpfixes.css",
+			$this->configClass->lumiere_css_dir . 'lumiere_extrapages-oceanwpfixes.min.css',
 			array(), 
 			$this->configClass->lumiere_version
 		);
@@ -231,7 +228,7 @@ class Core {
 		// Register admin styles
 		wp_register_style(
 			'lumiere_css_admin', 
-			$this->imdb_admin_values['imdbplugindirectory'] . "css/lumiere-admin.css", 
+			$this->configClass->lumiere_css_dir . 'lumiere-admin.min.css', 
 			array(), 
 			$this->configClass->lumiere_version
 		);
@@ -239,7 +236,7 @@ class Core {
 		// Register admin scripts
 		wp_register_script( 
 			"lumiere_scripts_admin", 
-			$this->imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin.js",
+			$this->configClass->lumiere_js_dir . 'lumiere_scripts_admin.min.js',
 			[ 'jquery' ], 
 			$this->configClass->lumiere_version
 		);
@@ -247,7 +244,7 @@ class Core {
 		// Register gutenberg admin scripts
 		wp_register_script( 
 			"lumiere_scripts_admin_gutenberg", 
-			$this->imdb_admin_values['imdbplugindirectory'] ."js/lumiere_scripts_admin_gutenberg.js",
+			$this->configClass->lumiere_js_dir . 'lumiere_scripts_admin_gutenberg.min.js',
 			[ 'jquery' ],
 			$this->configClass->lumiere_version
 		);
@@ -255,7 +252,7 @@ class Core {
 		// Register confirmation script upon deactivation
 		wp_register_script(
 			'lumiere_deactivation_plugin_message', 
-			$this->imdb_admin_values['imdbplugindirectory'] . 'js/lumiere_admin_deactivation_msg.js',
+			$this->configClass->lumiere_js_dir . 'lumiere_admin_deactivation_msg.min.js',
 			[ 'jquery' ],
 			$this->configClass->lumiere_version,
 			true
@@ -264,7 +261,7 @@ class Core {
 		// Quicktag
 		wp_register_script( 
 			"lumiere_quicktag_addbutton", 
-			$this->imdb_admin_values['imdbplugindirectory'] ."js/lumiere_admin_quicktags.js",
+			$this->configClass->lumiere_js_dir . 'lumiere_admin_quicktags.min.js',
 			[ 'quicktags' ], 
 			$this->configClass->lumiere_version,
 			true
@@ -281,7 +278,7 @@ class Core {
 		// Register hide/show script
 		wp_register_script( 
 			"lumiere_hide_show", 
-			$this->imdb_admin_values['imdbplugindirectory'] ."js/lumiere_hide_show.js", 
+			$this->configClass->lumiere_js_dir . 'lumiere_hide_show.min.js',
 			[ 'jquery' ], 
 			$this->configClass->lumiere_version,
 			true
@@ -293,7 +290,7 @@ class Core {
 	/*  Register TinyMCE
 	 * 
 	 */
-	function lumiere_execute_tinymce($hook) {
+	function lumiere_execute_tinymce( $hook ) {
 
 		// Don't bother doing this stuff if the current user lacks permissions
 		if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') )
@@ -327,9 +324,7 @@ class Core {
 	 */
 	function lumiere_tinymce_addbutton($plugin_array) {
 
-		$imdb_admin_values = $this->imdb_admin_values;
-
-		$plugin_array['lumiere_tiny'] = $imdb_admin_values['imdbplugindirectory'] . 'js/lumiere_admin_tinymce_editor.js';
+		$plugin_array['lumiere_tiny'] = $this->configClass->lumiere_js_dir . 'lumiere_admin_tinymce_editor.min.js';
 		return $plugin_array;
 
 	}
@@ -341,14 +336,14 @@ class Core {
 
 		wp_register_script( 
 			"lumiere_gutenberg_main", 
-			$this->imdb_admin_values['imdbplugindirectory'] . 'blocks/main-block.js',
+			$this->configClass->lumiere_blocks_dir . 'main-block.min.js',
 			[ 'wp-blocks', 'wp-element', 'wp-editor','wp-components','wp-i18n','wp-data' ], 
 			$this->configClass->lumiere_version 
 		);
 
 		wp_register_script( 
 			"lumiere_gutenberg_buttons", 
-			$this->imdb_admin_values['imdbplugindirectory'] . 'blocks/buttons.js',
+			$this->configClass->lumiere_blocks_dir . 'buttons.min.js',
 			[ 'wp-element', 'wp-compose','wp-components','wp-i18n','wp-data' ], 
 			$this->configClass->lumiere_version 
 		);
@@ -356,7 +351,7 @@ class Core {
 		// Style
 		wp_register_style( 
 			"lumiere_gutenberg_main", 
-			$this->imdb_admin_values['imdbplugindirectory'] . 'blocks/main-block.css',
+			$this->configClass->lumiere_blocks_dir . 'main-block.min.css',
 			array( 'wp-edit-blocks' ), 
 			$this->configClass->lumiere_version 
 		);

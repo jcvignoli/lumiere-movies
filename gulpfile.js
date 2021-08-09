@@ -30,11 +30,12 @@ var gulp = 	require('gulp'),
 /*gulpplugins	shell = require('gulp-shell'),			 execute shell functions 
 										example: .pipe(shell(['echo <%= file.path %>'])) */
 /*gulpplugins	if = require('gulp-if'),				/* if function */
+/*gulpplugins	rename = require('gulp-rename'),			/* rename function */
 /*gulpplugins	ssh = require('gulp-ssh'),				 ssh functions */
 /*gulpplugins	fs = require ('fs'),					/* filesystem functions */
 /*gulpplugins	rsync = require('gulp-rsync'),			/* rsync functions */
 /*gulpplugins	nodeNotifier = require('node-notifier'),		/* Notify functions to be run outside a pipe */
-		ext_cred = require( './.gulpcredentials.js' );	/* private credentials for ssh */
+ext_cred = require( './.gulpcredentials.js' );			/* private credentials for ssh */
 
 
 var errorHandler = function(error) {				/* handle and display errors with notify */
@@ -192,6 +193,7 @@ exports.stylesheets = function stylesheets() {
 			console.log(`${details.name}: ${details.stats.originalSize}`);
 			console.log(`${details.name}: ${details.stats.minifiedSize}`);
 		}))
+		.pipe(plugins.rename({suffix: '.min'}))
 		.pipe(gulp.dest( paths.stylesheets.dist ))
 		.pipe(plugins.if(flagssh, sshMain.dest( ext_cred.mainserver.dist )))
 		.pipe(plugins.browserSync.stream())
@@ -216,6 +218,7 @@ exports.javascripts = function javascripts() {
 		.pipe(plugins.plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
 		.pipe(plugins.changed( paths.javascripts.dist ))
 		.pipe(plugins.uglify())
+		.pipe(plugins.rename({suffix: '.min'}))
 		.pipe(gulp.dest( paths.javascripts.dist ))
 		.pipe(plugins.if(flagssh, sshMain.dest( ext_cred.mainserver.dist )))
 		.pipe(plugins.browserSync.stream())

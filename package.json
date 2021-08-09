@@ -47,5 +47,8 @@
     "gulp-ssh": "^0.7.0",
     "gulp-uglify": "^3.0.2",
     "node-notifier": "^9.0.1"
+  },
+  "dependencies": {
+    "gulp-rename": "^2.0.0"
   }
 }
