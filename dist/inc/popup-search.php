@@ -137,9 +137,11 @@ class PopupSearch {
 				$current_line++;
 				if ( $current_line > $this->imdb_admin_values['imdbmaxresults']){
 					echo '</div>';
-					echo '<div align="center"><i>' 
-						. esc_html__('Maximum of results reached. You can increase it in admin options.', 'lumiere-movies') 
-						. '</div>'; 
+					echo '<div align="center"><i>' ;
+					echo esc_html__('Maximum of results reached.', 'lumiere-movies');
+					if ( current_user_can( 'manage_options' ) ) 
+						echo '&nbsp' . esc_html__('You can increase the maximum number of results in admin options.', 'lumiere-movies');
+					echo  '</div>'; 
 					wp_footer();
 					echo '</i></body></html>';
 					exit();

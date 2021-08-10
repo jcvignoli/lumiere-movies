@@ -114,12 +114,8 @@ class Taxonomystandard {
 
 	private function lumiere_start_logger_wrapper(){
 
-		// If the user can't manage options, exit
-		if ( !current_user_can( 'manage_options' ) ) 
-			return $this->loggerClass = NULL;
-
-		// Start logger class if debug is selected
-		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
+		// Start logger class if debug is selected and user can manage options
+		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) && (current_user_can( 'manage_options' )) ){
 
 			// Activate debug
 			$this->utilsClass->lumiere_activate_debug($this->imdb_admin_values);

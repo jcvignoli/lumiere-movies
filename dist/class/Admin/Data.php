@@ -337,7 +337,7 @@ class Data extends \Lumiere\Admin {
 
 			// If new template version available, notify
 			if ($this->configClass->imdb_widget_values['imdbtaxonomy'.$item] == "1") {
-				echo $this->utilsClass->lumiere_check_taxo_template($item);
+				echo $this->lumiere_check_taxo_template($item);
 			}
 			echo "\n\t".'</div>';
 
@@ -599,6 +599,103 @@ class Data extends \Lumiere\Admin {
 		echo "\n\t\t" .'</div>';
 		echo "\n\t" .'</div>';
 
+	}
+
+	/**
+	 * Function checking if item/person template is missing or if a new one is available
+	 * Returns a link to copy the template if true and a message explaining if missing/update the template
+	 * 
+	 * @param array mandatory $type type to search (actor, genre, etc)
+	 */
+	public function lumiere_check_taxo_template($type) {
+
+		// Initialize
+		$output = "";
+
+		// Get the type to build the links
+		$lumiere_taxo_title = esc_html($type);
+
+		// Files paths
+		$lumiere_taxo_file_tocopy = in_array($lumiere_taxo_title, $this->configClass->array_people, true) ? $lumiere_taxo_file_tocopy = "taxonomy-imdblt_people.php" : $lumiere_taxo_file_tocopy = "taxonomy-imdblt_items.php";
+		$lumiere_taxo_file_copied = "taxonomy-" . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . ".php";
+		$lumiere_current_theme_path = get_stylesheet_directory()."/";
+		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied ;
+		$lumiere_taxonomy_theme_path = $this->imdb_admin_values['imdbpluginpath'] . "theme/";
+		$lumiere_taxonomy_theme_file = $lumiere_taxonomy_theme_path . $lumiere_taxo_file_tocopy;
+
+		// Find the version
+		$pattern="~Version: (.+)~i";
+		# Copied version to the user theme folder
+		if (file_exists($lumiere_current_theme_path_file)){
+
+			$content = file_get_contents($lumiere_current_theme_path_file);
+
+			if (preg_match($pattern, $content, $match)){
+
+				$version_theme = $match[1];
+
+			} else {
+
+				$version_theme = "no_theme";
+
+			}
+
+		} else {
+
+			$output .= "\n\t"."<br />";
+			$output .= "\n\t".'<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
+			$output .= "\n\t\t"."<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=" . $lumiere_taxo_title ) . "' " 
+					."title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >"
+					. "<img src='".esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png') . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
+					. esc_html__("Copy template", 'lumiere-movies') . "</a>";
+
+			$output .= "\n\t".'<div><font color="red">'
+				. esc_html__("No $lumiere_taxo_title template found", 'lumiere-movies')
+				. '</font></div>';
+			$output .= "\n\t".'</div>';
+
+			return $output;
+		}
+		# Original version
+		if (file_exists($lumiere_taxonomy_theme_file)) {
+
+			$content = file_get_contents($lumiere_taxonomy_theme_file); 
+
+			if (preg_match($pattern, $content, $match)){
+
+				$version_origin = $match[1];
+
+			} else {
+
+				$version_theme = "no_origin";
+
+			}
+
+		} else {
+
+			return false;
+		}		
+
+		// Return a message if there is a new version of the template
+		if ($version_theme != $version_origin)  {
+
+			$output .= "\n\t"."<br />";
+			$output .= "\n\t".'<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
+			$output .= "\n\t\t"."<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=" . $lumiere_taxo_title ) . "' " 
+					."title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >"
+					. "<img src='".esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png') . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
+					. esc_html__("Copy template", 'lumiere-movies') . "</a>";
+
+			$output .= "\n\t".'<div><font color="red">'
+				. esc_html__("New $lumiere_taxo_title template version available", 'lumiere-movies')
+				. '</font></div>';
+			$output .= "\n\t".'</div>';
+
+			return $output;
+
+		}
+
+		return false;
 	}
 
 }

@@ -71,7 +71,7 @@ class EndCest {
 		/*	Conditional plugin activation (in _support/AcceptanceTrait.php)
 			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $plugin is disabled, activate it */
-		$I->CustomActivatePlugin('classic-editor');
+		$I->maybeActivatePlugin('classic-editor');
 
 	}
 

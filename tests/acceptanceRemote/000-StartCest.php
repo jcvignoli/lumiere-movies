@@ -40,6 +40,17 @@ class StartCest {
 		$I->CustomSeeExit('Blog ext');
 	}
 
+
+	/** Activate plugin
+	 *
+	 * @before login
+	 *
+	 */
+	public function activateLumiere(AcceptanceRemoteTester $I) {
+		$I->amOnPage('/wp-admin/plugins.php');
+		$I->maybeActivatePlugin('lumiere-movies');
+	}
+
 	/** Disable debug functions
 	 *
 	 * @before login

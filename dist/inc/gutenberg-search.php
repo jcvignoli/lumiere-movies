@@ -1,138 +1,188 @@
 <?php
+/**
+ * IMDbPHP search: Display search results related to a movie to get their IMDbID
+ *
+ * @author		Lost Highway <https://www.jcvignoli.com/blog>
+ * @copyright		2021, Lost Highway
+ *
+ * @version		1.0
+ */
 
- #############################################################################
- # Lumière! Movies wordpress plugin                                          #
- # written by Lost Highway                                                   #
- # https://www.jcvignoli.com/blog                                            #
- # ------------------------------------------------------------------------- #
- # This program is free software; you can redistribute and/or modify it      #
- # under the terms of the GNU General Public License (see LICENSE)           #
- # ------------------------------------------------------------------------- #
- #									              #
- #  Function : Displays a popup with search results related to a movie       #
- #									              #
- #############################################################################
+namespace Lumiere;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
 	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
 }
 
-require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
+class Search {
 
-if (class_exists("\Lumiere\Settings")) {
+	/* Class \Lumiere\Utils
+	 *
+	 */
+	private $utilsClass;
 
-	$configClass = new \Lumiere\Settings();
-	$imdb_admin_values = $configClass->imdb_admin_values;
-	$imdb_widget_values = $configClass->imdb_widget_values;
-	$imdb_cache_values = $configClass->imdb_cache_values;
+	/* Class \Lumiere\Settings
+	 *
+	 */
+	private $configClass;
 
-	// Get the type of search: movies, series, games
-	$typeSearch = $configClass->lumiere_select_type_search();
+	/* Class \Monolog\Logger
+	 *
+	 */
+	private $loggerClass;
 
-	// Start utils and logger class if debug is selected
-	if ( (isset($configClass->imdb_admin_values['imdbdebug'])) && ($configClass->imdb_admin_values['imdbdebug'] == 1) ){
+	/* Settings from class \Lumiere\Settings
+	 *
+	 */
+	private $imdb_admin_values;
 
-		// Start the class Utils to activate debug
-		$utilsClass = new \Lumiere\Utils();
-		$utilsClass->lumiere_activate_debug(NULL, '', 'libxml', $configClass); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+	/* Settings from class \Lumiere\Settings
+	 * To include the type of (movie, TVshow, Games) search
+	 */
+	private $typeSearch;
 
-		// Start the logger
-		$configClass->lumiere_start_logger('gutenbergSearch');
 
-		// Store the class so we can use in imdbphp class
-		$logger = $configClass->loggerclass;
-	} 
+	/* Constructor
+	 *
+	 */
+	function __construct(){
 
-}
+		//As an external file, need to include manually bootstrap
+		require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
-# Initialization of IMDBphp
-$search = new \Imdb\TitleSearch($configClass, $logger );
+		if (class_exists("\Lumiere\Settings")) {
+
+			$this->configClass = new \Lumiere\Settings();
+			$this->imdb_admin_values = $this->configClass->imdb_admin_values;
+
+			// Get the type of search: movies, series, games
+			$this->typeSearch = $this->configClass->lumiere_select_type_search();
+
+			// Start class Utils
+			$this->utilsClass = new \Lumiere\Utils();
+
+			// Start utils and logger class if debug is selected
+			if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) && ( current_user_can( 'manage_options' )) ){
+
+				// Activate the debug
+				$this->utilsClass->lumiere_activate_debug(NULL, NULL, 'libxml', $this->configClass); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+
+				// Start the logger
+				$this->configClass->lumiere_start_logger('gutenbergSearch');
+
+				// Store the class so we can use in imdbphp class
+				$this->loggerClass = $this->configClass->loggerclass;
+
+			} 
+
+		}
+
+		$this->layout();
+
+	}
+
+
+
+	/* Display layout
+	 *
+	 */
+	function layout() {
 
 ?><!DOCTYPE html>
 <html>
-
 <head>
-	<?php wp_head();?>
+<?php wp_head();?>
 </head>
-
 <body id="gutenberg_search">
 <?php
-if ( (isset ($_GET["moviesearched"])) && (!empty ($_GET["moviesearched"])) ){
+		if ( (isset ($_GET["moviesearched"])) && (!empty ($_GET["moviesearched"])) ){
 
-	$search_sanitized = isset($_GET["moviesearched"]) ? sanitize_text_field( $_GET["moviesearched"] ) : NULL;
+			# Initialization of IMDBphp
+			$search = new \Imdb\TitleSearch($this->configClass, $this->loggerClass );
 
-	$configClass->lumiere_maybe_log('debug', "[Lumiere][gutenbergSearch] Querying '$search_sanitized'");
+			$search_sanitized = isset($_GET["moviesearched"]) ? sanitize_text_field( $_GET["moviesearched"] ) : NULL;
 
-	$results = $search->search ($search_sanitized, $typeSearch );
+			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][gutenbergSearch] Querying '$search_sanitized'");
+
+			$results = $search->search ($search_sanitized, $this->typeSearch );
 
 ?>
-
 <h1 class="searchmovie_title lumiere_italic"><?php esc_html_e('Results related to your query:', 'lumiere-movies'); ?> <span class="lumiere_gutenberg_results"><?php echo $search_sanitized; ?></span></h1>
-
 <div class="lumiere_container">
 	<div class="lumiere_container_flex50"><h2><?php esc_html_e('Titles results', 'lumiere-movies'); ?></h2></div>
 	<div class="lumiere_container_flex50"><h2><?php esc_html_e('Identification number', 'lumiere-movies'); ?></h2></div>
 </div>
-
-
 <?php
-$limit_search = isset($imdb_admin_values['imdbmaxresults']) ? intval($imdb_admin_values['imdbmaxresults']) : 5;
-$i=1;
-foreach ($results as $res) {
-	if ($i > $limit_search){
-		$configClass->lumiere_maybe_log('debug', "[Lumiere][gutenbergSearch] Limit of '$limit_search' results reached.");
-		echo '<div class="lumiere_italic lumiere_padding_five lumiere_align_center">' 
-			. esc_html__('Maximum of results reached. You can increase it in admin options.', 'lumiere-movies');
-		echo '</div>';
-		break;
-	}
+		$limit_search = isset($this->imdb_admin_values['imdbmaxresults']) ? intval($this->imdb_admin_values['imdbmaxresults']) : 5;
+		$i=1;
+		foreach ($results as $res) {
+			if ($i > $limit_search){
+				$this->configClass->lumiere_maybe_log('debug', "[Lumiere][gutenbergSearch] Limit of '$limit_search' results reached.");
+				echo '<div class="lumiere_italic lumiere_padding_five lumiere_align_center">' 
+					. esc_html__('Maximum of results reached. You can increase it in admin options.', 'lumiere-movies');
+				echo '</div>';
+				break;
+			}
 
-	echo "\n" . '<div class="lumiere_container lumiere_container_gutenberg_border">';
-	
-	// ---- movie name results
-	echo "\n\t<div class='lumiere_container_flex50 lumiere_italic lumiere_gutenberg_results'>".esc_html( $res->title() )." (".intval( $res->year() ).")".'</div>';
+			echo "\n" . '<div class="lumiere_container lumiere_container_gutenberg_border">';
+			
+			// ---- movie name results
+			echo "\n\t<div class='lumiere_container_flex50 lumiere_italic lumiere_gutenberg_results'>".esc_html( $res->title() )." (".intval( $res->year() ).")".'</div>';
 
-	// ---- imdb id results
-	echo "\n\t<div class='lumiere_container_flex50 lumiere_align_center lumiere_gutenberg_results'><span class='lumiere_bold'>".esc_html__('IMDb ID:', 'lumiere-movies').'</span> ';
-	echo '<span class="lumiere_gutenberg_copy_class">'
-			. esc_html($res->imdbid() )
-			.'</span>';
+			// ---- imdb id results
+			echo "\n\t<div class='lumiere_container_flex50 lumiere_align_center lumiere_gutenberg_results'>";
+			echo "\n\t\t<span class='lumiere_bold'>".esc_html__('IMDb ID:', 'lumiere-movies').'</span> ';
+			echo "\n\t\t" . '<span class="lumiere_gutenberg_copy_class"'
+					. ' id="imdbid_'.esc_html( $res->imdbid() ).'">'
+					. esc_html( $res->imdbid() )
+					.'</span>';
 
-	echo '</div>';
-	echo "\n</div>";
+			echo "\n\t" . '</div>';
+			echo "\n</div>";
 
 
-	$i++;
-} // end foreach  ?> 
+			$i++;
 
-<?php echo '<div align="center"><a href="' . esc_url( site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) . '">Do a new query</a></div>' ; ?>
+		} // end foreach  
 
-<?php
-} else {
-	//---------------------------------------------------------------- No data entered, show the search form 
-	if (!isset ($_GET["film"]) ) {   
+		echo '<div align="center"><a href="' 
+			. esc_url( site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) 
+			. '">Do a new query</a></div>' ; 
 
-		echo "\n<div align='center'>";
-		echo "\n".'<h1 id="searchmovie_title">'.esc_html__('Search a movie IMDb ID', 'lumiere-movies').'</h1>';
-		echo "\n".'<form action="" method="get" id="searchmovie">';
-		echo "\n\t".'<label for="moviesearched"><span class="label_moviesearched">'.esc_html__('Search', 'lumiere-movies').'</span></label>';
-		echo "\n\t".'<input type="text" id="moviesearched" name="moviesearched">';
+		} else {
 
-// 		Nonce field deactivated, since it can be called from everywhere
-//		wp_nonce_field('submit_gutenberg', 'submit_gutenberg'); 
+			//----------------------------------------------------- No data entered, show the search form 
+			if (!isset ($_GET["film"]) ) {   
 
-		echo "\n\t".'<input type="submit" value="Go" >';
-		echo "\n".'</form>';
-		echo '</div>';
-	} else {
-		wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
-	}
-}?>
+				echo "\n<div align='center'>";
+				echo "\n\t" . '<h1 id="searchmovie_title">'.esc_html__('Search a movie IMDb ID', 'lumiere-movies').'</h1>';
+				echo "\n\t".'<form action="" method="get" id="searchmovie">';
+				echo "\n\t\t".'<input type="text" id="moviesearched" name="moviesearched">';
 
-<script type='text/javascript' src='<?php echo esc_url( plugin_dir_url( __DIR__ ) ."js/lumiere_scripts_search.js?vers="); echo esc_html($configClass->lumiere_version); ?>' id='lumiere_scripts_search-js'></script>
+				// Nonce field deactivated, since it can be called from everywhere
+				// wp_nonce_field('submit_gutenberg', 'submit_gutenberg'); 
 
+				echo "\n\t\t".'<input type="submit" value="Search">';
+				echo "\n\t" . '</form>';
+				echo "\n" . '</div>';
+
+			} else {
+
+				wp_die( esc_html__("You are not allowed to call this page directly.", "lumiere-movies") );
+			}
+		}
+
+?>
+
+<script type='text/javascript' src='<?php echo esc_url( $this->configClass->lumiere_js_dir . 'lumiere_scripts_search.min.js?vers='); echo esc_html($this->configClass->lumiere_version); ?>' id='lumiere_scripts_search-js'></script>
 </body>
-</html>
-<?php
-exit(); ?>
+</html><?php
+
+		exit();
+
+	}
+
+}
+
+new \Lumiere\Search();

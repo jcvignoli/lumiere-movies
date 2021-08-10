@@ -22,10 +22,12 @@ class StylesScriptsCest {
 
 	/** Check if auto widget option display a widget based on the title of the page
 	 *
-	 * @before login
+	 *  Can't use universal login due to plugin activation/deactivation
 	 *
 	 */
 	public function checkStyleScripts(AcceptanceRemoteTester $I) {
+
+		$I->loginAsAdmin();
 
 		/* const */
 		$url_base = $_ENV['TEST_REMOTE_WP_URL'];
@@ -74,15 +76,18 @@ class StylesScriptsCest {
 
 		// Disable classic-editor so we can test Blocks editor
 		$I->comment('Disable classic-editor plugin so we can test Blocks editor');
-		$I->amOnPluginsPage();
+		$I->amOnPage('/wp-admin/plugins.php');
 		/*	Conditional plugin deactivation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $plugin is activated, deactivate it */
-		$I->CustomDisablePlugin('classic-editor');
+		$I->wait(1);
+		$I->maybeDeactivatePlugin('classic-editor');
+		$I->wait(1);
 
 		// Check Lumière (Gutenberg) Block Editor page
 		$I->comment('Check Lumière (Gutenberg) Block Editor page');
 		$I->amOnPage("/wp-admin/post.php?post=4715&action=edit");
+		$I->waitPageLoad();
 		$I->seeInPageSource("lumiere_gutenberg_main-js"); 	# Gutenberg main block js
 		$I->seeInPageSource("lumiere_gutenberg_buttons-js"); 	# Gutenberg button block js
 		$I->seeInPageSource("lumiere_block_widget-css");		# Gutenberg widget block css
@@ -97,20 +102,23 @@ class StylesScriptsCest {
 
 		// Activate classic-editor so we can test Classic editor
 		$I->comment('Activate classic-editor plugin so we can test Blocks editor');
-		$I->amOnPluginsPage();
+		$I->amOnPage('/wp-admin/plugins.php');
 		/*	Conditional plugin activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $plugin is disabled, activate it */
-		$I->CustomActivatePlugin('classic-editor');
+		$I->wait(1);
+		$I->maybeActivatePlugin('classic-editor');
+		$I->wait(1);
 
 		// Check Lumière Classic Editor page (with Classic Editor plugin)
 		$I->comment('Check Lumière Classic Editor page (with Classic Editor plugin)');
 		$I->amOnPage("/wp-admin/post.php?post=4715&action=edit");
+		$I->waitPageLoad();
 		$I->seeInPageSource("lumiere_scripts_admin-js"); 	# Lumière main js
 		$I->seeInPageSource("lumiere_scripts_admin-js-before"); # Lumière js vars for scripts
 		$I->seeInPageSource("lumiere_quicktag_addbutton-js"); 	# Quicktag Lumière plugin
 		$I->seeInPageSource("lumiere_hide_show-js"); 		# hide/show script
-		$I->seeInPageSource("lumiere_admin_tinymce_editor.js"); # TinyMCE Lumière plugin
+		$I->seeInPageSource("lumiere_admin_tinymce_editor");	# TinyMCE Lumière plugin
 		$I->seeInPageSource("wp-tinymce-root-js"); 		# TinyMCE main plugin
 		$I->seeInPageSource("lumiere_queryid_widget"); 		# Lumière Metabox is available
 
