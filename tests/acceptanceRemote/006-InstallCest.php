@@ -52,13 +52,21 @@ class InstallCest {
 		$I->wantTo('Check if Lumière plugin can be installed');
 
 		// Activate then deactivate plugin
-		$I->amOnPluginsPage();
+/*		$I->amOnPluginsPage();
 		$I->deactivatePlugin('lumiere-movies');
 		$I->amOnPluginsPage();
 		$I->activatePlugin('lumiere-movies');
+*/
+		$I->amOnPage('/wp-admin/plugins.php');
+		$I->maybeDeactivatePlugin('lumiere-movies');
+		$I->wait(2);
+		$I->amOnPage('/wp-admin/plugins.php');
+		$I->maybeActivatePlugin('lumiere-movies');
+		$I->wait(2);
 
 		// Check if cron has been installed
 		$I->amOnPage("/wp-admin/tools.php?page=crontrol_admin_manage_page");
+		$I->wait(2);
 		$I->see('lumiere_cron_hook');
 
 	}

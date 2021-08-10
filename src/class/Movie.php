@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
 class LumiereMovies {
 
 	/* HTML allowed for use of wp_kses_post()
-	 * Usefull for access from outside the class
+	 * 
 	 */
 	const allowed_html_for_escape_functions = [
 	    'a' => [
@@ -29,12 +29,12 @@ class LumiereMovies {
 	]; 
 
 	/* Store all returned movie details search result
-	 * Usefull for access from outside the class
+	 * 
 	 */
 	public $lumiere_result = "";
 
 	/* Store the class of Lumière settings
-	 * Usefull to start a new IMDbphp query
+	 * 
 	 */
 	private $configClass;
 
@@ -53,7 +53,7 @@ class LumiereMovies {
 	 */
 	private $utilsClass;
 
-	/* Store the name or the ID of a movie and avoid globals
+	/* Store the name or the ID of a movie
 	 * Not yet utilised, passing the movie's title or id right now into lumiere_show()
 	 */
 	private $imdbIdOrTitle;
@@ -138,6 +138,7 @@ class LumiereMovies {
 
 		/* Vars */ 
 		global $count_me_siffer;
+
 		$logger = $this->loggerClass;
 		$configClass = $this->configClass;
 		$count_me_siffer = isset($count_me_siffer) ? $count_me_siffer : 0; # var for counting only one results
@@ -203,7 +204,7 @@ class LumiereMovies {
 			// nothing was specified
 			} else {
 
-				$configClass->lumiere_maybe_log('debug', "[[Lumiere][imdbIdOrTitle] No movie title provided, doing a query for $film'.");
+				$configClass->lumiere_maybe_log('debug', "[Lumiere][imdbIdOrTitle] No movie title provided, doing a query for $film'.");
 
 				$results = $search->search($film, $this->configClass->lumiere_select_type_search() );
 
@@ -394,14 +395,12 @@ class LumiereMovies {
 	 ** 
 	 **/
 	function lumiere_popup_highslide_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
-
-		global $imdb_admin_values;
-			
+	
 		if (! $popuplarg )
-			$popuplarg=$imdb_admin_values["popupLarg"];
+			$popuplarg=$this->imdb_admin_values["popupLarg"];
 
 		if (! $popuplong )
-			$popuplong=$imdb_admin_values["popupLong"];
+			$popuplong=$this->imdb_admin_values["popupLong"];
 
 		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . $this->utilsClass->lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
 
@@ -416,13 +415,11 @@ class LumiereMovies {
 	 **/
 	function lumiere_popup_classical_film_link ($link_parsed, $popuplarg="", $popuplong="" ) {
 
-		$imdb_admin_values = $this->imdb_admin_values;
-		
 		if (! $popuplarg )
-			$popuplarg=$imdb_admin_values["popupLarg"];
+			$popuplarg=$this->imdb_admin_values["popupLarg"];
 
 		if (! $popuplong )
-			$popuplong=$imdb_admin_values["popupLong"];
+			$popuplong=$this->imdb_admin_values["popupLong"];
 
 		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . $this->utilsClass->lumiere_name_htmlize($link_parsed[1]) . '" title="' . esc_html__("Open a new window with IMDb informations", 'lumiere-movies') . '">' . $link_parsed[1] . "</a>&nbsp;";
 		

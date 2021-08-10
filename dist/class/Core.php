@@ -38,9 +38,6 @@ class Core {
 	 */
 	function __construct () {
 
-		// @TODO: remove globals
-		global $config, $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
-
 		$this->configClass = new \Lumiere\Settings();
 		$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
 		$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
@@ -68,15 +65,15 @@ class Core {
 		} );
 
 		// Add Lumière taxonomy
-		if ( (isset($imdb_admin_values['imdbtaxonomy'])) && ($imdb_admin_values['imdbtaxonomy'] == 1) ) {
+		if ( (isset($this->imdb_admin_values['imdbtaxonomy'])) && ($this->imdb_admin_values['imdbtaxonomy'] == 1) ) {
 
 			add_action( 'init', [$this, 'lumiere_create_taxonomies' ], 0 );
 
 			// search for all imdbtaxonomy* in config array, 
 			// if active write a filter to add a class to the link to the taxonomy page
-			foreach ( $this->utilsClass->lumiere_array_key_exists_wildcard($imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
+			foreach ( $this->utilsClass->lumiere_array_key_exists_wildcard($this->imdb_widget_values,'imdbtaxonomy*','key-value') as $key=>$value ) {
 				if ($value == 1) {
-					$filter_taxonomy = str_replace('imdbtaxonomy', '', "term_links-" . $imdb_admin_values['imdburlstringtaxo'] . $key);
+					$filter_taxonomy = str_replace('imdbtaxonomy', '', "term_links-" . $this->imdb_admin_values['imdburlstringtaxo'] . $key);
 					add_filter( $filter_taxonomy, [ $this, 'lumiere_taxonomy_add_class_to_links'] );
 				}
 			}
@@ -955,7 +952,7 @@ class Core {
 	/** Copy metas from one post in original language to another post in other language
 	 ** Polylang version
 	 ** not yet implemented, not sure if needed, maybe not, need further tests
-	 ** to be called: add_filter('pll_copy_post_metas', 'lumiere_copy_post_metas_polylang', 10, 2)
+	 ** to call it: add_filter('pll_copy_post_metas', 'lumiere_copy_post_metas_polylang', 10, 2)
 	 **/
 /*
 	function lumiere_copy_post_metas_polylang( $metas, $sync) {

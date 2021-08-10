@@ -56,32 +56,6 @@ trait AcceptanceTrait {
 		} 
 	}
 
-	/** Activate plugin if not yet active
-	 * 
-	 */
-	function CustomActivatePlugin($plugin){
-		try {
-			$this->seePluginDeactivated("$plugin");
-			$this->activatePlugin("$plugin");
-			$this->comment("[Action] Plugin $plugin successfully activated.");
-		} catch (\PHPUnit_Framework_AssertionFailedError | \NoSuchElementException | \Exception $f) {
-			$this->comment("[No Action] Plugin $plugin was already activated.");
-		} 
-	}
-
-	/** Disable plugin if active
-	 * 
-	 */
-	function CustomDisablePlugin($plugin){
-		try {
-			$this->seePluginActivated("$plugin");
-			$this->deactivatePlugin("$plugin");
-			$this->comment("[Action] Plugin $plugin successfully deactivated.");
-		} catch (\PHPUnit_Framework_AssertionFailedError | \NoSuchElementException | \Exception $f) {
-			$this->comment("[No Action] Plugin $plugin was already deactivated.");
-		} 
-	}
-
 	/** Select a value in dropdown select, then submit
 	 * 
 	 */
@@ -121,6 +95,46 @@ trait AcceptanceTrait {
 			$this->comment("[No Action] Template $item was already available in theme folder.");
 		} 
 
+	}
+
+	/** Activate plugin if it is deactivated
+	 * 
+	 */
+	function maybeActivatePlugin($plugin){
+
+		try {
+			$this->executeJS("return jQuery('#activate-".$plugin."').get(0).click()");
+			$this->comment("[Action] Plugin $plugin was unactive and has been successfully activated.");
+		} catch (\PHPUnit_Framework_AssertionFailedError | \NoSuchElementException | \Exception $f) {
+			$this->comment("[No action] Plugin $plugin was already activated.");
+		} 
+
+	}
+
+	/** Deactivate plugin if it is activated
+	 * 
+	 */
+	function maybeDeactivatePlugin($plugin){
+
+		try {
+			$this->executeJS("return jQuery('#deactivate-".$plugin."').get(0).click()");
+			$this->comment("[Action] Plugin $plugin was active and has been successfully deactivated.");
+		} catch (\PHPUnit_Framework_AssertionFailedError | \NoSuchElementException | \Exception $f) {
+			$this->comment("[No action] Plugin $plugin was already deactivated.");
+		} 
+
+	}
+
+
+	/** Wait for JS to consider page has been loaded
+	 * 
+	 */
+	function waitPageLoad($timeout = 10){
+
+		$this->waitForJS('return document.readyState == "complete"', $timeout);
+		$this->waitForJS('return !!window.jQuery && window.jQuery.active == 0;', $timeout);
+		$this->wait(1);
+		
 	}
 
 }

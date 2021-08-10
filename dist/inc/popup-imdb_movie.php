@@ -822,6 +822,6 @@ class PopupMovie {
 
 }
 
-$PopupMovie = new \Lumiere\PopupMovie();
+new \Lumiere\PopupMovie();
 
 

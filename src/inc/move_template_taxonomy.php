@@ -12,15 +12,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Start Lumière config class and get the vars
 if (class_exists("\Lumiere\Settings")) {
 
-	$config = new \Lumiere\Settings();
-	$imdb_admin_values = $config->imdb_admin_values;
-	$imdb_widget_values = $config->imdb_widget_values;
+	$configClass = new \Lumiere\Settings();
+	$imdb_admin_values = $configClass->imdb_admin_values;
+	$imdb_widget_values = $configClass->imdb_widget_values;
 
 	// List of potential types for a person
-	$array_people = $config->array_people; # array
+	$array_people = $configClass->array_people; # array
 
 	// List of potential types for an item
-	$array_items = $config->array_items; # array
+	$array_items = $configClass->array_items; # array
 }
 
 $lumiere_taxo_title = esc_html( $_GET['taxotype'] );
