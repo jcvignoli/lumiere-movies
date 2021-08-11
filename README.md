@@ -134,7 +134,7 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 
 ## Changelog
 
-Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.txt "latest changelog") to find out the latest developments. Or for even more extensive and recent changes available at my [GIT commits](https://github.com/jcvignoli/lumiere-movies/commits/master "GIT commits").
+Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changes") to find out the latest developments. Or for even more extensive and recent changes available at [GIT commits](https://github.com/jcvignoli/lumiere-movies/commits/master "GIT commits").
 
 Major changes:
 

@@ -219,6 +219,6 @@ class PopupSearch {
 
 }
 
-$PopupSearch = new \Lumiere\PopupSearch();
+new \Lumiere\PopupSearch();
 
 

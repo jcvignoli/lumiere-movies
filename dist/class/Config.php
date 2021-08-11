@@ -133,9 +133,9 @@ class Settings extends Config {
 	 */
 	public $current_number_updates;
 
-	/** Constructor
-	 **
-	 **/
+	/* Constructor
+	 *
+	 */
 	function __construct() {
 
 		// Construct parent class so we can send the settings
@@ -216,13 +216,6 @@ class Settings extends Config {
 			self::popup_person_url
 		);
 
-		// If var current_number_updates doesn't exist, make it
-		if ( (!isset($this->current_number_updates)) || (empty($this->current_number_updates)) ) {
-
-			$this->lumiere_define_nb_updates();
-
-		}
-
 	}
 
 	/* Define global constants after global options are available
@@ -278,66 +271,80 @@ class Settings extends Config {
 	}
 
 	/* Define the number of updates on first install
-	 * Called from \Lumiere\Core
+	 * Not built from __construct(), called from \Lumiere\Core
 	 *
+	 * @return true or false
 	 */
 	public function lumiere_define_nb_updates() {
 
+		new \Lumiere\Settings();
+
 		// If var current_number_updates doesn't exist, make it
-		if ( (!isset($this->current_number_updates)) || (empty($this->current_number_updates)) ) {
+		if ( (!isset($this->imdb_admin_values['imdbHowManyUpdates'])) || (empty($this->imdb_admin_values['imdbHowManyUpdates'])) ) {
 
 			// Find the number of update files to get the right 
 			// number of updates when installing Lumière
 			$fi = new \FilesystemIterator(plugin_dir_path(__DIR__).'class/updates/', \FilesystemIterator::SKIP_DOTS);
-			return $this->current_number_updates = iterator_count($fi);
+			$this->current_number_updates = iterator_count($fi) + 1;
+
+			$option_array = $this->imdbAdminOptionsName;
+			$option_key = 'imdbHowManyUpdates';
+			$option_array_search = get_option($option_array);
+			$option_array_search[$option_key] = $this->current_number_updates;
+
+			// On successful update, exit
+			if (update_option($option_array, $option_array_search)) {
+				return true;
+			}
 
 		}
+
+		return false;
 	}
 
-	/** Returns the array of ADMIN options
-	 **
-	 **
-	 **/
+	/* Returns the array of ADMIN options
+	 *
+	 *
+	 */
 	function get_imdb_admin_option() {
 
 		$imdbAdminOptions = array(
 
 			#--------------------------------------------------=[ Basic ]=--
-			'blog_adress' => get_bloginfo('url'),	/* @TODO useless, remove */
+			'blog_adress' 		=> get_bloginfo('url'),/* @TODO useless, remove */
 			'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
-			'imdbpluginpath' => plugin_dir_path( __DIR__ ),
-			'imdburlpopups' => '/imdblt/',
-			'imdbkeepsettings' => true,
-			'imdburlstringtaxo' => self::url_string_taxo,
-			'imdbwebsite' => "www.imdb.com",		/* @TODO useless, remove */
-			'imdbcoversize' => false,
-			'imdbcoversizewidth' => '100',
+			'imdbpluginpath' 		=> plugin_dir_path( __DIR__ ),
+			'imdburlpopups' 		=> '/imdblt/',
+			'imdbkeepsettings' 		=> true,
+			'imdburlstringtaxo' 		=> self::url_string_taxo,
+			'imdbwebsite' 		=> "www.imdb.com",	/* @TODO useless, remove */
+			'imdbcoversize' 		=> false,
+			'imdbcoversizewidth' 	=> '100',
 			#--------------------------------------------------=[ Technical ]=--
 
-			'imdb_utf8recode'=> true,			/* @TODO useless, remove */
-			'imdbmaxresults' => 10,
-			'imdbpopuptheme' => 'white',
-			'popupLarg' => '540',
-			'popupLong' => '350',
-			'imdbintotheposttheme' => 'grey',
-			'imdblinkingkill' => false,
-			'imdbautopostwidget' => false,
-			'imdbimgdir' => 'pics/',			/* @TODO useless, remove */
-			'imdblanguage' => "en",
-			'imdbdirectsearch' => true, 		/* @TODO useless, remove */
+			'imdb_utf8recode'		=> true,		/* @TODO useless, remove */
+			'imdbmaxresults' 		=> 10,
+			'imdbpopuptheme' 		=> 'white',
+			'popupLarg' 			=> '540',
+			'popupLong' 			=> '350',
+			'imdbintotheposttheme' 	=> 'grey',
+			'imdblinkingkill' 		=> false,
+			'imdbautopostwidget' 	=> false,
+			'imdbimgdir'			=> 'pics/',		/* @TODO useless, remove */
+			'imdblanguage' 		=> "en",
 			/*'imdbsourceout' => false,*/
-			'imdbdebug' => false,			/* Debug */
-			'imdbdebuglog' => false,			/* Log debug */
-			'imdbdebuglogpath' => self::debug_log_path,
-			'imdbdebuglevel' => 'DEBUG',		/* Debug levels: emergency, alert, critical, 
+			'imdbdebug' 			=> false,		/* Debug */
+			'imdbdebuglog' 		=> false,		/* Log debug */
+			'imdbdebuglogpath' 		=> self::debug_log_path,
+			'imdbdebuglevel' 		=> 'DEBUG',		/* Debug levels: emergency, alert, critical, 
 									error, warning, notice, info, debug */
-			'imdbdebugscreen' => true,			/* Show debug on screen */
-			'imdbwordpress_bigmenu'=>false,		/* Left menu */
-			'imdbwordpress_tooladminmenu'=>true,	/* Top menu */
-			'imdbpopup_highslide'=>true,
-			'imdbtaxonomy'=> true,
+			'imdbdebugscreen' 		=> true,		/* Show debug on screen */
+			'imdbwordpress_bigmenu'	=> false,		/* Left menu */
+			'imdbwordpress_tooladminmenu'=> true,		/* Top menu */
+			'imdbpopup_highslide'	=> true,
+			'imdbtaxonomy'		=> true,
 			'imdbHowManyUpdates'=> $this->current_number_updates, # for use in class UpdateOptions
-			'imdbseriemovies' => 'movies+series', 	/* options: movies, series, movies+series, videogames */
+			'imdbseriemovies' 		=> 'movies+series', 	/* options: movies, series, movies+series, videogames */
 
 		);
 		$imdbAdminOptions['imdbplugindirectory'] = $imdbAdminOptions['blog_adress'] 
@@ -363,22 +370,22 @@ class Settings extends Config {
 	} 
 
 
-	/** Returns the array of CACHE options
-	 **
-	 **
-	 **/
+	/* Returns the array of CACHE options
+	 *
+	 *
+	 */
 	function get_imdb_cache_option() {
 
 		$imdbCacheOptions = array(
 
-			'imdbcachedir_partial' => 'wp-content/cache/lumiere/',
-			'imdbstorecache' => true, 			/* not available in the admin interface */
-			'imdbusecache' => true,
-			'imdbconverttozip' => true, 		/* not available in the admin interface */
-			'imdbusezip' => true, 			/* not available in the admin interface */
-			'imdbcacheexpire' => "2592000", // one month
-			'imdbcachedetails'=> true,
-			'imdbcachedetailsshort'=> false,
+			'imdbcachedir_partial' 	=> 'wp-content/cache/lumiere/',
+			'imdbstorecache' 		=> true, 		/* not available in the admin interface */
+			'imdbusecache' 		=> true,
+			'imdbconverttozip' 		=> true, 		/* not available in the admin interface */
+			'imdbusezip' 			=> true, 		/* not available in the admin interface */
+			'imdbcacheexpire' 		=> "2592000", 	/* one month */
+			'imdbcachedetails'		=> true,
+			'imdbcachedetailsshort'	=> false,
 
 		);
 
@@ -416,93 +423,93 @@ class Settings extends Config {
 
 	} 
 
-	/** Returns the array of WIDGET options
-	 **
-	 **
-	 **/
+	/* Returns the array of WIDGET options
+	 *
+	 *
+	 */
 	function get_imdb_widget_option() {
 
 		$imdbWidgetOptions = array(
 
-			'imdbwidgettitle' => true,
-			'imdbwidgetpic' => true,
-			'imdbwidgetruntime' => false,
-			'imdbwidgetdirector' => true,
-			'imdbwidgetcountry' => false,
-			'imdbwidgetactor' => true,
-			'imdbwidgetactornumber' => '10',
-			'imdbwidgetcreator' => false,
-			'imdbwidgetrating' => false,
-			'imdbwidgetlanguage' => false,
-			'imdbwidgetgenre' => true,
-			'imdbwidgetwriter' => true,
-			'imdbwidgetproducer' => false,
-			'imdbwidgetproducernumber' => false,
-			'imdbwidgetkeyword' => false,
-			'imdbwidgetprodcompany' => false,
-			'imdbwidgetplot' => false,
-			'imdbwidgetplotnumber' => false,
-			'imdbwidgetgoof' => false,
-			'imdbwidgetgoofnumber' => false,
-			'imdbwidgetcomment' => false,
-			'imdbwidgetquote' => false,
-			'imdbwidgetquotenumber' => false,
-			'imdbwidgettagline' => false,
-			'imdbwidgettaglinenumber' => false,
-			'imdbwidgetcolor' => false,
-			'imdbwidgetalsoknow' => false,
-			'imdbwidgetalsoknownumber' => false,
-			'imdbwidgetcomposer' => false,
-			'imdbwidgetsoundtrack' => false,
-			'imdbwidgetsoundtracknumber' => false,
-			'imdbwidgetofficialsites' => false,
-			'imdbwidgetsource' => false,
-			'imdbwidgetonpost' => true,
-			'imdbwidgetonpage' => true,
-			'imdbwidgetyear' => false,
-			'imdbwidgettrailer' => false,
-			'imdbwidgettrailernumber' => false,
+			'imdbwidgettitle' 			=> true,
+			'imdbwidgetpic' 			=> true,
+			'imdbwidgetruntime' 			=> false,
+			'imdbwidgetdirector' 		=> true,
+			'imdbwidgetcountry' 			=> false,
+			'imdbwidgetactor' 			=> true,
+			'imdbwidgetactornumber' 		=> '10',
+			'imdbwidgetcreator' 			=> false,
+			'imdbwidgetrating' 			=> false,
+			'imdbwidgetlanguage' 		=> false,
+			'imdbwidgetgenre' 			=> true,
+			'imdbwidgetwriter' 			=> true,
+			'imdbwidgetproducer' 		=> false,
+			'imdbwidgetproducernumber' 		=> false,
+			'imdbwidgetkeyword' 			=> false,
+			'imdbwidgetprodcompany' 		=> false,
+			'imdbwidgetplot' 			=> false,
+			'imdbwidgetplotnumber' 		=> false,
+			'imdbwidgetgoof' 			=> false,
+			'imdbwidgetgoofnumber' 		=> false,
+			'imdbwidgetcomment' 			=> false,
+			'imdbwidgetquote' 			=> false,
+			'imdbwidgetquotenumber' 		=> false,
+			'imdbwidgettagline' 			=> false,
+			'imdbwidgettaglinenumber' 		=> false,
+			'imdbwidgetcolor' 			=> false,
+			'imdbwidgetalsoknow' 		=> false,
+			'imdbwidgetalsoknownumber' 		=> false,
+			'imdbwidgetcomposer' 		=> false,
+			'imdbwidgetsoundtrack' 		=> false,
+			'imdbwidgetsoundtracknumber' 	=> false,
+			'imdbwidgetofficialsites' 		=> false,
+			'imdbwidgetsource' 			=> false,
+			'imdbwidgetonpost' 			=> true,
+			'imdbwidgetonpage' 			=> true,
+			'imdbwidgetyear' 			=> false,
+			'imdbwidgettrailer' 			=> false,
+			'imdbwidgettrailernumber' 		=> false,
 
 			'imdbwidgetorder'=>array(
-							"title" => "1", 
-							"pic" => "2",
-							"runtime" => "3", 
-							"director" => "4", 
-							"country" => "5", 
-							"actor" => "6", 
-							"creator" => "7", 
-							"rating" => "8", 
-							"language" => "9",
-							"genre" => "10",
-							"writer" => "11",
-							"producer" => "12", 
-							"keyword" => "13", 
-							"prodcompany" => "14", 
-							"plot" => "15", 
-							"goof" => "16", 
-							"comment" => "17", 
-							"quote" => "18", 
-							"tagline" => "19", 
-							"color" => "20", 
-							"alsoknow" => "21", 
-							"composer" => "22", 
-							"soundtrack" => "23", 
-							"trailer" => "24", 
-							"officialsites" => "25", 
-							"source" => "26" 
+							"title" 		=> "1", 
+							"pic" 			=> "2",
+							"runtime" 		=> "3", 
+							"director" 		=> "4", 
+							"country" 		=> "5", 
+							"actor" 		=> "6", 
+							"creator" 		=> "7", 
+							"rating" 		=> "8", 
+							"language" 		=> "9",
+							"genre" 		=> "10",
+							"writer" 		=> "11",
+							"producer" 		=> "12", 
+							"keyword" 		=> "13", 
+							"prodcompany" 	=> "14", 
+							"plot" 		=> "15", 
+							"goof" 		=> "16", 
+							"comment" 		=> "17", 
+							"quote" 		=> "18", 
+							"tagline" 		=> "19", 
+							"color" 		=> "20", 
+							"alsoknow" 		=> "21", 
+							"composer" 		=> "22", 
+							"soundtrack" 		=> "23", 
+							"trailer" 		=> "24", 
+							"officialsites" 	=> "25", 
+							"source" 		=> "26" 
 						),
 
-			'imdbtaxonomycolor' => false,
-			'imdbtaxonomycomposer' => false,
-			'imdbtaxonomycountry' => false,
-			'imdbtaxonomycreator' => false,
-			'imdbtaxonomydirector' => false,
-			'imdbtaxonomygenre' => true,
-			'imdbtaxonomykeyword' => false,
-			'imdbtaxonomylanguage' => false,
-			'imdbtaxonomyproducer' => false,
-			'imdbtaxonomyactor' => false,
-			'imdbtaxonomywriter' => false,
+			'imdbtaxonomycolor' 			=> false,
+			'imdbtaxonomycomposer' 		=> false,
+			'imdbtaxonomycountry' 		=> false,
+			'imdbtaxonomycreator' 		=> false,
+			'imdbtaxonomydirector' 		=> false,
+			'imdbtaxonomygenre' 			=> true,
+			'imdbtaxonomykeyword' 		=> false,
+			'imdbtaxonomylanguage' 		=> false,
+			'imdbtaxonomyproducer' 		=> false,
+			'imdbtaxonomyactor' 			=> false,
+			'imdbtaxonomywriter' 		=> false,
 
 		);
 
@@ -519,35 +526,36 @@ class Settings extends Config {
 
 	} 
 
-	/** Send Lumiere options to imdbphp parent class
-	 **
-	 **
-	 **/
+	/* Send Lumiere options to imdbphp parent class
+	 *
+	 *
+	 */
 	function lumiere_send_config_imdbphp() {
 
-		$this->language = $this->imdb_admin_values['imdblanguage'] ?? NULL;
-		$this->cachedir = $this->imdb_cache_values['imdbcachedir'] ?? NULL;
-		$this->photodir = $this->imdb_cache_values['imdbphotoroot'] ?? NULL;// ?imdbphotoroot? Bug imdbphp?
-		$this->cache_expire = $this->imdb_cache_values['imdbcacheexpire'] ?? NULL;
-		$this->photoroot = $this->imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
-		$this->storecache = $this->imdb_cache_values['imdbstorecache'] ?? NULL;
-		$this->usecache = $this->imdb_cache_values['imdbusecache'] ?? NULL;
-		$this->converttozip = $this->imdb_cache_values['imdbconverttozip'] ?? NULL;
-		$this->usezip = $this->imdb_cache_values['imdbusezip'] ?? NULL;
+		$this->language 	= $this->imdb_admin_values['imdblanguage'] ?? NULL;
+		$this->cachedir 	= rtrim($this->imdb_cache_values['imdbcachedir'], '/') ?? NULL;
+		$this->photodir 	= rtrim($this->imdb_cache_values['imdbphotoroot'], '/') ?? NULL;// ?imdbphotoroot? Bug imdbphp?
+		$this->cache_expire 	= $this->imdb_cache_values['imdbcacheexpire'] ?? NULL;
+		$this->photoroot 	= $this->imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
+		$this->storecache 	= $this->imdb_cache_values['imdbstorecache'] ?? NULL;
+		$this->usecache 	= $this->imdb_cache_values['imdbusecache'] ?? NULL;
+		$this->converttozip 	= $this->imdb_cache_values['imdbconverttozip'] ?? NULL;
+		$this->usezip 	= $this->imdb_cache_values['imdbusezip'] ?? NULL;
 
 		/** Where the local IMDB images reside (look for the "showtimes/" directory)
 		*  This should be either a relative, an absolute, or an URL including the
 		*  protocol (e.g. when a different server shall deliver them)
 		* Cannot be changed in Lumière admin panel
 		*/
-		$this->imdb_img_url = isset($this->imdb_admin_values['imdbplugindirectory']).'/pics/showtimes' ?? NULL;
+		$this->imdb_img_url 	= isset($this->imdb_admin_values['imdbplugindirectory']).'/pics/showtimes' ?? NULL;
 
 	}
 
-	/** Prevent some pages to display debug
-	 ** Sends to parent imdbphp class the debug var
-	 ** Obsolete: was needed when class.movie.php was executed everywhere, which not the case anymore
-	 **/
+	/* Prevent some pages to display debug
+	 * Sends to parent imdbphp class the debug var
+	 * Obsolete: was needed when class.movie.php was executed everywhere, which not the case anymore
+	 * @TODO: check if can be safely removed
+	 */
 	function lumiere_maybe_display_debug_pages() {
 
 		// Display debug in admin for lumiere_options pages
