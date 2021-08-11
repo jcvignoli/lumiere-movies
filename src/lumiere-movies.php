@@ -42,10 +42,6 @@ if ( (class_exists("\Lumiere\Core")) && (class_exists('\Imdb\Config')) ){
 	# Executed upon plugin deactivation
 	register_deactivation_hook( __FILE__, [ $start , 'lumiere_on_deactivation' ] );
 
-	# Executed upon plugin deactivation
-	// @TODO: stop using deactivation to do uninstall work
-//	register_uninstall_hook( __FILE__, 'lumiere_on_uninstall' );
-
 // Display error notice, plugin is not properly installed
 } else {
 

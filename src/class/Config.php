@@ -78,6 +78,10 @@ class Settings extends Config {
 	const popup_movie_url = 'inc/popup-imdb_movie.php';
 	const popup_person_url = 'inc/popup-imdb_person.php';
 
+	/* URL string for taxonomy, 'imdblt_' by default (built in )
+	*/
+	const url_string_taxo = 'imdblt_';
+
 	/* Include all pages of Lumière plugin 
 	*/
 	public $lumiere_list_all_pages;
@@ -127,7 +131,7 @@ class Settings extends Config {
 	 * number of updates already made
 	 * Is built in lumiere_define_constants()
 	 */
-	private $current_number_updates;
+	public $current_number_updates;
 
 	/** Constructor
 	 **
@@ -156,6 +160,7 @@ class Settings extends Config {
 
 		// Call the function to send the selected settings to imdbphp library
 		$this->lumiere_send_config_imdbphp();
+
 
 	}
 
@@ -194,7 +199,29 @@ class Settings extends Config {
 		$this->lumiere_urlstringsearch = $this->lumiere_urlstring . "search/";
 		$this->lumiere_urlpopupsfilms = site_url() . $this->lumiere_urlstringfilms;
 		$this->lumiere_urlpopupsperson = site_url() . $this->lumiere_urlstringperson;
-		$this->lumiere_urlpopupssearch = site_url() . $this->lumiere_urlstringsearch;
+		$this->lumiere_urlpopupsearch = site_url() . $this->lumiere_urlstringsearch;
+
+		// Build the list of all pages included in Lumière plugin
+		$this->lumiere_list_all_pages = array( 
+			self::url_string_taxo,
+			$this->lumiere_urlstringfilms, 
+			$this->lumiere_urlstringperson, 
+			$this->lumiere_urlstringsearch, 
+			self::move_template_taxonomy_page, 
+			self::highslide_download_page, 
+			self::gutenberg_search_page, 
+			self::gutenberg_search_url, 
+			self::popup_search_url, 
+			self::popup_movie_url, 
+			self::popup_person_url
+		);
+
+		// If var current_number_updates doesn't exist, make it
+		if ( (!isset($this->current_number_updates)) || (empty($this->current_number_updates)) ) {
+
+			$this->lumiere_define_nb_updates();
+
+		}
 
 	}
 
@@ -231,22 +258,6 @@ class Settings extends Config {
 			) 
 		);
 
-
-		// Build the list of all pages included in Lumière plugin
-		$this->lumiere_list_all_pages = array( 
-			$this->imdb_admin_values['imdburlstringtaxo'],
-			$this->lumiere_urlstringfilms, 
-			$this->lumiere_urlstringperson, 
-			$this->lumiere_urlstringsearch, 
-			self::move_template_taxonomy_page, 
-			self::highslide_download_page, 
-			self::gutenberg_search_page, 
-			self::gutenberg_search_url, 
-			self::popup_search_url, 
-			self::popup_movie_url, 
-			self::popup_person_url
-		);
-
 		// Build list of people and items
 		$this->array_people = array( 
 			__( 'actor', 'lumiere-movies') => __( 'actor', 'lumiere-movies'), 
@@ -278,7 +289,7 @@ class Settings extends Config {
 			// Find the number of update files to get the right 
 			// number of updates when installing Lumière
 			$fi = new \FilesystemIterator(plugin_dir_path(__DIR__).'class/updates/', \FilesystemIterator::SKIP_DOTS);
-			$this->current_number_updates = iterator_count($fi);
+			return $this->current_number_updates = iterator_count($fi);
 
 		}
 	}
@@ -297,7 +308,7 @@ class Settings extends Config {
 			'imdbpluginpath' => plugin_dir_path( __DIR__ ),
 			'imdburlpopups' => '/imdblt/',
 			'imdbkeepsettings' => true,
-			'imdburlstringtaxo' => 'imdblt_',
+			'imdburlstringtaxo' => self::url_string_taxo,
 			'imdbwebsite' => "www.imdb.com",		/* @TODO useless, remove */
 			'imdbcoversize' => false,
 			'imdbcoversizewidth' => '100',
@@ -492,7 +503,6 @@ class Settings extends Config {
 			'imdbtaxonomyproducer' => false,
 			'imdbtaxonomyactor' => false,
 			'imdbtaxonomywriter' => false,
-			'imdbtaxonomytitle' => false,
 
 		);
 
@@ -760,6 +770,6 @@ class Settings extends Config {
 
 	}
 
-} //End class
+} 
 
 ?>
