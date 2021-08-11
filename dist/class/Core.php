@@ -540,21 +540,19 @@ class Core {
 	// pages to be included when the redirection is done
 	function lumiere_popup_redirect_include() {
 
-		$imdb_admin_values = $this->imdb_admin_values;
-
 		// Include films popup
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringsearch ) )
-			require_once ( $imdb_admin_values['imdbpluginpath'] . \Lumiere\Settings::popup_search_url );
+			require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::popup_search_url );
 
 
 		// Include films popup
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) )
-			require_once ( $imdb_admin_values['imdbpluginpath'] . \Lumiere\Settings::popup_movie_url );
+			require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::popup_movie_url );
 
 
 		// Include persons popup
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringperson ) )
-			require_once ( $imdb_admin_values['imdbpluginpath'] . \Lumiere\Settings::popup_person_url );
+			require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::popup_person_url );
 
 	}
 
@@ -636,7 +634,7 @@ class Core {
 			// Canonical for search popup
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringsearch ) ) {
 				$film_sanitized = ""; $film_sanitized = isset($_GET['film']) ? $this->utilsClass->lumiere_name_htmlize($_GET['film']) : "";
-				$my_canon = $this->configClass->lumiere_urlpopupssearch . '?film=' . $film_sanitized . '&norecursive=yes' ;
+				$my_canon = $this->configClass->lumiere_urlpopupsearch . '?film=' . $film_sanitized . '&norecursive=yes' ;
 			}
 
 			// Canonical for movies popups
@@ -720,12 +718,24 @@ class Core {
 		check_admin_referer( "activate-plugin_{$plugin}" );
 
 		/* Create the value of number of updates on first install */
-		$this->configClass->lumiere_define_nb_updates();
+		if ($this->configClass->lumiere_define_nb_updates() == true){
+
+			$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' successfully created.");
+
+		} else {
+
+			$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' has not been created.");
+
+		}
 
 		/* Create the cache folders */
 		if ($this->configClass->lumiere_create_cache() == true){
 
-			$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][updater] Lumière _on_activation_ hook: cache successfully created.");
+			$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][activation] Lumière cache successfully created.");
+
+		} else {
+
+			$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][activation] Lumière cache has not been created.");
 
 		}
 
@@ -743,13 +753,15 @@ class Core {
 			// Cron to run once, in 1 hour
 			wp_schedule_single_event( time() + 3600, 'lumiere_cron_hook' );
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][coreClass][updater] Lumière _on_activation_ hook: crons successfully set up.");
+			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][coreClass][activation] Lumière crons successfully set up.");
 
 		} else {
 
-			$this->configClass->lumiere_maybe_log('error', "[Lumiere][coreClass][updater] Lumière _on_activation_ hook: could not set up crons.");
+			$this->configClass->lumiere_maybe_log('error', "[Lumiere][coreClass][activation] Crons were not set up.");
 
 		}
+
+		$this->configClass->lumiere_maybe_log('debug', "[Lumiere][coreClass][activation] Lumière plugin activated.");
 
 		/* remove activation issue
 		trigger_error(ob_get_contents(),E_USER_ERROR);*/

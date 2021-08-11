@@ -2,12 +2,15 @@
 
 v.3.5.2
 * [feature] uninstall process properly implemented. Lumière doesn't rely on WordPress deactivation function anymore. Properly delete taxonomy. Nothing left in user database.
+* [technical] Removed imdbsearchdirect option in settings class.
 * [bug] Updates were not running upon updates (only upon activation)
 * [bug] Cronjobs were not throwing debugging text. Added DOING_CRON as new condition in settings class lumiere_maybe_log() & utils class lumiere_activate_debug()
 * [bug] Various bugs in people taxonomy template, polylang integration was not working as expected. New template version 3.0 released.
 * [bug] Removed imdbtaxonomytitle, a taxonomy option that wasn't used anymore.
 * [bug] Stylesheets and javascripts were missing a "min" suffix in their names.
 * [bug] Stylesheets and javascripts were not loaded in admin pages for new installs. Changed conditions in Core class function lumiere_execute_admin_assets()
+* [bug] Number of updates not correctly initialised on new install. Fixed the function in class Settings.
+* [bug] popup movie error in displaying data when utilised as a searching popup. Removed imdbsearchdirect condition, cleaned the class, fixed html.
 
 v.3.5.1
 * [bug] Fatal error upon installation. "Vendor" folder wasn't included. Changed in lumiere-movies.php management of dependencies.

@@ -2,7 +2,7 @@
 13. Implement alternative to highslide with a jquery modal window
 16. To test: If Polylang needs to copy the metas when doing a new post in another lang, can activate lumiere_copy_post_metas_polylang() in class.core.php
 
-17. bug number of updates not correctly initialised in config.php
+
 
 v.3.5.2
 OK--- 1. Cronjobs were not throwing debug text. Added DOING_CRON as new condition in settings class lumiere_maybe_log() & utils class lumiere_activate_debug()
@@ -14,6 +14,9 @@ OK--- 6. fix for stylesheet: links into the post were underlined with OceanWP
 OK--- 7. feature uninstall process properly implemented. Doesn't rely on deactivation anymore. Delete taxonomy.
 OK--- 8. bug Removed imdbtaxonomytitle, a taxonomy variable that wasn't used anymore.
 OK--- 9. bug Stylesheets and javascripts were not loaded in admin pages for new installs. Changed conditions in Core class function lumiere_execute_admin_assets()
+OK-- 10. bug number of updates not correctly initialised in config.php
+OK-- 11. bug popup movie error in displaying data when utilised as a searching popup. Removed imdbsearchdirect condition and admin option, simplified the class, fixed html.
+
 
 v.3.5.1
 OK--- 1. bug Fatal error upon installation. "Vendor" folder wasn't included. Changed in lumiere-movies.php management of dependencies.

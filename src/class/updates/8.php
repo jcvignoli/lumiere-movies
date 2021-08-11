@@ -123,6 +123,23 @@ if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName,
 
 }
 
+
+/*
+ * Remove 'imdbdirectsearch'
+ * Obsolete value
+ */
+if ( TRUE === $this->lumiere_remove_options($configClass->imdbAdminOptions, 'imdbdirectsearch' ) ) {
+
+	$text = "Lumière option imdbdirectsearch successfully removed.";
+	$configClass->lumiere_maybe_log('info', "[Lumiere][updateOptions] $text");
+
+} else {
+
+	$text = "Lumière option imdbdirectsearch could not be removed.";
+	$configClass->lumiere_maybe_log('error', "[Lumiere][updateOptions] $text");
+
+}
+
 /*
  * Remove obsolete terms linked to imdblt_keywords taxonomy (using now imdblt_keyword)
  */

@@ -4,7 +4,7 @@
 
 (function ($) {
   $(document).on('click', '[data-slug="lumiere-movies"] .deactivate a', function(e){
-	if( !confirm('You have selected to not keep your settings upon deactivation. Settings, taxonomy terms and cache will be deleted.') ){
+	if( !confirm('You have selected to not keep your settings upon deactivation. Settings, taxonomy terms and cache will be removed when deleting Lumière plugin.') ){
          
 		  e.stopImmediatePropagation();
 		  e.preventDefault();

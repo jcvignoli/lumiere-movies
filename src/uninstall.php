@@ -144,10 +144,11 @@ class LumiereUninstall {
 
 				}
 
-				unregister_taxonomy( $filter_taxonomy );
-				$this->configClass->lumiere_maybe_log('debug', "[Lumiere][uninstall] Taxonomy $filter_taxonomy deleted.");
-
 			}
+
+			unregister_taxonomy( $filter_taxonomy );
+			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][uninstall] Taxonomy $filter_taxonomy deleted.");
+
 		}
 
 		# Delete Lumière options

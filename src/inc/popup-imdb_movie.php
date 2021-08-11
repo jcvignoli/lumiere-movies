@@ -43,7 +43,7 @@ class PopupMovie {
 		require_once (plugin_dir_path( __DIR__ ).'bootstrap.php');
 
 		// Start Lumière config class
-		if (class_exists("\Lumiere\Settings")) {
+		if (!isset($this->configClass)) {
 
 			$this->configClass = new \Lumiere\Settings();
 			$this->imdb_admin_values = $this->configClass->imdb_admin_values;
@@ -88,11 +88,9 @@ class PopupMovie {
 		$filmid_sanitized = isset($_GET["film"]) ? $this->utilsClass->lumiere_name_htmlize( $_GET["film"] ) : NULL;
 		$film_sanitized_for_title = isset($_GET["film"]) ? sanitize_text_field($_GET["film"]) : NULL;
 
-		// HTML tags to keep when using strip_tags()
-		$striptags_keep = '<div><span><br><img>';
-
 		// if neither film nor mid are set, throw a 404 error
 		if (empty($movieid_sanitized ) && empty($filmid_sanitized)){
+
 			global $wp_query;
 
 			$wp_query->set_404();
@@ -107,6 +105,7 @@ class PopupMovie {
 
 			$template = get_404_template();
 			return $template;
+
 		}
 
 		if ( (isset ($movieid_sanitized)) && (!empty ($movieid_sanitized)) && (!empty ($this->configClass)) ) {
@@ -117,104 +116,26 @@ class PopupMovie {
 
 		} elseif (!empty ($this->configClass)) {
 
-			$search = new \Imdb\TitleSearch( $this->configClass, $this->loggerClass );
-			$movie = $search->search ($filmid_sanitized, $this->typeSearch )[0];
+			$titleSearchClass = new \Imdb\TitleSearch( $this->configClass, $this->loggerClass );
+			$movie = $titleSearchClass->search ($filmid_sanitized, $this->typeSearch )[0];
 
 		} else {
-			esc_html_e('No config option set', 'lumiere-movies');
-			exit();
+
+			wp_die( esc_html__('No config option set', 'lumiere-movies') );
 		}
 
 
 		//------------------------- 1. search all results related to the name of the movie
-		if (($this->imdb_admin_values['imdbdirectsearch'] == false ) OR ( (isset($_GET["norecursive"])) && ($_GET["norecursive"] == 'yes')) ) { 
+		if ( (isset($_GET["norecursive"])) && ($_GET["norecursive"] == 'yes') ) { 
 
-			$results = $search->search ($filmid_sanitized, $this->typeSearch );
+			$results = $titleSearchClass->search ($filmid_sanitized, $this->typeSearch );
+			$this->lumiere_popupup_search_title ($results, $filmid_sanitized_for_title);
 
-		do_action('wp_loaded'); // execute wordpress first codes # still useful?
+		//------------------------- 2. accès direct, option spéciale
 
-		?><!DOCTYPE html>
-		<html>
-		<head>
-		<?php wp_head();?>
-		</head>
-		<body class="lumiere_body<?php if (isset($this->imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $this->imdb_admin_values['imdbpopuptheme'];?>">
+		} else {  
 
-		<div id="lumiere_loader" class="center"></div>
 
-		<?php
-		// if no movie was found at all
-		if (empty($movie) ){
-			echo "<h1 align='center'>".esc_html__( "No result found for", 'lumiere-movies')." <i>".$filmid_sanitized."</i></h1>";
-			get_footer(); 
-			die();
-		}?>
-
-		<h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . $filmid_sanitized_for_title; ?></i></h1>
-
-		<div class="lumiere_display_flex lumiere_align_center">
-			<div class="lumiere_flex_auto lumiere_width_fifty_perc">
-				<?php esc_html_e('Matching titles', 'lumiere-movies'); ?>
-			</div>
-			<div class="lumiere_flex_auto lumiere_width_fifty_perc">
-				<?php esc_html_e('Director', 'lumiere-movies'); ?>
-			</div>
-		</div>
-		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center"><?php
-
-			$current_line=0;
-
-			foreach ($results as $res) {
-
-				// Limit the number of results according to value set in admin		
-				$current_line++;
-				if ( $current_line > $this->imdb_admin_values['imdbmaxresults']){
-					echo '</div>';echo '<div align="center">' . esc_html__('Maximum of results reached.', 'lumiere-movies') . '</div>'; wp_footer(); echo '</body></html>';exit();
-				}
-
-				echo "\n<div class='lumiere_display_flex lumiere_align_center'>";
-				
-				// ---- movie part		
-				echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
-
-				echo "\n\t\t<div><a class='linkpopup' href=\"".esc_url( $this->configClass->lumiere_urlpopupsfilms . sanitize_text_field( $res->title() ) . "/?mid=".sanitize_text_field( $res->imdbid() ) . "&film=".sanitize_text_field( $res->title() ) )."\" title=\"".esc_html__('more on', 'lumiere-movies')." ".sanitize_text_field( $res->title() )."\" >".sanitize_text_field( $res->title() )." (".intval( $res->year() ).")"."</a>";
-				echo "\n\t</div>";
-				echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_right'>";
-			
-				// ---- director part
-				$realisateur =  $res->director() ;
-				if ( (isset($realisateur['0']['name'])) && (! is_null ($realisateur['0']['name'])) ){
-
-					echo "\n\t\t<a class='linkpopup' href=\"" . esc_url( $this->configClass->lumiere_urlpopupsperson . sanitize_text_field( $realisateur['0']["imdb"] ) . "/?mid=" . sanitize_text_field( $realisateur['0']["imdb"] )."&film=" . $filmid_sanitized ) ."\" title=\"".esc_html__('more on', 'lumiere-movies') . " " . sanitize_text_field( $realisateur['0']['name'] ) . "\" >" . sanitize_text_field( $realisateur['0']['name'] ) . "</a>";
-
-				} else {
-
-					echo "\n\t\t<i>" . esc_html__('No director found.', 'lumiere-movies') . '</i>';
-
-				}
-
-				echo "\n\t</div>";
-				echo "\n</div>";
-
-			} // end foreach  ?> 
-
-		</div>
-
-		<?php
-			wp_footer(); 
-		?>
-		</body>
-		</html>
-		<?php 
-			exit(); # quit the call of the page, to avoid double loading process 
-
-			//-------------------------------------------------------------------------- 2. accès direct, option spéciale
-
-			} else {  
-
-			//--------------------------------------=[Layout]=---------------
-
-			// Head
 		?><!DOCTYPE html>
 		<html>
 		<head>
@@ -818,6 +739,112 @@ class PopupMovie {
 		</html><?php
 		exit(); // quit the call of the page, to avoid double loading process 
 		}
+	}
+
+
+	function lumiere_popupup_search_title ($results, $filmid_sanitized_for_title) {
+
+		?><!DOCTYPE html>
+		<html>
+		<head>
+		<?php wp_head();?>
+		</head>
+		<body class="lumiere_body<?php if (isset($this->imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $this->imdb_admin_values['imdbpopuptheme'];?>">
+
+		<div id="lumiere_loader" class="lumiere_loader_center"></div>
+
+		<?php
+		// if no movie was found at all
+		if (empty($results) ){
+			echo "<h2 align='center'><i>".esc_html__( "No result found.", 'lumiere-movies') . "</i></h2>";
+			wp_footer(); 
+		?></body></html><?php
+			die();
+		}?>
+
+		<h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . $filmid_sanitized_for_title; ?></i></h1>
+
+		<div class="lumiere_display_flex lumiere_align_center">
+			<div class="lumiere_flex_auto lumiere_width_fifty_perc">
+				<?php esc_html_e('Matching titles', 'lumiere-movies'); ?>
+			</div>
+			<div class="lumiere_flex_auto lumiere_width_fifty_perc">
+				<?php esc_html_e('Director', 'lumiere-movies'); ?>
+			</div>
+		</div>
+			<?php
+
+			$current_line=0;
+			$max_lines = isset($this->imdb_admin_values['imdbmaxresults']) ? intval($this->imdb_admin_values['imdbmaxresults']) : 10;
+
+			foreach ($results as $res) {
+
+				// Limit the number of results according to value set in admin		
+				$current_line++;
+				if ( $current_line > $max_lines ){
+					echo '</div>';
+					echo '<div align="center"><i>' ;
+					echo esc_html__('Maximum of results reached.', 'lumiere-movies');
+					if ( current_user_can( 'manage_options' ) ) 
+						echo '&nbsp' . esc_html__('You can increase the maximum number of results in admin options.', 'lumiere-movies');
+					echo  '</div>'; 
+					wp_footer();
+					echo '</i></body></html>';
+					exit();
+				}
+
+				echo "\n<div class='lumiere_display_flex lumiere_align_center'>";
+				
+				// ---- movie part		
+				echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
+
+				echo "\n\t\t<a class=\"linkpopup\" href=\"".esc_url( $this->configClass->lumiere_urlpopupsfilms 
+					. $this->utilsClass->lumiere_name_htmlize( $res->title() ) 
+					. "/?mid=".esc_html($res->imdbid()) )
+					."&film=" . $this->utilsClass->lumiere_name_htmlize( $res->title() )
+					."\" title=\"".esc_html__('more on', 'lumiere-movies')." "
+					.esc_html( $res->title() )."\" >"
+					.esc_html( $res->title() )
+					." (".intval( $res->year() ).")"."</a> \n";
+
+				echo "\n\t</div>";
+			
+				// ---- director part
+				echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_right'>";
+
+				$realisateur = $res->director();
+				if ( (isset($realisateur['0']['name'])) && (! is_null ($realisateur['0']['name'])) ){
+
+					echo "\n\t\t<a class=\"linkpopup\" href=\""
+						.esc_url( $this->configClass->lumiere_urlpopupsperson 
+						. esc_html($realisateur['0']["imdb"]) 
+						. "/?mid=".esc_html($realisateur['0']["imdb"]) )
+						. "\" title=\"".esc_html__('more on', 'lumiere-movies')
+						." ".esc_html( $realisateur['0']['name'] )
+						."\" >".esc_html( $realisateur['0']['name'] )
+						."</a>";
+
+				} else {
+
+					echo "\n\t\t<i>" . esc_html__('No director found.', 'lumiere-movies') . '</i>';
+
+				}
+
+				echo "\n\t</div>";
+				echo "\n</div>";
+
+			} // end foreach  ?> 
+
+		</div>
+
+		<?php
+			wp_footer(); 
+		?>
+		</body>
+		</html>
+		<?php 
+			exit(); # quit the call of the page, to avoid double loading process 
+
 	}
 
 }
