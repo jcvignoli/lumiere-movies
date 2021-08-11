@@ -772,7 +772,7 @@ class PopupPerson {
 
 }
 
-$PopupPerson = new \Lumiere\PopupPerson();
+new \Lumiere\PopupPerson();
 
 
 

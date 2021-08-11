@@ -4,6 +4,7 @@
 /vendor
 .env.testing
 .gulpcredentials.js
+.todo
 composer.lock
 package-lock.json
 wp-cli.phar
