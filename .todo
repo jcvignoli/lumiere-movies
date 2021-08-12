@@ -14,7 +14,7 @@ OK--- 6. fix for stylesheet: links into the post were underlined with OceanWP
 OK--- 7. feature uninstall process properly implemented. Doesn't rely on deactivation anymore. Delete taxonomy.
 OK--- 8. bug Removed imdbtaxonomytitle, a taxonomy variable that wasn't used anymore.
 OK--- 9. bug Stylesheets and javascripts were not loaded in admin pages for new installs. Changed conditions in Core class function lumiere_execute_admin_assets()
-OK-- 10. bug number of updates not correctly initialised in config.php
+OK-- 10. bug number of updates not correctly initialised in class settings
 OK-- 11. bug popup movie error in displaying data when utilised as a searching popup. Removed imdbsearchdirect condition and admin option, simplified the class, fixed html.
 
 

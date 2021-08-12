@@ -689,22 +689,18 @@ class Settings extends Config {
 			// Get the verbosity from options and build the constant
 			$logger_verbosity = isset($this->imdb_admin_values['imdbdebuglevel']) ? constant('\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel']) : constant('\Monolog\Logger::DEBUG') ;
 
-			// Logging debeg is activated
-			if ($this->imdb_admin_values['imdbdebuglog'] == 1) {
+			// Add current url and referrer to the log
+			//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
 
-				// Add current url and referrer to the log
-				//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
+			// Add the file, the line, the class, the function
+			$logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor( $logger_verbosity ));
 
-				// Add the file, the line, the class, the function
-				$logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor( $logger_verbosity ));
+			// Write to log, default to WordPress default log
+			$filelogger = new \Monolog\Handler\StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], $logger_verbosity );
+			$logger->pushHandler ( $filelogger );
 
-				// Write to log, default to WordPress default log
-				$filelogger = new \Monolog\Handler\StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], $logger_verbosity );
-				$logger->pushHandler ( $filelogger );
-
-			}
-
-			// Display on screen the errors is activated
+			/* Display errors on screen if activated
+			 */
 			if ( ($this->imdb_admin_values['imdbdebugscreen'] == 1)  && ( $screenOutput == true ) ){
 
 				$output = "[%level_name%] %message%<br />\n";
@@ -739,8 +735,10 @@ class Settings extends Config {
 		if ( ( !current_user_can( 'manage_options' ) ) && !DOING_CRON )
 			return false;
 
-		if (NULL !== $this->loggerclass)
+		if (NULL !== $this->loggerclass){
+
 			return $this->loggerclass->$function($text);
+		}
 
 		return false;
 

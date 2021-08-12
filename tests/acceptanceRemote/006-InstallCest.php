@@ -42,14 +42,14 @@ class InstallCest {
 
 	}
 
-	/** Check if plugin can be installed
+	/** Check if plugin activation set up crons
 	 *
 	 * @before login
 	 *
 	 */
-	public function checkCanInstallLumiere(AcceptanceRemoteTester $I, \Codeception\Module\Cli $shell) {
+	public function checkInstallSetupCron(AcceptanceRemoteTester $I) {
 
-		$I->wantTo('Check if Lumière plugin can be installed');
+		$I->wantTo('Check if Lumière plugin set up crons');
 
 		// Activate then deactivate plugin
 /*		$I->amOnPluginsPage();
@@ -71,4 +71,54 @@ class InstallCest {
 
 	}
 
+
+	/** Check if plugin activation set up crons
+	 *
+	 * @before login
+	 *
+	 */
+	public function checkDeactivationFollowsKeepSettingsOption(AcceptanceRemoteTester $I) {
+
+		$I->wantTo('Check if keep settings option is followed on deactivation');
+
+		$I->amOnPage('/wp-admin/plugins.php');
+		$I->maybeActivatePlugin('lumiere-movies');
+
+		// Disable keep settings option, so get a confirmation popup
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbautopostwidget');
+		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'update_imdbSettings');
+		$I->amOnPage('/wp-admin/plugins.php');
+		$I->scrollTo('#deactivate-lumiere-movies');
+		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
+		$I->wait(2);
+		$I->seeInPopup('You have selected to not keep your settings upon deactivation.');
+		$I->acceptPopup();
+		$I->wait(2);
+
+		$I->amOnPage('/wp-admin/plugins.php');
+		$I->wait(2);
+		$I->scrollTo('#activate-lumiere-movies');
+		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");
+		$I->wait(5);
+		$I->see('Plugin activated.');
+
+		// Enable keep settings option, so no popup
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbautopostwidget');
+		$I->CustomActivateCheckbox('#imdb_imdbkeepsettings_yes', 'update_imdbSettings');
+		$I->amOnPage('/wp-admin/plugins.php');
+		$I->wait(5);
+		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
+		$I->wait(5);
+		$I->see('Plugin deactivated.');
+		$I->wait(2);
+		$I->amOnPage('/wp-admin/plugins.php');
+		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");
+		$I->wait(5);
+		$I->see('Plugin activated.');
+	}
 }
+
+
+
