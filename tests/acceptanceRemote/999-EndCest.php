@@ -20,61 +20,80 @@ class EndCest {
 		AcceptanceTrait::login_universal($I);
 	}
 
-	/** Enable debug function
-	 *
-	 * @before login
-	 */
-	public function enableDebug(AcceptanceRemoteTester $I) {
-
-		$I->wantTo('Enable debug (normal state)');
-
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
-		$I->scrollTo('#imdbautopostwidget');
-
-		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
-			Avoid throwing error if untrue, normal behaviour of codeception 
-			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbdebug_yes', '#update_imdbSettings');
-
-	}
-
-	/** Enable Taxonomy
+	/** Enable defaults Plugins
 	 *
 	 * @before login
 	 *
 	 */
-	public function enableTaxonomy(AcceptanceRemoteTester $I) {
+	public function enablePlugins(AcceptanceRemoteTester $I) {
 
 		$I->wantTo('Enable taxonomy (normal state)');
 
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
-		$I->scrollTo('#imdbwordpress_tooladminmenu');
-
-		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
-			Avoid throwing error if untrue, normal behaviour of codeception 
-			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#update_imdbSettings' );
-
-	}
-
-	/** Enable Classic editor Plugin
-	 *
-	 * @before login
-	 *
-	 */
-	public function enableClassEditor(AcceptanceRemoteTester $I) {
-
-		$I->wantTo('Enable taxonomy (normal state)');
-
+		// Lumière on
 		$I->amOnPluginsPage();
+		$I->maybeActivatePlugin('lumiere-movies');
 
-		/*	Conditional plugin activation (in _support/AcceptanceTrait.php)
-			Avoid throwing error if untrue, normal behaviour of codeception 
-			If $plugin is disabled, activate it */
+		// Classic editor on
+		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('classic-editor');
 
 	}
 
+
+	/** Enable Admin option
+	 *
+	 * @before login
+	 *
+	 */
+	public function enableAdminGeneralOptions(AcceptanceRemoteTester $I) {
+
+		$I->wantTo('Enable Admin General Options (normal state)');
+
+		// Big menu on
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbwordpress_bigmenu');
+		$I->CustomActivateCheckbox('#imdb_imdbwordpress_bigmenu_yes', 'update_imdbSettings');
+
+		// Left menu on
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbwordpress_bigmenu');
+		$I->CustomActivateCheckbox('#imdb_imdbwordpress_tooladminmenu_yes', 'update_imdbSettings');
+
+		// Taxonomy on
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbwordpress_tooladminmenu');
+		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#update_imdbSettings' );
+
+		// Remove all links off
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbtaxonomy');
+		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#update_imdbSettings' );
+
+		// Auto widget off
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdblinkingkill');
+		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#update_imdbSettings' );
+
+		// Keep settings on
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbautopostwidget');
+		$I->CustomActivateCheckbox('#imdb_imdbkeepsettings_yes', 'update_imdbSettings');
+
+		// Debug on
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbautopostwidget');
+		$I->CustomActivateCheckbox('#imdb_imdbdebug_yes', '#update_imdbSettings');
+
+		// Display one screen on
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbautopostwidget');
+		$I->CustomActivateCheckbox('#imdb_imdbdebugscreen_yes', '#update_imdbSettings');
+
+		// Save log off
+		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->scrollTo('#imdbautopostwidget');
+		$I->CustomDisableCheckbox('#imdb_imdbdebuglog_yes', '#update_imdbSettings');
+	}
 }
 
 
