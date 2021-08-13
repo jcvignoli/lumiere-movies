@@ -30,7 +30,7 @@ class Search {
 	/* Class \Monolog\Logger
 	 *
 	 */
-	private $loggerClass;
+	private $logger;
 
 	/* Settings from class \Lumiere\Settings
 	 *
@@ -53,28 +53,27 @@ class Search {
 
 		if (class_exists("\Lumiere\Settings")) {
 
-			$this->configClass = new \Lumiere\Settings();
+			// Start Settings class
+			$this->configClass = new \Lumiere\Settings('gutenbergSearch');
 			$this->imdb_admin_values = $this->configClass->imdb_admin_values;
 
 			// Get the type of search: movies, series, games
 			$this->typeSearch = $this->configClass->lumiere_select_type_search();
 
-			// Start class Utils
+			// Start Utils Class
 			$this->utilsClass = new \Lumiere\Utils();
 
-			// Start utils and logger class if debug is selected
+			// Start debug mode
 			if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) && ( current_user_can( 'manage_options' )) ){
 
 				// Activate the debug
 				$this->utilsClass->lumiere_activate_debug(NULL, NULL, 'libxml', $this->configClass); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
 
-				// Start the logger
-				$this->configClass->lumiere_start_logger('gutenbergSearch');
-
-				// Store the class so we can use in imdbphp class
-				$this->loggerClass = $this->configClass->loggerclass;
-
 			} 
+
+			// Start the logger
+			$this->configClass->lumiere_start_logger('gutenbergSearch');
+			$this->logger = $this->configClass->loggerclass;
 
 		}
 
@@ -99,11 +98,11 @@ class Search {
 		if ( (isset ($_GET["moviesearched"])) && (!empty ($_GET["moviesearched"])) ){
 
 			# Initialization of IMDBphp
-			$search = new \Imdb\TitleSearch($this->configClass, $this->loggerClass );
+			$search = new \Imdb\TitleSearch($this->configClass, $this->logger );
 
 			$search_sanitized = isset($_GET["moviesearched"]) ? sanitize_text_field( $_GET["moviesearched"] ) : NULL;
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][gutenbergSearch] Querying '$search_sanitized'");
+			$this->logger->debug("[Lumiere][gutenbergSearch] Querying '$search_sanitized'");
 
 			$results = $search->search ($search_sanitized, $this->typeSearch );
 
@@ -118,7 +117,7 @@ class Search {
 		$i=1;
 		foreach ($results as $res) {
 			if ($i > $limit_search){
-				$this->configClass->lumiere_maybe_log('debug', "[Lumiere][gutenbergSearch] Limit of '$limit_search' results reached.");
+				$this->logger->debug("[Lumiere][gutenbergSearch] Limit of '$limit_search' results reached.");
 				echo '<div class="lumiere_italic lumiere_padding_five lumiere_align_center">' 
 					. esc_html__('Maximum of results reached. You can increase it in admin options.', 'lumiere-movies');
 				echo '</div>';
@@ -185,4 +184,8 @@ class Search {
 
 }
 
-new \Lumiere\Search();
+if ( current_user_can( 'manage_options' )){
+	new \Lumiere\Search();
+} else {
+	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
+}

@@ -25,7 +25,7 @@ class PopupSearch {
 	/* Class \Monolog\Logger
 	 *
 	 */
-	private $loggerClass;
+	private $logger;
 
 	/* Settings from class \Lumiere\Settings
 	 *
@@ -43,7 +43,7 @@ class PopupSearch {
 		// Start Lumière config class
 		if (class_exists("\Lumiere\Settings")) {
 
-			$this->configClass = new \Lumiere\Settings();
+			$this->configClass = new \Lumiere\Settings('popupSearch');
 			$this->imdb_admin_values = $this->configClass->imdb_admin_values;
 
 			// Get the type of search: movies, series, games
@@ -52,19 +52,14 @@ class PopupSearch {
 			// Start class Utils
 			$this->utilsClass = new \Lumiere\Utils();
 
-			if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) && ( current_user_can( 'manage_options' ) ) ){
+			if ( (current_user_can('manage_options') && isset($this->imdb_admin_values['imdbdebug']) && $this->imdb_admin_values['imdbdebug'] == 1) ){
 
 				// Activate debug
-				$this->utilsClass->lumiere_activate_debug( NULL, NULL, 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+				$this->utilsClass->lumiere_activate_debug(); 
 
 				// Start the logger
 				$this->configClass->lumiere_start_logger('popupSearch');
-
-				$this->loggerClass = $this->configClass->loggerclass;
-
-			} else {
-
-				$this->loggerClass = NULL;
+				$this->logger = $this->configClass->loggerclass;
 
 			}
 
@@ -82,12 +77,12 @@ class PopupSearch {
 
 		# Initialization of IMDBphp classes
 		if (class_exists("\Imdb\TitleSearch")) {
-			$search = new \Imdb\TitleSearch( $this->configClass, $this->loggerClass );
+			$search = new \Imdb\TitleSearch( $this->configClass, $this->logger );
 		}
 
 		if (isset ($_GET["film"])){
 			$film_sanitized = $this->utilsClass->lumiere_name_htmlize( $_GET["film"] ) ?? NULL;
-			$film_sanitized_for_title = sanitize_text_field($_GET['film']);
+			$film_sanitized_for_title = $_GET['film'];
 		}
 
 		$results = $search->search ($film_sanitized, $this->typeSearch );
@@ -108,7 +103,7 @@ class PopupSearch {
 
 		<div id="lumiere_loader" class="lumiere_loader_center"></div>
 
-		<h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . $film_sanitized_for_title; ?></i></h1>
+		<h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . $film_sanitized_for_title . '</i>'; ?></h1>
 
 		<?php
 		// if no movie was found at all
@@ -120,12 +115,12 @@ class PopupSearch {
 		}?>
 
 		<div class="lumiere_display_flex lumiere_align_center">
-			<div class="lumiere_flex_auto lumiere_width_fifty_perc">
+			<h2 class="lumiere_flex_auto lumiere_width_fifty_perc">
 				<?php esc_html_e('Matching titles', 'lumiere-movies'); ?>
-			</div>
-			<div class="lumiere_flex_auto lumiere_width_fifty_perc">
+			</h2>
+			<h2 class="lumiere_flex_auto lumiere_width_fifty_perc">
 				<?php esc_html_e('Director', 'lumiere-movies'); ?>
-			</div>
+			</h2>
 		</div>
 
 		<?php

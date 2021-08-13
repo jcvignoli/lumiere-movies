@@ -43,11 +43,6 @@ class LumiereMovies {
 	 */
 	private $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
-	/* Store the class for logging using the Monolog library
-	 *
-	 */
-	private $loggerClass;
-
 	/* Store the class for extra functions
 	 *
 	 */
@@ -66,15 +61,13 @@ class LumiereMovies {
 		// Start config class and get the vars
 		if (class_exists("\Lumiere\Settings")) {
 
-			$configClass = new \Lumiere\Settings();
-			$this->configClass = $configClass;
-			$this->imdb_admin_values = $configClass->get_imdb_admin_option();
-			$this->imdb_widget_values = $configClass->get_imdb_widget_option();
-			$this->imdb_cache_values = $configClass->get_imdb_widget_option();
+			$this->configClass = new \Lumiere\Settings('movieClass');
+			$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
+			$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
+			$this->imdb_cache_values = $this->configClass->get_imdb_widget_option();
 
 			// Start the tools class
-			$utilsClass = new \Lumiere\Utils();
-			$this->utilsClass = $utilsClass;
+			$this->utilsClass = new \Lumiere\Utils();
 
 			// Start the logger class
 			add_action('wp', [$this, 'lumiere_start_logger_wrapper'], 0);
@@ -109,24 +102,8 @@ class LumiereMovies {
 	 **/
 	function lumiere_start_logger_wrapper(){
 
-		// If the user can't manage options, exit
-		if ( !current_user_can( 'manage_options' ) ) 
-			return $this->loggerClass = NULL;
-
-		// Start logger class if debug is selected
-		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
-
-			// Activate debug
-			$this->utilsClass->lumiere_activate_debug();
-
-			// Start the logger
-			$this->configClass->lumiere_start_logger('movieClass');
-			$this->loggerClass = $this->configClass->loggerclass;
-
-		} else {
-
-			$this->loggerClass = NULL;
-		}
+		// Activate debug
+		$this->utilsClass->lumiere_activate_debug();
 
 	}
 
@@ -139,7 +116,7 @@ class LumiereMovies {
 		/* Vars */ 
 		global $count_me_siffer;
 
-		$logger = $this->loggerClass;
+		$logger = $this->configClass->loggerclass;
 		$configClass = $this->configClass;
 		$count_me_siffer = isset($count_me_siffer) ? $count_me_siffer : 0; # var for counting only one results
 		$imdbIdOrTitle = isset($imdbIdOrTitleOutside) ? $imdbIdOrTitleOutside : $this->imdbIdOrTitle;
@@ -150,7 +127,7 @@ class LumiereMovies {
 		$imdb_widget_values = $this->imdb_widget_values;
 		$imdb_cache_values = $this->imdb_cache_values;
 
-		$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Calling IMDbPHP class.");
+		$logger->debug( "[Lumiere][movieClass] Calling IMDbPHP class.");
 
 		$search = new \Imdb\TitleSearch($this->configClass, $logger );
 
@@ -166,12 +143,12 @@ class LumiereMovies {
 				// get meta data from class widget or lumiere
 				$film = $film['byname'];  
 
-				$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Movie title provided: '$film'");
+				$logger->debug( "[Lumiere][movieClass] Movie title provided: '$film'");
 
 				// check a the movie title exists
 				if ( ($film !== null) && !empty($film) && isset($film) ) {
 
-					$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] searching for '$film'");
+					$logger->debug("[Lumiere][movieClass] searching for '$film'");
 
 					$results = $search->search ($film, $this->configClass->lumiere_select_type_search() );
 
@@ -183,12 +160,12 @@ class LumiereMovies {
 
 					$midPremierResultat = $results[0]->imdbid();
 
-					$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Result found: $midPremierResultat.");
+					$logger->debug("[Lumiere][movieClass] Result found: $midPremierResultat.");
 
 				// no result, so jump to the next query and forget the current
 				} else {
 
-					$configClass->lumiere_maybe_log('info', "[Lumiere][movieClass] No movie found, aborting.");
+					$logger->info( "[Lumiere][movieClass] No movie found, aborting.");
 
 					continue; 
 
@@ -199,12 +176,12 @@ class LumiereMovies {
 
 				$midPremierResultat = esc_html($film['bymid']); // get the movie id entered
 
-				$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Movie ID provided: '$midPremierResultat'.");
+				$logger->debug("[Lumiere][movieClass] Movie ID provided: '$midPremierResultat'.");
 
 			// nothing was specified
 			} else {
 
-				$configClass->lumiere_maybe_log('debug', "[Lumiere][imdbIdOrTitle] No movie title provided, doing a query for $film'.");
+				$logger->debug("[Lumiere][imdbIdOrTitle] No movie title provided, doing a query for $film'.");
 
 				$results = $search->search($film, $this->configClass->lumiere_select_type_search() );
 
@@ -213,14 +190,14 @@ class LumiereMovies {
 
 					$midPremierResultat = $results[0]->imdbid(); 
 
-					$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Found matching movie title: '$midPremierResultat'");
+					$logger->debug( "[Lumiere][movieClass] Found matching movie title: '$midPremierResultat'");
 
 				// break if no result found, otherwise imdbphp library trigger fatal error
 				} else {
 
 					$this->utilsClass->lumiere_noresults_text();
 
-					$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] No matching movie title found.");
+					$logger->debug( "[Lumiere][movieClass] No matching movie title found.");
 
 					break;
 				}
@@ -229,7 +206,7 @@ class LumiereMovies {
 			// make sure only one result is displayed
 			if ($this->lumiere_filter_single_movies($midPremierResultat, $count_me_siffer) == "nomore") {
 
-				$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] Displaying rows for '$midPremierResultat'");
+				$logger->debug("[Lumiere][movieClass] Displaying rows for '$midPremierResultat'");
 
 				$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- ### Lumière! movies plugin ### -->';
 				$output .= "\n\t<div class='imdbincluded";
@@ -244,7 +221,7 @@ class LumiereMovies {
 
 			} else {
 
-				$configClass->lumiere_maybe_log('debug', "[Lumiere][movieClass] $midPremierResultat already called, skipping");
+				$logger->debug( "[Lumiere][movieClass] $midPremierResultat already called, skipping");
 
 			}
 
@@ -491,7 +468,7 @@ class LumiereMovies {
 		$imdb_admin_values = $this->imdb_admin_values;
 		$imdb_widget_values = $this->imdb_widget_values;
 		$imdb_cache_values = $this->imdb_cache_values;
-		$logger = $this->loggerClass;
+		$logger = $this->configClass->loggerclass;
 
 		$outputfinal ="";
 
@@ -552,8 +529,8 @@ class LumiereMovies {
 			&& ($imdb_widget_values['imdbwidgettrailer'] == true ) )
 				$outputfinal .= $this->lumiere_movie_design_addwrapper($this->lumiere_movies_trailer ($movie), 'trailer');
 
-			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['colors'] ) 
-			&& ($imdb_widget_values['imdbwidgetcolors'] == true ) )
+			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['color'] ) 
+			&& ($imdb_widget_values['imdbwidgetcolor'] == true ) )
 				$outputfinal .= $this->lumiere_movie_design_addwrapper($this->lumiere_movies_color ($movie), 'color');
 
 			if  ( ($magicnumber==$imdb_widget_values['imdbwidgetorder']['alsoknow'] )  
@@ -651,7 +628,7 @@ class LumiereMovies {
 
 	/* Display the title and possibly the year
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_title ($movie=NULL) {
 
@@ -679,7 +656,7 @@ class LumiereMovies {
 
 	/* Display the picture of the movie
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_pics ($movie=NULL) {
 
@@ -749,7 +726,7 @@ class LumiereMovies {
 
 	/* Display the country of origin
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_country ($movie=NULL) {
 
@@ -822,7 +799,7 @@ class LumiereMovies {
 
 	/* Display the language
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_language($movie=NULL) {
 
@@ -868,7 +845,7 @@ class LumiereMovies {
 
 	/* Display the rating
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_rating($movie=NULL) {
 
@@ -909,7 +886,7 @@ class LumiereMovies {
 
 	/* Display the genre
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_genre($movie=NULL) {
 
@@ -957,7 +934,7 @@ class LumiereMovies {
 
 	/* Display the keywords
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_keywords($movie=NULL) {
 
@@ -1004,7 +981,7 @@ class LumiereMovies {
 
 	/* Display the goofs
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_goofs($movie=NULL) {
 
@@ -1040,7 +1017,7 @@ class LumiereMovies {
 
 	/* Display the main user comment
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_comment($movie=NULL) {
 
@@ -1089,7 +1066,7 @@ class LumiereMovies {
 
 	/* Display the quotes
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_quotes($movie=NULL) {
 
@@ -1137,7 +1114,7 @@ class LumiereMovies {
 
 	/* Display the taglines
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_taglines($movie=NULL) {
 
@@ -1174,7 +1151,7 @@ class LumiereMovies {
 
 	/* Display the trailer
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_trailer($movie=NULL) {
 
@@ -1223,7 +1200,7 @@ class LumiereMovies {
 
 	/* Display the color
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_color($movie=NULL) {
 
@@ -1275,7 +1252,7 @@ class LumiereMovies {
 
 	/* Display the as known as, aka
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_aka($movie=NULL) {
 
@@ -1319,7 +1296,7 @@ class LumiereMovies {
 
 	/* Display the composers
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_composer($movie=NULL) {
 
@@ -1388,7 +1365,7 @@ class LumiereMovies {
 
 	/* Display the soundtrack
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_soundtrack($movie=NULL) {
 
@@ -1446,7 +1423,7 @@ class LumiereMovies {
 
 	/* Display the production companies
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_prodcompany($movie=NULL) {
 
@@ -1500,7 +1477,7 @@ class LumiereMovies {
 
 	/* Display the official site
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_officialsite($movie=NULL) {
 
@@ -1537,7 +1514,7 @@ class LumiereMovies {
 
 	/* Display the director
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_director($movie=NULL) {
 
@@ -1603,7 +1580,7 @@ class LumiereMovies {
 
 	/* Display the creator (for series only)
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_creator($movie=NULL) {
 
@@ -1672,7 +1649,7 @@ class LumiereMovies {
 
 	/* Display the producer
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_producer($movie=NULL) {
 
@@ -1754,7 +1731,7 @@ class LumiereMovies {
 
 	/* Display the writer
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_writer($movie=NULL) {
 
@@ -1832,7 +1809,7 @@ class LumiereMovies {
 
 	/* Display the actor
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_actor($movie=NULL) {
 
@@ -1906,7 +1883,7 @@ class LumiereMovies {
 
 	/* Display the actor, simplified way : only actor's names
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_actor_short($movie=NULL) {
 
@@ -1984,7 +1961,7 @@ class LumiereMovies {
 
 	/* Display the plot
 	 *
-	 * @param mandatory object $movie -> takes the value of IMDbPHP class 
+	 * @param (object) optional $movie -> takes the value of IMDbPHP class 
 	 */
 	public function lumiere_movies_plot($movie=NULL) {
 
@@ -2030,7 +2007,7 @@ class LumiereMovies {
 
 	/* Display the credit link
 	 *
-	 * @param mandatory (int) $midPremierResultat -> IMDb ID
+	 * @param (int) mandatory $midPremierResultat -> IMDb ID
 	 */
 	public function lumiere_movies_creditlink($midPremierResultat=NULL) {
 
@@ -2062,15 +2039,15 @@ class LumiereMovies {
 		return $output;
 	}
 
-	/** Do taxonomy layouts and register taxonomy terms
-	 **
-	 ** @ param (string) mandatory $typeItem: the general category of the item, ie 'director', 'color'
-	 ** @ param (string) mandatory $firstTitle: the name of the first string to display, ie "Stanley Kubrick"
-	 ** @ param (string) optional $secondTitle: the name of a second string to display, utilised in $layout 'two', ie "director"
-	 ** @ param (int) optional $layout: the type of the layout, either 'one' or 'two'
-	 **
-	 ** returns the text to be outputed
-	 **/
+	/* Do taxonomy layouts and register taxonomy terms
+	 *
+	 * @ param (string) mandatory $typeItem: the general category of the item, ie 'director', 'color'
+	 * @ param (string) mandatory $firstTitle: the name of the first string to display, ie "Stanley Kubrick"
+	 * @ param (string) optional $secondTitle: the name of a second string to display, utilised in $layout 'two', ie "director"
+	 * @ param (int) optional $layout: the type of the layout, either 'one' or 'two'
+	 *
+	 * returns the text to be outputed
+	 */
 	function lumiere_make_display_taxonomy( $typeItem, $firstTitle, $secondTitle=NULL, $layout = 'one') {
 
 		// Get main vars from the current class
@@ -2170,10 +2147,10 @@ class LumiereMovies {
 
 	}
 
-	/** Convert an imdb link to a highslide/classic popup link
-	 ** 
-	 ** @param string $convert Link to be converted into popup highslide link
-	 **/
+	/* Convert an imdb link to a highslide/classic popup link
+	 * 
+	 * @param string $convert Link to be converted into popup highslide link
+	 */
 
 	function lumiere_convert_txtwithhtml_into_popup_people ($convert) {
 
@@ -2191,10 +2168,10 @@ class LumiereMovies {
 		return $convert;
 	}
 
-	/** Avoid the same movie to be displayed twice or more
-	 ** allows movie total count (how many time a movie is called by plugin
-	 ** @TODO: rename it to lumiere_filter_single_movies() if no other classes use it
-	 **/
+	/* Avoid the same movie to be displayed twice or more
+	 * allows movie total count (how many time a movie is called by the plugin)
+	 *
+	 */
 	function lumiere_filter_single_movies($thema, &$count_me_siffer) {
 
 		global $count_me_siffer, $test;
@@ -2207,10 +2184,10 @@ class LumiereMovies {
 
 	}
 
-	/** Remove an html link
-	 ** 
-	 ** @param mandatory string $text text to be cleaned from every html link
-	 **/
+	/* Remove an html link
+	 * 
+	 * @param mandatory string $text text to be cleaned from every html link
+	 */
 	function lumiere_remove_link ($text) {
 
 		$output = preg_replace("/<a(.*?)>/", "", $text);
@@ -2219,8 +2196,8 @@ class LumiereMovies {
 
 	}
 
-	/**
-	 * Create an html link for taxonomy
+	/* Create an html link for taxonomy
+	 *
 	 */
 	function lumiere_make_taxonomy_link ($taxonomy) {
 

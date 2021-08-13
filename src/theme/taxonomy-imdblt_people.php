@@ -1,6 +1,6 @@
 <?php
 
-/* Template Person: Taxonomy for Lumière! Movies WordPress plugin (set up for standard taxonomy) 
+/* Template People: Taxonomy for Lumière! Movies WordPress plugin (set up for standard people taxonomy) 
 *  You can replace the occurences of the word s'tandard, rename this file, and then copy it in your theme folder
 *  Or easier: just use Lumière admin interface to do it automatically
 *
@@ -37,7 +37,7 @@ class Taxonomystandard {
 	/* Class \Monolog\Logger
 	 *
 	 */
-	private $loggerClass;
+	private $logger;
 
 	/* class \Imdb\Person
 	 *
@@ -69,7 +69,7 @@ class Taxonomystandard {
 		// Start Lumière config class
 		if (class_exists("\Lumiere\Settings")) {
 
-			$this->configClass = new \Lumiere\Settings();
+			$this->configClass = new \Lumiere\Settings('taxonomy-standard');
 			$this->imdb_admin_values = $this->configClass->imdb_admin_values;
 
 			// Start the class Utils to activate debug
@@ -81,10 +81,18 @@ class Taxonomystandard {
 			// Build the current page name from the tag taxonomy
 			$this->page_title = single_tag_title('', false);
 
-			// Start the logger class
-			add_action('init', [$this, 'lumiere_start_logger_wrapper'], 0);
+			// Start debug
+			if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) && (current_user_can( 'manage_options' )) ){
 
-			// Start the logger class
+				// Activate debug
+				$this->utilsClass->lumiere_activate_debug();
+			}
+
+			// Start the logger
+			$this->configClass->lumiere_start_logger('taxonomy-director');
+			$this->logger = $this->configClass->loggerclass;
+
+			// Start IMDbPHP class
 			add_action('init', [$this, 'lumiere_process_imdbphp_search'], 0);
 
 			$this->layout();
@@ -98,11 +106,11 @@ class Taxonomystandard {
 		// Get the info from imdbphp libraries
 		if ( (class_exists("\Imdb\Person")) && !empty($this->page_title) && isset($this->page_title) ) {
 
-			$search = new \Imdb\PersonSearch( $this->configClass, $this->loggerClass );
+			$search = new \Imdb\PersonSearch( $this->configClass, $this->logger );
 			$results = $search->search( $this->page_title ) ?? NULL; # search for the person using the taxonomy tag
 			$mid = $results[0]->imdbid() ?? NULL; # keep the first result only
 			$mid_sanitized = intval( $mid ); # sanitize the first result
-			$this->personClass = new \Imdb\Person( $mid_sanitized, $this->configClass, $this->loggerClass) ?? NULL; # search the profile using the first result
+			$this->personClass = new \Imdb\Person( $mid_sanitized, $this->configClass, $this->logger ) ?? NULL; # search the profile using the first result
 			$this->person_name_sanitized = sanitize_text_field( $this->personClass->name() ) ?? NULL;
 
 		} else {
@@ -112,30 +120,9 @@ class Taxonomystandard {
 		}
 	}
 
-	private function lumiere_start_logger_wrapper(){
-
-		// Start logger class if debug is selected and user can manage options
-		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) && (current_user_can( 'manage_options' )) ){
-
-			// Activate debug
-			$this->utilsClass->lumiere_activate_debug($this->imdb_admin_values);
-
-			// Start the logger
-			$this->configClass->lumiere_start_logger('taxonomy-standard');
-			$this->loggerClass = $this->configClass->loggerclass;
-
-		} else {
-
-			$this->loggerClass = NULL;
-		}
-
-	}
-
 	private function layout(){
 
 		get_header();
-
-		$this->lumiere_start_logger_wrapper();
 
 		$this->lumiere_process_imdbphp_search();
 
@@ -437,7 +424,7 @@ class Taxonomystandard {
 			// there is no post
 			} else { 
 
-				$this->configClass->lumiere_maybe_log('debug', "[Lumiere][taxonomy_$lumiere_taxonomy_full] No post found for $this->person_name_sanitized in $people");
+				$this->logger->debug("[Lumiere][taxonomy_$lumiere_taxonomy_full] No post found for $this->person_name_sanitized in $people");
 
 			} 
 
@@ -451,7 +438,7 @@ class Taxonomystandard {
 		 */
 		if ( (isset( $check_if_no_result )) && (empty( $check_if_no_result )) ){ 
 
-			$this->configClass->lumiere_maybe_log('info', "[Lumiere][taxonomy_$lumiere_taxonomy_full] No post found for $this->person_name_sanitized in $lumiere_taxonomy_full");
+			$this->logger->info("[Lumiere][taxonomy_$lumiere_taxonomy_full] No post found for $this->person_name_sanitized in $lumiere_taxonomy_full");
 
 			echo "<div class=\"lumiere_align_center lumiere_italic lumiere_padding_five\">No post written about $this->person_name_sanitized</div>";
 
@@ -477,7 +464,7 @@ class Taxonomystandard {
 		// Is Polylang plugin active?
 		if (!function_exists('pll_is_translated_taxonomy') ) {
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][taxonomy_$taxonomy] Polylang is not active.");
+			$this->logger->debug("[Lumiere][taxonomy_$taxonomy] Polylang is not active.");
 			return;
 
 		}
@@ -489,7 +476,7 @@ class Taxonomystandard {
 			$pll_lang = get_terms('term_language', ['hide_empty' => false]);
 
 			if (empty($pll_lang)){
-				$this->configClass->lumiere_maybe_log('debug', "[Lumiere][taxonomy_$taxonomy] No Polylang language is set.");
+				$this->logger->debug("[Lumiere][taxonomy_$taxonomy] No Polylang language is set.");
 				return;
 			}
 
@@ -526,7 +513,7 @@ class Taxonomystandard {
 			echo "\n\t\t\t" . '</div>';
 		} else {
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $this->person_name_sanitized with $taxonomy.");
+			$this->logger->debug("[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $this->person_name_sanitized with $taxonomy.");
 			return false;
 
 		}

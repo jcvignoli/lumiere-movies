@@ -72,7 +72,7 @@ class InstallCest {
 	}
 
 
-	/** Check if plugin activation set up crons
+	/** Check if settings are kept and deleted according to options selected
 	 *
 	 * @before login
 	 *

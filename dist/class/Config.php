@@ -22,7 +22,7 @@ use Monolog\Logger;
 
 class Settings extends Config {
 
-	/* Editable Options vars 
+	/* Main class Options, saved in WordPress Database
 	*/
 	var $imdbAdminOptionsName = "imdbAdminOptions";
 	var $imdbWidgetOptionsName = "imdbWidgetOptions";
@@ -102,41 +102,44 @@ class Settings extends Config {
 	public $lumiere_scripts_admin_vars;
 
 	/* Store Lumière plugin version
-	*/
+	 */
 	public $lumiere_version;
 
-	/* Logger class built by lumiere_start_logger() 
+	/* Logger class built by lumiere_start_logger() and __construct()
 	 * Meant to be utilised through all the plugin
 	 */
 	public $loggerclass;
+	public $logger_name;
+	public $screenOutput;
 	/* Where to write the log (WordPress default path here) */
 	const debug_log_path = WP_CONTENT_DIR . '/debug.log';
-	/* Set to false to use Logger instead of Monolog */
-	var $isMonologActive = true;
 
 	/* Is the current page WordPress Gutenberg editor?
 	 */
 	public $isGutenberg;
 
 	/* List of types of people available 
-	*/
+ 	 * is build in lumiere_define_constants_after_globals()
+	 */
 	public $array_people = "";
 
 	/* List of types of people available 
-	*/
+	 * is build in lumiere_define_constants_after_globals()
+	 */
 	public $array_items = "";
 
 	/* Store the number of files inside /class/updates
-	 * Allows to start with a fresh Lumière installation with the right
-	 * number of updates already made
+	 * Allows to start with a fresh installation with the right number of updates 
 	 * Is built in lumiere_define_constants()
 	 */
 	public $current_number_updates;
 
 	/* Constructor
 	 *
+	 * @param optional string $logger_name Title of Monolog logger
+	 * @param optional string $screenOutput whether output Monolog on screen
 	 */
-	function __construct() {
+	function __construct($logger_name = 'unknownOrigin', $screenOutput = true) {
 
 		// Construct parent class so we can send the settings
 		parent::__construct();
@@ -161,14 +164,17 @@ class Settings extends Config {
 		// Call the function to send the selected settings to imdbphp library
 		$this->lumiere_send_config_imdbphp();
 
+		// Initiate the logger class
+		$this->logger_name = $logger_name;
+		$this->screenOutput = $screenOutput;
+		add_action('init', [$this, 'lumiere_start_logger'], 2,0);
 
 	}
 
-	/** Define global constants
-	 ** Run before the creation of the global options, global options may need these constants
-	 **
-	 **/
-	/* @TODO: work on the consistancy with function get_imdb_*_option, so this can be called either before or after */
+	/* Define global constants
+	 * Run before the creation of the global options, global options may need these constants
+	 *
+	 */
 	function lumiere_define_constants() {
 
 		/* BUILD $imdb_admin_values['imdbplugindirectory'] */
@@ -271,7 +277,7 @@ class Settings extends Config {
 	}
 
 	/* Define the number of updates on first install
-	 * Not built from __construct(), called from \Lumiere\Core
+	 * Not built from __construct(), called from \Lumiere\Core on installation
 	 *
 	 * @return true or false
 	 */
@@ -302,9 +308,9 @@ class Settings extends Config {
 		return false;
 	}
 
-	/* Returns the array of ADMIN options
+	/* Makes an array of ADMIN options
 	 *
-	 *
+	 * Multidimensional array
 	 */
 	function get_imdb_admin_option() {
 
@@ -370,9 +376,9 @@ class Settings extends Config {
 	} 
 
 
-	/* Returns the array of CACHE options
+	/* Makes an array of CACHE options
 	 *
-	 *
+	 * Multidimensional array
 	 */
 	function get_imdb_cache_option() {
 
@@ -423,9 +429,9 @@ class Settings extends Config {
 
 	} 
 
-	/* Returns the array of WIDGET options
+	/* Makes an array of WIDGET options
 	 *
-	 *
+	 * Multidimensional array
 	 */
 	function get_imdb_widget_option() {
 
@@ -526,15 +532,15 @@ class Settings extends Config {
 
 	} 
 
-	/* Send Lumiere options to imdbphp parent class
+	/* Send Lumiere options to IMDbPHP parent class
 	 *
 	 *
 	 */
 	function lumiere_send_config_imdbphp() {
 
 		$this->language 	= $this->imdb_admin_values['imdblanguage'] ?? NULL;
-		$this->cachedir 	= rtrim($this->imdb_cache_values['imdbcachedir'], '/') ?? NULL;
-		$this->photodir 	= rtrim($this->imdb_cache_values['imdbphotoroot'], '/') ?? NULL;// ?imdbphotoroot? Bug imdbphp?
+		$this->cachedir 	= rtrim($this->imdb_cache_values['imdbcachedir'], '/') ?? NULL; #get rid of last '/'
+		$this->photodir 	= $this->imdb_cache_values['imdbphotoroot'] ?? NULL;// ?imdbphotoroot? Bug imdbphp?
 		$this->cache_expire 	= $this->imdb_cache_values['imdbcacheexpire'] ?? NULL;
 		$this->photoroot 	= $this->imdb_cache_values['imdbphotodir'] ?? NULL; // ?imdbphotodir? Bug imdbphp?
 		$this->storecache 	= $this->imdb_cache_values['imdbstorecache'] ?? NULL;
@@ -578,15 +584,19 @@ class Settings extends Config {
 
 	}
 
-	/** Create cache folder if it does not exist
-	 ** Return false if cache already exist, true if it had to create cache folders
-	 **/
+	/* Create cache folder if it does not exist
+	 *
+	 * @return false if cache already exist, true if created cache folders
+	 *
+	 */
 	public function lumiere_create_cache() {
 
 		$imdb_admin_values = $this->imdb_admin_values;
 
-		// Starth the logger
-		$this->lumiere_start_logger('configMain', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */);
+		// Start logger
+		if (!isset($this->loggerclass)) {
+			$this->lumiere_start_logger('configMain', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */);
+		}
 		
 		/* Cache folder paths */
 		$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
@@ -595,8 +605,7 @@ class Settings extends Config {
 		// Cache folders exist with good permissions, exit
 		if ( (is_dir($lumiere_folder_cache)) && (is_dir($lumiere_folder_cache_images)) && wp_mkdir_p( $lumiere_folder_cache ) ) {
 		
-			$this->lumiere_maybe_log('debug', "[Lumiere][config][cachefolder] Cache folders exist and permissions are ok.");
-
+			$this->loggerclass->debug("[Lumiere][config][cachefolder] Cache folders exist and permissions are ok.");
 			return false;
 
 		}
@@ -606,7 +615,7 @@ class Settings extends Config {
 
 			chmod( $lumiere_folder_cache, 0777 );
 
-			$this->lumiere_maybe_log('debug', "[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created.");
+			$this->loggerclass->debug("[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created.");
 
 		// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
 		} else {
@@ -621,7 +630,7 @@ class Settings extends Config {
 				$option_array_search['imdbcachedir'] = $lumiere_folder_cache;
 				update_option($this->imdbCacheOptionsName, $option_array_search);
 
-				$this->lumiere_maybe_log('info', "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_folder_cache_images created.");
+				$this->loggerclass->info( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_folder_cache_images created.");
 			}
 		}
 
@@ -630,7 +639,7 @@ class Settings extends Config {
 
 			chmod( $lumiere_folder_cache_images, 0777 );
 
-			$this->lumiere_maybe_log('debug', "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created.");
+			$this->loggerclass->debug( "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created.");
 
 		// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
 		} else {
@@ -641,7 +650,7 @@ class Settings extends Config {
 
 				chmod( $lumiere_folder_cache_images, 0777 );
 
-				$this->lumiere_maybe_log('info', "[Lumiere][config][cachefolder] Alternative image folder $lumiere_folder_cache_images created.");
+				$this->loggerclass->info("[Lumiere][config][cachefolder] Alternative image folder $lumiere_folder_cache_images created.");
 
 			}
 
@@ -671,64 +680,88 @@ class Settings extends Config {
 
 	}
 
-	/** Start and select which Logger to use
-	 ** 
-	 ** By default, Logger is utilised if the var $isMonologActive is set "false", Monolog is set "true"
-	 ** 
-	 ** @ param (string) optional $page_name: title applied to the logger in the logs under origin
-	 ** @ param (bool) optional $screenOutput: whether to display the screen output. Useful for plugin activation.
-	 **/
-	public function lumiere_start_logger ($page_name="originUnknown", $screenOutput=true) {
+	/* Start and select which Logger to use
+	 * 
+	 * By default, Null Logger is utilised
+	 * 
+	 * @ param (string) optional $logger_name: title applied to the logger in the logs under origin
+	 * @ param (bool) optional $screenOutput: whether to display the screen output. Useful for plugin activation.
+	 *
+	 * @return the logger in $loggerclass
+	 */
+	public function lumiere_start_logger ($logger_name = false, $screenOutput = true) {
 
-		// Debug mode is activated
-		if ( ($this->imdb_admin_values['imdbdebug'] == 1) && ($this->isMonologActive == true) ){
+		$logger_name = isset($this->logger_name) ? $this->logger_name : $logger_name;
+		$screenOutput = isset($this->screenOutput) ? $this->screenOutput : $this->screenOutput;
 
-			// We start the logger Monolog that replaces Psr
-			$logger = new \Monolog\Logger( $page_name );
+		// Start Monolog logger
+		if ( (current_user_can('manage_options') && $this->imdb_admin_values['imdbdebug'] == 1) || ($this->imdb_admin_values['imdbdebug'] == 1 && defined('DOING_CRON') && DOING_CRON) ){
+
+			$logger = new \Monolog\Logger( $logger_name );
 
 			// Get the verbosity from options and build the constant
 			$logger_verbosity = isset($this->imdb_admin_values['imdbdebuglevel']) ? constant('\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel']) : constant('\Monolog\Logger::DEBUG') ;
 
-			// Add current url and referrer to the log
-			//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
+			/* Save log if option activated
+			 */
+			if ($this->imdb_admin_values['imdbdebuglog'] == 1) {
 
-			// Add the file, the line, the class, the function
-			$logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor( $logger_verbosity ));
+				// Add current url and referrer to the log
+				//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
 
-			// Write to log, default to WordPress default log
-			$filelogger = new \Monolog\Handler\StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], $logger_verbosity );
-			$logger->pushHandler ( $filelogger );
+				// Add the file, the line, the class, the function to the log
+				$logger->pushProcessor(new \Monolog\Processor\IntrospectionProcessor( $logger_verbosity ));
+				$filelogger = new \Monolog\Handler\StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], $logger_verbosity );
 
-			/* Display errors on screen if activated
+				// Change the date and output formats of the log
+				$dateFormat = "d-M-Y H:i:s e";
+				$output = "[%datetime%] %channel%.%level_name%: %message% %extra%\n";
+				$screenformater = new \Monolog\Formatter\LineFormatter($output,$dateFormat);
+				$filelogger->setFormatter($screenformater);
+
+				// Utilise the new format and processor
+				$logger->pushHandler ( $filelogger );
+			}
+
+			/* Display errors on screen if option activated
 			 */
 			if ( ($this->imdb_admin_values['imdbdebugscreen'] == 1)  && ( $screenOutput == true ) ){
 
+				// Change the format
 				$output = "[%level_name%] %message%<br />\n";
 				$screenformater = new \Monolog\Formatter\LineFormatter($output);
+
+				// Change the handler, php://output is the only working (on my machine)
 				$screenlogger = new \Monolog\Handler\StreamHandler( 'php://output', $logger_verbosity );
 				$screenlogger->setFormatter($screenformater);
+
+				// Utilise the new handler and format
 				$logger->pushHandler ( $screenlogger );
 
 			}
 
 			// Send the logger class to a current class var
-			$this->loggerclass = $logger; # this var is then utilised in the call in other pages
+			return $this->loggerclass = $logger;
 
-		// Default PSR logger will be utilised
+		// No Logger will be utilised
 		} else {
 
-			return $this->loggerclass = NULL;
+			$this->loggerclass = new \Monolog\Logger( $logger_name );
+			$logger = new \Monolog\Handler\NullHandler();
+			return $this->loggerclass->pushHandler($logger);
 
-		}
+		} 
 
 	}
 
-	/** Return the current loggerclass if not null
-	 ** Prevents fatal errors if loggerclass is null
-	 ** 
-	 ** @param string mandatory $function the log function to be called (log, debug, warning,...)
-	 ** @param string mandatory $text the text to be displayed by the logger
-	 **/
+	/* Return the current loggerclass if not null
+	 * Prevents fatal errors if loggerclass is null
+	 * 
+	 * @param string mandatory $function the log function to be called (log, debug, warning,...)
+	 * @param string mandatory $text the text to be displayed by the logger
+	 *
+	 *	@obsolete, remove
+	 */
 	public function lumiere_maybe_log($function, $text) {
 
 		// If the user can't manage options and it's not a cron, exit
@@ -744,16 +777,15 @@ class Settings extends Config {
 
 	}
 
-	/** Retrieve selected type of search in admin
-	 ** Depends of $imdb_admin_values['imdbseriemovies'] option
-	 ** Utilised by popups
-	 **/
+	/* Retrieve selected type of search in admin
+	 *
+	 * Depends on $imdb_admin_values['imdbseriemovies'] option
+	 *
+	 * @return false or the selection
+	 */
 	public function lumiere_select_type_search () {
 
-		// Get main vars from the current class
-		$imdb_admin_values = $this->imdb_admin_values;
-
-		switch ($imdb_admin_values['imdbseriemovies']) {
+		switch ($this->imdb_admin_values['imdbseriemovies']) {
 
 			case "movies" : 
 			return array( \Imdb\TitleSearch::MOVIE );

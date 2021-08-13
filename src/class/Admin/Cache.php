@@ -51,6 +51,10 @@ class Cache extends \Lumiere\Admin {
 
 		}
 
+		// Uncomment to display IMDbPHP debug
+		//$this->configClass->lumiere_start_logger('cacheClass');
+		//$this->logger = $this->configClass->loggerclass;
+
 		// Display the page
 		$this->lumiere_cache_layout();
 
@@ -63,13 +67,9 @@ class Cache extends \Lumiere\Admin {
 	 */
 	private function lumiere_cache_layout () { 
 
-		if (current_user_can( 'manage_options' ) ) { 
-
-			echo $this->lumiere_cache_head();
-			echo $this->lumiere_cache_display_submenu();
-			echo $this->lumiere_cache_display_body() ;
-
-		} 
+		echo $this->lumiere_cache_head();
+		echo $this->lumiere_cache_display_submenu();
+		echo $this->lumiere_cache_display_body() ;
  
 	}
 

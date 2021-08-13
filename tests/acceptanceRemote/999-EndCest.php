@@ -37,6 +37,9 @@ class EndCest {
 		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('classic-editor');
 
+		// Polylang on
+		$I->amOnPluginsPage();
+		$I->maybeActivatePlugin('polylang');
 	}
 
 

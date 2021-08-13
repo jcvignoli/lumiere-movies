@@ -2,7 +2,7 @@
 
 /************************************************** Lumière version 3.3.3, update 2 */
 
-$configClass->lumiere_maybe_log('info', "[Lumiere][updater] Starting update 2");
+$this->configClass->loggerclass->info("[Lumiere][updater] Starting update 2");
 
 $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
 $this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
@@ -13,13 +13,13 @@ if ( TRUE === $this->lumiere_update_options($configClass->imdbWidgetOptionsName,
 
 	$text = "Lumière option imdbwidgetsource successfully updated.";
 
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
 
 } else {
 
 	$text = "Lumière option imdbwidgetsource could not be updated.";
 
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
 
 }
 

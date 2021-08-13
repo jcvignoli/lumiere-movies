@@ -79,7 +79,7 @@ class Data extends \Lumiere\Admin {
 		if ((isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == "1")){
 
 			// Start the class Utils to activate debug -> already started in admin_pages
-			$this->utilsClass->lumiere_activate_debug($this->imdb_widget_values, '', '');
+			$this->utilsClass->lumiere_activate_debug($this->imdb_widget_values, 'no_var_dump', NULL);
 		}
 
 		// Display the page
@@ -94,13 +94,9 @@ class Data extends \Lumiere\Admin {
 	 */
 	private function lumiere_data_layout () { 
 
-		if (current_user_can( 'manage_options' ) ) { 
-
-			echo $this->lumiere_data_head();
-			echo $this->lumiere_data_display_submenu();
-			echo $this->lumiere_data_display_body() ;
-
-		} 
+		echo $this->lumiere_data_head();
+		echo $this->lumiere_data_display_submenu();
+		echo $this->lumiere_data_display_body() ;
  
 	}
 
@@ -131,8 +127,15 @@ class Data extends \Lumiere\Admin {
 		 */
 		if ( (isset($_POST['update_imdbwidgetSettings'])) && check_admin_referer('imdbwidgetSettings_check', 'imdbwidgetSettings_check') ) { 
 
-			// Bug: It doesn't refresh as it should when removing/adding a taxonomy
-			flush_rewrite_rules();
+			/* Flush rewrite rules if updating taxonomy details
+			 * Needed by WordPress as a new page is created
+			 */
+			if ($this->utilsClass->lumiere_array_key_exists_wildcard( $_POST, 'imdb_imdbtaxonomy*' ) ) {
+				flush_rewrite_rules(false);
+				add_action('init', function(){
+					$this->logger->debug("Rewrite rules flushed");
+				});
+			}
 
 			foreach ($_POST as $key=>$postvalue) {
 				// Sanitize
@@ -190,9 +193,6 @@ class Data extends \Lumiere\Admin {
 		 *
 		 */
 		if ( (isset($_POST['reset_imdbwidgetSettings'])) && check_admin_referer('imdbwidgetSettings_check', 'imdbwidgetSettings_check') ) { 
-
-			// Bug: It doesn't refresh as it should when removing/adding a taxonomy
-			flush_rewrite_rules();
 
 			// Delete the options to reset
 			delete_option($this->configClass->imdbWidgetOptionsName);

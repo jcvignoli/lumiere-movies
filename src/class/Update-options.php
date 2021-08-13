@@ -32,15 +32,14 @@ if ( ! defined( 'WPINC' ) )
  **/
 class UpdateOptions {
 
-	/* Lumière Settings class
-	 * Store the settings
+	/* \Lumiere\Settings class
 	 * 
 	 */
 	private $configClass;
 
 	private $imdb_admin_values;
 
-	/* Lumière Utilies class
+	/* \Lumiere\Utils class
 	 * 
 	 * 
 	 */
@@ -51,13 +50,11 @@ class UpdateOptions {
 		if (class_exists("\Lumiere\Settings")) {
 
 			// Start the settings class
-			$configClass = new \Lumiere\Settings();
-			$this->configClass = $configClass;
-			$this->imdb_admin_values = $configClass->get_imdb_admin_option();
+			$this->configClass = new \Lumiere\Settings('updateClass');
+			$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
 
 			// Start the Utils class 
-			$utilsClass = new \Lumiere\Utils();
-			$this->utilsClass = $utilsClass;
+			$this->utilsClass = new \Lumiere\Utils();
 
 		} else {
 			wp_die('Lumière files have been moved. Can not update Lumière!');
@@ -78,19 +75,15 @@ class UpdateOptions {
 
 		/* VARS */
 		$output = "";
-
-		// Retrieve the globals
 		$imdb_admin_values = $this->imdb_admin_values;
 		$configClass = $this->configClass;
 
-		// Activate debug
-		$this->utilsClass->lumiere_activate_debug();
-
-		// Start the logger
-		$this->configClass->lumiere_start_logger('updaterLumiere');
+		// Manually Activate logging, since current function is run before WP init
+		$this->configClass->lumiere_start_logger('updateClass');
+		$logger = $this->configClass->loggerclass;
 
 		// Debug info
-		$this->configClass->lumiere_maybe_log('debug', "[Lumiere][update-options] Running updates...");
+		$logger->debug("[Lumiere][updateOptions] Running updates...");
 
 		/************************************************** 3.5 */
 		if ( (version_compare( $this->configClass->lumiere_version, "3.5" ) >= 0 )
@@ -98,7 +91,7 @@ class UpdateOptions {
 
 			require_once('updates/8.php');
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][update-options] Update 8 has been run.");
+			$logger->debug("[Lumiere][updateOptions] Update 8 has been run.");
 
 		}
 
@@ -108,17 +101,17 @@ class UpdateOptions {
 
 			require_once('updates/7.php');
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][update-options] Update 7 has been run.");
+			$logger->debug("[Lumiere][updateOptions] Update 7 has been run.");
 
 		}
 
 		/************************************************** 3.4.3 */
 		if ( (version_compare( $this->configClass->lumiere_version, "3.4.3" ) >= 0 )
-			&& ($imdb_admin_values['imdbHowManyUpdates'] == 6 ) ){				# update 6
+			&& ($this->imdb_admin_values['imdbHowManyUpdates'] == 6 ) ){				# update 6
 
 			require_once('updates/6.php');
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][update-options] Update 6 has been run.");
+			$logger->debug("[Lumiere][updateOptions] Update 6 has been run.");
 
 		}
 		/************************************************** 3.4.2 */
@@ -127,7 +120,7 @@ class UpdateOptions {
 
 			require_once('updates/5.php');
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][update-options] Update 5 has been run.");
+			$logger->debug("[Lumiere][updateOptions] Update 5 has been run.");
 
 		}
 		/************************************************** 3.4 */
@@ -136,7 +129,7 @@ class UpdateOptions {
 
 			require_once('updates/4.php');
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][update-options] Update 4 has been run.");
+			$logger->debug("[Lumiere][updateOptions] Update 4 has been run.");
 
 		}
 
@@ -147,7 +140,7 @@ class UpdateOptions {
 
 			require_once('updates/3.php');
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][update-options] Update 3 has been run.");
+			$logger->debug("[Lumiere][updateOptions] Update 3 has been run.");
 
 		}
 		
@@ -158,7 +151,7 @@ class UpdateOptions {
 
 			require_once('updates/2.php');
 
-			$configClass->lumiere_maybe_log('debug', "[Lumiere][update-options] Update 2 has been run.");
+			$logger->debug("[Lumiere][updateOptions] Update 2 has been run.");
 
 		}
 
@@ -169,7 +162,7 @@ class UpdateOptions {
 
 			require_once('updates/1.php');
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][update-options] Update 1 has been run.");
+			$logger->debug("[Lumiere][updateOptions] Update 1 has been run.");
 
 		}
 
@@ -187,18 +180,15 @@ class UpdateOptions {
 	 **/
 	function lumiere_add_options($option_array=NULL,$option_key=NULL,$option_value=NULL) {
 
-		// Activate debug
-		$this->utilsClass->lumiere_activate_debug();
-		// Start the logger
-		$this->configClass->lumiere_start_logger('updaterLumiere');
-		// Store the class so we can use it later
-		$configClass = $this->configClass;
+		// Manually Activate logging, since current function is run before WP init
+		$this->configClass->lumiere_start_logger('updateClass');
+		$logger = $this->configClass->loggerclass;
 
 		if (!isset($option_array)) 
-			$configClass->lumiere_maybe_log('error', "[Lumiere][update-options][lumiere_add_options] Cannot update Lumière options, ($option_array) is undefined.");
+			$logger->error("[Lumiere][updateOptions][lumiere_add_options] Cannot update Lumière options, ($option_array) is undefined.");
 
 		if (!isset($option_key)) 
-			$configClass->lumiere_maybe_log('error', "[Lumiere][update-options][lumiere_add_options] Cannot update Lumière options, ($option_key) is undefined.");
+			$logger->error("[Lumiere][updateOptions][lumiere_add_options] Cannot update Lumière options, ($option_key) is undefined.");
 
 		$option_array_search = get_option($option_array);
 		$check_if_exists = array_key_exists ($option_key, $option_array_search);
@@ -207,13 +197,13 @@ class UpdateOptions {
 			$option_array_search[$option_key] = $option_value;
 			update_option($option_array, $option_array_search);
 
-			$configClass->lumiere_maybe_log('info', "[Lumiere][update-options][lumiere_add_options] Lumière option ($option_key) added.");
+			$logger->info("[Lumiere][updateOptions][lumiere_add_options] Lumière option ($option_key) added.");
 
 			return true;
 
 		} else {
 
-			$configClass->lumiere_maybe_log('error', "[Lumiere][update-options][lumiere_add_options] Lumière option ($option_key) already exists.");
+			$logger->error("[Lumiere][updateOptions][lumiere_add_options] Lumière option ($option_key) already exists.");
 
 		}
 
@@ -232,18 +222,15 @@ class UpdateOptions {
 	 **/
 	function lumiere_update_options($option_array=NULL,$option_key=NULL,$option_value=NULL) {
 
-		// Activate debug
-		$this->utilsClass->lumiere_activate_debug();
-		// Start the logger
-		$this->configClass->lumiere_start_logger('updaterLumiere');
-		// Store the class so we can use it later
-		$configClass = $this->configClass;
+		// Manually Activate logging, since current function is run before WP init
+		$this->configClass->lumiere_start_logger('updateClass');
+		$logger = $this->configClass->loggerclass;
 
 		if (!isset($option_array))
-			$configClass->lumiere_maybe_log('error', "[Lumiere][update-options][lumiere_update_options] Cannot update Lumière options, ($option_array) is undefined.");
+			$logger->error("[Lumiere][updateOptions][lumiere_update_options] Cannot update Lumière options, ($option_array) is undefined.");
 
 		if (!isset($option_key)) 
-			$configClass->lumiere_maybe_log('error', "[Lumiere][update-options][lumiere_update_options] Cannot update Lumière options, ($option_array) is undefined.");
+			$logger->error("[Lumiere][updateOptions][lumiere_update_options] Cannot update Lumière options, ($option_key) is undefined.");
 
 
 		$option_array_search = get_option($option_array);
@@ -253,13 +240,13 @@ class UpdateOptions {
 			$option_array_search[$option_key] = $option_value;
 			update_option($option_array, $option_array_search);
 
-			$configClass->lumiere_maybe_log('info', "[Lumiere][update-options][lumiere_update_options] Lumière option ($option_key) was successfully update.");
+			$logger->info("[Lumiere][updateOptions][lumiere_update_options] Lumière option ($option_key) was successfully updated.");
 
 			return true;
 
 		} else {
 
-			$configClass->lumiere_maybe_log('error', "[Lumiere][update-options][lumiere_update_options] Lumière option ($option_key) was not found.");
+			$logger->error("[Lumiere][updateOptions][lumiere_update_options] Lumière option ($option_key) was not found.");
 
 		}
 
@@ -277,34 +264,32 @@ class UpdateOptions {
 	 **/
 	function lumiere_remove_options($option_array=NULL,$option_key=NULL) {
 
-		// Activate debug
-		$this->utilsClass->lumiere_activate_debug();
-		// Start the logger
-		$this->configClass->lumiere_start_logger('updaterLumiere');
-		// Store the class so we can use it later
-		$configClass = $this->configClass;
+		// Manually Activate logging, since current function is run before WP init
+		$this->configClass->lumiere_start_logger('updateClass');
+		$logger = $this->configClass->loggerclass;
 
 		if (!isset($option_array)) 
-			$configClass->lumiere_maybe_log('error', "[Lumiere][update-options][lumiere_remove_options] Cannot update Lumière options, ($option_array) is undefined.");
+			$logger->error("[Lumiere][updateOptions][lumiere_remove_options] Cannot remove Lumière options, ($option_array) is undefined.");
 
 
 		if (!isset($option_key))
-			$configClass->lumiere_maybe_log('error', "[Lumiere][update-options][lumiere_remove_options] Cannot update Lumière options, ($option_array) is undefined.");
+			$logger->error("[Lumiere][updateOptions][lumiere_remove_options] Cannot remove Lumière options, ($option_key) is undefined.");
 
 		$option_array_search = get_option($option_array);
 		$check_if_exists = array_key_exists ($option_key, $option_array_search);
 
 		if (TRUE === $check_if_exists) {
+
 			unset($option_array_search[$option_key]);
 			update_option($option_array, $option_array_search);
 
-			$configClass->lumiere_maybe_log('info', "[Lumiere][update-options][lumiere_remove_options] Lumière options ($option_key) successfully added.");
+			$logger->info("[Lumiere][updateOptions][lumiere_remove_options] Lumière options ($option_key) successfully removed.");
 
 			return true;
 
 		} else {
 
-			$configClass->lumiere_maybe_log('error', "[Lumiere][update-options][lumiere_remove_options] Cannot remove Lumière options, ($option_key) does not exist.");
+			$logger->error("[Lumiere][updateOptions][lumiere_remove_options] Cannot remove Lumière options, ($option_key) does not exist.");
 
 		}
 

@@ -33,14 +33,14 @@ class Admin {
 	 */
 	protected $utilsClass;
 
-	/* \Lumière\Utils class
+	/* \Monolog\Logger class
 	 * 
 	 * 
 	 */
 	protected $logger;
 
 	/* Store root directories of the plugin
-	 * Path: absolute paths
+	 * Path: absolute path
 	 * URL: start with https
 	 *
 	 */
@@ -71,7 +71,7 @@ class Admin {
 		spl_autoload_register( [ 'Lumiere\Admin', 'admin_loader' ] );
 
 		// Start Settings class
-		$this->configClass = new \Lumiere\Settings();
+		$this->configClass = new \Lumiere\Settings('adminClass');
 
 		// Start Utilities class
 		$this->utilsClass = new \Lumiere\Utils();
@@ -83,15 +83,9 @@ class Admin {
 		$this->rootURL = plugin_dir_url( __DIR__ );
 		$this->rootPath = plugin_dir_path( __DIR__ );
 
-		// Start logger class if debug is selected
-		if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
+		// Store the logger class
+		$this->logger = $this->configClass->loggerclass;
 
-			// Start the logger
-			$this->configClass->lumiere_start_logger('adminLumiere');
-
-			// Store the object
-			$this->logger = $this->configClass->loggerclass;
-		} 
 	}
 
 
@@ -385,4 +379,4 @@ class Admin {
 }
 
 
-?>
+

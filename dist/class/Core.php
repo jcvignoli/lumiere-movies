@@ -672,7 +672,7 @@ class Core {
 		// Activate debug
 		$this->utilsClass->lumiere_activate_debug();
 		// Start the logger
-		$this->configClass->lumiere_start_logger('coreLumiere');
+		$this->configClass->lumiere_start_logger('coreClass');
 
 		// If an update has taken place and the updated type is plugins and the plugins element exists
 		if( $options[ 'type' ] == 'plugin' && $options[ 'action' ] == 'update' && isset( $options['plugins'] ) ){
@@ -693,7 +693,7 @@ class Core {
 					update_option($this->configClass->imdbAdminOptionsName, $option_array_search);
 */
 
-					$this->configClass->lumiere_maybe_log('debug', "[Lumiere][coreClass][updater] Lumière _on_plugin_upgrade_ hook successfully run.");
+					$this->configClass->loggerclass->debug("[Lumiere][coreClass][updater] Lumière _on_plugin_upgrade_ hook successfully run.");
 
 				}
 			}
@@ -712,7 +712,7 @@ class Core {
 		$this->utilsClass->lumiere_activate_debug();
 
 		// Start the logger
-		$this->configClass->lumiere_start_logger('coreLumiere', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+		$this->configClass->lumiere_start_logger('coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
 		$plugin = isset( $_REQUEST['plugin'] ) ? $_REQUEST['plugin'] : '';
 		check_admin_referer( "activate-plugin_{$plugin}" );
@@ -720,22 +720,22 @@ class Core {
 		/* Create the value of number of updates on first install */
 		if ($this->configClass->lumiere_define_nb_updates() == true){
 
-			$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' successfully created.");
+			$this->configClass->loggerclass->info("[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' successfully created.");
 
 		} else {
 
-			$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' has not been created.");
+			$this->configClass->loggerclass->info("[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' has not been created.");
 
 		}
 
 		/* Create the cache folders */
 		if ($this->configClass->lumiere_create_cache() == true){
 
-			$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][activation] Lumière cache successfully created.");
+			$this->configClass->loggerclass->info("[Lumiere][coreClass][activation] Lumière cache successfully created.");
 
 		} else {
 
-			$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][activation] Lumière cache has not been created.");
+			$this->configClass->loggerclass->info("[Lumiere][coreClass][activation] Lumière cache has not been created.");
 
 		}
 
@@ -753,35 +753,37 @@ class Core {
 			// Cron to run once, in 1 hour
 			wp_schedule_single_event( time() + 3600, 'lumiere_cron_hook' );
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][coreClass][activation] Lumière crons successfully set up.");
+			$this->configClass->loggerclass->debug("[Lumiere][coreClass][activation] Lumière crons successfully set up.");
 
 		} else {
 
-			$this->configClass->lumiere_maybe_log('error', "[Lumiere][coreClass][activation] Crons were not set up.");
+			$this->configClass->loggerclass->error("[Lumiere][coreClass][activation] Crons were not set up.");
 
 		}
 
-		$this->configClass->lumiere_maybe_log('debug', "[Lumiere][coreClass][activation] Lumière plugin activated.");
+		$this->configClass->loggerclass->debug("[Lumiere][coreClass][activation] Lumière plugin activated.");
 
 		/* remove activation issue
 		trigger_error(ob_get_contents(),E_USER_ERROR);*/
 	}
 
-	/**
-	 ** Run on plugin deactivation
-	 **/
+	/*
+	 *   Run on plugin deactivation
+	 */
 	function lumiere_on_deactivation() {
 
 		// Activate debug
 		$this->utilsClass->lumiere_activate_debug();
+
 		// Start the logger
-		$this->configClass->lumiere_start_logger('coreLumiere');
+		$this->configClass->lumiere_start_logger('coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+
 
 		// Remove WP Cron shoud it exists
 		$timestamp = wp_next_scheduled( 'lumiere_cron_hook' );
 		wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
 
-		$this->configClass->lumiere_maybe_log('info', "[Lumiere][coreClass][deactivation] Lumière deactivated");
+		$this->configClass->loggerclass->info("[Lumiere][coreClass][deactivation] Lumière deactivated");
 
 	}
 
@@ -848,18 +850,20 @@ class Core {
 	 **/
 	function lumiere_cron_exec_once() {
 
+		$this->configClass = new \Lumiere\Settings();
+
 		// Activate debug
 		$this->utilsClass->lumiere_activate_debug();
 		// Start the logger
-		$this->configClass->lumiere_start_logger('coreLumiere');
+		$this->configClass->lumiere_start_logger('coreClass');
 
 		// For debugging purpose
 		// Update imdbHowManyUpdates option
 /*		$option_array_search = get_option($this->configClass->imdbAdminOptionsName);
-		$option_array_search['imdbHowManyUpdates'] = '5'; # current number of updates
+		$option_array_search['imdbHowManyUpdates'] = '8'; # current number of updates
 		update_option($this->configClass->imdbAdminOptionsName, $option_array_search);
 */
-		$this->configClass->lumiere_maybe_log('debug', "[Lumiere][coreClass] Cron exec once run.");
+		$this->configClass->loggerclass->debug("[Lumiere][coreClass] Cron exec once run.");
 
 		// Update options
 		// this udpate is also run in upgrader_process_complete, but the process is not reliable
