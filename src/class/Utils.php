@@ -23,45 +23,29 @@ if ( ! defined( 'WPINC' ) )
 
 class Utils {
 
-	/* Store the class of Lumière settings
-	 * Usefull to start a new IMDbphp query
+	/* \Lumiere\Settings class
+	 *
 	 */
 	private $configClass;
 
-	/* Vars from Lumière settings
+	/* \Lumiere\Settings vars
 	 *
 	 */
 	private $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
-	/* Store the class for logging using the Monolog library
-	 *
+	/* Class constructor
+	 * 
 	 */
-	private $loggerClass;
-
-	/** Class constructor
-	 ** 
-	 **/
 	function __construct () {
 
 		// Start config class and get the vars
 		if (class_exists("\Lumiere\Settings")) {
 
-			$configClass = new \Lumiere\Settings();
-			$this->configClass = $configClass;
-			$this->imdb_admin_values = $configClass->get_imdb_admin_option();
-			$this->imdb_widget_values = $configClass->get_imdb_widget_option();
-			$this->imdb_cache_values = $configClass->get_imdb_widget_option();
+			$this->configClass = new \Lumiere\Settings('utilsClass');
+			$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
+			$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
+			$this->imdb_cache_values = $this->configClass->get_imdb_widget_option();
 
-			// Start logger class if debug is selected
-			if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) ){
-				// Start the logger
-				$this->configClass->lumiere_start_logger('utils');
-				$this->loggerClass = $this->configClass->loggerclass;
-
-			} else {
-
-				$this->loggerClass = NULL;
-			}
 
 		} else {
 
@@ -75,7 +59,8 @@ class Utils {
 	 * Recursively delete a directory
 	 *
 	 * @param string $dir Directory name
-	 * credits to http://ch.php.net/manual/en/function.unlink.php#87045
+	 *
+	 * @credits http://ch.php.net/manual/en/function.unlink.php#87045
 	 */
 	public function lumiere_unlinkRecursive($dir){
 		if(!$dh = @opendir($dir)){
@@ -99,7 +84,8 @@ class Utils {
 	 *
 	 * @param string $dir Directory name
 	 * @param string $filesbydefault it's the count of files contained in folder and not taken into account for the count
-	 * credits to http://ch2.php.net/manual/en/function.is-dir.php#85961 & myself
+	 *
+	 * @credits http://ch2.php.net/manual/en/function.is-dir.php#85961 & myself
 	 */
 	public function lumiere_isEmptyDir($dir, $filesbydefault= "3"){	
 
@@ -167,7 +153,7 @@ class Utils {
 	 */
 	public function lumiere_noresults_text($text='No result found for this query.'){ 
 
-		$this->configClass->lumiere_maybe_log('debug', "[Lumiere] $text");
+		$this->configClass->loggerclass->debug("[Lumiere] $text");
 
 		echo "\n".'<div class="noresult" align="center" style="font-size:16px;color:red;padding:15px;">'
 			. $text
@@ -179,7 +165,8 @@ class Utils {
 	 * Recursively test an multi-dimensionnal array
 	 *
 	 * @param array mandatory $multiarray Array name
-	 * credits to http://in2.php.net/manual/fr/function.empty.php#94786
+	 *
+	 * @credits http://in2.php.net/manual/fr/function.empty.php#94786
 	 */
 	function lumiere_is_multiArrayEmpty($mixed) {
 
@@ -205,8 +192,10 @@ class Utils {
 
 	/* Function lumiere_array_key_exists_wildcard
 	 * Search with a wildcard in $keys of an array
+	 *
 	 * @param: $return = key-value to get simpler array of results
-	 * https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
+	 *
+	 * @credit: https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
 	 */
 	function lumiere_array_key_exists_wildcard ( $array, $search, $return = '' ) {
 
@@ -226,7 +215,7 @@ class Utils {
 	 * transforms movie's name in a way to be able to be searchable (ie "ô" becomes "&ocirc;") 
 	 * ----> should use a wordpress dedicated function instead, like esc_url() ?
 	 */
-	function lumiere_name_htmlize ($link) {
+	static function lumiere_name_htmlize ($link) {
 
 	    // a. quotes escape
 	    $lienhtmlize = addslashes($link);      
@@ -250,17 +239,16 @@ class Utils {
 	 * @param integer mandatory $size the unformatted number of the size
 	 * @param integer optional $precision how many numbers after comma, two by default
 	 */
-	function lumiere_formatBytes($size, $precision = 2) { 
+	static function lumiere_formatBytes($size, $precision = 2) { 
 		$base = log($size, 1024); 
 		$suffixes = array('bytes', 'Kb', 'Mb', 'Gb', 'Tb');
 		return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)]; 
 	}
 
-	/**
-	 * Function lumiere_glob_recursive
-	 * Does a glob recursively
+	/* Does a glob recursively
 	 * Does not support flag GLOB_BRACE
-	 * Credits go to https://www.php.net/manual/fr/function.glob.php#106595
+	 *
+	 * @credits https://www.php.net/manual/fr/function.glob.php#106595
 	 */
 	function lumiere_glob_recursive($pattern, $flags = 0) {
 
@@ -276,14 +264,14 @@ class Utils {
 	}
 
 
-	/**
+	/*
 	 * Function lumiere_notice
 	 * Display a confirmation notice, such as "options saved"
 	 *
 	 * @param integer mandatory $code type of message
 	 * @param string mandatory $msg text to display
 	 */
-	function lumiere_notice($code, $msg) { 
+	static function lumiere_notice($code, $msg) { 
 
 		switch ($code) {
 			default:
@@ -303,20 +291,20 @@ class Utils {
 		return false;
 	}
 
-	/**
-	 * Function str_contains
+	/* Function str_contains
+	 * 
 	 * Returns if a string is contained in a value
 	 * Introduced in PHP 8
+	 * here for compatibilty purpose
 	 */
-	function str_contains($haystack, $needle) {
+	static function str_contains($haystack, $needle) {
 
 		return $needle !== '' && mb_strpos($haystack, $needle) !== false;
 
 	}
 
-	/**
-	 * Function lumiere_array_contains_term
-	 * Returns if a term in an array is contained in a value
+	/* Returns if a term in an array is contained in a value
+	 * 
 	 * 
 	 */
 	function lumiere_array_contains_term($array_list, $term) {
@@ -332,22 +320,22 @@ class Utils {
 		}
 	}
 
-	/**
-	 * Function lumiere_activate_debug
-	 * Returns optionaly an array of the options passed
+	/* Activate debug on screen
 	 * 
-	 * @param object optional $options array of Lumière options, do not display anything on screen if empty
-	 * @param string optional $set_error set to 'no_var_dump' to avoid the call to var_dump function
-	 * @param string optional $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
+	 * @param (object) optional $options Lumière options, display nothing if empty
+	 * @param (string) optional $set_error set to 'no_var_dump' to avoid the call to var_dump function
+	 * @param (string) optional $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
+	 * @param (string) optional $get_screen set to 'screen to display WordPress get_current_screen()
 	 *
 	 * @since 3.5
 	 * @param string optional $get_screen set to 'screen' to display wp function get_current_screen()
 	 *
+	 * @return optionaly an array of the options passed in $options
 	 */
-	function lumiere_activate_debug($options = NULL, $set_error = NULL, $libxml_use = false, $get_screen = NULL) {
+	static function lumiere_activate_debug($options = NULL, $set_error = NULL, $libxml_use = false, $get_screen = NULL) {
 
 		// If the user can't manage options and it's not a cron, exit
-		if ( ( !current_user_can( 'manage_options' ) ) && !DOING_CRON )
+		if ( ( !current_user_can( 'manage_options' ) ) && !DOING_CRON && !define('DOING_CRON') )
 			return false;
 
 		// Set the highest level of debug reporting
@@ -377,13 +365,12 @@ class Utils {
 			print_r( $currentScreen );
 			echo '</div>';
 		}
-
 	}
 
 	/* Check if the block widget is active
 	 * Use the current name by default
 	 */
-	function lumiere_block_widget_isactive( $blockname = \Lumiere\LumiereWidget::block_widget_name ){
+	static function lumiere_block_widget_isactive( $blockname = \Lumiere\LumiereWidget::block_widget_name ){
 	    $widget_blocks = get_option( 'widget_block' );
 	    foreach( $widget_blocks as $widget_block ) {
 		 if ( ! empty( $widget_block['content'] ) 

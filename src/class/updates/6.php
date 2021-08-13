@@ -2,7 +2,7 @@
 
 /************************************************** Lumière version 3.4.3, update 6 */
 
-$configClass->lumiere_maybe_log('info', "[Lumiere][updater] Starting update 6");
+$this->configClass->loggerclass->info("[Lumiere][updater] Starting update 6");
 
 $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
 $this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
@@ -13,13 +13,13 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'im
 
 	$text = "Lumière option imdbdebuglevel successfully added.";
 
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
 
 } else {
 
 	$text = "Lumière option imdbdebuglevel could not be added.";
 
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
 
 }
 
@@ -29,13 +29,13 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'im
 
 	$text = "Lumière option imdbdebugscreen successfully added.";
 
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
 
 } else {
 
 	$text = "Lumière option imdbdebugscreen could not be added.";
 
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
 
 }
 
@@ -45,13 +45,13 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'im
 
 	$text = "Lumière option imdbdebuglog successfully added.";
 
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
 
 } else {
 
 	$text = "Lumière option imdbdebuglog could not be added.";
 
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
 
 }
 
@@ -61,13 +61,13 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'im
 
 	$text = "Lumière option imdbdebuglogpath successfully added.";
 
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
 
 } else {
 
 	$text = "Lumière option imdbdebuglogpath could not be added.";
 
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
 
 }
 

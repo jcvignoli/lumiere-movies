@@ -25,7 +25,7 @@ class PopupMovie {
 	/* Class \Monolog\Logger
 	 *
 	 */
-	private $loggerClass;
+	private $logger;
 
 	/* Settings from class \Lumiere\Settings
 	 *
@@ -45,7 +45,7 @@ class PopupMovie {
 		// Start Lumière config class
 		if (!isset($this->configClass)) {
 
-			$this->configClass = new \Lumiere\Settings();
+			$this->configClass = new \Lumiere\Settings('popupMovie');
 			$this->imdb_admin_values = $this->configClass->imdb_admin_values;
 			$this->imdb_widget_values = $this->configClass->imdb_widget_values;
 
@@ -55,22 +55,16 @@ class PopupMovie {
 			// Get the type of search: movies, series, games
 			$this->typeSearch = $this->configClass->lumiere_select_type_search();
 
-			// Activate debug and start logger class if debug is selected
-			if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) && ( current_user_can( 'manage_options' ) ) ){
+			if ( (current_user_can('manage_options') && isset($this->imdb_admin_values['imdbdebug']) && $this->imdb_admin_values['imdbdebug'] == 1) ){
 
 				// Activate debug
-				$this->utilsClass->lumiere_activate_debug(NULL, NULL, 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+				$this->utilsClass->lumiere_activate_debug(); 
 
 				// Start the logger
 				$this->configClass->lumiere_start_logger('popupMovie');
+				$this->logger = $this->configClass->loggerclass;
 
-				$this->loggerClass = $this->configClass->loggerclass;
-
-			} else {
-
-				$this->loggerClass = NULL;
 			}
-
 		} else {
 
 			wp_die( esc_html__('Cannot start popup movies, class Lumière Settings not found', 'lumiere-movies') );
@@ -110,13 +104,13 @@ class PopupMovie {
 
 		if ( (isset ($movieid_sanitized)) && (!empty ($movieid_sanitized)) && (!empty ($this->configClass)) ) {
 
-			$movie = new \Imdb\Title($movieid_sanitized, $this->configClass, $this->loggerClass );
+			$movie = new \Imdb\Title($movieid_sanitized, $this->configClass, $this->logger );
 			$filmid_sanitized = $this->utilsClass->lumiere_name_htmlize($movie->title());
 			$film_sanitized_for_title = sanitize_text_field($movie->title());
 
 		} elseif (!empty ($this->configClass)) {
 
-			$titleSearchClass = new \Imdb\TitleSearch( $this->configClass, $this->loggerClass );
+			$titleSearchClass = new \Imdb\TitleSearch( $this->configClass, $this->logger );
 			$movie = $titleSearchClass->search ($filmid_sanitized, $this->typeSearch )[0];
 
 		} else {
@@ -129,7 +123,7 @@ class PopupMovie {
 		if ( (isset($_GET["norecursive"])) && ($_GET["norecursive"] == 'yes') ) { 
 
 			$results = $titleSearchClass->search ($filmid_sanitized, $this->typeSearch );
-			$this->lumiere_popupup_search_title ($results, $filmid_sanitized_for_title);
+			$this->lumiere_popupup_search_title ($results, $film_sanitized_for_title);
 
 		//------------------------- 2. accès direct, option spéciale
 
@@ -742,7 +736,7 @@ class PopupMovie {
 	}
 
 
-	function lumiere_popupup_search_title ($results, $filmid_sanitized_for_title) {
+	function lumiere_popupup_search_title ($results, $film_sanitized_for_title) {
 
 		?><!DOCTYPE html>
 		<html>
@@ -762,15 +756,15 @@ class PopupMovie {
 			die();
 		}?>
 
-		<h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . $filmid_sanitized_for_title; ?></i></h1>
+		<h1 align="center"><?php esc_html_e('Results related to', 'lumiere-movies'); echo " <i>" . ucfirst($film_sanitized_for_title) . '</i>'; ?></h1>
 
 		<div class="lumiere_display_flex lumiere_align_center">
-			<div class="lumiere_flex_auto lumiere_width_fifty_perc">
+			<h2 class="lumiere_flex_auto lumiere_width_fifty_perc">
 				<?php esc_html_e('Matching titles', 'lumiere-movies'); ?>
-			</div>
-			<div class="lumiere_flex_auto lumiere_width_fifty_perc">
+			</h2>
+			<h2 class="lumiere_flex_auto lumiere_width_fifty_perc">
 				<?php esc_html_e('Director', 'lumiere-movies'); ?>
-			</div>
+			</h2>
 		</div>
 			<?php
 

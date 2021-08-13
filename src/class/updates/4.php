@@ -2,7 +2,7 @@
 
 /************************************************** Lumière version 3.4, update 4 */
 
-$configClass->lumiere_maybe_log('info', "[Lumiere][updater] Starting update 4");
+$this->configClass->loggerclass->info("[Lumiere][updater] Starting update 4");
 
 $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
 $this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
@@ -12,12 +12,12 @@ $this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdbHowManyUp
 if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'imdbseriemovies', 'movies+series') ) {
 
 	$text = "Lumière option imdbSerieMovies successfully added.";
-	$configClass->lumiere_maybe_log('debug', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->debug("[Lumiere][updater] $text");
 
 } else {
 
 	$text = "Lumière option imdbSerieMovies could not be added..";
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
 
 }
 
@@ -27,12 +27,12 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'im
 if ( TRUE === $this->lumiere_add_options($configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', 1 ) ) {
 
 	$text = "Lumière option imdbHowManyUpdates successfully added.";
-	$configClass->lumiere_maybe_log('debug', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->debug("[Lumiere][updater] $text");
 
 } else {
 
 	$text = "Lumière option imdbHowManyUpdates could not be added.";
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
 
 }
 

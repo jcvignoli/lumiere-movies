@@ -163,8 +163,6 @@ class LumiereMetabox {
 		}
 	}
 }
-$my_metabox = new \Lumiere\LumiereMetabox();
 
+new \Lumiere\LumiereMetabox();
 
-	
-?>

@@ -42,7 +42,7 @@ class General extends \Lumiere\Admin {
 		if ((isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == "1")){
 
 			// Start the class Utils to activate debug -> already started in admin_pages
-			$this->utilsClass->lumiere_activate_debug($this->imdb_admin_values, NULL, NULL);
+			$this->utilsClass->lumiere_activate_debug($this->imdb_admin_values, 'no_var_dump', NULL);
 		}
 
 		// Display the page
@@ -57,14 +57,10 @@ class General extends \Lumiere\Admin {
 	 */
 	private function lumiere_general_layout () { 
 
-		if (current_user_can( 'manage_options' ) ) { 
+		echo $this->lumiere_general_head();
+		echo $this->lumiere_general_display_submenu();
+		echo $this->lumiere_general_display_body() ;
 
-			echo $this->lumiere_general_head();
-			echo $this->lumiere_general_display_submenu();
-			echo $this->lumiere_general_display_body() ;
-
-		} 
- 
 	}
 
 	/*

@@ -25,7 +25,7 @@ class PopupPerson {
 	/* Class \Monolog\Logger
 	 *
 	 */
-	private $loggerClass;
+	private $logger;
 
 	/* Settings from class \Lumiere\Settings
 	 *
@@ -41,28 +41,23 @@ class PopupPerson {
 		if (class_exists("\Lumiere\Settings")) {
 
 			// Get the main vars
-			$this->configClass = new \Lumiere\Settings();
+			$this->configClass = new \Lumiere\Settings('popupPerson');
 			$this->imdb_admin_values = $this->configClass->imdb_admin_values;
 
 			// Start the class Utils
 			$this->utilsClass = new \Lumiere\Utils();
 
-			// Activate debug and start logger class if debug is selected
-			if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) &&  ( current_user_can( 'manage_options' ) ) ) {
+			if ( (current_user_can('manage_options') && isset($this->imdb_admin_values['imdbdebug']) && $this->imdb_admin_values['imdbdebug'] == 1) ){
 
 				// Activate debug
-				$this->utilsClass->lumiere_activate_debug( NULL, NULL, 'libxml'); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
+				$this->utilsClass->lumiere_activate_debug(); 
 
 				// Start the logger
 				$this->configClass->lumiere_start_logger('popupPerson');
-
-				$this->loggerClass = $this->configClass->loggerclass;
-
-			}  else {
-
-				$this->logger = NULL;
+				$this->logger = $this->configClass->loggerclass;
 
 			}
+
 
 		} else {
 
@@ -104,7 +99,7 @@ class PopupPerson {
 			try {
 
 				// If result is null, throw an exception
-				if (NULL == ($person = new \Imdb\Person($mid_sanitized, $this->configClass, $this->loggerClass ))) {
+				if (NULL == ($person = new \Imdb\Person($mid_sanitized, $this->configClass, $this->logger ))) {
 
 					throw new Exception ($e);
 

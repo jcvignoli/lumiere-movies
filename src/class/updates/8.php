@@ -2,7 +2,7 @@
 
 /************************************************** Lumière version 3.5, update 8 */
 
-$configClass->lumiere_maybe_log('info', "[Lumiere][updater] Starting update 8");
+$logger->info("[Lumiere][updater] Starting update 8");
 
 $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
 $this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
@@ -14,23 +14,23 @@ $this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdbHowManyUp
 if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName, 'imdbwidgetgoofsnumber' ) ) {
 
 	$text = "Lumière option imdbwidgetgoofsnumber successfully removed.";
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updateOptions] $text");
+	$logger->info( "[Lumiere][updateOptions] $text");
 
 } else {
 
 	$text = "Lumière option imdbwidgetgoofsnumber could not be removed.";
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updateOptions] $text");
+	$logger->error("[Lumiere][updateOptions] $text");
 
 }
 if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbwidgetgoofnumber', false ) ) {
 
 	$text = "Lumière option imdbwidgetgoofnumber successfully added.";
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updateOptions] $text");
+	$logger->info( "[Lumiere][updateOptions] $text");
 
 } else {
 
 	$text = "Lumière option imdbwidgetgoofnumber could not be added.";
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updateOptions] $text");
+	$logger->error("[Lumiere][updateOptions] $text");
 
 }
 
@@ -41,23 +41,23 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'i
 if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName, 'imdbwidgetquotesnumber' ) ) {
 
 	$text = "Lumière option imdbwidgetquotesnumber successfully removed.";
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updateOptions] $text");
+	$logger->info( "[Lumiere][updateOptions] $text");
 
 } else {
 
 	$text = "Lumière option imdbwidgetquotesnumber could not be removed.";
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updateOptions] $text");
+	$logger->error("[Lumiere][updateOptions] $text");
 
 }
 if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbwidgetquotenumber', false ) ) {
 
 	$text = "Lumière option imdbwidgetquotenumber successfully added.";
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updateOptions] $text");
+	$logger->info( "[Lumiere][updateOptions] $text");
 
 } else {
 
 	$text = "Lumière option imdbwidgetquotenumber could not be added.";
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updateOptions] $text");
+	$logger->error("[Lumiere][updateOptions] $text");
 
 }
 
@@ -68,23 +68,23 @@ if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'i
 if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName, 'imdbwidgettaglinesnumber' ) ) {
 
 	$text = "Lumière option imdbwidgettaglinesnumber successfully removed.";
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updateOptions] $text");
+	$logger->info( "[Lumiere][updateOptions] $text");
 
 } else {
 
 	$text = "Lumière option imdbwidgettaglinesnumber could not be removed.";
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updateOptions] $text");
+	$logger->error("[Lumiere][updateOptions] $text");
 
 }
 if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbwidgettaglinenumber', false ) ) {
 
 	$text = "Lumière option imdbwidgettaglinenumber successfully added.";
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updateOptions] $text");
+	$logger->info( "[Lumiere][updateOptions] $text");
 
 } else {
 
 	$text = "Lumière option imdbwidgettaglinenumber could not be added.";
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updateOptions] $text");
+	$logger->error("[Lumiere][updateOptions] $text");
 
 }
 
@@ -98,12 +98,12 @@ if ( TRUE === $this->lumiere_update_options($configClass->imdbWidgetOptionsName,
 ) ) {
 
 	$text = "Lumière option imdbwidgetorder successfully updated.";
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updateOptions] $text");
+	$logger->info( "[Lumiere][updateOptions] $text");
 
 } else {
 
 	$text = "Lumière option imdbwidgetorder could not be updated.";
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updateOptions] $text");
+	$logger->error("[Lumiere][updateOptions] $text");
 
 }
 
@@ -114,12 +114,12 @@ if ( TRUE === $this->lumiere_update_options($configClass->imdbWidgetOptionsName,
 if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName, 'imdbtaxonomytitle' ) ) {
 
 	$text = "Lumière option imdbtaxonomytitle successfully removed.";
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updateOptions] $text");
+	$logger->info( "[Lumiere][updateOptions] $text");
 
 } else {
 
 	$text = "Lumière option imdbtaxonomytitle could not be removed.";
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updateOptions] $text");
+	$logger->error("[Lumiere][updateOptions] $text");
 
 }
 
@@ -128,15 +128,15 @@ if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName,
  * Remove 'imdbdirectsearch'
  * Obsolete value
  */
-if ( TRUE === $this->lumiere_remove_options($configClass->imdbAdminOptions, 'imdbdirectsearch' ) ) {
+if ( TRUE === $this->lumiere_remove_options($configClass->imdbAdminOptionsName, 'imdbdirectsearch' ) ) {
 
 	$text = "Lumière option imdbdirectsearch successfully removed.";
-	$configClass->lumiere_maybe_log('info', "[Lumiere][updateOptions] $text");
+	$logger->info( "[Lumiere][updateOptions] $text");
 
 } else {
 
 	$text = "Lumière option imdbdirectsearch could not be removed.";
-	$configClass->lumiere_maybe_log('error', "[Lumiere][updateOptions] $text");
+	$logger->error("[Lumiere][updateOptions] $text");
 
 }
 
@@ -145,7 +145,7 @@ if ( TRUE === $this->lumiere_remove_options($configClass->imdbAdminOptions, 'imd
  */
 $filter_taxonomy = 'imdblt_keywords';
 
-$configClass->lumiere_maybe_log('debug', "[Lumiere][updateOptions] Process of deleting taxonomy $filter_taxonomy started");
+$logger->debug("[Lumiere][updateOptions] Process of deleting taxonomy $filter_taxonomy started");
 
 // Taxonomy must be registered in order to delete its terms
 register_taxonomy( $filter_taxonomy, null, array( 'label' => false, 'public' => false, 'query_var' => false, 'rewrite' => false ) );
@@ -166,12 +166,12 @@ foreach ( $terms as $term ) {
 	if ( ! empty( $term_id ) ) {
 
 		wp_delete_term( $term_id, $filter_taxonomy );
-		$configClass->lumiere_maybe_log('debug', "[Lumiere][updateOptions] Taxonomy: term " . $term_name . " in " . $term_taxonomy . " deleted.");
+		$logger->debug("[Lumiere][updateOptions] Taxonomy: term " . $term_name . " in " . $term_taxonomy . " deleted.");
 
 	}
 
-	unregister_taxonomy( $filter_taxonomy );
-
-	$configClass->lumiere_maybe_log('debug', "[Lumiere][updateOptions] Taxonomy $filter_taxonomy deleted.");
-
 }
+
+unregister_taxonomy( $filter_taxonomy );
+
+$logger->debug("[Lumiere][updateOptions] Taxonomy $filter_taxonomy deleted.");
