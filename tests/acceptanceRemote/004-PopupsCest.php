@@ -4,11 +4,20 @@
 
 class PopupsCest {
 
-	var $url_base = "";
+	/** Stock the base remote URL
+	 *
+	 */
+	var $url_base_remote = "";
+
+	/** Stock the root remote path
+	 *
+	 */
+	var $root_remote = "";
 
 	public function __construct(){
 
-		$this->url_base = $_ENV['TEST_REMOTE_WP_URL'];
+		$this->url_base_remote = $_ENV['TEST_REMOTE_WP_URL'];
+		$this->root_remote = $_ENV['WP_ROOT_REMOTE_FOLDER'];
 
 	}
 
@@ -41,7 +50,7 @@ class PopupsCest {
 		$I->amOnPage('/2021/test-codeception/');
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait(7);
-		$I->switchToIFrame("//iframe[@src='$this->url_base$sub_url']");
+		$I->switchToIFrame("//iframe[@src='$this->url_base_remote$sub_url']");
 		$I->see('Christopher Nolan');
 	}
 
@@ -59,7 +68,7 @@ class PopupsCest {
 		$I->amOnPage('/2021/test-codeception/');
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait(7);
-		$I->switchToIFrame("//iframe[@src='$this->url_base$sub_url']");
+		$I->switchToIFrame("//iframe[@src='$this->url_base_remote$sub_url']");
 		$I->see('Pajarero');
 	}
 
