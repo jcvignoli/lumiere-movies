@@ -9,8 +9,8 @@ trait AcceptanceTrait {
 	 *  Save the cookies so no need to log again
 	 */
 	function login_universal(AcceptanceRemoteTester $I) {
+		$I->comment('Start an admin session');
 		if ($I->loadSessionSnapshot('login')) return;
-		$I->wantTo('Start an admin session');
 		$I->loginAsAdmin();
 		$I->saveSessionSnapshot('login');
 	}
@@ -137,6 +137,28 @@ trait AcceptanceTrait {
 		
 	}
 
+	/** Copy files with Rsync (faster than native copy)
+	 * 
+	 * param $source the folder source path to be copied
+	 * param $dest the folder destination path to be receive the source
+	 * param $shell the class \Codeception\Module\Cli
+	 */
+	function copyWithRsync($source, $dest, $shell){
+		$this->comment("Copying files to $dest...");
+		$shell->runShellCommand( 'rsync -rv ' . $source . ' '. $dest );
+		$this->comment("Lumiere plugin folder (into $dest) saved");
+	}
+
+	/** Activate local mount, as it goes sleep
+	 * 
+	 * param $path the full path of WordPress, /home/../(wp-content)
+	 * param $shell the class \Codeception\Module\Cli
+	 */
+	function activateLocalMount($path, $shell){
+		$this->comment("Activating local mount in $path...");
+		$shell->runShellCommand( 'touch ' . $path . '/wp-content/cache/testcodeception.txt' );
+		$this->comment("Local mount activated, saved testcodeception.txt in $path/wp-content/cache/");
+	}
 }
 
 

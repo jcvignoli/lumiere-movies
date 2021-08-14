@@ -4,12 +4,12 @@
 
 class TaxonomyCest {
 
-	/* Stock the base remote URL
+	/** Stock the base remote URL
 	 *
 	 */
 	var $url_base_remote = "";
 
-	/* Stock the root remote path
+	/** Stock the root remote path
 	 *
 	 */
 	var $root_remote = "";

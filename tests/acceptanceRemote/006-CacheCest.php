@@ -4,12 +4,12 @@
 
 class CacheCest {
 
-	/* Stock the base remote URL
+	/** Stock the base remote URL
 	 *
 	 */
 	var $url_base_remote = "";
 
-	/* Stock the root remote path
+	/** Stock the root remote path
 	 *
 	 */
 	var $root_remote = "";
@@ -58,7 +58,7 @@ class CacheCest {
 		$I->wantTo('check that cache is created');
 
 		// Make local connexion
-		$shell->runShellCommand( 'touch ' . $this->root_remote . '/wp-content/cache/testcodeception.txt' );
+		$I->activateLocalMount( $this->root_remote, $shell );
 
 		// Make sure cache is created
 		$I->amOnPage("/2021/test-codeception/");
@@ -99,7 +99,7 @@ class CacheCest {
 		$I->wantTo('check that cache is created');
 
 		// Make local connexion
-		$shell->runShellCommand( 'touch ' . $this->root_remote . '/wp-content/cache/testcodeception.txt' );
+		$I->activateLocalMount( $this->root_remote, $shell );
 
 		// Make sure cache is created
 		$I->amOnPage("/2021/test-codeception/");
