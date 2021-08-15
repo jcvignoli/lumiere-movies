@@ -91,9 +91,9 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ![Gutenberg block](https://ps.w.org/lumiere-movies/assets/screenshot-9.jpg)
 
-### 10. Taxonomy page for a person
+### 10. Taxonomy page for a star
 
-![Taxonomy page for a person](https://ps.w.org/lumiere-movies/assets/screenshot-10.jpg)
+![Taxonomy page for a star](https://ps.w.org/lumiere-movies/assets/screenshot-10.jpg)
 
 
 ## Frequently Asked Questions
