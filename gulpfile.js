@@ -187,13 +187,13 @@ exports.stylesheets = function stylesheets() {
 	return gulp
 		.src( paths.stylesheets.src , {base: paths.base.src } )
 		.pipe(plugins.plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
+		.pipe(plugins.rename({suffix: '.min'}))
 		.pipe(plugins.changed( paths.stylesheets.dist ))
 		.pipe(plugins.autoprefixer('last 2 versions'))
 		.pipe(plugins.cleanCss({debug: true}, (details) => {
 			console.log(`${details.name}: ${details.stats.originalSize}`);
 			console.log(`${details.name}: ${details.stats.minifiedSize}`);
 		}))
-		.pipe(plugins.rename({suffix: '.min'}))
 		.pipe(gulp.dest( paths.stylesheets.dist ))
 		.pipe(plugins.if(flagssh, sshMain.dest( ext_cred.mainserver.dist )))
 		.pipe(plugins.browserSync.stream())
@@ -216,9 +216,9 @@ exports.javascripts = function javascripts() {
 	return gulp
 		.src( paths.javascripts.src , {base: paths.base.src } )
 		.pipe(plugins.plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
+		.pipe(plugins.rename({suffix: '.min'}))
 		.pipe(plugins.changed( paths.javascripts.dist ))
 		.pipe(plugins.uglify())
-		.pipe(plugins.rename({suffix: '.min'}))
 		.pipe(gulp.dest( paths.javascripts.dist ))
 		.pipe(plugins.if(flagssh, sshMain.dest( ext_cred.mainserver.dist )))
 		.pipe(plugins.browserSync.stream())

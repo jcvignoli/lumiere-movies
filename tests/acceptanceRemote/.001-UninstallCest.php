@@ -46,8 +46,8 @@ class UninstallCest {
 
 	/** Uninstall the plugin to do the tests on a fresh install
 	 *
-	 * @before login
-	 *
+	 * @ before login
+	 * Can't use universal login due to plugin activation/deactivation
 	 */
 	public function pluginUninstall(AcceptanceRemoteTester $I, \Codeception\Module\Cli $shell) {
 
@@ -55,6 +55,8 @@ class UninstallCest {
 		$dir_plugin_lumiere = $wpcontent . 'plugins/lumiere-movies/';
 
 		$I->wantTo('Do Lumière plugin uninstall for a fresh start');
+
+		$I->loginAsAdmin();
 
 		// Make local connexion
 		$I->activateLocalMount( $this->root_remote, $shell );
@@ -94,7 +96,7 @@ class UninstallCest {
 		$I->comment(\Helper\Color::set("**Copy back to the saved plugin folder**", "italic+bold+cyan"));
 		$I->copyWithRsync($wpcontent . 'lumiere-movies/', $dir_plugin_lumiere, $shell );
 		$I->seeFileFound( 'lumiere-movies.php', $wpcontent . 'lumiere-movies/' );
-//		$I->deleteDir( $wpcontent . 'lumiere-movies/' );
+		$I->deleteDir( $wpcontent . 'lumiere-movies/' );
 		$I->seeFileFound( 'lumiere-movies.php', $dir_plugin_lumiere );
 
 		// Activate plugin

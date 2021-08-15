@@ -20,8 +20,10 @@
     "build": "gulp build --clean yes",
     "rsync": "gulp rsync",
     "codeceptionRemote": "php vendor/bin/codecept run -vvv acceptanceRemote --env wpfirefox",
-    "codeceptionRemoteWidget": "php vendor/bin/codecept run -vvv acceptanceRemote WidgetCest.php --env wpfirefox",
-    "codeceptionLocal": "php vendor/bin/codecept run -vvv acceptanceLocal --env wpfirefox"
+    "codeceptionLocal": "php vendor/bin/codecept run -vvv acceptanceLocal --env wpfirefox",
+    "phpcswp": "./vendor/bin/phpcs --report=code > tmp/phpcs-wp.txt",
+    "phpcs": "./vendor/bin/phpcs --standard=PSR2 ./src --ignore=*vendor* --ignore=*js/highslide* > tmp/phpcs-PSR2.txt"
+
   },
   "devDependencies": {
     "@wordpress/scripts": "16.1.0",

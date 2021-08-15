@@ -1,0 +1,7 @@
+Rename .001-UninstallCest.php to 001-UninstallCest.php to activate Uninstall 
+
+Uninstall allows a fresh start of the plugin
+
+Rename .008-DataDetailsCest.php to 008-DataDetailsCest.php to activate DataDetails
+
+It takes a lot of time to run (>30mn) so it's run only if requested
