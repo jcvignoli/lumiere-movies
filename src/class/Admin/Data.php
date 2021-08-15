@@ -131,7 +131,7 @@ class Data extends \Lumiere\Admin {
 			 * Needed by WordPress as a new page is created
 			 */
 			if ($this->utilsClass->lumiere_array_key_exists_wildcard( $_POST, 'imdb_imdbtaxonomy*' ) ) {
-				flush_rewrite_rules(false);
+				flush_rewrite_rules();
 				add_action('init', function(){
 					$this->logger->debug("Rewrite rules flushed");
 				});

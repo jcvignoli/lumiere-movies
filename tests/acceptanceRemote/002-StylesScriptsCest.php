@@ -4,6 +4,23 @@
 
 class StylesScriptsCest {
 
+	/** Stock the base remote URL
+	 *
+	 */
+	var $url_base_remote = "";
+
+	/** Stock the root remote path
+	 *
+	 */
+	var $root_remote = "";
+
+	public function __construct(){
+
+		$this->url_base_remote = $_ENV['TEST_REMOTE_WP_URL'];
+		$this->root_remote = $_ENV['WP_ROOT_REMOTE_FOLDER'];
+
+	}
+
 	public function _before(AcceptanceRemoteTester $I){
 		$I->comment('#Code _before#');
 	}
@@ -29,10 +46,7 @@ class StylesScriptsCest {
 
 		$I->loginAsAdmin();
 
-		/* const */
-		$url_base = $_ENV['TEST_REMOTE_WP_URL'];
-
-		$I->wantTo("Check if scripts and styles are available on $url_base");
+		$I->wantTo("Check if scripts and styles are available on ". $this->url_base_remote);
 
 			/* 
 			 * Admin pages

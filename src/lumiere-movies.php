@@ -1,7 +1,7 @@
 <?php
-/*
+/**
  * Lumière Movies
- * 
+ *
  * Plugin Name: Lumière! Movies
  * Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
  * Description: Add informative popups about movies with information extracted from the IMDb. Display data related to movies in a widget and inside your post. The most comprehensive and simplest plugin for adding movies information.
@@ -18,46 +18,49 @@
  *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @package lumiere-movies
  */
 
-// Stop direct call
-if ( ! defined( 'ABSPATH' ) ) 
-	wp_die(esc_html__("You are not allowed to call this page directly.", "lumiere-movies"));
+// Stop direct call.
+if ( ! defined( 'ABSPATH' ) ) {
+	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
+}
 
-// Include bootstrap if main files exist
-if ( (file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload.php' )) && (file_exists( plugin_dir_path( __FILE__ ) . 'class/Core.php' )) ) {
+// Include bootstrap if main files exist.
+if ( ( file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload.php' ) ) && ( file_exists( plugin_dir_path( __FILE__ ) . 'class/Core.php' ) ) ) {
 
-	include_once ( plugin_dir_path( __FILE__ ) . 'bootstrap.php' );
+	include_once plugin_dir_path( __FILE__ ) . 'bootstrap.php';
 
 }
 
-// Start the plugin if classes are loaded
-if ( (class_exists("\Lumiere\Core")) && (class_exists('\Imdb\Config')) ){
+// Start the plugin if classes are loaded.
+if ( ( class_exists( '\Lumiere\Core' ) ) && ( class_exists( '\Imdb\Config' ) ) ) {
 
-	$start = new \Lumiere\Core() ?? NULL;
+	$lumiere_core = new \Lumiere\Core() ?? null;
 
-	# Executed upon plugin activation
-	register_activation_hook( __FILE__, [ $start , 'lumiere_on_activation' ] );
+	// Executed upon plugin activation.
+	register_activation_hook( __FILE__, array( $lumiere_core, 'lumiere_on_activation' ) );
 
-	# Executed upon plugin deactivation
-	register_deactivation_hook( __FILE__, [ $start , 'lumiere_on_deactivation' ] );
+	// Executed upon plugin deactivation.
+	register_deactivation_hook( __FILE__, array( $lumiere_core, 'lumiere_on_deactivation' ) );
 
-// Display error notice, plugin is not properly installed
+	// Display error notice, plugin is not properly installed.
 } else {
 
-	add_action('admin_notices', 'lumiere_installation_error');
+	add_action( 'admin_notices', 'lumiere_installation_error' );
 
 }
 
-/* Display error notice upon bad installation
- *
+/**
+ * Display error notice upon bad installation
  */
 function lumiere_installation_error() {
 
-	$class = 'notice notice-error';
+	$class   = 'notice notice-error';
 	$message = 'Lumière Movies WordPress plugin has been incorrectly installed. Check your install or reinstall the plugin.';
 
-	printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );		
+	printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
 
 }
 

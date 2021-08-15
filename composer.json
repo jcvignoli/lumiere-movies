@@ -17,6 +17,8 @@
         "lucatume/wp-browser": "^3.0",
         "wp-cli/wp-cli-bundle": "^2.5",
         "wpreadme2markdown/wpreadme2markdown": "^4.0",
-        "phpseclib/phpseclib": "^2.0.14"
+        "phpseclib/phpseclib": "^2.0.14",
+        "squizlabs/php_codesniffer": "*",
+        "wp-coding-standards/wpcs": "^2.3"
     }
 }
