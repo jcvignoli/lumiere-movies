@@ -603,7 +603,7 @@ class General extends \Lumiere\Admin {
 					</div>
 					<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the taxonomy\'s pages. Warning! It cannot be identical to the URL of popups above.', 'lumiere-movies'); ?>
 					<br />
-					<?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo "imdblt_"; ?>"
+					<?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo "lumiere-"; ?>"
 					<br />
 					<br />
 					<?php esc_html_e( 'The full URL utilized for the director taxonomy page will be:', 'lumiere-movies'); ?>
