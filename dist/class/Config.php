@@ -77,10 +77,13 @@ class Settings extends Config {
 	const popup_search_url = 'inc/popup-search.php';
 	const popup_movie_url = 'inc/popup-imdb_movie.php';
 	const popup_person_url = 'inc/popup-imdb_person.php';
+	const TAXO_PEOPLE_THEME = 'taxonomy-lumiere-people.php';
+	const TAXO_ITEMS_THEME = 'taxonomy-lumiere-items.php';
 
-	/* URL string for taxonomy, 'imdblt_' by default (built in )
-	*/
-	const url_string_taxo = 'imdblt_';
+	/** 
+	 * URL string for taxonomy, 'imdblt_' by default (built in lumiere_define_constants() )
+	 */
+	const url_string_taxo = 'lumiere-';
 
 	/* Include all pages of Lumière plugin 
 	*/

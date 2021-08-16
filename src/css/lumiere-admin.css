@@ -45,8 +45,6 @@ width: 100%;border-color: black;}
 #tabswrap a {color:darkslategrey;}
 #tabswrap a:hover {color:white;}
 
-/*#tabs {padding: 5px;background:#F1F1F1 none repeat scroll 0%;overflow:hidden;}*/
-
 #tabs li {display:inline;}
 
 #imdbwidgetorderContainer{height:auto;color:grey;border-radius:15px;font-size:medium;vertical-align: middle;}
@@ -62,7 +60,7 @@ width: 100%;border-color: black;}
 
 .submit-imdb {border:none;}
 
- /* Span of options */
+/* Span of options */
 .admin-option-selected, .lumiere-option-taxo-activated {font-weight:bold;color:#0066CC;}
 .lumiere-option-taxo-deactivated {font-weight:bold;color:red;}
 
@@ -95,13 +93,13 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .imdblt_double_container_content, .lumiere_flex_container_content, .lumiere_flex_container_content_fifty{flex:50%;}
 /* real responsive */
 @media (max-width: 782px) {
-  .lumiere_flex_make_responsive{flex-direction: column;}
+	.lumiere_flex_make_responsive{flex-direction: column;}
 }
 @media (max-width: 782px) and (min-width:400) {
-  .lumiere_flex_make_responsive_metabox{flex-direction: row;} /* for metabox edit interface */
+	.lumiere_flex_make_responsive_metabox{flex-direction: row;} /* for metabox edit interface */
 }
 @media (max-width: 400px) {
-  .lumiere_flex_make_responsive_metabox{flex-direction: column;} /* for metabox edit interface */
+	.lumiere_flex_make_responsive_metabox{flex-direction: column;} /* for metabox edit interface */
 }
 
 .imdblt_flex_auto, .lumiere_flex_auto{flex:auto;}
@@ -141,7 +139,7 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 
 .lumiere_border_width_medium{border-width: medium !important;}
 .lumiere_writing_vertical{writing-mode: vertical-lr;}
-/*#imdbconfig_save #tabswrap {margin:5px;padding:15px;}*/
+
 
 /* sticky */
 [class*="lumiere_sticky_"] { position: sticky; bottom: 0;  z-index: 10;}
@@ -150,5 +148,3 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 
 .linkpopup {color: #0073aa;text-decoration: none;cursor:pointer;}
 .linkpopup:hover {color: #005177;text-decoration: none;cursor:pointer;}
-
-

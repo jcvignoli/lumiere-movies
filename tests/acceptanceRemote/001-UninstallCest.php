@@ -9,15 +9,34 @@ class UninstallCest {
 	 */
 	var $url_base_remote = "";
 
-	/** Stock the root remote path
+	/** Stock mounted the root remote path
 	 *
 	 */
 	var $root_remote = "";
+
+	/** Stock the root remote path
+	 *
+	 */
+	var $root_remote_path = "";
+
+	/** Stock the root remote path
+	 *
+	 */
+	var $host = "";
+
+	/** Stock the root remote path
+	 *
+	 */
+	var $user_name = "";
 
 	public function __construct(){
 
 		$this->url_base_remote = $_ENV['TEST_REMOTE_WP_URL'];
 		$this->root_remote = $_ENV['WP_ROOT_REMOTE_FOLDER'];
+		$this->root_remote_path = $_ENV['TEST_REMOTE_FTP_PATH'];
+
+		$this->host = $_ENV['TEST_REMOTE_FTP_HOST'];
+		$this->user_name = $_ENV['TEST_REMOTE_FTP_USERNAME'];
 
 	}
 
@@ -46,17 +65,19 @@ class UninstallCest {
 
 	/** Uninstall the plugin to do the tests on a fresh install
 	 *
-	 * @ before login
-	 * Can't use universal login due to plugin activation/deactivation
+	 * @before login
+	 * 
 	 */
 	public function pluginUninstall(AcceptanceRemoteTester $I, \Codeception\Module\Cli $shell) {
 
 		$wpcontent = $this->root_remote . '/wp-content/';
 		$dir_plugin_lumiere = $wpcontent . 'plugins/lumiere-movies/';
+		$remote_cred = $this->user_name.'@'.$this->host;
+		$remote_plugin_path = $this->root_remote_path.'/wp-content/plugins';
+		$remote_plugin_path_lumiere = $this->root_remote_path.'/wp-content/plugins/lumiere-movies';
+		$remote_wpcontent_path = $this->root_remote_path.'/wp-content';
 
 		$I->wantTo('Do Lumière plugin uninstall for a fresh start');
-
-		$I->loginAsAdmin();
 
 		// Make local connexion
 		$I->activateLocalMount( $this->root_remote, $shell );
@@ -80,8 +101,8 @@ class UninstallCest {
 		// Save plugin folder
 		$I->comment(\Helper\Color::set("**See if Lumière folder exists and copy**", "italic+bold+cyan"));
 		$I->seeFileFound( 'lumiere-movies.php', $dir_plugin_lumiere );
-//		$I->copyDir( $dir_plugin_lumiere , $wpcontent . 'lumiere-movies'); # too slow! use rsync instead
-		$I->copyWithRsync($dir_plugin_lumiere, $wpcontent . 'lumiere-movies/', $shell );
+		$I->comment( \Helper\Color::set('Saving plugin folder...', 'magenta+blink') );
+		$shell->runShellCommand('scp -r '.$remote_cred.':'.$remote_plugin_path_lumiere.' '.$remote_cred.':'.$remote_wpcontent_path.'/');
 
 		// Delete plugin
 		$I->amOnPage('/wp-admin/plugins.php');
@@ -93,10 +114,12 @@ class UninstallCest {
 		$I->comment(\Helper\Color::set("**Lumière plugin deleted**", "italic+bold+cyan"));
 
 		// Revert back the saved plugin folder
-		$I->comment(\Helper\Color::set("**Copy back to the saved plugin folder**", "italic+bold+cyan"));
-		$I->copyWithRsync($wpcontent . 'lumiere-movies/', $dir_plugin_lumiere, $shell );
+		$I->comment(\Helper\Color::set("**Copy back to the saved plugin folder**", 'italic+bold+cyan'));
+		$I->comment( \Helper\Color::set('Restoring plugin folder...', 'magenta+blink') );
+		$shell->runShellCommand('scp -r '.$remote_cred.':'.$remote_wpcontent_path.'/lumiere-movies'.' '.$remote_cred.':'.$remote_plugin_path.'/');
 		$I->seeFileFound( 'lumiere-movies.php', $wpcontent . 'lumiere-movies/' );
-		$I->deleteDir( $wpcontent . 'lumiere-movies/' );
+		$I->comment( \Helper\Color::set('Deleting temporary plugin folder...', 'magenta+blink') );
+		$shell->runShellCommand("ssh ".$remote_cred." 'rm -R ".$remote_wpcontent_path."/lumiere-movies"."'");
 		$I->seeFileFound( 'lumiere-movies.php', $dir_plugin_lumiere );
 
 		// Activate plugin

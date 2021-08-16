@@ -1,6 +1,6 @@
 /**
-* @file: highslide.css 
-* @version: 4.1.9
+* @file: highslide.css
+* @version: 5.0
 */
 .highslide-container div {
 	font-family: Verdana, Helvetica;
@@ -58,18 +58,18 @@
 	display: none;
 	font-weight: bold;
 	margin: 0.4em;
-visibility:hidden; /* modified by jcv */
+	visibility:hidden; /* modified by jcv */
 }
 .highslide-dimming {
 	/*position: absolute;*/
 	background: black;
 }
 a.highslide-full-expand {
-   background: url(../js/highslide/graphics/fullexpand.gif) no-repeat; /* ---------------------------modified by jcv */
-   display: block;
-   margin: 0 10px 10px 0;
-   width: 34px;
-   height: 34px;
+	background: url(../js/highslide/graphics/fullexpand.gif) no-repeat; /* ---------------------------modified by jcv */
+	display: block;
+	margin: 0 10px 10px 0;
+	width: 34px;
+	height: 34px;
 }
 .highslide-loading {
 	display: block;
@@ -80,7 +80,7 @@ a.highslide-full-expand {
 	background-color: black;
 	background-repeat: no-repeat;
 	background-position: 3px 3px;
-	background-image: url(../js/highslide/graphics/loader.gif); 
+	background-image: url(../js/highslide/graphics/loader.gif);
 	/* background-image: url(../pics/loader.white.gif);---------------------------modified by jcv */
 }
 a.highslide-credits,
@@ -154,8 +154,8 @@ a.highslide-credits:hover i {
 	left: 50%;
 }
 .highslide-gallery ul img {
- 	position: relative;
- 	border-width: 1px;
+	position: relative;
+	border-width: 1px;
 	top: -50%;
 	left: -50%;
 }
@@ -615,7 +615,7 @@ html>/**/body .highslide-gallery ul img {
 	width: 0;
 	height: 32px;
 	overflow: hidden;
-	background-color: black; 
+	background-color: black;
 	/*background-color: white;-----------------------------------------------------------------------modified by jcv */
 	background-repeat: no-repeat;
 	background-position: 3px 3px;

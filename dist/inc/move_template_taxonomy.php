@@ -24,7 +24,7 @@ if (class_exists("\Lumiere\Settings")) {
 }
 
 $lumiere_taxo_title = esc_html( $_GET['taxotype'] );
-$lumiere_taxo_file_tocopy = in_array($lumiere_taxo_title, $array_people, true) ? $lumiere_taxo_file_tocopy = "taxonomy-imdblt_people.php" : $lumiere_taxo_file_tocopy = "taxonomy-imdblt_items.php";
+$lumiere_taxo_file_tocopy = in_array($lumiere_taxo_title, $array_people, true) ? $lumiere_taxo_file_tocopy = \Lumiere\Settings::TAXO_PEOPLE_THEME : $lumiere_taxo_file_tocopy = \Lumiere\Settings::TAXO_ITEMS_THEME;
 $lumiere_taxo_file_copied = "taxonomy-" . $imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . ".php";
 $lumiere_current_theme_path = get_stylesheet_directory()."/";
 $lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied ;

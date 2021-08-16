@@ -159,6 +159,7 @@ trait AcceptanceTrait {
 		$shell->runShellCommand( 'touch ' . $path . '/wp-content/cache/testcodeception.txt' );
 		$this->comment("Local mount activated, saved testcodeception.txt in $path/wp-content/cache/");
 	}
+
 }
 
 
