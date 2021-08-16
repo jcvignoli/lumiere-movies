@@ -6,6 +6,7 @@
  * @copyright (c) 2021, Lost Highway
  *
  * @version       2.0
+ * @package lumiere-movies
  */
 
 namespace Lumiere;
@@ -70,11 +71,11 @@ class LumiereMovies {
 			$this->utilsClass = new \Lumiere\Utils();
 
 			// Start the logger class
-			add_action('wp', [$this, 'lumiere_start_logger_wrapper'], 0);
+			add_action( 'wp', [ $this, 'lumiere_maybe_start_debug'], 0 );
 
 		} else {
 
-			wp_die( esc_html__('Cannot start class movie, class Lumière Settings not found', 'lumiere-movies') );
+			wp_die( esc_html__( 'Cannot start class movie, class Lumière Settings not found', 'lumiere-movies' ) );
 
 		}
 
@@ -100,10 +101,14 @@ class LumiereMovies {
 	 ** Allows to start later in the process, and to not break gutenberg editor by adding text before html code
 	 **
 	 **/
-	function lumiere_start_logger_wrapper(){
+	function lumiere_maybe_start_debug(){
 
-		// Activate debug
-		$this->utilsClass->lumiere_activate_debug();
+		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( 1 == $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
+
+			// Start debugging mode
+			$this->utilsClass->lumiere_activate_debug();
+
+		}
 
 	}
 
@@ -2235,10 +2240,10 @@ if(!is_admin()){
 	$configClass = new \Lumiere\Settings();
 	$utilsClass = new \Lumiere\Utils();
 
-	if (!$utilsClass->lumiere_array_contains_term($configClass->lumiere_list_all_pages, $_SERVER['REQUEST_URI'])){
+	if ( ! $utilsClass->lumiere_array_contains_term( $configClass->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ) ) {
 
-		$lumiere_movie = new LumiereMovies();
+		new LumiereMovies();
 
 	}
 }
-?>
+

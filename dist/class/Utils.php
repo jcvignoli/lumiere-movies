@@ -7,6 +7,7 @@
  * @copyright (c) 2021, Lost Highway
  *
  * @version       2.0
+ * @package lumiere-movies
  */
 
 namespace Lumiere;
@@ -33,6 +34,7 @@ class Utils {
 	 */
 	private $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
 
+public $debug_is_active;
 	/* Class constructor
 	 * 
 	 */
@@ -53,6 +55,7 @@ class Utils {
 
 		}
 
+		$this->debug_is_active = false;
 	}
 
 	/**
@@ -332,39 +335,45 @@ class Utils {
 	 *
 	 * @return optionaly an array of the options passed in $options
 	 */
-	static function lumiere_activate_debug($options = NULL, $set_error = NULL, $libxml_use = false, $get_screen = NULL) {
+	function lumiere_activate_debug($options = NULL, $set_error = NULL, $libxml_use = false, $get_screen = NULL) {
 
-		// If the user can't manage options and it's not a cron, exit
-		if ( ( !current_user_can( 'manage_options' ) ) && !DOING_CRON && !define('DOING_CRON') )
+		// Set on true to show debug is active if called again.
+		$this->debug_is_active = true;
+
+		// If the user can't manage options and it's not a cron, exit.
+		if ( ( ! current_user_can( 'manage_options' ) ) || ! 'DOING_CRON' && ! define( 'DOING_CRON' ) ) {
 			return false;
+		}
 
-		// Set the highest level of debug reporting
+		// Set the highest level of debug reporting.
 		error_reporting(E_ALL);
 		ini_set("display_errors", 1);
 
-		if ( (isset($libxml_use)) && ($libxml_use == "libxml") )
-			libxml_use_internal_errors(true); // avoid endless loops with imdbphp parsing errors 
+		// avoid endless loops with imdbphp parsing errors.
+		if ( ( isset($libxml_use ) ) && ( $libxml_use == 'libxml' ) ) {
+			libxml_use_internal_errors(true);
+		}
 
-		// Exit if no Lumière option array requested to show
-		if ( (NULL == $options) || empty($options) || !isset($options) )
-			return false;
+		if ( $set_error != "no_var_dump" ) {
+			set_error_handler("var_dump");
+		}
 
-		echo '<div><strong>[Lumière options]</strong><font size="-3"> ';
-
-		if(NULL !== $options)
-			print_r( $options );
-
-		if ( $set_error != "no_var_dump" )
-			set_error_handler("var_dump"); 
-
-		echo ' </font><strong>[/Lumière options]</strong></div>';
-
-		if ( $get_screen == "screen" ) {
+		if ( $get_screen == 'screen' ) {
 			$currentScreen = get_current_screen();
 			echo  '<div align="center"><strong>[WP current screen]</strong>';
 			print_r( $currentScreen );
 			echo '</div>';
 		}
+
+		// Exit if no Lumière option array requested to show
+		if ( ( null !== $options ) && ! empty( $options ) && isset( $options ) ) {
+
+			echo '<div><strong>[Lumière options]</strong><font size="-3"> ';
+			print_r( $options );
+			echo ' </font><strong>[/Lumière options]</strong></div>';
+
+		}
+
 	}
 
 	/* Check if the block widget is active

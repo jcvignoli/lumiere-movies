@@ -601,7 +601,7 @@ class General extends \Lumiere\Admin {
 						<?php echo $this->imdb_admin_values['blog_adress']; ?>/
 						<input type="text" class="lumiere_border_width_medium" name="imdb_imdburlstringtaxo" value="<?php esc_html_e( apply_filters('format_to_edit',$this->imdb_admin_values['imdburlstringtaxo']), 'lumiere-movies') ?>">
 					</div>
-					<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the taxonomy\'s pages. Warning! It cannot be identical to the URL of popups above.', 'lumiere-movies'); ?>
+					<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the taxonomy\'s pages.', 'lumiere-movies'); ?> <?php esc_html_e( 'Warning! This URL cannot be identical to popup\'s URL above.', 'lumiere-movies'); ?>
 					<br />
 					<?php esc_html_e( 'Default:','lumiere-movies');?> "<?php echo "lumiere-"; ?>"
 					<br />
