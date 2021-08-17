@@ -131,10 +131,10 @@ class Taxonomystandard {
 	 */
 	function lumiere_maybe_start_debug(){
 
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( 1 == $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
+		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( 1 == $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
 
 			// Start debugging mode
-			$this->utilsClass->lumiere_activate_debug();
+			$this->utils_class->lumiere_activate_debug();
 
 		}
 
