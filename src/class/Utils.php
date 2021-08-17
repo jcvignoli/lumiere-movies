@@ -335,7 +335,7 @@ public $debug_is_active;
 	 *
 	 * @return optionaly an array of the options passed in $options
 	 */
-	function lumiere_activate_debug($options = NULL, $set_error = NULL, $libxml_use = false, $get_screen = NULL) {
+	function lumiere_activate_debug( array $options = null, string $set_error = null, string $libxml_use = null, string $get_screen = null) {
 
 		// Set on true to show debug is active if called again.
 		$this->debug_is_active = true;

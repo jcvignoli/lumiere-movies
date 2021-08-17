@@ -55,16 +55,14 @@ class PopupMovie {
 			// Get the type of search: movies, series, games
 			$this->typeSearch = $this->configClass->lumiere_select_type_search();
 
-			if ( (current_user_can('manage_options') && isset($this->imdb_admin_values['imdbdebug']) && $this->imdb_admin_values['imdbdebug'] == 1) ){
+			// Start the debugging
+			add_action( 'wp_head', [ $this, 'lumiere_maybe_start_debug' ], 0 );
 
-				// Activate debug
-				$this->utilsClass->lumiere_activate_debug(); 
+			// Start the logger
+			$this->configClass->lumiere_start_logger('popupMovie');
+			$this->logger = $this->configClass->loggerclass;
 
-				// Start the logger
-				$this->configClass->lumiere_start_logger('popupMovie');
-				$this->logger = $this->configClass->loggerclass;
 
-			}
 		} else {
 
 			wp_die( esc_html__('Cannot start popup movies, class Lumière Settings not found', 'lumiere-movies') );
@@ -75,6 +73,23 @@ class PopupMovie {
 
 	}
 
+	/**
+	 *  Wrapps the start of the logger
+	 *  Allows to start later in the process
+	 */
+	public function lumiere_maybe_start_debug() {
+
+		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( 1 == $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
+
+			$this->utilsClass->lumiere_activate_debug( null, 'no_var_dump');
+
+		}
+	}
+
+	/**
+	 *  Display layout
+	 * 
+	 */
 	private function layout() {
 
 		/* GET Vars sanitized */
@@ -133,11 +148,10 @@ class PopupMovie {
 		?><!DOCTYPE html>
 		<html>
 		<head>
-		<?php wp_head();?>
+		<?php wp_head(); ?>
 
 		</head>
 		<body class="lumiere_body<?php if (isset($this->imdb_admin_values['imdbpopuptheme'])) echo ' lumiere_body_' . $this->imdb_admin_values['imdbpopuptheme'];?>">
-
 				                                  <!-- top page menu -->
 
 		<div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
