@@ -1,4 +1,4 @@
-<?php
+<?php declare( strict_types = 1 );
 /**
  * Template People: Taxonomy for Lumière! Movies WordPress plugin (set up for standard people taxonomy)
  *  You can replace the occurences of the word s'tandard, rename this file, and then copy it in your theme folder
@@ -103,7 +103,7 @@ class Taxonomystandard {
 		// Start Lumière config class.
 		if ( class_exists( '\Lumiere\Settings' ) ) {
 
-			$this->config_class      = new Settings( 'taxonomy-standard' );
+			$this->config_class = new Settings( 'taxonomy-standard' );
 			$this->imdb_admin_values = $this->config_class->imdb_admin_values;
 
 			// Start the class Utils to activate debug.
@@ -148,11 +148,11 @@ class Taxonomystandard {
 		// Get the info from imdbphp libraries.
 		if ( ( class_exists( '\Imdb\Person' ) ) && ! empty( $this->page_title ) && isset( $this->page_title ) ) {
 
-			$search                  = new PersonSearch( $this->config_class, $this->logger );
-			$results                 = $search->search( $this->page_title ) ?? null; // search for the person using the taxonomy tag.
-			$mid                     = $results[0]->imdbid() ?? null; // keep the first result only.
-			$mid_sanitized           = intval( $mid ); // sanitize the first result.
-			$this->person_class      = new Person( $mid_sanitized, $this->config_class, $this->logger ) ?? null; // search the profile using the first result.
+			$search = new PersonSearch( $this->config_class, $this->logger );
+			$results = $search->search( $this->page_title ) ?? null; // search for the person using the taxonomy tag.
+			$mid = $results[0]->imdbid() ?? null; // keep the first result only.
+			$mid_sanitized = intval( $mid ); // sanitize the first result.
+			$this->person_class = new Person( $mid_sanitized, $this->config_class, $this->logger ) ?? null; // search the profile using the first result.
 			$this->person_name_sntzd = sanitize_text_field( $this->person_class->name() ) ?? null;
 
 		}
@@ -215,40 +215,40 @@ class Taxonomystandard {
 				// A value was passed in the form.
 			if ( isset( $form_id_language ) && ! empty( $form_id_language ) && wp_verify_nonce( $retrieved_nonce, 'submit_lang' ) ) {
 
-				$args = array(
-					'post_type'      => array( 'post', 'page' ),
-					'post_status'    => 'publish',
-					'numberposts'    => -1,
-					'nopaging'       => true,
-					'tax_query'      => array(
-						'relation'        => 'AND',
-						array(
+				$args = [
+					'post_type' => [ 'post', 'page' ],
+					'post_status' => 'publish',
+					'numberposts' => -1,
+					'nopaging' => true,
+					'tax_query' => [
+						'relation' => 'AND',
+						[
 							'taxonomy' => esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . $people,
-							'field'    => 'name',
-							'terms'    => $this->person_name_sntzd,
-						),
-						array(
+							'field' => 'name',
+							'terms' => $this->person_name_sntzd,
+						],
+						[
 							'taxonomy' => 'language',
-							'field'    => 'term_taxonomy_id',
-							'terms'    => $form_id_language,
-						),
-					),
-				);
+							'field' => 'term_taxonomy_id',
+							'terms' => $form_id_language,
+						],
+					],
+				];
 
 				// No value was passed in the form.
 			} else {
 
-				$args = array(
-					'post_type'      => ['post', 'page'],
-					'post_status'    => 'publish',
-					'tax_query'      => array(
-						array(
+				$args = [
+					'post_type' => ['post', 'page'],
+					'post_status' => 'publish',
+					'tax_query' => [
+						[
 							'taxonomy' => esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . $people,
-							'field'    => 'name',
-							'terms'    => $this->person_name_sntzd,
-						),
-					),
-				);
+							'field' => 'name',
+							'terms' => $this->person_name_sntzd,
+						],
+					],
+				];
 
 			}
 
@@ -287,7 +287,8 @@ class Taxonomystandard {
 					<div class="lumiere_padding_15">	
 					<?php
 					// Display the post's thumbnail.
-					if ( $thumbnail = get_the_post_thumbnail( '', '', array( 'class' => '' ) ) ) {
+					$thumbnail = get_the_post_thumbnail( '', '', [ 'class' => '' ] );
+					if ( ! empty( $thumbnail ) ) {
 						echo $thumbnail;
 					}
 					echo "\n";
@@ -298,11 +299,11 @@ class Taxonomystandard {
 					</div>
 				</div>
 				<p class="postmetadata lumiere_align_center lumiere_padding_five">
-					<span class="category"><?php esc_html_e( 'Filed under: ', 'lumiere-movies' ); ?> <?php the_category(', '); ?></span>
+					<span class="category"><?php esc_html_e( 'Filed under: ', 'lumiere-movies' ); ?> <?php the_category( ', ' ); ?></span>
 <?php 
 						if ( $the_query->has_tag() ) { ?>
 							<strong>|</strong>
-							<span class="tags"><?php the_tags( esc_html__( 'Tags: ', 'lumiere-movies' ), ' &bull; ', ' '); ?></span>
+							<span class="tags"><?php the_tags( esc_html__( 'Tags: ', 'lumiere-movies' ), ' &bull; ', ' ' ); ?></span>
 	<?php
 							echo "\n";
 						} 
@@ -353,71 +354,51 @@ class Taxonomystandard {
 
 	}
 
-
 	 /**
 	  *  Polylang form: Display a form to change the language if Polylang plugin is active
 	  *
 	  * @param string mandatory $taxonomy -> the current taxonomy to check and build the form according to it
 	  */
 	private function lumiere_get_form_polylang_selection( $taxonomy ) {
-
-		// Is Polylang plugin active?
 		if ( ! function_exists( 'pll_is_translated_taxonomy' ) ) {
-
 			$this->logger->debug( "[Lumiere][taxonomy_$taxonomy] Polylang is not active." );
 			return;
-
 		}
-
 		// Is the current taxonomy, such as "lumiere_actor", registered and activated for translation?
 		if ( pll_is_translated_taxonomy( $taxonomy ) ) {
-
-			// Retrieve all Polylang languages taxonomy.
-			$pll_lang = get_terms( 'term_language', array( 'hide_empty' => false ) );
-
+			$pll_lang = get_terms( 'term_language', [ 'hide_empty' => false ] );
 			if ( empty( $pll_lang ) ) {
 				$this->logger->debug( "[Lumiere][taxonomy_$taxonomy] No Polylang language is set." );
 				return;
 			}
-
 			// Build the form.
 			echo "\n\t\t\t" . '<div align="center">';
 			echo "\n\t\t\t\t" . '<form method="post" id="lang_form" name="lang_form" action="#lang_form">';
 			echo "\n\t\t\t\t\t" . '<select name="tag_lang" style="width:100px;">';
 			echo "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
-
 			// Build an option html tag for every language.
 			foreach ( $pll_lang as $lang ) {
-
 				echo "\n\t\t\t\t\t\t" . '<option value="' . intval( $lang->term_id ) . '"';
 				if ( ( isset( $_POST['tag_lang'] ) ) && ( intval( $lang->term_id ) == $_POST['tag_lang'] ) ) {
 					echo 'selected="selected"';
 				}
 				echo '>' . esc_html( ucfirst( $lang->name ) ) . '</option>';
 			}
-
 			echo "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
-
 			echo "\n\t\t\t\t\t";
 			wp_nonce_field( 'submit_lang' );
-
 			if ( function_exists( 'submit_button' ) ) {
 				echo "\n\t\t\t\t\t";
 				submit_button( esc_html__( 'Filter language', 'lumiere-movies' ), 'primary', 'submit_lang', false );
 			} else {
 				echo "\n\t\t\t\t\t" . '<input type="submit" class="button-primary" id="submit_lang" name="submit_lang" value="' . esc_html__( 'Filter language', 'lumiere-movies' ).'">';
 			}
-
 			echo "\n\t\t\t\t" . '</form>';
-
 			echo "\n\t\t\t" . '</div>';
 		} else {
-
 			$this->logger->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $this->person_name_sntzd with $taxonomy." );
 			return false;
-
 		}
-
 	}
 
 	 /**
@@ -447,11 +428,11 @@ class Taxonomystandard {
 		echo ' lumiere-padding-lines-common-picture">';
 
 		$small_picture = $this->person_class->photo_localurl( false ); // get small poster for cache.
-		$big_picture   = $this->person_class->photo_localurl( true ); // get big poster for cache.
-		$photo_url     = isset( $small_picture ) ? $small_picture : $big_picture; // take the smaller first, the big if no small found.
+		$big_picture = $this->person_class->photo_localurl( true ); // get big poster for cache.
+		$photo_url = isset( $small_picture ) ? $small_picture : $big_picture; // take the smaller first, the big if no small found.
 		if ( ( isset( $photo_url ) ) && ( ! empty( $photo_url ) ) ) {
 
-			echo "\n\t\t\t\t\t" . '<a id="highslide_pic_popup" href="'.esc_url($photo_url).'">';
+			echo "\n\t\t\t\t\t" . '<a id="highslide_pic_popup" href="'.esc_url( $photo_url ).'">';
 			echo "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right" src="'
 				.esc_url( $photo_url )
 				.'" alt="'
@@ -459,7 +440,7 @@ class Taxonomystandard {
 
 			// add width only if "Display only thumbnail" is on "no"
 			if ( false === $this->imdb_admin_values['imdbcoversize'] ) {
-				echo 'width="' . intval($this->imdb_admin_values['imdbcoversizewidth']) . 'px" />';
+				echo 'width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . 'px" />';
 			}
 
 			echo "\n\t\t\t\t\t" . '</a>'; 
@@ -476,7 +457,7 @@ class Taxonomystandard {
 
 			// add width only if "Display only thumbnail" is on "no".
 			if ( false === $this->imdb_admin_values['imdbcoversize'] ) {
-				echo 'width="' . intval($this->imdb_admin_values['imdbcoversizewidth']) . 'px" />';
+				echo 'width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . 'px" />';
 			}
 
 			echo "\n\t\t\t\t\t" . '</a>'; 
@@ -494,14 +475,14 @@ class Taxonomystandard {
 
 		# Birth
 		$birthday = count( $this->person_class->born() ) ? $this->person_class->born() : ''; 
-		if ( (isset($birthday)) && (!empty($birthday)) ) {
-			$birthday_day = (isset( $birthday["day"] ) ) ? intval($birthday["day"]) : '';
-			$birthday_month = (isset( $birthday["month"] ) ) ? sanitize_text_field($birthday["month"]) : "";
-			$birthday_year = (isset( $birthday["year"] ) ) ? intval($birthday["year"]) : '';
+		if ( ( isset( $birthday ) ) && ( !empty( $birthday ) ) ) {
+			$birthday_day = ( isset( $birthday["day"] ) ) ? intval( $birthday["day"] ) : '';
+			$birthday_month = ( isset( $birthday["month"] ) ) ? sanitize_text_field( $birthday["month"] ) : "";
+			$birthday_year = ( isset( $birthday["year"] ) ) ? intval( $birthday["year"] ) : '';
 
 			echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
 				. '&#9788;&nbsp;'
-				. esc_html__('Born on', 'lumiere-movies')."</span>"
+				. esc_html__( 'Born on', 'lumiere-movies' )."</span>"
 				. $birthday_day . " " 
 				. $birthday_month . " " 
 				. $birthday_year ;
@@ -510,7 +491,7 @@ class Taxonomystandard {
 		}
 
 		if ( ( isset( $birthday["place"] ) ) && ( !empty( $birthday["place"] ) ) ) { 
-			echo ", ".esc_html__('in', 'lumiere-movies')." ".sanitize_text_field($birthday["place"]);
+			echo ", ".esc_html__( 'in', 'lumiere-movies' )." ".sanitize_text_field( $birthday["place"] );
 		}
 
 		echo "\n\t\t\t\t" . '</font></div>';
@@ -522,21 +503,21 @@ class Taxonomystandard {
 
 		# Death
 		$death = ( null !== $this->person_class->died() ) ? $this->person_class->died() : '';
-		if ( ( isset($death ) ) && ( ! empty( $death ) ) ) {
+		if ( ( isset( $death ) ) && ( ! empty( $death ) ) ) {
 
 			echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">' 
 				. '&#8224;&nbsp;'
-				. esc_html__('Died on', 'lumiere-movies')."</span>"
+				. esc_html__( 'Died on', 'lumiere-movies' )."</span>"
 				.intval( $death["day"] )." "
 				.sanitize_text_field( $death["month"] ) . " "
 				.intval( $death["year"] );
 
 			if ( ( isset( $death["place"] ) ) && ( ! empty( $death["place"] ) ) ) {
-				echo ", ".esc_html__('in', 'lumiere-movies') . " " . sanitize_text_field($death["place"]);
+				echo ", ".esc_html__( 'in', 'lumiere-movies' ) . " " . sanitize_text_field( $death["place"] );
 			}
 
-			if ( ( isset( $death["cause"] ) ) && ( ! empty($death["cause"] ) ) ) {
-				echo ", ".esc_html__('cause', 'lumiere-movies') . " " . sanitize_text_field($death["cause"]);
+			if ( ( isset( $death["cause"] ) ) && ( ! empty( $death["cause"] ) ) ) {
+				echo ", ".esc_html__( 'cause', 'lumiere-movies' ) . " " . sanitize_text_field( $death["cause"] );
 			}
 
 		} else {
@@ -548,26 +529,26 @@ class Taxonomystandard {
 		echo "\n\t\t\t\t" .'</font></div>';
 		echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Biography -->';
 		echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-		if ( isset ($this->imdb_admin_values['imdbintotheposttheme'] ) ) echo ' lumiere-lines-common_' . $this->imdb_admin_values['imdbintotheposttheme'];
+		if ( isset ( $this->imdb_admin_values['imdbintotheposttheme'] ) ) echo ' lumiere-lines-common_' . $this->imdb_admin_values['imdbintotheposttheme'];
 		echo ' lumiere-lines-common-fix">';
 		echo '<font size="-1">';
 
 		# Biography
 		$bio = $this->person_class->bio();
-		$nbtotalbio = count($bio);
+		$nbtotalbio = count( $bio );
 
 		if ( ( isset( $bio ) ) && ( ! empty( $bio ) ) ) {
 			echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">' 
-				. esc_html__('Biography', 'lumiere-movies') 
+				. esc_html__( 'Biography', 'lumiere-movies' ) 
 				. '</span>';
 
 	    		if ( $nbtotalbio < 2 ) $idx = 0; else $idx = 1;
 
 			$bio_text = sanitize_text_field( $bio[$idx]["desc"] );
-			$click_text = esc_html__('click to expand', 'lumiere-movies');
+			$click_text = esc_html__( 'click to expand', 'lumiere-movies' );
 			$max_length = 300; # number of characters
 
-			if ( strlen( $bio_text ) > $max_length) {
+			if ( strlen( $bio_text ) > $max_length ) {
 
 				$str_one = substr( $bio_text, 0, $max_length );
 				$str_two = substr( $bio_text, $max_length, strlen( $bio_text ) );
@@ -584,7 +565,6 @@ class Taxonomystandard {
 
 			}
 
-
 		} else {
 
 			echo '&nbsp;';
@@ -600,11 +580,9 @@ class Taxonomystandard {
 
 		echo "\n\t\t\t" . '<br />';
 
-
 	}
 
 }
 
 new \Lumiere\Taxonomystandard();
-
 
