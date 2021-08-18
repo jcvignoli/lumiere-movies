@@ -642,9 +642,12 @@ class Data extends \Lumiere\Admin {
 
 		} else {
 
+			// Make the HTML link with a nonce, checked in move_template_taxonomy.php.
+			$link_taxo_copy = esc_url( add_query_arg( '_wpnonce', wp_create_nonce( 'taxo' ), admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=" . $lumiere_taxo_title ) );
+
 			$output .= "\n\t"."<br />";
 			$output .= "\n\t".'<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
-			$output .= "\n\t\t"."<a href='" . esc_url( admin_url() . "admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=" . $lumiere_taxo_title ) . "' " 
+			$output .= "\n\t\t"."<a href='" . $link_taxo_copy . "' " 
 					."title='" . esc_html__("Copy a standard taxonomy template to your template folder to display this taxonomy.", 'lumiere-movies') . "' >"
 					. "<img src='".esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png') . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
 					. esc_html__("Copy template", 'lumiere-movies') . "</a>";

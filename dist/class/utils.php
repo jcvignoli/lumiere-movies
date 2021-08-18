@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class of tools: general utilities available for any class
  *

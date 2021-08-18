@@ -70,7 +70,7 @@ class Core {
 		// Redirect gutenberg-search.php
 		add_filter(
 			'init',
-			function( $template ) {
+			function() {
 				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) ) {
 					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::gutenberg_search_page;
 				}
@@ -79,7 +79,7 @@ class Core {
 		);
 
 		// Add Lumière taxonomy
-		if ( ( isset( $this->imdb_admin_values['imdbtaxonomy'] ) ) && ( $this->imdb_admin_values['imdbtaxonomy'] == 1 ) ) {
+		if ( ( isset( $this->imdb_admin_values['imdbtaxonomy'] ) ) && ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) ) {
 
 			add_action( 'init', [ $this, 'lumiere_create_taxonomies' ], 0 );
 
@@ -95,7 +95,7 @@ class Core {
 			// redirect calls to move_template_taxonomy.php
 			add_filter(
 				'admin_init',
-				function( $template ) {
+				function() {
 					if ( isset( $_GET['taxotype'] ) ) {
 						require plugin_dir_path( __DIR__ ) . \Lumiere\Settings::move_template_taxonomy_page;
 
@@ -111,7 +111,7 @@ class Core {
 		if ( is_admin() ) {
 
 			// Add admin menu
-			require_once __DIR__ . '/Admin.php';
+			require_once __DIR__ . '/admin.php';
 			$adminClass = new Admin();
 			add_action( 'init', [ $adminClass, 'lumiere_admin_menu' ] );
 		}
@@ -656,7 +656,7 @@ class Core {
 	}
 
 	/**
-	 **  Add a class to taxonomy links (constructed in class.movie.php)
+	 **  Add a class to taxonomy links (constructed in movie.php)
 	 **/
 	public function lumiere_taxonomy_add_class_to_links( $links ) {
 

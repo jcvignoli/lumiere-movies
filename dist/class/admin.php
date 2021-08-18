@@ -1,4 +1,4 @@
-<?php
+<?php declare( strict_types = 1 );
 /**
  * Admin class for displaying all Admin sections.   
  *
@@ -6,6 +6,7 @@
  * @copyright (c) 2021, Lost Highway
  *
  * @version       1.0
+ * @package lumiere-movies
  */
 
 namespace Lumiere;
@@ -14,6 +15,13 @@ namespace Lumiere;
 if ( ! defined( 'ABSPATH' ) ) {
 	wp_die('You can not call directly this page');
 }
+
+use \Lumiere\Settings;
+use \Lumiere\Utils;
+use \Lumiere\Admin\General;
+use \Lumiere\Admin\Data;
+use \Lumiere\Admin\Cache;
+use \Lumiere\Admin\Help;
 
 class Admin {
 
@@ -71,10 +79,10 @@ class Admin {
 		spl_autoload_register( [ 'Lumiere\Admin', 'admin_loader' ] );
 
 		// Start Settings class
-		$this->configClass = new \Lumiere\Settings('adminClass');
+		$this->configClass = new Settings('adminClass');
 
 		// Start Utilities class
-		$this->utilsClass = new \Lumiere\Utils();
+		$this->utilsClass = new Utils();
 
 		// Build constants
 		$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
@@ -347,24 +355,24 @@ class Admin {
 			// Make sure cache folder exists and is writable
 			$this->configClass->lumiere_create_cache();
 
-			$adminGeneral = new \Lumiere\Admin\General();
+			$adminGeneral = new General();
 
 		}
 
 		if ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "dataoption") ) {
 
-			$adminData = new \Lumiere\Admin\Data();
+			$adminData = new Data();
 
 		} elseif ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "cache") ) {
 
 			// Make sure cache folder exists and is writable
 			$this->configClass->lumiere_create_cache();
 
-			$adminCache = new \Lumiere\Admin\Cache();
+			$adminCache = new Cache();
 
 		} elseif ( (isset($_GET['subsection'])) && ($_GET['subsection'] == "help") ) {
 
-			$adminHelp = new \Lumiere\Admin\Help();
+			$adminHelp = new Help();
 
 		}
 		// end subselection 
