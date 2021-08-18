@@ -1,4 +1,4 @@
-<?php
+<?php declare( strict_types = 1 );
 /**
  * IMDbPHP search: Display search results related to a movie to get their IMDbID
  *
@@ -6,6 +6,7 @@
  * @copyright		2021, Lost Highway
  *
  * @version		1.0
+ * @package lumiere-movies
  */
 
 namespace Lumiere;
@@ -63,13 +64,8 @@ class Search {
 			// Start Utils Class
 			$this->utilsClass = new \Lumiere\Utils();
 
-			// Start debug mode
-			if ( (isset($this->imdb_admin_values['imdbdebug'])) && ($this->imdb_admin_values['imdbdebug'] == 1) && ( current_user_can( 'manage_options' )) ){
-
-				// Activate the debug
-				$this->utilsClass->lumiere_activate_debug(NULL, NULL, 'libxml', $this->configClass); # add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors 
-
-			} 
+			// Start the debugging
+			add_action( 'wp_head', [ $this, 'lumiere_maybe_start_debug' ], 0 );
 
 			// Start the logger
 			$this->configClass->lumiere_start_logger('gutenbergSearch');
@@ -81,7 +77,19 @@ class Search {
 
 	}
 
+	/**
+	 *  Wrapps the start of the logger
+	 *  Allows to start later in the process
+	 */
+	public function lumiere_maybe_start_debug() {
 
+		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( 1 == $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
+
+			// add libxml_use_internal_errors(true) which avoid endless loops with imdbphp parsing errors.
+			$this->utilsClass->lumiere_activate_debug(null, null, 'libxml');
+
+		}
+	}
 
 	/* Display layout
 	 *
