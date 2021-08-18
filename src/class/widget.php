@@ -162,6 +162,8 @@ class Widget extends \WP_Widget {
 
 		$this->configClass->loggerclass->debug( '[Lumiere][widget] Shortcode [' . self::WIDGET_SHORTCODE . '][/' . self::WIDGET_SHORTCODE . '] found. Using block-based widget.' );
 
+		$instance = [];
+
 		// Get the widget title and pass it to the correct format.
 		$instance['title'] = $content;
 
