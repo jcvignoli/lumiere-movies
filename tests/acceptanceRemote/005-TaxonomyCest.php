@@ -4,13 +4,13 @@
 
 class TaxonomyCest {
 
-	/** Stock the base remote URL
-	 *
+	/**
+	 * Stock the base remote URL
 	 */
 	var $url_base_remote = "";
 
-	/** Stock the root remote path
-	 *
+	/**
+	 * Stock the root remote path
 	 */
 	var $root_remote = "";
 
@@ -21,8 +21,8 @@ class TaxonomyCest {
 
 	}
 
-	/** Run needed actions BEFORE each function
-	 *
+	/**
+	 * Run needed actions BEFORE each function
 	 *
 	 */
 	public function _before(AcceptanceRemoteTester $I){
@@ -45,8 +45,8 @@ class TaxonomyCest {
 		AcceptanceTrait::login_universal($I);
 	}
 
-	/** Helper: Enable taxonomy
-	 *
+	/**
+	 * Helper: Enable taxonomy
 	 * @before login
 	 *
 	 */
@@ -63,8 +63,8 @@ class TaxonomyCest {
 
 	}
 
-	/** Helper: Disable taxonomy
-	 *
+	/**
+	 * Helper: Disable taxonomy
 	 * @before login
 	 *
 	 */
@@ -90,38 +90,8 @@ class TaxonomyCest {
 		$this->maybeEnableTaxonomy($I);
 	}
 
-	/** Check if auto widget option display a widget based on the title of the page
-	 *
-	 * @before login
-	 *
-	 */
-	public function checkTaxonomyActivation(AcceptanceRemoteTester $I) {
-
-		/* VARS */
-		// popup link person Tony Zarindast
-		$element = 'a[data-highslidepeople="0953494"]';
-		$sub_url = '/imdblt/person/0953494/?mid=0953494';
-
-		$I->wantTo('Check if auto widget taxonomy option works');
-
-		$I->amOnPage('/2021/test-codeception/');
-		$I->click( "Tony Zarindast");
-		$I->see('Tehran');
-
-		// Disable taxonomy
-		$this->maybeDisableTaxonomy($I);
-
-		$I->amOnPage('/2021/test-codeception/');
-		$I->click( "Tony Zarindast");
-		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
-		$I->wait(7);
-		$I->switchToIFrame("//iframe[@src='$this->url_base_remote$sub_url']");
-		$I->see('Golden Cage');
-
-	}
-
-	/** Check if auto widget option display a widget based on the title of the page
-	 *
+	/**
+	 * Check if Taxonomy system works
 	 * @before login
 	 * @example ["director", "composer"]
 	 *
@@ -148,7 +118,7 @@ class TaxonomyCest {
 
 		// Activate $item in 'Taxonomy'
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo');
-		$I->scrollTo('#imdb_imdbtaxonomy' . $example[0] .'_yes');
+		$I->scrollTo('#imdb_imdbtaxonomy' . $example[1] .'_yes');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
@@ -159,10 +129,15 @@ class TaxonomyCest {
 
 		// Copy Lumière taxonomy template to theme folder
 		$I->maybeCopyThemeFile($example[0]);
+		$I->amOnPage('/wp-admin/options-permalink.php');
+		$I->wait(2);
+		$I->amOnPage('/wp-admin/options-permalink.php');
+		$I->wait(2);
 
 		// Check that the template has been successfully implemented
 		$I->amOnPage('/2021/test-codeception/');
 		$I->click( "Tony Zarindast");
+		$I->wait(2);
 		$I->see('Tehran');
 
 		// Disable $item in 'what to display'
@@ -195,6 +170,37 @@ class TaxonomyCest {
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#update_imdbwidgetSettings' );
 
 	}
+
+	/**
+	 * Check if taxonomy deactivation/activation produce expected results
+	 * @before login
+	 *
+	 */
+	public function checkTaxonomyActivation(AcceptanceRemoteTester $I) {
+
+		/* VARS */
+		// popup link person Tony Zarindast
+		$element = 'a[data-highslidepeople="0953494"]';
+		$sub_url = '/imdblt/person/0953494/?mid=0953494';
+
+		$I->wantTo('Check if auto widget taxonomy option works');
+
+		$I->amOnPage('/2021/test-codeception/');
+		$I->click( "Tony Zarindast");
+		$I->see('Tehran');
+
+		// Disable taxonomy
+		$this->maybeDisableTaxonomy($I);
+
+		$I->amOnPage('/2021/test-codeception/');
+		$I->click( "Tony Zarindast");
+		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
+		$I->wait(7);
+		$I->switchToIFrame("//iframe[@src='$this->url_base_remote$sub_url']");
+		$I->see('Golden Cage');
+
+	}
+
 
 
 	/** Run needed actions AFTER closing the class

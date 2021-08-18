@@ -9,13 +9,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-08-18T02:22:52-03:00\n"
+"POT-Creation-Date: 2021-08-18T03:33:07-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
 
 #. Plugin Name of the plugin
-#: class/widget.php:338
+#: class/widget.php:340
 msgid "Lumière! Movies"
 msgstr ""
 
@@ -1591,66 +1591,62 @@ msgstr ""
 msgid "language"
 msgstr ""
 
-#: class/Core.php:583
-#: class/Core.php:593
+#: class/core.php:631
+#: class/core.php:641
 msgid "Informations about "
 msgstr ""
 
-#: class/Core.php:583
-#: class/Core.php:593
+#: class/core.php:631
+#: class/core.php:641
 msgid "Unknown"
 msgstr ""
 
-#: class/Core.php:597
+#: class/core.php:645
 msgid "No query entered"
 msgstr ""
 
-#: class/Core.php:598
+#: class/core.php:646
 msgid "Search query for "
 msgstr ""
 
-#: class/Core.php:606
+#: class/core.php:654
 msgid "Lumiere Query Interface"
 msgstr ""
 
-#: class/Core.php:806
-msgid "Lumière "
-msgstr ""
-
-#: class/Metabox.php:55
+#: class/metabox.php:55
 msgid "By movie IMDb ID"
 msgstr ""
 
-#: class/Metabox.php:55
+#: class/metabox.php:56
 #: blocks/main-block.js:112
 msgid "By movie title"
 msgstr ""
 
-#: class/Metabox.php:62
+#: class/metabox.php:64
 msgid "The movie you enter will be shown in your widget area."
 msgstr ""
 
-#: class/Metabox.php:68
+#: class/metabox.php:70
 msgid "How to query the movie?"
 msgstr ""
 
-#: class/Metabox.php:87
+#: class/metabox.php:89
 msgid "Title or ID:"
 msgstr ""
 
-#: class/Metabox.php:94
+#: class/metabox.php:96
 msgid "Use "
 msgstr ""
 
-#: class/Metabox.php:94
+#: class/metabox.php:96
 msgid "Open a popup to search the movie's ID"
 msgstr ""
 
-#: class/Metabox.php:94
+#: class/metabox.php:96
 msgid "this tool "
 msgstr ""
 
-#: class/Metabox.php:94
+#: class/metabox.php:96
 msgid "to find the IMDb's ID."
 msgstr ""
 
@@ -1907,17 +1903,17 @@ msgstr ""
 msgid "Add movie details to your pages with Lumière! Legacy version: as of WordPress 5.8, prefer the new widget."
 msgstr ""
 
-#: class/widget.php:230
+#: class/widget.php:232
 msgid "Lumière! Movies (legacy)"
 msgstr ""
 
-#: class/widget.php:350
+#: class/widget.php:352
 msgid "Widget title:"
 msgstr ""
 
-#: inc/gutenberg-search.php:15
-#: inc/gutenberg-search.php:171
-#: inc/gutenberg-search.php:190
+#: inc/gutenberg-search.php:16
+#: inc/gutenberg-search.php:179
+#: inc/gutenberg-search.php:198
 #: inc/highslide_download.php:9
 #: inc/highslide_download.php:57
 #: inc/move_template_taxonomy.php:9
@@ -1926,27 +1922,27 @@ msgstr ""
 msgid "You are not allowed to call this page directly."
 msgstr ""
 
-#: inc/gutenberg-search.php:110
+#: inc/gutenberg-search.php:118
 msgid "Results related to your query:"
 msgstr ""
 
-#: inc/gutenberg-search.php:112
+#: inc/gutenberg-search.php:120
 msgid "Titles results"
 msgstr ""
 
-#: inc/gutenberg-search.php:113
+#: inc/gutenberg-search.php:121
 msgid "Identification number"
 msgstr ""
 
-#: inc/gutenberg-search.php:122
+#: inc/gutenberg-search.php:130
 msgid "Maximum of results reached. You can increase it in admin options."
 msgstr ""
 
-#: inc/gutenberg-search.php:134
+#: inc/gutenberg-search.php:142
 msgid "IMDb ID:"
 msgstr ""
 
-#: inc/gutenberg-search.php:158
+#: inc/gutenberg-search.php:166
 msgid "Search a movie IMDb ID"
 msgstr ""
 

@@ -67,25 +67,22 @@ class Movie {
 	 */
 	public function __construct() {
 
-		// Start config class and get the vars
-		if ( class_exists( '\Lumiere\Settings' ) ) {
-
-			$this->configClass = new Settings( 'movieClass' );
-			$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
-			$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
-			$this->imdb_cache_values = $this->configClass->get_imdb_widget_option();
-
-			// Start the tools class
-			$this->utilsClass = new Utils();
-
-			// Start the logger class
-			add_action( 'wp', [ $this, 'lumiere_maybe_start_debug' ], 0 );
-
-		} else {
+		// Exit if base class is not found
+		if ( ! class_exists( '\Lumiere\Settings' ) ) {
 
 			wp_die( esc_html__( 'Cannot start class movie, class Lumière Settings not found', 'lumiere-movies' ) );
-
 		}
+
+		$this->configClass = new Settings( 'movieClass' );
+		$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
+		$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
+		$this->imdb_cache_values = $this->configClass->get_imdb_widget_option();
+
+		// Start the tools class
+		$this->utilsClass = new Utils();
+
+		// Start the logger class
+		add_action( 'wp', [ $this, 'lumiere_maybe_start_debug' ], 0 );
 
 		// Run the initialisation of the class
 		// Not needed since lumiere_show() is externally called

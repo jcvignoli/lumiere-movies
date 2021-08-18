@@ -34,8 +34,6 @@ class Metabox {
 
 	public function add_lumiere_metabox_customfields() {
 
-		global $imdb_admin_values;
-
 		add_meta_box( 'lumiere_metabox_customfields', 'Lumière! movies', [ $this, 'custom_meta_box_markup' ], [ 'post', 'page' ], 'side', 'high', null );
 
 	}
@@ -47,8 +45,6 @@ class Metabox {
 	 * @param array $object Saved values from database.
 	 */
 	public function custom_meta_box_markup( $object ) {
-
-		global $imdb_admin_values;
 
 		// Option for the select, the two type of data to be taken over by imdb-movie.inc.php
 		$option_values = [
