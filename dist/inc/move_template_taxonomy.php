@@ -39,7 +39,7 @@ $lumiere_taxonomy_theme_file = $lumiere_taxonomy_theme_path . $lumiere_taxo_file
 if ( (isset($imdb_admin_values['imdbtaxonomy'])) && (!empty($imdb_admin_values['imdbtaxonomy'])) && (isset($imdb_widget_values[ 'imdbtaxonomy'.$lumiere_taxo_title ])) && (!empty($imdb_widget_values[ 'imdbtaxonomy'.$lumiere_taxo_title ])) && wp_verify_nonce( $retrieved_nonce, 'taxo') ) {
 
 	// No $_GET["taxotype"] found or not in array, exit.
-	if ( (isset($lumiere_taxo_title)) && (empty($lumiere_taxo_title)) ) {
+	if ( (! isset( $lumiere_taxo_title ) ) || ( empty( $lumiere_taxo_title ) ) ) {
 		wp_safe_redirect( add_query_arg( "msg", "taxotemplatecopy_failed", wp_get_referer() ) ); 
 		exit();
 	}
