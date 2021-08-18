@@ -669,8 +669,6 @@ class Core {
 	 **/
 	function lumiere_on_lumiere_upgrade_completed( $upgrader_object, $options ) {
 
-		// Activate debug
-		$this->utilsClass->lumiere_activate_debug();
 		// Start the logger
 		$this->configClass->lumiere_start_logger('coreClass');
 
@@ -707,9 +705,6 @@ class Core {
 
 		/* remove activation issue
 		ob_start(); */
-
-		// Activate debug
-		$this->utilsClass->lumiere_activate_debug();
 
 		// Start the logger
 		$this->configClass->lumiere_start_logger('coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
@@ -771,9 +766,6 @@ class Core {
 	 *   Run on plugin deactivation
 	 */
 	function lumiere_on_deactivation() {
-
-		// Activate debug
-		$this->utilsClass->lumiere_activate_debug();
 
 		// Start the logger
 		$this->configClass->lumiere_start_logger('coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
@@ -852,8 +844,6 @@ class Core {
 
 		$this->configClass = new \Lumiere\Settings();
 
-		// Activate debug
-		$this->utilsClass->lumiere_activate_debug();
 		// Start the logger
 		$this->configClass->lumiere_start_logger('coreClass');
 
