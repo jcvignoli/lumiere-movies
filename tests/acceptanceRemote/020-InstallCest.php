@@ -101,7 +101,7 @@ class InstallCest {
 		$I->scrollTo('#activate-lumiere-movies');
 		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");
 		$I->wait(5);
-		$I->see('Plugin activated.');
+		$I->see('Plugin activated');
 
 		// Enable keep settings option, so no popup
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
@@ -111,12 +111,14 @@ class InstallCest {
 		$I->wait(5);
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
 		$I->wait(5);
-		$I->see('Plugin deactivated.');
+		$I->see('Plugin deactivated');
 		$I->wait(2);
 		$I->amOnPage('/wp-admin/plugins.php');
+		$I->wait(2);
+		$I->scrollTo('#activate-lumiere-movies');
 		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");
 		$I->wait(5);
-		$I->see('Plugin activated.');
+		$I->see('Plugin activated');
 	}
 }
 

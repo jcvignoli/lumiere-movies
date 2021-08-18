@@ -40,20 +40,16 @@ public $debug_is_active;
 	 */
 	function __construct () {
 
-		// Start config class and get the vars
-		if (class_exists("\Lumiere\Settings")) {
+		// Exit if base class is not found
+		if ( ! class_exists( '\Lumiere\Settings' ) ) {
 
-			$this->configClass = new \Lumiere\Settings('utilsClass');
-			$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
-			$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
-			$this->imdb_cache_values = $this->configClass->get_imdb_widget_option();
-
-
-		} else {
-
-			wp_die( esc_html__('Cannot start class utils, class Lumière Settings not found', 'lumiere-movies') );
-
+			wp_die( esc_html__( 'Cannot start class utils, class Lumière Settings not found', 'lumiere-movies' ) );
 		}
+
+		$this->configClass = new \Lumiere\Settings('utilsClass');
+		$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
+		$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
+		$this->imdb_cache_values = $this->configClass->get_imdb_widget_option();
 
 		$this->debug_is_active = false;
 	}

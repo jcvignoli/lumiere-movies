@@ -74,6 +74,12 @@ class Widget extends \WP_Widget {
 	 */
 	public function __construct() {
 
+		// Exit if base class is not found
+		if ( ! class_exists( '\Lumiere\Settings' ) ) {
+
+			wp_die( esc_html__( 'Cannot start class widget, class Lumière Settings not found', 'lumiere-movies' ) );
+		}
+
 		parent::__construct(
 			self::WIDGET_NAME,  // Base ID.
 			'Lumière! Widget (legacy)',   // Name.
@@ -83,30 +89,22 @@ class Widget extends \WP_Widget {
 			]
 		);
 
-		// Start config class and get the vars.
-		if ( class_exists( '\Lumiere\Settings' ) ) {
 
-			$this->configClass = new Settings( 'widgetClass' );
-			$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
-			$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
-			$this->imdb_cache_values = $this->configClass->get_imdb_widget_option();
+		$this->configClass = new Settings( 'widgetClass' );
+		$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
+		$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
+		$this->imdb_cache_values = $this->configClass->get_imdb_widget_option();
 
-			// Start the movie class.
-			$this->movieClass = new Movie();
+		// Start the movie class.
+		$this->movieClass = new Movie();
 
-			// Start the utilities class.
-			$this->utilsClass = new Utils();
+		// Start the utilities class.
+		$this->utilsClass = new Utils();
 
-			/**
-			 * Activate debug
-			 */
-			add_action( 'widget_init', [ $this, 'lumiere_widget_maybe_start_debug' ] );
-
-		} else {
-
-			wp_die( esc_html__( 'Cannot start class movie, class Lumière Settings not found', 'lumiere-movies' ) );
-
-		}
+		/**
+		 * Activate debug
+		 */
+		add_action( 'widget_init', [ $this, 'lumiere_widget_maybe_start_debug' ] );
 
 		/**
 		 * Register the widget

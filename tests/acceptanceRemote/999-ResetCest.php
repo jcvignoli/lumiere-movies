@@ -54,7 +54,7 @@ class EndCest {
 
 		// Big menu on
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
-		$I->scrollTo('#imdbwordpress_bigmenu');
+		$I->scrollTo('#miscpart');
 		$I->CustomActivateCheckbox('#imdb_imdbwordpress_bigmenu_yes', 'update_imdbSettings');
 
 		// Left menu on
