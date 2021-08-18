@@ -607,7 +607,7 @@ class Data extends \Lumiere\Admin {
 	 * 
 	 * @param array mandatory $type type to search (actor, genre, etc)
 	 */
-	public function lumiere_check_taxo_template($type) {
+	public function lumiere_check_taxo_template( $type ) {
 
 		// Initialize
 		$output = "";

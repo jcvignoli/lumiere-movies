@@ -683,19 +683,19 @@ class Settings extends Config {
 
 	}
 
-	/* Start and select which Logger to use
+	/**
+	 *  Start and select which Logger to use
 	 * 
-	 * By default, Null Logger is utilised
-	 * 
-	 * @ param (string) optional $logger_name: title applied to the logger in the logs under origin
-	 * @ param (bool) optional $screenOutput: whether to display the screen output. Useful for plugin activation.
+	 * @param (string) optional $logger_name: title applied to the logger in the logs under origin
+	 * @param (bool) optional $screenOutput: whether to display the screen output. Useful for plugin activation.
 	 *
 	 * @return the logger in $loggerclass
 	 */
-	public function lumiere_start_logger ($logger_name = false, $screenOutput = true) {
+	public function lumiere_start_logger ( $logger_name = false, $screenOutput = true ) {
 
-		$logger_name = isset($this->logger_name) ? $this->logger_name : $logger_name;
-		$screenOutput = isset($this->screenOutput) ? $this->screenOutput : $this->screenOutput;
+		// Get local vars if passed in the function, if empty get the global vars
+		$logger_name = isset($logger_name) ? $logger_name : $this->logger_name;
+		$screenOutput = isset($screenOutput) ? $screenOutput : $this->screenOutput;
 
 		// Start Monolog logger
 		if ( (current_user_can('manage_options') && $this->imdb_admin_values['imdbdebug'] == 1) || ($this->imdb_admin_values['imdbdebug'] == 1 && defined('DOING_CRON') && DOING_CRON) ){
@@ -728,7 +728,7 @@ class Settings extends Config {
 
 			/* Display errors on screen if option activated
 			 */
-			if ( ($this->imdb_admin_values['imdbdebugscreen'] == 1)  && ( $screenOutput == true ) ){
+			if ( ($this->imdb_admin_values['imdbdebugscreen'] == 1)  && ( $screenOutput === true ) ){
 
 				// Change the format
 				$output = "[%level_name%] %message%<br />\n";

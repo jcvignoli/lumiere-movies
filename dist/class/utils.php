@@ -379,7 +379,7 @@ public $debug_is_active;
 	/* Check if the block widget is active
 	 * Use the current name by default
 	 */
-	static function lumiere_block_widget_isactive( $blockname = \Lumiere\LumiereWidget::block_widget_name ){
+	static function lumiere_block_widget_isactive( $blockname = \Lumiere\Widget::BLOCK_WIDGET_NAME ){
 	    $widget_blocks = get_option( 'widget_block' );
 	    foreach( $widget_blocks as $widget_block ) {
 		 if ( ! empty( $widget_block['content'] ) 

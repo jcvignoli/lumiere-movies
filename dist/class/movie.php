@@ -21,10 +21,10 @@ use \Imdb\TitleSearch;
 use \Lumiere\Settings;
 use \Lumiere\Utils;
 
-class LumiereMovies {
+class Movie {
 
-	/* HTML allowed for use of wp_kses_post()
-	 *
+	/**
+	 *  HTML allowed for use of wp_kses_post()
 	 */
 	const ALLOWED_HTML = [
 		'a' => [
@@ -34,30 +34,31 @@ class LumiereMovies {
 		],
 	];
 
-	/* Store all returned movie details search result
-	 *
+	/**
+	 *  Store all returned movie details search result
 	 */
 	public $lumiere_result = '';
 
-	/* Store the class of Lumière settings
-	 *
+	/**
+	 *  Store the class of Lumière settings
 	 */
 	private $configClass;
 
-	/* Vars from Lumière settings
-	 *
+	/**
+	 *  Vars from Lumière settings
 	 */
 	private $imdb_admin_values;
 	private $imdb_widget_values;
 	private $imdb_cache_values;
 
-	/* Store the class for extra functions
-	 *
+	/**
+	 *  Store the class for extra functions
 	 */
 	private $utilsClass;
 
-	/* Store the name or the ID of a movie
-	 * Not yet utilised, passing the movie's title or id right now into lumiere_show()
+	/**
+	 *  Store the name or the ID of a movie
+	 *  Not yet utilised, passing the movie's title or id right now into lumiere_show()
 	 */
 	private $imdbIdOrTitle;
 
@@ -217,7 +218,7 @@ class LumiereMovies {
 			}
 
 			// make sure only one result is displayed
-			if ( $this->lumiere_filter_single_movies( $midPremierResultat, $lumiere_count_me_siffer ) == 'nomore' ) {
+			if ( $this->lumiere_filter_single_movies( $midPremierResultat, $lumiere_count_me_siffer ) === false ) {
 
 				$logger->debug( "[Lumiere][movieClass] Displaying rows for '$midPremierResultat'" );
 
@@ -249,22 +250,22 @@ class LumiereMovies {
 
 	}
 
-	/** 
+	/**
 	 * Find in content the span to build the movies
 	 * Looks for <span data-lum_movie_maker="[1]"></span> where [1] is movie_title or movie_id
 	 *
 	 */
-	function lumiere_parse_spans( $content ) {
+	public function lumiere_parse_spans( string $content ): string {
 
 		if ( preg_match( '~<span data-lum_movie_maker="movie_id">(.+?)<\/span>~', $content, $match ) ) {
 
-			 $content = preg_replace_callback( '~<span data-lum_movie_maker="movie_id">(.+?)<\/span>~i', [ $this, 'lumiere_parse_spans_callback_id' ], $content );
+			$content = preg_replace_callback( '~<span data-lum_movie_maker="movie_id">(.+?)<\/span>~i', [ $this, 'lumiere_parse_spans_callback_id' ], $content );
 
 		}
 
 		if ( preg_match( '~<span data-lum_movie_maker="movie_title">(.+?)<\/span>~', $content, $match ) ) {
 
-			 $content = preg_replace_callback( '~<span data-lum_movie_maker="movie_title">(.+?)<\/span>~i', [ $this, 'lumiere_parse_spans_callback_title' ], $content );
+			$content = preg_replace_callback( '~<span data-lum_movie_maker="movie_title">(.+?)<\/span>~i', [ $this, 'lumiere_parse_spans_callback_title' ], $content );
 
 		}
 
@@ -277,9 +278,9 @@ class LumiereMovies {
 	 *
 	 *
 	 */
-	function lumiere_parse_spans_callback_id( $block_span ) {
+	private function lumiere_parse_spans_callback_id( array $block_span ): string {
 
-		$imdbIdOrTitle = array();
+		$imdbIdOrTitle = [];
 		$imdbIdOrTitle[]['bymid'] = $block_span[1];
 		return $this->lumiere_show( $imdbIdOrTitle );
 
@@ -289,35 +290,37 @@ class LumiereMovies {
 	 * Callback for movies by imdb title
 	 *
 	 */
-	function lumiere_parse_spans_callback_title( $block_span ) {
+	private function lumiere_parse_spans_callback_title( array $block_span ): string {
 
-		$imdbIdOrTitle = array();
+		$imdbIdOrTitle = [];
 		$imdbIdOrTitle[]['byname'] = $block_span[1];
 		return $this->lumiere_show( $imdbIdOrTitle );
 
 	}
 
-	/** Replace [imdblt] shortcode by the movie
-	 ** Obsolete, kept for compatibility purposes
-	 **/
-	function parse_lumiere_tag_transform( $atts = [], $content = null, $tag ) {
+	/**
+	 * Replace [imdblt] shortcode by the movie
+	 * Obsolete, kept for compatibility purposes
+	 */
+	public function parse_lumiere_tag_transform( $atts = [], string $content = null, $tag ): string {
 
 		//shortcode_atts(array( 'id' => 'default id', 'film' => 'default film'), $atts);
 
-		$imdbIdOrTitle = array();
-		$imdbIdOrTitle[] = $content;
-		return $this->lumiere_external_call( $imdbIdOrTitle, '', '' );
+		$movie_title = [];
+		$movie_title[] = $content;
+		return $this->lumiere_external_call( $movie_title, '', '' );
 
 	}
 
-	/** Replace [imdbltid] shortcode by the movie
-	 ** Obsolete, kept for compatibility purposes
-	 **/
-	function parse_lumiere_tag_transform_id( $atts = [], $content = null, $tag ) {
+	/**
+	 * Replace [imdbltid] shortcode by the movie
+	 * Obsolete, kept for compatibility purposes
+	 */
+	public function parse_lumiere_tag_transform_id( $atts = [], string $content = null, $tag ): string {
 
-		$imdbIdOrTitle = array();
-		$imdbIdOrTitle[] = $content;
-		return $this->lumiere_external_call( '', $imdbIdOrTitle, '' );
+		$movie_imdbid = [];
+		$movie_imdbid[] = $content;
+		return $this->lumiere_external_call( '', $movie_imdbid, '' );
 
 	}
 
@@ -329,7 +332,7 @@ class LumiereMovies {
 	 *
 	 * @param string $correspondances parsed data
 	 */
-	function lumiere_link_finder( $correspondances ) {
+	private function lumiere_link_finder( $correspondances ) {
 
 		$imdb_admin_values = $this->imdb_admin_values;
 
@@ -360,7 +363,7 @@ class LumiereMovies {
 	 * @obsolete Kept for compatibility purposes
 	 * @param string $correspondances parsed data
 	 */
-	function lumiere_link_finder_oldway( $correspondances ) {
+	private function lumiere_link_finder_oldway( $correspondances ) {
 
 		$imdb_admin_values = $this->imdb_admin_values;
 
@@ -447,11 +450,11 @@ class LumiereMovies {
 		return $parsed_result;
 	}
 
-	/* Function external call (ie, inside a post)
-	 *
+	/**
+	 * Function external call (ie, inside a post)
 	 * Utilized to build from shortcodes
 	 */
-	function lumiere_external_call ( $moviename = null, $filmid = null, $external = null ) {
+	private function lumiere_external_call ( $moviename = null, $filmid = null, $external = null ) {
 
 		// Call function from external (using parameter "external" )
 		// Especially made to be integrated (ie, inside a php code)
@@ -495,12 +498,12 @@ class LumiereMovies {
 
 	/* Function to display the layout and call all subfonctions
 	 *
-	 * @param int optional $midPremierResultat -> takes the IMDb ID to be displayed
+	 * @param string $midPremierResultat -> takes the IMDb ID to be displayed
 	 */
-	public function lumiere_movie_design( $midPremierResultat = null ) {
+	private function lumiere_movie_design( ?string $midPremierResultat ): string {
 
 		/* Vars */
-		global $lumiere_magicnumber;
+		$lumiere_magicnumber = 1;
 		// Simplify the coding
 		$imdb_admin_values = $this->imdb_admin_values;
 		$imdb_widget_values = $this->imdb_widget_values;
@@ -655,7 +658,7 @@ class LumiereMovies {
 	 * @param $html -> text to wrap
 	 * @param $item -> the item to transform, such as director, title, etc
 	 */
-	public function lumiere_movie_design_addwrapper( $html, $item ) {
+	private function lumiere_movie_design_addwrapper( string $html, string $item ): string {
 
 		// Get main vars from the current class
 		$imdb_admin_values = $this->imdb_admin_values;
@@ -665,7 +668,7 @@ class LumiereMovies {
 		$item_caps = strtoupper( $item );
 
 		if ( empty( $html ) ) {
-			return;
+			return '';
 		}
 
 		$outputfinal .= "\n\t\t\t\t\t\t\t" . '<!-- ' . $item . ' -->';
@@ -695,7 +698,7 @@ class LumiereMovies {
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_title ( object $movie = null ): string {
+	private function lumiere_movies_title ( object $movie = null ): string {
 
 		/* Vars */
 
@@ -722,7 +725,7 @@ class LumiereMovies {
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_pics ( object $movie = null ): string {
+	private function lumiere_movies_pics ( object $movie = null ): string {
 
 		// Get main vars from the current class
 		$imdb_admin_values = $this->imdb_admin_values;
@@ -793,7 +796,7 @@ class LumiereMovies {
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_country ( object $movie = null ): string {
+	private function lumiere_movies_country ( object $movie = null ): string {
 
 		/* Vars */
 
@@ -843,7 +846,7 @@ class LumiereMovies {
 	 *
 	 * @param mandatory object $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_runtime( object $movie = null ): string {
+	private function lumiere_movies_runtime( object $movie = null ): string {
 
 		// Get main vars from the current class
 		$imdb_admin_values = $this->imdb_admin_values;
@@ -868,7 +871,7 @@ class LumiereMovies {
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_language( object $movie = null ): string {
+	private function lumiere_movies_language( object $movie = null ): string {
 
 		// Get main vars from the current class
 		$imdb_admin_values = $this->imdb_admin_values;
@@ -916,7 +919,7 @@ class LumiereMovies {
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_rating( object $movie = null ): string {
+	private function lumiere_movies_rating( object $movie = null ): string {
 
 		/* Vars */
 
@@ -956,7 +959,7 @@ class LumiereMovies {
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_genre( object $movie = null ): string {
+	private function lumiere_movies_genre( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1007,7 +1010,7 @@ class LumiereMovies {
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_keywords( object $movie = null ): string {
+	private function lumiere_movies_keywords( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1056,7 +1059,7 @@ class LumiereMovies {
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_goofs( object $movie = null ): string {
+	private function lumiere_movies_goofs( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1091,7 +1094,7 @@ class LumiereMovies {
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_comment( object $movie = null ): string {
+	private function lumiere_movies_comment( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1100,7 +1103,7 @@ class LumiereMovies {
 		$imdb_widget_values = $this->imdb_widget_values;
 
 		$output = '';
-		$comment = array();
+		$comment = [];
 		$comment[] = $movie->comment_split(); # this value is sent into an array!
 		$comment_split = $movie->comment_split(); # this value isn't sent into an array, for use in "if" right below
 		//$nbcomments = empty($imdb_widget_values['imdbwidgetcommentnumber']) ? $nbcomments =  "1" : $nbcomments =  $imdb_widget_values['imdbwidgetcommentnumber'] ;
@@ -1135,13 +1138,12 @@ class LumiereMovies {
 
 	}
 
-	/* Display the quotes
+	/**
+	 *  Display the quotes
 	 *
-	 * @param (object) optional $movie -> takes the value of IMDbPHP class
+	 *  @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_quotes( object $movie = null ): string {
-
-		/* Vars */
+	private function lumiere_movies_quotes( object $movie = null ): string {
 
 		// Get main vars from the current class
 		$imdb_admin_values = $this->imdb_admin_values;
@@ -1184,11 +1186,12 @@ class LumiereMovies {
 		return $output;
 	}
 
-	/* Display the taglines
+	/**
+	 * Display the taglines
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_taglines( object $movie = null ): string {
+	private function lumiere_movies_taglines( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1222,11 +1225,12 @@ class LumiereMovies {
 
 	}
 
-	/* Display the trailer
+	/**
+	 * Display the trailer
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_trailer( object $movie = null ): string {
+	private function lumiere_movies_trailer( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1269,11 +1273,12 @@ class LumiereMovies {
 
 	}
 
-	/* Display the color
+	/**
+	 * Display the color
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_color( object $movie = null ): string {
+	private function lumiere_movies_color( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1323,11 +1328,12 @@ class LumiereMovies {
 
 	}
 
-	/* Display the as known as, aka
+	/**
+	 * Display the as known as, aka
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_aka( object $movie = null ): string {
+	private function lumiere_movies_aka( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1348,7 +1354,7 @@ class LumiereMovies {
 
 			for ( $i = 0; ( $i < $nbtotalalsoknow ) && ( $i < $nbalsoknow ); $i++ ) {
 
-				$output .= "\n\t\t\t<strong>" . sanitize_text_field( $alsoknow[ $i ]['title'] ) . '</strong> ' . '(' . sanitize_text_field( $alsoknow[ $i ]['country'] );
+				$output .= "\n\t\t\t<strong>" . sanitize_text_field( $alsoknow[ $i ]['title'] ) . '</strong> (' . sanitize_text_field( $alsoknow[ $i ]['country'] );
 
 				if ( ! empty( $alsoknow[ $i ]['comment'] ) ) {
 					$output .= ' - <i>' . sanitize_text_field( $alsoknow[ $i ]['comment'] ) . '</i>';
@@ -1367,11 +1373,12 @@ class LumiereMovies {
 		return $output;
 	}
 
-	/* Display the composers
+	/**
+	 * Display the composers
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_composer( object $movie = null ): string {
+	private function lumiere_movies_composer( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1437,11 +1444,12 @@ class LumiereMovies {
 
 	}
 
-	/* Display the soundtrack
+	/**
+	 * Display the soundtrack
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_soundtrack( object $movie = null ): string {
+	private function lumiere_movies_soundtrack( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1499,11 +1507,12 @@ class LumiereMovies {
 
 	}
 
-	/* Display the production companies
+	/**
+	 * Display the production companies
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_prodcompany( object $movie = null ): string {
+	private function lumiere_movies_prodcompany( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1552,11 +1561,12 @@ class LumiereMovies {
 
 	}
 
-	/* Display the official site
+	/**
+	 * Display the official site
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_officialsite( object $movie = null ): string {
+	private function lumiere_movies_officialsite( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1590,11 +1600,12 @@ class LumiereMovies {
 		return $output;
 	}
 
-	/* Display the director
+	/**
+	 * Display the director
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_director( object $movie = null ): string {
+	private function lumiere_movies_director( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1658,11 +1669,12 @@ class LumiereMovies {
 
 	}
 
-	/* Display the creator (for series only)
+	/**
+	 * Display the creator (for series only)
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_creator( object $movie = null ): string {
+	private function lumiere_movies_creator( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1731,11 +1743,12 @@ class LumiereMovies {
 
 	}
 
-	/* Display the producer
+	/**
+	 * Display the producer
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_producer( object $movie = null ): string {
+	private function lumiere_movies_producer( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1812,11 +1825,12 @@ class LumiereMovies {
 		return $output;
 	}
 
-	/* Display the writer
+	/**
+	 * Display the writer
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_writer( object $movie = null ): string {
+	private function lumiere_movies_writer( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1890,11 +1904,12 @@ class LumiereMovies {
 		return $output;
 	}
 
-	/* Display the actor
+	/**
+	 * Display the actor
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_actor( object $movie = null ): string {
+	private function lumiere_movies_actor( object $movie = null ): string {
 
 		/* Vars */
 
@@ -1964,11 +1979,12 @@ class LumiereMovies {
 		return $output;
 	}
 
-	/* Display the actor, simplified way : only actor's names
+	/**
+	 * Display the actor, simplified way : only actor's names
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_actor_short( object $movie = null ): string {
+	private function lumiere_movies_actor_short( object $movie = null ): string {
 
 		/* Vars */
 
@@ -2042,18 +2058,18 @@ class LumiereMovies {
 		return $output;
 	}
 
-	/* Display the plot
+	/**
+	 * Display the plot
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
-	public function lumiere_movies_plot( object $movie = null ): string {
-
-		/* Vars */
+	private function lumiere_movies_plot( object $movie = null ): string {
 
 		// Get main vars from the current class
 		$imdb_admin_values = $this->imdb_admin_values;
 		$imdb_widget_values = $this->imdb_widget_values;
 
+		/* Vars */
 		$output = '';
 		$plot = $movie->plot();
 		$nbplots = empty( $imdb_widget_values['imdbwidgetplotnumber'] ) ? $nbplots = '1' : $nbplots = intval( $imdb_widget_values['imdbwidgetplotnumber'] );
@@ -2069,12 +2085,13 @@ class LumiereMovies {
 			for ( $i = 0; ( ( $i < $nbtotalplots ) && ( $i < $nbplots ) ); $i++ ) {
 
 				// if "Remove all links" option is not selected
-				if ( $imdb_admin_values['imdblinkingkill'] == false ) {
+				if ( $imdb_admin_values['imdblinkingkill'] == true ) {
 
-					$output .= wp_kses_post( $plot[ $i ], self::ALLOWED_HTML ) . "\n";
+					$output .= $this->lumiere_remove_link( $plot[ $i ] ) . "\n";
 				} else {
 
-					$output .= wp_kses_post( $this->lumiere_remove_link( $plot[ $i ] ), self::ALLOWED_HTML ) . "\n";
+					$output .= $plot[ $i ] . "\n";
+
 				}
 
 				if ( $i < ( ( $i < ( $nbtotalplots - 1 ) ) && ( $i < ( $nbplots - 1 ) ) ) ) {
@@ -2087,11 +2104,12 @@ class LumiereMovies {
 		return $output;
 	}
 
-	/* Display the credit link
+	/**
+	 * Display the credit link
 	 *
 	 * @param (int) mandatory $midPremierResultat -> IMDb ID
 	 */
-	public function lumiere_movies_creditlink( $midPremierResultat = null ) {
+	private function lumiere_movies_creditlink( int $midPremierResultat = null ): string {
 
 		/* Vars */
 
@@ -2121,7 +2139,8 @@ class LumiereMovies {
 		return $output;
 	}
 
-	/* Do taxonomy layouts and register taxonomy terms
+	/**
+	 * Do taxonomy layouts and register taxonomy terms
 	 *
 	 * @ param (string) mandatory $typeItem: the general category of the item, ie 'director', 'color'
 	 * @ param (string) mandatory $firstTitle: the name of the first string to display, ie "Stanley Kubrick"
@@ -2130,7 +2149,7 @@ class LumiereMovies {
 	 *
 	 * returns the text to be outputed
 	 */
-	function lumiere_make_display_taxonomy( string $typeItem, string $firstTitle, string $secondTitle = null, string $layout = 'one' ) {
+	private function lumiere_make_display_taxonomy( string $typeItem, string $firstTitle, string $secondTitle = null, string $layout = 'one' ) {
 
 		// Get main vars from the current class
 		$imdb_admin_values = $this->imdb_admin_values;
@@ -2232,23 +2251,25 @@ class LumiereMovies {
 
 	}
 
-	/* Convert an imdb link to a highslide/classic popup link
+	/**
+	 * Convert an imdb link to a highslide/classic popup link
 	 *
 	 * @param string $convert Link to be converted into popup highslide link
 	 */
 
-	function lumiere_convert_txtwithhtml_into_popup_people ( string $convert ): string {
+	private function lumiere_convert_txtwithhtml_into_popup_people ( string $convert ): string {
 
 		// Get main vars from the current class
 		$imdb_admin_values = $this->imdb_admin_values;
 
-		if ( $imdb_admin_values['imdbpopup_highslide'] == 1 ) { // highslide popup
-				$result = '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . '${6}' . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
-		} else {                        // classic popup
-					$result = '<a class="link-imdblt-classicpeople" data-classicpeople="' . '${6}' . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
+			// highslide popup.
+		if ( $imdb_admin_values['imdbpopup_highslide'] == 1 ) {
+			$result = '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
+			// classic popup.
+		} else {
+			$result = '<a class="link-imdblt-classicpeople" data-classicpeople="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
 		}
-
-		$convert = preg_replace( '~(<a )((href=)(.+?))(nm)([[:alnum:]]*)\/((.+?)">)~', $result, $convert );
+		$convert = preg_replace( '~(<a href=)(.+?)(name\/nm)(\d{7})\/\"\>~', $result, $convert );
 
 		return $convert;
 	}
@@ -2258,7 +2279,7 @@ class LumiereMovies {
 	 * allows movie total count (how many time a movie is called by the plugin)
 	 *
 	 */
-	function lumiere_filter_single_movies( string $thema, int &$lumiere_count_me_siffer ): string {
+	private function lumiere_filter_single_movies( string $thema, int &$lumiere_count_me_siffer ): bool {
 
 		global $lumiere_count_me_siffer, $lumiere_tmp;
 		$lumiere_count_me_siffer++;
@@ -2266,17 +2287,19 @@ class LumiereMovies {
 		$ici = array_count_values( $lumiere_tmp );
 
 		if ( $ici[ $thema ] < 2 ) {
-			return 'nomore';
+			return false;
 		}
+
+		return true;
 
 	}
 
 	/**
-	 *  Remove an html link
+	 *  Remove (a) html link
 	 *
 	 * @param mandatory string $text text to be cleaned from every html link
 	 */
-	function lumiere_remove_link ( string $text ): string {
+	private function lumiere_remove_link ( string $text ): string {
 
 		$output = preg_replace( '/<a(.*?)>/', '', $text );
 
@@ -2284,10 +2307,10 @@ class LumiereMovies {
 
 	}
 
-	/* Create an html link for taxonomy
-	 *
+	/**
+	 *  Create an html link for taxonomy
 	 */
-	function lumiere_make_taxonomy_link ( $taxonomy ) {
+	private function lumiere_make_taxonomy_link ( $taxonomy ) {
 
 		$taxonomy = preg_replace( '/\s/', '-', $taxonomy );# replace space by hyphen
 		$taxonomy = strtolower( $taxonomy ); # convert to small characters
@@ -2302,7 +2325,7 @@ class LumiereMovies {
 	 * @param mandatory string $term_id -> id of the taxonomy term, usually got after taxonomy term insertition
 	 * @param mandatory string $lang -> language of the taxonomy term utilised by Polylang
 	 */
-	function lumiere_add_taxo_lang_to_polylang( $term_id, $lang ) {
+	private function lumiere_add_taxo_lang_to_polylang( $term_id, string $lang ) {
 
 		//      if ( pll_default_language() == $lang )
 		//          pll_save_term_translations( array ( $lang, $term_id) );
@@ -2326,7 +2349,7 @@ if ( ! is_admin() ) {
 
 	if ( ! $lumiere_utils_class->lumiere_array_contains_term( $lumiere_config_class->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ) ) {
 
-		new LumiereMovies();
+		new Movie();
 
 	}
 }
