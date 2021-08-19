@@ -53,10 +53,10 @@ class StylesScriptsCest {
 			 *
 			 */
 
-		$I->comment('Checking administration pages');
+		$I->comment(\Helper\Color::set('Check Lumière admin pages', 'italic+bold+cyan'));
 
 		// Check scripts and styles in admin
-		$I->comment('Check Lumière admin pages');
+		$I->comment(\Helper\Color::set('Check Lumière admin general advanced', 'italic+bold+cyan'));
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
 		$I->seeInPageSource('lumiere_css_admin-css');
 		$I->seeInPageSource('lumiere_scripts_admin-js-before');
@@ -64,7 +64,7 @@ class StylesScriptsCest {
 		$I->seeInPageSource('lumiere_hide_show-js');
 
 		// Check Lumière help page
-		$I->comment('Check Lumière help page');
+		$I->comment(\Helper\Color::set('Check Lumière help page', 'italic+bold+cyan'));
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&subsection=help");
 		$I->seeInPageSource('lumiere_css_admin-css');
 		$I->seeInPageSource('lumiere_scripts_admin-js-before');
@@ -76,7 +76,7 @@ class StylesScriptsCest {
 		$I->seeInPageSource("common-js"); # extra script in that page
 
 		// Check Lumière Widget page (without Classic Widget plugin)
-		$I->comment('Check Lumière Widget page (without Classic Widget plugin)');
+		$I->comment(\Helper\Color::set('Check Lumière Widget page (without Classic Widget plugin)', 'italic+bold+cyan'));
 		$I->amOnPage("/wp-admin/widgets.php");
 		$I->seeInPageSource("lumiere_block_widget-css");
 		$I->seeInPageSource("lumiere_block_widget-js");
@@ -89,7 +89,7 @@ class StylesScriptsCest {
 		$I->seeInPageSource("lumiere_hide_show-js");
 
 		// Disable classic-editor so we can test Blocks editor
-		$I->comment('Disable classic-editor plugin so we can test Blocks editor');
+		$I->comment(\Helper\Color::set('Disable classic-editor plugin so we can test Blocks editor', 'italic+bold+cyan'));
 		$I->amOnPage('/wp-admin/plugins.php');
 		/*	Conditional plugin deactivation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
@@ -99,7 +99,7 @@ class StylesScriptsCest {
 		$I->wait(1);
 
 		// Check Lumière (Gutenberg) Block Editor page
-		$I->comment('Check Lumière (Gutenberg) Block Editor page');
+		$I->comment(\Helper\Color::set('Check Lumière (Gutenberg) Block Editor page', 'italic+bold+cyan'));
 		$I->amOnPage("/wp-admin/post.php?post=4715&action=edit");
 		$I->waitPageLoad();
 		$I->seeInPageSource("lumiere_gutenberg_main-js"); 	# Gutenberg main block js
@@ -115,17 +115,14 @@ class StylesScriptsCest {
 		$I->seeInPageSource("lumiere_hide_show-js"); 		# hide/show script
 
 		// Activate classic-editor so we can test Classic editor
-		$I->comment('Activate classic-editor plugin so we can test Blocks editor');
+		$I->comment(\Helper\Color::set('Activate classic-editor plugin so we can test Blocks editor', 'italic+bold+cyan'));
 		$I->amOnPage('/wp-admin/plugins.php');
-		/*	Conditional plugin activation (in _support/AcceptanceTrait.php)
-			Avoid to throw error if untrue, normal behaviour of codeception 
-			If $plugin is disabled, activate it */
 		$I->wait(1);
 		$I->maybeActivatePlugin('classic-editor');
 		$I->wait(1);
 
 		// Check Lumière Classic Editor page (with Classic Editor plugin)
-		$I->comment('Check Lumière Classic Editor page (with Classic Editor plugin)');
+		$I->comment(\Helper\Color::set('Check Lumière Classic Editor page (with Classic Editor plugin)', 'italic+bold+cyan'));
 		$I->amOnPage("/wp-admin/post.php?post=4715&action=edit");
 		$I->waitPageLoad();
 		$I->seeInPageSource("lumiere_scripts_admin-js"); 	# Lumière main js
@@ -141,7 +138,7 @@ class StylesScriptsCest {
 			 *
 			 */
 
-		$I->comment('Checking normal page');
+		$I->comment(\Helper\Color::set('Checking normal page', 'italic+bold+cyan'));
 		$I->amOnPage('/2021/test-codeception/');
 		$I->seeInPageSource("lumiere_highslide-css");	 		# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
@@ -153,7 +150,7 @@ class StylesScriptsCest {
 		$I->seeInPageSource("lumiere_scripts-js-before");		# Lumière vars for main JS
 		$I->seeInPageSource("lumiere_hide_show-js"); 			# hide/show script
 
-		$I->comment('Checking taxonomy page');
+		$I->comment(\Helper\Color::set('Checking taxonomy page', 'italic+bold+cyan'));
 		$I->amOnPage('/imdblt_director/tony-zarindast/');
 		$I->seeInPageSource("lumiere_highslide-css");	 		# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
@@ -164,7 +161,7 @@ class StylesScriptsCest {
 		$I->seeInPageSource("lumiere_scripts-js"); 			# Lumière main JS
 		$I->seeInPageSource("lumiere_scripts-js-before");		# Lumière vars for main JS
 
-		$I->comment('Checking Popup person page');
+		$I->comment(\Helper\Color::set('Checking Popup person page', 'italic+bold+cyan'));
 		$I->amOnPage('/imdblt/person/0729473/?mid=0729473');
 		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-16x16.png");	 	# Lumière favicon 16
 		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
@@ -189,7 +186,7 @@ class StylesScriptsCest {
 	 */
 	public function checkStyleEdition(AcceptanceRemoteTester $I) {
 
-		$I->comment('Change layout');
+		$I->comment(\Helper\Color::set('Change layout', 'italic+bold+cyan'));
 
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options");
 
@@ -197,7 +194,7 @@ class StylesScriptsCest {
 		$I->scrollTo('#plainpages');
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "black");
 		$I->click('#update_imdbSettings');
-		$I->comment("[Action] Selection has been switch to 'black'");
+		$I->comment(\Helper\Color::set('[Action] Selection has been switched to "black"', 'italic+bold+cyan'));
 		$I->amOnPage('/2021/test-codeception/');
 		$I->seeInPageSource("imdbincluded_black"); 	# CSS for black layout 
 
@@ -206,7 +203,7 @@ class StylesScriptsCest {
 		$I->scrollTo('#plainpages');
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "grey");
 		$I->click('#update_imdbSettings');
-		$I->comment("[Action] Selection has been switch to 'grey'");
+		$I->comment(\Helper\Color::set('[Action] Selection has been switched to "grey"', 'italic+bold+cyan'));
 		$I->amOnPage('/2021/test-codeception/');
 		$I->seeInPageSource("imdbincluded_grey"); 	# CSS for grey layout (default)
 

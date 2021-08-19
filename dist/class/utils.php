@@ -23,18 +23,22 @@ if ( ! defined( 'WPINC' ) )
 
 class Utils {
 
-	/* \Lumiere\Settings class
+	/**
+	 * \Lumiere\Settings class
 	 *
 	 */
-	private $configClass;
+	private object $config_class;
 
-	/* \Lumiere\Settings vars
+	/**
+	 * \Lumiere\Settings vars
 	 *
 	 */
-	private $imdb_admin_values, $imdb_widget_values, $imdb_cache_values;
+	private array $imdb_admin_values;
 
-public $debug_is_active;
-	/* Class constructor
+	public $debug_is_active;
+
+	/**
+	 * Class constructor
 	 * 
 	 */
 	function __construct () {
@@ -45,10 +49,11 @@ public $debug_is_active;
 			wp_die( esc_html__( 'Cannot start class utils, class Lumière Settings not found', 'lumiere-movies' ) );
 		}
 
-		$this->configClass = new \Lumiere\Settings('utilsClass');
-		$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
-		$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
-		$this->imdb_cache_values = $this->configClass->get_imdb_widget_option();
+		// Get database options.
+		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+
+		// Start settings class.
+		$this->config_class = new Settings( 'utilsClass' );
 
 		$this->debug_is_active = false;
 	}
@@ -115,7 +120,7 @@ public $debug_is_active;
 	public function lumiere_admin_signature(){
 
 		// Config settings
-		$config = $this->configClass;
+		$config = $this->config_class;
 
 		// Authorise this html tags wp_kses()
 		$allowed_html_for_esc_html_functions = [
@@ -151,7 +156,7 @@ public $debug_is_active;
 	 */
 	public function lumiere_noresults_text($text='No result found for this query.'){ 
 
-		$this->configClass->loggerclass->debug("[Lumiere] $text");
+		$this->config_class->loggerclass->debug("[Lumiere] $text");
 
 		echo "\n".'<div class="noresult" align="center" style="font-size:16px;color:red;padding:15px;">'
 			. $text

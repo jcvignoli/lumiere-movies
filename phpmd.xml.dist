@@ -26,9 +26,15 @@
 		</properties>
 	</rule>
 
-	<rule ref="rulesets/naming.xml/LongVariable" />
+	<rule ref="rulesets/naming.xml/LongVariable">
+		<properties>
+			<!-- I don't want to be bind to a max of 20, let's increase it -->
+			<property name="maximum" value="40" />
+		</properties>
+	</rule>
 	<rule ref="rulesets/naming.xml/ShortMethodName" />
 	<rule ref="rulesets/naming.xml/ConstructorWithNameAsEnclosingClass" />
 	<rule ref="rulesets/naming.xml/ConstantNamingConventions" />
 	<rule ref="rulesets/naming.xml/BooleanGetMethodName" />
 </ruleset>
+

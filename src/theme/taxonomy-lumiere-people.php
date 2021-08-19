@@ -100,28 +100,30 @@ class Taxonomystandard {
 	 */
 	public function __construct() {
 
-		// Start Lumière config class.
-		if ( class_exists( '\Lumiere\Settings' ) ) {
-
-			$this->config_class = new Settings( 'taxonomy-standard' );
-			$this->imdb_admin_values = $this->config_class->imdb_admin_values;
-
-			// Start the class Utils to activate debug.
-			$this->utils_class = new Utils();
-
-			// List of potential parameters for a person.
-			$this->array_people = $this->config_class->array_people;
-
-			// Start the logger.
-			$this->config_class->lumiere_start_logger( 'taxonomy-standard' );
-			$this->logger = $this->config_class->loggerclass;
-
-			// Start debug.
-			add_action( 'wp', [ $this, 'lumiere_maybe_start_debug' ], 0 );
-
-			$this->layout();
-
+		if ( ! class_exists( '\Lumiere\Settings' ) ) {
+			wp_die( esc_html__( 'Cannot start lumiere search, class Lumière Settings not found', 'lumiere-movies' ) );
 		}
+
+		// Get database options
+		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+
+		// Start Lumière config class.
+		$this->config_class = new Settings( 'taxonomy-standard' );
+
+		// Start the class Utils to activate debug.
+		$this->utils_class = new Utils();
+
+		// List of potential parameters for a person.
+		$this->array_people = $this->config_class->array_people;
+
+		// Start the logger.
+		$this->config_class->lumiere_start_logger( 'taxonomy-standard' );
+		$this->logger = $this->config_class->loggerclass;
+
+		// Start debug.
+		add_action( 'wp', [ $this, 'lumiere_maybe_start_debug' ], 0 );
+
+		$this->layout();
 
 	}
 

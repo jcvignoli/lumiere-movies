@@ -36,6 +36,10 @@ class Settings extends Config {
 	public $imdbAdminOptionsName = 'imdbAdminOptions';
 	public $imdbWidgetOptionsName = 'imdbWidgetOptions';
 	public $imdbCacheOptionsName = 'imdbCacheOptions';
+	/* New way, just giving constants */
+	const LUMIERE_ADMIN_OPTIONS = 'imdbAdminOptions';
+	const LUMIERE_WIDGET_OPTIONS = 'imdbWidgetOptions';
+	const LUMIERE_CACHE_OPTIONS = 'imdbCacheOptions';
 
 	/* Options vars
 	*/
@@ -84,14 +88,14 @@ class Settings extends Config {
 
 	/* Internal URL pages constants
 	*/
-	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'inc/move_template_taxonomy.php';
-	const HIGHSLIDE_DOWNLOAD_PAGE = 'inc/highslide_download.php';
+	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'inc/move-template-taxonomy.php';
+	const HIGHSLIDE_DOWNLOAD_PAGE = 'inc/highslide-download.php';
 	const GUTENBERG_SEARCH_PAGE = 'inc/gutenberg-search.php';
 	const GUTENBERG_SEARCH_URL_STRING = 'lumiere/search/';
 	const GUTENBERG_SEARCH_URL = '/wp-admin/' . self::GUTENBERG_SEARCH_URL_STRING;
 	const POPUP_SEARCH_URL = 'inc/popup-search.php';
-	const POPUP_MOVIE_URL = 'inc/popup-imdb_movie.php';
-	const POPUP_PERSON_URL = 'inc/popup-imdb_person.php';
+	const POPUP_MOVIE_URL = 'inc/popup-imdb-movie.php';
+	const POPUP_PERSON_URL = 'inc/popup-imdb-person.php';
 	const TAXO_PEOPLE_THEME = 'taxonomy-lumiere-people.php';
 	const TAXO_ITEMS_THEME = 'taxonomy-lumiere-items.php';
 
@@ -133,7 +137,7 @@ class Settings extends Config {
 	public $logger_name;
 	public $screenOutput;
 	/* Where to write the log (WordPress default path here) */
-	const DEBUG_LOG_PATH = WP_CONTENT_DIR . '/debug.log';
+	const DEBUG_LOG_PATH = ABSPATH . 'wp-content/debug.log';
 
 	/**
 	 * Is the current page WordPress Gutenberg editor?
@@ -306,9 +310,9 @@ class Settings extends Config {
 	 * Define the number of updates on first install
 	 * Not built from __construct(), called from \Lumiere\Core on installation
 	 *
-	 * @return true or false
+	 * @return bool
 	 */
-	public function lumiere_define_nb_updates() {
+	public function lumiere_define_nb_updates(): bool {
 
 		new \Lumiere\Settings();
 
@@ -566,6 +570,9 @@ class Settings extends Config {
 	 */
 	private function lumiere_send_config_imdbphp() {
 
+		// @TODO: return here an \Imdb\Config, not this object
+		// $imdb_config = new \Imdb\Config();
+
 		$this->language = $this->imdb_admin_values['imdblanguage'] ?? null;
 		$this->cachedir = rtrim( $this->imdb_cache_values['imdbcachedir'], '/' ) ?? null; #get rid of last '/'
 		$this->photodir = $this->imdb_cache_values['imdbphotoroot'] ?? null;// ?imdbphotoroot? Bug imdbphp?
@@ -581,8 +588,10 @@ class Settings extends Config {
 		*  protocol (e.g. when a different server shall deliver them)
 		* Cannot be changed in Lumière admin panel
 		*/
-		$this->imdb_img_url = isset( $this->imdb_admin_values['imdbplugindirectory'] ) . '/pics/showtimes' ?? null;
+		$this->imdb_img_url = isset( $this->imdb_admin_values['imdbplugindirectory'] ) . '/pics/showtimes';
 
+		// @TODO: return here an \Imdb\Config, not this object
+		// return $imdb_config;
 	}
 
 	/**
@@ -687,7 +696,7 @@ class Settings extends Config {
 	 *
 	 * @return the logger in $loggerclass
 	 */
-	public function lumiere_start_logger ( string $logger_name = null, bool $screenOutput = true ): void {
+	public function lumiere_start_logger ( string $logger_name = null, bool $screenOutput = true ) {
 
 		// Get local vars if passed in the function, if empty get the global vars
 		$logger_name = isset( $logger_name ) ? $logger_name : $this->logger_name;

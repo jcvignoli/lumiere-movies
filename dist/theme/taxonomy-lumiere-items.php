@@ -1,5 +1,4 @@
 <?php declare( strict_types = 1 );
-
 /**
  * Template Item: Taxonomy for Lumière! WordPress plugin (set up for standard item taxonomy)
  * This file should be edited, renamed, and then copied in your theme folder but you also can
@@ -31,13 +30,13 @@ class Taxonomystandard {
 	 * Class \Lumiere\Utils
 	 *
 	 */
-	private $utilsClass;
+	private $utils_class;
 
 	/**
 	 * Class \Lumiere\Settings
 	 *
 	 */
-	private $configClass;
+	private $config_class;
 
 	/**
 	 * Class \Monolog\Logger
@@ -63,28 +62,29 @@ class Taxonomystandard {
 	 */
 	public function __construct() {
 
-		// Start Lumière config class
-		if ( class_exists( '\Lumiere\Settings' ) ) {
-
-			$this->configClass = new Settings( 'taxonomy-standard' );
-			$this->imdb_admin_values = $this->configClass->imdb_admin_values;
-
-			// Start the class Utils to activate debug
-			$this->utilsClass = new Utils();
-
-			// Build the current page name from the tag taxonomy
-			$this->page_title = single_tag_title( '', false );
-
-			// Start the logger.
-			$this->config_class->lumiere_start_logger( 'taxonomy-standard' );
-			$this->logger = $this->config_class->loggerclass;
-
-			// Start debug.
-			add_action( 'wp', [ $this, 'lumiere_maybe_start_debug' ], 0 );
-
-			$this->layout();
-
+		if ( ! class_exists( '\Lumiere\Settings' ) ) {
+			wp_die( esc_html__( 'Cannot start items taxonomy, class Lumière Settings not found', 'lumiere-movies' ) );
 		}
+
+		// Get database options
+		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+
+		$this->config_class = new Settings( 'taxonomy-standard' );
+
+		// Start the class Utils to activate debug
+		$this->utils_class = new Utils();
+
+		// Build the current page name from the tag taxonomy
+		$this->page_title = single_tag_title( '', false );
+
+		// Start the logger.
+		$this->config_class->lumiere_start_logger( 'taxonomy-standard' );
+		$this->logger = $this->config_class->loggerclass;
+
+		// Start debug.
+		add_action( 'wp', [ $this, 'lumiere_maybe_start_debug' ], 0 );
+
+		$this->layout();
 
 	}
 
