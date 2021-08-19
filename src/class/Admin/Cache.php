@@ -24,7 +24,7 @@ use \Imdb\Person;
 
 class Cache extends \Lumiere\Admin {
 
-	private $allowed_html_for_esc_html_functions = [
+	private $ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
 	    	'strong',
 	];
 
@@ -579,7 +579,7 @@ if (!$this->utilsClass->lumiere_isEmptyDir($imdltcacheFile)) {
 				<br />
 				<br />
 <?php 
-	wp_kses( _e('This button will <strong>delete all cache</strong> stored in cache folder.', 'lumiere-movies'), $this->allowed_html_for_esc_html_functions ); 
+	wp_kses( _e('This button will <strong>delete all cache</strong> stored in cache folder.', 'lumiere-movies'), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); 
 
 	// No files in cache
 	} else {  
