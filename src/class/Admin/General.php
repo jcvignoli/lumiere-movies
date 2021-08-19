@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class General extends \Lumiere\Admin {
 
-	private $allowed_html_for_esc_html_functions = [
+	private $ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
 		'strong',
 		'br',
 	];
