@@ -642,7 +642,7 @@ movie's title
 			<?php 
 			esc_html_e( "3. It is possible to limit the number of results in the queries using its dedicated option. The less results there is, the less server resources are required and the faster the output is displayed. This limit number applies to the search of movies with a similar name (menu option in movies popups) and in ", 'lumiere-movies'); 
 			/* translators: %s is replaced with an URL */
-			echo wp_kses( __( sprintf( "<a href='%s'>the admin tool of queries to find IMDb id</a>.",  esc_url( admin_url() .  \Lumiere\Settings::gutenberg_search_url_string ) ), 'lumiere-movies'), self::allowed_html_for_esc_html_functions ); ?>
+			echo wp_kses( __( sprintf( "<a href='%s'>the admin tool of queries to find IMDb id</a>.",  esc_url( admin_url() .  \Lumiere\Settings::GUTENBERG_SEARCH_URL_STRING ) ), 'lumiere-movies'), self::allowed_html_for_esc_html_functions ); ?>
 
 		</div>
 	<?php

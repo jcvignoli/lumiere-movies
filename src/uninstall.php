@@ -6,6 +6,7 @@
  * @copyright (c) 2021, Lost Highway
  *
  * @version       1.0
+ * @package lumiere-movies
  */
 
 
@@ -14,44 +15,51 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit();
 }
 
+use \Lumiere\Settings;
+use \Lumiere\Utils;
+
 class LumiereUninstall {
 
-	/* Options vars
+	/**
+	 * Options vars
 	 * 
 	 */
-	private $imdb_admin_values, $imdb_widget_values,$imdb_cache_values;
+	private $imdb_admin_values;
+	private $imdb_widget_values;
+	private $imdb_cache_values;
 
-	/* \Lumiere\Settings class
+	/**
+	 * \Lumiere\Settings class
 	 * 
 	 */
 	private $configClass;
 
-	/* \Lumière\Utils class
-	 * 
+	/**
+	 * \Lumière\Utils class
 	 * 
 	 */
 	private $utilsClass;
 
 
-	/*
+	/**
 	 * constructor
 	 *
 	 */
-	function __construct() {
+	public function __construct() {
 
 		include_once ( plugin_dir_path( __FILE__ ) . 'bootstrap.php' );
 
-		// Start Settings class
-		$this->configClass = new \Lumiere\Settings();
+		// Start Settings class.
+		$this->configClass = new Settings();
 		$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
 		$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
 
-		// Start Utils class
-		$this->utilsClass = new \Lumiere\Utils();
+		// Start Utils class.
+		$this->utilsClass = new Utils();
 
-		// Start WP_Filesystem class
-		if ( ! WP_Filesystem($creds) ) {
-			request_filesystem_credentials($url, '', true, false, null);
+		// Start WP_Filesystem class.
+		if ( ! WP_Filesystem( $creds ) ) {
+			request_filesystem_credentials( $url, '', true, false, null );
 			return;
 		}
 
@@ -59,36 +67,33 @@ class LumiereUninstall {
 
 	}
 
-	/*
-	 * Remove ALL plugin options
+	/**
+	 * Remove ALL plugin's options
 	 */
 	private function uninstall() {
 
 		global $wp_filesystem;
 
-		// Activate debug
-		$this->utilsClass->lumiere_activate_debug();
-
-		// Start the logger
+		// Start the logger.
 		$this->configClass->lumiere_start_logger('uninstall', false );
 
-		$this->configClass->lumiere_maybe_log('debug', "[Lumiere][uninstall] Lumière uninstall process debug message.");
+		$this->configClass->loggerclass->debug('[Lumiere][uninstall] Lumière uninstall process debug message.');
 
 		/****** Below actions are executed for everybody */
 
-		// Remove WP Cron shoud it exists
+		// Remove WP Cron shoud it exists.
 		$timestamp = wp_next_scheduled( 'lumiere_cron_hook' );
 		if ($timestamp){
 
 			wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][uninstall] Cron deleted.");
+			$this->configClass->loggerclass->debug('[Lumiere][uninstall] Cron deleted.');
 
 		}
 
-		# Keep the settings if selected so
-		if ( (isset($this->imdb_admin_values['imdbkeepsettings'])) && ( $this->imdb_admin_values['imdbkeepsettings'] == true ) ) {
+		// Keep the settings if selected so.
+		if ( (isset($this->imdb_admin_values['imdbkeepsettings'])) && ( $this->imdb_admin_values['imdbkeepsettings'] === true ) ) {
 
-			$this->configClass->lumiere_maybe_log('info', "[Lumiere][uninstall] Lumière uninstall: keep settings selected, process finished.");
+			$this->configClass->loggerclass->info('[Lumiere][uninstall] Lumière uninstall: keep settings selected, process finished.');
 
 			return;
 		}
@@ -96,17 +101,17 @@ class LumiereUninstall {
 
 		/*** Following actions are not executed if the user selected to keep their settings ***/
 
-		# Remove cache
+		// Remove cache.
 		$lumiere_cache_path = ABSPATH . 'wp-content/cache/lumiere/';
 		if  ($wp_filesystem->is_dir($lumiere_cache_path) )  {
 
 			$wp_filesystem->delete($lumiere_cache_path, true);
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][uninstall] Cache files and folder deleted.");
+			$this->configClass->loggerclass->debug('[Lumiere][uninstall] Cache files and folder deleted.');
 
 		} else {
 
-			$this->configClass->lumiere_maybe_log('warning', "[Lumiere][uninstall] Standard cache folder was not found. Could not delete $lumiere_cache_path.");
+			$this->configClass->loggerclass->warning('[Lumiere][uninstall] Standard cache folder was not found. Could not delete $lumiere_cache_path.');
 
 		}
 
@@ -118,7 +123,7 @@ class LumiereUninstall {
 
 			$filter_taxonomy = str_replace('imdbtaxonomy', '', $this->imdb_admin_values['imdburlstringtaxo']  . $key );
 
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][uninstall] Process of deleting taxonomy $filter_taxonomy started");
+			$this->configClass->loggerclass->debug('[Lumiere][uninstall] Process of deleting taxonomy $filter_taxonomy started');
 
 			# Register taxonomy: must be registered in order to delete its terms
 			register_taxonomy( $filter_taxonomy, null, array( 'label' => false, 'public' => false, 'query_var' => false, 'rewrite' => false ) );
@@ -140,14 +145,14 @@ class LumiereUninstall {
 				if ( ! empty( $term_id ) ) {
 
 					wp_delete_term( $term_id, $filter_taxonomy );
-					$this->configClass->lumiere_maybe_log('debug', "[Lumiere][uninstall] Taxonomy: term " . $term_name . " in " . $term_taxonomy . " deleted.");
+					$this->configClass->loggerclass->debug('[Lumiere][uninstall] Taxonomy: term ' . $term_name . " in " . $term_taxonomy . " deleted.");
 
 				}
 
 			}
 
 			unregister_taxonomy( $filter_taxonomy );
-			$this->configClass->lumiere_maybe_log('debug', "[Lumiere][uninstall] Taxonomy $filter_taxonomy deleted.");
+			$this->configClass->loggerclass->debug("[Lumiere][uninstall] Taxonomy $filter_taxonomy deleted.");
 
 		}
 
@@ -155,11 +160,11 @@ class LumiereUninstall {
 		delete_option( 'imdbAdminOptions' ); 
 		delete_option( 'imdbWidgetOptions' );
 		delete_option( 'imdbCacheOptions' );
-		$this->configClass->lumiere_maybe_log('debug', "[Lumiere][uninstall] Lumière options deleted.");
+		$this->configClass->loggerclass->debug('[Lumiere][uninstall] Lumière options deleted.');
 
 		# Delete transients
 		delete_transient( 'lumiere_tmp' );
-		$this->configClass->lumiere_maybe_log('debug', "[Lumiere][uninstall] Lumière transients deleted.");
+		$this->configClass->loggerclass->debug('[Lumiere][uninstall] Lumière transients deleted.');
 
 	}
 
