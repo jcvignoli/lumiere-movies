@@ -80,16 +80,18 @@ class Admin {
 		// Load all classes in class/Admin folder, will be loaded when needed
 		spl_autoload_register( [ 'Lumiere\Admin', 'admin_loader' ] );
 
-		// Start Settings class
+		// Get database options.
+		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
+		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
+
+		// Start Settings class.
 		$this->configClass = new Settings( 'adminClass' );
 
 		// Start Utilities class
 		$this->utilsClass = new Utils();
 
 		// Build constants
-		$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
-		$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
-		$this->imdb_cache_values = $this->configClass->get_imdb_cache_option();
 		$this->rootURL = plugin_dir_url( __DIR__ );
 		$this->rootPath = plugin_dir_path( __DIR__ );
 

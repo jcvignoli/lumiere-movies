@@ -28,12 +28,11 @@ class Widget extends \WP_Widget {
 	 */
 	private $configClass;
 
-	/* Vars from Lumière settings
+	/**
+	 * Vars from Lumière settings
 	 *
 	 */
 	private $imdb_admin_values;
-	private $imdb_widget_values;
-	private $imdb_cache_values;
 
 	/**
 	 *  Store the class for movies
@@ -90,15 +89,16 @@ class Widget extends \WP_Widget {
 		);
 
 
-		$this->configClass = new Settings( 'widgetClass' );
-		$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
-		$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
-		$this->imdb_cache_values = $this->configClass->get_imdb_widget_option();
+		// Get database options.
+		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 
-		// Start the movie class.
+		// Start Settings class.
+		$this->configClass = new Settings( 'widgetClass' );
+
+		// Start Movie class.
 		$this->movieClass = new Movie();
 
-		// Start the utilities class.
+		// Start Utilities class.
 		$this->utilsClass = new Utils();
 
 		/**

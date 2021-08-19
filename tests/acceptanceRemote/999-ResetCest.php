@@ -27,7 +27,7 @@ class EndCest {
 	 */
 	public function enablePlugins(AcceptanceRemoteTester $I) {
 
-		$I->wantTo('Enable taxonomy (normal state)');
+		$I->wantTo('Reset plugins to their normal state');
 
 		// Lumière on
 		$I->amOnPluginsPage();
@@ -50,7 +50,7 @@ class EndCest {
 	 */
 	public function enableAdminGeneralOptions(AcceptanceRemoteTester $I) {
 
-		$I->wantTo('Enable Admin General Options (normal state)');
+		$I->wantTo('Reset Admin General Options to their normal state');
 
 		// Big menu on
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");

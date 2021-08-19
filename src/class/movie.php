@@ -42,19 +42,18 @@ class Movie {
 	/**
 	 *  Store the class of Lumière settings
 	 */
-	private $configClass;
+	private $config_class;
 
 	/**
 	 *  Vars from Lumière settings
 	 */
 	private $imdb_admin_values;
 	private $imdb_widget_values;
-	private $imdb_cache_values;
 
 	/**
 	 *  Store the class for extra functions
 	 */
-	private $utilsClass;
+	private $utils_class;
 
 	/**
 	 *  Store the name or the ID of a movie
@@ -73,13 +72,15 @@ class Movie {
 			wp_die( esc_html__( 'Cannot start class movie, class Lumière Settings not found', 'lumiere-movies' ) );
 		}
 
-		$this->configClass = new Settings( 'movieClass' );
-		$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
-		$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
-		$this->imdb_cache_values = $this->configClass->get_imdb_widget_option();
+		// Get database options.
+		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
+
+		// Start settings class.
+		$this->config_class = new Settings( 'movieClass' );
 
 		// Start the tools class
-		$this->utilsClass = new Utils();
+		$this->utils_class = new Utils();
 
 		// Start the logger class
 		add_action( 'wp', [ $this, 'lumiere_maybe_start_debug' ], 0 );
@@ -108,10 +109,10 @@ class Movie {
 	 */
 	private function lumiere_maybe_start_debug() {
 
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( 1 == $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
+		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
 
 			// Start debugging mode
-			$this->utilsClass->lumiere_activate_debug();
+			$this->utils_class->lumiere_activate_debug();
 
 		}
 
@@ -127,8 +128,8 @@ class Movie {
 		/* Vars */
 		global $lumiere_count_me_siffer;
 
-		$logger = $this->configClass->loggerclass;
-		$configClass = $this->configClass;
+		$logger = $this->config_class->loggerclass;
+		$config_class = $this->config_class;
 		$lumiere_count_me_siffer = isset( $lumiere_count_me_siffer ) ? $lumiere_count_me_siffer : 0; # var for counting only one results
 		$imdbIdOrTitle = isset( $imdbIdOrTitleOutside ) ? $imdbIdOrTitleOutside : $this->imdbIdOrTitle;
 		$output = '';
@@ -136,11 +137,10 @@ class Movie {
 		// Get main vars from the class
 		$imdb_admin_values = $this->imdb_admin_values;
 		$imdb_widget_values = $this->imdb_widget_values;
-		$imdb_cache_values = $this->imdb_cache_values;
 
 		$logger->debug( '[Lumiere][movieClass] Calling IMDbPHP class.' );
 
-		$search = new TitleSearch( $this->configClass, $logger );
+		$search = new TitleSearch( $this->config_class, $logger );
 
 		// $imdbIdOrTitle var comes from custom post's field in widget or in post
 		$counter_imdbIdOrTitle = count( $imdbIdOrTitle );
@@ -162,7 +162,7 @@ class Movie {
 
 					$logger->debug( "[Lumiere][movieClass] searching for '$film'" );
 
-					$results = $search->search( $film, $this->configClass->lumiere_select_type_search() );
+					$results = $search->search( $film, $this->config_class->lumiere_select_type_search() );
 
 				}
 
@@ -194,7 +194,7 @@ class Movie {
 
 				$logger->debug( "[Lumiere][imdbIdOrTitle] No movie title provided, doing a query for $film'." );
 
-				$results = $search->search( $film, $this->configClass->lumiere_select_type_search() );
+				$results = $search->search( $film, $this->config_class->lumiere_select_type_search() );
 
 				// a result is found
 				if ( ( $results !== null ) && ! empty( $results ) ) {
@@ -206,7 +206,7 @@ class Movie {
 					// break if no result found, otherwise imdbphp library trigger fatal error
 				} else {
 
-					$this->utilsClass->lumiere_noresults_text();
+					$this->utils_class->lumiere_noresults_text();
 
 					$logger->debug( '[Lumiere][movieClass] No matching movie title found.' );
 
@@ -418,7 +418,7 @@ class Movie {
 			$popuplong = $this->imdb_admin_values['popupLong'];
 		}
 
-		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . $this->utilsClass->lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
+		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . $this->utils_class->lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
 
 		return $parsed_result;
 
@@ -442,7 +442,7 @@ class Movie {
 			$popuplong = $this->imdb_admin_values['popupLong'];
 		}
 
-		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . $this->utilsClass->lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
+		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . $this->utils_class->lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
 
 		return $parsed_result;
 	}
@@ -504,13 +504,13 @@ class Movie {
 		// Simplify the coding
 		$imdb_admin_values = $this->imdb_admin_values;
 		$imdb_widget_values = $this->imdb_widget_values;
-		$imdb_cache_values = $this->imdb_cache_values;
-		$logger = $this->configClass->loggerclass;
+
+		$logger = $this->config_class->loggerclass;
 
 		$outputfinal = '';
 
 		/* Start imdbphp class for new query based upon $midPremierResultat */
-		$movie = new Title( $midPremierResultat, $this->configClass, $logger );
+		$movie = new Title( $midPremierResultat, $this->config_class, $logger );
 
 		foreach ( $imdb_widget_values['imdbwidgetorder'] as $lumiere_magicnumber ) {
 
@@ -2073,7 +2073,7 @@ class Movie {
 		$nbtotalplots = intval( count( $plot ) );
 
 		// tested if the array contains data; if not, doesn't go further
-		if ( ! $this->utilsClass->lumiere_is_multiArrayEmpty( $plot ) ) {
+		if ( ! $this->utils_class->lumiere_is_multiArrayEmpty( $plot ) ) {
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
 			$output .= sprintf( esc_attr( _n( 'Plot', 'Plots', $nbtotalplots, 'lumiere-movies' ) ), number_format_i18n( $nbtotalplots ) );

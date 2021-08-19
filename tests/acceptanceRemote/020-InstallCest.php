@@ -72,12 +72,12 @@ class InstallCest {
 	}
 
 
-	/** Check if settings are kept and deleted according to options selected
+	/** Check if popup when keep settings are unselected is displayed upon plugin deactivation
 	 *
 	 * @before login
 	 *
 	 */
-	public function checkDeactivationFollowsKeepSettingsOption(AcceptanceRemoteTester $I) {
+	public function checkKeepsettingsPopupDeactivation(AcceptanceRemoteTester $I) {
 
 		$I->wantTo('Check if keep settings option is followed on deactivation');
 

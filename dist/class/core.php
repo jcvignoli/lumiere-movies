@@ -669,7 +669,7 @@ class Core {
 	/**
 	 *  Add a class to taxonomy links (constructed in movie.php)
 	 */
-	public function lumiere_taxonomy_add_class_to_links( string $links ): string {
+	public function lumiere_taxonomy_add_class_to_links( array $links ): array {
 
 		return str_replace( '<a href="', '<a class="linktaxonomy" href="', $links );
 
