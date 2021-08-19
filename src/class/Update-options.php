@@ -19,17 +19,17 @@ namespace Lumiere;
 if ( ! defined( 'WPINC' ) )
 	wp_die('You can not call directly this page');
 
-/** Class to update Lumière options 
- ** Uses the files in /updates/ to updates the database
- ** Checks the current Lumière version against the updates and uses $configClass->imdb_admin_values['imdbHowManyUpdates'] var to know if new updates have to be made
- ** Everytime an update is processed, imdbHowManyUpdates increases of 1
- **
- ** Main external vars/functions:
- ** @$configClass->lumiere_version: get extracted from class.config.php 
- ** @$utilsClass->lumiere_activate_debug(): activate the debugging options
- ** @$configClass->lumiere_start_logger(): run the logger class
- ** @$configClass->lumiere_maybe_log(): write/display a log of events if conditions are met
- **/
+/** 
+ * Class to update Lumière options 
+ * Uses the files in /updates/ to updates the database
+ * Checks the current Lumière version against the updates and uses $configClass->imdb_admin_values['imdbHowManyUpdates'] var to know if new updates have to be made
+ * Everytime an update is processed, imdbHowManyUpdates increases of 1
+ *
+ * Main external vars/functions:
+ * @$configClass->lumiere_version: get extracted from class.config.php 
+ * @$utilsClass->lumiere_activate_debug(): activate the debugging options
+ * @$configClass->lumiere_start_logger(): run the logger class
+ */
 class UpdateOptions {
 
 	/* \Lumiere\Settings class

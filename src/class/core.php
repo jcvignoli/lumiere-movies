@@ -65,7 +65,7 @@ class Core {
 		/* ## Highslide download library, function deactivated upon WordPress plugin team request
 		add_filter( 'init', function( $template ) {
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=lumiere_options&highslide=yes' ) )
-				require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::highslide_download_page );
+				require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::HIGHSLIDE_DOWNLOAD_PAGE );
 
 		} );*/
 
@@ -73,8 +73,8 @@ class Core {
 		add_filter(
 			'init',
 			function() {
-				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) ) {
-					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::gutenberg_search_page;
+				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::GUTENBERG_SEARCH_URL ) ) {
+					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::GUTENBERG_SEARCH_PAGE;
 				}
 
 			}
@@ -99,7 +99,7 @@ class Core {
 				'admin_init',
 				function() {
 					if ( isset( $_GET['taxotype'] ) ) {
-						require plugin_dir_path( __DIR__ ) . \Lumiere\Settings::move_template_taxonomy_page;
+						require plugin_dir_path( __DIR__ ) . \Lumiere\Settings::MOVE_TEMPLATE_TAXONOMY_PAGE;
 
 					}
 				}
@@ -522,7 +522,7 @@ class Core {
 	public function lumiere_popup_redirect() {
 
 		// The popup is for films
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::popup_search_url ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::POPUP_SEARCH_URL ) ) {
 
 			$query_film = preg_match_all( '#film=(.*)#', $_SERVER['REQUEST_URI'], $match_query_film, PREG_UNMATCHED_AS_NULL );
 			$match_query_film_film = explode( '&', $match_query_film[1][0] );
@@ -545,7 +545,7 @@ class Core {
 			);
 			exit();
 		}
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::popup_movie_url ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::POPUP_MOVIE_URL ) ) {
 
 			$query_film = preg_match_all( '#film=(.*)#', $_SERVER['REQUEST_URI'], $match_query_film, PREG_UNMATCHED_AS_NULL );
 			$match_query_film_film = explode( '&', $match_query_film[1][0] );
@@ -570,7 +570,7 @@ class Core {
 
 		}
 		// The popup is for persons.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::popup_person_url ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::POPUP_PERSON_URL ) ) {
 			$query_person_mid = preg_match( '#mid=(.*)#', $_SERVER['REQUEST_URI'], $match_query_mid, PREG_UNMATCHED_AS_NULL );
 			$match_query_person_mid = explode( '&', $match_query_mid[1] );
 			$query_person_info = preg_match_all( '#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
@@ -598,17 +598,17 @@ class Core {
 
 		// Include films popup.
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringsearch ) ) {
-			require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::popup_search_url;
+			require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_SEARCH_URL;
 		}
 
 		// Include films popup.
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) {
-			require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::popup_movie_url;
+			require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_MOVIE_URL;
 		}
 
 		// Include persons popup.
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringperson ) ) {
-			require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::popup_person_url;
+			require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_PERSON_URL;
 		}
 
 	}
@@ -622,7 +622,7 @@ class Core {
 		$config = $this->configClass;
 
 		// Change the title for the query search popup.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::GUTENBERG_SEARCH_URL ) ) {
 			return esc_html__( 'Lumiere Query Interface', 'lumiere-movies' );
 		}
 

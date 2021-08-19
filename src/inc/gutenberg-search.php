@@ -154,7 +154,7 @@ class Search {
 		} // end foreach  
 
 		echo '<div align="center"><a href="' 
-			. esc_url( site_url( '', 'relative' ) . \Lumiere\Settings::gutenberg_search_url ) 
+			. esc_url( site_url( '', 'relative' ) . \Lumiere\Settings::GUTENBERG_SEARCH_URL ) 
 			. '">Do a new query</a></div>' ; 
 
 		} else {
