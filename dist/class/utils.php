@@ -100,11 +100,14 @@ class Utils {
 	/**
 	 * Sanitize an array
 	 * 
+	 * @param $array
+	 * @return mixed
+	 * @credit https://wordpress.stackexchange.com/a/255238/206323
 	 */
-	public function lumiere_recursive_sanitize_text_field($array) {
+	public function lumiere_recursive_sanitize_text_field( $array ) {
 	    foreach ( $array as $key => &$value ) {
 		 if ( is_array( $value ) ) {
-		     $value = recursive_sanitize_text_field($value);
+		     $value = lumiere_recursive_sanitize_text_field($value);
 		 }
 		 else {
 		     $value = sanitize_text_field( $value );

@@ -97,7 +97,7 @@ class Movie {
 		add_filter( 'the_excerpt', [ $this, 'lumiere_link_popup_maker' ] );
 
 		// Add the shortcodes to parse the text, old way
-		// Kept for compatibility purpose
+		// @obsolete, kept for compatibility purpose
 		add_shortcode( 'imdblt', [ $this, 'parse_lumiere_tag_transform' ] );
 		add_shortcode( 'imdbltid', [ $this, 'parse_lumiere_tag_transform_id' ] );
 
@@ -107,7 +107,7 @@ class Movie {
 	 *  Wrapps the start of the logger
 	 *  Allows to start later in the process, and to not break gutenberg editor by adding text before html code
 	 */
-	private function lumiere_maybe_start_debug() {
+	private function lumiere_maybe_start_debug(): void {
 
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
 
@@ -121,9 +121,9 @@ class Movie {
 	/**
 	 *  Search the movie and output the results
 	 *
-	 * @param string or int $imdbIdOrTitleOutside Name or IMDbID of the movie to find
+	 * @param optional array $imdbIdOrTitleOutside Name or IMDbID of the movie to find in array
 	 */
-	public function lumiere_show( $imdbIdOrTitleOutside = null ): string {
+	public function lumiere_show( ?array $imdbIdOrTitleOutside = null ): string {
 
 		/* Vars */
 		global $lumiere_count_me_siffer;
@@ -169,7 +169,7 @@ class Movie {
 				// if a result was found in previous query
 				if ( isset( $results ) && ( $results !== null ) && ! empty( $results ) ) {
 
-					$midPremierResultat = $results[0]->imdbid();
+					$midPremierResultat = filter_var( $results[0]->imdbid(), FILTER_SANITIZE_NUMBER_INT );
 
 					$logger->debug( "[Lumiere][movieClass] Result found: $midPremierResultat." );
 
@@ -185,8 +185,7 @@ class Movie {
 				// no movie's title but a movie's ID has been specified
 			} elseif ( isset( $film['bymid'] ) ) {
 
-				$midPremierResultat = esc_html( $film['bymid'] ); // get the movie id entered
-
+				$midPremierResultat = filter_var( $film['bymid'], FILTER_SANITIZE_NUMBER_INT );
 				$logger->debug( "[Lumiere][movieClass] Movie ID provided: '$midPremierResultat'." );
 
 				// nothing was specified
@@ -199,8 +198,7 @@ class Movie {
 				// a result is found
 				if ( ( $results !== null ) && ! empty( $results ) ) {
 
-					$midPremierResultat = $results[0]->imdbid();
-
+					$midPremierResultat = filter_var( $results[0]->imdbid(), FILTER_SANITIZE_NUMBER_INT );
 					$logger->debug( "[Lumiere][movieClass] Found matching movie title: '$midPremierResultat'" );
 
 					// break if no result found, otherwise imdbphp library trigger fatal error
@@ -278,7 +276,7 @@ class Movie {
 	private function lumiere_parse_spans_callback_id( array $block_span ): string {
 
 		$imdbIdOrTitle = [];
-		$imdbIdOrTitle[]['bymid'] = $block_span[1];
+		$imdbIdOrTitle[]['bymid'] = $this->utils_class->lumiere_recursive_sanitize_text_field( $block_span[1] );
 		return $this->lumiere_show( $imdbIdOrTitle );
 
 	}
@@ -290,7 +288,7 @@ class Movie {
 	private function lumiere_parse_spans_callback_title( array $block_span ): string {
 
 		$imdbIdOrTitle = [];
-		$imdbIdOrTitle[]['byname'] = $block_span[1];
+		$imdbIdOrTitle[]['byname'] = $this->utils_class->lumiere_recursive_sanitize_text_field( $block_span[1] );
 		return $this->lumiere_show( $imdbIdOrTitle );
 
 	}
@@ -495,11 +493,10 @@ class Movie {
 
 	/* Function to display the layout and call all subfonctions
 	 *
-	 * @param string $midPremierResultat -> takes the IMDb ID to be displayed
+	 * @param string mandatory $midPremierResultat -> IMDb ID, not as int since it loses its leading 0
 	 */
 	private function lumiere_movie_design( ?string $midPremierResultat ): string {
 
-		/* Vars */
 		$lumiere_magicnumber = 1;
 		// Simplify the coding
 		$imdb_admin_values = $this->imdb_admin_values;
@@ -510,137 +507,137 @@ class Movie {
 		$outputfinal = '';
 
 		/* Start imdbphp class for new query based upon $midPremierResultat */
-		$movie = new Title( $midPremierResultat, $this->config_class, $logger );
+		$movie = new Title( intval( $midPremierResultat ), $this->config_class, $logger );
 
 		foreach ( $imdb_widget_values['imdbwidgetorder'] as $lumiere_magicnumber ) {
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['title'] )
-			&& ( $imdb_widget_values['imdbwidgettitle'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $this->imdb_widget_values['imdbwidgetorder']['title'] )
+			&& ( $this->imdb_widget_values['imdbwidgettitle'] === true ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_title( $movie ), 'title' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['pic'] )
-			&& ( $imdb_widget_values['imdbwidgetpic'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $this->imdb_widget_values['imdbwidgetorder']['pic'] )
+			&& ( $this->imdb_widget_values['imdbwidgetpic'] === true ) ) {
 				$outputfinal .= $this->lumiere_movies_pics( $movie );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['country'] )
-			&& ( $imdb_widget_values['imdbwidgetcountry'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $this->imdb_widget_values['imdbwidgetorder']['country'] )
+			&& ( $this->imdb_widget_values['imdbwidgetcountry'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_country( $movie ), 'country' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['runtime'] )
-			&& ( $imdb_widget_values['imdbwidgetruntime'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['runtime'] )
+			&& ( $imdb_widget_values['imdbwidgetruntime'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_runtime( $movie ), 'runtime' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['rating'] )
-			&& ( $imdb_widget_values['imdbwidgetrating'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['rating'] )
+			&& ( $imdb_widget_values['imdbwidgetrating'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_rating( $movie ), 'rating' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['language'] )
-			&& ( $imdb_widget_values['imdbwidgetlanguage'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['language'] )
+			&& ( $imdb_widget_values['imdbwidgetlanguage'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_language( $movie ), 'language' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['genre'] )
-			&& ( $imdb_widget_values['imdbwidgetgenre'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['genre'] )
+			&& ( $imdb_widget_values['imdbwidgetgenre'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_genre( $movie ), 'genre' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['keyword'] )
-			&& ( $imdb_widget_values['imdbwidgetkeyword'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['keyword'] )
+			&& ( $imdb_widget_values['imdbwidgetkeyword'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_keywords( $movie ), 'keyword' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['goof'] )
-			&& ( $imdb_widget_values['imdbwidgetgoof'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['goof'] )
+			&& ( $imdb_widget_values['imdbwidgetgoof'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_goofs( $movie ), 'goof' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['comment'] )
-			&& ( $imdb_widget_values['imdbwidgetcomment'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['comment'] )
+			&& ( $imdb_widget_values['imdbwidgetcomment'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_comment( $movie ), 'comment' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['quote'] )
-			&& ( $imdb_widget_values['imdbwidgetquote'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['quote'] )
+			&& ( $imdb_widget_values['imdbwidgetquote'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_quotes( $movie ), 'quote' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['tagline'] )
-			&& ( $imdb_widget_values['imdbwidgettagline'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['tagline'] )
+			&& ( $imdb_widget_values['imdbwidgettagline'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_taglines( $movie ), 'tagline' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['trailer'] )
-			&& ( $imdb_widget_values['imdbwidgettrailer'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['trailer'] )
+			&& ( $imdb_widget_values['imdbwidgettrailer'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_trailer( $movie ), 'trailer' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['color'] )
-			&& ( $imdb_widget_values['imdbwidgetcolor'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['color'] )
+			&& ( $imdb_widget_values['imdbwidgetcolor'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_color( $movie ), 'color' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['alsoknow'] )
-			&& ( $imdb_widget_values['imdbwidgetalsoknow'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['alsoknow'] )
+			&& ( $imdb_widget_values['imdbwidgetalsoknow'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_aka( $movie ), 'alsoknown' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['composer'] )
-			&& ( $imdb_widget_values['imdbwidgetcomposer'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['composer'] )
+			&& ( $imdb_widget_values['imdbwidgetcomposer'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_composer( $movie ), 'composer' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['soundtrack'] )
-			&& ( $imdb_widget_values['imdbwidgetsoundtrack'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['soundtrack'] )
+			&& ( $imdb_widget_values['imdbwidgetsoundtrack'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_soundtrack( $movie ), 'soundtrack' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['prodcompany'] )
-			&& ( $imdb_widget_values['imdbwidgetprodcompany'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['prodcompany'] )
+			&& ( $imdb_widget_values['imdbwidgetprodcompany'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_prodcompany( $movie ), 'prodcompany' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['officialsites'] )
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['officialsites'] )
 			&& ( $imdb_widget_values['imdbwidgetofficialsites'] == true ) ) {
-				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_officialsite( $movie ), 'officialwebsite' );
+				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_officialsite( $movie ), 'officialsites' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['source'] )
-			&& ( $imdb_widget_values['imdbwidgetsource'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['source'] )
+			&& ( $imdb_widget_values['imdbwidgetsource'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_creditlink( $midPremierResultat ), 'source' ); # doesn't need class but movie id
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['director'] )
-			&& ( $imdb_widget_values['imdbwidgetdirector'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['director'] )
+			&& ( $imdb_widget_values['imdbwidgetdirector'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_director( $movie ), 'director' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['creator'] )
-			&& ( $imdb_widget_values['imdbwidgetcreator'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['creator'] )
+			&& ( $imdb_widget_values['imdbwidgetcreator'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_creator( $movie ), 'creator' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['producer'] )
-			&& ( $imdb_widget_values['imdbwidgetproducer'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['producer'] )
+			&& ( $imdb_widget_values['imdbwidgetproducer'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_producer( $movie ), 'producer' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['writer'] )
-			&& ( $imdb_widget_values['imdbwidgetwriter'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['writer'] )
+			&& ( $imdb_widget_values['imdbwidgetwriter'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_writer( $movie ), 'writer' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['actor'] )
-			&& ( $imdb_widget_values['imdbwidgetactor'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['actor'] )
+			&& ( $imdb_widget_values['imdbwidgetactor'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_actor( $movie ), 'actor' );
 			}
 
-			if ( ( $lumiere_magicnumber == $imdb_widget_values['imdbwidgetorder']['plot'] )
-			&& ( $imdb_widget_values['imdbwidgetplot'] == true ) ) {
+			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['plot'] )
+			&& ( $imdb_widget_values['imdbwidgetplot'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_plot( $movie ), 'plot' );
 			}
 
@@ -691,7 +688,8 @@ class Movie {
 
 	}
 
-	/* Display the title and possibly the year
+	/**
+	 * Display the title and possibly the year
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
@@ -718,7 +716,9 @@ class Movie {
 
 	}
 
-	/* Display the picture of the movie
+	/**
+	 * Display the picture of the movie
+	 * Does not go through lumiere_movie_design_addwrapper()
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
@@ -740,7 +740,7 @@ class Movie {
 		## The width value is taken from plugin settings, and added if the "thumbnail" option is unactivated
 
 			// check if big pictures are selected (extract "_big.jpg" from picture's names, if exists), AND if highslide popup is activated
-		if ( ( substr( $photo_url_sanitized, -7, -4 ) == 'big' ) && ( $imdb_admin_values['imdbpopup_highslide'] == 1 ) ) {
+		if ( ( substr( $photo_url_sanitized, -7, -4 ) == 'big' ) && ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) ) {
 
 			// value to store if previous checking is valid, call in lumiere_scripts.js
 			$highslidephotook = 'ok';
@@ -763,7 +763,7 @@ class Movie {
 		}
 
 			// check if a picture exists
-		if ( $photo_url_sanitized == true ) {
+		if ( ! empty( $photo_url_sanitized ) ) {
 			// a picture exists, so show it
 			$output .= $photo_url_sanitized
 				. '" alt="'
@@ -789,7 +789,8 @@ class Movie {
 		return $output;
 	}
 
-	/* Display the country of origin
+	/**
+	 * Display the country of origin
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
@@ -839,7 +840,8 @@ class Movie {
 
 	}
 
-	/* Display the runtime
+	/**
+	 * Display the runtime
 	 *
 	 * @param mandatory object $movie -> takes the value of IMDbPHP class
 	 */
@@ -864,7 +866,8 @@ class Movie {
 
 	}
 
-	/* Display the language
+	/**
+	 * Display the language
 	 *
 	 * @param (object) optional $movie -> takes the value of IMDbPHP class
 	 */
@@ -2104,11 +2107,9 @@ class Movie {
 	/**
 	 * Display the credit link
 	 *
-	 * @param (int) mandatory $midPremierResultat -> IMDb ID
+	 * @param string mandatory $midPremierResultat -> IMDb ID, not as int since it loses its leading 0
 	 */
-	private function lumiere_movies_creditlink( int $midPremierResultat = null ): string {
-
-		/* Vars */
+	private function lumiere_movies_creditlink( string $midPremierResultat ): string {
 
 		// Get main vars from the current class
 		$imdb_admin_values = $this->imdb_admin_values;
@@ -2116,7 +2117,7 @@ class Movie {
 
 		$output = '';
 		$midPremierResultat_sanitized = filter_var( $midPremierResultat, FILTER_SANITIZE_NUMBER_INT );
-
+print_r('border');
 		// if "Remove all links" option is not selected
 		if ( ( $imdb_admin_values['imdblinkingkill'] == false ) && ( $imdb_widget_values['imdbwidgetsource'] == true ) ) {
 
@@ -2276,14 +2277,15 @@ class Movie {
 	 * allows movie total count (how many time a movie is called by the plugin)
 	 *
 	 */
-	private function lumiere_filter_single_movies( string $thema, int &$lumiere_count_me_siffer ): bool {
+	private function lumiere_filter_single_movies( string $midPremierResultat, int &$lumiere_count_me_siffer ): bool {
 
-		global $lumiere_count_me_siffer, $lumiere_tmp;
+		global $lumiere_count_me_siffer, $counter;
+
 		$lumiere_count_me_siffer++;
-		$lumiere_tmp[ $lumiere_count_me_siffer ] = $thema;
-		$ici = array_count_values( $lumiere_tmp );
+		$counter[ $lumiere_count_me_siffer ] = $midPremierResultat;
+		$ici = array_count_values( $counter );
 
-		if ( $ici[ $thema ] < 2 ) {
+		if ( $ici[ $midPremierResultat ] < 2 ) {
 			return false;
 		}
 
