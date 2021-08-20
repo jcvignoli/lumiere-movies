@@ -512,12 +512,12 @@ class Movie {
 		foreach ( $imdb_widget_values['imdbwidgetorder'] as $lumiere_magicnumber ) {
 
 			if ( ( $lumiere_magicnumber === $this->imdb_widget_values['imdbwidgetorder']['title'] )
-			&& ( $this->imdb_widget_values['imdbwidgettitle'] === true ) ) {
+			&& ( $this->imdb_widget_values['imdbwidgettitle'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_title( $movie ), 'title' );
 			}
 
 			if ( ( $lumiere_magicnumber === $this->imdb_widget_values['imdbwidgetorder']['pic'] )
-			&& ( $this->imdb_widget_values['imdbwidgetpic'] === true ) ) {
+			&& ( $this->imdb_widget_values['imdbwidgetpic'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movies_pics( $movie );
 			}
 
@@ -557,7 +557,7 @@ class Movie {
 			}
 
 			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['comment'] )
-			&& ( $imdb_widget_values['imdbwidgetcomment'] === '1' ) ) {
+ 			&& ( $imdb_widget_values['imdbwidgetcomment'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_comment( $movie ), 'comment' );
 			}
 
@@ -1104,17 +1104,18 @@ class Movie {
 
 		$output = '';
 		$comment = [];
-		$comment[] = $movie->comment_split(); # this value is sent into an array!
-		$comment_split = $movie->comment_split(); # this value isn't sent into an array, for use in "if" right below
+		$comment = $movie->comment(); 
+		// $comment_split = $movie->comment(); # this value isn't sent into an array, for use in "if" right below
 		//$nbcomments = empty($imdb_widget_values['imdbwidgetcommentnumber']) ? $nbcomments =  "1" : $nbcomments =  $imdb_widget_values['imdbwidgetcommentnumber'] ;
 		//$nbtotalcomments = count($comments) ;
 
-		if ( ! empty( $comment_split ) ) {
+		if ( isset( $comment ) && ! empty( $comment ) ) {
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
 			$output .= esc_html__( 'User comment', 'lumiere-movies' );
 			$output .= ':</span><br />';
 
+/* Deactivated, seems that method has changed
 			$output .= '<';
 			$output .= '<i>' . sanitize_text_field( $comment[0]['title'] ) . '</i> by ';
 
@@ -1131,7 +1132,9 @@ class Movie {
 
 			$output .= '>&nbsp;';
 			$output .= sanitize_text_field( $comment[0]['comment'] );
+*/
 
+			$output .= sanitize_text_field( $comment );
 		}
 
 		return $output;

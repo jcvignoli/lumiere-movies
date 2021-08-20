@@ -213,37 +213,37 @@ class PopupMovie {
 				$small_picture = $movie->photo_localurl( false ); // get small poster for cache
 				$big_picture = $movie->photo_localurl( true ); // get big poster for cache
 				$photo_url = $small_picture ? $small_picture : $big_picture; // take the smaller first, the big if no small found
-				if ( ( isset( $photo_url ) ) && ( ! empty( $photo_url ) ) ) {
+			if ( ( isset( $photo_url ) ) && ( ! empty( $photo_url ) ) ) {
 
-					echo '<a class="highslide_pic_popup" class="highslide-image" href="' . esc_url( $photo_url ) . '">';
-					// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.
-					echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="'; 
-					echo esc_url( $photo_url ) . '" alt="' . esc_attr( $movie->title() ) . '"';
-					// add width only if "Display only thumbnail" is on "no"
-					if ( $this->imdb_admin_values['imdbcoversize'] === false ) {
-						echo ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . 'px"';
-					}
-					echo ' />';
-					echo '</a>';
-
-				} else {
-
-					echo '<a class="highslide_pic_popup">';
-					echo "\n\t\t"
-					. '<img loading="eager" class="imdbincluded-picture" src="'
-					. esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' )
-					. '" alt="'
-					. esc_html__( 'no picture', 'lumiere-movies' )
-					. '" ';
-
-					// add width only if "Display only thumbnail" is on "no"
-					if ( $this->imdb_admin_values['imdbcoversize'] === false ) {
-						echo ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . 'px"';
-					}
-					echo ' />';
-					echo '</a>';
+				echo '<a class="highslide_pic_popup" class="highslide-image" href="' . esc_url( $photo_url ) . '">';
+				// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.
+				echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="';
+				echo esc_url( $photo_url ) . '" alt="' . esc_attr( $movie->title() ) . '"';
+				// add width only if "Display only thumbnail" is on "no"
+				if ( $this->imdb_admin_values['imdbcoversize'] === false ) {
+					echo ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . 'px"';
 				}
-				?>
+				echo ' />';
+				echo '</a>';
+
+			} else {
+
+				echo '<a class="highslide_pic_popup">';
+				echo "\n\t\t"
+				. '<img loading="eager" class="imdbincluded-picture" src="'
+				. esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' )
+				. '" alt="'
+				. esc_html__( 'no picture', 'lumiere-movies' )
+				. '" ';
+
+				// add width only if "Display only thumbnail" is on "no".
+				if ( $this->imdb_admin_values['imdbcoversize'] === false ) {
+					echo ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . 'px"';
+				}
+				echo ' />';
+				echo '</a>';
+			}
+			?>
 
 			</div> 
 		</div> 
@@ -254,14 +254,11 @@ class PopupMovie {
 			if ( ( ! isset( $_GET['info'] ) ) || ( empty( $_GET['info'] ) ) ) {
 
 				//---------------------------------------------------------------------------introduction part start
-				?>
-
-				<?php
-
-				###  Director summary, limited by admin options
+				// Director summary, limited by admin options.
 
 				$director = $movie->director();
-				$optiondirectoractive = intval( $this->imdb_widget_values['imdbwidgetdirector'] ) ?? null; # director shown only if selected so in options
+				// director shown only if selected so in options.
+				$optiondirectoractive = intval( $this->imdb_widget_values['imdbwidgetdirector'] ) ?? null;
 
 				if ( ( isset( $director ) ) && ( ! empty( $director ) ) && ( $optiondirectoractive === '1' ) ) {
 
@@ -291,13 +288,14 @@ class PopupMovie {
 
 					echo "\n\t</div>";
 
-				} // endisset
+				}
 
-				#### Main actors, limited by admin options
+				// Main actors, limited by admin options.
 
 				$cast = $movie->cast();
 				$nbactors = empty( $this->imdb_widget_values['imdbwidgetactornumber'] ) ? $nbactors = '1' : $nbactors = intval( $this->imdb_widget_values['imdbwidgetactornumber'] );
-				$optionactoractive = intval( $this->imdb_widget_values['imdbwidgetactor'] ) ?? null; # actor shown only if selected so in options
+				// actor shown only if selected so in options.
+				$optionactoractive = intval( $this->imdb_widget_values['imdbwidgetactor'] ) ?? null;
 
 				$nbtotalactors = intval( count( $cast ) );
 
@@ -319,14 +317,15 @@ class PopupMovie {
 
 					echo '</div>';
 
-				} // endisset
+				}
 
-				#### Runtime, limited by admin options
+				// Runtime, limited by admin options.
 
 				$runtime = sanitize_text_field( $movie->runtime() );
-				$optionruntimeactive = intval( $this->imdb_widget_values['imdbwidgetruntime'] ); // runtime shown only if selected so in admin options.
+				// runtime shown only if selected so in admin options.
+				$optionruntimeactive = intval( $this->imdb_widget_values['imdbwidgetruntime'] );
 
-				if ( ( ! empty( $runtime ) ) && ( $optionruntimeactive == 1 ) ) {
+				if ( ( ! empty( $runtime ) ) && ( $optionruntimeactive === 1 ) ) {
 
 					echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Runtime -->";
 					echo "\n\t<div>";
@@ -340,9 +339,10 @@ class PopupMovie {
 
 				}
 
-				#### Votes, limited by admin options
+				// Votes, limited by admin options.
 
-				$optionratingactive = intval( $this->imdb_widget_values['imdbwidgetrating'] ) ?? null; # rating shown only if selected so in options
+				// rating shown only if selected so in options.
+				$optionratingactive = intval( $this->imdb_widget_values['imdbwidgetrating'] ) ?? null;
 				if ( ( null !== ( $movie->votes() ) ) && ( $optionratingactive == 1 ) ) {
 					$votes_sanitized = intval( $movie->votes() );
 					$rating_sanitized = esc_html( $movie->rating() );
@@ -361,11 +361,12 @@ class PopupMovie {
 
 				}
 
-				#### Language, limited by admin options
+				// Language, limited by admin options.
 
 				$languages = $movie->languages();
 				$nbtotallanguages = count( $languages );
-				$optionlanguageactive = intval( $this->imdb_widget_values['imdbwidgetlanguage'] ) ?? null; # language shown only if selected so in options
+				// language shown only if selected so in options.
+				$optionlanguageactive = intval( $this->imdb_widget_values['imdbwidgetlanguage'] ) ?? null;
 
 				if ( ( ( isset( $languages ) ) && ( ! empty( $languages ) ) ) && ( $optionlanguageactive == 1 ) ) {
 
@@ -386,11 +387,12 @@ class PopupMovie {
 
 				}
 
-				#### Country, limited by admin options
+				// Country, limited by admin options.
 
 				$country = $movie->country();
 				$nbtotalcountry = count( $country );
-				$optioncountryactive = intval( $this->imdb_widget_values['imdbwidgetcountry'] ) ?? null; # country shown only if selected so in options
+				// country shown only if selected so in options.
+				$optioncountryactive = intval( $this->imdb_widget_values['imdbwidgetcountry'] ) ?? null;
 
 				if ( ( ( isset( $country ) ) && ( ! empty( $country ) ) ) && ( $optioncountryactive == 1 ) ) {
 
@@ -411,8 +413,8 @@ class PopupMovie {
 
 				}
 
-				#### Genre
-				$optiongenreactive = intval( $this->imdb_widget_values['imdbwidgetgenre'] ) ?? null; # genre shown only if selected so in options
+				// Genre shown only if selected so in options.
+				$optiongenreactive = intval( $this->imdb_widget_values['imdbwidgetgenre'] );
 				$genre = $movie->genre();
 
 				if ( ( ( isset( $genre ) ) && ( ! empty( $genre ) ) ) && ( $optiongenreactive == 1 ) ) {
@@ -465,7 +467,7 @@ class PopupMovie {
 			// ------------------------------------------------------------------------------ casting part start
 			if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'actors' ) ) {
 
-				#### Actors
+				// Actors.
 
 				$cast = $movie->cast();
 				$nbactors = empty( $this->imdb_widget_values['imdbwidgetactornumber'] ) ? $nbactors = '1' : $nbactors = intval( $this->imdb_widget_values['imdbwidgetactornumber'] );
@@ -510,7 +512,7 @@ class PopupMovie {
 
 			if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'crew' ) ) {
 
-				############## Directors
+				// Directors.
 
 				$director = $movie->director();
 
@@ -548,9 +550,9 @@ class PopupMovie {
 
 					} // endfor
 
-				} //end endisset
+				}
 
-				############## Writers
+				// Writers.
 
 				$writer = $movie->writing();
 				if ( ( isset( $writer ) ) && ( ! empty( $writer ) ) ) {
@@ -584,9 +586,9 @@ class PopupMovie {
 						echo "\n\t</div>";
 						echo "\n</div>";
 					} // endfor
-				} //end endisset
+				}
 
-				############## Producers
+				// Producers.
 
 				$producer = $movie->producer();
 				if ( ( isset( $producer ) ) && ( ! empty( $producer ) ) ) {
@@ -620,14 +622,14 @@ class PopupMovie {
 						echo "\n\t</div>";
 						echo "\n</div>";
 					} // endfor
-				} //end endisset
+				}
 
 			}   //----------------------------------------------------------------------------- crew part end
 
 			// ------------------------------------------------------------------------------ resume part start
 			if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'resume' ) ) {
 
-				############## Plot summary
+				// Plot summary.
 
 				$plotoutline = $movie->plotoutline();
 
@@ -642,11 +644,9 @@ class PopupMovie {
 					echo "\n\t</div>";
 					echo "\n</div>";
 
-				} //end endisset
-				?>
+				}
 
-				<?php
-				############## Plots
+				// Plots.
 
 				$plot = $movie->plot();
 				$nbtotalplot = count( $plot );
@@ -668,15 +668,14 @@ class PopupMovie {
 
 					echo "\n</div>";
 
-				} //end endisset
+				}
 
 			}
-			// ------------------------------------------------------------------------------ resume part end
 
 			// ------------------------------------------------------------------------------ misc part start
 			if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'divers' ) ) {
 
-				############## Trivia
+				// Trivia.
 
 				$trivia = $movie->trivia();
 				$nbtotaltrivia = count( $trivia );
@@ -710,9 +709,9 @@ class PopupMovie {
 
 					echo "\n</div>";
 
-				} //end endisset
+				}
 
-				############## Soundtrack
+				// Soundtrack.
 
 				$soundtrack = $movie->soundtrack();
 				$nbtotalsoundtrack = count( $soundtrack );
@@ -740,9 +739,9 @@ class PopupMovie {
 
 					echo "\n</div>";
 
-				} //end endisset
+				}
 
-				############## Goof
+				// Goof.
 
 				$goof = $movie->goofs();
 				$nbtotalgoof = count( $goof );
@@ -777,7 +776,7 @@ class PopupMovie {
 
 					echo "\n</div>";
 
-				} //end endisset
+				}
 
 			} // ------------------------------------------------------------------------------ misc part end
 
@@ -791,7 +790,13 @@ class PopupMovie {
 		}
 	}
 
-	private function lumiere_popupup_search_title ( $results, $film_sanitized_for_title ) {
+	/**
+	 * Search the title for the popup
+	 *
+	 * @param array $results outputed by IMDbPHP query
+	 * @param string $film_sanitized_for_title
+	 */
+	private function lumiere_popupup_search_title ( array $results, string $film_sanitized_for_title ) {
 
 		?>
 		<!DOCTYPE html>
@@ -903,7 +908,7 @@ class PopupMovie {
 
 			} // end foreach
 			?>
-			 
+			
 
 		</div>
 
