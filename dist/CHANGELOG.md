@@ -1,10 +1,10 @@
 **Changelog**
 
-v.3.5.2
+v.3.6
+* [feature] Code linted and functions rewrote using PHPCS, PHPMD and PHPStan. Faster, more secure and more stable plugin.
 * [feature] Uninstall process properly implemented. Lumière doesn't rely on WordPress deactivation function anymore. Properly delete taxonomy. Nothing left in user database.
 * [technical] Removed imdbsearchdirect option in settings class.
 * [technical] New way to deal with debug logging; class/function origin of the log fully implemented
-* [technical] Started working on linting code, using PHPCS, PHPMD and PHPStan
 * [bug] Updates were not running upon updates (only upon activation)
 * [bug] Cronjobs were not throwing debugging text. Added DOING_CRON as new condition in settings class lumiere_maybe_log() & utils class lumiere_activate_debug()
 * [bug] Various bugs in people taxonomy template, polylang integration was not working as expected. New template version 3.0 released.

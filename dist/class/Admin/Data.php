@@ -68,10 +68,13 @@ class Data extends \Lumiere\Admin {
 			__( 'trailer', 'lumiere-movies') => __( 'trailer', 'lumiere-movies') 
 		);
 
+		// Build the list of the rest
 		$this->details_extra = array( 
 			__( 'officialsites', 'lumiere-movies') => __( 'official websites', 'lumiere-movies'), 
 			__( 'prodcompany', 'lumiere-movies') => __( 'production company', 'lumiere-movies'),
 			__( 'rating', 'lumiere-movies')  => __( 'rating', 'lumiere-movies'),
+			__( 'runtime', 'lumiere-movies')  => __( 'runtime', 'lumiere-movies'),
+			__( 'source', 'lumiere-movies')  => __( 'source', 'lumiere-movies'),
 			__( 'year', 'lumiere-movies')  => __( 'year of release', 'lumiere-movies')
 		);
 
@@ -500,7 +503,7 @@ class Data extends \Lumiere\Admin {
 			'rating' => esc_html__( 'Display rating. This option also applies to the pop-up summary', 'lumiere-movies'),
 			'runtime' => esc_html__( 'Display the runtime. This option also applies to the pop-up summary', 'lumiere-movies'),
 			'soundtrack' => esc_html__( 'Display (how many) soundtracks', 'lumiere-movies'),
-			'sources' => esc_html__( 'Display website source at the end of the post', 'lumiere-movies'),
+			'source' => esc_html__( 'Display IMDb website source of the movie', 'lumiere-movies'),
 			'tagline' => esc_html__( 'Display (how many) taglines', 'lumiere-movies'),
 			'title' => esc_html__( 'Display the title', 'lumiere-movies'),
 			'trailer' => esc_html__( 'Display (how many) trailers', 'lumiere-movies'),

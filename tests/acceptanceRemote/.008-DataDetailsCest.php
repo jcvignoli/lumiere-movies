@@ -93,20 +93,26 @@ class DataDetailsCest {
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetrating_yes', '#update_imdbwidgetSettings' );
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetsoundtrack_yes', '#update_imdbwidgetSettings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetruntime_yes', '#update_imdbwidgetSettings' );
 		# seventh row
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
 		$I->scrollTo('#imdb_imdbwidgetquote_yes');
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetsoundtrack_yes', '#update_imdbwidgetSettings' );
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->scrollTo('#imdb_imdbwidgetquote_yes');
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetsource_yes', '#update_imdbwidgetSettings' );
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->scrollTo('#imdb_imdbwidgetquote_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgettagline_yes', '#update_imdbwidgetSettings' );
-		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgetquote_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgettrailer_yes', '#update_imdbwidgetSettings' );
-		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgetquote_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetwriter_yes', '#update_imdbwidgetSettings' );
 		# eighth row
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgettagline_yes');
+		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
+		$I->CustomDisableCheckbox('#imdb_imdbwidgettrailer_yes', '#update_imdbwidgetSettings' );
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetwriter_yes', '#update_imdbwidgetSettings' );
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetyear_yes', '#update_imdbwidgetSettings' );
 
 		// See if data is not available
@@ -121,6 +127,8 @@ class DataDetailsCest {
 		$I->dontSee('Rating');
 		$I->dontSee('Language');
 		$I->dontSee('Genre');
+		$I->dontsee('Runtime');
+		$I->dontsee('minutes');
 		$I->dontSee('Writers');
 		$I->dontSee('Producers');
 		$I->dontSee('Keywords');
@@ -253,12 +261,18 @@ class DataDetailsCest {
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetrating_yes', '#update_imdbwidgetSettings' );
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetruntime_yes', '#update_imdbwidgetSettings' );
+		# seventh row
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->scrollTo('#imdb_imdbwidgetquote_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetsoundtrack_yes', '#update_imdbwidgetSettings' );
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgetplot_yes');
+		$I->scrollTo('#imdb_imdbwidgetquote_yes');
 		$I->fillField('#imdb_imdbwidgetsoundtracknumber', '3');
 		$I->click('#update_imdbwidgetSettings');
-		# seventh row
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->scrollTo('#imdb_imdbwidgetquote_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetsource_yes', '#update_imdbwidgetSettings' );
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
 		$I->scrollTo('#imdb_imdbwidgetquote_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgettagline_yes', '#update_imdbwidgetSettings' );
@@ -266,19 +280,19 @@ class DataDetailsCest {
 		$I->scrollTo('#imdb_imdbwidgetquote_yes');
 		$I->fillField('#imdb_imdbwidgettaglinenumber', '5');
 		$I->click('#update_imdbwidgetSettings');
+		# eighth row
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgetquote_yes');
+		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgettrailer_yes', '#update_imdbwidgetSettings' );
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgetquote_yes');
+		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
 		$I->fillField('#imdb_imdbwidgettrailernumber', '2');
 		$I->click('#update_imdbwidgetSettings');
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgetquote_yes');
+		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#update_imdbwidgetSettings' );
-		# eighth row
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgettagline_yes');
+		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetyear_yes', '#update_imdbwidgetSettings' );
 
 		// See if data is available
@@ -308,6 +322,8 @@ class DataDetailsCest {
 		$I->see('Also known as');
 		$I->see('English title');
 		$I->see('Composer');
+		$I->see('Runtime');
+		$I->see('minutes');
 		$I->see('Ramin Djawadi');
 		$I->see('Soundtracks');
 		$I->see('performer');
