@@ -115,7 +115,7 @@ class Search {
 	 * Display layout
 	 *
 	 */
-	private function layout(): string {
+	private function layout() {
 
 		echo '<!DOCTYPE html>';
 		echo '<html>';
