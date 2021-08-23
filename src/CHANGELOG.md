@@ -1,10 +1,14 @@
 **Changelog**
 
 v.3.6
-* [feature] Code linted and functions rewrote using PHPCS, PHPMD and PHPStan. Faster, more secure and more stable plugin.
+* [feature] Massive cleaning of the code. Code is linted and functions rewritten using PHPCS, PHPMD and PHPStan. Faster, more secure and more stable plugin.
 * [feature] Uninstall process properly implemented. Lumière doesn't rely on WordPress deactivation function anymore. Properly delete taxonomy. Nothing left in user database.
-* [technical] Removed imdbsearchdirect option in settings class.
+* [technical] Removed imdbsearchdirect, blog_adress option, imdbwidgetonpost, imdbimgdir, imdb_utf8recode, imdbwebsite, imdbwidgetonpage in settings class.
 * [technical] New way to deal with debug logging; class/function origin of the log fully implemented
+* [technical] Taxonomy for director is set on active by default.
+* [technical] Using only checkboxes in admin.
+* [bug] Saving Popup width and height was broken
+* [bug] Data details: Runtime, user comment and source were missing in admin and thus could not be selected.
 * [bug] Updates were not running upon updates (only upon activation)
 * [bug] Cronjobs were not throwing debugging text. Added DOING_CRON as new condition in settings class lumiere_maybe_log() & utils class lumiere_activate_debug()
 * [bug] Various bugs in people taxonomy template, polylang integration was not working as expected. New template version 3.0 released.
@@ -17,6 +21,7 @@ v.3.6
 * [bug] flush_rewrite_rules when adding a new taxonomy page was buggy. Now it works.
 * [bug] internal popups links for composer were not created. Fixed regex in class movie lumiere_convert_txtwithhtml_into_popup_people()
 * [bug] external links in plots were (sometimes) not created. Removed escaping plot in lumiere_movies_plot()
+* [bug] Two iterations were made in the widget class per widget movie. Removed the useless loop.
 
 v.3.5.1
 * [bug] Fatal error upon installation. "Vendor" folder wasn't included. Changed in lumiere-movies.php management of dependencies.

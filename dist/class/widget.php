@@ -88,7 +88,6 @@ class Widget extends \WP_Widget {
 			]
 		);
 
-
 		// Get database options.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 
@@ -111,7 +110,7 @@ class Widget extends \WP_Widget {
 		 * Give priority to post-5.8 WordPress Widget block. If not found, register pre-5.8 widget.
 		 */
 		add_action( 'enqueue_block_editor_assets', [ $this, 'lumiere_register_widget_block' ] );//Register new block.
-		if ( $this->utilsClass->lumiere_block_widget_isactive() == false ) {
+		if ( $this->utilsClass->lumiere_block_widget_isactive() === false ) {
 
 			// Should be hooked to 'widgets_init'.
 			add_action(
@@ -141,7 +140,7 @@ class Widget extends \WP_Widget {
 	 */
 	public function lumiere_widget_maybe_start_debug() {
 
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( 1 == $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
+		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
 
 			// Start debugging mode.
 			$this->utilsClass->lumiere_activate_debug();
@@ -156,7 +155,7 @@ class Widget extends \WP_Widget {
 	 *
 	 * Used to retrieve widget block title and call widget() function
 	 */
-	public function lumiere_widget_shortcodes_parser( $atts = [], $content = null, $tag ) {
+	public function lumiere_widget_shortcodes_parser( ?string $atts, ?string $content = null, ?string $tag ): ?string {
 
 		$this->configClass->loggerclass->debug( '[Lumiere][widget] Shortcode [' . self::WIDGET_SHORTCODE . '][/' . self::WIDGET_SHORTCODE . '] found. Using block-based widget.' );
 
@@ -241,7 +240,7 @@ class Widget extends \WP_Widget {
 		if ( ( is_single() ) || ( is_page() ) ) {
 
 			// Display the movie according to the post's title (option in -> general -> advanced).
-			if ( ( isset( $imdb_admin_values['imdbautopostwidget'] ) ) && ( $imdb_admin_values['imdbautopostwidget'] == true ) ) {
+			if ( ( isset( $imdb_admin_values['imdbautopostwidget'] ) ) && ( $imdb_admin_values['imdbautopostwidget'] === '1' ) ) {
 				$imdbIdOrTitle[]['byname'] = sanitize_text_field( get_the_title() );
 
 				$configClass->loggerclass->debug( '[Lumiere][widget] Auto widget activated, using the post title for querying' );
@@ -253,11 +252,11 @@ class Widget extends \WP_Widget {
 			}
 
 			// Log what type of widget is utilised.
-			if ( $this->utilsClass->lumiere_block_widget_isactive() == true ) {
+			if ( $this->utilsClass->lumiere_block_widget_isactive() === true ) {
 				// Post 5.8 WordPress.
 				$configClass->loggerclass->debug( '[Lumiere][widget] Block-based widget found' );
 			}
-			if ( is_active_widget( '', '', self::WIDGET_NAME ) == true ) {
+			if ( is_active_widget( '', '', self::WIDGET_NAME ) === true ) {
 				// Pre 5.8 WordPress.
 				$configClass->loggerclass->debug( '[Lumiere][widget] Pre-5.8 WordPress widget found' );
 			}
@@ -284,29 +283,21 @@ class Widget extends \WP_Widget {
 
 				}
 
-				// Aggreate all the fields into global var $imdallmeta and send it to class movie.
-				$count_movies = count( $imdbIdOrTitle );
-				for ( $i = 0; $i < $count_movies; $i++ ) {
+				// If there is a result in var $lumiere_result of class, display the widget.
+				$movie = $this->movieClass->lumiere_show( $imdbIdOrTitle );
+				if ( ( isset( $movie ) ) && ( ! empty( $movie ) ) ) {
 
-					// If there is a result in var $lumiere_result of class, display the widget.
-					$movie = $this->movieClass->lumiere_show( $imdbIdOrTitle );
-					if ( ( isset( $movie ) ) && ( ! empty( $movie ) ) ) {
+					$output .= $args['before_widget'];
 
-						$output .= $args['before_widget'];
+					$output .= $title_box; // title of widget.
 
-						$output .= $title_box; // title of widget.
+					$output .= $movie;
 
-						$output .= $movie;
+					$output .= $args['after_widget'];
 
-						$output .= $args['after_widget'];
+				} else {
 
-					} else {
-
-						$query = implode( '-', $imdbIdOrTitle[ $i ] );
-
-						$configClass->loggerclass->debug( "[Lumiere][widget] Not showing $query" );
-
-					}
+					$configClass->loggerclass->debug( "[Lumiere][widget] Not showing $movie" );
 
 				}
 

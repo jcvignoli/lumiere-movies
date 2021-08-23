@@ -478,7 +478,7 @@ class Core {
 			|| ( 'post.php' === $hook )
 			|| ( 'post-new.php' === $hook )
 			|| ( $this->utilsClass->lumiere_array_contains_term( $this->configClass->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ) ) // All sort of Lumière pages.
-			|| ( $this->utilsClass->lumiere_array_contains_term( 'admin.php?page=lumiere_options', $_SERVER['REQUEST_URI'] ) ) // Lumière admin pages.
+			|| ( $this->utilsClass->str_contains( $_SERVER['REQUEST_URI'], 'admin.php?page=lumiere_options' ) )
 		) {
 
 			// Load main css.
@@ -682,6 +682,7 @@ class Core {
 
 		// Change the metas only for popups.
 		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringsearch ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringperson ) ) ) {
+
 			// ADD FAVICONS.
 			echo "\t\t" . '<!-- Lumiere Movies -->';
 			echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . plugin_dir_url( __DIR__ ) . 'pics/favicon/apple-touch-icon.png" />';
@@ -715,13 +716,15 @@ class Core {
 			}
 
 			echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
-			if ( isset( $film_sanitized ) ) {
+			if ( ( isset( $film_sanitized ) ) && ( ! empty( $film_sanitized ) ) ) {
 				echo "\n" . '<meta property="article:tag" content="' . $film_sanitized . '" />';
 			}
 			echo "\n\t\t" . '<!-- Lumiere Movies -->' . "\n";
 
-			remove_action( 'wp_head', 'rel_canonical' );// prevents WordPress from inserting a canonical tag.
-			remove_action( 'wp_head', 'wp_site_icon', 99 );// prevents WordPress from inserting favicons.
+			// Prevent WordPress from inserting a canonical tag.
+			remove_action( 'wp_head', 'rel_canonical' );
+			// Prevent WordPress from inserting favicons.
+			remove_action( 'wp_head', 'wp_site_icon', 99 );
 
 		}
 
@@ -745,12 +748,12 @@ class Core {
 				if ( $plugin == 'lumiere-movies/lumiere-movies.php' ) {
 
 					// Call the class to update options
-					require_once __DIR__ . '/Update-options.php';
+					require_once __DIR__ . '/update-options.php';
 					$start_update_options = new UpdateOptions();
 
 					// Homebrew debug.
 					/* $option_array_search = get_option($this->configClass->imdbAdminOptionsName);
-					$option_array_search['imdbHowManyUpdates'] = '5'; # current number of updates
+					$option_array_search['imdbHowManyUpdates'] = 5; # current number of updates
 					update_option($this->configClass->imdbAdminOptionsName, $option_array_search);
 					*/
 
@@ -768,6 +771,14 @@ class Core {
 
 		/* remove activation issue
 		ob_start(); */
+
+		// For debugging purpose
+		// Update imdbHowManyUpdates option
+		/*
+		$option_array_search = get_option($this->configClass->imdbAdminOptionsName);
+		$option_array_search['imdbHowManyUpdates'] = 6; # current number of updates
+		update_option($this->configClass->imdbAdminOptionsName, $option_array_search);
+		*/
 
 		// Start the logger.
 		$this->configClass->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
@@ -913,16 +924,17 @@ class Core {
 
 		// For debugging purpose
 		// Update imdbHowManyUpdates option
-		/*      $option_array_search = get_option($this->configClass->imdbAdminOptionsName);
-		$option_array_search['imdbHowManyUpdates'] = '8'; # current number of updates
+		/* $option_array_search = get_option($this->configClass->imdbAdminOptionsName);
+		$option_array_search['imdbHowManyUpdates'] = 8; # current number of updates
 		update_option($this->configClass->imdbAdminOptionsName, $option_array_search);
 		*/
+
 		$this->configClass->loggerclass->debug( '[Lumiere][coreClass] Cron exec once run.' );
 
 		// Update options
 		// this udpate is also run in upgrader_process_complete, but the process is not reliable
 		// Using the same updating process in a WP Cron
-		require_once __DIR__ . '/Update-options.php';
+		require_once __DIR__ . '/update-options.php';
 		$start_update_options = new UpdateOptions();
 
 	}

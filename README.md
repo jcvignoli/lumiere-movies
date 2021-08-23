@@ -5,7 +5,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 4.0 \
 **Tested up to:** 5.8 \
-**Stable tag:** 3.5.2 \
+**Stable tag:** 3.6 \
 **Requires PHP:** 7.1 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -138,9 +138,15 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 
+### 3.6
+
+* Code linted and functions rewrote using PHPCS, PHPMD and PHPStan. Faster, more secure and more stable plugin.
+* Uninstall process properly implemented. Lumière doesn't rely on WordPress deactivation function anymore. Properly delete taxonomy. Nothing left in user database.
+* Bug hunting, as usual.
+
 ### 3.5
 
-* Shortcodes [imdblt] and [imdbltid] have become obsolete, using span html tags instead. It ensures that upon Lumière uninstall, no garbage is left in your articles. Install and uninstall will be smoothly processed! Compatibility with obsolete shortcodes ensured.
+* Shortcodes [ imdblt ] and [ imdbltid ] have become obsolete, using span html tags instead. It ensures that upon Lumière uninstall, no garbage is left in your articles. Install and uninstall will be smoothly processed! Compatibility with obsolete shortcodes ensured.
 * link to popups are now dealt by a < span data-lum_link_maker "popup"> instead of < span class "lumiere_link_maker"> for plugin code consistency. No compatibility with the latter ensured, since it was recently introduced.
 * Support for the plugin in Help admin section has been improved and updated
 

@@ -1,4 +1,8 @@
-<?php
+<?php declare( strict_types = 1 );
+/**
+ * Bootstrap of selected files
+ * @phpcs:disable PEAR.Files.IncludingFile
+ */
 
 #	Vendor Libraries with autoload (notably IMDbPHP)
 include_once __DIR__ . '/vendor/autoload.php';

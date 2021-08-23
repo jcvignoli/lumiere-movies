@@ -249,6 +249,8 @@ class Movie {
 	 * Find in content the span to build the movies
 	 * Looks for <span data-lum_movie_maker="[1]"></span> where [1] is movie_title or movie_id
 	 *
+	 * @param string $content HTML span tags + text inside
+	 * @return string
 	 */
 	public function lumiere_parse_spans( string $content ): string {
 
@@ -336,7 +338,7 @@ class Movie {
 
 		// link construction
 
-		if ( $imdb_admin_values['imdbpopup_highslide'] == 1 ) {     // highslide popup
+		if ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) {     // highslide popup
 
 			$link_parsed = $this->lumiere_popup_highslide_film_link( $link_parsed );
 
@@ -367,7 +369,7 @@ class Movie {
 
 		// link construction
 
-		if ( $imdb_admin_values['imdbpopup_highslide'] == 1 ) {     // highslide popup
+		if ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) {     // highslide popup
 
 			$link_parsed = $this->lumiere_popup_highslide_film_link( $link_parsed );
 
@@ -409,11 +411,11 @@ class Movie {
 	private function lumiere_popup_highslide_film_link ( $link_parsed, $popuplarg = '', $popuplong = '' ) {
 
 		if ( ! $popuplarg ) {
-			$popuplarg = $this->imdb_admin_values['popupLarg'];
+			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
 		}
 
 		if ( ! $popuplong ) {
-			$popuplong = $this->imdb_admin_values['popupLong'];
+			$popuplong = $this->imdb_admin_values['imdbpopuplong'];
 		}
 
 		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . $this->utils_class->lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
@@ -433,11 +435,11 @@ class Movie {
 	private function lumiere_popup_classical_film_link ( $link_parsed, $popuplarg = '', $popuplong = '' ) {
 
 		if ( ! $popuplarg ) {
-			$popuplarg = $this->imdb_admin_values['popupLarg'];
+			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
 		}
 
 		if ( ! $popuplong ) {
-			$popuplong = $this->imdb_admin_values['popupLong'];
+			$popuplong = $this->imdb_admin_values['imdbpopuplong'];
 		}
 
 		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . $this->utils_class->lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
@@ -448,8 +450,11 @@ class Movie {
 	/**
 	 * Function external call (ie, inside a post)
 	 * Utilized to build from shortcodes
+	 * @obsolete, not using shortcodes anymore
 	 */
 	private function lumiere_external_call ( $moviename = null, $filmid = null, $external = null ) {
+
+		$imdbIdOrTitle = [];
 
 		// Call function from external (using parameter "external" )
 		// Especially made to be integrated (ie, inside a php code)
@@ -557,7 +562,7 @@ class Movie {
 			}
 
 			if ( ( $lumiere_magicnumber === $imdb_widget_values['imdbwidgetorder']['comment'] )
- 			&& ( $imdb_widget_values['imdbwidgetcomment'] === '1' ) ) {
+			&& ( $imdb_widget_values['imdbwidgetcomment'] === '1' ) ) {
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->lumiere_movies_comment( $movie ), 'comment' );
 			}
 
@@ -740,7 +745,7 @@ class Movie {
 		## The width value is taken from plugin settings, and added if the "thumbnail" option is unactivated
 
 			// check if big pictures are selected (extract "_big.jpg" from picture's names, if exists), AND if highslide popup is activated
-		if ( ( substr( $photo_url_sanitized, -7, -4 ) == 'big' ) && ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) ) {
+		if ( ( substr( $photo_url_sanitized, -7, -4 ) === 'big' ) && ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) ) {
 
 			// value to store if previous checking is valid, call in lumiere_scripts.js
 			$highslidephotook = 'ok';
@@ -1104,7 +1109,7 @@ class Movie {
 
 		$output = '';
 		$comment = [];
-		$comment = $movie->comment(); 
+		$comment = $movie->comment();
 		// $comment_split = $movie->comment(); # this value isn't sent into an array, for use in "if" right below
 		//$nbcomments = empty($imdb_widget_values['imdbwidgetcommentnumber']) ? $nbcomments =  "1" : $nbcomments =  $imdb_widget_values['imdbwidgetcommentnumber'] ;
 		//$nbtotalcomments = count($comments) ;
@@ -1115,7 +1120,7 @@ class Movie {
 			$output .= esc_html__( 'User comment', 'lumiere-movies' );
 			$output .= ':</span><br />';
 
-/* Deactivated, seems that method has changed
+			/* Deactivated, seems that method has changed
 			$output .= '<';
 			$output .= '<i>' . sanitize_text_field( $comment[0]['title'] ) . '</i> by ';
 
@@ -1132,7 +1137,7 @@ class Movie {
 
 			$output .= '>&nbsp;';
 			$output .= sanitize_text_field( $comment[0]['comment'] );
-*/
+			*/
 
 			$output .= sanitize_text_field( $comment );
 		}
@@ -1416,7 +1421,7 @@ class Movie {
 
 				for ( $i = 0; $i < $nbtotalcomposer; $i++ ) {
 					if ( $imdb_admin_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected
-						if ( $imdb_admin_values['imdbpopup_highslide'] == 1 ) { // highslide popup
+						if ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) { // highslide popup
 
 							$output .= "\n\t\t\t" . '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . sanitize_text_field( $composer[ $i ]['imdb'] ) . '" title="' . esc_html__( 'Link to local IMDb', 'lumiere-movies' ) . '">' . sanitize_text_field( $composer[ $i ]['name'] ) . '</a>';
 
@@ -1642,7 +1647,7 @@ class Movie {
 				for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 
 					if ( $imdb_admin_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected
-						if ( $imdb_admin_values['imdbpopup_highslide'] == 1 ) { // highslide popup
+						if ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) { // highslide popup
 
 							$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $director[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $director[ $i ]['name'] ) . '</a>';
 
@@ -1714,7 +1719,7 @@ class Movie {
 					if ( $imdb_admin_values['imdblinkingkill'] == false ) {
 
 						// highslide popup
-						if ( $imdb_admin_values['imdbpopup_highslide'] == 1 ) {
+						if ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 							$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $creator[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $creator[ $i ]['name'] ) . '</a>';
 
 							// classic popup
@@ -1791,7 +1796,7 @@ class Movie {
 					if ( $imdb_admin_values['imdblinkingkill'] == false ) {
 
 						// highslide popup
-						if ( $imdb_admin_values['imdbpopup_highslide'] == 1 ) {
+						if ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
 							$output .= "\n\t\t\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $producer[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $producer[ $i ]['name'] ) . '</a>';
 
@@ -1870,7 +1875,7 @@ class Movie {
 					if ( $imdb_admin_values['imdblinkingkill'] == false ) {
 
 						// highslide popup
-						if ( $imdb_admin_values['imdbpopup_highslide'] == 1 ) {
+						if ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
 							$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $writer[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . sanitize_text_field( $writer[ $i ]['name'] ) . '</a>';
 
@@ -1950,7 +1955,7 @@ class Movie {
 					if ( $imdb_admin_values['imdblinkingkill'] == false ) {
 
 						// highslide popup
-						if ( $imdb_admin_values['imdbpopup_highslide'] == 1 ) {
+						if ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
 							$output .= "\n\t\t\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $cast[ $i ]['name'] ) . '</a>';
 
@@ -2034,7 +2039,7 @@ class Movie {
 					if ( $imdb_admin_values['imdblinkingkill'] == false ) {
 
 						// highslide popup
-						if ( $imdb_admin_values['imdbpopup_highslide'] == 1 ) {
+						if ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 							$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $cast[ $i ]['name'] ) . '</a>';
 
 							// classic popup
@@ -2079,7 +2084,7 @@ class Movie {
 		$nbtotalplots = intval( count( $plot ) );
 
 		// tested if the array contains data; if not, doesn't go further
-		if ( ! $this->utils_class->lumiere_is_multiArrayEmpty( $plot ) ) {
+		if ( ! $this->utils_class->lumiere_is_multi_array_empty( $plot ) ) {
 
 			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
 			$output .= sprintf( esc_attr( _n( 'Plot', 'Plots', $nbtotalplots, 'lumiere-movies' ) ), number_format_i18n( $nbtotalplots ) );
@@ -2120,7 +2125,7 @@ class Movie {
 
 		$output = '';
 		$midPremierResultat_sanitized = filter_var( $midPremierResultat, FILTER_SANITIZE_NUMBER_INT );
-print_r('border');
+
 		// if "Remove all links" option is not selected
 		if ( ( $imdb_admin_values['imdblinkingkill'] == false ) && ( $imdb_widget_values['imdbwidgetsource'] == true ) ) {
 
@@ -2264,7 +2269,7 @@ print_r('border');
 		$imdb_admin_values = $this->imdb_admin_values;
 
 			// highslide popup.
-		if ( $imdb_admin_values['imdbpopup_highslide'] == 1 ) {
+		if ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 			$result = '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
 			// classic popup.
 		} else {
@@ -2282,11 +2287,11 @@ print_r('border');
 	 */
 	private function lumiere_filter_single_movies( string $midPremierResultat, int &$lumiere_count_me_siffer ): bool {
 
-		global $lumiere_count_me_siffer, $counter;
+		global $lumiere_count_me_siffer, $lumiere_counter;
 
 		$lumiere_count_me_siffer++;
-		$counter[ $lumiere_count_me_siffer ] = $midPremierResultat;
-		$ici = array_count_values( $counter );
+		$lumiere_counter[ $lumiere_count_me_siffer ] = $midPremierResultat;
+		$ici = array_count_values( $lumiere_counter );
 
 		if ( $ici[ $midPremierResultat ] < 2 ) {
 			return false;

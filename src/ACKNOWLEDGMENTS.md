@@ -23,3 +23,8 @@
 **Highslide JS Thumbnail viewer** by [Highslide](https://highslide.com/ "Highslide website")
 **Monolog logger** by [Seldaek](https://github.com/Seldaek/monolog/ "Monolog GIT")
 
+# Development
+**PHP CodeSniffer** by [Squizlab](https://github.com/squizlabs/PHP_CodeSniffer "PHPCS")
+**PHP Mess detector** by [PHPMD](https://phpmd.org/ "PHPMD")
+**PHPStan** by [PHPStan](https://github.com/phpstan/phpstan "PHPStan")
+**Codeception** by [Codeception team](https://codeception.com/ "Codeception")

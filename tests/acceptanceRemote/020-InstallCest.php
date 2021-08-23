@@ -92,7 +92,7 @@ class InstallCest {
 		$I->scrollTo('#deactivate-lumiere-movies');
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
 		$I->wait(2);
-		$I->seeInPopup('You have selected to not keep your settings upon deactivation.');
+		$I->seeInPopup('You have selected to not keep your settings upon uninstall');
 		$I->acceptPopup();
 		$I->wait(2);
 

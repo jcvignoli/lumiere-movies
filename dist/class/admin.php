@@ -25,31 +25,30 @@ use \Lumiere\Admin\Help;
 
 class Admin {
 
-	/* Options vars
-	 *
+	/**
+	 * Options vars
 	 */
 	protected $imdb_admin_values;
 	protected $imdb_widget_values;
 	protected $imdb_cache_values;
 
-	/* \Lumiere\Settings class
-	 *
+	/**
+	 * \Lumiere\Settings class
 	 */
 	protected $configClass;
 
-	/* \Lumière\Utils class
-	 *
-	 *
+	/**
+	 * \Lumière\Utils class
 	 */
 	protected $utilsClass;
 
-	/* \Monolog\Logger class
-	 *
-	 *
+	/**
+	 * \Monolog\Logger class
 	 */
 	protected $logger;
 
-	/* Store root directories of the plugin
+	/**
+	 * Store root directories of the plugin
 	 * Path: absolute path
 	 * URL: start with https
 	 *
@@ -57,7 +56,8 @@ class Admin {
 	protected $rootPath = '';
 	protected $rootURL = '';
 
-	/* HTML allowed for use of wp_kses_post()
+	/**
+	 * HTML allowed for use of wp_kses_post()
 	 * Usefull for access from outside the class
 	 */
 	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
@@ -72,7 +72,8 @@ class Admin {
 		],
 	];
 
-	/* Constructor
+	/**
+	 * Constructor
 	 *
 	 */
 	public function __construct() {
@@ -95,26 +96,45 @@ class Admin {
 		$this->rootURL = plugin_dir_url( __DIR__ );
 		$this->rootPath = plugin_dir_path( __DIR__ );
 
+		// Start the logger class
+		add_action( 'admin_init', [ $this, 'lumiere_maybe_start_debug' ], 0 );
+
 		// Store the logger class
 		$this->logger = $this->configClass->loggerclass;
 
 	}
 
-	/*  Loads all files included in class/Admin
+	/**
+	 *  Load all files included in class/Admin
 	 *  Loaded in spl_autoload_register()
 	 *
 	 */
-	public static function admin_loader( $class_name ) {
+	public function admin_loader( $class_name ) {
 
 		// Remove 'Lumiere' and transforms '\' into '/'
 		$class_name = str_replace( 'Lumiere/', '', str_replace( '\\', '/', ltrim( $class_name, '\\' ) ) );
 
 		// Path for inclusion
-		$path_to_file = plugin_dir_path( __DIR__ ) . 'class/' . $class_name . '.php';
+		$path_to_file = plugin_dir_path( __DIR__ ) . 'class/' . strtolower( $class_name ) . '.php';
 
 		if ( file_exists( $path_to_file ) ) {
 
 			require $path_to_file;
+
+		}
+
+	}
+
+	/**
+	 *  Wrapps the start of the logger
+	 *  Allows to start later in the process
+	 */
+	private function lumiere_maybe_start_debug(): void {
+
+		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
+
+			// Start debugging mode
+			$this->utils_class->lumiere_activate_debug();
 
 		}
 
@@ -136,8 +156,8 @@ class Admin {
 		}
 	}
 
-	/* Add left admin menu
-	 *
+	/**
+	 * Add left admin menu
 	 *
 	 */
 	public function lumiere_add_left_menu() {
