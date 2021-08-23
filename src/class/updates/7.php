@@ -1,211 +1,211 @@
-<?php
+<?php declare( strict_types = 1 );
+/************************************************** Lumière version 3.5, update 7
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
+ */
+$logger->info( '[Lumiere][updater] Starting update 7' );
 
-/************************************************** Lumière version 3.5, update 7 */
-
-$this->configClass->loggerclass->info("[Lumiere][updater] Starting update 7");
-
-$nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 ); 
-$this->lumiere_update_options($configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
+$nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 );
+$this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
 
 // Replace 'imdbwidgetcomments' by 'imdbwidgetcomment'
 // Singularizing items
-if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName, 'imdbwidgetcomments' ) ) {
+if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetcomments' ) ) {
 
-	$text = "Lumière option imdbwidgetcomments successfully removed.";
+	$text = 'Lumière option imdbwidgetcomments successfully removed.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbwidgetcomments could not be removed.";
+	$text = 'Lumière option imdbwidgetcomments could not be removed.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
-if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbwidgetcomment', false ) ) {
+if ( true === $this->lumiere_add_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetcomment', false ) ) {
 
-	$text = "Lumière option imdbwidgetcomment successfully added.";
+	$text = 'Lumière option imdbwidgetcomment successfully added.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbwidgetcomment could not be added.";
+	$text = 'Lumière option imdbwidgetcomment could not be added.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
 
 // Replace 'imdbwidgetcolors' by 'imdbwidgetcolor'
 // Singularizing items
-if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName, 'imdbwidgetcolors' ) ) {
+if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetcolors' ) ) {
 
-	$text = "Lumière option imdbwidgetcolors successfully removed.";
+	$text = 'Lumière option imdbwidgetcolors successfully removed.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbwidgetcolors could not be removed.";
+	$text = 'Lumière option imdbwidgetcolors could not be removed.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
-if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbwidgetcolor', false ) ) {
+if ( true === $this->lumiere_add_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetcolor', false ) ) {
 
-	$text = "Lumière option imdbwidgetcolor successfully added.";
+	$text = 'Lumière option imdbwidgetcolor successfully added.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbwidgetcolor could not be added.";
+	$text = 'Lumière option imdbwidgetcolor could not be added.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
 
 // Replace 'imdbwidgettaglines' by 'imdbwidgettagline'
 // Singularizing items
-if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName, 'imdbwidgettaglines' ) ) {
+if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName, 'imdbwidgettaglines' ) ) {
 
-	$text = "Lumière option imdbwidgettaglines successfully removed.";
+	$text = 'Lumière option imdbwidgettaglines successfully removed.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbwidgettaglines could not be removed.";
+	$text = 'Lumière option imdbwidgettaglines could not be removed.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
-if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbwidgettagline', false ) ) {
+if ( true === $this->lumiere_add_options( $configClass->imdbWidgetOptionsName, 'imdbwidgettagline', false ) ) {
 
-	$text = "Lumière option imdbwidgettagline successfully added.";
+	$text = 'Lumière option imdbwidgettagline successfully added.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbwidgettagline could not be added.";
+	$text = 'Lumière option imdbwidgettagline could not be added.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
 
 // Replace 'imdbwidgetquotes' by 'imdbwidgetquote'
 // Singularizing items
-if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName, 'imdbwidgetquotes' ) ) {
+if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetquotes' ) ) {
 
-	$text = "Lumière option imdbwidgetquotes successfully removed.";
+	$text = 'Lumière option imdbwidgetquotes successfully removed.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbwidgetquotes could not be removed.";
+	$text = 'Lumière option imdbwidgetquotes could not be removed.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
-if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbwidgetquote', false ) ) {
+if ( true === $this->lumiere_add_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetquote', false ) ) {
 
-	$text = "Lumière option imdbwidgetquote successfully added.";
+	$text = 'Lumière option imdbwidgetquote successfully added.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbwidgetquote could not be added.";
+	$text = 'Lumière option imdbwidgetquote could not be added.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
 
 // Replace 'imdbwidgetgoofs' by 'imdbwidgetgoof'
 // Singularizing items
-if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName, 'imdbwidgetgoofs' ) ) {
+if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetgoofs' ) ) {
 
-	$text = "Lumière option imdbwidgetgoofs successfully removed.";
+	$text = 'Lumière option imdbwidgetgoofs successfully removed.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbwidgetgoofs could not be removed.";
+	$text = 'Lumière option imdbwidgetgoofs could not be removed.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
-if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbwidgetgoof', false ) ) {
+if ( true === $this->lumiere_add_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetgoof', false ) ) {
 
-	$text = "Lumière option imdbwidgetgoof successfully added.";
+	$text = 'Lumière option imdbwidgetgoof successfully added.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbwidgetgoof could not be added.";
+	$text = 'Lumière option imdbwidgetgoof could not be added.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
 
 // Replace 'imdbwidgetkeywords' by 'imdbwidgetkeyword'
 // Singularizing items
-if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName, 'imdbwidgetkeywords' ) ) {
+if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetkeywords' ) ) {
 
-	$text = "Lumière option imdbwidgetkeywords successfully removed.";
+	$text = 'Lumière option imdbwidgetkeywords successfully removed.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbwidgetkeywords could not be removed.";
+	$text = 'Lumière option imdbwidgetkeywords could not be removed.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
-if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbwidgetkeyword', false ) ) {
+if ( true === $this->lumiere_add_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetkeyword', false ) ) {
 
-	$text = "Lumière option imdbwidgetkeyword successfully added.";
+	$text = 'Lumière option imdbwidgetkeyword successfully added.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbwidgetkeyword could not be added.";
+	$text = 'Lumière option imdbwidgetkeyword could not be added.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
 // Replace 'imdbtaxonomykeywords' by 'imdbtaxonomykeyword'
 // Singularizing items
-if ( TRUE === $this->lumiere_remove_options($configClass->imdbWidgetOptionsName, 'imdbtaxonomykeywords' ) ) {
+if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName, 'imdbtaxonomykeywords' ) ) {
 
-	$text = "Lumière option imdbtaxonomykeywords successfully removed.";
+	$text = 'Lumière option imdbtaxonomykeywords successfully removed.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbtaxonomykeywords could not be removed.";
+	$text = 'Lumière option imdbtaxonomykeywords could not be removed.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
-if ( TRUE === $this->lumiere_add_options($configClass->imdbWidgetOptionsName, 'imdbtaxonomykeyword', false ) ) {
+if ( true === $this->lumiere_add_options( $configClass->imdbWidgetOptionsName, 'imdbtaxonomykeyword', false ) ) {
 
-	$text = "Lumière option imdbtaxonomykeyword successfully added.";
+	$text = 'Lumière option imdbtaxonomykeyword successfully added.';
 
-	$this->configClass->loggerclass->info("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
 
 } else {
 
-	$text = "Lumière option imdbtaxonomykeyword could not be added.";
+	$text = 'Lumière option imdbtaxonomykeyword could not be added.';
 
-	$this->configClass->loggerclass->error("[Lumiere][updater] $text");
+	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
 
 }
 

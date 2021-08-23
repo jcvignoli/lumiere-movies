@@ -58,6 +58,7 @@ class Settings extends Config {
 	const LUMIERE_WORDPRESS = 'https://wordpress.org/extend/plugins/lumiere-movies/';
 	const LUMIERE_WORDPRESS_IMAGES = 'https://ps.w.org/lumiere-movies/assets';
 	const LUMIERE_GIT = 'https://github.com/jcvignoli/lumiere-movies';
+	const LUMIERE_ACTIVE = 'LUMIERE_ACTIVE';
 
 	/* URL Strings for popups, built in lumiere_define_constants()
 	*/
@@ -266,14 +267,14 @@ class Settings extends Config {
 				'imdb_path' => $this->imdb_admin_values['imdbplugindirectory'],
 				'wordpress_path' => site_url(),
 				'wordpress_admin_path' => admin_url(),
-				'gutenberg_search_url_string' => \Lumiere\Settings::GUTENBERG_SEARCH_URL_STRING,
-				'gutenberg_search_url' => \Lumiere\Settings::GUTENBERG_SEARCH_URL,
+				'gutenberg_search_url_string' => self::GUTENBERG_SEARCH_URL_STRING,
+				'gutenberg_search_url' => self::GUTENBERG_SEARCH_URL,
 			]
 		);
 		$this->lumiere_scripts_vars = 'const lumiere_vars = ' . wp_json_encode(
 			[
-				'popupLarg' => $this->imdb_admin_values['popupLarg'],
-				'popupLong' => $this->imdb_admin_values['popupLong'],
+				'popupLarg' => $this->imdb_admin_values['imdbpopuplarg'],
+				'popupLong' => $this->imdb_admin_values['imdbpopuplong'],
 				'imdb_path' => $this->imdb_admin_values['imdbplugindirectory'],
 				'urlpopup_film' => $this->lumiere_urlpopupsfilms,
 				'urlpopup_person' => $this->lumiere_urlpopupsperson,
@@ -287,7 +288,7 @@ class Settings extends Config {
 			]
 		);
 
-		// Build list of people and items
+		// Build list of taxonomy for people and items
 		$this->array_people = [
 			__( 'actor', 'lumiere-movies' ) => __( 'actor', 'lumiere-movies' ),
 			__( 'composer', 'lumiere-movies' ) => __( 'composer', 'lumiere-movies' ),
@@ -322,12 +323,12 @@ class Settings extends Config {
 			// Find the number of update files to get the right
 			// number of updates when installing Lumière
 			$files = new FilesystemIterator( plugin_dir_path( __DIR__ ) . 'class/updates/', \FilesystemIterator::SKIP_DOTS );
-			$this->current_number_updates = iterator_count( $files ) + 1;
+			$this->current_number_updates = intval( iterator_count( $files ) + 1 );
 
 			$option_array = $this->imdbAdminOptionsName;
 			$option_key = 'imdbHowManyUpdates';
 			$option_array_search = get_option( $option_array );
-			$option_array_search[ $option_key ] = $this->current_number_updates;
+			$option_array_search[ $option_key ] = intval( $this->current_number_updates );
 
 			// On successful update, exit
 			if ( update_option( $option_array, $option_array_search ) ) {
@@ -349,26 +350,22 @@ class Settings extends Config {
 		$imdbAdminOptions = [
 
 			#--------------------------------------------------=[ Basic ]=--
-			'blog_adress' => get_bloginfo( 'url' ),    /* @TODO useless, remove */
 			'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
 			'imdbpluginpath' => plugin_dir_path( __DIR__ ),
 			'imdburlpopups' => '/imdblt/',
-			'imdbkeepsettings' => true,
+			'imdbkeepsettings' => '1',
 			'imdburlstringtaxo' => self::URL_STRING_TAXO,
-			'imdbwebsite' => 'www.imdb.com',          /* @TODO useless, remove */
 			'imdbcoversize' => false,
 			'imdbcoversizewidth' => '100',
 			#--------------------------------------------------=[ Technical ]=--
 
-			'imdb_utf8recode' => true,                /* @TODO useless, remove */
 			'imdbmaxresults' => 10,
 			'imdbpopuptheme' => 'white',
-			'popupLarg' => '540',
-			'popupLong' => '350',
+			'imdbpopuplarg' => '540',
+			'imdbpopuplong' => '350',
 			'imdbintotheposttheme' => 'grey',
 			'imdblinkingkill' => false,
 			'imdbautopostwidget' => false,
-			'imdbimgdir' => 'pics/',                  /* @TODO useless, remove */
 			'imdblanguage' => 'en',
 			/*'imdbsourceout' => false,*/
 			'imdbdebug' => false,                     /* Debug */
@@ -376,16 +373,16 @@ class Settings extends Config {
 			'imdbdebuglogpath' => self::DEBUG_LOG_PATH,
 			'imdbdebuglevel' => 'DEBUG',              /* Debug levels: emergency, alert, critical,
 									error, warning, notice, info, debug */
-			'imdbdebugscreen' => true,                /* Show debug on screen */
+			'imdbdebugscreen' => '1',                /* Show debug on screen */
 			'imdbwordpress_bigmenu' => false,         /* Left menu */
-			'imdbwordpress_tooladminmenu' => true,    /* Top menu */
-			'imdbpopup_highslide' => true,
-			'imdbtaxonomy' => true,
+			'imdbwordpress_tooladminmenu' => '1',    /* Top menu */
+			'imdbpopup_highslide' => '1',
+			'imdbtaxonomy' => '1',
 			'imdbHowManyUpdates' => $this->current_number_updates, # for use in class UpdateOptions
 			'imdbseriemovies' => 'movies+series',     /* options: movies, series, movies+series, videogames */
 
 		];
-		$imdbAdminOptions['imdbplugindirectory'] = $imdbAdminOptions['blog_adress']
+		$imdbAdminOptions['imdbplugindirectory'] = get_site_url()
 									. $imdbAdminOptions['imdbplugindirectory_partial'];
 
 		$imdbOptions = get_option( $this->imdbAdminOptionsName );
@@ -397,7 +394,7 @@ class Settings extends Config {
 			}
 
 			// Agregate var to construct 'imdbplugindirectory'
-			$imdbAdminOptions['imdbplugindirectory'] = $imdbAdminOptions['blog_adress']
+			$imdbAdminOptions['imdbplugindirectory'] = get_site_url()
 										. $imdbAdminOptions['imdbplugindirectory_partial'];
 		}
 
@@ -416,13 +413,12 @@ class Settings extends Config {
 		$imdbCacheOptions = [
 
 			'imdbcachedir_partial' => 'wp-content/cache/lumiere/',
-			'imdbstorecache' => true,        /* not available in the admin interface */
-			'imdbusecache' => true,
+			'imdbstorecache' => true,          /* not available in the admin interface */
+			'imdbusecache' => '1',
 			'imdbconverttozip' => true,        /* not available in the admin interface */
-			'imdbusezip' => true,        /* not available in the admin interface */
-			'imdbcacheexpire' => '2592000',   /* one month */
-			'imdbcachedetails' => true,
-			'imdbcachedetailsshort' => false,
+			'imdbusezip' => true,              /* not available in the admin interface */
+			'imdbcacheexpire' => '2592000',    /* one month */
+			'imdbcachedetailsshort' => '0',
 
 		];
 
@@ -448,7 +444,7 @@ class Settings extends Config {
 		if ( ! empty( $imdbOptions ) ) {
 
 			// Agregate vars to construct 'imdbphotodir'
-			$imdbCacheOptions['imdbphotodir'] = $imdbOptions['blog_adress']
+			$imdbCacheOptions['imdbphotodir'] = get_site_url()
 									. '/'
 									. $imdbCacheOptions['imdbcachedir_partial']
 									. 'images/';
@@ -484,9 +480,9 @@ class Settings extends Config {
 			'imdbwidgetproducernumber' => false,
 			'imdbwidgetkeyword' => '0',
 			'imdbwidgetprodcompany' => '0',
-			'imdbwidgetplot' => '0',
-			'imdbwidgetplotnumber' => false,
-			'imdbwidgetgoof' => false,
+			'imdbwidgetplot' => '1',
+			'imdbwidgetplotnumber' => '2',
+			'imdbwidgetgoof' => '0',
 			'imdbwidgetgoofnumber' => false,
 			'imdbwidgetcomment' => '0',
 			'imdbwidgetquote' => '0',
@@ -501,12 +497,9 @@ class Settings extends Config {
 			'imdbwidgetsoundtracknumber' => false,
 			'imdbwidgetofficialsites' => '0',
 			'imdbwidgetsource' => '0',
-			'imdbwidgetonpost' => '1',                       /* @TODO check if useless and remove */
-			'imdbwidgetonpage' => '1',                       /* @TODO check if useless and remove */
 			'imdbwidgetyear' => '0',
 			'imdbwidgettrailer' => '0',
 			'imdbwidgettrailernumber' => false,
-
 			'imdbwidgetorder' => [
 				'title' => '1',
 				'pic' => '2',
@@ -535,18 +528,17 @@ class Settings extends Config {
 				'officialsites' => '25',
 				'source' => '26',
 			],
-
-			'imdbtaxonomycolor' => 0,
-			'imdbtaxonomycomposer' => 0,
-			'imdbtaxonomycountry' => 0,
-			'imdbtaxonomycreator' => 0,
-			'imdbtaxonomydirector' => 0,
-			'imdbtaxonomygenre' => 1,
-			'imdbtaxonomykeyword' => 0,
-			'imdbtaxonomylanguage' => 0,
-			'imdbtaxonomyproducer' => 0,
-			'imdbtaxonomyactor' => 0,
-			'imdbtaxonomywriter' => 0,
+			'imdbtaxonomycolor' => '0',
+			'imdbtaxonomycomposer' => '0',
+			'imdbtaxonomycountry' => '0',
+			'imdbtaxonomycreator' => '0',
+			'imdbtaxonomydirector' => '1',
+			'imdbtaxonomygenre' => '1',
+			'imdbtaxonomykeyword' => '0',
+			'imdbtaxonomylanguage' => '0',
+			'imdbtaxonomyproducer' => '0',
+			'imdbtaxonomyactor' => '0',
+			'imdbtaxonomywriter' => '0',
 
 		];
 
@@ -672,7 +664,7 @@ class Settings extends Config {
 	/* Try to detect if the current page is gutenberg editor
 	 * Doesn't work
 	 */
-	public function lumiere_is_gutenberg() {
+	public function lumiere_is_gutenberg(): bool {
 
 		global $current_screen;
 

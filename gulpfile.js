@@ -148,6 +148,7 @@ paths = {
 		dist: './dist' },
 	files: {
 		src: [	'./src/**/*.php', 
+			'./src/**/*.+(html|htm)', 
 			'./src/**/*.ico', 
 			'./src/**/*.webmanifest', 
 			'./src/**/*.+(psd)', 
@@ -215,7 +216,7 @@ exports.javascripts = function javascripts() {
 
 	return gulp
 		.src( paths.javascripts.src , {base: paths.base.src } )
-		.pipe(plugins.plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
+		.pipe(plugins.plumber( function (err) { errorHandler(err) })) /* throws a popup & console error msg */
 		.pipe(plugins.rename({suffix: '.min'}))
 		.pipe(plugins.changed( paths.javascripts.dist ))
 		.pipe(plugins.uglify())

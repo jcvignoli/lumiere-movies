@@ -15,6 +15,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use \Lumiere\Settings;
+use \Lumiere\Utils;
 
 class Copy_Template {
 
@@ -38,6 +39,12 @@ class Copy_Template {
 	private array $array_people;
 
 	/**
+	 * Utils Class
+	 *
+	 */
+	private object $utils_class;
+
+	/**
 	 * Constructor
 	 *
 	 */
@@ -50,38 +57,15 @@ class Copy_Template {
 		// Settings class and vars.
 		$config_class = new Settings();
 
+		// Settings class and vars.
+		$this->utils_class = new Utils();
+
 		// List of potential types for a person.
 		$this->array_people = $config_class->array_people;
 
 		// Copy the template file
 		$this->lumiere_copy_template_taxonomy();
 
-	}
-
-	/**
-	 * Request WP_Filesystem credentials if file doesn't have it.
-	 *
-	 */
-	private function lumiere_wp_filesystem_cred ( string $file ): bool {
-
-		$creds = request_filesystem_credentials( $file, '', false );
-		if ( false === ( $creds ) ) {
-
-			// if we get here, then we don't have credentials yet,
-			// but have just produced a form for the user to fill in,
-			// so stop processing for now
-
-			return true; // stop the normal page form from displaying.
-		}
-
-		// now we have some credentials, try to get the wp_filesystem running.
-		if ( ! WP_Filesystem( $creds ) ) {
-			// our credentials were no good, ask the user for them again
-			request_filesystem_credentials( $file, '', true, false, null );
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -112,7 +96,7 @@ class Copy_Template {
 				exit();
 			}
 			// Make sure we got right credentials to use $wp_filesystem
-			$this->lumiere_wp_filesystem_cred( $lumiere_taxonomy_theme_file );
+			$this->utils_class->lumiere_wp_filesystem_cred( $lumiere_taxonomy_theme_file );
 			if ( $wp_filesystem->copy( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file ) === false ) {
 				// Copy failed.
 				wp_safe_redirect( add_query_arg( 'msg', 'taxotemplatecopy_failed', wp_get_referer() ) );

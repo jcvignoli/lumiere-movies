@@ -9,21 +9,25 @@
 
 	<!-- Add PHP Post-5.6 ruleset, not supported by WordPress core, but perfect for plugins. -->
 	<rule ref="NeutronStandard">
+		<!-- I use @TODOs in my comments, unactivate it -->
+		<exclude name="Generic.Commenting.Todo"/>
+		<!-- I do comment out my code, deactivate that security -->
+		<exclude name="Squiz.PHP.CommentedOutCode"/>
+		<!-- Do not report 'Closing PHP tag must be on a line by itself' -->
+		<exclude name="Squiz.PHP.EmbeddedPhp"/>
+		<!-- Exclude those rules, because we run WordPress-Extra which will conflict with NeutronStandard -->
 		<exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning"/>
 		<exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned"/>
 	</rule> 
 
 	<!-- Include the WordPress-Extra standard.-->
 	<rule ref="WordPress-Extra">
-		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
-		<exclude name="WordPress.Security.EscapeOutput"/>
-		<exclude name="WordPress.PHP.YodaConditions"/>
-	</rule> 
-
-	<!-- WordPress-Extra includes the core, exclude unwanted rules.-->
-	<rule ref="WordPress-Core">
 		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+		<exclude name="WordPress.PHP.YodaConditions"/>
+		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
 		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
+		<!-- Below rule should be active! Run later on without this rule -->
+		<exclude name="WordPress.Security.EscapeOutput"/>
 	</rule> 
 
 	<!-- Let's also check that everything is properly documented.
@@ -34,7 +38,9 @@
 
 	<!-- Add in some extra rules from other standards. -->
 	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+	<!--
 	<rule ref="Generic.Commenting.Todo"/>
+	-->
 
 	<!--
 	To get the optimal benefits of using WPCS, we should add a couple of

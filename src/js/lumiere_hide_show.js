@@ -1,16 +1,18 @@
 /* Function to display/hide an element if clicking on another element
-*										
+*
 * Content Security Policy (CSP) Compliant, needs JQuery
-* 
+*
 */
 
 /* Show the next hidden div if clicking a tag class="activatehidesection"
  * The following div must follow immediately that one
  * source https://isabelcastillo.com/toggle-showhide-with-jquery
 */
-jQuery(".activatehidesection").click(function () {
-    jQuery(this).next().slideToggle();
-}).next().hide();
+jQuery( ".activatehidesection" ).click(
+	function () {
+		jQuery( this ).next().slideToggle();
+	}
+).next().hide();
 
 
 /* Show the next hidden div if clicking a checkbox button class="activatehidesectionAdd"
@@ -19,26 +21,33 @@ jQuery(".activatehidesection").click(function () {
  * source: Lost Highway
 */
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener(
+	'DOMContentLoaded',
+	function () {
 
-	if(jQuery("input.activatehidesectionAdd").prop("checked") == true){
-		jQuery(".hidesectionOfCheckbox").show();
-	} else if (jQuery(".activatehidesectionRemove").prop("checked") == true){
-		jQuery(".hidesectionOfCheckbox").hide();
-	} 
+		if (jQuery( "input.activatehidesectionAdd" ).prop( "checked" ) == true) {
+			jQuery( ".hidesectionOfCheckbox" ).show();
+		} else if (jQuery( ".activatehidesectionRemove" ).prop( "checked" ) == true) {
+			jQuery( ".hidesectionOfCheckbox" ).hide();
+		}
 
-	jQuery("input.activatehidesectionAdd").click(function () {
-	    jQuery(".hidesectionOfCheckbox").slideToggle();
-	}).nextAll(".hidesectionOfCheckbox").show();
+		jQuery( "input.activatehidesectionAdd" ).click(
+			function () {
+				jQuery( ".hidesectionOfCheckbox" ).slideToggle();
+			}
+		).nextAll( ".hidesectionOfCheckbox" ).show();
 
-	if(jQuery("input.activatehidesectionAddTwo").prop("checked") == true){
-		jQuery(".hidesectionOfCheckboxTwo").show();
-	} else if (jQuery(".activatehidesectionRemoveTwo").prop("checked") == true){
-		jQuery(".hidesectionOfCheckboxTwo").hide();
+		if (jQuery( "input.activatehidesectionAddTwo" ).prop( "checked" ) == true) {
+			jQuery( ".hidesectionOfCheckboxTwo" ).show();
+		} else if (jQuery( ".activatehidesectionRemoveTwo" ).prop( "checked" ) == true) {
+			jQuery( ".hidesectionOfCheckboxTwo" ).hide();
+		}
+
+		jQuery( "input.activatehidesectionAddTwo" ).click(
+			function () {
+				jQuery( ".hidesectionOfCheckboxTwo" ).slideToggle();
+			}
+		).nextAll( ".hidesectionOfCheckboxTwo" ).show();
+
 	}
-
-	jQuery("input.activatehidesectionAddTwo").click(function () {
-	    jQuery(".hidesectionOfCheckboxTwo").slideToggle();
-	}).nextAll(".hidesectionOfCheckboxTwo").show();
-
-});
+);
