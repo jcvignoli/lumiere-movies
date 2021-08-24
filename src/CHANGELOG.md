@@ -7,17 +7,18 @@ v.3.6
 * [technical] New way to deal with debug logging; class/function origin of the log fully implemented
 * [technical] Taxonomy for director is set on active by default.
 * [technical] Using only checkboxes in admin.
+* [technical] Taxonomy template copying in admin now detects if a new template version has been released.
 * [bug] Saving Popup width and height options in admin was broken
 * [bug] Data details: Runtime, user comment and source were missing in admin and thus could not be selected.
 * [bug] Updates were not running upon updates (only upon activation)
 * [bug] Cronjobs were not throwing debugging text. Added DOING_CRON as new condition in settings class lumiere_maybe_log() & utils class lumiere_activate_debug()
 * [bug] Various bugs in people taxonomy template, polylang integration was not working as expected. New template version 3.0 released.
+* [bug] Taxonomy template item was buggy. Rewritten as a class.
 * [bug] Removed imdbtaxonomytitle, a taxonomy option that wasn't used anymore. Titles can't be taxonomised, no need for such an option.
 * [bug] Stylesheets and javascripts were missing a "min" suffix in their names.
 * [bug] Stylesheets and javascripts were not loaded in admin pages for new installs. Changed conditions in Core class function lumiere_execute_admin_assets()
 * [bug] Number of updates not correctly initialised on new install. Fixed the function in class Settings.
 * [bug] Popup movie error in displaying data when utilised as a searching popup. Removed imdbsearchdirect condition, cleaned the class, fixed html.
-* [bug] Taxonomy template item was buggy. Rewritten as a class.
 * [bug] flush_rewrite_rules() when adding a new taxonomy page was buggy. Now it is triggered both when saving and and visiting taxonomy options page.
 * [bug] Internal popups links for composer were not created. Fixed regex in lumiere_convert_txtwithhtml_into_popup_people() in class movie. 
 * [bug] External links in plots were (sometimes) not created. Removed escaping plot in lumiere_movies_plot()

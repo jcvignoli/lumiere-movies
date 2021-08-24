@@ -63,42 +63,71 @@ class Utils {
 	}
 
 	/**
-	 * Recursively delete a directory
+	 * Recursively delete a directory, keeping the directory path provided
 	 *
-	 * @param string $dir Directory name
-	 *
-	 * @credits http://ch.php.net/manual/en/function.unlink.php#87045
+	 * @param string $dir Directory path
+	 * @return bool true on success
 	 */
-	public static function lumiere_unlink_recursive( string $dir ) {
-		if ( ! $opened_dir = @opendir( $dir ) ) {
-			return;
+	public static function lumiere_unlink_recursive( string $dir ): bool {
+
+		global $wp_filesystem;
+		$files = [];
+
+		// Make sure we have the correct credentials
+		self::lumiere_wp_filesystem_cred( $dir );
+
+		if ( $wp_filesystem->is_dir( $dir ) === false && $wp_filesystem->is_file( $dir ) === false ) {
+			return false;
 		}
-		while ( false !== ( $obj = readdir( $opened_dir ) ) ) {
-			if ( $obj == '.' || $obj == '..' ) {
+
+		$files = $wp_filesystem->dirlist( $dir );
+
+		foreach ( $files as $file ) {
+
+			if ( $wp_filesystem->is_dir( $dir . $file['name'] ) === true ) {
+
+				$wp_filesystem->delete( $dir . $file['name'], true );
 				continue;
+
 			}
 
-			if ( ! @unlink( $dir . '/' . $obj ) ) {
-				self::lumiere_unlink_recursive( $dir . '/' . $obj, true );
-			}
+			$wp_filesystem->delete( $dir . $file['name'] );
 		}
-
-		closedir( $opened_dir );
+		return true;
 
 	}
 
 	/**
-	 * Recursively scan a directory
+	 * Recursively scan a directory. Not currently in use.
 	 *
 	 * @param mandatory string $dir Directory name
-	 * @param optional int $filesbydefault number of files contained in folder and not taken into account for the count
+	 * @param optional int $filesbydefault number of files contained in folder and to not take
+	 *  into account for the count (usefull if there is a number of predetermined files/folders, like in cache)
 	 *
 	 * @return bool
-	 * @credits http://ch2.php.net/manual/en/function.is-dir.php#85961 & myself
 	 */
-	public static function lumiere_is_empty_dir( string $dir, int $filesbydefault = 3 ): bool {
+	public static function lumiere_is_empty_dir( string $dir, int $filesbydefault = 0 ): bool {
 
-		return ( ( $files = @scandir( $dir ) ) && count( $files ) <= $filesbydefault );
+		global $wp_filesystem;
+
+		// Make sure we have the correct credentials
+		self::lumiere_wp_filesystem_cred( $dir );
+
+		if ( $wp_filesystem->is_dir( $dir ) === false && $wp_filesystem->is_file( $dir ) === false ) {
+
+			return false;
+		}
+
+		$files = $wp_filesystem->dirlist( $dir );
+		$count_files = count( array_count_values( array_column( $files, 'name' ) ) );
+
+		if ( $count_files <= $filesbydefault ) {
+
+			return true;
+
+		}
+
+		return false;
 
 	}
 
@@ -414,17 +443,17 @@ class Utils {
 			// but have just produced a form for the user to fill in,
 			// so stop processing for now
 
-			return true; // stop the normal page form from displaying.
+			return false; // stop the normal page form from displaying.
 		}
 
 		// now we have some credentials, try to get the wp_filesystem running.
 		if ( ! WP_Filesystem( $creds ) ) {
 			// our credentials were no good, ask the user for them again
 			request_filesystem_credentials( $file, '', true, false, null );
-			return true;
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 }

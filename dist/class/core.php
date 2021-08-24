@@ -917,7 +917,7 @@ class Core {
 	 */
 	public function lumiere_cron_exec_once() {
 
-		$this->configClass = new Settings();
+		$this->configClass = new Settings( 'coreClass' );
 
 		// Start the logger
 		$this->configClass->lumiere_start_logger( 'coreClass' );

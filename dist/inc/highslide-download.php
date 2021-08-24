@@ -26,7 +26,7 @@ if ( is_admin() ) {
 	wp_die( esc_html__( 'You can not call directly this page.', 'lumiere-movies' ) );
 }
 
-if ( ( isset( $_GET['highslide'] ) ) && ( $_GET['highslide'] == 'yes' ) ) {
+if ( ( isset( $_GET['highslide'] ) ) && ( $_GET['highslide'] === 'yes' ) ) {
 
 	// Check the website
 	if ( ( isset( $lumiere_highslidefile_remote_zip ) ) && ( ! empty( $lumiere_highslidefile_remote_zip ) ) ) {

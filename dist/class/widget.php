@@ -26,7 +26,7 @@ class Widget extends \WP_Widget {
 	 * Store the class of Lumière settings
 	 * Usefull to start a new IMDbphp query
 	 */
-	private $configClass;
+	private $config_class;
 
 	/**
 	 * Vars from Lumière settings
@@ -92,7 +92,7 @@ class Widget extends \WP_Widget {
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 
 		// Start Settings class.
-		$this->configClass = new Settings( 'widgetClass' );
+		$this->config_class = new Settings( 'widgetClass' );
 
 		// Start Movie class.
 		$this->movieClass = new Movie();
@@ -100,9 +100,7 @@ class Widget extends \WP_Widget {
 		// Start Utilities class.
 		$this->utilsClass = new Utils();
 
-		/**
-		 * Activate debug
-		 */
+		// Activate debugging.
 		add_action( 'widget_init', [ $this, 'lumiere_widget_maybe_start_debug' ] );
 
 		/**
@@ -130,7 +128,7 @@ class Widget extends \WP_Widget {
 		/**
 		 * Add shortcode in the block-based widget
 		 */
-		add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'lumiere_widget_shortcodes_parser' ] );
+		add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'lumiere_widget_shortcodes_parser' ], 99 );
 
 	}
 
@@ -157,7 +155,10 @@ class Widget extends \WP_Widget {
 	 */
 	public function lumiere_widget_shortcodes_parser( ?string $atts, ?string $content = null, ?string $tag ): ?string {
 
-		$this->configClass->loggerclass->debug( '[Lumiere][widget] Shortcode [' . self::WIDGET_SHORTCODE . '][/' . self::WIDGET_SHORTCODE . '] found. Using block-based widget.' );
+		// Start logging using hook defined in settings class.
+		do_action( 'lumiere_logger_hook' );
+
+		$this->config_class->loggerclass->debug( '[Lumiere][widget] Shortcode [' . self::WIDGET_SHORTCODE . '][/' . self::WIDGET_SHORTCODE . '] found. Using block-based widget.' );
 
 		$instance = [];
 
@@ -185,16 +186,16 @@ class Widget extends \WP_Widget {
 
 		wp_register_script(
 			'lumiere_block_widget',
-			$this->configClass->lumiere_blocks_dir . 'widget-block.min.js',
+			$this->config_class->lumiere_blocks_dir . 'widget-block.min.js',
 			[ 'wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-i18n', 'wp-data' ],
-			$this->configClass->lumiere_version
+			$this->config_class->lumiere_version
 		);
 
 		wp_register_style(
 			'lumiere_block_widget',
-			$this->configClass->lumiere_blocks_dir . 'widget-block.min.css',
+			$this->config_class->lumiere_blocks_dir . 'widget-block.min.css',
 			[],
-			$this->configClass->lumiere_version
+			$this->config_class->lumiere_version
 		);
 
 		register_block_type(
@@ -222,8 +223,8 @@ class Widget extends \WP_Widget {
 		$imdb_admin_values = $this->imdb_admin_values;
 		$args['before_title'] = $this->args['before_title']; //Consistancy in title h2 class, otherwise it's sometimes <h4 class="widget-title"> and sometimes <h4 class="widgettitle">.
 
-		// @TODO: remove this forever
-		// extract( $args );
+		// Execute logging.
+		do_action( 'lumiere_logger' );
 
 		// full title.
 		$title_box = empty( $instance['title'] ) ? esc_html__( 'Lumière! Movies (legacy)', 'lumiere-movies' ) : $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
@@ -234,7 +235,7 @@ class Widget extends \WP_Widget {
 		// Get the post id
 		$post_id = intval( get_the_ID() );
 
-		$configClass = $this->configClass;
+		$config_class = $this->config_class;
 
 		// shows widget only for a post or a page.
 		if ( ( is_single() ) || ( is_page() ) ) {
@@ -243,22 +244,22 @@ class Widget extends \WP_Widget {
 			if ( ( isset( $imdb_admin_values['imdbautopostwidget'] ) ) && ( $imdb_admin_values['imdbautopostwidget'] === '1' ) ) {
 				$imdbIdOrTitle[]['byname'] = sanitize_text_field( get_the_title() );
 
-				$configClass->loggerclass->debug( '[Lumiere][widget] Auto widget activated, using the post title for querying' );
+				$config_class->loggerclass->debug( '[Lumiere][widget] Auto widget activated, using the post title for querying' );
 
 			} else {
 
-				$configClass->loggerclass->debug( '[Lumiere][widget] Auto widget is disabled, no query made using current post title.' );
+				$config_class->loggerclass->debug( '[Lumiere][widget] Auto widget is disabled, no query made using current post title.' );
 
 			}
 
 			// Log what type of widget is utilised.
 			if ( $this->utilsClass->lumiere_block_widget_isactive() === true ) {
 				// Post 5.8 WordPress.
-				$configClass->loggerclass->debug( '[Lumiere][widget] Block-based widget found' );
+				$config_class->loggerclass->debug( '[Lumiere][widget] Block-based widget found' );
 			}
 			if ( is_active_widget( '', '', self::WIDGET_NAME ) === true ) {
 				// Pre 5.8 WordPress.
-				$configClass->loggerclass->debug( '[Lumiere][widget] Pre-5.8 WordPress widget found' );
+				$config_class->loggerclass->debug( '[Lumiere][widget] Pre-5.8 WordPress widget found' );
 			}
 
 			// Show widget only if custom fields or imdbautopostwidget option is found.
@@ -269,7 +270,7 @@ class Widget extends \WP_Widget {
 
 					$imdbIdOrTitle[]['byname'] = sanitize_text_field( $value );
 
-					$configClass->loggerclass->debug( "[Lumiere][widget] Custom field imdb-movie-widget found, using $value for querying" );
+					$config_class->loggerclass->debug( "[Lumiere][widget] Custom field imdb-movie-widget found, using $value for querying" );
 
 				}
 
@@ -279,7 +280,7 @@ class Widget extends \WP_Widget {
 					$moviespecificid = $value;
 					$imdbIdOrTitle[]['bymid'] = $moviespecificid;
 
-					$configClass->loggerclass->debug( "[Lumiere][widget] Custom field imdb-movie-widget-bymid found, using $value for querying" );
+					$config_class->loggerclass->debug( "[Lumiere][widget] Custom field imdb-movie-widget-bymid found, using $value for querying" );
 
 				}
 
@@ -297,7 +298,7 @@ class Widget extends \WP_Widget {
 
 				} else {
 
-					$configClass->loggerclass->debug( "[Lumiere][widget] Not showing $movie" );
+					$config_class->loggerclass->debug( "[Lumiere][widget] Not showing $movie" );
 
 				}
 
@@ -308,7 +309,7 @@ class Widget extends \WP_Widget {
 		// Display debug message if no metabox was found with an IMDb id/title
 		if ( ( empty( get_post_meta( $post_id, 'imdb-movie-widget', false ) ) ) && ( empty( get_post_meta( $post_id, 'imdb-movie-widget-bymid', false ) ) ) ) {
 
-			$configClass->loggerclass->debug( '[Lumiere][widget] No metabox with IMDb id/title was added to this post.' );
+			$config_class->loggerclass->debug( '[Lumiere][widget] No metabox with IMDb id/title was added to this post.' );
 
 		}
 

@@ -108,22 +108,22 @@ class Settings extends Config {
 	/**
 	 * Include all pages of Lumière plugin
 	 */
-	public $lumiere_list_all_pages;
+	public array $lumiere_list_all_pages = [];
 
 	/**
 	 * Paths for javascript frontpage javascripts
 	 */
-	public $lumiere_scripts_vars;
+	public string $lumiere_scripts_vars;
 
 	/**
 	 * Options for highslide javascript
 	 */
-	public $lumiere_scripts_highslide_vars;
+	public string $lumiere_scripts_highslide_vars;
 
 	/**
 	 * Vars for javascripts in admin zone
 	 */
-	public $lumiere_scripts_admin_vars;
+	public string $lumiere_scripts_admin_vars;
 
 	/**
 	 * Store Lumière plugin version
@@ -135,27 +135,25 @@ class Settings extends Config {
 	 * Meant to be utilised through all the plugin
 	 */
 	public $loggerclass;
-	public $logger_name;
-	public $screenOutput;
 	/* Where to write the log (WordPress default path here) */
 	const DEBUG_LOG_PATH = ABSPATH . 'wp-content/debug.log';
 
 	/**
-	 * Is the current page WordPress Gutenberg editor?
+	 * Is the current page an editing page?
 	 */
-	public $isGutenberg;
+	public bool $is_editor_page;
 
 	/**
 	 * List of types of people available
 	 * is build in lumiere_define_constants_after_globals()
 	 */
-	public $array_people = '';
+	public array $array_people = [];
 
 	/**
 	 * List of types of people available
 	 * is build in lumiere_define_constants_after_globals()
 	 */
-	public $array_items = '';
+	public array $array_items = [];
 
 	/**
 	 * Store the number of files inside /class/updates
@@ -170,13 +168,10 @@ class Settings extends Config {
 	 * @param optional string $logger_name Title of Monolog logger
 	 * @param optional string $screenOutput whether output Monolog on screen
 	 */
-	public function __construct( string $logger_name = 'unknownOrigin', bool $screenOutput = true ) {
+	public function __construct( ?string $logger_name = 'unknownOrigin', ?bool $screenOutput = true ) {
 
 		// Construct parent class so we can send the settings
 		parent::__construct();
-
-		// Detect if it is gutenberg, but doesn't work
-		add_action( 'current_screen', [ $this, 'lumiere_is_gutenberg' ] );
 
 		// Define Lumière constants
 		$this->lumiere_define_constants();
@@ -195,10 +190,13 @@ class Settings extends Config {
 		// Call the function to send the selected settings to imdbphp library
 		$this->lumiere_send_config_imdbphp();
 
-		// Initiate the logger class
-		$this->logger_name = $logger_name;
-		$this->screenOutput = $screenOutput;
-		add_action( 'init', [ $this, 'lumiere_start_logger' ], 2, 0 );
+		// Create a hook so we can activate logging.
+		add_action(
+			'lumiere_logger_hook',
+			function() use ( $logger_name, $screenOutput ) {
+					$this->lumiere_start_logger( $logger_name, $screenOutput );
+			}
+		);
 
 	}
 
@@ -661,71 +659,87 @@ class Settings extends Config {
 		return true;
 	}
 
-	/* Try to detect if the current page is gutenberg editor
-	 * Doesn't work
+	/**
+	 * Detect if the current page is an editor page (post.php or post-new.php)
+	 *
 	 */
-	public function lumiere_is_gutenberg(): bool {
+	public function lumiere_is_screen_editor(): bool {
 
-		global $current_screen;
+		/*
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/screen.php';
+		}
 
 		$screen = get_current_screen();
+		$wp_is_block_editor = ( isset( $screen ) && ! is_null( $screen->is_block_editor() ) ) ? $screen->is_block_editor() : null;
+		$post_type = ( isset( $screen ) && ! is_null( $screen->post_type ) ) ? $screen->post_type : null;
+		*/
+		if ( $GLOBALS['hook_suffix'] !== 'post.php' && $GLOBALS['hook_suffix'] !== 'post-new.php' ) {
 
-		if ( $screen->is_block_editor() ) {
-
-			return $this->isGutenberg === true;
+			$this->is_editor_page = false;
+			return false;
 
 		}
 
-		return $this->isGutenberg === false;
+		$this->is_editor_page = true;
+		return true;
 
 	}
 
 	/**
 	 *  Start and select which Logger to use
 	 *
-	 * @param (string) optional $logger_name: title applied to the logger in the logs under origin
+	 *  Can be called by the hook 'lumiere_logger_hook' or directly as a function
+	 *
+	 * @param (string) mandatory $logger_name: title applied to the logger in the logs under origin
 	 * @param (bool) optional $screenOutput: whether to display the screen output. Useful for plugin activation.
 	 *
 	 * @return the logger in $loggerclass
 	 */
-	public function lumiere_start_logger ( string $logger_name = null, bool $screenOutput = true ) {
+	public function lumiere_start_logger ( ?string $logger_name, bool $screenOutput = true ): void {
 
-		// Get local vars if passed in the function, if empty get the global vars
-		$logger_name = isset( $logger_name ) ? $logger_name : $this->logger_name;
-		$screenOutput = isset( $screenOutput ) ? $screenOutput : $this->screenOutput;
+		// Get local vars if passed in the function, if empty get the global vars.
+		$logger_name = isset( $logger_name ) ? $logger_name : 'unknowOrigin';
 
-		// Start Monolog logger
+		// Run WordPress block editor identificator giving value to $this->is_editor_page.
+		$this->lumiere_is_screen_editor();
+
+		// Start Monolog logger.
 		if ( ( current_user_can( 'manage_options' ) && $this->imdb_admin_values['imdbdebug'] === '1' ) || ( $this->imdb_admin_values['imdbdebug'] === '1' && defined( 'DOING_CRON' ) && DOING_CRON ) ) {
 
+			// Start Monolog logger.
 			$this->loggerclass = new Logger( $logger_name );
 
-			// Get the verbosity from options and build the constant
+			// Get the verbosity from options and build the constant.
 			$logger_verbosity = isset( $this->imdb_admin_values['imdbdebuglevel'] ) ? constant( '\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel'] ) : constant( '\Monolog\Logger::DEBUG' );
 
-			/* Save log if option activated
+			/**
+			 * Save log if option activated.
 			 */
 			if ( $this->imdb_admin_values['imdbdebuglog'] === '1' ) {
 
 				// Add current url and referrer to the log
 				//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
 
-				// Add the file, the line, the class, the function to the log
+				// Add the file, the line, the class, the function to the log.
 				$this->loggerclass->pushProcessor( new IntrospectionProcessor( $logger_verbosity ) );
 				$filelogger = new StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], $logger_verbosity );
 
-				// Change the date and output formats of the log
+				// Change the date and output formats of the log.
 				$dateFormat = 'd-M-Y H:i:s e';
 				$output = "[%datetime%] %channel%.%level_name%: %message% %extra%\n";
 				$screenformater = new LineFormatter( $output, $dateFormat );
 				$filelogger->setFormatter( $screenformater );
 
-				// Utilise the new format and processor
+				// Utilise the new format and processor.
 				$this->loggerclass->pushHandler( $filelogger );
 			}
 
-			/* Display errors on screen if option activated
+			/**
+			 * Display errors on screen if option activated.
+			 * Avoid to display on screen when using block editor.
 			 */
-			if ( ( $this->imdb_admin_values['imdbdebugscreen'] === '1' ) && ( $screenOutput === true ) ) {
+			if ( ( $this->imdb_admin_values['imdbdebugscreen'] === '1' ) && ( $screenOutput === true ) && ( $this->is_editor_page === false ) ) {
 
 				// Change the format
 				$output = "[%level_name%] %message%<br />\n";
@@ -737,17 +751,14 @@ class Settings extends Config {
 
 				// Utilise the new handler and format
 				$this->loggerclass->pushHandler( $screenlogger );
-
 			}
 
 			return;
-
 		}
 
-		// Run null logger
+		// Run null logger for all other cases.
 		$this->loggerclass = new Logger( $logger_name );
 		$this->loggerclass->pushHandler( new NullHandler() );
-
 	}
 
 	/* Retrieve selected type of search in admin

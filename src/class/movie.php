@@ -79,20 +79,20 @@ class Movie {
 		// Start settings class.
 		$this->config_class = new Settings( 'movieClass' );
 
-		// Start the tools class
+		// Start the tools class.
 		$this->utils_class = new Utils();
 
-		// Start the logger class
+		// Activate debugging.
 		add_action( 'wp', [ $this, 'lumiere_maybe_start_debug' ], 0 );
 
-		// Run the initialisation of the class
-		// Not needed since lumiere_show() is externally called
+		// Run the initialisation of the class.
+		// Not needed since lumiere_show() is externally called.
 		// add_action ('the_loop', [$this, 'lumiere_show'], 0);
 
-		// Parse the content to add the movies
+		// Parse the content to add the movies.
 		add_action( 'the_content', [ $this, 'lumiere_parse_spans' ] );
 
-		// transform span into links to popups
+		// Transform span into links to popups.
 		add_filter( 'the_content', [ $this, 'lumiere_link_popup_maker' ] );
 		add_filter( 'the_excerpt', [ $this, 'lumiere_link_popup_maker' ] );
 
@@ -105,7 +105,6 @@ class Movie {
 
 	/**
 	 *  Wrapps the start of the logger
-	 *  Allows to start later in the process, and to not break gutenberg editor by adding text before html code
 	 */
 	private function lumiere_maybe_start_debug(): void {
 
@@ -128,6 +127,9 @@ class Movie {
 		/* Vars */
 		global $lumiere_count_me_siffer;
 
+		// Start logging using hook defined in settings class.
+		do_action( 'lumiere_logger_hook' );
+
 		$logger = $this->config_class->loggerclass;
 		$config_class = $this->config_class;
 		$lumiere_count_me_siffer = isset( $lumiere_count_me_siffer ) ? $lumiere_count_me_siffer : 0; # var for counting only one results
@@ -138,7 +140,7 @@ class Movie {
 		$imdb_admin_values = $this->imdb_admin_values;
 		$imdb_widget_values = $this->imdb_widget_values;
 
-		$logger->debug( '[Lumiere][movieClass] Calling IMDbPHP class.' );
+		$this->config_class->loggerclass->debug( '[Lumiere][movieClass] Calling IMDbPHP class.' );
 
 		$search = new TitleSearch( $this->config_class, $logger );
 
@@ -2210,10 +2212,10 @@ class Movie {
 				if ( pll_current_language() ) {
 
 					$lang = pll_current_language();
+					$this->lumiere_add_taxo_lang_to_polylang( $term['term_id'], $lang );
 
 				}
 
-				$this->lumiere_add_taxo_lang_to_polylang( $term['term_id'], $lang );
 			}
 
 		}

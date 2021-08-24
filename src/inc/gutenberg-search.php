@@ -83,12 +83,12 @@ class Search {
 		// Start Utils Class
 		$this->utilsClass = new Utils();
 
+		// Start logging using hook defined in settings class.
+		do_action( 'lumiere_logger_hook' );
+		$this->logger = $this->config_class->loggerclass;
+
 		// Start the debugging
 		add_action( 'wp_head', [ $this, 'lumiere_maybe_start_debug' ], 0 );
-
-		// Start the logger
-		$this->config_class->lumiere_start_logger( 'gutenbergSearch' );
-		$this->logger = $this->config_class->loggerclass;
 
 		// Register admin scripts.
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_register_search_script' ] );
