@@ -96,7 +96,7 @@ class Admin {
 		$this->rootURL = plugin_dir_url( __DIR__ );
 		$this->rootPath = plugin_dir_path( __DIR__ );
 
-		// Start the logger class
+		// Start the debug
 		add_action( 'admin_init', [ $this, 'lumiere_maybe_start_debug' ], 0 );
 
 		// Store the logger class
@@ -303,6 +303,9 @@ class Admin {
 	 *
 	 */
 	public function lumiere_admin_pages() {
+
+		// Start logging using hook defined in settings class.
+		do_action( 'lumiere_logger_hook' );
 
 		$this->display_admin_menu();
 

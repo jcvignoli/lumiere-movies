@@ -956,7 +956,7 @@ class Cache extends \Lumiere\Admin {
 			<span class="imdblt_smaller">
 				<?php
 				// display cache folder size
-				if ( $this->utilsClass->lumiere_is_empty_dir( $this->imdb_cache_values['imdbcachedir'] ) === false ) {
+				if ( $imdltcacheFileCount > 0 ) {
 
 					echo esc_html__( 'Movies\' cache is using', 'lumiere-movies' ) . ' ' . $this->utilsClass->lumiere_format_bytes( intval( $size_cache_total ) ) . "\n";
 
@@ -1020,7 +1020,10 @@ class Cache extends \Lumiere\Admin {
 			<div class="explain">
 				<?php
 				// display cache folder size
-				if ( $this->utilsClass->lumiere_is_empty_dir( $this->imdb_cache_values['imdbphotoroot'], 2 ) === false ) {
+				$imdltcacheimageFile = $this->utilsClass->lumiere_glob_recursive( $this->imdb_cache_values['imdbphotoroot'] . '*' );
+				$imdltcacheimageFileCount = ( count( $imdltcacheimageFile ) );
+
+				if ( $imdltcacheimageFileCount > 0 ) {
 					$path = realpath( $this->imdb_cache_values['imdbphotoroot'] );
 					if ( $path !== false && $path !== '' && file_exists( $path ) ) {
 						foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $path, FilesystemIterator::SKIP_DOTS ) ) as $object ) {

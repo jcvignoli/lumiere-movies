@@ -115,4 +115,4 @@ class Copy_Template {
 
 }
 
-$lumiere_copy_template = new Copy_Template();
+new Copy_Template();
