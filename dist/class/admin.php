@@ -26,26 +26,37 @@ use \Lumiere\Admin\Help;
 class Admin {
 
 	/**
-	 * Options vars
+	 * Admin options
+	 * @var array<string|int> $imdb_admin_values
 	 */
-	protected $imdb_admin_values;
-	protected $imdb_widget_values;
-	protected $imdb_cache_values;
+	protected array $imdb_admin_values;
+
+	/**
+	 * Widget options
+	 * @var array<string|int, Settings> $imdb_widget_values
+	 */
+	protected array $imdb_widget_values;
+
+	/**
+	 * Cache options
+	 * @var array<string|int> $imdb_cache_values
+	 */
+	protected array $imdb_cache_values;
 
 	/**
 	 * \Lumiere\Settings class
 	 */
-	protected $configClass;
+	protected Settings $configClass;
 
 	/**
 	 * \Lumière\Utils class
 	 */
-	protected $utilsClass;
+	protected Utils $utilsClass;
 
 	/**
 	 * \Monolog\Logger class
 	 */
-	protected $logger;
+	protected ?\Monolog\Logger $logger;
 
 	/**
 	 * Store root directories of the plugin
@@ -53,12 +64,12 @@ class Admin {
 	 * URL: start with https
 	 *
 	 */
-	protected $rootPath = '';
-	protected $rootURL = '';
+	protected string $rootPath = '';
+	protected string $rootURL = '';
 
 	/**
 	 * HTML allowed for use of wp_kses_post()
-	 * Usefull for access from outside the class
+	 * Utilised by children classes
 	 */
 	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
 		'i',
@@ -109,7 +120,7 @@ class Admin {
 	 *  Loaded in spl_autoload_register()
 	 *
 	 */
-	public function admin_loader( $class_name ) {
+	public function admin_loader( string $class_name ): void {
 
 		// Remove 'Lumiere' and transforms '\' into '/'
 		$class_name = str_replace( 'Lumiere/', '', str_replace( '\\', '/', ltrim( $class_name, '\\' ) ) );
@@ -126,32 +137,32 @@ class Admin {
 	}
 
 	/**
-	 *  Wrapps the start of the logger
-	 *  Allows to start later in the process
+	 *  Wrapps the start of the debugging
 	 */
 	private function lumiere_maybe_start_debug(): void {
 
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
+		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
 
 			// Start debugging mode
-			$this->utils_class->lumiere_activate_debug();
+			$this->utilsClass->lumiere_activate_debug();
 
 		}
 
 	}
 
-	/* Add the admin menu
+	/**
+	 * Add the admin menu
 	 * Called by class core
 	 *
 	 */
-	public function lumiere_admin_menu() {
+	public function lumiere_admin_menu(): void {
 
-		add_action( 'admin_menu', [ $this, 'lumiere_add_left_menu' ] );
+		add_action( 'admin_menu', [ &$this, 'lumiere_add_left_menu' ] );
 
 		// add imdblt menu in toolbar menu (top WordPress menu)
-		if ( $this->imdb_admin_values['imdbwordpress_tooladminmenu'] == 1 ) {
+		if ( $this->imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
 
-			add_action( 'admin_bar_menu', [ $this, 'admin_add_top_menu' ], 70 );
+			add_action( 'admin_bar_menu', [ &$this, 'admin_add_top_menu' ], 70 );
 
 		}
 	}
@@ -160,12 +171,10 @@ class Admin {
 	 * Add left admin menu
 	 *
 	 */
-	public function lumiere_add_left_menu() {
-
-		$imdb_admin_values = $this->imdb_admin_values;
+	public function lumiere_add_left_menu(): void {
 
 		// Menu inside settings
-		if ( function_exists( 'add_options_page' ) && ( ( isset( $imdb_admin_values['imdbwordpress_bigmenu'] ) ) && ( $imdb_admin_values['imdbwordpress_bigmenu'] == 0 ) ) ) {
+		if ( function_exists( 'add_options_page' ) && ( ( isset( $this->imdb_admin_values['imdbwordpress_bigmenu'] ) ) && ( $this->imdb_admin_values['imdbwordpress_bigmenu'] === '0' ) ) ) {
 
 			add_options_page(
 				'Lumière Options',
@@ -176,7 +185,7 @@ class Admin {
 			);
 
 			// Left menu
-		} elseif ( function_exists( 'add_submenu_page' ) && ( ( isset( $imdb_admin_values['imdbwordpress_bigmenu'] ) ) && ( $imdb_admin_values['imdbwordpress_bigmenu'] == 1 ) ) ) {
+		} elseif ( function_exists( 'add_submenu_page' ) && ( ( isset( $this->imdb_admin_values['imdbwordpress_bigmenu'] ) ) && ( $this->imdb_admin_values['imdbwordpress_bigmenu'] === '1' ) ) ) {
 
 			add_menu_page(
 				'Lumière Options',
@@ -227,12 +236,11 @@ class Admin {
 
 	}
 
-	/* Add top admin menu
+	/**
+	 * Add top admin menu
 	 *
 	 */
-	public function admin_add_top_menu( $admin_bar ) {
-
-		$imdb_admin_values = $this->imdb_admin_values;
+	public function admin_add_top_menu( \WP_Admin_Bar $admin_bar ): void {
 
 		$admin_bar->add_menu(
 			[
@@ -299,10 +307,11 @@ class Admin {
 
 	}
 
-	/* Display admin pages
+	/**
+	 * Display admin pages
 	 *
 	 */
-	public function lumiere_admin_pages() {
+	public function lumiere_admin_pages(): void {
 
 		// Start logging using hook defined in settings class.
 		do_action( 'lumiere_logger_hook' );
@@ -313,10 +322,11 @@ class Admin {
 
 	}
 
-	/* Display main menu
+	/**
+	 * Display main menu
 	 *
 	 */
-	private function display_admin_menu() {
+	private function display_admin_menu(): void {
 
 		$imdb_admin_values = $this->imdb_admin_values;
 		$imdb_widget_values = $this->imdb_widget_values;
@@ -347,17 +357,17 @@ class Admin {
 		<?php
 				// Check if any widget is active:
 				// is_active_widget() (pre 5.8 WordPress) or lumiere_block_widget_isactive() (post 5.8)
-		if ( ( is_active_widget( '', '', \Lumiere\Widget::WIDGET_NAME ) == false ) && ( $this->utilsClass->lumiere_block_widget_isactive() == false ) ) {
+		if ( ( is_active_widget( false, false, \Lumiere\Widget::WIDGET_NAME ) === false ) && ( Utils::lumiere_block_widget_isactive() === false ) ) {
 			?>
 
 					- <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'widgets.php' ); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies' ); ?></a></font></em>
 
 			<?php
 		}
-		if ( ( $imdb_admin_values['imdbtaxonomy'] == '0' ) || ( empty( $imdb_admin_values['imdbtaxonomy'] ) ) ) {
+		if ( ( $imdb_admin_values['imdbtaxonomy'] === '0' ) || ( ! isset( $this->imdb_admin_values['imdbtaxonomy'] ) ) ) {
 			?>
 
-					- <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&generaloption=advanced#imdb_imdbtaxonomy_yes' ); ?>"><?php esc_html_e( 'Auto taxonomy', 'lumiere-movies' ); ?></a> <?php esc_html_e( 'unactivated', 'lumiere-movies' ); ?></font></em>
+					- <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&generaloption=advanced#imdb_imdbtaxonomy_yes' ); ?>"><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></font></em>
 
 	<?php } ?>
 
@@ -379,10 +389,11 @@ class Admin {
 		<?php
 	}
 
-	/*  Display admin submenu
+	/**
+	 *  Display admin submenu
 	 *
 	 */
-	private function display_admin_menu_subpages() {
+	private function display_admin_menu_subpages(): void {
 
 		// select the sub-page.
 

@@ -8,6 +8,54 @@ $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 );
 $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
 
 /**
+ * Update 'imdblinkingkill'
+ * From "false" to '0'
+ */
+if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdblinkingkill', '0' ) ) {
+
+	$text = 'Lumière option imdblinkingkill successfully updated.';
+	$logger->info( "[Lumiere][updateOptions] $text" );
+
+} else {
+
+	$text = 'Lumière option imdblinkingkill could not be updated.';
+	$logger->error( "[Lumiere][updateOptions] $text" );
+
+}
+
+/**
+ * Update 'imdbdebug'
+ * From "false" to '0'
+ */
+if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbdebug', '0' ) ) {
+
+	$text = 'Lumière option imdbdebug successfully updated.';
+	$logger->info( "[Lumiere][updateOptions] $text" );
+
+} else {
+
+	$text = 'Lumière option imdbdebug could not be updated.';
+	$logger->error( "[Lumiere][updateOptions] $text" );
+
+}
+
+/**
+ * Update 'imdbwordpress_bigmenu'
+ * From "false" to '0'
+ */
+if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbwordpress_bigmenu', '0' ) ) {
+
+	$text = 'Lumière option imdbwordpress_bigmenu successfully updated.';
+	$logger->info( "[Lumiere][updateOptions] $text" );
+
+} else {
+
+	$text = 'Lumière option imdbwordpress_bigmenu could not be updated.';
+	$logger->error( "[Lumiere][updateOptions] $text" );
+
+}
+
+/**
  * Update 'imdbtaxonomy'
  * From "true" to '1'
  */
