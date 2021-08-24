@@ -362,17 +362,17 @@ class Settings extends Config {
 			'imdbpopuplarg' => '540',
 			'imdbpopuplong' => '350',
 			'imdbintotheposttheme' => 'grey',
-			'imdblinkingkill' => false,
+			'imdblinkingkill' => '0',
 			'imdbautopostwidget' => false,
 			'imdblanguage' => 'en',
 			/*'imdbsourceout' => false,*/
-			'imdbdebug' => false,                     /* Debug */
+			'imdbdebug' => '0',                       /* Debug */
 			'imdbdebuglog' => false,                  /* Log debug */
 			'imdbdebuglogpath' => self::DEBUG_LOG_PATH,
 			'imdbdebuglevel' => 'DEBUG',              /* Debug levels: emergency, alert, critical,
 									error, warning, notice, info, debug */
 			'imdbdebugscreen' => '1',                /* Show debug on screen */
-			'imdbwordpress_bigmenu' => false,         /* Left menu */
+			'imdbwordpress_bigmenu' => '0',        /* Left menu */
 			'imdbwordpress_tooladminmenu' => '1',    /* Top menu */
 			'imdbpopup_highslide' => '1',
 			'imdbtaxonomy' => '1',

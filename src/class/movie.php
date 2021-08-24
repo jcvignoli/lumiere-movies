@@ -37,23 +37,29 @@ class Movie {
 	/**
 	 *  Store all returned movie details search result
 	 */
-	public $lumiere_result = '';
+	public string $lumiere_result = '';
 
 	/**
-	 *  Store the class of Lumière settings
+	 * \Lumiere\Settings class
 	 */
-	private $config_class;
+	private Settings $config_class;
 
 	/**
-	 *  Vars from Lumière settings
+	 * Admin options
+	 * @var array<string|int> $imdb_admin_values
 	 */
-	private $imdb_admin_values;
-	private $imdb_widget_values;
+	private array $imdb_admin_values;
 
 	/**
-	 *  Store the class for extra functions
+	 * Widget options
+	 * @var array<string|int> $imdb_widget_values
 	 */
-	private $utils_class;
+	private array $imdb_widget_values;
+
+	/**
+	 * \Lumière\Utils class
+	 */
+	private Utils $utils_class;
 
 	/**
 	 *  Store the name or the ID of a movie
@@ -331,26 +337,22 @@ class Movie {
 	 *
 	 * @param string $correspondances parsed data
 	 */
-	private function lumiere_link_finder( $correspondances ) {
-
-		$imdb_admin_values = $this->imdb_admin_values;
+	private function lumiere_link_finder( array $correspondances ): string {
 
 		$correspondances = $correspondances[0];
 		preg_match( '/<span data-lum_link_maker="popup">(.+?)<\/span>/i', $correspondances, $link_parsed );
 
-		// link construction
-
-		if ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) {     // highslide popup
+		// highslide popup
+		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
 			$link_parsed = $this->lumiere_popup_highslide_film_link( $link_parsed );
-
-		} else {                            // classic popup
-
-				$link_parsed = $this->lumiere_popup_classical_film_link( $link_parsed );
-
+			return $link_parsed;
 		}
 
+		// classic popup
+		$link_parsed = $this->lumiere_popup_classical_film_link( $link_parsed );
 		return $link_parsed;
+
 	}
 
 	/**
@@ -362,26 +364,23 @@ class Movie {
 	 * @obsolete Kept for compatibility purposes
 	 * @param string $correspondances parsed data
 	 */
-	private function lumiere_link_finder_oldway( $correspondances ) {
-
-		$imdb_admin_values = $this->imdb_admin_values;
+	private function lumiere_link_finder_oldway( array $correspondances ): string {
 
 		$correspondances = $correspondances[0];
 		preg_match( '/<!--imdb-->(.*?)<!--\/imdb-->/i', $correspondances, $link_parsed );
 
-		// link construction
-
-		if ( $imdb_admin_values['imdbpopup_highslide'] === '1' ) {     // highslide popup
+		// highslide popup
+		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
 			$link_parsed = $this->lumiere_popup_highslide_film_link( $link_parsed );
-
-		} else {                            // classic popup
-
-				$link_parsed = $this->lumiere_popup_classical_film_link( $link_parsed );
+			return $link_parsed;
 
 		}
 
+		// classic popup
+		$link_parsed = $this->lumiere_popup_classical_film_link( $link_parsed );
 		return $link_parsed;
+
 	}
 
 	/**
