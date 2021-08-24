@@ -32,9 +32,9 @@ class Search {
 	/**
 	 * Class \Lumiere\Settings
 	 *
-	 *  @var object
+	 *  @var class
 	 */
-	private object $config_class;
+	private $config_class;
 
 	/**
 	 * Class \Monolog\Logger

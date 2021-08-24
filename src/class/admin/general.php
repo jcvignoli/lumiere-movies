@@ -56,6 +56,9 @@ class General extends \Lumiere\Admin {
 		// Display the page
 		$this->lumiere_general_layout();
 
+		// Display notices.
+		add_action( 'admin_notices', 'lumiere_general_display_messages' );
+
 	}
 
 	/* Display the layout
@@ -70,11 +73,11 @@ class General extends \Lumiere\Admin {
 
 	}
 
-	/*
-	 *  Display head
+	/**
+	 *  Display admin notices
 	 *
 	 */
-	private function lumiere_general_head() {
+	public function lumiere_general_display_messages() {
 
 		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_key( $_GET['msg'] ), $this->messages ) ) {
 			switch ( sanitize_text_field( $_GET['msg'] ) ) {
@@ -97,6 +100,14 @@ class General extends \Lumiere\Admin {
 			}
 
 		}
+
+	}
+
+	/*
+	 *  Display head
+	 *
+	 */
+	private function lumiere_general_head() {
 
 		//--------------------save data selected
 		if ( ( isset( $_POST['update_imdbSettings'] ) ) && check_admin_referer( 'options_general_check', 'options_general_check' ) ) {

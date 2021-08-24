@@ -69,6 +69,9 @@ class Cache extends \Lumiere\Admin {
 		// Display the page
 		$this->lumiere_cache_layout();
 
+		// Display notices.
+		add_action( 'admin_notices', 'lumiere_cache_display_messages' );
+
 	}
 
 	/**
@@ -84,10 +87,10 @@ class Cache extends \Lumiere\Admin {
 	}
 
 	/**
-	 *  Display head
+	 *  Display admin notices
 	 *
 	 */
-	private function lumiere_cache_head() {
+	public function lumiere_cache_display_messages() {
 
 		// If $_GET["msg"] is found, display a related notice
 		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $this->messages ) ) {
@@ -105,6 +108,14 @@ class Cache extends \Lumiere\Admin {
 				echo $this->utilsClass->lumiere_notice( 1, esc_html( $this->messages['cache_refresh_individual_msg'] ) );
 			}
 		}
+
+	}
+
+	/**
+	 *  Display head
+	 *
+	 */
+	private function lumiere_cache_head() {
 
 		##################################### Saving options
 
