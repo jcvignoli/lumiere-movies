@@ -32,7 +32,8 @@ class PolylangCest {
 
 	}
 
-	/** Login to Wordpress
+	/**
+	 *  Login to Wordpress
 	 *  Trait function to keep the cookie active
 	 *
 	 */
@@ -42,12 +43,13 @@ class PolylangCest {
 
 	}
 
-	/** Check if plugin activation set up crons
+	/** 
+	 * Check if taxonomy works with Polylang
 	 *
 	 * @before login
 	 *
 	 */
-	public function checkInstallSetupCron(AcceptanceRemoteTester $I) {
+	public function checkTaxonomyActivationWorksWithPolylang(AcceptanceRemoteTester $I) {
 
 		$I->wantTo(\Helper\Color::set('Check if taxonomy works with Polylang', "italic+bold+cyan"));
 

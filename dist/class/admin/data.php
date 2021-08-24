@@ -96,8 +96,11 @@ class Data extends \Lumiere\Admin {
 			$this->utilsClass->lumiere_activate_debug( $this->imdb_widget_values, 'no_var_dump', null );
 		}
 
-		// Display the page
+		// Display the page.
 		$this->lumiere_data_layout();
+
+		// Display notices.
+		add_action( 'admin_notices', 'lumiere_data_display_messages' );
 
 	}
 
@@ -114,10 +117,10 @@ class Data extends \Lumiere\Admin {
 	}
 
 	/**
-	 *  Display head
+	 *  Display admin notices
 	 *
 	 */
-	private function lumiere_data_head() {
+	public function lumiere_data_display_messages() {
 
 		// If $_GET["msg"] is found, display a related notice
 		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_key( $_GET['msg'] ), $this->messages ) ) {
@@ -133,7 +136,16 @@ class Data extends \Lumiere\Admin {
 				echo $this->utilsClass->lumiere_notice( 3, esc_html( $this->messages['taxotemplatecopy_failed'] ) );
 
 			}
+
 		}
+
+	}
+
+	/**
+	 *  Display head
+	 *
+	 */
+	private function lumiere_data_head() {
 
 		/* Update options selected
 		 *
