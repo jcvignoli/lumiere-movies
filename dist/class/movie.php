@@ -46,13 +46,13 @@ class Movie {
 
 	/**
 	 * Admin options
-	 * @var array<string|int, Settings> $imdb_admin_values
+	 * @var array<string|int> $imdb_admin_values
 	 */
 	private array $imdb_admin_values;
 
 	/**
 	 * Widget options
-	 * @var array<string|int, Settings> $imdb_widget_values
+	 * @var array<string|int> $imdb_widget_values
 	 */
 	private array $imdb_widget_values;
 
@@ -343,11 +343,11 @@ class Movie {
 		preg_match( '/<span data-lum_link_maker="popup">(.+?)<\/span>/i', $correspondances, $link_parsed );
 
 		// highslide popup
-		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {     
+		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
 			$link_parsed = $this->lumiere_popup_highslide_film_link( $link_parsed );
 			return $link_parsed;
-		} 
+		}
 
 		// classic popup
 		$link_parsed = $this->lumiere_popup_classical_film_link( $link_parsed );
@@ -375,7 +375,7 @@ class Movie {
 			$link_parsed = $this->lumiere_popup_highslide_film_link( $link_parsed );
 			return $link_parsed;
 
-		} 
+		}
 
 		// classic popup
 		$link_parsed = $this->lumiere_popup_classical_film_link( $link_parsed );

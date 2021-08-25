@@ -312,7 +312,7 @@ class Utils {
 	 * @param int mandatory $code type of message
 	 * @param string mandatory $msg text to display
 	 */
-	public static function lumiere_notice( int $code, string $msg ) {
+	public static function lumiere_notice( int $code, string $msg ): string {
 
 		switch ( $code ) {
 			default:
@@ -325,7 +325,7 @@ class Utils {
 			case 4: // warning error, yellow
 				return '<div "notice notice-warning">' . $msg . '</div>';
 		}
-		return false;
+
 	}
 
 	/**
