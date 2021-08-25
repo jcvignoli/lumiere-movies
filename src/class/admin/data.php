@@ -17,47 +17,62 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use \Lumiere\Settings;
+use \Lumiere\Utils;
+
 class Data extends \Lumiere\Admin {
 
 	/**
 	 * Messages
-	 *
+	 * @var array<string, string> $messages
 	 */
-	public $messages = [
+	public array $messages = [
 		'taxotemplatecopy_success' => 'Template successfully copied.',
 		'taxotemplatecopy_failed' => 'Template copy failed!',
+		'taxotemplate_newversion' => 'New taxonomy template version, visit the taxonomy options to update.',
 	];
 
 	/**
 	 * Array of people data details
 	 * Built from settings class
+	 * @var array<string> $array_people
 	 */
-	private $array_people = '';
+	private array $array_people = [];
 
 	/**
 	 * Array of items data details
 	 * Built from settings class
+	 * @var array<string> $array_items
 	 */
-	private $array_items = '';
+	private array $array_items = [];
 
 	/**
 	 * List of data details that display a field to enter
-	 * A limit number in "what to display" section
+	 * A limit number in "Display" section
+	 * @var array<string> $details_with_numbers
 	 */
-	private $details_with_numbers = '';
+	private array $details_with_numbers = [];
 
 	/**
 	 * List of data details missing in the previous lists
 	 * These are not meant to be limited in their numbers, are no taxo items or people
+	 * @var array<string> $details_extra
 	 */
-	private $details_extra = '';
+	private array $details_extra = [];
 
+	/**
+	 * Constructor
+	 *
+	 */
 	protected function __construct() {
 
 		// Construct parent class
 		parent::__construct();
 
-		// Start debug
+		// Display notices.
+		$this->lumiere_admin_display_messages();
+
+		// Start logger
 		$this->configClass->lumiere_start_logger( 'adminData' );
 		$this->logger = $this->configClass->loggerclass;
 
@@ -99,9 +114,6 @@ class Data extends \Lumiere\Admin {
 		// Display the page.
 		$this->lumiere_data_layout();
 
-		// Display notices.
-		add_action( 'admin_notices', 'lumiere_data_display_messages' );
-
 	}
 
 	/**
@@ -120,24 +132,28 @@ class Data extends \Lumiere\Admin {
 	 *  Display admin notices
 	 *
 	 */
-	public function lumiere_data_display_messages() {
+	protected function lumiere_admin_display_messages(): ?string {
 
 		// If $_GET["msg"] is found, display a related notice
-		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_key( $_GET['msg'] ), $this->messages ) ) {
-
+		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $this->messages ) ) {
 			// Message for success
-			if ( $_GET['msg'] === 'taxotemplatecopy_success' ) {
-
-				echo $this->utilsClass->lumiere_notice( 1, esc_html( $this->messages['taxotemplatecopy_success'] ) );
+			if ( sanitize_text_field( $_GET['msg'] ) === 'taxotemplatecopy_success' ) {
+				echo Utils::lumiere_notice( 1, esc_html( $this->messages['taxotemplatecopy_success'] ) );
 
 				// Message for failure
-			} elseif ( $_GET['msg'] === 'taxotemplatecopy_failed' ) {
+			} elseif ( sanitize_text_field( $_GET['msg'] ) === 'taxotemplatecopy_failed' ) {
 
-				echo $this->utilsClass->lumiere_notice( 3, esc_html( $this->messages['taxotemplatecopy_failed'] ) );
+				echo Utils::lumiere_notice( 3, esc_html( $this->messages['taxotemplatecopy_failed'] ) );
+
+			} elseif ( sanitize_text_field( $_GET['msg'] ) === 'taxotemplate_newversion' ) {
+
+				echo Utils::lumiere_notice( 3, esc_html( $this->messages['taxotemplate_newversion'] ) );
 
 			}
 
 		}
+
+		return null;
 
 	}
 
@@ -150,7 +166,9 @@ class Data extends \Lumiere\Admin {
 		/* Update options selected
 		 *
 		 */
-		if ( ( isset( $_POST['update_imdbwidgetSettings'] ) ) && check_admin_referer( 'imdbwidgetSettings_check', 'imdbwidgetSettings_check' ) ) {
+		if ( isset( $_POST['update_imdbwidgetSettings'] ) ) {
+
+			check_admin_referer( 'imdbwidgetSettings_check', 'imdbwidgetSettings_check' );
 
 			foreach ( $_POST as $key => $postvalue ) {
 				// Sanitize
@@ -181,9 +199,9 @@ class Data extends \Lumiere\Admin {
 			// Special part related to details order
 			if ( isset( $_POST['imdbwidgetorderContainer'] ) ) {
 				// Sanitize
-				$myinputs_sanitized = $this->utilsClass->lumiere_recursive_sanitize_text_field( $_POST['imdbwidgetorderContainer'] );
+				$myinputs_sanitized = Utils::lumiere_recursive_sanitize_text_field( $_POST['imdbwidgetorderContainer'] );
 				// increment the $key of one
-				$data = array_combine( range( 1, count( $myinputs_sanitized ) ), array_values( $myinputs_sanitized ) );
+				$data = is_array( array_combine( range( 1, count( $myinputs_sanitized ) ), array_values( $myinputs_sanitized ) ) ) ? array_combine( range( 1, count( $myinputs_sanitized ) ), array_values( $myinputs_sanitized ) ) : [];
 
 				// flip $key with $value
 				$data = array_flip( $data );
@@ -196,7 +214,7 @@ class Data extends \Lumiere\Admin {
 			update_option( $this->configClass->imdbWidgetOptionsName, $this->configClass->imdb_widget_values );
 
 			// display confirmation message
-			echo $this->utilsClass->lumiere_notice( 1, '<strong>' . esc_html__( 'Options saved.', 'lumiere-movies' ) . '</strong>' );
+			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options saved.', 'lumiere-movies' ) . '</strong>' );
 
 			// Flush rewrite rules if updating taxonomy details
 			// Needed by WordPress as a new page is created
@@ -207,7 +225,7 @@ class Data extends \Lumiere\Admin {
 
 			// Display a refresh link otherwise refreshed data is not seen
 			if ( headers_sent() ) {
-				echo $this->utilsClass->lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
+				echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
 				die();
 			}
 
@@ -216,17 +234,19 @@ class Data extends \Lumiere\Admin {
 		/* Reset options selected
 		 *
 		 */
-		if ( ( isset( $_POST['reset_imdbwidgetSettings'] ) ) && check_admin_referer( 'imdbwidgetSettings_check', 'imdbwidgetSettings_check' ) ) {
+		if ( isset( $_POST['reset_imdbwidgetSettings'] ) ) {
+
+			check_admin_referer( 'imdbwidgetSettings_check', 'imdbwidgetSettings_check' );
 
 			// Delete the options to reset
 			delete_option( $this->configClass->imdbWidgetOptionsName );
 
 			// display confirmation message
-			echo $this->utilsClass->lumiere_notice( 1, '<strong>' . esc_html__( 'Options reset.', 'lumiere-movies' ) . '</strong>' );
+			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options reset.', 'lumiere-movies' ) . '</strong>' );
 
 			// Display a refresh link otherwise refreshed data is not seen
 			if ( headers_sent() ) {
-				echo $this->utilsClass->lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
+				echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
 				exit();
 			}
 
@@ -375,9 +395,7 @@ class Data extends \Lumiere\Admin {
 	<div class="imblt_border_shadow imdblt_align_webkit_center">
 
 	<div class="lumiere_intro_options_small">
-		<?php esc_html_e( 'You can select the order for the information selected from "what to display" section. Select first the movie detail you want to move, use "up" or "down" to reorder Lumiere Movies display. Once you are happy with the new layout, click on "update settings" to keep it.', 'lumiere-movies' ); ?>
-		<br /><br />
-		<?php esc_html_e( '"Source" movie detail cannot be selected; if it is selected from "what to display" section, it will always appear after others movie details', 'lumiere-movies' ); ?>
+		<?php esc_html_e( 'You can select the order for the information selected in "display" section. Select first the movie detail you want to move, use "up" or "down" to reorder Lumiere Movies display. Once you are happy with the new order, click on "update settings" to keep it.', 'lumiere-movies' ); ?>
 	</div>
 
 	<div id="container_imdbwidgetorderContainer" class="imdblt_double_container imdblt_padding_top_twenty lumiere_align_center lumiere_writing_vertical">
@@ -399,7 +417,7 @@ class Data extends \Lumiere\Admin {
 		<?php
 		foreach ( $this->configClass->imdb_widget_values['imdbwidgetorder'] as $key => $value ) {
 
-			if ( ! empty( $key ) ) { // to eliminate empty keys
+			if ( isset( $key ) ) { // to eliminate empty keys
 
 				echo "\t\t\t\t\t<option value='" . $key . "'";
 
@@ -456,7 +474,7 @@ class Data extends \Lumiere\Admin {
 
 	<div class="imblt_border_shadow">
 
-		<div class="lumiere_intro_options"><?php esc_html_e( "Use the checkbox to display the taxonomy tags. When activated, selected taxonomy will become blue if it is activated into 'What to display' section and will turn red otherwise.", 'lumiere-movies' ); ?>
+		<div class="lumiere_intro_options"><?php esc_html_e( "Use the checkbox to display the taxonomy tags. When activated, selected taxonomy will become blue if it is activated in the 'display' section and will turn red otherwise.", 'lumiere-movies' ); ?>
 		<br /><br />
 		<?php esc_html_e( 'Cautiously select the categories you want to display: it may have some unwanted effects, in particular if you display many movies in the same post at once. When selecting one of the following taxonomy options, it will supersede any other function or link created; for instance, you will not have access anymore to the popups for directors, if directors taxonomy is chosen. Taxonomy will always prevail over other Lumiere functionalities.', 'lumiere-movies' ); ?>
 
@@ -617,51 +635,53 @@ class Data extends \Lumiere\Admin {
 	 * Function checking if item/person template is missing or if a new one is available
 	 * Returns a link to copy the template if true and a message explaining if missing/update the template
 	 *
-	 * @param array mandatory $type type to search (actor, genre, etc)
+	 * @param string $type type to search (actor, genre, etc)
+	 * @return string
 	 */
-	private function lumiere_check_taxo_template( string $type ) {
+	private function lumiere_check_taxo_template( string $type ): string {
+
+		global $wp_filesystem;
 
 		// Initialize
 		$output = '';
+		$version_theme = 'no_theme';
+		$version_origin = '';
+		$pattern = '~Version: (.+)~i';
 
 		// Get the type to build the links
 		$lumiere_taxo_title = esc_html( $type );
 
 		// Files paths
-		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, $this->configClass->array_people, true ) ? $lumiere_taxo_file_tocopy = 'taxonomy-imdblt_people.php' : $lumiere_taxo_file_tocopy = 'taxonomy-imdblt_items.php';
+		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, $this->configClass->array_people, true ) ? Settings::TAXO_PEOPLE_THEME : Settings::TAXO_ITEMS_THEME;
 		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
 		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
 		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;
 		$lumiere_taxonomy_theme_path = $this->imdb_admin_values['imdbpluginpath'] . 'theme/';
 		$lumiere_taxonomy_theme_file = $lumiere_taxonomy_theme_path . $lumiere_taxo_file_tocopy;
 
-		// Find the version
-		$pattern = '~Version: (.+)~i';
-		# Copied version to the user theme folder
-		if ( file_exists( $lumiere_current_theme_path_file ) ) {
+		// Make sure we have the credentials
+		Utils::lumiere_wp_filesystem_cred( $lumiere_current_theme_path_file );
 
-			$get_current_file = wp_remote_get( $lumiere_current_theme_path_file );
-			$content = wp_remote_retrieve_body( $get_current_file );
-
-			if ( preg_match( $pattern, $content, $match ) ) {
-
-				$version_theme = $match[1];
-
-			} else {
-
-				$version_theme = 'no_theme';
-
-			}
-
-		} else {
+		// No file in the theme folder found, offer to copy it.
+		if ( file_exists( $lumiere_current_theme_path_file ) === false ) {
 
 			// Make the HTML link with a nonce, checked in move_template_taxonomy.php.
 			$link_taxo_copy = esc_url( add_query_arg( '_wpnonce', wp_create_nonce( 'taxo' ), admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=' . $lumiere_taxo_title ) );
 
 			$output .= "\n\t" . '<br />';
 			$output .= "\n\t" . '<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
-			$output .= "\n\t\t<a href='" . $link_taxo_copy . "' title='" . esc_html__( 'Copy a standard taxonomy template to your template folder to display this taxonomy.', 'lumiere-movies' ) . "' ><img src='" . esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png' ) . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
-					. esc_html__( 'Copy template', 'lumiere-movies' ) . '</a>';
+			$output .= "\n\t\t<a href='"
+					. $link_taxo_copy
+					. "' title='"
+					. esc_html__( 'Copy a standard taxonomy template to your template folder to display this taxonomy.', 'lumiere-movies' )
+					. "' ><img src='"
+					. esc_url(
+						$this->configClass->lumiere_pics_dir
+						. 'menu/admin-widget-copy-theme.png'
+					)
+					. "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
+					. esc_html__( 'Copy template', 'lumiere-movies' )
+					. '</a>';
 
 			$output .= "\n\t" . '<div><font color="red">'
 				. esc_html( "No $lumiere_taxo_title template found" )
@@ -669,29 +689,32 @@ class Data extends \Lumiere\Admin {
 			$output .= "\n\t" . '</div>';
 
 			return $output;
-		}
-		# Original version
-		if ( file_exists( $lumiere_taxonomy_theme_file ) ) {
 
-			$get_current_file = wp_remote_get( $lumiere_taxonomy_theme_file );
-			$content = wp_remote_retrieve_body( $get_current_file );
-
-			if ( preg_match( $pattern, $content, $match ) ) {
-
-				$version_origin = $match[1];
-
-			} else {
-
-				$version_theme = 'no_origin';
-
-			}
-
-		} else {
-
-			return false;
 		}
 
-		// Return a message if there is a new version of the template
+		// Get the taxonomy file version in the theme.
+		$content = $wp_filesystem->get_contents( $lumiere_current_theme_path_file );
+		if ( preg_match( $pattern, $content, $match ) === 1 ) {
+			$version_theme = $match[1];
+
+		}
+
+		// No copied taxonomy file in theme folder exists, exit.
+		if ( file_exists( $lumiere_taxonomy_theme_file ) === false ) {
+
+			return "\n\t" . '<br /><div><i>' . esc_html__( 'Missing Lumiere template file. A problem has been detected with your installation.', 'lumiere-movies' ) . '</i></div>';
+
+		}
+
+		// Get the taxonomy file version in the lumiere theme folder.
+		$content = $wp_filesystem->get_contents( $lumiere_taxonomy_theme_file );
+		if ( preg_match( $pattern, $content, $match ) === 1 ) {
+
+			$version_origin = $match[1];
+
+		}
+
+		// Return a message if there is a new version of the template.
 		if ( $version_theme !== $version_origin ) {
 
 			$output .= "\n\t" . '<br />';
@@ -711,7 +734,7 @@ class Data extends \Lumiere\Admin {
 
 		}
 
-		return false;
+		return "\n\t" . '<br /><div><i>' . ucfirst( $lumiere_taxo_title ) . esc_html__( ' template up-to-date', 'lumiere-movies' ) . '</i></div>';
 	}
 
 }

@@ -33,13 +33,13 @@ class Admin {
 
 	/**
 	 * Widget options
-	 * @var array<string|int, Settings> $imdb_widget_values
+	 * @var array<string|int> $imdb_widget_values
 	 */
 	protected array $imdb_widget_values;
 
 	/**
 	 * Cache options
-	 * @var array<string|int> $imdb_cache_values
+	 * @var array<string> $imdb_cache_values
 	 */
 	protected array $imdb_cache_values;
 
@@ -110,10 +110,20 @@ class Admin {
 		// Start the debug
 		add_action( 'admin_init', [ $this, 'lumiere_maybe_start_debug' ], 0 );
 
+		// Display notices.
+		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
+
 		// Store the logger class
 		$this->logger = $this->configClass->loggerclass;
 
 	}
+
+	/**
+	 *  Display admin notices
+	 *
+	 */
+	protected function lumiere_admin_display_messages(): ?string {
+		return null; }
 
 	/**
 	 *  Load all files included in class/Admin
