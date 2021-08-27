@@ -1117,7 +1117,7 @@ class Cache extends \Lumiere\Admin {
 			<div class="explain">
 				<?php
 				// display cache folder size
-				$size_cache_pics = (int) 0;
+				$size_cache_pics = 0;
 				$imdltcacheimageFile = Utils::lumiere_glob_recursive( $this->imdb_cache_values['imdbphotoroot'] . '*' );
 				$imdltcacheimageFileCount = ( count( $imdltcacheimageFile ) );
 

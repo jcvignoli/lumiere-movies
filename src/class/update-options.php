@@ -20,6 +20,10 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use \Lumiere\Settings;
+use \Lumiere\Utils;
+use \Lumiere\Logger;
+
 /**
  * Uses the files in /updates/ to updates the database
  * Checks the current Lumière version against the updates and uses $configClass->imdb_admin_values['imdbHowManyUpdates'] var to know if new updates have to be made
@@ -30,15 +34,18 @@ if ( ! defined( 'WPINC' ) ) {
  * @$utilsClass->lumiere_activate_debug(): activate the debugging options
  * @$configClass->lumiere_start_logger(): run the logger class
  */
-use \Lumiere\Settings;
-use \Lumiere\Utils;
-
-class UpdateOptions {
+class Update_Options {
 
 	/* \Lumiere\Settings class
 	 *
 	 */
-	private object $configClass;
+	private Settings $configClass;
+
+	/**
+	 * \Lumiere\Logger class
+	 *
+	 */
+	private Logger $logger;
 
 	/**
 	 * Options array
@@ -71,7 +78,10 @@ class UpdateOptions {
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 
 		// Start the settings class
-		$this->configClass = new Settings( 'updateClass' );
+		$this->configClass = new Settings();
+
+		// Start Logger class.
+		$this->logger = new Logger( 'updateClass' );
 
 		// Start the Utils class
 		$this->utilsClass = new Utils();
@@ -96,8 +106,8 @@ class UpdateOptions {
 		$configClass = $this->configClass;
 
 		// Manually Activate logging, since current function is run before WP init
-		$this->configClass->lumiere_start_logger( 'updateClass' );
-		$logger = $this->configClass->loggerclass;
+		do_action( 'lumiere_logger' );
+		$logger = $this->logger->log();
 
 		// Debug info
 		$logger->debug( '[Lumiere][updateOptions] Running updates...' );
