@@ -27,13 +27,13 @@ class Admin {
 
 	/**
 	 * Admin options
-	 * @var array<string|int> $imdb_admin_values
+	 * @var array{ 'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': int, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': string, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_highslide': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': int, 'imdbseriemovies': string } $imdb_admin_values
 	 */
 	protected array $imdb_admin_values;
 
 	/**
 	 * Widget options
-	 * @var array<string|int> $imdb_widget_values
+	 * @var array<string> $imdb_widget_values
 	 */
 	protected array $imdb_widget_values;
 
@@ -68,19 +68,10 @@ class Admin {
 	protected string $rootURL = '';
 
 	/**
-	 * HTML allowed for use of wp_kses_post()
-	 * Utilised by children classes
+	 * HTML allowed for use of wp_kses()
 	 */
 	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
-		'i',
-		'strong',
-		'b',
-		'a' => [
-			'id' => true,
-			'href' => true,
-			'title' => true,
-			'data-*' => true,
-		],
+		'i' => true,
 	];
 
 	/**
@@ -108,7 +99,7 @@ class Admin {
 		$this->rootPath = plugin_dir_path( __DIR__ );
 
 		// Start the debug
-		add_action( 'admin_init', [ $this, 'lumiere_maybe_start_debug' ], 0 );
+		add_action( 'admin_init', [ $this, 'lumiere_admin_maybe_start_debug' ], 0 );
 
 		// Display notices.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
@@ -122,8 +113,9 @@ class Admin {
 	 *  Display admin notices
 	 *
 	 */
-	protected function lumiere_admin_display_messages(): ?string {
-		return null; }
+	public function lumiere_admin_display_messages(): ?string {
+		return null;
+	}
 
 	/**
 	 *  Load all files included in class/Admin
@@ -149,7 +141,7 @@ class Admin {
 	/**
 	 *  Wrapps the start of the debugging
 	 */
-	private function lumiere_maybe_start_debug(): void {
+	public function lumiere_admin_maybe_start_debug(): void {
 
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
 

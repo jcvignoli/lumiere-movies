@@ -16,17 +16,21 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-use \Lumiere\Settings;
-use \Lumiere\Utils;
 use \Imdb\Title;
 use \Imdb\TitleSearch;
+use \Lumiere\Frontend;
 
-class PopupMovie {
+class Popup_Movie {
+
+	// Use trait frontend
+	use Frontend {
+		Frontend::__construct as public __constructFrontend;
+	}
 
 	/**
 	 * The movie queried
 	 */
-	private object $movie;
+	private ?object $movie;
 
 	/**
 	 * Movie's id, if provided
@@ -44,32 +48,9 @@ class PopupMovie {
 	private ?string $film_sanitized_for_title;
 
 	/**
-	 * Class \Lumiere\Utils
-	 *
-	 */
-	private object $utils_class;
-
-	/**
-	 * Class \Lumiere\Settings
-	 *
-	 */
-	private object $config_class;
-
-	/**
-	 * Class \Monolog\Logger
-	 *
-	 */
-	private object $logger;
-
-	/**
-	 * Lumière Options
-	 */
-	private array $imdb_admin_values;
-	private array $imdb_widget_values;
-
-	/**
 	 * Settings from class \Lumiere\Settings
 	 * To include the type of (movie, TVshow, Games) search
+	 * @var array $type_search
 	 */
 	private array $type_search;
 
@@ -83,56 +64,29 @@ class PopupMovie {
 			wp_die( esc_html__( 'Cannot start popup movie, class Lumière Settings not found', 'lumiere-movies' ) );
 		}
 
-		// Get database options
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
-
-		$this->config_class = new Settings( 'popupMovie' );
-
-		// Start the class Utils
-		$this->utils_class = new Utils();
+		// Construct Frontend trait.
+		$this->__constructFrontend( 'popupMovie' );
 
 		// Get the type of search: movies, series, games
 		$this->type_search = $this->config_class->lumiere_select_type_search();
-
-		// Start the logger
-		$this->config_class->lumiere_start_logger( 'popupMovie' );
-		$this->logger = $this->config_class->loggerclass;
-
-		// Start the debugging
-		add_action( 'wp_head', [ $this, 'lumiere_maybe_start_debug' ], 0 );
 
 		/* GET Vars sanitized */
 		$this->movieid_sanitized = isset( $_GET['mid'] ) ? filter_var( $_GET['mid'], FILTER_SANITIZE_NUMBER_INT ) : null;
 		$this->film_title_sanitized = isset( $_GET['film'] ) ? $this->utils_class->lumiere_name_htmlize( $_GET['film'] ) : null;
 		$this->film_sanitized_for_title = isset( $_GET['film'] ) ? sanitize_text_field( $_GET['film'] ) : null;
 
-		// Search the movie to display
-		$this->find_movie();
-
 		// Display layout
-		$this->layout( $this->movie );
+		add_action( 'wp', [ $this, 'lumiere_popup_movie_layout' ], 1 );
 
-	}
-
-	/**
-	 *  Wrap the start of debug
-	 *  Allows to start later in the process
-	 */
-	public function lumiere_maybe_start_debug() {
-
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
-
-			$this->utils_class->lumiere_activate_debug( null, 'no_var_dump' );
-
-		}
 	}
 
 	/**
 	 *  Search movie title
 	 *
 	 */
-	private function find_movie(): bool {
+	public function find_movie(): bool {
+
+		do_action( 'lumiere_logger' );
 
 		// if neither film nor mid are set, redirect to class PopupSearch
 		if ( ( empty( $this->movieid_sanitized ) && empty( $this->film_title_sanitized ) ) || ( is_null( $this->movieid_sanitized ) && is_null( $this->film_title_sanitized ) ) ) {
@@ -161,7 +115,7 @@ class PopupMovie {
 		// A movie imdb id is provided
 		if ( ( isset( $this->movieid_sanitized ) ) && ( ! empty( $this->movieid_sanitized ) ) ) {
 
-			$this->movie = new Title( $this->movieid_sanitized, $this->config_class, $this->logger );
+			$this->movie = new Title( $this->movieid_sanitized, $this->config_class, $this->logger->log() );
 			$this->film_title_sanitized = $this->utils_class->lumiere_name_htmlize( $this->movie->title() );
 			$this->film_sanitized_for_title = sanitize_text_field( $this->film_title_sanitized );
 			return true;
@@ -171,7 +125,8 @@ class PopupMovie {
 		// No movie id is provided, use the title to get the movie.
 		if ( ( isset( $this->film_title_sanitized ) ) && ( ! empty( $this->film_title_sanitized ) ) ) {
 
-			$titleSearchClass = new TitleSearch( $this->config_class, $this->logger );
+			$titleSearchClass = new TitleSearch( $this->config_class, $this->logger->log() );
+
 			$this->movie = $titleSearchClass->search( $this->film_title_sanitized, $this->type_search )[0];
 			$this->film_sanitized_for_title = sanitize_text_field( $this->film_title_sanitized );
 			return true;
@@ -184,20 +139,27 @@ class PopupMovie {
 	 *  Display layout
 	 *
 	 */
-	private function layout( object $movie_results ) {
-
+	public function lumiere_popup_movie_layout(): void {
 		?><!DOCTYPE html>
-		<html>
-		<head>
-			<?php wp_head();?>
-
+<html>
+<head>
+		<?php wp_head();?>
 		</head>
-		<body class="lumiere_body
-			<?php
-			if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
-				echo ' lumiere_body_' . $this->imdb_admin_values['imdbpopuptheme'];
-			}
-			?>">
+		<body class="lumiere_body<?php
+		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
+			echo ' lumiere_body_' . $this->imdb_admin_values['imdbpopuptheme'];
+		}
+		?>">
+
+		<?php
+		// Get the movie's title
+		$this->find_movie();
+		$movie_results = $this->movie;
+		// If no movie was found, exit.
+		if ( $movie_results === null ) {
+			wp_die( esc_html__( 'Lumiere movies: No movie found with this title', 'lumiere-movies' ) );
+		}
+		?>
 
 		<?php $this->display_menu( $movie_results ); ?>
 
@@ -569,7 +531,7 @@ class PopupMovie {
 				echo '<a class="linkpopup" href="'
 				. esc_url(
 					$this->config_class->lumiere_urlpopupsperson . $director[ $i ]['imdb']
-					. '/?mid=' . $director[ $i ]['imdb'] . '&film=' . $this->title_sanitized
+					. '/?mid=' . $director[ $i ]['imdb'] . '&film=' . $this->film_title_sanitized
 				)
 					. '" title="' . esc_html__( 'link to imdb', 'lumiere-movies' ) . '">';
 				echo "\n\t\t\t" . sanitize_text_field( $director[ $i ]['name'] );
@@ -832,5 +794,5 @@ class PopupMovie {
 
 }
 
-new PopupMovie();
+new Popup_Movie();
 

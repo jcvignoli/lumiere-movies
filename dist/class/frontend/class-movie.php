@@ -18,10 +18,14 @@ if ( ! defined( 'WPINC' ) ) {
 
 use \Imdb\Title;
 use \Imdb\TitleSearch;
-use \Lumiere\Settings;
-use \Lumiere\Utils;
+use \Lumiere\Frontend;
 
 class Movie {
+
+	// Use trait frontend
+	use Frontend {
+		Frontend::__construct as public __constructFrontend;
+	}
 
 	/**
 	 *  HTML allowed for use of wp_kses_post()
@@ -40,28 +44,6 @@ class Movie {
 	public string $lumiere_result = '';
 
 	/**
-	 * \Lumiere\Settings class
-	 */
-	private Settings $config_class;
-
-	/**
-	 * Admin options
-	 * @var array<string|int> $imdb_admin_values
-	 */
-	private array $imdb_admin_values;
-
-	/**
-	 * Widget options
-	 * @var array<string|int> $imdb_widget_values
-	 */
-	private array $imdb_widget_values;
-
-	/**
-	 * \Lumière\Utils class
-	 */
-	private Utils $utils_class;
-
-	/**
 	 *  Store the name or the ID of a movie
 	 *  Not yet utilised, passing the movie's title or id right now into lumiere_show()
 	 */
@@ -78,18 +60,8 @@ class Movie {
 			wp_die( esc_html__( 'Cannot start class movie, class Lumière Settings not found', 'lumiere-movies' ) );
 		}
 
-		// Get database options.
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
-
-		// Start settings class.
-		$this->config_class = new Settings( 'movieClass' );
-
-		// Start the tools class.
-		$this->utils_class = new Utils();
-
-		// Activate debugging.
-		add_action( 'wp', [ $this, 'lumiere_maybe_start_debug' ], 0 );
+		// Construct Frontend trait.
+		$this->__constructFrontend( 'movieClass' );
 
 		// Run the initialisation of the class.
 		// Not needed since lumiere_show() is externally called.
@@ -133,10 +105,7 @@ class Movie {
 		/* Vars */
 		global $lumiere_count_me_siffer;
 
-		// Start logging using hook defined in settings class.
-		do_action( 'lumiere_logger_hook' );
-
-		$logger = $this->config_class->loggerclass;
+		$logger = $this->logger->log();
 		$config_class = $this->config_class;
 		$lumiere_count_me_siffer = isset( $lumiere_count_me_siffer ) ? $lumiere_count_me_siffer : 0; # var for counting only one results
 		$imdbIdOrTitle = isset( $imdbIdOrTitleOutside ) ? $imdbIdOrTitleOutside : $this->imdbIdOrTitle;
@@ -146,7 +115,7 @@ class Movie {
 		$imdb_admin_values = $this->imdb_admin_values;
 		$imdb_widget_values = $this->imdb_widget_values;
 
-		$this->config_class->loggerclass->debug( '[Lumiere][movieClass] Calling IMDbPHP class.' );
+		$logger->debug( '[Lumiere][movieClass] Calling IMDbPHP class.' );
 
 		$search = new TitleSearch( $this->config_class, $logger );
 
@@ -286,7 +255,7 @@ class Movie {
 	private function lumiere_parse_spans_callback_id( array $block_span ): string {
 
 		$imdbIdOrTitle = [];
-		$imdbIdOrTitle[]['bymid'] = $this->utils_class->lumiere_recursive_sanitize_text_field( $block_span[1] );
+		$imdbIdOrTitle[]['bymid'] = sanitize_text_field( $block_span[1] );
 		return $this->lumiere_show( $imdbIdOrTitle );
 
 	}
@@ -298,7 +267,7 @@ class Movie {
 	private function lumiere_parse_spans_callback_title( array $block_span ): string {
 
 		$imdbIdOrTitle = [];
-		$imdbIdOrTitle[]['byname'] = $this->utils_class->lumiere_recursive_sanitize_text_field( $block_span[1] );
+		$imdbIdOrTitle[]['byname'] = sanitize_text_field( $block_span[1] );
 		return $this->lumiere_show( $imdbIdOrTitle );
 
 	}
@@ -508,7 +477,7 @@ class Movie {
 		$imdb_admin_values = $this->imdb_admin_values;
 		$imdb_widget_values = $this->imdb_widget_values;
 
-		$logger = $this->config_class->loggerclass;
+		$logger = $this->logger->log();
 
 		$outputfinal = '';
 
@@ -2352,13 +2321,7 @@ class Movie {
  */
 if ( ! is_admin() ) {
 
-	$lumiere_config_class = new Settings();
-	$lumiere_utils_class = new Utils();
+	new Movie();
 
-	if ( ! $lumiere_utils_class->lumiere_array_contains_term( $lumiere_config_class->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ) ) {
-
-		new Movie();
-
-	}
 }
 

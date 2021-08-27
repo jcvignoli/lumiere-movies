@@ -29,20 +29,31 @@ class Core {
 	 * \Lumiere\Settings class
 	 *
 	 */
-	private $configClass;
-
-	/**
-	 *  Vars from Lumière settings
-	 */
-	private $imdb_admin_values;
-	private $imdb_widget_values;
-	private $imdb_cache_values;
+	private Settings $configClass;
 
 	/**
 	 * \Lumière\Utils class
 	 *
 	 */
-	private $utilsClass;
+	private Utils $utilsClass;
+
+	/**
+	 * Admin options
+	 * @var array{ 'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': int, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': string, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_highslide': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': int, 'imdbseriemovies': string } $imdb_admin_values
+	 */
+	private array $imdb_admin_values;
+
+	/**
+	 * Widget options
+	 * @var array<string> $imdb_widget_values
+	 */
+	private array $imdb_widget_values;
+
+	/**
+	 * Cache options
+	 * @var array<string> $imdb_cache_values
+	 */
+	private array $imdb_cache_values;
 
 	/**
 	 * Constructor
@@ -50,15 +61,18 @@ class Core {
 	 */
 	public function __construct () {
 
-		$this->configClass = new Settings();
-		$this->imdb_admin_values = $this->configClass->get_imdb_admin_option();
-		$this->imdb_widget_values = $this->configClass->get_imdb_widget_option();
-		$this->imdb_cache_values = $this->configClass->get_imdb_cache_option();
+		// Get database options.
+		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
+		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
-		// Start Utils class
+		// Start Settings class.
+		$this->configClass = new Settings( 'adminClass' );
+
+		// Start Utils class.
 		$this->utilsClass = new Utils();
 
-		// redirect popups URLs
+		// redirect popups URLs.
 		add_action( 'init', [ $this, 'lumiere_popup_redirect' ], 0 );
 		add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 0 );
 
@@ -72,7 +86,7 @@ class Core {
 		// Redirect gutenberg-search.php
 		add_filter(
 			'init',
-			function() {
+			function(): void {
 				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::GUTENBERG_SEARCH_URL ) ) {
 					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::GUTENBERG_SEARCH_PAGE;
 				}
@@ -97,7 +111,7 @@ class Core {
 			// redirect calls to move_template_taxonomy.php.
 			add_filter(
 				'admin_init',
-				function() {
+				function(): void {
 					if ( isset( $_GET['taxotype'] ) ) {
 						require plugin_dir_path( __DIR__ ) . \Lumiere\Settings::MOVE_TEMPLATE_TAXONOMY_PAGE;
 
@@ -156,7 +170,7 @@ class Core {
 	 *  Register frontpage scripts and styles
 	 *
 	 */
-	public function lumiere_register_assets() {
+	public function lumiere_register_assets(): void {
 
 		// Common assets to admin and frontpage
 		$this->lumiere_register_both_assets();
@@ -229,7 +243,7 @@ class Core {
 	/*  Register admin scripts and styles
 	 *
 	 */
-	public function lumiere_register_admin_assets() {
+	public function lumiere_register_admin_assets(): void {
 
 		// Common assets to admin and frontpage
 		$this->lumiere_register_both_assets();
@@ -291,7 +305,7 @@ class Core {
 	 *  For both admin and frontpage utilisation scripts and styles
 	 *
 	 */
-	public function lumiere_register_both_assets() {
+	public function lumiere_register_both_assets(): void {
 
 		// Register hide/show script
 		wp_register_script(
@@ -308,7 +322,7 @@ class Core {
 	 *  Register TinyMCE
 	 *
 	 */
-	public function lumiere_execute_tinymce( $hook ) {
+	public function lumiere_execute_tinymce( string $hook ): void {
 
 		// Don't bother doing this stuff if the current user lacks permissions
 		if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) ) {
@@ -328,10 +342,11 @@ class Core {
 	}
 
 	/**
-	 *  Position of TinyMCE button
-	 *
+	 * Change TinyMCE buttons position
+	 * @param mixed[] $buttons
+	 * @return mixed[]
 	 */
-	public function lumiere_tinymce_button_position( $buttons ) {
+	public function lumiere_tinymce_button_position( array $buttons ): array {
 
 		array_push( $buttons, 'separator', 'lumiere_tiny' );
 
@@ -340,12 +355,14 @@ class Core {
 	}
 
 	/**
-	 *  Add TinyMCE button
-	 *
+	 * Add TinyMCE buttons
+	 * @param mixed[] $plugin_array
+	 * @return mixed[]
 	 */
-	public function lumiere_tinymce_addbutton( $plugin_array ) {
+	public function lumiere_tinymce_addbutton( array $plugin_array ): array {
 
 		$plugin_array['lumiere_tiny'] = $this->configClass->lumiere_js_dir . 'lumiere_admin_tinymce_editor.min.js';
+
 		return $plugin_array;
 
 	}
@@ -354,7 +371,7 @@ class Core {
 	 *  Register gutenberg blocks
 	 *
 	 */
-	public function lumiere_register_gutenberg_blocks() {
+	public function lumiere_register_gutenberg_blocks(): void {
 
 		wp_register_script(
 			'lumiere_gutenberg_main',
@@ -402,7 +419,7 @@ class Core {
 	 * Add the stylesheet & javascript to frontpage.
 	 *
 	 */
-	public function lumiere_execute_assets () {
+	public function lumiere_execute_assets (): void {
 
 		// Use local template lumiere.css if there is one in current theme folder.
 		if ( file_exists( TEMPLATEPATH . '/lumiere.css' ) ) { // a lumiere.css exists inside theme folder, use it!
@@ -419,7 +436,7 @@ class Core {
 		if (
 			( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) )
 			&&
-			( $this->utilsClass->str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstring ) )
+			( Utils::str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstring ) )
 		) {
 
 			wp_enqueue_style( 'lumiere_style_oceanwpfixes_popups' );
@@ -477,8 +494,8 @@ class Core {
 			|| ( 'widgets.php' === $hook )
 			|| ( 'post.php' === $hook )
 			|| ( 'post-new.php' === $hook )
-			|| ( $this->utilsClass->lumiere_array_contains_term( $this->configClass->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ) ) // All sort of Lumière pages.
-			|| ( $this->utilsClass->str_contains( $_SERVER['REQUEST_URI'], 'admin.php?page=lumiere_options' ) )
+			|| ( Utils::lumiere_array_contains_term( $this->configClass->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ) ) // All sort of Lumière pages.
+			|| ( Utils::str_contains( $_SERVER['REQUEST_URI'], 'admin.php?page=lumiere_options' ) )
 		) {
 
 			// Load main css.
@@ -519,7 +536,7 @@ class Core {
 	/**
 	 *  Redirect the popups to a proper URL
 	 */
-	public function lumiere_popup_redirect() {
+	public function lumiere_popup_redirect(): void {
 
 		// The popup is for films
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::POPUP_SEARCH_URL ) ) {
@@ -531,7 +548,7 @@ class Core {
 			$query_info = preg_match_all( '#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
 			$query_norecursive = preg_match_all( '#norecursive=(.*)#', $_SERVER['REQUEST_URI'], $match_query_norecursive, PREG_UNMATCHED_AS_NULL );
 
-			$url = ( ! empty( $match_query_film_film[0] ) ) ? $this->configClass->lumiere_urlstringfilms . $match_query_film_film[0] . '/' : $this->configClass->lumiere_urlstringfilms . $match_query_film_mid[0] . '/';
+			$url = ( isset( $match_query_film_film[0] ) ) ? $this->configClass->lumiere_urlstringfilms . $match_query_film_film[0] . '/' : $this->configClass->lumiere_urlstringfilms . $match_query_film_mid[0] . '/';
 			wp_safe_redirect(
 				add_query_arg(
 					[
@@ -616,34 +633,35 @@ class Core {
 	/**
 	 *  Change the title of the popups according to the movie's or person's data
 	 */
-	public function lumiere_change_popup_title( $title ) {
+	public function lumiere_change_popup_title( string $title ): string {
 
 		$imdb_cache_values = $this->imdb_cache_values;
 		$config = $this->configClass;
+		$filmid_sanitized = '';
 
 		// Change the title for the query search popup.
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::GUTENBERG_SEARCH_URL ) ) {
 			return esc_html__( 'Lumiere Query Interface', 'lumiere-movies' );
 		}
 
-		// Change the titles for popups
+		// Change the titles for popups.
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstring ) ) {
 
 			// Add cache dir to properly save data in real cache dir.
-			$this->configClass->cachedir = $imdb_cache_values['imdbcachedir'] ?? null;
+			$this->configClass->cachedir = $imdb_cache_values['imdbcachedir'];
 
-				// Display the title if /url/films.
+			// Display the title if /url/films.
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) {
 				if ( ( isset( $_GET['mid'] ) ) && ( ! empty( $_GET['mid'] ) ) ) {
-					$movieid_sanitized = sanitize_text_field( $_GET['mid'] );
+					$movieid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( $_GET['mid'] ) : '';
 					$movie = new Title( $movieid_sanitized, $config );
 					$filmid_sanitized = esc_html( $movie->title() );
 				} elseif ( ( ! isset( $_GET['mid'] ) ) && ( isset( $_GET['film'] ) ) ) {
-					$filmid_sanitized = $this->utilsClass->lumiere_name_htmlize( $_GET['film'] );
+					$filmid_sanitized = Utils::lumiere_name_htmlize( $_GET['film'] );
 				}
 
-				$title_name = isset( $movieid_sanitized ) ? $filmid_sanitized : sanitize_text_field( $_GET['film'] );
-				$title = isset( $title_name ) ? esc_html__( 'Informations about ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies' : esc_html__( 'Unknown', 'lumiere-movies' ) . '- Lumi&egrave;re movies';
+				$title_name = strlen( $filmid_sanitized ) === 0 ? esc_html( $_GET['film'] ) : $filmid_sanitized;
+				$title = esc_html__( 'Informations about ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies';
 
 				// Display the title if /url/person
 			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringperson ) ) {
@@ -661,15 +679,17 @@ class Core {
 				$title = esc_html__( 'Search query for ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies ';
 			}
 
-			return $title;
 		}
 
+		return $title;
 	}
 
 	/**
-	 *  Add a class to taxonomy links (constructed in movie.php)
+	 * Add a class to taxonomy links (constructed in movie.php)
+	 * @param mixed[] $plugin_array
+	 * @return mixed[]
 	 */
-	public function lumiere_taxonomy_add_class_to_links( array $links ): array {
+	public function lumiere_taxonomy_add_class_to_links( $links ) {
 
 		return str_replace( '<a href="', '<a class="linktaxonomy" href="', $links );
 
@@ -678,7 +698,9 @@ class Core {
 	/**
 	 * Add new meta tags in popups <head>
 	 */
-	public function lumiere_add_metas() {
+	public function lumiere_add_metas(): void {
+
+		$my_canon = '';
 
 		// Change the metas only for popups.
 		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringsearch ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringperson ) ) ) {
@@ -694,18 +716,23 @@ class Core {
 			// Canonical for search popup.
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringsearch ) ) {
 				$film_sanitized = '';
-				$film_sanitized = isset( $_GET['film'] ) ? $this->utilsClass->lumiere_name_htmlize( $_GET['film'] ) : '';
+				$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
 				$my_canon = $this->configClass->lumiere_urlpopupsearch . '?film=' . $film_sanitized . '&norecursive=yes';
+				echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
 			}
 
 			// Canonical for movies popups.
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) {
 				$mid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( $_GET['mid'] ) : '';
 				$film_sanitized = '';
-				$film_sanitized = isset( $_GET['film'] ) ? $this->utilsClass->lumiere_name_htmlize( $_GET['film'] ) : '';
+				$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
 				$info_sanitized = '';
 				$info_sanitized = isset( $_GET['info'] ) ? esc_html( $_GET['info'] ) : '';
-				$my_canon = $this->configClass->lumiere_urlpopupsfilms . '?film=' . $film_sanitized . '&mid=' . $mid_sanitized . '&info=' . $info_sanitized;
+				$my_canon = $this->configClass->lumiere_urlpopupsfilms . $film_sanitized . '/?film=' . $film_sanitized . '&mid=' . $mid_sanitized . '&info=' . $info_sanitized;
+				if ( strlen( $film_sanitized ) > 0 ) {
+					echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
+					echo "\n" . '<meta property="article:tag" content="' . $film_sanitized . '" />';
+				}
 			}
 
 			// Canonical for people popups.
@@ -713,12 +740,14 @@ class Core {
 				$mid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( $_GET['mid'] ) : '';
 				$info_sanitized = isset( $_GET['info'] ) ? esc_html( $_GET['info'] ) : '';
 				$my_canon = $this->configClass->lumiere_urlpopupsperson . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=' . $info_sanitized;
+				if ( strlen( $mid_sanitized ) > 0 ) {
+					$person = new Person( $mid_sanitized, $this->configClass );
+					$person_name_sanitized = esc_html( $person->name() );
+					echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
+					echo "\n" . '<meta property="article:tag" content="' . $person_name_sanitized . '" />';
+				}
 			}
 
-			echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
-			if ( ( isset( $film_sanitized ) ) && ( ! empty( $film_sanitized ) ) ) {
-				echo "\n" . '<meta property="article:tag" content="' . $film_sanitized . '" />';
-			}
 			echo "\n\t\t" . '<!-- Lumiere Movies -->' . "\n";
 
 			// Prevent WordPress from inserting a canonical tag.
@@ -855,7 +884,7 @@ class Core {
 	/**
 	 * Register taxomony and create custom taxonomy pages
 	 */
-	public function lumiere_create_taxonomies() {
+	public function lumiere_create_taxonomies(): void {
 
 		$imdb_admin_values = $this->imdb_admin_values;
 		$imdb_widget_values = $this->imdb_widget_values;

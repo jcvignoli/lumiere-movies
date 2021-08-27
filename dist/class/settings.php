@@ -94,11 +94,11 @@ class Settings extends Config {
 	const GUTENBERG_SEARCH_PAGE = 'inc/gutenberg-search.php';
 	const GUTENBERG_SEARCH_URL_STRING = 'lumiere/search/';
 	const GUTENBERG_SEARCH_URL = '/wp-admin/' . self::GUTENBERG_SEARCH_URL_STRING;
-	const POPUP_SEARCH_URL = 'inc/popup-search.php';
-	const POPUP_MOVIE_URL = 'inc/popup-imdb-movie.php';
-	const POPUP_PERSON_URL = 'inc/popup-imdb-person.php';
-	const TAXO_PEOPLE_THEME = 'taxonomy-lumiere-people.php';
-	const TAXO_ITEMS_THEME = 'taxonomy-lumiere-items.php';
+	const POPUP_SEARCH_URL = 'class/frontend/class-popup-search.php';
+	const POPUP_MOVIE_URL = 'class/frontend/class-popup-movie.php';
+	const POPUP_PERSON_URL = 'class/frontend/class-popup-person.php';
+	const TAXO_PEOPLE_THEME = 'theme/taxonomy-lumiere-people.php';
+	const TAXO_ITEMS_THEME = 'theme/taxonomy-lumiere-items.php';
 
 	/**
 	 * URL string for taxonomy, 'imdblt_' by default (built in lumiere_define_constants() )
@@ -353,7 +353,7 @@ class Settings extends Config {
 			'imdburlpopups' => '/imdblt/',
 			'imdbkeepsettings' => '1',
 			'imdburlstringtaxo' => self::URL_STRING_TAXO,
-			'imdbcoversize' => false,
+			'imdbcoversize' => '0',
 			'imdbcoversizewidth' => '100',
 			#--------------------------------------------------=[ Technical ]=--
 
@@ -363,11 +363,11 @@ class Settings extends Config {
 			'imdbpopuplong' => '350',
 			'imdbintotheposttheme' => 'grey',
 			'imdblinkingkill' => '0',
-			'imdbautopostwidget' => false,
+			'imdbautopostwidget' => '0',
 			'imdblanguage' => 'en',
 			/*'imdbsourceout' => false,*/
 			'imdbdebug' => '0',                       /* Debug */
-			'imdbdebuglog' => false,                  /* Log debug */
+			'imdbdebuglog' => '0',                  /* Log debug */
 			'imdbdebuglogpath' => self::DEBUG_LOG_PATH,
 			'imdbdebuglevel' => 'DEBUG',              /* Debug levels: emergency, alert, critical,
 									error, warning, notice, info, debug */
@@ -674,7 +674,7 @@ class Settings extends Config {
 		$wp_is_block_editor = ( isset( $screen ) && ! is_null( $screen->is_block_editor() ) ) ? $screen->is_block_editor() : null;
 		$post_type = ( isset( $screen ) && ! is_null( $screen->post_type ) ) ? $screen->post_type : null;
 		*/
-		if ( $GLOBALS['hook_suffix'] !== 'post.php' && $GLOBALS['hook_suffix'] !== 'post-new.php' ) {
+		if ( ! isset( $GLOBALS['hook_suffix'] ) || $GLOBALS['hook_suffix'] !== 'post.php' && $GLOBALS['hook_suffix'] !== 'post-new.php' ) {
 
 			$this->is_editor_page = false;
 			return false;

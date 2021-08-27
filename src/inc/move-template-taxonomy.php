@@ -83,7 +83,7 @@ class Copy_Template {
 		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
 		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
 		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;
-		$lumiere_taxonomy_theme_path = $this->imdb_admin_values['imdbpluginpath'] . 'theme/';
+		$lumiere_taxonomy_theme_path = $this->imdb_admin_values['imdbpluginpath'];
 		$lumiere_taxonomy_theme_file = $lumiere_taxonomy_theme_path . $lumiere_taxo_file_tocopy;
 		/* Taxonomy is activated in the panel, and $_GET["taxotype"] exists
 		   as a $imdb_widget_values, and there is a nonce from Data class */

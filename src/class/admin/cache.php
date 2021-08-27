@@ -70,7 +70,7 @@ class Cache extends \Lumiere\Admin {
 		//$this->logger = $this->configClass->loggerclass;
 
 		// Display notices.
-		$this->lumiere_admin_display_messages();
+		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
 
 		// Display the page
 		$this->lumiere_cache_layout();
@@ -81,13 +81,11 @@ class Cache extends \Lumiere\Admin {
 	 * Display the layout
 	 *
 	 */
-	private function lumiere_cache_layout (): string {
+	private function lumiere_cache_layout (): void {
 
-		$head = $this->lumiere_cache_head();
-		$submenu = $this->lumiere_cache_display_submenu();
-		$body = $this->lumiere_cache_display_body();
-
-		return $head . $submenu . $body;
+		$this->lumiere_cache_head();
+		$this->lumiere_cache_display_submenu();
+		$this->lumiere_cache_display_body();
 
 	}
 
@@ -95,7 +93,7 @@ class Cache extends \Lumiere\Admin {
 	 *  Display admin notices
 	 *
 	 */
-	protected function lumiere_admin_display_messages(): ?string {
+	public function lumiere_admin_display_messages(): ?string {
 
 		// If $_GET["msg"] is found, display a related notice
 		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $this->messages ) ) {
@@ -113,9 +111,7 @@ class Cache extends \Lumiere\Admin {
 				echo Utils::lumiere_notice( 1, esc_html( $this->messages['cache_refresh_individual_msg'] ) );
 			}
 		}
-
 		return null;
-
 	}
 
 	/**
@@ -237,7 +233,7 @@ class Cache extends \Lumiere\Admin {
 	 * Delete a specific file by clicking on it
 	 *
 	 */
-	private function cache_delete_specific_file() {
+	private function cache_delete_specific_file(): void {
 
 		// prevent drama
 		if ( ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) || ( ! isset( $_GET['where'] ) ) ) {
@@ -304,7 +300,7 @@ class Cache extends \Lumiere\Admin {
 	 * Refresh a specific file by clicking on it
 	 *
 	 */
-	private function cache_refresh_specific_file() {
+	private function cache_refresh_specific_file(): void {
 
 		// prevent drama
 		if ( ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) || ( ! isset( $_GET['where'] ) )  ) {
@@ -427,7 +423,7 @@ class Cache extends \Lumiere\Admin {
 	 * delete query cache files
 	 *
 	 */
-	private function cache_delete_query_cache_files() {
+	private function cache_delete_query_cache_files(): void {
 
 		// prevent drama
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
@@ -468,7 +464,7 @@ class Cache extends \Lumiere\Admin {
 	 * delete several ticked files
 	 *
 	 */
-	private function cache_delete_ticked_files() {
+	private function cache_delete_ticked_files(): void {
 
 		// prevent drama
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
@@ -563,7 +559,7 @@ class Cache extends \Lumiere\Admin {
 	 *  Display submenu
 	 *
 	 */
-	private function lumiere_cache_display_submenu() { ?>
+	private function lumiere_cache_display_submenu(): void { ?>
 
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
@@ -592,7 +588,7 @@ class Cache extends \Lumiere\Admin {
 	 *  Display the body
 	 *
 	 */
-	private function lumiere_cache_display_body() {
+	private function lumiere_cache_display_body(): void {
 
 		/////////////////////////////////// Cache options
 		if ( ( ( isset( $_GET['cacheoption'] ) ) && ( $_GET['cacheoption'] === 'option' ) ) || ( ! isset( $_GET['cacheoption'] ) ) ) {
@@ -917,12 +913,9 @@ class Cache extends \Lumiere\Admin {
 				<br />
 
 				<div class="imdblt_align_center">
-					<input type="submit" class="button-primary" name="delete_ticked_cache" data-confirm="<?php esc_html_e( 'Delete selected cache?', 'lumiere-movies' ); ?>" value="<?php esc_html_e( 'Delete cache', 'lumiere-movies' ); ?>" />
+					<input type="submit" class="button-primary" name="delete_ticked_cache" data-confirm="<?php esc_html_e( 'Delete selected cache files?', 'lumiere-movies' ); ?>" value="<?php esc_html_e( 'Delete selected files', 'lumiere-movies' ); ?>" />
 					<br/>
 					<br/>
-					<?php echo esc_html_e( 'Warning!', 'lumiere-movies' ); ?>
-					<br />
-					<?php echo esc_html_e( 'This button will delete the selected movies\' cache files.', 'lumiere-movies' ); ?>
 				</div>
 
 					<?php
@@ -1026,8 +1019,11 @@ class Cache extends \Lumiere\Admin {
 					<br />
 
 					<div align="center">
-						<input type="submit" class="button-primary" data-confirm="<?php esc_html_e( 'Delete selected cache?', 'lumiere-movies' ); ?>" name="delete_ticked_cache" value="<?php esc_html_e( 'Delete selected files', 'lumiere-movies' ); ?>" />
+						<input type="submit" class="button-primary" data-confirm="<?php esc_html_e( 'Delete selected cache files?', 'lumiere-movies' ); ?>" name="delete_ticked_cache" value="<?php esc_html_e( 'Delete selected files', 'lumiere-movies' ); ?>" />
 					</div>
+					<br/>
+					<br/>
+
 			</div>
 					<?php
 				} // end if data found
@@ -1121,7 +1117,7 @@ class Cache extends \Lumiere\Admin {
 			<div class="explain">
 				<?php
 				// display cache folder size
-				$size_cache_pics = '';
+				$size_cache_pics = (int) 0;
 				$imdltcacheimageFile = Utils::lumiere_glob_recursive( $this->imdb_cache_values['imdbphotoroot'] . '*' );
 				$imdltcacheimageFileCount = ( count( $imdltcacheimageFile ) );
 
@@ -1238,4 +1234,4 @@ class Cache extends \Lumiere\Admin {
 <?php	}
 
 }
-?>
+

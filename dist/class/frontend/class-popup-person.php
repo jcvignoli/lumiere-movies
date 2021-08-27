@@ -16,35 +16,36 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-use \Lumiere\Settings;
-use \Lumiere\Utils;
+use \Lumiere\Frontend;
 use \Imdb\Person;
 
-class PopupPerson {
+class Popup_Person {
+
+	// Use trait frontend
+	use Frontend {
+		Frontend::__construct as public __constructFrontend;
+	}
 
 	/**
-	 * Class \Lumiere\Utils
-	 *
+	 * The person queried as object result
 	 */
-	private object $utils_class;
+	private Person $person;
 
 	/**
-	 * Class \Lumiere\Settings
-	 *
+	 * The person queried
 	 */
-	private object $config_class;
+	private ?string $person_name_sanitized;
 
 	/**
-	 * Class \Monolog\Logger
-	 *
+	 * Person's id, if provided
 	 */
-	private object $logger;
+	private ?string $mid_sanitized;
 
 	/**
-	 * Settings from class \Lumiere\Settings
-	 *
+	 * Movie's title, if provided
+	 * Not yet properly implemented
 	 */
-	private array $imdb_admin_values;
+	private ?string $film_sanitized;
 
 	/**
 	 * Constructor
@@ -56,54 +57,31 @@ class PopupPerson {
 			wp_die( esc_html__( 'Cannot start popup movie, class Lumière Settings not found', 'lumiere-movies' ) );
 		}
 
-		// Get database options.
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+		// Construct Frontend trait.
+		$this->__constructFrontend( 'popupPerson' );
 
-		// Start settings class.
-		$this->config_class = new Settings( 'popupPerson' );
-
-		// Start the class Utils.
-		$this->utils_class = new Utils();
-
-		// Start the logger
-		$this->config_class->lumiere_start_logger( 'popupPerson' );
-		$this->logger = $this->config_class->loggerclass;
-
-		// Start the debugging.
-		add_action( 'wp_head', [ $this, 'lumiere_maybe_start_debug' ], 0 );
-
-		$this->layout();
+		// Display layout
+		add_action( 'wp', [ $this, 'lumiere_popup_person_layout' ] );
 	}
 
 	/**
-	 *  Wrapps the start of debug
-	 *  Allows to start later in the process
-	 */
-	public function lumiere_maybe_start_debug() {
-
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
-
-			$this->utils_class->lumiere_activate_debug();
-
-		}
-	}
-
-	/**
-	 *  Display layout
+	 *  Search movie title
 	 *
 	 */
-	private function layout(): string {
+	private function find_person(): void {
+
+		do_action( 'lumiere_logger' );
 
 		if ( isset( $_GET['film'] ) ) {
-			$film_sanitized = sanitize_text_field( $_GET['film'] );
+			$this->film_sanitized = esc_html( $_GET['film'] );
 		}
 
 		if ( isset( $_GET['mid'] ) ) {
-			$mid_sanitized = filter_var( $_GET['mid'], FILTER_SANITIZE_NUMBER_INT );
+			$this->mid_sanitized = esc_html( $_GET['mid'] );
 		}
 
 		// if neither film nor mid are set, throw a 404 error
-		if ( empty( $film_sanitized ) && empty( $mid_sanitized ) ) {
+		if ( empty( $this->film_sanitized ) && empty( $this->mid_sanitized ) ) {
 			global $wp_query;
 
 			$wp_query->set_404();
@@ -117,28 +95,28 @@ class PopupPerson {
 			status_header( 404 );
 
 			$template = get_404_template();
-			return $template;
+			echo $template;
 
-		} elseif ( ! empty( $mid_sanitized ) ) {
+		} elseif ( ! empty( $this->mid_sanitized ) ) {
 
 			// Since the class \Imdb\Person doesn't return Null but throws a fatal error if no result is found with imdbid
 			try {
 
-					// If result is null, throw an exception
-				$person = new Person( $mid_sanitized, $this->config_class, $this->logger );
-				if ( null === $person ) {
+				// If result is null, throw an exception
+				$this->person = new Person( $this->mid_sanitized, $this->config_class, $this->logger->log() );
+				if ( null === $this->person ) {
 
 					throw new Exception( $error );
 
 					// Result is not null, create the var utilised later on
 				} else {
 
-					$person_name_sanitized = sanitize_text_field( $person->name() );
+					$this->person_name_sanitized = sanitize_text_field( $this->person->name() );
 
 				}
 
 				// Catch the error throw (if any) and show the error, then exit
-			} catch ( Error | Exception $error ) {
+			} catch ( Error | Exception | Imdb\Exception\Http $error ) {
 
 				$this->utils_class->lumiere_noresults_text( $error->getMessage() );
 				exit();
@@ -149,18 +127,34 @@ class PopupPerson {
 			$this->utils_class->lumiere_noresults_text();
 		}
 
+	}
+
+	/**
+	 *  Display layout
+	 *
+	 */
+	public function lumiere_popup_person_layout(): void {
+
 		?><!DOCTYPE html>
 		<html>
 		<head>
 		<?php wp_head(); ?>
 
 		</head>
-		<body class="lumiere_body
-		<?php
+		<body class="lumiere_body<?php
 		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
-			echo ' lumiere_body_' . $this->imdb_admin_values['imdbpopuptheme'];}
+			echo ' lumiere_body_' . $this->imdb_admin_values['imdbpopuptheme'];
+		}
+		?>">
+
+		<?php
+		// Get the movie's title
+		$this->find_person();
+		// If no movie was found, exit.
+		if ( $this->person_name_sanitized === null ) {
+			wp_die( esc_html__( 'Lumiere movies: No movie found with this title', 'lumiere-movies' ) );
+		}
 		?>
-		">
 
 												<!-- top page menu -->
 
@@ -169,28 +163,28 @@ class PopupPerson {
 				<a class="historyback"><?php esc_html_e( 'Back', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=' ); ?>" title='<?php echo $person_name_sanitized . ': ' . esc_html__( 'Summary', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
+				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . $this->mid_sanitized . '/?mid=' . $this->mid_sanitized . '&info=' ); ?>" title='<?php echo $this->person_name_sanitized . ': ' . esc_html__( 'Summary', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=filmo' ); ?>" title='<?php echo $person_name_sanitized . ': ' . esc_html__( 'Full filmography', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Full filmography', 'lumiere-movies' ); ?></a>
+				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . $this->mid_sanitized . '/?mid=' . $this->mid_sanitized . '&info=filmo' ); ?>" title='<?php echo $this->person_name_sanitized . ': ' . esc_html__( 'Full filmography', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Full filmography', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=bio' ); ?>" title='<?php echo $person_name_sanitized . ': ' . esc_html__( 'Full biography', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Full biography', 'lumiere-movies' ); ?></a>
+				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . $this->mid_sanitized . '/?mid=' . $this->mid_sanitized . '&info=bio' ); ?>" title='<?php echo $this->person_name_sanitized . ': ' . esc_html__( 'Full biography', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Full biography', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=misc' ); ?>" title='<?php echo $person_name_sanitized . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
+				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . $this->mid_sanitized . '/?mid=' . $this->mid_sanitized . '&info=misc' ); ?>" title='<?php echo $this->person_name_sanitized . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
 			</div>
 		</div>
 
 												<!-- Photo & identity -->
 		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center">
 			<div class="lumiere_flex_auto lumiere_width_eighty_perc">
-				<div class="identity"><?php echo $person_name_sanitized; ?></div>
+				<div class="identity"><?php echo $this->person_name_sanitized; ?></div>
 				<div class=""><font size="-1">
 				<?php
 
 				# Birth
-				$birthday = count( $person->born() ) ? $person->born() : '';
+				$birthday = count( $this->person->born() ) ? $this->person->born() : '';
 				if ( ( isset( $birthday ) ) && ( ! empty( $birthday ) ) ) {
 					$birthday_day = ( isset( $birthday['day'] ) ) ? intval( $birthday['day'] ) : '';
 					$birthday_month = ( isset( $birthday['month'] ) ) ? sanitize_text_field( $birthday['month'] ) : '';
@@ -211,7 +205,7 @@ class PopupPerson {
 				echo "\n\t\t" . '<div class=""><font size="-1">';
 
 				# Death
-				$death = ( null !== $person->died() ) ? $person->died() : '';
+				$death = ( null !== $this->person->died() ) ? $this->person->died() : '';
 				if ( ( isset( $death ) ) && ( ! empty( $death ) ) ) {
 
 					echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
@@ -233,7 +227,7 @@ class PopupPerson {
 				echo "\n\t\t" . '<div class="lumiere_padding_two lumiere_align_left"><font size="-1">';
 
 				# Biography
-				$bio = $person->bio();
+				$bio = $this->person->bio();
 				$nbtotalbio = count( $bio );
 
 				if ( ( isset( $bio ) ) && ( ! empty( $bio ) ) ) {
@@ -277,8 +271,8 @@ class PopupPerson {
 			<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two">
 			<?php
 
-				$small_picture = $person->photo_localurl( false ); // get small poster for cache
-				$big_picture = $person->photo_localurl( true ); // get big poster for cache
+				$small_picture = $this->person->photo_localurl( false ); // get small poster for cache
+				$big_picture = $this->person->photo_localurl( true ); // get big poster for cache
 				$photo_url = isset( $small_picture ) ? $small_picture : $big_picture; // take the smaller first, the big if no small found
 			if ( ( isset( $photo_url ) ) && ( ! empty( $photo_url ) ) ) {
 
@@ -286,7 +280,7 @@ class PopupPerson {
 				echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="'
 					. esc_url( $photo_url )
 					. '" alt="'
-					. $person_name_sanitized . '" ';
+					. $this->person_name_sanitized . '" ';
 
 				// add width only if "Display only thumbnail" is on "no".
 				if ( $this->imdb_admin_values['imdbcoversize'] === false ) {
@@ -334,7 +328,7 @@ class PopupPerson {
 
 			foreach ( $list_all_movies_functions as $var ) {
 				$all_movies_functions = "movies_$var";
-				$filmo = $person->$all_movies_functions();
+				$filmo = $this->person->$all_movies_functions();
 				$catname = ucfirst( $var );
 
 				if ( ( isset( $filmo ) ) && ( ! empty( $filmo ) ) ) {
@@ -368,7 +362,7 @@ class PopupPerson {
 									echo ' as <i>' . sanitize_text_field( $filmo[ $i ]['chname'] ) . '</i>';
 								}
 							} else {
-								echo ' as <i><a class="linkpopup" href="' . esc_url( 'https://' . $person->imdbsite . '/character/ch' . intval( $filmo['chid'] ) ) . '/">' . $filmo[ $i ]['chname'] . '</a></i>'; }
+								echo ' as <i><a class="linkpopup" href="' . esc_url( 'https://' . $this->person->imdbsite . '/character/ch' . intval( $filmo['chid'] ) ) . '/">' . $filmo[ $i ]['chname'] . '</a></i>'; }
 
 							// Display a "show more" after XX results
 							if ( $i === $nblimitcatmovies ) {
@@ -406,7 +400,7 @@ class PopupPerson {
 
 			foreach ( $list_all_movies_functions as $var ) {
 				$all_movies_functions = "movies_$var";
-				$filmo = $person->$all_movies_functions();
+				$filmo = $this->person->$all_movies_functions();
 				$catname = ucfirst( $var );
 
 				if ( ( isset( $filmo ) ) && ( ! empty( $filmo ) ) ) {
@@ -463,7 +457,7 @@ class PopupPerson {
 									echo ' as <i><a class="linkpopup" href="'
 									. esc_url(
 										'https://'
-										. $person->imdbsite
+										. $this->person->imdbsite
 										. '/character/ch'
 										. intval( $filmo['chid'] )
 									)
@@ -513,7 +507,7 @@ class PopupPerson {
 								echo ' as <i><a class="linkpopup" href="'
 									. esc_url(
 										'https://'
-										. $person->imdbsite
+										. $this->person->imdbsite
 										. '/character/ch'
 										. intval( $filmo['chid'] )
 									)
@@ -541,7 +535,7 @@ class PopupPerson {
 
 			############## Biographical movies
 
-			$biomovie = $person->pubmovies();
+			$biomovie = $this->person->pubmovies();
 			$nbtotalbiomovie = count( $biomovie );
 
 			if ( ( isset( $biomovie ) ) && ( ! empty( $biomovie ) ) ) {
@@ -563,7 +557,7 @@ class PopupPerson {
 
 			############## Portrayed in
 
-			$portrayedmovie = $person->pubportraits();
+			$portrayedmovie = $this->person->pubportraits();
 			$nbtotalportrayedmovie = count( $portrayedmovie );
 
 			if ( ( isset( $portrayedmovie ) ) && ( ! empty( $portrayedmovie ) ) ) {
@@ -585,7 +579,7 @@ class PopupPerson {
 
 			############## Interviews
 
-			$interviews = $person->interviews();
+			$interviews = $this->person->interviews();
 			$nbtotalinterviews = count( $interviews );
 
 			if ( ( isset( $interviews ) ) && ( ! empty( $interviews ) ) ) {
@@ -618,7 +612,7 @@ class PopupPerson {
 
 			############## Publicity printed
 
-			$pubprints = $person->pubprints();
+			$pubprints = $this->person->pubprints();
 			$nbtotalpubprints = count( $pubprints );
 			$nblimitpubprints = 9;
 
@@ -678,7 +672,7 @@ class PopupPerson {
 
 			############## Trivia
 
-			$trivia = $person->trivia();
+			$trivia = $this->person->trivia();
 			$nbtotaltrivia = count( $trivia );
 			$nblimittrivia = 3; # max number of trivias before breaking with "see all"
 
@@ -718,7 +712,7 @@ class PopupPerson {
 
 			############## Nicknames
 
-			$nickname = $person->nickname();
+			$nickname = $this->person->nickname();
 			$nbtotalnickname = count( $nickname );
 
 			if ( ( isset( $nickname ) ) && ( ! empty( $nickname ) ) ) {
@@ -743,7 +737,7 @@ class PopupPerson {
 
 			############## Personal quotes
 
-			$quotes = $person->quotes();
+			$quotes = $this->person->quotes();
 			$nbtotalquotes = count( $quotes );
 			$nblimitquotes = 3;
 
@@ -779,7 +773,7 @@ class PopupPerson {
 
 			############## Trademarks
 
-			$trademark = $person->trademark();
+			$trademark = $this->person->trademark();
 			$nbtotaltrademark = count( $trademark );
 			$nblimittradmark = 5;
 
@@ -835,5 +829,5 @@ class PopupPerson {
 
 }
 
-new \Lumiere\PopupPerson();
+new Popup_Person();
 

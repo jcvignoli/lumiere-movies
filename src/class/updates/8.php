@@ -8,6 +8,54 @@ $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 );
 $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
 
 /**
+ * Update 'imdbautopostwidget'
+ * From "false" to '0'
+ */
+if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbautopostwidget', '0' ) ) {
+
+	$text = 'Lumière option imdbautopostwidget successfully updated.';
+	$logger->info( "[Lumiere][updateOptions] $text" );
+
+} else {
+
+	$text = 'Lumière option imdbautopostwidget could not be updated.';
+	$logger->error( "[Lumiere][updateOptions] $text" );
+
+}
+
+/**
+ * Update 'imdbdebuglog'
+ * From "false" to '0'
+ */
+if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbdebuglog', '0' ) ) {
+
+	$text = 'Lumière option imdbdebuglog successfully updated.';
+	$logger->info( "[Lumiere][updateOptions] $text" );
+
+} else {
+
+	$text = 'Lumière option imdbdebuglog could not be updated.';
+	$logger->error( "[Lumiere][updateOptions] $text" );
+
+}
+
+/**
+ * Update 'imdbcoversize'
+ * From "false" to '0'
+ */
+if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbcoversize', '0' ) ) {
+
+	$text = 'Lumière option imdbcoversize successfully updated.';
+	$logger->info( "[Lumiere][updateOptions] $text" );
+
+} else {
+
+	$text = 'Lumière option imdbcoversize could not be updated.';
+	$logger->error( "[Lumiere][updateOptions] $text" );
+
+}
+
+/**
  * Update 'imdblinkingkill'
  * From "false" to '0'
  */
