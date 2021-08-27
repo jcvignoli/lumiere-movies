@@ -4,9 +4,7 @@ includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
     level: max
-    # WpThemeMagicPropertiesClassReflectionExtension needs WP_Theme
     scanFiles:
-        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
     paths:
         - src/
     excludePaths:
@@ -18,4 +16,5 @@ parameters:
         - tests/phpstan/constants.php
         # Lumière bootstrap, but breaks everything
 #        - src/bootstrap.php
+        - tests/phpstan/extras.php
 

@@ -18,8 +18,9 @@ if ( ! defined( 'WPINC' ) ) {
 
 use \Lumiere\Admin;
 use \Lumiere\Settings;
-use \Lumiere\UpdateOptions;
+use \Lumiere\Update_Options;
 use \Lumiere\Utils;
+use \Lumiere\Logger;
 use \Imdb\Title;
 use \Imdb\Person;
 
@@ -36,6 +37,12 @@ class Core {
 	 *
 	 */
 	private Utils $utilsClass;
+
+	/**
+	 * \Lumiere\Logger class
+	 *
+	 */
+	private Logger $logger;
 
 	/**
 	 * Admin options
@@ -67,10 +74,13 @@ class Core {
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
 		// Start Settings class.
-		$this->configClass = new Settings( 'adminClass' );
+		$this->configClass = new Settings( 'obsoleteCoreClass' );
 
 		// Start Utils class.
 		$this->utilsClass = new Utils();
+
+		// Start Logger class.
+		$this->logger = new Logger( 'coreClass' );
 
 		// redirect popups URLs.
 		add_action( 'init', [ $this, 'lumiere_popup_redirect' ], 0 );
@@ -320,7 +330,7 @@ class Core {
 
 	/**
 	 *  Register TinyMCE
-	 *
+	 * @param string $hook
 	 */
 	public function lumiere_execute_tinymce( string $hook ): void {
 
@@ -686,7 +696,7 @@ class Core {
 
 	/**
 	 * Add a class to taxonomy links (constructed in movie.php)
-	 * @param mixed[] $plugin_array
+	 * @param mixed[] $links
 	 * @return mixed[]
 	 */
 	public function lumiere_taxonomy_add_class_to_links( $links ) {
@@ -761,11 +771,14 @@ class Core {
 
 	/**
 	 * Run on lumiere WordPress upgrade
+	 *
+	 * @param object $upgrader_object Type of action. Default 'update'.
+	 * @param array $options Type of update process, such as 'plugin', 'theme', 'translation' or 'core'
 	 */
-	public function lumiere_on_lumiere_upgrade_completed( $upgrader_object, $options ) {
+	public function lumiere_on_lumiere_upgrade_completed( object $upgrader_object, array $options ): void {
 
 		// Start the logger.
-		$this->configClass->lumiere_start_logger( 'coreClass' );
+		do_action( 'lumiere_logger' );
 
 		// If an update has taken place and the updated type is plugins and the plugins element exists.
 		if ( $options['type'] == 'plugin' && $options['action'] == 'update' && isset( $options['plugins'] ) ) {
@@ -778,7 +791,7 @@ class Core {
 
 					// Call the class to update options
 					require_once __DIR__ . '/update-options.php';
-					$start_update_options = new UpdateOptions();
+					$start_update_options = new Update_Options();
 
 					// Homebrew debug.
 					/* $option_array_search = get_option($this->configClass->imdbAdminOptionsName);
@@ -786,7 +799,7 @@ class Core {
 					update_option($this->configClass->imdbAdminOptionsName, $option_array_search);
 					*/
 
-					$this->configClass->loggerclass->debug( '[Lumiere][coreClass][updater] Lumière _on_plugin_upgrade_ hook successfully run.' );
+					$this->logger->log()->debug( '[Lumiere][coreClass][updater] Lumière _on_plugin_upgrade_ hook successfully run.' );
 
 				}
 			}
@@ -796,7 +809,7 @@ class Core {
 	/**
 	 * Run on plugin activation
 	 */
-	public function lumiere_on_activation() {
+	public function lumiere_on_activation(): void {
 
 		/* remove activation issue
 		ob_start(); */
@@ -810,7 +823,7 @@ class Core {
 		*/
 
 		// Start the logger.
-		$this->configClass->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
 		$plugin = isset( $_REQUEST['plugin'] ) ? $_REQUEST['plugin'] : '';
 		check_admin_referer( "activate-plugin_{$plugin}" );
@@ -818,27 +831,27 @@ class Core {
 		/* Create the value of number of updates on first install */
 		if ( $this->configClass->lumiere_define_nb_updates() == true ) {
 
-			$this->configClass->loggerclass->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' successfully created." );
+			$this->logger->log()->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' successfully created." );
 
 		} else {
 
-			$this->configClass->loggerclass->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' has not been created." );
+			$this->logger->log()->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' has not been created." );
 
 		}
 
 		/* Create the cache folders */
 		if ( $this->configClass->lumiere_create_cache() == true ) {
 
-			$this->configClass->loggerclass->info( '[Lumiere][coreClass][activation] Lumière cache successfully created.' );
+			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache successfully created.' );
 
 		} else {
 
-			$this->configClass->loggerclass->info( '[Lumiere][coreClass][activation] Lumière cache has not been created.' );
+			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache has not been created.' );
 
 		}
 
-		/* Set up WP Cron */
-		if ( ! wp_next_scheduled( 'lumiere_cron_hook' ) ) {
+		/* Set up WP Cron if it doesn't exist */
+		if ( wp_next_scheduled( 'lumiere_cron_hook' ) === false ) {
 
 			// Runned thee times to make sure that no update is missed
 
@@ -851,15 +864,15 @@ class Core {
 			// Cron to run once, in 1 hour.
 			wp_schedule_single_event( time() + 3600, 'lumiere_cron_hook' );
 
-			$this->configClass->loggerclass->debug( '[Lumiere][coreClass][activation] Lumière crons successfully set up.' );
+			$this->logger->log()->debug( '[Lumiere][coreClass][activation] Lumière crons successfully set up.' );
 
 		} else {
 
-			$this->configClass->loggerclass->error( '[Lumiere][coreClass][activation] Crons were not set up.' );
+			$this->logger->log()->error( '[Lumiere][coreClass][activation] Crons were not set up.' );
 
 		}
 
-		$this->configClass->loggerclass->debug( '[Lumiere][coreClass][activation] Lumière plugin activated.' );
+		$this->logger->log()->debug( '[Lumiere][coreClass][activation] Lumière plugin activated.' );
 
 		/* remove activation issue
 		trigger_error(ob_get_contents(),E_USER_ERROR);*/
@@ -868,16 +881,23 @@ class Core {
 	/**
 	 *   Run on plugin deactivation
 	 */
-	public function lumiere_on_deactivation() {
+	public function lumiere_on_deactivation(): void {
 
 		// Start the logger.
-		$this->configClass->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
 		// Remove WP Cron shoud it exists.
-		$timestamp = wp_next_scheduled( 'lumiere_cron_hook' );
-		wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
+		$wp_cron_list = [];
+		$wp_cron_list = _get_cron_array();
+		foreach ( $wp_cron_list as $time => $hook ) {
+			if ( isset( $hook['lumiere_cron_hook'] ) ) {
+				$timestamp = (int) wp_next_scheduled( 'lumiere_cron_hook' );
+				wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
+				$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Cron removed' );
+			}
+		}
 
-		$this->configClass->loggerclass->info( '[Lumiere][coreClass][deactivation] Lumière deactivated' );
+		$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Lumière deactivated' );
 
 	}
 
@@ -890,6 +910,7 @@ class Core {
 		$imdb_widget_values = $this->imdb_widget_values;
 
 		foreach ( $this->utilsClass->lumiere_array_key_exists_wildcard( $imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
+
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $key );
 
 			if ( $imdb_widget_values[ 'imdbtaxonomy' . $filter_taxonomy ] == 1 ) {
@@ -944,27 +965,28 @@ class Core {
 	 *  Cron to run execute once
 	 *
 	 */
-	public function lumiere_cron_exec_once() {
+	public function lumiere_cron_exec_once(): void {
 
-		$this->configClass = new Settings( 'coreClass' );
+		$this->logger = new Logger( 'coreClass' );
 
 		// Start the logger
-		$this->configClass->lumiere_start_logger( 'coreClass' );
+		$this->logger->lumiere_start_logger( 'coreClass' );
 
 		// For debugging purpose
 		// Update imdbHowManyUpdates option
-		/* $option_array_search = get_option($this->configClass->imdbAdminOptionsName);
+		/*
+		$option_array_search = get_option($this->configClass->imdbAdminOptionsName);
 		$option_array_search['imdbHowManyUpdates'] = 8; # current number of updates
 		update_option($this->configClass->imdbAdminOptionsName, $option_array_search);
 		*/
 
-		$this->configClass->loggerclass->debug( '[Lumiere][coreClass] Cron exec once run.' );
+		$this->logger->log()->debug( '[Lumiere][coreClass] Cron exec once run.' );
 
 		// Update options
 		// this udpate is also run in upgrader_process_complete, but the process is not reliable
 		// Using the same updating process in a WP Cron
 		require_once __DIR__ . '/update-options.php';
-		$start_update_options = new UpdateOptions();
+		$start_update_options = new Update_Options();
 
 	}
 
