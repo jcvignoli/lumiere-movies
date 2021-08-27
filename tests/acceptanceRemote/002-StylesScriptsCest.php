@@ -150,6 +150,8 @@ class StylesScriptsCest {
 		$I->seeInPageSource("lumiere_scripts-js-before");		# Lumière vars for main JS
 		$I->seeInPageSource("lumiere_hide_show-js"); 			# hide/show script
 
+			// Taxonomy person director page
+
 		$I->comment(\Helper\Color::set('Checking taxonomy page', 'italic+bold+cyan'));
 		$I->amOnPage('/imdblt_director/tony-zarindast/');
 		$I->seeInPageSource("lumiere_highslide-css");	 		# Highslide CSS
@@ -160,6 +162,8 @@ class StylesScriptsCest {
 		$I->seeInPageSource("lumiere_highslide_options-js-before"); 	# Lumière js vars for scripts
 		$I->seeInPageSource("lumiere_scripts-js"); 			# Lumière main JS
 		$I->seeInPageSource("lumiere_scripts-js-before");		# Lumière vars for main JS
+
+			// Popup person page
 
 		$I->comment(\Helper\Color::set('Checking Popup person page', 'italic+bold+cyan'));
 		$I->amOnPage('/imdblt/person/0729473/?mid=0729473');
@@ -176,6 +180,40 @@ class StylesScriptsCest {
 		$I->seeInPageSource("lumiere_scripts-js"); 					# Lumière main JS
 		$I->seeInPageSource("lumiere_scripts-js-before");				# Lumière vars for main JS
 		$I->seeInPageSource("lumiere_hide_show-js"); 					# hide/show script
+		$I->click('Full filmography');
+		$I->see('The Popcorn Chronicles');
+		$I->click('Full biography');
+		$I->see('Shock Cinema');
+		$I->click('Misc');
+		$I->see('My father was from Barcelona');
+
+			// Popup movie page
+
+		$I->comment(\Helper\Color::set('Checking Popup movie page', 'italic+bold+cyan'));
+		$I->amOnPage('/imdblt/film/?mid=&film=interstellar');
+		$I->seeInPageSource("canonical");						 	# Meta tag
+		$I->seeInPageSource("article:tag");					 	# Meta tag
+		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-16x16.png");	 	# Lumière favicon 16
+		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
+		$I->seeInPageSource("lumiere-movies/pics/favicon/apple-touch-icon.png"); 	# Lumière favicon Apple
+		$I->seeInPageSource("lumiere-movies/pics/favicon/site.webmanifest");	 	# Lumière webmanifest
+		$I->seeInPageSource("lumiere_style_oceanwpfixes_popups-css");			# Lumiere popup OceanWP fix
+		$I->seeInPageSource("lumiere_highslide-css");	 				# Highslide CSS
+		$I->seeInPageSource("lumiere_style_main-css"); 					# Lumière main css
+		$I->seeInPageSource("lumiere_highslide-js");					# Highslide JS
+		$I->seeInPageSource("lumiere_highslide_options-js");				# Highslide Lumière Options
+		$I->seeInPageSource("lumiere_highslide_options-js-before"); 			# Lumière js vars for scripts
+		$I->seeInPageSource("lumiere_scripts-js"); 					# Lumière main JS
+		$I->seeInPageSource("lumiere_scripts-js-before");				# Lumière vars for main JS
+		$I->seeInPageSource("lumiere_hide_show-js"); 					# hide/show script
+		$I->click('Actors');
+		$I->see('Ellen Burstyn');
+		$I->click('Crew');
+		$I->see('Christopher Nolan');
+		$I->click('Plots');
+		$I->see('A team of explorers travel');
+		$I->click('Misc');
+		$I->see('Early in pre-production');
 
 	}
 
