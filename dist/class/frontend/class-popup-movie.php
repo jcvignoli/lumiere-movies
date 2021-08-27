@@ -43,11 +43,6 @@ class Popup_Movie {
 	private ?string $film_title_sanitized;
 
 	/**
-	 * Movie's title, if provided
-	 */
-	private ?string $film_sanitized_for_title;
-
-	/**
 	 * Settings from class \Lumiere\Settings
 	 * To include the type of (movie, TVshow, Games) search
 	 * @var array $type_search
@@ -73,7 +68,6 @@ class Popup_Movie {
 		/* GET Vars sanitized */
 		$this->movieid_sanitized = isset( $_GET['mid'] ) ? filter_var( $_GET['mid'], FILTER_SANITIZE_NUMBER_INT ) : null;
 		$this->film_title_sanitized = isset( $_GET['film'] ) ? $this->utils_class->lumiere_name_htmlize( $_GET['film'] ) : null;
-		$this->film_sanitized_for_title = isset( $_GET['film'] ) ? sanitize_text_field( $_GET['film'] ) : null;
 
 		// Display layout
 		add_action( 'wp', [ $this, 'lumiere_popup_movie_layout' ], 1 );
@@ -84,31 +78,16 @@ class Popup_Movie {
 	 *  Search movie title
 	 *
 	 */
-	public function find_movie(): bool {
+	private function find_movie(): bool {
 
 		do_action( 'lumiere_logger' );
 
 		// if neither film nor mid are set, redirect to class PopupSearch
 		if ( ( empty( $this->movieid_sanitized ) && empty( $this->film_title_sanitized ) ) || ( is_null( $this->movieid_sanitized ) && is_null( $this->film_title_sanitized ) ) ) {
-			/*
-			global $wp_query;
-
-			$wp_query->set_404();
-
-			// In case you need to make sure that `have_posts()` return false.
-			// Maybe there's a reset function on WP_Query but I couldn't find one.
-			$wp_query->post_count = 0;
-			$wp_query->posts = [];
-			$wp_query->post = false;
 
 			status_header( 404 );
-
-			$template = get_404_template();
-			return $template;
-			*/
-
-			wp_safe_redirect( $this->config_class->lumiere_urlpopupsearch . '?film=' . $this->film_title_sanitized . '&norecursive=yes' );
-			exit();
+			$this->logger->log()->error( '[Lumiere] No movie title or id entered' );
+			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
 
 		}
 
@@ -117,7 +96,6 @@ class Popup_Movie {
 
 			$this->movie = new Title( $this->movieid_sanitized, $this->config_class, $this->logger->log() );
 			$this->film_title_sanitized = $this->utils_class->lumiere_name_htmlize( $this->movie->title() );
-			$this->film_sanitized_for_title = sanitize_text_field( $this->film_title_sanitized );
 			return true;
 
 		}
@@ -126,9 +104,12 @@ class Popup_Movie {
 		if ( ( isset( $this->film_title_sanitized ) ) && ( ! empty( $this->film_title_sanitized ) ) ) {
 
 			$titleSearchClass = new TitleSearch( $this->config_class, $this->logger->log() );
-
-			$this->movie = $titleSearchClass->search( $this->film_title_sanitized, $this->type_search )[0];
-			$this->film_sanitized_for_title = sanitize_text_field( $this->film_title_sanitized );
+			$search = $titleSearchClass->search( $this->film_title_sanitized, $this->type_search );
+			if ( array_key_exists( 0, $search ) === false ) {
+				$this->movie = null;
+				return false;
+			}
+			$this->movie = $search[0];
 			return true;
 		}
 
@@ -157,6 +138,7 @@ class Popup_Movie {
 		$movie_results = $this->movie;
 		// If no movie was found, exit.
 		if ( $movie_results === null ) {
+			$this->logger->log()->error( '[Lumiere] No movie found.' );
 			wp_die( esc_html__( 'Lumiere movies: No movie found with this title', 'lumiere-movies' ) );
 		}
 		?>

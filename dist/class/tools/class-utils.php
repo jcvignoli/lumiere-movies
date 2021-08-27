@@ -16,6 +16,9 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use \Lumiere\Settings;
+use \Lumiere\Logger;
+
 /**
  * Class of function tools
  *
@@ -27,7 +30,13 @@ class Utils {
 	 * \Lumiere\Settings class
 	 *
 	 */
-	private object $config_class;
+	private Settings $config_class;
+
+	/**
+	 * \Lumiere\Settings class
+	 *
+	 */
+	private Logger $logger;
 
 	/**
 	 * \Lumiere\Settings vars
@@ -56,8 +65,11 @@ class Utils {
 		// Get database options.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 
-		// Start settings class.
-		$this->config_class = new Settings( 'utilsClass' );
+		// Start Settings class.
+		$this->config_class = new Settings();
+
+		// Start Logger class.
+		$this->logger = new Logger( 'utilsClass' );
 
 		$this->debug_is_active = false;
 	}
@@ -193,7 +205,7 @@ class Utils {
 	 */
 	public function lumiere_noresults_text( string $text = 'No result found for this query.' ) {
 
-		$this->config_class->loggerclass->debug( "[Lumiere] $text" );
+		$this->logger->log()->debug( "[Lumiere] $text" );
 
 		echo "\n" . '<div class="noresult" align="center" style="font-size:16px;color:red;padding:15px;">'
 			. $text

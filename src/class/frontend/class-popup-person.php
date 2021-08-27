@@ -82,49 +82,16 @@ class Popup_Person {
 
 		// if neither film nor mid are set, throw a 404 error
 		if ( empty( $this->film_sanitized ) && empty( $this->mid_sanitized ) ) {
-			global $wp_query;
-
-			$wp_query->set_404();
-
-			// In case you need to make sure that `have_posts()` return false.
-			// Maybe there's a reset function on WP_Query but I couldn't find one.
-			$wp_query->post_count = 0;
-			$wp_query->posts = [];
-			$wp_query->post = false;
 
 			status_header( 404 );
-
-			$template = get_404_template();
-			echo $template;
+			$this->logger->log()->error( '[Lumiere] No person entered' );
+			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
 
 		} elseif ( ! empty( $this->mid_sanitized ) ) {
 
-			// Since the class \Imdb\Person doesn't return Null but throws a fatal error if no result is found with imdbid
-			try {
+			$this->person = new Person( $this->mid_sanitized, $this->config_class, $this->logger->log() );
+			$this->person_name_sanitized = sanitize_text_field( $this->person->name() );
 
-				// If result is null, throw an exception
-				$this->person = new Person( $this->mid_sanitized, $this->config_class, $this->logger->log() );
-				if ( null === $this->person ) {
-
-					throw new Exception( $error );
-
-					// Result is not null, create the var utilised later on
-				} else {
-
-					$this->person_name_sanitized = sanitize_text_field( $this->person->name() );
-
-				}
-
-				// Catch the error throw (if any) and show the error, then exit
-			} catch ( Error | Exception | Imdb\Exception\Http $error ) {
-
-				$this->utils_class->lumiere_noresults_text( $error->getMessage() );
-				exit();
-			}
-
-		} else {
-
-			$this->utils_class->lumiere_noresults_text();
 		}
 
 	}
@@ -151,8 +118,8 @@ class Popup_Person {
 		// Get the movie's title
 		$this->find_person();
 		// If no movie was found, exit.
-		if ( $this->person_name_sanitized === null ) {
-			wp_die( esc_html__( 'Lumiere movies: No movie found with this title', 'lumiere-movies' ) );
+		if ( isset( $this->person_name_sanitized ) === false || $this->person_name_sanitized === null ) {
+			wp_die( esc_html__( 'Lumiere movies: No person found.', 'lumiere-movies' ) );
 		}
 		?>
 

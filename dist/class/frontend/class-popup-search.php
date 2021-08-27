@@ -52,14 +52,11 @@ class Popup_Search {
 	 */
 	public function __construct() {
 
-		// Die if no class.
-		if ( ! class_exists( '\Lumiere\Settings' ) ) {
-			wp_die( esc_html__( 'Cannot start popup search, class Lumière Settings not found', 'lumiere-movies' ) );
-		}
-
 		// Die if wrong gets.
 		if ( ( ! isset( $_GET['norecursive'] ) ) || ( $_GET['norecursive'] !== 'yes' ) || ( ! isset( $_GET['film'] ) ) || ( empty( $_GET['film'] ) ) ) {
+
 			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
+
 		}
 
 		// Construct Frontend trait.
@@ -101,7 +98,7 @@ class Popup_Search {
 <html>
 <head>
 		<?php wp_head(); ?>
-		</head>
+</head>
 		<body class="lumiere_body<?php
 		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
 			echo ' lumiere_body_' . $this->imdb_admin_values['imdbpopuptheme'];}
