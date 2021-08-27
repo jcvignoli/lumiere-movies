@@ -374,13 +374,13 @@ class Utils {
 	 * @return mixed optionaly an array of the options passed in $options
 	 */
 	// phpcs:disable
-	public function lumiere_activate_debug( array $options = null, string $set_error = null, string $libxml_use = null, string $get_screen = null ) {
+	public function lumiere_activate_debug( array $options = null, string $set_error = null, string $libxml_use = null, string $get_screen = null ): void {
 		// Set on true to show debug is active if called again.
 		$this->debug_is_active = true;
 
 		// If the user can't manage options and it's not a cron, exit.
 		if ( ( ! current_user_can( 'manage_options' ) ) || ! 'DOING_CRON' && ! define( 'DOING_CRON' ) ) {
-			return false;
+			return;
 		}
 
 		// Set the highest level of debug reporting.

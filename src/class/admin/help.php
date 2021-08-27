@@ -21,11 +21,26 @@ class Help extends \Lumiere\Admin {
 
 	/**
 	 * Paths to files to be read
-	 *
+	 * @var string
 	 */
-	private $readmefile = '';
-	private $changelogfile = '';
-	private $acknowfile = '';
+	private string $readmefile;
+	private string $changelogfile;
+	private string $acknowfile;
+
+	/**
+	 * HTML allowed for use of wp_kses()
+	 */
+	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
+		'i' => true,
+		'strong' => true,
+		'b' => true,
+		'a' => [
+			'id' => true,
+			'href' => true,
+			'title' => true,
+			'data-*' => true,
+		],
+	];
 
 	/**
 	 * Constructor
@@ -63,7 +78,7 @@ class Help extends \Lumiere\Admin {
 	 * Display the layout
 	 *
 	 */
-	private function layout () {
+	private function layout (): void {
 
 		echo "\n\t" . '<div id="poststuff">';
 
@@ -94,7 +109,7 @@ class Help extends \Lumiere\Admin {
 			echo "\n\t\t" . '</div>';
 			echo "\n\t" . '<br clear="both" />';
 			// How to section
-		} elseif ( ( isset( $_GET['helpsub'] ) ) && ( $_GET['helpsub'] === 'howto' ) ) {
+		} elseif ( ( ( isset( $_GET['helpsub'] ) ) && ( $_GET['helpsub'] === 'howto' ) ) || ( ! isset( $_GET['helpsub'] ) ) ) {
 			$this->display_howto();
 		}
 
@@ -106,7 +121,7 @@ class Help extends \Lumiere\Admin {
 	 * Display the menu
 	 *
 	 */
-	private function display_menu () { ?>
+	private function display_menu (): void { ?>
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
 
@@ -127,28 +142,37 @@ class Help extends \Lumiere\Admin {
 	 * Display the faqs
 	 *
 	 */
-	private function display_faqs () {
+	private function display_faqs(): void {
+		$faqsection = [];
+		$number = 0;
 		?>
 
 		<div id="lumiere_help_plb_faq">
-			<div class="handlediv" title="Click to toggle"><br></div>
 			<h3 class="hndle"><?php esc_html_e( 'Frequently asked questions', 'lumiere-movies' ); ?></h3>
 			<div class="inside">
 				<div class="helpdiv">
 				<?php
 				$patterntitle = '/== Frequently Asked Questions ==(.*?)== Support ==/ms';
 				$faqfile = file_get_contents( $this->readmefile );
-				preg_match( $patterntitle, $faqfile, $faqsection );
-				$faqsection = $faqsection[1];
+				if ( $faqfile !== false && preg_match( $patterntitle, $faqfile, $faqsection ) === 1 ) {
+					$faqsection = $faqsection[1];
+				}
 				$faqsectionarray = preg_split( '/=(.*?)=/', $faqsection, -1, PREG_SPLIT_DELIM_CAPTURE );
 
 				// replace links from (specially formated for WordPress website) readme with casual html
-				$patternlink = '~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
-				$faqsectionarray = preg_replace( $patternlink, '<a href="${3}${4}" title="${7}">${2}</a>', $faqsectionarray );
-				$faqsectionarray = preg_replace( '~\*\*(.*?)\*\*~', '<i>${1}</i>', $faqsectionarray );
 
-				$number = 0;
+				if ( is_array( $faqsectionarray ) === true ) {
+					$patternlink = '~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
+					$faqsectionarray = preg_replace( $patternlink, '<a href="${3}${4}" title="${7}">${2}</a>', $faqsectionarray );
+				}
+				if ( is_array( $faqsectionarray ) === true ) {
+					$faqsectionarray = preg_replace( '~\*\*(.*?)\*\*~', '<i>${1}</i>', $faqsectionarray );
+				}
+
 				echo "<br />\n<ol>\n";
+				if ( $faqsectionarray === null || $faqsectionarray === false ) {
+					return;
+				}
 				foreach ( $faqsectionarray as $texte ) {
 					if ( $number > '0' ) {
 						if ( $number % 2 == 1 ) { // uneven number -> title
@@ -174,7 +198,9 @@ class Help extends \Lumiere\Admin {
 	 * Display the changelog
 	 *
 	 */
-	private function display_changelog () {
+	private function display_changelog (): void {
+		$changelogprocessed = [];
+		$number = 0;
 		?>
 
 		<h3 class="hndle"><?php esc_html_e( 'Changelog', 'lumiere-movies' ); ?></h3>
@@ -185,14 +211,22 @@ class Help extends \Lumiere\Admin {
 			<?php
 			$changelogfile = file( $this->changelogfile, FILE_BINARY );
 			// replace **...** by strong and i
-			$changelogfile = preg_replace( '~(\*\s\[)(.*?)(\])~', '<strong><i>${2}</i></strong>', $changelogfile );
-			// replace links from (specially formated for WordPress website) changlog with casual html
-			$patternlink = '~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
+			if ( is_array( $changelogfile ) === true ) {
+				$changelogprocessed = preg_replace( '~(\*\s\[)(.*?)(\])~', '<strong><i>${2}</i></strong>', $changelogfile );
+			}
+			if ( is_array( $changelogprocessed ) === true ) {
+				// replace links from (specially formated for WordPress website) changlog with casual html
+				$patternlink = '~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
 
-			$changelogfile = preg_replace( $patternlink, '<a href="${3}${4}" title="${7}">${2}</a>', $changelogfile );
-			$number = 0;
+				$changelogprocessed = preg_replace( $patternlink, '<a href="${3}${4}" title="${7}">${2}</a>', $changelogprocessed );
+			}
+
+			if ( $changelogprocessed === null ) {
+				return;
+			}
+
 			echo '<ul>';
-			foreach ( $changelogfile as $texte ) {
+			foreach ( $changelogprocessed as $texte ) {
 				if ( $number > '1' ) {
 
 					// display text formatted
@@ -214,7 +248,9 @@ class Help extends \Lumiere\Admin {
 	 * Display the support
 	 *
 	 */
-	private function display_support() {
+	private function display_support(): void {
+		$replace = [];
+		$number = 0;
 		?>
 
 		<h3 class="hndle" id="help_support" name="help_support"><?php wp_kses( _e( 'Two ways to support <strong>Lumiere Movies</strong> plugin development', 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?></h3>
@@ -254,20 +290,30 @@ class Help extends \Lumiere\Admin {
 			$acknowfile = file( $this->acknowfile, FILE_BINARY );
 
 			// replace # by div
-			$acknowfile = preg_replace( '~\# (.*)~', '<div><strong>${1}</strong></div>', $acknowfile );
+		if ( is_array( $acknowfile ) === true ) {
+			$replace = preg_replace( '~\# (.*)~', '<div><strong>${1}</strong></div>', $acknowfile );
+		}
 			// remove ** **
-			$acknowfile = preg_replace( '~\*\*(.*)\*\*~', '${1}', $acknowfile );
+		if ( is_array( $replace ) === true ) {
+					$replace = preg_replace( '~\*\*(.*)\*\*~', '${1}', $replace );
+		}
 
 			// replace \n by br
-			$acknowfile = preg_replace( '~\n~', '<br />', $acknowfile );
-
+		if ( is_array( $replace ) === true ) {
+			$replace = preg_replace( '~\n~', '<br />', $replace );
+		}
 			// replace links from (specially formated for WordPress website) readme with casual html
+		if ( is_array( $replace ) === true ) {
 			$patternlink = '~(\\[{1}(.*?)\\]\()(htt(p|ps)://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
+			$replace = preg_replace( $patternlink, '<a href="${3}${5}" title="${7}">${2}</a>', $replace );
+		}
 
-			$acknowfile = preg_replace( $patternlink, '<a href="${3}${5}" title="${7}">${2}</a>', $acknowfile );
-			$number = 0;
+		if ( $replace === null ) {
+			return;
+		}
+
 			echo '<ul>';
-		foreach ( $acknowfile as $texte ) {
+		foreach ( $replace as $texte ) {
 			if ( $number > '1' ) {
 
 				// display text formatted
@@ -286,7 +332,7 @@ class Help extends \Lumiere\Admin {
 	 * Display how to with metaboxes
 	 *
 	 */
-	private function display_howto() {
+	private function display_howto(): void {
 		?>
 	<br />
 
@@ -317,7 +363,7 @@ class Help extends \Lumiere\Admin {
 	 * Popup explaination
 	 *
 	 */
-	public function explain_popup () {
+	public function explain_popup (): void {
 		?>
 
 		<div class="helpdiv">
@@ -374,7 +420,7 @@ movie's title
 	 * Inside the post explaination
 	 *
 	 */
-	public function explain_widget () {
+	public function explain_widget (): void {
 		?>
 
 		<div class="helpdiv">
@@ -422,7 +468,7 @@ movie's title
 	 * Inside the post explaination
 	 *
 	 */
-	public function explain_inside_post () {
+	public function explain_inside_post (): void {
 		?>
 
 		<div class="helpdiv">
@@ -476,7 +522,7 @@ movie's title
 	 * Add search form explaination
 	 *
 	 */
-	public function explain_addsearchform() {
+	public function explain_addsearchform(): void {
 		?>
 
 		<div class="helpdiv">
@@ -531,7 +577,7 @@ movie's title
 	 * Keep CSS explaination
 	 *
 	 */
-	public function explain_keepcss () {
+	public function explain_keepcss (): void {
 		?>
 
 		<div class="helpdiv">
@@ -553,7 +599,7 @@ movie's title
 	 * Taxonomy explaination
 	 *
 	 */
-	public function explain_taxonomy() {
+	public function explain_taxonomy(): void {
 		?>
 
 		<div class="helpdiv">
@@ -604,7 +650,7 @@ movie's title
 	 * Auto widget explaination
 	 *
 	 */
-	public function explain_autowidget() {
+	public function explain_autowidget(): void {
 		?>
 
 		<div class="helpdiv">
@@ -631,7 +677,7 @@ movie's title
 	 * Search explaination
 	 *
 	 */
-	public function explain_searchoptions() {
+	public function explain_searchoptions(): void {
 		?>
 
 		<div class="helpdiv">
@@ -673,7 +719,7 @@ movie's title
 	 * Add extra scripts to this page only
 	 *
 	 */
-	public function lumiere_help_extrascript () {
+	public function lumiere_help_extrascript (): void {
 
 		wp_register_script(
 			'lumiere_help_scripts',

@@ -12,3 +12,10 @@ parameters:
     excludePaths:
       analyse:
         - src/vendor/*
+        - src/class/updates/*
+    bootstrapFiles:
+        # Constants not defined by default
+        - tests/phpstan/constants.php
+        # Lumière bootstrap, but breaks everything
+#        - src/bootstrap.php
+

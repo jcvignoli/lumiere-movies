@@ -35,11 +35,6 @@ class Widget extends \WP_Widget {
 	private $imdb_admin_values;
 
 	/**
-	 *  Store the class for movies
-	 */
-	private $movieClass;
-
-	/**
 	 *  Store the class of utilities
 	 */
 	private $utilsClass;
@@ -93,9 +88,6 @@ class Widget extends \WP_Widget {
 
 		// Start Settings class.
 		$this->config_class = new Settings( 'widgetClass' );
-
-		// Start Movie class.
-		$this->movieClass = new Movie();
 
 		// Start Utilities class.
 		$this->utilsClass = new Utils();
@@ -218,6 +210,9 @@ class Widget extends \WP_Widget {
 	 */
 	public function widget( $args = self::args, $instance ) {
 
+		// Start Movie class.
+		$movieClass = new Movie();
+
 		/* Vars */
 		$output = '';
 		$imdb_admin_values = $this->imdb_admin_values;
@@ -285,7 +280,7 @@ class Widget extends \WP_Widget {
 				}
 
 				// If there is a result in var $lumiere_result of class, display the widget.
-				$movie = $this->movieClass->lumiere_show( $imdbIdOrTitle );
+				$movie = $movieClass->lumiere_show( $imdbIdOrTitle );
 				if ( ( isset( $movie ) ) && ( ! empty( $movie ) ) ) {
 
 					$output .= $args['before_widget'];

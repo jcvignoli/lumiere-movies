@@ -18,20 +18,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use \Lumiere\Utils;
+
 class General extends \Lumiere\Admin {
 
 	/**
-	 * HTML escaping
+	 * HTML allowed for use of wp_kses()
 	 */
-	private $ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
-		'strong',
-		'br',
+	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
+		'strong' => '',
+		'br' => '',
 	];
 
 	/**
 	 * Notification messages
+	 * @var array<string, string> $messages
 	 */
-	private $messages = [
+	public array $messages = [
 		'highslide_success' => 'Highslide successfully installed!',
 		'highslide_failure' => 'Highslide installation failed!',
 		'highslide_down' => 'Website to download Highslide is currently down, please try again later.',
@@ -53,11 +56,12 @@ class General extends \Lumiere\Admin {
 			$this->utilsClass->lumiere_activate_debug( $this->imdb_admin_values, 'no_var_dump', null );
 		}
 
+		// Display notices.
+		//add_action( 'admin_notices', 'lumiere_admin_display_messages' );
+		$this->lumiere_admin_display_messages();
+
 		// Display the page
 		$this->lumiere_general_layout();
-
-		// Display notices.
-		add_action( 'admin_notices', 'lumiere_general_display_messages' );
 
 	}
 
@@ -65,11 +69,11 @@ class General extends \Lumiere\Admin {
 	 *
 	 *
 	 */
-	private function lumiere_general_layout () {
+	private function lumiere_general_layout (): void {
 
-		echo $this->lumiere_general_head();
-		echo $this->lumiere_general_display_submenu();
-		echo $this->lumiere_general_display_body();
+		$this->lumiere_general_head();
+		$this->lumiere_general_display_submenu();
+		$this->lumiere_general_display_body();
 
 	}
 
@@ -77,55 +81,57 @@ class General extends \Lumiere\Admin {
 	 *  Display admin notices
 	 *
 	 */
-	public function lumiere_general_display_messages() {
+	public function lumiere_admin_display_messages(): ?string {
 
 		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_key( $_GET['msg'] ), $this->messages ) ) {
 			switch ( sanitize_text_field( $_GET['msg'] ) ) {
 				// Message for success
 				case 'highslide_success':
-					echo $this->utilsClass->lumiere_notice( 1, esc_html( $this->messages['highslide_success'] ) );
+					echo Utils::lumiere_notice( 1, esc_html( $this->messages['highslide_success'] ) );
 					break;
 				// Message for failure
 				case 'highslide_failure':
-					echo $this->utilsClass->lumiere_notice( 3, esc_html( $this->messages['highslide_failure'] ) . ' ' . esc_html__( 'Your folder might be protected. Download highslide manually', 'lumiere-movies' ) . " <a href='" . esc_url( \Lumiere\Settings::IMDBBLOGHIGHSLIDE ) . "'>" . esc_html__( 'here', 'lumiere-movies' ) . '</a> ' . esc_html__( 'and extract the zip into', 'lumiere-movies' ) . '<br />' . esc_url( $this->configClass->lumiere_js_dir ) );
+					echo Utils::lumiere_notice( 3, esc_html( $this->messages['highslide_failure'] ) . ' ' . esc_html__( 'Your folder might be protected. Download highslide manually', 'lumiere-movies' ) . " <a href='" . esc_url( \Lumiere\Settings::IMDBBLOGHIGHSLIDE ) . "'>" . esc_html__( 'here', 'lumiere-movies' ) . '</a> ' . esc_html__( 'and extract the zip into', 'lumiere-movies' ) . '<br />' . esc_url( $this->configClass->lumiere_js_dir ) );
 					break;
 				// Message for website down
 				case 'highslide_down':
-					echo $this->utilsClass->lumiere_notice( 3, esc_html( $this->messages['highslide_down'] ) );
+					echo Utils::lumiere_notice( 3, esc_html( $this->messages['highslide_down'] ) );
 					break;
 				// Message for website unkown
 				case 'highslide_website_unkown':
-					echo $this->utilsClass->lumiere_notice( 3, esc_html( $this->messages['highslide_website_unkown'] ) );
+					echo Utils::lumiere_notice( 3, esc_html( $this->messages['highslide_website_unkown'] ) );
 					break;
 			}
 
 		}
-
+		return null;
 	}
 
 	/*
 	 *  Display head
 	 *
 	 */
-	private function lumiere_general_head() {
+	private function lumiere_general_head(): void {
 
 		//--------------------save data selected
-		if ( ( isset( $_POST['update_imdbSettings'] ) ) && check_admin_referer( 'options_general_check', 'options_general_check' ) ) {
+		if ( isset( $_POST['update_imdbSettings'] ) ) {
+
+			check_admin_referer( 'options_general_check', 'options_general_check' );
 
 			// Check if $_POST['imdburlstringtaxo'] and $_POST['imdburlpopups'] are identical, because they can't
-			$post_imdb_imdburlstringtaxo = isset( $_POST['imdb_imdburlstringtaxo'] ) ? filter_var( $_POST['imdb_imdburlstringtaxo'], FILTER_SANITIZE_STRING ) : null;
-			$post_imdb_imdburlpopups = isset( $_POST['imdb_imdburlpopups'] ) ? filter_var( $_POST['imdb_imdburlpopups'], FILTER_SANITIZE_STRING ) : null;
+			$post_imdb_imdburlstringtaxo = isset( $_POST['imdb_imdburlstringtaxo'] ) ? esc_html( $_POST['imdb_imdburlstringtaxo'] ) : 'empty';
+			$post_imdb_imdburlpopups = isset( $_POST['imdb_imdburlpopups'] ) ? esc_html( $_POST['imdb_imdburlpopups'] ) : 'empty';
 
 			if (
-				( isset( $post_imdb_imdburlstringtaxo ) ) &&
+				( $post_imdb_imdburlstringtaxo !== 'empty' ) &&
 			( str_replace( '/', '', $post_imdb_imdburlstringtaxo ) === str_replace( '/', '', $post_imdb_imdburlpopups ) ) || isset( $this->imdb_admin_values['imdburlpopups'] ) && ( str_replace( '/', '', $post_imdb_imdburlstringtaxo ) === str_replace( '/', '', $this->imdb_admin_values['imdburlpopups'] ) )
 										||
-				( isset( $post_imdb_imdburlpopups ) ) &&
+				( $post_imdb_imdburlpopups !== 'empty' ) &&
 			( str_replace( '/', '', $post_imdb_imdburlpopups ) === str_replace( '/', '', $post_imdb_imdburlstringtaxo ) ) || isset( $this->imdb_admin_values['imdburlstringtaxo'] ) && ( str_replace( '/', '', $post_imdb_imdburlpopups ) === str_replace( '/', '', $this->imdb_admin_values['imdburlstringtaxo'] ) )
 			) {
 
-				echo $this->utilsClass->lumiere_notice( 3, esc_html__( 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 'lumiere-movies' ) );
-				echo $this->utilsClass->lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
+				echo Utils::lumiere_notice( 3, esc_html__( 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 'lumiere-movies' ) );
+				echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
 				exit();
 			}
 
@@ -133,7 +139,12 @@ class General extends \Lumiere\Admin {
 				$key_sanitized = sanitize_key( $key );
 				$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
 				if ( isset( $_POST[ "$key_sanitized" ] ) ) {
-					$this->imdb_admin_values[ "$keynoimdb" ] = sanitize_text_field( $_POST[ "$key_sanitized" ] );
+					/**
+					 * Can't resolve PHPStan error:
+					 * Array (array('imdbplugindirectory_partial' => string, 'imdbpluginpath' => string, 'imdburlpopups' => string,'imdbkeepsettings' => string, 'imdburlstringtaxo' => string, 'imdbcoversize' => string, 'imdbcoversizewidth' => string, 'imdbmaxresults' => int, ...)) does not accept key string.
+					 */
+					 // @phpstan-ignore-next-line
+					$this->imdb_admin_values[ $keynoimdb ] = sanitize_text_field( $_POST[ $key_sanitized ] );
 				}
 			}
 
@@ -141,24 +152,26 @@ class General extends \Lumiere\Admin {
 			update_option( $this->configClass->imdbAdminOptionsName, $this->imdb_admin_values );
 
 			// display message on top
-			echo $this->utilsClass->lumiere_notice( 1, '<strong>' . esc_html__( 'Options saved.', 'lumiere-movies' ) . '</strong>' );
+			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options saved.', 'lumiere-movies' ) . '</strong>' );
 
 			// Display a refresh link otherwise refreshed data is not seen
 			if ( headers_sent() ) {
-				echo $this->utilsClass->lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
+				echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
 				exit();
 			}
 
-		} elseif ( ( isset( $_POST['reset_imdbSettings'] ) ) && check_admin_referer( 'options_general_check', 'options_general_check' ) ) { //---------------------reset options selected
+		} elseif ( isset( $_POST['reset_imdbSettings'] ) ) { //---------------------reset options selected
+
+			check_admin_referer( 'options_general_check', 'options_general_check' );
 
 			delete_option( $this->configClass->imdbAdminOptionsName );
 
 			// display message on top
-			echo $this->utilsClass->lumiere_notice( 1, '<strong>' . esc_html__( 'Options reset.', 'lumiere-movies' ) . '</strong>' );
+			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options reset.', 'lumiere-movies' ) . '</strong>' );
 
 			// Display a refresh link otherwise refreshed data is not seen
 			if ( headers_sent() ) {
-				echo $this->utilsClass->lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
+				echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
 				exit();
 			}
 
@@ -168,7 +181,7 @@ class General extends \Lumiere\Admin {
 	/**
 	 *  Display submenu
 	 */
-	private function lumiere_general_display_submenu() { ?>
+	private function lumiere_general_display_submenu(): void { ?>
 
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
@@ -188,7 +201,7 @@ class General extends \Lumiere\Admin {
 	/**
 	 *  Display the body
 	 */
-	private function lumiere_general_display_body() {
+	private function lumiere_general_display_body(): void {
 
 		echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . $_SERVER['REQUEST_URI'] . '">';
 
@@ -237,7 +250,7 @@ class General extends \Lumiere\Admin {
 						<select name="imdb_imdbpopuptheme">
 							<option 
 							<?php
-							if ( ( $this->imdb_admin_values['imdbpopuptheme'] === 'white' ) || ( empty( $this->imdb_admin_values['imdbpopuptheme'] ) ) ) {
+							if ( $this->imdb_admin_values['imdbpopuptheme'] === 'white' ) {
 								echo 'selected="selected"';}
 							?>
 							value="white"><?php esc_html_e( 'white (default)', 'lumiere-movies' ); ?></option>
@@ -278,7 +291,7 @@ class General extends \Lumiere\Admin {
 						// No "highslide" folder is found
 					} else {
 						// Say so!
-						echo $this->utilsClass->lumiere_notice( 4, '<span class="imdblt_red_bold">' . esc_html__( 'Warning! No Highslide folder was found.', 'lumiere-movies' ) . '</span>' );
+						echo Utils::lumiere_notice( 4, '<span class="imdblt_red_bold">' . esc_html__( 'Warning! No Highslide folder was found.', 'lumiere-movies' ) . '</span>' );
 						echo '<br />';
 
 						// Automatic download deactivated as per WordPress's plugin staff request
@@ -309,7 +322,7 @@ class General extends \Lumiere\Admin {
 					<select name="imdb_imdbintotheposttheme">
 						<option value="grey"
 						<?php
-						if ( ( $this->imdb_admin_values['imdbintotheposttheme'] === 'grey' ) || ( empty( $this->imdb_admin_values['imdbintotheposttheme'] ) ) ) {
+						if ( $this->imdb_admin_values['imdbintotheposttheme'] === 'grey' ) {
 							echo ' selected="selected"';}
 						?>
 						><?php esc_html_e( 'grey (default)', 'lumiere-movies' ); ?></option>
@@ -399,7 +412,7 @@ class General extends \Lumiere\Admin {
 					<select name="imdb_imdblanguage">
 						<option 
 						<?php
-						if ( ( $this->imdb_admin_values['imdblanguage'] === 'en' ) || ( empty( $this->imdb_admin_values['imdblanguage'] ) ) ) {
+						if ( ( $this->imdb_admin_values['imdblanguage'] === 'en' ) || ( ! isset( $this->imdb_admin_values['imdblanguage'] ) ) ) {
 							echo 'selected="selected" ';
 						}
 						?>
@@ -436,14 +449,16 @@ class General extends \Lumiere\Admin {
 					<select name="imdb_imdbseriemovies">
 						<option 
 						<?php
-						if ( ( $this->imdb_admin_values['imdbseriemovies'] === 'movies+series' ) || ( empty( $this->imdb_admin_values['imdbSerieMovies'] ) ) ) {
-							echo 'selected="selected"';}
+						if ( $this->imdb_admin_values['imdbseriemovies'] === 'movies+series' ) {
+							echo 'selected="selected"';
+						}
 						?>
 						value="movies+series"><?php esc_html_e( 'Movies and series', 'lumiere-movies' ); ?></option>
 						<option 
 						<?php
 						if ( $this->imdb_admin_values['imdbseriemovies'] === 'movies' ) {
-							echo 'selected="selected"';}
+							echo 'selected="selected"';
+						}
 						?>
 						value="movies"><?php esc_html_e( 'Movies only', 'lumiere-movies' ); ?></option>
 						<option 
@@ -502,7 +517,7 @@ class General extends \Lumiere\Admin {
 
 					<input type="hidden" id="imdb_imdbwordpress_bigmenu_no" name="imdb_imdbwordpress_bigmenu" value="0" 
 					<?php
-					if ( $this->imdb_admin_values['imdbwordpress_bigmenu'] === 0 ) {
+					if ( $this->imdb_admin_values['imdbwordpress_bigmenu'] === '0' ) {
 						echo 'checked="checked"'; }
 					?>
 					/>
@@ -523,7 +538,7 @@ class General extends \Lumiere\Admin {
 
 					<input type="hidden" id="imdb_imdbwordpress_tooladminmenu_no" name="imdb_imdbwordpress_tooladminmenu" value="0" 
 					<?php
-					if ( $this->imdb_admin_values['imdbwordpress_bigmenu'] === 0 ) {
+					if ( $this->imdb_admin_values['imdbwordpress_tooladminmenu'] === '0' ) {
 						echo 'checked="checked" '; }
 					?>
 					/>
@@ -613,7 +628,7 @@ class General extends \Lumiere\Admin {
 
 					<input type="hidden" id="imdb_imdbdebug_no" class="activatehidesectionRemove" name="imdb_imdbdebug" value="0" 
 					<?php
-					if ( $this->imdb_admin_values['imdbdebug'] === 0 ) {
+					if ( $this->imdb_admin_values['imdbdebug'] === '0' ) {
 						echo 'checked="checked"'; }
 					?>
 					/>
@@ -642,7 +657,7 @@ class General extends \Lumiere\Admin {
 						<select name="imdb_imdbdebuglevel">
 							<option 
 							<?php
-							if ( ( $this->imdb_admin_values['imdbdebuglevel'] === 'DEBUG' ) || ( empty( $this->imdb_admin_values['imdbdebuglevel'] ) ) ) {
+							if ( $this->imdb_admin_values['imdbdebuglevel'] === 'DEBUG' ) {
 								echo ' selected="selected" ';}
 							?>
 							value="DEBUG">Debug</option>
@@ -812,5 +827,6 @@ class General extends \Lumiere\Admin {
 	</div>
 		<?php
 	}
+
 }
 

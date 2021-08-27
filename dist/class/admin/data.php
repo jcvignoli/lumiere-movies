@@ -23,7 +23,7 @@ use \Lumiere\Utils;
 class Data extends \Lumiere\Admin {
 
 	/**
-	 * Messages
+	 * Notification messages
 	 * @var array<string, string> $messages
 	 */
 	public array $messages = [
@@ -120,11 +120,11 @@ class Data extends \Lumiere\Admin {
 	 * Display the layout
 	 *
 	 */
-	private function lumiere_data_layout () {
+	private function lumiere_data_layout (): void {
 
-		echo $this->lumiere_data_head();
-		echo $this->lumiere_data_display_submenu();
-		echo $this->lumiere_data_display_body();
+		$this->lumiere_data_head();
+		$this->lumiere_data_display_submenu();
+		$this->lumiere_data_display_body();
 
 	}
 
@@ -132,7 +132,7 @@ class Data extends \Lumiere\Admin {
 	 *  Display admin notices
 	 *
 	 */
-	protected function lumiere_admin_display_messages(): ?string {
+	public function lumiere_admin_display_messages(): ?string {
 
 		// If $_GET["msg"] is found, display a related notice
 		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $this->messages ) ) {
@@ -258,7 +258,7 @@ class Data extends \Lumiere\Admin {
 	 *  Display submenu
 	 *
 	 */
-	private function lumiere_data_display_submenu() { ?>
+	private function lumiere_data_display_submenu(): void { ?>
 
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
@@ -284,7 +284,7 @@ class Data extends \Lumiere\Admin {
 	 *  Display the body
 	 *
 	 */
-	private function lumiere_data_display_body() {
+	private function lumiere_data_display_body(): void {
 
 		echo "\n\t" . '<div id="poststuff" class="metabox-holder">';
 		echo "\n\t\t" . '<div class="inside">';
@@ -295,21 +295,21 @@ class Data extends \Lumiere\Admin {
 		//-------------------------------------------------------------------=[Data selection]=-
 		if ( ( isset( $_GET['widgetoption'] ) && ( $_GET['widgetoption'] === 'what' ) ) || ( ! isset( $_GET['widgetoption'] ) ) ) {
 
-			echo $this->lumiere_data_display_dataselection();
+			$this->lumiere_data_display_dataselection();
 
 		}
 
 		//-------------------------------------------------------------------=[Taxonomy]=-
 		if ( ( isset( $_GET['widgetoption'] ) ) && ( $_GET['widgetoption'] === 'taxo' ) ) {
 
-			echo $this->lumiere_data_display_taxonomy();
+			$this->lumiere_data_display_taxonomy();
 
 		}
 
 		//-------------------------------------------------------------------=[Order]=-
 		if ( ( isset( $_GET['widgetoption'] ) ) && ( $_GET['widgetoption'] === 'order' ) ) {
 
-			echo $this->lumiere_data_display_order();
+			$this->lumiere_data_display_order();
 
 		}
 
@@ -333,7 +333,7 @@ class Data extends \Lumiere\Admin {
 	 *  Display the fields for taxonomy selection
 	 *
 	 */
-	private function lumiere_data_display_taxo_fields() {
+	private function lumiere_data_display_taxo_fields(): void {
 
 		$array_all = [];
 		$array_all = array_merge( $this->array_people, $this->array_items );
@@ -383,7 +383,7 @@ class Data extends \Lumiere\Admin {
 	 *  Display Page Order of Data Details
 	 *
 	 */
-	private function lumiere_data_display_order() {
+	private function lumiere_data_display_order(): void {
 		?>
 
 	<div class="inside imblt_border_shadow">
@@ -445,7 +445,7 @@ class Data extends \Lumiere\Admin {
 	 *  Display Page Taxonomy
 	 *
 	 */
-	private function lumiere_data_display_taxonomy() {
+	private function lumiere_data_display_taxonomy(): void {
 
 		// taxonomy is disabled
 		if ( $this->configClass->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
@@ -499,7 +499,7 @@ class Data extends \Lumiere\Admin {
 	 *  Display Page of Data Selection
 	 *
 	 */
-	private function lumiere_data_display_dataselection() {
+	private function lumiere_data_display_dataselection(): void {
 
 		// Merge the list of items and people with two extra lists
 		//
@@ -656,7 +656,7 @@ class Data extends \Lumiere\Admin {
 		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
 		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
 		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;
-		$lumiere_taxonomy_theme_path = $this->imdb_admin_values['imdbpluginpath'] . 'theme/';
+		$lumiere_taxonomy_theme_path = $this->imdb_admin_values['imdbpluginpath'];
 		$lumiere_taxonomy_theme_file = $lumiere_taxonomy_theme_path . $lumiere_taxo_file_tocopy;
 
 		// Make sure we have the credentials

@@ -19,34 +19,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 use \Lumiere\Settings;
 use \Lumiere\Utils;
 use \Imdb\TitleSearch;
+use \Monolog\Logger;
 
 class Search {
 
 	/**
 	 * Class \Lumiere\Utils
 	 *
-	 *  @var object
 	 */
-	private object $utilsClass;
+	private Utils $utilsClass;
 
 	/**
 	 * Class \Lumiere\Settings
 	 *
-	 *  @var class
 	 */
-	private $config_class;
+	private Settings $config_class;
 
 	/**
 	 * Class \Monolog\Logger
 	 *
-	 *  @var object
 	 */
-	private object $logger;
+	private Logger $logger;
 
 	/**
 	 * Settings from class \Lumiere\Settings
 	 *
-	 *  @var array
 	 */
 	private array $imdb_admin_values;
 
@@ -54,7 +51,6 @@ class Search {
 	 * Settings from class \Lumiere\Settings
 	 * To include the type of (movie, TVshow, Games) search
 	 *
-	 *  @var array
 	 */
 	private array $typeSearch;
 

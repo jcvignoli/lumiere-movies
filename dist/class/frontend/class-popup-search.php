@@ -16,34 +16,15 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-use \Lumiere\Settings;
-use \Lumiere\Utils;
+use \Lumiere\Frontend;
 use \Imdb\TitleSearch;
 
-class PopupSearch {
+class Popup_Search {
 
-	/**
-	 * Class \Lumiere\Utils
-	 *
-	 */
-	private object $utils_class;
-
-	/* Class \Lumiere\Settings
-	 *
-	 */
-	private object $config_class;
-
-	/**
-	 * Class \Monolog\Logger
-	 *
-	 */
-	private object $logger;
-
-	/**
-	 * Lumiere options
-	 *
-	 */
-	private array $imdb_admin_values;
+	// Use trait frontend
+	use Frontend {
+		Frontend::__construct as public __constructFrontend;
+	}
 
 	/**
 	 * Settings from class \Lumiere\Settings
@@ -81,48 +62,19 @@ class PopupSearch {
 			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
 		}
 
-		// Get database options.
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-
-		// Start settings class.
-		$this->config_class = new Settings( 'popupSearch' );
+		// Construct Frontend trait.
+		$this->__constructFrontend( 'popupSearch' );
 
 		// Get the type of search: movies, series, games.
 		$this->type_search = $this->config_class->lumiere_select_type_search();
-
-		// Start class Utils.
-		$this->utils_class = new Utils();
-
-		// Start the debugging.
-		add_action( 'wp_head', [ $this, 'lumiere_maybe_start_debug' ], 0 );
-
-		// Start the logger.
-		$this->config_class->lumiere_start_logger( 'popupSearch' );
-		$this->logger = $this->config_class->loggerclass;
 
 		// Build the vars.
 		$this->film_sanitized = $this->utils_class->lumiere_name_htmlize( $_GET['film'] );
 		$this->film_sanitized_for_title = $_GET['film'];
 
-		// Do the film query.
-		$this->film_search();
+		// Display layout
+		add_action( 'wp', [ $this, 'layout' ] );
 
-		// Display the page.
-		$this->layout( $this->movie_results, $this->film_sanitized_for_title );
-
-	}
-
-	/**
-	 *  Wrapps the start of the logger
-	 *  Allows to start later in the process
-	 */
-	public function lumiere_maybe_start_debug() {
-
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
-
-			$this->utils_class->lumiere_activate_debug( null, 'no_var_dump' );
-
-		}
 	}
 
 	/**
@@ -131,8 +83,10 @@ class PopupSearch {
 	 */
 	private function film_search() {
 
+		do_action( 'lumiere_logger' );
+
 		# Run the query.
-		$search = new TitleSearch( $this->config_class, $this->logger );
+		$search = new TitleSearch( $this->config_class, $this->logger->log() );
 
 		$this->movie_results = $search->search( $this->film_sanitized, $this->type_search );
 
@@ -142,32 +96,32 @@ class PopupSearch {
 	 *  Display layout
 	 *
 	 */
-	private function layout( array $movie_results, string $film_sanitized_for_title ) {
-
-		?>
-		<!DOCTYPE html>
-		<html>
-		<head>
-			<?php wp_head(); ?>
+	public function layout(): void {
+		?><!DOCTYPE html>
+<html>
+<head>
+		<?php wp_head(); ?>
 		</head>
-		<body class="lumiere_body
-		<?php
+		<body class="lumiere_body<?php
 		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
 			echo ' lumiere_body_' . $this->imdb_admin_values['imdbpopuptheme'];}
 		?>">
-
+		<?php
+		// Do the film query.
+		$this->film_search();
+		?>
 		<div id="lumiere_loader" class="lumiere_loader_center"></div>
 
 		<h1 align="center">
 			<?php
 			esc_html_e( 'Results related to', 'lumiere-movies' );
-			echo ' <i>' . $film_sanitized_for_title . '</i>';
+			echo ' <i>' . $this->film_sanitized_for_title . '</i>';
 			?>
 		</h1>
 
 		<?php
 		// if no movie was found at all.
-		if ( empty( $movie_results ) ) {
+		if ( empty( $this->movie_results ) ) {
 			echo "<h2 align='center'><i>" . esc_html__( 'No result found.', 'lumiere-movies' ) . '</i></h2>';
 			wp_footer();
 			?></body>
@@ -188,7 +142,7 @@ class PopupSearch {
 			<?php
 			$max_lines = isset( $this->imdb_admin_values['imdbmaxresults'] ) ? intval( $this->imdb_admin_values['imdbmaxresults'] ) : 10;
 			$current_line = 0;
-			foreach ( $movie_results as $res ) {
+			foreach ( $this->movie_results as $res ) {
 
 				// Limit the number of results according to value set in admin
 				$current_line++;
@@ -263,5 +217,5 @@ class PopupSearch {
 
 }
 
-new PopupSearch();
+new Popup_Search();
 
