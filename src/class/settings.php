@@ -130,15 +130,16 @@ class Settings extends Config {
 	/**
 	 * Store Lumière plugin version
 	 */
-	public $lumiere_version;
+	public string $lumiere_version;
 
 	/**
 	 * Logger class built by lumiere_start_logger() and __construct()
 	 * Meant to be utilised through all the plugin
 	 */
-	public $loggerclass;
+	public object $loggerclass;
 	/* Where to write the log (WordPress default path here) */
 	const DEBUG_LOG_PATH = ABSPATH . 'wp-content/debug.log';
+	public LumLogger $logger;
 
 	/**
 	 * Is the current page an editing page?
@@ -589,14 +590,17 @@ class Settings extends Config {
 	/**
 	 * Create cache folder if it does not exist
 	 *
+	 * @param bool $screen_log whether to display logging on screen or not
 	 * @return false if cache already exist, true if created cache folders
 	 */
-	public function lumiere_create_cache(): bool {
+	public function lumiere_create_cache( bool $screen_log = false ): bool {
 
 		$imdb_admin_values = $this->imdb_admin_values;
 
 		// Start logger
-		$logger = new LumLogger( 'configMain', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+		$this->logger = new LumLogger( 'configMain', $screen_log /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+		do_action( 'lumiere_logger' );
+		$logger = $this->logger->log();
 
 		/* Cache folder paths */
 		$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
