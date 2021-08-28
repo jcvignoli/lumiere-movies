@@ -17,6 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 use \Lumiere\Settings;
 use \Lumiere\Utils;
+use \Lumiere\Logger;
 
 class Taxonomystandard {
 
@@ -30,7 +31,7 @@ class Taxonomystandard {
 	 * Class \Lumiere\Utils
 	 *
 	 */
-	private $utils_class;
+	private Utils $utils_class;
 
 	/**
 	 * Class \Lumiere\Settings
@@ -42,7 +43,7 @@ class Taxonomystandard {
 	 * Class \Monolog\Logger
 	 *
 	 */
-	private $logger;
+	private Logger $logger;
 
 	/**
 	 * Settings from class \Lumiere\Settings
@@ -78,8 +79,7 @@ class Taxonomystandard {
 		$this->page_title = single_tag_title( '', false );
 
 		// Start the logger.
-		$this->config_class->lumiere_start_logger( 'taxonomy-standard' );
-		$this->logger = $this->config_class->loggerclass;
+		$this->logger = new Logger( 'taxonomy-standard' );
 
 		// Start debug.
 		add_action( 'wp', [ $this, 'lumiere_maybe_start_debug' ], 0 );

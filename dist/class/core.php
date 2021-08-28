@@ -773,7 +773,7 @@ class Core {
 	 * Run on lumiere WordPress upgrade
 	 *
 	 * @param object $upgrader_object Type of action. Default 'update'.
-	 * @param array $options Type of update process, such as 'plugin', 'theme', 'translation' or 'core'
+	 * @param array<string> $options Type of update process, such as 'plugin', 'theme', 'translation' or 'core'
 	 */
 	public function lumiere_on_lumiere_upgrade_completed( object $upgrader_object, array $options ): void {
 
