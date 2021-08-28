@@ -104,9 +104,6 @@ class Admin {
 		// Display notices.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
 
-		// Store the logger class
-		$this->logger = $this->configClass->loggerclass;
-
 	}
 
 	/**
@@ -158,6 +155,10 @@ class Admin {
 	 *
 	 */
 	public function lumiere_admin_menu(): void {
+
+		// Store the logger class
+		do_action( 'lumiere_logger_hook' );
+		$this->logger = $this->configClass->loggerclass;
 
 		add_action( 'admin_menu', [ &$this, 'lumiere_add_left_menu' ] );
 
@@ -402,7 +403,7 @@ class Admin {
 		if ( ! isset( $_GET['subsection'] ) ) {
 
 			// Make sure cache folder exists and is writable
-			$this->configClass->lumiere_create_cache();
+			$this->configClass->lumiere_create_cache( true );
 
 			$adminGeneral = new General();
 
@@ -415,7 +416,7 @@ class Admin {
 		} elseif ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'cache' ) ) {
 
 			// Make sure cache folder exists and is writable
-			$this->configClass->lumiere_create_cache();
+			$this->configClass->lumiere_create_cache( true );
 
 			$adminCache = new Cache();
 

@@ -32,6 +32,18 @@ class Logger {
 	private array $imdb_admin_values;
 
 	/**
+	 * Screen output, whether to show the logging on screen
+	 * @var bool $screenOutput
+	 */
+	private bool $screenOutput = true;
+
+	/**
+	 * The name of the logger, shown as the origin
+	 * @var string $logger_name
+	 */
+	private string $logger_name = 'unknownOrigin';
+
+	/**
 	 * Is the current page an editing page?
 	 */
 	private bool $is_editor_page;
@@ -48,16 +60,20 @@ class Logger {
 	 * @param string $logger_name Title of Monolog logger
 	 * @param bool $screenOutput whether to output Monolog on screen or not
 	 */
-	public function __construct( ?string $logger_name = 'unknownOrigin', ?bool $screenOutput = true ) {
+	public function __construct( ?string $logger_name, ?bool $screenOutput = true ) {
 
 		// Get database options.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+
+		// Send the variables passed in construct to global properties
+		$this->logger_name = $logger_name;
+		$this->screenOutput = $screenOutput;
 
 		// By default, start at init.
 		add_action(
 			'init',
 			function() use ( $logger_name, $screenOutput ): void {
-					$this->lumiere_start_logger( $logger_name, $screenOutput );
+					$this->lumiere_start_logger( $this->logger_name, $this->screenOutput );
 			},
 			0
 		);
@@ -66,7 +82,7 @@ class Logger {
 		add_action(
 			'lumiere_logger',
 			function() use ( $logger_name, $screenOutput ): void {
-					$this->lumiere_start_logger( $logger_name, $screenOutput );
+					$this->lumiere_start_logger( $this->logger_name, $this->screenOutput );
 			}
 		);
 
@@ -111,8 +127,9 @@ class Logger {
 	 */
 	public function lumiere_start_logger ( ?string $logger_name, ?bool $screenOutput = true ): void {
 
-		// Get local vars if passed in the function, if empty get the global vars.
-		$logger_name = isset( $logger_name ) ? $logger_name : 'unknowOrigin';
+		// Get local vars and send to global class properties if set, if empty get the global vars.
+		$logger_name = isset( $logger_name ) ? $this->logger_name = $logger_name : $logger_name = $this->logger_name;
+		$screenOutput = isset( $screenOutput ) ? $this->screenOutput = $screenOutput : $screenOutput = $this->screenOutput;
 
 		// Run WordPress block editor identificator giving value to $this->is_editor_page.
 		$this->lumiere_is_screen_editor();
