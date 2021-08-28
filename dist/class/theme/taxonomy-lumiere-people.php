@@ -15,7 +15,7 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
@@ -60,35 +60,35 @@ class Taxonomystandard {
 	/**
 	 *  Admin settings from database
 	 *
-	 *  @var array
+	 *  @var array<string> $imdb_admin_values
 	 */
 	private array $imdb_admin_values;
 
 	/**
 	 *  Array of registered type of people from class \Lumiere\Settings
 	 *
-	 *  @var array
+	 *  @var array<string> $array_people
 	 */
 	private array $array_people;
 
 	/**
 	 *  Name of the person sanitized
 	 *
-	 *  @var string
+	 *  @var string $person_name_sntzd
 	 */
 	private string $person_name_sntzd;
 
 	/**
 	 *  Current page name from the tag taxonomy
 	 *
-	 *  @var string
+	 *  @var string $page_title
 	 */
 	private string $page_title;
 
 	/**
 	 *  Taxonomy category
 	 *
-	 *  @var string
+	 *  @var string $taxonomy_title
 	 */
 	private string $taxonomy_title;
 
@@ -96,10 +96,6 @@ class Taxonomystandard {
 	 *  Constructor
 	 */
 	public function __construct() {
-
-		if ( ! class_exists( '\Lumiere\Settings' ) ) {
-			wp_die( esc_html__( 'Cannot start lumiere search, class Lumière Settings not found', 'lumiere-movies' ) );
-		}
 
 		// Get database options
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
@@ -117,9 +113,10 @@ class Taxonomystandard {
 		$this->logger = new Logger( 'taxonomy-standard' );
 
 		// Start debug.
-		add_action( 'wp', [ $this, 'lumiere_maybe_start_debug' ], 0 );
+		add_action( 'init', [ $this, self::lumiere_maybe_start_debug() ], 0 );
 
-		$this->layout();
+		// Display the page.
+		add_action( 'wp', [ $this, self::layout() ], 0 );
 
 	}
 
@@ -127,7 +124,7 @@ class Taxonomystandard {
 	 *  Start debug mode
 	 *
 	 */
-	public function lumiere_maybe_start_debug() {
+	private function lumiere_maybe_start_debug(): void {
 
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
 
@@ -141,7 +138,7 @@ class Taxonomystandard {
 	/**
 	 *  Do the search according to the page title using IMDbPHP classes
 	 */
-	private function lumiere_process_imdbphp_search() {
+	private function lumiere_process_imdbphp_search(): void {
 
 		do_action( 'lumiere_logger' );
 
@@ -162,7 +159,7 @@ class Taxonomystandard {
 	/**
 	 *  Display the layout
 	 */
-	private function layout() {
+	private function layout(): void {
 
 		get_header();
 
@@ -361,6 +358,7 @@ class Taxonomystandard {
 	 *  Polylang form: Display a form to change the language if Polylang plugin is active
 	 *
 	 * @param string mandatory $taxonomy -> the current taxonomy to check and build the form according to it
+	 * @return mixed[]
 	 */
 	private function lumiere_get_form_polylang_selection( string $taxonomy ) {
 
@@ -589,5 +587,5 @@ class Taxonomystandard {
 
 }
 
-new \Lumiere\Taxonomystandard();
+new Taxonomystandard();
 

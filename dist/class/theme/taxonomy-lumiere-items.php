@@ -11,7 +11,7 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
@@ -37,35 +37,32 @@ class Taxonomystandard {
 	 * Class \Lumiere\Settings
 	 *
 	 */
-	private $config_class;
+	private Settings $config_class;
 
 	/**
-	 * Class \Monolog\Logger
+	 * Class \Lumiere\Logger
 	 *
 	 */
 	private Logger $logger;
 
 	/**
-	 * Settings from class \Lumiere\Settings
+	 *  Admin settings from database
 	 *
+	 *  @var array<string> $imdb_admin_values
 	 */
-	private $imdb_admin_values;
+	private array $imdb_admin_values;
 
 	/**
 	 * Current page name from the tag taxonomy
 	 *
 	 */
-	private $page_title;
+	private string $page_title;
 
 	/**
 	 * Constructor
 	 *
 	 */
 	public function __construct() {
-
-		if ( ! class_exists( '\Lumiere\Settings' ) ) {
-			wp_die( esc_html__( 'Cannot start items taxonomy, class Lumière Settings not found', 'lumiere-movies' ) );
-		}
 
 		// Get database options
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
@@ -82,9 +79,10 @@ class Taxonomystandard {
 		$this->logger = new Logger( 'taxonomy-standard' );
 
 		// Start debug.
-		add_action( 'wp', [ $this, 'lumiere_maybe_start_debug' ], 0 );
+		add_action( 'init', [ $this, self::lumiere_maybe_start_debug() ], 0 );
 
-		$this->layout();
+		// Display the page.
+		add_action( 'wp', [ $this, self::layout() ], 0 );
 
 	}
 
@@ -92,7 +90,7 @@ class Taxonomystandard {
 	 *  Start debug mode
 	 *
 	 */
-	public function lumiere_maybe_start_debug() {
+	private function lumiere_maybe_start_debug() {
 
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
 
@@ -107,7 +105,7 @@ class Taxonomystandard {
 	 *  Display layout
 	 *
 	 */
-	private function layout() {
+	private function layout(): void {
 
 		get_header();
 
@@ -183,4 +181,4 @@ class Taxonomystandard {
 
 }
 
-new \Lumiere\Taxonomystandard();
+new Taxonomystandard();
