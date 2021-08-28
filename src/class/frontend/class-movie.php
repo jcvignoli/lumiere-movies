@@ -82,23 +82,9 @@ class Movie {
 	}
 
 	/**
-	 *  Wrapps the start of the logger
-	 */
-	private function lumiere_maybe_start_debug(): void {
-
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
-
-			// Start debugging mode
-			$this->utils_class->lumiere_activate_debug();
-
-		}
-
-	}
-
-	/**
 	 *  Search the movie and output the results
 	 *
-	 * @param optional array $imdbIdOrTitleOutside Name or IMDbID of the movie to find in array
+	 * @param array<string> $imdbIdOrTitleOutside Name or IMDbID of the movie to find in array
 	 */
 	public function lumiere_show( ?array $imdbIdOrTitleOutside = null ): string {
 
@@ -250,7 +236,7 @@ class Movie {
 	/**
 	 *  Callback for movies by imdb id
 	 *
-	 *
+	 * @param array<string> $block_span
 	 */
 	private function lumiere_parse_spans_callback_id( array $block_span ): string {
 
@@ -263,6 +249,7 @@ class Movie {
 	/**
 	 * Callback for movies by imdb title
 	 *
+	 * @param array<string> $block_span
 	 */
 	private function lumiere_parse_spans_callback_title( array $block_span ): string {
 
@@ -275,8 +262,10 @@ class Movie {
 	/**
 	 * Replace [imdblt] shortcode by the movie
 	 * Obsolete, kept for compatibility purposes
+	 *
+	 * @param array<string> $atts
 	 */
-	public function parse_lumiere_tag_transform( $atts = [], string $content = null, $tag ): string {
+	public function parse_lumiere_tag_transform( array $atts = [], string $content = null, $tag ): string {
 
 		//shortcode_atts(array( 'id' => 'default id', 'film' => 'default film'), $atts);
 
@@ -289,8 +278,10 @@ class Movie {
 	/**
 	 * Replace [imdbltid] shortcode by the movie
 	 * Obsolete, kept for compatibility purposes
+	 *
+	 * @param array<string> $atts
 	 */
-	public function parse_lumiere_tag_transform_id( $atts = [], string $content = null, $tag ): string {
+	public function parse_lumiere_tag_transform_id( array $atts = [], string $content = null, $tag ): string {
 
 		$movie_imdbid = [];
 		$movie_imdbid[] = $content;
@@ -331,7 +322,7 @@ class Movie {
 	 * and builds a popup link
 	 *
 	 * @obsolete Kept for compatibility purposes
-	 * @param string $correspondances parsed data
+	 * @param array<string> $correspondances parsed data
 	 */
 	private function lumiere_link_finder_oldway( array $correspondances ): string {
 
@@ -357,7 +348,7 @@ class Movie {
 	 *
 	 * @param string $text parsed data
 	 */
-	public function lumiere_link_popup_maker( string $text ): string {
+	public function lumiere_link_popup_maker( string $text ): ?string {
 
 		// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
 		$pattern = '/<span data-lum_link_maker="popup">(.+?)<\/span>/i';
@@ -374,11 +365,11 @@ class Movie {
 	 *
 	 * constructs a HTML link to open a popup with highslide for searching a movie (using js/lumiere_scripts.js)
 	 *
-	 * @param string mandatory $link_parsed -> html tags + text to be modified
-	 * @param int optional $popuplarg -> window width
-	 * @param int optional $popuplong -> window height
+	 * @param string $link_parsed -> html tags + text to be modified
+	 * @param string $popuplarg -> window width
+	 * @param string $popuplong -> window height
 	 */
-	private function lumiere_popup_highslide_film_link ( $link_parsed, $popuplarg = '', $popuplong = '' ) {
+	private function lumiere_popup_highslide_film_link ( string $link_parsed, string $popuplarg = '', string $popuplong = '' ): string {
 
 		if ( ! $popuplarg ) {
 			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];

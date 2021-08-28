@@ -19,6 +19,8 @@ if ( ! defined( 'WPINC' ) ) {
 // use IMDbPHP config class in /vendor/
 use \Imdb\Config;
 
+use \Lumiere\Logger as LumLogger;
+
 // use Monolog library in /vendor/
 use \Monolog\Logger;
 use \Monolog\Handler\NullHandler;
@@ -97,8 +99,8 @@ class Settings extends Config {
 	const POPUP_SEARCH_URL = 'class/frontend/class-popup-search.php';
 	const POPUP_MOVIE_URL = 'class/frontend/class-popup-movie.php';
 	const POPUP_PERSON_URL = 'class/frontend/class-popup-person.php';
-	const TAXO_PEOPLE_THEME = 'theme/taxonomy-lumiere-people.php';
-	const TAXO_ITEMS_THEME = 'theme/taxonomy-lumiere-items.php';
+	const TAXO_PEOPLE_THEME = 'class/theme/taxonomy-lumiere-people.php';
+	const TAXO_ITEMS_THEME = 'class/theme/taxonomy-lumiere-items.php';
 
 	/**
 	 * URL string for taxonomy, 'imdblt_' by default (built in lumiere_define_constants() )
@@ -594,9 +596,7 @@ class Settings extends Config {
 		$imdb_admin_values = $this->imdb_admin_values;
 
 		// Start logger
-		if ( ! isset( $this->loggerclass ) ) {
-			$this->lumiere_start_logger( 'configMain', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
-		}
+		$logger = new LumLogger( 'configMain', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
 		/* Cache folder paths */
 		$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
@@ -605,7 +605,7 @@ class Settings extends Config {
 		// Cache folders exist with good permissions, exit
 		if ( ( is_dir( $lumiere_folder_cache ) ) && ( is_dir( $lumiere_folder_cache_images ) ) && wp_mkdir_p( $lumiere_folder_cache ) ) {
 
-			$this->loggerclass->debug( '[Lumiere][config][cachefolder] Cache folders exist and permissions are ok.' );
+			$logger->debug( '[Lumiere][config][cachefolder] Cache folders exist and permissions are ok.' );
 			return false;
 
 		}
@@ -615,7 +615,7 @@ class Settings extends Config {
 
 			chmod( $lumiere_folder_cache, 0777 );
 
-			$this->loggerclass->debug( "[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created." );
+			$logger->debug( "[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created." );
 
 			// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
 		} else {
@@ -630,7 +630,7 @@ class Settings extends Config {
 				$option_array_search['imdbcachedir'] = $lumiere_folder_cache;
 				update_option( $this->imdbCacheOptionsName, $option_array_search );
 
-				$this->loggerclass->info( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_folder_cache_images created." );
+				$logger->info( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_folder_cache_images created." );
 			}
 		}
 
@@ -639,7 +639,7 @@ class Settings extends Config {
 
 			chmod( $lumiere_folder_cache_images, 0777 );
 
-			$this->loggerclass->debug( "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created." );
+			$logger->debug( "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created." );
 
 			// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
 		} else {
@@ -650,7 +650,7 @@ class Settings extends Config {
 
 				chmod( $lumiere_folder_cache_images, 0777 );
 
-				$this->loggerclass->info( "[Lumiere][config][cachefolder] Alternative image folder $lumiere_folder_cache_images created." );
+				$logger->info( "[Lumiere][config][cachefolder] Alternative image folder $lumiere_folder_cache_images created." );
 
 			}
 
