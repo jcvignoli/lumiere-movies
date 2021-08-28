@@ -734,7 +734,7 @@ class Data extends \Lumiere\Admin {
 
 		}
 
-		return "\n\t" . '<br /><div><i>' . ucfirst( $lumiere_taxo_title ) . esc_html__( 'template up-to-date', 'lumiere-movies' ) . '</i></div>';
+		return "\n\t" . '<br /><div><i>' . ucfirst( $lumiere_taxo_title ) . ' ' . esc_html__( 'template up-to-date', 'lumiere-movies' ) . '</i></div>';
 	}
 
 }

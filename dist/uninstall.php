@@ -22,21 +22,21 @@ class LumiereUninstall {
 
 	/**
 	 * Admin options
-	 *
+	 * @var array<string> $imdb_admin_values
 	 */
 	private array $imdb_admin_values;
 
 	/**
 	 * Widget options
-	 *
+	 * @var array<string> $imdb_widget_values
 	 */
 	private array $imdb_widget_values;
 
 	/**
-	 * \Lumiere\Settings class
+	 * \Lumiere\Logger class
 	 *
 	 */
-	private Settings $config_class;
+	private Logger $logger;
 
 	/**
 	 * \Lumière\Utils class
@@ -45,7 +45,7 @@ class LumiereUninstall {
 	private Utils $utils_class;
 
 	/**
-	 * constructor
+	 * Constructor
 	 *
 	 */
 	public function __construct() {
@@ -55,9 +55,6 @@ class LumiereUninstall {
 		// Get options from database.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
-
-		// Start Settings class.
-		$this->config_class = new Settings();
 
 		// Start Utils class.
 		$this->utils_class = new Utils();
@@ -82,15 +79,17 @@ class LumiereUninstall {
 
 		$this->logger->log()->debug( '[Lumiere][uninstall] Processing uninstall' );
 
-		/****** Below actions are executed for everybody */
+		/** Below actions are executed for everybody */
 
 		// Remove WP Cron shoud it exists.
-		$timestamp = wp_next_scheduled( 'lumiere_cron_hook' );
-		if ( $timestamp ) {
-
-			wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
-			$this->logger->log()->debug( '[Lumiere][uninstall] Cron deleted.' );
-
+		$wp_cron_list = [];
+		$wp_cron_list = _get_cron_array();
+		foreach ( $wp_cron_list as $time => $hook ) {
+			if ( isset( $hook['lumiere_cron_hook'] ) ) {
+				$timestamp = (int) wp_next_scheduled( 'lumiere_cron_hook' );
+				wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
+				$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Cron removed' );
+			}
 		}
 
 		// Keep the settings if selected so.
@@ -101,11 +100,11 @@ class LumiereUninstall {
 			return;
 		}
 
-		/*** Following actions are not executed if the user selected to keep their settings ***/
+		/** Following actions are executed only if the user selected to not keep their settings */
 
 		// Remove cache.
 		$lumiere_cache_path = ABSPATH . 'wp-content/cache/lumiere/';
-		$this->utils_class->lumiere_wp_filesystem_cred( $lumiere_cache_path );
+		Utils::lumiere_wp_filesystem_cred( $lumiere_cache_path );
 		if ( $wp_filesystem->is_dir( $lumiere_cache_path ) ) {
 
 			$wp_filesystem->delete( $lumiere_cache_path, true );
@@ -118,16 +117,16 @@ class LumiereUninstall {
 
 		}
 
-		# Delete Taxonomy
-		// Search for all imdbtaxonomy* in config array,
-		// If a taxonomy is found, let's get related terms and delete them
+		// Delete Taxonomy.
+		// Search for all imdbtaxonomy* in config array.
+		// If a taxonomy is found, let's get related terms and delete them.
 		foreach ( $this->utils_class->lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
 
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $this->imdb_admin_values['imdburlstringtaxo'] . $key );
 
 			$this->logger->log()->debug( '[Lumiere][uninstall] Process of deleting taxonomy ' . $filter_taxonomy . ' started' );
 
-			# Register taxonomy: must be registered in order to delete its terms
+			// Register taxonomy: must be registered in order to delete its terms.
 			register_taxonomy(
 				$filter_taxonomy,
 				null,
@@ -151,11 +150,11 @@ class LumiereUninstall {
 			foreach ( $terms as $term ) {
 
 				// Sanitize terms
-				$term_id = (int) $term->term_id;
-				$term_name = (string) sanitize_text_field( $term->name );
-				$term_taxonomy = (string) sanitize_text_field( $term->taxonomy );
+				$term_id = $term->term_id;
+				$term_name = sanitize_text_field( $term->name );
+				$term_taxonomy = sanitize_text_field( $term->taxonomy );
 
-				if ( ! empty( $term_id ) ) {
+				if ( isset( $term_id ) && is_integer( $term_id ) ) {
 
 					wp_delete_term( $term_id, $filter_taxonomy );
 					$this->logger->log()->debug( '[Lumiere][uninstall] Taxonomy: term ' . $term_name . ' in ' . $term_taxonomy . ' deleted.' );

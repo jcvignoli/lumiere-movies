@@ -886,7 +886,7 @@ class Core {
 		// Start the logger.
 		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
-		// Remove WP Cron shoud it exists.
+		// Remove WP Cron shoud they exist.
 		$wp_cron_list = [];
 		$wp_cron_list = _get_cron_array();
 		foreach ( $wp_cron_list as $time => $hook ) {

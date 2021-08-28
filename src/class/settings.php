@@ -91,9 +91,9 @@ class Settings extends Config {
 
 	/* Internal URL pages constants
 	*/
-	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'inc/move-template-taxonomy.php';
-	const HIGHSLIDE_DOWNLOAD_PAGE = 'inc/highslide-download.php';
-	const GUTENBERG_SEARCH_PAGE = 'inc/gutenberg-search.php';
+	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'class/tools/class-copy-template-taxonomy.php';
+	const HIGHSLIDE_DOWNLOAD_PAGE = 'class/tools/highslide-download.php';
+	const GUTENBERG_SEARCH_PAGE = 'class/tools/class-search.php';
 	const GUTENBERG_SEARCH_URL_STRING = 'lumiere/search/';
 	const GUTENBERG_SEARCH_URL = '/wp-admin/' . self::GUTENBERG_SEARCH_URL_STRING;
 	const POPUP_SEARCH_URL = 'class/frontend/class-popup-search.php';
@@ -310,13 +310,14 @@ class Settings extends Config {
 
 	/**
 	 * Define the number of updates on first install
-	 * Not built from __construct(), called from \Lumiere\Core on installation
+	 * Not built in __construct(), called from \Lumiere\Core on installation or elsewhere
 	 *
 	 * @return bool
 	 */
 	public function lumiere_define_nb_updates(): bool {
 
-		new \Lumiere\Settings();
+		$lumiere_self_class = __CLASS__;
+		new $lumiere_self_class();
 
 		// If var current_number_updates doesn't exist, make it
 		if ( ( ! isset( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) || ( empty( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) ) {

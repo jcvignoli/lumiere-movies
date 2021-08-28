@@ -17,7 +17,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 use \Lumiere\Settings;
 use \Lumiere\Utils;
 
-class Copy_Template {
+class Copy_Template_Taxonomy {
 
 	/**
 	 * Store admin options
@@ -115,4 +115,4 @@ class Copy_Template {
 
 }
 
-new Copy_Template();
+new Copy_Template_Taxonomy();
