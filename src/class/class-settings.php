@@ -84,7 +84,7 @@ class Settings extends Config {
 
 	/* Internal URL pages constants
 	*/
-	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'class/tools/class-copy-template-taxonomy.php';
+	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'class/tools/class-copy-template-taxonomy.php'; // not included in $lumiere_list_all_pages.
 	const HIGHSLIDE_DOWNLOAD_PAGE = 'class/tools/highslide-download.php';
 	const GUTENBERG_SEARCH_PAGE = 'class/tools/class-search.php';
 	const GUTENBERG_SEARCH_URL_STRING = 'lumiere/search/';
@@ -92,8 +92,9 @@ class Settings extends Config {
 	const POPUP_SEARCH_URL = 'class/frontend/class-popup-search.php';
 	const POPUP_MOVIE_URL = 'class/frontend/class-popup-movie.php';
 	const POPUP_PERSON_URL = 'class/frontend/class-popup-person.php';
-	const TAXO_PEOPLE_THEME = 'class/theme/class-taxonomy-people-standard.php';
-	const TAXO_ITEMS_THEME = 'class/theme/class-taxonomy-items-standard.php';
+	const TAXO_PEOPLE_THEME = 'class/theme/class-taxonomy-people-standard.php'; // not included in $lumiere_list_all_pages.
+	const TAXO_ITEMS_THEME = 'class/theme/class-taxonomy-items-standard.php'; // not included in $lumiere_list_all_pages.
+	const UPDATE_OPTIONS_PAGE = 'class/class-update-options.php'; // not included in $lumiere_list_all_pages.
 
 	/**
 	 * URL string for taxonomy, 'imdblt_' by default (built in lumiere_define_constants() )

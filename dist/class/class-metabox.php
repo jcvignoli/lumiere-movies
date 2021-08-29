@@ -31,9 +31,9 @@ class Metabox {
 
 	}
 
-	public function lumiere_metabox_customfields() {}
+	public function lumiere_metabox_customfields(): void {}
 
-	public function add_lumiere_metabox_customfields() {
+	public function add_lumiere_metabox_customfields(): void {
 
 		add_meta_box( 'lumiere_metabox_customfields', 'Lumière! movies', [ $this, 'custom_meta_box_markup' ], [ 'post', 'page' ], 'side', 'high', null );
 
@@ -42,10 +42,9 @@ class Metabox {
 	/**
 	 * Output in the edition
 	 *
-	 *
-	 * @param array $object Saved values from database.
+	 * @param \WP_Post $object Saved values from database.
 	 */
-	public function custom_meta_box_markup( $object ) {
+	public function custom_meta_box_markup( \WP_Post $object ): void {
 
 		// Option for the select, the two type of data to be taken over by imdb-movie.inc.php
 		$option_values = [
@@ -102,14 +101,12 @@ class Metabox {
 	 * Save the data to the database
 	 *
 	 *
-	 * @param $post_id id of the post
-	 * @param $post
-	 * @param $update
+	 * @param int $post_id ID of the post
+	 * @param \WP_Post $post the post
 	 */
+	public function save_custom_meta_box( int $post_id, \WP_Post $post ): ?int {
 
-	public function save_custom_meta_box( int $post_id, $post ) {
-
-		if ( ! isset( $_POST['lumiere_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['lumiere_metabox_nonce'], basename( __FILE__ ) ) ) {
+		if ( ! isset( $_POST['lumiere_metabox_nonce'] ) || wp_verify_nonce( $_POST['lumiere_metabox_nonce'], basename( __FILE__ ) ) === false ) {
 			return $post_id;
 		}
 
@@ -161,10 +158,12 @@ class Metabox {
 		}
 
 		// Delete the custom data if removed
-		if ( ( ! isset( $_POST['lumiere_queryid_widget_input'] ) ) || ( empty( $_POST['lumiere_queryid_widget_input'] ) ) ) {
+		if ( ( ! isset( $_POST['lumiere_queryid_widget_input'] ) ) || ( strlen( $_POST['lumiere_queryid_widget_input'] ) < 1 ) ) {
 			delete_post_meta( $post_id, 'imdb-movie-widget-bymid' );
 			delete_post_meta( $post_id, 'imdb-movie-widget' );
 		}
+
+		return null;
 	}
 }
 
