@@ -786,10 +786,10 @@ class Core {
 	/**
 	 * Run on lumiere WordPress upgrade
 	 *
-	 * @param object $upgrader_object Type of action. Default 'update'.
-	 * @param array<string> $options Type of update process, such as 'plugin', 'theme', 'translation' or 'core'
+	 * @param \WP_Upgrader $upgrader_object Type of action. Default 'update'.
+	 * @param mixed[] $options Type of update process, such as 'plugin', 'theme', 'translation' or 'core'
 	 */
-	public function lumiere_on_lumiere_upgrade_completed( object $upgrader_object, array $options ): void {
+	public function lumiere_on_lumiere_upgrade_completed( \WP_Upgrader $upgrader_object, array $options ): void {
 
 		// Start the logger.
 		do_action( 'lumiere_logger' );
@@ -804,7 +804,8 @@ class Core {
 				if ( $plugin == 'lumiere-movies/lumiere-movies.php' ) {
 
 					// Call the class to update options
-					require_once __DIR__ . '/class-update-options.php';
+					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::UPDATE_OPTIONS_PAGE;
+
 					$start_update_options = new Update_Options();
 
 					// Homebrew debug.
@@ -998,7 +999,7 @@ class Core {
 		// Update options
 		// this udpate is also run in upgrader_process_complete, but the process is not reliable
 		// Using the same updating process in a WP Cron
-		require_once __DIR__ . '/class-update-options.php';
+		require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::UPDATE_OPTIONS_PAGE;
 		$start_update_options = new Update_Options();
 
 	}
