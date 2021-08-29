@@ -15,42 +15,20 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Settings;
-use \Lumiere\Utils;
-use \Lumiere\Logger;
+use \Lumiere\Frontend;
 
-class Taxonomystandard {
+class Taxonomy_Items_Standard {
+
+	// Use trait frontend
+	use Frontend {
+		Frontend::__construct as public __constructFrontend;
+	}
 
 	/**
 	 * Set to true to activate the sidebar
 	 *
 	 */
 	private const ACTIVATE_SIDEBAR = false;
-
-	/**
-	 * Class \Lumiere\Utils
-	 *
-	 */
-	private Utils $utils_class;
-
-	/**
-	 * Class \Lumiere\Settings
-	 *
-	 */
-	private Settings $config_class;
-
-	/**
-	 * Class \Lumiere\Logger
-	 *
-	 */
-	private Logger $logger;
-
-	/**
-	 *  Admin settings from database
-	 *
-	 *  @var array<string> $imdb_admin_values
-	 */
-	private array $imdb_admin_values;
 
 	/**
 	 * Current page name from the tag taxonomy
@@ -64,40 +42,14 @@ class Taxonomystandard {
 	 */
 	public function __construct() {
 
-		// Get database options
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-
-		$this->config_class = new Settings( 'taxonomy-standard' );
-
-		// Start the class Utils to activate debug
-		$this->utils_class = new Utils();
+		// Construct Frontend trait.
+		$this->__constructFrontend( 'taxonomy-standard' );
 
 		// Build the current page name from the tag taxonomy
 		$this->page_title = single_tag_title( '', false );
 
-		// Start the logger.
-		$this->logger = new Logger( 'taxonomy-standard' );
-
-		// Start debug.
-		add_action( 'init', [ $this, self::lumiere_maybe_start_debug() ], 0 );
-
 		// Display the page.
 		add_action( 'wp', [ $this, self::layout() ], 0 );
-
-	}
-
-	/**
-	 *  Start debug mode
-	 *
-	 */
-	private function lumiere_maybe_start_debug() {
-
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
-
-			// Start debugging mode
-			$this->utils_class->lumiere_activate_debug();
-
-		}
 
 	}
 
@@ -181,4 +133,4 @@ class Taxonomystandard {
 
 }
 
-new Taxonomystandard();
+new Taxonomy_Items_Standard();

@@ -5,7 +5,7 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
- * @version       1.0
+ * @version 1.0
  * @package lumiere-movies
  */
 
@@ -16,7 +16,10 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-// use Monolog library in /vendor/
+// use Lumiere library.
+use \Lumiere\Utils;
+
+// use Monolog library in /vendor/.
 use \Monolog\Logger as LoggerMonolog;
 use \Monolog\Handler\NullHandler;
 use \Monolog\Handler\StreamHandler;
@@ -60,7 +63,7 @@ class Logger {
 	 * @param string $logger_name Title of Monolog logger
 	 * @param bool $screenOutput whether to output Monolog on screen or not
 	 */
-	public function __construct( ?string $logger_name, ?bool $screenOutput = true ) {
+	public function __construct( string $logger_name, bool $screenOutput = true ) {
 
 		// Get database options.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
@@ -72,7 +75,7 @@ class Logger {
 		// By default, start at init.
 		add_action(
 			'init',
-			function() use ( $logger_name, $screenOutput ): void {
+			function(): void {
 					$this->lumiere_start_logger( $this->logger_name, $this->screenOutput );
 			},
 			0
@@ -81,37 +84,55 @@ class Logger {
 		// If init is too late, use lumiere_logger hook so we can activate manually.
 		add_action(
 			'lumiere_logger',
-			function() use ( $logger_name, $screenOutput ): void {
+			function(): void {
 					$this->lumiere_start_logger( $this->logger_name, $this->screenOutput );
 			}
 		);
 
+		add_action( 'save_post', 'logger_disable', 0 );
+	}
+
+	public function logger_disable() {
+			$this->is_editor_page = true;
 	}
 
 	/**
-	 * Detect if the current page is an editor page (post.php or post-new.php)
+	 * Detect if the current page is a classic or block editor page (post.php or post-new.php)
 	 *
 	 */
 	private function lumiere_is_screen_editor(): bool {
 
-		/*
+		/** Kept for memory.
 		if ( ! function_exists( 'get_current_screen' ) ) {
 			require_once ABSPATH . '/wp-admin/includes/screen.php';
 		}
-
 		$screen = get_current_screen();
 		$wp_is_block_editor = ( isset( $screen ) && ! is_null( $screen->is_block_editor() ) ) ? $screen->is_block_editor() : null;
 		$post_type = ( isset( $screen ) && ! is_null( $screen->post_type ) ) ? $screen->post_type : null;
 		*/
-		if ( ! isset( $GLOBALS['hook_suffix'] ) || $GLOBALS['hook_suffix'] !== 'post.php' && $GLOBALS['hook_suffix'] !== 'post-new.php' ) {
 
-			$this->is_editor_page = false;
-			return false;
+		// If the page called is post or post-new, set $is_editor_page on true.
+		// This is useful when display a post.
+		if ( isset( $GLOBALS['hook_suffix'] ) && ( $GLOBALS['hook_suffix'] === 'post.php' || $GLOBALS['hook_suffix'] === 'post-new.php' ) ) {
+
+			$this->is_editor_page = true;
+			return true;
 
 		}
 
-		$this->is_editor_page = true;
-		return true;
+		// If the referer of current page is a specific one, set $is_editor_page on true.
+		// This is useful when saving a post in editor interface.
+		$referer = strlen( $_SERVER['REQUEST_URI'] ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
+		$pages_prohibited = [ '/wp-admin/admin-ajax.php', '/wp-admin/post.php', '/wp-json/wp/v2/posts' ];
+		if ( Utils::lumiere_array_contains_term( $pages_prohibited, $_SERVER['REQUEST_URI'] ) ) {
+
+			$this->is_editor_page = true;
+			return true;
+
+		}
+
+		$this->is_editor_page = false;
+		return false;
 
 	}
 
@@ -169,7 +190,14 @@ class Logger {
 			 * Display errors on screen if option activated.
 			 * Avoid to display on screen when using block editor.
 			 */
-			if ( ( $this->imdb_admin_values['imdbdebugscreen'] === '1' ) && ( $screenOutput === true ) && ( $this->is_editor_page === false ) ) {
+			if (
+			// IF: option 'debug on screen' is activated.
+			( $this->imdb_admin_values['imdbdebugscreen'] === '1' )
+			// IF: variable 'output on screen' is selected.
+			&& ( $screenOutput === true )
+			// IF: the page is not block editor (gutenberg).
+			&& ( $this->is_editor_page === false )
+			) {
 
 				// Change the format
 				$output = "[%level_name%] %message%<br />\n";

@@ -44,7 +44,7 @@ class Widget extends \WP_Widget {
 	 * Class \Lumiere\Logger
 	 *
 	 */
-	public Logger $logger;
+	private Logger $logger;
 
 	/**
 	 * Shortcode to be used by add_shortcodes, ie [lumiereWidget][/lumiereWidget]

@@ -21,12 +21,15 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use \Imdb\Person;
 use \Imdb\PersonSearch;
-use \Lumiere\Settings;
-use \Lumiere\Utils;
-use \Lumiere\Logger;
+use \Lumiere\Frontend;
 use \WP_Query;
 
-class Taxonomystandard {
+class Taxonomy_People_Standard {
+
+	// Use trait frontend
+	use Frontend {
+		Frontend::__construct as public __constructFrontend;
+	}
 
 	/**
 	 *  Set to true to activate the sidebar
@@ -34,35 +37,10 @@ class Taxonomystandard {
 	private const ACTIVATE_SIDEBAR = false;
 
 	/**
-	 *  Class \Lumiere\Utils
-	 *
-	 */
-	private Utils $utils_class;
-
-	/**
-	 *  Class \Lumiere\Settings
-	 *
-	 */
-	private Settings $config_class;
-
-	/**
-	 *  Class \Monolog\Logger
-	 *
-	 */
-	private Logger $logger;
-
-	/**
 	 *  Class \Imdb\Person
 	 *
 	 */
 	private Person $person_class;
-
-	/**
-	 *  Admin settings from database
-	 *
-	 *  @var array<string> $imdb_admin_values
-	 */
-	private array $imdb_admin_values;
 
 	/**
 	 *  Array of registered type of people from class \Lumiere\Settings
@@ -97,41 +75,14 @@ class Taxonomystandard {
 	 */
 	public function __construct() {
 
-		// Get database options
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-
-		// Start Lumière config class.
-		$this->config_class = new Settings();
-
-		// Start the class Utils to activate debug.
-		$this->utils_class = new Utils();
+		// Construct Frontend trait.
+		$this->__constructFrontend( 'taxonomy-standard' );
 
 		// List of potential parameters for a person.
 		$this->array_people = $this->config_class->array_people;
 
-		// Start the logger.
-		$this->logger = new Logger( 'taxonomy-standard' );
-
-		// Start debug.
-		add_action( 'init', [ $this, self::lumiere_maybe_start_debug() ], 0 );
-
 		// Display the page.
 		add_action( 'wp', [ $this, self::layout() ], 0 );
-
-	}
-
-	/**
-	 *  Start debug mode
-	 *
-	 */
-	private function lumiere_maybe_start_debug(): void {
-
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
-
-			// Start debugging mode
-			$this->utils_class->lumiere_activate_debug();
-
-		}
 
 	}
 
@@ -587,5 +538,5 @@ class Taxonomystandard {
 
 }
 
-new Taxonomystandard();
+new Taxonomy_People_Standard();
 

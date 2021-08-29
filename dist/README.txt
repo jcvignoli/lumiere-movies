@@ -93,7 +93,7 @@ If Polylang is installed, new features for taxonomy are added, such as selecting
 
 = Known issues =
 
-* Activation of debug breaks block editor (gutenberg) post/page edition. Do not use Lumière debugging mode when editing a post or a page.
+* None.
 
 == Support ==
 

@@ -12,7 +12,7 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
@@ -54,17 +54,11 @@ class Movie {
 	 */
 	public function __construct() {
 
-		// Exit if base class is not found
-		if ( ! class_exists( '\Lumiere\Settings' ) ) {
-
-			wp_die( esc_html__( 'Cannot start class movie, class Lumière Settings not found', 'lumiere-movies' ) );
-		}
-
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'movieClass' );
 
 		// Run the initialisation of the class.
-		// Not needed since lumiere_show() is externally called.
+		// Not needed since lumiere_show() is called by lumiere_parse_spans().
 		// add_action ('the_loop', [$this, 'lumiere_show'], 0);
 
 		// Parse the content to add the movies.
@@ -263,9 +257,10 @@ class Movie {
 	 * Replace [imdblt] shortcode by the movie
 	 * Obsolete, kept for compatibility purposes
 	 *
-	 * @param array<string> $atts
+	 * @param string|array<string> $atts
+	 * @param string|array<string> $tag
 	 */
-	public function parse_lumiere_tag_transform( array $atts = [], string $content = null, $tag ): string {
+	public function parse_lumiere_tag_transform( $atts = [], string $content = null, $tag ): string {
 
 		//shortcode_atts(array( 'id' => 'default id', 'film' => 'default film'), $atts);
 
@@ -279,9 +274,10 @@ class Movie {
 	 * Replace [imdbltid] shortcode by the movie
 	 * Obsolete, kept for compatibility purposes
 	 *
-	 * @param array<string> $atts
+	 * @param string|array<string> $atts
+	 * @param string|array<string> $tag
 	 */
-	public function parse_lumiere_tag_transform_id( array $atts = [], string $content = null, $tag ): string {
+	public function parse_lumiere_tag_transform_id( $atts = [], string $content = null, $tag ): string {
 
 		$movie_imdbid = [];
 		$movie_imdbid[] = $content;
@@ -365,11 +361,11 @@ class Movie {
 	 *
 	 * constructs a HTML link to open a popup with highslide for searching a movie (using js/lumiere_scripts.js)
 	 *
-	 * @param string $link_parsed -> html tags + text to be modified
+	 * @param array<string> $link_parsed -> html tags + text to be modified
 	 * @param string $popuplarg -> window width
 	 * @param string $popuplong -> window height
 	 */
-	private function lumiere_popup_highslide_film_link ( string $link_parsed, string $popuplarg = '', string $popuplong = '' ): string {
+	private function lumiere_popup_highslide_film_link ( array $link_parsed, string $popuplarg = '', string $popuplong = '' ): string {
 
 		if ( ! $popuplarg ) {
 			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
