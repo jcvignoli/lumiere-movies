@@ -19,15 +19,16 @@ if ( ! defined( 'WPINC' ) ) {
 class Metabox {
 
 	/**
-	 * Constructor
+	 * Start the metabox
 	 */
-	public function __construct() {
+	public function lumiere_start_metabox(): void {
 
 		/**
 		* Register the metabox
 		*/
 		add_action( 'add_meta_boxes', [ $this, 'add_lumiere_metabox_customfields' ] );
 		add_action( 'save_post', [ $this, 'save_custom_meta_box' ], 10, 2 );
+
 	}
 
 	public function lumiere_metabox_customfields() {}
@@ -166,6 +167,4 @@ class Metabox {
 		}
 	}
 }
-
-new \Lumiere\Metabox();
 

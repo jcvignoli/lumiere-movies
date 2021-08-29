@@ -62,6 +62,7 @@
 		</properties>
 	</rule>
 
+	<!-- I don't want to prefix with lumiere all globals
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<property name="prefixes" type="array">
@@ -69,6 +70,7 @@
 			</property>
 		</properties>
 	</rule>
+	-->
 
 	<rule ref="WordPress.NamingConventions.ValidHookName">
 		<properties>
@@ -76,11 +78,12 @@
 		</properties>
 	</rule>
 
-	<!-- I don't want to rename all classes into class-*.php -->
+	<!-- I don't want to rename all classes into class-*.php
 	<rule ref="WordPress.Files.FileName">
 		<properties>
 			<property name="strict_class_file_names" value="false"/>
 		</properties>
 	</rule>
+	-->
 
 </ruleset>

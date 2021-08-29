@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use \Lumiere\Settings;
 use \Lumiere\Utils;
+use \Lumiere\Logger;
 
 class Data extends \Lumiere\Admin {
 
@@ -73,8 +74,7 @@ class Data extends \Lumiere\Admin {
 		$this->lumiere_admin_display_messages();
 
 		// Start logger
-		$this->configClass->lumiere_start_logger( 'adminData' );
-		$this->logger = $this->configClass->loggerclass;
+		$this->logger->lumiere_start_logger( 'adminData' );
 
 		// Build vars from configClass
 		$this->array_people = $this->configClass->array_people;
@@ -161,7 +161,7 @@ class Data extends \Lumiere\Admin {
 	 *  Display head
 	 *
 	 */
-	private function lumiere_data_head() {
+	private function lumiere_data_head(): void {
 
 		/* Update options selected
 		 *
@@ -220,7 +220,7 @@ class Data extends \Lumiere\Admin {
 			// Needed by WordPress as a new page is created
 			if ( $this->utilsClass->lumiere_array_key_exists_wildcard( $_POST, 'imdb_imdbtaxonomy*' ) ) {
 				flush_rewrite_rules();
-				$this->logger->debug( 'Rewrite rules flushed' );
+				$this->logger->log()->debug( 'Rewrite rules flushed' );
 			}
 
 			// Display a refresh link otherwise refreshed data is not seen
@@ -464,7 +464,7 @@ class Data extends \Lumiere\Admin {
 		// Flush rewrite rules when visiting taxonomy page
 		// Complements the one executed when saving taxonomy options
 		flush_rewrite_rules();
-		$this->logger->debug( 'Rewrite rules flushed' );
+		$this->logger->log()->debug( 'Rewrite rules flushed' );
 		?>
 
 	<div class="inside imblt_border_shadow">

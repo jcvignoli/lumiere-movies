@@ -23,6 +23,7 @@ use \Imdb\Title;
 use \Imdb\Person;
 use \Lumiere\Settings;
 use \Lumiere\Utils;
+use \Lumiere\Logger;
 use \FilesystemIterator;
 use \RecursiveDirectoryIterator;
 use \RecursiveIteratorIterator;
@@ -65,9 +66,8 @@ class Cache extends \Lumiere\Admin {
 
 		}
 
-		// Uncomment to display IMDbPHP debug
-		//$this->configClass->lumiere_start_logger('cacheClass');
-		//$this->logger = $this->configClass->loggerclass;
+		// Logger: set to true to display debug
+		$this->logger->lumiere_start_logger( 'cacheClass', false );
 
 		// Display notices.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
@@ -118,7 +118,7 @@ class Cache extends \Lumiere\Admin {
 	 *  Display head
 	 *
 	 */
-	private function lumiere_cache_head() {
+	private function lumiere_cache_head(): void {
 
 		##################################### Saving options
 
@@ -339,7 +339,7 @@ class Cache extends \Lumiere\Admin {
 			}
 
 			// get again the movie
-			$movie = new Title( $id_sanitized, $this->configClass, $this->logger );
+			$movie = new Title( $id_sanitized, $this->configClass, $this->logger->log() );
 
 			// create cache for everything
 			$movie->alsoknow();
@@ -394,7 +394,7 @@ class Cache extends \Lumiere\Admin {
 			}
 
 			// get again the person
-			$person = new Person( $id_people_sanitized, $this->configClass, $this->logger );
+			$person = new Person( $id_people_sanitized, $this->configClass, $this->logger->log() );
 
 			// Create cache for everything
 			$person->bio();
@@ -835,7 +835,7 @@ class Cache extends \Lumiere\Admin {
 					$results = [];
 					foreach ( $files as $file ) {
 						if ( preg_match( '!^title\.tt(\d{7,8})$!i', basename( $file ), $match ) === 1 ) {
-							$results[] = new Title( $match[1], $this->configClass, $this->logger );
+							$results[] = new Title( $match[1], $this->configClass, $this->logger->log() );
 						}
 					}
 
@@ -947,7 +947,7 @@ class Cache extends \Lumiere\Admin {
 					$results = [];
 					foreach ( $files as $file ) {
 						if ( preg_match( '!^name\.nm(\d{7,8})$!i', basename( $file ), $match ) === 1 ) {
-							$results[] = new Person( $match[1], $this->configClass, $this->logger );
+							$results[] = new Person( $match[1], $this->configClass, $this->logger->log() );
 						}
 					}
 					?>

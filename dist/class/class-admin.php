@@ -13,11 +13,12 @@ namespace Lumiere;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
-	wp_die( 'You can not call directly this page' );
+	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
 use \Lumiere\Settings;
 use \Lumiere\Utils;
+use \Lumiere\Logger;
 use \Lumiere\Admin\General;
 use \Lumiere\Admin\Data;
 use \Lumiere\Admin\Cache;
@@ -54,9 +55,9 @@ class Admin {
 	protected Utils $utilsClass;
 
 	/**
-	 * \Monolog\Logger class
+	 * \Lumiere\Logger class
 	 */
-	protected ?\Monolog\Logger $logger;
+	protected Logger $logger;
 
 	/**
 	 * Store root directories of the plugin
@@ -81,7 +82,7 @@ class Admin {
 	public function __construct() {
 
 		// Load all classes in class/Admin folder, will be loaded when needed
-		spl_autoload_register( [ 'Lumiere\Admin', 'admin_loader' ] );
+		spl_autoload_register( [ 'Lumiere\Admin', 'lumiere_admin_loader' ] );
 
 		// Get database options.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
@@ -89,20 +90,48 @@ class Admin {
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
 		// Start Settings class.
-		$this->configClass = new Settings( 'adminClass' );
+		$this->configClass = new Settings();
 
 		// Start Utilities class
 		$this->utilsClass = new Utils();
+
+		// Start Logger class
+		$this->logger = new Logger( 'adminClass' );
 
 		// Build constants
 		$this->rootURL = plugin_dir_url( __DIR__ );
 		$this->rootPath = plugin_dir_path( __DIR__ );
 
 		// Start the debug
-		add_action( 'admin_init', [ $this, 'lumiere_admin_maybe_start_debug' ], 0 );
+		// If runned earlier, such as 'admin_init', breaks block editor edition.
+		add_action( 'wp', [ $this, 'lumiere_admin_maybe_start_debug' ], 0 );
 
 		// Display notices.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
+
+	}
+
+	/**
+	 * Load all files included in class/admin
+	 * Loaded in spl_autoload_register() in __construct()
+	 *
+	 * @param string $class_name Class name automagically retrieved from spl_autoload_register()
+	 */
+	public function lumiere_admin_loader( string $class_name ): void {
+
+		$parts = explode( '\\', $class_name );
+		$class = 'class-' . strtolower( array_pop( $parts ) );
+		$folder = strtolower( implode( DIRECTORY_SEPARATOR, $parts ) );
+		$folder_cleaned = str_replace( 'lumiere/', '', $folder );
+
+		// Final path for inclusion
+		$classpath = plugin_dir_path( __DIR__ ) . 'class' . DIRECTORY_SEPARATOR . $folder_cleaned . DIRECTORY_SEPARATOR . $class . '.php';
+
+		if ( file_exists( $classpath ) ) {
+
+			require $classpath;
+
+		}
 
 	}
 
@@ -112,27 +141,6 @@ class Admin {
 	 */
 	public function lumiere_admin_display_messages(): ?string {
 		return null;
-	}
-
-	/**
-	 *  Load all files included in class/Admin
-	 *  Loaded in spl_autoload_register()
-	 *
-	 */
-	public function admin_loader( string $class_name ): void {
-
-		// Remove 'Lumiere' and transforms '\' into '/'
-		$class_name = str_replace( 'Lumiere/', '', str_replace( '\\', '/', ltrim( $class_name, '\\' ) ) );
-
-		// Path for inclusion
-		$path_to_file = plugin_dir_path( __DIR__ ) . 'class/' . strtolower( $class_name ) . '.php';
-
-		if ( file_exists( $path_to_file ) ) {
-
-			require $path_to_file;
-
-		}
-
 	}
 
 	/**
@@ -157,8 +165,7 @@ class Admin {
 	public function lumiere_admin_menu(): void {
 
 		// Store the logger class
-		do_action( 'lumiere_logger_hook' );
-		$this->logger = $this->configClass->loggerclass;
+		do_action( 'lumiere_logger' );
 
 		add_action( 'admin_menu', [ &$this, 'lumiere_add_left_menu' ] );
 
@@ -317,7 +324,7 @@ class Admin {
 	public function lumiere_admin_pages(): void {
 
 		// Start logging using hook defined in settings class.
-		do_action( 'lumiere_logger_hook' );
+		do_action( 'lumiere_logger' );
 
 		$this->display_admin_menu();
 

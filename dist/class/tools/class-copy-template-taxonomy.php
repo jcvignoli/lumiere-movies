@@ -1,7 +1,7 @@
 <?php declare( strict_types = 1 );
 /**
- * Move automatically the Lumière! template for taxonomy (theme/taxonomy-imdblt_standard.php)
- * to the current user template folder
+ * Move automatically the Lumière! template for taxonomy (class/theme/class-taxonomy*.php)
+ * To the current user template folder.
  *
  * @version 1.0
  * @package lumiere-movies
@@ -20,21 +20,21 @@ use \Lumiere\Utils;
 class Copy_Template_Taxonomy {
 
 	/**
-	 * Store admin options
-	 *
+	 * Admin options
+	 * @var array<string> $imdb_admin_values
 	 */
 	private array $imdb_admin_values;
 
 	/**
-	 * Store widget options
-	 *
+	 * Widget options
+	 * @var array<string> $imdb_widget_values
 	 */
 	private array $imdb_widget_values;
 
 	/**
-	 * Store list of items related to people
+	 * List of items related to people
 	 * From Settings class
-	 *
+	 * @var array<string> $array_people
 	 */
 	private array $array_people;
 
@@ -42,7 +42,7 @@ class Copy_Template_Taxonomy {
 	 * Utils Class
 	 *
 	 */
-	private object $utils_class;
+	private Utils $utils_class;
 
 	/**
 	 * Constructor
@@ -102,9 +102,10 @@ class Copy_Template_Taxonomy {
 				wp_safe_redirect( add_query_arg( 'msg', 'taxotemplatecopy_failed', wp_get_referer() ) );
 				exit();
 			}
-			// Copy successful.
+			// Copy successful,
 			$content = $wp_filesystem->get_contents( $lumiere_current_theme_path_file );
 			$content = str_replace( 'standard', $lumiere_taxo_title, $content );
+			$content = str_replace( 'Standard', ucfirst( $lumiere_taxo_title ), $content );
 			$wp_filesystem->put_contents( $lumiere_current_theme_path_file, $content, FS_CHMOD_FILE );
 			wp_safe_redirect( add_query_arg( 'msg', 'taxotemplatecopy_success', wp_get_referer() ) );
 			exit();

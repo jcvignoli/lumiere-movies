@@ -16,7 +16,6 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Admin;
 use \Lumiere\Settings;
 use \Lumiere\Update_Options;
 use \Lumiere\Utils;
@@ -93,7 +92,7 @@ class Core {
 
 		} );*/
 
-		// Redirect gutenberg-search.php
+		// Redirect class-search.php
 		add_filter(
 			'init',
 			function(): void {
@@ -131,42 +130,54 @@ class Core {
 
 		}
 
-		// Admin interface.
+		/**
+		 * Admin interface.
+		 */
 
-			// Admin class.
 		if ( is_admin() ) {
 
 			// Add admin menu.
-			require_once __DIR__ . '/admin.php';
-			$admin_class = new Admin();
-			add_action( 'init', [ $admin_class, 'lumiere_admin_menu' ] );
+			require_once __DIR__ . '/class-admin.php';
+			$lumiere_admin_class = new Admin();
+			add_action( 'init', [ $lumiere_admin_class, 'lumiere_admin_menu' ] );
+
+			// Add the metabox to editor.
+			require_once __DIR__ . '/class-metabox.php';
+			$lumiere_metabox_class = new Metabox();
+			add_action( 'admin_init', [ $lumiere_metabox_class, 'lumiere_start_metabox' ] );
 		}
 
-			// Register admin scripts.
-			add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ], 0 );
+		// Register admin scripts.
+		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ], 0 );
 
-			// Add admin header.
-			add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_execute_admin_assets' ] );
+		// Add admin header.
+		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_execute_admin_assets' ] );
 
-			// Add admin tinymce button for wysiwig editor.
-			add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_execute_tinymce' ], 2 );
+		// Add admin tinymce button for wysiwig editor.
+		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_execute_tinymce' ], 2 );
 
-		// Frontpage.
+		/**
+		 * Frontpage.
+		 */
 
-			// Registers javascripts and styles.
-			add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_register_assets' ], 0 );
+		// Registers javascripts and styles.
+		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_register_assets' ], 0 );
 
-			// Execute javascripts and styles.
-			add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_execute_assets' ], 0 );
+		// Execute javascripts and styles.
+		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_execute_assets' ], 0 );
 
-			// Add metas tags.
-			add_action( 'wp_head', [ $this, 'lumiere_add_metas' ], 5 );
+		// Add metas tags.
+		add_action( 'wp_head', [ $this, 'lumiere_add_metas' ], 5 );
 
-			// Change title of popups.
-			add_filter( 'pre_get_document_title', [ $this, 'lumiere_change_popup_title' ] );
+		// Change title of popups.
+		add_filter( 'pre_get_document_title', [ $this, 'lumiere_change_popup_title' ] );
 
 		// Register Gutenberg blocks.
 		add_action( 'enqueue_block_editor_assets', [ $this, 'lumiere_register_gutenberg_blocks' ] );
+
+		/**
+		 * Updates.
+		 */
 
 		// On updating lumiere plugin.
 		add_action( 'upgrader_process_complete', [ $this, 'lumiere_on_lumiere_upgrade_completed' ], 10, 2 );
@@ -580,7 +591,7 @@ class Core {
 			$match_query_film_mid = explode( '&', $match_query_mid[1][0] );
 			$query_info = preg_match_all( '#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
 			$query_norecursive = preg_match_all( '#norecursive=(.*)#', $_SERVER['REQUEST_URI'], $match_query_norecursive, PREG_UNMATCHED_AS_NULL );
-			$url = ( ! empty( $match_query_film_film[0] ) ) ? $this->configClass->lumiere_urlstringfilms . $match_query_film_film[0] . '/' : $this->configClass->lumiere_urlstringfilms . $match_query_film_mid[0] . '/';
+			$url = ( strlen( $match_query_film_film[0] ) > 0 ) ? $this->configClass->lumiere_urlstringfilms . $match_query_film_film[0] . '/' : $this->configClass->lumiere_urlstringfilms . $match_query_film_mid[0] . '/';
 
 			wp_safe_redirect(
 				add_query_arg(
@@ -647,7 +658,7 @@ class Core {
 
 		$imdb_cache_values = $this->imdb_cache_values;
 		$config = $this->configClass;
-		$filmid_sanitized = '';
+		$filmid_sanitized = ''; // initialisation.
 
 		// Change the title for the query search popup.
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::GUTENBERG_SEARCH_URL ) ) {
@@ -662,21 +673,24 @@ class Core {
 
 			// Display the title if /url/films.
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) {
-				if ( ( isset( $_GET['mid'] ) ) && ( ! empty( $_GET['mid'] ) ) ) {
+
+				// If mid but no film, do a query using the mid
+				if ( ( isset( $_GET['mid'] ) ) && ( strlen( $_GET['mid'] ) > 0 ) && ( strlen( $_GET['film'] ) === 0 ) ) {
+
 					$movieid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( $_GET['mid'] ) : '';
 					$movie = new Title( $movieid_sanitized, $config );
 					$filmid_sanitized = esc_html( $movie->title() );
-				} elseif ( ( ! isset( $_GET['mid'] ) ) && ( isset( $_GET['film'] ) ) ) {
-					$filmid_sanitized = Utils::lumiere_name_htmlize( $_GET['film'] );
 				}
 
-				$title_name = strlen( $filmid_sanitized ) === 0 ? esc_html( $_GET['film'] ) : $filmid_sanitized;
+				$title_name = strlen( $filmid_sanitized ) === 0 ? Utils::lumiere_name_htmlize( $_GET['film'] ) : $filmid_sanitized;
+
 				$title = esc_html__( 'Informations about ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies';
 
 				// Display the title if /url/person
 			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringperson ) ) {
 
-				if ( ( isset( $_GET['mid'] ) ) && ( ! empty( $_GET['mid'] ) ) ) {
+				if ( ( isset( $_GET['mid'] ) && ( strlen( $_GET['mid'] ) > 0 ) ) ) {
+
 					$mid_sanitized = sanitize_text_field( $_GET['mid'] );
 					$person = new Person( $mid_sanitized, $config );
 					$person_name_sanitized = sanitize_text_field( $person->name() );
@@ -790,7 +804,7 @@ class Core {
 				if ( $plugin == 'lumiere-movies/lumiere-movies.php' ) {
 
 					// Call the class to update options
-					require_once __DIR__ . '/update-options.php';
+					require_once __DIR__ . '/class-update-options.php';
 					$start_update_options = new Update_Options();
 
 					// Homebrew debug.
@@ -887,8 +901,7 @@ class Core {
 		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
 		// Remove WP Cron shoud they exist.
-		$wp_cron_list = [];
-		$wp_cron_list = _get_cron_array();
+		$wp_cron_list = is_iterable( _get_cron_array() ) ? _get_cron_array() : [];
 		foreach ( $wp_cron_list as $time => $hook ) {
 			if ( isset( $hook['lumiere_cron_hook'] ) ) {
 				$timestamp = (int) wp_next_scheduled( 'lumiere_cron_hook' );
@@ -985,7 +998,7 @@ class Core {
 		// Update options
 		// this udpate is also run in upgrader_process_complete, but the process is not reliable
 		// Using the same updating process in a WP Cron
-		require_once __DIR__ . '/update-options.php';
+		require_once __DIR__ . '/class-update-options.php';
 		$start_update_options = new Update_Options();
 
 	}

@@ -21,13 +21,6 @@ use \Imdb\Config;
 
 use \Lumiere\Logger as LumLogger;
 
-// use Monolog library in /vendor/
-use \Monolog\Logger;
-use \Monolog\Handler\NullHandler;
-use \Monolog\Handler\StreamHandler;
-use \Monolog\Formatter\LineFormatter;
-use \Monolog\Processor\IntrospectionProcessor;
-
 // use WordPress library
 use \FilesystemIterator;
 
@@ -99,8 +92,8 @@ class Settings extends Config {
 	const POPUP_SEARCH_URL = 'class/frontend/class-popup-search.php';
 	const POPUP_MOVIE_URL = 'class/frontend/class-popup-movie.php';
 	const POPUP_PERSON_URL = 'class/frontend/class-popup-person.php';
-	const TAXO_PEOPLE_THEME = 'class/theme/taxonomy-lumiere-people.php';
-	const TAXO_ITEMS_THEME = 'class/theme/taxonomy-lumiere-items.php';
+	const TAXO_PEOPLE_THEME = 'class/theme/class-taxonomy-people-standard.php';
+	const TAXO_ITEMS_THEME = 'class/theme/class-taxonomy-items-standard.php';
 
 	/**
 	 * URL string for taxonomy, 'imdblt_' by default (built in lumiere_define_constants() )
@@ -136,10 +129,9 @@ class Settings extends Config {
 	 * Logger class built by lumiere_start_logger() and __construct()
 	 * Meant to be utilised through all the plugin
 	 */
-	public object $loggerclass;
+	public LumLogger $logger;
 	/* Where to write the log (WordPress default path here) */
 	const DEBUG_LOG_PATH = ABSPATH . 'wp-content/debug.log';
-	public LumLogger $logger;
 
 	/**
 	 * Is the current page an editing page?
@@ -192,14 +184,6 @@ class Settings extends Config {
 
 		// Call the function to send the selected settings to imdbphp library
 		$this->lumiere_send_config_imdbphp();
-
-		// Create a hook so we can activate logging.
-		add_action(
-			'lumiere_logger_hook',
-			function() use ( $logger_name, $screenOutput ) {
-					$this->lumiere_start_logger( $logger_name, $screenOutput );
-			}
-		);
 
 	}
 
@@ -689,81 +673,6 @@ class Settings extends Config {
 		$this->is_editor_page = true;
 		return true;
 
-	}
-
-	/**
-	 *  Start and select which Logger to use
-	 *
-	 *  Can be called by the hook 'lumiere_logger_hook' or directly as a function
-	 *
-	 * @param (string) mandatory $logger_name: title applied to the logger in the logs under origin
-	 * @param (bool) optional $screenOutput: whether to display the screen output. Useful for plugin activation.
-	 *
-	 * @return the logger in $loggerclass
-	 */
-	public function lumiere_start_logger ( ?string $logger_name, bool $screenOutput = true ): void {
-
-		// Get local vars if passed in the function, if empty get the global vars.
-		$logger_name = isset( $logger_name ) ? $logger_name : 'unknowOrigin';
-
-		// Run WordPress block editor identificator giving value to $this->is_editor_page.
-		$this->lumiere_is_screen_editor();
-
-		// Start Monolog logger.
-		if ( ( current_user_can( 'manage_options' ) && $this->imdb_admin_values['imdbdebug'] === '1' ) || ( $this->imdb_admin_values['imdbdebug'] === '1' && defined( 'DOING_CRON' ) && DOING_CRON ) ) {
-
-			// Start Monolog logger.
-			$this->loggerclass = new Logger( $logger_name );
-
-			// Get the verbosity from options and build the constant.
-			$logger_verbosity = isset( $this->imdb_admin_values['imdbdebuglevel'] ) ? constant( '\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel'] ) : constant( '\Monolog\Logger::DEBUG' );
-
-			/**
-			 * Save log if option activated.
-			 */
-			if ( $this->imdb_admin_values['imdbdebuglog'] === '1' ) {
-
-				// Add current url and referrer to the log
-				//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
-
-				// Add the file, the line, the class, the function to the log.
-				$this->loggerclass->pushProcessor( new IntrospectionProcessor( $logger_verbosity ) );
-				$filelogger = new StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], $logger_verbosity );
-
-				// Change the date and output formats of the log.
-				$dateFormat = 'd-M-Y H:i:s e';
-				$output = "[%datetime%] %channel%.%level_name%: %message% %extra%\n";
-				$screenformater = new LineFormatter( $output, $dateFormat );
-				$filelogger->setFormatter( $screenformater );
-
-				// Utilise the new format and processor.
-				$this->loggerclass->pushHandler( $filelogger );
-			}
-
-			/**
-			 * Display errors on screen if option activated.
-			 * Avoid to display on screen when using block editor.
-			 */
-			if ( ( $this->imdb_admin_values['imdbdebugscreen'] === '1' ) && ( $screenOutput === true ) && ( $this->is_editor_page === false ) ) {
-
-				// Change the format
-				$output = "[%level_name%] %message%<br />\n";
-				$screenformater = new LineFormatter( $output );
-
-				// Change the handler, php://output is the only working (on my machine)
-				$screenlogger = new StreamHandler( 'php://output', $logger_verbosity );
-				$screenlogger->setFormatter( $screenformater );
-
-				// Utilise the new handler and format
-				$this->loggerclass->pushHandler( $screenlogger );
-			}
-
-			return;
-		}
-
-		// Run null logger for all other cases.
-		$this->loggerclass = new Logger( $logger_name );
-		$this->loggerclass->pushHandler( new NullHandler() );
 	}
 
 	/* Retrieve selected type of search in admin
