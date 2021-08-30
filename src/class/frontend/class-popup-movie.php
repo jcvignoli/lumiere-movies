@@ -55,10 +55,6 @@ class Popup_Movie {
 	 */
 	public function __construct() {
 
-		if ( ! class_exists( '\Lumiere\Settings' ) ) {
-			wp_die( esc_html__( 'Cannot start popup movie, class Lumière Settings not found', 'lumiere-movies' ) );
-		}
-
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'popupMovie' );
 

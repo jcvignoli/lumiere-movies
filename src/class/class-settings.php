@@ -58,6 +58,7 @@ class Settings extends Config {
 	/**
 	 * Widget options
 	 * @var array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':int, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber': bool|string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber': string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber': string|bool, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber': string|bool, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber': string|bool, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber': string|bool, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber': string|bool, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber': bool|string, 'imdbwidgetorder': array<string>, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string} $imdb_widget_values
+	 * @phpstan-ignore-next-line reported as never used, but I want to keep it
 	 */
 	private array $imdb_widget_values;
 
@@ -188,8 +189,7 @@ class Settings extends Config {
 	public string $lumiere_version;
 
 	/**
-	 * Logger class built by lumiere_start_logger() and __construct()
-	 * Meant to be utilised through all the plugin
+	 * Logger class
 	 */
 	public Logger $logger;
 	/* Where to write the log (WordPress default path here) */
@@ -217,7 +217,7 @@ class Settings extends Config {
 	/**
 	 * Store the number of files inside /class/updates
 	 * Allows to start with a fresh installation with the right number of updates
-	 * Is built in lumiere_define_constants()
+	 * Is built in lumiere_define_nb_updates()
 	 */
 	public int $current_number_updates;
 
@@ -227,29 +227,27 @@ class Settings extends Config {
 	 */
 	public function __construct() {
 
-		// Construct parent class so we can send the settings
+		// Construct parent class so we can send the options to IMDbPHP class.
 		parent::__construct();
 
-		// Define Lumière constants
+		// Define Lumière constants.
 		$this->lumiere_define_constants();
 
-		// Send options to the global vars
-		// @TODO: rewrite as follows:
-		// $this->get_imdb_admin_option()
-		// $this->imdb_admin_values = get_option( self::LUMIERE_ADMIN_OPTIONS );
-		// And use (therefore remove) in all class these values
+		// Build options, get them from database and then send to properties.
 		$this->get_imdb_admin_option();
+		$this->get_imdb_widget_option();
+		$this->get_imdb_cache_option();
 		$this->imdb_admin_values = get_option( self::LUMIERE_ADMIN_OPTIONS );
-		$this->imdb_widget_values = $this->get_imdb_widget_option();
-		$this->imdb_cache_values = $this->get_imdb_cache_option();
+		$this->imdb_widget_values = get_option( self::LUMIERE_WIDGET_OPTIONS );
+		$this->imdb_cache_values = get_option( self::LUMIERE_CACHE_OPTIONS );
 
-		// Define Lumière constants once global options have been created
+		// Define Lumière constants once global options have been created.
 		$this->lumiere_define_constants_after_globals();
 
 		// Call the plugin translation
 		load_plugin_textdomain( 'lumiere-movies', false, plugin_dir_url( __DIR__ ) . 'languages' );
 
-		// Call the function to send the selected settings to imdbphp library
+		// Call the function to send the selected settings to imdbphp library.
 		$this->lumiere_send_config_imdbphp();
 
 	}
@@ -258,7 +256,7 @@ class Settings extends Config {
 	 * Define global constants
 	 * Run before the creation of the global options, global options may need these constants
 	 */
-	private function lumiere_define_constants() {
+	private function lumiere_define_constants(): void {
 
 		/* BUILD $imdb_admin_values['imdbplugindirectory'] */
 		$this->imdb_admin_values['imdbplugindirectory'] = isset( $this->imdb_admin_values['imdbplugindirectory'] ) ? $this->imdb_admin_values['imdbplugindirectory'] : plugin_dir_url( __DIR__ );
@@ -278,11 +276,22 @@ class Settings extends Config {
 
 		/* BUILD LUMIERE_VERSION */
 		$lumiere_version_recherche = file_get_contents( plugin_dir_path( __DIR__ ) . 'README.txt' );
+		if ( $lumiere_version_recherche === false ) {
+			wp_die( 'Lumiere plugin: ' . esc_html__( 'Readme file either missing or corrupted ', 'lumiere-movies' ) );
+		}
 		$lumiere_version = preg_match( '#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match );
 		$this->lumiere_version = $lumiere_version_match[1];
 
+	}
+
+	/**
+	 * Define global constants after global options are available
+	 * Why: they need global options to work
+	 */
+	private function lumiere_define_constants_after_globals(): void {
+
 		/* BUILD URLSTRINGS for popups */
-		$this->lumiere_urlstring = ( isset( $this->imdb_admin_values['imdburlpopups'] ) ) ? $this->imdb_admin_values['imdburlpopups'] : '/imdblt/';
+		$this->lumiere_urlstring = ( strlen( $this->imdb_admin_values['imdburlpopups'] ) !== 0 ) ? $this->imdb_admin_values['imdburlpopups'] : '/imdblt/';
 		$this->lumiere_urlstringfilms = $this->lumiere_urlstring . 'film/';
 		$this->lumiere_urlstringperson = $this->lumiere_urlstring . 'person/';
 		$this->lumiere_urlstringsearch = $this->lumiere_urlstring . 'search/';
@@ -304,14 +313,6 @@ class Settings extends Config {
 			self::POPUP_MOVIE_URL,
 			self::POPUP_PERSON_URL,
 		];
-
-	}
-
-	/**
-	 * Define global constants after global options are available
-	 * Why: they need global options to work
-	 */
-	private function lumiere_define_constants_after_globals() {
 
 		/* BUILD options constant for javascripts  */
 		$this->lumiere_scripts_admin_vars = 'const lumiere_admin_vars = ' . wp_json_encode(
@@ -373,7 +374,7 @@ class Settings extends Config {
 		}
 
 		// If option 'imdbHowManyUpdates' doesn't exist, make it.
-		if ( ( ! isset( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) || ( empty( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) ) {
+		if ( ( ! isset( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) || ( $this->imdb_admin_values['imdbHowManyUpdates'] === 0 ) ) {
 
 			// Find the number of update files to get the right
 			// number of updates when installing Lumière
@@ -405,7 +406,7 @@ class Settings extends Config {
 	 *
 	 * Multidimensional array
 	 */
-	public function get_imdb_admin_option(): array {
+	private function get_imdb_admin_option(): void {
 
 		// Define how many updates have been runned
 		$this->lumiere_define_nb_updates();
@@ -449,7 +450,7 @@ class Settings extends Config {
 
 		$imdbOptions = get_option( $this->imdbAdminOptionsName );
 
-		if ( ! empty( $imdbOptions ) ) {
+		if ( count( $imdbOptions ) !== 0 ) { // if not empty.
 
 			foreach ( $imdbOptions as $key => $option ) {
 				$imdbAdminOptions[ $key ] = $option;
@@ -470,15 +471,13 @@ class Settings extends Config {
 		update_option($this->imdbAdminOptionsName, $option_array_search);
 		*/
 
-		return $imdbAdminOptions;
-
 	}
 
 	/* Makes an array of CACHE options
 	 *
 	 * Multidimensional array
 	 */
-	public function get_imdb_cache_option(): array {
+	private function get_imdb_cache_option(): void {
 
 		$imdbCacheOptions = [
 
@@ -499,7 +498,7 @@ class Settings extends Config {
 		$imdbOptionsc = get_option( $this->imdbCacheOptionsName );
 		$imdbOptions = get_option( $this->imdbAdminOptionsName );
 
-		if ( ! empty( $imdbOptionsc ) ) {
+		if ( count( $imdbOptionsc ) !== 0 ) { // if not empty.
 
 			foreach ( $imdbOptionsc as $key => $option ) {
 				$imdbCacheOptions[ $key ] = $option;
@@ -511,7 +510,7 @@ class Settings extends Config {
 			// Agregate vars to construct 'imdbphotoroot
 			$imdbCacheOptions['imdbphotoroot'] = $imdbCacheOptions['imdbcachedir'] . 'images/';
 		}
-		if ( ! empty( $imdbOptions ) ) {
+		if ( count( $imdbOptions ) !== 0 ) { // if not empty.
 
 			// Agregate vars to construct 'imdbphotodir'
 			$imdbCacheOptions['imdbphotodir'] = get_site_url()
@@ -522,15 +521,13 @@ class Settings extends Config {
 
 		update_option( $this->imdbCacheOptionsName, $imdbCacheOptions );
 
-		return $imdbCacheOptions;
-
 	}
 
 	/* Makes an array of WIDGET options
 	 *
 	 * Multidimensional array
 	 */
-	public function get_imdb_widget_option(): array {
+	private function get_imdb_widget_option(): void {
 
 		$imdbWidgetOptions = [
 
@@ -614,7 +611,8 @@ class Settings extends Config {
 
 		$imdbOptionsw = get_option( $this->imdbWidgetOptionsName );
 
-		if ( ! empty( $imdbOptionsw ) ) {
+		if ( count( $imdbOptionsw ) !== 0 ) { // if not empty.
+
 			foreach ( $imdbOptionsw as $key => $option ) {
 				$imdbWidgetOptions[ $key ] = $option;
 			}
@@ -622,29 +620,27 @@ class Settings extends Config {
 
 		update_option( $this->imdbWidgetOptionsName, $imdbWidgetOptions );
 
-		return $imdbWidgetOptions;
-
 	}
 
-	/* Send Lumiere options to IMDbPHP parent class
-	 *
+	/**
+	 * Send Lumiere options to IMDbPHP parent class
 	 *
 	 */
-	private function lumiere_send_config_imdbphp() {
+	private function lumiere_send_config_imdbphp(): void {
 
 		// @TODO: return here an \Imdb\Config, not this object
 		// $imdb_config = new \Imdb\Config();
 		// Build a dedicated class
 
-		$this->language = $this->imdb_admin_values['imdblanguage'] ?? null;
-		$this->cachedir = rtrim( $this->imdb_cache_values['imdbcachedir'], '/' ) ?? null; #get rid of last '/'
-		$this->photodir = $this->imdb_cache_values['imdbphotoroot'] ?? null;// ?imdbphotoroot? Bug imdbphp?
-		$this->cache_expire = $this->imdb_cache_values['imdbcacheexpire'] ?? null;
-		$this->photoroot = $this->imdb_cache_values['imdbphotodir'] ?? null; // ?imdbphotodir? Bug imdbphp?
-		$this->storecache = $this->imdb_cache_values['imdbstorecache'] ?? null;
-		$this->usecache = $this->imdb_cache_values['imdbusecache'] ?? null;
-		$this->converttozip = $this->imdb_cache_values['imdbconverttozip'] ?? null;
-		$this->usezip = $this->imdb_cache_values['imdbusezip'] ?? null;
+		$this->language = $this->imdb_admin_values['imdblanguage'];
+		$this->cachedir = rtrim( $this->imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
+		$this->photodir = $this->imdb_cache_values['imdbphotoroot'];// ?imdbphotoroot? Bug imdbphp?
+		$this->cache_expire = intval( $this->imdb_cache_values['imdbcacheexpire'] );
+		$this->photoroot = $this->imdb_cache_values['imdbphotodir']; // ?imdbphotodir? Bug imdbphp?
+		$this->storecache = $this->imdb_cache_values['imdbstorecache'];
+		$this->usecache = boolval( $this->imdb_cache_values['imdbusecache'] ) ? true : false;
+		$this->converttozip = $this->imdb_cache_values['imdbconverttozip'];
+		$this->usezip = $this->imdb_cache_values['imdbusezip'];
 
 		/** Where the local IMDB images reside (look for the "showtimes/" directory)
 		*  This should be either a relative, an absolute, or an URL including the
@@ -760,11 +756,12 @@ class Settings extends Config {
 
 	}
 
-	/* Retrieve selected type of search in admin
+	/**
+	 * Retrieve selected type of search in admin
 	 *
 	 * Depends on $imdb_admin_values['imdbseriemovies'] option
 	 *
-	 * @return array of the selection
+	 * @return array<string>
 	 */
 	public function lumiere_select_type_search (): array {
 
@@ -778,6 +775,9 @@ class Settings extends Config {
 				return [ \Imdb\TitleSearch::TV_SERIES ];
 			case 'videogames':
 				return [ \Imdb\Title::GAME ];
+			default:
+				return [ \Imdb\TitleSearch::MOVIE, \Imdb\TitleSearch::TV_SERIES ];
+
 		}
 
 	}

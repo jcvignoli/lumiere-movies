@@ -2,10 +2,10 @@
 /**
  * Widget class: Add a widget including a movie (either by auto widget option or the editor metabox)
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
+ * @author Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
- * @version       2.0
+ * @version 2.0
  * @package lumiere-movies
  */
 
@@ -27,18 +27,18 @@ class Widget extends \WP_Widget {
 	 * Store the class of Lumière settings
 	 * Usefull to start a new IMDbphp query
 	 */
-	private $config_class;
+	private Settings $config_class;
 
 	/**
 	 * Vars from Lumière settings
-	 *
+	 * @var array<string> $imdb_admin_values
 	 */
-	private $imdb_admin_values;
+	private array $imdb_admin_values;
 
 	/**
 	 *  Store the class of utilities
 	 */
-	private $utilsClass;
+	private Utils $utils_class;
 
 	/**
 	 * Class \Lumiere\Logger
@@ -84,14 +84,14 @@ class Widget extends \WP_Widget {
 			]
 		);
 
-		// Get database options.
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-
 		// Start Settings class.
 		$this->config_class = new Settings();
 
+		// Get database options.
+		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+
 		// Start Utilities class.
-		$this->utilsClass = new Utils();
+		$this->utils_class = new Utils();
 
 		// Start Logger class.
 		$this->logger = new Logger( 'widgetClass' );
@@ -104,7 +104,7 @@ class Widget extends \WP_Widget {
 		 * Give priority to post-5.8 WordPress Widget block. If not found, register pre-5.8 widget.
 		 */
 		add_action( 'enqueue_block_editor_assets', [ $this, 'lumiere_register_widget_block' ] );//Register new block.
-		if ( $this->utilsClass->lumiere_block_widget_isactive() === false ) {
+		if ( $this->utils_class->lumiere_block_widget_isactive() === false ) {
 
 			// Should be hooked to 'widgets_init'.
 			add_action(
@@ -134,10 +134,10 @@ class Widget extends \WP_Widget {
 	 */
 	public function lumiere_widget_maybe_start_debug() {
 
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
+		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
 
 			// Start debugging mode.
-			$this->utilsClass->lumiere_activate_debug();
+			$this->utils_class->lumiere_activate_debug();
 
 		}
 
@@ -252,7 +252,7 @@ class Widget extends \WP_Widget {
 			}
 
 			// Log what type of widget is utilised.
-			if ( $this->utilsClass->lumiere_block_widget_isactive() === true ) {
+			if ( $this->utils_class->lumiere_block_widget_isactive() === true ) {
 				// Post 5.8 WordPress.
 				$this->logger->log()->debug( '[Lumiere][widget] Block-based widget found' );
 			}
@@ -361,6 +361,6 @@ class Widget extends \WP_Widget {
 
 }
 
-// Auto start, run on all pages
+// Auto start, autorun when called
 new \Lumiere\Widget();
 
