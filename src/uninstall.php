@@ -7,7 +7,10 @@
  *
  * @version       1.0
  * @package lumiere-movies
+ * @phpcs:disable WordPress.Files.FileName
  */
+
+namespace Lumiere;
 
 // If uninstall is not called from WordPress exit
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
@@ -18,7 +21,7 @@ use \Lumiere\Settings;
 use \Lumiere\Utils;
 use \Lumiere\Logger;
 
-class LumiereUninstall {
+class Uninstall {
 
 	/**
 	 * Admin options
@@ -82,8 +85,7 @@ class LumiereUninstall {
 		/** Below actions are executed for everybody */
 
 		// Remove WP Cron shoud it exists.
-		$wp_cron_list = [];
-		$wp_cron_list = _get_cron_array();
+		$wp_cron_list = is_array( _get_cron_array() ) ? _get_cron_array() : [];
 		foreach ( $wp_cron_list as $time => $hook ) {
 			if ( isset( $hook['lumiere_cron_hook'] ) ) {
 				$timestamp = (int) wp_next_scheduled( 'lumiere_cron_hook' );
@@ -129,7 +131,7 @@ class LumiereUninstall {
 			// Register taxonomy: must be registered in order to delete its terms.
 			register_taxonomy(
 				$filter_taxonomy,
-				null,
+				[ 'page', 'post' ],
 				[
 					'label' => false,
 					'public' => false,
@@ -182,4 +184,4 @@ class LumiereUninstall {
 
 }
 
-new LumiereUninstall();
+new Uninstall();
