@@ -12,7 +12,7 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
@@ -39,12 +39,6 @@ class Utils {
 	private Logger $logger;
 
 	/**
-	 * \Lumiere\Settings vars
-	 *
-	 */
-	private array $imdb_admin_values;
-
-	/**
 	 * Check if debug is active
 	 *
 	 */
@@ -55,15 +49,6 @@ class Utils {
 	 *
 	 */
 	public function __construct () {
-
-		// Exit if base class is not found
-		if ( ! class_exists( '\Lumiere\Settings' ) ) {
-
-			wp_die( esc_html__( 'Cannot start class utils, class Lumière Settings not found', 'lumiere-movies' ) );
-		}
-
-		// Get database options.
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 
 		// Start Settings class.
 		$this->config_class = new Settings();
@@ -112,8 +97,8 @@ class Utils {
 	/**
 	 * Recursively scan a directory. Not currently in use.
 	 *
-	 * @param mandatory string $dir Directory name
-	 * @param optional int $filesbydefault number of files contained in folder and to not take
+	 * @param string $dir mandatory Directory name
+	 * @param int $filesbydefault optional number of files contained in folder and to not take
 	 *  into account for the count (usefull if there is a number of predetermined files/folders, like in cache)
 	 *
 	 * @return bool
@@ -203,7 +188,7 @@ class Utils {
 	 *
 	 * @param string optional $text: text to display/log. if no text provided, default text is provided
 	 */
-	public function lumiere_noresults_text( string $text = 'No result found for this query.' ) {
+	public function lumiere_noresults_text( string $text = 'No result found for this query.' ): void {
 
 		$this->logger->log()->debug( "[Lumiere] $text" );
 
@@ -216,7 +201,7 @@ class Utils {
 	/**
 	 * Recursively test an multi-dimensionnal array
 	 *
-	 * @param array mandatory $multiarray Array name
+	 * @param array $multiarray mandatory Array name
 	 *
 	 * @credits http://in2.php.net/manual/fr/function.empty.php#94786
 	 */
@@ -246,11 +231,12 @@ class Utils {
 	 * Function lumiere_array_key_exists_wildcard
 	 * Search with a wildcard in $keys of an array
 	 *
-	 * @param: $return = key-value to get simpler array of results
+	 * @param array<string> $array The array to be searched in
+	 * @param string $return text 'key-value' can be passed to get simpler array of results
 	 *
 	 * @credit: https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
 	 */
-	public function lumiere_array_key_exists_wildcard ( array $array, $search, $return = '' ) {
+	public function lumiere_array_key_exists_wildcard ( array $array, $search, string $return = '' ) {
 
 		$search = str_replace( '\*', '.*?', preg_quote( $search, '/' ) );
 
@@ -357,11 +343,13 @@ class Utils {
 	}
 
 	/**
-	 * Returns if a term in an array is contained in a value
+	 * Return true/false if a term in an array is contained in a value
 	 *
-	 *
+	 * @param array<string> $array_list the array to be searched in
+	 * @param string $term the term searched for
+	 * @return bool
 	 */
-	public static function lumiere_array_contains_term( array $array_list, string $term ) {
+	public static function lumiere_array_contains_term( array $array_list, string $term ): bool {
 
 		if ( preg_match( '(' . implode( '|', $array_list ) . ')', $term ) ) {
 
@@ -381,12 +369,12 @@ class Utils {
 	 * @param (string) optional $get_screen set to 'screen to display WordPress get_current_screen()
 	 *
 	 * @since 3.5
-	 * @param string optional $get_screen set to 'screen' to display wp function get_current_screen()
-	 *
+	 * @param string $get_screen set to 'screen' to display wp function get_current_screen()
+	 * @param ?array <string> $options the array of admin/widget/cache settings options
 	 * @return mixed optionaly an array of the options passed in $options
 	 */
 	// phpcs:disable
-	public function lumiere_activate_debug( array $options = null, string $set_error = null, string $libxml_use = null, string $get_screen = null ): void {
+	public function lumiere_activate_debug( ?array $options = null, string $set_error = null, string $libxml_use = null, string $get_screen = null ): void {
 		// Set on true to show debug is active if called again.
 		$this->debug_is_active = true;
 

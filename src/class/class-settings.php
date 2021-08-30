@@ -19,31 +19,57 @@ if ( ! defined( 'WPINC' ) ) {
 // use IMDbPHP config class in /vendor/
 use \Imdb\Config;
 
-use \Lumiere\Logger as LumLogger;
+use \Lumiere\Logger;
 
-// use WordPress library
+// use PHP library.
 use \FilesystemIterator;
 
 class Settings extends Config {
 
-	/* Main class Options, saved in WordPress Database
-	*/
-	public $imdbAdminOptionsName = 'imdbAdminOptions';
-	public $imdbWidgetOptionsName = 'imdbWidgetOptions';
-	public $imdbCacheOptionsName = 'imdbCacheOptions';
-	/* New way, just giving constants */
+	/**
+	 * Admin Options, saved in WordPress Database
+	 * @var string $imdbAdminOptionsName
+	 */
+	public string $imdbAdminOptionsName = 'imdbAdminOptions';
+
+	/**
+	 * Widget Options, saved in WordPress Database
+	 * @var string $imdbWidgetOptionsName
+	 */
+	public string $imdbWidgetOptionsName = 'imdbWidgetOptions';
+
+	/**
+	 * Cache Options, saved in WordPress Database
+	 * @var string $imdbCacheOptionsName
+	 */
+	public string $imdbCacheOptionsName = 'imdbCacheOptions';
+
+	/** New way, just giving constants */
 	const LUMIERE_ADMIN_OPTIONS = 'imdbAdminOptions';
 	const LUMIERE_WIDGET_OPTIONS = 'imdbWidgetOptions';
 	const LUMIERE_CACHE_OPTIONS = 'imdbCacheOptions';
 
-	/* Options vars
+	/**
+	 * Admin options vars
+	 * @var array{'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': int, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': string, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_highslide': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': int, 'imdbseriemovies': string} $imdb_admin_values
 	*/
-	public $imdb_admin_values;
-	public $imdb_widget_values;
-	public $imdb_cache_values;
+	private array $imdb_admin_values;
 
-	/* Websites constants
-	*/
+	/**
+	 * Widget options
+	 * @var array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':int, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber': bool|string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber': string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber': string|bool, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber': string|bool, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber': string|bool, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber': string|bool, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber': string|bool, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber': bool|string, 'imdbwidgetorder': array<string>, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string} $imdb_widget_values
+	 */
+	private array $imdb_widget_values;
+
+	/**
+	 * Cache options
+	 * @var array{'imdbcachedir_partial': string, 'imdbstorecache': bool, 'imdbusecache': string, 'imdbconverttozip': bool, 'imdbusezip': bool, 'imdbcacheexpire': string, 'imdbcachedetailsshort': string,'imdbcachedir': string,'imdbphotoroot': string, 'imdbphotodir': string} $imdb_cache_values
+	 */
+	private array $imdb_cache_values;
+
+	/**
+	 * Websites constants
+	 */
 	const IMDBBLOG = 'https://www.jcvignoli.com/blog';
 	const IMDBBLOGENGLISH = self::IMDBBLOG . '/en';
 	const IMDBBLOGHIGHSLIDE = self::IMDBBLOG . '/wp-content/files/wordpress-lumiere-highslide-5.0.0.zip';
@@ -55,32 +81,66 @@ class Settings extends Config {
 	const LUMIERE_GIT = 'https://github.com/jcvignoli/lumiere-movies';
 	const LUMIERE_ACTIVE = 'LUMIERE_ACTIVE';
 
-	/* URL Strings for popups, built in lumiere_define_constants()
-	*/
-	public $lumiere_urlstring;
-	public $lumiere_urlstringfilms;
-	public $lumiere_urlstringperson;
-	public $lumiere_urlstringsearch;
-	public $lumiere_urlpopupsfilms;
-	public $lumiere_urlpopupsperson;
-	public $lumiere_urlpopupsearch;
+	/**
+	 * URL Strings for popups, built in lumiere_define_constants()
+	 */
+	/**
+	 * @var string $lumiere_urlstring
+	 */
+	public string $lumiere_urlstring;
+	/**
+	 * @var string $lumiere_urlstringfilms
+	 */
+	public string $lumiere_urlstringfilms;
+	/**
+	 * @var string $lumiere_urlstringperson
+	 */
+	public string $lumiere_urlstringperson;
+	/**
+	 * @var string $lumiere_urlstringsearch
+	 */
+	public string $lumiere_urlstringsearch;
+	/**
+	 * @var string $lumiere_urlpopupsfilms
+	 */
+	public string $lumiere_urlpopupsfilms;
+	/**
+	 * @var string $lumiere_urlpopupsperson
+	 */
+	public string $lumiere_urlpopupsperson;
+	/**
+	 * @var string $lumiere_urlpopupsearch
+	 */
+	public string $lumiere_urlpopupsearch;
 
-	/* URL for menu small images directory, built in lumiere_define_constants()
-	*/
-	public $lumiere_pics_dir;
+	/**
+	 * URL for menu small images directory, built in lumiere_define_constants()
+	 * @var string $lumiere_pics_dir
+	 */
+	public string $lumiere_pics_dir;
 
-	/* URL for javascript dir & path, built in lumiere_define_constants()
-	*/
-	public $lumiere_js_path;
-	public $lumiere_js_dir;
+	/**
+	 * URL for javascript path, built in lumiere_define_constants()
+	 * @var string $lumiere_js_path
+	 */
+	public string $lumiere_js_path;
+	/**
+	 * URL for javascript dir, built in lumiere_define_constants()
+	 * @var string $lumiere_js_dir
+	 */
+	public string $lumiere_js_dir;
 
-	/* URL for blocks dir, built in lumiere_define_constants()
-	*/
-	public $lumiere_blocks_dir;
+	/**
+	 * URL for blocks dir, built in lumiere_define_constants()
+	 * @var string $lumiere_blocks_dir
+	 */
+	public string $lumiere_blocks_dir;
 
-	/* URL for javascript dir, built in lumiere_define_constants()
-	*/
-	public $lumiere_css_dir;
+	/**
+	 * URL for javascript dir, built in lumiere_define_constants()
+	 * @var string $lumiere_css_dir
+	 */
+	public string $lumiere_css_dir;
 
 	/* Internal URL pages constants
 	*/
@@ -103,6 +163,7 @@ class Settings extends Config {
 
 	/**
 	 * Include all pages of Lumière plugin
+	 * @var array<string> $lumiere_list_all_pages
 	 */
 	public array $lumiere_list_all_pages = [];
 
@@ -130,7 +191,7 @@ class Settings extends Config {
 	 * Logger class built by lumiere_start_logger() and __construct()
 	 * Meant to be utilised through all the plugin
 	 */
-	public LumLogger $logger;
+	public Logger $logger;
 	/* Where to write the log (WordPress default path here) */
 	const DEBUG_LOG_PATH = ABSPATH . 'wp-content/debug.log';
 
@@ -142,12 +203,14 @@ class Settings extends Config {
 	/**
 	 * List of types of people available
 	 * is build in lumiere_define_constants_after_globals()
+	 * @var array<string> $array_people
 	 */
 	public array $array_people = [];
 
 	/**
 	 * List of types of people available
 	 * is build in lumiere_define_constants_after_globals()
+	 * @var array<string> $array_items
 	 */
 	public array $array_items = [];
 
@@ -156,15 +219,13 @@ class Settings extends Config {
 	 * Allows to start with a fresh installation with the right number of updates
 	 * Is built in lumiere_define_constants()
 	 */
-	public $current_number_updates;
+	public int $current_number_updates;
 
 	/**
 	 * Constructor
 	 *
-	 * @param optional string $logger_name Title of Monolog logger
-	 * @param optional string $screenOutput whether output Monolog on screen
 	 */
-	public function __construct( ?string $logger_name = 'unknownOrigin', ?bool $screenOutput = true ) {
+	public function __construct() {
 
 		// Construct parent class so we can send the settings
 		parent::__construct();
@@ -173,7 +234,12 @@ class Settings extends Config {
 		$this->lumiere_define_constants();
 
 		// Send options to the global vars
-		$this->imdb_admin_values = $this->get_imdb_admin_option();
+		// @TODO: rewrite as follows:
+		// $this->get_imdb_admin_option()
+		// $this->imdb_admin_values = get_option( self::LUMIERE_ADMIN_OPTIONS );
+		// And use (therefore remove) in all class these values
+		$this->get_imdb_admin_option();
+		$this->imdb_admin_values = get_option( self::LUMIERE_ADMIN_OPTIONS );
 		$this->imdb_widget_values = $this->get_imdb_widget_option();
 		$this->imdb_cache_values = $this->get_imdb_cache_option();
 
@@ -295,16 +361,18 @@ class Settings extends Config {
 
 	/**
 	 * Define the number of updates on first install
-	 * Not built in __construct(), called from \Lumiere\Core on installation or elsewhere
+	 * Called in function get_imdb_admin_option()
 	 *
 	 * @return bool
 	 */
 	public function lumiere_define_nb_updates(): bool {
 
-		$lumiere_self_class = __CLASS__;
-		new $lumiere_self_class();
+		// Get the database options, since this is called before the building of $this->imdb_admin_values.
+		if ( get_option( $this->imdbAdminOptionsName ) !== false ) {
+			$this->imdb_admin_values = get_option( $this->imdbAdminOptionsName );
+		}
 
-		// If var current_number_updates doesn't exist, make it
+		// If option 'imdbHowManyUpdates' doesn't exist, make it.
 		if ( ( ! isset( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) || ( empty( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) ) {
 
 			// Find the number of update files to get the right
@@ -322,7 +390,12 @@ class Settings extends Config {
 				return true;
 			}
 
+			return false;
+
 		}
+
+		// Otherwishe the option 'imdbHowManyUpdates' exists in the database, just use it.
+		$this->current_number_updates = $this->imdb_admin_values['imdbHowManyUpdates'];
 
 		return false;
 	}
@@ -333,6 +406,9 @@ class Settings extends Config {
 	 * Multidimensional array
 	 */
 	public function get_imdb_admin_option(): array {
+
+		// Define how many updates have been runned
+		$this->lumiere_define_nb_updates();
 
 		$imdbAdminOptions = [
 
@@ -354,7 +430,6 @@ class Settings extends Config {
 			'imdblinkingkill' => '0',
 			'imdbautopostwidget' => '0',
 			'imdblanguage' => 'en',
-			/*'imdbsourceout' => false,*/
 			'imdbdebug' => '0',                       /* Debug */
 			'imdbdebuglog' => '0',                  /* Log debug */
 			'imdbdebuglogpath' => self::DEBUG_LOG_PATH,
@@ -365,7 +440,7 @@ class Settings extends Config {
 			'imdbwordpress_tooladminmenu' => '1',    /* Top menu */
 			'imdbpopup_highslide' => '1',
 			'imdbtaxonomy' => '1',
-			'imdbHowManyUpdates' => $this->current_number_updates, # for use in class UpdateOptions
+			'imdbHowManyUpdates' => $this->current_number_updates, /* define the number of updates. */
 			'imdbseriemovies' => 'movies+series',     /* options: movies, series, movies+series, videogames */
 
 		];
@@ -386,6 +461,14 @@ class Settings extends Config {
 		}
 
 		update_option( $this->imdbAdminOptionsName, $imdbAdminOptions );
+
+		// For debugging purpose.
+		// Update imdbHowManyUpdates option.
+		/*
+		$option_array_search = get_option($this->imdbAdminOptionsName);
+		$option_array_search['imdbHowManyUpdates'] = 5; // Chosen number of updates.
+		update_option($this->imdbAdminOptionsName, $option_array_search);
+		*/
 
 		return $imdbAdminOptions;
 
@@ -551,6 +634,7 @@ class Settings extends Config {
 
 		// @TODO: return here an \Imdb\Config, not this object
 		// $imdb_config = new \Imdb\Config();
+		// Build a dedicated class
 
 		$this->language = $this->imdb_admin_values['imdblanguage'] ?? null;
 		$this->cachedir = rtrim( $this->imdb_cache_values['imdbcachedir'], '/' ) ?? null; #get rid of last '/'
@@ -577,14 +661,14 @@ class Settings extends Config {
 	 * Create cache folder if it does not exist
 	 *
 	 * @param bool $screen_log whether to display logging on screen or not
-	 * @return false if cache already exist, true if created cache folders
+	 * @return bool false if cache already exist, true if created cache folders
 	 */
 	public function lumiere_create_cache( bool $screen_log = false ): bool {
 
 		$imdb_admin_values = $this->imdb_admin_values;
 
 		// Start logger
-		$this->logger = new LumLogger( 'configMain', $screen_log /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+		$this->logger = new Logger( 'settingsClass', $screen_log /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 		do_action( 'lumiere_logger' );
 		$logger = $this->logger->log();
 
@@ -605,7 +689,7 @@ class Settings extends Config {
 
 			chmod( $lumiere_folder_cache, 0777 );
 
-			$logger->debug( "[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created." );
+			$logger->debug( "[Lumiere][settings][cachefolder] Cache folder $lumiere_folder_cache created." );
 
 			// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
 		} else {
@@ -620,7 +704,7 @@ class Settings extends Config {
 				$option_array_search['imdbcachedir'] = $lumiere_folder_cache;
 				update_option( $this->imdbCacheOptionsName, $option_array_search );
 
-				$logger->info( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_folder_cache_images created." );
+				$logger->info( "[Lumiere][settings][cachefolder] Alternative cache folder $lumiere_folder_cache_images created." );
 			}
 		}
 
@@ -629,7 +713,7 @@ class Settings extends Config {
 
 			chmod( $lumiere_folder_cache_images, 0777 );
 
-			$logger->debug( "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created." );
+			$logger->debug( "[Lumiere][settings][cachefolder] Image folder $lumiere_folder_cache_images created." );
 
 			// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
 		} else {
@@ -640,7 +724,7 @@ class Settings extends Config {
 
 				chmod( $lumiere_folder_cache_images, 0777 );
 
-				$logger->info( "[Lumiere][config][cachefolder] Alternative image folder $lumiere_folder_cache_images created." );
+				$logger->info( "[Lumiere][settings][cachefolder] Alternative image folder $lumiere_folder_cache_images created." );
 
 			}
 
@@ -680,7 +764,7 @@ class Settings extends Config {
 	 *
 	 * Depends on $imdb_admin_values['imdbseriemovies'] option
 	 *
-	 * @return false or the selection
+	 * @return array of the selection
 	 */
 	public function lumiere_select_type_search (): array {
 

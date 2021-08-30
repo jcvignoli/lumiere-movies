@@ -190,9 +190,10 @@ class Data extends \Lumiere\Admin {
 				// remove "imdb_" from $key
 				$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
 
-				// Copy $_POST to $this->configClass->imdb_widget_values var
-				if ( isset( $_POST[ "$key" ] ) ) {
-					$this->configClass->imdb_widget_values[ "$keynoimdb" ] = sanitize_text_field( $_POST[ "$key_sanitized" ] );
+				// Copy $_POST to $this->imdb_widget_values var
+				if ( isset( $_POST[ $key ] ) ) {
+					// @phpstan-ignore-next-line 'Array (array('imdbwidgettitle' => string, 'imdbwidgetpic' => string,...)) does not accept key string'.
+					$this->imdb_widget_values[ $keynoimdb ] = sanitize_text_field( $_POST[ $key_sanitized ] );
 				}
 			}
 
@@ -207,11 +208,12 @@ class Data extends \Lumiere\Admin {
 				$data = array_flip( $data );
 
 				// Put in the option
-				$this->configClass->imdb_widget_values['imdbwidgetorder'] = $data;
+				// @phpstan-ignore-next-line 'Array (array<string, array<string>|bool|int|string>) does not accept array<int|string, int>.'
+				$this->imdb_widget_values['imdbwidgetorder'] = $data;
 			}
 
 			// update options
-			update_option( $this->configClass->imdbWidgetOptionsName, $this->configClass->imdb_widget_values );
+			update_option( $this->configClass->imdbWidgetOptionsName, $this->imdb_widget_values );
 
 			// display confirmation message
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options saved.', 'lumiere-movies' ) . '</strong>' );
@@ -267,7 +269,7 @@ class Data extends \Lumiere\Admin {
 
 		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-inside-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Display order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=order' ); ?>"><?php esc_html_e( 'Display order', 'lumiere-movies' ); ?></a></div>
 
-			<?php if ( $this->configClass->imdb_admin_values['imdbtaxonomy'] === '1' ) { ?>
+			<?php if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) { ?>
 		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-inside-whattotaxo.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to taxonomize', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo' ); ?>"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?></a></div>
 			<?php } else { ?>
 		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-inside-whattotaxo.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></i></div>
@@ -347,15 +349,15 @@ class Data extends \Lumiere\Admin {
 
 			echo "\n\t\t" . '<input type="checkbox" id="imdb_imdbtaxonomy' . $item . '_yes" name="imdb_imdbtaxonomy' . $item . '" value="1"';
 
-			if ( $this->configClass->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
+			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
 				echo 'checked="checked"';
 			}
 
 			echo '" />';
 			echo "\n\t\t" . '<label for="imdb_imdbtaxonomy' . $item . '">';
 
-			if ( $this->configClass->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
-				if ( $this->configClass->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
+			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
+				if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
 					echo "\n\t\t" . '<span class="lumiere-option-taxo-activated">';
 				} else {
 					echo "\n\t\t" . '<span class="lumiere-option-taxo-deactivated">';
@@ -371,7 +373,7 @@ class Data extends \Lumiere\Admin {
 			echo "\n\t\t" . '</label>';
 
 			// If new template version available, notify
-			if ( $this->configClass->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
+			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
 				echo $this->lumiere_check_taxo_template( $item );
 			}
 			echo "\n\t" . '</div>';
@@ -413,23 +415,23 @@ class Data extends \Lumiere\Admin {
 
 		<div class="imdblt_padding_ten imdblt_align_last_center imdblt_flex_auto">
 
-		<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo ( count( $this->configClass->imdb_widget_values['imdbwidgetorder'] ) / 2 ); ?>" style="height:100%;" multiple>
+		<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo ( count( $this->imdb_widget_values['imdbwidgetorder'] ) / 2 ); ?>" style="height:100%;" multiple>
 		<?php
-		foreach ( $this->configClass->imdb_widget_values['imdbwidgetorder'] as $key => $value ) {
+		foreach ( $this->imdb_widget_values['imdbwidgetorder'] as $key => $value ) {
 
-			if ( isset( $key ) ) { // to eliminate empty keys
+			echo "\t\t\t\t\t<option value='" . $key . "'";
 
-				echo "\t\t\t\t\t<option value='" . $key . "'";
+			// search if "imdbwidget'title'" (ie) is activated
+			if ( $this->imdb_widget_values[ "imdbwidget$key" ] !== '1' ) {
 
-				// search if "imdbwidget'title'" (ie) is activated
-				if ( $this->configClass->imdb_widget_values[ "imdbwidget$key" ] !== '1' ) {
+				echo ' label="' . $key . ' (unactivated)">' . $key;
 
-					echo ' label="' . $key . ' (unactivated)">' . $key;
-				} else {
-					echo ' label="' . $key . '">' . $key;
-				}
-					echo "</option>\n";
+			} else {
+
+				echo ' label="' . $key . '">' . $key;
+
 			}
+			echo "</option>\n";
 		}
 		?>
 						</select>
@@ -448,7 +450,7 @@ class Data extends \Lumiere\Admin {
 	private function lumiere_data_display_taxonomy(): void {
 
 		// taxonomy is disabled
-		if ( $this->configClass->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
+		if ( $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
 
 			echo "<div align='center' class='accesstaxo'>"
 				. esc_html__( 'Please ', 'lumiere-movies' )
@@ -561,7 +563,7 @@ class Data extends \Lumiere\Admin {
 			echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_third lumiere_padding_ten lumiere_align_center">';
 
 			// Add extra color through span if the item is selected
-			if ( $this->configClass->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
+			if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
 
 				echo "\n\t\t\t\t\t" . '<span class="admin-option-selected">' . ucfirst( $title ) . '</span>';
 
@@ -579,7 +581,7 @@ class Data extends \Lumiere\Admin {
 				' name="imdb_imdbwidget' . $item . '" value="1"';
 
 			// Add checked if the item is selected
-			if ( $this->configClass->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
+			if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
 				echo ' checked="checked"';
 			}
 
@@ -593,9 +595,9 @@ class Data extends \Lumiere\Admin {
 
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_twenty">';
 				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . $item . 'number" size="3"';
-				echo ' value="'
-					. esc_html( $this->configClass->imdb_widget_values[ 'imdbwidget' . $item . 'number' ] ) . '" ';
-				if ( $this->configClass->imdb_widget_values[ 'imdbwidget' . $item ] === 0 ) {
+				// @phpstan-ignore-next-line 'Parameter #1 $text of function esc_html expects string, array<string>|bool|int|string given'.
+				echo ' value="' . esc_html( $this->imdb_widget_values[ 'imdbwidget' . $item . 'number' ] ) . '" ';
+				if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === 0 ) {
 					echo 'disabled="disabled"';
 				};
 

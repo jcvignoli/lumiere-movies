@@ -2,7 +2,8 @@
 /************************************************** Lumière version 3.4.3, update 6
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
  */
-$logger->info( '[Lumiere][updater] Starting update 6' );
+
+$logger->info( '[Lumiere][updateVersion] Starting update 6' );
 
 $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 );
 $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
@@ -13,13 +14,13 @@ if ( true === $this->lumiere_add_options( $configClass->imdbAdminOptionsName, 'i
 
 	$text = 'Lumière option imdbdebuglevel successfully added.';
 
-	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
+	$logger->info( "[Lumiere][updateVersion] $text" );
 
 } else {
 
 	$text = 'Lumière option imdbdebuglevel could not be added.';
 
-	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
+	$logger->error( "[Lumiere][updateVersion] $text" );
 
 }
 
@@ -29,13 +30,13 @@ if ( true === $this->lumiere_add_options( $configClass->imdbAdminOptionsName, 'i
 
 	$text = 'Lumière option imdbdebugscreen successfully added.';
 
-	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
+	$logger->info( "[Lumiere][updateVersion] $text" );
 
 } else {
 
 	$text = 'Lumière option imdbdebugscreen could not be added.';
 
-	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
+	$logger->error( "[Lumiere][updateVersion] $text" );
 
 }
 
@@ -45,13 +46,13 @@ if ( true === $this->lumiere_add_options( $configClass->imdbAdminOptionsName, 'i
 
 	$text = 'Lumière option imdbdebuglog successfully added.';
 
-	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
+	$logger->info( "[Lumiere][updateVersion] $text" );
 
 } else {
 
 	$text = 'Lumière option imdbdebuglog could not be added.';
 
-	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
+	$logger->error( "[Lumiere][updateVersion] $text" );
 
 }
 
@@ -61,13 +62,13 @@ if ( true === $this->lumiere_add_options( $configClass->imdbAdminOptionsName, 'i
 
 	$text = 'Lumière option imdbdebuglogpath successfully added.';
 
-	$this->configClass->loggerclass->info( "[Lumiere][updater] $text" );
+	$logger->info( "[Lumiere][updateVersion] $text" );
 
 } else {
 
 	$text = 'Lumière option imdbdebuglogpath could not be added.';
 
-	$this->configClass->loggerclass->error( "[Lumiere][updater] $text" );
+	$logger->error( "[Lumiere][updateVersion] $text" );
 
 }
 

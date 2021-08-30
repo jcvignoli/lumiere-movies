@@ -9,14 +9,14 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
- * @version       2.0
+ * @version 2.0
  * @package lumiere-movies
  */
 
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
@@ -48,7 +48,8 @@ class Update_Options {
 	private Logger $logger;
 
 	/**
-	 * Options array
+	 * Admin options from database
+	 * @var array<string> $imdb_admin_values
 	 */
 	private array $imdb_admin_values;
 
@@ -56,7 +57,7 @@ class Update_Options {
 	 * \Lumiere\Utils class
 	 *
 	 */
-	private object $utilsClass;
+	private Utils $utilsClass;
 
 	/**
 	 * Constructor
@@ -67,12 +68,6 @@ class Update_Options {
 		// Load all classes in class/updates folder, will be loaded when needed
 		// @TODO: make this operational
 		// spl_autoload_register( [ 'Lumiere\UpdateOptions', 'updates_files_loader' ] );
-
-		// Exit if base class is not found
-		if ( ! class_exists( '\Lumiere\Settings' ) ) {
-
-			wp_die( esc_html__( 'Cannot start update class, class Lumière Settings not found', 'lumiere-movies' ) );
-		}
 
 		// Get database options.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
@@ -86,7 +81,7 @@ class Update_Options {
 		// Start the Utils class
 		$this->utilsClass = new Utils();
 
-		// add_filter ( 'wp_head', [ $this, 'run_update_options' ], 0); # executes on every frontpage, but now uses cron instead
+		// Execute the options update
 		$this->run_update_options();
 
 	}
@@ -210,8 +205,8 @@ class Update_Options {
 	public function lumiere_add_options( $option_array = null, $option_key = null, $option_value = null ) {
 
 		// Manually Activate logging, since current function is run before WP init
-		$this->configClass->lumiere_start_logger( 'updateClass' );
-		$logger = $this->configClass->loggerclass;
+		do_action( 'lumiere_logger' );
+		$logger = $this->logger->log();
 
 		if ( ! isset( $option_array ) ) {
 			$logger->error( "[Lumiere][updateOptions][lumiere_add_options] Cannot update Lumière options, ($option_array) is undefined." );
@@ -255,8 +250,8 @@ class Update_Options {
 	public function lumiere_update_options( $option_array = null, $option_key = null, $option_value = null ) {
 
 		// Manually Activate logging, since current function is run before WP init
-		$this->configClass->lumiere_start_logger( 'updateClass' );
-		$logger = $this->configClass->loggerclass;
+		do_action( 'lumiere_logger' );
+		$logger = $this->logger->log();
 
 		if ( ! isset( $option_array ) ) {
 			$logger->error( "[Lumiere][updateOptions][lumiere_update_options] Cannot update Lumière options, ($option_array) is undefined." );
@@ -299,8 +294,8 @@ class Update_Options {
 	public function lumiere_remove_options( $option_array = null, $option_key = null ) {
 
 		// Manually Activate logging, since current function is run before WP init
-		$this->configClass->lumiere_start_logger( 'updateClass' );
-		$logger = $this->configClass->loggerclass;
+		do_action( 'lumiere_logger' );
+		$logger = $this->logger->log();
 
 		if ( ! isset( $option_array ) ) {
 			$logger->error( "[Lumiere][updateOptions][lumiere_remove_options] Cannot remove Lumière options, ($option_array) is undefined." );
