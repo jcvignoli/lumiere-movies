@@ -20,9 +20,9 @@ use \Lumiere\Logger;
 trait Frontend {
 
 	/**
-	 * Admin options
-	 * @var array{ 'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': int, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': string, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_highslide': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': int, 'imdbseriemovies': string } $imdb_admin_values
-	 */
+	 * Admin options vars
+	 * @var array{'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': int, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': string, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_highslide': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': int, 'imdbseriemovies': string} $imdb_admin_values
+	*/
 	public array $imdb_admin_values;
 
 	/**
@@ -34,7 +34,6 @@ trait Frontend {
 	/**
 	 * Cache options
 	 * @var array{'imdbcachedir_partial': string, 'imdbstorecache': bool, 'imdbusecache': string, 'imdbconverttozip': bool, 'imdbusezip': bool, 'imdbcacheexpire': string, 'imdbcachedetailsshort': string,'imdbcachedir': string,'imdbphotoroot': string, 'imdbphotodir': string} $imdb_cache_values
-
 	 */
 	public array $imdb_cache_values;
 
@@ -69,16 +68,16 @@ trait Frontend {
 	 */
 	public function __construct( ?string $logger_name = 'unknownOrigin', ?bool $screenOutput = true ) {
 
-		// Get database options
+		// Start Settings class.
+		$this->config_class = new Settings();
+
+		// Get database options.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
 		// Start Logger class.
 		$this->logger = new Logger( $logger_name, $screenOutput );
-
-		// Start Settings class.
-		$this->config_class = new Settings();
 
 		// Start Utils class.
 		$this->utils_class = new Utils();
