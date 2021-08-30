@@ -131,8 +131,9 @@ class Cache extends \Lumiere\Admin {
 				$key_sanitized = sanitize_key( $key );
 
 				$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
-				if ( isset( $_POST[ "$key_sanitized" ] ) ) {
-					$this->imdb_cache_values[ "$keynoimdb" ] = sanitize_text_field( $_POST[ "$key_sanitized" ] );
+				if ( isset( $_POST[ $key_sanitized ] ) ) {
+					// @phpstan-ignore-next-line 'Array (array('imdbwidgettitle' => string, 'imdbwidgetpic' => string,...)) does not accept key string'.
+					$this->imdb_cache_values[ $keynoimdb ] = sanitize_text_field( $_POST[ $key_sanitized ] );
 				}
 			}
 

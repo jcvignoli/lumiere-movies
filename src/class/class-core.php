@@ -73,7 +73,7 @@ class Core {
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
 		// Start Settings class.
-		$this->configClass = new Settings( 'obsoleteCoreClass' );
+		$this->configClass = new Settings();
 
 		// Start Utils class.
 		$this->utilsClass = new Utils();
@@ -829,14 +829,6 @@ class Core {
 		/* remove activation issue
 		ob_start(); */
 
-		// For debugging purpose
-		// Update imdbHowManyUpdates option
-		/*
-		$option_array_search = get_option($this->configClass->imdbAdminOptionsName);
-		$option_array_search['imdbHowManyUpdates'] = 6; # current number of updates
-		update_option($this->configClass->imdbAdminOptionsName, $option_array_search);
-		*/
-
 		// Start the logger.
 		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
@@ -844,13 +836,15 @@ class Core {
 		check_admin_referer( "activate-plugin_{$plugin}" );
 
 		/* Create the value of number of updates on first install */
-		if ( $this->configClass->lumiere_define_nb_updates() == true ) {
+		// Start Settings class.
+		if ( ! isset( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) {
 
+			new Settings();
 			$this->logger->log()->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' successfully created." );
 
 		} else {
 
-			$this->logger->log()->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' has not been created." );
+			$this->logger->log()->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' already exists." );
 
 		}
 
@@ -983,22 +977,13 @@ class Core {
 
 		$this->logger = new Logger( 'coreClass' );
 
-		// Start the logger
-		$this->logger->lumiere_start_logger( 'coreClass' );
+		// Start the logger, since it is executed before the init.
+		do_action( 'lumiere_logger' );
 
-		// For debugging purpose
-		// Update imdbHowManyUpdates option
-		/*
-		$option_array_search = get_option($this->configClass->imdbAdminOptionsName);
-		$option_array_search['imdbHowManyUpdates'] = 8; # current number of updates
-		update_option($this->configClass->imdbAdminOptionsName, $option_array_search);
-		*/
-
-		$this->logger->log()->debug( '[Lumiere][coreClass] Cron exec once run.' );
+		$this->logger->log()->debug( '[Lumiere][coreClass] Cron running...' );
 
 		// Update options
-		// this udpate is also run in upgrader_process_complete, but the process is not reliable
-		// Using the same updating process in a WP Cron
+		// this udpate is also run in upgrader_process_complete, but the process is not always reliable
 		require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::UPDATE_OPTIONS_PAGE;
 		$start_update_options = new Update_Options();
 
