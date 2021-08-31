@@ -89,11 +89,6 @@ class Logger {
 			}
 		);
 
-		add_action( 'save_post', 'logger_disable', 0 );
-	}
-
-	public function logger_disable() {
-			$this->is_editor_page = true;
 	}
 
 	/**

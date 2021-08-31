@@ -140,7 +140,7 @@ class Uninstall {
 				]
 			);
 
-			# Get all terms, even if empty
+			// Get all terms, even if empty.
 			$terms = get_terms(
 				[
 					'taxonomy' => $filter_taxonomy,
@@ -148,7 +148,11 @@ class Uninstall {
 				]
 			);
 
-			# Delete taxonomy terms and unregister taxonomy
+			// Delete taxonomy terms and unregister taxonomy.
+			if ( is_wp_error( $terms ) === true ) {
+				return;
+			}
+			// @phpstan-ignore-next-line 'Argument of an invalid type array<int|string|WP_Term>|string supplied for foreach, only iterables are supported' (no idea how to fix it)
 			foreach ( $terms as $term ) {
 
 				// Sanitize terms

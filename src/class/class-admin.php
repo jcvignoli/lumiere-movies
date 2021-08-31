@@ -129,7 +129,7 @@ class Admin {
 
 		if ( file_exists( $classpath ) ) {
 
-			require $classpath;
+			require_once $classpath;
 
 		}
 

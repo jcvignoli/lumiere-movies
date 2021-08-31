@@ -5,13 +5,13 @@
 $logger->info( '[Lumiere][updateVersion] Starting update 8' );
 
 $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 );
-$this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
+$this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
 
 /**
  * Update 'imdbautopostwidget'
  * From "false" to '0'
  */
-if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbautopostwidget', '0' ) ) {
+if ( true === $this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbautopostwidget', '0' ) ) {
 
 	$text = 'Lumière option imdbautopostwidget successfully updated.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -27,7 +27,7 @@ if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName,
  * Update 'imdbdebuglog'
  * From "false" to '0'
  */
-if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbdebuglog', '0' ) ) {
+if ( true === $this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbdebuglog', '0' ) ) {
 
 	$text = 'Lumière option imdbdebuglog successfully updated.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -43,7 +43,7 @@ if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName,
  * Update 'imdbcoversize'
  * From "false" to '0'
  */
-if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbcoversize', '0' ) ) {
+if ( true === $this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbcoversize', '0' ) ) {
 
 	$text = 'Lumière option imdbcoversize successfully updated.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -59,7 +59,7 @@ if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName,
  * Update 'imdblinkingkill'
  * From "false" to '0'
  */
-if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdblinkingkill', '0' ) ) {
+if ( true === $this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdblinkingkill', '0' ) ) {
 
 	$text = 'Lumière option imdblinkingkill successfully updated.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -75,7 +75,7 @@ if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName,
  * Update 'imdbdebug'
  * From "false" to '0'
  */
-if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbdebug', '0' ) ) {
+if ( true === $this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbdebug', '0' ) ) {
 
 	$text = 'Lumière option imdbdebug successfully updated.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -91,7 +91,7 @@ if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName,
  * Update 'imdbwordpress_bigmenu'
  * From "false" to '0'
  */
-if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbwordpress_bigmenu', '0' ) ) {
+if ( true === $this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbwordpress_bigmenu', '0' ) ) {
 
 	$text = 'Lumière option imdbwordpress_bigmenu successfully updated.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -107,7 +107,7 @@ if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName,
  * Update 'imdbtaxonomy'
  * From "true" to '1'
  */
-if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbtaxonomy', '1' ) ) {
+if ( true === $this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbtaxonomy', '1' ) ) {
 
 	$text = 'Lumière option imdbtaxonomy successfully updated.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -123,7 +123,7 @@ if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName,
  * Update 'imdbwordpress_tooladminmenu'
  * From "true" to '1'
  */
-if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbwordpress_tooladminmenu', '1' ) ) {
+if ( true === $this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbwordpress_tooladminmenu', '1' ) ) {
 
 	$text = 'Lumière option imdbwordpress_tooladminmenu successfully updated.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -139,7 +139,7 @@ if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName,
  * Update 'imdbdebugscreen'
  * From "true" to '1'
  */
-if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbdebugscreen', '1' ) ) {
+if ( true === $this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbdebugscreen', '1' ) ) {
 
 	$text = 'Lumière option imdbdebugscreen successfully updated.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -155,7 +155,7 @@ if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName,
  * Update 'imdbkeepsettings'
  * From "true" to '1'
  */
-if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbkeepsettings', '1' ) ) {
+if ( true === $this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbkeepsettings', '1' ) ) {
 
 	$text = 'Lumière option imdbkeepsettings successfully updated.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -171,7 +171,7 @@ if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName,
  * Update 'imdbpopup_highslide'
  * From "true" to '1'
  */
-if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName, 'imdbpopup_highslide', '1' ) ) {
+if ( true === $this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbpopup_highslide', '1' ) ) {
 
 	$text = 'Lumière option imdbpopup_highslide successfully updated.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -187,7 +187,7 @@ if ( true === $this->lumiere_update_options( $configClass->imdbAdminOptionsName,
  * Update 'imdbusecache'
  * From "true" to '1'
  */
-if ( true === $this->lumiere_update_options( $configClass->imdbCacheOptionsName, 'imdbusecache', '1' ) ) {
+if ( true === $this->lumiere_update_options( $config_class->imdbCacheOptionsName, 'imdbusecache', '1' ) ) {
 
 	$text = 'Lumière option imdbusecache successfully updated.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -203,7 +203,7 @@ if ( true === $this->lumiere_update_options( $configClass->imdbCacheOptionsName,
  * Replace 'popupLarg' with 'imdbpopuplarg'
  * Option name missing 'imdb' prefix and should not be with capital case
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName, 'popupLarg' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbAdminOptionsName, 'popupLarg' ) ) {
 
 	$text = 'Lumière option popupLarg successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -214,7 +214,7 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName,
 	$logger->error( "[Lumiere][updateVersion] $text" );
 
 }
-if ( true === $this->lumiere_add_options( $configClass->imdbAdminOptionsName, 'imdbpopuplarg', '540' ) ) {
+if ( true === $this->lumiere_add_options( $config_class->imdbAdminOptionsName, 'imdbpopuplarg', '540' ) ) {
 
 	$text = 'Lumière option imdbpopuplarg successfully added.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -229,7 +229,7 @@ if ( true === $this->lumiere_add_options( $configClass->imdbAdminOptionsName, 'i
  * Replace 'popupLong' with 'imdbpopupLong'
  * Option name missing 'imdb' prefix
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName, 'popupLong' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbAdminOptionsName, 'popupLong' ) ) {
 
 	$text = 'Lumière option popupLong successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -240,7 +240,7 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName,
 	$logger->error( "[Lumiere][updateVersion] $text" );
 
 }
-if ( true === $this->lumiere_add_options( $configClass->imdbAdminOptionsName, 'imdbpopuplong', '350' ) ) {
+if ( true === $this->lumiere_add_options( $config_class->imdbAdminOptionsName, 'imdbpopuplong', '350' ) ) {
 
 	$text = 'Lumière option imdbpopuplong successfully added.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -256,7 +256,7 @@ if ( true === $this->lumiere_add_options( $configClass->imdbAdminOptionsName, 'i
  * Remove 'imdbcachedetails'
  * Obsolete
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbCacheOptionsName, 'imdbcachedetails' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbCacheOptionsName, 'imdbcachedetails' ) ) {
 
 	$text = 'Lumière option imdbcachedetails successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -272,7 +272,7 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbCacheOptionsName,
  * Remove 'blog_adress'
  * Obsolete and bad spelling
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName, 'blog_adress' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbAdminOptionsName, 'blog_adress' ) ) {
 
 	$text = 'Lumière option blog_adress successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -288,7 +288,7 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName,
  * Remove 'imdbwidgetonpage'
  * Obsolete
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetonpage' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetonpage' ) ) {
 
 	$text = 'Lumière option imdbwidgetonpage successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -304,7 +304,7 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName
  * Remove 'imdbwidgetonpost'
  * Obsolete
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetonpost' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetonpost' ) ) {
 
 	$text = 'Lumière option imdbwidgetonpost successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -320,7 +320,7 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName
  * Remove 'imdbimgdir'
  * Obsolete
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName, 'imdbimgdir' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbAdminOptionsName, 'imdbimgdir' ) ) {
 
 	$text = 'Lumière option imdbimgdir successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -336,7 +336,7 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName,
  * Remove 'imdb_utf8recode'
  * Obsolete
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName, 'imdb_utf8recode' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbAdminOptionsName, 'imdb_utf8recode' ) ) {
 
 	$text = 'Lumière option imdb_utf8recode successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -352,7 +352,7 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName,
  * Remove 'imdbwebsite'
  * Obsolete
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName, 'imdbwebsite' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbAdminOptionsName, 'imdbwebsite' ) ) {
 
 	$text = 'Lumière option imdbwebsite successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -368,7 +368,7 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName,
  * Replace 'imdbwidgetgoofsnumber' by 'imdbwidgetgoofnumber'
  * Singularizing items
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetgoofsnumber' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetgoofsnumber' ) ) {
 
 	$text = 'Lumière option imdbwidgetgoofsnumber successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -379,7 +379,7 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName
 	$logger->error( "[Lumiere][updateVersion] $text" );
 
 }
-if ( true === $this->lumiere_add_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetgoofnumber', false ) ) {
+if ( true === $this->lumiere_add_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetgoofnumber', false ) ) {
 
 	$text = 'Lumière option imdbwidgetgoofnumber successfully added.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -395,7 +395,7 @@ if ( true === $this->lumiere_add_options( $configClass->imdbWidgetOptionsName, '
  * Replace 'imdbwidgetquotesnumber' by 'imdbwidgetquotenumber'
  * Singularizing items
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetquotesnumber' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetquotesnumber' ) ) {
 
 	$text = 'Lumière option imdbwidgetquotesnumber successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -406,7 +406,7 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName
 	$logger->error( "[Lumiere][updateVersion] $text" );
 
 }
-if ( true === $this->lumiere_add_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetquotenumber', false ) ) {
+if ( true === $this->lumiere_add_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetquotenumber', false ) ) {
 
 	$text = 'Lumière option imdbwidgetquotenumber successfully added.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -422,7 +422,7 @@ if ( true === $this->lumiere_add_options( $configClass->imdbWidgetOptionsName, '
  * Replace 'imdbwidgettaglines' by 'imdbwidgettagline'
  * Singularizing items
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName, 'imdbwidgettaglinesnumber' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsName, 'imdbwidgettaglinesnumber' ) ) {
 
 	$text = 'Lumière option imdbwidgettaglinesnumber successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -433,7 +433,7 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName
 	$logger->error( "[Lumiere][updateVersion] $text" );
 
 }
-if ( true === $this->lumiere_add_options( $configClass->imdbWidgetOptionsName, 'imdbwidgettaglinenumber', false ) ) {
+if ( true === $this->lumiere_add_options( $config_class->imdbWidgetOptionsName, 'imdbwidgettaglinenumber', false ) ) {
 
 	$text = 'Lumière option imdbwidgettaglinenumber successfully added.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -450,7 +450,7 @@ if ( true === $this->lumiere_add_options( $configClass->imdbWidgetOptionsName, '
  * Singularizing items
  */
 if ( true === $this->lumiere_update_options(
-	$configClass->imdbWidgetOptionsName,
+	$config_class->imdbWidgetOptionsName,
 	'imdbwidgetorder',
 	[
 		'title' => '1',
@@ -496,7 +496,7 @@ if ( true === $this->lumiere_update_options(
  * Remove 'imdbtaxonomytitle'
  * Obsolete value, no taxonomy built according to the title
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName, 'imdbtaxonomytitle' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsName, 'imdbtaxonomytitle' ) ) {
 
 	$text = 'Lumière option imdbtaxonomytitle successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -512,7 +512,7 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbWidgetOptionsName
  * Remove 'imdbdirectsearch'
  * Obsolete value
  */
-if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName, 'imdbdirectsearch' ) ) {
+if ( true === $this->lumiere_remove_options( $config_class->imdbAdminOptionsName, 'imdbdirectsearch' ) ) {
 
 	$text = 'Lumière option imdbdirectsearch successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -528,33 +528,33 @@ if ( true === $this->lumiere_remove_options( $configClass->imdbAdminOptionsName,
  * imdbwidget values are not bool anymore, so they're set within apostrophes
  * Don't get any confirmation in the following updates
  */
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgettitle', '1' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetpic', '1' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetruntime', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetdirector', '1' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetcountry', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetactor', '1' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetcreator', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetrating', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetlanguage', '1' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetgenre', '1' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetwriter', '1' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetproducer', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetkeyword', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetprodcompany', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetplot', '1' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetgoof', '1' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetcomment', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetquote', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgettagline', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetcolor', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetalsoknow', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetcomposer', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetsoundtrack', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetofficialsites', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetsource', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgetyear', '0' );
-$this->lumiere_update_options( $configClass->imdbWidgetOptionsName, 'imdbwidgettrailer', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgettitle', '1' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetpic', '1' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetruntime', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetdirector', '1' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetcountry', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetactor', '1' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetcreator', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetrating', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetlanguage', '1' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetgenre', '1' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetwriter', '1' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetproducer', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetkeyword', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetprodcompany', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetplot', '1' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetgoof', '1' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetcomment', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetquote', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgettagline', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetcolor', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetalsoknow', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetcomposer', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetsoundtrack', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetofficialsites', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetsource', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetyear', '0' );
+$this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgettrailer', '0' );
 $logger->debug( '[Lumiere][updateVersion] Maybe updated imdbwidget* vars to be strings instead of bools' );
 
 /*
@@ -564,10 +564,10 @@ $filter_taxonomy = 'imdblt_keywords';
 
 $logger->debug( "[Lumiere][updateVersion] Process of deleting taxonomy $filter_taxonomy started" );
 
-// Taxonomy must be registered in order to delete its terms
+// Taxonomy must be registered in order to delete its terms.
 register_taxonomy(
 	$filter_taxonomy,
-	null,
+	[ 'page', 'post' ],
 	[
 		'label' => false,
 		'public' => false,
@@ -576,7 +576,7 @@ register_taxonomy(
 	]
 );
 
-# Get all terms, even if empty
+// Get all terms, even if empty.
 $taxo_terms = get_terms(
 	[
 		'taxonomy' => $filter_taxonomy,
@@ -584,14 +584,18 @@ $taxo_terms = get_terms(
 	]
 );
 
-# Delete taxonomy terms and unregister taxonomy
+// Delete taxonomy terms and unregister taxonomy.
+if ( is_wp_error( $taxo_terms ) === true ) {
+	return;
+}
+// @phpstan-ignore-next-line 'Argument of an invalid type array<int|string|WP_Term>|string supplied for foreach, only iterables are supported' (no idea how to fix it)
 foreach ( $taxo_terms as $taxo_term ) {
 
-	$term_id = (int) $taxo_term->term_id;
-	$term_name = (string) sanitize_text_field( $taxo_term->name );
-	$term_taxonomy = (string) sanitize_text_field( $taxo_term->taxonomy );
+	$term_id = $taxo_term->term_id;
+	$term_name = sanitize_text_field( $taxo_term->name );
+	$term_taxonomy = sanitize_text_field( $taxo_term->taxonomy );
 
-	if ( ! empty( $term_id ) ) {
+	if ( isset( $term_id ) && is_integer( $term_id ) ) {
 
 		wp_delete_term( $term_id, $filter_taxonomy );
 		$logger->debug( '[Lumiere][updateVersion] Taxonomy: term ' . $term_name . ' in ' . $term_taxonomy . ' deleted.' );
