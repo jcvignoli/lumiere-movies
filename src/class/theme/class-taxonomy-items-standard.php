@@ -31,6 +31,12 @@ class Taxonomy_Items_Standard {
 	private const ACTIVATE_SIDEBAR = false;
 
 	/**
+	 * Admin options vars
+	 * @var array<string, string|int> $imdb_admin_values
+	 */
+	private array $imdb_admin_values;
+
+	/**
 	 * Current page name from the tag taxonomy
 	 *
 	 */

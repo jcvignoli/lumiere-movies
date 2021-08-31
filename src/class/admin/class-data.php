@@ -220,7 +220,7 @@ class Data extends \Lumiere\Admin {
 
 			// Flush rewrite rules if updating taxonomy details
 			// Needed by WordPress as a new page is created
-			if ( $this->utilsClass->lumiere_array_key_exists_wildcard( $_POST, 'imdb_imdbtaxonomy*' ) ) {
+			if ( count( $this->utilsClass->lumiere_array_key_exists_wildcard( $_POST, 'imdb_imdbtaxonomy*' ) ) !== 0 ) {
 				flush_rewrite_rules();
 				$this->logger->log()->debug( 'Rewrite rules flushed' );
 			}

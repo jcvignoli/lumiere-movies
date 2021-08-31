@@ -186,7 +186,7 @@ class Utils {
 	 * Text displayed when no result is found
 	 * This text is logged if the debug logging is activated
 	 *
-	 * @param string optional $text: text to display/log. if no text provided, default text is provided
+	 * @param string $text: text to display/log. if no text provided, default text is provided
 	 */
 	public function lumiere_noresults_text( string $text = 'No result found for this query.' ): void {
 
@@ -201,9 +201,9 @@ class Utils {
 	/**
 	 * Recursively test an multi-dimensionnal array
 	 *
-	 * @param array $multiarray mandatory Array name
+	 * @param mixed[] $mixed Array name or string
 	 *
-	 * @credits http://in2.php.net/manual/fr/function.empty.php#94786
+	 * @credits https://www.php.net/manual/fr/function.empty.php#92308
 	 */
 	public static function lumiere_is_multi_array_empty( $mixed ): bool {
 
@@ -231,12 +231,15 @@ class Utils {
 	 * Function lumiere_array_key_exists_wildcard
 	 * Search with a wildcard in $keys of an array
 	 *
-	 * @param array<string> $array The array to be searched in
+	 * @param mixed[] $array The array to be searched in
+	 * @param string $search The text that is searched for
 	 * @param string $return text 'key-value' can be passed to get simpler array of results
+	 *
+	 * @return array<string>
 	 *
 	 * @credit: https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
 	 */
-	public function lumiere_array_key_exists_wildcard ( array $array, $search, string $return = '' ) {
+	public function lumiere_array_key_exists_wildcard ( array $array, string $search, string $return = '' ): array {
 
 		$search = str_replace( '\*', '.*?', preg_quote( $search, '/' ) );
 
@@ -276,8 +279,8 @@ class Utils {
 	 * Function lumiere_formatBytes
 	 * Returns in a proper format a size
 	 *
-	 * @param integer mandatory $size the unformatted number of the size
-	 * @param integer optional $precision how many numbers after comma, two by default
+	 * @param int $size the unformatted number of the size
+	 * @param int $precision how many numbers after comma, two by default
 	 */
 	public static function lumiere_format_bytes( int $size, int $precision = 2 ): string {
 		$base = log( $size, 1024 );
@@ -285,7 +288,8 @@ class Utils {
 		return round( pow( 1024, $base - floor( $base ) ), $precision ) . ' ' . $suffixes[ floor( $base ) ];
 	}
 
-	/* Does a glob recursively
+	/**
+	 * Does a glob recursively
 	 * Does not support flag GLOB_BRACE
 	 *
 	 * @credits https://www.php.net/manual/fr/function.glob.php#106595
@@ -307,8 +311,8 @@ class Utils {
 	 * Function lumiere_notice
 	 * Display a confirmation notice, such as "options saved"
 	 *
-	 * @param int mandatory $code type of message
-	 * @param string mandatory $msg text to display
+	 * @param int $code type of message
+	 * @param string $msg text to display
 	 */
 	public static function lumiere_notice( int $code, string $msg ): string {
 
@@ -336,7 +340,7 @@ class Utils {
 	 * @param string $needle The substring to search for in the haystack.
 	 * @return bool
 	 */
-	public static function str_contains( $haystack, $needle ) {
+	public static function str_contains( string $haystack, string $needle ): bool {
 
 		return $needle !== '' && mb_strpos( $haystack, $needle ) !== false;
 
@@ -351,7 +355,7 @@ class Utils {
 	 */
 	public static function lumiere_array_contains_term( array $array_list, string $term ): bool {
 
-		if ( preg_match( '(' . implode( '|', $array_list ) . ')', $term ) ) {
+		if ( preg_match( '(' . implode( '|', $array_list ) . ')', $term ) === 1 ) {
 
 			return true;
 
@@ -370,11 +374,12 @@ class Utils {
 	 *
 	 * @since 3.5
 	 * @param string $get_screen set to 'screen' to display wp function get_current_screen()
-	 * @param ?array <string> $options the array of admin/widget/cache settings options
-	 * @return mixed optionaly an array of the options passed in $options
+	 * @param ?array<string> $options the array of admin/widget/cache settings options
+	 * @return mixed[] optionaly an array of the options passed in $options
 	 */
 	// phpcs:disable
 	public function lumiere_activate_debug( ?array $options = null, string $set_error = null, string $libxml_use = null, string $get_screen = null ): void {
+
 		// Set on true to show debug is active if called again.
 		$this->debug_is_active = true;
 

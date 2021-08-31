@@ -55,9 +55,9 @@ class Widget extends \WP_Widget {
 	const WIDGET_SHORTCODE = 'lumiereWidget';
 
 	/**
-	 *  Add layout wrapping html to the widget
+	 * HTML wrapping to the widget name
 	 */
-	private $args = [
+	const ARGS = [
 		'before_title' => '<h4 class="widget-title">',
 		'after_title' => '</h4>',
 		'before_widget' => '<div id="lumiere_movies_widget" class="sidebar-box widget_lumiere_movies_widget clr">',
@@ -65,13 +65,15 @@ class Widget extends \WP_Widget {
 	];
 
 	/**
-	 *  Name of the block widget
+	 *  Names of the block widget
 	 */
-	const BLOCK_WIDGET_NAME = 'lumiere/widget';
-	const WIDGET_NAME = 'lumiere_movies_widget';
+	const BLOCK_WIDGET_NAME = 'lumiere/widget'; // post-WP 5.8 widget block name.
+	const WIDGET_NAME = 'lumiere_movies_widget'; // pre-WP 5.8 widget name.
+	const WIDGET_CLASS = '\Lumiere\Widget'; // pre-WP 5.8. Must match class name.
 
 	/**
 	 * Constructor. Sets up the widget name, description, etc.
+	 *
 	 */
 	public function __construct() {
 
@@ -80,7 +82,7 @@ class Widget extends \WP_Widget {
 			'Lumière! Widget (legacy)',   // Name.
 			[
 				'description' => esc_html__( 'Add movie details to your pages with Lumière! Legacy version: as of WordPress 5.8, prefer the new widget.', 'lumiere-movies' ),
-				'show_instance_in_rest' => true, /* we use a proper gutenberg block */
+				'show_instance_in_rest' => true, /** use WP REST API */
 			]
 		);
 
@@ -104,14 +106,14 @@ class Widget extends \WP_Widget {
 		 * Give priority to post-5.8 WordPress Widget block. If not found, register pre-5.8 widget.
 		 */
 		add_action( 'enqueue_block_editor_assets', [ $this, 'lumiere_register_widget_block' ] );//Register new block.
-		if ( $this->utils_class->lumiere_block_widget_isactive() === false ) {
+		if ( Utils::lumiere_block_widget_isactive() === false ) {
 
 			// Should be hooked to 'widgets_init'.
 			add_action(
 				'widgets_init',
-				function() {
+				function(): void {
 					// Register legacy widget.
-					register_widget( '\Lumiere\LumiereWidget' );
+					register_widget( self::WIDGET_CLASS );
 				}
 			);
 		}
@@ -124,15 +126,23 @@ class Widget extends \WP_Widget {
 		/**
 		 * Add shortcode in the block-based widget
 		 */
-		add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'lumiere_widget_shortcodes_parser' ], 99 );
+		add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'lumiere_widget_shortcodes_parser' ] );
 
 	}
 
 	/**
-	 *  Wrapper for activating debug and logging
+	 *  Wrapper for calling the function from outside
 	 *
 	 */
-	public function lumiere_widget_maybe_start_debug() {
+	public static function lumiere_widget_start(): void {
+		new self();
+	}
+
+	/**
+	 *  Wrapper for activating debug
+	 *
+	 */
+	public function lumiere_widget_maybe_start_debug(): void {
 
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
 
@@ -149,7 +159,7 @@ class Widget extends \WP_Widget {
 	 *
 	 * Used to retrieve widget block title and call widget() function
 	 */
-	public function lumiere_widget_shortcodes_parser( ?string $atts, ?string $content = null, ?string $tag ): ?string {
+	public function lumiere_widget_shortcodes_parser( string $atts, string $content, string $tag ): void {
 
 		// Start logging using hook defined in settings class.
 		do_action( 'lumiere_logger' );
@@ -161,14 +171,16 @@ class Widget extends \WP_Widget {
 		// Get the widget title and pass it to the correct format.
 		$instance['title'] = $content;
 
-		// Send to widget() with class var $args and the widget title.
-		return $this->widget( $this->args, $instance );
+		// Send to widget() with self::ARGS and the widget title.
+		$this->widget( self::ARGS, $instance );
 	}
 
 	/**
-	 *  Hide Lumière legacy widget from WordPress legacy widgets list
+	 * Hide Lumière legacy widget from WordPress legacy widgets list
+	 * @param array<string> $widget_types
+	 * @return array<string>
 	 */
-	public function hide_widget( $widget_types ) {
+	public function hide_widget( array $widget_types ): array {
 
 		$widget_types[] = 'lumiere_movies_widget';
 		return $widget_types;
@@ -178,7 +190,7 @@ class Widget extends \WP_Widget {
 	/**
 	 *   Register widget block (>= WordPress 5.8)
 	 */
-	public function lumiere_register_widget_block() {
+	public function lumiere_register_widget_block(): void {
 
 		wp_register_script(
 			'lumiere_block_widget',
@@ -209,24 +221,26 @@ class Widget extends \WP_Widget {
 	 *
 	 * @see WP_Widget::widget()
 	 *
-	 * @param array mandatory $args widget arguments.
-	 * @param array mandatory $instance the widget with its values.
+	 * @param array $args  Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
+	 * @param array $instance The settings for the particular instance of the widget.
+	 * @return void
+	 * @phpstan-ignore-next-line inherited constraints from parent, can't comply with declaration requirements
 	 */
-	public function widget( $args = self::args, $instance ) {
+	public function widget( $args = self::ARGS, $instance ) {
 
 		// Start Movie class.
-		$movieClass = new Movie();
+		$movie_class = new Movie();
 
 		/* Vars */
 		$output = '';
 		$imdb_admin_values = $this->imdb_admin_values;
-		$args['before_title'] = $this->args['before_title']; //Consistancy in title h2 class, otherwise it's sometimes <h4 class="widget-title"> and sometimes <h4 class="widgettitle">.
+		$args['before_title'] = self::ARGS['before_title']; //Consistancy in title h2 class, otherwise it's sometimes <h4 class="widget-title"> and sometimes <h4 class="widgettitle">.
 
 		// Execute logging.
 		do_action( 'lumiere_logger' );
 
 		// full title.
-		$title_box = empty( $instance['title'] ) ? esc_html__( 'Lumière! Movies (legacy)', 'lumiere-movies' ) : $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
+		$title_box = isset( $instance['title'] ) ? $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'] : esc_html__( 'Lumière! Movies (legacy)', 'lumiere-movies' );
 
 		// Initialize var for id/name of the movie to display.
 		$imdbIdOrTitle = [];
@@ -236,7 +250,7 @@ class Widget extends \WP_Widget {
 
 		$config_class = $this->config_class;
 
-		// shows widget only for a post or a page.
+		// Show widget only for a post or a page.
 		if ( ( is_single() ) || ( is_page() ) ) {
 
 			// Display the movie according to the post's title (option in -> general -> advanced).
@@ -252,17 +266,17 @@ class Widget extends \WP_Widget {
 			}
 
 			// Log what type of widget is utilised.
-			if ( $this->utils_class->lumiere_block_widget_isactive() === true ) {
+			if ( Utils::lumiere_block_widget_isactive() === true ) {
 				// Post 5.8 WordPress.
 				$this->logger->log()->debug( '[Lumiere][widget] Block-based widget found' );
 			}
-			if ( is_active_widget( '', '', self::WIDGET_NAME ) === true ) {
+			if ( is_active_widget( false, false, self::WIDGET_NAME, false ) !== false ) {
 				// Pre 5.8 WordPress.
 				$this->logger->log()->debug( '[Lumiere][widget] Pre-5.8 WordPress widget found' );
 			}
 
 			// Show widget only if custom fields or imdbautopostwidget option is found.
-			if ( ( get_post_meta( $post_id, 'imdb-movie-widget', false ) ) || ( get_post_meta( $post_id, 'imdb-movie-widget-bymid', false ) ) || ( isset( $imdb_admin_values['imdbautopostwidget'] ) ) ) {
+			if ( count( get_post_meta( $post_id, 'imdb-movie-widget', false ) ) !== 0 || count( get_post_meta( $post_id, 'imdb-movie-widget-bymid', false ) ) !== 0 || ( isset( $imdb_admin_values['imdbautopostwidget'] ) ) ) {
 
 				// Custom field "imdb-movie-widget"
 				foreach ( get_post_meta( $post_id, 'imdb-movie-widget', false ) as $key => $value ) {
@@ -283,9 +297,9 @@ class Widget extends \WP_Widget {
 
 				}
 
-				// If there is a result in var $lumiere_result of class, display the widget.
-				$movie = $movieClass->lumiere_show( $imdbIdOrTitle );
-				if ( ( isset( $movie ) ) && ( ! empty( $movie ) ) ) {
+				// If there is a result in class movie, display the widget.
+				$movie = $movie_class->lumiere_show( $imdbIdOrTitle );
+				if ( strlen( $movie ) !== 0 ) {
 
 					$output .= $args['before_widget'];
 
@@ -305,10 +319,19 @@ class Widget extends \WP_Widget {
 
 		}
 
-		// Display debug message if no metabox was found with an IMDb id/title
-		if ( ( empty( get_post_meta( $post_id, 'imdb-movie-widget', false ) ) ) && ( empty( get_post_meta( $post_id, 'imdb-movie-widget-bymid', false ) ) ) ) {
+		// Display preview if no metabox was found with an IMDb id/title
+		if ( ( count( get_post_meta( $post_id, 'imdb-movie-widget', false ) ) === 0 ) && ( count( get_post_meta( $post_id, 'imdb-movie-widget-bymid', false ) ) === 0 ) ) {
 
 			$this->logger->log()->debug( '[Lumiere][widget] No metabox with IMDb id/title was added to this post.' );
+
+		}
+
+		// Display preview image only in widget block editor interface
+		$pages_authorised = [ '/wp-admin/widgets.php' ];
+		if ( Utils::lumiere_array_contains_term( $pages_authorised, $_SERVER['REQUEST_URI'] ) ) {
+
+			$output .= '<div align="center"><img src="' . $this->config_class->lumiere_pics_dir . 'widget-preview.png" /></div>';
+			$output .= '<br />';
 
 		}
 
@@ -316,51 +339,71 @@ class Widget extends \WP_Widget {
 	}
 
 	/**
-	* Back-end widget form.
-	*
-	* @see WP_Widget::form()
-	*
-	* @param array $instance Previously saved values from database.
-	*/
-	public function form( $instance ) {
+	 * Outputs the settings update form.
+	 *
+	 * @see WP_Widget::form()
+	 *
+	 * @param array $instance Current settings.
+	 * @return string Default return is 'noform'.
+	 *
+	 * @phpstan-ignore-next-line inherited constraints from parent, can't comply with declaration requirements
+	 */
+	public function form( $instance ): string {
 
-		$imdb_admin_values = $this->imdb_admin_values;
+		$output = '';
 
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Lumière! Movies', 'lumiere-movies' );
-		$lumiere_query_widget = ! empty( $instance['lumiere_queryid_widget'] ) ? $instance['lumiere_queryid_widget'] : '';
-		$lumiere_queryid_widget_input = ! empty( $instance['lumiere_queryid_widget_input'] ) ? $instance['lumiere_queryid_widget_input'] : ''; ?>
+		$title = isset( $instance['title'] ) ? $instance['title'] : esc_html__( 'Lumière! Movies', 'lumiere-movies' );
+		$lumiere_query_widget = isset( $instance['lumiere_queryid_widget'] ) ? $instance['lumiere_queryid_widget'] : '';
 
-		<p class="lumiere_padding_ten">
+		$lumiere_queryid_widget_input = isset( $instance['lumiere_queryid_widget_input'] ) ? $instance['lumiere_queryid_widget_input'] : '';
 
-		<div class="lumiere_display_inline_flex">
-			<div class="lumiere_padding_ten">
-				<img class="lumiere_flex_auto" width="40" height="40" src="<?php echo esc_url( $imdb_admin_values['imdbplugindirectory'] . 'pics/lumiere-ico80x80.png' ); ?>" />
-			</div>
+		$output .= "\n" . '<p class="lumiere_padding_ten">';
 
-			<div class="lumiere_flex_auto">
-				<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Widget title:', 'lumiere-movies' ); ?></label>
-				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
-			</div>
-		</div>
-		</p><!-- #lumiere-movies -->
+		$output .= "\n\t" . '<div class="lumiere_display_inline_flex">';
+		$output .= "\n\t\t" . '<div class="lumiere_padding_ten">';
+		$output .= "\n\t\t\t" . '<img class="lumiere_flex_auto" width="40" height="40" src="'
+				. esc_url( $this->config_class->lumiere_pics_dir . 'lumiere-ico80x80.png' ) . '" />';
+		$output .= "\n\t\t" . '</div>';
 
-		<?php
+		$output .= "\n\t\t" . '<div class="lumiere_flex_auto">';
+		$output .= "\n\t\t\t" . '<label for="'
+					. esc_attr( $this->get_field_id( 'title' ) ) . '">'
+					. esc_html__( 'Widget title:', 'lumiere-movies' ) . '</label>';
+		$output .= "\n\t\t\t" . '<input class="widefat" id="' . esc_attr( $this->get_field_id( 'title' ) ) . '" name="' . esc_attr( $this->get_field_name( 'title' ) ) . '" type="text" value="' . esc_attr( $title ) . '" />';
+		$output .= "\n\t\t\t" . '</div>';
+		$output .= "\n\t\t" . '</div>';
+		$output .= "\n\t" . '</p><!-- #lumiere-movies -->';
+
+		echo $output;
+		return 'noform';
 
 	}
 
+	/**
+	 * Updates a particular instance of a widget.
+	 *
+	 * This function checks that `$new_instance` is set correctly. The newly-calculated
+	 * value of `$instance` should be returned. If false is returned, the instance won't be
+	 * saved/updated.
+	 *
+	 * @param array $new_instance New settings for this instance as input by the user via
+	 *                            WP_Widget::form().
+	 * @param array $old_instance Old settings for this instance.
+	 * @return array Settings to save or bool false to cancel saving.
+	 * @phpstan-ignore-next-line inherited constraints from parent, can't comply with declaration requirements
+	 */
 	public function update( $new_instance, $old_instance ) {
 
 		$instance = [];
 
-		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? wp_strip_all_tags( $new_instance['title'] ) : '';
-		$instance['lumiere_queryid_widget'] = ( ! empty( $new_instance['lumiere_queryid_widget'] ) ) ? $new_instance['lumiere_queryid_widget'] : '';
-		$instance['lumiere_queryid_widget_input'] = ( ! empty( $new_instance['lumiere_queryid_widget_input'] ) ) ? $new_instance['lumiere_queryid_widget_input'] : '';
+		$instance['title'] = ( isset( $new_instance['title'] ) ) ? wp_strip_all_tags( $new_instance['title'] ) : '';
+		$instance['lumiere_queryid_widget'] = ( isset( $new_instance['lumiere_queryid_widget'] ) ) ? $new_instance['lumiere_queryid_widget'] : '';
+		$instance['lumiere_queryid_widget_input'] = ( isset( $new_instance['lumiere_queryid_widget_input'] ) ) ? $new_instance['lumiere_queryid_widget_input'] : '';
 
 		return $instance;
 	}
 
 }
 
-// Auto start, autorun when called
-new \Lumiere\Widget();
-
+// Instead of starting the class, add an action.
+add_action( 'set_current_user', [ 'Lumiere\Widget', 'lumiere_widget_start' ] );
