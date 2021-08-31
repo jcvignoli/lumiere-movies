@@ -63,15 +63,15 @@ class Imdbphp extends Config {
 	 */
 	private function lumiere_send_config_imdbphp(): void {
 
-		$this->language = $this->imdb_admin_values['imdblanguage'] ?? null;
-		$this->cachedir = rtrim( $this->imdb_cache_values['imdbcachedir'], '/' ) ?? null; #get rid of last '/'
-		$this->photodir = $this->imdb_cache_values['imdbphotoroot'] ?? null;// ?imdbphotoroot? Bug imdbphp?
-		$this->cache_expire = $this->imdb_cache_values['imdbcacheexpire'] ?? null;
-		$this->photoroot = $this->imdb_cache_values['imdbphotodir'] ?? null; // ?imdbphotodir? Bug imdbphp?
-		$this->storecache = $this->imdb_cache_values['imdbstorecache'] ?? null;
-		$this->usecache = $this->imdb_cache_values['imdbusecache'] ?? null;
-		$this->converttozip = $this->imdb_cache_values['imdbconverttozip'] ?? null;
-		$this->usezip = $this->imdb_cache_values['imdbusezip'] ?? null;
+		$this->language = $this->imdb_admin_values['imdblanguage'];
+		$this->cachedir = rtrim( $this->imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
+		$this->photodir = $this->imdb_cache_values['imdbphotoroot'];// ?imdbphotoroot? Bug imdbphp?
+		$this->cache_expire = intval( $this->imdb_cache_values['imdbcacheexpire'] );
+		$this->photoroot = $this->imdb_cache_values['imdbphotodir']; // ?imdbphotodir? Bug imdbphp?
+		$this->storecache = $this->imdb_cache_values['imdbstorecache'];
+		$this->usecache = boolval( $this->imdb_cache_values['imdbusecache'] ) ? true : false;
+		$this->converttozip = $this->imdb_cache_values['imdbconverttozip'];
+		$this->usezip = $this->imdb_cache_values['imdbusezip'];
 
 		/** Where the local IMDB images reside (look for the "showtimes/" directory)
 		*  This should be either a relative, an absolute, or an URL including the
