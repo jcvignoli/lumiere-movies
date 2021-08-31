@@ -78,7 +78,7 @@ class Movie {
 	/**
 	 *  Search the movie and output the results
 	 *
-	 * @param array<string> $imdbIdOrTitleOutside Name or IMDbID of the movie to find in array
+	 * @param array<int, array<string, mixed>> $imdbIdOrTitleOutside Name or IMDbID of the movie to find in array
 	 */
 	public function lumiere_show( ?array $imdbIdOrTitleOutside = null ): string {
 
@@ -2302,8 +2302,7 @@ class Movie {
 
 
 /* Auto load the class
- * Conditions: not admin area, not already page of Lumière
- * (as if it is the case the class is manually called from these pages whenever it's needed)
+ * Conditions: not admin area
  * @TODO: Pass this into core class
  */
 if ( ! is_admin() ) {
