@@ -28,19 +28,7 @@ class Taxonomy_Items_Standard {
 	 * Set to true to activate the sidebar
 	 *
 	 */
-	private const ACTIVATE_SIDEBAR = false;
-
-	/**
-	 * Admin options vars
-	 * @var array<string, string|int> $imdb_admin_values
-	 */
-	private array $imdb_admin_values;
-
-	/**
-	 * Current page name from the tag taxonomy
-	 *
-	 */
-	private string $page_title;
+	private $activate_sidebar = false;
 
 	/**
 	 * Constructor
@@ -51,11 +39,8 @@ class Taxonomy_Items_Standard {
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'taxonomy-standard' );
 
-		// Build the current page name from the tag taxonomy
-		$this->page_title = single_tag_title( '', false );
-
 		// Display the page.
-		add_action( 'wp', [ $this, self::layout() ], 0 );
+		add_action( 'wp', [ $this, self::lumiere_layout_taxo_standard() ], 0 );
 
 	}
 
@@ -63,7 +48,7 @@ class Taxonomy_Items_Standard {
 	 *  Display layout
 	 *
 	 */
-	private function layout(): void {
+	private function lumiere_layout_taxo_standard(): void {
 
 		get_header();
 
@@ -71,8 +56,8 @@ class Taxonomy_Items_Standard {
 
 		echo '<br />';
 
-		if ( self::ACTIVATE_SIDEBAR === true ) {
-			get_sidebar(); # selected in settings above
+		if ( $this->activate_sidebar === true ) {
+			get_sidebar(); # selected in the above properties
 		}
 		?>
 
