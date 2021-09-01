@@ -16,15 +16,12 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-// use IMDbPHP config class in /vendor/
-use \Imdb\Config;
-
 use \Lumiere\Logger;
 
 // use PHP library.
 use \FilesystemIterator;
 
-class Settings extends Config {
+class Settings {
 
 	/**
 	 * Admin Options, saved in WordPress Database
@@ -227,9 +224,6 @@ class Settings extends Config {
 	 */
 	public function __construct() {
 
-		// Construct parent class so we can send the options to IMDbPHP class.
-		parent::__construct();
-
 		// Define Lumière constants.
 		$this->lumiere_define_constants();
 
@@ -246,9 +240,6 @@ class Settings extends Config {
 
 		// Call the plugin translation
 		load_plugin_textdomain( 'lumiere-movies', false, plugin_dir_url( __DIR__ ) . 'languages' );
-
-		// Call the function to send the selected settings to imdbphp library.
-		$this->lumiere_send_config_imdbphp();
 
 	}
 
@@ -620,37 +611,6 @@ class Settings extends Config {
 
 		update_option( $this->imdbWidgetOptionsName, $imdbWidgetOptions );
 
-	}
-
-	/**
-	 * Send Lumiere options to IMDbPHP parent class
-	 *
-	 */
-	private function lumiere_send_config_imdbphp(): void {
-
-		// @TODO: return here an \Imdb\Config, not this object
-		// $imdb_config = new \Imdb\Config();
-		// Build a dedicated class
-
-		$this->language = $this->imdb_admin_values['imdblanguage'];
-		$this->cachedir = rtrim( $this->imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
-		$this->photodir = $this->imdb_cache_values['imdbphotoroot'];// ?imdbphotoroot? Bug imdbphp?
-		$this->cache_expire = intval( $this->imdb_cache_values['imdbcacheexpire'] );
-		$this->photoroot = $this->imdb_cache_values['imdbphotodir']; // ?imdbphotodir? Bug imdbphp?
-		$this->storecache = $this->imdb_cache_values['imdbstorecache'];
-		$this->usecache = boolval( $this->imdb_cache_values['imdbusecache'] ) ? true : false;
-		$this->converttozip = $this->imdb_cache_values['imdbconverttozip'];
-		$this->usezip = $this->imdb_cache_values['imdbusezip'];
-
-		/** Where the local IMDB images reside (look for the "showtimes/" directory)
-		*  This should be either a relative, an absolute, or an URL including the
-		*  protocol (e.g. when a different server shall deliver them)
-		* Cannot be changed in Lumière admin panel
-		*/
-		$this->imdb_img_url = isset( $this->imdb_admin_values['imdbplugindirectory'] ) . '/pics/showtimes';
-
-		// @TODO: return here an \Imdb\Config, not this object
-		// return $imdb_config;
 	}
 
 	/**
