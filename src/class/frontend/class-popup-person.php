@@ -89,7 +89,7 @@ class Popup_Person {
 
 		} elseif ( ! empty( $this->mid_sanitized ) ) {
 
-			$this->person = new Person( $this->mid_sanitized, $this->config_class, $this->logger->log() );
+			$this->person = new Person( $this->mid_sanitized, $this->imdbphp_class, $this->logger->log() );
 			$this->person_name_sanitized = sanitize_text_field( $this->person->name() );
 
 		}

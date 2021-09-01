@@ -83,7 +83,7 @@ class Popup_Search {
 		do_action( 'lumiere_logger' );
 
 		# Run the query.
-		$search = new TitleSearch( $this->config_class, $this->logger->log() );
+		$search = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
 
 		$this->movie_results = $search->search( $this->film_sanitized, $this->type_search );
 

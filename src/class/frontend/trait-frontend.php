@@ -16,6 +16,7 @@ namespace Lumiere;
 use \Lumiere\Settings;
 use \Lumiere\Utils;
 use \Lumiere\Logger;
+use \Lumiere\Imdbphp;
 
 trait Frontend {
 
@@ -42,6 +43,12 @@ trait Frontend {
 	 *
 	 */
 	public Utils $utils_class;
+
+	/**
+	 * Class \Lumiere\Imdbphp
+	 *
+	 */
+	public Imdbphp $imdbphp_class;
 
 	/**
 	 * Class \Lumiere\Settings
@@ -81,6 +88,9 @@ trait Frontend {
 
 		// Start Utils class.
 		$this->utils_class = new Utils();
+
+		// Start Imdbphp class.
+		$this->imdbphp_class = new Imdbphp();
 
 		// Start the debugging
 		add_action( 'init', [ $this, 'lumiere_frontend_is_editor' ], 0 );

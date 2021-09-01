@@ -23,6 +23,7 @@ use \Imdb\Title;
 use \Imdb\Person;
 use \Lumiere\Settings;
 use \Lumiere\Utils;
+use \Lumiere\Imdbphp;
 use \Lumiere\Logger;
 use \FilesystemIterator;
 use \RecursiveDirectoryIterator;
@@ -51,6 +52,12 @@ class Cache extends \Lumiere\Admin {
 	];
 
 	/**
+	 * Class \Lumiere\Imdbphp
+	 *
+	 */
+	private Imdbphp $imdbphp_class;
+
+	/**
 	 *  Constructor
 	 */
 	protected function __construct() {
@@ -66,8 +73,11 @@ class Cache extends \Lumiere\Admin {
 
 		}
 
-		// Logger: set to true to display debug
-		$this->logger->lumiere_start_logger( 'cacheClass', false );
+		// Start Imdbphp class.
+		$this->imdbphp_class = new Imdbphp();
+
+		// Logger: set to true to display debug on screen.
+		$this->logger->lumiere_start_logger( 'cacheClass', true );
 
 		// Display notices.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
@@ -340,7 +350,7 @@ class Cache extends \Lumiere\Admin {
 			}
 
 			// get again the movie
-			$movie = new Title( $id_sanitized, $this->configClass, $this->logger->log() );
+			$movie = new Title( $id_sanitized, $this->imdbphp_class, $this->logger->log() );
 
 			// create cache for everything
 			$movie->alsoknow();
@@ -395,7 +405,7 @@ class Cache extends \Lumiere\Admin {
 			}
 
 			// get again the person
-			$person = new Person( $id_people_sanitized, $this->configClass, $this->logger->log() );
+			$person = new Person( $id_people_sanitized, $this->imdbphp_class, $this->logger->log() );
 
 			// Create cache for everything
 			$person->bio();
@@ -836,7 +846,7 @@ class Cache extends \Lumiere\Admin {
 					$results = [];
 					foreach ( $files as $file ) {
 						if ( preg_match( '!^title\.tt(\d{7,8})$!i', basename( $file ), $match ) === 1 ) {
-							$results[] = new Title( $match[1], $this->configClass, $this->logger->log() );
+							$results[] = new Title( $match[1], $this->imdbphp_class, $this->logger->log() );
 						}
 					}
 
@@ -948,7 +958,7 @@ class Cache extends \Lumiere\Admin {
 					$results = [];
 					foreach ( $files as $file ) {
 						if ( preg_match( '!^name\.nm(\d{7,8})$!i', basename( $file ), $match ) === 1 ) {
-							$results[] = new Person( $match[1], $this->configClass, $this->logger->log() );
+							$results[] = new Person( $match[1], $this->imdbphp_class, $this->logger->log() );
 						}
 					}
 					?>

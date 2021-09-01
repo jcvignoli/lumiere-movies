@@ -90,7 +90,7 @@ class Popup_Movie {
 		// A movie imdb id is provided
 		if ( ( isset( $this->movieid_sanitized ) ) && ( ! empty( $this->movieid_sanitized ) ) ) {
 
-			$this->movie = new Title( $this->movieid_sanitized, $this->config_class, $this->logger->log() );
+			$this->movie = new Title( $this->movieid_sanitized, $this->imdbphp_class, $this->logger->log() );
 			$this->film_title_sanitized = $this->utils_class->lumiere_name_htmlize( $this->movie->title() );
 			return true;
 
@@ -99,7 +99,7 @@ class Popup_Movie {
 		// No movie id is provided, use the title to get the movie.
 		if ( ( isset( $this->film_title_sanitized ) ) && ( ! empty( $this->film_title_sanitized ) ) ) {
 
-			$titleSearchClass = new TitleSearch( $this->config_class, $this->logger->log() );
+			$titleSearchClass = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
 			$search = $titleSearchClass->search( $this->film_title_sanitized, $this->type_search );
 			if ( array_key_exists( 0, $search ) === false ) {
 				$this->movie = null;

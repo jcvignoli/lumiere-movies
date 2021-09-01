@@ -97,7 +97,7 @@ class Movie {
 
 		$logger->debug( '[Lumiere][movieClass] Calling IMDbPHP class.' );
 
-		$search = new TitleSearch( $this->config_class, $logger );
+		$search = new TitleSearch( $this->imdbphp_class, $logger );
 
 		// $imdbIdOrTitle var comes from custom post's field in widget or in post
 		$counter_imdbIdOrTitle = count( $imdbIdOrTitle );
@@ -469,7 +469,7 @@ class Movie {
 		$outputfinal = '';
 
 		/* Start imdbphp class for new query based upon $midPremierResultat */
-		$movie = new Title( intval( $midPremierResultat ), $this->config_class, $logger );
+		$movie = new Title( intval( $midPremierResultat ), $this->imdbphp_class, $logger );
 
 		foreach ( $imdb_widget_values['imdbwidgetorder'] as $lumiere_magicnumber ) {
 

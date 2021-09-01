@@ -17,9 +17,6 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-// use Lumiere library.
-use \Lumiere\Settings;
-
 // use IMDbPHP config class in /vendor/
 use \Imdb\Config;
 
@@ -36,6 +33,12 @@ class Imdbphp extends Config {
 	 * @var array{'imdbcachedir_partial': string, 'imdbstorecache': bool, 'imdbusecache': string, 'imdbconverttozip': bool, 'imdbusezip': bool, 'imdbcacheexpire': string, 'imdbcachedetailsshort': string,'imdbcachedir': string,'imdbphotoroot': string, 'imdbphotodir': string} $imdb_cache_values
 	 */
 	private array $imdb_cache_values;
+
+	/**
+	 * Class \Imdb\Config
+	 *
+	 */
+	public Config $imdbphpconfig_class;
 
 	/**
 	 * Constructor

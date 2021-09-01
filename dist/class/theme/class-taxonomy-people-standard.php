@@ -96,11 +96,11 @@ class Taxonomy_People_Standard {
 		// Get the info from imdbphp libraries.
 		if ( strlen( $this->page_title ) !== 0 ) {
 
-			$search = new PersonSearch( $this->config_class, $this->logger->log() );
+			$search = new PersonSearch( $this->imdbphp_class, $this->logger->log() );
 			$results = $search->search( $this->page_title ); // search for the person using the taxonomy tag.
 			$mid = $results[0]->imdbid(); // keep the first result only.
 			$mid_sanitized = esc_html( $mid ); // sanitize the first result.
-			$this->person_class = new Person( $mid_sanitized, $this->config_class, $this->logger->log() ); // search the profile using the first result.
+			$this->person_class = new Person( $mid_sanitized, $this->imdbphp_class, $this->logger->log() ); // search the profile using the first result.
 			$this->person_name_sntzd = sanitize_text_field( $this->person_class->name() );
 
 		}
