@@ -9,13 +9,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-08-30T19:41:06-03:00\n"
+"POT-Creation-Date: 2021-09-01T11:00:32-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: lumiere-movies\n"
 
 #. Plugin Name of the plugin
-#: class/class-widget.php:329
+#: class/class-widget.php:355
 msgid "Lumière! Movies"
 msgstr ""
 
@@ -303,7 +303,7 @@ msgstr ""
 #: class/admin/class-cache.php:981
 #: class/frontend/class-popup-movie.php:474
 #: class/frontend/class-popup-person.php:268
-#: class/theme/class-taxonomy-people-standard.php:404
+#: class/theme/class-taxonomy-people-standard.php:400
 msgid "no picture"
 msgstr ""
 
@@ -560,7 +560,7 @@ msgid "What to taxonomize"
 msgstr ""
 
 #: class/admin/class-data.php:273
-#: class/theme/class-taxonomy-items-standard.php:75
+#: class/theme/class-taxonomy-items-standard.php:66
 msgid "Taxonomy"
 msgstr ""
 
@@ -1692,15 +1692,15 @@ msgstr ""
 msgid "language"
 msgstr ""
 
-#: class/class-widget.php:82
+#: class/class-widget.php:84
 msgid "Add movie details to your pages with Lumière! Legacy version: as of WordPress 5.8, prefer the new widget."
 msgstr ""
 
-#: class/class-widget.php:229
+#: class/class-widget.php:243
 msgid "Lumière! Movies (legacy)"
 msgstr ""
 
-#: class/class-widget.php:341
+#: class/class-widget.php:371
 msgid "Widget title:"
 msgstr ""
 
@@ -1938,7 +1938,6 @@ msgstr ""
 #: class/frontend/class-popup-person.php:16
 #: class/frontend/class-popup-search.php:16
 #: class/tools/class-copy-template-taxonomy.php:14
-#: class/tools/class-copy-template-taxonomy.php:114
 #: class/tools/class-search.php:16
 #: class/tools/highslide-download.php:11
 #: class/tools/highslide-download.php:60
@@ -2038,34 +2037,34 @@ msgid "Full biography"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:161
-#: class/theme/class-taxonomy-people-standard.php:431
+#: class/theme/class-taxonomy-people-standard.php:425
 msgid "Born on"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:168
 #: class/frontend/class-popup-person.php:185
-#: class/theme/class-taxonomy-people-standard.php:440
-#: class/theme/class-taxonomy-people-standard.php:464
+#: class/theme/class-taxonomy-people-standard.php:434
+#: class/theme/class-taxonomy-people-standard.php:456
 msgid "in"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:179
-#: class/theme/class-taxonomy-people-standard.php:458
+#: class/theme/class-taxonomy-people-standard.php:450
 msgid "Died on"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:189
-#: class/theme/class-taxonomy-people-standard.php:468
+#: class/theme/class-taxonomy-people-standard.php:460
 msgid "cause"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:202
-#: class/theme/class-taxonomy-people-standard.php:492
+#: class/theme/class-taxonomy-people-standard.php:482
 msgid "Biography"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:212
-#: class/theme/class-taxonomy-people-standard.php:502
+#: class/theme/class-taxonomy-people-standard.php:492
 msgid "click to expand"
 msgstr ""
 
@@ -2135,67 +2134,71 @@ msgstr ""
 msgid "No director found."
 msgstr ""
 
-#: class/theme/class-taxonomy-items-standard.php:85
-#: class/theme/class-taxonomy-people-standard.php:217
+#: class/theme/class-taxonomy-items-standard.php:76
+#: class/theme/class-taxonomy-people-standard.php:216
 msgid "Open the blog "
 msgstr ""
 
-#: class/theme/class-taxonomy-items-standard.php:93
+#: class/theme/class-taxonomy-items-standard.php:84
 msgid "Taxonomy: "
 msgstr ""
 
-#: class/theme/class-taxonomy-items-standard.php:103
-#: class/theme/class-taxonomy-people-standard.php:251
+#: class/theme/class-taxonomy-items-standard.php:94
+#: class/theme/class-taxonomy-people-standard.php:250
 msgid "Filed under: "
 msgstr ""
 
-#: class/theme/class-taxonomy-items-standard.php:107
+#: class/theme/class-taxonomy-items-standard.php:98
 #: class/theme/class-taxonomy-people-standard.php:256
 msgid "Tags: "
 msgstr ""
 
-#: class/theme/class-taxonomy-items-standard.php:117
+#: class/theme/class-taxonomy-items-standard.php:108
 msgid "No post found."
 msgstr ""
 
-#: class/theme/class-taxonomy-people-standard.php:144
+#: class/theme/class-taxonomy-people-standard.php:145
 msgid "Taxonomy for "
 msgstr ""
 
-#: class/theme/class-taxonomy-people-standard.php:209
+#: class/theme/class-taxonomy-people-standard.php:208
 msgid "In the role of"
 msgstr ""
 
-#: class/theme/class-taxonomy-people-standard.php:334
+#: class/theme/class-taxonomy-people-standard.php:333
 msgid "All"
 msgstr ""
 
-#: class/theme/class-taxonomy-people-standard.php:348
-#: class/theme/class-taxonomy-people-standard.php:350
+#: class/theme/class-taxonomy-people-standard.php:347
+#: class/theme/class-taxonomy-people-standard.php:349
 msgid "Filter language"
 msgstr ""
 
-#: class/tools/class-search.php:151
+#: class/tools/class-copy-template-taxonomy.php:108
+msgid "Lumiere: you are not allowed to copy."
+msgstr ""
+
+#: class/tools/class-search.php:148
 msgid "Results related to your query:"
 msgstr ""
 
-#: class/tools/class-search.php:153
+#: class/tools/class-search.php:150
 msgid "Titles results"
 msgstr ""
 
-#: class/tools/class-search.php:154
+#: class/tools/class-search.php:151
 msgid "Identification number"
 msgstr ""
 
-#: class/tools/class-search.php:163
+#: class/tools/class-search.php:160
 msgid "Maximum of results reached. You can increase it in admin options."
 msgstr ""
 
-#: class/tools/class-search.php:175
+#: class/tools/class-search.php:172
 msgid "IMDb ID:"
 msgstr ""
 
-#: class/tools/class-search.php:204
+#: class/tools/class-search.php:201
 msgid "Search a movie IMDb ID"
 msgstr ""
 

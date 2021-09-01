@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-30 18:37-0400\n"
-"PO-Revision-Date: 2021-08-30 18:40-0400\n"
+"POT-Creation-Date: 2021-09-01 09:59-0400\n"
+"PO-Revision-Date: 2021-09-01 10:00-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -370,7 +370,7 @@ msgstr "Vous pouvez également sélectionner un groupe de film à effacer."
 #: class/admin/class-cache.php:872 class/admin/class-cache.php:981
 #: class/frontend/class-popup-movie.php:474
 #: class/frontend/class-popup-person.php:268
-#: class/theme/class-taxonomy-people-standard.php:404
+#: class/theme/class-taxonomy-people-standard.php:400
 msgid "no picture"
 msgstr "pas de photo"
 
@@ -634,7 +634,7 @@ msgid "What to taxonomize"
 msgstr "&Agrave; taxonomiser"
 
 #: class/admin/class-data.php:273
-#: class/theme/class-taxonomy-items-standard.php:75
+#: class/theme/class-taxonomy-items-standard.php:66
 msgid "Taxonomy"
 msgstr "Taxonomie"
 
@@ -2209,7 +2209,7 @@ msgstr "mot-cl&eacute;"
 msgid "language"
 msgstr "langue"
 
-#: class/class-widget.php:82
+#: class/class-widget.php:84
 msgid ""
 "Add movie details to your pages with Lumière! Legacy version: as of "
 "WordPress 5.8, prefer the new widget."
@@ -2217,15 +2217,15 @@ msgstr ""
 "Ajoutez les détails de films à vos pages avec Lumière ancienne version: dès "
 "la version WordPress 5.8, préférez le nouveau widget."
 
-#: class/class-widget.php:229
+#: class/class-widget.php:243
 msgid "Lumière! Movies (legacy)"
 msgstr "Lumière! Movies (ancienne version)"
 
-#: class/class-widget.php:329
+#: class/class-widget.php:355
 msgid "Lumière! Movies"
 msgstr "Lumière! Movies"
 
-#: class/class-widget.php:341
+#: class/class-widget.php:371
 msgid "Widget title:"
 msgstr "Titre de widget :"
 
@@ -2438,7 +2438,6 @@ msgstr "Page IMDb pour ce film"
 #: class/frontend/class-popup-person.php:16
 #: class/frontend/class-popup-search.php:16
 #: class/tools/class-copy-template-taxonomy.php:14
-#: class/tools/class-copy-template-taxonomy.php:114
 #: class/tools/class-search.php:16 class/tools/highslide-download.php:11
 #: class/tools/highslide-download.php:60 lumiere-movies.php:32
 msgid "You are not allowed to call this page directly."
@@ -2537,36 +2536,36 @@ msgid "Full biography"
 msgstr "Biographie complète"
 
 #: class/frontend/class-popup-person.php:161
-#: class/theme/class-taxonomy-people-standard.php:431
+#: class/theme/class-taxonomy-people-standard.php:425
 msgid "Born on"
 msgstr "N&eacute; le"
 
 # "in" as in the place of death
 #: class/frontend/class-popup-person.php:168
 #: class/frontend/class-popup-person.php:185
-#: class/theme/class-taxonomy-people-standard.php:440
-#: class/theme/class-taxonomy-people-standard.php:464
+#: class/theme/class-taxonomy-people-standard.php:434
+#: class/theme/class-taxonomy-people-standard.php:456
 msgid "in"
 msgstr "&agrave;"
 
 #: class/frontend/class-popup-person.php:179
-#: class/theme/class-taxonomy-people-standard.php:458
+#: class/theme/class-taxonomy-people-standard.php:450
 msgid "Died on"
 msgstr "Mort le"
 
 # "cause" as a cause of death
 #: class/frontend/class-popup-person.php:189
-#: class/theme/class-taxonomy-people-standard.php:468
+#: class/theme/class-taxonomy-people-standard.php:460
 msgid "cause"
 msgstr "de"
 
 #: class/frontend/class-popup-person.php:202
-#: class/theme/class-taxonomy-people-standard.php:492
+#: class/theme/class-taxonomy-people-standard.php:482
 msgid "Biography"
 msgstr "Biographie"
 
 #: class/frontend/class-popup-person.php:212
-#: class/theme/class-taxonomy-people-standard.php:502
+#: class/theme/class-taxonomy-people-standard.php:492
 msgid "click to expand"
 msgstr "cliquez pour ouvrir"
 
@@ -2638,69 +2637,73 @@ msgstr "plus sur"
 msgid "No director found."
 msgstr "Aucun réalisateur trouvé"
 
-#: class/theme/class-taxonomy-items-standard.php:85
-#: class/theme/class-taxonomy-people-standard.php:217
+#: class/theme/class-taxonomy-items-standard.php:76
+#: class/theme/class-taxonomy-people-standard.php:216
 msgid "Open the blog "
 msgstr "Ouvrir le blog "
 
-#: class/theme/class-taxonomy-items-standard.php:93
+#: class/theme/class-taxonomy-items-standard.php:84
 msgid "Taxonomy: "
 msgstr "Taxonomie : "
 
-#: class/theme/class-taxonomy-items-standard.php:103
-#: class/theme/class-taxonomy-people-standard.php:251
+#: class/theme/class-taxonomy-items-standard.php:94
+#: class/theme/class-taxonomy-people-standard.php:250
 msgid "Filed under: "
 msgstr "Cat&eacute;goris&eacute; sous : "
 
-#: class/theme/class-taxonomy-items-standard.php:107
+#: class/theme/class-taxonomy-items-standard.php:98
 #: class/theme/class-taxonomy-people-standard.php:256
 msgid "Tags: "
 msgstr "Tags : "
 
-#: class/theme/class-taxonomy-items-standard.php:117
+#: class/theme/class-taxonomy-items-standard.php:108
 msgid "No post found."
 msgstr "Pas de message trouv&eacute."
 
-#: class/theme/class-taxonomy-people-standard.php:144
+#: class/theme/class-taxonomy-people-standard.php:145
 msgid "Taxonomy for "
 msgstr "Taxonomie pour "
 
-#: class/theme/class-taxonomy-people-standard.php:209
+#: class/theme/class-taxonomy-people-standard.php:208
 msgid "In the role of"
 msgstr "Dans le rôle de"
 
-#: class/theme/class-taxonomy-people-standard.php:334
+#: class/theme/class-taxonomy-people-standard.php:333
 msgid "All"
 msgstr "Tous"
 
-#: class/theme/class-taxonomy-people-standard.php:348
-#: class/theme/class-taxonomy-people-standard.php:350
+#: class/theme/class-taxonomy-people-standard.php:347
+#: class/theme/class-taxonomy-people-standard.php:349
 msgid "Filter language"
 msgstr "Filtrer la langue"
 
-#: class/tools/class-search.php:151
+#: class/tools/class-copy-template-taxonomy.php:108
+msgid "Lumiere: you are not allowed to copy."
+msgstr "Lumière: Vous n'êtes pas autorisé à copier."
+
+#: class/tools/class-search.php:148
 msgid "Results related to your query:"
 msgstr "Résultats correspondants à votre recherche :"
 
-#: class/tools/class-search.php:153
+#: class/tools/class-search.php:150
 msgid "Titles results"
 msgstr "Résultats par titres"
 
-#: class/tools/class-search.php:154
+#: class/tools/class-search.php:151
 msgid "Identification number"
 msgstr "Numéro d'identification"
 
-#: class/tools/class-search.php:163
+#: class/tools/class-search.php:160
 msgid "Maximum of results reached. You can increase it in admin options."
 msgstr ""
 "Maximum de résultats atteint. Vous pouvez l'augmenter dans les options "
 "d'administration."
 
-#: class/tools/class-search.php:175
+#: class/tools/class-search.php:172
 msgid "IMDb ID:"
 msgstr "Numéro IMDb:"
 
-#: class/tools/class-search.php:204
+#: class/tools/class-search.php:201
 msgid "Search a movie IMDb ID"
 msgstr "Rechercher une ID IMDb de film"
 
