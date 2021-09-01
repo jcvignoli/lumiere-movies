@@ -365,16 +365,16 @@ class Utils {
 
 	}
 
-	/* Activate debug on screen
-	 *
-	 * @param (object) optional $options Lumière options, display nothing if empty
-	 * @param (string) optional $set_error set to 'no_var_dump' to avoid the call to var_dump function
-	 * @param (string) optional $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
-	 * @param (string) optional $get_screen set to 'screen to display WordPress get_current_screen()
+	/**
+	 * Activate debug on screen
 	 *
 	 * @since 3.5
+	 *
+	 * @param array<string, array<string>|bool|int|string>  $options the array of admin/widget/cache settings options
+	 * @param string $set_error set to 'no_var_dump' to avoid the call to var_dump function
+	 * @param string $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
 	 * @param string $get_screen set to 'screen' to display wp function get_current_screen()
-	 * @param ?array<string> $options the array of admin/widget/cache settings options
+	 *
 	 * @return mixed[] optionaly an array of the options passed in $options
 	 */
 	// phpcs:disable
@@ -384,7 +384,7 @@ class Utils {
 		$this->debug_is_active = true;
 
 		// If the user can't manage options and it's not a cron, exit.
-		if ( ( ! current_user_can( 'manage_options' ) ) || ! 'DOING_CRON' && ! define( 'DOING_CRON' ) ) {
+		if ( ( ! current_user_can( 'manage_options' ) ) || ! 'DOING_CRON' && ! defined( 'DOING_CRON' ) ) {
 			return;
 		}
 
@@ -454,7 +454,7 @@ class Utils {
 		// now we have some credentials, try to get the wp_filesystem running.
 		if ( ! WP_Filesystem( $creds ) ) {
 			// our credentials were no good, ask the user for them again
-			request_filesystem_credentials( $file, '', true, false, null );
+			request_filesystem_credentials( $file, '', true, '', null );
 			return false;
 		}
 

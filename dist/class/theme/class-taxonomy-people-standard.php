@@ -147,8 +147,8 @@ class Taxonomy_People_Standard {
 		}
 
 		// Language from the form.
-		// @phpcs:ignore WordPress.Security.NonceVerification
-		$form_id_language = ( isset( $_POST['tag_lang'] ) && strlen( $_POST['tag_lang'] ) !== 0 ) ? intval( $_POST['tag_lang'] ) : null;
+		// phpcs:ignore WordPress.Security.NonceVerification
+		$form_id_language = ( isset( $_POST['tag_lang'] ) && strlen( $_POST['tag_lang'] ) !== 0 && ( wp_verify_nonce( $_POST['_wpnonce'], 'submit_lang' ) !== false ) ) ? intval( $_POST['tag_lang'] ) : null;
 
 		/**
 		 *  For every type of role (writer, director) do a WP Query Loop
@@ -160,7 +160,7 @@ class Taxonomy_People_Standard {
 		foreach ( $this->array_people as $people ) {
 
 				// A value was passed in the form.
-			if ( ( $form_id_language !== null ) && ( wp_verify_nonce( $_POST['_wpnonce'], 'submit_lang' ) !== false ) ) {
+			if ( $form_id_language !== null ) {
 
 				$args = [
 					'post_type' => [ 'post', 'page' ],
@@ -335,8 +335,7 @@ class Taxonomy_People_Standard {
 		// Build an option html tag for every language.
 		foreach ( $pll_lang as $lang ) {
 			echo "\n\t\t\t\t\t\t" . '<option value="' . intval( $lang->term_id ) . '"';
-			// @phpcs:ignore WordPress.Security.NonceVerification
-			if ( ( isset( $_POST['tag_lang'] ) ) && ( intval( $lang->term_id ) == $_POST['tag_lang'] ) ) {
+			if ( ( isset( $_POST['tag_lang'] ) ) && ( intval( $lang->term_id ) == $_POST['tag_lang'] ) && ( wp_verify_nonce( $_POST['_wpnonce'], 'submit_lang' ) !== false ) ) {
 				echo 'selected="selected"';
 			}
 			echo '>' . esc_html( ucfirst( $lang->name ) ) . '</option>';
