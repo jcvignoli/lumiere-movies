@@ -76,33 +76,30 @@ class Search {
 		$this->logger = new Logger( 'gutenbergSearch' );
 
 		// Start the debugging
-		add_action( 'init', [ $this, self::lumiere_maybe_start_debug() ], 0 );
+		add_action(
+			'init',
+			function(): void {
+
+				if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
+
+					$this->utilsClass->lumiere_activate_debug();
+
+				}
+			}
+		);
 
 		// Register admin scripts.
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_search_register_script' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_search_run_script' ] );
 
-		add_action( 'wp', [ $this, self::lumiere_search_layout() ] );
-	}
-
-	/**
-	 *  Wrapps the start of the debug
-	 */
-	private function lumiere_maybe_start_debug(): void {
-
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
-
-			$this->utilsClass->lumiere_activate_debug();
-
-		}
-
+		add_action( 'wp', [ $this, 'lumiere_search_layout' ] );
 	}
 
 	/**
 	 * Display layout
 	 *
 	 */
-	private function lumiere_search_layout(): void {
+	public function lumiere_search_layout(): void {
 
 		do_action( 'lumiere_logger' );
 
@@ -115,7 +112,7 @@ class Search {
 		echo '</head>';
 		echo "\n" . '<body id="gutenberg_search">';
 
-		if ( ! isset( $_GET['moviesearched'] ) || ! wp_verify_nonce( $_GET['_wpnonce'], 'lumiere_search' ) ) {
+		if ( ! isset( $_GET['moviesearched'] ) || wp_verify_nonce( $_GET['_wpnonce'], 'lumiere_search' ) === false ) {
 			$this->initial_form();
 		}
 
@@ -136,7 +133,7 @@ class Search {
 	 */
 	private function maybe_results_page (): void {
 
-		if ( ( isset( $_GET['moviesearched'] ) ) && ( ! empty( $_GET['moviesearched'] ) ) && wp_verify_nonce( $_GET['_wpnonce'], 'lumiere_search' ) > 0 ) {
+		if ( ( isset( $_GET['moviesearched'] ) ) && ( strlen( $_GET['moviesearched'] ) > 0 ) && wp_verify_nonce( $_GET['_wpnonce'], 'lumiere_search' ) > 0 ) {
 
 			# Initialization of IMDBphp
 			$search = new TitleSearch( $this->config_class, $this->logger->log() );
