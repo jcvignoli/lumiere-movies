@@ -32,23 +32,14 @@ use \Lumiere\Logger;
  */
 class Update_Options {
 
-	/**
-	 * \Lumiere\Settings class
-	 *
-	 */
-	private Settings $config_class;
+	// Trait including the database settings.
+	use \Lumiere\Settings_Global;
 
 	/**
 	 * \Lumiere\Logger class
 	 *
 	 */
 	private Logger $logger;
-
-	/**
-	 * Admin options from database
-	 * @var array<string|int> $imdb_admin_values
-	 */
-	private array $imdb_admin_values;
 
 	/**
 	 * Constructor
@@ -60,11 +51,8 @@ class Update_Options {
 		// @TODO: make this operational
 		// spl_autoload_register( [ 'Lumiere\UpdateOptions', 'updates_files_loader' ] );
 
-		// Start the settings class
-		$this->config_class = new Settings();
-
-		// Get database options.
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+		// Construct Global Settings trait.
+		$this->settings_open();
 
 		// Start Logger class.
 		$this->logger = new Logger( 'updateClass' );

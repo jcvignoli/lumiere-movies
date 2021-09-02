@@ -16,7 +16,6 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-use \Lumiere\Settings;
 use \Lumiere\Utils;
 use \Lumiere\Logger;
 use \Lumiere\Imdbphp;
@@ -24,15 +23,11 @@ use \Imdb\TitleSearch;
 
 class Search {
 
-	/**
-	 * Admin options
-	 * @var array<string> $imdb_admin_values
-	 */
-	private array $imdb_admin_values;
+	// Trait including the database settings.
+	use \Lumiere\Settings_Global;
 
 	/**
-	 * Settings from class \Lumiere\Settings
-	 * To include the type of (movie, TVshow, Games) search
+	 * Include the type of (movie, TVshow, Games) search
 	 * @var array<string> $typeSearch
 	 */
 	private array $typeSearch;
@@ -42,12 +37,6 @@ class Search {
 	 *
 	 */
 	private Utils $utilsClass;
-
-	/**
-	 * Class \Lumiere\Settings
-	 *
-	 */
-	private Settings $config_class;
 
 	/**
 	 * Class \Lumiere\Logger
@@ -67,11 +56,8 @@ class Search {
 	 */
 	public function __construct() {
 
-		// Get options from database
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-
-		// Start Settings class
-		$this->config_class = new Settings();
+		// Construct Global Settings trait.
+		$this->settings_open();
 
 		// Get the type of search: movies, series, games
 		$this->typeSearch = $this->config_class->lumiere_select_type_search();

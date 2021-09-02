@@ -125,13 +125,13 @@ class Help extends \Lumiere\Admin {
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-help-howto.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'How to use Lumiere Movies', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=howto' ); ?>"><?php esc_html_e( 'How to', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help-howto.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'How to use Lumiere Movies', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=howto' ); ?>"><?php esc_html_e( 'How to', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-help-faq.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Frequently asked questions', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=faqs' ); ?>"><?php esc_html_e( 'FAQs', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help-faq.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Frequently asked questions', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=faqs' ); ?>"><?php esc_html_e( 'FAQs', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-help-changelog.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "What's new", 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=changelog' ); ?>"><?php esc_html_e( 'Changelog', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help-changelog.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "What's new", 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=changelog' ); ?>"><?php esc_html_e( 'Changelog', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-help-support.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'To get support and to support what you get', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=support' ); ?>"><?php esc_html_e( 'Support, donate & credits', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help-support.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'To get support and to support what you get', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=support' ); ?>"><?php esc_html_e( 'Support, donate & credits', 'lumiere-movies' ); ?></a></div>
 
 	</div>
 </div>
@@ -275,7 +275,7 @@ class Help extends \Lumiere\Admin {
 
 		<div class="helpdiv-noborderimage">
 			<?php esc_html_e( 'You will never believe there is so many ways to thank me. Yes, you can:', 'lumiere-movies' ); ?><br />
-<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'lumiere-movies' ); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'paypal-donate.png' ); ?>" width="40px" class="imdblt_align_bottom" /></a> <?php esc_html_e( 'or on', 'lumiere-movies' ); ?> <a href="https://en.tipeee.com/lost-highway">tipeee.com</a>.<br />
+<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'lumiere-movies' ); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'paypal-donate.png' ); ?>" width="40px" class="imdblt_align_bottom" /></a> <?php esc_html_e( 'or on', 'lumiere-movies' ); ?> <a href="https://en.tipeee.com/lost-highway">tipeee.com</a>.<br />
 <strong>2</strong>. <?php esc_html_e( 'vote on', 'lumiere-movies' ); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::IMDBHOMEPAGE ); ?>"><?php esc_html_e( "Lumière's website", 'lumiere-movies' ); ?></a> <?php esc_html_e( 'or on', 'lumiere-movies' ); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::LUMIERE_WORDPRESS ); ?>"><?php esc_html_e( "WordPress' website", 'lumiere-movies' ); ?></a>.<br />
 <strong>3</strong>. <?php esc_html_e( 'send as many bugfixes and propositions as you can on Lumiere Movies website.', 'lumiere-movies' ); ?><br />
 <strong>4</strong>. <?php esc_html_e( 'translate the plugin into your own language.', 'lumiere-movies' ); ?><br />
@@ -390,7 +390,7 @@ class Help extends \Lumiere\Admin {
 
 			<br clear="both"/>
 
-			<div align="center"><a href="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'admin-help-addimdblink-gutenberg.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img width="80%" src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'admin-help-addimdblink-gutenberg.png' ); ?>" alt="add link in gutenberg" /></a></div>
+			<div align="center"><a href="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-help-addimdblink-gutenberg.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img width="80%" src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-help-addimdblink-gutenberg.png' ); ?>" alt="add link in gutenberg" /></a></div>
 
 			<br clear="both"/>
 
@@ -549,13 +549,13 @@ movie's title
 			<blockquote class="imdblt_align_left">
 				&lt;?php<br />
 				if (class_exists("\Lumiere\Settings")) {<br />
-					$configClass = new \Lumiere\Settings();<br />
+					$config_class = new \Lumiere\Settings();<br />
 					// Get the type of search: movies, series, games<br />
-					$typeSearch = $configClass->lumiere_select_type_search();<br />
+					$typeSearch = $config_class->lumiere_select_type_search();<br />
 				}<br />
 				<br />
 				# Initialization of IMDBphp libraries<br />
-				$search = new \Imdb\TitleSearch($configClass );<br />
+				$search = new \Imdb\TitleSearch($config_class );<br />
 
 				if ( (isset ($_GET["moviesearched"])) && (!empty ($_GET["moviesearched"])) ){<br />
 					$search_sanitized = isset($_GET["moviesearched"]) ? sanitize_text_field( $_GET["moviesearched"] ) : NULL;<br />
@@ -616,7 +616,7 @@ movie's title
 
 			<h4><?php esc_html_e( 'How to use taxonomy in WordPress?', 'lumiere-movies' ); ?></h4>
 
-			<a href="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'admin-taxonomy-details.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="40%" src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'admin-taxonomy-details.png' ); ?>" alt="taxonomy details" /></a>
+			<a href="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-taxonomy-details.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="40%" src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-taxonomy-details.png' ); ?>" alt="taxonomy details" /></a>
 
 			<?php esc_html_e( "Taxonomy is automatically generated in Lumière! and already activated. You can however disable it by unchecking the box in 'General options -> Advanced -> 'Use automatical genre taxonomy?'. Note that since taxonomy is related to movie details (such as directors, actors, etc), the movie detail you want to be used as taxonomy has to be also activated in 'Data -> Display'.", 'lumiere-movies' ); ?><br />
 
@@ -624,7 +624,7 @@ movie's title
 
 			<h4><?php esc_html_e( "New option in 'Posts' menu", 'lumiere-movies' ); ?></h4>
 
-			<a href="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'admin-taxonomy-postlist.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="left" width="30%" src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'admin-taxonomy-postlist.png' ); ?>" alt="taxonomy new options" /></a>
+			<a href="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-taxonomy-postlist.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="left" width="30%" src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-taxonomy-postlist.png' ); ?>" alt="taxonomy new options" /></a>
 
 			<?php esc_html_e( "Once you have published your first article including a movie (both widget and inside a post trigger that function) WordPress will display the new taxonomy under 'posts' admin section. Depending on the movie details you have selected, you will find them in the menu.", 'lumiere-movies' ); ?>
 
@@ -636,7 +636,7 @@ movie's title
 
 			<br />
 
-			<a href="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'admin-taxonomy-copytemplate.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="40%" src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'admin-taxonomy-copytemplate.png' ); ?>" alt="taxonomy new options" /></a>
+			<a href="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-taxonomy-copytemplate.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="40%" src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-taxonomy-copytemplate.png' ); ?>" alt="taxonomy new options" /></a>
 
 			<?php esc_html_e( "Click on 'copy template, that's it! A warning will be given to you when a new template is available. You can customized even further the template that was copied into your template to match your specific needs. By default, the new taxonomy template will show you the person/item and the posts and pages mentioning them:", 'lumiere-movies' ); ?><br />
 
@@ -670,7 +670,7 @@ movie's title
 			?>
 
 			<div align="center">
-				<a href="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'auto-widget.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="center" width="80%" src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'auto-widget.png' ); ?>" alt="auto widget option" /></a>
+				<a href="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'auto-widget.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="center" width="80%" src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'auto-widget.png' ); ?>" alt="auto widget option" /></a>
 			</div>
 
 			<?php esc_html_e( 'Next time you will look at your post, you will find the widget according to your post’s title.', 'lumiere-movies' ); ?>
@@ -734,7 +734,7 @@ movie's title
 				'wp-lists', // script needed for meta_boxes
 				'postbox',   // script needed for meta_boxes
 			],
-			$this->configClass->lumiere_version,
+			$this->config_class->lumiere_version,
 			true
 		);
 

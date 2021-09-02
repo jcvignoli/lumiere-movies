@@ -16,13 +16,12 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-use \Lumiere\Frontend;
 use \Imdb\Person;
 
 class Popup_Person {
 
 	// Use trait frontend
-	use Frontend {
+	use \Lumiere\Frontend {
 		Frontend::__construct as public __constructFrontend;
 	}
 
@@ -52,10 +51,6 @@ class Popup_Person {
 	 *
 	 */
 	public function __construct() {
-
-		if ( ! class_exists( '\Lumiere\Settings' ) ) {
-			wp_die( esc_html__( 'Cannot start popup movie, class Lumière Settings not found', 'lumiere-movies' ) );
-		}
 
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'popupPerson' );

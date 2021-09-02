@@ -22,17 +22,8 @@ use \Imdb\Config;
 
 class Imdbphp extends Config {
 
-	/**
-	 * Admin options vars
-	 * @var array{'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': int, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': string, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_highslide': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': int, 'imdbseriemovies': string} $imdb_admin_values
-	*/
-	private array $imdb_admin_values;
-
-	/**
-	 * Cache options
-	 * @var array{'imdbcachedir_partial': string, 'imdbstorecache': bool, 'imdbusecache': string, 'imdbconverttozip': bool, 'imdbusezip': bool, 'imdbcacheexpire': string, 'imdbcachedetailsshort': string,'imdbcachedir': string,'imdbphotoroot': string, 'imdbphotodir': string} $imdb_cache_values
-	 */
-	private array $imdb_cache_values;
+	// Trait including the database settings.
+	use \Lumiere\Settings_Global;
 
 	/**
 	 * Constructor
@@ -43,11 +34,8 @@ class Imdbphp extends Config {
 		// Construct parent class
 		parent::__construct();
 
-		// Get database options.
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-
-		// Get database options.
-		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
+		// Construct Global Settings trait.
+		$this->settings_open();
 
 		// Call the function to send the selected settings to imdbphp library
 		$this->lumiere_send_config_imdbphp();

@@ -147,7 +147,7 @@ class Cache extends \Lumiere\Admin {
 				}
 			}
 
-			update_option( $this->configClass->imdbCacheOptionsName, $this->imdb_cache_values );
+			update_option( $this->config_class->imdbCacheOptionsName, $this->imdb_cache_values );
 
 			// display message on top
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Cache options saved.', 'lumiere-movies' ) . '</strong>' );
@@ -164,7 +164,7 @@ class Cache extends \Lumiere\Admin {
 
 			check_admin_referer( 'cache_options_check', 'cache_options_check' );
 
-			delete_option( $this->configClass->imdbCacheOptionsName );
+			delete_option( $this->config_class->imdbCacheOptionsName );
 
 			// display message on top
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Cache options reset.', 'lumiere-movies' ) . '</strong>' );
@@ -574,11 +574,11 @@ class Cache extends \Lumiere\Admin {
 
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-cache-options.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=cache&cacheoption=option' ); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-cache-options.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=cache&cacheoption=option' ); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?></a></div>
 		<?php
 		if ( '1' === $this->imdb_cache_values['imdbusecache'] ) {
 			?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-cache-management.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage' ); ?>"><?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-cache-management.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage' ); ?>"><?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?></a></div>
 			<?php
 		};
 		?>
@@ -879,7 +879,7 @@ class Cache extends \Lumiere\Admin {
 								} else { // display every cache movie details, longer loading
 									// get either local picture or if no local picture exists, display the default one
 									if ( false === $res->photo_localurl() ) {
-										$moviepicturelink = 'src="' . esc_url( $this->configClass->lumiere_pics_dir . 'no_pics.gif' ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
+										$moviepicturelink = 'src="' . esc_url( $this->config_class->lumiere_pics_dir . 'no_pics.gif' ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
 									} else {
 										$moviepicturelink = 'src="' . $this->imdb_cache_values['imdbphotodir'] . $obj_sanitized . '.jpg" alt="' . $title_sanitized . '"';
 									}
@@ -988,7 +988,7 @@ class Cache extends \Lumiere\Admin {
 								} else { // display every cache people details, longer loading
 									// get either local picture or if no local picture exists, display the default one
 									if ( false === $res->photo_localurl() ) {
-										$picturelink = 'src="' . esc_url( $this->configClass->lumiere_pics_dir . 'no_pics.gif' ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
+										$picturelink = 'src="' . esc_url( $this->config_class->lumiere_pics_dir . 'no_pics.gif' ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
 									} else {
 										$picturelink = 'src="' . esc_url( $this->imdb_cache_values['imdbphotodir'] . 'nm' . $objpiple_sanitized . '.jpg' ) . '" alt="' . $name_sanitized . '"';
 									}
