@@ -28,11 +28,8 @@ use \Monolog\Processor\IntrospectionProcessor;
 
 class Logger {
 
-	/**
-	 * Admin options
-	 * @var array<string> $imdb_admin_values
-	 */
-	private array $imdb_admin_values;
+	// Trait including the database settings.
+	use \Lumiere\Settings_Global;
 
 	/**
 	 * Screen output, whether to show the logging on screen
@@ -65,8 +62,8 @@ class Logger {
 	 */
 	public function __construct( string $logger_name, bool $screenOutput = true ) {
 
-		// Get database options.
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+		// Construct Global Settings trait.
+		$this->settings_open();
 
 		// Send the variables passed in construct to global properties
 		$this->logger_name = $logger_name;
@@ -157,7 +154,7 @@ class Logger {
 			$this->logger_class = new LoggerMonolog( $logger_name );
 
 			// Get the verbosity from options and build the constant.
-			$logger_verbosity = isset( $this->imdb_admin_values['imdbdebuglevel'] ) ? constant( '\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel'] ) : constant( '\Monolog\LoggerMonolog::DEBUG' );
+			$logger_verbosity = constant( '\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel'] );
 
 			/**
 			 * Save log if option activated.

@@ -92,7 +92,7 @@ class General extends \Lumiere\Admin {
 					break;
 				// Message for failure
 				case 'highslide_failure':
-					echo Utils::lumiere_notice( 3, esc_html( $this->messages['highslide_failure'] ) . ' ' . esc_html__( 'Your folder might be protected. Download highslide manually', 'lumiere-movies' ) . " <a href='" . esc_url( \Lumiere\Settings::IMDBBLOGHIGHSLIDE ) . "'>" . esc_html__( 'here', 'lumiere-movies' ) . '</a> ' . esc_html__( 'and extract the zip into', 'lumiere-movies' ) . '<br />' . esc_url( $this->configClass->lumiere_js_dir ) );
+					echo Utils::lumiere_notice( 3, esc_html( $this->messages['highslide_failure'] ) . ' ' . esc_html__( 'Your folder might be protected. Download highslide manually', 'lumiere-movies' ) . " <a href='" . esc_url( \Lumiere\Settings::IMDBBLOGHIGHSLIDE ) . "'>" . esc_html__( 'here', 'lumiere-movies' ) . '</a> ' . esc_html__( 'and extract the zip into', 'lumiere-movies' ) . '<br />' . esc_url( $this->config_class->lumiere_js_dir ) );
 					break;
 				// Message for website down
 				case 'highslide_down':
@@ -150,7 +150,7 @@ class General extends \Lumiere\Admin {
 			}
 
 			// update options
-			update_option( $this->configClass->imdbAdminOptionsName, $this->imdb_admin_values );
+			update_option( $this->config_class->imdbAdminOptionsName, $this->imdb_admin_values );
 
 			// display message on top
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options saved.', 'lumiere-movies' ) . '</strong>' );
@@ -165,7 +165,7 @@ class General extends \Lumiere\Admin {
 
 			check_admin_referer( 'options_general_check', 'options_general_check' );
 
-			delete_option( $this->configClass->imdbAdminOptionsName );
+			delete_option( $this->config_class->imdbAdminOptionsName );
 
 			// display message on top
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options reset.', 'lumiere-movies' ) . '</strong>' );
@@ -186,9 +186,9 @@ class General extends \Lumiere\Admin {
 
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-general-path.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Paths & Layout', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&generaloption=base' ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-path.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Paths & Layout', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&generaloption=base' ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-general-advanced.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&generaloption=advanced' ); ?>"><?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-advanced.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&generaloption=advanced' ); ?>"><?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?></a></div>
 	</div>
 </div>
 
@@ -222,7 +222,7 @@ class General extends \Lumiere\Admin {
 				<?php //------------------------------------------------------------------ =[Popup]=- ?>
 
 				<div id="popup" class="titresection">
-					<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'admin-title-popup.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-title-popup.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 						<?php esc_html_e( 'Popup', 'lumiere-movies' ); ?>
 				</div>
 
@@ -278,7 +278,7 @@ class General extends \Lumiere\Admin {
 					<?php
 
 					// If the folder "highslide" exists
-					if ( is_dir( $this->configClass->lumiere_js_path . 'highslide' ) ) {
+					if ( is_dir( $this->config_class->lumiere_js_path . 'highslide' ) ) {
 						esc_html_e( 'Display highslide popup', 'lumiere-movies' );
 						echo '
 						<input type="hidden" id="imdb_imdbpopup_highslide_no" name="imdb_imdbpopup_highslide" value="0" />
@@ -299,7 +299,7 @@ class General extends \Lumiere\Admin {
 						// echo "<a href='". esc_url( $this->imdb_admin_values['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes") . "' title='".esc_html__('Click here to install Highslide', 'lumiere-movies') ."'><img src='".esc_url($this->imdb_admin_values['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />&nbsp;&nbsp;".esc_html__('Install automatically Highslide', 'lumiere-movies') .'</a><br /><br />';
 
 						// Add a link to highslide website
-						echo '<a href="http://highslide.com/" title="' . esc_html__( 'Click here to visit Highslide website', 'lumiere-movies' ) . '"><img src="' . esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-general-install-highslide.png' ) . '" align="absmiddle" />&nbsp;&nbsp;' . esc_html__( 'Get Highslide JS library', 'lumiere-movies' ) . '</a><br /><br />';
+						echo '<a href="http://highslide.com/" title="' . esc_html__( 'Click here to visit Highslide website', 'lumiere-movies' ) . '"><img src="' . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-install-highslide.png' ) . '" align="absmiddle" />&nbsp;&nbsp;' . esc_html__( 'Get Highslide JS library', 'lumiere-movies' ) . '</a><br /><br />';
 					}
 
 					?>
@@ -311,7 +311,7 @@ class General extends \Lumiere\Admin {
 			<?php //------------------------------------------------------------------ =[Theme taxo/inside post/widget]=- ?>
 
 				<div id="plainpages" class="titresection">
-					<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'admin-title-taxonomy.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-title-taxonomy.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 					<?php esc_html_e( 'Plain pages', 'lumiere-movies' ); ?>
 				</div>
 
@@ -349,7 +349,7 @@ class General extends \Lumiere\Admin {
 			<?php //------------------------------------------------------------------ =[Cover picture]=- ?>
 
 			<div id="coverpicture" class="titresection">
-				<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'cover.jpg' ); ?>" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+				<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'cover.jpg' ); ?>" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 				<?php esc_html_e( 'Cover picture', 'lumiere-movies' ); ?>
 			</div>
 

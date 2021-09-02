@@ -16,7 +16,6 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Settings;
 use \Lumiere\Imdbphp;
 use \Lumiere\Update_Options;
 use \Lumiere\Utils;
@@ -26,11 +25,8 @@ use \Imdb\Person;
 
 class Core {
 
-	/**
-	 * \Lumiere\Settings class
-	 *
-	 */
-	private Settings $configClass;
+	// Trait including the database settings.
+	use \Lumiere\Settings_Global;
 
 	/**
 	 * \Lumière\Utils class
@@ -51,36 +47,13 @@ class Core {
 	private Imdbphp $imdbphp_class;
 
 	/**
-	 * Admin options
-	 * @var array{ 'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': int, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': string, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_highslide': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': int, 'imdbseriemovies': string } $imdb_admin_values
-	 */
-	private array $imdb_admin_values;
-
-	/**
-	 * Widget options
-	 * @var array<string> $imdb_widget_values
-	 */
-	private array $imdb_widget_values;
-
-	/**
-	 * Cache options
-	 * @var array<string> $imdb_cache_values
-	 */
-	private array $imdb_cache_values;
-
-	/**
 	 * Constructor
 	 *
 	 */
 	public function __construct () {
 
-		// Get database options.
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
-		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
-
-		// Start Settings class.
-		$this->configClass = new Settings();
+		// Construct Global Settings trait.
+		$this->settings_open();
 
 		// Start Utils class.
 		$this->utilsClass = new Utils();
@@ -209,31 +182,31 @@ class Core {
 		// Register frontpage script
 		wp_register_script(
 			'lumiere_scripts',
-			$this->configClass->lumiere_js_dir . 'lumiere_scripts.min.js',
+			$this->config_class->lumiere_js_dir . 'lumiere_scripts.min.js',
 			[ 'jquery' ],
-			$this->configClass->lumiere_version,
+			$this->config_class->lumiere_version,
 			true
 		);
 
 		// Register highslide scripts and styles
 		wp_register_script(
 			'lumiere_highslide',
-			$this->configClass->lumiere_js_dir . 'highslide/highslide-with-html.min.js',
+			$this->config_class->lumiere_js_dir . 'highslide/highslide-with-html.min.js',
 			[],
-			$this->configClass->lumiere_version
+			$this->config_class->lumiere_version
 		);
 		wp_enqueue_script(
 			'lumiere_highslide_options',
-			$this->configClass->lumiere_js_dir . 'highslide-options.min.js',
+			$this->config_class->lumiere_js_dir . 'highslide-options.min.js',
 			[ 'lumiere_highslide' ],
-			$this->configClass->lumiere_version,
+			$this->config_class->lumiere_version,
 			true
 		);
 		wp_enqueue_style(
 			'lumiere_highslide',
-			$this->configClass->lumiere_css_dir . 'highslide.min.css',
+			$this->config_class->lumiere_css_dir . 'highslide.min.css',
 			[],
-			$this->configClass->lumiere_version
+			$this->config_class->lumiere_version
 		);
 
 		// Register customised main style, located in active theme directory
@@ -242,32 +215,32 @@ class Core {
 				'lumiere_style_custom',
 				get_stylesheet_directory_uri() . '/lumiere.css',
 				[],
-				$this->configClass->lumiere_version
+				$this->config_class->lumiere_version
 			);
 		}
 
 		// Register main style
 		wp_register_style(
 			'lumiere_style_main',
-			$this->configClass->lumiere_css_dir . 'lumiere.min.css',
+			$this->config_class->lumiere_css_dir . 'lumiere.min.css',
 			[],
-			$this->configClass->lumiere_version
+			$this->config_class->lumiere_version
 		);
 
 		// Register OceanWP theme fixes for popups only
 		wp_register_style(
 			'lumiere_style_oceanwpfixes_popups',
-			$this->configClass->lumiere_css_dir . 'lumiere_subpages-oceanwpfixes.min.css',
+			$this->config_class->lumiere_css_dir . 'lumiere_subpages-oceanwpfixes.min.css',
 			[],
-			$this->configClass->lumiere_version
+			$this->config_class->lumiere_version
 		);
 
 		// Register OceanWP theme fixes for all pages but popups
 		wp_register_style(
 			'lumiere_style_oceanwpfixes_general',
-			$this->configClass->lumiere_css_dir . 'lumiere_extrapages-oceanwpfixes.min.css',
+			$this->config_class->lumiere_css_dir . 'lumiere_extrapages-oceanwpfixes.min.css',
 			[],
-			$this->configClass->lumiere_version
+			$this->config_class->lumiere_version
 		);
 	}
 
@@ -284,49 +257,49 @@ class Core {
 			'lumiere_scripts_admin_vars',
 			'',
 			[],
-			$this->configClass->lumiere_version,
+			$this->config_class->lumiere_version,
 			true
 		);
 
 		// Register admin styles
 		wp_register_style(
 			'lumiere_css_admin',
-			$this->configClass->lumiere_css_dir . 'lumiere-admin.min.css',
+			$this->config_class->lumiere_css_dir . 'lumiere-admin.min.css',
 			[],
-			$this->configClass->lumiere_version
+			$this->config_class->lumiere_version
 		);
 
 		// Register admin scripts
 		wp_register_script(
 			'lumiere_scripts_admin',
-			$this->configClass->lumiere_js_dir . 'lumiere_scripts_admin.min.js',
+			$this->config_class->lumiere_js_dir . 'lumiere_scripts_admin.min.js',
 			[ 'jquery' ],
-			$this->configClass->lumiere_version
+			$this->config_class->lumiere_version
 		);
 
 		// Register gutenberg admin scripts
 		wp_register_script(
 			'lumiere_scripts_admin_gutenberg',
-			$this->configClass->lumiere_js_dir . 'lumiere_scripts_admin_gutenberg.min.js',
+			$this->config_class->lumiere_js_dir . 'lumiere_scripts_admin_gutenberg.min.js',
 			[ 'jquery' ],
-			$this->configClass->lumiere_version
+			$this->config_class->lumiere_version
 		);
 
 		// Register confirmation script upon deactivation
 		wp_register_script(
 			'lumiere_deactivation_plugin_message',
-			$this->configClass->lumiere_js_dir . 'lumiere_admin_deactivation_msg.min.js',
+			$this->config_class->lumiere_js_dir . 'lumiere_admin_deactivation_msg.min.js',
 			[ 'jquery' ],
-			$this->configClass->lumiere_version,
+			$this->config_class->lumiere_version,
 			true
 		);
 
 		// Quicktag
 		wp_register_script(
 			'lumiere_quicktag_addbutton',
-			$this->configClass->lumiere_js_dir . 'lumiere_admin_quicktags.min.js',
+			$this->config_class->lumiere_js_dir . 'lumiere_admin_quicktags.min.js',
 			[ 'quicktags' ],
-			$this->configClass->lumiere_version,
+			$this->config_class->lumiere_version,
 			true
 		);
 
@@ -341,9 +314,9 @@ class Core {
 		// Register hide/show script
 		wp_register_script(
 			'lumiere_hide_show',
-			$this->configClass->lumiere_js_dir . 'lumiere_hide_show.min.js',
+			$this->config_class->lumiere_js_dir . 'lumiere_hide_show.min.js',
 			[ 'jquery' ],
-			$this->configClass->lumiere_version,
+			$this->config_class->lumiere_version,
 			true
 		);
 
@@ -392,7 +365,7 @@ class Core {
 	 */
 	public function lumiere_tinymce_addbutton( array $plugin_array ): array {
 
-		$plugin_array['lumiere_tiny'] = $this->configClass->lumiere_js_dir . 'lumiere_admin_tinymce_editor.min.js';
+		$plugin_array['lumiere_tiny'] = $this->config_class->lumiere_js_dir . 'lumiere_admin_tinymce_editor.min.js';
 
 		return $plugin_array;
 
@@ -406,24 +379,24 @@ class Core {
 
 		wp_register_script(
 			'lumiere_gutenberg_main',
-			$this->configClass->lumiere_blocks_dir . 'main-block.min.js',
+			$this->config_class->lumiere_blocks_dir . 'main-block.min.js',
 			[ 'wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-i18n', 'wp-data' ],
-			$this->configClass->lumiere_version
+			$this->config_class->lumiere_version
 		);
 
 		wp_register_script(
 			'lumiere_gutenberg_buttons',
-			$this->configClass->lumiere_blocks_dir . 'buttons.min.js',
+			$this->config_class->lumiere_blocks_dir . 'buttons.min.js',
 			[ 'wp-element', 'wp-compose', 'wp-components', 'wp-i18n', 'wp-data' ],
-			$this->configClass->lumiere_version
+			$this->config_class->lumiere_version
 		);
 
 		// Style.
 		wp_register_style(
 			'lumiere_gutenberg_main',
-			$this->configClass->lumiere_blocks_dir . 'main-block.min.css',
+			$this->config_class->lumiere_blocks_dir . 'main-block.min.css',
 			[ 'wp-edit-blocks' ],
-			$this->configClass->lumiere_version
+			$this->config_class->lumiere_version
 		);
 
 		// Register block script and style.
@@ -467,7 +440,7 @@ class Core {
 		if (
 			( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) )
 			&&
-			( Utils::str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstring ) )
+			( Utils::str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstring ) )
 		) {
 
 			wp_enqueue_style( 'lumiere_style_oceanwpfixes_popups' );
@@ -489,7 +462,7 @@ class Core {
 			// Pass variables to javascript highslide-options.js.
 			wp_add_inline_script(
 				'lumiere_highslide_options',
-				$this->configClass->lumiere_scripts_highslide_vars,
+				$this->config_class->lumiere_scripts_highslide_vars,
 				'before',
 			);
 
@@ -504,7 +477,7 @@ class Core {
 		// Pass variable to javascript lumiere_scripts.js.
 		wp_add_inline_script(
 			'lumiere_scripts',
-			$this->configClass->lumiere_scripts_vars,
+			$this->config_class->lumiere_scripts_vars,
 			'before'
 		);
 
@@ -525,7 +498,7 @@ class Core {
 			|| ( 'widgets.php' === $hook )
 			|| ( 'post.php' === $hook )
 			|| ( 'post-new.php' === $hook )
-			|| ( Utils::lumiere_array_contains_term( $this->configClass->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ) ) // All sort of Lumière pages.
+			|| ( Utils::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ) ) // All sort of Lumière pages.
 			|| ( Utils::str_contains( $_SERVER['REQUEST_URI'], 'admin.php?page=lumiere_options' ) )
 		) {
 
@@ -538,7 +511,7 @@ class Core {
 			// Pass path variables to javascripts.
 			wp_add_inline_script(
 				'lumiere_scripts_admin',
-				$this->configClass->lumiere_scripts_admin_vars,
+				$this->config_class->lumiere_scripts_admin_vars,
 				'before'
 			);
 
@@ -579,7 +552,7 @@ class Core {
 			$query_info = preg_match_all( '#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
 			$query_norecursive = preg_match_all( '#norecursive=(.*)#', $_SERVER['REQUEST_URI'], $match_query_norecursive, PREG_UNMATCHED_AS_NULL );
 
-			$url = ( isset( $match_query_film_film[0] ) ) ? $this->configClass->lumiere_urlstringfilms . $match_query_film_film[0] . '/' : $this->configClass->lumiere_urlstringfilms . $match_query_film_mid[0] . '/';
+			$url = ( isset( $match_query_film_film[0] ) ) ? $this->config_class->lumiere_urlstringfilms . $match_query_film_film[0] . '/' : $this->config_class->lumiere_urlstringfilms . $match_query_film_mid[0] . '/';
 			wp_safe_redirect(
 				add_query_arg(
 					[
@@ -601,7 +574,7 @@ class Core {
 			$match_query_film_mid = explode( '&', $match_query_mid[1][0] );
 			$query_info = preg_match_all( '#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
 			$query_norecursive = preg_match_all( '#norecursive=(.*)#', $_SERVER['REQUEST_URI'], $match_query_norecursive, PREG_UNMATCHED_AS_NULL );
-			$url = ( strlen( $match_query_film_film[0] ) > 0 ) ? $this->configClass->lumiere_urlstringfilms . $match_query_film_film[0] . '/' : $this->configClass->lumiere_urlstringfilms . $match_query_film_mid[0] . '/';
+			$url = ( strlen( $match_query_film_film[0] ) > 0 ) ? $this->config_class->lumiere_urlstringfilms . $match_query_film_film[0] . '/' : $this->config_class->lumiere_urlstringfilms . $match_query_film_mid[0] . '/';
 
 			wp_safe_redirect(
 				add_query_arg(
@@ -624,7 +597,7 @@ class Core {
 			$query_person_info = preg_match_all( '#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
 			$match_query_person_info = explode( '&', $match_query_info[1] );
 			$query_person_film = preg_match_all( '#film=(.*)&?#', $_SERVER['REQUEST_URI'], $match_query_person_film, PREG_UNMATCHED_AS_NULL );
-			$url = $this->configClass->lumiere_urlstringperson . $match_query_person_mid[0] . '/';
+			$url = $this->config_class->lumiere_urlstringperson . $match_query_person_mid[0] . '/';
 
 				//wp_redirect(  add_query_arg( 'mid' => $match_query_mid[1][0], $url ) , 301 ); # one arg only
 			wp_safe_redirect(
@@ -645,17 +618,17 @@ class Core {
 	public function lumiere_popup_redirect_include(): void {
 
 		// Include films popup.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringsearch ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) ) {
 			require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_SEARCH_URL;
 		}
 
 		// Include films popup.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringfilms ) ) {
 			require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_MOVIE_URL;
 		}
 
 		// Include persons popup.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringperson ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringperson ) ) {
 			require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_PERSON_URL;
 		}
 
@@ -667,7 +640,7 @@ class Core {
 	public function lumiere_change_popup_title( string $title ): string {
 
 		$imdb_cache_values = $this->imdb_cache_values;
-		$config = $this->configClass;
+		$config = $this->config_class;
 		$filmid_sanitized = ''; // initialisation.
 
 		// Change the title for the query search popup.
@@ -676,39 +649,40 @@ class Core {
 		}
 
 		// Change the titles for popups.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstring ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstring ) ) {
 
 			// Add cache dir to properly save data in real cache dir.
 			$this->imdbphp_class->cachedir = $imdb_cache_values['imdbcachedir'];
 
 			// Display the title if /url/films.
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) {
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringfilms ) ) {
 
 				// If mid but no film, do a query using the mid
-				if ( ( isset( $_GET['mid'] ) ) && ( is_int( $_GET['mid'] ) !== false ) && ( ! isset( $_GET['film'] ) ) ) {
+				if ( ( isset( $_GET['mid'] ) ) && ( ! isset( $_GET['film'] ) ) ) {
 
 					$movieid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( strval( $_GET['mid'] ) ) : '';
 					$movie = new Title( $movieid_sanitized, $this->imdbphp_class );
 					$filmid_sanitized = esc_html( $movie->title() );
 				}
 
-				$title_name = strlen( $filmid_sanitized ) === 0 ? Utils::lumiere_name_htmlize( $_GET['film'] ) : $filmid_sanitized;
+				$title_name = strlen( $filmid_sanitized ) !== 0 ? $filmid_sanitized : Utils::lumiere_name_htmlize( $_GET['film'] );
 
 				$title = esc_html__( 'Informations about ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies';
 
 				// Display the title if /url/person
-			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringperson ) ) {
+			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringperson ) ) {
 
-				if ( ( isset( $_GET['mid'] ) && ( is_int( $_GET['mid'] ) !== false ) ) ) {
+				if ( isset( $_GET['mid'] ) ) {
 
 					$mid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
 					$person = new Person( $mid_sanitized, $this->imdbphp_class );
 					$person_name_sanitized = sanitize_text_field( $person->name() );
 				}
+
 				$title = isset( $person_name_sanitized ) ? esc_html__( 'Informations about ', 'lumiere-movies' ) . $person_name_sanitized . ' - Lumi&egrave;re movies' : esc_html__( 'Unknown', 'lumiere-movies' ) . '- Lumi&egrave;re movies';
 
 				// Display the title if /url/search
-			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringsearch ) ) {
+			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) ) {
 				$title_name = isset( $_GET['film'] ) ? esc_html( $_GET['film'] ) : esc_html__( 'No query entered', 'lumiere-movies' );
 				$title = esc_html__( 'Search query for ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies ';
 			}
@@ -737,7 +711,7 @@ class Core {
 		$my_canon = '';
 
 		// Change the metas only for popups.
-		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringsearch ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringperson ) ) ) {
+		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringfilms ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringperson ) ) ) {
 
 			// ADD FAVICONS.
 			echo "\t\t" . '<!-- Lumiere Movies -->';
@@ -748,21 +722,21 @@ class Core {
 
 			// ADD CANONICAL.
 			// Canonical for search popup.
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringsearch ) ) {
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) ) {
 				$film_sanitized = '';
 				$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
-				$my_canon = $this->configClass->lumiere_urlpopupsearch . '?film=' . $film_sanitized . '&norecursive=yes';
+				$my_canon = $this->config_class->lumiere_urlpopupsearch . '?film=' . $film_sanitized . '&norecursive=yes';
 				echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
 			}
 
 			// Canonical for movies popups.
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) {
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringfilms ) ) {
 				$mid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( strval( $_GET['mid'] ) ) : '';
 				$film_sanitized = '';
 				$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
 				$info_sanitized = '';
 				$info_sanitized = isset( $_GET['info'] ) ? esc_html( $_GET['info'] ) : '';
-				$my_canon = $this->configClass->lumiere_urlpopupsfilms . $film_sanitized . '/?film=' . $film_sanitized . '&mid=' . $mid_sanitized . '&info=' . $info_sanitized;
+				$my_canon = $this->config_class->lumiere_urlpopupsfilms . $film_sanitized . '/?film=' . $film_sanitized . '&mid=' . $mid_sanitized . '&info=' . $info_sanitized;
 				if ( isset( $film_sanitized ) && strlen( $film_sanitized ) > 0 ) {
 					echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
 					echo "\n" . '<meta property="article:tag" content="' . $film_sanitized . '" />';
@@ -770,10 +744,10 @@ class Core {
 			}
 
 			// Canonical for people popups.
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringperson ) ) {
+			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringperson ) ) {
 				$mid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( $_GET['mid'] ) : '';
 				$info_sanitized = isset( $_GET['info'] ) ? esc_html( $_GET['info'] ) : '';
-				$my_canon = $this->configClass->lumiere_urlpopupsperson . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=' . $info_sanitized;
+				$my_canon = $this->config_class->lumiere_urlpopupsperson . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=' . $info_sanitized;
 				if ( strlen( $mid_sanitized ) > 0 ) {
 					$person = new Person( $mid_sanitized, $this->imdbphp_class );
 					$person_name_sanitized = esc_html( $person->name() );
@@ -819,9 +793,9 @@ class Core {
 					$start_update_options = new Update_Options();
 
 					// Homebrew debug.
-					/* $option_array_search = get_option($this->configClass->imdbAdminOptionsName);
+					/* $option_array_search = get_option($this->config_class->imdbAdminOptionsName);
 					$option_array_search['imdbHowManyUpdates'] = 5; # current number of updates
-					update_option($this->configClass->imdbAdminOptionsName, $option_array_search);
+					update_option($this->config_class->imdbAdminOptionsName, $option_array_search);
 					*/
 
 					$this->logger->log()->debug( '[Lumiere][coreClass][updater] Lumière _on_plugin_upgrade_ hook successfully run.' );
@@ -859,7 +833,7 @@ class Core {
 		}
 
 		/* Create the cache folders */
-		if ( $this->configClass->lumiere_create_cache() == true ) {
+		if ( $this->config_class->lumiere_create_cache() == true ) {
 
 			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache successfully created.' );
 

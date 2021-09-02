@@ -21,13 +21,12 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use \Imdb\Person;
 use \Imdb\PersonSearch;
-use \Lumiere\Frontend;
 use \WP_Query;
 
 class Taxonomy_People_Standard {
 
 	// Use trait frontend
-	use Frontend {
+	use \Lumiere\Frontend {
 		Frontend::__construct as public __constructFrontend;
 	}
 

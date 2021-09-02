@@ -18,9 +18,10 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use \Imdb\Title;
 use \Imdb\TitleSearch;
-use \Lumiere\Frontend;
 
 class Popup_Movie {
+
+	use \Lumiere\Frontend;
 
 	// Use trait frontend
 	use Frontend {

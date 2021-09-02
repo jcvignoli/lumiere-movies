@@ -15,12 +15,10 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Frontend;
-
 class Taxonomy_Items_Standard {
 
 	// Use trait frontend
-	use Frontend {
+	use \Lumiere\Frontend {
 		Frontend::__construct as public __constructFrontend;
 	}
 

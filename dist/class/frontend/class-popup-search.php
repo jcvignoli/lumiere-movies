@@ -16,13 +16,12 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-use \Lumiere\Frontend;
 use \Imdb\TitleSearch;
 
 class Popup_Search {
 
 	// Use trait frontend
-	use Frontend {
+	use \Lumiere\Frontend {
 		Frontend::__construct as public __constructFrontend;
 	}
 

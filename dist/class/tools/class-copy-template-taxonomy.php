@@ -9,33 +9,18 @@
 
 namespace Lumiere;
 
+// Bootstrap is not included, get manually settings trait.
+require_once plugin_dir_path( __DIR__ ) . 'trait-settings-global.php';
+
 // If this file is called directly, abort.
-if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'ABSPATH' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-use \Lumiere\Settings;
-
 class Copy_Template_Taxonomy {
 
-	/**
-	 * Admin options
-	 * @var array<string> $imdb_admin_values
-	 */
-	private array $imdb_admin_values;
-
-	/**
-	 * Widget options
-	 * @var array<string> $imdb_widget_values
-	 */
-	private array $imdb_widget_values;
-
-	/**
-	 * List of items related to people
-	 * From Settings class
-	 * @var array<string> $array_people
-	 */
-	private array $array_people;
+	// Trait including the database settings.
+	use \Lumiere\Settings_Global;
 
 	/**
 	 * Constructor
@@ -43,15 +28,8 @@ class Copy_Template_Taxonomy {
 	 */
 	public function __construct() {
 
-		// Get database options
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
-
-		// Settings class and vars.
-		$config_class = new Settings();
-
-		// List of potential types for a person.
-		$this->array_people = $config_class->array_people;
+		// Construct Global Settings trait.
+		$this->settings_open();
 
 		// Copy the template file
 		$this->lumiere_copy_template_taxonomy();
@@ -68,6 +46,7 @@ class Copy_Template_Taxonomy {
 		// Escape gets and get taxotype and nonce.
 		// phpcs:ignore WordPress.Security.NonceVerification
 		$lumiere_taxo_title = isset( $_GET['taxotype'] ) ? esc_html( $_GET['taxotype'] ) : null;
+
 		// Make various links and vars.
 		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, $this->array_people, true ) ? $lumiere_taxo_file_tocopy = \Lumiere\Settings::TAXO_PEOPLE_THEME : $lumiere_taxo_file_tocopy = \Lumiere\Settings::TAXO_ITEMS_THEME;
 		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';

@@ -76,9 +76,9 @@ class Data extends \Lumiere\Admin {
 		// Start logger
 		$this->logger->lumiere_start_logger( 'adminData' );
 
-		// Build vars from configClass
-		$this->array_people = $this->configClass->array_people;
-		$this->array_items = $this->configClass->array_items;
+		// Build vars from config_class
+		$this->array_people = $this->config_class->array_people;
+		$this->array_items = $this->config_class->array_items;
 
 		// Build the list of data details that include a number limit
 		$this->details_with_numbers = [
@@ -213,7 +213,7 @@ class Data extends \Lumiere\Admin {
 			}
 
 			// update options
-			update_option( $this->configClass->imdbWidgetOptionsName, $this->imdb_widget_values );
+			update_option( $this->config_class->imdbWidgetOptionsName, $this->imdb_widget_values );
 
 			// display confirmation message
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options saved.', 'lumiere-movies' ) . '</strong>' );
@@ -241,7 +241,7 @@ class Data extends \Lumiere\Admin {
 			check_admin_referer( 'imdbwidgetSettings_check', 'imdbwidgetSettings_check' );
 
 			// Delete the options to reset
-			delete_option( $this->configClass->imdbWidgetOptionsName );
+			delete_option( $this->config_class->imdbWidgetOptionsName );
 
 			// display confirmation message
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options reset.', 'lumiere-movies' ) . '</strong>' );
@@ -265,14 +265,14 @@ class Data extends \Lumiere\Admin {
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-inside-whattodisplay.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to display', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what' ); ?>"><?php esc_html_e( 'Display', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattodisplay.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to display', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what' ); ?>"><?php esc_html_e( 'Display', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-inside-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Display order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=order' ); ?>"><?php esc_html_e( 'Display order', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Display order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=order' ); ?>"><?php esc_html_e( 'Display order', 'lumiere-movies' ); ?></a></div>
 
 			<?php if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) { ?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-inside-whattotaxo.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to taxonomize', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo' ); ?>"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattotaxo.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to taxonomize', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo' ); ?>"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?></a></div>
 			<?php } else { ?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-inside-whattotaxo.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></i></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattotaxo.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></i></div>
 			<?php } ?>
 
 	</div>
@@ -654,7 +654,7 @@ class Data extends \Lumiere\Admin {
 		$lumiere_taxo_title = esc_html( $type );
 
 		// Files paths
-		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, $this->configClass->array_people, true ) ? Settings::TAXO_PEOPLE_THEME : Settings::TAXO_ITEMS_THEME;
+		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, $this->config_class->array_people, true ) ? Settings::TAXO_PEOPLE_THEME : Settings::TAXO_ITEMS_THEME;
 		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
 		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
 		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;
@@ -678,7 +678,7 @@ class Data extends \Lumiere\Admin {
 					. esc_html__( 'Copy a standard taxonomy template to your template folder to display this taxonomy.', 'lumiere-movies' )
 					. "' ><img src='"
 					. esc_url(
-						$this->configClass->lumiere_pics_dir
+						$this->config_class->lumiere_pics_dir
 						. 'menu/admin-widget-copy-theme.png'
 					)
 					. "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
@@ -724,7 +724,7 @@ class Data extends \Lumiere\Admin {
 			$output .= "\n\t\t<a href='" . esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=' . $lumiere_taxo_title )
 					. "' title='"
 					. esc_html__( 'Copy a standard taxonomy template to your template folder to display this taxonomy.', 'lumiere-movies' )
-					. "' ><img src='" . esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png' ) . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
+					. "' ><img src='" . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png' ) . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
 					. esc_html__( 'Copy template', 'lumiere-movies' ) . '</a>';
 
 			$output .= "\n\t" . '<div><font color="red">'

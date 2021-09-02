@@ -3,6 +3,8 @@
 
 namespace {
 
+	/** ---------------------------------- WordPress wp_kses */
+
 	// Override wp_kses, param $allowed_html is wrong, trying to override
 	// Doesn't work, can't find a working solution
 	if ( !function_exists('wp_kses')) {
@@ -44,6 +46,9 @@ namespace {
 		return PLL()->model->is_translated_taxonomy( $tax );
 	}
 
+
+	/** ---------------------------------- Polylang */
+
 	/**
 	 * Sets the term language.
 	 *
@@ -75,6 +80,19 @@ namespace {
 		return isset( PLL()->curlang->$field ) ? PLL()->curlang->$field : false;
 	}
 
+	/**
+	 * Returns the term language.
+	 *
+	 * @api
+	 * @since 1.5.4
+	 *
+	 * @param int    $term_id Term id.
+	 * @param string $field   Optional, the language field to return ( @see PLL_Language ), defaults to 'slug'.
+	 * @return string|false The requested field for the term language, false if no language is associated to that term.
+	 */
+	function pll_get_term_language( $term_id, $field = 'slug' ) {
+		return ( $lang = PLL()->model->term->get_language( $term_id ) ) ? $lang->$field : false;
+	}
 }
 
 

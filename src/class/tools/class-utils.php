@@ -16,7 +16,6 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Settings;
 use \Lumiere\Logger;
 
 /**
@@ -27,13 +26,13 @@ use \Lumiere\Logger;
 class Utils {
 
 	/**
-	 * \Lumiere\Settings class
-	 *
+	 * Trait including the database settings.
+	 * Not built in constructor
 	 */
-	private Settings $config_class;
+	use \Lumiere\Settings_Global;
 
 	/**
-	 * \Lumiere\Settings class
+	 * \Lumiere\Logger class
 	 *
 	 */
 	private Logger $logger;
@@ -49,9 +48,6 @@ class Utils {
 	 *
 	 */
 	public function __construct () {
-
-		// Start Settings class.
-		$this->config_class = new Settings();
 
 		// Start Logger class.
 		$this->logger = new Logger( 'utilsClass' );
@@ -153,8 +149,9 @@ class Utils {
 	 */
 	public function lumiere_admin_signature(): string {
 
-		// Config settings
-		$config = $this->config_class;
+		// Construct Global Settings trait.
+		// Needed for Lumière version.
+		$this->settings_open();
 
 		// Authorise this html tags wp_kses()
 		$allowed_html_for_esc_html_functions = [
@@ -174,7 +171,7 @@ class Utils {
 			. esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=support' ) . '"> '
 			. esc_html__( 'more', 'lumiere-movies' ) . '</a>.';
 
-		$output .= "\t\t\t<br /><br /><div>\n\t\t\t\t<div> &copy; 2005-" . gmdate( 'Y' ) . ' <a href="' . \Lumiere\Settings::IMDBABOUTENGLISH . '" target="_blank">Lost Highway</a>, <a href="' . \Lumiere\Settings::IMDBHOMEPAGE . '" target="_blank">Lumière! WordPress plugin</a>, version ' . $config->lumiere_version . "\n</div>\n</div>";
+		$output .= "\t\t\t<br /><br /><div>\n\t\t\t\t<div> &copy; 2005-" . gmdate( 'Y' ) . ' <a href="' . \Lumiere\Settings::IMDBABOUTENGLISH . '" target="_blank">Lost Highway</a>, <a href="' . \Lumiere\Settings::IMDBHOMEPAGE . '" target="_blank">Lumière! WordPress plugin</a>, version ' . $config_class->lumiere_version . "\n</div>\n</div>";
 
 		$output .= "\t\t</div>\n";
 

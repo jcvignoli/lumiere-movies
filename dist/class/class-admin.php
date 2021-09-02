@@ -16,7 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use \Lumiere\Settings;
 use \Lumiere\Utils;
 use \Lumiere\Logger;
 use \Lumiere\Admin\General;
@@ -26,28 +25,8 @@ use \Lumiere\Admin\Help;
 
 class Admin {
 
-	/**
-	 * Admin options
-	 * @var array{ 'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': int, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': string, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_highslide': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': int, 'imdbseriemovies': string } $imdb_admin_values
-	 */
-	protected array $imdb_admin_values;
-
-	/**
-	 * Widget options
-	 * @var array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':int, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber': bool|string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber': string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber': string|bool, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber': string|bool, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber': string|bool, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber': string|bool, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber': string|bool, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber': bool|string, 'imdbwidgetorder': array<string>, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string} $imdb_widget_values
-	 */
-	protected array $imdb_widget_values;
-
-	/**
-	 * Cache options
-	 * @var array{'imdbcachedir_partial': string, 'imdbstorecache': bool, 'imdbusecache': string, 'imdbconverttozip': bool, 'imdbusezip': bool, 'imdbcacheexpire': string, 'imdbcachedetailsshort': string,'imdbcachedir': string,'imdbphotoroot': string, 'imdbphotodir': string} $imdb_cache_values
-	 */
-	protected array $imdb_cache_values;
-
-	/**
-	 * \Lumiere\Settings class
-	 */
-	protected Settings $configClass;
+	// Trait including the database settings.
+	use \Lumiere\Settings_Global;
 
 	/**
 	 * \Lumière\Utils class
@@ -84,13 +63,8 @@ class Admin {
 		// Load all classes in class/Admin folder, will be loaded when needed
 		spl_autoload_register( [ 'Lumiere\Admin', 'lumiere_admin_loader' ] );
 
-		// Get database options.
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
-		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
-
-		// Start Settings class.
-		$this->configClass = new Settings();
+		// Construct Global Settings trait.
+		$this->settings_open();
 
 		// Start Utilities class
 		$this->utilsClass = new Utils();
@@ -188,7 +162,7 @@ class Admin {
 
 			add_options_page(
 				'Lumière Options',
-				'<img src="' . $this->configClass->lumiere_pics_dir . 'lumiere-ico13x13.png" align="absmiddle"> Lumière',
+				'<img src="' . $this->config_class->lumiere_pics_dir . 'lumiere-ico13x13.png" align="absmiddle"> Lumière',
 				'administrator',
 				'lumiere_options',
 				[ $this, 'lumiere_admin_pages' ]
@@ -203,7 +177,7 @@ class Admin {
 				'administrator',
 				'lumiere_options',
 				[ $this, 'lumiere_admin_pages' ],
-				$this->configClass->lumiere_pics_dir . 'lumiere-ico13x13.png',
+				$this->config_class->lumiere_pics_dir . 'lumiere-ico13x13.png',
 				65
 			);
 			add_submenu_page(
@@ -255,7 +229,7 @@ class Admin {
 		$admin_bar->add_menu(
 			[
 				'id' => 'lumiere_top_menu',
-				'title' => "<img src='" . $this->configClass->lumiere_pics_dir . "lumiere-ico13x13.png' width='16' height='16' />&nbsp;&nbsp;" . 'Lumière',
+				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "lumiere-ico13x13.png' width='16' height='16' />&nbsp;&nbsp;" . 'Lumière',
 				'href' => 'admin.php?page=lumiere_options',
 				'meta' =>
 					[
@@ -268,7 +242,7 @@ class Admin {
 			[
 				'parent' => 'lumiere_top_menu',
 				'id' => 'lumiere_top_menu_general',
-				'title' => "<img src='" . $this->configClass->lumiere_pics_dir . "menu/admin-general.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'General', 'lumiere-movies' ),
+				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-general.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'General', 'lumiere-movies' ),
 				'href' => 'admin.php?page=lumiere_options',
 				'meta' =>
 					[
@@ -280,7 +254,7 @@ class Admin {
 			[
 				'parent' => 'lumiere_top_menu',
 				'id' => 'lumiere_top_menu_data',
-				'title' => "<img src='" . $this->configClass->lumiere_pics_dir . "menu/admin-widget-inside.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data', 'lumiere-movies' ),
+				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-widget-inside.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data', 'lumiere-movies' ),
 				'href' => 'admin.php?page=lumiere_options&subsection=dataoption',
 				'meta' =>
 					[
@@ -292,7 +266,7 @@ class Admin {
 			[
 				'parent' => 'lumiere_top_menu',
 				'id' => 'lumiere_top_menu_cache',
-				'title' => "<img src='" . $this->configClass->lumiere_pics_dir . "menu/admin-cache.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Cache', 'lumiere-movies' ),
+				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-cache.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Cache', 'lumiere-movies' ),
 				'href' => 'admin.php?page=lumiere_options&subsection=cache',
 				'meta' =>
 					[
@@ -305,7 +279,7 @@ class Admin {
 			[
 				'parent' => 'lumiere_top_menu',
 				'id' => 'lumiere_top_menu_help',
-				'title' => "<img src='" . $this->configClass->lumiere_pics_dir . "menu/admin-help.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Help', 'lumiere-movies' ),
+				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-help.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Help', 'lumiere-movies' ),
 				'href' => 'admin.php?page=lumiere_options&subsection=help',
 				'meta' =>
 					[
@@ -346,20 +320,20 @@ class Admin {
 
 	<div class=wrap>
 
-		<h2 class="imdblt_padding_bottom_right_fifteen"><img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'lumiere-ico80x80.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;<i>Lumière!</i>&nbsp;<?php esc_html_e( 'admin options', 'lumiere-movies' ); ?></h2>
+		<h2 class="imdblt_padding_bottom_right_fifteen"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'lumiere-ico80x80.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;<i>Lumière!</i>&nbsp;<?php esc_html_e( 'admin options', 'lumiere-movies' ); ?></h2>
 
 		<div class="subpage">
 			<div align="left" class="imdblt_double_container">
 
 				<div class="imdblt_padding_five imdblt_flex_auto">
-					<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-general.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
+					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
 					<a title="<?php esc_html_e( 'General Options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options' ); ?>"> <?php esc_html_e( 'General Options', 'lumiere-movies' ); ?></a>
 				</div>
 
 				<?php ### Data subpage is relative to what is activated ?>
 
 				<div class="imdblt_padding_five imdblt_flex_auto">
-					<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-widget-inside.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
+					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
 
 
 					<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption' ); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?></a>
@@ -384,12 +358,12 @@ class Admin {
 				</div>
 
 				<div class="imdblt_padding_five imdblt_flex_auto">			
-					<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-cache.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
+					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-cache.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
 					<a title="<?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?>" href="<?php echo admin_url(); ?>admin.php?page=lumiere_options&subsection=cache"><?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?></a>
 				</div>
 
 				<div align="right" class="imdblt_padding_five imdblt_flex_auto" >
-					<img src="<?php echo esc_url( $this->configClass->lumiere_pics_dir . 'menu/admin-help.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
+					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
 					<a title="<?php esc_html_e( 'How to use Lumière!, check FAQs & changelog', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help' ); ?>">
 						<i>Lumière!</i> <?php esc_html_e( 'help', 'lumiere-movies' ); ?>
 					</a>
@@ -410,7 +384,7 @@ class Admin {
 		if ( ! isset( $_GET['subsection'] ) ) {
 
 			// Make sure cache folder exists and is writable
-			$this->configClass->lumiere_create_cache( true );
+			$this->config_class->lumiere_create_cache( true );
 
 			$adminGeneral = new General();
 
@@ -423,7 +397,7 @@ class Admin {
 		} elseif ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'cache' ) ) {
 
 			// Make sure cache folder exists and is writable
-			$this->configClass->lumiere_create_cache( true );
+			$this->config_class->lumiere_create_cache( true );
 
 			$adminCache = new Cache();
 

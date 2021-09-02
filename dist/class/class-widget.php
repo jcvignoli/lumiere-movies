@@ -17,23 +17,12 @@ if ( ! defined( 'WPINC' ) || ! class_exists( '\Lumiere\Settings' ) ) {
 }
 
 use \Lumiere\Movie;
-use \Lumiere\Settings;
 use \Lumiere\Utils;
 use \Lumiere\Logger;
 
 class Widget extends \WP_Widget {
 
-	/**
-	 * Store the class of Lumière settings
-	 * Usefull to start a new IMDbphp query
-	 */
-	private Settings $config_class;
-
-	/**
-	 * Vars from Lumière settings
-	 * @var array<string> $imdb_admin_values
-	 */
-	private array $imdb_admin_values;
+	use \Lumiere\Settings_Global;
 
 	/**
 	 *  Store the class of utilities
@@ -85,6 +74,9 @@ class Widget extends \WP_Widget {
 				'show_instance_in_rest' => true, /** use WP REST API */
 			]
 		);
+
+		// Construct Global Settings trait.
+		$this->settings_open();
 
 		// Start Settings class.
 		$this->config_class = new Settings();
@@ -254,7 +246,7 @@ class Widget extends \WP_Widget {
 		if ( ( is_single() ) || ( is_page() ) ) {
 
 			// Display the movie according to the post's title (option in -> general -> advanced).
-			if ( ( isset( $imdb_admin_values['imdbautopostwidget'] ) ) && ( $imdb_admin_values['imdbautopostwidget'] === '1' ) ) {
+			if ( $imdb_admin_values['imdbautopostwidget'] === '1' ) {
 				$imdbIdOrTitle[]['byname'] = sanitize_text_field( get_the_title() );
 
 				$this->logger->log()->debug( '[Lumiere][widget] Auto widget activated, using the post title for querying' );
@@ -275,8 +267,8 @@ class Widget extends \WP_Widget {
 				$this->logger->log()->debug( '[Lumiere][widget] Pre-5.8 WordPress widget found' );
 			}
 
-			// Show widget only if custom fields or imdbautopostwidget option is found.
-			if ( count( get_post_meta( $post_id, 'imdb-movie-widget', false ) ) !== 0 || count( get_post_meta( $post_id, 'imdb-movie-widget-bymid', false ) ) !== 0 || ( isset( $imdb_admin_values['imdbautopostwidget'] ) ) ) {
+			// Show widget only if custom fields or if imdbautopostwidget option is active.
+			if ( count( get_post_meta( $post_id, 'imdb-movie-widget', false ) ) !== 0 || count( get_post_meta( $post_id, 'imdb-movie-widget-bymid', false ) ) !== 0 || ( $imdb_admin_values['imdbautopostwidget'] === '1' ) ) {
 
 				// Custom field "imdb-movie-widget"
 				foreach ( get_post_meta( $post_id, 'imdb-movie-widget', false ) as $key => $value ) {
@@ -291,7 +283,7 @@ class Widget extends \WP_Widget {
 				foreach ( get_post_meta( $post_id, 'imdb-movie-widget-bymid', false ) as $key => $value ) {
 
 					$moviespecificid = $value;
-					$imdbIdOrTitle[]['bymid'] = $moviespecificid;
+					$imdbIdOrTitle[]['bymid'] = sanitize_text_field( strval( $moviespecificid ) );
 
 					$this->logger->log()->debug( "[Lumiere][widget] Custom field imdb-movie-widget-bymid found, using $value for querying" );
 
