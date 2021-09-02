@@ -257,8 +257,17 @@ class Utils {
 	 * HTMLizing function
 	 * transforms movie's name in a way to be able to be searchable (ie "ô" becomes "&ocirc;")
 	 * ----> should use a WordPress dedicated function instead, like esc_url() ?
+	 *
+	 * @param ?string $link either null or string to be converted
 	 */
-	public static function lumiere_name_htmlize ( string $link ): string {
+	public static function lumiere_name_htmlize ( ?string $link = null ): ?string {
+
+		// If no string passed, exit
+		if ( $link === null ) {
+
+			return null;
+
+		}
 
 		// a. quotes escape
 		$lienhtmlize = addslashes( $link );

@@ -310,20 +310,23 @@ class Taxonomy_People_Standard {
 	 *
 	 * @param string $taxonomy -> the current taxonomy to check and build the form according to it
 	 */
-	private function lumiere_get_form_polylang_selection( string $taxonomy ) {
+	private function lumiere_get_form_polylang_selection( string $taxonomy ): void {
 
 		if ( ! function_exists( 'pll_is_translated_taxonomy' ) ) {
-			return $this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy] Polylang is not active." );
+			$this->logger->log()->debug( '[Lumiere][taxonomy_' . $taxonomy . '] Polylang is not active.' );
+			return;
 		}
 
 		// Is the current taxonomy, such as "lumiere_actor", registered and activated for translation?
 		if ( ! pll_is_translated_taxonomy( $taxonomy ) ) {
-			return $this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $this->person_name_sntzd with $taxonomy." );
+			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $this->person_name_sntzd with $taxonomy." );
+			return;
 		}
 
 		$pll_lang = get_terms( 'term_language', [ 'hide_empty' => false ] );
 		if ( count( $pll_lang ) === 0 ) {
-			return $this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy] No Polylang language is set." );
+			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy] No Polylang language is set." );
+			return;
 		}
 
 		// Build the form.
@@ -351,6 +354,7 @@ class Taxonomy_People_Standard {
 		echo "\n\t\t\t\t" . '</form>';
 		echo "\n\t\t\t" . '</div>';
 
+		return;
 	}
 
 	/**

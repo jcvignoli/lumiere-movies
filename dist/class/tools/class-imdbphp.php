@@ -35,12 +35,6 @@ class Imdbphp extends Config {
 	private array $imdb_cache_values;
 
 	/**
-	 * Class \Imdb\Config
-	 *
-	 */
-	public Config $imdbphpconfig_class;
-
-	/**
 	 * Constructor
 	 *
 	 */

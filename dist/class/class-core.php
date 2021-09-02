@@ -17,6 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use \Lumiere\Settings;
+use \Lumiere\Imdbphp;
 use \Lumiere\Update_Options;
 use \Lumiere\Utils;
 use \Lumiere\Logger;
@@ -42,6 +43,12 @@ class Core {
 	 *
 	 */
 	private Logger $logger;
+
+	/**
+	 * \Lumiere\Imdbphp class
+	 *
+	 */
+	private Imdbphp $imdbphp_class;
 
 	/**
 	 * Admin options
@@ -80,6 +87,9 @@ class Core {
 
 		// Start Logger class.
 		$this->logger = new Logger( 'coreClass' );
+
+		// Start Imdbphp class.
+		$this->imdbphp_class = new Imdbphp();
 
 		// redirect popups URLs.
 		add_action( 'init', [ $this, 'lumiere_popup_redirect' ], 0 );
@@ -669,16 +679,16 @@ class Core {
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstring ) ) {
 
 			// Add cache dir to properly save data in real cache dir.
-			$this->configClass->cachedir = $imdb_cache_values['imdbcachedir'];
+			$this->imdbphp_class->cachedir = $imdb_cache_values['imdbcachedir'];
 
 			// Display the title if /url/films.
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) {
 
 				// If mid but no film, do a query using the mid
-				if ( ( isset( $_GET['mid'] ) ) && ( strlen( $_GET['mid'] ) > 0 ) && ( strlen( $_GET['film'] ) === 0 ) ) {
+				if ( ( isset( $_GET['mid'] ) ) && ( is_int( $_GET['mid'] ) !== false ) && ( ! isset( $_GET['film'] ) ) ) {
 
-					$movieid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( $_GET['mid'] ) : '';
-					$movie = new Title( $movieid_sanitized, $config );
+					$movieid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( strval( $_GET['mid'] ) ) : '';
+					$movie = new Title( $movieid_sanitized, $this->imdbphp_class );
 					$filmid_sanitized = esc_html( $movie->title() );
 				}
 
@@ -689,10 +699,10 @@ class Core {
 				// Display the title if /url/person
 			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringperson ) ) {
 
-				if ( ( isset( $_GET['mid'] ) && ( strlen( $_GET['mid'] ) > 0 ) ) ) {
+				if ( ( isset( $_GET['mid'] ) && ( is_int( $_GET['mid'] ) !== false ) ) ) {
 
-					$mid_sanitized = sanitize_text_field( $_GET['mid'] );
-					$person = new Person( $mid_sanitized, $config );
+					$mid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
+					$person = new Person( $mid_sanitized, $this->imdbphp_class );
 					$person_name_sanitized = sanitize_text_field( $person->name() );
 				}
 				$title = isset( $person_name_sanitized ) ? esc_html__( 'Informations about ', 'lumiere-movies' ) . $person_name_sanitized . ' - Lumi&egrave;re movies' : esc_html__( 'Unknown', 'lumiere-movies' ) . '- Lumi&egrave;re movies';
@@ -747,13 +757,13 @@ class Core {
 
 			// Canonical for movies popups.
 			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->configClass->lumiere_urlstringfilms ) ) {
-				$mid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( $_GET['mid'] ) : '';
+				$mid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( strval( $_GET['mid'] ) ) : '';
 				$film_sanitized = '';
 				$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
 				$info_sanitized = '';
 				$info_sanitized = isset( $_GET['info'] ) ? esc_html( $_GET['info'] ) : '';
 				$my_canon = $this->configClass->lumiere_urlpopupsfilms . $film_sanitized . '/?film=' . $film_sanitized . '&mid=' . $mid_sanitized . '&info=' . $info_sanitized;
-				if ( strlen( $film_sanitized ) > 0 ) {
+				if ( isset( $film_sanitized ) && strlen( $film_sanitized ) > 0 ) {
 					echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
 					echo "\n" . '<meta property="article:tag" content="' . $film_sanitized . '" />';
 				}
@@ -765,7 +775,7 @@ class Core {
 				$info_sanitized = isset( $_GET['info'] ) ? esc_html( $_GET['info'] ) : '';
 				$my_canon = $this->configClass->lumiere_urlpopupsperson . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=' . $info_sanitized;
 				if ( strlen( $mid_sanitized ) > 0 ) {
-					$person = new Person( $mid_sanitized, $this->configClass );
+					$person = new Person( $mid_sanitized, $this->imdbphp_class );
 					$person_name_sanitized = esc_html( $person->name() );
 					echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
 					echo "\n" . '<meta property="article:tag" content="' . $person_name_sanitized . '" />';
