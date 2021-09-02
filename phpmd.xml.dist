@@ -10,7 +10,10 @@
 	<exclude-pattern>*/vendor/*</exclude-pattern>
 	<exclude-pattern>*/js/highslide/*</exclude-pattern>
 
-	<rule ref="rulesets/cleancode.xml" />
+	<rule ref="rulesets/cleancode.xml">
+		<!-- Utils class is a class with a lot of static calls, remove forbid to call to static access -->
+		<exclude name="StaticAccess" />
+	</rule>
 
 	<rule ref="rulesets/codesize.xml" />
 
@@ -28,7 +31,7 @@
 
 	<rule ref="rulesets/naming.xml/LongVariable">
 		<properties>
-			<!-- I don't want to be bind to a max of 20, let's increase it -->
+			<!-- I don't want to be bound to a max of 20, let's increase it -->
 			<property name="maximum" value="40" />
 		</properties>
 	</rule>

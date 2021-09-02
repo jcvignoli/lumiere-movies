@@ -19,9 +19,23 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 use \Lumiere\Settings;
 use \Lumiere\Utils;
 use \Lumiere\Logger;
+use \Lumiere\Imdbphp;
 use \Imdb\TitleSearch;
 
 class Search {
+
+	/**
+	 * Admin options
+	 * @var array<string> $imdb_admin_values
+	 */
+	private array $imdb_admin_values;
+
+	/**
+	 * Settings from class \Lumiere\Settings
+	 * To include the type of (movie, TVshow, Games) search
+	 * @var array<string> $typeSearch
+	 */
+	private array $typeSearch;
 
 	/**
 	 * Class \Lumiere\Utils
@@ -42,17 +56,10 @@ class Search {
 	private Logger $logger;
 
 	/**
-	 * Admin options
-	 * @var array<string> $imdb_admin_values
+	 * Class \Lumiere\Imdbphp
+	 *
 	 */
-	private array $imdb_admin_values;
-
-	/**
-	 * Settings from class \Lumiere\Settings
-	 * To include the type of (movie, TVshow, Games) search
-	 * @var array<string> $typeSearch
-	 */
-	private array $typeSearch;
+	private Imdbphp $imdbphp_class;
 
 	/**
 	 * Constructor
@@ -74,6 +81,9 @@ class Search {
 
 		// Start logger class.
 		$this->logger = new Logger( 'gutenbergSearch' );
+
+		// Start Imdbphp class.
+		$this->imdbphp_class = new Imdbphp();
 
 		// Start the debugging
 		add_action(
@@ -136,7 +146,7 @@ class Search {
 		if ( ( isset( $_GET['moviesearched'] ) ) && ( strlen( $_GET['moviesearched'] ) > 0 ) && wp_verify_nonce( $_GET['_wpnonce'], 'lumiere_search' ) > 0 ) {
 
 			# Initialization of IMDBphp
-			$search = new TitleSearch( $this->config_class, $this->logger->log() );
+			$search = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
 
 			$search_term = sanitize_text_field( $_GET['moviesearched'] );
 

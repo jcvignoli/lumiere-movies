@@ -690,33 +690,6 @@ class Settings {
 	}
 
 	/**
-	 * Detect if the current page is an editor page (post.php or post-new.php)
-	 *
-	 */
-	public function lumiere_is_screen_editor(): bool {
-
-		/*
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			require_once ABSPATH . '/wp-admin/includes/screen.php';
-		}
-
-		$screen = get_current_screen();
-		$wp_is_block_editor = ( isset( $screen ) && ! is_null( $screen->is_block_editor() ) ) ? $screen->is_block_editor() : null;
-		$post_type = ( isset( $screen ) && ! is_null( $screen->post_type ) ) ? $screen->post_type : null;
-		*/
-		if ( ! isset( $GLOBALS['hook_suffix'] ) || $GLOBALS['hook_suffix'] !== 'post.php' && $GLOBALS['hook_suffix'] !== 'post-new.php' ) {
-
-			$this->is_editor_page = false;
-			return false;
-
-		}
-
-		$this->is_editor_page = true;
-		return true;
-
-	}
-
-	/**
 	 * Retrieve selected type of search in admin
 	 *
 	 * Depends on $imdb_admin_values['imdbseriemovies'] option
