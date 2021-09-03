@@ -113,5 +113,42 @@ trait Frontend {
 		return false;
 	}
 
+	/**
+	 * Convert an IMDbPHP result linking to IMDb website into a highslide/classic popup link
+	 *
+	 * @param string $convert Link to be converted into popup highslide link
+	 */
+
+	protected function lumiere_convert_txtwithhtml_into_popup_people ( string $convert ): string {
+
+		// highslide popup.
+		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
+			$result = '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
+
+			// classic popup.
+		} else {
+			$result = '<a class="link-imdblt-classicpeople" data-classicpeople="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
+		}
+
+		$convert = preg_replace( '~(<a href=)(.+?)(name\/nm)(\d{7})\/\"\>~', $result, $convert ) ?? $convert;
+
+		return $convert;
+	}
+
+	/**
+	 * Convert an IMDbPHP result linking to IMDb website into a highslide/classic popup link
+	 *
+	 * @param string $convert Link to be converted into popup highslide link
+	 */
+
+	protected function lumiere_convert_txtwithhtml_into_internal_person ( string $convert ): string {
+
+		$result = '<a class="link-popup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+
+		$convert = preg_replace( '~(<a href=)(.+?)(name\/nm)(\d{7})\/\"\>~', $result, $convert ) ?? $convert;
+
+		return $convert;
+	}
+
 }
 

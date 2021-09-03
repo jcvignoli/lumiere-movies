@@ -69,6 +69,15 @@ document.addEventListener(
 		);
 		jQuery( 'input[data-checkbox_activate]' ).trigger( 'change' );
 
+		// Disable/enable (oposite to previous function) a field according to the id passed in <input data-fieldid_to_change="">
+		jQuery( 'input[data-checkbox_deactivate]' ).change(
+			function(){
+				var htmltag_id_to_change = jQuery( this ).closest( 'input' ).data( 'checkbox_deactivate' );
+				jQuery( '#' + htmltag_id_to_change ).toggle( jQuery( this ).closest( 'input' ).is( ':not(:checked)' ) );
+			}
+		);
+		jQuery( 'input[data-checkbox_deactivate]' ).trigger( 'change' );
+
 		// Enable/disable a field according to the id passed in <* data-fieldid_to_change="">
 		jQuery( '[data-field_activate]' ).click(
 			function(){
@@ -100,7 +109,7 @@ function GereControle(Controle, Masquer) {
 
 // Function to move values inside a select box form
 // Credits go to Rick Hitchcock https://stackoverflow.com/a/28682653
-// Used in options-widget.php
+// Used in class data
 
 document.addEventListener(
 	'DOMContentLoaded',

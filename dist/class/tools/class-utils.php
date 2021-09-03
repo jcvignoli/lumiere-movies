@@ -171,7 +171,7 @@ class Utils {
 			. esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=support' ) . '"> '
 			. esc_html__( 'more', 'lumiere-movies' ) . '</a>.';
 
-		$output .= "\t\t\t<br /><br /><div>\n\t\t\t\t<div> &copy; 2005-" . gmdate( 'Y' ) . ' <a href="' . \Lumiere\Settings::IMDBABOUTENGLISH . '" target="_blank">Lost Highway</a>, <a href="' . \Lumiere\Settings::IMDBHOMEPAGE . '" target="_blank">Lumière! WordPress plugin</a>, version ' . $config_class->lumiere_version . "\n</div>\n</div>";
+		$output .= "\t\t\t<br /><br /><div>\n\t\t\t\t<div> &copy; 2005-" . gmdate( 'Y' ) . ' <a href="' . \Lumiere\Settings::IMDBABOUTENGLISH . '" target="_blank">Lost Highway</a>, <a href="' . \Lumiere\Settings::IMDBHOMEPAGE . '" target="_blank">Lumière! WordPress plugin</a>, version ' . $this->config_class->lumiere_version . "\n</div>\n</div>";
 
 		$output .= "\t\t</div>\n";
 
@@ -298,9 +298,10 @@ class Utils {
 	 * Does a glob recursively
 	 * Does not support flag GLOB_BRACE
 	 *
+	 * @return array<string>
 	 * @credits https://www.php.net/manual/fr/function.glob.php#106595
 	 */
-	public static function lumiere_glob_recursive( string $pattern, $flags = 0 ) {
+	public static function lumiere_glob_recursive( string $pattern, $flags = 0 ): array {
 
 		$files = glob( $pattern, $flags );
 
@@ -376,12 +377,12 @@ class Utils {
 	 *
 	 * @since 3.5
 	 *
-	 * @param array<string, array<string>|bool|int|string>  $options the array of admin/widget/cache settings options
+	 * @param array<string, array<string>|bool|int|string> $options the array of admin/widget/cache settings options
 	 * @param string $set_error set to 'no_var_dump' to avoid the call to var_dump function
 	 * @param string $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
 	 * @param string $get_screen set to 'screen' to display wp function get_current_screen()
 	 *
-	 * @return mixed[] optionaly an array of the options passed in $options
+	 * @return void Returns optionaly an array of the options passed in $options
 	 */
 	// phpcs:disable
 	public function lumiere_activate_debug( ?array $options = null, string $set_error = null, string $libxml_use = null, string $get_screen = null ): void {
@@ -415,7 +416,7 @@ class Utils {
 		}
 
 		// Exit if no Lumière option array requested to show
-		if ( ( null !== $options ) && ! empty( $options ) && isset( $options ) ) {
+		if ( ( null !== $options ) && count( $options ) !== 0 ) {
 
 			echo '<div><strong>[Lumière options]</strong><font size="-3"> ';
 			print_r( $options );

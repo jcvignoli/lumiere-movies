@@ -21,17 +21,15 @@ use \Imdb\TitleSearch;
 
 class Popup_Movie {
 
-	use \Lumiere\Frontend;
-
 	// Use trait frontend
-	use Frontend {
+	use \Lumiere\Frontend {
 		Frontend::__construct as public __constructFrontend;
 	}
 
 	/**
 	 * The movie queried
 	 */
-	private ?object $movie;
+	private Title $movie;
 
 	/**
 	 * Movie's id, if provided
@@ -46,7 +44,7 @@ class Popup_Movie {
 	/**
 	 * Settings from class \Lumiere\Settings
 	 * To include the type of (movie, TVshow, Games) search
-	 * @var array $type_search
+	 * @var array<string> $type_search
 	 */
 	private array $type_search;
 
@@ -62,51 +60,58 @@ class Popup_Movie {
 		// Get the type of search: movies, series, games
 		$this->type_search = $this->config_class->lumiere_select_type_search();
 
-		/* GET Vars sanitized */
-		$this->movieid_sanitized = isset( $_GET['mid'] ) ? filter_var( $_GET['mid'], FILTER_SANITIZE_NUMBER_INT ) : null;
-		$this->film_title_sanitized = isset( $_GET['film'] ) ? $this->utils_class->lumiere_name_htmlize( $_GET['film'] ) : null;
-
 		// Display layout
 		add_action( 'wp', [ $this, 'lumiere_popup_movie_layout' ], 1 );
 
 	}
 
 	/**
-	 *  Search movie title
-	 *
+	 * Search movie id or title
+	 * Must be called after wp_head(), so call it manually
 	 */
 	private function find_movie(): bool {
 
 		do_action( 'lumiere_logger' );
 
-		// if neither film nor mid are set, redirect to class PopupSearch
-		if ( ( empty( $this->movieid_sanitized ) && empty( $this->film_title_sanitized ) ) || ( is_null( $this->movieid_sanitized ) && is_null( $this->film_title_sanitized ) ) ) {
+		/* GET Vars sanitized */
+		$this->movieid_sanitized = isset( $_GET['mid'] ) && strlen( $_GET['mid'] ) !== 0 ? esc_html( $_GET['mid'] ) : null;
+		$this->film_title_sanitized = isset( $_GET['film'] ) && strlen( $_GET['film'] ) !== 0 ? esc_html( $_GET['film'] ) : null;
+
+		// if neither film nor mid are set, wp_die()
+		if ( $this->movieid_sanitized === null && $this->film_title_sanitized === null ) {
 
 			status_header( 404 );
-			$this->logger->log()->error( '[Lumiere] No movie title or id entered' );
-			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
+			$this->logger->log()->error( '[Lumiere] Neither movie title nor id provided.' );
+			wp_die( esc_html__( 'Lumière Movies: Invalid query.', 'lumiere-movies' ) );
 
 		}
 
-		// A movie imdb id is provided
-		if ( ( isset( $this->movieid_sanitized ) ) && ( ! empty( $this->movieid_sanitized ) ) ) {
+		// A movie imdb id is provided in URL.
+		if ( $this->movieid_sanitized !== null ) {
+
+			$this->logger->log()->debug( '[Lumiere] Movie id provided in URL: ' . $this->movieid_sanitized );
 
 			$this->movie = new Title( $this->movieid_sanitized, $this->imdbphp_class, $this->logger->log() );
-			$this->film_title_sanitized = $this->utils_class->lumiere_name_htmlize( $this->movie->title() );
+			$this->film_title_sanitized = Utils::lumiere_name_htmlize( $this->movie->title() );
+
 			return true;
 
-		}
+			// No movie id is provided, but a title was.
+		} elseif ( $this->film_title_sanitized !== null ) {
 
-		// No movie id is provided, use the title to get the movie.
-		if ( ( isset( $this->film_title_sanitized ) ) && ( ! empty( $this->film_title_sanitized ) ) ) {
+			$this->logger->log()->debug( '[Lumiere] Movie title provided in URL: ' . $this->film_title_sanitized );
 
 			$titleSearchClass = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
 			$search = $titleSearchClass->search( $this->film_title_sanitized, $this->type_search );
+
 			if ( array_key_exists( 0, $search ) === false ) {
-				$this->movie = null;
+
 				return false;
+
 			}
+
 			$this->movie = $search[0];
+
 			return true;
 		}
 
@@ -118,6 +123,7 @@ class Popup_Movie {
 	 *
 	 */
 	public function lumiere_popup_movie_layout(): void {
+
 		?><!DOCTYPE html>
 <html>
 <head>
@@ -130,28 +136,21 @@ class Popup_Movie {
 		?>">
 
 		<?php
-		// Get the movie's title
+		// Set up class properties
 		$this->find_movie();
+
 		$movie_results = $this->movie;
-		// If no movie was found, exit.
-		if ( $movie_results === null ) {
-			$this->logger->log()->error( '[Lumiere] No movie found.' );
-			wp_die( esc_html__( 'Lumiere movies: No movie found with this title', 'lumiere-movies' ) );
-		}
-		?>
 
-		<?php $this->display_menu( $movie_results ); ?>
+		$this->display_menu( $this->movie );
 
-		<?php $this->display_portrait( $movie_results ); ?>
+		$this->display_portrait( $this->movie );
 
-		<?php
-
-			// display something when nothing has been selected in the menu
-		if ( ( ! isset( $_GET['info'] ) ) || ( empty( $_GET['info'] ) ) ) {
+		// display something when nothing has been selected in the menu
+		if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
 
 			//---------------------------------------------------------------------------introduction part start
 
-			$this->display_intro( $movie_results );
+			$this->display_intro( $this->movie );
 
 			/*
 											<!-- Sound -->
@@ -182,14 +181,14 @@ class Popup_Movie {
 		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'actors' ) ) {
 
 			// Actors.
-			$cast = $this->movie->cast();
-			$nbactors = empty( $this->imdb_widget_values['imdbwidgetactornumber'] ) ? $nbactors = '1' : $nbactors = intval( $this->imdb_widget_values['imdbwidgetactornumber'] );
-			$nbtotalactors = intval( count( $cast ) );
+			$cast = $movie_results->cast();
+			$nbactors = $this->imdb_widget_values['imdbwidgetactornumber'] === 0 ? '1' : intval( $this->imdb_widget_values['imdbwidgetactornumber'] );
+			$nbtotalactors = count( $cast );
 
-			if ( isset( $cast ) && ! empty( $cast ) ) {
+			if ( count( $cast ) !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Actors -->";
-				echo "\n\t" . '<div class="imdbincluded-subtitle">' . esc_attr( sprintf( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ) ), number_format_i18n( $nbtotalactors ) ) . '</div>';
+				echo "\n\t" . '<div class="imdbincluded-subtitle">' . sprintf( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ), number_format_i18n( $nbtotalactors ) ) . '</div>';
 
 				for ( $i = 0; ( $i < $nbtotalactors ); $i++ ) {
 					echo "\n\t\t" . '<div align="center" class="lumiere_container">';
@@ -206,7 +205,8 @@ class Popup_Movie {
 						. '&film=' . $this->film_title_sanitized
 					)
 						. '" title="'
-						. esc_html__( 'link to imdb', 'lumiere-movies' )
+						. esc_html__( 'internal link to', 'lumiere-movies' )
+						. ' ' . sanitize_text_field( $cast[ $i ]['name'] )
 						. '">';
 					echo "\n\t\t\t\t" . sanitize_text_field( $cast[ $i ]['name'] );
 					echo '</a>';
@@ -226,9 +226,9 @@ class Popup_Movie {
 
 			// Directors.
 			$director = $movie_results->director();
-			if ( ( isset( $director ) ) && ( ! empty( $director ) ) ) {
+			$nbtotaldirector = count( $director );
 
-				$nbtotaldirector = count( $director );
+			if ( $nbtotaldirector !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- director -->';
 				echo "\n" . '<div id="lumiere_popup_director_group">';
@@ -264,9 +264,9 @@ class Popup_Movie {
 
 			// Writers.
 			$writer = $movie_results->writing();
-			if ( ( isset( $writer ) ) && ( ! empty( $writer ) ) ) {
+			$nbtotalwriter = count( $writer );
 
-				$nbtotalwriter = count( $writer );
+			if ( $nbtotalwriter !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- writers -->';
 				echo "\n" . '<div id="lumiere_popup_director_group">';
@@ -299,9 +299,9 @@ class Popup_Movie {
 
 			// Producers.
 			$producer = $movie_results->producer();
-			if ( ( isset( $producer ) ) && ( ! empty( $producer ) ) ) {
+			$nbtotalproducer = count( $producer );
 
-				$nbtotalproducer = count( $producer );
+			if ( $nbtotalproducer !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- writers -->';
 				echo "\n" . '<div id="lumiere_popup_writer_group">';
@@ -341,7 +341,7 @@ class Popup_Movie {
 
 			$plotoutline = $movie_results->plotoutline();
 
-			if ( ( isset( $plotoutline ) ) && ( ! empty( $plotoutline ) ) ) {
+			if ( strlen( $plotoutline ) !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- Plot summary -->';
 				echo "\n" . '<div id="lumiere_popup_plot_summary">';
@@ -359,7 +359,7 @@ class Popup_Movie {
 			$plot = $movie_results->plot();
 			$nbtotalplot = count( $plot );
 
-			if ( ( isset( $plot ) ) && ( ! empty( $plot ) ) ) {
+			if ( $nbtotalplot !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- Plots -->';
 				echo "\n" . '<div id="lumiere_popup_pluts_group">';
@@ -401,7 +401,7 @@ class Popup_Movie {
 	 * Show the menu
 	 *
 	 */
-	public function display_menu( object $movie_results ) {
+	public function display_menu( Title $movie_results ): void {
 		?>
 												<!-- top page menu -->
 
@@ -431,7 +431,7 @@ class Popup_Movie {
 	/**
 	 * Show the portrait (title, picture)
 	 */
-	public function display_portrait( object $movie_results ) {
+	public function display_portrait( Title $movie_results ): void {
 		?>
 		<div class="lumiere_display_flex lumiere_font_em_11">
 			<div class="lumiere_flex_auto lumiere_width_eighty_perc">
@@ -446,42 +446,21 @@ class Popup_Movie {
 			<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two">
 												<!-- Movie's picture display -->
 			<?php
-				## The picture is either taken from the movie itself or if it doesn't exist, from a standard "no exist" picture.
-				## The width value is taken from plugin settings, and added if the "thumbnail" option is unactivated
 
-				$small_picture = $movie_results->photo_localurl( false ); // get small poster for cache
-				$big_picture = $movie_results->photo_localurl( true ); // get big poster for cache
-				$photo_url = $small_picture ? $small_picture : $big_picture; // take the smaller first, the big if no small found
-			if ( ( isset( $photo_url ) ) && ( ! empty( $photo_url ) ) ) {
+				$photo_url = $movie_results->photo_localurl( false ) !== false ? esc_html( $movie_results->photo_localurl( false ) ) : esc_html( $movie_results->photo_localurl( true ) ); // create big picture, thumbnail otherwise.
+
+				$photo_url_final = strlen( $photo_url ) === 0 ? $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise
 
 				echo '<a class="highslide_pic_popup" class="highslide-image" href="' . esc_url( $photo_url ) . '">';
 				// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.
 				echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="';
-				echo esc_url( $photo_url ) . '" alt="' . esc_attr( $movie_results->title() ) . '"';
-				// add width only if "Display only thumbnail" is on "no"
-				if ( $this->imdb_admin_values['imdbcoversize'] === false ) {
-					echo ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . 'px"';
-				}
+				echo esc_url( $photo_url_final ) . '" alt="' . esc_attr( $movie_results->title() ) . '"';
+
+				echo ' width="100em"';
+
 				echo ' />';
 				echo '</a>';
 
-			} else {
-
-				echo '<a class="highslide_pic_popup">';
-				echo "\n\t\t"
-				. '<img loading="eager" class="imdbincluded-picture" src="'
-				. esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' )
-				. '" alt="'
-				. esc_html__( 'no picture', 'lumiere-movies' )
-				. '" ';
-
-				// add width only if "Display only thumbnail" is on "no".
-				if ( $this->imdb_admin_values['imdbcoversize'] === false ) {
-					echo ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . 'px"';
-				}
-				echo ' />';
-				echo '</a>';
-			}
 			?>
 
 			</div> 
@@ -492,11 +471,11 @@ class Popup_Movie {
 	/**
 	 * Show intro part
 	 */
-	private function display_intro( object $movie_results ) {
+	private function display_intro( Title $movie_results ): void {
 		// Director summary, limited by admin options.
 		$director = $movie_results->director();
 		// director shown only if selected so in options.
-		if ( ( isset( $director ) ) && ( ! empty( $director ) ) && ( $this->imdb_widget_values['imdbwidgetdirector'] === '1' ) ) {
+		if ( count( $director ) !== 0 && $this->imdb_widget_values['imdbwidgetdirector'] === '1' ) {
 
 			$nbtotaldirector = count( $director );
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Director -->";
@@ -528,11 +507,11 @@ class Popup_Movie {
 
 		// Main actors, limited by admin options.
 		$cast = $movie_results->cast();
-		$nbactors = empty( $this->imdb_widget_values['imdbwidgetactornumber'] ) ? $nbactors = '1' : $nbactors = intval( $this->imdb_widget_values['imdbwidgetactornumber'] );
-		$nbtotalactors = intval( count( $cast ) );
+		$nbactors = $this->imdb_widget_values['imdbwidgetactornumber'] === 0 ? '1' : intval( $this->imdb_widget_values['imdbwidgetactornumber'] );
+		$nbtotalactors = count( $cast );
 
 		// actor shown only if selected so in options.
-		if ( ( isset( $cast ) ) && ( ! empty( $cast ) ) && ( $this->imdb_widget_values['imdbwidgetactor'] === '1' ) ) {
+		if ( $nbtotalactors !== 0 && ( $this->imdb_widget_values['imdbwidgetactor'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Main actors -->";
 			echo "\n\t<div>";
@@ -553,9 +532,9 @@ class Popup_Movie {
 		}
 
 		// Runtime, limited by admin options.
-		$runtime = sanitize_text_field( $movie_results->runtime() );
+		$runtime = strval( $movie_results->runtime() );
 		// runtime shown only if selected so in admin options.
-		if ( ( ! empty( $runtime ) ) && ( $this->imdb_widget_values['imdbwidgetruntime'] === '1' ) ) {
+		if ( strlen( $runtime ) !== 0 && ( $this->imdb_widget_values['imdbwidgetruntime'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Runtime -->";
 			echo "\n\t<div>";
@@ -571,9 +550,11 @@ class Popup_Movie {
 
 		// Votes, limited by admin options.
 		// rating shown only if selected so in options.
-		if ( ( null !== ( $movie_results->votes() ) ) && ( $this->imdb_widget_values['imdbwidgetrating'] === '1' ) ) {
-			$votes_sanitized = intval( $movie_results->votes() );
-			$rating_sanitized = esc_html( $movie_results->rating() );
+		$votes_sanitized = intval( $movie_results->votes() );
+		$rating_sanitized_int = intval( $movie_results->rating() );
+		$rating_sanitized_string = esc_html( $movie_results->rating() );
+
+		if ( strlen( $rating_sanitized_string ) !== 0 && ( $this->imdb_widget_values['imdbwidgetrating'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Rating -->";
 			echo "\n\t<div>";
@@ -581,8 +562,8 @@ class Popup_Movie {
 			echo '<span class="imdbincluded-subtitle">'
 				. esc_html__( 'Rating', 'lumiere-movies' )
 				. '</span>';
-			echo ' <img src="' . $this->imdb_admin_values['imdbplugindirectory'] . 'pics/showtimes/' . ( round( $rating_sanitized * 2, 0 ) / 0.2 )
-			. '.gif" title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . $rating_sanitized . esc_html__( ' out of 10', 'lumiere-movies' ) . '"  / >';
+			echo ' <img src="' . $this->imdb_admin_values['imdbplugindirectory'] . 'pics/showtimes/' . ( round( $rating_sanitized_int * 2, 0 ) / 0.2 )
+			. '.gif" title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . $rating_sanitized_string . esc_html__( ' out of 10', 'lumiere-movies' ) . '"  / >';
 			echo ' (' . number_format( $votes_sanitized, 0, '', "'" ) . ' ' . esc_html__( 'votes', 'lumiere-movies' ) . ')';
 
 			echo "\n\t</div>";
@@ -593,7 +574,7 @@ class Popup_Movie {
 		$languages = $movie_results->languages();
 		$nbtotallanguages = count( $languages );
 		// language shown only if selected so in options.
-		if ( ( ( isset( $languages ) ) && ( ! empty( $languages ) ) ) && ( $this->imdb_widget_values['imdbwidgetlanguage'] === '1' ) ) {
+		if ( $nbtotallanguages !== 0 && ( $this->imdb_widget_values['imdbwidgetlanguage'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t<!-- Language -->";
 			echo "\n\t<div>";
@@ -615,8 +596,9 @@ class Popup_Movie {
 		// Country, limited by admin options.
 		$country = $movie_results->country();
 		$nbtotalcountry = count( $country );
+
 		// country shown only if selected so in options.
-		if ( ( ( isset( $country ) ) && ( ! empty( $country ) ) ) && ( $this->imdb_widget_values['imdbwidgetcountry'] === '1' ) ) {
+		if ( $nbtotalcountry !== 0 && ( $this->imdb_widget_values['imdbwidgetcountry'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Country -->";
 			echo "\n\t<div>";
@@ -635,13 +617,11 @@ class Popup_Movie {
 
 		}
 
-		$genre = $movie_results->genre();
+		$genres = $movie_results->genres();
+		$nbtotalgenre = count( $genres );
 
 		// Genre shown only if selected so in options.
-		if ( ( ( isset( $genre ) ) && ( ! empty( $genre ) ) ) && ( $this->imdb_widget_values['imdbwidgetgenre'] === '1' ) ) {
-
-			$gen = $movie_results->genres();
-			$nbtotalgenre = count( $gen );
+		if ( $nbtotalgenre !== 0 && ( $this->imdb_widget_values['imdbwidgetgenre'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Genre -->";
 			echo "\n\t<div>";
@@ -651,7 +631,7 @@ class Popup_Movie {
 			. '</span>';
 
 			for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
-				echo sanitize_text_field( $gen[ $i ] );
+				echo sanitize_text_field( $genres[ $i ] );
 				if ( $i < $nbtotalgenre - 1 ) {
 					echo ', ';
 				}
@@ -665,14 +645,14 @@ class Popup_Movie {
 	/**
 	 * Show misc part
 	 */
-	private function display_misc( object $movie_results ) {
+	private function display_misc( Title $movie_results ): void {
 
 		// Trivia.
 
 		$trivia = $movie_results->trivia();
 		$nbtotaltrivia = count( $trivia );
 
-		if ( ( isset( $trivia ) ) && ( ! empty( $trivia ) ) ) {
+		if ( $nbtotaltrivia !== 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Trivia -->';
 			echo "\n" . '<div id="lumiere_popup_pluts_group">';
@@ -689,7 +669,9 @@ class Popup_Movie {
 					. "\n\t" . '<div class="hidesection">'
 					. '<br />';
 
-				} elseif ( $i > 0 ) {
+				}
+
+				if ( $i > 0 ) {
 					echo "\n\t\t<strong>($iterator_number)</strong>&nbsp;" . preg_replace( '/https\:\/\/' . str_replace( '.', '\.', $movie_results->imdbsite ) . '\/name\/nm(\d{7})\//', $this->config_class->lumiere_urlpopupsperson . "popup-imdb_person.php?mid=\\1 class=\"linkpopup\"", sanitize_text_field( $trivia[ $i ] ) )
 					. "\n\t\t<hr>";
 				}
@@ -707,7 +689,7 @@ class Popup_Movie {
 
 		$soundtrack = $movie_results->soundtrack();
 		$nbtotalsoundtrack = count( $soundtrack );
-		if ( ( isset( $soundtrack ) ) && ( ! empty( $soundtrack ) ) ) {
+		if ( $nbtotalsoundtrack !== 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Soundtrack -->';
 			echo "\n" . '<div id="lumiere_popup_pluts_group">';
@@ -715,12 +697,13 @@ class Popup_Movie {
 
 			for ( $i = 0; $i < $nbtotalsoundtrack; $i++ ) {
 
-				$credit = preg_replace( '/http\:\/\/' . str_replace( '.', '\.', $movie_results->imdbsite ) . '\/name\/nm(\d{7})\//', $this->config_class->lumiere_urlpopupsperson . "popup-imdb_person.php?mid=\\1 class=\"linkpopup\"", sanitize_text_field( $soundtrack[ $i ]['credits'][0]['credit_to'] ) );
-				echo "\n\t\t"
-				. $credit
-				. '&nbsp;<i>'
-				. sanitize_text_field( $soundtrack[ $i ]['soundtrack'] )
-				. '</i>';
+				$credit_array = $soundtrack[ $i ]['credits'];
+				$credit_array_count = count( $credit_array );
+				for ( $ii = 0; $ii < $credit_array_count; $ii++ ) {
+					echo "\n\t\t";
+					echo $this->lumiere_convert_txtwithhtml_into_internal_person( $credit_array [ $ii ]['credit_to'] );
+					echo ' <i>' . sanitize_text_field( $credit_array [ $ii ]['desc'] ) . '</i>';
+				}
 
 				if ( $i < $nbtotalsoundtrack - 1 ) {
 					echo ', ';
@@ -737,7 +720,7 @@ class Popup_Movie {
 		$goof = $movie_results->goofs();
 		$nbtotalgoof = count( $goof );
 
-		if ( ( isset( $goof ) ) && ( ! empty( $goof ) ) ) {
+		if ( $nbtotalgoof !== 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Goofs -->';
 			echo "\n" . '<div id="lumiere_popup_pluts_group">';

@@ -660,8 +660,21 @@ class Movie {
 			. '" alt="'
 			. esc_html__( 'Photo of', 'lumiere-movies' )
 			. ' '
-			. esc_attr( $movie->title() ) . '" '
-			. 'width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '" />' . "\n";
+			. esc_attr( $movie->title() ) . '"';
+
+			// add width only if "Display only thumbnail" is unactive
+		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
+
+			$output .= ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
+
+			// add 100px width if "Display only thumbnail" is active
+		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
+
+			$output .= ' width="100em"';
+
+		}
+
+		$output .= ' />' . "\n";
 
 		// new verification, closure code related to highslide
 		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
@@ -1957,28 +1970,6 @@ class Movie {
 
 		return $output;
 
-	}
-
-	/**
-	 * Convert an imdb link to a highslide/classic popup link
-	 *
-	 * @param string $convert Link to be converted into popup highslide link
-	 */
-
-	private function lumiere_convert_txtwithhtml_into_popup_people ( string $convert ): string {
-
-		// highslide popup.
-		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
-			$result = '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
-
-			// classic popup.
-		} else {
-			$result = '<a class="link-imdblt-classicpeople" data-classicpeople="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
-		}
-
-		$convert = preg_replace( '~(<a href=)(.+?)(name\/nm)(\d{7})\/\"\>~', $result, $convert ) ?? $convert;
-
-		return $convert;
 	}
 
 	/**
