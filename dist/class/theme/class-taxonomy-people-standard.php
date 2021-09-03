@@ -418,7 +418,7 @@ class Taxonomy_People_Standard {
 
 		# Birth
 		$birthday = $this->person_class->born() !== null ? $this->person_class->born() : null;
-		if ( isset( $birthday ) ) {
+		if ( $birthday !== null && count( $birthday ) !== 0 ) {
 			$birthday_day = ( isset( $birthday['day'] ) ) ? intval( $birthday['day'] ) : '';
 			$birthday_month = ( isset( $birthday['month'] ) ) ? sanitize_text_field( $birthday['month'] ) : '';
 			$birthday_year = ( isset( $birthday['year'] ) ) ? intval( $birthday['year'] ) : '';

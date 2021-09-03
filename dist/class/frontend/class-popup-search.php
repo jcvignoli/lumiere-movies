@@ -16,6 +16,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
+use \Imdb\Title;
 use \Imdb\TitleSearch;
 
 class Popup_Search {
@@ -28,21 +29,23 @@ class Popup_Search {
 	/**
 	 * Settings from class \Lumiere\Settings
 	 * To include the type of (movie, TVshow, Games) search
+	 * @var array<string> $type_search
 	 */
-	private $type_search;
+	private array $type_search;
 
 	/**
-	 * Movie's title, if provided
+	 * Movie's title
 	 */
-	private ?string $film_title_sanitized;
+	private ?string $film_sanitized;
 
 	/**
-	 * Movie's title, if provided
+	 * Movie's title sanitized
 	 */
-	private ?string $film_sanitized_for_title;
+	private string $film_sanitized_for_title;
 
 	/**
 	 * The movie queried
+	 * @var array<\Imdb\Title> $movie_results
 	 */
 	private array $movie_results;
 
@@ -51,13 +54,6 @@ class Popup_Search {
 	 */
 	public function __construct() {
 
-		// Die if wrong gets.
-		if ( ( ! isset( $_GET['norecursive'] ) ) || ( $_GET['norecursive'] !== 'yes' ) || ( ! isset( $_GET['film'] ) ) || ( empty( $_GET['film'] ) ) ) {
-
-			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
-
-		}
-
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'popupSearch' );
 
@@ -65,8 +61,8 @@ class Popup_Search {
 		$this->type_search = $this->config_class->lumiere_select_type_search();
 
 		// Build the vars.
-		$this->film_sanitized = $this->utils_class->lumiere_name_htmlize( $_GET['film'] );
-		$this->film_sanitized_for_title = $_GET['film'];
+		$this->film_sanitized = Utils::lumiere_name_htmlize( $_GET['film'] );
+		$this->film_sanitized_for_title = esc_html( $_GET['film'] );
 
 		// Display layout
 		add_action( 'wp', [ $this, 'layout' ] );
@@ -77,9 +73,16 @@ class Popup_Search {
 	 *  Display layout
 	 *
 	 */
-	private function film_search() {
+	private function film_search(): void {
 
 		do_action( 'lumiere_logger' );
+
+		// Die if wrong gets.
+		if ( ( ! isset( $_GET['norecursive'] ) ) || ( $_GET['norecursive'] !== 'yes' ) || ( ! isset( $_GET['film'] ) ) || ( strlen( $_GET['film'] ) === 0 ) || $this->film_sanitized === null ) {
+
+			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
+
+		}
 
 		# Run the query.
 		$search = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
@@ -117,7 +120,7 @@ class Popup_Search {
 
 		<?php
 		// if no movie was found at all.
-		if ( empty( $this->movie_results ) ) {
+		if ( count( $this->movie_results ) === 0 ) {
 			echo "<h2 align='center'><i>" . esc_html__( 'No result found.', 'lumiere-movies' ) . '</i></h2>';
 			wp_footer();
 			?></body>
@@ -162,10 +165,10 @@ class Popup_Search {
 
 				echo "\n\t\t<a class=\"linkpopup\" href=\"" . esc_url(
 					$this->config_class->lumiere_urlpopupsfilms
-					. $this->utils_class->lumiere_name_htmlize( $res->title() )
+					. Utils::lumiere_name_htmlize( $res->title() )
 					. '/?mid=' . esc_html( $res->imdbid() )
 				)
-					. '&film=' . $this->utils_class->lumiere_name_htmlize( $res->title() )
+					. '&film=' . Utils::lumiere_name_htmlize( $res->title() )
 					. '" title="' . esc_html__( 'more on', 'lumiere-movies' ) . ' '
 					. esc_html( $res->title() ) . '" >'
 					. esc_html( $res->title() )

@@ -48,7 +48,7 @@ class Copy_Template_Taxonomy {
 		$lumiere_taxo_title = isset( $_GET['taxotype'] ) ? esc_html( $_GET['taxotype'] ) : null;
 
 		// Make various links and vars.
-		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, $this->array_people, true ) ? $lumiere_taxo_file_tocopy = \Lumiere\Settings::TAXO_PEOPLE_THEME : $lumiere_taxo_file_tocopy = \Lumiere\Settings::TAXO_ITEMS_THEME;
+		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, $this->config_class->array_people, true ) ? $lumiere_taxo_file_tocopy = \Lumiere\Settings::TAXO_PEOPLE_THEME : $lumiere_taxo_file_tocopy = \Lumiere\Settings::TAXO_ITEMS_THEME;
 		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
 		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
 		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;
@@ -63,9 +63,9 @@ class Copy_Template_Taxonomy {
 
 		/* Taxonomy is activated in the panel, and $_GET["taxotype"] exists
 		   as a $imdb_widget_values, and there is a nonce from Data class */
-		if ( ( isset( $this->imdb_admin_values['imdbtaxonomy'] ) ) && ( strlen( $this->imdb_admin_values['imdbtaxonomy'] ) !== 0 )
-		&& ( isset( $this->imdb_widget_values[ 'imdbtaxonomy' . $lumiere_taxo_title ] ) ) && ( strlen( $this->imdb_widget_values[ 'imdbtaxonomy' . $lumiere_taxo_title ] ) !== 0 )
-		&& isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'taxo' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' )
+		&& ( $this->imdb_widget_values[ 'imdbtaxonomy' . $lumiere_taxo_title ] === '1' )
+		&& isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'taxo' ) !== false ) {
 
 			// Make sure we got right credentials to use $wp_filesystem
 			Utils::lumiere_wp_filesystem_cred( $lumiere_taxonomy_theme_file );

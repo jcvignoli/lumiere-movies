@@ -358,16 +358,16 @@ class General extends \Lumiere\Admin {
 
 					<label for="imdb_imdbcoversize"><?php esc_html_e( 'Display only thumbnail', 'lumiere-movies' ); ?>&nbsp;
 
-					<input type="hidden" id="imdb_imdbcoversize_no" name="imdb_imdbcoversize" value="0" data-checkbox_activate="imdb_imdbcoversizewidth_id" />
+					<input type="hidden" id="imdb_imdbcoversize_no" name="imdb_imdbcoversize" value="0" data-checkbox_deactivate="imdb_imdbcoversizewidth_id" />
 
-					<input type="checkbox" id="imdb_imdbcoversize_yes" name="imdb_imdbcoversize" value="1" data-checkbox_activate="imdb_imdbcoversizewidth_id" 
+					<input type="checkbox" id="imdb_imdbcoversize_yes" name="imdb_imdbcoversize" value="1" data-checkbox_deactivate="imdb_imdbcoversizewidth_id" 
 					<?php
 					if ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
 						echo 'checked="checked" '; }
 					?>
 					/>
 
-					<div class="explain"><?php esc_html_e( 'Whether to display a thumbnail or a large image cover for movies inside a post or a widget. Untick the box to open a new option and chose the cover picture width.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
+					<div class="explain"><?php esc_html_e( 'Whether to display a thumbnail or a larger poster for movies included in posts and widgets. Untick the box to open a new option and choose a different poster width.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
 
 				</div>
 				<div class="lumiere_flex_container_content_third imdblt_padding_five" id="imdb_imdbcoversizewidth_id">

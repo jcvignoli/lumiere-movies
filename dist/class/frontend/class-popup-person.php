@@ -41,12 +41,6 @@ class Popup_Person {
 	private ?string $mid_sanitized;
 
 	/**
-	 * Movie's title, if provided
-	 * Not yet properly implemented
-	 */
-	private ?string $film_sanitized;
-
-	/**
 	 * Constructor
 	 *
 	 */
@@ -56,38 +50,38 @@ class Popup_Person {
 		$this->__constructFrontend( 'popupPerson' );
 
 		// Display layout
-		add_action( 'wp', [ $this, 'lumiere_popup_person_layout' ] );
+		add_action( 'wp', [ $this, 'lumiere_popup_person_layout' ], 1 );
 	}
 
 	/**
 	 *  Search movie title
 	 *
 	 */
-	private function find_person(): void {
+	private function find_person(): bool {
 
 		do_action( 'lumiere_logger' );
 
-		if ( isset( $_GET['film'] ) ) {
-			$this->film_sanitized = esc_html( $_GET['film'] );
-		}
-
-		if ( isset( $_GET['mid'] ) ) {
-			$this->mid_sanitized = esc_html( $_GET['mid'] );
-		}
+		/* GET Vars sanitized */
+		$this->mid_sanitized = isset( $_GET['mid'] ) && strlen( strval( $_GET['mid'] ) ) !== 0 ? esc_html( $_GET['mid'] ) : null;
 
 		// if neither film nor mid are set, throw a 404 error
-		if ( empty( $this->film_sanitized ) && empty( $this->mid_sanitized ) ) {
+		if ( $this->mid_sanitized === null ) {
 
 			status_header( 404 );
 			$this->logger->log()->error( '[Lumiere] No person entered' );
-			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
+			wp_die( esc_html__( 'Lumière Movies: Invalid person search query.', 'lumiere-movies' ) );
 
-		} elseif ( ! empty( $this->mid_sanitized ) ) {
+		} elseif ( strlen( $this->mid_sanitized ) !== 0 ) {
 
+			$this->logger->log()->debug( '[Lumiere] Movie person IMDb ID provided in URL: ' . $this->mid_sanitized );
 			$this->person = new Person( $this->mid_sanitized, $this->imdbphp_class, $this->logger->log() );
 			$this->person_name_sanitized = sanitize_text_field( $this->person->name() );
 
+			return true;
+
 		}
+
+		return false;
 
 	}
 
@@ -112,10 +106,6 @@ class Popup_Person {
 		<?php
 		// Get the movie's title
 		$this->find_person();
-		// If no movie was found, exit.
-		if ( isset( $this->person_name_sanitized ) === false || $this->person_name_sanitized === null ) {
-			wp_die( esc_html__( 'Lumiere movies: No person found.', 'lumiere-movies' ) );
-		}
 		?>
 
 												<!-- top page menu -->
@@ -146,8 +136,8 @@ class Popup_Person {
 				<?php
 
 				# Birth
-				$birthday = count( $this->person->born() ) ? $this->person->born() : '';
-				if ( ( isset( $birthday ) ) && ( ! empty( $birthday ) ) ) {
+				$birthday = $this->person->born() !== null ? $this->person->born() : null;
+				if ( $birthday !== null && count( $birthday ) !== 0 ) {
 					$birthday_day = ( isset( $birthday['day'] ) ) ? intval( $birthday['day'] ) : '';
 					$birthday_month = ( isset( $birthday['month'] ) ) ? sanitize_text_field( $birthday['month'] ) : '';
 					$birthday_year = ( isset( $birthday['year'] ) ) ? intval( $birthday['year'] ) : '';
@@ -159,7 +149,7 @@ class Popup_Person {
 						. $birthday_year;
 				}
 
-				if ( ( isset( $birthday['place'] ) ) && ( ! empty( $birthday['place'] ) ) ) {
+				if ( isset( $birthday['place'] ) && strlen( $birthday['place'] ) !== 0 ) {
 					echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . sanitize_text_field( $birthday['place'] );
 				}
 
@@ -167,8 +157,8 @@ class Popup_Person {
 				echo "\n\t\t" . '<div class=""><font size="-1">';
 
 				# Death
-				$death = ( null !== $this->person->died() ) ? $this->person->died() : '';
-				if ( ( isset( $death ) ) && ( ! empty( $death ) ) ) {
+				$death = count( $this->person->died() ) !== 0 ? $this->person->died() : null;
+				if ( $death !== null ) {
 
 					echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
 						. esc_html__( 'Died on', 'lumiere-movies' ) . '</span>'
