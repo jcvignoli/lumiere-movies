@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-03 01:51-0400\n"
-"PO-Revision-Date: 2021-09-03 01:52-0400\n"
+"POT-Creation-Date: 2021-09-03 21:07-0400\n"
+"PO-Revision-Date: 2021-09-03 21:08-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -367,8 +367,6 @@ msgid "You may also select a group of movies to delete."
 msgstr "Vous pouvez également sélectionner un groupe de film à effacer."
 
 #: class/admin/class-cache.php:882 class/admin/class-cache.php:991
-#: class/frontend/class-popup-person.php:253
-#: class/theme/class-taxonomy-people-standard.php:403
 msgid "no picture"
 msgstr "pas de photo"
 
@@ -1004,12 +1002,13 @@ msgstr "Afficher uniquement la miniature"
 #: class/admin/class-general.php:370
 msgid ""
 "Whether to display a thumbnail or a larger poster for movies included in "
-"posts and widgets. Untick the box to open a new option and choose a "
-"different poster width."
+"posts, widgets, popups and taxonomy pages. Untick the box to open a new "
+"option and choose a different poster width."
 msgstr ""
-"Afficher la miniature ou l'image agrandie de pochette pour les films dans un "
-"message ou widget. Désélectionnez la boîte pour afficher une nouvelle option "
-"et choisir la largeur de l'image de couverture."
+"Afficher la miniature ou l'image agrandie de pochette pour les films dans "
+"les article, les widgets, les popups, les pages de taxonomie. Désélectionnez "
+"la boîte pour afficher une nouvelle option et choisir la largeur de la "
+"pochette."
 
 #: class/admin/class-general.php:375
 msgid "Size"
@@ -2235,44 +2234,44 @@ msgstr "Ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
 msgid "Photo of"
 msgstr "Photo de"
 
-#: class/frontend/class-movie.php:706 class/frontend/class-popup-movie.php:608
+#: class/frontend/class-movie.php:706 class/frontend/class-popup-movie.php:616
 msgid "Country"
 msgid_plural "Countries"
 msgstr[0] "Pays"
 msgstr[1] "Pays"
 
-#: class/frontend/class-movie.php:750 class/frontend/class-popup-movie.php:543
+#: class/frontend/class-movie.php:750 class/frontend/class-popup-movie.php:551
 msgid "Runtime"
 msgstr "Dur&eacute;e"
 
-#: class/frontend/class-movie.php:752 class/frontend/class-popup-movie.php:547
+#: class/frontend/class-movie.php:752 class/frontend/class-popup-movie.php:555
 msgid "minutes"
 msgstr "minutes"
 
-#: class/frontend/class-movie.php:774 class/frontend/class-popup-movie.php:584
+#: class/frontend/class-movie.php:774 class/frontend/class-popup-movie.php:592
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "Langue"
 msgstr[1] "Langues"
 
-#: class/frontend/class-movie.php:819 class/frontend/class-popup-movie.php:564
+#: class/frontend/class-movie.php:819 class/frontend/class-popup-movie.php:572
 msgid "Rating"
 msgstr "Note"
 
-#: class/frontend/class-movie.php:823 class/frontend/class-popup-movie.php:567
+#: class/frontend/class-movie.php:823 class/frontend/class-popup-movie.php:575
 msgid "vote average "
 msgstr "moyenne de votes "
 
 # as "10 out of 10"
-#: class/frontend/class-movie.php:823 class/frontend/class-popup-movie.php:567
+#: class/frontend/class-movie.php:823 class/frontend/class-popup-movie.php:575
 msgid " out of 10"
 msgstr " sur 10"
 
-#: class/frontend/class-movie.php:824 class/frontend/class-popup-movie.php:568
+#: class/frontend/class-movie.php:824 class/frontend/class-popup-movie.php:576
 msgid "votes"
 msgstr "votes"
 
-#: class/frontend/class-movie.php:846 class/frontend/class-popup-movie.php:631
+#: class/frontend/class-movie.php:846 class/frontend/class-popup-movie.php:639
 msgid "Genre"
 msgid_plural "Genres"
 msgstr[0] "Genre"
@@ -2284,7 +2283,7 @@ msgid_plural "Keywords"
 msgstr[0] "Mot-cl&eacute;"
 msgstr[1] "Mot-cl&eacute;s"
 
-#: class/frontend/class-movie.php:941 class/frontend/class-popup-movie.php:728
+#: class/frontend/class-movie.php:941 class/frontend/class-popup-movie.php:736
 msgid "Goof"
 msgid_plural "Goofs"
 msgstr[0] "Erreur"
@@ -2336,7 +2335,7 @@ msgstr[1] "Compositeur"
 msgid "Link to local IMDb"
 msgstr "Lien vers l'IMDb en local"
 
-#: class/frontend/class-movie.php:1305 class/frontend/class-popup-movie.php:697
+#: class/frontend/class-movie.php:1305 class/frontend/class-popup-movie.php:705
 msgid "Soundtrack"
 msgid_plural "Soundtracks"
 msgstr[0] "Bande originale"
@@ -2355,7 +2354,7 @@ msgstr[0] "Site web officiel"
 msgstr[1] "Sites web officiels"
 
 #: class/frontend/class-movie.php:1453 class/frontend/class-popup-movie.php:235
-#: class/frontend/class-popup-movie.php:486
+#: class/frontend/class-popup-movie.php:494
 #: class/frontend/class-popup-search.php:137
 msgid "Director"
 msgid_plural "Directors"
@@ -2368,6 +2367,8 @@ msgstr[1] "R&eacute;alisateurs"
 #: class/frontend/class-movie.php:1686 class/frontend/class-movie.php:1691
 #: class/frontend/class-movie.php:1760 class/frontend/class-movie.php:1765
 #: class/frontend/trait-frontend.php:126 class/frontend/trait-frontend.php:130
+#: class/frontend/trait-frontend.php:191 class/frontend/trait-frontend.php:192
+#: class/frontend/trait-frontend.php:196 class/frontend/trait-frontend.php:197
 msgid "open a new window with IMDb informations"
 msgstr "ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
 
@@ -2431,15 +2432,16 @@ msgid "Lumière Movies: Invalid query."
 msgstr "Lumière Movies : Requête invalide."
 
 #: class/frontend/class-popup-movie.php:208
-#: class/frontend/trait-frontend.php:146
+#: class/frontend/trait-frontend.php:146 class/frontend/trait-frontend.php:162
+#: class/frontend/trait-frontend.php:163
 msgid "internal link to"
 msgstr "lien interne vers"
 
 #: class/frontend/class-popup-movie.php:249
 #: class/frontend/class-popup-movie.php:287
 #: class/frontend/class-popup-movie.php:322
-#: class/frontend/class-popup-movie.php:495
-#: class/frontend/class-popup-movie.php:523
+#: class/frontend/class-popup-movie.php:503
+#: class/frontend/class-popup-movie.php:531
 msgid "link to imdb"
 msgstr "lien vers imdb"
 
@@ -2476,22 +2478,22 @@ msgstr "Equipe"
 msgid "Plots"
 msgstr "Synopsis"
 
-#: class/frontend/class-popup-movie.php:520
+#: class/frontend/class-popup-movie.php:528
 msgid "Main actors"
 msgstr "Acteurs principaux"
 
-#: class/frontend/class-popup-movie.php:660
-#: class/frontend/class-popup-person.php:635
+#: class/frontend/class-popup-movie.php:668
+#: class/frontend/class-popup-person.php:584
 msgid "Trivia"
 msgid_plural "Trivias"
 msgstr[0] "Anecdote"
 msgstr[1] "Anecdotes"
 
-#: class/frontend/class-popup-movie.php:669
+#: class/frontend/class-popup-movie.php:677
 msgid "click to show more trivias"
 msgstr "cliquez pour plus de trvias"
 
-#: class/frontend/class-popup-movie.php:737
+#: class/frontend/class-popup-movie.php:745
 msgid "click to show more goofs"
 msgstr "cliquez pour plus de gaffes"
 
@@ -2512,73 +2514,63 @@ msgid "Full biography"
 msgstr "Biographie complète"
 
 #: class/frontend/class-popup-person.php:146
-#: class/theme/class-taxonomy-people-standard.php:428
+#: class/theme/class-taxonomy-people-standard.php:423
 msgid "Born on"
 msgstr "N&eacute; le"
 
 # "in" as in the place of death
 #: class/frontend/class-popup-person.php:153
 #: class/frontend/class-popup-person.php:170
-#: class/theme/class-taxonomy-people-standard.php:437
-#: class/theme/class-taxonomy-people-standard.php:459
+#: class/theme/class-taxonomy-people-standard.php:432
+#: class/theme/class-taxonomy-people-standard.php:454
 msgid "in"
 msgstr "&agrave;"
 
 #: class/frontend/class-popup-person.php:164
-#: class/theme/class-taxonomy-people-standard.php:453
+#: class/theme/class-taxonomy-people-standard.php:448
 msgid "Died on"
 msgstr "Mort le"
 
 # "cause" as a cause of death
 #: class/frontend/class-popup-person.php:174
-#: class/theme/class-taxonomy-people-standard.php:463
+#: class/theme/class-taxonomy-people-standard.php:458
 msgid "cause"
 msgstr "de"
 
-#: class/frontend/class-popup-person.php:187
-#: class/theme/class-taxonomy-people-standard.php:485
-msgid "Biography"
-msgstr "Biographie"
-
-#: class/frontend/class-popup-person.php:197
-#: class/theme/class-taxonomy-people-standard.php:495
-msgid "click to expand"
-msgstr "cliquez pour ouvrir"
-
-#: class/frontend/class-popup-person.php:322
-#: class/frontend/class-popup-person.php:372
-#: class/frontend/class-popup-person.php:584
-#: class/frontend/class-popup-person.php:642
-#: class/frontend/class-popup-person.php:707
-#: class/frontend/class-popup-person.php:743
+#: class/frontend/class-popup-person.php:272
+#: class/frontend/class-popup-person.php:323
+#: class/frontend/class-popup-person.php:533
+#: class/frontend/class-popup-person.php:591
+#: class/frontend/class-popup-person.php:656
+#: class/frontend/class-popup-person.php:692
 msgid "see all"
 msgstr "voir tout"
 
-#: class/frontend/class-popup-person.php:497
+#: class/frontend/class-popup-person.php:446
 msgid "Biographical movies"
 msgstr "Film biographiques"
 
-#: class/frontend/class-popup-person.php:519
+#: class/frontend/class-popup-person.php:468
 msgid "Portrayed in"
 msgstr "Dépeint dans"
 
-#: class/frontend/class-popup-person.php:541
+#: class/frontend/class-popup-person.php:490
 msgid "Interviews"
 msgstr "interviews"
 
-#: class/frontend/class-popup-person.php:576
+#: class/frontend/class-popup-person.php:525
 msgid "Printed publicity"
 msgstr "Publicité imprimée"
 
-#: class/frontend/class-popup-person.php:674
+#: class/frontend/class-popup-person.php:623
 msgid "Nicknames"
 msgstr "Surnoms"
 
-#: class/frontend/class-popup-person.php:700
+#: class/frontend/class-popup-person.php:649
 msgid "Personal quotes"
 msgstr "Citations"
 
-#: class/frontend/class-popup-person.php:736
+#: class/frontend/class-popup-person.php:685
 msgid "Trademarks"
 msgstr "Marques de fabrique"
 
@@ -2616,6 +2608,14 @@ msgstr "plus sur"
 #: class/frontend/class-popup-search.php:198
 msgid "No director found."
 msgstr "Aucun réalisateur trouvé"
+
+#: class/frontend/trait-frontend.php:224
+msgid "click to expand"
+msgstr "cliquez pour ouvrir"
+
+#: class/frontend/trait-frontend.php:255
+msgid "Biography"
+msgstr "Biographie"
 
 #: class/theme/class-taxonomy-items-standard.php:74
 #: class/theme/class-taxonomy-people-standard.php:215

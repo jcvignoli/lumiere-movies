@@ -665,7 +665,7 @@ class Core {
 					$filmid_sanitized = esc_html( $movie->title() );
 				}
 
-				$title_name = strlen( $filmid_sanitized ) !== 0 ? $filmid_sanitized : Utils::lumiere_name_htmlize( $_GET['film'] );
+				$title_name = isset( $filmid_sanitized ) && strlen( $filmid_sanitized ) !== 0 ? $filmid_sanitized : Utils::lumiere_name_htmlize( $_GET['film'] );
 
 				$title = esc_html__( 'Informations about ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies';
 

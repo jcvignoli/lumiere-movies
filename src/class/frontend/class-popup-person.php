@@ -166,112 +166,61 @@ class Popup_Person {
 						. sanitize_text_field( $death['month'] ) . ' '
 						. intval( $death['year'] );
 
-					if ( ( isset( $death['place'] ) ) && ( ! empty( $death['place'] ) ) ) {
+					if ( ( isset( $death['place'] ) ) && ( strlen( $death['place'] ) !== 0 ) ) {
 						echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . sanitize_text_field( $death['place'] );
 					}
 
-					if ( ( isset( $death['cause'] ) ) && ( ! empty( $death['cause'] ) ) ) {
+					if ( ( isset( $death['cause'] ) ) && ( strlen( $death['cause'] ) !== 0 ) ) {
 						echo ', ' . esc_html__( 'cause', 'lumiere-movies' ) . ' ' . sanitize_text_field( $death['cause'] );
 					}
 				}
 
 				echo "\n\t\t" . '</font></div>';
+
 				echo "\n\t\t" . '<div class="lumiere_padding_two lumiere_align_left"><font size="-1">';
 
-				# Biography
-				$bio = $this->person->bio();
-				$nbtotalbio = count( $bio );
-
-				if ( ( isset( $bio ) ) && ( ! empty( $bio ) ) ) {
-					echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
-						. esc_html__( 'Biography', 'lumiere-movies' )
-						. '</span>';
-
-					if ( $nbtotalbio < 2 ) {
-						$idx = 0;
-					} else {
-						$idx = 1;
-					}
-
-					$bio_text = sanitize_text_field( $bio[ $idx ]['desc'] );
-					$click_text = esc_html__( 'click to expand', 'lumiere-movies' );
-					$max_length = 200; # number of characters
-
-					if ( strlen( $bio_text ) > $max_length ) {
-
-						$str_one = substr( $bio_text, 0, $max_length );
-						$str_two = substr( $bio_text, $max_length, strlen( $bio_text ) );
-						$final_text = "\n\t\t\t" . $str_one
-							. "\n\t\t\t" . '<span class="activatehidesection"><strong>&nbsp;(' . $click_text . ')</strong></span> '
-							. "\n\t\t\t" . '<span class="hidesection">'
-							. "\n\t\t\t" . $str_two
-							. "\n\t\t\t" . '</span>';
-						echo $final_text;
-
-					} else {
-
-						echo $bio_text;
-
-					}
-
-				}
+				echo $this->lumiere_medaillon_bio( $this->person->bio(), false );
 				?>
 
 				</font></div>
 			</div> 
 												<!-- star photo -->
-			<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two">
-			<?php
+			<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two"><?php
 
-				$small_picture = $this->person->photo_localurl( false ); // get small poster for cache
-				$big_picture = $this->person->photo_localurl( true ); // get big poster for cache
-				$photo_url = isset( $small_picture ) ? $small_picture : $big_picture; // take the smaller first, the big if no small found
-			if ( ( isset( $photo_url ) ) && ( ! empty( $photo_url ) ) ) {
+			// Select pictures: big poster, if not small poster, if not 'no picture'.
+			$photo_url = $this->person->photo_localurl( false ) !== false ? esc_url( $this->person->photo_localurl( false ) ) : esc_url( $this->person->photo_localurl( true ) ); // create big picture, thumbnail otherwise.
+			$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
 
-				echo '<a class="highslide_pic_popup" href="' . esc_url( $photo_url ) . '">';
-				echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="'
-					. esc_url( $photo_url )
-					. '" alt="'
-					. $this->person_name_sanitized . '" ';
+			echo "\n\t\t\t\t" . '<a class="highslide_pic_popup" href="' . esc_attr( $photo_url_final ) . '">';
+			echo "\n\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture" src="'
+				. esc_attr( $photo_url_final )
+				. '" alt="'
+				. $this->person_name_sanitized . '"';
 
-				// add width only if "Display only thumbnail" is on "no".
-				if ( $this->imdb_admin_values['imdbcoversize'] === false ) {
-					echo 'width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . 'px"';
-				}
+			// add width only if "Display only thumbnail" is unactive.
+			if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
 
-				echo ' />';
-				echo '</a>';
+				echo ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
 
-				// No picture was downloaded, display "no picture"
-			} else {
+				// add 100px width if "Display only thumbnail" is active.
+			} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
 
-				echo '<a class="highslide_pic_popup">';
-				echo "\n\t\t"
-					. '<img loading="eager" class="imdbincluded-picture" src="'
-					. esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' )
-					. '" alt="'
-					. esc_html__( 'no picture', 'lumiere-movies' )
-					. '" ';
+				echo ' width="100em"';
 
-				// add width only if "Display only thumbnail" is on "no"
-				if ( $this->imdb_admin_values['imdbcoversize'] === false ) {
-					echo 'width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . 'px"';
-				}
-
-				echo ' />';
-				echo '</a>';
 			}
+
+			echo ' />';
+			echo "\n\t\t\t\t</a>";
+
 			?>
 
 			</div> 
 		</div> 
 
-		<hr>
+		<hr><?php
 
-
-		<?php
 		//---------------------------------------------------------------------------summary
-		if ( ( ! isset( $_GET['info'] ) ) || ( empty( $_GET['info'] ) ) ) {      // display only when nothing is selected from the menu
+		if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {      // display only when nothing is selected from the menu
 
 			############## Director actor and producer filmography
 
@@ -280,10 +229,11 @@ class Popup_Person {
 
 			foreach ( $list_all_movies_functions as $var ) {
 				$all_movies_functions = "movies_$var";
+				// @phpstan-ignore-next-line 'Variable method call on Imdb\Person'.
 				$filmo = $this->person->$all_movies_functions();
 				$catname = ucfirst( $var );
 
-				if ( ( isset( $filmo ) ) && ( ! empty( $filmo ) ) ) {
+				if ( ( isset( $filmo ) ) && count( $filmo ) !== 0 ) {
 					$nbfilmpercat = 0;
 					$nbtotalfilmo = count( $filmo );
 					$nbtotalfilms = $nbtotalfilmo - $nbfilmpercat;
@@ -299,7 +249,7 @@ class Popup_Person {
 
 						echo " <a class='linkpopup' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $filmo[ $i ]['mid'] ) ) . "'>" . sanitize_text_field( $filmo[ $i ]['name'] ) . '</a>';
 
-						if ( ! empty( $filmo[ $i ]['year'] ) ) {
+						if ( strlen( $filmo[ $i ]['year'] ) !== 0 ) {
 							echo ' (';
 							echo intval( $filmo[ $i ]['year'] );
 							echo ')';
@@ -309,12 +259,12 @@ class Popup_Person {
 						if ( $filmo[ $i ]['chname'] == "\n" ) {
 							echo '';
 						} else {
-							if ( empty( $filmo['chid'] ) ) {
-								if ( ! empty( $filmo[ $i ]['chname'] ) ) {
+							if ( isset( $filmo['chid'] ) && strlen( $filmo['chid'] ) !== 0 ) {
+								if ( strlen( $filmo['chname'] ) !== 0 ) {
 									echo ' as <i>' . sanitize_text_field( $filmo[ $i ]['chname'] ) . '</i>';
 								}
 							} else {
-								echo ' as <i><a class="linkpopup" href="' . esc_url( 'https://' . $this->person->imdbsite . '/character/ch' . intval( $filmo['chid'] ) ) . '/">' . $filmo[ $i ]['chname'] . '</a></i>'; }
+								echo ' as <i><a class="linkpopup" href="' . esc_url( 'https://' . $this->person->imdbsite . '/character/ch' . intval( $filmo[ $i ]['chid'] ) ) . '/">' . $filmo[ $i ]['chname'] . '</a></i>'; }
 
 							// Display a "show more" after XX results
 							if ( $i === $nblimitcatmovies ) {
@@ -352,10 +302,11 @@ class Popup_Person {
 
 			foreach ( $list_all_movies_functions as $var ) {
 				$all_movies_functions = "movies_$var";
+				// @phpstan-ignore-next-line 'Variable method call on Imdb\Person'.
 				$filmo = $this->person->$all_movies_functions();
 				$catname = ucfirst( $var );
 
-				if ( ( isset( $filmo ) ) && ( ! empty( $filmo ) ) ) {
+				if ( ( isset( $filmo ) ) && count( $filmo ) !== 0 ) {
 					$nbfilmpercat = 0;
 					$nbtotalfilmo = count( $filmo );
 					$nbtotalfilms = $nbtotalfilmo - $nbfilmpercat;
@@ -388,37 +339,38 @@ class Popup_Person {
 								. "'>"
 								. sanitize_text_field( $filmo[ $i ]['name'] )
 								. '</a>';
-							if ( ! empty( $filmo[ $i ]['year'] ) ) {
+							if ( strlen( $filmo[ $i ]['year'] ) !== 0 ) {
 								echo ' (';
 								echo intval( $filmo[ $i ]['year'] );
 								echo ')';
 							}
 							echo "\n\t\t\t" . '</div>';
 							echo "\n\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+
+							/**
+							 * 2021 09 Dunno if this check is still needed
 							if ( $filmo[ $i ]['chname'] == "\n" ) {
 								echo '';
-							} else {
+							} else { */
 
-								if ( empty( $filmo['chid'] ) ) {
-									if ( ! empty( $filmo[ $i ]['chname'] ) ) {
-										echo ' as <i>'
-										. sanitize_text_field( $filmo[ $i ]['chname'] )
-										. '</i>';
-									}
-								} else {
-									echo ' as <i><a class="linkpopup" href="'
-									. esc_url(
-										'https://'
-										. $this->person->imdbsite
-										. '/character/ch'
-										. intval( $filmo['chid'] )
-									)
-									. '/">'
-									. $filmo[ $i ]['chname']
-									. '</a></i>';
-								}
+							if ( ( ! isset( $filmo['chid'] ) || strlen( $filmo['chid'] ) === 0 ) && ( strlen( $filmo[ $i ]['chname'] ) !== 0 ) ) {
+								echo ' as <i>'
+									. sanitize_text_field( $filmo[ $i ]['chname'] )
+									. '</i>';
 
+							} elseif ( isset( $filmo['chid'] ) && count( $filmo['chid'] ) !== 0 ) {
+								echo ' as <i><a class="linkpopup" href="'
+								. esc_url(
+									'https://'
+									. $this->person->imdbsite
+									. '/character/ch'
+									. intval( $filmo['chid'] )
+								)
+								. '/">'
+								. sanitize_text_field( $filmo[ $i ]['chname'] )
+								. '</a></i>';
 							}
+
 							echo "\n\t\t\t</div>";
 							echo "\n\t\t</div>";
 
@@ -440,34 +392,31 @@ class Popup_Person {
 								. "'>" . sanitize_text_field( $filmo[ $i ]['name'] )
 								. '</a>';
 
-						if ( ! empty( $filmo[ $i ]['year'] ) ) {
+						if ( strlen( $filmo[ $i ]['year'] ) !== 0 ) {
 							echo ' (';
 							echo intval( $filmo[ $i ]['year'] );
 							echo ')';
 						}
 
-						// if (empty($film["chname"])) { 		//-> the result sent is not empty, but a breakline instead
+						/**
+						 * 2021 09 Dunno if this check is still needed
 						if ( $filmo[ $i ]['chname'] == "\n" ) {
 							echo '';
-						} else {
+						} else { */
 
-							if ( empty( $filmo['chid'] ) ) {
-								if ( ! empty( $filmo[ $i ]['chname'] ) ) {
-									echo ' as <i>' . sanitize_text_field( $filmo[ $i ]['chname'] ) . '</i>';
-								}
-							} else {
-								echo ' as <i><a class="linkpopup" href="'
-									. esc_url(
-										'https://'
-										. $this->person->imdbsite
-										. '/character/ch'
-										. intval( $filmo['chid'] )
-									)
-									. '/">'
-									. $filmo[ $i ]['chname']
-									. '</a></i>';
-							}
-
+						if ( ( ! isset( $filmo['chid'] ) || strlen( $filmo['chid'] ) === 0 ) && ( strlen( $filmo[ $i ]['chname'] ) !== 0 ) ) {
+							echo ' as <i>' . sanitize_text_field( $filmo[ $i ]['chname'] ) . '</i>';
+						} elseif ( isset( $filmo['chid'] ) && strlen( $filmo['chid'] ) !== 0 ) {
+							echo ' as <i><a class="linkpopup" href="'
+								. esc_url(
+									'https://'
+									. $this->person->imdbsite
+									. '/character/ch'
+									. intval( $filmo['chid'] )
+								)
+								. '/">'
+								. $filmo[ $i ]['chname']
+								. '</a></i>';
 						}
 
 						$nbfilmpercat++;
@@ -490,7 +439,7 @@ class Popup_Person {
 			$biomovie = $this->person->pubmovies();
 			$nbtotalbiomovie = count( $biomovie );
 
-			if ( ( isset( $biomovie ) ) && ( ! empty( $biomovie ) ) ) {
+			if ( $nbtotalbiomovie !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- Biographical movies -->';
 				echo "\n" . '<div id="lumiere_popup_biomovies">';
@@ -498,7 +447,7 @@ class Popup_Person {
 
 				for ( $i = 0; $i < $nbtotalbiomovie; ++$i ) {
 					echo "<a class='linkpopup' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $biomovie[ $i ]['imdb'] ) ) . "'>" . $biomovie[ $i ]['name'] . '</a>';
-					if ( ! empty( $biomovie[ $i ]['year'] ) ) {
+					if ( strlen( $biomovie[ $i ]['year'] ) !== 0 ) {
 						echo ' (' . intval( $biomovie[ $i ]['year'] ) . ')';
 					}
 				}
@@ -512,7 +461,7 @@ class Popup_Person {
 			$portrayedmovie = $this->person->pubportraits();
 			$nbtotalportrayedmovie = count( $portrayedmovie );
 
-			if ( ( isset( $portrayedmovie ) ) && ( ! empty( $portrayedmovie ) ) ) {
+			if ( $nbtotalportrayedmovie !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- Portrayed in -->';
 				echo "\n" . '<div id="lumiere_popup_biomovies">';
@@ -520,7 +469,7 @@ class Popup_Person {
 
 				for ( $i = 0; $i < $nbtotalportrayedmovie; ++$i ) {
 					echo "<a class='linkpopup' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $portrayedmovie[ $i ]['imdb'] ) ) . "'>" . $portrayedmovie[ $i ]['name'] . '</a>';
-					if ( ! empty( $portrayedmovie[ $i ]['year'] ) ) {
+					if ( strlen( $portrayedmovie[ $i ]['year'] ) !== 0 ) {
 						echo ' (' . intval( $portrayedmovie[ $i ]['year'] ) . ') ';
 					}
 				}
@@ -534,7 +483,7 @@ class Popup_Person {
 			$interviews = $this->person->interviews();
 			$nbtotalinterviews = count( $interviews );
 
-			if ( ( isset( $interviews ) ) && ( ! empty( $interviews ) ) ) {
+			if ( $nbtotalinterviews !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- Interviews -->';
 				echo "\n" . '<div id="lumiere_popup_biomovies">';
@@ -544,11 +493,11 @@ class Popup_Person {
 
 					echo $interviews[ $i ]['name'] . ' ';
 
-					if ( ! empty( $interviews[ $i ]['full'] ) ) {
+					if ( isset( $interviews[ $i ]['full'] ) && strlen( $interviews[ $i ]['full'] ) !== 0 ) {
 						echo ' (' . intval( $interviews[ $i ]['full'] ) . ') ';
 					}
 
-					if ( ! empty( $interviews[ $i ]['details'] ) ) {
+					if ( isset( $interviews[ $i ]['details'] ) && strlen( $interviews[ $i ]['details'] ) !== 0 ) {
 						echo $interviews[ $i ]['details'] . '';
 					}
 
@@ -568,7 +517,7 @@ class Popup_Person {
 			$nbtotalpubprints = count( $pubprints );
 			$nblimitpubprints = 9;
 
-			if ( ( isset( $pubprints ) ) && ( ! empty( $pubprints ) ) ) {
+			if ( $nbtotalpubprints !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- Publicity printed -->';
 				echo "\n" . '<div id="lumiere_popup_biomovies">';
@@ -586,20 +535,20 @@ class Popup_Person {
 							. "\n\t" . '<span class="hidesection">';
 					}
 
-					if ( ! empty( $pubprints[ $i ]['author'] ) ) {
+					if ( isset( $pubprints[ $i ]['author'] ) && strlen( $pubprints[ $i ]['author'] ) !== 0 ) {
 						$text = preg_replace( '~/name/nm(\d{7})\/\"~', $this->config_class->lumiere_urlpopupsperson . "popup-imdb_person.php?mid=\\1\" class=\"linkpopup\"", $pubprints[ $i ]['author'] ); # transform imdb to local link
 						echo "\n\t\t" . $text;
 					}
 
-					if ( ! empty( $pubprints[ $i ]['title'] ) ) {
+					if ( isset( $pubprints[ $i ]['title'] ) && strlen( $pubprints[ $i ]['title'] ) !== 0 ) {
 						echo ' <i>' . esc_html( $pubprints[ $i ]['title'] ) . '</i> ';
 					}
 
-					if ( ! empty( $pubprints[ $i ]['year'] ) ) {
+					if ( isset( $pubprints[ $i ]['year'] ) && strlen( $pubprints[ $i ]['year'] ) !== 0 ) {
 						echo '(' . intval( $pubprints[ $i ]['year'] ) . ')';
 					}
 
-					if ( ! empty( $pubprints[ $i ]['details'] ) ) {
+					if ( isset( $pubprints[ $i ]['details'] ) && strlen( $pubprints[ $i ]['details'] ) !== 0 ) {
 						echo esc_html( $pubprints[ $i ]['details'] ) . ' ';
 					}
 
@@ -628,7 +577,7 @@ class Popup_Person {
 			$nbtotaltrivia = count( $trivia );
 			$nblimittrivia = 3; # max number of trivias before breaking with "see all"
 
-			if ( ( isset( $trivia ) ) && ( ! empty( $trivia ) ) ) {
+			if ( $nbtotaltrivia !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- Trivia -->';
 				echo "\n" . '<div id="lumiere_popup_biomovies">';
@@ -645,7 +594,7 @@ class Popup_Person {
 					}
 
 					echo "\n\t\t\t" . '<div>';
-					$text = preg_replace( '~https\:\/\/\www\.imdb\.com\/name/nm(\d{7})\?(.+?)\"~', $this->config_class->lumiere_urlpopupsperson . "popup-imdb_person.php?mid=\\1\" class=\"linkpopup\"", $trivia[ $i ] ); # transform imdb to local link
+					$text = $this->lumiere_imdburl_to_internalurl( $trivia[ $i ] );
 					$text = preg_replace( '~^\s\s\s\s\s\s\s(.*)<br \/>\s\s\s\s\s$~', "\\1", $text ); # clean output
 
 					echo "\n\t\t\t\t" . ' * ' . $text;
@@ -667,7 +616,7 @@ class Popup_Person {
 			$nickname = $this->person->nickname();
 			$nbtotalnickname = count( $nickname );
 
-			if ( ( isset( $nickname ) ) && ( ! empty( $nickname ) ) ) {
+			if ( $nbtotalnickname !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- Nicknames -->';
 				echo "\n" . '<div id="lumiere_popup_biomovies">';
@@ -679,7 +628,7 @@ class Popup_Person {
 
 					foreach ( $nickname as $nick ) {
 						$txt = str_replace( '<br>', ', ', $nick );
-						echo sanitize_text_field( $txt );
+						echo esc_html( $txt );
 					}
 				}
 
@@ -693,7 +642,7 @@ class Popup_Person {
 			$nbtotalquotes = count( $quotes );
 			$nblimitquotes = 3;
 
-			if ( ( isset( $quotes ) ) && ( ! empty( $quotes ) ) ) {
+			if ( $nbtotalquotes !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- Personal quotes -->';
 				echo "\n" . '<div id="lumiere_popup_quotes">';
@@ -710,7 +659,7 @@ class Popup_Person {
 					}
 
 					echo "\n\t\t\t" . '<div>';
-					echo ' * ' . sanitize_text_field( $quotes[ $i ] );
+					echo ' * ' . $this->lumiere_imdburl_to_internalurl( $quotes[ $i ] );
 					echo '</div>';
 
 					if ( $i === ( $nbtotalquotes - 1 ) ) {
@@ -729,7 +678,7 @@ class Popup_Person {
 			$nbtotaltrademark = count( $trademark );
 			$nblimittradmark = 5;
 
-			if ( ( isset( $trademark ) ) && ( ! empty( $trademark ) ) ) {
+			if ( $nbtotaltrademark !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- Trademarks -->';
 				echo "\n" . '<div id="lumiere_popup_biomovies">';
@@ -746,7 +695,7 @@ class Popup_Person {
 					}
 
 					echo "\n\t\t\t" . '<div>@ ';
-					echo sanitize_text_field( $trademark[ $i ] );
+					echo $this->lumiere_imdburl_to_internalurl( $trademark[ $i ] );
 					echo '</div>';
 
 					if ( $i === $nbtotaltrademark - 1 ) {

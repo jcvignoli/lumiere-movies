@@ -446,21 +446,30 @@ class Popup_Movie {
 			<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two">
 												<!-- Movie's picture display -->
 			<?php
-
+				// Select pictures: big poster, if not small poster, if not 'no picture'.
 				$photo_url = $movie_results->photo_localurl( false ) !== false ? esc_html( $movie_results->photo_localurl( false ) ) : esc_html( $movie_results->photo_localurl( true ) ); // create big picture, thumbnail otherwise.
-
-				$photo_url_final = strlen( $photo_url ) === 0 ? $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise
+				$photo_url_final = strlen( $photo_url ) === 0 ? $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
 
 				echo '<a class="highslide_pic_popup" class="highslide-image" href="' . esc_url( $photo_url ) . '">';
 				// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.
 				echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="';
+
 				echo esc_url( $photo_url_final ) . '" alt="' . esc_attr( $movie_results->title() ) . '"';
+
+				// add width only if "Display only thumbnail" is unactive.
+			if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
+
+				echo ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
+
+				// add 100px width if "Display only thumbnail" is active.
+			} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
 
 				echo ' width="100em"';
 
+			}
+
 				echo ' />';
 				echo '</a>';
-
 			?>
 
 			</div> 
