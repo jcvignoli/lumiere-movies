@@ -7,7 +7,7 @@
  */
 
 // prevent direct calls
-if ( empty( wp_get_referer() ) && ( 0 !== stripos( wp_get_referer(), admin_url() . 'admin.php?page=lumiere_options' ) ) ) {
+if ( wp_get_referer() !== false && ( 0 !== stripos( wp_get_referer(), admin_url() . 'admin.php?page=lumiere_options' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
@@ -29,7 +29,7 @@ if ( is_admin() ) {
 if ( ( isset( $_GET['highslide'] ) ) && ( $_GET['highslide'] === 'yes' ) ) {
 
 	// Check the website
-	if ( ( isset( $lumiere_highslidefile_remote_zip ) ) && ( ! empty( $lumiere_highslidefile_remote_zip ) ) ) {
+	if ( strlen( $lumiere_highslidefile_remote_zip ) !== 0 ) {
 		$lumiere_highslide_website_validator = wp_safe_remote_get( $lumiere_highslidefile_remote_zip );
 	} else {
 		wp_safe_redirect( add_query_arg( 'msg', 'highslide_website_unkown', wp_get_referer() ) );
@@ -37,15 +37,16 @@ if ( ( isset( $_GET['highslide'] ) ) && ( $_GET['highslide'] === 'yes' ) ) {
 	}
 
 	// Download Highslide zip if website is ok
-	if ( is_wp_error( $lumiere_highslide_website_validator ) ) {
+	if ( is_wp_error( $lumiere_highslide_website_validator ) === true ) {
 		wp_safe_redirect( add_query_arg( 'msg', 'highslide_down', wp_get_referer() ) );
 		exit();
-	} else {
-		file_put_contents( $lumiere_highslidefile_local_zip, wp_remote_fopen( $lumiere_highslidefile_remote_zip ) );
 	}
 
+	file_put_contents( $lumiere_highslidefile_local_zip, wp_remote_fopen( $lumiere_highslidefile_remote_zip ) );
+
 	//  Extraction and delete the file if exists, if it has an extension ".", if it ends with zip
-	if ( ( unzip_file( $lumiere_highslidefile_local_zip, $lumiere_highslidefile_local_folder ) ) && ( file_exists( $lumiere_highslidefile_local_zip ) ) && end( explode( '.', $lumiere_highslidefile_local_zip ) ) && substr( $lumiere_highslidefile_local_zip, -3 ) == 'zip' ) {
+	if ( file_exists( $lumiere_highslidefile_local_zip ) ) {
+		unzip_file( $lumiere_highslidefile_local_zip, $lumiere_highslidefile_local_folder );
 		unlink( esc_url( $lumiere_highslidefile_local_zip ) );
 		wp_safe_redirect( add_query_arg( 'msg', 'highslide_success', wp_get_referer() ) );
 		exit();
