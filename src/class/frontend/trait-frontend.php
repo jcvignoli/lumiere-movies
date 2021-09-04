@@ -114,43 +114,6 @@ trait Frontend {
 	}
 
 	/**
-	 * Convert an IMDbPHP result linking to IMDb website into a highslide/classic popup link
-	 *
-	 * @obsolete Prefer using lumiere_imdburl_to_popupurl() which works for people and movies
-	 * @param string $convert Link to be converted into popup highslide link
-	 */
-	protected function lumiere_convert_txtwithhtml_into_popup_people ( string $convert ): string {
-
-		// highslide popup.
-		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
-			$result = '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
-
-			// classic popup.
-		} else {
-			$result = '<a class="link-imdblt-classicpeople" data-classicpeople="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
-		}
-
-		$convert = preg_replace( '~(<a href=)(.+?)(name\/nm)(\d{7})\/\"\>~', $result, $convert ) ?? $convert;
-
-		return $convert;
-	}
-
-	/**
-	 * Convert an IMDbPHP result linking to IMDb website into an internal link (popup) for PEOPLE
-	 *
-	 * @obsolete Prefer using lumiere_imdburl_to_internalurl() which works for people and movies
-	 * @param string $convert Link to be converted into an internal link
-	 */
-	protected function lumiere_convert_txtwithhtml_into_internal_person ( string $convert ): string {
-
-		$result = '<a class="link-popup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
-
-		$convert = preg_replace( '~(<a href=)(.+?)(name\/nm)(\d{7})\/\"\>~', $result, $convert ) ?? $convert;
-
-		return $convert;
-	}
-
-	/**
 	 * Convert an IMDb url into an internal link for People and Movies
 	 * Meant to be used inside popups (not in posts or widgets)
 	 *
@@ -198,7 +161,7 @@ trait Frontend {
 		}
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
-		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\?.+?|\/?)\"\>~';
+		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\/\?.+?|\?.+?|\/?)\"\>~';
 		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>~';
 
 		// Replace IMDb links with popup links.
@@ -214,7 +177,7 @@ trait Frontend {
 	 * 2- Detect if there is html tags that can break with $esc_html_breaker
 	 * 3- Build links either to internal (popups) or popups (inside posts/widgets) with $popup_links
 	 *
-	 * @param array<int, array> $bio_array Array of the object _IMDBPHPCLASS_->bio()
+	 * @param array<array> $bio_array Array of the object _IMDBPHPCLASS_->bio()
 	 * @param bool $popup_links  If links should be internal or popups. Internal (false) by default.
 	 * @phpstan-ignore-next-line PHPStan complains about $bio_array not defined, but it is!
 	 */

@@ -697,24 +697,25 @@ class Popup_Movie {
 		// Soundtrack.
 
 		$soundtrack = $movie_results->soundtrack();
-		$nbtotalsoundtrack = count( $soundtrack );
-		if ( $nbtotalsoundtrack !== 0 ) {
+		$nbtotalsoundtracks = count( $soundtrack );
+		if ( $nbtotalsoundtracks !== 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Soundtrack -->';
 			echo "\n" . '<div id="lumiere_popup_pluts_group">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtrack, 'lumiere-movies' ) . '</span>';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) . '</span>';
 
-			for ( $i = 0; $i < $nbtotalsoundtrack; $i++ ) {
+			for ( $i = 0; $i < $nbtotalsoundtracks; $i++ ) {
 
 				$credit_array = $soundtrack[ $i ]['credits'];
 				$credit_array_count = count( $credit_array );
 				for ( $ii = 0; $ii < $credit_array_count; $ii++ ) {
 					echo "\n\t\t";
-					echo $this->lumiere_convert_txtwithhtml_into_internal_person( $credit_array [ $ii ]['credit_to'] );
-					echo ' <i>' . sanitize_text_field( $credit_array [ $ii ]['desc'] ) . '</i>';
+					echo "\n\t\t\t<i>" . esc_html( $soundtrack[ $i ]['soundtrack'] ) . '</i>';
+					echo $this->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
+					echo ' (' . sanitize_text_field( $credit_array [ $ii ]['desc'] ) . ')';
 				}
 
-				if ( $i < $nbtotalsoundtrack - 1 ) {
+				if ( $i < $nbtotalsoundtracks - 1 ) {
 					echo ', ';
 				}
 
