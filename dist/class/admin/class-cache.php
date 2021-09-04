@@ -77,7 +77,7 @@ class Cache extends \Lumiere\Admin {
 		$this->imdbphp_class = new Imdbphp();
 
 		// Logger: set to true to display debug on screen.
-		$this->logger->lumiere_start_logger( 'cacheClass', true );
+		$this->logger->lumiere_start_logger( 'cacheClass', false );
 
 		// Display notices.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );

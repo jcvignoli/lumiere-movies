@@ -255,29 +255,26 @@ class Popup_Person {
 							echo ')';
 						}
 
-						// if (empty($film["chname"])) { 		//-> the result sent is not empty, but a breakline instead
+						/** 2021 09 Dunno if this check is still needed
 						if ( $filmo[ $i ]['chname'] == "\n" ) {
 							echo '';
 						} else {
-							if ( isset( $filmo['chid'] ) && strlen( $filmo['chid'] ) !== 0 ) {
-								if ( strlen( $filmo['chname'] ) !== 0 ) {
-									echo ' as <i>' . sanitize_text_field( $filmo[ $i ]['chname'] ) . '</i>';
-								}
-							} else {
-								echo ' as <i><a class="linkpopup" href="' . esc_url( 'https://' . $this->person->imdbsite . '/character/ch' . intval( $filmo[ $i ]['chid'] ) ) . '/">' . $filmo[ $i ]['chname'] . '</a></i>'; }
+						*/
+						if ( isset( $filmo[ $i ]['chname'] ) && strlen( $filmo[ $i ]['chname'] ) !== 0 ) {
+							echo ' as <i>' . esc_html( $filmo[ $i ]['chname'] ) . '</i>';
 
-							// Display a "show more" after XX results
-							if ( $i === $nblimitcatmovies ) {
-								echo '&nbsp;<span class="activatehidesection"><font size="-1"><strong>('
-									. esc_html__( 'see all', 'lumiere-movies' )
-									. ')</strong></font></span> '
-									. '<span class="hidesection">';
-							}
+						}
 
-							if ( $i === $nbtotalfilmo ) {
-								echo '</span>';
-							}
+						// Display a "show more" after XX results
+						if ( $i === $nblimitcatmovies ) {
+							echo '&nbsp;<span class="activatehidesection"><font size="-1"><strong>('
+								. esc_html__( 'see all', 'lumiere-movies' )
+								. ')</strong></font></span> '
+								. '<span class="hidesection">';
+						}
 
+						if ( $i === $nbtotalfilmo ) {
+							echo '</span>';
 						}
 
 						$nbfilmpercat++;

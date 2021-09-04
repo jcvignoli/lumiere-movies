@@ -193,9 +193,10 @@ class Core {
 			'lumiere_highslide',
 			$this->config_class->lumiere_js_dir . 'highslide/highslide-with-html.min.js',
 			[],
-			$this->config_class->lumiere_version
+			$this->config_class->lumiere_version,
+			true
 		);
-		wp_enqueue_script(
+		wp_register_script(
 			'lumiere_highslide_options',
 			$this->config_class->lumiere_js_dir . 'highslide-options.min.js',
 			[ 'lumiere_highslide' ],

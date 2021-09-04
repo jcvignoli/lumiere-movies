@@ -198,7 +198,7 @@ class Utils {
 	/**
 	 * Recursively test an multi-dimensionnal array
 	 *
-	 * @param mixed[] $mixed Array name or string
+	 * @param array<string>|string $mixed Array name or string
 	 *
 	 * @credits https://www.php.net/manual/fr/function.empty.php#92308
 	 */
@@ -228,11 +228,11 @@ class Utils {
 	 * Function lumiere_array_key_exists_wildcard
 	 * Search with a wildcard in $keys of an array
 	 *
-	 * @param mixed[] $array The array to be searched in
+	 * @param array<string, array<string>|bool|int|string> $array The array to be searched in
 	 * @param string $search The text that is searched for
 	 * @param string $return text 'key-value' can be passed to get simpler array of results
 	 *
-	 * @return array<string>
+	 * @return array<string, array<string>|bool|int|string>
 	 *
 	 * @credit: https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
 	 */
@@ -240,7 +240,8 @@ class Utils {
 
 		$search = str_replace( '\*', '.*?', preg_quote( $search, '/' ) );
 
-		$result = preg_grep( '/^' . $search . '$/i', array_keys( $array ) );
+		$result_init = preg_grep( '/^' . $search . '$/i', array_keys( $array ) );
+		$result = $result_init !== false ? $result_init : [];
 
 		if ( $return == 'key-value' ) {
 			return array_intersect_key( $array, array_flip( $result ) );
@@ -273,7 +274,7 @@ class Utils {
 		//$lienhtmlize = htmlentities($lienhtmlize,ENT_NOQUOTES,"UTF-8");
 
 		// c. regular expression to convert all accents; weird function...
-		$lienhtmlize = preg_replace( '/&(?!#[0-9]+;)/s', '&amp;', $lienhtmlize );
+		$lienhtmlize = preg_replace( '/&(?!#[0-9]+;)/s', '&amp;', $lienhtmlize ) ?? $lienhtmlize;
 
 		// d. turns spaces to "+", which allows titles including several words
 		$lienhtmlize = str_replace( [ ' ' ], [ '+' ], $lienhtmlize );
@@ -298,14 +299,19 @@ class Utils {
 	 * Does a glob recursively
 	 * Does not support flag GLOB_BRACE
 	 *
-	 * @return array<string>
+	 * @param int $flags glob() flag
+	 * @return array<string>|array<mixed, mixed>
 	 * @credits https://www.php.net/manual/fr/function.glob.php#106595
 	 */
-	public static function lumiere_glob_recursive( string $pattern, $flags = 0 ): array {
+	public static function lumiere_glob_recursive( string $pattern, int $flags = 0 ): array {
 
-		$files = glob( $pattern, $flags );
+		$files = glob( $pattern, $flags ) !== false ? glob( $pattern, $flags ) : [];
 
-		foreach ( glob( dirname( $pattern ) . '/*', GLOB_ONLYDIR | GLOB_NOSORT ) as $dir ) {
+		// Avoid providing false value in foreach loop
+		$folder_init = glob( dirname( $pattern ) . '/*', GLOB_ONLYDIR | GLOB_NOSORT );
+		$folder = $folder_init !== false ? $folder_init : [];
+
+		foreach ( $folder as $dir ) {
 
 			$files = array_merge( $files, self::lumiere_glob_recursive( $dir . '/' . basename( $pattern ), $flags ) );
 
@@ -391,7 +397,7 @@ class Utils {
 		$this->debug_is_active = true;
 
 		// If the user can't manage options and it's not a cron, exit.
-		if ( ( ! current_user_can( 'manage_options' ) ) || ! 'DOING_CRON' && ! defined( 'DOING_CRON' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
@@ -405,7 +411,10 @@ class Utils {
 		}
 
 		if ( $set_error !== 'no_var_dump' ) {
-			set_error_handler( 'var_dump' );
+
+			// @phpstan-ignore-next-line 'Parameter #1 $callback of function set_error_handler expects (callable(int, string, string, int, array):  bool)|null, 'var_dump' given.' var_dump works well, thanks!
+			set_error_handler('var_dump');
+
 		}
 
 		if ( $get_screen === 'screen' ) {
@@ -433,7 +442,7 @@ class Utils {
 	public static function lumiere_block_widget_isactive( string $blockname = \Lumiere\Widget::BLOCK_WIDGET_NAME ): bool {
 		$widget_blocks = get_option( 'widget_block' );
 		foreach ( $widget_blocks as $widget_block ) {
-			if ( ! empty( $widget_block['content'] )
+			if ( strlen( $widget_block['content'] ) !== 0
 			&& has_block( $blockname, $widget_block['content'] )
 			) {
 				return true;
@@ -448,21 +457,27 @@ class Utils {
 	 */
 	public static function lumiere_wp_filesystem_cred ( string $file ): bool {
 
+		global $wp_filesystem;
+
+		/** WP: request_filesystem_credentials($form_post, $type, $error, $context, $extra_fields); */
 		$creds = request_filesystem_credentials( $file, '', false );
+
 		if ( false === ( $creds ) ) {
 
-			// if we get here, then we don't have credentials yet,
-			// but have just produced a form for the user to fill in,
-			// so stop processing for now
-
-			return false; // stop the normal page form from displaying.
+			return false;
 		}
 
 		// now we have some credentials, try to get the wp_filesystem running.
-		if ( ! WP_Filesystem( $creds ) ) {
+		if ( is_array( $creds ) === true && ( WP_Filesystem( $creds ) === false || WP_Filesystem( $creds ) === null ) ) {
 			// our credentials were no good, ask the user for them again
-			request_filesystem_credentials( $file, '', true, '', null );
-			return false;
+			$creds_two = request_filesystem_credentials( $file, '', true, '', null );
+
+			if ( false === ( $creds_two ) ) {
+
+				return false;
+			}
+
+			return true;
 		}
 
 		return true;

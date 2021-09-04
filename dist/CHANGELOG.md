@@ -1,14 +1,23 @@
 **Changelog**
 
 v.3.6
-* [feature] Massive cleaning of the code. Code is linted and functions rewritten using PHPCS, PHPMD and PHPStan. Faster, more secure and more stable plugin.
+* [feature] Massive cleaning of the code, plugin rewritten for perfomance and maintainability. Code is linted using PHPCS, PHPMD and PHPStan. Faster, more secure and more stable plugin.
 * [feature] Uninstall process properly implemented. Lumière doesn't rely on WordPress deactivation function anymore for removing its options, taxonomy and cache. Properly deletes taxonomy in database.
 * [technical] Removed imdbsearchdirect, blog_adress option, imdbwidgetonpost, imdbimgdir, imdb_utf8recode, imdbwebsite, imdbwidgetonpage in settings class.
 * [technical] New way to deal with debug logging; class/function origin of the log fully implemented
 * [technical] Taxonomy for director is set on active by default.
+* [technical] Using PHP traits and classes for maintainability and readability purposes.
 * [technical] Using only checkboxes in admin.
+* [technical] All Lumière scripts are loaded in footer for the sake of performances.
 * [technical] Taxonomy template copying in admin now detects if a new template version has been released.
+* [bug] Debug/log functions, when activated, prevented from saving posts in block editor. Debugging and logging rewritten, checking the current page before showing log/debug on screen.
+* [bug] Tags, should they exist, were not displayed in template taxonomy people.
+* [bug] Several functions in popup movie did not return an internal link to another popup, but a unlinked text (sanitized text) instead.
+* [bug] In actors summary in person popup, the role could link to a useless imdb link. Rewritten the function, no link at all is now displayed.
+* [bug] Display of the soundtracks in articles/widgets did not show the soundtrack title
+* [bug] Biography in articles/widgets and popups was truncated. Regex rule was broken.
 * [bug] Saving Popup width and height options in admin was broken
+* [bug] Thumbnail option was not modifying the poster sizes. Now it does in the articles, widget and popups. In admin, ticking the option was providing the width selection, while it was the opposite behaviour that what expected.
 * [bug] Data details: Runtime, user comment and source were missing in admin and thus could not be selected.
 * [bug] Updates were not running upon updates (only upon activation)
 * [bug] Cronjobs were not throwing debugging text. Added DOING_CRON as new condition in settings class lumiere_maybe_log() & utils class lumiere_activate_debug()

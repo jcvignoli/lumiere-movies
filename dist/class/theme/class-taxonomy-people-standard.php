@@ -56,13 +56,6 @@ class Taxonomy_People_Standard {
 	private string $person_name_sntzd;
 
 	/**
-	 *  Current page name from the tag taxonomy
-	 *
-	 *  @var string $page_title
-	 */
-	private string $page_title;
-
-	/**
 	 *  Taxonomy category
 	 *
 	 *  @var string $taxonomy_title
@@ -92,11 +85,17 @@ class Taxonomy_People_Standard {
 
 		do_action( 'lumiere_logger' );
 
-		// Get the info from imdbphp libraries.
-		if ( strlen( $this->page_title ) !== 0 ) {
+		// Build the current page name from the tag taxonomy.
+		$page_title_check = is_string( single_tag_title( '', false ) ) === true ? single_tag_title( '', false ) : null;
+
+		// Full taxonomy title.
+		$this->taxonomy_title = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . 'standard';
+
+		// If we are in a WP taxonomy page, the info from imdbphp libraries.
+		if ( $page_title_check !== null ) {
 
 			$search = new PersonSearch( $this->imdbphp_class, $this->logger->log() );
-			$results = $search->search( $this->page_title ); // search for the person using the taxonomy tag.
+			$results = $search->search( $page_title_check ); // search for the person using the taxonomy tag.
 			$mid = $results[0]->imdbid(); // keep the first result only.
 			$mid_sanitized = esc_html( $mid ); // sanitize the first result.
 			$this->person_class = new Person( $mid_sanitized, $this->imdbphp_class, $this->logger->log() ); // search the profile using the first result.
@@ -112,12 +111,6 @@ class Taxonomy_People_Standard {
 	private function lumiere_taxo_layout_standard(): void {
 
 		get_header();
-
-		// Build the current page name from the tag taxonomy.
-		$this->page_title = single_tag_title( '', false );
-
-		// Full taxonomy title.
-		$this->taxonomy_title = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . 'standard';
 
 		// Start IMDbPHP search.
 		$this->lumiere_process_imdbphp_search();
@@ -265,9 +258,10 @@ class Taxonomy_People_Standard {
 				</p>
 			</div>
 					<?php
-				}
 
-				$check_if_no_result[] = get_the_title();
+					$check_if_no_result[] = get_the_title();
+
+				}
 
 				// there is no post.
 			} else {
@@ -284,6 +278,7 @@ class Taxonomy_People_Standard {
 		/**
 		 * If no results are found at all
 		 * Say so!
+		 * @phpstan-ignore-next-line 'Strict comparison using === between 0 and 0 will always evaluate to true'.
 		 */
 		if ( count( $check_if_no_result ) === 0 ) {
 
@@ -321,9 +316,10 @@ class Taxonomy_People_Standard {
 			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $this->person_name_sntzd with $taxonomy." );
 			return;
 		}
+		$pll_lang_init = get_terms( 'term_language', [ 'hide_empty' => false ] );
+		$pll_lang = is_wp_error( $pll_lang_init ) === false && is_iterable( $pll_lang_init ) ? $pll_lang_init : null;
 
-		$pll_lang = get_terms( 'term_language', [ 'hide_empty' => false ] );
-		if ( count( $pll_lang ) === 0 ) {
+		if ( ! isset( $pll_lang ) ) {
 			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy] No Polylang language is set." );
 			return;
 		}
@@ -336,11 +332,19 @@ class Taxonomy_People_Standard {
 
 		// Build an option html tag for every language.
 		foreach ( $pll_lang as $lang ) {
+
+			if ( ( $lang instanceof \WP_Term ) === false ) {
+				continue;
+			}
+
 			echo "\n\t\t\t\t\t\t" . '<option value="' . intval( $lang->term_id ) . '"';
+
 			if ( ( isset( $_POST['tag_lang'] ) ) && ( intval( $lang->term_id ) == $_POST['tag_lang'] ) && ( wp_verify_nonce( $_POST['_wpnonce'], 'submit_lang' ) !== false ) ) {
 				echo 'selected="selected"';
 			}
+
 			echo '>' . esc_html( ucfirst( $lang->name ) ) . '</option>';
+
 		}
 		echo "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
 		echo "\n\t\t\t\t\t" . wp_nonce_field( 'submit_lang' );
