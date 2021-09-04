@@ -1026,7 +1026,7 @@ class Movie {
 			// if "Remove all links" option is not selected
 			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
 				$output .= "\n\t\t\t";
-				$output .= $this->lumiere_convert_txtwithhtml_into_popup_people( $currentquotes );
+				$output .= $this->lumiere_imdburl_to_popupurl( $currentquotes );
 
 			} else {
 
@@ -1294,54 +1294,35 @@ class Movie {
 		$output = '';
 		$soundtrack = $movie->soundtrack();
 		$nbsoundtracks = intval( $this->imdb_widget_values['imdbwidgetsoundtracknumber'] ) === 0 || $this->imdb_widget_values['imdbwidgetsoundtracknumber'] === false ? '1' : intval( $this->imdb_widget_values['imdbwidgetsoundtracknumber'] );
-		$nbtotalsountracks = count( $soundtrack );
+		$nbtotalsoundtracks = count( $soundtrack );
 
 		// if no results, exit.
-		if ( $nbtotalsountracks === 0 ) {
+		if ( $nbtotalsoundtracks === 0 ) {
 			return $output;
 		}
 
 		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Soundtrack', 'Soundtracks', $nbtotalsountracks, 'lumiere-movies' ) ), number_format_i18n( $nbtotalsountracks ) );
+		$output .= sprintf( esc_attr( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) ), number_format_i18n( $nbtotalsoundtracks ) );
 		$output .= ':</span>';
 
-		for ( $i = 0; $i < $nbsoundtracks && ( $i < $nbtotalsountracks ); $i++ ) {
+		for ( $i = 0; $i < $nbsoundtracks && ( $i < $nbtotalsoundtracks ); $i++ ) {
 
-			$output .= "\n\t\t\t<strong>" . $soundtrack[ $i ]['soundtrack'] . '</strong>';
-
-			// if "Remove all links" option is not selected
-			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
-
-				if ( ( isset( $soundtrack[ $i ]['credits'][0] ) ) && ( count( $soundtrack[ $i ]['credits'][0] ) !== 0 ) ) {
-					$output .= "\n\t\t\t - <i>" . $this->lumiere_convert_txtwithhtml_into_popup_people( $soundtrack[ $i ]['credits'][0]['credit_to'] ) . '</i> ';
+			$credit_array = $soundtrack[ $i ]['credits'];
+			$credit_array_count = count( $credit_array );
+			for ( $ii = 0; $ii < $credit_array_count; $ii++ ) {
+				$output .= "\n\t\t";
+				$output .= "\n\t\t\t<strong>" . esc_html( $soundtrack[ $i ]['soundtrack'] ) . '</strong>';
+				if ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
+					$output .= sanitize_text_field( $credit_array [ $ii ]['credit_to'] );
+				} else {
+					$output .= $this->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
 				}
+				$output .= ' (' . sanitize_text_field( $credit_array [ $ii ]['desc'] ) . ')';
+			}
 
-				$output .= ' (' . $this->lumiere_convert_txtwithhtml_into_popup_people( $soundtrack[ $i ]['credits'][0]['desc'] ) . ') ';
-
-				if ( ( isset( $soundtrack[ $i ]['credits'][1] ) ) && ( count( $soundtrack[ $i ]['credits'][1] ) !== 0 ) ) {
-					if ( ( isset( $soundtrack[ $i ]['credits'][1]['credit_to'] ) ) && ( strlen( $soundtrack[ $i ]['credits'][1]['credit_to'] ) !== 0 ) ) {
-						$output .= "\n\t\t\t - <i>" . $this->lumiere_convert_txtwithhtml_into_popup_people( $soundtrack[ $i ]['credits'][1]['credit_to'] ) . '</i> ';
-					}
-				}
-
-				if ( ( isset( $soundtrack[ $i ]['credits'][1]['desc'] ) ) && ( strlen( $soundtrack[ $i ]['credits'][1]['desc'] ) !== 0 ) ) {
-					$output .= ' (' . $this->lumiere_convert_txtwithhtml_into_popup_people( $soundtrack[ $i ]['credits'][1]['desc'] ) . ') ';
-				}
-
-			} else {
-
-				if ( ( isset( $soundtrack[ $i ]['credits'][0] ) ) && ( count( $soundtrack[ $i ]['credits'][0] ) !== 0 ) ) {
-					$output .= "\n\t\t\t - <i>" . $this->lumiere_remove_link( $soundtrack[ $i ]['credits'][0]['credit_to'] ) . '</i> ';
-				}
-
-				$output .= ' (' . $this->lumiere_remove_link( $soundtrack[ $i ]['credits'][0]['desc'] ) . ') ';
-
-				if ( count( $soundtrack[ $i ]['credits'][1] ) !== 0 ) {
-
-					$output .= "\n\t\t\t - <i>" . $this->lumiere_remove_link( $soundtrack[ $i ]['credits'][1]['credit_to'] ) . '</i> ';
-				}
-					$output .= ' (' . $this->lumiere_remove_link( $soundtrack[ $i ]['credits'][1]['desc'] ) . ') ';
-			} // end if remove popup
+			if ( $i < $nbtotalsoundtracks - 1 ) {
+				$output .= ', ';
+			}
 
 		}
 

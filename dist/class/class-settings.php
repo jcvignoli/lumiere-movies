@@ -60,12 +60,6 @@ class Settings {
 	private array $imdb_widget_values;
 
 	/**
-	 * Cache options
-	 * @var array{'imdbcachedir_partial': string, 'imdbstorecache': bool, 'imdbusecache': string, 'imdbconverttozip': bool, 'imdbusezip': bool, 'imdbcacheexpire': string, 'imdbcachedetailsshort': string,'imdbcachedir': string,'imdbphotoroot': string, 'imdbphotodir': string} $imdb_cache_values
-	 */
-	private array $imdb_cache_values;
-
-	/**
 	 * Websites constants
 	 */
 	const IMDBBLOG = 'https://www.jcvignoli.com/blog';
@@ -233,7 +227,6 @@ class Settings {
 		$this->get_imdb_cache_option();
 		$this->imdb_admin_values = get_option( self::LUMIERE_ADMIN_OPTIONS );
 		$this->imdb_widget_values = get_option( self::LUMIERE_WIDGET_OPTIONS );
-		$this->imdb_cache_values = get_option( self::LUMIERE_CACHE_OPTIONS );
 
 		// Define Lumière constants once global options have been created.
 		$this->lumiere_define_constants_after_globals();

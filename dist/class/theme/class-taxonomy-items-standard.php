@@ -24,9 +24,8 @@ class Taxonomy_Items_Standard {
 
 	/**
 	 * Set to true to activate the sidebar
-	 *
 	 */
-	private $activate_sidebar = false;
+	private bool $activate_sidebar = false;
 
 	/**
 	 * Constructor
