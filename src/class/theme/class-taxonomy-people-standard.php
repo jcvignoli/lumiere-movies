@@ -379,35 +379,30 @@ class Taxonomy_People_Standard {
 		echo ' lumiere-lines-common_' . $this->imdb_admin_values['imdbintotheposttheme'];
 		echo ' lumiere-padding-lines-common-picture">';
 
-		$small_picture = $this->person_class->photo_localurl( false ); // get small poster for cache.
-		$big_picture = $this->person_class->photo_localurl( true ); // get big poster for cache.
-		$photo_url = isset( $small_picture ) ? $small_picture : $big_picture; // take the smaller first, the big if no small found.
-		if ( ( isset( $photo_url ) ) && ( ! empty( $photo_url ) ) ) {
+		// Select pictures: big poster, if not small poster, if not 'no picture'.
+		$photo_url = $this->person_class->photo_localurl( false ) !== false ? esc_url( $this->person_class->photo_localurl( false ) ) : esc_url( $this->person_class->photo_localurl( true ) ); // create big picture, thumbnail otherwise.
+		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
 
-			echo "\n\t\t\t\t\t" . '<a id="highslide_pic_popup" href="' . esc_url( $photo_url ) . '">';
-			echo "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right" src="'
-				. esc_url( $photo_url )
-				. '" alt="'
-				. $this->person_name_sntzd . '"';
+		echo "\n\t\t\t\t\t" . '<a id="highslide_pic_popup" href="' . esc_url( $photo_url ) . '">';
+		echo "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right" src="'
+			. esc_url( $photo_url_final )
+			. '" alt="'
+			. $this->person_name_sntzd . '"';
 
-			echo ' width="100px" />';
-			echo "\n\t\t\t\t\t" . '</a>';
+		// add width only if "Display only thumbnail" is unactive.
+		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
 
-			// No picture was downloaded, display "no picture"
-		} else {
+			echo ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
 
-			echo "\n\t\t\t\t\t" . '<a id="highslide_pic">';
-			echo "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right" src="'
-				. esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' )
-				. '" alt="'
-				. esc_html__( 'no picture', 'lumiere-movies' )
-				. '"';
+			// add 100px width if "Display only thumbnail" is active.
+		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
 
-			echo ' width="100px" />';
-
-			echo "\n\t\t\t\t\t" . '</a>';
+			echo ' width="100em"';
 
 		}
+
+		echo ' />';
+		echo "\n\t\t\t\t\t" . '</a>';
 
 		echo "\n\t\t\t\t" . '</div>';
 		echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Birth -->';
@@ -463,10 +458,6 @@ class Taxonomy_People_Standard {
 				echo ', ' . esc_html__( 'cause', 'lumiere-movies' ) . ' ' . sanitize_text_field( $death['cause'] );
 			}
 
-		} else {
-
-			echo '&nbsp;';
-
 		}
 
 		echo "\n\t\t\t\t" . '</font></div>';
@@ -476,47 +467,8 @@ class Taxonomy_People_Standard {
 		echo ' lumiere-lines-common-fix">';
 		echo '<font size="-1">';
 
-		# Biography
-		$bio = $this->person_class->bio();
-		$nbtotalbio = count( $bio );
-
-		if ( ( count( $bio ) !== 0 ) && ( $nbtotalbio !== 0 ) ) {
-			echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
-				. esc_html__( 'Biography', 'lumiere-movies' )
-				. '</span>';
-
-			if ( $nbtotalbio < 2 ) {
-				$idx = 0;
-			} else {
-				$idx = 1;
-			}
-
-			$bio_text = sanitize_text_field( $bio[ $idx ]['desc'] );
-			$click_text = esc_html__( 'click to expand', 'lumiere-movies' );
-			$max_length = 300; # number of characters
-
-			if ( strlen( $bio_text ) > $max_length ) {
-
-				$str_one = substr( $bio_text, 0, $max_length );
-				$str_two = substr( $bio_text, $max_length, strlen( $bio_text ) );
-				$final_text = "\n\t\t\t\t\t" . $str_one
-					. "\n\t\t\t\t\t" . '<span class="activatehidesection"><strong>&nbsp;(' . $click_text . ')</strong></span> '
-					. "\n\t\t\t\t\t" . '<span class="hidesection">'
-					. "\n\t\t\t\t\t" . $str_two
-					. "\n\t\t\t\t\t" . '</span>';
-				echo $final_text;
-
-			} else {
-
-				echo $bio_text;
-
-			}
-
-		} else {
-
-			echo '&nbsp;';
-
-		}
+		// Biography, function in trait.
+		echo $this->lumiere_medaillon_bio( $this->person_class->bio(), true );
 
 		echo "\n\t\t\t\t\t" . '</font></div>';
 		echo "\n\t\t\t\t" . '</div>';

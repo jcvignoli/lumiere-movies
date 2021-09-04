@@ -367,7 +367,7 @@ class General extends \Lumiere\Admin {
 					?>
 					/>
 
-					<div class="explain"><?php esc_html_e( 'Whether to display a thumbnail or a larger poster for movies included in posts and widgets. Untick the box to open a new option and choose a different poster width.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
+					<div class="explain"><?php esc_html_e( 'Whether to display a thumbnail or a larger poster for movies included in posts, widgets, popups and taxonomy pages. Untick the box to open a new option and choose a different poster width.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
 
 				</div>
 				<div class="lumiere_flex_container_content_third imdblt_padding_five" id="imdb_imdbcoversizewidth_id">
