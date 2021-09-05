@@ -202,7 +202,6 @@ class Popup_Movie {
 						$this->config_class->lumiere_urlpopupsperson
 						. $cast[ $i ]['imdb']
 						. '/?mid=' . $cast[ $i ]['imdb']
-						. '&film=' . $this->film_title_sanitized
 					)
 						. '" title="'
 						. esc_html__( 'internal link to', 'lumiere-movies' )
@@ -243,7 +242,6 @@ class Popup_Movie {
 						$this->config_class->lumiere_urlpopupsperson
 						. $director[ $i ]['imdb']
 						. '/?mid=' . $director[ $i ]['imdb']
-						. '&film=' . $this->film_title_sanitized
 					)
 						. '" title="'
 						. esc_html__( 'link to imdb', 'lumiere-movies' )
@@ -281,7 +279,6 @@ class Popup_Movie {
 						$this->config_class->lumiere_urlpopupsperson
 						. $writer[ $i ]['imdb']
 						. '/?mid=' . $writer[ $i ]['imdb']
-						. '&film=' . $this->film_title_sanitized
 					)
 						. '" title="'
 						. esc_html__( 'link to imdb', 'lumiere-movies' )
@@ -316,7 +313,6 @@ class Popup_Movie {
 						$this->config_class->lumiere_urlpopupsperson
 						. $producer[ $i ]['imdb']
 						. '/?mid=' . $producer[ $i ]['imdb']
-						. '&film=' . $this->film_title_sanitized
 					)
 						. '" title="'
 						. esc_html__( 'link to imdb', 'lumiere-movies' )
@@ -498,7 +494,7 @@ class Popup_Movie {
 				echo '<a class="linkpopup" href="'
 				. esc_url(
 					$this->config_class->lumiere_urlpopupsperson . $director[ $i ]['imdb']
-					. '/?mid=' . $director[ $i ]['imdb'] . '&film=' . $this->film_title_sanitized
+					. '/?mid=' . $director[ $i ]['imdb']
 				)
 					. '" title="' . esc_html__( 'link to imdb', 'lumiere-movies' ) . '">';
 				echo "\n\t\t\t" . sanitize_text_field( $director[ $i ]['name'] );

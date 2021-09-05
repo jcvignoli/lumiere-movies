@@ -298,9 +298,13 @@ class Popup_Person {
 			$nblimitmovies = 5; # max number of movies before breaking with "see all"
 
 			foreach ( $list_all_movies_functions as $var ) {
+
+				// Build the function using the vars.
 				$all_movies_functions = "movies_$var";
+
 				// @phpstan-ignore-next-line 'Variable method call on Imdb\Person'.
 				$filmo = $this->person->$all_movies_functions();
+
 				$catname = ucfirst( $var );
 
 				if ( ( isset( $filmo ) ) && count( $filmo ) !== 0 ) {
