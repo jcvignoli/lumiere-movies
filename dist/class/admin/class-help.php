@@ -17,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use \Lumiere\Utils;
+
 class Help extends \Lumiere\Admin {
 
 	/**
@@ -25,7 +27,7 @@ class Help extends \Lumiere\Admin {
 	 */
 	private string $readmefile;
 	private string $changelogfile;
-	private string $acknowfile;
+	private string $aknowledgefile;
 
 	/**
 	 * HTML allowed for use of wp_kses()
@@ -54,7 +56,7 @@ class Help extends \Lumiere\Admin {
 		// Build constants not in parent class
 		$this->readmefile = $this->rootPath . 'README.txt';
 		$this->changelogfile = $this->rootPath . 'CHANGELOG.md';
-		$this->acknowfile = $this->rootPath . 'ACKNOWLEDGMENTS.md';
+		$this->aknowledgefile = $this->rootPath . 'ACKNOWLEDGMENTS.md';
 
 		// Add specific script for metaboxes
 		//add_action('admin_enqueue_scripts', [$this, 'lumiere_help_extrascript' ]); # can't use add_action, call in parent class too late
@@ -70,7 +72,7 @@ class Help extends \Lumiere\Admin {
 		add_meta_box( 'lumiere_explain_autowidget', esc_html__( 'Widget auto according post\'s title', 'lumiere-movies' ), [ $this, 'explain_autowidget' ], 'lumiere_help', 'right', 'core' );
 		add_meta_box( 'lumiere_explain_searchoptions', esc_html__( 'Search options', 'lumiere-movies' ), [ $this, 'explain_searchoptions' ], 'lumiere_help', 'right', 'core' );
 
-		$this->layout();
+		$this->lumiere_admin_help_layout();
 
 	}
 
@@ -78,7 +80,7 @@ class Help extends \Lumiere\Admin {
 	 * Display the layout
 	 *
 	 */
-	private function layout (): void {
+	public function lumiere_admin_help_layout (): void {
 
 		echo "\n\t" . '<div id="poststuff">';
 
@@ -143,52 +145,60 @@ class Help extends \Lumiere\Admin {
 	 *
 	 */
 	private function display_faqs(): void {
-		$faqsection = [];
-		$number = 0;
+
+		/** Vars */
+		global $wp_filesystem;
+		$count_rows = 0;
+
+		// Make sure we got right credentials to use $wp_filesystem.
+		Utils::lumiere_wp_filesystem_cred( $this->readmefile );
+
+		// Open the file.
+		$faqfile = $wp_filesystem->get_contents( $this->readmefile );
 		?>
 
 		<div id="lumiere_help_plb_faq">
 			<h3 class="hndle"><?php esc_html_e( 'Frequently asked questions', 'lumiere-movies' ); ?></h3>
 			<div class="inside">
-				<div class="helpdiv">
 				<?php
+				// Select FAQ section in readme file.
 				$patterntitle = '/== Frequently Asked Questions ==(.*?)== Support ==/ms';
-				$faqfile = file_get_contents( $this->readmefile );
-				if ( $faqfile !== false && preg_match( $patterntitle, $faqfile, $faqsection ) === 1 ) {
-					$faqsection = $faqsection[1];
-				}
-				$faqsectionarray = preg_split( '/=(.*?)=/', $faqsection, -1, PREG_SPLIT_DELIM_CAPTURE );
+				preg_match( $patterntitle, $faqfile, $faqsection );
 
-				// replace links from (specially formated for WordPress website) readme with casual html
+				// Split into array the section based upon '=' delimitors.
+				$faqsectionarray = preg_split( '/=(.*?)=/', $faqsection[1], -1, PREG_SPLIT_DELIM_CAPTURE );
 
-				if ( is_array( $faqsectionarray ) === true ) {
-					$patternlink = '~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
-					$faqsectionarray = preg_replace( $patternlink, '<a href="${3}${4}" title="${7}">${2}</a>', $faqsectionarray );
-				}
-				if ( is_array( $faqsectionarray ) === true ) {
-					$faqsectionarray = preg_replace( '~\*\*(.*?)\*\*~', '<i>${1}</i>', $faqsectionarray );
-				}
+				/**
+				 * 1-replace links from (especially formated for WordPress website) readme with regular html.
+				 * 2-replace ** with <i>
+				 */
+				$patterns = [
+					'~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~',
+					'~\*\*(.*?)\*\*~',
+				];
+				$replaces = [
+					'<a href="${3}${4}" title="${7}">${2}</a>',
+					'<i>${1}</i>',
+				];
+				$faqsection_replace = $faqsectionarray !== false ? preg_replace( $patterns, $replaces, $faqsectionarray ) : null;
+				$faqsection_processed = $faqsection_replace !== null ? $faqsection_replace : [];
 
 				echo "<br />\n<ol>\n";
-				if ( $faqsectionarray === null || $faqsectionarray === false ) {
-					return;
-				}
-				foreach ( $faqsectionarray as $texte ) {
-					if ( $number > '0' ) {
-						if ( $number % 2 == 1 ) { // uneven number -> title
-							// display text formatted
-							echo "\t\t\t\t\t\t<li><strong>" . $texte . "</strong></li>\n";
-						} else { // even number -> text
-							// display text formatted
-							echo "\t\t\t\t\t\t<div class='imdblt_padding_twenty'>" . nl2br( str_replace( "\n\n", "\n", $texte ) ) . "\t\t\t\t\t\t</div>\n";
-						}
+
+				foreach ( $faqsection_processed as $texte ) {
+					if ( $count_rows % 2 === 1 ) { // uneven number -> title
+						// display text formatted
+						echo "\t\t\t\t\t\t<li><strong>" . $texte . "</strong></li>\n";
+					} elseif ( $count_rows % 2 === 0 ) { // even number -> text
+						// display text formatted
+						echo "\t\t\t\t\t\t<div class='imdblt_padding_twenty'>"
+							. nl2br( str_replace( "\n\n", "\n", $texte ) )
+							. "\t\t\t\t\t\t</div>\n";
 					}
-					$number++;
+					$count_rows++;
 				}
 				echo "\t\t\t\t\t</ol>\n";
-				?>
-				</div>
-			</div>
+				?>			</div>
 		</div>
 
 		<?php
@@ -199,8 +209,16 @@ class Help extends \Lumiere\Admin {
 	 *
 	 */
 	private function display_changelog (): void {
-		$changelogprocessed = [];
+
+		/** Vars */
+		global $wp_filesystem;
 		$number = 0;
+
+		// Make sure we got right credentials to use $wp_filesystem.
+		Utils::lumiere_wp_filesystem_cred( $this->changelogfile );
+		// Open the file (as an array).
+		$changelogfile = $wp_filesystem->get_contents_array( $this->changelogfile );
+
 		?>
 
 		<h3 class="hndle"><?php esc_html_e( 'Changelog', 'lumiere-movies' ); ?></h3>
@@ -209,21 +227,20 @@ class Help extends \Lumiere\Admin {
 
 			<div class="helpdiv">
 			<?php
-			$changelogfile = file( $this->changelogfile, FILE_BINARY );
-			// replace **...** by strong and i
-			if ( is_array( $changelogfile ) === true ) {
-				$changelogprocessed = preg_replace( '~(\*\s\[)(.*?)(\])~', '<strong><i>${2}</i></strong>', $changelogfile );
-			}
-			if ( is_array( $changelogprocessed ) === true ) {
-				// replace links from (specially formated for WordPress website) changlog with casual html
-				$patternlink = '~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
 
-				$changelogprocessed = preg_replace( $patternlink, '<a href="${3}${4}" title="${7}">${2}</a>', $changelogprocessed );
-			}
-
-			if ( $changelogprocessed === null ) {
-				return;
-			}
+			/**
+			 * 1-replace **...** by strong and <i>.
+			 * 2-replace links from (especially formated for WordPress website) changlog with regular html.
+			 */
+			$patterns = [
+				'~(\*\s\[)(.*?)(\])~',
+				'~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~',
+			];
+			$replaces = [
+				'<strong><i>${2}</i></strong>',
+				'<a href="${3}${4}" title="${7}">${2}</a>',
+			];
+			$changelogprocessed = preg_replace( $patterns, $replaces, $changelogfile ) ?? $changelogfile;
 
 			echo '<ul>';
 			foreach ( $changelogprocessed as $texte ) {
@@ -249,13 +266,20 @@ class Help extends \Lumiere\Admin {
 	 *
 	 */
 	private function display_support(): void {
-		$replace = [];
+
+		/** Vars */
+		global $wp_filesystem;
 		$number = 0;
+
+		// Make sure we got right credentials to use $wp_filesystem.
+		Utils::lumiere_wp_filesystem_cred( $this->aknowledgefile );
+		// Open the file (as an array).
+		$aknowledgefile = $wp_filesystem->get_contents_array( $this->aknowledgefile );
 		?>
 
 		<?php // @phpstan-ignore-next-line wp_kses() has defined wrong properties in WP ?>
 		<h3 class="hndle" id="help_support" name="help_support"><?php wp_kses( _e( 'Two ways to support <strong>Lumiere Movies</strong> plugin development', 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?></h3>
-		
+
 		<h3 class="hndle"><?php esc_html_e( 'Be supported!', 'lumiere-movies' ); ?></h3>
 
 		<div class="helpdiv-noborderimage">
@@ -288,38 +312,38 @@ class Help extends \Lumiere\Admin {
 
 		<div class="helpdiv">
 		<?php
-			$acknowfile = file( $this->acknowfile, FILE_BINARY );
-
-			// replace # by div
-		if ( is_array( $acknowfile ) === true ) {
-			$replace = preg_replace( '~\# (.*)~', '<div><strong>${1}</strong></div>', $acknowfile );
-		}
-			// remove ** **
-		if ( is_array( $replace ) === true ) {
-					$replace = preg_replace( '~\*\*(.*)\*\*~', '${1}', $replace );
-		}
-
-			// replace \n by br
-		if ( is_array( $replace ) === true ) {
-			$replace = preg_replace( '~\n~', '<br />', $replace );
-		}
-			// replace links from (specially formated for WordPress website) readme with casual html
-		if ( is_array( $replace ) === true ) {
-			$patternlink = '~(\\[{1}(.*?)\\]\()(htt(p|ps)://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~';
-			$replace = preg_replace( $patternlink, '<a href="${3}${5}" title="${7}">${2}</a>', $replace );
-		}
-
-		if ( $replace === null ) {
-			return;
+		/**
+		 * 1-replace # by div.
+		 * 2-remove ** **.
+		 * 3-replace \n by br.
+		 * 4-replace links from (specially formated for WordPress website) readme with casual html.
+		 */
+		if ( is_array( $aknowledgefile ) === true ) {
+			$patterns = [
+				'~\# (.*)~',
+				'~\*\*(.*)\*\*~',
+				'~\n~',
+				'~(\\[{1}(.*?)\\]\()(htt(p|ps)://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~',
+			];
+			$replaces = [
+				'<div><strong>${1}</strong></div>',
+				'${1}',
+				'<br />',
+				'<a href="${3}${5}" title="${7}">${2}</a>',
+			];
+			$aknowledgefile = preg_replace( $patterns, $replaces, $aknowledgefile ) ?? $aknowledgefile;
 		}
 
-			echo '<ul>';
-		foreach ( $replace as $texte ) {
+		echo '<ul>';
+
+		foreach ( $aknowledgefile as $texte ) {
 			if ( $number > '1' ) {
 
 				// display text formatted
 				echo "\t\t\t\t\t\t<li>" . str_replace( "\n", '', nl2br( $texte ) ) . "</li>\n";
+
 			}
+
 			$number++;
 		}
 			echo "\t\t\t\t\t</ul>\n";
@@ -457,7 +481,7 @@ movie's title
 			<br /><br />
 
 			<?php // @phpstan-ignore-next-line wp_kses() has defined wrong properties in WP
-			 echo wp_kses( __( "Using the movie's IMDb id allows more security: instead of searching for a title, Lumiere Movies can display directly the movie you are looking for. Very useful when your movie's name does not work as it should, due to movies with the same title, if a incorrect movie is displayed, etc.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
+			echo wp_kses( __( "Using the movie's IMDb id allows more security: instead of searching for a title, Lumiere Movies can display directly the movie you are looking for. Very useful when your movie's name does not work as it should, due to movies with the same title, if a incorrect movie is displayed, etc.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
 
 			<br clear="both"/>
 
@@ -535,7 +559,6 @@ movie's title
 
 			<?php esc_html_e( 'It is doable. Lumière is versatile enough to handle this function. With the help of a form, you can add a query field to search for every movie on your blog. Here is the code:', 'lumiere-movies' ); ?>
 
-
 			<blockquote class="imdblt_align_left">
 				&lt;form action="" method="post" method="get" id="searchmovie" &gt<br />
 					&lt;div&gt Search a movie: &lt;/div&gt<br />
@@ -572,10 +595,8 @@ movie's title
 			<?php esc_html_e( 'It perfectly fits in your sidebar, for example.', 'lumiere-movies' ); ?>
 		</div>
 
-
-
-
 		<?php
+
 	}
 
 	/**
@@ -595,7 +616,6 @@ movie's title
 
 			<?php esc_html_e( "Every modification you make should be done in your template folder instead of using lumiere-movies/css/lumiere.css file. Add a file named 'lumiere.css' in you template folder; that css file will superseed the plugin's one. Whenever you update, your template's file will remain untouched and your edits will make it. Just make sure you are using a child theme, not an official theme, otherwise your customised lumiere.css will be deleted during the next template update.", 'lumiere-movies' ); ?>
 		</div>
-
 
 		<?php
 	}
@@ -648,6 +668,7 @@ movie's title
 			<br clear="both">
 
 		</div>
+
 		<?php
 	}
 
@@ -675,6 +696,7 @@ movie's title
 
 			<?php esc_html_e( 'Next time you will look at your post, you will find the widget according to your post’s title.', 'lumiere-movies' ); ?>
 		</div>
+
 		<?php
 	}
 
@@ -717,6 +739,7 @@ movie's title
 			?>
 
 		</div>
+
 		<?php
 	}
 
@@ -752,5 +775,6 @@ movie's title
 
 		wp_add_inline_script( 'lumiere_help_scripts', $lumiere_help_extrascript );
 	}
+
 }
 

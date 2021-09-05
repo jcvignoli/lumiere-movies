@@ -162,7 +162,7 @@ class Popup_Person {
 	/**
 	 * Display navigation menu
 	 */
-	private function display_menu() { ?>
+	private function display_menu(): void { ?>
 												<!-- top page menu -->
 
 		<div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
@@ -190,7 +190,7 @@ class Popup_Person {
 	 * Display summary page
 	 * Director actor and producer filmography
 	 */
-	private function display_summary() {
+	private function display_summary(): void {
 
 		$list_all_movies_functions = [ 'director', 'actor' ];
 		$nblimitcatmovies = 9;
@@ -265,7 +265,7 @@ class Popup_Person {
 	/**
 	 * Display full filmography page
 	 */
-	private function display_full_filmo() {
+	private function display_full_filmo(): void {
 
 		/* vars */
 		$list_all_movies_functions = [ 'director', 'actor', 'producer', 'archive', 'crew', 'self', 'soundtrack', 'thanx', 'writer' ]; # list of types of movies to query
@@ -409,7 +409,7 @@ class Popup_Person {
 	/**
 	 * Display biography
 	 */
-	private function display_bio() {
+	private function display_bio(): void {
 
 		$biomovie = $this->person->pubmovies();
 		$nbtotalbiomovie = count( $biomovie );
@@ -546,7 +546,7 @@ class Popup_Person {
 	/**
 	 * Display miscellaenous infos
 	 */
-	private function display_misc() {
+	private function display_misc(): void {
 
 		############## Trivia
 
@@ -689,7 +689,7 @@ class Popup_Person {
 	/**
 	 * Display portrait including the medaillon
 	 */
-	private function display_portrait() { ?>
+	private function display_portrait(): void { ?>
 												<!-- Photo & identity -->
 		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center">
 			<div class="lumiere_flex_auto lumiere_width_eighty_perc">
