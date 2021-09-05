@@ -437,10 +437,10 @@ class Movie {
 			&& ( $this->imdb_widget_values[ 'imdbwidget' . $data_detail ] === '1' ) ) {
 
 				// Build the function name according to the data detail name.
-				// @phpstan-ignore-next-line 'Variable method call on $this(Lumiere\Movie)'.
 				$function = "lumiere_movies_$data_detail";
 
 				// Call the wrapper using the built function.
+				// @phpstan-ignore-next-line 'Variable method call on $this(Lumiere\Movie)'.
 				$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->$function( $movie ), $data_detail );
 
 			}
