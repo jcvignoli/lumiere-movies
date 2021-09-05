@@ -139,12 +139,12 @@ class General extends \Lumiere\Admin {
 			foreach ( $_POST as $key => $postvalue ) {
 				$key_sanitized = sanitize_key( $key );
 				$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
-				if ( isset( $_POST[ "$key_sanitized" ] ) ) {
+				if ( isset( $_POST[ $key_sanitized ] ) ) {
 					/**
 					 * Can't resolve PHPStan error:
 					 * Array (array('imdbplugindirectory_partial' => string, 'imdbpluginpath' => string, 'imdburlpopups' => string,'imdbkeepsettings' => string, 'imdburlstringtaxo' => string, 'imdbcoversize' => string, 'imdbcoversizewidth' => string, 'imdbmaxresults' => int, ...)) does not accept key string.
 					 */
-					 // @phpstan-ignore-next-line
+
 					$this->imdb_admin_values[ $keynoimdb ] = sanitize_text_field( $_POST[ $key_sanitized ] );
 				}
 			}
