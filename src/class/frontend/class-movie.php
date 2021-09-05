@@ -437,7 +437,7 @@ class Movie {
 			&& ( $this->imdb_widget_values[ 'imdbwidget' . $data_detail ] === '1' ) ) {
 
 				// Build the function name according to the data detail name.
-				$function = "lumiere_movies_$data_detail";
+				$function = "lumiere_movies_{$data_detail}";
 
 				// Call the wrapper using the built function.
 				// @phpstan-ignore-next-line 'Variable method call on $this(Lumiere\Movie)'.
@@ -1086,13 +1086,17 @@ class Movie {
 
 		for ( $i = 0; ( $i < $nbtotalalsoknow ) && ( $i < $nbalsoknow ); $i++ ) {
 
-			$output .= "\n\t\t\t<strong>" . sanitize_text_field( $alsoknow[ $i ]['title'] ) . '</strong> (' . sanitize_text_field( $alsoknow[ $i ]['country'] );
+			$output .= "\n\t\t\t<i>" . sanitize_text_field( $alsoknow[ $i ]['title'] ) . '</i>';
 
-			if ( strlen( $alsoknow[ $i ]['comment'] ) !== 0 ) {
-				$output .= ' - <i>' . sanitize_text_field( $alsoknow[ $i ]['comment'] ) . '</i>';
+			if ( strlen( $alsoknow[ $i ]['country'] ) !== 0 || strlen( $alsoknow[ $i ]['comment'] ) !== 0 ) {
+				$output .= ' ( ';
+				$output .= sanitize_text_field( $alsoknow[ $i ]['country'] );
+				if ( strlen( $alsoknow[ $i ]['comment'] ) !== 0 && strlen( $alsoknow[ $i ]['country'] ) !== 0 ) {
+					$output .= ' - ';
+				}
+				$output .= sanitize_text_field( $alsoknow[ $i ]['comment'] );
+				$output .= ' )';
 			}
-
-			$output .= ')';
 
 			if ( ( $i < ( $nbtotalalsoknow - 1 ) ) && ( $i < ( $nbalsoknow - 1 ) ) ) {
 				$output .= ', ';
@@ -1197,16 +1201,17 @@ class Movie {
 			$credit_array_count = count( $credit_array );
 			for ( $ii = 0; $ii < $credit_array_count; $ii++ ) {
 				$output .= "\n\t\t";
-				$output .= "\n\t\t\t<strong>" . esc_html( $soundtrack[ $i ]['soundtrack'] ) . '</strong>';
+				$output .= "\n\t\t\t<i>" . esc_html( $soundtrack[ $i ]['soundtrack'] ) . '</i>';
 				if ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
 					$output .= sanitize_text_field( $credit_array [ $ii ]['credit_to'] );
-				} else {
+				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
 					$output .= $this->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
 				}
 				$output .= ' (' . sanitize_text_field( $credit_array [ $ii ]['desc'] ) . ')';
+
 			}
 
-			if ( $i < $nbtotalsoundtracks - 1 ) {
+			if ( $i < ( $nbsoundtracks - 1 ) && $i < ( $nbtotalsoundtracks - 1 ) ) {
 				$output .= ', ';
 			}
 
