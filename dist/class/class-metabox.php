@@ -18,6 +18,8 @@ if ( ! defined( 'WPINC' ) ) {
 
 class Metabox {
 
+	use \Lumiere\Settings_Global;
+
 	/**
 	 * Start the metabox
 	 */
@@ -46,6 +48,9 @@ class Metabox {
 	 */
 	public function custom_meta_box_markup( \WP_Post $object ): void {
 
+		// Construct Global Settings trait.
+		$this->settings_open();
+
 		// Option for the select, the two type of data to be taken over by imdb-movie.inc.php
 		$option_values = [
 			esc_html__( 'By movie IMDb ID', 'lumiere-movies' ) => 'imdb-movie-widget-bymid',
@@ -56,8 +61,13 @@ class Metabox {
 
 		<p>
 
-		<div class="lumiere_padding_five">
-			<?php esc_html_e( 'The movie you enter will be shown in your widget area.', 'lumiere-movies' ); ?>
+		<div class="lumiere_padding_five lumiere_flex_container">
+			<div class="lumiere_flex_container_content_twenty">
+			<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'lumiere-ico-noir80x80.png' ); ?>" width="40px" valign="middle" />
+			</div>
+			<div class="lumiere_flex_container_content_eighty"><?php
+				esc_html_e( 'The movie you enter will be shown in your widget area.', 'lumiere-movies' );
+			?></div>
 		</div>
 
 		<div class="lumiere_display_flex lumiere_flex_make_responsive_metabox">
@@ -67,7 +77,7 @@ class Metabox {
 				<select id="lumiere_queryid_widget" name="lumiere_queryid_widget">
 				<?php
 				foreach ( $option_values as $key => $value ) {
-					if ( $value == get_post_meta( $object->ID, 'lumiere_queryid_widget', true ) ) {
+					if ( $value === get_post_meta( $object->ID, 'lumiere_queryid_widget', true ) ) {
 						?>
 					<option value="<?php echo esc_attr( $value ); ?>" selected><?php echo esc_attr( $key ); ?></option>
 						<?php
@@ -89,7 +99,7 @@ class Metabox {
 		</div>
 
 		<div class="lumiere_padding_five">
-			<?php esc_html_e( 'Use ', 'lumiere-movies' ); ?><a id="lumiere_open_search_popup" class="linkpopup" data-lumiere_admin_popup="no data" title="<?php esc_html_e( 'Open a popup to search the movie\'s ID', 'lumiere-movies' ); ?>"><?php esc_html_e( 'this tool ', 'lumiere-movies' ); ?></a><?php esc_html_e( 'to find the IMDb\'s ID.', 'lumiere-movies' ); ?> 
+			<?php esc_html_e( 'Use ', 'lumiere-movies' ); ?><a id="lumiere_open_search_popup" class="linkpopup" data-lumiere_admin_popup="no data" title="<?php esc_html_e( 'Open a popup to search the movie\'s ID', 'lumiere-movies' ); ?>"><?php esc_html_e( 'the query tool ', 'lumiere-movies' ); ?></a><?php esc_html_e( 'to find the IMDb\'s ID.', 'lumiere-movies' ); ?> 
 		</div>
 
 		</p><!-- #lumiere-movies -->
@@ -119,7 +129,7 @@ class Metabox {
 		}
 
 		$slug = 'post';
-		if ( $slug != $post->post_type ) {
+		if ( $slug !== $post->post_type ) {
 			return $post_id;
 		}
 
@@ -146,13 +156,13 @@ class Metabox {
 		$lumiere_metabox_submit = sanitize_text_field( $_POST['lumiere_queryid_widget'] );
 
 		// Save imdb-movie-widget with the posted data, delete imdb-movie-widget-bymid
-		if ( $lumiere_metabox_submit == 'imdb-movie-widget' ) {
+		if ( $lumiere_metabox_submit === 'imdb-movie-widget' ) {
 			update_post_meta( $post_id, 'imdb-movie-widget', sanitize_text_field( $_POST['lumiere_queryid_widget_input'] ) );
 			delete_post_meta( $post_id, 'imdb-movie-widget-bymid' );
 		}
 
 		// Save imdb-movie-widget-bymid with the posted data, delete imdb-movie-widget
-		if ( $lumiere_metabox_submit == 'imdb-movie-widget-bymid' ) {
+		if ( $lumiere_metabox_submit === 'imdb-movie-widget-bymid' ) {
 			update_post_meta( $post_id, 'imdb-movie-widget-bymid', sanitize_text_field( $_POST['lumiere_queryid_widget_input'] ) );
 			delete_post_meta( $post_id, 'imdb-movie-widget' );
 		}
