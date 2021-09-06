@@ -21,9 +21,9 @@
     "rsync": "gulp rsync",
     "codeceptionRemote": "php vendor/bin/codecept run -vvv acceptanceRemote --env wpfirefox",
     "codeceptionLocal": "php vendor/bin/codecept run -vvv acceptanceLocal --env wpfirefox",
-    "phpcswp": "vendor/bin/phpcs src --report=code > tmp/Results-phpcs-wp.txt",
-    "phpmdwp": "vendor/bin/phpmd src html ./phpmd.xml.dist > tmp/Results-phpmd-wp.html",
-    "phpstanwp": "vendor/bin/phpstan > tmp/Results-phpstan-wp.txt",
+    "phpcslum": "vendor/bin/phpcs src --report=code > tmp/Results-phpcs-wp.txt",
+    "phpmdlum": "vendor/bin/phpmd src html ./phpmd.xml.dist > tmp/Results-phpmd-wp.html",
+    "phpstanlum": "vendor/bin/phpstan > tmp/Results-phpstan-wp.txt",
     "phpcs": "vendor/bin/phpcs src --standard=PSR2 ./src --ignore=*vendor* --ignore=*js/highslide* > tmp/Results-phpcs-PSR2.txt"
 
   },
