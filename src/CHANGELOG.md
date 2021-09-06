@@ -1,5 +1,8 @@
 **Changelog**
 
+v.3.6.1
+* [bug] error upon activation, class-utils was the culprit
+
 v.3.6
 * [feature] Massive cleaning of the code, plugin rewritten for perfomance and maintainability. Code is linted using PHPCS, PHPMD and PHPStan. Faster, more secure and more stable plugin.
 * [feature] Uninstall process properly implemented. Lumière doesn't rely on WordPress deactivation function anymore for removing its options, taxonomy and cache. Properly deletes taxonomy in database.
