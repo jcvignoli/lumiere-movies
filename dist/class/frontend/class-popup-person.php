@@ -503,7 +503,7 @@ class Popup_Person {
 			for ( $i = 0; $i < $nbtotalpubprints; $i++ ) {
 
 				// Display a "show more" after XX results
-				if ( $i == $nblimitpubprints ) {
+				if ( $i === $nblimitpubprints ) {
 					echo "\n\t" . '<span class="activatehidesection"><font size="-1"><strong>&nbsp;('
 						. esc_html__( 'see all', 'lumiere-movies' )
 						. ')</strong></font></span> '

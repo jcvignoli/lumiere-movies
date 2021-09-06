@@ -108,7 +108,7 @@ class Search {
 		echo '</head>';
 		echo "\n" . '<body id="gutenberg_search">';
 
-		if ( ! isset( $_GET['moviesearched'] ) || wp_verify_nonce( $_GET['_wpnonce'], 'lumiere_search' ) === false ) {
+		if ( ! isset( $_GET['moviesearched'] ) || ! isset( $_GET['_wpnonce'] ) || wp_verify_nonce( $_GET['_wpnonce'], 'lumiere_search' ) === false ) {
 			$this->initial_form();
 		}
 
@@ -129,7 +129,7 @@ class Search {
 	 */
 	private function maybe_results_page (): void {
 
-		if ( ( isset( $_GET['moviesearched'] ) ) && ( strlen( $_GET['moviesearched'] ) > 0 ) && wp_verify_nonce( $_GET['_wpnonce'], 'lumiere_search' ) > 0 ) {
+		if ( ( isset( $_GET['moviesearched'] ) ) && ( strlen( $_GET['moviesearched'] ) > 0 ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'lumiere_search' ) > 0 ) {
 
 			# Initialization of IMDBphp
 			$search = new TitleSearch( $this->imdbphp_class, $this->logger->log() );

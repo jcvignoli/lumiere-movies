@@ -89,18 +89,31 @@ class Core {
 		// Add Lumière taxonomy.
 		if ( ( isset( $this->imdb_admin_values['imdbtaxonomy'] ) ) && ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) ) {
 
+			// Register taxomony and create custom taxonomy pages.
 			add_action( 'init', [ $this, 'lumiere_create_taxonomies' ], 0 );
 
-			// search for all imdbtaxonomy* in config array,
-			// if active write a filter to add a class to the link to the taxonomy page.
+			/*
+			 * Build specific class for html tags for functions building links towards taxonomy pages
+			 * 1-search for all imdbtaxonomy* in config array,
+			 * 2-if active write a filter to add a class to the link to the taxonomy page.
+			 *
+			 * Can be utilised by get_the_term_list() the_terms() WP function, such as in taxo templates
+			 */
 			foreach ( $this->utilsClass->lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
-				if ( $value == 1 ) {
-					$filter_taxonomy = str_replace( 'imdbtaxonomy', '', 'term_links-' . $this->imdb_admin_values['imdburlstringtaxo'] . $key );
-					add_filter( $filter_taxonomy, [ $this, 'lumiere_taxonomy_add_class_to_links' ] );
+
+				if ( $value === '1' ) {
+
+					// Build taxonomy raw name, such as 'lumiere-imdbtaxonomycolor'.
+					$taxonomy_raw_string = $this->imdb_admin_values['imdburlstringtaxo'] . $key;
+					// Build final hook name, such as 'term_links-lumiere-color'.
+					$taxonomy_hook = str_replace( 'imdbtaxonomy', '', "term_links-{$taxonomy_raw_string}" );
+
+					add_filter( $taxonomy_hook, [ $this, 'lumiere_taxonomy_add_class_to_links' ] );
+
 				}
 			}
 
-			// redirect calls to move_template_taxonomy.php.
+			// redirect admin data taxonomy copy calls to tools/class-move_template_taxonomy.php.
 			add_filter(
 				'admin_init',
 				function(): void {
@@ -275,7 +288,8 @@ class Core {
 			'lumiere_scripts_admin',
 			$this->config_class->lumiere_js_dir . 'lumiere_scripts_admin.min.js',
 			[ 'jquery' ],
-			$this->config_class->lumiere_version
+			$this->config_class->lumiere_version,
+			false
 		);
 
 		// Register gutenberg admin scripts
@@ -283,7 +297,8 @@ class Core {
 			'lumiere_scripts_admin_gutenberg',
 			$this->config_class->lumiere_js_dir . 'lumiere_scripts_admin_gutenberg.min.js',
 			[ 'jquery' ],
-			$this->config_class->lumiere_version
+			$this->config_class->lumiere_version,
+			false
 		);
 
 		// Register confirmation script upon deactivation
@@ -336,7 +351,7 @@ class Core {
 
 		// Add only in Rich Editor mode for post.php and post-new.php pages
 		if (
-			( get_user_option( 'rich_editing' ) == 'true' )
+			( get_user_option( 'rich_editing' ) === 'true' )
 			&& ( ( 'post.php' === $hook ) || ( 'post-new.php' === $hook ) )
 		) {
 
@@ -382,14 +397,16 @@ class Core {
 			'lumiere_gutenberg_main',
 			$this->config_class->lumiere_blocks_dir . 'main-block.min.js',
 			[ 'wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-i18n', 'wp-data' ],
-			$this->config_class->lumiere_version
+			$this->config_class->lumiere_version,
+			false
 		);
 
 		wp_register_script(
 			'lumiere_gutenberg_buttons',
 			$this->config_class->lumiere_blocks_dir . 'buttons.min.js',
 			[ 'wp-element', 'wp-compose', 'wp-components', 'wp-i18n', 'wp-data' ],
-			$this->config_class->lumiere_version
+			$this->config_class->lumiere_version,
+			false
 		);
 
 		// Style.
@@ -427,7 +444,7 @@ class Core {
 	public function lumiere_execute_assets (): void {
 
 		// Use local template lumiere.css if there is one in current theme folder.
-		if ( file_exists( TEMPLATEPATH . '/lumiere.css' ) ) { // a lumiere.css exists inside theme folder, use it!
+		if ( file_exists( get_template_directory() . '/lumiere.css' ) ) { // a lumiere.css exists inside theme folder, use it!
 			wp_enqueue_style( 'lumiere_style_custom' );
 
 		} else {
@@ -523,7 +540,7 @@ class Core {
 
 		// On 'plugins.php' show a confirmation dialogue if.
 		// 'imdbkeepsettings' is set on delete Lumière! options.
-		if ( ( ( ! isset( $this->imdb_admin_values['imdbkeepsettings'] ) ) || ( $this->imdb_admin_values['imdbkeepsettings'] == false ) ) && ( 'plugins.php' === $hook )  ) {
+		if ( ( ( ! isset( $this->imdb_admin_values['imdbkeepsettings'] ) ) || ( $this->imdb_admin_values['imdbkeepsettings'] === '0' ) ) && ( 'plugins.php' === $hook )  ) {
 
 			wp_enqueue_script( 'lumiere_deactivation_plugin_message' );
 
@@ -694,11 +711,11 @@ class Core {
 	}
 
 	/**
-	 * Add a class to taxonomy links (constructed in movie.php)
-	 * @param mixed[] $links
-	 * @return mixed[]
+	 * Add a class to taxonomy links constructed by WordPress
+	 * @param array<string> $links
+	 * @return array<string>
 	 */
-	public function lumiere_taxonomy_add_class_to_links( $links ) {
+	public function lumiere_taxonomy_add_class_to_links( array $links ): array {
 
 		return str_replace( '<a href="', '<a class="linktaxonomy" href="', $links );
 
@@ -780,13 +797,13 @@ class Core {
 		do_action( 'lumiere_logger' );
 
 		// If an update has taken place and the updated type is plugins and the plugins element exists.
-		if ( $options['type'] == 'plugin' && $options['action'] == 'update' && isset( $options['plugins'] ) ) {
+		if ( $options['type'] === 'plugin' && $options['action'] === 'update' && isset( $options['plugins'] ) ) {
 
 			// Iterate through the plugins being updated and check if ours is there.
 			foreach ( $options['plugins'] as $plugin ) {
 
 				// It is Lumière!, so update
-				if ( $plugin == 'lumiere-movies/lumiere-movies.php' ) {
+				if ( $plugin === 'lumiere-movies/lumiere-movies.php' ) {
 
 					// Call the class to update options
 					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::UPDATE_OPTIONS_PAGE;
@@ -834,7 +851,7 @@ class Core {
 		}
 
 		/* Create the cache folders */
-		if ( $this->config_class->lumiere_create_cache() == true ) {
+		if ( $this->config_class->lumiere_create_cache() === true ) {
 
 			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache successfully created.' );
 
@@ -906,7 +923,7 @@ class Core {
 
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $key );
 
-			if ( $imdb_widget_values[ 'imdbtaxonomy' . $filter_taxonomy ] == 1 ) {
+			if ( $imdb_widget_values[ 'imdbtaxonomy' . $filter_taxonomy ] === '1' ) {
 
 				register_taxonomy(
 					$imdb_admin_values['imdburlstringtaxo'] . $filter_taxonomy,

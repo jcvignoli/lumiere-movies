@@ -80,7 +80,7 @@ class Taxonomy_Items_Standard {
 						<div class="taxonomy">
 							<?php
 							$the_post_id = is_integer( get_the_ID() ) !== false ? get_the_ID() : 0;
-							echo get_the_term_list( $the_post_id, $lumiere_taxonomy_full, esc_html__( 'Taxonomy: ', 'lumiere-movies' ), ', ', '' ); ?>
+							echo get_the_term_list( $the_post_id, $lumiere_taxonomy_full, esc_html__( 'Lumiere taxonomy: ', 'lumiere-movies' ), ', ', '' ); ?>
 							<br /><br />
 						</div>
 						<?php } ?>	
