@@ -102,18 +102,16 @@ class CacheCest {
 		$I->activateLocalMount( $this->root_remote, $shell );
 
 		// Make sure cache is created
-		$I->amOnPage("/2021/test-codeception/");
-		$I->click(str_replace('_', ' ', $example[0]));
-		$I->wait(4);
+		$I->amOnPage("/imdblt/person/?mid=".$example[1]);
+		$I->wait(5);
 		$I->seeFileFound($example[1], $this->root_remote.'/wp-content/cache/lumiere/');
 
 		// Delete cache file using local path
 		$I->deleteFile($this->root_remote.'/wp-content/cache/lumiere/'.$example[1]);
 
 		// Make sure cache is created
-		$I->amOnPage("/2021/test-codeception/");
-		$I->click(str_replace('_', ' ', $example[0]));
-		$I->wait(4);
+		$I->amOnPage("/imdblt/person/?mid=".$example[1]);
+		$I->wait(6);
 		$I->seeFileFound($example[1], $this->root_remote.'/wp-content/cache/lumiere/');
 
 		// Delete cache file using interface
@@ -124,9 +122,8 @@ class CacheCest {
 		$I->wait(2);
 
 		// Make sure cache is created
-		$I->amOnPage("/2021/test-codeception/");
-		$I->click(str_replace('_', ' ', $example[0]));
-		$I->wait(4);
+		$I->amOnPage("/imdblt/person/?mid=".$example[1]);
+		$I->wait(6);
 		$I->seeFileFound($example[1], $this->root_remote.'/wp-content/cache/lumiere/');
 
 	}
