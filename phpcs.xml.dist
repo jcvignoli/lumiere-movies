@@ -15,6 +15,8 @@
 		<exclude name="Generic.Commenting.Todo"/>
 		<!-- I do comment out my code, deactivate that security -->
 		<exclude name="Squiz.PHP.CommentedOutCode"/>
+		<!-- I have functions longer than 40 lines, and I'm ok with that  -->
+		<exclude name="NeutronStandard.Functions.LongFunction.LongFunction"/>
 		<!-- Do not report 'Closing PHP tag must be on a line by itself' -->
 		<exclude name="Squiz.PHP.EmbeddedPhp"/>
 		<!-- Exclude those rules, because we run WordPress-Extra which will conflict with NeutronStandard -->
@@ -40,16 +42,13 @@
 
 	<!-- Add in some extra rules from other standards. -->
 	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+	<rule ref="Generic.Classes.DuplicateClassName"/>
 	<!--
 	<rule ref="Generic.Commenting.Todo"/>
 	-->
 
 	<!--
-	To get the optimal benefits of using WPCS, we should add a couple of
-	custom properties.
-	Adjust the values of these properties to fit our needs.
-	For information on additional custom properties available, check out
-	the wiki:
+	Let's play with WP Coding standards and fit Lumiere needs
 	https://github.com/WordPress/WordPress-Coding-Standards/wiki/Customizable-sniff-properties
 	-->
 	<config name="minimum_supported_wp_version" value="5.0"/>
@@ -62,7 +61,7 @@
 		</properties>
 	</rule>
 
-	<!-- I don't want to prefix with lumiere all globals
+	<!-- I don't want to prefix with lumiere all globals, not activated
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<property name="prefixes" type="array">
@@ -77,13 +76,5 @@
 			<property name="additionalWordDelimiters" value="false"/>
 		</properties>
 	</rule>
-
-	<!-- I don't want to rename all classes into class-*.php
-	<rule ref="WordPress.Files.FileName">
-		<properties>
-			<property name="strict_class_file_names" value="false"/>
-		</properties>
-	</rule>
-	-->
 
 </ruleset>
