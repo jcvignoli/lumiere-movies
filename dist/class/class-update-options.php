@@ -222,7 +222,7 @@ class Update_Options {
 	 *
 	 * @param string $option_array : the array of options, such as $config_class->imdbWidgetOptionsName
 	 * @param string $option_key : the key in the array of options to be added, such as 'imdbintotheposttheme'
-	 * @param mixed[] $option_value : the value to add to the key, can be bool, int or string
+	 * @param bool|string|int|array<int|string, string> $option_value : the value to add to the key, can be bool, int or string
 	 *
 	 * @return bool true if successful, a notice if missing mandatory parameters; false if option already exists
 	 */

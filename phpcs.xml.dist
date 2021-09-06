@@ -42,7 +42,6 @@
 
 	<!-- Add in some extra rules from other standards. -->
 	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
-	<rule ref="Generic.Classes.DuplicateClassName"/>
 	<!--
 	<rule ref="Generic.Commenting.Todo"/>
 	-->
@@ -61,19 +60,11 @@
 		</properties>
 	</rule>
 
-	<!-- I don't want to prefix with lumiere all globals, not activated
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<property name="prefixes" type="array">
 				<element value="lumiere"/>
 			</property>
-		</properties>
-	</rule>
-	-->
-
-	<rule ref="WordPress.NamingConventions.ValidHookName">
-		<properties>
-			<property name="additionalWordDelimiters" value="false"/>
 		</properties>
 	</rule>
 
