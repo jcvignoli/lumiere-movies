@@ -46,7 +46,7 @@ class Cache extends \Lumiere\Admin {
 		'cache_options_update_success_msg' => 'Cache options saved.',
 		'cache_options_refresh_success_msg' => 'Cache options successfully reset.',
 		'cache_delete_all_msg' => 'All cache files deleted.',
-		'cache_delete_ticked_msg' => 'Selected ticked file(s) deleted.',
+		'cache_delete_ticked_msg' => 'Ticked file(s) deleted.',
 		'cache_delete_individual_msg' => 'Selected cache file successfully deleted.',
 		'cache_refresh_individual_msg' => 'Selected cache file successfully refreshed.',
 	];
@@ -246,60 +246,62 @@ class Cache extends \Lumiere\Admin {
 	 */
 	private function cache_delete_specific_file(): void {
 
-		// prevent drama
-		if ( ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) || ( ! isset( $_GET['where'] ) ) ) {
-			exit( esc_html__( 'Cannot work this way.', 'lumiere-movies' ) );
+		global $wp_filesystem;
+
+		// prevent drama.
+		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) || ! isset( $_GET['where'] ) ) {
+			wp_die( esc_html__( 'Cannot work this way.', 'lumiere-movies' ) );
 		}
 
-		// delete single movie
+		// delete single movie.
 		if ( ( $_GET['type'] ) === 'movie' ) {
 			$id_sanitized = '';
 			$id_sanitized = esc_html( $_GET['where'] );
 			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . 'title.tt' . $id_sanitized . '*' );
 
-			// if file doesn't exist
-			if ( ( $name_sanitized === false ) || ( count( $name_sanitized ) < 1 ) ) {
-				wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist.', 'lumiere-movies' ) ) );
+			// if file doesn't exist or can't get credentials.
+			if ( $name_sanitized === false || count( $name_sanitized ) < 1 || Utils::lumiere_wp_filesystem_cred( $name_sanitized[0] ) === false ) {
+				wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist or you do not have the credentials.', 'lumiere-movies' ) ) );
 			}
 
-			foreach ( $name_sanitized as $cacheTOdelete ) {
+			foreach ( $name_sanitized as $cache_to_delete ) {
 
-				if ( $cacheTOdelete == $this->imdb_cache_values['imdbcachedir'] . '.' || $cacheTOdelete == $this->imdb_cache_values['imdbcachedir'] . '..' ) {
+				if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
 					continue;
 				}
 
-				unlink( esc_url( $cacheTOdelete ) );
+				$wp_filesystem->delete( esc_url( $cache_to_delete ) );
 			}
 
-			// delete pictures, small and big
+			// delete pictures, small and big.
 			$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '.jpg';
 			$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '_big.jpg';
 			if ( file_exists( $pic_small_sanitized ) ) {
-				unlink( $pic_small_sanitized );
+				$wp_filesystem->delete( $pic_small_sanitized );
 			}
 			if ( file_exists( $pic_big_sanitized ) ) {
-				unlink( $pic_big_sanitized );
+				$wp_filesystem->delete( $pic_big_sanitized );
 			}
 		}
 
-		// delete single person
+		// delete single person.
 		if ( ( $_GET['type'] ) === 'people' ) {
 			$id_sanitized = '';
 			$id_sanitized = esc_html( $_GET['where'] );
 			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . 'name.nm' . $id_sanitized . '*' );
 
-			// if file doesn't exist
-			if ( ( $name_sanitized === false ) || ( count( $name_sanitized ) < 1 ) ) {
-				wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist.', 'lumiere-movies' ) ) );
+			// if file doesn't exist or can't get credentials.
+			if ( $name_sanitized === false || count( $name_sanitized ) < 1 || Utils::lumiere_wp_filesystem_cred( $name_sanitized[0] ) === false ) {
+				wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist or you do not have the credentials.', 'lumiere-movies' ) ) );
 			}
 
-			foreach ( $name_sanitized as $cacheTOdelete ) {
+			foreach ( $name_sanitized as $cache_to_delete ) {
 
-				if ( $cacheTOdelete == $this->imdb_cache_values['imdbcachedir'] . '.' || $cacheTOdelete == $this->imdb_cache_values['imdbcachedir'] . '..' ) {
+				if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
 					continue;
 				}
 
-				unlink( esc_url( $cacheTOdelete ) );
+				$wp_filesystem->delete( esc_url( $cache_to_delete ) );
 			}
 		}
 
@@ -313,6 +315,8 @@ class Cache extends \Lumiere\Admin {
 	 */
 	private function cache_refresh_specific_file(): void {
 
+		global $wp_filesystem;
+
 		// prevent drama
 		if ( ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) || ( ! isset( $_GET['where'] ) )  ) {
 			exit( esc_html__( 'Cannot work this way.', 'lumiere-movies' ) );
@@ -325,17 +329,17 @@ class Cache extends \Lumiere\Admin {
 			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . 'title.tt' . $id_sanitized . '*' );
 
 			// if file doesn't exist
-			if ( ( $name_sanitized === false ) || ( count( $name_sanitized ) < 1 ) ) {
+			if ( $name_sanitized === false || count( $name_sanitized ) < 1 || Utils::lumiere_wp_filesystem_cred( $name_sanitized[0] ) === false ) {
 				wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist.', 'lumiere-movies' ) ) );
 			}
 
-			foreach ( $name_sanitized as $cacheTOdelete ) {
+			foreach ( $name_sanitized as $cache_to_delete ) {
 
-				if ( $cacheTOdelete == $this->imdb_cache_values['imdbcachedir'] . '.' || $cacheTOdelete == $this->imdb_cache_values['imdbcachedir'] . '..' ) {
+				if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
 					continue;
 				}
 
-				unlink( esc_url( $cacheTOdelete ) );
+				$wp_filesystem->delete( esc_url( $cache_to_delete ) );
 			}
 
 			// delete pictures, small and big
@@ -343,10 +347,10 @@ class Cache extends \Lumiere\Admin {
 			$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '_big.jpg';
 
 			if ( file_exists( $pic_small_sanitized ) ) {
-				unlink( $pic_small_sanitized );
+				$wp_filesystem->delete( $pic_small_sanitized );
 			}
 			if ( file_exists( $pic_big_sanitized ) ) {
-				unlink( $pic_big_sanitized );
+				$wp_filesystem->delete( $pic_big_sanitized );
 			}
 
 			// get again the movie
@@ -390,17 +394,17 @@ class Cache extends \Lumiere\Admin {
 			$name_people_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . 'name.nm' . $id_people_sanitized . '*' );
 
 			// if file doesn't exist
-			if ( ( $name_people_sanitized === false ) || ( count( $name_people_sanitized ) < 1 ) ) {
+			if ( $name_people_sanitized === false || count( $name_people_sanitized ) < 1 || Utils::lumiere_wp_filesystem_cred( $name_people_sanitized[0] ) === false ) {
 				wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist.', 'lumiere-movies' ) ) );
 			}
 
-			foreach ( $name_people_sanitized as $cacheTOdelete ) {
+			foreach ( $name_people_sanitized as $cache_to_delete ) {
 
-				if ( $cacheTOdelete == $this->imdb_cache_values['imdbcachedir'] . '.' || $cacheTOdelete == $this->imdb_cache_values['imdbcachedir'] . '..' ) {
+				if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
 					continue;
 				}
 
-				unlink( esc_url( $cacheTOdelete ) );
+				$wp_filesystem->delete( esc_url( $cache_to_delete ) );
 
 			}
 
@@ -436,6 +440,8 @@ class Cache extends \Lumiere\Admin {
 	 */
 	private function cache_delete_query_cache_files(): void {
 
+		global $wp_filesystem;
+
 		// prevent drama
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
 			wp_die( Utils::lumiere_notice( 3, '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' ) );
@@ -445,20 +451,20 @@ class Cache extends \Lumiere\Admin {
 		$files_query = glob( $this->imdb_cache_values['imdbcachedir'] . 'find.s*' );
 
 		// if file doesn't exist.
-		if ( ( $files_query === false ) || ( count( $files_query ) < 1 ) ) {
+		if ( $files_query === false || count( $files_query ) < 1 || Utils::lumiere_wp_filesystem_cred( $files_query[0] ) === false ) {
 			echo Utils::lumiere_notice( 3, esc_html__( 'No query files found.', 'lumiere-movies' ) );
 			echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
 			wp_die();
 		}
 
-		foreach ( $files_query as $cacheTOdelete ) {
+		foreach ( $files_query as $cache_to_delete ) {
 
-			if ( $cacheTOdelete == $this->imdb_cache_values['imdbcachedir'] . '.' || $cacheTOdelete == $this->imdb_cache_values['imdbcachedir'] . '..' ) {
+			if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
 				continue;
 			}
 
 			// the file exists, it is neither . nor .., so delete!
-			unlink( $cacheTOdelete );
+			$wp_filesystem->delete( $cache_to_delete );
 		}
 
 		// display messages on top
@@ -477,6 +483,8 @@ class Cache extends \Lumiere\Admin {
 	 */
 	private function cache_delete_ticked_files(): void {
 
+		global $wp_filesystem;
+
 		// prevent drama
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
 			wp_die( Utils::lumiere_notice( 3, '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' ) );
@@ -491,20 +499,20 @@ class Cache extends \Lumiere\Admin {
 			for ( $i = 0; $i < $count_cache_delete; $i++ ) {
 				$id_sanitized = esc_html( $_POST['imdb_cachedeletefor_movies'][ $i ] );
 				// phpcs:enable WordPress.Security.NonceVerification.Missing
-				$cacheTOdeleteFiles = glob( $this->imdb_cache_values['imdbcachedir'] . 'title.tt' . $id_sanitized . '*' );
+				$cache_to_delete_files = glob( $this->imdb_cache_values['imdbcachedir'] . 'title.tt' . $id_sanitized . '*' );
 
 				// if file doesn't exist
-				if ( ( $cacheTOdeleteFiles === false ) || ( count( $cacheTOdeleteFiles ) < 1 ) ) {
+				if ( $cache_to_delete_files === false || count( $cache_to_delete_files ) < 1 || Utils::lumiere_wp_filesystem_cred( $cache_to_delete_files[0] ) === false ) {
 					wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist.', 'lumiere-movies' ) ) );
 				}
 
-				foreach ( $cacheTOdeleteFiles as $cacheTOdelete ) {
+				foreach ( $cache_to_delete_files as $cache_to_delete ) {
 
-					if ( $cacheTOdelete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cacheTOdelete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
+					if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
 						continue;
 					}
 
-					unlink( esc_url( $cacheTOdelete ) );
+					$wp_filesystem->delete( esc_url( $cache_to_delete ) );
 
 				}
 			}
@@ -513,10 +521,10 @@ class Cache extends \Lumiere\Admin {
 			$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '.jpg';
 			$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '_big.jpg';
 			if ( file_exists( $pic_small_sanitized ) ) {
-				unlink( $pic_small_sanitized );
+				$wp_filesystem->delete( $pic_small_sanitized );
 			}
 			if ( file_exists( $pic_big_sanitized ) ) {
-				unlink( $pic_big_sanitized );
+				$wp_filesystem->delete( $pic_big_sanitized );
 			}
 		}
 
@@ -534,21 +542,21 @@ class Cache extends \Lumiere\Admin {
 				$files_people_delete = glob( $this->imdb_cache_values['imdbcachedir'] . 'name.nm' . $id_sanitized . '*' );
 
 				// if files don't exist.
-				if ( ( $files_people_delete === false ) || ( count( $files_people_delete ) < 1 ) ) {
+				if ( $files_people_delete === false || count( $files_people_delete ) < 1 || Utils::lumiere_wp_filesystem_cred( $files_people_delete[0] ) === false ) {
 					echo Utils::lumiere_notice( 3, esc_html__( 'No cache people files found.', 'lumiere-movies' ) );
 					echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
 					wp_die();
 				}
 
-				foreach ( $files_people_delete as $cacheTOdelete ) {
-					if ( $cacheTOdelete == $this->imdb_cache_values['imdbcachedir'] . '.' || $cacheTOdelete == $this->imdb_cache_values['imdbcachedir'] . '..' ) {
+				foreach ( $files_people_delete as $cache_to_delete ) {
+					if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
 						continue;
 					}
-					if ( ! file_exists( $cacheTOdelete ) ) {
+					if ( ! file_exists( $cache_to_delete ) ) {
 						wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist.', 'lumiere-movies' ) ) );
 					}
 
-					unlink( esc_url( $cacheTOdelete ) );
+					$wp_filesystem->delete( esc_url( $cache_to_delete ) );
 
 				}
 
@@ -556,7 +564,7 @@ class Cache extends \Lumiere\Admin {
 		}
 
 		// display message on top
-		echo Utils::lumiere_notice( 1, esc_html__( 'Selected ticked cache file(s) deleted.', 'lumiere-movies' ) );
+		echo Utils::lumiere_notice( 1, esc_html__( 'Ticked cache file(s) deleted.', 'lumiere-movies' ) );
 		if ( headers_sent() ) {
 
 			echo Utils::lumiere_notice( 1, '<div align="center"><a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a></div>' );
@@ -1096,7 +1104,7 @@ class Cache extends \Lumiere\Admin {
 					echo '</span>';
 				}
 				if ( is_dir( $this->imdb_cache_values['imdbcachedir'] ) === true ) { // check if permissions are ok
-					if ( substr( sprintf( '%o', fileperms( $this->imdb_cache_values['imdbcachedir'] ) ), -3 ) === '777' ) {
+					if ( is_writable( $this->imdb_cache_values['imdbcachedir'] ) ) {
 						echo ' <span class="imdblt_green">';
 						esc_html_e( 'Permissions OK.', 'lumiere-movies' );
 						echo '</span>';
@@ -1169,7 +1177,7 @@ class Cache extends \Lumiere\Admin {
 					echo '</span>';
 				}
 				if ( file_exists( $this->imdb_cache_values['imdbphotoroot'] ) ) { // check if permissions are ok
-					if ( substr( sprintf( '%o', fileperms( $this->imdb_cache_values['imdbphotoroot'] ) ), -3 ) === '777' ) {
+					if ( is_writable( $this->imdb_cache_values['imdbphotoroot'] ) ) {
 						echo ' <span class="imdblt_green">';
 						esc_html_e( 'Permissions OK.', 'lumiere-movies' );
 						echo '</span>';
