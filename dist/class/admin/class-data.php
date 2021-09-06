@@ -108,7 +108,7 @@ class Data extends \Lumiere\Admin {
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
 
 			// Start the class Utils to activate debug -> already started in admin_pages
-			$this->utilsClass->lumiere_activate_debug( $this->imdb_widget_values, 'no_var_dump', null );
+			$this->utils_class->lumiere_activate_debug( $this->imdb_widget_values, 'no_var_dump', null );
 		}
 
 		// Display the page.
@@ -220,7 +220,7 @@ class Data extends \Lumiere\Admin {
 
 			// Flush rewrite rules if updating taxonomy details
 			// Needed by WordPress as a new page is created
-			if ( count( $this->utilsClass->lumiere_array_key_exists_wildcard( $_POST, 'imdb_imdbtaxonomy*' ) ) !== 0 ) {
+			if ( count( $this->utils_class->lumiere_array_key_exists_wildcard( $_POST, 'imdb_imdbtaxonomy*' ) ) !== 0 ) {
 				flush_rewrite_rules();
 				$this->logger->log()->debug( 'Rewrite rules flushed' );
 			}

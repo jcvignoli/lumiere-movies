@@ -31,7 +31,7 @@ class Admin {
 	/**
 	 * \Lumière\Utils class
 	 */
-	protected Utils $utilsClass;
+	protected Utils $utils_class;
 
 	/**
 	 * \Lumiere\Logger class
@@ -67,7 +67,7 @@ class Admin {
 		$this->settings_open();
 
 		// Start Utilities class
-		$this->utilsClass = new Utils();
+		$this->utils_class = new Utils();
 
 		// Start Logger class
 		$this->logger = new Logger( 'adminClass' );
@@ -122,10 +122,10 @@ class Admin {
 	 */
 	public function lumiere_admin_maybe_start_debug(): void {
 
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
+		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
 
 			// Start debugging mode
-			$this->utilsClass->lumiere_activate_debug();
+			$this->utils_class->lumiere_activate_debug();
 
 		}
 
@@ -408,7 +408,7 @@ class Admin {
 		}
 		// end subselection
 
-		echo $this->utilsClass->lumiere_admin_signature();
+		echo $this->utils_class->lumiere_admin_signature();
 
 		?>
 	</div><!-- .wrap -->
