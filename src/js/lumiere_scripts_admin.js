@@ -1,15 +1,16 @@
-/* Functions here are Content Security Policy (CSP) Compliant
-*  Needs jquery
-*  For admin pages
-*/
+/**
+ * Functions here are Content Security Policy (CSP) Compliant
+ * Needs jquery
+ * For admin pages
+ */
 
-/************************************** class Widget.php && General.php
+/************************************** class-widget.php && admin/class-general.php
 *
 */
 
-/* Functions to activate/unactivate forms checkboxes (dependending of the choice made)
-*
-*/
+/** Functions to activate/unactivate forms checkboxes (depending on the choice made)
+ *
+ */
 
 // If input with data-modificator is selected, get the data-field_to_change (id of the other field to activate or unactivate) and data-field_to_change_value (if activate (1) or unactivate (0))
 document.addEventListener(
@@ -95,7 +96,7 @@ document.addEventListener(
 	}
 );
 
-// Function that activate or unactivate the other field selected previously
+// Function that activates or unactivates the other field selected previously
 function GereControle(Controle, Masquer) {
 	var objControle = document.getElementById( Controle );
 	if (Masquer == '1') {
@@ -106,10 +107,12 @@ function GereControle(Controle, Masquer) {
 	return true;
 }
 
+/************************************** admin/class-data.php
+*
+*/
 
 // Function to move values inside a select box form
 // Credits go to Rick Hitchcock https://stackoverflow.com/a/28682653
-// Used in class data
 
 document.addEventListener(
 	'DOMContentLoaded',
@@ -150,7 +153,7 @@ document.addEventListener(
 );
 
 
-/************************************** options-cache.php
+/************************************** admin/class-cache.php
 *
 */
 
