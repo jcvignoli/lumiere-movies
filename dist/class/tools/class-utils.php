@@ -243,7 +243,7 @@ class Utils {
 		$result_init = preg_grep( '/^' . $search . '$/i', array_keys( $array ) );
 		$result = $result_init !== false ? $result_init : [];
 
-		if ( $return == 'key-value' ) {
+		if ( $return === 'key-value' ) {
 			return array_intersect_key( $array, array_flip( $result ) );
 		}
 
@@ -406,7 +406,7 @@ class Utils {
 		ini_set( 'display_errors', '1' );
 
 		// avoid endless loops with imdbphp parsing errors.
-		if ( ( isset( $libxml_use ) ) && ( $libxml_use == 'libxml' ) ) {
+		if ( ( isset( $libxml_use ) ) && ( $libxml_use === 'libxml' ) ) {
 			libxml_use_internal_errors( true );
 		}
 

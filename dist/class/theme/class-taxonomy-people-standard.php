@@ -339,7 +339,8 @@ class Taxonomy_People_Standard {
 
 			echo "\n\t\t\t\t\t\t" . '<option value="' . intval( $lang->term_id ) . '"';
 
-			if ( ( isset( $_POST['tag_lang'] ) ) && ( intval( $lang->term_id ) == $_POST['tag_lang'] ) && ( wp_verify_nonce( $_POST['_wpnonce'], 'submit_lang' ) !== false ) ) {
+			// @phpcs:ignore WordPress.Security.NonceVerification
+			if ( ( isset( $_POST['tag_lang'] ) ) && ( intval( $lang->term_id ) === intval( $_POST['tag_lang'] ) ) && isset( $_POST['_wpnonce'] ) && ( wp_verify_nonce( $_POST['_wpnonce'], 'submit_lang' ) !== false ) ) {
 				echo 'selected="selected"';
 			}
 
@@ -357,7 +358,6 @@ class Taxonomy_People_Standard {
 		echo "\n\t\t\t\t" . '</form>';
 		echo "\n\t\t\t" . '</div>';
 
-		return;
 	}
 
 	/**

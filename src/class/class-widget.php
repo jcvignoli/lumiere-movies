@@ -188,7 +188,8 @@ class Widget extends \WP_Widget {
 			'lumiere_block_widget',
 			$this->config_class->lumiere_blocks_dir . 'widget-block.min.js',
 			[ 'wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-i18n', 'wp-data' ],
-			$this->config_class->lumiere_version
+			$this->config_class->lumiere_version,
+			false
 		);
 
 		wp_register_style(

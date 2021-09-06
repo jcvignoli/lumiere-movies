@@ -431,10 +431,12 @@ class Movie {
 
 		foreach ( $this->imdb_widget_values['imdbwidgetorder'] as $data_detail => $order ) {
 
+			if (
 			// Use order to select the position of the data detail.
-			if ( ( $this->imdb_widget_values['imdbwidgetorder'][ $data_detail ] === $order )
+			( $this->imdb_widget_values['imdbwidgetorder'][ $data_detail ] === $order )
 			// Is the data detail activated?
-			&& ( $this->imdb_widget_values[ 'imdbwidget' . $data_detail ] === '1' ) ) {
+			&& ( $this->imdb_widget_values[ 'imdbwidget' . $data_detail ] === '1' )
+			) {
 
 				// Build the function name according to the data detail name.
 				$function = "lumiere_movies_{$data_detail}";
@@ -991,10 +993,12 @@ class Movie {
 
 		for ( $i = 0; ( $i < $nbtrailers && ( $i < $nbtotaltrailers ) ); $i++ ) {
 
-			if ( $this->imdb_admin_values['imdblinkingkill'] == false ) { // if "Remove all links" option is not selected
+			// if "Remove all links" option is not selected.
+			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
 				$output .= "\n\t\t\t<a href='" . esc_url( $trailers[ $i ]['url'] ) . "' title='" . esc_html__( 'Watch on IMBb website the trailer for ', 'lumiere-movies' ) . esc_html( $trailers[ $i ]['title'] ) . "'>" . sanitize_text_field( $trailers[ $i ]['title'] ) . "</a>\n";
 
-			} else { // if "Remove all links" option is selected
+				// if "Remove all links" option is selected.
+			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
 
 				$output .= "\n\t\t\t" . sanitize_text_field( $trailers[ $i ]['title'] ) . ', ' . esc_url( $trailers[ $i ]['url'] );
 
@@ -1389,7 +1393,7 @@ class Movie {
 		$output .= sprintf( esc_attr( _n( 'Creator', 'Creators', $nbtotalcreator, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcreator ) );
 		$output .= ':</span>&nbsp;';
 
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] == true ) && ( $this->imdb_widget_values['imdbtaxonomycreator'] == true ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomycreator'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalcreator; $i++ ) {
 
@@ -1738,7 +1742,7 @@ class Movie {
 	 *
 	 * @return string the text to be outputed
 	 */
-	private function lumiere_make_display_taxonomy( string $typeItem, string $firstTitle, string $secondTitle = null, string $layout = 'one' ) {
+	private function lumiere_make_display_taxonomy( string $typeItem, string $firstTitle, string $secondTitle = null, string $layout = 'one' ): string {
 
 		// ************** Vars and sanitization */
 		$lang_term = 'en'; # language to register the term with, English by default
@@ -1808,16 +1812,16 @@ class Movie {
 
 		// ************** Return layout
 
+		$taxo_link = get_term_link( $taxonomy_term, $taxonomy_category_full );
+		$taxo_link = is_wp_error( $taxo_link ) === false ? $taxo_link : '';
+
 		// layout=two: display the layout for double entry details, ie actors
-		if ( $layout == 'two' ) {
+		if ( $layout === 'two' ) {
 
 			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 			$output .= "\n\t\t\t\t\t<a class=\"linkincmovie\" href=\""
-					. esc_url(
-						site_url() . '/' . $taxonomy_category_full
-						. '/' . $this->lumiere_make_taxonomy_link( $taxonomy_term )
-					)
+					. esc_url( $taxo_link )
 					. '" title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' )
 					. '">';
 			$output .= "\n\t\t\t\t\t" . $taxonomy_term;
@@ -1829,12 +1833,11 @@ class Movie {
 			$output .= "\n\t\t\t" . '</div>';
 
 			// layout=one: display the layout for all details separated by comas, ie keywords
-		} elseif ( $layout == 'one' ) {
+		} elseif ( $layout === 'one' ) {
 
 			$output .= '<a class="linkincmovie" '
-					. 'href="' . site_url() . '/'
-					. $taxonomy_category_full . '/'
-					. $this->lumiere_make_taxonomy_link( $taxonomy_term ) . '" '
+					. 'href="' . esc_url( $taxo_link )
+					. '" '
 					. 'title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' ) . '">';
 			$output .= $taxonomy_term;
 			$output .= '</a>';
