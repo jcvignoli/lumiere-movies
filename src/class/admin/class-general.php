@@ -54,7 +54,7 @@ class General extends \Lumiere\Admin {
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
 
 			// Start the class Utils to activate debug -> already started in admin_pages
-			$this->utilsClass->lumiere_activate_debug( $this->imdb_admin_values, 'no_var_dump', null );
+			$this->utils_class->lumiere_activate_debug( $this->imdb_admin_values, 'no_var_dump', null );
 		}
 
 		// Display notices.
