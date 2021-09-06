@@ -30,8 +30,11 @@
 		<exclude name="WordPress.PHP.YodaConditions"/>
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
 		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
-		<!-- Below rule should be active! Run later on without this rule -->
+		<!-- Followig rule should be active! Comment out and run without this rule -->
 		<exclude name="WordPress.Security.EscapeOutput"/>
+		<!-- Followig rule should remain commented out therefore active
+		<exclude name="WordPress.Security.NonceVerification"/>
+		 -->
 	</rule> 
 
 	<!-- Let's also check that everything is properly documented.
