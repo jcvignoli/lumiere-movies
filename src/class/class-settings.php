@@ -636,7 +636,7 @@ class Settings {
 		// If we can write in wp-content/cache, make sure permissions are ok
 		if ( wp_mkdir_p( $lumiere_folder_cache ) ) {
 
-			chmod( $lumiere_folder_cache, 0777 );
+			chmod( $lumiere_folder_cache, 0755 );
 
 			$logger->debug( "[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created." );
 
@@ -646,7 +646,7 @@ class Settings {
 			$lumiere_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
 			if ( wp_mkdir_p( $lumiere_folder_cache ) ) {
 
-				chmod( $lumiere_folder_cache, 0777 );
+				chmod( $lumiere_folder_cache, 0755 );
 
 				// Update the option imdbcachedir for new cache path
 				$option_array_search = get_option( $this->imdbCacheOptionsName );
@@ -660,7 +660,7 @@ class Settings {
 		// We can write in wp-content/cache/images
 		if ( wp_mkdir_p( $lumiere_folder_cache_images ) ) {
 
-			chmod( $lumiere_folder_cache_images, 0777 );
+			chmod( $lumiere_folder_cache_images, 0755 );
 
 			$logger->debug( "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created." );
 
@@ -671,7 +671,7 @@ class Settings {
 			$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
 			if ( wp_mkdir_p( $lumiere_folder_cache_images ) ) {
 
-				chmod( $lumiere_folder_cache_images, 0777 );
+				chmod( $lumiere_folder_cache_images, 0755 );
 
 				$logger->info( "[Lumiere][config][cachefolder] Alternative image folder $lumiere_folder_cache_images created." );
 
