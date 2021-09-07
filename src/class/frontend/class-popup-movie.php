@@ -557,7 +557,7 @@ class Popup_Movie {
 		// rating shown only if selected so in options.
 		$votes_sanitized = intval( $movie_results->votes() );
 		$rating_sanitized_int = intval( $movie_results->rating() );
-		$rating_sanitized_string = esc_html( $movie_results->rating() );
+		$rating_sanitized_string = esc_html( strval( $movie_results->rating() ) );
 
 		if ( strlen( $rating_sanitized_string ) !== 0 && ( $this->imdb_widget_values['imdbwidgetrating'] === '1' ) ) {
 

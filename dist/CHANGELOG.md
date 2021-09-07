@@ -1,13 +1,14 @@
 **Changelog**
 
 v.3.6.3
-* [technical] Display poster thumbnails instead of default size by default on new installs. Set setting 'imdbcoversize' to '1'.
+* [technical] Display poster thumbnails instead of default size by default on new installs. Set setting 'imdbcoversize' to '1' in class-settings.php.
+* [bug] Detection of weither widget is active was broken. Fixed lumiere_block_widget_isactive() in class-utils.php
 
 v.3.6.2
-* [bug] on some configurations, the creations of cache folder could lead to a fatal error. Switched $wp_system functions to PHP core functions in class-settings.
+* [bug] On some configurations, the creations of cache folder could lead to a fatal error. Switched from WordPress builtin $wp_system functions to PHP core functions in method lumiere_create_cache() in class-settings.php.
 
 v.3.6.1
-* [bug] error upon activation, class-utils was the culprit
+[bug] If no Lumiere widget was installed, a fatal error was thrown. Temporary fix for lumiere_block_widget_isactive() in class-utils.php
 
 v.3.6
 * [feature] Massive cleaning of the code, plugin rewritten for perfomance and maintainability. Code is linted using PHPCS, PHPMD and PHPStan. Faster, more secure and more stable plugin.
