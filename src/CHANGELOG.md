@@ -1,5 +1,8 @@
 **Changelog**
 
+v.3.6.2
+* [bug] on some configurations, the creations of cache folder could lead to a fatal error. Switched $wp_system functions to PHP core functions in class-settings.
+
 v.3.6.1
 * [bug] error upon activation, class-utils was the culprit
 
