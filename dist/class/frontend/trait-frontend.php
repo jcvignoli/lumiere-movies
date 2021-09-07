@@ -172,7 +172,8 @@ trait Frontend {
 	}
 
 	/**
-	 * Display biographical text
+	 * Display mini biographical text, not all people have one
+	 *
 	 * 1- Cut the maximum of characters to be displayed with $click_text
 	 * 2- Detect if there is html tags that can break with $esc_html_breaker
 	 * 3- Build links either to internal (popups) or popups (inside posts/widgets) with $popup_links
@@ -187,11 +188,12 @@ trait Frontend {
 		$click_text = esc_html__( 'click to expand', 'lumiere-movies' ); // text for cutting.
 		$max_length = 200; // maximum number of characters before cutting.
 
+		// Calculate the number of bio results.
 		$nbtotalbio = count( $bio_array );
 		$bio = $nbtotalbio !== 0 ? $bio_array : null;
 
-		// If no bio, exit.
-		$idx = count( $bio_array ) < 2 ? $idx = 0 : $idx = 1;
+		// Select the index array according to the number of bio results.
+		$idx = $nbtotalbio < 2 ? $idx = 0 : $idx = 1;
 
 		// Make sure that bio description returns internal links and no IMDb's.
 		$bio_head = '';
@@ -205,7 +207,7 @@ trait Frontend {
 			$bio_text = $this->lumiere_imdburl_to_popupurl( $bio[ $idx ]['desc'] );
 		}
 
-		// HTML tags break the 'read more'. Detects if there is html and reduce the $max_length.
+		// HTML tags break for 'read more' cutting. Detects if there is html and reduce the $max_length.
 		$esc_html_breaker = strpos( $bio_text, '<' ) !== false && strpos( $bio_text, '<' ) < $max_length ? strpos( $bio_text, '<' ) : $max_length;
 
 		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
