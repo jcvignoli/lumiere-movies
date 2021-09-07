@@ -149,7 +149,7 @@ class Settings {
 	const UPDATE_OPTIONS_PAGE = 'class/class-update-options.php'; // not included in $lumiere_list_all_pages.
 
 	/**
-	 * URL string for taxonomy, 'imdblt_' by default (built in lumiere_define_constants() )
+	 * URL string for taxonomy, 'lumiere-' by default (built in lumiere_define_constants() )
 	 */
 	const URL_STRING_TAXO = 'lumiere-';
 
@@ -275,7 +275,7 @@ class Settings {
 	private function lumiere_define_constants_after_globals(): void {
 
 		/* BUILD URLSTRINGS for popups */
-		$this->lumiere_urlstring = ( strlen( $this->imdb_admin_values['imdburlpopups'] ) !== 0 ) ? $this->imdb_admin_values['imdburlpopups'] : '/imdblt/';
+		$this->lumiere_urlstring = ( strlen( $this->imdb_admin_values['imdburlpopups'] ) !== 0 ) ? $this->imdb_admin_values['imdburlpopups'] : '/lumiere/';
 		$this->lumiere_urlstringfilms = $this->lumiere_urlstring . 'film/';
 		$this->lumiere_urlstringperson = $this->lumiere_urlstring . 'person/';
 		$this->lumiere_urlstringsearch = $this->lumiere_urlstring . 'search/';
@@ -400,7 +400,7 @@ class Settings {
 			#--------------------------------------------------=[ Basic ]=--
 			'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
 			'imdbpluginpath' => plugin_dir_path( __DIR__ ),
-			'imdburlpopups' => '/imdblt/',
+			'imdburlpopups' => '/lumiere/',
 			'imdbkeepsettings' => '1',
 			'imdburlstringtaxo' => self::URL_STRING_TAXO,
 			'imdbcoversize' => '1',

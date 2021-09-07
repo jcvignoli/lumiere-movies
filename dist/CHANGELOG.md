@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.6.3
+* [technical] For new installs, the new URL for popups is '/lumiere/' instead of '/imdblt/'
 * [technical] Display poster thumbnails instead of default size by default on new installs. Set setting 'imdbcoversize' to '1' in class-settings.php.
 * [bug] Detection of weither widget is active was broken. Fixed lumiere_block_widget_isactive() in class-utils.php
 * [bug] Biography lentght was not correctly counted. Added new condition for $esc_html_breaker in lumiere_medaillon_bio() in class-frontend.php
