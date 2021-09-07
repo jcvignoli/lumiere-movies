@@ -191,26 +191,22 @@ trait Frontend {
 		$bio = $nbtotalbio !== 0 ? $bio_array : null;
 
 		// If no bio, exit.
-		if ( $nbtotalbio === 0 ) {
-
-			return null;
-
-		}
+		$idx = count( $bio_array ) < 2 ? $idx = 0 : $idx = 1;
 
 		// Make sure that bio description returns internal links and no IMDb's.
 		$bio_head = '';
 		$bio_text = '';
 		if ( $popup_links === false && $bio !== null ) {
 
-			$bio_text = $this->lumiere_imdburl_to_internalurl( $bio[0]['desc'] );
+			$bio_text = $this->lumiere_imdburl_to_internalurl( $bio[ $idx ]['desc'] );
 
 		} elseif ( $popup_links === true && $bio !== null ) {
 
-			$bio_text = $this->lumiere_imdburl_to_popupurl( $bio[0]['desc'] );
+			$bio_text = $this->lumiere_imdburl_to_popupurl( $bio[ $idx ]['desc'] );
 		}
 
 		// HTML tags break the 'read more'. Detects if there is html and reduce the $max_length.
-		$esc_html_breaker = strpos( $bio_text, '<' ) !== false ? strpos( $bio_text, '<' ) : $max_length;
+		$esc_html_breaker = strpos( $bio_text, '<' ) !== false && strpos( $bio_text, '<' ) < $max_length ? strpos( $bio_text, '<' ) : $max_length;
 
 		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
 
