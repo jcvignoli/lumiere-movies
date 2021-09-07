@@ -19,6 +19,7 @@ use \Lumiere\Imdbphp;
 
 trait Frontend {
 
+	// Global settings trait.
 	use \Lumiere\Settings_Global;
 
 	/**

@@ -773,7 +773,7 @@ class General extends \Lumiere\Admin {
 					</div>
 					<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the movies\' and people\'s popups.', 'lumiere-movies' ); ?>
 					<br />
-					<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "<?php echo '/imdblt/'; ?>"
+					<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "<?php echo '/lumiere/'; ?>"
 					<br />
 					<br />
 					<?php esc_html_e( 'Example: the full URL utilized for the movies\' popups will be:', 'lumiere-movies' ); ?>
