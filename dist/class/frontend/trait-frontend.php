@@ -72,13 +72,13 @@ trait Frontend {
 	}
 
 	/**
-	 * Wrap the debugging process and logging
+	 * Detect whether it is a block editor (gutenberg) page
 	 */
 	public function lumiere_frontend_is_editor(): void {
 
 		$referer = strlen( $_SERVER['REQUEST_URI'] ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
 		$pages_prohibited = [ '/wp-admin/admin-ajax.php', '/wp-admin/post.php', '/wp-json/wp/v2/posts' ];
-		if ( Utils::lumiere_array_contains_term( $pages_prohibited, $_SERVER['REQUEST_URI'] ) ) {
+		if ( Utils::lumiere_array_contains_term( $pages_prohibited, $referer ) ) {
 
 			$this->is_editor_page = true;
 
