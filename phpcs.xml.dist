@@ -29,12 +29,12 @@
 		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 		<exclude name="WordPress.PHP.YodaConditions"/>
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
-		<!-- Check if variables notably use correct snake format
+		<!-- Check if variables notably use correct snake format -->
 		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
-		 -->
-		<!-- Followig rule should be active! Comment out and run without this rule
+
+		<!-- Followig rule should be active! Comment out and run without this rule -->
 		<exclude name="WordPress.Security.EscapeOutput"/>
-		 -->
+
 		<!-- Followig rule should remain commented out therefore active
 		<exclude name="WordPress.Security.NonceVerification"/>
 		 -->
@@ -76,7 +76,7 @@
 <rule ref="WordPress.Security.EscapeOutput">
 	<properties>
 		<property name="customEscapingFunctions" type="array">
-			<element value="Utils"/><!-- can't just enter Utils::function... ->
+			<element value="Utils"/><!-- can't just enter Utils::function... -->
 		</property>
 	</properties>
 </rule>
