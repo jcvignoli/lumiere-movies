@@ -1,5 +1,8 @@
 **Changelog**
 
+v.3.6.3
+* [technical] Display poster thumbnails instead of default size by default on new installs. Set setting 'imdbcoversize' to '1'.
+
 v.3.6.2
 * [bug] on some configurations, the creations of cache folder could lead to a fatal error. Switched $wp_system functions to PHP core functions in class-settings.
 

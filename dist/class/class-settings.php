@@ -403,7 +403,7 @@ class Settings {
 			'imdburlpopups' => '/imdblt/',
 			'imdbkeepsettings' => '1',
 			'imdburlstringtaxo' => self::URL_STRING_TAXO,
-			'imdbcoversize' => '0',
+			'imdbcoversize' => '1',
 			'imdbcoversizewidth' => '100',
 			#--------------------------------------------------=[ Technical ]=--
 
