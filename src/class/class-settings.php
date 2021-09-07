@@ -609,12 +609,12 @@ class Settings {
 	/**
 	 * Create cache folder if it does not exist
 	 *
+	 * !Note: We can't use $wp_system at this stage, since it is called during plugin activation
+	 *
 	 * @param bool $screen_log whether to display logging on screen or not
 	 * @return bool false if cache already exist, true if created cache folders
 	 */
 	public function lumiere_create_cache( bool $screen_log = false ): bool {
-
-		global $wp_filesystem;
 
 		// Start logger
 		$this->logger = new Logger( 'settingsClass', $screen_log /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated, such as upon plugin activation */ );
@@ -622,55 +622,58 @@ class Settings {
 		$logger = $this->logger->log();
 
 		/* Cache folder paths */
-		$lumiere_folder_cache = $wp_filesystem->wp_content_dir() . 'cache/lumiere/';
-		$lumiere_folder_cache_images = $wp_filesystem->wp_content_dir() . 'cache/lumiere/images';
+		$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
+		$lumiere_folder_cache_images = WP_CONTENT_DIR . '/cache/lumiere/images';
 
-		// Make sure we can access, if we can't exit.
-		if ( Utils::lumiere_wp_filesystem_cred( $lumiere_folder_cache ) === false ) {
-			return false;
-		}
-
-		// Cache folders exist with good permissions, exit.
-		if ( ( $wp_filesystem->is_dir( $lumiere_folder_cache ) ) && ( $wp_filesystem->is_dir( $lumiere_folder_cache_images ) ) && $wp_filesystem->is_writable( $lumiere_folder_cache ) ) {
+		// Cache folders exist with good permissions, exit
+		if ( ( is_dir( $lumiere_folder_cache ) ) && ( is_dir( $lumiere_folder_cache_images ) ) && wp_mkdir_p( $lumiere_folder_cache ) ) {
 
 			$logger->debug( '[Lumiere][config][cachefolder] Cache folders exist and permissions are ok.' );
 			return false;
 
 		}
 
-		// If we can write in wp-content/cache, make sure permissions are ok.
-		if ( $wp_filesystem->mkdir( $lumiere_folder_cache, 0755 ) ) {
+		// If we can write in wp-content/cache, make sure permissions are ok
+		if ( wp_mkdir_p( $lumiere_folder_cache ) ) {
 
-			$logger->debug( "[Lumiere][settings][cachefolder] Cache folder $lumiere_folder_cache created." );
+			chmod( $lumiere_folder_cache, 0777 );
 
-			// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead.
+			$logger->debug( "[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created." );
+
+			// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
 		} else {
 
 			$lumiere_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
-			if ( $wp_filesystem->mkdir( $lumiere_folder_cache, 0755 ) ) {
+			if ( wp_mkdir_p( $lumiere_folder_cache ) ) {
 
-				// Update the option imdbcachedir for new cache path.
+				chmod( $lumiere_folder_cache, 0777 );
+
+				// Update the option imdbcachedir for new cache path
 				$option_array_search = get_option( $this->imdbCacheOptionsName );
 				$option_array_search['imdbcachedir'] = $lumiere_folder_cache;
 				update_option( $this->imdbCacheOptionsName, $option_array_search );
 
-				$logger->info( "[Lumiere][settings][cachefolder] Alternative cache folder $lumiere_folder_cache_images created." );
+				$logger->info( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_folder_cache_images created." );
 			}
 		}
 
-		// We can write in wp-content/cache/images.
-		if ( $wp_filesystem->mkdir( $lumiere_folder_cache_images, 0755 ) ) {
+		// We can write in wp-content/cache/images
+		if ( wp_mkdir_p( $lumiere_folder_cache_images ) ) {
 
-			$logger->debug( "[Lumiere][settings][cachefolder] Image folder $lumiere_folder_cache_images created." );
+			chmod( $lumiere_folder_cache_images, 0777 );
 
-			// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead.
+			$logger->debug( "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created." );
+
+			// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
 		} else {
 
 			$lumiere_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
 			$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
-			if ( $wp_filesystem->mkdir( $lumiere_folder_cache_images, 0755 ) ) {
+			if ( wp_mkdir_p( $lumiere_folder_cache_images ) ) {
 
-				$logger->info( "[Lumiere][settings][cachefolder] Alternative image folder $lumiere_folder_cache_images created." );
+				chmod( $lumiere_folder_cache_images, 0777 );
+
+				$logger->info( "[Lumiere][config][cachefolder] Alternative image folder $lumiere_folder_cache_images created." );
 
 			}
 
