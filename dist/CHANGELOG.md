@@ -2,9 +2,9 @@
 
 v.3.6.3
 * [technical] For new installs, the new URL for popups is '/lumiere/' instead of '/imdblt/'
-* [technical] Display poster thumbnails instead of default size by default on new installs. Set setting 'imdbcoversize' to '1' in class-settings.php.
-* [bug] Detection of weither widget is active was broken. Fixed lumiere_block_widget_isactive() in class-utils.php
-* [bug] Biography lentgth was not correctly counted. Added new condition for $esc_html_breaker in lumiere_medaillon_bio() in class-frontend.php
+* [technical] For new installs, display poster thumbnails in widget/inside a post/taxonomy/popups instead of default size by default. Set setting 'imdbcoversize' to '1' in class-settings.php.
+* [bug] Function to detect of whether a Lumiere widget is active was broken. Fixed lumiere_block_widget_isactive() in class-utils.php
+* [bug] Biography length was not correctly counted and led to text being cut early. Added new condition for $esc_html_breaker in lumiere_medaillon_bio() in class-frontend.php
 * [bug] Picture link url in taxonomy page for people was not built. Fixed class-taxonomy-people-standard.php
 
 v.3.6.2
