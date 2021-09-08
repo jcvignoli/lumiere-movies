@@ -86,8 +86,8 @@ class CacheCest {
 	/** Check if auto widget option display a widget based on the title of the page
 	 *
 	 * @before login
-	 * @example ["Jorge_Rivero", "name.nm0729473"]
-	 * @example ["Stanley_Kubrick", "name.nm0000040"]
+	 * @example ["Jorge_Rivero", "name.nm0729473", "0729473"]
+	 * @example ["Stanley_Kubrick", "name.nm0000040", "0000040"]
 	 *
 	 */
 	public function checkCacheIsCreatedForPeople(AcceptanceRemoteTester $I, \Codeception\Example $example, \Codeception\Module\Cli $shell) {
@@ -102,15 +102,15 @@ class CacheCest {
 		$I->activateLocalMount( $this->root_remote, $shell );
 
 		// Make sure cache is created
-		$I->amOnPage("/imdblt/person/?mid=".$example[1]);
-		$I->wait(5);
+		$I->amOnPage("/lumiere/person/?mid=".$example[2]);
+		$I->wait(7);
 		$I->seeFileFound($example[1], $this->root_remote.'/wp-content/cache/lumiere/');
 
 		// Delete cache file using local path
 		$I->deleteFile($this->root_remote.'/wp-content/cache/lumiere/'.$example[1]);
 
 		// Make sure cache is created
-		$I->amOnPage("/imdblt/person/?mid=".$example[1]);
+		$I->amOnPage("/lumiere/person/?mid=".$example[2]);
 		$I->wait(6);
 		$I->seeFileFound($example[1], $this->root_remote.'/wp-content/cache/lumiere/');
 
@@ -122,7 +122,7 @@ class CacheCest {
 		$I->wait(2);
 
 		// Make sure cache is created
-		$I->amOnPage("/imdblt/person/?mid=".$example[1]);
+		$I->amOnPage("/lumiere/person/?mid=".$example[2]);
 		$I->wait(6);
 		$I->seeFileFound($example[1], $this->root_remote.'/wp-content/cache/lumiere/');
 

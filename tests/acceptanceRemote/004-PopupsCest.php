@@ -44,7 +44,7 @@ class PopupsCest {
 
 		// popup link movie interstellar
 		$element = 'a[data-highslidefilm="interstellar"]';
-		$sub_url = '/imdblt/film/interstellar/?film=interstellar';
+		$sub_url = '/lumiere/film/interstellar/?film=interstellar';
 
 		$I->wantTo('Check if popup movie can be open');
 		$I->amOnPage('/2021/test-codeception/');
@@ -62,7 +62,7 @@ class PopupsCest {
 
 		// popup link actor Jorge Rivero
 		$element = 'a[data-highslidepeople="0729473"]';
-		$sub_url = '/imdblt/person/0729473/?mid=0729473';
+		$sub_url = '/lumiere/person/0729473/?mid=0729473';
 
 		$I->wantTo('Check if popup person can be open');
 		$I->amOnPage('/2021/test-codeception/');

@@ -75,6 +75,7 @@ class StylesScriptsCest {
 		$I->seeInPageSource("lumiere_help_scripts-js-after"); # dedicated script to help page
 		$I->seeInPageSource("common-js"); # extra script in that page
 
+/* Can't go through a WP popup
 		// Check Lumière Widget page (without Classic Widget plugin)
 		$I->comment(\Helper\Color::set('Check Lumière Widget page (without Classic Widget plugin)', 'italic+bold+cyan'));
 		$I->amOnPage("/wp-admin/widgets.php");
@@ -87,7 +88,7 @@ class StylesScriptsCest {
 		$I->seeInPageSource("lumiere_gutenberg_buttons-js");
 		$I->seeInPageSource("lumiere_scripts_admin-js");
 		$I->seeInPageSource("lumiere_hide_show-js");
-
+*/
 		// Disable classic-editor so we can test Blocks editor
 		$I->comment(\Helper\Color::set('Disable classic-editor plugin so we can test Blocks editor', 'italic+bold+cyan'));
 		$I->amOnPage('/wp-admin/plugins.php');
@@ -153,7 +154,7 @@ class StylesScriptsCest {
 			// Taxonomy person director page
 
 		$I->comment(\Helper\Color::set('Checking taxonomy page', 'italic+bold+cyan'));
-		$I->amOnPage('/imdblt_director/tony-zarindast/');
+		$I->amOnPage('/lumiere-director/tony-zarindast/');
 		$I->seeInPageSource("lumiere_highslide-css");	 		# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
 		$I->seeInPageSource("lumiere_style_oceanwpfixes_general-css");	# Lumiere extra OceanWP fix
@@ -166,7 +167,7 @@ class StylesScriptsCest {
 			// Popup person page
 
 		$I->comment(\Helper\Color::set('Checking Popup person page', 'italic+bold+cyan'));
-		$I->amOnPage('/imdblt/person/0729473/?mid=0729473');
+		$I->amOnPage('/lumiere/person/?mid=0729473');
 		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-16x16.png");	 	# Lumière favicon 16
 		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
 		$I->seeInPageSource("lumiere-movies/pics/favicon/apple-touch-icon.png"); 	# Lumière favicon Apple
@@ -190,7 +191,7 @@ class StylesScriptsCest {
 			// Popup movie page
 
 		$I->comment(\Helper\Color::set('Checking Popup movie page', 'italic+bold+cyan'));
-		$I->amOnPage('/imdblt/film/?mid=&film=interstellar');
+		$I->amOnPage('/lumiere/film/?mid=&film=interstellar');
 		$I->seeInPageSource("canonical");						 	# Meta tag
 		$I->seeInPageSource("article:tag");					 	# Meta tag
 		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-16x16.png");	 	# Lumière favicon 16

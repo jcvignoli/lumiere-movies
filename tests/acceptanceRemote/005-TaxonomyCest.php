@@ -106,7 +106,7 @@ class TaxonomyCest {
 		$this->maybeEnableTaxonomy($I);
 
 		// Delete Lumière taxonomy template in theme folder if it exists
-		$I->customThemeFileExistsDelete('oceanwp/taxonomy-imdblt_' . $example[0] . '.php');
+		$I->customThemeFileExistsDelete('oceanwp/taxonomy-lumiere-' . $example[0] . '.php');
 
 		// Activate $item in 'what to display'
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
@@ -181,7 +181,7 @@ class TaxonomyCest {
 		/* VARS */
 		// popup link person Tony Zarindast
 		$element = 'a[data-highslidepeople="0953494"]';
-		$sub_url = '/imdblt/person/0953494/?mid=0953494';
+		$sub_url = '/lumiere/person/0953494/?mid=0953494';
 
 		$I->wantTo('Check if auto widget taxonomy option works');
 
