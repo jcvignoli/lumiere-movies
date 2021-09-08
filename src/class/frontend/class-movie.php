@@ -594,6 +594,7 @@ class Movie {
 		$output .= sprintf( esc_attr( _n( 'Country', 'Countries', $nbtotalcountry, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcountry ) );
 		$output .= ':</span>';
 
+		// Taxonomy is active.
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomycountry'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
@@ -605,15 +606,16 @@ class Movie {
 
 			}
 
-		} else {
+			return $output;
 
-			for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
-				$output .= sanitize_text_field( $country[ $i ] );
-				if ( $i < $nbtotalcountry - 1 ) {
-					$output .= ', ';
-				}
-			} // endfor
+		}
 
+		// Taxonomy is unactive.
+		for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
+			$output .= sanitize_text_field( $country[ $i ] );
+			if ( $i < $nbtotalcountry - 1 ) {
+				$output .= ', ';
+			}
 		}
 
 		return $output;
@@ -662,6 +664,7 @@ class Movie {
 		$output .= sprintf( esc_attr( _n( 'Language', 'Languages', $nbtotallanguages, 'lumiere-movies' ) ), number_format_i18n( $nbtotallanguages ) );
 		$output .= ':</span>';
 
+		// Taxonomy is active.
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomylanguage'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
@@ -673,16 +676,19 @@ class Movie {
 
 			}
 
-		} else {
-			for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
+			return $output;
 
-				$output .= sanitize_text_field( $languages[ $i ] );
+		}
 
-				if ( $i < $nbtotallanguages - 1 ) {
-					$output .= ', ';
-				}
+		// Taxonomy is unactive.
+		for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
 
+			$output .= sanitize_text_field( $languages[ $i ] );
+
+			if ( $i < $nbtotallanguages - 1 ) {
+				$output .= ', ';
 			}
+
 		}
 
 		return $output;
@@ -735,6 +741,7 @@ class Movie {
 
 		$output .= ':</span>';
 
+		// Taxonomy is active.
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomygenre'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
@@ -746,16 +753,18 @@ class Movie {
 
 			}
 
-		} else {
+			return $output;
 
-			for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
+		}
 
-				$output .= esc_attr( $genre[ $i ] );
-				if ( $i < $nbtotalgenre - 1 ) {
-					$output .= ', ';
-				}
+		// Taxonomy is unactive.
+		for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
 
+			$output .= esc_attr( $genre[ $i ] );
+			if ( $i < $nbtotalgenre - 1 ) {
+				$output .= ', ';
 			}
+
 		}
 
 		return $output;
@@ -780,6 +789,7 @@ class Movie {
 		$output .= sprintf( esc_attr( _n( 'Keyword', 'Keywords', $nbtotalkeywords, 'lumiere-movies' ) ), number_format_i18n( $nbtotalkeywords ) );
 		$output .= ':</span>';
 
+		// Taxonomy is active.
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomykeyword'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalkeywords; $i++ ) {
@@ -791,14 +801,17 @@ class Movie {
 
 			}
 
-		} else {
-			for ( $i = 0; $i < $nbtotalkeywords; $i++ ) {
+			return $output;
 
-				$output .= esc_attr( $keywords[ $i ] );
+		}
 
-				if ( $i < $nbtotalkeywords - 1 ) {
-					$output .= ', ';
-				}
+		// Taxonomy is unactive.
+		for ( $i = 0; $i < $nbtotalkeywords; $i++ ) {
+
+			$output .= esc_attr( $keywords[ $i ] );
+
+			if ( $i < $nbtotalkeywords - 1 ) {
+				$output .= ', ';
 			}
 		}
 
@@ -882,9 +895,9 @@ class Movie {
 	}
 
 	/**
-	 *  Display the quotes
+	 * Display the quotes
 	 *
-	 *  @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
 	 */
 	private function lumiere_movies_quote( \Imdb\Title $movie ): string {
 
@@ -907,21 +920,21 @@ class Movie {
 
 		for ( $i = 0; $i < $nbquotes && ( $i < $nbtotalquotes ); $i++ ) {
 
-			//transform <p> tags into <div> tags so they're not impacted by the theme
+			//transform <p> tags into <div> tags so they're not impacted by the theme.
 			$currentquotes = preg_replace( '~<p>~', "\n\t\t\t<div>", $quotes[ $i ] ) ?? $quotes[ $i ];
 			$currentquotes = preg_replace( '~</p>~', "\n\t\t\t</div>", $currentquotes ) ?? $currentquotes;
 
-			// if "Remove all links" option is not selected
+			// if "Remove all links" option is not selected.
 			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
 				$output .= "\n\t\t\t";
 				$output .= $this->lumiere_imdburl_to_popupurl( $currentquotes );
 
-			} else {
+			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
 
 				$output .= "\n\t\t" . $this->lumiere_remove_link( $currentquotes );
 
 			}
-			if ( $i < ( $nbquotes - 1 ) ) {
+			if ( $i < ( $nbquotes - 1 ) && $i < ( $nbtotalquotes - 1 ) ) {
 				$output .= "\n\t\t\t<hr>"; // add hr to every quote but the last
 			}
 
@@ -941,7 +954,7 @@ class Movie {
 		$taglines = $movie->taglines();
 		$nbtaglines = intval( $this->imdb_widget_values['imdbwidgettaglinenumber'] ) === 0 || $this->imdb_widget_values['imdbwidgettaglinenumber'] === false ? '1' : intval( $this->imdb_widget_values['imdbwidgettaglinenumber'] );
 
-		$nbtotaltaglines = intval( count( $taglines ) );
+		$nbtotaltaglines = count( $taglines );
 
 		// If no result, exit.
 		if ( $nbtotaltaglines === 0 ) {
@@ -957,7 +970,7 @@ class Movie {
 		for ( $i = 0; $i < $nbtaglines && ( $i < $nbtotaltaglines ); $i++ ) {
 
 			$output .= "\n\t\t\t&laquo; " . sanitize_text_field( $taglines[ $i ] ) . ' &raquo; ';
-			if ( $i < ( $nbtaglines - 1 ) ) {
+			if ( $i < ( $nbtaglines - 1 ) && $i < ( $nbtotaltaglines - 1 ) ) {
 				$output .= ', '; // add comma to every quote but the last
 			}
 
@@ -1004,8 +1017,8 @@ class Movie {
 
 			}
 
-			if ( ( $i < ( $nbtrailers - 1 ) ) && ( $i < ( $nbtotaltrailers - 1 ) ) ) {
-				$output .= ', '; // add comma to every quote but the last
+			if ( $i < ( $nbtrailers - 1 ) && $i < ( $nbtotaltrailers - 1 ) ) {
+				$output .= ', '; // add comma to every trailer but the last.
 			}
 		}
 
@@ -1035,7 +1048,7 @@ class Movie {
 		$output .= sprintf( esc_attr( _n( 'Color', 'Colors', $nbtotalcolors, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcolors ) );
 		$output .= ':</span>';
 
-		// Taxonomy
+		// Taxonomy activated.
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomycolor'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalcolors; $i++ ) {
@@ -1047,18 +1060,18 @@ class Movie {
 
 			}
 
-			// No taxonomy
-		} else {
+			return $output;
 
-			$count_colors = count( $colors );
-			for ( $i = 0; $i < $count_colors; $i++ ) {
+		}
 
-				$output .= "\n\t\t\t" . sanitize_text_field( $colors[ $i ] );
-				if ( $i < $nbtotalcolors - 1 ) {
-					$output .= ', ';
-				}
+		// No taxonomy.
+		$count_colors = count( $colors );
+		for ( $i = 0; $i < $count_colors; $i++ ) {
+
+			$output .= "\n\t\t\t" . sanitize_text_field( $colors[ $i ] );
+			if ( $i < $nbtotalcolors - 1 ) {
+				$output .= ', ';
 			}
-
 		}
 
 		return $output;
@@ -1075,10 +1088,10 @@ class Movie {
 		$output = '';
 		$alsoknow = $movie->alsoknow();
 		$nbalsoknow = intval( $this->imdb_widget_values['imdbwidgetalsoknownumber'] ) === 0 || $this->imdb_widget_values['imdbwidgetalsoknownumber'] === false ? '1' : intval( $this->imdb_widget_values['imdbwidgetalsoknownumber'] );
-		$nbtotalalsoknow = intval( count( $alsoknow ) );
+		$nbtotalalsoknow = count( $alsoknow );
 
 		// if no result, exit.
-		if ( count( $alsoknow ) === 0 ) {
+		if ( $nbtotalalsoknow === 0 ) {
 
 			return $output;
 
@@ -1102,7 +1115,7 @@ class Movie {
 				$output .= ' )';
 			}
 
-			if ( ( $i < ( $nbtotalalsoknow - 1 ) ) && ( $i < ( $nbalsoknow - 1 ) ) ) {
+			if ( $i < ( $nbtotalalsoknow - 1 ) && $i < ( $nbalsoknow - 1 ) ) {
 				$output .= ', ';
 			}
 
@@ -1692,7 +1705,7 @@ class Movie {
 
 				}
 
-				if ( $i < ( ( $i < ( $nbtotalplots - 1 ) ) && ( $i < ( $nbplots - 1 ) ) ) ) {
+				if ( $i < ( $nbtotalplots - 1 ) && $i < ( $nbplots - 1 ) ) {
 					$output .= "\n<hr>\n";
 				} // add hr to every quote but the last
 			}
