@@ -122,6 +122,22 @@ While one widget only can be added per post, you can insert as many movies as yo
 
 If Polylang is installed, new features for taxonomy are added, such as selecting a specific installed language to show in taxonomy pages.
 
+### Can I change the size of the poster pictures?
+
+Sure thing, just untick 'Display only thumbnail' in general admin options, and insert the size in pixels of the picture.
+
+### Can I change the size of the popups?
+
+Sure thing, just fill in the width and heigth in general admin options.
+
+### Can I change the color themes of the popups or inside the posts?
+
+Sure thing, just select one of the theme available in general admin options, either in 'plain page' or 'popup' sections.
+
+### Can I add or remove the data details, such as director or year of release?
+
+Sure thing, you can also modify the order of these details. Just take a look at data management options.
+
 ### Known issues
 
 * None.
