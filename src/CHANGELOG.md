@@ -11,10 +11,10 @@ v.3.6.2
 * [bug] On some configurations, the creations of cache folder could lead to a fatal error. Switched from WordPress builtin $wp_system functions to PHP core functions in method lumiere_create_cache() in class-settings.php.
 
 v.3.6.1
-[bug] If no Lumiere widget was installed, a fatal error was thrown. Temporary fix for lumiere_block_widget_isactive() in class-utils.php
+* [bug] If no Lumiere widget was installed, a fatal error was thrown. Temporary fix for lumiere_block_widget_isactive() in class-utils.php
 
 v.3.6
-* [feature] Massive cleaning of the code, plugin rewritten for perfomance and maintainability. Code is linted using PHPCS, PHPMD and PHPStan. Faster, more secure and more stable plugin.
+* [major] Massive cleaning of the code, plugin rewritten for perfomance and maintainability. Code is linted using PHPCS, PHPMD and PHPStan. Faster, more secure and more stable plugin.
 * [feature] Uninstall process properly implemented. Lumière doesn't rely on WordPress deactivation function anymore for removing its options, taxonomy and cache. Properly deletes taxonomy in database.
 * [technical] Removed imdbsearchdirect, blog_adress option, imdbwidgetonpost, imdbimgdir, imdb_utf8recode, imdbwebsite, imdbwidgetonpage in settings class.
 * [technical] New way to deal with debug logging; class/function origin of the log fully implemented
@@ -47,8 +47,8 @@ v.3.6
 * [bug] Two iterations were made in the widget class per widget movie. Removed the useless loop.
 
 v.3.5.1
-* [bug] Fatal error upon installation. "Vendor" folder wasn't included. Changed in lumiere-movies.php management of dependencies.
 * [feature] If new block-based widget is found, do not load pre-5.8 widget.
+* [bug] Fatal error upon installation. "Vendor" folder wasn't included. Changed in lumiere-movies.php management of dependencies.
 
 v.3.5
 * [feature] In visual editing (with tinymce, old way), new function to add popup, movies by id and by title.
@@ -60,7 +60,7 @@ v.3.5
 * [bug] delete all cache wasn't working (in class utils function lumiere_unlinkRecursive() was missing a "$this->")
 * [bug] Logger in lumiere_noresults_text() class.utils wasn't being activated when called.
 * [bug] Block widget type wasn't taken into account when checking if a widget was active in admin panel. Added new condition in admin_pages.php
-* [bug] Can't open/close metaboxes in post edition. Metabox script added in lumiere_scripts_admin.js was collinding with other WordPress scripts. Removed from lumiere_scripts_admin.js, added to help.php. Took advantage of removing useless 'common','wp-lists', 'postbox' javascripts from loading in every admin page; now loads only in help.php
+* [bug] Can't open/close metaboxes in post edition. Metabox script added in lumiere_scripts_admin.js was colliding with other WordPress scripts. Removed from lumiere_scripts_admin.js, added to help.php. Took advantage of removing useless 'common','wp-lists', 'postbox' javascripts from loading in every admin page; now loads only in help.php
 
 v.3.4.5
 * [feature] New widget written as Gutenberg block, legacy widget works. Both are fully compatible with WordPress 5.8
