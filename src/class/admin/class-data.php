@@ -292,7 +292,7 @@ class Data extends \Lumiere\Admin {
 		echo "\n\t\t" . '<div class="inside">';
 
 		//------------------------------------------------------------------ =[Submit selection]=-
-		echo "\n\t\t" . '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . $_SERVER['REQUEST_URI'] . '" >';
+		echo "\n\t\t" . '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . esc_url( $_SERVER['REQUEST_URI'] ) . '" >';
 
 		//-------------------------------------------------------------------=[Data selection]=-
 		if ( ( isset( $_GET['widgetoption'] ) && ( $_GET['widgetoption'] === 'what' ) ) || ( ! isset( $_GET['widgetoption'] ) ) ) {
@@ -345,16 +345,16 @@ class Data extends \Lumiere\Admin {
 
 			echo "\n\t" . '<div class="imdblt_double_container_content_third lumiere_padding_five">';
 
-			echo "\n\t\t" . '<input type="hidden" id="imdb_imdbtaxonomy' . $item . '_no" name="imdb_imdbtaxonomy' . $item . '" value="0" />';
+			echo "\n\t\t" . '<input type="hidden" id="' . esc_attr( 'imdb_imdbtaxonomy' . $item . '_no' ) . '" name="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '" value="0" />';
 
-			echo "\n\t\t" . '<input type="checkbox" id="imdb_imdbtaxonomy' . $item . '_yes" name="imdb_imdbtaxonomy' . $item . '" value="1"';
+			echo "\n\t\t" . '<input type="checkbox" id="' . esc_attr( 'imdb_imdbtaxonomy' . $item . '_yes' ) . '" name="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '" value="1"';
 
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
 				echo 'checked="checked"';
 			}
 
 			echo '" />';
-			echo "\n\t\t" . '<label for="imdb_imdbtaxonomy' . $item . '">';
+			echo "\n\t\t" . '<label for="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '">';
 
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
 				if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
@@ -363,17 +363,18 @@ class Data extends \Lumiere\Admin {
 					echo "\n\t\t" . '<span class="lumiere-option-taxo-deactivated">';
 				}
 
-				echo ucfirst( $item );
+				echo esc_html( ucfirst( $item ) );
 				echo '</span>';
 
 			} else {
-				echo ucfirst( $item );
+				echo esc_html( ucfirst( $item ) );
 				echo '&nbsp;&nbsp;';
 			}
 			echo "\n\t\t" . '</label>';
 
 			// If new template version available, notify
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
+				// @phpcs:ignore WordPress.Security.EscapeOutput
 				echo $this->lumiere_check_taxo_template( $item );
 			}
 			echo "\n\t" . '</div>';
@@ -419,16 +420,16 @@ class Data extends \Lumiere\Admin {
 		<?php
 		foreach ( $this->imdb_widget_values['imdbwidgetorder'] as $key => $value ) {
 
-			echo "\t\t\t\t\t<option value='" . $key . "'";
+			echo "\t\t\t\t\t<option value='" . esc_attr( $key ) . "'";
 
 			// search if "imdbwidget'title'" (ie) is activated
 			if ( $this->imdb_widget_values[ "imdbwidget$key" ] !== '1' ) {
 
-				echo ' label="' . $key . ' (unactivated)">' . $key;
+				echo ' label="' . esc_attr( $key ) . ' (unactivated)">' . esc_html( $key );
 
 			} else {
 
-				echo ' label="' . $key . '">' . $key;
+				echo ' label="' . esc_attr( $key ) . '">' . esc_html( $key );
 
 			}
 			echo "</option>\n";
@@ -458,7 +459,7 @@ class Data extends \Lumiere\Admin {
 					admin_url()
 					. 'admin.php?page=lumiere_options&generaloption=advanced'
 				) . "'>"
-				. __( 'activate taxonomy', 'lumiere-movies' ) . '</a>'
+				. esc_html__( 'activate taxonomy', 'lumiere-movies' ) . '</a>'
 				. esc_html__( ' priorly', 'lumiere-movies' ) . '<br />'
 				. esc_html__( 'to access taxonomies options.', 'lumiere-movies' ) . '</div>';
 			return;
@@ -565,20 +566,20 @@ class Data extends \Lumiere\Admin {
 			// Add extra color through span if the item is selected
 			if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
 
-				echo "\n\t\t\t\t\t" . '<span class="admin-option-selected">' . ucfirst( $title ) . '</span>';
+				echo "\n\t\t\t\t\t" . '<span class="admin-option-selected">' . esc_html( ucfirst( $title ) ) . '</span>';
 
 			} else {
 
-				echo ucfirst( $title );
+				echo esc_html( ucfirst( $title ) );
 				echo '&nbsp;&nbsp;';
 			}
 
 			echo "\n\t\t\t\t\t"
-				. '<input type="hidden" id="imdb_imdbwidget' . $item . '_no"'
-				. ' name="imdb_imdbwidget' . $item . '" value="0">';
+				. '<input type="hidden" id="imdb_imdbwidget' . esc_attr( $item ) . '_no"'
+				. ' name="imdb_imdbwidget' . esc_attr( $item ) . '" value="0">';
 
-			echo "\n\t\t\t\t\t" . '<input type="checkbox" id="imdb_imdbwidget' . $item . '_yes"' .
-				' name="imdb_imdbwidget' . $item . '" value="1"';
+			echo "\n\t\t\t\t\t" . '<input type="checkbox" id="imdb_imdbwidget' . esc_attr( $item ) . '_yes"' .
+				' name="imdb_imdbwidget' . esc_attr( $item ) . '" value="1"';
 
 			// Add checked if the item is selected
 			if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
@@ -587,14 +588,14 @@ class Data extends \Lumiere\Admin {
 
 			// If item is in list of $details_with_numbers, add special section
 			if ( array_key_exists( $item, $this->details_with_numbers ) ) {
-				echo ' data-checkbox_activate="imdb_imdbwidget' . $item . 'number_div" />';
+				echo ' data-checkbox_activate="imdb_imdbwidget' . esc_attr( $item ) . 'number_div" />';
 
-				echo "\n\t\t\t\t\t" . '<div id="imdb_imdbwidget' . $item . 'number_div" class="lumiere_flex_container lumiere_padding_five">';
+				echo "\n\t\t\t\t\t" . '<div id="imdb_imdbwidget' . esc_attr( $item ) . 'number_div" class="lumiere_flex_container lumiere_padding_five">';
 
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_seventy lumiere_font_ten">' . esc_html__( 'Enter the maximum of items you want to display', 'lumiere-movies' ) . '<br /></div>';
 
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_twenty">';
-				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . $item . 'number" size="3"';
+				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . esc_attr( $item ) . 'number" size="3"';
 				// @phpstan-ignore-next-line 'Parameter #1 $text of function esc_html expects string, array<string>|bool|int|string given'.
 				echo ' value="' . esc_html( $this->imdb_widget_values[ 'imdbwidget' . $item . 'number' ] ) . '" ';
 				if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === 0 ) {
@@ -613,7 +614,7 @@ class Data extends \Lumiere\Admin {
 
 			}
 
-			echo "\n\t\t\t\t\t" . '<div class="explain">' . $comment[ $item ] . '</div>';
+			echo "\n\t\t\t\t\t" . '<div class="explain">' . esc_html( $comment[ $item ] ) . '</div>';
 
 			echo "\n\t\t\t\t" . '</div>';
 		}

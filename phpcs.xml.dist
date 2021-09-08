@@ -78,6 +78,7 @@
 		<property name="customEscapingFunctions" type="array">
 			<element value="Utils"/><!-- can't just enter Utils::function... -->
 			<element value="wp_kses"/>
+			<element value="lumiere_check_taxo_template"/>
 		</property>
 	</properties>
 </rule>
