@@ -916,6 +916,7 @@ class Cache extends \Lumiere\Admin {
 
 					// print all lines
 					foreach ( $data as $inputline ) {
+						// @phpcs:ignore WordPress.Security.EscapeOutput
 						echo $inputline;
 					}
 					?>
@@ -1024,6 +1025,7 @@ class Cache extends \Lumiere\Admin {
 
 					// print all lines
 					foreach ( $datapeople as $inputline ) {
+						// @phpcs:ignore WordPress.Security.EscapeOutput
 						echo $inputline;
 					}
 					?>
