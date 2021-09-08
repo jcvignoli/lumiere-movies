@@ -205,7 +205,7 @@ class General extends \Lumiere\Admin {
 	 */
 	private function lumiere_general_display_body(): void {
 
-		echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . $_SERVER['REQUEST_URI'] . '">';
+		echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . esc_url( $_SERVER['REQUEST_URI'] ) . '">';
 
 		if ( ( ( isset( $_GET['generaloption'] ) ) && ( $_GET['generaloption'] === 'base' ) ) || ( ! isset( $_GET['generaloption'] ) ) ) {     ////////// Paths & Layout section
 			?>
@@ -738,7 +738,7 @@ class General extends \Lumiere\Admin {
 
 						<div id="imdb_imdbdebuglogpath_id" class="lumiere_padding_top_bottom_ten" >
 							<label for="imdb_imdbdebuglogpath"><?php esc_html_e( 'Path', 'lumiere-movies' ); ?></label>
-							<input class="lumiere_border_width_medium imdb_imdbdebuglogpath" type="text" name="imdb_imdbdebuglogpath" value="<?php echo $this->imdb_admin_values['imdbdebuglogpath']; ?>" >
+							<input class="lumiere_border_width_medium imdb_imdbdebuglogpath" type="text" name="imdb_imdbdebuglogpath" value="<?php echo esc_attr( $this->imdb_admin_values['imdbdebuglogpath'] ); ?>" >
 
 							<div class="explain"><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'WordPress default debug log', 'lumiere-movies' ); ?></div>
 							</div>
@@ -768,7 +768,7 @@ class General extends \Lumiere\Admin {
 				</div>
 				<div class="lumiere_flex_container_content_eighty">
 					<div class="lumiere_align_items_center">
-						<?php echo get_site_url(); ?>
+						<?php echo esc_url( get_site_url() ); ?>
 						<input type="text" class="lumiere_border_width_medium" name="imdb_imdburlpopups" value="<?php echo esc_html( $this->imdb_admin_values['imdburlpopups'] ); ?>">
 					</div>
 					<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the movies\' and people\'s popups.', 'lumiere-movies' ); ?>
@@ -778,12 +778,12 @@ class General extends \Lumiere\Admin {
 					<br />
 					<?php esc_html_e( 'Example: the full URL utilized for the movies\' popups will be:', 'lumiere-movies' ); ?>
 					<br />
-					<?php echo get_site_url() . $this->imdb_admin_values['imdburlpopups'] . 'film'; ?>
+					<?php echo esc_url( get_site_url() . $this->imdb_admin_values['imdburlpopups'] . 'film' ); ?>
 					<br />
 					<br />
 					<?php esc_html_e( 'Example: the full URL utilized for the people\'s popup will be:', 'lumiere-movies' ); ?>
 					<br />
-					<?php echo get_site_url() . $this->imdb_admin_values['imdburlpopups'] . 'person'; ?>
+					<?php echo esc_url( get_site_url() . $this->imdb_admin_values['imdburlpopups'] . 'person' ); ?>
 					</div>
 				</div>
 			</div>
@@ -797,7 +797,7 @@ class General extends \Lumiere\Admin {
 				</div>
 				<div class="lumiere_flex_container_content_eighty">
 					<div class="lumiere_align_items_center">
-						<?php echo get_site_url(); ?>/
+						<?php echo esc_url( get_site_url() ); ?>/
 						<input type="text" class="lumiere_border_width_medium" name="imdb_imdburlstringtaxo" value="<?php echo esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ); ?>">
 					</div>
 					<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the taxonomy\'s pages.', 'lumiere-movies' ); ?> <?php esc_html_e( 'Warning! This URL cannot be identical to popup\'s URL above.', 'lumiere-movies' ); ?>
@@ -807,7 +807,7 @@ class General extends \Lumiere\Admin {
 					<br />
 					<?php esc_html_e( 'The full URL utilized for the director taxonomy page will be:', 'lumiere-movies' ); ?>
 					<br />
-					<?php echo get_site_url() . '/' . $this->imdb_admin_values['imdburlstringtaxo'] . 'director'; ?>
+					<?php echo esc_url( get_site_url() . '/' . $this->imdb_admin_values['imdburlstringtaxo'] . 'director' ); ?>
 					</div>
 				</div>
 			</div>

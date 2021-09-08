@@ -29,11 +29,11 @@
 		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 		<exclude name="WordPress.PHP.YodaConditions"/>
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
-		<!-- Check if variables notably use correct snake format -->
-		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
+		<!-- Check if variables notably use correct snake format
+		<exclude name="WordPress.NamingConventions.ValidVariableName"/> -->
 
-		<!-- Followig rule should be active! Comment out and run without this rule-->
-		<exclude name="WordPress.Security.EscapeOutput"/> 
+		<!-- Followig rule should be active! Comment out and run without this rule
+		<exclude name="WordPress.Security.EscapeOutput"/> -->
 
 		<!-- Followig rule should remain commented out therefore active
 		<exclude name="WordPress.Security.NonceVerification"/>
