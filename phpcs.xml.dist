@@ -32,8 +32,8 @@
 		<!-- Check if variables notably use correct snake format -->
 		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
 
-		<!-- Followig rule should be active! Comment out and run without this rule -->
-		<exclude name="WordPress.Security.EscapeOutput"/>
+		<!-- Followig rule should be active! Comment out and run without this rule-->
+		<exclude name="WordPress.Security.EscapeOutput"/> 
 
 		<!-- Followig rule should remain commented out therefore active
 		<exclude name="WordPress.Security.NonceVerification"/>
@@ -77,6 +77,7 @@
 	<properties>
 		<property name="customEscapingFunctions" type="array">
 			<element value="Utils"/><!-- can't just enter Utils::function... -->
+			<element value="wp_kses"/>
 		</property>
 	</properties>
 </rule>

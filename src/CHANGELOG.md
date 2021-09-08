@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.6.4
+* [bug] Reset options in cache admin was throwing a warning. Improved check for arrays in class settings get_imdb_cache_option() function.
 
 v.3.6.3
 * [technical] For new installs, the new URL for popups is '/lumiere/' instead of '/imdblt/'

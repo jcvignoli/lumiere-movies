@@ -482,7 +482,7 @@ class Settings {
 		$imdbOptionsc = get_option( $this->imdbCacheOptionsName );
 		$imdbOptions = get_option( $this->imdbAdminOptionsName );
 
-		if ( count( $imdbOptionsc ) !== 0 ) { // if not empty.
+		if (  is_array( $imdbOptionsc ) === true && count( $imdbOptionsc ) !== 0 ) { // if not empty.
 
 			foreach ( $imdbOptionsc as $key => $option ) {
 				$imdbCacheOptions[ $key ] = $option;
@@ -494,7 +494,7 @@ class Settings {
 			// Agregate vars to construct 'imdbphotoroot
 			$imdbCacheOptions['imdbphotoroot'] = $imdbCacheOptions['imdbcachedir'] . 'images/';
 		}
-		if ( count( $imdbOptions ) !== 0 ) { // if not empty.
+		if ( is_array( $imdbOptions ) === true && count( $imdbOptions ) !== 0 ) { // if not empty.
 
 			// Agregate vars to construct 'imdbphotodir'
 			$imdbCacheOptions['imdbphotodir'] = get_site_url()
