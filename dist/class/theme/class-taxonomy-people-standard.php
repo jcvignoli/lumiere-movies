@@ -387,7 +387,7 @@ class Taxonomy_People_Standard {
 		$photo_url = $this->person_class->photo_localurl( false ) !== false ? esc_url( $this->person_class->photo_localurl( false ) ) : esc_url( $this->person_class->photo_localurl( true ) ); // create big picture, thumbnail otherwise.
 		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
 
-		echo "\n\t\t\t\t\t" . '<a id="highslide_pic_popup" href="' . esc_url( $photo_url ) . '">';
+		echo "\n\t\t\t\t\t" . '<a id="highslide_pic" href="' . esc_url( $photo_url_final ) . '">';
 		echo "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right" src="'
 			. esc_url( $photo_url_final )
 			. '" alt="'
