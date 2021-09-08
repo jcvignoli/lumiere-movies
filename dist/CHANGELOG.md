@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.6.4
+
 v.3.6.3
 * [technical] For new installs, the new URL for popups is '/lumiere/' instead of '/imdblt/'
 * [technical] For new installs, display poster thumbnails in widget/inside a post/taxonomy/popups instead of default size by default. Set setting 'imdbcoversize' to '1' in class-settings.php.
