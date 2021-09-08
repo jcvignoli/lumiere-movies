@@ -44,8 +44,8 @@ class Admin {
 	 * URL: start with https
 	 *
 	 */
-	protected string $rootPath = '';
-	protected string $rootURL = '';
+	protected string $root_path = '';
+	protected string $root_url = '';
 
 	/**
 	 * HTML allowed for use of wp_kses()
@@ -73,8 +73,8 @@ class Admin {
 		$this->logger = new Logger( 'adminClass' );
 
 		// Build constants
-		$this->rootURL = plugin_dir_url( __DIR__ );
-		$this->rootPath = plugin_dir_path( __DIR__ );
+		$this->root_url = plugin_dir_url( __DIR__ );
+		$this->root_path = plugin_dir_path( __DIR__ );
 
 		// Start the debug
 		// If runned earlier, such as 'admin_init', breaks block editor edition.
@@ -359,7 +359,7 @@ class Admin {
 
 				<div class="imdblt_padding_five imdblt_flex_auto">			
 					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-cache.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
-					<a title="<?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?>" href="<?php echo admin_url(); ?>admin.php?page=lumiere_options&subsection=cache"><?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?></a>
+					<a title="<?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=cache' ); ?>"><?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?></a>
 				</div>
 
 				<div align="right" class="imdblt_padding_five imdblt_flex_auto" >
@@ -386,28 +386,29 @@ class Admin {
 			// Make sure cache folder exists and is writable
 			$this->config_class->lumiere_create_cache( true );
 
-			$adminGeneral = new General();
+			new General();
 
 		}
 
 		if ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'dataoption' ) ) {
 
-			$adminData = new Data();
+			new Data();
 
 		} elseif ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'cache' ) ) {
 
 			// Make sure cache folder exists and is writable
 			$this->config_class->lumiere_create_cache( true );
 
-			$adminCache = new Cache();
+			new Cache();
 
 		} elseif ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'help' ) ) {
 
-			$adminHelp = new Help();
+			new Help();
 
 		}
 		// end subselection
 
+		// @phpcs:ignore WordPress.Security.EscapeOutput
 		echo $this->utils_class->lumiere_admin_signature();
 
 		?>

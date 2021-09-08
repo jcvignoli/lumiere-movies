@@ -54,9 +54,9 @@ class Help extends \Lumiere\Admin {
 		parent::__construct();
 
 		// Build constants not in parent class
-		$this->readmefile = $this->rootPath . 'README.txt';
-		$this->changelogfile = $this->rootPath . 'CHANGELOG.md';
-		$this->aknowledgefile = $this->rootPath . 'ACKNOWLEDGMENTS.md';
+		$this->readmefile = $this->root_path . 'README.txt';
+		$this->changelogfile = $this->root_path . 'CHANGELOG.md';
+		$this->aknowledgefile = $this->root_path . 'ACKNOWLEDGMENTS.md';
 
 		// Add specific script for metaboxes
 		//add_action('admin_enqueue_scripts', [$this, 'lumiere_help_extrascript' ]); # can't use add_action, call in parent class too late
@@ -188,11 +188,11 @@ class Help extends \Lumiere\Admin {
 				foreach ( $faqsection_processed as $texte ) {
 					if ( $count_rows % 2 === 1 ) { // uneven number -> title
 						// display text formatted
-						echo "\t\t\t\t\t\t<li><strong>" . $texte . "</strong></li>\n";
+						echo "\t\t\t\t\t\t<li><strong>" . esc_html( $texte ) . "</strong></li>\n";
 					} elseif ( $count_rows % 2 === 0 ) { // even number -> text
 						// display text formatted
 						echo "\t\t\t\t\t\t<div class='imdblt_padding_twenty'>"
-							. nl2br( str_replace( "\n\n", "\n", $texte ) )
+							. wp_kses( str_replace( "\n\n", "\n", $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS )
 							. "\t\t\t\t\t\t</div>\n";
 					}
 					$count_rows++;
@@ -247,7 +247,8 @@ class Help extends \Lumiere\Admin {
 				if ( $number > '1' ) {
 
 					// display text formatted
-					echo "\t\t\t\t\t\t<li>" . str_replace( "\n", '', nl2br( $texte ) ) . "</li>\n";
+					echo "\t\t\t\t\t\t<li>" . wp_kses( str_replace( "\n\n", "\n", $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . "</li>\n";
+
 				}
 				$number++;
 			}
@@ -277,8 +278,11 @@ class Help extends \Lumiere\Admin {
 		$aknowledgefile = $wp_filesystem->get_contents_array( $this->aknowledgefile );
 		?>
 
-		<?php // @phpstan-ignore-next-line wp_kses() has defined wrong properties in WP ?>
-		<h3 class="hndle" id="help_support" name="help_support"><?php wp_kses( _e( 'Two ways to support <strong>Lumiere Movies</strong> plugin development', 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?></h3>
+		<h3 class="hndle" id="help_support" name="help_support"><?php esc_html_e( 'Two ways to support ', 'lumiere-movies' );
+		echo ' <strong>';
+		esc_html_e( 'Lumiere Movies', 'lumiere-movies' );
+		echo '</strong> ';
+		esc_html_e( 'plugin development', 'lumiere-movies' ); ?></h3>
 
 		<h3 class="hndle"><?php esc_html_e( 'Be supported!', 'lumiere-movies' ); ?></h3>
 
@@ -340,7 +344,7 @@ class Help extends \Lumiere\Admin {
 			if ( $number > '1' ) {
 
 				// display text formatted
-				echo "\t\t\t\t\t\t<li>" . str_replace( "\n", '', nl2br( $texte ) ) . "</li>\n";
+				echo "\t\t\t\t\t\t<li>" . wp_kses( str_replace( "\n", '', $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . "</li>\n";
 
 			}
 
@@ -687,7 +691,7 @@ movie's title
 
 			<?php
 			/* translators: %s are URL tags */
-			echo sprintf( __( "Add a Lumières!'s %1\$s widget %2\$s to your sidebar, and go to 'General Options / Advanced and check « Auto widget » option.", 'lumiere-movies' ), '<a href="widgets.php">', '</a>' );
+			echo esc_html( sprintf( __( "Add a Lumières!'s %1\$s widget %2\$s to your sidebar, and go to 'General Options / Advanced and check « Auto widget » option.", 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ) );
 			?>
 
 			<div align="center">
@@ -735,7 +739,7 @@ movie's title
 			<?php
 			esc_html_e( '3. It is possible to limit the number of results in the queries using its dedicated option. The less results there is, the less server resources are required and the faster the output is displayed. This limit number applies to the search of movies with a similar name (menu option in movies popups) and in ', 'lumiere-movies' );
 			/* translators: %s is replaced with a URL */
-			echo sprintf( __( "<a href='%1\$s'>the admin tool of queries to find IMDb id</a>.", 'lumiere-movies' ), esc_url( admin_url() . \Lumiere\Settings::GUTENBERG_SEARCH_URL_STRING ) );
+			echo esc_html( sprintf( __( "<a href='%1\$s'>the admin tool of queries to find IMDb id</a>.", 'lumiere-movies' ), esc_url( admin_url() . \Lumiere\Settings::GUTENBERG_SEARCH_URL_STRING ) ) );
 			?>
 
 		</div>
