@@ -32,7 +32,7 @@ class Core {
 	 * \Lumière\Utils class
 	 *
 	 */
-	private Utils $utilsClass;
+	private Utils $utils_class;
 
 	/**
 	 * \Lumiere\Logger class
@@ -56,7 +56,7 @@ class Core {
 		$this->settings_open();
 
 		// Start Utils class.
-		$this->utilsClass = new Utils();
+		$this->utils_class = new Utils();
 
 		// Start Logger class.
 		$this->logger = new Logger( 'coreClass' );
@@ -99,7 +99,7 @@ class Core {
 			 *
 			 * Can be utilised by get_the_term_list() the_terms() WP function, such as in taxo templates
 			 */
-			foreach ( $this->utilsClass->lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
+			foreach ( $this->utils_class->lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
 
 				if ( $value === '1' ) {
 
@@ -733,10 +733,10 @@ class Core {
 
 			// ADD FAVICONS.
 			echo "\t\t" . '<!-- Lumiere Movies -->';
-			echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . plugin_dir_url( __DIR__ ) . 'pics/favicon/apple-touch-icon.png" />';
-			echo "\n" . '<link rel="icon" type="image/png" sizes="32x32" href="' . plugin_dir_url( __DIR__ ) . 'pics/favicon/favicon-32x32.png" />';
-			echo "\n" . '<link rel="icon" type="image/png" sizes="16x16" href="' . plugin_dir_url( __DIR__ ) . 'pics/favicon/favicon-16x16.png" />';
-			echo "\n" . '<link rel="manifest" href="' . plugin_dir_url( __DIR__ ) . 'pics/favicon/site.webmanifest" />';
+			echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . esc_url( plugin_dir_url( __DIR__ ) . 'pics/favicon/apple-touch-icon.png' ) . '" />';
+			echo "\n" . '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url( plugin_dir_url( __DIR__ ) . 'pics/favicon/favicon-32x32.png' ) . '" />';
+			echo "\n" . '<link rel="icon" type="image/png" sizes="16x16" href="' . esc_url( plugin_dir_url( __DIR__ ) . 'pics/favicon/favicon-16x16.png' ) . '" />';
+			echo "\n" . '<link rel="manifest" href="' . esc_url( plugin_dir_url( __DIR__ ) . 'pics/favicon/site.webmanifest' ) . '" />';
 
 			// ADD CANONICAL.
 			// Canonical for search popup.
@@ -744,7 +744,7 @@ class Core {
 				$film_sanitized = '';
 				$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
 				$my_canon = $this->config_class->lumiere_urlpopupsearch . '?film=' . $film_sanitized . '&norecursive=yes';
-				echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
+				echo "\n" . '<link rel="canonical" href="' . esc_url( $my_canon ) . '" />';
 			}
 
 			// Canonical for movies popups.
@@ -756,8 +756,8 @@ class Core {
 				$info_sanitized = isset( $_GET['info'] ) ? esc_html( $_GET['info'] ) : '';
 				$my_canon = $this->config_class->lumiere_urlpopupsfilms . $film_sanitized . '/?film=' . $film_sanitized . '&mid=' . $mid_sanitized . '&info=' . $info_sanitized;
 				if ( isset( $film_sanitized ) && strlen( $film_sanitized ) > 0 ) {
-					echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
-					echo "\n" . '<meta property="article:tag" content="' . $film_sanitized . '" />';
+					echo "\n" . '<link rel="canonical" href="' . esc_url( $my_canon ) . '" />';
+					echo "\n" . '<meta property="article:tag" content="' . esc_html( $film_sanitized ) . '" />';
 				}
 			}
 
@@ -769,8 +769,8 @@ class Core {
 				if ( strlen( $mid_sanitized ) > 0 ) {
 					$person = new Person( $mid_sanitized, $this->imdbphp_class );
 					$person_name_sanitized = esc_html( $person->name() );
-					echo "\n" . '<link rel="canonical" href="' . $my_canon . '" />';
-					echo "\n" . '<meta property="article:tag" content="' . $person_name_sanitized . '" />';
+					echo "\n" . '<link rel="canonical" href="' . esc_url( $my_canon ) . '" />';
+					echo "\n" . '<meta property="article:tag" content="' . esc_html( $person_name_sanitized ) . '" />';
 				}
 			}
 
@@ -919,7 +919,7 @@ class Core {
 		$imdb_admin_values = $this->imdb_admin_values;
 		$imdb_widget_values = $this->imdb_widget_values;
 
-		foreach ( $this->utilsClass->lumiere_array_key_exists_wildcard( $imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
+		foreach ( $this->utils_class->lumiere_array_key_exists_wildcard( $imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
 
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $key );
 
