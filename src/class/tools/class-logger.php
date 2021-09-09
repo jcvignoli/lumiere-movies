@@ -33,9 +33,9 @@ class Logger {
 
 	/**
 	 * Screen output, whether to show the logging on screen
-	 * @var bool $screenOutput
+	 * @var bool $screen_output
 	 */
-	private bool $screenOutput = true;
+	private bool $screen_output = true;
 
 	/**
 	 * The name of the logger, shown as the origin
@@ -58,22 +58,22 @@ class Logger {
 	 * Constructor
 	 *
 	 * @param string $logger_name Title of Monolog logger
-	 * @param bool $screenOutput whether to output Monolog on screen or not
+	 * @param bool $screen_output whether to output Monolog on screen or not
 	 */
-	public function __construct( string $logger_name, bool $screenOutput = true ) {
+	public function __construct( string $logger_name, bool $screen_output = true ) {
 
 		// Construct Global Settings trait.
 		$this->settings_open();
 
 		// Send the variables passed in construct to global properties
 		$this->logger_name = $logger_name;
-		$this->screenOutput = $screenOutput;
+		$this->screen_output = $screen_output;
 
 		// By default, start at init.
 		add_action(
 			'init',
 			function(): void {
-					$this->lumiere_start_logger( $this->logger_name, $this->screenOutput );
+					$this->lumiere_start_logger( $this->logger_name, $this->screen_output );
 			},
 			0
 		);
@@ -82,7 +82,7 @@ class Logger {
 		add_action(
 			'lumiere_logger',
 			function(): void {
-					$this->lumiere_start_logger( $this->logger_name, $this->screenOutput );
+					$this->lumiere_start_logger( $this->logger_name, $this->screen_output );
 			}
 		);
 
@@ -134,15 +134,15 @@ class Logger {
 	 * Can be called by the hook 'lumiere_logger_hook' or directly as a function
 	 *
 	 * @param string $logger_name: title applied to the logger in the logs under origin
-	 * @param bool $screenOutput: whether to display the screen output. Useful for plugin activation.
+	 * @param bool $screen_output: whether to display the screen output. Useful for plugin activation.
 	 *
 	 * @return void the logger in $logger_class
 	 */
-	public function lumiere_start_logger ( ?string $logger_name, ?bool $screenOutput = true ): void {
+	public function lumiere_start_logger ( ?string $logger_name, ?bool $screen_output = true ): void {
 
 		// Get local vars and send to global class properties if set, if empty get the global vars.
 		$logger_name = isset( $logger_name ) ? $this->logger_name = $logger_name : $logger_name = $this->logger_name;
-		$screenOutput = isset( $screenOutput ) ? $this->screenOutput = $screenOutput : $screenOutput = $this->screenOutput;
+		$screen_output = isset( $screen_output ) ? $this->screen_output = $screen_output : $screen_output = $this->screen_output;
 
 		// Run WordPress block editor identificator giving value to $this->is_editor_page.
 		$this->lumiere_is_screen_editor();
@@ -169,9 +169,9 @@ class Logger {
 				$filelogger = new StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], $logger_verbosity );
 
 				// Change the date and output formats of the log.
-				$dateFormat = 'd-M-Y H:i:s e';
+				$date_format = 'd-M-Y H:i:s e';
 				$output = "[%datetime%] %channel%.%level_name%: %message% %extra%\n";
-				$screenformater = new LineFormatter( $output, $dateFormat );
+				$screenformater = new LineFormatter( $output, $date_format );
 				$filelogger->setFormatter( $screenformater );
 
 				// Utilise the new format and processor.
@@ -186,7 +186,7 @@ class Logger {
 			// IF: option 'debug on screen' is activated.
 			( $this->imdb_admin_values['imdbdebugscreen'] === '1' )
 			// IF: variable 'output on screen' is selected.
-			&& ( $screenOutput === true )
+			&& ( $screen_output === true )
 			// IF: the page is not block editor (gutenberg).
 			&& ( $this->is_editor_page === false )
 			) {

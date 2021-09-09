@@ -190,7 +190,7 @@ class Utils {
 		$this->logger->log()->debug( "[Lumiere] $text" );
 
 		echo "\n" . '<div class="noresult" align="center" style="font-size:16px;color:red;padding:15px;">'
-			. $text
+			. esc_html( $text )
 			. "</div>\n";
 
 	}
