@@ -1,7 +1,9 @@
 **Changelog**
 
 v.3.6.4
+* [technical] Improved security: Escaped functions in admin classes.
 * [bug] Reset options in cache admin was throwing a warning. Improved check for arrays in class settings get_imdb_cache_option() function.
+* [bug] Internal links in popups for trivias and goofs sections were not working. Using now lumiere_imdburl_to_internalurl() from trait-frontend.php in class-popup-movie.php
 
 v.3.6.3
 * [technical] For new installs, the new URL for popups is '/lumiere/' instead of '/imdblt/'

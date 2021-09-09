@@ -330,7 +330,7 @@ class Admin {
 					<a title="<?php esc_html_e( 'General Options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options' ); ?>"> <?php esc_html_e( 'General Options', 'lumiere-movies' ); ?></a>
 				</div>
 
-				<?php ### Data subpage is relative to what is activated ?>
+				<?php // Data subpage is relative to what is activated. ?>
 
 				<div class="imdblt_padding_five imdblt_flex_auto">
 					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
@@ -339,8 +339,8 @@ class Admin {
 					<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption' ); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?></a>
 
 		<?php
-				// Check if any widget is active:
-				// is_active_widget() (pre 5.8 WordPress) or lumiere_block_widget_isactive() (post 5.8)
+		// Check if any widget is active:
+		// is_active_widget() (pre 5.8 WordPress) or lumiere_block_widget_isactive() (post 5.8)
 		if ( ( is_active_widget( false, false, \Lumiere\Widget::WIDGET_NAME, false ) === false ) && ( Utils::lumiere_block_widget_isactive() === false ) ) {
 			?>
 
@@ -379,8 +379,6 @@ class Admin {
 	 */
 	private function display_admin_menu_subpages(): void {
 
-		// select the sub-page.
-
 		if ( ! isset( $_GET['subsection'] ) ) {
 
 			// Make sure cache folder exists and is writable
@@ -406,11 +404,9 @@ class Admin {
 			new Help();
 
 		}
-		// end subselection
 
 		// @phpcs:ignore WordPress.Security.EscapeOutput
 		echo $this->utils_class->lumiere_admin_signature();
-
 		?>
 	</div><!-- .wrap -->
 

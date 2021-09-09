@@ -27,6 +27,13 @@ class Popup_Movie {
 	}
 
 	/**
+	 * HTML allowed for use of wp_kses()
+	 */
+	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
+		'a' => true,
+	];
+
+	/**
 	 * The movie queried
 	 */
 	private Title $movie;
@@ -101,8 +108,8 @@ class Popup_Movie {
 
 			$this->logger->log()->debug( '[Lumiere] Movie title provided in URL: ' . $this->film_title_sanitized );
 
-			$titleSearchClass = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
-			$search = $titleSearchClass->search( $this->film_title_sanitized, $this->type_search );
+			$title_search_class = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
+			$search = $title_search_class->search( $this->film_title_sanitized, $this->type_search );
 
 			if ( array_key_exists( 0, $search ) === false ) {
 
@@ -131,7 +138,7 @@ class Popup_Movie {
 		</head>
 		<body class="lumiere_body<?php
 		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
-			echo ' lumiere_body_' . $this->imdb_admin_values['imdbpopuptheme'];
+			echo ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] );
 		}
 		?>">
 
@@ -188,12 +195,12 @@ class Popup_Movie {
 			if ( count( $cast ) !== 0 ) {
 
 				echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Actors -->";
-				echo "\n\t" . '<div class="imdbincluded-subtitle">' . sprintf( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ), number_format_i18n( $nbtotalactors ) ) . '</div>';
+				echo "\n\t" . '<div class="imdbincluded-subtitle">' . esc_html( sprintf( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ), number_format_i18n( $nbtotalactors ) ) ) . '</div>';
 
 				for ( $i = 0; ( $i < $nbtotalactors ); $i++ ) {
 					echo "\n\t\t" . '<div align="center" class="lumiere_container">';
 					echo "\n\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-					echo sanitize_text_field( $cast[ $i ]['role'] );
+					echo esc_html( $cast[ $i ]['role'] );
 					echo '</div>';
 					echo "\n\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
 					echo "\n\t\t\t\t"
@@ -204,10 +211,10 @@ class Popup_Movie {
 						. '/?mid=' . $cast[ $i ]['imdb']
 					)
 						. '" title="'
-						. esc_html__( 'internal link to', 'lumiere-movies' )
-						. ' ' . sanitize_text_field( $cast[ $i ]['name'] )
+						. esc_html__( 'internal link', 'lumiere-movies' )
+						. ' ' . esc_html( $cast[ $i ]['name'] )
 						. '">';
-					echo "\n\t\t\t\t" . sanitize_text_field( $cast[ $i ]['name'] );
+					echo "\n\t\t\t\t" . esc_html( $cast[ $i ]['name'] );
 					echo '</a>';
 					echo "\n\t\t\t</div>";
 					echo "\n\t\t</div>";
@@ -231,7 +238,7 @@ class Popup_Movie {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- director -->';
 				echo "\n" . '<div id="lumiere_popup_director_group">';
-				echo "\n\t" . '<span class="imdbincluded-subtitle">' . _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) . '</span>';
+				echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) ) . '</span>';
 
 				for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 					echo "\n\t" . '<div align="center" class="lumiere_container">';
@@ -244,14 +251,14 @@ class Popup_Movie {
 						. '/?mid=' . $director[ $i ]['imdb']
 					)
 						. '" title="'
-						. esc_html__( 'link to imdb', 'lumiere-movies' )
+						. esc_html__( 'internal link', 'lumiere-movies' )
 						. '">';
 
-					echo "\n\t\t" . sanitize_text_field( $director[ $i ]['name'] );
+					echo "\n\t\t" . esc_html( $director[ $i ]['name'] );
 					echo "\n\t\t</a>";
 					echo "\n\t\t</div>";
 					echo "\n\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-					echo sanitize_text_field( $director[ $i ]['role'] );
+					echo esc_html( $director[ $i ]['role'] );
 					echo "\n\t\t" . '</div>';
 					echo "\n\t</div>";
 					echo "\n</div>";
@@ -268,7 +275,7 @@ class Popup_Movie {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- writers -->';
 				echo "\n" . '<div id="lumiere_popup_director_group">';
-				echo "\n\t" . '<span class="imdbincluded-subtitle">' . _n( 'Writer', 'Writers', $nbtotalwriter, 'lumiere-movies' ) . '</span>';
+				echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Writer', 'Writers', $nbtotalwriter, 'lumiere-movies' ) ) . '</span>';
 
 				for ( $i = 0; $i < $nbtotalwriter; $i++ ) {
 					echo "\n\t" . '<div align="center" class="lumiere_container">';
@@ -281,13 +288,13 @@ class Popup_Movie {
 						. '/?mid=' . $writer[ $i ]['imdb']
 					)
 						. '" title="'
-						. esc_html__( 'link to imdb', 'lumiere-movies' )
+						. esc_html__( 'internal link', 'lumiere-movies' )
 						. '">';
-					echo "\n\t\t" . sanitize_text_field( $writer[ $i ]['name'] );
+					echo "\n\t\t" . esc_html( $writer[ $i ]['name'] );
 					echo "\n\t\t</a>";
 					echo "\n\t\t</div>";
 					echo "\n\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-					echo sanitize_text_field( $writer[ $i ]['role'] );
+					echo esc_html( $writer[ $i ]['role'] );
 					echo "\n\t\t" . '</div>';
 					echo "\n\t</div>";
 					echo "\n</div>";
@@ -302,7 +309,7 @@ class Popup_Movie {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- writers -->';
 				echo "\n" . '<div id="lumiere_popup_writer_group">';
-				echo "\n\t" . '<span class="imdbincluded-subtitle">' . _n( 'Producer', 'Producers', $nbtotalproducer, 'lumiere-movies' ) . '</span>';
+				echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Producer', 'Producers', $nbtotalproducer, 'lumiere-movies' ) ) . '</span>';
 
 				for ( $i = 0; $i < $nbtotalproducer; $i++ ) {
 					echo "\n\t" . '<div align="center" class="lumiere_container">';
@@ -315,13 +322,13 @@ class Popup_Movie {
 						. '/?mid=' . $producer[ $i ]['imdb']
 					)
 						. '" title="'
-						. esc_html__( 'link to imdb', 'lumiere-movies' )
+						. esc_html__( 'internal link', 'lumiere-movies' )
 						. '">';
-					echo "\n\t\t" . sanitize_text_field( $producer[ $i ]['name'] );
+					echo "\n\t\t" . esc_html( $producer[ $i ]['name'] );
 					echo "\n\t\t</a>";
 					echo "\n\t\t</div>";
 					echo "\n\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-					echo sanitize_text_field( $producer[ $i ]['role'] );
+					echo esc_html( $producer[ $i ]['role'] );
 					echo "\n\t\t" . '</div>';
 					echo "\n\t</div>";
 					echo "\n</div>";
@@ -344,7 +351,7 @@ class Popup_Movie {
 				echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Plot summary', 'lumiere-movies' ) . '</span>';
 
 				echo "\n\t" . '<div align="center" class="lumiere_container">';
-				echo sanitize_text_field( $plotoutline );
+				echo esc_html( $plotoutline );
 				echo "\n\t</div>";
 				echo "\n</div>";
 
@@ -359,11 +366,11 @@ class Popup_Movie {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- Plots -->';
 				echo "\n" . '<div id="lumiere_popup_pluts_group">';
-				echo "\n\t" . '<span class="imdbincluded-subtitle">' . _n( 'Plot', 'Plots', $nbtotalplot, 'lumiere-movies' ) . '</span>';
+				echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Plot', 'Plots', $nbtotalplot, 'lumiere-movies' ) ) . '</span>';
 
 				for ( $i = 1; $i < $nbtotalplot; $i++ ) {
 					echo "\n\t" . '<div>';
-					echo sanitize_text_field( $plot[ $i ] );
+					echo wp_kses( $plot[ $i ], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 					if ( $i < $nbtotalplot - 1 ) {
 						echo "\n<hr>";
 					}
@@ -406,19 +413,19 @@ class Popup_Movie {
 				&nbsp;<a class="searchaka" href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsearch . '?film=' . $this->film_title_sanitized . '&norecursive=yes' ); ?>" title="<?php esc_html_e( 'Search for other movies with the same title', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Similar Titles', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=' ); ?>" title='<?php echo sanitize_title( $movie_results->title() ) . ': ' . esc_html__( 'Movie', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
+				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Movie', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=actors' ); ?>" title='<?php echo esc_html( $movie_results->title() ) . ': ' . esc_html__( 'Actors', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Actors', 'lumiere-movies' ); ?></a>
+				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=actors' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Actors', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Actors', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=crew' ); ?>" title='<?php echo esc_html( $movie_results->title() ) . ': ' . esc_html__( 'Crew', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Crew', 'lumiere-movies' ); ?></a>
+				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=crew' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Crew', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Crew', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=resume' ); ?>" title='<?php echo esc_html( $movie_results->title() ) . ': ' . esc_html__( 'Plots', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Plots', 'lumiere-movies' ); ?></a>
+				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=resume' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Plots', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Plots', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=divers' ); ?>" title='<?php echo esc_html( $movie_results->title() ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
+				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=divers' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
 			</div>
 		</div>
 		<?php
@@ -434,10 +441,10 @@ class Popup_Movie {
 				<div class="titrefilm">
 				<?php
 					// Get movie's title from imdbphp query, not from globals.
-					echo sanitize_text_field( $movie_results->title() );
+					echo esc_html( $movie_results->title() );
 				?>
-				&nbsp;(<?php echo sanitize_text_field( $movie_results->year() ); ?>)</div>
-				<div class="lumiere_align_center"><font size="-1"><?php echo sanitize_text_field( $movie_results->tagline() ); ?></font></div>
+				&nbsp;(<?php echo intval( $movie_results->year() ); ?>)</div>
+				<div class="lumiere_align_center"><font size="-1"><?php echo esc_html( $movie_results->tagline() ); ?></font></div>
 			</div> 
 			<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two">
 												<!-- Movie's picture display -->
@@ -487,7 +494,7 @@ class Popup_Movie {
 			echo "\n\t<div>";
 
 			echo '<span class="imdbincluded-subtitle">'
-			. _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' )
+			. esc_html( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) )
 			. '</span>';
 			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 
@@ -496,8 +503,8 @@ class Popup_Movie {
 					$this->config_class->lumiere_urlpopupsperson . $director[ $i ]['imdb']
 					. '/?mid=' . $director[ $i ]['imdb']
 				)
-					. '" title="' . esc_html__( 'link to imdb', 'lumiere-movies' ) . '">';
-				echo "\n\t\t\t" . sanitize_text_field( $director[ $i ]['name'] );
+					. '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
+				echo "\n\t\t\t" . esc_html( $director[ $i ]['name'] );
 				if ( $i < $nbtotaldirector - 1 ) {
 					echo ', ';
 				}
@@ -524,8 +531,8 @@ class Popup_Movie {
 			echo '<span class="imdbincluded-subtitle">' . esc_html__( 'Main actors', 'lumiere-movies' ) . '</span>';
 
 			for ( $i = 0; ( $i < $nbactors ) && ( $i < $nbtotalactors ); $i++ ) {
-				echo '<a class="linkpopup" href="' . esc_url( $this->config_class->lumiere_urlpopupsperson . $cast[ $i ]['imdb'] . '/?mid=' . $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'link to imdb', 'lumiere-movies' ) . '">';
-				echo "\n\t\t\t" . sanitize_text_field( $cast[ $i ]['name'] ) . '</a>';
+				echo '<a class="linkpopup" href="' . esc_url( $this->config_class->lumiere_urlpopupsperson . $cast[ $i ]['imdb'] . '/?mid=' . $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
+				echo "\n\t\t\t" . esc_html( $cast[ $i ]['name'] ) . '</a>';
 
 				if ( ( $i < $nbactors - 1 ) && ( $i < $nbtotalactors - 1 ) ) {
 					echo ', ';
@@ -546,7 +553,7 @@ class Popup_Movie {
 			echo '<span class="imdbincluded-subtitle">'
 			. esc_html__( 'Runtime', 'lumiere-movies' )
 			. '</span>'
-			. $runtime
+			. esc_html( $runtime )
 			. ' '
 			. esc_html__( 'minutes', 'lumiere-movies' );
 			echo "\n\t</div>";
@@ -556,10 +563,10 @@ class Popup_Movie {
 		// Votes, limited by admin options.
 		// rating shown only if selected so in options.
 		$votes_sanitized = intval( $movie_results->votes() );
-		$rating_sanitized_int = intval( $movie_results->rating() );
-		$rating_sanitized_string = esc_html( strval( $movie_results->rating() ) );
+		$rating_int = intval( $movie_results->rating() );
+		$rating_string = strval( $movie_results->rating() );
 
-		if ( strlen( $rating_sanitized_string ) !== 0 && ( $this->imdb_widget_values['imdbwidgetrating'] === '1' ) ) {
+		if ( strlen( $rating_string ) !== 0 && ( $this->imdb_widget_values['imdbwidgetrating'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Rating -->";
 			echo "\n\t<div>";
@@ -567,8 +574,8 @@ class Popup_Movie {
 			echo '<span class="imdbincluded-subtitle">'
 				. esc_html__( 'Rating', 'lumiere-movies' )
 				. '</span>';
-			echo ' <img src="' . $this->imdb_admin_values['imdbplugindirectory'] . 'pics/showtimes/' . ( round( $rating_sanitized_int * 2, 0 ) / 0.2 )
-			. '.gif" title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . $rating_sanitized_string . esc_html__( ' out of 10', 'lumiere-movies' ) . '"  / >';
+			echo ' <img src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/showtimes/' . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
+			. ' title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . esc_attr( $rating_string ) . esc_html__( ' out of 10', 'lumiere-movies' ) . '"  / >';
 			echo ' (' . number_format( $votes_sanitized, 0, '', "'" ) . ' ' . esc_html__( 'votes', 'lumiere-movies' ) . ')';
 
 			echo "\n\t</div>";
@@ -585,10 +592,10 @@ class Popup_Movie {
 			echo "\n\t<div>";
 
 			echo '<span class="imdbincluded-subtitle">'
-			. sprintf( esc_attr( _n( 'Language', 'Languages', $nbtotallanguages, 'lumiere-movies' ) ) )
+			. esc_attr( _n( 'Language', 'Languages', $nbtotallanguages, 'lumiere-movies' ) )
 			. '</span>';
 			for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
-				echo sanitize_text_field( $languages[ $i ] );
+				echo esc_html( $languages[ $i ] );
 				if ( $i < $nbtotallanguages - 1 ) {
 					echo ', ';
 				}
@@ -609,10 +616,12 @@ class Popup_Movie {
 			echo "\n\t<div>";
 
 			echo '<span class="imdbincluded-subtitle">'
-			. sprintf( esc_attr( _n( 'Country', 'Countries', $nbtotalcountry, 'lumiere-movies' ) ) )
+			. esc_attr( _n( 'Country', 'Countries', $nbtotalcountry, 'lumiere-movies' ) )
 			. '</span>';
 			for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
-				echo sanitize_text_field( $country[ $i ] );
+
+				echo esc_html( $country[ $i ] );
+
 				if ( $i < $nbtotalcountry - 1 ) {
 					echo ', ';
 				}
@@ -632,11 +641,13 @@ class Popup_Movie {
 			echo "\n\t<div>";
 
 			echo '<span class="imdbincluded-subtitle">'
-			. sprintf( esc_attr( _n( 'Genre', 'Genres', $nbtotalgenre, 'lumiere-movies' ) ) )
+			. esc_attr( _n( 'Genre', 'Genres', $nbtotalgenre, 'lumiere-movies' ) )
 			. '</span>';
 
 			for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
-				echo sanitize_text_field( $genres[ $i ] );
+
+				echo esc_html( $genres[ $i ] );
+
 				if ( $i < $nbtotalgenre - 1 ) {
 					echo ', ';
 				}
@@ -661,14 +672,14 @@ class Popup_Movie {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Trivia -->';
 			echo "\n" . '<div id="lumiere_popup_pluts_group">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) . '</span>';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotaltrivia; $i++ ) {
 				$iterator_number = $i + 1;
 
 				if ( $i === 0 ) {
-					echo "\n\t" . '<div>'
-					. preg_replace( '/https\:\/\/' . str_replace( '.', '\.', $movie_results->imdbsite ) . '\/name\/nm(\d{7})\//', $this->config_class->lumiere_urlpopupsperson . "popup-imdb_person.php?mid=\\1 class=\"linkpopup\"", sanitize_text_field( $trivia[ $i ] ) )
+					// @phpcs:ignore WordPress.Security.EscapeOutput
+					echo "\n\t" . '<div>' . $this->lumiere_imdburl_to_internalurl( $trivia[ $i ] )
 					. '&nbsp;&nbsp;&nbsp;'
 					. '<span class="activatehidesection"><strong>(' . esc_html__( 'click to show more trivias', 'lumiere-movies' ) . ')</strong></span>'
 					. "\n\t" . '<div class="hidesection">'
@@ -677,7 +688,8 @@ class Popup_Movie {
 				}
 
 				if ( $i > 0 ) {
-					echo "\n\t\t<strong>($iterator_number)</strong>&nbsp;" . preg_replace( '/https\:\/\/' . str_replace( '.', '\.', $movie_results->imdbsite ) . '\/name\/nm(\d{7})\//', $this->config_class->lumiere_urlpopupsperson . "popup-imdb_person.php?mid=\\1 class=\"linkpopup\"", sanitize_text_field( $trivia[ $i ] ) )
+					// @phpcs:ignore WordPress.Security.EscapeOutput
+					echo $this->lumiere_imdburl_to_internalurl( $trivia[ $i ] )
 					. "\n\t\t<hr>";
 				}
 
@@ -698,7 +710,7 @@ class Popup_Movie {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Soundtrack -->';
 			echo "\n" . '<div id="lumiere_popup_pluts_group">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) . '</span>';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalsoundtracks; $i++ ) {
 
@@ -707,8 +719,9 @@ class Popup_Movie {
 				for ( $ii = 0; $ii < $credit_array_count; $ii++ ) {
 					echo "\n\t\t";
 					echo "\n\t\t\t<i>" . esc_html( $soundtrack[ $i ]['soundtrack'] ) . '</i>';
+					// @phpcs:ignore WordPress.Security.EscapeOutput
 					echo $this->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
-					echo ' (' . sanitize_text_field( $credit_array [ $ii ]['desc'] ) . ')';
+					echo ' (' . esc_html( $credit_array [ $ii ]['desc'] ) . ')';
 				}
 
 				if ( $i < $nbtotalsoundtracks - 1 ) {
@@ -730,22 +743,24 @@ class Popup_Movie {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Goofs -->';
 			echo "\n" . '<div id="lumiere_popup_pluts_group">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . _n( 'Goof', 'Goofs', $nbtotalgoof, 'lumiere-movies' ) . '</span>';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Goof', 'Goofs', $nbtotalgoof, 'lumiere-movies' ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalgoof; $i++ ) {
 				$iterator_number = $i + 1;
 
 				if ( $i === 0 ) {
 					echo "\n\t" . '<div>'
-					. '<strong>' . sanitize_text_field( $goof[ $i ]['type'] ) . '</strong>&nbsp;'
-					. sanitize_text_field( $goof[ $i ]['content'] )
+					. '<strong>' . esc_html( $goof[ $i ]['type'] ) . '</strong>&nbsp;'
+					// @phpcs:ignore WordPress.Security.EscapeOutput
+					. $this->lumiere_imdburl_to_internalurl( $goof[ $i ]['content'] )
 					. '&nbsp;<span class="activatehidesection"><strong>(' . esc_html__( 'click to show more goofs', 'lumiere-movies' ) . ')</strong></span>'
 					. "\n\t" . '<div class="hidesection">'
 					. "\n\t\t" . '<br />';
 
 				} elseif ( $i > 0 ) {
-					echo "\n\t\t<strong>($iterator_number) " . sanitize_text_field( $goof[ $i ]['type'] ) . '</strong>&nbsp;'
-					. sanitize_text_field( $goof[ $i ]['content'] );
+					echo "\n\t\t<strong>(" . intval( $iterator_number ) . ') ' . esc_html( $goof[ $i ]['type'] ) . '</strong>&nbsp;';
+					// @phpcs:ignore WordPress.Security.EscapeOutput
+					echo $this->lumiere_imdburl_to_internalurl( $goof[ $i ]['content'] );
 					echo "\n\t\t" . '<br />';
 				}
 
