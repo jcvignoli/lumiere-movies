@@ -51,9 +51,9 @@ class Taxonomy_People_Standard {
 	/**
 	 *  Name of the person sanitized
 	 *
-	 *  @var string $person_name_sntzd
+	 *  @var string $person_name
 	 */
-	private string $person_name_sntzd;
+	private string $person_name;
 
 	/**
 	 *  Taxonomy category
@@ -99,7 +99,7 @@ class Taxonomy_People_Standard {
 			$mid = $results[0]->imdbid(); // keep the first result only.
 			$mid_sanitized = esc_html( $mid ); // sanitize the first result.
 			$this->person_class = new Person( $mid_sanitized, $this->imdbphp_class, $this->logger->log() ); // search the profile using the first result.
-			$this->person_name_sntzd = sanitize_text_field( $this->person_class->name() );
+			$this->person_name = $this->person_class->name();
 
 		}
 
@@ -126,7 +126,7 @@ class Taxonomy_People_Standard {
 			<div id="content-wrap" class="container clr">
 		<?php
 
-		if ( strlen( $this->person_name_sntzd ) !== 0 ) {
+		if ( strlen( $this->person_name ) !== 0 ) {
 
 			$this->portrait();
 
@@ -134,7 +134,7 @@ class Taxonomy_People_Standard {
 
 			// No imdb result, so display a basic title.
 			$title_from_tag = is_string( single_tag_title( '', false ) ) === true ? single_tag_title( '', false ) : '';
-			echo "\n\t\t" . '<h1 class="pagetitle">' . esc_html__( 'Taxonomy for ', 'lumiere-movies' ) . ' ' . $title_from_tag . ' as <i>standard</i></h1>';
+			echo "\n\t\t" . '<h1 class="pagetitle">' . esc_html__( 'Taxonomy for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ) . ' as <i>standard</i></h1>';
 
 		}
 
@@ -164,7 +164,7 @@ class Taxonomy_People_Standard {
 						[
 							'taxonomy' => esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . $people,
 							'field' => 'name',
-							'terms' => $this->person_name_sntzd,
+							'terms' => $this->person_name,
 						],
 						[
 							'taxonomy' => 'language',
@@ -184,7 +184,7 @@ class Taxonomy_People_Standard {
 						[
 							'taxonomy' => esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . $people,
 							'field' => 'name',
-							'terms' => $this->person_name_sntzd,
+							'terms' => $this->person_name,
 						],
 					],
 				];
@@ -197,7 +197,7 @@ class Taxonomy_People_Standard {
 			// The loop.
 			if ( $the_query->have_posts() ) {
 
-				echo "\n\t\t\t\t" . '<h2 class="lumiere_italic lumiere_align_center">' . esc_html__( 'In the role of', 'lumiere-movies' ) . ' ' . $people . '</h2>';
+				echo "\n\t\t\t\t" . '<h2 class="lumiere_italic lumiere_align_center">' . esc_html__( 'In the role of', 'lumiere-movies' ) . ' ' . esc_html( $people ) . '</h2>';
 
 				while ( $the_query->have_posts() ) {
 					$the_query->the_post();
@@ -229,7 +229,7 @@ class Taxonomy_People_Standard {
 					// Display the post's thumbnail.
 					$thumbnail = get_the_post_thumbnail( null, '', [ 'class' => '' ] );
 					if ( strlen( $thumbnail ) !== 0 ) {
-						echo $thumbnail;
+						echo get_the_post_thumbnail( null, '', [ 'class' => '' ] );
 					}
 					echo "\n";
 					?>
@@ -266,7 +266,7 @@ class Taxonomy_People_Standard {
 				// there is no post.
 			} else {
 
-				$this->logger->log()->debug( "[Lumiere][taxonomy_$this->taxonomy_title] No post found for $this->person_name_sntzd in $people" );
+				$this->logger->log()->debug( "[Lumiere][taxonomy_$this->taxonomy_title] No post found for $this->person_name in $people" );
 
 			}
 
@@ -282,9 +282,9 @@ class Taxonomy_People_Standard {
 		 */
 		if ( count( $check_if_no_result ) === 0 ) {
 
-			$this->logger->log()->info( "[Lumiere][taxonomy_$this->taxonomy_title] No post found for $this->person_name_sntzd in $this->taxonomy_title" );
+			$this->logger->log()->info( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] No post found for ' . $this->person_name . ' in ' . $this->taxonomy_title );
 
-			echo "<div class=\"lumiere_align_center lumiere_italic lumiere_padding_five\">No post written about $this->person_name_sntzd</div>";
+			echo '<div class="lumiere_align_center lumiere_italic lumiere_padding_five">No post written about ' . esc_html( $this->person_name ) . '</div>';
 
 		}
 		?>
@@ -313,7 +313,7 @@ class Taxonomy_People_Standard {
 
 		// Is the current taxonomy, such as "lumiere_actor", registered and activated for translation?
 		if ( ! pll_is_translated_taxonomy( $taxonomy ) ) {
-			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $this->person_name_sntzd with $taxonomy." );
+			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $this->person_name with $taxonomy." );
 			return;
 		}
 		$pll_lang_init = get_terms( 'term_language', [ 'hide_empty' => false ] );
@@ -348,6 +348,7 @@ class Taxonomy_People_Standard {
 
 		}
 		echo "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
+		// @phpcs:ignore WordPress.Security.EscapeOutput
 		echo "\n\t\t\t\t\t" . wp_nonce_field( 'submit_lang' );
 		if ( function_exists( 'submit_button' ) ) {
 			echo "\n\t\t\t\t\t";
@@ -371,16 +372,16 @@ class Taxonomy_People_Standard {
 		echo "\n\t\t\t" . '<div class="lumiere_flex_auto">';
 
 		echo "\n\t\t\t\t" . '<div class="imdbelementTITLE ';
-		echo ' imdbelementTITLE_' . $this->imdb_admin_values['imdbintotheposttheme'];
+		echo ' imdbelementTITLE_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 
 		echo '">';
-		echo $this->person_name_sntzd;
+		echo esc_html( $this->person_name );
 		echo '</div>';
 
 		echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- star photo -->';
 
 		echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-		echo ' lumiere-lines-common_' . $this->imdb_admin_values['imdbintotheposttheme'];
+		echo ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 		echo ' lumiere-padding-lines-common-picture">';
 
 		// Select pictures: big poster, if not small poster, if not 'no picture'.
@@ -391,7 +392,7 @@ class Taxonomy_People_Standard {
 		echo "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right" src="'
 			. esc_url( $photo_url_final )
 			. '" alt="'
-			. $this->person_name_sntzd . '"';
+			. esc_attr( $this->person_name ) . '"';
 
 		// add width only if "Display only thumbnail" is unactive.
 		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
@@ -411,35 +412,35 @@ class Taxonomy_People_Standard {
 		echo "\n\t\t\t\t" . '</div>';
 		echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Birth -->';
 		echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-		echo ' lumiere-lines-common_' . $this->imdb_admin_values['imdbintotheposttheme'];
+		echo ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 		echo '">';
 		echo '<font size="-1">';
 
 		# Birth
 		$birthday = $this->person_class->born() !== null ? $this->person_class->born() : null;
 		if ( $birthday !== null && count( $birthday ) !== 0 ) {
-			$birthday_day = ( isset( $birthday['day'] ) ) ? intval( $birthday['day'] ) : '';
-			$birthday_month = ( isset( $birthday['month'] ) ) ? sanitize_text_field( $birthday['month'] ) : '';
-			$birthday_year = ( isset( $birthday['year'] ) ) ? intval( $birthday['year'] ) : '';
+			$birthday_day = ( isset( $birthday['day'] ) ) ? $birthday['day'] : '';
+			$birthday_month = ( isset( $birthday['month'] ) ) ? $birthday['month'] : '';
+			$birthday_year = ( isset( $birthday['year'] ) ) ? $birthday['year'] : '';
 
 			echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
 				. '&#9788;&nbsp;'
 				. esc_html__( 'Born on', 'lumiere-movies' ) . '</span>'
-				. $birthday_day . ' '
-				. $birthday_month . ' '
-				. $birthday_year;
+				. intval( $birthday_day ) . ' '
+				. esc_html( $birthday_month ) . ' '
+				. intval( $birthday_year );
 		} else {
 			echo '&nbsp;';
 		}
 
 		if ( ( isset( $birthday['place'] ) ) && ( strlen( $birthday['place'] ) !== 0 ) ) {
-			echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . sanitize_text_field( $birthday['place'] );
+			echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $birthday['place'] );
 		}
 
 		echo "\n\t\t\t\t" . '</font></div>';
 		echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Death -->';
 		echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-		echo ' lumiere-lines-common_' . $this->imdb_admin_values['imdbintotheposttheme'];
+		echo ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 		echo '">';
 		echo '<font size="-1">';
 
@@ -451,15 +452,15 @@ class Taxonomy_People_Standard {
 				. '&#8224;&nbsp;'
 				. esc_html__( 'Died on', 'lumiere-movies' ) . '</span>'
 				. intval( $death['day'] ) . ' '
-				. sanitize_text_field( $death['month'] ) . ' '
+				. esc_html( $death['month'] ) . ' '
 				. intval( $death['year'] );
 
 			if ( ( isset( $death['place'] ) ) && ( strlen( $death['place'] ) !== 0 ) ) {
-				echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . sanitize_text_field( $death['place'] );
+				echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $death['place'] );
 			}
 
 			if ( ( isset( $death['cause'] ) ) && ( strlen( $death['cause'] ) !== 0 ) ) {
-				echo ', ' . esc_html__( 'cause', 'lumiere-movies' ) . ' ' . sanitize_text_field( $death['cause'] );
+				echo ', ' . esc_html__( 'cause', 'lumiere-movies' ) . ' ' . esc_html( $death['cause'] );
 			}
 
 		}
@@ -467,11 +468,12 @@ class Taxonomy_People_Standard {
 		echo "\n\t\t\t\t" . '</font></div>';
 		echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Biography -->';
 		echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-		echo ' lumiere-lines-common_' . $this->imdb_admin_values['imdbintotheposttheme'];
+		echo ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 		echo ' lumiere-lines-common-fix">';
 		echo '<font size="-1">';
 
 		// Biography, function in trait.
+		// @phpcs:ignore WordPress.Security.EscapeOutput
 		echo $this->lumiere_medaillon_bio( $this->person_class->bio(), true );
 
 		echo "\n\t\t\t\t\t" . '</font></div>';
