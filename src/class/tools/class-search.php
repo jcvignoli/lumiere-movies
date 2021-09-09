@@ -28,15 +28,15 @@ class Search {
 
 	/**
 	 * Include the type of (movie, TVshow, Games) search
-	 * @var array<string> $typeSearch
+	 * @var array<string> $type_search
 	 */
-	private array $typeSearch;
+	private array $type_search;
 
 	/**
 	 * Class \Lumiere\Utils
 	 *
 	 */
-	private Utils $utilsClass;
+	private Utils $utils_class;
 
 	/**
 	 * Class \Lumiere\Logger
@@ -60,10 +60,10 @@ class Search {
 		$this->settings_open();
 
 		// Get the type of search: movies, series, games
-		$this->typeSearch = $this->config_class->lumiere_select_type_search();
+		$this->type_search = $this->config_class->lumiere_select_type_search();
 
 		// Start Utils Class
-		$this->utilsClass = new Utils();
+		$this->utils_class = new Utils();
 
 		// Start logger class.
 		$this->logger = new Logger( 'gutenbergSearch' );
@@ -76,9 +76,9 @@ class Search {
 			'init',
 			function(): void {
 
-				if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utilsClass->debug_is_active === false ) ) {
+				if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
 
-					$this->utilsClass->lumiere_activate_debug();
+					$this->utils_class->lumiere_activate_debug();
 
 				}
 			}
@@ -138,10 +138,10 @@ class Search {
 
 			$this->logger->log()->debug( "[Lumiere][gutenbergSearch] Querying '$search_term'" );
 
-			$results = $search->search( $search_term, $this->typeSearch );
+			$results = $search->search( $search_term, $this->type_search );
 
 			?>
-<h1 class="searchmovie_title lumiere_italic"><?php esc_html_e( 'Results related to your query:', 'lumiere-movies' ); ?> <span class="lumiere_gutenberg_results"><?php echo $search_term; ?></span></h1>
+<h1 class="searchmovie_title lumiere_italic"><?php esc_html_e( 'Results related to your query:', 'lumiere-movies' ); ?> <span class="lumiere_gutenberg_results"><?php echo esc_html( $search_term ); ?></span></h1>
 <div class="lumiere_container">
 	<div class="lumiere_container_flex50 lumiere_align_center"><h2><?php esc_html_e( 'Titles results', 'lumiere-movies' ); ?></h2></div>
 	<div class="lumiere_container_flex50 lumiere_align_center"><h2><?php esc_html_e( 'Identification number', 'lumiere-movies' ); ?></h2></div>
