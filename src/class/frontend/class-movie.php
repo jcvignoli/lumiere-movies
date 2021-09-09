@@ -66,9 +66,9 @@ class Movie {
 	/**
 	 *  Search the movie and output the results
 	 *
-	 * @param array<int, array<string, string>> $imdbIdOrTitleOutside Name or IMDbID of the movie to find in array
+	 * @param array<int, array<string, string>> $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
 	 */
-	public function lumiere_show( array $imdbIdOrTitleOutside = null ): string {
+	public function lumiere_show( array $imdb_id_or_title_outside = null ): string {
 
 		/* Vars */
 		global $lumiere_count_me_siffer;
@@ -76,20 +76,20 @@ class Movie {
 		$logger = $this->logger->log();
 		$config_class = $this->config_class;
 		$lumiere_count_me_siffer = isset( $lumiere_count_me_siffer ) ? $lumiere_count_me_siffer : 0; # var for counting only one results
-		$imdbIdOrTitle = $imdbIdOrTitleOutside !== null ? $imdbIdOrTitleOutside : null;
+		$imdb_id_or_title = $imdb_id_or_title_outside !== null ? $imdb_id_or_title_outside : null;
 		$output = '';
 
 		$logger->debug( '[Lumiere][movieClass] Calling IMDbPHP class.' );
 
 		$search = new TitleSearch( $this->imdbphp_class, $logger );
 
-		// $imdbIdOrTitle var comes from custom post's field in widget or in post
-		$counter_imdbIdOrTitle = $imdbIdOrTitle !== null ? count( $imdbIdOrTitle ) : 0;
+		// $imdb_id_or_title var comes from custom post's field in widget or in post
+		$counter_imdb_id_or_title = $imdb_id_or_title !== null ? count( $imdb_id_or_title ) : 0;
 
-		for ( $i = 0; $i < $counter_imdbIdOrTitle; $i++ ) {
+		for ( $i = 0; $i < $counter_imdb_id_or_title; $i++ ) {
 
 			// sanitize
-			$film = $imdbIdOrTitle !== null ? $imdbIdOrTitle[ $i ] : null;
+			$film = $imdb_id_or_title !== null ? $imdb_id_or_title[ $i ] : null;
 
 			// A movie's title has been specified, get its imdbid.
 			if ( isset( $film['byname'] ) ) {
@@ -107,10 +107,10 @@ class Movie {
 
 				}
 
-				$midPremierResultat = isset( $results[0] ) ? filter_var( $results[0]->imdbid(), FILTER_SANITIZE_NUMBER_INT ) : null;
+				$mid_premier_resultat = isset( $results[0] ) ? filter_var( $results[0]->imdbid(), FILTER_SANITIZE_NUMBER_INT ) : null;
 
 				// No result was found in imdbphp query.
-				if ( $midPremierResultat === null ) {
+				if ( $mid_premier_resultat === null ) {
 
 					$logger->info( "[Lumiere][movieClass] No movie found for $film, aborting." );
 
@@ -119,31 +119,31 @@ class Movie {
 
 				}
 
-				$logger->debug( "[Lumiere][movieClass] Result found: $midPremierResultat." );
+				$logger->debug( "[Lumiere][movieClass] Result found: $mid_premier_resultat." );
 
 				// no movie's title but a movie's ID has been specified
 			} elseif ( isset( $film['bymid'] ) ) {
 
-				$midPremierResultat = filter_var( $film['bymid'], FILTER_SANITIZE_NUMBER_INT );
-				$logger->debug( "[Lumiere][movieClass] Movie ID provided: '$midPremierResultat'." );
+				$mid_premier_resultat = filter_var( $film['bymid'], FILTER_SANITIZE_NUMBER_INT );
+				$logger->debug( "[Lumiere][movieClass] Movie ID provided: '$mid_premier_resultat'." );
 
 			}
 
-			if ( $film === null || ! isset( $midPremierResultat ) || $midPremierResultat === false ) {
+			if ( $film === null || ! isset( $mid_premier_resultat ) || $mid_premier_resultat === false ) {
 
 				$logger->debug( '[Lumiere][movieClass] No result found for this query.' );
 				continue;
 
 			}
 
-			if ( $this->lumiere_filter_single_movies( $midPremierResultat, $lumiere_count_me_siffer ) === true ) {
+			if ( $this->lumiere_filter_single_movies( $mid_premier_resultat, $lumiere_count_me_siffer ) === true ) {
 
-				$logger->debug( "[Lumiere][movieClass] $midPremierResultat already called, skipping" );
+				$logger->debug( "[Lumiere][movieClass] $mid_premier_resultat already called, skipping" );
 				continue;
 
 			}
 
-			$logger->debug( "[Lumiere][movieClass] Displaying rows for '$midPremierResultat'" );
+			$logger->debug( "[Lumiere][movieClass] Displaying rows for '$mid_premier_resultat'" );
 
 			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- ### Lumière! movies plugin ### -->';
 			$output .= "\n\t<div class='imdbincluded";
@@ -152,7 +152,7 @@ class Movie {
 			$output .= ' imdbincluded_' . $this->imdb_admin_values['imdbintotheposttheme'];
 			$output .= "'>";
 
-			$output .= $this->lumiere_movie_design( $midPremierResultat ); # passed those two values to the design
+			$output .= $this->lumiere_movie_design( $mid_premier_resultat ); # passed those two values to the design
 			$output .= "\n\t</div>";
 
 			$lumiere_count_me_siffer++; # increment counting only one results
@@ -197,9 +197,9 @@ class Movie {
 	 */
 	private function lumiere_parse_spans_callback_id( array $block_span ): string {
 
-		$imdbIdOrTitle = [];
-		$imdbIdOrTitle[]['bymid'] = sanitize_text_field( $block_span[1] );
-		return $this->lumiere_show( $imdbIdOrTitle );
+		$imdb_id_or_title = [];
+		$imdb_id_or_title[]['bymid'] = sanitize_text_field( $block_span[1] );
+		return $this->lumiere_show( $imdb_id_or_title );
 
 	}
 
@@ -210,9 +210,9 @@ class Movie {
 	 */
 	private function lumiere_parse_spans_callback_title( array $block_span ): string {
 
-		$imdbIdOrTitle = [];
-		$imdbIdOrTitle[]['byname'] = sanitize_text_field( $block_span[1] );
-		return $this->lumiere_show( $imdbIdOrTitle );
+		$imdb_id_or_title = [];
+		$imdb_id_or_title[]['byname'] = sanitize_text_field( $block_span[1] );
+		return $this->lumiere_show( $imdb_id_or_title );
 
 	}
 
@@ -375,13 +375,13 @@ class Movie {
 	 */
 	public function lumiere_external_call ( string $moviename = null, string $filmid = null, string $external = null ): string {
 
-		$imdbIdOrTitle = [];
+		$imdb_id_or_title = [];
 
 		// Call function from external (using parameter "external" )
 		// Especially made to be integrated (ie, inside a php code)
 		if ( ( $external === 'external' ) && isset( $moviename ) ) {
 
-			$imdbIdOrTitle[]['byname'] = $moviename;
+			$imdb_id_or_title[]['byname'] = $moviename;
 
 		}
 
@@ -389,36 +389,36 @@ class Movie {
 		// Especially made to be integrated (ie, inside a php code)
 		if ( ( $external === 'external' ) && isset( $filmid ) ) {
 
-			$imdbIdOrTitle[]['bymid'] = $filmid;
+			$imdb_id_or_title[]['bymid'] = $filmid;
 
 		}
 
 		//  Call with the parameter - imdb movie name (imdblt)
 		if ( isset( $moviename ) && strlen( $moviename ) !== 0 && $external !== 'external' ) {
 
-			$imdbIdOrTitle[]['byname'] = $moviename;
+			$imdb_id_or_title[]['byname'] = $moviename;
 
 		}
 
 		//  Call with the parameter - imdb movie id (imdbltid)
 		if ( isset( $filmid ) && strlen( $filmid ) !== 0 && ( $external !== 'external' ) ) {
 
-			$imdbIdOrTitle[]['bymid'] = $filmid;
+			$imdb_id_or_title[]['bymid'] = $filmid;
 
 		}
 
-		return $this->lumiere_show( $imdbIdOrTitle );
+		return $this->lumiere_show( $imdb_id_or_title );
 
 	}
 
 	/**
 	 * Function to display the layout and call all subfonctions
 	 *
-	 * @param string $midPremierResultat -> IMDb ID, not as int since it loses its heading 0s
+	 * @param string $mid_premier_resultat -> IMDb ID, not as int since it loses its heading 0s
 	 */
-	private function lumiere_movie_design( string $midPremierResultat ): string {
+	private function lumiere_movie_design( string $mid_premier_resultat ): string {
 
-		$midPremierResultat = esc_html( $midPremierResultat );
+		$mid_premier_resultat = esc_html( $mid_premier_resultat );
 
 		// Simplify the coding.
 		$logger = $this->logger->log();
@@ -426,8 +426,8 @@ class Movie {
 		// initialise the output.
 		$outputfinal = '';
 
-		/* Start imdbphp class for new query based upon $midPremierResultat */
-		$movie = new Title( $midPremierResultat, $this->imdbphp_class, $logger );
+		/* Start imdbphp class for new query based upon $mid_premier_resultat */
+		$movie = new Title( $mid_premier_resultat, $this->imdbphp_class, $logger );
 
 		foreach ( $this->imdb_widget_values['imdbwidgetorder'] as $data_detail => $order ) {
 
@@ -1296,24 +1296,24 @@ class Movie {
 	private function lumiere_movies_officialsites( \Imdb\Title $movie ): string {
 
 		$output = '';
-		$officialSites = $movie->officialSites();
-		$nbtotalofficialSites = count( $officialSites );
+		$official_sites = $movie->officialSites();
+		$nbtotalofficial_sites = count( $official_sites );
 
 		// if no result, exit.
-		if ( $nbtotalofficialSites === 0 ) {
+		if ( $nbtotalofficial_sites === 0 ) {
 			return $output;
 		}
 
 		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Official website', 'Official websites', $nbtotalofficialSites, 'lumiere-movies' ) ), number_format_i18n( $nbtotalofficialSites ) );
+		$output .= sprintf( esc_attr( _n( 'Official website', 'Official websites', $nbtotalofficial_sites, 'lumiere-movies' ) ), number_format_i18n( $nbtotalofficial_sites ) );
 		$output .= ':</span>';
 
-		for ( $i = 0; $i < $nbtotalofficialSites; $i++ ) {
+		for ( $i = 0; $i < $nbtotalofficial_sites; $i++ ) {
 
-			$output .= "\n\t\t\t<a href='" . esc_url( $officialSites[ $i ]['url'] ) . "' title='" . esc_html( $officialSites[ $i ]['name'] ) . "'>";
-			$output .= sanitize_text_field( $officialSites[ $i ]['name'] );
+			$output .= "\n\t\t\t<a href='" . esc_url( $official_sites[ $i ]['url'] ) . "' title='" . esc_attr( $official_sites[ $i ]['name'] ) . "'>";
+			$output .= esc_html( $official_sites[ $i ]['name'] );
 			$output .= '</a>';
-			if ( $i < $nbtotalofficialSites - 1 ) {
+			if ( $i < $nbtotalofficial_sites - 1 ) {
 				$output .= ', ';
 			}
 
@@ -1723,8 +1723,8 @@ class Movie {
 	private function lumiere_movies_source( \Imdb\Title $movie ): string {
 
 		$output = '';
-		$midPremierResultat = $movie->imdbid();
-		$midPremierResultat_sanitized = filter_var( $midPremierResultat, FILTER_SANITIZE_NUMBER_INT );
+		$mid_premier_resultat = $movie->imdbid();
+		$mid_premier_resultat_sanitized = filter_var( $mid_premier_resultat, FILTER_SANITIZE_NUMBER_INT );
 
 		// if "Remove all links" option is not selected
 		if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
@@ -1736,7 +1736,7 @@ class Movie {
 			$output .= "\n\t\t\t\t" . '<img class="imdbelementSOURCE-picture" width="33" height="15" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />';
 			$output .= '<a class="link-incmovie-sourceimdb" title="'
 					. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
-					. esc_url( 'https://www.imdb.com/title/tt' . $midPremierResultat_sanitized ) . '" >'
+					. esc_url( 'https://www.imdb.com/title/tt' . $mid_premier_resultat_sanitized ) . '" >'
 					. '&nbsp;&nbsp;'
 					. esc_html__( "IMDb's page for this movie", 'lumiere-movies' ) . '</a>';
 
@@ -1748,23 +1748,23 @@ class Movie {
 	/**
 	 * Do taxonomy layouts and register taxonomy terms
 	 *
-	 * @param string $typeItem the general category of the item, ie 'director', 'color'
-	 * @param string $firstTitle the name of the first string to display, ie "Stanley Kubrick"
-	 * @param string $secondTitle the name of a second string to display, utilised in $layout 'two', ie "director"
+	 * @param string $type_item the general category of the item, ie 'director', 'color'
+	 * @param string $first_title the name of the first string to display, ie "Stanley Kubrick"
+	 * @param string $second_title the name of a second string to display, utilised in $layout 'two', ie "director"
 	 * @param string $layout the type of the layout, either 'one' or 'two'
 	 *
 	 * @return string the text to be outputed
 	 */
-	private function lumiere_make_display_taxonomy( string $typeItem, string $firstTitle, string $secondTitle = null, string $layout = 'one' ): string {
+	private function lumiere_make_display_taxonomy( string $type_item, string $first_title, string $second_title = null, string $layout = 'one' ): string {
 
 		// ************** Vars and sanitization */
 		$lang_term = 'en'; # language to register the term with, English by default
 		$output = '';
 		$list_taxonomy_term = '';
 		$layout = esc_attr( $layout );
-		$taxonomy_category = esc_attr( $typeItem );
-		$taxonomy_term = esc_attr( $firstTitle );
-		$secondTitle = $secondTitle !== null ? esc_attr( $secondTitle ) : '';
+		$taxonomy_category = esc_attr( $type_item );
+		$taxonomy_term = esc_attr( $first_title );
+		$second_title = $second_title !== null ? esc_attr( $second_title ) : '';
 		$taxonomy_url_string_first = esc_attr( $this->imdb_admin_values['imdburlstringtaxo'] );
 		$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
 
@@ -1841,7 +1841,7 @@ class Movie {
 			$output .= "\n\t\t\t\t\t" . '</a>';
 			$output .= "\n\t\t\t\t" . '</div>';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-			$output .= preg_replace( '/\n/', '', esc_attr( $secondTitle ) ); # remove breaking space
+			$output .= preg_replace( '/\n/', '', esc_attr( $second_title ) ); # remove breaking space
 			$output .= "\n\t\t\t\t" . '</div>';
 			$output .= "\n\t\t\t" . '</div>';
 
@@ -1866,15 +1866,15 @@ class Movie {
 	 * allows movie total count (how many time a movie is called by the plugin)
 	 *
 	 */
-	private function lumiere_filter_single_movies( string $midPremierResultat, int &$lumiere_count_me_siffer ): bool {
+	private function lumiere_filter_single_movies( string $mid_premier_resultat, int &$lumiere_count_me_siffer ): bool {
 
 		global $lumiere_count_me_siffer, $lumiere_counter;
 
 		$lumiere_count_me_siffer++;
-		$lumiere_counter[ $lumiere_count_me_siffer ] = $midPremierResultat;
+		$lumiere_counter[ $lumiere_count_me_siffer ] = $mid_premier_resultat;
 		$ici = array_count_values( $lumiere_counter );
 
-		if ( $ici[ $midPremierResultat ] < 2 ) {
+		if ( $ici[ $mid_premier_resultat ] < 2 ) {
 			return false;
 		}
 
