@@ -49,15 +49,15 @@ trait Frontend {
 	 * Constructor
 	 *
 	 * @param string $logger_name Title of Monolog logger
-	 * @param bool $screenOutput whether to output Monolog on screen or not
+	 * @param bool $screen_output whether to output Monolog on screen or not
 	 */
-	public function __construct( ?string $logger_name = 'unknownOrigin', ?bool $screenOutput = true ) {
+	public function __construct( ?string $logger_name = 'unknownOrigin', ?bool $screen_output = true ) {
 
 		// Build Global settings.
 		$this->settings_open();
 
 		// Start Logger class.
-		$this->logger = new Logger( $logger_name, $screenOutput );
+		$this->logger = new Logger( $logger_name, $screen_output );
 
 		// Start Utils class.
 		$this->utils_class = new Utils();
@@ -123,8 +123,8 @@ trait Frontend {
 	protected function lumiere_imdburl_to_internalurl ( string $text ): string {
 
 		// Internal links.
-		$internal_link_person = '<a class="link-popup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
-		$internal_link_movie = '<a class="link-popup" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+		$internal_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+		$internal_link_movie = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
 		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\?.+?|\/?)\"\>~';

@@ -103,7 +103,8 @@ class Popup_Search {
 </head>
 		<body class="lumiere_body<?php
 		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
-			echo ' lumiere_body_' . $this->imdb_admin_values['imdbpopuptheme'];}
+			echo ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] );
+		}
 		?>">
 		<?php
 		// Do the film query.
@@ -114,7 +115,7 @@ class Popup_Search {
 		<h1 align="center">
 			<?php
 			esc_html_e( 'Results related to', 'lumiere-movies' );
-			echo ' <i>' . $this->film_sanitized_for_title . '</i>';
+			echo ' <i>' . esc_html( $this->film_sanitized_for_title ) . '</i>';
 			?>
 		</h1>
 
