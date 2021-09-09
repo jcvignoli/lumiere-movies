@@ -54,6 +54,14 @@ class Widget extends \WP_Widget {
 	];
 
 	/**
+	 * HTML allowed for use of wp_kses()
+	 */
+	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
+		'div' => true,
+		'h4' => true,
+	];
+
+	/**
 	 *  Names of the block widget
 	 */
 	const BLOCK_WIDGET_NAME = 'lumiere/widget'; // post-WP 5.8 widget block name.
@@ -225,7 +233,6 @@ class Widget extends \WP_Widget {
 		$movie_class = new Movie();
 
 		/* Vars */
-		$output = '';
 		$imdb_admin_values = $this->imdb_admin_values;
 		$args['before_title'] = self::ARGS['before_title']; //Consistancy in title h2 class, otherwise it's sometimes <h4 class="widget-title"> and sometimes <h4 class="widgettitle">.
 
@@ -236,7 +243,7 @@ class Widget extends \WP_Widget {
 		$title_box = isset( $instance['title'] ) ? $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'] : esc_html__( 'Lumière! Movies (legacy)', 'lumiere-movies' );
 
 		// Initialize var for id/name of the movie to display.
-		$imdbIdOrTitle = [];
+		$imdb_id_or_title = [];
 
 		// Get the post id
 		$post_id = intval( get_the_ID() );
@@ -248,7 +255,7 @@ class Widget extends \WP_Widget {
 
 			// Display the movie according to the post's title (option in -> general -> advanced).
 			if ( $imdb_admin_values['imdbautopostwidget'] === '1' ) {
-				$imdbIdOrTitle[]['byname'] = sanitize_text_field( get_the_title() );
+				$imdb_id_or_title[]['byname'] = sanitize_text_field( get_the_title() );
 
 				$this->logger->log()->debug( '[Lumiere][widget] Auto widget activated, using the post title for querying' );
 
@@ -274,7 +281,7 @@ class Widget extends \WP_Widget {
 				// Custom field "imdb-movie-widget"
 				foreach ( get_post_meta( $post_id, 'imdb-movie-widget', false ) as $key => $value ) {
 
-					$imdbIdOrTitle[]['byname'] = sanitize_text_field( $value );
+					$imdb_id_or_title[]['byname'] = sanitize_text_field( $value );
 
 					$this->logger->log()->debug( "[Lumiere][widget] Custom field imdb-movie-widget found, using $value for querying" );
 
@@ -284,23 +291,24 @@ class Widget extends \WP_Widget {
 				foreach ( get_post_meta( $post_id, 'imdb-movie-widget-bymid', false ) as $key => $value ) {
 
 					$moviespecificid = $value;
-					$imdbIdOrTitle[]['bymid'] = sanitize_text_field( strval( $moviespecificid ) );
+					$imdb_id_or_title[]['bymid'] = sanitize_text_field( strval( $moviespecificid ) );
 
 					$this->logger->log()->debug( "[Lumiere][widget] Custom field imdb-movie-widget-bymid found, using $value for querying" );
 
 				}
 
 				// If there is a result in class movie, display the widget.
-				$movie = $movie_class->lumiere_show( $imdbIdOrTitle );
+				$movie = $movie_class->lumiere_show( $imdb_id_or_title );
 				if ( strlen( $movie ) !== 0 ) {
 
-					$output .= $args['before_widget'];
+					echo wp_kses( $args['before_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 
-					$output .= $title_box; // title of widget.
+					echo wp_kses( $title_box, self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); // title of widget.
 
-					$output .= $movie;
+					// @phpcs:ignore WordPress.Security.EscapeOutput
+					echo $movie;
 
-					$output .= $args['after_widget'];
+					echo wp_kses( $args['after_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 
 				} else {
 
@@ -312,23 +320,22 @@ class Widget extends \WP_Widget {
 
 		}
 
-		// Display preview if no metabox was found with an IMDb id/title
+		// No metabox was found with an IMDb id/title.
 		if ( ( count( get_post_meta( $post_id, 'imdb-movie-widget', false ) ) === 0 ) && ( count( get_post_meta( $post_id, 'imdb-movie-widget-bymid', false ) ) === 0 ) ) {
 
 			$this->logger->log()->debug( '[Lumiere][widget] No metabox with IMDb id/title was added to this post.' );
 
 		}
 
-		// Display preview image only in widget block editor interface
+		// Display preview image only in widget block editor interface.
 		$pages_authorised = [ '/wp-admin/widgets.php' ];
 		if ( Utils::lumiere_array_contains_term( $pages_authorised, $_SERVER['REQUEST_URI'] ) ) {
 
-			$output .= '<div align="center"><img src="' . $this->config_class->lumiere_pics_dir . 'widget-preview.png" /></div>';
-			$output .= '<br />';
+			echo '<div align="center"><img src="' . esc_url( $this->config_class->lumiere_pics_dir . 'widget-preview.png' ) . '" /></div>';
+			echo '<br />';
 
 		}
 
-		echo $output;
 	}
 
 	/**
@@ -343,31 +350,28 @@ class Widget extends \WP_Widget {
 	 */
 	public function form( $instance ): string {
 
-		$output = '';
-
 		$title = isset( $instance['title'] ) ? $instance['title'] : esc_html__( 'Lumière! Movies', 'lumiere-movies' );
 		$lumiere_query_widget = isset( $instance['lumiere_queryid_widget'] ) ? $instance['lumiere_queryid_widget'] : '';
 
 		$lumiere_queryid_widget_input = isset( $instance['lumiere_queryid_widget_input'] ) ? $instance['lumiere_queryid_widget_input'] : '';
 
-		$output .= "\n" . '<p class="lumiere_padding_ten">';
+		echo "\n" . '<p class="lumiere_padding_ten">';
 
-		$output .= "\n\t" . '<div class="lumiere_display_inline_flex">';
-		$output .= "\n\t\t" . '<div class="lumiere_padding_ten">';
-		$output .= "\n\t\t\t" . '<img class="lumiere_flex_auto" width="40" height="40" src="'
+		echo "\n\t" . '<div class="lumiere_display_inline_flex">';
+		echo "\n\t\t" . '<div class="lumiere_padding_ten">';
+		echo "\n\t\t\t" . '<img class="lumiere_flex_auto" width="40" height="40" src="'
 				. esc_url( $this->config_class->lumiere_pics_dir . 'lumiere-ico80x80.png' ) . '" />';
-		$output .= "\n\t\t" . '</div>';
+		echo "\n\t\t" . '</div>';
 
-		$output .= "\n\t\t" . '<div class="lumiere_flex_auto">';
-		$output .= "\n\t\t\t" . '<label for="'
+		echo "\n\t\t" . '<div class="lumiere_flex_auto">';
+		echo "\n\t\t\t" . '<label for="'
 					. esc_attr( $this->get_field_id( 'title' ) ) . '">'
 					. esc_html__( 'Widget title:', 'lumiere-movies' ) . '</label>';
-		$output .= "\n\t\t\t" . '<input class="widefat" id="' . esc_attr( $this->get_field_id( 'title' ) ) . '" name="' . esc_attr( $this->get_field_name( 'title' ) ) . '" type="text" value="' . esc_attr( $title ) . '" />';
-		$output .= "\n\t\t\t" . '</div>';
-		$output .= "\n\t\t" . '</div>';
-		$output .= "\n\t" . '</p><!-- #lumiere-movies -->';
+		echo "\n\t\t\t" . '<input class="widefat" id="' . esc_attr( $this->get_field_id( 'title' ) ) . '" name="' . esc_attr( $this->get_field_name( 'title' ) ) . '" type="text" value="' . esc_attr( $title ) . '" />';
+		echo "\n\t\t\t" . '</div>';
+		echo "\n\t\t" . '</div>';
+		echo "\n\t" . '</p><!-- #lumiere-movies -->';
 
-		echo $output;
 		return 'noform';
 
 	}
