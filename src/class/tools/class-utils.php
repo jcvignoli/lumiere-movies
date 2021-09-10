@@ -196,35 +196,6 @@ class Utils {
 	}
 
 	/**
-	 * Recursively test an multi-dimensionnal array
-	 *
-	 * @param array<string>|string $mixed Array name or string
-	 *
-	 * @credits https://www.php.net/manual/fr/function.empty.php#92308
-	 */
-	public static function lumiere_is_multi_array_empty( $mixed ): bool {
-
-		if ( is_array( $mixed ) ) {
-
-			foreach ( $mixed as $value ) {
-
-				if ( ! self::lumiere_is_multi_array_empty( $value ) ) {
-
-					return false;
-
-				}
-			}
-
-		} elseif ( ! empty( $mixed ) ) {
-
-			return false;
-
-		}
-
-		return true;
-	}
-
-	/**
 	 * Function lumiere_array_key_exists_wildcard
 	 * Search with a wildcard in $keys of an array
 	 *

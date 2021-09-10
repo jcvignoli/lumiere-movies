@@ -1689,29 +1689,29 @@ class Movie {
 		$nbtotalplots = count( $plot );
 
 		// tested if the array contains data; if not, doesn't go further
-		if ( ! Utils::lumiere_is_multi_array_empty( $plot ) ) {
+		if ( $nbtotalplots === 0 ) {
+			return $output;
+		}
 
-			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= sprintf( esc_attr( _n( 'Plot', 'Plots', $nbtotalplots, 'lumiere-movies' ) ), number_format_i18n( $nbtotalplots ) );
-			$output .= ':</span><br />';
+		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= sprintf( esc_attr( _n( 'Plot', 'Plots', $nbtotalplots, 'lumiere-movies' ) ), number_format_i18n( $nbtotalplots ) );
+		$output .= ':</span><br />';
 
-			for ( $i = 0; ( ( $i < $nbtotalplots ) && ( $i < $nbplots ) ); $i++ ) {
+		for ( $i = 0; ( ( $i < $nbtotalplots ) && ( $i < $nbplots ) ); $i++ ) {
 
-				// if "Remove all links" option is not selected
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
+			// if "Remove all links" option is not selected
+			if ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
 
-					$output .= $this->lumiere_remove_link( $plot[ $i ] ) . "\n";
-				} else {
+				$output .= $this->lumiere_remove_link( $plot[ $i ] ) . "\n";
+			} else {
 
-					$output .= $plot[ $i ] . "\n";
+				$output .= $plot[ $i ] . "\n";
 
-				}
-
-				if ( $i < ( $nbtotalplots - 1 ) && $i < ( $nbplots - 1 ) ) {
-					$output .= "\n<hr>\n";
-				} // add hr to every quote but the last
 			}
 
+			if ( $i < ( $nbtotalplots - 1 ) && $i < ( $nbplots - 1 ) ) {
+				$output .= "\n<hr>\n";
+			} // add hr to every quote but the last
 		}
 
 		return $output;

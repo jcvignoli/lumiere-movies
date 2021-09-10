@@ -46,7 +46,7 @@ class Widget extends \WP_Widget {
 	/**
 	 * HTML wrapping to the widget name
 	 */
-	const ARGS = [
+	private const ARGS = [
 		'before_title' => '<h4 id="lumiere_movies_widget_title" class="widget-title">',
 		'after_title' => '</h4>',
 		'before_widget' => '<div id="lumiere_movies_widget" class="sidebar-box widget_lumiere_movies_widget clr">',
@@ -56,7 +56,7 @@ class Widget extends \WP_Widget {
 	/**
 	 * HTML allowed for use of wp_kses()
 	 */
-	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
+	private const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
 		'div' => [
 			'id' => true,
 			'class' => true,
@@ -171,7 +171,7 @@ class Widget extends \WP_Widget {
 		// Start logging using hook defined in settings class.
 		do_action( 'lumiere_logger' );
 
-		$this->logger->log()->debug( '[Lumiere][widget] Shortcode [' . self::WIDGET_SHORTCODE . '][/' . self::WIDGET_SHORTCODE . '] found. Using block-based widget.' );
+		$this->logger->log()->debug( '[Lumiere][widget] Shortcode [' . self::WIDGET_SHORTCODE . '] found.' );
 
 		$instance = [];
 
@@ -230,7 +230,7 @@ class Widget extends \WP_Widget {
 	 * @see WP_Widget::widget()
 	 *
 	 * @param array<string>|string $args Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
-	 * @param array<string>|string $instance The settings for the particular instance of the widget.
+	 * @param array<string> $instance The settings for the particular instance of the widget.
 	 * @return void
 	 * @phpstan-ignore-next-line inherited constraints from parent, can't comply with declaration requirements
 	 */

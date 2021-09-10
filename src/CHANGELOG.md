@@ -4,8 +4,9 @@ v.3.6.4
 * [technical] Few glitches to achieve PHP8.0 compatibility.
 * [technical] Improved security: Escaped functions in admin.
 * [technical] Improved security: Escaped functions in frontend.
-* [technical] Almost 100% of WordPress standards achieved. What remain to fully comply with WP coding standards is either useless, or due to a few errors in WordPress functions/methods/classes PHPDoc documentation.
-* [technical] Almost 100% of compliance with PHPStan reporting. Still a few errors, working on it, but the plugin is now rock solid.
+* [technical] Almost 100% of WordPress standards achieved. What remains to fully comply with WP coding standards is either not of great relevance or due to a few errors in WordPress functions/methods/classes PHPDoc documentation.
+* [technical] 100% of compliance with PHPStan reporting. Still one error, working on it, but the plugin is now rock solid.
+* [technical] Delete lumiere_is_multi_array_empty() function in class utils, was used in class movie in lumiere_movies_plot() only and could be replaced by count()
 * [bug] Reset options in cache, general and data admin pages was throwing a warning. Improved check for arrays in class settings get_imdb_cache_option(), get_imdb_admin_option(), get_imdb_widget_option() functions.
 * [bug] Internal links in popups for trivias and goofs sections were not working. Using now lumiere_imdburl_to_internalurl() from trait-frontend.php in class-popup-movie.php
 * [bug] Biography length was still incorrectly counting the first html tag and led to the text being cut early. Fixed the condition for $esc_html_breaker in lumiere_medaillon_bio() in class-frontend.php
