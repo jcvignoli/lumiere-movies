@@ -74,7 +74,7 @@ class Taxonomy_People_Standard {
 		$this->array_people = $this->config_class->array_people;
 
 		// Display the page.
-		add_action( 'wp', [ $this, self::lumiere_taxo_layout_standard() ], 0 );
+		$this->lumiere_taxo_layout_standard();
 
 	}
 

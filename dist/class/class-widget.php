@@ -137,7 +137,7 @@ class Widget extends \WP_Widget {
 	}
 
 	/**
-	 *  Wrapper for calling the function from outside
+	 * Wrapper for calling the function from outside
 	 *
 	 */
 	public static function lumiere_widget_start(): void {
@@ -145,7 +145,7 @@ class Widget extends \WP_Widget {
 	}
 
 	/**
-	 *  Wrapper for activating debug
+	 * Wrapper for activating debug
 	 *
 	 */
 	public function lumiere_widget_maybe_start_debug(): void {
@@ -163,9 +163,10 @@ class Widget extends \WP_Widget {
 	 * Shortcode [lumiereWidget][/lumiereWidget]
 	 * Find that shortcode in the sidebar, retrieve the widget title and activate the function widget()
 	 *
+	 * @param array<string>|string $atts
 	 * Used to retrieve widget block title and call widget() function
 	 */
-	public function lumiere_widget_shortcodes_parser( string $atts, string $content, string $tag ): void {
+	public function lumiere_widget_shortcodes_parser( $atts, string $content, string $tag ): void {
 
 		// Start logging using hook defined in settings class.
 		do_action( 'lumiere_logger' );
@@ -178,7 +179,7 @@ class Widget extends \WP_Widget {
 		$instance['title'] = $content;
 
 		// Send to widget() with self::ARGS and the widget title.
-		$this->widget( self::ARGS, $instance );
+		$this->widget( $atts, $instance );
 	}
 
 	/**
@@ -194,7 +195,7 @@ class Widget extends \WP_Widget {
 	}
 
 	/**
-	 *   Register widget block (>= WordPress 5.8)
+	 * Register widget block (>= WordPress 5.8)
 	 */
 	public function lumiere_register_widget_block(): void {
 
@@ -228,8 +229,8 @@ class Widget extends \WP_Widget {
 	 *
 	 * @see WP_Widget::widget()
 	 *
-	 * @param array $args  Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
-	 * @param array $instance The settings for the particular instance of the widget.
+	 * @param array<string>|string $args Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
+	 * @param array<string>|string $instance The settings for the particular instance of the widget.
 	 * @return void
 	 * @phpstan-ignore-next-line inherited constraints from parent, can't comply with declaration requirements
 	 */
@@ -238,16 +239,11 @@ class Widget extends \WP_Widget {
 		// Start Movie class.
 		$movie_class = new Movie();
 
-		/* Vars */
-		$imdb_admin_values = $this->imdb_admin_values;
-		$args = self::ARGS;
-		$args['before_title'] = self::ARGS['before_title']; //Consistancy in title h2 class, otherwise it's sometimes <h4 class="widget-title"> and sometimes <h4 class="widgettitle">.
-
 		// Execute logging.
 		do_action( 'lumiere_logger' );
 
-		// full title.
-		$title_box = isset( $instance['title'] ) ? $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'] : esc_html__( 'Lumière! Movies (legacy)', 'lumiere-movies' );
+		// Build title, use a default text if title has not been edited in the widget interface.
+		$title_box = isset( $instance['title'] ) ? self::ARGS['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . self::ARGS['after_title'] : self::ARGS['before_title'] . esc_html__( 'Lumière! Movies widget', 'lumiere-movies' ) . self::ARGS['after_title'];
 
 		// Initialize var for id/name of the movie to display.
 		$imdb_id_or_title = [];
@@ -261,7 +257,7 @@ class Widget extends \WP_Widget {
 		if ( ( is_single() ) || ( is_page() ) ) {
 
 			// Display the movie according to the post's title (option in -> general -> advanced).
-			if ( $imdb_admin_values['imdbautopostwidget'] === '1' ) {
+			if ( $this->imdb_admin_values['imdbautopostwidget'] === '1' ) {
 				$imdb_id_or_title[]['byname'] = sanitize_text_field( get_the_title() );
 
 				$this->logger->log()->debug( '[Lumiere][widget] Auto widget activated, using the post title for querying' );
@@ -283,7 +279,7 @@ class Widget extends \WP_Widget {
 			}
 
 			// Show widget only if custom fields or if imdbautopostwidget option is active.
-			if ( count( get_post_meta( $post_id, 'imdb-movie-widget', false ) ) !== 0 || count( get_post_meta( $post_id, 'imdb-movie-widget-bymid', false ) ) !== 0 || ( $imdb_admin_values['imdbautopostwidget'] === '1' ) ) {
+			if ( count( get_post_meta( $post_id, 'imdb-movie-widget', false ) ) !== 0 || count( get_post_meta( $post_id, 'imdb-movie-widget-bymid', false ) ) !== 0 || ( $this->imdb_admin_values['imdbautopostwidget'] === '1' ) ) {
 
 				// Custom field "imdb-movie-widget"
 				foreach ( get_post_meta( $post_id, 'imdb-movie-widget', false ) as $key => $value ) {
@@ -308,14 +304,14 @@ class Widget extends \WP_Widget {
 				$movie = $movie_class->lumiere_show( $imdb_id_or_title );
 				if ( strlen( $movie ) !== 0 ) {
 
-					echo wp_kses( $args['before_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
+					echo wp_kses( self::ARGS['before_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 
 					echo wp_kses( $title_box, self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); // title of widget.
 
 					// @phpcs:ignore WordPress.Security.EscapeOutput
 					echo $movie;
 
-					echo wp_kses( $args['after_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
+					echo wp_kses( self::ARGS['after_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 
 				} else {
 
@@ -335,8 +331,9 @@ class Widget extends \WP_Widget {
 		}
 
 		// Display preview image only in widget block editor interface.
+		$referer = strlen( $_SERVER['REQUEST_URI'] ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
 		$pages_authorised = [ '/wp-admin/widgets.php' ];
-		if ( Utils::lumiere_array_contains_term( $pages_authorised, $_SERVER['REQUEST_URI'] ) ) {
+		if ( Utils::lumiere_array_contains_term( $pages_authorised, $referer ) ) {
 
 			echo '<div align="center"><img src="' . esc_url( $this->config_class->lumiere_pics_dir . 'widget-preview.png' ) . '" /></div>';
 			echo '<br />';
@@ -389,6 +386,8 @@ class Widget extends \WP_Widget {
 	 * This function checks that `$new_instance` is set correctly. The newly-calculated
 	 * value of `$instance` should be returned. If false is returned, the instance won't be
 	 * saved/updated.
+	 *
+	 * @see WP_Widget::update()
 	 *
 	 * @param array $new_instance New settings for this instance as input by the user via
 	 *                            WP_Widget::form().
