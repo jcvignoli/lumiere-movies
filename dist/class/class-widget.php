@@ -233,13 +233,14 @@ class Widget extends \WP_Widget {
 	 * @return void
 	 * @phpstan-ignore-next-line inherited constraints from parent, can't comply with declaration requirements
 	 */
-	public function widget( $args = self::ARGS, $instance ) {
+	public function widget( $args, $instance ) {
 
 		// Start Movie class.
 		$movie_class = new Movie();
 
 		/* Vars */
 		$imdb_admin_values = $this->imdb_admin_values;
+		$args = self::ARGS;
 		$args['before_title'] = self::ARGS['before_title']; //Consistancy in title h2 class, otherwise it's sometimes <h4 class="widget-title"> and sometimes <h4 class="widgettitle">.
 
 		// Execute logging.
@@ -306,14 +307,14 @@ class Widget extends \WP_Widget {
 				// If there is a result in class movie, display the widget.
 				$movie = $movie_class->lumiere_show( $imdb_id_or_title );
 				if ( strlen( $movie ) !== 0 ) {
-					// @phpstan-ignore-next-line wp_kses() wrong properties
+
 					echo wp_kses( $args['before_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
-					// @phpstan-ignore-next-line wp_kses() wrong properties
+
 					echo wp_kses( $title_box, self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); // title of widget.
 
 					// @phpcs:ignore WordPress.Security.EscapeOutput
 					echo $movie;
-					// @phpstan-ignore-next-line wp_kses() wrong properties
+
 					echo wp_kses( $args['after_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 
 				} else {
