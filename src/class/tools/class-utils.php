@@ -436,13 +436,14 @@ class Utils {
 	}
 	// phpcs:enable
 
-	/* Check if the block widget is active
+	/**
+	 * Check if the block widget is active
 	 * Use the current name by default
 	 */
 	public static function lumiere_block_widget_isactive( string $blockname = \Lumiere\Widget::BLOCK_WIDGET_NAME ): bool {
 		$widget_blocks = get_option( 'widget_block' );
 		foreach ( $widget_blocks as $widget_block ) {
-			if ( ( $widget_block['content'] !== null && strlen( $widget_block['content'] ) !== 0 )
+			if ( ( isset( $widget_block['content'] ) && strlen( $widget_block['content'] ) !== 0 )
 			&& has_block( $blockname, $widget_block['content'] )
 			) {
 				return true;

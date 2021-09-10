@@ -25,7 +25,18 @@ class Taxonomy_Items_Standard {
 	/**
 	 * Set to true to activate the sidebar
 	 */
-	private bool $activate_sidebar = false;
+	private bool $activate_sidebar = true;
+
+	/**
+	 * HTML allowed for use of wp_kses()
+	 */
+	private const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
+		'a' => [
+			'class' => true,
+			'href' => true,
+			'rel' => true,
+		],
+	];
 
 	/**
 	 * Constructor
@@ -37,7 +48,7 @@ class Taxonomy_Items_Standard {
 		$this->__constructFrontend( 'taxonomy-standard' );
 
 		// Display the page.
-		add_action( 'wp', [ $this, self::lumiere_layout_taxo_standard() ], 0 );
+		$this->lumiere_layout_taxo_standard();
 
 	}
 
@@ -75,12 +86,18 @@ class Taxonomy_Items_Standard {
 							</a>
 						</h3>
 
-						<?php if ( get_terms( 'standard' ) !== null ) { ?>
+						<?php
+						$term_exist = (array) get_terms( 'standard' );
+						if ( count( $term_exist ) !== 0 ) {
+							?>
 
 						<div class="taxonomy">
 							<?php
 							$the_post_id = is_integer( get_the_ID() ) !== false ? get_the_ID() : 0;
-							echo get_the_term_list( $the_post_id, $lumiere_taxonomy_full, esc_html__( 'Lumiere taxonomy: ', 'lumiere-movies' ), ', ', '' ); ?>
+							$terms_list = get_the_term_list( $the_post_id, $lumiere_taxonomy_full, esc_html__( 'Lumiere taxonomy: ', 'lumiere-movies' ), ', ', '' );
+							$terms_list_final = $terms_list !== false && is_wp_error( $terms_list ) === false ? $terms_list : '';
+							echo wp_kses( $terms_list_final, self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
+							?>
 							<br /><br />
 						</div>
 						<?php } ?>	
@@ -104,7 +121,7 @@ class Taxonomy_Items_Standard {
 			}
 
 		} else { // there is no post
-				esc_html_e( 'No post found.', 'lumiere-movies' );
+				esc_html_e( 'No post found with this taxonomy.', 'lumiere-movies' );
 				echo '<br /><br /><br />';
 		}
 		?>

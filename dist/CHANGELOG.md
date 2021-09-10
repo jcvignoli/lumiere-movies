@@ -10,6 +10,7 @@ v.3.6.4
 * [bug] Internal links in popups for trivias and goofs sections were not working. Using now lumiere_imdburl_to_internalurl() from trait-frontend.php in class-popup-movie.php
 * [bug] Biography length was still incorrectly counting the first html tag and led to the text being cut early. Fixed the condition for $esc_html_breaker in lumiere_medaillon_bio() in class-frontend.php
 * [bug] Changelog was not correctly displayed in help admin. Modified the regexes.
+* [bug] Widget title when using the old widget (WordPress pre-5.8) was not correctly displayed.
 
 v.3.6.3
 * [technical] For new installs, the new URL for popups is '/lumiere/' instead of '/imdblt/'
