@@ -22,12 +22,6 @@ parameters:
           path: src/class/updates
         - message: '#Variable \$logger might not be defined.#'
           path: src/class/updates
-        - message: '#Variable \$config_class might not be defined.#'
-          path: src/class/updates
         - message: '#Variable \$imdb_admin_values might not be defined.#'
           path: src/class/updates
-
-
-
-
 

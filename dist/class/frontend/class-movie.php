@@ -220,9 +220,10 @@ class Movie {
 	 * Replace [imdblt] shortcode by the movie
 	 * Obsolete, kept for compatibility purposes
 	 *
-	 * @param string|array<string> $atts
+	 * @param string|array<string> $atts array of attributes
+	 * @param null|string $content shortcode content or null if not set
 	 */
-	public function parse_lumiere_tag_transform( $atts = [], string $content ): string {
+	public function parse_lumiere_tag_transform( $atts, ?string $content ): string {
 
 		//shortcode_atts(array( 'id' => 'default id', 'film' => 'default film'), $atts);
 
@@ -237,8 +238,9 @@ class Movie {
 	 * @obsolete Kept for compatibility purposes
 	 *
 	 * @param string|array<string> $atts
+	 * @param null|string $content shortcode content or null if not set
 	 */
-	public function parse_lumiere_tag_transform_id( $atts = [], string $content ): string {
+	public function parse_lumiere_tag_transform_id( $atts, ?string $content ): string {
 
 		$movie_imdbid = $content;
 		return $this->lumiere_external_call( '', $movie_imdbid, '' );

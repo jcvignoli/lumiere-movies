@@ -3,9 +3,9 @@ Contributors: psykonevro
 Donate link: https://www.paypal.me/jcvignoli
 Tags: cinema, film, imdb, movie, actor
 Requires at least: 4.0
-Tested up to: 5.8
+Tested up to: 5.8.1
 Stable tag: 3.6.4
-Requires PHP: 7.1
+Requires PHP: 7.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -27,11 +27,12 @@ Many features are available in the wordpress editing interfaces (Gutenberg, Visu
 
 = required =
 
-PHP 7.2 is required. PHP 8 will soon be mandatory.
+PHP 7.2 is required.
 
 1. Activate the plugin
 2. Configure the plugin (in admin settings). Default values are automatically filled. In most cases, no change is required.
-3. Make sure the cache directories (cache and photo directories) have been created (check the cache settings in Lumière cache settings). The plugin is preconfigured to work with "/wp-content/cache/lumiere-movies/".
+3. Activate a Lumière widget if you intend including movie information into your sidebar.
+4. Write your blogs including movie information using the many tools smoothly incorporated in WordPress!
 
 = basic options =
 
