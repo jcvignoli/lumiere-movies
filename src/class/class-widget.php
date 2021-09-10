@@ -47,7 +47,7 @@ class Widget extends \WP_Widget {
 	 * HTML wrapping to the widget name
 	 */
 	const ARGS = [
-		'before_title' => '<h4 class="widget-title">',
+		'before_title' => '<h4 id="lumiere_movies_widget_title" class="widget-title">',
 		'after_title' => '</h4>',
 		'before_widget' => '<div id="lumiere_movies_widget" class="sidebar-box widget_lumiere_movies_widget clr">',
 		'after_widget' => '</div>',
@@ -57,8 +57,14 @@ class Widget extends \WP_Widget {
 	 * HTML allowed for use of wp_kses()
 	 */
 	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
-		'div' => true,
-		'h4' => true,
+		'div' => [
+			'id' => true,
+			'class' => true,
+		],
+		'h4' => [
+			'id' => true,
+			'class' => true,
+		],
 	];
 
 	/**
@@ -300,14 +306,14 @@ class Widget extends \WP_Widget {
 				// If there is a result in class movie, display the widget.
 				$movie = $movie_class->lumiere_show( $imdb_id_or_title );
 				if ( strlen( $movie ) !== 0 ) {
-
+					// @phpstan-ignore-next-line wp_kses() wrong properties
 					echo wp_kses( $args['before_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
-
+					// @phpstan-ignore-next-line wp_kses() wrong properties
 					echo wp_kses( $title_box, self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); // title of widget.
 
 					// @phpcs:ignore WordPress.Security.EscapeOutput
 					echo $movie;
-
+					// @phpstan-ignore-next-line wp_kses() wrong properties
 					echo wp_kses( $args['after_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 
 				} else {

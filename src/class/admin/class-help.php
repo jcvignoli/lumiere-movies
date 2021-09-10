@@ -42,6 +42,9 @@ class Help extends \Lumiere\Admin {
 			'title' => true,
 			'data-*' => true,
 		],
+		'font' => [
+			'size' => true,
+		],
 	];
 
 	/**
@@ -191,8 +194,8 @@ class Help extends \Lumiere\Admin {
 						echo "\t\t\t\t\t\t<li><strong>" . esc_html( $texte ) . "</strong></li>\n";
 					} elseif ( $count_rows % 2 === 0 ) { // even number -> text
 						// display text formatted
-						echo "\t\t\t\t\t\t<div class='imdblt_padding_twenty'>"
-							. wp_kses( str_replace( "\n\n", "\n", $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS )
+						// @phpstan-ignore-next-line wp_kses() wrong properties
+						echo "\t\t\t\t\t\t<div class='imdblt_padding_twenty'>" . wp_kses( str_replace( "\n\n", "\n", $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS )
 							. "\t\t\t\t\t\t</div>\n";
 					}
 					$count_rows++;
@@ -233,10 +236,12 @@ class Help extends \Lumiere\Admin {
 			 * 2-replace links from (especially formated for WordPress website) changlog with regular html.
 			 */
 			$patterns = [
+				'~(v\.)(\d)(.*)~',
 				'~(\*\s\[)(.*?)(\])~',
 				'~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~',
 			];
 			$replaces = [
+				'<font size=\'+0.2\'><strong>version ${2}${3}</strong></font>',
 				'<strong><i>${2}</i></strong>',
 				'<a href="${3}${4}" title="${7}">${2}</a>',
 			];
@@ -247,12 +252,13 @@ class Help extends \Lumiere\Admin {
 				if ( $number > '1' ) {
 
 					// display text formatted
-					echo "\t\t\t\t\t\t<li>" . wp_kses( str_replace( "\n\n", "\n", $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . "</li>\n";
+					// @phpstan-ignore-next-line wp_kses() wrong properties
+					echo "\n\t\t\t\t\t\t<li>" . wp_kses( str_replace( "\n", '', $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . '</li>';
 
 				}
 				$number++;
 			}
-			echo "\t\t\t\t\t</ul>\n";
+			echo "\n\t\t\t\t\t</ul>";
 			?>
 
 			</div>
@@ -344,6 +350,7 @@ class Help extends \Lumiere\Admin {
 			if ( $number > '1' ) {
 
 				// display text formatted
+				// @phpstan-ignore-next-line wp_kses() wrong properties
 				echo "\t\t\t\t\t\t<li>" . wp_kses( str_replace( "\n", '', $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . "</li>\n";
 
 			}

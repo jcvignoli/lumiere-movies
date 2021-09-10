@@ -187,7 +187,7 @@ trait Frontend {
 
 		/** Vars */
 		$click_text = esc_html__( 'click to expand', 'lumiere-movies' ); // text for cutting.
-		$max_length = 200; // maximum number of characters before cutting.
+		$max_length = 300; // maximum number of characters before cutting.
 
 		// Calculate the number of bio results.
 		$nbtotalbio = count( $bio_array );
@@ -208,8 +208,10 @@ trait Frontend {
 			$bio_text = $this->lumiere_imdburl_to_popupurl( $bio[ $idx ]['desc'] );
 		}
 
-		// HTML tags break for 'read more' cutting. Detects if there is html and reduce the $max_length.
-		$esc_html_breaker = strpos( $bio_text, '<' ) !== false && strpos( $bio_text, '<' ) < $max_length ? strpos( $bio_text, '<' ) : $max_length;
+		// HTML tags break for 'read more' cutting.
+		// Detects if there is html and where it ends (with '>' tag) after $max_length
+		// If true, reduce the max to where it begins (with '<' tag)
+		$esc_html_breaker = strpos( $bio_text, '<' ) !== false && strpos( $bio_text, '>' ) > $max_length ? strpos( $bio_text, '<' ) : $max_length;
 
 		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
 

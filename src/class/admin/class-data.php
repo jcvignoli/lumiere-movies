@@ -213,7 +213,7 @@ class Data extends \Lumiere\Admin {
 			}
 
 			// update options
-			update_option( $this->config_class->imdbWidgetOptionsName, $this->imdb_widget_values );
+			update_option( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, $this->imdb_widget_values );
 
 			// display confirmation message
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options saved.', 'lumiere-movies' ) . '</strong>' );
@@ -241,7 +241,7 @@ class Data extends \Lumiere\Admin {
 			check_admin_referer( 'imdbwidgetSettings_check', 'imdbwidgetSettings_check' );
 
 			// Delete the options to reset
-			delete_option( $this->config_class->imdbWidgetOptionsName );
+			delete_option( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS );
 
 			// display confirmation message
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options reset.', 'lumiere-movies' ) . '</strong>' );
