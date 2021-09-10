@@ -151,7 +151,7 @@ class General extends \Lumiere\Admin {
 			}
 
 			// update options
-			update_option( $this->config_class->imdbAdminOptionsName, $this->imdb_admin_values );
+			update_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, $this->imdb_admin_values );
 
 			// display message on top
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options saved.', 'lumiere-movies' ) . '</strong>' );
@@ -166,7 +166,7 @@ class General extends \Lumiere\Admin {
 
 			check_admin_referer( 'options_general_check', 'options_general_check' );
 
-			delete_option( $this->config_class->imdbAdminOptionsName );
+			delete_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS );
 
 			// display message on top
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options reset.', 'lumiere-movies' ) . '</strong>' );

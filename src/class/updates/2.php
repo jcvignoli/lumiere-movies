@@ -5,11 +5,11 @@
 $logger->info( '[Lumiere][updateVersion] Starting update 2' );
 
 $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 );
-$this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
+$this->lumiere_update_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbHowManyUpdates', $nb_of_updates );
 
 // Update 'imdbwidgetsource'
 // No need to display the source by default
-if ( true === $this->lumiere_update_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetsource', '0' ) ) {
+if ( true === $this->lumiere_update_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdbwidgetsource', '0' ) ) {
 
 	$text = 'Lumière option imdbwidgetsource successfully updated.';
 

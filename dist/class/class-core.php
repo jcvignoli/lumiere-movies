@@ -810,12 +810,6 @@ class Core {
 
 					$start_update_options = new Update_Options();
 
-					// Homebrew debug.
-					/* $option_array_search = get_option($this->config_class->imdbAdminOptionsName);
-					$option_array_search['imdbHowManyUpdates'] = 5; # current number of updates
-					update_option($this->config_class->imdbAdminOptionsName, $option_array_search);
-					*/
-
 					$this->logger->log()->debug( '[Lumiere][coreClass][updater] Lumière _on_plugin_upgrade_ hook successfully run.' );
 
 				}

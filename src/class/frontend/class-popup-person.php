@@ -33,7 +33,7 @@ class Popup_Person {
 	/**
 	 * The person queried
 	 */
-	private ?string $person_name;
+	private string $person_name;
 
 	/**
 	 * Person's id, if provided

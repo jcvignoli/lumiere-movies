@@ -25,21 +25,21 @@ class Settings {
 
 	/**
 	 * Admin Options, saved in WordPress Database
-	 * @var string $imdbAdminOptionsName
+	 * @var string $imdb_admin_options_name
 	 */
-	public string $imdbAdminOptionsName = 'imdbAdminOptions';
+	public string $imdb_admin_options_name = 'imdbAdminOptions';
 
 	/**
 	 * Widget Options, saved in WordPress Database
-	 * @var string $imdbWidgetOptionsName
+	 * @var string $imdb_widget_options_name
 	 */
-	public string $imdbWidgetOptionsName = 'imdbWidgetOptions';
+	public string $imdb_widget_options_name = 'imdbWidgetOptions';
 
 	/**
 	 * Cache Options, saved in WordPress Database
-	 * @var string $imdbCacheOptionsName
+	 * @var string $imdb_cache_options_name
 	 */
-	public string $imdbCacheOptionsName = 'imdbCacheOptions';
+	public string $imdb_cache_options_name = 'imdbCacheOptions';
 
 	/** New way, just giving constants */
 	const LUMIERE_ADMIN_OPTIONS = 'imdbAdminOptions';
@@ -353,8 +353,8 @@ class Settings {
 	public function lumiere_define_nb_updates(): bool {
 
 		// Get the database options, since this is called before the building of $this->imdb_admin_values.
-		if ( get_option( $this->imdbAdminOptionsName ) !== false ) {
-			$this->imdb_admin_values = get_option( $this->imdbAdminOptionsName );
+		if ( get_option( $this->imdb_admin_options_name ) !== false ) {
+			$this->imdb_admin_values = get_option( $this->imdb_admin_options_name );
 		}
 
 		// If option 'imdbHowManyUpdates' doesn't exist, make it.
@@ -365,7 +365,7 @@ class Settings {
 			$files = new FilesystemIterator( plugin_dir_path( __DIR__ ) . 'class/updates/', \FilesystemIterator::SKIP_DOTS );
 			$this->current_number_updates = intval( iterator_count( $files ) + 1 );
 
-			$option_array = $this->imdbAdminOptionsName;
+			$option_array = $this->imdb_admin_options_name;
 			$option_key = 'imdbHowManyUpdates';
 			$option_array_search = get_option( $option_array );
 			$option_array_search[ $option_key ] = intval( $this->current_number_updates );
@@ -386,7 +386,7 @@ class Settings {
 	}
 
 	/**
-	 * Makes an array of ADMIN options
+	 * Make an array of ADMIN options
 	 *
 	 * Multidimensional array
 	 */
@@ -395,7 +395,7 @@ class Settings {
 		// Define how many updates have been runned
 		$this->lumiere_define_nb_updates();
 
-		$imdbAdminOptions = [
+		$imdb_admin_options = [
 
 			#--------------------------------------------------=[ Basic ]=--
 			'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
@@ -429,41 +429,42 @@ class Settings {
 			'imdbseriemovies' => 'movies+series',     /* options: movies, series, movies+series, videogames */
 
 		];
-		$imdbAdminOptions['imdbplugindirectory'] = get_site_url()
-									. $imdbAdminOptions['imdbplugindirectory_partial'];
+		$imdb_admin_options['imdbplugindirectory'] = get_site_url()
+									. $imdb_admin_options['imdbplugindirectory_partial'];
 
-		$imdbOptions = get_option( $this->imdbAdminOptionsName );
+		$imdb_options_a = get_option( $this->imdb_admin_options_name );
 
-		if ( count( $imdbOptions ) !== 0 ) { // if not empty.
+		if ( count( $imdb_options_a ) !== 0 ) { // if not empty.
 
-			foreach ( $imdbOptions as $key => $option ) {
-				$imdbAdminOptions[ $key ] = $option;
+			foreach ( $imdb_options_a as $key => $option ) {
+				$imdb_admin_options[ $key ] = $option;
 			}
 
 			// Agregate var to construct 'imdbplugindirectory'
-			$imdbAdminOptions['imdbplugindirectory'] = get_site_url()
-										. $imdbAdminOptions['imdbplugindirectory_partial'];
+			$imdb_admin_options['imdbplugindirectory'] = get_site_url()
+										. $imdb_admin_options['imdbplugindirectory_partial'];
 		}
 
-		update_option( $this->imdbAdminOptionsName, $imdbAdminOptions );
+		update_option( $this->imdb_admin_options_name, $imdb_admin_options );
 
 		// For debugging purpose.
 		// Update imdbHowManyUpdates option.
 		/*
-		$option_array_search = get_option($this->imdbAdminOptionsName);
-		$option_array_search['imdbHowManyUpdates'] = 5; // Chosen number of updates.
-		update_option($this->imdbAdminOptionsName, $option_array_search);
+		$option_array_search = get_option($this->imdb_admin_options_name);
+		$option_array_search['imdbHowManyUpdates'] = 1; // Chosen number of updates.
+		update_option($this->imdb_admin_options_name, $option_array_search);
 		*/
 
 	}
 
-	/* Makes an array of CACHE options
+	/**
+	 * Makes an array of CACHE options
 	 *
 	 * Multidimensional array
 	 */
 	private function get_imdb_cache_option(): void {
 
-		$imdbCacheOptions = [
+		$imdb_cache_options_name = [
 
 			'imdbcachedir_partial' => 'wp-content/cache/lumiere/',
 			'imdbstorecache' => true,          /* not available in the admin interface */
@@ -475,45 +476,46 @@ class Settings {
 
 		];
 
-		$imdbCacheOptions['imdbcachedir'] = ABSPATH . $imdbCacheOptions['imdbcachedir_partial'];
-		$imdbCacheOptions['imdbphotoroot'] = $imdbCacheOptions['imdbcachedir'] . 'images/';
-		$imdbCacheOptions['imdbphotodir'] = content_url() . '/cache/lumiere/images/';
+		$imdb_cache_options_name['imdbcachedir'] = ABSPATH . $imdb_cache_options_name['imdbcachedir_partial'];
+		$imdb_cache_options_name['imdbphotoroot'] = $imdb_cache_options_name['imdbcachedir'] . 'images/';
+		$imdb_cache_options_name['imdbphotodir'] = content_url() . '/cache/lumiere/images/';
 
-		$imdbOptionsc = get_option( $this->imdbCacheOptionsName );
-		$imdbOptions = get_option( $this->imdbAdminOptionsName );
+		$imdb_options_c = get_option( $this->imdb_cache_options_name );
+		$imdb_options_a = get_option( $this->imdb_admin_options_name );
 
-		if (  is_array( $imdbOptionsc ) === true && count( $imdbOptionsc ) !== 0 ) { // if not empty.
+		if (  is_array( $imdb_options_c ) === true && count( $imdb_options_c ) !== 0 ) { // if not empty.
 
-			foreach ( $imdbOptionsc as $key => $option ) {
-				$imdbCacheOptions[ $key ] = $option;
+			foreach ( $imdb_options_c as $key => $option ) {
+				$imdb_cache_options_name[ $key ] = $option;
 			}
 
 			// Agregate vars to construct 'imdbcachedir
-			$imdbCacheOptions['imdbcachedir'] = ABSPATH . $imdbCacheOptions['imdbcachedir_partial'];
+			$imdb_cache_options_name['imdbcachedir'] = ABSPATH . $imdb_cache_options_name['imdbcachedir_partial'];
 
 			// Agregate vars to construct 'imdbphotoroot
-			$imdbCacheOptions['imdbphotoroot'] = $imdbCacheOptions['imdbcachedir'] . 'images/';
+			$imdb_cache_options_name['imdbphotoroot'] = $imdb_cache_options_name['imdbcachedir'] . 'images/';
 		}
-		if ( is_array( $imdbOptions ) === true && count( $imdbOptions ) !== 0 ) { // if not empty.
+		if ( is_array( $imdb_options_a ) === true && count( $imdb_options_a ) !== 0 ) { // if not empty.
 
 			// Agregate vars to construct 'imdbphotodir'
-			$imdbCacheOptions['imdbphotodir'] = get_site_url()
+			$imdb_cache_options_name['imdbphotodir'] = get_site_url()
 									. '/'
-									. $imdbCacheOptions['imdbcachedir_partial']
+									. $imdb_cache_options_name['imdbcachedir_partial']
 									. 'images/';
 		}
 
-		update_option( $this->imdbCacheOptionsName, $imdbCacheOptions );
+		update_option( $this->imdb_cache_options_name, $imdb_cache_options_name );
 
 	}
 
-	/* Makes an array of WIDGET options
+	/**
+	 * Makes an array of WIDGET options
 	 *
 	 * Multidimensional array
 	 */
 	private function get_imdb_widget_option(): void {
 
-		$imdbWidgetOptions = [
+		$imdb_widget_options = [
 
 			'imdbwidgettitle' => '1',
 			'imdbwidgetpic' => '1',
@@ -593,23 +595,23 @@ class Settings {
 
 		];
 
-		$imdbOptionsw = get_option( $this->imdbWidgetOptionsName );
+		$imdb_options_w = get_option( $this->imdb_widget_options_name );
 
-		if ( count( $imdbOptionsw ) !== 0 ) { // if not empty.
+		if ( is_array( $imdb_options_w ) === true && count( $imdb_options_w ) !== 0 ) { // if not empty.
 
-			foreach ( $imdbOptionsw as $key => $option ) {
-				$imdbWidgetOptions[ $key ] = $option;
+			foreach ( $imdb_options_w as $key => $option ) {
+				$imdb_widget_options[ $key ] = $option;
 			}
 		}
 
-		update_option( $this->imdbWidgetOptionsName, $imdbWidgetOptions );
+		update_option( $this->imdb_widget_options_name, $imdb_widget_options );
 
 	}
 
 	/**
 	 * Create cache folder if it does not exist
 	 *
-	 * !Note: We can't use $wp_system at this stage, since it is called during plugin activation
+	 * !Note: We can't use $wp_system at this stage, since it is also called during plugin activation in class core
 	 *
 	 * @param bool $screen_log whether to display logging on screen or not
 	 * @return bool false if cache already exist, true if created cache folders
@@ -649,9 +651,9 @@ class Settings {
 				chmod( $lumiere_folder_cache, 0755 );
 
 				// Update the option imdbcachedir for new cache path
-				$option_array_search = get_option( $this->imdbCacheOptionsName );
+				$option_array_search = get_option( $this->imdb_cache_options_name );
 				$option_array_search['imdbcachedir'] = $lumiere_folder_cache;
-				update_option( $this->imdbCacheOptionsName, $option_array_search );
+				update_option( $this->imdb_cache_options_name, $option_array_search );
 
 				$logger->info( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_folder_cache_images created." );
 			}

@@ -2,7 +2,7 @@
 /**
  * Class of update : Option updates to make according to the current plugin version
  *  -> Always put a version earlier for updates,
- *  as WordPress checks with previous version.
+ *  as WordPress checks against previous version.
  *  -> progressive increment of the updates,
  *  using $imdb_admin_values['imdbHowManyUpdates']
  *
@@ -206,11 +206,9 @@ class Update_Options {
 
 			return true;
 
-		} else {
-
-			$logger->error( "[Lumiere][updateOptions][lumiere_add_options] Lumière option ($option_key) already exists." );
-
 		}
+
+		$logger->error( "[Lumiere][updateOptions][lumiere_add_options] Lumière option ($option_key) already exists." );
 
 		return false;
 
@@ -253,11 +251,9 @@ class Update_Options {
 
 			return true;
 
-		} else {
-
-			$logger->error( "[Lumiere][updateOptions][lumiere_update_options] Lumière option ($option_key) was not found." );
-
 		}
+
+		$logger->error( "[Lumiere][updateOptions][lumiere_update_options] Lumière option ($option_key) was not found." );
 
 		return false;
 
@@ -300,11 +296,9 @@ class Update_Options {
 
 			return true;
 
-		} else {
-
-			$logger->error( "[Lumiere][updateOptions][lumiere_remove_options] Cannot remove Lumière options, ($option_key) does not exist." );
-
 		}
+
+		$logger->error( "[Lumiere][updateOptions][lumiere_remove_options] Cannot remove Lumière options, ($option_key) does not exist." );
 
 		return false;
 

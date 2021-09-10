@@ -147,7 +147,7 @@ class Cache extends \Lumiere\Admin {
 				}
 			}
 
-			update_option( $this->config_class->imdbCacheOptionsName, $this->imdb_cache_values );
+			update_option( \Lumiere\Settings::LUMIERE_CACHE_OPTIONS, $this->imdb_cache_values );
 
 			// display message on top
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Cache options saved.', 'lumiere-movies' ) . '</strong>' );
@@ -164,7 +164,7 @@ class Cache extends \Lumiere\Admin {
 
 			check_admin_referer( 'cache_options_check', 'cache_options_check' );
 
-			delete_option( $this->config_class->imdbCacheOptionsName );
+			delete_option( \Lumiere\Settings::LUMIERE_CACHE_OPTIONS );
 
 			// display message on top
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Cache options reset.', 'lumiere-movies' ) . '</strong>' );

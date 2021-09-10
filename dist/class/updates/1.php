@@ -5,11 +5,11 @@
 $logger->info( '[Lumiere][updateVersion] Starting update 1' );
 
 $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 );
-$this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
+$this->lumiere_update_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbHowManyUpdates', $nb_of_updates );
 
 // Remove 'imdbwidgetcommentsnumber'
 // Deprecated: only one comment is returned by imdbphp libraries
-if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsName, 'imdbwidgetcommentsnumber' ) ) {
+if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdbwidgetcommentsnumber' ) ) {
 
 	$text = 'Lumière option imdbwidgetcommentsnumber successfully removed.';
 
@@ -25,7 +25,7 @@ if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsNam
 
 // Add 'imdbintotheposttheme'
 // New option to manage theme colors for into the post/widget
-if ( true === $this->lumiere_add_options( $config_class->imdbWidgetOptionsName, 'imdbintotheposttheme', 'grey' ) ) {
+if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdbintotheposttheme', 'grey' ) ) {
 
 	$text = 'Lumière option imdbintotheposttheme successfully added.';
 

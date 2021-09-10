@@ -26,18 +26,15 @@
 
 	<!-- Include the WordPress-Extra standard.-->
 	<rule ref="WordPress-Extra">
+		<!-- I want to use short array [] -->
 		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+		<!-- Yoda conditions to the bin, you go -->
 		<exclude name="WordPress.PHP.YodaConditions"/>
+		<!-- Covers rule: Put spaces on both sides of the opening and closing parenthesis of
+		 if, elseif, foreach, for, and switch blocks. I don't want it. -->
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
-		<!-- Check if variables notably use correct snake format
-		<exclude name="WordPress.NamingConventions.ValidVariableName"/> -->
-
-		<!-- Followig rule should be active! Comment out and run without this rule
-		<exclude name="WordPress.Security.EscapeOutput"/> -->
-
-		<!-- Followig rule should remain commented out therefore active
-		<exclude name="WordPress.Security.NonceVerification"/>
-		 -->
+		<!-- Followig rule should be commented out, therefore active
+		<exclude name="WordPress.Security.NonceVerification"/> -->
 	</rule> 
 
 	<!-- Let's also check that everything is properly documented.
@@ -73,17 +70,18 @@
 			</property>
 		</properties>
 	</rule>
-<rule ref="WordPress.Security.EscapeOutput">
-	<properties>
-		<property name="customEscapingFunctions" type="array">
-			<element value="Utils"/><!-- can't just enter Utils::function... -->
-			<element value="wp_kses"/>
-		</property>
-		<property name="customAutoEscapedFunctions" type="array">
-			<element value="lumiere_check_taxo_template"/>
-			<element value="lumiere_admin_signature"/>
-			<element value="lumiere_imdburl_to_internalurl"/>
-		</property>
-	</properties>
-</rule>
+
+	<rule ref="WordPress.Security.EscapeOutput">
+		<properties>
+			<property name="customEscapingFunctions" type="array">
+				<element value="Utils"/><!-- can't just enter Utils::function... -->
+				<element value="wp_kses"/>
+			</property>
+			<property name="customAutoEscapedFunctions" type="array">
+				<element value="lumiere_check_taxo_template"/>
+				<element value="lumiere_admin_signature"/>
+				<element value="lumiere_imdburl_to_internalurl"/>
+			</property>
+		</properties>
+	</rule>
 </ruleset>

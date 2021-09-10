@@ -5,11 +5,11 @@
 $logger->info( '[Lumiere][updateVersion] Starting update 3' );
 
 $nb_of_updates = ( $imdb_admin_values['imdbHowManyUpdates'] + 1 );
-$this->lumiere_update_options( $config_class->imdbAdminOptionsName, 'imdbHowManyUpdates', $nb_of_updates );
+$this->lumiere_update_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbHowManyUpdates', $nb_of_updates );
 
 // Remove 'imdbdisplaylinktoimdb'
 // Deprecated: removed links to IMDb in popup search and movie
-if ( true === $this->lumiere_remove_options( $config_class->imdbAdminOptionsName, 'imdbdisplaylinktoimdb' ) ) {
+if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbdisplaylinktoimdb' ) ) {
 
 	$text = 'Lumière option imdbdisplaylinktoimdb successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -23,7 +23,7 @@ if ( true === $this->lumiere_remove_options( $config_class->imdbAdminOptionsName
 
 // Remove 'imdbpicsize'
 // Deprecated: removed links to IMDb in popup search and movie
-if ( true === $this->lumiere_remove_options( $config_class->imdbAdminOptionsName, 'imdbpicsize' ) ) {
+if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbpicsize' ) ) {
 
 	$text = 'Lumière option imdbpicsize successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -37,7 +37,7 @@ if ( true === $this->lumiere_remove_options( $config_class->imdbAdminOptionsName
 
 // Remove 'imdbpicurl'
 // Deprecated: removed links to IMDb in popup search and movie
-if ( true === $this->lumiere_remove_options( $config_class->imdbAdminOptionsName, 'imdbpicurl' ) ) {
+if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbpicurl' ) ) {
 
 	$text = 'Lumière option imdbpicurl successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -51,7 +51,7 @@ if ( true === $this->lumiere_remove_options( $config_class->imdbAdminOptionsName
 
 // Move 'imdblinkingkill'
 // Variable moved from widget options to admin
-if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsName, 'imdblinkingkill' ) ) {
+if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdblinkingkill' ) ) {
 
 	$text = 'Lumière option imdblinkingkill successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -62,7 +62,7 @@ if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsNam
 	$logger->error( "[Lumiere][updateVersion] $text" );
 
 }
-if ( true === $this->lumiere_add_options( $config_class->imdbAdminOptionsName, 'imdblinkingkill', 'false' ) ) {
+if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdblinkingkill', 'false' ) ) {
 
 	$text = 'Lumière option imdblinkingkill successfully added.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -76,7 +76,7 @@ if ( true === $this->lumiere_add_options( $config_class->imdbAdminOptionsName, '
 
 // Move 'imdbautopostwidget'
 // Variable moved from widget options to admin
-if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsName, 'imdbautopostwidget' ) ) {
+if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdbautopostwidget' ) ) {
 
 	$text = 'Lumière option imdbautopostwidget successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -88,7 +88,7 @@ if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsNam
 
 }
 
-if ( true === $this->lumiere_add_options( $config_class->imdbAdminOptionsName, 'imdbautopostwidget', 'false' ) ) {
+if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbautopostwidget', 'false' ) ) {
 
 	$text = 'Lumière option imdbautopostwidget successfully added.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -102,7 +102,7 @@ if ( true === $this->lumiere_add_options( $config_class->imdbAdminOptionsName, '
 
 // Move 'imdbintotheposttheme'
 // Variable moved from widget options to admin
-if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsName, 'imdbintotheposttheme' ) ) {
+if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdbintotheposttheme' ) ) {
 
 	$text = 'Lumière option imdbintotheposttheme successfully removed.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
@@ -113,7 +113,7 @@ if ( true === $this->lumiere_remove_options( $config_class->imdbWidgetOptionsNam
 	$logger->error( "[Lumiere][updateVersion] $text" );
 
 }
-if ( true === $this->lumiere_add_options( $config_class->imdbAdminOptionsName, 'imdbintotheposttheme', 'grey' ) ) {
+if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbintotheposttheme', 'grey' ) ) {
 
 	$text = 'Lumière option imdbintotheposttheme successfully added.';
 	$logger->info( "[Lumiere][updateVersion] $text" );
