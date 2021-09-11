@@ -29,8 +29,13 @@ class Popup_Movie {
 	/**
 	 * HTML allowed for use of wp_kses()
 	 */
-	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
-		'a' => true,
+	private const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
+		'a' => [
+			'href' => true,
+			'id' => true,
+			'class' => true,
+		],
+		'br',
 	];
 
 	/**
@@ -143,7 +148,7 @@ class Popup_Movie {
 		?>">
 
 		<?php
-		// Set up class properties
+		// Set up class properties.
 		$this->find_movie();
 
 		$movie_results = $this->movie;
@@ -152,262 +157,61 @@ class Popup_Movie {
 
 		$this->display_portrait( $this->movie );
 
-		// display something when nothing has been selected in the menu
+		// Introduction part.
+		// Display something when nothing has been selected in the menu.
 		if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
-
-			//---------------------------------------------------------------------------introduction part start
 
 			$this->display_intro( $this->movie );
 
-			/*
-											<!-- Sound -->
-			$sound = $this->movie->sound () ?? NULL;
+		}
 
-			if ( (isset($sound)) && (!empty($sound)) ) { ?>
-			<tr>
-			<td class="TitreSousRubriqueColGauche">
-				<div class="TitreSousRubrique"><?php esc_html_e('Sound', 'lumiere-movies'); ?>&nbsp;</div>
-			</td>
-
-			<td colspan="2" class="TitreSousRubriqueColDroite">
-			<li><?php
-				for ($i = 0; $i + 1 < count ($sound); $i++) {
-					echo sanitize_text_field( $sound[$i] );
-					echo ", ";
-				}
-				echo sanitize_text_field( $sound[0] );
-			?></li>
-			</td>
-			</tr>
-			<?php
-			} */
-
-		}   //------------------------------------------------------------------------------ introduction part end
-
-			// ------------------------------------------------------------------------------ casting part start
+		// Casting part.
 		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'actors' ) ) {
 
-			// Actors.
-			$cast = $movie_results->cast();
-			$nbactors = $this->imdb_widget_values['imdbwidgetactornumber'] === 0 ? '1' : intval( $this->imdb_widget_values['imdbwidgetactornumber'] );
-			$nbtotalactors = count( $cast );
-
-			if ( count( $cast ) !== 0 ) {
-
-				echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Actors -->";
-				echo "\n\t" . '<div class="imdbincluded-subtitle">' . esc_html( sprintf( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ), number_format_i18n( $nbtotalactors ) ) ) . '</div>';
-
-				for ( $i = 0; ( $i < $nbtotalactors ); $i++ ) {
-					echo "\n\t\t" . '<div align="center" class="lumiere_container">';
-					echo "\n\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-					echo esc_html( $cast[ $i ]['role'] );
-					echo '</div>';
-					echo "\n\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-					echo "\n\t\t\t\t"
-					. '<a class="linkpopup" href="'
-					. esc_url(
-						$this->config_class->lumiere_urlpopupsperson
-						. $cast[ $i ]['imdb']
-						. '/?mid=' . $cast[ $i ]['imdb']
-					)
-						. '" title="'
-						. esc_html__( 'internal link', 'lumiere-movies' )
-						. ' ' . esc_html( $cast[ $i ]['name'] )
-						. '">';
-					echo "\n\t\t\t\t" . esc_html( $cast[ $i ]['name'] );
-					echo '</a>';
-					echo "\n\t\t\t</div>";
-					echo "\n\t\t</div>";
-					echo "\n\t</div>";
-
-				} // endfor
-
-			} //end endisset
+			$this->display_casting( $this->movie );
 
 		}
 
-			// ------------------------------------------------------------------------------ crew part start
-
+		// Crew part.
 		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'crew' ) ) {
 
-			// Directors.
-			$director = $movie_results->director();
-			$nbtotaldirector = count( $director );
-
-			if ( $nbtotaldirector !== 0 ) {
-
-				echo "\n\t\t\t\t\t\t\t" . ' <!-- director -->';
-				echo "\n" . '<div id="lumiere_popup_director_group">';
-				echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) ) . '</span>';
-
-				for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
-					echo "\n\t" . '<div align="center" class="lumiere_container">';
-					echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-					echo "\n\t\t"
-					. '<a class="linkpopup" href="'
-					. esc_url(
-						$this->config_class->lumiere_urlpopupsperson
-						. $director[ $i ]['imdb']
-						. '/?mid=' . $director[ $i ]['imdb']
-					)
-						. '" title="'
-						. esc_html__( 'internal link', 'lumiere-movies' )
-						. '">';
-
-					echo "\n\t\t" . esc_html( $director[ $i ]['name'] );
-					echo "\n\t\t</a>";
-					echo "\n\t\t</div>";
-					echo "\n\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-					echo esc_html( $director[ $i ]['role'] );
-					echo "\n\t\t" . '</div>';
-					echo "\n\t</div>";
-					echo "\n</div>";
-
-				} // endfor
-
-			}
-
-			// Writers.
-			$writer = $movie_results->writing();
-			$nbtotalwriter = count( $writer );
-
-			if ( $nbtotalwriter !== 0 ) {
-
-				echo "\n\t\t\t\t\t\t\t" . ' <!-- writers -->';
-				echo "\n" . '<div id="lumiere_popup_director_group">';
-				echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Writer', 'Writers', $nbtotalwriter, 'lumiere-movies' ) ) . '</span>';
-
-				for ( $i = 0; $i < $nbtotalwriter; $i++ ) {
-					echo "\n\t" . '<div align="center" class="lumiere_container">';
-					echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-					echo "\n\t\t"
-					. '<a class="linkpopup" href="'
-					. esc_url(
-						$this->config_class->lumiere_urlpopupsperson
-						. $writer[ $i ]['imdb']
-						. '/?mid=' . $writer[ $i ]['imdb']
-					)
-						. '" title="'
-						. esc_html__( 'internal link', 'lumiere-movies' )
-						. '">';
-					echo "\n\t\t" . esc_html( $writer[ $i ]['name'] );
-					echo "\n\t\t</a>";
-					echo "\n\t\t</div>";
-					echo "\n\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-					echo esc_html( $writer[ $i ]['role'] );
-					echo "\n\t\t" . '</div>';
-					echo "\n\t</div>";
-					echo "\n</div>";
-				} // endfor
-			}
-
-			// Producers.
-			$producer = $movie_results->producer();
-			$nbtotalproducer = count( $producer );
-
-			if ( $nbtotalproducer !== 0 ) {
-
-				echo "\n\t\t\t\t\t\t\t" . ' <!-- writers -->';
-				echo "\n" . '<div id="lumiere_popup_writer_group">';
-				echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Producer', 'Producers', $nbtotalproducer, 'lumiere-movies' ) ) . '</span>';
-
-				for ( $i = 0; $i < $nbtotalproducer; $i++ ) {
-					echo "\n\t" . '<div align="center" class="lumiere_container">';
-					echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-					echo "\n\t\t"
-					. '<a class="linkpopup" href="'
-					. esc_url(
-						$this->config_class->lumiere_urlpopupsperson
-						. $producer[ $i ]['imdb']
-						. '/?mid=' . $producer[ $i ]['imdb']
-					)
-						. '" title="'
-						. esc_html__( 'internal link', 'lumiere-movies' )
-						. '">';
-					echo "\n\t\t" . esc_html( $producer[ $i ]['name'] );
-					echo "\n\t\t</a>";
-					echo "\n\t\t</div>";
-					echo "\n\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-					echo esc_html( $producer[ $i ]['role'] );
-					echo "\n\t\t" . '</div>';
-					echo "\n\t</div>";
-					echo "\n</div>";
-				} // endfor
-			}
-
-		}   //----------------------------------------------------------------------------- crew part end
-
-			// ------------------------------------------------------------------------------ resume part start
-		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'resume' ) ) {
-
-			// Plot summary.
-
-			$plotoutline = $movie_results->plotoutline();
-
-			if ( strlen( $plotoutline ) !== 0 ) {
-
-				echo "\n\t\t\t\t\t\t\t" . ' <!-- Plot summary -->';
-				echo "\n" . '<div id="lumiere_popup_plot_summary">';
-				echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Plot summary', 'lumiere-movies' ) . '</span>';
-
-				echo "\n\t" . '<div align="center" class="lumiere_container">';
-				echo esc_html( $plotoutline );
-				echo "\n\t</div>";
-				echo "\n</div>";
-
-			}
-
-			// Plots.
-
-			$plot = $movie_results->plot();
-			$nbtotalplot = count( $plot );
-
-			if ( $nbtotalplot !== 0 ) {
-
-				echo "\n\t\t\t\t\t\t\t" . ' <!-- Plots -->';
-				echo "\n" . '<div id="lumiere_popup_pluts_group">';
-				echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Plot', 'Plots', $nbtotalplot, 'lumiere-movies' ) ) . '</span>';
-
-				for ( $i = 1; $i < $nbtotalplot; $i++ ) {
-					echo "\n\t" . '<div>';
-					// @phpstan-ignore-next-line wp_kses() wrong properties
-					echo wp_kses( $plot[ $i ], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
-					if ( $i < $nbtotalplot - 1 ) {
-						echo "\n<hr>";
-					}
-					echo "\n\t</div>";
-				} //end endfor
-
-				echo "\n</div>";
-
-			}
+			$this->display_crew( $this->movie );
 
 		}
 
-			// ------------------------------------------------------------------------------ misc part start
-		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'divers' ) ) {
+		// Resume part.
+		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'resume' ) ) {
+
+			$this->display_summary( $this->movie );
+
+		}
+
+		// Misc part.
+		if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 
 			$this->display_misc( $movie_results );
 
-		} // ------------------------------------------------------------------------------ misc part end
+		}
 
-			echo '<br />';
-			wp_footer();
+		echo '<br />';
+		wp_footer();
+
 		?>
-		</body>
-		</html>
-			<?php
-			exit(); // quit the call of the page, to avoid double loading process
+</body>
+</html>
+		<?php
+
+		exit(); // quit the call of the page, to avoid double loading process
 
 	}
 
 	/**
 	 * Show the menu
-	 *
 	 */
-	public function display_menu( Title $movie_results ): void {
+	private function display_menu( Title $movie_results ): void {
+
 		?>
-												<!-- top page menu -->
+					<!-- top page menu -->
 
 		<div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
 			<div class="lumiere_flex_auto">
@@ -485,8 +289,10 @@ class Popup_Movie {
 	 * Show intro part
 	 */
 	private function display_intro( Title $movie_results ): void {
+
 		// Director summary, limited by admin options.
 		$director = $movie_results->director();
+
 		// director shown only if selected so in options.
 		if ( count( $director ) !== 0 && $this->imdb_widget_values['imdbwidgetdirector'] === '1' ) {
 
@@ -500,10 +306,11 @@ class Popup_Movie {
 			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 
 				echo '<a class="linkpopup" href="'
-				. esc_url(
-					$this->config_class->lumiere_urlpopupsperson . $director[ $i ]['imdb']
-					. '/?mid=' . $director[ $i ]['imdb']
-				)
+					. esc_url(
+						$this->config_class->lumiere_urlpopupsperson
+						. $director[ $i ]['imdb']
+						. '/?mid=' . $director[ $i ]['imdb']
+					)
 					. '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
 				echo "\n\t\t\t" . esc_html( $director[ $i ]['name'] );
 				if ( $i < $nbtotaldirector - 1 ) {
@@ -520,7 +327,7 @@ class Popup_Movie {
 
 		// Main actors, limited by admin options.
 		$cast = $movie_results->cast();
-		$nbactors = $this->imdb_widget_values['imdbwidgetactornumber'] === 0 ? '1' : intval( $this->imdb_widget_values['imdbwidgetactornumber'] );
+		$nbactors = $this->imdb_widget_values['imdbwidgetactornumber'] === 0 ? 1 : intval( $this->imdb_widget_values['imdbwidgetactornumber'] );
 		$nbtotalactors = count( $cast );
 
 		// actor shown only if selected so in options.
@@ -538,7 +345,7 @@ class Popup_Movie {
 				if ( ( $i < $nbactors - 1 ) && ( $i < $nbtotalactors - 1 ) ) {
 					echo ', ';
 				}
-			} // endfor
+			}
 
 			echo '</div>';
 
@@ -546,8 +353,9 @@ class Popup_Movie {
 
 		// Runtime, limited by admin options.
 		$runtime = strval( $movie_results->runtime() );
-		// runtime shown only if selected so in admin options.
-		if ( strlen( $runtime ) !== 0 && ( $this->imdb_widget_values['imdbwidgetruntime'] === '1' ) ) {
+
+		// Runtime shown only if selected so in admin options.
+		if ( strlen( $runtime ) > 0 && ( $this->imdb_widget_values['imdbwidgetruntime'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Runtime -->";
 			echo "\n\t<div>";
@@ -567,7 +375,7 @@ class Popup_Movie {
 		$rating_int = intval( $movie_results->rating() );
 		$rating_string = strval( $movie_results->rating() );
 
-		if ( strlen( $rating_string ) !== 0 && ( $this->imdb_widget_values['imdbwidgetrating'] === '1' ) ) {
+		if ( strlen( $rating_string ) > 0 && ( $this->imdb_widget_values['imdbwidgetrating'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Rating -->";
 			echo "\n\t<div>";
@@ -586,8 +394,9 @@ class Popup_Movie {
 		// Language, limited by admin options.
 		$languages = $movie_results->languages();
 		$nbtotallanguages = count( $languages );
+
 		// language shown only if selected so in options.
-		if ( $nbtotallanguages !== 0 && ( $this->imdb_widget_values['imdbwidgetlanguage'] === '1' ) ) {
+		if ( $nbtotallanguages > 0 && ( $this->imdb_widget_values['imdbwidgetlanguage'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t<!-- Language -->";
 			echo "\n\t<div>";
@@ -611,7 +420,7 @@ class Popup_Movie {
 		$nbtotalcountry = count( $country );
 
 		// country shown only if selected so in options.
-		if ( $nbtotalcountry !== 0 && ( $this->imdb_widget_values['imdbwidgetcountry'] === '1' ) ) {
+		if ( $nbtotalcountry > 0 && ( $this->imdb_widget_values['imdbwidgetcountry'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Country -->";
 			echo "\n\t<div>";
@@ -636,7 +445,7 @@ class Popup_Movie {
 		$nbtotalgenre = count( $genres );
 
 		// Genre shown only if selected so in options.
-		if ( $nbtotalgenre !== 0 && ( $this->imdb_widget_values['imdbwidgetgenre'] === '1' ) ) {
+		if ( $nbtotalgenre > 0 && ( $this->imdb_widget_values['imdbwidgetgenre'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Genre -->";
 			echo "\n\t<div>";
@@ -669,7 +478,7 @@ class Popup_Movie {
 		$trivia = $movie_results->trivia();
 		$nbtotaltrivia = count( $trivia );
 
-		if ( $nbtotaltrivia !== 0 ) {
+		if ( $nbtotaltrivia > 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Trivia -->';
 			echo "\n" . '<div id="lumiere_popup_pluts_group">';
@@ -694,17 +503,15 @@ class Popup_Movie {
 					. "\n\t\t<hr>";
 				}
 
-			} //end endfor
+			}
 
 			echo "\n\t" . '</div>';
 			echo "\n\t</div>";
-
 			echo "\n</div>";
 
 		}
 
 		// Soundtrack.
-
 		$soundtrack = $movie_results->soundtrack();
 		$nbtotalsoundtracks = count( $soundtrack );
 		if ( $nbtotalsoundtracks !== 0 ) {
@@ -719,28 +526,28 @@ class Popup_Movie {
 				$credit_array_count = count( $credit_array );
 				for ( $ii = 0; $ii < $credit_array_count; $ii++ ) {
 					echo "\n\t\t";
-					echo "\n\t\t\t<i>" . esc_html( $soundtrack[ $i ]['soundtrack'] ) . '</i>';
+					echo "\n\t\t\t<br /><i>" . esc_html( $soundtrack[ $i ]['soundtrack'] ) . '</i>';
 					// @phpcs:ignore WordPress.Security.EscapeOutput
 					echo $this->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
-					echo ' (' . esc_html( $credit_array [ $ii ]['desc'] ) . ')';
+					// @phpstan-ignore-next-line wp_kses() wrong properties
+					echo ' ' . wp_kses( str_replace( '<br />', '', $credit_array [ $ii ]['desc'] ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 				}
 
 				if ( $i < $nbtotalsoundtracks - 1 ) {
 					echo ', ';
 				}
 
-			} //end endfor
+			}
 
 			echo "\n</div>";
 
 		}
 
 		// Goof.
-
 		$goof = $movie_results->goofs();
 		$nbtotalgoof = count( $goof );
 
-		if ( $nbtotalgoof !== 0 ) {
+		if ( $nbtotalgoof > 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Goofs -->';
 			echo "\n" . '<div id="lumiere_popup_pluts_group">';
@@ -776,6 +583,204 @@ class Popup_Movie {
 
 	}
 
+	/**
+	 * Show casting.
+	 */
+	private function display_casting( Title $movie_results ): void {
+
+		// Actors.
+		$cast = $movie_results->cast();
+		$nbactors = $this->imdb_widget_values['imdbwidgetactornumber'] === 0 ? '1' : intval( $this->imdb_widget_values['imdbwidgetactornumber'] );
+		$nbtotalactors = count( $cast );
+
+		if ( count( $cast ) > 0 ) {
+
+			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Actors -->";
+			echo "\n\t" . '<div class="imdbincluded-subtitle">' . esc_html( sprintf( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ), number_format_i18n( $nbtotalactors ) ) ) . '</div>';
+
+			for ( $i = 0; ( $i < $nbtotalactors ); $i++ ) {
+				echo "\n\t\t" . '<div align="center" class="lumiere_container">';
+				echo "\n\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+				echo esc_html( $cast[ $i ]['role'] );
+				echo '</div>';
+				echo "\n\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+				echo "\n\t\t\t\t"
+				. '<a class="linkpopup" href="'
+				. esc_url(
+					$this->config_class->lumiere_urlpopupsperson
+					. $cast[ $i ]['imdb']
+					. '/?mid=' . $cast[ $i ]['imdb']
+				)
+					. '" title="'
+					. esc_html__( 'internal link', 'lumiere-movies' )
+					. ' ' . esc_html( $cast[ $i ]['name'] )
+					. '">';
+				echo "\n\t\t\t\t" . esc_html( $cast[ $i ]['name'] );
+				echo '</a>';
+				echo "\n\t\t\t</div>";
+				echo "\n\t\t</div>";
+				echo "\n\t</div>";
+
+			}
+		}
+	}
+
+	/**
+	 * Show crew.
+	 */
+	private function display_crew( Title $movie_results ): void {
+
+		// Directors.
+		$director = $movie_results->director();
+		$nbtotaldirector = count( $director );
+
+		if ( $nbtotaldirector > 0 ) {
+
+			echo "\n\t\t\t\t\t\t\t" . ' <!-- director -->';
+			echo "\n" . '<div id="lumiere_popup_director_group">';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) ) . '</span>';
+
+			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
+				echo "\n\t" . '<div align="center" class="lumiere_container">';
+				echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+				echo "\n\t\t"
+				. '<a class="linkpopup" href="'
+				. esc_url(
+					$this->config_class->lumiere_urlpopupsperson
+					. $director[ $i ]['imdb']
+					. '/?mid=' . $director[ $i ]['imdb']
+				)
+					. '" title="'
+					. esc_html__( 'internal link', 'lumiere-movies' )
+					. '">';
+
+				echo "\n\t\t" . esc_html( $director[ $i ]['name'] );
+				echo "\n\t\t</a>";
+				echo "\n\t\t</div>";
+				echo "\n\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+				echo esc_html( $director[ $i ]['role'] );
+				echo "\n\t\t" . '</div>';
+				echo "\n\t</div>";
+				echo "\n</div>";
+
+			}
+
+		}
+
+		// Writers.
+		$writer = $movie_results->writing();
+		$nbtotalwriter = count( $writer );
+
+		if ( $nbtotalwriter > 0 ) {
+
+			echo "\n\t\t\t\t\t\t\t" . ' <!-- writers -->';
+			echo "\n" . '<div id="lumiere_popup_director_group">';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Writer', 'Writers', $nbtotalwriter, 'lumiere-movies' ) ) . '</span>';
+
+			for ( $i = 0; $i < $nbtotalwriter; $i++ ) {
+				echo "\n\t" . '<div align="center" class="lumiere_container">';
+				echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+				echo "\n\t\t"
+				. '<a class="linkpopup" href="'
+				. esc_url(
+					$this->config_class->lumiere_urlpopupsperson
+					. $writer[ $i ]['imdb']
+					. '/?mid=' . $writer[ $i ]['imdb']
+				)
+					. '" title="'
+					. esc_html__( 'internal link', 'lumiere-movies' )
+					. '">';
+				echo "\n\t\t" . esc_html( $writer[ $i ]['name'] );
+				echo "\n\t\t</a>";
+				echo "\n\t\t</div>";
+				echo "\n\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+				echo esc_html( $writer[ $i ]['role'] );
+				echo "\n\t\t" . '</div>';
+				echo "\n\t</div>";
+				echo "\n</div>";
+			}
+		}
+
+		// Producers.
+		$producer = $movie_results->producer();
+		$nbtotalproducer = count( $producer );
+
+		if ( $nbtotalproducer > 0 ) {
+
+			echo "\n\t\t\t\t\t\t\t" . ' <!-- writers -->';
+			echo "\n" . '<div id="lumiere_popup_writer_group">';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Producer', 'Producers', $nbtotalproducer, 'lumiere-movies' ) ) . '</span>';
+
+			for ( $i = 0; $i < $nbtotalproducer; $i++ ) {
+				echo "\n\t" . '<div align="center" class="lumiere_container">';
+				echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+				echo "\n\t\t"
+				. '<a class="linkpopup" href="'
+				. esc_url(
+					$this->config_class->lumiere_urlpopupsperson
+					. $producer[ $i ]['imdb']
+					. '/?mid=' . $producer[ $i ]['imdb']
+				)
+					. '" title="'
+					. esc_html__( 'internal link', 'lumiere-movies' )
+					. '">';
+				echo "\n\t\t" . esc_html( $producer[ $i ]['name'] );
+				echo "\n\t\t</a>";
+				echo "\n\t\t</div>";
+				echo "\n\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+				echo esc_html( $producer[ $i ]['role'] );
+				echo "\n\t\t" . '</div>';
+				echo "\n\t</div>";
+				echo "\n</div>";
+			}
+		}
+	}
+
+	/**
+	 * Show summary.
+	 */
+	private function display_summary( Title $movie_results ): void {
+
+			// Plot summary.
+			$plotoutline = $movie_results->plotoutline();
+
+		if ( strlen( $plotoutline ) > 0 ) {
+
+			echo "\n\t\t\t\t\t\t\t" . ' <!-- Plot summary -->';
+			echo "\n" . '<div id="lumiere_popup_plot_summary">';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Plot summary', 'lumiere-movies' ) . '</span>';
+
+			echo "\n\t" . '<div align="center" class="lumiere_container">';
+			echo esc_html( $plotoutline );
+			echo "\n\t</div>";
+			echo "\n</div>";
+
+		}
+
+			// Plots.
+			$plot = $movie_results->plot();
+			$nbtotalplot = count( $plot );
+
+		if ( $nbtotalplot > 1 ) { // Start with second plot, first is same as plotouline().
+
+			echo "\n\t\t\t\t\t\t\t" . ' <!-- Plots -->';
+			echo "\n" . '<div id="lumiere_popup_pluts_group">';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Plot', 'Plots', $nbtotalplot, 'lumiere-movies' ) ) . '</span>';
+
+			for ( $i = 1; $i < $nbtotalplot; $i++ ) {
+				echo "\n\t" . '<div>';
+				// @phpstan-ignore-next-line wp_kses() wrong properties
+				echo wp_kses( $plot[ $i ], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
+				if ( $i < $nbtotalplot - 1 ) {
+					echo "\n<hr>";
+				}
+				echo "\n\t</div>";
+			}
+
+			echo "\n</div>";
+
+		}
+	}
 }
 
 new Popup_Movie();
