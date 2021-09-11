@@ -148,25 +148,33 @@ class Uninstall {
 				]
 			);
 
-			// Delete taxonomy terms and unregister taxonomy.
-			if ( is_wp_error( $terms ) === true ) {
-				return;
+			// Filer: Get rid of errors and strings, keep arrays only.
+			if ( is_wp_error( $terms ) === true || is_string( $terms ) === true ) {
+				$this->logger->log()->error( '[Lumiere][uninstall] Invalid terms: ' . print_r( $terms, true ) );
+				continue;
 			}
-			// @phpstan-ignore-next-line 'Argument of an invalid type array<int|string|WP_Term>|string supplied for foreach, only iterables are supported' (no idea how to fix it)
+
 			foreach ( $terms as $term ) {
 
-				// Sanitize terms
-				$term_id = $term->term_id;
+				// Filter: Get rid of integers and strings, keeps objects only.
+				if ( is_int( $term ) === true || is_string( $term ) === true ) {
+					$this->logger->log()->error( '[Lumiere][uninstall] Invalid term: ' . $term );
+					continue;
+				}
+
+				// Retrieve and sanitize the term object vars.
+				$term_id = intval( $term->term_id );
 				$term_name = sanitize_text_field( $term->name );
 				$term_taxonomy = sanitize_text_field( $term->taxonomy );
 
-				if ( isset( $term_id ) && is_integer( $term_id ) ) {
-
-					wp_delete_term( $term_id, $filter_taxonomy );
-					$this->logger->log()->debug( '[Lumiere][uninstall] Taxonomy: term ' . $term_name . ' in ' . $term_taxonomy . ' deleted.' );
-
+				// Delete the term.
+				if ( wp_delete_term( $term_id, $filter_taxonomy ) !== true ) {
+					$this->logger->log()->error( '[Lumiere][uninstall] Taxonomy: failed to delete ' . $term_name . ' in ' . $term_taxonomy );
+					continue;
 				}
 
+				// Confirm success.
+				$this->logger->log()->debug( '[Lumiere][uninstall] Taxonomy: term ' . $term_name . ' in ' . $term_taxonomy . ' deleted.' );
 			}
 
 			unregister_taxonomy( $filter_taxonomy );
