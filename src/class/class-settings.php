@@ -24,24 +24,8 @@ use \FilesystemIterator;
 class Settings {
 
 	/**
-	 * Admin Options, saved in WordPress Database
-	 * @var string $imdb_admin_options_name
+	 * Name of the databases as stored in WordPress db
 	 */
-	public string $imdb_admin_options_name = 'imdbAdminOptions';
-
-	/**
-	 * Widget Options, saved in WordPress Database
-	 * @var string $imdb_widget_options_name
-	 */
-	public string $imdb_widget_options_name = 'imdbWidgetOptions';
-
-	/**
-	 * Cache Options, saved in WordPress Database
-	 * @var string $imdb_cache_options_name
-	 */
-	public string $imdb_cache_options_name = 'imdbCacheOptions';
-
-	/** New way, just giving constants */
 	const LUMIERE_ADMIN_OPTIONS = 'imdbAdminOptions';
 	const LUMIERE_WIDGET_OPTIONS = 'imdbWidgetOptions';
 	const LUMIERE_CACHE_OPTIONS = 'imdbCacheOptions';
@@ -53,14 +37,7 @@ class Settings {
 	private array $imdb_admin_values;
 
 	/**
-	 * Widget options
-	 * @var array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':int, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber': bool|string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber': string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber': string|bool, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber': string|bool, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber': string|bool, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber': string|bool, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber': string|bool, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber': bool|string, 'imdbwidgetorder': array<string>, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string} $imdb_widget_values
-	 * @phpstan-ignore-next-line reported as never used, but I want to keep it
-	 */
-	private array $imdb_widget_values;
-
-	/**
-	 * Websites constants
+	 * Website URLs constants
 	 */
 	const IMDBBLOG = 'https://www.jcvignoli.com/blog';
 	const IMDBBLOGENGLISH = self::IMDBBLOG . '/en';
@@ -134,8 +111,9 @@ class Settings {
 	 */
 	public string $lumiere_css_dir;
 
-	/* Internal URL pages constants
-	*/
+	/**
+	 * Internal URL pages constants
+	 */
 	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'class/tools/class-copy-template-taxonomy.php'; // not included in $lumiere_list_all_pages.
 	const HIGHSLIDE_DOWNLOAD_PAGE = 'class/tools/highslide-download.php';
 	const GUTENBERG_SEARCH_PAGE = 'class/tools/class-search.php';
@@ -170,7 +148,7 @@ class Settings {
 	public string $lumiere_scripts_highslide_vars;
 
 	/**
-	 * Vars for javascripts in admin zone
+	 * Vars for javascripts in admin area
 	 */
 	public string $lumiere_scripts_admin_vars;
 
@@ -180,27 +158,26 @@ class Settings {
 	public string $lumiere_version;
 
 	/**
-	 * Logger class
+	 * Where to write the log (WordPress default path here)
 	 */
-	public Logger $logger;
-	/* Where to write the log (WordPress default path here) */
 	const DEBUG_LOG_PATH = ABSPATH . 'wp-content/debug.log';
 
 	/**
-	 * Is the current page an editing page?
+	 * Cache folders paths.
 	 */
-	public bool $is_editor_page;
+	const LUMIERE_FOLDER_CACHE = WP_CONTENT_DIR . '/cache/lumiere/';
+	const LUMIERE_FOLDER_CACHE_IMAGES = WP_CONTENT_DIR . '/cache/lumiere/images';
 
 	/**
 	 * List of types of people available
-	 * is build in lumiere_define_constants_after_globals()
+	 * is built in lumiere_define_constants_after_globals()
 	 * @var array<string> $array_people
 	 */
 	public array $array_people = [];
 
 	/**
 	 * List of types of people available
-	 * is build in lumiere_define_constants_after_globals()
+	 * is built in lumiere_define_constants_after_globals()
 	 * @var array<string> $array_items
 	 */
 	public array $array_items = [];
@@ -226,7 +203,6 @@ class Settings {
 		$this->get_imdb_widget_option();
 		$this->get_imdb_cache_option();
 		$this->imdb_admin_values = get_option( self::LUMIERE_ADMIN_OPTIONS );
-		$this->imdb_widget_values = get_option( self::LUMIERE_WIDGET_OPTIONS );
 
 		// Define Lumière constants once global options have been created.
 		$this->lumiere_define_constants_after_globals();
@@ -238,7 +214,7 @@ class Settings {
 
 	/**
 	 * Define global constants
-	 * Run before the creation of the global options, global options may need these constants
+	 * Run before the creation of the database options, database options may need these constants
 	 */
 	private function lumiere_define_constants(): void {
 
@@ -269,8 +245,8 @@ class Settings {
 	}
 
 	/**
-	 * Define global constants after global options are available
-	 * Why: they need global options to work
+	 * Define global constants after database options are available
+	 * Why: they need database options to work
 	 */
 	private function lumiere_define_constants_after_globals(): void {
 
@@ -353,8 +329,8 @@ class Settings {
 	public function lumiere_define_nb_updates(): bool {
 
 		// Get the database options, since this is called before the building of $this->imdb_admin_values.
-		if ( get_option( $this->imdb_admin_options_name ) !== false ) {
-			$this->imdb_admin_values = get_option( $this->imdb_admin_options_name );
+		if ( get_option( self::LUMIERE_ADMIN_OPTIONS ) !== false ) {
+			$this->imdb_admin_values = get_option( self::LUMIERE_ADMIN_OPTIONS );
 		}
 
 		// If option 'imdbHowManyUpdates' doesn't exist, make it.
@@ -365,13 +341,12 @@ class Settings {
 			$files = new FilesystemIterator( plugin_dir_path( __DIR__ ) . 'class/updates/', \FilesystemIterator::SKIP_DOTS );
 			$this->current_number_updates = intval( iterator_count( $files ) + 1 );
 
-			$option_array = $this->imdb_admin_options_name;
 			$option_key = 'imdbHowManyUpdates';
-			$option_array_search = get_option( $option_array );
+			$option_array_search = get_option( self::LUMIERE_ADMIN_OPTIONS );
 			$option_array_search[ $option_key ] = intval( $this->current_number_updates );
 
 			// On successful update, exit
-			if ( update_option( $option_array, $option_array_search ) ) {
+			if ( update_option( self::LUMIERE_ADMIN_OPTIONS, $option_array_search ) ) {
 				return true;
 			}
 
@@ -379,7 +354,7 @@ class Settings {
 
 		}
 
-		// Otherwishe the option 'imdbHowManyUpdates' exists in the database, just use it.
+		// Otherwise the option 'imdbHowManyUpdates' exists in the database, just use it.
 		$this->current_number_updates = $this->imdb_admin_values['imdbHowManyUpdates'];
 
 		return false;
@@ -432,7 +407,7 @@ class Settings {
 		$imdb_admin_options['imdbplugindirectory'] = get_site_url()
 									. $imdb_admin_options['imdbplugindirectory_partial'];
 
-		$imdb_options_a = get_option( $this->imdb_admin_options_name );
+		$imdb_options_a = get_option( self::LUMIERE_ADMIN_OPTIONS );
 
 		if ( count( $imdb_options_a ) !== 0 ) { // if not empty.
 
@@ -445,14 +420,14 @@ class Settings {
 										. $imdb_admin_options['imdbplugindirectory_partial'];
 		}
 
-		update_option( $this->imdb_admin_options_name, $imdb_admin_options );
+		update_option( self::LUMIERE_ADMIN_OPTIONS, $imdb_admin_options );
 
 		// For debugging purpose.
 		// Update imdbHowManyUpdates option.
 		/*
-		$option_array_search = get_option($this->imdb_admin_options_name);
+		$option_array_search = get_option( self::LUMIERE_ADMIN_OPTIONS );
 		$option_array_search['imdbHowManyUpdates'] = 1; // Chosen number of updates.
-		update_option($this->imdb_admin_options_name, $option_array_search);
+		update_option( self::LUMIERE_ADMIN_OPTIONS, $option_array_search );
 		*/
 
 	}
@@ -464,7 +439,7 @@ class Settings {
 	 */
 	private function get_imdb_cache_option(): void {
 
-		$imdb_cache_options_name = [
+		$imdb_cache_options = [
 
 			'imdbcachedir_partial' => 'wp-content/cache/lumiere/',
 			'imdbstorecache' => true,          /* not available in the admin interface */
@@ -476,35 +451,35 @@ class Settings {
 
 		];
 
-		$imdb_cache_options_name['imdbcachedir'] = ABSPATH . $imdb_cache_options_name['imdbcachedir_partial'];
-		$imdb_cache_options_name['imdbphotoroot'] = $imdb_cache_options_name['imdbcachedir'] . 'images/';
-		$imdb_cache_options_name['imdbphotodir'] = content_url() . '/cache/lumiere/images/';
+		$imdb_cache_options['imdbcachedir'] = ABSPATH . $imdb_cache_options['imdbcachedir_partial'];
+		$imdb_cache_options['imdbphotoroot'] = $imdb_cache_options['imdbcachedir'] . 'images/';
+		$imdb_cache_options['imdbphotodir'] = content_url() . '/cache/lumiere/images/';
 
-		$imdb_options_c = get_option( $this->imdb_cache_options_name );
-		$imdb_options_a = get_option( $this->imdb_admin_options_name );
+		$imdb_options_c = get_option( self::LUMIERE_CACHE_OPTIONS );
+		$imdb_options_a = get_option( self::LUMIERE_ADMIN_OPTIONS );
 
 		if (  is_array( $imdb_options_c ) === true && count( $imdb_options_c ) !== 0 ) { // if not empty.
 
 			foreach ( $imdb_options_c as $key => $option ) {
-				$imdb_cache_options_name[ $key ] = $option;
+				$imdb_cache_options[ $key ] = $option;
 			}
 
 			// Agregate vars to construct 'imdbcachedir
-			$imdb_cache_options_name['imdbcachedir'] = ABSPATH . $imdb_cache_options_name['imdbcachedir_partial'];
+			$imdb_cache_options['imdbcachedir'] = ABSPATH . $imdb_cache_options['imdbcachedir_partial'];
 
 			// Agregate vars to construct 'imdbphotoroot
-			$imdb_cache_options_name['imdbphotoroot'] = $imdb_cache_options_name['imdbcachedir'] . 'images/';
+			$imdb_cache_options['imdbphotoroot'] = $imdb_cache_options['imdbcachedir'] . 'images/';
 		}
 		if ( is_array( $imdb_options_a ) === true && count( $imdb_options_a ) !== 0 ) { // if not empty.
 
 			// Agregate vars to construct 'imdbphotodir'
-			$imdb_cache_options_name['imdbphotodir'] = get_site_url()
+			$imdb_cache_options['imdbphotodir'] = get_site_url()
 									. '/'
-									. $imdb_cache_options_name['imdbcachedir_partial']
+									. $imdb_cache_options['imdbcachedir_partial']
 									. 'images/';
 		}
 
-		update_option( $this->imdb_cache_options_name, $imdb_cache_options_name );
+		update_option( self::LUMIERE_CACHE_OPTIONS, $imdb_cache_options );
 
 	}
 
@@ -595,7 +570,7 @@ class Settings {
 
 		];
 
-		$imdb_options_w = get_option( $this->imdb_widget_options_name );
+		$imdb_options_w = get_option( self::LUMIERE_WIDGET_OPTIONS );
 
 		if ( is_array( $imdb_options_w ) === true && count( $imdb_options_w ) !== 0 ) { // if not empty.
 
@@ -604,7 +579,7 @@ class Settings {
 			}
 		}
 
-		update_option( $this->imdb_widget_options_name, $imdb_widget_options );
+		update_option( self::LUMIERE_WIDGET_OPTIONS, $imdb_widget_options );
 
 	}
 
@@ -619,13 +594,13 @@ class Settings {
 	public function lumiere_create_cache( bool $screen_log = false ): bool {
 
 		// Start logger
-		$this->logger = new Logger( 'settingsClass', $screen_log /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated, such as upon plugin activation */ );
+		$logger_class = new Logger( 'settingsClass', $screen_log /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated, such as upon plugin activation */ );
 		do_action( 'lumiere_logger' );
-		$logger = $this->logger->log();
+		$logger = $logger_class->log();
 
-		/* Cache folder paths */
-		$lumiere_folder_cache = WP_CONTENT_DIR . '/cache/lumiere/';
-		$lumiere_folder_cache_images = WP_CONTENT_DIR . '/cache/lumiere/images';
+		// Cache folder paths.
+		$lumiere_folder_cache = self::LUMIERE_FOLDER_CACHE;
+		$lumiere_folder_cache_images = self::LUMIERE_FOLDER_CACHE_IMAGES;
 
 		// Cache folders exist with good permissions, exit
 		if ( ( is_dir( $lumiere_folder_cache ) ) && ( is_dir( $lumiere_folder_cache_images ) ) && wp_mkdir_p( $lumiere_folder_cache ) ) {
@@ -651,9 +626,9 @@ class Settings {
 				chmod( $lumiere_folder_cache, 0755 );
 
 				// Update the option imdbcachedir for new cache path
-				$option_array_search = get_option( $this->imdb_cache_options_name );
+				$option_array_search = get_option( self::LUMIERE_CACHE_OPTIONS );
 				$option_array_search['imdbcachedir'] = $lumiere_folder_cache;
-				update_option( $this->imdb_cache_options_name, $option_array_search );
+				update_option( self::LUMIERE_CACHE_OPTIONS, $option_array_search );
 
 				$logger->info( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_folder_cache_images created." );
 			}

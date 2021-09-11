@@ -175,9 +175,15 @@ class Uninstall {
 		}
 
 		// Delete Lumière options.
-		delete_option( 'imdbAdminOptions' );
-		delete_option( 'imdbWidgetOptions' );
-		delete_option( 'imdbCacheOptions' );
+		if ( delete_option( Settings::LUMIERE_ADMIN_OPTIONS ) === false ) {
+			$this->logger->log()->error( '[Lumiere][uninstall] Could not delete ' . Settings::LUMIERE_ADMIN_OPTIONS );
+		}
+		if ( delete_option( Settings::LUMIERE_WIDGET_OPTIONS ) === false ) {
+			$this->logger->log()->error( '[Lumiere][uninstall] Could not delete ' . Settings::LUMIERE_WIDGET_OPTIONS );
+		}
+		if ( delete_option( Settings::LUMIERE_CACHE_OPTIONS ) === false ) {
+			$this->logger->log()->error( '[Lumiere][uninstall] Could not delete ' . Settings::LUMIERE_CACHE_OPTIONS );
+		}
 		$this->logger->log()->debug( '[Lumiere][uninstall] Lumière options deleted.' );
 
 		// Delete transients. Not yet utilised.

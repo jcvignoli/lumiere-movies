@@ -93,7 +93,7 @@ class Core {
 			add_action( 'init', [ $this, 'lumiere_create_taxonomies' ], 0 );
 
 			/*
-			 * Build specific class for html tags for functions building links towards taxonomy pages
+			 * Add specific class for html tags for functions building links towards taxonomy pages
 			 * 1-search for all imdbtaxonomy* in config array,
 			 * 2-if active write a filter to add a class to the link to the taxonomy page.
 			 *
