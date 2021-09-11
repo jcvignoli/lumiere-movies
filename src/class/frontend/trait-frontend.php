@@ -209,10 +209,9 @@ trait Frontend {
 		}
 
 		// HTML tags break for 'read more' cutting.
-		// Detects if there is html and where it ends (with '>' tag) before reaching $max_length
-		// If true, reduce the max to where it begins (with '<' tag)
-		$min_length = strpos( $bio_text, '<' ) !== false ? strpos( $bio_text, '<' ) : $max_length;
-		$esc_html_breaker = strpos( $bio_text, '>' ) !== false && strpos( $bio_text, '>' ) > $max_length ? $max_length : $min_length;
+		// Detects if there is html a tag before reaching $max_length.
+		// If true increase max length up to first '/a>' + 3 chars (since the search is made with 3 chars).
+		$esc_html_breaker = strpos( $bio_text, '<' ) <= $max_length && is_int( strpos( $bio_text, '/a>' ) ) === true ? strpos( $bio_text, '/a>' ) + 3 : $max_length;
 
 		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
 
