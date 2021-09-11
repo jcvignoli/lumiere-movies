@@ -2,18 +2,13 @@
 /**
  * Lumière Movies WordPress plugin
  *
- * This file is included during the WordPress bootstrap process if the plugin is active.
- *
- * @package   lumiere-movies
- * @author    jcvignoli
- * @license   GPL-3.0 <https://www.gnu.org/licenses/gpl-3.0.en.html>
- *
  * @wordpress-plugin
  * Plugin Name: Lumière! Movies
  * Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
- * Description: Add informative popups about movies with information extracted from the IMDb. Display data related to movies in a widget and inside your post. The most comprehensive and simplest plugin for adding movies information.
+ * Description: Add informative popups about movies with information extracted from the IMDb. Display data related to movies in a widget and inside your post.
  * Version: 3.6.4
- * Requires at least: 4.6
+ * Requires at least: 5.0
+ * Requires PHP: 7.2
  * Text Domain: lumiere-movies
  * Domain Path: /languages
  * Author: psykonevro
@@ -25,6 +20,12 @@
  *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @package   lumiere-movies
+ * @author    jcvignoli
+ * @license   GPL-3.0 <https://www.gnu.org/licenses/gpl-3.0.en.html>
+ * @link       https://wordpress.org/plugins/lumiere-movies/
+ * @since      3.0
  */
 
 // Stop direct call.
