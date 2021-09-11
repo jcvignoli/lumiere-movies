@@ -12,6 +12,7 @@ v.3.6.4
 * [bug] Biography length was still incorrectly counting the first html tag and led to the text being cut early. Fixed the condition for $esc_html_breaker in lumiere_medaillon_bio() in class-frontend.php
 * [bug] Changelog was not correctly displayed in help admin. Modified the regexes.
 * [bug] Widget title when using the old widget (WordPress pre-5.8) was not correctly displayed.
+* [bug] Soundtrack in popup movie was taking an extra breakline. Fixed the layout.
 
 v.3.6.3
 * [technical] For new installs, the new URL for popups is '/lumiere/' instead of '/imdblt/'
