@@ -141,6 +141,8 @@ class Core {
 			require_once __DIR__ . '/class-metabox.php';
 			$lumiere_metabox_class = new Metabox();
 			add_action( 'admin_init', [ $lumiere_metabox_class, 'lumiere_start_metabox' ] );
+
+			add_filter( 'plugin_row_meta', [ $this, 'lumiere_add_sponsor_plugins_page' ], 10, 4 );
 		}
 
 		// Register admin scripts.
@@ -181,6 +183,29 @@ class Core {
 		// Add cron schedules.
 		add_action( 'lumiere_cron_hook', [ $this, 'lumiere_cron_exec_once' ], 0 );
 
+	}
+
+	/**
+	 * Add sponsor link in the Plugins list table.
+	 * Filters the array of row meta for each plugin to display Lumière's metas
+	 *
+	 * @param array<string>|null $plugin_meta An array of the plugin's metadata. Can be null.
+	 * @param string $plugin_file_name Path to the plugin file relative to the plugins directory.
+	 * @param array<string> $plugin_data An array of plugin data.
+	 * @param string $status Status filter currently applied to the plugin list.
+	 *        Possible values are: 'all', 'active', 'inactive', 'recently_activated', 'upgrade', 'mustuse',
+	 *        'dropins', 'search', 'paused', 'auto-update-enabled', 'auto-update-disabled'.
+	 * @return array<string>|null $plugin_meta An array of the plugin's metadata.
+	 */
+	public function lumiere_add_sponsor_plugins_page ( ?array $plugin_meta, string $plugin_file_name, array $plugin_data, string $status ): ?array {
+		if ( 'lumiere-movies/lumiere-movies.php' === $plugin_file_name ) {
+			$plugin_meta[] = sprintf(
+				'<a href="%1$s"><span class="dashicons dashicons-coffee" aria-hidden="true" style="font-size:14px;line-height:1.3"></span>%2$s</a>',
+				'https://www.paypal.me/jcvignoli',
+				esc_html__( 'Sponsor', 'lumiere-movies' )
+			);
+		}
+		return $plugin_meta;
 	}
 
 	/**
