@@ -585,17 +585,21 @@ $taxo_terms = get_terms(
 );
 
 // Delete taxonomy terms and unregister taxonomy.
-if ( is_wp_error( $taxo_terms ) === true ) {
+if ( is_wp_error( $taxo_terms ) === true || is_string( $taxo_terms ) === true ) {
 	return;
 }
-// @phpstan-ignore-next-line 'Argument of an invalid type array<int|string|WP_Term>|string supplied for foreach, only iterables are supported' (no idea how to fix it)
+
 foreach ( $taxo_terms as $taxo_term ) {
 
-	$term_id = $taxo_term->term_id;
+	if ( is_int( $taxo_term ) === true || is_string( $taxo_term ) === true ) {
+		continue;
+	}
+
+	$term_id = intval( $taxo_term->term_id );
 	$term_name = sanitize_text_field( $taxo_term->name );
 	$term_taxonomy = sanitize_text_field( $taxo_term->taxonomy );
 
-	if ( isset( $term_id ) && is_integer( $term_id ) ) {
+	if ( $term_id > 0 ) {
 
 		wp_delete_term( $term_id, $filter_taxonomy );
 		$logger->debug( '[Lumiere][updateVersion] Taxonomy: term ' . $term_name . ' in ' . $term_taxonomy . ' deleted.' );
