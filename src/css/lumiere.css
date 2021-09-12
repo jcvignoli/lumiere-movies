@@ -177,6 +177,8 @@ padding:20px 20px 0 20px;float:left;}
 
 .imdbelementRATING {			/*RATING*/}
 
+.imdbelementRATING-picture {display:inline;}
+
 .imdbelementGENRE {			/*GENRE*/}
 
 .imdbelementGOOF {			/*GOOF*/}
@@ -217,7 +219,7 @@ padding:20px 20px 0 20px;float:left;}
 
 .imdbelementSOURCE {			/*SOURCE*/}
 
-.imdbelementSOURCE-picture {vertical-align:text-bottom;}
+.imdbelementSOURCE-picture {vertical-align:middle;display:inline;}
 
 /* ---------------------------------------- Taxonomy page */
 
