@@ -13,6 +13,8 @@ v.3.6.4
 * [bug] Changelog was not correctly displayed in help admin. Modified the regexes.
 * [bug] Widget title when using the old widget (WordPress pre-5.8) was not correctly displayed.
 * [bug] Soundtrack in popup movie was taking an extra breakline. Fixed the layout.
+* [bug] Plural words in French such as Creator, Composer, Actor were not translated. Translated in language/.po file
+* [bug] Rating and source pictures were not middle aligned depending on the theme. Added fix 'display:inline' in lumiere.css
 
 v.3.6.3
 * [technical] For new installs, the new URL for popups is '/lumiere/' instead of '/imdblt/'
