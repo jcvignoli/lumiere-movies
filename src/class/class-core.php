@@ -159,7 +159,7 @@ class Core {
 		 */
 
 		// Registers javascripts and styles.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_register_assets' ], 0 );
+		add_action( 'init', [ $this, 'lumiere_register_assets' ], 0 );
 
 		// Execute javascripts and styles.
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_execute_assets' ], 0 );
@@ -171,7 +171,7 @@ class Core {
 		add_filter( 'pre_get_document_title', [ $this, 'lumiere_change_popup_title' ] );
 
 		// Register Gutenberg blocks.
-		add_action( 'enqueue_block_editor_assets', [ $this, 'lumiere_register_gutenberg_blocks' ] );
+		add_action( 'init', [ $this, 'lumiere_register_gutenberg_blocks' ] );
 
 		/**
 		 * Updates.
@@ -421,7 +421,7 @@ class Core {
 		wp_register_script(
 			'lumiere_gutenberg_main',
 			$this->config_class->lumiere_blocks_dir . 'main-block.min.js',
-			[ 'wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-i18n', 'wp-data' ],
+			[ 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n', 'wp-data' ],
 			$this->config_class->lumiere_version,
 			false
 		);

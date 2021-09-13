@@ -5,7 +5,7 @@ v.3.6.4
 * [technical] Improved security: Escaped functions in admin.
 * [technical] Improved security: Escaped functions in frontend.
 * [technical] Almost 100% of WordPress standards achieved. What remains to fully comply with WP coding standards is either not of great relevance or due to a few errors in WordPress functions/methods/classes PHPDoc documentation.
-* [technical] 100% of compliance with PHPStan reporting. Still one error, working on it, but the plugin is now rock solid.
+* [technical] Almost 100% of compliance with PHPStan reporting.
 * [technical] Delete lumiere_is_multi_array_empty() function in class utils, was used in class movie in lumiere_movies_plot() only and could be replaced by count()
 * [bug] Reset options in cache, general and data admin pages was throwing a warning. Improved check for arrays in class settings get_imdb_cache_option(), get_imdb_admin_option(), get_imdb_widget_option() functions.
 * [bug] Internal links in popups for trivias and goofs sections were not working. Using now lumiere_imdburl_to_internalurl() from trait-frontend.php in class-popup-movie.php
@@ -15,6 +15,8 @@ v.3.6.4
 * [bug] Soundtrack in popup movie was taking an extra breakline. Fixed the layout.
 * [bug] Plural words in French such as Creator, Composer, Actor were not translated. Translated in language/.po file
 * [bug] Rating and source pictures were not middle aligned depending on the theme. Added fix 'display:inline' in lumiere.css
+* [bug] Widget WP Notice: wp_enqueue_script() was called incorrectly. "wp-editor" script should not be enqueued together with the new widgets editor (wp-edit-widgets or wp-customize-widgets). Changed "wp-editor" to "wp-editor" in block registrations.
+* [bug] Widget WP Notice: "P_Block_Type_Registry::register" was called incorrectly. Block type "lumiere/widget" is already registered. Added extra condition (if not registered) to widget registration.
 
 v.3.6.3
 * [technical] For new installs, the new URL for popups is '/lumiere/' instead of '/imdblt/'

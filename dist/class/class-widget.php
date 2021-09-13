@@ -111,7 +111,10 @@ class Widget extends \WP_Widget {
 		 * Register the widget
 		 * Give priority to post-5.8 WordPress Widget block. If not found, register pre-5.8 widget.
 		 */
-		add_action( 'enqueue_block_editor_assets', [ $this, 'lumiere_register_widget_block' ] );//Register new block.
+
+		//Register new block.
+		add_action( 'init', [ $this, 'lumiere_register_widget_block' ] );
+
 		if ( Utils::lumiere_block_widget_isactive() === false ) {
 
 			// Should be hooked to 'widgets_init'.
@@ -202,7 +205,7 @@ class Widget extends \WP_Widget {
 		wp_register_script(
 			'lumiere_block_widget',
 			$this->config_class->lumiere_blocks_dir . 'widget-block.min.js',
-			[ 'wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-i18n', 'wp-data' ],
+			[ 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n', 'wp-data' ],
 			$this->config_class->lumiere_version,
 			false
 		);
@@ -214,14 +217,17 @@ class Widget extends \WP_Widget {
 			$this->config_class->lumiere_version
 		);
 
-		register_block_type(
-			self::BLOCK_WIDGET_NAME,
-			[
-				'style' => 'lumiere_block_widget', // Loads both on editor and frontend.
-				'editor_script' => 'lumiere_block_widget', // Loads only on editor.
-			]
-		);
-
+		// Fix; Avoid register twice the block, register if not already registered.
+		// Avoid WP 'WP_Block_Type_Registry::register was called incorrectly. Block type is already registered'.
+		if ( function_exists( 'register_block_type' ) && class_exists( '\WP_Block_Type_Registry' ) && ! \WP_Block_Type_Registry::get_instance()->is_registered( self::BLOCK_WIDGET_NAME ) ) {
+			register_block_type(
+				self::BLOCK_WIDGET_NAME,
+				[
+					'style' => 'lumiere_block_widget', // Loads both on editor and frontend.
+					'editor_script' => 'lumiere_block_widget', // Loads only on editor.
+				]
+			);
+		}
 	}
 
 	/**
@@ -323,16 +329,9 @@ class Widget extends \WP_Widget {
 
 		}
 
-		// No metabox was found with an IMDb id/title.
-		if ( ( count( get_post_meta( $post_id, 'imdb-movie-widget', false ) ) === 0 ) && ( count( get_post_meta( $post_id, 'imdb-movie-widget-bymid', false ) ) === 0 ) ) {
-
-			$this->logger->log()->debug( '[Lumiere][widget] No metabox with IMDb id/title was added to this post.' );
-
-		}
-
 		// Display preview image only in widget block editor interface.
 		$referer = strlen( $_SERVER['REQUEST_URI'] ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
-		$pages_authorised = [ '/wp-admin/widgets.php' ];
+		$pages_authorised = [ '/wp-admin/widgets.php', '/wp-json/wp/v2/widget-types' ];
 		if ( Utils::lumiere_array_contains_term( $pages_authorised, $referer ) ) {
 
 			echo '<div align="center"><img src="' . esc_url( $this->config_class->lumiere_pics_dir . 'widget-preview.png' ) . '" /></div>';
