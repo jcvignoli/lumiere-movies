@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.6.4
+* [feature] Improved explaination about how to keep CSS during updates.
 * [technical] Few glitches to achieve PHP8.0 compatibility.
 * [technical] Improved security: Escaped functions in admin.
 * [technical] Improved security: Escaped functions in frontend.

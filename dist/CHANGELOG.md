@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.6.4
+* [feature] Improved explaination about how to keep CSS during updates.
 * [technical] Few glitches to achieve PHP8.0 compatibility.
 * [technical] Improved security: Escaped functions in admin.
 * [technical] Improved security: Escaped functions in frontend.
@@ -15,7 +16,7 @@ v.3.6.4
 * [bug] Soundtrack in popup movie was taking an extra breakline. Fixed the layout.
 * [bug] Plural words in French such as Creator, Composer, Actor were not translated. Translated in language/.po file
 * [bug] Rating and source pictures were not middle aligned depending on the theme. Added fix 'display:inline' in lumiere.css
-* [bug] Widget WP Notice: wp_enqueue_script() was called incorrectly. "wp-editor" script should not be enqueued together with the new widgets editor (wp-edit-widgets or wp-customize-widgets). Changed "wp-editor" to "wp-editor" in block registrations.
+* [bug] Widget WP Notice: wp_enqueue_script() was called incorrectly. "wp-editor" script should not be enqueued together with the new widgets editor (wp-edit-widgets or wp-customize-widgets). Changed "wp-editor" to "wp-block-editor" in block registrations.
 * [bug] Widget WP Notice: "P_Block_Type_Registry::register" was called incorrectly. Block type "lumiere/widget" is already registered. Added extra condition (if not registered) to widget registration.
 
 v.3.6.3

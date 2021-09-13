@@ -35,7 +35,7 @@ class Popup_Movie {
 			'id' => true,
 			'class' => true,
 		],
-		'br',
+		'br' => [],
 	];
 
 	/**
@@ -769,7 +769,6 @@ class Popup_Movie {
 
 			for ( $i = 1; $i < $nbtotalplot; $i++ ) {
 				echo "\n\t" . '<div>';
-				// @phpstan-ignore-next-line wp_kses() wrong properties
 				echo wp_kses( $plot[ $i ], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 				if ( $i < $nbtotalplot - 1 ) {
 					echo "\n<hr>";
