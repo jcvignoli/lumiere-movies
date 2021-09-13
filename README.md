@@ -46,7 +46,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 ### Fine tuning:
 
 1. Lumière! Movies can create pages that include a list of movies identically tagged (known as taxonomy). Taxonomy templates are provided. Check plugin's help to figure out how to use it.
-2. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. You can copy the lumiere.css file into your current template folder so your modification will be kept through Lumière!'s updates.
+2. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. You need to download an unminified lumiere.css from the [Lumiere GIT repository](https://github.com/jcvignoli/lumiere-movies/blob/master/src/css/lumiere.css), and after edition just copy the lumiere.css file into your current template folder. Your modifications will be kept through Lumière!'s updates.
 
 ### Advanced
 

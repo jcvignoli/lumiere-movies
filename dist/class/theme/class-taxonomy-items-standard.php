@@ -4,7 +4,7 @@
  * This file should be edited, renamed, and then copied in your theme folder but you also can
  * use the admin taxonomy interface to do it automatically
  *
- * Version: 2.0
+ * Version: 2.1
  * @package lumiere-movies
  */
 

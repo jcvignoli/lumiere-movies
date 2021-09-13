@@ -4,7 +4,7 @@
  *  You can replace the occurences of the word s'tandard, rename this file, and then copy it in your theme folder
  *  Or easier: just use Lumière admin interface to do it automatically
  *
- *  Version: 3.0
+ *  Version: 3.1
  *
  *  This template retrieves automaticaly the occurence of the name selected
  *  If used along with Polylang WordPress plugin, a form is displayed to filter by available language
