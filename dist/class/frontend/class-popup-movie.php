@@ -529,7 +529,6 @@ class Popup_Movie {
 					echo "\n\t\t\t<br /><i>" . esc_html( $soundtrack[ $i ]['soundtrack'] ) . '</i>';
 					// @phpcs:ignore WordPress.Security.EscapeOutput
 					echo $this->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
-					// @phpstan-ignore-next-line wp_kses() wrong properties
 					echo ' ' . wp_kses( str_replace( '<br />', '', $credit_array [ $ii ]['desc'] ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 				}
 
