@@ -467,7 +467,7 @@ movie's title
 
 			<h4><?php esc_html_e( 'How to use the widget', 'lumiere-movies' ); ?></h4>
 
-			<?php echo wp_kses( __( "<strong>First</strong>, prior to WordPress 5.8, go to <a href='widgets.php'>widget</a> administration (<i>appearance</i> tab), drag <i>imdb widget</i> (from <i>inactive widgets</i>) to a sidebar, and modify the box's title (in case you don't want to have the box named <i>IMDb data</i>). As of WordPress 5.8, widgets are blocks selected by the user, but the process is identical.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
+			<?php echo wp_kses( __( "<strong>First</strong>, prior to WordPress 5.8, go to <a href='widgets.php'>widget</a> administration (<i>appearance</i> tab), drag <i>Lumière widget</i> (from <i>inactive widgets</i>) to a sidebar, and modify the box's title (in case you don't want to have the default name). As of WordPress 5.8, widgets are blocks selected by the user, but the process is identical.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
 
 			<br />
 			<br />
