@@ -33,9 +33,9 @@ class Help extends \Lumiere\Admin {
 	 * HTML allowed for use of wp_kses()
 	 */
 	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
-		'i' => true,
-		'strong' => true,
-		'b' => true,
+		'i' => [],
+		'strong' => [],
+		'b' => [],
 		'a' => [
 			'id' => true,
 			'href' => true,
@@ -194,7 +194,6 @@ class Help extends \Lumiere\Admin {
 						echo "\t\t\t\t\t\t<li><strong>" . esc_html( $texte ) . "</strong></li>\n";
 					} elseif ( $count_rows % 2 === 0 ) { // even number -> text
 						// display text formatted
-						// @phpstan-ignore-next-line wp_kses() wrong properties
 						echo "\t\t\t\t\t\t<div class='imdblt_padding_twenty'>" . wp_kses( str_replace( "\n\n", "\n", $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS )
 							. "\t\t\t\t\t\t</div>\n";
 					}
@@ -252,7 +251,6 @@ class Help extends \Lumiere\Admin {
 				if ( $number > '1' ) {
 
 					// display text formatted
-					// @phpstan-ignore-next-line wp_kses() wrong properties
 					echo "\n\t\t\t\t\t\t<li>" . wp_kses( str_replace( "\n", '', $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . '</li>';
 
 				}
@@ -350,7 +348,6 @@ class Help extends \Lumiere\Admin {
 			if ( $number > '1' ) {
 
 				// display text formatted
-				// @phpstan-ignore-next-line wp_kses() wrong properties
 				echo "\t\t\t\t\t\t<li>" . wp_kses( str_replace( "\n", '', $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . "</li>\n";
 
 			}
@@ -416,8 +413,7 @@ class Help extends \Lumiere\Admin {
 
 			<h4><?php esc_html_e( 'How to make a popup link', 'lumiere-movies' ); ?></h4>
 
-			<?php // @phpstan-ignore-next-line wp_kses() has defined wrong properties in WP
-				echo wp_kses( __( "To create a link to a popup window, you only need to put the <b>movie's title</b> inside dedicated tags. Depending on the visual interface you use (modern WordPress, wysiwig old WordPress, or pure text interface), you may add these tags in different ways.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
+			<?php echo wp_kses( __( "To create a link to a popup window, you only need to put the <b>movie's title</b> inside dedicated tags. Depending on the visual interface you use (modern WordPress, wysiwig old WordPress, or pure text interface), you may add these tags in different ways.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
 
 			<br clear="both"/><br />
 
@@ -471,33 +467,28 @@ movie's title
 
 			<h4><?php esc_html_e( 'How to use the widget', 'lumiere-movies' ); ?></h4>
 
-			<?php // @phpstan-ignore-next-line wp_kses() has defined wrong properties in WP
-				echo wp_kses( __( "<strong>First</strong>, prior to WordPress 5.8, go to <a href='widgets.php'>widget</a> administration (<i>appearance</i> tab), drag <i>imdb widget</i> (from <i>inactive widgets</i>) to a sidebar, and modify the box's title (in case you don't want to have the box named <i>IMDb data</i>). After WordPress 5.8, widgets are blocks selected by the user, but the process is identical.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
+			<?php echo wp_kses( __( "<strong>First</strong>, prior to WordPress 5.8, go to <a href='widgets.php'>widget</a> administration (<i>appearance</i> tab), drag <i>imdb widget</i> (from <i>inactive widgets</i>) to a sidebar, and modify the box's title (in case you don't want to have the box named <i>IMDb data</i>). As of WordPress 5.8, widgets are blocks selected by the user, but the process is identical.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
 
 			<br />
 			<br />
-			<?php // @phpstan-ignore-next-line wp_kses() has defined wrong properties in WP
-				echo wp_kses( __( '<strong>Second</strong>, edit your post and add the name of the movie in the box to the sidebar on your right-hand. Lumiere Movies will automatically display in the widget the movie selected.', 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
+			<?php echo wp_kses( __( '<strong>Second</strong>, edit your post and add the name of the movie in the box to the sidebar on your right-hand. Lumiere Movies will automatically display in the widget the movie selected.', 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
 
 			<a href="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-5.jpg' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="50%" src="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-5.jpg' ); ?>" alt="<?php esc_html_e( 'Lumière metabox to add a movie in a widget', 'lumiere-movies' ); ?>" /></a>
 
 			<br />
 			<br />
 
-			<?php // @phpstan-ignore-next-line wp_kses() has defined wrong properties in WP
-			echo wp_kses( __( "As in many other sections of Lumière plugin, you can add the movie's IMDb id instead of the movie's title to make sure that the right movie is display. Should you want to find the movie's IMDb id, click on 'use this tool' and a new windows will be displayed; search for your movie, copy-paste its IMDb id into the sidebar, and select by 'movie id' in the dropdown list.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
+			<?php echo wp_kses( __( "As in many other sections of Lumière plugin, you can add the movie's IMDb id instead of the movie's title to make sure that the right movie is display. Should you want to find the movie's IMDb id, click on 'use this tool' and a new windows will be displayed; search for your movie, copy-paste its IMDb id into the sidebar, and select by 'movie id' in the dropdown list.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
 
 			<a href="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-8.jpg' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="left" width="50%" src="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-8.jpg' ); ?>" alt="<?php esc_html_e( 'Lumiere Movies query interface', 'lumiere-movies' ); ?>" /></a>
 
 			<br /><br />
 
-			<?php // @phpstan-ignore-next-line wp_kses() has defined wrong properties in WP
-			echo wp_kses( __( "Using the movie's IMDb id allows more security: instead of searching for a title, Lumiere Movies can display directly the movie you are looking for. Very useful when your movie's name does not work as it should, due to movies with the same title, if a incorrect movie is displayed, etc.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
+			<?php echo wp_kses( __( "Using the movie's IMDb id allows more security: instead of searching for a title, Lumiere Movies can display directly the movie you are looking for. Very useful when your movie's name does not work as it should, due to movies with the same title, if a incorrect movie is displayed, etc.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
 
 			<br clear="both"/>
 
-			<?php // @phpstan-ignore-next-line wp_kses() has defined wrong properties in WP
-				echo wp_kses( __( "Get IMDb ids from links provided everywhere in the plugin interface. Even <a data-lumiere_admin_popup='openApopup'>here</a>.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
+			<?php echo wp_kses( __( "Get IMDb ids from links provided everywhere in the plugin interface. Even <a data-lumiere_admin_popup='openApopup'>here</a>.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 			?>
 		</div>
 
@@ -625,7 +616,9 @@ movie's title
 			<br clear="both"/>
 			<br clear="both"/>
 
-			<?php esc_html_e( "Every modification you make should be done in your template folder instead of using lumiere-movies/css/lumiere.css file. Add a file named 'lumiere.css' in you template folder; that css file will superseed the plugin's one. Whenever you update, your template's file will remain untouched and your edits will make it. Just make sure you are using a child theme, not an official theme, otherwise your customised lumiere.css will be deleted during the next template update.", 'lumiere-movies' ); ?>
+			<?php
+			/* translators: %1\$s is a URL tag */
+			echo wp_kses( sprintf( esc_html__( "Any modification of the stylesheet you make should be done in your template folder rather than by editing lumiere-movies/css/lumiere.css. Download %1\$s from the GIT repository, and edit that very file so it suits your needs. Then copy the edited file into you template folder: that file will superseed the plugin's one. Whenever you will update, your template's file will remain untouched and your edits will make it. Just make sure you are using a child theme, otherwise your customised lumiere.css will be deleted at the next template update.", 'lumiere-movies' ), '<a href="https://github.com/jcvignoli/lumiere-movies/blob/master/src/css/lumiere.css">unminified css</a>' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
 		</div>
 
 		<?php
@@ -698,7 +691,7 @@ movie's title
 
 			<?php
 			/* translators: %s are URL tags */
-			echo esc_html( sprintf( __( "Add a Lumières!'s %1\$s widget %2\$s to your sidebar, and go to 'General Options / Advanced and check « Auto widget » option.", 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ) );
+			echo wp_kses( sprintf( esc_html__( "Add a Lumières!'s %1\$s widget %2\$s to your sidebar, and go to 'General Options / Advanced and check « Auto widget » option.", 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 			?>
 
 			<div align="center">

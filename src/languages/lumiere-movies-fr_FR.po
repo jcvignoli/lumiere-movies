@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-11 20:01-0400\n"
-"PO-Revision-Date: 2021-09-11 20:42-0400\n"
+"POT-Creation-Date: 2021-09-13 18:12-0400\n"
+"PO-Revision-Date: 2021-09-13 18:17-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -1491,9 +1491,9 @@ msgstr "Pourquoi une fen&ecirc;tre popup ?"
 #: class/admin/class-help.php:436 class/admin/class-help.php:466
 #: class/admin/class-help.php:482 class/admin/class-help.php:490
 #: class/admin/class-help.php:516 class/admin/class-help.php:527
-#: class/admin/class-help.php:650 class/admin/class-help.php:658
-#: class/admin/class-help.php:670 class/admin/class-help.php:677
-#: class/admin/class-help.php:705
+#: class/admin/class-help.php:651 class/admin/class-help.php:659
+#: class/admin/class-help.php:671 class/admin/class-help.php:678
+#: class/admin/class-help.php:706
 msgid "click to get a larger picture"
 msgstr "cliquer pour obtenir une plus grande image"
 
@@ -1823,36 +1823,40 @@ msgstr ""
 "Êtes-vous fatigué de perdre vos modifications CSS soigneusement faites à la "
 "main à chaque Lumière ! mettre à jour? Il y a une solution."
 
-#: class/admin/class-help.php:628
+#: class/admin/class-help.php:629
+#, php-format
 msgid ""
-"Every modification you make should be done in your template folder instead "
-"of using lumiere-movies/css/lumiere.css file. Add a file named 'lumiere.css' "
-"in you template folder; that css file will superseed the plugin's one. "
-"Whenever you update, your template's file will remain untouched and your "
-"edits will make it. Just make sure you are using a child theme, not an "
-"official theme, otherwise your customised lumiere.css will be deleted during "
-"the next template update."
+"Any modification of the stylesheet you make should be done in your template "
+"folder rather than by editing lumiere-movies/css/lumiere.css. Download %1$s "
+"from the GIT repository, and edit that very file so it suits your needs. "
+"Then copy the edited file into you template folder: that file will superseed "
+"the plugin's one. Whenever you will update, your template's file will remain "
+"untouched and your edits will make it. Just make sure you are using a child "
+"theme, otherwise your customised lumiere.css will be deleted at the next "
+"template update."
 msgstr ""
-"Chaque modification que vous apportez doit être effectuée dans votre dossier "
-"de modèles au lieu d'utiliser le fichier lumiere-movies/css/lumiere.css. "
-"Ajoutez un fichier nommé \"lumiere.css\" dans votre dossier de modèles ; ce "
-"fichier css remplacera celui du plugin. Chaque fois que vous mettez à jour, "
-"le fichier de votre modèle restera intact et vos modifications le feront. "
-"Assurez-vous simplement que vous utilisez un thème enfant, pas un thème "
-"officiel, sinon votre lumiere.css personnalisé sera supprimé lors de la "
-"prochaine mise à jour du modèle."
+"Toute modification que vous apportez à votre feuille de style devrait être "
+"effectuée dans votre dossier de modèles au lieu d'utiliser le fichier "
+"lumiere-movies/css/lumiere.css. Téléchargez %1$s depuis GIT un fichier nommé "
+"\"lumiere.css\", puis éditez-le selon vos besoins. Placez-le ensuite dans "
+"votre dossier de modèles ; ce fichier css remplacera celui du plugin. Lors "
+"d'une mise-à-jour, le fichier de votre modèle restera intact et vos "
+"modifications survivront. Assurez-vous simplement que vous utilisez un thème "
+"enfant (child theme) et pas un thème officiel, car sinon votre fichier "
+"lumiere.css personnalisé sera supprimé lors de la prochaine mise à jour du "
+"modèle."
 
-#: class/admin/class-help.php:642
+#: class/admin/class-help.php:643
 msgid "What is WordPress' taxonomy?"
 msgstr "Qu'est-ce que la taxonomie pour WordPress ?"
 
-#: class/admin/class-help.php:644
+#: class/admin/class-help.php:645
 msgid "Since WordPress 2.3, WordPress users can use taxonomy."
 msgstr ""
 "Depuis WordPress 2.3, les utilisateurs de Wordpress peuvent utiliser la "
 "taxonomie."
 
-#: class/admin/class-help.php:646
+#: class/admin/class-help.php:647
 msgid ""
 "Taxonomy is a feature adding an extra layer of category in addition to the "
 "already existing Categories and Tags; in other words, it is like having "
@@ -1867,11 +1871,11 @@ msgstr ""
 "'Terreur'). Ce n'est pas fondamentalement différent des Catégories et des "
 "Tags, mais c'est extrêmement utile pour Lumière."
 
-#: class/admin/class-help.php:648
+#: class/admin/class-help.php:649
 msgid "How to use taxonomy in WordPress?"
 msgstr "Comment utiliser la taxonomie dans WordPress ?"
 
-#: class/admin/class-help.php:652
+#: class/admin/class-help.php:653
 msgid ""
 "Taxonomy is automatically generated in Lumière! and already activated. You "
 "can however disable it by unchecking the box in 'General options -> Advanced "
@@ -1887,7 +1891,7 @@ msgstr ""
 "utiliser comme taxonomie doit également être activé dans 'Données -> "
 "Affichage'."
 
-#: class/admin/class-help.php:654
+#: class/admin/class-help.php:655
 msgid ""
 "After that, pay a visit to your post or page; on the first refresh, links to "
 "taxonomy pages will be processed. You can now visit pages that include all "
@@ -1902,11 +1906,11 @@ msgstr ""
 "réalisateur, la page de taxonomie inclura tous vos articles écrits à leur "
 "sujet."
 
-#: class/admin/class-help.php:656
+#: class/admin/class-help.php:657
 msgid "New option in 'Posts' menu"
 msgstr "Nouvelle option dans le menu 'Posts'"
 
-#: class/admin/class-help.php:660
+#: class/admin/class-help.php:661
 msgid ""
 "Once you have published your first article including a movie (both widget "
 "and inside a post trigger that function) WordPress will display the new "
@@ -1919,11 +1923,11 @@ msgstr ""
 "d'administration « messages ». Selon les détails du film que vous avez "
 "sélectionnés, vous les trouverez dans le menu."
 
-#: class/admin/class-help.php:664
+#: class/admin/class-help.php:665
 msgid "Advanced: Customize your theme for your taxonomy pages"
 msgstr "Avancé : Personnalisez votre thème pour vos pages de taxonomie"
 
-#: class/admin/class-help.php:666
+#: class/admin/class-help.php:667
 msgid ""
 "To fully enjoy this taxonomy, make sure you copy the template files located "
 "in the Lumière! movies folder 'lumiere-movies/theme/' into your 'theme' "
@@ -1935,7 +1939,7 @@ msgstr ""
 "votre dossier 'theme'. Cela peut être automatisé en utilisant les options "
 "disponibles dans Lumière ! taxonomie :"
 
-#: class/admin/class-help.php:672
+#: class/admin/class-help.php:673
 msgid ""
 "Click on 'copy template, that's it! A warning will be given to you when a "
 "new template is available. You can customized even further the template that "
@@ -1949,13 +1953,13 @@ msgstr ""
 "spécifiques. Par défaut, le nouveau modèle de taxonomie vous montrera la "
 "personne/l'élément et les articles et pages les mentionnant :"
 
-#: class/admin/class-help.php:695
+#: class/admin/class-help.php:696
 msgid "How to get movies retrieved automatically according to post's titles?"
 msgstr ""
 "Comment récupérer automatiquement les films en fonction des titres des "
 "articles ?"
 
-#: class/admin/class-help.php:697
+#: class/admin/class-help.php:698
 msgid ""
 "You have hundreds of posts, carefully named after movies. You don't want to "
 "edit all of them and widget/inside the post section but you want to display "
@@ -1966,7 +1970,7 @@ msgstr ""
 "de publication, mais vous souhaitez quand même afficher des informations sur "
 "les films. Il y a une solution."
 
-#: class/admin/class-help.php:701
+#: class/admin/class-help.php:702
 #, php-format
 msgid ""
 "Add a Lumières!'s %1$s widget %2$s to your sidebar, and go to 'General "
@@ -1975,7 +1979,7 @@ msgstr ""
 "Ajouter un %1$s widget Lumières! %2$s à votre barre latérale, et allez à "
 "'General Options / Advanced puis sélectionnez l'option de « Auto widget »."
 
-#: class/admin/class-help.php:708
+#: class/admin/class-help.php:709
 msgid ""
 "Next time you will look at your post, you will find the widget according to "
 "your post’s title."
@@ -1983,11 +1987,11 @@ msgstr ""
 "La prochaine fois que vous visiterez votre message, vous trouverez un widget "
 "li&eacute au titre du message."
 
-#: class/admin/class-help.php:722
+#: class/admin/class-help.php:723
 msgid "Changing default IMDb search options"
 msgstr "Modification des options de recherche IMDb par défaut"
 
-#: class/admin/class-help.php:724
+#: class/admin/class-help.php:725
 msgid ""
 "Lumière queries the IMDb for every movie or person you are looking for. You "
 "can modify the results from the IMDb displayed in your blog will tweaking "
@@ -1998,7 +2002,7 @@ msgstr ""
 "peaufinant les options de recherche disponibles dans les options de menu "
 "« Général / Avancé »."
 
-#: class/admin/class-help.php:729
+#: class/admin/class-help.php:730
 msgid ""
 "Three options are available: search language, search categories and the "
 "limit of the number of results."
@@ -2006,7 +2010,7 @@ msgstr ""
 "Trois options sont disponibles : la langue de recherche, les catégories de "
 "recherche et la limite du nombre de résultats."
 
-#: class/admin/class-help.php:735
+#: class/admin/class-help.php:736
 msgid ""
 "1. Search language allows to modify the language of the query. This is not "
 "the language of the output: the details will always be returned in English "
@@ -2020,7 +2024,7 @@ msgstr ""
 "uniquement ; si la requête est exécutée en français, le titre original du "
 "film sera d'abord renvoyé au lieu du titre anglais."
 
-#: class/admin/class-help.php:741
+#: class/admin/class-help.php:742
 msgid ""
 "2. Search category allows to modify the type of material your searching. If "
 "your blog is about series only, select in the dropdown list 'series only'. "
@@ -2031,7 +2035,7 @@ msgstr ""
 "la liste déroulante 'séries uniquement'. S'il s'agit de jeux vidéo, "
 "sélectionnez l'option en conséquence."
 
-#: class/admin/class-help.php:747
+#: class/admin/class-help.php:748
 msgid ""
 "3. It is possible to limit the number of results in the queries using its "
 "dedicated option. The less results there is, the less server resources are "
@@ -2045,7 +2049,7 @@ msgstr ""
 "s'applique à la recherche de films avec un nom similaire (option de menu "
 "dans les popups de films) et dans "
 
-#: class/admin/class-help.php:749
+#: class/admin/class-help.php:750
 #, php-format
 msgid "<a href='%1$s'>the admin tool of queries to find IMDb id</a>."
 msgstr ""
@@ -2236,15 +2240,15 @@ msgstr ""
 "Ajoutez les détails de films à vos pages avec Lumière ancienne version: dès "
 "la version WordPress 5.8, préférez le nouveau widget."
 
-#: class/class-widget.php:246
+#: class/class-widget.php:252
 msgid "Lumière! Movies widget"
 msgstr "Widget Lumière Movies"
 
-#: class/class-widget.php:357
+#: class/class-widget.php:356
 msgid "Lumière! Movies"
 msgstr "Lumière! Movies"
 
-#: class/class-widget.php:373
+#: class/class-widget.php:372
 msgid "Widget title:"
 msgstr "Titre de widget :"
 
@@ -2303,7 +2307,7 @@ msgstr[1] "Genres"
 msgid "Keyword"
 msgid_plural "Keywords"
 msgstr[0] "Mot-cl&eacute;"
-msgstr[1] "Mot-cl&eacute;s"
+msgstr[1] "Mots-cl&eacute;s"
 
 #: class/frontend/class-movie.php:844 class/frontend/class-popup-movie.php:554
 msgid "Goof"
