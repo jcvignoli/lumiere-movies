@@ -234,9 +234,10 @@ class Widget extends \WP_Widget {
 			$this->config_class->lumiere_version
 		);
 
-		// Fix; Avoid register twice the block, register if not already registered.
-		// Avoid WP 'WP_Block_Type_Registry::register was called incorrectly. Block type is already registered'.
+		// Fix; Avoid registering the block twice, register only if not already registered.
+		// Avoid WP notice 'WP_Block_Type_Registry::register was called incorrectly. Block type is already registered'.
 		if ( function_exists( 'register_block_type' ) && class_exists( '\WP_Block_Type_Registry' ) && ! \WP_Block_Type_Registry::get_instance()->is_registered( self::BLOCK_WIDGET_NAME ) ) {
+
 			register_block_type(
 				self::BLOCK_WIDGET_NAME,
 				[
@@ -244,6 +245,7 @@ class Widget extends \WP_Widget {
 					'editor_script' => 'lumiere_block_widget', // Loads only on editor.
 				]
 			);
+
 		}
 	}
 
@@ -287,7 +289,7 @@ class Widget extends \WP_Widget {
 
 			} else {
 
-				$this->logger->log()->debug( '[Lumiere][widget] Auto widget is disabled, no query made using current post title.' );
+				$this->logger->log()->debug( '[Lumiere][widget] Auto widget is disabled, no query will be made using current post title.' );
 
 			}
 
@@ -334,10 +336,6 @@ class Widget extends \WP_Widget {
 					echo wp_kses( $movie, self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 
 					echo wp_kses( self::ARGS['after_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
-
-				} else {
-
-					$this->logger->log()->debug( "[Lumiere][widget] Not showing $movie" );
 
 				}
 
