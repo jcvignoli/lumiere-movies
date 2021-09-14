@@ -5,6 +5,11 @@
 class TaxonomyCest {
 
 	/**
+	 * Theme name
+	 */
+	const theme_name = 'oceanwp';
+
+	/**
 	 * Stock the base remote URL
 	 */
 	var $url_base_remote = "";
@@ -106,7 +111,7 @@ class TaxonomyCest {
 		$this->maybeEnableTaxonomy($I);
 
 		// Delete Lumière taxonomy template in theme folder if it exists
-		$I->customThemeFileExistsDelete('oceanwp/taxonomy-lumiere-' . $example[0] . '.php');
+		$I->customThemeFileExistsDelete( self::theme_name . '/taxonomy-lumiere-' . $example[0] . '.php');
 
 		// Activate $item in 'what to display'
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');

@@ -65,6 +65,23 @@ class Widget extends \WP_Widget {
 			'id' => true,
 			'class' => true,
 		],
+		'a' => [
+			'id' => true,
+			'class' => true,
+			'href' => true,
+			'title' => true,
+			'data-*' => true,
+		],
+		'span' => [
+			'id' => true,
+			'class' => true,
+		],
+		'img' => [
+			'loading' => true,
+			'src' => true,
+			'id' => true,
+			'class' => true,
+		],
 	];
 
 	/**
@@ -314,8 +331,7 @@ class Widget extends \WP_Widget {
 
 					echo wp_kses( $title_box, self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); // title of widget.
 
-					// @phpcs:ignore WordPress.Security.EscapeOutput
-					echo $movie;
+					echo wp_kses( $movie, self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 
 					echo wp_kses( self::ARGS['after_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 
