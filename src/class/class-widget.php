@@ -77,6 +77,8 @@ class Widget extends \WP_Widget {
 			'class' => true,
 		],
 		'img' => [
+			'width' => true,
+			'alt' => true,
 			'loading' => true,
 			'src' => true,
 			'id' => true,
