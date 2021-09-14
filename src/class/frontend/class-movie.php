@@ -529,13 +529,12 @@ class Movie {
 
 		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise
 
-		$output .= "\n\t\t\t\t\t\t\t" . '<!-- pic -->';
-		$output .= "\n\t\t" . '<div class="imdbelementPIC">';
+		$output .= "\n\t\t\t" . '<div class="imdbelementPIC">';
 
 		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
 			// Link
-			$output .= "\n\t\t\t" . '<a class="highslide_pic" href="'
+			$output .= "\n\t\t\t\t" . '<a class="highslide_pic" href="'
 				. $photo_url_final
 				. '" title="'
 				. esc_attr( $movie->title() )
@@ -544,7 +543,7 @@ class Movie {
 		}
 
 		// loading=\"eager\" to prevent WordPress loading lazy that doesn't go well with cache scripts
-		$output .= "\n\t\t\t" . '<img loading="eager" class="imdbelementPICimg" src="';
+		$output .= "\n\t\t\t\t\t" . '<img loading="eager" class="imdbelementPICimg" src="';
 
 		$output .= $photo_url_final
 			. '" alt="'
@@ -564,14 +563,14 @@ class Movie {
 
 		}
 
-		$output .= ' />' . "\n";
+		$output .= ' />';
 
 		// new verification, closure code related to highslide
 		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
-			$output .= "\n\t\t\t</a>\n";
+			$output .= "\n\t\t\t\t</a>";
 		}
 
-		$output .= "\n\t\t" . '</div>';
+		$output .= "\n\t\t\t" . '</div>';
 
 		return $output;
 	}
@@ -922,14 +921,14 @@ class Movie {
 
 		for ( $i = 0; $i < $nbquotes && ( $i < $nbtotalquotes ); $i++ ) {
 
-			//transform <p> tags into <div> tags so they're not impacted by the theme.
+			//transform <p> tags into <div> tags so there is no layout impact by the theme.
 			$currentquotes = preg_replace( '~<p>~', "\n\t\t\t<div>", $quotes[ $i ] ) ?? $quotes[ $i ];
 			$currentquotes = preg_replace( '~</p>~', "\n\t\t\t</div>", $currentquotes ) ?? $currentquotes;
 
 			// if "Remove all links" option is not selected.
 			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
-				$output .= "\n\t\t\t";
-				$output .= $this->lumiere_imdburl_to_popupurl( $currentquotes );
+
+				$output .= "\n\t\t\t" . $this->lumiere_imdburl_to_popupurl( $currentquotes );
 
 			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
 
@@ -1010,7 +1009,7 @@ class Movie {
 
 			// if "Remove all links" option is not selected.
 			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
-				$output .= "\n\t\t\t<a href='" . esc_url( $trailers[ $i ]['url'] ) . "' title='" . esc_html__( 'Watch on IMBb website the trailer for ', 'lumiere-movies' ) . esc_html( $trailers[ $i ]['title'] ) . "'>" . sanitize_text_field( $trailers[ $i ]['title'] ) . "</a>\n";
+				$output .= "\n\t\t\t<a href='" . esc_url( $trailers[ $i ]['url'] ) . "' title='" . esc_html__( 'Watch on IMBb website the trailer for ', 'lumiere-movies' ) . esc_html( $trailers[ $i ]['title'] ) . "'>" . sanitize_text_field( $trailers[ $i ]['title'] ) . '</a>';
 
 				// if "Remove all links" option is selected.
 			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
@@ -1219,12 +1218,12 @@ class Movie {
 			$credit_array = $soundtrack[ $i ]['credits'];
 			$credit_array_count = count( $credit_array );
 			for ( $ii = 0; $ii < $credit_array_count; $ii++ ) {
-				$output .= "\n\t\t";
+
 				$output .= "\n\t\t\t<i>" . esc_html( $soundtrack[ $i ]['soundtrack'] ) . '</i>';
 				if ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
-					$output .= sanitize_text_field( $credit_array [ $ii ]['credit_to'] );
+					$output .= "\n\t\t\t" . sanitize_text_field( $credit_array [ $ii ]['credit_to'] );
 				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
-					$output .= $this->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
+					$output .= "\n\t\t\t" . $this->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
 				}
 				$output .= ' (' . sanitize_text_field( $credit_array [ $ii ]['desc'] ) . ')';
 
@@ -1263,20 +1262,20 @@ class Movie {
 		for ( $i = 0; $i < $nbtotalprodcompany; $i++ ) {
 
 			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) { // if "Remove all links" option is not selected.
-				$output .= "\n\t\t\t\t" . '<div align="center" class="lumiere_container">';
-				$output .= "\n\t\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-				$output .= "<a href='" . esc_url( $prodcompany[ $i ]['url'] ) . "' title='" . esc_html( $prodcompany[ $i ]['name'] ) . "'>";
+				$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
+				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+				$output .= "\n\t\t\t\t\t<a href='" . esc_url( $prodcompany[ $i ]['url'] ) . "' title='" . esc_html( $prodcompany[ $i ]['name'] ) . "'>";
 				$output .= esc_attr( $prodcompany[ $i ]['name'] );
 				$output .= '</a>';
-				$output .= '</div>';
-				$output .= "\n\t\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+				$output .= "\n\t\t\t\t</div>";
+				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
 				if ( strlen( $prodcompany[ $i ]['notes'] ) !== 0 ) {
 					$output .= esc_attr( $prodcompany[ $i ]['notes'] );
 				} else {
 					$output .= '&nbsp;';
 				}
 				$output .= '</div>';
-				$output .= "\n\t\t\t\t" . '</div>';
+				$output .= "\n\t\t\t</div>";
 
 			} else { // if "Remove all links" option is selected
 
@@ -1491,8 +1490,8 @@ class Movie {
 
 			for ( $i = 0; ( $i < $nbtotalproducer ) && ( $i < $nbproducer ); $i++ ) {
 
-				$output .= "\n\t\t\t\t" . '<div align="center" class="lumiere_container">';
-				$output .= "\n\t\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+				$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
+				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 
 				// if "Remove all links" option is not selected
 				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
@@ -1514,8 +1513,8 @@ class Movie {
 					$output .= esc_attr( $producer[ $i ]['name'] );
 
 				}
-				$output .= "\n\t\t\t\t\t" . '</div>';
-				$output .= "\n\t\t\t\t\t" . '<div align="right">';
+				$output .= "\n\t\t\t\t" . '</div>';
+				$output .= "\n\t\t\t\t" . '<div align="right">';
 
 				if ( $producer[ $i ]['role'] !== null && strlen( $producer[ $i ]['role'] ) !== 0 ) {
 					$output .= esc_attr( $producer[ $i ]['role'] );
@@ -1523,7 +1522,7 @@ class Movie {
 					$output .= '&nbsp;';
 				}
 
-				$output .= "\n\t\t\t\t" . '</div>';
+				$output .= '</div>';
 				$output .= "\n\t\t\t" . '</div>';
 
 			} // endfor
@@ -1639,8 +1638,8 @@ class Movie {
 
 			for ( $i = 0; $i < $nbactors && ( $i < $nbtotalactors ); $i++ ) {
 
-				$output .= "\n\t\t\t\t" . '<div align="center" class="lumiere_container">';
-				$output .= "\n\t\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+				$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
+				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 
 				// if "Remove all links" option is not selected
 				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
@@ -1648,12 +1647,12 @@ class Movie {
 					// highslide popup
 					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
-						$output .= "\n\t\t\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $cast[ $i ]['name'] ) . '</a>';
+						$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $cast[ $i ]['name'] ) . '</a>';
 
 						// classic popup
 					} else {
 
-						$output .= "\n\t\t\t\t\t" . '<a class="linkincmovie link-imdblt-classicpeople" data-classicpeople="' . esc_attr( $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $cast[ $i ]['name'] ) . '</a>';
+						$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-classicpeople" data-classicpeople="' . esc_attr( $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $cast[ $i ]['name'] ) . '</a>';
 
 					}
 
@@ -1664,10 +1663,10 @@ class Movie {
 				}
 
 				$output .= '</div>';
-				$output .= "\n\t\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
 				$output .= esc_attr( preg_replace( '/\n/', '', $cast[ $i ]['role'] ) ); # remove the <br> which break the layout
 				$output .= '</div>';
-				$output .= "\n\t\t\t\t" . '</div>';
+				$output .= "\n\t\t\t" . '</div>';
 
 			} // endfor
 
@@ -1702,16 +1701,17 @@ class Movie {
 			// if "Remove all links" option is not selected
 			if ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
 
-				$output .= $this->lumiere_remove_link( $plot[ $i ] ) . "\n";
+				$output .= "\n\t\t\t\t" . $this->lumiere_remove_link( $plot[ $i ] );
 			} else {
 
-				$output .= $plot[ $i ] . "\n";
+				$output .= "\n\t\t\t\t" . $plot[ $i ];
 
 			}
 
+			// add hr to every plot but the last.
 			if ( $i < ( $nbtotalplots - 1 ) && $i < ( $nbplots - 1 ) ) {
-				$output .= "\n<hr>\n";
-			} // add hr to every quote but the last
+				$output .= "\n\t\t\t\t<hr>";
+			}
 		}
 
 		return $output;
@@ -1735,7 +1735,7 @@ class Movie {
 			$output .= esc_html__( 'Source', 'lumiere-movies' );
 			$output .= ':</span>';
 
-			$output .= "\n\t\t\t\t" . '<img class="imdbelementSOURCE-picture" width="33" height="15" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />';
+			$output .= "\n\t\t\t" . '<img class="imdbelementSOURCE-picture" width="33" height="15" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />';
 			$output .= '<a class="link-incmovie-sourceimdb" title="'
 					. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
 					. esc_url( 'https://www.imdb.com/title/tt' . $mid_premier_resultat_sanitized ) . '" >'
