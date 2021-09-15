@@ -383,7 +383,7 @@ class Popup_Movie {
 			echo '<span class="imdbincluded-subtitle">'
 				. esc_html__( 'Rating', 'lumiere-movies' )
 				. '</span>';
-			echo ' <img src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/showtimes/' . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
+			echo ' <img class="imdbelementRATING-picture" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/showtimes/' . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
 			. ' title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . esc_attr( $rating_string ) . esc_html__( ' out of 10', 'lumiere-movies' ) . '"  / >';
 			echo ' (' . number_format( $votes_sanitized, 0, '', "'" ) . ' ' . esc_html__( 'votes', 'lumiere-movies' ) . ')';
 

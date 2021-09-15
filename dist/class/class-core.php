@@ -435,11 +435,14 @@ class Core {
 		);
 
 		// Style.
-		wp_register_style(
-			'lumiere_gutenberg_main',
-			$this->config_class->lumiere_blocks_dir . 'main-block.min.css',
-			[ 'wp-edit-blocks' ],
-			$this->config_class->lumiere_version
+		wp_register_style( 'lumiere_gutenberg_main', $this->config_class->lumiere_blocks_dir . 'main-block.min.css', [], $this->config_class->lumiere_version );
+		register_block_style(
+			'lumiere/main',
+			[
+				'name' => 'main-block',
+				'label' => 'Main block',
+				'style_handle' => 'lumiere_gutenberg_main',
+			]
 		);
 
 		// Register block script and style.
