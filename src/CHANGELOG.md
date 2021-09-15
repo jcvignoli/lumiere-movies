@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.6.6
+
 v.3.6.5
 * [bug] Short biography text could be cut in the middle of a word. Edited lumiere_medaillon_bio() in trait-frontend.php to cut after the first space found.
 * [bug] Two scrollbars were displayed in both single pages and popups. Fixed style registration 'lumiere_gutenberg_main' in class core.
