@@ -69,7 +69,7 @@ class Copy_Template_Taxonomy {
 
 			// Make sure we got right credentials to use $wp_filesystem
 			Utils::lumiere_wp_filesystem_cred( $lumiere_taxonomy_theme_file );
-			if ( $wp_filesystem->copy( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file ) === false ) {
+			if ( $wp_filesystem->copy( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, true ) === false ) {
 				// Copy failed.
 				wp_safe_redirect( add_query_arg( 'msg', 'taxotemplatecopy_failed', wp_get_referer() ) );
 				exit();
