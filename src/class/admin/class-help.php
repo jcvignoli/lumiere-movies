@@ -240,23 +240,22 @@ class Help extends \Lumiere\Admin {
 				'~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~',
 			];
 			$replaces = [
-				'<font size=\'+0.2\'><strong>version ${2}${3}</strong></font>',
+				'<br /><font size=\'+0.1\'><strong>version ${2}${3}</strong></font>',
 				'<strong><i>${2}</i></strong>',
 				'<a href="${3}${4}" title="${7}">${2}</a>',
 			];
 			$changelogprocessed = preg_replace( $patterns, $replaces, $changelogfile ) ?? $changelogfile;
 
-			echo '<ul>';
 			foreach ( $changelogprocessed as $texte ) {
 				if ( $number > '1' ) {
 
 					// display text formatted
-					echo "\n\t\t\t\t\t\t<li>" . wp_kses( str_replace( "\n", '', $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . '</li>';
+					echo "\n\t\t\t\t\t\t" . wp_kses( str_replace( "\n", '', $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . '<br />';
 
 				}
 				$number++;
 			}
-			echo "\n\t\t\t\t\t</ul>";
+			echo "\n\t\t\t\t\t<br />";
 			?>
 
 			</div>
