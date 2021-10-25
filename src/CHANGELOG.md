@@ -226,11 +226,11 @@ v.3.2.2
 * [bug] New fix for popup titles function in lumiere-movies.php
 * [bug] Fixed link with extra "/" in URL for akas in popup-imdb_movie.php
 
-v3.2.1
+v.3.2.1
 * [bug] admin panel wasn't displayed, bug in inc/admin_pages.php
 * [bug] popup titles function in lumiere-movies.php was preventing the popup from working
 
-v3.2
+v.3.2
 * [feature] Display person's name in popup's title page, generaly rewritten the tite's naming and links to popups
 * [feature] added metas (favicons and canonical) link in popups
 * [bug] Redirection when deleting/updating cache details was still broken, changed the method
@@ -248,7 +248,7 @@ v3.2
 * [technical] Made the custom url /imdblt/(film|person) an editable variable in admin/ moved the constants to the end of config.php
 * [technical] Removed useless data in htacces making (let wordpress deal with it)
 
-v3.1.1
+v.3.1.1
 * [technical] CSS & JS automatically take LUMIERE_VERSION string in URL when they're called, so every new Lumière! version triggers a cache refresh
 * [technical] Moved imdbphp classes from /src to /class/imdbphp, moved config.php, functions.php, into that same folder
 * [bug] Added into popups and imdb-movies.inc movie/people images the code 'loading="eager"' so they're not lazy-loaded (otherwise they're not displayed)
@@ -256,7 +256,7 @@ v3.1.1
 * [bug] Redirection when deleting/updating cache details was broken
 * [bug] Fixed cache refresh/delete redirect + move form functions to options cache
 
-v3.1
+v.3.1
 * [Major] Due to compatibility reasons with Gutenberg, the way to call links for internal popupups has changed from '< !--imdb-- > < !--/imdb-->' to 'span class="lumiere_link_maker"'. Compatibility with the old way currently maintained.
 * [Major] Finished Gutenberg interface, two buttons added.
 * [Major] Updated to IMDbPHP 6.5.1 library.
@@ -270,7 +270,7 @@ v3.1
 * [Bug] uninstall wasn't removing taxonomy terms. Simplified the function and now it works.
 * [Bug] introduced in v3.0, couldn't display more than one film in widgets. Replaced 			require_once( $imdb_admin_values['imdbpluginpath'] . 'inc/imdb-movie.inc.php'); by require( plugin_dir_path( __FILE__ ) . 'imdb-movie.inc.php'); in widget.php
 
-v3.0.1
+v.3.0.1
 * [new] Gutenberg Block: better layout, implemented selection of either [imdblt] or [imdbltid]
 * [new] Gutenberg Block: created a new page gutenberg-search.php for searching movies from gutenberg
 * [new] Translation: renamed all calls in __() and the likes from 'imdb' to 'lumiere-movies', changed the language system according to the (new) Wordpress language system
@@ -286,7 +286,7 @@ v3.0.1
 * [Bug] loooongstanding bug for taxonomy links in imdb-movie.inc.php, rewrote how taxonomy links are called, created a function
 * [Bug] update taxonomy activation/deactivation didn't refresh rewrite rules, refresh of taxonomy should now make the taxonomy links
 
-v3.0
+v.3.0
 * [major] updated to imdbphp-6.5 library
 * [major] rewritten the code to be compliant with wordpress security
 * [major] plugin is compatible with tablets/mobile phones (fully responsive)
@@ -316,71 +316,71 @@ v3.0
 * [misc] renamed the plugin to Lumiere Movies, renamed all classes and functions accordingly
 * [misc] Under the hood, more robust plugin following (a bit more) wordpress & PHP standards
 
-v2.3.2
+v.2.3.2
 * [major] updated to imdbphp-2.3.2 library
 * [feature] added Ukranian : thanks Michael Yunat
 * [bug] fixed longstanding bug: shortcodes when editing a wordpress post are back
 * [bug] fixed longstanding bug: bios are back
 
-v2.2.3
+v.2.2.3
 * [major] updated to imdbphp-2.2.3 library
 
-v2.2.2
+v.2.2.2
 * [major] updated to imdbphp-2.2.2 library
 * [feature] added production companies
 
-v2.2.1
+v.2.2.1
 * [major] updated to imdbphp-2.2.1 library
 * [feature] added Croatian : thanks Borisa Djuraskovic!
 * [bug] fixed newly added "keywords" bug in the taxonomy
 
-v2.2
+v.2.2
 * [major] updated to imdbphp-2.2 library
 * [feature] added "keywords" option which allows to diplay the movie keywords. Taxonomy included.
 * [feature] "Display only thumbnail" option now affects popup picture width in the same way it affects widgets picture width
 * [bug] deleted "ob_flush(); flush();" in inc/popup-header.php as it was preventing the CSS and JS to be used
 * [bug] removed "movie connection" option in widget; this was a long non-working useless option
 
-v2.1.9
+v.2.1.9
 * [major] updated to imdbphp-2.1.9 library
 
-v2.1.8
+v.2.1.8
 * [major] updated to imdbphp-2.1.8 library
 
-v2.1.7
+v.2.1.7
 * [major] updated to imdbphp-2.1.7 library
 * [bug] soundtracks fixed
 * [bug] movie connection is broken, unactivated
 
-v2.1.6
+v.2.1.6
 * [major] updated to imdbphp-2.1.6 library
 
-v2.1.5
+v.2.1.5
 * [major] updated to imdbphp-2.1.5 library
 
-v2.1.4
+v.2.1.4
 * [major] updated to imdbphp-2.1.4 library
 * [feature] changed obsolete __ngettext() method to _n() (__ngettext obsolete since wordpress 2.8)
 * [feature] removed moviepilot options, but who was still using that?
 
-v2.1.3
+v.2.1.3
 * [major] updated to imdbphp-2.1.3 library
 * [major] changed the way to use highslide js (on Wordpress request, piece of code not GPL compliant); it is mandatory now to download the library from [IMDBLt website](https://www.jcvignoli.com/blog/en/imdb-link-transformer "IMDbLT website") in order to get this damn cool window. Once the file downloaded, move the folder "highslide" into the "js" one and check general options in order to activate it
 * [major] translated into Romanian, thanks to [Web Geek Science](https://webhostinggeeks.com "Web Hosting Geeks")
 
-v2.1.2
+v.2.1.2
 * [major] updated to imdbphp-2.1.2 library
 
-v2.1.1
+v.2.1.1
 * [major] updated to imdbphp-2.1.1 library
 * [feature] new cache option to display cache elements in a shorter way (no picture, only names) -> "Quick advanced cache details" option
 * [feature] added IMDB LT to the new wordpress toolbar menu
 
-v2.1
+v.2.1
 * [major] updated to imdbphp-2.1.0 library
 
-v2.0.8
-* [major] huge speed improvement changing in inc/functions.php is_multiArrayEmpty() from [PHP empty function 1](http://in2.php.net/manual/fr/function.empty.php#92308 "PHP empty function comments") to [PHP empty function 2](http://in2.php.net/manual/fr/function.empty.php#94786 "PHP empty function comments") -> credits to fha
+v.2.0.8
+* [major] huge speed improvement changing in inc/functions.php is_multiArrayEmpty() from [PHP empty function 1](https://in2.php.net/manual/fr/function.empty.php#92308 "PHP empty function comments") to [PHP empty function 2](https://in2.php.net/manual/fr/function.empty.php#94786 "PHP empty function comments") -> credits to fha
 * [feature] cache options are divided between "Cache general options" and "Manage Cache" pages. Much more advanced way to manage cached movies. Movie's and People's cache management.
 * [feature] when the widget displayed more than one movie the widget's title took the title of the previous movie's name
 * [feature] still some "Fatal error: Cannot redeclare plugin_action() (previously declared in /xxxxxx/wp-content/plugins/wp-to-twitter/wp-to-twitter.php on line 1064) in /xxxxxx/wp-content/plugins/imdb-link-transformer/inc/widget.php:104" -> updated the way to register the plugin, using wp_register_sidebar_widget instead of register_sidebar_widget and removing the plugin_action() function (all obsoletes)
@@ -388,23 +388,23 @@ v2.0.8
 * [bug] fixed displaying " as " text even when no role was existing in popup.php
 * [bug] fixed typo missing closing ">" line 142 inc/help.php
 
-v2.0.7
+v.2.0.7
 * [major] updated to imdbphp-2.0.7 library
 * [feature] updated to highslide js 4.1.12
 
-v2.0.6
+v.2.0.6
 * [major] updated to imdbphp-2.0.6 library
 
-v2.0.5
+v.2.0.5
 * [major] updated to imdbphp-2.0.5 library
 * [feature] widget only finds the movie if the tt number on IMDB is followed by a full seven digits; modified "$moviespecificid = $value;" by "$moviespecificid  = str_pad($value, 7, "0", STR_PAD_LEFT);" into widget.php 
 
-v2.0.4
+v.2.0.4
 * [major] updated to imdbphp-2.0.4 library - !! No more "IMDb" word added at the end of popup movie's title - Pictures from IMDb are back !
 * [feature] it is now possible to resize thumbnail even if "Display only thumbnail" is turned on yes (found under "general options" -> "Paths & Layout" -> "layout"->"Imdb cover picture"). "Size" is not anymore unactivated (options-general.php) and value filled in is taken into account (imdb-movie.inc.php)
 * [feature] french strings corrected
 
-v2.0.3
+v.2.0.3
 * [bug] Many bugs have been corrected. Among them, pictures should be displayed even if using Firefox, country as movie detail is back.
 * [bug] Two taxonomy help pictures were forgotten! 
 * [bug] Layout broken when using moviepilot (writer & producer sections, $role parts)
@@ -413,13 +413,13 @@ v2.0.3
 * [feature] added a function to construct highslide and classical links(imdb_popup_link() & imdb_popup_highslide_link() in inc/functions.php, called from imdb-link-transformer.php)
 * [feature] added title as taxonomy
 
-v2.0.2
+v.2.0.2
 * [feature] Completely revisted as taxonomy works; one can select many movie's details as taxonomy. New admin options related to.
 * [feature] Trailers added as a new movie detail.
 * [feature] Year added as a new movie detail. The movie's release year will always take place next the title, in brackets.
 * [feature] French strings corrected. Taxonomy help improved.
 
-v2.0.1
+v.2.0.1
 * [bug] when using lumiere_external_call() function with an imdbid from external (not with a movie's name), it didn't work. inc/imdb-link-transformer.php corrected
 * [major] added possibility (by an option in advanced general settings) to add movie's genre tags directly into post tags (actually, into taxonomy wordpress function). When activated, it display new links instead previous genre tags.
 * [feature] added colors when option is selected in "Widget/Inside post Options".
@@ -427,7 +427,7 @@ v2.0.1
 * [feature] updated to highslide js 4.1.9
 * [feature] English/French corrections, misc improvements, help enhanced
 
-v2.0
+v.2.0
 * [bug] A bug was preventing for display right pictures cache size (in admin/cache section)
 * [bug] access level for Pilot website wasn't working anymore (switching to any value hadn't any effect except staying with "NO_ACCESS")
 * [major] updated to imdbphp-2.0.1 library
@@ -437,7 +437,7 @@ v2.0
 * [feature] removed imdb-link-transformer.php.noclass (obsolete file)
 * a bunch of improvements
 
-v1.6
+v.1.6
 * [bug] + [feature] User's comment wasn't working anymore. Rewritten, and also added the option to choose how many comments to display.
 * [bug] movieconnection(), releaseInfo(), born() and died(), color(), sound(), mpaa(), mpaa_hist() fixed
 * [major] updated to imdbphp-1.9.10 temporary library
@@ -460,20 +460,20 @@ v1.6
 * [feature] removed imdb adress us.imdb.com, added www.imdb.fr
 * [feature] moved and renamed tinymce javascript from tinymce/editor_plugin.js to js/tinymce_editor_plugin.js
 
-v1.5
+v.1.5
 * [major] updated to imdbphp-1.9.8 library
 * [feature] many broken searches should work again
 * [feature] added css update explanations into inc/help.php
 
-v1.2.2
+v.1.2.2
 * [major] updated to imdbphp-1.2.2 library
 
-v1.2.1
+v.1.2.1
 * [feature] It is now possible to keep your customized imdb.css file; just put your imdb.css into your theme folder.
 * [feature] added new titles to "inc/options-cache.php"
 * [feature] added spanish (thanks to Andrés Cabrera)
 
-v1.2
+v.1.2
 * [major] updated to imdbphp-1.2 library
 * [feature] added new cache option (Show avanced cache details) which permits (or not) to show movie's cache details (and allows to delete cache for every movie). Unactivated by default, it prevents "Fatal error: Maximum execution time of 30 seconds exceeded" errors.
 * [feature] modified imdb.css (improvement made by Jeremie Boniface, I'm not able to manage these things)
@@ -484,7 +484,7 @@ v1.2
 * [feature] renamed "cache.php" to "inc/options-cache.php"
 * [feature] removed robots.txt, since v. 1.1.15 workaround is efficient
 
-v1.1.15
+v.1.1.15
 * [bug] (somewhat): if highslide popup is active, search engine bots will index several hundred thousands of movies and actors, since they can now follow an href. Except if you do not care at all about space and bandwith, it could down your website quickly. Moved links to highslide popups from href="" to src: '' (inside javascript) and closed the href tag. To prevent any kind of search engine crawling in a place where it should not crawl, added also a robots.txt file (not convinced about its usefulness, though), and a test at the begining of popup-header.php.
 * [bug] some translated french strings were wrong
 * [bug] when several directors were found, it was missing space or comma to display -> added comma
@@ -500,14 +500,14 @@ v1.1.15
 * [feature] added plot limit selection (imdblt settings : Widget/Inside post Options  / What to display )
 * [feature] imdb pictures displayed both in widget and inside a post can be "highslided". To achieve this, activate "Display highslide popup" option and turn "Display only thumbnail" to "no" (and put a small size value, as "150" per example).
 
-v1.1.14.4
+v.1.1.14.4
 * [bug] in config-widget.php, a value for imdbwidgettitle (and one other) section was wrong
 * [bug] a value $test (imdb-movie.inc.php) was wrongly named -> renamed to $genre
 * [bug] wrong value for "Plugin directory" (config.php) -> modified
 * [major] added help page in settings: how to ( including movable boxes to keep useful information), changelog, faqs pages
 * [major] added security constraints (mainly data post check)
 * [major] added possiblity to arrange disposition of movie data order (available on Widget/Inside post Options)
-* [major] added many many new movie's details: goofs,comments,quotes,taglines,colors,also known as,composer,soundtrackmovieconnection,officialSites
+* [major] added many many new movie's details: goofs, comments, quotes, taglines, colors, also known as,composer, soundtrackmovieconnection, officialSites
 * [major] completely new cache management system; cache has its own page, and can be deleted now from this very options page (and cache for a pelicular movie can be deleted)
 * [major] new kind of popup, Highslide JS. Much nicer popup, must be activated from "General options / Layout / Popup / Display highslide popup" -> change to yes to see the difference whenever you click a link opening a popup (from inside post or widget)
 * [feature] added javascript to unactivate fields which shouldn't be available because of logical constraints
@@ -525,7 +525,7 @@ v1.1.14.4
 * [feature] removed old screenshots, added new ones
 * [feature] consequently to many changes and functions added, plugin shouldn't work at 100% with a wordpress release prior to 2.7. However, no crucial function has been added, and even with old releases IMDb link transformer should mostly work as it used to.
 
-v1.1.14.3
+v.1.1.14.3
 * [feature] new way to include movies inside a post: use tags (new way) [imdblt]movies name[/imdblt] instead of (old way) <?php lumiere_external_call ?> + Exec-PHP plugin. That means this release doesn't need any more any kind of third party plugin! Compatibility with the old way kept.
 * [feature] changed the way options from admin settings appear; depending of the current selections, some options will appear, some disappear
 * [feature] added "Remove popup links" option; user can choose to remove popup links from widget -> no more popup
@@ -535,60 +535,60 @@ v1.1.14.3
 * [feature] added more screenshots
 * [bugs] corrected many french comments, typos, options bad explained, an so on...
 
-v1.1.14.2
+v.1.1.14.2
 * [feature] added brazilian language
 
-v1.1.14.1
+v.1.1.14.1
 * [feature] added imdb photo size option; user can choose to display the big cover picture instead of the thumbnails'
 * [bugs] corrected writers section from imdb-movie.inc.php (before that, some <br /> where added before names, which moved forward text). Was only an issue when displaying imdb inside a post (via imd_external_call() and Exec-PHP plugin)
 * moved - and renamed - imdb_person.php and imdb_movie.php, and moved popup.php to a more suitable place, "inc/" folder.
 
-v1.1.14
+v.1.1.14
 * [major] updated to imdbphp-1.1.14 library
 * [feature] few french lines (not translated) moved to po files
 * [feature] defined 'IMDBPHP_CONFIG' value in various files, so future update of izzy's libs could be automatically made, instead of changing config lines from imdb_base.class.php
 * [feature] French comments in php's translated to English
 
-v1.1.13.5
+v.1.1.13.5
 * [feature] added the possiblity to directly enter the movie id through "imdb-movie-widget-bymid" post meta data 
 
-v1.1.13
+v.1.1.13
 * [major] updated to imdbphp-1.1.13 library
 * [bug] typo in inc/config-widget.php
 
-v1.0.1
+v.1.0.1
 * [bug] imdb.css, h1 section was preventing of working original h1 
 
-v1.0
+v.1.0
 * [feature] actress filmography working at once (added "actress" in filmography part from imdb_person.php)
 * [feature] various (very) minor enhancements
 
-v0.9.5
+v.0.9.5
 * [major] updated to imdbphp-1.1.1 library
 * [feature] added field plot as an available option for widget
 * [feature] update admin css to match wordpress 2.7 css
 * [bug] rating function working again
 
-v0.9.3
+v.0.9.3
 * [feature] added multiple queries widget process (several "imdb-movie-widget" field can be added to a post). Caution! Adding several fields will slow down page display.
 * [feature] removed the so-said pass of "$filmid = $_GET['imdbpostid']" from imdb-widget to imdb-movie.inc.php (seems to be passed because functional call)
 * [feature] added a function lumiere_external_call () to permit to call the widget from anywhere into templates (widget no more mandatory)
 * [feature] changed to lumiere_htmlize() function (htmlentities() unactivated, as it doesn't seems anymore needed and prevented the accentuated letters to go through the search process)
 
-v0.9.2
+v.0.9.2
 * [feature] style issue (body class wasn't defined to be only a popup class, therefore general blog theme could be affected)
 * [feature] work on w3c validation (it should be valid, now)
 
-v0.9.1
+v.0.9.1
 * [bug] bug giving an error when no meta custom value added to a post
 
-v0.9
+v.0.9
 * [feature] added widget. Using both widget & direct search possibilities, now everybody can display information related to a post directy into widget fields!
 * [feature] most of the functions have been implemented. It still lacks the "actress" class, which means that it doesn't yet display the data related to an actress. Next release will be out when such a class will be finished.
 * [bug] preventing imdb button (no tinymce) to be displayed
 * [bug] usual layout&code fixes
 
-v0.8
+v.0.8
 * [major] updated to imdbphp-1.0.7 class 
 * [feature] get rid of the PEAR option, it isn't useful
 * [bug]  with some [searchs not giving all results for a person](https://projects.izzysoft.de/trac/imdbphp/ticket/46 "IMDbphp website")
@@ -597,22 +597,22 @@ v0.8
 * [feature] changed the way of browsing in popup window ("AKA search" instead of "back", keeping movie's name in $_GET, layout)
 * [feature] Automatic check for the cache folders (under admin board options)
 
-v0.7.1
+v.0.7.1
 * [bugs] relative path & imdb-link-transformer.php with blank spaces resolved
 
-v0.7
+v.0.7
 * [feature] added admin page
 * [feature] added "wait on load" message when first search (when results are not yet cached, it take some time to get them)
 
-v0.6.1
+v.0.6.1
 * [bugs] minors fixes (layout & code)
 
-v0.6
+v.0.6
 * [feature] changed the way the tags are used; < ! --imdb-->nameMovie< ! --/imdb--> instead of < imdb>nameMovie< /imdb>. This means the already tagged fields should be changed to these new tags. As a result of this, IMDb link transformer is only compatible with Wordpress > 2.5!
 * [feature] support for tinymce editor (imdb tags can be automatically inserted by a new button)
 * [bugs] some minors fixes (layout & code)
 	
-0.5
+v.0.5
 * [feature] director page created (filmo, bio & misc)
 * [major] updated to imdbphp-1.0.6 libraries
 * [feature] one title, one result
@@ -622,5 +622,5 @@ v0.6
 * [feature] huge layout and stylesheet work
 * [feature] added many functions
 
-0.3
+v.0.3
 * [major] initial public release of IMDb Link Transformer
