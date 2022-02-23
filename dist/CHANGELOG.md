@@ -1,5 +1,8 @@
 **Changelog**
 
+v.3.6.7
+*
+
 v.3.6.6
 * [bug] If new taxonomy template available, can't overwrite the old template.
 * [technical] Updated to IMDBPHP library (still 7.2, but with bug fixes) and Monolog 2.3.5
