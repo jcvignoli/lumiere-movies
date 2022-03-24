@@ -540,25 +540,25 @@ class Person extends MdbBase
 
     #------------------------------------------------------------------[ Died ]---
 
-    /** Get Deathday
-     * @return array deathday [day,month.mon,year,place,cause]
+    /**
+     * Get date of death with place and cause
+     * @return array [day,month,mon,year,place,cause]
      *         where month is the month name, and mon the month number
      * @see IMDB person page /bio
      */
     public function died()
     {
         if (empty($this->deathday)) {
-            $this->getPage("Bio");
-            if (preg_match('|Died</td>(.*?)</td|ims', $this->page["Bio"], $match)) {
-                preg_match('|/search/name\?death_monthday=(\d+)-(\d+).*?\n?>(.*?) \d+<|', $match[1], $daymon);
-                preg_match('|/search/name\?death_date=(\d{4})|ims', $match[1], $dyear);
+            $page = $this->getPage("Bio");
+            if (preg_match('|Died</td>(.*?)</td|ims', $page, $match)) {
+                preg_match('|/search/name\?death_date=(\d+)-(\d+)-(\d+).*?\n?>(.*?) \d+<|', $match[1], $daymonyear);
                 preg_match('|/search/name\?death_place=.*?"\s*>(.*?)<|ims', $match[1], $dloc);
                 preg_match('/\(([^\)]+)\)/ims', $match[1], $dcause);
                 $this->deathday = array(
-                  "day" => @$daymon[2],
-                  "month" => @$daymon[3],
-                  "mon" => @$daymon[1],
-                  "year" => @$dyear[1],
+                  "day" => @$daymonyear[3],
+                  "month" => @$daymonyear[4],
+                  "mon" => @$daymonyear[2],
+                  "year" => @$daymonyear[1],
                   "place" => @trim(strip_tags($dloc[1])),
                   "cause" => @$dcause[1]
                 );
@@ -1049,6 +1049,18 @@ class Person extends MdbBase
     }
 
     /**
+     * Get the ID for the title we're using. There might have been a redirect from the ID given in the constructor
+     * @return string|null e.g. 0133093 not including nm!
+     */
+    public function real_id()
+    {
+        $page = $this->getPage('Name');
+        if (preg_match('#<meta property="pageId" content="nm(\d+)"#', $page, $matches) && !empty($matches[1])) {
+            return $matches[1];
+        }
+    }
+
+    /**
      * @param string $pageName internal name of the page
      * @return string
      */
@@ -1085,6 +1097,5 @@ class Person extends MdbBase
 
         return $this->page[$page];
     }
-
 }
 
