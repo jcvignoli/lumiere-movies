@@ -571,7 +571,7 @@ class Title extends MdbBase
     {
         if (empty($this->movierecommendations)) {
             $xp = $this->getXpathPage("Title");
-            $cells = $xp->query("//div[contains(@class, 'TitleCard-sc-')]");
+            $cells = $xp->query("//div[contains(@class, 'ipc-poster-card ipc-poster-card--base')]");
             /** @var \DOMElement $cell */
             foreach ($cells as $key => $cell) {
                 $movie = array();
@@ -2693,10 +2693,10 @@ class Title extends MdbBase
     #==================================================[ /companycredits page ]===
     #---------------------------------------------[ Helper: Parse CompanyInfo ]---
     /** Parse company info
-     * @param ref string text to parse
+     * @param string text to parse
      * @param ref array parse target
      */
-    protected function companyParse(&$text, &$target)
+    protected function companyParse($text, &$target)
     {
         preg_match_all('|<li>\s*<a href="(.*)"\s*>(.*)</a>(.*)</li>|iUms', $text, $matches);
         $mc = count($matches[0]);
