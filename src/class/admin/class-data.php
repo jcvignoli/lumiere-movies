@@ -202,7 +202,7 @@ class Data extends \Lumiere\Admin {
 				// Sanitize
 				$myinputs_sanitized = Utils::lumiere_recursive_sanitize_text_field( $_POST['imdbwidgetorderContainer'] );
 				// increment the $key of one
-				$data = is_array( array_combine( range( 1, count( $myinputs_sanitized ) ), array_values( $myinputs_sanitized ) ) ) ? array_combine( range( 1, count( $myinputs_sanitized ) ), array_values( $myinputs_sanitized ) ) : [];
+				$data = array_combine( range( 1, count( $myinputs_sanitized ) ), array_values( $myinputs_sanitized ) );
 
 				// flip $key with $value
 				$data = array_flip( $data );
