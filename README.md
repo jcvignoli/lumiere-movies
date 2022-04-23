@@ -3,8 +3,8 @@
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 4.0 \
-**Tested up to:** 5.9.1 \
-**Stable tag:** 3.6.6 \
+**Tested up to:** 5.9.2 \
+**Stable tag:** 3.6.7 \
 **Requires PHP:** 7.2 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
