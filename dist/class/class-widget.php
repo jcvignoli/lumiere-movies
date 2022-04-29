@@ -90,23 +90,12 @@ class Widget extends \WP_Widget {
 	 *  Names of the block widget
 	 */
 	const BLOCK_WIDGET_NAME = 'lumiere/widget'; // post-WP 5.8 widget block name.
-	const WIDGET_NAME = 'lumiere_movies_widget'; // pre-WP 5.8 widget name.
-	const WIDGET_CLASS = '\Lumiere\Widget'; // pre-WP 5.8. Must match class name.
 
 	/**
 	 * Constructor. Sets up the widget name, description, etc.
 	 *
 	 */
 	public function __construct() {
-
-		parent::__construct(
-			self::WIDGET_NAME,  // Base ID.
-			'Lumière! Widget (legacy)',   // Name.
-			[
-				'description' => esc_html__( 'Add movie details to your pages with Lumière! Legacy version: as of WordPress 5.8, prefer the new widget.', 'lumiere-movies' ),
-				'show_instance_in_rest' => true, /** use WP REST API */
-			]
-		);
 
 		// Construct Global Settings trait.
 		$this->settings_open();
@@ -128,23 +117,10 @@ class Widget extends \WP_Widget {
 
 		/**
 		 * Register the widget
-		 * Give priority to post-5.8 WordPress Widget block. If not found, register pre-5.8 widget.
 		 */
 
 		//Register new block.
 		add_action( 'init', [ $this, 'lumiere_register_widget_block' ] );
-
-		if ( Utils::lumiere_block_widget_isactive() === false ) {
-
-			// Should be hooked to 'widgets_init'.
-			add_action(
-				'widgets_init',
-				function(): void {
-					// Register legacy widget.
-					register_widget( self::WIDGET_CLASS );
-				}
-			);
-		}
 
 		/**
 		 * Hide the widget in legacy widgets menu, but we don't want this
@@ -223,7 +199,7 @@ class Widget extends \WP_Widget {
 
 		wp_register_script(
 			'lumiere_block_widget',
-			$this->config_class->lumiere_blocks_dir . 'widget-block.min.js',
+			$this->config_class->lumiere_blocks_dir . 'widget/index.min.js',
 			[ 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n', 'wp-data' ],
 			$this->config_class->lumiere_version,
 			false
@@ -231,7 +207,7 @@ class Widget extends \WP_Widget {
 
 		wp_register_style(
 			'lumiere_block_widget',
-			$this->config_class->lumiere_blocks_dir . 'widget-block.min.css',
+			$this->config_class->lumiere_blocks_dir . 'widget/index.min.css',
 			[],
 			$this->config_class->lumiere_version
 		);
@@ -299,10 +275,6 @@ class Widget extends \WP_Widget {
 			if ( Utils::lumiere_block_widget_isactive() === true ) {
 				// Post 5.8 WordPress.
 				$this->logger->log()->debug( '[Lumiere][widget] Block-based widget found' );
-			}
-			if ( is_active_widget( false, false, self::WIDGET_NAME, false ) !== false ) {
-				// Pre 5.8 WordPress.
-				$this->logger->log()->debug( '[Lumiere][widget] Pre-5.8 WordPress widget found' );
 			}
 
 			// Show widget only if custom fields or if imdbautopostwidget option is active.

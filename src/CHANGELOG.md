@@ -1,9 +1,12 @@
 **Changelog**
 
-v.3.6.7
+v.3.7
+* [technical] Cannot support older non-gutenberg (non-block) widget version due to WP 6.0. Support of new gutenberg (block) widget only.
 * [technical] Updated to IMDBPHP library 7.3 and Monolog 2.5
+* [technical] Renamed files in blocks folder according to WP standards (using folders and index.js files)
 * [bug] phpstan in class-data.php: -Call to function is_array() with array<int, mixed> will always evaluate to true-, removed the if/then
 * [bug] PHP 8 compatibility improved (class-core.php line 714 array key film wasn't declared)
+* [bug] Image not aligned in movie block in WP block editor
 
 v.3.6.6
 * [bug] If new taxonomy template available, can't overwrite the old template.
