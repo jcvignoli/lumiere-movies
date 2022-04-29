@@ -340,8 +340,8 @@ class Admin {
 
 		<?php
 		// Check if any widget is active:
-		// is_active_widget() (pre 5.8 WordPress) or lumiere_block_widget_isactive() (post 5.8)
-		if ( ( is_active_widget( false, false, \Lumiere\Widget::WIDGET_NAME, false ) === false ) && ( Utils::lumiere_block_widget_isactive() === false ) ) {
+		// lumiere_block_widget_isactive() (post 5.8)
+		if ( Utils::lumiere_block_widget_isactive() === false ) {
 			?>
 
 					- <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'widgets.php' ); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies' ); ?></a></font></em>
