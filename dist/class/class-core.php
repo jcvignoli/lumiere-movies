@@ -420,7 +420,7 @@ class Core {
 
 		wp_register_script(
 			'lumiere_gutenberg_main',
-			$this->config_class->lumiere_blocks_dir . 'main-block.min.js',
+			$this->config_class->lumiere_blocks_dir . 'editor/index.min.js',
 			[ 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n', 'wp-data' ],
 			$this->config_class->lumiere_version,
 			false
@@ -428,14 +428,14 @@ class Core {
 
 		wp_register_script(
 			'lumiere_gutenberg_buttons',
-			$this->config_class->lumiere_blocks_dir . 'buttons.min.js',
+			$this->config_class->lumiere_blocks_dir . 'editor/buttons.min.js',
 			[ 'wp-element', 'wp-compose', 'wp-components', 'wp-i18n', 'wp-data' ],
 			$this->config_class->lumiere_version,
 			false
 		);
 
 		// Style.
-		wp_register_style( 'lumiere_gutenberg_main', $this->config_class->lumiere_blocks_dir . 'main-block.min.css', [], $this->config_class->lumiere_version );
+		wp_register_style( 'lumiere_gutenberg_main', $this->config_class->lumiere_blocks_dir . 'editor/index.min.css', [], $this->config_class->lumiere_version );
 		register_block_style(
 			'lumiere/main',
 			[
@@ -541,7 +541,6 @@ class Core {
 		// + WordPress edition pages + Lumière own pages (ie gutenberg search).
 		if (
 			( 'toplevel_page_lumiere_options' === $hook )
-			|| ( 'widgets.php' === $hook )
 			|| ( 'post.php' === $hook )
 			|| ( 'post-new.php' === $hook )
 			|| ( Utils::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ) ) // All sort of Lumière pages.

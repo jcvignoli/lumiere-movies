@@ -3,9 +3,9 @@
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 4.0 \
-**Tested up to:** 5.9.2 \
-**Stable tag:** 3.6.7 \
-**Requires PHP:** 7.2 \
+**Tested up to:** 6.0 \
+**Stable tag:** 3.7 \
+**Requires PHP:** 8.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
 **Donate link:** https://www.paypal.me/jcvignoli
@@ -28,7 +28,7 @@ Many features are available in the wordpress editing interfaces (Gutenberg, Visu
 
 ### required
 
-PHP 7.2 is required.
+PHP 8.0 is now required due to use of PHP8 specific coding. But it may work with lower version.
 
 1. Activate the plugin
 2. Should you want to fine-tune your blog, configure the plugin (in admin settings). Default values are automatically filled, in most cases, no change is required.
@@ -157,6 +157,10 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changes") to find out the latest developments. Or for even more extensive and recent changes available at [GIT commits](https://github.com/jcvignoli/lumiere-movies/commits/master "GIT commits").
 
 Major changes:
+
+### 3.7
+
+* Fully PHP 8.0 compliant. Many bugs addressed.
 
 ### 3.6
 
