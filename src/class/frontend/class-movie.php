@@ -64,6 +64,20 @@ class Movie {
 	}
 
 	/**
+	 * Determine whether AMP is activated
+	 * Needed for compatibility with AMP WP plugin
+	 *
+	 * @since Lumière! v.3.7
+	 *
+	 * @return bool Is AMP endpoint (and AMP plugin is active).
+	 */
+	private function amp_is_active(): bool {
+
+		return function_exists( 'amp_is_request' ) && amp_is_request();
+
+	}
+
+	/**
 	 *  Search the movie and output the results
 	 *
 	 * @param array<int, array<string, string>> $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
@@ -519,15 +533,23 @@ class Movie {
 	/**
 	 * Display the picture
 	 *
+	 * @since Lumière 3.7, improved compatibility with AMP WP plugin
+	 *
 	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
 	 */
 	private function lumiere_movies_pic ( \Imdb\Title $movie ): string {
 
 		$output = '';
 
-		$photo_url = $movie->photo_localurl( false ) !== false ? esc_html( $movie->photo_localurl( false ) ) : esc_html( $movie->photo_localurl( true ) ); // create big picture, thumbnail otherwise.
+		// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
+		$photo_url = $movie->photo_localurl( false ) !== false ? esc_html( $movie->photo_localurl( false ) ) : esc_html( $movie->photo_localurl( true ) );
 
-		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise
+		// Select picture: if 2/ AMP Plugin is active, use always thumbnail, use previous pic otherwise (in 1)
+		// @since Lumière v.3.7
+		$photo_url = $this->amp_is_active() === true ? esc_html( $movie->photo_localurl( true ) ) : $photo_url;
+
+		// Select picture: if 3/ big/thumbnail picture exists, use it (in 2), use no_pics otherwise
+		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
 
 		$output .= "\n\t\t\t" . '<div class="imdbelementPIC">';
 
@@ -542,8 +564,15 @@ class Movie {
 
 		}
 
+		// Build image HTML tag <img>
+		$output .= "\n\t\t\t\t\t" . '<img ';
 		// loading=\"eager\" to prevent WordPress loading lazy that doesn't go well with cache scripts
-		$output .= "\n\t\t\t\t\t" . '<img loading="eager" class="imdbelementPICimg" src="';
+		// not compatible with AMP WP plugin, don't add it if active
+		// @since Lumière v.3.7
+		if ( $this->amp_is_active() === false ) {
+			$output .= 'loading="eager" ';
+		}
+		$output .= 'class="imdbelementPICimg" src="';
 
 		$output .= $photo_url_final
 			. '" alt="'
@@ -551,8 +580,9 @@ class Movie {
 			. ' '
 			. esc_attr( $movie->title() ) . '"';
 
-			// add width only if "Display only thumbnail" is unactive
-		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
+			// add width only if "Display only thumbnail" and AMP WP plugin is unactive
+			// @since Lumière v.3.7 for AMP
+		if ( $this->imdb_admin_values['imdbcoversize'] === '0' && $this->amp_is_active() === false ) {
 
 			$output .= ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
 

@@ -209,6 +209,20 @@ class Core {
 	}
 
 	/**
+	 * Determine whether AMP is activated
+	 * Needed for compatibility with AMP WP plugin
+	 *
+	 * @since Lumière! v.3.7
+	 *
+	 * @return bool Is AMP endpoint (and AMP plugin is active).
+	 */
+	private function amp_is_active(): bool {
+
+		return function_exists( 'amp_is_request' ) && amp_is_request();
+
+	}
+
+	/**
 	 *  Register frontpage scripts and styles
 	 *
 	 */
@@ -480,7 +494,7 @@ class Core {
 			wp_enqueue_style( 'lumiere_style_main' );
 		}
 
-		// OceanWp template css fix.
+		// OceanWP template css fix.
 		// enqueue lumiere.css only if using oceanwp template.
 			// Popups.
 		if (
@@ -496,6 +510,16 @@ class Core {
 
 			wp_enqueue_style( 'lumiere_style_oceanwpfixes_general' );
 
+		}
+
+		/**
+		 * AMP Plugin: do not encode below javascripts if AMP is active for compatibility purposes
+		 * https://amp-wp.org/documentation/playbooks/implementing-interactivity/
+		 * @since Lumière v.3.7
+		 */
+		if ( $this->amp_is_active() === true ) {
+			// Exit if AMP WP plugin is active
+			return;
 		}
 
 		// Highslide popup.
