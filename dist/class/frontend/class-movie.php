@@ -546,10 +546,10 @@ class Movie {
 
 		// Select picture: if 2/ AMP Plugin is active, use always thumbnail, use previous pic otherwise (in 1)
 		// @since Lumière v.3.7
-		$photo_url = $this->amp_is_active() === true ? esc_html( $movie->photo_localurl( true ) ) : $photo_url; 
+		$photo_url = $this->amp_is_active() === true ? esc_html( $movie->photo_localurl( true ) ) : $photo_url;
 
 		// Select picture: if 3/ big/thumbnail picture exists, use it (in 2), use no_pics otherwise
-		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url; 
+		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
 
 		$output .= "\n\t\t\t" . '<div class="imdbelementPIC">';
 
