@@ -22,9 +22,9 @@ class PluginsDetect {
 	/**
 	 * Array of plugins in use
 	 *
-	 * @var array[] $pluginsClass
+	 * @var array<string> $plugins_class
 	 */
-	public array $pluginsClass = [];
+	public array $plugins_class = [];
 
 	/**
 	 * Constructor
@@ -45,11 +45,11 @@ class PluginsDetect {
 
 		// AMP
 		if ( $this->amp_is_active() === true ) {
-			array_push ( $this->pluginsClass, 'AMP' );
+			array_push( $this->plugins_class, 'AMP' );
 		}
 		// Polylang
 		if ( $this->polylang_is_active() === true ) {
-			array_push ( $this->pluginsClass, 'POLYLANG' );
+			array_push( $this->plugins_class, 'POLYLANG' );
 		}
 
 	}

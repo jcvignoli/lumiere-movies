@@ -128,7 +128,7 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 Major changes:
 
 = 3.7 = 
-* Fully PHP 8.0 compliant. Many bugs addressed.
+* Fully PHP 8.0 compliant. Better compliance with AMP plugin. Many bugs addressed.
 
 = 3.6 = 
 * Code linted and functions rewrote using PHPCS, PHPMD and PHPStan. Faster, more secure and more stable plugin.

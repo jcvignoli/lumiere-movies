@@ -89,6 +89,7 @@ class Widget extends \WP_Widget {
 	/**
 	 *  Names of the block widget
 	 */
+	const WIDGET_NAME = 'lumiere_movies_widget'; // pre-WP 5.8 widget name.
 	const BLOCK_WIDGET_NAME = 'lumiere/widget'; // post-WP 5.8 widget block name.
 
 	/**
@@ -96,6 +97,16 @@ class Widget extends \WP_Widget {
 	 *
 	 */
 	public function __construct() {
+
+		// Have to check if this is still useful with new block widget
+		parent::__construct(
+			self::WIDGET_NAME,  // Base ID.
+			'Lumière! Widget (legacy)',   // Name.
+			[
+				'description' => esc_html__( 'Add movie details to your pages with Lumière! Legacy version: as of WordPress 5.8, prefer the new widget.', 'lumiere-movies' ),
+				'show_instance_in_rest' => true, /** use WP REST API */
+			]
+		);
 
 		// Construct Global Settings trait.
 		$this->settings_open();

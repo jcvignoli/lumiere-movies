@@ -4,10 +4,11 @@
  *  You can replace the occurences of the word s'tandard, rename this file, and then copy it in your theme folder
  *  Or easier: just use Lumière admin interface to do it automatically
  *
- *  Version: 3.1
+ *  Version: 3.2
  *
  *  This template retrieves automaticaly the occurence of the name selected
  *  If used along with Polylang WordPress plugin, a form is displayed to filter by available language
+ *  Almost compatible with AMP WordPress plugin, since WP submit_button() does not seem to be yet AMP compliant
  *
  * @package lumiere-movies
  */
@@ -306,7 +307,8 @@ class Taxonomy_People_Standard {
 	 */
 	private function lumiere_get_form_polylang_selection( string $taxonomy ): void {
 
-		if ( ! function_exists( 'pll_is_translated_taxonomy' ) ) {
+		// If Polylang plugin is not active, exit
+		if ( in_array( 'POLYLANG', $this->plugins_in_use, true ) === false ) {
 			$this->logger->log()->debug( '[Lumiere][taxonomy_' . $taxonomy . '] Polylang is not active.' );
 			return;
 		}
@@ -352,6 +354,7 @@ class Taxonomy_People_Standard {
 		echo "\n\t\t\t\t\t" . wp_nonce_field( 'submit_lang' );
 		if ( function_exists( 'submit_button' ) ) {
 			echo "\n\t\t\t\t\t";
+			// WP submit_button() doesn't seem to be compatible with AMP plugin
 			submit_button( esc_html__( 'Filter language', 'lumiere-movies' ), 'primary', 'submit_lang', false );
 		} else {
 			echo "\n\t\t\t\t\t" . '<input type="submit" class="button-primary" id="submit_lang" name="submit_lang" value="' . esc_html__( 'Filter language', 'lumiere-movies' ) . '">';
