@@ -3,9 +3,9 @@
  * Core Class : Main WordPress actions happen here
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright (c) 2021, Lost Highway
+ * @copyright (c) 2022, Lost Highway
  *
- * @version       2.0
+ * @version       2.1
  * @package lumiere-movies
  */
 
@@ -502,10 +502,10 @@ class Core {
 		/**
 		 * AMP Plugin: do not encode below javascripts if AMP is active for compatibility purposes
 		 * https://amp-wp.org/documentation/playbooks/implementing-interactivity/
-		 * @since Lumière v.3.7
+		 * @since 3.7
 		 */
-		$pluginsClass = new PluginsDetect();
-		if ( in_array( 'AMP', $pluginsClass->pluginsClass ) === true ) {
+		$plugins_class = new PluginsDetect();
+		if ( in_array( 'AMP', $plugins_class->plugins_class, true ) === true ) {
 			// Exit if AMP WP plugin is active
 			return;
 		}

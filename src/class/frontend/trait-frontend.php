@@ -13,6 +13,7 @@
 
 namespace Lumiere;
 
+use \Lumiere\PluginsDetect;
 use \Lumiere\Utils;
 use \Lumiere\Logger;
 use \Lumiere\Imdbphp;
@@ -21,6 +22,15 @@ trait Frontend {
 
 	// Global settings trait.
 	use \Lumiere\Settings_Global;
+
+	/**
+	 * \Lumière\Plugins class
+	 * Array of plugins in use
+	 *
+	 * @since 3.7
+	 * @var array<string>
+	 */
+	public array $plugins_in_use = [];
 
 	/**
 	 * Class \Lumiere\Utils
@@ -70,6 +80,20 @@ trait Frontend {
 
 		// Start the debugging
 		add_action( 'init', [ $this, 'lumiere_frontend_maybe_start_debug' ], 1 );
+	}
+
+	/**
+	 * Determine list of plugins active in array
+	 * Build the PluginsDetect class and fill $this->plugins_in_use with the array of plugins in use
+	 *
+	 * @since 3.7
+	 *
+	 */
+	private function lumiere_set_plugins_array(): void {
+
+		$plugins = new PluginsDetect();
+		$this->plugins_in_use = $plugins->plugins_class;
+
 	}
 
 	/**
@@ -185,6 +209,9 @@ trait Frontend {
 	 */
 	protected function lumiere_medaillon_bio ( array $bio_array, bool $popup_links = false ): ?string {
 
+		// Initialise list of WP plugins in use class (\Lumiere\Plugins)
+		$this->lumiere_set_plugins_array();
+
 		/** Vars */
 		$click_text = esc_html__( 'click to expand', 'lumiere-movies' ); // text for cutting.
 		$max_length = 200; // maximum number of characters before cutting.
@@ -225,16 +252,39 @@ trait Frontend {
 			$str_one = substr( $bio_text, 0, $esc_html_breaker );
 			$str_two = substr( $bio_text, $esc_html_breaker, strlen( $bio_text ) );
 
-			$bio_text = "\n\t\t\t" . $str_one
-				. "\n\t\t\t" . '<span class="activatehidesection"><strong>&nbsp;(' . $click_text . ')</strong></span> '
-				. "\n\t\t\t" . '<span class="hidesection">'
-				. "\n\t\t\t" . $str_two
-				. "\n\t\t\t" . '</span>';
+			if ( in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
+
+				$bio_text = "\n\t\t\t" . $str_one
+					. "\n\t\t\t" . '<span class="activatehidesection"><strong>&nbsp;(' . $click_text . ')</strong></span> '
+					. "\n\t\t\t" . '<span class="hidesection">'
+					. "\n\t\t\t" . $str_two
+					. "\n\t\t\t" . '</span>';
+
+			} elseif ( in_array( 'AMP', $this->plugins_in_use, true ) === true ) {
+
+				$bio_text = "\n\t\t\t" . $this->lumiere_remove_link( $str_one ) . "\n\t\t\t" . $this->lumiere_remove_link( $str_two );
+
+			}
 
 		}
 
 		return $bio_head . $bio_text;
 
 	}
+
+	/**
+	 * Remove html link <a>
+	 *
+	 * @param string $text text to be cleaned from every html link
+	 */
+	public function lumiere_remove_link ( string $text ): string {
+
+		$output = preg_replace( '/<a(.*?)>/', '', $text ) ?? $text;
+		$output = preg_replace( '/<\/a>/', '', $output ) ?? $output;
+
+		return $output;
+
+	}
+
 }
 
