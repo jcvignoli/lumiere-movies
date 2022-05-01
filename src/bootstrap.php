@@ -15,6 +15,7 @@ include_once __DIR__ . '/class/class-core.php'; // activated in lumiere-movies.p
 include_once __DIR__ . '/class/frontend/trait-frontend.php';
 include_once __DIR__ . '/class/tools/class-logger.php';
 include_once __DIR__ . '/class/tools/class-imdbphp.php';
+include_once __DIR__ . '/class/tools/class-pluginsdetect.php';
 include_once __DIR__ . '/class/frontend/class-movie.php';
 include_once __DIR__ . '/class/class-widget.php';
 

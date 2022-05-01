@@ -20,6 +20,7 @@ use \Lumiere\Imdbphp;
 use \Lumiere\Update_Options;
 use \Lumiere\Utils;
 use \Lumiere\Logger;
+use \Lumiere\PluginsDetect;
 use \Imdb\Title;
 use \Imdb\Person;
 
@@ -206,20 +207,6 @@ class Core {
 			);
 		}
 		return $plugin_meta;
-	}
-
-	/**
-	 * Determine whether AMP is activated
-	 * Needed for compatibility with AMP WP plugin
-	 *
-	 * @since Lumière! v.3.7
-	 *
-	 * @return bool Is AMP endpoint (and AMP plugin is active).
-	 */
-	private function amp_is_active(): bool {
-
-		return function_exists( 'amp_is_request' ) && amp_is_request();
-
 	}
 
 	/**
@@ -517,7 +504,8 @@ class Core {
 		 * https://amp-wp.org/documentation/playbooks/implementing-interactivity/
 		 * @since Lumière v.3.7
 		 */
-		if ( $this->amp_is_active() === true ) {
+		$pluginsClass = new PluginsDetect();
+		if ( in_array( 'AMP', $pluginsClass->pluginsClass ) === true ) {
 			// Exit if AMP WP plugin is active
 			return;
 		}

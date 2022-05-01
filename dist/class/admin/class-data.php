@@ -95,7 +95,6 @@ class Data extends \Lumiere\Admin {
 
 		// Build the list of the rest
 		$this->details_extra = [
-			__( 'comment', 'lumiere-movies' ) => __( 'user comment', 'lumiere-movies' ),
 			__( 'officialsites', 'lumiere-movies' ) => __( 'official websites', 'lumiere-movies' ),
 			__( 'prodcompany', 'lumiere-movies' ) => __( 'production company', 'lumiere-movies' ),
 			__( 'rating', 'lumiere-movies' ) => __( 'rating', 'lumiere-movies' ),
@@ -543,7 +542,6 @@ class Data extends \Lumiere\Admin {
 			'tagline' => esc_html__( 'Display (how many) taglines', 'lumiere-movies' ),
 			'title' => esc_html__( 'Display the title', 'lumiere-movies' ),
 			'trailer' => esc_html__( 'Display (how many) trailers', 'lumiere-movies' ),
-			'comment' => esc_html__( 'Display the main user comment', 'lumiere-movies' ),
 			'writer' => esc_html__( 'Display writers', 'lumiere-movies' ),
 			'year' => esc_html__( 'Display release year. The release year will appear next to the movie title into brackets', 'lumiere-movies' ),
 		];

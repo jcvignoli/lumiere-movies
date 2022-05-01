@@ -16,6 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use \Lumiere\PluginsDetect;
 use \Imdb\Title;
 use \Imdb\TitleSearch;
 
@@ -36,6 +37,13 @@ class Movie {
 			'title' => true,
 		],
 	];
+
+	/**
+	 * \Lumière\Plugins class
+	 * Array of plugins in use
+	 * @var array[]
+	 */
+	private array $plugins_in_use;
 
 	/**
 	 *  Class constructor
@@ -64,16 +72,16 @@ class Movie {
 	}
 
 	/**
-	 * Determine whether AMP is activated
-	 * Needed for compatibility with AMP WP plugin
+	 * Determine list of plugins active in array
 	 *
-	 * @since Lumière! v.3.7
+	 * @since 3.7
 	 *
-	 * @return bool Is AMP endpoint (and AMP plugin is active).
+	 * @return array[] list of plugins as detected in Plugins class
 	 */
-	private function amp_is_active(): bool {
+	private function lumiere_set_plugins_array(): void {
 
-		return function_exists( 'amp_is_request' ) && amp_is_request();
+		$plugins = new PluginsDetect();
+		$this->plugins_in_use = $plugins->plugins_class;
 
 	}
 
@@ -86,6 +94,9 @@ class Movie {
 
 		/* Vars */
 		global $lumiere_count_me_siffer;
+
+		// Initialise list of WP plugins in use class (\Lumiere\Plugins)
+		$this->lumiere_set_plugins_array();
 
 		$logger = $this->logger->log();
 		$config_class = $this->config_class;
@@ -533,7 +544,7 @@ class Movie {
 	/**
 	 * Display the picture
 	 *
-	 * @since Lumière 3.7, improved compatibility with AMP WP plugin
+	 * @since 3.7 improved compatibility with AMP WP plugin
 	 *
 	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
 	 */
@@ -545,8 +556,8 @@ class Movie {
 		$photo_url = $movie->photo_localurl( false ) !== false ? esc_html( $movie->photo_localurl( false ) ) : esc_html( $movie->photo_localurl( true ) );
 
 		// Select picture: if 2/ AMP Plugin is active, use always thumbnail, use previous pic otherwise (in 1)
-		// @since Lumière v.3.7
-		$photo_url = $this->amp_is_active() === true ? esc_html( $movie->photo_localurl( true ) ) : $photo_url;
+		// @since 3.7
+		$photo_url = in_array( 'AMP', $this->plugins_in_use ) === true ? esc_html( $movie->photo_localurl( true ) ) : $photo_url;
 
 		// Select picture: if 3/ big/thumbnail picture exists, use it (in 2), use no_pics otherwise
 		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
@@ -568,8 +579,8 @@ class Movie {
 		$output .= "\n\t\t\t\t\t" . '<img ';
 		// loading=\"eager\" to prevent WordPress loading lazy that doesn't go well with cache scripts
 		// not compatible with AMP WP plugin, don't add it if active
-		// @since Lumière v.3.7
-		if ( $this->amp_is_active() === false ) {
+		// @since 3.7
+		if ( in_array( 'AMP', $this->plugins_in_use ) === false ) {
 			$output .= 'loading="eager" ';
 		}
 		$output .= 'class="imdbelementPICimg" src="';
@@ -581,8 +592,8 @@ class Movie {
 			. esc_attr( $movie->title() ) . '"';
 
 			// add width only if "Display only thumbnail" and AMP WP plugin is unactive
-			// @since Lumière v.3.7 for AMP
-		if ( $this->imdb_admin_values['imdbcoversize'] === '0' && $this->amp_is_active() === false ) {
+			// @since 3.7
+		if ( $this->imdb_admin_values['imdbcoversize'] === '0' && in_array( 'AMP', $this->plugins_in_use ) === false ) {
 
 			$output .= ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
 
@@ -883,48 +894,6 @@ class Movie {
 		return $output;
 	}
 
-	/* Display the main user comment
-	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
-	 */
-	private function lumiere_movies_comment( \Imdb\Title $movie ): string {
-
-		$output = '';
-		$comment = [];
-		$comment = $movie->comment();
-
-		if ( strlen( $comment ) !== 0 ) {
-
-			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= esc_html__( 'User comment', 'lumiere-movies' );
-			$output .= ':</span><br />';
-
-			/* Deactivated, seems that method has changed
-			$output .= '<';
-			$output .= '<i>' . sanitize_text_field( $comment[0]['title'] ) . '</i> by ';
-
-			// if "Remove all links" option is not selected
-			if ( ( isset( $this->imdb_admin_values['imdblinkingkill'] ) ) && ( $this->imdb_admin_values['imdblinkingkill'] == false ) ) {
-
-				$output .= '<a href="' . esc_url( $comment[0]['author']['url'] ) . '">' . sanitize_text_field( $comment[0]['author']['name'] ) . '</a>';
-
-			} else {
-
-				$output .= sanitize_text_field( $comment[0]['author']['name'] );
-
-			}
-
-			$output .= '>&nbsp;';
-			$output .= sanitize_text_field( $comment[0]['comment'] );
-			*/
-
-			$output .= sanitize_text_field( $comment );
-		}
-
-		return $output;
-
-	}
-
 	/**
 	 * Display the quotes
 	 *
@@ -956,11 +925,11 @@ class Movie {
 			$currentquotes = preg_replace( '~</p>~', "\n\t\t\t</div>", $currentquotes ) ?? $currentquotes;
 
 			// if "Remove all links" option is not selected.
-			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
+			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use ) === false ) {
 
 				$output .= "\n\t\t\t" . $this->lumiere_imdburl_to_popupurl( $currentquotes );
 
-			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
+			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use ) === true ) { // if "Remove all links" option is selected
 
 				$output .= "\n\t\t" . $this->lumiere_remove_link( $currentquotes );
 
@@ -1038,11 +1007,11 @@ class Movie {
 		for ( $i = 0; ( $i < $nbtrailers && ( $i < $nbtotaltrailers ) ); $i++ ) {
 
 			// if "Remove all links" option is not selected.
-			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
+			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use ) === false ) {
 				$output .= "\n\t\t\t<a href='" . esc_url( $trailers[ $i ]['url'] ) . "' title='" . esc_html__( 'Watch on IMBb website the trailer for ', 'lumiere-movies' ) . esc_html( $trailers[ $i ]['title'] ) . "'>" . sanitize_text_field( $trailers[ $i ]['title'] ) . '</a>';
 
-				// if "Remove all links" option is selected.
-			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
+				// if "Remove all links" option is selected
+			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use ) === true ) {
 
 				$output .= "\n\t\t\t" . sanitize_text_field( $trailers[ $i ]['title'] ) . ', ' . esc_url( $trailers[ $i ]['url'] );
 
@@ -1192,7 +1161,7 @@ class Movie {
 
 			for ( $i = 0; $i < $nbtotalcomposer; $i++ ) {
 
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) { // if "Remove all links" option is not selected
+				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use ) === false ) { // if "Remove all links" option is not selected
 					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) { // highslide popup
 
 						$output .= "\n\t\t\t" . '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . sanitize_text_field( $composer[ $i ]['imdb'] ) . '" title="' . esc_html__( 'Link to local IMDb', 'lumiere-movies' ) . '">' . sanitize_text_field( $composer[ $i ]['name'] ) . '</a>';
@@ -1203,8 +1172,7 @@ class Movie {
 
 					}
 
-					// if "Remove all links" option is selected
-				} else {
+				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use ) === true ) { // if "Remove all links" option is selected
 
 					$output .= sanitize_text_field( $composer[ $i ]['name'] );
 
@@ -1250,9 +1218,11 @@ class Movie {
 			for ( $ii = 0; $ii < $credit_array_count; $ii++ ) {
 
 				$output .= "\n\t\t\t<i>" . esc_html( $soundtrack[ $i ]['soundtrack'] ) . '</i>';
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
+				if ( $this->imdb_admin_values['imdblinkingkill'] === '1' && in_array( 'AMP', $this->plugins_in_use ) === false ) {
 					$output .= "\n\t\t\t" . sanitize_text_field( $credit_array [ $ii ]['credit_to'] );
-				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
+
+					// if "Remove all links" option is selected
+				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use ) === true ) {
 					$output .= "\n\t\t\t" . $this->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
 				}
 				$output .= ' (' . sanitize_text_field( $credit_array [ $ii ]['desc'] ) . ')';
@@ -1291,7 +1261,7 @@ class Movie {
 
 		for ( $i = 0; $i < $nbtotalprodcompany; $i++ ) {
 
-			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) { // if "Remove all links" option is not selected.
+			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use ) === false ) { // if "Remove all links" option is not selected.
 				$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
 				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 				$output .= "\n\t\t\t\t\t<a href='" . esc_url( $prodcompany[ $i ]['url'] ) . "' title='" . esc_html( $prodcompany[ $i ]['name'] ) . "'>";
@@ -1307,7 +1277,7 @@ class Movie {
 				$output .= '</div>';
 				$output .= "\n\t\t\t</div>";
 
-			} else { // if "Remove all links" option is selected
+			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use ) === true ) { // if "Remove all links" option is selected
 
 				$output .= esc_attr( $prodcompany[ $i ]['name'] ) . '<br />';
 
@@ -1341,9 +1311,20 @@ class Movie {
 
 		for ( $i = 0; $i < $nbtotalofficial_sites; $i++ ) {
 
-			$output .= "\n\t\t\t<a href='" . esc_url( $official_sites[ $i ]['url'] ) . "' title='" . esc_attr( $official_sites[ $i ]['name'] ) . "'>";
-			$output .= esc_html( $official_sites[ $i ]['name'] );
-			$output .= '</a>';
+			// if "Remove all links" option is not selected.
+			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use ) === false ) {
+
+				$output .= "\n\t\t\t<a href='" . esc_url( $official_sites[ $i ]['url'] ) . "' title='" . esc_attr( $official_sites[ $i ]['name'] ) . "'>";
+				$output .= esc_html( $official_sites[ $i ]['name'] );
+				$output .= '</a>';
+
+				// if "Remove all links" option is selected
+			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use ) === true ) {
+
+				$output .= "\n\t\t\t" . sanitize_text_field( $official_sites[ $i ]['name'] ) . ', ' . esc_url( $official_sites[ $i ]['url'] );
+
+			}
+
 			if ( $i < $nbtotalofficial_sites - 1 ) {
 				$output .= ', ';
 			}
@@ -1388,7 +1369,8 @@ class Movie {
 
 			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) { // if "Remove all links" option is not selected.
+				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use ) === false ) { // if "Remove all links" option is not selected.
+
 					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) { // highslide popup.
 
 						$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $director[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $director[ $i ]['name'] ) . '</a>';
@@ -1399,7 +1381,7 @@ class Movie {
 						$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . $director[ $i ]['imdb'] . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $director[ $i ]['name'] . '</a>';
 					}
 
-				} else { // if "Remove all links" option is selected
+				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use ) === true ) { // if "Remove all links" option is selected
 
 					$output .= esc_attr( $director[ $i ]['name'] );
 
@@ -1453,7 +1435,7 @@ class Movie {
 			for ( $i = 0; $i < $nbtotalcreator; $i++ ) {
 
 				// if "Remove all links" option is not selected
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
+				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use ) === false ) {
 
 					// highslide popup
 					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
@@ -1471,7 +1453,7 @@ class Movie {
 					}
 
 					// if "Remove all links" option is selected
-				} else {
+				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use ) === true ) {
 
 					$output .= sanitize_text_field( $creator[ $i ]['name'] );
 					if ( $i < $nbtotalcreator - 1 ) {
@@ -1524,7 +1506,7 @@ class Movie {
 				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 
 				// if "Remove all links" option is not selected
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
+				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use ) === false ) {
 
 					// highslide popup
 					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
@@ -1538,7 +1520,7 @@ class Movie {
 					}
 
 					// if "Remove all links" option is selected
-				} else {
+				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use ) === true ) { // if "Remove all links" option is selected
 
 					$output .= esc_attr( $producer[ $i ]['name'] );
 
@@ -1564,7 +1546,7 @@ class Movie {
 	}
 
 	/**
-	 * Display the writer
+	 * Display the writers
 	 *
 	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
 	 */
@@ -1598,7 +1580,7 @@ class Movie {
 				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 
 				// if "Remove all links" option is not selected
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
+				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use ) === false  ) {
 
 					// highslide popup
 					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
@@ -1606,14 +1588,16 @@ class Movie {
 						$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $writer[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . sanitize_text_field( $writer[ $i ]['name'] ) . '</a>';
 
 						// classic popup
-					} else {
+					}
+
+					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '0' ) {
 
 						$output .= '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . esc_attr( $writer[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . sanitize_text_field( $writer[ $i ]['name'] ) . '</a>';
 
 					}
 
 					// if "Remove all links" option is selected
-				} else {
+				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use ) === true ) { // if "Remove all links" option is selected
 
 					$output .= sanitize_text_field( $writer[ $i ]['name'] );
 
@@ -1672,21 +1656,23 @@ class Movie {
 				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 
 				// if "Remove all links" option is not selected
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
+				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use ) === false ) {
 
 					// highslide popup
 					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
 						$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $cast[ $i ]['name'] ) . '</a>';
 
-						// classic popup
-					} else {
+					}
+
+					// classic popup
+					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '0' ) {
 
 						$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-classicpeople" data-classicpeople="' . esc_attr( $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $cast[ $i ]['name'] ) . '</a>';
 
 					}
 
-				} else { // if "Remove all links" option is selected
+				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use ) === true ) { // if "Remove all links" option is selected
 
 					$output .= esc_attr( $cast[ $i ]['name'] );
 
@@ -1694,7 +1680,7 @@ class Movie {
 
 				$output .= '</div>';
 				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-				$output .= esc_attr( preg_replace( '/\n/', '', $cast[ $i ]['role'] ) ); # remove the <br> which break the layout
+				$output .= esc_attr( preg_replace( '/\n/', '', $cast[ $i ]['role'] ) ); # remove the <br> that breaks the layout
 				$output .= '</div>';
 				$output .= "\n\t\t\t" . '</div>';
 
@@ -1729,12 +1715,13 @@ class Movie {
 		for ( $i = 0; ( ( $i < $nbtotalplots ) && ( $i < $nbplots ) ); $i++ ) {
 
 			// if "Remove all links" option is not selected
-			if ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
+			if ( $this->imdb_admin_values['imdblinkingkill'] === '1' && in_array( 'AMP', $this->plugins_in_use ) === false ) {
 
 				$output .= "\n\t\t\t\t" . $this->lumiere_remove_link( $plot[ $i ] );
-			} else {
 
-				$output .= "\n\t\t\t\t" . $plot[ $i ];
+			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use ) === true ) { // if "Remove all links" option is selected
+
+				$output .= "\n\t\t\t\t" . $this->lumiere_remove_link( $plot[ $i ] );
 
 			}
 
@@ -1758,19 +1745,25 @@ class Movie {
 		$mid_premier_resultat = $movie->imdbid();
 		$mid_premier_resultat_sanitized = filter_var( $mid_premier_resultat, FILTER_SANITIZE_NUMBER_INT );
 
+		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= esc_html__( 'Source', 'lumiere-movies' );
+		$output .= ':</span>';
+
+		$output .= "\n\t\t\t" . '<img class="imdbelementSOURCE-picture" width="33" height="15" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />';
+
 		// if "Remove all links" option is not selected
-		if ( $this->imdb_admin_values['imdblinkingkill'] === '0' ) {
+		if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use ) === false ) {
 
-			$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-			$output .= esc_html__( 'Source', 'lumiere-movies' );
-			$output .= ':</span>';
-
-			$output .= "\n\t\t\t" . '<img class="imdbelementSOURCE-picture" width="33" height="15" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />';
 			$output .= '<a class="link-incmovie-sourceimdb" title="'
 					. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
 					. esc_url( 'https://www.imdb.com/title/tt' . $mid_premier_resultat_sanitized ) . '" >'
 					. '&nbsp;&nbsp;'
 					. esc_html__( "IMDb's page for this movie", 'lumiere-movies' ) . '</a>';
+
+			// if "Remove all links" option is selected
+		} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use ) === true ) {
+
+			$output .= 'https://www.imdb.com/title/tt' . $mid_premier_resultat_sanitized;
 
 		}
 
@@ -1836,7 +1829,7 @@ class Movie {
 			# wp_set_post_tags(get_the_ID(), $list_taxonomy_term, 'post_tag', true);
 
 			// Compatibility with Polylang WordPress plugin, add a language to the taxonomy term
-			if ( function_exists( 'pll_set_term_language' ) ) {
+			if ( in_array( 'POLYLANG', $this->plugins_in_use ) === true ) {
 
 				// Get the language of the term already registred.
 				$term_registred_lang = pll_get_term_language( intval( $term['term_id'] ), 'slug' );
