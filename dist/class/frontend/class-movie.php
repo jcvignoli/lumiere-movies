@@ -73,9 +73,6 @@ class Movie {
 		/* Vars */
 		global $lumiere_count_me_siffer;
 
-		// Initialise list of WP plugins in use class (\Lumiere\Plugins) fucntion in trait
-		$this->lumiere_set_plugins_array();
-
 		$logger = $this->logger->log();
 		$config_class = $this->config_class;
 		$lumiere_count_me_siffer = isset( $lumiere_count_me_siffer ) ? $lumiere_count_me_siffer : 0; # var for counting only one results

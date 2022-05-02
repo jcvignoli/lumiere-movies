@@ -22,7 +22,7 @@ class PluginsDetect {
 	/**
 	 * Array of plugins in use
 	 *
-	 * @var array<string> $plugins_class
+	 * @var array<int, string> $plugins_class
 	 */
 	public array $plugins_class = [];
 

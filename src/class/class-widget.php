@@ -134,11 +134,6 @@ class Widget extends \WP_Widget {
 		add_action( 'init', [ $this, 'lumiere_register_widget_block' ] );
 
 		/**
-		 * Hide the widget in legacy widgets menu, but we don't want this
-		 */
-		// add_action( 'widget_types_to_hide_from_legacy_widget_block', 'hide_widget' );.
-
-		/**
 		 * Add shortcode in the block-based widget
 		 */
 		add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'lumiere_widget_shortcodes_parser' ] );
@@ -189,18 +184,6 @@ class Widget extends \WP_Widget {
 
 		// Send to widget() with self::ARGS and the widget title.
 		$this->widget( $atts, $instance );
-	}
-
-	/**
-	 * Hide Lumière legacy widget from WordPress legacy widgets list
-	 * @param array<string> $widget_types
-	 * @return array<string>
-	 */
-	public function hide_widget( array $widget_types ): array {
-
-		$widget_types[] = 'lumiere_movies_widget';
-		return $widget_types;
-
 	}
 
 	/**
