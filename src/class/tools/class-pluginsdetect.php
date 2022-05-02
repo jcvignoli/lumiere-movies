@@ -27,6 +27,22 @@ class PluginsDetect {
 	public array $plugins_class = [];
 
 	/**
+	 * Activate AMP compatibility
+	 * Whether activate AMP functions in Lumière!
+	 * @var bool $lumiere_amp_active set to false to unactivate
+	 * @todo: make it dependent of an option in WP admin
+	 */
+	public bool $lumiere_amp_active = true;
+
+	/**
+	 * Activate Polylang compatibility
+	 * Whether activate Polylang functions in Lumière!
+	 * @var bool $lumiere_polylang_active set to false to unactivate
+	 * @todo: make it dependent of an option in WP admin
+	 */
+	public bool $lumiere_polylang_active = true;
+
+	/**
 	 * Constructor
 	 *
 	 */
@@ -37,9 +53,8 @@ class PluginsDetect {
 	}
 
 	/**
-	 * Build list of plugins active in var $pluginsClass pluginsClass
+	 * Build list of plugins active in array $plugin_class
 	 *
-	 * @return void
 	 */
 	public function lumiere_detect_active_plugins(): void {
 
@@ -57,11 +72,13 @@ class PluginsDetect {
 	/**
 	 * Determine whether AMP is activated
 	 *
-	 * @since Lumière! v.3.7
-	 *
-	 * @return bool Is AMP plugin is active.
+	 * @return bool true if AMP plugin is active
 	 */
 	protected function amp_is_active(): bool {
+
+		if ( $this->lumiere_amp_active === false ) {
+			return false;
+		}
 
 		return function_exists( 'amp_is_request' ) && amp_is_request();
 
@@ -70,11 +87,13 @@ class PluginsDetect {
 	/**
 	 * Determine whether Polylang is activated
 	 *
-	 * @since Lumière! v.3.7
-	 *
-	 * @return bool Is Polylang Polylang plugin is active.
+	 * @return bool true if Polylang plugin is active
 	 */
 	protected function polylang_is_active(): bool {
+
+		if ( $this->lumiere_polylang_active === false ) {
+			return false;
+		}
 
 		if ( function_exists( 'pll_count_posts' ) ) {
 			return true;
