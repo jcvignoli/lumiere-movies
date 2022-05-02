@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Class to detect which WP plugins are in use
+ * Class to detect which WP plugins are in use and compatible with Lumière!
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
