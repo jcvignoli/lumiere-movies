@@ -48,6 +48,14 @@ class PluginsDetect {
 	 */
 	public function __construct() {
 
+		// If init is too late, use lumiere_detect_active_plugins hook so we can activate manually.
+		add_action(
+			'lumiere_plugins_detect',
+			function(): void {
+				$this->lumiere_detect_active_plugins();
+			}
+		);
+
 		// Initialise
 		$this->lumiere_detect_active_plugins();
 	}

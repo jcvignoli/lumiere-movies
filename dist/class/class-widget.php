@@ -22,18 +22,10 @@ use \Lumiere\Logger;
 
 class Widget extends \WP_Widget {
 
-	use \Lumiere\Settings_Global;
-
-	/**
-	 *  Store the class of utilities
-	 */
-	private Utils $utils_class;
-
-	/**
-	 * Class \Lumiere\Logger
-	 *
-	 */
-	private Logger $logger;
+	// Use Frontend trait
+	use \Lumiere\Frontend {
+		Frontend::__construct as public __constructFrontend;
+	}
 
 	/**
 	 * Shortcode to be used by add_shortcodes, ie [lumiereWidget][/lumiereWidget]
@@ -108,23 +100,14 @@ class Widget extends \WP_Widget {
 			]
 		);
 
-		// Construct Global Settings trait.
-		$this->settings_open();
-
-		// Start Settings class.
-		$this->config_class = new Settings();
+		// Construct Frontend trait.
+		$this->__constructFrontend( 'widgetClass' );
 
 		// Get database options.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 
-		// Start Utilities class.
-		$this->utils_class = new Utils();
-
-		// Start Logger class.
-		$this->logger = new Logger( 'widgetClass' );
-
 		// Activate debugging.
-		add_action( 'widget_init', [ $this, 'lumiere_widget_maybe_start_debug' ] );
+		#add_action( 'widget_init', [ $this, 'lumiere_widget_maybe_start_debug' ] );
 
 		/**
 		 * Register the widget

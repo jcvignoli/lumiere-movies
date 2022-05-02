@@ -20,7 +20,6 @@ use \Lumiere\Imdbphp;
 use \Lumiere\Update_Options;
 use \Lumiere\Utils;
 use \Lumiere\Logger;
-use \Lumiere\PluginsDetect;
 use \Imdb\Title;
 use \Imdb\Person;
 
@@ -292,17 +291,6 @@ class Core {
 		// Common assets to admin and frontpage
 		$this->lumiere_register_both_assets();
 
-		/**
-		 * AMP Plugin: do not encode below javascripts if AMP is active for compatibility purposes
-		 * https://amp-wp.org/documentation/playbooks/implementing-interactivity/
-		 * @since 3.7
-		 */
-		$plugins_class = new PluginsDetect();
-		if ( in_array( 'AMP', $plugins_class->plugins_class, true ) === true ) {
-			// Exit if AMP WP plugin is active
-			return;
-		}
-
 		// Register paths, fake script to get a hook for add inline scripts
 		wp_register_script(
 			'lumiere_scripts_admin_vars',
@@ -492,17 +480,6 @@ class Core {
 			wp_enqueue_style( 'lumiere_style_main' );
 		}
 
-		/**
-		 * AMP Plugin: do not encode below javascripts if AMP is active for compatibility purposes
-		 * https://amp-wp.org/documentation/playbooks/implementing-interactivity/
-		 * @since 3.7
-		 */
-		$plugins_class = new PluginsDetect();
-		if ( in_array( 'AMP', $plugins_class->plugins_class, true ) === true ) {
-			// Exit if AMP WP plugin is active
-			return;
-		}
-
 		// OceanWP template css fix.
 		// enqueue lumiere.css only if using oceanwp template.
 			// Popups.
@@ -566,6 +543,7 @@ class Core {
 			( 'toplevel_page_lumiere_options' === $hook )
 			|| ( 'post.php' === $hook )
 			|| ( 'post-new.php' === $hook )
+			|| ( 'widgets.php' === $hook )
 			|| ( Utils::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ) ) // All sort of Lumière pages.
 			|| ( Utils::str_contains( $_SERVER['REQUEST_URI'], 'admin.php?page=lumiere_options' ) )
 		) {
