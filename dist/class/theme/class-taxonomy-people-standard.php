@@ -77,6 +77,21 @@ class Taxonomy_People_Standard {
 		// Display the page.
 		$this->lumiere_taxo_layout_standard();
 
+		// Remove action that breaks everything in trait-frontend.php, function is executed later
+		remove_action( 'wp_head', [ $this, 'remove_lumiere_set_plugins_array' ], 0 );
+
+	}
+
+	/**
+	 * Remove action that breaks everything in current class
+	 * Action added in trait-frontend.php
+	 *
+	 * @since 3.7
+	 */
+	public function remove_lumiere_set_plugins_array(): void {
+
+		remove_action( 'wp_head', [ $this, 'lumiere_set_plugins_array' ], 0 );
+
 	}
 
 	/**
@@ -115,6 +130,9 @@ class Taxonomy_People_Standard {
 
 		// Start IMDbPHP search.
 		$this->lumiere_process_imdbphp_search();
+
+		// Build array of plugins from trait-frontend.php
+		$this->lumiere_set_plugins_array();
 
 		echo '<br />';
 
@@ -387,9 +405,15 @@ class Taxonomy_People_Standard {
 		echo ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 		echo ' lumiere-padding-lines-common-picture">';
 
-		// Select pictures: big poster, if not small poster, if not 'no picture'.
-		$photo_url = $this->person_class->photo_localurl( false ) !== false ? esc_url( $this->person_class->photo_localurl( false ) ) : esc_url( $this->person_class->photo_localurl( true ) ); // create big picture, thumbnail otherwise.
-		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
+		// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
+		$photo_url = $this->person_class->photo_localurl( false ) !== false ? esc_html( $this->person_class->photo_localurl( false ) ) : esc_html( $this->person_class->photo_localurl( true ) );
+
+		// Select picture: if 2/ AMP Plugin is active, use always thumbnail, use previous pic otherwise (in 1)
+		// @since 3.7
+		$photo_url = in_array( 'AMP', $this->plugins_in_use, true ) === true ? esc_html( $this->person_class->photo_localurl( true ) ) : $photo_url;
+
+		// Select picture: if 3/ big/thumbnail picture exists, use it (in 2), use no_pics otherwise
+		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
 
 		echo "\n\t\t\t\t\t" . '<a id="highslide_pic" href="' . esc_url( $photo_url_final ) . '">';
 		echo "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right" src="'

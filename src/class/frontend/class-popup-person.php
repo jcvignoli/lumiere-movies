@@ -50,7 +50,9 @@ class Popup_Person {
 		$this->__constructFrontend( 'popupPerson' );
 
 		// Display layout
-		add_action( 'wp', [ $this, 'lumiere_popup_person_layout' ], 1 );
+		#add_action( 'wp', [ $this, 'lumiere_popup_person_layout' ], 1 );
+		// When set on get_header hook, the popup is fully included in WP environement
+		add_action( 'get_header', [ $this, 'lumiere_popup_person_layout' ], 1 );
 	}
 
 	/**

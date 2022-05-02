@@ -292,6 +292,17 @@ class Core {
 		// Common assets to admin and frontpage
 		$this->lumiere_register_both_assets();
 
+		/**
+		 * AMP Plugin: do not encode below javascripts if AMP is active for compatibility purposes
+		 * https://amp-wp.org/documentation/playbooks/implementing-interactivity/
+		 * @since 3.7
+		 */
+		$plugins_class = new PluginsDetect();
+		if ( in_array( 'AMP', $plugins_class->plugins_class, true ) === true ) {
+			// Exit if AMP WP plugin is active
+			return;
+		}
+
 		// Register paths, fake script to get a hook for add inline scripts
 		wp_register_script(
 			'lumiere_scripts_admin_vars',
@@ -481,6 +492,17 @@ class Core {
 			wp_enqueue_style( 'lumiere_style_main' );
 		}
 
+		/**
+		 * AMP Plugin: do not encode below javascripts if AMP is active for compatibility purposes
+		 * https://amp-wp.org/documentation/playbooks/implementing-interactivity/
+		 * @since 3.7
+		 */
+		$plugins_class = new PluginsDetect();
+		if ( in_array( 'AMP', $plugins_class->plugins_class, true ) === true ) {
+			// Exit if AMP WP plugin is active
+			return;
+		}
+
 		// OceanWP template css fix.
 		// enqueue lumiere.css only if using oceanwp template.
 			// Popups.
@@ -497,17 +519,6 @@ class Core {
 
 			wp_enqueue_style( 'lumiere_style_oceanwpfixes_general' );
 
-		}
-
-		/**
-		 * AMP Plugin: do not encode below javascripts if AMP is active for compatibility purposes
-		 * https://amp-wp.org/documentation/playbooks/implementing-interactivity/
-		 * @since 3.7
-		 */
-		$plugins_class = new PluginsDetect();
-		if ( in_array( 'AMP', $plugins_class->plugins_class, true ) === true ) {
-			// Exit if AMP WP plugin is active
-			return;
 		}
 
 		// Highslide popup.

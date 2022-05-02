@@ -28,7 +28,8 @@ trait Frontend {
 	 * Array of plugins in use
 	 *
 	 * @since 3.7
-	 * @var array<string>
+	 * @var array<int, string>
+	 * @phpstan-ignore-next-line PHPStan complains that var is not defined for some contexts
 	 */
 	public array $plugins_in_use = [];
 
@@ -75,11 +76,30 @@ trait Frontend {
 		// Start Imdbphp class.
 		$this->imdbphp_class = new Imdbphp();
 
-		// Start the debugging
+		// Start checking if current page is block editor
 		add_action( 'init', [ $this, 'lumiere_frontend_is_editor' ], 0 );
 
 		// Start the debugging
 		add_action( 'init', [ $this, 'lumiere_frontend_maybe_start_debug' ], 1 );
+
+		// Initialise list of WP plugins in use class (\Lumiere\Plugins)
+		add_action( 'wp_head', [ $this, 'lumiere_set_plugins_array' ], 0 );
+
+		// Display log of list of WP plugins compatible with Lumiere
+		#add_action( 'the_post', [ $this, 'lumiere_log_plugins' ], 0 );
+
+	}
+
+	/**
+	 * Display list of WP plugins compatible with Lumière!
+	 * Uses Logger class, already initialized
+	 *
+	 * @since 3.7
+	 */
+	public function lumiere_log_plugins(): void {
+
+		$this->logger->log()->debug( '[Lumiere] The following plugins compatible with Lumière! are in use:' . print_r( $this->plugins_in_use, true ) );
+
 	}
 
 	/**
@@ -87,9 +107,8 @@ trait Frontend {
 	 * Build the PluginsDetect class and fill $this->plugins_in_use with the array of plugins in use
 	 *
 	 * @since 3.7
-	 *
 	 */
-	private function lumiere_set_plugins_array(): void {
+	public function lumiere_set_plugins_array(): void {
 
 		$plugins = new PluginsDetect();
 		$this->plugins_in_use = $plugins->plugins_class;
@@ -209,9 +228,6 @@ trait Frontend {
 	 */
 	protected function lumiere_medaillon_bio ( array $bio_array, bool $popup_links = false ): ?string {
 
-		// Initialise list of WP plugins in use class (\Lumiere\Plugins)
-		$this->lumiere_set_plugins_array();
-
 		/** Vars */
 		$click_text = esc_html__( 'click to expand', 'lumiere-movies' ); // text for cutting.
 		$max_length = 200; // maximum number of characters before cutting.
@@ -252,7 +268,7 @@ trait Frontend {
 			$str_one = substr( $bio_text, 0, $esc_html_breaker );
 			$str_two = substr( $bio_text, $esc_html_breaker, strlen( $bio_text ) );
 
-			if ( in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
+			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
 
 				$bio_text = "\n\t\t\t" . $str_one
 					. "\n\t\t\t" . '<span class="activatehidesection"><strong>&nbsp;(' . $click_text . ')</strong></span> '
@@ -260,7 +276,7 @@ trait Frontend {
 					. "\n\t\t\t" . $str_two
 					. "\n\t\t\t" . '</span>';
 
-			} elseif ( in_array( 'AMP', $this->plugins_in_use, true ) === true ) {
+			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) {
 
 				$bio_text = "\n\t\t\t" . $this->lumiere_remove_link( $str_one ) . "\n\t\t\t" . $this->lumiere_remove_link( $str_two );
 
@@ -273,9 +289,10 @@ trait Frontend {
 	}
 
 	/**
-	 * Remove html link <a>
+	 * Remove html links <a></a>
 	 *
 	 * @param string $text text to be cleaned from every html link
+	 * @return string $output text that has been cleaned from every html link
 	 */
 	public function lumiere_remove_link ( string $text ): string {
 

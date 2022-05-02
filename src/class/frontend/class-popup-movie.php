@@ -73,7 +73,9 @@ class Popup_Movie {
 		$this->type_search = $this->config_class->lumiere_select_type_search();
 
 		// Display layout
-		add_action( 'wp', [ $this, 'lumiere_popup_movie_layout' ], 1 );
+		#add_action( 'wp', [ $this, 'lumiere_popup_movie_layout' ], 1 );
+		// When set on get_header hook, the popup is fully included in WP environement
+		add_action( 'get_header', [ $this, 'lumiere_popup_movie_layout' ], 1 );
 
 	}
 

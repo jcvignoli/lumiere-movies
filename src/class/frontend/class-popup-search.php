@@ -66,6 +66,8 @@ class Popup_Search {
 
 		// Display layout
 		add_action( 'wp', [ $this, 'layout' ] );
+		// When set on get_header hook, the popup is fully included in WP environement
+		#add_action( 'get_header', [ $this, 'layout' ], 1 );
 
 	}
 

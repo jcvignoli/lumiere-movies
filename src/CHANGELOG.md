@@ -4,7 +4,7 @@ v.3.7
 * [technical] Cannot support older non-gutenberg (non-block) widget version due to WP 6.0. Support of new gutenberg (block) widget only.
 * [technical] Updated to IMDBPHP library 7.3 and Monolog 2.5
 * [technical] Renamed files in blocks folder according to WP standards (using folders and index.js files)
-* [technical] AMP Wordpress plugin compatibility improved
+* [technical] AMP Wordpress plugin greatly compatibility improved
 * [technical] Added plugins class, grouping all WP plugins compatible with Lumière
 * [technical] Removed user comment option (class-settings, class-data), created "updates/9.php"
 * [bug] phpstan in class-data.php: -Call to function is_array() with array<int, mixed> will always evaluate to true-, removed the if/then
