@@ -73,6 +73,10 @@ class Movie {
 		/* Vars */
 		global $lumiere_count_me_siffer;
 
+		if ( count( $this->plugins_in_use ) == 0 || isset( $this->plugins_in_use ) === false ) {
+			$this->lumiere_set_plugins_array();
+		}
+
 		$logger = $this->logger->log();
 		$config_class = $this->config_class;
 		$lumiere_count_me_siffer = isset( $lumiere_count_me_siffer ) ? $lumiere_count_me_siffer : 0; # var for counting only one results
@@ -730,8 +734,13 @@ class Movie {
 		$output .= esc_html__( 'Rating', 'lumiere-movies' );
 		$output .= ':</span>';
 
-		$output .= ' <img class="imdbelementRATING-picture" src="' . $this->imdb_admin_values['imdbplugindirectory'] . 'pics/showtimes/' . ( round( $rating_sanitized * 2, 0 ) / 0.2 ) .
-			'.gif" title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . $rating_sanitized . esc_html__( ' out of 10', 'lumiere-movies' ) . '"  / >';
+		$output .= ' <img ';
+		// This class breaks AMP
+		if ( in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
+			$output .= 'class="imdbelementRATING-picture" ';
+		}
+		$output .= 'src="' . $this->imdb_admin_values['imdbplugindirectory'] . 'pics/showtimes/' . ( round( $rating_sanitized * 2, 0 ) / 0.2 ) .
+			'.gif" title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . $rating_sanitized . esc_html__( ' out of 10', 'lumiere-movies' ) . '" alt="vote average" title="vote average" / >';
 		$output .= ' (' . number_format( $votes_sanitized, 0, '', "'" ) . ' ' . esc_html__( 'votes', 'lumiere-movies' ) . ')';
 
 		return $output;
@@ -1724,7 +1733,12 @@ class Movie {
 		$output .= esc_html__( 'Source', 'lumiere-movies' );
 		$output .= ':</span>';
 
-		$output .= "\n\t\t\t" . '<img class="imdbelementSOURCE-picture" width="33" height="15" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />';
+		$output .= "\n\t\t\t" . '<img ';
+		// This class breaks AMP
+		if ( in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
+			$output .= 'class="imdbelementSOURCE-picture" ';
+		}
+		$output .= 'alt="link to imdb" width="33" height="15" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />';
 
 		// if "Remove all links" option is not selected
 		if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
@@ -1738,7 +1752,7 @@ class Movie {
 			// if "Remove all links" option is selected
 		} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) {
 
-			$output .= 'https://www.imdb.com/title/tt' . $mid_premier_resultat_sanitized;
+			$output .= ' https://www.imdb.com/title/tt' . $mid_premier_resultat_sanitized;
 
 		}
 
