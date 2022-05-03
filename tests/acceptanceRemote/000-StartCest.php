@@ -27,7 +27,7 @@ class StartCest {
 	 *
 	 */
 	private function login(AcceptanceRemoteTester $I) {
-		AcceptanceTrait::login_universal($I);
+		$I->login_universal($I);
 	}
 
 	/** 	Check if website is online, otherwise exit

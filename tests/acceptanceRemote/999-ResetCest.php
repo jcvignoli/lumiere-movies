@@ -17,7 +17,9 @@ class EndCest {
 	 *
 	 */
 	private function login(AcceptanceRemoteTester $I) {
-		AcceptanceTrait::login_universal($I);
+
+		$I->login_universal($I);
+
 	}
 
 	/** Enable defaults Plugins

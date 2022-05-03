@@ -70,9 +70,12 @@ env:
                  browser: firefox
                  path: ''
                  capabilities:
+                     acceptInsecureCerts: true
                      # Used in more recent releases of Selenium.
                      moz:firefoxOptions:
                          args: ["-headless"] # Run Firefox in headless mode
+                         prefs:
+                             intl.accept_languages: "de-AT"
    wpchrome:
        modules:
           enabled:
@@ -84,9 +87,9 @@ env:
                      adminPath: '%TEST_WP_ADMIN_PATH%'
                      host: localhost
                      browser: chrome
-                     port: 4444
                      window_size: false #disabled for Chrome driver
-                           capabilities:
-                              "goog:chromeOptions":
-                                   args: ["--no-sandbox", "--headless", "--disable-gpu", "--user-agent=wp-browser", "allow-insecure-localhost", "--ignore-certificate-errors"]
+                     port: 4444
+                     capabilities:
+                        chromeOptions:
+                             args: ["--headless", "--disable-gpu"]
 step_decorators: ~      

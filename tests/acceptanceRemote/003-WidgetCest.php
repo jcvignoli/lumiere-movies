@@ -17,7 +17,9 @@ class WidgetCest {
 	 *
 	 */
 	private function login(AcceptanceRemoteTester $I) {
-		AcceptanceTrait::login_universal($I);
+
+		$I->login_universal($I);
+
 	}
 
 	/** Check if auto widget option display a widget based on the title of the page
