@@ -83,6 +83,7 @@ class Movie {
 		$imdb_id_or_title = $imdb_id_or_title_outside !== null ? $imdb_id_or_title_outside : null;
 		$output = '';
 
+		$logger->debug( '[Lumiere] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ' ]' );
 		$logger->debug( '[Lumiere][movieClass] Calling IMDbPHP class.' );
 
 		$search = new TitleSearch( $this->imdbphp_class, $logger );

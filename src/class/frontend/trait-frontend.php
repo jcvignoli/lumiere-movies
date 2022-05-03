@@ -92,13 +92,13 @@ trait Frontend {
 
 	/**
 	 * Display list of WP plugins compatible with Lumière!
-	 * Uses Logger class, already initialized
+	 * Use Logger class, already initialized
 	 *
 	 * @since 3.7
 	 */
 	public function lumiere_log_plugins(): void {
 
-		$this->logger->log()->debug( '[Lumiere] The following plugins compatible with Lumière! are in use:' . print_r( $this->plugins_in_use, true ) );
+		$this->logger->log()->debug( '[Lumiere] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ' ]' );
 
 	}
 
