@@ -3,9 +3,9 @@
  * Class for displaying movies. This class automatically catches spans. It displays taxonomy links and add taxonomy according to the selected options
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright (c) 2021, Lost Highway
+ * @copyright (c) 2022, Lost Highway
  *
- * @version       2.1
+ * @version       2.2
  * @package lumiere-movies
  */
 
@@ -73,7 +73,7 @@ class Movie {
 		/* Vars */
 		global $lumiere_count_me_siffer;
 
-		if ( count( $this->plugins_in_use ) == 0 || isset( $this->plugins_in_use ) === false ) {
+		if ( count( $this->plugins_in_use ) == 0 ) {
 			$this->lumiere_set_plugins_array();
 		}
 

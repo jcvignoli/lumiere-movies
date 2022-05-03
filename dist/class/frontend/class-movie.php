@@ -73,7 +73,7 @@ class Movie {
 		/* Vars */
 		global $lumiere_count_me_siffer;
 
-		if ( count( $this->plugins_in_use ) == 0 || isset( $this->plugins_in_use ) === false ) {
+		if ( count( $this->plugins_in_use ) == 0 ) {
 			$this->lumiere_set_plugins_array();
 		}
 
