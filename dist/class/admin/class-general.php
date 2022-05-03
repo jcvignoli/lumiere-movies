@@ -1,14 +1,13 @@
 <?php declare( strict_types = 1 );
 /**
- * Genral options class
+ * General options class
  * Child of Admin
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright (c) 2021, Lost Highway
+ * @copyright (c) 2022, Lost Highway
  *
- * @version       1.0
+ * @version       1.1
  * @package lumiere-movies
- * @TODO: mainstream the class
  */
 
 namespace Lumiere\Admin;
@@ -193,10 +192,7 @@ class General extends \Lumiere\Admin {
 	</div>
 </div>
 
-
 <div id="poststuff" class="metabox-holder">
-
-
 		<?php
 	}
 
@@ -220,7 +216,46 @@ class General extends \Lumiere\Admin {
 		<div class="inside">
 			<div class="inside imblt_border_shadow">
 
-				<?php //------------------------------------------------------------------ =[Popup]=- ?>
+			<?php
+
+				$this->lumiere_general_display_body_popup();
+
+				$this->lumiere_general_display_body_themepicture();
+
+		}
+				//////////////// Advanced section
+		if ( ( isset( $_GET['generaloption'] ) ) && ( $_GET['generaloption'] === 'advanced' ) ) {
+			?>
+
+		<div class="intro_cache"><?php esc_html_e( 'The options hereafter can break a lot of things. Edit them only if you know what you are doing.', 'lumiere-movies' ); ?></div>
+
+			<?php
+				$this->lumiere_general_display_body_advancedsearch();
+
+				$this->lumiere_general_display_body_advancedmisc();
+
+				$this->lumiere_general_display_body_advancedpaths();
+
+		} // end of advanced section
+
+		//------------------------------------------------------------------ =[Submit selection]=- ?>
+		<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">
+			<?php wp_nonce_field( 'options_general_check', 'options_general_check' ); ?>
+			<input type="submit" id="reset_imdbSettings" class="button-primary" name="reset_imdbSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
+			<input type="submit"  id="update_imdbSettings" class="button-primary" name="update_imdbSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />
+		</div>
+		<br />
+	</form>
+	</div>
+		<?php
+	}
+
+	/**
+	 *  Display the popup section
+	 */
+	private function lumiere_general_display_body_popup(): void {
+
+				//------------------------------------------------------------------ =[Popup]=- ?>
 
 				<div id="popup" class="titresection">
 					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-title-popup.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
@@ -307,9 +342,15 @@ class General extends \Lumiere\Admin {
 					</div>
 
 				</div>
+		<?php
+	}
 
+	/**
+	 *  Display the theme and picture section
+	 */
+	private function lumiere_general_display_body_themepicture(): void {
 
-			<?php //------------------------------------------------------------------ =[Theme taxo/inside post/widget]=- ?>
+			//------------------------------------------------------------------ =[Theme taxo/inside post/widget]=- ?>
 
 				<div id="plainpages" class="titresection">
 					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-title-taxonomy.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
@@ -386,15 +427,13 @@ class General extends \Lumiere\Admin {
 
 		<br />
 		<br />
+		<?php
+	}
 
-
-			<?php
-		}
-				//////////////// Advanced section
-		if ( ( isset( $_GET['generaloption'] ) ) && ( $_GET['generaloption'] === 'advanced' ) ) {
-			?>
-
-		<div class="intro_cache"><?php esc_html_e( 'The options hereafter can break a lot of things. Edit them only if you know what you are doing.', 'lumiere-movies' ); ?></div>
+	/**
+	 *  Display the search section in advanced part
+	 */
+	private function lumiere_general_display_body_advancedsearch(): void {  ?>
 
 		<div class="inside">
 
@@ -502,7 +541,15 @@ class General extends \Lumiere\Admin {
 
 		<br /><br />
 
-			<?php //------------------------------------------------------------------ =[misc]=- ?>
+		<?php
+	}
+
+	/**
+	 *  Display the misc section in advanced part
+	 */
+	private function lumiere_general_display_body_advancedmisc(): void {
+
+		//------------------------------------------------------------------ =[misc]=- ?>
 
 
 		<div class="inside imblt_border_shadow">
@@ -748,6 +795,14 @@ class General extends \Lumiere\Admin {
 
 		</div>
 
+		<?php
+	}
+
+	/**
+	 *  Display the paths section in advanced part
+	 */
+	private function lumiere_general_display_body_advancedpaths(): void {  ?>
+
 		<br />
 		<br />
 
@@ -813,19 +868,6 @@ class General extends \Lumiere\Admin {
 			</div>
 
 		</div>
-	</div>
-
-	<?php	} // end of advanced section ?>
-
-
-		<?php //------------------------------------------------------------------ =[Submit selection]=- ?>
-		<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">
-			<?php wp_nonce_field( 'options_general_check', 'options_general_check' ); ?>
-			<input type="submit" id="reset_imdbSettings" class="button-primary" name="reset_imdbSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
-			<input type="submit"  id="update_imdbSettings" class="button-primary" name="update_imdbSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />
-		</div>
-		<br />
-	</form>
 	</div>
 		<?php
 	}

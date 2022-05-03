@@ -32,16 +32,16 @@ PHP 8.0 is now required due to use of PHP8 specific coding. But it may work with
 
 1. Activate the plugin
 2. Should you want to fine-tune your blog, configure the plugin (in admin settings). Default values are automatically filled, in most cases, no change is required.
-3. Activate a Lumière widget if you intend including movie information into your sidebar.
+3. Activate a Lumière widget if you intend to include movie information into your sidebar.
 4. Write your blogs including movie information using the many tools smoothly incorporated in WordPress!
 
 ### basic options
 
 There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a widget and 3/ inside a post. Each option can be combined with any other; there is no limitation!
 
-1. **Popup** When writing your post, embed a movie's title using editor Lumière's tools. Select the movie's title you just wrote and click on the Lumière edition tool. It will add an HTML span tag around the selected title such as: < span data-lum_link_maker "popup"> movie's title< /span> that usually you can't see except if you're editing in text mode. A **link that opens a popup** will be created in your post upon saving. That popup will contain data about the movie you embeded with the tags.
+1. **Popup** When writing your post, embed a movie's title using "Add IMDb Link" option. Select the movie's title you wrote down and click on that option. It will add an invisible HTML span tag around the selected title such as: < span data-lum_link_maker "popup"> movie's title< /span> that usually you can't see except if you're editing in text mode. You can see if it worked by the little icon on the left of you selected text. After publishing your post, your text will be clickable and will open a popup with data about the movie!
 2. **Widget** can be activated and used to display movie's data. Go to widgets admin options and add a Lumière widget in the sidebar you want to show information about movies. Once the widget is activated, you can add information about a movie to your sidebar: when editing your blog post, a new widget will be displayed for your to enter either the movie's name (that can lead to unexpected results) or the IMDb ID (this never fails to retrieve a movie) of the movie you want to be shown in the sidebar. If you don't know the IMDb ID, you can use the query link provided in Lumière widget.
-3. The plugin can **show IMDb data inside a post**. When writing your post with classic WP editor (pre-5.0 WordPress edition interface), use Lumière's tools to select the movie title: that will insert html tags around your selection, such as < span data-lum_movie_maker "movie_title">My movie's title< /span>. With modern WordPress, just add a Lumière Inside a Post block and enter a movie's title or movie's imdb id. For the latter, in order to find the imdb id use the query tool provided in Lumière block (gutenberg sidebar). A similar tool is provided with classic WP editor in a form of dropdown menu.
+3. The plugin can **show IMDb data inside a post**. With modern WordPress, just add a Lumière Inside a Post block and enter a movie's title or movie's imdb id. For the latter, in order to find the IMDb ID use the query tool provided in Lumière block (gutenberg sidebar). A similar tool is provided with classic WP editor in a form of dropdown menu. If you're redacting your post with classic WP editor (or pre-5.0 WordPress), use Lumière's bar tools to select the movie title: that will insert html tags around your selection, such as < span data-lum_movie_maker "movie_title">My movie's title< /span>. 
 
 ### Fine tuning:
 

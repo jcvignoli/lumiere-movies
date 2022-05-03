@@ -3,9 +3,9 @@
  * Class for displaying movies. This class automatically catches spans. It displays taxonomy links and add taxonomy according to the selected options
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright (c) 2021, Lost Highway
+ * @copyright (c) 2022, Lost Highway
  *
- * @version       2.1
+ * @version       2.2
  * @package lumiere-movies
  */
 
@@ -83,6 +83,7 @@ class Movie {
 		$imdb_id_or_title = $imdb_id_or_title_outside !== null ? $imdb_id_or_title_outside : null;
 		$output = '';
 
+		$logger->debug( '[Lumiere] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ' ]' );
 		$logger->debug( '[Lumiere][movieClass] Calling IMDbPHP class.' );
 
 		$search = new TitleSearch( $this->imdbphp_class, $logger );
