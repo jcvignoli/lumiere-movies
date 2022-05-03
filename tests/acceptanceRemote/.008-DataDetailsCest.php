@@ -21,7 +21,9 @@ class DataDetailsCest {
 	 *
 	 */
 	private function login(AcceptanceRemoteTester $I) {
-		AcceptanceTrait::login_universal($I);
+
+		$I->login_universal($I);
+
 	}
 
 	/** Check if data details deactivation works
