@@ -38,8 +38,8 @@ PHP 8.0 is now required due to use of PHP8 specific coding. But it may work with
 
 There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a widget and 3/ inside a post. Each option can be combined with any other; there is no limitation!
 
-1. **Popup** When writing your post, embed a movie's title using editor Lumière's tools. They add a span tag around the selected title such as: < span data-lum_link_maker "popup"> movie's title< /span>. A **link that opens a popup** will be created in your post upon saving. That popup will contain data about the movie you embeded within the tags.
-2. **Widget** can be activated and used to display movie's data. Go to widgets admin options, and select Lumière widget. According to your WordPress version, you will be either offered to install a block editor or legacy widget. Once a widget activated, you can add or remove what type of data to display on your sidebar: go to data management in Lumière! administration settings. Then, when editing your blog post, a new widget will be displayed for your to enter either the name (can lead to unexpected results) or the IMDb ID (never fails) of the movie you want to be shown in the sidebar. If you don't know the IMDb ID, you can use the query link provided in Lumière widget.
+1. **Popup** When writing your post, embed a movie's title using editor Lumière's tools. Select the movie's title you just wrote and click on the Lumière edition tool. It will add an HTML span tag around the selected title such as: < span data-lum_link_maker "popup"> movie's title< /span> that usually you can't see except if you're editing in text mode. A **link that opens a popup** will be created in your post upon saving. That popup will contain data about the movie you embeded with the tags.
+2. **Widget** can be activated and used to display movie's data. Go to widgets admin options and add a Lumière widget in the sidebar you want to show information about movies. Once the widget is activated, you can add information about a movie to your sidebar: when editing your blog post, a new widget will be displayed for your to enter either the movie's name (that can lead to unexpected results) or the IMDb ID (this never fails to retrieve a movie) of the movie you want to be shown in the sidebar. If you don't know the IMDb ID, you can use the query link provided in Lumière widget.
 3. The plugin can **show IMDb data inside a post**. When writing your post with classic WP editor (pre-5.0 WordPress edition interface), use Lumière's tools to select the movie title: that will insert html tags around your selection, such as < span data-lum_movie_maker "movie_title">My movie's title< /span>. With modern WordPress, just add a Lumière Inside a Post block and enter a movie's title or movie's imdb id. For the latter, in order to find the imdb id use the query tool provided in Lumière block (gutenberg sidebar). A similar tool is provided with classic WP editor in a form of dropdown menu.
 
 = Fine tuning: =
@@ -52,8 +52,8 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 1. If you **do not want Lumière to add any link** (in the case you are only looking for information displayed in widget and inside posts), search for the option located in "General options -> Advanced -> Remove popup links?" and select "yes". Links opening a popup (both in widget and posts) will not be be available anymore.
 2. Should you want to display automatically a widget according to the post's title, just switch on the "Auto widget" option located in "Options -> Advanced -> Auto widget" in the plugin admin panel. Usefull for blogs exclusively dedicated to movie reviews.
 3. You may want to include a custom page in your blog that includes all your movie related articles. Have a look there : [Lost highway's movies reviews](https://www.jcvignoli.com/blog/critiques-de-cinema).
-4. Taxonomy pages and popups URLs can be edited according to your tastes. In advanced general Lumière options, you may want to modify the URL starting with 'lumiere'.
-5. Should you blog be focused on TV shows or videogames only, it is possible to change Lumière's search behaviour to retrieve these exclusively. In advanced general Lumière options, look for 'Search categories'.
+4. Taxonomy pages and popups URLs can be edited according to your tastes. In advanced general Lumière options, you may want to modify the URL starting with 'lumiere' for taxonomy pages.
+5. Should you blog be focused on TV shows or videogames only, it is possible to change Lumière's search behaviour to retrieve exclusively them. In advanced general Lumière options, look for 'Search categories'.
 6. Many more options are offered, just take a look at the options!
 
 == Screenshots ==
@@ -95,6 +95,15 @@ While one widget only can be added per post, you can insert as many movies as yo
 
 If Polylang is installed, new features for taxonomy are added, such as selecting a specific installed language to show in taxonomy pages.
 
+= Is it AMP compliant?  =
+
+Mostly it is. You may see some changes in the layout and obviously the apparence will change. As it is expected by AMPization of any webpages.
+
+= Is it CSP compliant?  =
+
+Content Security Policy (CSP) is a webserver based security avoiding injections to your pages. It greatly improves the security of them.
+While WordPress is not yet fully CSP compliant, Lumière already is.
+
 = Can I change the size of the poster pictures?  =
 
 Sure thing, just untick 'Display only thumbnail' in general admin options, and insert the size in pixels of the picture.
@@ -128,8 +137,8 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 Major changes:
 
 = 3.7 = 
-* Fully PHP 8.0 compliant. Better compliance with AMP plugin. Many bugs addressed. Dropped non-block-based widget, supporting only new version.
-* Needs PHP > 8.0
+* Fully PHP 8.0 compliant. Better compliance with AMP plugin. Many bugs addressed. Dropped non-block-based widget, supporting only new WordPress block version.
+* Needs PHP >= 8.0
 
 = 3.6 = 
 * Code linted and functions rewrote using PHPCS, PHPMD and PHPStan. Faster, more secure and more stable plugin.
