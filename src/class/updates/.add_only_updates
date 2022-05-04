@@ -1,1 +1,2 @@
 Files in this folder are counted in class-settings.php to know how many updates have already been made when installing the plugin.
+There are also automatically registered and initialised in class-updates.php.

@@ -16,12 +16,4 @@ parameters:
         # Lumière bootstrap, but breaks everything
 #        - src/bootstrap.php
         - tests/phpstan/extras.php
-    ignoreErrors:
-	 # These errors are reported because files are got through includes
-        - message: '#Variable \$this might not be defined.#'
-          path: src/class/updates
-        - message: '#Variable \$logger might not be defined.#'
-          path: src/class/updates
-        - message: '#Variable \$imdb_admin_values might not be defined.#'
-          path: src/class/updates
 

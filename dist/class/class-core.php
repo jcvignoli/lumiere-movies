@@ -17,7 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use \Lumiere\Imdbphp;
-use \Lumiere\Update_Options;
+use \Lumiere\Updates;
 use \Lumiere\Utils;
 use \Lumiere\Logger;
 use \Imdb\Title;
@@ -840,7 +840,7 @@ class Core {
 					// Call the class to update options
 					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::UPDATE_OPTIONS_PAGE;
 
-					$start_update_options = new Update_Options();
+					$start_update_options = new Updates();
 
 					$this->logger->log()->debug( '[Lumiere][coreClass][updater] Lumière _on_plugin_upgrade_ hook successfully run.' );
 
@@ -977,7 +977,7 @@ class Core {
 	/**
 	 * Copy metas from one post in original language to another post in other language
 	 * Polylang version
-	 * not yet implemented, not sure if needed, maybe not, need further tests
+	 * @TODO: not yet implemented, not sure if needed, maybe not, need further tests
 	 * to call it: add_filter('pll_copy_post_metas', 'lumiere_copy_post_metas_polylang', 10, 2)
 	 */
 	/*
@@ -1013,7 +1013,7 @@ class Core {
 		// Update options
 		// this udpate is also run in upgrader_process_complete, but the process is not always reliable
 		require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::UPDATE_OPTIONS_PAGE;
-		$start_update_options = new Update_Options();
+		$start_update_options = new Updates();
 
 	}
 

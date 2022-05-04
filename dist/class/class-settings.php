@@ -124,7 +124,7 @@ class Settings {
 	const POPUP_PERSON_URL = 'class/frontend/class-popup-person.php';
 	const TAXO_PEOPLE_THEME = 'class/theme/class-taxonomy-people-standard.php'; // not included in $lumiere_list_all_pages.
 	const TAXO_ITEMS_THEME = 'class/theme/class-taxonomy-items-standard.php'; // not included in $lumiere_list_all_pages.
-	const UPDATE_OPTIONS_PAGE = 'class/class-update-options.php'; // not included in $lumiere_list_all_pages.
+	const UPDATE_OPTIONS_PAGE = 'class/class-updates.php'; // not included in $lumiere_list_all_pages.
 
 	/**
 	 * URL string for taxonomy, 'lumiere-' by default (built in lumiere_define_constants() )
