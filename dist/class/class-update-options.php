@@ -85,11 +85,21 @@ class Update_Options {
 
 		// @TODO: transform those files into classes and use spl_autoload_register to load them all
 
+		/************************************************** 3.7 */
+		if ( ( version_compare( $this->config_class->lumiere_version, '3.7' ) >= 0 )
+			&& ( $imdb_admin_values['imdbHowManyUpdates'] === 9 ) ) {              # update 8
+
+			require_once 'updates/09.php';
+
+			$logger->debug( '[Lumiere][updateOptions] Update 9 has been run.' );
+
+		}
+
 		/************************************************** 3.6 */
 		if ( ( version_compare( $this->config_class->lumiere_version, '3.6' ) >= 0 )
 			&& ( $imdb_admin_values['imdbHowManyUpdates'] === 8 ) ) {              # update 8
 
-			require_once 'updates/8.php';
+			require_once 'updates/08.php';
 
 			$logger->debug( '[Lumiere][updateOptions] Update 8 has been run.' );
 
@@ -99,7 +109,7 @@ class Update_Options {
 		if ( ( version_compare( $this->config_class->lumiere_version, '3.5' ) >= 0 )
 			&& ( $imdb_admin_values['imdbHowManyUpdates'] === 7 ) ) {              # update 7
 
-			require_once 'updates/7.php';
+			require_once 'updates/07.php';
 
 			$logger->debug( '[Lumiere][updateOptions] Update 7 has been run.' );
 
@@ -109,7 +119,7 @@ class Update_Options {
 		if ( ( version_compare( $this->config_class->lumiere_version, '3.4.3' ) >= 0 )
 			&& ( $this->imdb_admin_values['imdbHowManyUpdates'] === 6 ) ) {                # update 6
 
-			require_once 'updates/6.php';
+			require_once 'updates/06.php';
 
 			$logger->debug( '[Lumiere][updateOptions] Update 6 has been run.' );
 
@@ -118,7 +128,7 @@ class Update_Options {
 		if ( ( version_compare( $this->config_class->lumiere_version, '3.4.2' ) >= 0 )
 			&& ( $imdb_admin_values['imdbHowManyUpdates'] === 5 ) ) {              # update 5
 
-			require_once 'updates/5.php';
+			require_once 'updates/05.php';
 
 			$logger->debug( '[Lumiere][updateOptions] Update 5 has been run.' );
 
@@ -127,7 +137,7 @@ class Update_Options {
 		if ( ( version_compare( $config_class->lumiere_version, '3.4' ) >= 0 )
 			&& ( $imdb_admin_values['imdbHowManyUpdates'] === 4 ) ) {              # update 4
 
-			require_once 'updates/4.php';
+			require_once 'updates/04.php';
 
 			$logger->debug( '[Lumiere][updateOptions] Update 4 has been run.' );
 
@@ -138,7 +148,7 @@ class Update_Options {
 		if ( ( version_compare( $this->config_class->lumiere_version, '3.3.4' ) >= 0 )
 			&& ( $imdb_admin_values['imdbHowManyUpdates'] === 3 ) ) {              # update 3
 
-			require_once 'updates/3.php';
+			require_once 'updates/03.php';
 
 			$logger->debug( '[Lumiere][updateOptions] Update 3 has been run.' );
 
@@ -149,7 +159,7 @@ class Update_Options {
 		if ( ( version_compare( $config_class->lumiere_version, '3.3.3' ) >= 0 )
 			&& ( $imdb_admin_values['imdbHowManyUpdates'] === 2 ) ) {              # update 2
 
-			require_once 'updates/2.php';
+			require_once 'updates/02.php';
 
 			$logger->debug( '[Lumiere][updateOptions] Update 2 has been run.' );
 
@@ -160,7 +170,7 @@ class Update_Options {
 		if ( ( version_compare( $config_class->lumiere_version, '3.3.1' ) >= 0 )
 			&& ( $imdb_admin_values['imdbHowManyUpdates'] === 1 ) ) {              # update 1
 
-			require_once 'updates/1.php';
+			require_once 'updates/01.php';
 
 			$logger->debug( '[Lumiere][updateOptions] Update 1 has been run.' );
 
