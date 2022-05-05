@@ -31,7 +31,6 @@ class Highslide {
 	 *
 	 * @since 3.7
 	 * @var array<int, string>
-	 * @phpstan-ignore-next-line PHPStan complains that var is not defined for some contexts
 	 */
 	public array $plugins_in_use = [];
 
@@ -59,7 +58,7 @@ class Highslide {
 		// Execute javascripts and styles only if AMP WP plugin is not active.
 		add_action(
 			'wp_enqueue_scripts',
-			function () {
+			function (): void {
 				if ( in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
 					$this->lumiere_highslide_execute_assets();
 				}
