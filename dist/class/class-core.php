@@ -68,13 +68,6 @@ class Core {
 		add_action( 'init', [ $this, 'lumiere_popup_redirect' ], 0 );
 		add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 0 );
 
-		/* ## Highslide download library, function deactivated upon WordPress plugin team request
-		add_filter( 'init', function( $template ) {
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=lumiere_options&highslide=yes' ) )
-				require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::HIGHSLIDE_DOWNLOAD_PAGE );
-
-		} );*/
-
 		// Redirect class-search.php
 		add_filter(
 			'init',
@@ -224,28 +217,6 @@ class Core {
 			[ 'jquery' ],
 			$this->config_class->lumiere_version,
 			true
-		);
-
-		// Register highslide scripts and styles
-		wp_register_script(
-			'lumiere_highslide',
-			$this->config_class->lumiere_js_dir . 'highslide/highslide-with-html.min.js',
-			[],
-			$this->config_class->lumiere_version,
-			true
-		);
-		wp_register_script(
-			'lumiere_highslide_options',
-			$this->config_class->lumiere_js_dir . 'highslide-options.min.js',
-			[ 'lumiere_highslide' ],
-			$this->config_class->lumiere_version,
-			true
-		);
-		wp_enqueue_style(
-			'lumiere_highslide',
-			$this->config_class->lumiere_css_dir . 'highslide.min.css',
-			[],
-			$this->config_class->lumiere_version
 		);
 
 		// Register customised main style, located in active theme directory
@@ -495,24 +466,6 @@ class Core {
 		} elseif ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
 
 			wp_enqueue_style( 'lumiere_style_oceanwpfixes_general' );
-
-		}
-
-		// Highslide popup.
-		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
-
-			wp_enqueue_style( 'lumiere_highslide' );
-
-			wp_enqueue_script( 'lumiere_highslide' );
-
-			// Pass variables to javascript highslide-options.js.
-			wp_add_inline_script(
-				'lumiere_highslide_options',
-				$this->config_class->lumiere_scripts_highslide_vars,
-				'before',
-			);
-
-			wp_enqueue_script( 'lumiere_highslide_options' );
 
 		}
 
