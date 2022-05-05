@@ -9,7 +9,6 @@
  *
  * @version 3.0
  * @package lumiere-movies
- * @TODO use an abstract class and no child classes, current child classes do not construct parent class
  */
 
 namespace Lumiere;
@@ -19,6 +18,33 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+/**
+ * Load all files included in class/updates by spl_autoload_register()
+ *
+ * @param string $class_name Class name automagically retrieved from spl_autoload_register()
+ */
+function lumiere_updates_loader( string $class_name ): void {
+	print_r( $class_name );
+	$parts = explode( '\\', $class_name );
+	$class = strtolower( array_pop( $parts ) );
+	$folder = strtolower( implode( DIRECTORY_SEPARATOR, $parts ) );
+	$folder_cleaned = str_replace( 'lumiere/', '', $folder );
+	$class_cleaned = str_replace( 'lumiere_update_file_', '', $class );
+
+	// Final path for inclusion
+	$classpath = plugin_dir_path( __DIR__ ) . 'class' . DIRECTORY_SEPARATOR . $folder_cleaned . DIRECTORY_SEPARATOR . $class_cleaned . '.php';
+
+	if ( file_exists( $classpath ) ) {
+
+		require_once $classpath;
+
+	}
+
+}
+
+// Load all classes in class/updates folder, will be loaded when needed
+spl_autoload_register( __NAMESPACE__ . '\lumiere_updates_loader' );
+
 use \Lumiere\Settings;
 use \Lumiere\Logger;
 use \FilesystemIterator;
@@ -26,7 +52,7 @@ use \FilesystemIterator;
 /**
  * The logic is in the parent class, the data in child classes
  *
- *  -> Uses the files in /updates/ to automatically register and run all classes inside ( spl_autoload_register()+run_update_options() )
+ *  -> Uses the files registered in spl_autoload_register() to run all classes in run_update_options()
  *  -> Checks the current Lumière version against the updates and uses $config_class->imdb_admin_values['imdbHowManyUpdates'] var to know if new updates have to be made in lumiere_check_if_run_update()
  *  -> Everytime an update is processed, imdbHowManyUpdates is increased by 1 (in child class)
  */
@@ -47,42 +73,11 @@ class Updates {
 	 */
 	public function __construct() {
 
-		// Load all classes in class/updates folder, will be loaded when needed
-		spl_autoload_register( [ 'Lumiere\Updates', 'lumiere_updates_loader' ] );
-
 		// Construct Global Settings trait.
 		$this->settings_open();
 
 		// Start Logger class.
 		$this->logger = new Logger( 'updateClass' );
-
-		// Execute the options update
-		$this->run_update_options();
-
-	}
-
-	/**
-	 * Load all files included in class/updates
-	 * Loaded in spl_autoload_register() in __construct()
-	 *
-	 * @param string $class_name Class name automagically retrieved from spl_autoload_register()
-	 */
-	public function lumiere_updates_loader( string $class_name ): void {
-
-		$parts = explode( '\\', $class_name );
-		$class = strtolower( array_pop( $parts ) );
-		$folder = strtolower( implode( DIRECTORY_SEPARATOR, $parts ) );
-		$folder_cleaned = str_replace( 'lumiere/', '', $folder );
-		$class_cleaned = str_replace( 'lumiere_update_file_', '', $class );
-
-		// Final path for inclusion
-		$classpath = plugin_dir_path( __DIR__ ) . 'class' . DIRECTORY_SEPARATOR . $folder_cleaned . DIRECTORY_SEPARATOR . $class_cleaned . '.php';
-
-		if ( file_exists( $classpath ) ) {
-
-			require_once $classpath;
-
-		}
 
 	}
 
@@ -91,7 +86,7 @@ class Updates {
 	 *
 	 * Use the files in folder class/updates/ to proceed with the update
 	 */
-	private function run_update_options(): void {
+	public function run_update_options(): void {
 
 		/* VARS */
 		$this->config_class = $this->config_class;
@@ -110,15 +105,15 @@ class Updates {
 		// Iteration for each class in class/updates/
 		for ( $i = 1; $i <= $nb_of_files_in_updates_folder; $i++ ) {
 
-			// if number has less than two digits, add a leading zero
+			// If number has less than two digits, add a leading zero.
 			$iterative_number_with_leading_zero = sprintf( '%02d', $i );
 
-			// Build the class name
+			// Build the class name.
 			$class_name_iterative = "\Lumiere\Updates\Lumiere_Update_File_{$iterative_number_with_leading_zero}";
 
-			// Execute
+			// Execute if class exists.
 			if ( true === class_exists( $class_name_iterative ) ) {
-				new $class_name_iterative( $this->logger );
+				new $class_name_iterative();
 			}
 		}
 
@@ -273,6 +268,8 @@ class Updates {
 	 */
 	protected function lumiere_check_if_run_update ( string $version_update = '', int $number_of_updates = 0 ): bool {
 
+		// Manually Activate logging, since current function is run before WP init
+		do_action( 'lumiere_logger' );
 		$logger = $this->logger->log();
 
 		// Check if the current Lumière version is greater or
