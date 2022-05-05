@@ -18,13 +18,18 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use \Lumiere\Settings;
+use \Lumiere\Logger;
+use \FilesystemIterator;
+
 /**
  * Load all files included in class/updates by spl_autoload_register()
+ * Keep this function out of the class, so child classes can construct the parent class
  *
  * @param string $class_name Class name automagically retrieved from spl_autoload_register()
  */
 function lumiere_updates_loader( string $class_name ): void {
-	print_r( $class_name );
+
 	$parts = explode( '\\', $class_name );
 	$class = strtolower( array_pop( $parts ) );
 	$folder = strtolower( implode( DIRECTORY_SEPARATOR, $parts ) );
@@ -45,14 +50,11 @@ function lumiere_updates_loader( string $class_name ): void {
 // Load all classes in class/updates folder, will be loaded when needed
 spl_autoload_register( __NAMESPACE__ . '\lumiere_updates_loader' );
 
-use \Lumiere\Settings;
-use \Lumiere\Logger;
-use \FilesystemIterator;
-
 /**
+ * Parent class Updates
  * The logic is in the parent class, the data in child classes
  *
- *  -> Uses the files registered in spl_autoload_register() to run all classes in run_update_options()
+ *  -> Uses the files already registered in spl_autoload_register() to run all classes in run_update_options()
  *  -> Checks the current Lumière version against the updates and uses $config_class->imdb_admin_values['imdbHowManyUpdates'] var to know if new updates have to be made in lumiere_check_if_run_update()
  *  -> Everytime an update is processed, imdbHowManyUpdates is increased by 1 (in child class)
  */
@@ -125,13 +127,11 @@ class Updates {
 	 *
 	 * @param string $option_array : the name of the array of options, such as $config_class->imdbWidgetOptionsName
 	 * @param string $option_key : the key in the array of options to be added, such as 'imdbintotheposttheme'
-	 * @param array|string|int|bool|null $option_value : the value to add to the key, can be bool, int, array, string
+	 * @param bool|string|int|array<int|string, string> $option_value : the value to add to the key, can be bool, int, array, string
 	 *
 	 * @return bool true if successful, a notice if missing mandatory parameters; false if option already exists
-	 *
-	 * @phpstan-ignore-next-line 'lumiere_add_options() has parameter $option_value with no value type...'.
 	 */
-	protected function lumiere_add_options( string $option_array = null, string $option_key = null, mixed $option_value = null ): bool {
+	protected function lumiere_add_options( string $option_array = null, string $option_key = null, $option_value = null ): bool {
 
 		// Manually Activate logging, since current function is run before WP init
 		do_action( 'lumiere_logger' );

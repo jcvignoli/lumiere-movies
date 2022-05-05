@@ -4,8 +4,13 @@
  * @phpcs:disable PEAR.Files.IncludingFile
  */
 
-#	Vendor Libraries with autoload (notably IMDbPHP)
-include_once __DIR__ . '/vendor/autoload.php';
+/**
+ * Note: Classes class/class-updates.php, class/class-admin.php, vendor/autoload.php have a spl_autoload_register()
+ * Can't make it general, the class called in each file is different
+ */
+
+#   Vendor Libraries
+include_once __DIR__ . '/vendor/autoload.php'; // with spl_autoload_register().
 
 #	Lumiere Classes (no autoload, don't want all classes)
 include_once __DIR__ . '/class/class-settings.php';
