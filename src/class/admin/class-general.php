@@ -332,7 +332,7 @@ class General extends \Lumiere\Admin {
 						echo '<br />';
 
 						// Automatic download deactivated as per WordPress's plugin staff request
-						// echo "<a href='". esc_url( $this->imdb_admin_values['imdbplugindirectory'] . "inc/highslide_download.php?highslide=yes") . "' title='".esc_html__('Click here to install Highslide', 'lumiere-movies') ."'><img src='".esc_url($this->imdb_admin_values['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />&nbsp;&nbsp;".esc_html__('Install automatically Highslide', 'lumiere-movies') .'</a><br /><br />';
+						// echo "<a href='". esc_url( $this->imdb_admin_values['imdbplugindirectory'] . \Lumiere\Settings::HIGHSLIDE_DOWNLOAD_PAGE . "?highslide=yes") . "' title='".esc_html__('Click here to install Highslide', 'lumiere-movies') ."'><img src='".esc_url($this->imdb_admin_values['imdbplugindirectory'] . "pics/admin-general-install-highslide.png")."' align='absmiddle' />&nbsp;&nbsp;".esc_html__('Install automatically Highslide', 'lumiere-movies') .'</a><br /><br />';
 
 						// Add a link to highslide website
 						echo '<a href="http://highslide.com/" title="' . esc_html__( 'Click here to visit Highslide website', 'lumiere-movies' ) . '"><img src="' . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-install-highslide.png' ) . '" align="absmiddle" />&nbsp;&nbsp;' . esc_html__( 'Get Highslide JS library', 'lumiere-movies' ) . '</a><br /><br />';

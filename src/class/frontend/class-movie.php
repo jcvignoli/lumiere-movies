@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use \Imdb\Title;
 use \Imdb\TitleSearch;
+use \Lumiere\Plugins\Highslide;
 
 class Movie {
 
@@ -60,6 +61,9 @@ class Movie {
 		// @obsolete, kept for compatibility purpose
 		add_shortcode( 'imdblt', [ $this, 'parse_lumiere_tag_transform' ] );
 		add_shortcode( 'imdbltid', [ $this, 'parse_lumiere_tag_transform_id' ] );
+
+		// Start Highslide Plugin class.
+		new Highslide();
 
 	}
 
