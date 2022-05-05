@@ -42,24 +42,13 @@ class Lumiere_Update_File_05 extends \Lumiere\Updates {
 	const LUMIERE_NUMBER_UPDATE = 5;
 
 	/**
-	 * \Lumiere\Logger class
-	 */
-	protected Logger $logger;
-
-	/**
 	 * Constructor
 	 *
 	 */
-	public function __construct ( Logger $logger ) {
-		/** @phpstan-ignore-line '__construct() does not call parent constructor from Lumiere\Updates.'. */
+	public function __construct () {
 
-		// Construct Global Settings trait.
-		// registered in class-updates
-		$this->settings_open();
-
-		// Start Logger class.
-		// Can't use the logger class in class-update (initialisation too early in child class)
-		$this->logger = $logger;
+		// Construct parent class
+		parent::__construct();
 
 		// Run the update
 		$this->lumiere_run_local_update();

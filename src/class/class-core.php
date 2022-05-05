@@ -841,6 +841,7 @@ class Core {
 					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::UPDATE_OPTIONS_PAGE;
 
 					$start_update_options = new Updates();
+					$start_update_options->run_update_options();
 
 					$this->logger->log()->debug( '[Lumiere][coreClass][updater] Lumière _on_plugin_upgrade_ hook successfully run.' );
 
@@ -1014,6 +1015,7 @@ class Core {
 		// this udpate is also run in upgrader_process_complete, but the process is not always reliable
 		require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::UPDATE_OPTIONS_PAGE;
 		$start_update_options = new Updates();
+		$start_update_options->run_update_options();
 
 	}
 
