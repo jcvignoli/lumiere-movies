@@ -164,6 +164,12 @@ class Logger {
 				// Add current url and referrer to the log
 				//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
 
+				// Make sure debug log is writable.
+				if ( is_writable( $this->imdb_admin_values['imdbdebuglogpath'] ) === false ) {
+					Utils::lumiere_wp_filesystem_cred( $this->imdb_admin_values['imdbdebuglogpath'] );
+					chmod( $this->imdb_admin_values['imdbdebuglogpath'], 0755 );
+				}
+
 				// Add the file, the line, the class, the function to the log.
 				$this->logger_class->pushProcessor( new IntrospectionProcessor( $logger_verbosity ) );
 				$filelogger = new StreamHandler( $this->imdb_admin_values['imdbdebuglogpath'], $logger_verbosity );

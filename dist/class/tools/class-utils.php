@@ -431,6 +431,13 @@ class Utils {
 
 		global $wp_filesystem;
 
+		// If the basic function doesn't exist, exit.
+		if ( function_exists( 'request_filesystem_credentials' ) === false ) {
+
+			return false;
+
+		}
+
 		/** WP: request_filesystem_credentials($form_post, $type, $error, $context, $extra_fields); */
 		$creds = request_filesystem_credentials( $file, '', false );
 
