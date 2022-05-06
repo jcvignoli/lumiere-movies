@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Logger;
+use \Lumiere\Plugins\Logger;
 
 /**
  * Class of function tools

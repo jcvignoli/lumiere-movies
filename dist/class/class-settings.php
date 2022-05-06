@@ -16,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Logger;
+use \Lumiere\Plugins\Logger;
 
 // use PHP library.
 use \FilesystemIterator;

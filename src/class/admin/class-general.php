@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use \Lumiere\Utils;
-use \Lumiere\Logger;
+use \Lumiere\Plugins\Logger;
 
 class General extends \Lumiere\Admin {
 

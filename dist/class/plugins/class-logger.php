@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere;
+namespace Lumiere\Plugins;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {

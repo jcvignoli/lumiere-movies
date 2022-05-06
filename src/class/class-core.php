@@ -16,10 +16,10 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Imdbphp;
 use \Lumiere\Updates;
 use \Lumiere\Utils;
-use \Lumiere\Logger;
+use \Lumiere\Plugins\Imdbphp;
+use \Lumiere\Plugins\Logger;
 use \Imdb\Title;
 use \Imdb\Person;
 
@@ -35,7 +35,7 @@ class Core {
 	private Utils $utils_class;
 
 	/**
-	 * \Lumiere\Logger class
+	 * \Lumiere\Plugins\Logger class
 	 *
 	 */
 	private Logger $logger;

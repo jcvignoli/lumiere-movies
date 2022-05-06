@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use \Lumiere\Settings;
 use \Lumiere\Utils;
-use \Lumiere\Logger;
+use \Lumiere\Plugins\Logger;
 
 class Data extends \Lumiere\Admin {
 

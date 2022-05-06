@@ -260,7 +260,7 @@ class Popup_Movie {
 				$photo_url = $movie_results->photo_localurl( false ) !== false ? esc_html( $movie_results->photo_localurl( false ) ) : esc_html( $movie_results->photo_localurl( true ) ); // create big picture, thumbnail otherwise.
 				$photo_url_final = strlen( $photo_url ) === 0 ? $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
 
-				echo '<a class="highslide_pic_popup" class="highslide-image" href="' . esc_url( $photo_url ) . '">';
+				echo '<a class="highslide_pic_popup" href="' . esc_url( $photo_url ) . '">';
 				// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.
 				echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="';
 

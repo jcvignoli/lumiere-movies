@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use \Lumiere\Utils;
-use \Lumiere\Logger;
+use \Lumiere\Plugins\Logger;
 use \Lumiere\Admin\General;
 use \Lumiere\Admin\Data;
 use \Lumiere\Admin\Cache;
@@ -61,7 +61,7 @@ class Admin {
 	protected Utils $utils_class;
 
 	/**
-	 * \Lumiere\Logger class
+	 * \Lumiere\Plugins\Logger class
 	 */
 	protected Logger $logger;
 
@@ -94,7 +94,7 @@ class Admin {
 		$this->utils_class = new Utils();
 
 		// Start Logger class
-		$this->logger = new Logger( 'adminClass' );
+		$this->logger = new \Lumiere\Plugins\Logger( 'adminClass' );
 
 		// Build constants
 		$this->root_url = plugin_dir_url( __DIR__ );
