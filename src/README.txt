@@ -27,7 +27,7 @@ Many features are available in the wordpress editing interfaces (Gutenberg, Visu
 
 = required =
 
-PHP 8.0 is now required due to use of PHP8 specific coding style. But it may work with lower version, I just don't test it anymore.
+PHP 8.0 is now required due to use of PHP8 specific coding style. It may work with lower version (PHP<8.0) but I just don't test it anymore.
 
 1. Activate the plugin
 2. Should you want to fine-tune your blog, configure the plugin (in admin settings). Default values are automatically filled, no change is required for a normal experience.
@@ -138,7 +138,6 @@ Major changes:
 
 = 3.7 = 
 * Fully PHP 8.0 compliant. Better compliance with AMP plugin. Many bugs addressed, better OOP coding, better plugin structure.
-* Due to WordPress 6 requirements, dropped the old non-block-based widget (pre-5.8 WP release) and supporting only the new WordPress block version.
 * Needs PHP >= 8.0
 
 = 3.6 = 
