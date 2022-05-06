@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.7.1
+* [bug] Metaboxes in howto admin not displayed
 
 v.3.7
 * [feature] AMP Wordpress plugin greatly compatibility improved but still room for improvement remains

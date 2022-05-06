@@ -66,6 +66,8 @@ class Help extends \Lumiere\Admin {
 		$this->lumiere_help_extrascript();
 
 		// Meta boxes
+		/**
+		 * This one is correct and follows WP add_meta_box() requirement (no left-right) but doesn't work in production
 		add_meta_box( 'lumiere_explain_popup', esc_html__( 'Popup link builder', 'lumiere-movies' ), [ $this, 'explain_popup' ], 'lumiere_help', 'normal', 'core' );
 		add_meta_box( 'lumiere_explain_inside_post', esc_html__( 'Inside the post', 'lumiere-movies' ), [ $this, 'explain_inside_post' ], 'lumiere_help', 'normal', 'core' );
 		add_meta_box( 'explain_widget', esc_html__( 'Widget', 'lumiere-movies' ), [ $this, 'explain_widget' ], 'lumiere_help', 'normal', 'core' );
@@ -74,6 +76,16 @@ class Help extends \Lumiere\Admin {
 		add_meta_box( 'lumiere_explain_taxonomy', esc_html__( 'Taxonomy with WordPress', 'lumiere-movies' ), [ $this, 'explain_taxonomy' ], 'lumiere_help', 'normal', 'core' );
 		add_meta_box( 'lumiere_explain_autowidget', esc_html__( 'Widget auto according post\'s title', 'lumiere-movies' ), [ $this, 'explain_autowidget' ], 'lumiere_help', 'normal', 'core' );
 		add_meta_box( 'lumiere_explain_searchoptions', esc_html__( 'Search options', 'lumiere-movies' ), [ $this, 'explain_searchoptions' ], 'lumiere_help', 'normal', 'core' );
+		*/
+
+		add_meta_box( 'lumiere_explain_popup', esc_html__( 'Popup link builder', 'lumiere-movies' ), [ $this, 'explain_popup' ], 'lumiere_help', 'left' );
+		add_meta_box( 'lumiere_explain_inside_post', esc_html__( 'Inside the post', 'lumiere-movies' ), [ $this, 'explain_inside_post' ], 'lumiere_help', 'right' );
+		add_meta_box( 'explain_widget', esc_html__( 'Widget', 'lumiere-movies' ), [ $this, 'explain_widget' ], 'lumiere_help', 'left', 'core' );
+		add_meta_box( 'lumiere_explain_addsearchform', esc_html__( 'Add a search form', 'lumiere-movies' ), [ $this, 'explain_addsearchform' ], 'lumiere_help', 'right' );
+		add_meta_box( 'lumiere_explain_keepcss', esc_html__( 'Keep css through update', 'lumiere-movies' ), [ $this, 'explain_keepcss' ], 'lumiere_help', 'left' );
+		add_meta_box( 'lumiere_explain_taxonomy', esc_html__( 'Taxonomy with WordPress', 'lumiere-movies' ), [ $this, 'explain_taxonomy' ], 'lumiere_help', 'right' );
+		add_meta_box( 'lumiere_explain_autowidget', esc_html__( 'Widget auto according post\'s title', 'lumiere-movies' ), [ $this, 'explain_autowidget' ], 'lumiere_help', 'left' );
+		add_meta_box( 'lumiere_explain_searchoptions', esc_html__( 'Search options', 'lumiere-movies' ), [ $this, 'explain_searchoptions' ], 'lumiere_help', 'right' );
 
 		$this->lumiere_admin_help_layout();
 
