@@ -17,8 +17,8 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use \Lumiere\Utils;
-use \Lumiere\Logger;
-use \Lumiere\Imdbphp;
+use \Lumiere\Plugins\Logger;
+use \Lumiere\Plugins\Imdbphp;
 use \Imdb\TitleSearch;
 
 class Search {

@@ -43,15 +43,6 @@ class Highslide {
 		// Construct Global Settings trait.
 		$this->settings_open();
 
-		// Check if AMP is active
-		// TODO: NOT Working yet
-		/*$plugins = new PluginsDetect();
-		$this->plugins_in_use = $plugins->plugins_class;
-		too early, breaks everything, handled by the call for now
-		if ( in_array( 'AMP', $this->plugins_in_use, true ) ) {
-			return;
-		}*/
-
 		// Registers javascripts and styles.
 		add_action( 'init', [ $this, 'lumiere_highslide_register_assets' ], 0 );
 
@@ -111,8 +102,8 @@ class Highslide {
 	 */
 	public function lumiere_highslide_execute_assets (): void {
 
-		// Only display assets if highslide option is selected in admin
-		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
+		// Only display assets if highslide is active
+		if ( $this->lumiere_is_highslide_active() === true ) {
 
 			wp_enqueue_style( 'lumiere_highslide' );
 
