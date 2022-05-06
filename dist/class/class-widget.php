@@ -17,8 +17,6 @@ if ( ! defined( 'WPINC' ) || ! class_exists( '\Lumiere\Settings' ) ) {
 }
 
 use \Lumiere\Movie;
-use \Lumiere\Utils;
-use \Lumiere\Plugins\Logger;
 
 class Widget extends \WP_Widget {
 
@@ -81,8 +79,9 @@ class Widget extends \WP_Widget {
 	/**
 	 *  Names of the block widget
 	 */
-	const WIDGET_NAME = 'lumiere_movies_widget'; // pre-WP 5.8 widget name.
 	const BLOCK_WIDGET_NAME = 'lumiere/widget'; // post-WP 5.8 widget block name.
+	const WIDGET_NAME = 'lumiere_movies_widget'; // pre-WP 5.8 widget name.
+	const WIDGET_CLASS = '\Lumiere\Widget'; // pre-WP 5.8. Must match class name.
 
 	/**
 	 * Constructor. Sets up the widget name, description, etc.
@@ -90,7 +89,6 @@ class Widget extends \WP_Widget {
 	 */
 	public function __construct() {
 
-		// Have to check if this is still useful with new block widget
 		parent::__construct(
 			self::WIDGET_NAME,  // Base ID.
 			'Lumière! Widget (legacy)',   // Name.
@@ -107,6 +105,7 @@ class Widget extends \WP_Widget {
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 
 		// Activate debugging.
+		// Already active in movie class and not needed in admin interface
 		#add_action( 'widget_init', [ $this, 'lumiere_widget_maybe_start_debug' ] );
 
 		/**
@@ -115,6 +114,23 @@ class Widget extends \WP_Widget {
 
 		//Register new block.
 		add_action( 'init', [ $this, 'lumiere_register_widget_block' ] );
+
+		if ( Utils::lumiere_block_widget_isactive() === false ) {
+
+			// Should be hooked to 'widgets_init'.
+			add_action(
+				'widgets_init',
+				function(): void {
+					// Register legacy widget.
+					register_widget( self::WIDGET_CLASS );
+				}
+			);
+		}
+
+		/**
+		 * Hide the widget in legacy widgets menu, but we don't want this
+		 */
+		// add_action( 'widget_types_to_hide_from_legacy_widget_block', 'hide_widget' );.
 
 		/**
 		 * Add shortcode in the block-based widget
@@ -167,6 +183,18 @@ class Widget extends \WP_Widget {
 
 		// Send to widget() with self::ARGS and the widget title.
 		$this->widget( $atts, $instance );
+	}
+
+	/**
+	 * Hide Lumière legacy widget from WordPress legacy widgets list
+	 * @param array<string> $widget_types
+	 * @return array<string>
+	 */
+	public function hide_widget( array $widget_types ): array {
+
+		$widget_types[] = 'lumiere_movies_widget';
+		return $widget_types;
+
 	}
 
 	/**
@@ -252,6 +280,10 @@ class Widget extends \WP_Widget {
 			if ( Utils::lumiere_block_widget_isactive() === true ) {
 				// Post 5.8 WordPress.
 				$this->logger->log()->debug( '[Lumiere][widget] Block-based widget found' );
+			}
+			if ( is_active_widget( false, false, self::WIDGET_NAME, false ) !== false ) {
+				// Pre 5.8 WordPress.
+				$this->logger->log()->debug( '[Lumiere][widget] Pre-5.8 WordPress widget found' );
 			}
 
 			// Show widget only if custom fields or if imdbautopostwidget option is active.

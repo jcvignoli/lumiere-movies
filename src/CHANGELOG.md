@@ -2,7 +2,6 @@
 
 v.3.7
 * [feature] AMP Wordpress plugin greatly compatibility improved but still room for improvement remains
-* [technical] Cannot support older non-gutenberg (non-block) widget version due to WP 6.0. Support of new gutenberg (block) widget only.
 * [technical] Updated to IMDBPHP library 7.3 and Monolog 2.5
 * [technical] Renamed files in blocks folder according to WP standards (using folders and index.js files)
 * [technical] Added plugins class, grouping all WP plugins compatible with Lumière
