@@ -1,7 +1,7 @@
 <?php declare( strict_types = 1 );
 /**
  * Class to send variables to IMDbPHP class.
- * This allow to use IMDbPHP with customised value of Lumiere
+ * This allows to use IMDbPHP with customised value of Lumière
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -10,16 +10,20 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere;
+namespace Lumiere\Plugins;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-// use IMDbPHP config class in /vendor/
+// use IMDbPHP config class in /vendor/.
 use \Imdb\Config;
 
+ /**
+ * This is a child class of \Imdb\Config
+ * It inherits of all variables and injects Lumière! values into it
+ */
 class Imdbphp extends Config {
 
 	// Trait including the database settings.
@@ -31,13 +35,13 @@ class Imdbphp extends Config {
 	 */
 	public function __construct() {
 
-		// Construct parent class
+		// Construct parent class.
 		parent::__construct();
 
 		// Construct Global Settings trait.
 		$this->settings_open();
 
-		// Call the function to send the selected settings to imdbphp library
+		// Call the function to send the selected settings to imdbphp library.
 		$this->lumiere_send_config_imdbphp();
 
 	}
@@ -58,11 +62,12 @@ class Imdbphp extends Config {
 		$this->converttozip = $this->imdb_cache_values['imdbconverttozip'];
 		$this->usezip = $this->imdb_cache_values['imdbusezip'];
 
-		/** Where the local IMDB images reside (look for the "showtimes/" directory)
-		*  This should be either a relative, an absolute, or an URL including the
-		*  protocol (e.g. when a different server shall deliver them)
-		* Cannot be changed in Lumière admin panel
-		*/
+		/**
+		 * Where the local IMDB images reside (look for the "showtimes/" directory)
+		 * This should be either a relative, an absolute, or an URL including the
+		 * protocol (e.g. when a different server shall deliver them)
+		 * Cannot be changed in Lumière admin panel
+		 */
 		$this->imdb_img_url = isset( $this->imdb_admin_values['imdbplugindirectory'] ) . '/pics/showtimes';
 
 	}

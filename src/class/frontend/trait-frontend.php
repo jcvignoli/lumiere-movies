@@ -5,9 +5,9 @@
  * Allow to use the logger, function utilities, and settings
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright (c) 2021, Lost Highway
+ * @copyright (c) 2022, Lost Highway
  *
- * @version       1.0
+ * @version       1.1
  * @package lumiere-movies
  */
 
@@ -15,8 +15,8 @@ namespace Lumiere;
 
 use \Lumiere\PluginsDetect;
 use \Lumiere\Utils;
-use \Lumiere\Logger;
-use \Lumiere\Imdbphp;
+use \Lumiere\Plugins\Logger;
+use \Lumiere\Plugins\Imdbphp;
 
 trait Frontend {
 

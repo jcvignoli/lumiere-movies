@@ -213,7 +213,7 @@ class Popup_Search {
 		</body>
 		</html>
 		<?php
-		exit(); // quit the call of the page, to avoid double loading process
+		exit(); // quit to avoid double loading process
 
 	}
 

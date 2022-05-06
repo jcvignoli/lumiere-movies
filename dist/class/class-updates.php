@@ -19,7 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use \Lumiere\Settings;
-use \Lumiere\Logger;
+use \Lumiere\Plugins\Logger;
 use \FilesystemIterator;
 
 /**
@@ -79,7 +79,7 @@ class Updates {
 		$this->settings_open();
 
 		// Start Logger class.
-		$this->logger = new Logger( 'updateClass' );
+		$this->logger = new \Lumiere\Plugins\Logger( 'updateClass' );
 
 	}
 

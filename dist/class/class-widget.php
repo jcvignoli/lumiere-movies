@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( '\Lumiere\Settings' ) ) {
 
 use \Lumiere\Movie;
 use \Lumiere\Utils;
-use \Lumiere\Logger;
+use \Lumiere\Plugins\Logger;
 
 class Widget extends \WP_Widget {
 
