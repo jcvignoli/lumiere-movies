@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.7.1
+
 v.3.7
 * [feature] AMP Wordpress plugin greatly compatibility improved but still room for improvement remains
 * [technical] Updated to IMDBPHP library 7.3 and Monolog 2.5
