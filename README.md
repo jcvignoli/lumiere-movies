@@ -28,10 +28,10 @@ Many features are available in the wordpress editing interfaces (Gutenberg, Visu
 
 ### required
 
-PHP 8.0 is now required due to use of PHP8 specific coding. But it may work with lower version.
+PHP 8.0 is now required due to use of PHP8 specific coding style. But it may work with lower version, I just don't test it anymore.
 
 1. Activate the plugin
-2. Should you want to fine-tune your blog, configure the plugin (in admin settings). Default values are automatically filled, in most cases, no change is required.
+2. Should you want to fine-tune your blog, configure the plugin (in admin settings). Default values are automatically filled, no change is required for a normal experience.
 3. Activate a Lumière widget if you intend to include movie information into your sidebar.
 4. Write your blogs including movie information using the many tools smoothly incorporated in WordPress!
 
@@ -43,15 +43,15 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 2. **Widget** can be activated and used to display movie's data. Go to widgets admin options and add a Lumière widget in the sidebar you want to show information about movies. Once the widget is activated, you can add information about a movie to your sidebar: when editing your blog post, a new widget will be displayed for your to enter either the movie's name (that can lead to unexpected results) or the IMDb ID (this never fails to retrieve a movie) of the movie you want to be shown in the sidebar. If you don't know the IMDb ID, you can use the query link provided in Lumière widget.
 3. The plugin can **show IMDb data inside a post**. With modern WordPress, just add a Lumière Inside a Post block and enter a movie's title or movie's imdb id. For the latter, in order to find the IMDb ID use the query tool provided in Lumière block (gutenberg sidebar). A similar tool is provided with classic WP editor in a form of dropdown menu. If you're redacting your post with classic WP editor (or pre-5.0 WordPress), use Lumière's bar tools to select the movie title: that will insert html tags around your selection, such as < span data-lum_movie_maker "movie_title">My movie's title< /span>. 
 
-### Fine tuning:
+### Fine-tuning:
 
 1. Lumière! Movies can create pages that include a list of movies identically tagged (known as taxonomy). Taxonomy templates are provided. Check plugin's help to figure out how to use it.
-2. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. You need to download an unminified lumiere.css from the [Lumiere GIT repository](https://github.com/jcvignoli/lumiere-movies/blob/master/src/css/lumiere.css), and after edition just copy the lumiere.css file into your current template folder. Your modifications will be kept through Lumière!'s updates.
+2. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. In order to keep your stylesheet changes through Lumière! updates, you need to download an unminified lumiere.css from the [Lumiere GIT repository](https://github.com/jcvignoli/lumiere-movies/blob/master/src/css/lumiere.css), and after edition just put the lumiere.css file into your current WordPress template folder (a child template, preferably, it will get deleted by a template update otherwise). This way, your stylesheet modifications will be kept through Lumière!'s updates.
 
 ### Advanced
 
 1. If you **do not want Lumière to add any link** (in the case you are only looking for information displayed in widget and inside posts), search for the option located in "General options -> Advanced -> Remove popup links?" and select "yes". Links opening a popup (both in widget and posts) will not be be available anymore.
-2. Should you want to display automatically a widget according to the post's title, just switch on the "Auto widget" option located in "Options -> Advanced -> Auto widget" in the plugin admin panel. Usefull for blogs exclusively dedicated to movie reviews.
+2. Should you want to display automatically a widget according to the post's title, just switch on the "Auto widget" option located in "General Options -> Advanced -> Auto widget" in the plugin admin panel. Usefull for blogs exclusively dedicated to movie reviews.
 3. You may want to include a custom page in your blog that includes all your movie related articles. Have a look there : [Lost highway's movies reviews](https://www.jcvignoli.com/blog/critiques-de-cinema).
 4. Taxonomy pages and popups URLs can be edited according to your tastes. In advanced general Lumière options, you may want to modify the URL starting with 'lumiere' for taxonomy pages.
 5. Should you blog be focused on TV shows or videogames only, it is possible to change Lumière's search behaviour to retrieve exclusively them. In advanced general Lumière options, look for 'Search categories'.
@@ -112,11 +112,11 @@ Of course, pay a visit to the [Lumière! Movies home](https://www.jcvignoli.com/
 
 ### I don't want to have links to a popup window!
 
-Look at "Widget/Inside post Options / Misc / Remove all links?" and switch the option to "yes". Links will not be displayed anymore, both for the "widget" (inside posts) and external links (like popups).
+Look at "General Options -> Advanced -> Misc -> Remove all links?" and switch the option to "yes". Links will not be displayed anymore, both for the "widget" (inside posts) and external links (like popups).
 
 ### I want to keep data forever on my disk/server
 
-Look at "Cache management / Cache general options / Cache expire" and click on "never" to keep forever the downloaded data from IMDb. Be carefull with that option: changes made on IMDb will not be anymore reflected in your cache. Should you have selected that option, you can still delete/refresh any specific movie you want in the cache options.
+Look at "Cache management -> Cache general options -> Cache expire" and click on "never" to keep forever the downloaded data from IMDb. Be carefull with that option: changes made on IMDb will not be anymore reflected in your cache. Should you have selected that option, you can still delete/refresh any specific movie you want in the cache options.
 
 ### Is it possible to add several movies to sidebar/widget and inside my post?
 
@@ -169,7 +169,8 @@ Major changes:
 
 ### 3.7
 
-* Fully PHP 8.0 compliant. Better compliance with AMP plugin. Many bugs addressed. Dropped non-block-based widget, supporting only new WordPress block version.
+* Fully PHP 8.0 compliant. Better compliance with AMP plugin. Many bugs addressed, better OOP coding, better plugin structure.
+* Due to WordPress 6 requirements, dropped the old non-block-based widget (pre-5.8 WP release) and supporting only the new WordPress block version.
 * Needs PHP >= 8.0
 
 ### 3.6
