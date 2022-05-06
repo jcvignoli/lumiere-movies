@@ -457,7 +457,7 @@ class Movie {
 					// @phpstan-ignore-next-line 'Variable method call on $this(Lumiere\Movie)'.
 					$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->$function( $movie ), $data_detail );
 				} else {
-					$logger->warning( '[Lumiere][movieClass] The function ' . $function . ' does not exist' );
+					$logger->warning( '[Lumiere][movieClass] The method ' . $function . ' does not exist in the class' );
 				}
 
 			}
