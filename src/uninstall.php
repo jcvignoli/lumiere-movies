@@ -19,7 +19,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 use \Lumiere\Settings;
 use \Lumiere\Utils;
-use \Lumiere\Logger;
+use \Lumiere\Plugins\Logger;
 
 class Uninstall {
 

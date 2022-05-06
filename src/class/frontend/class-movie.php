@@ -453,8 +453,8 @@ class Movie {
 				$function = "lumiere_movies_{$data_detail}";
 
 				// Call the wrapper using the built function.
-				// @phpstan-ignore-next-line 'Variable method call on $this(Lumiere\Movie)'.
 				if ( method_exists( '\Lumiere\Movie', $function ) ) {
+					// @phpstan-ignore-next-line 'Variable method call on $this(Lumiere\Movie)'.
 					$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->$function( $movie ), $data_detail );
 				} else {
 					$logger->warning( '[Lumiere][movieClass] The function ' . $function . ' does not exist' );
