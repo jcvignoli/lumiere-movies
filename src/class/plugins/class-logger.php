@@ -89,7 +89,7 @@ class Logger {
 	}
 
 	/**
-	 * Detect if the current page is a classic or block editor page (post.php or post-new.php)
+	 * Detect if the current page is a classic or block editor page
 	 *
 	 */
 	private function lumiere_is_screen_editor(): bool {
@@ -105,7 +105,9 @@ class Logger {
 
 		// If the page called is post or post-new, set $is_editor_page on true.
 		// This is useful when display a post.
-		if ( isset( $GLOBALS['hook_suffix'] ) && ( $GLOBALS['hook_suffix'] === 'post.php' || $GLOBALS['hook_suffix'] === 'post-new.php' ) ) {
+		if ( isset( $GLOBALS['hook_suffix'] )
+			&& ( $GLOBALS['hook_suffix'] === 'post.php'
+			|| $GLOBALS['hook_suffix'] === 'post-new.php' ) ) {
 
 			$this->is_editor_page = true;
 			return true;
@@ -164,8 +166,16 @@ class Logger {
 				// Add current url and referrer to the log
 				//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
 
-				// Make sure debug log is writable.
+				/**
+				 * Make sure debug log exists and is writable.
+				 * @since 3.7.1
+				 */
+				if ( is_file( $this->imdb_admin_values['imdbdebuglogpath'] ) === false ) {
+					// Debug file doesn't exist, create it.
+					touch( $this->imdb_admin_values['imdbdebuglogpath'] );
+				}
 				if ( is_writable( $this->imdb_admin_values['imdbdebuglogpath'] ) === false ) {
+					// Permissions on the file are not correct, change them.
 					Utils::lumiere_wp_filesystem_cred( $this->imdb_admin_values['imdbdebuglogpath'] );
 					chmod( $this->imdb_admin_values['imdbdebuglogpath'], 0755 );
 				}
@@ -217,6 +227,11 @@ class Logger {
 		$this->logger_class->pushHandler( new NullHandler() );
 	}
 
+	/**
+	 * Function to call the Monolog Logger
+	 *
+	 * @return LoggerMonolog the Monolog class
+	 */
 	public function log(): LoggerMonolog {
 		return $this->logger_class;
 	}

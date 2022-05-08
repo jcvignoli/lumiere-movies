@@ -1,7 +1,8 @@
 **Changelog**
 
 v.3.7.1
-* [bug] Metaboxes in howto admin not displayed
+* [bug] Metaboxes in howto admin not displayed under certain context
+* [bug] class-logger didn't create debug file if not existing
 
 v.3.7
 * [feature] AMP Wordpress plugin greatly compatibility improved but still room for improvement remains
