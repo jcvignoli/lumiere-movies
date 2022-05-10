@@ -929,29 +929,6 @@ class Core {
 	}
 
 	/**
-	 * Copy metas from one post in original language to another post in other language
-	 * Polylang version
-	 * @TODO: not yet implemented, not sure if needed, maybe not, need further tests
-	 * to call it: add_filter('pll_copy_post_metas', 'lumiere_copy_post_metas_polylang', 10, 2)
-	 */
-	/*
-	public function lumiere_copy_post_metas_polylang( $metas, $sync) {
-
-		if(!is_admin()) return false;
-		if($sync) return $metas;
-		global $current_screen;
-
-		if($current_screen-post_type == 'wine'){ // substitue 'wine' with post type
-			$keys = array_key(get_fields($_GET['imdbltid']));
-			return array_merge($metas, $keys);
-		}
-
-		return $metas;
-
-	}
-	*/
-
-	/**
 	 *  Cron to run execute once
 	 *
 	 */
