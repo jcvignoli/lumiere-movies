@@ -27,7 +27,7 @@ class Help extends \Lumiere\Admin {
 	 */
 	private string $readmefile;
 	private string $changelogfile;
-	private string $aknowledgefile;
+	private string $acknowledgefile;
 
 	/**
 	 * HTML allowed for use of wp_kses()
@@ -59,7 +59,7 @@ class Help extends \Lumiere\Admin {
 		// Build constants not in parent class
 		$this->readmefile = $this->root_path . 'README.txt';
 		$this->changelogfile = $this->root_path . 'CHANGELOG.md';
-		$this->aknowledgefile = $this->root_path . 'ACKNOWLEDGMENTS.md';
+		$this->acknowledgefile = $this->root_path . 'ACKNOWLEDGMENTS.md';
 
 		// Add specific script for metaboxes
 		//add_action('admin_enqueue_scripts', [$this, 'lumiere_help_extrascript' ]); # can't use add_action, call in parent class too late
@@ -298,9 +298,9 @@ class Help extends \Lumiere\Admin {
 		$number = 0;
 
 		// Make sure we got right credentials to use $wp_filesystem.
-		Utils::lumiere_wp_filesystem_cred( $this->aknowledgefile );
+		Utils::lumiere_wp_filesystem_cred( $this->acknowledgefile );
 		// Open the file (as an array).
-		$aknowledgefile = $wp_filesystem->get_contents_array( $this->aknowledgefile );
+		$acknowledgefile = $wp_filesystem->get_contents_array( $this->acknowledgefile );
 		?>
 
 		<h3 class="hndle" id="help_support" name="help_support"><?php esc_html_e( 'Two ways to support ', 'lumiere-movies' );
@@ -347,7 +347,7 @@ class Help extends \Lumiere\Admin {
 		 * 3-replace \n by br.
 		 * 4-replace links from (specially formated for WordPress website) readme with casual html.
 		 */
-		if ( is_array( $aknowledgefile ) === true ) {
+		if ( is_array( $acknowledgefile ) === true ) {
 			$patterns = [
 				'~\# (.*)~',
 				'~\*\*(.*)\*\*~',
@@ -360,12 +360,12 @@ class Help extends \Lumiere\Admin {
 				'<br />',
 				'<a href="${3}${5}" title="${7}">${2}</a>',
 			];
-			$aknowledgefile = preg_replace( $patterns, $replaces, $aknowledgefile ) ?? $aknowledgefile;
+			$acknowledgefile = preg_replace( $patterns, $replaces, $acknowledgefile ) ?? $acknowledgefile;
 		}
 
 		echo '<ul>';
 
-		foreach ( $aknowledgefile as $texte ) {
+		foreach ( $acknowledgefile as $texte ) {
 			if ( $number > '1' ) {
 
 				// display text formatted
@@ -760,7 +760,7 @@ movie's title
 			<?php
 			esc_html_e( '3. It is possible to limit the number of results in the queries using its dedicated option. The less results there is, the less server resources are required and the faster the output is displayed. This limit number applies to the search of movies with a similar name (menu option in movies popups) and in ', 'lumiere-movies' );
 			/* translators: %s is replaced with a URL */
-			echo esc_html( sprintf( __( "<a href='%1\$s'>the admin tool of queries to find IMDb id</a>.", 'lumiere-movies' ), esc_url( admin_url() . \Lumiere\Settings::GUTENBERG_SEARCH_URL_STRING ) ) );
+			echo wp_kses( sprintf( __( "<a href='%1\$s'>the admin tool of queries to find IMDb id</a>.", 'lumiere-movies' ), esc_url( admin_url() . \Lumiere\Settings::GUTENBERG_SEARCH_URL_STRING ) ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 			?>
 
 		</div>
