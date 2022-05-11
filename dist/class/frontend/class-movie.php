@@ -19,6 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 use \Imdb\Title;
 use \Imdb\TitleSearch;
 use \Lumiere\Plugins\Highslide;
+use \Lumiere\Plugins\Polylang;
 
 class Movie {
 
@@ -26,6 +27,22 @@ class Movie {
 	use \Lumiere\Frontend {
 		Frontend::__construct as public __constructFrontend;
 	}
+
+	/**
+	 * Object to build links, i.e. Highslide
+	 * Can never be null, since we must build the links
+	 *
+	 * @var Highslide $link_maker
+	 */
+	private object $link_maker;
+
+	/**
+	 * Polylang plugin object from its class
+	 * Can be null if Polylang is not active
+	 *
+	 * @var Polylang $plugin_polylang
+	 */
+	private ?Polylang $plugin_polylang = null;
 
 	/**
 	 *  HTML allowed for use of wp_kses_post()
@@ -39,12 +56,22 @@ class Movie {
 	];
 
 	/**
-	 *  Class constructor
+	 * Class constructor
+	 * @param Highslide $link_maker The object to make the links, i.e. Highslide
+	 * @param ?Polylang $plugin_polylang Polylang plugin object
 	 */
-	public function __construct() {
+	public function __construct( object $link_maker, ?Polylang $plugin_polylang = null ) {
 
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'movieClass' );
+
+		// Initialise $link_maker.
+		$this->link_maker = $link_maker;
+
+		// Initialise $plugin_polylang.
+		if ( ( class_exists( 'Polylang' ) ) && ( $plugin_polylang instanceof Polylang ) && $plugin_polylang->polylang_is_active() === true ) {
+			$this->plugin_polylang = $plugin_polylang;
+		}
 
 		// Run the initialisation of the class.
 		// Not needed since lumiere_show() is called by lumiere_parse_spans().
@@ -61,9 +88,6 @@ class Movie {
 		// @obsolete, kept for compatibility purpose
 		add_shortcode( 'imdblt', [ $this, 'parse_lumiere_tag_transform' ] );
 		add_shortcode( 'imdbltid', [ $this, 'parse_lumiere_tag_transform_id' ] );
-
-		// Start Highslide Plugin class.
-		new Highslide();
 
 	}
 
@@ -509,7 +533,7 @@ class Movie {
 	/**
 	 * Display the title and possibly the year
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_title ( \Imdb\Title $movie ): string {
 
@@ -534,7 +558,7 @@ class Movie {
 	 *
 	 * @since 3.7 improved compatibility with AMP WP plugin
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_pic ( \Imdb\Title $movie ): string {
 
@@ -607,7 +631,7 @@ class Movie {
 	/**
 	 * Display the country of origin
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_country ( \Imdb\Title $movie ): string {
 
@@ -655,7 +679,7 @@ class Movie {
 	/**
 	 * Display the runtime
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_runtime( \Imdb\Title $movie ): string {
 
@@ -678,7 +702,7 @@ class Movie {
 	/**
 	 * Display the language
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_language( \Imdb\Title $movie ): string {
 
@@ -727,7 +751,7 @@ class Movie {
 	/**
 	 * Display the rating
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_rating( \Imdb\Title $movie ): string {
 
@@ -759,7 +783,7 @@ class Movie {
 	/**
 	 * Display the genre
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_genre( \Imdb\Title $movie ): string {
 
@@ -808,7 +832,7 @@ class Movie {
 	/**
 	 * Display the keywords
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_keyword( \Imdb\Title $movie ): string {
 
@@ -856,7 +880,7 @@ class Movie {
 
 	/* Display the goofs
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_goof( \Imdb\Title $movie ): string {
 
@@ -890,7 +914,7 @@ class Movie {
 	/**
 	 * Display the quotes
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_quote( \Imdb\Title $movie ): string {
 
@@ -939,7 +963,7 @@ class Movie {
 	/**
 	 * Display the taglines
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_tagline( \Imdb\Title $movie ): string {
 
@@ -976,7 +1000,7 @@ class Movie {
 	/**
 	 * Display the trailer
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_trailer( \Imdb\Title $movie ): string {
 
@@ -1022,7 +1046,7 @@ class Movie {
 	/**
 	 * Display the color
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_color( \Imdb\Title $movie ): string {
 
@@ -1074,7 +1098,7 @@ class Movie {
 	/**
 	 * Display the as known as, aka
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_alsoknow( \Imdb\Title $movie ): string {
 
@@ -1120,7 +1144,7 @@ class Movie {
 	/**
 	 * Display the composers
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_composer( \Imdb\Title $movie ): string {
 
@@ -1157,7 +1181,7 @@ class Movie {
 				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) { // if "Remove all links" option is not selected
 					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) { // highslide popup
 
-						$output .= "\n\t\t\t" . '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="' . sanitize_text_field( $composer[ $i ]['imdb'] ) . '" title="' . esc_html__( 'Link to local IMDb', 'lumiere-movies' ) . '">' . sanitize_text_field( $composer[ $i ]['name'] ) . '</a>';
+						$output .= $this->link_maker->lumiere_link_popup_people( $composer, $i );
 
 					} else {// classic popup
 
@@ -1186,7 +1210,7 @@ class Movie {
 	/**
 	 * Display the soundtrack
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_soundtrack( \Imdb\Title $movie ): string {
 
@@ -1235,7 +1259,7 @@ class Movie {
 	/**
 	 * Display the production companies
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_prodcompany( \Imdb\Title $movie ): string {
 
@@ -1285,7 +1309,7 @@ class Movie {
 	/**
 	 * Display the official site
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_officialsites( \Imdb\Title $movie ): string {
 
@@ -1330,7 +1354,7 @@ class Movie {
 	/**
 	 * Display the director
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_director( \Imdb\Title $movie ): string {
 
@@ -1366,7 +1390,7 @@ class Movie {
 
 					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) { // highslide popup.
 
-						$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $director[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $director[ $i ]['name'] ) . '</a>';
+						$output .= $this->link_maker->lumiere_link_popup_people( $director, $i );
 
 						// classic popup
 					} else {
@@ -1395,7 +1419,7 @@ class Movie {
 	/**
 	 * Display the creator (for series only)
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_creator( \Imdb\Title $movie ): string {
 
@@ -1432,7 +1456,8 @@ class Movie {
 
 					// highslide popup
 					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
-						$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $creator[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $creator[ $i ]['name'] ) . '</a>';
+
+						$output .= $this->link_maker->lumiere_link_popup_people( $creator, $i );
 
 						// classic popup
 					} else {
@@ -1464,7 +1489,7 @@ class Movie {
 	/**
 	 * Display the producer
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_producer( \Imdb\Title $movie ): string {
 
@@ -1504,7 +1529,7 @@ class Movie {
 					// highslide popup
 					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
-						$output .= "\n\t\t\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $producer[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $producer[ $i ]['name'] ) . '</a>';
+						$output .= $this->link_maker->lumiere_link_popup_people( $producer, $i );
 
 					} else {  // classic popup
 
@@ -1541,7 +1566,7 @@ class Movie {
 	/**
 	 * Display the writers
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_writer( \Imdb\Title $movie ): string {
 
@@ -1578,7 +1603,7 @@ class Movie {
 					// highslide popup
 					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
-						$output .= '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $writer[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . sanitize_text_field( $writer[ $i ]['name'] ) . '</a>';
+						$output .= $this->link_maker->lumiere_link_popup_people( $writer, $i );
 
 						// classic popup
 					}
@@ -1616,7 +1641,7 @@ class Movie {
 	/**
 	 * Display actors
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_actor( \Imdb\Title $movie ): string {
 
@@ -1654,7 +1679,7 @@ class Movie {
 					// highslide popup
 					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
-						$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . esc_attr( $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $cast[ $i ]['name'] ) . '</a>';
+						$output .= $this->link_maker->lumiere_link_popup_people( $cast, $i );
 
 					}
 
@@ -1687,7 +1712,7 @@ class Movie {
 	/**
 	 * Display plots
 	 *
-	 * @param \Imdb\Title $movie -> takes the value of IMDbPHP class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_plot( \Imdb\Title $movie ): string {
 
@@ -1826,21 +1851,11 @@ class Movie {
 			// Add Lumière tags to the current WordPress post. But we don't want it!
 			# wp_set_post_tags(get_the_ID(), $list_taxonomy_term, 'post_tag', true);
 
-			// Compatibility with Polylang WordPress plugin, add a language to the taxonomy term
-			if ( in_array( 'POLYLANG', $this->plugins_in_use, true ) === true ) {
+			// Compatibility with Polylang WordPress plugin, add a language to the taxonomy term.
+			// Function in class Polylang.
+			if ( $this->plugin_polylang !== null ) {
 
-				// Get the language of the term already registred.
-				$term_registred_lang = pll_get_term_language( intval( $term['term_id'] ), 'slug' );
-				// Get the language of the page.
-				$lang = filter_var( pll_current_language( 'slug' ), FILTER_SANITIZE_STRING ) !== false ? filter_var( pll_current_language( 'slug' ), FILTER_SANITIZE_STRING ) : '';
-
-				// If the language for this term is not already registered, register it.
-				// Check current page language, compare against already registred term.
-				if ( $term_registred_lang !== $lang ) {
-
-					$this->lumiere_add_taxo_lang_to_polylang( intval( $term['term_id'] ), $lang );
-
-				}
+				$this->plugin_polylang->lumiere_polylang_add_lang_to_taxo( $term );
 
 			}
 
@@ -1919,19 +1934,12 @@ class Movie {
 
 	}
 
-	/* Polylang WordPress Plugin Compatibility
-	 * Add a language to the taxonomy term in Polylang
+	/**
+	 * Wrapper for calling the function from outside
 	 *
-	 * @param int $term_id -> id of the taxonomy term, usually got after taxonomy term insert
-	 * @param string $lang -> language of the taxonomy term utilised by Polylang
 	 */
-	private function lumiere_add_taxo_lang_to_polylang( int $term_id, string $lang ): void {
-
-		//      if ( pll_default_language() == $lang )
-		//          pll_save_term_translations( array ( $lang, $term_id) );
-
-		pll_set_term_language( $term_id, $lang );
-		$this->logger->log()->debug( '[Lumiere][movieClass][polylang] Taxonomy id ' . $term_id . ' added to ' . $lang );
+	public static function lumiere_movie_start(): void {
+		new self( new Highslide(), new Polylang() );
 	}
 
 } // end of class
@@ -1943,8 +1951,6 @@ class Movie {
  * @TODO: Pass this into core class
  */
 if ( ! is_admin() ) {
-
-	new Movie();
-
+	add_action( 'set_current_user', [ 'Lumiere\Movie', 'lumiere_movie_start' ] );
 }
 

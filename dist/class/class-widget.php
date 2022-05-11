@@ -17,6 +17,8 @@ if ( ! defined( 'WPINC' ) || ! class_exists( '\Lumiere\Settings' ) ) {
 }
 
 use \Lumiere\Movie;
+use \Lumiere\Plugins\Highslide;
+use \Lumiere\Plugins\Polylang;
 
 class Widget extends \WP_Widget {
 
@@ -245,7 +247,9 @@ class Widget extends \WP_Widget {
 	public function widget( $args, $instance ) {
 
 		// Start Movie class.
-		$movie_class = new Movie();
+		$highslide_class = new Highslide();
+		$polylang_class = new Polylang();
+		$movie_class = new Movie( $highslide_class, $polylang_class );
 
 		// Execute logging.
 		do_action( 'lumiere_logger' );

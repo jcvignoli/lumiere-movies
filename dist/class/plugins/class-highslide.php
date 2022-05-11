@@ -137,4 +137,16 @@ class Highslide {
 		return false;
 
 	}
+
+	/**
+	 * Build link to popup for IMDb people
+	 * @param array<int, array<string, string>> $imdb_data_people
+	 * @param int $number
+	 * @return string
+	 */
+	public function lumiere_link_popup_people ( array $imdb_data_people, int $number ): string {
+
+		return "\n\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . sanitize_text_field( $imdb_data_people[ $number ]['imdb'] ) . '" title="' . esc_html__( 'Link to local IMDb', 'lumiere-movies' ) . '">' . sanitize_text_field( $imdb_data_people[ $number ]['name'] ) . '</a>';
+
+	}
 }
