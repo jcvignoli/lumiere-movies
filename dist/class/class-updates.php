@@ -18,10 +18,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Settings;
-use \Lumiere\Plugins\Logger;
-use \FilesystemIterator;
-
 /**
  * Load all files included in class/updates by spl_autoload_register()
  * Keep this function out of the class, so child classes can construct the parent class
@@ -49,6 +45,10 @@ function lumiere_updates_loader( string $class_name ): void {
 
 // Load all classes in class/updates folder, will be loaded when needed
 spl_autoload_register( __NAMESPACE__ . '\lumiere_updates_loader' );
+
+use \Lumiere\Settings;
+use \Lumiere\Plugins\Logger;
+use \FilesystemIterator;
 
 /**
  * Parent class Updates
@@ -79,7 +79,7 @@ class Updates {
 		$this->settings_open();
 
 		// Start Logger class.
-		$this->logger = new \Lumiere\Plugins\Logger( 'updateClass' );
+		$this->logger = new Logger( 'updateClass' );
 
 	}
 
@@ -101,7 +101,7 @@ class Updates {
 		$logger->debug( '[Lumiere][updateClass] Running updates...' );
 
 		// Count the number of files in class/updates/
-		$files = new \FilesystemIterator( plugin_dir_path( __DIR__ ) . 'class/updates/', \FilesystemIterator::SKIP_DOTS );
+		$files = new FilesystemIterator( plugin_dir_path( __DIR__ ) . 'class/updates/', FilesystemIterator::SKIP_DOTS );
 		$nb_of_files_in_updates_folder = intval( iterator_count( $files ) );
 
 		// Iteration for each class in class/updates/

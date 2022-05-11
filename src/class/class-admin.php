@@ -94,7 +94,7 @@ class Admin {
 		$this->utils_class = new Utils();
 
 		// Start Logger class
-		$this->logger = new \Lumiere\Plugins\Logger( 'adminClass' );
+		$this->logger = new Logger( 'adminClass' );
 
 		// Build constants
 		$this->root_url = plugin_dir_url( __DIR__ );
