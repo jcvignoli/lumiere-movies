@@ -1,7 +1,7 @@
 <?php declare( strict_types = 1 );
 /**
- * Class to use Polylang plugin
- * --------------NOT YET IN USE
+ * Class Polylang plugin
+ * This class offers specific functions if Polylang is in use
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -33,6 +33,12 @@ class Polylang {
 	public Logger $logger;
 
 	/**
+	 * Constant Polylang slug
+	 *
+	 */
+	const POLYLANGSLUG = 'polylang/polylang.php';
+
+	/**
 	 * Constructor
 	 *
 	 */
@@ -46,26 +52,27 @@ class Polylang {
 
 	}
 
-	/* Polylang WordPress Plugin Compatibility
-	 * Add a language to the taxonomy term in Polylang ------- FROM CLASS.MOVIE
+	/**
+	 * Determine whether Polylang is activated
 	 *
-	 * @param int $term_id -> id of the taxonomy term, usually got after taxonomy term insert
-	 * @param string $lang -> language of the taxonomy term utilised by Polylang
+	 * @return bool true if Polylang plugin is active
 	 */
-	public function lumiere_add_taxo_lang_to_polylang( int $term_id, string $lang ): void {
+	public function polylang_is_active(): bool {
 
-		//      if ( pll_default_language() == $lang )
-		//          pll_save_term_translations( array ( $lang, $term_id) );
+		if ( function_exists( 'pll_count_posts' ) && is_plugin_active( self::POLYLANGSLUG ) ) {
+			return true;
+		}
 
-		pll_set_term_language( $term_id, $lang );
-		$this->logger->log()->debug( '[Lumiere][movieClass][polylang] Taxonomy id ' . $term_id . ' added to ' . $lang );
+		return false;
+
 	}
 
-	/* Polylang WordPress Plugin Compatibility
-	 * Process the language taxonomy term before adding it in Polylang ------- FROM CLASS.MOVIE
-	 * @param array<array> $term
+	/**
+	 * Add the language in use to taxonomy terms ------- FROM class movie
+	 *
+	 * @param array<string, string> $term
 	 */
-	public function lumiere_process_taxo_lang_to_polylang( array $term ): void {
+	public function lumiere_polylang_add_lang_to_taxo( array $term ): void {
 
 		// Get the language of the term already registred.
 		$term_registred_lang = pll_get_term_language( intval( $term['term_id'] ), 'slug' );
@@ -76,7 +83,13 @@ class Polylang {
 		// Check current page language, compare against already registred term.
 		if ( $term_registred_lang !== $lang ) {
 
-			$this->lumiere_add_taxo_lang_to_polylang( intval( $term['term_id'] ), $lang );
+			//      if ( pll_default_language() == $lang )
+			//          pll_save_term_translations( array ( $lang, $term_id) );
+
+			pll_set_term_language( intval( $term['term_id'] ), $lang );
+			$this->logger->log()->debug(
+				'[Lumiere][polylangClass] Taxonomy id ' . $term['term_id'] . ' added to ' . $lang
+			);
 
 		}
 	}
@@ -85,12 +98,13 @@ class Polylang {
 	 *  Polylang form: Display a form to change the language if Polylang plugin is active ---- FROM class-taxonomy-people-standard
 	 *
 	 * @param string $taxonomy -> the current taxonomy to check and build the form according to it
+	 * @param string $person_name name of the current person in taxonomy
 	 */
-	public function lumiere_get_form_polylang_selection( string $taxonomy ): void {
+	public function lumiere_get_form_polylang_selection( string $taxonomy, string $person_name ): void {
 
 		// Is the current taxonomy, such as "lumiere_actor", registered and activated for translation?
 		if ( ! pll_is_translated_taxonomy( $taxonomy ) ) {
-			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $this->person_name with $taxonomy." );
+			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $person_name with $taxonomy." );
 			return;
 		}
 		$pll_lang_init = get_terms( 'term_language', [ 'hide_empty' => false ] );

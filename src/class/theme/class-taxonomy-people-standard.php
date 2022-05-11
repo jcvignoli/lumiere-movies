@@ -1,14 +1,14 @@
 <?php declare( strict_types = 1 );
 /**
  * Template People: Taxonomy for Lumière! Movies WordPress plugin (set up for standard people taxonomy)
- *  You can replace the occurences of the word s'tandard, rename this file, and then copy it in your theme folder
- *  Or easier: just use Lumière admin interface to do it automatically
+ * You can replace the occurences of the word s_tandar_d, rename this file, and then copy it in your theme folder
+ * Or easier: just use Lumière admin interface to do it automatically
  *
- *  Version: 3.2
+ * Version: 3.3
  *
- *  This template retrieves automaticaly the occurence of the name selected
- *  If used along with Polylang WordPress plugin, a form is displayed to filter by available language
- *  Almost compatible with AMP WordPress plugin, since WP submit_button() does not seem to be yet AMP compliant
+ * This template retrieves automaticaly the occurence of the name selected
+ * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
+ * Almost compatible with AMP WordPress plugin, since WP submit_button() does not seem to be yet AMP compliant
  *
  * @package lumiere-movies
  */
@@ -22,6 +22,8 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use \Imdb\Person;
 use \Imdb\PersonSearch;
+use \Lumiere\Plugins\Highslide;
+use \Lumiere\Plugins\Polylang;
 use \WP_Query;
 
 class Taxonomy_People_Standard {
@@ -32,12 +34,21 @@ class Taxonomy_People_Standard {
 	}
 
 	/**
-	 *  Set to true to activate the sidebar
+	 * Set to true to activate the sidebar
 	 */
 	private bool $activate_sidebar = false;
 
 	/**
-	 *  Class \Imdb\Person
+	 * Polylang plugin object from its class
+	 * Can be null if Polylang is not active
+	 *
+	 * @since 3.7.1
+	 * @var Polylang $plugin_polylang
+	 */
+	private ?Polylang $plugin_polylang = null;
+
+	/**
+	 * Class \Imdb\Person
 	 *
 	 */
 	private Person $person_class;
@@ -66,10 +77,15 @@ class Taxonomy_People_Standard {
 	/**
 	 *  Constructor
 	 */
-	public function __construct() {
+	public function __construct( ?Polylang $plugin_polylang = null ) {
 
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'taxonomy-standard' );
+
+		// Initialise $plugin_polylang.
+		if ( ( class_exists( 'Polylang' ) ) && ( $plugin_polylang instanceof Polylang ) && $plugin_polylang->polylang_is_active() === true ) {
+			$this->plugin_polylang = $plugin_polylang;
+		}
 
 		// List of potential parameters for a person.
 		$this->array_people = $this->config_class->array_people;
@@ -319,70 +335,6 @@ class Taxonomy_People_Standard {
 	}
 
 	/**
-	 *  Polylang form: Display a form to change the language if Polylang plugin is active
-	 *
-	 * @param string $taxonomy -> the current taxonomy to check and build the form according to it
-	 */
-	private function lumiere_get_form_polylang_selection( string $taxonomy ): void {
-
-		// If Polylang plugin is not active, exit
-		if ( in_array( 'POLYLANG', $this->plugins_in_use, true ) === false ) {
-			$this->logger->log()->debug( '[Lumiere][taxonomy_' . $taxonomy . '] Polylang is not active.' );
-			return;
-		}
-
-		// Is the current taxonomy, such as "lumiere_actor", registered and activated for translation?
-		if ( ! pll_is_translated_taxonomy( $taxonomy ) ) {
-			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $this->person_name with $taxonomy." );
-			return;
-		}
-		$pll_lang_init = get_terms( 'term_language', [ 'hide_empty' => false ] );
-		$pll_lang = is_wp_error( $pll_lang_init ) === false && is_iterable( $pll_lang_init ) ? $pll_lang_init : null;
-
-		if ( ! isset( $pll_lang ) ) {
-			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy] No Polylang language is set." );
-			return;
-		}
-
-		// Build the form.
-		echo "\n\t\t\t" . '<div align="center">';
-		echo "\n\t\t\t\t" . '<form method="post" id="lang_form" name="lang_form" action="#lang_form">';
-		echo "\n\t\t\t\t\t" . '<select name="tag_lang" style="width:100px;">';
-		echo "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
-
-		// Build an option html tag for every language.
-		foreach ( $pll_lang as $lang ) {
-
-			if ( ( $lang instanceof \WP_Term ) === false ) {
-				continue;
-			}
-
-			echo "\n\t\t\t\t\t\t" . '<option value="' . intval( $lang->term_id ) . '"';
-
-			// @phpcs:ignore WordPress.Security.NonceVerification
-			if ( ( isset( $_POST['tag_lang'] ) ) && ( intval( $lang->term_id ) === intval( $_POST['tag_lang'] ) ) && isset( $_POST['_wpnonce'] ) && ( wp_verify_nonce( $_POST['_wpnonce'], 'submit_lang' ) !== false ) ) {
-				echo 'selected="selected"';
-			}
-
-			echo '>' . esc_html( ucfirst( $lang->name ) ) . '</option>';
-
-		}
-		echo "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
-		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo "\n\t\t\t\t\t" . wp_nonce_field( 'submit_lang' );
-		if ( function_exists( 'submit_button' ) ) {
-			echo "\n\t\t\t\t\t";
-			// WP submit_button() doesn't seem to be compatible with AMP plugin
-			submit_button( esc_html__( 'Filter language', 'lumiere-movies' ), 'primary', 'submit_lang', false );
-		} else {
-			echo "\n\t\t\t\t\t" . '<input type="submit" class="button-primary" id="submit_lang" name="submit_lang" value="' . esc_html__( 'Filter language', 'lumiere-movies' ) . '">';
-		}
-		echo "\n\t\t\t\t" . '</form>';
-		echo "\n\t\t\t" . '</div>';
-
-	}
-
-	/**
 	 *  Display People data details
 	 *
 	 */
@@ -508,7 +460,13 @@ class Taxonomy_People_Standard {
 		echo "\n\t\t\t" . '</div>';
 		echo "\n\t\t\t" . '<br />';
 
-		$this->lumiere_get_form_polylang_selection( $this->taxonomy_title );
+		// Compatibility with Polylang WordPress plugin, add a form to filter results by language.
+		// Function in class Polylang.
+		if ( $this->plugin_polylang !== null ) {
+
+			$this->plugin_polylang->lumiere_get_form_polylang_selection( $this->taxonomy_title, $this->person_name );
+
+		}
 
 		echo "\n\t\t\t" . '<br />';
 
@@ -516,5 +474,5 @@ class Taxonomy_People_Standard {
 
 }
 
-new Taxonomy_People_Standard();
+new Taxonomy_People_Standard( new Polylang() );
 
