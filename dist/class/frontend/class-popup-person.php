@@ -579,7 +579,7 @@ class Popup_Person {
 				}
 
 				echo "\n\t\t\t" . '<div>';
-				$text = $this->lumiere_imdburl_to_internalurl( $trivia[ $i ] );
+				$text = $this->link_maker->lumiere_imdburl_to_internalurl( $trivia[ $i ] );
 				$text = preg_replace( '~^\s\s\s\s\s\s\s(.*)<br \/>\s\s\s\s\s$~', "\\1", $text ); # clean output
 				// @phpcs:ignore WordPress.Security.EscapeOutput
 				echo "\n\t\t\t\t" . ' * ' . $text;
@@ -645,7 +645,7 @@ class Popup_Person {
 
 				echo "\n\t\t\t" . '<div>';
 				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo ' * ' . $this->lumiere_imdburl_to_internalurl( $quotes[ $i ] );
+				echo ' * ' . $this->link_maker->lumiere_imdburl_to_internalurl( $quotes[ $i ] );
 				echo '</div>';
 
 				if ( $i === ( $nbtotalquotes - 1 ) ) {
@@ -682,7 +682,7 @@ class Popup_Person {
 
 				echo "\n\t\t\t" . '<div>@ ';
 				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo $this->lumiere_imdburl_to_internalurl( $trademark[ $i ] );
+				echo $this->link_maker->lumiere_imdburl_to_internalurl( $trademark[ $i ] );
 				echo '</div>';
 
 				if ( $i === $nbtotaltrademark - 1 ) {
@@ -752,7 +752,7 @@ class Popup_Person {
 				echo "\n\t\t" . '<div class="lumiere_padding_two lumiere_align_left"><font size="-1">';
 
 				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo $this->lumiere_medaillon_bio( $this->person->bio(), false );
+				echo $this->link_maker->lumiere_medaillon_bio( $this->person->bio(), false );
 				?>
 
 				</font></div>

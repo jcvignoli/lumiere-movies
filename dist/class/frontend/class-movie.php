@@ -18,7 +18,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use \Imdb\Title;
 use \Imdb\TitleSearch;
-use \Lumiere\Plugins\Highslide;
 use \Lumiere\Plugins\Polylang;
 
 class Movie {
@@ -27,14 +26,6 @@ class Movie {
 	use \Lumiere\Frontend {
 		Frontend::__construct as public __constructFrontend;
 	}
-
-	/**
-	 * Object to build links, i.e. Highslide
-	 * Can never be null, since we must build the links
-	 *
-	 * @var Highslide $link_maker
-	 */
-	private object $link_maker;
 
 	/**
 	 * Polylang plugin object from its class
@@ -57,18 +48,14 @@ class Movie {
 
 	/**
 	 * Class constructor
-	 * @param Highslide $link_maker The object to make the links, i.e. Highslide
 	 * @param ?Polylang $plugin_polylang Polylang plugin object
 	 */
-	public function __construct( object $link_maker, ?Polylang $plugin_polylang = null ) {
+	public function __construct( ?Polylang $plugin_polylang = null ) {
 
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'movieClass' );
 
-		// Initialise $link_maker.
-		$this->link_maker = $link_maker;
-
-		// Initialise $plugin_polylang.
+		// Instanciate $plugin_polylang.
 		if ( ( class_exists( 'Polylang' ) ) && ( $plugin_polylang instanceof Polylang ) && $plugin_polylang->polylang_is_active() === true ) {
 			$this->plugin_polylang = $plugin_polylang;
 		}
@@ -293,16 +280,12 @@ class Movie {
 		$correspondances = $correspondances[0];
 		preg_match( '/<span data-lum_link_maker="popup">(.+?)<\/span>/i', $correspondances, $link_parsed );
 
-		// highslide popup
-		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
-
-			$link_parsed = $this->lumiere_popup_highslide_film_link( $link_parsed );
-			return $link_parsed;
-		}
-
-		// classic popup
-		$link_parsed = $this->lumiere_popup_classical_film_link( $link_parsed );
-		return $link_parsed;
+		/**
+		 * Use Highslide, Classical or No Links class links builder.
+		 * Each one has its own class passed in $link_maker,
+		 * according to which option the lumiere_select_link_maker() found in Frontend.
+		 */
+		return $this->link_maker->lumiere_popup_film_link( $link_parsed );
 
 	}
 
@@ -320,17 +303,12 @@ class Movie {
 		$correspondances = $correspondances[0];
 		preg_match( '/<!--imdb-->(.*?)<!--\/imdb-->/i', $correspondances, $link_parsed );
 
-		// highslide popup
-		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
-
-			$link_parsed = $this->lumiere_popup_highslide_film_link( $link_parsed );
-			return $link_parsed;
-
-		}
-
-		// classic popup
-		$link_parsed = $this->lumiere_popup_classical_film_link( $link_parsed );
-		return $link_parsed;
+		/**
+		 * Use Highslide, Classical or No Links class links builder.
+		 * Each one has its own class passed in $link_maker,
+		 * according to which option the lumiere_select_link_maker() found in Frontend.
+		 */
+		return $this->link_maker->lumiere_popup_film_link( $link_parsed );
 
 	}
 
@@ -350,53 +328,6 @@ class Movie {
 		$text = preg_replace_callback( $pattern_two, [ $this, 'lumiere_link_finder_oldway' ], $text ) ?? $text;
 
 		return $text;
-	}
-
-	/**
-	 * Highslide popup function
-	 * Build an HTML link to open a popup with highslide for searching a movie (using js/lumiere_scripts.js)
-	 *
-	 * @param array<int, string> $link_parsed html tags and text to be modified
-	 * @param string $popuplarg -> window width, if nothing passed takes database value
-	 * @param string $popuplong -> window height, if nothing passed takes database value
-	 */
-	private function lumiere_popup_highslide_film_link ( array $link_parsed, string $popuplarg = null, string $popuplong = null ): string {
-
-		if ( $popuplarg !== null ) {
-			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
-		}
-
-		if ( $popuplong !== null ) {
-			$popuplong = $this->imdb_admin_values['imdbpopuplong'];
-		}
-
-		$parsed_result = '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
-
-		return $parsed_result;
-
-	}
-
-	/**
-	 * Classical popup function
-	 * Build an HTML link to open a popup for searching a movie (using js/lumiere_scripts.js)
-	 *
-	 * @param array<int, string> $link_parsed html tags and text to be modified
-	 * @param string $popuplarg -> window width, if nothing passed takes database value
-	 * @param string $popuplong -> window height, if nothing passed takes database value
-	 */
-	private function lumiere_popup_classical_film_link ( array $link_parsed, string $popuplarg = null, string $popuplong = null ): string {
-
-		if ( $popuplarg !== null ) {
-			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
-		}
-
-		if ( $popuplong !== null ) {
-			$popuplong = $this->imdb_admin_values['imdbpopuplong'];
-		}
-
-		$parsed_result = '<a class="link-imdblt-classicfilm" data-classicfilm="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
-
-		return $parsed_result;
 	}
 
 	/**
@@ -564,66 +495,12 @@ class Movie {
 
 		$output = '';
 
-		// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
-		$photo_url = $movie->photo_localurl( false ) !== false ? esc_html( $movie->photo_localurl( false ) ) : esc_html( $movie->photo_localurl( true ) );
-
-		// Select picture: if 2/ AMP Plugin is active, use always thumbnail, use previous pic otherwise (in 1)
-		// @since 3.7
-		$photo_url = in_array( 'AMP', $this->plugins_in_use, true ) === true ? esc_html( $movie->photo_localurl( true ) ) : $photo_url;
-
-		// Select picture: if 3/ big/thumbnail picture exists, use it (in 2), use no_pics otherwise
-		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
-
-		$output .= "\n\t\t\t" . '<div class="imdbelementPIC">';
-
-		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
-
-			// Link
-			$output .= "\n\t\t\t\t" . '<a class="highslide_pic" href="'
-				. $photo_url_final
-				. '" title="'
-				. esc_attr( $movie->title() )
-				. '">';
-
-		}
-
-		// Build image HTML tag <img>
-		$output .= "\n\t\t\t\t\t" . '<img ';
-		// loading=\"eager\" to prevent WordPress loading lazy that doesn't go well with cache scripts
-		// not compatible with AMP WP plugin, don't add it if active
-		// @since 3.7
-		if ( in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
-			$output .= 'loading="eager" ';
-		}
-		$output .= 'class="imdbelementPICimg" src="';
-
-		$output .= $photo_url_final
-			. '" alt="'
-			. esc_html__( 'Photo of', 'lumiere-movies' )
-			. ' '
-			. esc_attr( $movie->title() ) . '"';
-
-			// add width only if "Display only thumbnail" and AMP WP plugin is unactive
-			// @since 3.7
-		if ( $this->imdb_admin_values['imdbcoversize'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
-
-			$output .= ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
-
-			// add 100px width if "Display only thumbnail" is active
-		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
-
-			$output .= ' width="100em"';
-
-		}
-
-		$output .= ' />';
-
-		// new verification, closure code related to highslide
-		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
-			$output .= "\n\t\t\t\t</a>";
-		}
-
-		$output .= "\n\t\t\t" . '</div>';
+		/**
+		 * Use Highslide, Classical or No Links class links builder.
+		 * Each one has its own class passed in $link_maker,
+		 * according to which option the lumiere_select_link_maker() found in Frontend.
+		 */
+		$output .= $this->link_maker->lumiere_link_picture( $movie->photo_localurl( false ), $movie->photo_localurl( true ), $movie->title() );
 
 		return $output;
 	}
@@ -1173,35 +1050,24 @@ class Movie {
 
 			}
 
-			// No taxonomy
-		} else {
-
-			for ( $i = 0; $i < $nbtotalcomposer; $i++ ) {
-
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) { // if "Remove all links" option is not selected
-					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) { // highslide popup
-
-						$output .= $this->link_maker->lumiere_link_popup_people( $composer, $i );
-
-					} else {// classic popup
-
-						$output .= "\n\t\t\t" . '<a class="link-imdblt-highslidepeople" data-classicpeople="' . sanitize_text_field( $composer[ $i ]['imdb'] ) . '" title="' . esc_html__( 'Link to local IMDb', 'lumiere-movies' ) . '">' . sanitize_text_field( $composer[ $i ]['name'] ) . '</a>';
-
-					}
-
-				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) { // if "Remove all links" option is selected
-
-					$output .= sanitize_text_field( $composer[ $i ]['name'] );
-
-				}
-
-				if ( $i < $nbtotalcomposer - 1 ) {
-					$output .= ', ';
-				}
-
-			} // endfor
+			return $output;
 
 		}
+
+		for ( $i = 0; $i < $nbtotalcomposer; $i++ ) {
+
+			/**
+			 * Use Highslide, Classical or No Links class links builder.
+			 * Each one has its own class passed in $link_maker,
+			 * according to which option the lumiere_select_link_maker() found in Frontend.
+			 */
+			$output .= $this->link_maker->lumiere_link_popup_people( $composer, $i );
+
+			if ( $i < $nbtotalcomposer - 1 ) {
+				$output .= ', ';
+			}
+
+		} // endfor
 
 		return $output;
 
@@ -1371,6 +1237,7 @@ class Movie {
 		$output .= sprintf( esc_attr( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) ), number_format_i18n( $nbtotaldirector ) );
 		$output .= ':</span>';
 
+		// If Taxonomy is selected, build links to taxonomy pages
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomydirector'] === '1' )  ) {
 
 			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
@@ -1382,35 +1249,25 @@ class Movie {
 
 			}
 
-		} else {
-
-			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
-
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) { // if "Remove all links" option is not selected.
-
-					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) { // highslide popup.
-
-						$output .= $this->link_maker->lumiere_link_popup_people( $director, $i );
-
-						// classic popup
-					} else {
-
-						$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . $director[ $i ]['imdb'] . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $director[ $i ]['name'] . '</a>';
-					}
-
-				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) { // if "Remove all links" option is selected
-
-					$output .= esc_attr( $director[ $i ]['name'] );
-
-				}  // end if remove popup
-
-				if ( $i < $nbtotaldirector - 1 ) {
-					$output .= ', ';
-				}
-
-			} // endfor
+			return $output;
 
 		}
+
+		// Taxonomy is not selected
+		for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
+
+			/**
+			 * Use Highslide, Classical or No Links class links builder.
+			 * Each one has its own class passed in $link_maker,
+			 * according to which option the lumiere_select_link_maker() found in Frontend.
+			 */
+			$output .= $this->link_maker->lumiere_link_popup_people( $director, $i );
+
+			if ( $i < $nbtotaldirector - 1 ) {
+				$output .= ', ';
+			}
+
+		} // endfor
 
 		return $output;
 
@@ -1447,37 +1304,21 @@ class Movie {
 
 			}
 
-		} else {
+			return $output;
 
-			for ( $i = 0; $i < $nbtotalcreator; $i++ ) {
+		}
 
-				// if "Remove all links" option is not selected
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
+		for ( $i = 0; $i < $nbtotalcreator; $i++ ) {
 
-					// highslide popup
-					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
+			/**
+			 * Use Highslide, Classical or No Links class links builder.
+			 * Each one has its own class passed in $link_maker,
+			 * according to which option the lumiere_select_link_maker() found in Frontend.
+			 */
+			$output .= $this->link_maker->lumiere_link_popup_people( $creator, $i );
 
-						$output .= $this->link_maker->lumiere_link_popup_people( $creator, $i );
-
-						// classic popup
-					} else {
-
-						$output .= '<a class="linkincmovie link-imdblt-classicpeople" data-classicpeople="' . esc_attr( $creator[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $creator[ $i ]['name'] ) . '</a>';
-
-					}
-
-					if ( $i < $nbtotalcreator - 1 ) {
-						$output .= ', ';
-					}
-
-					// if "Remove all links" option is selected
-				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) {
-
-					$output .= sanitize_text_field( $creator[ $i ]['name'] );
-					if ( $i < $nbtotalcreator - 1 ) {
-						$output .= ', ';
-					}
-				}
+			if ( $i < $nbtotalcreator - 1 ) {
+				$output .= ', ';
 			}
 
 		}
@@ -1515,49 +1356,35 @@ class Movie {
 
 			}
 
-			// no taxonomy
-		} else {
-
-			for ( $i = 0; ( $i < $nbtotalproducer ) && ( $i < $nbproducer ); $i++ ) {
-
-				$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
-				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-
-				// if "Remove all links" option is not selected
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
-
-					// highslide popup
-					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
-
-						$output .= $this->link_maker->lumiere_link_popup_people( $producer, $i );
-
-					} else {  // classic popup
-
-						$output .= "\n\t\t\t\t\t" . '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . esc_attr( $producer[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $producer[ $i ]['name'] ) . '</a>';
-
-					}
-
-					// if "Remove all links" option is selected
-				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) { // if "Remove all links" option is selected
-
-					$output .= esc_attr( $producer[ $i ]['name'] );
-
-				}
-				$output .= "\n\t\t\t\t" . '</div>';
-				$output .= "\n\t\t\t\t" . '<div align="right">';
-
-				if ( $producer[ $i ]['role'] !== null && strlen( $producer[ $i ]['role'] ) !== 0 ) {
-					$output .= esc_attr( $producer[ $i ]['role'] );
-				} else {
-					$output .= '&nbsp;';
-				}
-
-				$output .= '</div>';
-				$output .= "\n\t\t\t" . '</div>';
-
-			} // endfor
+			return $output;
 
 		}
+
+		for ( $i = 0; ( $i < $nbtotalproducer ) && ( $i < $nbproducer ); $i++ ) {
+
+			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
+			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+
+			/**
+			 * Use Highslide, Classical or No Links class links builder.
+			 * Each one has its own class passed in $link_maker,
+			 * according to which option the lumiere_select_link_maker() found in Frontend.
+			 */
+			$output .= $this->link_maker->lumiere_link_popup_people( $producer, $i );
+
+			$output .= "\n\t\t\t\t" . '</div>';
+			$output .= "\n\t\t\t\t" . '<div align="right">';
+
+			if ( $producer[ $i ]['role'] !== null && strlen( $producer[ $i ]['role'] ) !== 0 ) {
+				$output .= esc_attr( $producer[ $i ]['role'] );
+			} else {
+				$output .= '&nbsp;';
+			}
+
+			$output .= '</div>';
+			$output .= "\n\t\t\t" . '</div>';
+
+		} // endfor
 
 		return $output;
 
@@ -1590,50 +1417,35 @@ class Movie {
 
 			}
 
-		} else {
-
-			for ( $i = 0; $i < $nbtotalwriters; $i++ ) {
-
-				$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
-				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-
-				// if "Remove all links" option is not selected
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false  ) {
-
-					// highslide popup
-					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
-
-						$output .= $this->link_maker->lumiere_link_popup_people( $writer, $i );
-
-						// classic popup
-					}
-
-					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '0' ) {
-
-						$output .= '<a class="linkincmovie link-imdblt-classicpeople highslide" data-classicpeople="' . esc_attr( $writer[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . sanitize_text_field( $writer[ $i ]['name'] ) . '</a>';
-
-					}
-
-					// if "Remove all links" option is selected
-				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) { // if "Remove all links" option is selected
-
-					$output .= sanitize_text_field( $writer[ $i ]['name'] );
-
-				}
-					$output .= "\n\t\t\t\t" . '</div>';
-					$output .= "\n\t\t\t\t" . '<div align="right">';
-
-				if ( $writer[ $i ]['role'] !== null && strlen( $writer[ $i ]['role'] ) !== 0 ) {
-					$output .= sanitize_text_field( $writer[ $i ]['role'] );
-				} else {
-					$output .= '&nbsp;';
-				}
-
-					$output .= "\n\t\t\t\t" . '</div>';
-					$output .= "\n\t\t\t" . '</div>';
-			} // endfor
+			return $output;
 
 		}
+
+		for ( $i = 0; $i < $nbtotalwriters; $i++ ) {
+
+			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
+			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+
+			/**
+			 * Use Highslide, Classical or No Links class links builder.
+			 * Each one has its own class passed in $link_maker,
+			 * according to which option the lumiere_select_link_maker() found in Frontend.
+			 */
+			$output .= $this->link_maker->lumiere_link_popup_people( $writer, $i );
+
+			$output .= "\n\t\t\t\t" . '</div>';
+			$output .= "\n\t\t\t\t" . '<div align="right">';
+
+			if ( $writer[ $i ]['role'] !== null && strlen( $writer[ $i ]['role'] ) !== 0 ) {
+				$output .= sanitize_text_field( $writer[ $i ]['role'] );
+			} else {
+				$output .= '&nbsp;';
+			}
+
+				$output .= "\n\t\t\t\t" . '</div>';
+				$output .= "\n\t\t\t" . '</div>';
+
+		} // endfor
 
 		return $output;
 	}
@@ -1666,45 +1478,29 @@ class Movie {
 
 			}
 
-		} else {
-
-			for ( $i = 0; $i < $nbactors && ( $i < $nbtotalactors ); $i++ ) {
-
-				$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
-				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-
-				// if "Remove all links" option is not selected
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
-
-					// highslide popup
-					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
-
-						$output .= $this->link_maker->lumiere_link_popup_people( $cast, $i );
-
-					}
-
-					// classic popup
-					if ( $this->imdb_admin_values['imdbpopup_highslide'] === '0' ) {
-
-						$output .= "\n\t\t\t\t" . '<a class="linkincmovie link-imdblt-classicpeople" data-classicpeople="' . esc_attr( $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_attr( $cast[ $i ]['name'] ) . '</a>';
-
-					}
-
-				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) { // if "Remove all links" option is selected
-
-					$output .= esc_attr( $cast[ $i ]['name'] );
-
-				}
-
-				$output .= '</div>';
-				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-				$output .= esc_attr( preg_replace( '/\n/', '', $cast[ $i ]['role'] ) ); # remove the <br> that breaks the layout
-				$output .= '</div>';
-				$output .= "\n\t\t\t" . '</div>';
-
-			} // endfor
+			return $output;
 
 		}
+
+		for ( $i = 0; $i < $nbactors && ( $i < $nbtotalactors ); $i++ ) {
+
+			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
+			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+
+			/**
+			 * Use Highslide, Classical or No Links class links builder.
+			 * Each one has its own class passed in $link_maker,
+			 * according to which option the lumiere_select_link_maker() found in Frontend.
+			 */
+			$output .= $this->link_maker->lumiere_link_popup_people( $cast, $i );
+
+			$output .= '</div>';
+			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+			$output .= esc_attr( preg_replace( '/\n/', '', $cast[ $i ]['role'] ) ); # remove the <br> that breaks the layout
+			$output .= '</div>';
+			$output .= "\n\t\t\t" . '</div>';
+
+		} // endfor
 
 		return $output;
 	}
@@ -1934,14 +1730,6 @@ class Movie {
 
 	}
 
-	/**
-	 * Wrapper for calling the function from outside
-	 *
-	 */
-	public static function lumiere_movie_start(): void {
-		new self( new Highslide(), new Polylang() );
-	}
-
 } // end of class
 
 
@@ -1951,6 +1739,7 @@ class Movie {
  * @TODO: Pass this into core class
  */
 if ( ! is_admin() ) {
-	add_action( 'set_current_user', [ 'Lumiere\Movie', 'lumiere_movie_start' ] );
+	new Movie( new Polylang() );
+	//  add_action( 'set_current_user', [ 'Lumiere\Movie', 'lumiere_movie_start' ] );
 }
 

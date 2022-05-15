@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d, rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.3
+ * Version: 3.4
  *
  * This template retrieves automaticaly the occurence of the name selected
  * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
@@ -22,7 +22,6 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use \Imdb\Person;
 use \Imdb\PersonSearch;
-use \Lumiere\Plugins\Highslide;
 use \Lumiere\Plugins\Polylang;
 use \WP_Query;
 
@@ -346,49 +345,22 @@ class Taxonomy_People_Standard {
 
 		echo "\n\t\t\t\t" . '<div class="imdbelementTITLE ';
 		echo ' imdbelementTITLE_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
-
 		echo '">';
 		echo esc_html( $this->person_name );
 		echo '</div>';
 
-		echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- star photo -->';
+		/**
+		 * Use Highslide, Classical or No Links class links builder.
+		 * Each one has its own class passed in $link_maker,
+		 * according to which option the lumiere_select_link_maker() found in Frontend.
+		 */
+		// @phpcs:ignore WordPress.Security.EscapeOutput
+		echo $this->link_maker->lumiere_link_picture_taxonomy(
+			esc_html( $this->person_class->photo_localurl( false ) ),
+			esc_html( $this->person_class->photo_localurl( true ) ),
+			esc_html( $this->person_name )
+		);
 
-		echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-		echo ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
-		echo ' lumiere-padding-lines-common-picture">';
-
-		// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
-		$photo_url = $this->person_class->photo_localurl( false ) !== false ? esc_html( $this->person_class->photo_localurl( false ) ) : esc_html( $this->person_class->photo_localurl( true ) );
-
-		// Select picture: if 2/ AMP Plugin is active, use always thumbnail, use previous pic otherwise (in 1)
-		// @since 3.7
-		$photo_url = in_array( 'AMP', $this->plugins_in_use, true ) === true ? esc_html( $this->person_class->photo_localurl( true ) ) : $photo_url;
-
-		// Select picture: if 3/ big/thumbnail picture exists, use it (in 2), use no_pics otherwise
-		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
-
-		echo "\n\t\t\t\t\t" . '<a id="highslide_pic" href="' . esc_url( $photo_url_final ) . '">';
-		echo "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right" src="'
-			. esc_url( $photo_url_final )
-			. '" alt="'
-			. esc_attr( $this->person_name ) . '"';
-
-		// add width only if "Display only thumbnail" is unactive.
-		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
-
-			echo ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
-
-			// add 100px width if "Display only thumbnail" is active.
-		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
-
-			echo ' width="100em"';
-
-		}
-
-		echo ' />';
-		echo "\n\t\t\t\t\t" . '</a>';
-
-		echo "\n\t\t\t\t" . '</div>';
 		echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Birth -->';
 		echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
 		echo ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
@@ -453,7 +425,7 @@ class Taxonomy_People_Standard {
 
 		// Biography, function in trait.
 		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo $this->lumiere_medaillon_bio( $this->person_class->bio(), true );
+		echo $this->link_maker->lumiere_medaillon_bio( $this->person_class->bio(), true );
 
 		echo "\n\t\t\t\t\t" . '</font></div>';
 		echo "\n\t\t\t\t" . '</div>';
