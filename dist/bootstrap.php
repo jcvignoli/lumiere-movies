@@ -19,6 +19,7 @@ include_once __DIR__ . '/class/tools/class-utils.php';
 include_once __DIR__ . '/class/plugins/autoload.php';
 include_once __DIR__ . '/class/class-core.php'; // activated in lumiere-movies.php
 include_once __DIR__ . '/class/frontend/trait-frontend.php';
+require_once __DIR__ . '/class/frontend/link_makers/autoload.php';
 include_once __DIR__ . '/class/tools/class-pluginsdetect.php';
 include_once __DIR__ . '/class/frontend/class-movie.php';
 include_once __DIR__ . '/class/class-widget.php';

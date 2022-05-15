@@ -1,5 +1,5 @@
 /* Settings for highslide */
-/* var highslide_vars.imdb_path passed from wp_localize_script in imdb-link-transformer.php */
+/* var highslide_vars.imdb_path passed from wp_localize_script to class-movie.php */
 
 var url_highslide = highslide_vars.imdb_path + "js/highslide/graphics/";
 var popup_border_colour = highslide_vars.popup_border_colour;

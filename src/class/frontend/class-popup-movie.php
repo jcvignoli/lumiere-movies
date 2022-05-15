@@ -491,7 +491,7 @@ class Popup_Movie {
 
 				if ( $i === 0 ) {
 					// @phpcs:ignore WordPress.Security.EscapeOutput
-					echo "\n\t" . '<div>' . $this->lumiere_imdburl_to_internalurl( $trivia[ $i ] )
+					echo "\n\t" . '<div>' . $this->link_maker->lumiere_imdburl_to_internalurl( $trivia[ $i ] )
 					. '&nbsp;&nbsp;&nbsp;'
 					. '<span class="activatehidesection"><strong>(' . esc_html__( 'click to show more trivias', 'lumiere-movies' ) . ')</strong></span>'
 					. "\n\t" . '<div class="hidesection">'
@@ -501,7 +501,7 @@ class Popup_Movie {
 
 				if ( $i > 0 ) {
 					// @phpcs:ignore WordPress.Security.EscapeOutput
-					echo $this->lumiere_imdburl_to_internalurl( $trivia[ $i ] )
+					echo $this->link_maker->lumiere_imdburl_to_internalurl( $trivia[ $i ] )
 					. "\n\t\t<hr>";
 				}
 
@@ -530,7 +530,7 @@ class Popup_Movie {
 					echo "\n\t\t";
 					echo "\n\t\t\t<br /><i>" . esc_html( $soundtrack[ $i ]['soundtrack'] ) . '</i>';
 					// @phpcs:ignore WordPress.Security.EscapeOutput
-					echo $this->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
+					echo $this->link_maker->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
 					echo ' ' . wp_kses( str_replace( '<br />', '', $credit_array [ $ii ]['desc'] ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 				}
 
@@ -561,7 +561,7 @@ class Popup_Movie {
 					echo "\n\t" . '<div>'
 					. '<strong>' . esc_html( $goof[ $i ]['type'] ) . '</strong>&nbsp;'
 					// @phpcs:ignore WordPress.Security.EscapeOutput
-					. $this->lumiere_imdburl_to_internalurl( $goof[ $i ]['content'] )
+					. $this->link_maker->lumiere_imdburl_to_internalurl( $goof[ $i ]['content'] )
 					. '&nbsp;<span class="activatehidesection"><strong>(' . esc_html__( 'click to show more goofs', 'lumiere-movies' ) . ')</strong></span>'
 					. "\n\t" . '<div class="hidesection">'
 					. "\n\t\t" . '<br />';
@@ -569,7 +569,7 @@ class Popup_Movie {
 				} elseif ( $i > 0 ) {
 					echo "\n\t\t<strong>(" . intval( $iterator_number ) . ') ' . esc_html( $goof[ $i ]['type'] ) . '</strong>&nbsp;';
 					// @phpcs:ignore WordPress.Security.EscapeOutput
-					echo $this->lumiere_imdburl_to_internalurl( $goof[ $i ]['content'] );
+					echo $this->link_maker->lumiere_imdburl_to_internalurl( $goof[ $i ]['content'] );
 					echo "\n\t\t" . '<br />';
 				}
 
