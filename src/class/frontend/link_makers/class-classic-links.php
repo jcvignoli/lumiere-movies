@@ -267,19 +267,11 @@ class Classic_Links {
 			$str_one = substr( $bio_text, 0, $esc_html_breaker );
 			$str_two = substr( $bio_text, $esc_html_breaker, strlen( $bio_text ) );
 
-			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
-
-				$bio_text = "\n\t\t\t" . $str_one
-					. "\n\t\t\t" . '<span class="activatehidesection"><strong>&nbsp;(' . $click_text . ')</strong></span> '
-					. "\n\t\t\t" . '<span class="hidesection">'
-					. "\n\t\t\t" . $str_two
-					. "\n\t\t\t" . '</span>';
-
-			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) {
-
-				$bio_text = "\n\t\t\t" . $this->lumiere_remove_link( $str_one ) . "\n\t\t\t" . $this->lumiere_remove_link( $str_two );
-
-			}
+			$bio_text = "\n\t\t\t" . $str_one
+				. "\n\t\t\t" . '<span class="activatehidesection"><strong>&nbsp;(' . $click_text . ')</strong></span> '
+				. "\n\t\t\t" . '<span class="hidesection">'
+				. "\n\t\t\t" . $str_two
+				. "\n\t\t\t" . '</span>';
 
 		}
 

@@ -2,6 +2,7 @@
 
 v.3.7.1
 * [technical] Polylang is now a Plugin class with separated functions
+* [technical] More OOP oriented, decoupled the link making process, NoLinks, Highslide, Classic
 * [bug] Metaboxes in howto admin not displayed under certain context
 * [bug] class-logger didn't create debug file if not existing
 
