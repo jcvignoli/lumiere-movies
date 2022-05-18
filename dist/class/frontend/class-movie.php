@@ -19,6 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 use \Imdb\Title;
 use \Imdb\TitleSearch;
 use \Lumiere\Plugins\Polylang;
+use \Lumiere\Link_Makers\Link_Factory;
 
 class Movie {
 
@@ -92,7 +93,13 @@ class Movie {
 			$this->lumiere_set_plugins_array();
 		}
 
+		do_action( 'lumiere_logger' );
 		$logger = $this->logger->log();
+
+		// Build Link Factory class
+		$factory_class = new Link_Factory();
+		$this->link_maker = $factory_class->lumiere_select_link_maker();
+
 		$config_class = $this->config_class;
 		$lumiere_count_me_siffer = isset( $lumiere_count_me_siffer ) ? $lumiere_count_me_siffer : 0; # var for counting only one results
 		$imdb_id_or_title = $imdb_id_or_title_outside !== null ? $imdb_id_or_title_outside : null;
@@ -818,16 +825,8 @@ class Movie {
 			$currentquotes = preg_replace( '~<p>~', "\n\t\t\t<div>", $quotes[ $i ] ) ?? $quotes[ $i ];
 			$currentquotes = preg_replace( '~</p>~', "\n\t\t\t</div>", $currentquotes ) ?? $currentquotes;
 
-			// if "Remove all links" option is not selected.
-			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
+			$output .= "\n\t\t\t" . $this->link_maker->lumiere_imdburl_to_popupurl( $currentquotes );
 
-				$output .= "\n\t\t\t" . $this->lumiere_imdburl_to_popupurl( $currentquotes );
-
-			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) { // if "Remove all links" option is selected
-
-				$output .= "\n\t\t" . $this->lumiere_remove_link( $currentquotes ); // function in trait
-
-			}
 			if ( $i < ( $nbquotes - 1 ) && $i < ( $nbtotalquotes - 1 ) ) {
 				$output .= "\n\t\t\t<hr>"; // add hr to every quote but the last
 			}
@@ -1106,7 +1105,7 @@ class Movie {
 
 					// if "Remove all links" option is selected
 				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) {
-					$output .= "\n\t\t\t" . $this->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
+					$output .= "\n\t\t\t" . $this->link_maker->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
 				}
 				$output .= ' (' . sanitize_text_field( $credit_array [ $ii ]['desc'] ) . ')';
 
@@ -1730,16 +1729,27 @@ class Movie {
 
 	}
 
+	/**
+	 * Static call of the current class Movie
+	 *
+	 * @return void Build the class
+	 */
+	public static function lumiere_movie_start (): void {
+
+		new self( new Polylang() );
+
+	}
+
 } // end of class
 
 
 /**
  * Auto load the class
  * Conditions: not admin area
- * @TODO: Pass this into core class
+ * @TODO: Pass this into core class?
  */
 if ( ! is_admin() ) {
-	new Movie( new Polylang() );
-	//  add_action( 'set_current_user', [ 'Lumiere\Movie', 'lumiere_movie_start' ] );
+	//new Movie( new Polylang() );
+	add_action( 'init', [ 'Lumiere\Movie', 'lumiere_movie_start' ], 1 );
 }
 

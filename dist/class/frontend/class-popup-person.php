@@ -3,9 +3,9 @@
  * Popup for people: Independant page that displays star information inside a popup
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright (c) 2021, Lost Highway
+ * @copyright (c) 2022, Lost Highway
  *
- * @version       2.0
+ * @version       2.1
  * @package lumiere-movies
  */
 
@@ -17,6 +17,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use \Imdb\Person;
+use \Lumiere\Link_Makers\Link_Factory;
 
 class Popup_Person {
 
@@ -109,6 +110,10 @@ class Popup_Person {
 
 		// Get the movie's title.
 		$this->find_person();
+
+		// Build Link Factory class
+		$factory_class = new Link_Factory();
+		$this->link_maker = $factory_class->lumiere_select_link_maker();
 
 		// Show menu.
 		$this->display_menu();
@@ -793,7 +798,23 @@ class Popup_Person {
 		<hr><?php
 	}
 
-}
+	/**
+	 * Static call of the current class Popup Person
+	 *
+	 * @return void Build the class
+	 */
+	public static function lumiere_popup_person_start (): void {
 
-new Popup_Person();
+		new self();
+
+	}
+
+} // end of class
+
+
+/**
+ * Auto load the class
+ * Conditions: not admin area
+ */
+add_action( 'init', [ 'Lumiere\Popup_Person', 'lumiere_popup_person_start' ], 1 );
 

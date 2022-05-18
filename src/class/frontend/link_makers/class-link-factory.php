@@ -17,9 +17,11 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Link_makers\No_Links;
-use \Lumiere\Link_makers\Highslide;
-use \Lumiere\Link_makers\Classical_Links;
+use \Lumiere\Link_Makers\No_Links;
+use \Lumiere\Link_Makers\Highslide_Links;
+use \Lumiere\Link_Makers\Classic_Links;
+use \Lumiere\Plugins\Logger;
+use \Lumiere\Utils;
 
 class Link_Factory {
 
@@ -27,13 +29,10 @@ class Link_Factory {
 	use \Lumiere\Settings_Global;
 
 	/**
-	 * \Lumière\Plugins class
-	 * Array of plugins in use
-	 * From trait frontend
+	 * Class \Lumiere\Logger
 	 *
-	 * @var array<int, string>
 	 */
-	private array $plugins_in_use = [];
+	public Logger $logger;
 
 	/**
 	 * Class constructor
@@ -43,6 +42,10 @@ class Link_Factory {
 		// Construct Global Settings trait.
 		$this->settings_open();
 
+		// Start Logger class.
+		$this->logger = new Logger( 'Link_FactoryClass' );
+
+		add_action( 'plugins_loader', [ $this, 'lumiere_select_link_maker' ], 0 );
 	}
 
 	/**
@@ -50,33 +53,44 @@ class Link_Factory {
 	 * @return object Class to build the links in Frontend with.
 	 */
 	public function lumiere_select_link_maker (): object {
-		/*
-		if ( in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
 
+		do_action( 'lumiere_logger' );
+		$logger = $this->logger->log();
+
+		/**
+		 * General Lumiere Function
+		 * Checks if the current page is AMP
+		 */
+		if ( Utils::lumiere_is_amp_page() === true ) {
+
+			$logger->debug( '[Lumiere][LinkFactoryClass] Running AMP class No_Links' );
 			return new No_Links();
 
 		}
-		*/
 
 		if ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
 
+			$logger->debug( '[Lumiere][LinkFactoryClass] Running LinkingKill class No_Links' );
 			return new No_Links();
 
 		}
 
 		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
+			$logger->debug( '[Lumiere][LinkFactoryClass] Running Highslide class' );
 			return new Highslide_Links();
 
 		}
 
 		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '0' ) {
 
+			$logger->debug( '[Lumiere][LinkFactoryClass] Running Classic class' );
 			return new Classic_Links();
 
 		}
 
 		// By default, return classical popup
+		$logger->debug( '[Lumiere][LinkFactoryClass] Running Classic class' );
 		return new Classic_Links();
 
 	}

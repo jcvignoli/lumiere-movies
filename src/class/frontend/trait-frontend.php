@@ -7,7 +7,7 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version       1.1
+ * @version       1.2
  * @package lumiere-movies
  */
 
@@ -36,11 +36,11 @@ trait Frontend {
 
 	/**
 	 * Object to build links, i.e. Highslide
-	 * Can never be null, since we must always build the links
+	 * Is null when class is not instancialised
 	 *
-	 * @var object $link_maker
+	 * @var Link_Factory $link_maker The factory class will determine which class to use
 	 */
-	public object $link_maker;
+	public \Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\No_Links $link_maker;
 
 	/**
 	 * Class \Lumiere\Utils
@@ -76,10 +76,6 @@ trait Frontend {
 		// Build Global settings.
 		$this->settings_open();
 
-		// Build the object with the appropriate Link Maker.
-		$factory_class = new Link_Factory();
-		$this->link_maker = $factory_class->lumiere_select_link_maker();
-
 		// Start Logger class.
 		$this->logger = new Logger( $logger_name, $screen_output );
 
@@ -89,11 +85,14 @@ trait Frontend {
 		// Start Imdbphp class.
 		$this->imdbphp_class = new Imdbphp();
 
+		// Start Link Factory class
+		$factory_class = new Link_Factory();
+
 		// Start checking if current page is block editor
 		add_action( 'init', [ $this, 'lumiere_frontend_is_editor' ], 0 );
 
 		// Start the debugging
-		add_action( 'init', [ $this, 'lumiere_frontend_maybe_start_debug' ], 1 );
+		add_action( 'plugins_loaded', [ $this, 'lumiere_frontend_maybe_start_debug' ], 1 );
 
 		// Initialise list of WP plugins in use class (\Lumiere\Plugins)
 		add_action( 'wp_head', [ $this, 'lumiere_set_plugins_array' ], 0 );
@@ -105,7 +104,7 @@ trait Frontend {
 
 	/**
 	 * Display list of WP plugins compatible with Lumière!
-	 * Use Logger class, already initialized
+	 * Use Logger class, already instancialised
 	 *
 	 * @since 3.7
 	 */

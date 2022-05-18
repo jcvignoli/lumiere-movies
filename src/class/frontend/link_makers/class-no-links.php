@@ -2,11 +2,16 @@
 /**
  * Class to build no HTML Links
  *
+ * This class is also used for AMP pages
+ *
+ * No external HTML link, no popup will be made
+ * Links to 1/ taxonomy pages or 2/ internal links are kept
+ *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
  * @version 1.0
- * @since 3.7
+ * @since 3.7.1
  * @package lumiere-movies
  */
 
@@ -50,24 +55,22 @@ class No_Links {
 
 	/**
 	 * Build picture of the movie
-	 * @param string $photo_localurl_false The picture of big size
+	 * @param string|bool $photo_localurl_false The picture of big size
 	 * @param string|bool $photo_localurl_true The picture of small size
-	 * @param string|bool $movie_title Title of the movie
+	 * @param string $movie_title Title of the movie
 	 * @return string
 	 */
 	public function lumiere_link_picture ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title ): string {
 
 		$output = '';
 
+		// Make sure $photo_localurl_true is a string so we can use esc_html() function
+		$photo_localurl_true = is_string( $photo_localurl_true ) ? $photo_localurl_true : '';
+
 		// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
-		$photo_url = $photo_localurl_false !== false ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl_true );
+		$photo_url = $photo_localurl_false !== false && is_string( $photo_localurl_false ) ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl_true );
 
-		// Select picture: if 2/ AMP Plugin is active, use always thumbnail, use previous pic otherwise (in 1)
-		// @since 3.7
-		//      $photo_url = in_array( 'AMP', $this->plugins_in_use, true ) === true ? esc_html( $photo_localurl_true ) : $photo_url;
-		$photo_url = esc_html( $photo_localurl_true );
-
-		// Select picture: if 3/ big/thumbnail picture exists, use it (in 2), use no_pics otherwise
+		// Select picture: if 2/ big or thumbnail picture exists, use it (in 1), use no_pics otherwise
 		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
 
 		$output .= "\n\t\t\t" . '<div class="imdbelementPIC">';
@@ -104,9 +107,9 @@ class No_Links {
 
 	/**
 	 * Build picture of the movie in taxonomy pages
-	 * @param string $photo_localurl_false The picture of big size
+	 * @param string|bool $photo_localurl_false The picture of big size
 	 * @param string|bool $photo_localurl_true The picture of small size
-	 * @param string|bool $movie_title Title of the movie
+	 * @param string $person_name Name of the person
 	 * @return string
 	 */
 	public function lumiere_link_picture_taxonomy ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $person_name ): string {
@@ -119,15 +122,11 @@ class No_Links {
 		$output .= ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 		$output .= ' lumiere-padding-lines-common-picture">';
 
-		// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
-		$photo_url = $photo_localurl_false !== false ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl_true );
-
-		// Select picture: if 2/ AMP Plugin is active, use always thumbnail, use previous pic otherwise (in 1)
+		// Select picture: if 1/ use always thumbnail
 		// @since 3.7
-		//      $photo_url = in_array( 'AMP', $this->plugins_in_use, true ) === true ? esc_html( $photo_localurl_true ) : $photo_url;
-		$photo_url = esc_html( $photo_localurl_true );
+		$photo_url = is_string( $photo_localurl_true ) ? esc_html( $photo_localurl_true ) : '';
 
-		// Select picture: if 3/ big/thumbnail picture exists, use it (in 2), use no_pics otherwise
+		// Select picture: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
 		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
 
 		$output .= "\n\t\t\t\t\t" . '<a id="nolinks_pic" href="' . esc_url( $photo_url_final ) . '">';
@@ -168,11 +167,13 @@ class No_Links {
 	 * 2- Detect if there is html tags that can break with $esc_html_breaker
 	 * 3- Build links either to internal (popups) or popups (inside posts/widgets) with $popup_links
 	 *
-	 * @param array<array, string> $bio_array Array of the object _IMDBPHPCLASS_->bio()
+	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
 	 * @param bool $popup_links  If links should be internal or popups. Internal (false) by default.
-	 * @phpstan-ignore-next-line PHPStan complains about $bio_array not defined, but it is!
 	 */
 	public function lumiere_medaillon_bio ( array $bio_array, bool $popup_links = false ): ?string {
+
+		// Make sure it is always false, since the purpose of the class is to not have popups
+		$popup_links = false;
 
 		/** Vars */
 		$click_text = esc_html__( 'click to expand', 'lumiere-movies' ); // text for cutting.
@@ -188,13 +189,10 @@ class No_Links {
 		// Make sure that bio description returns internal links and no IMDb's.
 		$bio_head = '';
 		$bio_text = '';
-		if ( $popup_links === false && $bio !== null ) {
+		if ( $bio !== null ) {
 
 			$bio_text = $this->lumiere_imdburl_to_internalurl( $bio[ $idx ]['desc'] );
 
-		} elseif ( $popup_links === true && $bio !== null ) {
-
-			$bio_text = $this->lumiere_imdburl_to_popupurl( $bio[ $idx ]['desc'] );
 		}
 
 		$bio_head = "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
@@ -209,6 +207,7 @@ class No_Links {
 
 		}
 
+		// No biography text found.
 		return $bio_head . 'No biography found';
 
 	}
@@ -219,7 +218,7 @@ class No_Links {
 	 *
 	 * @param string $text Text that includes IMDb URL to convert into an internal link
 	 */
-	private function lumiere_imdburl_to_internalurl ( string $text ): string {
+	public function lumiere_imdburl_to_internalurl ( string $text ): string {
 
 		// Internal links.
 		$internal_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
@@ -237,28 +236,20 @@ class No_Links {
 	}
 
 	/**
-	 * Convert an IMDb url into a Popup link for People and Movies
-	 * Meant to be used inside in posts or widgets (not in Popups)
-	 * Build links using either highslide or classic popup
+	 * Remove an IMDb url from the text
+	 * In this class, no popup is allowed so no popup link is built
 	 *
-	 * @param string $text Text that includes IMDb URL to convert into a popup link
+	 * @param string $text Text that includes IMDb URL to be removed
 	 */
-	private function lumiere_imdburl_to_popupurl ( string $text ): string {
-
-		// Initialize variables.
-		$popup_link_person = '';
-		$popup_link_movie = '';
-
-		$popup_link_person = '<a class="link-imdblt-classicpeople" data-classicpeople="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
-		$popup_link_movie = '<a class="link-imdblt-classicfilm" data-classicfilm-id="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
+	public function lumiere_imdburl_to_popupurl ( string $text ): string {
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
 		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\/\?.+?|\?.+?|\/?)\"\>~';
 		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>~';
 
 		// Replace IMDb links with popup links.
-		$output_one = preg_replace( $rule_name, $popup_link_person, $text ) ?? $text;
-		$output_two = preg_replace( $rule_title, $popup_link_movie, $output_one ) ?? $text;
+		$output_one = preg_replace( $rule_name, '', $text ) ?? $text;
+		$output_two = preg_replace( $rule_title, '', $output_one ) ?? $text;
 
 		return $output_two;
 	}

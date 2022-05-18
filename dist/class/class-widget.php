@@ -406,4 +406,4 @@ class Widget extends \WP_Widget {
 }
 
 // Instead of starting the class, add an action.
-add_action( 'set_current_user', [ 'Lumiere\Widget', 'lumiere_widget_start' ] );
+add_action( 'plugins_loaded', [ 'Lumiere\Widget', 'lumiere_widget_start' ] );
