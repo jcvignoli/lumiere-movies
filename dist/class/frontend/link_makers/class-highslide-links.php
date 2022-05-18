@@ -142,8 +142,11 @@ class Highslide_Links {
 
 		$output = '';
 
+		// Make sure $photo_localurl_true is a string so we can use esc_html() function
+		$photo_localurl_true = is_string( $photo_localurl_true ) ? $photo_localurl_true : '';
+
 		// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
-		$photo_url = $photo_localurl_false !== false ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl_true );
+		$photo_url = $photo_localurl_false !== false && is_string( $photo_localurl_false ) ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl_true );
 
 		// Select picture: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
 		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
@@ -193,9 +196,9 @@ class Highslide_Links {
 
 	/**
 	 * Build picture of the movie in taxonomy pages
-	 * @param string $photo_localurl_false The picture of big size
+	 * @param string|bool $photo_localurl_false The picture of big size
 	 * @param string|bool $photo_localurl_true The picture of small size
-	 * @param string|bool $movie_title Title of the movie
+	 * @param string $person_name Name of the person
 	 * @return string
 	 */
 	public function lumiere_link_picture_taxonomy ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $person_name ): string {
@@ -208,15 +211,13 @@ class Highslide_Links {
 		$output .= ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 		$output .= ' lumiere-padding-lines-common-picture">';
 
+		// Make sure $photo_localurl_true is a string so we can use esc_html() function
+		$photo_localurl_true = is_string( $photo_localurl_true ) ? $photo_localurl_true : '';
+
 		// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
-		$photo_url = $photo_localurl_false !== false ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl_true );
+		$photo_url = $photo_localurl_false !== false && is_string( $photo_localurl_false ) ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl_true );
 
-		// Select picture: if 2/ AMP Plugin is active, use always thumbnail, use previous pic otherwise (in 1)
-		// @since 3.7
-		//      $photo_url = in_array( 'AMP', $this->plugins_in_use, true ) === true ? esc_html( $photo_localurl_true ) : $photo_url;
-		$photo_url = esc_html( $photo_localurl_true );
-
-		// Select picture: if 3/ big/thumbnail picture exists, use it (in 2), use no_pics otherwise
+		// Select picture: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
 		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
 
 		$output .= "\n\t\t\t\t\t" . '<a id="highslide_pic" href="' . esc_url( $photo_url_final ) . '">';
@@ -257,9 +258,8 @@ class Highslide_Links {
 	 * 2- Detect if there is html tags that can break with $esc_html_breaker
 	 * 3- Build links either to internal (popups) or popups (inside posts/widgets) with $popup_links
 	 *
-	 * @param array<array, string> $bio_array Array of the object _IMDBPHPCLASS_->bio()
+	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
 	 * @param bool $popup_links  If links should be internal or popups. Internal (false) by default.
-	 * @phpstan-ignore-next-line PHPStan complains about $bio_array not defined, but it is!
 	 */
 	public function lumiere_medaillon_bio ( array $bio_array, bool $popup_links = false ): ?string {
 
@@ -321,7 +321,7 @@ class Highslide_Links {
 	 *
 	 * @param string $text Text that includes IMDb URL to convert into an internal link
 	 */
-	private function lumiere_imdburl_to_internalurl ( string $text ): string {
+	public function lumiere_imdburl_to_internalurl ( string $text ): string {
 
 		// Internal links.
 		$internal_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
@@ -341,11 +341,11 @@ class Highslide_Links {
 	/**
 	 * Convert an IMDb url into a Popup link for People and Movies
 	 * Meant to be used inside in posts or widgets (not in Popups)
-	 * Build links using either highslide or classic popup
+	 * Build links using highslide popup
 	 *
 	 * @param string $text Text that includes IMDb URL to convert into a popup link
 	 */
-	private function lumiere_imdburl_to_popupurl ( string $text ): string {
+	public function lumiere_imdburl_to_popupurl ( string $text ): string {
 
 		// Initialize variables.
 		$popup_link_person = '';

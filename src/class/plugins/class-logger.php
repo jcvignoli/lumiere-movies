@@ -233,7 +233,9 @@ class Logger {
 	 * @return LoggerMonolog the Monolog class
 	 */
 	public function log(): LoggerMonolog {
+
 		return $this->logger_class;
+
 	}
 
 }

@@ -5,7 +5,7 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
- * @version       2.0
+ * @version       2.1
  * @package lumiere-movies
  */
 
@@ -460,6 +460,48 @@ class Utils {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Return if Lumiere plugin is installed
+	 *
+	 * @since 3.7.1
+	 * @return bool always true
+	 */
+	public static function lumiere_is_active (): bool {
+		return true;
+	}
+
+	/**
+	 * Are we currently on an AMP URL?
+	 * Will always return `false` and show PHP Notice if called before the `wp` hook.
+	 *
+	 * @since 3.7.1
+	 * @return bool true if amp url, false otherwise
+	 */
+	public static function lumiere_is_amp_page (): bool {
+		global $pagenow;
+		if ( is_admin()
+		/**
+				|| is_embed()
+				|| is_feed()
+	*/
+			|| ( isset( $pagenow ) && in_array( $pagenow, [ 'wp-login.php', 'wp-signup.php', 'wp-activate.php' ], true ) )
+			|| ( defined( 'REST_REQUEST' ) && REST_REQUEST )
+			|| ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST )
+		) {
+			return false;
+		}
+
+		if ( ! did_action( 'wp' ) ) {
+			return false;
+		}
+
+		return ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() )
+		|| ( function_exists( 'is_wp_amp' ) && is_wp_amp() )
+		|| ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() )
+		|| ( function_exists( 'is_penci_amp' ) && is_penci_amp() )
+		|| isset( $_GET ['wpamp'] );
 	}
 
 }

@@ -3,9 +3,9 @@
  * Popup for movies: Independant page that displays movie information inside a popup
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright (c) 2021, Lost Highway
+ * @copyright (c) 2022, Lost Highway
  *
- * @version       2.0
+ * @version       2.1
  * @package lumiere-movies
  */
 
@@ -18,6 +18,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use \Imdb\Title;
 use \Imdb\TitleSearch;
+use \Lumiere\Link_Makers\Link_Factory;
 
 class Popup_Movie {
 
@@ -154,6 +155,10 @@ class Popup_Movie {
 		$this->find_movie();
 
 		$movie_results = $this->movie;
+
+		// Build Link Factory class
+		$factory_class = new Link_Factory();
+		$this->link_maker = $factory_class->lumiere_select_link_maker();
 
 		$this->display_menu( $this->movie );
 
@@ -781,7 +786,24 @@ class Popup_Movie {
 
 		}
 	}
-}
 
-new Popup_Movie();
+	/**
+	 * Static call of the current class Popup Movie
+	 *
+	 * @return void Build the class
+	 */
+	public static function lumiere_popup_movie_start (): void {
+
+		new self();
+
+	}
+
+} // end of class
+
+
+/**
+ * Auto load the class
+ * Conditions: not admin area
+ */
+add_action( 'init', [ 'Lumiere\Popup_Movie', 'lumiere_popup_movie_start' ], 1 );
 
