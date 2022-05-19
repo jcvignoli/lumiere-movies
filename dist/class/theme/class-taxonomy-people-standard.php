@@ -149,6 +149,10 @@ class Taxonomy_People_Standard {
 		// Build array of plugins from trait-frontend.php
 		$this->lumiere_set_plugins_array();
 
+		$logger = $this->logger->log();
+
+		$logger->debug( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] Using the link maker class: ' . get_class( $this->link_maker ) );
+
 		echo '<br />';
 
 		if ( true === $this->activate_sidebar ) {
@@ -300,7 +304,7 @@ class Taxonomy_People_Standard {
 				// there is no post.
 			} else {
 
-				$this->logger->log()->debug( "[Lumiere][taxonomy_$this->taxonomy_title] No post found for $this->person_name in $people" );
+				$logger->debug( "[Lumiere][taxonomy_$this->taxonomy_title] No post found for $this->person_name in $people" );
 
 			}
 

@@ -37,6 +37,13 @@ class Movie {
 	private ?Polylang $plugin_polylang = null;
 
 	/**
+	 * Make sure $link_maker is executed once in this class
+	 *
+	 * @var bool $link_maker_trigger
+	 */
+	private bool $link_maker_trigger = false;
+
+	/**
 	 *  HTML allowed for use of wp_kses_post()
 	 */
 	const ALLOWED_HTML = [
@@ -89,23 +96,37 @@ class Movie {
 		/* Vars */
 		global $lumiere_count_me_siffer;
 
-		if ( count( $this->plugins_in_use ) == 0 ) {
+		/**
+		 * Start PluginsDetect class
+		 * Is instanciated only if not instanciated already
+		 * Use lumiere_set_plugins_array() in trait to set $plugins_in_use var in trait
+		 * @since 3.7.1
+		 */
+		if ( count( $this->plugins_in_use ) === 0 ) {
 			$this->lumiere_set_plugins_array();
 		}
 
 		do_action( 'lumiere_logger' );
 		$logger = $this->logger->log();
 
-		// Build Link Factory class
-		$factory_class = new Link_Factory();
-		$this->link_maker = $factory_class->lumiere_select_link_maker();
+		/**
+		 * Start Link Factory sub class
+		 * Is instanciated only if not instanciated already
+		 * Use $link_maker_trigger to set from false to true
+		 * @since 3.7.1
+		 */
+		if ( $this->link_maker_trigger === false ) {
+			$this->link_maker = $this->factory_class->lumiere_select_link_maker();
+			$logger->debug( '[Lumiere][movieClass] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+			$this->link_maker_trigger = true;
+		}
 
 		$config_class = $this->config_class;
 		$lumiere_count_me_siffer = isset( $lumiere_count_me_siffer ) ? $lumiere_count_me_siffer : 0; # var for counting only one results
 		$imdb_id_or_title = $imdb_id_or_title_outside !== null ? $imdb_id_or_title_outside : null;
 		$output = '';
 
-		$logger->debug( '[Lumiere] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ' ]' );
+		$logger->debug( '[Lumiere][movieClass] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ' ]' );
 		$logger->debug( '[Lumiere][movieClass] Calling IMDbPHP class.' );
 
 		$search = new TitleSearch( $this->imdbphp_class, $logger );

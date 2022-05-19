@@ -157,8 +157,8 @@ class Popup_Movie {
 		$movie_results = $this->movie;
 
 		// Build Link Factory class
-		$factory_class = new Link_Factory();
-		$this->link_maker = $factory_class->lumiere_select_link_maker();
+		$this->link_maker = $this->factory_class->lumiere_select_link_maker();
+		$this->logger->log()->debug( '[Lumiere][popupPersonClass] Using the link maker class: ' . get_class( $this->link_maker ) );
 
 		$this->display_menu( $this->movie );
 
