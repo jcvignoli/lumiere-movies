@@ -18,6 +18,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( '\Lumiere\Settings' ) ) {
 
 use \Lumiere\Movie;
 use \Lumiere\Plugins\Polylang;
+use \Lumiere\Link_Makers\Link_Factory;
 
 class Widget extends \WP_Widget {
 
@@ -406,4 +407,4 @@ class Widget extends \WP_Widget {
 }
 
 // Instead of starting the class, add an action.
-add_action( 'plugins_loaded', [ 'Lumiere\Widget', 'lumiere_widget_start' ] );
+add_action( 'set_current_user', [ 'Lumiere\Widget', 'lumiere_widget_start' ] );

@@ -483,9 +483,10 @@ class Utils {
 		global $pagenow;
 		if ( is_admin()
 		/**
+		 * If kept, breaks blog pages these functions can be executed very early
 				|| is_embed()
 				|| is_feed()
-	*/
+		*/
 			|| ( isset( $pagenow ) && in_array( $pagenow, [ 'wp-login.php', 'wp-signup.php', 'wp-activate.php' ], true ) )
 			|| ( defined( 'REST_REQUEST' ) && REST_REQUEST )
 			|| ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST )
@@ -493,11 +494,11 @@ class Utils {
 			return false;
 		}
 
-		if ( ! did_action( 'wp' ) ) {
+		if ( did_action( 'wp' ) === 0 ) {
 			return false;
 		}
 
-		return ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() )
+		return function_exists( 'amp_is_request' ) && amp_is_request()
 		|| ( function_exists( 'is_wp_amp' ) && is_wp_amp() )
 		|| ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() )
 		|| ( function_exists( 'is_penci_amp' ) && is_penci_amp() )

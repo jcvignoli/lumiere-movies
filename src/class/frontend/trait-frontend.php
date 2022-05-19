@@ -13,6 +13,8 @@
 
 namespace Lumiere;
 
+include_once __DIR__ . '/link_makers/autoload.php';
+
 use \Lumiere\PluginsDetect;
 use \Lumiere\Utils;
 use \Lumiere\Link_Makers\Link_Factory;
@@ -35,10 +37,17 @@ trait Frontend {
 	public array $plugins_in_use = [];
 
 	/**
-	 * Object to build links, i.e. Highslide
-	 * Is null when class is not instancialised
+	 * Factory class for building $link_maker object
 	 *
-	 * @var Link_Factory $link_maker The factory class will determine which class to use
+	 * @var Link_Factory $factory_class The factory class will determine which class to use
+	 */
+	public Link_Factory $factory_class;
+
+	/**
+	 * Object to build links, i.e. Highslide
+	 * Built in class Link Factory
+	 *
+	 * @var \Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\No_Links $link_maker The factory class will determine which class to use
 	 */
 	public \Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\No_Links $link_maker;
 
@@ -85,17 +94,16 @@ trait Frontend {
 		// Start Imdbphp class.
 		$this->imdbphp_class = new Imdbphp();
 
-		// Start Link Factory class
-		$factory_class = new Link_Factory();
+		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
+		// Need to construct both classes for sub factory heading and taxonomy pages
+		$this->factory_class = new Link_Factory();
+		$this->link_maker = $this->factory_class->lumiere_select_link_maker();
 
 		// Start checking if current page is block editor
 		add_action( 'init', [ $this, 'lumiere_frontend_is_editor' ], 0 );
 
 		// Start the debugging
 		add_action( 'plugins_loaded', [ $this, 'lumiere_frontend_maybe_start_debug' ], 1 );
-
-		// Initialise list of WP plugins in use class (\Lumiere\Plugins)
-		add_action( 'wp_head', [ $this, 'lumiere_set_plugins_array' ], 0 );
 
 		// Display log of list of WP plugins compatible with Lumiere
 		#add_action( 'the_post', [ $this, 'lumiere_log_plugins' ], 0 );

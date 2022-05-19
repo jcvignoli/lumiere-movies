@@ -112,8 +112,8 @@ class Popup_Person {
 		$this->find_person();
 
 		// Build Link Factory class
-		$factory_class = new Link_Factory();
-		$this->link_maker = $factory_class->lumiere_select_link_maker();
+		$this->link_maker = $this->factory_class->lumiere_select_link_maker();
+		$this->logger->log()->debug( '[Lumiere][popupPersonClass] Using the link maker class: ' . get_class( $this->link_maker ) );
 
 		// Show menu.
 		$this->display_menu();
