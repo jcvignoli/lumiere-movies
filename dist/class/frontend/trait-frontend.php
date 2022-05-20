@@ -39,12 +39,12 @@ trait Frontend {
 	/**
 	 * Factory class for building $link_maker object
 	 *
-	 * @var Link_Factory $factory_class The factory class will determine which class to use
+	 * @var Link_Factory $factory_class The factory class that will determine which class to use
 	 */
 	public Link_Factory $factory_class;
 
 	/**
-	 * Object to build links, i.e. Highslide
+	 * Class for building links, i.e. Highslide
 	 * Built in class Link Factory
 	 *
 	 * @var \Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\No_Links $link_maker The factory class will determine which class to use
