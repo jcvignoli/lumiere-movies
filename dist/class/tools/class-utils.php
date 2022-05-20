@@ -315,11 +315,9 @@ class Utils {
 	}
 
 	/**
-	 * Function str_contains
-	 *
 	 * Returns if a string is contained in a value
-	 * Introduced in PHP 8
-	 * here for compatibilty purpose
+	 * Introduced in PHP 8, here for compatibilty purpose
+	 *
 	 * @param string $haystack The string to search in.
 	 * @param string $needle The substring to search for in the haystack.
 	 * @return bool
@@ -499,10 +497,8 @@ class Utils {
 		}
 
 		return function_exists( 'amp_is_request' ) && amp_is_request()
-		|| ( function_exists( 'is_wp_amp' ) && is_wp_amp() )
-		|| ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() )
-		|| ( function_exists( 'is_penci_amp' ) && is_penci_amp() )
-		|| isset( $_GET ['wpamp'] );
+		|| isset( $_GET ['wpamp'] )
+		|| isset( $_GET ['amp'] );
 	}
 
 }

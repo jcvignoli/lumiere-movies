@@ -55,13 +55,19 @@ class Movie {
 	];
 
 	/**
+	 * Name of the class
+	 * Constant utilised in logs
+	 */
+	private const CLASS_NAME = 'movieClass';
+
+	/**
 	 * Class constructor
 	 * @param ?Polylang $plugin_polylang Polylang plugin object
 	 */
 	public function __construct( ?Polylang $plugin_polylang = null ) {
 
 		// Construct Frontend trait.
-		$this->__constructFrontend( 'movieClass' );
+		$this->__constructFrontend( self::CLASS_NAME );
 
 		// Instanciate $plugin_polylang.
 		if ( ( class_exists( 'Polylang' ) ) && ( $plugin_polylang instanceof Polylang ) && $plugin_polylang->polylang_is_active() === true ) {
@@ -111,14 +117,16 @@ class Movie {
 
 		/**
 		 * Start Link Factory sub class
-		 * Is instanciated only if not instanciated already
-		 * Use $link_maker_trigger to set from false to true
+		 * Is instantiated only if not instanciated already, using $link_maker_trigger
 		 * @since 3.7.1
 		 */
 		if ( $this->link_maker_trigger === false ) {
+
+			// @phpstan-ignore-next-line "Property Lumiere\Movie::$link_maker does not accept object." It does!
 			$this->link_maker = $this->factory_class->lumiere_select_link_maker();
-			$logger->debug( '[Lumiere][movieClass] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+			$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 			$this->link_maker_trigger = true;
+
 		}
 
 		$config_class = $this->config_class;
@@ -126,8 +134,8 @@ class Movie {
 		$imdb_id_or_title = $imdb_id_or_title_outside !== null ? $imdb_id_or_title_outside : null;
 		$output = '';
 
-		$logger->debug( '[Lumiere][movieClass] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ' ]' );
-		$logger->debug( '[Lumiere][movieClass] Calling IMDbPHP class.' );
+		$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ']' );
+		$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] Calling IMDbPHP class.' );
 
 		$search = new TitleSearch( $this->imdbphp_class, $logger );
 
@@ -144,12 +152,12 @@ class Movie {
 
 				$film = $film['byname'];
 
-				$logger->debug( "[Lumiere][movieClass] Movie title provided: $film" );
+				$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] Movie title provided: $film" );
 
 				// check a the movie title exists.
 				if ( strlen( $film ) !== 0 ) {
 
-					$logger->debug( "[Lumiere][movieClass] searching for $film" );
+					$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] searching for $film" );
 
 					$results = $search->search( $film, $this->config_class->lumiere_select_type_search() );
 
@@ -160,38 +168,38 @@ class Movie {
 				// No result was found in imdbphp query.
 				if ( $mid_premier_resultat === null ) {
 
-					$logger->info( "[Lumiere][movieClass] No movie found for $film, aborting." );
+					$logger->info( '[Lumiere][' . self::CLASS_NAME . "] No movie found for $film, aborting." );
 
 					// no result, so jump to the next query and forget the current
 					continue;
 
 				}
 
-				$logger->debug( "[Lumiere][movieClass] Result found: $mid_premier_resultat." );
+				$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] Result found: $mid_premier_resultat." );
 
 				// no movie's title but a movie's ID has been specified
 			} elseif ( isset( $film['bymid'] ) ) {
 
 				$mid_premier_resultat = filter_var( $film['bymid'], FILTER_SANITIZE_NUMBER_INT );
-				$logger->debug( "[Lumiere][movieClass] Movie ID provided: '$mid_premier_resultat'." );
+				$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] Movie ID provided: '$mid_premier_resultat'." );
 
 			}
 
 			if ( $film === null || ! isset( $mid_premier_resultat ) || $mid_premier_resultat === false ) {
 
-				$logger->debug( '[Lumiere][movieClass] No result found for this query.' );
+				$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] No result found for this query.' );
 				continue;
 
 			}
 
 			if ( $this->lumiere_filter_single_movies( $mid_premier_resultat, $lumiere_count_me_siffer ) === true ) {
 
-				$logger->debug( "[Lumiere][movieClass] $mid_premier_resultat already called, skipping" );
+				$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] $mid_premier_resultat already called, skipping" );
 				continue;
 
 			}
 
-			$logger->debug( "[Lumiere][movieClass] Displaying rows for '$mid_premier_resultat'" );
+			$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] Displaying rows for '$mid_premier_resultat'" );
 
 			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- ### Lumière! movies plugin ### -->';
 			$output .= "\n\t<div class='imdbincluded";
@@ -440,7 +448,7 @@ class Movie {
 					// @phpstan-ignore-next-line 'Variable method call on $this(Lumiere\Movie)'.
 					$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->$function( $movie ), $data_detail );
 				} else {
-					$logger->warning( '[Lumiere][movieClass] The method ' . $function . ' does not exist in the class' );
+					$logger->warning( '[Lumiere][' . self::CLASS_NAME . '] The method ' . $function . ' does not exist in the class' );
 				}
 
 			}
@@ -1651,7 +1659,7 @@ class Movie {
 					// $term = wp_insert_term($taxonomy_term, $taxonomy_category_full, array('lang' => $lang_term) );
 					// I believe adding the above option 'lang' is useless, inserting without 'lang'.
 					$term = wp_insert_term( $taxonomy_term, $taxonomy_category_full );
-					$this->logger->log()->debug( "[Lumiere][movieClass] Taxonomy term $taxonomy_term added to $taxonomy_category_full" );
+					$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full" );
 				}
 
 				// Create a list of Lumière tags meant to be inserted to Lumière Taxonomy
