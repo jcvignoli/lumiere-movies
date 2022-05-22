@@ -65,7 +65,6 @@ class AMPCest {
 		$I->amOnPage('/2021/test-codeception/');
 		$I->seeInPageSource('<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="0227759" title="open a new window with IMDb informations">Peter Dinklage</a>');
 
-
 	}
 
 }
