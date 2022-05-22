@@ -32,7 +32,6 @@ trait Frontend {
 	 *
 	 * @since 3.7
 	 * @var array<int, string>
-	 * @phpstan-ignore-next-line PHPStan complains that var is not defined for some contexts
 	 */
 	public array $plugins_in_use = [];
 
