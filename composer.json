@@ -25,6 +25,8 @@
         "szepeviktor/phpstan-wordpress": "^0.7.7",
         "phpstan/phpstan-strict-rules": "^0.12.10",
         "automattic/phpcs-neutron-ruleset": "^3.4",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1"
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+        "phan/phan": "^5.3",
+        "skaut/wordpress-stubs": "^2.2"
     }
 }

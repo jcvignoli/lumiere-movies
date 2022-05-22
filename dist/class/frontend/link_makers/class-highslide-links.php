@@ -66,7 +66,7 @@ class Highslide_Links {
 
 		// Register highslide scripts and styles
 		wp_register_script(
-			'lumiere_highslide',
+			'lumiere_highslide_core',
 			$this->config_class->lumiere_js_dir . 'highslide/highslide-with-html.min.js',
 			[],
 			$this->config_class->lumiere_version,
@@ -75,12 +75,12 @@ class Highslide_Links {
 		wp_register_script(
 			'lumiere_highslide_options',
 			$this->config_class->lumiere_js_dir . 'highslide-options.min.js',
-			[ 'lumiere_highslide' ],
+			[ 'lumiere_highslide_core' ],
 			$this->config_class->lumiere_version,
 			true
 		);
 		wp_enqueue_style(
-			'lumiere_highslide',
+			'lumiere_highslide_core',
 			$this->config_class->lumiere_css_dir . 'highslide.min.css',
 			[],
 			$this->config_class->lumiere_version
@@ -88,7 +88,7 @@ class Highslide_Links {
 
 		// Register frontpage script
 		wp_register_script(
-			'lumiere_scripts',
+			'lumiere_highslide_scripts',
 			$this->config_class->lumiere_js_dir . 'lumiere_highslide_links.min.js',
 			[ 'jquery' ],
 			$this->config_class->lumiere_version,
@@ -102,9 +102,9 @@ class Highslide_Links {
 	 */
 	public function lumiere_highslide_execute_assets (): void {
 
-		wp_enqueue_style( 'lumiere_highslide' );
+		wp_enqueue_style( 'lumiere_highslide_core' );
 
-		wp_enqueue_script( 'lumiere_highslide' );
+		wp_enqueue_script( 'lumiere_highslide_core' );
 
 		// Pass variables to javascript highslide-options.js.
 		wp_add_inline_script(
@@ -115,7 +115,7 @@ class Highslide_Links {
 
 		wp_enqueue_script( 'lumiere_highslide_options' );
 
-		wp_enqueue_script( 'lumiere_scripts' );
+		wp_enqueue_script( 'lumiere_highslide_scripts' );
 
 	}
 
@@ -127,7 +127,7 @@ class Highslide_Links {
 	 */
 	public function lumiere_link_popup_people ( array $imdb_data_people, int $number ): string {
 
-		return "\n\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . sanitize_text_field( $imdb_data_people[ $number ]['imdb'] ) . '" title="' . esc_html__( 'Link to local IMDb', 'lumiere-movies' ) . '">' . sanitize_text_field( $imdb_data_people[ $number ]['name'] ) . '</a>';
+		return "\n\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . sanitize_text_field( $imdb_data_people[ $number ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . sanitize_text_field( $imdb_data_people[ $number ]['name'] ) . '</a>';
 
 	}
 

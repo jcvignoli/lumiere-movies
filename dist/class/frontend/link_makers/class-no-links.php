@@ -64,13 +64,11 @@ class No_Links {
 
 		$output = '';
 
-		// Make sure $photo_localurl_true is a string so we can use esc_html() function
-		$photo_localurl_true = is_string( $photo_localurl_true ) ? $photo_localurl_true : '';
+		// Select picture: if 1/ use always thumbnail
+		// @since 3.7
+		$photo_url = is_string( $photo_localurl_true ) ? $photo_localurl_true : '';
 
-		// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
-		$photo_url = $photo_localurl_false !== false && is_string( $photo_localurl_false ) ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl_true );
-
-		// Select picture: if 2/ big or thumbnail picture exists, use it (in 1), use no_pics otherwise
+		// Select picture: if 2/ thumbnail picture exists, use it (in 1), use no_pics otherwise
 		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
 
 		$output .= "\n\t\t\t" . '<div class="imdbelementPIC">';
@@ -126,7 +124,7 @@ class No_Links {
 		// @since 3.7
 		$photo_url = is_string( $photo_localurl_true ) ? esc_html( $photo_localurl_true ) : '';
 
-		// Select picture: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
+		// Select picture: if 2/ thumbnail picture exists, use it (in 1), use no_pics otherwise
 		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
 
 		$output .= "\n\t\t\t\t\t" . '<a id="nolinks_pic" href="' . esc_url( $photo_url_final ) . '">';
