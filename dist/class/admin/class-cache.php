@@ -21,10 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Use IMDbPHP library for cache creation
 use \Imdb\Title;
 use \Imdb\Person;
-use \Lumiere\Settings;
 use \Lumiere\Utils;
 use \Lumiere\Plugins\Imdbphp;
-use \Lumiere\Plugins\Logger;
 use \FilesystemIterator;
 use \RecursiveDirectoryIterator;
 use \RecursiveIteratorIterator;
