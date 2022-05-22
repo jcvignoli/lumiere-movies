@@ -592,7 +592,7 @@ class Data extends \Lumiere\Admin {
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_seventy lumiere_font_ten">' . esc_html__( 'Enter the maximum of items you want to display', 'lumiere-movies' ) . '<br /></div>';
 
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_twenty">';
-				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . esc_attr( $item ) . 'number" size="3"';
+				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . esc_attr( $item ) . 'number" id="imdb_imdbwidget' . esc_attr( $item ) . 'number" size="3"';
 				// @phpstan-ignore-next-line 'Parameter #1 $text of function esc_html expects string, array<string>|bool|int|string given'.
 				echo ' value="' . esc_html( $this->imdb_widget_values[ 'imdbwidget' . $item . 'number' ] ) . '" ';
 				if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === 0 ) {
