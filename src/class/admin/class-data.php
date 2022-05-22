@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use \Lumiere\Settings;
 use \Lumiere\Utils;
 
 class Data extends \Lumiere\Admin {

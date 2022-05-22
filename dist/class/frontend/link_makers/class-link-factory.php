@@ -42,7 +42,7 @@ class Link_Factory {
 	 * Select which class to use to build the HTML links.
 	 * @return object Class to build the links with.
 	 */
-	public function lumiere_select_link_maker (): object {
+	public function lumiere_select_link_maker (): No_Links|Highslide_Links|Classic_Links {
 
 		/**
 		 * Checks if the current page is AMP

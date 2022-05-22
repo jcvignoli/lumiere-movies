@@ -143,10 +143,10 @@ class StylesScriptsCest {
 
 		$I->comment(\Helper\Color::set('Checking normal page', 'italic+bold+cyan'));
 		$I->amOnPage('/2021/test-codeception/');
-		$I->seeInPageSource("lumiere_highslide-css");	 		# Highslide CSS
+		$I->seeInPageSource("lumiere_highslide_core-css");		# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
 		$I->seeInPageSource("lumiere_style_oceanwpfixes_general-css");	# Lumiere extra OceanWP fix
-		$I->seeInPageSource("lumiere_highslide-js");			# Highslide JS
+		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");		# Highslide Lumière Options
 		$I->seeInPageSource("lumiere_highslide_options-js-before"); 	# Lumière js vars for scripts
 		$I->seeInPageSource("lumiere_scripts-js"); 			# Lumière main JS
@@ -157,10 +157,10 @@ class StylesScriptsCest {
 
 		$I->comment(\Helper\Color::set('Checking taxonomy page', 'italic+bold+cyan'));
 		$I->amOnPage('/lumiere-director/tony-zarindast/');
-		$I->seeInPageSource("lumiere_highslide-css");	 		# Highslide CSS
+		$I->seeInPageSource("lumiere_highslide_core-css"); 		# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
 		$I->seeInPageSource("lumiere_style_oceanwpfixes_general-css");	# Lumiere extra OceanWP fix
-		$I->seeInPageSource("lumiere_highslide-js");			# Highslide JS
+		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");		# Highslide Lumière Options
 		$I->seeInPageSource("lumiere_highslide_options-js-before"); 	# Lumière js vars for scripts
 		$I->seeInPageSource("lumiere_scripts-js"); 			# Lumière main JS
@@ -175,9 +175,9 @@ class StylesScriptsCest {
 		$I->seeInPageSource("lumiere-movies/pics/favicon/apple-touch-icon.png"); 	# Lumière favicon Apple
 		$I->seeInPageSource("lumiere-movies/pics/favicon/site.webmanifest");	 	# Lumière webmanifest
 		$I->seeInPageSource("lumiere_style_oceanwpfixes_popups-css");			# Lumiere popup OceanWP fix
-		$I->seeInPageSource("lumiere_highslide-css");	 				# Highslide CSS
+		$I->seeInPageSource("lumiere_highslide_core-css"); 				# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 					# Lumière main css
-		$I->seeInPageSource("lumiere_highslide-js");					# Highslide JS
+		$I->seeInPageSource("lumiere_highslide_core-js");				# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");				# Highslide Lumière Options
 		$I->seeInPageSource("lumiere_highslide_options-js-before"); 			# Lumière js vars for scripts
 		$I->seeInPageSource("lumiere_scripts-js"); 					# Lumière main JS
@@ -201,9 +201,9 @@ class StylesScriptsCest {
 		$I->seeInPageSource("lumiere-movies/pics/favicon/apple-touch-icon.png"); 	# Lumière favicon Apple
 		$I->seeInPageSource("lumiere-movies/pics/favicon/site.webmanifest");	 	# Lumière webmanifest
 		$I->seeInPageSource("lumiere_style_oceanwpfixes_popups-css");			# Lumiere popup OceanWP fix
-		$I->seeInPageSource("lumiere_highslide-css");	 				# Highslide CSS
+		$I->seeInPageSource("lumiere_highslide_core-css"); 				# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 					# Lumière main css
-		$I->seeInPageSource("lumiere_highslide-js");					# Highslide JS
+		$I->seeInPageSource("lumiere_highslide_core-js");				# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");				# Highslide Lumière Options
 		$I->seeInPageSource("lumiere_highslide_options-js-before"); 			# Lumière js vars for scripts
 		$I->seeInPageSource("lumiere_scripts-js"); 					# Lumière main JS

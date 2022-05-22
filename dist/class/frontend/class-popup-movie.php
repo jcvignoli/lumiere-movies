@@ -157,7 +157,6 @@ class Popup_Movie {
 		$movie_results = $this->movie;
 
 		// Build Link Factory class
-		// @phpstan-ignore-next-line "Property Lumiere\Movie::$link_maker does not accept object." It does!
 		$this->link_maker = $this->factory_class->lumiere_select_link_maker();
 		$this->logger->log()->debug( '[Lumiere][popupPersonClass] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
