@@ -1,6 +1,7 @@
 <?php declare( strict_types = 1 );
 /**
  * Class to build no HTML Links
+ * Is called by the Link Factory class, implements abstract Link Maker class
  *
  * This class is also used for AMP pages
  *
@@ -25,7 +26,7 @@ if ( ! defined( 'WPINC' ) ) {
 use \Lumiere\Settings;
 use \Lumiere\Utils;
 
-class No_Links {
+class No_Links extends Abstract_Link_Maker {
 
 	// Trait including the database settings.
 	use \Lumiere\Settings_Global;
@@ -257,8 +258,10 @@ class No_Links {
 	 * Builds an internal when movie's are entered, because if not, the whole purpose of the plugins is killed
 	 *
 	 * @param array<int, string> $link_parsed html tags and text to be modified
+	 * @param string $popuplarg Not in use
+	 * @param string $popuplong Not in use
 	 */
-	public function lumiere_popup_film_link ( array $link_parsed ): string {
+	public function lumiere_popup_film_link ( array $link_parsed, string $popuplarg = null, string $popuplong = null ): string {
 
 		return '<a class="link-imdblt-classicfilm" href="' . $this->config_class->lumiere_urlpopupsfilms . $link_parsed[1] . '?film=' . $link_parsed[1] . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
 

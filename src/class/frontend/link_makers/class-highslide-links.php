@@ -1,6 +1,7 @@
 <?php declare( strict_types = 1 );
 /**
  * Class to build highslide links
+ * Is called by the Link Factory class, implements abstract Link Maker class
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -20,7 +21,7 @@ if ( ! defined( 'WPINC' ) ) {
 use \Lumiere\Settings;
 use \Lumiere\Utils;
 
-class Highslide_Links {
+class Highslide_Links extends Abstract_Link_Maker {
 
 	// Trait including the database settings.
 	use \Lumiere\Settings_Global;
