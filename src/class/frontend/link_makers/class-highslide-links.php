@@ -50,13 +50,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 			0
 		);
 
-		/* ## Highslide download library, function deactivated upon WordPress plugin team request
-		add_filter( 'init', function( $template ) {
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-admin/admin.php?page=lumiere_options&highslide=yes' ) )
-				require_once ( plugin_dir_path( __DIR__ ) . \Lumiere\Settings::HIGHSLIDE_DOWNLOAD_PAGE );
-
-		} );*/
-
 	}
 
 	/**
@@ -329,8 +322,15 @@ class Highslide_Links extends Abstract_Link_Maker {
 		$internal_link_movie = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
+		// Common pattern.
 		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\?.+?|\/?)\"\>~';
 		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>~';
+
+		// Pattern found in soundtrack.
+		if ( strpos( $text, 'https://www.imdb.com/' ) === false ) {
+			$rule_name = '~(<a href=\")(\/name\/)(nm)(\d{7})(\?.+?|\/?)\"\>~';
+			$rule_title = '~(<a href=\")(\/title\/)(tt)(\d{7})(\?.+?|\/?)\"\>~';
+		}
 
 		// Replace IMDb links with internal links.
 		$output_one = preg_replace( $rule_name, $internal_link_person, $text ) ?? $text;

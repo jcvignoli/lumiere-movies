@@ -7,7 +7,7 @@
  */
 
 // prevent direct calls
-if ( wp_get_referer() !== false && ( 0 !== stripos( wp_get_referer(), admin_url() . 'admin.php?page=lumiere_options' ) ) ) {
+if ( wp_get_referer() !== false && \Lumiere\Utils::str_contains( $_SERVER['REQUEST_URI'], 'admin/admin.php?page=lumiere_options' ) === false ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
@@ -16,7 +16,7 @@ if ( wp_get_referer() !== false && ( 0 !== stripos( wp_get_referer(), admin_url(
 $lumiere_highslidefile_remote_zip = esc_url( \Lumiere\Settings::IMDBBLOGHIGHSLIDE );
 $lumiere_highslide_tmp_name = 'highslidetmp.zip';
 $lumiere_highslidefile_local_zip = esc_url( plugin_dir_path( __DIR__ ) . $lumiere_highslide_tmp_name );
-$lumiere_highslidefile_local_folder = esc_url( plugin_dir_path( __DIR__ ) . 'js/' );
+$lumiere_highslidefile_local_folder = esc_url( plugin_dir_path( __DIR__ ) . '../js/' );
 
 // If is_admin include WP API libraries, else exit
 if ( is_admin() ) {

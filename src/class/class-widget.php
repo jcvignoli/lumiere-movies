@@ -57,6 +57,7 @@ class Widget extends \WP_Widget {
 			'id' => true,
 			'class' => true,
 		],
+		'i' => [],
 		'a' => [
 			'id' => true,
 			'class' => true,
