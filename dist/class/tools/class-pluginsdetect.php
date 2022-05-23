@@ -68,11 +68,11 @@ class PluginsDetect {
 
 		// AMP
 		if ( $this->amp_is_active() === true ) {
-			array_push( $this->plugins_class, 'AMP' );
+			$this->plugins_class[] = 'AMP';
 		}
 		// Polylang
 		if ( $this->polylang_is_active() === true ) {
-			array_push( $this->plugins_class, 'POLYLANG' );
+			$this->plugins_class[] = 'POLYLANG';
 		}
 
 	}
