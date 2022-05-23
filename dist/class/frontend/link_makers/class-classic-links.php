@@ -3,10 +3,14 @@
  * Class to build Classic Links
  * Is called by the Link Factory class, implements abstract Link Maker class
  *
+ * This class is used when highslide option is unticked
+ *
+ * Classic Popup links are created, included in taxonomy
+ *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version 1.0
+ * @version 1.1
  * @since 3.7
  * @package lumiere-movies
  */
