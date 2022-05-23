@@ -47,9 +47,9 @@ trait Frontend {
 	 * Class for building links, i.e. Highslide
 	 * Built in class Link Factory
 	 *
-	 * @var \Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\No_Links $link_maker The factory class will determine which class to use
+	 * @var \Lumiere\Link_Makers\AMP_Links|\Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\No_Links $link_maker The factory class will determine which class to use
 	 */
-	public \Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\No_Links $link_maker;
+	public \Lumiere\Link_Makers\AMP_Links|\Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\No_Links $link_maker;
 
 	/**
 	 * Class \Lumiere\Utils

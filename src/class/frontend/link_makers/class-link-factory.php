@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use \Lumiere\Link_Makers\AMP_Links;
 use \Lumiere\Link_Makers\No_Links;
 use \Lumiere\Link_Makers\Highslide_Links;
 use \Lumiere\Link_Makers\Classic_Links;
@@ -42,14 +43,14 @@ class Link_Factory {
 	 * Select which class to use to build the HTML links.
 	 * @return object Class to build the links with.
 	 */
-	public function lumiere_select_link_maker (): object {
+	public function lumiere_select_link_maker (): AMP_Links|No_Links|Highslide_Links|Classic_Links {
 
 		/**
 		 * Checks if the current page is AMP
 		 */
 		if ( Utils::lumiere_is_amp_page() === true ) {
 
-			return new No_Links();
+			return new AMP_Links();
 
 		}
 

@@ -3,7 +3,7 @@
  * Class to build no HTML Links
  * Is called by the Link Factory class, implements abstract Link Maker class
  *
- * This class is also used for AMP pages
+ * This class is also used for pages with no links
  *
  * No external HTML link, no popup will be made
  * Links to 1/ taxonomy pages or 2/ internal links are kept
@@ -43,9 +43,11 @@ class No_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Build link to popup for IMDb people
-	 * @param array<int, array<string, string>> $imdb_data_people
-	 * @param int $number
+	 * Build link (a popup in other link classes) internal link for IMDb people
+	 *
+	 * @param array<int, array<string, string>> $imdb_data_people Array with IMDB people data
+	 * @param int $number The number of the loop $i
+	 *
 	 * @return string
 	 */
 	public function lumiere_link_popup_people ( array $imdb_data_people, int $number ): string {

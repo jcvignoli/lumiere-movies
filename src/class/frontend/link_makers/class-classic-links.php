@@ -86,8 +86,10 @@ class Classic_Links extends Abstract_Link_Maker {
 
 	/**
 	 * Build link to popup for IMDb people
-	 * @param array<int, array<string, string>> $imdb_data_people
-	 * @param int $number
+	 *
+	 * @param array<int, array<string, string>> $imdb_data_people Array with IMDB people data
+	 * @param int $number The number of the loop $i
+	 *
 	 * @return string
 	 */
 	public function lumiere_link_popup_people ( array $imdb_data_people, int $number ): string {
@@ -302,12 +304,6 @@ class Classic_Links extends Abstract_Link_Maker {
 		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\?.+?|\/?)\"\>~';
 		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>~';
 
-		// Pattern found in soundtrack.
-		if ( strpos( $text, 'https://www.imdb.com/' ) === false ) {
-			$rule_name = '~(<a href=\")(\/name\/)(nm)(\d{7})(\?.+?|\/?)\"\>~';
-			$rule_title = '~(<a href=\")(\/title\/)(tt)(\d{7})(\?.+?|\/?)\"\>~';
-		}
-
 		// Replace IMDb links with internal links.
 		$output_one = preg_replace( $rule_name, $internal_link_person, $text ) ?? $text;
 		$output_two = preg_replace( $rule_title, $internal_link_movie, $output_one ) ?? $text;
@@ -324,16 +320,18 @@ class Classic_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_imdburl_to_popupurl ( string $text ): string {
 
-		// Initialize variables.
-		$popup_link_person = '';
-		$popup_link_movie = '';
-
 		$popup_link_person = '<a class="link-imdblt-classicpeople" data-classicpeople="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
 		$popup_link_movie = '<a class="link-imdblt-classicfilm" data-classicfilm-id="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
 		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\/\?.+?|\?.+?|\/?)\"\>~';
 		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>~';
+
+		// Pattern found in soundtrack.
+		if ( strpos( $text, 'https://www.imdb.com/' ) === false ) {
+			$rule_name = '~(<a href=\")(\/name\/)(nm)(\d{7})(\?.+?|\/?)\"\>~';
+			$rule_title = '~(<a href=\")(\/title\/)(tt)(\d{7})(\?.+?|\/?)\"\>~';
+		}
 
 		// Replace IMDb links with popup links.
 		$output_one = preg_replace( $rule_name, $popup_link_person, $text ) ?? $text;
