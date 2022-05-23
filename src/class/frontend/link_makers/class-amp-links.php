@@ -3,10 +3,10 @@
  * Class to build no HTML Links
  * Is called by the Link Factory class, implements abstract Link Maker class
  *
- * This class is also used for AMP pages
+ * This class is used for AMP pages
  *
- * External HTML links are kept but no popup will be made
- * Links to 1/ taxonomy pages or 2/ internal links are kept
+ * External HTML links are kept but no popup link is created
+ * Only links to 1/ taxonomy pages and 2/ internal links
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -24,7 +24,6 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use \Lumiere\Settings;
-use \Lumiere\Utils;
 
 class AMP_Links extends Abstract_Link_Maker {
 
@@ -39,6 +38,19 @@ class AMP_Links extends Abstract_Link_Maker {
 
 		// Construct Global Settings trait.
 		$this->settings_open();
+
+		/**
+		 * Remove AMP mobile switcher
+		 * Doesn't work!
+		add_action(
+			'amp_post_template_css',
+			function (): string {
+				?>
+				#amp-mobile-version-switcher{display: none;}
+				<?php
+			}
+		);
+		 */
 
 	}
 

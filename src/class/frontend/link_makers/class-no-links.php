@@ -3,10 +3,11 @@
  * Class to build no HTML Links
  * Is called by the Link Factory class, implements abstract Link Maker class
  *
- * This class is also used for pages with no links
- *
+ * This class is used when kill all links is ticked
  * No external HTML link, no popup will be made
- * Links to 1/ taxonomy pages or 2/ internal links are kept
+ *
+ * Links to 1/ taxonomy pages and 2/ internal links are kept
+ * and 3/ all popups are either turned into internal links or removed
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
