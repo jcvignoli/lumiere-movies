@@ -56,6 +56,14 @@ class Admin {
 	use \Lumiere\Settings_Global;
 
 	/**
+	 * Variable to allow automatic download of highslide when not found in package
+	 * Unactivated on WP plugin team request
+	 *
+	 * @var bool $activate_highslide_download true if allowing download
+	 */
+	protected bool $activate_highslide_download = false;
+
+	/**
 	 * \Lumière\Utils class
 	 */
 	protected Utils $utils_class;
@@ -107,6 +115,15 @@ class Admin {
 		// Display notices.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
 
+		// Install highslide if selected and if correct page
+		add_filter(
+			'admin_init',
+			function(): void {
+				if ( Utils::str_contains( $_SERVER['REQUEST_URI'], 'admin/admin.php?page=lumiere_options&highslide=yes' ) && $this->activate_highslide_download === true ) {
+					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::HIGHSLIDE_DOWNLOAD_PAGE;
+				}
+			}
+		);
 	}
 
 	/**

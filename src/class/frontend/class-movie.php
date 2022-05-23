@@ -1124,21 +1124,18 @@ class Movie {
 
 		for ( $i = 0; $i < $nbsoundtracks && ( $i < $nbtotalsoundtracks ); $i++ ) {
 
-			$credit_array = $soundtrack[ $i ]['credits'];
-			$credit_array_count = count( $credit_array );
-			for ( $ii = 0; $ii < $credit_array_count; $ii++ ) {
+			$output .= "\n\t\t\t" . ucfirst( strtolower( $soundtrack[ $i ]['soundtrack'] ) );
 
-				$output .= "\n\t\t\t<i>" . esc_html( $soundtrack[ $i ]['soundtrack'] ) . '</i>';
-				if ( $this->imdb_admin_values['imdblinkingkill'] === '1' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
-					$output .= "\n\t\t\t" . sanitize_text_field( $credit_array [ $ii ]['credit_to'] );
-
-					// if "Remove all links" option is selected
-				} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) {
-					$output .= "\n\t\t\t" . $this->link_maker->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
-				}
-				$output .= ' (' . sanitize_text_field( $credit_array [ $ii ]['desc'] ) . ')';
-
-			}
+			$output .= "\n\t\t\t<i>" . str_replace(
+				[ "\n", "\r", '<br>', '<br />' ],
+				'',
+				/**
+				 * Use Highslide, Classical or No Links class links builder.
+				 * Each one has its own class passed in $link_maker,
+				 * according to which option the lumiere_select_link_maker() found in Frontend.
+				 */
+				$this->link_maker->lumiere_imdburl_to_internalurl( $soundtrack [ $i ]['credits_raw'] )
+			) . '</i> ';
 
 			if ( $i < ( $nbsoundtracks - 1 ) && $i < ( $nbtotalsoundtracks - 1 ) ) {
 				$output .= ', ';
