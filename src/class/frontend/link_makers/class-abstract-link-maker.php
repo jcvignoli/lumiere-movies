@@ -21,14 +21,16 @@ abstract class Abstract_Link_Maker {
 
 	/**
 	 * Build link to popup for IMDb people
-	 * @param array<int, array<string, string>> $imdb_data_people
-	 * @param int $number
+	 *
+	 * @param array<int, array<string, string>> $imdb_data_people Array with IMDB people data
+	 * @param int $number The number of the loop $i
 	 * @return string
 	 */
 	abstract public function lumiere_link_popup_people ( array $imdb_data_people, int $number ): string;
 
 	/**
 	 * Build picture of the movie
+	 *
 	 * @param string|bool $photo_localurl_false The picture of big size
 	 * @param string|bool $photo_localurl_true The picture of small size
 	 * @param string $movie_title Title of the movie
@@ -38,6 +40,7 @@ abstract class Abstract_Link_Maker {
 
 	/**
 	 * Build picture of the movie in taxonomy pages
+	 *
 	 * @param string|bool $photo_localurl_false The picture of big size
 	 * @param string|bool $photo_localurl_true The picture of small size
 	 * @param string $person_name Name of the person
@@ -68,15 +71,13 @@ abstract class Abstract_Link_Maker {
 	/**
 	 * Convert an IMDb url into a Popup link for People and Movies
 	 * Meant to be used inside in posts or widgets (not in Popups)
-	 * Build links using highslide popup
 	 *
 	 * @param string $text Text that includes IMDb URL to convert into a popup link
 	 */
 	abstract public function lumiere_imdburl_to_popupurl ( string $text ): string;
 
 	/**
-	 * Highslide popup function
-	 * Build an HTML link to open a popup with highslide for searching a movie (using js/lumiere_highslide_links.js)
+	 * Build an HTML link to open a popup for searching a movie
 	 *
 	 * @param array<int, string> $link_parsed html tags and text to be modified
 	 * @param string $popuplarg -> window width, if nothing passed takes database value
