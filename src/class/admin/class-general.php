@@ -325,16 +325,16 @@ class General extends \Lumiere\Admin {
 
 						echo '<div class="explain">' . esc_html__( 'Highslide popup is a more stylished popup, and allows to open movie details directly in the webpage instead of opening a new window.', 'lumiere-movies' ) . '<br />' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html__( 'Yes', 'lumiere-movies' ) . '</div>';
 
-						// No "highslide" folder is found
+						// No "highslide" folder is found.
 					} elseif ( is_dir( $this->config_class->lumiere_js_path . 'highslide' ) === false && $this->activate_highslide_download === true ) {
 						// Say so!
 						echo Utils::lumiere_notice( 4, '<span class="imdblt_red_bold">' . esc_html__( 'Warning! No Highslide folder was found.', 'lumiere-movies' ) . '</span>' );
 						echo '<br />';
 
-						// Automatic download deactivated as per WordPress's plugin staff request
+						// Automatic highslide download.
 						echo "<a href='" . esc_url( site_url( '', 'relative' ) . '/wp-admin/admin.php?page=lumiere_options&highslide=yes' ) . '\'' . "' title='" . esc_html__( 'Click here to install Highslide', 'lumiere-movies' ) . "'><img src='" . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/menu/admin-general-install-highslide.png' ) . "' align='absmiddle' />&nbsp;&nbsp;" . esc_html__( 'Install automatically Highslide', 'lumiere-movies' ) . '</a><br /><br />';
 
-						// Add a link to highslide website
+						// Add a link to highslide website.
 						echo '<a href="http://highslide.com/" title="' . esc_html__( 'Click here to visit Highslide website', 'lumiere-movies' ) . '"><img src="' . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-install-highslide.png' ) . '" align="absmiddle" />&nbsp;&nbsp;' . esc_html__( 'Get Highslide JS library', 'lumiere-movies' ) . '</a><br /><br />';
 					}
 
