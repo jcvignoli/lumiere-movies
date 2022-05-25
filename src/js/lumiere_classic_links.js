@@ -29,7 +29,7 @@ document.addEventListener(
 				// var mid from the class data-highslidepeople to build the link
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'classicpeople' );
 				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-imdb_person.php?mid=' + misc_term;
-				var url_imdbperso = lumiere_vars.urlpopup_person + misc_term + '/?mid=' + misc_term;
+				var url_imdbperso = lumiere_vars.urlpopup_person + '/?mid=' + misc_term;
 
 				// classic popup
 				window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + tmppopupLarg + ', height=' + tmppopupLong + ', top=5, left=5' )
@@ -46,7 +46,7 @@ document.addEventListener(
 				// var mid from the class data-highslidepeople to build the link
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'classicfilm' );
 				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
-				var url_imdbperso = lumiere_vars.urlpopup_film + misc_term + '/?film=' + misc_term;
+				var url_imdbperso = lumiere_vars.urlpopup_film + '/?film=' + misc_term;
 
 				// classic popup
 				window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + tmppopupLarg + ', height=' + tmppopupLong + ', top=5, left=5' );
@@ -63,7 +63,7 @@ document.addEventListener(
 				// var mid from the class data-highslidepeople to build the link
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'classicfilm-id' );
 				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
-				var url_imdbperso = lumiere_vars.urlpopup_film + misc_term + '/?mid=' + misc_term;
+				var url_imdbperso = lumiere_vars.urlpopup_film + '/?mid=' + misc_term;
 
 				// classic popup
 				window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + tmppopupLarg + ', height=' + tmppopupLong + ', top=5, left=5' );

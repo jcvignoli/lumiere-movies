@@ -20,6 +20,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use \Lumiere\Link_Makers\AMP_Links;
 use \Lumiere\Link_Makers\No_Links;
+use \Lumiere\Link_Makers\Bootstrap_Links;
 use \Lumiere\Link_Makers\Highslide_Links;
 use \Lumiere\Link_Makers\Classic_Links;
 use \Lumiere\Utils;
@@ -41,9 +42,9 @@ class Link_Factory {
 
 	/**
 	 * Select which class to use to build the HTML links.
-	 * @return object Class to build the links with.
+	 * @return Bootstrap_Links|AMP_Links|No_Links|Highslide_Links|Classic_Links Class to build the links with.
 	 */
-	public function lumiere_select_link_maker (): AMP_Links|No_Links|Highslide_Links|Classic_Links {
+	public function lumiere_select_link_maker (): Bootstrap_Links|AMP_Links|No_Links|Highslide_Links|Classic_Links {
 
 		/**
 		 * Checks if the current page is AMP
@@ -62,6 +63,16 @@ class Link_Factory {
 			return new No_Links();
 
 		}
+
+		/**
+		 * Bootstrap is selected in admin options
+
+		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
+
+			return new Bootstrap_Links();
+
+		}
+		 */
 
 		/**
 		 * Highslide is selected in admin options

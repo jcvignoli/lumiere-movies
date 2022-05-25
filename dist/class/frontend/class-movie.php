@@ -122,7 +122,6 @@ class Movie {
 		 */
 		if ( $this->link_maker_trigger === false ) {
 
-			// @phpstan-ignore-next-line "Property Lumiere\Movie::$link_maker does not accept object." It does!
 			$this->link_maker = $this->factory_class->lumiere_select_link_maker();
 			$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 			$this->link_maker_trigger = true;

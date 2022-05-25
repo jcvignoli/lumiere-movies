@@ -157,7 +157,6 @@ class Popup_Movie {
 		$movie_results = $this->movie;
 
 		// Build Link Factory class
-		// @phpstan-ignore-next-line "Property Lumiere\Movie::$link_maker does not accept object." It does!
 		$this->link_maker = $this->factory_class->lumiere_select_link_maker();
 		$this->logger->log()->debug( '[Lumiere][popupPersonClass] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
@@ -226,19 +225,19 @@ class Popup_Movie {
 				&nbsp;<a class="searchaka" href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsearch . '?film=' . $this->film_title_sanitized . '&norecursive=yes' ); ?>" title="<?php esc_html_e( 'Search for other movies with the same title', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Similar Titles', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Movie', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
+				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Movie', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=actors' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Actors', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Actors', 'lumiere-movies' ); ?></a>
+				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=actors' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Actors', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Actors', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=crew' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Crew', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Crew', 'lumiere-movies' ); ?></a>
+				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=crew' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Crew', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Crew', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=resume' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Plots', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Plots', 'lumiere-movies' ); ?></a>
+				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=resume' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Plots', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Plots', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . $this->film_title_sanitized . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=divers' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
+				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=divers' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
 			</div>
 		</div>
 		<?php
@@ -530,15 +529,20 @@ class Popup_Movie {
 
 			for ( $i = 0; $i < $nbtotalsoundtracks; $i++ ) {
 
-				$credit_array = $soundtrack[ $i ]['credits'];
-				$credit_array_count = count( $credit_array );
-				for ( $ii = 0; $ii < $credit_array_count; $ii++ ) {
-					echo "\n\t\t";
-					echo "\n\t\t\t<br /><i>" . esc_html( $soundtrack[ $i ]['soundtrack'] ) . '</i>';
-					// @phpcs:ignore WordPress.Security.EscapeOutput
-					echo $this->link_maker->lumiere_imdburl_to_internalurl( $credit_array [ $ii ]['credit_to'] );
-					echo ' ' . wp_kses( str_replace( '<br />', '', $credit_array [ $ii ]['desc'] ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
-				}
+				echo "\n\t\t";
+				echo "\n\t\t\t" . esc_html( ucfirst( strtolower( $soundtrack[ $i ]['soundtrack'] ) ) );
+
+				// @phpcs:ignore WordPress.Security.EscapeOutput
+				echo "\n\t\t\t<i>" . str_replace(
+					[ "\n", "\r", '<br>', '<br />' ],
+					'',
+					/**
+					 * Use Highslide, Classical or No Links class links builder.
+					 * Each one has its own class passed in $link_maker,
+					 * according to which option the lumiere_select_link_maker() found in Frontend.
+					 */
+					$this->link_maker->lumiere_imdburl_to_internalurl( $soundtrack [ $i ]['credits_raw'] )
+				) . '</i> ';
 
 				if ( $i < $nbtotalsoundtracks - 1 ) {
 					echo ', ';
@@ -806,5 +810,5 @@ class Popup_Movie {
  * Auto load the class
  * Conditions: not admin area
  */
-add_action( 'init', [ 'Lumiere\Popup_Movie', 'lumiere_popup_movie_start' ], 1 );
+//add_action( 'init', [ 'Lumiere\Popup_Movie', 'lumiere_popup_movie_start' ], 1 );
 

@@ -65,7 +65,7 @@ class Core {
 		$this->imdbphp_class = new Imdbphp();
 
 		// redirect popups URLs.
-		add_action( 'init', [ $this, 'lumiere_popup_redirect' ], 0 );
+		//      add_action( 'init', [ $this, 'lumiere_popup_redirect' ], 0 ); # testing if really obsolete
 		add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 0 );
 
 		// Redirect class-search.php
@@ -159,9 +159,6 @@ class Core {
 
 		// Add metas tags.
 		add_action( 'wp_head', [ $this, 'lumiere_add_metas' ], 5 );
-
-		// Change title of popups.
-		add_filter( 'pre_get_document_title', [ $this, 'lumiere_change_popup_title' ] );
 
 		// Register Gutenberg blocks.
 		add_action( 'init', [ $this, 'lumiere_register_gutenberg_blocks' ] );
@@ -537,7 +534,8 @@ class Core {
 	}
 
 	/**
-	 *  Redirect the popups to a proper URL
+	 * Redirect the popups to a proper URL
+	 * OBSOLETE, to be removed
 	 */
 	public function lumiere_popup_redirect(): void {
 
@@ -598,7 +596,7 @@ class Core {
 			$query_person_film = preg_match_all( '#film=(.*)&?#', $_SERVER['REQUEST_URI'], $match_query_person_film, PREG_UNMATCHED_AS_NULL );
 			$url = $this->config_class->lumiere_urlstringperson . $match_query_person_mid[0] . '/';
 
-				//wp_redirect(  add_query_arg( 'mid' => $match_query_mid[1][0], $url ) , 301 ); # one arg only
+			//wp_redirect(  add_query_arg( 'mid' => $match_query_mid[1][0], $url ) , 301 ); # one arg only
 			wp_safe_redirect(
 				add_query_arg(
 					[
@@ -616,83 +614,114 @@ class Core {
 	// pages to be included when the redirection is done.
 	public function lumiere_popup_redirect_include(): void {
 
-		// Include films popup.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) ) {
-			require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_SEARCH_URL;
+		// Add rewrite rules for /lumiere/search|person|movie/ url string.
+		// Created only if the rule doesn't exists, so we avoid using flush_rewrite_rules() unecessarily
+		$wordpress_rewrite_rules = get_option( 'rewrite_rules' );
+		$lumiere_popups_rewrite_rule = 'lumiere/([^/]+)/?';
+		if ( ! isset( $wordpress_rewrite_rules [ $lumiere_popups_rewrite_rule ] ) ) {
+			add_rewrite_rule(
+				$lumiere_popups_rewrite_rule,
+				'index.php?popup=$matches[1]',
+				'top'
+			);
+			flush_rewrite_rules();
 		}
 
-		// Include films popup.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringfilms ) ) {
-			require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_MOVIE_URL;
-		}
-
-		// Include persons popup.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringperson ) ) {
-			require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_PERSON_URL;
-		}
-
-	}
-
-	/**
-	 *  Change the title of the popups according to the movie's or person's data
-	 */
-	public function lumiere_change_popup_title( string $title ): string {
-
-		$imdb_cache_values = $this->imdb_cache_values;
-		$config = $this->config_class;
-		$filmid_sanitized = ''; // initialisation.
-
-		// Change the title for the query search popup.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::GUTENBERG_SEARCH_URL ) ) {
-			return esc_html__( 'Lumiere Query Interface', 'lumiere-movies' );
-		}
-
-		// Change the titles for popups.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstring ) ) {
-
-			// Add cache dir to properly save data in real cache dir.
-			$this->imdbphp_class->cachedir = $imdb_cache_values['imdbcachedir'];
-
-			// Display the title if /url/films.
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringfilms ) ) {
-
-				// If mid but no film, do a query using the mid
-				if ( ( isset( $_GET['mid'] ) ) && ( ! isset( $_GET['film'] ) ) ) {
-
-					$movieid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( strval( $_GET['mid'] ) ) : '';
-					$movie = new Title( $movieid_sanitized, $this->imdbphp_class );
-					$filmid_sanitized = esc_html( $movie->title() );
-				}
-
-				// Sanitize and initialize $_GET['film']
-				$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
-
-				// Get the film ID if it exists, if not get the film name
-				$title_name = strlen( $filmid_sanitized ) !== 0 ? $filmid_sanitized : $film_sanitized;
-
-				$title = esc_html__( 'Informations about ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies';
-
-				// Display the title if /url/person
-			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringperson ) ) {
-
-				if ( isset( $_GET['mid'] ) ) {
-
-					$mid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
-					$person = new Person( $mid_sanitized, $this->imdbphp_class );
-					$person_name_sanitized = sanitize_text_field( $person->name() );
-				}
-
-				$title = isset( $person_name_sanitized ) ? esc_html__( 'Informations about ', 'lumiere-movies' ) . $person_name_sanitized . ' - Lumi&egrave;re movies' : esc_html__( 'Unknown', 'lumiere-movies' ) . '- Lumi&egrave;re movies';
-
-				// Display the title if /url/search
-			} elseif ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) ) {
-				$title_name = isset( $_GET['film'] ) ? esc_html( $_GET['film'] ) : esc_html__( 'No query entered', 'lumiere-movies' );
-				$title = esc_html__( 'Search query for ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies ';
+		// Add 'popup' as as valid query var in WP query_vars.
+		add_action(
+			'query_vars',
+			function ( $query_vars ) {
+				$query_vars[] = 'popup';
+				return $query_vars;
 			}
+		);
 
-		}
+		// Include Popups.
+		add_action(
+			'template_redirect',
+			function( $template ) {
 
-		return $title;
+				$query_popup = get_query_var( 'popup' );
+
+				if ( isset( $query_popup ) ) {
+
+					// Include needed classe
+					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::VIRTUAL_PAGE_MAKER;
+
+					// Add cache dir to properly save data in real cache dir.
+					$this->imdbphp_class->cachedir = $this->imdb_cache_values['imdbcachedir'];
+
+				}
+
+				switch ( $query_popup ) {
+					case 'film':
+						// Set the title.
+						$filmid_sanitized = ''; // initialisation.
+
+						// If mid but no film, do a query using the mid.
+						if ( ( isset( $_GET['mid'] ) ) && ( ! isset( $_GET['film'] ) ) ) {
+
+							$movieid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( strval( $_GET['mid'] ) ) : '';
+							$movie = new Title( $movieid_sanitized, $this->imdbphp_class );
+							$filmid_sanitized = esc_html( $movie->title() );
+						}
+						// Sanitize and initialize $_GET['film']
+						$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
+						// Get the film ID if it exists, if not get the film name
+						$title_name = strlen( $filmid_sanitized ) !== 0 ? $filmid_sanitized : $film_sanitized;
+
+						$title = esc_html__( 'Informations about ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies';
+
+						// Include needed classes
+						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_MOVIE_URL;
+
+						// Build the virtual page class
+						new \Lumiere\Virtual_Page(
+							$this->config_class->lumiere_urlstringfilms,
+							new \Lumiere\Popup_Movie(),
+							$title
+						);
+						break;
+					case 'person':
+						// Set the title.
+						if ( isset( $_GET['mid'] ) ) {
+							$mid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
+							$person = new Person( $mid_sanitized, $this->imdbphp_class );
+							$person_name_sanitized = sanitize_text_field( $person->name() );
+						}
+						$title = isset( $person_name_sanitized )
+						? esc_html__( 'Informations about ', 'lumiere-movies' ) . $person_name_sanitized . ' - Lumi&egrave;re movies'
+						: esc_html__( 'Unknown', 'lumiere-movies' ) . '- Lumi&egrave;re movies';
+
+						// Include needed classes
+						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_PERSON_URL;
+
+						// Build the virtual page class
+						new \Lumiere\Virtual_Page(
+							$this->config_class->lumiere_urlstringperson,
+							new \Lumiere\Popup_Person(),
+							$title
+						);
+						break;
+					case 'search':
+						// Set the title.
+						$filmname_sanitized = isset( $_GET['film'] ) ? ': [' . sanitize_text_field( $_GET['film'] ) . ']' : 'No name entered';
+						// Include needed classes
+						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_SEARCH_URL;
+
+						// Build the virtual page class
+						new \Lumiere\Virtual_Page(
+							$this->config_class->lumiere_urlstringsearch,
+							new \Lumiere\Popup_Search(),
+							'Lumiere Query Interface ' . $filmname_sanitized
+						);
+						break;
+				}
+
+				return $template;
+			}
+		);
+
 	}
 
 	/**
