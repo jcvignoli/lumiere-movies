@@ -54,7 +54,7 @@ document.addEventListener(
 				// var mid from the class data-highslidepeople to build the link
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'highslidepeople' );
 				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-imdb_person.php?mid=' + misc_term;
-				var url_imdbperso = lumiere_vars.urlpopup_person + misc_term + '/?mid=' + misc_term;
+				var url_imdbperso = lumiere_vars.urlpopup_person + '/?mid=' + misc_term;
 				// highslide popup
 				return hs.htmlExpand(
 					this,
@@ -82,7 +82,7 @@ document.addEventListener(
 				// var mid from the class data-highslidepeople to build the link
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'highslidefilm' );
 				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
-				var url_imdbperso = lumiere_vars.urlpopup_film + misc_term + '/?film=' + misc_term;
+				var url_imdbperso = lumiere_vars.urlpopup_film + '/?film=' + misc_term;
 				// highslide popup
 				return hs.htmlExpand(
 					this,
@@ -110,7 +110,7 @@ document.addEventListener(
 				// var mid from the class data-highslidepeople to build the link
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'highslidefilm-id' );
 				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
-				var url_imdbperso = lumiere_vars.urlpopup_film + misc_term + '/?mid=' + misc_term;
+				var url_imdbperso = lumiere_vars.urlpopup_film + '/?mid=' + misc_term;
 				// highslide popup
 				return hs.htmlExpand(
 					this,

@@ -112,7 +112,6 @@ class Popup_Person {
 		$this->find_person();
 
 		// Build Link Factory class
-		// @phpstan-ignore-next-line "Property Lumiere\Movie::$link_maker does not accept object." It does!
 		$this->link_maker = $this->factory_class->lumiere_select_link_maker();
 		$this->logger->log()->debug( '[Lumiere][popupPersonClass] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
@@ -178,16 +177,16 @@ class Popup_Person {
 				<a class="historyback"><?php esc_html_e( 'Back', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . $this->mid_sanitized . '/?mid=' . $this->mid_sanitized . '&info=' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Summary', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
+				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $this->mid_sanitized . '&info=' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Summary', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . $this->mid_sanitized . '/?mid=' . $this->mid_sanitized . '&info=filmo' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full filmography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full filmography', 'lumiere-movies' ); ?></a>
+				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $this->mid_sanitized . '&info=filmo' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full filmography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full filmography', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . $this->mid_sanitized . '/?mid=' . $this->mid_sanitized . '&info=bio' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full biography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full biography', 'lumiere-movies' ); ?></a>
+				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $this->mid_sanitized . '&info=bio' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full biography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full biography', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . $this->mid_sanitized . '/?mid=' . $this->mid_sanitized . '&info=misc' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
+				<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $this->mid_sanitized . '&info=misc' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
 			</div>
 		</div>
 
@@ -817,5 +816,5 @@ class Popup_Person {
  * Auto load the class
  * Conditions: not admin area
  */
-add_action( 'init', [ 'Lumiere\Popup_Person', 'lumiere_popup_person_start' ], 1 );
+//add_action( 'init', [ 'Lumiere\Popup_Person', 'lumiere_popup_person_start' ], 1 );
 

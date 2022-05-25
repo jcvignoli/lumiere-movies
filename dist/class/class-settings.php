@@ -116,6 +116,7 @@ class Settings {
 	 */
 	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'class/tools/class-copy-template-taxonomy.php'; // not included in $lumiere_list_all_pages.
 	const HIGHSLIDE_DOWNLOAD_PAGE = 'class/plugins/highslide-download.php';
+	const VIRTUAL_PAGE_MAKER = 'class/tools/class-virtual-page.php';
 	const GUTENBERG_SEARCH_PAGE = 'class/tools/class-search.php';
 	const GUTENBERG_SEARCH_URL_STRING = 'lumiere/search/';
 	const GUTENBERG_SEARCH_URL = '/wp-admin/' . self::GUTENBERG_SEARCH_URL_STRING;

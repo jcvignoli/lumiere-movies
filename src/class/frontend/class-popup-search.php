@@ -65,7 +65,7 @@ class Popup_Search {
 		$this->film_sanitized_for_title = esc_html( $_GET['film'] );
 
 		// Display layout
-		add_action( 'wp', [ $this, 'layout' ] );
+		add_action( 'get_header', [ $this, 'layout' ] );
 		// When set on get_header hook, the popup is fully included in WP environement
 		#add_action( 'get_header', [ $this, 'layout' ], 1 );
 
@@ -168,7 +168,6 @@ class Popup_Search {
 
 				echo "\n\t\t<a class=\"linkpopup\" href=\"" . esc_url(
 					$this->config_class->lumiere_urlpopupsfilms
-					. Utils::lumiere_name_htmlize( $res->title() )
 					. '/?mid=' . esc_html( $res->imdbid() )
 				)
 					. '&film=' . Utils::lumiere_name_htmlize( $res->title() )
@@ -188,7 +187,6 @@ class Popup_Search {
 					echo "\n\t\t<a class=\"linkpopup\" href=\""
 						. esc_url(
 							$this->config_class->lumiere_urlpopupsperson
-							. esc_html( $realisateur['0']['imdb'] )
 							. '/?mid=' . esc_html( $realisateur['0']['imdb'] )
 						)
 						. '" title="' . esc_html__( 'more on', 'lumiere-movies' )
@@ -219,5 +217,5 @@ class Popup_Search {
 
 }
 
-new Popup_Search();
+//new Popup_Search();
 
