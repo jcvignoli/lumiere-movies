@@ -66,22 +66,22 @@ class Link_Factory {
 
 		/**
 		 * Bootstrap is selected in admin options
-
+		 */
 		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
 			return new Bootstrap_Links();
 
 		}
-		 */
 
 		/**
 		 * Highslide is selected in admin options
-		 */
+
 		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
 
 			return new Highslide_Links();
 
 		}
+		 */
 
 		/**
 		 * Highslide was unticked, display classic popups
