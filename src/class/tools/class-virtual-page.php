@@ -116,12 +116,15 @@ class Virtual_Page {
 		$wp_query->query_vars['error'] = '';
 		unset( $wp_query->query['error'] );
 
-		// @TODO: Change the way this works, shouldn't override the globals
+		/**
+		 * Doesn't seem needed
 		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		$GLOBALS['wp_query'] = $wp_query;
 
 		$wp->query = [];
 		$wp->register_globals();
+		 */
+
 	}
 
 	/**
