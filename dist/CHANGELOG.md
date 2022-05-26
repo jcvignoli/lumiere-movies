@@ -1,7 +1,7 @@
 **Changelog**
 
 v.3.7.1
-* [feature] Implemented a new link maker: Bootstrap modal window
+* [feature] Implemented a new link maker: Bootstrap 5.1 modal window
 * [technical] Polylang is now a Plugin class with separated functions
 * [technical] More OOP oriented, decoupled the link making process, NoLinks, Highslide, Classic
 * [technical] Virtual pages are now created with the new Virtual_Page class
