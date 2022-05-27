@@ -67,29 +67,20 @@ class Link_Factory {
 		/**
 		 * Bootstrap is selected in admin options
 		 */
-		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
+		if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'bootstrap' ) {
 
 			return new Bootstrap_Links();
-
-		}
-
-		/**
-		 * Highslide is selected in admin options
-
-		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '1' ) {
+			/**
+			 * Highslide is selected in admin options
+			 */
+		} elseif ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {
 
 			return new Highslide_Links();
-
-		}
-		 */
-
-		/**
-		 * Highslide was unticked, display classic popups
-		 */
-		if ( $this->imdb_admin_values['imdbpopup_highslide'] === '0' ) {
-
+			/**
+			 * None was selected in admin options, display classic popups
+			 */
+		} elseif ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'none' ) {
 			return new Classic_Links();
-
 		}
 
 		// By default, return classical popup
