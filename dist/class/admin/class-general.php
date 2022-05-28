@@ -311,15 +311,18 @@ class General extends \Lumiere\Admin {
 						<?php
 						echo '<option id="imdbpopup_modal_window_highslide" value="highslide"';
 						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {
-							echo ' selected="selected"'; }
+							echo ' selected="selected"';
+						}
 						echo ">Highslide</option>\n";
 						echo "\t\t\t\t\t\t" . '<option id="imdbpopup_modal_window_bootstrap" value="bootstrap"';
 						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'bootstrap' ) {
-							echo ' selected="selected"'; }
+							echo ' selected="selected"';
+						}
 						echo ">Bootstrap</option>\n";
 						echo "\t\t\t\t\t\t" . '<option id="imdbpopup_modal_window_none" value="none"';
 						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'none' ) {
-							echo ' selected="selected"'; }
+							echo ' selected="selected"';
+						}
 						echo ">None</option>\n"; ?>
 						</select>
 						<?php

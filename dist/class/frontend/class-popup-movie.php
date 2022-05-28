@@ -148,9 +148,11 @@ class Popup_Movie {
 		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
 			echo ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] );
 		}
-		?>">
+		echo '">';
 
-		<?php
+		// Used by bootstrap
+		echo '<span class="spinner-border text-primary spinner-custom" id="spinner" role="status"><span class="sr-only"></span></span>';
+
 		// Set up class properties.
 		$this->find_movie();
 

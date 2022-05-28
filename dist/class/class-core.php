@@ -65,7 +65,6 @@ class Core {
 		$this->imdbphp_class = new Imdbphp();
 
 		// redirect popups URLs.
-		//      add_action( 'init', [ $this, 'lumiere_popup_redirect' ], 0 ); # testing if really obsolete
 		add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 0 );
 
 		// Redirect class-search.php
@@ -468,6 +467,10 @@ class Core {
 
 		wp_enqueue_script( 'lumiere_hide_show' );
 
+		if ( wp_script_is( 'lumiere_scripts', 'enqueued' ) ) {
+			return;
+		}
+
 		wp_enqueue_script( 'lumiere_scripts' );
 
 		// Pass variable to javascript lumiere_scripts.js.
@@ -531,84 +534,6 @@ class Core {
 
 		}
 
-	}
-
-	/**
-	 * Redirect the popups to a proper URL
-	 * OBSOLETE, to be removed
-	 */
-	public function lumiere_popup_redirect(): void {
-
-		// The popup is for films
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::POPUP_SEARCH_URL ) ) {
-
-			$query_film = preg_match_all( '#film=(.*)#', $_SERVER['REQUEST_URI'], $match_query_film, PREG_UNMATCHED_AS_NULL );
-			$match_query_film_film = explode( '&', $match_query_film[1][0] );
-			$query_mid = preg_match_all( '#mid=(.*)#', $_SERVER['REQUEST_URI'], $match_query_mid, PREG_UNMATCHED_AS_NULL );
-			$match_query_film_mid = explode( '&', $match_query_mid[1][0] );
-			$query_info = preg_match_all( '#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
-			$query_norecursive = preg_match_all( '#norecursive=(.*)#', $_SERVER['REQUEST_URI'], $match_query_norecursive, PREG_UNMATCHED_AS_NULL );
-
-			$url = ( isset( $match_query_film_film[0] ) ) ? $this->config_class->lumiere_urlstringfilms . $match_query_film_film[0] . '/' : $this->config_class->lumiere_urlstringfilms . $match_query_film_mid[0] . '/';
-			wp_safe_redirect(
-				add_query_arg(
-					[
-						'film' => $match_query_film_film[0],
-						'mid' => $match_query_film_mid[0],
-						'info' => $match_query_info[1][0],
-						'norecursive' => $match_query_norecursive[1][0],
-					],
-					get_site_url( null, $url )
-				)
-			);
-			exit();
-		}
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::POPUP_MOVIE_URL ) ) {
-
-			$query_film = preg_match_all( '#film=(.*)#', $_SERVER['REQUEST_URI'], $match_query_film, PREG_UNMATCHED_AS_NULL );
-			$match_query_film_film = explode( '&', $match_query_film[1][0] );
-			$query_mid = preg_match_all( '#mid=(.*)#', $_SERVER['REQUEST_URI'], $match_query_mid, PREG_UNMATCHED_AS_NULL );
-			$match_query_film_mid = explode( '&', $match_query_mid[1][0] );
-			$query_info = preg_match_all( '#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
-			$query_norecursive = preg_match_all( '#norecursive=(.*)#', $_SERVER['REQUEST_URI'], $match_query_norecursive, PREG_UNMATCHED_AS_NULL );
-			$url = ( strlen( $match_query_film_film[0] ) > 0 ) ? $this->config_class->lumiere_urlstringfilms . $match_query_film_film[0] . '/' : $this->config_class->lumiere_urlstringfilms . $match_query_film_mid[0] . '/';
-
-			wp_safe_redirect(
-				add_query_arg(
-					[
-						'film' => $match_query_film_film[0],
-						'mid' => $match_query_film_mid[0],
-						'info' => $match_query_info[1][0],
-						'norecursive' => $match_query_norecursive[1][0],
-					],
-					get_site_url( null, $url )
-				)
-			);
-			exit();
-
-		}
-		// The popup is for persons.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . '/wp-content/plugins/lumiere-movies/' . \Lumiere\Settings::POPUP_PERSON_URL ) ) {
-			$query_person_mid = preg_match( '#mid=(.*)#', $_SERVER['REQUEST_URI'], $match_query_mid, PREG_UNMATCHED_AS_NULL );
-			$match_query_person_mid = explode( '&', $match_query_mid[1] );
-			$query_person_info = preg_match_all( '#info=(.*)#', $_SERVER['REQUEST_URI'], $match_query_info, PREG_UNMATCHED_AS_NULL );
-			$match_query_person_info = explode( '&', $match_query_info[1] );
-			$query_person_film = preg_match_all( '#film=(.*)&?#', $_SERVER['REQUEST_URI'], $match_query_person_film, PREG_UNMATCHED_AS_NULL );
-			$url = $this->config_class->lumiere_urlstringperson . $match_query_person_mid[0] . '/';
-
-			//wp_redirect(  add_query_arg( 'mid' => $match_query_mid[1][0], $url ) , 301 ); # one arg only
-			wp_safe_redirect(
-				add_query_arg(
-					[
-						'mid' => $match_query_person_mid[0],
-						'film' => $match_query_person_film[1][0],
-						'info' => $match_query_person_info[0],
-					],
-					get_site_url( null, $url )
-				)
-			);
-			exit();
-		}
 	}
 
 	// pages to be included when the redirection is done.
