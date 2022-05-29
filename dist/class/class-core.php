@@ -18,8 +18,12 @@ if ( ! defined( 'WPINC' ) ) {
 
 use \Lumiere\Updates;
 use \Lumiere\Utils;
+use \Lumiere\Popup_Person;
+use \Lumiere\Popup_Movie;
+use \Lumiere\Popup_Search;
 use \Lumiere\Plugins\Imdbphp;
 use \Lumiere\Plugins\Logger;
+use \Lumiere\Virtual_Page;
 use \Imdb\Title;
 use \Imdb\Person;
 
@@ -601,9 +605,9 @@ class Core {
 						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_MOVIE_URL;
 
 						// Build the virtual page class
-						new \Lumiere\Virtual_Page(
+						new Virtual_Page(
 							$this->config_class->lumiere_urlstringfilms,
-							new \Lumiere\Popup_Movie(),
+							new Popup_Movie(),
 							$title
 						);
 						break;
@@ -622,9 +626,9 @@ class Core {
 						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_PERSON_URL;
 
 						// Build the virtual page class
-						new \Lumiere\Virtual_Page(
+						new Virtual_Page(
 							$this->config_class->lumiere_urlstringperson,
-							new \Lumiere\Popup_Person(),
+							new Popup_Person(),
 							$title
 						);
 						break;
@@ -635,9 +639,9 @@ class Core {
 						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_SEARCH_URL;
 
 						// Build the virtual page class
-						new \Lumiere\Virtual_Page(
+						new Virtual_Page(
 							$this->config_class->lumiere_urlstringsearch,
-							new \Lumiere\Popup_Search(),
+							new Popup_Search(),
 							'Lumiere Query Interface ' . $filmname_sanitized
 						);
 						break;
