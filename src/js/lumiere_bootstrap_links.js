@@ -14,7 +14,8 @@ document.addEventListener(
 
 		/** bootstrap popup, people */
 
-		jQuery( 'a[data-bootstrappeople]' ).on('click',
+		jQuery( 'a[data-bootstrappeople]' ).on(
+			'click',
 			function(){
 
 				// vars from class Settings sent to javascript
@@ -78,11 +79,14 @@ document.addEventListener(
 			}
 		);
 
-});
+	}
+);
 
 /**
  * Deactivate the spinner after loading
  */
-jQuery(document).ready( function() {
-	jQuery( '.spinner-border' ).hide();
-});
+jQuery( document ).ready(
+	function() {
+		jQuery( '.spinner-border' ).hide();
+	}
+);
