@@ -1,9 +1,9 @@
 **Changelog**
 
 v.3.7.1
-* [feature] Implemented a new link maker: Bootstrap 5.1 modal window
+* [feature] Implemented a new link maker: Bootstrap 5.1 modal window. Can be selected in admin options.
 * [technical] Polylang is now a Plugin class with separated functions
-* [technical] More OOP oriented, decoupled the link making process, NoLinks, Highslide, Classic
+* [technical] More OOP oriented, decoupled the link making process, NoLinks, Bootstrap, Highslide, Classic
 * [technical] Virtual pages are now created with the new Virtual_Page class
 * [technical] Updated to IMDBPHP library 7.3 update with bug monthNo() and Monolog 2.6
 * [bug] Metaboxes in howto admin not displayed under certain context

@@ -2,6 +2,8 @@
 /**
  * Class for displaying movies. This class automatically catches spans. It displays taxonomy links and add taxonomy according to the selected options
  *
+ * @TODO Pass all imdb_admin_values['imdblinkingkill'] conditions into link classes
+ *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
@@ -1551,6 +1553,8 @@ class Movie {
 		$output .= ':</span><br />';
 
 		for ( $i = 0; ( ( $i < $nbtotalplots ) && ( $i < $nbplots ) ); $i++ ) {
+
+			// $this->lumiere_movies_plot_details( $plot[ $i ] ); #pass this in link classes
 
 			// if "Remove all links" option is not selected
 			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
