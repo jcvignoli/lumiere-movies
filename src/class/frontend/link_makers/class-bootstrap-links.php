@@ -442,11 +442,11 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		return "\n\t\t\t" . '<span class="modal fade" id="theModal' . sanitize_text_field( $imdb_id ) . '">'
 			. "\n\t\t\t\t" . '<span class="modal-dialog modal-dialog-centered" id="bootstrapp' . sanitize_text_field( $imdb_id ) . '">'
 			. "\n\t\t\t\t\t" . '<span class="modal-content">'
-			. "\n\t\t\t\t\t\t" . '<span class="modal-body"></span>'
-			. "\n\t\t\t\t\t\t" . '<span class="modal-footer black">'
+			. "\n\t\t\t\t\t\t" . '<span class="modal-header black">'
 			// . esc_html__( 'Informations about', 'lumiere-movies' ) . ' ' . sanitize_text_field( ucfirst( $imdb_data ) )
 			. '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . sanitize_text_field( $imdb_id ) . '"></button>'
 			. "\n\t\t\t\t\t\t" . '</span>'
+			. "\n\t\t\t\t\t\t" . '<span class="modal-body"></span>'
 			. "\n\t\t\t\t\t" . '</span>'
 			. "\n\t\t\t\t" . '</span>'
 			. "\n\t\t\t" . '</span>';
