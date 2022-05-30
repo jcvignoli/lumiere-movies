@@ -85,4 +85,58 @@ abstract class Abstract_Link_Maker {
 	 */
 	abstract public function lumiere_popup_film_link ( array $link_parsed, string $popuplarg = null, string $popuplong = null ): string;
 
+	/**
+	 * Trailer data details
+	 *
+	 * @param string $url Url to the trailer
+	 * @param string $website website name
+	 */
+	abstract public function lumiere_movies_trailer_details ( string $url, string $website_title ): string;
+
+	/**
+	 * Production company data details
+	 *
+	 * @param string $name prod company name
+	 * @param string $url Url to the prod company
+	 * @param string $notes prod company notes
+	 */
+	abstract public function lumiere_movies_prodcompany_details ( string $name, string $url, string $notes ): string;
+
+	/**
+	 * Official websites data details
+	 *
+	 * @param string $url Url to the prod company
+	 * @param string $name prod company name
+	 */
+	abstract public function lumiere_movies_officialsites_details ( string $url, string $name ): string;
+
+	/**
+	 * Plots data details
+	 *
+	 * @param string $plot Text of the plot
+	 */
+	abstract public function lumiere_movies_plot_details ( string $plot ): string;
+
+	/**
+	 * Source data details
+	 *
+	 * @param string $mid IMDb ID of the movie
+	 */
+	abstract public function lumiere_movies_source_details ( string $mid ): string;
+
+	/**
+	 * Remove html links <a></a>
+	 *
+	 * @param string $text text to be cleaned from every html link
+	 * @return string $output text that has been cleaned from every html link
+	 */
+	public function lumiere_remove_link ( string $text ): string {
+
+		$output = preg_replace( '/<a(.*?)>/', '', $text ) ?? $text;
+		$output = preg_replace( '/<\/a>/', '', $output ) ?? $output;
+
+		return $output;
+
+	}
+
 }

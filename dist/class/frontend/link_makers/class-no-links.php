@@ -273,4 +273,63 @@ class No_Links extends Abstract_Link_Maker {
 
 	}
 
+	/**
+	 * Trailer data details
+	 *
+	 * @param string $url Url to the trailer
+	 * @param string $website website name
+	 */
+	public function lumiere_movies_trailer_details ( string $url, string $website_title ): string {
+
+		return "\n\t\t\t" . sanitize_text_field( $website_title ) . ', ' . esc_url( $url );
+
+	}
+
+	/**
+	 * Production company data details
+	 *
+	 * @param string $name prod company name
+	 * @param string $url Url to the prod company
+	 * @param string $notes prod company notes
+	 */
+	public function lumiere_movies_prodcompany_details ( string $name, string $url = '', string $notes = '' ): string {
+
+		return esc_attr( $name ) . '<br />';
+
+	}
+
+	/**
+	 * Official websites data details
+	 *
+	 * @param string $url Url to the prod company
+	 * @param string $name prod company name
+	 */
+	public function lumiere_movies_officialsites_details ( string $url, string $name ): string {
+
+		return "\n\t\t\t" . sanitize_text_field( $name ) . ', ' . esc_url( $url );
+
+	}
+
+	/**
+	 * Plots data details
+	 *
+	 * @param string $plot Text of the plot
+	 */
+	public function lumiere_movies_plot_details ( string $plot ): string {
+
+		return "\n\t\t\t\t" . $this->lumiere_remove_link( $plot ); // function in abstract link maker class
+
+	}
+
+	/**
+	 * Source data details
+	 *
+	 * @param string $mid IMDb ID of the movie
+	 */
+	public function lumiere_movies_source_details ( string $mid ): string {
+
+		return "\n\t\t\t" . '<img class="imdbelementSOURCE-picture" alt="link to imdb" width="33" height="15" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />'
+			. ' https://www.imdb.com/title/tt' . $mid;
+
+	}
 }

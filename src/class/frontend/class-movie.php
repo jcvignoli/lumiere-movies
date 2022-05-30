@@ -2,7 +2,6 @@
 /**
  * Class for displaying movies. This class automatically catches spans. It displays taxonomy links and add taxonomy according to the selected options
  *
- * @TODO Pass all imdb_admin_values['imdblinkingkill'] conditions into link classes
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -929,16 +928,12 @@ class Movie {
 
 		for ( $i = 0; ( $i < $nbtrailers && ( $i < $nbtotaltrailers ) ); $i++ ) {
 
-			// if "Remove all links" option is not selected.
-			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
-				$output .= "\n\t\t\t<a href='" . esc_url( $trailers[ $i ]['url'] ) . "' title='" . esc_html__( 'Watch on IMBb website the trailer for ', 'lumiere-movies' ) . esc_html( $trailers[ $i ]['title'] ) . "'>" . sanitize_text_field( $trailers[ $i ]['title'] ) . '</a>';
-
-				// if "Remove all links" option is selected
-			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) {
-
-				$output .= "\n\t\t\t" . sanitize_text_field( $trailers[ $i ]['title'] ) . ', ' . esc_url( $trailers[ $i ]['url'] );
-
-			}
+			/**
+			 * Use links builder classes.
+			 * Each one has its own class passed in $link_maker,
+			 * according to which option the lumiere_select_link_maker() found in Frontend.
+			 */
+			$output .= $this->link_maker->lumiere_movies_trailer_details( $trailers[ $i ]['url'], $trailers[ $i ]['title'] );
 
 			if ( $i < ( $nbtrailers - 1 ) && $i < ( $nbtotaltrailers - 1 ) ) {
 				$output .= ', '; // add comma to every trailer but the last.
@@ -1086,7 +1081,7 @@ class Movie {
 		for ( $i = 0; $i < $nbtotalcomposer; $i++ ) {
 
 			/**
-			 * Use Highslide, Classical or No Links class links builder.
+			 * Use links builder classes.
 			 * Each one has its own class passed in $link_maker,
 			 * according to which option the lumiere_select_link_maker() found in Frontend.
 			 */
@@ -1131,7 +1126,7 @@ class Movie {
 				[ "\n", "\r", '<br>', '<br />' ],
 				'',
 				/**
-				 * Use Highslide, Classical or No Links class links builder.
+				 * Use links builder classes.
 				 * Each one has its own class passed in $link_maker,
 				 * according to which option the lumiere_select_link_maker() found in Frontend.
 				 */
@@ -1170,27 +1165,12 @@ class Movie {
 
 		for ( $i = 0; $i < $nbtotalprodcompany; $i++ ) {
 
-			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) { // if "Remove all links" option is not selected.
-				$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
-				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-				$output .= "\n\t\t\t\t\t<a href='" . esc_url( $prodcompany[ $i ]['url'] ) . "' title='" . esc_html( $prodcompany[ $i ]['name'] ) . "'>";
-				$output .= esc_attr( $prodcompany[ $i ]['name'] );
-				$output .= '</a>';
-				$output .= "\n\t\t\t\t</div>";
-				$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-				if ( strlen( $prodcompany[ $i ]['notes'] ) !== 0 ) {
-					$output .= esc_attr( $prodcompany[ $i ]['notes'] );
-				} else {
-					$output .= '&nbsp;';
-				}
-				$output .= '</div>';
-				$output .= "\n\t\t\t</div>";
-
-			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) { // if "Remove all links" option is selected
-
-				$output .= esc_attr( $prodcompany[ $i ]['name'] ) . '<br />';
-
-			}  // end if remove popup
+			/**
+			 * Use links builder classes.
+			 * Each one has its own class passed in $link_maker,
+			 * according to which option the lumiere_select_link_maker() found in Frontend.
+			 */
+			$output .= $this->link_maker->lumiere_movies_prodcompany_details( $prodcompany[ $i ]['name'], $prodcompany[ $i ]['url'], $prodcompany[ $i ]['notes'] );
 
 		}  // endfor
 
@@ -1220,19 +1200,12 @@ class Movie {
 
 		for ( $i = 0; $i < $nbtotalofficial_sites; $i++ ) {
 
-			// if "Remove all links" option is not selected.
-			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
-
-				$output .= "\n\t\t\t<a href='" . esc_url( $official_sites[ $i ]['url'] ) . "' title='" . esc_attr( $official_sites[ $i ]['name'] ) . "'>";
-				$output .= esc_html( $official_sites[ $i ]['name'] );
-				$output .= '</a>';
-
-				// if "Remove all links" option is selected
-			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) {
-
-				$output .= "\n\t\t\t" . sanitize_text_field( $official_sites[ $i ]['name'] ) . ', ' . esc_url( $official_sites[ $i ]['url'] );
-
-			}
+			/**
+			 * Use links builder classes.
+			 * Each one has its own class passed in $link_maker,
+			 * according to which option the lumiere_select_link_maker() found in Frontend.
+			 */
+			$output .= $this->link_maker->lumiere_movies_officialsites_details( $official_sites[ $i ]['url'], $official_sites[ $i ]['name'] );
 
 			if ( $i < $nbtotalofficial_sites - 1 ) {
 				$output .= ', ';
@@ -1283,7 +1256,7 @@ class Movie {
 		for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 
 			/**
-			 * Use Highslide, Classical or No Links class links builder.
+			 * Use links builder classes.
 			 * Each one has its own class passed in $link_maker,
 			 * according to which option the lumiere_select_link_maker() found in Frontend.
 			 */
@@ -1337,7 +1310,7 @@ class Movie {
 		for ( $i = 0; $i < $nbtotalcreator; $i++ ) {
 
 			/**
-			 * Use Highslide, Classical or No Links class links builder.
+			 * Use links builder classes.
 			 * Each one has its own class passed in $link_maker,
 			 * according to which option the lumiere_select_link_maker() found in Frontend.
 			 */
@@ -1392,7 +1365,7 @@ class Movie {
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 
 			/**
-			 * Use Highslide, Classical or No Links class links builder.
+			 * Use links builder classes.
 			 * Each one has its own class passed in $link_maker,
 			 * according to which option the lumiere_select_link_maker() found in Frontend.
 			 */
@@ -1453,7 +1426,7 @@ class Movie {
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 
 			/**
-			 * Use Highslide, Classical or No Links class links builder.
+			 * Use links builder classes.
 			 * Each one has its own class passed in $link_maker,
 			 * according to which option the lumiere_select_link_maker() found in Frontend.
 			 */
@@ -1514,7 +1487,7 @@ class Movie {
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 
 			/**
-			 * Use Highslide, Classical or No Links class links builder.
+			 * Use links builder classes.
 			 * Each one has its own class passed in $link_maker,
 			 * according to which option the lumiere_select_link_maker() found in Frontend.
 			 */
@@ -1554,18 +1527,12 @@ class Movie {
 
 		for ( $i = 0; ( ( $i < $nbtotalplots ) && ( $i < $nbplots ) ); $i++ ) {
 
-			// $this->lumiere_movies_plot_details( $plot[ $i ] ); #pass this in link classes
-
-			// if "Remove all links" option is not selected
-			if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
-
-				$output .= "\n\t\t\t\t" . $plot[ $i ];
-
-			} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) { // if "Remove all links" option is selected
-
-				$output .= "\n\t\t\t\t" . $this->lumiere_remove_link( $plot[ $i ] ); // function in trait
-
-			}
+			/**
+			 * Use links builder classes.
+			 * Each one has its own class passed in $link_maker,
+			 * according to which option the lumiere_select_link_maker() found in Frontend.
+			 */
+			$output .= $this->link_maker->lumiere_movies_plot_details( $plot[ $i ] );
 
 			// add hr to every plot but the last.
 			if ( $i < ( $nbtotalplots - 1 ) && $i < ( $nbplots - 1 ) ) {
@@ -1591,28 +1558,12 @@ class Movie {
 		$output .= esc_html__( 'Source', 'lumiere-movies' );
 		$output .= ':</span>';
 
-		$output .= "\n\t\t\t" . '<img ';
-		// This class breaks AMP
-		if ( in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
-			$output .= 'class="imdbelementSOURCE-picture" ';
-		}
-		$output .= 'alt="link to imdb" width="33" height="15" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />';
-
-		// if "Remove all links" option is not selected
-		if ( $this->imdb_admin_values['imdblinkingkill'] === '0' && in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
-
-			$output .= '<a class="link-incmovie-sourceimdb" title="'
-					. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
-					. esc_url( 'https://www.imdb.com/title/tt' . $mid_premier_resultat_sanitized ) . '" >'
-					. '&nbsp;&nbsp;'
-					. esc_html__( "IMDb's page for this movie", 'lumiere-movies' ) . '</a>';
-
-			// if "Remove all links" option is selected
-		} elseif ( $this->imdb_admin_values['imdblinkingkill'] === '1' || in_array( 'AMP', $this->plugins_in_use, true ) === true ) {
-
-			$output .= ' https://www.imdb.com/title/tt' . $mid_premier_resultat_sanitized;
-
-		}
+		/**
+		 * Use links builder classes.
+		 * Each one has its own class passed in $link_maker,
+		 * according to which option the lumiere_select_link_maker() found in Frontend.
+		 */
+		$output .= $this->link_maker->lumiere_movies_source_details( $mid_premier_resultat_sanitized );
 
 		return $output;
 	}
