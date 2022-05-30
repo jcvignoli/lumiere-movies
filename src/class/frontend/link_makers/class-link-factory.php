@@ -50,32 +50,28 @@ class Link_Factory {
 		 * Checks if the current page is AMP
 		 */
 		if ( Utils::lumiere_is_amp_page() === true ) {
-
 			return new AMP_Links();
-
 		}
 
 		/**
 		 * To not display links was selected in admin options
 		 */
 		if ( $this->imdb_admin_values['imdblinkingkill'] === '1' ) {
-
 			return new No_Links();
-
 		}
 
 		/**
 		 * Bootstrap is selected in admin options
 		 */
 		if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'bootstrap' ) {
-
 			return new Bootstrap_Links();
+
 			/**
 			 * Highslide is selected in admin options
 			 */
 		} elseif ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {
-
 			return new Highslide_Links();
+
 			/**
 			 * None was selected in admin options, display classic popups
 			 */

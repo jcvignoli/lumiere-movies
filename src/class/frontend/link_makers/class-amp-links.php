@@ -292,4 +292,71 @@ class AMP_Links extends Abstract_Link_Maker {
 
 	}
 
+	/**
+	 * Trailer data details
+	 *
+	 * @param string $url Url to the trailer
+	 * @param string $website website name
+	 */
+	public function lumiere_movies_trailer_details ( string $url, string $website_title ): string {
+
+		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html__( 'Watch on IMBb website the trailer for ', 'lumiere-movies' ) . esc_html( $website_title ) . "'>" . sanitize_text_field( $website_title ) . '</a>';
+
+	}
+
+	/**
+	 * Production company data details
+	 *
+	 * @param string $name prod company name
+	 * @param string $url Url to the prod company
+	 * @param string $notes prod company notes
+	 */
+	public function lumiere_movies_prodcompany_details ( string $name, string $url = '', string $notes = '' ): string {
+
+		return esc_attr( $name ) . '<br />';
+
+	}
+
+	/**
+	 * Official websites data details
+	 *
+	 * @param string $url Url to the prod company
+	 * @param string $name prod company name
+	 */
+	public function lumiere_movies_officialsites_details ( string $url, string $name ): string {
+
+		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_attr( $name ) . "'>"
+			. esc_html( $name )
+			. '</a>';
+
+	}
+
+	/**
+	 * Plots data details
+	 *
+	 * @param string $plot Text of the plot
+	 */
+	public function lumiere_movies_plot_details ( string $plot ): string {
+
+		return "\n\t\t\t\t" . $plot;
+
+	}
+
+	/**
+	 * Source data details
+	 *
+	 * @param string $mid IMDb ID of the movie
+	 */
+	public function lumiere_movies_source_details ( string $mid ): string {
+
+		// imdbelementSOURCE-picture class breaks AMP
+		return "\n\t\t\t" . '<img alt="link to imdb" width="33" height="15" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />'
+		. '<a class="link-incmovie-sourceimdb" title="'
+				. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
+				. esc_url( 'https://www.imdb.com/title/tt' . $mid ) . '" >'
+				. '&nbsp;&nbsp;'
+				. esc_html__( "IMDb's page for this movie", 'lumiere-movies' ) . '</a>';
+
+	}
+
 }
