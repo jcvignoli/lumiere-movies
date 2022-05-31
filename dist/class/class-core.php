@@ -477,7 +477,10 @@ class Core {
 
 		wp_enqueue_script( 'lumiere_scripts' );
 
-		// Pass variable to javascript lumiere_scripts.js.
+		/**
+		 * Pass variables to javascript lumiere_scripts.js.
+		 * These variables contains popup sizes, color, paths, etc.
+		 */
 		wp_add_inline_script(
 			'lumiere_scripts',
 			$this->config_class->lumiere_scripts_vars,
