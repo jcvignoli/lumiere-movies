@@ -14,7 +14,7 @@ document.addEventListener(
 
 		/** bootstrap popup, people */
 
-		jQuery( 'a[data-bootstrappeople]' ).on(
+		jQuery( 'a[data-modal_window_people]' ).on(
 			'click',
 			function(){
 
@@ -23,7 +23,7 @@ document.addEventListener(
 				var tmppopupLong = lumiere_vars.popupLong;
 
 				// var from the html code
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'bootstrappeople' );
+				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_people' );
 
 				// build the final URL
 				var url_imdbperso = lumiere_vars.urlpopup_person + '/?mid=' + misc_term;
@@ -37,7 +37,7 @@ document.addEventListener(
 
 		/** bootstrap popup, movie by title */
 
-		jQuery( 'a[data-bootstrapfilm]' ).click(
+		jQuery( 'a[data-modal_window_film]' ).click(
 			function(){
 
 				// vars from class Settings sent to javascript
@@ -45,7 +45,7 @@ document.addEventListener(
 				var tmppopupLong = lumiere_vars.popupLong;
 
 				// var from the html code
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'bootstrapfilm' );
+				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_film' );
 
 				// build the final URL
 				var url_imdbfilm = lumiere_vars.urlpopup_film + '/?film=' + misc_term;
@@ -59,7 +59,7 @@ document.addEventListener(
 
 		/** bootstrap popup, movie by imdb id */
 
-		jQuery( 'a[data-bootstrapfilmid]' ).click(
+		jQuery( 'a[data-modal_window_filmid]' ).click(
 			function(){
 
 				// vars from class Settings sent to javascript
@@ -67,7 +67,7 @@ document.addEventListener(
 				var tmppopupLong = lumiere_vars.popupLong;
 
 				// var mid from the class data-highslidepeople to build the link
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'bootstrapfilmid' );
+				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_filmid' );
 
 				// build the final URL
 				var url_imdbfilmid = lumiere_vars.urlpopup_film + '/?mid=' + misc_term;
