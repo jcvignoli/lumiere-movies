@@ -3,7 +3,7 @@
  * Class to build Classic Links
  * Is called by the Link Factory class, implements abstract Link Maker class
  *
- * This class is used when highslide option is unticked
+ * This class is used when none option is selected in admin
  *
  * Classic Popup links are created, included in taxonomy
  *
@@ -77,13 +77,6 @@ class Classic_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_classic_execute_assets (): void {
 
-		// Pass variables to javascript lumiere_classic_links.js.
-		wp_add_inline_script(
-			'lumiere_classic_links',
-			$this->config_class->lumiere_scripts_highslide_vars,
-			'before',
-		);
-
 		wp_enqueue_script( 'lumiere_classic_links' );
 
 	}
@@ -98,7 +91,7 @@ class Classic_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_link_popup_people ( array $imdb_data_people, int $number ): string {
 
-		return "\n\t\t\t" . '<a class="linkincmovie link-imdblt-classicpeople" data-classicpeople="' . sanitize_text_field( $imdb_data_people[ $number ]['imdb'] ) . '" title="' . esc_html__( 'Link to local IMDb', 'lumiere-movies' ) . '">' . sanitize_text_field( $imdb_data_people[ $number ]['name'] ) . '</a>';
+		return "\n\t\t\t" . '<a class="linkincmovie modal_window_people" data-modal_window_people="' . sanitize_text_field( $imdb_data_people[ $number ]['imdb'] ) . '" title="' . esc_html__( 'Link to local IMDb', 'lumiere-movies' ) . '">' . sanitize_text_field( $imdb_data_people[ $number ]['name'] ) . '</a>';
 
 	}
 
@@ -188,12 +181,7 @@ class Classic_Links extends Abstract_Link_Maker {
 		// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
 		$photo_url = $photo_localurl_false !== false && is_string( $photo_localurl_false ) ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl_true );
 
-		// Select picture: if 2/ AMP Plugin is active, use always thumbnail, use previous pic otherwise (in 1)
-		// @since 3.7
-		//      $photo_url = in_array( 'AMP', $this->plugins_in_use, true ) === true ? esc_html( $photo_localurl_true ) : $photo_url;
-		$photo_url = esc_html( $photo_localurl_true );
-
-		// Select picture: if 3/ big/thumbnail picture exists, use it (in 2), use no_pics otherwise
+		// Select picture: if 2/ big/thumbnail picture exists, use it (in 2), use no_pics otherwise
 		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
 
 		$output .= "\n\t\t\t\t\t" . '<a id="highslide_pic" href="' . esc_url( $photo_url_final ) . '">';
@@ -318,14 +306,14 @@ class Classic_Links extends Abstract_Link_Maker {
 	/**
 	 * Convert an IMDb url into a Popup link for People and Movies
 	 * Meant to be used inside in posts or widgets (not in Popups)
-	 * Build links using either highslide or classic popup
+	 * Build links using classic popup
 	 *
 	 * @param string $text Text that includes IMDb URL to convert into a popup link
 	 */
 	public function lumiere_imdburl_to_popupurl ( string $text ): string {
 
-		$popup_link_person = '<a class="link-imdblt-classicpeople" data-classicpeople="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
-		$popup_link_movie = '<a class="link-imdblt-classicfilm" data-classicfilm-id="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
+		$popup_link_person = '<a class="modal_window_people" data-modal_window_people="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
+		$popup_link_movie = '<a class="modal_window_film" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
 		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\/\?.+?|\?.+?|\/?)\"\>~';
@@ -362,8 +350,87 @@ class Classic_Links extends Abstract_Link_Maker {
 			$popuplong = $this->imdb_admin_values['imdbpopuplong'];
 		}
 
-		return '<a class="link-imdblt-classicfilm" data-classicfilm="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
+		return '<a class="modal_window_film" data-modal_window_film="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
 
 	}
 
+	/**
+	 * Official websites data details
+	 *
+	 * @param string $url Url to the prod company
+	 * @param string $name prod company name
+	 */
+	public function lumiere_movies_officialsites_details ( string $url, string $name ): string {
+
+		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_attr( $name ) . "'>"
+			. esc_html( $name )
+			. '</a>';
+	}
+
+	/**
+	 * Plots data details
+	 *
+	 * @param string $plot Text of the plot
+	 */
+	public function lumiere_movies_plot_details ( string $plot ): string {
+
+		return "\n\t\t\t\t" . $plot;
+	}
+
+	/**
+	 * Production company data details
+	 *
+	 * @param string $name prod company name
+	 * @param string $url Url to the prod company
+	 * @param string $notes prod company notes
+	 */
+	public function lumiere_movies_prodcompany_details ( string $name, string $url, string $notes ): string {
+
+		$output = '';
+		$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
+		$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+		$output .= "\n\t\t\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html( $name ) . "'>";
+		$output .= esc_attr( $name );
+		$output .= '</a>';
+		$output .= "\n\t\t\t\t</div>";
+		$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+		if ( strlen( $notes ) !== 0 ) {
+			$output .= esc_attr( $notes );
+		} else {
+			$output .= '&nbsp;';
+		}
+		$output .= '</div>';
+		$output .= "\n\t\t\t</div>";
+
+		return $output;
+
+	}
+
+	/**
+	 * Source data details
+	 *
+	 * @param string $mid IMDb ID of the movie
+	 */
+	public function lumiere_movies_source_details ( string $mid ): string {
+
+		return "\n\t\t\t" . '<img class="imdbelementSOURCE-picture" alt="link to imdb" width="33" height="15" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />'
+		. '<a class="link-incmovie-sourceimdb" title="'
+				. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
+				. esc_url( 'https://www.imdb.com/title/tt' . $mid ) . '" >'
+				. '&nbsp;&nbsp;'
+				. esc_html__( "IMDb's page for this movie", 'lumiere-movies' ) . '</a>';
+
+	}
+
+	/**
+	 * Trailer data details
+	 *
+	 * @param string $url Url to the trailer
+	 * @param string $website_title website name
+	 */
+	public function lumiere_movies_trailer_details ( string $url, string $website_title ): string {
+
+		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html__( 'Watch on IMBb website the trailer for ', 'lumiere-movies' ) . esc_html( $website_title ) . "'>" . sanitize_text_field( $website_title ) . '</a>';
+
+	}
 }

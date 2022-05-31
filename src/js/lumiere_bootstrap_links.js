@@ -5,7 +5,7 @@
 
 /**
  * FUNCTION: build bootstrap popup according to the classes
- *	This function on click on classes "link-imdblt-(.*)"
+ *	This function on click on data "modal_window(.*)"
  *	1- extracts info from data-(.*) <a> attribute
  */
 document.addEventListener(
@@ -26,7 +26,7 @@ document.addEventListener(
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_people' );
 
 				// build the final URL
-				var url_imdbperso = lumiere_vars.urlpopup_person + '/?mid=' + misc_term;
+				var url_imdbperso = lumiere_vars.urlpopup_person + '?mid=' + misc_term;
 
 				// Open bootstrap popup link
 				jQuery( '.modal-body' ).html( '<object data="' + url_imdbperso + '"/>' );
@@ -48,7 +48,7 @@ document.addEventListener(
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_film' );
 
 				// build the final URL
-				var url_imdbfilm = lumiere_vars.urlpopup_film + '/?film=' + misc_term;
+				var url_imdbfilm = lumiere_vars.urlpopup_film + '?film=' + misc_term;
 
 				// Open bootstrap popup link
 				jQuery( '.modal-body' ).html( '<object data="' + url_imdbfilm + '"/>' );
@@ -70,7 +70,7 @@ document.addEventListener(
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_filmid' );
 
 				// build the final URL
-				var url_imdbfilmid = lumiere_vars.urlpopup_film + '/?mid=' + misc_term;
+				var url_imdbfilmid = lumiere_vars.urlpopup_film + '?mid=' + misc_term;
 
 				// Open bootstrap popup link
 				jQuery( '.modal-body' ).html( '<object data="' + url_imdbfilmid + '"/>' );
