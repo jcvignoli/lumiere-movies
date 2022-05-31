@@ -89,14 +89,6 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 			true
 		);
 
-		// Register Popper script.
-		wp_register_script(
-			'lumiere_bootstrap_popper_scripts',
-			$this->config_class->lumiere_js_dir . 'bootstrap/popper.min.js',
-			[ 'lumiere_bootstrap_scripts' ],
-			$this->config_class->lumiere_version,
-			true
-		);
 	}
 
 	/**
@@ -110,9 +102,6 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->imdb_admin_values['imdburlpopups'] ) ) {
 			wp_dequeue_script( 'lumiere_scripts' );
 		}
-
-		// Popper script must load before core
-		wp_enqueue_script( 'lumiere_bootstrap_popper_scripts' );
 
 		wp_enqueue_style( 'lumiere_bootstrap_core' );
 
