@@ -1,8 +1,8 @@
 /* Settings for highslide */
-/* var highslide_vars.imdb_path passed from wp_localize_script to class-movie.php */
+/* var lumiere_vars.imdb_path passed from wp_localize_script to class-movie.php */
 
-var url_highslide = highslide_vars.imdb_path + "js/highslide/graphics/";
-var popup_border_colour = highslide_vars.popup_border_colour;
+var url_highslide = lumiere_vars.imdb_path + "js/highslide/graphics/";
+var popup_border_colour = lumiere_vars.popup_border_colour;
 
 hs.allowWidthReduction = true;
 hs.graphicsDir = url_highslide;

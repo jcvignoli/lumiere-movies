@@ -1,11 +1,11 @@
 <?php declare( strict_types = 1 );
 /**
- * Class to build Highslide links
+ * Class to build Bootstrap links
  * Is called by the Link Factory class, implements abstract Link Maker class
  *
- * This class is used when highslide option is ticked
+ * This class is used when bootstrap option is ticked
  *
- * Highslide Popup links are created, included in taxonomy
+ * Bootstrap Popup links are created, included in taxonomy
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -125,12 +125,10 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 
 		// Pass variables to javascript highslide-options.js.
 		wp_add_inline_script(
-			'lumiere_highslide_options',
-			$this->config_class->lumiere_scripts_highslide_vars,
+			'lumiere_bootstrap_options',
+			$this->config_class->lumiere_scripts_vars,
 			'before',
 		);
-
-		wp_enqueue_script( 'lumiere_highslide_options' );
 
 		wp_enqueue_script( 'lumiere_bootstrap_scripts' );
 

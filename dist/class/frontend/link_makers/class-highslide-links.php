@@ -104,13 +104,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 		wp_enqueue_script( 'lumiere_highslide_core' );
 
-		// Pass variables to javascript highslide-options.js.
-		wp_add_inline_script(
-			'lumiere_highslide_options',
-			$this->config_class->lumiere_scripts_highslide_vars,
-			'before',
-		);
-
 		wp_enqueue_script( 'lumiere_highslide_options' );
 
 		wp_enqueue_script( 'lumiere_highslide_scripts' );

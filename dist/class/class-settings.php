@@ -144,11 +144,6 @@ class Settings {
 	public string $lumiere_scripts_vars;
 
 	/**
-	 * Options for highslide javascript
-	 */
-	public string $lumiere_scripts_highslide_vars;
-
-	/**
 	 * Vars for javascripts in admin area
 	 */
 	public string $lumiere_scripts_admin_vars;
@@ -287,18 +282,13 @@ class Settings {
 		);
 		$this->lumiere_scripts_vars = 'const lumiere_vars = ' . wp_json_encode(
 			[
-				'popupLarg' => $this->imdb_admin_values['imdbpopuplarg'],
-				'popupLong' => $this->imdb_admin_values['imdbpopuplong'],
 				'imdb_path' => $this->imdb_admin_values['imdbplugindirectory'],
 				'urlpopup_film' => $this->lumiere_urlpopupsfilms,
 				'urlpopup_person' => $this->lumiere_urlpopupsperson,
-			]
-		);
-
-		$this->lumiere_scripts_highslide_vars = 'const highslide_vars = ' . wp_json_encode(
-			[
-				'imdb_path' => $this->imdb_admin_values['imdbplugindirectory'],
+				/** Popups */
 				'popup_border_colour' => $this->imdb_admin_values['imdbpopuptheme'],
+				'popupLarg' => $this->imdb_admin_values['imdbpopuplarg'],
+				'popupLong' => $this->imdb_admin_values['imdbpopuplong'],
 			]
 		);
 
@@ -399,7 +389,7 @@ class Settings {
 			'imdbdebugscreen' => '1',                /* Show debug on screen */
 			'imdbwordpress_bigmenu' => '0',        /* Left menu */
 			'imdbwordpress_tooladminmenu' => '1',    /* Top menu */
-			'imdbpopup_modal_window' => 'highslide',
+			'imdbpopup_modal_window' => 'bootstrap',
 			'imdbtaxonomy' => '1',
 			'imdbHowManyUpdates' => $this->current_number_updates, /* define the number of updates. */
 			'imdbseriemovies' => 'movies+series',     /* options: movies, series, movies+series, videogames */

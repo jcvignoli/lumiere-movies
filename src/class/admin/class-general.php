@@ -309,16 +309,16 @@ class General extends \Lumiere\Admin {
 
 						<select name="imdbpopup_modal_window">
 						<?php
-						echo '<option id="imdbpopup_modal_window_highslide" value="highslide"';
-						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {
-							echo ' selected="selected"';
-						}
-						echo ">Highslide</option>\n";
 						echo "\t\t\t\t\t\t" . '<option id="imdbpopup_modal_window_bootstrap" value="bootstrap"';
 						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'bootstrap' ) {
 							echo ' selected="selected"';
 						}
 						echo ">Bootstrap</option>\n";
+						echo '<option id="imdbpopup_modal_window_highslide" value="highslide"';
+						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {
+							echo ' selected="selected"';
+						}
+						echo ">Highslide</option>\n";
 						echo "\t\t\t\t\t\t" . '<option id="imdbpopup_modal_window_none" value="none"';
 						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'none' ) {
 							echo ' selected="selected"';
@@ -326,7 +326,7 @@ class General extends \Lumiere\Admin {
 						echo ">None</option>\n"; ?>
 						</select>
 						<?php
-						echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. Highslide or Bootstrap are advanced modal windows.', 'lumiere-movies' ) . '<br />' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html__( 'Highslide', 'lumiere-movies' ) . '</div>';
+						echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. Highslide or Bootstrap are advanced modal windows.', 'lumiere-movies' ) . '<br />' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html__( 'Bootstrap', 'lumiere-movies' ) . '</div>';
 
 						// If the folder "highslide" was not found
 						if (  is_dir( $this->config_class->lumiere_js_path . 'highslide' ) === false && $this->activate_highslide_download === true && $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {

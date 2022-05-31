@@ -95,8 +95,8 @@ class Lumiere_Update_File_10 extends \Lumiere\Updates {
 			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
-		// By default, add highslide
-		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbpopup_modal_window', 'highslide' ) ) {
+		// By default, add bootstrap
+		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbpopup_modal_window', 'bootstrap' ) ) {
 
 			$text = 'Lumière option imdbpopup_modal_window successfully added.';
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
