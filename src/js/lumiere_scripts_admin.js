@@ -94,6 +94,10 @@ document.addEventListener(
 		);
 		jQuery( '[data-field_activate]' ).trigger( 'change' );
 
+		/************************************** admin/class-general.php
+		 *
+		 */
+
 		// For HTML select imdbpopup_modal_window, display or remove the long/larg options when bootstrap is selected
 		jQuery( 'select[name=imdbpopup_modal_window]' ).on( 'change',
 			function(){
@@ -127,8 +131,8 @@ function GereControle(Controle, Masquer) {
 }
 
 /************************************** admin/class-data.php
-*
-*/
+ *
+ */
 
 // Function to move values inside a select box form
 // Credits go to Rick Hitchcock https://stackoverflow.com/a/28682653

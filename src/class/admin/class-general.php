@@ -265,12 +265,13 @@ class General extends \Lumiere\Admin {
 				<div class="lumiere_flex_container">
 
 					<div class="lumiere_flex_auto imdblt_padding_five">&nbsp;
-						<?php esc_html_e( 'Modal windows', 'lumiere-movies' ); ?>&nbsp;
 						<?php
+						echo esc_html__( 'Modal windows', 'lumiere-movies' ) . '&nbsp;';
+
 						/**
 						 * The selection of bootstrap value will remove the options to change
 						 * larg/long values of popups
-						 * Done through javascript lumiere_scripts_admin.js
+						 * Done with javascript lumiere_scripts_admin.js
 						 */
 						?>
 						<select name="imdbpopup_modal_window">
@@ -310,7 +311,8 @@ class General extends \Lumiere\Admin {
 						?>
 					</div>
 
-					<div class="lumiere_flex_auto imdblt_padding_five" id="imdb_imdbpopuplarg">
+					<div class="lumiere_flex_auto imdblt_padding_five 					<?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'bootstrap' ) {
+						echo 'hidesection'; }?>" id="imdb_imdbpopuplarg">
 
 						<label for="imdb_imdbpopuplarg"><?php esc_html_e( 'Width', 'lumiere-movies' ); ?></label><br /><br />
 						<input type="text" name="imdb_imdbpopuplarg" size="5" value="<?php echo intval( $this->imdb_admin_values['imdbpopuplarg'] ); ?>" >
@@ -318,7 +320,8 @@ class General extends \Lumiere\Admin {
 						<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"540"</div>
 
 					</div>
-					<div class="lumiere_flex_auto imdblt_padding_five" id="imdb_imdbpopuplong">
+					<div class="lumiere_flex_auto imdblt_padding_five 					<?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'bootstrap' ) {
+						echo 'hidesection'; }?>" id="imdb_imdbpopuplong">
 
 						<label for="imdb_imdbpopuplong"><?php esc_html_e( 'Height', 'lumiere-movies' ); ?></label><br /><br />
 						<input type="text" name="imdb_imdbpopuplong" size="5" value="<?php echo intval( $this->imdb_admin_values['imdbpopuplong'] ); ?>" >
