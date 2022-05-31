@@ -277,7 +277,7 @@ class No_Links extends Abstract_Link_Maker {
 	 * Trailer data details
 	 *
 	 * @param string $url Url to the trailer
-	 * @param string $website website name
+	 * @param string $website_title website name
 	 */
 	public function lumiere_movies_trailer_details ( string $url, string $website_title ): string {
 

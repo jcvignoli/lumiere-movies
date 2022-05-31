@@ -173,7 +173,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		// Build image HTML tag <img>
 		$output .= "\n\t\t\t\t\t" . '<img loading="eager" ';
 
-		$output .= 'class="imdbelementPICimg" src="';
+		$output .= 'class="img-thumbnail" src="';
 
 		$output .= $photo_url_final
 			. '" alt="'
@@ -440,7 +440,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 	 * Trailer data details
 	 *
 	 * @param string $url Url to the trailer
-	 * @param string $website website name
+	 * @param string $website_title website name
 	 */
 	public function lumiere_movies_trailer_details ( string $url, string $website_title ): string {
 
@@ -467,7 +467,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
 		if ( strlen( $notes ) !== 0 ) {
 			$output .= esc_attr( $notes );
-		} elseif ( strlen( $notes ) === 0 ) {
+		} else {
 			$output .= '&nbsp;';
 		}
 		$output .= '</div>';

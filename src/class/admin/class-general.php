@@ -263,7 +263,54 @@ class General extends \Lumiere\Admin {
 				</div>
 
 				<div class="lumiere_flex_container">
-					<div class="lumiere_flex_auto imdblt_padding_five">
+
+					<div class="lumiere_flex_auto imdblt_padding_five">&nbsp;
+						<?php esc_html_e( 'Modal windows', 'lumiere-movies' ); ?>&nbsp;
+						<?php
+						/**
+						 * The selection of bootstrap value will remove the options to change
+						 * larg/long values of popups
+						 * Done through javascript lumiere_scripts_admin.js
+						 */
+						?>
+						<select name="imdbpopup_modal_window">
+						<?php
+						echo "\t\t\t\t\t\t" . '<option id="imdbpopup_modal_window_bootstrap" value="bootstrap"';
+						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'bootstrap' ) {
+							echo ' selected="selected"';
+						}
+						echo ">Bootstrap</option>\n";
+						echo '<option id="imdbpopup_modal_window_highslide" value="highslide"';
+						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {
+							echo ' selected="selected"';
+						}
+						echo ">Highslide</option>\n";
+						echo "\t\t\t\t\t\t" . '<option id="imdbpopup_modal_window_none" value="none"';
+						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'none' ) {
+							echo ' selected="selected"';
+						}
+						echo ">None</option>\n"; ?>
+						</select>
+						<?php
+						echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. Highslide or Bootstrap are advanced modal windows.', 'lumiere-movies' ) . '<br />' . esc_html__( 'When bootstrap is select, popup height and width cannot be edited.', 'lumiere-movies' ) . '<br />' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html__( 'Bootstrap', 'lumiere-movies' ) . '</div>';
+
+						// If the folder "highslide" was not found
+						if (  is_dir( $this->config_class->lumiere_js_path . 'highslide' ) === false && $this->activate_highslide_download === true && $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {
+							// Say so!
+							echo Utils::lumiere_notice( 4, '<span class="imdblt_red_bold">' . esc_html__( 'Warning! No Highslide folder was found.', 'lumiere-movies' ) . '</span>' );
+							echo '<br />';
+
+							// Automatic highslide download.
+							echo "<a href='" . esc_url( site_url( '', 'relative' ) . '/wp-admin/admin.php?page=lumiere_options&highslide=yes' ) . '\'' . "' title='" . esc_html__( 'Click here to install Highslide', 'lumiere-movies' ) . "'><img src='" . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/menu/admin-general-install-highslide.png' ) . "' align='absmiddle' />&nbsp;&nbsp;" . esc_html__( 'Install automatically Highslide', 'lumiere-movies' ) . '</a><br /><br />';
+
+							// Add a link to highslide website.
+							echo '<a href="http://highslide.com/" title="' . esc_html__( 'Click here to visit Highslide website', 'lumiere-movies' ) . '"><img src="' . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-install-highslide.png' ) . '" align="absmiddle" />&nbsp;&nbsp;' . esc_html__( 'Get Highslide JS library', 'lumiere-movies' ) . '</a><br /><br />';
+						}
+
+						?>
+					</div>
+
+					<div class="lumiere_flex_auto imdblt_padding_five" id="imdb_imdbpopuplarg">
 
 						<label for="imdb_imdbpopuplarg"><?php esc_html_e( 'Width', 'lumiere-movies' ); ?></label><br /><br />
 						<input type="text" name="imdb_imdbpopuplarg" size="5" value="<?php echo intval( $this->imdb_admin_values['imdbpopuplarg'] ); ?>" >
@@ -271,7 +318,7 @@ class General extends \Lumiere\Admin {
 						<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"540"</div>
 
 					</div>
-					<div class="lumiere_flex_auto imdblt_padding_five">
+					<div class="lumiere_flex_auto imdblt_padding_five" id="imdb_imdbpopuplong">
 
 						<label for="imdb_imdbpopuplong"><?php esc_html_e( 'Height', 'lumiere-movies' ); ?></label><br /><br />
 						<input type="text" name="imdb_imdbpopuplong" size="5" value="<?php echo intval( $this->imdb_admin_values['imdbpopuplong'] ); ?>" >
@@ -303,47 +350,6 @@ class General extends \Lumiere\Admin {
 						<div class="explain"> <?php esc_html_e( 'Popup color theme', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"white"</div>
 
 					</div>
-
-					<div class="lumiere_flex_auto imdblt_padding_five">&nbsp;
-						<?php esc_html_e( 'Modal windows', 'lumiere-movies' ); ?>&nbsp;
-
-						<select name="imdbpopup_modal_window">
-						<?php
-						echo "\t\t\t\t\t\t" . '<option id="imdbpopup_modal_window_bootstrap" value="bootstrap"';
-						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'bootstrap' ) {
-							echo ' selected="selected"';
-						}
-						echo ">Bootstrap</option>\n";
-						echo '<option id="imdbpopup_modal_window_highslide" value="highslide"';
-						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {
-							echo ' selected="selected"';
-						}
-						echo ">Highslide</option>\n";
-						echo "\t\t\t\t\t\t" . '<option id="imdbpopup_modal_window_none" value="none"';
-						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'none' ) {
-							echo ' selected="selected"';
-						}
-						echo ">None</option>\n"; ?>
-						</select>
-						<?php
-						echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. Highslide or Bootstrap are advanced modal windows.', 'lumiere-movies' ) . '<br />' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html__( 'Bootstrap', 'lumiere-movies' ) . '</div>';
-
-						// If the folder "highslide" was not found
-						if (  is_dir( $this->config_class->lumiere_js_path . 'highslide' ) === false && $this->activate_highslide_download === true && $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {
-							// Say so!
-							echo Utils::lumiere_notice( 4, '<span class="imdblt_red_bold">' . esc_html__( 'Warning! No Highslide folder was found.', 'lumiere-movies' ) . '</span>' );
-							echo '<br />';
-
-							// Automatic highslide download.
-							echo "<a href='" . esc_url( site_url( '', 'relative' ) . '/wp-admin/admin.php?page=lumiere_options&highslide=yes' ) . '\'' . "' title='" . esc_html__( 'Click here to install Highslide', 'lumiere-movies' ) . "'><img src='" . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/menu/admin-general-install-highslide.png' ) . "' align='absmiddle' />&nbsp;&nbsp;" . esc_html__( 'Install automatically Highslide', 'lumiere-movies' ) . '</a><br /><br />';
-
-							// Add a link to highslide website.
-							echo '<a href="http://highslide.com/" title="' . esc_html__( 'Click here to visit Highslide website', 'lumiere-movies' ) . '"><img src="' . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-install-highslide.png' ) . '" align="absmiddle" />&nbsp;&nbsp;' . esc_html__( 'Get Highslide JS library', 'lumiere-movies' ) . '</a><br /><br />';
-						}
-
-						?>
-					</div>
-
 				</div>
 		<?php
 	}

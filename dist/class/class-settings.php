@@ -17,7 +17,6 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use \Lumiere\Plugins\Logger;
-
 // use PHP library.
 use \FilesystemIterator;
 

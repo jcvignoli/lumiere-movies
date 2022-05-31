@@ -34,11 +34,11 @@ if (jQuery( ".highslide_pic" )) {
 };
 
 
-/* FUNCTION: build highslide or classic popup according to the classes
-*	This function on click on classes "link-imdblt-(.*)"
-	1- extracts info from data-(.*) <a> attribute
-	2- builds either a -highslide- or -classic- popup accordingly
-*/
+/**
+ * FUNCTION: build highslide popup according to the classes
+ *	This function on click on data "modal_window(.*)"
+ *	1- extracts info from data-(.*) <a> attribute
+ */
 
 document.addEventListener(
 	'DOMContentLoaded',
@@ -54,7 +54,7 @@ document.addEventListener(
 				// var mid from the class data-highslidepeople to build the link
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_people' );
 				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-imdb_person.php?mid=' + misc_term;
-				var url_imdbperso = lumiere_vars.urlpopup_person + '/?mid=' + misc_term;
+				var url_imdbperso = lumiere_vars.urlpopup_person + '?mid=' + misc_term;
 				// highslide popup
 				return hs.htmlExpand(
 					this,
@@ -82,7 +82,7 @@ document.addEventListener(
 				// var mid from the class data-highslidepeople to build the link
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_film' );
 				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
-				var url_imdbperso = lumiere_vars.urlpopup_film + '/?film=' + misc_term;
+				var url_imdbperso = lumiere_vars.urlpopup_film + '?film=' + misc_term;
 				// highslide popup
 				return hs.htmlExpand(
 					this,
@@ -110,7 +110,7 @@ document.addEventListener(
 				// var mid from the class data-highslidepeople to build the link
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_filmid' );
 				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
-				var url_imdbperso = lumiere_vars.urlpopup_film + '/?mid=' + misc_term;
+				var url_imdbperso = lumiere_vars.urlpopup_film + '?mid=' + misc_term;
 				// highslide popup
 				return hs.htmlExpand(
 					this,

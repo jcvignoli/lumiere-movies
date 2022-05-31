@@ -1552,7 +1552,11 @@ class Movie {
 
 		$output = '';
 		$mid_premier_resultat = $movie->imdbid();
-		$mid_premier_resultat_sanitized = filter_var( $mid_premier_resultat, FILTER_SANITIZE_NUMBER_INT );
+		$mid_premier_resultat_sanitized = filter_var( $mid_premier_resultat, FILTER_SANITIZE_NUMBER_INT ) !== false ? filter_var( $mid_premier_resultat, FILTER_SANITIZE_NUMBER_INT ) : null;
+
+		if ( $mid_premier_resultat_sanitized === null ) {
+			return $output;
+		}
 
 		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
 		$output .= esc_html__( 'Source', 'lumiere-movies' );

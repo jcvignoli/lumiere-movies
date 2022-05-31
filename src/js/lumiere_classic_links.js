@@ -8,28 +8,25 @@
 *
 */
 
-
-/* FUNCTION: build classic popup according to the classes
-*	This function on click on classes "link-imdblt-(.*)"
-	1- extracts info from data-(.*) <a> attribute
-	2- builds -classic- popup accordingly
-*/
-
+/**
+ * FUNCTION: build classic popup according to the classes
+ *	This function on click on data "modal_window(.*)"
+ *	1- extracts info from data-(.*) <a> attribute
+ */
 document.addEventListener(
 	'DOMContentLoaded',
 	function () {
 
 		/** classic popup, people */
 
-		jQuery( 'a[data-classicpeople]' ).click(
+		jQuery( 'a[data-modal_window_people]' ).click(
 			function(){
 				// vars from imdb-link-transformer.php
 				var tmppopupLarg = lumiere_vars.popupLarg;
 				var tmppopupLong = lumiere_vars.popupLong;
 				// var mid from the class data-highslidepeople to build the link
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'classicpeople' );
-				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-imdb_person.php?mid=' + misc_term;
-				var url_imdbperso = lumiere_vars.urlpopup_person + '/?mid=' + misc_term;
+				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_people' );
+				var url_imdbperso = lumiere_vars.urlpopup_person + '?mid=' + misc_term;
 
 				// classic popup
 				window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + tmppopupLarg + ', height=' + tmppopupLong + ', top=5, left=5' )
@@ -38,15 +35,14 @@ document.addEventListener(
 
 		/** classic popup, movie by title */
 
-		jQuery( 'a[data-classicfilm]' ).click(
+		jQuery( 'a[data-modal_window_film]' ).click(
 			function(){
 				// vars from imdb-link-transformer.php
 				var tmppopupLarg = lumiere_vars.popupLarg;
 				var tmppopupLong = lumiere_vars.popupLong;
 				// var mid from the class data-highslidepeople to build the link
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'classicfilm' );
-				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
-				var url_imdbperso = lumiere_vars.urlpopup_film + '/?film=' + misc_term;
+				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_film' );
+				var url_imdbperso = lumiere_vars.urlpopup_film + '?film=' + misc_term;
 
 				// classic popup
 				window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + tmppopupLarg + ', height=' + tmppopupLong + ', top=5, left=5' );
@@ -55,15 +51,14 @@ document.addEventListener(
 
 		/** classic popup, movie by imdb id */
 
-		jQuery( 'a[data-classicfilm-id]' ).click(
+		jQuery( 'a[data-modal_window_filmid]' ).click(
 			function(){
 				// vars from imdb-link-transformer.php
 				var tmppopupLarg = lumiere_vars.popupLarg;
 				var tmppopupLong = lumiere_vars.popupLong;
 				// var mid from the class data-highslidepeople to build the link
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'classicfilm-id' );
-				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
-				var url_imdbperso = lumiere_vars.urlpopup_film + '/?mid=' + misc_term;
+				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_filmid' );
+				var url_imdbperso = lumiere_vars.urlpopup_film + '?mid=' + misc_term;
 
 				// classic popup
 				window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + tmppopupLarg + ', height=' + tmppopupLong + ', top=5, left=5' );
@@ -87,16 +82,6 @@ jQuery( '.historyback' ).click(
 
 /**** popups all
 *
-*/
-
-// send close command on click on X of highslide popup
-// this is a trick to make highslide CSP compliant
-/* doesn't work
-document.addEventListener('DOMContentLoaded', function () {
-		jQuery(document).click(function(event) {
-		hs.close(event.target);
-	});
-});
 */
 
 // executed only if div id lumiere_loader is found
