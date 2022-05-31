@@ -46,13 +46,13 @@ document.addEventListener(
 
 		/* highslide popup, people */
 
-		jQuery( 'a[data-highslidepeople]' ).click(
+		jQuery( 'a[data-modal_window_people]' ).click(
 			function(){
 				// vars from imdb-link-transformer.php
 				var tmppopupLarg = lumiere_vars.popupLarg;
 				var tmppopupLong = lumiere_vars.popupLong;
 				// var mid from the class data-highslidepeople to build the link
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'highslidepeople' );
+				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_people' );
 				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-imdb_person.php?mid=' + misc_term;
 				var url_imdbperso = lumiere_vars.urlpopup_person + '/?mid=' + misc_term;
 				// highslide popup
@@ -74,13 +74,13 @@ document.addEventListener(
 
 		/* highslide popup, movie by title */
 
-		jQuery( 'a[data-highslidefilm]' ).click(
+		jQuery( 'a[data-modal_window_film]' ).click(
 			function(){
 				// vars from imdb-link-transformer.php
 				var tmppopupLarg = lumiere_vars.popupLarg;
 				var tmppopupLong = lumiere_vars.popupLong;
 				// var mid from the class data-highslidepeople to build the link
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'highslidefilm' );
+				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_film' );
 				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
 				var url_imdbperso = lumiere_vars.urlpopup_film + '/?film=' + misc_term;
 				// highslide popup
@@ -102,13 +102,13 @@ document.addEventListener(
 
 		/** highslide popup, movie by imdb id */
 
-		jQuery( 'a[data-highslidefilm-id]' ).click(
+		jQuery( 'a[data-modal_window_filmid]' ).click(
 			function(){
 				// vars from imdb-link-transformer.php
 				var tmppopupLarg = lumiere_vars.popupLarg;
 				var tmppopupLong = lumiere_vars.popupLong;
 				// var mid from the class data-highslidepeople to build the link
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'highslidefilm-id' );
+				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_filmid' );
 				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
 				var url_imdbperso = lumiere_vars.urlpopup_film + '/?mid=' + misc_term;
 				// highslide popup

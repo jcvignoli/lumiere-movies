@@ -57,12 +57,11 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 *  Register frontpage scripts and styles
+	 *  Register scripts and style.
 	 *
 	 */
 	public function lumiere_highslide_register_assets(): void {
 
-		// Register highslide scripts and styles
 		wp_register_script(
 			'lumiere_highslide_core',
 			$this->config_class->lumiere_js_dir . 'highslide/highslide-with-html.min.js',
@@ -83,8 +82,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 			[],
 			$this->config_class->lumiere_version
 		);
-
-		// Register frontpage script
 		wp_register_script(
 			'lumiere_highslide_scripts',
 			$this->config_class->lumiere_js_dir . 'lumiere_highslide_links.min.js',
@@ -95,7 +92,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Add the stylesheet & javascript to frontpage.
+	 * Enqueue stylesheet & javascript.
 	 *
 	 */
 	public function lumiere_highslide_execute_assets (): void {
@@ -120,7 +117,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_link_popup_people ( array $imdb_data_people, int $number ): string {
 
-		return "\n\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="' . sanitize_text_field( $imdb_data_people[ $number ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . sanitize_text_field( $imdb_data_people[ $number ]['name'] ) . '</a>';
+		return "\n\t\t\t" . '<a class="linkincmovie modal_window_people highslide" data-modal_window_people="' . sanitize_text_field( $imdb_data_people[ $number ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . sanitize_text_field( $imdb_data_people[ $number ]['name'] ) . '</a>';
 
 	}
 
@@ -341,8 +338,8 @@ class Highslide_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_imdburl_to_popupurl ( string $text ): string {
 
-		$popup_link_person = '<a class="link-imdblt-highslidepeople highslide" data-highslidepeople="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
-		$popup_link_movie = '<a class="link-imdblt-highslidefilm highslide" data-highslidefilm-id="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
+		$popup_link_person = '<a class="modal_window_people highslide" data-modal_window_people="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
+		$popup_link_movie = '<a class="modal_window_film highslide" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
 		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\/\?.+?|\?.+?|\/?)\"\>~';
@@ -379,7 +376,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 			$popuplong = $this->imdb_admin_values['imdbpopuplong'];
 		}
 
-		return '<a class="link-imdblt-highslidefilm" data-highslidefilm="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
+		return '<a class="modal_window_film" data-modal_window_film="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
 
 	}
 

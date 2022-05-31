@@ -139,7 +139,7 @@ class Settings {
 	public array $lumiere_list_all_pages = [];
 
 	/**
-	 * Paths for javascript frontpage javascripts
+	 * Paths for javascript frontend javascripts.
 	 */
 	public string $lumiere_scripts_vars;
 
@@ -149,7 +149,7 @@ class Settings {
 	public string $lumiere_scripts_admin_vars;
 
 	/**
-	 * Store Lumière plugin version
+	 * Store Lumière plugin version.
 	 */
 	public string $lumiere_version;
 

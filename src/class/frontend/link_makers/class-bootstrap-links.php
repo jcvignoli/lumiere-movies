@@ -62,7 +62,6 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_bootstrap_register_assets(): void {
 
-		// Register bootstrap scripts and styles
 		wp_register_script(
 			'lumiere_bootstrap_core',
 			$this->config_class->lumiere_js_dir . 'bootstrap/bootstrap.bundle.min.js',
@@ -82,8 +81,6 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 			[],
 			$this->config_class->lumiere_version
 		);
-
-		// Register frontpage script
 		wp_register_script(
 			'lumiere_bootstrap_scripts',
 			$this->config_class->lumiere_js_dir . 'lumiere_bootstrap_links.min.js',
@@ -92,7 +89,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 			true
 		);
 
-		// Register frontpage script Popper
+		// Register Popper script.
 		wp_register_script(
 			'lumiere_bootstrap_popper_scripts',
 			$this->config_class->lumiere_js_dir . 'bootstrap/popper.min.js',
@@ -103,7 +100,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Add the stylesheet & javascript to frontpage.
+	 * Enqueue stylesheet & javascript.
 	 *
 	 */
 	public function lumiere_bootstrap_execute_assets (): void {
@@ -115,7 +112,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		}
 
 		// Popper script must load before core
-		// wp_enqueue_script( 'lumiere_bootstrap_popper_scripts' );
+		wp_enqueue_script( 'lumiere_bootstrap_popper_scripts' );
 
 		wp_enqueue_style( 'lumiere_bootstrap_core' );
 
@@ -123,7 +120,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 
 		wp_enqueue_script( 'lumiere_bootstrap_core' );
 
-		// Pass variables to javascript highslide-options.js.
+		// Pass variables to bootstrap javascript lumiere_bootstrap_links.min.js.
 		wp_add_inline_script(
 			'lumiere_bootstrap_options',
 			$this->config_class->lumiere_scripts_vars,
@@ -147,7 +144,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		$output = '';
 
 		// Building link.
-		$output = "\n\t\t\t" . '<a class="linkincmovie link-imdblt-highslidepeople" data-bootstrappeople="' . sanitize_text_field( $imdb_data_people[ $number ]['imdb'] ) . '" data-target="#theModal' . sanitize_text_field( $imdb_data_people[ $number ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . sanitize_text_field( $imdb_data_people[ $number ]['name'] ) . '</a>';
+		$output = "\n\t\t\t" . '<a class="linkincmovie modal_window_people" data-modal_window_people="' . sanitize_text_field( $imdb_data_people[ $number ]['imdb'] ) . '" data-target="#theModal' . sanitize_text_field( $imdb_data_people[ $number ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . sanitize_text_field( $imdb_data_people[ $number ]['name'] ) . '</a>';
 
 		// Modal bootstrap HTML part.
 		$output .= $this->bootstrap_modal( $imdb_data_people[ $number ]['imdb'], $imdb_data_people[ $number ]['name'] );
@@ -366,17 +363,16 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 	/**
 	 * Convert an IMDb url into a Popup link for People and Movies
 	 * Meant to be used inside in posts or widgets (not in Popups)
-	 * Build links using highslide popup
 	 *
 	 * @param string $text Text that includes IMDb URL to convert into a popup link
 	 */
 	public function lumiere_imdburl_to_popupurl ( string $text ): string {
 
-		$popup_link_person = '<a class="linkpopup" data-bootstrappeople="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
+		$popup_link_person = '<a class="linkpopup" data-modal_window_people="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
 			. // Bootstrap modal
 			$this->bootstrap_modal( '${4}', '${6}' );
 
-		$popup_link_movie = '<a class="link-imdblt-highslidefilm" data-bootstrapfilmid="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
+		$popup_link_movie = '<a class="modal_window_film" data-modal_window_filmid="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
 			. // Bootstrap modal
 			$this->bootstrap_modal( '${4}', '${6}' );
 
@@ -415,7 +411,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 			$popuplong = $this->imdb_admin_values['imdbpopuplong'];
 		}
 
-		$output = '<a class="link-imdblt-highslidefilm" data-bootstrapfilm="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" data-target="#theModal' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
+		$output = '<a class="modal_window_film" data-modal_window_film="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" data-target="#theModal' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
 
 		// Bootstrap modal
 		$output .= $this->bootstrap_modal( $link_parsed[1], $link_parsed[1] );
