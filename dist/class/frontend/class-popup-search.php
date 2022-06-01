@@ -64,6 +64,9 @@ class Popup_Search {
 		$this->film_sanitized = Utils::lumiere_name_htmlize( $_GET['film'] );
 		$this->film_sanitized_for_title = esc_html( $_GET['film'] );
 
+		// Remove admin bar
+		add_filter( 'show_admin_bar', '__return_false' );
+
 		// Display layout
 		add_action( 'get_header', [ $this, 'layout' ] );
 		// When set on get_header hook, the popup is fully included in WP environement

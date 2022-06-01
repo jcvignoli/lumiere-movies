@@ -5,7 +5,12 @@
  * This class build pages that are not known by WordPress
  * Virtual pages do not need to be added to WordPress and do not need htaccess
  *
- * @author        Originaly Mr. Hosseini, https://wordpress.stackexchange.com/a/342719/206323, modified by Lost Higway
+ * How to use it: Current class must be called in WordPress with
+ * -> add_action( 'template_redirect', function(new Virtual_Page()) )
+ * Then the class must include the following to fully appear:
+ * -> add_action( 'get_header', [ $this, 'action_starting_the_class' ] );
+ *
+ * @author        Origin: Mr. Hosseini, https://wordpress.stackexchange.com/a/342719/206323, modified: Lost Higway
  * @copyright (c) 2022, Lost Highway
  *
  * @version 1.0
@@ -120,10 +125,10 @@ class Virtual_Page {
 		 * Doesn't seem needed
 		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		$GLOBALS['wp_query'] = $wp_query;
+		 */
 
 		$wp->query = [];
 		$wp->register_globals();
-		 */
 
 	}
 
@@ -168,7 +173,8 @@ class Virtual_Page {
 			$this->wp_post = new WP_Post( $post );
 			$this->update_wp_query();
 
-			@status_header( 200 );
+			//@status_header( 200 ); // removed silencer
+			status_header( 200 );
 			wp_cache_add( -99, $this->wp_post, 'posts' );
 		}
 

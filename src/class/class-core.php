@@ -18,6 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 use \Lumiere\Updates;
 use \Lumiere\Utils;
+use \Lumiere\Search;
 use \Lumiere\Popup_Person;
 use \Lumiere\Popup_Movie;
 use \Lumiere\Popup_Search;
@@ -72,13 +73,24 @@ class Core {
 		add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 0 );
 
 		// Redirect class-search.php
-		add_filter(
-			'init',
-			function(): void {
-				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . \Lumiere\Settings::GUTENBERG_SEARCH_URL ) ) {
-					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::GUTENBERG_SEARCH_PAGE;
-				}
+		// Display only in admin area
+		add_action(
+			'template_redirect',
+			function( $template ) {
+				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) ) {
 
+					// Include needed classes
+					require_once plugin_dir_path( __DIR__ ) . Settings::VIRTUAL_PAGE_MAKER;
+					require_once plugin_dir_path( __DIR__ ) . Settings::GUTENBERG_SEARCH_PAGE;
+
+					// Build the virtual page class
+					return new Virtual_Page(
+						site_url() . Settings::GUTENBERG_SEARCH_URL,
+						new Search(),
+						'Lumiere Query Interface'
+					);
+				}
+				return $template;
 			}
 		);
 
@@ -604,7 +616,7 @@ class Core {
 
 						$title = esc_html__( 'Informations about ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies';
 
-						// Include needed classes
+						// Include needed class
 						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_MOVIE_URL;
 
 						// Build the virtual page class
@@ -625,7 +637,7 @@ class Core {
 						? esc_html__( 'Informations about ', 'lumiere-movies' ) . $person_name_sanitized . ' - Lumi&egrave;re movies'
 						: esc_html__( 'Unknown', 'lumiere-movies' ) . '- Lumi&egrave;re movies';
 
-						// Include needed classes
+						// Include needed class
 						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_PERSON_URL;
 
 						// Build the virtual page class
@@ -638,7 +650,8 @@ class Core {
 					case 'search':
 						// Set the title.
 						$filmname_sanitized = isset( $_GET['film'] ) ? ': [' . sanitize_text_field( $_GET['film'] ) . ']' : 'No name entered';
-						// Include needed classes
+
+						// Include needed class
 						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_SEARCH_URL;
 
 						// Build the virtual page class
@@ -675,7 +688,11 @@ class Core {
 		$my_canon = '';
 
 		// Change the metas only for popups.
-		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringfilms ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) ) || ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringperson ) ) ) {
+		if (
+			( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringfilms ) )
+			|| ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) )
+			|| ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringperson ) )
+			) {
 
 			// ADD FAVICONS.
 			echo "\t\t" . '<!-- Lumiere Movies -->';

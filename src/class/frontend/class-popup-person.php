@@ -50,6 +50,9 @@ class Popup_Person {
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'popupPerson' );
 
+		// Remove admin bar
+		add_filter( 'show_admin_bar', '__return_false' );
+
 		// Display layout
 		#add_action( 'wp', [ $this, 'lumiere_popup_person_layout' ], 1 );
 		// When set on get_header hook, the popup is fully included in WP environement
