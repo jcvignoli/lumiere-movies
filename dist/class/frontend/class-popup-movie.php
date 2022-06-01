@@ -73,6 +73,9 @@ class Popup_Movie {
 		// Get the type of search: movies, series, games
 		$this->type_search = $this->config_class->lumiere_select_type_search();
 
+		// Remove admin bar
+		add_filter( 'show_admin_bar', '__return_false' );
+
 		// Display layout
 		#add_action( 'wp', [ $this, 'lumiere_popup_movie_layout' ], 1 );
 		// When set on get_header hook, the popup is fully included in WP environement

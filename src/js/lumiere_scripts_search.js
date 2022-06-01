@@ -1,6 +1,8 @@
-/* Function for Gutenberg search
-*/
+/**
+ * Functions for Gutenberg search
+ */
 
+/** on click, copy the selected IMDb ID */
 spans = document.querySelectorAll( ".lumiere_gutenberg_copy_class" );
 for (const span of spans) {
 	span.onclick = function() {

@@ -686,7 +686,7 @@ class Movie {
 		 * Each one has its own class passed in $link_maker,
 		 * according to which option the lumiere_select_link_maker() found in Frontend.
 		 */
-		$output .= $this->link_maker->lumiere_movies_rating_picture( $rating_sanitized, $votes_sanitized, esc_html__( 'vote average', 'lumiere-movies' ), esc_html__( ' out of 10', 'lumiere-movies' ), esc_html__( 'votes', 'lumiere-movies' ) );
+		$output .= $this->link_maker->lumiere_movies_rating_picture( $rating_sanitized, $votes_sanitized, esc_html__( 'vote average', 'lumiere-movies' ), esc_html__( 'out of 10', 'lumiere-movies' ), esc_html__( 'votes', 'lumiere-movies' ) );
 
 		return $output;
 

@@ -88,7 +88,7 @@ class Search {
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_search_register_script' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_search_run_script' ] );
 
-		add_action( 'wp', [ $this, 'lumiere_search_layout' ] );
+		add_action( 'get_header', [ $this, 'lumiere_search_layout' ] );
 	}
 
 	/**
@@ -106,7 +106,7 @@ class Search {
 		wp_head();
 
 		echo '</head>';
-		echo "\n" . '<body id="gutenberg_search">';
+		echo "\n" . '<body class="gutenberg_search">';
 
 		if ( ! isset( $_GET['moviesearched'] ) || ! isset( $_GET['_wpnonce'] ) || wp_verify_nonce( $_GET['_wpnonce'], 'lumiere_search' ) === false ) {
 			$this->initial_form();
@@ -211,6 +211,10 @@ class Search {
 	 *
 	 */
 	public function lumiere_search_register_script (): void {
+
+		// Remove admin bar
+		add_filter( 'show_admin_bar', '__return_false' );
+
 		wp_register_script(
 			'lumiere_search_admin',
 			$this->config_class->lumiere_js_dir . 'lumiere_scripts_search.min.js',
@@ -220,9 +224,15 @@ class Search {
 		);
 		wp_deregister_script( 'lumiere_hide_show' );
 		wp_deregister_script( 'lumiere_scripts' );
-		wp_deregister_script( 'lumiere_highslide' );
+		wp_deregister_script( 'lumiere_highslide_core' );
+		wp_deregister_script( 'lumiere_bootstrap_core' );
+		wp_deregister_script( 'lumiere_bootstrap_scripts' );
 		wp_deregister_style( 'lumiere_style_oceanwpfixes_general' );
-		wp_deregister_style( 'lumiere_highslide' );
+		wp_deregister_style( 'lumiere_highslide_core' );
+		wp_deregister_style( 'lumiere_bootstrap_core' );
+		wp_deregister_style( 'lumiere_bootstrap_custom' );
+		wp_deregister_style( 'lumiere_gutenberg_main' );
+		wp_deregister_style( 'lumiere_block_widget' );
 
 	}
 
@@ -233,9 +243,4 @@ class Search {
 	public function lumiere_search_run_script (): void {
 		wp_enqueue_script( 'lumiere_search_admin' );
 	}
-}
-
-// Display only in admin area
-if ( current_user_can( 'manage_options' ) ) {
-	new Search();
 }

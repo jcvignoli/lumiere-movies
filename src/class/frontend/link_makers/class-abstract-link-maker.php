@@ -156,9 +156,6 @@ abstract class Abstract_Link_Maker {
 	 */
 	protected function lumiere_movies_rating_picture_abstract ( int $rating, int $votes, string $votes_average_txt, string $out_of_ten_txt, string $votes_txt, int $with_imdb_element_rating ): string {
 
-		// Construct Global Settings trait so we can access imdb_admin_values['imdbplugindirectory']
-		$this->settings_open();
-
 		$output = "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
 		$output .= esc_html__( 'Rating', 'lumiere-movies' );
 		$output .= ':</span>';
@@ -170,7 +167,7 @@ abstract class Abstract_Link_Maker {
 			$output .= ' class="imdbelementRATING-picture"';
 		}
 
-		$output .= ' src="' . $this->imdb_admin_values['imdbplugindirectory'] . 'pics/showtimes/' . ( round( $rating * 2, 0 ) / 0.2 ) . ".gif\" title='$votes_average_txt $rating $out_of_ten_txt' alt='$votes_average_txt' title='$votes_average_txt' / >" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
+		$output .= ' src="' . $this->imdb_admin_values['imdbplugindirectory'] . 'pics/showtimes/' . ( round( $rating * 2, 0 ) / 0.2 ) . ".gif\" title='$votes_average_txt $rating $out_of_ten_txt' alt='$votes_average_txt' />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
 
 		return $output;
 

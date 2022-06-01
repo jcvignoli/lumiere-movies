@@ -266,9 +266,9 @@ color: red;}
 
 /* ---------------------------------------- Gutenberg-search.php */
 
-body#gutenberg_search{margin:20px !important;background-color:grey;color:white;}
-body#gutenberg_search a{background-color:darkslategrey;color:darkgrey;border-radius:10px;padding:5px;}
-body#gutenberg_search a:hover{color:darkslategrey;background-color:darkgrey;border-radius:10px;padding:5px;}
+body.gutenberg_search{margin:20px !important;background-color:grey;color:white;}
+body.gutenberg_search a{background-color:darkslategrey;color:darkgrey;border-radius:10px;padding:5px;}
+body.gutenberg_search a:hover{color:darkslategrey;background-color:darkgrey;border-radius:10px;padding:5px;}
 h1#searchmovie_title {padding:20px;color:white;}
 input#moviesearched{ width:60%;background-color:lightyellow;}
 span.label_moviesearched{font-size:larger !important;padding:10px;}
