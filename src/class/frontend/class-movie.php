@@ -317,7 +317,7 @@ class Movie {
 		preg_match( '/<span data-lum_link_maker="popup">(.+?)<\/span>/i', $correspondances, $link_parsed );
 
 		/**
-		 * Use Highslide, Classical or No Links class links builder.
+		 * Use links builder classes.
 		 * Each one has its own class passed in $link_maker,
 		 * according to which option the lumiere_select_link_maker() found in Frontend.
 		 */
@@ -340,7 +340,7 @@ class Movie {
 		preg_match( '/<!--imdb-->(.*?)<!--\/imdb-->/i', $correspondances, $link_parsed );
 
 		/**
-		 * Use Highslide, Classical or No Links class links builder.
+		 * Use links builder classes.
 		 * Each one has its own class passed in $link_maker,
 		 * according to which option the lumiere_select_link_maker() found in Frontend.
 		 */
@@ -523,7 +523,7 @@ class Movie {
 	/**
 	 * Display the picture
 	 *
-	 * @since 3.7 improved compatibility with AMP WP plugin
+	 * @since 3.7 improved compatibility with AMP WP plugin in relevant class
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -532,7 +532,7 @@ class Movie {
 		$output = '';
 
 		/**
-		 * Use Highslide, Classical or No Links class links builder.
+		 * Use links builder classes.
 		 * Each one has its own class passed in $link_maker,
 		 * according to which option the lumiere_select_link_maker() found in Frontend.
 		 */
@@ -676,18 +676,12 @@ class Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-		$output .= esc_html__( 'Rating', 'lumiere-movies' );
-		$output .= ':</span>';
-
-		$output .= ' <img ';
-		// This class breaks AMP
-		if ( in_array( 'AMP', $this->plugins_in_use, true ) === false ) {
-			$output .= 'class="imdbelementRATING-picture" ';
-		}
-		$output .= 'src="' . $this->imdb_admin_values['imdbplugindirectory'] . 'pics/showtimes/' . ( round( $rating_sanitized * 2, 0 ) / 0.2 ) .
-			'.gif" title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . $rating_sanitized . esc_html__( ' out of 10', 'lumiere-movies' ) . '" alt="vote average" title="vote average" / >';
-		$output .= ' (' . number_format( $votes_sanitized, 0, '', "'" ) . ' ' . esc_html__( 'votes', 'lumiere-movies' ) . ')';
+		/**
+		 * Use links builder classes.
+		 * Each one has its own class passed in $link_maker,
+		 * according to which option the lumiere_select_link_maker() found in Frontend.
+		 */
+		$output .= $this->link_maker->lumiere_movies_rating_picture( $rating_sanitized, $votes_sanitized, esc_html__( 'vote average', 'lumiere-movies' ), esc_html__( ' out of 10', 'lumiere-movies' ), esc_html__( 'votes', 'lumiere-movies' ) );
 
 		return $output;
 
@@ -854,6 +848,11 @@ class Movie {
 			$currentquotes = preg_replace( '~<p>~', "\n\t\t\t<div>", $quotes[ $i ] ) ?? $quotes[ $i ];
 			$currentquotes = preg_replace( '~</p>~', "\n\t\t\t</div>", $currentquotes ) ?? $currentquotes;
 
+			/**
+			 * Use links builder classes.
+			 * Each one has its own class passed in $link_maker,
+			 * according to which option the lumiere_select_link_maker() found in Frontend.
+			 */
 			$output .= "\n\t\t\t" . $this->link_maker->lumiere_imdburl_to_popupurl( $currentquotes );
 
 			if ( $i < ( $nbquotes - 1 ) && $i < ( $nbtotalquotes - 1 ) ) {
@@ -1546,7 +1545,7 @@ class Movie {
 	/**
 	 * Display the credit link
 	 *
-	 * @param \Imdb\Title $movie -> IMDb ID, not as int since it loses its leading 0
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
 	private function lumiere_movies_source( \Imdb\Title $movie ): string {
 
@@ -1575,10 +1574,10 @@ class Movie {
 	/**
 	 * Do taxonomy layouts and register taxonomy terms
 	 *
-	 * @param string $type_item the general category of the item, ie 'director', 'color'
-	 * @param string $first_title the name of the first string to display, ie "Stanley Kubrick"
-	 * @param string $second_title the name of a second string to display, utilised in $layout 'two', ie "director"
-	 * @param string $layout the type of the layout, either 'one' or 'two'
+	 * @param string $type_item mandatory: the general category of the item, ie 'director', 'color'
+	 * @param string $first_title mandatory: the name of the first string to display, ie "Stanley Kubrick"
+	 * @param string $second_title optional: the name of a second string to display, utilised in $layout 'two', ie "director"
+	 * @param string $layout optional: the type of the layout, either 'one' or 'two', one by default
 	 *
 	 * @return string the text to be outputed
 	 */

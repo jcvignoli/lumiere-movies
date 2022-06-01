@@ -310,11 +310,10 @@ class AMP_Links extends Abstract_Link_Maker {
 	 * @param string $name prod company name
 	 * @param string $url Url to the prod company
 	 * @param string $notes prod company notes
+	 * @return string
 	 */
 	public function lumiere_movies_prodcompany_details ( string $name, string $url = '', string $notes = '' ): string {
-
 		return esc_attr( $name ) . '<br />';
-
 	}
 
 	/**
@@ -322,6 +321,7 @@ class AMP_Links extends Abstract_Link_Maker {
 	 *
 	 * @param string $url Url to the prod company
 	 * @param string $name prod company name
+	 * @return string
 	 */
 	public function lumiere_movies_officialsites_details ( string $url, string $name ): string {
 
@@ -335,6 +335,7 @@ class AMP_Links extends Abstract_Link_Maker {
 	 * Plots data details
 	 *
 	 * @param string $plot Text of the plot
+	 * @return string
 	 */
 	public function lumiere_movies_plot_details ( string $plot ): string {
 
@@ -346,6 +347,7 @@ class AMP_Links extends Abstract_Link_Maker {
 	 * Source data details
 	 *
 	 * @param string $mid IMDb ID of the movie
+	 * @return string
 	 */
 	public function lumiere_movies_source_details ( string $mid ): string {
 
@@ -359,4 +361,22 @@ class AMP_Links extends Abstract_Link_Maker {
 
 	}
 
+	/**
+	 * Image for the ratings
+	 *
+	 * @param int $rating mandatory Rating number
+	 * @param int $votes mandatory Number of votes
+	 * @param string $votes_average_txt mandatory Text mentionning "vote average"
+	 * @param string $out_of_ten_txt mandatory Text mentionning "out of ten"
+	 * @param string $votes_txt mandatory Text mentionning "votes"
+	 *
+	 * @return string
+	 */
+	public function lumiere_movies_rating_picture ( int $rating, int $votes, string $votes_average_txt, string $out_of_ten_txt, string $votes_txt ): string {
+
+		// Function in abstract class, last param with 1 to display class="imdbelementRATING-picture".
+		// class="imdbelementRATING-picture" breaks AMP, so remove it.
+		return $this->lumiere_movies_rating_picture_abstract( $rating, $votes, $votes_average_txt, $out_of_ten_txt, $votes_txt, 0 );
+
+	}
 }

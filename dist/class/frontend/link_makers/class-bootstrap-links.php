@@ -515,5 +515,24 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 				. esc_html__( "IMDb's page for this movie", 'lumiere-movies' ) . '</a>';
 
 	}
+
+	/**
+	 * Image for the ratings
+	 *
+	 * @param int $rating mandatory Rating number
+	 * @param int $votes mandatory Number of votes
+	 * @param string $votes_average_txt mandatory Text mentionning "vote average"
+	 * @param string $out_of_ten_txt mandatory Text mentionning "out of ten"
+	 * @param string $votes_txt mandatory Text mentionning "votes"
+	 *
+	 * @return string
+	 */
+	public function lumiere_movies_rating_picture ( int $rating, int $votes, string $votes_average_txt, string $out_of_ten_txt, string $votes_txt ): string {
+
+		// Function in abstract class, last param with 1 to display class="imdbelementRATING-picture".
+		return $this->lumiere_movies_rating_picture_abstract( $rating, $votes, $votes_average_txt, $out_of_ten_txt, $votes_txt, 1 );
+
+	}
+
 }
 
