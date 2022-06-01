@@ -1,5 +1,5 @@
 /**
- * Build classical links popup 
+ * Build classical links popup
  * Function here are Content Security Policy (CSP) Compliant
  * Needs jquery
  */
