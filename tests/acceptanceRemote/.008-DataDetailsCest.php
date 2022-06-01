@@ -309,11 +309,8 @@ class DataDetailsCest {
 		$I->see('Genre');
 		$I->see('Writers');
 		$I->see('Producers');
-/**
- * Keywords method broken in IMDBPHP
 		$I->see('Keywords');
 		$I->see('queen');
-*/
 		$I->see('Production companies');
 		$I->see('Plots');
 		$I->see('continent of Westeros');

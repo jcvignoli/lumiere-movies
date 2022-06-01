@@ -249,6 +249,9 @@ class Core {
 			$this->config_class->lumiere_version
 		);
 
+		/**
+		 * Don't think it's still needed
+		 *
 		// Register OceanWP theme fixes for popups only
 		wp_register_style(
 			'lumiere_style_oceanwpfixes_popups',
@@ -264,6 +267,7 @@ class Core {
 			[],
 			$this->config_class->lumiere_version
 		);
+		 */
 	}
 
 	/*  Register admin scripts and styles
