@@ -99,19 +99,20 @@ document.addEventListener(
 		 */
 
 		// For HTML select imdbpopup_modal_window, display or remove the long/larg options when bootstrap is selected
-		jQuery( 'select[name=imdbpopup_modal_window]' ).on( 'change',
+		jQuery( 'select[name=imdbpopup_modal_window]' ).on(
+			'change',
 			function(){
 				var value = jQuery( this ).val();
 				if ( value === 'bootstrap' ) {
-					var ele = document.getElementById('imdb_imdbpopuplarg');
+					var ele = document.getElementById( 'imdb_imdbpopuplarg' );
 					ele.style.display = 'none';
-					var ele = document.getElementById('imdb_imdbpopuplong');
+					var ele = document.getElementById( 'imdb_imdbpopuplong' );
 					ele.style.display = 'none';
 				}
 				if ( value !== 'bootstrap' ) {
-					var ele = document.getElementById('imdb_imdbpopuplarg');
+					var ele = document.getElementById( 'imdb_imdbpopuplarg' );
 					ele.style.display = 'inline';
-					var ele = document.getElementById('imdb_imdbpopuplong');
+					var ele = document.getElementById( 'imdb_imdbpopuplong' );
 					ele.style.display = 'inline';
 				}
 			}
