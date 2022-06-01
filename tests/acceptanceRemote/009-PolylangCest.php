@@ -43,10 +43,23 @@ class PolylangCest {
 
 	}
 
+	/** Helper: Select Highslide
+	 * Make sure that Highslide modal window is selected
+	 *
+	 */
+	private function highslide(AcceptanceRemoteTester $I) {
+
+		// Make sure Highslide is active, following tests are run with Highslide
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options');
+		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Highslide", "update_imdbSettings" );
+
+	}
+
 	/** 
 	 * Check if taxonomy works with Polylang
 	 *
 	 * @before login
+	 * @before highslide
 	 *
 	 */
 	public function checkTaxonomyActivationWorksWithPolylang(AcceptanceRemoteTester $I) {
@@ -100,6 +113,4 @@ class PolylangCest {
 	}
 
 }
-
-
 

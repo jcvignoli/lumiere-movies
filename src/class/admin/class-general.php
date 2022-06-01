@@ -264,7 +264,7 @@ class General extends \Lumiere\Admin {
 
 				<div class="lumiere_flex_container">
 
-					<div class="lumiere_flex_auto imdblt_padding_five">&nbsp;
+					<div class="lumiere_flex_auto imdblt_padding_five" id="select_modal_window">&nbsp;
 						<?php
 						echo esc_html__( 'Modal windows', 'lumiere-movies' ) . '&nbsp;';
 
@@ -274,19 +274,20 @@ class General extends \Lumiere\Admin {
 						 * Done with javascript lumiere_scripts_admin.js
 						 */
 						?>
-						<select name="imdbpopup_modal_window">
+
+						<select name="imdbpopup_modal_window" id="imdbpopup_modal_window">
 						<?php
-						echo "\t\t\t\t\t\t" . '<option id="imdbpopup_modal_window_bootstrap" value="bootstrap"';
+						echo "\t\t\t\t\t\t\t" . '<option value="bootstrap"';
 						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'bootstrap' ) {
 							echo ' selected="selected"';
 						}
-						echo ">Bootstrap</option>\n";
-						echo '<option id="imdbpopup_modal_window_highslide" value="highslide"';
+						echo '>Bootstrap</option>';
+						echo "\n\t\t\t\t\t\t\t" . '<option value="highslide"';
 						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {
 							echo ' selected="selected"';
 						}
-						echo ">Highslide</option>\n";
-						echo "\t\t\t\t\t\t" . '<option id="imdbpopup_modal_window_none" value="none"';
+						echo '>Highslide</option>';
+						echo "\n\t\t\t\t\t\t\t" . '<option value="none"';
 						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'none' ) {
 							echo ' selected="selected"';
 						}

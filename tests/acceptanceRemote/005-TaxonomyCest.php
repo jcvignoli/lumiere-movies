@@ -52,6 +52,17 @@ class TaxonomyCest {
 
 	}
 
+	/** Helper: Select Highslide
+	 * Make sure that Highslide modal window is selected
+	 *
+	 */
+	private function highslide(AcceptanceRemoteTester $I) {
+
+		// Make sure Highslide is active, following tests are run with Highslide
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options');
+		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Highslide", "update_imdbSettings" );
+
+	}
 	/**
 	 * Helper: Enable taxonomy
 	 * @before login
@@ -143,6 +154,7 @@ class TaxonomyCest {
 
 		// Check that the template has been successfully implemented
 		$I->amOnPage('/2021/test-codeception/');
+		$I->scrollTo( '#title_Werewolf' );
 		$I->click( "Tony Zarindast");
 		$I->wait(2);
 		$I->see('Tehran');
@@ -181,18 +193,20 @@ class TaxonomyCest {
 	/**
 	 * Check if taxonomy deactivation/activation produce expected results
 	 * @before login
+	 * @before highslide
 	 *
 	 */
 	public function checkTaxonomyActivation(AcceptanceRemoteTester $I) {
 
 		/* VARS */
 		// popup link person Tony Zarindast
-		$element = 'a[data-highslidepeople="0953494"]';
-		$sub_url = '/lumiere/person/0953494/?mid=0953494';
+		$element = 'a[data-modal_window_people="0953494"]';
+		$sub_url = '/lumiere/person/?mid=0953494';
 
 		$I->wantTo('Check if auto widget taxonomy option works');
 
 		$I->amOnPage('/2021/test-codeception/');
+		$I->scrollTo( '#title_Werewolf' );
 		$I->click( "Tony Zarindast");
 		$I->see('Tehran');
 
@@ -207,8 +221,6 @@ class TaxonomyCest {
 		$I->see('Golden Cage');
 
 	}
-
-
 
 	/** Run needed actions AFTER closing the class
 	 *

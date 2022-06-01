@@ -1,8 +1,9 @@
 <?php
 
 # Class meant to test remote wordpress install (a WebDriver is needed for JS execution)
+# Doesn't work, doesn't find the iframe
 
-class PopupsCest {
+class PopupsBootstrapCest {
 
 	/** Stock the base remote URL
 	 *
@@ -41,12 +42,18 @@ class PopupsCest {
 
 	/** Is popup movie functional?
 	 *
+	 * @before login
+	 *
 	 */
 	public function checkPopupMovie(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
 
+		// Make sure Highslide is active, following tests are run with Highslide
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options');
+		$I->customSelectOption( "form select[name=imdbpopup_modal_window]", "Bootstrap", "update_imdbSettings" );
+
 		// popup link movie interstellar
-		$element = 'a[data-highslidefilm="interstellar"]';
-		$sub_url = '/lumiere/film/interstellar/?film=interstellar';
+		$element = 'a[data-modal_window_film="interstellar"]';
+		$sub_url = '/lumiere/film/?film=interstellar';
 
 		$I->wantTo('Check if popup movie can be open');
 		$I->amOnPage('/2021/test-codeception/');
@@ -63,8 +70,8 @@ class PopupsCest {
 	public function checkPopupPerson(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
 
 		// popup link actor Jorge Rivero
-		$element = 'a[data-highslidepeople="0729473"]';
-		$sub_url = '/lumiere/person/0729473/?mid=0729473';
+		$element = 'a[data-modal_window_people="0729473"]';
+		$sub_url = '/lumiere/person/?mid=0729473';
 
 		$I->wantTo('Check if popup person can be open');
 		$I->amOnPage('/2021/test-codeception/');

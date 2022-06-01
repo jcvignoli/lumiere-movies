@@ -61,9 +61,13 @@ trait AcceptanceTrait {
 	 */
 	function customSelectOption($element, $option, $submit){
 
-		$this->selectOption($element, $option);
-		$this->click("$submit");
-		$this->comment("[Action] Selection has been switch to '$option");
+		try {
+			$this->selectOption($element, $option);
+			$this->click("$submit");
+			$this->comment("[Action] Selection has been switched to '$option");
+		} catch (\PHPUnit_Framework_AssertionFailedError | \NoSuchElementException | \Exception $f) {
+			$this->comment("[No Action] $option was already selected.");
+		} 
 
 	}
 
