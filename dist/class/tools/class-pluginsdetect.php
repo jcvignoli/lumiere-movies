@@ -27,6 +27,14 @@ class PluginsDetect {
 	public array $plugins_class = [];
 
 	/**
+	 * Activate OceanWP template compatibility
+	 * Whether activate OceanWP functions in Lumière!
+	 * @var bool $lumiere_oceanwp_active set to false to unactivate
+	 * @todo: make it dependent of an option in WP admin
+	 */
+	public bool $lumiere_oceanwp_active = true;
+
+	/**
 	 * Activate AMP compatibility
 	 * Whether activate AMP functions in Lumière!
 	 * @var bool $lumiere_amp_active set to false to unactivate
@@ -75,6 +83,25 @@ class PluginsDetect {
 			$this->plugins_class[] = 'POLYLANG';
 		}
 
+		// OceanWP
+		if ( $this->oceanwp_is_active() === true ) {
+			$this->plugins_class[] = 'OCEANWP';
+		}
+
+	}
+
+	/**
+	 * Determine whether OceanWP is activated
+	 *
+	 * @return bool true if OceanWP them is active
+	 */
+	protected function oceanwp_is_active(): bool {
+
+		if ( $this->lumiere_oceanwp_active === false ) {
+			return false;
+		}
+
+		return class_exists( 'OCEANWP_Theme_Class' );
 	}
 
 	/**
