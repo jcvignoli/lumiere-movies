@@ -2,6 +2,9 @@
 /**
  * Class for displaying movies. This class automatically catches spans. It displays taxonomy links and add taxonomy according to the selected options
  *
+ * The class uses \Lumiere\Link_Makers\Link_Factory to automatically select the appropriate Link maker class to display data ( i.e. Classic links, Highslide/Bootstrap, No Links, AMP)
+ * It is compatible with Polylang WP plugin
+ * It uses ImdbPHP Classes to display movies/people data
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -125,6 +128,8 @@ class Movie {
 
 			$this->link_maker = $this->factory_class->lumiere_select_link_maker();
 			$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+
+			// Set the trigger to true so it is not called again.
 			$this->link_maker_trigger = true;
 
 		}
