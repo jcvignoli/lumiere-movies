@@ -30,7 +30,6 @@ class PluginsDetect {
 	 * Activate OceanWP template compatibility
 	 * Whether activate OceanWP functions in Lumière!
 	 * @var bool $lumiere_oceanwp_active set to false to unactivate
-	 * @todo: make it dependent of an option in WP admin
 	 */
 	public bool $lumiere_oceanwp_active = true;
 
@@ -38,7 +37,6 @@ class PluginsDetect {
 	 * Activate AMP compatibility
 	 * Whether activate AMP functions in Lumière!
 	 * @var bool $lumiere_amp_active set to false to unactivate
-	 * @todo: make it dependent of an option in WP admin
 	 */
 	public bool $lumiere_amp_active = true;
 
@@ -46,7 +44,6 @@ class PluginsDetect {
 	 * Activate Polylang compatibility
 	 * Whether activate Polylang functions in Lumière!
 	 * @var bool $lumiere_polylang_active set to false to unactivate
-	 * @todo: make it dependent of an option in WP admin
 	 */
 	public bool $lumiere_polylang_active = true;
 
@@ -130,11 +127,7 @@ class PluginsDetect {
 			return false;
 		}
 
-		if ( function_exists( 'pll_count_posts' ) ) {
-			return true;
-		}
-
-		return false;
+		return function_exists( 'pll_count_posts' );
 
 	}
 
