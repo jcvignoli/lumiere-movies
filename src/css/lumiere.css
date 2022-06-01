@@ -236,11 +236,11 @@ padding: 20px 20px 0 10px;}
 .linkincmovie, .linktaxonomy {color: #909090;text-decoration: none;}/** link to a popup */
 .linkincmovie:hover, .linktaxonomy:hover {color: #A8A8A8;text-decoration:none;}
 
-.link-imdblt-classicfilm, .modal_window_film { /*link to a movie popup */
+.link-imdblt-classicfilm, .modal_window_film, .modal_window_filmid { /*link to a movie popup */
 background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;padding-left: 16px;text-decoration: none;cursor:pointer;}
 
 .link-imdblt-classicpeople, .modal_window_people  { /*link to a people popup */
-text-decoration: none;cursor:pointer;}
+text-decoration: none !important;cursor:pointer;}
 
 .link-incmovie-sourceimdb {color:dimgrey;} /* from functions.php, build the link to imdb */
 

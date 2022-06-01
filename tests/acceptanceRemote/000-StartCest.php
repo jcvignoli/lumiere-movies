@@ -40,7 +40,6 @@ class StartCest {
 		$I->CustomSeeExit('Blog ext');
 	}
 
-
 	/** Activate plugin
 	 *
 	 * @before login
@@ -61,6 +60,18 @@ class StartCest {
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomDisableCheckbox('#imdb_imdbdebug_yes', '#update_imdbSettings');
+	}
+
+	/** Activate Highslide modal window, most of the tests are run with Highslide
+	 *
+	 * @before login
+	 *
+	 */
+	public function enableHighslide(AcceptanceRemoteTester $I) {
+		$I->wantTo('Enable Highslide');
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options');
+		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "highslide", "update_imdbSettings" );
+
 	}
 
 }

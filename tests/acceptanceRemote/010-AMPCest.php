@@ -43,10 +43,23 @@ class AMPCest {
 
 	}
 
+	/** Helper: Select Highslide
+	 * Make sure that Highslide modal window is selected
+	 *
+	 */
+	private function highslide(AcceptanceRemoteTester $I) {
+
+		// Make sure Highslide is active, following tests are run with Highslide
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options');
+		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Highslide", "update_imdbSettings" );
+
+	}
+
 	/** 
 	 * Check if taxonomy works with AMP
 	 *
 	 * @before login
+	 * @before highslide
 	 *
 	 */
 	public function checkIfAMPworks(AcceptanceRemoteTester $I) {
@@ -59,15 +72,12 @@ class AMPCest {
 
 		// Check if AMP is functional and remove links
 		$I->amOnPage('/2021/test-codeception/?amp');
-		$I->seeInPageSource('<div class="lumiere_align_left lumiere_flex_auto">Peter Dinklage</div>');
+		$I->seeInPageSource('<a class="linkpopup" href="https://www.jcvignoli.com/blogpourext/lumiere/person/?mid=0227759&amp;amp" title="internal link to">Peter Dinklage</a></div>');
 
 		// Check if without AMP it is functional
 		$I->amOnPage('/2021/test-codeception/');
-		$I->seeInPageSource('<a class="linkincmovie link-imdblt-highslidepeople highslide" data-highslidepeople="0227759" title="open a new window with IMDb informations">Peter Dinklage</a>');
+		$I->seeInPageSource('<a class="linkincmovie modal_window_people highslide" data-modal_window_people="0227759" title="open a new window with IMDb informations">Peter Dinklage</a>');
 
 	}
 
 }
-
-
-

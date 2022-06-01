@@ -82,11 +82,12 @@ class SearchCest {
 		$I->click('a[data-lumiere_admin_popup="no data"]');
 
 		// Search in the window
-/*		$I->switchToWindow("popup");
+		$I->switchToWindow("popup");
 		$I->fillField('#moviesearched', '2001');
 		$I->click('Search');
 		$I->see('2001: A Space Odyssey (1968)');
 		$I->see('0062622');
+/*
 		$I->click("#imdbid_0062622");
 can't get this work
 */
