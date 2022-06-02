@@ -25,7 +25,6 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use \Lumiere\Settings;
-use \Lumiere\Utils;
 
 class No_Links extends Abstract_Link_Maker {
 
@@ -171,7 +170,8 @@ class No_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_popup_film_link ( array $link_parsed, string $popuplarg = null, string $popuplong = null ): string {
 
-		return '<a class="link-imdblt-classicfilm" href="' . $this->config_class->lumiere_urlpopupsfilms . $link_parsed[1] . '?film=' . $link_parsed[1] . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
+		// Function in abstract class, fourth param for AMP.
+		return $this->lumiere_popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong, 2 );
 
 	}
 

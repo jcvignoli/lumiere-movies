@@ -153,9 +153,6 @@ class Popup_Movie {
 		}
 		echo '">';
 
-		// Used by bootstrap
-		echo '<span class="spinner-border text-primary spinner-custom" id="spinner" role="status"><span class="sr-only"></span></span>';
-
 		// Set up class properties.
 		$this->find_movie();
 

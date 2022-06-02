@@ -222,15 +222,8 @@ class Classic_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_popup_film_link ( array $link_parsed, string $popuplarg = null, string $popuplong = null ): string {
 
-		if ( $popuplarg !== null ) {
-			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
-		}
-
-		if ( $popuplong !== null ) {
-			$popuplong = $this->imdb_admin_values['imdbpopuplong'];
-		}
-
-		return '<a class="modal_window_film" data-modal_window_film="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
+		// Function in abstract class, fourth param for bootstrap.
+		return $this->lumiere_popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong );
 
 	}
 
