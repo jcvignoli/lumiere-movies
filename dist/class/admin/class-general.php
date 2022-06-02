@@ -646,7 +646,9 @@ class General extends \Lumiere\Admin {
 					?>
 					/>
 
-					<div class="explain"><?php esc_html_e( 'Remove all links (popup and external ones) which are automatically added. Usefull for users who are not interested in popup function. Please note that it will remove every single HTML link as well, such as the the links to the official IMDb website.', 'lumiere-movies' ); ?><br /><br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
+					<div class="explain"><?php esc_html_e( 'Remove all links (popup and external ones) which are automatically added. Usefull for users who are not interested in popup function. Please note that it will remove every single HTML link as well, such as the the links to the official IMDb website.', 'lumiere-movies' );
+					echo ' ';
+					esc_html_e( 'Please also note that specific links such as to taxonomy pages and inside the post will be kept.', 'lumiere-movies' ); ?><br /><br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
 
 				</div>
 
