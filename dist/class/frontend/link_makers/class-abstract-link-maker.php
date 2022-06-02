@@ -538,7 +538,7 @@ abstract class Abstract_Link_Maker {
 		}
 
 		// Building link.
-		$txt = "\n\t\t\t" . '<a class="' . $specific_a_class . '"'
+		$txt = "\n\t\t\t" . '<a class="' . $specific_a_class . '"' . " id='link-$imdbid'"
 		. ' data-modal_window_people="' . sanitize_text_field( $imdbid ) . '"'
 		// Data target is utilised by bootstrap only, but should be safe to keep it.
 		. ' data-target="#theModal' . sanitize_text_field( $imdbid ) . '"'

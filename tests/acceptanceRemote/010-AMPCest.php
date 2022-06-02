@@ -72,11 +72,11 @@ class AMPCest {
 
 		// Check if AMP is functional and remove links
 		$I->amOnPage('/2021/test-codeception/?amp');
-		$I->seeInPageSource('<a class="linkpopup" href="https://www.jcvignoli.com/blogpourext/lumiere/person/?mid=0227759&amp;amp" title="internal link to">Peter Dinklage</a></div>');
+		$I->seeInPageSource('<a class="linkpopup" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="https://www.jcvignoli.com/blogpourext/lumiere/person/?mid=0227759&amp;amp">Peter Dinklage</a></div>');
 
 		// Check if without AMP it is functional
 		$I->amOnPage('/2021/test-codeception/');
-		$I->seeInPageSource('<a class="linkincmovie modal_window_people highslide" data-modal_window_people="0227759" title="open a new window with IMDb informations">Peter Dinklage</a>');
+		$I->seeInPageSource('<a class="linkincmovie modal_window_people highslide" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a></div>');
 
 	}
 

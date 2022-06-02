@@ -88,7 +88,7 @@ class PolylangCest {
 		// Check if polylang options are available
 		$I->amOnPage('/2021/test-codeception/');
 		$I->click( "Tony Zarindast");
-		$I->scrollTo('#highslide_pic');
+		$I->scrollTo('.imdbincluded-picture');
 		$I->seeInPageSource('Filter language');
 		$I->seeInPageSource('Español');
 		$I->seeInPageSource('English');
@@ -101,7 +101,7 @@ class PolylangCest {
 		// Check if polylang options are available
 		$I->amOnPage('/2021/test-codeception/');
 		$I->click( "Tony Zarindast");
-		$I->scrollTo('#highslide_pic');
+		$I->scrollTo('.imdbincluded-picture');
 		$I->dontSeeInPageSource('Filter language');
 		$I->dontSeeInPageSource('Español');
 		$I->dontSeeInPageSource('Français');
