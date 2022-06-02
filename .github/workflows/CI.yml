@@ -16,12 +16,37 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v2
 
+      - name: "Setup PHP extension caching"
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ env.php-version }}
+          extensions: ${{ env.php-extensions }}
+          key: php-extensions-${{ runner.os }}-foov1-${{ env.cache-version }}
+
+      - name: "Cache extensions"
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}-foov1
+          restore-keys: ${{ steps.extcache.outputs.key }}-foov1
+
       - name: "Setup PHP"
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.php-version }}
           extensions: ${{ env.php-extensions }}
           coverage: none
+
+      - name: "Cache Composer dependencies"
+        uses: actions/cache@v2
+        with:
+          path: "~/.composer/cache"
+          key: composer-dependencies-${{ runner.os }}-foov1-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+          restore-keys: |
+            composer-dependencies-${{ runner.os }}-foov1-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+            composer-dependencies-${{ runner.os }}-foov1-${{ env.cache-version }}-
+            composer-dependencies-${{ runner.os }}-
 
       - name: "Install Composer dependencies"
         run: |
