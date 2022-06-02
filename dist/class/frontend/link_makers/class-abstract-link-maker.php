@@ -358,4 +358,81 @@ abstract class Abstract_Link_Maker {
 		return $output_two;
 
 	}
+
+	/**
+	 * Convert an IMDb url into a popup link for People and Movies
+	 * Meant to be used inside popups (not in posts or widgets)
+	 *
+	 * @param string $text Text that includes IMDb URL to convert into an internal link
+	 * @param int $output Define the output: 0 for links (default), 1 regular popups, 2 for no links, 3 for bootstrap
+	 * @param string $specific_class Extra class to be added in popup building link, none by default
+	 *
+	 * @return string
+	 */
+	protected function lumiere_imdburl_to_popupurl_abstract ( string $text, int $output = 0, string $specific_class = '' ): string {
+
+		$popup_link_person = '';
+		$popup_link_movie = '';
+
+		if ( intval( $output ) === 0 ) {
+			// Build regular popups.
+			$popup_link_person = '<a class="modal_window_people ' . $specific_class . '" data-modal_window_people="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
+			$popup_link_movie = '<a class="modal_window_film ' . $specific_class . '" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
+		} elseif ( intval( $output ) === 1 ) {
+			// No popups, build internal links.
+			$popup_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">${6}</a>';
+			$popup_link_movie = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">${6}</a>';
+		} elseif ( intval( $output ) === 3 ) {
+			// Bootstrap popups
+			$popup_link_person = '<a class="linkpopup" data-modal_window_people="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
+			. $this->bootstrap_modal( '${4}', '${6}' );
+
+			$popup_link_movie = '<a class="modal_window_film" data-modal_window_filmid="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
+			. $this->bootstrap_modal( '${4}', '${6}' );
+		}
+
+		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
+		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\/\?.+?|\?.+?|\/?)\"\>(.*?)<\/a>~';
+		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>(.*?)<\/a>~';
+
+		// Pattern found in soundtrack.
+		if ( strpos( $text, 'https://www.imdb.com/' ) === false ) {
+			$rule_name = '~(<a href=\")(\/name\/)(nm)(\d{7})(\?.+?|\/?)\"\>(.*?)<\/a>~';
+			$rule_title = '~(<a href=\")(\/title\/)(tt)(\d{7})(\?.+?|\/?)\"\>(.*?)<\/a>~';
+		}
+
+		// Replace IMDb links with popup links.
+		$output_one = preg_replace( $rule_name, $popup_link_person, $text ) ?? $text;
+		$output_two = preg_replace( $rule_title, $popup_link_movie, $output_one ) ?? $text;
+
+		return $output_two;
+
+	}
+
+	/**
+	 * Build bootstrap HTML part
+	 * This HTML code enable to display bootstrap modal window
+	 * Using spans instead of divs to not break the regex replace in content (WP adds extra <p> when divs are used)
+	 *
+	 * @param string $imdb_id Id of the IMDB person/movie
+	 * @param string $imdb_data Name/title of the IMDB person/movie
+	 *
+	 * @return string
+	 */
+	protected function bootstrap_modal ( string $imdb_id, string $imdb_data ): string {
+
+		return "\n\t\t\t" . '<span class="modal fade" id="theModal' . sanitize_text_field( $imdb_id ) . '">'
+			. "\n\t\t\t\t" . '<span class="modal-dialog modal-dialog-centered" id="bootstrapp' . sanitize_text_field( $imdb_id ) . '">'
+			. "\n\t\t\t\t\t" . '<span class="modal-content">'
+			. "\n\t\t\t\t\t\t" . '<span class="modal-header black">'
+			// . esc_html__( 'Informations about', 'lumiere-movies' ) . ' ' . sanitize_text_field( ucfirst( $imdb_data ) )
+			. '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . sanitize_text_field( $imdb_id ) . '"></button>'
+			. "\n\t\t\t\t\t\t" . '</span>'
+			. "\n\t\t\t\t\t\t" . '<span class="modal-body"></span>'
+			. "\n\t\t\t\t\t" . '</span>'
+			. "\n\t\t\t\t" . '</span>'
+			. "\n\t\t\t" . '</span>';
+
+	}
+
 }
