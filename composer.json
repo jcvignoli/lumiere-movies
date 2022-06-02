@@ -35,7 +35,7 @@
         "skaut/wordpress-stubs": "^2.2"
     },
     "scripts": {
-        "phpcs": "vendor/bin/phpcs",
+        "phpcs": "vendor/bin/phpcs src",
         "phpstan": "vendor/bin/phpstan",
         "lint": ["phpcs", "phpstan"]
     }
