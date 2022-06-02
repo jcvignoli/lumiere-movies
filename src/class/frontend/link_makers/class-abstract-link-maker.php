@@ -545,7 +545,7 @@ abstract class Abstract_Link_Maker {
 		. ' title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '"';
 		// AMP, build a HREF.
 		if ( intval( $output ) === 3 ) {
-			$txt .= ' href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=' . esc_attr( $imdbid );
+			$txt .= ' href="' . esc_attr( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $imdbid ) . '"';
 		}
 		$txt .= '>' . sanitize_text_field( $imdbname ) . '</a>';
 
