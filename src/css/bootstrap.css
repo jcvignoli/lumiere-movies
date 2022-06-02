@@ -6,7 +6,7 @@
 /** customize the spinner */
 .spinner-custom{
 width: 3rem;
-height:3rem;
+height: 3rem;
 }
 /** title of modal window */
 .black {
@@ -21,4 +21,9 @@ overflow: auto;
 max-width: 250vh;
 min-height: 60vh;
 overflow-y: hidden;
+}
+/** Remove border image */
+.img-thumbnail {
+	border: none !important;
+	background: none !important;
 }
