@@ -206,24 +206,24 @@ abstract class Abstract_Link_Maker {
 		$photo_url_final = strlen( $photo_localurl ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_localurl;
 
 		// Normal class or Bootstrap class
-		if ( $pictures === 0 || $pictures === 2 ) {
+		if ( $pictures == 0 || $pictures == 2 ) {
 			// removed class="highslide_pic"
 			$output .= "\n\t\t\t\t\t" . '<a title="' . esc_attr( $person_name ) . '" href="' . esc_url( $photo_url_final ) . '">';
 			// AMP class
-		} elseif ( $pictures === 1 ) {
+		} elseif ( $pictures == 1 ) {
 			$output .= "\n\t\t\t\t\t" . '<a class="nolinks_pic" title="' . esc_attr( $person_name ) . '" href="' . esc_url( $photo_url_final ) . '">';
 			// No Links class
-		} elseif ( $pictures === 3 ) {
+		} elseif ( $pictures == 3 ) {
 			$output .= '';
 		}
 
 		// Build image HTML tag <img>
 		// Any class but AMP
-		if ( $pictures !== 1 ) {
-			$output .= "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right"';
-			// AMP class, loading="eager" breaks AMP
-		} elseif ( $pictures === 1 ) {
+		if ( $pictures == 1 ) {
 			$output .= "\n\t\t\t\t\t\t" . '<img class="imdbincluded-picture lumiere_float_right"';
+			// AMP class, loading="eager" breaks AMP
+		} elseif ( $pictures != 1 ) {
+			$output .= "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right"';
 		}
 		$output .= ' src="' . esc_url( $photo_url_final ) . '" alt="'
 			. esc_html__( 'Photo of', 'lumiere-movies' ) . ' '
@@ -239,7 +239,7 @@ abstract class Abstract_Link_Maker {
 		}
 
 		// Not classic links, so we can close <a>
-		if ( $pictures !== 3 ) {
+		if ( $pictures != 3 ) {
 			$output .= "\n\t\t\t\t\t" . '</a>';
 		}
 
@@ -301,7 +301,7 @@ abstract class Abstract_Link_Maker {
 				. '</span>';
 
 			// No Links class, exit before building clickable biography, show everything at once
-			if ( $output === 1 ) {
+			if ( $output == 1 ) {
 				$bio_text = "\n\t\t\t" . $bio_text;
 				return $bio_head . $bio_text;
 			}
