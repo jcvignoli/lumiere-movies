@@ -287,11 +287,11 @@ class General extends \Lumiere\Admin {
 							echo ' selected="selected"';
 						}
 						echo '>Highslide</option>';
-						echo "\n\t\t\t\t\t\t\t" . '<option value="none"';
-						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'none' ) {
+						echo "\n\t\t\t\t\t\t\t" . '<option value="classic"';
+						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'classic' ) {
 							echo ' selected="selected"';
 						}
-						echo ">None</option>\n"; ?>
+						echo ">Classic</option>\n"; ?>
 						</select>
 						<?php
 						echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. Highslide or Bootstrap are advanced modal windows.', 'lumiere-movies' ) . '<br />' . esc_html__( 'When bootstrap is select, popup height and width cannot be edited.', 'lumiere-movies' ) . '<br />' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html__( 'Bootstrap', 'lumiere-movies' ) . '</div>';

@@ -213,52 +213,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_link_picture_taxonomy ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $person_name ): string {
 
-		$output = '';
-
-		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- star photo -->';
-
-		$output .= "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-		$output .= ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
-		$output .= ' lumiere-padding-lines-common-picture">';
-
-		// Make sure $photo_localurl_true is a string so we can use esc_html() function
-		$photo_localurl_true = is_string( $photo_localurl_true ) ? $photo_localurl_true : '';
-
-		// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
-		$photo_url = $photo_localurl_false !== false && is_string( $photo_localurl_false ) ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl_true );
-
-		// Select picture: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
-		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
-
-		$output .= "\n\t\t\t\t\t" . '<a id="bootstrap_pic" href="' . esc_url( $photo_url_final ) . '">';
-
-		// Build image HTML tag <img>
-		$output .= "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right" src="'
-			. esc_url( $photo_url_final )
-			. '" alt="'
-			. esc_html__( 'Photo of', 'lumiere-movies' )
-			. ' '
-			. esc_attr( $person_name ) . '"';
-
-		// add width only if "Display only thumbnail" is unactive
-		// @since 3.7
-		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
-
-			$output .= ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
-
-			// add 100px width if "Display only thumbnail" is active
-		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
-
-			$output .= ' width="100em"';
-
-		}
-
-		$output .= ' />';
-		$output .= "\n\t\t\t\t\t" . '</a>';
-		$output .= "\n\t\t\t\t" . '</div>';
-
-		return $output;
-
+		return $this->lumiere_link_picture_taxonomy_abstract( $photo_localurl_false, $photo_localurl_true, $person_name, 2 );
 	}
 
 	/**

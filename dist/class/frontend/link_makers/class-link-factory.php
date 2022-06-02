@@ -75,7 +75,7 @@ class Link_Factory {
 			/**
 			 * None was selected in admin options, display classic popups
 			 */
-		} elseif ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'none' ) {
+		} elseif ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'classic' ) {
 			return new Classic_Links();
 		}
 
