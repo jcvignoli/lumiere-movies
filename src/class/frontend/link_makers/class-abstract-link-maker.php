@@ -487,7 +487,7 @@ abstract class Abstract_Link_Maker {
 	 *
 	 * @return string
 	 */
-	protected function bootstrap_modal ( string $imdb_id, string $imdb_data ): string {
+	private function bootstrap_modal ( string $imdb_id, string $imdb_data ): string {
 
 		return "\n\t\t\t" . '<span class="modal fade" id="theModal' . sanitize_text_field( $imdb_id ) . '">'
 			. "\n\t\t\t\t" . '<span class="modal-dialog modal-dialog-centered" id="bootstrapp' . sanitize_text_field( $imdb_id ) . '">'
