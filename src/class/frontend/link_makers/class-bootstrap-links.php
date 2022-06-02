@@ -251,29 +251,9 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_imdburl_to_popupurl ( string $text ): string {
 
-		$popup_link_person = '<a class="linkpopup" data-modal_window_people="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
-			. // Bootstrap modal
-			$this->bootstrap_modal( '${4}', '${6}' );
+		// Function in abstract class, second param for bootstrap.
+		return $this->lumiere_imdburl_to_popupurl_abstract( $text, 3 );
 
-		$popup_link_movie = '<a class="modal_window_film" data-modal_window_filmid="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
-			. // Bootstrap modal
-			$this->bootstrap_modal( '${4}', '${6}' );
-
-		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
-		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\/\?.+?|\?.+?|\/?)\"\>(.*?)<\/a>~';
-		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>(.*?)<\/a>~';
-
-		// Pattern found in soundtrack.
-		if ( strpos( $text, 'https://www.imdb.com/' ) === false ) {
-			$rule_name = '~(<a href=\")(\/name\/)(nm)(\d{7})(\?.+?|\/?)\"\>(.*?)<\/a>~';
-			$rule_title = '~(<a href=\")(\/title\/)(tt)(\d{7})(\?.+?|\/?)\"\>(.*?)<\/a>~';
-		}
-
-		// Replace IMDb links with popup links.
-		$output_one = preg_replace( $rule_name, $popup_link_person, $text ) ?? $text;
-		$output_two = preg_replace( $rule_title, $popup_link_movie, $output_one ) ?? $text;
-
-		return $output_two;
 	}
 
 	/**
@@ -300,33 +280,6 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		$output .= $this->bootstrap_modal( $link_parsed[1], $link_parsed[1] );
 
 		return $output;
-
-	}
-
-	/**
-	 * Build bootstrap HTML part
-	 * This HTML code enable to display bootstrap modal window
-	 * Private function as it is only utilised by this class
-	 * Using spans instead of divs to not break the regex replace in content (WP adds <p>)
-	 *
-	 * @param string $imdb_id Id of the IMDB person/movie
-	 * @param string $imdb_data Name/title of the IMDB person/movie
-	 *
-	 * @return string
-	 */
-	private function bootstrap_modal ( string $imdb_id, string $imdb_data ): string {
-
-		return "\n\t\t\t" . '<span class="modal fade" id="theModal' . sanitize_text_field( $imdb_id ) . '">'
-			. "\n\t\t\t\t" . '<span class="modal-dialog modal-dialog-centered" id="bootstrapp' . sanitize_text_field( $imdb_id ) . '">'
-			. "\n\t\t\t\t\t" . '<span class="modal-content">'
-			. "\n\t\t\t\t\t\t" . '<span class="modal-header black">'
-			// . esc_html__( 'Informations about', 'lumiere-movies' ) . ' ' . sanitize_text_field( ucfirst( $imdb_data ) )
-			. '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . sanitize_text_field( $imdb_id ) . '"></button>'
-			. "\n\t\t\t\t\t\t" . '</span>'
-			. "\n\t\t\t\t\t\t" . '<span class="modal-body"></span>'
-			. "\n\t\t\t\t\t" . '</span>'
-			. "\n\t\t\t\t" . '</span>'
-			. "\n\t\t\t" . '</span>';
 
 	}
 

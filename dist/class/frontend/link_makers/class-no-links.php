@@ -156,15 +156,9 @@ class No_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_imdburl_to_popupurl ( string $text ): string {
 
-		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
-		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\/\?.+?|\?.+?|\/?)\"\>~';
-		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>~';
+		// Function in abstract class, last param for removing all links.
+		return $this->lumiere_imdburl_to_popupurl_abstract( $text, 2 );
 
-		// Replace IMDb links with popup links.
-		$output_one = preg_replace( $rule_name, '', $text ) ?? $text;
-		$output_two = preg_replace( $rule_title, '', $output_one ) ?? $text;
-
-		return $output_two;
 	}
 
 	/**

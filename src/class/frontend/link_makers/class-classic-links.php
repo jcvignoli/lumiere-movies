@@ -207,24 +207,9 @@ class Classic_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_imdburl_to_popupurl ( string $text ): string {
 
-		$popup_link_person = '<a class="modal_window_people" data-modal_window_people="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
-		$popup_link_movie = '<a class="modal_window_film" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">';
+		// Function in abstract class, last param for regular popups.
+		return $this->lumiere_imdburl_to_popupurl_abstract( $text, 0 );
 
-		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
-		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\/\?.+?|\?.+?|\/?)\"\>~';
-		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>~';
-
-		// Pattern found in soundtrack.
-		if ( strpos( $text, 'https://www.imdb.com/' ) === false ) {
-			$rule_name = '~(<a href=\")(\/name\/)(nm)(\d{7})(\?.+?|\/?)\"\>~';
-			$rule_title = '~(<a href=\")(\/title\/)(tt)(\d{7})(\?.+?|\/?)\"\>~';
-		}
-
-		// Replace IMDb links with popup links.
-		$output_one = preg_replace( $rule_name, $popup_link_person, $text ) ?? $text;
-		$output_two = preg_replace( $rule_title, $popup_link_movie, $output_one ) ?? $text;
-
-		return $output_two;
 	}
 
 	/**
