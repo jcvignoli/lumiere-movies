@@ -129,58 +129,8 @@ class Highslide_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_link_picture ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title ): string {
 
-		$output = '';
-
-		// Make sure $photo_localurl_true is a string so we can use esc_html() function
-		$photo_localurl_true = is_string( $photo_localurl_true ) ? $photo_localurl_true : '';
-
-		// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
-		$photo_url = $photo_localurl_false !== false && is_string( $photo_localurl_false ) ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl_true );
-
-		// Select picture: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
-		$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url;
-
-		$output .= "\n\t\t\t" . '<div class="imdbelementPIC">';
-
-		// Link
-		$output .= "\n\t\t\t\t" . '<a class="highslide_pic" href="'
-			. $photo_url_final
-			. '" title="'
-			. esc_attr( $movie_title )
-			. '">';
-
-		// Build image HTML tag <img>
-		$output .= "\n\t\t\t\t\t" . '<img loading="eager" ';
-
-		$output .= 'class="imdbelementPICimg" src="';
-
-		$output .= $photo_url_final
-			. '" alt="'
-			. esc_html__( 'Photo of', 'lumiere-movies' )
-			. ' '
-			. esc_attr( $movie_title ) . '"';
-
-		// add width only if "Display only thumbnail" is unactive
-		// @since 3.7
-		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
-
-			$output .= ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
-
-			// add 100px width if "Display only thumbnail" is active
-		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
-
-			$output .= ' width="100em"';
-
-		}
-
-		$output .= ' />';
-
-		$output .= "\n\t\t\t\t</a>";
-
-		$output .= "\n\t\t\t" . '</div>';
-
-		return $output;
-
+		// Function in abstract class, 2 before last param defines the output, before last param specific A class, last param specific IMG class.
+		return $this->lumiere_link_picture_abstract( $photo_localurl_false, $photo_localurl_true, $movie_title, 0, 'highslide_pic', 'imdbelementPICimg' );
 	}
 
 	/**

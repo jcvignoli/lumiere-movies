@@ -209,7 +209,6 @@ abstract class Abstract_Link_Maker {
 
 		// Normal class or Bootstrap class
 		if ( $pictures == 0 || $pictures == 2 ) {
-			// removed class="highslide_pic"
 			$output .= "\n\t\t\t\t\t" . '<a title="' . esc_attr( $person_name ) . '" href="' . esc_url( $photo_url_final ) . '">';
 			// AMP class
 		} elseif ( $pictures == 1 ) {
@@ -246,6 +245,73 @@ abstract class Abstract_Link_Maker {
 		}
 
 		$output .= "\n\t\t\t\t" . '</div>';
+
+		return $output;
+
+	}
+
+	/**
+	 * Build picture of the movie into the post pages
+	 *
+	 * @param string|bool $photo_localurl_false The picture of big size
+	 * @param string|bool $photo_localurl_true The picture of small size
+	 * @param string $movie_title Title of the movie
+	 * @param int $pictures Pass 0 for Highslide or Classic (default), 1 AMP, 2 Bootstrop, 3 No Links
+	 * @param string $specific_a_class Extra class to be added in the building link, none by default
+	 * @param string $specific_img_class Extra class to be added in the building link, none by default
+	 *
+	 * @return string
+	 */
+	protected function lumiere_link_picture_abstract ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title, int $pictures = 0, $specific_a_class = '', $specific_img_class = '' ): string {
+
+		$output = '';
+		$output .= "\n\t\t\t" . '<div class="imdbelementPIC">';
+
+		// Make sure $photo_localurl_true is a string so we can use esc_html() function
+		$photo_localurl = is_string( $photo_localurl_true ) ? $photo_localurl_true : '';
+
+		// Any class but AMP
+		if ( $pictures !== 1 ) {
+			// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
+			$photo_localurl = $photo_localurl_false !== false && is_string( $photo_localurl_false ) ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl );
+		}
+
+		// Select picture: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
+		$photo_url_final = strlen( $photo_localurl ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_localurl;
+
+		// Normal class or Bootstrap class
+		if ( $pictures === 0 || $pictures === 2 ) {
+			$output .= "\n\t\t\t\t\t" . '<a class="' . $specific_a_class . '" title="' . esc_attr( $movie_title ) . '" href="' . esc_url( $photo_url_final ) . '">';
+			// AMP or No Links class
+		} elseif ( $pictures === 1 || $pictures === 3 ) {
+			$output .= '';
+		}
+
+		// Build image HTML tag <img>
+		$output .= "\n\t\t\t\t\t" . '<img ';
+		// AMP class, loading="eager" breaks AMP
+		if ( $pictures !== 1 ) {
+			$output .= ' loading="eager"';
+		}
+		$output .= ' class="' . $specific_img_class . '" src="' . esc_url( $photo_url_final ) . '" alt="'
+			. esc_html__( 'Photo of', 'lumiere-movies' ) . ' '
+			. esc_attr( $movie_title ) . '"';
+
+		// add width only if "Display only thumbnail" is unactive
+		// @since 3.7
+		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
+			$output .= ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '" />';
+			// add 100px width if "Display only thumbnail" is active
+		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
+			$output .= ' width="100em" />';
+		}
+
+		// Not classic links, so we can close <a>
+		if ( $pictures !== 3 && $pictures !== 1 ) {
+			$output .= "\n\t\t\t\t\t" . '</a>';
+		}
+
+		$output .= "\n\t\t\t" . '</div>';
 
 		return $output;
 
@@ -469,6 +535,8 @@ abstract class Abstract_Link_Maker {
 	 */
 	protected function lumiere_popup_film_link_abstract ( array $link_parsed, string $popuplarg = null, string $popuplong = null, $output = 0, $specific_class = '' ): string {
 
+		$txt = '';
+
 		if ( $popuplarg !== null ) {
 			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
 		}
@@ -480,20 +548,22 @@ abstract class Abstract_Link_Maker {
 		// Highslide & Classic modal
 		if ( intval( $output ) === 0 ) {
 
-			return '<a class="modal_window_film" data-modal_window_film="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
+			$txt = '<a class="modal_window_film" data-modal_window_film="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
 
 			// Bootstrap modal
 		} elseif ( intval( $output ) === 1 ) {
 
-			return '<a class="modal_window_film" data-modal_window_film="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" data-target="#theModal' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;'
+			$txt = '<a class="modal_window_film" data-modal_window_film="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" data-target="#theModal' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;'
 			. $this->bootstrap_modal( $link_parsed[1], $link_parsed[1] );
 
 			// AMP & No Link modal
 		} elseif ( intval( $output ) === 2 ) {
 
-			return '<a class="link-imdblt-classicfilm" href="' . $this->config_class->lumiere_urlpopupsfilms . $link_parsed[1] . '?film=' . $link_parsed[1] . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
+			$txt = '<a class="link-imdblt-classicfilm" href="' . $this->config_class->lumiere_urlpopupsfilms . $link_parsed[1] . '?film=' . $link_parsed[1] . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
 
 		}
+
+		return $txt;
 
 	}
 }
