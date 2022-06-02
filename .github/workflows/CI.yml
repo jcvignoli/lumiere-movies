@@ -22,14 +22,14 @@ jobs:
         with:
           php-version: ${{ env.php-version }}
           extensions: ${{ env.php-extensions }}
-          key: php-extensions-${{ runner.os }}-foov1-${{ env.cache-version }}
+          key: php-extensions-${{ runner.os }}-foov2-${{ env.cache-version }}
 
       - name: "Cache extensions"
         uses: actions/cache@v2
         with:
           path: ${{ steps.extcache.outputs.dir }}
-          key: ${{ steps.extcache.outputs.key }}-foov1
-          restore-keys: ${{ steps.extcache.outputs.key }}-foov1
+          key: ${{ steps.extcache.outputs.key }}-foov2
+          restore-keys: ${{ steps.extcache.outputs.key }}-foov2
 
       - name: "Setup PHP"
         uses: shivammathur/setup-php@v2
@@ -42,10 +42,10 @@ jobs:
         uses: actions/cache@v2
         with:
           path: "~/.composer/cache"
-          key: composer-dependencies-${{ runner.os }}-foov1-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+          key: composer-dependencies-${{ runner.os }}-foov2-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
           restore-keys: |
-            composer-dependencies-${{ runner.os }}-foov1-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
-            composer-dependencies-${{ runner.os }}-foov1-${{ env.cache-version }}-
+            composer-dependencies-${{ runner.os }}-foov2-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+            composer-dependencies-${{ runner.os }}-foov2-${{ env.cache-version }}-
             composer-dependencies-${{ runner.os }}-
 
       - name: "Install Composer dependencies"
