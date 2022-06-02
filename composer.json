@@ -11,7 +11,7 @@
     "require-dev": {
         "codeception/codeception": "^4.1",
         "codeception/module-phpbrowser": "^2.0.3",
-        "codeception/module-asserts": "^1.0.0",
+        "codeception/module-asserts": "^2.0.1",
         "codeception/module-webdriver": "^2.0",
         "codeception/module-db": "^1.0",
         "codeception/module-cli": "^2.0",
