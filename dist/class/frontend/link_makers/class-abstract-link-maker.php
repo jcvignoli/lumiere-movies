@@ -1,6 +1,9 @@
 <?php declare( strict_types = 1 );
 /**
  * Abstract Class for building links
+ * Defines abstract functions utilised in Link Maker classes
+ * Includes protected functions utilised in Link Maker classes for code reuse
+ * Includes Settings traits
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -59,9 +62,8 @@ abstract class Abstract_Link_Maker {
 	 * 3- Build links either to internal (popups) or popups (inside posts/widgets) with $popup_links
 	 *
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
-	 * @param bool $popup_links  If links should be internal or popups. Internal (false) by default.
 	 */
-	abstract protected function lumiere_medaillon_bio ( array $bio_array, bool $popup_links = false ): ?string;
+	abstract protected function lumiere_medaillon_bio ( array $bio_array ): ?string;
 
 	/**
 	 * Convert an IMDb url into an internal link for People and Movies
@@ -247,4 +249,113 @@ abstract class Abstract_Link_Maker {
 
 	}
 
+	/**
+	 * Display mini biographical text, not all people have one
+	 *
+	 * 1- Cut the maximum of characters to be displayed with $click_text
+	 * 2- Detect if there is html tags that can break with $esc_html_breaker
+	 * 3- Build links either to popups (if taxonomy) or internal links (if popup people)
+	 *
+	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
+	 * @param int $output Define the output: 0 for full (default), 1 for no links (AMP, No Link classes)
+	 *
+	 * @return ?string
+	 */
+	protected function lumiere_medaillon_bio_abstract ( array $bio_array, int $output = 0 ): ?string {
+
+		/** Vars */
+		$click_text = esc_html__( 'click to expand', 'lumiere-movies' ); // text for cutting.
+		$max_length = 200; // maximum number of characters before cutting.
+		$bio_head = '';
+		$bio_text = '';
+
+		// Calculate the number of bio results.
+		$nbtotalbio = count( $bio_array );
+		$bio = $nbtotalbio !== 0 ? $bio_array : null;
+
+		// Select the index array according to the number of bio results.
+		$idx = $nbtotalbio < 2 ? $idx = 0 : $idx = 1;
+
+		// Medaillon is displayed in a popup person page, build internal URL
+		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringperson ) ) && ( $bio !== null ) ) {
+			$bio_text = $this->lumiere_imdburl_to_internalurl( $bio[ $idx ]['desc'] );
+			// Medaillon is displayed in a taxonomy page, build popup URL
+		} elseif ( is_tax() && $bio !== null ) {
+			$bio_text = $this->lumiere_imdburl_to_popupurl( $bio[ $idx ]['desc'] );
+		}
+
+		// HTML tags break for 'read more' cutting.
+		// Detects if there is a space next to $max_length; if true, increase the latter to that position.
+		// Use of htmlentities to avoid spaces inside html code (ie innerspace in '<br />').
+		$max_length = strlen( $bio_text ) !== 0 && is_int( strpos( htmlentities( $bio_text ), ' ', $max_length ) ) === true ? strpos( htmlentities( $bio_text ), ' ', $max_length ) : $max_length;
+
+		// Detects if there is html a tag before reaching $max_length.
+		// If true increase max length up to first '/a>' + 3 chars (since the search is made with 3 chars).
+		$esc_html_breaker = strpos( $bio_text, '<a' ) <= $max_length && is_int( strpos( $bio_text, '/a>' ) ) === true ? strpos( $bio_text, '/a>' ) + 3 : $max_length;
+
+		// There is 1/ a bio, and 2/ its lenght is superior to above $esc_html_breaker
+		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
+
+			$bio_head = "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
+				. esc_html__( 'Biography', 'lumiere-movies' )
+				. '</span>';
+
+			// No Links class, exit before building clickable biography, show everything at once
+			if ( $output === 1 ) {
+				$bio_text = "\n\t\t\t" . $bio_text;
+				return $bio_head . $bio_text;
+			}
+
+			$str_one = substr( $bio_text, 0, $esc_html_breaker );
+			$str_two = substr( $bio_text, $esc_html_breaker, strlen( $bio_text ) );
+
+			$bio_text = "\n\t\t\t" . $str_one
+				. "\n\t\t\t" . '<span class="activatehidesection"><strong>&nbsp;(' . $click_text . ')</strong></span> '
+				. "\n\t\t\t" . '<span class="hidesection">'
+				. "\n\t\t\t" . $str_two
+				. "\n\t\t\t" . '</span>';
+
+		}
+
+		return $bio_head . $bio_text;
+
+	}
+
+	/**
+	 * Convert an IMDb url into an internal link for People and Movies
+	 * Meant to be used inside popups (not in posts or widgets)
+	 *
+	 * @param string $text Text that includes IMDb URL to convert into an internal link
+	 * @param int $output Define the output: 0 for links (default), 1 for no links
+	 *
+	 * @return string
+	 */
+	protected function lumiere_imdburl_to_internalurl_abstract ( string $text, int $output = 0 ): string {
+
+		$internal_link_person = '';
+		$internal_link_movie = '';
+
+		if ( intval( $output ) === 0 ) {
+			$internal_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+			$internal_link_movie = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+		}
+
+		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
+		// Common pattern.
+		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\?.+?|\/?)\"\>~';
+		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>~';
+
+		// Pattern found in soundtrack.
+		if ( strpos( $text, 'https://www.imdb.com/' ) === false ) {
+			$rule_name = '~(<a href=\")(\/name\/)(nm)(\d{7})(\?.+?|\/?)\"\>~';
+			$rule_title = '~(<a href=\")(\/title\/)(tt)(\d{7})(\?.+?|\/?)\"\>~';
+		}
+
+		// Replace IMDb links with internal links.
+		$output_one = preg_replace( $rule_name, $internal_link_person, $text ) ?? $text;
+		$output_two = preg_replace( $rule_title, $internal_link_movie, $output_one ) ?? $text;
+
+		return $output_two;
+
+	}
 }

@@ -128,6 +128,7 @@ class AMP_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_link_picture_taxonomy ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $person_name ): string {
 
+		// Function in abstract class, last param defines the output.
 		return $this->lumiere_link_picture_taxonomy_abstract( $photo_localurl_false, $photo_localurl_true, $person_name, 1 );
 
 	}
@@ -135,52 +136,14 @@ class AMP_Links extends Abstract_Link_Maker {
 	/**
 	 * Display mini biographical text, not all people have one
 	 *
-	 * 1- Cut the maximum of characters to be displayed with $click_text
-	 * 2- Detect if there is html tags that can break with $esc_html_breaker
-	 * 3- Build links either to internal (popups) or popups (inside posts/widgets) with $popup_links
-	 *
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
-	 * @param bool $popup_links  If links should be internal or popups. Internal (false) by default.
+	 *
+	 * @return ?string
 	 */
-	public function lumiere_medaillon_bio ( array $bio_array, bool $popup_links = false ): ?string {
+	public function lumiere_medaillon_bio ( array $bio_array ): ?string {
 
-		// Make sure it is always false, since the purpose of the class is to not have popups
-		$popup_links = false;
-
-		/** Vars */
-		$click_text = esc_html__( 'click to expand', 'lumiere-movies' ); // text for cutting.
-		$max_length = 200; // maximum number of characters before cutting.
-
-		// Calculate the number of bio results.
-		$nbtotalbio = count( $bio_array );
-		$bio = $nbtotalbio !== 0 ? $bio_array : null;
-
-		// Select the index array according to the number of bio results.
-		$idx = $nbtotalbio < 2 ? $idx = 0 : $idx = 1;
-
-		// Make sure that bio description returns internal links and no IMDb's.
-		$bio_head = '';
-		$bio_text = '';
-		if ( $bio !== null ) {
-
-			$bio_text = $this->lumiere_imdburl_to_internalurl( $bio[ $idx ]['desc'] );
-
-		}
-
-		$bio_head = "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
-			. esc_html__( 'Biography', 'lumiere-movies' )
-			. '</span>';
-
-		if ( strlen( $bio_text ) !== 0 ) {
-
-			$bio_text = "\n\t\t\t" . $bio_text;
-
-			return $bio_head . $bio_text;
-
-		}
-
-		// No biography text found.
-		return $bio_head . 'No biography found';
+		// Function in abstract class, last param cut the links.
+		return $this->lumiere_medaillon_bio_abstract( $bio_array, 1 );
 
 	}
 
@@ -192,20 +155,9 @@ class AMP_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_imdburl_to_internalurl ( string $text ): string {
 
-		// Internal links.
-		$internal_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
-		$internal_link_movie = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+		// Function in abstract class.
+		return $this->lumiere_imdburl_to_internalurl_abstract( $text );
 
-		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
-		// Common pattern.
-		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\?.+?|\/?)\"\>~';
-		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>~';
-
-		// Replace IMDb links with internal links.
-		$output_one = preg_replace( $rule_name, $internal_link_person, $text ) ?? $text;
-		$output_two = preg_replace( $rule_title, $internal_link_movie, $output_one ) ?? $text;
-
-		return $output_two;
 	}
 
 	/**
