@@ -54,4 +54,4 @@ jobs:
 
       - name: "Lint"
         run: |
-          composer run-script lint
+          composer run-script phpcs
