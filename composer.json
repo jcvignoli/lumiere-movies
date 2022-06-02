@@ -1,4 +1,9 @@
 {
+    "support": {
+        "issues": "https://github.com/jcvignoli/lumiere-movies/issues",
+        "wiki": "https://github.com/jcvignoli/lumiere-movies/wiki",
+        "source": "https://github.com/jcvignoli/lumiere-movies"
+    },
     "require": {
         "imdbphp/imdbphp": "dev-master",
         "monolog/monolog": "^2.3"
@@ -28,5 +33,10 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
         "phan/phan": "^5.3",
         "skaut/wordpress-stubs": "^2.2"
+    },
+    "scripts": {
+        "phpcs": "vendor/bin/phpcs",
+        "phpstan": "vendor/bin/phpstan",
+        "lint": ["phpcs", "phpstan"]
     }
 }
