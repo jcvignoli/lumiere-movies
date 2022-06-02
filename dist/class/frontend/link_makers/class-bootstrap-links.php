@@ -129,14 +129,8 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_link_popup_people ( array $imdb_data_people, int $number ): string {
 
-		$output = '';
-
-		// Building link.
-		$output = "\n\t\t\t" . '<a class="linkincmovie modal_window_people" data-modal_window_people="' . sanitize_text_field( $imdb_data_people[ $number ]['imdb'] ) . '" data-target="#theModal' . sanitize_text_field( $imdb_data_people[ $number ]['imdb'] ) . '" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">' . sanitize_text_field( $imdb_data_people[ $number ]['name'] ) . '</a>';
-
-		// Modal bootstrap HTML part.
-		$output .= $this->bootstrap_modal( $imdb_data_people[ $number ]['imdb'], $imdb_data_people[ $number ]['name'] );
-		return $output;
+		// Function in abstract class, before last param defines the output, last param specific <A> class.
+		return $this->lumiere_link_popup_people_abstract( $imdb_data_people[ $number ]['imdb'], $imdb_data_people[ $number ]['name'], 1, 'linkincmovie modal_window_people' );
 
 	}
 
@@ -145,6 +139,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 	 * @param string|bool $photo_localurl_false The picture of big size
 	 * @param string|bool $photo_localurl_true The picture of small size
 	 * @param string $movie_title Title of the movie
+	 *
 	 * @return string
 	 */
 	public function lumiere_link_picture ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title ): string {

@@ -521,6 +521,44 @@ abstract class Abstract_Link_Maker {
 	}
 
 	/**
+	 * Build link to popup for IMDb people
+	 *
+	 * @param string $imdbid IMDB id
+	 * @param string $imdbname Name of the person
+	 * @param int $output Define the output: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links, 3 for AMP
+	 * @param string $specific_a_class Extra class to be added in popup building link, none by default
+	 *
+	 * @return string
+	 */
+	protected function lumiere_link_popup_people_abstract ( string $imdbid, string $imdbname, $output = 0, $specific_a_class = '' ): string {
+
+		// No link creation, exit
+		if ( intval( $output ) === 2 ) {
+			return esc_attr( $imdbname );
+		}
+
+		// Building link.
+		$txt = "\n\t\t\t" . '<a class="' . $specific_a_class . '"'
+		. ' data-modal_window_people="' . sanitize_text_field( $imdbid ) . '"'
+		// Data target is utilised by bootstrap only, but should be safe to keep it.
+		. ' data-target="#theModal' . sanitize_text_field( $imdbid ) . '"'
+		. ' title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '"';
+		// AMP, build a HREF.
+		if ( intval( $output ) === 3 ) {
+			$txt .= ' href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=' . esc_attr( $imdbid );
+		}
+		$txt .= '>' . sanitize_text_field( $imdbname ) . '</a>';
+
+		// Modal bootstrap HTML part.
+		if ( intval( $output ) === 1 ) {
+			$txt .= $this->bootstrap_modal( $imdbid, $imdbname );
+		}
+
+		return $txt;
+
+	}
+
+	/**
 	 * Bootsrap popup function
 	 * Build an HTML link to open a popup with bootstrap for searching a movie (using js/lumiere_bootstrap_links.js)
 	 *
