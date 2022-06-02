@@ -52,7 +52,8 @@ class No_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_link_popup_people ( array $imdb_data_people, int $number ): string {
 
-		return esc_attr( $imdb_data_people[ $number ]['name'] );
+		// Function in abstract class, before last param defines the output.
+		return $this->lumiere_link_popup_people_abstract( $imdb_data_people[ $number ]['imdb'], $imdb_data_people[ $number ]['name'], 2, '' );
 
 	}
 

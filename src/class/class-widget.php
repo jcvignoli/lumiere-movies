@@ -57,6 +57,12 @@ class Widget extends \WP_Widget {
 			'id' => true,
 			'class' => true,
 		],
+		'button' => [ // Utilsed by bootstrap modal window
+			'type' => true,
+			'class' => true,
+			'aria-label' => true,
+			'data-*' => true,
+		],
 		'i' => [],
 		'a' => [
 			'id' => true,
