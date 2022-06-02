@@ -13,7 +13,7 @@
         "codeception/module-phpbrowser": "^2.0.3",
         "codeception/module-asserts": "^1.0.0",
         "codeception/module-webdriver": "^2.0",
-        "codeception/module-db": "^1.0",
+        "codeception/module-db": "^2.0",
         "codeception/module-cli": "^2.0",
         "codeception/module-filesystem": "^1.0",
         "codeception/module-ftp": "^1.0",
