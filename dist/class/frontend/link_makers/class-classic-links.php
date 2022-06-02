@@ -254,7 +254,8 @@ class Classic_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_plot_details ( string $plot ): string {
 
-		return "\n\t\t\t\t" . $plot;
+		// Function in abstract class.
+		return $this->lumiere_movies_plot_details_abstract( $plot );
 	}
 
 	/**

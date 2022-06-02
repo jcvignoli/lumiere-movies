@@ -435,4 +435,20 @@ abstract class Abstract_Link_Maker {
 
 	}
 
+	/**
+	 * Plots data details
+	 *
+	 * @param string $plot Text of the plot
+	 * @param int $output Define the output: 0 for links (default), 1 cutting links
+	 *
+	 * @return string
+	 */
+	protected function lumiere_movies_plot_details_abstract ( string $plot, int $output = 0 ): string {
+
+		if ( intval( $output ) === 1 ) {
+			return "\n\t\t\t\t" . $this->lumiere_remove_link( $plot );
+		}
+
+		return "\n\t\t\t\t" . $plot;
+	}
 }
