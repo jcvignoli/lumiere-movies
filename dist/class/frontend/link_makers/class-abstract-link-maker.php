@@ -173,4 +173,78 @@ abstract class Abstract_Link_Maker {
 
 	}
 
+	/**
+	 * Build picture of the movie in taxonomy pages
+	 *
+	 * @param string|bool $photo_localurl_false The picture of big size
+	 * @param string|bool $photo_localurl_true The picture of small size
+	 * @param string $person_name Name of the person
+	 * @param int $pictures Pass 0 for Highslide or Classic, 1 AMP, 2 Bootstrop, 3 No Links
+	 *
+	 * @return string
+	 */
+	protected function lumiere_link_picture_taxonomy_abstract ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $person_name, int $pictures ): string {
+
+		$output = '';
+		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- star photo -->';
+		$output .= "\n\t\t\t\t" . '<div class="lumiere-lines-common lumiere-lines-common_'
+			. esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] )
+			. ' lumiere-padding-lines-common-picture">';
+
+		// Make sure $photo_localurl_true is a string so we can use esc_html() function
+		$photo_localurl = is_string( $photo_localurl_true ) ? $photo_localurl_true : '';
+
+		// Any class but AMP
+		if ( $pictures !== 1 ) {
+			// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
+			$photo_localurl = $photo_localurl_false !== false && is_string( $photo_localurl_false ) ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl );
+		}
+
+		// Select picture: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
+		$photo_url_final = strlen( $photo_localurl ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_localurl;
+
+		// Normal class or Bootstrap class
+		if ( $pictures === 0 || $pictures === 2 ) {
+			// removed class="highslide_pic"
+			$output .= "\n\t\t\t\t\t" . '<a title="' . esc_attr( $person_name ) . '" href="' . esc_url( $photo_url_final ) . '">';
+			// AMP class
+		} elseif ( $pictures === 1 ) {
+			$output .= "\n\t\t\t\t\t" . '<a class="nolinks_pic" title="' . esc_attr( $person_name ) . '" href="' . esc_url( $photo_url_final ) . '">';
+			// No Links class
+		} elseif ( $pictures === 3 ) {
+			$output .= '';
+		}
+
+		// Build image HTML tag <img>
+		// Any class but AMP
+		if ( $pictures !== 1 ) {
+			$output .= "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right"';
+			// AMP class, loading="eager" breaks AMP
+		} elseif ( $pictures === 1 ) {
+			$output .= "\n\t\t\t\t\t\t" . '<img class="imdbincluded-picture lumiere_float_right"';
+		}
+		$output .= ' src="' . esc_url( $photo_url_final ) . '" alt="'
+			. esc_html__( 'Photo of', 'lumiere-movies' ) . ' '
+			. esc_attr( $person_name ) . '"';
+
+		// add width only if "Display only thumbnail" is unactive
+		// @since 3.7
+		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
+			$output .= ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '" />';
+			// add 100px width if "Display only thumbnail" is active
+		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
+			$output .= ' width="100em" />';
+		}
+
+		// Not classic links, so we can close <a>
+		if ( $pictures !== 3 ) {
+			$output .= "\n\t\t\t\t\t" . '</a>';
+		}
+
+		$output .= "\n\t\t\t\t" . '</div>';
+
+		return $output;
+
+	}
+
 }
