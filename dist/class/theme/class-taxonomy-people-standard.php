@@ -429,7 +429,7 @@ class Taxonomy_People_Standard {
 
 		// Biography, function in trait.
 		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo $this->link_maker->lumiere_medaillon_bio( $this->person_class->bio(), true );
+		echo $this->link_maker->lumiere_medaillon_bio( $this->person_class->bio() );
 
 		echo "\n\t\t\t\t\t" . '</font></div>';
 		echo "\n\t\t\t\t" . '</div>';

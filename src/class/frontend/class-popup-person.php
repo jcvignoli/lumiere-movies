@@ -761,7 +761,7 @@ class Popup_Person {
 				echo "\n\t\t" . '<div class="lumiere_padding_two lumiere_align_left"><font size="-1">';
 
 				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo $this->link_maker->lumiere_medaillon_bio( $this->person->bio(), false );
+				echo $this->link_maker->lumiere_medaillon_bio( $this->person->bio() );
 				?>
 
 				</font></div>

@@ -194,6 +194,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_link_picture_taxonomy ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $person_name ): string {
 
+		// Function in abstract class, last param defines the output.
 		return $this->lumiere_link_picture_taxonomy_abstract( $photo_localurl_false, $photo_localurl_true, $person_name, 0 );
 
 	}
@@ -201,64 +202,14 @@ class Highslide_Links extends Abstract_Link_Maker {
 	/**
 	 * Display mini biographical text, not all people have one
 	 *
-	 * 1- Cut the maximum of characters to be displayed with $click_text
-	 * 2- Detect if there is html tags that can break with $esc_html_breaker
-	 * 3- Build links either to internal (popups) or popups (inside posts/widgets) with $popup_links
-	 *
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
-	 * @param bool $popup_links  If links should be internal or popups. Internal (false) by default.
+	 *
+	 * @return ?string
 	 */
-	public function lumiere_medaillon_bio ( array $bio_array, bool $popup_links = false ): ?string {
+	public function lumiere_medaillon_bio ( array $bio_array ): ?string {
 
-		/** Vars */
-		$click_text = esc_html__( 'click to expand', 'lumiere-movies' ); // text for cutting.
-		$max_length = 200; // maximum number of characters before cutting.
-
-		// Calculate the number of bio results.
-		$nbtotalbio = count( $bio_array );
-		$bio = $nbtotalbio !== 0 ? $bio_array : null;
-
-		// Select the index array according to the number of bio results.
-		$idx = $nbtotalbio < 2 ? $idx = 0 : $idx = 1;
-
-		// Make sure that bio description returns internal links and no IMDb's.
-		$bio_head = '';
-		$bio_text = '';
-		if ( $popup_links === false && $bio !== null ) {
-
-			$bio_text = $this->lumiere_imdburl_to_internalurl( $bio[ $idx ]['desc'] );
-
-		} elseif ( $popup_links === true && $bio !== null ) {
-
-			$bio_text = $this->lumiere_imdburl_to_popupurl( $bio[ $idx ]['desc'] );
-		}
-
-		// HTML tags break for 'read more' cutting.
-		// Detects if there is a space next to $max_length; if true, increase the latter to that position.
-		// Use of htmlentities to avoid spaces inside html code (ie innerspace in '<br />').
-		$max_length = strlen( $bio_text ) !== 0 && is_int( strpos( htmlentities( $bio_text ), ' ', $max_length ) ) === true ? strpos( htmlentities( $bio_text ), ' ', $max_length ) : $max_length;
-		// Detects if there is html a tag before reaching $max_length.
-		// If true increase max length up to first '/a>' + 3 chars (since the search is made with 3 chars).
-		$esc_html_breaker = strpos( $bio_text, '<a' ) <= $max_length && is_int( strpos( $bio_text, '/a>' ) ) === true ? strpos( $bio_text, '/a>' ) + 3 : $max_length;
-
-		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
-
-			$bio_head = "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
-				. esc_html__( 'Biography', 'lumiere-movies' )
-				. '</span>';
-
-			$str_one = substr( $bio_text, 0, $esc_html_breaker );
-			$str_two = substr( $bio_text, $esc_html_breaker, strlen( $bio_text ) );
-
-			$bio_text = "\n\t\t\t" . $str_one
-				. "\n\t\t\t" . '<span class="activatehidesection"><strong>&nbsp;(' . $click_text . ')</strong></span> '
-				. "\n\t\t\t" . '<span class="hidesection">'
-				. "\n\t\t\t" . $str_two
-				. "\n\t\t\t" . '</span>';
-
-		}
-
-		return $bio_head . $bio_text;
+		// Function in abstract class.
+		return $this->lumiere_medaillon_bio_abstract( $bio_array );
 
 	}
 
@@ -270,20 +221,9 @@ class Highslide_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_imdburl_to_internalurl ( string $text ): string {
 
-		// Internal links.
-		$internal_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
-		$internal_link_movie = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+		// Function in abstract class.
+		return $this->lumiere_imdburl_to_internalurl_abstract( $text );
 
-		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
-		// Common pattern.
-		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\?.+?|\/?)\"\>~';
-		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>~';
-
-		// Replace IMDb links with internal links.
-		$output_one = preg_replace( $rule_name, $internal_link_person, $text ) ?? $text;
-		$output_two = preg_replace( $rule_title, $internal_link_movie, $output_one ) ?? $text;
-
-		return $output_two;
 	}
 
 	/**
