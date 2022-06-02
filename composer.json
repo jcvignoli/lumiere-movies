@@ -36,7 +36,8 @@
     },
     "scripts": {
         "phpcs": "vendor/bin/phpcs src",
+        "phpcsbot": "vendor/bin/phpcs --config-set show_warnings 0 src",
         "phpstan": "vendor/bin/phpstan",
-        "lint": ["phpcs", "phpstan"]
+        "lint": ["@phpcsbot", "@phpstan"]
     }
 }
