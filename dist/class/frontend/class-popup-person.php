@@ -109,9 +109,6 @@ class Popup_Person {
 		}
 		echo '">';
 
-		// Used by bootstrap
-		echo '<span class="spinner-border text-primary spinner-custom" id="spinner" role="status"><span class="sr-only"></span></span>';
-
 		// Get the movie's title.
 		$this->find_person();
 

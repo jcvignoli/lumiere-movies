@@ -20,6 +20,8 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use \Lumiere\Utils;
+
 abstract class Abstract_Link_Maker {
 
 	// Trait including the database settings.
@@ -439,7 +441,7 @@ abstract class Abstract_Link_Maker {
 	 * Plots data details
 	 *
 	 * @param string $plot Text of the plot
-	 * @param int $output Define the output: 0 for links (default), 1 cutting links
+	 * @param int $output Define the output: 0 for links (default), 1 cutting links (No Links class)
 	 *
 	 * @return string
 	 */
@@ -450,5 +452,48 @@ abstract class Abstract_Link_Maker {
 		}
 
 		return "\n\t\t\t\t" . $plot;
+	}
+
+	/**
+	 * Bootsrap popup function
+	 * Build an HTML link to open a popup with bootstrap for searching a movie (using js/lumiere_bootstrap_links.js)
+	 *
+	 * @param array<int, string> $link_parsed html tags and text to be modified
+	 * @param string $popuplarg Modal window width, if nothing passed takes database value
+	 * @param string $popuplong Modal window height, if nothing passed takes database value
+	 * @param int $output Define the output: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
+	 * @param string $specific_class Extra class to be added in popup building link, none by default
+	 *
+	 * @return string
+
+	 */
+	protected function lumiere_popup_film_link_abstract ( array $link_parsed, string $popuplarg = null, string $popuplong = null, $output = 0, $specific_class = '' ): string {
+
+		if ( $popuplarg !== null ) {
+			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
+		}
+
+		if ( $popuplong !== null ) {
+			$popuplong = $this->imdb_admin_values['imdbpopuplong'];
+		}
+
+		// Highslide & Classic modal
+		if ( intval( $output ) === 0 ) {
+
+			return '<a class="modal_window_film" data-modal_window_film="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
+
+			// Bootstrap modal
+		} elseif ( intval( $output ) === 1 ) {
+
+			return '<a class="modal_window_film" data-modal_window_film="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" data-target="#theModal' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;'
+			. $this->bootstrap_modal( $link_parsed[1], $link_parsed[1] );
+
+			// AMP & No Link modal
+		} elseif ( intval( $output ) === 2 ) {
+
+			return '<a class="link-imdblt-classicfilm" href="' . $this->config_class->lumiere_urlpopupsfilms . $link_parsed[1] . '?film=' . $link_parsed[1] . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
+
+		}
+
 	}
 }

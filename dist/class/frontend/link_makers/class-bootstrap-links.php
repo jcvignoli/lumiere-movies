@@ -23,7 +23,6 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use \Lumiere\Settings;
-use \Lumiere\Utils;
 
 class Bootstrap_Links extends Abstract_Link_Maker {
 
@@ -266,20 +265,8 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_popup_film_link ( array $link_parsed, string $popuplarg = null, string $popuplong = null ): string {
 
-		if ( $popuplarg !== null ) {
-			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
-		}
-
-		if ( $popuplong !== null ) {
-			$popuplong = $this->imdb_admin_values['imdbpopuplong'];
-		}
-
-		$output = '<a class="modal_window_film" data-modal_window_film="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" data-target="#theModal' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
-
-		// Bootstrap modal
-		$output .= $this->bootstrap_modal( $link_parsed[1], $link_parsed[1] );
-
-		return $output;
+		// Function in abstract class, fourth param for bootstrap.
+		return $this->lumiere_popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong, 1 );
 
 	}
 
