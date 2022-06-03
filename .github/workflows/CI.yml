@@ -4,15 +4,16 @@ on:
     branches: "*"
   pull_request:
 env:
+  php-version: ${{ matrix.operating-system }}
   cache-version: 1
-jobs:
-   lint:
-    name: "Lint"
-    runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
         operating-system: ['ubuntu-latest']
         php-versions: ['7.4', '8.0', '8.1']
+jobs:
+   lint:
+    name: "Lint"
+    runs-on: ubuntu-latest
     env:
       php-extensions: ast
     steps:
@@ -23,7 +24,7 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: ${{ matrix.operating-system }}
+          php-version: ${{ env.php-version }}
           extensions: ${{ env.php-extensions }}
           key: php-extensions-${{ runner.os }}-foov4-${{ env.cache-version }}
 
@@ -37,7 +38,7 @@ jobs:
       - name: "Setup PHP"
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.operating-system }}
+          php-version: ${{ env.php-version }}
           extensions: ${{ env.php-extensions }}
           coverage: none
 
