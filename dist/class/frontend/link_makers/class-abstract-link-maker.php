@@ -219,11 +219,11 @@ abstract class Abstract_Link_Maker {
 		}
 
 		// Build image HTML tag <img>
-		// Any class but AMP
-		if ( $pictures == 1 ) {
+		// AMP class, loading="eager" breaks AMP
+		if ( $pictures === 1 ) {
 			$output .= "\n\t\t\t\t\t\t" . '<img class="imdbincluded-picture lumiere_float_right"';
-			// AMP class, loading="eager" breaks AMP
-		} elseif ( $pictures != 1 ) {
+			// Any class but AMP
+		} else {
 			$output .= "\n\t\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture lumiere_float_right"';
 		}
 		$output .= ' src="' . esc_url( $photo_url_final ) . '" alt="'
