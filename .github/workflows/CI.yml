@@ -7,13 +7,12 @@ env:
   cache-version: 1
 jobs:
    lint:
-    name: "Lint"
+    name: Lint ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
         php-versions: ['7.4', '8.0', '8.1']
-   name: PHP ${{ matrix.operating-system }}
     env:
       php-extensions: ast
     steps:
