@@ -4,7 +4,6 @@ on:
     branches: "*"
   pull_request:
 env:
-  php-version: 8.1
   cache-version: 1
 jobs:
    lint:
@@ -12,8 +11,9 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        operating-system: ubuntu-latest
+        operating-system: [ubuntu-latest]
         php-versions: ['7.4', '8.0', '8.1']
+
     env:
       php-extensions: ast
     steps:
