@@ -26,7 +26,7 @@ jobs:
         with:
           php-version: ${{ matrix.operating-system }}
           extensions: ${{ env.php-extensions }}
-          key: php-extensions-${{ runner.os }}-foov4-${{ env.cache-version }}
+          key: php-extensions-${{ matrix.operating-system }}-foov4-${{ env.cache-version }}
 
       - name: "Cache extensions"
         uses: actions/cache@v2
@@ -46,11 +46,11 @@ jobs:
         uses: actions/cache@v2
         with:
           path: "~/.composer/cache"
-          key: composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+          key: composer-dependencies-${{ matrix.operating-system }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
           restore-keys: |
-            composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
-            composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-
-            composer-dependencies-${{ runner.os }}-
+            composer-dependencies-${{ matrix.operating-system }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+            composer-dependencies-${{ matrix.operating-system }}-foov4-${{ env.cache-version }}-
+            composer-dependencies-${{ matrix.operating-system }}-
 
       - name: "Install Composer dependencies"
         run: |
