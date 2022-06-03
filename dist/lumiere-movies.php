@@ -8,7 +8,7 @@
  * Description: Add informative popups about movies with information extracted from the IMDb. Display data related to movies in a widget and inside your post.
  * Version: 3.7.1
  * Requires at least: 5.0
- * Requires PHP: 7.0
+ * Requires PHP: 8.0
  * Text Domain: lumiere-movies
  * Domain Path: /languages
  * Author: psykonevro
