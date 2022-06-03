@@ -6,10 +6,10 @@ on:
 env:
   php-version: ${{ matrix.operating-system }}
   cache-version: 1
-    strategy:
-      matrix:
-        operating-system: ['ubuntu-latest']
-        php-versions: ['7.4', '8.0', '8.1']
+  strategy:
+    matrix:
+      operating-system: ['ubuntu-latest']
+      php-versions: ['7.4', '8.0', '8.1']
 jobs:
    lint:
     name: "Lint"
