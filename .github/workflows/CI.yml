@@ -4,6 +4,7 @@ on:
     branches: "*"
   pull_request:
 env:
+  php-version: 8.1
   cache-version: 1
 jobs:
    lint:
@@ -11,9 +12,8 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        operating-system: [ubuntu-latest]
+        operating-system: ['ubuntu-latest']
         php-versions: ['7.4', '8.0', '8.1']
-
     env:
       php-extensions: ast
     steps:
@@ -24,9 +24,9 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: ${{ matrix.operating-system }}
+          php-version: ${{ env.php-version }}
           extensions: ${{ env.php-extensions }}
-          key: php-extensions-${{ matrix.operating-system }}-foov4-${{ env.cache-version }}
+          key: php-extensions-${{ runner.os }}-foov4-${{ env.cache-version }}
 
       - name: "Cache extensions"
         uses: actions/cache@v2
@@ -38,7 +38,7 @@ jobs:
       - name: "Setup PHP"
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.operating-system }}
+          php-version: ${{ env.php-version }}
           extensions: ${{ env.php-extensions }}
           coverage: none
 
@@ -46,11 +46,11 @@ jobs:
         uses: actions/cache@v2
         with:
           path: "~/.composer/cache"
-          key: composer-dependencies-${{ matrix.operating-system }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+          key: composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
           restore-keys: |
-            composer-dependencies-${{ matrix.operating-system }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
-            composer-dependencies-${{ matrix.operating-system }}-foov4-${{ env.cache-version }}-
-            composer-dependencies-${{ matrix.operating-system }}-
+            composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+            composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-
+            composer-dependencies-${{ runner.os }}-
 
       - name: "Install Composer dependencies"
         run: |
