@@ -13,7 +13,8 @@ jobs:
       matrix:
         operating-system: [ubuntu-latest]
         php-versions: ['7.4', '8.0', '8.1']
-        php-extensions: ast
+    env:
+      php-extensions: ast
     steps:
       - name: "Checkout"
         uses: actions/checkout@v2
@@ -22,8 +23,8 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: ${{ matrix.php-extensions }}
+          php-version: ${{ matrix.operating-system }}
+          extensions: ${{ env.php-extensions }}
           key: php-extensions-${{ runner.os }}-foov4-${{ env.cache-version }}
 
       - name: "Cache extensions"
@@ -36,8 +37,8 @@ jobs:
       - name: "Setup PHP"
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: ${{ matrix.php-extensions }}
+          php-version: ${{ matrix.operating-system }}
+          extensions: ${{ env.php-extensions }}
           coverage: none
 
       - name: "Cache Composer dependencies"
