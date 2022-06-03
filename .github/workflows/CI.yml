@@ -24,7 +24,7 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: ${{ matrix.operating-system }}
+          php-version: ${{ matrix.php-version }}
           extensions: ${{ env.php-extensions }}
           key: php-extensions-${{ runner.os }}-foov4-${{ env.cache-version }}
 
@@ -38,7 +38,7 @@ jobs:
       - name: "Setup PHP"
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ env.php-version }}
+          php-version: ${{ matrix.php-version }}
           extensions: ${{ env.php-extensions }}
           coverage: none
 
