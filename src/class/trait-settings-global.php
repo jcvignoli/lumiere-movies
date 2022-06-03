@@ -51,9 +51,9 @@ trait Settings_Global {
 		$this->config_class = new Settings();
 
 		// Get database options.
-		$this->imdb_admin_values = (array) get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-		$this->imdb_widget_values = (array) get_option( Settings::LUMIERE_WIDGET_OPTIONS );
-		$this->imdb_cache_values = (array) get_option( Settings::LUMIERE_CACHE_OPTIONS );
+		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
+		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
 	}
 
