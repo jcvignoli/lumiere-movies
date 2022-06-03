@@ -4,10 +4,11 @@ on:
     branches: "*"
   pull_request:
 env:
+  php-version: 8.1
   cache-version: 1
 jobs:
    lint:
-    name: Lint ${{ matrix.operating-system }}
+    name: "Lint"
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
