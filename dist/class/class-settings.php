@@ -615,7 +615,7 @@ class Settings {
 				chmod( $lumiere_folder_cache, 0755 );
 
 				// Update the option imdbcachedir for new cache path
-				$option_array_search = get_option( self::LUMIERE_CACHE_OPTIONS );
+				$option_array_search = (array) get_option( self::LUMIERE_CACHE_OPTIONS );
 				$option_array_search['imdbcachedir'] = $lumiere_folder_cache;
 				update_option( self::LUMIERE_CACHE_OPTIONS, $option_array_search );
 
