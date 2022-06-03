@@ -4,7 +4,7 @@ on:
     branches: "*"
   pull_request:
 env:
-  php-version: ${{ matrix.operating-system }}
+  php-version: 8.1
   cache-version: 1
 jobs:
    lint:
@@ -24,7 +24,7 @@ jobs:
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
-          php-version: ${{ env.php-version }}
+          php-version: ${{ matrix.operating-system }}
           extensions: ${{ env.php-extensions }}
           key: php-extensions-${{ runner.os }}-foov4-${{ env.cache-version }}
 
