@@ -74,7 +74,8 @@ class Taxonomy_Items_Standard {
 				<h1 class="pagetitle"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?> <i>standard</i></h1>
 
 		<?php
-		if ( have_posts() ) { // there is post
+		if ( have_posts() ) {
+			// @phpstan-ignore-next-line WordPress coding standard, it might make no sense...
 			while ( have_posts() ) {
 				the_post();
 				?>

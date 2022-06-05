@@ -27,7 +27,7 @@
     "npmphpcslum": "vendor/bin/phpcs src --report=code > tmp/Results-phpcs-wp.txt",
     "npmphpcslumPSR2": "vendor/bin/phpcs src --standard=PSR2 ./src --ignore=*vendor* --ignore=*js/highslide* > tmp/Results-phpcs-PSR2.txt",
     "npmphpmdlum": "vendor/bin/phpmd src html ./phpmd.xml.dist > tmp/Results-phpmd-wp.html",
-    "npmphpstanlum": "vendor/bin/phpstan > tmp/Results-phpstan-wp.txt",
+    "npmphpstanlum": "vendor/bin/phpstan --memory-limit=1G > tmp/Results-phpstan-wp.txt",
     "npmphanlum": "vendor/bin/phan --output tmp/Results-phan-wp.txt --output-mode text -p --allow-polyfill-parser",
     "lint": "npm-run-all -p -r npmphpcslum npmphpmdlum npmphpstanlum npmphanlum"
   },

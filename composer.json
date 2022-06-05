@@ -26,18 +26,19 @@
         "squizlabs/php_codesniffer": "^3.6",
         "wp-coding-standards/wpcs": "^2.3",
         "phpmd/phpmd": "^2.10",
-        "phpstan/phpstan": "^0.12.94",
-        "szepeviktor/phpstan-wordpress": "^0.7.7",
-        "phpstan/phpstan-strict-rules": "^0.12.10",
+        "phpstan/phpstan": "1.7.10",
         "automattic/phpcs-neutron-ruleset": "^3.4",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
         "phan/phan": "^5.3",
-        "skaut/wordpress-stubs": "^2.2"
+        "skaut/wordpress-stubs": "^2.2",
+        "phpstan/phpstan-strict-rules": "^1.2",
+        "szepeviktor/phpstan-wordpress": "^1.1"
     },
     "scripts": {
         "phpcs": "vendor/bin/phpcs src",
         "phpcsbot": "vendor/bin/phpcs -n src",
-        "phpstan": "vendor/bin/phpstan",
-        "lint": ["@phpcsbot", "@phpstan"]
+        "phpstan": "vendor/bin/phpstan --memory-limit=1G analyze src",
+        "phpstanbot": "vendor/bin/phpstan",
+        "lint": ["@phpcsbot", "@phpstanbot"]
     }
 }

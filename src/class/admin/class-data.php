@@ -21,8 +21,7 @@ use \Lumiere\Settings;
 use \Lumiere\Utils;
 
 /**
- * @phpstan-import-type OPTIONS_WIDGET_KEY from \Lumiere\Settings
- * // To be used with PHPStan >= 1.3 @phpstan-import-type OPTIONS_WIDGET from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_WIDGET from \Lumiere\Settings
  */
 class Data extends \Lumiere\Admin {
 
@@ -194,10 +193,8 @@ class Data extends \Lumiere\Admin {
 
 				// Copy $_POST to $this->imdb_widget_values var
 				if ( isset( $_POST[ $key ] ) ) {
-					/**
-					 * @phpstan-var OPTIONS_WIDGET_KEY $keynoimdb
-					 *  // To be used with PHPStan >= 1.3 @phpstan-var key-of<OPTIONS_WIDGET> $keynoimdb
-					 */
+					/** @phpstan-var key-of<non-empty-array<OPTIONS_WIDGET>> $keynoimdb
+					 * @phpstan-ignore-next-line */
 					$this->imdb_widget_values[ $keynoimdb ] = sanitize_text_field( $_POST[ $key_sanitized ] );
 				}
 			}
