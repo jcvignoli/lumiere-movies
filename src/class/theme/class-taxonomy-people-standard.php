@@ -117,22 +117,18 @@ class Taxonomy_People_Standard {
 		do_action( 'lumiere_logger' );
 
 		// Build the current page name from the tag taxonomy.
-		$page_title_check = is_string( single_tag_title( '', false ) ) === true ? single_tag_title( '', false ) : null;
+		$page_title_check = single_tag_title( '', false );
 
 		// Full taxonomy title.
 		$this->taxonomy_title = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . 'standard';
 
 		// If we are in a WP taxonomy page, the info from imdbphp libraries.
-		if ( $page_title_check !== null ) {
-
-			$search = new PersonSearch( $this->imdbphp_class, $this->logger->log() );
-			$results = $search->search( $page_title_check ); // search for the person using the taxonomy tag.
-			$mid = $results[0]->imdbid(); // keep the first result only.
-			$mid_sanitized = esc_html( $mid ); // sanitize the first result.
-			$this->person_class = new Person( $mid_sanitized, $this->imdbphp_class, $this->logger->log() ); // search the profile using the first result.
-			$this->person_name = $this->person_class->name();
-
-		}
+		$search = new PersonSearch( $this->imdbphp_class, $this->logger->log() );
+		$results = $search->search( $page_title_check ); // search for the person using the taxonomy tag.
+		$mid = $results[0]->imdbid(); // keep the first result only.
+		$mid_sanitized = esc_html( $mid ); // sanitize the first result.
+		$this->person_class = new Person( $mid_sanitized, $this->imdbphp_class, $this->logger->log() ); // search the profile using the first result.
+		$this->person_name = $this->person_class->name();
 
 	}
 
@@ -171,7 +167,7 @@ class Taxonomy_People_Standard {
 		} else { // end of section if a result was found for the taxonomy.
 
 			// No imdb result, so display a basic title.
-			$title_from_tag = is_string( single_tag_title( '', false ) ) === true ? single_tag_title( '', false ) : '';
+			$title_from_tag = single_tag_title( '', false );
 			echo "\n\t\t" . '<h1 class="pagetitle">' . esc_html__( 'Taxonomy for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ) . ' as <i>standard</i></h1>';
 
 		}
@@ -237,6 +233,7 @@ class Taxonomy_People_Standard {
 
 				echo "\n\t\t\t\t" . '<h2 class="lumiere_italic lumiere_align_center">' . esc_html__( 'In the role of', 'lumiere-movies' ) . ' ' . esc_html( $people ) . '</h2>';
 
+				// @phpstan-ignore-next-line WordPress coding standard, it might make no sense...
 				while ( $the_query->have_posts() ) {
 					$the_query->the_post();
 					?>

@@ -148,19 +148,21 @@ class Uninstall {
 				]
 			);
 
-			// Filer: Get rid of errors and strings, keep arrays only.
-			if ( is_wp_error( $terms ) === true || is_string( $terms ) === true ) {
+			// Filer: Get rid of errors, keep arrays only.
+			if ( is_wp_error( $terms ) === true ) {
 				$this->logger->log()->error( '[Lumiere][uninstall] Invalid terms: ' . print_r( $terms, true ) );
 				continue;
 			}
 
 			foreach ( $terms as $term ) {
 
-				// Filter: Get rid of integers and strings, keeps objects only.
-				if ( is_int( $term ) === true || is_string( $term ) === true ) {
+				// Filter: Get rid of integers and strings, keep objects only.
+				/* removed, PHPStan says it's useless, kept for the logic
+				if ( $term instanceof \WP_Term === false ) {
 					$this->logger->log()->error( '[Lumiere][uninstall] Invalid term: ' . $term );
 					continue;
 				}
+				*/
 
 				// Retrieve and sanitize the term object vars.
 				$term_id = intval( $term->term_id );
