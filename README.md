@@ -7,7 +7,7 @@
 **Requires at least:** 5.0 \
 **Tested up to:** 6.0 \
 **Stable tag:** 3.7.1 \
-**Requires PHP:** 7.0 \
+**Requires PHP:** 8.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
 **Donate link:** https://www.paypal.me/jcvignoli
@@ -30,7 +30,7 @@ Many features are available in the wordpress editing interfaces (Gutenberg, Visu
 
 ### required
 
-PHP 8.0 is now required due to use of PHP8 specific coding style. It may work with lower version (PHP<8.0) but I just don't test it anymore.
+PHP 8.0 is now required due to use of PHP8 specific coding style.
 
 1. Activate the plugin
 2. Should you want to fine-tune your blog, configure the plugin (in admin settings). Default values are automatically filled, no change is required for a normal experience.
