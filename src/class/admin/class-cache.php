@@ -27,6 +27,10 @@ use \FilesystemIterator;
 use \RecursiveDirectoryIterator;
 use \RecursiveIteratorIterator;
 
+/**
+ * @phpstan-import-type OPTIONS_CACHE_KEY from \Lumiere\Settings
+ * // To be used with PHPStan >= 1.3 @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
+ */
 class Cache extends \Lumiere\Admin {
 
 	/**
@@ -140,7 +144,8 @@ class Cache extends \Lumiere\Admin {
 
 				$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
 				if ( isset( $_POST[ $key_sanitized ] ) ) {
-					// @phpstan-ignore-next-line 'Array (array('imdbwidgettitle' => string, 'imdbwidgetpic' => string,...)) does not accept key string'.
+					/** @phpstan-var OPTIONS_CACHE_KEY $keynoimdb
+					 * // IN PHPStan >= 1.3 @phpstan-var key-of<OPTIONS_CACHE> $keynoimdb */
 					$this->imdb_cache_values[ $keynoimdb ] = sanitize_text_field( $_POST[ $key_sanitized ] );
 				}
 			}
