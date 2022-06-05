@@ -14,6 +14,12 @@ namespace Lumiere;
 
 use \Lumiere\Settings;
 
+/**
+ * Current PHPStan (0.2.*) has a bug and below doesn't work because it's a trait; keept it for a later PHStan release
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_WIDGET from \Lumiere\Settings
+ */
 trait Settings_Global {
 
 	/**

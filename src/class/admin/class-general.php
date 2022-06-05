@@ -20,6 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 use \Lumiere\Utils;
 use \Lumiere\Plugins\Logger;
 
+/**
+ * @phpstan-import-type OPTIONS_ADMIN_KEY from \Lumiere\Settings
+ * // To be used with PHPStan >= 1.3 @phpstan-import-type OPTIONS_ADMIN from Settings
+ */
 class General extends \Lumiere\Admin {
 
 	/**
@@ -139,11 +143,9 @@ class General extends \Lumiere\Admin {
 				$key_sanitized = sanitize_key( $key );
 				$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
 				if ( isset( $_POST[ $key_sanitized ] ) ) {
-
 					/**
-					 * Can't resolve PHPStan error:
-					 * Array (array('imdbplugindirectory_partial' => string, 'imdbpluginpath' => string, 'imdburlpopups' => string,'imdbkeepsettings' => string, 'imdburlstringtaxo' => string, 'imdbcoversize' => string, 'imdbcoversizewidth' => string, 'imdbmaxresults' => int, ...)) does not accept key string.
-					 * @phpstan-ignore-next-line
+					 * @phpstan-var OPTIONS_ADMIN_KEY $keynoimdb
+					 *  // To be used with PHPStan >= 1.3 @phpstan-var key-of<OPTIONS_ADMIN> $keynoimdb
 					 */
 					$this->imdb_admin_values[ $keynoimdb ] = sanitize_text_field( $_POST[ $key_sanitized ] );
 				}

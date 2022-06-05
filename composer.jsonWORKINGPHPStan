@@ -1,0 +1,43 @@
+{
+    "support": {
+        "issues": "https://github.com/jcvignoli/lumiere-movies/issues",
+        "wiki": "https://github.com/jcvignoli/lumiere-movies/wiki",
+        "source": "https://github.com/jcvignoli/lumiere-movies"
+    },
+    "require": {
+        "imdbphp/imdbphp": "dev-master",
+        "monolog/monolog": "^2.6"
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.1",
+        "codeception/module-phpbrowser": "^2.0.3",
+        "codeception/module-asserts": "^2.0.1",
+        "codeception/module-webdriver": "^2.0",
+        "codeception/module-db": "^2.0",
+        "codeception/module-cli": "^2.0",
+        "codeception/module-filesystem": "^1.0",
+        "codeception/module-ftp": "^2.0",
+        "codeception/util-universalframework": "^1.0",
+        "vlucas/phpdotenv": "^5.3",
+        "lucatume/wp-browser": "^3.0",
+        "wp-cli/wp-cli-bundle": "^2.5",
+        "wpreadme2markdown/wpreadme2markdown": "^4.0",
+        "phpseclib/phpseclib": "^2.0.14",
+        "squizlabs/php_codesniffer": "^3.6",
+        "wp-coding-standards/wpcs": "^2.3",
+        "phpmd/phpmd": "^2.10",
+        "phpstan/phpstan": "^0.12.94",
+        "szepeviktor/phpstan-wordpress": "^0.7.7",
+        "phpstan/phpstan-strict-rules": "^0.12.10",
+        "automattic/phpcs-neutron-ruleset": "^3.4",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+        "phan/phan": "^5.3",
+        "skaut/wordpress-stubs": "^2.2"
+    },
+    "scripts": {
+        "phpcs": "vendor/bin/phpcs src",
+        "phpcsbot": "vendor/bin/phpcs -n src",
+        "phpstan": "vendor/bin/phpstan",
+        "lint": ["@phpcsbot", "@phpstan"]
+    }
+}
