@@ -68,9 +68,9 @@ class Polylang {
 	}
 
 	/**
-	 * Add the language in use to taxonomy terms ------- FROM class movie
+	 * Add the language in use to taxonomy terms ------- In class movie
 	 *
-	 * @param array<string, string> $term
+	 * @param array<string|int, string|int> $term
 	 */
 	public function lumiere_polylang_add_lang_to_taxo( array $term ): void {
 

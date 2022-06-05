@@ -1612,7 +1612,7 @@ class Movie {
 				$term = term_exists( $taxonomy_term, $taxonomy_category_full );
 
 				// if the tag exists.
-				if ( $term === null || $term === 0 ) {
+				if ( $term === null ) {
 
 					// insert it and get its id
 					// $term = wp_insert_term($taxonomy_term, $taxonomy_category_full, array('lang' => $lang_term) );
@@ -1638,7 +1638,7 @@ class Movie {
 			// Function in class Polylang.
 			if ( $this->plugin_polylang !== null ) {
 
-				$this->plugin_polylang->lumiere_polylang_add_lang_to_taxo( $term );
+				$this->plugin_polylang->lumiere_polylang_add_lang_to_taxo( (array) $term );
 
 			}
 

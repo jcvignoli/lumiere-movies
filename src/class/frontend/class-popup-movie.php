@@ -578,12 +578,12 @@ class Popup_Movie {
 					. "\n\t" . '<div class="hidesection">'
 					. "\n\t\t" . '<br />';
 
-				} elseif ( $i > 0 ) {
-					echo "\n\t\t<strong>(" . intval( $iterator_number ) . ') ' . esc_html( $goof[ $i ]['type'] ) . '</strong>&nbsp;';
-					// @phpcs:ignore WordPress.Security.EscapeOutput
-					echo $this->link_maker->lumiere_imdburl_to_internalurl( $goof[ $i ]['content'] );
-					echo "\n\t\t" . '<br />';
 				}
+
+				echo "\n\t\t<strong>(" . intval( $iterator_number ) . ') ' . esc_html( $goof[ $i ]['type'] ) . '</strong>&nbsp;';
+				// @phpcs:ignore WordPress.Security.EscapeOutput
+				echo $this->link_maker->lumiere_imdburl_to_internalurl( $goof[ $i ]['content'] );
+				echo "\n\t\t" . '<br />';
 
 			} //end endfor
 

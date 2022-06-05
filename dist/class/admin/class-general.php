@@ -21,8 +21,7 @@ use \Lumiere\Utils;
 use \Lumiere\Plugins\Logger;
 
 /**
- * @phpstan-import-type OPTIONS_ADMIN_KEY from \Lumiere\Settings
- * // To be used with PHPStan >= 1.3 @phpstan-import-type OPTIONS_ADMIN from Settings
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
  */
 class General extends \Lumiere\Admin {
 
@@ -143,10 +142,8 @@ class General extends \Lumiere\Admin {
 				$key_sanitized = sanitize_key( $key );
 				$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
 				if ( isset( $_POST[ $key_sanitized ] ) ) {
-					/**
-					 * @phpstan-var OPTIONS_ADMIN_KEY $keynoimdb
-					 *  // To be used with PHPStan >= 1.3 @phpstan-var key-of<OPTIONS_ADMIN> $keynoimdb
-					 */
+					/** @phpstan-var key-of<non-empty-array<OPTIONS_ADMIN>> $keynoimdb
+					 * @phpstan-ignore-next-line */
 					$this->imdb_admin_values[ $keynoimdb ] = sanitize_text_field( $_POST[ $key_sanitized ] );
 				}
 			}
@@ -468,7 +465,7 @@ class General extends \Lumiere\Admin {
 					<select name="imdb_imdblanguage">
 						<option 
 						<?php
-						if ( ( $this->imdb_admin_values['imdblanguage'] === 'en' ) || ( ! isset( $this->imdb_admin_values['imdblanguage'] ) ) ) {
+						if ( $this->imdb_admin_values['imdblanguage'] === 'en' ) {
 							echo 'selected="selected" ';
 						}
 						?>
