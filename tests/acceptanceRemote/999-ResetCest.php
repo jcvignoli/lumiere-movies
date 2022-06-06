@@ -98,6 +98,10 @@ class EndCest {
 		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomDisableCheckbox('#imdb_imdbdebuglog_yes', '#update_imdbSettings');
+
+		// Switch back To Highslide
+		$I->SwitchModalWindow('Highslide');
+
 	}
 }
 
