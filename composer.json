@@ -15,7 +15,7 @@
         "codeception/module-webdriver": "^2.0",
         "codeception/module-db": "^2.0",
         "codeception/module-cli": "^2.0",
-        "codeception/module-filesystem": "^1.0",
+        "codeception/module-filesystem": "^2.0",
         "codeception/module-ftp": "^2.0",
         "codeception/util-universalframework": "^1.0",
         "vlucas/phpdotenv": "^5.3",
