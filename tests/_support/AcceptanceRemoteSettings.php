@@ -1,7 +1,11 @@
 <?php
 
-/** Trait for common functions used by both remote and local Acceptance tests
- * 
+/** 
+ * Class including general options for testing
+ * Meant to be compatible with posts created with
+ * tests/IMPORT_WP_POST_MAIN.txt
+ * tests/IMPORT_WP_POST_AUTOWIDGET.txt
+ * Constant ADMIN_POST_ID_TESTS must be edited according to the post ID of IMPORT_WP_POST_MAIN.txt
  */
 class AcceptanceRemoteSettings {
 
@@ -26,6 +30,7 @@ class AcceptanceRemoteSettings {
 	public const TESTING_PAGE_BASE_A_DIRECTOR = 'Christopher Nolan';
 	public const TESTING_PAGE_TAXONOMY_URL = '/lumiere-director/stanley-kubrick/';
 	public const TESTING_PAGE_POPUP_FILM_URL = '/lumiere/film/?mid=&film=interstellar';
+	public const TESTING_PAGE_POPUP_FILM_URL_WITHOUTMID = '/lumiere/film/?film=interstellar';
 	public const TESTING_PAGE_POPUP_FILM_TITLE = 'interstellar';
 	// Here, Jorge Rivero
 	public const TESTING_PAGE_POPUP_PERSON_URL = '/lumiere/person/?mid=0729473';
@@ -36,22 +41,4 @@ class AcceptanceRemoteSettings {
 	public const TESTING_PAGE_AUTOWIDGET_URL = '/2021/y-tu-mama-tambien/';
 	public const TESTING_PAGE_AUTOWIDGET_TITLE = 'Y tu mamá también';
 
-
-
-
-
-
-/*		// Get url depending on the environment called in acceptance.suite.yml
-		$current_env = $scenario->current('env');
-		$config_base = \Codeception\Configuration::config(); # config in codeception.yml
-   		$config = \Codeception\Configuration::suiteSettings("acceptanceRemote", $config_base);
-		$url_base = $config['env'][$current_env]['modules']['enabled']['config']['WPWebDriver']['url'];
-*/
-
-
 }
-
-
-
-
-
