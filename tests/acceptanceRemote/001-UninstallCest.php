@@ -83,15 +83,15 @@ class UninstallCest {
 		$I->activateLocalMount( $this->root_remote, $shell );
 
 		// Disable keep settings option to get rid of all options
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeActivatePlugin('lumiere-movies');
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->wait(2);
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'update_imdbSettings');
 
 		// Deactivate plugin
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->scrollTo('#deactivate-lumiere-movies');
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
 		$I->wait(2);
@@ -123,7 +123,7 @@ class UninstallCest {
 		$I->seeFileFound( 'lumiere-movies.php', $dir_plugin_lumiere );
 
 		// Activate plugin
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->wait(2);
 		$I->scrollTo('#activate-lumiere-movies');
 		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");

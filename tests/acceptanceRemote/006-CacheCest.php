@@ -61,24 +61,25 @@ class CacheCest {
 		$I->activateLocalMount( $this->root_remote, $shell );
 
 		// Make sure cache is created
-		$I->amOnPage("/2021/test-codeception/");
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->seeFileFound($example[1], $this->root_remote.'/wp-content/cache/lumiere/');
 
 		// Delete cache file using local path
 		$I->deleteFile($this->root_remote.'/wp-content/cache/lumiere/'.$example[1]);
 
 		// Make sure cache is created
-		$I->amOnPage("/2021/test-codeception/");
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->seeFileFound($example[1], $this->root_remote.'/wp-content/cache/lumiere/');
 
 		// Delete cache file using interface
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&subsection=cache&cacheoption=manage");
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_CACHE_OPTIONS_MANAGE_URL );
 		$I->scrollTo('#imdb_cachedeletefor_movies_'.$example[0]);
 		$I->executeJS( "return jQuery('" . $js_element_delete . "').get(0).click()");
 		$I->acceptPopup();
 
 		// Make sure cache is created
-		$I->amOnPage("/2021/test-codeception/");
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->seeFileFound($example[1], $this->root_remote.'/wp-content/cache/lumiere/');
 
 	}

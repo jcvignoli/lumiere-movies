@@ -31,24 +31,24 @@ class WidgetCest {
 		$I->wantTo('check auto title widget option');
 
 		// Activate Auto Widget
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdblinkingkill');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#update_imdbSettings' );
-		$I->amOnPage("/2021/y-tu-mama-tambien/");
-		$I->see('Y tu mamá también');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_AUTOWIDGET_URL );
+		$I->see( AcceptanceRemoteSettings::TESTING_PAGE_AUTOWIDGET_TITLE );
 
 		// Disable Auto Widget
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdblinkingkill');
 		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
 			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#update_imdbSettings' );
-		$I->amOnPage("/2021/y-tu-mama-tambien/");
-		$I->dontSee('Y tu mamá también');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_AUTOWIDGET_URL );
+		$I->dontSee( AcceptanceRemoteSettings::TESTING_PAGE_AUTOWIDGET_TITLE );
 
 	}
 

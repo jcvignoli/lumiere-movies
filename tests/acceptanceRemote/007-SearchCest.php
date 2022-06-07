@@ -78,7 +78,7 @@ class SearchCest {
 		$I->wantTo('check that search page is working');
 
 		// Open the window
-		$I->amOnPage("/wp-admin/post.php?post=4715&action=edit");
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_POST_ID_TESTS );
 		$I->click('a[data-lumiere_admin_popup="no data"]');
 
 		// Search in the window

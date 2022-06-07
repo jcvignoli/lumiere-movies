@@ -2,7 +2,7 @@
 
 # Class meant to test remote wordpress install (a WebDriver is needed for JS execution)
 
-class StylesScriptsCest {
+class StylesScriptsHighslideCest {
 
 	/** Stock the base remote URL
 	 *
@@ -59,7 +59,7 @@ class StylesScriptsCest {
 
 		// Check scripts and styles in admin
 		$I->comment(\Helper\Color::set('Check Lumière admin general advanced', 'italic+bold+cyan'));
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->seeInPageSource('lumiere_css_admin-css');
 		$I->seeInPageSource('lumiere_scripts_admin-js-before');
 		$I->seeInPageSource('lumiere_scripts_admin-js');
@@ -67,7 +67,7 @@ class StylesScriptsCest {
 
 		// Check Lumière help page
 		$I->comment(\Helper\Color::set('Check Lumière help page', 'italic+bold+cyan'));
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&subsection=help");
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_HELP_GENERAL_URL );
 		$I->seeInPageSource('lumiere_css_admin-css');
 		$I->seeInPageSource('lumiere_scripts_admin-js-before');
 		$I->seeInPageSource('lumiere_scripts_admin-js');
@@ -93,7 +93,7 @@ class StylesScriptsCest {
 */
 		// Disable classic-editor so we can test Blocks editor
 		$I->comment(\Helper\Color::set('Disable classic-editor plugin so we can test Blocks editor', 'italic+bold+cyan'));
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		/*	Conditional plugin deactivation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $plugin is activated, deactivate it */
@@ -103,7 +103,7 @@ class StylesScriptsCest {
 
 		// Check Lumière (Gutenberg) Block Editor page
 		$I->comment(\Helper\Color::set('Check Lumière (Gutenberg) Block Editor page', 'italic+bold+cyan'));
-		$I->amOnPage("/wp-admin/post.php?post=4715&action=edit");
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_POST_ID_TESTS );
 		$I->waitPageLoad();
 		$I->seeInPageSource("lumiere_gutenberg_main-js"); 	# Gutenberg main block js
 		$I->seeInPageSource("lumiere_gutenberg_buttons-js"); 	# Gutenberg button block js
@@ -119,14 +119,14 @@ class StylesScriptsCest {
 
 		// Activate classic-editor so we can test Classic editor
 		$I->comment(\Helper\Color::set('Activate classic-editor plugin so we can test Blocks editor', 'italic+bold+cyan'));
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->wait(1);
 		$I->maybeActivatePlugin('classic-editor');
 		$I->wait(1);
 
 		// Check Lumière Classic Editor page (with Classic Editor plugin)
 		$I->comment(\Helper\Color::set('Check Lumière Classic Editor page (with Classic Editor plugin)', 'italic+bold+cyan'));
-		$I->amOnPage("/wp-admin/post.php?post=4715&action=edit");
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_POST_ID_TESTS );
 		$I->waitPageLoad();
 		$I->seeInPageSource("lumiere_scripts_admin-js"); 	# Lumière main js
 		$I->seeInPageSource("lumiere_scripts_admin-js-before"); # Lumière js vars for scripts
@@ -142,11 +142,11 @@ class StylesScriptsCest {
 			 */
 
 		// Make sure Highslide is active, following tests are run with Highslide
-		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options');
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
 		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "highslide", "update_imdbSettings" );
 
 		$I->comment(\Helper\Color::set('Checking normal page', 'italic+bold+cyan'));
-		$I->amOnPage('/2021/test-codeception/');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource("lumiere_highslide_core-css");		# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
@@ -158,7 +158,7 @@ class StylesScriptsCest {
 			// Taxonomy person director page
 
 		$I->comment(\Helper\Color::set('Checking taxonomy page', 'italic+bold+cyan'));
-		$I->amOnPage('/lumiere-director/tony-zarindast/');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_TAXONOMY_URL );
 		$I->seeInPageSource("lumiere_highslide_core-css"); 		# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
@@ -169,7 +169,7 @@ class StylesScriptsCest {
 			// Popup person page
 
 		$I->comment(\Helper\Color::set('Checking Popup person page', 'italic+bold+cyan'));
-		$I->amOnPage('/lumiere/person/?mid=0729473');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_PERSON_URL );
 		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-16x16.png");	 	# Lumière favicon 16
 		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
 		$I->seeInPageSource("lumiere-movies/pics/favicon/apple-touch-icon.png"); 	# Lumière favicon Apple
@@ -191,7 +191,7 @@ class StylesScriptsCest {
 			// Popup movie page
 
 		$I->comment(\Helper\Color::set('Checking Popup movie page', 'italic+bold+cyan'));
-		$I->amOnPage('/lumiere/film/?mid=&film=interstellar');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL );
 		$I->seeInPageSource("canonical");						 	# Meta tag
 		$I->seeInPageSource("article:tag");					 	# Meta tag
 		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-16x16.png");	 	# Lumière favicon 16
@@ -225,23 +225,23 @@ class StylesScriptsCest {
 
 		$I->comment(\Helper\Color::set('Change layout', 'italic+bold+cyan'));
 
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options");
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
 
 		// Try with selection black
 		$I->scrollTo('#plainpages');
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "black");
 		$I->click('#update_imdbSettings');
 		$I->comment(\Helper\Color::set('[Action] Selection has been switched to "black"', 'italic+bold+cyan'));
-		$I->amOnPage('/2021/test-codeception/');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource("imdbincluded_black"); 	# CSS for black layout 
 
 		// Try with selection grey (default)
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options");
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
 		$I->scrollTo('#plainpages');
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "grey");
 		$I->click('#update_imdbSettings');
 		$I->comment(\Helper\Color::set('[Action] Selection has been switched to "grey"', 'italic+bold+cyan'));
-		$I->amOnPage('/2021/test-codeception/');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource("imdbincluded_grey"); 	# CSS for grey layout (default)
 
 	}
