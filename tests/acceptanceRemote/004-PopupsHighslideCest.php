@@ -61,7 +61,7 @@ class PopupsCest {
 
 		// popup link movie interstellar
 		$element = 'a[data-modal_window_film="' . AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_TITLE . '"]';
-		$sub_url = AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL;
+		$sub_url = AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL_WITHOUTMID;
 
 		$I->wantTo('Check if popup movie can be open');
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
