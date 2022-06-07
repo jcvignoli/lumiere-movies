@@ -43,7 +43,8 @@ class Virtual_Page {
 	/**
 	 * @var string|object $page_content Can be a single phrase or an object with the HTML content
 	 */
-	private string|object $page_content = '';
+	// private string|object $page_content = ''; breaks PHP7.4 compatibility
+	private $page_content = '';
 
 	/**
 	 * @var ?WP_Post $wp_post Final object containing the post
@@ -154,7 +155,7 @@ class Virtual_Page {
 			$post->ping_status = 'closed';
 			$post->post_title = esc_html( $this->page_title );
 			$post->post_name = esc_html( $this->page_path );
-			$post->post_content = $this->page_content ?? '';
+			$post->post_content = $this->page_content;
 			$post->post_excerpt = '';
 			$post->post_parent = 0;
 			$post->post_type = 'page';
