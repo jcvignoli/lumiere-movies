@@ -43,8 +43,7 @@ class Virtual_Page {
 	/**
 	 * @var string|object $page_content Can be a single phrase or an object with the HTML content
 	 */
-	// private string|object $page_content = ''; breaks PHP7.4 compatibility
-	private $page_content = '';
+	private string|object $page_content = '';
 
 	/**
 	 * @var ?WP_Post $wp_post Final object containing the post
