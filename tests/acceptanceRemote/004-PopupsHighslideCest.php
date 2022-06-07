@@ -46,7 +46,7 @@ class PopupsCest {
 	private function highslide(AcceptanceRemoteTester $I) {
 
 		// Make sure Highslide is active, following tests are run with Highslide
-		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options');
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
 		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Highslide", "update_imdbSettings" );
 
 	}
@@ -60,15 +60,15 @@ class PopupsCest {
 	public function checkPopupMovie(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
 
 		// popup link movie interstellar
-		$element = 'a[data-modal_window_film="interstellar"]';
-		$sub_url = '/lumiere/film/?film=interstellar';
+		$element = 'a[data-modal_window_film="' . AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_TITLE . '"]';
+		$sub_url = AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL;
 
 		$I->wantTo('Check if popup movie can be open');
-		$I->amOnPage('/2021/test-codeception/');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait(7);
 		$I->switchToIFrame("//iframe[@src='$this->url_base_remote$sub_url']");
-		$I->see('Christopher Nolan');
+		$I->see( AcceptanceRemoteSettings::TESTING_PAGE_BASE_A_DIRECTOR );
 	}
 
 	/** Is popup person functional?
@@ -78,15 +78,16 @@ class PopupsCest {
 	public function checkPopupPerson(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
 
 		// popup link actor Jorge Rivero
-		$element = 'a[data-modal_window_people="0729473"]';
-		$sub_url = '/lumiere/person/?mid=0729473';
+		$element = 'a[data-modal_window_people="' . AcceptanceRemoteSettings::TESTING_PAGE_POPUP_PERSON_MID . '"]';
+		$sub_url = AcceptanceRemoteSettings::TESTING_PAGE_POPUP_PERSON_URL;
 
 		$I->wantTo('Check if popup person can be open');
-		$I->amOnPage('/2021/test-codeception/');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait(7);
 		$I->switchToIFrame("//iframe[@src='$this->url_base_remote$sub_url']");
-		$I->see('Pajarero');
+		$I->see( AcceptanceRemoteSettings::TESTING_PAGE_BASE_ELEMENT );
+
 	}
 
 }

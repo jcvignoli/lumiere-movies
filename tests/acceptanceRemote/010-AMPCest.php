@@ -50,7 +50,7 @@ class AMPCest {
 	private function highslide(AcceptanceRemoteTester $I) {
 
 		// Make sure Highslide is active, following tests are run with Highslide
-		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options');
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
 		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Highslide", "update_imdbSettings" );
 
 	}
@@ -67,15 +67,15 @@ class AMPCest {
 		$I->wantTo(\Helper\Color::set('Check if AMP page differenciation works', "italic+bold+cyan"));
 
 		// Activate AMP
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeActivatePlugin('amp');
 
 		// Check if AMP is functional and remove links
-		$I->amOnPage('/2021/test-codeception/?amp');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL . '?amp' );
 		$I->seeInPageSource('<a class="linkpopup" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="https://www.jcvignoli.com/blogpourext/lumiere/person/?mid=0227759&amp;amp">Peter Dinklage</a></div>');
 
 		// Check if without AMP it is functional
-		$I->amOnPage('/2021/test-codeception/');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource('<a class="linkincmovie modal_window_people highslide" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a></div>');
 
 	}

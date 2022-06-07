@@ -172,8 +172,8 @@ trait AcceptanceTrait {
 	function SwitchModalWindow($modal) {
 		// Make sure Highslide is active, following tests are run with $modal (ie: Bootstrap, Highslide, ...)
 		try {
-			$this->amOnPage('/wp-admin/admin.php?page=lumiere_options');
-			$this->customSelectOption( "select[name=imdbpopup_modal_window]", $modal, "update_imdbSettings" );
+			$this->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$this->customSelectOption( "select[name=imdbpopup_modal_window]", $modal, "update_imdbSettings" );
 		} catch (\PHPUnit_Framework_AssertionFailedError | \NoSuchElementException | \Exception $f) {
 			$this->comment("[No action] Couldn't siwtch to $modal modal window.");
 		} 

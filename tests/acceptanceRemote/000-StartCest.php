@@ -46,7 +46,7 @@ class StartCest {
 	 *
 	 */
 	public function activateLumiere(AcceptanceRemoteTester $I) {
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeActivatePlugin('lumiere-movies');
 	}
 
@@ -57,7 +57,7 @@ class StartCest {
 	 */
 	public function disableDebug(AcceptanceRemoteTester $I) {
 		$I->wantTo('Disable debug');
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomDisableCheckbox('#imdb_imdbdebug_yes', '#update_imdbSettings');
 	}
@@ -69,9 +69,7 @@ class StartCest {
 	 */
 	public function enableHighslide(AcceptanceRemoteTester $I) {
 		$I->wantTo('Enable Highslide');
-		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options');
-		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "highslide", "update_imdbSettings" );
-
+		$I->SwitchModalWindow('Highslide');
 	}
 
 }

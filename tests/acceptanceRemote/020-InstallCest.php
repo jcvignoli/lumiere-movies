@@ -57,15 +57,15 @@ class InstallCest {
 		$I->amOnPluginsPage();
 		$I->activatePlugin('lumiere-movies');
 */
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeDeactivatePlugin('lumiere-movies');
 		$I->wait(2);
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeActivatePlugin('lumiere-movies');
 		$I->wait(2);
 
 		// Check if cron has been installed
-		$I->amOnPage("/wp-admin/tools.php?page=crontrol_admin_manage_page");
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_POST_CRON_MANAGE );
 		$I->wait(2);
 		$I->see('lumiere_cron_hook');
 
@@ -81,14 +81,14 @@ class InstallCest {
 
 		$I->wantTo('Check if keep settings option is followed on deactivation');
 
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeActivatePlugin('lumiere-movies');
 
 		// Disable keep settings option, so get a confirmation popup
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'update_imdbSettings');
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->scrollTo('#deactivate-lumiere-movies');
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
 		$I->wait(2);
@@ -96,7 +96,7 @@ class InstallCest {
 		$I->acceptPopup();
 		$I->wait(2);
 
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->wait(2);
 		$I->scrollTo('#activate-lumiere-movies');
 		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");
@@ -104,16 +104,16 @@ class InstallCest {
 		$I->see('Plugin activated');
 
 		// Enable keep settings option, so no popup
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomActivateCheckbox('#imdb_imdbkeepsettings_yes', 'update_imdbSettings');
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->wait(5);
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
 		$I->wait(5);
 		$I->see('Plugin deactivated');
 		$I->wait(2);
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->wait(2);
 		$I->scrollTo('#activate-lumiere-movies');
 		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");

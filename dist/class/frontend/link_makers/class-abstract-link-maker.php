@@ -334,7 +334,9 @@ abstract class Abstract_Link_Maker {
 		/** Vars */
 		$click_text = esc_html__( 'click to expand', 'lumiere-movies' ); // text for cutting.
 		$max_length = 200; // maximum number of characters before cutting.
-		$bio_head = '';
+		$bio_head = "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
+			. esc_html__( 'Biography', 'lumiere-movies' )
+			. '</span>';
 		$bio_text = '';
 
 		// Calculate the number of bio results.
@@ -361,18 +363,13 @@ abstract class Abstract_Link_Maker {
 		// If true increase max length up to first '/a>' + 3 chars (since the search is made with 3 chars).
 		$esc_html_breaker = strpos( $bio_text, '<a' ) <= $max_length && is_int( strpos( $bio_text, '/a>' ) ) === true ? strpos( $bio_text, '/a>' ) + 3 : $max_length;
 
+		// No Links class, exit before building clickable biography, show everything at once
+		if ( $output === 1 ) {
+			return $bio_head . "\n\t\t\t" . $bio_text;
+		}
+
 		// There is 1/ a bio, and 2/ its lenght is superior to above $esc_html_breaker
 		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
-
-			$bio_head = "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
-				. esc_html__( 'Biography', 'lumiere-movies' )
-				. '</span>';
-
-			// No Links class, exit before building clickable biography, show everything at once
-			if ( $output == 1 ) {
-				$bio_text = "\n\t\t\t" . $bio_text;
-				return $bio_head . $bio_text;
-			}
 
 			$str_one = substr( $bio_text, 0, $esc_html_breaker );
 			$str_two = substr( $bio_text, $esc_html_breaker, strlen( $bio_text ) );
@@ -442,21 +439,26 @@ abstract class Abstract_Link_Maker {
 		$popup_link_person = '';
 		$popup_link_movie = '';
 
-		if ( intval( $output ) === 0 ) {
-			// Build regular popups.
-			$popup_link_person = '<a class="modal_window_people ' . $specific_class . '" data-modal_window_people="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
-			$popup_link_movie = '<a class="modal_window_film ' . $specific_class . '" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
-		} elseif ( intval( $output ) === 1 ) {
-			// No popups, build internal links.
-			$popup_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">${6}</a>';
-			$popup_link_movie = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">${6}</a>';
-		} elseif ( intval( $output ) === 3 ) {
-			// Bootstrap popups
-			$popup_link_person = '<a class="linkpopup" data-modal_window_people="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
-			. $this->bootstrap_modal( '${4}', '${6}' );
+		switch ( intval( $output ) ) {
+			case 0: // Build modal window popups.
+				$popup_link_person = '<a class="modal_window_people ' . $specific_class . '" data-modal_window_people="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
+				$popup_link_movie = '<a class="modal_window_film ' . $specific_class . '" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
+				break;
+			case 1: // Build internal links with no popups.
+				$popup_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">${6}</a>';
+				$popup_link_movie = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">${6}</a>';
+				break;
+			case 2: // No links class
+				$popup_link_person = '${6}';
+				$popup_link_movie = '${6}';
+				break;
+			case 3: // Bootstrap popups
+				$popup_link_person = '<a class="linkpopup" data-modal_window_people="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
+				. $this->bootstrap_modal( '${4}', '${6}' );
 
-			$popup_link_movie = '<a class="modal_window_film" data-modal_window_filmid="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
-			. $this->bootstrap_modal( '${4}', '${6}' );
+				$popup_link_movie = '<a class="modal_window_film" data-modal_window_filmid="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
+				. $this->bootstrap_modal( '${4}', '${6}' );
+				break;
 		}
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.

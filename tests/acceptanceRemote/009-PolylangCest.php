@@ -50,7 +50,7 @@ class PolylangCest {
 	private function highslide(AcceptanceRemoteTester $I) {
 
 		// Make sure Highslide is active, following tests are run with Highslide
-		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options');
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
 		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Highslide", "update_imdbSettings" );
 
 	}
@@ -67,26 +67,26 @@ class PolylangCest {
 		$I->wantTo(\Helper\Color::set('Check if taxonomy works with Polylang', "italic+bold+cyan"));
 
 		// Activate Polylang
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeActivatePlugin('polylang');
 
 		// Activate taxonomy
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbwordpress_tooladminmenu');
 		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#update_imdbSettings' );
 
 		// Activate director data detail
-		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#imdb_imdbwidgetcomposer_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetdirector_yes', '#update_imdbwidgetSettings' );
 
 		// Activate director taxonomy
-		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo');
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
 		$I->scrollTo('#imdb_imdbtaxonomycomposer_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbtaxonomydirector_yes', '#update_imdbwidgetSettings' );
 
 		// Check if polylang options are available
-		$I->amOnPage('/2021/test-codeception/');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->click( "Tony Zarindast");
 		$I->scrollTo('.imdbincluded-picture');
 		$I->seeInPageSource('Filter language');
@@ -95,11 +95,11 @@ class PolylangCest {
 		$I->seeInPageSource('Français');
 
 		// Deactivate Polylang plugin 
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeDeactivatePlugin('polylang');
 
 		// Check if polylang options are available
-		$I->amOnPage('/2021/test-codeception/');
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->click( "Tony Zarindast");
 		$I->scrollTo('.imdbincluded-picture');
 		$I->dontSeeInPageSource('Filter language');
@@ -107,7 +107,7 @@ class PolylangCest {
 		$I->dontSeeInPageSource('Français');
 
 		// Reactivate Polylang
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeActivatePlugin('polylang');
 
 	}
