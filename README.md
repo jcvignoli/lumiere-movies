@@ -1,6 +1,6 @@
 # Lumiere Movies
 
-[![GitHub Actions](https://github.com/jcvignoli/lumiere-movies/workflows/CI/badge.svg)](https://github.com/jcvignoli/lumiere-movies/actions)
+[![GitHub Actions](https://github.com/jcvignoli/lumiere-movies/workflows/Tests/badge.svg)](https://github.com/jcvignoli/lumiere-movies/actions)
 
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
 **Tags:** cinema, film, imdb, movie, actor \
