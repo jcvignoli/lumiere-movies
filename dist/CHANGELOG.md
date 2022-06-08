@@ -1,7 +1,8 @@
 **Changelog**
 
-v.3.7.1
+v.3.8
 * [feature] Implemented a new link maker: Bootstrap 5.1 modal window. Can be selected in admin options.
+* [technical] PHP8.0 is required due to new coding style, and PHP7.4 will obsolete soon
 * [technical] Polylang is now a Plugin class with separated functions
 * [technical] More OOP oriented, decoupled the link making process, NoLinks, Bootstrap, Highslide, Classic
 * [technical] Virtual pages are now created with the new Virtual_Page class
@@ -9,9 +10,10 @@ v.3.7.1
 * [bug] Metaboxes in howto admin not displayed under certain context
 * [bug] class-logger didn't create debug file if not existing
 * [bug] IMDBPHP fix monthNo() and keywords were not displayed
+* [bug] Popups do not throw a 404 header anymore (as they use virtual pages class)
 
 v.3.7
-* [feature] AMP Wordpress plugin greatly compatibility improved but still room for improvement remains
+* [feature] AMP Wordpress plugin compatibility greatly improved but still room for improvement remains
 * [technical] Updated to IMDBPHP library 7.3 and Monolog 2.5
 * [technical] Renamed files in blocks folder according to WP standards (using folders and index.js files)
 * [technical] Added plugins class, grouping all WP plugins compatible with Lumière

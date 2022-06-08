@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Lumière! Movies plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Lumière! Movies 3.7.1\n"
+"Project-Id-Version: Lumière! Movies 3.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-06-05T19:10:23-03:00\n"
+"POT-Creation-Date: 2022-06-08T11:07:33-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: lumiere-movies\n"
@@ -2026,24 +2026,24 @@ msgid "Trademarks"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:724
-#: class/theme/class-taxonomy-people-standard.php:381
+#: class/theme/class-taxonomy-people-standard.php:380
 msgid "Born on"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:731
 #: class/frontend/class-popup-person.php:748
-#: class/theme/class-taxonomy-people-standard.php:390
-#: class/theme/class-taxonomy-people-standard.php:412
+#: class/theme/class-taxonomy-people-standard.php:389
+#: class/theme/class-taxonomy-people-standard.php:411
 msgid "in"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:742
-#: class/theme/class-taxonomy-people-standard.php:406
+#: class/theme/class-taxonomy-people-standard.php:405
 msgid "Died on"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:752
-#: class/theme/class-taxonomy-people-standard.php:416
+#: class/theme/class-taxonomy-people-standard.php:415
 msgid "cause"
 msgstr ""
 
@@ -2089,31 +2089,31 @@ msgstr ""
 msgid "click to expand"
 msgstr ""
 
-#: class/frontend/link_makers/class-abstract-link-maker.php:368
+#: class/frontend/link_makers/class-abstract-link-maker.php:338
 msgid "Biography"
 msgstr ""
 
-#: class/frontend/link_makers/class-abstract-link-maker.php:407
-#: class/frontend/link_makers/class-abstract-link-maker.php:408
-#: class/frontend/link_makers/class-abstract-link-maker.php:451
-#: class/frontend/link_makers/class-abstract-link-maker.php:452
+#: class/frontend/link_makers/class-abstract-link-maker.php:404
+#: class/frontend/link_makers/class-abstract-link-maker.php:405
+#: class/frontend/link_makers/class-abstract-link-maker.php:448
+#: class/frontend/link_makers/class-abstract-link-maker.php:449
 msgid "internal link to"
 msgstr ""
 
-#: class/frontend/link_makers/class-abstract-link-maker.php:447
-#: class/frontend/link_makers/class-abstract-link-maker.php:448
-#: class/frontend/link_makers/class-abstract-link-maker.php:455
-#: class/frontend/link_makers/class-abstract-link-maker.php:458
-#: class/frontend/link_makers/class-abstract-link-maker.php:545
+#: class/frontend/link_makers/class-abstract-link-maker.php:444
+#: class/frontend/link_makers/class-abstract-link-maker.php:445
+#: class/frontend/link_makers/class-abstract-link-maker.php:456
+#: class/frontend/link_makers/class-abstract-link-maker.php:459
+#: class/frontend/link_makers/class-abstract-link-maker.php:547
 msgid "open a new window with IMDb informations"
 msgstr ""
 
-#: class/frontend/link_makers/class-abstract-link-maker.php:589
-#: class/frontend/link_makers/class-abstract-link-maker.php:594
+#: class/frontend/link_makers/class-abstract-link-maker.php:591
+#: class/frontend/link_makers/class-abstract-link-maker.php:596
 msgid "Open a new window with IMDb informations"
 msgstr ""
 
-#: class/frontend/link_makers/class-abstract-link-maker.php:600
+#: class/frontend/link_makers/class-abstract-link-maker.php:602
 msgid "No Links"
 msgstr ""
 
@@ -2152,7 +2152,7 @@ msgid "You can not call directly this page."
 msgstr ""
 
 #: class/theme/class-taxonomy-items-standard.php:85
-#: class/theme/class-taxonomy-people-standard.php:244
+#: class/theme/class-taxonomy-people-standard.php:243
 msgid "Open the blog "
 msgstr ""
 
@@ -2161,12 +2161,12 @@ msgid "Lumiere taxonomy: "
 msgstr ""
 
 #: class/theme/class-taxonomy-items-standard.php:111
-#: class/theme/class-taxonomy-people-standard.php:278
+#: class/theme/class-taxonomy-people-standard.php:277
 msgid "Filed under: "
 msgstr ""
 
 #: class/theme/class-taxonomy-items-standard.php:115
-#: class/theme/class-taxonomy-people-standard.php:284
+#: class/theme/class-taxonomy-people-standard.php:283
 msgid "Tags: "
 msgstr ""
 
@@ -2174,11 +2174,11 @@ msgstr ""
 msgid "No post found with this taxonomy."
 msgstr ""
 
-#: class/theme/class-taxonomy-people-standard.php:172
+#: class/theme/class-taxonomy-people-standard.php:171
 msgid "Taxonomy for "
 msgstr ""
 
-#: class/theme/class-taxonomy-people-standard.php:235
+#: class/theme/class-taxonomy-people-standard.php:234
 msgid "In the role of"
 msgstr ""
 
