@@ -265,16 +265,16 @@ class Taxonomy_People_Standard {
 
 						?>
 				<div class="lumiere_display_flex">
-					<div class="lumiere_padding_15">	
-					<?php
+					<?php /* Ugly layout, deactivated
+					<div class="lumiere_padding_15">
 					// Display the post's thumbnail.
 					$thumbnail = get_the_post_thumbnail( null, '', [ 'class' => '' ] );
 					if ( strlen( $thumbnail ) !== 0 ) {
 						echo get_the_post_thumbnail( null, '', [ 'class' => '' ] );
 					}
 					echo "\n";
-					?>
-					</div>
+					echo '</div>';
+					*/ ?>
 					<div class="">
 						<?php the_excerpt(); ?>
 					</div>
