@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.8.2
+
 v.3.8.1
 * [bug] Movies inside a post with many words in their titles did not trigger modal window
 
