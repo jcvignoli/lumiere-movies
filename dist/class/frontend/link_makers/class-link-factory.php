@@ -6,7 +6,7 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @since 3.7.1
+ * @since 3.8
  * @version       1.0
  * @package lumiere-movies
  */
@@ -84,4 +84,14 @@ class Link_Factory {
 
 	}
 
+	/**
+	 * Static call of the current class
+	 *
+	 * @return void Build the class
+	 */
+	public static function lumiere_link_factory_start (): Bootstrap_Links|AMP_Links|No_Links|Highslide_Links|Classic_Links {
+
+		return ( new self() )->lumiere_select_link_maker();
+
+	}
 }

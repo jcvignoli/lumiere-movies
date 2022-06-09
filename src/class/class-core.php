@@ -25,6 +25,7 @@ use \Lumiere\Popup_Search;
 use \Lumiere\Plugins\Imdbphp;
 use \Lumiere\Plugins\Logger;
 use \Lumiere\Virtual_Page;
+use \Lumiere\Movie;
 use \Imdb\Title;
 use \Imdb\Person;
 
@@ -177,6 +178,27 @@ class Core {
 
 		// Register Gutenberg blocks.
 		add_action( 'init', [ $this, 'lumiere_register_gutenberg_blocks' ] );
+
+		// Movie class if it is not an admin page
+		if ( ! is_admin() ) {
+			add_action(
+				'init',
+				function(): void {
+					include_once __DIR__ . '/frontend/class-movie.php';
+					Movie::lumiere_movie_start();
+				},
+				0
+			);
+		}
+
+		// Widget
+		add_action(
+			'widgets_init',
+			function(): void {
+				include_once __DIR__ . '/class-widget.php';
+				Widget::lumiere_widget_start();
+			}
+		);
 
 		/**
 		 * Updates.

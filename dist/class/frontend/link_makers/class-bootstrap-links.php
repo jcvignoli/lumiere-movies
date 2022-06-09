@@ -11,7 +11,7 @@
  * @copyright (c) 2022, Lost Highway
  *
  * @version 1.0
- * @since 3.7
+ * @since 3.8
  * @package lumiere-movies
  */
 
@@ -39,7 +39,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		$this->settings_open();
 
 		// Registers javascripts and styles.
-		add_action( 'init', [ $this, 'lumiere_bootstrap_register_assets' ], 0 );
+		add_action( 'init', [ $this, 'lumiere_bootstrap_register_assets' ], 1 ); // must be after Core class call
 
 		// Execute javascripts and styles only if the vars in lumiere_bootstrap_core were not already enqueued
 		// (prevents a bug if the vars are displayed twice, the popup doesn't open).

@@ -40,7 +40,7 @@ class Classic_Links extends Abstract_Link_Maker {
 		$this->settings_open();
 
 		// Registers javascripts and styles.
-		add_action( 'init', [ $this, 'lumiere_classic_register_assets' ], 0 );
+		add_action( 'init', [ $this, 'lumiere_classic_register_assets' ], 1 ); // must be after Core class call
 
 		// Execute javascripts and styles only if the vars in lumiere_classic_links was not already enqueued
 		// (prevents a bug if the vars are displayed twice, the popup doesn't open).
