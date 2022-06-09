@@ -1,5 +1,8 @@
 **Changelog**
 
+v.3.8.1
+* [bug] Movies inside a post with many words in their titles did not trigger modal window
+
 v.3.8
 * [feature] Implemented a new link maker: Bootstrap 5.1 modal window. Can be selected in admin options.
 * [technical] PHP8.0 is required due to new coding style, and PHP7.4 will obsolete soon
