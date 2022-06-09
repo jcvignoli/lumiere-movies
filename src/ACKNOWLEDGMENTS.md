@@ -20,7 +20,8 @@
 **Some admin panels icons** made by [Yusuke Kamiyamane](https://p.yusukekamiyamane.com/ "Yusuke Kamiyamane homepage")
 
 # Tools
-**Highslide JS Thumbnail viewer** by [Highslide](https://highslide.com/ "Highslide website")
+**HighslideJS modal window** by [Highslide](https://highslide.com/ "Highslide website")
+**Bootstrap modal window** by [Mark Otto](https://getbootstrap.com/ "Bootstrap website")
 **Monolog logger** by [Seldaek](https://github.com/Seldaek/monolog/ "Monolog GIT")
 
 # Development

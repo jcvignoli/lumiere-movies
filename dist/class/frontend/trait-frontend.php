@@ -13,8 +13,6 @@
 
 namespace Lumiere;
 
-include_once __DIR__ . '/link_makers/autoload.php';
-
 use \Lumiere\PluginsDetect;
 use \Lumiere\Utils;
 use \Lumiere\Link_Makers\Link_Factory;
@@ -35,13 +33,6 @@ trait Frontend {
 	 * @phpstan-ignore-next-line PHPStan complains that var is not defined for some contexts
 	 */
 	public array $plugins_in_use = [];
-
-	/**
-	 * Factory class for building $link_maker object
-	 *
-	 * @var Link_Factory $factory_class The factory class that will determine which class to use
-	 */
-	public Link_Factory $factory_class;
 
 	/**
 	 * Class for building links, i.e. Highslide
@@ -95,9 +86,9 @@ trait Frontend {
 		$this->imdbphp_class = new Imdbphp();
 
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
-		// Need to construct both classes for sub factory heading and taxonomy pages
-		$this->factory_class = new Link_Factory();
-		$this->link_maker = $this->factory_class->lumiere_select_link_maker();
+		// Runned again in dependent classes, but need to be run twice: 1/ JS&CSS 2/ Detect if AMP is in use
+		include_once __DIR__ . '/link_makers/autoload.php';
+		Link_Factory::lumiere_link_factory_start();
 
 		// Start checking if current page is block editor
 		add_action( 'init', [ $this, 'lumiere_frontend_is_editor' ], 0 );

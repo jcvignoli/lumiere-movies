@@ -16,6 +16,10 @@ if ( ! defined( 'WPINC' ) || ! class_exists( '\Lumiere\Settings' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+if ( ! trait_exists( 'Lumiere\Frontend' ) ) {
+	include_once __DIR__ . '/frontend/trait-frontend.php';
+}
+
 use \Lumiere\Movie;
 use \Lumiere\Plugins\Polylang;
 use \Lumiere\Link_Makers\Link_Factory;
@@ -254,6 +258,7 @@ class Widget extends \WP_Widget {
 	public function widget( $args, $instance ) {
 
 		// Start Movie class.
+		include_once __DIR__ . '/frontend/class-movie.php';
 		$movie_class = new Movie( new Polylang() );
 
 		// Execute logging.
@@ -412,6 +417,3 @@ class Widget extends \WP_Widget {
 	}
 
 }
-
-// Instead of starting the class, add an action.
-add_action( 'set_current_user', [ 'Lumiere\Widget', 'lumiere_widget_start' ] );

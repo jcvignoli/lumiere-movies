@@ -20,6 +20,10 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+if ( ! trait_exists( 'Lumiere\Frontend' ) ) {
+	include_once __DIR__ . '/trait-frontend.php';
+}
+
 use \Imdb\Title;
 use \Imdb\TitleSearch;
 use \Lumiere\Plugins\Polylang;
@@ -41,11 +45,11 @@ class Movie {
 	private ?Polylang $plugin_polylang = null;
 
 	/**
-	 * Make sure $link_maker is executed once in this class
+	 * Make sure events are runned once in this class
 	 *
-	 * @var bool $link_maker_trigger
+	 * @var bool $movie_run_once
 	 */
-	private bool $link_maker_trigger = false;
+	private bool $movie_run_once = false;
 
 	/**
 	 *  HTML allowed for use of wp_kses_post()
@@ -110,7 +114,7 @@ class Movie {
 		 * Start PluginsDetect class
 		 * Is instanciated only if not instanciated already
 		 * Use lumiere_set_plugins_array() in trait to set $plugins_in_use var in trait
-		 * @since 3.7.1
+		 * @since 3.8
 		 */
 		if ( count( $this->plugins_in_use ) === 0 ) {
 			$this->lumiere_set_plugins_array();
@@ -120,27 +124,30 @@ class Movie {
 		$logger = $this->logger->log();
 
 		/**
-		 * Start Link Factory sub class
-		 * Is instantiated only if not instanciated already, using $link_maker_trigger
-		 * @since 3.7.1
+		 * Run Factory Class, Show log for link maker and plugin detect
+		 * Is instantiated only if not instanciated already, using $run_once in this class
+		 * @since 3.8
 		 */
-		if ( $this->link_maker_trigger === false ) {
+		if ( $this->movie_run_once === false ) {
 
-			$this->link_maker = $this->factory_class->lumiere_select_link_maker();
+			// Run again the factory class (already runned in trait) to build link maker
+			$this->link_maker = Link_Factory::lumiere_link_factory_start();
+
+			// Log the current link maker
 			$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
-			// Set the trigger to true so it is not called again.
-			$this->link_maker_trigger = true;
+			// Log PluginsDetect, $this->plugins_in_use in trait
+			$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ']' );
+			$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] Calling IMDbPHP class.' );
 
+			// Set the trigger to true so this is not called again.
+			$this->movie_run_once = true;
 		}
 
 		$config_class = $this->config_class;
 		$lumiere_count_me_siffer = isset( $lumiere_count_me_siffer ) ? $lumiere_count_me_siffer : 0; # var for counting only one results
 		$imdb_id_or_title = $imdb_id_or_title_outside !== null ? $imdb_id_or_title_outside : null;
 		$output = '';
-
-		$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ']' );
-		$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] Calling IMDbPHP class.' );
 
 		$search = new TitleSearch( $this->imdbphp_class, $logger );
 
@@ -326,6 +333,9 @@ class Movie {
 		 * Each one has its own class passed in $link_maker,
 		 * according to which option the lumiere_select_link_maker() found in Frontend.
 		 */
+		if ( ! isset( $this->link_maker ) ) { // Needed if called from Taxonomy pages
+			$this->link_maker = Link_Factory::lumiere_link_factory_start();
+		}
 		return $this->link_maker->lumiere_popup_film_link( $link_parsed );
 
 	}
@@ -349,6 +359,9 @@ class Movie {
 		 * Each one has its own class passed in $link_maker,
 		 * according to which option the lumiere_select_link_maker() found in Frontend.
 		 */
+		if ( ! isset( $this->link_maker ) ) { // Needed if called from Taxonomy pages
+			$this->link_maker = Link_Factory::lumiere_link_factory_start();
+		}
 		return $this->link_maker->lumiere_popup_film_link( $link_parsed );
 
 	}
@@ -1729,15 +1742,3 @@ class Movie {
 	}
 
 } // end of class
-
-
-/**
- * Auto load the class
- * Conditions: not admin area
- * @TODO: Pass this into core class?
- */
-if ( ! is_admin() ) {
-	//new Movie( new Polylang() );
-	add_action( 'init', [ 'Lumiere\Movie', 'lumiere_movie_start' ], 1 );
-}
-

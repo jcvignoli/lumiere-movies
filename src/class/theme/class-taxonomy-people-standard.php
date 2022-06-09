@@ -4,11 +4,12 @@
  * You can replace the occurences of the word s_tandar_d, rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.4
+ * Version: 3.5
  *
  * This template retrieves automaticaly the occurence of the name selected
  * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
- * Almost compatible with AMP WordPress plugin, since WP submit_button() does not seem to be yet AMP compliant
+ * Almost compatible with AMP WordPress plugin, because WP submit_button() does not seem to be yet AMP compliant
+ * It uses \Lumiere\Frontend trait and builds its $this->link_maker var
  *
  * @package lumiere-movies
  */
@@ -23,6 +24,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 use \Imdb\Person;
 use \Imdb\PersonSearch;
 use \Lumiere\Plugins\Polylang;
+use \Lumiere\Link_Makers\Link_Factory;
 use \WP_Query;
 
 class Taxonomy_People_Standard {
@@ -89,7 +91,7 @@ class Taxonomy_People_Standard {
 		// List of potential parameters for a person.
 		$this->array_people = $this->config_class->array_people;
 
-		// Display the page.
+		// Display the page. Must not be included into an add_action(), as should be displayed directly.
 		$this->lumiere_taxo_layout_standard();
 
 		// Remove action that breaks everything in trait-frontend.php, function is executed later
@@ -145,7 +147,11 @@ class Taxonomy_People_Standard {
 		// Build array of plugins from trait-frontend.php
 		$this->lumiere_set_plugins_array();
 
+		// Simplify coding
 		$logger = $this->logger->log();
+
+		// Build the Link Maker var in trait
+		$this->link_maker = Link_Factory::lumiere_link_factory_start();
 
 		$logger->debug( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] Using the link maker class: ' . get_class( $this->link_maker ) );
 
@@ -448,4 +454,3 @@ class Taxonomy_People_Standard {
 }
 
 new Taxonomy_People_Standard( new Polylang() );
-
