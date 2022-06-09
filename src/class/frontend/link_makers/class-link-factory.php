@@ -25,6 +25,9 @@ use \Lumiere\Link_Makers\Highslide_Links;
 use \Lumiere\Link_Makers\Classic_Links;
 use \Lumiere\Utils;
 
+/**
+ * @phpstan-type LINKMAKERCLASSES Bootstrap_Links|AMP_Links|No_Links|Highslide_Links|Classic_Links
+ */
 class Link_Factory {
 
 	// Trait including the database settings.
@@ -42,7 +45,7 @@ class Link_Factory {
 
 	/**
 	 * Select which class to use to build the HTML links.
-	 * @return Bootstrap_Links|AMP_Links|No_Links|Highslide_Links|Classic_Links Class to build the links with.
+	 * @return LINKMAKERCLASSES Class to build the links with.
 	 */
 	public function lumiere_select_link_maker (): Bootstrap_Links|AMP_Links|No_Links|Highslide_Links|Classic_Links {
 
@@ -87,7 +90,7 @@ class Link_Factory {
 	/**
 	 * Static call of the current class
 	 *
-	 * @return void Build the class
+	 * @return LINKMAKERCLASSES Build the class
 	 */
 	public static function lumiere_link_factory_start (): Bootstrap_Links|AMP_Links|No_Links|Highslide_Links|Classic_Links {
 
