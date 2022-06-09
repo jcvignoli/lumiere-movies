@@ -491,12 +491,12 @@ abstract class Abstract_Link_Maker {
 	 */
 	private function bootstrap_modal ( string $imdb_id, string $imdb_data ): string {
 
-		return "\n\t\t\t" . '<span class="modal fade" id="theModal' . sanitize_text_field( $imdb_id ) . '">'
-			. "\n\t\t\t\t" . '<span class="modal-dialog modal-dialog-centered" id="bootstrapp' . sanitize_text_field( $imdb_id ) . '">'
+		return "\n\t\t\t" . '<span class="modal fade" id="theModal' . $imdb_id . '">'
+			. "\n\t\t\t\t" . '<span class="modal-dialog modal-dialog-centered" id="bootstrapp' . $imdb_id . '">'
 			. "\n\t\t\t\t\t" . '<span class="modal-content">'
 			. "\n\t\t\t\t\t\t" . '<span class="modal-header black">'
 			// . esc_html__( 'Informations about', 'lumiere-movies' ) . ' ' . sanitize_text_field( ucfirst( $imdb_data ) )
-			. '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . sanitize_text_field( $imdb_id ) . '"></button>'
+			. '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . $imdb_id . '"></button>'
 			. "\n\t\t\t\t\t\t" . '</span>'
 			. "\n\t\t\t\t\t\t" . '<span class="modal-body"></span>'
 			. "\n\t\t\t\t\t" . '</span>'
@@ -523,7 +523,8 @@ abstract class Abstract_Link_Maker {
 	}
 
 	/**
-	 * Build link to popup for IMDb people
+	 * Inside a post Popup people builder
+	 * Build an HTML link to open a popup for searching a person inside the posts
 	 *
 	 * @param string $imdbid IMDB id
 	 * @param string $imdbname Name of the person
@@ -561,8 +562,8 @@ abstract class Abstract_Link_Maker {
 	}
 
 	/**
-	 * Bootsrap popup function
-	 * Build an HTML link to open a popup with bootstrap for searching a movie (using js/lumiere_bootstrap_links.js)
+	 * Inside a post Popup movie builder
+	 * Build an HTML link to open a popup for searching a movie inside the posts
 	 *
 	 * @param array<int, string> $link_parsed html tags and text to be modified
 	 * @param string $popuplarg Modal window width, if nothing passed takes database value
@@ -576,6 +577,8 @@ abstract class Abstract_Link_Maker {
 	protected function lumiere_popup_film_link_abstract ( array $link_parsed, string $popuplarg = null, string $popuplong = null, $output = 0, $specific_class = '' ): string {
 
 		$txt = '';
+		$title_attr = sanitize_title( $link_parsed[1] );
+		$title_esc = esc_html( $link_parsed[1] );
 
 		if ( $popuplarg !== null ) {
 			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
@@ -588,18 +591,18 @@ abstract class Abstract_Link_Maker {
 		// Highslide & Classic modal
 		if ( intval( $output ) === 0 ) {
 
-			$txt = '<a class="modal_window_film" data-modal_window_film="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
+			$txt = '<a class="modal_window_film" data-modal_window_film="' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>&nbsp;';
 
 			// Bootstrap modal
 		} elseif ( intval( $output ) === 1 ) {
 
-			$txt = '<a class="modal_window_film" data-modal_window_film="' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" data-target="#theModal' . Utils::lumiere_name_htmlize( $link_parsed[1] ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;'
-			. $this->bootstrap_modal( $link_parsed[1], $link_parsed[1] );
+			$txt = '<a class="modal_window_film" data-modal_window_film="' . $title_attr . '" data-target="#theModal' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>&nbsp;'
+			. $this->bootstrap_modal( $title_attr, $title_esc );
 
 			// AMP & No Link modal
 		} elseif ( intval( $output ) === 2 ) {
 
-			$txt = '<a class="link-imdblt-classicfilm" href="' . $this->config_class->lumiere_urlpopupsfilms . $link_parsed[1] . '?film=' . $link_parsed[1] . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $link_parsed[1] . '</a>&nbsp;';
+			$txt = '<a class="link-imdblt-classicfilm" href="' . $this->config_class->lumiere_urlpopupsfilms . '?film=' . $title_attr . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_esc . '</a>&nbsp;';
 
 		}
 
