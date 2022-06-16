@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.8.2
+* [feature] Removed the ugly and useless column in taxonomy results only showing a thumbnail
 
 v.3.8.1
 * [bug] Movies inside a post with many words in their titles did not trigger modal window

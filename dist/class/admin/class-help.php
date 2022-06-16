@@ -220,13 +220,13 @@ class Help extends \Lumiere\Admin {
 
 				foreach ( $faqsection_processed as $texte ) {
 					if ( $count_rows % 2 === 1 ) { // uneven number -> title
-						// display text formatted
 						echo "\t\t\t\t\t\t<li><strong>" . esc_html( $texte ) . "</strong></li>\n";
-					} elseif ( $count_rows % 2 === 0 ) { // even number -> text
-						// display text formatted
-						echo "\t\t\t\t\t\t<div class='imdblt_padding_twenty'>" . wp_kses( str_replace( "\n\n", "\n", $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS )
-							. "\t\t\t\t\t\t</div>\n";
+						$count_rows++;
+						continue;
 					}
+					// even number -> title
+					echo "\t\t\t\t\t\t<div class='imdblt_padding_twenty'>" . wp_kses( str_replace( "\n\n", "\n", $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS )
+							. "\t\t\t\t\t\t</div>\n";
 					$count_rows++;
 				}
 				echo "\t\t\t\t\t</ol>\n";
