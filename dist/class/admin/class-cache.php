@@ -226,7 +226,7 @@ class Cache extends \Lumiere\Admin {
 
 		##################################### delete a specific file by clicking on it
 
-		if ( ( isset( $_GET['dothis'] ) ) && ( $_GET['dothis'] === 'delete' ) && ( $_GET['type'] ) ) {
+		if ( isset( $_GET['dothis'] ) && ( $_GET['dothis'] === 'delete' ) && isset( $_GET['type'] ) ) {
 
 			$this->cache_delete_specific_file();
 
@@ -234,7 +234,7 @@ class Cache extends \Lumiere\Admin {
 
 		##################################### refresh a specific file by clicking on it
 
-		if ( ( isset( $_GET['dothis'] ) ) && ( $_GET['dothis'] === 'refresh' ) && ( isset( $_GET['type'] ) ) ) {
+		if ( isset( $_GET['dothis'] ) && ( $_GET['dothis'] === 'refresh' ) && isset( $_GET['type'] ) ) {
 
 			$this->cache_refresh_specific_file();
 
