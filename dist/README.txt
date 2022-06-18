@@ -1,7 +1,7 @@
 === Lumiere Movies ===
 Contributors: psykonevro
 Tags: cinema, film, imdb, movie, actor
-Requires at least: 5.0
+Requires at least: 5.3
 Tested up to: 6.0
 Stable tag: 3.8.2
 Requires PHP: 8.0
