@@ -145,7 +145,6 @@ class Movie {
 		}
 
 		$config_class = $this->config_class;
-		$lumiere_count_me_siffer = isset( $lumiere_count_me_siffer ) ? $lumiere_count_me_siffer : 0; # var for counting only one results
 		$imdb_id_or_title = $imdb_id_or_title_outside !== null ? $imdb_id_or_title_outside : null;
 		$output = '';
 
@@ -204,13 +203,6 @@ class Movie {
 
 			}
 
-			if ( $this->lumiere_filter_single_movies( $mid_premier_resultat, $lumiere_count_me_siffer ) === true ) {
-
-				$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] $mid_premier_resultat already called, skipping" );
-				continue;
-
-			}
-
 			$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] Displaying rows for '$mid_premier_resultat'" );
 
 			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- ### Lumière! movies plugin ### -->';
@@ -223,10 +215,11 @@ class Movie {
 			$output .= $this->lumiere_movie_design( $mid_premier_resultat ); # passed those two values to the design
 			$output .= "\n\t</div>";
 
-			$lumiere_count_me_siffer++; # increment counting only one results
-
 		}
 
+		/** seems useless
+		 * unset( $counter_imdb_id_or_title ); // avoid displaying several times same movie, close "for" loop.
+		 */
 		return $output;
 
 	}
@@ -1692,27 +1685,6 @@ class Movie {
 		}
 
 		return $output;
-
-	}
-
-	/**
-	 * Avoid that the same movie to be displayed twice or more
-	 * allows movie total count (how many time a movie is called by the plugin)
-	 *
-	 */
-	private function lumiere_filter_single_movies( string $mid_premier_resultat, int &$lumiere_count_me_siffer ): bool {
-
-		global $lumiere_count_me_siffer, $lumiere_counter;
-
-		$lumiere_count_me_siffer++;
-		$lumiere_counter[ $lumiere_count_me_siffer ] = $mid_premier_resultat;
-		$ici = array_count_values( $lumiere_counter );
-
-		if ( $ici[ $mid_premier_resultat ] < 2 ) {
-			return false;
-		}
-
-		return true;
 
 	}
 
