@@ -201,7 +201,7 @@ class No_Links extends Abstract_Link_Maker {
 	public function lumiere_movies_source_details ( string $mid ): string {
 
 		// Function in abstract class, second param to remove links.
-		return $this->lumiere_movies_source_details_abstract( $mid, 2 );
+		return $this->lumiere_movies_source_details_abstract( $mid, 1 );
 
 	}
 

@@ -216,8 +216,8 @@ class AMP_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_source_details ( string $mid ): string {
 
-		// Function in abstract class, second param to avoid imdbelementSOURCE-picture class which breaks AMP.
-		return $this->lumiere_movies_source_details_abstract( $mid, 1 );
+		// Function in abstract class, third param to avoid imdbelementSOURCE-picture class which breaks AMP.
+		return $this->lumiere_movies_source_details_abstract( $mid, 0, '' );
 
 	}
 
