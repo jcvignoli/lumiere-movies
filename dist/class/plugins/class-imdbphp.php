@@ -20,9 +20,9 @@ if ( ! defined( 'WPINC' ) ) {
 // use IMDbPHP config class in /vendor/.
 use \Imdb\Config;
 
- /**
- * This is a child class of \Imdb\Config
- * It inherits of all variables and injects Lumière! values into it
+/**
+ * Child class of \Imdb\Config
+ * Get all settings from \Lumiere\Settings_Global and sends them to \Imdb\Config
  */
 class Imdbphp extends Config {
 
@@ -31,7 +31,6 @@ class Imdbphp extends Config {
 
 	/**
 	 * Constructor
-	 *
 	 */
 	public function __construct() {
 
