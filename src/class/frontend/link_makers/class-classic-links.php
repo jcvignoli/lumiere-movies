@@ -181,14 +181,14 @@ class Classic_Links extends Abstract_Link_Maker {
 	/**
 	 * Official websites data details
 	 *
-	 * @param string $url Url to the prod company
-	 * @param string $name prod company name
+	 * @param string $url Url to the offical website
+	 * @param string $name offical website name
 	 */
 	public function lumiere_movies_officialsites_details ( string $url, string $name ): string {
 
-		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_attr( $name ) . "'>"
-			. esc_html( $name )
-			. '</a>';
+		// Function in abstract class, third param for links.
+		return $this->lumiere_movies_officialsites_details_abstract( $url, $name, 0 );
+
 	}
 
 	/**
@@ -211,23 +211,8 @@ class Classic_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_prodcompany_details ( string $name, string $url, string $notes ): string {
 
-		$output = '';
-		$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
-		$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-		$output .= "\n\t\t\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html( $name ) . "'>";
-		$output .= esc_attr( $name );
-		$output .= '</a>';
-		$output .= "\n\t\t\t\t</div>";
-		$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-		if ( strlen( $notes ) !== 0 ) {
-			$output .= esc_attr( $notes );
-		} else {
-			$output .= '&nbsp;';
-		}
-		$output .= '</div>';
-		$output .= "\n\t\t\t</div>";
-
-		return $output;
+		// Function in abstract class, fifth param for links.
+		return $this->lumiere_movies_prodcompany_details_abstract( $name, $url, $notes, 0 );
 
 	}
 
@@ -238,12 +223,8 @@ class Classic_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_source_details ( string $mid ): string {
 
-		return "\n\t\t\t" . '<img class="imdbelementSOURCE-picture" alt="link to imdb" width="33" height="15" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />'
-		. '<a class="link-incmovie-sourceimdb" title="'
-				. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
-				. esc_url( 'https://www.imdb.com/title/tt' . $mid ) . '" >'
-				. '&nbsp;&nbsp;'
-				. esc_html__( "IMDb's page for this movie", 'lumiere-movies' ) . '</a>';
+		// Function in abstract class, second param to include imdbelementSOURCE-picture.
+		return $this->lumiere_movies_source_details_abstract( $mid, 0 );
 
 	}
 
@@ -255,7 +236,8 @@ class Classic_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_trailer_details ( string $url, string $website_title ): string {
 
-		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html__( 'Watch on IMBb website the trailer for ', 'lumiere-movies' ) . esc_html( $website_title ) . "'>" . sanitize_text_field( $website_title ) . '</a>';
+		// Function in abstract class, third param for links.
+		return $this->lumiere_movies_trailer_details_abstract( $url, $website_title, 0 );
 
 	}
 

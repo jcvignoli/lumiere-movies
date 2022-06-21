@@ -609,4 +609,120 @@ abstract class Abstract_Link_Maker {
 		return $txt;
 
 	}
+
+	/**
+	 * Trailer data details
+	 *
+	 * @param string $url Url to the trailer
+	 * @param string $website_title website name
+	 * @param int $output Define the output: 0 for highslide, bootstrap, AMP & classic links (default), 1 for no links
+	 * @return string
+	 */
+	protected function lumiere_movies_trailer_details_abstract ( string $url, string $website_title, int $output = 0 ): string {
+
+		// No Links class, do not display any link.
+		if ( $output === 1 ) {
+			return "\n\t\t\t" . sanitize_text_field( $website_title ) . ', ' . esc_url( $url );
+		}
+
+		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html__( 'Watch on IMBb website the trailer for ', 'lumiere-movies' ) . esc_html( $website_title ) . "'>" . sanitize_text_field( $website_title ) . '</a>';
+
+	}
+
+	/**
+	 * Production company data details
+	 *
+	 * @param string $name prod company name
+	 * @param string $url Url to the prod company
+	 * @param string $notes prod company notes
+	 * @param int $output Define the output: 0 for highslide, bootstrap classic links (default), 1 for no links & AMP
+	 * @return string
+	 */
+	protected function lumiere_movies_prodcompany_details_abstract ( string $name, string $url = '', string $notes = '', int $output = 0 ): string {
+
+		// No Links class or AMP, do not display any link.
+		if ( $output === 1 ) {
+			return esc_attr( $name ) . '<br />';
+		}
+
+		$return = "\n\t\t\t" . '<div align="center" class="lumiere_container">'
+			. "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">'
+			. "\n\t\t\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html( $name ) . "'>"
+			. esc_attr( $name )
+			. '</a>'
+			. "\n\t\t\t\t</div>"
+			. "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+
+		if ( strlen( $notes ) !== 0 ) {
+			$return .= esc_attr( $notes );
+		} else {
+			$return .= '&nbsp;';
+		}
+
+		$return .= '</div>'
+			. "\n\t\t\t</div>";
+
+		return $return;
+
+	}
+
+	/**
+	 * Official websites data details
+	 *
+	 * @param string $url Url to the offical website
+	 * @param string $name Offical website name
+	 * @param int $output Define the output: 0 for highslide, bootstrap, AMP & classic links (default), 1 for no links
+	 * @return string
+	 */
+	protected function lumiere_movies_officialsites_details_abstract ( string $url, string $name, int $output = 0 ): string {
+
+		// No Links class, do not display any link.
+		if ( $output === 1 ) {
+			return "\n\t\t\t" . sanitize_text_field( $name ) . ', ' . esc_url( $url );
+		}
+
+		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_attr( $name ) . "'>"
+			. esc_html( $name )
+			. '</a>';
+
+	}
+
+	/**
+	 * Source data details
+	 *
+	 * @param string $mid IMDb ID of the movie
+	 * @param int $output Define the output: 0 for highslide, bootstrap & classic links (default), 1 for AMP, 2 for No links
+	 * @return string
+	 */
+	protected function lumiere_movies_source_details_abstract ( string $mid, int $output = 0 ): string {
+
+		// No Links class, do not return links.
+		if ( $output === 2 ) {
+			return "\n\t\t\t"
+				. '<img class="imdbelementSOURCE-picture" alt="link to imdb" width="33" height="15" src="'
+				. esc_url(
+					$this->imdb_admin_values['imdbplugindirectory']
+					. 'pics/imdb-link.png'
+				) . '" />'
+				. ' https://www.imdb.com/title/tt' . $mid;
+		}
+
+		$return = "\n\t\t\t" . '<img';
+
+		// AMP class, do not display imdbelementSOURCE-picture class as it breaks AMP
+		if ( $output !== 1 ) {
+			$return .= ' class="imdbelementSOURCE-picture"';
+		}
+
+		 $return .= ' alt="link to imdb" width="33" height="15" src="'
+			. esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />'
+			. '<a class="link-incmovie-sourceimdb" title="'
+			. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
+			. esc_url( 'https://www.imdb.com/title/tt' . $mid ) . '" >'
+			. '&nbsp;&nbsp;'
+			. esc_html__( "IMDb's page for this movie", 'lumiere-movies' ) . '</a>';
+
+		return $return;
+
+	}
 }
