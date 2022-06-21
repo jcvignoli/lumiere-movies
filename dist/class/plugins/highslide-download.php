@@ -22,39 +22,44 @@ $lumiere_highslidefile_local_folder = esc_url( plugin_dir_path( __DIR__ ) . '../
 if ( is_admin() ) {
 	require_once ABSPATH . 'wp-admin/includes/file.php';
 	WP_Filesystem();
+	global $wp_filesystem;
 } else {
 	wp_die( esc_html__( 'You can not call directly this page.', 'lumiere-movies' ) );
 }
 
 if ( ( isset( $_GET['highslide'] ) ) && ( $_GET['highslide'] === 'yes' ) ) {
 
-	// Check the website
-	if ( strlen( $lumiere_highslidefile_remote_zip ) !== 0 ) {
-		$lumiere_highslide_website_validator = wp_safe_remote_get( $lumiere_highslidefile_remote_zip );
-	} else {
+	// Check that a website var exists.
+	if ( strlen( $lumiere_highslidefile_remote_zip ) === 0 ) {
 		wp_safe_redirect( add_query_arg( 'msg', 'highslide_website_unkown', wp_get_referer() ) );
 		exit();
 	}
 
-	// Download Highslide zip if website is ok
+	// Website var exists, create a validator.
+	$lumiere_highslide_website_validator = wp_safe_remote_get( $lumiere_highslidefile_remote_zip );
+
+	// Check if website is up and running, otherwise stop.
 	if ( is_wp_error( $lumiere_highslide_website_validator ) === true ) {
 		wp_safe_redirect( add_query_arg( 'msg', 'highslide_down', wp_get_referer() ) );
 		exit();
 	}
 
-	file_put_contents( $lumiere_highslidefile_local_zip, wp_remote_fopen( $lumiere_highslidefile_remote_zip ) );
+	// Download the highslide zip, otherwise stop.
+	if ( $wp_filesystem->put_contents( $lumiere_highslidefile_local_zip, wp_remote_fopen( $lumiere_highslidefile_remote_zip ) ) === false ) {
+		wp_die( esc_html__( 'Could not download Highslide library.', 'lumiere-movies' ) );
+	}
 
 	//  Extraction and delete the file if exists, if it has an extension ".", if it ends with zip
-	if ( file_exists( $lumiere_highslidefile_local_zip ) ) {
+	if ( $wp_filesystem->exists( $lumiere_highslidefile_local_zip ) === true ) {
 		unzip_file( $lumiere_highslidefile_local_zip, $lumiere_highslidefile_local_folder );
 		unlink( esc_url( $lumiere_highslidefile_local_zip ) );
 		wp_safe_redirect( add_query_arg( 'msg', 'highslide_success', wp_get_referer() ) );
 		exit();
-	} else {
-		// Extraction failed
-		wp_safe_redirect( add_query_arg( 'msg', 'highslide_failure', wp_get_referer() ) );
-		exit();
 	}
+
+	// Extraction failed
+	wp_safe_redirect( add_query_arg( 'msg', 'highslide_failure', wp_get_referer() ) );
+	exit();
 
 	// Wrong $_GET
 } else {
