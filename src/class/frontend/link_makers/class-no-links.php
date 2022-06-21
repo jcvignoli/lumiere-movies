@@ -59,6 +59,7 @@ class No_Links extends Abstract_Link_Maker {
 
 	/**
 	 * Build picture of the movie
+	 *
 	 * @param string|bool $photo_localurl_false The picture of big size
 	 * @param string|bool $photo_localurl_true The picture of small size
 	 * @param string $movie_title Title of the movie
@@ -73,6 +74,7 @@ class No_Links extends Abstract_Link_Maker {
 
 	/**
 	 * Build picture of the movie in taxonomy pages
+	 *
 	 * @param string|bool $photo_localurl_false The picture of big size
 	 * @param string|bool $photo_localurl_true The picture of small size
 	 * @param string $person_name Name of the person
@@ -89,7 +91,6 @@ class No_Links extends Abstract_Link_Maker {
 	 * Display mini biographical text, not all people have one
 	 *
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
-	 *
 	 * @return ?string
 	 */
 	public function lumiere_medaillon_bio ( array $bio_array ): ?string {
@@ -148,7 +149,8 @@ class No_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_trailer_details ( string $url, string $website_title ): string {
 
-		return "\n\t\t\t" . sanitize_text_field( $website_title ) . ', ' . esc_url( $url );
+		// Function in abstract class, third param for removing links.
+		return $this->lumiere_movies_trailer_details_abstract( $url, $website_title, 1 );
 
 	}
 
@@ -161,19 +163,21 @@ class No_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_prodcompany_details ( string $name, string $url = '', string $notes = '' ): string {
 
-		return esc_attr( $name ) . '<br />';
+		// Function in abstract class, fifth param for links.
+		return $this->lumiere_movies_prodcompany_details_abstract( $name, '', '', 1 );
 
 	}
 
 	/**
 	 * Official websites data details
 	 *
-	 * @param string $url Url to the prod company
-	 * @param string $name prod company name
+	 * @param string $url Url to the offical website
+	 * @param string $name offical website name
 	 */
 	public function lumiere_movies_officialsites_details ( string $url, string $name ): string {
 
-		return "\n\t\t\t" . sanitize_text_field( $name ) . ', ' . esc_url( $url );
+		// Function in abstract class, third param for no links.
+		return $this->lumiere_movies_officialsites_details_abstract( $url, $name, 1 );
 
 	}
 
@@ -196,8 +200,8 @@ class No_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_source_details ( string $mid ): string {
 
-		return "\n\t\t\t" . '<img class="imdbelementSOURCE-picture" alt="link to imdb" width="33" height="15" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />'
-			. ' https://www.imdb.com/title/tt' . $mid;
+		// Function in abstract class, second param to remove links.
+		return $this->lumiere_movies_source_details_abstract( $mid, 2 );
 
 	}
 
