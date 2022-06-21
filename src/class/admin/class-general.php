@@ -277,17 +277,17 @@ class General extends \Lumiere\Admin {
 						<select name="imdbpopup_modal_window" id="imdbpopup_modal_window">
 						<?php
 						echo "\t\t\t\t\t\t\t" . '<option value="bootstrap"';
-						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'bootstrap' ) {
+						if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
 							echo ' selected="selected"';
 						}
 						echo '>Bootstrap</option>';
 						echo "\n\t\t\t\t\t\t\t" . '<option value="highslide"';
-						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {
+						if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'highslide' ) {
 							echo ' selected="selected"';
 						}
 						echo '>Highslide</option>';
 						echo "\n\t\t\t\t\t\t\t" . '<option value="classic"';
-						if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'classic' ) {
+						if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'classic' ) {
 							echo ' selected="selected"';
 						}
 						echo ">Classic</option>\n"; ?>
@@ -296,7 +296,7 @@ class General extends \Lumiere\Admin {
 						echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. Highslide or Bootstrap are advanced modal windows.', 'lumiere-movies' ) . '<br />' . esc_html__( 'When bootstrap is select, popup height and width cannot be edited.', 'lumiere-movies' ) . '<br />' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html__( 'Bootstrap', 'lumiere-movies' ) . '</div>';
 
 						// If the folder "highslide" was not found
-						if (  is_dir( $this->config_class->lumiere_js_path . 'highslide' ) === false && $this->activate_highslide_download === true && $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {
+						if (  is_dir( $this->config_class->lumiere_js_path . 'highslide' ) === false && $this->activate_highslide_download === true && $this->imdb_admin_values['imdbpopup_modal_window'] === 'highslide' ) {
 							// Say so!
 							echo Utils::lumiere_notice( 4, '<span class="imdblt_red_bold">' . esc_html__( 'Warning! No Highslide folder was found.', 'lumiere-movies' ) . '</span>' );
 							echo '<br />';
@@ -311,7 +311,7 @@ class General extends \Lumiere\Admin {
 						?>
 					</div>
 
-					<div class="lumiere_flex_auto imdblt_padding_five 					<?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'bootstrap' ) {
+					<div class="lumiere_flex_auto imdblt_padding_five 					<?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
 						echo 'hidesection'; }?>" id="imdb_imdbpopuplarg">
 
 						<label for="imdb_imdbpopuplarg"><?php esc_html_e( 'Width', 'lumiere-movies' ); ?></label><br /><br />
@@ -320,7 +320,7 @@ class General extends \Lumiere\Admin {
 						<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"540"</div>
 
 					</div>
-					<div class="lumiere_flex_auto imdblt_padding_five 					<?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'bootstrap' ) {
+					<div class="lumiere_flex_auto imdblt_padding_five 					<?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
 						echo 'hidesection'; }?>" id="imdb_imdbpopuplong">
 
 						<label for="imdb_imdbpopuplong"><?php esc_html_e( 'Height', 'lumiere-movies' ); ?></label><br /><br />

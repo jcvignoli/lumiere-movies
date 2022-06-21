@@ -26,7 +26,7 @@ use \Lumiere\Link_Makers\Classic_Links;
 use \Lumiere\Utils;
 
 /**
- * @phpstan-type LINKMAKERCLASSES Bootstrap_Links|AMP_Links|No_Links|Highslide_Links|Classic_Links
+ * @phpstan-type LINKMAKERCLASSES AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links
  */
 class Link_Factory {
 
@@ -47,7 +47,7 @@ class Link_Factory {
 	 * Select which class to use to build the HTML links.
 	 * @return LINKMAKERCLASSES Class to build the links with.
 	 */
-	public function lumiere_select_link_maker (): Bootstrap_Links|AMP_Links|No_Links|Highslide_Links|Classic_Links {
+	public function lumiere_select_link_maker (): AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links {
 
 		/**
 		 * Checks if the current page is AMP
@@ -66,19 +66,19 @@ class Link_Factory {
 		/**
 		 * Bootstrap is selected in admin options
 		 */
-		if ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'bootstrap' ) {
+		if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
 			return new Bootstrap_Links();
 
 			/**
 			 * Highslide is selected in admin options
 			 */
-		} elseif ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'highslide' ) {
+		} elseif ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'highslide' ) {
 			return new Highslide_Links();
 
 			/**
 			 * None was selected in admin options, display classic popups
 			 */
-		} elseif ( $this->imdb_admin_values['imdbpopup_modal_window'] == 'classic' ) {
+		} elseif ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'classic' ) {
 			return new Classic_Links();
 		}
 
@@ -92,7 +92,7 @@ class Link_Factory {
 	 *
 	 * @return LINKMAKERCLASSES Build the class
 	 */
-	public static function lumiere_link_factory_start (): Bootstrap_Links|AMP_Links|No_Links|Highslide_Links|Classic_Links {
+	public static function lumiere_link_factory_start (): AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links {
 
 		return ( new self() )->lumiere_select_link_maker();
 
