@@ -223,8 +223,8 @@ class Classic_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_source_details ( string $mid ): string {
 
-		// Function in abstract class, second param to include imdbelementSOURCE-picture.
-		return $this->lumiere_movies_source_details_abstract( $mid, 0 );
+		// Function in abstract class, second for normal display, third param to include imdbelementSOURCE-picture.
+		return $this->lumiere_movies_source_details_abstract( $mid, 0, 'imdbelementSOURCE-picture' );
 
 	}
 

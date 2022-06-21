@@ -691,13 +691,14 @@ abstract class Abstract_Link_Maker {
 	 * Source data details
 	 *
 	 * @param string $mid IMDb ID of the movie
-	 * @param int $output Define the output: 0 for highslide, bootstrap & classic links (default), 1 for AMP, 2 for No links
+	 * @param int $output Define the output: 0 for AMP, highslide, bootstrap & classic links (default), 1 for No links
+	 * @param string $class extra class to add, only AMP does not use it
 	 * @return string
 	 */
-	protected function lumiere_movies_source_details_abstract ( string $mid, int $output = 0 ): string {
+	protected function lumiere_movies_source_details_abstract ( string $mid, int $output = 0, string $class = null ): string {
 
 		// No Links class, do not return links.
-		if ( $output === 2 ) {
+		if ( $output === 1 ) {
 			return "\n\t\t\t"
 				. '<img class="imdbelementSOURCE-picture" alt="link to imdb" width="33" height="15" src="'
 				. esc_url(
@@ -709,9 +710,9 @@ abstract class Abstract_Link_Maker {
 
 		$return = "\n\t\t\t" . '<img';
 
-		// AMP class, do not display imdbelementSOURCE-picture class as it breaks AMP
-		if ( $output !== 1 ) {
-			$return .= ' class="imdbelementSOURCE-picture"';
+		// Add a class if requested, should be imdbelementSOURCE-picture, which breaks AMP
+		if ( $class !== null ) {
+			$return .= ' class="' . $class . '"';
 		}
 
 		 $return .= ' alt="link to imdb" width="33" height="15" src="'
