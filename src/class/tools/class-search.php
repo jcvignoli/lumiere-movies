@@ -108,7 +108,7 @@ class Search {
 		echo '</head>';
 		echo "\n" . '<body class="gutenberg_search">';
 
-		if ( ! isset( $_GET['moviesearched'] ) || ! isset( $_GET['_wpnonce'] ) || wp_verify_nonce( $_GET['_wpnonce'], 'lumiere_search' ) === false ) {
+		if ( ! isset( $_GET['moviesearched'] ) || ! isset( $_GET['search_nonce'] ) || wp_verify_nonce( $_GET['search_nonce'], 'lumiere_search' ) === false ) {
 			$this->initial_form();
 		}
 
@@ -129,7 +129,7 @@ class Search {
 	 */
 	private function maybe_results_page (): void {
 
-		if ( ( isset( $_GET['moviesearched'] ) ) && ( strlen( $_GET['moviesearched'] ) > 0 ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'lumiere_search' ) > 0 ) {
+		if ( isset( $_GET['moviesearched'], $_GET['search_nonce'] ) && wp_verify_nonce( sanitize_key( $_GET['search_nonce'] ), 'lumiere_search' ) > 0 && strlen( $_GET['moviesearched'] ) > 0 ) {
 
 			# Initialization of IMDBphp
 			$search = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
@@ -199,7 +199,7 @@ class Search {
 			echo "\n\t\t" . '<input type="text" id="moviesearched" name="moviesearched">';
 
 			// Nonce field deactivated, since it can be called from everywhere
-			wp_nonce_field( 'lumiere_search' );
+			wp_nonce_field( 'lumiere_search', 'search_nonce' );
 
 			echo "\n\t\t" . '<input type="submit" value="Search">';
 			echo "\n\t" . '</form>';
@@ -208,7 +208,6 @@ class Search {
 
 	/**
 	 * Register search script and unregister useless scripts
-	 *
 	 */
 	public function lumiere_search_register_script (): void {
 

@@ -77,7 +77,7 @@ class Core {
 		// Display only in admin area
 		add_action(
 			'template_redirect',
-			function( $template ) {
+			function( string $template ): Virtual_Page|string {
 				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) ) {
 
 					// Include needed classes
@@ -218,13 +218,13 @@ class Core {
 	 *
 	 * @param array<string>|null $plugin_meta An array of the plugin's metadata. Can be null.
 	 * @param string $plugin_file_name Path to the plugin file relative to the plugins directory.
-	 * @param array<string> $plugin_data An array of plugin data.
-	 * @param string $status Status filter currently applied to the plugin list.
+	 * NOTINCLUDED @param array<string> $plugin_data An array of plugin data.
+	 * NOTINCLUDED @param string $status Status filter currently applied to the plugin list.
 	 *        Possible values are: 'all', 'active', 'inactive', 'recently_activated', 'upgrade', 'mustuse',
 	 *        'dropins', 'search', 'paused', 'auto-update-enabled', 'auto-update-disabled'.
 	 * @return array<string>|null $plugin_meta An array of the plugin's metadata.
 	 */
-	public function lumiere_add_sponsor_plugins_page ( ?array $plugin_meta, string $plugin_file_name, array $plugin_data, string $status ): ?array {
+	public function lumiere_add_sponsor_plugins_page ( ?array $plugin_meta, string $plugin_file_name ): ?array {
 		if ( 'lumiere-movies/lumiere-movies.php' === $plugin_file_name ) {
 			$plugin_meta[] = sprintf(
 				'<a href="%1$s"><span class="dashicons dashicons-coffee" aria-hidden="true" style="font-size:14px;line-height:1.3"></span>%2$s</a>',
@@ -597,7 +597,7 @@ class Core {
 		// Add 'popup' as as valid query var in WP query_vars.
 		add_action(
 			'query_vars',
-			function ( $query_vars ) {
+			function ( array $query_vars ): array {
 				$query_vars[] = 'popup';
 				return $query_vars;
 			}
@@ -606,7 +606,7 @@ class Core {
 		// Include Popups.
 		add_action(
 			'template_redirect',
-			function( $template ) {
+			function( string $template ): string|Virtual_Page {
 
 				$query_popup = get_query_var( 'popup' );
 
@@ -643,12 +643,11 @@ class Core {
 						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_MOVIE_URL;
 
 						// Build the virtual page class
-						new Virtual_Page(
+						return new Virtual_Page(
 							$this->config_class->lumiere_urlstringfilms,
 							new Popup_Movie(),
 							$title
 						);
-						break;
 					case 'person':
 						// Set the title.
 						if ( isset( $_GET['mid'] ) ) {
@@ -664,12 +663,11 @@ class Core {
 						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_PERSON_URL;
 
 						// Build the virtual page class
-						new Virtual_Page(
+						return new Virtual_Page(
 							$this->config_class->lumiere_urlstringperson,
 							new Popup_Person(),
 							$title
 						);
-						break;
 					case 'search':
 						// Set the title.
 						$filmname_sanitized = isset( $_GET['film'] ) ? ': [' . sanitize_text_field( $_GET['film'] ) . ']' : 'No name entered';
@@ -678,12 +676,11 @@ class Core {
 						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_SEARCH_URL;
 
 						// Build the virtual page class
-						new Virtual_Page(
+						return new Virtual_Page(
 							$this->config_class->lumiere_urlstringsearch,
 							new Popup_Search(),
 							'Lumiere Query Interface ' . $filmname_sanitized
 						);
-						break;
 				}
 
 				return $template;
