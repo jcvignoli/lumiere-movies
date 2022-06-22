@@ -240,7 +240,7 @@ abstract class Abstract_Link_Maker {
 		}
 
 		// Not classic links, so we can close <a>
-		if ( $pictures != 3 ) {
+		if ( $pictures !== 3 ) {
 			$output .= "\n\t\t\t\t\t" . '</a>';
 		}
 
@@ -262,7 +262,7 @@ abstract class Abstract_Link_Maker {
 	 *
 	 * @return string
 	 */
-	protected function lumiere_link_picture_abstract ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title, int $pictures = 0, $specific_a_class = '', $specific_img_class = '' ): string {
+	protected function lumiere_link_picture_abstract ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title, int $pictures = 0, string $specific_a_class = '', string $specific_img_class = '' ): string {
 
 		$output = '';
 		$output .= "\n\t\t\t" . '<div class="imdbelementPIC">';
@@ -533,7 +533,7 @@ abstract class Abstract_Link_Maker {
 	 *
 	 * @return string
 	 */
-	protected function lumiere_link_popup_people_abstract ( string $imdbid, string $imdbname, $output = 0, $specific_a_class = '' ): string {
+	protected function lumiere_link_popup_people_abstract ( string $imdbid, string $imdbname, int $output = 0, string $specific_a_class = '' ): string {
 
 		// No link creation, exit
 		if ( intval( $output ) === 2 ) {
@@ -574,7 +574,7 @@ abstract class Abstract_Link_Maker {
 	 * @return string
 
 	 */
-	protected function lumiere_popup_film_link_abstract ( array $link_parsed, string $popuplarg = null, string $popuplong = null, $output = 0, $specific_class = '' ): string {
+	protected function lumiere_popup_film_link_abstract ( array $link_parsed, string $popuplarg = null, string $popuplong = null, int $output = 0, string $specific_class = '' ): string {
 
 		$txt = '';
 		$title_attr = sanitize_title( $link_parsed[1] );
@@ -715,7 +715,7 @@ abstract class Abstract_Link_Maker {
 			$return .= ' class="' . $class . '"';
 		}
 
-		 $return .= ' alt="link to imdb" width="33" height="15" src="'
+		$return .= ' alt="link to imdb" width="33" height="15" src="'
 			. esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />'
 			. '<a class="link-incmovie-sourceimdb" title="'
 			. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
