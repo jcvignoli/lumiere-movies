@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.8.3
+
 v.3.8.2
 * [feature] Removed the ugly and useless column in taxonomy results only showing a thumbnail
 * [technical] Updated to Monolog 2.7
