@@ -1,13 +1,14 @@
-/**** Lumière WordPress plugin workflow
-** When "build" Files are concatened, minified, copied from src to dist, then uploaded to the main server by ssh
-** Rsync available to syncronize it all
-** Errors notified (notify)
-** Can use external parameters to modify tasks behaviour (--clean yes, --nodry yes, --ssh yes)
-** Using gulp-load-plugins to load plugins on demand
-** Copying taks must be run --ssh yes to upload to ssh external server
-**/
+/** 
+ * <Lumière WordPress plugin workflow>
+ * When "build" Files are concatened, minified, copied from src to dist, then uploaded to the main server by ssh
+ * Rsync available to syncronize it all
+ * Errors notified (notify)
+ * Can use external parameters to modify tasks behaviour (--clean yes, --nodry yes, --ssh yes)
+ * Using gulp-load-plugins to load plugins on demand
+ * Copying taks must be run --ssh yes to upload to ssh external server
+ */
 
-var plugins = require("gulp-load-plugins")({
+var plugins = require("gulp-load-plugins")({			/* Autoload all gulp plugins in pattern */
 	/*DEBUG: true,*/
 	camelize: true,
 	overridePattern: true,					/* option to add a new pattern and include functions
@@ -17,6 +18,7 @@ var plugins = require("gulp-load-plugins")({
 
 /* Require gulp packages */
 var gulp = 	require('gulp'),
+/*gulpplugins	replace = require('gulp-replace'),			/* replace string in file */
 /*gulpplugins	browserSync = require('browser-sync'),		/* open a proxy browser tab, auto refresh on files edit */
 /*gulpplugins	cleanCSS = require('gulp-clean-css'),		/* minify css */		
 /*gulpplugins	autoprefixer = require('gulp-autoprefixer'),	/* adds support for old browsers in CSS */
@@ -191,6 +193,8 @@ exports.stylesheets = function stylesheets() {
 		.pipe(plugins.rename({suffix: '.min'}))
 		.pipe(plugins.changed( paths.stylesheets.dist ))
 		.pipe(plugins.autoprefixer('last 2 versions'))
+		// Removed class .dropdown-menu in CSS bootstrap.css which breaks OCEANWP
+		.pipe(plugins.if ( (file) => file.path.match('bootstrap.min.css'), plugins.replace(/(\.dropdown-menu\s\{).+?(border-radius: 0\.25rem;\s\})/s, '')) )
 		.pipe(plugins.cleanCss({debug: true}, (details) => {
 			console.log(`${details.name}: ${details.stats.originalSize}`);
 			console.log(`${details.name}: ${details.stats.minifiedSize}`);

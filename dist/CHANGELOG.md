@@ -3,8 +3,8 @@
 v.3.8.2
 * [feature] Removed the ugly and useless column in taxonomy results only showing a thumbnail
 * [technical] Updated to Monolog 2.7
-* [technical] Removed lumiere_filter_single_movies() function which doesn't seem usefull anymore (might use unset() in the future, if something fails)
-* [bug] Lumière was preventing OCEANWP theme to display its menu
+* [technical] Removed lumiere_filter_single_movies() function which doesn't seem usefull anymore in movie class
+* [bug] Lumière Bootstrap CSS was preventing OCEANWP theme to display its menu (Removed class .dropdown-menu in CSS bootstrap.css which breaks OCEANWP, also modified gulpfile.js for building)
 
 v.3.8.1
 * [bug] Movies inside a post with many words in their titles did not trigger modal window
