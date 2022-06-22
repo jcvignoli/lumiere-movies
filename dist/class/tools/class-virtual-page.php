@@ -147,7 +147,7 @@ class Virtual_Page {
 			$post->comment_status = 'closed';
 			$post->comment_count = 0;
 			$post->filter = 'raw';
-			$post->guid = rand();
+			$post->guid = wp_rand();
 			$post->is_virtual = true;
 			$post->menu_order = 0;
 			$post->pinged = '';
