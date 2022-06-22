@@ -276,7 +276,7 @@ class General extends \Lumiere\Admin {
 
 						<select name="imdbpopup_modal_window" id="imdbpopup_modal_window">
 						<?php
-						echo "\t\t\t\t\t\t\t" . '<option value="bootstrap"';
+						echo "\t" . '<option value="bootstrap"';
 						if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
 							echo ' selected="selected"';
 						}
@@ -293,7 +293,7 @@ class General extends \Lumiere\Admin {
 						echo ">Classic</option>\n"; ?>
 						</select>
 						<?php
-						echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. Highslide or Bootstrap are advanced modal windows.', 'lumiere-movies' ) . '<br />' . esc_html__( 'When bootstrap is select, popup height and width cannot be edited.', 'lumiere-movies' ) . '<br />' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html__( 'Bootstrap', 'lumiere-movies' ) . '</div>';
+						echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. Highslide or Bootstrap are advanced modal windows.', 'lumiere-movies' ) . '<br />' . esc_html__( 'When bootstrap is selected, popup layout cannot be edited.', 'lumiere-movies' ) . '<br />' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html__( 'Bootstrap', 'lumiere-movies' ) . '</div>';
 
 						// If the folder "highslide" was not found
 						if (  is_dir( $this->config_class->lumiere_js_path . 'highslide' ) === false && $this->activate_highslide_download === true && $this->imdb_admin_values['imdbpopup_modal_window'] === 'highslide' ) {
@@ -311,29 +311,28 @@ class General extends \Lumiere\Admin {
 						?>
 					</div>
 
-					<div class="lumiere_flex_auto imdblt_padding_five 					<?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
+					<div class="lumiere_flex_auto imdblt_padding_five <?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
 						echo 'hidesection'; }?>" id="imdb_imdbpopuplarg">
 
 						<label for="imdb_imdbpopuplarg"><?php esc_html_e( 'Width', 'lumiere-movies' ); ?></label><br /><br />
 						<input type="text" name="imdb_imdbpopuplarg" size="5" value="<?php echo intval( $this->imdb_admin_values['imdbpopuplarg'] ); ?>" >
 
 						<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"540"</div>
-
 					</div>
-					<div class="lumiere_flex_auto imdblt_padding_five 					<?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
+
+					<div class="lumiere_flex_auto imdblt_padding_five <?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
 						echo 'hidesection'; }?>" id="imdb_imdbpopuplong">
 
 						<label for="imdb_imdbpopuplong"><?php esc_html_e( 'Height', 'lumiere-movies' ); ?></label><br /><br />
 						<input type="text" name="imdb_imdbpopuplong" size="5" value="<?php echo intval( $this->imdb_admin_values['imdbpopuplong'] ); ?>" >
 
 						<div class="explain"> <?php esc_html_e( 'Popup height, in pixels', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"350"</div>
-
 					</div>
 
-					<div class="lumiere_flex_auto imdblt_padding_five">
+					<div class="lumiere_flex_auto imdblt_padding_five <?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
+						echo 'hidesection'; }?>" id="imdb_popuptheme">
 
 						<label for="imdb_imdbpopuptheme"><?php esc_html_e( 'Theme color', 'lumiere-movies' ); ?></label><br /><br />
-
 						<select name="imdb_imdbpopuptheme">
 							<option<?php
 							if ( $this->imdb_admin_values['imdbpopuptheme'] === 'white' ) {
@@ -347,7 +346,6 @@ class General extends \Lumiere\Admin {
 							if ( $this->imdb_admin_values['imdbpopuptheme'] === 'lightgrey' ) {
 								echo ' selected="selected"';}
 							?> value="lightgrey"><?php esc_html_e( 'lightgrey', 'lumiere-movies' ); ?></option>
-
 						</select>
 
 						<div class="explain"> <?php esc_html_e( 'Popup color theme', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"white"</div>
