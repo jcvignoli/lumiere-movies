@@ -108,11 +108,15 @@ document.addEventListener(
 					ele.style.display = 'none';
 					var ele = document.getElementById( 'imdb_imdbpopuplong' );
 					ele.style.display = 'none';
+					var ele = document.getElementById( 'imdb_popuptheme' );
+					ele.style.display = 'none';
 				}
 				if ( value !== 'bootstrap' ) {
 					var ele = document.getElementById( 'imdb_imdbpopuplarg' );
 					ele.style.display = 'inline';
 					var ele = document.getElementById( 'imdb_imdbpopuplong' );
+					ele.style.display = 'inline';
+					var ele = document.getElementById( 'imdb_popuptheme' );
 					ele.style.display = 'inline';
 				}
 			}
