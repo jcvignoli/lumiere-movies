@@ -23,7 +23,7 @@ class Metabox {
 	/**
 	 * Start the metabox
 	 */
-	public function lumiere_start_metabox(): void {
+	public function __construct() {
 
 		/**
 		* Register the metabox
