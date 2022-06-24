@@ -148,9 +148,9 @@ class Core {
 
 			// Add the metabox to editor.
 			require_once __DIR__ . '/class-metabox.php';
-			$lumiere_metabox_class = new Metabox();
-			add_action( 'admin_init', [ $lumiere_metabox_class, 'lumiere_start_metabox' ] );
+			new Metabox();
 
+			// Add sponsor in plugin page
 			add_filter( 'plugin_row_meta', [ $this, 'lumiere_add_sponsor_plugins_page' ], 10, 4 );
 		}
 
