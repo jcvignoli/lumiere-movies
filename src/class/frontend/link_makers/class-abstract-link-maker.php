@@ -591,18 +591,18 @@ abstract class Abstract_Link_Maker {
 		// Highslide & Classic modal
 		if ( intval( $output ) === 0 ) {
 
-			$txt = '<a class="modal_window_film" data-modal_window_film="' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>&nbsp;';
+			$txt = '<a class="modal_window_film" data-modal_window_film="' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
 
 			// Bootstrap modal
 		} elseif ( intval( $output ) === 1 ) {
 
-			$txt = '<a class="modal_window_film" data-modal_window_film="' . $title_attr . '" data-target="#theModal' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>&nbsp;'
+			$txt = '<a class="modal_window_film" data-modal_window_film="' . $title_attr . '" data-target="#theModal' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>'
 			. $this->bootstrap_modal( $title_attr, $title_esc );
 
 			// AMP & No Link modal
 		} elseif ( intval( $output ) === 2 ) {
 
-			$txt = '<a class="link-imdblt-classicfilm" href="' . $this->config_class->lumiere_urlpopupsfilms . '?film=' . $title_attr . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_esc . '</a>&nbsp;';
+			$txt = '<a class="link-imdblt-classicfilm" href="' . $this->config_class->lumiere_urlpopupsfilms . '?film=' . $title_attr . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
 
 		}
 

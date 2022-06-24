@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.8.3
+* [bug] An extra space was added for movie links inside posts. Fixed function lumiere_popup_film_link_abstract() in class abstract link maker
 
 v.3.8.2
 * [feature] Removed the ugly and useless column in taxonomy results only showing a thumbnail
