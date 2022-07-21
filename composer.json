@@ -37,8 +37,10 @@
         "phpstan/phpstan-strict-rules": "^1.2",
         "szepeviktor/phpstan-wordpress": "^1.1"
     },
-    "allow-plugins": {
-        "dealerdirect/phpcodesniffer-composer-installer": true
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "scripts": {
         "phpcs": "vendor/bin/phpcs src",
