@@ -40,17 +40,19 @@ if ( ( file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload.php' ) ) && (
 
 }
 
-// Start the plugin if classes are loaded.
-if ( ( class_exists( '\Lumiere\Core' ) ) && ( class_exists( '\Imdb\Config' ) ) ) {
-
-	$lumiere_core = new \Lumiere\Core();
-
-	// Executed upon plugin activation.
-	register_activation_hook( __FILE__, [ $lumiere_core, 'lumiere_on_activation' ] );
-
-	// Executed upon plugin deactivation.
-	register_deactivation_hook( __FILE__, [ $lumiere_core, 'lumiere_on_deactivation' ] );
-
-	// Display error notice, plugin is not properly installed.
+// Check if the classes are installed
+if ( ! class_exists( '\Lumiere\Core' ) ) {
+	wp_die( esc_html__( 'Error: Lumière is not installed.', 'lumiere-movies' ) );
 }
+if ( ! class_exists( '\Imdb\Config' ) ) {
+	wp_die( esc_html__( 'Error: Imdbphp libraries are not installed.', 'lumiere-movies' ) );
+}
+
+$lumiere_core = new \Lumiere\Core();
+
+// Executed upon plugin activation.
+register_activation_hook( __FILE__, [ $lumiere_core, 'lumiere_on_activation' ] );
+
+// Executed upon plugin deactivation.
+register_deactivation_hook( __FILE__, [ $lumiere_core, 'lumiere_on_deactivation' ] );
 

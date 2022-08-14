@@ -47,6 +47,13 @@
         "phpcsbot": "vendor/bin/phpcs -n src",
         "phpstan": "vendor/bin/phpstan --memory-limit=1G analyze src",
         "phpstanbot": "vendor/bin/phpstan",
-        "lint": ["@phpcsbot", "@phpstanbot"]
+        "lint": ["@phpcsbot", "@phpstanbot"],
+        "post-autoload-dump": [
+            "mkdir -p ./src/vendor/lib/Psr && mkdir -p ./src/vendor/lib/Psr/Log && cp -ruv ./vendor/imdbphp/imdbphp/src/Psr/Log/LoggerInterface.php ./src/vendor/lib/Psr/Log",
+            "mkdir -p ./src/vendor/lib/Psr && mkdir -p ./src/vendor/lib/Psr/SimpleCache && cp -ruv ./vendor/imdbphp/imdbphp/src/Psr/SimpleCache/CacheInterface.php ./src/vendor/lib/Psr/SimpleCache",
+            "mkdir -p ./src/vendor/lib/Monolog && cp -ruv ./vendor/monolog/monolog/src/Monolog ./src/vendor/lib/",
+            "mkdir -p ./src/vendor/lib/Imdb && cp -ruv ./vendor/imdbphp/imdbphp/src/Imdb ./src/vendor/lib/"
+        ]
+
     }
 }
