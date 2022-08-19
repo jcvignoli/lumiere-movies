@@ -169,7 +169,7 @@ class Popup_Search {
 				// ---- movie part
 				echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
 
-				echo "\n\t\t<a class=\"linkpopup\" href=\"" . esc_url(
+				echo "\n\t\t<a rel=\"nofollow\" class=\"linkpopup\" href=\"" . esc_url(
 					$this->config_class->lumiere_urlpopupsfilms
 					. '/?mid=' . esc_html( $res->imdbid() )
 				)
@@ -187,7 +187,7 @@ class Popup_Search {
 				$realisateur = $res->director();
 				if ( ( isset( $realisateur['0']['name'] ) ) && ( ! is_null( $realisateur['0']['name'] ) ) ) {
 
-					echo "\n\t\t<a class=\"linkpopup\" href=\""
+					echo "\n\t\t<a rel=\"nofollow\" class=\"linkpopup\" href=\""
 						. esc_url(
 							$this->config_class->lumiere_urlpopupsperson
 							. '/?mid=' . esc_html( $realisateur['0']['imdb'] )

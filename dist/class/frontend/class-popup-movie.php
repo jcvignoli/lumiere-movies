@@ -224,22 +224,22 @@ class Popup_Movie {
 
 		<div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class="searchaka" href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsearch . '?film=' . $this->film_title_sanitized . '&norecursive=yes' ); ?>" title="<?php esc_html_e( 'Search for other movies with the same title', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Similar Titles', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="searchaka" href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsearch . '?film=' . $this->film_title_sanitized . '&norecursive=yes' ); ?>" title="<?php esc_html_e( 'Search for other movies with the same title', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Similar Titles', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Movie', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Movie', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=actors' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Actors', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Actors', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=actors' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Actors', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Actors', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=crew' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Crew', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Crew', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=crew' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Crew', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Crew', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=resume' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Plots', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Plots', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=resume' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Plots', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Plots', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=divers' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsfilms . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=divers' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
 			</div>
 		</div>
 		<?php
@@ -314,7 +314,7 @@ class Popup_Movie {
 			. '</span>';
 			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 
-				echo '<a class="linkpopup" href="'
+				echo '<a rel="nofollow" class="linkpopup" href="'
 					. esc_url(
 						$this->config_class->lumiere_urlpopupsperson
 						. $director[ $i ]['imdb']
@@ -348,7 +348,7 @@ class Popup_Movie {
 			echo '<span class="imdbincluded-subtitle">' . esc_html__( 'Main actors', 'lumiere-movies' ) . '</span>';
 
 			for ( $i = 0; ( $i < $nbactors ) && ( $i < $nbtotalactors ); $i++ ) {
-				echo '<a class="linkpopup" href="' . esc_url( $this->config_class->lumiere_urlpopupsperson . $cast[ $i ]['imdb'] . '/?mid=' . $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
+				echo '<a rel="nofollow" class="linkpopup" href="' . esc_url( $this->config_class->lumiere_urlpopupsperson . $cast[ $i ]['imdb'] . '/?mid=' . $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
 				echo "\n\t\t\t" . esc_html( $cast[ $i ]['name'] ) . '</a>';
 
 				if ( ( $i < $nbactors - 1 ) && ( $i < $nbtotalactors - 1 ) ) {
@@ -618,7 +618,7 @@ class Popup_Movie {
 				echo '</div>';
 				echo "\n\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
 				echo "\n\t\t\t\t"
-				. '<a class="linkpopup" href="'
+				. '<a rel="nofollow" class="linkpopup" href="'
 				. esc_url(
 					$this->config_class->lumiere_urlpopupsperson
 					. $cast[ $i ]['imdb']
@@ -657,7 +657,7 @@ class Popup_Movie {
 				echo "\n\t" . '<div align="center" class="lumiere_container">';
 				echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 				echo "\n\t\t"
-				. '<a class="linkpopup" href="'
+				. '<a rel="nofollow" class="linkpopup" href="'
 				. esc_url(
 					$this->config_class->lumiere_urlpopupsperson
 					. $director[ $i ]['imdb']
@@ -694,7 +694,7 @@ class Popup_Movie {
 				echo "\n\t" . '<div align="center" class="lumiere_container">';
 				echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 				echo "\n\t\t"
-				. '<a class="linkpopup" href="'
+				. '<a rel="nofollow" class="linkpopup" href="'
 				. esc_url(
 					$this->config_class->lumiere_urlpopupsperson
 					. $writer[ $i ]['imdb']
@@ -728,7 +728,7 @@ class Popup_Movie {
 				echo "\n\t" . '<div align="center" class="lumiere_container">';
 				echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 				echo "\n\t\t"
-				. '<a class="linkpopup" href="'
+				. '<a rel="nofollow" class="linkpopup" href="'
 				. esc_url(
 					$this->config_class->lumiere_urlpopupsperson
 					. $producer[ $i ]['imdb']

@@ -3,6 +3,7 @@
 v.3.8.3
 * [bug] An extra space was added for movie links inside posts. Fixed function lumiere_popup_film_link_abstract() in class abstract link maker
 * [technical] Updated to Monolog 2.8
+* [technical] Added 'rel=nofollow' into links built by popups in order to avoid search engines crawls (a Gb of cache subsequently created)
 
 v.3.8.2
 * [feature] Removed the ugly and useless column in taxonomy results only showing a thumbnail
