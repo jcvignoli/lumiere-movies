@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Lumière! Movies plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Lumière! Movies 3.8.3\n"
+"Project-Id-Version: Lumière! Movies 3.8.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-06-22T09:00:43-03:00\n"
+"POT-Creation-Date: 2022-08-20T12:04:02-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: lumiere-movies\n"
@@ -2212,6 +2212,14 @@ msgstr ""
 
 #: class/tools/class-utils.php:172
 msgid "more"
+msgstr ""
+
+#: lumiere-movies.php:45
+msgid "Error: Lumière is not installed."
+msgstr ""
+
+#: lumiere-movies.php:48
+msgid "Error: Imdbphp libraries are not installed."
 msgstr ""
 
 #: blocks/editor/index.js:25

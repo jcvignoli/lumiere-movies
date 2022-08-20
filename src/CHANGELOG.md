@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.8.4
+
 v.3.8.3
 * [bug] An extra space was added for movie links inside posts. Fixed function lumiere_popup_film_link_abstract() in class abstract link maker
 * [technical] Updated to Monolog 2.8
