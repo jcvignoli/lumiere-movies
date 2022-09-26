@@ -35,7 +35,8 @@
         "phan/phan": "^5.3",
         "skaut/wordpress-stubs": "^2.2",
         "phpstan/phpstan-strict-rules": "^1.2",
-        "szepeviktor/phpstan-wordpress": "^1.1"
+        "szepeviktor/phpstan-wordpress": "^1.1",
+        "vimeo/psalm": "^4.26"
     },
     "config": {
         "allow-plugins": {
