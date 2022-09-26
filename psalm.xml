@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+    <!-- checkForThrowsDocblock="true" -->
+<!-- autoloader="src/lumiere-movies.php" -->
+<psalm
+    errorLevel="3"
+    resolveFromConfigFile="true"
+    cacheDirectory="tmp/cache/psalm"
+
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+
+    <!-- Load but don't analyze -->
+    <extraFiles>
+        <directory name="src/vendor" />
+	<directory name="vendor/php-stubs/wordpress-stubs/" />
+    </extraFiles>
+    <!-- Load and analyze -->
+    <projectFiles>
+        <directory name="src" />
+        <ignoreFiles>
+		<directory name="vendor/php-stubs/wordpress-stubs/" />
+            <directory name="src/vendor" />
+        </ignoreFiles>
+    </projectFiles>
+    <stubs>
+	<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php" />
+    </stubs>
+    <issueHandlers>
+<!-- Remove can't concatenate with null, it's actually untrue since PHP automatically transforms null to empty -->
+	<PossiblyNullOperand errorLevel="suppress" />
+    </issueHandlers>
+</psalm>
+
+
+
+
