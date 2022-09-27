@@ -5,11 +5,11 @@
  */
 
 /**
- * Note: Classes with  spl_autoload_register():
- *  class/class-updates.php,
- *  class/plugins/autoload.php,
- *  class/class-admin.php,
- *  vendor/autoload.php
+ * Note: Classes with spl_autoload_register():
+ * class/class-updates.php,
+ * class/plugins/autoload.php,
+ * class/class-admin.php,
+ * vendor/autoload.php
  * Don't want to make an autoload for all classes, some will be called only under certain circonstances (admin, etc)
  */
 

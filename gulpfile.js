@@ -140,23 +140,19 @@ paths = {
 		sourcemap: '../tmp/sourcemap',			/* sourcemap output folder */
 		lint: './tmp/lint' },				/* lint output folder */
 	stylesheets: {
-		src: [ './src/**/*.css', '!./src/js/highslide/*.*' ],
+		src: [ './src/**/*.css', '!./src/js/highslide/*.*', '!./src/vendor/**/*.*' ],
 		dist: './dist' },
 	javascripts: {
-		src: [ './src/**/*.js', '!./src/js/highslide/**/**/*.*' ],
+		src: [ './src/**/*.js', '!./src/js/highslide/**/**/*.*', '!./src/vendor/**/*.*' ],
 		dist: './dist' },
 	images: {
-		src: [ './src/.**/*.+(jpg|jpeg|gif|png)', './src/**/*.+(jpg|jpeg|gif|png)' ],
+		src: [ './src/.**/*.+(jpg|jpeg|gif|png)', './src/**/*.+(jpg|jpeg|gif|png)', '!./src/vendor/**/*.*' ],
 		dist: './dist' },
 	files: {
-		src: [	'./src/**/*.php', 
-			'./src/**/*.+(html|htm)', 
-			'./src/**/*.ico', 
-			'./src/**/*.webmanifest', 
+		src: [	'./src/**/*.+(php|html|htm|ico|webmanifest|md|txt)', 
+			'./src/vendor/**/*.*',				/* copy every single file in src/vendor */ 
 			'./src/**/*.+(psd)', 
 			'./src/.**/*.+(psd)', 				/* for .wordpress.org */
-			'./src/**/*.txt', 
-			'./src/**/*.md', 
 			'./src/languages/*.*', 
 			'./src/js/highslide/**/**/*.*'],
 		dist: './dist' },
