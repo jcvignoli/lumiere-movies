@@ -1,6 +1,9 @@
 **Changelog**
 
-v.3.8.4
+v.3.9
+* [bug] Under unusual circomstances, class-taxonomy-people-standard.php was failing to retrieve an IMDbPHP class name. Added throwing an exception
+* [bug] Wrong annotation for class-settings.php (doubling OPTIONS_WIDGET)
+* [technical] Properly using composer in src, no trick to copy the production libraries anymore
 
 v.3.8.3
 * [bug] An extra space was added for movie links inside posts. Fixed function lumiere_popup_film_link_abstract() in class abstract link maker
