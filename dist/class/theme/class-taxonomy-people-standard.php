@@ -26,6 +26,7 @@ use \Imdb\PersonSearch;
 use \Lumiere\Plugins\Polylang;
 use \Lumiere\Link_Makers\Link_Factory;
 use \WP_Query;
+use \Exception;
 
 class Taxonomy_People_Standard {
 
@@ -112,7 +113,8 @@ class Taxonomy_People_Standard {
 	}
 
 	/**
-	 *  Do the search according to the page title using IMDbPHP classes
+	 * Do the search according to the page title using IMDbPHP classes
+	 * @throws Exception if person not found
 	 */
 	private function lumiere_process_imdbphp_search(): void {
 
@@ -127,11 +129,14 @@ class Taxonomy_People_Standard {
 		// If we are in a WP taxonomy page, the info from imdbphp libraries.
 		$search = new PersonSearch( $this->imdbphp_class, $this->logger->log() );
 		$results = $search->search( $page_title_check ); // search for the person using the taxonomy tag.
-		$mid = $results[0]->imdbid(); // keep the first result only.
-		$mid_sanitized = esc_html( $mid ); // sanitize the first result.
-		$this->person_class = new Person( $mid_sanitized, $this->imdbphp_class, $this->logger->log() ); // search the profile using the first result.
-		$this->person_name = $this->person_class->name();
-
+		if ( array_key_exists( 0, $results ) ) {
+			$mid = $results[0]->imdbid(); // keep the first result only.
+			$mid_sanitized = esc_html( $mid ); // sanitize the first result.
+			$this->person_class = new Person( $mid_sanitized, $this->imdbphp_class, $this->logger->log() ); // search the profile using the first result.
+			$this->person_name = $this->person_class->name();
+		} else {
+			throw new Exception( 'Could not find this person' );
+		}
 	}
 
 	/**
