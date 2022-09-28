@@ -14,7 +14,6 @@ parameters:
     bootstrapFiles:
         # Constants not defined by default
         - tests/phpstan/constants.php
-        # Lumière bootstrap, but breaks everything
-#        - src/bootstrap.php
+        - src/bootstrap.php         # Comment it if phpstan fails
         - tests/phpstan/extras.php
 

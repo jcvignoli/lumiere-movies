@@ -25,8 +25,8 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-use \WP_Post;
-use \stdClass;
+use WP_Post;
+use stdClass;
 
 class Virtual_Page {
 

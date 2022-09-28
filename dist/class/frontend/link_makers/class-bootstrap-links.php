@@ -22,7 +22,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Settings;
+use Lumiere\Settings;
 
 class Bootstrap_Links extends Abstract_Link_Maker {
 
@@ -63,26 +63,27 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 
 		wp_register_script(
 			'lumiere_bootstrap_core',
-			$this->config_class->lumiere_js_dir . 'bootstrap/bootstrap.bundle.min.js',
+			$this->imdb_admin_values['imdbplugindirectory'] . 'vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js',
 			[],
 			$this->config_class->lumiere_version,
 			true
 		);
 		wp_enqueue_style(
 			'lumiere_bootstrap_core',
-			$this->config_class->lumiere_css_dir . 'bootstrap/bootstrap.min.css',
+			$this->imdb_admin_values['imdbplugindirectory'] . 'vendor/twbs/bootstrap/dist/css/bootstrap.min.css',
 			[],
 			$this->config_class->lumiere_version
 		);
+		// Customized bootstrap css.
 		wp_enqueue_style(
 			'lumiere_bootstrap_custom',
-			$this->config_class->lumiere_css_dir . 'bootstrap.min.css',
+			$this->config_class->lumiere_css_dir . 'lumiere-bootstrap-custom.min.css',
 			[],
 			$this->config_class->lumiere_version
 		);
 		wp_register_script(
 			'lumiere_bootstrap_scripts',
-			$this->config_class->lumiere_js_dir . 'lumiere_bootstrap_links.min.js',
+			$this->config_class->lumiere_js_dir . 'lumiere-bootstrap-links.min.js',
 			[],
 			$this->config_class->lumiere_version,
 			true

@@ -16,12 +16,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use \Lumiere\Utils;
-use \Lumiere\Plugins\Logger;
-use \Lumiere\Admin\General;
-use \Lumiere\Admin\Data;
-use \Lumiere\Admin\Cache;
-use \Lumiere\Admin\Help;
+use Lumiere\Utils;
+use Lumiere\Plugins\Logger;
+use Lumiere\Admin\General;
+use Lumiere\Admin\Data;
+use Lumiere\Admin\Cache;
+use Lumiere\Admin\Help;
 
 /**
  * Load all files included in class/admin

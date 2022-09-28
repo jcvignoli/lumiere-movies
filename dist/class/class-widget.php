@@ -20,9 +20,9 @@ if ( ! trait_exists( 'Lumiere\Frontend' ) ) {
 	include_once __DIR__ . '/frontend/trait-frontend.php';
 }
 
-use \Lumiere\Movie;
-use \Lumiere\Plugins\Polylang;
-use \Lumiere\Link_Makers\Link_Factory;
+use Lumiere\Movie;
+use Lumiere\Plugins\Polylang;
+use Lumiere\Link_Makers\Link_Factory;
 
 class Widget extends \WP_Widget {
 

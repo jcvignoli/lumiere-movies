@@ -10,7 +10,8 @@
     "require": {
         "php": ">=8.0",
         "imdbphp/imdbphp": "dev-master",
-        "monolog/monolog": "^2.8"
+        "monolog/monolog": "^2.8",
+        "twbs/bootstrap": "^5.2"
     },
     "autoload": {
         "psr-4": {

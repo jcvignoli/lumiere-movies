@@ -16,8 +16,8 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-use \Imdb\Person;
-use \Lumiere\Link_Makers\Link_Factory;
+use Imdb\Person;
+use Lumiere\Link_Makers\Link_Factory;
 
 class Popup_Person {
 

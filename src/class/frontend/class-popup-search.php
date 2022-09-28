@@ -16,8 +16,8 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-use \Imdb\Title;
-use \Imdb\TitleSearch;
+use Imdb\Title;
+use Imdb\TitleSearch;
 
 class Popup_Search {
 

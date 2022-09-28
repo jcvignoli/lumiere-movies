@@ -46,9 +46,9 @@ function lumiere_updates_loader( string $class_name ): void {
 // Load all classes in class/updates folder, will be loaded when needed
 spl_autoload_register( __NAMESPACE__ . '\lumiere_updates_loader' );
 
-use \Lumiere\Settings;
-use \Lumiere\Plugins\Logger;
-use \FilesystemIterator;
+use Lumiere\Settings;
+use Lumiere\Plugins\Logger;
+use FilesystemIterator;
 
 /**
  * Parent class Updates

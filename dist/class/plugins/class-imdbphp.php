@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // use IMDbPHP config class in /vendor/.
-use \Imdb\Config;
+use Imdb\Config;
 
 /**
  * Child class of \Imdb\Config

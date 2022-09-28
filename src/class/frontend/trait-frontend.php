@@ -13,11 +13,11 @@
 
 namespace Lumiere;
 
-use \Lumiere\PluginsDetect;
-use \Lumiere\Utils;
-use \Lumiere\Link_Makers\Link_Factory;
-use \Lumiere\Plugins\Logger;
-use \Lumiere\Plugins\Imdbphp;
+use Lumiere\PluginsDetect;
+use Lumiere\Utils;
+use Lumiere\Link_Makers\Link_Factory;
+use Lumiere\Plugins\Logger;
+use Lumiere\Plugins\Imdbphp;
 
 trait Frontend {
 

@@ -2,8 +2,11 @@
 
 v.3.9
 * [bug] Under unusual circomstances, class-taxonomy-people-standard.php was failing to retrieve an IMDbPHP class name. Added throwing an exception
-* [bug] Wrong annotation for class-settings.php (doubling OPTIONS_WIDGET)
-* [technical] Properly using composer in src, no trick to copy the production libraries anymore
+* [bug] Wrong annotation for class-settings.php (extra OPTIONS_WIDGET properties)
+* [technical] Properly using composer scripts in src, not copied to the production vendor folder with composer anymore
+* [technical] Bootstrap window maker is now used through composer
+* [technical] Updated to bootstrap 5.2.1
+* [technical] Added link to settings in WP plugins page
 
 v.3.8.3
 * [bug] An extra space was added for movie links inside posts. Fixed function lumiere_popup_film_link_abstract() in class abstract link maker

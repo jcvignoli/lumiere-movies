@@ -19,13 +19,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Use IMDbPHP library for cache creation
-use \Imdb\Title;
-use \Imdb\Person;
-use \Lumiere\Utils;
-use \Lumiere\Plugins\Imdbphp;
-use \FilesystemIterator;
-use \RecursiveDirectoryIterator;
-use \RecursiveIteratorIterator;
+use Imdb\Title;
+use Imdb\Person;
+use Lumiere\Utils;
+use Lumiere\Plugins\Imdbphp;
+use FilesystemIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 /**
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings

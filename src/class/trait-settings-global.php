@@ -12,7 +12,7 @@
 
 namespace Lumiere;
 
-use \Lumiere\Settings;
+use Lumiere\Settings;
 
 /**
  * Below doesn't work, it's a PHPStan bug #5091
