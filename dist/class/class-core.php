@@ -16,18 +16,18 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Updates;
-use \Lumiere\Utils;
-use \Lumiere\Search;
-use \Lumiere\Popup_Person;
-use \Lumiere\Popup_Movie;
-use \Lumiere\Popup_Search;
-use \Lumiere\Plugins\Imdbphp;
-use \Lumiere\Plugins\Logger;
-use \Lumiere\Virtual_Page;
-use \Lumiere\Movie;
-use \Imdb\Title;
-use \Imdb\Person;
+use Lumiere\Updates;
+use Lumiere\Utils;
+use Lumiere\Search;
+use Lumiere\Popup_Person;
+use Lumiere\Popup_Movie;
+use Lumiere\Popup_Search;
+use Lumiere\Plugins\Imdbphp;
+use Lumiere\Plugins\Logger;
+use Lumiere\Virtual_Page;
+use Lumiere\Movie;
+use Imdb\Title;
+use Imdb\Person;
 
 class Core {
 
@@ -73,8 +73,8 @@ class Core {
 		// redirect popups URLs.
 		add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 0 );
 
-		// Redirect class-search.php
-		// Display only in admin area
+		// Redirect class-search.php.
+		// Display only in admin area.
 		add_action(
 			'template_redirect',
 			function( string $template ): Virtual_Page|string {
@@ -101,7 +101,7 @@ class Core {
 			// Register taxomony and create custom taxonomy pages.
 			add_action( 'init', [ $this, 'lumiere_create_taxonomies' ], 0 );
 
-			/*
+			/**
 			 * Add specific class for html tags for functions building links towards taxonomy pages
 			 * 1-search for all imdbtaxonomy* in config array,
 			 * 2-if active write a filter to add a class to the link to the taxonomy page.
@@ -150,8 +150,11 @@ class Core {
 			require_once __DIR__ . '/class-metabox.php';
 			new Metabox();
 
-			// Add sponsor in plugin page
+			// Add sponsor on WP admin > Plugins
 			add_filter( 'plugin_row_meta', [ $this, 'lumiere_add_sponsor_plugins_page' ], 10, 4 );
+
+			// Add settings links on WP admin > Plugins
+			add_filter( 'plugin_action_links', [ $this, 'lumiere_plugin_settings_link' ], 10, 2 );
 		}
 
 		// Register admin scripts.
@@ -233,6 +236,24 @@ class Core {
 			);
 		}
 		return $plugin_meta;
+	}
+
+	/**
+	 * Add Settings link to plugin on plugins page
+	 *
+	 * @param array<string>|null $plugin_meta An array of the plugin's metadata. Can be null.
+	 * @param string $plugin_file_name Path to the plugin file relative to the plugins directory.
+	 * @return array<string>|null $plugin_meta An array with the plugin's metadata.
+	 * @since v3.9
+	 */
+	public function lumiere_plugin_settings_link( ?array $plugin_meta, string $plugin_file_name ): ?array {
+
+		if ( 'lumiere-movies/lumiere-movies.php' === $plugin_file_name ) {
+			$plugin_meta['settings'] = sprintf( '<a href="%s"> %s </a>', admin_url( 'admin.php?page=lumiere_options' ), esc_html__( 'Settings', 'lumiere-movies' ) );
+		}
+
+		return $plugin_meta;
+
 	}
 
 	/**

@@ -24,10 +24,10 @@ if ( ! trait_exists( 'Lumiere\Frontend' ) ) {
 	include_once __DIR__ . '/trait-frontend.php';
 }
 
-use \Imdb\Title;
-use \Imdb\TitleSearch;
-use \Lumiere\Plugins\Polylang;
-use \Lumiere\Link_Makers\Link_Factory;
+use Imdb\Title;
+use Imdb\TitleSearch;
+use Lumiere\Plugins\Polylang;
+use Lumiere\Link_Makers\Link_Factory;
 
 class Movie {
 

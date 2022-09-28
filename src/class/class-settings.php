@@ -16,9 +16,9 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Plugins\Logger;
+use Lumiere\Plugins\Logger;
 // use PHP library.
-use \FilesystemIterator;
+use FilesystemIterator;
 
 /**
  * @phpstan-type LevelLogName 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY'

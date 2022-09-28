@@ -22,7 +22,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Settings;
+use Lumiere\Settings;
 
 class Highslide_Links extends Abstract_Link_Maker {
 
@@ -70,20 +70,20 @@ class Highslide_Links extends Abstract_Link_Maker {
 		);
 		wp_register_script(
 			'lumiere_highslide_options',
-			$this->config_class->lumiere_js_dir . 'highslide-options.min.js',
+			$this->config_class->lumiere_js_dir . 'lumiere-highslide-options.min.js',
 			[ 'lumiere_highslide_core' ],
 			$this->config_class->lumiere_version,
 			true
 		);
 		wp_enqueue_style(
 			'lumiere_highslide_core',
-			$this->config_class->lumiere_css_dir . 'highslide.min.css',
+			$this->config_class->lumiere_css_dir . 'lumiere-highslide.min.css',
 			[],
 			$this->config_class->lumiere_version
 		);
 		wp_register_script(
 			'lumiere_highslide_scripts',
-			$this->config_class->lumiere_js_dir . 'lumiere_highslide_links.min.js',
+			$this->config_class->lumiere_js_dir . 'lumiere-highslide-links.min.js',
 			[ 'jquery' ],
 			$this->config_class->lumiere_version,
 			true

@@ -17,14 +17,14 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // use Lumiere library.
-use \Lumiere\Utils;
+use Lumiere\Utils;
 
 // use Monolog library in /vendor/.
-use \Monolog\Logger as LoggerMonolog;
-use \Monolog\Handler\NullHandler;
-use \Monolog\Handler\StreamHandler;
-use \Monolog\Formatter\LineFormatter;
-use \Monolog\Processor\IntrospectionProcessor;
+use Monolog\Logger as LoggerMonolog;
+use Monolog\Handler\NullHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Formatter\LineFormatter;
+use Monolog\Processor\IntrospectionProcessor;
 
 class Logger {
 

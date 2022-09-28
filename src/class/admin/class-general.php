@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Utils;
-use \Lumiere\Plugins\Logger;
+use Lumiere\Utils;
+use Lumiere\Plugins\Logger;
 
 /**
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings

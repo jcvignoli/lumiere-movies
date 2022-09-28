@@ -150,7 +150,15 @@ paths = {
 		dist: './dist' },
 	files: {
 		src: [	'./src/**/*.+(php|html|htm|ico|webmanifest|md|txt)', 
-			'./src/vendor/**/*.*',				/* copy every single file in src/vendor */ 
+
+			'!./src/vendor/**/*.*',				/* copy only relevant files in src/vendor */ 
+			'./src/vendor/composer/**/*.*',
+			'./src/vendor/imdbphp/imdbphp/src/**/*.*',
+			'./src/vendor/monolog/**/*.*',
+			'./src/vendor/psr/**/*.*',
+			'./src/vendor/twbs/bootstrap/dist/**/*.+(js|css)',
+			'./src/vendor/autoload.*',
+
 			'./src/**/*.+(psd)', 
 			'./src/.**/*.+(psd)', 				/* for .wordpress.org */
 			'./src/languages/*.*', 

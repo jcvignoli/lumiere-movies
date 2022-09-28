@@ -1,9 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
  * Abstract Class for building links
- * Defines abstract functions utilised in Link Maker classes
- * Includes protected functions utilised in Link Maker classes for code reuse
- * Includes Settings traits
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -20,8 +17,11 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Lumiere\Utils;
-
+/**
+ * Defines abstract functions utilised in Link Maker classes
+ * Includes protected functions utilised in Link Maker classes for code reuse
+ * Includes Settings traits
+ */
 abstract class Abstract_Link_Maker {
 
 	// Trait including the database settings.

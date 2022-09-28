@@ -21,12 +21,12 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use \Imdb\Person;
-use \Imdb\PersonSearch;
-use \Lumiere\Plugins\Polylang;
-use \Lumiere\Link_Makers\Link_Factory;
-use \WP_Query;
-use \Exception;
+use Imdb\Person;
+use Imdb\PersonSearch;
+use Lumiere\Plugins\Polylang;
+use Lumiere\Link_Makers\Link_Factory;
+use WP_Query;
+use Exception;
 
 class Taxonomy_People_Standard {
 
