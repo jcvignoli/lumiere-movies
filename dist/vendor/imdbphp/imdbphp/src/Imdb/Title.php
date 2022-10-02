@@ -778,17 +778,16 @@ class Title extends MdbBase
 
     /** Get the main tagline for the movie
      * @return string tagline
-     * @see IMDB page / (TitlePage)
+     * @see IMDB page /taglines
      */
     public function tagline()
     {
         if ($this->main_tagline == "") {
-            $xpath = $this->getXpathPage("Title");
-            $extract = $xpath->query("//li[@data-testid='storyline-taglines']//span[@class='ipc-metadata-list-item__list-content-item']");
-            if ($extract && $extract->item(0) != null) {
-                $this->main_tagline = trim($extract->item(0)->nodeValue);
-            }
+            $taglines = $this->taglines();
+
+            $this->main_tagline = $taglines[0] ?? '';
         }
+
         return $this->main_tagline;
     }
 
@@ -861,7 +860,7 @@ class Title extends MdbBase
     {
         if (!isset($this->episodeEpisode) || !isset($this->episodeSeason)) {
             $xpath = $this->getXpathPage("Title");
-            $extract = $xpath->query("//div[@data-testid='hero-subnav-bar-season-episode-numbers-section-xs']");
+            $extract = $xpath->query("//div[@data-testid='hero-subnav-bar-season-episode-numbers-section']");
             if ($extract && $extract->item(0) != null) {
                 if (false !== preg_match("/S(\d+).+E(\d+)/", $extract->item(0)->textContent, $matches)) {
                     $this->episodeSeason = $matches[1];
@@ -989,21 +988,26 @@ class Title extends MdbBase
 
     /** Get the Storyline for the movie
      * @return string storyline
-     * @see IMDB page / (TitlePage)
+     * @see IMDB page /plotsummary
      */
     public function storyline()
     {
         if ($this->main_storyline == "") {
-            $page = $this->getPage("Title");
-            if (@preg_match('~Storyline</h2>.*?<div.*?<p>.*?<span>(.*?)</span>.*?</p>~ims', $page, $match)) {
-                $this->main_storyline = trim($match[1]);
-            } elseif (@preg_match('#data-testid="storyline-plot-summary">(.*?)<div class="ipc-overflowText-overlay">#ims',
-                $page, $match)) {
-                $this->main_storyline = htmlspecialchars_decode(trim(strip_tags(preg_replace('#<span style="display:inline-block"(.*?)</span>#ims',
-                    '', $match[1]))), ENT_QUOTES | ENT_HTML5);
+            $plot = $this->plot();
+
+            if (empty($plot)) {
+                return '';
             }
 
+            if (count($plot) >= 2) {
+                $storyline = $plot[1];
+            } else {
+                $storyline = $plot[0];
+            }
+
+            $this->main_storyline = strip_tags(preg_replace('#\n\-\n<a[^>]+>.*?</a>#ims', '', $storyline));
         }
+
         return $this->main_storyline;
     }
 
@@ -2687,7 +2691,7 @@ class Title extends MdbBase
             if (empty($page)) {
                 return array();
             } // no such page
-            if (preg_match_all('@<section id="advisory-([^"]*)(?<!spoilers)">.+?<h4[^>]+>(.*?)</h4>@sui', $page,
+            if (preg_match_all('@<section id="advisory-([^"]*)(?<!spoilers)">.+?<h\d[^>]+>(.*?)</h\d>@sui', $page,
                 $matches)) {
                 $section_id = $matches[1];
                 $section_name = array_map('htmlspecialchars_decode', $matches[2]);
