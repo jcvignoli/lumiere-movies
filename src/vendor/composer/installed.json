@@ -7,12 +7,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tboothman/imdbphp.git",
-                "reference": "d96da50fe7115b8ec4ff6f5f3a7da5d344cb8cdf"
+                "reference": "fe3f0ef7274a62a7dc452a0975cfe62660a7d0cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tboothman/imdbphp/zipball/d96da50fe7115b8ec4ff6f5f3a7da5d344cb8cdf",
-                "reference": "d96da50fe7115b8ec4ff6f5f3a7da5d344cb8cdf",
+                "url": "https://api.github.com/repos/tboothman/imdbphp/zipball/fe3f0ef7274a62a7dc452a0975cfe62660a7d0cb",
+                "reference": "fe3f0ef7274a62a7dc452a0975cfe62660a7d0cb",
                 "shasum": ""
             },
             "require": {
@@ -31,7 +31,7 @@
                 "phpstan/phpstan": "^0.12.83",
                 "phpunit/phpunit": "^9.5"
             },
-            "time": "2022-08-03T21:51:22+00:00",
+            "time": "2022-10-02T19:42:34+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "dist",

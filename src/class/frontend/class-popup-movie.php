@@ -121,10 +121,10 @@ class Popup_Movie {
 
 			$title_search_class = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
 			$search = $title_search_class->search( $this->film_title_sanitized, $this->type_search );
-
+			print_r( $this->film_title_sanitized );
 			if ( array_key_exists( 0, $search ) === false ) {
 
-				return false;
+				throw new \Exception( 'Could not find the movie' );
 
 			}
 
@@ -154,8 +154,7 @@ class Popup_Movie {
 		echo '">';
 
 		// Set up class properties.
-		$this->find_movie();
-
+		$this->find_movie() === false;
 		$movie_results = $this->movie;
 
 		// Build Link Factory class
