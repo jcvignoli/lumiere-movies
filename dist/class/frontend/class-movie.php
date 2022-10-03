@@ -16,12 +16,8 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
-	wp_die( 'You can not call directly this page' );
-}
-
-if ( ! trait_exists( 'Lumiere\Frontend' ) ) {
-	include_once __DIR__ . '/trait-frontend.php';
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
 }
 
 use Imdb\Title;

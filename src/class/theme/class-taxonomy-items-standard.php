@@ -88,6 +88,10 @@ class Taxonomy_Items_Standard {
 						</h3>
 
 						<?php
+						/**
+						 * This is a standardised function, 'standard' will changed when copied
+						 * @phpstan-ignore-next-line Parameter #1 $args of function get_terms expects
+						 */
 						$term_exist = (array) get_terms( 'standard' );
 						if ( count( $term_exist ) !== 0 ) {
 							?>

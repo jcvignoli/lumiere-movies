@@ -12,8 +12,8 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	wp_die( 'You can not call directly this page' );
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
 use Lumiere\Updates;
@@ -80,10 +80,6 @@ class Core {
 			function( string $template ): Virtual_Page|string {
 				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) ) {
 
-					// Include needed classes
-					require_once plugin_dir_path( __DIR__ ) . Settings::VIRTUAL_PAGE_MAKER;
-					require_once plugin_dir_path( __DIR__ ) . Settings::GUTENBERG_SEARCH_PAGE;
-
 					// Build the virtual page class
 					return new Virtual_Page(
 						site_url() . Settings::GUTENBERG_SEARCH_URL,
@@ -142,12 +138,10 @@ class Core {
 		if ( is_admin() ) {
 
 			// Add admin menu.
-			require_once __DIR__ . '/class-admin.php';
 			$lumiere_admin_class = new Admin();
 			add_action( 'init', [ $lumiere_admin_class, 'lumiere_admin_menu' ] );
 
 			// Add the metabox to editor.
-			require_once __DIR__ . '/class-metabox.php';
 			new Metabox();
 
 			// Add sponsor on WP admin > Plugins
@@ -633,9 +627,6 @@ class Core {
 
 				if ( isset( $query_popup ) ) {
 
-					// Include needed classe
-					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::VIRTUAL_PAGE_MAKER;
-
 					// Add cache dir to properly save data in real cache dir.
 					$this->imdbphp_class->cachedir = $this->imdb_cache_values['imdbcachedir'];
 
@@ -660,9 +651,6 @@ class Core {
 
 						$title = esc_html__( 'Informations about ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies';
 
-						// Include needed class
-						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_MOVIE_URL;
-
 						// Build the virtual page class
 						return new Virtual_Page(
 							$this->config_class->lumiere_urlstringfilms,
@@ -680,9 +668,6 @@ class Core {
 						? esc_html__( 'Informations about ', 'lumiere-movies' ) . $person_name_sanitized . ' - Lumi&egrave;re movies'
 						: esc_html__( 'Unknown', 'lumiere-movies' ) . '- Lumi&egrave;re movies';
 
-						// Include needed class
-						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_PERSON_URL;
-
 						// Build the virtual page class
 						return new Virtual_Page(
 							$this->config_class->lumiere_urlstringperson,
@@ -692,9 +677,6 @@ class Core {
 					case 'search':
 						// Set the title.
 						$filmname_sanitized = isset( $_GET['film'] ) ? ': [' . sanitize_text_field( $_GET['film'] ) . ']' : 'No name entered';
-
-						// Include needed class
-						require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::POPUP_SEARCH_URL;
 
 						// Build the virtual page class
 						return new Virtual_Page(
@@ -809,9 +791,6 @@ class Core {
 				// It is Lumière!, so update
 				if ( $plugin === 'lumiere-movies/lumiere-movies.php' ) {
 
-					// Call the class to update options
-					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::UPDATE_OPTIONS_PAGE;
-
 					$start_update_options = new Updates();
 					$start_update_options->run_update_options();
 
@@ -889,7 +868,7 @@ class Core {
 	}
 
 	/**
-	 *   Run on plugin deactivation
+	 * Run on plugin deactivation
 	 */
 	public function lumiere_on_deactivation(): void {
 
@@ -948,8 +927,7 @@ class Core {
 	}
 
 	/**
-	 *  Cron to run execute once
-	 *
+	 * Cron to run execute once
 	 */
 	public function lumiere_cron_exec_once(): void {
 
@@ -960,9 +938,8 @@ class Core {
 
 		$this->logger->log()->debug( '[Lumiere][coreClass] Cron running...' );
 
-		// Update options
-		// this udpate is also run in upgrader_process_complete, but the process is not always reliable
-		require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::UPDATE_OPTIONS_PAGE;
+		// Update class.
+		// this udpate is also run in upgrader_process_complete, but the process is not always reliable.
 		$start_update_options = new Updates();
 		$start_update_options->run_update_options();
 

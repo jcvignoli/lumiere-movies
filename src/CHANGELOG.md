@@ -3,9 +3,11 @@
 v.3.9
 * [bug] Under unusual circomstances, class-taxonomy-people-standard.php was failing to retrieve an IMDbPHP class name. Added throwing an exception
 * [bug] Wrong annotation for class-settings.php (extra OPTIONS_WIDGET properties)
+* [bug] ImdbPHP search was not working for people on some sporadic circumstances
 * [technical] Properly using composer scripts in src, not copied to the production vendor folder with composer anymore
+* [technical] Using composer autoload, removed all home-made autoloads. Can't use PSR-4 autoloading, since WordPress naming is not PSR-4 compliant.
 * [technical] Bootstrap window maker is now used through composer
-* [technical] Updated to bootstrap 5.2.1
+* [technical] Updated to bootstrap 5.2.2
 * [technical] Added link to settings in WP plugins page
 
 v.3.8.3

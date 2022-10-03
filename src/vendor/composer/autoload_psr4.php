@@ -9,6 +9,5 @@ return array(
     'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
-    'Lumiere\\' => array($baseDir . '/class'),
     'Imdb\\' => array($vendorDir . '/imdbphp/imdbphp/src/Imdb'),
 );

@@ -33,22 +33,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-// Include bootstrap if main files exist.
+// Include composer bootstrap.
 if ( ( file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload.php' ) ) && ( file_exists( plugin_dir_path( __FILE__ ) . 'class/class-core.php' ) ) ) {
 
-	include_once plugin_dir_path( __FILE__ ) . 'bootstrap.php';
+	require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 }
 
-// Check if the classes are installed
-if ( ! class_exists( '\Lumiere\Core' ) ) {
+// Check if the classes are installed.
+if ( ! class_exists( 'Lumiere\Core' ) ) {
 	wp_die( esc_html__( 'Error: Lumière is not installed.', 'lumiere-movies' ) );
 }
-if ( ! class_exists( '\Imdb\Config' ) ) {
+if ( ! class_exists( 'Imdb\Config' ) ) {
 	wp_die( esc_html__( 'Error: Imdbphp libraries are not installed.', 'lumiere-movies' ) );
 }
 
-$lumiere_core = new \Lumiere\Core();
+$lumiere_core = new Lumiere\Core();
 
 // Executed upon plugin activation.
 register_activation_hook( __FILE__, [ $lumiere_core, 'lumiere_on_activation' ] );

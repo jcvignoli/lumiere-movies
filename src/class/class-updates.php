@@ -14,37 +14,9 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
-
-/**
- * Load all files included in class/updates by spl_autoload_register()
- * Keep this function out of the class, so child classes can construct the parent class
- *
- * @param string $class_name Class name automagically retrieved from spl_autoload_register()
- */
-function lumiere_updates_loader( string $class_name ): void {
-
-	$parts = explode( '\\', $class_name );
-	$class = strtolower( array_pop( $parts ) );
-	$folder = strtolower( implode( DIRECTORY_SEPARATOR, $parts ) );
-	$folder_cleaned = str_replace( 'lumiere/', '', $folder );
-	$class_cleaned = str_replace( 'lumiere_update_file_', '', $class );
-
-	// Final path for inclusion
-	$classpath = plugin_dir_path( __DIR__ ) . 'class' . DIRECTORY_SEPARATOR . $folder_cleaned . DIRECTORY_SEPARATOR . $class_cleaned . '.php';
-
-	if ( file_exists( $classpath ) ) {
-
-		require_once $classpath;
-
-	}
-
-}
-
-// Load all classes in class/updates folder, will be loaded when needed
-spl_autoload_register( __NAMESPACE__ . '\lumiere_updates_loader' );
 
 use Lumiere\Settings;
 use Lumiere\Plugins\Logger;
@@ -54,7 +26,6 @@ use FilesystemIterator;
  * Parent class Updates
  * The logic is in the parent class, the data in child classes
  *
- *  -> Uses the files already registered in spl_autoload_register() to run all classes in run_update_options()
  *  -> Checks the current Lumière version against the updates and uses $config_class->imdb_admin_values['imdbHowManyUpdates'] var to know if new updates have to be made in lumiere_check_if_run_update()
  *  -> Everytime an update is processed, imdbHowManyUpdates is increased by 1 (in child class)
  */

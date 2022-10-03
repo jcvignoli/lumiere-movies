@@ -12,6 +12,11 @@
 
 namespace Lumiere;
 
+// If this file is called directly, abort.
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
+}
+
 use Lumiere\Settings;
 
 /**

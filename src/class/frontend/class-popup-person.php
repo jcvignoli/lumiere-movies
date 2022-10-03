@@ -12,8 +12,8 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
-	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
 }
 
 use Imdb\Person;

@@ -20,6 +20,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 use Lumiere\Settings;
 use Lumiere\Plugins\Logger;
+use \WP_Term;
 
 class Polylang {
 
@@ -97,9 +98,10 @@ class Polylang {
 	/**
 	 *  Polylang form: Display a form to change the language if Polylang plugin is active ---- FROM class-taxonomy-people-standard
 	 *
-	 * @param string $taxonomy -> the current taxonomy to check and build the form according to it
+	 * @param string $taxonomy The current taxonomy to check and build the form according to it
 	 * @param string $person_name name of the current person in taxonomy
 	 */
+	// @TODO: make it AMP compatible.
 	public function lumiere_get_form_polylang_selection( string $taxonomy, string $person_name ): void {
 
 		// Is the current taxonomy, such as "lumiere_actor", registered and activated for translation?
@@ -107,6 +109,10 @@ class Polylang {
 			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $person_name with $taxonomy." );
 			return;
 		}
+		/**
+		 * get_terms() Does not uses the standards of WordPress, uses 'term_language' from Polylang
+		 * @phpstan-ignore-next-line Parameter #1 $args of function get_terms expects
+		 */
 		$pll_lang_init = get_terms( 'term_language', [ 'hide_empty' => false ] );
 		$pll_lang = is_wp_error( $pll_lang_init ) === false && is_iterable( $pll_lang_init ) ? $pll_lang_init : null;
 
@@ -117,14 +123,19 @@ class Polylang {
 
 		// Build the form.
 		echo "\n\t\t\t" . '<div align="center">';
-		echo "\n\t\t\t\t" . '<form method="post" id="lang_form" name="lang_form" action="#lang_form">';
+		// @since 3.9: added URI to form.
+		$parts_url = parse_url( home_url() );
+		$current_uri = $parts_url !== false && isset( $parts_url['scheme'] ) && isset( $parts_url['host'] )
+			? $parts_url['scheme'] . '://' . $parts_url['host'] . add_query_arg( null, null )
+			: '';
+		echo "\n\t\t\t\t" . '<form method="post" id="lang_form" name="lang_form" action="' . esc_url( $current_uri ) . '#lang_form">';
 		echo "\n\t\t\t\t\t" . '<select name="tag_lang" style="width:100px;">';
 		echo "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
 
 		// Build an option html tag for every language.
 		foreach ( $pll_lang as $lang ) {
 
-			if ( ( $lang instanceof \WP_Term ) === false ) {
+			if ( ( $lang instanceof WP_Term ) === false ) {
 				continue;
 			}
 
@@ -141,12 +152,12 @@ class Polylang {
 		echo "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
 		// @phpcs:ignore WordPress.Security.EscapeOutput
 		echo "\n\t\t\t\t\t" . wp_nonce_field( 'submit_lang' );
+		// WP submit_button() is not compatible with AMP plugin and not available for AMP pages.
 		if ( function_exists( 'submit_button' ) ) {
 			echo "\n\t\t\t\t\t";
-			// WP submit_button() doesn't seem to be compatible with AMP plugin
 			submit_button( esc_html__( 'Filter language', 'lumiere-movies' ), 'primary', 'submit_lang', false );
-		} else {
-			echo "\n\t\t\t\t\t" . '<input type="submit" class="button-primary" id="submit_lang" name="submit_lang" value="' . esc_html__( 'Filter language', 'lumiere-movies' ) . '">';
+		} else { // Below code is used by AMP
+			echo "\n\t\t\t\t\t" . '<button type="submit" name="submit_lang" id="submit_lang" class="button-primary" aria-live="assertive" value="' . esc_html__( 'Filter language', 'lumiere-movies' ) . '">' . esc_html__( 'Filter language', 'lumiere-movies' ) . '</button>';
 		}
 		echo "\n\t\t\t\t" . '</form>';
 		echo "\n\t\t\t" . '</div>';

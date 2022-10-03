@@ -12,7 +12,7 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
@@ -22,33 +22,6 @@ use Lumiere\Admin\General;
 use Lumiere\Admin\Data;
 use Lumiere\Admin\Cache;
 use Lumiere\Admin\Help;
-
-/**
- * Load all files included in class/admin
- * Loaded in spl_autoload_register()
- *
- * @param string $class_name Class name automagically retrieved from spl_autoload_register()
- */
-function lumiere_admin_loader( string $class_name ): void {
-
-	$parts = explode( '\\', $class_name );
-	$class = 'class-' . strtolower( array_pop( $parts ) );
-	$folder = strtolower( implode( DIRECTORY_SEPARATOR, $parts ) );
-	$folder_cleaned = str_replace( 'lumiere/', '', $folder );
-
-	// Final path for inclusion
-	$classpath = plugin_dir_path( __DIR__ ) . 'class' . DIRECTORY_SEPARATOR . $folder_cleaned . DIRECTORY_SEPARATOR . $class . '.php';
-
-	if ( file_exists( $classpath ) ) {
-
-		require_once $classpath;
-
-	}
-
-}
-
-// Load all classes in class/admin folder, will be loaded when needed
-spl_autoload_register( __NAMESPACE__ . '\lumiere_admin_loader' );
 
 class Admin {
 
