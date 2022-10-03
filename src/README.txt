@@ -120,7 +120,7 @@ Sure thing, you can also modify the order of these details. Just take a look at 
 
 = Known issues =
 
-* None.
+* In taxonomy extra page for people, if Polylang and AMP are activated, the form to change the language doesn't work.
 
 == Support ==
 
@@ -133,6 +133,9 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changes") to find out the latest developments. Or for even more extensive and recent changes available at [GIT commits](https://github.com/jcvignoli/lumiere-movies/commits/master "GIT commits").
 
 Major changes:
+
+= 3.9 = 
+* Fully using composer, loading classes through composer autoload for more sustainability.
 
 = 3.8 = 
 * PHP 8.0 now required. Introducing a new modal window, Bootstrap. User can select in admin whether to use Bootstrap, Highslide or Classic popups. Movie and People Popups do not throw 404 error anymore, they'll be indexed by search engines. Huge work for OOP coding with the popups links, the plugin is faster.

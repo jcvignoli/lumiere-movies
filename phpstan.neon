@@ -14,6 +14,5 @@ parameters:
     bootstrapFiles:
         # Constants not defined by default
         - tests/phpstan/constants.php
-        - src/bootstrap.php         # Comment it if phpstan fails
         - tests/phpstan/extras.php
 

@@ -14,12 +14,12 @@
  */
 
 # Vendor Libraries
-include_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 # Lumiere Classes
-include_once __DIR__ . '/class/class-settings.php';
-include_once __DIR__ . '/class/trait-settings-global.php';
-include_once __DIR__ . '/class/tools/class-pluginsdetect.php';
-include_once __DIR__ . '/class/tools/class-utils.php';
-include_once __DIR__ . '/class/plugins/autoload.php';
-include_once __DIR__ . '/class/class-core.php'; // activated in lumiere-movies.php
+require_once __DIR__ . '/class/class-settings.php';
+require_once __DIR__ . '/class/trait-settings-global.php';
+require_once __DIR__ . '/class/tools/class-pluginsdetect.php';
+require_once __DIR__ . '/class/tools/class-utils.php';
+require_once __DIR__ . '/class/plugins/autoload.php';
+require_once __DIR__ . '/class/class-core.php'; // activated in lumiere-movies.php

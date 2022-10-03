@@ -25,6 +25,7 @@ use Imdb\Person;
 use Imdb\PersonSearch;
 use Lumiere\Plugins\Polylang;
 use Lumiere\Link_Makers\Link_Factory;
+use Lumiere\PluginsDetect;
 use WP_Query;
 use Exception;
 
@@ -89,6 +90,16 @@ class Taxonomy_People_Standard {
 			$this->plugin_polylang = $plugin_polylang;
 		}
 
+		/**
+		 * Start PluginsDetect class
+		 * Is instanciated only if not instanciated already
+		 * Use lumiere_set_plugins_array() in trait to set $plugins_in_use var in trait
+		 * @since 3.8
+		 */
+		if ( count( $this->plugins_in_use ) === 0 ) {
+			$this->lumiere_set_plugins_array();
+		}
+
 		// List of potential parameters for a person.
 		$this->array_people = $this->config_class->array_people;
 
@@ -149,16 +160,19 @@ class Taxonomy_People_Standard {
 		// Start IMDbPHP search.
 		$this->lumiere_process_imdbphp_search();
 
-		// Build array of plugins from trait-frontend.php
+		// Build array of plugins from trait-frontend.php.
 		$this->lumiere_set_plugins_array();
 
-		// Simplify coding
+		// Simplify coding.
 		$logger = $this->logger->log();
 
-		// Build the Link Maker var in trait
+		// Build the Link Maker var in trait.
 		$this->link_maker = Link_Factory::lumiere_link_factory_start();
 
 		$logger->debug( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] Using the link maker class: ' . get_class( $this->link_maker ) );
+
+		// Log PluginsDetect.
+		$logger->debug( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ']' );
 
 		echo '<br />';
 
