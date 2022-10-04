@@ -72,7 +72,7 @@ class ModalWindowsCest {
 		$I->seeInPageSource("lumiere_style_main-css"); 	
 		$I->seeInPageSource("lumiere_highslide_core-js");
 		$I->seeInPageSource("lumiere_highslide_options-js");
-		$I->seeInPageSource('Ellen Burstyn</a>, <a class="linkpopup" href="https://www.jcvignoli.com/blogpourext/lumiere/person/0000190/?mid=0000190" title="internal link">');
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="linkpopup" href="https://www.jcvignoli.com/blogpourext/lumiere/person/0000190/?mid=0000190" title="internal link">');
 
 		// Switch To Bootstrap
 		$I->wantTo(\Helper\Color::set('Check if Bootstrap modal window works', "italic+bold+cyan"));
@@ -90,7 +90,7 @@ class ModalWindowsCest {
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource("lumiere_bootstrap_custom-css");			
 		$I->seeInPageSource("lumiere_bootstrap_core-js");
-		$I->seeInPageSource('Ellen Burstyn</a>, <a class="linkpopup" href="https://www.jcvignoli.com/blogpourext/lumiere/person/0000190/?mid=0000190" title="internal link">');
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="linkpopup" href="https://www.jcvignoli.com/blogpourext/lumiere/person/0000190/?mid=0000190" title="internal link">');
 
 		// Switch To Classic modal
 		$I->wantTo(\Helper\Color::set('Check if Classic modal window works', "italic+bold+cyan"));
@@ -106,7 +106,7 @@ class ModalWindowsCest {
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource("lumiere_classic_links-js");			
 		$I->seeInPageSource("lumiere_style_main-css"); 			
-		$I->seeInPageSource('Ellen Burstyn</a>, <a class="linkpopup" href="https://www.jcvignoli.com/blogpourext/lumiere/person/0000190/?mid=0000190" title="internal link">');
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="linkpopup" href="https://www.jcvignoli.com/blogpourext/lumiere/person/0000190/?mid=0000190" title="internal link">');
 
 		// Check AMP
 		$I->wantTo(\Helper\Color::set('Check if AMP class works', "italic+bold+cyan"));
@@ -119,7 +119,7 @@ class ModalWindowsCest {
 		$I->seeInPageSource('his uncle, <a class="linkpopup" href="https://www.jcvignoli.com/blogpourext/lumiere/person/?mid=0675788&amp;amp" title="internal link to">Martin Perveler</a>. Returning');		
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL . '&amp' );# Check popup movie
 		$I->seeInPageSource("sourceURL=amp-custom.css");	
-		$I->seeInPageSource('Ellen Burstyn</a>, <a class="linkpopup" href="https://www.jcvignoli.com/blogpourext/lumiere/person/0000190/?mid=0000190&amp;amp" title="internal link">');
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="linkpopup" href="https://www.jcvignoli.com/blogpourext/lumiere/person/0000190/?mid=0000190&amp;amp" title="internal link">');
 
 		// Check NoLinks class
 		$I->wantTo(\Helper\Color::set('Check if No Links works', "italic+bold+cyan"));
@@ -149,7 +149,7 @@ class ModalWindowsCest {
 		$I->dontSeeInPageSource("lumiere_bootstrap_core-js");
 		$I->dontSeeInPageSource("lumiere_highslide_core-js");
 		$I->dontSeeInPageSource("lumiere_highslide_options-js");
-		$I->seeInPageSource('Ellen Burstyn</a>, <a class="linkpopup" href="https://www.jcvignoli.com/blogpourext/lumiere/person/0000190/?mid=0000190" title="internal link">'); // There are links in no class popups
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="linkpopup" href="https://www.jcvignoli.com/blogpourext/lumiere/person/0000190/?mid=0000190" title="internal link">'); // There are links in no class popups
 
 		// End, Switch back To Highslide, remove kill imdb links
 		$I->SwitchModalWindow('Highslide');

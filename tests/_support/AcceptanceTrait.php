@@ -101,10 +101,11 @@ trait AcceptanceTrait {
 
 	}
 
-	/** Activate plugin if it is deactivated
-	 * 
+	/**
+	 * Activate plugin if it is deactivated
+	 * @param string $plugin Plugin's name as in WordPress plugin's folder (ie: lumiere-movies)
 	 */
-	function maybeActivatePlugin($plugin){
+	function maybeActivatePlugin( $plugin ) {
 
 		try {
 			$this->executeJS("return jQuery('#activate-".$plugin."').get(0).click()");
@@ -115,10 +116,11 @@ trait AcceptanceTrait {
 
 	}
 
-	/** Deactivate plugin if it is activated
-	 * 
+	/**
+	 * Deactivate plugin if it is activated
+	 * @param string $plugin Plugin's name as in WordPress plugin's folder (ie: lumiere-movies)
 	 */
-	function maybeDeactivatePlugin($plugin){
+	function maybeDeactivatePlugin( $plugin ) {
 
 		try {
 			$this->executeJS("return jQuery('#deactivate-".$plugin."').get(0).click()");
@@ -133,7 +135,7 @@ trait AcceptanceTrait {
 	/** Wait for JS to consider page has been loaded
 	 * 
 	 */
-	function waitPageLoad($timeout = 10){
+	function waitPageLoad( $timeout = 10 ) {
 
 		$this->waitForJS('return document.readyState == "complete"', $timeout);
 		$this->waitForJS('return !!window.jQuery && window.jQuery.active == 0;', $timeout);
@@ -147,7 +149,7 @@ trait AcceptanceTrait {
 	 * param $dest the folder destination path to be receive the source
 	 * param $shell the class \Codeception\Module\Cli
 	 */
-	function copyWithRsync($source, $dest, $shell){
+	function copyWithRsync( $source, $dest, $shell ) {
 		$this->comment("Copying files to $dest...");
 		$shell->runShellCommand( 'rsync -rv ' . $source . ' '. $dest );
 		$this->comment("Lumiere plugin folder (into $dest) saved");
@@ -173,11 +175,24 @@ trait AcceptanceTrait {
 		// Make sure Highslide is active, following tests are run with $modal (ie: Bootstrap, Highslide, ...)
 		try {
 			$this->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
-		$this->customSelectOption( "select[name=imdbpopup_modal_window]", $modal, "update_imdbSettings" );
+			$this->customSelectOption( "select[name=imdbpopup_modal_window]", $modal, "update_imdbSettings" );
 		} catch (\PHPUnit_Framework_AssertionFailedError | \NoSuchElementException | \Exception $f) {
-			$this->comment("[No action] Couldn't siwtch to $modal modal window.");
+			$this->comment("[No action] Couldn't switch to $modal modal window.");
 		} 
 
+	}
+
+	/**
+	 * Switch to new window
+	 * Function switchToWindow() needs a name that we usually don't know
+	 * With switchToNewWindow(), we detect we just open
+	 */
+	function switchToNewWindow() {
+		$this->executeInSelenium( function ( \Facebook\WebDriver\Remote\RemoteWebDriver $webdriver ) {
+			$handles = $webdriver->getWindowHandles();
+			$lastWindow = end($handles);
+			$webdriver->switchTo()->window($lastWindow);
+		} );
 	}
 }
 

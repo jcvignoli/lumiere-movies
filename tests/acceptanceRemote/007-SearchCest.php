@@ -80,16 +80,17 @@ class SearchCest {
 		// Open the window
 		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_POST_ID_TESTS );
 		$I->click('a[data-lumiere_admin_popup="no data"]');
+		$I->wait(5);
 
 		// Search in the window
-		$I->switchToWindow("popup");
+		$I->switchToNewWindow();
 		$I->fillField('#moviesearched', '2001');
 		$I->click('Search');
 		$I->see('2001: A Space Odyssey (1968)');
 		$I->see('0062622');
-/*
+
 		$I->click("#imdbid_0062622");
-can't get this work
-*/
+
+
 	}
 }
