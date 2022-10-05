@@ -405,6 +405,10 @@ exports.rsync = function rsync() {
 				root: paths.rsync.src,
 				hostname: ext_cred.mainserver.hostname,
 				destination: ext_cred.mainserver.dist,
+				username: ext_cred.mainserver.username,
+				options: {
+					'e': 'ssh -i ' + ext_cred.mainserver.key
+				},
 				recursive: true,
 				incremental: true,
 				progress: true,
@@ -418,6 +422,10 @@ exports.rsync = function rsync() {
 				root: paths.rsync.src,
 				hostname: ext_cred.mainserver.hostname,
 				destination: ext_cred.mainserver.dist,
+				username: ext_cred.mainserver.username,
+				options: {
+					'e': 'ssh -i ' + ext_cred.mainserver.key
+				},
 				recursive: true,
 				incremental: true,
 				progress: true,
