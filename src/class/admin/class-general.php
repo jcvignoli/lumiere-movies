@@ -651,7 +651,7 @@ class General extends \Lumiere\Admin {
 
 				<div id="imdbautopostwidget" class="lumiere_flex_auto lumiere_padding_five">
 
-					<?php esc_html_e( 'Auto widget?', 'lumiere-movies' ); ?>&nbsp;
+					<?php esc_html_e( 'Auto title widget?', 'lumiere-movies' ); ?>&nbsp;
 
 					<input type="hidden" id="imdb_imdbautopostwidget_no" name="imdb_imdbautopostwidget" value="0" />
 
