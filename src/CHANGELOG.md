@@ -9,6 +9,7 @@ v.3.9
 * [technical] Bootstrap window maker is now used through composer
 * [technical] Updated to bootstrap 5.2.2
 * [technical] Added link to settings in WP plugins page
+* [technical] Updated to IMDBPHP library 7.3.1 fixing major bugs
 
 v.3.8.3
 * [bug] An extra space was added for movie links inside posts. Fixed function lumiere_popup_film_link_abstract() in class abstract link maker
@@ -26,7 +27,7 @@ v.3.8.1
 
 v.3.8
 * [feature] Implemented a new link maker: Bootstrap 5.1 modal window. Can be selected in admin options.
-* [technical] PHP8.0 is required due to new coding style, and PHP7.4 will obsolete soon
+* [technical] PHP8.0 is required due to new coding style, as PHP7.4 will obsolete soon
 * [technical] Polylang is now a Plugin class with separated functions
 * [technical] More OOP oriented, decoupled the link making process, NoLinks, Bootstrap, Highslide, Classic
 * [technical] Virtual pages are now created with the new Virtual_Page class
