@@ -19,6 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Imdb\Title;
 use Imdb\TitleSearch;
 use Lumiere\Link_Makers\Link_Factory;
+use Exception;
 
 class Popup_Movie {
 
@@ -86,6 +87,9 @@ class Popup_Movie {
 	/**
 	 * Search movie id or title
 	 * Must be called after wp_head(), so call it manually
+	 *
+	 * @throws Exception if errors occurs when searching for the movie
+	 * @return bool True if a movie was found
 	 */
 	private function find_movie(): bool {
 
@@ -95,19 +99,19 @@ class Popup_Movie {
 		$this->movieid_sanitized = isset( $_GET['mid'] ) && strlen( $_GET['mid'] ) !== 0 ? esc_html( $_GET['mid'] ) : null;
 		$this->film_title_sanitized = isset( $_GET['film'] ) && strlen( $_GET['film'] ) !== 0 ? esc_html( $_GET['film'] ) : null;
 
-		// if neither film nor mid are set, wp_die()
+		// if neither film nor mid are set, Exception
 		if ( $this->movieid_sanitized === null && $this->film_title_sanitized === null ) {
 
 			status_header( 404 );
-			$this->logger->log()->error( '[Lumiere] Neither movie title nor id provided.' );
-			wp_die( esc_html__( 'Lumière Movies: Invalid query.', 'lumiere-movies' ) );
+			$this->logger->log()->error( '[Lumiere][popupMovieClass] Neither movie title nor id provided.' );
+			throw new Exception( esc_html__( '[Lumiere][popupMovieClass] Invalid query.', 'lumiere-movies' ) );
 
 		}
 
 		// A movie imdb id is provided in URL.
 		if ( $this->movieid_sanitized !== null ) {
 
-			$this->logger->log()->debug( '[Lumiere] Movie id provided in URL: ' . $this->movieid_sanitized );
+			$this->logger->log()->debug( '[Lumiere][popupMovieClass] Movie id provided in URL: ' . $this->movieid_sanitized );
 
 			$this->movie = new Title( $this->movieid_sanitized, $this->imdbphp_class, $this->logger->log() );
 			$this->film_title_sanitized = Utils::lumiere_name_htmlize( $this->movie->title() );
@@ -117,14 +121,19 @@ class Popup_Movie {
 			// No movie id is provided, but a title was.
 		} elseif ( $this->film_title_sanitized !== null ) {
 
-			$this->logger->log()->debug( '[Lumiere] Movie title provided in URL: ' . $this->film_title_sanitized );
+			$this->logger->log()->debug( '[Lumiere][popupMovieClass] Movie title provided in URL: ' . $this->film_title_sanitized );
 
 			$title_search_class = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
-			$search = $title_search_class->search( $this->film_title_sanitized, $this->type_search );
-			print_r( $this->film_title_sanitized );
-			if ( array_key_exists( 0, $search ) === false ) {
 
-				throw new \Exception( 'Could not find the movie' );
+			try {
+				$search = $title_search_class->search( $this->film_title_sanitized, $this->type_search );
+				if ( count( $search ) === 0 || array_key_exists( 0, $search ) === false ) {
+					throw new Exception( 'Fatal error: Could not find the movie title: ' . $this->film_title_sanitized );
+				}
+			} catch ( Exception $e ) {
+
+				$this->logger->log()->critical( '[Lumiere][popupMovieClass] ' . $e->getMessage() );
+				wp_die( esc_html( $e->getMessage() ) );
 
 			}
 
@@ -153,13 +162,16 @@ class Popup_Movie {
 		}
 		echo '">';
 
-		// Set up class properties.
-		$this->find_movie() === false;
+		// Set up class properties. Exit if no movie was found.
+		if ( $this->find_movie() === false ) {
+			$this->logger->log()->debug( '[Lumiere][popupMovieClass] Could not find any movie.' );
+			return;
+		}
 		$movie_results = $this->movie;
 
 		// Build Link Factory class
 		$this->link_maker = Link_Factory::lumiere_link_factory_start();
-		$this->logger->log()->debug( '[Lumiere][popupPersonClass] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+		$this->logger->log()->debug( '[Lumiere][popupMovieClass] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
 		$this->display_menu( $this->movie );
 
@@ -257,7 +269,12 @@ class Popup_Movie {
 					echo esc_html( $movie_results->title() );
 				?>
 				&nbsp;(<?php echo intval( $movie_results->year() ); ?>)</div>
-				<div class="lumiere_align_center"><font size="-1"><?php echo esc_html( $movie_results->tagline() ); ?></font></div>
+				<div class="lumiere_align_center"><font size="-1"><?php
+					$taglines = $movie_results->taglines();
+				if ( array_key_exists( 0, $taglines ) ) {
+					echo esc_html( $taglines[0] );
+				}
+				?></font></div>
 			</div> 
 			<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two">
 												<!-- Movie's picture display -->
