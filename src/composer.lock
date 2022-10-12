@@ -1,9 +1,14 @@
 {
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "6ff41b38812f882aa75358542497db14",
     "packages": [
         {
             "name": "imdbphp/imdbphp",
             "version": "dev-master",
-            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tboothman/imdbphp.git",
@@ -31,10 +36,8 @@
                 "phpstan/phpstan": "^0.12.83",
                 "phpunit/phpunit": "^9.5"
             },
-            "time": "2022-10-09T22:36:50+00:00",
             "default-branch": true,
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Imdb\\": "src/Imdb"
@@ -49,12 +52,11 @@
                 "issues": "https://github.com/tboothman/imdbphp/issues",
                 "source": "https://github.com/tboothman/imdbphp/tree/master"
             },
-            "install-path": "../imdbphp/imdbphp"
+            "time": "2022-10-09T22:36:50+00:00"
         },
         {
             "name": "monolog/monolog",
             "version": "2.8.0",
-            "version_normalized": "2.8.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
@@ -109,14 +111,12 @@
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
                 "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
-            "time": "2022-07-24T11:55:47+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-main": "2.x-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Monolog\\": "src/Monolog"
@@ -154,12 +154,11 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../monolog/monolog"
+            "time": "2022-07-24T11:55:47+00:00"
         },
         {
             "name": "psr/log",
             "version": "1.1.4",
-            "version_normalized": "1.1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
@@ -174,14 +173,12 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2021-05-03T11:20:27+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.1.x-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Psr\\Log\\": "Psr/Log/"
@@ -207,12 +204,11 @@
             "support": {
                 "source": "https://github.com/php-fig/log/tree/1.1.4"
             },
-            "install-path": "../psr/log"
+            "time": "2021-05-03T11:20:27+00:00"
         },
         {
             "name": "psr/simple-cache",
             "version": "1.0.1",
-            "version_normalized": "1.0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/simple-cache.git",
@@ -227,14 +223,12 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2017-10-23T01:57:42+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.0.x-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Psr\\SimpleCache\\": "src/"
@@ -261,12 +255,11 @@
             "support": {
                 "source": "https://github.com/php-fig/simple-cache/tree/master"
             },
-            "install-path": "../psr/simple-cache"
+            "time": "2017-10-23T01:57:42+00:00"
         },
         {
             "name": "twbs/bootstrap",
             "version": "v5.2.2",
-            "version_normalized": "5.2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
@@ -281,9 +274,7 @@
             "replace": {
                 "twitter/bootstrap": "self.version"
             },
-            "time": "2022-10-03T07:44:02+00:00",
             "type": "library",
-            "installation-source": "dist",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
@@ -314,9 +305,20 @@
                 "issues": "https://github.com/twbs/bootstrap/issues",
                 "source": "https://github.com/twbs/bootstrap/tree/v5.2.2"
             },
-            "install-path": "../twbs/bootstrap"
+            "time": "2022-10-03T07:44:02+00:00"
         }
     ],
-    "dev": true,
-    "dev-package-names": []
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "imdbphp/imdbphp": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=8.0"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }
