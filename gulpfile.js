@@ -288,7 +288,8 @@ gulp.task('watch', function(){			/* call tasks with ssh upload by default using 
 	gulp.watch( paths.stylesheets.src, gulp.series('stylesheets'), flagssh = true);
 	gulp.watch( paths.javascripts.src, gulp.series('javascripts'), flagssh = true);
 	gulp.watch( paths.images.src, gulp.series('images'), flagssh = true);
-	gulp.watch( paths.files.src, gulp.series('files_copy'), flagssh = true)  ;
+	gulp.watch( paths.files.src, gulp.series('files_copy'), flagssh = true);
+	console.log('watch started...');
 });
 
 // Task 6 - Run browser-sync

@@ -27,7 +27,6 @@ use Lumiere\Plugins\Polylang;
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\PluginsDetect;
 use WP_Query;
-use Exception;
 
 class Taxonomy_People_Standard {
 
@@ -125,14 +124,15 @@ class Taxonomy_People_Standard {
 
 	/**
 	 * Do the search according to the page title using IMDbPHP classes
-	 * @throws Exception if person not found
+	 * Start the logging process
 	 */
 	private function lumiere_process_imdbphp_search(): void {
 
 		do_action( 'lumiere_logger' );
 
 		// Build the current page name from the tag taxonomy.
-		$page_title_check = single_tag_title( '', false );
+		// Sanitize_title() ensures that the search is made according to the URL (fails with accents otherwise)
+		$page_title_check = sanitize_title( single_tag_title( '', false ) );
 
 		// Full taxonomy title.
 		$this->taxonomy_title = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . 'standard';
@@ -145,8 +145,6 @@ class Taxonomy_People_Standard {
 			$mid_sanitized = esc_html( $mid ); // sanitize the first result.
 			$this->person_class = new Person( $mid_sanitized, $this->imdbphp_class, $this->logger->log() ); // search the profile using the first result.
 			$this->person_name = $this->person_class->name();
-		} else {
-			throw new Exception( 'Could not find this person' );
 		}
 	}
 
@@ -185,7 +183,7 @@ class Taxonomy_People_Standard {
 			<div id="content-wrap" class="container clr">
 		<?php
 
-		if ( strlen( $this->person_name ) !== 0 ) {
+		if ( isset( $this->person_name ) && strlen( $this->person_name ) !== 0 ) {
 
 			$this->portrait();
 
@@ -194,6 +192,7 @@ class Taxonomy_People_Standard {
 			// No imdb result, so display a basic title.
 			$title_from_tag = single_tag_title( '', false );
 			echo "\n\t\t" . '<h1 class="pagetitle">' . esc_html__( 'Taxonomy for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ) . ' as <i>standard</i></h1>';
+			echo "\n\t\t" . '<div>' . esc_html__( 'No IMDb results found for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ) . '</div>';
 
 		}
 
@@ -234,7 +233,7 @@ class Taxonomy_People_Standard {
 				];
 
 				// No value was passed in the form.
-			} else {
+			} elseif ( isset( $this->person_name ) && strlen( $this->person_name ) ) {
 
 				$args = [
 					'post_type' => [ 'post', 'page' ],
@@ -251,10 +250,10 @@ class Taxonomy_People_Standard {
 			}
 
 			// The Query.
-			$the_query = new WP_Query( $args );
+			$the_query = isset( $this->person_name ) ? new WP_Query( $args ) : null;
 
 			// The loop.
-			if ( $the_query->have_posts() ) {
+			if ( isset( $the_query ) && $the_query->have_posts() ) {
 
 				echo "\n\t\t\t\t" . '<h2 class="lumiere_italic lumiere_align_center">' . esc_html__( 'In the role of', 'lumiere-movies' ) . ' ' . esc_html( $people ) . '</h2>';
 
@@ -324,7 +323,7 @@ class Taxonomy_People_Standard {
 				}
 
 				// there is no post.
-			} else {
+			} elseif ( isset( $this->person_name ) ) {
 
 				$logger->debug( "[Lumiere][taxonomy_$this->taxonomy_title] No post found for $this->person_name in $people" );
 
@@ -340,7 +339,7 @@ class Taxonomy_People_Standard {
 		 * Say so!
 		 * @phpstan-ignore-next-line 'Strict comparison using === between 0 and 0 will always evaluate to true'.
 		 */
-		if ( count( $check_if_no_result ) === 0 ) {
+		if ( count( $check_if_no_result ) === 0 && isset( $this->person_name ) ) {
 
 			$this->logger->log()->info( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] No post found for ' . $this->person_name . ' in ' . $this->taxonomy_title );
 

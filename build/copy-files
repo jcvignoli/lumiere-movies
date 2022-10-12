@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Script automatically executed when "composer (update|remove|require)" is run
+
+# Git hooks (can be deleted when doing a mirror clone)
+
+cp -uv ./build/git-hooks/pre-commit ./.git/hooks/
+
+# Gitub hooks (can be deleted when doing a mirror clone)
+
+mkdir -p ./.github
+cp -uvr ./build/github/** ./.github/

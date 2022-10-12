@@ -3,6 +3,7 @@
 v.3.9
 * [bug] Under unusual circomstances, class-taxonomy-people-standard.php was failing to retrieve an IMDbPHP class name. Added throwing an exception
 * [bug] Tagline in movies popup shows up again
+* [bug] Taxonomy pages did not work for people's names with accented letters (added sanitize_title())
 * [bug] Wrong annotation for class-settings.php (extra OPTIONS_WIDGET properties)
 * [bug] ImdbPHP search was not working for people on some sporadic circumstances
 * [technical] Properly using composer scripts in src, not copied to the production vendor folder with composer anymore
