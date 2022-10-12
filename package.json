@@ -34,7 +34,7 @@
     "lint": "npm-run-all -p -r phpcs phpmd phpstan phan phpdd"
   },
   "devDependencies": {
-    "@wordpress/scripts": "16.1.0",
+    "@wordpress/scripts": "24.3.0",
     "browser-sync": "^2.26.14",
     "del": "^4.1.1",
     "eslint-config-airbnb-base": "^14.2.1",
@@ -48,7 +48,7 @@
     "gulp-eslint": "^6.0.0",
     "gulp-exec": "^5.0.0",
     "gulp-if": "^3.0.0",
-    "gulp-imagemin": "^7.1.0",
+    "gulp-imagemin": "^8.0.0",
     "gulp-load-plugins": "^2.0.7",
     "gulp-notify": "^4.0.0",
     "gulp-plumber": "^1.2.1",
