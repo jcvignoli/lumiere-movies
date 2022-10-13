@@ -233,7 +233,7 @@ class Taxonomy_People_Standard {
 				];
 
 				// No value was passed in the form.
-			} elseif ( isset( $this->person_name ) && strlen( $this->person_name ) ) {
+			} elseif ( isset( $this->person_name ) && strlen( $this->person_name ) > 0 ) {
 
 				$args = [
 					'post_type' => [ 'post', 'page' ],
@@ -250,7 +250,7 @@ class Taxonomy_People_Standard {
 			}
 
 			// The Query.
-			$the_query = isset( $this->person_name ) ? new WP_Query( $args ) : null;
+			$the_query = isset( $this->person_name ) && isset( $args ) ? new WP_Query( $args ) : null;
 
 			// The loop.
 			if ( isset( $the_query ) && $the_query->have_posts() ) {

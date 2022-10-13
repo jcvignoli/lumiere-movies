@@ -3,7 +3,7 @@
         'name' => 'jcvignoli/lumiere-movies',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'b06f806fef3fb7db9593cba2e22b2d5e5742510e',
+        'reference' => '8dc0a0d6028a77337444a2d71301194a9b2384cd',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'imdbphp/imdbphp' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '1fdcc68fd7dce2fde8a2282c833465f35154faf9',
+            'reference' => 'ec14e8980bd9f6957649b1232c8c5baa9451c105',
             'type' => 'library',
             'install_path' => __DIR__ . '/../imdbphp/imdbphp',
             'aliases' => array(
@@ -24,7 +24,7 @@
         'jcvignoli/lumiere-movies' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'b06f806fef3fb7db9593cba2e22b2d5e5742510e',
+            'reference' => '8dc0a0d6028a77337444a2d71301194a9b2384cd',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
