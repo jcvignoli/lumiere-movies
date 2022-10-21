@@ -169,11 +169,11 @@ Major changes:
 
 ### 3.9
 
-* Fully using composer, loading classes through composer autoload for more sustainability.
+* Technical release: fully using composer, loading classes through composer autoload for more sustainability.
 
 ### 3.8
 
-* PHP 8.0 now required. Introducing a new modal window, Bootstrap. User can select in admin whether to use Bootstrap, Highslide or Classic popups. Movie and People Popups do not throw 404 error anymore, they'll be indexed by search engines. Huge work for OOP coding with the popups links, the plugin is faster.
+* PHP 8.0 is now required. Introducing a new modal window, Bootstrap. User can select in admin whether to use Bootstrap, Highslide or Classic popups. Movie and People Popups do not throw 404 error anymore, they'll be indexed by search engines. Huge work for OOP coding with the popups links, the plugin is faster.
 
 ### 3.7
 
