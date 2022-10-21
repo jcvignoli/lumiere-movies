@@ -754,9 +754,8 @@ class Core {
 				$my_canon = $this->config_class->lumiere_urlpopupsperson . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=' . $info_sanitized;
 				if ( strlen( $mid_sanitized ) > 0 ) {
 					$person = new Person( $mid_sanitized, $this->imdbphp_class );
-					$person_name_sanitized = esc_html( $person->name() );
 					echo "\n" . '<link rel="canonical" href="' . esc_url( $my_canon ) . '" />';
-					echo "\n" . '<meta property="article:tag" content="' . esc_html( $person_name_sanitized ) . '" />';
+					echo "\n" . '<meta property="article:tag" content="' . esc_html( $person->name() ) . '" />';
 				}
 			}
 
