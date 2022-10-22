@@ -29,6 +29,12 @@ use FilesystemIterator;
 class Settings {
 
 	/**
+	 * Those plugins results in Lumière deactivation
+	 * Those are crap and Lumière will not support them
+	 */
+	const LUMIERE_INCOMPATIBLE_PLUGINS = [ 'rss-feed-post-generator-echo/rss-feed-post-generator-echo.php' ];
+
+	/**
 	 * Name of the databases as stored in WordPress db
 	 */
 	const LUMIERE_ADMIN_OPTIONS = 'imdbAdminOptions';

@@ -192,7 +192,7 @@ class Taxonomy_People_Standard {
 			// No imdb result, so display a basic title.
 			$title_from_tag = single_tag_title( '', false );
 			echo "\n\t\t" . '<h1 class="pagetitle">' . esc_html__( 'Taxonomy for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ) . ' as <i>standard</i></h1>';
-			echo "\n\t\t" . '<div>' . esc_html__( 'No IMDb results found for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ) . '</div>';
+			echo "\n\t\t" . '<div>' . esc_html__( 'No IMDb result found for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ) . '</div>';
 
 		}
 

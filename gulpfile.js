@@ -140,33 +140,47 @@ paths = {
 		sourcemap: '../tmp/sourcemap',			/* sourcemap output folder */
 		lint: './tmp/lint' },				/* lint output folder */
 	stylesheets: {
-		src: [ './src/**/*.css', '!./src/js/highslide/*.*', '!./src/vendor/**/*.*' ],
-		dist: './dist' },
+		src: [
+			'./src/**/*.css',
+			'!./src/js/highslide/*.*',
+			'!./src/vendor/**/*.*'
+		],
+		dist: './dist'
+	},
 	javascripts: {
-		src: [ './src/**/*.js', '!./src/js/highslide/**/**/*.*', '!./src/vendor/**/*.*' ],
-		dist: './dist' },
+		src: [ 
+			'./src/**/*.js',
+				'!./src/js/highslide/**/**/*.*',
+				'!./src/vendor/**/*.*'
+		],
+		dist: './dist'
+	},
 	images: {
-		src: [ './src/.**/*.+(jpg|jpeg|gif|png)', './src/**/*.+(jpg|jpeg|gif|png)', '!./src/vendor/**/*.*' ],
-		dist: './dist' },
+		src: [ './src/.**/*.{jpg,jpeg,gif,png}', './src/**/*.{jpg,jpeg,gif,png}', '!./src/vendor/**/*.*' ],
+		dist: './dist'
+	},
 	files: {
-		src: [	'./src/**/*.+(php|html|htm|ico|webmanifest|md|txt)', 
+		src: [	'./src/**/*.{php,html,htm,ico,webmanifest,md,txt}', 
 
 			'!./src/vendor/**/*.*',				/* copy only relevant files in src/vendor */ 
-			'./src/vendor/composer/**/*.*',
-			'./src/vendor/imdbphp/imdbphp/src/**/*.*',
-			'./src/vendor/monolog/**/*.*',
-			'./src/vendor/psr/**/*.*',
-			'./src/vendor/twbs/bootstrap/dist/**/*.+(js|css)',
-			'./src/vendor/autoload.*',
-
+				'./src/vendor/composer/**/*.*',
+				'./src/vendor/imdbphp/imdbphp/src/**/*.*',
+				'./src/vendor/monolog/**/*.*',
+				'./src/vendor/psr/**/*.*',
+				'./src/vendor/twbs/bootstrap/dist/**/*.{js,css}',
+				'./src/vendor/autoload.*',
 			'./src/**/*.+(psd)', 
 			'./src/.**/*.+(psd)', 				/* for .wordpress.org */
-			'./src/languages/*.*', 
-			'./src/js/highslide/**/**/*.*'],
-		dist: './dist' },
+			'./src/languages/*.*',
+				'!./src/languages/*.{temp.po}',  
+			'./src/js/highslide/**/**/*.*'
+		],
+		dist: './dist'
+	},
 	rsync: {
 		src: './dist',
-		excludedpath: ''},
+		excludedpath: ''
+	},
 };
 
 // Function to check if the var --ssh yes has been passed, or called such as isSSH('yes') (ie; from watch task)
