@@ -34,7 +34,7 @@
     "lint": "npm-run-all -p -r phpcs phpmd phpstan phan phpdd"
   },
   "devDependencies": {
-    "@wordpress/scripts": "16.1.0",
+    "@wordpress/scripts": "^24.4.0",
     "browser-sync": "^2.26.14",
     "del": "^4.1.1",
     "eslint-config-airbnb-base": "^14.2.1",
