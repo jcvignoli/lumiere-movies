@@ -2,7 +2,7 @@
 Contributors: psykonevro
 Tags: cinema, film, imdb, movie, actor
 Requires at least: 5.3
-Tested up to: 6.0
+Tested up to: 6.1
 Stable tag: 3.9
 Requires PHP: 8.0
 License: GPLv3
