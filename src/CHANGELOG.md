@@ -4,6 +4,7 @@ v.3.9
 * [feature] Lumière will not be compatible with plugins that promote a web of spammers. First plugin to enter the hall of shame: RSS Feed Post Generator Echo, paid plugin used to make ghost websites with ads and make money. If such plugin is activated, Lumière will automatically be deactivated.
 * [bug] Under unusual circomstances, class-taxonomy-people-standard.php was failing to retrieve an IMDbPHP class name. Added throwing an exception
 * [bug] Tagline in movies popup shows up again
+* [bug] Gutenberg Select text in Lumière movie's block was not shown, fixed index.js
 * [bug] Taxonomy pages did not work for people's names with accented letters (added sanitize_title())
 * [bug] Wrong annotation for class-settings.php (extra OPTIONS_WIDGET properties)
 * [bug] ImdbPHP search was not working for people on some sporadic circumstances
