@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-21 20:35-0400\n"
-"PO-Revision-Date: 2022-10-21 20:35-0400\n"
+"POT-Creation-Date: 2022-10-22 16:42-0400\n"
+"PO-Revision-Date: 2022-10-22 16:43-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -41,6 +41,10 @@ msgid "Insert a series of details related to a movie in your post."
 msgstr "Insère une série de détails en lien avec un film dans votre article."
 
 #: blocks/editor/index.js:88
+msgid "This block will vanish in your post, only the movie will be shown."
+msgstr "Ce block disparaîtra dans votre post, seul le film sera montré."
+
+#: blocks/editor/index.js:90
 msgid ""
 "Use this block to retrieve movie or people information from the IMDb and "
 "insert in your post."
@@ -48,23 +52,23 @@ msgstr ""
 "Utilisez ce bloc pour récupérer les informations de personnes ou films de "
 "l'IMDb et l'insérer dans votre article."
 
-#: blocks/editor/index.js:90
+#: blocks/editor/index.js:92
 msgid "You can also click on this link to get the"
 msgstr "Vous pouvez également cliquer sur le lien pour obtenir"
 
-#: blocks/editor/index.js:95
+#: blocks/editor/index.js:97
 msgid "IMDb movie id"
 msgstr "Numéro IMDb de film"
 
-#: blocks/editor/index.js:96
+#: blocks/editor/index.js:98
 msgid "and insert it."
 msgstr "et l'insérer."
 
-#: blocks/editor/index.js:124 class/class-metabox.php:57
+#: blocks/editor/index.js:128 class/class-metabox.php:57
 msgid "By movie title"
 msgstr "Par titre du film"
 
-#: blocks/editor/index.js:125
+#: blocks/editor/index.js:129
 msgid "By IMDb ID"
 msgstr "Par numéro IMDb"
 
