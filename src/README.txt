@@ -136,6 +136,7 @@ Major changes:
 
 = 3.9 = 
 * Technical release: fully using composer, loading classes through composer autoload for more sustainability.
+* Lumière will not be compatible with plugins that promote a web of spammers. First plugin to enter the hall of shame: RSS Feed Post Generator Echo, paid plugin used to make ghost websites with ads and make money.
 
 = 3.8 = 
 * PHP 8.0 is now required. Introducing a new modal window, Bootstrap. User can select in admin whether to use Bootstrap, Highslide or Classic popups. Movie and People Popups do not throw 404 error anymore, they'll be indexed by search engines. Huge work for OOP coding with the popups links, the plugin is faster.

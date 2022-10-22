@@ -104,7 +104,7 @@ class Popup_Movie {
 
 			status_header( 404 );
 			$this->logger->log()->error( '[Lumiere][popupMovieClass] Neither movie title nor id provided.' );
-			throw new Exception( esc_html__( '[Lumiere][popupMovieClass] Invalid query.', 'lumiere-movies' ) );
+			throw new Exception( '[Lumiere][popupMovieClass] Invalid query.' );
 
 		}
 

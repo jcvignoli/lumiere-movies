@@ -153,7 +153,7 @@ class Search {
 				if ( $iterator > $limit_search ) {
 					$this->logger->log()->debug( "[Lumiere][gutenbergSearch] Limit of '$limit_search' results reached." );
 					echo '<div class="lumiere_italic lumiere_padding_five lumiere_align_center">'
-					. esc_html__( 'Maximum of results reached. You can increase it in admin options.', 'lumiere-movies' );
+					. esc_html__( 'Maximum  number of results reached. You can increase that number in admin options.', 'lumiere-movies' );
 					echo '</div>';
 					break;
 				}
