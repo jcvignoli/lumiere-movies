@@ -5,7 +5,7 @@
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.3 \
-**Tested up to:** 6.0 \
+**Tested up to:** 6.1 \
 **Stable tag:** 3.9 \
 **Requires PHP:** 8.0 \
 **License:** GPLv3 \
@@ -170,6 +170,7 @@ Major changes:
 ### 3.9
 
 * Technical release: fully using composer, loading classes through composer autoload for more sustainability.
+* Lumière will not be compatible with plugins that promote a web of spammers. First plugin to enter the hall of shame: RSS Feed Post Generator Echo, paid plugin used to make ghost websites with ads and make money.
 
 ### 3.8
 

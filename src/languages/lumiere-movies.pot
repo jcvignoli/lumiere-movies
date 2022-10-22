@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-10-03T18:36:36-03:00\n"
+"POT-Creation-Date: 2022-10-22T17:47:29-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.6.0\n"
+"X-Generator: WP-CLI 2.7.0\n"
 "X-Domain: lumiere-movies\n"
 
 #. Plugin Name of the plugin
@@ -454,7 +454,7 @@ msgid "Click on \"reset settings\" to refresh the values."
 msgstr ""
 
 #: class/admin/class-data.php:87
-#: class/class-settings.php:302
+#: class/class-settings.php:308
 msgid "actor"
 msgstr ""
 
@@ -475,7 +475,7 @@ msgid "plot"
 msgstr ""
 
 #: class/admin/class-data.php:91
-#: class/class-settings.php:306
+#: class/class-settings.php:312
 msgid "producer"
 msgstr ""
 
@@ -950,7 +950,7 @@ msgid "Limit of the number of results in a movie query."
 msgstr ""
 
 #: class/admin/class-general.php:566
-#: class/frontend/class-popup-movie.php:241
+#: class/frontend/class-popup-movie.php:253
 #: class/frontend/class-popup-person.php:190
 msgid "Misc"
 msgstr ""
@@ -1000,7 +1000,7 @@ msgid "Please also note that specific links such as to taxonomy pages and inside
 msgstr ""
 
 #: class/admin/class-general.php:654
-msgid "Auto widget?"
+msgid "Auto title widget?"
 msgstr ""
 
 #: class/admin/class-general.php:665
@@ -1622,97 +1622,97 @@ msgstr ""
 msgid "help"
 msgstr ""
 
-#: class/class-core.php:230
+#: class/class-core.php:229
 msgid "Sponsor"
 msgstr ""
 
-#: class/class-core.php:247
+#: class/class-core.php:246
 msgid "Settings"
 msgstr ""
 
-#: class/class-core.php:653
-#: class/class-core.php:669
+#: class/class-core.php:652
+#: class/class-core.php:668
 msgid "Informations about "
 msgstr ""
 
-#: class/class-core.php:670
+#: class/class-core.php:669
 msgid "Unknown"
 msgstr ""
 
-#: class/class-metabox.php:57
+#: class/class-metabox.php:56
 msgid "By movie IMDb ID"
 msgstr ""
 
-#: class/class-metabox.php:58
-#: blocks/editor/index.js:124
+#: class/class-metabox.php:57
+#: blocks/editor/index.js:128
 msgid "By movie title"
 msgstr ""
 
-#: class/class-metabox.php:70
+#: class/class-metabox.php:69
 msgid "The movie you enter will be shown in your widget area."
 msgstr ""
 
-#: class/class-metabox.php:77
+#: class/class-metabox.php:76
 msgid "How to query the movie?"
 msgstr ""
 
-#: class/class-metabox.php:96
+#: class/class-metabox.php:95
 msgid "Title or ID:"
 msgstr ""
 
-#: class/class-metabox.php:103
+#: class/class-metabox.php:102
 msgid "Use "
 msgstr ""
 
-#: class/class-metabox.php:103
+#: class/class-metabox.php:102
 msgid "Open a popup to search the movie's ID"
 msgstr ""
 
-#: class/class-metabox.php:103
+#: class/class-metabox.php:102
 msgid "the query tool "
 msgstr ""
 
-#: class/class-metabox.php:103
+#: class/class-metabox.php:102
 msgid "to find the IMDb's ID."
 msgstr ""
 
-#: class/class-settings.php:241
+#: class/class-settings.php:247
 msgid "Readme file either missing or corrupted "
 msgstr ""
 
-#: class/class-settings.php:303
+#: class/class-settings.php:309
 msgid "composer"
 msgstr ""
 
-#: class/class-settings.php:304
+#: class/class-settings.php:310
 msgid "creator"
 msgstr ""
 
-#: class/class-settings.php:305
+#: class/class-settings.php:311
 msgid "director"
 msgstr ""
 
-#: class/class-settings.php:307
+#: class/class-settings.php:313
 msgid "writer"
 msgstr ""
 
-#: class/class-settings.php:310
+#: class/class-settings.php:316
 msgid "color"
 msgstr ""
 
-#: class/class-settings.php:311
+#: class/class-settings.php:317
 msgid "country"
 msgstr ""
 
-#: class/class-settings.php:312
+#: class/class-settings.php:318
 msgid "genre"
 msgstr ""
 
-#: class/class-settings.php:313
+#: class/class-settings.php:319
 msgid "keyword"
 msgstr ""
 
-#: class/class-settings.php:314
+#: class/class-settings.php:320
 msgid "language"
 msgstr ""
 
@@ -1738,24 +1738,24 @@ msgid "Widget title:"
 msgstr ""
 
 #: class/frontend/class-movie.php:568
-#: class/frontend/class-popup-movie.php:437
+#: class/frontend/class-popup-movie.php:454
 msgid "Country"
 msgid_plural "Countries"
 msgstr[0] ""
 msgstr[1] ""
 
 #: class/frontend/class-movie.php:614
-#: class/frontend/class-popup-movie.php:371
+#: class/frontend/class-popup-movie.php:388
 msgid "Runtime"
 msgstr ""
 
 #: class/frontend/class-movie.php:616
-#: class/frontend/class-popup-movie.php:375
+#: class/frontend/class-popup-movie.php:392
 msgid "minutes"
 msgstr ""
 
 #: class/frontend/class-movie.php:638
-#: class/frontend/class-popup-movie.php:413
+#: class/frontend/class-popup-movie.php:430
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] ""
@@ -1770,12 +1770,12 @@ msgid "out of 10"
 msgstr ""
 
 #: class/frontend/class-movie.php:691
-#: class/frontend/class-popup-movie.php:396
+#: class/frontend/class-popup-movie.php:413
 msgid "votes"
 msgstr ""
 
 #: class/frontend/class-movie.php:713
-#: class/frontend/class-popup-movie.php:462
+#: class/frontend/class-popup-movie.php:479
 msgid "Genre"
 msgid_plural "Genres"
 msgstr[0] ""
@@ -1788,7 +1788,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/frontend/class-movie.php:815
-#: class/frontend/class-popup-movie.php:566
+#: class/frontend/class-popup-movie.php:583
 msgid "Goof"
 msgid_plural "Goofs"
 msgstr[0] ""
@@ -1829,7 +1829,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/frontend/class-movie.php:1124
-#: class/frontend/class-popup-movie.php:529
+#: class/frontend/class-popup-movie.php:546
 msgid "Soundtrack"
 msgid_plural "Soundtracks"
 msgstr[0] ""
@@ -1848,8 +1848,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/frontend/class-movie.php:1242
-#: class/frontend/class-popup-movie.php:312
-#: class/frontend/class-popup-movie.php:653
+#: class/frontend/class-popup-movie.php:329
+#: class/frontend/class-popup-movie.php:670
 #: class/frontend/class-popup-search.php:143
 msgid "Director"
 msgid_plural "Directors"
@@ -1863,28 +1863,28 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/frontend/class-movie.php:1352
-#: class/frontend/class-popup-movie.php:724
+#: class/frontend/class-popup-movie.php:741
 msgid "Producer"
 msgid_plural "Producers"
 msgstr[0] ""
 msgstr[1] ""
 
 #: class/frontend/class-movie.php:1414
-#: class/frontend/class-popup-movie.php:690
+#: class/frontend/class-popup-movie.php:707
 msgid "Writer"
 msgid_plural "Writers"
 msgstr[0] ""
 msgstr[1] ""
 
 #: class/frontend/class-movie.php:1475
-#: class/frontend/class-popup-movie.php:611
+#: class/frontend/class-popup-movie.php:628
 msgid "Actor"
 msgid_plural "Actors"
 msgstr[0] ""
 msgstr[1] ""
 
 #: class/frontend/class-movie.php:1531
-#: class/frontend/class-popup-movie.php:780
+#: class/frontend/class-popup-movie.php:797
 msgid "Plot"
 msgid_plural "Plots"
 msgstr[0] ""
@@ -1899,81 +1899,77 @@ msgstr ""
 msgid "Find similar taxonomy results"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:103
-msgid "Lumière Movies: Invalid query."
-msgstr ""
-
-#: class/frontend/class-popup-movie.php:226
+#: class/frontend/class-popup-movie.php:238
 msgid "Search for other movies with the same title"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:226
+#: class/frontend/class-popup-movie.php:238
 msgid "Similar Titles"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:229
+#: class/frontend/class-popup-movie.php:241
 msgid "Movie"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:229
+#: class/frontend/class-popup-movie.php:241
 #: class/frontend/class-popup-person.php:181
 msgid "Summary"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:232
+#: class/frontend/class-popup-movie.php:244
 msgid "Actors"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:235
+#: class/frontend/class-popup-movie.php:247
 msgid "Crew"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:238
+#: class/frontend/class-popup-movie.php:250
 msgid "Plots"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:322
-#: class/frontend/class-popup-movie.php:350
-#: class/frontend/class-popup-movie.php:627
-#: class/frontend/class-popup-movie.php:666
-#: class/frontend/class-popup-movie.php:703
-#: class/frontend/class-popup-movie.php:737
+#: class/frontend/class-popup-movie.php:339
+#: class/frontend/class-popup-movie.php:367
+#: class/frontend/class-popup-movie.php:644
+#: class/frontend/class-popup-movie.php:683
+#: class/frontend/class-popup-movie.php:720
+#: class/frontend/class-popup-movie.php:754
 msgid "internal link"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:347
+#: class/frontend/class-popup-movie.php:364
 msgid "Main actors"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:392
+#: class/frontend/class-popup-movie.php:409
 #: class/frontend/link_makers/class-abstract-link-maker.php:164
 msgid "Rating"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:395
+#: class/frontend/class-popup-movie.php:412
 msgid "vote average "
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:395
+#: class/frontend/class-popup-movie.php:412
 msgid " out of 10"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:493
+#: class/frontend/class-popup-movie.php:510
 #: class/frontend/class-popup-person.php:575
 msgid "Trivia"
 msgid_plural "Trivias"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/frontend/class-popup-movie.php:502
+#: class/frontend/class-popup-movie.php:519
 msgid "click to show more trivias"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:576
+#: class/frontend/class-popup-movie.php:593
 msgid "click to show more goofs"
 msgstr ""
 
-#: class/frontend/class-popup-movie.php:763
+#: class/frontend/class-popup-movie.php:780
 msgid "Plot summary"
 msgstr ""
 
@@ -2031,24 +2027,24 @@ msgid "Trademarks"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:724
-#: class/theme/class-taxonomy-people-standard.php:405
+#: class/theme/class-taxonomy-people-standard.php:404
 msgid "Born on"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:731
 #: class/frontend/class-popup-person.php:748
-#: class/theme/class-taxonomy-people-standard.php:414
-#: class/theme/class-taxonomy-people-standard.php:436
+#: class/theme/class-taxonomy-people-standard.php:413
+#: class/theme/class-taxonomy-people-standard.php:435
 msgid "in"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:742
-#: class/theme/class-taxonomy-people-standard.php:430
+#: class/theme/class-taxonomy-people-standard.php:429
 msgid "Died on"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:752
-#: class/theme/class-taxonomy-people-standard.php:440
+#: class/theme/class-taxonomy-people-standard.php:439
 msgid "cause"
 msgstr ""
 
@@ -2161,7 +2157,7 @@ msgid "Could not download Highslide library."
 msgstr ""
 
 #: class/theme/class-taxonomy-items-standard.php:85
-#: class/theme/class-taxonomy-people-standard.php:268
+#: class/theme/class-taxonomy-people-standard.php:267
 msgid "Open the blog "
 msgstr ""
 
@@ -2170,12 +2166,12 @@ msgid "Lumiere taxonomy: "
 msgstr ""
 
 #: class/theme/class-taxonomy-items-standard.php:115
-#: class/theme/class-taxonomy-people-standard.php:302
+#: class/theme/class-taxonomy-people-standard.php:301
 msgid "Filed under: "
 msgstr ""
 
 #: class/theme/class-taxonomy-items-standard.php:119
-#: class/theme/class-taxonomy-people-standard.php:308
+#: class/theme/class-taxonomy-people-standard.php:307
 msgid "Tags: "
 msgstr ""
 
@@ -2183,11 +2179,15 @@ msgstr ""
 msgid "No post found with this taxonomy."
 msgstr ""
 
-#: class/theme/class-taxonomy-people-standard.php:196
+#: class/theme/class-taxonomy-people-standard.php:194
 msgid "Taxonomy for "
 msgstr ""
 
-#: class/theme/class-taxonomy-people-standard.php:259
+#: class/theme/class-taxonomy-people-standard.php:195
+msgid "No IMDb result found for "
+msgstr ""
+
+#: class/theme/class-taxonomy-people-standard.php:258
 msgid "In the role of"
 msgstr ""
 
@@ -2208,7 +2208,7 @@ msgid "Identification number"
 msgstr ""
 
 #: class/tools/class-search.php:156
-msgid "Maximum of results reached. You can increase it in admin options."
+msgid "Maximum  number of results reached. You can increase that number in admin options."
 msgstr ""
 
 #: class/tools/class-search.php:168
@@ -2229,11 +2229,19 @@ msgid "more"
 msgstr ""
 
 #: lumiere-movies.php:45
-msgid "Error: Lumière is not installed."
+msgid "Error: Lumière is not installed. Check your install."
 msgstr ""
 
 #: lumiere-movies.php:48
-msgid "Error: Imdbphp libraries are not installed."
+msgid "Error: Imdbphp libraries are not installed. Check your install."
+msgstr ""
+
+#: lumiere-movies.php:58
+msgid "Lumière is incompatible with the following plugins: "
+msgstr ""
+
+#: lumiere-movies.php:59
+msgid "Lumière has been deactivated and cannot be activated."
 msgstr ""
 
 #: blocks/editor/index.js:25
@@ -2249,22 +2257,26 @@ msgid "Insert a series of details related to a movie in your post."
 msgstr ""
 
 #: blocks/editor/index.js:88
-msgid "Use this block to retrieve movie or people information from the IMDb and insert in your post."
+msgid "This block will vanish in your post, only the movie will be shown."
 msgstr ""
 
 #: blocks/editor/index.js:90
+msgid "Use this block to retrieve movie or people information from the IMDb and insert in your post."
+msgstr ""
+
+#: blocks/editor/index.js:92
 msgid "You can also click on this link to get the"
 msgstr ""
 
-#: blocks/editor/index.js:95
+#: blocks/editor/index.js:97
 msgid "IMDb movie id"
 msgstr ""
 
-#: blocks/editor/index.js:96
+#: blocks/editor/index.js:98
 msgid "and insert it."
 msgstr ""
 
-#: blocks/editor/index.js:125
+#: blocks/editor/index.js:129
 msgid "By IMDb ID"
 msgstr ""
 
