@@ -21,8 +21,6 @@
 
 namespace Lumiere\Updates;
 
-use \Lumiere\Logger;
-
 /**
  * The logic is in the parent class, the data in the current child class
  * -> Everytime an update is processed, imdbHowManyUpdates is automatically increased by 1 (in child class)

@@ -18,7 +18,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Movie;
 use Lumiere\Plugins\Polylang;
-use Lumiere\Link_Makers\Link_Factory;
 
 class Widget extends \WP_Widget {
 

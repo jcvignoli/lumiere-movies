@@ -22,8 +22,6 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use Lumiere\Settings;
-
 class Highslide_Links extends Abstract_Link_Maker {
 
 	// Trait including the database settings.

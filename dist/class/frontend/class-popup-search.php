@@ -16,7 +16,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Imdb\Title;
 use Imdb\TitleSearch;
 
 class Popup_Search {

@@ -22,7 +22,6 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use Lumiere\Settings;
 use Lumiere\Utils;
 
 class Classic_Links extends Abstract_Link_Maker {
