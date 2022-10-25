@@ -60,6 +60,9 @@ return [
 	// No need to analyse.
 	'exclude_file_list' => [],
 
+	// Remove this types of errors.
+	'suppress_issue_types' => [ 'PhanPluginPrintfVariableFormatString' ],
+
 	// A list of plugin files to execute.
 	// Plugins which are bundled with Phan can be added here by providing their name
 	// (e.g. 'AlwaysReturnPlugin')

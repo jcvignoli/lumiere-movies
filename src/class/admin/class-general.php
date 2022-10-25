@@ -18,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Utils;
-use Lumiere\Plugins\Logger;
 
 /**
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings

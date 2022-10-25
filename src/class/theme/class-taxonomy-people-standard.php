@@ -25,7 +25,6 @@ use Imdb\Person;
 use Imdb\PersonSearch;
 use Lumiere\Plugins\Polylang;
 use Lumiere\Link_Makers\Link_Factory;
-use Lumiere\PluginsDetect;
 use WP_Query;
 
 class Taxonomy_People_Standard {
