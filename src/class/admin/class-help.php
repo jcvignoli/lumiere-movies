@@ -67,8 +67,6 @@ class Help extends \Lumiere\Admin {
 
 		add_action( 'lumiere_add_meta_boxes_help', [ $this, 'lumiere_add_help_metaboxes' ] );
 
-		$this->lumiere_admin_help_layout();
-
 	}
 
 	/**
@@ -109,7 +107,6 @@ class Help extends \Lumiere\Admin {
 
 	/**
 	 * Display the layout
-	 *
 	 */
 	public function lumiere_admin_help_layout (): void {
 
@@ -214,7 +211,7 @@ class Help extends \Lumiere\Admin {
 					'<i>${1}</i>',
 				];
 				$faqsection_replace = $faqsectionarray !== false ? preg_replace( $patterns, $replaces, $faqsectionarray ) : null;
-				$faqsection_processed = $faqsection_replace !== null ? $faqsection_replace : [];
+				$faqsection_processed = $faqsection_replace ?? [];
 
 				echo "<br />\n<ol>\n";
 

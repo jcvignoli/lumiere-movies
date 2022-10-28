@@ -62,16 +62,12 @@ class General extends \Lumiere\Admin {
 		//add_action( 'admin_notices', 'lumiere_admin_display_messages' );
 		$this->lumiere_admin_display_messages();
 
-		// Display the page
-		$this->lumiere_general_layout();
-
 	}
 
-	/* Display the layout
-	 *
-	 *
+	/**
+	 * Display the layout
 	 */
-	private function lumiere_general_layout (): void {
+	public function lumiere_general_layout (): void {
 
 		$this->lumiere_general_head();
 		$this->lumiere_general_display_submenu();

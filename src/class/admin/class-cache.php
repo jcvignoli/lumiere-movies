@@ -83,16 +83,13 @@ class Cache extends \Lumiere\Admin {
 		// Display notices.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
 
-		// Display the page
-		$this->lumiere_cache_layout();
-
 	}
 
 	/**
 	 * Display the layout
 	 *
 	 */
-	private function lumiere_cache_layout (): void {
+	public function lumiere_cache_layout(): void {
 
 		$this->lumiere_cache_head();
 		$this->lumiere_cache_display_submenu();
@@ -1150,9 +1147,12 @@ class Cache extends \Lumiere\Admin {
 							$size_cache_pics += $object->getSize();
 						}
 					}
-					echo esc_html_e( 'Images cache is using', 'lumiere-movies' ) . ' ' . Utils::lumiere_format_bytes( intval( $size_cache_pics ) ) . "\n";
+					esc_html_e( 'Images cache is using', 'lumiere-movies' );
+					echo ' ' . Utils::lumiere_format_bytes( intval( $size_cache_pics ) ) . "\n";
 				} else {
-					echo esc_html_e( 'Image cache is empty.', 'lumiere-movies' ) . "\n"; }
+					esc_html_e( 'Image cache is empty.', 'lumiere-movies' );
+					echo "\n";
+				}
 				?>
 			</div>
 

@@ -714,11 +714,11 @@ class Popup_Person {
 				<?php
 
 				# Birth
-				$birthday = $this->person->born() !== null ? $this->person->born() : null;
-				if ( $birthday !== null && count( $birthday ) !== 0 ) {
-					$birthday_day = ( isset( $birthday['day'] ) ) ? $birthday['day'] : '';
-					$birthday_month = ( isset( $birthday['month'] ) ) ? $birthday['month'] : '';
-					$birthday_year = ( isset( $birthday['year'] ) ) ? $birthday['year'] : '';
+				$birthday = $this->person->born() ?? null;
+				if ( isset( $birthday ) && count( $birthday ) !== 0 ) {
+					$birthday_day = $birthday['day'] ?? '';
+					$birthday_month = $birthday['month'] ?? '';
+					$birthday_year = $birthday['year'] ?? '';
 
 					echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
 						. esc_html__( 'Born on', 'lumiere-movies' ) . '</span>'
@@ -727,7 +727,7 @@ class Popup_Person {
 						. intval( $birthday_year );
 				}
 
-				if ( isset( $birthday['place'] ) && strlen( $birthday['place'] ) !== 0 ) {
+				if ( isset( $birthday['place'] ) && strlen( $birthday['place'] ) > 0 ) {
 					echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $birthday['place'] );
 				}
 
@@ -735,7 +735,7 @@ class Popup_Person {
 				echo "\n\t\t" . '<div class=""><font size="-1">';
 
 				# Death
-				$death = count( $this->person->died() ) !== 0 ? $this->person->died() : null;
+				$death = count( $this->person->died() ) > 0 ? $this->person->died() : null;
 				if ( $death !== null ) {
 
 					echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
