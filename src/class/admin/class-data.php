@@ -112,16 +112,13 @@ class Data extends \Lumiere\Admin {
 			$this->utils_class->lumiere_activate_debug( $this->imdb_widget_values, 'no_var_dump', null );
 		}
 
-		// Display the page.
-		$this->lumiere_data_layout();
-
 	}
 
 	/**
 	 * Display the layout
 	 *
 	 */
-	private function lumiere_data_layout (): void {
+	public function lumiere_data_layout (): void {
 
 		$this->lumiere_data_head();
 		$this->lumiere_data_display_submenu();

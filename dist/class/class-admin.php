@@ -374,25 +374,28 @@ class Admin {
 			// Make sure cache folder exists and is writable
 			$this->config_class->lumiere_create_cache( true );
 
-			new General();
+			$general_class = new General();
+			$general_class->lumiere_general_layout();
 
 		}
 
 		if ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'dataoption' ) ) {
 
-			new Data();
+			$data_class = new Data();
+			$data_class->lumiere_data_layout();
 
 		} elseif ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'cache' ) ) {
 
 			// Make sure cache folder exists and is writable
 			$this->config_class->lumiere_create_cache( true );
 
-			new Cache();
+			$cache_class = new Cache();
+			$cache_class->lumiere_cache_layout();
 
 		} elseif ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'help' ) ) {
 
-			new Help();
-
+			$help_class = new Help();
+			$help_class->lumiere_admin_help_layout();
 		}
 
 		// @phpcs:ignore WordPress.Security.EscapeOutput
