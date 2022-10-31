@@ -60,9 +60,6 @@ class Updates {
 	 */
 	public function run_update_options(): void {
 
-		/* VARS */
-		$this->config_class = $this->config_class;
-
 		// Manually Activate logging, since current function is run before WP init
 		do_action( 'lumiere_logger' );
 		$logger = $this->logger->log();
@@ -73,6 +70,8 @@ class Updates {
 		// Count the number of files in class/updates/
 		$files = new FilesystemIterator( plugin_dir_path( __DIR__ ) . 'class/updates/', FilesystemIterator::SKIP_DOTS );
 		$nb_of_files_in_updates_folder = intval( iterator_count( $files ) );
+
+		$logger->debug( '[Lumiere][updateClass] Number of updates found: ' . $nb_of_files_in_updates_folder );
 
 		// Iteration for each class in class/updates/
 		for ( $i = 1; $i <= $nb_of_files_in_updates_folder; $i++ ) {

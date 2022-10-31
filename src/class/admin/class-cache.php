@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Use IMDbPHP library for cache creation
 use Imdb\Title;
 use Imdb\Person;
+use Lumiere\Settings;
 use Lumiere\Utils;
 use Lumiere\Plugins\Imdbphp;
 use FilesystemIterator;
@@ -146,7 +147,7 @@ class Cache extends \Lumiere\Admin {
 				}
 			}
 
-			update_option( \Lumiere\Settings::LUMIERE_CACHE_OPTIONS, $this->imdb_cache_values );
+			update_option( Settings::LUMIERE_CACHE_OPTIONS, $this->imdb_cache_values );
 
 			// display message on top
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Cache options saved.', 'lumiere-movies' ) . '</strong>' );
@@ -163,7 +164,7 @@ class Cache extends \Lumiere\Admin {
 
 			check_admin_referer( 'cache_options_check', 'cache_options_check' );
 
-			delete_option( \Lumiere\Settings::LUMIERE_CACHE_OPTIONS );
+			delete_option( Settings::LUMIERE_CACHE_OPTIONS );
 
 			// display message on top
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Cache options reset.', 'lumiere-movies' ) . '</strong>' );
@@ -639,7 +640,7 @@ class Cache extends \Lumiere\Admin {
 				?>
 				/>
 
-				<div class="explain"><?php esc_html_e( 'Whether to use a cached page to retrieve the information (if available).', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
+				<div class="explain"><?php esc_html_e( 'Whether to use a cached page to retrieve the information (if available).', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'If cache is deactived, pictures will not be displayed and it will take longer to display the page.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
 
 			</div>
 			<div id="imdb_imdbcacheexpire_id" class="lumiere_flex_container_content_thirty imdblt_padding_five">

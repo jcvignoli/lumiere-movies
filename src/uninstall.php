@@ -16,10 +16,12 @@ namespace Lumiere;
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit();
 }
+// Include composer bootstrap.
+require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-use \Lumiere\Settings;
-use \Lumiere\Utils;
-use \Lumiere\Plugins\Logger;
+use Lumiere\Settings;
+use Lumiere\Utils;
+use Lumiere\Plugins\Logger;
 
 class Uninstall {
 
@@ -34,6 +36,12 @@ class Uninstall {
 	 * @var array<string> $imdb_widget_values
 	 */
 	private array $imdb_widget_values;
+
+	/**
+	 * Cache options
+	 * @var array<string> $imdb_cache_values
+	 */
+	private array $imdb_cache_values;
 
 	/**
 	 * \Lumiere\Logger class
@@ -53,11 +61,10 @@ class Uninstall {
 	 */
 	public function __construct() {
 
-		include_once plugin_dir_path( __FILE__ ) . 'bootstrap.php';
-
 		// Get options from database.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
+		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
 		// Start Utils class.
 		$this->utils_class = new Utils();
@@ -95,7 +102,7 @@ class Uninstall {
 		}
 
 		// Keep the settings if selected so.
-		if ( ( isset( $this->imdb_admin_values['imdbkeepsettings'] ) ) && ( $this->imdb_admin_values['imdbkeepsettings'] === '1' ) ) {
+		if ( isset( $this->imdb_admin_values ) && ( array_key_exists( 'imdbkeepsettings', $this->imdb_admin_values ) ) && ( $this->imdb_admin_values['imdbkeepsettings'] === '1' ) ) {
 
 			$this->logger->log()->info( '[Lumiere][uninstall] Lumière uninstall: keep settings selected, process finished.' );
 
@@ -105,7 +112,7 @@ class Uninstall {
 		/** Following actions are executed only if the user selected to not keep their settings */
 
 		// Remove cache.
-		$lumiere_cache_path = ABSPATH . 'wp-content/cache/lumiere/';
+		$lumiere_cache_path = $this->imdb_cache_values['imdbcachedir'];
 		Utils::lumiere_wp_filesystem_cred( $lumiere_cache_path );
 		if ( $wp_filesystem->is_dir( $lumiere_cache_path ) ) {
 

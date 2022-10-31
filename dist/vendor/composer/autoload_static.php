@@ -83,6 +83,7 @@ class ComposerStaticInit2660170a07cc3fb36d97d6c17f332311
         'Lumiere\\Updates\\Lumiere_Update_File_08' => __DIR__ . '/../..' . '/class/updates/08.php',
         'Lumiere\\Updates\\Lumiere_Update_File_09' => __DIR__ . '/../..' . '/class/updates/09.php',
         'Lumiere\\Updates\\Lumiere_Update_File_10' => __DIR__ . '/../..' . '/class/updates/10.php',
+        'Lumiere\\Updates\\Lumiere_Update_File_11' => __DIR__ . '/../..' . '/class/updates/11.php',
         'Lumiere\\Utils' => __DIR__ . '/../..' . '/class/tools/class-utils.php',
         'Lumiere\\Virtual_Page' => __DIR__ . '/../..' . '/class/tools/class-virtual-page.php',
         'Lumiere\\Widget' => __DIR__ . '/../..' . '/class/class-widget.php',

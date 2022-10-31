@@ -252,8 +252,6 @@ class Widget extends \WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 
-		// Start Movie class.
-		include_once __DIR__ . '/frontend/class-movie.php';
 		$movie_class = new Movie( new Polylang() );
 
 		// Execute logging.
