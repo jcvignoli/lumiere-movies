@@ -767,7 +767,10 @@ class Popup_Person {
 			<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two"><?php
 
 			// Select pictures: big poster, if not small poster, if not 'no picture'.
-			$photo_url = $this->person->photo_localurl( false ) !== false ? esc_url( $this->person->photo_localurl( false ) ) : esc_url( $this->person->photo_localurl( true ) ); // create big picture, thumbnail otherwise.
+			$photo_url = '';
+			if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp only if cache is active
+				$photo_url = $this->person->photo_localurl( false ) !== false ? esc_url( $this->person->photo_localurl( false ) ) : esc_url( $this->person->photo_localurl( true ) ); // create big picture, thumbnail otherwise.
+			}
 			$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
 
 			echo "\n\t\t\t\t" . '<a class="highslide_pic_popup" href="' . esc_url( $photo_url_final ) . '">';

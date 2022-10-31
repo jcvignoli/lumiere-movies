@@ -88,11 +88,12 @@ class Admin {
 		// Display notices.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
 
-		// Install highslide if selected and if correct page
+		// Install highslide if selected and if correct page.
 		add_filter(
 			'admin_init',
 			function(): void {
 				if ( Utils::str_contains( $_SERVER['REQUEST_URI'], 'admin/admin.php?page=lumiere_options&highslide=yes' ) && $this->activate_highslide_download === true ) {
+					// This page is not a class, therefore must be included manually.
 					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::HIGHSLIDE_DOWNLOAD_PAGE;
 				}
 			}
@@ -101,7 +102,6 @@ class Admin {
 
 	/**
 	 *  Display admin notices
-	 *
 	 */
 	public function lumiere_admin_display_messages(): ?string {
 		return null;

@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d, rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.5
+ * Version: 3.5.1
  *
  * This template retrieves automaticaly the occurence of the name selected
  * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
@@ -378,12 +378,21 @@ class Taxonomy_People_Standard {
 		 * Each one has its own class passed in $link_maker,
 		 * according to which option the lumiere_select_link_maker() found in Frontend.
 		 */
-		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo $this->link_maker->lumiere_link_picture_taxonomy(
-			esc_html( $this->person_class->photo_localurl( false ) ),
-			esc_html( $this->person_class->photo_localurl( true ) ),
-			esc_html( $this->person_name )
-		);
+		if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp pics only if cache is active
+			// @phpcs:ignore WordPress.Security.EscapeOutput
+			echo $this->link_maker->lumiere_link_picture_taxonomy(
+				esc_html( $this->person_class->photo_localurl( false ) ),
+				esc_html( $this->person_class->photo_localurl( true ) ),
+				esc_html( $this->person_name )
+			);
+		} else { // no_pics otherwise
+			// @phpcs:ignore WordPress.Security.EscapeOutput
+			echo $this->link_maker->lumiere_link_picture_taxonomy(
+				esc_html( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ),
+				esc_html( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ),
+				esc_html( $this->person_name )
+			);
+		}
 
 		echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Birth -->';
 		echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';

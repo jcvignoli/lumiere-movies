@@ -47,6 +47,7 @@ return array(
     'Lumiere\\Updates\\Lumiere_Update_File_08' => $baseDir . '/class/updates/08.php',
     'Lumiere\\Updates\\Lumiere_Update_File_09' => $baseDir . '/class/updates/09.php',
     'Lumiere\\Updates\\Lumiere_Update_File_10' => $baseDir . '/class/updates/10.php',
+    'Lumiere\\Updates\\Lumiere_Update_File_11' => $baseDir . '/class/updates/11.php',
     'Lumiere\\Utils' => $baseDir . '/class/tools/class-utils.php',
     'Lumiere\\Virtual_Page' => $baseDir . '/class/tools/class-virtual-page.php',
     'Lumiere\\Widget' => $baseDir . '/class/class-widget.php',

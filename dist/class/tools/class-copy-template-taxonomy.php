@@ -9,18 +9,17 @@
 
 namespace Lumiere;
 
-// Bootstrap is not included, get manually settings trait.
-require_once plugin_dir_path( __DIR__ ) . 'trait-settings-global.php';
-
 // If this file is called directly, abort.
 if ( ( ! defined( 'ABSPATH' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
+use Lumiere\Settings_Global;
+
 class Copy_Template_Taxonomy {
 
 	// Trait including the database settings.
-	use \Lumiere\Settings_Global;
+	use Settings_Global;
 
 	/**
 	 * Constructor
@@ -89,5 +88,3 @@ class Copy_Template_Taxonomy {
 	}
 
 }
-
-new Copy_Template_Taxonomy();

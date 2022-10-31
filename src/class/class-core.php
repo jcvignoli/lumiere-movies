@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Updates;
 use Lumiere\Utils;
+use Lumiere\Copy_Template_Taxonomy;
 use Lumiere\Search;
 use Lumiere\Popup_Person;
 use Lumiere\Popup_Movie;
@@ -123,7 +124,7 @@ class Core {
 				'admin_init',
 				function(): void {
 					if ( isset( $_GET['taxotype'] ) ) {
-						require plugin_dir_path( __DIR__ ) . \Lumiere\Settings::MOVE_TEMPLATE_TAXONOMY_PAGE;
+						new Copy_Template_Taxonomy();
 
 					}
 				}
@@ -181,7 +182,6 @@ class Core {
 			add_action(
 				'init',
 				function(): void {
-					include_once __DIR__ . '/frontend/class-movie.php';
 					Movie::lumiere_movie_start();
 				},
 				0
@@ -192,7 +192,6 @@ class Core {
 		add_action(
 			'widgets_init',
 			function(): void {
-				include_once __DIR__ . '/class-widget.php';
 				Widget::lumiere_widget_start();
 			}
 		);

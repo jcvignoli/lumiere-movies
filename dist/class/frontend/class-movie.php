@@ -536,16 +536,18 @@ class Movie {
 	 */
 	private function lumiere_movies_pic ( \Imdb\Title $movie ): string {
 
-		$output = '';
-
 		/**
 		 * Use links builder classes.
 		 * Each one has its own class passed in $link_maker,
 		 * according to which option the lumiere_select_link_maker() found in Frontend.
 		 */
-		$output .= $this->link_maker->lumiere_link_picture( $movie->photo_localurl( false ), $movie->photo_localurl( true ), $movie->title() );
+		// If cache is active, use the pictures from IMDBphp class.
+		if ( $this->imdb_cache_values['imdbusecache'] === '1' ) {
+			return $this->link_maker->lumiere_link_picture( $movie->photo_localurl( false ), $movie->photo_localurl( true ), $movie->title() );
+		}
 
-		return $output;
+		// If cache is deactived, display no_pics.gif
+		return $this->link_maker->lumiere_link_picture( $this->config_class->lumiere_pics_dir . '/no_pics.gif', $this->config_class->lumiere_pics_dir . '/no_pics.gif', $movie->title() );
 	}
 
 	/**

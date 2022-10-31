@@ -92,7 +92,6 @@ trait Frontend {
 
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
 		// Runned again in dependent classes, but need to be run twice: 1/ JS&CSS 2/ Detect if AMP is in use
-		include_once __DIR__ . '/link_makers/autoload.php';
 		Link_Factory::lumiere_link_factory_start();
 
 		// Start checking if current page is block editor

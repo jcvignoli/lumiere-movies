@@ -179,7 +179,7 @@ paths = {
 	},
 	rsync: {
 		src: './dist',
-		excludedpath: ''
+		excludepath: '.wordpress-org'
 	},
 };
 

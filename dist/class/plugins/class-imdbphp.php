@@ -56,9 +56,8 @@ class Imdbphp extends Config {
 		$this->photodir = $this->imdb_cache_values['imdbphotoroot'];// ?imdbphotoroot? Bug imdbphp?
 		$this->cache_expire = intval( $this->imdb_cache_values['imdbcacheexpire'] );
 		$this->photoroot = $this->imdb_cache_values['imdbphotodir']; // ?imdbphotodir? Bug imdbphp?
-		$this->storecache = $this->imdb_cache_values['imdbstorecache'];
-		$this->usecache = boolval( $this->imdb_cache_values['imdbusecache'] ) ? true : false;
-		$this->converttozip = $this->imdb_cache_values['imdbconverttozip'];
+		$this->usecache = $this->imdb_cache_values['imdbusecache'] === '1' ? true : false;
+		$this->storecache = $this->usecache === false ? false : true; // don't store cache if it is not used
 		$this->usezip = $this->imdb_cache_values['imdbusezip'];
 
 		/**
