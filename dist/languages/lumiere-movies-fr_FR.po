@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-31 16:52-0400\n"
-"PO-Revision-Date: 2022-10-31 16:53-0400\n"
+"POT-Creation-Date: 2022-11-01 12:47-0400\n"
+"PO-Revision-Date: 2022-11-01 12:49-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -161,7 +161,7 @@ msgid "Ticked cache file(s) deleted."
 msgstr "Les fichiers de cache sélectionnés ont été effacés."
 
 #: class/admin/class-cache.php:585 class/admin/class-cache.php:623
-#: class/class-admin.php:263
+#: class/class-admin.php:277
 msgid "Cache options"
 msgstr "Options de cache"
 
@@ -642,7 +642,7 @@ msgstr "&Agrave; taxonomiser"
 msgid "Taxonomy"
 msgstr "Taxonomie"
 
-#: class/admin/class-data.php:274 class/class-admin.php:344
+#: class/admin/class-data.php:274 class/class-admin.php:358
 msgid "Taxonomy unactivated"
 msgstr "Taxonomie d&eacute;sactiv&eacute;e"
 
@@ -668,7 +668,7 @@ msgstr ""
 msgid "Move selected movie detail:"
 msgstr "Déplacer le détails de film sélectionné :"
 
-#: class/admin/class-data.php:456
+#: class/admin/class-data.php:456 class/class-admin.php:114
 msgid "Please "
 msgstr "Veuillez "
 
@@ -848,7 +848,7 @@ msgstr ""
 msgid "Enter the maximum of items you want to display"
 msgstr "Entrez le nombre maximum d'objets que vous souhaitez afficher"
 
-#: class/admin/class-data.php:677 class/admin/class-data.php:726
+#: class/admin/class-data.php:674 class/admin/class-data.php:713
 msgid ""
 "Copy a standard taxonomy template to your template folder to display this "
 "taxonomy."
@@ -856,18 +856,18 @@ msgstr ""
 "Copier un modèle standardisé de taxomie dans votre dossier de modèles pour "
 "afficher cette taxonomie."
 
-#: class/admin/class-data.php:684 class/admin/class-data.php:728
+#: class/admin/class-data.php:681 class/admin/class-data.php:715
 msgid "Copy template"
 msgstr "Copier le modèle"
 
-#: class/admin/class-data.php:706
+#: class/admin/class-data.php:696
 msgid ""
 "Missing Lumiere template file. A problem has been detected with your "
 "installation."
 msgstr ""
 "Modèle Lumière non trouvé. Un problème a été détecté avec votre installation."
 
-#: class/admin/class-data.php:739
+#: class/admin/class-data.php:726
 msgid "template up-to-date"
 msgstr "modèle à jour"
 
@@ -2082,95 +2082,103 @@ msgstr ""
 msgid "You can not call directly this page"
 msgstr "Vous ne pouvez pas afficher cette page directement"
 
-#: class/class-admin.php:176
+#: class/class-admin.php:112
+msgid "New taxonomy template file(s) found: "
+msgstr "De nouveau(x) modèle(s) de taxonomie ont été trouvés :"
+
+#: class/class-admin.php:118
+msgid "update"
+msgstr "mettre à jour"
+
+#: class/class-admin.php:190
 msgid "Lumière options page"
 msgstr "Pages d'options Lumière"
 
-#: class/class-admin.php:179 class/class-admin.php:235
+#: class/class-admin.php:193 class/class-admin.php:249
 msgid "General"
 msgstr "Principal"
 
-#: class/class-admin.php:186
+#: class/class-admin.php:200
 msgid "Data management"
 msgstr "Gestion des données"
 
-#: class/class-admin.php:187 class/class-admin.php:247
+#: class/class-admin.php:201 class/class-admin.php:261
 msgid "Data"
 msgstr "Données"
 
-#: class/class-admin.php:194
+#: class/class-admin.php:208
 msgid "Cache management options page"
 msgstr "Options de la gestion du cache"
 
-#: class/class-admin.php:195 class/class-admin.php:259
+#: class/class-admin.php:209 class/class-admin.php:273
 msgid "Cache"
 msgstr "Cache"
 
-#: class/class-admin.php:202
+#: class/class-admin.php:216
 msgid "Help page"
 msgstr "Page d'aide"
 
-#: class/class-admin.php:203 class/class-admin.php:272
+#: class/class-admin.php:217 class/class-admin.php:286
 msgid "Help"
 msgstr "Aide"
 
-#: class/class-admin.php:226
+#: class/class-admin.php:240
 msgid "Lumière Menu"
 msgstr "Menu Lumière"
 
-#: class/class-admin.php:239
+#: class/class-admin.php:253
 msgid "Main and advanced options"
 msgstr "Options principales et avancées"
 
-#: class/class-admin.php:251
+#: class/class-admin.php:265
 msgid "Data option and taxonomy"
 msgstr "Options des données et de taxonomie"
 
-#: class/class-admin.php:276
+#: class/class-admin.php:290
 msgid "Get support and support plugin development"
 msgstr "Obtenir de l'aide et fournir de l'aide pour le dévelopement du plugin"
 
-#: class/class-admin.php:313
+#: class/class-admin.php:327
 msgid "admin options"
 msgstr "options d'administration"
 
-#: class/class-admin.php:320
+#: class/class-admin.php:334
 msgid "General Options"
 msgstr "Options g&eacute;n&eacute;rales"
 
-#: class/class-admin.php:329
+#: class/class-admin.php:343
 msgid "Data Management"
 msgstr "Gestion des données"
 
-#: class/class-admin.php:337
+#: class/class-admin.php:351
 msgid "Widget unactivated"
 msgstr "Widget désactivé"
 
-#: class/class-admin.php:352
+#: class/class-admin.php:366
 msgid "Cache management"
 msgstr "Gestion du cache"
 
-#: class/class-admin.php:357
+#: class/class-admin.php:371
 msgid "How to use Lumière!, check FAQs & changelog"
 msgstr "Comment utiliser Lumière!, consulter les FAQs & changelog"
 
-#: class/class-admin.php:358
+#: class/class-admin.php:372
 msgid "help"
 msgstr "aide"
 
-#: class/class-core.php:228
+#: class/class-core.php:245
 msgid "Sponsor"
 msgstr "Soutien"
 
-#: class/class-core.php:245
+#: class/class-core.php:262
 msgid "Settings"
 msgstr "Options"
 
-#: class/class-core.php:651 class/class-core.php:667
+#: class/class-core.php:668 class/class-core.php:684
 msgid "Informations about "
 msgstr "Information pour "
 
-#: class/class-core.php:668
+#: class/class-core.php:685
 msgid "Unknown"
 msgstr "Inconnu"
 
