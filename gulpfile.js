@@ -172,7 +172,7 @@ paths = {
 			'./src/**/*.+(psd)', 
 			'./src/.**/*.+(psd)', 				/* for .wordpress.org */
 			'./src/languages/*.*',
-				'!./src/languages/*.{temp.po}',  
+				'!./src/languages/*.temp.po',  
 			'./src/js/highslide/**/**/*.*'
 		],
 		dist: './dist'

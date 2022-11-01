@@ -109,7 +109,7 @@ class Admin {
 		if ( isset( $new_taxo_template ) ) {
 			echo Utils::lumiere_notice(
 				6,
-				esc_html__( 'New template file(s): ', 'lumiere-movies' )
+				esc_html__( 'New taxonomy template file(s) found: ', 'lumiere-movies' )
 				. join( $new_taxo_template )
 				. '. ' . esc_html__( 'Please ', 'lumiere-movies' ) . '<a href="'
 				. esc_url(
