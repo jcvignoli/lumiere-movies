@@ -3,7 +3,7 @@
 [![GitHub Actions](https://github.com/jcvignoli/lumiere-movies/workflows/CI/badge.svg)](https://github.com/jcvignoli/lumiere-movies/actions)
 
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
-**Tags:** cinema, film, imdb, movie, actor \
+**Tags:** cinema, film, imdb, movie, actor, internet-movie-database, director, taxonomy \
 **Requires at least:** 5.3 \
 **Tested up to:** 6.1 \
 **Stable tag:** 3.9 \
@@ -12,49 +12,49 @@
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
 **Donate link:** https://www.paypal.me/jcvignoli
 
-Lumière! Movies retrieves information from www.imdb.com to include it in your blog. This is the most versatile and comprehensive plugin for blogs dedicated to movie reviews.
+Lumière! Movies retrieves information from www.imdb.com to include it in your blog. This is the most versatile and comprehensive plugin dedicated to enhance your movie reviews.
 
 ## Description
 
-Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Official website") to see how the plugin can improve your website.
+Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Official website") to see how the plugin can enhance your website.
 
-**Lumiere! Movies** helps you integrate loads of information about movies and stars. Widgets, links to informative popup, and dedicated taxonomy pages are available. You can easily include movie's information into your posts. Everything is automatised and no further configuration is required from the user. However, although the plugin works out of the box, your can change the themes, add taxonomy to your pages, remove links, display automatically information according to your blog posts' titles, and use many hidden features. All the information about movie directors, pictures, etc. is retrieved from the well-known [IMDb](https://www.imdb.com "Internet movie database") website. Lumière! ensures that you have the most accurate and reliable information always available on your blog.
+**Lumiere! Movies** helps you integrate loads of information about movies and stars. Widgets, links to informative popup, and dedicated taxonomy pages are available. You can easily include movie's information into your posts. Everything is automatised and no further configuration is required from the user. Even though the plugin works out of the box, your can change the themes, add taxonomy to your pages, remove links, display automatically information according to your blog posts' titles, and use many hidden features. All the information about movie directors, pictures, etc. is retrieved from the well-known [IMDb](https://www.imdb.com "Internet movie database") website. Lumière! ensures that you have the most accurate and reliable information always available on your blog.
 
-Many features are available in the wordpress editing interfaces (Gutenberg, Visual editor, and HTML editor). It is Content Security Policy (CSP) compliant, takes advantage of Polylang plugin and is compatible with AMP plugin.
+Many features are available in the wordpress old and new editing interfaces (Gutenberg, Visual editor, and HTML editor). It is Content Security Policy (CSP) compliant, takes advantage of Polylang plugin and is partially compatible with AMP plugin.
 
-**Lumière!** is a great tool to illustrate your articles. It is an amazingly versatile plugin: you can display movie details through many ways. Popups, widget, and straight inside the article. It can be extensively fine-tuned in the admin panel.
+**Lumière!** is a great tool to illustrate your articles. You can display movie details through many ways, such as in popups, widgets, and straight inside a post. It can be extensively fine-tuned in the admin options panel.
 
 "Lumière! Movies" is the continuation of [IMDb Link Transformer plugin](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer") that reached over 20'000 downloads. 
 
 ## Installation
 
-### required
+### normal use
 
 1. Activate the plugin
-2. Should you want to fine-tune your blog, configure the plugin (in admin settings). Default values are automatically filled, no change is required for a normal experience.
+2. Should you want to fine-tune your blog, configure the plugin (in admin settings). Default values are automatically filled, no change is needed for normal use.
 3. Activate a Lumière widget if you intend to include movie information into your sidebar.
-4. Write your blogs including movie information using the many tools smoothly incorporated in WordPress!
+4. Write your posts including movie information using the many tools smoothly incorporated in WordPress!
 
 ### basic options
 
 There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a widget and 3/ inside a post. Each option can be combined with any other; there is no limitation!
 
-1. **Popup** When writing your post, embed a movie's title using "Add IMDb Link" option. Select the movie's title you wrote down and click on that option. It will add an invisible HTML span tag around the selected title such as: < span data-lum_link_maker "popup"> movie's title< /span> that usually you can't see except if you're editing in text mode. You can see if it worked by the little icon on the left of you selected text. After publishing your post, your text will be clickable and will open a popup with data about the movie! Popups can be displayed using Bootstrap, Classic or Highslide modal windows (selectable in admin options).
-2. **Widget** can be activated and used to display movie's data. Go to widgets admin options and add a Lumière widget in the sidebar you want to show information about movies. Once the widget is activated, you can add information about a movie to your sidebar: when editing your blog post, a new widget will be displayed for your to enter either the movie's name (that can lead to unexpected results) or the IMDb ID (this never fails to retrieve a movie) of the movie you want to be shown in the sidebar. If you don't know the IMDb ID, you can use the query link provided in Lumière widget.
-3. The plugin can **show IMDb data inside a post**. With modern WordPress, just add a Lumière Inside a Post block and enter a movie's title or movie's imdb id. For the latter, in order to find the IMDb ID use the query tool provided in Lumière block (gutenberg sidebar). A similar tool is provided with classic WP editor in a form of dropdown menu. If you're redacting your post with classic WP editor (or pre-5.0 WordPress), use Lumière's bar tools to select the movie title: that will insert html tags around your selection, such as < span data-lum_movie_maker "movie_title">My movie's title< /span>. 
+1. **Popup** When writing your post, embed a movie's title using "Add IMDb Link" option. Select the movie's title you wrote down and click on that option. It will add an invisible HTML span tag around the selected title such as: < span data-lum_link_maker "popup"> movie's title< /span> that usually you can't see except if you're editing in text mode. You can see if it worked by the little icon on the left of you selected text. After publishing your post, your text will be clickable and will open a popup with data about the movie! Popups can be displayed using Bootstrap, Classic or Highslide modal windows (can be selected in Lumière! admin options).
+2. **Widget** can be used to display movie's data. Go to widgets admin options and add a Lumière! widget in the sidebar you want to show information about movies. Once the widget is activated, you can add information about a movie to your sidebar: when editing your blog post, a new widget will be displayed for your to enter either the movie's name (that can lead to unexpected results) or the IMDb ID (this never fails in retrieving a movie) of the movie you want to be shown in the sidebar. If you don't know what the IMDb ID is, you can use the query link provided in Lumière! widget. Just search for the movie name and you will find the IMDb ID.
+3. The plugin can **show IMDb data inside a post**. With modern WordPress (WP 5.8), just add a Lumière Inside a Post block and enter a movie's title or movie's imdb ID. For the latter, in order to find the IMDb ID use the query tool provided in Lumière block (gutenberg sidebar). A similar tool is provided with classic WP editor in a form of dropdown menu. If you're writing your post with classic WP editor (or pre-5.0 WordPress), use Lumière's bar tools to select the movie title: it will insert html tags around your selection, such as < span data-lum_movie_maker "movie_title">My movie's title< /span>. 
 
 ### Fine-tuning:
 
 1. Lumière! Movies can create pages that include a list of movies identically tagged (known as taxonomy). Taxonomy templates are provided. Check plugin's help to figure out how to use it.
-2. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. In order to keep your stylesheet changes through Lumière! updates, you need to download an unminified lumiere.css from the [Lumiere GIT repository](https://github.com/jcvignoli/lumiere-movies/blob/master/src/css/lumiere.css), and after edition just put the lumiere.css file into your current WordPress template folder (a child template, preferably, it will get deleted by a template update otherwise). This way, your stylesheet modifications will be kept through Lumière!'s updates.
+2. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. In order to keep your stylesheet changes through Lumière! updates, you need to download an unminified lumiere.css from the [Lumiere GIT repository](https://github.com/jcvignoli/lumiere-movies/blob/master/src/css/lumiere.css), and after editing it just put your new lumiere.css file into your current WordPress template folder (a child template, preferably, it will get deleted by a template update otherwise). This way, your stylesheet modifications will be kept through Lumière!'s updates. Important: do not removed the section before "/* ---- imdbincluded */".
 
 ### Advanced
 
 1. If you **do not want Lumière to add any link** (in the case you are only looking for information displayed in widget and inside posts), search for the option located in "General options -> Advanced -> Remove popup links?" and select "yes". Links opening a popup (both in widget and posts) will not be be available anymore.
-2. Should you want to display automatically a widget according to the post's title, just switch on the "Auto widget" option located in "General Options -> Advanced -> Auto widget" in the plugin admin panel. Usefull for blogs exclusively dedicated to movie reviews.
+2. Should you want to display automatically a widget according to the post's title, just switch on the "Auto widget" option located in "General Options -> Advanced -> Auto widget" in the plugin admin panel. Usefull for blogs exclusively dedicated to movie reviews, where all post's titles are movie's titles.
 3. You may want to include a custom page in your blog that includes all your movie related articles. Have a look there : [Lost highway's movies reviews](https://www.jcvignoli.com/blog/critiques-de-cinema).
 4. Taxonomy pages and popups URLs can be edited according to your tastes. In advanced general Lumière options, you may want to modify the URL starting with 'lumiere' for taxonomy pages.
-5. Should you blog be focused on TV shows or videogames only, it is possible to change Lumière's search behaviour to retrieve exclusively them. In advanced general Lumière options, look for 'Search categories'.
+5. Should your blog be dedicated to TV shows or videogames only, it is possible to change Lumière's search behaviour to retrieve exclusively those. In advanced general Lumière admin options, look for 'Search categories'.
 6. Many more options are offered, just take a look at the options!
 
 ## Screenshots
@@ -104,7 +104,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ### How to use the plugin?
 
-You can find further explanation about how to use the features of Lumière! in the dedicated page of the plugin settings. After installing the plugin, take a look at the section "Lumière! help".
+You can find further explanation about how to use the features of Lumière! in the dedicated page of the plugin settings. After installing Lumière!, take a look at the section "Lumière! help".
 
 ### Can I suggest a feature/report a bug regarding the plugin?
 
@@ -132,8 +132,8 @@ Mostly it is. You may see some changes in the layout and obviously the apparence
 
 ### Is it CSP compliant?
 
-Content Security Policy (CSP) is a webserver based security avoiding injections to your pages. It greatly improves the security of them.
-While WordPress is not yet fully CSP compliant, Lumière already is.
+Content Security Policy (CSP) is a webserver based security avoiding injections to your pages. It greatly improves the security of your website.
+While WordPress is not yet fully CSP compliant, Lumière already is. Neither online javascripts nor stylesheets are added.
 
 ### Can I change the size of the poster pictures?
 
@@ -157,7 +157,7 @@ Sure thing, you can also modify the order of these details. Just take a look at 
 
 ## Support
 
-Use the [WordPress Support](https://wordpress.org/support/plugin/lumiere-movies/ "WordPress Support") for general issues, the [GIT repository](https://github.com/jcvignoli/lumiere-movies "GIT repository") for technical requests.
+Go to [WordPress Support](https://wordpress.org/support/plugin/lumiere-movies/ "WordPress Support") for general issues, or to the [GIT repository](https://github.com/jcvignoli/lumiere-movies "GIT repository") for technical requests (developpers oriented).
 
 It's always a good idea to look at the [official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Lumière! official website")
 
@@ -169,8 +169,9 @@ Major changes:
 
 ### 3.9
 
-* Technical release: fully using composer, loading classes through composer autoload for more sustainability.
+* Mainly technical and bug hunting release. Fully using composer, loading classes through composer autoload for more sustainability.
 * Lumière will not be compatible with plugins that promote a web of spammers. First plugin to enter the hall of shame: RSS Feed Post Generator Echo, paid plugin used to make ghost websites with ads and make money.
+* Better cache paths management. Cache is more solid.
 
 ### 3.8
 
