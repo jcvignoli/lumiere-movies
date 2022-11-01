@@ -157,7 +157,7 @@ class Uninstall {
 
 			// Filer: Get rid of errors, keep arrays only.
 			if ( is_wp_error( $terms ) === true ) {
-				$this->logger->log()->error( '[Lumiere][uninstall] Invalid terms: ' . print_r( $terms, true ) );
+				$this->logger->log()->error( '[Lumiere][uninstall] Invalid terms: ' . join( $terms ) );
 				continue;
 			}
 

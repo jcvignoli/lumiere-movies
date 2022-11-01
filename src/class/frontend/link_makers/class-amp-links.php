@@ -49,7 +49,24 @@ class AMP_Links extends Abstract_Link_Maker {
 			}
 		);
 		 */
+		// Remove conflicting assets. Use execution time 99 so we make sure it removes everything.
+		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_remove_breaking_amp_assets' ], 99 );
 
+	}
+
+	/**
+	 * Remove conflicting AMP assets
+	 * These assets are not found when AMP is active and reported as such by chrome dev tools
+	 *
+	 * @return void Styles are deregistered
+	 */
+	public function lumiere_remove_breaking_amp_assets(): void {
+
+		// Could be added by OCEAN_WP or maybe other font adding themes
+		wp_deregister_style( 'font-awesome' );
+		wp_deregister_style( 'simple-line-icons' );
+		// Added by Elementor plugin
+		wp_deregister_style( 'elementor-icons' );
 	}
 
 	/**

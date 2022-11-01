@@ -308,8 +308,16 @@ class Utils {
 				return '<div class="notice notice-info"><p>' . $msg . '</p></div>';
 			case 3: // simple error, red
 				return '<div class="notice notice-error"><p>' . $msg . '</p></div>';
-			case 4: // warning error, yellow
-				return '<div "notice notice-warning">' . $msg . '</div>';
+			case 4: // warning, yellow
+				return '<div class="notice notice-warning"><p>' . $msg . '</p></div>';
+			case 5: // success notice, green, dismissible
+				return '<div class="notice notice-success is-dismissible"><p>' . $msg . '</p></div>';
+			case 6: // info notice, blue, dismissible
+				return '<div class="notice notice-info is-dismissible"><p>' . $msg . '</p></div>';
+			case 7: // simple error, red, dismissible
+				return '<div class="notice notice-error is-dismissible"><p>' . $msg . '</p></div>';
+			case 8: // warning, yellow, dismissible
+				return '<div class="notice notice-warning is-dismissible"><p>' . $msg . '</p></div>';
 		}
 
 	}
