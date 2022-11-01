@@ -61,6 +61,7 @@ class ComposerStaticInit2660170a07cc3fb36d97d6c17f332311
         'Lumiere\\Metabox' => __DIR__ . '/../..' . '/class/class-metabox.php',
         'Lumiere\\Movie' => __DIR__ . '/../..' . '/class/frontend/class-movie.php',
         'Lumiere\\PluginsDetect' => __DIR__ . '/../..' . '/class/tools/class-pluginsdetect.php',
+        'Lumiere\\Plugins\\Amp' => __DIR__ . '/../..' . '/class/plugins/class-amp.php',
         'Lumiere\\Plugins\\Imdbphp' => __DIR__ . '/../..' . '/class/plugins/class-imdbphp.php',
         'Lumiere\\Plugins\\Logger' => __DIR__ . '/../..' . '/class/plugins/class-logger.php',
         'Lumiere\\Plugins\\Polylang' => __DIR__ . '/../..' . '/class/plugins/class-polylang.php',
