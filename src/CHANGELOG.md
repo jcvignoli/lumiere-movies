@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.9.1
+
 v.3.9
 * [feature] If a new taxonomy template is found, a notice is shown in admin Lumière options (will keep nagging until update is processed)
 * [feature] Lumière will not be compatible with plugins that promote a web of spammers. First plugin to enter the hall of shame: RSS Feed Post Generator Echo, paid plugin used to make ghost websites with ads and make money. If such plugin is activated, Lumière will automatically be deactivated.
