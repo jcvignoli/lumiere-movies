@@ -374,7 +374,7 @@ class Data extends \Lumiere\Admin {
 			// If new template version available, notify
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
 				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo $this->lumiere_check_taxo_template( $item );
+				echo $this->lumiere_display_new_taxo_template( $item );
 			}
 			echo "\n\t" . '</div>';
 
@@ -639,15 +639,12 @@ class Data extends \Lumiere\Admin {
 	 * @param string $type type to search (actor, genre, etc)
 	 * @return string
 	 */
-	private function lumiere_check_taxo_template( string $type ): string {
+	private function lumiere_display_new_taxo_template( string $type ): string {
 
-		global $wp_filesystem;
-
-		// Initialize
 		$output = '';
-		$version_theme = 'no_theme';
-		$version_origin = '';
-		$pattern = '~Version: (.+)~i';
+
+		// Get updated items/people from parent class method.
+		$list_updated_fields = null !== $this->lumiere_return_new_taxo_available() ? $this->lumiere_return_new_taxo_available() : [];
 
 		// Get the type to build the links
 		$lumiere_taxo_title = esc_html( $type );
@@ -667,7 +664,7 @@ class Data extends \Lumiere\Admin {
 		$link_taxo_copy = esc_url( add_query_arg( '_wpnonce', wp_create_nonce( 'taxo' ), admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=' . $lumiere_taxo_title ) );
 
 		// No file in the theme folder found, offer to copy it.
-		if ( file_exists( $lumiere_current_theme_path_file ) === false ) {
+		if ( file_exists( $lumiere_current_theme_path_file ) === false && count( $list_updated_fields ) === 0 ) {
 
 			$output .= "\n\t" . '<br />';
 			$output .= "\n\t" . '<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
@@ -693,13 +690,6 @@ class Data extends \Lumiere\Admin {
 
 		}
 
-		// Get the taxonomy file version in the theme.
-		$content = $wp_filesystem->get_contents( $lumiere_current_theme_path_file );
-		if ( preg_match( $pattern, $content, $match ) === 1 ) {
-			$version_theme = $match[1];
-
-		}
-
 		// No copied taxonomy file in theme folder exists, exit.
 		if ( file_exists( $lumiere_taxonomy_theme_file ) === false ) {
 
@@ -707,16 +697,13 @@ class Data extends \Lumiere\Admin {
 
 		}
 
-		// Get the taxonomy file version in the lumiere theme folder.
-		$content = $wp_filesystem->get_contents( $lumiere_taxonomy_theme_file );
-		if ( preg_match( $pattern, $content, $match ) === 1 ) {
-
-			$version_origin = $match[1];
-
-		}
-
 		// Return a message if there is a new version of the template.
-		if ( $version_theme !== $version_origin ) {
+		foreach ( $list_updated_fields as $list_updated_field ) {
+
+			// Display text only if it has been updated.
+			if ( $lumiere_taxo_title !== $list_updated_field ) {
+				continue;
+			}
 
 			$output .= "\n\t" . '<br />';
 			$output .= "\n\t" . '<div id="lumiere_copy_' . $lumiere_taxo_title . '">';

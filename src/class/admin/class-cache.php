@@ -688,7 +688,7 @@ class Cache extends \Lumiere\Admin {
 				?>
 				/>
 
-				<div class="explain"><?php esc_html_e( 'Allow faster loading time for the "manage cache" page, by displaying shorter movies and people presentation. Usefull when you have several of those. This option is available when "Show advanced cache details" is activated.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
+				<div class="explain"><?php esc_html_e( 'Allows faster loading time for the "manage cache" page by displaying shorter movies and people presentation. Usefull when you have many of them.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
 
 			</div>
 

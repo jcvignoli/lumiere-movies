@@ -3,7 +3,7 @@
  * Class of configuration
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright (c) 2021, Lost Highway
+ * @copyright (c) 2022, Lost Highway
  *
  * @version       2.0
  * @package lumiere-movies
@@ -160,20 +160,29 @@ class Settings {
 	public string $lumiere_scripts_admin_vars;
 
 	/**
-	 * Store Lumière plugin version.
+	 * Lumière plugin version var is built from the readme
+	 * Useful for updates
 	 */
 	public string $lumiere_version;
 
 	/**
-	 * Where to write the log (WordPress default path here)
+	 * Number of files inside /class/updates
+	 * Allows to start with a fresh installation with the right number of updates
+	 * Is built in lumiere_define_nb_updates()
+	 */
+	public int $current_number_updates;
+
+	/**
+	 * Where to write the log
+	 * WordPress default path
 	 */
 	const DEBUG_LOG_PATH = ABSPATH . 'wp-content/debug.log';
 
 	/**
-	 * Cache folders paths.
+	 * Cache folder path.
+	 * This const is utilised to determine the default cache path value in get_imdb_cache_option()
 	 */
 	const LUMIERE_FOLDER_CACHE = WP_CONTENT_DIR . '/cache/lumiere/';
-	const LUMIERE_FOLDER_CACHE_IMAGES = WP_CONTENT_DIR . '/cache/lumiere/images';
 
 	/**
 	 * List of types of people available
@@ -188,13 +197,6 @@ class Settings {
 	 * @var array<string> $array_items
 	 */
 	public array $array_items = [];
-
-	/**
-	 * Store the number of files inside /class/updates
-	 * Allows to start with a fresh installation with the right number of updates
-	 * Is built in lumiere_define_nb_updates()
-	 */
-	public int $current_number_updates;
 
 	/**
 	 * Constructor
@@ -441,9 +443,12 @@ class Settings {
 	 */
 	private function get_imdb_cache_option(): void {
 
+		// Build partial cache path, such as 'wp-content/cache/lumiere/'
+		$imdbcachedir_partial = str_replace( ABSPATH, '', self::LUMIERE_FOLDER_CACHE );
+
 		$imdb_cache_options = [
 
-			'imdbcachedir_partial' => 'wp-content/cache/lumiere/',
+			'imdbcachedir_partial' => $imdbcachedir_partial,
 			'imdbusecache' => '1',
 			'imdbconverttozip' => true,        /* not available in the admin interface */
 			'imdbusezip' => true,              /* not available in the admin interface */
@@ -585,13 +590,14 @@ class Settings {
 
 	/**
 	 * Create cache folder if it does not exist
-	 * Create folder of LUMIERE_FOLDER_CACHE const value first, then 'imdbcachedir' cache option value if not possible
-	 * Return false if 1/ Cache is not active; 2/ Cache folders already exist & are writable
+	 * Create folder based on 'imdbcachedir' cache option value, if not using alternative folders (inside plugin)
+	 * Return false if: 1/ Cache is not active; 2/ Can't created alternative cache folders inside Lumière plugin
+	 * 3/ Cache folders already exist & are writable
 	 *
 	 * @info Can't use $wp_system at this stage, since it is also called during plugin activation in class core
 	 *
 	 * @param bool $screen_log whether to display logging on screen or not
-	 * @return bool false if cache already exist, true if created cache folders
+	 * @return bool false if cache already exist or can't be created, true if cache folders were created
 	 */
 	public function lumiere_create_cache( bool $screen_log = false ): bool {
 
@@ -619,62 +625,55 @@ class Settings {
 
 		}
 
-		// If we can write in wp-content/cache, make sure permissions are ok
-		if ( wp_mkdir_p( self::LUMIERE_FOLDER_CACHE ) && chmod( self::LUMIERE_FOLDER_CACHE, 0755 ) ) {
+		$lumiere_alt_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
+		$lumiere_alt_folder_cache_images = $lumiere_alt_folder_cache . '/images';
 
-			$options_cache['imdbcachedir'] = self::LUMIERE_FOLDER_CACHE;
-			$options_cache['imdbcachedir_partial'] = str_replace( ABSPATH, '', self::LUMIERE_FOLDER_CACHE );
-			update_option( self::LUMIERE_CACHE_OPTIONS, $options_cache );
+		// If we can write in $options_cache['imdbcachedir'] (ie: wp-content/cache), make sure permissions are ok
+		if ( wp_mkdir_p( $lumiere_folder_cache ) && chmod( $lumiere_folder_cache, 0755 ) ) {
 
 			$logger->debug( "[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created." );
 
-			// We can't write in wp-content/cache, so write in wp-content/plugins/lumiere/cache instead
+			// We can't write in $options_cache['imdbphotoroot'], so write in wp-content/plugins/lumiere/cache instead
+		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache ) && chmod( $lumiere_alt_folder_cache, 0755 ) ) {
+
+			// Create partial var
+			$lumiere_alt_folder_cache_partial = str_replace( ABSPATH, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
+
+			// Update the option imdbcachedir for new cache path values
+			$options_cache['imdbcachedir'] = $lumiere_alt_folder_cache;
+			$options_cache['imdbcachedir_partial'] = $lumiere_alt_folder_cache_partial;
+			update_option( self::LUMIERE_CACHE_OPTIONS, $options_cache );
+
+			$logger->info( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_alt_folder_cache created." );
 		} else {
 
-			$lumiere_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
-			if ( wp_mkdir_p( $lumiere_folder_cache ) ) {
+			$logger->error( "[Lumiere][config][cachefolder] Cannot create alternative cache folder $lumiere_alt_folder_cache." );
+			return false;
 
-				chmod( $lumiere_folder_cache, 0755 );
-
-				// Create partial var
-				$lumiere_folder_cache_partial = str_replace( ABSPATH, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
-
-				// Update the option imdbcachedir for new cache path values
-				$options_cache['imdbcachedir'] = $lumiere_folder_cache;
-				$options_cache['imdbcachedir_partial'] = $lumiere_folder_cache_partial;
-				update_option( self::LUMIERE_CACHE_OPTIONS, $options_cache );
-
-				$logger->info( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_folder_cache created." );
-			}
 		}
 
 		// We can write in wp-content/cache/images
-		if ( wp_mkdir_p( self::LUMIERE_FOLDER_CACHE_IMAGES ) && chmod( self::LUMIERE_FOLDER_CACHE_IMAGES, 0755 ) ) {
+		if ( wp_mkdir_p( $lumiere_folder_cache_images ) && chmod( $lumiere_folder_cache_images, 0755 ) ) {
 
-			$options_cache['imdbcachedir'] = self::LUMIERE_FOLDER_CACHE_IMAGES;
-			$options_cache['imdbcachedir_partial'] = str_replace( ABSPATH, '', self::LUMIERE_FOLDER_CACHE_IMAGES );
 			$logger->debug( "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created." );
 
 			// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
+		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache_images ) && chmod( $lumiere_alt_folder_cache_images, 0755 ) ) {
+
+			$lumiere_folder_cache_partial = str_replace( ABSPATH, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
+
+			// Update the option imdbcachedir for new cache path values
+			$options_cache['imdbcachedir_partial'] = $lumiere_folder_cache_partial;
+			$options_cache['imdbphotodir'] = get_site_url() . '/' . $lumiere_folder_cache_partial . '/images/';
+			$options_cache['imdbphotoroot'] = $lumiere_alt_folder_cache_images;
+			update_option( self::LUMIERE_CACHE_OPTIONS, $options_cache );
+
+			$logger->info( "[Lumiere][config][cachefolder] Alternative cache image folder $lumiere_alt_folder_cache_images created." );
+
 		} else {
 
-			$lumiere_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
-			$lumiere_folder_cache_images = $lumiere_folder_cache . '/images';
-			if ( wp_mkdir_p( $lumiere_folder_cache_images ) ) {
-
-				chmod( $lumiere_folder_cache_images, 0755 );
-
-				$lumiere_folder_cache_partial = str_replace( ABSPATH, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
-
-				// Update the option imdbcachedir for new cache path values
-				$options_cache['imdbcachedir_partial'] = $lumiere_folder_cache_partial;
-				$options_cache['imdbphotodir'] = get_site_url() . '/' . $lumiere_folder_cache_partial . '/images/';
-				$options_cache['imdbphotoroot'] = $lumiere_folder_cache_images;
-				update_option( self::LUMIERE_CACHE_OPTIONS, $options_cache );
-
-				$logger->info( "[Lumiere][config][cachefolder] Alternative image folder $lumiere_folder_cache_images created." );
-
-			}
+			$logger->error( "[Lumiere][config][cachefolder] Cannot create alternative cache image folder $lumiere_alt_folder_cache_images." );
+			return false;
 
 		}
 

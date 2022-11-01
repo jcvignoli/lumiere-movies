@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-30 21:07-0400\n"
-"PO-Revision-Date: 2022-10-30 21:08-0400\n"
+"POT-Creation-Date: 2022-10-31 16:52-0400\n"
+"PO-Revision-Date: 2022-10-31 16:53-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -255,16 +255,12 @@ msgstr "Données simplifiées de cache"
 
 #: class/admin/class-cache.php:691
 msgid ""
-"Allow faster loading time for the \"manage cache\" page, by displaying "
-"shorter movies and people presentation. Usefull when you have several of "
-"those. This option is available when \"Show advanced cache details\" is "
-"activated."
+"Allows faster loading time for the \"manage cache\" page by displaying "
+"shorter movies and people presentation. Usefull when you have many of them."
 msgstr ""
 "Permet un temps de chargement plus rapide pour la page \"g&eacute;rer le "
 "cache\", en affichant des présentation plus courtes pour les films et les "
-"personnes. Pratique lorsque vous en avez plusieurs. Cette option est "
-"disponible lorsque \"Afficher les d&eacute;tails avancés de cache\" est "
-"activ&eacute;."
+"personnes. Pratique lorsque vous en avez beaucoup."
 
 #: class/admin/class-cache.php:691 class/admin/class-general.php:586
 #: class/admin/class-general.php:643 class/admin/class-general.php:660
@@ -541,7 +537,7 @@ msgstr "Visiblement, vous n'avez pas de dossier de cache."
 msgid "Click on \"reset settings\" to refresh the values."
 msgstr "Cliquez sur \"reset settings\" pour rafraîchir les valeurs."
 
-#: class/admin/class-data.php:87 class/class-settings.php:308
+#: class/admin/class-data.php:87 class/class-settings.php:310
 msgid "actor"
 msgstr "acteur"
 
@@ -561,7 +557,7 @@ msgstr "erreur"
 msgid "plot"
 msgstr "résumé"
 
-#: class/admin/class-data.php:91 class/class-settings.php:312
+#: class/admin/class-data.php:91 class/class-settings.php:314
 msgid "producer"
 msgstr "producteur"
 
@@ -2211,43 +2207,43 @@ msgstr "cet outil de recherche "
 msgid "to find the IMDb's ID."
 msgstr "pour trouver l'ID IMDb."
 
-#: class/class-settings.php:247
+#: class/class-settings.php:249
 msgid "Readme file either missing or corrupted "
 msgstr "Le fichier readme est manquant ou corrompu "
 
-#: class/class-settings.php:309
+#: class/class-settings.php:311
 msgid "composer"
 msgstr "compositeur"
 
-#: class/class-settings.php:310
+#: class/class-settings.php:312
 msgid "creator"
 msgstr "cr&eacute;ateur"
 
-#: class/class-settings.php:311
+#: class/class-settings.php:313
 msgid "director"
 msgstr "r&eacute;alisateur"
 
-#: class/class-settings.php:313
+#: class/class-settings.php:315
 msgid "writer"
 msgstr "sc&eacute;nariste"
 
-#: class/class-settings.php:316
+#: class/class-settings.php:318
 msgid "color"
 msgstr "couleur"
 
-#: class/class-settings.php:317
+#: class/class-settings.php:319
 msgid "country"
 msgstr "pays"
 
-#: class/class-settings.php:318
+#: class/class-settings.php:320
 msgid "genre"
 msgstr "genre"
 
-#: class/class-settings.php:319
+#: class/class-settings.php:321
 msgid "keyword"
 msgstr "mot-cl&eacute;"
 
-#: class/class-settings.php:320
+#: class/class-settings.php:322
 msgid "language"
 msgstr "langue"
 
@@ -2557,26 +2553,26 @@ msgid "Trademarks"
 msgstr "Marques de fabrique"
 
 #: class/frontend/class-popup-person.php:724
-#: class/theme/class-taxonomy-people-standard.php:411
+#: class/theme/class-taxonomy-people-standard.php:412
 msgid "Born on"
 msgstr "N&eacute; le"
 
 # "in" as in the place of death
 #: class/frontend/class-popup-person.php:731
 #: class/frontend/class-popup-person.php:748
-#: class/theme/class-taxonomy-people-standard.php:420
-#: class/theme/class-taxonomy-people-standard.php:442
+#: class/theme/class-taxonomy-people-standard.php:421
+#: class/theme/class-taxonomy-people-standard.php:443
 msgid "in"
 msgstr "&agrave;"
 
 #: class/frontend/class-popup-person.php:742
-#: class/theme/class-taxonomy-people-standard.php:436
+#: class/theme/class-taxonomy-people-standard.php:437
 msgid "Died on"
 msgstr "Mort le"
 
 # "cause" as a cause of death
 #: class/frontend/class-popup-person.php:752
-#: class/theme/class-taxonomy-people-standard.php:446
+#: class/theme/class-taxonomy-people-standard.php:447
 msgid "cause"
 msgstr "de"
 

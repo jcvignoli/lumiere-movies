@@ -104,6 +104,20 @@ class Admin {
 	 *  Display admin notices
 	 */
 	public function lumiere_admin_display_messages(): ?string {
+
+		$new_taxo_template = $this->lumiere_return_new_taxo_available();
+		if ( isset( $new_taxo_template ) ) {
+			echo Utils::lumiere_notice(
+				6,
+				esc_html__( 'New template file(s): ', 'lumiere-movies' )
+				. join( $new_taxo_template )
+				. '. ' . esc_html__( 'Please ', 'lumiere-movies' ) . '<a href="'
+				. esc_url(
+					admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo#imdb_imdbtaxonomyactor_yes'
+				)
+				. '">' . esc_html__( 'update', 'lumiere-movies' ) . '</a>.'
+			);
+		}
 		return null;
 	}
 
@@ -404,6 +418,68 @@ class Admin {
 	</div><!-- .wrap -->
 
 		<?php
+	}
+
+	/**
+	 * Function checking if item/person template has been updated
+	 *
+	 * @return null|array<int, string> Array of updated templates or null if none
+	 */
+	protected function lumiere_return_new_taxo_available(): ?array {
+
+		global $wp_filesystem;
+
+		$return = null;
+
+		// Build array of people and items from config
+		$array_all = array_merge( $this->config_class->array_people, $this->config_class->array_items );
+		asort( $array_all );
+
+		// Initial vars
+		$version_theme = 'no_theme';
+		$version_origin = '';
+		$pattern = '~Version: (.+)~i'; // pattern for regex
+
+		// Build general paths.
+		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
+		$lumiere_taxonomy_theme_path = $this->imdb_admin_values['imdbpluginpath'];
+
+		foreach ( $array_all as $item ) {
+
+			// Files paths built based on $item value
+			$lumiere_taxo_file_tocopy = in_array( $item, $this->config_class->array_people, true ) ? Settings::TAXO_PEOPLE_THEME : Settings::TAXO_ITEMS_THEME;
+			$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
+			$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;
+			$lumiere_taxonomy_theme_file = $lumiere_taxonomy_theme_path . $lumiere_taxo_file_tocopy;
+
+			// Make sure we have the credentials to read the files.
+			Utils::lumiere_wp_filesystem_cred( $lumiere_current_theme_path_file );
+
+			// Jump to the next potential file if no current file found
+			if ( file_exists( $lumiere_current_theme_path_file ) === false ) {
+				continue;
+			}
+
+			// Get the taxonomy file version in the theme.
+			$content_intheme = $wp_filesystem->get_contents( $lumiere_current_theme_path_file );
+			if ( is_string( $content_intheme ) && preg_match( $pattern, $content_intheme, $match ) === 1 ) {
+				$version_theme = $match[1];
+			}
+
+			// Get the taxonomy file version in the lumiere theme folder.
+			$content_inplugin = $wp_filesystem->get_contents( $lumiere_taxonomy_theme_file );
+			if ( is_string( $content_inplugin ) && preg_match( $pattern, $content_inplugin, $match ) === 1 ) {
+				$version_origin = $match[1];
+			}
+
+			// Build array of items updated.
+			if ( $version_theme !== $version_origin ) {
+				$return[] = $item;
+			}
+		}
+
+		return $return;
+
 	}
 
 }

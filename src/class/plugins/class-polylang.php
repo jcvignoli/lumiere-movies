@@ -123,7 +123,7 @@ class Polylang {
 		// Build the form.
 		echo "\n\t\t\t" . '<div align="center">';
 		// @since 3.9: added URI to form.
-		$parts_url = parse_url( home_url() );
+		$parts_url = wp_parse_url( home_url() );
 		$current_uri = $parts_url !== false && isset( $parts_url['scheme'] ) && isset( $parts_url['host'] )
 			? $parts_url['scheme'] . '://' . $parts_url['host'] . add_query_arg( null, null )
 			: '';

@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.9
+* [feature] If a new taxonomy template is found, a notice is shown in admin Lumière options (will keep nagging until update is processed)
 * [feature] Lumière will not be compatible with plugins that promote a web of spammers. First plugin to enter the hall of shame: RSS Feed Post Generator Echo, paid plugin used to make ghost websites with ads and make money. If such plugin is activated, Lumière will automatically be deactivated.
 * [bug] Under unusual circomstances, class-taxonomy-people-standard.php was failing to retrieve an IMDbPHP class name. Added throwing an exception
 * [bug] Tagline in movies popup shows up again
@@ -8,21 +9,23 @@ v.3.9
 * [bug] Taxonomy pages did not work for people's names with accented letters (added sanitize_title())
 * [bug] Wrong annotation for class-settings.php (extra OPTIONS_WIDGET properties)
 * [bug] ImdbPHP search was not working for people on some sporadic circumstances
-* [bug] Creating Cache folder (method settings->lumiere_create_cache() ) was not properly updating path option in database.
+* [bug] Creating Cache folder (method settings->lumiere_create_cache() ) was not entirely functional. New logic implemented in the method, should take care of any new cache path provided, default path case when installing the plugin, and alternative cache paths (aka inside Lumière plugin folder)
 * [bug] If cache was not utilised, IMDB pictures were tried to be retrieved anyway (IMDBphp needs a folder to store and display pictures). Edited frontend classes (movie, popup-movie and popup-person) and theme taxonomy-people-standard
 * [bug] Uninstall did not remove the cache path as saved in database, but Lumiere\Settings::LUMIERE_CACHE_OPTIONS instead
+* [bug] Utils::lumiere_notice() warning (case 4) was buggy. Fixed and implemented dismissible notices.
 * [technical] Properly using composer scripts in src, not copied to the production vendor folder with composer anymore
 * [technical] Using composer autoload, removed all home-made autoloads. Can't use PSR-4 autoloading, since WordPress naming is not PSR-4 compliant.
-* [technical] Bootstrap Window Maker is now used through composer
-* [technical] Removed cache option 'imdbstorecache'; using cache option 'usecache' in class-imdbphp instead to define it
+* [technical] Bootstrap Window Maker is now relying on composer for updating
+* [technical] Unloading various stylesheets in AMP link makers, as in AMP pages those are not found.
+* [technical] Removed cache option 'imdbstorecache' (was hidden and not available in cache options); using now cache option 'usecache' in class-imdbphp to define it.
 * [technical] Updated to bootstrap 5.2.2
-* [technical] Added link to settings in WP plugins page
-* [technical] Updated to IMDBPHP library 7.3.1 fixing major bugs
+* [technical] Added link to settings in WP plugins page interface
+* [technical] Updated to IMDBPHP library 7.3.1. Fixes major bugs such a movie search
 
 v.3.8.3
 * [bug] An extra space was added for movie links inside posts. Fixed function lumiere_popup_film_link_abstract() in class abstract link maker
 * [technical] Updated to Monolog 2.8
-* [technical] Added 'rel=nofollow' into links built by popups in order to avoid search engines crawls (a Gb of cache subsequently created)
+* [technical] Added 'rel=nofollow' into links built by popups in order to avoid search engines crawls (a Gb of cache could be subsequently created, and counting)
 
 v.3.8.2
 * [feature] Removed the ugly and useless column in taxonomy results only showing a thumbnail
