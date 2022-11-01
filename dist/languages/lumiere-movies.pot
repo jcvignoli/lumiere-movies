@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-10-30T22:09:22-03:00\n"
+"POT-Creation-Date: 2022-11-01T12:46:51-03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: lumiere-movies\n"
@@ -111,7 +111,7 @@ msgstr ""
 
 #: class/admin/class-cache.php:585
 #: class/admin/class-cache.php:623
-#: class/class-admin.php:263
+#: class/class-admin.php:277
 msgid "Cache options"
 msgstr ""
 
@@ -198,7 +198,7 @@ msgid "Simplified cache details"
 msgstr ""
 
 #: class/admin/class-cache.php:691
-msgid "Allow faster loading time for the \"manage cache\" page, by displaying shorter movies and people presentation. Usefull when you have several of those. This option is available when \"Show advanced cache details\" is activated."
+msgid "Allows faster loading time for the \"manage cache\" page by displaying shorter movies and people presentation. Usefull when you have many of them."
 msgstr ""
 
 #: class/admin/class-cache.php:691
@@ -458,7 +458,7 @@ msgid "Click on \"reset settings\" to refresh the values."
 msgstr ""
 
 #: class/admin/class-data.php:87
-#: class/class-settings.php:308
+#: class/class-settings.php:310
 msgid "actor"
 msgstr ""
 
@@ -479,7 +479,7 @@ msgid "plot"
 msgstr ""
 
 #: class/admin/class-data.php:91
-#: class/class-settings.php:312
+#: class/class-settings.php:314
 msgid "producer"
 msgstr ""
 
@@ -568,7 +568,7 @@ msgid "Taxonomy"
 msgstr ""
 
 #: class/admin/class-data.php:274
-#: class/class-admin.php:344
+#: class/class-admin.php:358
 msgid "Taxonomy unactivated"
 msgstr ""
 
@@ -585,6 +585,7 @@ msgid "Move selected movie detail:"
 msgstr ""
 
 #: class/admin/class-data.php:456
+#: class/class-admin.php:114
 msgid "Please "
 msgstr ""
 
@@ -724,21 +725,21 @@ msgstr ""
 msgid "Enter the maximum of items you want to display"
 msgstr ""
 
-#: class/admin/class-data.php:677
-#: class/admin/class-data.php:726
+#: class/admin/class-data.php:674
+#: class/admin/class-data.php:713
 msgid "Copy a standard taxonomy template to your template folder to display this taxonomy."
 msgstr ""
 
-#: class/admin/class-data.php:684
-#: class/admin/class-data.php:728
+#: class/admin/class-data.php:681
+#: class/admin/class-data.php:715
 msgid "Copy template"
 msgstr ""
 
-#: class/admin/class-data.php:706
+#: class/admin/class-data.php:696
 msgid "Missing Lumiere template file. A problem has been detected with your installation."
 msgstr ""
 
-#: class/admin/class-data.php:739
+#: class/admin/class-data.php:726
 msgid "template up-to-date"
 msgstr ""
 
@@ -1546,100 +1547,108 @@ msgstr ""
 msgid "You can not call directly this page"
 msgstr ""
 
-#: class/class-admin.php:175
+#: class/class-admin.php:112
+msgid "New template file(s): "
+msgstr ""
+
+#: class/class-admin.php:118
+msgid "update"
+msgstr ""
+
+#: class/class-admin.php:189
 msgid "Lumière options page"
 msgstr ""
 
-#: class/class-admin.php:179
-#: class/class-admin.php:235
+#: class/class-admin.php:193
+#: class/class-admin.php:249
 msgid "General"
 msgstr ""
 
-#: class/class-admin.php:186
+#: class/class-admin.php:200
 msgid "Data management"
 msgstr ""
 
-#: class/class-admin.php:187
-#: class/class-admin.php:247
+#: class/class-admin.php:201
+#: class/class-admin.php:261
 msgid "Data"
 msgstr ""
 
-#: class/class-admin.php:194
+#: class/class-admin.php:208
 msgid "Cache management options page"
 msgstr ""
 
-#: class/class-admin.php:195
-#: class/class-admin.php:259
+#: class/class-admin.php:209
+#: class/class-admin.php:273
 msgid "Cache"
 msgstr ""
 
-#: class/class-admin.php:202
+#: class/class-admin.php:216
 msgid "Help page"
 msgstr ""
 
-#: class/class-admin.php:203
-#: class/class-admin.php:272
+#: class/class-admin.php:217
+#: class/class-admin.php:286
 msgid "Help"
 msgstr ""
 
-#: class/class-admin.php:226
+#: class/class-admin.php:240
 msgid "Lumière Menu"
 msgstr ""
 
-#: class/class-admin.php:239
+#: class/class-admin.php:253
 msgid "Main and advanced options"
 msgstr ""
 
-#: class/class-admin.php:251
+#: class/class-admin.php:265
 msgid "Data option and taxonomy"
 msgstr ""
 
-#: class/class-admin.php:276
+#: class/class-admin.php:290
 msgid "Get support and support plugin development"
 msgstr ""
 
-#: class/class-admin.php:313
+#: class/class-admin.php:327
 msgid "admin options"
 msgstr ""
 
-#: class/class-admin.php:320
+#: class/class-admin.php:334
 msgid "General Options"
 msgstr ""
 
-#: class/class-admin.php:329
+#: class/class-admin.php:343
 msgid "Data Management"
 msgstr ""
 
-#: class/class-admin.php:337
+#: class/class-admin.php:351
 msgid "Widget unactivated"
 msgstr ""
 
-#: class/class-admin.php:352
+#: class/class-admin.php:366
 msgid "Cache management"
 msgstr ""
 
-#: class/class-admin.php:357
+#: class/class-admin.php:371
 msgid "How to use Lumière!, check FAQs & changelog"
 msgstr ""
 
-#: class/class-admin.php:358
+#: class/class-admin.php:372
 msgid "help"
 msgstr ""
 
-#: class/class-core.php:228
+#: class/class-core.php:245
 msgid "Sponsor"
 msgstr ""
 
-#: class/class-core.php:245
+#: class/class-core.php:262
 msgid "Settings"
 msgstr ""
 
-#: class/class-core.php:651
-#: class/class-core.php:667
+#: class/class-core.php:668
+#: class/class-core.php:684
 msgid "Informations about "
 msgstr ""
 
-#: class/class-core.php:668
+#: class/class-core.php:685
 msgid "Unknown"
 msgstr ""
 
@@ -1680,43 +1689,43 @@ msgstr ""
 msgid "to find the IMDb's ID."
 msgstr ""
 
-#: class/class-settings.php:247
+#: class/class-settings.php:249
 msgid "Readme file either missing or corrupted "
 msgstr ""
 
-#: class/class-settings.php:309
+#: class/class-settings.php:311
 msgid "composer"
 msgstr ""
 
-#: class/class-settings.php:310
+#: class/class-settings.php:312
 msgid "creator"
 msgstr ""
 
-#: class/class-settings.php:311
+#: class/class-settings.php:313
 msgid "director"
 msgstr ""
 
-#: class/class-settings.php:313
+#: class/class-settings.php:315
 msgid "writer"
 msgstr ""
 
-#: class/class-settings.php:316
+#: class/class-settings.php:318
 msgid "color"
 msgstr ""
 
-#: class/class-settings.php:317
+#: class/class-settings.php:319
 msgid "country"
 msgstr ""
 
-#: class/class-settings.php:318
+#: class/class-settings.php:320
 msgid "genre"
 msgstr ""
 
-#: class/class-settings.php:319
+#: class/class-settings.php:321
 msgid "keyword"
 msgstr ""
 
-#: class/class-settings.php:320
+#: class/class-settings.php:322
 msgid "language"
 msgstr ""
 
@@ -2031,24 +2040,24 @@ msgid "Trademarks"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:724
-#: class/theme/class-taxonomy-people-standard.php:411
+#: class/theme/class-taxonomy-people-standard.php:412
 msgid "Born on"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:731
 #: class/frontend/class-popup-person.php:748
-#: class/theme/class-taxonomy-people-standard.php:420
-#: class/theme/class-taxonomy-people-standard.php:442
+#: class/theme/class-taxonomy-people-standard.php:421
+#: class/theme/class-taxonomy-people-standard.php:443
 msgid "in"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:742
-#: class/theme/class-taxonomy-people-standard.php:436
+#: class/theme/class-taxonomy-people-standard.php:437
 msgid "Died on"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:752
-#: class/theme/class-taxonomy-people-standard.php:446
+#: class/theme/class-taxonomy-people-standard.php:447
 msgid "cause"
 msgstr ""
 
