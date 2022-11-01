@@ -92,7 +92,7 @@ class PluginsDetect {
 	 *
 	 * @return bool true if OceanWP them is active
 	 */
-	protected function oceanwp_is_active(): bool {
+	public function oceanwp_is_active(): bool {
 
 		if ( $this->lumiere_oceanwp_active === false ) {
 			return false;
@@ -106,7 +106,7 @@ class PluginsDetect {
 	 *
 	 * @return bool true if AMP plugin is active
 	 */
-	protected function amp_is_active(): bool {
+	public function amp_is_active(): bool {
 
 		if ( $this->lumiere_amp_active === false ) {
 			return false;
@@ -121,7 +121,7 @@ class PluginsDetect {
 	 *
 	 * @return bool true if Polylang plugin is active
 	 */
-	protected function polylang_is_active(): bool {
+	public function polylang_is_active(): bool {
 
 		if ( $this->lumiere_polylang_active === false ) {
 			return false;

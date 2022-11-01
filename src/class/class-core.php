@@ -16,17 +16,19 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\Updates;
-use Lumiere\Utils;
 use Lumiere\Copy_Template_Taxonomy;
-use Lumiere\Search;
+use Lumiere\Movie;
+use Lumiere\PluginsDetect;
+use Lumiere\Plugins\Amp;
+use Lumiere\Plugins\Imdbphp;
+use Lumiere\Plugins\Logger;
 use Lumiere\Popup_Person;
 use Lumiere\Popup_Movie;
 use Lumiere\Popup_Search;
-use Lumiere\Plugins\Imdbphp;
-use Lumiere\Plugins\Logger;
+use Lumiere\Search;
+use Lumiere\Updates;
+use Lumiere\Utils;
 use Lumiere\Virtual_Page;
-use Lumiere\Movie;
 use Imdb\Title;
 use Imdb\Person;
 
@@ -36,19 +38,19 @@ class Core {
 	use \Lumiere\Settings_Global;
 
 	/**
-	 * \Lumière\Utils class
+	 * Lumière\Utils class
 	 *
 	 */
 	private Utils $utils_class;
 
 	/**
-	 * \Lumiere\Plugins\Logger class
+	 * Lumiere\Plugins\Logger class
 	 *
 	 */
 	private Logger $logger;
 
 	/**
-	 * \Lumiere\Imdbphp class
+	 * Lumiere\Imdbphp class
 	 *
 	 */
 	private Imdbphp $imdbphp_class;
@@ -193,6 +195,21 @@ class Core {
 			'widgets_init',
 			function(): void {
 				Widget::lumiere_widget_start();
+			}
+		);
+
+		// AMP remove headers if AMP is active.
+		add_action(
+			'wp',
+			function(): void {
+				$pluginsdetect_class = new PluginsDetect();
+				if (
+					count( $pluginsdetect_class->plugins_class ) > 0
+					&& in_array( 'AMP', $pluginsdetect_class->plugins_class, true )
+				) {
+					$amp_class = new Amp();
+					$amp_class->lumiere_amp_remove_header();
+				}
 			}
 		);
 
