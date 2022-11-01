@@ -167,7 +167,7 @@ paths = {
 				'./src/vendor/imdbphp/imdbphp/src/**/*.*',
 				'./src/vendor/monolog/**/*.*',
 				'./src/vendor/psr/**/*.*',
-				'./src/vendor/twbs/bootstrap/dist/**/*.{js,css}',
+				'./src/vendor/twbs/bootstrap/dist/**/*.{min.js,min.css}',
 				'./src/vendor/autoload.*',
 			'./src/**/*.+(psd)', 
 			'./src/.**/*.+(psd)', 				/* for .wordpress.org */
