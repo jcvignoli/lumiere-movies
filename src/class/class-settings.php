@@ -176,7 +176,7 @@ class Settings {
 	 * Where to write the log
 	 * WordPress default path
 	 */
-	const DEBUG_LOG_PATH = ABSPATH . 'wp-content/debug.log';
+	const DEBUG_LOG_PATH = WP_CONTENT_DIR . '/debug.log';
 
 	/**
 	 * Cache folder path.
@@ -444,7 +444,7 @@ class Settings {
 	private function get_imdb_cache_option(): void {
 
 		// Build partial cache path, such as 'wp-content/cache/lumiere/'
-		$imdbcachedir_partial = str_replace( ABSPATH, '', self::LUMIERE_FOLDER_CACHE );
+		$imdbcachedir_partial = str_replace( WP_CONTENT_DIR, '', self::LUMIERE_FOLDER_CACHE );
 
 		$imdb_cache_options = [
 
@@ -457,7 +457,7 @@ class Settings {
 
 		];
 
-		$imdb_cache_options['imdbcachedir'] = ABSPATH . $imdb_cache_options['imdbcachedir_partial'];
+		$imdb_cache_options['imdbcachedir'] = WP_CONTENT_DIR . $imdb_cache_options['imdbcachedir_partial'];
 		$imdb_cache_options['imdbphotoroot'] = $imdb_cache_options['imdbcachedir'] . 'images/';
 		$imdb_cache_options['imdbphotodir'] = content_url() . '/cache/lumiere/images/';
 
@@ -470,17 +470,16 @@ class Settings {
 				$imdb_cache_options[ $key ] = $option;
 			}
 
-			// Agregate vars to construct 'imdbcachedir
-			$imdb_cache_options['imdbcachedir'] = ABSPATH . $imdb_cache_options['imdbcachedir_partial'];
+			// Agregate vars to construct 'imdbcachedir'
+			$imdb_cache_options['imdbcachedir'] = WP_CONTENT_DIR . $imdb_cache_options['imdbcachedir_partial'];
 
-			// Agregate vars to construct 'imdbphotoroot
+			// Agregate vars to construct 'imdbphotoroot'
 			$imdb_cache_options['imdbphotoroot'] = $imdb_cache_options['imdbcachedir'] . 'images/';
 		}
 		if ( is_array( $imdb_options_a ) === true && count( $imdb_options_a ) !== 0 ) { // if not empty.
 
 			// Agregate vars to construct 'imdbphotodir'
-			$imdb_cache_options['imdbphotodir'] = get_site_url()
-									. '/'
+			$imdb_cache_options['imdbphotodir'] = content_url()
 									. $imdb_cache_options['imdbcachedir_partial']
 									. 'images/';
 		}
@@ -637,7 +636,7 @@ class Settings {
 		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache ) && chmod( $lumiere_alt_folder_cache, 0755 ) ) {
 
 			// Create partial var
-			$lumiere_alt_folder_cache_partial = str_replace( ABSPATH, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
+			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
 
 			// Update the option imdbcachedir for new cache path values
 			$options_cache['imdbcachedir'] = $lumiere_alt_folder_cache;
@@ -660,7 +659,7 @@ class Settings {
 			// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
 		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache_images ) && chmod( $lumiere_alt_folder_cache_images, 0755 ) ) {
 
-			$lumiere_folder_cache_partial = str_replace( ABSPATH, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
+			$lumiere_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
 
 			// Update the option imdbcachedir for new cache path values
 			$options_cache['imdbcachedir_partial'] = $lumiere_folder_cache_partial;

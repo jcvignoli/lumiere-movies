@@ -338,6 +338,7 @@ class Utils {
 
 	/**
 	 * Return true/false if a term in an array is contained in a value
+	 * @since 3.9.2 Added escape special chara
 	 *
 	 * @param array<string> $array_list the array to be searched in
 	 * @param string $term the term searched for
@@ -345,10 +346,11 @@ class Utils {
 	 */
 	public static function lumiere_array_contains_term( array $array_list, string $term ): bool {
 
-		if ( preg_match( '(' . implode( '|', $array_list ) . ')', $term ) === 1 ) {
+		// Escape special url string characters for following regex
+		$array_list_escaped = str_replace( [ '?', '&', '#' ], [ '\?', '\&', '\#' ], $array_list );
 
+		if ( preg_match( '~(' . implode( '|', $array_list_escaped ) . ')~', $term ) === 1 ) {
 			return true;
-
 		}
 
 		return false;

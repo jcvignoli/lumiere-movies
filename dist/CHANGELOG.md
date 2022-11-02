@@ -1,6 +1,9 @@
 **Changelog**
 
 v.3.9.2
+* [bug] Cache folder could be created above the level of wp-content. It is now limited to create a the cache folder into wp-content, which leads to more versatility of the plugin in multisites environments (using WP_CONTENT_DIR instead of ABSPATH constant to build the cache folder). Works perfectly on WordPress.com environment.
+* [bug] Layout was not available when visting first Lumière! admin options page (options-general.php?page=lumiere_options, link to Lumière options in WP Settings section). Added that page to conditional pages to display the layout.
+* [technical] lumiere_array_contains_term() in class utils was not escaping special characters provided in array of URLs. Made the function more versatile, using it in Core class.
 
 v.3.9.1
 * [bug] Under very specific Linux environments such as wordpress.com, debug file could not be created. Changed the creation process in class-logger and added create_log() method.

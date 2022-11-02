@@ -14,8 +14,8 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	wp_die( 'You can not call directly this page' );
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
 // Use IMDbPHP library for cache creation
@@ -1089,7 +1089,7 @@ class Cache extends \Lumiere\Admin {
 		<div class="imdblt_padding_five">
 
 			<div class="lumiere_breakall">
-				<?php echo esc_html( ABSPATH ); ?>
+				<?php echo esc_html( WP_CONTENT_DIR ); ?>
 				<input type="text" name="imdbcachedir_partial" class="lumiere_border_width_medium" value="<?php echo esc_attr( $this->imdb_cache_values['imdbcachedir_partial'] ); ?>">
 			</div>
 
@@ -1123,7 +1123,7 @@ class Cache extends \Lumiere\Admin {
 				<a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">writable</a> 
 				<?php esc_html_e( 'by the webserver.', 'lumiere-movies' ); ?> 
 				<br />
-				<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "<?php echo esc_url( ABSPATH . 'wp-content/cache/lumiere/' ); ?>"
+				<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "<?php echo esc_url( WP_CONTENT_DIR . '/cache/lumiere/' ); ?>"
 			</div>
 		</div>
 

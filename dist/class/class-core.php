@@ -563,15 +563,24 @@ class Core {
 
 		$imdb_admin_values = $this->imdb_admin_values;
 
-		// Load scripts only on Lumière admin pages.
+		// Load assets only on Lumière admin pages.
 		// + WordPress edition pages + Lumière own pages (ie gutenberg search).
 		if (
 			( 'toplevel_page_lumiere_options' === $hook )
 			|| ( 'post.php' === $hook )
 			|| ( 'post-new.php' === $hook )
 			|| ( 'widgets.php' === $hook )
-			|| ( Utils::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ) ) // All sort of Lumière pages.
-			|| ( Utils::str_contains( $_SERVER['REQUEST_URI'], 'admin.php?page=lumiere_options' ) )
+			// All Lumière pages.
+			|| ( Utils::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ) )
+			// Extra WP Admin pages.
+			|| ( Utils::lumiere_array_contains_term(
+				[
+					'admin.php?page=lumiere_options',
+					'options-general.php?page=lumiere_options',
+				],
+				$_SERVER['REQUEST_URI']
+			)
+				)
 		) {
 
 			// Load main css.

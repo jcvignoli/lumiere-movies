@@ -6,7 +6,6 @@
 /tmp
 /vendor
 .wordpress-org
-.babelrc
 .env.testing
 .gitignore
 .gulpcredentials.js
@@ -18,4 +17,3 @@ package.json
 package-lock.json
 /README.md
 webpack.config.js
-wp-cli.phar
