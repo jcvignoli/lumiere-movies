@@ -49,8 +49,7 @@ class Logger {
 	private bool $is_editor_page;
 
 	/**
-	 * Class \Monolog\Logger
-	 *
+	 * Class Monolog\Logger
 	 */
 	public LoggerMonolog $logger_class;
 
@@ -166,19 +165,20 @@ class Logger {
 				// Add current url and referrer to the log
 				//$logger->pushProcessor(new \Monolog\Processor\WebProcessor(NULL, array('url','referrer') ));
 
-				/**
-				 * Make sure debug log exists and is writable.
-				 * @since 3.7.1
-				 */
-				if ( is_file( $this->imdb_admin_values['imdbdebuglogpath'] ) === false ) {
-					// Debug file doesn't exist, create it.
-					touch( $this->imdb_admin_values['imdbdebuglogpath'] );
+				// Create log file if it doesn't exist, use null logger and exit if can't write to the log.
+				// @since 3.9.1 created create_log() method, using its output to exit if no path created.
+				$final_log_file = $this->imdb_admin_values['imdbdebuglogpath'];
+				if ( is_file( $final_log_file ) === false || is_writable( $final_log_file ) === false ) {
+					$final_log_file = $this->create_log( $final_log_file );
 				}
-				if ( is_writable( $this->imdb_admin_values['imdbdebuglogpath'] ) === false ) {
-					// Permissions on the file are not correct, change them.
-					Utils::lumiere_wp_filesystem_cred( $this->imdb_admin_values['imdbdebuglogpath'] );
-					chmod( $this->imdb_admin_values['imdbdebuglogpath'], 0755 );
+				if ( $final_log_file === null ) {
+					$this->logger_class = new LoggerMonolog( $logger_name );
+					$this->logger_class->pushHandler( new NullHandler() );
+					error_log( '***WP Lumiere Plugin ERROR***: not using log file ' . $final_log_file );
+					return;
 				}
+				// Use the latest log path value, it can have changed in create_log().
+				$this->imdb_admin_values['imdbdebuglogpath'] = $final_log_file;
 
 				// Add the file, the line, the class, the function to the log.
 				$this->logger_class->pushProcessor( new IntrospectionProcessor( $logger_verbosity ) );
@@ -192,6 +192,7 @@ class Logger {
 
 				// Utilise the new format and processor.
 				$this->logger_class->pushHandler( $filelogger );
+
 			}
 
 			/**
@@ -233,9 +234,61 @@ class Logger {
 	 * @return LoggerMonolog the Monolog class
 	 */
 	public function log(): LoggerMonolog {
-
 		return $this->logger_class;
+	}
 
+	/**
+	 * Make sure debug log exists and is writable.
+	 * @since 3.7.1
+	 * @since 3.9.1, is a method, and using fopen and added error_log(), if file creation
+	 * in wp-content fails try with Lumière plugin folder
+	 *
+	 * @param string $log_file Log file with the full path
+	 * @param bool $second_try Whether the function is called a second time
+	 * @return null|string Null if log creation was unsuccessful, Log full path file if successfull
+	 */
+	private function create_log( string $log_file, $second_try = false ): ?string {
+
+		// Log file exists and is writable, hakuna matata, exit.
+		if ( is_file( $log_file ) === true && is_writable( $log_file ) === true ) {
+			return $log_file;
+		}
+
+		// Debug file doesn't exist, create it.
+		$fp = fopen( $log_file, 'w' );
+		if ( $fp === false ) {
+			error_log( '***WP Lumiere Plugin ERROR***: cannot create debug file ' . $log_file );
+		} else {
+			fputs( $fp, '' );
+			fclose( $fp );
+			error_log( '***WP Lumiere Plugin***: created debug file ' . $log_file );
+		}
+
+		// Debug file exists, but it is not writable.
+		if ( is_file( $log_file ) === true && is_writable( $log_file ) === false ) {
+			// Permissions on the file are not correct, change them.
+			if ( chmod( $log_file, 0755 ) === false ) {
+				error_log( '***WP Lumiere Plugin ERROR***: cannot change permission of debug file ' . $log_file );
+			} else {
+				error_log( '***WP Lumiere Plugin***: changed chmod permissions debug file ' . $log_file );
+			}
+		}
+
+		// If couldnt create debug file in wp-content, change the path to Lumière plugin folder.
+		// This is run only on the first call of the method, using $second_try.
+		if ( ( is_file( $log_file ) === false || is_writable( $log_file ) === false ) && $second_try === false ) {
+			$log_file = $this->imdb_admin_values['imdbpluginpath'] . 'debug.log';
+			$this->create_log( $log_file, true );
+			error_log( '***WP Lumiere Plugin***: debug file could not be written in normal place, using plugin folder: ' . $log_file );
+		}
+
+		// If this failed again, send an Apache error message and exit.
+		if ( is_file( $log_file ) === false || is_writable( $log_file ) === false ) {
+			error_log( '***WP Lumiere Plugin ERROR***: Tried everything, cannot create any debug log both in wp-content and in Lumiere plugin folder.' );
+			return null;
+		}
+
+		return $log_file;
 	}
 
 }

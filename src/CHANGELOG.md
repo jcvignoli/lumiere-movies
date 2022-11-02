@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.9.1
+* [bug] Under very specific Linux environments such as wordpress.com, debug file could not be created. Changed the creation process in class-logger and added create_log() method.
 
 v.3.9
 * [feature] If a new taxonomy template is found, a notice is shown in admin Lumière options (will keep nagging until update is processed)
