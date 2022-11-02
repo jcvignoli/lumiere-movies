@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.9.2
+
 v.3.9.1
 * [bug] Under very specific Linux environments such as wordpress.com, debug file could not be created. Changed the creation process in class-logger and added create_log() method.
 
