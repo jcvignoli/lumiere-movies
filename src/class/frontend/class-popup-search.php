@@ -67,10 +67,10 @@ class Popup_Search {
 		add_filter( 'show_admin_bar', '__return_false' );
 
 		// Display layout
-		add_action( 'get_header', [ $this, 'layout' ] );
-		// When set on get_header hook, the popup is fully included in WP environement
-		#add_action( 'get_header', [ $this, 'layout' ], 1 );
-
+		// $this->layout();
+		// If set on 'get_header' hook, the popup is fully included in WP environement
+		// @since 3.9.3 passed from 'get_header' to 'the_posts' which works also on wp.com
+		add_action( 'the_posts', [ $this, 'layout' ] );
 	}
 
 	/**

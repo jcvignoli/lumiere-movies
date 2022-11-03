@@ -18,13 +18,15 @@
 }
 /** Automatic scrollbar */
 .modal-body {
-	overflow: auto;
+	overflow-y: auto;
 }
 /** Remove scrollbar, modify the size of the modal window */
 .modal-body object {
-	max-width: 250vh;
+/**	max-width: 250vh; @since 3.9.2 changed values
+	min-height: 60vh; */
+	min-width: 63vw;
 	min-height: 60vh;
-	overflow-y: hidden;
+	overflow-x: hidden;
 }
 /** Remove border image */
 .img-thumbnail {
