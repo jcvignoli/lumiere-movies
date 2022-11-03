@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.9.3
+
 v.3.9.2
 * [bug] Bootstrap popup size was not correctly working on WordPress.com environment. Works better, but remains room for improvement.
 * [bug] Popups were not displaying movies/people/search data on WordPress.com environment. Using now a different hook to display layout in those popups, passed from 'get_header' to 'the_posts'.
