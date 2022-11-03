@@ -15,6 +15,7 @@ body.lumiere_body_lightgrey {color: black;background: lightgrey;}
 .hidesection{display:none;}
 .activatehidesection {cursor:pointer;}
 .historyback, .searchaka{cursor:pointer;font-style:italic;color:#808080;}
+a.historyback {text-decoration:none !important;}
 
 .lumiere_bold{font-weight:bold;}
 .lumiere_italic{font-style:italic !important;}

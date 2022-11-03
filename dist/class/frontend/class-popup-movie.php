@@ -78,9 +78,10 @@ class Popup_Movie {
 		add_filter( 'show_admin_bar', '__return_false' );
 
 		// Display layout
-		#add_action( 'wp', [ $this, 'lumiere_popup_movie_layout' ], 1 );
-		// When set on get_header hook, the popup is fully included in WP environement
-		add_action( 'get_header', [ $this, 'lumiere_popup_movie_layout' ], 1 );
+		// $this->lumiere_popup_movie_layout();
+		// If set on 'get_header' hook, the popup is fully included in WP environement
+		// @since 3.9.3 passed from 'get_header' to 'the_posts' which works also on wp.com
+		add_action( 'the_posts', [ $this, 'lumiere_popup_movie_layout' ], 1 );
 
 	}
 

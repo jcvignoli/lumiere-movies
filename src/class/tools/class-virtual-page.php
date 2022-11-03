@@ -142,12 +142,13 @@ class Virtual_Page {
 		if ( is_null( $this->wp_post ) ) {
 
 			$post = new stdClass();
-			$post->ID = -99;
+			$post->ID = -1;
 			$post->ancestors = []; // 3.6
 			$post->comment_status = 'closed';
 			$post->comment_count = 0;
 			$post->filter = 'raw';
-			$post->guid = wp_rand();
+			// $post->guid = wp_rand(); @until 3.9.1
+			$post->guid = get_home_url( 1, '/' . $this->page_path );
 			$post->is_virtual = true;
 			$post->menu_order = 0;
 			$post->pinged = '';
@@ -165,7 +166,7 @@ class Virtual_Page {
 			$post->modified_gmt = $post->post_date_gmt;
 			$post->post_password = '';
 			$post->post_content_filtered = '';
-			$post->post_author = is_user_logged_in() ? get_current_user_id() : 0;
+			$post->post_author = is_user_logged_in() ? get_current_user_id() : 1; // @until 3.9.1 last value '0'
 			$post->post_content = '';
 			$post->post_mime_type = '';
 			$post->to_ping = '';
@@ -173,9 +174,8 @@ class Virtual_Page {
 			$this->wp_post = new WP_Post( $post );
 			$this->update_wp_query();
 
-			//@status_header( 200 ); // removed silencer
 			status_header( 200 );
-			wp_cache_add( -99, $this->wp_post, 'posts' );
+			wp_cache_add( -1, $this->wp_post, 'posts' );
 		}
 
 		return $this->wp_post;
