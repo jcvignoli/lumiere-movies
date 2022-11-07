@@ -487,13 +487,13 @@ movie's title
 
 			<a href="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-3.jpg' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="50%" src="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-3.jpg' ); ?>" alt="<?php esc_html_e( 'key and value for custom fields', 'lumiere-movies' ); ?>" /></a>
 
-			<?php esc_html_e( 'Widgets are widely used in WordPress. It allows to easily select what information to display in an area, usually on sidebar. Lumière allows to display any movie in your sidebar.', 'lumiere-movies' ); ?>
+			<?php esc_html_e( 'Widgets are widely used in WordPress. It allows to select which information display in a given area, usually in the sidebar. Lumière allows to display any movie into your sidebar.', 'lumiere-movies' ); ?>
 
 			<br clear="both"/>
 
 			<h4><?php esc_html_e( 'How to use the widget', 'lumiere-movies' ); ?></h4>
 
-			<?php echo wp_kses( __( "<strong>First</strong>, prior to WordPress 5.8, go to <a href='widgets.php'>widget</a> administration (<i>appearance</i> tab), drag <i>Lumière widget</i> (from <i>inactive widgets</i>) to a sidebar, and modify the box's title (in case you don't want to have the default name). As of WordPress 5.8, widgets are blocks selected by the user, but the process is identical.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
+			<?php echo wp_kses( __( "<strong>First</strong>, prior to WordPress 5.8, go to <a href='widgets.php'>widget</a> administration (<i>appearance</i> tab), drag <i>Lumière widget</i> (from <i>inactive widgets</i>) to a sidebar, and modify the box's title (in case you don't want to have the default name). As of WordPress 5.8, widgets are blocks selected by the user, and adding them is very intuitive.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
 
 			<br />
 			<br />
@@ -710,21 +710,43 @@ movie's title
 		?>
 
 		<div class="helpdiv">
+			<br />
+			<h4><?php esc_html_e( 'What is Lumière auto-widget?', 'lumiere-movies' ); ?></h4>
+			<?php esc_html_e( "It is a special type of widget. Unlike the normal Lumière widget (see widget help section in this page), Lumière auto-widget does not require you to enter any IMDb ID or movie's title manually. It automatically query the IMDb according to title you gave to your post. Beware it does so for all posts you have published.", 'lumiere-movies' );
+			echo '<br />';
+			echo '<br />';
+			?>
 
-			<h4><?php esc_html_e( "How to get movies retrieved automatically according to post's titles?", 'lumiere-movies' ); ?></h4>
+			<h4><?php esc_html_e( 'When should you use auto-widget?', 'lumiere-movies' ); ?></h4>
 
-			<?php esc_html_e( "You have hundreds of posts, carefully named after movies. You don't want to edit all of them and widget/inside the post section but you want to display information about movies anyway. There is a  solution.", 'lumiere-movies' ); ?>
+			<?php esc_html_e( "Should you have hundreds of posts named after movie's title, and that you don't want to edit them all to manually insert  widgets or a Lumière blocks inside the post. Lumière does everything for you.", 'lumiere-movies' );
+			echo '<br />';
+			echo '<br />';
 
-			<?php
+			echo '<h4>';
+			esc_html_e( 'How to use auto-widget?', 'lumiere-movies' );
+			echo '</h4>';
+
 			/* translators: %s are URL tags */
-			echo wp_kses( sprintf( esc_html__( "Add a Lumières!'s %1\$s widget %2\$s to your sidebar, and go to 'General Options / Advanced and check « Auto widget » option.", 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
+			echo wp_kses( sprintf( esc_html__( "Add a Lumières!'s %1\$s widget %2\$s to your sidebar, and go to 'General Options / Advanced and check 'Auto widget' option.", 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 			?>
 
 			<div align="center">
 				<a href="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'auto-widget.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="center" width="80%" src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'auto-widget.png' ); ?>" alt="auto widget option" /></a>
 			</div>
 
-			<?php esc_html_e( 'Next time you will look at your post, you will find the widget according to your post’s title.', 'lumiere-movies' ); ?>
+			<?php esc_html_e( 'Next time you will look at your post, you will find the widget according to your post’s title.', 'lumiere-movies' );
+			echo '<br />';
+			echo '<br />';
+			echo wp_kses( __( 'Notice: in order to have this feature work, you must add a widget using <a href="widgets.php">Widget Page</a> option. Take a look at the "Widget" section of this "how to" page.', 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
+			echo '<br />';
+			echo '<br />';
+			esc_html_e( 'Known issue: Lumière offers widgets for both old and modern type of widgets. Old widgets (aka Legacy Widgets) are available if you installed a Classic Widget plugin or any plugin that simplified the way to display your widgets and posts, or if your WordPress install is prior to WordPress 5.8. Modern Widgets (aka Block Widgets) are standard in every new WordPress install as of 5.8 that does not include a Classic Widget plugin. Potential issues could arise should you install both types of Lumière widgets, namely Legacy and Block Widgets. In order to prevent such issues, make sure that both Block and Legacy Widgets are not activated together. Remove any Lumière Block Widget previously added if you use Lumière Legacy Widget when using the pre-5.8/Classic Editor. In the pre-5.8/Classic Widget Editor, no option to add a Block Widget is available, but you may find a Block based Widget previously added in Block Editor, which you need to remove.', 'lumiere-movies' );
+			echo '<br />';
+			echo '<br />';
+			esc_html_e( 'Should you switch back to the new WordPress Block Editor standard again (by updating WordPress or uninstalling Classic Widget), remove the Legacy widget that will be visible in the block Editor, save, refresh and add a new Lumière Block Widget. In new Widget WordPress installs, only the standard Block Widget is available.', 'lumiere-movies' );
+
+			?>
 		</div>
 
 		<?php

@@ -343,9 +343,8 @@ class Admin {
 					<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption' ); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?></a>
 
 		<?php
-		// Check if any widget is active:
-		// lumiere_block_widget_isactive() (post 5.8)
-		if ( Utils::lumiere_block_widget_isactive() === false ) {
+		// Check if both widgets is are inactive (pre/post-5.8, aka block & legacy blocks)
+		if ( Utils::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === false && is_active_widget( false, false, Settings::WIDGET_NAME, false ) === false ) {
 			?>
 
 					- <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'widgets.php' ); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies' ); ?></a></font></em>
@@ -353,9 +352,8 @@ class Admin {
 			<?php
 		}
 		if ( ( $imdb_admin_values['imdbtaxonomy'] === '0' ) || ( ! isset( $this->imdb_admin_values['imdbtaxonomy'] ) ) ) {
-			?>
 
-					- <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&generaloption=advanced#imdb_imdbtaxonomy_yes' ); ?>"><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></font></em>
+			?> - <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&generaloption=advanced#imdb_imdbtaxonomy_yes' ); ?>"><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></font></em>
 
 	<?php } ?>
 
