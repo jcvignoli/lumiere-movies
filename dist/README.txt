@@ -134,6 +134,8 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 
+= 3.9.4 = 
+
 = 3.9.3 = 
 * Code for auto-widgets (widgets displaying automatically movie's details according to the post title) has changed. Should you use this feature, just add again Lumière auto-widget.
 

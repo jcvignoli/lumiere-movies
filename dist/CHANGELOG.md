@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.9.4
+
 v.3.9.3
 * [bug] Recent WordPress changes broke the autodisplay of old widgets (legacy widgets) in widgets admin page. Both are now available at the same time. User should carefully select a legacy or block based widget in WordPress block pages according to whether they have a old WordPress install (prior to 5.8) or installed a Classic Widget plugin that brings back the pre-5.8 widget interface.
 * [technical] Improved "how to" section related to auto-widget.
