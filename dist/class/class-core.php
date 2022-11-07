@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Copy_Template_Taxonomy;
 use Lumiere\Movie;
+use Lumiere\Admin\Metabox_Selection;
 use Lumiere\PluginsDetect;
 use Lumiere\Plugins\Amp;
 use Lumiere\Plugins\Imdbphp;
@@ -145,13 +146,16 @@ class Core {
 			add_action( 'init', [ $lumiere_admin_class, 'lumiere_admin_menu' ] );
 
 			// Add the metabox to editor.
-			new Metabox();
+			new Metabox_Selection();
 
 			// Add sponsor on WP admin > Plugins
 			add_filter( 'plugin_row_meta', [ $this, 'lumiere_add_sponsor_plugins_page' ], 10, 4 );
 
 			// Add settings links on WP admin > Plugins
 			add_filter( 'plugin_action_links', [ $this, 'lumiere_plugin_settings_link' ], 10, 2 );
+
+			// Widget
+			add_action( 'init', [ 'Lumiere\Admin\Widget_Selection', 'lumiere_widget_start' ], 0 );
 		}
 
 		// Register admin scripts.
@@ -179,24 +183,11 @@ class Core {
 		// Register Gutenberg blocks.
 		add_action( 'init', [ $this, 'lumiere_register_gutenberg_blocks' ] );
 
-		// Movie class if it is not an admin page
+		// Frontpage classes if it is not an admin page
 		if ( ! is_admin() ) {
-			add_action(
-				'init',
-				function(): void {
-					Movie::lumiere_movie_start();
-				},
-				0
-			);
+			add_action( 'init', [ 'Lumiere\Movie', 'lumiere_movie_start' ], 0 );
+			add_action( 'init', [ 'Lumiere\Frontend\Widget_Frontpage', 'lumiere_widget_frontend_start' ], 0 );
 		}
-
-		// Widget
-		add_action(
-			'widgets_init',
-			function(): void {
-				Widget::lumiere_widget_start();
-			}
-		);
 
 		// AMP remove headers if AMP is active.
 		add_action(

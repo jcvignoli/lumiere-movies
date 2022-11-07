@@ -48,9 +48,13 @@ class ComposerStaticInit2660170a07cc3fb36d97d6c17f332311
         'Lumiere\\Admin\\Data' => __DIR__ . '/../..' . '/class/admin/class-data.php',
         'Lumiere\\Admin\\General' => __DIR__ . '/../..' . '/class/admin/class-general.php',
         'Lumiere\\Admin\\Help' => __DIR__ . '/../..' . '/class/admin/class-help.php',
+        'Lumiere\\Admin\\Metabox_Selection' => __DIR__ . '/../..' . '/class/admin/class-metabox-selection.php',
+        'Lumiere\\Admin\\Widget_Selection' => __DIR__ . '/../..' . '/class/admin/class-widget-selection.php',
         'Lumiere\\Copy_Template_Taxonomy' => __DIR__ . '/../..' . '/class/tools/class-copy-template-taxonomy.php',
         'Lumiere\\Core' => __DIR__ . '/../..' . '/class/class-core.php',
         'Lumiere\\Frontend' => __DIR__ . '/../..' . '/class/frontend/trait-frontend.php',
+        'Lumiere\\Frontend\\Widget_Frontpage' => __DIR__ . '/../..' . '/class/frontend/class-widget-frontpage.php',
+        'Lumiere\\Frontend\\Widget_Legacy' => __DIR__ . '/../..' . '/class/frontend/class-widget-legacy.php',
         'Lumiere\\Link_Makers\\AMP_Links' => __DIR__ . '/../..' . '/class/frontend/link_makers/class-amp-links.php',
         'Lumiere\\Link_Makers\\Abstract_Link_Maker' => __DIR__ . '/../..' . '/class/frontend/link_makers/class-abstract-link-maker.php',
         'Lumiere\\Link_Makers\\Bootstrap_Links' => __DIR__ . '/../..' . '/class/frontend/link_makers/class-bootstrap-links.php',
@@ -58,7 +62,6 @@ class ComposerStaticInit2660170a07cc3fb36d97d6c17f332311
         'Lumiere\\Link_Makers\\Highslide_Links' => __DIR__ . '/../..' . '/class/frontend/link_makers/class-highslide-links.php',
         'Lumiere\\Link_Makers\\Link_Factory' => __DIR__ . '/../..' . '/class/frontend/link_makers/class-link-factory.php',
         'Lumiere\\Link_Makers\\No_Links' => __DIR__ . '/../..' . '/class/frontend/link_makers/class-no-links.php',
-        'Lumiere\\Metabox' => __DIR__ . '/../..' . '/class/class-metabox.php',
         'Lumiere\\Movie' => __DIR__ . '/../..' . '/class/frontend/class-movie.php',
         'Lumiere\\PluginsDetect' => __DIR__ . '/../..' . '/class/tools/class-pluginsdetect.php',
         'Lumiere\\Plugins\\Amp' => __DIR__ . '/../..' . '/class/plugins/class-amp.php',
@@ -87,7 +90,6 @@ class ComposerStaticInit2660170a07cc3fb36d97d6c17f332311
         'Lumiere\\Updates\\Lumiere_Update_File_11' => __DIR__ . '/../..' . '/class/updates/11.php',
         'Lumiere\\Utils' => __DIR__ . '/../..' . '/class/tools/class-utils.php',
         'Lumiere\\Virtual_Page' => __DIR__ . '/../..' . '/class/tools/class-virtual-page.php',
-        'Lumiere\\Widget' => __DIR__ . '/../..' . '/class/class-widget.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
