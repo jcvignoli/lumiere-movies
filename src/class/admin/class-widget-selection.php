@@ -166,7 +166,7 @@ class Widget_Selection extends \WP_Widget {
 	 *
 	 * @phpstan-ignore-next-line inherited constraints from parent, can't comply with declaration requirements
 	 */
-	public function form( $instance ) {
+	public function form( $instance ): string {
 
 		$title = $instance['title'] ?? esc_html__( 'Lumière! Movies', 'lumiere-movies' );
 		$lumiere_query_widget = $instance['lumiere_queryid_widget'] ?? '';
@@ -190,7 +190,9 @@ class Widget_Selection extends \WP_Widget {
 		$output .= "\n\t\t" . '</div>';
 		$output .= "\n\t" . '</p><!-- #lumiere-movies -->';
 
-		echo $output; // @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $output;  // @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+		return $output;
 
 	}
 
