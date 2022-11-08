@@ -3,10 +3,6 @@
  * Class to build Bootstrap links
  * Is called by the Link Factory class, implements abstract Link Maker class
  *
- * This class is used when bootstrap option is ticked
- *
- * Bootstrap Popup links are created, included in taxonomy
- *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
@@ -22,6 +18,12 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+/**
+ *
+ * This class is used when bootstrap option is selected
+ *
+ * Bootstrap Popup links are created, including in taxonomy pages
+ */
 class Bootstrap_Links extends Abstract_Link_Maker {
 
 	// Trait including the database settings.

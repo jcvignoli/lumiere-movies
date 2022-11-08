@@ -296,7 +296,7 @@ class Core {
 		// Register OceanWP theme fixes for popups only
 		wp_register_style(
 			'lumiere_style_oceanwpfixes_popups',
-			$this->config_class->lumiere_css_dir . 'lumiere_subpages-oceanwpfixes.min.css',
+			$this->config_class->lumiere_css_dir . 'lumiere-subpages-oceanwpfixes.min.css',
 			[],
 			$this->config_class->lumiere_version
 		);
@@ -304,7 +304,7 @@ class Core {
 		// Register OceanWP theme fixes for all pages but popups
 		wp_register_style(
 			'lumiere_style_oceanwpfixes_general',
-			$this->config_class->lumiere_css_dir . 'lumiere_extrapages-oceanwpfixes.min.css',
+			$this->config_class->lumiere_css_dir . 'lumiere-extrapages-oceanwpfixes.min.css',
 			[],
 			$this->config_class->lumiere_version
 		);

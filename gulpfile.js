@@ -142,7 +142,7 @@ paths = {
 	stylesheets: {
 		src: [
 			'./src/**/*.css',
-			'!./src/js/highslide/*.*',
+			'!./src/assets/js/highslide/*.*',
 			'!./src/vendor/**/*.*'
 		],
 		dist: './dist'
@@ -150,13 +150,17 @@ paths = {
 	javascripts: {
 		src: [ 
 			'./src/**/*.js',
-				'!./src/js/highslide/**/**/*.*',
+				'!./src/assets/js/highslide/**/**/*.*',
 				'!./src/vendor/**/*.*'
 		],
 		dist: './dist'
 	},
 	images: {
-		src: [ './src/.**/*.{jpg,jpeg,gif,png}', './src/**/*.{jpg,jpeg,gif,png}', '!./src/vendor/**/*.*' ],
+		src: [
+			'./src/.**/*.{jpg,jpeg,gif,png}', 				/* for .wordpress.org */
+			'./src/**/*.{jpg,jpeg,gif,png}',
+			'!./src/vendor/**/*.*'
+	],
 		dist: './dist'
 	},
 	files: {
@@ -173,7 +177,7 @@ paths = {
 			'./src/.**/*.+(psd)', 				/* for .wordpress.org */
 			'./src/languages/*.*',
 				'!./src/languages/*.temp.po',  
-			'./src/js/highslide/**/**/*.*'
+			'./src/assets/js/highslide/**/**/*.*'
 		],
 		dist: './dist'
 	},

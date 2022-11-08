@@ -1,6 +1,9 @@
 **Changelog**
 
 v.3.9.4
+* [bug] If using OceanWP theme and bootstrap popups together, the menu disappeard. Added a specific fixs in css lumiere-extrapages-oceanwpfixes.css
+* [technical] Display warning of "new taxonomy template file is found" limited to Lumière! Admin pages only
+* [technical] Moved css, js & pics into new assets folder
 
 v.3.9.3
 * [bug] Recent WordPress changes broke the autodisplay of old widgets (legacy widgets) in widgets admin page. Both are now available at the same time. User should carefully select a legacy or block based widget in WordPress block pages according to whether they have a old WordPress install (prior to 5.8) or installed a Classic Widget plugin that brings back the pre-5.8 widget interface.
