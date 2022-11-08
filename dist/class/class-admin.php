@@ -105,6 +105,17 @@ class Admin {
 	 */
 	public function lumiere_admin_display_messages(): ?string {
 
+		// Exit if it is not a Lumière! admin page.
+		if ( ! Utils::lumiere_array_contains_term(
+			[
+				'admin.php?page=lumiere_options',
+				'options-general.php?page=lumiere_options',
+			],
+			$_SERVER['REQUEST_URI']
+		) ) {
+			return null;
+		}
+
 		$new_taxo_template = $this->lumiere_return_new_taxo_available();
 		if ( isset( $new_taxo_template ) ) {
 			echo Utils::lumiere_notice(

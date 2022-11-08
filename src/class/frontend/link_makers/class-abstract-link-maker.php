@@ -171,7 +171,7 @@ abstract class Abstract_Link_Maker {
 			$output .= ' class="imdbelementRATING-picture"';
 		}
 
-		$output .= ' src="' . $this->imdb_admin_values['imdbplugindirectory'] . 'pics/showtimes/' . ( round( $rating * 2, 0 ) / 0.2 ) . ".gif\" title='$votes_average_txt $rating $out_of_ten_txt' alt='$votes_average_txt' />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
+		$output .= ' src="' . $this->config_class->lumiere_pics_dir . '/showtimes/' . ( round( $rating * 2, 0 ) / 0.2 ) . ".gif\" title='$votes_average_txt $rating $out_of_ten_txt' alt='$votes_average_txt' />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
 
 		return $output;
 
@@ -205,7 +205,7 @@ abstract class Abstract_Link_Maker {
 		}
 
 		// Select picture: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
-		$photo_url_final = strlen( $photo_localurl ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_localurl;
+		$photo_url_final = strlen( $photo_localurl ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . '/no_pics.gif' ) : $photo_localurl;
 
 		// Normal class or Bootstrap class
 		if ( $pictures === 0 || $pictures === 2 ) {
@@ -277,7 +277,7 @@ abstract class Abstract_Link_Maker {
 		}
 
 		// Select picture: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
-		$photo_url_final = strlen( $photo_localurl ) === 0 ? esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ) : $photo_localurl;
+		$photo_url_final = strlen( $photo_localurl ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . '/no_pics.gif' ) : $photo_localurl;
 
 		// Normal class or Bootstrap class
 		if ( $pictures === 0 || $pictures === 2 ) {
@@ -702,8 +702,8 @@ abstract class Abstract_Link_Maker {
 			return "\n\t\t\t"
 				. '<img class="imdbelementSOURCE-picture" alt="link to imdb" width="33" height="15" src="'
 				. esc_url(
-					$this->imdb_admin_values['imdbplugindirectory']
-					. 'pics/imdb-link.png'
+					$this->config_class->lumiere_pics_dir
+					. '/imdb-link.png'
 				) . '" />'
 				. ' https://www.imdb.com/title/tt' . $mid;
 		}
@@ -716,7 +716,7 @@ abstract class Abstract_Link_Maker {
 		}
 
 		$return .= ' alt="link to imdb" width="33" height="15" src="'
-			. esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/imdb-link.png' ) . '" />'
+			. esc_url( $this->config_class->lumiere_pics_dir . '/imdb-link.png' ) . '" />'
 			. '<a class="link-incmovie-sourceimdb" title="'
 			. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
 			. esc_url( 'https://www.imdb.com/title/tt' . $mid ) . '" >'

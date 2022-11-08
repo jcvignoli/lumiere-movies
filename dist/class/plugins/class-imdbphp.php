@@ -66,7 +66,7 @@ class Imdbphp extends Config {
 		 * protocol (e.g. when a different server shall deliver them)
 		 * Cannot be changed in Lumière admin panel
 		 */
-		$this->imdb_img_url = isset( $this->imdb_admin_values['imdbplugindirectory'] ) . '/pics/showtimes';
+		$this->imdb_img_url = $this->config_class->lumiere_pics_dir . '/showtimes';
 
 	}
 

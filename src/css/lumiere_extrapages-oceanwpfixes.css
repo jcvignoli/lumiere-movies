@@ -1,4 +1,0 @@
-/* ---- Oceanwp fix, loaded by pages not in /lumiere/ path but called by class Movie */
-.single-post:not(.elementor-page) .entry-content a {text-decoration:none !important;}
-body{margin:0px !important;}
-ul {list-style-type: none;}

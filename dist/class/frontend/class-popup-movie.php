@@ -285,7 +285,7 @@ class Popup_Movie {
 			if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp only if cache is active
 				$photo_url = $movie_results->photo_localurl( false ) !== false ? esc_html( (string) $movie_results->photo_localurl( false ) ) : esc_html( (string) $movie_results->photo_localurl( true ) ); // create big picture, thumbnail otherwise.
 			}
-				$photo_url_final = strlen( $photo_url ) === 0 ? $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
+				$photo_url_final = strlen( $photo_url ) === 0 ? $this->config_class->lumiere_pics_dir . '/no_pics.gif' : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
 
 				echo '<a class="highslide_pic_popup" href="' . esc_url( $photo_url ) . '">';
 				// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.
@@ -412,7 +412,7 @@ class Popup_Movie {
 			echo '<span class="imdbincluded-subtitle">'
 				. esc_html__( 'Rating', 'lumiere-movies' )
 				. '</span>';
-			echo ' <img class="imdbelementRATING-picture" src="' . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/showtimes/' . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
+			echo ' <img class="imdbelementRATING-picture" src="' . esc_url( $this->config_class->lumiere_pics_dir . '/showtimes/' . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
 			. ' title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . esc_attr( $rating_string ) . esc_html__( ' out of 10', 'lumiere-movies' ) . '"  / >';
 			echo ' (' . number_format( $votes_sanitized, 0, '', "'" ) . ' ' . esc_html__( 'votes', 'lumiere-movies' ) . ')';
 

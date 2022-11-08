@@ -42,7 +42,7 @@
 				// ICON to display before tagged words
 				var lum_image = '<img src="'
 						+ lumiere_admin_vars.imdb_path
-						+ 'pics/lumiere-ico-noir13x13.png" class="lumiere_admin_tiny_img" width="13" />';
+						+ 'assets/pics/lumiere-ico-noir13x13.png" class="lumiere_admin_tiny_img" width="13" />';
 
 				// SPANS
 				var data_popup_key = 'lum_link_maker';
@@ -61,7 +61,7 @@
 					'lumiere_tiny',
 					{
 						title : 'Lumière! add info',
-						image : lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir13x13.png',
+						image : lumiere_admin_vars.imdb_path + 'assets/pics/lumiere-ico-noir13x13.png',
 						type: 'menubutton',
 						menu: menu,
 						menu: [

@@ -237,14 +237,14 @@ class Settings {
 		$this->imdb_admin_values['imdbplugindirectory'] = isset( $this->imdb_admin_values['imdbplugindirectory'] ) ? $this->imdb_admin_values['imdbplugindirectory'] : plugin_dir_url( __DIR__ );
 
 		/* BUILD directory for pictures */
-		$this->lumiere_pics_dir = plugin_dir_url( __DIR__ ) . 'pics/';
+		$this->lumiere_pics_dir = plugin_dir_url( __DIR__ ) . 'assets/pics/';
 
 		/* BUILD directory for javascripts */
-		$this->lumiere_js_path = plugin_dir_path( __DIR__ ) . 'js/';
-		$this->lumiere_js_dir = plugin_dir_url( __DIR__ ) . 'js/';
+		$this->lumiere_js_path = plugin_dir_path( __DIR__ ) . 'assets/js/';
+		$this->lumiere_js_dir = plugin_dir_url( __DIR__ ) . 'assets/js/';
 
 		/* BUILD directory for css */
-		$this->lumiere_css_dir = plugin_dir_url( __DIR__ ) . 'css/';
+		$this->lumiere_css_dir = plugin_dir_url( __DIR__ ) . 'assets/css/';
 
 		/* BUILD directory for blocks */
 		$this->lumiere_blocks_dir = plugin_dir_url( __DIR__ ) . 'blocks/';
@@ -426,8 +426,7 @@ class Settings {
 			}
 
 			// Agregate var to construct 'imdbplugindirectory'
-			$imdb_admin_options['imdbplugindirectory'] = get_site_url()
-										. $imdb_admin_options['imdbplugindirectory_partial'];
+			$imdb_admin_options['imdbplugindirectory'] = get_site_url() . $imdb_admin_options['imdbplugindirectory_partial'];
 		}
 
 		update_option( self::LUMIERE_ADMIN_OPTIONS, $imdb_admin_options );
