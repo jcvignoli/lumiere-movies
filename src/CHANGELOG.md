@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.9.5
+
 v.3.9.4
 * [feature] New Cache function: Keep automatically cache folder size below a certain size limit. (Cache size is always growing, with many websiders following the nofollow links. Can set up a WP-cron to keep cache folder size under a select limit.)
 * [bug] If using OceanWP theme and bootstrap popups together, the menu disappeard. Added a specific fixs in css lumiere-extrapages-oceanwpfixes.css
