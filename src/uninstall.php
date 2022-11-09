@@ -91,13 +91,18 @@ class Uninstall {
 
 		/** Below actions are executed for everybody */
 
-		// Remove WP Cron shoud it exists.
+		// Remove WP Cron shoud they exist.
 		$wp_cron_list = is_array( _get_cron_array() ) ? _get_cron_array() : [];
 		foreach ( $wp_cron_list as $time => $hook ) {
 			if ( isset( $hook['lumiere_cron_hook'] ) ) {
 				$timestamp = (int) wp_next_scheduled( 'lumiere_cron_hook' );
 				wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
-				$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Cron removed' );
+				$this->logger->log()->info( '[Lumiere][uninstall] Cron lumiere_cron_hook removed' );
+			}
+			if ( isset( $hook['lumiere_cron_deletecacheoversized'] ) ) {
+				$timestamp = (int) wp_next_scheduled( 'lumiere_cron_deletecacheoversized' );
+				wp_unschedule_event( $timestamp, 'lumiere_cron_deletecacheoversized' );
+				$this->logger->log()->info( '[Lumiere][uninstall] Cron lumiere_cron_deletecacheoversized removed' );
 			}
 		}
 

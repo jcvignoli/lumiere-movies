@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Lumière! Movies plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Lumière! Movies 3.9.3\n"
+"Project-Id-Version: Lumière! Movies 3.9.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-11-06T21:42:27-04:00\n"
+"POT-Creation-Date: 2022-11-09T15:43:19-04:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: lumiere-movies\n"
@@ -44,17 +44,17 @@ msgstr ""
 msgid "You can not call directly this page"
 msgstr ""
 
-#: class/admin/class-cache.php:153
+#: class/admin/class-cache.php:171
 msgid "Cache options saved."
 msgstr ""
 
-#: class/admin/class-cache.php:156
-#: class/admin/class-cache.php:175
-#: class/admin/class-cache.php:200
-#: class/admin/class-cache.php:456
-#: class/admin/class-cache.php:474
-#: class/admin/class-cache.php:547
-#: class/admin/class-cache.php:570
+#: class/admin/class-cache.php:174
+#: class/admin/class-cache.php:193
+#: class/admin/class-cache.php:218
+#: class/admin/class-cache.php:473
+#: class/admin/class-cache.php:491
+#: class/admin/class-cache.php:564
+#: class/admin/class-cache.php:587
 #: class/admin/class-data.php:229
 #: class/admin/class-data.php:250
 #: class/admin/class-general.php:132
@@ -63,95 +63,96 @@ msgstr ""
 msgid "Go back"
 msgstr ""
 
-#: class/admin/class-cache.php:170
+#: class/admin/class-cache.php:188
 msgid "Cache options reset."
 msgstr ""
 
-#: class/admin/class-cache.php:189
-#: class/admin/class-cache.php:447
-#: class/admin/class-cache.php:490
+#: class/admin/class-cache.php:207
+#: class/admin/class-cache.php:464
+#: class/admin/class-cache.php:507
 msgid "No cache folder found."
 msgstr ""
 
-#: class/admin/class-cache.php:197
+#: class/admin/class-cache.php:215
 msgid "All cache files deleted."
 msgstr ""
 
-#: class/admin/class-cache.php:253
-#: class/admin/class-cache.php:322
+#: class/admin/class-cache.php:270
+#: class/admin/class-cache.php:339
 msgid "Cannot work this way."
 msgstr ""
 
-#: class/admin/class-cache.php:264
-#: class/admin/class-cache.php:295
+#: class/admin/class-cache.php:281
+#: class/admin/class-cache.php:312
 msgid "This file does not exist or you do not have the credentials."
 msgstr ""
 
-#: class/admin/class-cache.php:308
+#: class/admin/class-cache.php:325
 msgid "Selected cache file deleted."
 msgstr ""
 
-#: class/admin/class-cache.php:333
-#: class/admin/class-cache.php:398
-#: class/admin/class-cache.php:506
-#: class/admin/class-cache.php:556
+#: class/admin/class-cache.php:350
+#: class/admin/class-cache.php:415
+#: class/admin/class-cache.php:523
+#: class/admin/class-cache.php:573
 msgid "This file does not exist."
 msgstr ""
 
-#: class/admin/class-cache.php:433
+#: class/admin/class-cache.php:450
 msgid "Selected cache file successfully refreshed."
 msgstr ""
 
-#: class/admin/class-cache.php:455
+#: class/admin/class-cache.php:472
 msgid "No query files found."
 msgstr ""
 
-#: class/admin/class-cache.php:471
+#: class/admin/class-cache.php:488
 msgid "Query cache files deleted."
 msgstr ""
 
-#: class/admin/class-cache.php:546
+#: class/admin/class-cache.php:563
 msgid "No cache people files found."
 msgstr ""
 
-#: class/admin/class-cache.php:567
+#: class/admin/class-cache.php:584
 msgid "Ticked cache file(s) deleted."
 msgstr ""
 
-#: class/admin/class-cache.php:585
-#: class/admin/class-cache.php:623
-#: class/class-admin.php:277
+#: class/admin/class-cache.php:602
+#: class/admin/class-cache.php:640
+#: class/class-admin.php:289
 msgid "Cache options"
 msgstr ""
 
-#: class/admin/class-cache.php:589
+#: class/admin/class-cache.php:606
 msgid "Manage Cache"
 msgstr ""
 
-#: class/admin/class-cache.php:599
+#: class/admin/class-cache.php:616
 msgid "Cache is crucial for Lumière! operations. Initial IMDb queries are quite time consuming, so if you do not want to kill your server and look for a smooth experience for your users, do not delete often your cache."
 msgstr ""
 
-#: class/admin/class-cache.php:628
+#: class/admin/class-cache.php:645
 msgid "General options"
 msgstr ""
 
-#: class/admin/class-cache.php:633
+#: class/admin/class-cache.php:650
 msgid "Use cache?"
 msgstr ""
 
-#: class/admin/class-cache.php:643
+#: class/admin/class-cache.php:660
 msgid "Whether to use a cached page to retrieve the information (if available)."
 msgstr ""
 
-#: class/admin/class-cache.php:643
+#: class/admin/class-cache.php:660
 msgid "If cache is deactived, pictures will not be displayed and it will take longer to display the page."
 msgstr ""
 
-#: class/admin/class-cache.php:643
-#: class/admin/class-cache.php:667
-#: class/admin/class-cache.php:691
-#: class/admin/class-cache.php:1126
+#: class/admin/class-cache.php:660
+#: class/admin/class-cache.php:684
+#: class/admin/class-cache.php:708
+#: class/admin/class-cache.php:733
+#: class/admin/class-cache.php:1161
 #: class/admin/class-general.php:291
 #: class/admin/class-general.php:315
 #: class/admin/class-general.php:324
@@ -174,7 +175,7 @@ msgstr ""
 msgid "Default:"
 msgstr ""
 
-#: class/admin/class-cache.php:643
+#: class/admin/class-cache.php:660
 #: class/admin/class-general.php:417
 #: class/admin/class-general.php:607
 #: class/admin/class-general.php:624
@@ -182,287 +183,300 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: class/admin/class-cache.php:648
+#: class/admin/class-cache.php:665
 msgid "Cache expire"
 msgstr ""
 
-#: class/admin/class-cache.php:663
+#: class/admin/class-cache.php:680
 msgid "(never)"
 msgstr ""
 
-#: class/admin/class-cache.php:667
+#: class/admin/class-cache.php:684
 msgid "Cache files older than this value (in seconds) will be automatically deleted. Insert \"0\" or click \"never\" to keep cache files forever."
 msgstr ""
 
-#: class/admin/class-cache.php:667
+#: class/admin/class-cache.php:684
 msgid "(one month)"
 msgstr ""
 
-#: class/admin/class-cache.php:675
+#: class/admin/class-cache.php:692
 msgid "Cache details"
 msgstr ""
 
-#: class/admin/class-cache.php:681
+#: class/admin/class-cache.php:698
 msgid "Simplified cache details"
 msgstr ""
 
-#: class/admin/class-cache.php:691
+#: class/admin/class-cache.php:708
 msgid "Allows faster loading time for the \"manage cache\" page by displaying shorter movies and people presentation. Usefull when you have many of them."
 msgstr ""
 
-#: class/admin/class-cache.php:691
+#: class/admin/class-cache.php:708
+#: class/admin/class-cache.php:733
 #: class/admin/class-general.php:586
 #: class/admin/class-general.php:643
 #: class/admin/class-general.php:660
 msgid "No"
 msgstr ""
 
-#: class/admin/class-cache.php:704
-#: class/admin/class-cache.php:1221
-#: class/admin/class-cache.php:1242
-#: class/admin/class-cache.php:1244
+#: class/admin/class-cache.php:714
+msgid "Cache folder size limit"
+msgstr ""
+
+#: class/admin/class-cache.php:722
+msgid "Keep automatically cache size below a limit"
+msgstr ""
+
+#: class/admin/class-cache.php:733
+msgid "Keep the cache folder size below a limit. Every week, WordPress will check if your cache folder is over the selected size limit and will delete the oldest cache files to meet your selected size limit."
+msgstr ""
+
+#: class/admin/class-cache.php:745
+#: class/admin/class-cache.php:1249
+#: class/admin/class-cache.php:1270
+#: class/admin/class-cache.php:1272
 #: class/admin/class-data.php:321
 #: class/admin/class-general.php:238
 msgid "Reset settings"
 msgstr ""
 
-#: class/admin/class-cache.php:705
-#: class/admin/class-cache.php:1222
+#: class/admin/class-cache.php:746
+#: class/admin/class-cache.php:1250
 #: class/admin/class-data.php:325
 #: class/admin/class-general.php:239
 msgid "Update settings"
 msgstr ""
 
-#: class/admin/class-cache.php:722
+#: class/admin/class-cache.php:763
 msgid "Global cache management"
 msgstr ""
 
-#: class/admin/class-cache.php:736
+#: class/admin/class-cache.php:776
 msgid "Total cache size:"
 msgstr ""
 
 #. translators: %s is replaced with the number of files
-#: class/admin/class-cache.php:745
-#: class/admin/class-cache.php:799
+#: class/admin/class-cache.php:780
+#: class/admin/class-cache.php:834
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/admin/class-cache.php:746
-#: class/admin/class-cache.php:800
+#: class/admin/class-cache.php:781
+#: class/admin/class-cache.php:835
 msgid "using"
 msgstr ""
 
-#: class/admin/class-cache.php:756
+#: class/admin/class-cache.php:791
 msgid "If you want to reset the entire cache (this includes queries, names, and pictures) click on the button below."
 msgstr ""
 
-#: class/admin/class-cache.php:758
+#: class/admin/class-cache.php:793
 msgid "Beware, there is no undo."
 msgstr ""
 
-#: class/admin/class-cache.php:763
+#: class/admin/class-cache.php:798
 msgid "Delete all cache? Really?"
 msgstr ""
 
-#: class/admin/class-cache.php:763
+#: class/admin/class-cache.php:798
 msgid "Delete all cache"
 msgstr ""
 
-#: class/admin/class-cache.php:768
+#: class/admin/class-cache.php:803
 msgid "This button will"
 msgstr ""
 
-#: class/admin/class-cache.php:768
+#: class/admin/class-cache.php:803
 msgid "delete all files"
 msgstr ""
 
-#: class/admin/class-cache.php:768
+#: class/admin/class-cache.php:803
 msgid "stored in the following folder:"
 msgstr ""
 
-#: class/admin/class-cache.php:778
+#: class/admin/class-cache.php:813
 msgid "Lumière! cache is empty."
 msgstr ""
 
-#: class/admin/class-cache.php:790
+#: class/admin/class-cache.php:825
 msgid "Total query cache size:"
 msgstr ""
 
-#: class/admin/class-cache.php:812
+#: class/admin/class-cache.php:847
 msgid "If you want to reset the query cache (every search creates a cache file) click on the button below."
 msgstr ""
 
-#: class/admin/class-cache.php:818
+#: class/admin/class-cache.php:853
 msgid "Delete query cache?"
 msgstr ""
 
-#: class/admin/class-cache.php:818
+#: class/admin/class-cache.php:853
 msgid "Delete query cache"
 msgstr ""
 
-#: class/admin/class-cache.php:825
+#: class/admin/class-cache.php:860
 msgid "Lumière! query cache is empty."
 msgstr ""
 
-#: class/admin/class-cache.php:838
+#: class/admin/class-cache.php:873
 msgid "Movie's detailed cache"
 msgstr ""
 
-#: class/admin/class-cache.php:848
+#: class/admin/class-cache.php:883
 msgid "No movie's cache found."
 msgstr ""
 
-#: class/admin/class-cache.php:864
+#: class/admin/class-cache.php:899
 msgid "If you want to refresh movie's cache regardless the cache expiration time, you may either tick movie's checkbox(es) related to the movie you want to delete and click on \"delete cache\". you may also click on \"refresh\" to update a movie series of details."
 msgstr ""
 
-#: class/admin/class-cache.php:867
+#: class/admin/class-cache.php:902
 msgid "You may also select a group of movies to delete."
 msgstr ""
 
-#: class/admin/class-cache.php:889
-#: class/admin/class-cache.php:999
+#: class/admin/class-cache.php:924
+#: class/admin/class-cache.php:1034
 msgid "no picture"
 msgstr ""
 
-#: class/admin/class-cache.php:900
-#: class/admin/class-cache.php:1007
+#: class/admin/class-cache.php:935
+#: class/admin/class-cache.php:1042
 msgid "last updated on "
 msgstr ""
 
-#: class/admin/class-cache.php:902
+#: class/admin/class-cache.php:937
 msgid "Refresh cache for *"
 msgstr ""
 
-#: class/admin/class-cache.php:902
-#: class/admin/class-cache.php:1010
+#: class/admin/class-cache.php:937
+#: class/admin/class-cache.php:1045
 msgid "refresh"
 msgstr ""
 
-#: class/admin/class-cache.php:904
+#: class/admin/class-cache.php:939
 msgid "Delete *"
 msgstr ""
 
-#: class/admin/class-cache.php:904
+#: class/admin/class-cache.php:939
 msgid "* from cache?"
 msgstr ""
 
-#: class/admin/class-cache.php:904
-#: class/admin/class-cache.php:1012
+#: class/admin/class-cache.php:939
+#: class/admin/class-cache.php:1047
 msgid "delete"
 msgstr ""
 
-#: class/admin/class-cache.php:935
-#: class/admin/class-cache.php:1042
+#: class/admin/class-cache.php:970
+#: class/admin/class-cache.php:1077
 msgid "Delete selected cache files?"
 msgstr ""
 
-#: class/admin/class-cache.php:935
-#: class/admin/class-cache.php:1042
+#: class/admin/class-cache.php:970
+#: class/admin/class-cache.php:1077
 msgid "Delete selected files"
 msgstr ""
 
-#: class/admin/class-cache.php:950
+#: class/admin/class-cache.php:985
 msgid "People's detailed cache"
 msgstr ""
 
-#: class/admin/class-cache.php:961
+#: class/admin/class-cache.php:996
 msgid "No people's cache found."
 msgstr ""
 
-#: class/admin/class-cache.php:975
+#: class/admin/class-cache.php:1010
 msgid "If you want to refresh people's cache regardless the cache expiration time, you may either tick people checkbox(es) related to the person you want to delete and click on \"delete cache\", or you may click on individual people's \"refresh\". The first way will require an additional people refresh - from you post, for instance."
 msgstr ""
 
-#: class/admin/class-cache.php:978
+#: class/admin/class-cache.php:1013
 msgid "You may also either delete individually the cache or by group."
 msgstr ""
 
-#: class/admin/class-cache.php:1063
+#: class/admin/class-cache.php:1098
 msgid "Cache directories"
 msgstr ""
 
-#: class/admin/class-cache.php:1070
+#: class/admin/class-cache.php:1105
 msgid "Cache directory (absolute path)"
 msgstr ""
 
-#: class/admin/class-cache.php:1078
+#: class/admin/class-cache.php:1113
 msgid "Movies' cache is using"
 msgstr ""
 
-#: class/admin/class-cache.php:1082
+#: class/admin/class-cache.php:1117
 msgid "Movies' cache is empty."
 msgstr ""
 
-#: class/admin/class-cache.php:1100
-#: class/admin/class-cache.php:1176
+#: class/admin/class-cache.php:1135
+#: class/admin/class-cache.php:1204
 msgid "Folder exists."
 msgstr ""
 
-#: class/admin/class-cache.php:1104
-#: class/admin/class-cache.php:1180
+#: class/admin/class-cache.php:1139
+#: class/admin/class-cache.php:1208
 msgid "Folder doesn't exist!"
 msgstr ""
 
-#: class/admin/class-cache.php:1110
-#: class/admin/class-cache.php:1186
+#: class/admin/class-cache.php:1145
+#: class/admin/class-cache.php:1214
 msgid "Permissions OK."
 msgstr ""
 
-#: class/admin/class-cache.php:1114
-#: class/admin/class-cache.php:1190
+#: class/admin/class-cache.php:1149
+#: class/admin/class-cache.php:1218
 msgid "Check folder permissions!"
 msgstr ""
 
-#: class/admin/class-cache.php:1122
+#: class/admin/class-cache.php:1157
 msgid "Absolute path to store cache retrieved from the IMDb website. Has to be "
 msgstr ""
 
-#: class/admin/class-cache.php:1124
-#: class/admin/class-cache.php:1163
+#: class/admin/class-cache.php:1159
+#: class/admin/class-cache.php:1191
 msgid "by the webserver."
 msgstr ""
 
-#: class/admin/class-cache.php:1134
+#: class/admin/class-cache.php:1169
 msgid "Photo path (relative to the cache path)"
 msgstr ""
 
-#: class/admin/class-cache.php:1151
+#: class/admin/class-cache.php:1179
 msgid "Images cache is using"
 msgstr ""
 
-#: class/admin/class-cache.php:1154
+#: class/admin/class-cache.php:1182
 msgid "Image cache is empty."
 msgstr ""
 
-#: class/admin/class-cache.php:1161
+#: class/admin/class-cache.php:1189
 msgid "Absolute path to store images retrieved from the IMDb website. Has to be "
 msgstr ""
 
-#: class/admin/class-cache.php:1168
-#: class/admin/class-cache.php:1208
+#: class/admin/class-cache.php:1196
+#: class/admin/class-cache.php:1236
 msgid "Current:"
 msgstr ""
 
-#: class/admin/class-cache.php:1202
+#: class/admin/class-cache.php:1230
 msgid "Photo URL (relative to the website and the cache path)"
 msgstr ""
 
-#: class/admin/class-cache.php:1206
+#: class/admin/class-cache.php:1234
 msgid "URL corresponding to photo directory."
 msgstr ""
 
-#: class/admin/class-cache.php:1230
+#: class/admin/class-cache.php:1258
 msgid "A cache folder has to be created and the cache storage option has to be activated before you can manage the cache."
 msgstr ""
 
-#: class/admin/class-cache.php:1232
+#: class/admin/class-cache.php:1260
 msgid "Apparently, you have no such cache folder."
 msgstr ""
 
-#: class/admin/class-cache.php:1234
+#: class/admin/class-cache.php:1262
 msgid "Click on \"reset settings\" to refresh the values."
 msgstr ""
 
@@ -577,7 +591,7 @@ msgid "Taxonomy"
 msgstr ""
 
 #: class/admin/class-data.php:274
-#: class/class-admin.php:356
+#: class/class-admin.php:368
 msgid "Taxonomy unactivated"
 msgstr ""
 
@@ -594,7 +608,7 @@ msgid "Move selected movie detail:"
 msgstr ""
 
 #: class/admin/class-data.php:456
-#: class/class-admin.php:114
+#: class/class-admin.php:126
 msgid "Please "
 msgstr ""
 
@@ -1628,108 +1642,108 @@ msgstr ""
 msgid "Widget title:"
 msgstr ""
 
-#: class/class-admin.php:112
+#: class/class-admin.php:124
 msgid "New taxonomy template file(s) found: "
 msgstr ""
 
-#: class/class-admin.php:118
+#: class/class-admin.php:130
 msgid "update"
 msgstr ""
 
-#: class/class-admin.php:189
+#: class/class-admin.php:201
 msgid "Lumière options page"
 msgstr ""
 
-#: class/class-admin.php:193
-#: class/class-admin.php:249
+#: class/class-admin.php:205
+#: class/class-admin.php:261
 msgid "General"
 msgstr ""
 
-#: class/class-admin.php:200
+#: class/class-admin.php:212
 msgid "Data management"
 msgstr ""
 
-#: class/class-admin.php:201
-#: class/class-admin.php:261
+#: class/class-admin.php:213
+#: class/class-admin.php:273
 msgid "Data"
 msgstr ""
 
-#: class/class-admin.php:208
+#: class/class-admin.php:220
 msgid "Cache management options page"
 msgstr ""
 
-#: class/class-admin.php:209
-#: class/class-admin.php:273
+#: class/class-admin.php:221
+#: class/class-admin.php:285
 msgid "Cache"
 msgstr ""
 
-#: class/class-admin.php:216
+#: class/class-admin.php:228
 msgid "Help page"
 msgstr ""
 
-#: class/class-admin.php:217
-#: class/class-admin.php:286
+#: class/class-admin.php:229
+#: class/class-admin.php:298
 msgid "Help"
 msgstr ""
 
-#: class/class-admin.php:240
+#: class/class-admin.php:252
 msgid "Lumière Menu"
 msgstr ""
 
-#: class/class-admin.php:253
+#: class/class-admin.php:265
 msgid "Main and advanced options"
 msgstr ""
 
-#: class/class-admin.php:265
+#: class/class-admin.php:277
 msgid "Data option and taxonomy"
 msgstr ""
 
-#: class/class-admin.php:290
+#: class/class-admin.php:302
 msgid "Get support and support plugin development"
 msgstr ""
 
-#: class/class-admin.php:327
+#: class/class-admin.php:339
 msgid "admin options"
 msgstr ""
 
-#: class/class-admin.php:334
+#: class/class-admin.php:346
 msgid "General Options"
 msgstr ""
 
-#: class/class-admin.php:343
+#: class/class-admin.php:355
 msgid "Data Management"
 msgstr ""
 
-#: class/class-admin.php:350
+#: class/class-admin.php:362
 msgid "Widget unactivated"
 msgstr ""
 
-#: class/class-admin.php:364
+#: class/class-admin.php:376
 msgid "Cache management"
 msgstr ""
 
-#: class/class-admin.php:369
+#: class/class-admin.php:381
 msgid "How to use Lumière!, check FAQs & changelog"
 msgstr ""
 
-#: class/class-admin.php:370
+#: class/class-admin.php:382
 msgid "help"
 msgstr ""
 
-#: class/class-core.php:236
+#: class/class-core.php:239
 msgid "Sponsor"
 msgstr ""
 
-#: class/class-core.php:253
+#: class/class-core.php:256
 msgid "Settings"
 msgstr ""
 
-#: class/class-core.php:668
-#: class/class-core.php:684
+#: class/class-core.php:671
+#: class/class-core.php:687
 msgid "Informations about "
 msgstr ""
 
-#: class/class-core.php:685
+#: class/class-core.php:688
 msgid "Unknown"
 msgstr ""
 

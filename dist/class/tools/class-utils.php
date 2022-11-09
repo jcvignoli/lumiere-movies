@@ -261,9 +261,9 @@ class Utils {
 	 * @param int $precision how many numbers after comma, two by default
 	 */
 	public static function lumiere_format_bytes( int $size, int $precision = 2 ): string {
-		$base = log( $size, 1024 );
-		$suffixes = [ 'bytes', 'Kb', 'Mb', 'Gb', 'Tb' ];
-		return round( pow( 1024, $base - floor( $base ) ), $precision ) . ' ' . $suffixes[ floor( $base ) ];
+		$base = log( $size, 1000 );
+		$suffixes = [ 'bits', 'Kb', 'Mb', 'Gb', 'Tb' ];
+		return round( pow( 1000, $base - floor( $base ) ), $precision ) . ' ' . $suffixes[ floor( $base ) ];
 	}
 
 	/**

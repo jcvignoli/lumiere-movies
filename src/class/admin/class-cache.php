@@ -62,7 +62,7 @@ class Cache extends \Lumiere\Admin {
 	/**
 	 *  Constructor
 	 */
-	protected function __construct() {
+	public function __construct() {
 
 		// Construct parent class
 		parent::__construct();
@@ -79,11 +79,10 @@ class Cache extends \Lumiere\Admin {
 		$this->imdbphp_class = new Imdbphp();
 
 		// Logger: set to true to display debug on screen.
-		$this->logger->lumiere_start_logger( 'cacheClass', false );
+		$this->logger->lumiere_start_logger( get_class(), false );
 
 		// Display notices.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
-
 	}
 
 	/**
@@ -148,6 +147,25 @@ class Cache extends \Lumiere\Admin {
 			}
 
 			update_option( Settings::LUMIERE_CACHE_OPTIONS, $this->imdb_cache_values );
+
+			// Set up cron
+			if (
+				$this->imdb_cache_values['imdbcachekeepsizeunder'] === '1'
+				&& intval( $this->imdb_cache_values['imdbcachekeepsizeunder_sizelimit'] ) > 0
+				&& isset( $_POST['imdb_imdbcachekeepsizeunder'] )
+			) {
+
+				// Add WP cron if not already registred.
+				$this->lumiere_cache_add_cron_deleteoversizedfolder();
+
+				// Remove cron
+			} elseif (
+				$this->imdb_cache_values['imdbcachekeepsizeunder'] === '0'
+				&& isset( $_POST['imdb_imdbcachekeepsizeunder'] )
+			) {
+				// Add WP cron if not already registred.
+				$this->lumiere_cache_remove_cron_deleteoversizedfolder();
+			}
 
 			// display message on top
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Cache options saved.', 'lumiere-movies' ) . '</strong>' );
@@ -237,7 +255,6 @@ class Cache extends \Lumiere\Admin {
 			$this->cache_refresh_specific_file();
 
 		}
-
 	}
 
 	/**
@@ -691,7 +708,31 @@ class Cache extends \Lumiere\Admin {
 				<div class="explain"><?php esc_html_e( 'Allows faster loading time for the "manage cache" page by displaying shorter movies and people presentation. Usefull when you have many of them.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
 
 			</div>
+		</div>
 
+			<?php	//------------------------------------------------------------------ =[cache cron]=- ?>
+		<div class="titresection"><?php esc_html_e( 'Cache folder size limit', 'lumiere-movies' ); ?></div>
+
+		<div class="lumiere_flex_container">
+
+			<div class="lumiere_flex_container_content_third imdblt_padding_five">
+
+				<div class="lumiere_flex_container">
+					<div id="imdb_imdbcachekeepsizeunder_id" class="lumiere_padding_right_fifteen">
+						<?php esc_html_e( 'Keep automatically cache size below a limit', 'lumiere-movies' ); ?>&nbsp;
+						<input type="hidden" id="imdb_imdbcachekeepsizeunder_no" name="imdb_imdbcachekeepsizeunder" data-checkbox_activate="imdb_imdbcachekeepsizeunder_sizelimit_id" value="0" />
+						<input type="checkbox" id="imdb_imdbcachekeepsizeunder_yes" name="imdb_imdbcachekeepsizeunder" data-checkbox_activate="imdb_imdbcachekeepsizeunder_sizelimit_id" value="1" <?php
+						if ( $this->imdb_cache_values['imdbcachekeepsizeunder'] === '1' ) {
+							echo ' checked="checked"';
+						} ?> />
+					</div>
+					<div id="imdb_imdbcachekeepsizeunder_sizelimit_id">
+						<input type="text" id="imdb_imdbcachekeepsizeunder_sizelimit"  class="lumiere_width_five_em" name="imdb_imdbcachekeepsizeunder_sizelimit" size="7" value="<?php echo esc_attr( $this->imdb_cache_values['imdbcachekeepsizeunder_sizelimit'] ); ?>" /> <i>(size in MB)</i>
+					</div>
+				</div>
+				<div class="explain"><?php esc_html_e( 'Keep the cache folder size below a limit. Every week, WordPress will check if your cache folder is over the selected size limit and will delete the newest cache files until it meets your selected cache folder size limit.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html_e( 'No', 'lumiere-movies' ) . ', ' . Utils::lumiere_format_bytes( 100 * 1000000 ); // 100 MB is the default size ?></div>
+
+			</div>
 
 		</div>
 	</div>
@@ -701,7 +742,7 @@ class Cache extends \Lumiere\Admin {
 			?>
 			<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">
 					<?php wp_nonce_field( 'cache_options_check', 'cache_options_check' ); ?>
-				<input type="submit" class="button-primary" name="reset_cache_options" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />
+				<input type="submit" class="button-primary" name="reset_cache_options" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
 				<input type="submit" class="button-primary" name="update_cache_options" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />
 			</div>
 		</form>
@@ -728,23 +769,17 @@ class Cache extends \Lumiere\Admin {
 				wp_nonce_field( 'cache_all_and_query_check', 'cache_all_and_query_check' );
 				echo "\n";
 
-				$imdlt_cache_file = Utils::lumiere_glob_recursive( $this->imdb_cache_values['imdbcachedir'] . '*' );
-				$imdlt_cache_file_count = ( count( $imdlt_cache_file ) ) - 1; /* -1 do not count images folder */
+				$imdlt_cache_file_count = $this->lumiere_cache_countfolderfiles( $this->imdb_cache_values['imdbcachedir'] );
 
 				echo "\n\t\t\t" . '<div class="detailedcacheexplaination imdblt_padding_bottom_ten imdblt_align_center">';
 
 				echo '<strong>' . esc_html__( 'Total cache size:', 'lumiere-movies' ) . ' ';
-				$size_cache_tmp = 0;
-				foreach ( $imdlt_cache_file as $filename ) {
-					if ( is_numeric( filesize( $filename ) ) ) {
-						$size_cache_tmp += intval( filesize( $filename ) );
-					}
-				}
-				$size_cache_total = $size_cache_tmp;
+				$size_cache_total = $this->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] );
+
 				/* translators: %s is replaced with the number of files */
 				echo '&nbsp;' . esc_html( sprintf( _n( '%s file', '%s files', $imdlt_cache_file_count, 'lumiere-movies' ), number_format_i18n( $imdlt_cache_file_count ) ) );
 				echo '&nbsp;' . esc_html__( 'using', 'lumiere-movies' );
-				echo ' ' . Utils::lumiere_format_bytes( intval( $size_cache_total ) );
+				echo ' ' . Utils::lumiere_format_bytes( $size_cache_total );
 				echo "</strong>\n";
 				echo '</div>';
 
@@ -1075,7 +1110,7 @@ class Cache extends \Lumiere\Admin {
 				// display cache folder size
 				if ( $imdlt_cache_file_count > 0 ) {
 
-					echo esc_html__( 'Movies\' cache is using', 'lumiere-movies' ) . ' ' . Utils::lumiere_format_bytes( intval( $size_cache_total ) ) . "\n";
+					echo esc_html__( 'Movies\' cache is using', 'lumiere-movies' ) . ' ' . Utils::lumiere_format_bytes( $size_cache_total ) . "\n";
 
 				} else {
 
@@ -1137,19 +1172,12 @@ class Cache extends \Lumiere\Admin {
 			<div class="explain">
 				<?php
 				// display cache folder size
-				$size_cache_pics = 0;
-				$imdlt_cache_image_file = Utils::lumiere_glob_recursive( $this->imdb_cache_values['imdbphotoroot'] . '*' );
-				$imdlt_cache_image_file_count = count( $imdlt_cache_image_file );
+				$size_cache_pics = $this->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] );
 
-				if ( $imdlt_cache_image_file_count > 0 ) {
-					$path = realpath( $this->imdb_cache_values['imdbphotoroot'] );
-					if ( $path !== false && file_exists( $path ) ) {
-						foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $path, FilesystemIterator::SKIP_DOTS ) ) as $object ) {
-							$size_cache_pics += $object->getSize();
-						}
-					}
+				if ( $size_cache_pics > 0 ) {
+
 					esc_html_e( 'Images cache is using', 'lumiere-movies' );
-					echo ' ' . Utils::lumiere_format_bytes( intval( $size_cache_pics ) ) . "\n";
+					echo ' ' . Utils::lumiere_format_bytes( $size_cache_pics ) . "\n";
 				} else {
 					esc_html_e( 'Image cache is empty.', 'lumiere-movies' );
 					echo "\n";
@@ -1255,6 +1283,137 @@ class Cache extends \Lumiere\Admin {
 <br />
 
 <?php	}
+
+	/**
+	 * Retrieve all files in cache folder
+	 *
+	 * @return null|array<int, mixed> Sorted by size list of all files found in Lumière cache folder
+	 */
+	private function lumiere_cache_list_bysize(): ?array {
+		$folder_iterator = new RecursiveIteratorIterator(
+			new RecursiveDirectoryIterator( $this->imdb_cache_values['imdbcachedir'], RecursiveDirectoryIterator::SKIP_DOTS )
+		);
+		$file_line = [];
+		foreach ( $folder_iterator as $file ) {
+			if ( $file->isDir() === true ) {
+				continue;
+			}
+			$file_date_modif = $file->getMTime();
+			$file_name = $file->getPathname();
+			$file_size = $file->getSize();
+			$file_line[] = [ $file_date_modif, $file_size, $file_name ];
+		}
+		sort( $file_line );
+		return count( $file_line ) > 0 ? $file_line : null;
+	}
+
+	/**
+	 * Get size of all files in given folder (cache lumiere by default )
+	 *
+	 * @param null|string $folder Folder path, internally changed into cachedir if null
+	 * @return int Total size of all files found in given folder
+	 */
+	private function lumiere_cache_getfoldersize( ?string $folder = null ): int {
+		$final_folder = $folder ?? $this->imdb_cache_values['imdbcachedir'];
+		$folder_iterator = new RecursiveIteratorIterator(
+			new RecursiveDirectoryIterator( $final_folder, RecursiveDirectoryIterator::SKIP_DOTS )
+		);
+		$final_size = 0;
+		foreach ( $folder_iterator as $file ) {
+			if ( $file->isDir() === true ) {
+				continue;
+			}
+			$final_size += $file->getSize();
+		}
+		return $final_size;
+	}
+
+	/**
+	 * Count the number of files in given folder (cache lumiere by default )
+	 *
+	 * @param null|string $folder Folder path, internally changed into cachedir if null
+	 * @return int Number of files found in given folder
+	 */
+	private function lumiere_cache_countfolderfiles( ?string $folder = null ): int {
+		$final_folder = $folder ?? $this->imdb_cache_values['imdbcachedir'];
+		$folder_iterator = new RecursiveIteratorIterator(
+			new RecursiveDirectoryIterator( $final_folder, RecursiveDirectoryIterator::SKIP_DOTS )
+		);
+		return iterator_count( $folder_iterator );
+	}
+
+	/**
+	 * Retrieve files that are over a given limit
+	 * The size is provided in megabits and then internally processed as bits
+	 *
+	 * @param int $size_limit Limit in megabits ( '100' = 100 MB )
+	 * @return null|array<int, string> Array of files paths that exceeds the passed size_limit
+	 */
+	private function lumiere_cache_find_files_over_limit( int $size_limit ): ?array {
+		$arrays = $this->lumiere_cache_list_bysize() ?? [];
+		$size_limit_in_bits = $size_limit * 1000000; // convert in bits
+		$current_size = 0;
+		$list_files_over_size_limit = [];
+		foreach ( $arrays as $array ) {
+			$current_size += $array[1];
+			if ( $current_size >= $size_limit_in_bits ) {
+				$list_files_over_size_limit[] = $array[2];
+			}
+		}
+		return count( $list_files_over_size_limit ) > 0 ? $list_files_over_size_limit : null;
+	}
+
+	/**
+	 * Delete files that are over a given limit
+	 * Visibility 'public' because called in cron task in Core class
+	 *
+	 * @param int $size_limit Limit in megabits
+	 * @return void Files exceeding provided limited are deleted
+	 */
+	public function lumiere_cache_delete_files_over_limit( int $size_limit ): void {
+		$this->logger->log()->info( '[Lumiere] Weekly Cache cron called with the following value: ' . $size_limit );
+		$files = $this->lumiere_cache_find_files_over_limit( $size_limit ) ?? [];
+		foreach ( $files as $file ) {
+			if ( is_file( $file ) ) {
+				unlink( $file );
+			}
+		}
+		$this->logger->log()->info( '[Lumiere] Weekly Cache cron deleted the following files: ' . join( $files ) );
+	}
+
+	/**
+	 * Add WP Cron to delete files that are over a given limit
+	 *
+	 * @return void Files exceeding provided limited are deleted
+	 */
+	private function lumiere_cache_add_cron_deleteoversizedfolder(): void {
+
+		/* Set up WP Cron if it doesn't exist */
+		if ( wp_next_scheduled( 'lumiere_cron_deletecacheoversized' ) === false ) {
+			// Cron to run weekly, first time in 1 minute
+			wp_schedule_event( time() + 60, 'weekly', 'lumiere_cron_deletecacheoversized' );
+			$this->logger->log()->info( '[Lumiere] Cron lumiere_cron_deletecacheoversized added' );
+
+		}
+	}
+
+	/**
+	 * Remove WP Cron that delete files that are over a given limit
+	 *
+	 * @return void Files exceeding provided limited are deleted
+	 */
+	private function lumiere_cache_remove_cron_deleteoversizedfolder(): void {
+		$wp_cron_list = is_array( _get_cron_array() ) ? _get_cron_array() : [];
+		foreach ( $wp_cron_list as $time => $hook ) {
+			if ( isset( $hook['lumiere_cron_deletecacheoversized'] ) ) {
+				$timestamp = wp_next_scheduled( 'lumiere_cron_deletecacheoversized' );
+				if ( $timestamp !== false ) {
+					wp_unschedule_event( $timestamp, 'lumiere_cron_deletecacheoversized' );
+					$this->logger->log()->info( '[Lumiere] Cron lumiere_cron_deletecacheoversized removed' );
+				}
+			}
+		}
+	}
 
 }
 
