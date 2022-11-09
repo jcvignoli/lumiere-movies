@@ -3,7 +3,7 @@ Contributors: psykonevro
 Tags: cinema, film, imdb, movie, actor, internet-movie-database, director, taxonomy
 Requires at least: 5.3
 Tested up to: 6.1
-Stable tag: 3.9.3
+Stable tag: 3.9.4
 Requires PHP: 8.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -135,6 +135,7 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 Major changes:
 
 = 3.9.4 = 
+New Cache function: Keep automatically cache folder size below a certain size limit.
 
 = 3.9.3 = 
 * Code for auto-widgets (widgets displaying automatically movie's details according to the post title) has changed. Should you use this feature, just add again Lumière auto-widget.

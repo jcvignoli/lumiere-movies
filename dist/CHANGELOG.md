@@ -1,9 +1,11 @@
 **Changelog**
 
 v.3.9.4
+* [feature] New Cache function: Keep automatically cache folder size below a certain size limit. (Cache size is always growing, with many websiders following the nofollow links. Can set up a WP-cron to keep cache folder size under a select limit.)
 * [bug] If using OceanWP theme and bootstrap popups together, the menu disappeard. Added a specific fixs in css lumiere-extrapages-oceanwpfixes.css
 * [technical] Display warning of "new taxonomy template file is found" limited to Lumière! Admin pages only
 * [technical] Moved css, js & pics into new assets folder
+* [technical] Fix WordPress admin css that uses Roboto as css in body which prevents flex wrap: added overflow-wrap:anywhere; in lumiere-admin.css
 
 v.3.9.3
 * [bug] Recent WordPress changes broke the autodisplay of old widgets (legacy widgets) in widgets admin page. Both are now available at the same time. User should carefully select a legacy or block based widget in WordPress block pages according to whether they have a old WordPress install (prior to 5.8) or installed a Classic Widget plugin that brings back the pre-5.8 widget interface.

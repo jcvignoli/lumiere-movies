@@ -19,6 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Lumiere\Copy_Template_Taxonomy;
 use Lumiere\Movie;
 use Lumiere\Admin\Metabox_Selection;
+use Lumiere\Admin\Cache;
 use Lumiere\PluginsDetect;
 use Lumiere\Plugins\Amp;
 use Lumiere\Plugins\Imdbphp;
@@ -205,7 +206,7 @@ class Core {
 		);
 
 		/**
-		 * Updates.
+		 * Updates & Crons. Must be free of any conditions.
 		 */
 
 		// On updating lumiere plugin.
@@ -214,6 +215,8 @@ class Core {
 		// Add cron schedules.
 		add_action( 'lumiere_cron_hook', [ $this, 'lumiere_cron_exec_once' ], 0 );
 
+		// Add cron Cache delete action hook. Must be outside of the calling cache class.
+		add_action( 'lumiere_cron_deletecacheoversized', [ $this, 'lumiere_cron_exec_cache' ], 0 );
 	}
 
 	/**
@@ -960,5 +963,22 @@ class Core {
 
 	}
 
+	/**
+	 * Cache Cron to run execute weekly cache
+	 */
+	public function lumiere_cron_exec_cache(): void {
+
+		$this->logger = new Logger( 'coreClass' );
+
+		// Start the logger, since it is executed before the init.
+		do_action( 'lumiere_logger' );
+
+		$this->logger->log()->debug( '[Lumiere][coreClass] Cron running...' );
+
+		$cache_class = new Cache();
+		$cache_class->lumiere_cache_delete_files_over_limit(
+			intval( $this->imdb_cache_values['imdbcachekeepsizeunder_sizelimit'] )
+		);
+	}
 }
 

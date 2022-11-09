@@ -80,7 +80,7 @@ class Updates {
 			$iterative_number_with_leading_zero = sprintf( '%02d', $i );
 
 			// Build the class name.
-			$class_name_iterative = "\Lumiere\Updates\Lumiere_Update_File_{$iterative_number_with_leading_zero}";
+			$class_name_iterative = "Lumiere\Updates\Lumiere_Update_File_{$iterative_number_with_leading_zero}";
 
 			// Execute if class exists.
 			if ( true === class_exists( $class_name_iterative ) ) {

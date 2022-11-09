@@ -1,5 +1,7 @@
 /* ------------------ CSS for the admin part of Lumiere! plugin */
 
+body{ overflow-wrap:anywhere;} /** otherwise flex wrap doesn't work! Fixes font-family Roboto used by WordPress */
+
 a { text-decoration:none;}
 
 h3{font-size: 18px;}
@@ -85,7 +87,7 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .imdblt_bold{font-weight:bold;}
 .picfloat{float:left;padding-right:5px;}
 
-.imdblt_double_container, .lumiere_flex_container{display:flex;flex-wrap:wrap;}
+.imdblt_double_container, .lumiere_flex_container{display:flex;flex-wrap:wrap;align-items:baseline;}
 .lumiere_display_flex{display:flex;}
 .lumiere_flex_make_responsive{flex-direction: row;}
 .lumiere_flex_make_responsive_metabox{flex-direction: column;} /* for metabox edit interface */
@@ -113,6 +115,8 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .imdblt_padding_five, .lumiere_padding_five{padding:5px;}
 .imdblt_padding_ten, .lumiere_padding_ten{padding:10px;}
 .imdblt_padding_left{padding-left:50px;}
+.lumiere_padding_left_fifteen{padding-left:15px;}
+.lumiere_padding_right_fifteen{padding-right:15px;}
 .imdblt_padding_top_twenty{padding-top:20px;}
 .imdblt_padding_twenty{padding-bottom:20px;}
 .imdblt_padding_bottom_ten{padding-bottom:10px;}
@@ -135,6 +139,7 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .imblt_border_shadow{background-color:white;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgb(0 0 0 / 4%);padding:15px;}
 .lumiere_border_shadow_red{background-color:red;color:white;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgb(0 0 0 / 4%);padding:15px;}
 .lumiere_width_two_em {width:2.5em;}
+.lumiere_width_five_em {width:5em;}
 .lumiere_font_ten {font-size:10px;}
 
 .lumiere_border_width_medium{border-width: medium !important;}
