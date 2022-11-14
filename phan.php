@@ -53,7 +53,7 @@ return [
 		'tests/phpstan/constants.php',
 		'tests/phpstan/extras.php',
 		'src/vendor/',
-		'js/highslide/',
+		'assets/js/highslide/',
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
 	],
 

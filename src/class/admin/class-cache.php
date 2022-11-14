@@ -1315,6 +1315,10 @@ class Cache extends \Lumiere\Admin {
 	 */
 	private function lumiere_cache_getfoldersize( ?string $folder = null ): int {
 		$final_folder = $folder ?? $this->imdb_cache_values['imdbcachedir'];
+		// After deleting all cache, the display of the cache folder can throw a fatal error if dir is null
+		if ( ! is_dir( $final_folder ) ) {
+			return 0;
+		}
 		$folder_iterator = new RecursiveIteratorIterator(
 			new RecursiveDirectoryIterator( $final_folder, RecursiveDirectoryIterator::SKIP_DOTS )
 		);
