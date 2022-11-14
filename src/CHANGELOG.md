@@ -1,7 +1,9 @@
 **Changelog**
 
 v.3.9.5
+* [feature] Added meta robots "nofollow" to all popups. Complements previous "nofollow" links in release 3.8.3.
 * [bug] If deleting all cache, throws error that image folder not found in manage cache admin page.
+* [bug] Popup headers were still linking to old pic folder (/pics), not in /assets/pics, fixed in Core class.
 
 v.3.9.4
 * [feature] New Cache function: Keep automatically cache folder size below a certain size limit. (Cache size is always growing, with many websiders following the nofollow links. Can set up a WP-cron to keep cache folder size under a select limit.)
