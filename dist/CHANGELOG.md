@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.9.5
+* [bug] If deleting all cache, throws error that image folder not found in manage cache admin page.
 
 v.3.9.4
 * [feature] New Cache function: Keep automatically cache folder size below a certain size limit. (Cache size is always growing, with many websiders following the nofollow links. Can set up a WP-cron to keep cache folder size under a select limit.)

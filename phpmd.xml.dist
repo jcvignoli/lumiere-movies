@@ -8,7 +8,7 @@
 
 	<file>src</file>
 	<exclude-pattern>*/vendor/*</exclude-pattern>
-	<exclude-pattern>*/js/highslide/*</exclude-pattern>
+	<exclude-pattern>*/assets/js/highslide/*</exclude-pattern>
 
 	<rule ref="rulesets/cleancode.xml">
 		<!-- Utils class is a class with a lot of static calls, remove forbid to call to static access -->

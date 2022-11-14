@@ -26,11 +26,10 @@ var gulp = 	require('gulp'),
 /*gulpplugins	js = require('gulp-uglify'),			/* minify javascripts */
 /*gulpplugins	changed = require('gulp-changed'),			/* check if a file has changed */
 /*gulpplugins	imagemin = require('gulp-imagemin'),		/* compress images */
-/*gulpplugins	eslint = require("gulp-eslint"),			/* check if javascript is correctly written */
 /*gulpplugins	notify = require('gulp-notify'),			/* add notification OSD system (needs notify-osd) */
 /*gulpplugins	del = require('del'),				/* delete files */
 /*gulpplugins	shell = require('gulp-shell'),			 execute shell functions 
-										example: .pipe(shell(['echo <%= file.path %>'])) */
+									 example: .pipe(shell(['echo <%= file.path %>'])) */
 /*gulpplugins	if = require('gulp-if'),				/* if function */
 /*gulpplugins	rename = require('gulp-rename'),			/* rename function */
 /*gulpplugins	ssh = require('gulp-ssh'),				 ssh functions */
@@ -138,7 +137,7 @@ paths = {
 		dist: './dist',					/* main lumiere path destination */
 		watch: './dist/**/*.*',				/* main browsersync watch folder */
 		sourcemap: '../tmp/sourcemap',			/* sourcemap output folder */
-		lint: './tmp/lint' },				/* lint output folder */
+	},
 	stylesheets: {
 		src: [
 			'./src/**/*.css',
@@ -376,29 +375,6 @@ gulp.task('build', function (cb) {
 
 // Task 9 - Default
 exports.default =  gulp.series('build', 'watch' );
-
-// Task 10 - Lint
-// Check correct javascript writing
-function isFixed(file) {
-    // Has ESLint fixed the file contents?
-    return file.eslint != null && file.eslint.fixed;
-}
-exports.lint = function lint(cb) {
-
-	return gulp    
-		.src( paths.javascripts.src )
-		.pipe(plugins.plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
-		// eslint() attaches the lint output to the "eslint" property
-		// of the file object so it can be used by other modules.
-		.pipe(plugins.eslint({fix:true}))
-		.pipe(plugins.eslint.format())
-		// if fixed, write the file to dest
-		.pipe(plugins.if(isFixed, gulp.dest( paths.base.lint )))
-		// To have the process exit with an error code (1) on
-		// lint error, return the stream and pipe to failAfterError 
-		// last.
-		.pipe(plugins.eslint.failAfterError())
-};
 
 // Task 10 - Rsync local dist rsynced to mainserver
 // @param rsync 	if the taks is run with "--rsync nodry" as parameter, doesn't run with dryrun
