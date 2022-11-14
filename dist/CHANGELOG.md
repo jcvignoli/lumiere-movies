@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.9.6
+
 v.3.9.5
 * [feature] Added meta robots "nofollow" to all popups. Complements previous "nofollow" links in release 3.8.3.
 * [bug] If deleting all cache, throws error that image folder not found in manage cache admin page.
