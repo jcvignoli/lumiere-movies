@@ -79,7 +79,7 @@ class General extends \Lumiere\Admin {
 	 *  Display admin notices
 	 *
 	 */
-	public function lumiere_admin_display_messages(): ?string {
+	public function lumiere_admin_display_messages(): void {
 
 		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_key( $_GET['msg'] ), $this->messages ) ) {
 			switch ( sanitize_text_field( $_GET['msg'] ) ) {
@@ -102,7 +102,6 @@ class General extends \Lumiere\Admin {
 			}
 
 		}
-		return null;
 	}
 
 	/*
@@ -297,7 +296,7 @@ class General extends \Lumiere\Admin {
 							echo '<br />';
 
 							// Automatic highslide download.
-							echo "<a href='" . esc_url( site_url( '', 'relative' ) . '/wp-admin/admin.php?page=lumiere_options&highslide=yes' ) . '\'' . "' title='" . esc_html__( 'Click here to install Highslide', 'lumiere-movies' ) . "'><img src='" . esc_url( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/menu/admin-general-install-highslide.png' ) . "' align='absmiddle' />&nbsp;&nbsp;" . esc_html__( 'Install automatically Highslide', 'lumiere-movies' ) . '</a><br /><br />';
+							echo "<a href='" . esc_url( admin_url() . 'admin.php?page=lumiere_options&highslide=yes' ) . '\'' . "' title='" . esc_html__( 'Click here to install Highslide', 'lumiere-movies' ) . "'><img src='" . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-install-highslide.png' ) . "' align='absmiddle' />&nbsp;&nbsp;" . esc_html__( 'Install automatically Highslide', 'lumiere-movies' ) . '</a><br /><br />';
 
 							// Add a link to highslide website.
 							echo '<a href="http://highslide.com/" title="' . esc_html__( 'Click here to visit Highslide website', 'lumiere-movies' ) . '"><img src="' . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-install-highslide.png' ) . '" align="absmiddle" />&nbsp;&nbsp;' . esc_html__( 'Get Highslide JS library', 'lumiere-movies' ) . '</a><br /><br />';

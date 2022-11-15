@@ -130,7 +130,7 @@ class Data extends \Lumiere\Admin {
 	 *  Display admin notices
 	 *
 	 */
-	public function lumiere_admin_display_messages(): ?string {
+	public function lumiere_admin_display_messages(): void {
 
 		// If $_GET["msg"] is found, display a related notice
 		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $this->messages ) ) {
@@ -150,8 +150,6 @@ class Data extends \Lumiere\Admin {
 			}
 
 		}
-
-		return null;
 
 	}
 
@@ -349,10 +347,10 @@ class Data extends \Lumiere\Admin {
 			echo "\n\t\t" . '<input type="checkbox" id="' . esc_attr( 'imdb_imdbtaxonomy' . $item . '_yes' ) . '" name="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '" value="1"';
 
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
-				echo 'checked="checked"';
+				echo ' checked="checked"';
 			}
 
-			echo '" />';
+			echo ' />';
 			echo "\n\t\t" . '<label for="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '">';
 
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
@@ -373,8 +371,27 @@ class Data extends \Lumiere\Admin {
 
 			// If new template version available, notify
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
-				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo $this->lumiere_display_new_taxo_template( $item );
+				echo wp_kses(
+					$this->lumiere_display_new_taxo_template( $item ),
+					[
+						'br' => [],
+						'div' => [
+							'id' => true,
+							'class' => true,
+						],
+						'img' => [
+							'alt' => true,
+							'align' => true,
+							'src' => true,
+						],
+						'i' => [],
+						'font' => [ 'color' => true ],
+						'a' => [
+							'href' => true,
+							'title' => true,
+						],
+					]
+				);
 			}
 			echo "\n\t" . '</div>';
 
@@ -481,7 +498,7 @@ class Data extends \Lumiere\Admin {
 		<?php esc_html_e( 'Cautiously select the categories you want to display: it may have some unwanted effects, in particular if you display many movies in the same post at once. When selecting one of the following taxonomy options, it will supersede any other function or link created; for instance, you will not have access anymore to the popups for directors, if directors taxonomy is chosen. Taxonomy will always prevail over other Lumiere functionalities.', 'lumiere-movies' ); ?>
 
 		<br /><br />
-		<?php esc_html_e( 'Note: once activated, each taxonomy category will show a new option to copy a taxonomy template directy into your template folder.', 'lumiere-movies' ); ?>
+		<?php esc_html_e( 'Note: once activated, each taxonomy category will show a new option to copy a taxonomy template directy into your theme folder.', 'lumiere-movies' ); ?>
 		</div>
 		<br /><br />
 
@@ -504,7 +521,6 @@ class Data extends \Lumiere\Admin {
 	private function lumiere_data_display_dataselection(): void {
 
 		// Merge the list of items and people with two extra lists
-		//
 		$array_full = array_unique(
 			array_merge(
 				$this->array_people,
@@ -644,7 +660,7 @@ class Data extends \Lumiere\Admin {
 		$output = '';
 
 		// Get updated items/people from parent class method.
-		$list_updated_fields = null !== $this->lumiere_return_new_taxo_available() ? $this->lumiere_return_new_taxo_available() : [];
+		$list_updated_fields = $this->lumiere_new_taxo( $type ) ?? [];
 
 		// Get the type to build the links
 		$lumiere_taxo_title = esc_html( $type );
@@ -664,20 +680,20 @@ class Data extends \Lumiere\Admin {
 		$link_taxo_copy = esc_url( add_query_arg( '_wpnonce', wp_create_nonce( 'taxo' ), admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=' . $lumiere_taxo_title ) );
 
 		// No file in the theme folder found, offer to copy it.
-		if ( file_exists( $lumiere_current_theme_path_file ) === false && count( $list_updated_fields ) === 0 ) {
+		if ( file_exists( $lumiere_current_theme_path_file ) === false && ! isset( $list_updated_fields[0] )  ) {
 
 			$output .= "\n\t" . '<br />';
 			$output .= "\n\t" . '<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
 			$output .= "\n\t\t<a href='"
 					. $link_taxo_copy
 					. "' title='"
-					. esc_html__( 'Copy a standard taxonomy template to your template folder to display this taxonomy.', 'lumiere-movies' )
+					. esc_html__( 'Create a this taxonomy template into your theme folder.', 'lumiere-movies' )
 					. "' ><img src='"
 					. esc_url(
 						$this->config_class->lumiere_pics_dir
 						. 'menu/admin-widget-copy-theme.png'
 					)
-					. "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
+					. "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' /> "
 					. esc_html__( 'Copy template', 'lumiere-movies' )
 					. '</a>';
 
@@ -710,9 +726,9 @@ class Data extends \Lumiere\Admin {
 			$output .= "\n\t\t<a href='"
 					. $link_taxo_copy
 					. "' title='"
-					. esc_html__( 'Copy a standard taxonomy template to your template folder to display this taxonomy.', 'lumiere-movies' )
-					. "' ><img src='" . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png' ) . "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' />"
-					. esc_html__( 'Copy template', 'lumiere-movies' ) . '</a>';
+					. esc_html__( 'Update your taxonomy template in your theme folder.', 'lumiere-movies' )
+					. "' ><img src='" . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png' ) . "' alt='copy the taxonomy template' align='absmiddle' /> "
+					. esc_html__( 'Update template', 'lumiere-movies' ) . '</a>';
 
 			$output .= "\n\t" . '<div><font color="red">'
 				. esc_html( "New $lumiere_taxo_title template version available" )
@@ -723,7 +739,7 @@ class Data extends \Lumiere\Admin {
 
 		}
 
-		return "\n\t" . '<br /><div><i>' . ucfirst( $lumiere_taxo_title ) . ' ' . esc_html__( 'template up-to-date', 'lumiere-movies' ) . '</i></div>';
+		return "\n\t" . '<br /><div><i>' . $output . ucfirst( $lumiere_taxo_title ) . ' ' . esc_html__( 'template up-to-date', 'lumiere-movies' ) . '</i></div>';
 	}
 
 }

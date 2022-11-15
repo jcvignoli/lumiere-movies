@@ -83,7 +83,7 @@ class Movie {
 		// add_action ('the_loop', [$this, 'lumiere_show'], 0);
 
 		// Parse the content to add the movies.
-		add_action( 'the_content', [ $this, 'lumiere_parse_spans' ] );
+		add_filter( 'the_content', [ $this, 'lumiere_parse_spans' ] );
 
 		// Transform span into links to popups.
 		add_filter( 'the_content', [ $this, 'lumiere_link_popup_maker' ] );
@@ -248,9 +248,9 @@ class Movie {
 	}
 
 	/**
-	 *  Callback for movies by imdb id
+	 *  Callback for movies by IMDb ID
 	 *
-	 * @param array<string> $block_span
+	 * @param array<int, string> $block_span
 	 */
 	private function lumiere_parse_spans_callback_id( array $block_span ): string {
 
@@ -281,13 +281,8 @@ class Movie {
 	 * @param null|string $content shortcode content or null if not set
 	 */
 	public function parse_lumiere_tag_transform( $atts, ?string $content ): string {
-
-		//shortcode_atts(array( 'id' => 'default id', 'film' => 'default film'), $atts);
-
 		$movie_title = $content;
-
 		return $this->lumiere_external_call( $movie_title, '', '' );
-
 	}
 
 	/**
@@ -298,7 +293,6 @@ class Movie {
 	 * @param null|string $content shortcode content or null if not set
 	 */
 	public function parse_lumiere_tag_transform_id( $atts, ?string $content ): string {
-
 		$movie_imdbid = $content;
 		return $this->lumiere_external_call( '', $movie_imdbid, '' );
 

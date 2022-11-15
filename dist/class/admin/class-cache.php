@@ -99,9 +99,8 @@ class Cache extends \Lumiere\Admin {
 
 	/**
 	 *  Display admin notices
-	 *
 	 */
-	public function lumiere_admin_display_messages(): ?string {
+	public function lumiere_admin_display_messages(): void {
 
 		// If $_GET["msg"] is found, display a related notice
 		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $this->messages ) ) {
@@ -119,7 +118,7 @@ class Cache extends \Lumiere\Admin {
 				echo Utils::lumiere_notice( 1, esc_html( $this->messages['cache_refresh_individual_msg'] ) );
 			}
 		}
-		return null;
+
 	}
 
 	/**
@@ -1407,7 +1406,7 @@ class Cache extends \Lumiere\Admin {
 	 * @return void Files exceeding provided limited are deleted
 	 */
 	private function lumiere_cache_remove_cron_deleteoversizedfolder(): void {
-		$wp_cron_list = is_array( _get_cron_array() ) ? _get_cron_array() : [];
+		$wp_cron_list = count( _get_cron_array() ) > 0 ? _get_cron_array() : [];
 		foreach ( $wp_cron_list as $time => $hook ) {
 			if ( isset( $hook['lumiere_cron_deletecacheoversized'] ) ) {
 				$timestamp = wp_next_scheduled( 'lumiere_cron_deletecacheoversized' );

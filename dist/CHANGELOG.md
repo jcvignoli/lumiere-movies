@@ -1,6 +1,8 @@
 **Changelog**
 
 v.3.9.6
+* [bug] If new taxonomy templates was found, it was preventing to detect not installed taxonomy templates.
+* [technical] PHPStan fixes, notably add_actions() and add_filter() permutations.
 
 v.3.9.5
 * [feature] Added meta robots "nofollow" to all popups. Complements previous "nofollow" links in release 3.8.3.

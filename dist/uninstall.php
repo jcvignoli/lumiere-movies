@@ -92,7 +92,7 @@ class Uninstall {
 		/** Below actions are executed for everybody */
 
 		// Remove WP Cron shoud they exist.
-		$wp_cron_list = is_array( _get_cron_array() ) ? _get_cron_array() : [];
+		$wp_cron_list = count( _get_cron_array() ) > 0 ? _get_cron_array() : [];
 		foreach ( $wp_cron_list as $time => $hook ) {
 			if ( isset( $hook['lumiere_cron_hook'] ) ) {
 				$timestamp = (int) wp_next_scheduled( 'lumiere_cron_hook' );
