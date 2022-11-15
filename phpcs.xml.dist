@@ -55,7 +55,7 @@
 	Let's play with WP Coding standards and fit Lumiere needs
 	https://github.com/WordPress/WordPress-Coding-Standards/wiki/Customizable-sniff-properties
 	-->
-	<config name="minimum_supported_wp_version" value="5.0"/>
+	<config name="minimum_supported_wp_version" value="5.3"/>
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
@@ -78,6 +78,7 @@
 			<property name="customEscapingFunctions" type="array">
 				<element value="Utils"/><!-- can't just enter Utils::function... -->
 				<element value="wp_kses"/>
+				<element value="wp_strip_all_tags"/>
 			</property>
 			<property name="customAutoEscapedFunctions" type="array">
 				<element value="lumiere_check_taxo_template"/>

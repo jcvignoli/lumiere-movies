@@ -2,7 +2,9 @@
 
 v.3.9.6
 * [bug] If new taxonomy templates was found, it was preventing to detect not installed taxonomy templates.
-* [technical] PHPStan fixes, notably add_actions() and add_filter() permutations.
+* [bug] PHPStan fixes, notably add_actions() and add_filter() permutations.
+* [technical] The weekly automatic delete is now daily (cron lumiere_cron_deletecacheoversized)
+* [technical] Removed all urls in Plots section of Movies (both frontend and Popups). Those urls were a potential security threat and quite useless. Kept the author's names for proper credits.
 
 v.3.9.5
 * [feature] Added meta robots "nofollow" to all popups. Complements previous "nofollow" links in release 3.8.3.
@@ -11,14 +13,14 @@ v.3.9.5
 
 v.3.9.4
 * [feature] New Cache function: Keep automatically cache folder size below a certain size limit. (Cache size is always growing, with many websiders following the nofollow links. Can set up a WP-cron to keep cache folder size under a select limit.)
-* [bug] If using OceanWP theme and bootstrap popups together, the menu disappeard. Added a specific fixs in css lumiere-extrapages-oceanwpfixes.css
+* [bug] If using OceanWP theme and bootstrap popups together, the menu disappeard. Added a specific fix in css lumiere-extrapages-oceanwpfixes.css
 * [technical] Display warning of "new taxonomy template file is found" limited to Lumière! Admin pages only
 * [technical] Moved css, js & pics into new assets folder
 * [technical] Fix WordPress admin css that uses Roboto as css in body which prevents flex wrap: added overflow-wrap:anywhere; in lumiere-admin.css
 
 v.3.9.3
 * [bug] Recent WordPress changes broke the autodisplay of old widgets (legacy widgets) in widgets admin page. Both are now available at the same time. User should carefully select a legacy or block based widget in WordPress block pages according to whether they have a old WordPress install (prior to 5.8) or installed a Classic Widget plugin that brings back the pre-5.8 widget interface.
-* [technical] Improved "how to" section related to auto-widget.
+* [technical] Improved the "how to" section related to auto-widget.
 * [technical] Splitted class-widget into three class, 1 for admin and 2 for Frontpage. Streamlined the code. Legacy widget using Widget_Frontpage class. Totally separated the logic and the layout.
 
 v.3.9.2
@@ -45,7 +47,7 @@ v.3.9
 * [bug] Uninstall did not remove the cache path as saved in database, but Lumiere\Settings::LUMIERE_CACHE_OPTIONS instead
 * [bug] Utils::lumiere_notice() warning (case 4) was buggy. Fixed and implemented dismissible notices.
 * [technical] Properly using composer scripts in src, not copied to the production vendor folder with composer anymore
-* [technical] Using composer autoload, removed all home-made autoloads. Can't use PSR-4 autoloading, since WordPress naming is not PSR-4 compliant.
+* [technical] Using composer autoload, removed all home-made autoloads. Can't use PSR-4 autoloading, since WordPress file naming is not PSR-4 compliant.
 * [technical] Bootstrap Window Maker is now relying on composer for updating
 * [technical] Unloading various stylesheets in AMP link makers, as in AMP pages those are not found.
 * [technical] Removed cache option 'imdbstorecache' (was hidden and not available in cache options); using now cache option 'usecache' in class-imdbphp to define it.

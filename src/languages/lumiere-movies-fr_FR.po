@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-14 22:21-0400\n"
-"PO-Revision-Date: 2022-11-14 22:22-0400\n"
+"POT-Creation-Date: 2022-11-15 09:20-0400\n"
+"PO-Revision-Date: 2022-11-15 09:20-0400\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -290,14 +290,14 @@ msgstr ""
 
 #: class/admin/class-cache.php:732
 msgid ""
-"Keep the cache folder size below a limit. Every week, WordPress will check "
-"if your cache folder is over the selected size limit and will delete the "
-"newest cache files until it meets your selected cache folder size limit."
+"Keep the cache folder size below a limit. Every day, WordPress will check if "
+"your cache folder is over the selected size limit and will delete the newest "
+"cache files until it meets your selected cache folder size limit."
 msgstr ""
 "Maintenir la taille limite du répertoire cache en dessous d'une limite. Une "
-"fois par semaine, WordPress vérifiera si votre répertoire de cache dépasse "
-"la taille limite et effacera les fichiers les plus récents jusqu'à réduire "
-"la taille du répertoire à la limite sélectionnée."
+"fois par jour, WordPress vérifiera si votre répertoire de cache dépasse la "
+"taille limite et effacera les fichiers les plus récents jusqu'à réduire la "
+"taille du répertoire à la limite sélectionnée."
 
 #: class/admin/class-cache.php:744 class/admin/class-cache.php:1248
 #: class/admin/class-cache.php:1269 class/admin/class-cache.php:1271
@@ -653,7 +653,7 @@ msgstr "Options sauvegard&eacute;es."
 msgid "Options reset."
 msgstr "Options r&eacute;initialis&eacute;es."
 
-#: class/admin/class-data.php:265 class/admin/class-data.php:547
+#: class/admin/class-data.php:265 class/admin/class-data.php:567
 msgid "What to display"
 msgstr "&Agrave; afficher"
 
@@ -678,11 +678,11 @@ msgstr "Taxonomie"
 msgid "Taxonomy unactivated"
 msgstr "Taxonomie d&eacute;sactiv&eacute;e"
 
-#: class/admin/class-data.php:389
+#: class/admin/class-data.php:409
 msgid "Position of data"
 msgstr "Ordre des donn&eacute;es"
 
-#: class/admin/class-data.php:397
+#: class/admin/class-data.php:417
 msgid ""
 "You can select the order for the information selected in \"display\" "
 "section. Select first the movie detail you want to move, use \"up\" or \"down"
@@ -696,33 +696,33 @@ msgstr ""
 "de la nouvelle disposition, cliquez sur \"Enregistrer les modifications\" "
 "pour les garder."
 
-#: class/admin/class-data.php:408
+#: class/admin/class-data.php:428
 msgid "Move selected movie detail:"
 msgstr "Déplacer le détails de film sélectionné :"
 
-#: class/admin/class-data.php:453 class/class-admin.php:126
+#: class/admin/class-data.php:473 class/class-admin.php:126
 msgid "Please "
 msgstr "Veuillez "
 
-#: class/admin/class-data.php:458
+#: class/admin/class-data.php:478
 msgid "activate taxonomy"
 msgstr "activer la taxonomie"
 
-#: class/admin/class-data.php:459
+#: class/admin/class-data.php:479
 msgid " priorly"
 msgstr " auparavant"
 
-#: class/admin/class-data.php:460
+#: class/admin/class-data.php:480
 msgid "to access taxonomies options."
 msgstr "pour accéder aux options de taxonomie."
 
-#: class/admin/class-data.php:470
+#: class/admin/class-data.php:490
 msgid "Select details to use as taxonomy"
 msgstr ""
 "S&eacute;lectionnez les d&eacute;tails &agrave; utiliser en tant que "
 "taxonomie"
 
-#: class/admin/class-data.php:476
+#: class/admin/class-data.php:496
 msgid ""
 "Use the checkbox to display the taxonomy tags. When activated, selected "
 "taxonomy will become blue if it is activated in the 'display' section and "
@@ -732,7 +732,7 @@ msgstr ""
 "activé, la taxonomie sélectionné deviendra bleu si elle a été activée dans "
 "la section \"Afficher\" ou deviendra rouge dans le cas contraire."
 
-#: class/admin/class-data.php:478
+#: class/admin/class-data.php:498
 msgid ""
 "Cautiously select the categories you want to display: it may have some "
 "unwanted effects, in particular if you display many movies in the same post "
@@ -749,7 +749,7 @@ msgstr ""
 "pour les r&eacute;alisateurs, si la taxonomie 'r&eacute;alisateurs' est "
 "choisie. La taxonomie prendra toujours le pas sur le reste."
 
-#: class/admin/class-data.php:481
+#: class/admin/class-data.php:501
 msgid ""
 "Note: once activated, each taxonomy category will show a new option to copy "
 "a taxonomy template directy into your theme folder."
@@ -758,117 +758,117 @@ msgstr ""
 "nouvelle option pour copier un modèle de taxonomie directement dans votre "
 "répertoire de thème."
 
-#: class/admin/class-data.php:517
+#: class/admin/class-data.php:537
 msgid ""
 "Display (how many) actors. These options also applies to the pop-up summary"
 msgstr ""
 "Afficher (combien) d'acteurs. Ces options s'appliquent également aux résumés "
 "popup"
 
-#: class/admin/class-data.php:518
+#: class/admin/class-data.php:538
 msgid "Display (how many) alternative movie names and in other languages"
 msgstr ""
 "Afficher (combien de) de titre alternatifs de film et en d'autres langues"
 
-#: class/admin/class-data.php:519
+#: class/admin/class-data.php:539
 msgid "Display colors"
 msgstr "Afficher les couleurs"
 
-#: class/admin/class-data.php:520
+#: class/admin/class-data.php:540
 msgid "Display composer"
 msgstr "Afficher le compositeur"
 
-#: class/admin/class-data.php:521
+#: class/admin/class-data.php:541
 msgid "Display country. This option also applies to the pop-up summary"
 msgstr "Afficher le pays. Cette option s'applique également au résumé de popup"
 
-#: class/admin/class-data.php:522
+#: class/admin/class-data.php:542
 msgid "Display Creator"
 msgstr "Afficher cr&eacute;ateur"
 
-#: class/admin/class-data.php:523
+#: class/admin/class-data.php:543
 msgid "Display directors. This option also applies to the pop-up summary"
 msgstr ""
 "Afficher les réalisateurs. Cette option s'applique également au résumé de "
 "popup"
 
-#: class/admin/class-data.php:524
+#: class/admin/class-data.php:544
 msgid "Display genre. This option also applies to the pop-up summary"
 msgstr ""
 "Afficher le genre. Cette option s'applique également au résumé de popup"
 
-#: class/admin/class-data.php:525
+#: class/admin/class-data.php:545
 msgid "Display (how many) goofs"
 msgstr "Afficher (combien d') erreurs"
 
-#: class/admin/class-data.php:526
+#: class/admin/class-data.php:546
 msgid "Display keywords"
 msgstr "Affichage des mot-cl&eacute;s"
 
-#: class/admin/class-data.php:527
+#: class/admin/class-data.php:547
 msgid "Display languages. This option also applies to the pop-up summary"
 msgstr ""
 "Afficher les langues. Cette option s'applique également au résumé de popup"
 
-#: class/admin/class-data.php:528
+#: class/admin/class-data.php:548
 msgid "Display official websites"
 msgstr "Afficher les sites web officiels"
 
-#: class/admin/class-data.php:529
+#: class/admin/class-data.php:549
 msgid "Display the main poster"
 msgstr "Afficher l'affiche principale"
 
-#: class/admin/class-data.php:530
+#: class/admin/class-data.php:550
 msgid "Display plots. This field may need a lot of space."
 msgstr "Afficher les résumés. Ce champs peut nécessiter beaucoup d'espace."
 
-#: class/admin/class-data.php:531
+#: class/admin/class-data.php:551
 msgid "Display (how many) producers"
 msgstr "Afficher (combien de) de producteurs"
 
-#: class/admin/class-data.php:532
+#: class/admin/class-data.php:552
 msgid "Display the production companies"
 msgstr "Afficher les compagnies de production"
 
-#: class/admin/class-data.php:533
+#: class/admin/class-data.php:553
 msgid "Display (how many) quotes from movie."
 msgstr "Afficher (combien de) citations de films."
 
-#: class/admin/class-data.php:534
+#: class/admin/class-data.php:554
 msgid "Display rating. This option also applies to the pop-up summary"
 msgstr ""
 "Afficher la notation. Cette option s'applique également au résumé de popup"
 
-#: class/admin/class-data.php:535
+#: class/admin/class-data.php:555
 msgid "Display the runtime. This option also applies to the pop-up summary"
 msgstr ""
 "Afficher la durée. Cette option s'applique également au résumé de popup"
 
-#: class/admin/class-data.php:536
+#: class/admin/class-data.php:556
 msgid "Display (how many) soundtracks"
 msgstr "Afficher (combien de) bandes son"
 
-#: class/admin/class-data.php:537
+#: class/admin/class-data.php:557
 msgid "Display IMDb website source of the movie"
 msgstr "Afficher le site de la source IMDb du film"
 
-#: class/admin/class-data.php:538
+#: class/admin/class-data.php:558
 msgid "Display (how many) taglines"
 msgstr "Afficher (combien de) slogans"
 
-#: class/admin/class-data.php:539
+#: class/admin/class-data.php:559
 msgid "Display the title"
 msgstr "Afficher le titre"
 
-#: class/admin/class-data.php:540
+#: class/admin/class-data.php:560
 msgid "Display (how many) trailers"
 msgstr "Afficher (combien de) bandes annonce"
 
-#: class/admin/class-data.php:541
+#: class/admin/class-data.php:561
 msgid "Display writers"
 msgstr "Afficher les sc&eacute;naristes"
 
-#: class/admin/class-data.php:542
+#: class/admin/class-data.php:562
 msgid ""
 "Display release year. The release year will appear next to the movie title "
 "into brackets"
@@ -876,36 +876,36 @@ msgstr ""
 "Affiche l'ann&eacute;e de sortie du film. L'ann&eacute;e appara&icirc;tra "
 "&agrave; c&ocirc;t&eacute; du titre du film, entre parenth&egrave;ses"
 
-#: class/admin/class-data.php:589
+#: class/admin/class-data.php:609
 msgid "Enter the maximum of items you want to display"
 msgstr "Entrez le nombre maximum d'objets que vous souhaitez afficher"
 
-#: class/admin/class-data.php:670
+#: class/admin/class-data.php:690
 msgid "Create a this taxonomy template into your theme folder."
 msgstr "Copier un modèle standardisé de taxonomie dans votre dossier de thème."
 
-#: class/admin/class-data.php:677
+#: class/admin/class-data.php:697
 msgid "Copy template"
 msgstr "Copier le modèle"
 
-#: class/admin/class-data.php:692
+#: class/admin/class-data.php:712
 msgid ""
 "Missing Lumiere template file. A problem has been detected with your "
 "installation."
 msgstr ""
 "Modèle Lumière non trouvé. Un problème a été détecté avec votre installation."
 
-#: class/admin/class-data.php:709
+#: class/admin/class-data.php:729
 msgid "Update your taxonomy template in your theme folder."
 msgstr ""
 "Mettre à jour votre un modèle standardisé de taxomie dans votre dossier de "
 "modèles."
 
-#: class/admin/class-data.php:711
+#: class/admin/class-data.php:731
 msgid "Update template"
 msgstr "Mettre à jour le modèle"
 
-#: class/admin/class-data.php:722
+#: class/admin/class-data.php:742
 msgid "template up-to-date"
 msgstr "modèle à jour"
 
