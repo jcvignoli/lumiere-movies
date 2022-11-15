@@ -1,7 +1,9 @@
 **Changelog**
 
+v.3.9.7
+
 v.3.9.6
-* [bug] If new taxonomy templates was found, it was preventing to detect not installed taxonomy templates.
+* [bug] Data-Taxonomy admin page: when a new taxonomy template was found, it prevented to display further not installed taxonomy templates.
 * [bug] PHPStan fixes, notably add_actions() and add_filter() permutations.
 * [technical] The weekly automatic delete is now daily (cron lumiere_cron_deletecacheoversized)
 * [technical] Removed all urls in Plots section of Movies (both frontend and Popups). Those urls were a potential security threat and quite useless. Kept the author's names for proper credits.
