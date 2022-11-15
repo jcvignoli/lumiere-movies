@@ -89,7 +89,7 @@ class Admin {
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
 
 		// Install highslide if selected and if correct page.
-		add_filter(
+		add_action(
 			'admin_init',
 			function(): void {
 				if ( Utils::str_contains( $_SERVER['REQUEST_URI'], 'admin/admin.php?page=lumiere_options&highslide=yes' ) && $this->activate_highslide_download === true ) {
@@ -104,7 +104,7 @@ class Admin {
 	/**
 	 *  Display admin notices
 	 */
-	public function lumiere_admin_display_messages(): ?string {
+	public function lumiere_admin_display_messages(): void {
 
 		// Exit if it is not a Lumière! admin page.
 		if ( ! Utils::lumiere_array_contains_term(
@@ -114,10 +114,10 @@ class Admin {
 			],
 			$_SERVER['REQUEST_URI']
 		) ) {
-			return null;
+			return;
 		}
 
-		$new_taxo_template = $this->lumiere_return_new_taxo_available();
+		$new_taxo_template = $this->lumiere_new_taxo();
 		if ( isset( $new_taxo_template ) ) {
 			echo Utils::lumiere_notice(
 				6,
@@ -130,7 +130,7 @@ class Admin {
 				. '">' . esc_html__( 'update', 'lumiere-movies' ) . '</a>.'
 			);
 		}
-		return null;
+
 	}
 
 	/**
@@ -432,65 +432,77 @@ class Admin {
 
 	/**
 	 * Function checking if item/person template has been updated
+	 * Uses lumiere_check_new_taxo() method to check into them folder
 	 *
-	 * @return null|array<int, string> Array of updated templates or null if none
+	 * @param null|string $only_one_item If only one taxonomy item has to be checked, pass it, use a loop otherwise
+	 * @return array<int, string|null> Array of updated templates or null if none
 	 */
-	protected function lumiere_return_new_taxo_available(): ?array {
+	protected function lumiere_new_taxo( ?string $only_one_item = null ): ?array {
+
+		$return = [];
+
+		if ( isset( $only_one_item ) ) {
+			$return[] = $this->lumiere_check_new_taxo( $only_one_item );
+		} else {
+			// Build array of people and items from config
+			$array_all = array_merge( $this->config_class->array_people, $this->config_class->array_items );
+			asort( $array_all );
+
+			foreach ( $array_all as $item ) {
+				$return[] = $this->lumiere_check_new_taxo( $item );
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Function checking if item/person template has been updated in them template
+	 *
+	 * @param string $item String used to build the taxonomy filename that will be checked against the standard taxo
+	 * @return null|string
+	 */
+	private function lumiere_check_new_taxo( string $item ): ?string {
 
 		global $wp_filesystem;
 
-		$return = null;
-
-		// Build array of people and items from config
-		$array_all = array_merge( $this->config_class->array_people, $this->config_class->array_items );
-		asort( $array_all );
+		$return = '';
 
 		// Initial vars
 		$version_theme = 'no_theme';
 		$version_origin = '';
 		$pattern = '~Version: (.+)~i'; // pattern for regex
 
-		// Build general paths.
-		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
-		$lumiere_taxonomy_theme_path = $this->imdb_admin_values['imdbpluginpath'];
+		// Files paths built based on $item value
+		$lumiere_taxo_file_tocopy = in_array( $item, $this->config_class->array_people, true ) ? Settings::TAXO_PEOPLE_THEME : Settings::TAXO_ITEMS_THEME;
+		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
+		$lumiere_current_theme_path_file = get_stylesheet_directory() . '/' . $lumiere_taxo_file_copied;
+		$lumiere_taxonomy_theme_file = $this->imdb_admin_values['imdbpluginpath'] . $lumiere_taxo_file_tocopy;
 
-		foreach ( $array_all as $item ) {
+		// Make sure we have the credentials to read the files.
+		Utils::lumiere_wp_filesystem_cred( $lumiere_current_theme_path_file );
 
-			// Files paths built based on $item value
-			$lumiere_taxo_file_tocopy = in_array( $item, $this->config_class->array_people, true ) ? Settings::TAXO_PEOPLE_THEME : Settings::TAXO_ITEMS_THEME;
-			$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
-			$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;
-			$lumiere_taxonomy_theme_file = $lumiere_taxonomy_theme_path . $lumiere_taxo_file_tocopy;
-
-			// Make sure we have the credentials to read the files.
-			Utils::lumiere_wp_filesystem_cred( $lumiere_current_theme_path_file );
-
-			// Jump to the next potential file if no current file found
-			if ( file_exists( $lumiere_current_theme_path_file ) === false ) {
-				continue;
-			}
-
-			// Get the taxonomy file version in the theme.
-			$content_intheme = $wp_filesystem->get_contents( $lumiere_current_theme_path_file );
-			if ( is_string( $content_intheme ) && preg_match( $pattern, $content_intheme, $match ) === 1 ) {
-				$version_theme = $match[1];
-			}
-
-			// Get the taxonomy file version in the lumiere theme folder.
-			$content_inplugin = $wp_filesystem->get_contents( $lumiere_taxonomy_theme_file );
-			if ( is_string( $content_inplugin ) && preg_match( $pattern, $content_inplugin, $match ) === 1 ) {
-				$version_origin = $match[1];
-			}
-
-			// Build array of items updated.
-			if ( $version_theme !== $version_origin ) {
-				$return[] = $item;
-			}
+		// Exit if no current file found.
+		if ( is_file( $lumiere_current_theme_path_file ) === false ) {
+			return null;
 		}
 
+		// Get the taxonomy file version in the theme.
+		$content_intheme = $wp_filesystem->get_contents( $lumiere_current_theme_path_file );
+		if ( is_string( $content_intheme ) && preg_match( $pattern, $content_intheme, $match ) === 1 ) {
+			$version_theme = $match[1];
+		}
+
+		// Get the taxonomy file version in the lumiere theme folder.
+		$content_inplugin = $wp_filesystem->get_contents( $lumiere_taxonomy_theme_file );
+		if ( is_string( $content_inplugin ) && preg_match( $pattern, $content_inplugin, $match ) === 1 ) {
+			$version_origin = $match[1];
+		}
+
+		// If version in theme file is older, build the filename and the return it.
+		if ( $version_theme !== $version_origin ) {
+			$return = $item;
+		}
 		return $return;
-
 	}
-
 }
 

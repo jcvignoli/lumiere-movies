@@ -80,7 +80,7 @@ class Core {
 
 		// Redirect class-search.php.
 		// Display only in admin area.
-		add_action(
+		add_filter(
 			'template_redirect',
 			function( string $template ): Virtual_Page|string {
 				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) ) {
@@ -124,7 +124,7 @@ class Core {
 			}
 
 			// redirect admin data taxonomy copy calls to tools/class-move_template_taxonomy.php.
-			add_filter(
+			add_action(
 				'admin_init',
 				function(): void {
 					if ( isset( $_GET['taxotype'] ) ) {
@@ -150,7 +150,7 @@ class Core {
 			new Metabox_Selection();
 
 			// Add sponsor on WP admin > Plugins
-			add_filter( 'plugin_row_meta', [ $this, 'lumiere_add_sponsor_plugins_page' ], 10, 4 );
+			add_filter( 'plugin_row_meta', [ $this, 'lumiere_add_sponsor_plugins_page' ], 10, 2 );
 
 			// Add settings links on WP admin > Plugins
 			add_filter( 'plugin_action_links', [ $this, 'lumiere_plugin_settings_link' ], 10, 2 );
@@ -629,7 +629,7 @@ class Core {
 		}
 
 		// Add 'popup' as as valid query var in WP query_vars.
-		add_action(
+		add_filter(
 			'query_vars',
 			function ( array $query_vars ): array {
 				$query_vars[] = 'popup';
@@ -638,7 +638,7 @@ class Core {
 		);
 
 		// Include Popups.
-		add_action(
+		add_filter(
 			'template_redirect',
 			function( string $template ): string|Virtual_Page {
 
@@ -898,7 +898,7 @@ class Core {
 		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
 		// Remove WP Cron shoud they exist.
-		$wp_cron_list = is_iterable( _get_cron_array() ) ? _get_cron_array() : [];
+		$wp_cron_list = count( _get_cron_array() ) > 0 ? _get_cron_array() : [];
 		foreach ( $wp_cron_list as $time => $hook ) {
 			if ( isset( $hook['lumiere_cron_hook'] ) ) {
 				$timestamp = (int) wp_next_scheduled( 'lumiere_cron_hook' );

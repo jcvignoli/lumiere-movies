@@ -16,7 +16,7 @@ if ( wp_get_referer() !== false && \Lumiere\Utils::str_contains( $_SERVER['REQUE
 $lumiere_highslidefile_remote_zip = esc_url( \Lumiere\Settings::IMDBBLOGHIGHSLIDE );
 $lumiere_highslide_tmp_name = 'highslidetmp.zip';
 $lumiere_highslidefile_local_zip = esc_url( plugin_dir_path( __DIR__ ) . $lumiere_highslide_tmp_name );
-$lumiere_highslidefile_local_folder = esc_url( plugin_dir_path( __DIR__ ) . '../js/' );
+$lumiere_highslidefile_local_folder = esc_url( plugin_dir_path( __DIR__ ) . '../assets/js/' );
 
 // If is_admin include WP API libraries, else exit
 if ( is_admin() ) {

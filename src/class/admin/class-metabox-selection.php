@@ -114,23 +114,23 @@ class Metabox_Selection {
 	 * @param int $post_id ID of the post
 	 * @param \WP_Post $post the post
 	 */
-	public function save_custom_meta_box( int $post_id, \WP_Post $post ): ?int {
+	public function save_custom_meta_box( int $post_id, \WP_Post $post ): void {
 
 		if ( ! isset( $_POST['lumiere_metabox_nonce'] ) || wp_verify_nonce( $_POST['lumiere_metabox_nonce'], basename( __FILE__ ) ) === false ) {
-			return $post_id;
+			return;
 		}
 
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return $post_id;
+			return;
 		}
 
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-			return $post_id;
+			return;
 		}
 
 		$slug = 'post';
 		if ( $slug !== $post->post_type ) {
-			return $post_id;
+			return;
 		}
 
 		$meta_box_text_value = '';
@@ -173,7 +173,6 @@ class Metabox_Selection {
 			delete_post_meta( $post_id, 'imdb-movie-widget' );
 		}
 
-		return null;
 	}
 }
 
