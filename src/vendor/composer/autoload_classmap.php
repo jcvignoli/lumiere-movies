@@ -53,6 +53,7 @@ return array(
     'Lumiere\\Updates\\Lumiere_Update_File_10' => $baseDir . '/class/updates/10.php',
     'Lumiere\\Updates\\Lumiere_Update_File_11' => $baseDir . '/class/updates/11.php',
     'Lumiere\\Updates\\Lumiere_Update_File_12' => $baseDir . '/class/updates/12.php',
+    'Lumiere\\Updates\\Lumiere_Update_File_13' => $baseDir . '/class/updates/13.php',
     'Lumiere\\Utils' => $baseDir . '/class/tools/class-utils.php',
     'Lumiere\\Virtual_Page' => $baseDir . '/class/tools/class-virtual-page.php',
 );

@@ -186,8 +186,8 @@ class No_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_plot_details ( string $plot ): string {
 
-		// Function in abstract class, last param to remove links.
-		return $this->lumiere_movies_plot_details_abstract( $plot, 1 );
+		// Function in abstract class
+		return $this->lumiere_movies_plot_details_abstract( $plot );
 
 	}
 

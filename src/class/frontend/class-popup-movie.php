@@ -29,18 +29,6 @@ class Popup_Movie {
 	}
 
 	/**
-	 * HTML allowed for use of wp_kses()
-	 */
-	private const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
-		'a' => [
-			'href' => true,
-			'id' => true,
-			'class' => true,
-		],
-		'br' => [],
-	];
-
-	/**
 	 * The movie queried
 	 */
 	private Title $movie;
@@ -784,7 +772,7 @@ class Popup_Movie {
 			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Plot summary', 'lumiere-movies' ) . '</span>';
 
 			echo "\n\t" . '<div align="center" class="lumiere_container">';
-			echo esc_html( $plotoutline );
+			echo wp_strip_all_tags( $plotoutline );
 			echo "\n\t</div>";
 			echo "\n</div>";
 
@@ -802,7 +790,7 @@ class Popup_Movie {
 
 			for ( $i = 1; $i < $nbtotalplot; $i++ ) {
 				echo "\n\t" . '<div>';
-				echo wp_kses( $plot[ $i ], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
+				echo wp_strip_all_tags( $plot[ $i ] );
 				if ( $i < $nbtotalplot - 1 ) {
 					echo "\n<hr>";
 				}

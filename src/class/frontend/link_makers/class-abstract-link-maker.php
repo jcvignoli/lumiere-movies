@@ -506,20 +506,15 @@ abstract class Abstract_Link_Maker {
 	}
 
 	/**
-	 * Plots data details
+	 * Plots data details, removing all links
 	 *
 	 * @param string $plot Text of the plot
-	 * @param int $output Define the output: 0 for links (default), 1 cutting links (No Links class)
 	 *
 	 * @return string
 	 */
-	protected function lumiere_movies_plot_details_abstract ( string $plot, int $output = 0 ): string {
+	protected function lumiere_movies_plot_details_abstract ( string $plot ): string {
 
-		if ( intval( $output ) === 1 ) {
-			return "\n\t\t\t\t" . $this->lumiere_remove_link( $plot );
-		}
-
-		return "\n\t\t\t\t" . $plot;
+		return "\n\t\t\t\t" . wp_strip_all_tags( $plot );
 	}
 
 	/**
