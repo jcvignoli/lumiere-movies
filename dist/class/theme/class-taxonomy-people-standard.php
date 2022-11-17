@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d, rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.5.1
+ * Version: 3.5.2
  *
  * This template retrieves automaticaly the occurence of the name selected
  * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
@@ -401,11 +401,11 @@ class Taxonomy_People_Standard {
 		echo '<font size="-1">';
 
 		# Birth
-		$birthday = $this->person_class->born() !== null ? $this->person_class->born() : null;
+		$birthday = $this->person_class->born() ?? null;
 		if ( $birthday !== null && count( $birthday ) !== 0 ) {
-			$birthday_day = ( isset( $birthday['day'] ) ) ? $birthday['day'] : '';
-			$birthday_month = ( isset( $birthday['month'] ) ) ? $birthday['month'] : '';
-			$birthday_year = ( isset( $birthday['year'] ) ) ? $birthday['year'] : '';
+			$birthday_day = $birthday['day'] ?? '';
+			$birthday_month = $birthday['month'] ?? '';
+			$birthday_year = $birthday['year'] ?? '';
 
 			echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
 				. '&#9788;&nbsp;'

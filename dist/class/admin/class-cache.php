@@ -24,7 +24,6 @@ use Imdb\Person;
 use Lumiere\Settings;
 use Lumiere\Utils;
 use Lumiere\Plugins\Imdbphp;
-use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -729,7 +728,7 @@ class Cache extends \Lumiere\Admin {
 						<input type="text" id="imdb_imdbcachekeepsizeunder_sizelimit"  class="lumiere_width_five_em" name="imdb_imdbcachekeepsizeunder_sizelimit" size="7" value="<?php echo esc_attr( $this->imdb_cache_values['imdbcachekeepsizeunder_sizelimit'] ); ?>" /> <i>(size in MB)</i>
 					</div>
 				</div>
-				<div class="explain"><?php esc_html_e( 'Keep the cache folder size below a limit. Every day, WordPress will check if your cache folder is over the selected size limit and will delete the newest cache files until it meets your selected cache folder size limit.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html_e( 'No', 'lumiere-movies' ) . ', ' . Utils::lumiere_format_bytes( 100 * 1000000 ); // 100 MB is the default size ?></div>
+				<div class="explain"><?php esc_html_e( 'Keep the cache folder size below a limit. Every day, WordPress will check if your cache folder is over the selected size limit and will delete the newest cache files until it meets your selected cache folder size limit.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' ) . ', ' . Utils::lumiere_format_bytes( 100 * 1000000 ); // 100 MB is the default size ?></div>
 
 			</div>
 

@@ -30,15 +30,12 @@ class Copy_Template_Taxonomy {
 		// Construct Global Settings trait.
 		$this->settings_open();
 
-		// Copy the template file
-		$this->lumiere_copy_template_taxonomy();
-
 	}
 
 	/**
 	 * Copy the standard taxonomy template to the theme folder
 	 */
-	private function lumiere_copy_template_taxonomy(): void {
+	public function copy_template_taxonomy(): void {
 
 		global $wp_filesystem;
 

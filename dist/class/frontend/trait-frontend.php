@@ -73,8 +73,8 @@ trait Frontend {
 	/**
 	 * Constructor
 	 *
-	 * @param string $logger_name Title of Monolog logger
-	 * @param bool $screen_output whether to output Monolog on screen or not
+	 * @param null|string $logger_name Title of Monolog logger
+	 * @param null|bool $screen_output whether to output Monolog on screen or not
 	 */
 	public function __construct( ?string $logger_name = 'unknownOrigin', ?bool $screen_output = true ) {
 

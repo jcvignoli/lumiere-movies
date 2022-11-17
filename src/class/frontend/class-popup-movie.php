@@ -75,9 +75,7 @@ class Popup_Movie {
 
 	/**
 	 * Search movie id or title
-	 * Must be called after wp_head(), so call it manually
 	 *
-	 * @throws Exception if errors occurs when searching for the movie
 	 * @return bool True if a movie was found
 	 */
 	private function find_movie(): bool {
@@ -85,20 +83,20 @@ class Popup_Movie {
 		do_action( 'lumiere_logger' );
 
 		/* GET Vars sanitized */
-		$this->movieid_sanitized = isset( $_GET['mid'] ) && strlen( $_GET['mid'] ) !== 0 ? esc_html( $_GET['mid'] ) : null;
-		$this->film_title_sanitized = isset( $_GET['film'] ) && strlen( $_GET['film'] ) !== 0 ? esc_html( $_GET['film'] ) : null;
+		$this->movieid_sanitized = isset( $_GET['mid'] ) && strlen( $_GET['mid'] ) > 0 ? esc_html( $_GET['mid'] ) : null;
+		$this->film_title_sanitized = isset( $_GET['film'] ) && strlen( $_GET['film'] ) > 0 ? esc_html( $_GET['film'] ) : null;
 
-		// if neither film nor mid are set, Exception
+		// if neither film nor mid are set, throw Exception.
 		if ( $this->movieid_sanitized === null && $this->film_title_sanitized === null ) {
 
-			status_header( 404 );
-			$this->logger->log()->error( '[Lumiere][popupMovieClass] Neither movie title nor id provided.' );
-			throw new Exception( '[Lumiere][popupMovieClass] Invalid query.' );
+			$text = '[Lumiere][popupMovieClass] Neither movie title nor id provided.';
+			$this->logger->log()->error( $text );
+			return false;
 
 		}
 
 		// A movie imdb id is provided in URL.
-		if ( $this->movieid_sanitized !== null ) {
+		if ( isset( $this->movieid_sanitized ) && strlen( $this->movieid_sanitized ) > 0 ) {
 
 			$this->logger->log()->debug( '[Lumiere][popupMovieClass] Movie id provided in URL: ' . $this->movieid_sanitized );
 
@@ -108,22 +106,18 @@ class Popup_Movie {
 			return true;
 
 			// No movie id is provided, but a title was.
-		} elseif ( $this->film_title_sanitized !== null ) {
+		} elseif ( isset( $this->film_title_sanitized ) && strlen( $this->film_title_sanitized ) > 0 ) {
 
 			$this->logger->log()->debug( '[Lumiere][popupMovieClass] Movie title provided in URL: ' . $this->film_title_sanitized );
 
 			$title_search_class = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
 
-			try {
-				$search = $title_search_class->search( $this->film_title_sanitized, $this->type_search );
-				if ( count( $search ) === 0 || array_key_exists( 0, $search ) === false ) {
-					throw new Exception( 'Fatal error: Could not find the movie title: ' . $this->film_title_sanitized );
-				}
-			} catch ( Exception $e ) {
+			$search = $title_search_class->search( $this->film_title_sanitized, $this->type_search );
+			if ( count( $search ) === 0 || array_key_exists( 0, $search ) === false ) {
 
-				$this->logger->log()->critical( '[Lumiere][popupMovieClass] ' . $e->getMessage() );
-				wp_die( esc_html( $e->getMessage() ) );
-
+				$text = '[Lumiere][popupMovieClass] Fatal error: Could not find the movie title: ' . $this->film_title_sanitized;
+				$this->logger->log()->critical( $text );
+				return false;
 			}
 
 			$this->movie = $search[0];
@@ -135,15 +129,25 @@ class Popup_Movie {
 	}
 
 	/**
-	 *  Display layout
+	 * Display layout
 	 *
+	 * @throws Exception if errors occurs when searching for the movie
 	 */
 	public function lumiere_popup_movie_layout(): void {
+
+		// Set up class properties. Exit if no movie was found.
+		if ( $this->find_movie() === false ) {
+			status_header( 404 );
+			$text = 'Could not find any IMDb movie with this query.';
+			$this->logger->log()->error( '[Lumiere][popupMovieClass] ' . $text );
+			wp_die( esc_html( $text ) );
+		}
 
 		?><!DOCTYPE html>
 <html>
 <head>
-		<?php wp_head();?>
+		<?php wp_head();
+		?>
 		</head>
 		<body class="lumiere_body<?php
 		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
@@ -151,11 +155,6 @@ class Popup_Movie {
 		}
 		echo '">';
 
-		// Set up class properties. Exit if no movie was found.
-		if ( $this->find_movie() === false ) {
-			$this->logger->log()->debug( '[Lumiere][popupMovieClass] Could not find any movie.' );
-			return;
-		}
 		$movie_results = $this->movie;
 
 		// Build Link Factory class

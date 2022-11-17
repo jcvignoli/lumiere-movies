@@ -362,10 +362,10 @@ class Utils {
 	 *
 	 * @since 3.5
 	 *
-	 * @param array<string, array<string>|bool|int|string> $options the array of admin/widget/cache settings options
-	 * @param string $set_error set to 'no_var_dump' to avoid the call to var_dump function
-	 * @param string $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
-	 * @param string $get_screen set to 'screen' to display wp function get_current_screen()
+	 * @param null|array<string, array<string>|bool|int|string> $options the array of admin/widget/cache settings options
+	 * @param null|string $set_error set to 'no_var_dump' to avoid the call to var_dump function
+	 * @param null|string $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
+	 * @param null|string $get_screen set to 'screen' to display wp function get_current_screen()
 	 *
 	 * @return void Returns optionaly an array of the options passed in $options
 	 */
@@ -459,7 +459,7 @@ class Utils {
 		// now we have some credentials, try to get the wp_filesystem running.
 		if ( is_array( $creds ) === true && ( WP_Filesystem( $creds ) === false || WP_Filesystem( $creds ) === null ) ) {
 			// our credentials were no good, ask the user for them again
-			$creds_two = request_filesystem_credentials( $file, '', true, '', null );
+			$creds_two = request_filesystem_credentials( $file, '', true, '' );
 
 			if ( false === ( $creds_two ) ) {
 

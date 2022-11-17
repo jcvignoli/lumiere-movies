@@ -122,7 +122,7 @@ class Admin {
 			echo Utils::lumiere_notice(
 				6,
 				esc_html__( 'New taxonomy template file(s) found: ', 'lumiere-movies' )
-				. join( $new_taxo_template )
+				. implode( ' & ', $new_taxo_template )
 				. '. ' . esc_html__( 'Please ', 'lumiere-movies' ) . '<a href="'
 				. esc_url(
 					admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo#imdb_imdbtaxonomyactor_yes'
@@ -435,24 +435,31 @@ class Admin {
 	 * Uses lumiere_check_new_taxo() method to check into them folder
 	 *
 	 * @param null|string $only_one_item If only one taxonomy item has to be checked, pass it, use a loop otherwise
-	 * @return array<int, string|null> Array of updated templates or null if none
+	 * @return array<int, null|string>|null Array of updated templates or null if none
 	 */
 	protected function lumiere_new_taxo( ?string $only_one_item = null ): ?array {
 
 		$return = [];
 
 		if ( isset( $only_one_item ) ) {
-			$return[] = $this->lumiere_check_new_taxo( $only_one_item );
+			$key = $this->lumiere_check_new_taxo( $only_one_item );
+			if ( $key !== null ) {
+				$return[] = $key;
+			}
 		} else {
 			// Build array of people and items from config
 			$array_all = array_merge( $this->config_class->array_people, $this->config_class->array_items );
 			asort( $array_all );
 
 			foreach ( $array_all as $item ) {
-				$return[] = $this->lumiere_check_new_taxo( $item );
+				$key = $this->lumiere_check_new_taxo( $item );
+				if ( $key === null ) {
+					continue;
+				}
+				$return[] = $key;
 			}
 		}
-		return $return;
+		return count( $return ) > 0 ? $return : null;
 	}
 
 	/**
@@ -502,7 +509,6 @@ class Admin {
 		if ( $version_theme !== $version_origin ) {
 			$return = $item;
 		}
-		return $return;
+		return strlen( $return ) > 0 ? $return : null;
 	}
 }
-

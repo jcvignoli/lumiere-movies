@@ -87,10 +87,10 @@ abstract class Abstract_Link_Maker {
 	 * Build an HTML link to open a popup for searching a movie
 	 *
 	 * @param array<int, string> $link_parsed html tags and text to be modified
-	 * @param string $popuplarg -> window width, if nothing passed takes database value
-	 * @param string $popuplong -> window height, if nothing passed takes database value
+	 * @param null|string $popuplarg -> window width, if nothing passed takes database value
+	 * @param null|string $popuplong -> window height, if nothing passed takes database value
 	 */
-	abstract protected function lumiere_popup_film_link ( array $link_parsed, string $popuplarg = null, string $popuplong = null ): string;
+	abstract protected function lumiere_popup_film_link ( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string;
 
 	/**
 	 * Trailer data details
@@ -561,15 +561,15 @@ abstract class Abstract_Link_Maker {
 	 * Build an HTML link to open a popup for searching a movie inside the posts
 	 *
 	 * @param array<int, string> $link_parsed html tags and text to be modified
-	 * @param string $popuplarg Modal window width, if nothing passed takes database value
-	 * @param string $popuplong Modal window height, if nothing passed takes database value
+	 * @param null|string $popuplarg Modal window width, if nothing passed takes database value
+	 * @param null|string $popuplong Modal window height, if nothing passed takes database value
 	 * @param int $output Define the output: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
 
 	 */
-	protected function lumiere_popup_film_link_abstract ( array $link_parsed, string $popuplarg = null, string $popuplong = null, int $output = 0, string $specific_class = '' ): string {
+	protected function lumiere_popup_film_link_abstract ( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null, int $output = 0, string $specific_class = '' ): string {
 
 		$txt = '';
 		$title_attr = sanitize_title( $link_parsed[1] );
@@ -687,10 +687,10 @@ abstract class Abstract_Link_Maker {
 	 *
 	 * @param string $mid IMDb ID of the movie
 	 * @param int $output Define the output: 0 for AMP, highslide, bootstrap & classic links (default), 1 for No links
-	 * @param string $class extra class to add, only AMP does not use it
+	 * @param null|string $class extra class to add, only AMP does not use it
 	 * @return string
 	 */
-	protected function lumiere_movies_source_details_abstract ( string $mid, int $output = 0, string $class = null ): string {
+	protected function lumiere_movies_source_details_abstract ( string $mid, int $output = 0, ?string $class = null ): string {
 
 		// No Links class, do not return links.
 		if ( $output === 1 ) {

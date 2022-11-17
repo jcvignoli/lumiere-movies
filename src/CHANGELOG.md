@@ -1,6 +1,11 @@
 **Changelog**
 
 v.3.9.7
+* [bug] Data-Taxonomy admin page: detecting system was too complicated and led to always display a notification if a template in theme folder was found. Simplified.
+* [bug] Updates were never run if plugin was auto-updated. (Added new function lumiere_on_lumiere_upgrade_autoupdate() in 'automatic_updates_complete' hook in Core class)
+* [bug] In some environments, help section of admin pages triggered fatal error ( global $wp_system was not initialised, added new require_once and initialisation of WP_Filesystem() in class-help)
+* [technical] Various potential "pre-bugs" founds thanks to Phan
+* [technical] Since updates are also run during autoupdate, installing one single cron when activating Lumière instead of three.
 
 v.3.9.6
 * [bug] Data-Taxonomy admin page: when a new taxonomy template was found, it prevented to display further not installed taxonomy templates.

@@ -37,7 +37,7 @@ class Metabox_Selection {
 
 	public function add_lumiere_metabox_customfields(): void {
 
-		add_meta_box( 'lumiere_metabox_customfields', 'Lumière! movies', [ $this, 'custom_meta_box_markup' ], [ 'post', 'page' ], 'side', 'high', null );
+		add_meta_box( 'lumiere_metabox_customfields', 'Lumière! movies', [ $this, 'custom_meta_box_markup' ], [ 'post', 'page' ], 'side', 'high' );
 
 	}
 
