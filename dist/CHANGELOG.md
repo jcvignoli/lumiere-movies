@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.9.8
+
 v.3.9.7
 * [bug] Data-Taxonomy admin page: detecting system was too complicated and led to always display a notification if a template in theme folder was found. Simplified.
 * [bug] Updates were never run if plugin was auto-updated. (Added new function lumiere_on_lumiere_upgrade_autoupdate() in 'automatic_updates_complete' hook in Core class)
