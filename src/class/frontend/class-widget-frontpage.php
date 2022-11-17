@@ -158,7 +158,7 @@ class Widget_Frontpage {
 	 * Parse shortcodes, called in add_shortcode(), must be public
 	 *
 	 * @param array<string>|string $attributes
-	 * @param string $inside_tags Text inside the shortcode
+	 * @param null|string $inside_tags Text inside the shortcode
 	 * @param string $tags Shortcode tag
 	 * @return string The final Widget with Title+Content
 	 */

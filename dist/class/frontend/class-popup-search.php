@@ -184,12 +184,12 @@ class Popup_Search {
 				echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_right'>";
 
 				$realisateur = $res->director();
-				if ( ( isset( $realisateur['0']['name'] ) ) && ( ! is_null( $realisateur['0']['name'] ) ) ) {
+				if ( isset( $realisateur['0']['name'] ) && ! is_null( $realisateur['0']['name'] ) ) {
 
 					echo "\n\t\t<a rel=\"nofollow\" class=\"linkpopup\" href=\""
 						. esc_url(
 							$this->config_class->lumiere_urlpopupsperson
-							. '/?mid=' . esc_html( $realisateur['0']['imdb'] )
+							. '/?mid=' . esc_html( $realisateur['0']['imdb'] ?? '' )
 						)
 						. '" title="' . esc_html__( 'more on', 'lumiere-movies' )
 						. ' ' . esc_html( $realisateur['0']['name'] )

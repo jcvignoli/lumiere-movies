@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Utils;
+use \WP_Filesystem;
 
 class Help extends \Lumiere\Admin {
 
@@ -180,6 +181,13 @@ class Help extends \Lumiere\Admin {
 		global $wp_filesystem;
 		$count_rows = 0;
 
+		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
+		// @since 3.9.7
+		if ( $wp_filesystem === null ) {
+			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			WP_Filesystem();
+		}
+
 		// Make sure we got right credentials to use $wp_filesystem.
 		Utils::lumiere_wp_filesystem_cred( $this->readmefile );
 
@@ -237,17 +245,25 @@ class Help extends \Lumiere\Admin {
 	 * Display the changelog
 	 *
 	 */
-	private function display_changelog (): void {
+	private function display_changelog(): void {
 
 		/** Vars */
 		global $wp_filesystem;
 		$number = 0;
 
+		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
+		// @since 3.9.7
+		if ( $wp_filesystem === null ) {
+			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			WP_Filesystem();
+			global $wp_filesystem;
+		}
+
 		// Make sure we got right credentials to use $wp_filesystem.
 		Utils::lumiere_wp_filesystem_cred( $this->changelogfile );
+
 		// Open the file (as an array).
 		$changelogfile = $wp_filesystem->get_contents_array( $this->changelogfile );
-
 		?>
 
 		<h3 class="hndle"><?php esc_html_e( 'Changelog', 'lumiere-movies' ); ?></h3>
@@ -271,7 +287,7 @@ class Help extends \Lumiere\Admin {
 				'<strong><i>${2}</i></strong>',
 				'<a href="${3}${4}" title="${7}">${2}</a>',
 			];
-			$changelogprocessed = preg_replace( $patterns, $replaces, $changelogfile ) ?? $changelogfile;
+			$changelogprocessed = preg_replace( $patterns, $replaces, $changelogfile ) ?? [];
 
 			foreach ( $changelogprocessed as $texte ) {
 				if ( $number > '1' ) {
@@ -301,6 +317,14 @@ class Help extends \Lumiere\Admin {
 		/** Vars */
 		global $wp_filesystem;
 		$number = 0;
+
+		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
+		// @since 3.9.7
+		if ( $wp_filesystem === null ) {
+			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			WP_Filesystem();
+			global $wp_filesystem;
+		}
 
 		// Make sure we got right credentials to use $wp_filesystem.
 		Utils::lumiere_wp_filesystem_cred( $this->acknowledgefile );
@@ -422,7 +446,7 @@ class Help extends \Lumiere\Admin {
 	 * Popup explaination
 	 *
 	 */
-	public function explain_popup (): void {
+	public function explain_popup(): void {
 		?>
 
 		<div class="helpdiv">
@@ -713,15 +737,13 @@ movie's title
 			<br />
 			<h4><?php esc_html_e( 'What is Lumière auto-widget?', 'lumiere-movies' ); ?></h4>
 			<?php esc_html_e( "It is a special type of widget. Unlike the normal Lumière widget (see widget help section in this page), Lumière auto-widget does not require you to enter any IMDb ID or movie's title manually. It automatically query the IMDb according to title you gave to your post. Beware it does so for all posts you have published.", 'lumiere-movies' );
-			echo '<br />';
-			echo '<br />';
+			echo '<br /><br />';
 			?>
 
 			<h4><?php esc_html_e( 'When should you use auto-widget?', 'lumiere-movies' ); ?></h4>
 
 			<?php esc_html_e( "Should you have hundreds of posts named after movie's title, and that you don't want to edit them all to manually insert  widgets or a Lumière blocks inside the post. Lumière does everything for you.", 'lumiere-movies' );
-			echo '<br />';
-			echo '<br />';
+			echo '<br /><br />';
 
 			echo '<h4>';
 			esc_html_e( 'How to use auto-widget?', 'lumiere-movies' );
@@ -736,14 +758,11 @@ movie's title
 			</div>
 
 			<?php esc_html_e( 'Next time you will look at your post, you will find the widget according to your post’s title.', 'lumiere-movies' );
-			echo '<br />';
-			echo '<br />';
+			echo '<br /><br />';
 			echo wp_kses( __( 'Notice: in order to have this feature work, you must add a widget using <a href="widgets.php">Widget Page</a> option. Take a look at the "Widget" section of this "how to" page.', 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
-			echo '<br />';
-			echo '<br />';
+			echo '<br /><br />';
 			esc_html_e( 'Known issue: Lumière offers widgets for both old and modern type of widgets. Old widgets (aka Legacy Widgets) are available if you installed a Classic Widget plugin or any plugin that simplified the way to display your widgets and posts, or if your WordPress install is prior to WordPress 5.8. Modern Widgets (aka Block Widgets) are standard in every new WordPress install as of 5.8 that does not include a Classic Widget plugin. Potential issues could arise should you install both types of Lumière widgets, namely Legacy and Block Widgets. In order to prevent such issues, make sure that both Block and Legacy Widgets are not activated together. Remove any Lumière Block Widget previously added if you use Lumière Legacy Widget when using the pre-5.8/Classic Editor. In the pre-5.8/Classic Widget Editor, no option to add a Block Widget is available, but you may find a Block based Widget previously added in Block Editor, which you need to remove.', 'lumiere-movies' );
-			echo '<br />';
-			echo '<br />';
+			echo '<br /><br />';
 			esc_html_e( 'Should you switch back to the new WordPress Block Editor standard again (by updating WordPress or uninstalling Classic Widget), remove the Legacy widget that will be visible in the block Editor, save, refresh and add a new Lumière Block Widget. In new Widget WordPress installs, only the standard Block Widget is available.', 'lumiere-movies' );
 
 			?>

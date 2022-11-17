@@ -94,25 +94,25 @@ class Updates {
 	 * Add option in array of WordPress options
 	 * WordPress doesn't know how to handle adding a specific key in a array of options
 	 *
-	 * @param string $option_array : the name of the array of options, such as $config_class->imdbWidgetOptionsName
-	 * @param string $option_key : the key in the array of options to be added, such as 'imdbintotheposttheme'
-	 * @param bool|string|int|array<int|string, string> $option_value : the value to add to the key, can be bool, int, array, string
+	 * @param null|string $option_array : the name of the array of options, such as $config_class->imdbWidgetOptionsName
+	 * @param null|string $option_key : the key in the array of options to be added, such as 'imdbintotheposttheme'
+	 * @param mixed $option_value : the value to add to the key, can be bool, int, array, string
 	 *
 	 * @return bool true if successful, a notice if missing mandatory parameters; false if option already exists
 	 */
-	protected function lumiere_add_options( string $option_array = null, string $option_key = null, $option_value = null ): bool {
+	protected function lumiere_add_options( ?string $option_array = null, ?string $option_key = null, mixed $option_value = null ): bool {
 
 		// Manually Activate logging, since current function is run before WP init
 		do_action( 'lumiere_logger' );
 		$logger = $this->logger->log();
 
 		if ( is_null( $option_array ) === true ) {
-			$logger->error( "[Lumiere][updateClass][lumiere_add_options] Cannot update Lumière options, ($option_array) is undefined." );
+			$logger->error( '[Lumiere][updateClass][lumiere_add_options] Cannot update Lumière options, var array is undefined.' );
 			return false;
 		}
 
 		if ( is_null( $option_key ) === true ) {
-			$logger->error( "[Lumiere][updateClass][lumiere_add_options] Cannot update Lumière options, ($option_key) is undefined." );
+			$logger->error( '[Lumiere][updateClass][lumiere_add_options] Cannot update Lumière options, var key is undefined.' );
 			return false;
 		}
 
@@ -140,25 +140,25 @@ class Updates {
 	 * Update option in array of WordPress options
 	 * WordPress doesn't know how to handle updating a specific key in a array of options
 	 *
-	 * @param string $option_array : the array of options, such as $config_class->imdbWidgetOptionsName
-	 * @param string $option_key : the key in the array of options to be added, such as 'imdbintotheposttheme'
-	 * @param bool|string|int|array<int|string, string> $option_value : the value to add to the key, can be bool, int or string
+	 * @param null|string $option_array : the array of options, such as $config_class->imdbWidgetOptionsName
+	 * @param null|string $option_key : the key in the array of options to be added, such as 'imdbintotheposttheme'
+	 * @param mixed $option_value : the value to add to the key, can be bool, int or string
 	 *
 	 * @return bool true if successful, a notice if missing mandatory parameters; false if option already exists
 	 */
-	protected function lumiere_update_options( string $option_array = null, string $option_key = null, $option_value = null ): bool {
+	protected function lumiere_update_options( ?string $option_array = null, ?string $option_key = null, mixed $option_value = null ): bool {
 
 		// Manually Activate logging, since current function is run before WP init
 		do_action( 'lumiere_logger' );
 		$logger = $this->logger->log();
 
 		if ( is_null( $option_array ) === true ) {
-			$logger->error( "[Lumiere][updateClass][lumiere_update_options] Cannot update Lumière options, ($option_array) is undefined." );
+			$logger->error( '[Lumiere][updateClass][lumiere_update_options] Cannot update Lumière options, var array is undefined.' );
 			return false;
 		}
 
 		if ( is_null( $option_key ) === true ) {
-			$logger->error( "[Lumiere][updateClass][lumiere_update_options] Cannot update Lumière options, ($option_key) is undefined." );
+			$logger->error( '[Lumiere][updateClass][lumiere_update_options] Cannot update Lumière options, var key is undefined.' );
 			return false;
 		}
 
@@ -185,24 +185,24 @@ class Updates {
 	 * Remove option in array of WordPress options
 	 * WordPress doesn't know how to handle removing a specific key in a array of options
 	 *
-	 * @param string $option_array : the array of options, such as $config_class->imdbWidgetOptionsName
-	 * @param string $option_key : the key in the array of options to be removed, such as 'imdbintotheposttheme'
+	 * @param null|string $option_array : the array of options, such as $config_class->imdbWidgetOptionsName
+	 * @param null|string $option_key : the key in the array of options to be removed, such as 'imdbintotheposttheme'
 	 *
 	 * @return bool true if successful, a notice if missing mandatory parameters; false if option already exists
 	 */
-	protected function lumiere_remove_options( string $option_array = null, string $option_key = null ): bool {
+	protected function lumiere_remove_options( ?string $option_array = null, ?string $option_key = null ): bool {
 
 		// Manually Activate logging, since current function is run before WP init
 		do_action( 'lumiere_logger' );
 		$logger = $this->logger->log();
 
 		if ( is_null( $option_array ) === true ) {
-			$logger->error( "[Lumiere][updateClass][lumiere_remove_options] Cannot remove Lumière options, ($option_array) is undefined." );
+			$logger->error( '[Lumiere][updateClass][lumiere_remove_options] Cannot remove Lumière options, var array is undefined.' );
 			return false;
 		}
 
 		if ( is_null( $option_key ) === true ) {
-			$logger->error( "[Lumiere][updateClass][lumiere_remove_options] Cannot remove Lumière options, ($option_key) is undefined." );
+			$logger->error( '[Lumiere][updateClass][lumiere_remove_options] Cannot remove Lumière options, var key is undefined.' );
 			return false;
 		}
 

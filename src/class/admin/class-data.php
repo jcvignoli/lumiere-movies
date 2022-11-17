@@ -369,7 +369,7 @@ class Data extends \Lumiere\Admin {
 			}
 			echo "\n\t\t" . '</label>';
 
-			// If new template version available, notify
+			// If template is activated, notify to copy or to update.
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
 				echo wp_kses(
 					$this->lumiere_display_new_taxo_template( $item ),
@@ -650,17 +650,17 @@ class Data extends \Lumiere\Admin {
 
 	/**
 	 * Function checking if item/person template is missing or if a new one is available
-	 * Returns a link to copy the template if true and a message explaining if missing/update the template
+	 * This function is triggered only if a the template option is activated
 	 *
 	 * @param string $type type to search (actor, genre, etc)
-	 * @return string
+	 * @return string Link to copy the template if true and a message explaining if missing/update the template
 	 */
 	private function lumiere_display_new_taxo_template( string $type ): string {
 
 		$output = '';
 
-		// Get updated items/people from parent class method.
-		$list_updated_fields = $this->lumiere_new_taxo( $type ) ?? [];
+		// Get updated items/people from parent class method. Null if not template to update found.
+		$list_updated_fields = $this->lumiere_new_taxo( $type );
 
 		// Get the type to build the links
 		$lumiere_taxo_title = esc_html( $type );
@@ -679,8 +679,8 @@ class Data extends \Lumiere\Admin {
 		// Make the HTML link with a nonce, checked in move_template_taxonomy.php.
 		$link_taxo_copy = esc_url( add_query_arg( '_wpnonce', wp_create_nonce( 'taxo' ), admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=' . $lumiere_taxo_title ) );
 
-		// No file in the theme folder found, offer to copy it.
-		if ( file_exists( $lumiere_current_theme_path_file ) === false && ! isset( $list_updated_fields[0] )  ) {
+		// No file in the theme folder found and no template to be updated found, offer to copy it and exit.
+		if ( file_exists( $lumiere_current_theme_path_file ) === false && ! isset( $list_updated_fields ) ) {
 
 			$output .= "\n\t" . '<br />';
 			$output .= "\n\t" . '<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
@@ -704,42 +704,33 @@ class Data extends \Lumiere\Admin {
 
 			return $output;
 
-		}
-
-		// No copied taxonomy file in theme folder exists, exit.
-		if ( file_exists( $lumiere_taxonomy_theme_file ) === false ) {
+			// No taxonomy template file in Lumière! theme folder found, notify and exit.
+		} elseif ( is_file( $lumiere_taxonomy_theme_file ) === false ) {
 
 			return "\n\t" . '<br /><div><i>' . esc_html__( 'Missing Lumiere template file. A problem has been detected with your installation.', 'lumiere-movies' ) . '</i></div>';
 
+			// No template updated, template file exists, so it is up-to-date, notify and exit.
+		} elseif ( ! isset( $list_updated_fields ) ) {
+			return "\n\t" . '<br /><div><i>' . $output . ucfirst( $lumiere_taxo_title ) . ' ' . esc_html__( 'template up-to-date', 'lumiere-movies' ) . '</i></div>';
 		}
 
-		// Return a message if there is a new version of the template.
-		foreach ( $list_updated_fields as $list_updated_field ) {
+		// Template file exists and need to be updated, notify there is a new version of the template and exit.
+		$output .= "\n\t" . '<br />';
+		$output .= "\n\t" . '<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
+		$output .= "\n\t\t<a href='"
+				. $link_taxo_copy
+				. "' title='"
+				. esc_html__( 'Update your taxonomy template in your theme folder.', 'lumiere-movies' )
+				. "' ><img src='" . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png' ) . "' alt='copy the taxonomy template' align='absmiddle' /> "
+				. esc_html__( 'Update template', 'lumiere-movies' ) . '</a>';
 
-			// Display text only if it has been updated.
-			if ( $lumiere_taxo_title !== $list_updated_field ) {
-				continue;
-			}
+		$output .= "\n\t" . '<div><font color="red">'
+			. esc_html( "New $lumiere_taxo_title template version available" )
+			. '</font></div>';
+		$output .= "\n\t" . '</div>';
 
-			$output .= "\n\t" . '<br />';
-			$output .= "\n\t" . '<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
-			$output .= "\n\t\t<a href='"
-					. $link_taxo_copy
-					. "' title='"
-					. esc_html__( 'Update your taxonomy template in your theme folder.', 'lumiere-movies' )
-					. "' ><img src='" . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png' ) . "' alt='copy the taxonomy template' align='absmiddle' /> "
-					. esc_html__( 'Update template', 'lumiere-movies' ) . '</a>';
+		return $output;
 
-			$output .= "\n\t" . '<div><font color="red">'
-				. esc_html( "New $lumiere_taxo_title template version available" )
-				. '</font></div>';
-			$output .= "\n\t" . '</div>';
-
-			return $output;
-
-		}
-
-		return "\n\t" . '<br /><div><i>' . $output . ucfirst( $lumiere_taxo_title ) . ' ' . esc_html__( 'template up-to-date', 'lumiere-movies' ) . '</i></div>';
 	}
 
 }

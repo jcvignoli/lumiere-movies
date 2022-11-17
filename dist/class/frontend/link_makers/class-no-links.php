@@ -129,10 +129,10 @@ class No_Links extends Abstract_Link_Maker {
 	 * Builds an internal when movie's are entered, because if not, the whole purpose of the plugins is killed
 	 *
 	 * @param array<int, string> $link_parsed html tags and text to be modified
-	 * @param string $popuplarg Not in use
-	 * @param string $popuplong Not in use
+	 * @param null|string $popuplarg Not in use
+	 * @param null|string $popuplong Not in use
 	 */
-	public function lumiere_popup_film_link ( array $link_parsed, string $popuplarg = null, string $popuplong = null ): string {
+	public function lumiere_popup_film_link ( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
 
 		// Function in abstract class, fourth param for AMP.
 		return $this->lumiere_popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong, 2 );

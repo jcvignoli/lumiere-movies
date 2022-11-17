@@ -2,9 +2,9 @@
 
 # Core
 **Main library** [IMDbPHP](https://github.com/tboothman/imdbphp/ "IMDbPHP GIT").
-**Popup design** thanks to Jeremie Boniface
+**Highslide modal window** Designed for Lumière by Jeremie Boniface
 
-# IMDbPHP uses
+# IMDbPHP libraries use
 **Simple Cache interface** by [PHP Fig](https://github.com/php-fig/simple-cache "Psr Simple Cache GIT")
 **Logger interface** by [PHP Fig](https://github.com/php-fig/log "Psr Log GIT")
 
@@ -25,7 +25,8 @@
 **Monolog logger** by [Seldaek](https://github.com/Seldaek/monolog/ "Monolog GIT")
 
 # Development
+**Codeception** by [Codeception team](https://codeception.com/ "Codeception")
+**PHAN** by [Phan](https://github.com/phan/phan/ "Phan")
 **PHP CodeSniffer** by [Squizlab](https://github.com/squizlabs/PHP_CodeSniffer "PHPCS")
 **PHP Mess detector** by [PHPMD](https://phpmd.org/ "PHPMD")
 **PHPStan** by [PHPStan](https://github.com/phpstan/phpstan "PHPStan")
-**Codeception** by [Codeception team](https://codeception.com/ "Codeception")

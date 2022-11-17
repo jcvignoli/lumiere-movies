@@ -22,8 +22,6 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use Lumiere\Utils;
-
 class Classic_Links extends Abstract_Link_Maker {
 
 	// Trait including the database settings.
@@ -167,10 +165,10 @@ class Classic_Links extends Abstract_Link_Maker {
 	 * Build an HTML link to open a popup for searching a movie (using js/lumiere_classic_links.js)
 	 *
 	 * @param array<int, string> $link_parsed html tags and text to be modified
-	 * @param string $popuplarg -> window width, if nothing passed takes database value
-	 * @param string $popuplong -> window height, if nothing passed takes database value
+	 * @param null|string $popuplarg -> window width, if nothing passed takes database value
+	 * @param null|string $popuplong -> window height, if nothing passed takes database value
 	 */
-	public function lumiere_popup_film_link ( array $link_parsed, string $popuplarg = null, string $popuplong = null ): string {
+	public function lumiere_popup_film_link ( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
 
 		// Function in abstract class, fourth param for bootstrap.
 		return $this->lumiere_popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong );

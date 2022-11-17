@@ -17,7 +17,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Copy_Template_Taxonomy;
-use Lumiere\Movie;
 use Lumiere\Admin\Metabox_Selection;
 use Lumiere\Admin\Cache;
 use Lumiere\PluginsDetect;
@@ -128,8 +127,8 @@ class Core {
 				'admin_init',
 				function(): void {
 					if ( isset( $_GET['taxotype'] ) ) {
-						new Copy_Template_Taxonomy();
-
+						$copy_class = new Copy_Template_Taxonomy();
+						$copy_class->copy_template_taxonomy();
 					}
 				}
 			);
@@ -210,7 +209,8 @@ class Core {
 		 */
 
 		// On updating lumiere plugin.
-		add_action( 'upgrader_process_complete', [ $this, 'lumiere_on_lumiere_upgrade_completed' ], 10, 2 );
+		add_action( 'automatic_updates_complete', [ $this, 'lumiere_on_lumiere_upgrade_autoupdate' ], 10, 1 );
+		add_action( 'upgrader_process_complete', [ $this, 'lumiere_on_lumiere_upgrade_manual' ], 10, 2 );
 
 		// Add cron schedules.
 		add_action( 'lumiere_cron_hook', [ $this, 'lumiere_cron_exec_once' ], 0 );
@@ -794,12 +794,12 @@ class Core {
 	}
 
 	/**
-	 * Run on lumiere WordPress upgrade
+	 * Run on lumiere WordPress manual upgrade
 	 *
-	 * @param \WP_Upgrader $upgrader_object Type of action. Default 'update'.
+	 * @param \WP_Upgrader $upgrader_object Upgrader class
 	 * @param mixed[] $options Type of update process, such as 'plugin', 'theme', 'translation' or 'core'
 	 */
-	public function lumiere_on_lumiere_upgrade_completed( \WP_Upgrader $upgrader_object, array $options ): void {
+	public function lumiere_on_lumiere_upgrade_manual( \WP_Upgrader $upgrader_object, array $options ): void {
 
 		// Start the logger.
 		do_action( 'lumiere_logger' );
@@ -810,16 +810,47 @@ class Core {
 			// Iterate through the plugins being updated and check if ours is there.
 			foreach ( $options['plugins'] as $plugin ) {
 
-				// It is Lumière!, so update
+				// It is Lumière!, so run the functions.
 				if ( $plugin === 'lumiere-movies/lumiere-movies.php' ) {
 
 					$start_update_options = new Updates();
 					$start_update_options->run_update_options();
 
-					$this->logger->log()->debug( '[Lumiere][coreClass][updater] Lumière _on_plugin_upgrade_ hook successfully run.' );
+					$this->logger->log()->debug( '[Lumiere][coreClass][manualupdate] Lumière manual update successfully run.' );
 
 				}
 			}
+		}
+	}
+
+	/**
+	 * Run on Lumiere! WordPress auto upgrade
+	 *
+	 * @param array<string, array<int, object>> $results Array of plugins updated
+	 * @return void Plugin updated, log about success or not
+	 */
+	public function lumiere_on_lumiere_upgrade_autoupdate( array $results ): void {
+
+		// Start the logger.
+		do_action( 'lumiere_logger' );
+
+		// Iterate through the plugins being updated and check if ours is there.
+		foreach ( $results['plugin'] as $plugin ) {
+
+			if (
+				// @phpstan-ignore-next-line Access to an undefined property object::$item
+				isset( $plugin->item->slug )
+				&& strlen( $plugin->item->slug ) > 0
+				&& $plugin->item->slug === 'lumiere-movies'
+			) {
+
+				// It is Lumière!, so run the functions.
+				$this->logger->log()->debug( '[Lumiere][coreClass][autoupdate] Starting Lumière autoupdate...' );
+				$start_update_options = new Updates();
+				$start_update_options->run_update_options();
+				$this->logger->log()->debug( '[Lumiere][coreClass][autoupdate] Lumière autoupdate successfully run.' );
+			}
+
 		}
 	}
 
@@ -834,7 +865,7 @@ class Core {
 		// Start the logger.
 		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
-		$plugin = isset( $_REQUEST['plugin'] ) ? $_REQUEST['plugin'] : '';
+		$plugin = $_REQUEST['plugin'] ?? '';
 		check_admin_referer( "activate-plugin_{$plugin}" );
 
 		/* Create the value of number of updates on first install */
@@ -864,18 +895,10 @@ class Core {
 		/* Set up WP Cron if it doesn't exist */
 		if ( wp_next_scheduled( 'lumiere_cron_hook' ) === false ) {
 
-			// Runned thee times to make sure that no update is missed
-
-			// Cron to run once, in 10 minutes.
-			wp_schedule_single_event( time() + 600, 'lumiere_cron_hook' );
-
 			// Cron to run once, in 30 minutes.
 			wp_schedule_single_event( time() + 1800, 'lumiere_cron_hook' );
 
-			// Cron to run once, in 1 hour.
-			wp_schedule_single_event( time() + 3600, 'lumiere_cron_hook' );
-
-			$this->logger->log()->debug( '[Lumiere][coreClass][activation] Lumière crons successfully set up.' );
+			$this->logger->log()->debug( '[Lumiere][coreClass][activation] Lumière cron successfully set up.' );
 
 		} else {
 

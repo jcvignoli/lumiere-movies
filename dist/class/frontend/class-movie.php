@@ -99,9 +99,9 @@ class Movie {
 	/**
 	 *  Search the movie and output the results
 	 *
-	 * @param array<int, array<string, string>> $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
+	 * @param array<int, array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
 	 */
-	public function lumiere_show( array $imdb_id_or_title_outside = null ): string {
+	public function lumiere_show( ?array $imdb_id_or_title_outside = null ): string {
 
 		/* Vars */
 		global $lumiere_count_me_siffer;
@@ -141,7 +141,7 @@ class Movie {
 		}
 
 		$config_class = $this->config_class;
-		$imdb_id_or_title = $imdb_id_or_title_outside !== null ? $imdb_id_or_title_outside : null;
+		$imdb_id_or_title = $imdb_id_or_title_outside ?? null;
 		$output = '';
 
 		$search = new TitleSearch( $this->imdbphp_class, $logger );
@@ -372,11 +372,11 @@ class Movie {
 	 * Utilized to build from shortcodes
 	 * @obsolete, not using shortcodes anymore
 	 *
-	 * @param string $moviename
-	 * @param string $filmid
-	 * @param string $external set to 'external' for use from outside
+	 * @param string|null $moviename
+	 * @param string|null $filmid
+	 * @param string|null $external set to 'external' for use from outside
 	 */
-	public function lumiere_external_call ( string $moviename = null, string $filmid = null, string $external = null ): string {
+	public function lumiere_external_call ( ?string $moviename = null, ?string $filmid = null, ?string $external = null ): string {
 
 		$imdb_id_or_title = [];
 
@@ -1579,12 +1579,12 @@ class Movie {
 	 *
 	 * @param string $type_item mandatory: the general category of the item, ie 'director', 'color'
 	 * @param string $first_title mandatory: the name of the first string to display, ie "Stanley Kubrick"
-	 * @param string $second_title optional: the name of a second string to display, utilised in $layout 'two', ie "director"
+	 * @param string|null $second_title optional: the name of a second string to display, utilised in $layout 'two', ie "director"
 	 * @param string $layout optional: the type of the layout, either 'one' or 'two', one by default
 	 *
 	 * @return string the text to be outputed
 	 */
-	private function lumiere_make_display_taxonomy( string $type_item, string $first_title, string $second_title = null, string $layout = 'one' ): string {
+	private function lumiere_make_display_taxonomy( string $type_item, string $first_title, ?string $second_title = null, string $layout = 'one' ): string {
 
 		// ************** Vars and sanitization */
 		$lang_term = 'en'; # language to register the term with, English by default
@@ -1705,4 +1705,4 @@ class Movie {
 
 	}
 
-} // end of class
+}

@@ -134,8 +134,8 @@ class Logger {
 	 *
 	 * Can be called by the hook 'lumiere_logger_hook' or directly as a function
 	 *
-	 * @param string $logger_name: title applied to the logger in the logs under origin
-	 * @param bool $screen_output: whether to display the screen output. Useful for plugin activation.
+	 * @param null|string $logger_name: title applied to the logger in the logs under origin
+	 * @param null|bool $screen_output: whether to display the screen output. Useful for plugin activation.
 	 *
 	 * @return void the logger in $logger_class
 	 */
@@ -174,7 +174,7 @@ class Logger {
 				if ( $final_log_file === null ) {
 					$this->logger_class = new LoggerMonolog( $logger_name );
 					$this->logger_class->pushHandler( new NullHandler() );
-					error_log( '***WP Lumiere Plugin ERROR***: not using log file ' . $final_log_file );
+					error_log( '***WP Lumiere Plugin ERROR***: not using log file ' );
 					return;
 				}
 				// Use the latest log path value, it can have changed in create_log().

@@ -234,7 +234,7 @@ class Settings {
 	private function lumiere_define_constants(): void {
 
 		/* BUILD $imdb_admin_values['imdbplugindirectory'] */
-		$this->imdb_admin_values['imdbplugindirectory'] = isset( $this->imdb_admin_values['imdbplugindirectory'] ) ? $this->imdb_admin_values['imdbplugindirectory'] : plugin_dir_url( __DIR__ );
+		$this->imdb_admin_values['imdbplugindirectory'] ??= plugin_dir_url( __DIR__ );
 
 		/* BUILD directory for pictures */
 		$this->lumiere_pics_dir = plugin_dir_url( __DIR__ ) . 'assets/pics/';

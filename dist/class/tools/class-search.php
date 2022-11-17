@@ -182,8 +182,7 @@ class Search {
 			echo '<div align="center" class="lumiere_padding_five"><a href="'
 			. esc_url( site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL )
 			. '">Do a new query</a></div>';
-			echo "\n<br />";
-			echo "\n<br />";
+			echo "\n<br />\n<br />";
 		}
 
 	}
