@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.9.8
+* [technical] Updated to bootstrap 5.2.3
 
 v.3.9.7
 * [bug] Data-Taxonomy admin page: detecting system was too complicated and led to always display a notification if a template in theme folder was found. Simplified.
