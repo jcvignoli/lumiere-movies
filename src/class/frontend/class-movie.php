@@ -23,7 +23,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Imdb\Title;
 use Imdb\TitleSearch;
 use Lumiere\Plugins\Polylang;
-use Lumiere\Link_Makers\Link_Factory;
 
 class Movie {
 
@@ -103,9 +102,6 @@ class Movie {
 	 */
 	public function lumiere_show( ?array $imdb_id_or_title_outside = null ): string {
 
-		/* Vars */
-		global $lumiere_count_me_siffer;
-
 		/**
 		 * Start PluginsDetect class
 		 * Is instanciated only if not instanciated already
@@ -120,14 +116,11 @@ class Movie {
 		$logger = $this->logger->log();
 
 		/**
-		 * Run Factory Class, Show log for link maker and plugin detect
+		 * Show log for link maker and plugin detect
 		 * Is instantiated only if not instanciated already, using $run_once in this class
 		 * @since 3.8
 		 */
 		if ( $this->movie_run_once === false ) {
-
-			// Run again the factory class (already runned in trait) to build link maker
-			$this->link_maker = Link_Factory::lumiere_link_factory_start();
 
 			// Log the current link maker
 			$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
@@ -140,7 +133,6 @@ class Movie {
 			$this->movie_run_once = true;
 		}
 
-		$config_class = $this->config_class;
 		$imdb_id_or_title = $imdb_id_or_title_outside ?? null;
 		$output = '';
 
@@ -311,14 +303,6 @@ class Movie {
 		$correspondances = $correspondances[0];
 		preg_match( '/<span data-lum_link_maker="popup">(.+?)<\/span>/i', $correspondances, $link_parsed );
 
-		/**
-		 * Use links builder classes.
-		 * Each one has its own class passed in $link_maker,
-		 * according to which option the lumiere_select_link_maker() found in Frontend.
-		 */
-		if ( ! isset( $this->link_maker ) ) { // Needed if called from Taxonomy pages
-			$this->link_maker = Link_Factory::lumiere_link_factory_start();
-		}
 		return $this->link_maker->lumiere_popup_film_link( $link_parsed );
 
 	}
@@ -337,14 +321,6 @@ class Movie {
 		$correspondances = $correspondances[0];
 		preg_match( '/<!--imdb-->(.*?)<!--\/imdb-->/i', $correspondances, $link_parsed );
 
-		/**
-		 * Use links builder classes.
-		 * Each one has its own class passed in $link_maker,
-		 * according to which option the lumiere_select_link_maker() found in Frontend.
-		 */
-		if ( ! isset( $this->link_maker ) ) { // Needed if called from Taxonomy pages
-			$this->link_maker = Link_Factory::lumiere_link_factory_start();
-		}
 		return $this->link_maker->lumiere_popup_film_link( $link_parsed );
 
 	}
@@ -1497,7 +1473,8 @@ class Movie {
 
 			$output .= '</div>';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-			$output .= esc_attr( preg_replace( '/\n/', '', $cast[ $i ]['role'] ) ); # remove the <br> that breaks the layout
+			// @since 3.9.8 added isset()
+			$output .= isset( $cast[ $i ]['role'] ) ? esc_attr( preg_replace( '/\n/', '', $cast[ $i ]['role'] ) ) : ''; # remove the <br> that breaks the layout
 			$output .= '</div>';
 			$output .= "\n\t\t\t" . '</div>';
 
