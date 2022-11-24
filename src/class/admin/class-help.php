@@ -128,7 +128,7 @@ class Help extends \Lumiere\Admin {
 
 	<div class="imdblt_double_container">
 
-		<div class="postbox-container imdblt_double_container_content" style="flex:40%">
+		<div class="postbox-container imdblt_double_container_content lumiere_flex_container_content_fourtyfive">
 			<?php
 				$this->explain_popup();
 				$this->explain_inside_post();
@@ -137,7 +137,7 @@ class Help extends \Lumiere\Admin {
 			?>
 		</div>
 
-		<div class="postbox-container imdblt_double_container_content" style="flex:40%">
+		<div class="postbox-container imdblt_double_container_content lumiere_flex_container_content_fourtyfive">
 			<?php
 				$this->explain_keepcss();
 				$this->explain_taxonomy();
