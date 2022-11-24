@@ -49,5 +49,19 @@ document.addEventListener(
 			}
 		).nextAll( ".hidesectionOfCheckboxTwo" ).show();
 
+		/**
+		 * Enable/disable a field according to the id passed in <anyHTMLtag data-show-hidden="(.*)">
+		 * Usage: 
+		 * 1/ insert target html tag inside data-show-hidden="(.*)" in any HTML tag (div, span, a)
+		 * 2/ Use same name as ID in the html tag target
+		 * 3/ Hide the the html tag target, using CSS for example (
+		 */
+		jQuery( '[data-show-hidden]' ).click(
+			function(){
+				var htmltag_id_to_change = jQuery( this ).data( 'show-hidden' );
+				jQuery( '#' + htmltag_id_to_change ).fadeToggle();
+			}
+		);
+
 	}
 );

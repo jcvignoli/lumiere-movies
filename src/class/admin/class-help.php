@@ -66,50 +66,12 @@ class Help extends \Lumiere\Admin {
 		//add_action('admin_enqueue_scripts', [$this, 'lumiere_help_extrascript' ]); # can't use add_action, call in parent class too late
 		$this->lumiere_help_extrascript();
 
-		add_action( 'lumiere_add_meta_boxes_help', [ $this, 'lumiere_add_help_metaboxes' ] );
-
-	}
-
-	/**
-	 * List of metaboxes to be called
-	 *
-	 */
-	public function lumiere_add_help_metaboxes (): void {
-
-		// Meta boxes
-		/**
-		 * This one is correct and follows WP add_meta_box() requirement (no left-right) but doesn't work in production, only in dev?
-		add_meta_box( 'lumiere_explain_popup', esc_html__( 'Popup link builder', 'lumiere-movies' ), [ $this, 'explain_popup' ], 'lumiere_help', 'normal');
-		add_meta_box( 'lumiere_explain_inside_post', esc_html__( 'Inside the post', 'lumiere-movies' ), [ $this, 'explain_inside_post' ], 'lumiere_help', 'normal');
-		add_meta_box( 'explain_widget', esc_html__( 'Widget', 'lumiere-movies' ), [ $this, 'explain_widget' ], 'lumiere_help', 'normal');
-		add_meta_box( 'lumiere_explain_addsearchform', esc_html__( 'Add a search form', 'lumiere-movies' ), [ $this, 'explain_addsearchform' ], 'lumiere_help', 'normal');
-		add_meta_box( 'lumiere_explain_keepcss', esc_html__( 'Keep css through update', 'lumiere-movies' ), [ $this, 'explain_keepcss' ], 'lumiere_help', 'normal');
-		add_meta_box( 'lumiere_explain_taxonomy', esc_html__( 'Taxonomy with WordPress', 'lumiere-movies' ), [ $this, 'explain_taxonomy' ], 'lumiere_help', 'normal');
-		add_meta_box( 'lumiere_explain_autowidget', esc_html__( 'Widget auto according post\'s title', 'lumiere-movies' ), [ $this, 'explain_autowidget' ], 'lumiere_help', 'normal');
-		add_meta_box( 'lumiere_explain_searchoptions', esc_html__( 'Search options', 'lumiere-movies' ), [ $this, 'explain_searchoptions' ], 'lumiere_help', 'normal');
-		*/
-		// @phpstan-ignore-next-line "Parameter #5 $context of function add_meta_box expects 'advanced'|'normal'|'side', 'left' given"
-		add_meta_box( 'lumiere_explain_popup', esc_html__( 'Popup link builder', 'lumiere-movies' ), [ $this, 'explain_popup' ], 'lumiere_help', 'left' );
-		// @phpstan-ignore-next-line "Parameter #5 $context of function add_meta_box expects 'advanced'|'normal'|'side', 'left' given"
-		add_meta_box( 'lumiere_explain_inside_post', esc_html__( 'Inside the post', 'lumiere-movies' ), [ $this, 'explain_inside_post' ], 'lumiere_help', 'right' );
-		// @phpstan-ignore-next-line "Parameter #5 $context of function add_meta_box expects 'advanced'|'normal'|'side', 'left' given"
-		add_meta_box( 'explain_widget', esc_html__( 'Widget', 'lumiere-movies' ), [ $this, 'explain_widget' ], 'lumiere_help', 'left' );
-		// @phpstan-ignore-next-line "Parameter #5 $context of function add_meta_box expects 'advanced'|'normal'|'side', 'left' given"
-		add_meta_box( 'lumiere_explain_addsearchform', esc_html__( 'Add a search form', 'lumiere-movies' ), [ $this, 'explain_addsearchform' ], 'lumiere_help', 'right' );
-		// @phpstan-ignore-next-line "Parameter #5 $context of function add_meta_box expects 'advanced'|'normal'|'side', 'left' given"
-		add_meta_box( 'lumiere_explain_keepcss', esc_html__( 'Keep css through update', 'lumiere-movies' ), [ $this, 'explain_keepcss' ], 'lumiere_help', 'left' );
-		// @phpstan-ignore-next-line "Parameter #5 $context of function add_meta_box expects 'advanced'|'normal'|'side', 'left' given"
-		add_meta_box( 'lumiere_explain_taxonomy', esc_html__( 'Taxonomy with WordPress', 'lumiere-movies' ), [ $this, 'explain_taxonomy' ], 'lumiere_help', 'right' );
-		// @phpstan-ignore-next-line "Parameter #5 $context of function add_meta_box expects 'advanced'|'normal'|'side', 'left' given"
-		add_meta_box( 'lumiere_explain_autowidget', esc_html__( 'Widget auto according post\'s title', 'lumiere-movies' ), [ $this, 'explain_autowidget' ], 'lumiere_help', 'left' );
-		// @phpstan-ignore-next-line "Parameter #5 $context of function add_meta_box expects 'advanced'|'normal'|'side', 'left' given"
-		add_meta_box( 'lumiere_explain_searchoptions', esc_html__( 'Search options', 'lumiere-movies' ), [ $this, 'explain_searchoptions' ], 'lumiere_help', 'right' );
 	}
 
 	/**
 	 * Display the layout
 	 */
-	public function lumiere_admin_help_layout (): void {
+	public function lumiere_admin_help_layout(): void {
 
 		do_action( 'lumiere_add_meta_boxes_help' );
 
@@ -148,6 +110,44 @@ class Help extends \Lumiere\Admin {
 
 		echo "\n\t" . '</div>';
 
+	}
+
+	/**
+	 * Display how to with help sections
+	 *
+	 */
+	private function display_howto(): void {
+		?>
+	<br />
+
+	<div class="intro_cache">
+		<?php esc_html_e( 'This section covers the three main ways to display movie data and some related options in Lumière.', 'lumiere-movies' ); ?>
+		<br /><br />
+		<?php esc_html_e( 'Lumiere Movies is a plugin under intense development; this help section might be innacurate with regard to the latest functions. Main functions of the plugin are explained below, aiming to be as much user-friendly as possible.', 'lumiere-movies' ); ?>
+	</div>
+
+	<div class="imdblt_double_container">
+
+		<div class="postbox-container imdblt_double_container_content" style="flex:40%">
+			<?php
+				$this->explain_popup();
+				$this->explain_inside_post();
+				$this->explain_widget();
+				$this->explain_addsearchform();
+			?>
+		</div>
+
+		<div class="postbox-container imdblt_double_container_content" style="flex:40%">
+			<?php
+				$this->explain_keepcss();
+				$this->explain_taxonomy();
+				$this->explain_autowidget();
+				$this->explain_searchoptions();
+			?>
+		</div>
+
+	</div>
+		<?php
 	}
 
 	/**
@@ -412,37 +412,6 @@ class Help extends \Lumiere\Admin {
 	}
 
 	/**
-	 * Display how to with metaboxes
-	 *
-	 */
-	private function display_howto(): void {
-		?>
-	<br />
-
-	<div class="intro_cache">
-		<?php esc_html_e( 'This section covers the three main ways to display movie data and some related options in Lumière.', 'lumiere-movies' ); ?>
-		<br /><br />
-		<?php esc_html_e( 'Lumiere Movies is a plugin under intense development; this help section might be innacurate with regard to the latest functions. Main functions of the plugin are explained below, aiming to be as much user-friendly as possible.', 'lumiere-movies' ); ?>
-	</div>
-
-	<div class="imdblt_double_container">
-
-		<div class="postbox-container imdblt_double_container_content" style="flex:40%">
-			<?php do_meta_boxes( 'lumiere_help', 'left', null ); ?>
-		</div>
-
-		<div class="postbox-container imdblt_double_container_content" style="flex:40%">
-			<?php do_meta_boxes( 'lumiere_help', 'right', null ); ?>
-		</div>
-
-	</div>
-		<?php
-		wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
-		wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
-
-	}
-
-	/**
 	 * Popup explaination
 	 *
 	 */
@@ -451,7 +420,9 @@ class Help extends \Lumiere\Admin {
 
 		<div class="helpdiv">
 
-			<h4><?php esc_html_e( 'Why a popup window?', 'lumiere-movies' ); ?></h4>
+			<h4 data-show-hidden="inside_help_explain_popup" class="help_titles"><?php esc_html_e( 'Why a popup window?', 'lumiere-movies' ); ?></h4>
+
+			<div id="inside_help_explain_popup" class="hidesection">
 
 			<br clear="both"/>
 
@@ -493,6 +464,8 @@ movie's title
 
 
 			<?php esc_html_e( "Whatever the tool you prefer, when you add such a link a small icon confirming that the link is Lumière compliant is added to your movie's title.", 'lumiere-movies' ); ?>
+
+			</div>
 		</div>
 
 		<?php
@@ -507,7 +480,9 @@ movie's title
 		?>
 
 		<div class="helpdiv">
-			<h4><?php esc_html_e( 'Why to use widget?', 'lumiere-movies' ); ?></h4>
+			<h4 data-show-hidden="inside_help_explain_widget" class="help_titles"><?php esc_html_e( 'Why to use widget?', 'lumiere-movies' ); ?></h4>
+
+			<div id="inside_help_explain_widget" class="hidesection">
 
 			<a href="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-3.jpg' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="50%" src="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-3.jpg' ); ?>" alt="<?php esc_html_e( 'key and value for custom fields', 'lumiere-movies' ); ?>" /></a>
 
@@ -540,6 +515,7 @@ movie's title
 
 			<?php echo wp_kses( __( "Get IMDb ids from links provided everywhere in the plugin interface. Even <a data-lumiere_admin_popup='openApopup'>here</a>.", 'lumiere-movies' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 			?>
+			</div>
 		</div>
 
 		<?php
@@ -553,13 +529,13 @@ movie's title
 		?>
 
 		<div class="helpdiv">
-			<h4><?php esc_html_e( "Why display movie's data inside my post?", 'lumiere-movies' ); ?></h4>
+			<h4 data-show-hidden="inside_help_explain_inside_post" class="help_titles"><?php esc_html_e( "Why display movie's data inside my post?", 'lumiere-movies' ); ?></h4>
+
+			<div id="inside_help_explain_inside_post" class="hidesection">
+
 			<a href="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-2.jpg' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="50%" src="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-2.jpg' ); ?>" alt="<?php esc_html_e( 'Lumiere Movies widget', 'lumiere-movies' ); ?>" /></a>
 			<?php esc_html_e( 'Including movie information within your article is quite useful; it can ingeniously illustrate your post, displays crucial data (directors, actors) and at the same time add links to further popups that include even more detailed information.', 'lumiere-movies' ); ?>
 
-		</div>
-
-		<div class="helpdiv">
 			<h4><?php esc_html_e( 'How to display data inside my post', 'lumiere-movies' ); ?></h4>
 
 
@@ -595,6 +571,7 @@ movie's title
 
 			<h4><?php esc_html_e( 'I want to get rid of thoses links opening popups', 'lumiere-movies' ); ?></h4>
 			<?php esc_html_e( "It could happen you do not want popups at all. Since by default Lumière Movies adds links whenever relevant to movie's details inside your article, you may change that behaviour. In order to do so, look for 'General options / Advanced / Remove popup links' and uncheck the box. No links will be displayed, both for the widget and within your articles.", 'lumiere-movies' ); ?>
+			</div>
 		</div>
 		<?php
 	}
@@ -607,7 +584,9 @@ movie's title
 		?>
 
 		<div class="helpdiv">
-			<h4><?php esc_html_e( 'How to add a search function for movies in my page? (advanced users)', 'lumiere-movies' ); ?></h4>
+			<h4 data-show-hidden="inside_help_explain_addsearchform" class="help_titles"><?php esc_html_e( 'How to add a search function for movies in my page? (advanced users)', 'lumiere-movies' ); ?></h4>
+
+			<div id="inside_help_explain_addsearchform" class="hidesection">
 
 			<?php esc_html_e( 'It is doable. Lumière is versatile enough to handle this function. With the help of a form, you can add a query field to search for every movie on your blog. Here is the code:', 'lumiere-movies' ); ?>
 
@@ -645,6 +624,7 @@ movie's title
 			</blockquote>
 
 			<?php esc_html_e( 'It perfectly fits in your sidebar, for example.', 'lumiere-movies' ); ?>
+			</div>
 		</div>
 
 		<?php
@@ -655,11 +635,13 @@ movie's title
 	 * Keep CSS explaination
 	 *
 	 */
-	public function explain_keepcss (): void {
+	public function explain_keepcss(): void {
 		?>
 
 		<div class="helpdiv">
-			<h4><?php esc_html_e( 'How to ensure that my css edits remain through plugin updates?', 'lumiere-movies' ); ?></h4>
+			<h4 data-show-hidden="inside_help_explain_keepcss" class="help_titles"><?php esc_html_e( 'How to ensure that my css edits remain through plugin updates?', 'lumiere-movies' ); ?></h4>
+
+			<div id="inside_help_explain_keepcss" class="hidesection">
 
 			<?php esc_html_e( 'Are you tired of losing your carefully hand-made CSS edits at every Lumière! update? There is a solution.', 'lumiere-movies' ); ?>
 
@@ -669,6 +651,7 @@ movie's title
 			<?php
 			/* translators: %1\$s is a URL tag */
 			echo wp_kses( sprintf( esc_html__( "Any modification of the stylesheet you make should be done in your template folder rather than by editing lumiere-movies/css/lumiere.css. Download %1\$s from the GIT repository, and edit that very file so it suits your needs. Then copy the edited file into you template folder: that file will superseed the plugin's one. Whenever you will update, your template's file will remain untouched and your edits will make it. Just make sure you are using a child theme, otherwise your customised lumiere.css will be deleted at the next template update.", 'lumiere-movies' ), '<a href="https://github.com/jcvignoli/lumiere-movies/blob/master/src/css/lumiere.css">unminified css</a>' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); ?>
+			</div>
 		</div>
 
 		<?php
@@ -682,7 +665,9 @@ movie's title
 		?>
 
 		<div class="helpdiv">
-			<h4><?php esc_html_e( "What is WordPress' taxonomy?", 'lumiere-movies' ); ?></h4>
+			<h4 data-show-hidden="inside_help_explain_taxonomy" class="help_titles"><?php esc_html_e( "What is WordPress' taxonomy?", 'lumiere-movies' ); ?></h4>
+
+			<div id="inside_help_explain_taxonomy" class="hidesection">
 
 			<?php esc_html_e( 'Since WordPress 2.3, WordPress users can use taxonomy.', 'lumiere-movies' ); ?>
 
@@ -720,7 +705,7 @@ movie's title
 			<div align="center"><a href="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-10.jpg' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="center" width="40%" src="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-10.jpg' ); ?>" alt="taxonomy result" /></a></div>
 
 			<br clear="both">
-
+			</div>
 		</div>
 
 		<?php
@@ -734,8 +719,11 @@ movie's title
 		?>
 
 		<div class="helpdiv">
-			<br />
-			<h4><?php esc_html_e( 'What is Lumière auto-widget?', 'lumiere-movies' ); ?></h4>
+
+			<h4 data-show-hidden="inside_help_explain_autowidget" class="help_titles"><?php esc_html_e( 'What is Lumière auto-widget?', 'lumiere-movies' ); ?></h4>
+
+			<div id="inside_help_explain_autowidget" class="hidesection">
+
 			<?php esc_html_e( "It is a special type of widget. Unlike the normal Lumière widget (see widget help section in this page), Lumière auto-widget does not require you to enter any IMDb ID or movie's title manually. It automatically query the IMDb according to title you gave to your post. Beware it does so for all posts you have published.", 'lumiere-movies' );
 			echo '<br /><br />';
 			?>
@@ -766,6 +754,7 @@ movie's title
 			esc_html_e( 'Should you switch back to the new WordPress Block Editor standard again (by updating WordPress or uninstalling Classic Widget), remove the Legacy widget that will be visible in the block Editor, save, refresh and add a new Lumière Block Widget. In new Widget WordPress installs, only the standard Block Widget is available.', 'lumiere-movies' );
 
 			?>
+			</div>
 		</div>
 
 		<?php
@@ -779,7 +768,9 @@ movie's title
 		?>
 
 		<div class="helpdiv">
-			<h4><?php esc_html_e( 'Changing default IMDb search options', 'lumiere-movies' ); ?></h4>
+			<h4 data-show-hidden="inside_help_explain_searchoptions" class="help_titles"><?php esc_html_e( 'Changing default IMDb search options', 'lumiere-movies' ); ?></h4>
+
+			<div id="inside_help_explain_searchoptions" class="hidesection">
 
 			<?php esc_html_e( "Lumière queries the IMDb for every movie or person you are looking for. You can modify the results from the IMDb displayed in your blog will tweaking the search options available in menu options 'General / Advanced'.", 'lumiere-movies' ); ?>
 
@@ -809,6 +800,7 @@ movie's title
 			echo wp_kses( sprintf( __( "<a href='%1\$s'>the admin tool of queries to find IMDb id</a>.", 'lumiere-movies' ), esc_url( admin_url() . \Lumiere\Settings::GUTENBERG_SEARCH_URL_STRING ) ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 			?>
 
+			</div>
 		</div>
 
 		<?php

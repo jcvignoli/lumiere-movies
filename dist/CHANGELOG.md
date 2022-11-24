@@ -2,6 +2,7 @@
 
 v.3.9.8
 * [technical] Updated to bootstrap 5.2.3
+* [bug] Removed metaboxes in class-help. Long standing useless metaboxes replaced by click to unhide with js.
 
 v.3.9.7
 * [bug] Data-Taxonomy admin page: detecting system was too complicated and led to always display a notification if a template in theme folder was found. Simplified.
