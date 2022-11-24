@@ -91,8 +91,7 @@ trait Frontend {
 		$this->imdbphp_class = new Imdbphp();
 
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
-		// Runned again in dependent classes, but need to be run twice: 1/ JS&CSS 2/ Detect if AMP is in use
-		Link_Factory::lumiere_link_factory_start();
+		$this->link_maker = Link_Factory::lumiere_link_factory_start();
 
 		// Start checking if current page is block editor
 		add_action( 'init', [ $this, 'lumiere_frontend_is_editor' ], 0 );

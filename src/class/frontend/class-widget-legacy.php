@@ -62,7 +62,7 @@ class Widget_Legacy extends WP_Widget {
 		);
 
 		// Construct Frontend trait.
-		$this->__constructFrontend( get_class() );
+		$this->__constructFrontend( 'widgetLegacy' );
 
 		// Execute logging.
 		do_action( 'lumiere_logger' );

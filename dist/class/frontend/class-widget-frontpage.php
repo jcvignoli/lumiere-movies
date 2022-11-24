@@ -114,7 +114,7 @@ class Widget_Frontpage {
 	public function __construct() {
 
 		// Construct Frontend trait.
-		$this->__constructFrontend( get_class() );
+		$this->__constructFrontend( 'widgetFrontpage' );
 
 		// Movie class is needed to query and retrieve movie results.
 		$this->movie_class = new Movie( new Polylang() );

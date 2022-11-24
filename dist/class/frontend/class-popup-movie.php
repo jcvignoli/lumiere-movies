@@ -18,7 +18,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Imdb\Title;
 use Imdb\TitleSearch;
-use Lumiere\Link_Makers\Link_Factory;
 use Exception;
 
 class Popup_Movie {
@@ -157,8 +156,6 @@ class Popup_Movie {
 
 		$movie_results = $this->movie;
 
-		// Build Link Factory class
-		$this->link_maker = Link_Factory::lumiere_link_factory_start();
 		$this->logger->log()->debug( '[Lumiere][popupMovieClass] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
 		$this->display_menu( $this->movie );
