@@ -9,6 +9,20 @@ h3{font-size: 18px;}
 .hidesection, .hidesectionOfCheckbox, .hidesectionOfCheckboxTwo{display:none;}
 .activatehidesection {cursor:pointer;}
 
+.help_titles{ /** Main titles in help section */
+	cursor:pointer;
+	border: 2px solid grey;
+	background-color: white;
+	padding: 10px;
+	border-radius: 10px;
+}
+.help_titles::after{
+	content: "\2935";
+	font-size:larger;
+	vertical-align: sub;
+	padding-left:2vw;
+}
+
 a[data-lumiere_admin_popup]{cursor:pointer;}
 
 .subpage {border:thin grey solid;padding:15px;background: #999 20px 10px;color:beige;border-radius: 6px;}
