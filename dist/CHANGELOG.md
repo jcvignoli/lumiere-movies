@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.9.9
+
 v.3.9.8
 * [technical] Updated to bootstrap 5.2.3
 * [bug] Removed metaboxes in class-help. Long standing useless metaboxes replaced by click to unhide with js.
