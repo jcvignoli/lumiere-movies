@@ -834,6 +834,11 @@ class Core {
 		// Start the logger.
 		do_action( 'lumiere_logger' );
 
+		// Exit if not exist.
+		if ( ! isset( $results['plugin'] ) ) {
+			return;
+		}
+
 		// Iterate through the plugins being updated and check if ours is there.
 		foreach ( $results['plugin'] as $plugin ) {
 

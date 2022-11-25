@@ -72,15 +72,12 @@ class Uninstall {
 		// Start Logger class.
 		$this->logger = new Logger( 'uninstallClass', false );
 
-		// Run uninstall.
-		$this->uninstall();
-
 	}
 
 	/**
 	 * Remove ALL plugin's options
 	 */
-	private function uninstall(): void {
+	public function uninstall(): void {
 
 		global $wp_filesystem;
 
@@ -216,4 +213,6 @@ class Uninstall {
 
 }
 
-new Uninstall();
+// Run uninstall.
+$lumiere_uninstall_class = new Uninstall();
+$lumiere_uninstall_class->uninstall();

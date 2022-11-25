@@ -254,16 +254,18 @@ class Utils {
 	}
 
 	/**
-	 * Function lumiere_formatBytes
-	 * Returns in a proper format a size
+	 * Format filesize
+	 * Should I want the size in bytes, replace '1000' by '1024'
 	 *
 	 * @param int $size the unformatted number of the size
 	 * @param int $precision how many numbers after comma, two by default
 	 */
 	public static function lumiere_format_bytes( int $size, int $precision = 2 ): string {
-		$base = log( $size, 1000 );
-		$suffixes = [ 'bits', 'Kb', 'Mb', 'Gb', 'Tb' ];
-		return round( pow( 1000, $base - floor( $base ) ), $precision ) . ' ' . $suffixes[ floor( $base ) ];
+
+		$units = [ 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' ];
+		$power = $size > 0 ? (int) floor( log( $size, 1000 ) ) : 0;
+		return number_format( $size / pow( 1000, $power ), $precision, '.', ',' ) . ' ' . $units[ $power ];
+
 	}
 
 	/**
