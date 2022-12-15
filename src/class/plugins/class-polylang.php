@@ -77,7 +77,7 @@ class Polylang {
 		// Get the language of the term already registred.
 		$term_registred_lang = pll_get_term_language( intval( $term['term_id'] ), 'slug' );
 		// Get the language of the page.
-		$lang = filter_var( pll_current_language( 'slug' ), FILTER_SANITIZE_STRING ) !== false ? filter_var( pll_current_language( 'slug' ), FILTER_SANITIZE_STRING ) : '';
+		$lang = filter_var( pll_current_language( 'slug' ), FILTER_SANITIZE_FULL_SPECIAL_CHARS ) !== false ? filter_var( pll_current_language( 'slug' ), FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : '';
 
 		// If the language for this term is not already registered, register it.
 		// Check current page language, compare against already registred term.
