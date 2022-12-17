@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.9.10
+
 v.3.9.9
 * [bug] On theme OceanWP, popups were not displaying correctly. (Detect in class-popup-movie and class-popup-person if OceanWP is active and use a different hook)
 * [technical] Compatibility with PHP 8.1 improved (class-polylang and Title.php from imdbphp lib)
