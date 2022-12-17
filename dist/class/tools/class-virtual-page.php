@@ -63,7 +63,7 @@ class Virtual_Page {
 		// Build the vars
 		$this->page_path = filter_var( $page_path, FILTER_SANITIZE_URL ) !== false ? filter_var( $page_path, FILTER_SANITIZE_URL ) : '';
 		$this->page_content = $page_content;
-		$this->page_title = filter_var( $page_title, FILTER_SANITIZE_STRING ) !== false ? filter_var( $page_title, FILTER_SANITIZE_STRING ) : '';
+		$this->page_title = filter_var( $page_title, FILTER_SANITIZE_FULL_SPECIAL_CHARS ) !== false ? filter_var( $page_title, FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : '';
 
 		// Start the page creation
 		$this->create_page();
