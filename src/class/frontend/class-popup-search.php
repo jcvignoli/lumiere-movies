@@ -67,10 +67,13 @@ class Popup_Search {
 		add_filter( 'show_admin_bar', '__return_false' );
 
 		// Display layout
-		// $this->layout();
-		// If set on 'get_header' hook, the popup is fully included in WP environement
-		// @since 3.9.3 passed from 'get_header' to 'the_posts' which works also on wp.com
-		add_action( 'the_posts', [ $this, 'layout' ] );
+		// @since 3.9.10 if OceanWP them, use a different hook
+		if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
+				add_action( 'get_header', [ $this, 'layout' ], 1 );
+		} else {
+				add_action( 'the_posts', [ $this, 'layout' ], 1 );
+		}
+
 	}
 
 	/**
@@ -113,8 +116,11 @@ class Popup_Search {
 		<?php
 		// Do the film query.
 		$this->film_search();
+
+		// @since 3.9.10 Removed loading circle, always been random
+		// <div id="lumiere_loader" class="lumiere_loader_center"></div>
 		?>
-		<div id="lumiere_loader" class="lumiere_loader_center"></div>
+		<div class="lumiere_loader_center"></div>
 
 		<h1 align="center">
 			<?php
