@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.9.11
+* [technical] Updated to IMDbPHP 7.4.2
 
 v.3.9.10
 * [bug] On theme OceanWP, popups were not displaying correctly. (Detect in class-popup-search if OceanWP is active and use a different hook)
