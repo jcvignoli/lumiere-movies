@@ -8,10 +8,9 @@
         "source": "https://github.com/jcvignoli/lumiere-movies"
     },
     "require-dev": {
-        "codeception/codeception": "^4.1",
+        "codeception/codeception": "^4",
         "codeception/module-phpbrowser": "^2.0.3",
         "codeception/module-asserts": "^2.0.1",
-        "codeception/module-webdriver": "^2.0",
         "codeception/module-db": "^2.0",
         "codeception/module-cli": "^2.0",
         "codeception/module-filesystem": "^2.0",
