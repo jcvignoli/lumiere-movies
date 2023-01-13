@@ -336,7 +336,6 @@ class Taxonomy_People_Standard {
 		/**
 		 * If no results are found at all
 		 * Say so!
-		 * @phpstan-ignore-next-line 'Strict comparison using === between 0 and 0 will always evaluate to true'.
 		 */
 		if ( count( $check_if_no_result ) === 0 && isset( $this->person_name ) ) {
 

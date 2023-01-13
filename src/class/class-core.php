@@ -659,7 +659,7 @@ class Core {
 						// If mid but no film, do a query using the mid.
 						if ( ( isset( $_GET['mid'] ) ) && ( ! isset( $_GET['film'] ) ) ) {
 
-							$movieid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( strval( $_GET['mid'] ) ) : '';
+							$movieid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
 							$movie = new Title( $movieid_sanitized, $this->imdbphp_class );
 							$filmid_sanitized = esc_html( $movie->title() );
 						}
