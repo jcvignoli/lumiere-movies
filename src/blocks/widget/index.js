@@ -56,7 +56,7 @@
 						{
 							className: props.className,
 							className: 'lumiere_block_widget_image',
-							src: lumiere_admin_vars.imdb_path + 'pics/lumiere-ico80x80.png',
+							src: lumiere_admin_vars.imdb_path + 'assets/pics/lumiere-ico80x80.png',
 							},
 					),// end img
 					elwithhtml(
@@ -71,7 +71,7 @@
 							className: props.className,
 							className: 'lumiere_block_widget_explanation',
 							tagName: 'gutenberg',
-							children: i18n.__( 'This widget enables to show movies in your articles.', 'lumiere-movies' )
+							children: i18n.__( 'This widget shows movies in your articles.', 'lumiere-movies' )
 								+ '<br />'
 								+ i18n.__( 'Movie details will be displayed in Lumière! Widget according to 1/ their post title, if Lumière auto-widget option is checked; 2/ the movie ID or title you entered in the metabox of a post. If you are using auto-widget, make sure the post titles are exactly the same as the movie titles on the IMDb website.', 'lumiere-movies' )
 								+ '<br />'
