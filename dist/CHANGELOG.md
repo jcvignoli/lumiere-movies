@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.9.12
+
 v.3.9.11
 * [technical] Updated to IMDbPHP 7.4.2
 * [bug] Picture in block widget admin interface was not showing up
