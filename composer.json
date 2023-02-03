@@ -26,12 +26,12 @@
         "phpmd/phpmd": "^2.10",
         "phpstan/phpstan": "^1.8.5",
         "automattic/phpcs-neutron-ruleset": "^3.4",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
         "phan/phan": "^5.3",
         "skaut/wordpress-stubs": "^2.2",
         "phpstan/phpstan-strict-rules": "^1.2",
         "szepeviktor/phpstan-wordpress": "^1.1",
-        "vimeo/psalm": "^4.26",
+        "vimeo/psalm": "^5",
         "wapmorgan/php-deprecation-detector": "^2.0"
     },
     "config": {
