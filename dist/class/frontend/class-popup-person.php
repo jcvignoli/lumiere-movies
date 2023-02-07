@@ -435,7 +435,7 @@ class Popup_Person {
 
 				echo "<a rel=\"nofollow\" class='linkpopup' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $biomovie[ $i ]['imdb'] ) ) . "'>" . esc_html( $biomovie[ $i ]['name'] ) . '</a>';
 
-				if ( strlen( $biomovie[ $i ]['year'] ) !== 0 ) {
+				if ( isset( $biomovie[ $i ]['year'] ) && strlen( $biomovie[ $i ]['year'] ) !== 0 ) {
 					echo ' (' . intval( $biomovie[ $i ]['year'] ) . ')';
 				}
 			}

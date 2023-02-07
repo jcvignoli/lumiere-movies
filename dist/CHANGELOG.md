@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.9.12
+* [technical] Small compatibility glitch in class popup person ( added isset( $biomovie[ $i ]['year'] ) )
 
 v.3.9.11
 * [technical] Updated to IMDbPHP 7.4.2
