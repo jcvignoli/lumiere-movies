@@ -149,8 +149,9 @@ class Polylang {
 
 		}
 		echo "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
+		echo "\n\t\t\t\t\t";
 		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo "\n\t\t\t\t\t" . wp_nonce_field( 'submit_lang' );
+		echo wp_nonce_field( 'submit_lang', 'submit_lang' ); // @phpstan-ignore-line Result of function wp_nonce_field (void) is used. -> it's a return, not a void!
 		// WP submit_button() is not compatible with AMP plugin and not available for AMP pages.
 		if ( function_exists( 'submit_button' ) ) {
 			echo "\n\t\t\t\t\t";
