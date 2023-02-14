@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "imdbphp/imdbphp",
-            "version": "dev-master",
-            "version_normalized": "dev-master",
+            "version": "v8.0.1",
+            "version_normalized": "8.0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tboothman/imdbphp.git",
-                "reference": "df83f1c4c77374c2ec8ab370824bbd244dd6df16"
+                "reference": "75d050b9a6e80434e5800e7a5bb1bdd10a7906e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tboothman/imdbphp/zipball/df83f1c4c77374c2ec8ab370824bbd244dd6df16",
-                "reference": "df83f1c4c77374c2ec8ab370824bbd244dd6df16",
+                "url": "https://api.github.com/repos/tboothman/imdbphp/zipball/75d050b9a6e80434e5800e7a5bb1bdd10a7906e1",
+                "reference": "75d050b9a6e80434e5800e7a5bb1bdd10a7906e1",
                 "shasum": ""
             },
             "require": {
@@ -32,8 +32,7 @@
                 "phpstan/phpstan": "^1.9",
                 "phpunit/phpunit": "^9.5"
             },
-            "time": "2023-01-08T11:37:14+00:00",
-            "default-branch": true,
+            "time": "2023-02-14T18:13:28+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -48,7 +47,7 @@
             "description": "Library for retrieving film and tv information from IMDb",
             "support": {
                 "issues": "https://github.com/tboothman/imdbphp/issues",
-                "source": "https://github.com/tboothman/imdbphp/tree/master"
+                "source": "https://github.com/tboothman/imdbphp/tree/v8.0.1"
             },
             "install-path": "../imdbphp/imdbphp"
         },

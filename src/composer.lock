@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ff41b38812f882aa75358542497db14",
+    "content-hash": "70e50a765aaa497e446801f17b3f96bc",
     "packages": [
         {
             "name": "imdbphp/imdbphp",
-            "version": "dev-master",
+            "version": "v8.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tboothman/imdbphp.git",
-                "reference": "df83f1c4c77374c2ec8ab370824bbd244dd6df16"
+                "reference": "75d050b9a6e80434e5800e7a5bb1bdd10a7906e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tboothman/imdbphp/zipball/df83f1c4c77374c2ec8ab370824bbd244dd6df16",
-                "reference": "df83f1c4c77374c2ec8ab370824bbd244dd6df16",
+                "url": "https://api.github.com/repos/tboothman/imdbphp/zipball/75d050b9a6e80434e5800e7a5bb1bdd10a7906e1",
+                "reference": "75d050b9a6e80434e5800e7a5bb1bdd10a7906e1",
                 "shasum": ""
             },
             "require": {
@@ -37,7 +37,6 @@
                 "phpstan/phpstan": "^1.9",
                 "phpunit/phpunit": "^9.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -51,9 +50,9 @@
             "description": "Library for retrieving film and tv information from IMDb",
             "support": {
                 "issues": "https://github.com/tboothman/imdbphp/issues",
-                "source": "https://github.com/tboothman/imdbphp/tree/master"
+                "source": "https://github.com/tboothman/imdbphp/tree/v8.0.1"
             },
-            "time": "2023-01-08T11:37:14+00:00"
+            "time": "2023-02-14T18:13:28+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -312,9 +311,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "imdbphp/imdbphp": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

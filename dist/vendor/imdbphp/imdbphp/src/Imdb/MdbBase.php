@@ -22,7 +22,7 @@ use Psr\SimpleCache\CacheInterface;
  */
 class MdbBase extends Config
 {
-    public $version = '7.4.2';
+    public $version = '8.0.1';
 
     protected $months = array(
         "January" => "01",
@@ -69,6 +69,11 @@ class MdbBase extends Config
      * @var Pages
      */
     protected $pages;
+
+    /**
+     * @var GraphQL
+     */
+    protected $graphql;
 
     protected $page = array();
 
@@ -120,6 +125,7 @@ class MdbBase extends Config
         $this->logger = empty($logger) ? new Logger($this->debug) : $logger;
         $this->cache = empty($cache) ? new Cache($this->config, $this->logger) : $cache;
         $this->pages = new Pages($this->config, $this->cache, $this->logger);
+        $this->graphql = new GraphQL($this->cache, $this->logger, $this->config);
     }
 
     /**
