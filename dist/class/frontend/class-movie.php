@@ -983,7 +983,7 @@ class Movie {
 
 		$output = '';
 		$alsoknow = $movie->alsoknow();
-		$nbalsoknow = intval( $this->imdb_widget_values['imdbwidgetalsoknownumber'] ) === 0 || $this->imdb_widget_values['imdbwidgetalsoknownumber'] === false ? '1' : intval( $this->imdb_widget_values['imdbwidgetalsoknownumber'] );
+		$nbalsoknow = intval( $this->imdb_widget_values['imdbwidgetalsoknownumber'] ) === 0 || $this->imdb_widget_values['imdbwidgetalsoknownumber'] === false ? '1' : intval( $this->imdb_widget_values['imdbwidgetalsoknownumber'] ) + 1; // Adding 1 since first array line is the title
 		$nbtotalalsoknow = count( $alsoknow );
 
 		// if no result, exit.
@@ -999,11 +999,17 @@ class Movie {
 
 		for ( $i = 0; ( $i < $nbtotalalsoknow ) && ( $i < $nbalsoknow ); $i++ ) {
 
+			// Title line, not returning it.
+			if ( $i === 0 ) {
+				continue;
+			}
+
 			$output .= "\n\t\t\t<i>" . sanitize_text_field( $alsoknow[ $i ]['title'] ) . '</i>';
 
 			if ( strlen( $alsoknow[ $i ]['country'] ) !== 0 || strlen( $alsoknow[ $i ]['comment'] ) !== 0 ) {
 				$output .= ' ( ';
 				$output .= sanitize_text_field( $alsoknow[ $i ]['country'] );
+
 				if ( strlen( $alsoknow[ $i ]['comment'] ) !== 0 && strlen( $alsoknow[ $i ]['country'] ) !== 0 ) {
 					$output .= ' - ';
 				}
