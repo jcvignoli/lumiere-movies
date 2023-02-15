@@ -9,7 +9,7 @@
     },
     "require": {
         "php": ">=8.0",
-        "imdbphp/imdbphp": "^8.0.1",
+        "imdbphp/imdbphp": "dev-master",
         "monolog/monolog": "^2.8",
         "twbs/bootstrap": "^5.2"
     },

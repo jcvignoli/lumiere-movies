@@ -1172,6 +1172,8 @@ EOF;
      * The first item in the list will be the original title, it has a comment of 'original title'
      * countryCode is likely an ISO 3166 code, but could be an internal one like XWW (worldwide)
      * languageCode - either an ISO 639 code or an internally defined code if no ISO code exists for the language.
+     * comment is usually empty but can be things like 'DVD title' or 'working title' if there is more than one title for a country+language
+     * comments should probably not be used. It's empty if comment is an empty string, or contains the comment
      * @return array<array{title: string, country: string, countryCode: string|null, language: string, languageCode: string|null, comment: string, comments: string[]}>
      * @see IMDB page ReleaseInfo
      */
@@ -1212,7 +1214,7 @@ EOF;
                 "title" => $originalTitle,
                 "country" => "",
                 "countryCode" => null,
-                "comments" => [],
+                "comments" => ["original title"],
                 "comment" => "original title",
                 "language" => "",
                 "languageCode" => null,
