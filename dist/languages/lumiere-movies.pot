@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Lumière! Movies plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Lumière! Movies 3.9.10\n"
+"Project-Id-Version: Lumière! Movies 3.9.12\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-01-01T10:44:22-05:00\n"
+"POT-Creation-Date: 2023-02-17T14:34:32+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: lumiere-movies\n"
@@ -1846,32 +1846,32 @@ msgstr[1] ""
 msgid "Also known as"
 msgstr ""
 
-#: class/frontend/class-movie.php:1040
+#: class/frontend/class-movie.php:1046
 msgid "Composer"
 msgid_plural "Composers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/frontend/class-movie.php:1096
+#: class/frontend/class-movie.php:1102
 #: class/frontend/class-popup-movie.php:535
 msgid "Soundtrack"
 msgid_plural "Soundtracks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/frontend/class-movie.php:1141
+#: class/frontend/class-movie.php:1147
 msgid "Production company"
 msgid_plural "Production companies"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/frontend/class-movie.php:1176
+#: class/frontend/class-movie.php:1182
 msgid "Official website"
 msgid_plural "Official websites"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/frontend/class-movie.php:1214
+#: class/frontend/class-movie.php:1220
 #: class/frontend/class-popup-movie.php:318
 #: class/frontend/class-popup-movie.php:659
 #: class/frontend/class-popup-search.php:148
@@ -1880,46 +1880,46 @@ msgid_plural "Directors"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/frontend/class-movie.php:1270
+#: class/frontend/class-movie.php:1276
 msgid "Creator"
 msgid_plural "Creators"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/frontend/class-movie.php:1324
+#: class/frontend/class-movie.php:1330
 #: class/frontend/class-popup-movie.php:730
 msgid "Producer"
 msgid_plural "Producers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/frontend/class-movie.php:1386
+#: class/frontend/class-movie.php:1392
 #: class/frontend/class-popup-movie.php:696
 msgid "Writer"
 msgid_plural "Writers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/frontend/class-movie.php:1447
+#: class/frontend/class-movie.php:1453
 #: class/frontend/class-popup-movie.php:617
 msgid "Actor"
 msgid_plural "Actors"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/frontend/class-movie.php:1504
+#: class/frontend/class-movie.php:1510
 #: class/frontend/class-popup-movie.php:786
 msgid "Plot"
 msgid_plural "Plots"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/frontend/class-movie.php:1541
+#: class/frontend/class-movie.php:1547
 msgid "Source"
 msgstr ""
 
-#: class/frontend/class-movie.php:1634
-#: class/frontend/class-movie.php:1650
+#: class/frontend/class-movie.php:1640
+#: class/frontend/class-movie.php:1656
 msgid "Find similar taxonomy results"
 msgstr ""
 
@@ -2051,24 +2051,24 @@ msgid "Trademarks"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:724
-#: class/theme/class-taxonomy-people-standard.php:412
+#: class/theme/class-taxonomy-people-standard.php:411
 msgid "Born on"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:731
 #: class/frontend/class-popup-person.php:748
-#: class/theme/class-taxonomy-people-standard.php:421
-#: class/theme/class-taxonomy-people-standard.php:443
+#: class/theme/class-taxonomy-people-standard.php:420
+#: class/theme/class-taxonomy-people-standard.php:442
 msgid "in"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:742
-#: class/theme/class-taxonomy-people-standard.php:437
+#: class/theme/class-taxonomy-people-standard.php:436
 msgid "Died on"
 msgstr ""
 
 #: class/frontend/class-popup-person.php:752
-#: class/theme/class-taxonomy-people-standard.php:447
+#: class/theme/class-taxonomy-people-standard.php:446
 msgid "cause"
 msgstr ""
 
@@ -2167,8 +2167,8 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: class/plugins/class-polylang.php:157
-#: class/plugins/class-polylang.php:159
+#: class/plugins/class-polylang.php:158
+#: class/plugins/class-polylang.php:160
 msgid "Filter language"
 msgstr ""
 
@@ -2322,7 +2322,7 @@ msgid "Lumière Widget automatically adds movies to your widgets sidebar and enh
 msgstr ""
 
 #: blocks/widget/index.js:74
-msgid "This widget enables to show movies in your articles."
+msgid "This widget shows movies in your articles."
 msgstr ""
 
 #: blocks/widget/index.js:76
