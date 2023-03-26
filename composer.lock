@@ -4475,16 +4475,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.7",
+            "version": "1.10.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "b10ceb526d9607903c5b2673f1fc8775dbe48975"
+                "reference": "0166aef76e066f0dd2adc2799bdadfa1635711e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b10ceb526d9607903c5b2673f1fc8775dbe48975",
-                "reference": "b10ceb526d9607903c5b2673f1fc8775dbe48975",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0166aef76e066f0dd2adc2799bdadfa1635711e9",
+                "reference": "0166aef76e066f0dd2adc2799bdadfa1635711e9",
                 "shasum": ""
             },
             "require": {
@@ -4533,7 +4533,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-16T15:24:20+00:00"
+            "time": "2023-03-24T10:28:16+00:00"
         },
         {
             "name": "phpstan/phpstan-strict-rules",
@@ -9354,16 +9354,16 @@
         },
         {
             "name": "wapmorgan/php-deprecation-detector",
-            "version": "2.0.31",
+            "version": "2.0.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wapmorgan/PhpDeprecationDetector.git",
-                "reference": "108dfd61629e6dce63452e2110cb682372deff5d"
+                "reference": "111ce055c9a2600caf5bf8e17ad099dc3837ed05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wapmorgan/PhpDeprecationDetector/zipball/108dfd61629e6dce63452e2110cb682372deff5d",
-                "reference": "108dfd61629e6dce63452e2110cb682372deff5d",
+                "url": "https://api.github.com/repos/wapmorgan/PhpDeprecationDetector/zipball/111ce055c9a2600caf5bf8e17ad099dc3837ed05",
+                "reference": "111ce055c9a2600caf5bf8e17ad099dc3837ed05",
                 "shasum": ""
             },
             "require": {
@@ -9413,9 +9413,9 @@
             "description": "Analyzer of PHP code to search issues with deprecated functionality in newer interpreter versions.",
             "support": {
                 "issues": "https://github.com/wapmorgan/PhpDeprecationDetector/issues",
-                "source": "https://github.com/wapmorgan/PhpDeprecationDetector/tree/2.0.31"
+                "source": "https://github.com/wapmorgan/PhpDeprecationDetector/tree/2.0.32"
             },
-            "time": "2023-03-17T17:12:48+00:00"
+            "time": "2023-03-20T04:50:47+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -9550,16 +9550,16 @@
         },
         {
             "name": "wp-cli/checksum-command",
-            "version": "v2.1.13",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/checksum-command.git",
-                "reference": "120d13d7e3780f30ec06638b6f49b4a10d9655b4"
+                "reference": "1a44dfbd3f962283a93ba547142300c98956d811"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/checksum-command/zipball/120d13d7e3780f30ec06638b6f49b4a10d9655b4",
-                "reference": "120d13d7e3780f30ec06638b6f49b4a10d9655b4",
+                "url": "https://api.github.com/repos/wp-cli/checksum-command/zipball/1a44dfbd3f962283a93ba547142300c98956d811",
+                "reference": "1a44dfbd3f962283a93ba547142300c98956d811",
                 "shasum": ""
             },
             "require": {
@@ -9603,9 +9603,9 @@
             "homepage": "https://github.com/wp-cli/checksum-command",
             "support": {
                 "issues": "https://github.com/wp-cli/checksum-command/issues",
-                "source": "https://github.com/wp-cli/checksum-command/tree/v2.1.13"
+                "source": "https://github.com/wp-cli/checksum-command/tree/v2.2.0"
             },
-            "time": "2023-02-17T16:23:17+00:00"
+            "time": "2023-03-24T20:57:16+00:00"
         },
         {
             "name": "wp-cli/config-command",
