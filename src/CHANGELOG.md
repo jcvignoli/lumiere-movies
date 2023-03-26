@@ -1,6 +1,9 @@
 **Changelog**
 
+v.3.9.15
+
 v.3.9.14
+* [technical] Updated to IMDbPHP 8.1
 
 v.3.9.13
 * [technical] Updated to IMDbPHP 8.0.2
