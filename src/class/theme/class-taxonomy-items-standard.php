@@ -75,7 +75,6 @@ class Taxonomy_Items_Standard {
 
 		<?php
 		if ( have_posts() ) {
-			// @phpstan-ignore-next-line WordPress coding standard, it might make no sense...
 			while ( have_posts() ) {
 				the_post();
 				?>

@@ -572,7 +572,7 @@ class Popup_Person {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Trivia -->';
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Trivia', 'lumiere-movies' ) . ' </span>(' . intval( $nbtotaltrivia ) . ') <br />';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . ' </span>(' . intval( $nbtotaltrivia ) . ') <br />';
 
 			for ( $i = 0; $i < $nbtotaltrivia; $i++ ) {
 

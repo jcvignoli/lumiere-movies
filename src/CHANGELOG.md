@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.9.15
+* [bug] Moved function the check for empty $_GETs to __construct() in class/frontend/class-popup-search.php so no empty $_GETs for films are throwing errors
 
 v.3.9.14
 * [technical] Updated to IMDbPHP 8.1

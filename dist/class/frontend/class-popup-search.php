@@ -53,6 +53,16 @@ class Popup_Search {
 	 */
 	public function __construct() {
 
+		// Die if wrong gets.
+		if (
+			! isset( $_GET['norecursive'] )
+			|| $_GET['norecursive'] !== 'yes'
+			|| ! isset( $_GET['film'] )
+			|| strlen( $_GET['film'] ) === 0
+		) {
+			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
+		}
+
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'popupSearch' );
 
@@ -67,7 +77,7 @@ class Popup_Search {
 		add_filter( 'show_admin_bar', '__return_false' );
 
 		// Display layout
-		// @since 3.9.10 if OceanWP them, use a different hook
+		// @since 3.9.10 if it is OceanWP theme, use a different hook. All other themes use the_posts
 		if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
 				add_action( 'get_header', [ $this, 'layout' ], 1 );
 		} else {
@@ -78,18 +88,10 @@ class Popup_Search {
 
 	/**
 	 *  Display layout
-	 *
 	 */
 	private function film_search(): void {
 
 		do_action( 'lumiere_logger' );
-
-		// Die if wrong gets.
-		if ( ( ! isset( $_GET['norecursive'] ) ) || ( $_GET['norecursive'] !== 'yes' ) || ( ! isset( $_GET['film'] ) ) || ( strlen( $_GET['film'] ) === 0 ) || $this->film_sanitized === null ) {
-
-			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
-
-		}
 
 		# Run the query.
 		$search = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
@@ -159,7 +161,7 @@ class Popup_Search {
 				if ( $current_line > $max_lines ) {
 					echo '</div>';
 					echo '<div align="center"><i>';
-					echo esc_html__( 'Maximum of results reached.', 'lumiere-movies' );
+					echo esc_html__( 'Maximum number of results reached.', 'lumiere-movies' );
 					if ( current_user_can( 'manage_options' ) ) {
 						echo '&nbsp' . esc_html__( 'You can increase the maximum number of results in admin options.', 'lumiere-movies' );
 					}
@@ -224,6 +226,4 @@ class Popup_Search {
 	}
 
 }
-
-//new Popup_Search();
 

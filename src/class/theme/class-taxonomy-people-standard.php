@@ -256,7 +256,6 @@ class Taxonomy_People_Standard {
 
 				echo "\n\t\t\t\t" . '<h2 class="lumiere_italic lumiere_align_center">' . esc_html__( 'In the role of', 'lumiere-movies' ) . ' ' . esc_html( $people ) . '</h2>';
 
-				// @phpstan-ignore-next-line WordPress coding standard, it might make no sense...
 				while ( $the_query->have_posts() ) {
 					$the_query->the_post();
 					?>
