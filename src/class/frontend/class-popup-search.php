@@ -35,7 +35,7 @@ class Popup_Search {
 	/**
 	 * Movie's title
 	 */
-	private ?string $film_sanitized;
+	private string $film_sanitized;
 
 	/**
 	 * Movie's title sanitized
@@ -70,7 +70,7 @@ class Popup_Search {
 		$this->type_search = $this->config_class->lumiere_select_type_search();
 
 		// Build the vars.
-		$this->film_sanitized = Utils::lumiere_name_htmlize( $_GET['film'] );
+		$this->film_sanitized = Utils::lumiere_name_htmlize( $_GET['film'] ) ?? '';
 		$this->film_sanitized_for_title = esc_html( $_GET['film'] );
 
 		// Remove admin bar
