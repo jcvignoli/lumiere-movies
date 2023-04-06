@@ -2,6 +2,7 @@
 
 v.3.9.15
 * [bug] Moved function the check for empty $_GETs to __construct() in class/frontend/class-popup-search.php so no empty $_GETs for films are throwing errors
+* [bug] Extra isset() check for $portrayedmovie in line 462 was throwing error if $portrayedmovie was null in class/frontend/class-popup-person.php
 
 v.3.9.14
 * [technical] Updated to IMDbPHP 8.1
