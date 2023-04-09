@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.9.16
+* [bug] On some environments, check for theme folders version fails. Added extra check on $wp_filesystem for $content_intheme and $content_inplugin in class admin. Added extra check in class copy template taxonomy.
 
 v.3.9.15
 * [bug] Moved function the check for empty $_GETs to __construct() in class/frontend/class-popup-search.php so no empty $_GETs for films are throwing errors
