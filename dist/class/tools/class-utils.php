@@ -439,39 +439,38 @@ class Utils {
 	 * Request WP_Filesystem credentials if file doesn't have it.
 	 *
 	 */
-	public static function lumiere_wp_filesystem_cred ( string $file ): bool {
+	public static function lumiere_wp_filesystem_cred ( string $file ): void {
 
 		global $wp_filesystem;
 
 		// If the basic function doesn't exist, exit.
 		if ( function_exists( 'request_filesystem_credentials' ) === false ) {
 
-			return false;
+			return;
 
 		}
 
 		/** WP: request_filesystem_credentials($form_post, $type, $error, $context, $extra_fields); */
 		$creds = request_filesystem_credentials( $file, '', false );
 
-		if ( false === ( $creds ) ) {
+		if ( false === $creds ) {
 
-			return false;
+			return;
 		}
 
+		$credit_open = is_array( $creds ) === true ? WP_Filesystem( $creds ) : false;
+
 		// now we have some credentials, try to get the wp_filesystem running.
-		if ( is_array( $creds ) === true && ( WP_Filesystem( $creds ) === false || WP_Filesystem( $creds ) === null ) ) {
+		if ( $credit_open === false || $credit_open === null ) {
+
 			// our credentials were no good, ask the user for them again
 			$creds_two = request_filesystem_credentials( $file, '', true, '' );
 
-			if ( false === ( $creds_two ) ) {
+			// @phpstan-ignore-next-line Parameter #1 $args of function WP_Filesystem expects array|false, array|bool given.
+			WP_Filesystem( $creds_two );
 
-				return false;
-			}
-
-			return true;
 		}
 
-		return true;
 	}
 
 	/**
