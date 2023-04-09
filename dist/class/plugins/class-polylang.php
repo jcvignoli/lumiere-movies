@@ -104,6 +104,7 @@ class Polylang {
 	public function lumiere_get_form_polylang_selection( string $taxonomy, string $person_name ): void {
 
 		// Is the current taxonomy, such as "lumiere_actor", registered and activated for translation?
+		// Must be activated in wp-admin/admin.php?page=mlang_settings - Custom post types and Taxonomies - Custom taxonomies
 		if ( ! pll_is_translated_taxonomy( $taxonomy ) ) {
 			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $person_name with $taxonomy." );
 			return;

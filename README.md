@@ -122,9 +122,9 @@ Look at "Cache management -> Cache general options -> Cache expire" and click on
 
 While one widget only can be added per post, you can insert as many movies as you want inside your articles.
 
-### Does it integrate with Polylang plugin?
+### How to integrate Lumière with Polylang plugin?
 
-If Polylang is installed, new features for taxonomy are added, such as selecting a specific installed language to show in taxonomy pages.
+If Polylang is installed, new features for taxonomy are added, such as a dropdown for languages in taxonomy pages. Once you selected which to data to turn into taxonomy, you must activate the very same taxonomy in Polylang Settings -> Custom post types and Taxonomies -> Custom taxonomies-
 
 ### Is it AMP compliant?
 
