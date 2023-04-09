@@ -18,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Utils;
-use \WP_Filesystem;
 
 class Help extends \Lumiere\Admin {
 
@@ -192,7 +191,7 @@ class Help extends \Lumiere\Admin {
 		Utils::lumiere_wp_filesystem_cred( $this->readmefile );
 
 		// Open the file.
-		$faqfile = $wp_filesystem->get_contents( $this->readmefile );
+		$faqfile = $wp_filesystem !== null ? $wp_filesystem->get_contents( $this->readmefile ) : '';
 		?>
 
 		<div id="lumiere_help_plb_faq">
@@ -218,7 +217,7 @@ class Help extends \Lumiere\Admin {
 					'<a href="${3}${4}" title="${7}">${2}</a>',
 					'<i>${1}</i>',
 				];
-				$faqsection_replace = $faqsectionarray !== false ? preg_replace( $patterns, $replaces, $faqsectionarray ) : null;
+				$faqsection_replace = is_array( $faqsectionarray ) !== false ? preg_replace( $patterns, $replaces, $faqsectionarray ) : null;
 				$faqsection_processed = $faqsection_replace ?? [];
 
 				echo "<br />\n<ol>\n";
@@ -263,7 +262,7 @@ class Help extends \Lumiere\Admin {
 		Utils::lumiere_wp_filesystem_cred( $this->changelogfile );
 
 		// Open the file (as an array).
-		$changelogfile = $wp_filesystem->get_contents_array( $this->changelogfile );
+		$changelogfile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $this->changelogfile ) : '';
 		?>
 
 		<h3 class="hndle"><?php esc_html_e( 'Changelog', 'lumiere-movies' ); ?></h3>
@@ -329,7 +328,7 @@ class Help extends \Lumiere\Admin {
 		// Make sure we got right credentials to use $wp_filesystem.
 		Utils::lumiere_wp_filesystem_cred( $this->acknowledgefile );
 		// Open the file (as an array).
-		$acknowledgefile = $wp_filesystem->get_contents_array( $this->acknowledgefile );
+		$acknowledgefile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $this->acknowledgefile ) : '';
 		?>
 
 		<h3 class="hndle" id="help_support" name="help_support"><?php esc_html_e( 'Two ways to support ', 'lumiere-movies' );
