@@ -273,7 +273,7 @@ class Utils {
 	 * Does not support flag GLOB_BRACE
 	 *
 	 * @param int $flags glob() flag
-	 * @return array<string>|array<mixed, mixed>
+	 * @return array<string>|array<int|string, mixed>
 	 * @credits https://www.php.net/manual/fr/function.glob.php#106595
 	 */
 	public static function lumiere_glob_recursive( string $pattern, int $flags = 0 ): array {

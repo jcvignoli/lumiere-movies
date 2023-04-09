@@ -346,7 +346,7 @@ class Movie {
 	/**
 	 * Function external call (ie, inside a post)
 	 * Utilized to build from shortcodes
-	 * @obsolete, not using shortcodes anymore
+	 * @obsolete not using shortcodes anymore
 	 *
 	 * @param string|null $moviename
 	 * @param string|null $filmid

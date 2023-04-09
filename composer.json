@@ -43,6 +43,7 @@
         }
     },
     "scripts": {
+        "phpdoc": "phpDocumentor run",
         "phpcs": "vendor/bin/phpcs src",
         "phpcsbot": "vendor/bin/phpcs -n src",
         "phpstan": "vendor/bin/phpstan --memory-limit=1G analyze src",

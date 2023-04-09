@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor
+        configVersion="3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://www.phpdoc.org"
+>
+    <title>Lumière Movies Wordpress plugin project</title>
+    <paths>
+        <output>tmp/phpdoc/</output>
+        <cache>tmp/cache/phpdoc</cache>
+    </paths>
+
+    <version number="1.0">
+	    <api>
+		    <source dsn=".">
+			<path>src/</path>
+		    </source>
+		    <ignore>
+			<path>src/vendor</path>
+		    </ignore>
+		    <markers>
+			<marker>@TODO</marker>
+			<marker>@todo</marker>
+			<marker>@phan-suppress-current-line</marker>
+			<marker>@phpstan-ignore-line</marker>
+			<marker>@phpstan-ignore-next-line</marker>
+			<marker>@phpstan-ignore</marker>
+			<marker>@psalm</marker>
+			<marker>@phpcs</marker>
+		    </markers>
+	    	   <ignore-tags>
+			<ignore_tags>author</ignore_tags>
+			<ignore_tags>since</ignore_tags>
+		   </ignore-tags>
+	    </api>
+    </version>
+</phpdocumentor>
