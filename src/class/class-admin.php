@@ -494,13 +494,13 @@ class Admin {
 		}
 
 		// Get the taxonomy file version in the theme.
-		$content_intheme = $wp_filesystem->get_contents( $lumiere_current_theme_path_file );
+		$content_intheme = $wp_filesystem !== null ? $wp_filesystem->get_contents( $lumiere_current_theme_path_file ) : null;
 		if ( is_string( $content_intheme ) && preg_match( $pattern, $content_intheme, $match ) === 1 ) {
 			$version_theme = $match[1];
 		}
 
 		// Get the taxonomy file version in the lumiere theme folder.
-		$content_inplugin = $wp_filesystem->get_contents( $lumiere_taxonomy_theme_file );
+		$content_inplugin = $wp_filesystem !== null ? $wp_filesystem->get_contents( $lumiere_taxonomy_theme_file ) : null;
 		if ( is_string( $content_inplugin ) && preg_match( $pattern, $content_inplugin, $match ) === 1 ) {
 			$version_origin = $match[1];
 		}
