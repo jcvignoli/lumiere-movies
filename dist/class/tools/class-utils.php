@@ -492,6 +492,15 @@ class Utils {
 	 */
 	public static function lumiere_is_amp_page (): bool {
 		global $pagenow;
+
+		// If url contains ?amp, it must be an AMP page
+		if ( str_contains( $_SERVER['REQUEST_URI'], '?amp' )
+		|| isset( $_GET ['wpamp'] )
+		|| isset( $_GET ['amp'] )
+		) {
+			return true;
+		}
+
 		if ( is_admin()
 		/**
 		 * If kept, breaks blog pages these functions can be executed very early
@@ -505,13 +514,12 @@ class Utils {
 			return false;
 		}
 
+		// Since we are checking later (amp_is_request()) a function that execute late, make sure we can execute it
 		if ( did_action( 'wp' ) === 0 ) {
 			return false;
 		}
+		return function_exists( 'amp_is_request' ) && amp_is_request();
 
-		return function_exists( 'amp_is_request' ) && amp_is_request()
-		|| isset( $_GET ['wpamp'] )
-		|| isset( $_GET ['amp'] );
 	}
 
 }

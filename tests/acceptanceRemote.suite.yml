@@ -54,6 +54,9 @@ env:
               config:
                  WebDriver:
                      url: "%TEST_REMOTE_WP_URL%"
+                     adminUsername: '%TEST_WP_ADMIN_USERNAME%'
+                     adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
+                     adminPath: '%TEST_WP_ADMIN_PATH%'
                      browser: firefox
                      path: ''
                      capabilities:
@@ -61,21 +64,22 @@ env:
                             args: ["-headless"] # Run Firefox in headless mode
    wpfirefox:
        modules:
-          config:
-             WPWebDriver:
-                 url: '%TEST_REMOTE_WP_URL%'
-                 adminUsername: '%TEST_WP_ADMIN_USERNAME%'
-                 adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
-                 adminPath: '%TEST_WP_ADMIN_PATH%'
-                 browser: firefox
-                 path: ''
-                 capabilities:
-                     acceptInsecureCerts: true
-                     # Used in more recent releases of Selenium.
-                     moz:firefoxOptions:
-                         args: ["-headless"] # Run Firefox in headless mode
-                         prefs:
-                             intl.accept_languages: "de-AT"
+          enabled:
+              config:
+                 WPWebDriver:
+                     url: '%TEST_REMOTE_WP_URL%'
+                     adminUsername: '%TEST_WP_ADMIN_USERNAME%'
+                     adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
+                     adminPath: '%TEST_WP_ADMIN_PATH%'
+                     browser: firefox
+                     path: ''
+                     capabilities:
+                       acceptInsecureCerts: true
+                       # Used in more recent releases of Selenium.
+                       moz:firefoxOptions:
+                            args: ["-headless"] # Run Firefox in headless mode
+                            prefs:
+                                intl.accept_languages: "de-AT"
    wpchrome:
        modules:
           enabled:

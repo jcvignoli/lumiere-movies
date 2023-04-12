@@ -2,6 +2,7 @@
 
 v.3.9.16
 * [bug] On some environments, check for theme folders version fails. Added extra check on $wp_filesystem for $content_intheme and $content_inplugin in class admin. Added extra check in class copy template taxonomy.
+* [bug] AMP was not fully detected. fixed in class utils.
 * [technical] Rewrote lumiere_wp_filesystem_cred() function in class utils. Does not return bool anymore, but fully uses WP_Filesystem. Edited class cache accordingly.
 
 v.3.9.15

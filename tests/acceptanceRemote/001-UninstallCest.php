@@ -116,10 +116,13 @@ class UninstallCest {
 		// Revert back the saved plugin folder
 		$I->comment(\Helper\Color::set("**Copy back to the saved plugin folder**", 'italic+bold+cyan'));
 		$I->comment( \Helper\Color::set('Restoring plugin folder...', 'magenta+blink') );
+		$I->wait(5);
 		$shell->runShellCommand('scp -r '.$remote_cred.':'.$remote_wpcontent_path.'/lumiere-movies'.' '.$remote_cred.':'.$remote_plugin_path.'/');
+		$I->wait(5);
 		$I->seeFileFound( 'lumiere-movies.php', $wpcontent . 'lumiere-movies/' );
 		$I->comment( \Helper\Color::set('Deleting temporary plugin folder...', 'magenta+blink') );
 		$shell->runShellCommand("ssh ".$remote_cred." 'rm -R ".$remote_wpcontent_path."/lumiere-movies"."'");
+		$I->wait(5);
 		$I->seeFileFound( 'lumiere-movies.php', $dir_plugin_lumiere );
 
 		// Activate plugin
