@@ -58,9 +58,12 @@ class PopupsBootstrapCest {
 		$I->wantTo('Check if popup movie can be open');
 		$I->amOnPage('/2021/test-codeception/');
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
-		$I->wait(7);
-		$I->switchToIFrame("//iframe[@src='$this->url_base_remote$sub_url']");
-		$I->see('Christopher Nolan');
+		$I->wait(4);
+		$I->seeElement('object', ["data" => "$this->url_base_remote$sub_url"]);
+		
+		/** Cannot access the HTML iframe (<object>) with switchToIframe or anything else */
+#		$I->switchToIFrame("//iframe[@src='$this->url_base_remote$sub_url']");
+#		$I->see('Christopher Nolan');
 	}
 
 	/** Is popup person functional?
@@ -76,9 +79,13 @@ class PopupsBootstrapCest {
 		$I->wantTo('Check if popup person can be open');
 		$I->amOnPage('/2021/test-codeception/');
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
-		$I->wait(7);
-		$I->switchToIFrame("//iframe[@src='$this->url_base_remote$sub_url']");
-		$I->see('Pajarero');
+
+		$I->wait(4);
+		$I->seeElement('object', ["data" => "$this->url_base_remote$sub_url"]);
+		
+		/** Cannot access the HTML iframe (<object>) with switchToIframe or anything else */
+#		$I->switchToIFrame("//iframe[@src='$this->url_base_remote$sub_url']");
+#		$I->see('Pajarero');
 	}
 
 }

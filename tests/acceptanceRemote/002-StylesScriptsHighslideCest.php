@@ -170,10 +170,10 @@ class StylesScriptsHighslideCest {
 
 		$I->comment(\Helper\Color::set('Checking Popup person page', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_PERSON_URL );
-		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-16x16.png");	 	# Lumière favicon 16
-		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
-		$I->seeInPageSource("lumiere-movies/pics/favicon/apple-touch-icon.png"); 	# Lumière favicon Apple
-		$I->seeInPageSource("lumiere-movies/pics/favicon/site.webmanifest");	 	# Lumière webmanifest
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-16x16.png");	 	# Lumière favicon 16
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/apple-touch-icon.png"); 	# Lumière favicon Apple
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/site.webmanifest");	 	# Lumière webmanifest
 		$I->seeInPageSource("lumiere_highslide_core-css"); 				# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 					# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");				# Highslide JS
@@ -184,9 +184,9 @@ class StylesScriptsHighslideCest {
 		$I->click('Full filmography');
 		$I->see('The Popcorn Chronicles');
 		$I->click('Full biography');
-		$I->see('Shock Cinema');
+		$I->see('and muscular Mexican leading man');
 		$I->click('Misc');
-		$I->see('His father Luis');
+		$I->see('was born in Guatemala City');
 
 			// Popup movie page
 
@@ -194,10 +194,10 @@ class StylesScriptsHighslideCest {
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL );
 		$I->seeInPageSource("canonical");						 	# Meta tag
 		$I->seeInPageSource("article:tag");					 	# Meta tag
-		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-16x16.png");	 	# Lumière favicon 16
-		$I->seeInPageSource("lumiere-movies/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
-		$I->seeInPageSource("lumiere-movies/pics/favicon/apple-touch-icon.png"); 	# Lumière favicon Apple
-		$I->seeInPageSource("lumiere-movies/pics/favicon/site.webmanifest");	 	# Lumière webmanifest
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-16x16.png");	 	# Lumière favicon 16
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/apple-touch-icon.png"); 	# Lumière favicon Apple
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/site.webmanifest");	 	# Lumière webmanifest
 		$I->seeInPageSource("lumiere_highslide_core-css"); 				# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 					# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");				# Highslide JS
@@ -212,7 +212,7 @@ class StylesScriptsHighslideCest {
 		$I->click('Plots');
 		$I->see('A team of explorers travel');
 		$I->click('Misc');
-		$I->see('Early in pre-production');
+		$I->see(' The resulting visual effects provided Thorne');
 
 	}
 

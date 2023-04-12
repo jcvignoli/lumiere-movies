@@ -39,6 +39,6 @@ class AcceptanceRemoteSettings {
 	// WP Post including a test for auto widget, important to have a movie's name as a title.
 	// An example is available in tests/IMPORT_WP_POST_AUTOWIDGET.txt
 	public const TESTING_PAGE_AUTOWIDGET_URL = '/2021/y-tu-mama-tambien/';
-	public const TESTING_PAGE_AUTOWIDGET_TITLE = 'Y tu mamá también';
+	public const TESTING_PAGE_AUTOWIDGET_TITLE = 'And Your Mother Too';
 
 }
