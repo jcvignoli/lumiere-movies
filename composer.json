@@ -10,29 +10,29 @@
     "require-dev": {
         "codeception/codeception": "@stable",
         "codeception/module-phpbrowser": "@stable",
-        "codeception/module-asserts": "^2.0.1",
-        "codeception/module-db": "^2.0",
-        "codeception/module-cli": "^2.0",
-        "codeception/module-filesystem": "^2.0",
+        "codeception/module-asserts": "@stable",
+        "codeception/module-db": "@stable",
+        "codeception/module-cli": "@stable",
+        "codeception/module-filesystem": "@stable",
         "codeception/module-ftp": "@stable",
-        "codeception/util-universalframework": "^1.0",
-        "vlucas/phpdotenv": "^5.3",
+        "codeception/util-universalframework": "@stable",
+        "vlucas/phpdotenv": "@stable",
         "lucatume/wp-browser": "@stable",
-        "wp-cli/wp-cli-bundle": "^2.5",
-        "wpreadme2markdown/wpreadme2markdown": "^4.0",
-        "phpseclib/phpseclib": "^2.0.14",
-        "squizlabs/php_codesniffer": "^3.7.1",
-        "wp-coding-standards/wpcs": "^2.3",
-        "phpmd/phpmd": "^2.10",
-        "phpstan/phpstan": "^1.10.5",
-        "automattic/phpcs-neutron-ruleset": "^3.4",
-        "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
-        "phan/phan": "^5.3",
-        "skaut/wordpress-stubs": "^2.2",
-        "phpstan/phpstan-strict-rules": "^1.2",
-        "szepeviktor/phpstan-wordpress": "^1.1",
-        "vimeo/psalm": "^5",
-        "wapmorgan/php-deprecation-detector": "^2.0",
+        "wp-cli/wp-cli-bundle": "@stable",
+        "wpreadme2markdown/wpreadme2markdown": "@stable",
+        "phpseclib/phpseclib": "@stable",
+        "squizlabs/php_codesniffer": "@stable",
+        "wp-coding-standards/wpcs": "@stable",
+        "phpmd/phpmd": "@stable",
+        "phpstan/phpstan": "@stable",
+        "automattic/phpcs-neutron-ruleset": "@stable",
+        "dealerdirect/phpcodesniffer-composer-installer": "@stable",
+        "phan/phan": "@stable",
+        "skaut/wordpress-stubs": "@stable",
+        "phpstan/phpstan-strict-rules": "@stable",
+        "szepeviktor/phpstan-wordpress": "@stable",
+        "vimeo/psalm": "@stable",
+        "wapmorgan/php-deprecation-detector": "@stable",
         "codeception/module-webdriver": "*"
     },
     "config": {
@@ -49,7 +49,10 @@
         "phpcsbot": "vendor/bin/phpcs -n src",
         "phpstan": "vendor/bin/phpstan --memory-limit=1G analyze src",
         "phpstanbot": "vendor/bin/phpstan",
-        "lint": ["@phpcsbot", "@phpstanbot"]
+        "lint": ["@phpcsbot", "@phpstanbot"],
+        "post-autoload-dump": [
+            "echo 'updating composer in src' && cd ./src && composer update"
+        ]
 
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2290df0c5a6f58f24c7db97c4bda2400",
+    "content-hash": "3d663a6d0ac94f6b607e74e4208c0be8",
     "packages": [
         {
             "name": "imdbphp/imdbphp",
@@ -311,7 +311,10 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "imdbphp/imdbphp": 0,
+        "twbs/bootstrap": 0
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
