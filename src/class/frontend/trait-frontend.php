@@ -73,10 +73,10 @@ trait Frontend {
 	/**
 	 * Constructor
 	 *
-	 * @param null|string $logger_name Title of Monolog logger
-	 * @param null|bool $screen_output whether to output Monolog on screen or not
+	 * @param string $logger_name Title of Monolog logger
+	 * @param bool $screen_output whether to output Monolog on screen or not
 	 */
-	public function __construct( ?string $logger_name = 'unknownOrigin', ?bool $screen_output = true ) {
+	public function __construct( string $logger_name = 'unknownOrigin', bool $screen_output = true ) {
 
 		// Build Global settings.
 		$this->settings_open();
@@ -153,28 +153,26 @@ trait Frontend {
 	/**
 	 * Start debug if conditions are met
 	 */
-	public function lumiere_frontend_maybe_start_debug(): bool {
+	public function lumiere_frontend_maybe_start_debug(): void {
 
 		// If editor page, exit.
 		// Useful for block editor pages (gutenberg).
 		if ( $this->is_editor_page === true ) {
-			return false;
+			return;
 		}
 
 		// If the user can't manage options and it's not a cron, exit.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			return false;
+			return;
 		}
 
 		// If debug is active.
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
 
 			$this->utils_class->lumiere_activate_debug();
-			return true;
 
 		}
 
-		return false;
 	}
 
 	/**
