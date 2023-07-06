@@ -1,5 +1,8 @@
 **Changelog**
 
+v.3.9.17
+* [technical] Updated to bootstrap 5.3
+
 v.3.9.16
 * [bug] On some environments, check for theme folders version fails. Added extra check on $wp_filesystem for $content_intheme and $content_inplugin in class admin. Added extra check in class copy template taxonomy.
 * [bug] AMP was not fully detected. fixed in class utils.
