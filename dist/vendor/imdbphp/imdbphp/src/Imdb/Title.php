@@ -2467,7 +2467,7 @@ EOF;
                     preg_match('!<div id="trivia_content"(.+?)<div id="sidebar">!ims', $this->page["Trivia"], $block);
                 }
             }
-            if (preg_match_all('!<div class="sodatext">\s*(.*?)\s*</div>\s*<div!ims', $block[1], $matches)) {
+            if (isset($block[1]) && preg_match_all('!<div class="sodatext">\s*(.*?)\s*</div>\s*<div!ims', $block[1], $matches)) {
                 $gc = count($matches[1]);
                 for ($i = 0; $i < $gc; ++$i) {
                     $this->trivia[] = str_replace('href="/', 'href="https://' . $this->imdbsite . "/", $matches[1][$i]);
