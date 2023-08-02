@@ -121,6 +121,7 @@ Sure thing, you can also modify the order of these details. Just take a look at 
 = Known issues =
 
 * In taxonomy extra page for people, if Polylang and AMP are activated, the form to change the language doesn't work.
+* Biography is not working due to an IMDbPHP library bug.
 
 == Support ==
 
