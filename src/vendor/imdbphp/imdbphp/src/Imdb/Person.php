@@ -802,28 +802,34 @@ public function died()
                 return array();
             } // no such page
             if (preg_match(
-                '!<h4 class="li_group">Mini Bio[^>]+?>(.+?)<(h4 class="li_group"|div class="article")!ims',
+/**                '!<h4 class="li_group">Mini Bio[^>]+?>(.+?)<(h4 class="li_group"|div class="article")!ims', */
+                '!<h3 class="ipc-title__text"><span id="mini_bio">Mini Bio<\/span>(.+?)role="presentation"><\/div><\/div><\/li><\/ul><\/div><\/section>!ims',
                 $page,
                 $block
             )) {
                 preg_match_all(
-                    '!<div class="soda.*?\s*<p>\s*(?<bio>.+?)\s</p>\s*<p><em>- IMDb Mini Biography By:\s*(?<author>.+?)\s*</em>!ims',
+//                    '!<div class="soda.*?\s*<p>\s*(?<bio>.+?)\s</p>\s*<p><em>- IMDb Mini Biography By:\s*(?<author>.+?)\s*</em>!ims',
+                    '!<div class="ipc-html-content-inner-div">(?<bio>.+?)(<div class=".+?" role="presentation">)?(<div class="ipc-html-content-inner-div">- IMDb Mini Biography By:\s)?(?<author>.+?)?<\/div><\/div><\/li><\/ul>!ims',
                     $block[1],
                     $matches
                 );
                 for ($i = 0; $i < count($matches[0]); ++$i) {
                     $bio_bio["desc"] = str_replace(
-                        "href=\"/name/nm",
-                        "href=\"https://" . $this->imdbsite . "/name/nm",
-                        str_replace(
-                            "href=\"/title/tt",
-                            "href=\"https://" . $this->imdbsite . "/title/tt",
-                            str_replace(
-                                '/search/name',
-                                'https://' . $this->imdbsite . '/search/name',
-                                $matches['bio'][$i]
-                            )
-                        )
+                    	'?ref_=nmbio_mbio',
+                    	'',
+                    	str_replace(
+		                "class=\"ipc-md-link ipc-md-link--entity\" href=\"/name/nm",
+		                "href=\"https://" . $this->imdbsite . "/name/nm",
+		                str_replace(
+		                    "class=\"ipc-md-link ipc-md-link--entity\" href=\"/title/tt",
+		                    "href=\"https://" . $this->imdbsite . "/title/tt",
+		                    str_replace(
+		                        '/search/name',
+		                        'https://' . $this->imdbsite . '/search/name',
+		                        $matches['bio'][$i]
+		                    )
+		                )
+		               )
                     );
                     $author = 'Written by ' . (str_replace(
                         '/search/name',
