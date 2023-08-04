@@ -37,7 +37,7 @@ class ComposerStaticInit2660170a07cc3fb36d97d6c17f332311
         ),
         'Imdb\\' => 
         array (
-            0 => __DIR__ . '/..' . '/imdbphp/imdbphp/src/Imdb',
+            0 => __DIR__ . '/..' . '/jcvignoli/imdbphp/src/Imdb',
         ),
     );
 

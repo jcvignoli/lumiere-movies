@@ -485,6 +485,7 @@ class Person extends MdbBase
      * @return string birthname
      * @see IMDB person page /bio
      */
+// updated by @jc_vignoli 3.8.2023
 public function birthname()
 {
     if (empty($this->birth_name)) {
@@ -505,6 +506,7 @@ public function birthname()
      * @return array nicknames array[0..n] of strings
      * @see IMDB person page /bio
      */
+// updated by @jc_vignoli 3.8.2023
 public function nickname()
 {
     if (empty($this->nick_name)) {
@@ -540,6 +542,7 @@ public function nickname()
      *         where month is the month name, and mon the month number
      * @see IMDB person page /bio
      */
+// updated by @jc_vignoli 3.8.2023
 public function born()
 {
     if (empty($this->birthday)) {
@@ -579,6 +582,7 @@ public function born()
      *         where month is the month name, and mon the month number
      * @see IMDB person page /bio
      */
+// updated by @jc_vignoli 3.8.2023
 public function died()
 {
     if (empty($this->deathday)) {
@@ -803,13 +807,15 @@ public function died()
             } // no such page
             if (preg_match(
 /**                '!<h4 class="li_group">Mini Bio[^>]+?>(.+?)<(h4 class="li_group"|div class="article")!ims', */
-                '!<h3 class="ipc-title__text"><span id="mini_bio">Mini Bio<\/span>(.+?)role="presentation"><\/div><\/div><\/li><\/ul><\/div><\/section>!ims',
+// updated by @jc_vignoli 3.8.2023
+                '!<span id="mini_bio">Mini Bio<\/span>(.+?)role="presentation"><\/div><\/div><\/li><\/ul><\/div><\/section>!ims',
                 $page,
                 $block
             )) {
                 preg_match_all(
 //                    '!<div class="soda.*?\s*<p>\s*(?<bio>.+?)\s</p>\s*<p><em>- IMDb Mini Biography By:\s*(?<author>.+?)\s*</em>!ims',
-                    '!<div class="ipc-html-content-inner-div">(?<bio>.+?)(<div class=".+?" role="presentation">)?(<div class="ipc-html-content-inner-div">- IMDb Mini Biography By:\s)?(?<author>.+?)?<\/div><\/div><\/li><\/ul>!ims',
+// updated by @jc_vignoli 3.8.2023
+                    '!<div class="ipc-html-content-inner-div">(?<bio>.+?)<div class=".+?" role="presentation">(<div class="ipc-html-content-inner-div">- IMDb Mini Biography By:\s)?(?<author>.+?)?<\/div><\/div>(<\/li>)?<\/ul>!ims',
                     $block[1],
                     $matches
                 );

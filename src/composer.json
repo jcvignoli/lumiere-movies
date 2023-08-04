@@ -7,9 +7,13 @@
         "wiki": "https://github.com/jcvignoli/lumiere-movies/wiki",
         "source": "https://github.com/jcvignoli/lumiere-movies"
     },
+    "repositories": [{
+         "type": "vcs",
+         "url": "https://github.com/jcvignoli/imdbphp"
+    }],
     "require": {
         "php": ">=8.0",
-        "imdbphp/imdbphp": "@stable",
+        "jcvignoli/imdbphp": "dev-master",
         "monolog/monolog": "^2.8",
         "twbs/bootstrap": "@stable"
     },

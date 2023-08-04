@@ -167,7 +167,7 @@ paths = {
 
 			'!./src/vendor/**/*.*',				/* copy only relevant files in src/vendor */ 
 				'./src/vendor/composer/**/*.*',
-				'./src/vendor/imdbphp/imdbphp/src/**/*.*',
+				'./src/vendor/jcvignoli/imdbphp/src/**/*.*',
 				'./src/vendor/monolog/**/*.*',
 				'./src/vendor/psr/**/*.*',
 				'./src/vendor/twbs/bootstrap/dist/**/*.{min.js,min.css}',
