@@ -1,6 +1,9 @@
 **Changelog**
 
+v.3.10.1
+
 v.3.10
+* [technical] Using customized IMDbPHP library. Will switch back to the main one if maintained again.
 * [technical] Updated to bootstrap 5.3.1
 * [bug] fixed many biographical functions (nickname, movies, etc) in popup for people. 
 * [bug] On some environments, check for theme folders version fails. Added extra check on $wp_filesystem for $content_intheme and $content_inplugin in class admin. Added extra check in class copy template taxonomy.
