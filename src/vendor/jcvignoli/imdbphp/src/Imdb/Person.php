@@ -509,31 +509,25 @@ public function birthname()
 // updated by @jc_vignoli 3.8.2023
 public function nickname()
 {
-    if (empty($this->nick_name)) {
-        $this->getPage("Bio");
-        if (preg_match("!Nicknames</td>\s*<td>\s*(.*?)</td>\s*</tr>!ms", $this->page["Bio"], $match)) {
-            $nicks = explode("<br>", $match[1]);
-            foreach ($nicks as $nick) {
-                $nick = trim($nick);
-                if (!empty($nick)) {
-                    $this->nick_name[] = $nick;
-                }
-            }
-        } elseif (preg_match('!Nickname</td><td>\s*([^<]+)\s*</td>!', $this->page["Bio"], $match)) {
-            $this->nick_name[] = trim($match[1]);
-        } elseif (preg_match('/Nicknames","listContent":\\[[^\\]](.*?)\\]\\}/i', $this->page["Bio"], $match)) {
-            $nicks = explode(",", $match[1]);
-            foreach ($nicks as $nick) {
-                if (preg_match('|:"(.*?)"|ims', $nick, $match)) {
-                    $nick = trim($match[1]);
-                }
-                if (!empty($nick)) {
-                    $this->nick_name[] = $nick;
+        if (empty($this->nick_name)) {
+            $query = <<<EOF
+query NickName(\$id: ID!) {
+  name(id: \$id) {
+    nickNames {
+      text
+    }
+  }
+}
+EOF;
+
+            $data = $this->graphql->query($query, "NickName", ["id" => "nm$this->imdbID"]);
+            foreach ($data->name->nickNames as $nickName) {
+                if (!empty($nickName->text)) {
+                    $this->nick_name[] = $nickName->text;
                 }
             }
         }
-    }
-    return $this->nick_name;
+        return $this->nick_name;
 }
     #------------------------------------------------------------------[ Born ]---
 
@@ -862,6 +856,7 @@ public function died()
      * @param string $name
      * @param array &$res
      */
+     /**
     protected function parparse($name, &$res)
     {
         $page = $this->getPage("Bio");
@@ -884,7 +879,41 @@ public function died()
             }
         }
     }
+	*/
+    #-----------------------------------------[ NEW!!! Helper to Trivia, Quotes and Trademarks ]---
 
+    /** Parse Trivia, Quotes and Trademarks
+     * @param string $name
+     * @param array $arrayName
+     */
+    protected function dataParse($name, $arrayName)
+    {
+        $query = <<<EOF
+query Data(\$id: ID!) {
+  name(id: \$id) {
+    $name(first: 9999) {
+      edges {
+        node {
+          text {
+            plainText
+          }
+        }
+      }
+    }
+  }
+}
+EOF;
+        $data = $this->graphql->query($query, "Data", ["id" => "nm$this->imdbID"]);
+        if ($data != null) {
+            foreach ($data->name->$name->edges as $edge) {
+                if (isset($edge->node->text->plainText)) {
+                    $arrayName[] = $edge->node->text->plainText;
+                }
+            }
+        }
+        return $arrayName;
+    }
+    
     #----------------------------------------------------------------[ Trivia ]---
 
     /** Get the Trivia
@@ -893,8 +922,8 @@ public function died()
      */
     public function trivia()
     {
-        if (empty($this->bio_trivia)) {
-            $this->parparse("Trivia", $this->bio_trivia);
+         if (empty($this->bio_trivia)) {
+            return $this->dataParse("trivia", $this->bio_trivia);
         }
         return $this->bio_trivia;
     }
@@ -908,7 +937,7 @@ public function died()
     public function quotes()
     {
         if (empty($this->bio_quotes)) {
-            $this->parparse("Personal Quotes", $this->bio_quotes);
+            return $this->dataParse("quotes", $this->bio_quotes);
         }
         return $this->bio_quotes;
     }
@@ -922,7 +951,7 @@ public function died()
     public function trademark()
     {
         if (empty($this->bio_tm)) {
-            $this->parparse("Trade Mark", $this->bio_tm);
+            return $this->dataParse("trademarks", $this->bio_tm);
         }
         return $this->bio_tm;
     }
@@ -974,42 +1003,52 @@ public function died()
     public function pubprints()
     {
         if (empty($this->pub_prints)) {
-            $page = $this->getPage("Publicity");
-            $pos_s = strpos($page, "<h4 class=\"li_group\">Print Biographies (");
-            $pos_e = strpos($page, "</table", $pos_s);
-            $block = substr($page, $pos_s, $pos_e - $pos_s);
-            $arr = explode("<td", $block);
-            $pc = count($arr);
-            for ($i = 1; $i < $pc; ++$i) {
-                if (preg_match(
-                    '/(.*).\s*<i>(.*)<\/i>\s*((.*):|)((.*),|)\s*((\d+)\.|)\s*ISBN\s*<a href="(.*)">(.*)<\/a>/iU',
-                    $arr[$i],
-                    $match
-                )) {
+            $query = <<<EOF
+query PubPrint(\$id: ID!) {
+  name(id: \$id) {
+    publicityListings(first: 9999, filter: {categories: ["namePrintBiography"]}) {
+      edges {
+        node {
+          ... on NamePrintBiography {
+            title {
+                text
+            }
+            authors {
+                plainText
+            }
+            isbn
+            publisher
+          }
+        }
+      }
+    }
+  }
+}
+EOF;
+            $data = $this->graphql->query($query, "PubPrint", ["id" => "nm$this->imdbID"]);
+            if ($data != null) {
+                foreach ($data->name->publicityListings->edges as $edge) {
+                    $title = isset($edge->node->title->text) ? $edge->node->title->text : '';
+                    $isbn = isset($edge->node->isbn) ? $edge->node->isbn : '';
+                    $publisher = isset($edge->node->publisher) ? $edge->node->publisher : '';
+                    $authors = array();
+                    if ($edge->node->authors != null) {
+                        foreach ($edge->node->authors as $author) {
+                            if (isset($author->plainText)) {
+                                $authors[] = $author->plainText;
+                            }
+                        }
+                    }
                     $this->pub_prints[] = array(
-                      "author" => $match[1],
-                      "title" => htmlspecialchars_decode($match[2], ENT_QUOTES),
-                      "place" => trim($match[4]),
-                      "publisher" => htmlspecialchars_decode(trim($match[6]), ENT_QUOTES),
-                      "year" => $match[8],
-                      "isbn" => $match[10],
-                      "url" => $match[9]
-                    );
-                } elseif (preg_match('/(.*).\s*<i>(.*)<\/i>\s*((.*):|)((.*),|)\s*((\d+)\.)/iU', $arr[$i], $match)) {
-                    $this->pub_prints[] = array(
-                      "author" => $match[1],
-                      "title" => htmlspecialchars_decode($match[2], ENT_QUOTES),
-                      "place" => trim($match[4]),
-                      "publisher" => htmlspecialchars_decode(trim($match[6]), ENT_QUOTES),
-                      "year" => $match[8],
-                      "isbn" => "",
-                      "url" => ""
+                        "title" => $title,
+                        "author" => $authors,
+                        "publisher" => $publisher,
+                        "isbn" => $isbn
                     );
                 }
             }
         }
-        return $this->pub_prints;
-    }
+        return $this->pub_prints;    }
 
     #----------------------------------------------[ Helper for movie parsing ]---
 
@@ -1043,7 +1082,70 @@ public function died()
     public function pubmovies()
     {
         if (empty($this->pub_movies)) {
-            $this->parsepubmovies($this->pub_movies, "Film Biographies");
+            $query = <<<EOF
+query PubFilm(\$id: ID!) {
+  name(id: \$id) {
+    publicityListings(first: 9999, filter: {categories: ["nameFilmBiography"]}) {
+      edges {
+        node {
+          ... on NameFilmBiography {
+            title {
+              titleText {
+                text
+              }
+              id
+              releaseYear {
+                year
+              }
+              series {
+                displayableEpisodeNumber {
+                  displayableSeason {
+                    text
+                  }
+                  episodeNumber {
+                    text
+                  }
+                }
+                series {
+                  titleText {
+                    text
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+EOF;
+            $data = $this->graphql->query($query, "PubFilm", ["id" => "nm$this->imdbID"]);
+            if ($data != null) {
+                foreach ($data->name->publicityListings->edges as $edge) {
+                    $filmTitle = isset($edge->node->title->titleText->text) ? $edge->node->title->titleText->text : '';
+                    $filmId = isset($edge->node->title->id) ? str_replace('tt', '', $edge->node->title->id) : '';
+                    $filmYear = isset($edge->node->title->releaseYear->year) ? $edge->node->title->releaseYear->year : '';
+                    $filmSeriesSeason = '';
+                    $filmSeriesEpisode = '';
+                    $filmSeriesTitle = '';
+                    if ($edge->node->title->series != null) {
+                        $filmSeriesTitle = isset($edge->node->title->series->series->titleText->text) ? $edge->node->title->series->series->titleText->text : '';
+                        $filmSeriesSeason = isset($edge->node->title->series->displayableEpisodeNumber->displayableSeason->text) ?
+                                                  $edge->node->title->series->displayableEpisodeNumber->displayableSeason->text : '';
+                        $filmSeriesEpisode = isset($edge->node->title->series->displayableEpisodeNumber->episodeNumber->text) ?
+                                                   $edge->node->title->series->displayableEpisodeNumber->episodeNumber->text : '';
+                    }
+                    $this->pub_movies[] = array(
+                        "title" => $filmTitle,
+                        "id" => $filmId,
+                        "year" => $filmYear,
+                        "seriesTitle" => $filmSeriesTitle,
+                        "seriesSeason" => $filmSeriesSeason,
+                        "seriesEpisode" => $filmSeriesEpisode,
+                    );
+                }
+            }
         }
         return $this->pub_movies;
     }

@@ -433,10 +433,10 @@ class Popup_Person {
 
 			for ( $i = 0; $i < $nbtotalbiomovie; ++$i ) {
 
-				echo "<a rel=\"nofollow\" class='linkpopup' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $biomovie[ $i ]['imdb'] ) ) . "'>" . esc_html( $biomovie[ $i ]['name'] ) . '</a>';
+				echo "<a rel=\"nofollow\" class='linkpopup' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $biomovie[ $i ]['id'] ) ) . "'>" . esc_html( $biomovie[ $i ]['title'] ) . '</a>';
 
-				if ( isset( $biomovie[ $i ]['year'] ) && strlen( $biomovie[ $i ]['year'] ) !== 0 ) {
-					echo ' (' . intval( $biomovie[ $i ]['year'] ) . ')';
+				if ( isset( $biomovie[ $i ]['year'] ) && $biomovie[ $i ]['year'] > 0 ) {
+					echo ' (' . intval( $biomovie[ $i ]['year'] ) . ') ';
 				}
 			}
 
@@ -514,7 +514,6 @@ class Popup_Person {
 			echo "\n\t" . '<span class="imdbincluded-subtitle">'
 				. esc_html__( 'Printed publicity', 'lumiere-movies' )
 				. '</span>';
-
 			for ( $i = 0; $i < $nbtotalpubprints; $i++ ) {
 
 				// Display a "show more" after XX results
@@ -525,8 +524,8 @@ class Popup_Person {
 						. "\n\t" . '<span class="hidesection">';
 				}
 
-				if ( isset( $pubprints[ $i ]['author'] ) && strlen( $pubprints[ $i ]['author'] ) !== 0 ) {
-					echo "\n\t\t" . esc_html( $pubprints[ $i ]['author'] );
+				if ( isset( $pubprints[ $i ]['author'][0] ) && strlen( $pubprints[ $i ]['author'][0] ) !== 0 ) {
+					echo "\n\t\t" . esc_html( $pubprints[ $i ]['author'][0] );
 				}
 
 				if ( isset( $pubprints[ $i ]['title'] ) && strlen( $pubprints[ $i ]['title'] ) !== 0 ) {
@@ -674,7 +673,7 @@ class Popup_Person {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Trademarks -->';
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Trademarks', 'lumiere-movies' ) . ' </span>';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Trademarks', 'lumiere-movies' ) . ' </span> (' . intval( $nbtotaltrademark ) . ')';
 
 			for ( $i = 0; $i < $nbtotaltrademark; $i++ ) {
 
@@ -761,8 +760,8 @@ class Popup_Person {
 				echo $this->link_maker->lumiere_medaillon_bio( $this->person->bio() );
 				?>
 
-				</font><!--</div>
-			</div> @info 2023.08 removed after change in biography in imdbphp Person class -->
+				</font><?php /** </div>
+			</div> */ // @info 2023.08 removed after change in biography in imdbphp Person class ?>
 												<!-- star photo -->
 			<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two"><?php
 
@@ -814,11 +813,4 @@ class Popup_Person {
 	}
 
 } // end of class
-
-
-/**
- * Auto load the class
- * Conditions: not admin area
- */
-//add_action( 'init', [ 'Lumiere\Popup_Person', 'lumiere_popup_person_start' ], 1 );
 
