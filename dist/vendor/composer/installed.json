@@ -1,18 +1,18 @@
 {
     "packages": [
         {
-            "name": "imdbphp/imdbphp",
-            "version": "v8.1.0",
-            "version_normalized": "8.1.0.0",
+            "name": "jcvignoli/imdbphp",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/tboothman/imdbphp.git",
-                "reference": "7d4b65fe18693d791dace6a8eb88d18fdc5bbbff"
+                "url": "https://github.com/jcvignoli/imdbphp.git",
+                "reference": "133dba9a9c29604e6c3f8e043f72a81caabe50cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tboothman/imdbphp/zipball/7d4b65fe18693d791dace6a8eb88d18fdc5bbbff",
-                "reference": "7d4b65fe18693d791dace6a8eb88d18fdc5bbbff",
+                "url": "https://api.github.com/repos/jcvignoli/imdbphp/zipball/133dba9a9c29604e6c3f8e043f72a81caabe50cc",
+                "reference": "133dba9a9c29604e6c3f8e043f72a81caabe50cc",
                 "shasum": ""
             },
             "require": {
@@ -32,7 +32,8 @@
                 "phpstan/phpstan": "^1.9",
                 "phpunit/phpunit": "^9.5"
             },
-            "time": "2023-03-14T23:52:55+00:00",
+            "time": "2023-08-04T06:04:33+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -40,16 +41,37 @@
                     "Imdb\\": "src/Imdb"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "test": [
+                    "phpunit -c tests/phpunit.xml tests"
+                ],
+                "test:clean": [
+                    "php tests/clearCache.php && composer test"
+                ],
+                "phpstan": [
+                    "phpstan analyse --memory-limit 256M"
+                ],
+                "cs": [
+                    "php-cs-fixer fix --ansi --verbose --dry-run --diff"
+                ],
+                "cs:no-cache": [
+                    "php-cs-fixer fix --ansi --verbose --dry-run --diff --using-cache=no"
+                ],
+                "cs-fix": [
+                    "php-cs-fixer fix --ansi --verbose --diff"
+                ],
+                "style": [
+                    "@cs-fix"
+                ]
+            },
             "license": [
                 "GPL-2.0-or-later"
             ],
             "description": "Library for retrieving film and tv information from IMDb",
             "support": {
-                "issues": "https://github.com/tboothman/imdbphp/issues",
-                "source": "https://github.com/tboothman/imdbphp/tree/v8.1.0"
+                "source": "https://github.com/jcvignoli/imdbphp/tree/master"
             },
-            "install-path": "../imdbphp/imdbphp"
+            "install-path": "../jcvignoli/imdbphp"
         },
         {
             "name": "monolog/monolog",
