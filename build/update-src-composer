@@ -8,7 +8,7 @@ if [ -z "./tmp/cache" ];then
 fi
 
 # Execute only in local install, if not github fails
-if [ -d "./vendor" ]; then
+if [ -d "./tmp/cache" ]; then
 
 	# Update main composer
 	echo 'updating composer in src folder...'
