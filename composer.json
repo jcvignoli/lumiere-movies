@@ -51,7 +51,7 @@
         "phpstanbot": "vendor/bin/phpstan",
         "lint": ["@phpcsbot", "@phpstanbot"],
         "post-autoload-dump": [
-            "echo 'updating composer in src' && cd ./src && composer update"
+            "echo 'updating composer in src' && ./build/update-src-composer"
         ]
 
     }
