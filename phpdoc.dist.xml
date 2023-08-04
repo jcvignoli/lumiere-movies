@@ -19,6 +19,7 @@
 			<path>src/vendor</path>
 		    </ignore>
 		    <markers>
+			<marker>@info</marker>
 			<marker>@TODO</marker>
 			<marker>@todo</marker>
 			<marker>@phan-suppress-current-line</marker>

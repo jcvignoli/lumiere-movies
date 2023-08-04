@@ -761,8 +761,8 @@ class Popup_Person {
 				echo $this->link_maker->lumiere_medaillon_bio( $this->person->bio() );
 				?>
 
-				</font></div>
-			</div> 
+				</font><!--</div>
+			</div> @info 2023.08 removed after change in biography in imdbphp Person class -->
 												<!-- star photo -->
 			<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two"><?php
 

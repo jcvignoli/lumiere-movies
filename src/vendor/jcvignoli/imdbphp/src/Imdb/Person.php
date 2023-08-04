@@ -815,7 +815,7 @@ public function died()
                 preg_match_all(
 //                    '!<div class="soda.*?\s*<p>\s*(?<bio>.+?)\s</p>\s*<p><em>- IMDb Mini Biography By:\s*(?<author>.+?)\s*</em>!ims',
 // updated by @jc_vignoli 3.8.2023
-                    '!<div class="ipc-html-content-inner-div">(?<bio>.+?)<div class=".+?" role="presentation">(<div class="ipc-html-content-inner-div">- IMDb Mini Biography By:\s)?(?<author>.+?)?<\/div><\/div>(<\/li>)?<\/ul>!ims',
+                    '!<div class="ipc-html-content-inner-div">(?<bio>.+?)<div class="ipc-html-content ipc-html-content--base.+?" role="presentation">(<div class="ipc-html-content-inner-div">- IMDb Mini Biography By:\s)?(?<author>.+?)?<\/div><\/div>(<\/li>)?<\/ul>!ims',
                     $block[1],
                     $matches
                 );
