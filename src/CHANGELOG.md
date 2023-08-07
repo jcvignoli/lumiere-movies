@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.10.1
+* [bug] fixed trivia and soundtrack in popup movie (and main movie class for soundtrack too)
 
 v.3.10
 * [technical] Using customized IMDbPHP library. Will switch back to the main one if maintained again.

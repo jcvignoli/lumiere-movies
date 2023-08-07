@@ -2454,24 +2454,34 @@ EOF;
      */
     public function trivia($spoil = false)
     {
+    	// edited jcv 2023.08.7
         if (empty($this->trivia)) {
-            $page = $this->getPage("Trivia");
-            if (empty($page)) {
-                return array();
-            } // no such page
-            if ($spoil) {
-                return [];
-            } else {
-                preg_match('!<div id="trivia_content"(.+?)<a id="spoilers"!ims', $this->page["Trivia"], $block);
-                if (empty($block)) {
-                    preg_match('!<div id="trivia_content"(.+?)<div id="sidebar">!ims', $this->page["Trivia"], $block);
-                }
+            $query = <<<EOF
+query Trivia(\$id: ID!) {
+  title(id: \$id) {
+    trivia(first: 9999) {
+      edges {
+        node {
+          displayableArticle {
+            body {
+              plainText
             }
-            if (isset($block[1]) && preg_match_all('!<div class="sodatext">\s*(.*?)\s*</div>\s*<div!ims', $block[1], $matches)) {
-                $gc = count($matches[1]);
-                for ($i = 0; $i < $gc; ++$i) {
-                    $this->trivia[] = str_replace('href="/', 'href="https://' . $this->imdbsite . "/", $matches[1][$i]);
+          }
+          isSpoiler
+        }
+      }
+    }
+  }
+}
+EOF;
+            $data = $this->graphql->query($query, "Trivia", ["id" => "tt$this->imdbID"]);
+            foreach ($data->title->trivia->edges as $edge) {
+                if ($spoil === false) {
+                    if (isset($edge->node->isSpoiler) && $edge->node->isSpoiler === true) {
+                        continue;
+                    }
                 }
+                $this->trivia[] = preg_replace('/\s\s+/', ' ', $edge->node->displayableArticle->body->plainText);
             }
         }
         return $this->trivia;
@@ -2505,22 +2515,49 @@ EOF;
      */
     public function soundtrack()
     {
+    	// edited jcv 2023.08.7
         if (empty($this->soundtracks)) {
-            $page = $this->getPage("Soundtrack");
-            if (empty($page)) {
-                return array();
-            } // no such page
-            if (preg_match_all('!class="soundTrack soda (odd|even)"\s*>\s*(?<title>.+?)<br\s*/>(?<desc>.+?)</div>!ims', $page, $matches, PREG_SET_ORDER)) {
-                foreach ($matches as $match) {
-                    $this->soundtracks[] = array(
-                        'soundtrack' => trim($match['title']),
-                        'credits' => preg_replace("/\s*\n\s*/", "\n", trim(strip_tags($match['desc']))),
-                        'credits_raw' => trim($match['desc'])
-                    );
+            $query = <<<EOF
+query Soundtrack(\$id: ID!) {
+  title(id: \$id) {
+    soundtrack(first: 9999) {
+      edges {
+        node {
+          text
+          comments {
+            plainText
+          }
+        }
+      }
+    }
+  }
+}
+EOF;
+            $data = $this->graphql->query($query, "Soundtrack", ["id" => "tt$this->imdbID"]);
+            foreach ($data->title->soundtrack->edges as $edge) {
+                $credits = '';
+                $title = '';
+                if (isset($edge->node->text) && $edge->node->text !== '') {
+                    $title = ucwords(strtolower(trim($edge->node->text)), " (");
+                } else {
+                    $title = 'Unknown';
                 }
+                foreach ($edge->node->comments as $key => $comment) {
+                    if (trim(strip_tags($comment->plainText)) !== '') {
+                        $credits .= $comment->plainText;
+                        if ($key !== array_key_last($edge->node->comments)) {
+                            $credits .= '&#10;';
+                        }
+                    }
+                }
+                $this->soundtracks[] = array(
+                        'soundtrack' => $title,
+                        'credits' => $credits
+                    );
             }
         }
         return $this->soundtracks;
+
     }
 
     #=================================================[ /movieconnection page ]===

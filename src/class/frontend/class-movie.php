@@ -1114,7 +1114,7 @@ class Movie {
 				 * Each one has its own class passed in $link_maker,
 				 * according to which option the lumiere_select_link_maker() found in Frontend.
 				 */
-				$this->link_maker->lumiere_imdburl_to_popupurl( $soundtrack [ $i ]['credits_raw'] )
+				$this->link_maker->lumiere_imdburl_to_popupurl( $soundtrack [ $i ]['credits'] )
 			) . '</i> ';
 
 			if ( $i < ( $nbsoundtracks - 1 ) && $i < ( $nbtotalsoundtracks - 1 ) ) {
