@@ -2124,39 +2124,37 @@ EOF;
     public function goofs()
     {
         if (empty($this->goofs)) {
-            $page = $this->getPage("Goofs");
-            if (empty($page)) {
-                return array();
-            } // no such page
-            if (@preg_match_all(
-                '@<h4 class="li_group">(.+?)(!?&nbsp;)</h4>\s*(.+?)\s*(?=<h4 class="li_group">|<div id="top_rhs_wrapper")@ims',
-                $this->page["Goofs"],
-                $matches
-            )) {
-                $gc = count($matches[1]);
-                for ($i = 0; $i < $gc; ++$i) {
-                    if ($matches[1][$i] == 'Spoilers') {
-                        continue;
-                    } // no spoilers, moreover they are differently formatted
-                    preg_match_all(
-                        '!<div id="gf.+?>(\s*<div class="sodatext">)?(.+?)\s*</div>\s*<div!ims',
-                        $matches[3][$i],
-                        $goofy
-                    );
-                    $ic = count($goofy[0]);
-                    for ($k = 0; $k < $ic; ++$k) {
-                        $this->goofs[] = array(
-                            "type" => $matches[1][$i],
-                            "content" => str_replace(
-                                'href="/',
-                                'href="https://' . $this->imdbsite . '/',
-                                trim($goofy[2][$k])
-                            )
-                        );
-                    }
-                }
+            $query = <<<EOF
+query Goofs(\$id: ID!) {
+  title(id: \$id) {
+    goofs(first: 9999, filter: {spoilers: EXCLUDE_SPOILERS}) {
+      edges {
+        node {
+          category {
+            text
+          }
+          displayableArticle {
+            body {
+              plainText
+            }
+          }
+        }
+      }
+    }
+  }
+}
+EOF;
+            $data = $this->graphql->query($query, "Goofs", ["id" => "tt$this->imdbID"]);
+            foreach ($data->title->goofs->edges as $edge) {
+                $type = isset($edge->node->category->text) ? $edge->node->category->text : '';
+                $content = isset($edge->node->displayableArticle->body->plainText) ? $edge->node->displayableArticle->body->plainText : '';
+                $this->goofs[] = array(
+                    "type" => $type,
+                    "content" => $content
+                );
             }
         }
+        usort($this->goofs, fn($a, $b) => $a['type'] <=> $b['type']);
         return $this->goofs;
     }
 
