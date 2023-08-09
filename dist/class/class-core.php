@@ -273,7 +273,7 @@ class Core {
 		wp_register_script(
 			'lumiere_scripts',
 			$this->config_class->lumiere_js_dir . 'lumiere_scripts.min.js',
-			[ 'jquery' ],
+			[],
 			$this->config_class->lumiere_version,
 			true
 		);

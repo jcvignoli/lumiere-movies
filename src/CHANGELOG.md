@@ -1,7 +1,12 @@
 **Changelog**
 
 v.3.10.1
+* [feature] Spinners added: when loading popups and information in popups, a waiting animation will be displayed until the information is retrieved
 * [bug] fixed trivia, goofs and soundtrack in popup movie (and main movie class for soundtrack too)
+* [bug] fixed search akas in popup movie was not allowing to click on movie's and director links
+* [bug] removed trick for preventing double register of lumiere_scripts.js, seems it is not needed anymore (deactivtated wp_dequeue_script( 'lumiere_scripts' ) in class bootstrap-links)
+* [bug] fixed javascript back in popup (lumiere_scripts.js was not loaded due to the previous bug)
+* [bug] fixed spinner appearing in popup search (lumiere_scripts.js was not loaded due to the previous bug), added spinner in popup person and popup movies
 
 v.3.10
 * [technical] Using customized IMDbPHP library. Will switch back to the main one if maintained again.

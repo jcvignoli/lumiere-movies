@@ -14,7 +14,7 @@ body.lumiere_body_lightgrey {color: black;background: lightgrey;}
 
 .hidesection{display:none;}
 .activatehidesection {cursor:pointer;}
-.historyback, .searchaka{cursor:pointer;font-style:italic;color:#808080;}
+#historyback, .searchaka{cursor:pointer;font-style:italic;color:#808080;}
 a.historyback {text-decoration:none !important;}
 
 .lumiere_bold{font-weight:bold;}
@@ -277,10 +277,12 @@ span.label_moviesearched{font-size:larger !important;padding:10px;}
 .lumiere_gutenberg_results{color:lavender;}
 span.lumiere_gutenberg_copy_class{background-color: cornsilk;color:darkgrey;padding:10px;border-radius:10px;margin:5px;border: 1px solid black;}
 
-/* ---------------------------------------- Loader when searching */
-#lumiere_loader {border: 12px solid #f3f3f3;border-radius: 50%;border-top: 12px solid #444444;width: 70px;height: 70px;animation: spin 1s linear infinite;}
-@keyframes spin {100% {transform: rotate(360deg);}}
-.lumiere_loader_center {position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto;}
+/* ---------------------------------------- Spinner Loader when searching */
+.parent__spinner{position: absolute;top: 0;bottom: 0;left: 0;right: 0;background-color: white;display:flex;justify-content:center;align-items: center;z-index: 1000;height: 100%;width: 100%;opacity:1;animation:fade;animation-duration: 0s;animation-delay:1s;animation-fill-mode: forwards;}
+.loading__spinner{/*création du loader*/border: 20px solid white;border-top:20px solid darkgrey;border-bottom:20px solid darkgrey;border-radius: 70%;/*arrondi des angles*/  width:100px;height:100px;margin: auto;/*placement milieu de page*/position:absolute;right:0;top:0;bottom:0;left:0;animation-name:spin;animation-duration:4s;animation-fill-mode:forwards;}
+@keyframes spin {0% {transform: rotate(0deg);visibility:visible;}50%{transform: rotate(180deg);visibility:visible;}to {transform:rotate(360deg);visibility:hidden;height:0; width:0;}}
+@keyframes fade {from{opacity:1;display: block;}to{opacity:0;z-index:-100; display:none;height:0;width:0;display: none;clip-path:circle(0);/* rognage de la totalité donc disparition*/}}
+@keyframes monanim {from{overflow:hidden;}to{overflow:visible;}}
 /* ---------------------------------------- Loader when searching */
 
 .lumiere_align_left{text-align:left;}

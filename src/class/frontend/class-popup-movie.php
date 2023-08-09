@@ -155,6 +155,11 @@ class Popup_Movie {
 		}
 		echo '">';
 
+		// Display spinner circle
+		echo '<div class="parent__spinner">';
+		echo "\n\t" . '<div class="loading__spinner"></div>';
+		echo '</div>';
+
 		$movie_results = $this->movie;
 
 		$this->logger->log()->debug( '[Lumiere][popupMovieClass] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );

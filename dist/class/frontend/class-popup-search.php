@@ -119,10 +119,10 @@ class Popup_Search {
 		// Do the film query.
 		$this->film_search();
 
-		// @since 3.9.10 Removed loading circle, always been random
-		// <div id="lumiere_loader" class="lumiere_loader_center"></div>
-		?>
-		<div class="lumiere_loader_center"></div>
+		// Display spinner circle ?>
+		<div class="parent__spinner">
+			<div class="loading__spinner"></div>
+		</div>
 
 		<h1 align="center">
 			<?php
@@ -178,7 +178,7 @@ class Popup_Search {
 
 				echo "\n\t\t<a rel=\"nofollow\" class=\"linkpopup\" href=\"" . esc_url(
 					$this->config_class->lumiere_urlpopupsfilms
-					. '/?mid=' . esc_html( $res->imdbid() )
+					. '?mid=' . esc_html( $res->imdbid() )
 				)
 					. '&film=' . Utils::lumiere_name_htmlize( $res->title() )
 					. '" title="' . esc_html__( 'more on', 'lumiere-movies' ) . ' '
@@ -197,7 +197,7 @@ class Popup_Search {
 					echo "\n\t\t<a rel=\"nofollow\" class=\"linkpopup\" href=\""
 						. esc_url(
 							$this->config_class->lumiere_urlpopupsperson
-							. '/?mid=' . esc_html( $realisateur['0']['imdb'] ?? '' )
+							. '?mid=' . esc_html( $realisateur['0']['imdb'] ?? '' )
 						)
 						. '" title="' . esc_html__( 'more on', 'lumiere-movies' )
 						. ' ' . esc_html( $realisateur['0']['name'] )

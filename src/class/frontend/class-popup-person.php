@@ -111,6 +111,11 @@ class Popup_Person {
 		}
 		echo '">';
 
+		// Display spinner circle
+		echo '<div class="parent__spinner">';
+		echo "\n\t" . '<div class="loading__spinner"></div>';
+		echo '</div>';
+
 		// Get the movie's title.
 		$this->find_person();
 
@@ -175,7 +180,7 @@ class Popup_Person {
 
 		<div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" class="historyback"><?php esc_html_e( 'Back', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" id="historyback"><?php esc_html_e( 'Back', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
 				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $this->mid_sanitized . '&info=' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Summary', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>

@@ -1,22 +1,20 @@
-/* Function here are Content Security Policy (CSP) Compliant
-*  Needs jquery
-*/
+/**
+ * Executed in POPUPS
+ * Function must be Content Security Policy (CSP) compliant
+ */
 
-/**** popup-imdb_person.php
-*
-*/
-
-jQuery( '.historyback' ).click(
-	function(event){
-		event.preventDefault();
-		window.history.back();
-	}
-);
-
-
-/**** popups all
-*
-*/
+/**
+ * popup-imdb_person.php
+ */
+ var histobackid = document.getElementById("historyback");
+if ( histobackid != null ) {
+	histobackid.addEventListener("click", () => {
+	  history.back();
+	});
+}
+/**
+ * popups all
+ */
 
 // send close command on click on X of highslide popup
 // this is a trick to make highslide CSP compliant
@@ -28,25 +26,3 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 */
 
-// executed only if div id lumiere_loader is found
-
-if (document.getElementById( "lumiere_loader" )) {
-	document.onreadystatechange = function() {
-
-		if (document.readyState !== "complete") {
-			document.querySelector(
-				"body"
-			).style.visibility = "hidden";
-			document.querySelector(
-				"#lumiere_loader"
-			).style.visibility = "visible";
-		} else {
-			document.querySelector(
-				"#lumiere_loader"
-			).style.display = "none";
-			document.querySelector(
-				"body"
-			).style.visibility = "visible";
-		}
-	}
-};

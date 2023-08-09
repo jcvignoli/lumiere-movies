@@ -99,9 +99,11 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 
 		// Prevent to load twice the script and lumiere_vars which breaks JS
 		// Remove the script if the pages is a popup page
+		// @since 3.10.1 removed, seems it is correctly handled by WP now
+		/**
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->imdb_admin_values['imdburlpopups'] ) ) {
 			wp_dequeue_script( 'lumiere_scripts' );
-		}
+		}*/
 
 		wp_enqueue_style( 'lumiere_bootstrap_core' );
 
