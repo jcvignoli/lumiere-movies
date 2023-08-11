@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.10.2
+
 v.3.10.1
 * [feature] Spinners added: when loading popups and information in popups, a waiting animation will be displayed until the information is retrieved
 * [bug] fixed trivia, goofs and soundtrack in popup movie (and main movie class for soundtrack too)
