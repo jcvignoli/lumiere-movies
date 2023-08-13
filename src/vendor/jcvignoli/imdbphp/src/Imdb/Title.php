@@ -53,6 +53,7 @@ class Title extends MdbBase
     protected $main_comment = "";
     protected $main_genre = "";
     protected $main_keywords = array();
+    protected $main_rating = -1;
     protected $all_keywords = array();
     protected $main_language = "";
     protected $main_poster = "";
@@ -215,50 +216,32 @@ class Title extends MdbBase
      */
     protected function title_year()
     {
-        $this->getPage("Title");
-        if (@preg_match('!<title>(IMDb\s*-\s*)?(?<ititle>.*)(\s*-\s*IMDb)?</title>!', $this->page["Title"], $imatch)) {
-            $ititle = $imatch['ititle'];
-            if (preg_match(
-                '!(?<title>.*) \((?<movietype>.*)(?<year>\d{4}|\?{4})((&nbsp;|–)(?<endyear>\d{4}|)).*\)(.*)!',
-                $ititle,
-                $match
-            )) { // serial
-                $this->main_movietype = trim($match['movietype']);
-                $this->main_year = $match['year'];
-                $this->main_endyear = $match['endyear'] ? $match['endyear'] : '0';
-                $this->main_title = htmlspecialchars_decode($match['title'], ENT_QUOTES);
-            } elseif (preg_match(
-                '!(?<title>.*) \((?<movietype>.*)(?<year>\d{4}|\?{4}).*\)(.*)!',
-                $ititle,
-                $match
-            )) {
-                $this->main_movietype = trim($match['movietype']);
-                $this->main_year = $match['year'];
-                $this->main_endyear = $match['year'];
-                $this->main_title = htmlspecialchars_decode($match['title'], ENT_QUOTES);
-            } elseif (preg_match(
-                '!(?<title>.*) \((?<movietype>.*)\)(.*)!',
-                $ititle,
-                $match
-            )) { // not yet released, but have been given a movietype.
-                $this->main_movietype = trim($match['movietype']);
-                $this->main_title = htmlspecialchars_decode($match['title'], ENT_QUOTES);
-                $this->main_year = '0';
-                $this->main_endyear = '0';
-            } elseif (preg_match(
-                '!<title>(?<title>.*) - IMDb</title>!',
-                $this->page["Title"],
-                $match
-            )) { // not yet released, so no dates etc.
-                $this->main_title = htmlspecialchars_decode($match['title'], ENT_QUOTES);
-                $this->main_year = '0';
-                $this->main_endyear = '0';
-            }
-            if ($this->main_year == "????") {
-                $this->main_year = "";
-            }
-        }
+         $query = <<<EOF
+query TitleYear(\$id: ID!) {
+  title(id: \$id) {
+    titleText {
+      text
     }
+    titleType {
+      text
+    }
+    releaseYear {
+      year
+      endYear
+    }
+  }
+}
+EOF;
+
+        $data = $this->graphql->query($query, "TitleYear", ["id" => "tt$this->imdbID"]);
+
+        $this->main_title = ucwords(trim(str_replace('"', ':', trim($data->title->titleText->text, '"'))));
+        $this->main_movietype = isset($data->title->titleType->text) ? $data->title->titleType->text : '';
+        $this->main_year = isset($data->title->releaseYear->year) ? $data->title->releaseYear->year : '';
+        $this->main_endyear = isset($data->title->releaseYear->endYear) ? $data->title->releaseYear->endYear : null;
+        if ($this->main_year == "????") {
+            $this->main_year = "";
+        }    }
 
     /** Get movie type
      * @return string movietype (TV Series, Movie, TV Episode, TV Special, TV Movie, TV Mini-Series, Video Game, TV Short, Video)
@@ -414,7 +397,6 @@ query Runtimes(\$id: ID!) {
             text
           }
           country {
-            id
             text
           }
           seconds
@@ -432,8 +414,7 @@ EOF;
                     "annotations" => array_map(function ($attribute) {
                         return $attribute->text;
                     }, $edge->node->attributes),
-                    "country" => isset($edge->node->country->text) ? $edge->node->country->text : null,
-                    "countryCode" => isset($edge->node->country->id) ? $edge->node->country->id : null,
+                    "country" => isset($edge->node->country->text) ? $edge->node->country->text : null
                 );
             }
         }
@@ -468,7 +449,25 @@ EOF;
      */
     public function rating()
     {
-        return isset($this->jsonLD()->aggregateRating->ratingValue) ? $this->jsonLD()->aggregateRating->ratingValue : '';
+        if ($this->main_rating == -1) {
+            $query = <<<EOF
+query Rating(\$id: ID!) {
+  title(id: \$id) {
+    ratingsSummary {
+      aggregateRating
+    }
+  }
+}
+EOF;
+
+            $data = $this->graphql->query($query, "Rating", ["id" => "tt$this->imdbID"]);
+            if (isset($data->title->ratingsSummary->aggregateRating) && !empty($data->title->ratingsSummary->aggregateRating)) {
+                $this->main_rating = $data->title->ratingsSummary->aggregateRating;
+            } else {
+                $this->main_rating = 0;
+            }
+        }
+        return $this->main_rating;
     }
 
     /**
@@ -478,7 +477,22 @@ EOF;
      */
     public function votes()
     {
-        return isset($this->jsonLD()->aggregateRating->ratingCount) ? $this->jsonLD()->aggregateRating->ratingCount : 0;
+        $query = <<<EOF
+query RatingVotes(\$id: ID!) {
+  title(id: \$id) {
+    ratingsSummary {
+      voteCount
+    }
+  }
+}
+EOF;
+
+        $data = $this->graphql->query($query, "RatingVotes", ["id" => "tt$this->imdbID"]);
+        if (isset($data->title->ratingsSummary->voteCount) && !empty($data->title->ratingsSummary->voteCount)) {
+            return $data->title->ratingsSummary->voteCount;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -615,13 +629,32 @@ EOF;
      */
     public function keywords()
     {
-        if (empty($this->main_keywords)) {
-            $json = $this->jsonLD();
-            if (!empty($json->keywords)) {
-                $this->main_keywords = array_map('trim', explode(',', $json->keywords));
+        if (empty($this->all_keywords)) {
+            $query = <<<EOF
+query Keywords(\$id: ID!) {
+  title(id: \$id) {
+    keywords(first: 9999) {
+      edges {
+        node {
+          keyword {
+            text {
+              text
+            }
+          }
+        }
+      }
+    }
+  }
+}
+EOF;
+
+            $data = $this->graphql->query($query, "Keywords", ["id" => "tt$this->imdbID"]);
+            foreach ($data->title->keywords->edges as $edge) {
+                $this->all_keywords[] = $edge->node->keyword->text->text;
             }
         }
-        return $this->main_keywords;
+        return $this->all_keywords;
+
     }
 
     #--------------------------------------------------------[ Language Stuff ]---
@@ -634,15 +667,27 @@ EOF;
      */
     public function language()
     {
-        if (empty($this->main_language)) {
-            if (empty($this->langs)) {
-                $this->langs = $this->languages();
+        if (empty($this->langs)) {
+            $query = <<<EOF
+query Languages(\$id: ID!) {
+  title(id: \$id) {
+    spokenLanguages {
+      spokenLanguages {
+        text
+      }
+    }
+  }
+}
+EOF;
+
+            $data = $this->graphql->query($query, "Languages", ["id" => "tt$this->imdbID"]);
+            if (isset($data->title->spokenLanguages->spokenLanguages)) {
+                foreach ($data->title->spokenLanguages->spokenLanguages as $language) {
+                    $this->langs[] = $language->text;
+                }
             }
-            if (!empty($this->langs)) {
-                $this->main_language = $this->langs[0];
-            }
+            return $this->langs;
         }
-        return $this->main_language;
     }
 
     /** Get all languages this movie is available in
@@ -696,15 +741,28 @@ EOF;
      */
     public function genre()
     {
-        if (empty($this->main_genre)) {
-            if (empty($this->moviegenres)) {
-                $this->genres();
-            }
-            if (!empty($this->moviegenres)) {
-                $this->main_genre = $this->moviegenres[0];
+        if (empty($this->moviegenres)) {
+            $query = <<<EOF
+query Genres(\$id: ID!) {
+  title(id: \$id) {
+    titleGenres {
+      genres {
+        genre {
+          text
+        }
+      }
+    }
+  }
+}
+EOF;
+
+            $data = $this->graphql->query($query, "Genres", ["id" => "tt$this->imdbID"]);
+            foreach ($data->title->titleGenres->genres as $edge) {
+                $this->moviegenres[] = $edge->genre->text;
             }
         }
-        return $this->main_genre;
+        return $this->moviegenres;
+
     }
 
     /** Get all genres the movie is registered for
@@ -978,27 +1036,23 @@ EOF;
     public function plotoutline($fallback = false)
     {
         if ($this->main_plotoutline == "") {
-            if (isset($this->jsonLD()->description)) {
-                $this->main_plotoutline = htmlspecialchars_decode($this->jsonLD()->description, ENT_QUOTES | ENT_HTML5);
-            } else {
-                $page = $this->getPage("Title");
-                if (preg_match('!class="summary_text">\s*(.*?)\s*</div>!ims', $page, $match)) {
-                    $this->main_plotoutline = trim($match[1]);
-                } elseif ($fallback) {
-                    $this->main_plotoutline = $this->storyline();
-                }
+            $query = <<<EOF
+query PlotOutline(\$id: ID!) {
+  title(id: \$id) {
+    plot {
+      plotText {
+        plainText
+      }
+    }
+  }
+}
+EOF;
+
+            $data = $this->graphql->query($query, "PlotOutline", ["id" => "tt$this->imdbID"]);
+            if (isset($data->title->plot->plotText->plainText)) {
+                $this->main_plotoutline = $data->title->plot->plotText->plainText;
             }
         }
-        $this->main_plotoutline = preg_replace(
-            '!\s*<a href="/title/tt\d{7,8}/(plotsummary|synopsis)[^>]*>See full (summary|synopsis).*$!i',
-            '',
-            $this->main_plotoutline
-        );
-        $this->main_plotoutline = preg_replace(
-            '#<a href="[^"]+"\s+>Add a Plot</a>&nbsp;&raquo;#',
-            '',
-            $this->main_plotoutline
-        );
         return $this->main_plotoutline;
     }
 
@@ -1035,18 +1089,22 @@ EOF;
      */
     private function populatePoster()
     {
-        if (isset($this->jsonLD()->image)) {
-            $this->main_poster = $this->jsonLD()->image;
-        }
-        $hasPosterElement = preg_match('!<img [^>]+title="[^"]+Poster"[^>]+src="([^"]+)"[^>]+/>!ims', $this->getPage("Title"), $match);
-        if ($hasPosterElement
-            && !empty($match[1])) {
-            $this->main_poster_thumb = $match[1];
-        } else {
-            $xpath = $this->getXpathPage("Title");
-            $thumb = $xpath->query("//div[contains(@class, 'ipc-poster ipc-poster--baseAlt') and contains(@data-testid, 'hero-media__poster')]//img");
-            if (!empty($thumb) && $thumb->item(0) != null) {
-                $this->main_poster_thumb = $thumb->item(0)->getAttribute('src');
+        $query = <<<EOF
+query Poster(\$id: ID!) {
+  title(id: \$id) {
+    primaryImage {
+      url
+    }
+  }
+}
+EOF;
+
+        $data = $this->graphql->query($query, "Poster", ["id" => "tt$this->imdbID"]);
+
+        if (isset($data->title->primaryImage->url) && $data->title->primaryImage->url != null) {
+            $this->main_poster_thumb = $data->title->primaryImage->url;
+            if (strpos($data->title->primaryImage->url, '._V1')) {
+                $this->main_poster = preg_replace('#\._V1_.+?(\.\w+)$#is', '$1', $this->main_poster_thumb);
             }
         }
     }
@@ -1154,15 +1212,27 @@ EOF;
     public function country()
     {
         if (empty($this->countries)) {
-            if (preg_match_all(
-                '!/search/title\/?\?country_of_origin=[^>]+?>(.*?)<!m',
-                $this->getPage("Title"),
-                $matches
-            )) {
-                $this->countries = $matches[1];
+            $query = <<<EOF
+query Countries(\$id: ID!) {
+  title(id: \$id) {
+    countriesOfOrigin {
+      countries {
+        text
+      }
+    }
+  }
+}
+EOF;
+
+            $data = $this->graphql->query($query, "Countries", ["id" => "tt$this->imdbID"]);
+            if ($data->title->countriesOfOrigin != null) {
+                foreach ($data->title->countriesOfOrigin->countries as $country) {
+                    $this->countries[] = $country->text;
+                }
             }
         }
         return $this->countries;
+
     }
 
 

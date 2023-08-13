@@ -717,6 +717,7 @@ class Movie {
 
 	/**
 	 * Display the keywords
+	 * Using $limit_keywords var to limit the total (not selected in the plugin options, hardcoded here)
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -725,6 +726,7 @@ class Movie {
 		$output = '';
 		$keywords = $movie->keywords();
 		$nbtotalkeywords = count( $keywords );
+		$limit_keywords = 10;
 
 		if ( $nbtotalkeywords === 0 ) {
 			return $output;
@@ -737,7 +739,7 @@ class Movie {
 		// Taxonomy is active.
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomykeyword'] === '1' ) ) {
 
-			for ( $i = 0; $i < $nbtotalkeywords; $i++ ) {
+			for ( $i = 0; $i < $nbtotalkeywords && $i < $limit_keywords; $i++ ) {
 
 				$output .= $this->lumiere_make_display_taxonomy( 'keyword', esc_attr( $keywords[ $i ] ), '', 'one' );
 				if ( $i < $nbtotalkeywords - 1 ) {
@@ -751,11 +753,11 @@ class Movie {
 		}
 
 		// Taxonomy is unactive.
-		for ( $i = 0; $i < $nbtotalkeywords; $i++ ) {
+		for ( $i = 0; $i < $nbtotalkeywords && $i < $limit_keywords; $i++ ) {
 
 			$output .= esc_attr( $keywords[ $i ] );
 
-			if ( $i < $nbtotalkeywords - 1 ) {
+			if ( $i < $nbtotalkeywords - 1 && $i < $limit_keywords - 1 ) {
 				$output .= ', ';
 			}
 		}
