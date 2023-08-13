@@ -147,7 +147,7 @@ class Popup_Search {
 				<?php esc_html_e( 'Matching titles', 'lumiere-movies' ); ?>
 			</h2>
 			<h2 class="lumiere_flex_auto lumiere_width_fifty_perc">
-				<?php esc_html_e( 'Director', 'lumiere-movies' ); ?>
+				<?php echo esc_attr( _n( 'Director', 'Directors', 1, 'lumiere-movies' ) ) // always singular; ?>
 			</h2>
 		</div>
 

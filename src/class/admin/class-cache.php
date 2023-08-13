@@ -1269,7 +1269,7 @@ class Cache extends \Lumiere\Admin {
 		<div class="inside lumiere_border_shadow_red">
 				<?php esc_html_e( 'A cache folder has to be created and the cache storage option has to be activated before you can manage the cache.', 'lumiere-movies' ); ?>
 			<br /><br />
-				<?php esc_html_e( 'Apparently, you have no such cache folder.', 'lumiere-movies' ); ?> 
+				<?php esc_html_e( 'Apparently, you have no cache folder.', 'lumiere-movies' ); ?> 
 			<br /><br />
 				<?php esc_html_e( 'Click on "reset settings" to refresh the values.', 'lumiere-movies' ); ?>
 		</div>

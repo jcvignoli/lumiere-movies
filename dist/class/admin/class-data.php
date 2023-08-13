@@ -547,7 +547,7 @@ class Data extends \Lumiere\Admin {
 			'language' => esc_html__( 'Display languages. This option also applies to the pop-up summary', 'lumiere-movies' ),
 			'officialsites' => esc_html__( 'Display official websites', 'lumiere-movies' ),
 			'pic' => esc_html__( 'Display the main poster', 'lumiere-movies' ),
-			'plot' => esc_html__( 'Display plots. This field may need a lot of space.', 'lumiere-movies' ),
+			'plot' => esc_html__( 'Display plots. This field may require much size in your page.', 'lumiere-movies' ),
 			'producer' => esc_html__( 'Display (how many) producers', 'lumiere-movies' ),
 			'prodcompany' => esc_html__( 'Display the production companies', 'lumiere-movies' ),
 			'quote' => esc_html__( 'Display (how many) quotes from movie.', 'lumiere-movies' ),

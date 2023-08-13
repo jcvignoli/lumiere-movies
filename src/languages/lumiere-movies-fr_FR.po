@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-04 16:03-0500\n"
-"PO-Revision-Date: 2023-08-04 16:04-0500\n"
+"POT-Creation-Date: 2023-08-13 16:44-0500\n"
+"PO-Revision-Date: 2023-08-13 17:01-0500\n"
 "Last-Translator: psykotik <psykotik@ikiru.ch>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -128,11 +128,11 @@ msgstr "Options de cache rafraîchies."
 #: class/admin/class-cache.php:205 class/admin/class-cache.php:470
 #: class/admin/class-cache.php:515
 msgid "No cache folder found."
-msgstr "Pas de dossier de cache trouv&eacute."
+msgstr "Pas de dossier de cache trouvé."
 
 #: class/admin/class-cache.php:213
 msgid "All cache files deleted."
-msgstr "Tout les fichiers de cache a &eacute;t&eacute; effac&eacute;."
+msgstr "Tout les fichiers de cache a été effacé."
 
 #: class/admin/class-cache.php:268 class/admin/class-cache.php:341
 msgid "Cannot work this way."
@@ -157,11 +157,11 @@ msgstr "Le fichier sélectionné de cache a été rafraîchi avec succès."
 
 #: class/admin/class-cache.php:478
 msgid "No query files found."
-msgstr "Pas de fichiers de recherches trouv&eacute."
+msgstr "Pas de fichiers de recherches trouvé."
 
 #: class/admin/class-cache.php:496
 msgid "Query cache files deleted."
-msgstr "Fichiers de cache de recherche ont &eacute;t&eacute; effac&eacute;s."
+msgstr "Fichiers de cache de recherche ont été effacés."
 
 #: class/admin/class-cache.php:573
 msgid "No cache people files found."
@@ -178,7 +178,7 @@ msgstr "Options de cache"
 
 #: class/admin/class-cache.php:618
 msgid "Manage Cache"
-msgstr "G&eacute;rer le cache"
+msgstr "Gérer le cache"
 
 #: class/admin/class-cache.php:628
 msgid ""
@@ -186,25 +186,23 @@ msgid ""
 "time consuming, so if you do not want to kill your server and look for a "
 "smooth experience for your users, do not delete often your cache."
 msgstr ""
-"Le cache est crucial pour le fonctionnement de Lumière. Comme les "
-"premi&egrave;res recherches sont tr&egrave;s co&ucirc;teuses en temps, pour "
-"&eacute;viter de monopoliser le serveur et permettre &agrave; l'utilisateur "
-"de surfer rapidement, utilisez le cache."
+"Le cache est crucial pour le fonctionnement de Lumière. Comme les premières "
+"recherches sont très coûteuses en temps, pour éviter de monopoliser le "
+"serveur et permettre à l'utilisateur de surfer rapidement, utilisez le cache."
 
 #: class/admin/class-cache.php:657
 msgid "General options"
-msgstr "Options g&eacute;n&eacute;rales"
+msgstr "Options générales"
 
 #: class/admin/class-cache.php:662
 msgid "Use cache?"
-msgstr "Utiliser cache ?"
+msgstr "Utiliser le cache ?"
 
 #: class/admin/class-cache.php:672
 msgid ""
 "Whether to use a cached page to retrieve the information (if available)."
 msgstr ""
-"Utiliser des pages de cache pour r&eacute;cup&eacute;rer les informations "
-"(si disponible)."
+"Utiliser des pages de cache pour récupérer les informations (si disponible)."
 
 #: class/admin/class-cache.php:672
 msgid ""
@@ -227,7 +225,7 @@ msgstr ""
 #: class/admin/class-general.php:676 class/admin/class-general.php:796
 #: class/admin/class-general.php:837 class/admin/class-general.php:866
 msgid "Default:"
-msgstr "D&eacute;faut :"
+msgstr "Défaut :"
 
 #: class/admin/class-cache.php:672 class/admin/class-general.php:416
 #: class/admin/class-general.php:606 class/admin/class-general.php:623
@@ -249,8 +247,8 @@ msgid ""
 "deleted. Insert \"0\" or click \"never\" to keep cache files forever."
 msgstr ""
 "Les fichiers de cache plus anciens que cette valeur (en secondes) seront "
-"automatiquement effac&eacute;s. Ins&eacute;rer \"0\" or cliquer sur "
-"\"jamais\" pour garder ind&eacute;finiment les donn&eacute;es de cache."
+"automatiquement effacés. Insérer \"0\" or cliquer sur \"jamais\" pour garder "
+"indéfiniment les données de cache."
 
 #: class/admin/class-cache.php:696
 msgid "(one month)"
@@ -258,7 +256,7 @@ msgstr "(un mois)"
 
 #: class/admin/class-cache.php:704
 msgid "Cache details"
-msgstr "D&eacute;tails du cache"
+msgstr "Détails du cache"
 
 #: class/admin/class-cache.php:710
 msgid "Simplified cache details"
@@ -269,9 +267,9 @@ msgid ""
 "Allows faster loading time for the \"manage cache\" page by displaying "
 "shorter movies and people presentation. Usefull when you have many of them."
 msgstr ""
-"Permet un temps de chargement plus rapide pour la page \"g&eacute;rer le "
-"cache\", en affichant des présentation plus courtes pour les films et les "
-"personnes. Pratique lorsque vous en avez beaucoup."
+"Permet un temps de chargement plus rapide pour la page \"gérer le cache\", "
+"en affichant des présentation plus courtes pour les films et les personnes. "
+"Pratique lorsque vous en avez beaucoup."
 
 #: class/admin/class-cache.php:720 class/admin/class-cache.php:745
 #: class/admin/class-general.php:585 class/admin/class-general.php:642
@@ -303,7 +301,7 @@ msgstr ""
 #: class/admin/class-cache.php:1282 class/admin/class-cache.php:1284
 #: class/admin/class-data.php:319 class/admin/class-general.php:237
 msgid "Reset settings"
-msgstr "R&eacute;initialiser"
+msgstr "Réinitialiser"
 
 #: class/admin/class-cache.php:758 class/admin/class-cache.php:1262
 #: class/admin/class-data.php:323 class/admin/class-general.php:238
@@ -334,8 +332,8 @@ msgid ""
 "If you want to reset the entire cache (this includes queries, names, and "
 "pictures) click on the button below."
 msgstr ""
-"Si vous voulez r&eacute;initialiser le cache entier (cela inclut les caches "
-"de recherches, de noms et d'images), cliquez sur le bouton ci-dessous."
+"Si vous voulez réinitialiser le cache entier (cela inclut les caches de "
+"recherches, de noms et d'images), cliquez sur le bouton ci-dessous."
 
 #: class/admin/class-cache.php:805
 msgid "Beware, there is no undo."
@@ -374,8 +372,8 @@ msgid ""
 "If you want to reset the query cache (every search creates a cache file) "
 "click on the button below."
 msgstr ""
-"Si vous voulez r&eacute;initialiser le cache de recherche entier (chaque "
-"recherche crée un fichier de cache), cliquez sur le bouton ci-dessous."
+"Si vous voulez réinitialiser le cache de recherche entier (chaque recherche "
+"crée un fichier de cache), cliquez sur le bouton ci-dessous."
 
 #: class/admin/class-cache.php:865
 msgid "Delete query cache?"
@@ -391,11 +389,11 @@ msgstr "Le cache de recherche de Lumière! est vide."
 
 #: class/admin/class-cache.php:885
 msgid "Movie's detailed cache"
-msgstr "Cache sp&eacute;cifique aux films"
+msgstr "Cache spécifique aux films"
 
 #: class/admin/class-cache.php:895
 msgid "No movie's cache found."
-msgstr "Pas de cache de film trouv&eacute."
+msgstr "Pas de cache de film trouvé."
 
 #: class/admin/class-cache.php:911
 msgid ""
@@ -404,11 +402,10 @@ msgid ""
 "delete and click on \"delete cache\". you may also click on \"refresh\" to "
 "update a movie series of details."
 msgstr ""
-"Si vous souhaitez rafra&icirc;chir le cache des films, quelque soit le temps "
-"d'expiration du cache, vous pouvez soit s&eacute;lectionner les cases à "
-"cocher li&eacute;s au film &agrave; effacer et cliquer sur \"effacer "
-"cache\", soit s&eacute;lectionner individuellement l'option \"rafraîchir\" "
-"des films."
+"Si vous souhaitez rafraîchir le cache des films, quelque soit le temps "
+"d'expiration du cache, vous pouvez soit sélectionner les cases à cocher liés "
+"au film à effacer et cliquer sur \"effacer cache\", soit sélectionner "
+"individuellement l'option \"rafraîchir\" des films."
 
 #: class/admin/class-cache.php:914
 msgid "You may also select a group of movies to delete."
@@ -420,15 +417,15 @@ msgstr "pas de photo"
 
 #: class/admin/class-cache.php:947 class/admin/class-cache.php:1054
 msgid "last updated on "
-msgstr "derni&egrave;re mise &agrave; jour le "
+msgstr "dernière mise à jour le "
 
 #: class/admin/class-cache.php:949
 msgid "Refresh cache for *"
-msgstr "Rafra&icirc;chir le cache pour *"
+msgstr "Rafraîchir le cache pour *"
 
 #: class/admin/class-cache.php:949 class/admin/class-cache.php:1057
 msgid "refresh"
-msgstr "rafra&icirc;chir"
+msgstr "rafraîchir"
 
 #: class/admin/class-cache.php:951
 msgid "Delete *"
@@ -452,11 +449,11 @@ msgstr "Effacer les fichiers sélectionnés"
 
 #: class/admin/class-cache.php:997
 msgid "People's detailed cache"
-msgstr "Cache sp&eacute;cifique aux personnes"
+msgstr "Cache spécifique aux personnes"
 
 #: class/admin/class-cache.php:1008
 msgid "No people's cache found."
-msgstr "Pas de cache de personnes trouv&eacute."
+msgstr "Pas de cache de personnes trouvé."
 
 #: class/admin/class-cache.php:1022
 msgid ""
@@ -466,26 +463,26 @@ msgid ""
 "people's \"refresh\". The first way will require an additional people "
 "refresh - from you post, for instance."
 msgstr ""
-"Si vous souhaitez rafra&icirc;chir le cache des personnes, quelque soit le "
-"temps d'expiration du cache, vous pouvoir soit s&eacute;lectionner les "
-"checkbox li&eacute;s &agrave la personne &agrave; effacer et cliquer sur "
-"\"effacer cache\", soit s&eacute;lectionner individuellement l'option "
-"\"rafraîchir\" des personnes. Le premier moyen demandera un rafra&icirc;"
-"chissement suppl&eacute;mentaire - depuis votre message, par exemple."
+"Si vous souhaitez rafraîchir le cache des personnes, quelque soit le temps "
+"d'expiration du cache, vous pouvoir soit sélectionner les checkbox liés à la "
+"personne à effacer et cliquer sur \"effacer cache\", soit sélectionner "
+"individuellement l'option \"rafraîchir\" des personnes. Le premier moyen "
+"demandera un rafraîchissement supplémentaire - depuis votre message, par "
+"exemple."
 
 #: class/admin/class-cache.php:1025
 msgid "You may also either delete individually the cache or by group."
 msgstr ""
-"Vous pouvez &eacute;galement soit effacer individuellement le cache ou le "
-"faire par groupe."
+"Vous pouvez également soit effacer individuellement le cache ou le faire par "
+"groupe."
 
 #: class/admin/class-cache.php:1110
 msgid "Cache directories"
-msgstr "R&eacute;pertoires cache"
+msgstr "Répertoires cache"
 
 #: class/admin/class-cache.php:1117
 msgid "Cache directory (absolute path)"
-msgstr "R&eacute;pertoire cache (chemin absolu)"
+msgstr "Répertoire cache (chemin absolu)"
 
 #: class/admin/class-cache.php:1125
 msgid "Movies' cache is using"
@@ -497,11 +494,11 @@ msgstr "Le cache des films est vide."
 
 #: class/admin/class-cache.php:1147 class/admin/class-cache.php:1216
 msgid "Folder exists."
-msgstr "Le r&eacute;pertoire existe."
+msgstr "Le répertoire existe."
 
 #: class/admin/class-cache.php:1151 class/admin/class-cache.php:1220
 msgid "Folder doesn't exist!"
-msgstr "Le r&eacute;pertoire n'existe pas!"
+msgstr "Le répertoire n'existe pas!"
 
 #: class/admin/class-cache.php:1157 class/admin/class-cache.php:1226
 msgid "Permissions OK."
@@ -509,14 +506,14 @@ msgstr "Permissions OK."
 
 #: class/admin/class-cache.php:1161 class/admin/class-cache.php:1230
 msgid "Check folder permissions!"
-msgstr "V&eacute;rifier les permissions de r&eacute;pertoire !"
+msgstr "Vérifier les permissions de répertoire !"
 
 #: class/admin/class-cache.php:1169
 msgid ""
 "Absolute path to store cache retrieved from the IMDb website. Has to be "
 msgstr ""
-"Chemin absolu du r&eacute;pertoire o&ugrave; stocker les images "
-"rapatri&eacute;es du site de l'IMDb. Doit &ecirc;tre "
+"Chemin absolu du répertoire où stocker les images rapatriées du site de "
+"l'IMDb. Doit être "
 
 #: class/admin/class-cache.php:1171 class/admin/class-cache.php:1203
 msgid "by the webserver."
@@ -538,8 +535,8 @@ msgstr "Le cache image est vide."
 msgid ""
 "Absolute path to store images retrieved from the IMDb website. Has to be "
 msgstr ""
-"Chemin absolu du r&eacute;pertoire o&ugrave; stocker les images "
-"rapatri&eacute;es du site de l'IMDb. Doit &ecirc;tre "
+"Chemin absolu du répertoire où stocker les images rapatriées du site de "
+"l'IMDb. Doit être "
 
 #: class/admin/class-cache.php:1208 class/admin/class-cache.php:1248
 msgid "Current:"
@@ -551,18 +548,18 @@ msgstr "URL de photo (relative au site internet et au chemin du cache)"
 
 #: class/admin/class-cache.php:1246
 msgid "URL corresponding to photo directory."
-msgstr "URL correspondant au r&eacute;pertoire photo."
+msgstr "URL correspondant au répertoire photo."
 
 #: class/admin/class-cache.php:1270
 msgid ""
 "A cache folder has to be created and the cache storage option has to be "
 "activated before you can manage the cache."
 msgstr ""
-"Un r&eacute;pertoire de cache doit exister et l'option d'enregistrement de "
-"cache doit &ecirc;tre activ&eacute;e avant de pouvoir g&eacute;rer le cache."
+"Un répertoire de cache doit exister et l'option d'enregistrement de cache "
+"doit être activée avant de pouvoir gérer le cache."
 
 #: class/admin/class-cache.php:1272
-msgid "Apparently, you have no such cache folder."
+msgid "Apparently, you have no cache folder."
 msgstr "Visiblement, vous n'avez pas de dossier de cache."
 
 #: class/admin/class-cache.php:1274
@@ -631,7 +628,7 @@ msgstr "notation"
 
 #: class/admin/class-data.php:103
 msgid "runtime"
-msgstr "dur&eacute;e"
+msgstr "durée"
 
 #: class/admin/class-data.php:104
 msgid "source"
@@ -647,15 +644,15 @@ msgstr "année de sortie"
 
 #: class/admin/class-data.php:216 class/admin/class-general.php:149
 msgid "Options saved."
-msgstr "Options sauvegard&eacute;es."
+msgstr "Options sauvegardées."
 
 #: class/admin/class-data.php:244 class/admin/class-general.php:164
 msgid "Options reset."
-msgstr "Options r&eacute;initialis&eacute;es."
+msgstr "Options réinitialisées."
 
 #: class/admin/class-data.php:265 class/admin/class-data.php:567
 msgid "What to display"
-msgstr "&Agrave; afficher"
+msgstr "À afficher"
 
 #: class/admin/class-data.php:265
 msgid "Display"
@@ -667,7 +664,7 @@ msgstr "Ordre d'affichage"
 
 #: class/admin/class-data.php:270
 msgid "What to taxonomize"
-msgstr "&Agrave; taxonomiser"
+msgstr "À taxonomiser"
 
 #: class/admin/class-data.php:270
 #: class/theme/class-taxonomy-items-standard.php:74
@@ -676,11 +673,11 @@ msgstr "Taxonomie"
 
 #: class/admin/class-data.php:272 class/class-admin.php:368
 msgid "Taxonomy unactivated"
-msgstr "Taxonomie d&eacute;sactiv&eacute;e"
+msgstr "Taxonomie désactivée"
 
 #: class/admin/class-data.php:409
 msgid "Position of data"
-msgstr "Ordre des donn&eacute;es"
+msgstr "Ordre des données"
 
 #: class/admin/class-data.php:417
 msgid ""
@@ -689,12 +686,11 @@ msgid ""
 "\"down\" to reorder Lumiere Movies display. Once you are happy with the new "
 "order, click on \"update settings\" to keep it."
 msgstr ""
-"Vous pouvez choisir l'ordre d'affichage pour les d&eacute;tails choisis dans "
-"la section \"Afficher\". Choississez d'abord le d&eacute;tail que vous "
-"souhaitez d&eacute;placer, et utilisez les boutons \"up\" (haut) et "
-"\"down\" (bas) pour r&eacute;organiser l'affichage de Lumière. Une fois "
-"satisfait de la nouvelle disposition, cliquez sur \"Enregistrer les "
-"modifications\" pour les garder."
+"Vous pouvez choisir l'ordre d'affichage pour les détails choisis dans la "
+"section \"Afficher\". Choississez d'abord le détail que vous souhaitez "
+"déplacer, et utilisez les boutons \"up\" (haut) et \"down\" (bas) pour "
+"réorganiser l'affichage de Lumière. Une fois satisfait de la nouvelle "
+"disposition, cliquez sur \"Enregistrer les modifications\" pour les garder."
 
 #: class/admin/class-data.php:428
 msgid "Move selected movie detail:"
@@ -718,9 +714,7 @@ msgstr "pour accéder aux options de taxonomie."
 
 #: class/admin/class-data.php:490
 msgid "Select details to use as taxonomy"
-msgstr ""
-"S&eacute;lectionnez les d&eacute;tails &agrave; utiliser en tant que "
-"taxonomie"
+msgstr "Sélectionnez les détails à utiliser en tant que taxonomie"
 
 #: class/admin/class-data.php:496
 msgid ""
@@ -741,13 +735,13 @@ msgid ""
 "have access anymore to the popups for directors, if directors taxonomy is "
 "chosen. Taxonomy will always prevail over other Lumiere functionalities."
 msgstr ""
-"Sélectionnez avec prudence les options choisies pour &ecirc;tre "
-"affich&eacute;es comme taxonomies, notamment si vous affichez plusieurs "
-"films dans le m&ecirc;me message. Lorsque vous s&eacute;lectionnez l'une des "
-"options de taxonomie ci-dessous, elle prendra le pas sur toute autre "
-"fonction; par exemple, vous n'aurez plus acc&egrave;s aux liens de popup "
-"pour les r&eacute;alisateurs, si la taxonomie 'r&eacute;alisateurs' est "
-"choisie. La taxonomie prendra toujours le pas sur le reste."
+"Sélectionnez avec prudence les options choisies pour être affichées comme "
+"taxonomies, notamment si vous affichez plusieurs films dans le même message. "
+"Lorsque vous sélectionnez l'une des options de taxonomie ci-dessous, elle "
+"prendra le pas sur toute autre fonction; par exemple, vous n'aurez plus "
+"accès aux liens de popup pour les réalisateurs, si la taxonomie "
+"'réalisateurs' est choisie. La taxonomie prendra toujours le pas sur le "
+"reste."
 
 #: class/admin/class-data.php:501
 msgid ""
@@ -784,7 +778,7 @@ msgstr "Afficher le pays. Cette option s'applique également au résumé de popu
 
 #: class/admin/class-data.php:542
 msgid "Display Creator"
-msgstr "Afficher cr&eacute;ateur"
+msgstr "Afficher créateur"
 
 #: class/admin/class-data.php:543
 msgid "Display directors. This option also applies to the pop-up summary"
@@ -803,7 +797,7 @@ msgstr "Afficher (combien d') erreurs"
 
 #: class/admin/class-data.php:546
 msgid "Display keywords"
-msgstr "Affichage des mot-cl&eacute;s"
+msgstr "Affichage des mot-clés"
 
 #: class/admin/class-data.php:547
 msgid "Display languages. This option also applies to the pop-up summary"
@@ -819,8 +813,10 @@ msgid "Display the main poster"
 msgstr "Afficher l'affiche principale"
 
 #: class/admin/class-data.php:550
-msgid "Display plots. This field may need a lot of space."
-msgstr "Afficher les résumés. Ce champs peut nécessiter beaucoup d'espace."
+msgid "Display plots. This field may require much size in your page."
+msgstr ""
+"Afficher les intrigues. Ce champ peut nécessiter beaucoup de place dans "
+"votre page."
 
 #: class/admin/class-data.php:551
 msgid "Display (how many) producers"
@@ -866,15 +862,15 @@ msgstr "Afficher (combien de) bandes annonce"
 
 #: class/admin/class-data.php:561
 msgid "Display writers"
-msgstr "Afficher les sc&eacute;naristes"
+msgstr "Afficher les scénaristes"
 
 #: class/admin/class-data.php:562
 msgid ""
 "Display release year. The release year will appear next to the movie title "
 "into brackets"
 msgstr ""
-"Affiche l'ann&eacute;e de sortie du film. L'ann&eacute;e appara&icirc;tra "
-"&agrave; c&ocirc;t&eacute; du titre du film, entre parenth&egrave;ses"
+"Affiche l'année de sortie du film. L'année apparaîtra à côté du titre du "
+"film, entre parenthèses"
 
 #: class/admin/class-data.php:609
 msgid "Enter the maximum of items you want to display"
@@ -941,16 +937,15 @@ msgstr "Mise en page"
 
 #: class/admin/class-general.php:184
 msgid "Advanced"
-msgstr "Avanc&eacute;"
+msgstr "Avancé"
 
 #: class/admin/class-general.php:202
 msgid ""
 "The following options usually do not need further action. Nevertheless, "
 "Lumière! can be widely customized to match your needs."
 msgstr ""
-"Les options ci-dessous ne n&eacute;cessitent pas d'actions suppl&eacute;"
-"mentaires. N&eacute;anmoins, Lumi&egrave;re peut &ecirc;tre modifi&eacute; "
-"pour correspondre &agrave; vos besoins."
+"Les options ci-dessous ne nécessitent pas d'actions supplémentaires. "
+"Néanmoins, Lumière peut être modifié pour correspondre à vos besoins."
 
 #: class/admin/class-general.php:223
 msgid ""
@@ -980,8 +975,8 @@ msgstr ""
 #: class/admin/class-general.php:290
 msgid "When bootstrap is selected, popup layout cannot be edited."
 msgstr ""
-"Lorsque Bootstrap est sélectionné, les options\n"
-"de la popup ne peuvent être éditée."
+"Lorsque Bootstrap est sélectionné, la mise en page de la popup ne peuvent "
+"être éditées."
 
 #: class/admin/class-general.php:290
 msgid "Bootstrap"
@@ -1029,7 +1024,7 @@ msgstr "Thème Lumière"
 
 #: class/admin/class-general.php:334
 msgid "white (default)"
-msgstr "blanc (d&eacute;faut)"
+msgstr "blanc (défaut)"
 
 #: class/admin/class-general.php:338 class/admin/class-general.php:387
 msgid "black"
@@ -1049,7 +1044,7 @@ msgstr "Pages pleines"
 
 #: class/admin/class-general.php:375
 msgid "grey (default)"
-msgstr "gris (d&eacute;faut)"
+msgstr "gris (défaut)"
 
 #: class/admin/class-general.php:381
 msgid "white"
@@ -1104,7 +1099,7 @@ msgstr "Anglais"
 
 #: class/admin/class-general.php:470
 msgid "French"
-msgstr "Fran&ccedil;ais"
+msgstr "Français"
 
 #: class/admin/class-general.php:476
 msgid "German"
@@ -1151,14 +1146,14 @@ msgstr ""
 
 #: class/admin/class-general.php:531
 msgid "Limit number of results"
-msgstr "Limiter le nombre de r&eacute;sultats"
+msgstr "Limiter le nombre de résultats"
 
 #: class/admin/class-general.php:538
 msgid "Limit of the number of results in a movie query."
 msgstr "Limiter le nombre de résultat dans une recherche de film."
 
-#: class/admin/class-general.php:560 class/frontend/class-popup-movie.php:239
-#: class/frontend/class-popup-person.php:190
+#: class/admin/class-general.php:560 class/frontend/class-popup-movie.php:244
+#: class/frontend/class-popup-person.php:195
 msgid "Misc"
 msgstr "Divers"
 
@@ -1183,9 +1178,9 @@ msgid ""
 "If activated, Lumière options are displayed in a  top menu. Not recommended "
 "f you have many plugins already occupying that area."
 msgstr ""
-"Si activ&eacute;, les options de Lumière! apparaissent dans le menu "
-"supérieur. Déconseillé si vous possédez un trop grand nombre de plugins qui "
-"occupent cette zone."
+"Si activé, les options de Lumière! apparaissent dans le menu supérieur. "
+"Déconseillé si vous possédez un trop grand nombre de plugins qui occupent "
+"cette zone."
 
 #: class/admin/class-general.php:612
 msgid "Use taxonomy"
@@ -1229,18 +1224,18 @@ msgid ""
 "it will remove every single HTML link as well, such as the the links to the "
 "official IMDb website."
 msgstr ""
-"Enl&egrave;ve tous les liens (popup et externes) qui sont automatiquement "
-"ajout&eacute;s. Utile pour les utilisateurs qui ne sont pas intéressés par "
-"les fonctions de popup. Veuillez noter que cela effacera toutes les liens "
-"HTML, tels que les liens vers le site officiel de l'IMDb."
+"Enlève tous les liens (popup et externes) qui sont automatiquement ajoutés. "
+"Utile pour les utilisateurs qui ne sont pas intéressés par les fonctions de "
+"popup. Veuillez noter que cela effacera toutes les liens HTML, tels que les "
+"liens vers le site officiel de l'IMDb."
 
 #: class/admin/class-general.php:642
 msgid ""
 "Please also note that specific links such as to taxonomy pages and inside "
 "the post will be kept."
 msgstr ""
-"Veuillez également noter que les liens spécifiques comme les pages de "
-"taxonomie and dans le message seront gardés."
+"Veuillez également noter que les liens spécifiques comme ceux figurant dans "
+"les pages de taxonomie et \"dans les posts\" seront gardés."
 
 #: class/admin/class-general.php:648
 msgid "Auto title widget?"
@@ -1254,10 +1249,9 @@ msgid ""
 "with the post title, nothing is displayed."
 msgstr ""
 "Ajoute automatiquement un widget selon le titre du message. Si un widget a "
-"aussi été ajout&eacute;s à l'article, le widget automatique sera "
-"affich&eacute; avant ce derniers. Utile si votre blog est dédié au cinéma; "
-"si une recherche ne renvoit aucun résultat selon votre titre d'article, rien "
-"n'est affiché."
+"aussi été ajoutés à l'article, le widget automatique sera affiché avant ce "
+"derniers. Utile si votre blog est dédié au cinéma; si une recherche ne "
+"renvoi aucun résultat selon votre titre d'article, rien n'est affiché."
 
 #: class/admin/class-general.php:665
 msgid "Keep settings upon uninstall"
@@ -1269,11 +1263,12 @@ msgid ""
 "from deleting the taxonomy terms and the cache too."
 msgstr ""
 "Conserver ou non la configuration de Lumière lors de la désinstallation du "
-"plugin. Évite également l'effacement des termes de taxonomie et du cache."
+"plugin. Évite également l'effacement des termes de taxonomie ainsi que du "
+"cache."
 
 #: class/admin/class-general.php:682
 msgid "Debug Lumière!"
-msgstr "Débogue de Lumière!"
+msgstr "Déboguer Lumière!"
 
 #: class/admin/class-general.php:701
 msgid "Use integrated debugging functions."
@@ -1285,7 +1280,7 @@ msgstr "[Options additionnelles de debug]"
 
 #: class/admin/class-general.php:710
 msgid "Debug verbosity"
-msgstr "Verbosité du debug"
+msgstr "Verbosité du débogage"
 
 #: class/admin/class-general.php:762
 msgid "From lowest to highest verbosity level."
@@ -1293,7 +1288,7 @@ msgstr "Du plus bas au plus haut niveau de verbosité."
 
 #: class/admin/class-general.php:766
 msgid "Display debug on screen"
-msgstr "Afficher le debug à l'écran"
+msgstr "Afficher le débogage à l'écran"
 
 #: class/admin/class-general.php:777
 msgid "Show the debug log on screen (for administrators only)."
@@ -1387,7 +1382,7 @@ msgstr "How to"
 
 #: class/admin/class-help.php:162 class/admin/class-help.php:198
 msgid "Frequently asked questions"
-msgstr "Questions les plus fr&eacute;quemment pos&eacute;es"
+msgstr "Questions les plus fréquemment posées"
 
 #: class/admin/class-help.php:162
 msgid "FAQs"
@@ -1395,19 +1390,21 @@ msgstr "FAQs"
 
 #: class/admin/class-help.php:164
 msgid "What's new"
-msgstr "Nouveaut&eacute;s"
+msgstr "Nouveautés"
 
 #: class/admin/class-help.php:164 class/admin/class-help.php:268
 msgid "Changelog"
-msgstr "Mise &agrave; jour"
+msgstr "Mise à jour"
 
 #: class/admin/class-help.php:166
-msgid "To get support and to support what you get"
-msgstr "Obtenir de l'aide et fournir de l'aide pour l'obtenir"
+#, fuzzy
+#| msgid "Get support and support plugin development"
+msgid "Get support and support me"
+msgstr "Obtenir de l'aide et fournir de l'aide pour le dévelopement du plugin"
 
 #: class/admin/class-help.php:166
 msgid "Support, donate & credits"
-msgstr "Aide, dons et cr&eacute;dits"
+msgstr "Aide, dons et crédits"
 
 #: class/admin/class-help.php:334
 msgid "Two ways to support "
@@ -1423,13 +1420,13 @@ msgstr "développement du plugin"
 
 #: class/admin/class-help.php:340
 msgid "Be supported!"
-msgstr "&Ecirc;tre aid&eacute; !"
+msgstr "Être aidé !"
 
 #: class/admin/class-help.php:344
 msgid "You will never believe there is so many ways to be supported. You can:"
 msgstr ""
-"Vous ne croirez jamais qu'il existe autant de moyens d'&ecirc;tre "
-"aid&eacute;. Vous pouvez :"
+"Vous ne croirez jamais qu'il existe autant de moyens d'être aidé. Vous "
+"pouvez :"
 
 #: class/admin/class-help.php:346
 msgid "visit"
@@ -1453,7 +1450,7 @@ msgstr "instructions"
 
 #: class/admin/class-help.php:355
 msgid "Support me!"
-msgstr "Aidez-moi!"
+msgstr "Soutenez-moi!"
 
 #: class/admin/class-help.php:358
 msgid "You will never believe there is so many ways to thank me. Yes, you can:"
@@ -1494,7 +1491,7 @@ msgstr "traduire le plugin dans votre propre langue."
 
 #: class/admin/class-help.php:363
 msgid "help me to improve the plugin."
-msgstr "aidez-moi &agrave; am&eacute;liorer le plugin."
+msgstr "aidez-moi à améliorer le plugin."
 
 #: class/admin/class-help.php:363
 msgid "Report at the development"
@@ -1506,15 +1503,15 @@ msgstr "site web"
 
 #: class/admin/class-help.php:364
 msgid "do a trackback, make some noise about this plugin!"
-msgstr "faites un trackback, faites du bruit autour de ce plugin !"
+msgstr "faire un trackback, faire du bruit au sujet de ce plugin !"
 
 #: class/admin/class-help.php:368
 msgid "Credits:"
-msgstr "Cr&eacute;dits :"
+msgstr "Crédits :"
 
 #: class/admin/class-help.php:422
 msgid "Why a popup window?"
-msgstr "Pourquoi une fen&ecirc;tre popup ?"
+msgstr "Pourquoi une fenêtre popup ?"
 
 #: class/admin/class-help.php:428 class/admin/class-help.php:444
 #: class/admin/class-help.php:452 class/admin/class-help.php:486
@@ -1614,11 +1611,11 @@ msgstr ""
 
 #: class/admin/class-help.php:482
 msgid "Why to use widget?"
-msgstr "Pourquoi utiliser le widget ?"
+msgstr "Pourquoi utiliser un widget ?"
 
 #: class/admin/class-help.php:486
 msgid "key and value for custom fields"
-msgstr "nom et valeur des champs personnalis&eacute;s"
+msgstr "nom et valeur des champs personnalisés"
 
 #: class/admin/class-help.php:488
 msgid ""
@@ -1713,8 +1710,9 @@ msgstr ""
 msgid "Why display movie's data inside my post?"
 msgstr "Pourquoi afficher les données du film dans mon article ?"
 
-#: class/admin/class-help.php:535
-msgid "Lumiere Movies widget"
+#: class/admin/class-help.php:535 class/frontend/class-widget-frontpage.php:194
+#: class/frontend/class-widget-legacy.php:100
+msgid "Lumière! Movies widget"
 msgstr "Widget Lumière Movies"
 
 #: class/admin/class-help.php:536
@@ -1731,7 +1729,7 @@ msgstr ""
 
 #: class/admin/class-help.php:538
 msgid "How to display data inside my post"
-msgstr "Comment afficher les donn&eacute;es dans mon message"
+msgstr "Comment afficher les données dans mon message"
 
 #: class/admin/class-help.php:541
 msgid ""
@@ -1753,7 +1751,7 @@ msgstr ""
 
 #: class/admin/class-help.php:543
 msgid "Lumiere Movies Inside a post gutenberg block"
-msgstr "Lumière! Movies à l'intérieur d'un bloc post gutenberg"
+msgstr "Lumière! Movies à l'intérieur d'un article bloc gutenberg"
 
 #: class/admin/class-help.php:545
 msgid ""
@@ -1777,7 +1775,7 @@ msgstr ""
 "Il se peut que vous ne souhaitiez pas utiliser la solution précédente pour "
 "afficher les données du film. Par exemple, si vous souhaitez utiliser "
 "Lumière en dehors d'un article (dans une page personnalisée), cela ne "
-"fonctionnera pas. Lumière est écrit autour des cours, il est donc facile de "
+"fonctionnera pas. Lumière est écrit autour de classes, il est donc facile de "
 "réaliser ce que vous voulez."
 
 #: class/admin/class-help.php:556
@@ -1787,11 +1785,11 @@ msgid ""
 "the second take always 'external'. For exemple, one'd like to display 'The "
 "Descent' should call the function like this:"
 msgstr ""
-"La fonctionne &agrave; appeler est <strong>imdb_call_external ()</strong>. "
-"Cette fonction a deux param&egrave;tres, et tous les deux sont obligatoires. "
-"Le premier est le nom du film, et le second prend toujours 'external'. Par "
-"exemple, quelqu'un qui voudrait afficher 'The Descent' devrait appeler la "
-"fonction de cette mani&egrave;re :"
+"La fonctionne à appeler est <strong>imdb_call_external ()</strong>. Cette "
+"fonction a deux paramètres, et tous les deux sont obligatoires. Le premier "
+"est le nom du film, et le second prend toujours 'external'. Par exemple, "
+"quelqu'un qui voudrait afficher 'The Descent' devrait appeler la fonction de "
+"cette manière :"
 
 #: class/admin/class-help.php:563
 msgid "Should you want to call the function using an IMDb ID instead:"
@@ -1852,7 +1850,7 @@ msgid ""
 "update? There is a solution."
 msgstr ""
 "Êtes-vous fatigué de perdre vos modifications CSS soigneusement faites à la "
-"main à chaque Lumière ! mettre à jour? Il y a une solution."
+"main à chaque Lumière ! mettre à jour? Il existe une solution."
 
 #: class/admin/class-help.php:652
 #, php-format
@@ -1879,7 +1877,7 @@ msgstr ""
 
 #: class/admin/class-help.php:667
 msgid "What is WordPress' taxonomy?"
-msgstr "Qu'est-ce que la taxonomie pour WordPress ?"
+msgstr "Qu'est-ce que la taxonomie de WordPress ?"
 
 #: class/admin/class-help.php:671
 msgid "Since WordPress 2.3, WordPress users can use taxonomy."
@@ -1968,7 +1966,7 @@ msgstr ""
 "Pour profiter pleinement de cette taxonomie, assurez-vous de copier les "
 "fichiers modèles situés dans le Lumière ! films 'lumiere-movies/theme/' dans "
 "votre dossier 'theme'. Cela peut être automatisé en utilisant les options "
-"disponibles dans Lumière ! taxonomie :"
+"disponibles dans la taxonomie de Lumière! :"
 
 #: class/admin/class-help.php:699
 msgid ""
@@ -2037,7 +2035,7 @@ msgid ""
 "your post’s title."
 msgstr ""
 "La prochaine fois que vous visiterez votre message, vous trouverez un widget "
-"li&eacute au titre du message."
+"lié au titre du message."
 
 #: class/admin/class-help.php:749
 msgid ""
@@ -2187,7 +2185,7 @@ msgstr "Utiliser "
 
 #: class/admin/class-metabox-selection.php:102
 msgid "Open a popup to search the movie's ID"
-msgstr "Ouvrir une popup pour recherche l'ID de film"
+msgstr "Ouvrir une popup pour rechercher l'ID du film."
 
 #: class/admin/class-metabox-selection.php:102
 msgid "the query tool "
@@ -2221,11 +2219,11 @@ msgstr "Lumière! Movies"
 
 #: class/admin/class-widget-selection.php:187
 msgid "Widget title:"
-msgstr "Titre de widget :"
+msgstr "Titre du widget :"
 
 #: class/class-admin.php:124
 msgid "New taxonomy template file(s) found: "
-msgstr "De nouveau(x) modèle(s) de taxonomie ont été trouvés :"
+msgstr "De nouveau(x) modèle(s) de taxonomie ont été trouvés : "
 
 #: class/class-admin.php:130
 msgid "update"
@@ -2285,7 +2283,7 @@ msgstr "options d'administration"
 
 #: class/class-admin.php:346
 msgid "General Options"
-msgstr "Options g&eacute;n&eacute;rales"
+msgstr "Options générales"
 
 #: class/class-admin.php:355
 msgid "Data Management"
@@ -2301,7 +2299,8 @@ msgstr "Gestion du cache"
 
 #: class/class-admin.php:381
 msgid "How to use Lumière!, check FAQs & changelog"
-msgstr "Comment utiliser Lumière!, consulter les FAQs & changelog"
+msgstr ""
+"Comment utiliser Lumière!, consulter les FAQs & le journal des modifications"
 
 #: class/class-admin.php:382
 msgid "help"
@@ -2333,15 +2332,15 @@ msgstr "compositeur"
 
 #: class/class-settings.php:318
 msgid "creator"
-msgstr "cr&eacute;ateur"
+msgstr "créateur"
 
 #: class/class-settings.php:319
 msgid "director"
-msgstr "r&eacute;alisateur"
+msgstr "réalisateur"
 
 #: class/class-settings.php:321
 msgid "writer"
-msgstr "sc&eacute;nariste"
+msgstr "scénariste"
 
 #: class/class-settings.php:324
 msgid "color"
@@ -2357,27 +2356,27 @@ msgstr "genre"
 
 #: class/class-settings.php:327
 msgid "keyword"
-msgstr "mot-cl&eacute;"
+msgstr "mot-clé"
 
 #: class/class-settings.php:328
 msgid "language"
 msgstr "langue"
 
-#: class/frontend/class-movie.php:540 class/frontend/class-popup-movie.php:443
+#: class/frontend/class-movie.php:540 class/frontend/class-popup-movie.php:448
 msgid "Country"
 msgid_plural "Countries"
 msgstr[0] "Pays"
 msgstr[1] "Pays"
 
-#: class/frontend/class-movie.php:586 class/frontend/class-popup-movie.php:377
+#: class/frontend/class-movie.php:586 class/frontend/class-popup-movie.php:382
 msgid "Runtime"
-msgstr "Dur&eacute;e"
+msgstr "Durée"
 
-#: class/frontend/class-movie.php:588 class/frontend/class-popup-movie.php:381
+#: class/frontend/class-movie.php:588 class/frontend/class-popup-movie.php:386
 msgid "minutes"
 msgstr "minutes"
 
-#: class/frontend/class-movie.php:610 class/frontend/class-popup-movie.php:419
+#: class/frontend/class-movie.php:610 class/frontend/class-popup-movie.php:424
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "Langue"
@@ -2392,285 +2391,285 @@ msgstr "moyenne de votes"
 msgid "out of 10"
 msgstr "sur 10"
 
-#: class/frontend/class-movie.php:663 class/frontend/class-popup-movie.php:402
+#: class/frontend/class-movie.php:663 class/frontend/class-popup-movie.php:407
 msgid "votes"
 msgstr "votes"
 
-#: class/frontend/class-movie.php:685 class/frontend/class-popup-movie.php:468
+#: class/frontend/class-movie.php:685 class/frontend/class-popup-movie.php:473
 msgid "Genre"
 msgid_plural "Genres"
 msgstr[0] "Genre"
 msgstr[1] "Genres"
 
-#: class/frontend/class-movie.php:734
+#: class/frontend/class-movie.php:736
 msgid "Keyword"
 msgid_plural "Keywords"
-msgstr[0] "Mot-cl&eacute;"
-msgstr[1] "Mots-cl&eacute;s"
+msgstr[0] "Mot-clé"
+msgstr[1] "Mots-clés"
 
-#: class/frontend/class-movie.php:787 class/frontend/class-popup-movie.php:572
+#: class/frontend/class-movie.php:789 class/frontend/class-popup-movie.php:577
 msgid "Goof"
 msgid_plural "Goofs"
 msgstr[0] "Erreur"
 msgstr[1] "Erreurs"
 
-#: class/frontend/class-movie.php:821
+#: class/frontend/class-movie.php:823
 msgid "Quote"
 msgid_plural "Quotes"
 msgstr[0] "Citation"
 msgstr[1] "Citations"
 
-#: class/frontend/class-movie.php:867
+#: class/frontend/class-movie.php:869
 msgid "Tagline"
 msgid_plural "Taglines"
 msgstr[0] "Slogan"
 msgstr[1] "Slogan"
 
-#: class/frontend/class-movie.php:904
+#: class/frontend/class-movie.php:906
 msgid "Trailer"
 msgid_plural "Trailers"
 msgstr[0] "Bande annonce"
 msgstr[1] "Bandes annonce"
 
-#: class/frontend/class-movie.php:944
+#: class/frontend/class-movie.php:946
 msgid "Color"
 msgid_plural "Colors"
 msgstr[0] "Couleur"
 msgstr[1] "Couleurs"
 
-#: class/frontend/class-movie.php:997
+#: class/frontend/class-movie.php:999
 msgid "Also known as"
 msgstr "Aussi connu sous"
 
-#: class/frontend/class-movie.php:1046
+#: class/frontend/class-movie.php:1048
 msgid "Composer"
 msgid_plural "Composers"
 msgstr[0] "Compositeur"
 msgstr[1] "Compositeurs"
 
-#: class/frontend/class-movie.php:1102 class/frontend/class-popup-movie.php:535
+#: class/frontend/class-movie.php:1104 class/frontend/class-popup-movie.php:540
 msgid "Soundtrack"
 msgid_plural "Soundtracks"
 msgstr[0] "Bande originale"
 msgstr[1] "Bandes originales"
 
-#: class/frontend/class-movie.php:1147
+#: class/frontend/class-movie.php:1149
 msgid "Production company"
 msgid_plural "Production companies"
 msgstr[0] "Compagnie de production"
 msgstr[1] "Compagnies de production"
 
-#: class/frontend/class-movie.php:1182
+#: class/frontend/class-movie.php:1184
 msgid "Official website"
 msgid_plural "Official websites"
 msgstr[0] "Site web officiel"
 msgstr[1] "Sites web officiels"
 
-#: class/frontend/class-movie.php:1220 class/frontend/class-popup-movie.php:318
-#: class/frontend/class-popup-movie.php:659
+#: class/frontend/class-movie.php:1222 class/frontend/class-popup-movie.php:323
+#: class/frontend/class-popup-movie.php:664
 #: class/frontend/class-popup-search.php:150
 msgid "Director"
 msgid_plural "Directors"
-msgstr[0] "R&eacute;alisateur"
-msgstr[1] "R&eacute;alisateurs"
+msgstr[0] "Réalisateur"
+msgstr[1] "Réalisateurs"
 
-#: class/frontend/class-movie.php:1276
+#: class/frontend/class-movie.php:1278
 msgid "Creator"
 msgid_plural "Creators"
-msgstr[0] "Cr&eacute;ateur"
-msgstr[1] "Cr&eacute;ateurs"
+msgstr[0] "Créateur"
+msgstr[1] "Créateurs"
 
-#: class/frontend/class-movie.php:1330 class/frontend/class-popup-movie.php:730
+#: class/frontend/class-movie.php:1332 class/frontend/class-popup-movie.php:735
 msgid "Producer"
 msgid_plural "Producers"
 msgstr[0] "Producteur"
 msgstr[1] "Producteurs"
 
-#: class/frontend/class-movie.php:1392 class/frontend/class-popup-movie.php:696
+#: class/frontend/class-movie.php:1394 class/frontend/class-popup-movie.php:701
 msgid "Writer"
 msgid_plural "Writers"
-msgstr[0] "Sc&eacute;nariste"
-msgstr[1] "Sc&eacute;naristes"
+msgstr[0] "Scénariste"
+msgstr[1] "Scénaristes"
 
-#: class/frontend/class-movie.php:1453 class/frontend/class-popup-movie.php:617
+#: class/frontend/class-movie.php:1455 class/frontend/class-popup-movie.php:622
 msgid "Actor"
 msgid_plural "Actors"
 msgstr[0] "Acteur"
 msgstr[1] "Acteurs"
 
-#: class/frontend/class-movie.php:1510 class/frontend/class-popup-movie.php:786
+#: class/frontend/class-movie.php:1512 class/frontend/class-popup-movie.php:791
 msgid "Plot"
 msgid_plural "Plots"
 msgstr[0] "Synopsis"
 msgstr[1] "Synopsis"
 
-#: class/frontend/class-movie.php:1547
+#: class/frontend/class-movie.php:1549
 msgid "Source"
 msgstr "Source"
 
-#: class/frontend/class-movie.php:1640 class/frontend/class-movie.php:1656
+#: class/frontend/class-movie.php:1642 class/frontend/class-movie.php:1658
 msgid "Find similar taxonomy results"
 msgstr "Trouver des résultats de taxonomie similaires"
 
-#: class/frontend/class-popup-movie.php:224
+#: class/frontend/class-popup-movie.php:229
 msgid "Search for other movies with the same title"
-msgstr "Rechercher d'autres films avec le m&ecirc;me titre"
+msgstr "Rechercher d'autres films avec le même titre"
 
-#: class/frontend/class-popup-movie.php:224
+#: class/frontend/class-popup-movie.php:229
 msgid "Similar Titles"
 msgstr "Titres similaires"
 
-#: class/frontend/class-popup-movie.php:227
+#: class/frontend/class-popup-movie.php:232
 msgid "Movie"
 msgstr "Film"
 
-#: class/frontend/class-popup-movie.php:227
-#: class/frontend/class-popup-person.php:181
+#: class/frontend/class-popup-movie.php:232
+#: class/frontend/class-popup-person.php:186
 msgid "Summary"
 msgstr "Résumé"
 
-#: class/frontend/class-popup-movie.php:230
+#: class/frontend/class-popup-movie.php:235
 msgid "Actors"
 msgstr "Acteurs"
 
-#: class/frontend/class-popup-movie.php:233
+#: class/frontend/class-popup-movie.php:238
 msgid "Crew"
 msgstr "Equipe"
 
-#: class/frontend/class-popup-movie.php:236
+#: class/frontend/class-popup-movie.php:241
 msgid "Plots"
 msgstr "Synopsis"
 
-#: class/frontend/class-popup-movie.php:328
-#: class/frontend/class-popup-movie.php:356
-#: class/frontend/class-popup-movie.php:633
-#: class/frontend/class-popup-movie.php:672
-#: class/frontend/class-popup-movie.php:709
-#: class/frontend/class-popup-movie.php:743
+#: class/frontend/class-popup-movie.php:333
+#: class/frontend/class-popup-movie.php:361
+#: class/frontend/class-popup-movie.php:638
+#: class/frontend/class-popup-movie.php:677
+#: class/frontend/class-popup-movie.php:714
+#: class/frontend/class-popup-movie.php:748
 msgid "internal link"
 msgstr "lien interne"
 
-#: class/frontend/class-popup-movie.php:353
+#: class/frontend/class-popup-movie.php:358
 msgid "Main actors"
 msgstr "Acteurs principaux"
 
-#: class/frontend/class-popup-movie.php:398
+#: class/frontend/class-popup-movie.php:403
 #: class/frontend/link_makers/class-abstract-link-maker.php:164
 msgid "Rating"
 msgstr "Note"
 
-#: class/frontend/class-popup-movie.php:401
+#: class/frontend/class-popup-movie.php:406
 msgid "vote average "
 msgstr "moyenne de votes "
 
 # as "10 out of 10"
-#: class/frontend/class-popup-movie.php:401
+#: class/frontend/class-popup-movie.php:406
 msgid " out of 10"
 msgstr " sur 10"
 
-#: class/frontend/class-popup-movie.php:499
-#: class/frontend/class-popup-person.php:574
+#: class/frontend/class-popup-movie.php:504
+#: class/frontend/class-popup-person.php:579
 msgid "Trivia"
 msgid_plural "Trivias"
 msgstr[0] "Anecdote"
 msgstr[1] "Anecdotes"
 
-#: class/frontend/class-popup-movie.php:508
+#: class/frontend/class-popup-movie.php:513
 msgid "click to show more trivias"
 msgstr "cliquez pour plus de trvias"
 
-#: class/frontend/class-popup-movie.php:582
+#: class/frontend/class-popup-movie.php:587
 msgid "click to show more goofs"
 msgstr "cliquez pour plus de gaffes"
 
-#: class/frontend/class-popup-movie.php:769
+#: class/frontend/class-popup-movie.php:774
 msgid "Plot summary"
 msgstr "Résumé synopsys"
 
 #: class/frontend/class-popup-person.php:80
 msgid "Lumière Movies: Invalid person search query."
-msgstr "Lumière Movies : Requête invalide sur une star."
+msgstr "Lumière Movies : Requête invalide sur une personne."
 
-#: class/frontend/class-popup-person.php:178
+#: class/frontend/class-popup-person.php:183
 msgid "Back"
 msgstr "Retour"
 
-#: class/frontend/class-popup-person.php:184
+#: class/frontend/class-popup-person.php:189
 msgid "Full filmography"
 msgstr "Filmographie complète"
 
-#: class/frontend/class-popup-person.php:187
+#: class/frontend/class-popup-person.php:192
 msgid "Full biography"
 msgstr "Biographie complète"
 
-#: class/frontend/class-popup-person.php:252
-#: class/frontend/class-popup-person.php:306
-#: class/frontend/class-popup-person.php:522
-#: class/frontend/class-popup-person.php:581
-#: class/frontend/class-popup-person.php:646
-#: class/frontend/class-popup-person.php:683
+#: class/frontend/class-popup-person.php:257
+#: class/frontend/class-popup-person.php:311
+#: class/frontend/class-popup-person.php:527
+#: class/frontend/class-popup-person.php:586
+#: class/frontend/class-popup-person.php:651
+#: class/frontend/class-popup-person.php:688
 msgid "see all"
 msgstr "voir tout"
 
-#: class/frontend/class-popup-person.php:432
+#: class/frontend/class-popup-person.php:437
 msgid "Biographical movies"
 msgstr "Film biographiques"
 
-#: class/frontend/class-popup-person.php:456
+#: class/frontend/class-popup-person.php:461
 msgid "Portrayed in"
 msgstr "Dépeint dans"
 
-#: class/frontend/class-popup-person.php:480
+#: class/frontend/class-popup-person.php:485
 msgid "Interviews"
 msgstr "Interviews"
 
-#: class/frontend/class-popup-person.php:515
+#: class/frontend/class-popup-person.php:520
 msgid "Printed publicity"
 msgstr "Publicité imprimée"
 
-#: class/frontend/class-popup-person.php:613
+#: class/frontend/class-popup-person.php:618
 msgid "Nicknames"
 msgstr "Surnoms"
 
-#: class/frontend/class-popup-person.php:639
+#: class/frontend/class-popup-person.php:644
 msgid "Personal quotes"
 msgstr "Citations"
 
-#: class/frontend/class-popup-person.php:676
+#: class/frontend/class-popup-person.php:681
 msgid "Trademarks"
 msgstr "Marques de fabrique"
 
-#: class/frontend/class-popup-person.php:723
+#: class/frontend/class-popup-person.php:728
 #: class/theme/class-taxonomy-people-standard.php:410
 msgid "Born on"
-msgstr "N&eacute; le"
+msgstr "Né le"
 
 # "in" as in the place of death
-#: class/frontend/class-popup-person.php:730
-#: class/frontend/class-popup-person.php:747
+#: class/frontend/class-popup-person.php:735
+#: class/frontend/class-popup-person.php:752
 #: class/theme/class-taxonomy-people-standard.php:419
 #: class/theme/class-taxonomy-people-standard.php:441
 msgid "in"
-msgstr "&agrave;"
+msgstr "à"
 
-#: class/frontend/class-popup-person.php:741
+#: class/frontend/class-popup-person.php:746
 #: class/theme/class-taxonomy-people-standard.php:435
 msgid "Died on"
 msgstr "Mort le"
 
 # "cause" as a cause of death
-#: class/frontend/class-popup-person.php:751
+#: class/frontend/class-popup-person.php:756
 #: class/theme/class-taxonomy-people-standard.php:445
 msgid "cause"
 msgstr "de"
 
 #: class/frontend/class-popup-search.php:63
 msgid "Lumière Movies: Invalid search request."
-msgstr "Lumière Movies : Requête invalide."
+msgstr "Lumière Movies : Requête de recherche invalide."
 
 #: class/frontend/class-popup-search.php:129
 msgid "Results related to"
-msgstr "Choix correspondants &agrave;"
+msgstr "Choix correspondants à"
 
 #: class/frontend/class-popup-search.php:137
 msgid "No result found."
@@ -2698,11 +2697,6 @@ msgstr "plus sur"
 #: class/frontend/class-popup-search.php:209
 msgid "No director found."
 msgstr "Aucun réalisateur trouvé."
-
-#: class/frontend/class-widget-frontpage.php:194
-#: class/frontend/class-widget-legacy.php:100
-msgid "Lumière! Movies widget"
-msgstr "Widget Lumière Movies"
 
 #: class/frontend/class-widget-legacy.php:59
 msgid ""
@@ -2738,12 +2732,12 @@ msgstr "lien interne vers"
 #: class/frontend/link_makers/class-abstract-link-maker.php:459
 #: class/frontend/link_makers/class-abstract-link-maker.php:543
 msgid "open a new window with IMDb informations"
-msgstr "ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
+msgstr "ouvre une nouvelle fenêtre avec les informations de l'IMDb"
 
 #: class/frontend/link_makers/class-abstract-link-maker.php:589
 #: class/frontend/link_makers/class-abstract-link-maker.php:594
 msgid "Open a new window with IMDb informations"
-msgstr "Ouvre une nouvelle fen&ecirc;tre avec les informations de l'IMDb"
+msgstr "Ouvre une nouvelle fenêtre avec les informations de l'IMDb"
 
 #: class/frontend/link_makers/class-abstract-link-maker.php:600
 msgid "No Links"
@@ -2792,17 +2786,17 @@ msgstr "Ouvrir le blog "
 
 #: class/theme/class-taxonomy-items-standard.php:101
 msgid "Lumiere taxonomy: "
-msgstr "Lumière taxonomie:"
+msgstr "Lumière taxonomie: "
 
 #: class/theme/class-taxonomy-items-standard.php:114
 #: class/theme/class-taxonomy-people-standard.php:299
 msgid "Filed under: "
-msgstr "Cat&eacute;goris&eacute; sous : "
+msgstr "Catégorisé sous : "
 
 #: class/theme/class-taxonomy-items-standard.php:118
 #: class/theme/class-taxonomy-people-standard.php:305
 msgid "Tags: "
-msgstr "Tags : "
+msgstr "Etiquettes : "
 
 #: class/theme/class-taxonomy-items-standard.php:128
 msgid "No post found with this taxonomy."
@@ -2814,7 +2808,7 @@ msgstr "Taxonomie pour "
 
 #: class/theme/class-taxonomy-people-standard.php:194
 msgid "No IMDb result found for "
-msgstr "Pas de résultat IMDb trouv&eacute pour"
+msgstr "Pas de résultat IMDb trouvé pour "
 
 #: class/theme/class-taxonomy-people-standard.php:257
 msgid "In the role of"
@@ -2838,7 +2832,7 @@ msgstr "Numéro d'identification"
 
 #: class/tools/class-search.php:156
 msgid ""
-"Maximum  number of results reached. You can increase that number in admin "
+"Maximum number of results reached. You can increase that number in admin "
 "options."
 msgstr ""
 "Nombre maximum de résultats atteint. Vous pouvez l'augmenter ce nombre dans "
@@ -2846,7 +2840,7 @@ msgstr ""
 
 #: class/tools/class-search.php:168
 msgid "IMDb ID:"
-msgstr "Numéro IMDb:"
+msgstr "Identification IMDb:"
 
 #: class/tools/class-search.php:196
 msgid "Search a movie IMDb ID"
@@ -2860,11 +2854,10 @@ msgid ""
 "Nevertheless, a considerable amount of work was required to implement it in "
 "WordPress; check the support page for"
 msgstr ""
-"<strong>License:</strong> Sous une licence GPL,  \"Lumière Movies\" est "
-"bas&eacute; sur les classes de <a href=\"%1$s\" target=\"_blank\">tboothman</"
-"a>. Cependant, un consid&eacute;rable travail d'adaptation a &eacute;"
-"t&eacute; op&eacute;r&eacute; pour cr&eacute;er ce plugin; visitez la page "
-"d'aide pour"
+"<strong>License:</strong> Sous une licence GPL,  \"Lumière Movies\" est basé "
+"sur les classes de <a href=\"%1$s\" target=\"_blank\">tboothman</a>. "
+"Cependant, un considérable travail d'adaptation a été opéré pour créer ce "
+"plugin; visitez la page d'aide pour"
 
 #: class/tools/class-utils.php:172
 msgid "more"
@@ -2872,21 +2865,24 @@ msgstr "plus d'informations"
 
 #: lumiere-movies.php:45
 msgid "Error: Lumière is not installed. Check your install."
-msgstr "Erreur: Lumière n'est pas installé. Vériifiez votre installation."
+msgstr "Erreur: Lumière n'est pas installé. Vérifiez votre installation."
 
 #: lumiere-movies.php:48
 msgid "Error: Imdbphp libraries are not installed. Check your install."
 msgstr ""
-"Erreur: Les libraires Imdbphp ne sont pas installées. Vériifiez votre "
+"Erreur: Les libraires Imdbphp ne sont pas installées. Vérifiez votre "
 "installation."
 
 #: lumiere-movies.php:58
 msgid "Lumière is incompatible with the following plugins: "
-msgstr "Lumière est incompatible avec les plugins suivants :"
+msgstr "Lumière est incompatible avec les plugins suivants : "
 
 #: lumiere-movies.php:59
 msgid "Lumière has been deactivated and cannot be activated."
 msgstr "Lumière a été désactivé et ne peut être activé."
+
+#~ msgid "To get support and to support what you get"
+#~ msgstr "Obtenir de l'aide et fournir de l'aide pour l'obtenir"
 
 #~ msgid "Popup link builder"
 #~ msgstr "Lien pour popup"
