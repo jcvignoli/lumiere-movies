@@ -3,6 +3,22 @@
 PROJECT=`php -r "echo dirname(dirname(dirname(realpath('$0'))));"`
 STAGED_FILES_CMD=`git diff --cached --name-only --diff-filter=ACMR HEAD | grep \\\\.php`
 
+PHPCS_BIN=./vendor/bin/phpcs
+PHPCBF_BIN=./vendor/bin/phpcbf
+
+# Check for PHPCS / PHPCBF
+if [ ! -x $PHPCS_BIN ]; then
+    echo "[Pre-commit] PHP CodeSniffer is not installed locally."
+    echo "[Pre-commit] Please run 'composer install' or check the path: $PHPCS_BIN"
+    exit 1
+fi
+
+if [ ! -x $PHPCBF_BIN ]; then
+    echo "[Pre-commit] PHP Code Beautifier and Fixer is not installed locally."
+    echo "[Pre-commit] Please run 'composer install' or check the path: $PHPCBF_BIN"
+    exit 1
+fi
+
 # Determine if a file list is passed
 if [ "$#" -eq 1 ]
 then
@@ -14,13 +30,13 @@ then
 fi
 SFILES=${SFILES:-$STAGED_FILES_CMD}
 
-echo "Checking PHP Lint..."
+echo "[Pre-commit] Checking PHP Lint..."
 for FILE in $SFILES
 do
     php -l -d display_errors=0 $PROJECT/$FILE
     if [ $? != 0 ]
     then
-        echo "Fix the error before commit."
+        echo "[Pre-commit] Fix the error before commit."
         exit 1
     fi
     FILES="$FILES $PROJECT/$FILE"
@@ -28,13 +44,36 @@ done
 
 if [ "$FILES" != "" ]
 then
-    echo "Running Code Sniffer with NeutronStandard."
-    ./vendor/bin/phpcs -n -s -p $FILES
+    echo "[Pre-commit] Running Code Sniffer..."
+    $PHPCS_BIN -n -p $FILES
+    
+    #Errors have been found
     if [ $? != 0 ]
     then
-        echo "Fix the error before commit!"
-        echo "Run './vendor/bin/phpcbf' for automatic fix"
-        exit 1
+        echo "[Pre-commit] Errors found!"
+        echo "[Pre-commit] Running $PHPCBF_BIN for automatic fixing..."
+
+	# Try to fix automatically errors
+        $PHPCBF_BIN -n $FILES
+
+        echo "[Pre-commit] Checking PHPCS again..."
+
+        # Running phpcs again
+        $PHPCS_BIN -n $FILES
+        
+        # Couldn't fix, exit
+        if [ $? != 0 ]
+        then
+            echo "[Pre-commit] PHP Code Beautifier and Fixer wasn't able to solve all problems."
+            echo "[Pre-commit] Run PHPCS $PHPCBF_BIN manually to check and fix all errors."
+            exit 1
+        fi
+        
+        echo "[Pre-commit] Successfully fixed phpcs errors."
+        
+        # Add modified files in git before commiting, otherwise would send the unmodified files
+        git add $FILES
+        
     fi
 fi
 
