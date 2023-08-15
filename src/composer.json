@@ -11,8 +11,13 @@
          "type": "vcs",
          "url": "https://github.com/jcvignoli/imdbphp"
     }],
+    "config": {
+        "platform": {
+            "php": "8.0"
+        }
+    },
     "require": {
-        "php": ">=8.0",
+        "php": "8.0",
         "jcvignoli/imdbphp": "dev-master",
         "monolog/monolog": "^2.8",
         "twbs/bootstrap": "@stable"
