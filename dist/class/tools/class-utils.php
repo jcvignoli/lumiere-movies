@@ -328,6 +328,8 @@ class Utils {
 	 * Returns if a string is contained in a value
 	 * Introduced in PHP 8, here for compatibilty purpose
 	 *
+	 * @obsolete Obsolete function, PHP 8.0 is required
+	 *
 	 * @param string $haystack The string to search in.
 	 * @param string $needle The substring to search for in the haystack.
 	 * @return bool
@@ -335,7 +337,7 @@ class Utils {
 	public static function str_contains( string $haystack, string $needle ): bool {
 
 		// If PHP >= 0, use native function
-		if( function_exists( 'str_contains' ) ) {
+		if ( function_exists( 'str_contains' ) ) {
 			return str_contains( $haystack, $needle );
 		}
 
