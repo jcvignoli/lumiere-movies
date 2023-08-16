@@ -334,6 +334,11 @@ class Utils {
 	 */
 	public static function str_contains( string $haystack, string $needle ): bool {
 
+		// If PHP >= 0, use native function
+		if( function_exists( 'str_contains' ) ) {
+			return str_contains( $haystack, $needle );
+		}
+
 		return $needle !== '' && mb_strpos( $haystack, $needle ) !== false;
 
 	}
