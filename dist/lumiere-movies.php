@@ -56,7 +56,7 @@ if ( count( array_intersect( Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS, app
 			$incompatible_name_plugins = ucwords( str_replace( '-', ' ', implode( ',', preg_replace( '#/.*#', '', Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS ) ) ) ) . '. ';
 			$class = 'notice notice-error is-dismissible';
 			$message = __( 'Lumière is incompatible with the following plugins: ', 'lumiere-movies' );
-			$message_end = __( 'Lumière has been deactivated and cannot be activated.', 'lumiere-movies' );
+			$message_end = __( 'Lumière has been deactivated and cannot be activated unless you deactivate ', 'lumiere-movies' );
 			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) . esc_html( $incompatible_name_plugins ) . esc_html( $message_end ) );
 		}
 	}

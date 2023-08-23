@@ -211,10 +211,11 @@ class Widget_Frontpage {
 		$post_id = get_the_ID();
 
 		// Query if metaboxes are available in the post and add them to array to be queried in Movie class.
-		$imdb_id_or_title[] = is_int( $post_id ) ? $this->lumiere_widget_get_metabox_metadata( $post_id ) : [];
+		$imdb_id_or_title[] = is_int( $post_id ) ? $this->lumiere_widget_get_metabox_metadata( $post_id ) : null;
 
 		// Query Movie class.
-		$movie = $this->movie_class->lumiere_show( $imdb_id_or_title );
+		// @since 3.10.2 added array_filter so only non-null arrays are counted
+		$movie = $this->movie_class->lumiere_show( array_filter( $imdb_id_or_title ) );
 
 		// Output the result using a layout wrapper.
 		// This result cannot be displayed anywhere else but in this widget() method.

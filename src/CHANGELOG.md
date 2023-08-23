@@ -1,6 +1,9 @@
 **Changelog**
 
 v.3.10.2
+* [bug] In some rare circonstances, two movies in widget were displayed. (fixed class widget frontpage, added array_search() in lumiere_widget_display_movies() to better filter arrays)
+* [bug] Better PHP 8.2 compatibility (function lumiere_parse_spans() returns string instead of null)
+* [technical] Lumière! is not executed in feeds anymore (created lumiere_prohibited_areas() in movie class)
 
 v.3.10.1
 * [feature] Spinners added: when loading popups and information in popups, a waiting animation will be displayed until the information is retrieved

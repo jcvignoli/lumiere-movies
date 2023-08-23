@@ -154,7 +154,7 @@ class Movie {
 				$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] Movie title provided: $film" );
 
 				// check a the movie title exists.
-				if ( strlen( $film ) !== 0 ) {
+				if ( strlen( $film ) > 0 ) {
 
 					$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] searching for $film" );
 
@@ -213,13 +213,31 @@ class Movie {
 	}
 
 	/**
+	 * List of prohibited areas where Lumière! won't run
+	 *
+	 * @since 3.10.2
+	 * @return bool
+	 */
+	public function lumiere_prohibited_areas(): bool {
+		return is_feed() || is_comment_feed();
+	}
+
+	/**
 	 * Find in content the span to build the movies
 	 * Looks for <span data-lum_movie_maker="[1]"></span> where [1] is movie_title or movie_id
 	 *
-	 * @param string $content HTML span tags + text inside
-	 * @return string
+	 * @since 3.10.2 The function always returns string, no null accepted -- PHP82 compatibility
+	 *       Also added a lumiere_prohibited_areas() check, no need to execute the plugin in feeds
+	 *
+	 * @param null|string $content HTML span tags + text inside
+	 * @return null|string
 	 */
-	public function lumiere_parse_spans( string $content ): string {
+	public function lumiere_parse_spans( ?string $content ): string {
+
+		// if no content is availabe on the content or if it is a feed, abort
+		if ( ! isset( $content ) || $this->lumiere_prohibited_areas() === true ) {
+			return '';
+		}
 
 		$pattern_movid_id = '~<span data-lum_movie_maker="movie_id">(.+?)<\/span>~';
 		if ( preg_match( $pattern_movid_id, $content, $match ) === 1 ) {
@@ -235,7 +253,7 @@ class Movie {
 
 		}
 
-		return $content;
+		return $content ?? '';
 
 	}
 
@@ -328,9 +346,13 @@ class Movie {
 	/**
 	 *  Replace <span class="lumiere_link_maker"></span> with links
 	 *
-	 * @param string $text parsed data
+	 * @param null|string $text parsed data
 	 */
-	public function lumiere_link_popup_maker( string $text ): ?string {
+	public function lumiere_link_popup_maker( ?string $text ): ?string {
+
+		if ( ! isset( $text ) ) {
+			return null;
+		}
 
 		// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
 		$pattern = '/<span data-lum_link_maker="popup">(.+?)<\/span>/i';
