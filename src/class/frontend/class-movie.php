@@ -230,7 +230,7 @@ class Movie {
 	 *       Also added a lumiere_prohibited_areas() check, no need to execute the plugin in feeds
 	 *
 	 * @param null|string $content HTML span tags + text inside
-	 * @return null|string
+	 * @return string
 	 */
 	public function lumiere_parse_spans( ?string $content ): string {
 
@@ -253,7 +253,7 @@ class Movie {
 
 		}
 
-		return $content ?? '';
+		return $content;
 
 	}
 
