@@ -2,8 +2,9 @@
 
 v.3.10.2
 * [bug] In some rare circonstances, two movies in widget were displayed. (fixed class widget frontpage, added array_search() in lumiere_widget_display_movies() to better filter arrays)
-* [bug] Better PHP 8.2 compatibility (function lumiere_parse_spans() returns string instead of null)
+* [bug] Better PHP 8.2 compatibility (function lumiere_parse_spans() returns now string only instead of null|string)
 * [technical] Lumière! is not executed in feeds anymore (created lumiere_prohibited_areas() in movie class)
+* [technical] Support for PHP < 8.0 totally dropped, removed str_contains() compatibility for older PHP releases.
 
 v.3.10.1
 * [feature] Spinners added: when loading popups and information in popups, a waiting animation will be displayed until the information is retrieved

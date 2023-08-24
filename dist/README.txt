@@ -134,6 +134,9 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 
+= 3.10.2 =
+Support for PHP < 8.0 totally dropped, removed str_contains().
+
 = 3.10 = 
 Starting using GraphQL, as IMDbPHP is not maintained frequently. Forking the library.
 

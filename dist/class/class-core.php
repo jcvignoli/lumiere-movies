@@ -517,7 +517,7 @@ class Core {
 		if (
 			( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) )
 			&&
-			( Utils::str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstring ) )
+			( str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstring ) )
 		) {
 
 			wp_enqueue_style( 'lumiere_style_oceanwpfixes_popups' );

@@ -7,7 +7,7 @@
  */
 
 // prevent direct calls
-if ( wp_get_referer() !== false && \Lumiere\Utils::str_contains( $_SERVER['REQUEST_URI'], 'admin/admin.php?page=lumiere_options' ) === false ) {
+if ( wp_get_referer() !== false && str_contains( $_SERVER['REQUEST_URI'], 'admin/admin.php?page=lumiere_options' ) === false ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 

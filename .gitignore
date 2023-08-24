@@ -2,6 +2,7 @@
 /source
 /tmp
 /vendor
+/.vscode
 .env.testing
 .gulpcredentials.js
 .todo
