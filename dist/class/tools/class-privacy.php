@@ -28,9 +28,9 @@ class Privacy {
 	 * @return string The default policy content.
 	 */
 	private static function lumiere_get_default_privacy_content(): string {
-		return '<h2>' . __( 'What personal data Lumière Movies does collect', 'lumiere-movies' ) . '</h2>' .
+		return '<h2>' . __( 'What personal data does Lumière Movies plugin collect?', 'lumiere-movies' ) . '</h2>' .
 		/* translators: %s: IMDb website */
-		'<p>' . __( 'Lumière Movies WordPress plugin does not collect data for itself. However, we are bound ourselves to the <a href="%s">IMDb privacy policy</a> when retrieving information from IMDb. You remain anonymous to IMDb by visiting our website, your data is not sent to any third-party.', 'lumiere-movies' ) . '</p>';
+		'<p>' . __( 'Although we are bound ourselves to the <a href="%s">IMDb privacy policy</a> when retrieving information from IMDb, Lumière Movies WordPress plugin does not collect data by itself. You remain anonymous to IMDb by visiting our website, your data is not sent to any third-party.', 'lumiere-movies' ) . '</p>';
 	}
 
 	/**

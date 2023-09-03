@@ -696,7 +696,7 @@ movie's title
 
 			<a href="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-taxonomy-copytemplate.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="40%" src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-taxonomy-copytemplate.png' ); ?>" alt="taxonomy new options" /></a>
 
-			<?php esc_html_e( "Click on 'copy template, that's it! A warning will be given to you when a new template is available. You can customized even further the template that was copied into your template to match your specific needs. By default, the new taxonomy template will show you the person/item and the posts and pages mentioning them:", 'lumiere-movies' ); ?><br />
+			<?php esc_html_e( "Click on 'copy template', that's it! A warning will be given to you when a new template is available. You can customized even further the template that was copied into your template to match your specific needs. By default, the new taxonomy template will show you the person/item and the posts and pages mentioning them:", 'lumiere-movies' ); ?><br />
 
 			<br clear="both">
 			<br clear="both">
