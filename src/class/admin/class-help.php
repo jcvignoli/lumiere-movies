@@ -737,7 +737,7 @@ movie's title
 			echo '</h4>';
 
 			/* translators: %s are URL tags */
-			echo wp_kses( sprintf( esc_html__( "Add a Lumières!'s %1\$s widget %2\$s to your sidebar, and go to 'General Options / Advanced and check 'Auto widget' option.", 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
+			echo wp_kses( sprintf( esc_html__( "Add a Lumières!'s %1\$s widget %2\$s to your sidebar, and go to 'General Options / Advanced' and check 'Auto widget' option.", 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 			?>
 
 			<div align="center">

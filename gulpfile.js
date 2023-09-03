@@ -19,25 +19,24 @@ var plugins = require("gulp-load-plugins")({			/* Autoload all gulp plugins in p
 /* Require gulp packages */
 var gulp = 	require('gulp'),
 /*gulpplugins	replace = require('gulp-replace'),			/* replace string in file */
-/*gulpplugins	browserSync = require('browser-sync'),		/* open a proxy browser tab, auto refresh on files edit */
-/*gulpplugins	cleanCSS = require('gulp-clean-css'),		/* minify css */		
-/*gulpplugins	autoprefixer = require('gulp-autoprefixer'),	/* adds support for old browsers in CSS */
+/*gulpplugins	browserSync = require('browser-sync'),			/* open a proxy browser tab, auto refresh on files edit */
+/*gulpplugins	cleanCSS = require('gulp-clean-css'),			/* minify css */		
+/*gulpplugins	autoprefixer = require('gulp-autoprefixer'),		/* adds support for old browsers in CSS */
 /*gulpplugins	plumber = require('gulp-plumber'),			/* avoid running process that breaks when error */
-/*gulpplugins	js = require('gulp-uglify'),			/* minify javascripts */
+/*gulpplugins	js = require('gulp-uglify'),				/* minify javascripts */
 /*gulpplugins	changed = require('gulp-changed'),			/* check if a file has changed */
-/*gulpplugins	imagemin = require('gulp-imagemin'),		/* compress images */
+/*gulpplugins	imagemin = require('gulp-imagemin'),			/* compress images */
 /*gulpplugins	notify = require('gulp-notify'),			/* add notification OSD system (needs notify-osd) */
-/*gulpplugins	del = require('del'),				/* delete files */
-/*gulpplugins	shell = require('gulp-shell'),			 execute shell functions 
+/*gulpplugins	del = require('del'),					/* delete files */
+/*gulpplugins	shell = require('gulp-shell'),				/* execute shell functions 
 									 example: .pipe(shell(['echo <%= file.path %>'])) */
 /*gulpplugins	if = require('gulp-if'),				/* if function */
 /*gulpplugins	rename = require('gulp-rename'),			/* rename function */
 /*gulpplugins	ssh = require('gulp-ssh'),				 ssh functions */
 /*gulpplugins	fs = require ('fs'),					/* filesystem functions */
-/*gulpplugins	rsync = require('gulp-rsync'),			/* rsync functions */
+/*gulpplugins	rsync = require('gulp-rsync'),				/* rsync functions */
 /*gulpplugins	nodeNotifier = require('node-notifier'),		/* Notify functions to be run outside a pipe */
-ext_cred = require( './.gulpcredentials.js' );			/* private credentials for ssh */
-
+ext_cred = require( '../../../bin/.credentials/.gulpcredentials-lumiere.js' );	/* private credentials for ssh */
 
 var errorHandler = function(error) {				/* handle and display errors with notify */
 	plugins.notify.onError({

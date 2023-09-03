@@ -534,7 +534,7 @@ class Data extends \Lumiere\Admin {
 		asort( $array_full );
 
 		$comment = [
-			'actor' => esc_html__( 'Display (how many) actors. These options also applies to the pop-up summary', 'lumiere-movies' ),
+			'actor' => esc_html__( 'Display (how many) actors. This option also applies to the pop-up summary', 'lumiere-movies' ),
 			'alsoknow' => esc_html__( 'Display (how many) alternative movie names and in other languages', 'lumiere-movies' ),
 			'color' => esc_html__( 'Display colors', 'lumiere-movies' ),
 			'composer' => esc_html__( 'Display composer', 'lumiere-movies' ),
@@ -687,7 +687,7 @@ class Data extends \Lumiere\Admin {
 			$output .= "\n\t\t<a href='"
 					. $link_taxo_copy
 					. "' title='"
-					. esc_html__( 'Create a this taxonomy template into your theme folder.', 'lumiere-movies' )
+					. esc_html__( 'Create a taxonomy template into your theme folder.', 'lumiere-movies' )
 					. "' ><img src='"
 					. esc_url(
 						$this->config_class->lumiere_pics_dir

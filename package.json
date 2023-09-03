@@ -30,8 +30,8 @@
     "phpmd": "vendor/bin/phpmd src html ./phpmd.xml.dist > tmp/logs/Results-phpmd-wp.html",
     "phpstan": "vendor/bin/phpstan > tmp/logs/Results-phpstan-wp.txt",
     "psalm": "vendor/bin/psalm --report=tmp/logs/Results-psalm.txt",
-    "phpdd": "vendor/bin/phpdd ./src --exclude=awstats > tmp/logs/Results-phpdd-deprecated.txt",
-    "phan": "vendor/bin/phan -k phan.php --output tmp/logs/Results-phan-wp.txt --output-mode text -p --allow-polyfill-parser",
+    "phpdd": "vendor/bin/phpdd ./src --exclude $(grep -oP \"(?<=^exclude: )[^/]+\" phpdd.dist) > tmp/logs/Results-phpdd-deprecated.txt",
+    "phan": "vendor/bin/phan -k phan.php --output tmp/logs/Results-phan-wp.txt --output-mode text -p",
     "analysis": "npm-run-all -c phpcs phpmd phpstan phan phpdd psalm phpdoc"
   },
   "devDependencies": {

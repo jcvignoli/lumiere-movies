@@ -76,6 +76,7 @@ class ComposerStaticInit2660170a07cc3fb36d97d6c17f332311
         'Lumiere\\Settings_Global' => __DIR__ . '/../..' . '/class/trait-settings-global.php',
         'Lumiere\\Taxonomy_Items_Standard' => __DIR__ . '/../..' . '/class/theme/class-taxonomy-items-standard.php',
         'Lumiere\\Taxonomy_People_Standard' => __DIR__ . '/../..' . '/class/theme/class-taxonomy-people-standard.php',
+        'Lumiere\\Tools\\Privacy' => __DIR__ . '/../..' . '/class/tools/class-privacy.php',
         'Lumiere\\Updates' => __DIR__ . '/../..' . '/class/class-updates.php',
         'Lumiere\\Updates\\Lumiere_Update_File_01' => __DIR__ . '/../..' . '/class/updates/01.php',
         'Lumiere\\Updates\\Lumiere_Update_File_02' => __DIR__ . '/../..' . '/class/updates/02.php',

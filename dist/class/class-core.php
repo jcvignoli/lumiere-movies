@@ -156,6 +156,9 @@ class Core {
 
 			// Widget
 			add_action( 'init', [ 'Lumiere\Admin\Widget_Selection', 'lumiere_widget_start' ], 0 );
+
+			// Privacy
+			add_action( 'admin_init', [ 'Lumiere\Tools\Privacy', 'lumiere_privacy_declarations' ], 20 );
 		}
 
 		// Register admin scripts.

@@ -603,7 +603,7 @@ class General extends \Lumiere\Admin {
 					?>
 					/>
 
-					<div class="explain"><?php esc_html_e( 'If activated, Lumière options are displayed in a  top menu. Not recommended f you have many plugins already occupying that area.', 'lumiere-movies' ); ?> <br /><br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
+					<div class="explain"><?php esc_html_e( 'If activated, Lumière options are displayed in a top menu. Not recommended if you have many plugins occupying that area already.', 'lumiere-movies' ); ?> <br /><br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
 
 				</div>
 

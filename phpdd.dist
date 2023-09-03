@@ -1,0 +1,2 @@
+# List of folders/files ignored by PHPDD. Values must stick together, separated by comma, preceeded by "exc lude: "
+exclude: vendor

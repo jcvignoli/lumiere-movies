@@ -163,7 +163,7 @@ class Popup_Search {
 					echo '<div align="center"><i>';
 					echo esc_html__( 'Maximum number of results reached.', 'lumiere-movies' );
 					if ( current_user_can( 'manage_options' ) ) {
-						echo '&nbsp' . esc_html__( 'You can increase the maximum number of results in admin options.', 'lumiere-movies' );
+						echo '&nbsp' . esc_html__( 'You can increase the limit of results in the admin options.', 'lumiere-movies' );
 					}
 					echo '</div>';
 					wp_footer();

@@ -40,6 +40,7 @@ return array(
     'Lumiere\\Settings_Global' => $baseDir . '/class/trait-settings-global.php',
     'Lumiere\\Taxonomy_Items_Standard' => $baseDir . '/class/theme/class-taxonomy-items-standard.php',
     'Lumiere\\Taxonomy_People_Standard' => $baseDir . '/class/theme/class-taxonomy-people-standard.php',
+    'Lumiere\\Tools\\Privacy' => $baseDir . '/class/tools/class-privacy.php',
     'Lumiere\\Updates' => $baseDir . '/class/class-updates.php',
     'Lumiere\\Updates\\Lumiere_Update_File_01' => $baseDir . '/class/updates/01.php',
     'Lumiere\\Updates\\Lumiere_Update_File_02' => $baseDir . '/class/updates/02.php',

@@ -27,7 +27,11 @@
 			<marker>@phpstan-ignore-next-line</marker>
 			<marker>@phpstan-ignore</marker>
 			<marker>@psalm</marker>
+			<marker>@psalm-suppress</marker>
+			<marker>@phan-suppress-next-line</marker>
+			<marker>@phan-suppress-current-line</marker>
 			<marker>@phpcs</marker>
+			<marker>@suppress</marker>
 		    </markers>
 	    	   <ignore-tags>
 			<ignore_tags>author</ignore_tags>
