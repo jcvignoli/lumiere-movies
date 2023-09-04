@@ -6,7 +6,7 @@
 **Tags:** cinema, film, imdb, movie, actor, internet-movie-database, director, taxonomy \
 **Requires at least:** 5.3 \
 **Tested up to:** 6.3 \
-**Stable tag:** 3.10.1 \
+**Stable tag:** 3.10.2 \
 **Requires PHP:** 8.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -151,6 +151,12 @@ Sure thing, just select one of the theme available in general admin options, eit
 
 Sure thing, you can also modify the order of these details. Just take a look at data management options.
 
+### How does the plugin complies with Privacy Policy, such as the GDPR?
+
+No data is sent to IMDb when end users visits a wordpress website which installed the plugin. The website host does its own queries to the IMDb, without knowing who is visiting it.
+Only the website owner is known from the IMDb, and must comply with the IMDb privacy policy: https://www.imdb.com/privacy
+No data about the end user is sent to any other third party, so Lumière! is GDPR compliant. A short paragraph can be accessed in you you admin privacy policy page, which can be added to your own privacy policy page.
+
 ### Known issues
 
 * In taxonomy extra page for people, if Polylang and AMP are activated, the form to change the language doesn't work.
@@ -166,6 +172,10 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changes") to find out the latest developments. Or for even more extensive and recent changes available at [GIT commits](https://github.com/jcvignoli/lumiere-movies/commits/master "GIT commits").
 
 Major changes:
+
+### 3.10.2
+
+Support for PHP < 8.0 totally dropped, removed str_contains().
 
 ### 3.10
 

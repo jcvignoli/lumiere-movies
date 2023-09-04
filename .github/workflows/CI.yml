@@ -54,6 +54,8 @@ jobs:
       - name: "Install Composer dependencies"
         run: |
           composer install -n --prefer-dist
+          cd src
+          composer install -n --prefer-dist
 
       - name: "Lint"
         run: |
