@@ -1,7 +1,7 @@
 /node_modules
 /source
 /tmp
-/vendor
+*vendor*
 *.vscode*
 .env.testing
 .todo
