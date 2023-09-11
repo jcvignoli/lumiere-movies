@@ -81,7 +81,7 @@ class Taxonomy_People_Standard {
 	public function __construct( ?Polylang $plugin_polylang = null ) {
 
 		// Construct Frontend trait.
-		$this->__constructFrontend( 'taxonomy-standard' );
+		$this->__constructFrontend( 'taxonomy-standard', true );
 
 		// Initialise $plugin_polylang.
 		if ( ( class_exists( 'Polylang' ) ) && ( $plugin_polylang instanceof Polylang ) && $plugin_polylang->polylang_is_active() === true ) {

@@ -83,7 +83,7 @@ env:
             enabled:
               - Codeception\Extension\RunProcess:
                   0: chromedriver --url-base=/wd/hub --port=4444
-                  sleep: 5 # seconds to process boot, otherwise it fails sometimes
+                  sleep: 3 # seconds to process boot, otherwise it fails sometimes
             commands:
                 - Codeception\Command\GenerateWPUnit
                 - Codeception\Command\GenerateWPRestApi

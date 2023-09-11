@@ -24,7 +24,7 @@ return [
 	// Thus, both first-party and third-party code being used by
 	// your application should be included in this list.
 	'directory_list' => [
-		'tests/phpstan',
+		'tests/configs_static_tools',
 		'src/',
 
 	],
@@ -33,8 +33,6 @@ return [
 	// method information.
 	// Perfect for getting bootstrap files
 	'file_list' => [
-		'tests/phpstan/phan.php',
-		'tests/phpstan/constants.php',
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
 	],
 
@@ -50,8 +48,8 @@ return [
 	//       should be added to the `directory_list` as
 	//       to `exclude_analysis_directory_list`.
 	'exclude_analysis_directory_list' => [
-		'tests/phpstan/constants.php',
-		'tests/phpstan/extras.php',
+		'tests/configs_static_tools/constants.php',
+		'tests/configs_static_tools/extras.php',
 		'src/vendor/',
 		'assets/js/highslide/',
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',

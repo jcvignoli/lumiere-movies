@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-03 10:55-0500\n"
-"PO-Revision-Date: 2023-09-04 17:34-0500\n"
+"PO-Revision-Date: 2023-09-05 10:44-0500\n"
 "Last-Translator: jcv <dev@jcvignoli.com>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -140,7 +140,9 @@ msgstr "Cela ne peut fonctionner comme cela."
 
 #: class/admin/class-cache.php:279 class/admin/class-cache.php:312
 msgid "This file does not exist or you do not have the credentials."
-msgstr "Ce fichier n’existe pas ou vous n’avez pas les bonnes autorisations."
+msgstr ""
+"Ce fichier n’existe pas ou vous n’avez pas les bonnes informations de "
+"connexion."
 
 #: class/admin/class-cache.php:327
 msgid "Selected cache file deleted."
@@ -1078,8 +1080,8 @@ msgid ""
 "option and choose a different poster width."
 msgstr ""
 "Soit afficher la miniature ou l’image agrandie de pochette pour les films "
-"dans les article, les widgets, les fenêtres contextuelles, les pages de "
-"taxonomie. Désélectionnez la boîte pour afficher un nouveau paramètre et "
+"dans les articles, les widgets, les fenêtres contextuelles, les pages de "
+"taxonomie. Désélectionnez la boîte pour afficher une nouvelle option et "
 "choisir la largeur de la pochette."
 
 #: class/admin/class-general.php:421
@@ -1604,8 +1606,8 @@ msgid ""
 "popup link:"
 msgstr ""
 "Si vous utilisez une ancienne version de WordPress ou un WordPress récent "
-"avec l’extension « classic editor » installée, vous pouvez accéder dans le "
-"menu dédié à « ajouter un lien de fenêtre contextuelle » :"
+"avec l’extension « Classic Editor » installée, vous pouvez accéder dans le "
+"menu dédié à « ajouter un lien de fenêtre contextuelle » :"
 
 #: class/admin/class-help.php:456
 msgid ""
@@ -2915,7 +2917,7 @@ msgstr "Erreur : Lumière n’est pas installée. Vérifiez votre installation.
 #: lumiere-movies.php:48
 msgid "Error: Imdbphp libraries are not installed. Check your install."
 msgstr ""
-"Erreur : Les libraires Imdbphp ne sont pas installées. Vérifiez votre "
+"Erreur : les bibliothèques Imdbphp ne sont pas installées. Vérifiez votre "
 "installation."
 
 #: lumiere-movies.php:58

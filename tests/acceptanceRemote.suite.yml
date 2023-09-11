@@ -79,7 +79,7 @@ env:
                        moz:firefoxOptions:
                             args: ["-headless"] # Run Firefox in headless mode
                             prefs:
-                                intl.accept_languages: "de-AT"
+                                intl.accept_languages: "fr-FR"
    wpchrome:
        modules:
           enabled:
@@ -94,6 +94,6 @@ env:
                      window_size: false #disabled for Chrome driver
                      port: 4444
                      capabilities:
-                        chromeOptions:
-                             args: ["--headless", "--disable-gpu"]
+                       goog:chromeOptions:
+                            args: ["--headless", "--disable-extensions"]
 step_decorators: ~      

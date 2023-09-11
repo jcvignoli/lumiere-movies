@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
     <!-- checkForThrowsDocblock="true" -->
-    <!-- errorLevel: 1 is the strictest, usuall use 3 -->
+    <!-- errorLevel: 1 is the most strict, usually use 3 -->
 <psalm
-    errorLevel="1"
+    errorLevel="3"
     resolveFromConfigFile="true"
     cacheDirectory="tmp/cache/psalm"
     findUnusedBaselineEntry="true"
     findUnusedCode="true"
-    autoloader="src/vendor/autoload.php"
+    autoloader="tests/bootstrap-testing.php"
     
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
@@ -22,16 +22,18 @@
     <projectFiles>
         <directory name="src" />
         <ignoreFiles>
-		<directory name="vendor/php-stubs/wordpress-stubs/" />
+		<directory name="vendor" />
+		<directory name="src/vendor" />
         </ignoreFiles>
     </projectFiles>
     <stubs>
 	<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php" />
-	<file name="tests/phpstan/constants.php" />
     </stubs>
     <issueHandlers>
-<!-- Remove can't concatenate with null, it's actually untrue since PHP automatically transforms null to empty -->
+	<!-- Remove can't concatenate with null, it's actually untrue since PHP automatically transforms null to empty -->
 	<PossiblyNullOperand errorLevel="suppress" />
+	<!-- Lumiere is poorly written, I know -->
+	<PropertyNotSetInConstructor errorLevel="suppress" />
     </issueHandlers>
 </psalm>
 
