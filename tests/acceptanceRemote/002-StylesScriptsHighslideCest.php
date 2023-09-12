@@ -1,5 +1,7 @@
 <?php
 
+use Codeception\Scenario;
+
 # Class meant to test remote wordpress install (a WebDriver is needed for JS execution)
 
 class StylesScriptsHighslideCest {
@@ -7,17 +9,29 @@ class StylesScriptsHighslideCest {
 	/** Stock the base remote URL
 	 *
 	 */
-	var $url_base_remote = "";
+	var $base_url = "";
 
 	/** Stock the root remote path
 	 *
 	 */
-	var $root_remote = "";
+	var $base_path = "";
 
+	/** Stock the root remote path
+	 *
+	 */
+	var $page_test_admin = "";
+	
 	public function __construct(){
 
-		$this->url_base_remote = $_ENV['TEST_REMOTE_WP_URL'];
-		$this->root_remote = $_ENV['WP_ROOT_REMOTE_FOLDER'];
+		// Build vars
+		$remote_or_local = defined( 'DEVELOPMENT_ENVIR' ) ? DEVELOPMENT_ENVIR : '';
+		$final_var_url = 'TEST_' . strtoupper( $remote_or_local ) . '_WP_URL';
+		$final_var_root_folder = 'WP_ROOT_' . strtoupper( $remote_or_local ) . '_FOLDER';
+
+		// Build properties
+		$this->base_url = $_ENV[ $final_var_url ];
+		$this->base_path = $_ENV[$final_var_root_folder];
+		
 
 	}
 
@@ -48,7 +62,7 @@ class StylesScriptsHighslideCest {
 
 		$I->loginAsAdmin();
 
-		$I->wantTo("Check if scripts and styles are available on ". $this->url_base_remote);
+		$I->wantTo("Check if scripts and styles are available on ". $this->base_url);
 
 			/* 
 			 * Admin pages
@@ -103,7 +117,7 @@ class StylesScriptsHighslideCest {
 
 		// Check Lumière (Gutenberg) Block Editor page
 		$I->comment(\Helper\Color::set('Check Lumière (Gutenberg) Block Editor page', 'italic+bold+cyan'));
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_POST_ID_TESTS );
+		$I->amOnPage( ADMIN_POST_ID_TESTS );
 		$I->waitPageLoad();
 		$I->seeInPageSource("lumiere_gutenberg_main-js"); 	# Gutenberg main block js
 		$I->seeInPageSource("lumiere_gutenberg_buttons-js"); 	# Gutenberg button block js
@@ -126,7 +140,7 @@ class StylesScriptsHighslideCest {
 
 		// Check Lumière Classic Editor page (with Classic Editor plugin)
 		$I->comment(\Helper\Color::set('Check Lumière Classic Editor page (with Classic Editor plugin)', 'italic+bold+cyan'));
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_POST_ID_TESTS );
+		$I->amOnPage( ADMIN_POST_ID_TESTS );
 		$I->waitPageLoad();
 		$I->seeInPageSource("lumiere_scripts_admin-js"); 	# Lumière main js
 		$I->seeInPageSource("lumiere_scripts_admin-js-before"); # Lumière js vars for scripts
@@ -210,7 +224,7 @@ class StylesScriptsHighslideCest {
 		$I->click('Crew');
 		$I->see('Christopher Nolan');
 		$I->click('Plots');
-		$I->see('A team of explorers travel');
+		$I->see('A team of explorers must find the human race a new home');
 		$I->click('Misc');
 		$I->see(' The resulting visual effects provided Thorne');
 

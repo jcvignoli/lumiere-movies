@@ -19,9 +19,7 @@ class AcceptanceRemoteSettings {
 
 	public const ADMIN_PLUGINS_URL = '/wp-admin/plugins.php';
 	public const ADMIN_PERMALINK_URL = '/wp-admin/options-permalink.php';
-	// WP Post including 1/ an IMDb movie link into the post 2/ A widget IMDb 3/ Inside the post movie
-	// An example is available in tests/IMPORT_WP_POST_MAIN.txt
-	public const ADMIN_POST_ID_TESTS = '/wp-admin/post.php?post=4715&action=edit';
+
 	// This needs admin cron tool WP Plugin to be installed in order to work
 	public const ADMIN_POST_CRON_MANAGE ='/wp-admin/tools.php?page=crontrol_admin_manage_page';
 

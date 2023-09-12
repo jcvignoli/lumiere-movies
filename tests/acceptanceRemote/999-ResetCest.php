@@ -12,14 +12,12 @@ class EndCest {
 		$I->comment('#Code _after#');
 	}
 
-	/** Login to Wordpress
-	 *  Trait function to keep the cookie active
-	 *
+	/**
+	 * Login to Wordpress
+	 * Trait function to keep the cookie active
 	 */
 	private function login(AcceptanceRemoteTester $I) {
-
 		$I->login_universal($I);
-
 	}
 
 	/** Enable defaults Plugins

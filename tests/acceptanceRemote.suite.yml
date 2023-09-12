@@ -5,6 +5,7 @@
 # Use WPDb to set up your initial database fixture.
 # If you need both WPWebDriver and WPBrowser tests - create a separate suite.
 
+bootstrap: _bootstrap.remote.php
 actor: AcceptanceRemoteTester
 modules:
     enabled:
@@ -95,5 +96,5 @@ env:
                      port: 4444
                      capabilities:
                        goog:chromeOptions:
-                            args: ["--headless", "--disable-extensions"]
+                            args: ["--headless", "--disable-extensions", "--user-agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'" ]
 step_decorators: ~      
