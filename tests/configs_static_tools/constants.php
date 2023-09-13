@@ -9,3 +9,8 @@ if ( ! defined( 'WP_CONTENT_DIR' ) ) {
 if ( ! defined( 'WPINC' ) ) {
 	define( 'WPINC', 'wp-includes');
 }
+
+if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
+	define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-includes/plugins/myplugins');
+}
+
