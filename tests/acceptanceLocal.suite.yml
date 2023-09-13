@@ -26,6 +26,10 @@ modules:
             url: '%TEST_LOCAL_WP_URL%'
             urlReplacement: true #replace the hardcoded dump URL with the one above
             tablePrefix: '%TEST_TABLE_PREFIX%'
+            headers:
+            headers:
+                X_TEST_REQUEST: 1
+                X_WPBROWSER_REQUEST: 1
         WPBrowser:
             url: '%TEST_LOCAL_WP_URL%'
             adminUsername: '%TEST_WP_ADMIN_USERNAME%'
@@ -34,8 +38,6 @@ modules:
             headers:
                 X_TEST_REQUEST: 1
                 X_WPBROWSER_REQUEST: 1
-location:
-   local:
 env:
    firefox:
         modules:
@@ -83,5 +85,5 @@ env:
                      port: 4444
                      capabilities:
                        goog:chromeOptions:
-                            args: ["--headless", "--disable-extensions", "--user-agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'", "allow-insecure-localhost",  "--ignore-certificate-errors"]
+                            args: ["--headless", "--disable-extensions", "--user-agent=wp-browser", "allow-insecure-localhost",  "--ignore-certificate-errors"]
 step_decorators: ~      

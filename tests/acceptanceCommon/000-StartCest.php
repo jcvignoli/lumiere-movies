@@ -37,7 +37,7 @@ class StartCest {
 		$I->wantTo('Check if the blog is online');
 		$I->amOnPage('/');
 		//$I->see('Blog ext'); # can also use _failed() and _passed() instead
-		$I->CustomSeeExit('Blog ext');
+		$I->CustomSeeExit('Blog ext (codeception)');
 	}
 
 	/**
@@ -45,7 +45,7 @@ class StartCest {
 	 * @before login
 	 */
 	public function activateLumiere(AcceptanceRemoteTester $I) {
-		$I->amOnPage( AcceptanceRemoteSettings::ADMI12N_PLUGINS_URL );
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeActivatePlugin('lumiere-movies');
 	}
 
@@ -71,7 +71,7 @@ class StartCest {
 
 	/**
 	 * Create the cache folder by visiting an admin page
-	 * This way permissions are correctly set from the outset
+	 * This way permissions are correctly set from the beginning
 	 * @before login
 	 */
 	public function createCacheFolder(AcceptanceRemoteTester $I) {
@@ -81,16 +81,5 @@ class StartCest {
 		$I->wait(2);
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 	}
-
-	/**
-	 * Supposed to exit all tests on failure, but not sure it works
-	 */
-	public function _failed(AcceptanceRemoteTester $I){
-	    	die('couldnt connect to website, exit!');
-	}
-
 }
-
-
-
 
