@@ -24,7 +24,7 @@ class AcceptanceRemoteSettings {
 	public const ADMIN_POST_CRON_MANAGE ='/wp-admin/tools.php?page=crontrol_admin_manage_page';
 
 	/** Testing pages */
-	public const TESTING_PAGE_BASE_URL = '/2021/test-codeception/';
+	public const TESTING_PAGE_BASE_URL = '/en/2021/test-codeception/';
 	public const TESTING_PAGE_BASE_A_DIRECTOR = 'Christopher Nolan';
 	public const TESTING_PAGE_TAXONOMY_URL = '/lumiere-director/stanley-kubrick/';
 	public const TESTING_PAGE_POPUP_FILM_URL = '/lumiere/film/?mid=&film=interstellar';

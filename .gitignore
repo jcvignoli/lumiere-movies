@@ -3,5 +3,4 @@
 /tmp
 *vendor*
 *.vscode*
-*.env.testing*
 .todo

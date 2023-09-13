@@ -1,1 +1,1 @@
-/home/psykotik/Development/lumiere-movies/working-env/tests/acceptanceRemote/000-StartCest.php
+../acceptanceCommon/000-StartCest.php

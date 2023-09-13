@@ -524,7 +524,7 @@ class Popup_Movie {
 
 			}
 
-			echo "\n\t" . '</div>';
+			echo "\n\t\t</div>";
 			echo "\n\t</div>";
 			echo "\n</div>";
 
@@ -597,7 +597,7 @@ class Popup_Movie {
 
 			} //end endfor
 
-			echo "\n\t" . '</div>';
+			echo "\n\t\t</div>";
 			echo "\n\t</div>";
 
 			echo "\n</div>";
@@ -613,7 +613,6 @@ class Popup_Movie {
 
 		// Actors.
 		$cast = $movie_results->cast();
-		$nbactors = $this->imdb_widget_values['imdbwidgetactornumber'] === 0 ? '1' : intval( $this->imdb_widget_values['imdbwidgetactornumber'] );
 		$nbtotalactors = count( $cast );
 
 		if ( count( $cast ) > 0 ) {

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lumière Movies\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-03 10:55-0500\n"
-"PO-Revision-Date: 2023-09-05 10:44-0500\n"
+"POT-Creation-Date: 2023-09-13 00:32-0500\n"
+"PO-Revision-Date: 2023-09-13 00:35-0500\n"
 "Last-Translator: jcv <dev@jcvignoli.com>\n"
 "Language-Team: jean-claude vignoli <contact@jcvignoli.com>\n"
 "Language: fr_FR\n"
@@ -226,7 +226,7 @@ msgstr ""
 #: class/admin/class-general.php:606 class/admin/class-general.php:623
 #: class/admin/class-general.php:642 class/admin/class-general.php:659
 #: class/admin/class-general.php:676 class/admin/class-general.php:796
-#: class/admin/class-general.php:837 class/admin/class-general.php:866
+#: class/admin/class-general.php:838 class/admin/class-general.php:867
 msgid "Default:"
 msgstr "Par défaut :"
 
@@ -1322,11 +1322,11 @@ msgstr "Chemin"
 msgid "WordPress default debug log"
 msgstr "Journal de débogage de WordPress par défaut"
 
-#: class/admin/class-general.php:816
+#: class/admin/class-general.php:817
 msgid "Paths: url & folders"
 msgstr "Chemins : URL & dossiers"
 
-#: class/admin/class-general.php:820
+#: class/admin/class-general.php:821
 msgid ""
 "Edit the following values with caution. It can have unattended effects on "
 "your WordPress installation."
@@ -1334,46 +1334,70 @@ msgstr ""
 "Modifiez avec précaution les valeurs suivantes. Cela peut avoir un effet "
 "inattendu sur votre installation WordPress."
 
-#: class/admin/class-general.php:828
+#: class/admin/class-general.php:829
 msgid "URL for the popups"
 msgstr "L’URL pour les fenêtres contextuelles"
 
-#: class/admin/class-general.php:835
+#: class/admin/class-general.php:836
 msgid "The URL that will be displayed for the movies' and people's popups."
 msgstr ""
 "L’URL qui sera affichée pour les fenêtres contextuelles des films et des "
 "personnes."
 
-#: class/admin/class-general.php:840
+#: class/admin/class-general.php:841
 msgid "Example: the full URL utilized for the movies' popups will be:"
 msgstr ""
 "Exemple : l’URL complète utilisée pour les fenêtres contextuelles des films "
 "sera :"
 
-#: class/admin/class-general.php:845
+#: class/admin/class-general.php:846
 msgid "Example: the full URL utilized for the people's popup will be:"
 msgstr ""
 "Exemple : l’URL complète utilisée pour les fenêtres contextuelles des "
 "personnes sera :"
 
-#: class/admin/class-general.php:857
+#: class/admin/class-general.php:858
 msgid "URL for the taxonomy pages"
 msgstr "L’URL pour les pages de taxonomie"
 
-#: class/admin/class-general.php:864
+#: class/admin/class-general.php:865
 msgid "The URL that will be displayed for the taxonomy's pages."
 msgstr "L’URL qui sera affichée pour les pages de taxonomie."
 
-#: class/admin/class-general.php:864
+#: class/admin/class-general.php:865
 msgid "Warning! This URL cannot be identical to popup's URL above."
 msgstr ""
 "Attention ! Cette URL ne peut être identique à l’URL de fenêtre contextuelle "
 "ci-dessus."
 
-#: class/admin/class-general.php:869
+#: class/admin/class-general.php:870
 msgid "The full URL utilized for the director taxonomy page will be:"
 msgstr ""
 "L’URL complète utilisée pour la page de taxonomie de réalisateur sera :"
+
+#: class/admin/class-general.php:882
+msgid "Lumière! path"
+msgstr "Chemin vers Lumière!"
+
+#: class/admin/class-general.php:888
+msgid ""
+"In most cases, you should not edit it. Only advanced users should change "
+"this value."
+msgstr ""
+"Dans la plupart des cas, vous ne devez pas la modifier. Seuls les "
+"utilisateurs avancés devraient changer cette valeur."
+
+#: class/admin/class-general.php:889
+msgid "The path must end with a final slash."
+msgstr "Le chemin doit se terminer par une barre oblique."
+
+#: class/admin/class-general.php:891
+msgid ""
+"Unless you changed your environment or use multisite WordPress, Lumière! "
+"path should be: "
+msgstr ""
+"A moins que vous n'ayez changé votre environnement ou que vous utilisiez "
+"WordPress en multisite, le chemin de Lumière! devrait être : "
 
 #: class/admin/class-help.php:123
 msgid ""
@@ -2491,7 +2515,7 @@ msgstr[0] "Site web officiel"
 msgstr[1] "Sites web officiels"
 
 #: class/frontend/class-movie.php:1244 class/frontend/class-popup-movie.php:323
-#: class/frontend/class-popup-movie.php:664
+#: class/frontend/class-popup-movie.php:663
 #: class/frontend/class-popup-search.php:150
 msgid "Director"
 msgid_plural "Directors"
@@ -2504,25 +2528,25 @@ msgid_plural "Creators"
 msgstr[0] "Créateur"
 msgstr[1] "Créateurs"
 
-#: class/frontend/class-movie.php:1354 class/frontend/class-popup-movie.php:735
+#: class/frontend/class-movie.php:1354 class/frontend/class-popup-movie.php:734
 msgid "Producer"
 msgid_plural "Producers"
 msgstr[0] "Producteur"
 msgstr[1] "Producteurs"
 
-#: class/frontend/class-movie.php:1416 class/frontend/class-popup-movie.php:701
+#: class/frontend/class-movie.php:1416 class/frontend/class-popup-movie.php:700
 msgid "Writer"
 msgid_plural "Writers"
 msgstr[0] "Scénariste"
 msgstr[1] "Scénaristes"
 
-#: class/frontend/class-movie.php:1477 class/frontend/class-popup-movie.php:622
+#: class/frontend/class-movie.php:1477 class/frontend/class-popup-movie.php:621
 msgid "Actor"
 msgid_plural "Actors"
 msgstr[0] "Acteur"
 msgstr[1] "Acteurs"
 
-#: class/frontend/class-movie.php:1534 class/frontend/class-popup-movie.php:791
+#: class/frontend/class-movie.php:1534 class/frontend/class-popup-movie.php:790
 msgid "Plot"
 msgid_plural "Plots"
 msgstr[0] "Synopsis"
@@ -2567,10 +2591,10 @@ msgstr "Synopsis"
 
 #: class/frontend/class-popup-movie.php:333
 #: class/frontend/class-popup-movie.php:361
-#: class/frontend/class-popup-movie.php:638
-#: class/frontend/class-popup-movie.php:677
-#: class/frontend/class-popup-movie.php:714
-#: class/frontend/class-popup-movie.php:748
+#: class/frontend/class-popup-movie.php:637
+#: class/frontend/class-popup-movie.php:676
+#: class/frontend/class-popup-movie.php:713
+#: class/frontend/class-popup-movie.php:747
 msgid "internal link"
 msgstr "lien interne"
 
@@ -2607,7 +2631,7 @@ msgstr "cliquez pour plus de trvias"
 msgid "click to show more goofs"
 msgstr "cliquez pour plus de gaffes"
 
-#: class/frontend/class-popup-movie.php:774
+#: class/frontend/class-popup-movie.php:773
 msgid "Plot summary"
 msgstr "Résumé synopsys"
 
@@ -3140,9 +3164,6 @@ msgstr "Lumière a été désactivée et ne peut être réactivée "
 #~ msgstr ""
 #~ "L'URL qui sera affichée pour les pages de taxonomie. Attation! Elle ne "
 #~ "peut être identique à l'URL des popups ci-dessus."
-
-#~ msgid "Lumière "
-#~ msgstr "Lumière "
 
 #~ msgid "Direct search"
 #~ msgstr "Recherche directe"

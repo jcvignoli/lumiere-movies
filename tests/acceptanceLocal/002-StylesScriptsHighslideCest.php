@@ -1,1 +1,1 @@
-/home/psykotik/Development/lumiere-movies/working-env/tests/acceptanceRemote/002-StylesScriptsHighslideCest.php
+../acceptanceCommon/002-StylesScriptsHighslideCest.php

@@ -1,18 +1,22 @@
 **Changelog**
 
-v.3.10.2
+v.3.11
 * [feature] Added privacy text to add to the website (/wp-admin/options-privacy.php?tab=policyguide)
-* [feature] Improved French translation
+* [feature] Improved French translation. French translation is now available from WordPress website!
+* [feature] Added an advanced option to edit plugin path (should be edited only carefully)
 * [bug] In some rare circonstances, two movies in widget were displayed. (fixed class widget frontpage, added array_search() in lumiere_widget_display_movies() to better filter arrays)
+* [bug] Uninstall process was not compatible with PHP 8.1, throwing errors. Fixed Uninstall and Settings classes.
 * [bug] Better PHP 8.2 compatibility (function lumiere_parse_spans() returns now string only instead of null|string)
 * [technical] Lumière! is not executed in feeds anymore (created lumiere_prohibited_areas() in movie class)
 * [technical] Support for PHP < 8.0 totally dropped, removed str_contains() compatibility meant to support older PHP versions.
+* [technical] Permissions for cache directory changed. Created with chmod 775, as it should.
+* [technical] Permissions for logging file. Created with chmod 775, as it should.
 
 v.3.10.1
 * [feature] Spinners added: when loading popups and information in popups, a waiting animation will be displayed until the information is retrieved
 * [bug] fixed trivia, goofs and soundtrack in popup movie (and main movie class for soundtrack too)
 * [bug] fixed search akas in popup movie was not allowing to click on movie's and director links
-* [bug] removed trick for preventing double register of lumiere_scripts.js, seems it is not needed anymore (deactivtated wp_dequeue_script( 'lumiere_scripts' ) in class bootstrap-links)
+* [bug] removed trick for preventing double register of lumiere_scripts.js, seems it is not needed anymore (deactivated wp_dequeue_script( 'lumiere_scripts' ) in class bootstrap-links)
 * [bug] fixed javascript back in popup (lumiere_scripts.js was not loaded due to the previous bug)
 * [bug] fixed spinner appearing in popup search (lumiere_scripts.js was not loaded due to the previous bug), added spinner in popup person and popup movies
 

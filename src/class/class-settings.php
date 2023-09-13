@@ -353,6 +353,9 @@ class Settings {
 
 			$option_key = 'imdbHowManyUpdates';
 			$option_array_search = get_option( self::LUMIERE_ADMIN_OPTIONS );
+			if ( $option_array_search === false ) {
+				return false;
+			}
 			$option_array_search[ $option_key ] = intval( $this->current_number_updates );
 
 			// On successful update, exit
@@ -419,7 +422,7 @@ class Settings {
 
 		$imdb_options_a = get_option( self::LUMIERE_ADMIN_OPTIONS );
 
-		if ( count( $imdb_options_a ) !== 0 ) { // if not empty.
+		if ( $imdb_options_a !== false && count( $imdb_options_a ) !== 0 ) { // if not empty.
 
 			foreach ( $imdb_options_a as $key => $option ) {
 				$imdb_admin_options[ $key ] = $option;
@@ -635,12 +638,12 @@ class Settings {
 		$lumiere_alt_folder_cache_images = $lumiere_alt_folder_cache . '/images';
 
 		// If we can write in $options_cache['imdbcachedir'] (ie: wp-content/cache), make sure permissions are ok
-		if ( wp_mkdir_p( $lumiere_folder_cache ) && chmod( $lumiere_folder_cache, 0755 ) ) {
+		if ( wp_mkdir_p( $lumiere_folder_cache ) && chmod( $lumiere_folder_cache, 0775 ) ) {
 
 			$logger->debug( "[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created." );
 
 			// We can't write in $options_cache['imdbphotoroot'], so write in wp-content/plugins/lumiere/cache instead
-		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache ) && chmod( $lumiere_alt_folder_cache, 0755 ) ) {
+		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache ) && chmod( $lumiere_alt_folder_cache, 0775 ) ) {
 
 			// Create partial var
 			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
@@ -659,12 +662,12 @@ class Settings {
 		}
 
 		// We can write in wp-content/cache/images
-		if ( wp_mkdir_p( $lumiere_folder_cache_images ) && chmod( $lumiere_folder_cache_images, 0755 ) ) {
+		if ( wp_mkdir_p( $lumiere_folder_cache_images ) && chmod( $lumiere_folder_cache_images, 0775 ) ) {
 
 			$logger->debug( "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created." );
 
 			// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
-		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache_images ) && chmod( $lumiere_alt_folder_cache_images, 0755 ) ) {
+		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache_images ) && chmod( $lumiere_alt_folder_cache_images, 0775 ) ) {
 
 			$lumiere_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
 

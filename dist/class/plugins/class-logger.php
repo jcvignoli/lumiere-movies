@@ -267,7 +267,7 @@ class Logger {
 		// Debug file exists, but it is not writable.
 		if ( is_file( $log_file ) === true && is_writable( $log_file ) === false ) {
 			// Permissions on the file are not correct, change them.
-			if ( chmod( $log_file, 0755 ) === false ) {
+			if ( chmod( $log_file, 0775 ) === false ) {
 				error_log( '***WP Lumiere Plugin ERROR***: cannot change permission of debug file ' . $log_file );
 			} else {
 				error_log( '***WP Lumiere Plugin***: changed chmod permissions debug file ' . $log_file );

@@ -1,6 +1,9 @@
 <?php
 
+######################################### DOESN't WORK, IFRAME not found
+
 # Class meant to test remote wordpress install (a WebDriver is needed for JS execution)
+# Testing popups Highslide
 
 class PopupsCest {
 
@@ -58,6 +61,10 @@ class PopupsCest {
 	 *
 	 */
 	public function checkPopupMovie(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
+
+		// Make sure Highslide is active, following tests are run with Highslide
+		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options');
+		$I->customSelectOption( "form select[name=imdbpopup_modal_window]", "Highslide", "update_imdbSettings" );
 
 		// popup link movie interstellar
 		$element = 'a[data-modal_window_film="' . AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_TITLE . '"]';

@@ -1,1 +1,1 @@
-/home/psykotik/Development/lumiere-movies/working-env/tests/acceptanceRemote/999-ResetCest.php
+../acceptanceCommon/999-ResetCest.php

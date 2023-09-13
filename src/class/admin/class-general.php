@@ -796,6 +796,7 @@ class General extends \Lumiere\Admin {
 							<div class="explain"><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'WordPress default debug log', 'lumiere-movies' ); ?></div>
 							</div>
 						</div>
+						
 					</div>
 			</div>
 
@@ -873,6 +874,24 @@ class General extends \Lumiere\Admin {
 				</div>
 			</div>
 
+			<br /><br />
+			
+			<?php //------------------------------------------------------------------=[ Plugins path ]=---- ?>
+			<div id="imdb_imdbpluginpath_id" class="lumiere_flex_container">
+				<div class="lumiere_flex_container_content_twenty">
+					<label for="imdb_imdbpluginpath"><?php esc_html_e( 'Lumière! path', 'lumiere-movies' ); ?></label>
+				</div>
+				<div class="lumiere_flex_container_content_eighty">
+					<div class="lumiere_align_items_center">
+						<input class="lumiere_border_width_medium imdbpluginpath" type="text" name="imdb_imdbpluginpath" value="<?php echo esc_attr( $this->imdb_admin_values['imdbpluginpath'] ); ?>" >
+					</div>
+					<div class="explain"><?php esc_html_e( 'In most cases, you should not edit it. Only advanced users should change this value.', 'lumiere-movies' ); ?><?php
+					esc_html_e( 'The path must end with a final slash.', 'lumiere-movies' );
+					echo '<br>';
+					esc_html_e( 'Unless you changed your environment or use multisite WordPress, Lumière! path should be: ', 'lumiere-movies' );
+					echo esc_html( WP_PLUGIN_DIR ) . '/lumiere-movies/';?></div>
+				</div>
+			</div>
 		</div>
 	</div>
 		<?php

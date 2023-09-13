@@ -163,7 +163,6 @@ paths = {
 	},
 	files: {
 		src: [	'./src/**/*.{php,html,htm,ico,webmanifest,md,txt}', 
-
 			'!./src/vendor/**/*.*',				/* copy only relevant files in src/vendor */ 
 				'./src/vendor/composer/**/*.*',
 				'./src/vendor/jcvignoli/imdbphp/src/**/*.*',

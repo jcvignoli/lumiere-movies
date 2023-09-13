@@ -11,6 +11,7 @@ modules:
     enabled:
         - \Helper\AcceptanceLocal
         - WPWebDriver
+        - Filesystem  # needs local access,use it with remote machine localy mounted
     config:
         WPDb:
             dsn: '%TEST_LOCAL_DB_DSN%'

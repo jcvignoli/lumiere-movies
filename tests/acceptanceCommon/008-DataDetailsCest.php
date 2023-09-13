@@ -136,26 +136,26 @@ class DataDetailsCest {
 		$I->dontSee('Production companies');
 		$I->dontSee('Plots');
 		$I->dontSee('continent of Westeros');
-		$I->dontSee('Quotes');
+//		$I->dontSee('Quotes'); // currently missing function in Person.php imdbphp
 		$I->dontSee('you win or you die');
 		$I->dontSee('Taglines');
 		$I->dontSee('Five Kings');
 		$I->dontSee('Color');
 		$I->dontSee('Also known as');
-		$I->dontSee('English title');
+		$I->dontSee('Game of Thrones ( United Kingdom )');
 		$I->dontSee('Composer');
 		$I->dontSee('Ramin Djawadi');
 		$I->dontSee('Soundtracks');
-		$I->dontSee('performer');
 		$I->dontSee('Trailers');
-		$I->dontSee('Episode 6 Teaser');
+		$I->dontSee('Music by György Ligeti Performed by Stuttgart Schola Cantorum');
+		$I->dontSee('Main title (uncredited) Written and Performed by Ramin Djawadi');
 		$I->dontSee('Official websites');
 		$I->dontSee('Official YouTube channel');
 		$I->dontSee('Bighead Littlehead');
 		$I->dontSee('Grok! Television');
 		$I->dontSee('1 episode, 2011');
 		$I->dontSee('Jane Espenson');
-		$I->dontSee('Fantasy');
+		$I->dontSee(' twins incest');
 		$I->dontSee('votes');
 		$I->dontSee('D.B. Weiss');
 		$I->dontSee('Theon Greyjoy');
@@ -164,7 +164,7 @@ class DataDetailsCest {
 		$I->dontSee('Matt Shakman');
 		$I->dontSee('Goofs');
 		$I->dontSee('throughout the film');
-		$I->dontSee('to believe me but');
+		$I->dontSee('tasked to depart his frozen sanctuary and join the King');
 
 	}
 
@@ -314,28 +314,28 @@ class DataDetailsCest {
 		$I->see('Production companies');
 		$I->see('Plots');
 		$I->see('continent of Westeros');
-		$I->see('Quotes');
+//		$I->see('Quotes'); // currently missing function in Person.php imdbphp
 		$I->see('you win or you die');
 		$I->see('Taglines');
 		$I->see('Five Kings');
 		$I->see('Color');
 		$I->see('Also known as');
-		$I->see('English title');
+		$I->see('Game of Thrones ( United Kingdom )');
 		$I->see('Composer');
 		$I->see('Runtime');
 		$I->see('minutes');
 		$I->see('Ramin Djawadi');
 		$I->see('Soundtracks');
-		$I->see('performer');
+		$I->see('Music by György Ligeti Performed by Stuttgart Schola Cantorum');
 		$I->see('Trailers');
-		$I->see('Episode 6 Teaser');
+		$I->see('Main title (uncredited) Written and Performed by Ramin Djawadi');
 		$I->see('Official websites');
 		$I->see('Official YouTube channel');
 		$I->see('Bighead Littlehead');
 		$I->see('Grok! Television');
 		$I->see('1 episode, 2011');
 		$I->see('Jane Espenson');
-		$I->see('Fantasy');
+		$I->see(' twins incest');
 		$I->see('votes');
 		$I->see('D.B. Weiss');
 		$I->see('Theon Greyjoy');
@@ -344,7 +344,7 @@ class DataDetailsCest {
 		$I->see('Matt Shakman');
 		$I->see('Goofs');
 		$I->see('throughout the film');
-		$I->see('to believe me but');
+		$I->see('tasked to depart his frozen sanctuary and join the King');
 
 	}
 }
