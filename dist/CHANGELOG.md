@@ -5,6 +5,7 @@ v.3.11
 * [feature] Improved French translation. French translation is now available from WordPress website!
 * [feature] Added an advanced option to edit plugin path (should be edited only carefully)
 * [bug] In some rare circonstances, two movies in widget were displayed. (fixed class widget frontpage, added array_search() in lumiere_widget_display_movies() to better filter arrays)
+* [bug] Since using GraphQL to retrieve most of the data, cache of GraphQL wasn't deleted when specific movie/people was selected.
 * [bug] Uninstall process was not compatible with PHP 8.1, throwing errors. Fixed Uninstall and Settings classes.
 * [bug] Better PHP 8.2 compatibility (function lumiere_parse_spans() returns now string only instead of null|string)
 * [technical] Lumière! is not executed in feeds anymore (created lumiere_prohibited_areas() in movie class)

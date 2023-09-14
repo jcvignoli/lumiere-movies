@@ -142,13 +142,13 @@ class UninstallCest {
 		// Revert back the saved plugin directory
 		$I->comment(\Helper\Color::set("**Copy back to the saved plugin directory**", 'italic+bold+cyan'));
 		$I->comment( \Helper\Color::set('Restoring plugin directory...', 'yellow+blink') );
-		$I->wait(4);
+		$I->wait(6);
 
 		if ( DEVELOPMENT_ENVIR === 'remote' ) {
 			$shell->runShellCommand('scp -r '.$remote_cred.':'.$remote_wpcontent_path.'/lumiere-movies'.' '.$remote_cred.':'.$remote_plugin_path.'/');
 		} elseif ( DEVELOPMENT_ENVIR === 'local' ) {
 			// Make sure Lumière! directory has been deleted
-			$I->dontSeeFileFound( $remote_plugin_path . '/lumiere-movies/lumiere-movies.php' );
+			$I->dontSeeFileFound( $remote_plugin_path_lumiere . '/lumiere-movies.php' );
 			// Restore the symbolic link
 			$shell->runShellCommand('mv ' . $remote_wpcontent_path . '/lumiere-save ' . $remote_plugin_path_lumiere  );	
 		}
@@ -159,8 +159,7 @@ class UninstallCest {
 		if ( DEVELOPMENT_ENVIR === 'remote' ) {
 			$shell->runShellCommand("ssh ".$remote_cred." 'rm -R ".$remote_wpcontent_path."/lumiere-movies"."'");
 		} elseif ( DEVELOPMENT_ENVIR === 'local' ) {
-			$I->cleanDir($remote_wpcontent_path.'/lumiere-movies');
-//			$shell->runShellCommand( ' rm -R ' . $remote_wpcontent_path.'/lumiere-movies' );
+			$shell->runShellCommand( ' rm -R ' . $remote_wpcontent_path.'/lumiere-movies' );
 		}
 		
 		$I->seeFileFound( 'lumiere-movies.php', $dir_plugin_lumiere );

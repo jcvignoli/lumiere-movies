@@ -140,6 +140,9 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 
+= 3.11 =
+Fixed cache was not properly deleted since GraphQL. Please delete your entire cache should you have selected "never" for the "Cache expire" in the admin cache options. 
+
 = 3.10.2 =
 Support for PHP < 8.0 totally dropped, removed str_contains().
 

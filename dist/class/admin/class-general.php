@@ -889,7 +889,7 @@ class General extends \Lumiere\Admin {
 					esc_html_e( 'The path must end with a final slash.', 'lumiere-movies' );
 					echo '<br>';
 					esc_html_e( 'Unless you changed your environment or use multisite WordPress, Lumière! path should be: ', 'lumiere-movies' );
-					echo WP_PLUGIN_DIR . '/lumiere-movies/';?></div>
+					echo esc_html( WP_PLUGIN_DIR ) . '/lumiere-movies/';?></div>
 				</div>
 			</div>
 		</div>

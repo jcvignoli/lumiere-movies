@@ -8,7 +8,7 @@
  *
  * @version       1.0
  * @package lumiere-movies
- * @TODO: rewrite and mainstream the class
+ * @TODO: rewrite and factorize the class
  */
 
 namespace Lumiere\Admin;
@@ -26,6 +26,7 @@ use Lumiere\Utils;
 use Lumiere\Plugins\Imdbphp;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use Exception;
 
 /**
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
@@ -206,7 +207,7 @@ class Cache extends \Lumiere\Admin {
 
 			}
 
-			// Delete cache
+			// Delete all cache
 			Utils::lumiere_unlink_recursive( $this->imdb_cache_values['imdbcachedir'] );
 
 			// display message on top
@@ -269,28 +270,25 @@ class Cache extends \Lumiere\Admin {
 		}
 
 		// delete single movie.
-		if ( ( $_GET['type'] ) === 'movie' ) {
-			$id_sanitized = '';
+		if ( isset( $_GET['type'] ) && $_GET['type'] === 'movie' ) {
+
+			$id_exists = isset( $_GET['where'] ) ? (string) $_GET['where'] : [];
+
 			$id_sanitized = esc_html( $_GET['where'] );
-			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . 'title.tt' . $id_sanitized . '*' );
+
+			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '{*tt' . $id_sanitized . '*}', GLOB_BRACE );
 
 			// if file doesn't exist or can't get credentials.
-			if ( $name_sanitized === false || count( $name_sanitized ) < 1 ) {
-				wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist or you do not have the credentials.', 'lumiere-movies' ) ) );
+			if ( $name_sanitized === false || count( $name_sanitized ) === 0 ) {
+				throw new Exception( esc_html__( 'This file does does not exist.', 'lumiere-movies' ) );
 			}
 
-			Utils::lumiere_wp_filesystem_cred( $name_sanitized[0] );
-
-			foreach ( $name_sanitized as $cache_to_delete ) {
-
-				if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
-					continue;
-				}
-
-				$wp_filesystem->delete( esc_url( $cache_to_delete ) );
+			foreach ( $name_sanitized as $key => $cache_to_delete ) {
+				Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
+				$wp_filesystem->delete( $cache_to_delete );
 			}
 
-			// delete pictures, small and big.
+			// Delete pictures, small and big.
 			$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '.jpg';
 			$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '_big.jpg';
 			if ( file_exists( $pic_small_sanitized ) ) {
@@ -302,25 +300,32 @@ class Cache extends \Lumiere\Admin {
 		}
 
 		// delete single person.
-		if ( ( $_GET['type'] ) === 'people' ) {
-			$id_sanitized = '';
-			$id_sanitized = esc_html( $_GET['where'] );
-			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . 'name.nm' . $id_sanitized . '*' );
+		if ( isset( $_GET['type'] ) && $_GET['type'] === 'people' ) {
+
+			$id_exists = isset( $_GET['where'] ) ? (string) $_GET['where'] : '';
+
+			$id_sanitized = esc_html( $id_exists );
+
+			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '{*nm' . $id_sanitized . '*}', GLOB_BRACE );
 
 			// if file doesn't exist or can't get credentials.
-			if ( $name_sanitized === false || count( $name_sanitized ) < 1 ) {
-				wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist or you do not have the credentials.', 'lumiere-movies' ) ) );
+			if ( $name_sanitized === false || count( $name_sanitized ) === 0 ) {
+				throw new Exception( esc_html__( 'This file does does not exist.', 'lumiere-movies' ) );
 			}
 
-			Utils::lumiere_wp_filesystem_cred( $name_sanitized[0] );
+			foreach ( $name_sanitized as $key => $cache_to_delete ) {
+				Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
+				$wp_filesystem->delete( $cache_to_delete );
+			}
 
-			foreach ( $name_sanitized as $cache_to_delete ) {
-
-				if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
-					continue;
-				}
-
-				$wp_filesystem->delete( esc_url( $cache_to_delete ) );
+			// Delete pictures, small and big.
+			$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_sanitized . '.jpg';
+			$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_sanitized . '_big.jpg';
+			if ( file_exists( $pic_small_sanitized ) ) {
+				$wp_filesystem->delete( $pic_small_sanitized );
+			}
+			if ( file_exists( $pic_big_sanitized ) ) {
+				$wp_filesystem->delete( $pic_big_sanitized );
 			}
 		}
 
@@ -341,32 +346,27 @@ class Cache extends \Lumiere\Admin {
 			exit( esc_html__( 'Cannot work this way.', 'lumiere-movies' ) );
 		}
 
-		if ( ( $_GET['type'] ) === 'movie' ) {
-			$id_sanitized = '';
+		if ( isset( $_GET['type'] ) && $_GET['type'] === 'movie' ) {
+
+			$id_exists = isset( $_GET['where'] ) ? (string) $_GET['where'] : [];
+
 			$id_sanitized = esc_html( $_GET['where'] );
 
-			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . 'title.tt' . $id_sanitized . '*' );
+			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '{*tt' . $id_sanitized . '*}', GLOB_BRACE );
 
 			// if file doesn't exist.
-			if ( $name_sanitized === false || count( $name_sanitized ) < 1 ) {
-				wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist.', 'lumiere-movies' ) ) );
+			if ( $name_sanitized === false || count( $name_sanitized ) === 0 ) {
+				throw new Exception( esc_html__( 'This file does not exist.', 'lumiere-movies' ) );
 			}
 
-			Utils::lumiere_wp_filesystem_cred( $name_sanitized[0] );
-
-			foreach ( $name_sanitized as $cache_to_delete ) {
-
-				if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
-					continue;
-				}
-
+			foreach ( $name_sanitized as $key => $cache_to_delete ) {
+				Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
 				$wp_filesystem->delete( esc_url( $cache_to_delete ) );
 			}
 
 			// delete pictures, small and big.
 			$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '.jpg';
 			$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '_big.jpg';
-
 			if ( file_exists( $pic_small_sanitized ) ) {
 				$wp_filesystem->delete( $pic_small_sanitized );
 			}
@@ -412,23 +412,16 @@ class Cache extends \Lumiere\Admin {
 		if ( $_GET['type'] === 'people' ) {
 
 			$id_people_sanitized = esc_html( $_GET['where'] );
-			$name_people_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . 'name.nm' . $id_people_sanitized . '*' );
+			$name_people_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '{*nm' . $id_people_sanitized . '*}', GLOB_BRACE );
 
 			// if file doesn't exist
 			if ( $name_people_sanitized === false || count( $name_people_sanitized ) < 1 ) {
-				wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist.', 'lumiere-movies' ) ) );
+				throw new Exception( esc_html__( 'This file does not exist.', 'lumiere-movies' ) );
 			}
 
-			Utils::lumiere_wp_filesystem_cred( $name_people_sanitized[0] );
-
-			foreach ( $name_people_sanitized as $cache_to_delete ) {
-
-				if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
-					continue;
-				}
-
+			foreach ( $name_people_sanitized as $key => $cache_to_delete ) {
+				Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
 				$wp_filesystem->delete( esc_url( $cache_to_delete ) );
-
 			}
 
 			// Get again the person.
@@ -467,7 +460,7 @@ class Cache extends \Lumiere\Admin {
 
 		// prevent drama.
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
-			wp_die( Utils::lumiere_notice( 3, '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' ) );
+			throw new Exception( esc_html__( 'No cache folder found.', 'lumiere-movies' ) );
 		}
 
 		// Delete cache.
@@ -475,9 +468,7 @@ class Cache extends \Lumiere\Admin {
 
 		// if file doesn't exist.
 		if ( $files_query === false || count( $files_query ) < 1 ) {
-			echo Utils::lumiere_notice( 3, esc_html__( 'No query files found.', 'lumiere-movies' ) );
-			echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
-			wp_die();
+			throw new Exception( esc_html__( 'No query files found.', 'lumiere-movies' ) );
 		}
 
 		Utils::lumiere_wp_filesystem_cred( $files_query[0] );
@@ -520,38 +511,37 @@ class Cache extends \Lumiere\Admin {
 		// For movies.
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST ['imdb_cachedeletefor_movies'] ) ) {
-			$count_cache_delete = count( $_POST ['imdb_cachedeletefor_movies'] );
-			for ( $i = 0; $i < $count_cache_delete; $i++ ) {
-				$id_sanitized = esc_html( $_POST['imdb_cachedeletefor_movies'][ $i ] );
-				// phpcs:enable WordPress.Security.NonceVerification.Missing
-				$cache_to_delete_files = glob( $this->imdb_cache_values['imdbcachedir'] . 'title.tt' . $id_sanitized . '*' );
+
+			$id_exists = isset( $_POST['imdb_cachedeletefor_movies'] ) ? (array) $_POST['imdb_cachedeletefor_movies'] : [];
+
+			// Any of the WordPress data sanitization functions can be used here
+			$id_sanitized = array_map( 'esc_html', $id_exists );
+
+			// phpcs:enable WordPress.Security.NonceVerification.Missing
+			$cache_to_delete_files = [];
+			foreach ( $id_sanitized as $id_found ) {
+
+				$cache_to_delete_files = glob( $this->imdb_cache_values['imdbcachedir'] . '{*tt' . $id_found . '*}', GLOB_BRACE );
 
 				// If file doesn't exist.
-				if ( $cache_to_delete_files === false || count( $cache_to_delete_files ) < 1 ) {
-					wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist.', 'lumiere-movies' ) ) );
+				if ( $cache_to_delete_files === false || count( $cache_to_delete_files ) === 0 ) {
+					throw new Exception( esc_html__( 'This movie file does does not exist.', 'lumiere-movies' ) );
 				}
 
-				Utils::lumiere_wp_filesystem_cred( $cache_to_delete_files[0] );
-
-				foreach ( $cache_to_delete_files as $cache_to_delete ) {
-
-					if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
-						continue;
-					}
-
-					$wp_filesystem->delete( esc_url( $cache_to_delete ) );
-
+				foreach ( $cache_to_delete_files as $key => $cache_to_delete ) {
+					Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
+					$wp_filesystem->delete( $cache_to_delete );
 				}
-			}
 
-			// Delete pictures, small and big.
-			$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '.jpg';
-			$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '_big.jpg';
-			if ( file_exists( $pic_small_sanitized ) ) {
-				$wp_filesystem->delete( $pic_small_sanitized );
-			}
-			if ( file_exists( $pic_big_sanitized ) ) {
-				$wp_filesystem->delete( $pic_big_sanitized );
+				// Delete pictures, small and big.
+				$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_found . '.jpg';
+				$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_found . '_big.jpg';
+				if ( file_exists( $pic_small_sanitized ) ) {
+					$wp_filesystem->delete( $pic_small_sanitized );
+				}
+				if ( file_exists( $pic_big_sanitized ) ) {
+					$wp_filesystem->delete( $pic_big_sanitized );
+				}
 			}
 		}
 
@@ -559,36 +549,36 @@ class Cache extends \Lumiere\Admin {
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST ['imdb_cachedeletefor_people'] ) ) {
 
-			$count_cache_delete_people = count( $_POST ['imdb_cachedeletefor_people'] );
+			$id_exists = isset( $_POST['imdb_cachedeletefor_people'] ) ? (array) $_POST['imdb_cachedeletefor_people'] : [];
 
-			for ( $i = 0; $i < $count_cache_delete_people; $i++ ) {
+			// Any of the WordPress data sanitization functions can be used here
+			$id_sanitized = array_map( 'esc_html', $id_exists );
 
-				$id_sanitized = esc_html( $_POST['imdb_cachedeletefor_people'][ $i ] );
-				// phpcs:enable WordPress.Security.NonceVerification.Missing
+			// phpcs:enable WordPress.Security.NonceVerification.Missing
+			$cache_to_delete_files = [];
+			foreach ( $id_sanitized as $id_found ) {
 
-				$files_people_delete = glob( $this->imdb_cache_values['imdbcachedir'] . 'name.nm' . $id_sanitized . '*' );
+				$cache_to_delete_files = glob( $this->imdb_cache_values['imdbcachedir'] . '{*nm' . $id_found . '*}', GLOB_BRACE );
 
-				// If files don't exist.
-				if ( $files_people_delete === false || count( $files_people_delete ) < 1 ) {
-					echo Utils::lumiere_notice( 3, esc_html__( 'No cache people files found.', 'lumiere-movies' ) );
-					echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
-					wp_die();
+				// If file doesn't exist.
+				if ( $cache_to_delete_files === false || count( $cache_to_delete_files ) === 0 ) {
+					throw new Exception( esc_html__( 'No cache people files found.', 'lumiere-movies' ) );
 				}
 
-				Utils::lumiere_wp_filesystem_cred( $files_people_delete[0] );
-
-				foreach ( $files_people_delete as $cache_to_delete ) {
-					if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
-						continue;
-					}
-					if ( ! file_exists( $cache_to_delete ) ) {
-						wp_die( Utils::lumiere_notice( 3, esc_html__( 'This file does not exist.', 'lumiere-movies' ) ) );
-					}
-
-					$wp_filesystem->delete( esc_url( $cache_to_delete ) );
-
+				foreach ( $cache_to_delete_files as $key => $cache_to_delete ) {
+					Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
+					$wp_filesystem->delete( $cache_to_delete );
 				}
 
+				// Delete pictures, small and big.
+				$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_found . '.jpg';
+				$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_found . '_big.jpg';
+				if ( file_exists( $pic_small_sanitized ) ) {
+					$wp_filesystem->delete( $pic_small_sanitized );
+				}
+				if ( file_exists( $pic_big_sanitized ) ) {
+					$wp_filesystem->delete( $pic_big_sanitized );
+				}
 			}
 		}
 
