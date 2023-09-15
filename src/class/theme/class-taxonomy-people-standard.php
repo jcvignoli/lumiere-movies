@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d, rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.5.2
+ * Version: 3.5.3
  *
  * This template retrieves automaticaly the occurence of the name selected
  * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
@@ -196,8 +196,11 @@ class Taxonomy_People_Standard {
 		}
 
 		// Language from the form.
-		// phpcs:ignore WordPress.Security.NonceVerification
-		$form_id_language = ( isset( $_POST['tag_lang'] ) && strlen( $_POST['tag_lang'] ) !== 0 && ( wp_verify_nonce( $_POST['_wpnonce'], 'submit_lang' ) !== false ) ) ? intval( $_POST['tag_lang'] ) : null;
+		$form_id_language =
+			( isset( $_POST['_wpnonce'] ) && wp_verify_nonce( $_POST['_wpnonce'], '_wpnonce' ) !== false )
+			&& isset( $_POST['tag_lang'] ) && strlen( $_POST['tag_lang'] ) > 0
+			? intval( $_POST['tag_lang'] )
+			: null;
 
 		/**
 		 *  For every type of role (writer, director) do a WP Query Loop

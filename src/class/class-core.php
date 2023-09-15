@@ -23,6 +23,7 @@ use Lumiere\PluginsDetect;
 use Lumiere\Plugins\Amp;
 use Lumiere\Plugins\Imdbphp;
 use Lumiere\Plugins\Logger;
+use Lumiere\Plugins\Polylang;
 use Lumiere\Popup_Person;
 use Lumiere\Popup_Movie;
 use Lumiere\Popup_Search;
@@ -546,7 +547,7 @@ class Core {
 		 */
 		wp_add_inline_script(
 			'lumiere_scripts',
-			$this->config_class->lumiere_scripts_vars,
+			$this->wrap_lumiere_script(),
 			'before'
 		);
 
@@ -1014,6 +1015,23 @@ class Core {
 		$cache_class->lumiere_cache_delete_files_over_limit(
 			intval( $this->imdb_cache_values['imdbcachekeepsizeunder_sizelimit'] )
 		);
+	}
+
+	/**
+	 * Wrap the lumiere script
+	 * Currenty replaces the home_url() in popupus with pll_home_url for use with Polylang
+	 * The $lumiere_scripts_vars is a var in class Settings that can't be changed (executed too early)
+	 */
+	private function wrap_lumiere_script(): string {
+
+		$polylang_class = new Polylang();
+		$final_lumiere_script = $polylang_class->polylang_is_active() === true
+		? $polylang_class->rewrite_string_with_polylang_url(
+			$this->config_class->lumiere_scripts_vars,
+			$this->imdb_admin_values['imdburlpopups']
+		)
+		   : $this->config_class->lumiere_scripts_vars;
+		return $final_lumiere_script;
 	}
 }
 

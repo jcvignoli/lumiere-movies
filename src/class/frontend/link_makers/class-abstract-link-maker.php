@@ -347,7 +347,7 @@ abstract class Abstract_Link_Maker {
 		$idx = $nbtotalbio < 2 ? $idx = 0 : $idx = 1;
 
 		// Medaillon is displayed in a popup person page, build internal URL
-		if ( ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringperson ) ) && ( $bio !== null ) ) {
+		if ( str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringperson ) && ( $bio !== null ) ) {
 			$bio_text = $this->lumiere_imdburl_to_internalurl( $bio[ $idx ]['desc'] );
 			// Medaillon is displayed in a taxonomy page, build popup URL
 		} elseif ( is_tax() && $bio !== null ) {

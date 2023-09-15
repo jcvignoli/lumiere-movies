@@ -67,6 +67,13 @@ class Imdbphp extends Config {
 		 * Cannot be changed in Lumière admin panel
 		 */
 		$this->imdb_img_url = $this->config_class->lumiere_pics_dir . '/showtimes';
+		/**
+		 * These two are hardcoded at 800 in IMDbPHP Config class
+		 * can't be changed in admin panel
+		 * Meant to be of use in the JCV IMDbPHP class ImageProcesser
+		 */
+		$this->big_image_width = 800;
+		$this->big_image_height = 800;
 
 	}
 

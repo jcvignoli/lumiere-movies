@@ -65,6 +65,77 @@ namespace {
 	}
 
 	/**
+	 * Returns the list of available languages.
+	 *
+	 * @api
+	 * @since 1.5
+	 *
+	 * @param array $args {
+	 *   Optional array of arguments.
+	 *
+	 *   @type bool   $hide_empty Hides languages with no posts if set to true ( defaults to false ).
+	 *   @type string $fields     Return only that field if set ( @see PLL_Language for a list of fields ), defaults to 'slug'.
+	 * }
+	 * @return string[]
+	 */
+	function pll_languages_list( $args = array() ) {
+		$args = wp_parse_args( $args, array( 'fields' => 'slug' ) );
+		return PLL()->model->get_languages_list( $args );
+	}
+	
+	/**
+	 * Returns the default language.
+	 *
+	 * @api
+	 * @since 1.0
+	 * @since 3.4 Accepts composite values.
+	 *
+	 * @param string $field Optional, the language field to return (@see PLL_Language), defaults to `'slug'`.
+	 *                      Pass `\OBJECT` constant to get the language object. A composite value can be used for language
+	 *                      term property values, in the form of `{language_taxonomy_name}:{property_name}` (see
+	 *                      {@see PLL_Language::get_tax_prop()} for the possible values). Ex: `term_language:term_taxonomy_id`.
+	 * @return string|int|bool|string[]|PLL_Language The requested field or object for the default language, `false` if the field isn't set or if default language doesn't exist yet.
+	 *
+	 * @phpstan-return (
+	 *     $field is \OBJECT ? PLL_Language : (
+	 *         $field is 'slug' ? non-empty-string : string|int|bool|list<non-empty-string>
+	 *     )
+	 * )|false
+	 */
+	function pll_default_language( $field = 'slug' ) {
+		$lang = PLL()->model->get_default_language();
+
+		if ( empty( $lang ) ) {
+			return false;
+		}
+
+		if ( \OBJECT === $field ) {
+			return $lang;
+		}
+
+		return $lang->get_prop( $field );
+	}
+	/**
+	 * Returns the home url in a language.
+	 *
+	 * @api
+	 * @since 0.8
+	 *
+	 * @param string $lang Optional language code, defaults to the current language.
+	 * @return string
+	 */
+	function pll_home_url( $lang = '' ) {
+		if ( empty( $lang ) ) {
+			$lang = pll_current_language();
+		}
+
+		if ( empty( $lang ) || empty( PLL()->links ) ) {
+			return home_url( '/' );
+		}
+
+		return PLL()->links->get_home_url( $lang );
+	}
+	/**
 	 * Determine whether the current request is for an AMP page.
 	 *
 	 * This function cannot be called before the parse_query action because it needs to be able

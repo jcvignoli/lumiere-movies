@@ -50,6 +50,8 @@ class Polylang {
 		// Construct Global Settings trait.
 		$this->settings_open();
 
+		// Add rewrite rules for popups URLs, checks if polylang exists.
+		add_action( 'wp_loaded', [ $this, 'polylang_add_url_rewrite_rules' ], 0 );
 	}
 
 	/**
@@ -152,7 +154,7 @@ class Polylang {
 		echo "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
 		echo "\n\t\t\t\t\t";
 		// @phpcs:ignore WordPress.Security.EscapeOutput
-		wp_nonce_field( 'submit_lang', 'submit_lang' );
+		wp_nonce_field( '_wpnonce', '_wpnonce' );
 		// WP submit_button() is not compatible with AMP plugin and not available for AMP pages.
 		if ( function_exists( 'submit_button' ) ) {
 			echo "\n\t\t\t\t\t";
@@ -163,6 +165,82 @@ class Polylang {
 		echo "\n\t\t\t\t" . '</form>';
 		echo "\n\t\t\t" . '</div>';
 
+	}
+
+	/**
+	 * Polylang add the language currently active in the plugin and add it to the rewrite rules
+	 * IE "/en/lumiere/person/?mid=0319843" becomes available
+	 * @return void The rewrite rules have been added
+	 */
+	public function polylang_add_url_rewrite_rules(): void {
+
+		if ( $this->polylang_is_active() === false ) {
+			return;
+		}
+
+		$list_lang_rewrite = $this->get_lang_list_rewrite();
+
+		// Add rewrite rules for /lumiere/search|person|movie/ url string.
+		// Created only if the rule doesn't exists, so we avoid using flush_rewrite_rules() unecessarily
+		$wordpress_rewrite_rules = get_option( 'rewrite_rules' );
+		$lumiere_popups_rewrite_rule = '(' . $list_lang_rewrite . ')/?lumiere/([^/]+)/?';
+
+		if ( ! isset( $wordpress_rewrite_rules [ $lumiere_popups_rewrite_rule ] ) ) {
+			add_rewrite_rule(
+				$lumiere_popups_rewrite_rule,
+				'index.php?lang=$matches[1]&popup=$matches[2]',
+				'top'
+			);
+			// @TODO should not use this function, but didn't find any other solution
+			flush_rewrite_rules();
+		}
+
+	}
+
+	/**
+	 * Get the list of langs in a format for rewrite rules (separated by a "|" )
+	 */
+	private function get_lang_list_rewrite(): string {
+
+		if ( $this->polylang_is_active() === false ) {
+			return '';
+		}
+
+		$string_rewrite = '';
+		$list_lang = pll_languages_list(
+			[
+				'hide_empty' => 1,
+				'fields' => 'slug',
+			]
+		);
+		$total = count( $list_lang );
+		for ( $i = 0; $i < $total; $i++ ) {
+			// No extra "|" for the first result
+			if ( $i === 0 ) {
+				$string_rewrite .= $list_lang[ $i ];
+				continue;
+			}
+			$string_rewrite .= '|' . $list_lang[ $i ];
+		}
+		return $string_rewrite;
+	}
+
+	/**
+	 * Append to home url the polylang url
+	 * Allows to rewrite for example the popups to make them compatible with polylang system
+	 *
+	 * @param string $content The URL that contains home_url() in it
+	 * @param null|string $extra_url An extra portion of url if needed
+	 * @return string
+	 */
+	public function rewrite_string_with_polylang_url( string $content, string $extra_url = null ): string {
+
+		$home_slashed = str_replace( '/', '\/', home_url() );
+		$pll_home_slashed = str_replace( '/', '\/', trim( pll_home_url(), '/' ) );
+		$extra_url_piece = isset( $extra_url ) ? str_replace( '/', '\/', $extra_url ) : '';
+		$final_url = str_replace( $home_slashed . $extra_url_piece, $pll_home_slashed . $extra_url_piece, $content );
+
+		return strlen( $final_url ) > 0 ? $final_url : $content;
 	}
 
 	/**

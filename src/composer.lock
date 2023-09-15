@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jcvignoli/imdbphp.git",
-                "reference": "d98a179f020f6118a3c4d90a8cf2b411c90021c7"
+                "reference": "fbd601b03b98f8849ee388682da85b3f58daf812"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jcvignoli/imdbphp/zipball/d98a179f020f6118a3c4d90a8cf2b411c90021c7",
-                "reference": "d98a179f020f6118a3c4d90a8cf2b411c90021c7",
+                "url": "https://api.github.com/repos/jcvignoli/imdbphp/zipball/fbd601b03b98f8849ee388682da85b3f58daf812",
+                "reference": "fbd601b03b98f8849ee388682da85b3f58daf812",
                 "shasum": ""
             },
             "require": {
@@ -74,7 +74,7 @@
             "support": {
                 "source": "https://github.com/jcvignoli/imdbphp/tree/master"
             },
-            "time": "2023-08-13T16:02:03+00:00"
+            "time": "2023-09-14T21:30:09+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -281,16 +281,16 @@
         },
         {
             "name": "twbs/bootstrap",
-            "version": "v5.3.1",
+            "version": "v5.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "2a1bf52b73fc9a97f6fef75aa1b29b3e9f0288b3"
+                "reference": "344e912d04b5b6a04482113eff20ab416ff01048"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/2a1bf52b73fc9a97f6fef75aa1b29b3e9f0288b3",
-                "reference": "2a1bf52b73fc9a97f6fef75aa1b29b3e9f0288b3",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/344e912d04b5b6a04482113eff20ab416ff01048",
+                "reference": "344e912d04b5b6a04482113eff20ab416ff01048",
                 "shasum": ""
             },
             "replace": {
@@ -325,9 +325,9 @@
             ],
             "support": {
                 "issues": "https://github.com/twbs/bootstrap/issues",
-                "source": "https://github.com/twbs/bootstrap/tree/v5.3.1"
+                "source": "https://github.com/twbs/bootstrap/tree/v5.3.2"
             },
-            "time": "2023-07-26T07:46:38+00:00"
+            "time": "2023-09-14T14:19:27+00:00"
         }
     ],
     "packages-dev": [],

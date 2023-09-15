@@ -1,17 +1,21 @@
 **Changelog**
 
 v.3.11
+* [feature] Popups are fully compatible now with Polylang. Both taxonomy and popups are now fully translated into French.
 * [feature] Added privacy text to add to the website (/wp-admin/options-privacy.php?tab=policyguide)
+* [feature] Movies and People pictures are now automatically resized. No option is (yet?) provided to change the default new size (proportional to 800x800). Meant to save space in cache folder, those IMDb pictures have become huge.
 * [feature] Improved French translation. French translation is now available from WordPress website!
 * [feature] Added an advanced option to edit plugin path (should be edited only carefully)
 * [bug] In some rare circonstances, two movies in widget were displayed. (fixed class widget frontpage, added array_search() in lumiere_widget_display_movies() to better filter arrays)
 * [bug] Since using GraphQL to retrieve most of the data, cache of GraphQL wasn't deleted when specific movie/people was selected.
 * [bug] Uninstall process was not compatible with PHP 8.1, throwing errors. Fixed Uninstall and Settings classes.
-* [bug] Better PHP 8.2 compatibility (function lumiere_parse_spans() returns now string only instead of null|string)
+* [bug] Better PHP 8.2 compatibility (function lumiere_parse_spans() in Movies class returns now string only instead of ( null | string)
+* [bug] The language form for people taxonomy was buggy. Fixed.
 * [technical] Lumière! is not executed in feeds anymore (created lumiere_prohibited_areas() in movie class)
-* [technical] Support for PHP < 8.0 totally dropped, removed str_contains() compatibility meant to support older PHP versions.
+* [technical] Support for PHP < 8.0 totally dropped, removed home-made str_contains() compatibility meant to support older PHP versions.
 * [technical] Permissions for cache directory changed. Created with chmod 775, as it should.
-* [technical] Permissions for logging file. Created with chmod 775, as it should.
+* [technical] Permissions for logging file. Created with chmod 775, as it should have been.
+* [technical] Updated to bootstrap 5.3.2
 
 v.3.10.1
 * [feature] Spinners added: when loading popups and information in popups, a waiting animation will be displayed until the information is retrieved
@@ -119,8 +123,8 @@ v.3.9
 * [technical] Unloading various stylesheets in AMP link makers, as in AMP pages those are not found.
 * [technical] Removed cache option 'imdbstorecache' (was hidden and not available in cache options); using now cache option 'usecache' in class-imdbphp to define it.
 * [technical] Updated to bootstrap 5.2.2
-* [technical] Added link to settings in WP plugins page interface
-* [technical] Updated to IMDBPHP library 7.3.1. Fixes major bugs such a movie search
+* [technical] Added a link to settings in WP plugins page interface
+* [technical] Updated to IMDBPHP library 7.3.1. Fixes major bugs such as the movie search
 
 v.3.8.3
 * [bug] An extra space was added for movie links inside posts. Fixed function lumiere_popup_film_link_abstract() in class abstract link maker
