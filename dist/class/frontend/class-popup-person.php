@@ -817,7 +817,7 @@ class Popup_Person {
 	 */
 	public static function lumiere_popup_person_start (): void {
 
-		new self();
+		$popup_person_class = new self();
 
 	}
 

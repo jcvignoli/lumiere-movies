@@ -144,4 +144,4 @@ class Taxonomy_Items_Standard {
 
 }
 
-new Taxonomy_Items_Standard();
+$lumiere_taxonomy_items_standard_class = new Taxonomy_Items_Standard();

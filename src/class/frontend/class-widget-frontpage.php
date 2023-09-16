@@ -19,7 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Settings;
 use Lumiere\Movie;
-use Lumiere\Utils;
+use Lumiere\Tools\Utils;
 use Lumiere\Frontend\Widget_Legacy;
 use Lumiere\Plugins\Polylang;
 

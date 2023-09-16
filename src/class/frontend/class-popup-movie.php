@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Imdb\Title;
 use Imdb\TitleSearch;
+use Lumiere\Tools\Utils;
 use Exception;
 
 class Popup_Movie {
@@ -813,7 +814,7 @@ class Popup_Movie {
 	 */
 	public static function lumiere_popup_movie_start (): void {
 
-		new self();
+		$popup_movie_class = new self();
 
 	}
 

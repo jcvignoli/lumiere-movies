@@ -1708,7 +1708,7 @@ class Movie {
 	 */
 	public static function lumiere_movie_start (): void {
 
-		new self( new Polylang() );
+		$movie_class = new self( new Polylang() );
 
 	}
 

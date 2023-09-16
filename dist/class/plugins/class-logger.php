@@ -17,7 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // use Lumiere library.
-use Lumiere\Utils;
+use Lumiere\Tools\Utils;
 
 // use Monolog library in /vendor/.
 use Monolog\Logger as LoggerMonolog;

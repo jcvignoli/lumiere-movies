@@ -7,7 +7,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere;
+namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'ABSPATH' ) ) ) {
@@ -15,6 +15,7 @@ if ( ( ! defined( 'ABSPATH' ) ) ) {
 }
 
 use Lumiere\Settings_Global;
+use Lumiere\Tools\Utils;
 
 class Copy_Template_Taxonomy {
 

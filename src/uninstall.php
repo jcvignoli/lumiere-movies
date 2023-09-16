@@ -20,7 +20,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 use Lumiere\Settings;
-use Lumiere\Utils;
+use Lumiere\Tools\Utils;
 use Lumiere\Plugins\Logger;
 
 class Uninstall {

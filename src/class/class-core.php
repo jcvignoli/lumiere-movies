@@ -16,9 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\Copy_Template_Taxonomy;
 use Lumiere\Admin\Metabox_Selection;
-use Lumiere\Admin\Cache;
 use Lumiere\PluginsDetect;
 use Lumiere\Plugins\Amp;
 use Lumiere\Plugins\Imdbphp;
@@ -26,24 +24,14 @@ use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Polylang;
 use Lumiere\Popup_Person;
 use Lumiere\Popup_Movie;
-use Lumiere\Popup_Search;
-use Lumiere\Search;
 use Lumiere\Updates;
-use Lumiere\Utils;
-use Lumiere\Virtual_Page;
-use Imdb\Title;
+use Lumiere\Tools\Utils;
 use Imdb\Person;
 
 class Core {
 
 	// Trait including the database settings.
 	use \Lumiere\Settings_Global;
-
-	/**
-	 * Lumière\Utils class
-	 *
-	 */
-	private Utils $utils_class;
 
 	/**
 	 * Lumiere\Plugins\Logger class
@@ -66,9 +54,6 @@ class Core {
 		// Construct Global Settings trait.
 		$this->settings_open();
 
-		// Start Utils class.
-		$this->utils_class = new Utils();
-
 		// Start Logger class.
 		$this->logger = new Logger( 'coreClass' );
 
@@ -76,66 +61,8 @@ class Core {
 		$this->imdbphp_class = new Imdbphp();
 
 		// redirect popups URLs.
-		add_action( 'init', [ 'Lumiere\Tools\Rewrite_Rules', 'lumiere_rewrite_start' ], 0 );
-		add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 1 ); // must be executed after the rewrite rules
-
-		// Redirect class-search.php.
-		// Display only in admin area.
-		add_filter(
-			'template_redirect',
-			function( string $template ): Virtual_Page|string {
-				if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) ) {
-
-					// Build the virtual page class
-					return new Virtual_Page(
-						site_url() . Settings::GUTENBERG_SEARCH_URL,
-						new Search(),
-						'Lumiere Query Interface'
-					);
-				}
-				return $template;
-			}
-		);
-
-		// Add Lumière taxonomy.
-		if ( ( isset( $this->imdb_admin_values['imdbtaxonomy'] ) ) && ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) ) {
-
-			// Register taxomony and create custom taxonomy pages.
-			add_action( 'init', [ $this, 'lumiere_create_taxonomies' ], 0 );
-
-			/**
-			 * Add specific class for html tags for functions building links towards taxonomy pages
-			 * 1-search for all imdbtaxonomy* in config array,
-			 * 2-if active write a filter to add a class to the link to the taxonomy page.
-			 *
-			 * Can be utilised by get_the_term_list() the_terms() WP function, such as in taxo templates
-			 */
-			foreach ( $this->utils_class->lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
-
-				if ( $value === '1' ) {
-
-					// Build taxonomy raw name, such as 'lumiere-imdbtaxonomycolor'.
-					$taxonomy_raw_string = $this->imdb_admin_values['imdburlstringtaxo'] . $key;
-					// Build final hook name, such as 'term_links-lumiere-color'.
-					$taxonomy_hook = str_replace( 'imdbtaxonomy', '', "term_links-{$taxonomy_raw_string}" );
-
-					add_filter( $taxonomy_hook, [ $this, 'lumiere_taxonomy_add_class_to_links' ] );
-
-				}
-			}
-
-			// redirect admin data taxonomy copy calls to tools/class-move_template_taxonomy.php.
-			add_action(
-				'admin_init',
-				function(): void {
-					if ( isset( $_GET['taxotype'] ) ) {
-						$copy_class = new Copy_Template_Taxonomy();
-						$copy_class->copy_template_taxonomy();
-					}
-				}
-			);
-
-		}
+		add_action( 'init', [ 'Lumiere\Alteration\Rewrite_Rules', 'lumiere_rewrite_start' ], 0 );
+		add_action( 'init', [ 'Lumiere\Alteration\Redirect_Virtual_Page', 'lumiere_redirect_start' ], 1 );
 
 		/**
 		 * Admin interface.
@@ -148,20 +75,17 @@ class Core {
 			add_action( 'init', [ $lumiere_admin_class, 'lumiere_admin_menu' ] );
 
 			// Add the metabox to editor.
-			new Metabox_Selection();
-
-			// Add sponsor on WP admin > Plugins
-			add_filter( 'plugin_row_meta', [ $this, 'lumiere_add_sponsor_plugins_page' ], 10, 2 );
-
-			// Add settings links on WP admin > Plugins
-			add_filter( 'plugin_action_links', [ $this, 'lumiere_plugin_settings_link' ], 10, 2 );
+			$metabox_selection_class = new Metabox_Selection();
 
 			// Widget
 			add_action( 'init', [ 'Lumiere\Admin\Widget_Selection', 'lumiere_widget_start' ], 0 );
 
-			// Privacy
-			add_action( 'admin_init', [ 'Lumiere\Admin\Privacy', 'lumiere_privacy_declarations' ], 20 );
+			// Extra backoffice functions, such as privacy, plugins infos in plugins' page
+			add_action( 'init', [ 'Lumiere\Admin\Backoffice_Extra', 'lumiere_backoffice_start' ], 0 );
 		}
+
+		// Add taxonomy to Lumière!
+		add_action( 'registered_taxonomy', [ 'Lumiere\Alteration\Taxonomy', 'lumiere_taxonomy_start' ], 0 );
 
 		// Register admin scripts.
 		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ], 0 );
@@ -218,51 +142,7 @@ class Core {
 		add_action( 'upgrader_process_complete', [ $this, 'lumiere_on_lumiere_upgrade_manual' ], 10, 2 );
 
 		// Add cron schedules.
-		add_action( 'lumiere_cron_hook', [ $this, 'lumiere_cron_exec_once' ], 0 );
-
-		// Add cron Cache delete action hook. Must be outside of the calling cache class.
-		add_action( 'lumiere_cron_deletecacheoversized', [ $this, 'lumiere_cron_exec_cache' ], 0 );
-
-	}
-
-	/**
-	 * Add sponsor link in the Plugins list table.
-	 * Filters the array of row meta for each plugin to display Lumière's metas
-	 *
-	 * @param array<string>|null $plugin_meta An array of the plugin's metadata. Can be null.
-	 * @param string $plugin_file_name Path to the plugin file relative to the plugins directory.
-	 * NOTINCLUDED @param array<string> $plugin_data An array of plugin data.
-	 * NOTINCLUDED @param string $status Status filter currently applied to the plugin list.
-	 *        Possible values are: 'all', 'active', 'inactive', 'recently_activated', 'upgrade', 'mustuse',
-	 *        'dropins', 'search', 'paused', 'auto-update-enabled', 'auto-update-disabled'.
-	 * @return array<string>|null $plugin_meta An array of the plugin's metadata.
-	 */
-	public function lumiere_add_sponsor_plugins_page ( ?array $plugin_meta, string $plugin_file_name ): ?array {
-		if ( 'lumiere-movies/lumiere-movies.php' === $plugin_file_name ) {
-			$plugin_meta[] = sprintf(
-				'<a href="%1$s"><span class="dashicons dashicons-coffee" aria-hidden="true" style="font-size:14px;line-height:1.3"></span>%2$s</a>',
-				'https://www.paypal.me/jcvignoli',
-				esc_html__( 'Sponsor', 'lumiere-movies' )
-			);
-		}
-		return $plugin_meta;
-	}
-
-	/**
-	 * Add Settings link to plugin on plugins page
-	 *
-	 * @param array<string>|null $plugin_meta An array of the plugin's metadata. Can be null.
-	 * @param string $plugin_file_name Path to the plugin file relative to the plugins directory.
-	 * @return array<string>|null $plugin_meta An array with the plugin's metadata.
-	 * @since v3.9
-	 */
-	public function lumiere_plugin_settings_link( ?array $plugin_meta, string $plugin_file_name ): ?array {
-
-		if ( 'lumiere-movies/lumiere-movies.php' === $plugin_file_name ) {
-			$plugin_meta['settings'] = sprintf( '<a href="%s"> %s </a>', admin_url( 'admin.php?page=lumiere_options' ), esc_html__( 'Settings', 'lumiere-movies' ) );
-		}
-
-		return $plugin_meta;
+		add_action( 'init', [ 'Lumiere\Admin\Cron', 'lumiere_cron_start' ], 0 );
 
 	}
 
@@ -618,103 +498,6 @@ class Core {
 
 	}
 
-	// pages to be included when the redirection is done.
-	public function lumiere_popup_redirect_include(): void {
-
-		// Add 'popup' as as valid query var in WP query_vars.
-		add_filter(
-			'query_vars',
-			function ( array $query_vars ): array {
-				$query_vars[] = 'popup';
-				return $query_vars;
-			}
-		);
-
-		// Include Popups.
-		add_filter(
-			'template_redirect',
-			function( string $template ): string|Virtual_Page {
-
-				$query_popup = get_query_var( 'popup' );
-
-				if ( isset( $query_popup ) ) {
-
-					// Add cache dir to properly save data in real cache dir.
-					$this->imdbphp_class->cachedir = $this->imdb_cache_values['imdbcachedir'];
-
-				}
-
-				switch ( $query_popup ) {
-					case 'film':
-						// Set the title.
-						$filmid_sanitized = ''; // initialisation.
-
-						// If mid but no film, do a query using the mid.
-						if ( ( isset( $_GET['mid'] ) ) && ( ! isset( $_GET['film'] ) ) ) {
-
-							$movieid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
-							$movie = new Title( $movieid_sanitized, $this->imdbphp_class );
-							$filmid_sanitized = esc_html( $movie->title() );
-						}
-						// Sanitize and initialize $_GET['film']
-						$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
-						// Get the film ID if it exists, if not get the film name
-						$title_name = strlen( $filmid_sanitized ) !== 0 ? $filmid_sanitized : $film_sanitized;
-
-						$title = esc_html__( 'Informations about ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies';
-
-						// Build the virtual page class
-						return new Virtual_Page(
-							$this->config_class->lumiere_urlstringfilms,
-							new Popup_Movie(),
-							$title
-						);
-					case 'person':
-						// Set the title.
-						if ( isset( $_GET['mid'] ) ) {
-							$mid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
-							$person = new Person( $mid_sanitized, $this->imdbphp_class );
-							$person_name_sanitized = sanitize_text_field( $person->name() );
-						}
-						$title = isset( $person_name_sanitized )
-						? esc_html__( 'Informations about ', 'lumiere-movies' ) . $person_name_sanitized . ' - Lumi&egrave;re movies'
-						: esc_html__( 'Unknown', 'lumiere-movies' ) . '- Lumi&egrave;re movies';
-
-						// Build the virtual page class
-						return new Virtual_Page(
-							$this->config_class->lumiere_urlstringperson,
-							new Popup_Person(),
-							$title
-						);
-					case 'search':
-						// Set the title.
-						$filmname_sanitized = isset( $_GET['film'] ) ? ': [' . sanitize_text_field( $_GET['film'] ) . ']' : 'No name entered';
-
-						// Build the virtual page class
-						return new Virtual_Page(
-							$this->config_class->lumiere_urlstringsearch,
-							new Popup_Search(),
-							'Lumiere Query Interface ' . $filmname_sanitized
-						);
-				}
-
-				return $template;
-			}
-		);
-
-	}
-
-	/**
-	 * Add a class to taxonomy links constructed by WordPress
-	 * @param array<string> $links
-	 * @return array<string>
-	 */
-	public function lumiere_taxonomy_add_class_to_links( array $links ): array {
-
-		return str_replace( '<a href="', '<a class="linktaxonomy" href="', $links );
-
-	}
-
 	/**
 	 * Add new meta tags in popups <head>
 	 */
@@ -870,7 +653,7 @@ class Core {
 		// Start Settings class.
 		if ( ! isset( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) {
 
-			new Settings();
+			$settings_class = new Settings();
 			$this->logger->log()->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' successfully created." );
 
 		} else {
@@ -930,80 +713,6 @@ class Core {
 
 		$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Lumière deactivated' );
 
-	}
-
-	/**
-	 * Register taxomony and create custom taxonomy pages
-	 */
-	public function lumiere_create_taxonomies(): void {
-
-		$imdb_admin_values = $this->imdb_admin_values;
-		$imdb_widget_values = $this->imdb_widget_values;
-
-		foreach ( $this->utils_class->lumiere_array_key_exists_wildcard( $imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
-
-			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $key );
-
-			if ( $imdb_widget_values[ 'imdbtaxonomy' . $filter_taxonomy ] === '1' ) {
-
-				register_taxonomy(
-					$imdb_admin_values['imdburlstringtaxo'] . $filter_taxonomy,
-					[ 'page', 'post' ],
-					[
-						/* remove metaboxes from edit interface, keep the menu of post */
-						'show_ui' => true,        /* whether to manage taxo in UI */
-						'show_in_quick_edit' => false,       /* whether to show taxo in edit interface */
-						'meta_box_cb' => false,       /* whether to show taxo in metabox */
-					/* other settings */
-						'hierarchical' => false,
-						'public' => true,
-						/*      'args'              => array('lang' => 'en'), REMOVED 2021 08 07, what's the point? */
-						'menu_icon' => $imdb_admin_values['imdbplugindirectory'] . 'assets/pics/lumiere-ico13x13.png',
-						'label' => 'Lumière ' . $filter_taxonomy,
-						'query_var' => $imdb_admin_values['imdburlstringtaxo'] . $filter_taxonomy,
-						'rewrite' => [ 'slug' => $imdb_admin_values['imdburlstringtaxo'] . $filter_taxonomy ],
-					]
-				);
-			}
-		}
-
-	}
-
-	/**
-	 * Cron to run execute once
-	 */
-	public function lumiere_cron_exec_once(): void {
-
-		$this->logger = new Logger( 'coreClass' );
-
-		// Start the logger, since it is executed before the init.
-		do_action( 'lumiere_logger' );
-
-		$this->logger->log()->debug( '[Lumiere][coreClass] Cron running...' );
-
-		// Update class.
-		// this udpate is also run in upgrader_process_complete, but the process is not always reliable.
-		$start_update_options = new Updates();
-		$start_update_options->run_update_options();
-
-	}
-
-	/**
-	 * Cache Cron to run execute weekly cache
-	 */
-	public function lumiere_cron_exec_cache(): void {
-
-		$this->logger = new Logger( 'coreClass' );
-
-		// Start the logger, since it is executed before the init.
-		do_action( 'lumiere_logger' );
-
-		$this->logger->log()->debug( '[Lumiere][coreClass] Cron running...' );
-
-		$cache_class = new Cache();
-		$cache_class->lumiere_cache_delete_files_over_limit(
-			intval( $this->imdb_cache_values['imdbcachekeepsizeunder_sizelimit'] )
-		);
 	}
 
 	/**

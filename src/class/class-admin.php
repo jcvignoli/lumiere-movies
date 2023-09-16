@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\Utils;
+use Lumiere\Tools\Utils;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\General;
 use Lumiere\Admin\Data;

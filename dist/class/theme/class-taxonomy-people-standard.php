@@ -469,4 +469,4 @@ class Taxonomy_People_Standard {
 
 }
 
-new Taxonomy_People_Standard( new Polylang() );
+$lumiere_taxonomy_people_standard_class = new Taxonomy_People_Standard( new Polylang() );

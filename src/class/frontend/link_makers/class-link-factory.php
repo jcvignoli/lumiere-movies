@@ -23,7 +23,7 @@ use Lumiere\Link_Makers\No_Links;
 use Lumiere\Link_Makers\Bootstrap_Links;
 use Lumiere\Link_Makers\Highslide_Links;
 use Lumiere\Link_Makers\Classic_Links;
-use Lumiere\Utils;
+use Lumiere\Tools\Utils;
 
 /**
  * Not utilised @phpstan-type LINKMAKERCLASSES AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links

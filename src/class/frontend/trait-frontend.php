@@ -19,7 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\PluginsDetect;
-use Lumiere\Utils;
+use Lumiere\Tools\Utils;
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Imdbphp;

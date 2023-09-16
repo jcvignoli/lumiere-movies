@@ -22,7 +22,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Imdb\Title;
 use Imdb\Person;
 use Lumiere\Settings;
-use Lumiere\Utils;
+use Lumiere\Tools\Utils;
 use Lumiere\Plugins\Imdbphp;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;

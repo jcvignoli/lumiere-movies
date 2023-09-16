@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Imdb\TitleSearch;
+use Lumiere\Tools\Utils;
 
 class Popup_Search {
 

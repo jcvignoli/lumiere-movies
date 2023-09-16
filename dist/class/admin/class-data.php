@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Settings;
-use Lumiere\Utils;
+use Lumiere\Tools\Utils;
 
 /**
  * @phpstan-import-type OPTIONS_WIDGET from \Lumiere\Settings

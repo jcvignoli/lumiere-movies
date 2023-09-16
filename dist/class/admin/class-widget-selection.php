@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Settings;
-use Lumiere\Utils;
+use Lumiere\Tools\Utils;
 
 /**
  * This widget is used to display both autowidget and metabox info in sidebar widgets
