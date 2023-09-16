@@ -14,6 +14,7 @@ import plumber from 'gulp-plumber';
 import notify from 'gulp-notify';
 import longerif from 'gulp-if';
 import ssh from 'gulp-ssh';
+import replace from 'gulp-replace';
 import autoprefixer from 'gulp-autoprefixer';
 import cleanCss from 'gulp-clean-css';
 import changed from 'gulp-changed';

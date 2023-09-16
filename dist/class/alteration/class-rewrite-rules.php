@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Plugins\Logger;
+use Lumiere\Settings;
 
 /**
  * Rules for all types of *popups*
@@ -47,11 +48,21 @@ class Rewrite_Rules {
 	private int $lumiere_nb_rules_found;
 
 	/**
+	 * Rules modified to take into account possible change of property $lumiere_urlstring in Settings class
+	 * @var array<string, string> $final_array_rules
+	 */
+	private array $final_array_rules;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
+
 		$this->logger_class = new Logger( 'RewriteRules' );
 		$this->lumiere_nb_rules_found = 0;
+
+		$this->final_array_rules = $this->make_final_array_rules( self::LUMIERE_REWRITE_RULES );
+
 		add_action( 'init', [ $this, 'lumiere_add_rewrite_rules' ] );
 	}
 
@@ -66,6 +77,22 @@ class Rewrite_Rules {
 	}
 
 	/**
+	 * Rewrite the rules in the keys of LUMIERE_REWRITE_RULES should have $settings_class->lumiere_urlstring been edited by user
+	 *
+	 * @return array<string, string>
+	 */
+	public static function make_final_array_rules( $rules ): array {
+		$settings_class = new Settings();
+		$url_string_trimmed = trim( $settings_class->lumiere_urlstring, '/' );
+		$array_key_replaced = [];
+		foreach( $rules as $key => $value ) {
+			$new_key = str_replace( 'lumiere', $url_string_trimmed, $key );
+			$array_key_replaced[$new_key] = $value;
+		}
+		return $array_key_replaced !== false ? $array_key_replaced : [];
+	}
+	
+	/**
 	 * Add rewrite rules if they're not already in WP options table
 	 * For /lumiere/(search|person|movie)/ url string.
 	 *
@@ -75,7 +102,7 @@ class Rewrite_Rules {
 
 		$wordpress_rewrite_rules = get_option( 'rewrite_rules' );
 
-		foreach ( self::LUMIERE_REWRITE_RULES as $key => $value ) {
+		foreach ( $this->final_array_rules as $key => $value ) {
 			// Created only if the rule doesn't exists, so we avoid using flush_rewrite_rules() unecessarily
 			if ( ! isset( $wordpress_rewrite_rules [ $key ] ) ) {
 				add_rewrite_rule(
