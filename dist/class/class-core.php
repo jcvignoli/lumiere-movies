@@ -5,7 +5,7 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version       2.1
+ * @version       3.0
  * @package lumiere-movies
  */
 
@@ -19,14 +19,10 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Lumiere\Admin\Metabox_Selection;
 use Lumiere\PluginsDetect;
 use Lumiere\Plugins\Amp;
-use Lumiere\Plugins\Imdbphp;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Polylang;
-use Lumiere\Popup_Person;
-use Lumiere\Popup_Movie;
 use Lumiere\Updates;
 use Lumiere\Tools\Utils;
-use Imdb\Person;
 
 class Core {
 
@@ -40,12 +36,6 @@ class Core {
 	private Logger $logger;
 
 	/**
-	 * Lumiere\Imdbphp class
-	 *
-	 */
-	private Imdbphp $imdbphp_class;
-
-	/**
 	 * Constructor
 	 *
 	 */
@@ -57,12 +47,12 @@ class Core {
 		// Start Logger class.
 		$this->logger = new Logger( 'coreClass' );
 
-		// Start Imdbphp class.
-		$this->imdbphp_class = new Imdbphp();
-
 		// redirect popups URLs.
-		add_action( 'init', [ 'Lumiere\Alteration\Rewrite_Rules', 'lumiere_rewrite_start' ], 0 );
-		add_action( 'init', [ 'Lumiere\Alteration\Redirect_Virtual_Page', 'lumiere_redirect_start' ], 1 );
+		add_action( 'init', [ 'Lumiere\Alteration\Rewrite_Rules', 'lumiere_static_start' ], 0 );
+		add_action( 'init', [ 'Lumiere\Alteration\Redirect_Virtual_Page', 'lumiere_static_start' ], 1 );
+
+		// Add metas tags.
+		add_action( 'init', [ 'Lumiere\Alteration\Head', 'lumiere_static_start' ] );
 
 		/**
 		 * Admin interface.
@@ -85,7 +75,7 @@ class Core {
 		}
 
 		// Add taxonomy to Lumière!
-		add_action( 'registered_taxonomy', [ 'Lumiere\Alteration\Taxonomy', 'lumiere_taxonomy_start' ], 0 );
+		add_action( 'registered_taxonomy', [ 'Lumiere\Alteration\Taxonomy', 'lumiere_static_start' ], 0 );
 
 		// Register admin scripts.
 		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ], 0 );
@@ -106,15 +96,12 @@ class Core {
 		// Execute javascripts and styles.
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_execute_assets' ], 0 );
 
-		// Add metas tags.
-		add_action( 'wp_head', [ $this, 'lumiere_add_metas' ], 5 );
-
 		// Register Gutenberg blocks.
 		add_action( 'init', [ $this, 'lumiere_register_gutenberg_blocks' ] );
 
 		// Frontpage classes if it is not an admin page
 		if ( ! is_admin() ) {
-			add_action( 'init', [ 'Lumiere\Movie', 'lumiere_movie_start' ], 0 );
+			add_action( 'init', [ 'Lumiere\Frontend\Movie', 'lumiere_static_start' ], 0 );
 			add_action( 'init', [ 'Lumiere\Frontend\Widget_Frontpage', 'lumiere_widget_frontend_start' ], 0 );
 		}
 
@@ -493,77 +480,6 @@ class Core {
 		if ( ( ( 'post.php' === $hook ) || ( 'post-new.php' === $hook ) ) && ( wp_script_is( 'quicktags' ) ) ) {
 
 			wp_enqueue_script( 'lumiere_quicktag_addbutton' );
-
-		}
-
-	}
-
-	/**
-	 * Add new meta tags in popups <head>
-	 */
-	public function lumiere_add_metas(): void {
-
-		$my_canon = '';
-
-		// Change the metas only for popups.
-		if (
-			( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringfilms ) )
-			|| ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) )
-			|| ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringperson ) )
-			) {
-
-			echo "\t\t" . '<!-- Lumiere Movies -->';
-
-			// Add nofollow for robots.
-			echo "\n" . '<meta name="robots" content="nofollow" />';
-
-			// Add favicons.
-			echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . esc_url( $this->config_class->lumiere_pics_dir . 'favicon/apple-touch-icon.png' ) . '" />';
-			echo "\n" . '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url( $this->config_class->lumiere_pics_dir . 'favicon/favicon-32x32.png' ) . '" />';
-			echo "\n" . '<link rel="icon" type="image/png" sizes="16x16" href="' . esc_url( $this->config_class->lumiere_pics_dir . 'favicon/favicon-16x16.png' ) . '" />';
-			echo "\n" . '<link rel="manifest" href="' . esc_url( $this->config_class->lumiere_pics_dir . 'favicon/site.webmanifest' ) . '" />';
-
-			// Add canonical.
-			// Canonical for search popup.
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) ) {
-				$film_sanitized = '';
-				$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
-				$my_canon = $this->config_class->lumiere_urlpopupsearch . '?film=' . $film_sanitized . '&norecursive=yes';
-				echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
-			}
-
-			// Canonical for movies popups.
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringfilms ) ) {
-				$mid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( strval( $_GET['mid'] ) ) : '';
-				$film_sanitized = '';
-				$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
-				$info_sanitized = '';
-				$info_sanitized = isset( $_GET['info'] ) ? esc_html( $_GET['info'] ) : '';
-				$my_canon = $this->config_class->lumiere_urlpopupsfilms . $film_sanitized . '/?film=' . $film_sanitized . '&mid=' . $mid_sanitized . '&info=' . $info_sanitized;
-				if ( isset( $film_sanitized ) && strlen( $film_sanitized ) > 0 ) {
-					echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
-					echo "\n" . '<meta property="article:tag" content="' . esc_html( $film_sanitized ) . '" />';
-				}
-			}
-
-			// Canonical for people popups.
-			if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringperson ) ) {
-				$mid_sanitized = isset( $_GET['mid'] ) ? sanitize_text_field( $_GET['mid'] ) : '';
-				$info_sanitized = isset( $_GET['info'] ) ? esc_html( $_GET['info'] ) : '';
-				$my_canon = $this->config_class->lumiere_urlpopupsperson . $mid_sanitized . '/?mid=' . $mid_sanitized . '&info=' . $info_sanitized;
-				if ( strlen( $mid_sanitized ) > 0 ) {
-					$person = new Person( $mid_sanitized, $this->imdbphp_class );
-					echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
-					echo "\n" . '<meta property="article:tag" content="' . esc_html( $person->name() ) . '" />';
-				}
-			}
-
-			echo "\n\t\t" . '<!-- /Lumiere Movies -->' . "\n";
-
-			// Prevent WordPress from inserting a canonical tag.
-			remove_action( 'wp_head', 'rel_canonical' );
-			// Prevent WordPress from inserting favicons.
-			remove_action( 'wp_head', 'wp_site_icon', 99 );
 
 		}
 

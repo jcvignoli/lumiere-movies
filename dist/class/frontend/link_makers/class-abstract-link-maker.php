@@ -368,7 +368,7 @@ abstract class Abstract_Link_Maker {
 			return $bio_head . "\n\t\t\t" . $bio_text;
 		}
 
-		// There is 1/ a bio, and 2/ its lenght is superior to above $esc_html_breaker
+		// There is 1/ a bio, and 2/ its length is superior to above $esc_html_breaker
 		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
 
 			$str_one = substr( $bio_text, 0, $esc_html_breaker );
@@ -382,7 +382,7 @@ abstract class Abstract_Link_Maker {
 
 		}
 
-		return $bio_head . $bio_text;
+		return strlen( $bio_text ) > 0 ? $bio_head . $bio_text : '';
 
 	}
 

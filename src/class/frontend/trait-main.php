@@ -11,7 +11,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere;
+namespace Lumiere\Frontend;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -25,7 +25,7 @@ use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Imdbphp;
 use Lumiere\Plugins\Polylang;
 
-trait Frontend {
+trait Main {
 
 	// Global settings trait.
 	use \Lumiere\Settings_Global;
@@ -203,7 +203,8 @@ trait Frontend {
 		$final_url = null;
 		$polylang_class = new Polylang();
 		if ( $polylang_class->polylang_is_active() === true ) {
-			$final_url = str_replace( home_url(), trim( pll_home_url(), '/' ), $url );
+			$replace_url = str_replace( home_url(), trim( pll_home_url(), '/' ), $url );
+			$final_url = trim( $replace_url, '/' );
 		}
 		return $final_url ?? $url;
 	}

@@ -18,9 +18,9 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use Lumiere\Settings;
 use Lumiere\Plugins\Imdbphp;
-use Lumiere\Popup_Person;
-use Lumiere\Popup_Movie;
-use Lumiere\Popup_Search;
+use Lumiere\Frontend\Popup_Person;
+use Lumiere\Frontend\Popup_Movie;
+use Lumiere\Frontend\Popup_Search;
 use Lumiere\Search;
 use Lumiere\Tools\Utils;
 use Imdb\Title;
@@ -39,9 +39,9 @@ class Redirect_Virtual_Page {
 	private Imdbphp $imdbphp_class;
 
 	/**
-	 * Lumiere\Imdbphp class
+	 * Lumiere\Settings class
 	 */
-	private Settings $config_class;
+	private Settings $settings_class;
 
 	/**
 	 * @phpstan-var OPTIONS_CACHE $imdb_cache_values
@@ -54,7 +54,7 @@ class Redirect_Virtual_Page {
 	public function __construct() {
 
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
-		$this->config_class = new Settings();
+		$this->settings_class = new Settings();
 		$this->imdbphp_class = new Imdbphp();
 
 		add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 2 ); // Must be executed with priority 2, 1 more of what the class was called
@@ -69,7 +69,7 @@ class Redirect_Virtual_Page {
 	 *
 	 * @return void The class was instanciated
 	 */
-	public static function lumiere_redirect_start(): void {
+	public static function lumiere_static_start(): void {
 		$redirect_class = new self();
 	}
 
@@ -144,7 +144,7 @@ class Redirect_Virtual_Page {
 
 						// Build the virtual page class
 						return new Virtual_Page(
-							$this->config_class->lumiere_urlstringfilms,
+							$this->settings_class->lumiere_urlstringfilms,
 							new Popup_Movie(),
 							$title
 						);
@@ -161,7 +161,7 @@ class Redirect_Virtual_Page {
 
 						// Build the virtual page class
 						return new Virtual_Page(
-							$this->config_class->lumiere_urlstringperson,
+							$this->settings_class->lumiere_urlstringperson,
 							new Popup_Person(),
 							$title
 						);
@@ -171,7 +171,7 @@ class Redirect_Virtual_Page {
 
 						// Build the virtual page class
 						return new Virtual_Page(
-							$this->config_class->lumiere_urlstringsearch,
+							$this->settings_class->lumiere_urlstringsearch,
 							new Popup_Search(),
 							'Lumiere Query Interface ' . $filmname_sanitized
 						);

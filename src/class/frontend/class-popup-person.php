@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere;
+namespace Lumiere\Frontend;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -21,8 +21,8 @@ use Imdb\Person;
 class Popup_Person {
 
 	// Use trait frontend
-	use \Lumiere\Frontend {
-		Frontend::__construct as public __constructFrontend;
+	use \Lumiere\Frontend\Main {
+		Main::__construct as public __constructFrontend;
 	}
 
 	/**
@@ -99,13 +99,16 @@ class Popup_Person {
 	 */
 	public function lumiere_popup_person_layout(): void {
 
-		?><!DOCTYPE html>
+		/**
+		 * Already loaded now, using the_posts hook, no need twice!
+		<!DOCTYPE html>
 		<html>
 		<head>
 		<?php wp_head(); ?>
 
 		</head>
-		<body class="lumiere_body<?php
+		<body */ ?>
+		class="lumiere_body<?php
 		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
 			echo ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] );
 		}
@@ -763,16 +766,14 @@ class Popup_Person {
 
 				echo "\n\t\t" . '</font></div>';
 
-				echo "\n\t\t" . '<div class="lumiere_padding_two lumiere_align_left"><font size="-1">';
+				echo "\n\t\t" . '<div class="lumiere_display_flex_align_flex_end lumiere_padding_two lumiere_align_left">';
 
 				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo $this->link_maker->lumiere_medaillon_bio( $this->person->bio() );
+				echo "\n\t\t\t" . '<div><font size="-1">' . $this->link_maker->lumiere_medaillon_bio( $this->person->bio() ) . '</font></div>';
 				?>
 
-				</font><?php /** </div>
-			</div> */ // @info 2023.08 removed after change in biography in imdbphp Person class ?>
-												<!-- star photo -->
-			<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two"><?php
+					<!-- star photo -->
+			<div class="lumiere_width_twenty_perc lumiere_padding_two"><?php
 
 			// Select pictures: big poster, if not small poster, if not 'no picture'.
 			$photo_url = '';
@@ -782,7 +783,7 @@ class Popup_Person {
 			$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . '/no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
 
 			echo "\n\t\t\t\t" . '<a class="highslide_pic_popup" href="' . esc_url( $photo_url_final ) . '">';
-			echo "\n\t\t\t\t\t" . '<img loading="eager" class="imdbincluded-picture" src="'
+			echo "\n\t\t\t\t\t" . '<img loading="lazy" class="imdbincluded-picture" src="'
 				. esc_url( $photo_url_final )
 				. '" alt="'
 				. esc_attr( $this->person_name ) . '"';

@@ -29,8 +29,8 @@ use WP_Widget;
 class Widget_Legacy extends WP_Widget {
 
 	// Use Frontend trait
-	use  \Lumiere\Frontend {
-		\Lumiere\Frontend::__construct as public __constructFrontend;
+	use  \Lumiere\Frontend\Main {
+		Main::__construct as public __constructFrontend;
 	}
 
 	/**

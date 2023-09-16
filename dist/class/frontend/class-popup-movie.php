@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere;
+namespace Lumiere\Frontend;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -24,8 +24,8 @@ use Exception;
 class Popup_Movie {
 
 	// Use trait frontend
-	use \Lumiere\Frontend {
-		Frontend::__construct as public __constructFrontend;
+	use \Lumiere\Frontend\Main {
+		Main::__construct as public __constructFrontend;
 	}
 
 	/**
@@ -67,11 +67,11 @@ class Popup_Movie {
 
 		// Display layout
 		// @since 3.9.9 if OceanWP them, use a different hook
-		if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
-				add_action( 'get_header', [ $this, 'lumiere_popup_movie_layout' ], 1 );
-		} else {
-				add_action( 'the_posts', [ $this, 'lumiere_popup_movie_layout' ], 1 );
-		}
+		// @since 3.11 removed, seems useless
+		/*if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
+				add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ], 1 );
+		} else {*/
+		add_action( 'the_posts', [ $this, 'lumiere_popup_movie_layout' ], 1 );
 	}
 
 	/**
@@ -144,13 +144,15 @@ class Popup_Movie {
 			wp_die( esc_html( $text ) );
 		}
 
-		?><!DOCTYPE html>
-<html>
-<head>
-		<?php wp_head();
-		?>
+		/**
+		 * Already loaded now, using the_posts hook, no need twice!
+		<!DOCTYPE html>
+		<html>
+		<head>
+		<?php wp_head(); ?>
+
 		</head>
-		<body class="lumiere_body<?php
+		<body */ ?> class="lumiere_body<?php
 		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
 			echo ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] );
 		}
@@ -230,7 +232,7 @@ class Popup_Movie {
 
 		<div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="searchaka" href="<?php echo esc_url( $url_if_polylang_search . '?film=' . $this->film_title_sanitized . '&norecursive=yes' ); ?>" title="<?php esc_html_e( 'Search for other movies with the same title', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Similar Titles', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="searchaka" href="<?php echo esc_url( $url_if_polylang_search . '/?film=' . $this->film_title_sanitized . '&norecursive=yes' ); ?>" title="<?php esc_html_e( 'Search for other movies with the same title', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Similar Titles', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
 				&nbsp;<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $url_if_polylang . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=' ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Movie', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>

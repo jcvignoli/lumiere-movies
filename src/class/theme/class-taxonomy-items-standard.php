@@ -18,8 +18,8 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 class Taxonomy_Items_Standard {
 
 	// Use trait frontend
-	use \Lumiere\Frontend {
-		Frontend::__construct as public __constructFrontend;
+	use \Lumiere\Frontend\Main {
+		\Lumiere\Frontend\Main::__construct as public __constructFrontend;
 	}
 
 	/**

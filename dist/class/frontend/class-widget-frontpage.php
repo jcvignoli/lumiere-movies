@@ -18,9 +18,9 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Settings;
-use Lumiere\Movie;
-use Lumiere\Tools\Utils;
+use Lumiere\Frontend\Movie;
 use Lumiere\Frontend\Widget_Legacy;
+use Lumiere\Tools\Utils;
 use Lumiere\Plugins\Polylang;
 
 /**
@@ -34,8 +34,8 @@ use Lumiere\Plugins\Polylang;
 class Widget_Frontpage {
 
 	// Use Frontend trait
-	use  \Lumiere\Frontend {
-		\Lumiere\Frontend::__construct as public __constructFrontend;
+	use  \Lumiere\Frontend\Main {
+		Main::__construct as public __constructFrontend;
 	}
 
 	/**

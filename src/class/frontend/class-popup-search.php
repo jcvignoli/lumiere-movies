@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere;
+namespace Lumiere\Frontend;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -22,8 +22,8 @@ use Lumiere\Tools\Utils;
 class Popup_Search {
 
 	// Use trait frontend
-	use \Lumiere\Frontend {
-		Frontend::__construct as public __constructFrontend;
+	use \Lumiere\Frontend\Main {
+		Main::__construct as public __constructFrontend;
 	}
 
 	/**

@@ -13,7 +13,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere;
+namespace Lumiere\Frontend;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -27,8 +27,8 @@ use Lumiere\Plugins\Polylang;
 class Movie {
 
 	// Use trait frontend
-	use \Lumiere\Frontend {
-		Frontend::__construct as public __constructFrontend;
+	use \Lumiere\Frontend\Main {
+		Main::__construct as public __constructFrontend;
 	}
 
 	/**
@@ -443,7 +443,7 @@ class Movie {
 				$function = "lumiere_movies_{$data_detail}";
 
 				// Call the wrapper using the built function.
-				if ( method_exists( '\Lumiere\Movie', $function ) ) {
+				if ( method_exists( '\Lumiere\Frontend\Movie', $function ) ) {
 					// @phpstan-ignore-next-line 'Variable method call on $this(Lumiere\Movie)'.
 					$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->$function( $movie ), $data_detail );
 				} else {
@@ -1706,7 +1706,7 @@ class Movie {
 	 *
 	 * @return void Build the class
 	 */
-	public static function lumiere_movie_start (): void {
+	public static function lumiere_static_start (): void {
 
 		$movie_class = new self( new Polylang() );
 

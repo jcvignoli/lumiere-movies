@@ -69,7 +69,7 @@ class Taxonomy {
 	 *
 	 * @return void The class was instanciated
 	 */
-	public static function lumiere_taxonomy_start(): void {
+	public static function lumiere_static_start(): void {
 		$taxonomy_class = new self();
 	}
 
