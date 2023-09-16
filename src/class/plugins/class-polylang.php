@@ -51,7 +51,7 @@ class Polylang {
 		$this->settings_open();
 
 		// Add rewrite rules for popups URLs, checks if polylang exists.
-		add_action( 'wp_loaded', [ $this, 'polylang_add_url_rewrite_rules' ], 0 );
+		//add_action( 'wp_loaded', [ $this, 'polylang_add_url_rewrite_rules' ], 0 );
 	}
 
 	/**
@@ -170,6 +170,7 @@ class Polylang {
 	/**
 	 * Polylang add the language currently active in the plugin and add it to the rewrite rules
 	 * IE "/en/lumiere/person/?mid=0319843" becomes available
+	 * @since 3.11
 	 * @return void The rewrite rules have been added
 	 */
 	public function polylang_add_url_rewrite_rules(): void {
@@ -191,14 +192,16 @@ class Polylang {
 				'index.php?lang=$matches[1]&popup=$matches[2]',
 				'top'
 			);
-			// @TODO should not use this function, but didn't find any other solution
-			flush_rewrite_rules();
+			// @done should not use this function, but didn't find any other solution
+			// It is once in class core
+			//flush_rewrite_rules();
 		}
 
 	}
 
 	/**
 	 * Get the list of langs in a format for rewrite rules (separated by a "|" )
+	 * @since 3.11
 	 */
 	private function get_lang_list_rewrite(): string {
 
@@ -229,6 +232,7 @@ class Polylang {
 	 * Append to home url the polylang url
 	 * Allows to rewrite for example the popups to make them compatible with polylang system
 	 *
+	 * @since 3.11
 	 * @param string $content The URL that contains home_url() in it
 	 * @param null|string $extra_url An extra portion of url if needed
 	 * @return string

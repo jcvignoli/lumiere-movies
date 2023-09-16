@@ -311,21 +311,24 @@ class Settings {
 			]
 		);
 
-		// Build list of taxonomy for people and items
+		/**
+		 * Build list of taxonomy for people and items
+		 * First column untranslated, second translated
+		 */
 		$this->array_people = [
-			__( 'actor', 'lumiere-movies' ) => __( 'actor', 'lumiere-movies' ),
-			__( 'composer', 'lumiere-movies' ) => __( 'composer', 'lumiere-movies' ),
-			__( 'creator', 'lumiere-movies' ) => __( 'creator', 'lumiere-movies' ),
-			__( 'director', 'lumiere-movies' ) => __( 'director', 'lumiere-movies' ),
-			__( 'producer', 'lumiere-movies' ) => __( 'producer', 'lumiere-movies' ),
-			__( 'writer', 'lumiere-movies' ) => __( 'writer', 'lumiere-movies' ),
+			'actor' => __( 'actor', 'lumiere-movies' ),
+			'composer' => __( 'composer', 'lumiere-movies' ),
+			'creator' => __( 'creator', 'lumiere-movies' ),
+			'director' => __( 'director', 'lumiere-movies' ),
+			'producer' => __( 'producer', 'lumiere-movies' ),
+			'writer' => __( 'writer', 'lumiere-movies' ),
 		];
 		$this->array_items = [
-			__( 'color', 'lumiere-movies' ) => __( 'color', 'lumiere-movies' ),
-			__( 'country', 'lumiere-movies' ) => __( 'country', 'lumiere-movies' ),
-			__( 'genre', 'lumiere-movies' ) => __( 'genre', 'lumiere-movies' ),
-			__( 'keyword', 'lumiere-movies' ) => __( 'keyword', 'lumiere-movies' ),
-			__( 'language', 'lumiere-movies' ) => __( 'language', 'lumiere-movies' ),
+			'color' => __( 'color', 'lumiere-movies' ),
+			'country' => __( 'country', 'lumiere-movies' ),
+			'genre' => __( 'genre', 'lumiere-movies' ),
+			'keyword' => __( 'keyword', 'lumiere-movies' ),
+			'language' => __( 'language', 'lumiere-movies' ),
 		];
 
 	}

@@ -76,7 +76,8 @@ class Core {
 		$this->imdbphp_class = new Imdbphp();
 
 		// redirect popups URLs.
-		add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 0 );
+		add_action( 'init', [ 'Lumiere\Tools\Rewrite_Rules', 'lumiere_rewrite_start' ], 0 );
+		add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 1 ); // must be executed after the rewrite rules
 
 		// Redirect class-search.php.
 		// Display only in admin area.
@@ -159,7 +160,7 @@ class Core {
 			add_action( 'init', [ 'Lumiere\Admin\Widget_Selection', 'lumiere_widget_start' ], 0 );
 
 			// Privacy
-			add_action( 'admin_init', [ 'Lumiere\Tools\Privacy', 'lumiere_privacy_declarations' ], 20 );
+			add_action( 'admin_init', [ 'Lumiere\Admin\Privacy', 'lumiere_privacy_declarations' ], 20 );
 		}
 
 		// Register admin scripts.
@@ -221,6 +222,7 @@ class Core {
 
 		// Add cron Cache delete action hook. Must be outside of the calling cache class.
 		add_action( 'lumiere_cron_deletecacheoversized', [ $this, 'lumiere_cron_exec_cache' ], 0 );
+
 	}
 
 	/**
@@ -618,19 +620,6 @@ class Core {
 
 	// pages to be included when the redirection is done.
 	public function lumiere_popup_redirect_include(): void {
-
-		// Add rewrite rules for /lumiere/search|person|movie/ url string.
-		// Created only if the rule doesn't exists, so we avoid using flush_rewrite_rules() unecessarily
-		$wordpress_rewrite_rules = get_option( 'rewrite_rules' );
-		$lumiere_popups_rewrite_rule = 'lumiere/([^/]+)/?';
-		if ( ! isset( $wordpress_rewrite_rules [ $lumiere_popups_rewrite_rule ] ) ) {
-			add_rewrite_rule(
-				$lumiere_popups_rewrite_rule,
-				'index.php?popup=$matches[1]',
-				'top'
-			);
-			flush_rewrite_rules();
-		}
 
 		// Add 'popup' as as valid query var in WP query_vars.
 		add_filter(
@@ -1030,7 +1019,7 @@ class Core {
 			$this->config_class->lumiere_scripts_vars,
 			$this->imdb_admin_values['imdburlpopups']
 		)
-		   : $this->config_class->lumiere_scripts_vars;
+		: $this->config_class->lumiere_scripts_vars;
 		return $final_lumiere_script;
 	}
 }

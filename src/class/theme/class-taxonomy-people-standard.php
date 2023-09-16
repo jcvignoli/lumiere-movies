@@ -55,13 +55,6 @@ class Taxonomy_People_Standard {
 	private Person $person_class;
 
 	/**
-	 *  Array of registered type of people from class \Lumiere\Settings
-	 *
-	 *  @var array<string> $array_people
-	 */
-	private array $array_people;
-
-	/**
 	 *  Name of the person sanitized
 	 *
 	 *  @var string $person_name
@@ -97,9 +90,6 @@ class Taxonomy_People_Standard {
 		if ( count( $this->plugins_in_use ) === 0 ) {
 			$this->lumiere_set_plugins_array();
 		}
-
-		// List of potential parameters for a person.
-		$this->array_people = $this->config_class->array_people;
 
 		// Display the page. Must not be included into an add_action(), as should be displayed directly.
 		$this->lumiere_taxo_layout_standard();
@@ -209,13 +199,13 @@ class Taxonomy_People_Standard {
 		// Var to include all rows and check if it is null.
 		$check_if_no_result = [];
 
-		foreach ( $this->array_people as $people ) {
+		foreach ( $this->config_class->array_people as $people => $people_translated ) {
 
 				// A value was passed in the form.
 			if ( $form_id_language !== null ) {
 
 				$args = [
-					'post_type' => [ 'post', 'page' ],
+					'post_type' => [ 'post' ],
 					'post_status' => 'publish',
 					'numberposts' => -1,
 					'nopaging' => true,
@@ -238,8 +228,7 @@ class Taxonomy_People_Standard {
 			} elseif ( isset( $this->person_name ) && strlen( $this->person_name ) > 0 ) {
 
 				$args = [
-					'post_type' => [ 'post', 'page' ],
-					'post_status' => 'publish',
+					'post_type' => [ 'post' ],
 					'tax_query' => [
 						[
 							'taxonomy' => esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . $people,
@@ -257,7 +246,7 @@ class Taxonomy_People_Standard {
 			// The loop.
 			if ( isset( $the_query ) && $the_query->have_posts() ) {
 
-				echo "\n\t\t\t\t" . '<h2 class="lumiere_italic lumiere_align_center">' . esc_html__( 'In the role of', 'lumiere-movies' ) . ' ' . esc_html( $people ) . '</h2>';
+				echo "\n\t\t\t\t" . '<h2 class="lumiere_italic lumiere_align_center">' . esc_html__( 'In the role of', 'lumiere-movies' ) . ' ' . esc_html( $people_translated ) . '</h2>';
 
 				while ( $the_query->have_posts() ) {
 					$the_query->the_post();

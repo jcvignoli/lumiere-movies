@@ -140,6 +140,7 @@ class DataDetailsCest {
 		$I->dontSee('you win or you die');
 		$I->dontSee('Taglines');
 		$I->dontSee('Five Kings');
+		$I->dontSee('Ireland - new title');
 		$I->dontSee('Color');
 		$I->dontSee('Also known as');
 		$I->dontSee('Game of Thrones ( United Kingdom )');
@@ -324,6 +325,7 @@ class DataDetailsCest {
 		$I->see('Composer');
 		$I->see('Runtime');
 		$I->see('minutes');
+		$I->see('Ireland - new title');
 		$I->see('Ramin Djawadi');
 		$I->see('Soundtracks');
 		$I->see('Music by György Ligeti Performed by Stuttgart Schola Cantorum');

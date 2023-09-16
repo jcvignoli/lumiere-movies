@@ -23,6 +23,7 @@ use Lumiere\Utils;
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Imdbphp;
+use Lumiere\Plugins\Polylang;
 
 trait Frontend {
 
@@ -190,5 +191,21 @@ trait Frontend {
 
 	}
 
+	/**
+	 * Rewrite the provided link in Polylang format
+	 * Check if Polylang exists
+	 *
+	 * @since 3.11
+	 * @param string $url The URL to edit
+	 * @return string The URL compatible with Polylang
+	 */
+	public function lumiere_url_check_polylang_rewrite ( string $url ): string {
+		$final_url = null;
+		$polylang_class = new Polylang();
+		if ( $polylang_class->polylang_is_active() === true ) {
+			$final_url = str_replace( home_url(), trim( pll_home_url(), '/' ), $url );
+		}
+		return $final_url ?? $url;
+	}
 }
 

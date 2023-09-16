@@ -154,6 +154,7 @@ Sure thing, you can also modify the order of these details. Just take a look at 
 ### How does the plugin complies with Privacy Policy, such as the GDPR?
 
 No data is sent to IMDb when end users visits a wordpress website which installed the plugin. The website host does its own queries to the IMDb, without knowing who is visiting it.
+
 Only the website owner is known from the IMDb, and must comply with the IMDb privacy policy: https://www.imdb.com/privacy
 No data about the end user is sent to any other third party, so Lumière! is GDPR compliant. A short paragraph can be accessed in you you admin privacy policy page, which can be added to your own privacy policy page.
 
@@ -173,13 +174,17 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 
+### 3.11
+
+Fixed cache was not properly deleted since GraphQL. Please delete your entire cache should you have selected "never" for the "Cache expire" in the admin cache options. Several bugs related to integration with Polylang plugin fixed, added the translation for popups if Polylang is used. Privacy explaination.
+
 ### 3.10.2
 
 Support for PHP < 8.0 totally dropped, removed str_contains().
 
 ### 3.10
 
-Starting using GraphQL, as IMDbPHP is not maintained frequently. Forking the library.
+Start using GraphQL, as IMDbPHP is not maintained frequently. Forking the library.
 
 ### 3.9.4
 

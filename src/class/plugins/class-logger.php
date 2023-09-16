@@ -234,6 +234,10 @@ class Logger {
 	 * @return LoggerMonolog the Monolog class
 	 */
 	public function log(): LoggerMonolog {
+		if ( isset( $this->logger_class ) ) {
+			return $this->logger_class;
+		}
+		$this->lumiere_start_logger( null );
 		return $this->logger_class;
 	}
 

@@ -3,7 +3,7 @@ Contributors: psykonevro
 Tags: cinema, film, imdb, movie, actor, internet-movie-database, director, taxonomy
 Requires at least: 5.3
 Tested up to: 6.3
-Stable tag: 3.10.2
+Stable tag: 3.11
 Requires PHP: 8.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -127,7 +127,7 @@ No data about the end user is sent to any other third party, so Lumière! is GDP
 
 = Known issues =
 
-* In taxonomy extra page for people, if Polylang and AMP are activated, the form to change the language doesn't work.
+* In taxonomy extra page for people, if both Polylang and AMP are activated, the form to switch the language doesn't work.
 
 == Support ==
 
@@ -142,7 +142,12 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 Major changes:
 
 = 3.11 =
-Fixed cache was not properly deleted since GraphQL. Please delete your entire cache should you have selected "never" for the "Cache expire" in the admin cache options. 
+-> Faster plugin (images smaller size, technical improvements)
+-> Using less disk space (cache).
+Fixed cache that was not properly deleted since GraphQL. Please delete your entire cache should you have selected the option "never" for the "Cache expire" in the admin cache options.
+Many bugs brought by the availability of the French translation addressed, such as the integration with Polylang plugin.
+Privacy explaination in admin should anyone want to add this piece to their own privacy page.
+Adressed latest bugs with PHP 8.2. Fully compliant now.
 
 = 3.10.2 =
 Support for PHP < 8.0 totally dropped, removed str_contains().

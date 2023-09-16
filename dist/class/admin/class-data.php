@@ -36,20 +36,6 @@ class Data extends \Lumiere\Admin {
 	];
 
 	/**
-	 * Array of people data details
-	 * Built from settings class
-	 * @var array<string> $array_people
-	 */
-	private array $array_people = [];
-
-	/**
-	 * Array of items data details
-	 * Built from settings class
-	 * @var array<string> $array_items
-	 */
-	private array $array_items = [];
-
-	/**
 	 * List of data details that display a field to enter
 	 * A limit number in "Display" section
 	 * @var array<string> $details_with_numbers
@@ -78,31 +64,27 @@ class Data extends \Lumiere\Admin {
 		// Start logger
 		$this->logger->lumiere_start_logger( 'adminData' );
 
-		// Build vars from config_class
-		$this->array_people = $this->config_class->array_people;
-		$this->array_items = $this->config_class->array_items;
-
 		// Build the list of data details that include a number limit
 		$this->details_with_numbers = [
-			__( 'actor', 'lumiere-movies' ) => __( 'actor', 'lumiere-movies' ),
-			__( 'alsoknow', 'lumiere-movies' ) => __( 'also known as', 'lumiere-movies' ),
-			__( 'goof', 'lumiere-movies' ) => __( 'goof', 'lumiere-movies' ),
-			__( 'plot', 'lumiere-movies' ) => __( 'plot', 'lumiere-movies' ),
-			__( 'producer', 'lumiere-movies' ) => __( 'producer', 'lumiere-movies' ),
-			__( 'quote', 'lumiere-movies' ) => __( 'quote', 'lumiere-movies' ),
-			__( 'soundtrack', 'lumiere-movies' ) => __( 'soundtrack', 'lumiere-movies' ),
-			__( 'tagline', 'lumiere-movies' ) => __( 'tagline', 'lumiere-movies' ),
-			__( 'trailer', 'lumiere-movies' ) => __( 'trailer', 'lumiere-movies' ),
+			'actor' => __( 'actor', 'lumiere-movies' ),
+			'alsoknow' => __( 'also known as', 'lumiere-movies' ),
+			'goof' => __( 'goof', 'lumiere-movies' ),
+			'plot' => __( 'plot', 'lumiere-movies' ),
+			'producer' => __( 'producer', 'lumiere-movies' ),
+			'quote' => __( 'quote', 'lumiere-movies' ),
+			'soundtrack' => __( 'soundtrack', 'lumiere-movies' ),
+			'tagline' => __( 'tagline', 'lumiere-movies' ),
+			'trailer' => __( 'trailer', 'lumiere-movies' ),
 		];
 
 		// Build the list of the rest
 		$this->details_extra = [
-			__( 'officialsites', 'lumiere-movies' ) => __( 'official websites', 'lumiere-movies' ),
-			__( 'prodcompany', 'lumiere-movies' ) => __( 'production company', 'lumiere-movies' ),
-			__( 'rating', 'lumiere-movies' ) => __( 'rating', 'lumiere-movies' ),
-			__( 'runtime', 'lumiere-movies' ) => __( 'runtime', 'lumiere-movies' ),
-			__( 'source', 'lumiere-movies' ) => __( 'source', 'lumiere-movies' ),
-			__( 'year', 'lumiere-movies' ) => __( 'year of release', 'lumiere-movies' ),
+			'officialsites' => __( 'official websites', 'lumiere-movies' ),
+			'prodcompany' => __( 'production company', 'lumiere-movies' ),
+			'rating' => __( 'rating', 'lumiere-movies' ),
+			'runtime' => __( 'runtime', 'lumiere-movies' ),
+			'source' => __( 'source', 'lumiere-movies' ),
+			'year' => __( 'year of release', 'lumiere-movies' ),
 		];
 
 		// Debugging mode
@@ -214,13 +196,6 @@ class Data extends \Lumiere\Admin {
 
 			// display confirmation message
 			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options saved.', 'lumiere-movies' ) . '</strong>' );
-
-			// Flush rewrite rules if updating taxonomy details
-			// Needed by WordPress as a new page is created
-			if ( count( $this->utils_class->lumiere_array_key_exists_wildcard( $_POST, 'imdb_imdbtaxonomy*' ) ) !== 0 ) {
-				flush_rewrite_rules();
-				$this->logger->log()->debug( 'Rewrite rules flushed' );
-			}
 
 			// Display a refresh link otherwise refreshed data is not seen
 			if ( headers_sent() ) {
@@ -335,7 +310,7 @@ class Data extends \Lumiere\Admin {
 	private function lumiere_data_display_taxo_fields(): void {
 
 		$array_all = [];
-		$array_all = array_merge( $this->array_people, $this->array_items );
+		$array_all = array_merge( $this->config_class->array_people, $this->config_class->array_items );
 		asort( $array_all );
 
 		foreach ( $array_all as $item ) {
@@ -480,10 +455,6 @@ class Data extends \Lumiere\Admin {
 				. esc_html__( 'to access taxonomies options.', 'lumiere-movies' ) . '</div>';
 			return;
 		}
-		// Flush rewrite rules when visiting taxonomy page
-		// Complements the one executed when saving taxonomy options
-		flush_rewrite_rules();
-		$this->logger->log()->debug( 'Rewrite rules flushed' );
 		?>
 
 	<div class="inside imblt_border_shadow">
@@ -523,8 +494,8 @@ class Data extends \Lumiere\Admin {
 		// Merge the list of items and people with two extra lists
 		$array_full = array_unique(
 			array_merge(
-				$this->array_people,
-				$this->array_items,
+				$this->config_class->array_people,
+				$this->config_class->array_items,
 				$this->details_extra,
 				$this->details_with_numbers,
 			)
@@ -573,18 +544,18 @@ class Data extends \Lumiere\Admin {
 
 		echo "\n\t\t\t" . '<div class="lumiere_flex_container lumiere_align_center">';
 
-		foreach ( $array_full as $item => $title ) {
+		foreach ( $array_full as $item => $item_translated ) {
 
 			echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_third lumiere_padding_ten lumiere_align_center">';
 
 			// Add extra color through span if the item is selected
 			if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
 
-				echo "\n\t\t\t\t\t" . '<span class="admin-option-selected">' . esc_html( ucfirst( $title ) ) . '</span>';
+				echo "\n\t\t\t\t\t" . '<span class="admin-option-selected">' . esc_html( ucfirst( $item_translated ) ) . '</span>';
 
 			} else {
 
-				echo esc_html( ucfirst( $title ) );
+				echo esc_html( ucfirst( $item_translated ) );
 				echo '&nbsp;&nbsp;';
 			}
 

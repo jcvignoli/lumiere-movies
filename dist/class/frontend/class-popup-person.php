@@ -54,11 +54,11 @@ class Popup_Person {
 
 		// Display layout
 		// @since 3.9.9 if OceanWP them, use a different hook
-		if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
-				add_action( 'get_header', [ $this, 'lumiere_popup_person_layout' ], 1 );
-		} else {
+		// @since 3.11 removed, seems useless
+		/*if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
 				add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ], 1 );
-		}
+		} else {*/
+		add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ], 1 );
 	}
 
 	/**
@@ -112,9 +112,10 @@ class Popup_Person {
 		echo '">';
 
 		// Display spinner circle
-		echo '<div class="parent__spinner">';
-		echo "\n\t" . '<div class="loading__spinner"></div>';
-		echo '</div>';
+		// useless
+		//echo '<div class="parent__spinner">';
+		//echo "\n\t" . '<div class="loading__spinner"></div>';
+		//echo '</div>';
 
 		// Get the movie's title.
 		$this->find_person();
@@ -175,7 +176,10 @@ class Popup_Person {
 	/**
 	 * Display navigation menu
 	 */
-	private function display_menu(): void { ?>
+	private function display_menu(): void {
+		// If polylang exists, rewrite the URL to append the lang string
+		$url_if_polylang = $this->lumiere_url_check_polylang_rewrite( $this->config_class->lumiere_urlpopupsperson );
+		?>
 												<!-- top page menu -->
 
 		<div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
@@ -183,16 +187,16 @@ class Popup_Person {
 				<a rel="nofollow" id="historyback"><?php esc_html_e( 'Back', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $this->mid_sanitized . '&info=' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Summary', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Summary', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $this->mid_sanitized . '&info=filmo' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full filmography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full filmography', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=filmo' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full filmography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full filmography', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $this->mid_sanitized . '&info=bio' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full biography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full biography', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=bio' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full biography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full biography', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $this->mid_sanitized . '&info=misc' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=misc' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
 			</div>
 		</div>
 
