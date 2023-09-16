@@ -79,19 +79,20 @@ class Rewrite_Rules {
 	/**
 	 * Rewrite the rules in the keys of LUMIERE_REWRITE_RULES should have $settings_class->lumiere_urlstring been edited by user
 	 *
+	 * @param array<string, string> $rules
 	 * @return array<string, string>
 	 */
-	public static function make_final_array_rules( $rules ): array {
+	public function make_final_array_rules( array $rules ): array {
 		$settings_class = new Settings();
 		$url_string_trimmed = trim( $settings_class->lumiere_urlstring, '/' );
 		$array_key_replaced = [];
-		foreach( $rules as $key => $value ) {
+		foreach ( $rules as $key => $value ) {
 			$new_key = str_replace( 'lumiere', $url_string_trimmed, $key );
-			$array_key_replaced[$new_key] = $value;
+			$array_key_replaced[ $new_key ] = $value;
 		}
-		return $array_key_replaced !== false ? $array_key_replaced : [];
+		return $array_key_replaced;
 	}
-	
+
 	/**
 	 * Add rewrite rules if they're not already in WP options table
 	 * For /lumiere/(search|person|movie)/ url string.

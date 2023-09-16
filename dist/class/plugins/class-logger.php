@@ -149,7 +149,10 @@ class Logger {
 		$this->lumiere_is_screen_editor();
 
 		// Start Monolog logger.
-		if ( ( current_user_can( 'manage_options' ) && $this->imdb_admin_values['imdbdebug'] === '1' ) || ( $this->imdb_admin_values['imdbdebug'] === '1' && defined( 'DOING_CRON' ) && DOING_CRON ) ) {
+		if (
+			( current_user_can( 'manage_options' ) && $this->imdb_admin_values['imdbdebug'] === '1' )
+			|| ( $this->imdb_admin_values['imdbdebug'] === '1' && defined( 'DOING_CRON' ) && DOING_CRON )
+		) {
 
 			// Start Monolog logger.
 			$this->logger_class = new LoggerMonolog( $logger_name );
@@ -237,6 +240,7 @@ class Logger {
 		if ( isset( $this->logger_class ) ) {
 			return $this->logger_class;
 		}
+		// LoggerMonolog wasn't started, start it without a title
 		$this->lumiere_start_logger( null );
 		return $this->logger_class;
 	}
