@@ -196,16 +196,21 @@ abstract class Abstract_Link_Maker {
 			. ' lumiere-padding-lines-common-picture">';
 
 		// Make sure $photo_localurl_true is a string so we can use esc_html() function
-		$photo_localurl = is_string( $photo_localurl_true ) ? $photo_localurl_true : '';
+		$photo_localurl_small = is_string( $photo_localurl_true ) && strlen( $photo_localurl_true ) > 0 ? $photo_localurl_true : '';
 
 		// Any class but AMP
 		if ( $pictures !== 1 ) {
 			// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
-			$photo_localurl = $photo_localurl_false !== false && is_string( $photo_localurl_false ) ? esc_html( $photo_localurl_false ) : esc_html( $photo_localurl );
+			$photo_localurl =
+				$photo_localurl_false !== false && is_string( $photo_localurl_false ) && strlen( $photo_localurl_false ) > 0
+				? $photo_localurl_false
+				: $photo_localurl_small;
 		}
 
 		// Select picture: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
-		$photo_url_final = strlen( $photo_localurl ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . '/no_pics.gif' ) : $photo_localurl;
+		$photo_url_final = !isset( $photo_localurl ) || strlen( $photo_localurl ) === 0
+			? esc_url( $this->config_class->lumiere_pics_dir . '/no_pics.gif' )
+			: $photo_localurl;
 
 		// Normal class or Bootstrap class
 		if ( $pictures === 0 || $pictures === 2 ) {

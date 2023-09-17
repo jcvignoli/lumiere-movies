@@ -6,16 +6,18 @@ v.3.11
 * [feature] Movies and People pictures are now automatically resized. No option is (yet?) provided to change the default new size (proportional to 800x800). Meant to save space in cache folder, those IMDb pictures have become huge.
 * [feature] Improved French translation. French translation is now available from WordPress website!
 * [feature] Added an advanced option to edit plugin path (should be edited only carefully)
+* [feature] Displaying articles that include Lumière's data is faster. Taxonomy system changed when displaying movies into the post, reduced the number of calls. 
 * [bug] In some rare circonstances, two movies in widget were displayed. (fixed class widget frontpage, added array_search() in lumiere_widget_display_movies() to better filter arrays)
 * [bug] Since using GraphQL to retrieve most of the data, cache of GraphQL wasn't deleted when specific movie/people was selected.
 * [bug] Uninstall process was not compatible with PHP 8.1, throwing errors. Fixed Uninstall and Settings classes.
 * [bug] Better PHP 8.2 compatibility (function lumiere_parse_spans() in Movies class returns now string only instead of ( null | string)
 * [bug] The language form for people taxonomy was buggy. Fixed.
+* [bug] Picture in people taxonomy page was not shown if no big poster was retrieved.
 * [bug] Title's "also known as" is back. It was unavailable since a very long time.
 * [technical] Lumière! is not executed in feeds anymore (created lumiere_prohibited_areas() in movie class)
 * [technical] Support for PHP < 8.0 totally dropped, removed home-made str_contains() compatibility meant to support older PHP versions.
-* [technical] Permissions for cache directory changed. Created with chmod 775, as it should.
-* [technical] Permissions for logging file. Created with chmod 775, as it should have been.
+* [technical] Permissions for cache directory changed. Created with chmod 775, as the other plugins do.
+* [technical] Permissions for logging file. Created with chmod 775, as the other plugins do.
 * [technical] Updated to bootstrap 5.3.2
 
 v.3.10.1

@@ -1595,7 +1595,7 @@ class Movie {
 
 		// ************** Vars and sanitization */
 		// Language to register the term with, English by default, first language characters if WP
-		$lang_term = strtok(get_bloginfo('language'), '-' );
+		$lang_term = strtok( get_bloginfo( 'language' ), '-' );
 		$output = '';
 		$list_taxonomy_term = '';
 		$layout = esc_attr( $layout );
@@ -1621,7 +1621,7 @@ class Movie {
 				 * if the tag do not exists.
 				 * @since 3.11 instead of $term === null, using !isset()
 				 */
-				if ( !isset( $term ) )	 {
+				if ( ! isset( $term ) ) {
 
 					/**
 					 * insert it and get its id
@@ -1640,7 +1640,7 @@ class Movie {
 						$term = term_exists( $taxonomy_term, $taxonomy_category_full );
 						$this->plugin_polylang->lumiere_polylang_add_lang_to_taxo( (array) $term );
 						$this->logger->log()->debug(
-							'[Lumiere][' . self::CLASS_NAME . "] Added to Polylang the terms:" . wp_json_encode( $term )
+							'[Lumiere][' . self::CLASS_NAME . '] Added to Polylang the terms:' . wp_json_encode( $term )
 						);
 					}
 				}
