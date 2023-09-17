@@ -1594,7 +1594,8 @@ class Movie {
 	private function lumiere_make_display_taxonomy( string $type_item, string $first_title, ?string $second_title = null, string $layout = 'one' ): string {
 
 		// ************** Vars and sanitization */
-		$lang_term = 'en'; # language to register the term with, English by default
+		// Language to register the term with, English by default, first language characters if WP
+		$lang_term = strtok( get_bloginfo( 'language' ), '-' );
 		$output = '';
 		$list_taxonomy_term = '';
 		$layout = esc_attr( $layout );
@@ -1606,7 +1607,7 @@ class Movie {
 
 		// ************** Add taxonomy
 
-		if ( false !== ( get_the_ID() ) ) {
+		if ( get_the_ID() !== false ) {
 
 			// delete if exists, for debugging purposes
 			# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
@@ -1616,36 +1617,45 @@ class Movie {
 
 				$term = term_exists( $taxonomy_term, $taxonomy_category_full );
 
-				// if the tag exists.
-				if ( $term === null ) {
+				/**
+				 * if the tag do not exists.
+				 * @since 3.11 instead of $term === null, using !isset()
+				 */
+				if ( ! isset( $term ) ) {
 
-					// insert it and get its id
-					// $term = wp_insert_term($taxonomy_term, $taxonomy_category_full, array('lang' => $lang_term) );
-					// I believe adding the above option 'lang' is useless, inserting without 'lang'.
+					/**
+					 * insert it and get its id
+					 * $term = wp_insert_term($taxonomy_term, $taxonomy_category_full, array('lang' => $lang_term) );
+					 * I believe adding the above option 'lang' is useless, inserting without 'lang'.
+					 */
 					$term = wp_insert_term( $taxonomy_term, $taxonomy_category_full );
 					$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full" );
+
+					/**
+					 * Compatibility with Polylang WordPress plugin, add a language to the taxonomy term.
+					 * Function in class Polylang.
+					 * @since 3.11 Passed here, was in the isset term is_wp_error while it supposed to be added only if it's a new term!
+					 */
+					if ( $this->plugin_polylang !== null ) {
+						$term = term_exists( $taxonomy_term, $taxonomy_category_full );
+						$this->plugin_polylang->lumiere_polylang_add_lang_to_taxo( (array) $term );
+						$this->logger->log()->debug(
+							'[Lumiere][' . self::CLASS_NAME . '] Added to Polylang the terms:' . wp_json_encode( $term )
+						);
+					}
 				}
 
 				// Create a list of Lumière tags meant to be inserted to Lumière Taxonomy
 				$list_taxonomy_term .= $taxonomy_term . ', ';
-
 			}
 		}
-		if ( isset( $term ) && ! is_wp_error( $term ) && false !== get_the_ID() ) {
+		if ( isset( $term ) && ! is_wp_error( $term ) && get_the_ID() !== false ) {
 
 			// Link Lumière tags to Lumière Taxonomy
 			wp_set_post_terms( get_the_ID(), $list_taxonomy_term, $taxonomy_category_full, true );
 
 			// Add Lumière tags to the current WordPress post. But we don't want it!
 			# wp_set_post_tags(get_the_ID(), $list_taxonomy_term, 'post_tag', true);
-
-			// Compatibility with Polylang WordPress plugin, add a language to the taxonomy term.
-			// Function in class Polylang.
-			if ( $this->plugin_polylang !== null ) {
-
-				$this->plugin_polylang->lumiere_polylang_add_lang_to_taxo( (array) $term );
-
-			}
 
 		}
 

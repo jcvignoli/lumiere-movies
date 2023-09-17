@@ -57,7 +57,7 @@ class Redirect_Virtual_Page {
 		$this->settings_class = new Settings();
 		$this->imdbphp_class = new Imdbphp();
 
-		add_action( 'init', [ $this, 'lumiere_popup_redirect_include' ], 2 ); // Must be executed with priority 2, 1 more of what the class was called
+		add_filter( 'template_redirect', [ $this, 'lumiere_popup_redirect_include' ], 2 ); // Must be executed with priority 2, 1 more of what the class was called
 
 		// Redirect class-search.php.
 		add_filter( 'template_redirect', [ $this, 'lumiere_search_redirect' ] );
@@ -96,91 +96,76 @@ class Redirect_Virtual_Page {
 	/**
 	 * Popups redirection
 	 *
-	 * @return void
+	 * @TODO Sanitization of GETs is a joke, use proper functions!
+	 * @return string|Virtual_Page
 	 */
-	public function lumiere_popup_redirect_include(): void {
+	public function lumiere_popup_redirect_include( string $template ): string|Virtual_Page {
 
-		// Add 'popup' as as valid query var in WP query_vars.
-		add_filter(
-			'query_vars',
-			function ( array $query_vars ): array {
-				$query_vars[] = 'popup';
-				return $query_vars;
-			}
-		);
+		$query_popup = get_query_var( 'popup' );
 
-		// Include Popups.
-		add_filter(
-			'template_redirect',
-			function( string $template ): string|Virtual_Page {
+		// The query var doesn't exist, exit.
+		if ( ! isset( $query_popup ) ) {
+			return $template;
+		}
 
-				$query_popup = get_query_var( 'popup' );
+		// Make sure we use cache. User may have decided not to use cache, but we need it to accelerate the call.
+		if ( ! isset( $this->imdbphp_class->cachedir ) ) {
+			$this->imdbphp_class->cachedir = $this->imdb_cache_values['imdbcachedir'];
+		}
 
-				if ( isset( $query_popup ) ) {
+		switch ( $query_popup ) {
+			case 'film':
+				// Set the title.
+				$filmid_sanitized = ''; // initialisation.
 
-					// Add cache dir to properly save data in real cache dir.
-					$this->imdbphp_class->cachedir = $this->imdb_cache_values['imdbcachedir'];
+				// If mid but no film, do a query using the mid.
+				if ( ( isset( $_GET['mid'] ) ) && ( ! isset( $_GET['film'] ) ) ) {
 
+					$movieid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
+					$movie = new Title( $movieid_sanitized, $this->imdbphp_class );
+					$filmid_sanitized = esc_html( $movie->title() );
 				}
+				// Sanitize and initialize $_GET['film']
+				$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
+				// Get the film ID if it exists, if not get the film name
+				$title_name = strlen( $filmid_sanitized ) !== 0 ? $filmid_sanitized : $film_sanitized;
 
-				switch ( $query_popup ) {
-					case 'film':
-						// Set the title.
-						$filmid_sanitized = ''; // initialisation.
+				$title = esc_html__( 'Informations about ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies';
 
-						// If mid but no film, do a query using the mid.
-						if ( ( isset( $_GET['mid'] ) ) && ( ! isset( $_GET['film'] ) ) ) {
-
-							$movieid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
-							$movie = new Title( $movieid_sanitized, $this->imdbphp_class );
-							$filmid_sanitized = esc_html( $movie->title() );
-						}
-						// Sanitize and initialize $_GET['film']
-						$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
-						// Get the film ID if it exists, if not get the film name
-						$title_name = strlen( $filmid_sanitized ) !== 0 ? $filmid_sanitized : $film_sanitized;
-
-						$title = esc_html__( 'Informations about ', 'lumiere-movies' ) . $title_name . ' - Lumi&egrave;re movies';
-
-						// Build the virtual page class
-						return new Virtual_Page(
-							$this->settings_class->lumiere_urlstringfilms,
-							new Popup_Movie(),
-							$title
-						);
-					case 'person':
-						// Set the title.
-						if ( isset( $_GET['mid'] ) ) {
-							$mid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
-							$person = new Person( $mid_sanitized, $this->imdbphp_class );
-							$person_name_sanitized = sanitize_text_field( $person->name() );
-						}
-						$title = isset( $person_name_sanitized )
-						? esc_html__( 'Informations about ', 'lumiere-movies' ) . $person_name_sanitized . ' - Lumi&egrave;re movies'
-						: esc_html__( 'Unknown', 'lumiere-movies' ) . '- Lumi&egrave;re movies';
-
-						// Build the virtual page class
-						return new Virtual_Page(
-							$this->settings_class->lumiere_urlstringperson,
-							new Popup_Person(),
-							$title
-						);
-					case 'search':
-						// Set the title.
-						$filmname_sanitized = isset( $_GET['film'] ) ? ': [' . sanitize_text_field( $_GET['film'] ) . ']' : 'No name entered';
-
-						// Build the virtual page class
-						return new Virtual_Page(
-							$this->settings_class->lumiere_urlstringsearch,
-							new Popup_Search(),
-							'Lumiere Query Interface ' . $filmname_sanitized
-						);
+				// Build the virtual page class
+				return new Virtual_Page(
+					$this->settings_class->lumiere_urlstringfilms,
+					new Popup_Movie(),
+					$title
+				);
+			case 'person':
+				// Set the title.
+				if ( isset( $_GET['mid'] ) ) {
+					$mid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
+					$person = new Person( $mid_sanitized, $this->imdbphp_class /* the class was forced to include the cache dir */ );
+					$person_name_sanitized = sanitize_text_field( $person->name() );
 				}
+				$title = isset( $person_name_sanitized )
+				? esc_html__( 'Informations about ', 'lumiere-movies' ) . $person_name_sanitized . ' - Lumi&egrave;re movies'
+				: esc_html__( 'Unknown', 'lumiere-movies' ) . '- Lumi&egrave;re movies';
 
-				return $template;
-			}
-		);
+				// Build the virtual page class
+				return new Virtual_Page(
+					$this->settings_class->lumiere_urlstringperson,
+					new Popup_Person(),
+					$title
+				);
+			case 'search':
+				// Set the title.
+				$filmname_sanitized = isset( $_GET['film'] ) ? ': [' . sanitize_text_field( $_GET['film'] ) . ']' : 'No name entered';
 
+				// Build the virtual page class
+				return new Virtual_Page(
+					$this->settings_class->lumiere_urlstringsearch,
+					new Popup_Search(),
+					'Lumiere Query Interface ' . $filmname_sanitized
+				);
+		}
+		return $template;
 	}
-
 }

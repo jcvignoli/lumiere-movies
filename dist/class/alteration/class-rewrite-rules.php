@@ -43,9 +43,9 @@ class Rewrite_Rules {
 	];
 
 	/**
-	 * Number of rules related to lumiere found in db
+	 * Query vars to be added in URL query vars strings
 	 */
-	private int $lumiere_nb_rules_found;
+	private const LUMIERE_QUERY_VARS = [ 'popup' ];
 
 	/**
 	 * Rules modified to take into account possible change of property $lumiere_urlstring in Settings class
@@ -59,10 +59,13 @@ class Rewrite_Rules {
 	public function __construct() {
 
 		$this->logger_class = new Logger( 'RewriteRules' );
-		$this->lumiere_nb_rules_found = 0;
 
-		$this->final_array_rules = $this->make_final_array_rules( self::LUMIERE_REWRITE_RULES );
+		$this->final_array_rules = $this->get_real_array_rules( self::LUMIERE_REWRITE_RULES );
 
+		// Add 'popup' as as valid query var in WP query_vars.
+		add_filter( 'query_vars', [ $this, 'add_query_vars' ] );
+
+		// Add rewrite rules
 		add_action( 'init', [ $this, 'lumiere_add_rewrite_rules' ] );
 	}
 
@@ -77,12 +80,26 @@ class Rewrite_Rules {
 	}
 
 	/**
+	 * Add the extra query vars that will be available in URL query string use LUMIERE_QUERY_VARS
+	 *
+	 * @param array<int, string> $query_vars The array of existing query vars
+	 * @return array<int, string> The query vars with the extra ones
+	 */
+	public static function add_query_vars( array $query_vars ): array {
+		foreach ( self::LUMIERE_QUERY_VARS as $lumiere_query_var ) {
+			$query_vars[] = $lumiere_query_var;
+		}
+		return $query_vars;
+	}
+
+	/**
 	 * Rewrite the rules in the keys of LUMIERE_REWRITE_RULES should have $settings_class->lumiere_urlstring been edited by user
 	 *
 	 * @param array<string, string> $rules
 	 * @return array<string, string>
 	 */
-	public function make_final_array_rules( array $rules ): array {
+	public function get_real_array_rules( array $rules ): array {
+
 		$settings_class = new Settings();
 		$url_string_trimmed = trim( $settings_class->lumiere_urlstring, '/' );
 		$array_key_replaced = [];
@@ -102,36 +119,35 @@ class Rewrite_Rules {
 	public function lumiere_add_rewrite_rules(): void {
 
 		$wordpress_rewrite_rules = get_option( 'rewrite_rules' );
-
+		$rules_added = [];
 		foreach ( $this->final_array_rules as $key => $value ) {
 			// Created only if the rule doesn't exists, so we avoid using flush_rewrite_rules() unecessarily
-			if ( ! isset( $wordpress_rewrite_rules [ $key ] ) ) {
+			if ( array_key_exists( $key, $wordpress_rewrite_rules ) === false ) {
 				add_rewrite_rule(
 					$key,
 					$value,
 					'top'
 				);
-				$this->lumiere_nb_rules_found++;
+				$rules_added[] = $key;
 			}
+		}
+		if ( count( $rules_added ) > 0 ) {
+			$this->need_flush_rules( $rules_added );
 		}
 	}
 
 	/**
-	 * Destructor
-	 *
 	 * Detect if rules were added previously and abort if not (saves much time)
 	 * If rewrite rules don't exist, do a flush_rewrite_rules()
 	 * Other plugins may flush and we lose the rules, so this adds them again.
 	 *
+	 * @param array<int, string> $rules_added
 	 * @return void
 	 */
-	public function __destruct() {
-
-		if ( $this->lumiere_nb_rules_found === 0 ) {
-			return;
-		}
-
+	private function need_flush_rules( array $rules_added ) {
 		flush_rewrite_rules();
-		$this->logger_class->log()->debug( $this->lumiere_nb_rules_found . 'Rewrite rules for Lumière were missing, flushed' );
+		$this->logger_class->log()->warning(
+			'[RewriteRules] Rewrite rules for Lumière was missing, flushed *' . count( $rules_added ) . '* ' . wp_json_encode( $rules_added )
+		);
 	}
 }
