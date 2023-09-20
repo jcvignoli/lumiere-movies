@@ -125,7 +125,7 @@ class Rewrite_Rules {
 
 		// Use standard way if no options were found in rewrite_rules in database, no need for flush
 		if (
-			isset( $wordpress_rewrite_rules_db ) // No rule found in DB
+			! isset( $wordpress_rewrite_rules_db ) // No rule found in DB
 			// Created only if the rule doesn't exists, but seem it never exists since it's not in database
 			&& in_array( key( $this->final_array_rules ), $wordpress_rewrite_rules, true ) === false
 		) {
