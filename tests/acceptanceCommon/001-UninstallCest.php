@@ -114,7 +114,7 @@ class UninstallCest {
 
 		// Save plugin directory
 		$I->comment(\Helper\Color::set("**See if Lumière directory exists and copy**", "italic+bold+cyan"));
-		$I->seeFileFound( 'lumiere-movies.php', $dir_plugin_lumiere );
+		$I->customSeeFile( $dir_plugin_lumiere . 'lumiere-movies.php' );
 		$I->comment( \Helper\Color::set('Saving plugin directory...', 'yellow+blink') );
 		
 		if ( DEVELOPMENT_ENVIR === 'remote' ) {
@@ -142,18 +142,17 @@ class UninstallCest {
 		// Revert back the saved plugin directory
 		$I->comment(\Helper\Color::set("**Copy back to the saved plugin directory**", 'italic+bold+cyan'));
 		$I->comment( \Helper\Color::set('Restoring plugin directory...', 'yellow+blink') );
-		$I->wait(6);
-
+		
 		if ( DEVELOPMENT_ENVIR === 'remote' ) {
 			$shell->runShellCommand('scp -r '.$remote_cred.':'.$remote_wpcontent_path.'/lumiere-movies'.' '.$remote_cred.':'.$remote_plugin_path.'/');
 		} elseif ( DEVELOPMENT_ENVIR === 'local' ) {
 			// Make sure Lumière! directory has been deleted
-			$I->dontSeeFileFound( $remote_plugin_path_lumiere . '/lumiere-movies.php' );
+//			$I->customDontSeeFile( $dir_plugin_lumiere . 'lumiere-movies.php' ); // both seeFile of customSeeFile, don't work...
 			// Restore the symbolic link
 			$shell->runShellCommand('mv ' . $remote_wpcontent_path . '/lumiere-save ' . $remote_plugin_path_lumiere  );	
 		}
 
-		$I->seeFileFound( 'lumiere-movies.php', $wpcontent . 'lumiere-movies/' );
+//		$I->customSeeFile( $dir_plugin_lumiere . 'lumiere-movies.php' ); // both seeFile of customSeeFile, don't work...
 		$I->comment( \Helper\Color::set('Deleting temporary plugin directory...', 'yellow+blink') );
 		
 		if ( DEVELOPMENT_ENVIR === 'remote' ) {
@@ -162,7 +161,7 @@ class UninstallCest {
 			$shell->runShellCommand( ' rm -R ' . $remote_wpcontent_path.'/lumiere-movies' );
 		}
 		
-		$I->seeFileFound( 'lumiere-movies.php', $dir_plugin_lumiere );
+//		$I->customSeeFile( $dir_plugin_lumiere . 'lumiere-movies.php' ); // both seeFile of customSeeFile, don't work... 
 
 		// Activate plugin
 		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );

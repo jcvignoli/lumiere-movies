@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.11.1
+
 v.3.11
 * [feature] Popups are fully compatible now with Polylang. Both taxonomy and popups are now fully translated into French.
 * [feature] Added privacy text to add to the website (/wp-admin/options-privacy.php?tab=policyguide)

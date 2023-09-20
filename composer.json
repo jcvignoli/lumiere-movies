@@ -49,10 +49,12 @@
         "phpcsbot": "vendor/bin/phpcs -n src",
         "phpstan": "vendor/bin/phpstan --memory-limit=1G analyze src",
         "phpstanbot": "vendor/bin/phpstan",
-        "lint": ["@phpcsbot", "@phpstanbot"],
+        "lint": [
+            "@phpcsbot",
+            "@phpstanbot"
+        ],
         "post-autoload-dump": [
             "./build/update-src-composer"
         ]
-
     }
 }

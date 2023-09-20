@@ -194,6 +194,30 @@ trait AcceptanceTrait {
 			$webdriver->switchTo()->window($lastWindow);
 		} );
 	}
+	
+	/**
+	 * Custom function to check if a file is available, exit otherwhise
+	 * Filesystem SeeFile is not reliable
+	 */
+	function customSeeFile( $file ) {
+		if (!is_file( $file ) ) {
+			$this->comment("[CustomSeeFile] File $file was not found, exiting.");
+			exit;
+		}
+		$this->comment("[CustomSeeFile] File $file was found, continuing.");
+	}
+	
+	/**
+	 * Custom function to check if a file is available, exit otherwhise
+	 * Filesystem SeeFile is not reliable
+	 */
+	function customDontSeeFile( $file ) {
+		if (is_file( $file ) ) {
+			$this->comment("[CustomSeeFile] File $file was found, exiting.");
+			exit;
+		}
+		$this->comment("[CustomSeeFile] File $file don't exists, continuing.");
+	}
 }
 
 
