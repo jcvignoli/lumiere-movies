@@ -66,7 +66,7 @@ class Rewrite_Rules {
 		add_filter( 'query_vars', [ $this, 'add_query_vars' ] );
 
 		// Add rewrite rules
-		add_action( 'init', [ $this, 'lumiere_add_rewrite_rules' ] );
+		add_action( 'generate_rewrite_rules', [ $this, 'lumiere_add_rewrite_rules' ] );
 
 	}
 
@@ -117,39 +117,68 @@ class Rewrite_Rules {
 	 *
 	 * @return void
 	 */
-	public function lumiere_add_rewrite_rules(): void {
+	public function lumiere_add_rewrite_rules( \WP_Rewrite $existing_rules ): void {
 
-		$wordpress_rewrite_rules = get_option( 'rewrite_rules' );
-		$rules_added = [];
+		$wordpress_rewrite_rules = $existing_rules->rules;
+		$wordpress_rewrite_rules_db = get_option( 'rewrite_rules' );
+		$my_rules_filtered = apply_filters( 'lumiere_rewrite_rules', $this->final_array_rules );
 
-		if ( ! isset( $wordpress_rewrite_rules ) || is_bool( $wordpress_rewrite_rules ) ) {
+		// Use standard way if no options were found in rewrite_rules in database, no need for flush
+		if (
+			isset( $wordpress_rewrite_rules_db ) // No rule found in DB
+			// Created only if the rule doesn't exists, but seem it never exists since it's not in database
+			&& in_array( key( $this->final_array_rules ), $wordpress_rewrite_rules, true ) === false
+		) {
+
+			$this->logger_class->log()->notice( '[RewriteRules] Added rewrite rules using WP_Rewrite class' );
+			$existing_rules->rules = array_merge( $my_rules_filtered, $wordpress_rewrite_rules );
+			$this->add_polylang_rules( $my_rules_filtered );
 			return;
 		}
 
+		// First way failed, so use add_rewrite_rule(), needs flush if rules do not exist
+
+		$rules_added = [];
+
 		foreach ( $this->final_array_rules as $key => $value ) {
-			// Created only if the rule doesn't exists, so we avoid using flush_rewrite_rules() unecessarily
-			if ( array_key_exists( $key, $wordpress_rewrite_rules ) === false ) {
+			if (
+				isset( $wordpress_rewrite_rules_db )
+				&& is_array( $wordpress_rewrite_rules_db ) === true
+				// Created only if the rule doesn't exists, so we avoid using flush_rewrite_rules() unecessarily
+				&& array_key_exists( $key, $wordpress_rewrite_rules_db ) === false
+			) {
 				add_rewrite_rule(
 					$key,
 					$value,
 					'top'
 				);
 				$rules_added[] = $key;
+				$this->logger_class->log()->notice( '[RewriteRules] Added rewrite rules using add_rewrite_rule()' );
 			}
 		}
+
 		if ( count( $rules_added ) > 0 ) {
+			$this->add_polylang_rules( $my_rules_filtered );
 			$this->need_flush_rules( $rules_added );
 		}
 	}
 
 	/**
-	 * Add rules to polylang
+	 * Add rules to polylang, if installed
 	 *
 	 * @param array<string, string> $existing_rules
-	 * @return array<string, string> $rules merged
+	 * @return void
 	 */
-	public function add_polylang_rules( array $existing_rules ): array {
-		return array_merge( $existing_rules, $this->final_array_rules );
+	public function add_polylang_rules( array $existing_rules ) {
+		if ( has_filter( 'pll_init' ) ) {
+			$this->logger_class->log()->debug( '[RewriteRules] Rules added to Polylang' );
+			add_filter(
+				'pll_rewrite_rules',
+				function( $existing_rules ): array {
+					return array_merge( $existing_rules, [ 'lumiere' ] );
+				}
+			);
+		};
 	}
 
 	/**
@@ -162,12 +191,6 @@ class Rewrite_Rules {
 	 * @return void
 	 */
 	private function need_flush_rules( array $rules_added ) {
-
-		if ( has_filter( 'pll_rewrite_rules' ) ) {
-			// add the filter (without '_rewrite_rules') to the Polylang list
-			add_filter( 'pll_rewrite_rules', [ $this, 'add_polylang_rules' ] );
-			$this->logger_class->log()->notice( '[RewriteRules] Added rewrite rules to Polylang WordPress Plugin' );
-		};
 
 		flush_rewrite_rules();
 
