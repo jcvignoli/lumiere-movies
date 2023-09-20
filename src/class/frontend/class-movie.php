@@ -1628,28 +1628,28 @@ class Movie {
 					 * $term = wp_insert_term($taxonomy_term, $taxonomy_category_full, array('lang' => $lang_term) );
 					 * I believe adding the above option 'lang' is useless, inserting without 'lang'.
 					 */
-					$term = wp_insert_term( $taxonomy_term, $taxonomy_category_full );
+					$term_inserted = wp_insert_term( $taxonomy_term, $taxonomy_category_full );
 					$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full" );
 
-					/**
-					 * Compatibility with Polylang WordPress plugin, add a language to the taxonomy term.
-					 * Function in class Polylang.
-					 * @since 3.11 Passed here, was in the isset term is_wp_error while it supposed to be added only if it's a new term!
-					 */
-					if ( $this->plugin_polylang !== null ) {
-						$term = term_exists( $taxonomy_term, $taxonomy_category_full );
-						$this->plugin_polylang->lumiere_polylang_add_lang_to_taxo( (array) $term );
-						$this->logger->log()->debug(
-							'[Lumiere][' . self::CLASS_NAME . '] Added to Polylang the terms:' . wp_json_encode( $term )
-						);
-					}
 				}
 
 				// Create a list of Lumière tags meant to be inserted to Lumière Taxonomy
 				$list_taxonomy_term .= $taxonomy_term . ', ';
 			}
 		}
-		if ( isset( $term ) && ! is_wp_error( $term ) && get_the_ID() !== false ) {
+		if ( isset( $term_inserted ) && ! is_wp_error( $term_inserted ) && get_the_ID() !== false ) {
+
+			/**
+			 * Compatibility with Polylang WordPress plugin, add a language to the taxonomy term.
+			 * Function in class Polylang.
+			 */
+			if ( $this->plugin_polylang !== null ) {
+				$term = term_exists( $taxonomy_term, $taxonomy_category_full );
+				$this->plugin_polylang->lumiere_polylang_add_lang_to_taxo( (array) $term );
+				$this->logger->log()->debug(
+					'[Lumiere][' . self::CLASS_NAME . '] Added to Polylang the terms:' . wp_json_encode( $term )
+				);
+			}
 
 			// Link Lumière tags to Lumière Taxonomy
 			wp_set_post_terms( get_the_ID(), $list_taxonomy_term, $taxonomy_category_full, true );

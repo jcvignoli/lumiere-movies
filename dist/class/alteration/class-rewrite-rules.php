@@ -67,6 +67,7 @@ class Rewrite_Rules {
 
 		// Add rewrite rules
 		add_action( 'init', [ $this, 'lumiere_add_rewrite_rules' ] );
+
 	}
 
 	/**
@@ -120,6 +121,11 @@ class Rewrite_Rules {
 
 		$wordpress_rewrite_rules = get_option( 'rewrite_rules' );
 		$rules_added = [];
+
+		if ( ! isset( $wordpress_rewrite_rules ) || is_bool( $wordpress_rewrite_rules ) ) {
+			return;
+		}
+
 		foreach ( $this->final_array_rules as $key => $value ) {
 			// Created only if the rule doesn't exists, so we avoid using flush_rewrite_rules() unecessarily
 			if ( array_key_exists( $key, $wordpress_rewrite_rules ) === false ) {
@@ -137,16 +143,35 @@ class Rewrite_Rules {
 	}
 
 	/**
+	 * Add rules to polylang
+	 *
+	 * @param array<string, string> $existing_rules
+	 * @return array<string, string> $rules merged
+	 */
+	public function add_polylang_rules( array $existing_rules ): array {
+		return array_merge( $existing_rules, $this->final_array_rules );
+	}
+
+	/**
 	 * Detect if rules were added previously and abort if not (saves much time)
 	 * If rewrite rules don't exist, do a flush_rewrite_rules()
 	 * Other plugins may flush and we lose the rules, so this adds them again.
+	 * Add rules to polylang if it is installed
 	 *
 	 * @param array<int, string> $rules_added
 	 * @return void
 	 */
 	private function need_flush_rules( array $rules_added ) {
+
+		if ( has_filter( 'pll_rewrite_rules' ) ) {
+			// add the filter (without '_rewrite_rules') to the Polylang list
+			add_filter( 'pll_rewrite_rules', [ $this, 'add_polylang_rules' ] );
+			$this->logger_class->log()->notice( '[RewriteRules] Added rewrite rules to Polylang WordPress Plugin' );
+		};
+
 		flush_rewrite_rules();
-		$this->logger_class->log()->warning(
+
+		$this->logger_class->log()->notice(
 			'[RewriteRules] Rewrite rules for Lumière was missing, flushed *' . count( $rules_added ) . '* ' . wp_json_encode( $rules_added )
 		);
 	}
