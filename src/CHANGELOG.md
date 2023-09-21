@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.11.2
+
 v.3.11.1
 * [bug] Rewrite rules caused fatal error on some [environments](https://wordpress.org/support/topic/critical-error-575/ "Lumiere WordPress support") 
 * [bug] Version of template item wasn't updated, so the template kept using the removed trait frontend
