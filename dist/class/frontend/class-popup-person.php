@@ -103,13 +103,13 @@ class Popup_Person {
 		?><!DOCTYPE html>
 <html>
 <head>
-<?php wp_head(); ?>
+		<?php wp_head(); ?>
 
 </head>
 <body class="lumiere_body<?php
-		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
-			echo ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] );
-		}
+if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
+	echo ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] );
+}
 		echo '">';
 
 		// Display spinner circle
@@ -131,33 +131,33 @@ class Popup_Person {
 
 		//---------------------------------------------------------------------------summary
 		// display only when nothing is selected from the menu.
-		if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
+if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
 
-			$this->display_summary();
+	$this->display_summary();
 
-		}
+}
 
 		//---------------------------------------------------------------------------full filmography
-		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'filmo' ) ) {
+if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'filmo' ) ) {
 
-			$this->display_full_filmo();
+	$this->display_full_filmo();
 
-		}
+}
 
 		// ------------------------------------------------------------------------------ partie bio
-		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'bio' ) ) {
+if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'bio' ) ) {
 
-			$this->display_bio();
+	$this->display_bio();
 
-		}
+}
 
 		// ------------------------------------------------------------------------------ misc part
-		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
+if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
-			$this->display_misc();
-		}
+	$this->display_misc();
+}
 		//------------------------------------------------------------------------------ end misc part
-		?>
+?>
 
 		<br /><br />
 		<?php
