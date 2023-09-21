@@ -676,9 +676,11 @@ movie's title
 
 			<a href="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-taxonomy-details.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="40%" src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-taxonomy-details.png' ); ?>" alt="taxonomy details" /></a>
 
-			<?php esc_html_e( "Taxonomy is automatically generated in Lumière! and already activated. You can however disable it by unchecking the box in 'General options -> Advanced -> 'Use automatical genre taxonomy?'. Note that since taxonomy is related to movie details (such as directors, actors, etc), the movie detail you want to be used as taxonomy has to be also activated in 'Data -> Display'.", 'lumiere-movies' ); ?><br />
-
-			<?php esc_html_e( 'After that, pay a visit to your post or page; on the first refresh, links to taxonomy pages will be processed. You can now visit pages that include all your posts grouped by movie details. For instance, if you write a lot about the same movie director, the taxonomy page will include all your posts written about them.', 'lumiere-movies' ); ?>
+			<?php esc_html_e( "Taxonomy is automatically generated in Lumière! and already activated. You can however disable it by unchecking the box in 'General options -> Advanced -> 'Use taxonomy'. Note that since taxonomy is related to movie details (such as directors, actors, etc), the movie detail you want to be used as taxonomy has to be also activated in 'Data -> Display'.", 'lumiere-movies' ); ?><br />
+			<?php esc_html_e( 'After that, pay a visit to your post or page; on the first refresh, links to taxonomy pages will be created. ', 'lumiere-movies' );
+			/* translators: %s is an admin URL */
+			echo wp_kses( sprintf( esc_html__("Important: you need to go to %1\$s Permalink Settings %2\$s to refresh the rewriting rules, otherwise you will get a page not found error (404).", 'lumiere-movies' ), '<a href="options-permalink.php">', '</a>'), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
+			esc_html_e( 'You can now visit pages that include all your posts grouped by movie details. For instance, if you write a lot about the same movie director, the taxonomy page will include all your posts written about them.', 'lumiere-movies' ); ?>
 
 			<h4><?php esc_html_e( "New option in 'Posts' menu", 'lumiere-movies' ); ?></h4>
 
@@ -696,7 +698,7 @@ movie's title
 
 			<a href="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-taxonomy-copytemplate.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="40%" src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'admin-taxonomy-copytemplate.png' ); ?>" alt="taxonomy new options" /></a>
 
-			<?php esc_html_e( "Click on 'copy template', that's it! A warning will be given to you when a new template is available. You can customized even further the template that was copied into your template to match your specific needs. By default, the new taxonomy template will show you the person/item and the posts and pages mentioning them:", 'lumiere-movies' ); ?><br />
+			<?php esc_html_e( "Click on 'copy template', that's it! You will be notified when a new template is available. You can customize even further the template that was copied into your template to match your specific needs. By default, the new taxonomy template will show you the person/item and the posts and pages mentioning them:", 'lumiere-movies' ); ?><br />
 
 			<br clear="both">
 			<br clear="both">

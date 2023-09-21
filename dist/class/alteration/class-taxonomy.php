@@ -57,7 +57,7 @@ class Taxonomy {
 		}
 
 		// Register taxomony and create custom taxonomy pages.
-		add_action( 'init', [ $this, 'lumiere_create_taxonomies' ], 0 );
+		add_action( 'init', [ $this, 'lumiere_create_taxonomies' ], 1 );
 
 		// Make function available for copying taxonomy templates in Lumière! admin panel
 		add_action( 'admin_init', [ $this, 'lumiere_copy_taxonomy_template' ] );
