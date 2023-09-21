@@ -55,10 +55,11 @@ class Popup_Person {
 		// Display layout
 		// @since 3.9.9 if OceanWP them, use a different hook
 		// @since 3.11 removed, seems useless
-		/*if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
+		if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
 				add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ], 1 );
-		} else {*/
-		add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ], 1 );
+		} else {
+			add_action( 'the_content', [ $this, 'lumiere_popup_person_layout' ], 1 );
+		}
 	}
 
 	/**
@@ -99,19 +100,16 @@ class Popup_Person {
 	 */
 	public function lumiere_popup_person_layout(): void {
 
-		/**
-		 * Already loaded now, using the_posts hook, no need twice!
-		<!DOCTYPE html>
-		<html>
-		<head>
+		?><!DOCTYPE html>
+<html>
+<head>
 		<?php wp_head(); ?>
 
-		</head>
-		<body */ ?>
-		class="lumiere_body<?php
-		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
-			echo ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] );
-		}
+</head>
+<body class="lumiere_body<?php
+if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
+	echo ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] );
+}
 		echo '">';
 
 		// Display spinner circle
@@ -133,33 +131,33 @@ class Popup_Person {
 
 		//---------------------------------------------------------------------------summary
 		// display only when nothing is selected from the menu.
-		if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
+if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
 
-			$this->display_summary();
+	$this->display_summary();
 
-		}
+}
 
 		//---------------------------------------------------------------------------full filmography
-		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'filmo' ) ) {
+if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'filmo' ) ) {
 
-			$this->display_full_filmo();
+	$this->display_full_filmo();
 
-		}
+}
 
 		// ------------------------------------------------------------------------------ partie bio
-		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'bio' ) ) {
+if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'bio' ) ) {
 
-			$this->display_bio();
+	$this->display_bio();
 
-		}
+}
 
 		// ------------------------------------------------------------------------------ misc part
-		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
+if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
-			$this->display_misc();
-		}
+	$this->display_misc();
+}
 		//------------------------------------------------------------------------------ end misc part
-		?>
+?>
 
 		<br /><br />
 		<?php

@@ -55,10 +55,11 @@ class Popup_Person {
 		// Display layout
 		// @since 3.9.9 if OceanWP them, use a different hook
 		// @since 3.11 removed, seems useless
-		/*if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
+		if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
 				add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ], 1 );
-		} else {*/
-		add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ], 1 );
+		} else {
+			add_action( 'the_content', [ $this, 'lumiere_popup_person_layout' ], 1 );
+		}
 	}
 
 	/**
@@ -99,16 +100,13 @@ class Popup_Person {
 	 */
 	public function lumiere_popup_person_layout(): void {
 
-		/**
-		 * Already loaded now, using the_posts hook, no need twice!
-		<!DOCTYPE html>
-		<html>
-		<head>
-		<?php wp_head(); ?>
+		?><!DOCTYPE html>
+<html>
+<head>
+<?php wp_head(); ?>
 
-		</head>
-		<body */ ?>
-		class="lumiere_body<?php
+</head>
+<body class="lumiere_body<?php
 		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
 			echo ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] );
 		}

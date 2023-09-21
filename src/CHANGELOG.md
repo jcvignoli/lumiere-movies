@@ -4,6 +4,7 @@ v.3.11.1
 * [bug] Rewrite rules caused fatal error on some [environments](https://wordpress.org/support/topic/critical-error-575/ "Lumiere WordPress support") 
 * [bug] Version of template item wasn't updated, so the template kept using the removed trait frontend
 * [bug] Self adding taxonomy wasn't working.
+* [bug] Depending on the theme used, the popups were not display stylesheets anymore.
 * [technical] Removed French po/mo since all French strings are now managed online
 
 v.3.11
