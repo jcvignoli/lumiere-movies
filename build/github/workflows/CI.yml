@@ -42,9 +42,10 @@ jobs:
           coverage: none
 
       - name: "Cache Composer dependencies"
+        id: composer-dependencies
         uses: actions/cache@v3
         with:
-          path: "~/.composer/cache"
+          path: vendor
           key: composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
           restore-keys: |
             composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}

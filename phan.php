@@ -16,6 +16,42 @@ return [
 	// of the php executable used to execute Phan.
 	'target_php_version' => 8.0,
 
+	// Backwards Compatibility Checking. This is slow
+	// and expensive, but you should consider running
+	// it before upgrading your version of PHP to a
+	// new version that has backward compatibility
+	// breaks. (Also see target_php_version)
+	'backward_compatibility_checks' => true,
+
+	// If enabled, check all methods that override a
+	// parent method to make sure its signature is
+	// compatible with the parent's. This check
+	// can add quite a bit of time to the analysis.
+	'analyze_signature_compatibility' => true,
+
+	// If true, missing properties will be created when
+	// they are first seen. If false, we'll report an
+	// error message if there is an attempt to write
+	// to a class property that wasn't explicitly
+	// defined.
+	'allow_missing_properties' => false,
+
+	// If enabled, scalars (int, float, bool, true, false, string, null)
+	// are treated as if they can cast to each other.
+	'scalar_implicit_cast' => false,
+
+	// Set to true in order to attempt to detect dead (unreferenced) code.
+	// Keep in mind that the results will only be a guess given that classes,
+	// properties, constants and methods can be referenced as variables
+	// (like $class->$property or $class->$method()) in ways that we're unable to make sense of.
+	'dead_code_detection' => false,
+
+	// If true, seemingly undeclared variables in the global
+	// scope will be ignored. This is useful for projects
+	// with complicated cross-file globals that you have no
+	// hope of fixing.
+	'ignore_undeclared_variables_in_global_scope' => false,
+
 	// A list of directories that should be parsed for class and
 	// method information. After excluding the directories
 	// defined in exclude_analysis_directory_list, the remaining
