@@ -66,7 +66,7 @@ class Rewrite_Rules {
 		add_filter( 'query_vars', [ $this, 'add_query_vars' ] );
 
 		// Add rewrite rules
-		add_action( 'admin_init', array( $this, 'lumiere_add_rewrite_rules' ) );
+		add_action( 'admin_init', [ $this, 'lumiere_add_rewrite_rules' ] );
 
 	}
 
