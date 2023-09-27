@@ -66,7 +66,7 @@ class Rewrite_Rules {
 		add_filter( 'query_vars', [ $this, 'add_query_vars' ] );
 
 		// Add rewrite rules
-		add_action( 'generate_rewrite_rules', [ $this, 'lumiere_add_rewrite_rules' ] );
+		add_action( 'admin_init', [ $this, 'lumiere_add_rewrite_rules' ] );
 
 	}
 
@@ -117,9 +117,11 @@ class Rewrite_Rules {
 	 *
 	 * @return void
 	 */
-	public function lumiere_add_rewrite_rules( \WP_Rewrite $existing_rules ): void {
+	public function lumiere_add_rewrite_rules(): void {
 
-		$wordpress_rewrite_rules = $existing_rules->rules;
+		global $wp_rules;
+
+		$wordpress_rewrite_rules = $wp_rules->rules;
 		$wordpress_rewrite_rules_db = get_option( 'rewrite_rules' );
 		$my_rules_filtered = apply_filters( 'lumiere_rewrite_rules', $this->final_array_rules );
 
@@ -131,7 +133,7 @@ class Rewrite_Rules {
 		) {
 
 			$this->logger_class->log()->notice( '[RewriteRules] Added rewrite rules using WP_Rewrite class' );
-			$existing_rules->rules = array_merge( $my_rules_filtered, $wordpress_rewrite_rules );
+			$wp_rules->rules = array_merge( $my_rules_filtered, $wordpress_rewrite_rules );
 			$this->add_polylang_rules( $my_rules_filtered );
 			return;
 		}

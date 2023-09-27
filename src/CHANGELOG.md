@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.11.2
+* [bug] Fixed bug introduced by the fix on rewrite rules in v3.11.1 that prevented popups to be displayed unless doing a full rewrite rules flush. Using in class rewrite rules the add_action( 'admin_init' ...) instead of add_action( 'generate_rewrite_rules' ...).
 
 v.3.11.1
 * [bug] Rewrite rules caused fatal error on some [environments](https://wordpress.org/support/topic/critical-error-575/ "Lumiere WordPress support") 

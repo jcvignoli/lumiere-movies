@@ -141,6 +141,9 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 
+= 3.11.2 =
+Fixed bug preventing popup from popping up
+
 = 3.11 =
 -> Faster plugin (images smaller size, technical improvements)
 -> Using less disk space (cache).
