@@ -70,7 +70,7 @@
 							{
 								className: props.className,
 								className: 'lumiere_block_intothepost-image',
-								src: lumiere_admin_vars.imdb_path + 'pics/lumiere-ico-noir80x80.png',
+								src: lumiere_admin_vars.imdb_path + 'assets/pics/lumiere-ico-noir80x80.png',
 								},
 						),// end img
 						elwithhtml(

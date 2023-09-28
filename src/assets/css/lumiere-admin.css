@@ -86,7 +86,7 @@ width: 100%;border-color: black;}
 
 .lumiere_admin_tiny_img {} /* tinyMCE image in editor */
 .lumiere_link_maker {
-background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;padding-left: 16px;text-decoration: none;cursor:pointer;}
+background: url(../assets/pics/lumiere-ico-noir13x13.png) no-repeat left;padding-left: 16px;text-decoration: none;cursor:pointer;}
 
 /* for refresh/delete in cache options - cache management */
 .row-actions{text-align:center;}
