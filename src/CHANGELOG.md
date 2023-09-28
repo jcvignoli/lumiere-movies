@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.11.4
+* [bug] Fixed cache image creation (upstream imdbphp class ImageProcessor was deleting _big image before knowing if they could be resized)
 
 v.3.11.3
 * [bug] Fixed longstanding missing picture in regular wordpress edition (block edition)

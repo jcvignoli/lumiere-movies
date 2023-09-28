@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jcvignoli/imdbphp.git",
-                "reference": "170d27a908e14bc883e4d15a51802598b6ce261b"
+                "reference": "a230d081c6ccbe65b55838ee32c0892be02cb1be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jcvignoli/imdbphp/zipball/170d27a908e14bc883e4d15a51802598b6ce261b",
-                "reference": "170d27a908e14bc883e4d15a51802598b6ce261b",
+                "url": "https://api.github.com/repos/jcvignoli/imdbphp/zipball/a230d081c6ccbe65b55838ee32c0892be02cb1be",
+                "reference": "a230d081c6ccbe65b55838ee32c0892be02cb1be",
                 "shasum": ""
             },
             "require": {
@@ -26,7 +26,7 @@
                 "ext-json": "*",
                 "ext-libxml": "*",
                 "ext-simplexml": "*",
-                "php": ">=5.6",
+                "php": ">=7.4",
                 "psr/log": "^1.0 || ^2.0",
                 "psr/simple-cache": "^1.0"
             },
@@ -34,7 +34,7 @@
                 "cache/array-adapter": "^1.2",
                 "friendsofphp/php-cs-fixer": "^3.13",
                 "mockery/mockery": "1.5.1",
-                "phpstan/phpstan": "^1.9",
+                "phpstan/phpstan": "@stable",
                 "phpunit/phpunit": "^9.5"
             },
             "default-branch": true,
@@ -52,7 +52,7 @@
                     "php tests/clearCache.php && composer test"
                 ],
                 "phpstan": [
-                    "phpstan analyse --memory-limit 256M"
+                    "phpstan analyse"
                 ],
                 "cs": [
                     "php-cs-fixer fix --ansi --verbose --dry-run --diff"
@@ -74,7 +74,7 @@
             "support": {
                 "source": "https://github.com/jcvignoli/imdbphp/tree/master"
             },
-            "time": "2023-09-28T13:28:12+00:00"
+            "time": "2023-09-28T14:52:18+00:00"
         },
         {
             "name": "monolog/monolog",
