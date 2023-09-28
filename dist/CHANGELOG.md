@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.11.4
+
 v.3.11.3
 * [bug] Fixed longstanding missing picture in regular wordpress edition (block edition)
 * [bug] Fixed typo in previous release
