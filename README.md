@@ -6,7 +6,7 @@
 **Tags:** cinema, film, imdb, movie, actor, internet-movie-database, director, taxonomy \
 **Requires at least:** 5.3 \
 **Tested up to:** 6.3 \
-**Stable tag:** 3.11.2 \
+**Stable tag:** 3.11.4 \
 **Requires PHP:** 8.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -173,6 +173,10 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changes") to find out the latest developments. Or for even more extensive and recent changes available at [GIT commits](https://github.com/jcvignoli/lumiere-movies/commits/master "GIT commits").
 
 Major changes:
+
+### 3.11.4
+
+Some bots scanning the popups without considering head rules (nofollow) will be now banned. This will prevents from having bots creating a huge cache and many requests that get user banned from IMDB (and save space).
 
 ### 3.11.2
 

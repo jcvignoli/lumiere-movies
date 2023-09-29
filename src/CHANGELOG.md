@@ -1,5 +1,7 @@
 **Changelog**
 
+v.3.11.5
+
 v.3.11.4
 * [feature] Some bots scanning the popups without considering head rules (nofollow) will be now banned. This will prevents from having bots creating a huge cache and many requests that get user banned from IMDB (and save space).
 * [bug] Fixed cache image creation (upstream imdbphp class ImageProcessor was deleting _big image before knowing if they could be resized)
