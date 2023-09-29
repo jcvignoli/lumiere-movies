@@ -2,14 +2,6 @@
 /**
  * Class to build Virtual Pages
  *
- * This class build pages that are not known by WordPress
- * Virtual pages do not need to be added to WordPress and do not need htaccess
- *
- * How to use it: Current class must be called in WordPress with
- * -> add_action( 'template_redirect', function(new Virtual_Page()) )
- * Then the class must include the following to fully appear:
- * -> add_action( 'get_header', [ $this, 'action_starting_the_class' ] );
- *
  * @author        Origin: Mr. Hosseini, https://wordpress.stackexchange.com/a/342719/206323, modified: Lost Higway
  * @copyright (c) 2022, Lost Highway
  *
@@ -28,6 +20,15 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 use WP_Post;
 use stdClass;
 
+/**
+ * This class build pages that are not known by WordPress
+ * Virtual pages do not need to be added to WordPress and do not need htaccess
+ *
+ * How to use it: Current class must be called in WordPress with
+ * -> add_action( 'template_redirect', function(new Virtual_Page()) )
+ * Then the class must include the following to fully appear:
+ * -> add_action( 'get_header', [ $this, 'action_starting_the_class' ] );
+ */
 class Virtual_Page {
 
 	/**

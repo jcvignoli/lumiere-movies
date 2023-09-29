@@ -27,7 +27,7 @@ use Imdb\Title;
 use Imdb\Person;
 
 /**
- * Redirect to a virtual page
+ * Redirect to a virtual page retrieving (for IMDB-related) the name and sending it and also sending the url to be created
  *
  * @phpstan-import-type OPTIONS_CACHE from Settings
  */

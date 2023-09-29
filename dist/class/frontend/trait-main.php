@@ -100,6 +100,9 @@ trait Main {
 		// Start the debugging
 		add_action( 'plugins_loaded', [ $this, 'lumiere_frontend_maybe_start_debug' ], 1 );
 
+		// Start the debugging
+		add_action( 'init', [ 'Lumiere\Frontend\Tools\Ban_Bots', 'lumiere_static_start' ] );
+
 		// Display log of list of WP plugins compatible with Lumiere
 		#add_action( 'the_post', [ $this, 'lumiere_log_plugins' ], 0 );
 

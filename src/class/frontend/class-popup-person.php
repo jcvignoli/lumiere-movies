@@ -52,9 +52,12 @@ class Popup_Person {
 		// Remove admin bar
 		add_filter( 'show_admin_bar', '__return_false' );
 
+		// Ban bots from downloading the page.
+		// @since 3.11.4
+		do_action( 'lumiere_ban_bots' );
+
 		// Display layout
 		// @since 3.9.9 if OceanWP them, use a different hook
-		// @since 3.11 removed, seems useless
 		if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
 				add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ], 1 );
 		} else {

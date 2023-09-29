@@ -51,8 +51,8 @@ class Core {
 		add_action( 'init', [ 'Lumiere\Alteration\Rewrite_Rules', 'lumiere_static_start' ], 0 );
 		add_action( 'init', [ 'Lumiere\Alteration\Redirect_Virtual_Page', 'lumiere_static_start' ], 1 );
 
-		// Add metas tags.
-		add_action( 'init', [ 'Lumiere\Alteration\Head', 'lumiere_static_start' ] );
+		// Edit metas tags in popups.
+		add_action( 'init', [ 'Lumiere\Alteration\Head_Popups', 'lumiere_static_start' ], 0 );
 
 		/**
 		 * Admin interface.

@@ -77,6 +77,10 @@ class Popup_Search {
 		// Remove admin bar
 		add_filter( 'show_admin_bar', '__return_false' );
 
+		// Ban bots from downloading the page.
+		// @since 3.11.4
+		do_action( 'lumiere_ban_bots' );
+
 		// Display layout
 		// @since 3.9.10 if it is OceanWP theme, use a different hook. All other themes use the_posts
 		if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {

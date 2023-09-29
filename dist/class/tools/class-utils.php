@@ -233,9 +233,7 @@ class Utils {
 
 		// If no string passed, exit
 		if ( $link === null ) {
-
 			return null;
-
 		}
 
 		// a. quotes escape
@@ -249,6 +247,10 @@ class Utils {
 
 		// d. turns spaces to "+", which allows titles including several words
 		$lienhtmlize = str_replace( [ ' ' ], [ '+' ], $lienhtmlize );
+
+		// Limit the number of characters, as the cache file path can exceed the limit of 255 characters
+		// @since 3.11.4
+		$lienhtmlize = substr( $lienhtmlize, 0, 100 );
 
 		return $lienhtmlize;
 	}

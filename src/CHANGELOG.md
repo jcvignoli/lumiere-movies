@@ -1,7 +1,10 @@
 **Changelog**
 
 v.3.11.4
+* [feature] Some bots scanning the popups without considering head rules (nofollow) will be now banned. This will prevents from having bots creating a huge cache and many requests that get user banned from IMDB (and save space).
 * [bug] Fixed cache image creation (upstream imdbphp class ImageProcessor was deleting _big image before knowing if they could be resized)
+* [technical] AISEO plugin is deactivated in popups (movies+people). There is no point in adding SEO tools in something that should not be indexed.
+* [bug] Fixed pictures were not display on first pass (upstream imdbphp change, if pictures were not reduced in size, a return false was preventing them from showing on first pass)
 
 v.3.11.3
 * [bug] Fixed longstanding missing picture in regular wordpress edition (block edition)
