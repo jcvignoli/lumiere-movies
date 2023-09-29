@@ -102,11 +102,11 @@ class Ban_Bots {
 			wp_kses(
 				$message,
 				[
-					'h1' => '',
-					'p' => '',
+					'h1' => [],
+					'p' => [],
 					'meta' => [
-						'name' => '',
-						'content' => '',
+						'name' => [],
+						'content' => [],
 					],
 				]
 			)
