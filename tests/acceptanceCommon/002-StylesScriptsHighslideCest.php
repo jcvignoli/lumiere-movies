@@ -127,7 +127,6 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource('lumiere_css_admin-css'); 		# Lumière main css
 		$I->seeInPageSource("lumiere_scripts_admin-js-before"); # Lumière js vars for scripts
 		$I->seeInPageSource("lumiere_queryid_widget"); 		# Lumière Metabox is available
-		$I->seeInPageSource("wp-tinymce-root-js"); 		# TinyMCE main plugin
 		$I->seeInPageSource("lumiere_quicktag_addbutton-js"); 	# Quicktag Lumière plugin
 		$I->seeInPageSource("lumiere_hide_show-js"); 		# hide/show script
 
@@ -146,8 +145,6 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere_scripts_admin-js-before"); # Lumière js vars for scripts
 		$I->seeInPageSource("lumiere_quicktag_addbutton-js"); 	# Quicktag Lumière plugin
 		$I->seeInPageSource("lumiere_hide_show-js"); 		# hide/show script
-		$I->seeInPageSource("lumiere_admin_tinymce_editor");	# TinyMCE Lumière plugin
-		$I->seeInPageSource("wp-tinymce-root-js"); 		# TinyMCE main plugin
 		$I->seeInPageSource("lumiere_queryid_widget"); 		# Lumière Metabox is available
 
 			/* 
@@ -195,11 +192,11 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere_scripts-js"); 					# Lumière main JS
 		$I->seeInPageSource("lumiere_scripts-js-before");				# Lumière vars for main JS
 		$I->seeInPageSource("lumiere_hide_show-js"); 					# hide/show script
-		$I->click('Full filmography');
+		$I->click('Filmographie complète');
 		$I->see('The Popcorn Chronicles');
-		$I->click('Full biography');
+		$I->click('Biographie complète');
 		$I->see('and muscular Mexican leading man');
-		$I->click('Misc');
+		$I->click('Divers');
 		$I->see('was born in Guatemala City');
 
 			// Popup movie page
@@ -219,13 +216,13 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere_scripts-js"); 					# Lumière main JS
 		$I->seeInPageSource("lumiere_scripts-js-before");				# Lumière vars for main JS
 		$I->seeInPageSource("lumiere_hide_show-js"); 					# hide/show script
-		$I->click('Actors');
+		$I->click('Acteurs');
 		$I->see('Ellen Burstyn');
-		$I->click('Crew');
+		$I->click('Equipe');
 		$I->see('Christopher Nolan');
-		$I->click('Plots');
+		$I->click('Synopsis');
 		$I->see('A team of explorers must find the human race a new home');
-		$I->click('Misc');
+		$I->click('Divers');
 		$I->see(' The resulting visual effects provided Thorne');
 
 	}
