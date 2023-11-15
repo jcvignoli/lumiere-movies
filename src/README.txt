@@ -2,7 +2,7 @@
 Contributors: psykonevro
 Tags: cinema, film, imdb, movie, actor, internet-movie-database, director, taxonomy
 Requires at least: 5.3
-Tested up to: 6.3
+Tested up to: 6.4.1
 Stable tag: 3.11.5
 Requires PHP: 8.0
 License: GPLv3

@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.11.5
+* [bug] Fixed (personal) imdbphp upstream under some circonstances, error "No such file or directory in ImageProcessor.php on line 44", added extra conditions to before unlink and rename
 
 v.3.11.4
 * [feature] Some bots scanning the popups without considering head rules (nofollow) will be now banned. This will prevents from having bots creating a huge cache and many requests that get user banned from IMDB (and save space).
