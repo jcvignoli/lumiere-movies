@@ -562,9 +562,6 @@ class Core {
 		// Start the logger.
 		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
-		$plugin = $_REQUEST['plugin'] ?? '';
-		check_admin_referer( "activate-plugin_{$plugin}" );
-
 		/* Create the value of number of updates on first install */
 		// Start Settings class.
 		if ( ! isset( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) {

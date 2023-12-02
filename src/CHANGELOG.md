@@ -1,6 +1,7 @@
 **Changelog**
 
 v.3.11.6
+* [bug] Plugin bulk activation was not working (removed check_admin_referer() in class core lumiere_on_activation() method)
 
 v.3.11.5
 * [bug] Fixed (personal) imdbphp upstream under some circonstances, error "No such file or directory in ImageProcessor.php on line 44", added extra conditions to before unlink and rename
