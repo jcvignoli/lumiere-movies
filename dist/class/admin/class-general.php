@@ -308,8 +308,8 @@ class General extends \Lumiere\Admin {
 					<div class="lumiere_flex_auto imdblt_padding_five <?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
 						echo 'hidesection'; }?>" id="imdb_imdbpopuplarg">
 
-						<label for="imdb_imdbpopuplarg"><?php esc_html_e( 'Width', 'lumiere-movies' ); ?></label><br /><br />
-						<input type="text" name="imdb_imdbpopuplarg" size="5" value="<?php echo intval( $this->imdb_admin_values['imdbpopuplarg'] ); ?>" >
+						<label for="imdb_imdbpopuplarg_input"><?php esc_html_e( 'Width', 'lumiere-movies' ); ?></label><br /><br />
+						<input type="text" id="imdb_imdbpopuplarg_input" name="imdb_imdbpopuplarg" size="5" value="<?php echo intval( $this->imdb_admin_values['imdbpopuplarg'] ); ?>" >
 
 						<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"540"</div>
 					</div>
@@ -317,8 +317,8 @@ class General extends \Lumiere\Admin {
 					<div class="lumiere_flex_auto imdblt_padding_five <?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
 						echo 'hidesection'; }?>" id="imdb_imdbpopuplong">
 
-						<label for="imdb_imdbpopuplong"><?php esc_html_e( 'Height', 'lumiere-movies' ); ?></label><br /><br />
-						<input type="text" name="imdb_imdbpopuplong" size="5" value="<?php echo intval( $this->imdb_admin_values['imdbpopuplong'] ); ?>" >
+						<label for="imdb_imdbpopuplong_input"><?php esc_html_e( 'Height', 'lumiere-movies' ); ?></label><br /><br />
+						<input type="text" id="imdb_imdbpopuplong_input" name="imdb_imdbpopuplong" size="5" value="<?php echo intval( $this->imdb_admin_values['imdbpopuplong'] ); ?>" >
 
 						<div class="explain"> <?php esc_html_e( 'Popup height, in pixels', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"350"</div>
 					</div>
@@ -326,8 +326,8 @@ class General extends \Lumiere\Admin {
 					<div class="lumiere_flex_auto imdblt_padding_five <?php if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
 						echo 'hidesection'; }?>" id="imdb_popuptheme">
 
-						<label for="imdb_imdbpopuptheme"><?php esc_html_e( 'Theme color', 'lumiere-movies' ); ?></label><br /><br />
-						<select name="imdb_imdbpopuptheme">
+						<label for="imdb_imdbpopuptheme_select"><?php esc_html_e( 'Theme color', 'lumiere-movies' ); ?></label><br /><br />
+						<select id="imdb_imdbpopuptheme_select" name="imdb_imdbpopuptheme">
 							<option<?php
 							if ( $this->imdb_admin_values['imdbpopuptheme'] === 'white' ) {
 								echo ' selected="selected"';}
@@ -366,7 +366,7 @@ class General extends \Lumiere\Admin {
 
 					<label for="imdb_imdbintotheposttheme"><?php esc_html_e( 'Theme color', 'lumiere-movies' ); ?></label><br /><br />
 
-					<select name="imdb_imdbintotheposttheme">
+					<select id="imdb_imdbintotheposttheme" name="imdb_imdbintotheposttheme">
 						<option value="grey"
 						<?php
 						if ( $this->imdb_admin_values['imdbintotheposttheme'] === 'grey' ) {
@@ -402,7 +402,7 @@ class General extends \Lumiere\Admin {
 			<div class="lumiere_flex_container">
 				<div class="lumiere_flex_container_content_third imdblt_padding_five">
 
-					<label for="imdb_imdbcoversize"><?php esc_html_e( 'Display only thumbnail', 'lumiere-movies' ); ?>&nbsp;
+					<label for="imdb_imdbcoversize_yes"><?php esc_html_e( 'Display only thumbnail', 'lumiere-movies' ); ?>&nbsp;
 
 					<input type="hidden" id="imdb_imdbcoversize_no" name="imdb_imdbcoversize" value="0" data-checkbox_deactivate="imdb_imdbcoversizewidth_id" />
 
@@ -454,7 +454,7 @@ class General extends \Lumiere\Admin {
 				<div class="lumiere_flex_auto imdblt_padding_five">
 
 					<label for="imdb_imdblanguage"><?php esc_html_e( 'Search language', 'lumiere-movies' ); ?></label><br /><br />
-					<select name="imdb_imdblanguage">
+					<select id="imdb_imdblanguage" name="imdb_imdblanguage">
 						<option 
 						<?php
 						if ( $this->imdb_admin_values['imdblanguage'] === 'en' ) {
@@ -491,7 +491,7 @@ class General extends \Lumiere\Admin {
 				<div class="lumiere_flex_auto imdblt_padding_five">
 
 					<label for="imdb_imdbseriemovies"><?php esc_html_e( 'Search categories', 'lumiere-movies' ); ?></label><br /><br />
-					<select name="imdb_imdbseriemovies">
+					<select id="imdb_imdbseriemovies" name="imdb_imdbseriemovies">
 						<option 
 						<?php
 						if ( $this->imdb_admin_values['imdbseriemovies'] === 'movies+series' ) {
@@ -695,7 +695,7 @@ class General extends \Lumiere\Admin {
 					?>
 					/>
 
-					<label for="imdb_imdbdebug"></label>
+					<label for="imdb_imdbdebug_yes"></label>
 					<br />
 					<br />
 					<div class="explain"><?php esc_html_e( 'Use integrated debugging functions.', 'lumiere-movies' ); ?></div>
@@ -791,7 +791,7 @@ class General extends \Lumiere\Admin {
 
 						<div id="imdb_imdbdebuglogpath_id" class="lumiere_padding_top_bottom_ten" >
 							<label for="imdb_imdbdebuglogpath"><?php esc_html_e( 'Path', 'lumiere-movies' ); ?></label>
-							<input class="lumiere_border_width_medium imdb_imdbdebuglogpath" type="text" name="imdb_imdbdebuglogpath" value="<?php echo esc_attr( $this->imdb_admin_values['imdbdebuglogpath'] ); ?>" >
+							<input class="lumiere_border_width_medium imdb_imdbdebuglogpath" type="text" id="imdb_imdbdebuglogpath" name="imdb_imdbdebuglogpath" value="<?php echo esc_attr( $this->imdb_admin_values['imdbdebuglogpath'] ); ?>" >
 
 							<div class="explain"><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'WordPress default debug log', 'lumiere-movies' ); ?></div>
 							</div>
@@ -831,7 +831,7 @@ class General extends \Lumiere\Admin {
 				<div class="lumiere_flex_container_content_eighty">
 					<div class="lumiere_align_items_center">
 						<?php echo esc_url( get_site_url() ); ?>
-						<input type="text" class="lumiere_border_width_medium" name="imdb_imdburlpopups" value="<?php echo esc_html( $this->imdb_admin_values['imdburlpopups'] ); ?>">
+						<input type="text" class="lumiere_border_width_medium" id="imdb_imdburlpopups" name="imdb_imdburlpopups" value="<?php echo esc_html( $this->imdb_admin_values['imdburlpopups'] ); ?>">
 					</div>
 					<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the movies\' and people\'s popups.', 'lumiere-movies' ); ?>
 					<br />
@@ -860,7 +860,7 @@ class General extends \Lumiere\Admin {
 				<div class="lumiere_flex_container_content_eighty">
 					<div class="lumiere_align_items_center">
 						<?php echo esc_url( get_site_url() ); ?>/
-						<input type="text" class="lumiere_border_width_medium" name="imdb_imdburlstringtaxo" value="<?php echo esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ); ?>">
+						<input type="text" class="lumiere_border_width_medium" id="imdb_imdburlstringtaxo" name="imdb_imdburlstringtaxo" value="<?php echo esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ); ?>">
 					</div>
 					<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the taxonomy\'s pages.', 'lumiere-movies' ); ?> <?php esc_html_e( 'Warning! This URL cannot be identical to popup\'s URL above.', 'lumiere-movies' ); ?>
 					<br />
@@ -883,7 +883,7 @@ class General extends \Lumiere\Admin {
 				</div>
 				<div class="lumiere_flex_container_content_eighty">
 					<div class="lumiere_align_items_center">
-						<input class="lumiere_border_width_medium imdbpluginpath" type="text" name="imdb_imdbpluginpath" value="<?php echo esc_attr( $this->imdb_admin_values['imdbpluginpath'] ); ?>" >
+						<input class="lumiere_border_width_medium imdbpluginpath" type="text" id="imdb_imdbpluginpath" name="imdb_imdbpluginpath" value="<?php echo esc_attr( $this->imdb_admin_values['imdbpluginpath'] ); ?>" >
 					</div>
 					<div class="explain"><?php esc_html_e( 'In most cases, you should not edit it. Only advanced users should change this value.', 'lumiere-movies' ); ?><?php
 					esc_html_e( 'The path must end with a final slash.', 'lumiere-movies' );

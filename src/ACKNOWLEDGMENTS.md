@@ -1,7 +1,7 @@
 ## ACKNOWLEDGMENTS
 
 # Core
-**Main library** [IMDbPHP](https://github.com/tboothman/imdbphp/ "IMDbPHP GIT").
+**Forked library** [IMDbPHP for WordPress](https://github.com/jcvignoli/imdbphp/ "IMDbPHP for WP GIT") based on [IMDbPHP](https://github.com/tboothman/imdbphp/ "IMDbPHP GIT").
 **Highslide modal window** Designed for Lumière by Jeremie Boniface
 
 # IMDbPHP libraries use
@@ -25,8 +25,9 @@
 **Monolog logger** by [Seldaek](https://github.com/Seldaek/monolog/ "Monolog GIT")
 
 # Development
-**Codeception** by [Codeception team](https://codeception.com/ "Codeception")
-**PHAN** by [Phan](https://github.com/phan/phan/ "Phan")
-**PHP CodeSniffer** by [Squizlab](https://github.com/squizlabs/PHP_CodeSniffer "PHPCS")
-**PHP Mess detector** by [PHPMD](https://phpmd.org/ "PHPMD")
-**PHPStan** by [PHPStan](https://github.com/phpstan/phpstan "PHPStan")
+**Codeception** by [Codeception team](https://codeception.com/ "Codeception website")
+**PHAN** by [Phan](https://github.com/phan/phan/ "Phan GIT")
+**PHP CodeSniffer** by [Squizlab](https://github.com/squizlabs/PHP_CodeSniffer "PHPCS GIT")
+**PHP Mess detector** by [PHPMD](https://phpmd.org/ "PHPMD website")
+**PHPStan** by [PHPStan](https://github.com/phpstan/phpstan "PHPStan GIT")
+**PSALM** by [Vimeo](https://github.com/vimeo/psalm "Psalm GIT")

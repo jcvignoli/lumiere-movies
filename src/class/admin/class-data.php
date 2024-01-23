@@ -326,7 +326,7 @@ class Data extends \Lumiere\Admin {
 			}
 
 			echo ' />';
-			echo "\n\t\t" . '<label for="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '">';
+			echo "\n\t\t" . '<label for="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '_yes">';
 
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
 				if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
@@ -392,7 +392,7 @@ class Data extends \Lumiere\Admin {
 		<?php esc_html_e( 'You can select the order for the information selected in "display" section. Select first the movie detail you want to move, use "up" or "down" to reorder Lumiere Movies display. Once you are happy with the new order, click on "update settings" to keep it.', 'lumiere-movies' ); ?>
 	</div>
 
-	<div id="container_imdbwidgetorderContainer" class="imdblt_double_container imdblt_padding_top_twenty lumiere_align_center lumiere_writing_vertical">
+	<div id="container_imdbwidgetorderContainer" class="imdblt_double_container imdblt_padding_top_twenty lumiere_align_center">
 
 		<div class="imdblt_padding_ten imdblt_align_last_center imdblt_flex_auto">
 
@@ -407,7 +407,7 @@ class Data extends \Lumiere\Admin {
 
 		<div class="imdblt_padding_ten imdblt_align_last_center imdblt_flex_auto">
 
-		<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo ( count( $this->imdb_widget_values['imdbwidgetorder'] ) / 2 ); ?>" style="height:100%;" multiple>
+		<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo ( count( $this->imdb_widget_values['imdbwidgetorder'] ) / 2 ); ?>" multiple>
 		<?php
 		foreach ( $this->imdb_widget_values['imdbwidgetorder'] as $key => $value ) {
 

@@ -100,7 +100,7 @@ Mostly it is. You may see some changes in the layout and obviously the apparence
 = Is it CSP compliant?  =
 
 Content Security Policy (CSP) is a webserver based security avoiding injections to your pages. It greatly improves the security of your website.
-While WordPress is not yet fully CSP compliant, Lumière already is. Neither online javascripts nor stylesheets are added.
+Although WordPress is difficult to get fully CSP compliant (in particular the admin interface), Lumière is fully CSP compliant. Neither online javascripts nor stylesheets are added. It is advised to use the standards 'wp_script_attributes' and 'wp_inline_script_attributes' hooks to inject your nonces values into scripts, and use a regex WordPress buffer technique to inject the style nonces.
 
 = Can I change the size of the poster pictures?  =
 
