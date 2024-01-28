@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jcvignoli/imdbphp.git",
-                "reference": "cc7ca252e0c959375c9a00195bb24edc8956cdf5"
+                "reference": "f5d81e07141d4a40fa4c854879dab61b38abc38c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jcvignoli/imdbphp/zipball/cc7ca252e0c959375c9a00195bb24edc8956cdf5",
-                "reference": "cc7ca252e0c959375c9a00195bb24edc8956cdf5",
+                "url": "https://api.github.com/repos/jcvignoli/imdbphp/zipball/f5d81e07141d4a40fa4c854879dab61b38abc38c",
+                "reference": "f5d81e07141d4a40fa4c854879dab61b38abc38c",
                 "shasum": ""
             },
             "require": {
@@ -74,7 +74,7 @@
             "support": {
                 "source": "https://github.com/jcvignoli/imdbphp/tree/master"
             },
-            "time": "2023-12-07T22:32:00+00:00"
+            "time": "2024-01-28T17:40:34+00:00"
         },
         {
             "name": "monolog/monolog",

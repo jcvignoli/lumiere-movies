@@ -59,6 +59,7 @@ class Imdbphp extends Config {
 		$this->usecache = $this->imdb_cache_values['imdbusecache'] === '1' ? true : false;
 		$this->storecache = $this->usecache === false ? false : true; // don't store cache if it is not used
 		$this->usezip = $this->imdb_cache_values['imdbusezip'];
+		$this->delay_imdb_request = intval( $this->imdb_admin_values['imdbdelayimdbrequest'] );
 
 		/**
 		 * Where the local IMDB images reside (look for the "showtimes/" directory)

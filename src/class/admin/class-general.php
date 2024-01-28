@@ -540,6 +540,21 @@ class General extends \Lumiere\Admin {
 						<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "10"
 					</div>
 				</div>
+				
+				<div class="lumiere_flex_auto imdblt_padding_five">
+
+					<label for="imdb_imdbdelayimdbrequest"><?php esc_html_e( 'Delay the queries to IMDb', 'lumiere-movies' ); ?></label>
+					<br />
+					<br />
+
+					<input type="text" name="imdb_imdbdelayimdbrequest" id="imdb_imdbdelayimdbrequest" size="5" value="<?php echo intval( $this->imdb_admin_values['imdbdelayimdbrequest'] ); ?>" />
+
+					<div class="explain">
+						<?php esc_html_e( 'Add an extra delay in seconds to avoid IMDb website throwing HTTP 504 errors (too many requests). In seconds.', 'lumiere-movies' ); ?>
+						<br /><br />
+						<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "0"
+					</div>
+				</div>
 			</div>
 		</div>
 
