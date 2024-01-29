@@ -550,7 +550,7 @@ class General extends \Lumiere\Admin {
 					<input type="text" name="imdb_imdbdelayimdbrequest" id="imdb_imdbdelayimdbrequest" size="5" value="<?php echo intval( $this->imdb_admin_values['imdbdelayimdbrequest'] ); ?>" />
 
 					<div class="explain">
-						<?php esc_html_e( 'Add an extra delay in seconds to avoid IMDb website throwing HTTP 504 errors (too many requests). In seconds.', 'lumiere-movies' ); ?>
+						<?php esc_html_e( 'Add an extra delay in seconds to avoid IMDb website throwing HTTP 504 errors (too many requests).', 'lumiere-movies' ); ?>
 						<br /><br />
 						<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "0"
 					</div>
