@@ -35,10 +35,10 @@
     "analysis": "npm-run-all -c phpcs phpmd phpstan phan phpdd psalm phpdoc"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^24.4.0",
-    "browser-sync": "^2.26.14",
+    "@wordpress/scripts": "*",
+    "browser-sync": "*",
     "del": "^4.1.1",
-    "fs": "^0.0.1-security",
+    "fs-extra": "*",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-changed": "^4.0.3",

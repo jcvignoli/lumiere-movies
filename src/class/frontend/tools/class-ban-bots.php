@@ -26,7 +26,7 @@ class Ban_Bots {
 		/**
 		 * Those bots do not respect the rules
 		 */
-		'(b|B)ytespider|(b|B)ytedance|YandexBot|GPTBot',
+		'(b|B)ytespider|(b|B)ytedance|YandexBot|GPTBot|bingbot',
 		/**
 		 * From 7G https://perishablepress.com/7g-firewall/
 		 */

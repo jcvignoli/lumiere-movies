@@ -8,6 +8,7 @@ v.3.12
 * [bug] HTML 4.1 compatibiliy: label HTML tag wasn't linking a proper input id (added '_yes' in method lumiere_data_display_taxo_fields() of class-data.php, properly renamed inputs and labels in class-general.php)
 * [technical] Removed tipee donation, kept Paypal only.
 * [technical] Updated to latest personal Imdbphp library
+* [technical] Added Bingbot to the banned bots, since it doesn't respect the don't follow rule.
 
 v.3.11.5
 * [bug] Fixed *personal imdbphp* upstream: under some circonstances, error "No such file or directory in ImageProcessor.php on line 44", added extra conditions to before unlink and rename

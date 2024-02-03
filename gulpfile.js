@@ -22,7 +22,7 @@ import rename from 'gulp-rename';
 import uglify from 'gulp-uglify';
 import imagemin from 'gulp-imagemin';
 import del from 'del';
-import fs from 'fs';
+import fs from 'fs-extra';
 import rsync from 'gulp-rsync';
 import nodeNotifier from 'node-notifier';
 import ext_cred from '../../../bin/.credentials/.gulpcredentials-lumiere.js';	/* private credentials for ssh */
