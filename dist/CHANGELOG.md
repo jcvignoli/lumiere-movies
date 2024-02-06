@@ -10,6 +10,7 @@ v.3.12
 * [technical] Removed tipee donation, kept Paypal only.
 * [technical] Updated to latest Personal Imdbphp library
 * [technical] Added Bingbot to the banned bots, since it doesn't respect the "no follow" rule.
+* [technical] Added in Class Movie the banning bot function: do_action( 'lumiere_ban_bots' )
 
 v.3.11.5
 * [bug] Fixed *personal imdbphp* upstream: under some circonstances, error "No such file or directory in ImageProcessor.php on line 44", added extra conditions to before unlink and rename
@@ -17,8 +18,8 @@ v.3.11.5
 v.3.11.4
 * [feature] Some bots scanning the popups without considering head rules (nofollow) will be now banned. This will prevents from having bots creating a huge cache and many requests that get user banned from IMDB (and save space).
 * [bug] Fixed cache image creation (upstream imdbphp class ImageProcessor was deleting _big image before knowing if they could be resized)
-* [technical] AISEO plugin is deactivated in popups (movies+people). There is no point in adding SEO tools in something that should not be indexed.
 * [bug] Fixed pictures were not display on first pass (upstream imdbphp change, if pictures were not reduced in size, a return false was preventing them from showing on first pass)
+* [technical] AISEO plugin is deactivated in popups (movies+people). There is no point in adding SEO tools in something that should not be indexed.
 
 v.3.11.3
 * [bug] Fixed longstanding missing picture in regular wordpress edition (block edition)
@@ -65,11 +66,11 @@ v.3.10.1
 * [bug] fixed spinner appearing in popup search (lumiere_scripts.js was not loaded due to the previous bug), added spinner in popup person and popup movies
 
 v.3.10
-* [technical] Using [forked IMDbPHP](https://github.com/jcvignoli/imdbphp "forked imdbphp git") library. Will switch back to the [tboothman](https://github.com/tboothman/imdbphp "tboothman's imdbphp git")'s one if maintained again.
-* [technical] Updated to bootstrap 5.3.1
 * [bug] fixed many biographical functions (nickname, movies, etc) in popup for people. 
 * [bug] On some environments, check for theme folders version fails. Added extra check on $wp_filesystem for $content_intheme and $content_inplugin in class admin. Added extra check in class copy template taxonomy.
 * [bug] AMP was not fully detected. fixed in class utils.
+* [technical] Using [forked IMDbPHP](https://github.com/jcvignoli/imdbphp "forked imdbphp git") library. Will switch back to the [tboothman](https://github.com/tboothman/imdbphp "tboothman's imdbphp git")'s one if it becomes maintained again.
+* [technical] Updated to bootstrap 5.3.1
 * [technical] Rewrote lumiere_wp_filesystem_cred() function in class utils. Does not return bool anymore, but fully uses WP_Filesystem. Edited class cache accordingly.
 
 v.3.9.15
@@ -87,8 +88,8 @@ v.3.9.12
 * [technical] Small compatibility glitch in class popup person ( added isset( $biomovie[ $i ]['year'] ) )
 
 v.3.9.11
-* [technical] Updated to IMDbPHP 7.4.2
 * [bug] Picture in block widget admin interface was not showing up
+* [technical] Updated to IMDbPHP 7.4.2
 
 v.3.9.10
 * [bug] On theme OceanWP, popups were not displaying correctly. (Detect in class-popup-search if OceanWP is active and use a different hook)

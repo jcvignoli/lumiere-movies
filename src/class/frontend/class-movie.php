@@ -84,6 +84,10 @@ class Movie {
 		// Parse the content to add the movies.
 		add_filter( 'the_content', [ $this, 'lumiere_parse_spans' ] );
 
+		// Ban bots from downloading the page.
+		// @since 3.12
+		do_action( 'lumiere_ban_bots' );
+
 		// Transform span into links to popups.
 		add_filter( 'the_content', [ $this, 'lumiere_link_popup_maker' ] );
 		add_filter( 'the_excerpt', [ $this, 'lumiere_link_popup_maker' ] );
