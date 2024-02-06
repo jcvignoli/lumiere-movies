@@ -2,17 +2,13 @@
 
 # Script automatically executed when "composer (update|remove|require)" is run
 
+# Execute only in local install, not on github
 # Not local, exit normaly
-if [ -z "./tmp/cache" ];then
+if [ ! -d "./../svn" ];then
+	echo "Not a local install, exit"
 	exit 0
 fi
 
-# Execute only in local install, if not github fails
-if [ -d "./tmp/cache" ]; then
-
-	# Update main composer
-	echo 'updating composer in src folder...'
-	cd ./src && composer update
-
-fi
-
+# Update main composer
+echo 'updating composer in src folder...'
+cd ./src && composer update
