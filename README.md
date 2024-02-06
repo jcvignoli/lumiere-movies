@@ -5,8 +5,8 @@
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
 **Tags:** cinema, film, imdb, movie, actor, internet-movie-database, director, taxonomy \
 **Requires at least:** 5.3 \
-**Tested up to:** 6.4.1 \
-**Stable tag:** 3.11.5 \
+**Tested up to:** 6.4.2 \
+**Stable tag:** 3.12 \
 **Requires PHP:** 8.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -23,8 +23,6 @@ Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wo
 Many features are available in the wordpress old and new editing interfaces (Gutenberg, Visual editor, and HTML editor). It is Content Security Policy (CSP) compliant, takes advantage of Polylang plugin and is partially compatible with AMP plugin.
 
 **Lumière!** is a great tool to illustrate your articles. You can display movie details through many ways, such as in popups, widgets, and straight inside a post. It can be extensively fine-tuned in the admin options panel.
-
-"Lumière! Movies" is the continuation of [IMDb Link Transformer plugin](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer") that reached over 20'000 downloads. 
 
 ## Installation
 
@@ -133,7 +131,7 @@ Mostly it is. You may see some changes in the layout and obviously the apparence
 ### Is it CSP compliant?
 
 Content Security Policy (CSP) is a webserver based security avoiding injections to your pages. It greatly improves the security of your website.
-While WordPress is not yet fully CSP compliant, Lumière already is. Neither online javascripts nor stylesheets are added.
+Although WordPress is difficult to get fully CSP compliant (in particular the admin interface), Lumière is fully CSP compliant. Neither online javascripts nor stylesheets are added. It is advised to use the standards 'wp_script_attributes' and 'wp_inline_script_attributes' hooks to inject your nonces values into scripts, and use a regex WordPress buffer technique to inject the style nonces.
 
 ### Can I change the size of the poster pictures?
 
@@ -174,6 +172,10 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 
+### 3.12
+
+Added the general advanced option to add an extra delay when querying the IMDb website. Downloads from imdbphp are retried 3 times before giving up. Fixed bug in plugin activation, layout in admin data options position, improved Content security policy and HTML 4.1 compatibility.
+
 ### 3.11.4
 
 Some bots scanning the popups without considering head rules (nofollow) will be now banned. This will prevents from having bots creating a huge cache and many requests that get user banned from IMDB (and save space).
@@ -191,66 +193,8 @@ Many bugs brought by the availability of the French translation addressed, such 
 Privacy explaination in admin should anyone want to add this piece to their own privacy page.
 Adressed latest bugs with PHP 8.2. Fully compliant now.
 
-### 3.10.2
-
-Support for PHP < 8.0 totally dropped, removed str_contains().
-
-### 3.10
-
-Start using GraphQL, as IMDbPHP is not maintained frequently. Forking the library.
-
-### 3.9.4
-
-New Cache function: Keep automatically cache folder size below a certain size limit.
-
-### 3.9.3
-
-* Code for auto-widgets (widgets displaying automatically movie's details according to the post title) has changed. Should you use this feature, just add again Lumière auto-widget.
-
-### 3.9
-
-* Mainly technical and bug hunting release. Fully using composer, loading classes through composer autoload for more sustainability.
-* Lumière will not be compatible with plugins that promote a web of spammers. First plugin to enter the hall of shame: RSS Feed Post Generator Echo, paid plugin used to make ghost websites with ads and make money.
-* Better cache paths management. Cache is more solid.
-
-### 3.8
-
-* PHP 8.0 is now required. Introducing a new modal window, Bootstrap. User can select in admin whether to use Bootstrap, Highslide or Classic popups. Movie and People Popups do not throw 404 error anymore, they'll be indexed by search engines. Huge work for OOP coding with the popups links, the plugin is faster.
-
-### 3.7
-
-* Fully PHP 8.0 compliant. Better compliance with AMP plugin. Many bugs addressed, better OOP coding, better plugin structure.
-
-### 3.6
-
-* Code linted and functions rewrote using PHPCS, PHPMD and PHPStan. Faster, more secure and more stable plugin.
-* Uninstall process properly implemented. Lumière doesn't rely on WordPress deactivation function anymore. Properly delete taxonomy. Nothing left in user database.
-* Bug hunting, as usual.
-
-### 3.5
-
-* Shortcodes [ imdblt ] and [ imdbltid ] have become obsolete, using span html tags instead. It ensures that upon Lumière uninstall, no garbage is left in your articles. Install and uninstall will be smoothly processed! Compatibility with obsolete shortcodes ensured.
-* link to popups are now dealt by a < span data-lum_link_maker "popup"> instead of < span class "lumiere_link_maker"> for plugin code consistency. No compatibility with the latter ensured, since it was recently introduced.
-* Support for the plugin in Help admin section has been improved and updated
-
-### 3.4
-
-* Cache improvement, fixed longstanding bugs, admin design ameliorated, popups design ameliorated, lumière variables are now automatically updated, code simplification (notably droped htaccess generation), taxonomy pages for people created (huge boost for reasons of using taxonomy). Updated to imdbphp 7.0 library.* New types of search: you can select to search movies, tv shows, and even videogames!
-* Due to recent changes on IMDb website, the new imdbphp library has been rewritten. You must clear your cache folder to make sure the new pages are downloaded, as the olde pages are no longer supported. Just go to the admin panel, go to Lumière plugin settings, then 'cache management' panel -> 'manage cache', click on 'delete all cache', and you're done.
-
-### 3.3
-
-* Considerably simplified the way to include widgets; Lumière! now has a metabox in the edit interface. Taxonomy system is fully versatile (URL is editable). Uninstall/deactivation fully functional. Introduced the option to keep the settings upon deactivation (therefore uninstall too). Better design for the admin panels and popups. Under the hood, coding better respecting WordPress and PHP standards.
-
-### 3.2
-
-* Many options related to the popups (favicon, change the URL, etc.), fixed missing/wrong variables all over the plugin, further compatibility with PHP8 added, fixed the submit buttons in the admin, much technical work and bug hunting
-
-### 3.1
-
-* Due to compatibility reasons with Gutenberg, the way to display links to internal popupups has changed from '(!--imdb--)(!--/imdb--)' to '< span class "lumiere_link_maker">'. Compatibility with the old way currently maintained.
-* Gutenberg interface finished.
+[...]
 
 ### 3.0
 
-* Major update, plugin vastly rewritten. Name IMDb Link Transformer changed to Lumière!. Should be Content Security Policy (CSP) compliant. Too many changes to be listed. Check the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changelog").
+* Major update, plugin vastly rewritten. Name [IMDb Link Transformer](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer on WordPress") changed to Lumière!. Should be Content Security Policy (CSP) compliant. Too many changes to be listed. Check the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changelog").

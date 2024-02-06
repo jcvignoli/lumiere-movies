@@ -140,7 +140,7 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 Major changes:
 
 = 3.12 =
-Added the general advanced option to add an extra delay when querying the IMDb website. Fixed bug in plugin activation, layout in admin data options position, improved Content security policy and HTML 4.1 compatibility.
+Added the general advanced option to add an extra delay when querying the IMDb website. Downloads from imdbphp are retried 3 times before giving up. Fixed bug in plugin activation, layout in admin data options position, improved Content security policy and HTML 4.1 compatibility.
 
 = 3.11.4 =
 

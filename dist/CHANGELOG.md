@@ -2,13 +2,14 @@
 
 v.3.12
 * [feature] Added the general advanced option to add an extra delay when querying the IMDb website. Meant to avoid the HTTP 504 errors thrown when too many requests in a row are processed. 0 seconds by default, but can be increased to add a delay. If the data are already cached, no further delay, it's as fast as before.
+* [feature] Page downloads from imdbphp are retried 3 times before giving up.
 * [bug] Plugin bulk activation was not working (removed check_admin_referer() in class core lumiere_on_activation() method)
 * [bug] Fixed the select of the data position that was displayed vertically (removed lumiere_writing_vertical class in class-data.php)
 * [bug] Removed a style attribute in a div, that prevents CSP compatibility (removed style="height:100%;" in class-data.php)
 * [bug] HTML 4.1 compatibiliy: label HTML tag wasn't linking a proper input id (added '_yes' in method lumiere_data_display_taxo_fields() of class-data.php, properly renamed inputs and labels in class-general.php)
 * [technical] Removed tipee donation, kept Paypal only.
-* [technical] Updated to latest personal Imdbphp library
-* [technical] Added Bingbot to the banned bots, since it doesn't respect the don't follow rule.
+* [technical] Updated to latest Personal Imdbphp library
+* [technical] Added Bingbot to the banned bots, since it doesn't respect the "no follow" rule.
 
 v.3.11.5
 * [bug] Fixed *personal imdbphp* upstream: under some circonstances, error "No such file or directory in ImageProcessor.php on line 44", added extra conditions to before unlink and rename
