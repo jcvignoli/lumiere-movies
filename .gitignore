@@ -4,5 +4,5 @@
 *vendor*
 *.vscode*
 *package-lock.json*
-*composer.lock*
+/composer.lock*
 .todo
