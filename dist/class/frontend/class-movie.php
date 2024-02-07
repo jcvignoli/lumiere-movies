@@ -72,6 +72,10 @@ class Movie {
 		// Construct Frontend trait.
 		$this->__constructFrontend( self::CLASS_NAME );
 
+		// Ban bots from downloading the page.
+		// @since 3.12
+		do_action( 'lumiere_ban_bots' );
+
 		// Instanciate $plugin_polylang.
 		if ( ( class_exists( 'Polylang' ) ) && ( $plugin_polylang instanceof Polylang ) && $plugin_polylang->polylang_is_active() === true ) {
 			$this->plugin_polylang = $plugin_polylang;
@@ -83,10 +87,6 @@ class Movie {
 
 		// Parse the content to add the movies.
 		add_filter( 'the_content', [ $this, 'lumiere_parse_spans' ] );
-
-		// Ban bots from downloading the page.
-		// @since 3.12
-		do_action( 'lumiere_ban_bots' );
 
 		// Transform span into links to popups.
 		add_filter( 'the_content', [ $this, 'lumiere_link_popup_maker' ] );

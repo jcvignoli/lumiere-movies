@@ -72,7 +72,7 @@ class Popup_Movie {
 		// Display layout
 		// @since 3.9.9 if OceanWP them, use a different hook
 		if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
-				add_action( 'the_posts', [ $this, 'lumiere_popup_movie_layout' ], 1 );
+			add_action( 'the_posts', [ $this, 'lumiere_popup_movie_layout' ], 1 );
 		} else {
 			add_action( 'the_content', [ $this, 'lumiere_popup_movie_layout' ], 1 );
 		}

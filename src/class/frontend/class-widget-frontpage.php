@@ -116,6 +116,10 @@ class Widget_Frontpage {
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'widgetFrontpage' );
 
+		// Ban bots from downloading the page.
+		// @since 3.12
+		do_action( 'lumiere_ban_bots' );
+
 		// Movie class is needed to query and retrieve movie results.
 		$this->movie_class = new Movie( new Polylang() );
 
