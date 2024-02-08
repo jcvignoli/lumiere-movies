@@ -1,10 +1,10 @@
 <?php declare( strict_types = 1 );
 /**
- * Template Item: Taxonomy for Lumière! WordPress plugin (set up for standard item taxonomy)
- * This file should be edited, renamed, and then copied in your theme folder but you also can
- * use the admin taxonomy interface to do it automatically
+ * Template Item: Taxonomy for Lumière! Movies WordPress plugin (set up for standard item taxonomy)
+ * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
+ * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 2.1.1
+ * Version: 2.1.2
  * @package lumiere-movies
  */
 
@@ -40,9 +40,12 @@ class Taxonomy_Items_Standard {
 
 	/**
 	 * Constructor
-	 *
+	 * @since 3.12 Ban bots from downloading the page.
 	 */
 	public function __construct() {
+
+		// Ban bots
+		do_action( 'lumiere_ban_bots' );
 
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'taxonomy-standard' );
@@ -91,7 +94,7 @@ class Taxonomy_Items_Standard {
 						 * This is a standardised function, 'standard' will changed when copied
 						 * @phpstan-ignore-next-line Parameter #1 $args of function get_terms expects
 						 */
-						$term_exist = (array) get_terms( 'standard' );
+						$term_exist = (array) get_terms( 'lumiere-standard' );
 						if ( count( $term_exist ) !== 0 ) {
 							?>
 

@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Frontend;
+namespace Lumiere\Frontend\Popups;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -25,7 +25,7 @@ class Popup_Movie {
 
 	// Use trait frontend
 	use \Lumiere\Frontend\Main {
-		Main::__construct as public __constructFrontend;
+		\Lumiere\Frontend\Main::__construct as public __constructFrontend;
 	}
 
 	/**
@@ -56,6 +56,9 @@ class Popup_Movie {
 	 */
 	public function __construct() {
 
+		// Edit metas tags in popups.
+		add_action( 'template_redirect', [ 'Lumiere\Frontend\Popups\Head_Popups', 'lumiere_static_start' ] );
+
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'popupMovie' );
 
@@ -64,10 +67,6 @@ class Popup_Movie {
 
 		// Remove admin bar
 		add_filter( 'show_admin_bar', '__return_false' );
-
-		// Ban bots from downloading the page.
-		// @since 3.11.4
-		do_action( 'lumiere_ban_bots' );
 
 		// Display layout
 		// @since 3.9.9 if OceanWP them, use a different hook

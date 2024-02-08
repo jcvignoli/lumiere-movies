@@ -1,10 +1,10 @@
 <?php declare( strict_types = 1 );
 /**
  * Template People: Taxonomy for Lumière! Movies WordPress plugin (set up for standard people taxonomy)
- * You can replace the occurences of the word s_tandar_d, rename this file, and then copy it in your theme folder
+ * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.5.3
+ * Version: 3.5.4
  *
  * This template retrieves automaticaly the occurence of the name selected
  * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
@@ -29,7 +29,7 @@ use WP_Query;
 
 class Taxonomy_People_Standard {
 
-	// Use trait frontend
+	// Use trait frontend.
 	use \Lumiere\Frontend\Main {
 		\Lumiere\Frontend\Main::__construct as public __constructFrontend;
 	}
@@ -50,28 +50,31 @@ class Taxonomy_People_Standard {
 
 	/**
 	 * Class \Imdb\Person
-	 *
 	 */
 	private Person $person_class;
 
 	/**
-	 *  Name of the person sanitized
+	 * Name of the person sanitized
 	 *
-	 *  @var string $person_name
+	 * @var string $person_name
 	 */
 	private string $person_name;
 
 	/**
-	 *  Taxonomy category
+	 * Taxonomy category
 	 *
-	 *  @var string $taxonomy_title
+	 * @var string $taxonomy_title
 	 */
 	private string $taxonomy_title;
 
 	/**
-	 *  Constructor
+	 * Constructor
+	 * @since 3.12 Ban bots from downloading the page.
 	 */
 	public function __construct( ?Polylang $plugin_polylang = null ) {
+
+		// Ban bots
+		do_action( 'lumiere_ban_bots' );
 
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'taxonomy-standard' );
@@ -198,6 +201,8 @@ class Taxonomy_People_Standard {
 
 		// Var to include all rows and check if it is null.
 		$check_if_no_result = [];
+
+		echo "\n\t\t\t\t" . '<div class="lumiere_taxo_results"><!-- taxo_results -->';
 
 		foreach ( $this->config_class->array_people as $people => $people_translated ) {
 
@@ -336,7 +341,7 @@ class Taxonomy_People_Standard {
 
 		}
 		?>
-
+				</div><!-- taxo_results -->
 			</div>
 		</main>
 

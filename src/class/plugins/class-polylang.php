@@ -131,7 +131,7 @@ class Polylang {
 			? $parts_url['scheme'] . '://' . $parts_url['host'] . add_query_arg( null, null )
 			: '';
 		echo "\n\t\t\t\t" . '<form method="post" id="lang_form" name="lang_form" action="' . esc_url( $current_uri ) . '#lang_form">';
-		echo "\n\t\t\t\t\t" . '<select name="tag_lang" style="width:100px;">';
+		echo "\n\t\t\t\t\t" . '<select name="tag_lang" id="tag_lang">';
 		echo "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
 
 		// Build an option html tag for every language.

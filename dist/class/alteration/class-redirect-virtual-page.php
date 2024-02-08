@@ -18,16 +18,18 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use Lumiere\Settings;
 use Lumiere\Plugins\Imdbphp;
-use Lumiere\Frontend\Popup_Person;
-use Lumiere\Frontend\Popup_Movie;
-use Lumiere\Frontend\Popup_Search;
+use Lumiere\Frontend\Popups\Popup_Person;
+use Lumiere\Frontend\Popups\Popup_Movie;
+use Lumiere\Frontend\Popups\Popup_Search;
 use Lumiere\Search;
 use Lumiere\Tools\Utils;
+use Lumiere\Alteration\Virtual_Page;
 use Imdb\Title;
 use Imdb\Person;
 
 /**
  * Redirect to a virtual page retrieving (for IMDB-related) the name and sending it and also sending the url to be created
+ * Currently redirect to popups and class search
  *
  * @phpstan-import-type OPTIONS_CACHE from Settings
  */
@@ -57,6 +59,7 @@ class Redirect_Virtual_Page {
 		$this->settings_class = new Settings();
 		$this->imdbphp_class = new Imdbphp();
 
+		// Redirect to popups
 		add_filter( 'template_redirect', [ $this, 'lumiere_popup_redirect_include' ], 2 ); // Must be executed with priority 2, 1 more of what the class was called
 
 		// Redirect class-search.php.
@@ -95,6 +98,7 @@ class Redirect_Virtual_Page {
 
 	/**
 	 * Popups redirection
+	 * @since 3.12 Bots are banned for all popups
 	 *
 	 * @TODO Sanitization of GETs is a joke, use proper functions!
 	 * @return string|Virtual_Page
@@ -115,6 +119,9 @@ class Redirect_Virtual_Page {
 
 		switch ( $query_popup ) {
 			case 'film':
+				// Ban bots from downloading the page.
+				do_action( 'lumiere_ban_bots' );
+
 				// Set the title.
 				$filmid_sanitized = ''; // initialisation.
 
@@ -139,6 +146,9 @@ class Redirect_Virtual_Page {
 					$title
 				);
 			case 'person':
+				// Ban bots from downloading the page.
+				do_action( 'lumiere_ban_bots' );
+
 				// Set the title.
 				if ( isset( $_GET['mid'] ) ) {
 					$mid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
@@ -156,6 +166,9 @@ class Redirect_Virtual_Page {
 					$title
 				);
 			case 'search':
+				// Ban bots from downloading the page.
+				do_action( 'lumiere_ban_bots' );
+
 				// Set the title.
 				$filmname_sanitized = isset( $_GET['film'] ) ? ': [' . sanitize_text_field( $_GET['film'] ) . ']' : 'No name entered';
 

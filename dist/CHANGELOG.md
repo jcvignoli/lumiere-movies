@@ -6,11 +6,12 @@ v.3.12
 * [bug] Plugin bulk activation was not working (removed check_admin_referer() in class core lumiere_on_activation() method)
 * [bug] Fixed the select of the data position that was displayed vertically (removed lumiere_writing_vertical class in class-data.php)
 * [bug] Removed a style attribute in a div, that prevents CSP compatibility (removed style="height:100%;" in class-data.php)
-* [bug] HTML 4.1 compatibiliy: label HTML tag wasn't linking a proper input id (added '_yes' in method lumiere_data_display_taxo_fields() of class-data.php, properly renamed inputs and labels in class-general.php)
+* [bug] HTML 4.1 compatibiliy: label HTML tag wasn't linking a proper input id (added '_yes' in method lumiere_data_display_taxo_fields() of class-data.php, properly renamed inputs and labels in class-general.php, fixed the taxonomy form in )
+* [bug] Taxonomy link creation was broken (Fixed in Class Movie)
 * [technical] Removed tipee donation, kept Paypal only.
 * [technical] Updated to latest Personal Imdbphp library
 * [technical] Added Bingbot to the banned bots, since it doesn't respect the "no follow" rule.
-* [technical] Added in Class Movie the banning bot function: do_action( 'lumiere_ban_bots' )
+* [technical] Rewrote the bot banning that is now executed before doing IMDb searches, avoiding cache creationg (and 504 HTML errors when calling IMDb website!)
 
 v.3.11.5
 * [bug] Fixed *personal imdbphp* upstream: under some circonstances, error "No such file or directory in ImageProcessor.php on line 44", added extra conditions to before unlink and rename

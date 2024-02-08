@@ -40,7 +40,7 @@ class Movie {
 	private ?Polylang $plugin_polylang = null;
 
 	/**
-	 * Make sure events are runned once in this class
+	 * Singleton: Make sure events are runned once in this class
 	 *
 	 * @var bool $movie_run_once
 	 */
@@ -72,10 +72,6 @@ class Movie {
 		// Construct Frontend trait.
 		$this->__constructFrontend( self::CLASS_NAME );
 
-		// Ban bots from downloading the page.
-		// @since 3.12
-		do_action( 'lumiere_ban_bots' );
-
 		// Instanciate $plugin_polylang.
 		if ( ( class_exists( 'Polylang' ) ) && ( $plugin_polylang instanceof Polylang ) && $plugin_polylang->polylang_is_active() === true ) {
 			$this->plugin_polylang = $plugin_polylang;
@@ -100,7 +96,7 @@ class Movie {
 	}
 
 	/**
-	 *  Search the movie and output the results
+	 * Search the movie and output the results
 	 *
 	 * @param array<int, array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
 	 */
@@ -232,11 +228,15 @@ class Movie {
 	 *
 	 * @since 3.10.2 The function always returns string, no null accepted -- PHP82 compatibility
 	 *       Also added a lumiere_prohibited_areas() check, no need to execute the plugin in feeds
+	 * @since 3.12 Ban bots at this step, not before.
 	 *
 	 * @param null|string $content HTML span tags + text inside
 	 * @return string
 	 */
 	public function lumiere_parse_spans( ?string $content ): string {
+
+		// Ban bots
+		do_action( 'lumiere_ban_bots' );
 
 		// if no content is availabe on the content or if it is a feed, abort
 		if ( ! isset( $content ) || $this->lumiere_prohibited_areas() === true ) {
@@ -1316,7 +1316,6 @@ class Movie {
 			}
 
 			return $output;
-
 		}
 
 		for ( $i = 0; $i < $nbtotalcreator; $i++ ) {
@@ -1665,16 +1664,13 @@ class Movie {
 
 		// ************** Return layout
 
-		$taxo_link = get_term_link( $taxonomy_term, $taxonomy_category_full );
-		$taxo_link = is_wp_error( $taxo_link ) === false ? $taxo_link : '';
-
 		// layout=two: display the layout for double entry details, ie actors
 		if ( $layout === 'two' ) {
 
 			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 			$output .= "\n\t\t\t\t\t<a class=\"linkincmovie\" href=\""
-					. esc_url( $taxo_link )
+					. esc_url( $this->lumiere_get_taxo_link( $taxonomy_term, $taxonomy_category_full ) )
 					. '" title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' )
 					. '">';
 			$output .= "\n\t\t\t\t\t" . $taxonomy_term;
@@ -1689,7 +1685,7 @@ class Movie {
 		} elseif ( $layout === 'one' ) {
 
 			$output .= '<a class="linkincmovie" '
-					. 'href="' . esc_url( $taxo_link )
+					. 'href="' . esc_url( $this->lumiere_get_taxo_link( $taxonomy_term, $taxonomy_category_full ) )
 					. '" '
 					. 'title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' ) . '">';
 			$output .= $taxonomy_term;
@@ -1699,6 +1695,21 @@ class Movie {
 
 		return $output;
 
+	}
+
+	/**
+	 * Create an html link for taxonomy
+	 * @since 3.12 Taken out from Movie::lumiere_make_display_taxonomy() and made this function
+	 *
+	 * @param string $name_searched The name searched, such as 'Tony Zarindast'
+	 * @param string $taxo_category The taxonomy category used, such as 'lumiere-director'
+	 * @return string The WordPress full HTML link for the name with that category
+	 */
+	private function lumiere_get_taxo_link( string $name_searched, string $taxo_category ): string {
+
+		$find_term = get_term_by( 'name', $name_searched, $taxo_category );
+		$taxo_link = $find_term instanceof \WP_Term ? get_term_link( $find_term->slug, $taxo_category ) : '';
+		return is_wp_error( $taxo_link ) === false ? $taxo_link : '';
 	}
 
 	/**

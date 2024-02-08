@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Alteration;
+namespace Lumiere\Frontend\Popups;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
@@ -140,7 +140,7 @@ class Head_Popups {
 		$sanitized_info = filter_input( INPUT_GET, 'info', FILTER_SANITIZE_URL ) ?? false;
 		$sanitized_mid = filter_input( INPUT_GET, 'mid', FILTER_SANITIZE_URL ) ?? false;
 
-		echo "\t\t" . '<!-- Lumière! Movies -->';
+		echo "\n\t\t" . '<!-- Lumière! Movies -->';
 
 		// Add nofollow for robots.
 		echo "\n" . '<meta name="robots" content="nofollow" />';

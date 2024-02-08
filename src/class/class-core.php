@@ -51,9 +51,6 @@ class Core {
 		add_action( 'init', [ 'Lumiere\Alteration\Rewrite_Rules', 'lumiere_static_start' ], 0 );
 		add_action( 'init', [ 'Lumiere\Alteration\Redirect_Virtual_Page', 'lumiere_static_start' ], 1 );
 
-		// Edit metas tags in popups.
-		add_action( 'init', [ 'Lumiere\Alteration\Head_Popups', 'lumiere_static_start' ], 0 );
-
 		/**
 		 * Admin interface.
 		 */
@@ -101,6 +98,7 @@ class Core {
 
 		// Frontpage classes if it is not an admin page
 		if ( ! is_admin() ) {
+			add_action( 'init', [ 'Lumiere\Tools\Ban_Bots', 'lumiere_static_start' ], 0 );
 			add_action( 'init', [ 'Lumiere\Frontend\Movie', 'lumiere_static_start' ], 0 );
 			add_action( 'init', [ 'Lumiere\Frontend\Widget_Frontpage', 'lumiere_widget_frontend_start' ], 0 );
 		}

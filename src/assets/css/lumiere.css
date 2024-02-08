@@ -265,6 +265,13 @@ color: red;}
 	text-align: center;
 	transition: all .3s ease;
 }
+.lumiere_taxo_results {
+	padding:2em;
+}
+
+/* ---------------------------------------- polylang forms */
+
+#tag_lang{width:100px;}
 
 /* ---------------------------------------- Gutenberg-search.php */
 
@@ -279,11 +286,13 @@ span.label_moviesearched{font-size:larger !important;padding:10px;}
 span.lumiere_gutenberg_copy_class{background-color: cornsilk;color:darkgrey;padding:10px;border-radius:10px;margin:5px;border: 1px solid black;}
 
 /* ---------------------------------------- Spinner Loader when searching */
+
 .parent__spinner{position: absolute;top: 0;bottom: 0;left: 0;right: 0;background-color: white;display:flex;justify-content:center;align-items: center;z-index: 1000;height: 100%;width: 100%;opacity:1;animation:fade;animation-duration: 0s;animation-delay:1s;animation-fill-mode: forwards;}
 .loading__spinner{/*création du loader*/border: 20px solid white;border-top:20px solid darkgrey;border-bottom:20px solid darkgrey;border-radius: 70%;/*arrondi des angles*/  width:100px;height:100px;margin: auto;/*placement milieu de page*/position:absolute;right:0;top:0;bottom:0;left:0;animation-name:spin;animation-duration:4s;animation-fill-mode:forwards;}
 @keyframes spin {0% {transform: rotate(0deg);visibility:visible;}50%{transform: rotate(180deg);visibility:visible;}to {transform:rotate(360deg);visibility:hidden;height:0; width:0;}}
 @keyframes fade {from{opacity:1;display: block;}to{opacity:0;z-index:-100; display:none;height:0;width:0;display: none;clip-path:circle(0);/* rognage de la totalité donc disparition*/}}
 @keyframes monanim {from{overflow:hidden;}to{overflow:visible;}}
+
 /* ---------------------------------------- Loader when searching */
 
 .lumiere_align_left{text-align:left;}
