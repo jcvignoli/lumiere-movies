@@ -100,26 +100,8 @@ class Cache extends \Lumiere\Admin {
 
 			update_option( Settings::LUMIERE_CACHE_OPTIONS, $this->imdb_cache_values );
 
-			// Set up cron
-			if (
-				$this->imdb_cache_values['imdbcachekeepsizeunder'] === '1'
-				&& intval( $this->imdb_cache_values['imdbcachekeepsizeunder_sizelimit'] ) > 0
-				&& isset( $_POST['imdb_imdbcachekeepsizeunder'] )
-			) {
-
-				// Add WP cron if not already registred.
-				$this->lumiere_cache_add_cron_deleteoversizedfolder();
-
-				// Remove cron
-			} elseif (
-				$this->imdb_cache_values['imdbcachekeepsizeunder'] === '0'
-				&& isset( $_POST['imdb_imdbcachekeepsizeunder'] )
-			) {
-				// Add WP cron if not already registred.
-				$this->lumiere_cache_remove_cron_deleteoversizedfolder();
-			}
-
 			if ( wp_redirect( $this->page_cache_option ) ) {
+				set_transient( 'cron_settings_updated', 'whatever', 1 );
 				set_transient( 'notice_lumiere_msg', 'cache_options_update_msg', 1 );
 				exit;
 			}
@@ -1300,40 +1282,6 @@ class Cache extends \Lumiere\Admin {
 			}
 		}
 		$this->logger->log()->info( '[Lumiere] Daily Cache cron deleted the following files: ' . join( $files ) );
-	}
-
-	/**
-	 * Add WP Cron to delete files that are over a given limit
-	 *
-	 * @return void Files exceeding provided limited are deleted
-	 */
-	private function lumiere_cache_add_cron_deleteoversizedfolder(): void {
-
-		/* Set up WP Cron if it doesn't exist */
-		if ( wp_next_scheduled( 'lumiere_cron_deletecacheoversized' ) === false ) {
-			// Cron to run Daily, first time in 1 minute
-			wp_schedule_event( time() + 60, 'daily', 'lumiere_cron_deletecacheoversized' );
-			$this->logger->log()->info( '[Lumiere] Cron lumiere_cron_deletecacheoversized added' );
-
-		}
-	}
-
-	/**
-	 * Remove WP Cron that delete files that are over a given limit
-	 *
-	 * @return void Files exceeding provided limited are deleted
-	 */
-	private function lumiere_cache_remove_cron_deleteoversizedfolder(): void {
-		$wp_cron_list = count( _get_cron_array() ) > 0 ? _get_cron_array() : [];
-		foreach ( $wp_cron_list as $time => $hook ) {
-			if ( isset( $hook['lumiere_cron_deletecacheoversized'] ) ) {
-				$timestamp = wp_next_scheduled( 'lumiere_cron_deletecacheoversized' );
-				if ( $timestamp !== false ) {
-					wp_unschedule_event( $timestamp, 'lumiere_cron_deletecacheoversized' );
-					$this->logger->log()->info( '[Lumiere] Cron lumiere_cron_deletecacheoversized removed' );
-				}
-			}
-		}
 	}
 
 }

@@ -126,7 +126,7 @@ class Core {
 		add_action( 'automatic_updates_complete', [ $this, 'lumiere_on_lumiere_upgrade_autoupdate' ], 10, 1 );
 		add_action( 'upgrader_process_complete', [ $this, 'lumiere_on_lumiere_upgrade_manual' ], 10, 2 );
 
-		// Add cron schedules.
+		// Crons schedules.
 		add_action( 'init', [ 'Lumiere\Admin\Cron', 'lumiere_cron_start' ], 0 );
 
 	}
