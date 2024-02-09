@@ -33,17 +33,6 @@ class General extends \Lumiere\Admin {
 	];
 
 	/**
-	 * Notification messages
-	 * @var array<string, string> $messages
-	 */
-	public array $messages = [
-		'highslide_success' => 'Highslide successfully installed!',
-		'highslide_failure' => 'Highslide installation failed!',
-		'highslide_down' => 'Website to download Highslide is currently down, please try again later.',
-		'highslide_website_unkown' => 'Website variable is not set.',
-	];
-
-	/**
 	 * Constructor
 	 */
 	protected function __construct() {
@@ -57,11 +46,6 @@ class General extends \Lumiere\Admin {
 			// Start the class Utils to activate debug -> already started in admin_pages
 			$this->utils_class->lumiere_activate_debug( $this->imdb_admin_values, 'no_var_dump', null );
 		}
-
-		// Display notices.
-		//add_action( 'admin_notices', 'lumiere_admin_display_messages' );
-		$this->lumiere_admin_display_messages();
-
 	}
 
 	/**
@@ -76,37 +60,7 @@ class General extends \Lumiere\Admin {
 	}
 
 	/**
-	 *  Display admin notices
-	 *
-	 */
-	public function lumiere_admin_display_messages(): void {
-
-		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_key( $_GET['msg'] ), $this->messages ) ) {
-			switch ( sanitize_text_field( $_GET['msg'] ) ) {
-				// Message for success
-				case 'highslide_success':
-					echo Utils::lumiere_notice( 1, esc_html( $this->messages['highslide_success'] ) );
-					break;
-				// Message for failure
-				case 'highslide_failure':
-					echo Utils::lumiere_notice( 3, esc_html( $this->messages['highslide_failure'] ) . ' ' . esc_html__( 'Your folder might be protected. Download highslide manually', 'lumiere-movies' ) . " <a href='" . esc_url( \Lumiere\Settings::IMDBBLOGHIGHSLIDE ) . "'>" . esc_html__( 'here', 'lumiere-movies' ) . '</a> ' . esc_html__( 'and extract the zip into', 'lumiere-movies' ) . '<br />' . esc_url( $this->config_class->lumiere_js_dir ) );
-					break;
-				// Message for website down
-				case 'highslide_down':
-					echo Utils::lumiere_notice( 3, esc_html( $this->messages['highslide_down'] ) );
-					break;
-				// Message for website unkown
-				case 'highslide_website_unkown':
-					echo Utils::lumiere_notice( 3, esc_html( $this->messages['highslide_website_unkown'] ) );
-					break;
-			}
-
-		}
-	}
-
-	/*
-	 *  Display head
-	 *
+	 * Display head
 	 */
 	private function lumiere_general_head(): void {
 
@@ -145,13 +99,10 @@ class General extends \Lumiere\Admin {
 			// update options
 			update_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, $this->imdb_admin_values );
 
-			// display message on top
-			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options saved.', 'lumiere-movies' ) . '</strong>' );
-
-			// Display a refresh link otherwise refreshed data is not seen
-			if ( headers_sent() ) {
-				echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
-				exit();
+			$extra_url_string = isset( $_GET['generaloption'] ) ? '&generaloption=' . filter_input( INPUT_GET, 'generaloption', FILTER_SANITIZE_STRING ) : '';
+			if ( wp_redirect( $this->page_general_base . $extra_url_string ) ) {
+				set_transient( 'notice_lumiere_msg', 'options_updated', 1 );
+				exit;
 			}
 
 		} elseif ( isset( $_POST['reset_imdbSettings'] ) ) { //---------------------reset options selected
@@ -160,15 +111,11 @@ class General extends \Lumiere\Admin {
 
 			delete_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS );
 
-			// display message on top
-			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options reset.', 'lumiere-movies' ) . '</strong>' );
-
-			// Display a refresh link otherwise refreshed data is not seen
-			if ( headers_sent() ) {
-				echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
-				exit();
+			$extra_url_string = isset( $_GET['generaloption'] ) ? '&generaloption=' . filter_input( INPUT_GET, 'generaloption', FILTER_SANITIZE_STRING ) : '';
+			if ( wp_redirect( $this->page_general_base . $extra_url_string ) ) {
+				set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
+				exit;
 			}
-
 		}
 	}
 
@@ -179,9 +126,9 @@ class General extends \Lumiere\Admin {
 
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-path.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Paths & Layout', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&generaloption=base' ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-path.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Paths & Layout', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_general_base ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-advanced.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&generaloption=advanced' ); ?>"><?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-advanced.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_general_advanced ); ?>"><?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?></a></div>
 	</div>
 </div>
 

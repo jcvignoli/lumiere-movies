@@ -26,16 +26,6 @@ use Lumiere\Tools\Utils;
 class Data extends \Lumiere\Admin {
 
 	/**
-	 * Notification messages
-	 * @var array<string, string> $messages
-	 */
-	public array $messages = [
-		'taxotemplatecopy_success' => 'Template successfully copied.',
-		'taxotemplatecopy_failed' => 'Template copy failed!',
-		'taxotemplate_newversion' => 'New taxonomy template version, visit the taxonomy options to update.',
-	];
-
-	/**
 	 * List of data details that display a field to enter
 	 * A limit number in "Display" section
 	 * @var array<string> $details_with_numbers
@@ -57,9 +47,6 @@ class Data extends \Lumiere\Admin {
 
 		// Construct parent class
 		parent::__construct();
-
-		// Display notices.
-		$this->lumiere_admin_display_messages();
 
 		// Start logger
 		$this->logger->lumiere_start_logger( 'adminData' );
@@ -109,41 +96,11 @@ class Data extends \Lumiere\Admin {
 	}
 
 	/**
-	 *  Display admin notices
-	 *
-	 */
-	public function lumiere_admin_display_messages(): void {
-
-		// If $_GET["msg"] is found, display a related notice
-		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $this->messages ) ) {
-			// Message for success
-			if ( sanitize_text_field( $_GET['msg'] ) === 'taxotemplatecopy_success' ) {
-				echo Utils::lumiere_notice( 1, esc_html( $this->messages['taxotemplatecopy_success'] ) );
-
-				// Message for failure
-			} elseif ( sanitize_text_field( $_GET['msg'] ) === 'taxotemplatecopy_failed' ) {
-
-				echo Utils::lumiere_notice( 3, esc_html( $this->messages['taxotemplatecopy_failed'] ) );
-
-			} elseif ( sanitize_text_field( $_GET['msg'] ) === 'taxotemplate_newversion' ) {
-
-				echo Utils::lumiere_notice( 3, esc_html( $this->messages['taxotemplate_newversion'] ) );
-
-			}
-
-		}
-
-	}
-
-	/**
 	 *  Display head
-	 *
 	 */
 	private function lumiere_data_head(): void {
 
-		/* Update options selected
-		 *
-		 */
+		/** Update options selected */
 		if ( isset( $_POST['update_imdbwidgetSettings'] ) ) {
 
 			check_admin_referer( 'imdbwidgetSettings_check', 'imdbwidgetSettings_check' );
@@ -158,10 +115,10 @@ class Data extends \Lumiere\Admin {
 				}
 
 				// These $_POST values shouldn't be processed
-				if ( $key_sanitized === 'imdbwidgetsettings_check' ) {
-					continue;
-				}
-				if ( $key_sanitized === 'update_imdbwidgetsettings' ) {
+				if (
+					$key_sanitized === 'imdbwidgetsettings_check'
+					|| $key_sanitized === 'update_imdbwidgetsettings'
+				) {
 					continue;
 				}
 
@@ -192,57 +149,47 @@ class Data extends \Lumiere\Admin {
 			}
 
 			// update options
-			update_option( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, $this->imdb_widget_values );
+			update_option( Settings::LUMIERE_WIDGET_OPTIONS, $this->imdb_widget_values );
 
-			// display confirmation message
-			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options saved.', 'lumiere-movies' ) . '</strong>' );
-
-			// Display a refresh link otherwise refreshed data is not seen
-			if ( headers_sent() ) {
-				echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
-				die();
+			$extra_url_string = isset( $_GET['widgetoption'] ) ? '&widgetoption=' . filter_input( INPUT_GET, 'widgetoption', FILTER_SANITIZE_STRING ) : '';
+			if ( wp_redirect( $this->page_data . $extra_url_string ) ) {
+				set_transient( 'notice_lumiere_msg', 'options_updated', 1 );
+				exit;
 			}
 
 		}
 
-		/* Reset options selected
-		 *
-		 */
+		/** Reset options selected */
 		if ( isset( $_POST['reset_imdbwidgetSettings'] ) ) {
 
 			check_admin_referer( 'imdbwidgetSettings_check', 'imdbwidgetSettings_check' );
 
 			// Delete the options to reset
-			delete_option( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS );
+			delete_option( Settings::LUMIERE_WIDGET_OPTIONS );
 
-			// display confirmation message
-			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Options reset.', 'lumiere-movies' ) . '</strong>' );
-
-			// Display a refresh link otherwise refreshed data is not seen
-			if ( headers_sent() ) {
-				echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
-				exit();
+			$extra_url_string = isset( $_GET['widgetoption'] ) ? '&widgetoption=' . filter_input( INPUT_GET, 'widgetoption', FILTER_SANITIZE_STRING ) : '';
+			if ( wp_redirect( $this->page_data . $extra_url_string ) ) {
+				set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
+				exit;
 			}
-
 		}
 
 	}
 
 	/**
-	 *  Display submenu
-	 *
+	 * Display submenu
 	 */
 	private function lumiere_data_display_submenu(): void { ?>
 
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattodisplay.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to display', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what' ); ?>"><?php esc_html_e( 'Display', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattodisplay.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to display', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_data . '&widgetoption=what' ); ?>"><?php esc_html_e( 'Display', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Display order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=order' ); ?>"><?php esc_html_e( 'Display order', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Display order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_data . '&widgetoption=order' ); ?>"><?php esc_html_e( 'Display order', 'lumiere-movies' ); ?></a></div>
 
 			<?php if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) { ?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattotaxo.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to taxonomize', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo' ); ?>"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattotaxo.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to taxonomize', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_data . '&widgetoption=taxo' ); ?>"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?></a></div>
 			<?php } else { ?>
 		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattotaxo.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></i></div>
 			<?php } ?>
@@ -255,8 +202,7 @@ class Data extends \Lumiere\Admin {
 	}
 
 	/**
-	 *  Display the body
-	 *
+	 * Display the body
 	 */
 	private function lumiere_data_display_body(): void {
 
@@ -305,7 +251,6 @@ class Data extends \Lumiere\Admin {
 
 	/**
 	 *  Display the fields for taxonomy selection
-	 *
 	 */
 	private function lumiere_data_display_taxo_fields(): void {
 
@@ -375,7 +320,6 @@ class Data extends \Lumiere\Admin {
 
 	/**
 	 *  Display Page Order of Data Details
-	 *
 	 */
 	private function lumiere_data_display_order(): void {
 		?>
@@ -436,8 +380,7 @@ class Data extends \Lumiere\Admin {
 	}
 
 	/**
-	 *  Display Page Taxonomy
-	 *
+	 * Display Page Taxonomy
 	 */
 	private function lumiere_data_display_taxonomy(): void {
 
@@ -487,7 +430,6 @@ class Data extends \Lumiere\Admin {
 
 	/**
 	 *  Display Page of Data Selection
-	 *
 	 */
 	private function lumiere_data_display_dataselection(): void {
 

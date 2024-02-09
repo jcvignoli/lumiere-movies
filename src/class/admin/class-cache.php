@@ -34,26 +34,6 @@ use Exception;
 class Cache extends \Lumiere\Admin {
 
 	/**
-	 * Escape html tags
-	 */
-	const ALLOWED_HTML = [
-		'strong' => [],
-	];
-
-	/**
-	 * message notification options
-	 * @var array<string, string> $messages
-	 */
-	private array $messages = [
-		'cache_options_update_success_msg' => 'Cache options saved.',
-		'cache_options_refresh_success_msg' => 'Cache options successfully reset.',
-		'cache_delete_all_msg' => 'All cache files deleted.',
-		'cache_delete_ticked_msg' => 'Ticked file(s) deleted.',
-		'cache_delete_individual_msg' => 'Selected cache file successfully deleted.',
-		'cache_refresh_individual_msg' => 'Selected cache file successfully refreshed.',
-	];
-
-	/**
 	 * Class \Lumiere\Imdbphp
 	 *
 	 */
@@ -80,9 +60,6 @@ class Cache extends \Lumiere\Admin {
 
 		// Logger: set to true to display debug on screen.
 		$this->logger->lumiere_start_logger( get_class(), false );
-
-		// Display notices.
-		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
 	}
 
 	/**
@@ -94,30 +71,6 @@ class Cache extends \Lumiere\Admin {
 		$this->lumiere_cache_head();
 		$this->lumiere_cache_display_submenu();
 		$this->lumiere_cache_display_body();
-
-	}
-
-	/**
-	 *  Display admin notices
-	 */
-	public function lumiere_admin_display_messages(): void {
-
-		// If $_GET["msg"] is found, display a related notice
-		if ( ( isset( $_GET['msg'] ) ) && array_key_exists( sanitize_text_field( $_GET['msg'] ), $this->messages ) ) {
-			if ( sanitize_text_field( $_GET['msg'] ) === 'cache_options_update_success_msg' ) {
-				echo Utils::lumiere_notice( 1, esc_html( $this->messages['cache_options_update_success_msg'] ) );
-			} elseif ( sanitize_text_field( $_GET['msg'] ) === 'cache_options_refresh_success_msg' ) {
-				echo Utils::lumiere_notice( 1, esc_html( $this->messages['cache_options_refresh_success_msg'] ) );
-			} elseif ( sanitize_text_field( $_GET['msg'] ) === 'cache_delete_all_msg' ) {
-				echo Utils::lumiere_notice( 1, esc_html( $this->messages['cache_delete_all_msg'] ) );
-			} elseif ( sanitize_text_field( $_GET['msg'] ) === 'cache_delete_ticked_msg' ) {
-				echo Utils::lumiere_notice( 1, esc_html( $this->messages['cache_delete_ticked_msg'] ) );
-			} elseif ( sanitize_text_field( $_GET['msg'] ) === 'cache_delete_individual_msg' ) {
-				echo Utils::lumiere_notice( 1, esc_html( $this->messages['cache_delete_individual_msg'] ) );
-			} elseif ( sanitize_text_field( $_GET['msg'] ) === 'cache_refresh_individual_msg' ) {
-				echo Utils::lumiere_notice( 1, esc_html( $this->messages['cache_refresh_individual_msg'] ) );
-			}
-		}
 
 	}
 
@@ -166,93 +119,84 @@ class Cache extends \Lumiere\Admin {
 				$this->lumiere_cache_remove_cron_deleteoversizedfolder();
 			}
 
-			// display message on top
-			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Cache options saved.', 'lumiere-movies' ) . '</strong>' );
-			if ( headers_sent() ) {
-
-				echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
-				exit();
-
+			if ( wp_redirect( $this->page_cache_option ) ) {
+				set_transient( 'notice_lumiere_msg', 'cache_options_update_msg', 1 );
+				exit;
 			}
-		}
 
-		// reset options selected
-		if ( isset( $_POST['reset_cache_options'] ) ) {
+			// reset options selected
+		} elseif ( isset( $_POST['reset_cache_options'] ) ) {
 
 			check_admin_referer( 'cache_options_check', 'cache_options_check' );
 
 			delete_option( Settings::LUMIERE_CACHE_OPTIONS );
 
-			// display message on top
-			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Cache options reset.', 'lumiere-movies' ) . '</strong>' );
-
-			// Display a refresh link otherwise refreshed data is not seen
-			if ( headers_sent() ) {
-
-				echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
-				exit();
-
+			if ( wp_redirect( $this->page_cache_manage ) ) {
+				set_transient( 'notice_lumiere_msg', 'cache_options_refresh_msg', 1 );
+				exit;
 			}
-		}
 
-		// delete all cache files
-		if ( isset( $_POST['delete_all_cache'] ) ) {
+			// delete all cache files
+		} elseif ( isset( $_POST['delete_all_cache'] ) ) {
 
 			check_admin_referer( 'cache_all_and_query_check', 'cache_all_and_query_check' );
 
 			// prevent drama
 			if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
-
 				wp_die( Utils::lumiere_notice( 3, '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' ) );
-
 			}
 
 			// Delete all cache
 			Utils::lumiere_unlink_recursive( $this->imdb_cache_values['imdbcachedir'] );
 
-			// display message on top
-			echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'All cache files deleted.', 'lumiere-movies' ) . '</strong>' );
-			if ( headers_sent() ) {
-
-				echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
-				exit();
-
+			if ( wp_redirect( $this->page_cache_manage ) ) {
+				set_transient( 'notice_lumiere_msg', 'cache_delete_all_msg', 1 );
+				exit;
 			}
-		}
 
-		// delete all query cache files
-		if ( isset( $_POST['delete_query_cache'] ) ) {
+			// delete all query cache files.
+		} elseif ( isset( $_POST['delete_query_cache'] ) ) {
 
 			check_admin_referer( 'cache_all_and_query_check', 'cache_all_and_query_check' );
 
 			$this->cache_delete_query_cache_files();
 
-		}
+			if ( wp_redirect( $this->page_cache_manage ) ) {
+				set_transient( 'notice_lumiere_msg', 'cache_query_deleted', 1 );
+				exit;
+			}
 
-		##################################### delete several ticked files
-
-		if ( isset( $_POST['delete_ticked_cache'] ) ) {
+			// delete several ticked files.
+		} elseif ( isset( $_POST['delete_ticked_cache'] ) ) {
 
 			check_admin_referer( 'cache_options_check', 'cache_options_check' );
 
 			$this->cache_delete_ticked_files();
 
-		}
+			if ( wp_redirect( $this->page_cache_manage ) ) {
+				set_transient( 'notice_lumiere_msg', 'cache_delete_ticked_msg', 1 );
+				exit;
+			}
 
-		##################################### delete a specific file by clicking on it
-
-		if ( isset( $_GET['dothis'] ) && ( $_GET['dothis'] === 'delete' ) && isset( $_GET['type'] ) ) {
+			// delete a specific file by clicking on it.
+		} elseif ( isset( $_GET['dothis'] ) && ( $_GET['dothis'] === 'delete' ) && isset( $_GET['type'] ) ) {
 
 			$this->cache_delete_specific_file();
 
-		}
+			if ( wp_redirect( $this->page_cache_manage ) ) {
+				set_transient( 'notice_lumiere_msg', 'cache_delete_individual_msg', 1 );
+				exit;
+			}
 
-		##################################### refresh a specific file by clicking on it
-
-		if ( isset( $_GET['dothis'] ) && ( $_GET['dothis'] === 'refresh' ) && isset( $_GET['type'] ) ) {
+			// refresh a specific file by clicking on it.
+		} elseif ( isset( $_GET['dothis'] ) && ( $_GET['dothis'] === 'refresh' ) && isset( $_GET['type'] ) ) {
 
 			$this->cache_refresh_specific_file();
 
+			if ( wp_redirect( $this->page_cache_manage ) ) {
+				set_transient( 'notice_lumiere_msg', 'cache_refresh_individual_msg', 1 );
+				exit;
+			}
 		}
 	}
 
@@ -328,9 +272,6 @@ class Cache extends \Lumiere\Admin {
 				$wp_filesystem->delete( $pic_big_sanitized );
 			}
 		}
-
-		echo Utils::lumiere_notice( 1, esc_html__( 'Selected cache file deleted.', 'lumiere-movies' ) );
-
 	}
 
 	/**
@@ -445,9 +386,6 @@ class Cache extends \Lumiere\Admin {
 			$person->trademark();
 
 		}
-
-		echo Utils::lumiere_notice( 1, esc_html__( 'Selected cache file successfully refreshed.', 'lumiere-movies' ) );
-
 	}
 
 	/**
@@ -481,15 +419,6 @@ class Cache extends \Lumiere\Admin {
 
 			// the file exists, it is neither . nor .., so delete!
 			$wp_filesystem->delete( $cache_to_delete );
-		}
-
-		// Display messages on top.
-		echo Utils::lumiere_notice( 1, '<strong>' . esc_html__( 'Query cache files deleted.', 'lumiere-movies' ) . '</strong>' );
-		if ( headers_sent() ) {
-
-			echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
-			exit();
-
 		}
 	}
 
@@ -581,16 +510,6 @@ class Cache extends \Lumiere\Admin {
 				}
 			}
 		}
-
-		// Display message on top.
-		echo Utils::lumiere_notice( 1, esc_html__( 'Ticked cache file(s) deleted.', 'lumiere-movies' ) );
-		if ( headers_sent() ) {
-
-			echo Utils::lumiere_notice( 1, '<div align="center"><a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a></div>' );
-			exit();
-
-		}
-
 	}
 
 	/**
@@ -601,11 +520,11 @@ class Cache extends \Lumiere\Admin {
 
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-cache-options.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=cache&cacheoption=option' ); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-cache-options.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_cache_option ); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?></a></div>
 		<?php
 		if ( '1' === $this->imdb_cache_values['imdbusecache'] ) {
 			?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-cache-management.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage' ); ?>"><?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-cache-management.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_cache_manage ); ?>"><?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?></a></div>
 			<?php
 		};
 		?>
@@ -936,9 +855,9 @@ class Cache extends \Lumiere\Admin {
 
 							<input type="checkbox" id="imdb_cachedeletefor_movies_' . str_replace( ' ', '_', $title_sanitized ) . '" name="imdb_cachedeletefor_movies[]" value="' . $obj_sanitized . '" /><label for="imdb_cachedeletefor_movies[]" class="imdblt_bold">' . $title_sanitized . '</label> <br />' . esc_html__( 'last updated on ', 'lumiere-movies' ) . gmdate( 'j M Y H:i:s', $filetime_movie ) . ' 
 							<div id="refresh_edit_' . $title_sanitized . '" class="row-actions">
-								<span class="edit"><a id="deleteindividual_' . $title_sanitized . '" href="' . admin_url() . "admin.php?page=lumiere_options&subsection=cache&cacheoption=manage&dothis=refresh&where=$obj_sanitized&type=movie" . '" class="admin-cache-confirm-refresh" data-confirm="' . esc_html__( 'Refresh cache for *', 'lumiere-movies' ) . $title_sanitized . '*?">' . esc_html__( 'refresh', 'lumiere-movies' ) . '</a></span>
+								<span class="edit"><a id="deleteindividual_' . $title_sanitized . '" href="' . esc_url( $this->page_cache_manage . '&dothis=refresh&where=' . $obj_sanitized . '&type=movie' ) . '" class="admin-cache-confirm-refresh" data-confirm="' . esc_html__( 'Refresh cache for *', 'lumiere-movies' ) . $title_sanitized . '*?">' . esc_html__( 'refresh', 'lumiere-movies' ) . '</a></span>
 
-								<span class="delete"><a href="' . esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage&dothis=delete&where=' . $obj_sanitized . '&type=movie' ) . '" class="admin-cache-confirm-delete" data-confirm="' . esc_html__( 'Delete *', 'lumiere-movies' ) . $title_sanitized . esc_html__( '* from cache?', 'lumiere-movies' ) . '" title="' . esc_html__( 'Delete *', 'lumiere-movies' ) . $title_sanitized . esc_html__( '* from cache?', 'lumiere-movies' ) . '">' . esc_html__( 'delete', 'lumiere-movies' ) . '</a></span>
+								<span class="delete"><a href="' . esc_url( $this->page_cache_manage . '&dothis=delete&where=' . $obj_sanitized . '&type=movie' ) . '" class="admin-cache-confirm-delete" data-confirm="' . esc_html__( 'Delete *', 'lumiere-movies' ) . $title_sanitized . esc_html__( '* from cache?', 'lumiere-movies' ) . '" title="' . esc_html__( 'Delete *', 'lumiere-movies' ) . $title_sanitized . esc_html__( '* from cache?', 'lumiere-movies' ) . '">' . esc_html__( 'delete', 'lumiere-movies' ) . '</a></span>
 							</div></td></tr></table>
 						</div>';// send input and results into array
 
@@ -1044,23 +963,23 @@ class Cache extends \Lumiere\Admin {
 							<input type="checkbox" id="imdb_cachedeletefor_people_' . str_replace( ' ', '_', $name_sanitized ) . '" name="imdb_cachedeletefor_people[]" value="' . $objpiple_sanitized . '" /><label for="imdb_cachedeletefor_people_[]" class="imdblt_bold">' . $name_sanitized . '</label><br />' . esc_html__( 'last updated on ', 'lumiere-movies' ) . gmdate( 'j M Y H:i:s', $filetime_people ) . '
 							
 							<div class="row-actions">
-								<span class="view"><a href="' . esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage&dothis=refresh&where=' . $objpiple_sanitized . '&type=people' ) . '" class="admin-cache-confirm-refresh" data-confirm="Refresh cache for *' . $name_sanitized . '*" title="Refresh cache for *' . $name_sanitized . '*">' . esc_html__( 'refresh', 'lumiere-movies' ) . '</a></span> 
+								<span class="view"><a href="' . esc_url( $this->page_cache_manage . '&dothis=refresh&where=' . $objpiple_sanitized . '&type=people' ) . '" class="admin-cache-confirm-refresh" data-confirm="Refresh cache for *' . $name_sanitized . '*" title="Refresh cache for *' . $name_sanitized . '*">' . esc_html__( 'refresh', 'lumiere-movies' ) . '</a></span> 
 
-								<span class="delete"><a href="' . esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage&dothis=delete&where=' . $objpiple_sanitized . '&type=people' ) . '" class="admin-cache-confirm-delete" data-confirm="You are about to delete *' . $name_sanitized . '* from cache. Click Cancel to stop or OK to continue." title="Delete cache for *' . $name_sanitized . '*">' . esc_html__( 'delete', 'lumiere-movies' ) . '</a></span>
+								<span class="delete"><a href="' . esc_url( $this->page_cache_manage . '&dothis=delete&where=' . $objpiple_sanitized . '&type=people' ) . '" class="admin-cache-confirm-delete" data-confirm="You are about to delete *' . $name_sanitized . '* from cache. Click Cancel to stop or OK to continue." title="Delete cache for *' . $name_sanitized . '*">' . esc_html__( 'delete', 'lumiere-movies' ) . '</a></span>
 							</div></td></tr></table>
-					</div>'; // send input and results into array
+					</div>'; // send input and results into array.
 
 									flush();
-								} //end quick/long loading $this->imdb_cache_values['imdbcachedetailsshort']
+								} // end quick/long loading $this->imdb_cache_values['imdbcachedetailsshort'].
 
 							}
 						}
 					}
 
-					// sort alphabetically the data
+					// sort alphabetically the data.
 					asort( $datapeople );
 
-					// print all lines
+					// print all lines.
 					foreach ( $datapeople as $inputline ) {
 						// @phpcs:ignore WordPress.Security.EscapeOutput
 						echo $inputline;
@@ -1083,9 +1002,9 @@ class Cache extends \Lumiere\Admin {
 
 			</div>
 					<?php
-				} // end if data found
+				} // end if data found.
 
-				// End of form for ticked cache to delete
+				// End of form for ticked cache to delete.
 				wp_nonce_field( 'cache_options_check', 'cache_options_check' );
 				?>
 
@@ -1109,15 +1028,11 @@ class Cache extends \Lumiere\Admin {
 		<div class="lumiere_padding_five">
 			<span class="imdblt_smaller">
 				<?php
-				// display cache folder size
+				// display cache folder size.
 				if ( $imdlt_cache_file_count > 0 ) {
-
 					echo esc_html__( 'Movies\' cache is using', 'lumiere-movies' ) . ' ' . Utils::lumiere_format_bytes( $size_cache_total ) . "\n";
-
 				} else {
-
 					echo esc_html__( 'Movies\' cache is empty.', 'lumiere-movies' );
-
 				}
 				?>
 			</span>

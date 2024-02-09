@@ -54,12 +54,40 @@ class Admin {
 	 */
 	protected string $root_path = '';
 	protected string $root_url = '';
+	protected string $page_cache_manage;
+	protected string $page_cache_option;
+	protected string $page_data;
+	protected string $page_general_base;
+	protected string $page_general_advanced;
 
 	/**
 	 * HTML allowed for use of wp_kses()
 	 */
 	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
 		'i' => true,
+	];
+
+	/**
+	 * Notification messages
+	 * @var array<string, string> $lumiere_notice_messages
+	 */
+	private array $lumiere_notice_messages = [
+		'options_updated' => 'Options saved.',
+		'options_reset' => 'Options reset.',
+		'cache_options_update_msg' => 'Cache options saved.',
+		'cache_options_refresh_msg' => 'Cache options reset.',
+		'cache_delete_all_msg' => 'All cache files deleted.',
+		'cache_delete_ticked_msg' => 'Ticked file(s) deleted.',
+		'cache_delete_individual_msg' => 'Selected cache file deleted.',
+		'cache_refresh_individual_msg' => 'Selected cache file refreshed.',
+		'cache_query_deleted' => 'Query cache files deleted.',
+		'taxotemplatecopy_success' => 'Template successfully copied.',
+		'taxotemplatecopy_failed' => 'Template copy failed!',
+		'taxotemplate_newversion' => 'New taxonomy template version, visit the taxonomy options to update.',
+		'highslide_success' => 'Highslide successfully installed!',
+		'highslide_failure' => 'Highslide installation failed!',
+		'highslide_down' => 'Website to download Highslide is currently down, please try again later.',
+		'highslide_website_unkown' => 'Website variable is not set.',
 	];
 
 	/**
@@ -80,6 +108,11 @@ class Admin {
 		// Build constants
 		$this->root_url = plugin_dir_url( __DIR__ );
 		$this->root_path = plugin_dir_path( __DIR__ );
+		$this->page_cache_manage = admin_url( 'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage' );
+		$this->page_cache_option = admin_url( 'admin.php?page=lumiere_options&subsection=cache&cacheoption=option' );
+		$this->page_data = admin_url( 'admin.php?page=lumiere_options&subsection=dataoption' );
+		$this->page_general_base = admin_url( 'admin.php?page=lumiere_options&generaloption=base' );
+		$this->page_general_advanced = admin_url( 'admin.php?page=lumiere_options&generaloption=advanced' );
 
 		// Start the debug
 		// If runned earlier, such as 'admin_init', breaks block editor edition.
@@ -102,7 +135,9 @@ class Admin {
 	}
 
 	/**
-	 *  Display admin notices
+	 * Display admin notices
+	 *
+	 * @since 3.12 using transients for display cache notice messages
 	 */
 	public function lumiere_admin_display_messages(): void {
 
@@ -131,6 +166,11 @@ class Admin {
 			);
 		}
 
+		// Messages for child classes.
+		$notif_msg = get_transient( 'notice_lumiere_msg' );
+		if ( isset( $notif_msg ) && array_key_exists( $notif_msg, $this->lumiere_notice_messages ) ) {
+			echo Utils::lumiere_notice( 1, esc_html( $this->lumiere_notice_messages[ $notif_msg ] ) );
+		}
 	}
 
 	/**
