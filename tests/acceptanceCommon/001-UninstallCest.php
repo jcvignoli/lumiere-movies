@@ -1,5 +1,7 @@
 <?php
 
+# THIS never restore the lumiere-movies folder in wp-content/plugins
+
 # Class meant to test remote wordpress install (a WebDriver is needed for JS execution)
 
 class UninstallCest {

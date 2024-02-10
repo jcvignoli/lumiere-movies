@@ -135,6 +135,28 @@ namespace {
 
 		return PLL()->links->get_home_url( $lang );
 	}
+	
+	/**
+	 * Save terms translations
+	 *
+	 * @api
+	 * @since 1.5
+	 * @since 3.4 Returns an associative array of translations.
+	 *
+	 * @param int[] $arr An associative array of translations with language code as key and term ID as value.
+	 * @return int[] An associative array with language codes as key and term IDs as values.
+	 *
+	 * @phpstan-return array<non-empty-string, positive-int>
+	 */
+	function pll_save_term_translations( $arr ) {
+		$id = reset( $arr );
+		if ( $id ) {
+			return PLL()->model->term->save_translations( $id, $arr );
+		}
+
+		return array();
+	}
+	
 	/**
 	 * Determine whether the current request is for an AMP page.
 	 *

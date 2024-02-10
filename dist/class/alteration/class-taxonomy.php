@@ -112,13 +112,13 @@ class Taxonomy {
 					[ 'page', 'post' ],
 					[
 						/* remove metaboxes from edit interface, keep the menu of post */
-						'show_ui' => true,              /* whether to manage taxo in UI */
-						'show_in_quick_edit' => false,          /* whether to show taxo in edit interface */
-						'meta_box_cb' => false,             /* whether to show taxo in metabox */
+						'show_ui' => true,          /* whether to manage taxo in UI */
+						'show_in_quick_edit' => false,      /* whether to show taxo in edit interface */
+						'meta_box_cb' => false,         /* whether to show taxo in metabox */
 						/* other settings */
-						'hierarchical' => false,
+						'hierarchical' => true,         /* Whether there is a relationship between added terms, it's true!
 						'public' => true,
-						/* 'args' => array('lang' => 'en'), 	REMOVED 2021 08 07, what's the point? */
+						/* 'args' => [ 'lang' => 'en' ], 	REMOVED 2021 08 07, what's the point? */
 						'menu_icon' => $this->imdb_admin_values['imdbplugindirectory'] . 'assets/pics/lumiere-ico13x13.png',
 						'label' => 'Lumière ' . $filter_taxonomy,
 						'query_var' => $this->imdb_admin_values['imdburlstringtaxo'] . $filter_taxonomy,

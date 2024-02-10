@@ -58,13 +58,15 @@ class PopupsBootstrapCest {
 
 		// popup link movie interstellar
 		$element = 'a[data-modal_window_film="interstellar"]';
-		$sub_url = '/lumiere/film/?film=interstellar';
+		$sub_url = '/en/lumiere/film/?film=interstellar';
 
 		$I->wantTo('Check if popup movie can be open');
 		$I->amOnPage('/2021/test-codeception/');
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait(4);
 		$I->seeElement('object', ["data" => "$this->base_url$sub_url"]);
+
+#		$I->seeElement('#theModalinterstellar');
 		
 		/** Cannot access the HTML iframe (<object>) with switchToIframe or anything else */
 #		$I->switchToIFrame("//iframe[@src='$this->base_url$sub_url']");
@@ -79,7 +81,7 @@ class PopupsBootstrapCest {
 
 		// popup link actor Jorge Rivero
 		$element = 'a[data-modal_window_people="0729473"]';
-		$sub_url = '/lumiere/person/?mid=0729473';
+		$sub_url = '/en/lumiere/person/?mid=0729473';
 
 		$I->wantTo('Check if popup person can be open');
 		$I->amOnPage('/2021/test-codeception/');
@@ -87,7 +89,7 @@ class PopupsBootstrapCest {
 
 		$I->wait(4);
 		$I->seeElement('object', ["data" => "$this->base_url$sub_url"]);
-		
+				
 		/** Cannot access the HTML iframe (<object>) with switchToIframe or anything else */
 #		$I->switchToIFrame("//iframe[@src='$this->base_url$sub_url']");
 #		$I->see('Pajarero');

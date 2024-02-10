@@ -26,12 +26,12 @@ class AcceptanceRemoteSettings {
 	/** Testing pages */
 	public const TESTING_PAGE_BASE_URL = '/en/2021/test-codeception/';
 	public const TESTING_PAGE_BASE_A_DIRECTOR = 'Christopher Nolan';
-	public const TESTING_PAGE_TAXONOMY_URL = '/lumiere-director/stanley-kubrick/';
-	public const TESTING_PAGE_POPUP_FILM_URL = '/lumiere/film/?mid=&film=interstellar';
-	public const TESTING_PAGE_POPUP_FILM_URL_WITHOUTMID = '/lumiere/film/?film=interstellar';
+	public const TESTING_PAGE_TAXONOMY_URL = '/en/lumiere-director/stanley-kubrick/';
+	public const TESTING_PAGE_POPUP_FILM_URL = '/en/lumiere/film/?mid=&film=interstellar';
+	public const TESTING_PAGE_POPUP_FILM_URL_WITHOUTMID = '/en/lumiere/film/?film=interstellar';
 	public const TESTING_PAGE_POPUP_FILM_TITLE = 'interstellar';
 	// Here, Jorge Rivero
-	public const TESTING_PAGE_POPUP_PERSON_URL = '/lumiere/person/?mid=0729473';
+	public const TESTING_PAGE_POPUP_PERSON_URL = '/en/lumiere/person/?mid=0729473';
 	public const TESTING_PAGE_POPUP_PERSON_MID = '0729473';
 	public const TESTING_PAGE_BASE_ELEMENT = 'Pajarero';
 	// WP Post including a test for auto widget, important to have a movie's name as a title.

@@ -6,7 +6,7 @@ v.3.12
 * [bug] Fixed the select of the data position that was displayed vertically (removed lumiere_writing_vertical class in class-data.php)
 * [bug] Removed a style attribute in a div, that prevents CSP compatibility (removed style="height:100%;" in class-data.php)
 * [bug] HTML 4.1 compatibiliy: label HTML tag wasn't linking a proper input id (added '_yes' in method lumiere_data_display_taxo_fields() of class-data.php, properly renamed inputs and labels in class-general.php, fixed the taxonomy form in people taxonomy themes )
-* [bug] Taxonomy link creation was broken (Fixed in Class Movie)
+* [bug] Fixed the taxonomy system, it now properly creates HTML links towards taxonomy pages within widgets/into the posts sections (now it's hierarchical, it's not using polylang functions anymore, edited classes movie and polylang and taxonomy). It is advised to delete all taxonomy tags you may have, so new are create again.
 * [technical] Page downloads from imdbphp are retried 3 times before giving up.
 * [technical] Updated to latest Personal Imdbphp library
 * [technical] Added Bingbot to the banned bots, since it doesn't respect the "no follow" rule.

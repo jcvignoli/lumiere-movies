@@ -21,7 +21,6 @@ use Lumiere\Settings;
 use Lumiere\Frontend\Movie;
 use Lumiere\Frontend\Widget_Legacy;
 use Lumiere\Tools\Utils;
-use Lumiere\Plugins\Polylang;
 
 /**
  * Widgets in Frontpages (displayed in single pages and posts only)
@@ -117,7 +116,7 @@ class Widget_Frontpage {
 		$this->__constructFrontend( 'widgetFrontpage' );
 
 		// Movie class is needed to query and retrieve movie results.
-		$this->movie_class = new Movie( new Polylang() );
+		$this->movie_class = new Movie();
 
 		// Execute logging.
 		do_action( 'lumiere_logger' );

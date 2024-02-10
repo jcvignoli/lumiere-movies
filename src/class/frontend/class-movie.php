@@ -32,14 +32,6 @@ class Movie {
 	}
 
 	/**
-	 * Polylang plugin object from its class
-	 * Can be null if Polylang is not active
-	 *
-	 * @var Polylang $plugin_polylang
-	 */
-	private ?Polylang $plugin_polylang = null;
-
-	/**
 	 * Singleton: Make sure events are runned once in this class
 	 *
 	 * @var bool $movie_run_once
@@ -65,17 +57,11 @@ class Movie {
 
 	/**
 	 * Class constructor
-	 * @param ?Polylang $plugin_polylang Polylang plugin object
 	 */
-	public function __construct( ?Polylang $plugin_polylang = null ) {
+	public function __construct() {
 
 		// Construct Frontend trait.
 		$this->__constructFrontend( self::CLASS_NAME );
-
-		// Instanciate $plugin_polylang.
-		if ( ( class_exists( 'Polylang' ) ) && ( $plugin_polylang instanceof Polylang ) && $plugin_polylang->polylang_is_active() === true ) {
-			$this->plugin_polylang = $plugin_polylang;
-		}
 
 		// Run the initialisation of the class.
 		// Not needed since lumiere_show() is called by lumiere_parse_spans().
@@ -1585,7 +1571,7 @@ class Movie {
 	}
 
 	/**
-	 * Do taxonomy layouts and register taxonomy terms
+	 * Do taxonomy layouts and insert taxonomy and create the relationship with the page displayed
 	 *
 	 * @param string $type_item mandatory: the general category of the item, ie 'director', 'color'
 	 * @param string $first_title mandatory: the name of the first string to display, ie "Stanley Kubrick"
@@ -1596,9 +1582,10 @@ class Movie {
 	 */
 	private function lumiere_make_display_taxonomy( string $type_item, string $first_title, ?string $second_title = null, string $layout = 'one' ): string {
 
-		// ************** Vars and sanitization */
-		// Language to register the term with, English by default, first language characters if WP
-		$lang_term = strtok( get_bloginfo( 'language' ), '-' );
+		/**
+		 * Vars and sanitization
+		 */
+		$lang_term = strtok( get_bloginfo( 'language' ), '-' ); // Language to register the term with, English by default, first language characters if WP
 		$output = '';
 		$list_taxonomy_term = '';
 		$layout = esc_attr( $layout );
@@ -1607,63 +1594,55 @@ class Movie {
 		$second_title = $second_title !== null ? esc_attr( $second_title ) : '';
 		$taxonomy_url_string_first = esc_attr( $this->imdb_admin_values['imdburlstringtaxo'] );
 		$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
+		$page_id = get_the_ID();
 
-		// ************** Add taxonomy
-
-		if ( get_the_ID() !== false ) {
+		/**
+		 * Insert the taxonomies, add a relationship if a previous taxo exists
+		 * Insert the current language displayed and the hierarchical value (child_of) if a previous taxo exists (needs register taxonomy with hierarchical)
+		 */
+		if ( $page_id !== false && taxonomy_exists( $taxonomy_category_full ) ) {
 
 			// delete if exists, for debugging purposes
 			# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
 			#	 wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
 
-			if ( taxonomy_exists( $taxonomy_category_full ) ) {
+			$term_inserted = wp_insert_term( $taxonomy_term, $taxonomy_category_full, [ 'lang' => $lang_term ] );
+			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full" );
 
-				$term = term_exists( $taxonomy_term, $taxonomy_category_full );
-
-				/**
-				 * if the tag do not exists.
-				 * @since 3.11 instead of $term === null, using !isset()
-				 */
-				if ( ! isset( $term ) ) {
-
-					/**
-					 * insert it and get its id
-					 * $term = wp_insert_term($taxonomy_term, $taxonomy_category_full, array('lang' => $lang_term) );
-					 * I believe adding the above option 'lang' is useless, inserting without 'lang'.
-					 */
-					$term_inserted = wp_insert_term( $taxonomy_term, $taxonomy_category_full );
-					$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full" );
-
-				}
-
-				// Create a list of Lumière tags meant to be inserted to Lumière Taxonomy
-				$list_taxonomy_term .= $taxonomy_term . ', ';
+			// Taxo terms could be inserted without error (it doesn't exist already), so add a relationship between the taxo and the page id number
+			if ( ! $term_inserted instanceof \WP_Error ) {
+				wp_set_object_terms( $page_id, $term_inserted, $taxonomy_category_full, true );
 			}
-		}
-		if ( isset( $term_inserted ) && ! is_wp_error( $term_inserted ) && get_the_ID() !== false ) {
-
-			/**
-			 * Compatibility with Polylang WordPress plugin, add a language to the taxonomy term.
-			 * Function in class Polylang.
-			 */
-			if ( $this->plugin_polylang !== null ) {
-				$term = term_exists( $taxonomy_term, $taxonomy_category_full );
-				$this->plugin_polylang->lumiere_polylang_add_lang_to_taxo( (array) $term );
-				$this->logger->log()->debug(
-					'[Lumiere][' . self::CLASS_NAME . '] Added to Polylang the terms:' . wp_json_encode( $term )
-				);
-			}
-
-			// Link Lumière tags to Lumière Taxonomy
-			wp_set_post_terms( get_the_ID(), $list_taxonomy_term, $taxonomy_category_full, true );
 
 			// Add Lumière tags to the current WordPress post. But we don't want it!
-			# wp_set_post_tags(get_the_ID(), $list_taxonomy_term, 'post_tag', true);
+			# wp_set_post_tags( $page_id, $list_taxonomy_term, 'post_tag', true);
 
 		}
 
-		// ************** Return layout
+		/**
+		 * Compatibility with Polylang WordPress plugin, add a language to the taxonomy term.
+		 * Function in class Polylang.
+		 * @obsolete since 3.12, WordPress functions do all what we need
+		 */
+		/* if ( $this->plugin_polylang instanceof Polylang && ! is_wp_error( $term_inserted ) && $page_id !== false ) {
 
+
+			$find_term = get_term_by( 'name', $taxonomy_term, $taxonomy_category_full );
+
+			$term = term_exists( $taxonomy_term, $taxonomy_category_full );
+			$this->plugin_polylang->lumiere_polylang_add_lang_to_taxo( (array) $term );
+			$this->logger->log()->debug(
+				'[Lumiere][' . self::CLASS_NAME . '] Added to Polylang the terms:' . wp_json_encode( $term )
+			);
+
+			// Create a list of Lumière tags meant to be inserted to Lumière Taxonomy
+			$list_taxonomy_term .= $taxonomy_term . ', ';
+
+		}*/
+
+		/**
+		 * Layout
+		 */
 		// layout=two: display the layout for double entry details, ie actors
 		if ( $layout === 'two' ) {
 
@@ -1698,17 +1677,17 @@ class Movie {
 	}
 
 	/**
-	 * Create an html link for taxonomy
+	 * Create an html link for taxonomy using the name passed
 	 * @since 3.12 Taken out from Movie::lumiere_make_display_taxonomy() and made this function
 	 *
-	 * @param string $name_searched The name searched, such as 'Tony Zarindast'
+	 * @param string $name_searched The name searched, such as 'Stanley Kubrick'
 	 * @param string $taxo_category The taxonomy category used, such as 'lumiere-director'
 	 * @return string The WordPress full HTML link for the name with that category
 	 */
 	private function lumiere_get_taxo_link( string $name_searched, string $taxo_category ): string {
 
 		$find_term = get_term_by( 'name', $name_searched, $taxo_category );
-		$taxo_link = $find_term instanceof \WP_Term ? get_term_link( $find_term->slug, $taxo_category ) : '';
+		$taxo_link = $find_term instanceof \WP_Term ? get_term_link( $find_term->term_id, $taxo_category ) : '';
 		return is_wp_error( $taxo_link ) === false ? $taxo_link : '';
 	}
 
@@ -1733,7 +1712,7 @@ class Movie {
 	 */
 	public static function lumiere_static_start (): void {
 
-		$movie_class = new self( new Polylang() );
+		$movie_class = new self();
 
 	}
 

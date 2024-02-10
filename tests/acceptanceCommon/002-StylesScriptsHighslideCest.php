@@ -192,12 +192,12 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere_scripts-js"); 					# Lumière main JS
 		$I->seeInPageSource("lumiere_scripts-js-before");				# Lumière vars for main JS
 		$I->seeInPageSource("lumiere_hide_show-js"); 					# hide/show script
-		$I->click('Filmographie complète');
+		$I->click('Full filmography');
 		$I->see('The Popcorn Chronicles');
-		$I->click('Biographie complète');
+		$I->click('Full biography');
 		$I->see('and muscular Mexican leading man');
-		$I->click('Divers');
-		$I->see('was born in Guatemala City');
+		$I->click('Misc');
+		$I->see('was born in the city of Guatemala');
 
 			// Popup movie page
 
@@ -216,13 +216,13 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere_scripts-js"); 					# Lumière main JS
 		$I->seeInPageSource("lumiere_scripts-js-before");				# Lumière vars for main JS
 		$I->seeInPageSource("lumiere_hide_show-js"); 					# hide/show script
-		$I->click('Acteurs');
+		$I->click('Actors');
 		$I->see('Ellen Burstyn');
-		$I->click('Equipe');
+		$I->click('Crew');
 		$I->see('Christopher Nolan');
-		$I->click('Synopsis');
-		$I->see('A team of explorers must find the human race a new home');
-		$I->click('Divers');
+		$I->click('Plots');
+		$I->see('a team of researchers, to find a new planet for humans.');
+		$I->click('Misc');
 		$I->see(' The resulting visual effects provided Thorne');
 
 	}

@@ -73,6 +73,7 @@ class Polylang {
 	 * Add the language in use to taxonomy terms ------- In class movie
 	 *
 	 * @param array<string|int, string|int> $term
+	 * @obsolete since 3.12, not utilised anymore, WordPress functions do all what we need
 	 */
 	public function lumiere_polylang_add_lang_to_taxo( array $term ): void {
 
@@ -89,6 +90,7 @@ class Polylang {
 			//          pll_save_term_translations( array ( $lang, $term_id) );
 
 			pll_set_term_language( intval( $term['term_id'] ), $lang );
+			pll_save_term_translations( [ $lang => intval( $term['term_id'] ) ] );
 			$this->logger->log()->debug(
 				'[Lumiere][polylangClass] Taxonomy id ' . $term['term_id'] . ' added to ' . $lang
 			);
