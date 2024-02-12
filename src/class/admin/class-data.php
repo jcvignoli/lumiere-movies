@@ -151,7 +151,7 @@ class Data extends \Lumiere\Admin {
 			// update options
 			update_option( Settings::LUMIERE_WIDGET_OPTIONS, $this->imdb_widget_values );
 
-			$extra_url_string = isset( $_GET['widgetoption'] ) ? '&widgetoption=' . filter_input( INPUT_GET, 'widgetoption', FILTER_SANITIZE_STRING ) : '';
+			$extra_url_string = isset( $_GET['widgetoption'] ) ? '&widgetoption=' . filter_input( INPUT_GET, 'widgetoption', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : '';
 			if ( wp_redirect( $this->page_data . $extra_url_string ) ) {
 				set_transient( 'notice_lumiere_msg', 'options_updated', 1 );
 				exit;
@@ -167,7 +167,7 @@ class Data extends \Lumiere\Admin {
 			// Delete the options to reset
 			delete_option( Settings::LUMIERE_WIDGET_OPTIONS );
 
-			$extra_url_string = isset( $_GET['widgetoption'] ) ? '&widgetoption=' . filter_input( INPUT_GET, 'widgetoption', FILTER_SANITIZE_STRING ) : '';
+			$extra_url_string = isset( $_GET['widgetoption'] ) ? '&widgetoption=' . filter_input( INPUT_GET, 'widgetoption', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : '';
 			if ( wp_redirect( $this->page_data . $extra_url_string ) ) {
 				set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
 				exit;
