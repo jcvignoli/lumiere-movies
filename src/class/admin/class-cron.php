@@ -24,14 +24,16 @@ use Lumiere\Updates;
 /**
  * Manage crons
  * Called with init hook in class core
+ *
  * @since 3.12 add/remove cache cron moved from class cache to here
  *
- * @phpstan-import-type OPTIONS_CACHE from Settings
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
  */
 class Cron {
 
 	/**
-	 * @var OPTIONS_CACHE $imdb_cache_values
+	 * @var array<string, string> $imdb_cache_values
+	 * @phpstan-var OPTIONS_CACHE $imdb_cache_values
 	 */
 	private array $imdb_cache_values;
 

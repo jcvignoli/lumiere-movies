@@ -158,6 +158,7 @@ class Uninstall {
 			);
 
 			// Get all terms, even if empty.
+			// @phan-suppress-next-line PhanAccessMethodInternal -- Cannot access internal method \get_terms() of namespace \ defined at vendor/php-stubs/wordpress-stubs/wordpress-stubs.php:133181 from namespace \Lumiere\Plugins -> PHAN got creazy with get_terms()!
 			$terms = get_terms(
 				[
 					'taxonomy' => $filter_taxonomy,

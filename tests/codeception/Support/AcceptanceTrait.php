@@ -43,8 +43,8 @@ trait AcceptanceTrait {
 		} 
 	}
 
-	/** If text searched is not found, exit
-	 * 
+	/**
+	 * If text searched is not found, exit
 	 */
 	function CustomSeeExit($txt){
 		try {
@@ -56,8 +56,8 @@ trait AcceptanceTrait {
 		} 
 	}
 
-	/** Select a value in dropdown select, then submit
-	 * 
+	/**
+	 * Select a value in dropdown select, then submit
 	 */
 	function customSelectOption($element, $option, $submit){
 
@@ -71,8 +71,8 @@ trait AcceptanceTrait {
 
 	}
 
-	/** Delete theme file if it exists
-	 * 
+	/**
+	 * Delete theme file if it exists
 	 */
 	function customThemeFileExistsDelete($file){
 
@@ -86,8 +86,8 @@ trait AcceptanceTrait {
 
 	}
 
-	/** Copy theme file if it doesn't exists
-	 * 
+	/**
+	 * Copy theme file if it doesn't exists
 	 */
 	function maybeCopyThemeFile($item){
 
@@ -143,7 +143,8 @@ trait AcceptanceTrait {
 		
 	}
 
-	/** Copy files with Rsync (faster than native copy)
+	/**
+	 * Copy files with Rsync (faster than native copy)
 	 * 
 	 * param $source the folder source path to be copied
 	 * param $dest the folder destination path to be receive the source
@@ -155,37 +156,47 @@ trait AcceptanceTrait {
 		$this->comment("Lumiere plugin folder (into $dest) saved");
 	}
 
-	/** Activate local mount, as it goes sleep
+	/**
+	 * Activate local mount, as it goes sleep
 	 * 
 	 * param $path the full path of WordPress, /home/../(wp-content)
 	 * param $shell the class \Codeception\Module\Cli
 	 */
-	function activateLocalMount($path, $shell){
+	function activateLocalMount( $path, $shell ) {
 		$this->comment("Activating local mount in $path...");
-		$shell->runShellCommand( 'touch ' . $path . '/wp-content/cache/testcodeception.txt' );
-		$this->comment("Local mount activated, saved testcodeception.txt in $path/wp-content/cache/");
+		$shell->runShellCommand( "touch $path/wp-content/cache/testcodeception.txt" );
+		$this->comment( "Local mount activated, saved testcodeception.txt in $path/wp-content/cache/" );
+	}
+
+	/**
+	 * Delete testcodeception.txt file created in $this->activateLocalMount()
+	 * 
+	 * param $path the full path of WordPress, /home/../(wp-content)
+	 * param $shell the class \Codeception\Module\Cli
+	 */
+	function deleteTestFileMount( $path, $shell ) {
+		$this->comment( "Deleting $path/wp-content/cache/testcodeception.txt" );
+		$shell->runShellCommand( "rm $path/wp-content/cache/testcodeception.txt" );
 	}
 
 	/** Activate local mount, as it goes sleep
 	 * 
-	 * param $path the full path of WordPress, /home/../(wp-content)
-	 * param $shell the class \Codeception\Module\Cli
+	 * param $modal the Modal window to activate (ie: Bootstrap, Highslide, ...)
 	 */
-	function SwitchModalWindow($modal) {
-		// Make sure Highslide is active, following tests are run with $modal (ie: Bootstrap, Highslide, ...)
+	function SwitchModalWindow( $modal ) {
 		try {
 			$this->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
 			$this->customSelectOption( "select[name=imdbpopup_modal_window]", $modal, "update_imdbSettings" );
 		} catch (\PHPUnit_Framework_AssertionFailedError | \NoSuchElementException | \Exception $f) {
 			$this->comment("[No action] Couldn't switch to $modal modal window.");
 		} 
-
 	}
 
 	/**
 	 * Switch to new window
 	 * Function switchToWindow() needs a name that we usually don't know
 	 * With switchToNewWindow(), we detect we just open
+	 * Doesn't work
 	 */
 	function switchToNewWindow() {
 		$this->executeInSelenium( function ( \Facebook\WebDriver\Remote\RemoteWebDriver $webdriver ) {
@@ -208,15 +219,15 @@ trait AcceptanceTrait {
 	}
 	
 	/**
-	 * Custom function to check if a file is available, exit otherwhise
-	 * Filesystem SeeFile is not reliable
+	 * Custom function to check if a file is not available, exit otherwhise
+	 * Filesystem dontSeeFile is not reliable
 	 */
 	function customDontSeeFile( $file ) {
 		if (is_file( $file ) ) {
 			$this->comment("[CustomSeeFile] File $file was found, exiting.");
 			exit;
 		}
-		$this->comment("[CustomSeeFile] File $file don't exists, continuing.");
+		$this->comment("[CustomSeeFile] File $file doesn't exist, continuing.");
 	}
 }
 

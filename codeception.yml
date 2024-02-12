@@ -1,9 +1,9 @@
 paths:
-    tests: tests
-    output: tests/_output
-    data: tests/_data
-    support: tests/_support
-    envs: tests/_envs
+    tests: tests/codeception
+    output: tests/codeception/_output
+    data: tests/codeception/Support/Data
+    support: tests/codeception/Support
+    envs: tests/codeception/_envs
 params:
     - ../../../bin/.credentials/.env.codeception
 actor_suffix: Tester

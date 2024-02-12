@@ -1,39 +1,34 @@
 <?php
 
-# Class meant to test remote wordpress install (a WebDriver is needed for JS execution)
+# Class meant to test activation/deactivation of Data details (a WebDriver is needed for JS execution)
 
 class DataDetailsCest {
 
 	public function _before(AcceptanceRemoteTester $I){
-
 		$I->comment(\Helper\Color::set("#Code _before#", "italic+bold+cyan"));
 
 	}
 
 	public function _after(AcceptanceRemoteTester $I){
-
 		$I->comment(\Helper\Color::set("#Code _after#", "italic+bold+cyan"));
-
 	}
 
-	/** Login to Wordpress
-	 *  Trait function to keep the cookie active
-	 *
+	/**
+	 * Login to Wordpress
+	 * Trait function to keep the cookie active
 	 */
 	private function login(AcceptanceRemoteTester $I) {
-
 		$I->login_universal($I);
-
 	}
 
-	/** Check if data details deactivation works
+	/**
+	 * Check if data details deactivation works
 	 *
 	 * @before login
-	 *
 	 */
 	public function checkDataDeactivation(AcceptanceRemoteTester $I) {
 
-		$I->wantTo(\Helper\Color::set("Check that deactivated data details are not seen", "italic+bold+cyan"));
+		$I->comment(\Helper\Color::set("Check that deactivated data details are not seen", "italic+bold+cyan"));
 
 		// Activate $item in 'what to display'
 		# first row
@@ -119,7 +114,7 @@ class DataDetailsCest {
 
 		// See if data is not available
 		$I->comment(\Helper\Color::set("Check if data is available", "italic+bold+cyan"));
-		$I->amOnPage('/2021/test-codeception/');
+		$I->amOnPage('/en/2021/test-codeception/');
 		$I->dontSee('Directors');
 		$I->dontSee('Countries');
 		$I->dontSee('Actors');
@@ -169,14 +164,14 @@ class DataDetailsCest {
 
 	}
 
-	/** Check if data details activation works
+	/**
+	 * Check if data details activation works
 	 *
 	 * @before login
-	 *
 	 */
 	public function checkDataActivation(AcceptanceRemoteTester $I) {
 
-		$I->wantTo(\Helper\Color::set("Check that activated data details are seen", "italic+bold+cyan"));
+		$I->comment(\Helper\Color::set("Check that activated data details are seen", "italic+bold+cyan"));
 
 		// Activate $item in 'what to display'
 		# first row
@@ -247,7 +242,7 @@ class DataDetailsCest {
 		$I->fillField('#imdb_imdbwidgetproducernumber', '3');
 		$I->click('#update_imdbwidgetSettings');
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
+		$I->scrollTo('#imdb_imdbwidgetplot_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetprodcompany_yes', '#update_imdbwidgetSettings' );
 		# sixth row
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
@@ -278,27 +273,27 @@ class DataDetailsCest {
 		$I->scrollTo('#imdb_imdbwidgetquote_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgettagline_yes', '#update_imdbwidgetSettings' );
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgetquote_yes');
+		$I->scrollTo('#imdb_imdbwidgettrailer_yes');
 		$I->fillField('#imdb_imdbwidgettaglinenumber', '5');
 		$I->click('#update_imdbwidgetSettings');
 		# eighth row
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
+		$I->scrollTo('#imdb_imdbwidgettrailer_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgettrailer_yes', '#update_imdbwidgetSettings' );
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
+		$I->scrollTo('#imdb_imdbwidgettrailer_yes');
 		$I->fillField('#imdb_imdbwidgettrailernumber', '2');
 		$I->click('#update_imdbwidgetSettings');
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
+		$I->scrollTo('#imdb_imdbwidgetwriter_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#update_imdbwidgetSettings' );
 		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what');
-		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
+		$I->scrollTo('#imdb_imdbwidgetyear_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetyear_yes', '#update_imdbwidgetSettings' );
 
 		// See if data is available
 		$I->comment(\Helper\Color::set("Check if data is available", "italic+bold+cyan"));
-		$I->amOnPage('/2021/test-codeception/');
+		$I->amOnPage('/en/2021/test-codeception/');
 		$I->see('Directors');
 		$I->see('Countries');
 		$I->see('Actors');

@@ -34,10 +34,10 @@ class StartCest {
 	 * Check if website is online, otherwise exit
 	 */
 	public function checkBlogActive(AcceptanceRemoteTester $I) {
-		$I->wantTo('Check if the blog is online');
-		$I->amOnPage('/');
+		$I->wantTo( 'Check if the blog is online' );
+		$I->amOnPage( '/' );
 		//$I->see('Blog ext'); # can also use _failed() and _passed() instead
-		$I->CustomSeeExit('Blog ext (codeception)');
+		$I->CustomSeeExit( 'Blog ext (codeception)' );
 	}
 
 	/**

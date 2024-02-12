@@ -22,7 +22,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Imdb\Title;
 use Imdb\TitleSearch;
-use Lumiere\Plugins\Polylang;
 
 class Movie {
 
@@ -84,6 +83,10 @@ class Movie {
 	/**
 	 * Search the movie and output the results
 	 *
+	 * @since 3.8   Extra logs are shown once only using singleton $this->movie_run_once
+	 *      PluginsDetect class added
+	 * @since 3.12  Ban bots added, just before doing IMDb query
+	 *
 	 * @param array<int, array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
 	 */
 	public function lumiere_show( ?array $imdb_id_or_title_outside = null ): string {
@@ -92,20 +95,16 @@ class Movie {
 		 * Start PluginsDetect class
 		 * Is instanciated only if not instanciated already
 		 * Use lumiere_set_plugins_array() in trait to set $plugins_in_use var in trait
-		 * @since 3.8
 		 */
 		if ( count( $this->plugins_in_use ) === 0 ) {
 			$this->lumiere_set_plugins_array();
 		}
 
 		do_action( 'lumiere_logger' );
+
 		$logger = $this->logger->log();
 
-		/**
-		 * Show log for link maker and plugin detect
-		 * Is instantiated only if not instanciated already, using $run_once in this class
-		 * @since 3.8
-		 */
+		// Show log for link maker and plugin detect
 		if ( $this->movie_run_once === false ) {
 
 			// Log the current link maker
@@ -121,6 +120,9 @@ class Movie {
 
 		$imdb_id_or_title = $imdb_id_or_title_outside ?? null;
 		$output = '';
+
+		// Ban bots before doing an IMDb search.
+		do_action( 'lumiere_ban_bots' );
 
 		$search = new TitleSearch( $this->imdbphp_class, $logger );
 
@@ -191,9 +193,9 @@ class Movie {
 
 		}
 
-		/** seems useless
-		 * unset( $counter_imdb_id_or_title ); // avoid displaying several times same movie, close "for" loop.
-		 */
+		 // deactivated, seems useless
+		 // unset( $counter_imdb_id_or_title ); // avoid displaying several times same movie, close "for" loop.
+
 		return $output;
 
 	}
@@ -202,6 +204,7 @@ class Movie {
 	 * List of prohibited areas where Lumière! won't run
 	 *
 	 * @since 3.10.2
+	 *
 	 * @return bool
 	 */
 	public function lumiere_prohibited_areas(): bool {
@@ -212,17 +215,13 @@ class Movie {
 	 * Find in content the span to build the movies
 	 * Looks for <span data-lum_movie_maker="[1]"></span> where [1] is movie_title or movie_id
 	 *
-	 * @since 3.10.2 The function always returns string, no null accepted -- PHP82 compatibility
-	 *       Also added a lumiere_prohibited_areas() check, no need to execute the plugin in feeds
-	 * @since 3.12 Ban bots at this step, not before.
+	 * @since 3.10.2    The function always returns string, no null accepted -- PHP82 compatibility
+	 *              Also added a lumiere_prohibited_areas() check, no need to execute the plugin in feeds
 	 *
 	 * @param null|string $content HTML span tags + text inside
 	 * @return string
 	 */
 	public function lumiere_parse_spans( ?string $content ): string {
-
-		// Ban bots
-		do_action( 'lumiere_ban_bots' );
 
 		// if no content is availabe on the content or if it is a feed, abort
 		if ( ! isset( $content ) || $this->lumiere_prohibited_areas() === true ) {
@@ -1573,6 +1572,8 @@ class Movie {
 	/**
 	 * Do taxonomy layouts and insert taxonomy and create the relationship with the page displayed
 	 *
+	 * @since 3.12 rewritten taxonomy system, not using Polylang anymore, links between languages created, hierarchical taxonomy terms
+	 *
 	 * @param string $type_item mandatory: the general category of the item, ie 'director', 'color'
 	 * @param string $first_title mandatory: the name of the first string to display, ie "Stanley Kubrick"
 	 * @param string|null $second_title optional: the name of a second string to display, utilised in $layout 'two', ie "director"
@@ -1606,12 +1607,24 @@ class Movie {
 			# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
 			#	 wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
 
-			$term_inserted = wp_insert_term($taxonomy_term, $taxonomy_category_full, [ 'lang' => $lang_term ] );
-			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full" );
+			$existent_term = term_exists( $taxonomy_term, $taxonomy_category_full );
+			// $array_term_existing = get_term_by('name', $taxonomy_term, $taxonomy_category_full );
 
-			// Taxo terms could be inserted without error (it doesn't exist already), so add a relationship between the taxo and the page id number
-			if ( ! $term_inserted instanceof \WP_Error ) {
-				wp_set_object_terms( $page_id, $term_inserted, $taxonomy_category_full, true );
+			if ( ! isset( $existent_term ) ) {
+				$term_inserted = wp_insert_term( $taxonomy_term, $taxonomy_category_full, [ 'lang' => $lang_term ] );
+				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full" );
+			}
+
+			// If no term was inserted, take the current term.
+			$term_for_set_object = $term_inserted ?? $taxonomy_term;
+
+			/**
+			 * Taxo terms could be inserted without error (it doesn't exist already), so add a relationship between the taxo and the page id number
+			 * wp_set_object_terms() is almost always executed in order to add new relationships even if a new term wasn't inserted
+			 */
+			if ( ! $term_for_set_object instanceof \WP_Error ) {
+				wp_set_object_terms( $page_id, $term_for_set_object, $taxonomy_category_full, true );
+				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] Taxonomy association made for ' . json_encode( $term_for_set_object ) );
 			}
 
 			// Add Lumière tags to the current WordPress post. But we don't want it!
@@ -1678,7 +1691,8 @@ class Movie {
 
 	/**
 	 * Create an html link for taxonomy using the name passed
-	 * @since 3.12 Taken out from Movie::lumiere_make_display_taxonomy() and made this function
+	 *
+	 * @since 3.12 New function taking out pieces from Movie::lumiere_make_display_taxonomy()
 	 *
 	 * @param string $name_searched The name searched, such as 'Stanley Kubrick'
 	 * @param string $taxo_category The taxonomy category used, such as 'lumiere-director'

@@ -1,6 +1,6 @@
 <?php
 
-# Class meant to test remote wordpress install (a WebDriver is needed for JS execution)
+# Class meant to reinitialize the settings (a WebDriver is needed for JS execution)
 
 class EndCest {
 
@@ -20,14 +20,14 @@ class EndCest {
 		$I->login_universal($I);
 	}
 
-	/** Enable defaults Plugins
+	/** 
+	 * Enable defaults Plugins
 	 *
 	 * @before login
-	 *
 	 */
 	public function enablePlugins(AcceptanceRemoteTester $I) {
 
-		$I->wantTo('Reset plugins to their normal state');
+		$I->comment('Reset plugins to their normal state');
 
 		// Lumière on
 		$I->amOnPluginsPage();
@@ -40,17 +40,21 @@ class EndCest {
 		// Polylang on
 		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('polylang');
+
+		// Query Monitor on
+		$I->amOnPluginsPage();
+		$I->maybeActivatePlugin('query-monitor');
 	}
 
 
-	/** Enable Admin option
+	/**
+	 * Enable Admin option
 	 *
 	 * @before login
-	 *
 	 */
 	public function enableAdminGeneralOptions(AcceptanceRemoteTester $I) {
 
-		$I->wantTo('Reset Admin General Options to their normal state');
+		$I->comment('Reset Admin General Options to their normal state');
 
 		// Big menu on
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
@@ -104,8 +108,6 @@ class EndCest {
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#miscpart');
 		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#update_imdbSettings' );
-
-
 	}
 }
 

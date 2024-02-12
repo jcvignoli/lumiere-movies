@@ -226,8 +226,8 @@ padding:20px 20px 0 20px;float:left;}
 /* ---------------------------------------- Taxonomy page */
 
 
-.lumiere-padding-lines-common-picture{
-padding: 20px 20px 0 10px;}
+.lumiere-padding-lines-common-picture{padding: 20px 20px 0 10px;}
+.postsTaxonomy{margin-left:2em;}
 .lumiere-lines-common-fix{min-height:100px}
 
 /* ---------------------------------------- Others */

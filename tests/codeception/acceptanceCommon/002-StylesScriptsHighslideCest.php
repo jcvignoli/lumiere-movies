@@ -15,11 +15,6 @@ class StylesScriptsHighslideCest {
 	 *
 	 */
 	var $base_path = "";
-
-	/** Stock the root remote path
-	 *
-	 */
-	var $page_test_admin = "";
 	
 	public function __construct(){
 
@@ -31,8 +26,6 @@ class StylesScriptsHighslideCest {
 		// Build properties
 		$this->base_url = $_ENV[ $final_var_url ];
 		$this->base_path = $_ENV[$final_var_root_folder];
-		
-
 	}
 
 	public function _before(AcceptanceRemoteTester $I){
@@ -43,30 +36,26 @@ class StylesScriptsHighslideCest {
 		$I->comment('#Code _after#');
 	}
 
-	/** Login to Wordpress
-	 *  Trait function to keep the cookie active
-	 *
+	/**
+	 * Login to Wordpress
+	 * Trait function to keep the cookie active
 	 */
 	private function login(AcceptanceRemoteTester $I) {
-
 		$I->login_universal($I);
-
 	}
 
-	/** Check if auto widget option display a widget based on the title of the page
-	 *
-	 *  Can't use universal login due to plugin activation/deactivation
-	 * @before login
+	/**
+	 * Check if auto widget option display a widget based on the title of the page
+	 * Can't use universal login due to plugin activation/deactivation
 	 */
 	public function checkStyleScripts(AcceptanceRemoteTester $I) {
 
 		$I->loginAsAdmin();
 
-		$I->wantTo("Check if scripts and styles are available on ". $this->base_url);
+		$I->comment("Check if scripts and styles are available on ". $this->base_url);
 
-			/* 
+			/** 
 			 * Admin pages
-			 *
 			 */
 
 		$I->comment(\Helper\Color::set('Check Lumière admin pages', 'italic+bold+cyan'));

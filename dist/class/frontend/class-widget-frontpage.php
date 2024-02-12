@@ -38,12 +38,6 @@ class Widget_Frontpage {
 	}
 
 	/**
-	 * Movie class
-	 * To query the IMDb and use the very same layout as Movie class
-	 */
-	public Movie $movie_class;
-
-	/**
 	 * Shortcode to be used by add_shortcodes, ie [lumiereWidget][/lumiereWidget]
 	 * This shortcode is temporary and created on the fly
 	 * Doesn't need to be deleted when uninstalling Lumière plugin
@@ -106,6 +100,8 @@ class Widget_Frontpage {
 		],
 	];
 
+	private Movie $movie_class;
+
 	/**
 	 * Constructor. Sets up the widget name, description, etc.
 	 *
@@ -115,7 +111,7 @@ class Widget_Frontpage {
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'widgetFrontpage' );
 
-		// Movie class is needed to query and retrieve movie results.
+		// @TODO : when updating to PHP8.2, pass this in the constructor params
 		$this->movie_class = new Movie();
 
 		// Execute logging.
@@ -176,6 +172,9 @@ class Widget_Frontpage {
 	 * Widget output in Frontend pages
 	 * Used by current Shortcode Parser and Widget_Legacy class
 	 *
+	 * @since 3.10.2 added array_filter to clean $imdb_id_or_title
+	 * @since 3.12 added exit if no metadata and no auto title widget activated
+	 *
 	 * @param string $title_box Title of the widget to be displayed
 	 * @return string The title and movie data of the Widget
 	 */
@@ -212,13 +211,23 @@ class Widget_Frontpage {
 		// Query if metaboxes are available in the post and add them to array to be queried in Movie class.
 		$imdb_id_or_title[] = is_int( $post_id ) ? $this->lumiere_widget_get_metabox_metadata( $post_id ) : null;
 
-		// Query Movie class.
-		// @since 3.10.2 added array_filter so only non-null arrays are counted
-		$movie = $this->movie_class->lumiere_show( array_filter( $imdb_id_or_title ) );
+		// Clean the array, remove empty multidimensional arrays.
+		$final_imdb_id_or_title = array_filter( $imdb_id_or_title );
 
-		// Output the result using a layout wrapper.
-		// This result cannot be displayed anywhere else but in this widget() method.
-		// As far as I know, at least.
+		// Exit if no metadata, no auto title option activated
+		if ( $this->imdb_admin_values['imdbautopostwidget'] !== '1' && count( $final_imdb_id_or_title ) === 0 ) {
+			$this->logger->log()->debug( '[Lumiere][widget] Auto title widget deactivated and no IMDb meta for this post, exiting' );
+			return '';
+		}
+
+		// Query Movie class.
+		$movie = $this->movie_class->lumiere_show( $final_imdb_id_or_title );
+
+		/**
+		 * Output the result using a layout wrapper.
+		 * This result cannot be displayed anywhere else but in this widget() method.
+		 * As far as I know, at least.
+		 */
 		return $this->lumiere_widget_layout( $title_box, $movie );
 
 	}
@@ -227,7 +236,7 @@ class Widget_Frontpage {
 	 * Query WordPress using the PostID to get metaboxes data
 	 *
 	 * @param int $post_id WordPress post ID to query about metaboxes
-	 * @return array<string, string> Array of results found in metaboxes
+	 * @return array<string, string> Results found in metaboxes if any
 	 */
 	private function lumiere_widget_get_metabox_metadata( int $post_id ): array {
 

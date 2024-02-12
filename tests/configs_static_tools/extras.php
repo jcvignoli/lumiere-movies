@@ -3,6 +3,22 @@
 
 namespace {
 
+	if ( ! function_exists( 'get_terms' ) ) {
+		/**
+		 *
+		 * @param array|string $args       Optional. Array or string of arguments. See WP_Term_Query::__construct()
+		 *                                 for information on accepted arguments. Default empty array.
+		 * @param array|string $deprecated Optional. Argument array, when using the legacy function parameter format.
+		 *                                 If present, this parameter will be interpreted as `$args`, and the first
+		 *                                 function parameter will be parsed as a taxonomy or array of taxonomies.
+		 *                                 Default empty.
+		 * @return WP_Term[]|int[]|string[]|string|WP_Error Array of terms, a count thereof as a numeric string,
+		 *                                                  or WP_Error if any of the taxonomies do not exist.
+		 *                                                  See the function description for more information.
+		 */
+		function get_terms( $args = array(), $deprecated = '' ) {}
+	}
+
 	/**
 	 * Returns true if Polylang manages languages and translations for this taxonomy.
 	 *
@@ -12,9 +28,7 @@ namespace {
 	 * @param string $tax Taxonomy name.
 	 * @return bool
 	 */
-	function pll_is_translated_taxonomy( $tax ) {
-		return PLL()->model->is_translated_taxonomy( $tax );
-	}
+	function pll_is_translated_taxonomy( $tax ) {}
 
 
 	/** ---------------------------------- Polylang */
@@ -43,12 +57,7 @@ namespace {
 	 * @param string $field Optional, the language field to return ( @see PLL_Language ), defaults to 'slug'. Pass OBJECT constant to get the language object.
 	 * @return string|PLL_Language|false The requested field for the current language.
 	 */
-	function pll_current_language( $field = 'slug' ) {
-		if ( OBJECT === $field ) {
-			return PLL()->curlang;
-		}
-		return isset( PLL()->curlang->$field ) ? PLL()->curlang->$field : false;
-	}
+	function pll_current_language( $field = 'slug' ) {}
 
 	/**
 	 * Returns the term language.
@@ -60,9 +69,7 @@ namespace {
 	 * @param string $field   Optional, the language field to return ( @see PLL_Language ), defaults to 'slug'.
 	 * @return string|false The requested field for the term language, false if no language is associated to that term.
 	 */
-	function pll_get_term_language( $term_id, $field = 'slug' ) {
-		return ( $lang = PLL()->model->term->get_language( $term_id ) ) ? $lang->$field : false;
-	}
+	function pll_get_term_language( $term_id, $field = 'slug' ) {}
 
 	/**
 	 * Returns the list of available languages.
@@ -78,10 +85,7 @@ namespace {
 	 * }
 	 * @return string[]
 	 */
-	function pll_languages_list( $args = array() ) {
-		$args = wp_parse_args( $args, array( 'fields' => 'slug' ) );
-		return PLL()->model->get_languages_list( $args );
-	}
+	function pll_languages_list( $args = array() ) {}
 	
 	/**
 	 * Returns the default language.
@@ -102,19 +106,7 @@ namespace {
 	 *     )
 	 * )|false
 	 */
-	function pll_default_language( $field = 'slug' ) {
-		$lang = PLL()->model->get_default_language();
-
-		if ( empty( $lang ) ) {
-			return false;
-		}
-
-		if ( \OBJECT === $field ) {
-			return $lang;
-		}
-
-		return $lang->get_prop( $field );
-	}
+	function pll_default_language( $field = 'slug' ) {}
 	/**
 	 * Returns the home url in a language.
 	 *
@@ -124,17 +116,7 @@ namespace {
 	 * @param string $lang Optional language code, defaults to the current language.
 	 * @return string
 	 */
-	function pll_home_url( $lang = '' ) {
-		if ( empty( $lang ) ) {
-			$lang = pll_current_language();
-		}
-
-		if ( empty( $lang ) || empty( PLL()->links ) ) {
-			return home_url( '/' );
-		}
-
-		return PLL()->links->get_home_url( $lang );
-	}
+	function pll_home_url( $lang = '' ) {}
 	
 	/**
 	 * Save terms translations
@@ -148,14 +130,7 @@ namespace {
 	 *
 	 * @phpstan-return array<non-empty-string, positive-int>
 	 */
-	function pll_save_term_translations( $arr ) {
-		$id = reset( $arr );
-		if ( $id ) {
-			return PLL()->model->term->save_translations( $id, $arr );
-		}
-
-		return array();
-	}
+	function pll_save_term_translations( $arr ) {}
 	
 	/**
 	 * Determine whether the current request is for an AMP page.

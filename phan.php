@@ -16,6 +16,10 @@ return [
 	// of the php executable used to execute Phan.
 	'target_php_version' => 8.0,
 
+	// Issue::SEVERITY_LOW(0), Issue::SEVERITY_NORMAL(5), Issue::SEVERITY_CRITICAL(10)
+	// Low is the highest level
+	'minimum_severity' => 0,
+
 	// Backwards Compatibility Checking. This is slow
 	// and expensive, but you should consider running
 	// it before upgrading your version of PHP to a

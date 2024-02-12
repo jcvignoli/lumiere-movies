@@ -123,7 +123,7 @@ class Ban_Bots {
 		header( $block_connection );
 
 		$message  = '<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noodp,noydir">';
-		$message .= '<h1>You are banned from this site.</h1>';
+		$message .= '<h1>You have been banned from this site.</h1>';
 		$message .= '<p>If you think it\'s a mistake, please contact the administrator via a proxy server.</p>';
 
 		wp_die(

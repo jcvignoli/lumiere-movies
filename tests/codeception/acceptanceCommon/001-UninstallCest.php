@@ -6,30 +6,14 @@
 
 class UninstallCest {
 
-	/** Stock the base remote URL
-	 *
+	/**
+	 * Vars
 	 */
-	var $base_url = "";
-
-	/** Stock mounted the root remote path
-	 *
-	 */
-	var $base_path = "";
-
-	/** Stock the root remote path
-	 *
-	 */
-	var $real_path = "";
-
-	/** Stock the root remote path
-	 *
-	 */
-	var $host = "";
-
-	/** Stock the root remote path
-	 *
-	 */
-	var $user_name = "";
+	private string $base_url;
+	private string $base_path;
+	private string $real_path;
+	private string $host;
+	private string $user_name;
 
 	public function __construct(){
 
@@ -78,10 +62,10 @@ class UninstallCest {
 
 	}
 
-	/** Uninstall the plugin to do the tests on a fresh install
+	/**
+	 * Uninstall the plugin to do the tests on a fresh install
 	 *
 	 * @before login
-	 * 
 	 */
 	public function pluginUninstall(AcceptanceRemoteTester $I, \Codeception\Module\Cli $shell) {
 
@@ -93,7 +77,7 @@ class UninstallCest {
 		$remote_plugin_path_lumiere = $this->real_path.'/wp-content/plugins/lumiere-movies';
 		$remote_wpcontent_path = $this->real_path.'/wp-content';
 
-		$I->wantTo('Do Lumière plugin uninstall for a fresh start');
+		$I->comment('Do Lumière plugin uninstall for a fresh start');
 
 		// Make local connexion
 		$I->activateLocalMount( $this->base_path, $shell );
@@ -115,7 +99,7 @@ class UninstallCest {
 		$I->wait(4);
 
 		// Save plugin directory
-		$I->comment(\Helper\Color::set("**See if Lumière directory exists and copy**", "italic+bold+cyan"));
+		$I->comment( \Helper\Color::set( "**See if Lumière directory exists and copy**", "italic+bold+cyan" ) );
 		$I->customSeeFile( $dir_plugin_lumiere . 'lumiere-movies.php' );
 		$I->comment( \Helper\Color::set('Saving plugin directory...', 'yellow+blink') );
 		
@@ -146,7 +130,7 @@ class UninstallCest {
 		$I->comment( \Helper\Color::set('Restoring plugin directory...', 'yellow+blink') );
 		
 		if ( DEVELOPMENT_ENVIR === 'remote' ) {
-			$shell->runShellCommand('scp -r '.$remote_cred.':'.$remote_wpcontent_path.'/lumiere-movies'.' '.$remote_cred.':'.$remote_plugin_path.'/');
+			$shell->runShellCommand('scp -r ' . $remote_cred.':'.$remote_wpcontent_path.'/lumiere-movies'.' '.$remote_cred.':'.$remote_plugin_path.'/');
 		} elseif ( DEVELOPMENT_ENVIR === 'local' ) {
 			// Make sure Lumière! directory has been deleted
 //			$I->customDontSeeFile( $dir_plugin_lumiere . 'lumiere-movies.php' ); // both seeFile of customSeeFile, don't work...

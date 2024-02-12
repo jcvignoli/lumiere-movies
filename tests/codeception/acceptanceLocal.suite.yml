@@ -1,60 +1,49 @@
-# Codeception Test Suite Configuration -> For a remote server
+# Codeception Test Suite Configuration -> For a local server
 #
 # Suite for acceptance tests.
 # Perform tests in browser using the WPWebDriver or WPBrowser.
 # Use WPDb to set up your initial database fixture.
 # If you need both WPWebDriver and WPBrowser tests - create a separate suite.
 
-bootstrap: _bootstrap.remote.php
-actor: AcceptanceRemoteTester
+bootstrap: _bootstrap.local.php
+actor: AcceptanceLocalTester
 modules:
     enabled:
-        - \Helper\AcceptanceRemote
-#        - WPFilesystem # needs local access,use it with remote machine localy mounted
-        - Filesystem  # needs local access,use it with remote machine localy mounted
+        - \Helper\AcceptanceLocal
         - WPWebDriver
-#        - FTP # forces to use WBrowser instead of WPWebDriver
+        - Filesystem  # needs local access,use it with remote machine localy mounted
     config:
-        WPFilesystem:
-            wpRootFolder: '%WP_ROOT_REMOTE_FOLDER%'
         WPDb:
-            dsn: '%TEST_REMOTE_DB_DSN%'
-            user: '%TEST_REMOTE_DB_USER%'
-            password: '%TEST_REMOTE_DB_PASSWORD%'
-            dump: 'tests/_data/lumiere_db_dump_blogpourext_202107.sql'
+            dsn: '%TEST_LOCAL_DB_DSN%'
+            user: '%TEST_LOCAL_DB_USER%'
+            password: '%TEST_LOCAL_DB_PASSWORD%'
+            dump: 'tests/Support/Data/lumiere_db_local_dump.sql'
             #import the dump before the tests; this means the test site database will be repopulated before the tests.
             populate: false
             # re-import the dump between tests; this means the test site database will be repopulated between the tests.
             cleanup: false
             waitlock: 10
-            url: '%TEST_REMOTE_WP_URL%'
+            url: '%TEST_LOCAL_WP_URL%'
             urlReplacement: true #replace the hardcoded dump URL with the one above
             tablePrefix: '%TEST_TABLE_PREFIX%'
+            headers:
+                X_TEST_REQUEST: 1
+                X_WPBROWSER_REQUEST: 1
         WPBrowser:
-            url: '%TEST_REMOTE_WP_URL%'
+            url: '%TEST_LOCAL_WP_URL%'
             adminUsername: '%TEST_WP_ADMIN_USERNAME%'
             adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
             adminPath: '%TEST_WP_ADMIN_PATH%'
             headers:
                 X_TEST_REQUEST: 1
                 X_WPBROWSER_REQUEST: 1
-        FTP:
-           type: sftp
-           host: '%TEST_REMOTE_FTP_HOST%'
-           port: '%TEST_REMOTE_FTP_PORT%'
-           timeout: 120
-           user: '%TEST_REMOTE_FTP_USERNAME%'
-           password: '%TEST_REMOTE_FTP_PASSWORD%'
-           key: '%TEST_REMOTE_FTP_SSHKEY%'
-           tmp: 'tests/_data/ftp'
-           cleanup: false
 env:
    firefox:
         modules:
             enabled:
               config:
                  WebDriver:
-                     url: "%TEST_REMOTE_WP_URL%"
+                     url: "%TEST_LOCAL_WP_URL%"
                      adminUsername: '%TEST_WP_ADMIN_USERNAME%'
                      adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
                      adminPath: '%TEST_WP_ADMIN_PATH%'
@@ -68,25 +57,24 @@ env:
           enabled:
               config:
                  WPWebDriver:
-                     url: '%TEST_REMOTE_WP_URL%'
+                     url: '%TEST_LOCAL_WP_URL%'
                      adminUsername: '%TEST_WP_ADMIN_USERNAME%'
                      adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
                      adminPath: '%TEST_WP_ADMIN_PATH%'
                      browser: firefox
                      path: ''
+                     window_size: 1024x768
                      capabilities:
-                       acceptInsecureCerts: true
-                       # Used in more recent releases of Selenium.
-                       moz:firefoxOptions:
-                            args: ["-headless"] # Run Firefox in headless mode
-                            prefs:
+                         moz:firefoxOptions:
+                             args: ["-headless"] # Run Firefox in headless mode
+                             prefs:
                                 intl.accept_languages: "fr-FR"
    wpchrome:
        modules:
           enabled:
               config:
                  WPWebDriver:
-                     url: '%TEST_REMOTE_WP_URL%'
+                     url: '%TEST_LOCAL_WP_URL%'
                      adminUsername: '%TEST_WP_ADMIN_USERNAME%'
                      adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
                      adminPath: '%TEST_WP_ADMIN_PATH%'
@@ -96,5 +84,5 @@ env:
                      port: 4444
                      capabilities:
                        goog:chromeOptions:
-                            args: ["--headless", "--disable-extensions", "--user-agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'" ]
+                            args: ["--headless", "--disable-extensions", "--user-agent=wp-browser", "allow-insecure-localhost",  "--ignore-certificate-errors"]
 step_decorators: ~      

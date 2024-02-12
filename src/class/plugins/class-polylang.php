@@ -19,18 +19,11 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Lumiere\Plugins\Logger;
-use \WP_Term;
 
 class Polylang {
 
 	// Trait including the database settings.
 	use \Lumiere\Settings_Global;
-
-	/**
-	 * Class \Lumiere\Logger
-	 *
-	 */
-	public Logger $logger;
 
 	/**
 	 * Constant Polylang slug
@@ -39,19 +32,22 @@ class Polylang {
 	const POLYLANGSLUG = 'polylang/polylang.php';
 
 	/**
+	 * Logger class
+	 */
+	public Logger $logger;
+
+	/**
 	 * Constructor
 	 *
+	 * @TODO: pass logger class in construct params when updating to PHP8.1
 	 */
 	public function __construct() {
 
-		// Start Logger class.
 		$this->logger = new Logger( 'Polylang' );
 
 		// Construct Global Settings trait.
 		$this->settings_open();
 
-		// Add rewrite rules for popups URLs, checks if polylang exists.
-		//add_action( 'wp_loaded', [ $this, 'polylang_add_url_rewrite_rules' ], 0 );
 	}
 
 	/**
@@ -113,12 +109,15 @@ class Polylang {
 			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $person_name with $taxonomy." );
 			return;
 		}
-		/**
-		 * get_terms() Does not uses the standards of WordPress, uses 'term_language' from Polylang
-		 * @phpstan-ignore-next-line Parameter #1 $args of function get_terms expects
-		 */
-		$pll_lang_init = get_terms( 'term_language', [ 'hide_empty' => false ] );
-		$pll_lang = is_wp_error( $pll_lang_init ) === false && is_iterable( $pll_lang_init ) ? $pll_lang_init : null;
+
+		// @phan-suppress-next-line PhanAccessMethodInternal -- Cannot access internal method \get_terms() of namespace \ defined at vendor/php-stubs/wordpress-stubs/wordpress-stubs.php:133181 from namespace \Lumiere\Plugins -> PHAN got creazy with get_terms()!
+		$pll_lang_init = get_terms(
+			[
+				'taxonomy' => 'term_language',
+				'hide_empty' => false,
+			]
+		);
+		$pll_lang = is_array( $pll_lang_init ) ? $pll_lang_init : null;
 
 		if ( ! isset( $pll_lang ) ) {
 			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy] No Polylang language is set." );
@@ -138,10 +137,6 @@ class Polylang {
 
 		// Build an option html tag for every language.
 		foreach ( $pll_lang as $lang ) {
-
-			if ( ( $lang instanceof WP_Term ) === false ) {
-				continue;
-			}
 
 			echo "\n\t\t\t\t\t\t" . '<option value="' . intval( $lang->term_id ) . '"';
 

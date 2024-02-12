@@ -29,7 +29,7 @@ document.addEventListener(
 				var url_imdbperso = lumiere_vars.urlpopup_person + '?mid=' + misc_term;
 
 				// Open bootstrap popup link
-				jQuery( '.modal-body' ).html( '<object data="' + url_imdbperso + '"/>' );
+				jQuery( '.modal-body' ).html( '<object name="' + misc_term + '" data="' + url_imdbperso + '"/>' );
 				jQuery( '#theModal' + misc_term ).modal( 'show' );
 
 			}
@@ -51,7 +51,7 @@ document.addEventListener(
 				var url_imdbfilm = lumiere_vars.urlpopup_film + '?film=' + misc_term;
 
 				// Open bootstrap popup link
-				jQuery( '.modal-body' ).html( '<object data="' + url_imdbfilm + '"/>' );
+				jQuery( '.modal-body' ).html( '<object name="' + misc_term + '" data="' + url_imdbfilm + '"/>' );
 				jQuery( '#theModal' + misc_term ).modal( 'show' );
 
 			}
@@ -73,7 +73,7 @@ document.addEventListener(
 				var url_imdbfilmid = lumiere_vars.urlpopup_film + '?mid=' + misc_term;
 
 				// Open bootstrap popup link
-				jQuery( '.modal-body' ).html( '<object data="' + url_imdbfilmid + '"/>' );
+				jQuery( '.modal-body' ).html( '<object name="' + misc_term + '" data="' + url_imdbfilmid + '"/>' );
 				jQuery( '#theModal' + misc_term ).modal( 'show' );
 
 			}

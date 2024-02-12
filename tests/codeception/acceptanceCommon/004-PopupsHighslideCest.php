@@ -1,26 +1,27 @@
 <?php
 
-######################################### DOESN't WORK, IFRAME not found
+# Class meant to test Popups with Highslide (a WebDriver is needed for JS execution)
 
-# Class meant to test remote wordpress install (a WebDriver is needed for JS execution)
-# Testing popups Highslide
+class PopupsHighslideCest {
 
-class PopupsCest {
-
-	/** Stock the base remote URL
-	 *
+	/**
+	 * Stock the base remote URL
 	 */
-	var $url_base_remote = "";
+	var $base_url = "";
 
-	/** Stock the root remote path
-	 *
+	/**
+	 * Stock the root remote path
 	 */
-	var $root_remote = "";
+	var $base_path = "";
 
 	public function __construct(){
 
-		$this->url_base_remote = $_ENV['TEST_REMOTE_WP_URL'];
-		$this->root_remote = $_ENV['WP_ROOT_REMOTE_FOLDER'];
+		$remote_or_local = defined( 'DEVELOPMENT_ENVIR' ) ? DEVELOPMENT_ENVIR : '';
+		$final_var_url = 'TEST_' . strtoupper( $remote_or_local ) . '_WP_URL';
+		$final_var_root_folder = 'WP_ROOT_' . strtoupper( $remote_or_local ) . '_FOLDER';
+		
+		$this->base_url = $_ENV[$final_var_url];
+		$this->base_path = $_ENV[$final_var_root_folder];
 
 	}
 
@@ -32,55 +33,51 @@ class PopupsCest {
 		$I->comment('#Code _after#');
 	}
 
-	/** Login to Wordpress
-	 *  Trait function to keep the cookie active
-	 *
+	/**
+	 * Login to Wordpress
+	 * Trait function to keep the cookie active
 	 */
 	private function login(AcceptanceRemoteTester $I) {
-
 		$I->login_universal($I);
-
 	}
 
-	/** Select Highslide
+	/** 
+	 * Select Highslide
 	 * Make sure that Highslide modal window is selected
 	 *
+	 * @before login
 	 */
 	private function highslide(AcceptanceRemoteTester $I) {
-
 		// Make sure Highslide is active, following tests are run with Highslide
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
-		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Highslide", "update_imdbSettings" );
-
+		$I->SwitchModalWindow('Highslide');
 	}
 
-	/** Is popup movie functional?
+	/**
+	 * Is popup movie functional?
 	 *
-	 * @before login
 	 * @before highslide
-	 *
 	 */
 	public function checkPopupMovie(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
-
-		// Make sure Highslide is active, following tests are run with Highslide
-		$I->amOnPage('/wp-admin/admin.php?page=lumiere_options');
-		$I->customSelectOption( "form select[name=imdbpopup_modal_window]", "Highslide", "update_imdbSettings" );
 
 		// popup link movie interstellar
 		$element = 'a[data-modal_window_film="' . AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_TITLE . '"]';
 		$sub_url = AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL_WITHOUTMID;
 
-		$I->wantTo('Check if popup movie can be open');
+		$I->comment('Check if popup movie can be open');
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
-		$I->wait(7);
-		$I->switchToIFrame("//iframe[@src='$this->url_base_remote$sub_url']");
+		$I->wait( 4 );
+		
+		$iframe_find_name = $I->grabAttributeFrom('//iframe', 'name');
+		$I->switchToIframe( $iframe_find_name );
 		$I->see( AcceptanceRemoteSettings::TESTING_PAGE_BASE_A_DIRECTOR );
 	}
 
-	/** Is popup person functional?
-	 ** (also tested with checkTaxonomyOptionAndPage() 
+	/**
+	 * Is popup person functional?
+	 * (also tested with checkTaxonomyOptionAndPage() 
 	 *
+	 * @before highslide
 	 */
 	public function checkPopupPerson(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
 
@@ -88,11 +85,13 @@ class PopupsCest {
 		$element = 'a[data-modal_window_people="' . AcceptanceRemoteSettings::TESTING_PAGE_POPUP_PERSON_MID . '"]';
 		$sub_url = AcceptanceRemoteSettings::TESTING_PAGE_POPUP_PERSON_URL;
 
-		$I->wantTo('Check if popup person can be open');
+		$I->comment('Check if popup person can be open');
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
-		$I->wait(7);
-		$I->switchToIFrame("//iframe[@src='$this->url_base_remote$sub_url']");
+		$I->wait( 4 );
+		
+		$iframe_find_name = $I->grabAttributeFrom('//iframe', 'name');
+		$I->switchToIframe( $iframe_find_name );
 		$I->see( AcceptanceRemoteSettings::TESTING_PAGE_BASE_ELEMENT );
 
 	}

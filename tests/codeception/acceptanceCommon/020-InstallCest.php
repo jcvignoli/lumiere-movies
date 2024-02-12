@@ -1,7 +1,7 @@
 <?php
-
-# Class meant to test wordpress install (a WebDriver is needed for JS execution)
-
+/**
+ * Class meant to test wordpress install (a WebDriver is needed for JS execution)
+ */
 class InstallCest {
 
 	/* Stock the base remote URL
@@ -55,7 +55,7 @@ class InstallCest {
 	 */
 	public function checkInstallSetupCron(AcceptanceRemoteTester $I) {
 
-		$I->wantTo('Check if Lumière plugin set up crons');
+		$I->comment('Check if Lumière plugin set up crons');
 
 		// Activate then deactivate plugin
 /*		$I->amOnPluginsPage();
@@ -86,7 +86,7 @@ class InstallCest {
 	 */
 	public function checkKeepsettingsPopupDeactivation(AcceptanceRemoteTester $I) {
 
-		$I->wantTo('Check if keep settings option is followed on deactivation');
+		$I->comment('Check if keep settings option is followed on deactivation');
 
 		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeActivatePlugin('lumiere-movies');

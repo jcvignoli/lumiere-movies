@@ -1,6 +1,6 @@
 <?php
 
-# Class meant to test remote wordpress install (a WebDriver is needed for JS execution)
+# Class meant to test Taxonomy (a WebDriver is needed for JS execution)
 
 class TaxonomyCest {
 
@@ -32,23 +32,21 @@ class TaxonomyCest {
 
 	/**
 	 * Run needed actions BEFORE each function
-	 *
 	 */
 	public function _before(AcceptanceRemoteTester $I){
 		$I->comment('#Code _before#');
 	}
 
-	/** Run needed actions AFTER each function
-	 *
-	 *
+	/**
+	 * Run needed actions AFTER each function
 	 */
 	public function _after(AcceptanceRemoteTester $I){
 		$I->comment('#Code _after#');
 	}
 
-	/** Helper: Login to Wordpress
-	 *  Trait function to keep the cookie active
-	 *
+	/**
+	 * Helper: Login to Wordpress
+	 * Trait function to keep the cookie active
 	 */
 	private function login(AcceptanceRemoteTester $I) {
 
@@ -56,21 +54,18 @@ class TaxonomyCest {
 
 	}
 
-	/** Helper: Select Highslide
+	/**
+	 * Helper: Select Highslide
 	 * Make sure that Highslide modal window is selected
-	 *
 	 */
 	private function highslide(AcceptanceRemoteTester $I) {
-
 		// Make sure Highslide is active, following tests are run with Highslide
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
-		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Highslide", "update_imdbSettings" );
+		$I->SwitchModalWindow('Highslide');
 
 	}
 	/**
 	 * Helper: Enable taxonomy
 	 * @before login
-	 *
 	 */
 	private function maybeEnableTaxonomy(AcceptanceRemoteTester $I) {
 
@@ -88,7 +83,6 @@ class TaxonomyCest {
 	/**
 	 * Helper: Disable taxonomy
 	 * @before login
-	 *
 	 */
 	private function maybeDisableTaxonomy(AcceptanceRemoteTester $I) {
 
@@ -102,13 +96,11 @@ class TaxonomyCest {
 		$I->CustomDisableCheckbox('#imdb_imdbtaxonomy_yes', '#update_imdbSettings' );
 
 	}
-	/** Run needed actions BEFORE starting the class
-	 *
+	/**
+	 * Run needed actions BEFORE starting the class
 	 * @before login
-	 *
 	 */
 	public function startingCest(AcceptanceRemoteTester $I){
-
 		$this->maybeEnableTaxonomy($I);
 	}
 
@@ -116,7 +108,6 @@ class TaxonomyCest {
 	 * Check if Taxonomy system works
 	 * @before login
 	 * @example ["director", "composer"]
-	 *
 	 */
 	public function checkTaxonomyPeopleTemplateSystem(AcceptanceRemoteTester $I, \Codeception\Example $example, \Codeception\Module\Cli $shell) {
 
@@ -198,21 +189,21 @@ class TaxonomyCest {
 	 * Check if taxonomy deactivation/activation produce expected results
 	 * @before login
 	 * @before highslide
-	 *
 	 */
 	public function checkTaxonomyActivation(AcceptanceRemoteTester $I) {
 
 		/* VARS */
 		// popup link person Tony Zarindast
 		$element = 'a[data-modal_window_people="0953494"]';
-		$sub_url = '/lumiere/person/?mid=0953494';
+		$sub_url = '/en/lumiere/person/?mid=0953494';
+		$text_zarindast = '1934, in Tabriz, Iran';
 
 		$I->wantTo('Check if auto widget taxonomy option works');
 
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->scrollTo( '#title_Werewolf' );
 		$I->click( "Tony Zarindast");
-		$I->see('Tehran');
+		$I->see( $text_zarindast );
 
 		// Disable taxonomy
 		$this->maybeDisableTaxonomy($I);
@@ -220,16 +211,16 @@ class TaxonomyCest {
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->click( "Tony Zarindast");
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
-		$I->wait(7);
-		$I->switchToIFrame("//iframe[@src='$this->base_url$sub_url']");
-		$I->see('Golden Cage');
+		$I->wait( 4 );
+		$iframe_find_name = $I->grabAttributeFrom('//iframe', 'name');
+		$I->switchToIframe( "$iframe_find_name" );
+		$I->see( $text_zarindast );
 
 	}
 
-	/** Run needed actions AFTER closing the class
-	 *
+	/**
+	 * Run needed actions AFTER closing the class
 	 * @before login
-	 *
 	 */
 	public function closingCest(AcceptanceRemoteTester $I){
 

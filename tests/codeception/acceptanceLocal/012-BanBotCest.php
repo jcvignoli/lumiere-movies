@@ -1,0 +1,1 @@
+../acceptanceCommon/012-BanBotCest.php
