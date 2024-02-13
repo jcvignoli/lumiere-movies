@@ -451,7 +451,6 @@ class Movie {
 	 *
 	 * @param string $html -> text to wrap
 	 * @param string $item -> the item to transform, such as director, title, etc
-	 *
 	 * @return string
 	 */
 	private function lumiere_movie_design_addwrapper( string $html, string $item ): string {
@@ -487,6 +486,7 @@ class Movie {
 
 	/**
 	 * Display the title and possibly the year
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -511,6 +511,8 @@ class Movie {
 	/**
 	 * Display the picture
 	 *
+	 * @see Movie::lumiere_movie_design() that builds this method
+	 *
 	 * @since 3.7 improved compatibility with AMP WP plugin in relevant class
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
@@ -533,6 +535,7 @@ class Movie {
 
 	/**
 	 * Display the country of origin
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -581,6 +584,7 @@ class Movie {
 
 	/**
 	 * Display the runtime
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -604,6 +608,7 @@ class Movie {
 
 	/**
 	 * Display the language
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -653,6 +658,7 @@ class Movie {
 
 	/**
 	 * Display the rating
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -679,6 +685,7 @@ class Movie {
 
 	/**
 	 * Display the genre
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -729,6 +736,7 @@ class Movie {
 	/**
 	 * Display the keywords
 	 * Using $limit_keywords var to limit the total (not selected in the plugin options, hardcoded here)
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -777,7 +785,9 @@ class Movie {
 
 	}
 
-	/* Display the goofs
+	/**
+	 * Display the goofs
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -812,52 +822,23 @@ class Movie {
 
 	/**
 	 * Display the quotes
+	 * Quotes are what People said
+	 * Quotes do not exists in Movie's pages, which do not display people's data
+	 * Kept for compatibility purposes: the function lumiere_movies_quote() is automatically created from config data, the class would complain that method doesn't exist
+	 * @see Movie::lumiere_movie_design() that builds this method
+	 *
+	 * @since 3.12 Removed the method's content, since this function is for compatibility and does nothing
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
+	 * @return string Nothing
 	 */
 	private function lumiere_movies_quote( \Imdb\Title $movie ): string {
-
-		$output = '';
-		$quotes = $movie->quotes();
-		$nbquotes = intval( $this->imdb_widget_values['imdbwidgetquotenumber'] ) === 0 || $this->imdb_widget_values['imdbwidgetquotenumber'] === false ? '1' : intval( $this->imdb_widget_values['imdbwidgetquotenumber'] );
-
-		$nbtotalquotes = count( $quotes );
-
-		// if no result, exit.
-		if ( $nbtotalquotes === 0 ) {
-
-			return $output;
-
-		}
-
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Quote', 'Quotes', $nbtotalquotes, 'lumiere-movies' ) ), number_format_i18n( $nbtotalquotes ) );
-		$output .= ':</span><br />';
-
-		for ( $i = 0; $i < $nbquotes && ( $i < $nbtotalquotes ); $i++ ) {
-
-			//transform <p> tags into <div> tags so there is no layout impact by the theme.
-			$currentquotes = preg_replace( '~<p>~', "\n\t\t\t<div>", $quotes[ $i ] ) ?? $quotes[ $i ];
-			$currentquotes = preg_replace( '~</p>~', "\n\t\t\t</div>", $currentquotes ) ?? $currentquotes;
-
-			/**
-			 * Use links builder classes.
-			 * Each one has its own class passed in $link_maker,
-			 * according to which option the lumiere_select_link_maker() found in Frontend.
-			 */
-			$output .= "\n\t\t\t" . $this->link_maker->lumiere_imdburl_to_popupurl( $currentquotes );
-
-			if ( $i < ( $nbquotes - 1 ) && $i < ( $nbtotalquotes - 1 ) ) {
-				$output .= "\n\t\t\t<hr>"; // add hr to every quote but the last
-			}
-
-		}
-
-		return $output;
+		return '';
 	}
 
 	/**
 	 * Display the taglines
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -884,7 +865,7 @@ class Movie {
 
 			$output .= "\n\t\t\t&laquo; " . sanitize_text_field( $taglines[ $i ] ) . ' &raquo; ';
 			if ( $i < ( $nbtaglines - 1 ) && $i < ( $nbtotaltaglines - 1 ) ) {
-				$output .= ', '; // add comma to every quote but the last
+				$output .= ', '; // add comma to every quote but the last.
 			}
 
 		}
@@ -895,6 +876,7 @@ class Movie {
 
 	/**
 	 * Display the trailer
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -937,6 +919,7 @@ class Movie {
 
 	/**
 	 * Display the color
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -989,6 +972,7 @@ class Movie {
 
 	/**
 	 * Display the as known as, aka
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -1041,6 +1025,7 @@ class Movie {
 
 	/**
 	 * Display the composers
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -1096,6 +1081,7 @@ class Movie {
 
 	/**
 	 * Display the soundtrack
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -1142,6 +1128,7 @@ class Movie {
 
 	/**
 	 * Display the production companies
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -1177,6 +1164,7 @@ class Movie {
 
 	/**
 	 * Display the official site
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -1215,6 +1203,7 @@ class Movie {
 
 	/**
 	 * Display the director
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -1271,6 +1260,7 @@ class Movie {
 
 	/**
 	 * Display the creator (for series only)
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -1324,6 +1314,7 @@ class Movie {
 
 	/**
 	 * Display the producer
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -1387,6 +1378,7 @@ class Movie {
 
 	/**
 	 * Display the writers
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -1447,6 +1439,7 @@ class Movie {
 
 	/**
 	 * Display actors
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -1503,6 +1496,7 @@ class Movie {
 
 	/**
 	 * Display plots
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */
@@ -1542,6 +1536,7 @@ class Movie {
 
 	/**
 	 * Display the credit link
+	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @param \Imdb\Title $movie IMDbPHP title class
 	 */

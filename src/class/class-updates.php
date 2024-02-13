@@ -233,31 +233,32 @@ class Updates {
 	 *
 	 * @param string $version_update i.e. 3.7
 	 * @param int $number_of_updates i.e. 9
-	 * @return bool true if the specifications are met
+	 * @return bool True if the update should happen, false otherwhise
 	 */
-	protected function lumiere_check_if_run_update ( string $version_update = '', int $number_of_updates = 0 ): bool {
+	protected function lumiere_check_if_run_update( string $version_update = '', int $number_of_updates = 0 ): bool {
 
 		// Manually Activate logging, since current function is run before WP init
 		do_action( 'lumiere_logger' );
-		$logger = $this->logger->log();
 
-		// Check if the current Lumière version is greater or
-		// equal to Lumière version impacted by the child's update
-		if ( ( version_compare( $this->config_class->lumiere_version, $version_update ) >= 0 )
-			// Check if the number of updates already run (saved in database)
-			// is equal to child's class update number
-			&& ( $this->imdb_admin_values['imdbHowManyUpdates'] === $number_of_updates ) ) {
+		// Check if the update should happen
+		if (
+			/**
+			 * Check if the current Lumière version is greater or equal to Lumière version impacted by the child's update
+			 */
+			version_compare( $this->config_class->lumiere_version, $version_update ) >= 0
+			/**
+			 * Check if the number of updates already run (saved in database) is equal to child's class update number
+			 * The child's class update number will make sure that a sequencial update order is respected when parsing "updates/*.php" files
+			 */
+			&& ( $this->imdb_admin_values['imdbHowManyUpdates'] === $number_of_updates )
+		) {
 
-			$logger->debug( "[Lumiere][updateClass] Update $number_of_updates has started" );
-
+			$this->logger->log()->debug( "[Lumiere][updateClass] Update $number_of_updates has started" );
 			return true;
-
 		}
 
-		$logger->debug( "[Lumiere][updateClass] Update $number_of_updates not needed." );
-
+		$this->logger->log()->debug( "[Lumiere][updateClass] Update $number_of_updates not needed." );
 		return false;
 	}
-
 }
 
