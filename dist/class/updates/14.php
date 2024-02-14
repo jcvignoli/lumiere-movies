@@ -96,6 +96,38 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 
 		}
 
+		/**
+		 * Remove 'imdbusezip' from LUMIERE_CACHE_OPTIONS
+		 * The var is obsolete and not used. Automatically sending config info in the class Imdbphp
+		 */
+		if ( true === $this->lumiere_remove_options( Settings::LUMIERE_CACHE_OPTIONS, 'imdbusezip' ) ) {
+
+			$text = 'Lumière option imdbusezip successfully removed.';
+			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+
+		} else {
+
+			$text = 'Lumière option imdbusezip could not be removed.';
+			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+
+		}
+		
+		/**
+		 * Remove 'imdbconverttozip' from LUMIERE_CACHE_OPTIONS
+		 * The var is obsolete and has no use in IMDBPHP
+		 */
+		if ( true === $this->lumiere_remove_options( Settings::LUMIERE_CACHE_OPTIONS, 'imdbconverttozip' ) ) {
+
+			$text = 'Lumière option imdbconverttozip successfully removed.';
+			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+
+		} else {
+
+			$text = 'Lumière option imdbconverttozip could not be removed.';
+			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+
+		}
+
 		/** ------------------------- Editing part (end) --------------
 		 */
 

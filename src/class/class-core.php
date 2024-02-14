@@ -351,7 +351,6 @@ class Core {
 		register_block_type(
 			'lumiere/main',
 			[
-				'style' => 'lumiere_gutenberg_main', // Loads both on editor and frontend.
 				'editor_script' => 'lumiere_gutenberg_main', // Loads only on editor.
 			]
 		);
@@ -388,7 +387,7 @@ class Core {
 		if (
 			( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) )
 			&&
-			( str_contains( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->config_class->lumiere_urlstring ) )
+			( str_contains( $_SERVER['REQUEST_URI'] ?? '', site_url( '', 'relative' ) . $this->config_class->lumiere_urlstring ) )
 		) {
 
 			wp_enqueue_style( 'lumiere_style_oceanwpfixes_popups' );

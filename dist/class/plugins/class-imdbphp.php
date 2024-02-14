@@ -57,8 +57,8 @@ class Imdbphp extends Config {
 		$this->cache_expire = intval( $this->imdb_cache_values['imdbcacheexpire'] );
 		$this->photoroot = $this->imdb_cache_values['imdbphotodir']; // ?imdbphotodir? Bug imdbphp?
 		$this->usecache = $this->imdb_cache_values['imdbusecache'] === '1' ? true : false;
-		$this->storecache = $this->usecache === false ? false : true; // don't store cache if it is not used
-		$this->usezip = $this->imdb_cache_values['imdbusezip'];
+		$this->storecache = $this->usecache === false ? false : true; // Not an option in Lumière!, don't store cache if cache is not used
+		$this->usezip = $this->usecache === false ? false : true; // Not an option in Lumière!, not in admin interface, always true if using cache
 		$this->delay_imdb_request = intval( $this->imdb_admin_values['imdbdelayimdbrequest'] );
 
 		/**

@@ -75,6 +75,7 @@ class Copy_Template_Taxonomy {
 			$content = $wp_filesystem->get_contents( $lumiere_current_theme_path_file );
 			$content = str_replace( 'standard', $lumiere_taxo_title, $content );
 			$content = str_replace( 'Standard', ucfirst( $lumiere_taxo_title ), $content );
+			// @phan-suppress-next-line PhanUndeclaredConstant -- Reference to undeclared constant FS_CHMOD_FILE -- it is a PHP standard!
 			$wp_filesystem->put_contents( $lumiere_current_theme_path_file, $content, FS_CHMOD_FILE );
 			wp_safe_redirect( add_query_arg( 'msg', 'taxotemplatecopy_success', wp_get_referer() ) );
 			exit();

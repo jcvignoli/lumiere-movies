@@ -151,7 +151,7 @@ var paths = {
 		dist: './dist'
 	},
 	files: {
-		src: [	'./src/**/*.{php,html,htm,ico,webmanifest,md,txt}', 
+		src: [	'./src/**/*.{php,html,htm,ico,webmanifest,md,txt,json}', 
 			'!./src/vendor/**/*.*',				/* copy only relevant files in src/vendor */ 
 				'./src/vendor/composer/**/*.*',
 				'./src/vendor/jcvignoli/imdbphp/src/**/*.*',

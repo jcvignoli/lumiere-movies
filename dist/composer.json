@@ -1,0 +1,28 @@
+{
+    "name": "jcvignoli/lumiere-movies",
+    "description": "WordPress plugin for retrieving film and tv information from IMDb",
+    "license": "GPL-3.0-or-later",
+    "support": {
+        "issues": "https://github.com/jcvignoli/lumiere-movies/issues",
+        "wiki": "https://github.com/jcvignoli/lumiere-movies/wiki",
+        "source": "https://github.com/jcvignoli/lumiere-movies"
+    },
+    "repositories": [{
+         "type": "vcs",
+         "url": "https://github.com/jcvignoli/imdbphp"
+    }],
+    "config": {
+        "platform": {
+            "php": "8.0"
+        }
+    },
+    "require": {
+        "php": "8.0",
+        "jcvignoli/imdbphp": "dev-master",
+        "monolog/monolog": "^2.8",
+        "twbs/bootstrap": "@stable"
+    },
+    "autoload": {
+        "classmap": ["class/"]
+    }
+}

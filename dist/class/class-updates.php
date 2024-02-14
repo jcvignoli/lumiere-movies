@@ -84,7 +84,7 @@ class Updates {
 
 			// Execute if class exists.
 			if ( true === class_exists( $class_name_iterative ) ) {
-				new $class_name_iterative();
+				$fake_var_for_execute_class = new $class_name_iterative();
 			}
 		}
 

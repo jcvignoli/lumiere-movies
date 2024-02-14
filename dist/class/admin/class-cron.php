@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Settings;
-use Lumiere\Admin\Cache;
+use Lumiere\Admin\Cache_Tools;
 use Lumiere\Plugins\Logger;
 use Lumiere\Updates;
 
@@ -95,7 +95,7 @@ class Cron {
 
 		$this->logger->log()->debug( '[Lumiere][cronClass] Cron deletint cache running...' );
 
-		$cache_class = new Cache();
+		$cache_class = new Cache_Tools();
 		$cache_class->lumiere_cache_delete_files_over_limit(
 			intval( $this->imdb_cache_values['imdbcachekeepsizeunder_sizelimit'] )
 		);

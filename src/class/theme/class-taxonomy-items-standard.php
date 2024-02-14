@@ -104,7 +104,7 @@ class Taxonomy_Items_Standard {
 
 				if ( isset( $the_query ) && $the_query->have_posts() ) {
 
-					echo "\n\t\t" . '<h4>' . esc_html__( 'List of posts tagged ', 'lumiere-movies' ) . ' <i>' . esc_html( $this->get_term_current_page( 'name' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . '</i> :</h4>';
+					echo "\n\t\t" . '<h4>' . esc_html__( 'List of posts tagged ', 'lumiere-movies' ) . ' <i>' . wp_kses( $this->get_term_current_page( 'name' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . '</i> :</h4>';
 					echo "\n\t\t\t" . '<br />';
 
 					while ( $the_query->have_posts() ) {
