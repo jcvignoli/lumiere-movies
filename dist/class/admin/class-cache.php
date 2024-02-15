@@ -273,7 +273,7 @@ class Cache extends \Lumiere\Admin {
 				<div class="lumiere_flex_container">
 
 					<div>
-						<input type="text" id="imdb_imdbcacheexpire" name="imdb_imdbcacheexpire" size="7" value="<?php esc_html( $this->imdb_cache_values['imdbcacheexpire'] ); ?>" />
+						<input type="text" id="imdb_imdbcacheexpire" name="imdb_imdbcacheexpire" size="7" value="<?php echo esc_html( $this->imdb_cache_values['imdbcacheexpire'] ); ?>" />
 					</div>
 
 					<div class="imdblt_padding_ten">

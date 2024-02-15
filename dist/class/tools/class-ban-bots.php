@@ -63,14 +63,14 @@ class Ban_Bots {
 	/**
 	 * Detect Client IP
 	 */
-	private function get_user_ip(): ?string {
+	private function get_user_ip(): string {
 		$ip = null;
 		if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) && strlen( $_SERVER['HTTP_CLIENT_IP'] ) > 0 ) {
 			$ip = $_SERVER['HTTP_CLIENT_IP'];
 		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && strlen( $_SERVER['HTTP_X_FORWARDED_FOR'] ) > 0 ) {
 			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 		} else {
-			$ip = $_SERVER['REMOTE_ADDR'];
+			$ip = $_SERVER['REMOTE_ADDR'] ?? '';
 		}
 		return $ip;
 	}
@@ -103,7 +103,7 @@ class Ban_Bots {
 	 * @return void The user is banned if found in any of those lists
 	 */
 	private function maybe_ban_ip( array $banned_recipients ): void {
-		$ip = $this->get_user_ip() ?? '';
+		$ip = $this->get_user_ip();
 		foreach ( $banned_recipients as $bot ) {
 			if ( $ip === $bot ) {
 				$this->banishment();

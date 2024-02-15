@@ -100,9 +100,9 @@ class Taxonomy_Items_Standard {
 				];
 
 				// The Query.
-				$the_query = isset( $args ) ? new \WP_Query( $args ) : null;
+				$the_query = new \WP_Query( $args );
 
-				if ( isset( $the_query ) && $the_query->have_posts() ) {
+				if ( $the_query->have_posts() ) {
 
 					echo "\n\t\t" . '<h4>' . esc_html__( 'List of posts tagged ', 'lumiere-movies' ) . ' <i>' . wp_kses( $this->get_term_current_page( 'name' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . '</i> :</h4>';
 					echo "\n\t\t\t" . '<br />';

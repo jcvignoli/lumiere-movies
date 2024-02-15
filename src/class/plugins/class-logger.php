@@ -115,9 +115,9 @@ class Logger {
 
 		// If the referer of current page is a specific one, set $is_editor_page on true.
 		// This is useful when saving a post in editor interface.
-		$referer = strlen( $_SERVER['REQUEST_URI'] ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
+		$referer = strlen( $_SERVER['REQUEST_URI'] ?? '' ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) : '';
 		$pages_prohibited = [ '/wp-admin/admin-ajax.php', '/wp-admin/post.php', '/wp-json/wp/v2/posts' ];
-		if ( Utils::lumiere_array_contains_term( $pages_prohibited, $_SERVER['REQUEST_URI'] ) ) {
+		if ( Utils::lumiere_array_contains_term( $pages_prohibited, $_SERVER['REQUEST_URI'] ?? '' ) ) {
 
 			$this->is_editor_page = true;
 			return true;

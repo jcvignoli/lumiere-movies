@@ -135,7 +135,7 @@ trait Main {
 	 */
 	public function lumiere_frontend_is_editor(): void {
 
-		$referer = strlen( $_SERVER['REQUEST_URI'] ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
+		$referer = strlen( $_SERVER['REQUEST_URI'] ?? '' ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) : '';
 		$pages_prohibited = [
 			'/wp-admin/admin-ajax.php',
 			'/wp-admin/widget.php',

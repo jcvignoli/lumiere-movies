@@ -342,8 +342,6 @@ class Core {
 		register_block_type(
 			'lumiere/main',
 			[
-				'name' => 'main-block',
-				'label' => 'Main block',
 				'editor_style_handles' => [ 'lumiere_gutenberg_main' ],
 				'editor_script_handles' => [ 'lumiere_gutenberg_main' ], // Loads only on editor.
 			]
@@ -352,8 +350,6 @@ class Core {
 		register_block_type(
 			'lumiere/buttons',
 			[
-				'name' => 'main-block',
-				'label' => 'Main block',
 				'editor_script_handles' => [ 'lumiere_gutenberg_buttons' ], // Loads only on editor.
 			]
 		);
@@ -427,14 +423,14 @@ class Core {
 			|| ( 'post-new.php' === $hook )
 			|| ( 'widgets.php' === $hook )
 			// All Lumière pages.
-			|| ( Utils::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ) )
+			|| ( Utils::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ?? '' ) )
 			// Extra WP Admin pages.
 			|| ( Utils::lumiere_array_contains_term(
 				[
 					'admin.php?page=lumiere_options',
 					'options-general.php?page=lumiere_options',
 				],
-				$_SERVER['REQUEST_URI']
+				$_SERVER['REQUEST_URI'] ?? ''
 			)
 				)
 		) {

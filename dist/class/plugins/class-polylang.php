@@ -140,8 +140,11 @@ class Polylang {
 
 			echo "\n\t\t\t\t\t\t" . '<option value="' . intval( $lang->term_id ) . '"';
 
-			// @phpcs:ignore WordPress.Security.NonceVerification
-			if ( ( isset( $_POST['tag_lang'] ) ) && ( intval( $lang->term_id ) === intval( $_POST['tag_lang'] ) ) && isset( $_POST['_wpnonce'] ) && ( wp_verify_nonce( $_POST['_wpnonce'], 'submit_lang' ) !== false ) ) {
+			if (
+				// @phpcs:ignore WordPress.Security.NonceVerification -- it is process on the second line!
+				isset( $_POST['tag_lang'] ) && intval( $lang->term_id ) === intval( $_POST['tag_lang'] )
+				&& isset( $_POST['_wpnonce_polylangform'] ) && wp_verify_nonce( $_POST['_wpnonce_polylangform'], 'polylangform' ) !== false
+			) {
 				echo 'selected="selected"';
 			}
 
@@ -151,7 +154,7 @@ class Polylang {
 		echo "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
 		echo "\n\t\t\t\t\t";
 		// @phpcs:ignore WordPress.Security.EscapeOutput
-		wp_nonce_field( '_wpnonce', '_wpnonce' );
+		wp_nonce_field( 'polylangform', '_wpnonce_polylangform' );
 		// WP submit_button() is not compatible with AMP plugin and not available for AMP pages.
 		if ( function_exists( 'submit_button' ) ) {
 			echo "\n\t\t\t\t\t";

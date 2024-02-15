@@ -123,7 +123,7 @@ class Uninstall {
 		}
 
 		// Keep the settings if selected so.
-		if ( isset( $this->imdb_admin_values ) && ( array_key_exists( 'imdbkeepsettings', $this->imdb_admin_values ) ) && ( $this->imdb_admin_values['imdbkeepsettings'] === '1' ) ) {
+		if ( count( $this->imdb_admin_values ) > 0 && ( array_key_exists( 'imdbkeepsettings', $this->imdb_admin_values ) ) && ( $this->imdb_admin_values['imdbkeepsettings'] === '1' ) ) {
 
 			$this->logger->log()->info( '[Lumiere][uninstall] Lumière uninstall: keep settings selected, process finished.' );
 
@@ -161,7 +161,7 @@ class Uninstall {
 				$filter_taxonomy,
 				[ 'page', 'post' ],
 				[
-					'label' => false,
+					'labels' => [ 'name' => 'Lumière ' . $filter_taxonomy . 's' ],
 					'public' => false,
 					'query_var' => false,
 					'rewrite' => false,
@@ -179,7 +179,7 @@ class Uninstall {
 
 			// Filer: Get rid of errors, keep arrays only.
 			if ( $terms instanceof \WP_Error ) {
-				$this->logger->log()->error( '[Lumiere][uninstall] Invalid terms: ' . wp_json_encode( $terms ) );
+				$this->logger->log()->error( '[Lumiere][uninstall] Invalid terms: ' . $terms->get_error_message() );
 				continue;
 			}
 

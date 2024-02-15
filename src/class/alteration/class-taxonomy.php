@@ -101,6 +101,7 @@ class Taxonomy {
 		$get_taxo_array = $this->utils_class->lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' );
 		foreach ( $get_taxo_array as $key => $value ) {
 
+			$key = is_int( $key ) ? strval( $key ) : $key;
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $key );
 
 			// Check if a specific taxonomy (such as actor, genre) is activated.
@@ -116,11 +117,17 @@ class Taxonomy {
 						'show_in_quick_edit' => false,      /* whether to show taxo in edit interface */
 						'meta_box_cb' => false,         /* whether to show taxo in metabox */
 						/* other settings */
+						'labels' => [
+							'name' => 'Lumière ' . $filter_taxonomy . 's',
+							'parent_item' => __( 'Parent taxonomy', 'lumiere-movies' ) . ' ' . $filter_taxonomy,
+							'singular_name' => ucfirst( $filter_taxonomy ) . ' name',
+							'menu_name' => 'Lumière ' . $filter_taxonomy,
+							'search_items' => __( 'Search', 'lumiere-movies' ) . ' ' . $filter_taxonomy . 's',
+							'add_new_item' => __( 'Add new', 'lumiere-movies' ) . ' ' . $filter_taxonomy,
+						],
 						'hierarchical' => true,         /* Whether there is a relationship between added terms, it's true!
 						'public' => true,
 						/* 'args' => [ 'lang' => 'en' ], 	REMOVED 2021 08 07, what's the point? */
-						'menu_icon' => $this->imdb_admin_values['imdbplugindirectory'] . 'assets/pics/lumiere-ico13x13.png',
-						'label' => 'Lumière ' . $filter_taxonomy,
 						'query_var' => $this->imdb_admin_values['imdburlstringtaxo'] . $filter_taxonomy,
 						'rewrite' => [
 							'slug' => $this->imdb_admin_values['imdburlstringtaxo'] . $filter_taxonomy,

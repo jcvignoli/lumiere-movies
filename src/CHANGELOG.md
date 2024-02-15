@@ -3,13 +3,19 @@
 v.3.12
 * [feature] Added the general advanced option to add an extra delay when querying the IMDb website. Meant to avoid the HTTP 504 errors thrown when too many requests in a row are processed. 0 seconds by default, but can be increased to add a delay. If the data are already cached, no further delay, it's as fast as it used to be.
 * [feature] Better way to *display taxonomy items*, such as genre. It now displays all terms related to the item (i.e. movie's genre -> action). Make sure to delete all tags and visit your posts, taxonomy will be automatically created.
+* [feature] Added new automatized refresh of the cache function! By selecting that option in admin cache options, your cache will be refreshed every two weeks. No need to bother anymore about refreshing manually or letting the visitors wait until the new cache to be retrieved.
+* [bug] Looong standing bug: Lumière taxonomy was preventing "categories" and "tags" to be displayed in posts admin menu (using now 'labels' in class taxonomy)
 * [bug] Plugin bulk activation was not working (removed check_admin_referer() in class core lumiere_on_activation() method)
 * [bug] Fixed the select of the data position that was displayed vertically (removed lumiere_writing_vertical class in class-data.php)
 * [bug] Removed a style attribute in a div, that prevents CSP compatibility (removed style="height:100%;" in class-data.php)
 * [bug] HTML 4.1 compatibiliy: label HTML tag wasn't linking a proper input id (added '_yes' in method lumiere_data_display_taxo_fields() of class-data.php, properly renamed inputs and labels in class-general.php, fixed the taxonomy form in people taxonomy themes )
 * [bug] Fixed the taxonomy system, it now properly creates HTML links towards taxonomy pages within widgets/into the posts sections (now it's hierarchical, it's not using polylang functions anymore, edited classes movie and polylang and taxonomy). It is advised to delete all taxonomy tags you may have, so new are create again.
+* [bug] Cache folder creation fixed (in class settings, lumiere_create_cache() was checking if a folder exists before actually creating it)
 * [technical] Replaced FILTER_SANITIZE_STRING (obsolete) with FILTER_SANITIZE_FULL_SPECIAL_CHARS in class admin/data
 * [technical] Page downloads from IMDb are retried 3 times before giving up.
+* [technical] Cleaned useless cache settings (zipping is hardcoded in class imdbphp)
+* [technical] Cleaned useless function in class movie (cleaned lumiere_movies_quote(), which is useless but must be kept for compatibility)
+* [technical] Added more security to the cache management (in class cache, refresh/delete of individual people/movies are now checked against a NONCE)
 * [technical] Updated to latest *personal IMDbPHP libray* upstream
 * [technical] Added Bingbot to the banned bots, since it doesn't respect the "no follow" rule.
 * [technical] Rewrote the bot banning that is now executed before doing IMDb searches, avoiding cache creationg (and 504 HTML errors when calling IMDb website!)

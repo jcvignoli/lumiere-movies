@@ -73,7 +73,7 @@ class Taxonomy_People_Standard {
 	 */
 	public function __construct( ?Polylang $plugin_polylang = null ) {
 
-		// Ban bots
+		// Ban bots.
 		do_action( 'lumiere_ban_bots' );
 
 		// Construct Frontend trait.
@@ -124,7 +124,7 @@ class Taxonomy_People_Standard {
 
 		// Build the current page name from the tag taxonomy.
 		// Sanitize_title() ensures that the search is made according to the URL (fails with accents otherwise)
-		$page_title_check = sanitize_title( single_tag_title( '', false ) );
+		$page_title_check = sanitize_title( single_tag_title( '', false ) ?? '' );
 
 		// Full taxonomy title.
 		$this->taxonomy_title = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . 'standard';
@@ -141,7 +141,7 @@ class Taxonomy_People_Standard {
 	}
 
 	/**
-	 *  Display the layout
+	 * Display the layout
 	 */
 	private function lumiere_taxo_layout_standard(): void {
 
@@ -175,7 +175,7 @@ class Taxonomy_People_Standard {
 			<div id="content-wrap" class="container clr">
 		<?php
 
-		if ( isset( $this->person_name ) && strlen( $this->person_name ) !== 0 ) {
+		if ( strlen( $this->person_name ) > 0 ) {
 
 			$this->portrait();
 
@@ -183,16 +183,18 @@ class Taxonomy_People_Standard {
 
 			// No imdb result, so display a basic title.
 			$title_from_tag = single_tag_title( '', false );
-			echo "\n\t\t" . '<h1 class="pagetitle">' . esc_html__( 'Taxonomy for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ) . ' as <i>standard</i></h1>';
-			echo "\n\t\t" . '<div>' . esc_html__( 'No IMDb result found for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ) . '</div>';
+			echo "\n\t\t" . '<h1 class="pagetitle">' . esc_html__( 'Taxonomy for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ?? '' ) . ' as <i>standard</i></h1>';
+			echo "\n\t\t" . '<div>' . esc_html__( 'No IMDb result found for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ?? '' ) . '</div>';
 
 		}
 
 		// Language from the form.
+		// @phpcs:ignore WordPress.Security.NonceVerification -- It is process later!
+		$get_lang_form = isset( $_POST['tag_lang'] ) && is_string( $_POST['tag_lang'] ) && strlen( $_POST['tag_lang'] ) > 0 ? filter_input( INPUT_POST, 'tag_lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : null;
 		$form_id_language =
-			( isset( $_POST['_wpnonce'] ) && wp_verify_nonce( $_POST['_wpnonce'], '_wpnonce' ) !== false )
-			&& isset( $_POST['tag_lang'] ) && strlen( $_POST['tag_lang'] ) > 0
-			? intval( $_POST['tag_lang'] )
+			isset( $_POST['_wpnonce_polylangform'] ) && is_string( $_POST['_wpnonce_polylangform'] ) && wp_verify_nonce( $_POST['_wpnonce_polylangform'], 'polylangform' ) !== false
+			&& $get_lang_form !== false
+			? $get_lang_form
 			: null;
 
 		/**
@@ -231,7 +233,7 @@ class Taxonomy_People_Standard {
 				];
 
 				// No value was passed in the form.
-			} elseif ( isset( $this->person_name ) && strlen( $this->person_name ) > 0 ) {
+			} elseif ( strlen( $this->person_name ) > 0 ) {
 
 				$args = [
 					'post_type' => [ 'post' ],
@@ -247,7 +249,7 @@ class Taxonomy_People_Standard {
 			}
 
 			// The Query.
-			$the_query = isset( $this->person_name ) && isset( $args ) ? new WP_Query( $args ) : null;
+			$the_query = strlen( $this->person_name ) > 0 && isset( $args ) ? new WP_Query( $args ) : null;
 
 			// The loop.
 			if ( isset( $the_query ) && $the_query->have_posts() ) {
@@ -319,7 +321,7 @@ class Taxonomy_People_Standard {
 				}
 
 				// there is no post.
-			} elseif ( isset( $this->person_name ) ) {
+			} elseif ( isset( $the_query ) === false && strlen( $this->person_name ) > 0 ) {
 
 				$logger->debug( "[Lumiere][taxonomy_$this->taxonomy_title] No post found for $this->person_name in $people" );
 
@@ -334,7 +336,7 @@ class Taxonomy_People_Standard {
 		 * If no results are found at all
 		 * Say so!
 		 */
-		if ( count( $check_if_no_result ) === 0 && isset( $this->person_name ) ) {
+		if ( count( $check_if_no_result ) === 0 && strlen( $this->person_name ) > 0 ) {
 
 			$this->logger->log()->info( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] No post found for ' . $this->person_name . ' in ' . $this->taxonomy_title );
 
@@ -463,7 +465,7 @@ class Taxonomy_People_Standard {
 
 		// Compatibility with Polylang WordPress plugin, add a form to filter results by language.
 		// Function in class Polylang.
-		if ( $this->plugin_polylang !== null ) {
+		if ( isset( $this->plugin_polylang ) ) {
 
 			$this->plugin_polylang->lumiere_get_form_polylang_selection( $this->taxonomy_title, $this->person_name );
 

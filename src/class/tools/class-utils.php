@@ -203,7 +203,7 @@ class Utils {
 	 * @param string $search The text that is searched for
 	 * @param string $return text 'key-value' can be passed to get simpler array of results
 	 *
-	 * @return array<string, array<string>|bool|int|string>
+	 * @return array<int<0, max>|string, array<array-key, string>|bool|int|string>
 	 *
 	 * @credit: https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
 	 */
@@ -274,7 +274,8 @@ class Utils {
 	 * Does a glob recursively
 	 * Does not support flag GLOB_BRACE
 	 *
-	 * @param int $flags glob() flag
+	 * @param string $pattern File searched for, such as /whatever/text.*
+	 * @param 0|1|2|3|4|5|6|7|16|17|18|19|20|21|22|23|64|65|66|67|68|69|70|71|80|81|82|83|84|85|86|87|1024|1025|1026|1027|1028|1029|1030|1031|1040|1041|1042|1043|1044|1045|1046|1047|1088|1089|1090|1091|1092|1093|1094|1095|1104|1105|1106|1107|1108|1109|1110|1111|8192|8193|8194|8195|8196|8197|8198|8199|8208|8209|8210|8211|8212|8213|8214|8215|8256|8257|8258|8259|8260|8261|8262|8263|8272|8273|8274|8275|8276|8277|8278|8279|9216|9217|9218|9219|9220|9221|9222|9223|9232|9233|9234|9235|9236|9237|9238|9239|9280|9281|9282|9283|9284|9285|9286|9287|9296|9297|9298|9299|9300|9301|9302|9303 $flags glob() flag
 	 * @return array<string>|array<int|string, mixed>
 	 * @credits https://www.php.net/manual/fr/function.glob.php#106595
 	 */
@@ -425,40 +426,39 @@ class Utils {
 
 	/**
 	 * Request WP_Filesystem credentials if file doesn't have it.
-	 *
+	 * @param string $file The file with full path to ask the credentials form
 	 */
 	public static function lumiere_wp_filesystem_cred ( string $file ): void {
 
 		global $wp_filesystem;
 
-		// If the basic function doesn't exist, exit.
-		if ( function_exists( 'request_filesystem_credentials' ) === false ) {
-
-			return;
-
-		}
-
-		/** WP: request_filesystem_credentials($form_post, $type, $error, $context, $extra_fields); */
+		/** WP: request_filesystem_credentials($form_post, $type, $error, $context, $extra_fields, $allow_relaxed_file_ownership); */
 		$creds = request_filesystem_credentials( $file, '', false );
 
-		if ( false === $creds ) {
-
+		if ( $creds === false ) {
+			$escape_html = [
+				'div' => [ 'class' => true ],
+				'p' => [],
+			];
+			echo wp_kses( self::lumiere_notice( 3, __( 'Credentials are required to edit this file: ', 'lumiere-movies' ) . $file ), $escape_html );
 			return;
 		}
 
 		$credit_open = is_array( $creds ) === true ? WP_Filesystem( $creds ) : false;
 
-		// now we have some credentials, try to get the wp_filesystem running.
+		// our credentials were no good, ask for them again.
 		if ( $credit_open === false || $credit_open === null ) {
 
-			// our credentials were no good, ask the user for them again
 			$creds_two = request_filesystem_credentials( $file, '', true, '' );
 
-			// @phpstan-ignore-next-line Parameter #1 $args of function WP_Filesystem expects array|false, array|bool given.
+			// If credentials succeeded or failed, don't pass them to WP_Filesystem.
+			if ( is_bool( $creds_two ) === true ) {
+				WP_Filesystem();
+				return;
+			}
+
 			WP_Filesystem( $creds_two );
-
 		}
-
 	}
 
 	/**
@@ -482,7 +482,7 @@ class Utils {
 		global $pagenow;
 
 		// If url contains ?amp, it must be an AMP page
-		if ( str_contains( $_SERVER['REQUEST_URI'], '?amp' )
+		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', '?amp' )
 		|| isset( $_GET ['wpamp'] )
 		|| isset( $_GET ['amp'] )
 		) {

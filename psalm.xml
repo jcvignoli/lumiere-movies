@@ -1,41 +1,42 @@
 <?xml version="1.0"?>
-    <!-- checkForThrowsDocblock="true" -->
-    <!-- errorLevel: 1 is the most strict, usually use 3 -->
+	<!-- checkForThrowsDocblock="true" -->
+	<!-- errorLevel: 1 is the most strict, usually use 3 -->
 <psalm
-    errorLevel="3"
-    resolveFromConfigFile="true"
-    cacheDirectory="tmp/cache/psalm"
-    findUnusedBaselineEntry="true"
-    autoloader="tests/bootstrap-testing.php"
-    findUnusedCode="false"   
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+	errorLevel="3"
+	resolveFromConfigFile="true"
+	cacheDirectory="tmp/cache/psalm"
+	findUnusedBaselineEntry="true"
+	autoloader="tests/bootstrap-testing.php"
+	findUnusedCode="false"   
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://getpsalm.org/schema/config"
+	xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
 
-    <!-- Load but don't analyze -->
-    <extraFiles>
-	<directory name="vendor/php-stubs/wordpress-stubs/" />
-    </extraFiles>
-    <!-- Load and analyze -->
-    <projectFiles>
-        <directory name="src" />
-        <ignoreFiles>
-		<directory name="vendor" />
-		<directory name="src/vendor" />
-        </ignoreFiles>
-    </projectFiles>
-    <stubs>
-	<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php" />
-    </stubs>
-    <issueHandlers>
-	<!-- Remove can't concatenate with null, it's actually untrue since PHP automatically transforms null to empty -->
-	<PossiblyNullOperand errorLevel="suppress" />
-	<!-- Lumiere is poorly written, I know -->
-	<PropertyNotSetInConstructor errorLevel="suppress" />
-    </issueHandlers>
+	<!-- Load but don't analyze -->
+	<extraFiles>
+		<directory name="vendor/php-stubs/wordpress-stubs/"/>
+	</extraFiles>
+	<!-- Load and analyze -->
+	<projectFiles>
+		<directory name="src"/>
+		<ignoreFiles>
+			<directory name="vendor"/>
+			<directory name="src/vendor"/>
+			<directory name="../blogpourext"/>
+		</ignoreFiles>
+	</projectFiles>
+	<stubs>
+		<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php"/>
+	</stubs>
+	<globals>
+		<!-- Personal Globals Psalm is not aware of -->
+		<var name="_GET" type="array{ taxotype: string }" />
+	</globals>
+	<issueHandlers>
+		<!-- Remove can't concatenate with null, it's actually untrue since PHP automatically transforms null to empty -->
+		<PossiblyNullOperand errorLevel="suppress"/>
+		<!-- Lumiere is poorly written, I know -->
+		<PropertyNotSetInConstructor errorLevel="suppress"/>
+	</issueHandlers>
 </psalm>
-
-
-
-

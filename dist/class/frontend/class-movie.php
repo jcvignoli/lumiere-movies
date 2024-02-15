@@ -822,8 +822,7 @@ class Movie {
 
 	/**
 	 * Display the quotes
-	 * Quotes are what People said
-	 * Quotes do not exists in Movie's pages, which do not display people's data
+	 * Quotes are what People said, Quotes do not exists in Movie's pages, which do not display people's data
 	 * Kept for compatibility purposes: the function lumiere_movies_quote() is automatically created from config data, the class would complain that method doesn't exist
 	 * @see Movie::lumiere_movie_design() that builds this method
 	 *

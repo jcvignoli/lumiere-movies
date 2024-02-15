@@ -71,7 +71,7 @@ if [ "$FILES" != "" ];then
 
     if [ "$PHPSTAN_ACTIVATED" = 1 ]; then
         echo "[Pre-commit] Running PHPStan on PHP files..."
-        PHPSTAN_ANALYSE=$($PHPSTAN_BIN analyze --error-format=raw $FILES)
+        PHPSTAN_ANALYSE=$($PHPSTAN_BIN analyze --configuration phpstan.neon --error-format=raw $FILES)
         if [ $? != 0 ];then
             printf "$PHPSTAN_ANALYSE\n\n"
             printf "\033[1m\033[31m[Pre-commit] PHPStan has errors, fix them before uploading to git.\033[0m\n"

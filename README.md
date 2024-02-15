@@ -176,15 +176,13 @@ Major changes:
 
 !Important: Due to the improvement of the taxonomy system, it is advised to remove all "lumiere-XX" taxonomy tags you may have created. Just go to the Posts admin section, and delete all tags found under "lumiere-XX" taxonomy you may have on the left menu. Tags will be created again when visiting your pages with IMDb widgets/into the posts sections.
 
-Fixed the taxonomy system, it now properly creates HTML links towards taxonomy pages within widgets/into the posts sections, with the appropriate language. Added the general advanced option to add an extra delay when querying the IMDb website. Downloads from imdbphp are retried 3 times before giving up. Fixed bug in plugin activation, layout in admin data options position, improved Content security policy and HTML 4.1 compatibility. Banning bots is now executed before doing any IMDb search or display, avoiding cache creationg (and 504 HTML errors when calling IMDb website!).
+Added new automatized refresh of the cache function. Fixed the taxonomy system, it now properly creates HTML links towards taxonomy pages within widgets/into the posts sections, with the appropriate language. Taxonomy for items (ie: genre) is now displayed for all items found. Added the general advanced option to add an extra delay when querying the IMDb website. Downloads from imdbphp are retried 3 times before giving up. Fixed bug in plugin activation, layout in admin data options position, improved Content security policy and HTML 4.1 compatibility. Banning bots is now executed before doing any IMDb search or display, avoiding cache creationg (and 504 HTML errors when calling IMDb website!).
+
+And much more!
 
 ### 3.11.4
 
 Some bots scanning the popups without considering head rules (nofollow) will be now banned. This will prevents from having bots creating a huge cache and many requests that get user banned from IMDB (and save space).
-
-### 3.11.2
-
-Fixed bug preventing popup from popping up
 
 ### 3.11
 

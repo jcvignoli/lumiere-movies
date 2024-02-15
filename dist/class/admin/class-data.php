@@ -590,7 +590,7 @@ class Data extends \Lumiere\Admin {
 		Utils::lumiere_wp_filesystem_cred( $lumiere_current_theme_path_file );
 
 		// Make the HTML link with a nonce, checked in move_template_taxonomy.php.
-		$link_taxo_copy = esc_url( add_query_arg( '_wpnonce', wp_create_nonce( 'taxo' ), admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=' . $lumiere_taxo_title ) );
+		$link_taxo_copy = wp_nonce_url( admin_url( 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=' . $lumiere_taxo_title ), 'linkcopytaxo', '_wpnonce_linkcopytaxo' );
 
 		// No file in the theme folder found and no template to be updated found, offer to copy it and exit.
 		if ( file_exists( $lumiere_current_theme_path_file ) === false && ! isset( $list_updated_fields ) ) {

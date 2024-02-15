@@ -54,31 +54,48 @@ class Copy_Template_Taxonomy {
 
 		// No $_GET["taxotype"] found or not in array, exit.
 		if ( ( ! isset( $lumiere_taxo_title ) ) || ( strlen( $lumiere_taxo_title ) === 0 ) ) {
-			wp_safe_redirect( add_query_arg( 'msg', 'taxotemplatecopy_failed', wp_get_referer() ) );
-			exit();
+			set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_failed', 1 );
+			$referer = wp_get_referer() !== false ? wp_get_referer() : '';
+			if ( wp_safe_redirect( $referer ) ) {
+				exit;
+			}
 		}
 
 		/* Taxonomy is activated in the panel, and $_GET["taxotype"] exists
 		   as a $imdb_widget_values, and there is a nonce from Data class */
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' )
-		&& ( $this->imdb_widget_values[ 'imdbtaxonomy' . $lumiere_taxo_title ] === '1' )
-		&& isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'taxo' ) !== false ) {
+		if (
+			$this->imdb_admin_values['imdbtaxonomy'] === '1'
+			&& ( isset( $lumiere_taxo_title ) && $this->imdb_widget_values[ 'imdbtaxonomy' . $lumiere_taxo_title ] === '1' )
+			&& ( isset( $_GET['_wpnonce_linkcopytaxo'] ) && wp_verify_nonce( $_GET['_wpnonce_linkcopytaxo'], 'linkcopytaxo' ) !== false )
+		) {
 
 			// Make sure we got right credentials to use $wp_filesystem
 			Utils::lumiere_wp_filesystem_cred( $lumiere_taxonomy_theme_file );
-			if ( $wp_filesystem === null || $wp_filesystem->copy( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, true ) === false ) {
+
+			if ( $wp_filesystem === null ) {
+				esc_html_e( 'Could not get the credentials wp_filesystem for copying', 'lumiere-movies' );
+				return;
+			}
+
+			if ( $wp_filesystem->copy( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, true ) === false ) {
 				// Copy failed.
-				wp_safe_redirect( add_query_arg( 'msg', 'taxotemplatecopy_failed', wp_get_referer() ) );
-				exit();
+				set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_failed', 1 );
+				$referer = wp_get_referer() !== false ? wp_get_referer() : '';
+				if ( wp_safe_redirect( $referer ) ) {
+					exit;
+				}
 			}
 
 			$content = $wp_filesystem->get_contents( $lumiere_current_theme_path_file );
 			$content = str_replace( 'standard', $lumiere_taxo_title, $content );
 			$content = str_replace( 'Standard', ucfirst( $lumiere_taxo_title ), $content );
-			// @phan-suppress-next-line PhanUndeclaredConstant -- Reference to undeclared constant FS_CHMOD_FILE -- it is a PHP standard!
-			$wp_filesystem->put_contents( $lumiere_current_theme_path_file, $content, FS_CHMOD_FILE );
-			wp_safe_redirect( add_query_arg( 'msg', 'taxotemplatecopy_success', wp_get_referer() ) );
-			exit();
+			$chmod = defined( 'FS_CHMOD_FILE' ) ? FS_CHMOD_FILE : false;
+			$wp_filesystem->put_contents( $lumiere_current_theme_path_file, $content, $chmod );
+			set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_success', 1 );
+			$referer = wp_get_referer() !== false ? wp_get_referer() : '';
+			if ( wp_safe_redirect( $referer ) ) {
+				exit;
+			}
 		}
 
 		// If any condition is not met, wp_die()

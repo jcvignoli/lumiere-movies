@@ -640,7 +640,6 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 			$filter_taxonomy,
 			[ 'page', 'post' ],
 			[
-				'label' => false,
 				'public' => false,
 				'query_var' => false,
 				'rewrite' => false,
@@ -658,6 +657,7 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 
 		// Delete taxonomy terms and unregister taxonomy.
 		if ( $taxo_terms instanceof \WP_Error ) {
+			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Invalid terms: ' . $taxo_terms->get_error_message() );
 			return;
 		}
 

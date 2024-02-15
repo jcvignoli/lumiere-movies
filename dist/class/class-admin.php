@@ -83,7 +83,6 @@ class Admin {
 		'cache_query_deleted' => 'Query cache files deleted.',
 		'taxotemplatecopy_success' => 'Template successfully copied.',
 		'taxotemplatecopy_failed' => 'Template copy failed!',
-		'taxotemplate_newversion' => 'New taxonomy template version, visit the taxonomy options to update.',
 		'highslide_success' => 'Highslide successfully installed!',
 		'highslide_failure' => 'Highslide installation failed!',
 		'highslide_down' => 'Website to download Highslide is currently down, please try again later.',
