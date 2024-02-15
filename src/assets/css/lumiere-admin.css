@@ -78,6 +78,7 @@ width: 100%;border-color: black;}
 
 /* Span of options */
 .admin-option-selected, .lumiere-option-taxo-activated {font-weight:bold;color:#0066CC;}
+.admin-option-ok {color:green;}
 .lumiere-option-taxo-deactivated {font-weight:bold;color:red;}
 
 .imdblt_success {padding:5px;background:lightYellow;border:1px solid #E6DB55;border-radius: 3px;}
@@ -91,13 +92,12 @@ background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;padding-left: 
 /* for refresh/delete in cache options - cache management */
 .row-actions{text-align:center;}
 
-.imdblt_nofilefound{font-weight:bold;color:red;text-align:center;}
-.imdblt_green{color:green;}
-.imdblt_red{color:red;}
-.imdblt_red_bold{color:red;font-weight: bold;}
+.lumiere_green{color:green;}
+.lumiere_red{color:red;}
+.lumiere_red_bold{color:red;font-weight: bold;}
 table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .intro_cache {padding:0 30px 30px 30px;}
-.imdblt_smaller{font-size:smaller;}
+.lumiere_smaller{font-size:smaller;}
 .imdblt_bold{font-weight:bold;}
 .picfloat{float:left;padding-right:5px;}
 

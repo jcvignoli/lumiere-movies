@@ -168,7 +168,7 @@ class Admin {
 
 		// Messages for child classes.
 		$notif_msg = get_transient( 'notice_lumiere_msg' );
-		if ( isset( $notif_msg ) && array_key_exists( $notif_msg, $this->lumiere_notice_messages ) ) {
+		if ( is_string( $notif_msg ) && array_key_exists( $notif_msg, $this->lumiere_notice_messages ) ) {
 			echo Utils::lumiere_notice( 1, esc_html( $this->lumiere_notice_messages[ $notif_msg ] ) );
 		}
 	}

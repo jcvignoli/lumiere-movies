@@ -23,7 +23,7 @@ use FilesystemIterator;
 /**
  * @phpstan-type LevelLogName 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY'
  * @phpstan-type OPTIONS_ADMIN array{'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': int, 'imdbdelayimdbrequest': int, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': null|string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': LevelLogName, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_modal_window': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': int, 'imdbseriemovies': string}
- * @phpstan-type OPTIONS_CACHE array{'imdbcachedir_partial': string, 'imdbusecache': string, 'imdbcacheexpire': string, 'imdbcachedetailsshort': string,'imdbcachedir': string,'imdbphotoroot': string, 'imdbphotodir': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string }
+ * @phpstan-type OPTIONS_CACHE array{'imdbcachedir_partial': string, 'imdbusecache': string, 'imdbcacheexpire': string, 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string,'imdbcachedir': string,'imdbphotoroot': string, 'imdbphotodir': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string }
  * @phpstan-type OPTIONS_WIDGET array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':int, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber': bool|string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber': string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber': string|bool, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber': string|bool, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber': string|bool, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber': string|bool, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber': string|bool, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber': bool|string, 'imdbwidgetorder': array<string>, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string}
 */
 class Settings {
@@ -443,6 +443,7 @@ class Settings {
 			'imdbusecache' => '1',
 			'imdbcacheexpire' => '2592000',    /* one month */
 			'imdbcachedetailsshort' => '0',
+			'imdbcacheautorefreshcron' => '0',
 			'imdbcachekeepsizeunder' => '0', /* Disabled by default */
 			'imdbcachekeepsizeunder_sizelimit' => '100', /* 100 MB */
 
@@ -608,23 +609,27 @@ class Settings {
 		}
 
 		// Cache folders exist with good permissions, exit.
-		if ( ( is_writable( $lumiere_folder_cache ) ) && ( is_writable( $lumiere_folder_cache_images ) ) && wp_mkdir_p( $lumiere_folder_cache ) && wp_mkdir_p( $lumiere_folder_cache_images ) ) {
-
+		wp_mkdir_p( $lumiere_folder_cache );
+		chmod( $lumiere_folder_cache, 0777 );
+		wp_mkdir_p( $lumiere_folder_cache_images );
+		// chmod( $lumiere_folder_cache_images, 0777 ); => throws locally an chmod error.
+		if ( is_writable( $lumiere_folder_cache ) && is_writable( $lumiere_folder_cache_images ) ) {
 			$logger->debug( '[Lumiere][config][cachefolder] Cache folders exist and permissions are ok.' );
 			return false;
-
 		}
+
+		$logger->debug( '[Lumiere][config][cachefolder] The cache folder located at ' . $lumiere_folder_cache . ' is not writable, creating an alternative cache ' );
 
 		$lumiere_alt_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
 		$lumiere_alt_folder_cache_images = $lumiere_alt_folder_cache . '/images';
 
 		// If we can write in $options_cache['imdbcachedir'] (ie: wp-content/cache), make sure permissions are ok
-		if ( wp_mkdir_p( $lumiere_folder_cache ) && chmod( $lumiere_folder_cache, 0775 ) ) {
+		if ( wp_mkdir_p( $lumiere_folder_cache ) && chmod( $lumiere_folder_cache, 0777 ) ) {
 
 			$logger->debug( "[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created." );
 
 			// We can't write in $options_cache['imdbphotoroot'], so write in wp-content/plugins/lumiere/cache instead
-		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache ) && chmod( $lumiere_alt_folder_cache, 0775 ) ) {
+		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache ) && chmod( $lumiere_alt_folder_cache, 0777 ) ) {
 
 			// Create partial var
 			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
@@ -648,7 +653,7 @@ class Settings {
 			$logger->debug( "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created." );
 
 			// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
-		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache_images ) && chmod( $lumiere_alt_folder_cache_images, 0775 ) ) {
+		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache_images ) && chmod( $lumiere_alt_folder_cache_images, 0777 ) ) {
 
 			$lumiere_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
 

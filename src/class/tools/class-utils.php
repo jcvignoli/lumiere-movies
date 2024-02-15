@@ -212,7 +212,7 @@ class Utils {
 		$search = str_replace( '\*', '.*?', preg_quote( $search, '/' ) );
 
 		$result_init = preg_grep( '/^' . $search . '$/i', array_keys( $array ) );
-		$result = $result_init !== false ? $result_init : [];
+		$result = is_array( $result_init ) === true ? $result_init : [];
 
 		if ( $return === 'key-value' ) {
 			return array_intersect_key( $array, array_flip( $result ) );

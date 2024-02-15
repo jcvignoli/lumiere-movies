@@ -97,6 +97,22 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 		}
 
 		/**
+		 * Add 'imdbdelayimdbrequest' to LUMIERE_ADMIN_OPTIONS
+		 * New var to allow delay the number of requests to IMDb -> avoid 504 HTTP error when querying IMDb website
+		 */
+		if ( true === $this->lumiere_add_options( Settings::LUMIERE_CACHE_OPTIONS, 'imdbcacheautorefreshcron', 0 ) ) {
+
+			$text = 'Lumière option imdbcacheautorefreshcron successfully added.';
+			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+
+		} else {
+
+			$text = 'Lumière option imdbcacheautorefreshcron could not be added.';
+			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+
+		}
+
+		/**
 		 * Remove 'imdbusezip' from LUMIERE_CACHE_OPTIONS
 		 * The var is obsolete and not used. Automatically sending config info in the class Imdbphp
 		 */

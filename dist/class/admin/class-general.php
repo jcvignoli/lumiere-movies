@@ -239,7 +239,7 @@ class General extends \Lumiere\Admin {
 						// If the folder "highslide" was not found
 						if (  is_dir( $this->config_class->lumiere_js_path . 'highslide' ) === false && $this->activate_highslide_download === true && $this->imdb_admin_values['imdbpopup_modal_window'] === 'highslide' ) {
 							// Say so!
-							echo Utils::lumiere_notice( 4, '<span class="imdblt_red_bold">' . esc_html__( 'Warning! No Highslide folder was found.', 'lumiere-movies' ) . '</span>' );
+							echo Utils::lumiere_notice( 4, '<span class="lumiere_red_bold">' . esc_html__( 'Warning! No Highslide folder was found.', 'lumiere-movies' ) . '</span>' );
 							echo '<br />';
 
 							// Automatic highslide download.

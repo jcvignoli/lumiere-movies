@@ -99,15 +99,26 @@ class Uninstall {
 		// Remove WP Cron shoud they exist.
 		$wp_cron_list = count( _get_cron_array() ) > 0 ? _get_cron_array() : [];
 		foreach ( $wp_cron_list as $time => $hook ) {
-			if ( isset( $hook['lumiere_cron_hook'] ) ) {
-				$timestamp = (int) wp_next_scheduled( 'lumiere_cron_hook' );
-				wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
-				$this->logger->log()->info( '[Lumiere][uninstall] Cron lumiere_cron_hook removed' );
+			if ( isset( $hook['lumiere_cron_exec_once'] ) ) {
+				$timestamp = wp_next_scheduled( 'lumiere_cron_exec_once' );
+				if ( $timestamp !== false ) {
+					wp_unschedule_event( $timestamp, 'lumiere_cron_exec_once' );
+					$this->logger->log()->info( '[Lumiere][uninstall] Cron lumiere_cron_exec_once removed' );
+				}
 			}
 			if ( isset( $hook['lumiere_cron_deletecacheoversized'] ) ) {
-				$timestamp = (int) wp_next_scheduled( 'lumiere_cron_deletecacheoversized' );
-				wp_unschedule_event( $timestamp, 'lumiere_cron_deletecacheoversized' );
-				$this->logger->log()->info( '[Lumiere][uninstall] Cron lumiere_cron_deletecacheoversized removed' );
+				$timestamp = wp_next_scheduled( 'lumiere_cron_deletecacheoversized' );
+				if ( $timestamp !== false ) {
+					wp_unschedule_event( $timestamp, 'lumiere_cron_deletecacheoversized' );
+					$this->logger->log()->info( '[Lumiere][uninstall] Cron lumiere_cron_deletecacheoversized removed' );
+				}
+			}
+			if ( isset( $hook['lumiere_cron_autofreshcache'] ) ) {
+				$timestamp = wp_next_scheduled( 'lumiere_cron_autofreshcache' );
+				if ( $timestamp !== false ) {
+					wp_unschedule_event( $timestamp, 'lumiere_cron_autofreshcache' );
+					$this->logger->log()->info( '[Lumiere][uninstall] Cron lumiere_cron_autofreshcache removed' );
+				}
 			}
 		}
 
@@ -167,7 +178,7 @@ class Uninstall {
 			);
 
 			// Filer: Get rid of errors, keep arrays only.
-			if ( is_wp_error( $terms ) === true ) {
+			if ( $terms instanceof \WP_Error ) {
 				$this->logger->log()->error( '[Lumiere][uninstall] Invalid terms: ' . wp_json_encode( $terms ) );
 				continue;
 			}
@@ -214,10 +225,13 @@ class Uninstall {
 		}
 		$this->logger->log()->debug( '[Lumiere][uninstall] Lumière options deleted.' );
 
-		// Delete transients. Not yet utilised.
-		// delete_transient( 'lumiere_tmp' );
-		// $this->logger->log()->debug( '[Lumiere][uninstall] Lumière transients deleted.' );
-
+		// Delete transients.
+		if ( delete_transient( 'cron_settings_updated' ) ) {
+			$this->logger->log()->debug( '[Lumiere][uninstall] Lumière cron_settings_updated transients deleted.' );
+		}
+		if ( delete_transient( 'notice_lumiere_msg' ) ) {
+			$this->logger->log()->debug( '[Lumiere][uninstall] Lumière notice_lumiere_msg transients deleted.' );
+		}
 	}
 
 }

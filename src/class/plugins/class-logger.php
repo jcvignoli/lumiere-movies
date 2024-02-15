@@ -137,9 +137,9 @@ class Logger {
 	 * @param null|string $logger_name: title applied to the logger in the logs under origin
 	 * @param null|bool $screen_output: whether to display the screen output. Useful for plugin activation.
 	 *
-	 * @return void the logger in $logger_class
+	 * @return void the logger in set in $logger_class
 	 */
-	public function lumiere_start_logger ( ?string $logger_name, ?bool $screen_output = true ): void {
+	public function lumiere_start_logger( ?string $logger_name, ?bool $screen_output = true ): void {
 
 		// Get local vars and send to global class properties if set, if empty get the global vars.
 		$logger_name = isset( $logger_name ) ? $this->logger_name = $logger_name : $logger_name = $this->logger_name;
@@ -203,12 +203,12 @@ class Logger {
 			 * Avoid to display on screen when using block editor.
 			 */
 			if (
-			// IF: option 'debug on screen' is activated.
-			( $this->imdb_admin_values['imdbdebugscreen'] === '1' )
-			// IF: variable 'output on screen' is selected.
-			&& ( $screen_output === true )
-			// IF: the page is not block editor (gutenberg).
-			&& ( $this->is_editor_page === false )
+				// IF: option 'debug on screen' is activated.
+				( $this->imdb_admin_values['imdbdebugscreen'] === '1' )
+				// IF: variable 'output on screen' is selected.
+				&& ( $screen_output === true )
+				// IF: the page is not block editor (gutenberg).
+				&& ( $this->is_editor_page === false )
 			) {
 
 				// Change the format
@@ -222,7 +222,6 @@ class Logger {
 				// Utilise the new handler and format
 				$this->logger_class->pushHandler( $screenlogger );
 			}
-
 			return;
 		}
 
@@ -242,14 +241,13 @@ class Logger {
 		}
 		// LoggerMonolog wasn't started, start it without a title
 		$this->lumiere_start_logger( null );
-		return $this->logger_class;
+		return $this->logger_class; // @phan-suppress-current-line PhanTypeMismatchReturn -- Returning $this->logger_class of type null but log() is declared to return \Monolog\Logger -- This is probably true, but PHPStan says otherwhise, and this is needed in some cases (activation/deactivation?)
 	}
 
 	/**
 	 * Make sure debug log exists and is writable.
 	 * @since 3.7.1
-	 * @since 3.9.1, is a method, and using fopen and added error_log(), if file creation
-	 * in wp-content fails try with Lumière plugin folder
+	 * @since 3.9.1, is a method, and using fopen and added error_log(), if file creation in wp-content fails try with Lumière plugin folder
 	 *
 	 * @param string $log_file Log file with the full path
 	 * @param bool $second_try Whether the function is called a second time

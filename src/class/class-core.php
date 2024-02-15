@@ -336,33 +336,27 @@ class Core {
 			false
 		);
 
-		// Style.
 		wp_register_style( 'lumiere_gutenberg_main', $this->config_class->lumiere_blocks_dir . 'editor/index.min.css', [], $this->config_class->lumiere_version );
-		register_block_style(
-			'lumiere/main',
-			[
-				'name' => 'main-block',
-				'label' => 'Main block',
-				'style_handle' => 'lumiere_gutenberg_main',
-			]
-		);
 
 		// Register block script and style.
 		register_block_type(
 			'lumiere/main',
 			[
-				'editor_script' => 'lumiere_gutenberg_main', // Loads only on editor.
+				'name' => 'main-block',
+				'label' => 'Main block',
+				'editor_style_handles' => [ 'lumiere_gutenberg_main' ],
+				'editor_script_handles' => [ 'lumiere_gutenberg_main' ], // Loads only on editor.
 			]
 		);
 
 		register_block_type(
 			'lumiere/buttons',
 			[
-				'editor_script' => 'lumiere_gutenberg_buttons', // Loads only on editor.
+				'name' => 'main-block',
+				'label' => 'Main block',
+				'editor_script_handles' => [ 'lumiere_gutenberg_buttons' ], // Loads only on editor.
 			]
 		);
-
-		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
 
 	}
 
@@ -425,8 +419,6 @@ class Core {
 	 */
 	public function lumiere_execute_admin_assets ( string $hook ): void {
 
-		$imdb_admin_values = $this->imdb_admin_values;
-
 		// Load assets only on Lumière admin pages.
 		// + WordPress edition pages + Lumière own pages (ie gutenberg search).
 		if (
@@ -462,6 +454,9 @@ class Core {
 
 			// Load hide/show js.
 			wp_enqueue_script( 'lumiere_hide_show' );
+
+			// Script for click on gutenberg block link to open a popup, script is loaded but it doesn't work!
+			wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
 
 		}
 
@@ -611,13 +606,15 @@ class Core {
 		// Start the logger.
 		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
-		// Remove WP Cron shoud they exist.
+		// Remove WP Cron lumiere_cron_exec_once should it exists.
 		$wp_cron_list = count( _get_cron_array() ) > 0 ? _get_cron_array() : [];
 		foreach ( $wp_cron_list as $time => $hook ) {
-			if ( isset( $hook['lumiere_cron_hook'] ) ) {
-				$timestamp = (int) wp_next_scheduled( 'lumiere_cron_hook' );
-				wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
-				$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Cron removed' );
+			if ( isset( $hook['lumiere_cron_exec_once'] ) ) {
+				$timestamp = wp_next_scheduled( 'lumiere_cron_hook' );
+				if ( $timestamp !== false ) {
+					wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
+					$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Cron removed' );
+				}
 			}
 		}
 

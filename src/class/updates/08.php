@@ -657,7 +657,7 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 		);
 
 		// Delete taxonomy terms and unregister taxonomy.
-		if ( is_wp_error( $taxo_terms ) === true ) {
+		if ( $taxo_terms instanceof \WP_Error ) {
 			return;
 		}
 

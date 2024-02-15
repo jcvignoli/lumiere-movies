@@ -8,8 +8,8 @@
 *
 */
 
-/** Functions to activate/unactivate forms checkboxes (depending on the choice made)
- *
+/** 
+ * Functions to activate/unactivate forms checkboxes (depending on the choice made)
  */
 
 // If input with data-modificator is selected, get the data-field_to_change (id of the other field to activate or unactivate) and data-field_to_change_value (if activate (1) or unactivate (0))
@@ -45,18 +45,6 @@ document.addEventListener(
 					var optionOne = jQuery( this ).closest( 'input' ).data( 'field_to_change3' );
 					var optionTwo = jQuery( this ).closest( 'input' ).data( 'field_to_change_value3' );
 					GereControle( optionOne, optionTwo );
-				}
-			}
-		);
-
-		jQuery( 'input[data-valuemodificator]' ).click(
-			function(){
-				var field_option = jQuery( this ).closest( 'input' ).data( 'valuemodificator_field' );
-
-				if (jQuery( this ).is( ":checked" )) {
-					document.getElementById( field_option ).value = jQuery( this ).val();
-				} else {
-					document.getElementById( field_option ).value = jQuery( this ).closest( 'input' ).data( 'valuemodificator_default' );
 				}
 			}
 		);
@@ -139,9 +127,10 @@ function GereControle(Controle, Masquer) {
  *
  */
 
-// Function to move values inside a select box form
-// Credits go to Rick Hitchcock https://stackoverflow.com/a/28682653
-
+/** 
+ * Function to move values inside a select box form
+ * Credits go to Rick Hitchcock https://stackoverflow.com/a/28682653
+ */
 document.addEventListener(
 	'DOMContentLoaded',
 	function () {
@@ -218,50 +207,85 @@ function uncheckAll(field){
 }
 
 /* check all inputs */
-	/* movies */
-	(function ($) {
-		$( document ).on(
-			'click',
-			'input[data-check-movies]',
-			function(e){
-				checkAll( document.getElementsByName( 'imdb_cachedeletefor_movies[]' ) );
-			}
-		);
-	})( jQuery );
-	/* people */
-	(function ($) {
-		$( document ).on(
-			'click',
-			'input[data-check-people]',
-			function(e){
-				checkAll( document.getElementsByName( 'imdb_cachedeletefor_people[]' ) );
-			}
-		);
-	})( jQuery );
+/******** movies */
+(function ($) {
+	$( document ).on(
+		'click',
+		'input[data-check-movies]',
+		function(e){
+			checkAll( document.getElementsByName( 'imdb_cachedeletefor_movies[]' ) );
+		}
+	);
+})( jQuery );
+/* people */
+(function ($) {
+	$( document ).on(
+		'click',
+		'input[data-check-people]',
+		function(e){
+			checkAll( document.getElementsByName( 'imdb_cachedeletefor_people[]' ) );
+		}
+	);
+})( jQuery );
 
-/* uncheck all inputs */
-	/* movies */
-	(function ($) {
-		$( document ).on(
-			'click',
-			'input[data-uncheck-movies]',
-			function(e){
-				uncheckAll( document.getElementsByName( 'imdb_cachedeletefor_movies[]' ) );
+/******** uncheck all inputs */
+/* movies */
+(function ($) {
+	$( document ).on(
+		'click',
+		'input[data-uncheck-movies]',
+		function(e){
+			uncheckAll( document.getElementsByName( 'imdb_cachedeletefor_movies[]' ) );
+		}
+	);
+})( jQuery );
+/* people */
+(function ($) {
+	$( document ).on(
+		'click',
+		'input[data-uncheck-people]',
+		function(e){
+			uncheckAll( document.getElementsByName( 'imdb_cachedeletefor_people[]' ) );
+		}
+	);
+})( jQuery );
+
+document.addEventListener(
+	'DOMContentLoaded',
+	function () {
+		/**
+		 * Clicking on a checkbox with 'data-valuemodificator' changes another field value (the field is set up in valuemodificator_field )
+		 * Two values (value in value="XXX") and 'data-valuemodificator_valuedefault' will be sent to that field value according to the click (checked)
+		 */
+		jQuery( 'input[data-valuemodificator]' ).click(
+			function(){
+				var field_option = jQuery( this ).closest( 'input' ).data( 'valuemodificator_field' );
+
+				if (jQuery( this ).is( ":checked" )) {
+					document.getElementById( field_option ).value = jQuery( this ).val();
+				} else {
+					document.getElementById( field_option ).value = jQuery( this ).closest( 'input' ).data( 'valuemodificator_default' );
+				}
 			}
 		);
-	})( jQuery );
-	/* people */
-	(function ($) {
-		$( document ).on(
-			'click',
-			'input[data-uncheck-people]',
-			function(e){
-				uncheckAll( document.getElementsByName( 'imdb_cachedeletefor_people[]' ) );
+
+		/**
+		 * Clicking on a checkbox with 'data-valuemodificator_advanced' changes another field value (the field is set up in valuemodificator_field )
+		 * Two values 'data-valuemodificator_valuecurrent' and 'data-valuemodificator_valuedefault' will be sent to that field value according to the click (checked)
+		 */
+		jQuery( 'input[data-valuemodificator_advanced]' ).click(
+			function(){
+				var field_option = jQuery( this ).closest( 'input' ).data( 'valuemodificator_field' );
+
+				if (jQuery( this ).is( ":checked" )) {
+					document.getElementById( field_option ).value = jQuery( this ).closest( 'input' ).data( 'valuemodificator_valuecurrent' );
+				} else {
+					document.getElementById( field_option ).value = jQuery( this ).closest( 'input' ).data( 'valuemodificator_valuedefault' );
+				}
 			}
 		);
-	})( jQuery );
-
-
+	}
+);
 /************************************** Open a query popup in any admin pages
 *
 */
