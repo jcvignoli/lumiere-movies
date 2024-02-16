@@ -269,7 +269,7 @@ class Settings {
 		];
 
 		/* BUILD options constant for javascripts  */
-		$this->lumiere_scripts_admin_vars = 'const lumiere_admin_vars = ' . wp_json_encode(
+		$notfalse_lumiere_scripts_admin_vars = wp_json_encode(
 			[
 				'imdb_path' => $this->imdb_admin_values['imdbplugindirectory'],
 				'wordpress_path' => site_url(),
@@ -278,7 +278,8 @@ class Settings {
 				'gutenberg_search_url' => self::GUTENBERG_SEARCH_URL,
 			]
 		);
-		$this->lumiere_scripts_vars = 'const lumiere_vars = ' . wp_json_encode(
+		$this->lumiere_scripts_admin_vars = $notfalse_lumiere_scripts_admin_vars !== false ? 'const lumiere_admin_vars = ' . $notfalse_lumiere_scripts_admin_vars : '';
+		$notfalse_lumiere_scripts_vars = wp_json_encode(
 			[
 				'imdb_path' => $this->imdb_admin_values['imdbplugindirectory'],
 				'urlpopup_film' => $this->lumiere_urlpopupsfilms,
@@ -289,6 +290,7 @@ class Settings {
 				'popupLong' => $this->imdb_admin_values['imdbpopuplong'],
 			]
 		);
+		$this->lumiere_scripts_vars = $notfalse_lumiere_scripts_vars !== false ? 'const lumiere_vars = ' . $notfalse_lumiere_scripts_vars : '';
 
 		/**
 		 * Build list of taxonomy for people and items
@@ -468,7 +470,7 @@ class Settings {
 			// Agregate vars to construct 'imdbphotoroot'
 			$imdb_cache_options['imdbphotoroot'] = $imdb_cache_options['imdbcachedir'] . 'images/';
 		}
-		if ( is_array( $imdb_options_a ) === true && count( $imdb_options_a ) !== 0 ) { // if not empty.
+		if ( is_array( $imdb_options_a ) === true && count( $imdb_options_a ) !== 0 && isset( $imdb_cache_options['imdbcachedir_partial'] ) ) { // if not empty.
 
 			// Agregate vars to construct 'imdbphotodir'
 			$imdb_cache_options['imdbphotodir'] = content_url()

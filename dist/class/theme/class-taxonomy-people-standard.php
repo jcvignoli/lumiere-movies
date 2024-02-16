@@ -190,9 +190,9 @@ class Taxonomy_People_Standard {
 
 		// Language from the form.
 		// @phpcs:ignore WordPress.Security.NonceVerification -- It is process later!
-		$get_lang_form = isset( $_POST['tag_lang'] ) && is_string( $_POST['tag_lang'] ) && strlen( $_POST['tag_lang'] ) > 0 ? filter_input( INPUT_POST, 'tag_lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : null;
+		$get_lang_form = isset( $_POST['tag_lang'] ) && strlen( $_POST['tag_lang'] ) > 0 ? filter_input( INPUT_POST, 'tag_lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : null;
 		$form_id_language =
-			isset( $_POST['_wpnonce_polylangform'] ) && is_string( $_POST['_wpnonce_polylangform'] ) && wp_verify_nonce( $_POST['_wpnonce_polylangform'], 'polylangform' ) !== false
+			isset( $_POST['_wpnonce_polylangform'] ) && wp_verify_nonce( $_POST['_wpnonce_polylangform'], 'polylangform' ) !== false
 			&& $get_lang_form !== false
 			? $get_lang_form
 			: null;

@@ -136,9 +136,9 @@ class Head_Popups {
 	public function lumiere_add_metas_popups(): void {
 
 		$my_canon = '';
-		$sanitized_film = filter_input( INPUT_GET, 'film', FILTER_SANITIZE_URL ) ?? false;
-		$sanitized_info = filter_input( INPUT_GET, 'info', FILTER_SANITIZE_URL ) ?? false;
-		$sanitized_mid = filter_input( INPUT_GET, 'mid', FILTER_SANITIZE_URL ) ?? false;
+		$sanitized_film = filter_input( INPUT_GET, 'film', FILTER_SANITIZE_URL );
+		$sanitized_info = filter_input( INPUT_GET, 'info', FILTER_SANITIZE_URL );
+		$sanitized_mid = filter_input( INPUT_GET, 'mid', FILTER_SANITIZE_URL );
 
 		echo "\n\t\t" . '<!-- Lumière! Movies -->';
 
@@ -153,14 +153,14 @@ class Head_Popups {
 
 		// Add canonical.
 		// Canonical for search popup.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->settings_class->lumiere_urlstringsearch ) && $sanitized_film !== false ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'] ?? '', site_url( '', 'relative' ) . $this->settings_class->lumiere_urlstringsearch ) && $sanitized_film !== false ) {
 
 			$my_canon = $this->settings_class->lumiere_urlpopupsearch . '?film=' . $sanitized_film . '&norecursive=yes';
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 		}
 
 		// Canonical for movies popups.
-		if ( str_contains( $_SERVER['REQUEST_URI'], $this->settings_class->lumiere_urlstringfilms ) && $sanitized_mid !== false ) {
+		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->settings_class->lumiere_urlstringfilms ) && is_string( $sanitized_mid ) ) {
 
 			$url_str_info = $sanitized_info === false ? '' : '&info=' . $sanitized_info;
 			$url_str_film = $sanitized_film === false ? '' : '&film=' . $sanitized_film;
@@ -175,7 +175,7 @@ class Head_Popups {
 		}
 
 		// Canonical for people popups.
-		if ( str_contains( $_SERVER['REQUEST_URI'], $this->settings_class->lumiere_urlstringperson ) && $sanitized_mid !== false ) {
+		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->settings_class->lumiere_urlstringperson ) && is_string( $sanitized_mid ) ) {
 
 			$url_str_info = $sanitized_info === false ? '' : '&info=' . $sanitized_info;
 			$my_canon = $this->settings_class->lumiere_urlpopupsperson . $sanitized_mid . '/?mid=' . $sanitized_mid . $url_str_info;

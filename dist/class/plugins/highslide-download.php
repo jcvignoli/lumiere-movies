@@ -7,7 +7,7 @@
  */
 
 // prevent direct calls
-if ( wp_get_referer() !== false && str_contains( $_SERVER['REQUEST_URI'], 'admin/admin.php?page=lumiere_options' ) === false ) {
+if ( wp_get_referer() !== false && str_contains( $_SERVER['REQUEST_URI'] ?? '', 'admin/admin.php?page=lumiere_options' ) === false ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
@@ -19,15 +19,15 @@ $lumiere_highslidefile_local_zip = esc_url( plugin_dir_path( __DIR__ ) . $lumier
 $lumiere_highslidefile_local_folder = esc_url( plugin_dir_path( __DIR__ ) . '../assets/js/' );
 
 // If is_admin include WP API libraries, else exit
-if ( is_admin() ) {
-	require_once ABSPATH . 'wp-admin/includes/file.php';
-	WP_Filesystem();
-	global $wp_filesystem;
-} else {
+if ( ! is_admin() ) {
 	wp_die( esc_html__( 'You can not call directly this page.', 'lumiere-movies' ) );
 }
 
-if ( ( isset( $_GET['highslide'] ) ) && ( $_GET['highslide'] === 'yes' ) ) {
+if ( isset( $_GET['highslide'] ) && $_GET['highslide'] === 'yes' ) {
+
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	WP_Filesystem();
+	global $wp_filesystem;
 
 	// Check that a website var exists.
 	if ( strlen( $lumiere_highslidefile_remote_zip ) === 0 ) {

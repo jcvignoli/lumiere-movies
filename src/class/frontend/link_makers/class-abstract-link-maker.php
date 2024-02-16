@@ -352,7 +352,7 @@ abstract class Abstract_Link_Maker {
 		$idx = $nbtotalbio < 2 ? $idx = 0 : $idx = 1;
 
 		// Medaillon is displayed in a popup person page, build internal URL
-		if ( str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringperson ) && ( $bio !== null ) ) {
+		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->config_class->lumiere_urlstringperson ) && ( $bio !== null ) ) {
 			$bio_text = $this->lumiere_imdburl_to_internalurl( $bio[ $idx ]['desc'] );
 			// Medaillon is displayed in a taxonomy page, build popup URL
 		} elseif ( is_tax() && $bio !== null ) {
@@ -362,11 +362,16 @@ abstract class Abstract_Link_Maker {
 		// HTML tags break for 'read more' cutting.
 		// Detects if there is a space next to $max_length; if true, increase the latter to that position.
 		// Use of htmlentities to avoid spaces inside html code (ie innerspace in '<br />').
-		$max_length = strlen( $bio_text ) !== 0 && is_int( strpos( htmlentities( $bio_text ), ' ', $max_length ) ) === true ? strpos( htmlentities( $bio_text ), ' ', $max_length ) : $max_length;
+		$max_length = strlen( $bio_text ) !== 0 && is_int( strpos( htmlentities( $bio_text ), ' ', $max_length ) ) === true
+			? strpos( htmlentities( $bio_text ), ' ', $max_length )
+			: $max_length;
 
 		// Detects if there is html a tag before reaching $max_length.
 		// If true increase max length up to first '/a>' + 3 chars (since the search is made with 3 chars).
-		$esc_html_breaker = strpos( $bio_text, '<a' ) <= $max_length && is_int( strpos( $bio_text, '/a>' ) ) === true ? strpos( $bio_text, '/a>' ) + 3 : $max_length;
+		$last_a_html = strpos( $bio_text, '/a>' );
+		$esc_html_breaker = strpos( $bio_text, '<a' ) <= $max_length && is_int( $last_a_html ) === true
+			? $last_a_html + 3
+			: $max_length;
 
 		// No Links class, exit before building clickable biography, show everything at once
 		if ( $output === 1 ) {

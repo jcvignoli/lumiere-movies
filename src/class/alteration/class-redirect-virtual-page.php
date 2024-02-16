@@ -84,7 +84,7 @@ class Redirect_Virtual_Page {
 	public function lumiere_search_redirect( string $template ): Virtual_Page|string {
 
 		// Display only in admin area.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'] ?? '', site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) ) {
 
 			// Build the virtual page class
 			return new Virtual_Page(

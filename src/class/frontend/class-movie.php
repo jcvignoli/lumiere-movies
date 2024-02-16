@@ -1704,7 +1704,7 @@ class Movie {
 	 *
 	 * @param string $taxonomy
 	 */
-	private function lumiere_make_taxonomy_link ( string $taxonomy ): string {
+	private function lumiere_make_taxonomy_link( string $taxonomy ): string {
 
 		$taxonomy = preg_replace( '/\s/', '-', $taxonomy ) ?? $taxonomy;# replace space by hyphen
 		$taxonomy = strtolower( $taxonomy ); # convert to small characters

@@ -141,7 +141,7 @@ class General extends \Lumiere\Admin {
 	 */
 	private function lumiere_general_display_body(): void {
 
-		echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . esc_url( $_SERVER['REQUEST_URI'] ) . '">';
+		echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . esc_url( $_SERVER['REQUEST_URI'] ?? '' ) . '">';
 
 		if ( ( ( isset( $_GET['generaloption'] ) ) && ( $_GET['generaloption'] === 'base' ) ) || ( ! isset( $_GET['generaloption'] ) ) ) {     ////////// Paths & Layout section
 			?>

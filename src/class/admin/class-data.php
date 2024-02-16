@@ -210,7 +210,7 @@ class Data extends \Lumiere\Admin {
 		echo "\n\t\t" . '<div class="inside">';
 
 		//------------------------------------------------------------------ =[Submit selection]=-
-		echo "\n\t\t" . '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . esc_url( $_SERVER['REQUEST_URI'] ) . '" >';
+		echo "\n\t\t" . '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . esc_url( $_SERVER['REQUEST_URI'] ?? '' ) . '" >';
 
 		//-------------------------------------------------------------------=[Data selection]=-
 		if ( ( isset( $_GET['widgetoption'] ) && ( $_GET['widgetoption'] === 'what' ) ) || ( ! isset( $_GET['widgetoption'] ) ) ) {

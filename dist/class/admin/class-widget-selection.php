@@ -145,7 +145,7 @@ class Widget_Selection extends \WP_Widget {
 	public function widget( $args, $instance ) {
 
 		// Display preview image only in widget block editor interface.
-		$referer = strlen( $_SERVER['REQUEST_URI'] ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
+		$referer = strlen( $_SERVER['REQUEST_URI'] ?? '' ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) : '';
 		$pages_authorised = [ '/wp-admin/widgets.php', '/wp-json/wp/v2/widget-types' ];
 		if ( Utils::lumiere_array_contains_term( $pages_authorised, $referer ) ) {
 
