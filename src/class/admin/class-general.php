@@ -465,6 +465,12 @@ class General extends \Lumiere\Admin {
 							echo 'selected="selected"';}
 						?>
 						value="videogames"><?php esc_html_e( 'Video games only', 'lumiere-movies' ); ?></option>
+						<option 
+						<?php
+						if ( $this->imdb_admin_values['imdbseriemovies'] === 'podcasts' ) {
+							echo 'selected="selected"';}
+						?>
+						value="podcasts"><?php esc_html_e( 'Podcasts only', 'lumiere-movies' ); ?></option>
 					</select>
 
 					<div class="explain"><?php esc_html_e( 'What type to use for the search, such as movies, series (for TV Shows), and videogames.', 'lumiere-movies' ); ?>

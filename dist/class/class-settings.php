@@ -694,6 +694,8 @@ class Settings {
 				return [ \Imdb\TitleSearch::TV_SERIES ];
 			case 'videogames':
 				return [ \Imdb\Title::GAME ];
+			case 'podcasts':
+				return [ \Imdb\Title::PODCAST_EPISODE ];
 			default:
 				return [ \Imdb\TitleSearch::MOVIE, \Imdb\TitleSearch::TV_SERIES ];
 

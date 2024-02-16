@@ -124,7 +124,7 @@ class Admin {
 		add_action(
 			'admin_init',
 			function(): void {
-				if ( str_contains( $_SERVER['REQUEST_URI'], 'admin/admin.php?page=lumiere_options&highslide=yes' ) && $this->activate_highslide_download === true ) {
+				if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', 'admin/admin.php?page=lumiere_options&highslide=yes' ) && $this->activate_highslide_download === true ) {
 					// This page is not a class, therefore must be included manually.
 					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::HIGHSLIDE_DOWNLOAD_PAGE;
 				}
@@ -146,7 +146,7 @@ class Admin {
 				'admin.php?page=lumiere_options',
 				'options-general.php?page=lumiere_options',
 			],
-			$_SERVER['REQUEST_URI']
+			$_SERVER['REQUEST_URI'] ?? ''
 		) ) {
 			return;
 		}

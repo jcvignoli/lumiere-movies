@@ -139,7 +139,7 @@ class Movie {
 
 				$film = $film['byname'];
 
-				$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] Movie title provided: $film" );
+				$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' title provided: ' . $film );
 
 				// check a the movie title exists.
 				if ( strlen( $film ) > 0 ) {
@@ -155,7 +155,7 @@ class Movie {
 				// No result was found in imdbphp query.
 				if ( $mid_premier_resultat === null ) {
 
-					$logger->info( '[Lumiere][' . self::CLASS_NAME . "] No movie found for $film, aborting." );
+					$logger->info( '[Lumiere][' . self::CLASS_NAME . '] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
 
 					// no result, so jump to the next query and forget the current
 					continue;
