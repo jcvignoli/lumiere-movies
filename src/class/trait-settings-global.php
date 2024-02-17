@@ -50,7 +50,6 @@ trait Settings_Global {
 
 	/**
 	 * Class \Lumiere\Settings
-	 *
 	 */
 	public Settings $config_class;
 

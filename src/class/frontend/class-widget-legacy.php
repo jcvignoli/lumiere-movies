@@ -88,7 +88,7 @@ class Widget_Legacy extends WP_Widget {
 	 *
 	 * @see WP_Widget::widget()
 	 *
-	 * @param array<array-key, string>|string $args Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
+	 * @param array<array-key, mixed>|string $args Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
 	 * @param array<string> $instance The settings for the particular instance of the widget.
 	 * @return void
 	 *

@@ -82,7 +82,8 @@ class General extends \Lumiere\Admin {
 			) {
 
 				echo Utils::lumiere_notice( 3, esc_html__( 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 'lumiere-movies' ) );
-				echo Utils::lumiere_notice( 1, '<a href="' . wp_get_referer() . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' );
+				$url_origin = wp_get_referer();
+				echo $url_origin !== false ? Utils::lumiere_notice( 1, '<a href="' . esc_url( $url_origin ) . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' ) : '';
 				exit();
 			}
 
@@ -99,7 +100,8 @@ class General extends \Lumiere\Admin {
 			// update options
 			update_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, $this->imdb_admin_values );
 
-			$extra_url_string = isset( $_GET['generaloption'] ) ? '&generaloption=' . filter_input( INPUT_GET, 'generaloption', FILTER_SANITIZE_STRING ) : '';
+			/** @psalm-suppress FalseOperand */
+			$extra_url_string = isset( $_GET['generaloption'] ) ? '&generaloption=' . filter_input( INPUT_GET, 'generaloption', FILTER_SANITIZE_STRING, FILTER_NULL_ON_FAILURE ) : '';
 			if ( wp_redirect( $this->page_general_base . $extra_url_string ) ) {
 				set_transient( 'notice_lumiere_msg', 'options_updated', 1 );
 				exit;
@@ -111,7 +113,8 @@ class General extends \Lumiere\Admin {
 
 			delete_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS );
 
-			$extra_url_string = isset( $_GET['generaloption'] ) ? '&generaloption=' . filter_input( INPUT_GET, 'generaloption', FILTER_SANITIZE_STRING ) : '';
+			/** @psalm-suppress FalseOperand */
+			$extra_url_string = isset( $_GET['generaloption'] ) ? '&generaloption=' . filter_input( INPUT_GET, 'generaloption', FILTER_SANITIZE_STRING, FILTER_NULL_ON_FAILURE ) : '';
 			if ( wp_redirect( $this->page_general_base . $extra_url_string ) ) {
 				set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
 				exit;
@@ -235,20 +238,6 @@ class General extends \Lumiere\Admin {
 						</select>
 						<?php
 						echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. Highslide or Bootstrap are advanced modal windows.', 'lumiere-movies' ) . '<br />' . esc_html__( 'When bootstrap is selected, popup layout cannot be edited.', 'lumiere-movies' ) . '<br />' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html__( 'Bootstrap', 'lumiere-movies' ) . '</div>';
-
-						// If the folder "highslide" was not found
-						if (  is_dir( $this->config_class->lumiere_js_path . 'highslide' ) === false && $this->activate_highslide_download === true && $this->imdb_admin_values['imdbpopup_modal_window'] === 'highslide' ) {
-							// Say so!
-							echo Utils::lumiere_notice( 4, '<span class="lumiere_red_bold">' . esc_html__( 'Warning! No Highslide folder was found.', 'lumiere-movies' ) . '</span>' );
-							echo '<br />';
-
-							// Automatic highslide download.
-							echo "<a href='" . esc_url( admin_url() . 'admin.php?page=lumiere_options&highslide=yes' ) . '\'' . "' title='" . esc_html__( 'Click here to install Highslide', 'lumiere-movies' ) . "'><img src='" . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-install-highslide.png' ) . "' align='absmiddle' />&nbsp;&nbsp;" . esc_html__( 'Install automatically Highslide', 'lumiere-movies' ) . '</a><br /><br />';
-
-							// Add a link to highslide website.
-							echo '<a href="http://highslide.com/" title="' . esc_html__( 'Click here to visit Highslide website', 'lumiere-movies' ) . '"><img src="' . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-install-highslide.png' ) . '" align="absmiddle" />&nbsp;&nbsp;' . esc_html__( 'Get Highslide JS library', 'lumiere-movies' ) . '</a><br /><br />';
-						}
-
 						?>
 					</div>
 

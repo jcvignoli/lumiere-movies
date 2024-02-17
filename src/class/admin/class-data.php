@@ -122,11 +122,12 @@ class Data extends \Lumiere\Admin {
 					continue;
 				}
 
-				// remove "imdb_" from $key
-				$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
-
 				// Copy $_POST to $this->imdb_widget_values var
-				if ( isset( $_POST[ $key ] ) ) {
+				if ( isset( $_POST[ $key_sanitized ] ) ) {
+
+					// remove "imdb_" from $key
+					$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
+
 					/** @phpstan-var key-of<non-empty-array<OPTIONS_WIDGET>> $keynoimdb
 					 * @phpstan-ignore-next-line */
 					$this->imdb_widget_values[ $keynoimdb ] = sanitize_text_field( $_POST[ $key_sanitized ] );
@@ -151,7 +152,8 @@ class Data extends \Lumiere\Admin {
 			// update options
 			update_option( Settings::LUMIERE_WIDGET_OPTIONS, $this->imdb_widget_values );
 
-			$extra_url_string = isset( $_GET['widgetoption'] ) ? '&widgetoption=' . filter_input( INPUT_GET, 'widgetoption', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : '';
+			$widget_option_san = isset( $_GET['widgetoption'] ) ? filter_input( INPUT_GET, 'widgetoption', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : false;
+			$extra_url_string = $widget_option_san !== false ? '&widgetoption=' . $widget_option_san : '';
 			if ( wp_redirect( $this->page_data . $extra_url_string ) ) {
 				set_transient( 'notice_lumiere_msg', 'options_updated', 1 );
 				exit;
@@ -167,7 +169,8 @@ class Data extends \Lumiere\Admin {
 			// Delete the options to reset
 			delete_option( Settings::LUMIERE_WIDGET_OPTIONS );
 
-			$extra_url_string = isset( $_GET['widgetoption'] ) ? '&widgetoption=' . filter_input( INPUT_GET, 'widgetoption', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : '';
+			$widget_option_san = isset( $_GET['widgetoption'] ) ? filter_input( INPUT_GET, 'widgetoption', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : false;
+			$extra_url_string = $widget_option_san !== false ? '&widgetoption=' . $widget_option_san : '';
 			if ( wp_redirect( $this->page_data . $extra_url_string ) ) {
 				set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
 				exit;
@@ -522,9 +525,9 @@ class Data extends \Lumiere\Admin {
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_seventy lumiere_font_ten">' . esc_html__( 'Enter the maximum of items you want to display', 'lumiere-movies' ) . '<br /></div>';
 
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_twenty">';
-				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . esc_attr( $item ) . 'number" id="imdb_imdbwidget' . esc_attr( $item ) . 'number" size="3"';
-				// @phpstan-ignore-next-line 'Parameter #1 $text of function esc_html expects string, array<string>|bool|int|string given'.
-				echo ' value="' . esc_html( $this->imdb_widget_values[ 'imdbwidget' . $item . 'number' ] ) . '" ';
+				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . esc_html( $item ) . 'number" id="imdb_imdbwidget' . esc_html( $item ) . 'number" size="3"';
+				$imdb_widget_item = $this->imdb_widget_values[ 'imdbwidget' . $item . 'number' ];
+				echo is_string( $imdb_widget_item ) ? ' value="' . esc_attr( $imdb_widget_item ) . '" ' : ' value="" ';
 				if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === 0 ) {
 					echo 'disabled="disabled"';
 				};

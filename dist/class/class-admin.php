@@ -34,7 +34,7 @@ class Admin {
 	 *
 	 * @var bool $activate_highslide_download true if allowing download
 	 */
-	protected bool $activate_highslide_download = false;
+	protected bool $activate_highslide_download = true;
 
 	/**
 	 * \Lumière\Utils class
@@ -119,18 +119,6 @@ class Admin {
 
 		// Display notices.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
-
-		// Install highslide if selected and if correct page.
-		add_action(
-			'admin_init',
-			function(): void {
-				if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', 'admin/admin.php?page=lumiere_options&highslide=yes' ) && $this->activate_highslide_download === true ) {
-					// This page is not a class, therefore must be included manually.
-					require_once plugin_dir_path( __DIR__ ) . \Lumiere\Settings::HIGHSLIDE_DOWNLOAD_PAGE;
-				}
-			}
-		);
-
 	}
 
 	/**
@@ -158,9 +146,7 @@ class Admin {
 				esc_html__( 'New taxonomy template file(s) found: ', 'lumiere-movies' )
 				. implode( ' & ', $new_taxo_template )
 				. '. ' . esc_html__( 'Please ', 'lumiere-movies' ) . '<a href="'
-				. esc_url(
-					admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo#imdb_imdbtaxonomyactor_yes'
-				)
+				. admin_url( 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo#imdb_imdbtaxonomyactor_yes' )
 				. '">' . esc_html__( 'update', 'lumiere-movies' ) . '</a>.'
 			);
 		}
@@ -366,11 +352,6 @@ class Admin {
 	 *
 	 */
 	private function display_admin_menu(): void {
-
-		$imdb_admin_values = $this->imdb_admin_values;
-		$imdb_widget_values = $this->imdb_widget_values;
-		$imdb_cache_values = $this->imdb_cache_values;
-
 		?>
 
 	<div class=wrap>
@@ -402,7 +383,7 @@ class Admin {
 
 			<?php
 		}
-		if ( ( $imdb_admin_values['imdbtaxonomy'] === '0' ) || ( ! isset( $this->imdb_admin_values['imdbtaxonomy'] ) ) ) {
+		if ( $this->imdb_admin_values['imdbtaxonomy'] === '0' ) {
 
 			?> - <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&generaloption=advanced#imdb_imdbtaxonomy_yes' ); ?>"><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></font></em>
 

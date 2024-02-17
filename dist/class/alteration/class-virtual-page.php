@@ -62,9 +62,9 @@ class Virtual_Page {
 	public function __construct( string $page_path = '/lumiere/', string|object $page_content = 'content of the page', string $page_title = 'Title of the page' ) {
 
 		// Build the vars
-		$this->page_path = filter_var( $page_path, FILTER_SANITIZE_URL ) !== false ? filter_var( $page_path, FILTER_SANITIZE_URL ) : '';
+		$this->page_path = esc_url( $page_path );
 		$this->page_content = $page_content;
-		$this->page_title = filter_var( $page_title, FILTER_SANITIZE_FULL_SPECIAL_CHARS ) !== false ? filter_var( $page_title, FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : '';
+		$this->page_title = esc_html( $page_title );
 
 		// Start the page creation
 		$this->create_page();
@@ -84,6 +84,7 @@ class Virtual_Page {
 		}
 
 		// Update the main query
+		/** @psalm-suppress PossiblyNullPropertyFetch -- it has been checked, can't be null! */
 		$wp_query->current_post = $this->wp_post->ID;
 		$wp_query->found_posts = 1;
 		$wp_query->is_page = true;//important part

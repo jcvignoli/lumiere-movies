@@ -55,8 +55,8 @@ class Copy_Template_Taxonomy {
 		// No $_GET["taxotype"] found or not in array, exit.
 		if ( ( ! isset( $lumiere_taxo_title ) ) || ( strlen( $lumiere_taxo_title ) === 0 ) ) {
 			set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_failed', 1 );
-			$referer = wp_get_referer() !== false ? wp_get_referer() : '';
-			if ( wp_safe_redirect( $referer ) ) {
+			$referer = wp_get_referer();
+			if ( $referer !== false && wp_safe_redirect( $referer ) ) {
 				exit;
 			}
 		}
@@ -80,8 +80,8 @@ class Copy_Template_Taxonomy {
 			if ( $wp_filesystem->copy( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, true ) === false ) {
 				// Copy failed.
 				set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_failed', 1 );
-				$referer = wp_get_referer() !== false ? wp_get_referer() : '';
-				if ( wp_safe_redirect( $referer ) ) {
+				$referer = wp_get_referer();
+				if ( $referer !== false && wp_safe_redirect( $referer ) ) {
 					exit;
 				}
 			}
@@ -92,8 +92,8 @@ class Copy_Template_Taxonomy {
 			$chmod = defined( 'FS_CHMOD_FILE' ) ? FS_CHMOD_FILE : false;
 			$wp_filesystem->put_contents( $lumiere_current_theme_path_file, $content, $chmod );
 			set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_success', 1 );
-			$referer = wp_get_referer() !== false ? wp_get_referer() : '';
-			if ( wp_safe_redirect( $referer ) ) {
+			$referer = wp_get_referer();
+			if ( $referer !== false && wp_safe_redirect( $referer ) ) {
 				exit;
 			}
 		}
