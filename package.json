@@ -31,7 +31,7 @@
     "phpstan": "vendor/bin/phpstan -v | tee tmp/logs/Results-phpstan.txt",
     "psalm_exec": "vendor/bin/psalm --report=tmp/logs/Results-psalm.txt",
     "psalm": "[ \"$var\" != 0 ] && var=$(npm run psalm_exec) || npm run psalm_exec",
-    "phpdd": "vendor/bin/phpdd ./src --exclude $(grep -oP \"(?<=^exclude: )[^/]+\" phpdd.dist) > tmp/logs/Results-phpdd-deprecated.txt",
+    "phpdd": "vendor/bin/phpdd ./src --exclude $(grep -oP \"(?<=^exclude: )[^/]+\" phpdd.dist) | tee tmp/logs/Results-phpdd-deprecated.txt",
     "phan": "vendor/bin/phan -k phan.php --output-mode=text -p | tee tmp/logs/Results-phan.txt",
     "analysis": "npm-run-all -c phpcs phpmd phpstan phan phpdd psalm phpdoc"
   },
