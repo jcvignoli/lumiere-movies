@@ -252,9 +252,11 @@ class Help extends \Lumiere\Admin {
 
 		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
 		// @since 3.9.7
-		if ( $wp_filesystem === null ) {
-			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		$wp_inc_file = ABSPATH . 'wp-admin/includes/file.php';
+		if ( $wp_filesystem === null && is_file( $wp_inc_file ) ) {
+			include_once( $wp_inc_file );
 			WP_Filesystem();
+			/** @psalm-suppress InvalidGlobal -- Cannot use global scope here (unless this file is included from a non-global scope) => this is not global! */
 			global $wp_filesystem;
 		}
 
@@ -288,14 +290,14 @@ class Help extends \Lumiere\Admin {
 			];
 			$changelogprocessed = preg_replace( $patterns, $replaces, $changelogfile ) ?? [];
 
-			foreach ( $changelogprocessed as $texte ) {
-				if ( $number > '1' ) {
-
-					// display text formatted
-					echo "\n\t\t\t\t\t\t" . wp_kses( str_replace( "\n", '', $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . '<br />';
-
+			if ( is_iterable( $changelogprocessed ) ) {
+				foreach ( $changelogprocessed as $texte ) {
+					if ( $number > '1' ) {
+						// display text formatted
+						echo "\n\t\t\t\t\t\t" . wp_kses( str_replace( "\n", '', $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . '<br />';
+					}
+					$number++;
 				}
-				$number++;
 			}
 			echo "\n\t\t\t\t\t<br />";
 			?>
@@ -319,9 +321,12 @@ class Help extends \Lumiere\Admin {
 
 		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
 		// @since 3.9.7
-		if ( $wp_filesystem === null ) {
-			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		$wp_inc_file = ABSPATH . 'wp-admin/includes/file.php';
+		if ( $wp_filesystem === null && is_file( $wp_inc_file ) ) {
+			/** @psalm-suppress MissingFile */
+			include_once( $wp_inc_file );
 			WP_Filesystem();
+			/** @psalm-suppress InvalidGlobal -- Cannot use global scope here (unless this file is included from a non-global scope) => this is not global! */
 			global $wp_filesystem;
 		}
 
@@ -393,17 +398,18 @@ class Help extends \Lumiere\Admin {
 
 		echo '<ul>';
 
-		foreach ( $acknowledgefile as $texte ) {
-			if ( $number > '1' ) {
+		if ( is_iterable( $acknowledgefile ) ) {
+			foreach ( $acknowledgefile as $texte ) {
+				if ( $number > '1' ) {
 
-				// display text formatted
-				echo "\t\t\t\t\t\t<li>" . wp_kses( str_replace( "\n", '', $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . "</li>\n";
-
+					// display text formatted
+					$texte_string = is_string( $texte ) ? $texte : '';
+					echo "\t\t\t\t\t\t<li>" . wp_kses( str_replace( "\n", '', $texte_string ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . "</li>\n";
+				}
+				$number++;
 			}
-
-			$number++;
 		}
-			echo "\t\t\t\t\t</ul>\n";
+		echo "\t\t\t\t\t</ul>\n";
 		?>
 		</div>
 

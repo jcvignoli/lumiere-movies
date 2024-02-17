@@ -362,7 +362,7 @@ abstract class Abstract_Link_Maker {
 		// HTML tags break for 'read more' cutting.
 		// Detects if there is a space next to $max_length; if true, increase the latter to that position.
 		// Use of htmlentities to avoid spaces inside html code (ie innerspace in '<br />').
-		$max_length = strlen( $bio_text ) !== 0 && is_int( strpos( htmlentities( $bio_text ), ' ', $max_length ) ) === true 
+		$max_length = strlen( $bio_text ) !== 0 && is_int( strpos( htmlentities( $bio_text ), ' ', $max_length ) ) === true
 			? strpos( htmlentities( $bio_text ), ' ', $max_length )
 			: $max_length;
 
@@ -381,7 +381,9 @@ abstract class Abstract_Link_Maker {
 		// There is 1/ a bio, and 2/ its length is superior to above $esc_html_breaker
 		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
 
+			/** @psalm-suppress PossiblyFalseArgument -- Argument 3 of substr cannot be false, possibly int|null value expected => Never false! */
 			$str_one = substr( $bio_text, 0, $esc_html_breaker );
+			/** @psalm-suppress PossiblyFalseArgument -- Argument 3 of substr cannot be false, possibly int|null value expected => Never false! */
 			$str_two = substr( $bio_text, $esc_html_breaker, strlen( $bio_text ) );
 
 			$bio_text = "\n\t\t\t" . $str_one

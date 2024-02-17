@@ -84,10 +84,12 @@ width: 100%;border-color: black;}
 .imdblt_success {padding:5px;background:lightYellow;border:1px solid #E6DB55;border-radius: 3px;}
 .imdblt_error {padding:5px;background:red;color:white;border:1px solid #E6DB55;border-radius: 3px;}
 
-
-.lumiere_admin_tiny_img {} /* tinyMCE image in editor */
-.lumiere_link_maker {
-background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;padding-left: 16px;text-decoration: none;cursor:pointer;}
+/* tinyMCE image in editor */
+.lumiere_admin_tiny_img {}
+/* Block editor */
+.lumiere_link_maker, [data-lum_link_maker] {
+	background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;padding-left: 16px;text-decoration: none;cursor:pointer;
+}
 
 /* for refresh/delete in cache options - cache management */
 .row-actions{text-align:center;}

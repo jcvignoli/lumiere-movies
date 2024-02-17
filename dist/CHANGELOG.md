@@ -11,6 +11,7 @@ v.3.12
 * [bug] HTML 4.1 compatibiliy: label HTML tag wasn't linking a proper input id (added '_yes' in method lumiere_data_display_taxo_fields() of class-data.php, properly renamed inputs and labels in class-general.php, fixed the taxonomy form in people taxonomy themes )
 * [bug] Fixed the taxonomy system, it now properly creates HTML links towards taxonomy pages within widgets/into the posts sections (now it's hierarchical, it's not using polylang functions anymore, edited classes movie and polylang and taxonomy). It is advised to delete all taxonomy tags you may have, so new are create again.
 * [bug] Cache folder creation fixed (in class settings, lumiere_create_cache() was checking if a folder exists before actually creating it)
+* [bug] IMDb links to popups in block editor (post edition) were not visible. An icon is now clearly displayed pinpointing the link to popups.
 * [technical] Replaced FILTER_SANITIZE_STRING (obsolete) with FILTER_SANITIZE_FULL_SPECIAL_CHARS in class admin/data
 * [technical] Page downloads from IMDb are retried 3 times before giving up.
 * [technical] Cleaned useless cache settings (zipping is hardcoded in class imdbphp)

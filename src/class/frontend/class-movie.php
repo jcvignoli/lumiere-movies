@@ -139,7 +139,7 @@ class Movie {
 
 				$film = $film['byname'];
 
-				$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' title provided: ' . $film );
+				$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . $film );
 
 				// check a the movie title exists.
 				if ( strlen( $film ) > 0 ) {
@@ -149,8 +149,8 @@ class Movie {
 					$results = $search->search( $film, $this->config_class->lumiere_select_type_search() );
 
 				}
-
-				$mid_premier_resultat = isset( $results[0] ) ? filter_var( $results[0]->imdbid(), FILTER_SANITIZE_NUMBER_INT ) : null;
+				$results_mid = isset( $results ) && isset( $results[0] ) ? $results[0]->imdbid() : null;
+				$mid_premier_resultat = isset( $results_mid ) ? filter_var( $results_mid, FILTER_SANITIZE_NUMBER_INT ) : null;
 
 				// No result was found in imdbphp query.
 				if ( $mid_premier_resultat === null ) {
@@ -215,8 +215,8 @@ class Movie {
 	 * Find in content the span to build the movies
 	 * Looks for <span data-lum_movie_maker="[1]"></span> where [1] is movie_title or movie_id
 	 *
-	 * @since 3.10.2    The function always returns string, no null accepted -- PHP82 compatibility
-	 *              Also added a lumiere_prohibited_areas() check, no need to execute the plugin in feeds
+	 * @since 3.10.2    The function always returns string, no null accepted -- PHP8.2 compatibility
+	 *                  Also added a lumiere_prohibited_areas() check, no need to execute the plugin in feeds
 	 *
 	 * @param null|string $content HTML span tags + text inside
 	 * @return string
@@ -230,16 +230,12 @@ class Movie {
 
 		$pattern_movid_id = '~<span data-lum_movie_maker="movie_id">(.+?)<\/span>~';
 		if ( preg_match( $pattern_movid_id, $content, $match ) === 1 ) {
-
 			$content = preg_replace_callback( $pattern_movid_id, [ $this, 'lumiere_parse_spans_callback_id' ], $content ) ?? $content;
-
 		}
 
 		$pattern_movid_title = '~<span data-lum_movie_maker="movie_title">(.+?)<\/span>~';
 		if ( preg_match( $pattern_movid_title, $content, $match ) === 1 ) {
-
 			$content = preg_replace_callback( $pattern_movid_title, [ $this, 'lumiere_parse_spans_callback_title' ], $content ) ?? $content;
-
 		}
 
 		return $content;
@@ -247,7 +243,7 @@ class Movie {
 	}
 
 	/**
-	 *  Callback for movies by IMDb ID
+	 * Callback for movies by IMDb ID
 	 *
 	 * @param array<int, string> $block_span
 	 */
@@ -274,7 +270,7 @@ class Movie {
 
 	/**
 	 * Replace [imdblt] shortcode by the movie
-	 * Obsolete, kept for compatibility purposes
+	 * @obsolete since v3.5, kept for compatibility purposes
 	 *
 	 * @param string|array<string> $atts array of attributes
 	 * @param null|string $content shortcode content or null if not set
@@ -286,7 +282,7 @@ class Movie {
 
 	/**
 	 * Replace [imdbltid] shortcode by the movie
-	 * @obsolete Kept for compatibility purposes
+	 * @obsolete since v3.5, kept for compatibility purposes
 	 *
 	 * @param string|array<string> $atts
 	 * @param null|string $content shortcode content or null if not set
@@ -294,7 +290,6 @@ class Movie {
 	public function parse_lumiere_tag_transform_id( $atts, ?string $content ): string {
 		$movie_imdbid = $content;
 		return $this->lumiere_external_call( '', $movie_imdbid, '' );
-
 	}
 
 	/**
@@ -308,32 +303,28 @@ class Movie {
 	private function lumiere_link_finder( array $correspondances ): string {
 
 		$correspondances = $correspondances[0];
-		preg_match( '/<span data-lum_link_maker="popup">(.+?)<\/span>/i', $correspondances, $link_parsed );
-
-		return $this->link_maker->lumiere_popup_film_link( $link_parsed );
-
+		preg_match( '~<span data-lum_link_maker="popup">(.+)<\/span>~i', $correspondances, $matches );
+		return $this->link_maker->lumiere_popup_film_link( $matches );
 	}
 
 	/**
-	 *  Replace <!--imdb--> tags inside the posts
+	 * Replace <!--imdb--> tags inside the posts
 	 *
 	 * Looks for what is inside tags <!--imdb--> ... <!--/imdb-->
 	 * and builds a popup link
 	 *
-	 * @obsolete Kept for compatibility purposes
+	 * @obsolete since v3.1, kept for compatibility purposes
 	 * @param array<string> $correspondances parsed data
 	 */
 	private function lumiere_link_finder_oldway( array $correspondances ): string {
 
 		$correspondances = $correspondances[0];
-		preg_match( '/<!--imdb-->(.*?)<!--\/imdb-->/i', $correspondances, $link_parsed );
-
+		preg_match( '~<!--imdb-->(.*?)<!--\/imdb-->~i', $correspondances, $link_parsed );
 		return $this->link_maker->lumiere_popup_film_link( $link_parsed );
-
 	}
 
 	/**
-	 *  Replace <span class="lumiere_link_maker"></span> with links
+	 * Replace <span class="lumiere_link_maker"></span> with links
 	 *
 	 * @param null|string $text parsed data
 	 */
@@ -344,11 +335,11 @@ class Movie {
 		}
 
 		// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
-		$pattern = '/<span data-lum_link_maker="popup">(.+?)<\/span>/i';
+		$pattern = '~<span data-lum_link_maker="popup">(.+?)<\/span>~i';
 		$text = preg_replace_callback( $pattern, [ $this, 'lumiere_link_finder' ], $text ) ?? $text;
 
 		// Kept for compatibility purposes:  <!--imdb--> still works
-		$pattern_two = '/<!--imdb-->(.*?)<!--\/imdb-->/i';
+		$pattern_two = '~<!--imdb-->(.*?)<!--\/imdb-->~i';
 		$text = preg_replace_callback( $pattern_two, [ $this, 'lumiere_link_finder_oldway' ], $text ) ?? $text;
 
 		return $text;
@@ -370,35 +361,26 @@ class Movie {
 		// Call function from external (using parameter "external" )
 		// Especially made to be integrated (ie, inside a php code)
 		if ( ( $external === 'external' ) && isset( $moviename ) ) {
-
 			$imdb_id_or_title[]['byname'] = $moviename;
-
 		}
 
 		// Call function from external (using parameter "external" )
 		// Especially made to be integrated (ie, inside a php code)
 		if ( ( $external === 'external' ) && isset( $filmid ) ) {
-
 			$imdb_id_or_title[]['bymid'] = $filmid;
-
 		}
 
 		//  Call with the parameter - imdb movie name (imdblt)
 		if ( isset( $moviename ) && strlen( $moviename ) !== 0 && $external !== 'external' ) {
-
 			$imdb_id_or_title[]['byname'] = $moviename;
-
 		}
 
 		//  Call with the parameter - imdb movie id (imdbltid)
 		if ( isset( $filmid ) && strlen( $filmid ) !== 0 && ( $external !== 'external' ) ) {
-
 			$imdb_id_or_title[]['bymid'] = $filmid;
-
 		}
 
 		return $this->lumiere_show( $imdb_id_or_title );
-
 	}
 
 	/**
@@ -427,20 +409,17 @@ class Movie {
 			// Is the data detail activated?
 			&& ( $this->imdb_widget_values[ 'imdbwidget' . $data_detail ] === '1' )
 			) {
-
 				// Build the function name according to the data detail name.
 				$function = "lumiere_movies_{$data_detail}";
 
 				// Call the wrapper using the built function.
-				if ( method_exists( '\Lumiere\Frontend\Movie', $function ) ) {
+				if ( method_exists( get_class(), $function ) ) {
 					// @phpstan-ignore-next-line 'Variable method call on $this(Lumiere\Movie)'.
 					$outputfinal .= $this->lumiere_movie_design_addwrapper( $this->$function( $movie ), $data_detail );
 				} else {
 					$logger->warning( '[Lumiere][' . self::CLASS_NAME . '] The method ' . $function . ' does not exist in the class' );
 				}
-
 			}
-
 		}
 
 		return $outputfinal;
@@ -505,7 +484,6 @@ class Movie {
 		$output .= '</span>';
 
 		return $output;
-
 	}
 
 	/**
@@ -1484,7 +1462,8 @@ class Movie {
 			$output .= '</div>';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
 			// @since 3.9.8 added isset()
-			$output .= isset( $cast[ $i ]['role'] ) ? esc_attr( preg_replace( '/\n/', '', $cast[ $i ]['role'] ) ) : ''; # remove the <br> that breaks the layout
+			$isset_cast = isset( $cast[ $i ]['role'] ) && is_string( $cast[ $i ]['role'] ) ? preg_replace( '/\n/', '', $cast[ $i ]['role'] ) : null;
+			$output .= isset( $isset_cast ) ? esc_attr( $isset_cast ) : ''; # remove the <br> that breaks the layout
 			$output .= '</div>';
 			$output .= "\n\t\t\t" . '</div>';
 
@@ -1542,8 +1521,7 @@ class Movie {
 	private function lumiere_movies_source( \Imdb\Title $movie ): string {
 
 		$output = '';
-		$mid_premier_resultat = $movie->imdbid();
-		$mid_premier_resultat_sanitized = filter_var( $mid_premier_resultat, FILTER_SANITIZE_NUMBER_INT ) !== false ? filter_var( $mid_premier_resultat, FILTER_SANITIZE_NUMBER_INT ) : null;
+		$mid_premier_resultat_sanitized = strlen( $movie->imdbid() ) > 0 ? strval( (int) $movie->imdbid() ) : null;
 
 		if ( $mid_premier_resultat_sanitized === null ) {
 			return $output;
@@ -1605,8 +1583,8 @@ class Movie {
 			// $array_term_existing = get_term_by('name', $taxonomy_term, $taxonomy_category_full );
 
 			if ( ! isset( $existent_term ) ) {
-				$term_inserted = wp_insert_term( $taxonomy_term, $taxonomy_category_full, [ 'lang' => $lang_term ] );
-				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full" );
+				$term_inserted = wp_insert_term( $taxonomy_term, $taxonomy_category_full );
+				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full (association numbers " . json_encode( $term_inserted ) );
 			}
 
 			// If no term was inserted, take the current term.
@@ -1617,8 +1595,8 @@ class Movie {
 			 * wp_set_object_terms() is almost always executed in order to add new relationships even if a new term wasn't inserted
 			 */
 			if ( ! $term_for_set_object instanceof \WP_Error ) {
-				wp_set_object_terms( $page_id, $term_for_set_object, $taxonomy_category_full, true );
-				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] Taxonomy association made for ' . json_encode( $term_for_set_object ) );
+				$term_taxonomy_id = wp_set_object_terms( $page_id, $term_for_set_object, $taxonomy_category_full, true );
+				// $this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] Check (and made if needed) association for term_taxonomy_id ' . json_encode( $term_taxonomy_id ) );
 			}
 
 			// Add Lumière tags to the current WordPress post. But we don't want it!
@@ -1680,7 +1658,6 @@ class Movie {
 		}
 
 		return $output;
-
 	}
 
 	/**
@@ -1710,7 +1687,6 @@ class Movie {
 		$taxonomy = strtolower( $taxonomy ); # convert to small characters
 		$taxonomy = remove_accents( $taxonomy ); # convert accentuated charaters to unaccentuated counterpart
 		return $taxonomy;
-
 	}
 
 	/**
@@ -1719,9 +1695,6 @@ class Movie {
 	 * @return void Build the class
 	 */
 	public static function lumiere_static_start (): void {
-
 		$movie_class = new self();
-
 	}
-
 }

@@ -72,7 +72,7 @@ class Popup_Search {
 
 		// Build the vars.
 		$this->film_sanitized = Utils::lumiere_name_htmlize( $_GET['film'] ) ?? '';
-		$this->film_sanitized_for_title = esc_html( $_GET['film'] );
+		$this->film_sanitized_for_title = esc_html( $_GET['film'] ?? '' );
 
 		// Remove admin bar
 		add_filter( 'show_admin_bar', '__return_false' );

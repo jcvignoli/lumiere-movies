@@ -67,6 +67,9 @@
 							props.value,
 							{
 								type: 'lumiere/buttons-tag-imdb',
+								attributes: {
+									'data-lum_link_maker': 'popup'
+								}
 							}
 						)
 					);
@@ -81,13 +84,12 @@
 		{
 			title: 'Add IMDb link',
 			tagName: 'span',
-			className: 'lumiere_link_maker',
+			/** deactivated, not needed anymore
+			className: 'lumiere_link_maker', */
+			className: null,
 			edit: ButtonTagIMDb,
 			attributes: {
-				content: {
-					type: 'string',
-					default: ''
-				},
+				'data-lum_link_maker': 'data-lum_link_maker',
 			},
 		}
 	);

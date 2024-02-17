@@ -321,7 +321,7 @@ class Taxonomy_People_Standard {
 				}
 
 				// there is no post.
-			} elseif ( isset( $the_query ) === false && strlen( $this->person_name ) > 0 ) {
+			} elseif ( ! isset( $the_query ) || $the_query->have_posts() || strlen( $this->person_name ) > 0 ) {
 
 				$logger->debug( "[Lumiere][taxonomy_$this->taxonomy_title] No post found for $this->person_name in $people" );
 

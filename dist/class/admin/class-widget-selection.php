@@ -124,8 +124,8 @@ class Widget_Selection extends \WP_Widget {
 			register_block_type(
 				self::BLOCK_WIDGET_NAME,
 				[
-					'style' => 'lumiere_block_widget', // Loads both on editor and frontend.
-					'editor_script' => 'lumiere_block_widget', // Loads only on editor.
+					'editor_style_handles' => [ 'lumiere_block_widget' ], // Loads both on editor and frontend.
+					'editor_script_handles' => [ 'lumiere_block_widget' ], // Loads only on editor.
 				]
 			);
 
@@ -137,7 +137,7 @@ class Widget_Selection extends \WP_Widget {
 	 *
 	 * @see WP_Widget::widget()
 	 *
-	 * @param array<string>|string $args Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
+	 * @param array<array-key, mixed>|string $args Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
 	 * @param array<string> $instance The settings for the particular instance of the widget.
 	 * @return void
 	 * @phpstan-ignore-next-line inherited constraints from parent, can't comply with declaration requirements

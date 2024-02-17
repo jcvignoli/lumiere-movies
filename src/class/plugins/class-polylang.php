@@ -68,15 +68,17 @@ class Polylang {
 	/**
 	 * Add the language in use to taxonomy terms ------- In class movie
 	 *
-	 * @param array<string|int, string|int> $term
 	 * @obsolete since 3.12, not utilised anymore, WordPress functions do all what we need
+	 *
+	 * @param array<string|int, string|int> $term
 	 */
 	public function lumiere_polylang_add_lang_to_taxo( array $term ): void {
 
 		// Get the language of the term already registred.
 		$term_registred_lang = pll_get_term_language( intval( $term['term_id'] ), 'slug' );
 		// Get the language of the page.
-		$lang = filter_var( pll_current_language( 'slug' ), FILTER_SANITIZE_FULL_SPECIAL_CHARS ) !== false ? filter_var( pll_current_language( 'slug' ), FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : '';
+		$get_lang = filter_var( pll_current_language( 'slug' ), FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		$lang = is_string( $get_lang ) ? $get_lang : '';
 
 		// If the language for this term is not already registered, register it.
 		// Check current page language, compare against already registred term.
@@ -87,10 +89,7 @@ class Polylang {
 
 			pll_set_term_language( intval( $term['term_id'] ), $lang );
 			pll_save_term_translations( [ $lang => intval( $term['term_id'] ) ] );
-			$this->logger->log()->debug(
-				'[Lumiere][polylangClass] Taxonomy id ' . $term['term_id'] . ' added to ' . $lang
-			);
-
+			$this->logger->log()->debug( '[Lumiere][polylangClass] Taxonomy id ' . $term['term_id'] . ' added' );
 		}
 	}
 
@@ -136,19 +135,21 @@ class Polylang {
 		echo "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
 
 		// Build an option html tag for every language.
-		foreach ( $pll_lang as $lang ) {
+		foreach ( $pll_lang as $lang_object ) {
 
-			echo "\n\t\t\t\t\t\t" . '<option value="' . intval( $lang->term_id ) . '"';
+			/** @psalm-suppress PossiblyInvalidPropertyFetch -- Cannot fetch property on possible non-object => Always object! */
+			echo "\n\t\t\t\t\t\t" . '<option value="' . esc_attr( strval( $lang_object->term_id ) ) . '"';
 
 			if (
 				// @phpcs:ignore WordPress.Security.NonceVerification -- it is process on the second line!
-				isset( $_POST['tag_lang'] ) && intval( $lang->term_id ) === intval( $_POST['tag_lang'] )
+				isset( $_POST['tag_lang'] ) && intval( $lang_object->term_id ) === intval( $_POST['tag_lang'] )
 				&& isset( $_POST['_wpnonce_polylangform'] ) && wp_verify_nonce( $_POST['_wpnonce_polylangform'], 'polylangform' ) !== false
 			) {
 				echo 'selected="selected"';
 			}
 
-			echo '>' . esc_html( ucfirst( $lang->name ) ) . '</option>';
+			/** @psalm-suppress PossiblyInvalidPropertyFetch -- Cannot fetch property on possible non-object => Always object! */
+			echo '>' . esc_html( ucfirst( $lang_object->name ) ) . '</option>';
 
 		}
 		echo "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';

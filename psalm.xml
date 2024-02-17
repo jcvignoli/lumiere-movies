@@ -35,6 +35,8 @@
 		<var name="_POST" type="array{ imdb_imdburlstringtaxo: string|null, imdb_imdburlpopups: string|null, lumiere_queryid_widget: string|null, _wpnonce_polylangform: string|null, tag_lang: string|null, lumiere_queryid_widget_input: string|null, lumiere_metabox_nonce: string|null, update_imdbSettings: string|null, reset_imdbwidgetSettings: string|null, imdb_cachedeletefor_movies: string|null, delete_ticked_cache: string|null, imdb_cachedeletefor_people: string|null, delete_query_cache: string|null, delete_all_cache: string|null, reset_cache_options: string|null, imdb_imdbcacheautorefreshcron: string|null, imdb_imdbcachekeepsizeunder: string|null, update_cache_options: string|null, reset_imdbSettings: string|null, update_imdbwidgetSettings: string|null }" />
 	</globals>
 	<issueHandlers>
+		<!-- Remove the include error, since the includes for webserver are different from local -->
+		<UnresolvableInclude errorLevel="suppress" />
 		<!-- Remove can't concatenate with null, it's actually untrue since PHP automatically transforms null to empty -->
 		<PossiblyNullOperand errorLevel="suppress"/>
 		<!-- Lumiere is poorly written, I know -->

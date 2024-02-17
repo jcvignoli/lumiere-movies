@@ -198,7 +198,7 @@ class Rewrite_Rules {
 		flush_rewrite_rules();
 
 		$this->logger_class->log()->notice(
-			'[RewriteRules] Rewrite rules for Lumière was missing, flushed *' . count( $rules_added ) . '* ' . wp_json_encode( $rules_added )
+			'[RewriteRules] Rewrite rules for Lumière was missing, flushed *' . count( $rules_added ) . '* ' . implode( '<br>', $rules_added )
 		);
 	}
 }

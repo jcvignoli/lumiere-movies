@@ -629,7 +629,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 				$txt = '';
 
 				foreach ( $nickname as $nick ) {
-					$txt = str_replace( '<br>', ', ', $nick );
+					$txt = is_string( $nick ) ? str_replace( '<br>', ', ', $nick ) : $nick;
 					echo esc_html( $txt );
 				}
 			}

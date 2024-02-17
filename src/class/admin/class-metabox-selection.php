@@ -153,17 +153,17 @@ class Metabox_Selection {
 		/* Create the custom field */
 
 		// Get the type of field, either "imdb-movie-widget-bymid" or "imdb-movie-widget"
-		$lumiere_metabox_submit = sanitize_text_field( $_POST['lumiere_queryid_widget'] );
+		$lumiere_metabox_submit = sanitize_text_field( $_POST['lumiere_queryid_widget'] ?? '' );
 
 		// Save imdb-movie-widget with the posted data, delete imdb-movie-widget-bymid
 		if ( $lumiere_metabox_submit === 'imdb-movie-widget' ) {
-			update_post_meta( $post_id, 'imdb-movie-widget', sanitize_text_field( $_POST['lumiere_queryid_widget_input'] ) );
+			update_post_meta( $post_id, 'imdb-movie-widget', sanitize_text_field( $_POST['lumiere_queryid_widget_input'] ?? '' ) );
 			delete_post_meta( $post_id, 'imdb-movie-widget-bymid' );
 		}
 
 		// Save imdb-movie-widget-bymid with the posted data, delete imdb-movie-widget
 		if ( $lumiere_metabox_submit === 'imdb-movie-widget-bymid' ) {
-			update_post_meta( $post_id, 'imdb-movie-widget-bymid', sanitize_text_field( $_POST['lumiere_queryid_widget_input'] ) );
+			update_post_meta( $post_id, 'imdb-movie-widget-bymid', sanitize_text_field( $_POST['lumiere_queryid_widget_input'] ?? '' ) );
 			delete_post_meta( $post_id, 'imdb-movie-widget' );
 		}
 
