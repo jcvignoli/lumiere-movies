@@ -37,6 +37,8 @@
 	<issueHandlers>
 		<!-- Remove the include error, since the includes for webserver are different from local -->
 		<UnresolvableInclude errorLevel="suppress" />
+		<!-- Remove the include error, since the includes for webserver are different from local -->
+		<MissingFile errorLevel="suppress" />
 		<!-- Remove can't concatenate with null, it's actually untrue since PHP automatically transforms null to empty -->
 		<PossiblyNullOperand errorLevel="suppress"/>
 		<!-- Lumiere is poorly written, I know -->

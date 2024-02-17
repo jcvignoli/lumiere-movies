@@ -18,5 +18,7 @@ parameters:
     bootstrapFiles:
         # Bootstrap with constants not defined by default
         - tests/bootstrap-testing.php
-
-
+    ignoreErrors:
+        - '#Variable method call on#'
+    dynamicConstantNames:
+        - DOING_CRON

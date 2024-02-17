@@ -99,6 +99,7 @@ class Widget_Selection extends \WP_Widget {
 
 	/**
 	 * Register Block Widget (>= WordPress 5.8)
+	 * @TODO update the registration using the new WP way https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/
 	 */
 	public function lumiere_register_widget_block(): void {
 
@@ -138,9 +139,8 @@ class Widget_Selection extends \WP_Widget {
 	 * @see WP_Widget::widget()
 	 *
 	 * @param array<array-key, mixed>|string $args Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
-	 * @param array<string> $instance The settings for the particular instance of the widget.
+	 * @param array<array-key, mixed> $instance The settings for the particular instance of the widget.
 	 * @return void
-	 * @phpstan-ignore-next-line inherited constraints from parent, can't comply with declaration requirements
 	 */
 	public function widget( $args, $instance ) {
 
@@ -161,10 +161,8 @@ class Widget_Selection extends \WP_Widget {
 	 *
 	 * @see WP_Widget::form()
 	 *
-	 * @param array $instance Current settings.
+	 * @param array<array-key, mixed> $instance Current settings.
 	 * @return string Default return is 'noform'.
-	 *
-	 * @phpstan-ignore-next-line inherited constraints from parent, can't comply with declaration requirements
 	 */
 	public function form( $instance ): string {
 
@@ -205,10 +203,9 @@ class Widget_Selection extends \WP_Widget {
 	 *
 	 * @see WP_Widget::update()
 	 *
-	 * @param array $new_instance New settings for this instance as input by the user via WP_Widget::form().
-	 * @param array $old_instance Old settings for this instance.
-	 * @return array Settings to save or bool false to cancel saving.
-	 * @phpstan-ignore-next-line inherited constraints from parent, can't comply with declaration requirements
+	 * @param array<array-key, mixed> $new_instance New settings for this instance as input by the user via WP_Widget::form().
+	 * @param array<array-key, mixed> $old_instance Old settings for this instance.
+	 * @return array<array-key, mixed> Settings to save or bool false to cancel saving.
 	 */
 	public function update( $new_instance, $old_instance ) {
 
@@ -220,5 +217,4 @@ class Widget_Selection extends \WP_Widget {
 
 		return $instance;
 	}
-
 }

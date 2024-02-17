@@ -7,11 +7,12 @@ v.3.12
 * [bug] Looong standing bug: Lumière taxonomy was preventing "categories" and "tags" to be displayed in posts admin menu (using now 'labels' in class taxonomy)
 * [bug] Plugin bulk activation was not working (removed check_admin_referer() in class core lumiere_on_activation() method)
 * [bug] Fixed the select of the data position that was displayed vertically (removed lumiere_writing_vertical class in class-data.php)
-* [bug] Removed a style attribute in a div, that prevents CSP compatibility (removed style="height:100%;" in class-data.php)
+* [bug] Removed a style attribute in a div that prevented CSP compatibility (removed style="height:100%;" in class-data.php)
 * [bug] HTML 4.1 compatibiliy: label HTML tag wasn't linking a proper input id (added '_yes' in method lumiere_data_display_taxo_fields() of class-data.php, properly renamed inputs and labels in class-general.php, fixed the taxonomy form in people taxonomy themes )
 * [bug] Fixed the taxonomy system, it now properly creates HTML links towards taxonomy pages within widgets/into the posts sections (now it's hierarchical, it's not using polylang functions anymore, edited classes movie and polylang and taxonomy). It is advised to delete all taxonomy tags you may have, so new are create again.
 * [bug] Cache folder creation fixed (in class settings, lumiere_create_cache() was checking if a folder exists before actually creating it)
-* [bug] IMDb links to popups in block editor (post edition) were not visible. An icon is now clearly displayed pinpointing the link to popups.
+* [bug] Visibility: When IMDb links to popups where created in WordPress block editor (post edition), they were not visible. Now, an icon clearly shows that a link to popups was created in the post's text.
+* [bug] Compatibility with PHP > 8.0 ensured, replaced obsolete PHP functions. Still backwards compatible.
 * [technical] Replaced FILTER_SANITIZE_STRING (obsolete) with FILTER_SANITIZE_FULL_SPECIAL_CHARS in class admin/data
 * [technical] Page downloads from IMDb are retried 3 times before giving up.
 * [technical] Cleaned useless cache settings (zipping is hardcoded in class imdbphp)
@@ -23,6 +24,7 @@ v.3.12
 * [technical] In admin, notices for update/reset options is now WP notification system compliant (using transients in child classes to display notifications messages set in admin parent class)
 * [technical] Removed tipee donation, kept Paypal only.
 * [technical] Emptied method lumiere_movies_quote() in Movie class, since quotes don't exist for movies and the function need to be kept for compatiblity purposes (method's name making)
+* [technical] Factorized Movie class (new class Movie_Data), Cache class (new class Cache_Tools), moved Frontend popups in new folder (frontend/popups/)
 
 v.3.11.5
 * [bug] Fixed *personal IMDbPHP libray* upstream: under some circonstances, error "No such file or directory in ImageProcessor.php on line 44", added extra conditions to before unlink and rename

@@ -49,7 +49,6 @@ class Help extends \Lumiere\Admin {
 
 	/**
 	 * Constructor
-	 *
 	 */
 	protected function __construct() {
 
@@ -77,12 +76,12 @@ class Help extends \Lumiere\Admin {
 		echo "\n\t" . '<div id="poststuff">';
 
 		// Always display the menu
-		if ( isset( $_GET['subsection'] ) && ( $_GET['subsection'] === 'help' ) ) {
+		if ( isset( $_GET['subsection'] ) && $_GET['subsection'] === 'help' ) {
 			$this->display_menu();
 		}
 
 		// Changelog section
-		if ( ( isset( $_GET['helpsub'] ) ) && ( $_GET['helpsub'] === 'changelog' ) ) {
+		if ( ( isset( $_GET['helpsub'] ) ) && $_GET['helpsub'] === 'changelog' ) {
 			echo "\n\t" . '<br clear="both" />';
 			echo "\n\t\t" . '<div class="imblt_border_shadow">';
 			$this->display_changelog();
@@ -108,12 +107,10 @@ class Help extends \Lumiere\Admin {
 		}
 
 		echo "\n\t" . '</div>';
-
 	}
 
 	/**
 	 * Display how to with help sections
-	 *
 	 */
 	private function display_howto(): void {
 		?>
@@ -151,7 +148,6 @@ class Help extends \Lumiere\Admin {
 
 	/**
 	 * Display the menu
-	 *
 	 */
 	private function display_menu (): void { ?>
 <div id="tabswrap">
@@ -172,7 +168,6 @@ class Help extends \Lumiere\Admin {
 
 	/**
 	 * Display the faqs
-	 *
 	 */
 	private function display_faqs(): void {
 
@@ -183,7 +178,7 @@ class Help extends \Lumiere\Admin {
 		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
 		// @since 3.9.7
 		if ( $wp_filesystem === null ) {
-			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			require_once ABSPATH . 'wp-admin/includes/file.php';
 			WP_Filesystem();
 		}
 
@@ -242,7 +237,6 @@ class Help extends \Lumiere\Admin {
 
 	/**
 	 * Display the changelog
-	 *
 	 */
 	private function display_changelog(): void {
 
@@ -252,9 +246,8 @@ class Help extends \Lumiere\Admin {
 
 		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
 		// @since 3.9.7
-		$wp_inc_file = ABSPATH . 'wp-admin/includes/file.php';
-		if ( $wp_filesystem === null && is_file( $wp_inc_file ) ) {
-			include_once( $wp_inc_file );
+		if ( $wp_filesystem === null ) {
+			include_once ABSPATH . 'wp-admin/includes/file.php';
 			WP_Filesystem();
 			/** @psalm-suppress InvalidGlobal -- Cannot use global scope here (unless this file is included from a non-global scope) => this is not global! */
 			global $wp_filesystem;
@@ -294,6 +287,7 @@ class Help extends \Lumiere\Admin {
 				foreach ( $changelogprocessed as $texte ) {
 					if ( $number > '1' ) {
 						// display text formatted
+						/** @psalm-suppress PossiblyInvalidArgument -- Wrong, it's always string! */
 						echo "\n\t\t\t\t\t\t" . wp_kses( str_replace( "\n", '', $texte ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . '<br />';
 					}
 					$number++;
@@ -311,7 +305,6 @@ class Help extends \Lumiere\Admin {
 
 	/**
 	 * Display the support
-	 *
 	 */
 	private function display_support(): void {
 
@@ -321,10 +314,9 @@ class Help extends \Lumiere\Admin {
 
 		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
 		// @since 3.9.7
-		$wp_inc_file = ABSPATH . 'wp-admin/includes/file.php';
-		if ( $wp_filesystem === null && is_file( $wp_inc_file ) ) {
+		if ( $wp_filesystem === null ) {
 			/** @psalm-suppress MissingFile */
-			include_once( $wp_inc_file );
+			include_once ABSPATH . 'wp-admin/includes/file.php';
 			WP_Filesystem();
 			/** @psalm-suppress InvalidGlobal -- Cannot use global scope here (unless this file is included from a non-global scope) => this is not global! */
 			global $wp_filesystem;
@@ -418,7 +410,6 @@ class Help extends \Lumiere\Admin {
 
 	/**
 	 * Popup explaination
-	 *
 	 */
 	public function explain_popup(): void {
 		?>
@@ -479,7 +470,6 @@ movie's title
 
 	/**
 	 * Inside the post explaination
-	 *
 	 */
 	public function explain_widget (): void {
 		?>
@@ -528,7 +518,6 @@ movie's title
 
 	/**
 	 * Inside the post explaination
-	 *
 	 */
 	public function explain_inside_post (): void {
 		?>
@@ -583,7 +572,6 @@ movie's title
 
 	/**
 	 * Add search form explaination
-	 *
 	 */
 	public function explain_addsearchform(): void {
 		?>
@@ -638,7 +626,6 @@ movie's title
 
 	/**
 	 * Keep CSS explaination
-	 *
 	 */
 	public function explain_keepcss(): void {
 		?>
@@ -664,7 +651,6 @@ movie's title
 
 	/**
 	 * Taxonomy explaination
-	 *
 	 */
 	public function explain_taxonomy(): void {
 		?>
@@ -720,7 +706,6 @@ movie's title
 
 	/**
 	 * Auto widget explaination
-	 *
 	 */
 	public function explain_autowidget(): void {
 		?>
@@ -769,7 +754,6 @@ movie's title
 
 	/**
 	 * Search explaination
-	 *
 	 */
 	public function explain_searchoptions(): void {
 		?>
@@ -815,7 +799,6 @@ movie's title
 
 	/**
 	 * Add extra scripts to this page only
-	 *
 	 */
 	public function lumiere_help_extrascript (): void {
 
@@ -845,6 +828,5 @@ movie's title
 
 		wp_add_inline_script( 'lumiere_help_scripts', $lumiere_help_extrascript );
 	}
-
 }
 

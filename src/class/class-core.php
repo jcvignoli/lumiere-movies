@@ -316,7 +316,7 @@ class Core {
 
 	/**
 	 *  Register gutenberg blocks
-	 *
+	 * @TODO update the registration using the new WP way https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/
 	 */
 	public function lumiere_register_gutenberg_blocks(): void {
 
@@ -358,7 +358,6 @@ class Core {
 
 	/**
 	 * Add the stylesheet & javascript to frontpage.
-	 *
 	 */
 	public function lumiere_execute_assets (): void {
 
@@ -411,7 +410,6 @@ class Core {
 
 	/**
 	 *  Add assets of Lumière admin pages
-	 *
 	 */
 	public function lumiere_execute_admin_assets ( string $hook ): void {
 

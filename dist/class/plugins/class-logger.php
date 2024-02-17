@@ -149,6 +149,7 @@ class Logger {
 		$this->lumiere_is_screen_editor();
 
 		// Start Monolog logger.
+		/** @psalm-suppress UndefinedConstant -- Const DOING_CRON is not defined => can't declare dynamic constants with Psalm */
 		if (
 			( current_user_can( 'manage_options' ) && $this->imdb_admin_values['imdbdebug'] === '1' )
 			|| ( $this->imdb_admin_values['imdbdebug'] === '1' && defined( 'DOING_CRON' ) && DOING_CRON )

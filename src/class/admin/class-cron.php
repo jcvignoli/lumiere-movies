@@ -184,6 +184,7 @@ class Cron {
 			foreach ( $wp_cron_list as $time => $hook ) {
 				if ( isset( $hook['lumiere_cron_deletecacheoversized'] ) ) {
 					$timestamp = wp_next_scheduled( 'lumiere_cron_deletecacheoversized' );
+					/** @psalm-suppress PossiblyFalseArgument -- False can't happend, checked through the $hook, always exists */
 					wp_unschedule_event( $timestamp, 'lumiere_cron_deletecacheoversized' );
 					$this->logger->log()->debug( '[Lumiere] Cron lumiere_cron_deletecacheoversized removed' );
 				}
@@ -208,6 +209,7 @@ class Cron {
 
 			// Cron to run Every Two Weeks, will run for the first time next Monday.
 			$next_monday = strtotime( 'next monday', time() );
+			/** @psalm-suppress InvalidArgument -- With time(), it's always int! */
 			wp_schedule_event( $next_monday, 'everytwoweeks', 'lumiere_cron_autofreshcache' );
 			$this->logger->log()->debug( '[Lumiere] Cron lumiere_cron_autofreshcache added' );
 
@@ -220,6 +222,7 @@ class Cron {
 			foreach ( $wp_cron_list as $time => $hook ) {
 				if ( isset( $hook['lumiere_cron_autofreshcache'] ) ) {
 					$timestamp = wp_next_scheduled( 'lumiere_cron_autofreshcache' );
+					/** @psalm-suppress PossiblyFalseArgument -- False can't happend, checked through the $hook, always exists */
 					wp_unschedule_event( $timestamp, 'lumiere_cron_autofreshcache' );
 					$this->logger->log()->debug( '[Lumiere] Cron lumiere_cron_autofreshcache removed' );
 				}
