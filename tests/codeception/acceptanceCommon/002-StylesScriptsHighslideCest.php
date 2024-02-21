@@ -230,7 +230,7 @@ class StylesScriptsHighslideCest {
 		// Try with selection black
 		$I->scrollTo('#plainpages');
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "black");
-		$I->click('#update_imdbSettings');
+		$I->click('#lumiere_update_general_settings');
 		$I->comment(\Helper\Color::set('[Action] Selection has been switched to "black"', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource("imdbincluded_black"); 	# CSS for black layout 
@@ -239,7 +239,7 @@ class StylesScriptsHighslideCest {
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
 		$I->scrollTo('#plainpages');
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "grey");
-		$I->click('#update_imdbSettings');
+		$I->click('#lumiere_update_general_settings');
 		$I->comment(\Helper\Color::set('[Action] Selection has been switched to "grey"', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource("imdbincluded_grey"); 	# CSS for grey layout (default)

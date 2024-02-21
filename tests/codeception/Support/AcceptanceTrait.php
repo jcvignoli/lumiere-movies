@@ -186,7 +186,7 @@ trait AcceptanceTrait {
 	function SwitchModalWindow( $modal ) {
 		try {
 			$this->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
-			$this->customSelectOption( "select[name=imdbpopup_modal_window]", $modal, "update_imdbSettings" );
+			$this->customSelectOption( "select[name=imdbpopup_modal_window]", $modal, "lumiere_update_general_settings" );
 		} catch (\PHPUnit_Framework_AssertionFailedError | \NoSuchElementException | \Exception $f) {
 			$this->comment("[No action] Couldn't switch to $modal modal window.");
 		} 

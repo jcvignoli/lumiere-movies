@@ -66,7 +66,7 @@ class ModalWindowsCest {
 		$I->seeInPageSource("lumiere_highslide_core-js");
 		$I->seeInPageSource("lumiere_highslide_options-js");
 		$I->seeInPageSource('to stay with his
-uncle, <a class="modal_window_people highslide" data-modal_window_people="0675788" title="ouvre une nouvelle fenêtre avec les informations de l’IMDb">Martin Perveler</a>. Returning');		
+uncle, <a class="modal_window_people highslide" data-modal_window_people="0675788" title="open a new window with IMDb informations">Martin Perveler</a>. Returning');		
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource("lumiere_highslide_core-css");
 		$I->seeInPageSource("lumiere_style_main-css"); 	
@@ -112,25 +112,33 @@ uncle, <a class="modal_window_people " data-modal_window_people="0675788" title=
 		// Check AMP
 		$I->comment(\Helper\Color::set('Check if AMP class works', "italic+bold+cyan"));
 
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->maybeDeactivatePlugin('query-monitor');
+
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL . '?amp' );# Check regular page
-		$I->seeInPageSource("sourceURL=amp-custom.css");
+		$I->waitForText( 'test codeception', 15 ); // wait up to 15 seconds
+		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
 		$I->seeInPageSource('<a class="linkpopup" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="' . $this->base_url . '/lumiere/person/?mid=0227759&amp;amp">Peter Dinklage</a></div>');
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_TAXONOMY_URL . '?amp' );# Check taxonomy page
-		$I->seeInPageSource("sourceURL=amp-custom.css");
+		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
 		$I->seeInPageSource('to stay with his
-uncle, <a class="linkpopup" href="http://local.lumiere/blogpourext/lumiere/person/?mid=0675788&amp;amp" title="');		
+uncle, <a class="linkpopup" href="' . $this->base_url . '/lumiere/person/?mid=0675788&amp;amp" title="');		
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL . '&amp' );# Check popup movie
-		$I->seeInPageSource("sourceURL=amp-custom.css");	
+		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");	
 		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="linkpopup" href="' . $this->base_url . '/lumiere/person/0000190/?mid=0000190&amp;amp" title="');
+
+		// Reactivate Query Monitor, it bugs
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->maybeActivatePlugin('query-monitor');
 
 		// Check NoLinks class
 		$I->comment(\Helper\Color::set('Check if No Links works', "italic+bold+cyan"));
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#miscpart');
-		$I->CustomActivateCheckbox('#imdb_imdblinkingkill_yes', '#update_imdbSettings' );
+		$I->CustomActivateCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_general_settings' );
 
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );# Check regular page
-		$I->dontSeeInPageSource("sourceURL=amp-custom.css");
+		$I->dontSeeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
 		$I->dontSeeInPageSource("lumiere_classic_links-js");		
 		$I->dontSeeInPageSource("lumiere_bootstrap_core-js");
 		$I->dontSeeInPageSource("lumiere_highslide_core-js");
@@ -138,7 +146,7 @@ uncle, <a class="linkpopup" href="http://local.lumiere/blogpourext/lumiere/perso
 
 		$I->seeInPageSource('<div class="lumiere_align_left lumiere_flex_auto">Peter Dinklage</div>');
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
-		$I->dontSeeInPageSource("sourceURL=amp-custom.css");
+		$I->dontSeeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
 		$I->dontSeeInPageSource("lumiere_classic_links-js");		
 		$I->dontSeeInPageSource("lumiere_bootstrap_core-js");
 		$I->dontSeeInPageSource("lumiere_highslide_core-js");
@@ -146,7 +154,7 @@ uncle, <a class="linkpopup" href="http://local.lumiere/blogpourext/lumiere/perso
 		$I->seeInPageSource('his uncle, Martin Perveler. Returning');
 
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
-		$I->dontSeeInPageSource("sourceURL=amp-custom.css");	
+		$I->dontSeeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");	
 		$I->dontSeeInPageSource("lumiere_classic_links-js");		
 		$I->dontSeeInPageSource("lumiere_bootstrap_core-js");
 		$I->dontSeeInPageSource("lumiere_highslide_core-js");
@@ -157,7 +165,7 @@ uncle, <a class="linkpopup" href="http://local.lumiere/blogpourext/lumiere/perso
 		$I->SwitchModalWindow('Highslide');
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#miscpart');
-		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#update_imdbSettings' );
+		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_general_settings' );
 
 	}
 

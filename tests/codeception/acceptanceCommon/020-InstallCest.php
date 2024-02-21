@@ -48,7 +48,8 @@ class InstallCest {
 
 	}
 
-	/** Check if plugin activation set up crons
+	/**
+	 * Check if plugin activation set up crons
 	 *
 	 * @before login
 	 *
@@ -57,12 +58,6 @@ class InstallCest {
 
 		$I->comment('Check if Lumière plugin set up crons');
 
-		// Activate then deactivate plugin
-/*		$I->amOnPluginsPage();
-		$I->deactivatePlugin('lumiere-movies');
-		$I->amOnPluginsPage();
-		$I->activatePlugin('lumiere-movies');
-*/
 		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeDeactivatePlugin('lumiere-movies');
 		$I->wait(2);
@@ -75,11 +70,11 @@ class InstallCest {
 		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_POST_CRON_MANAGE );
 		$I->wait(2);
 		$I->see('lumiere_cron_hook');
-
 	}
 
 
-	/** Check if popup when keep settings are unselected is displayed upon plugin deactivation
+	/**
+	 * Check if popup when keep settings are unselected is displayed upon plugin deactivation
 	 *
 	 * @before login
 	 *
@@ -94,7 +89,7 @@ class InstallCest {
 		// Disable keep settings option, so get a confirmation popup
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
-		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'update_imdbSettings');
+		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_general_settings');
 		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->scrollTo('#deactivate-lumiere-movies');
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
@@ -113,7 +108,7 @@ class InstallCest {
 		// Enable keep settings option, so no popup
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
-		$I->CustomActivateCheckbox('#imdb_imdbkeepsettings_yes', 'update_imdbSettings');
+		$I->CustomActivateCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_general_settings');
 		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->wait(10);
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");

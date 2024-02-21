@@ -106,7 +106,7 @@ class Popup_Movie {
 
 			$this->movie = new Title( $this->movieid_sanitized, $this->imdbphp_class, $this->logger->log() );
 			$movie = Utils::lumiere_name_htmlize( $this->movie->title() );
-			$this->film_title_sanitized =  $movie !== null ? strtolower( $movie ) : null; // @since 3.12 lowercase, less cache used.
+			$this->film_title_sanitized = $movie !== null ? strtolower( $movie ) : null; // @since 3.12 lowercase, less cache used.
 
 			return true;
 

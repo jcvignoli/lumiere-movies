@@ -1,0 +1,1 @@
+../acceptanceCommon/010-AMPCest.php

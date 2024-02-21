@@ -140,7 +140,7 @@ class CacheCest {
 	 */
 	private function customDeleteCache( AcceptanceRemoteTester $I, string $element_to_delete, string $name_id ) {
 		// Delete cache file using interface
-		$I->amOnPage( '/wp-admin/admin.php?page=lumiere_options&subsection=cache&cacheoption=manage ');
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_CACHE_OPTIONS_MANAGE_URL );
 		$I->scrollTo( $name_id );
 		$I->executeJS( "return jQuery('" . $element_to_delete . "').get(0).click()");
 		$I->acceptPopup();

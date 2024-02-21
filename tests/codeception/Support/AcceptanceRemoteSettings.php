@@ -12,10 +12,11 @@ class AcceptanceRemoteSettings {
 	/** Admin pages */
 	public const LUMIERE_GENERAL_OPTIONS_URL = '/wp-admin/admin.php?page=lumiere_options';
 	public const LUMIERE_ADVANCED_OPTIONS_URL = '/wp-admin/admin.php?page=lumiere_options&generaloption=advanced';
-	public const LUMIERE_HELP_GENERAL_URL = '/wp-admin/admin.php?page=lumiere_options&subsection=help';
-	public const LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL = '/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=what';
-	public const LUMIERE_DATA_OPTIONS_TAXO_URL = '/wp-admin/admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo';
-	public const LUMIERE_CACHE_OPTIONS_MANAGE_URL = '/wp-admin/admin.php?page=lumiere_options&subsection=cache&cacheoption=manage';
+	public const LUMIERE_HELP_GENERAL_URL = '/wp-admin/admin.php?page=lumiere_options_help';
+	public const LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL = '/wp-admin/admin.php?page=lumiere_options_data';
+	public const LUMIERE_DATA_OPTIONS_TAXO_URL = '/wp-admin/admin.php?page=lumiere_options_data&widgetoption=taxo';
+	public const LUMIERE_DATA_OPTIONS_ORDER_URL = '/wp-admin/admin.php?page=lumiere_options_data&widgetoption=order';
+	public const LUMIERE_CACHE_OPTIONS_MANAGE_URL = '/wp-admin/admin.php?page=lumiere_options_cache&cacheoption=manage';
 
 	public const ADMIN_PLUGINS_URL = '/wp-admin/plugins.php';
 	public const ADMIN_PERMALINK_URL = '/wp-admin/options-permalink.php';
@@ -26,7 +27,7 @@ class AcceptanceRemoteSettings {
 	/** Testing pages */
 	public const TESTING_PAGE_BASE_URL = '/en/2021/test-codeception/';
 	public const TESTING_PAGE_BASE_A_DIRECTOR = 'Christopher Nolan';
-	public const TESTING_PAGE_TAXONOMY_URL = '/en/lumiere-director/stanley-kubrick/';
+	public const TESTING_PAGE_TAXONOMY_URL = '/en/lumiere-director/stanley-kubrick-en/';
 	public const TESTING_PAGE_POPUP_FILM_URL = '/en/lumiere/film/?mid=&film=interstellar';
 	public const TESTING_PAGE_POPUP_FILM_URL_WITHOUTMID = '/en/lumiere/film/?film=interstellar';
 	public const TESTING_PAGE_POPUP_FILM_TITLE = 'interstellar';

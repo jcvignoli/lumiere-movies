@@ -91,7 +91,7 @@ class Data extends \Lumiere\Admin {
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattodisplay.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to display', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_data . '&widgetoption=what' ); ?>"><?php esc_html_e( 'Display', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattodisplay.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to display', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_data ); ?>"><?php esc_html_e( 'Display', 'lumiere-movies' ); ?></a></div>
 
 		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Display order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_data . '&widgetoption=order' ); ?>"><?php esc_html_e( 'Display order', 'lumiere-movies' ); ?></a></div>
 
@@ -120,24 +120,20 @@ class Data extends \Lumiere\Admin {
 		echo "\n\t\t" . '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . esc_url( $_SERVER['REQUEST_URI'] ?? '' ) . '" >';
 
 		//-------------------------------------------------------------------=[Data selection]=-
-		if ( ( isset( $_GET['widgetoption'] ) && ( $_GET['widgetoption'] === 'what' ) ) || ( ! isset( $_GET['widgetoption'] ) ) ) {
+		if ( isset( $_GET['page'] ) && ( $_GET['page'] === 'lumiere_options_data' ) && ! isset( $_GET['widgetoption'] ) ) {
 
 			$this->lumiere_data_display_dataselection();
 
-		}
-
-		//-------------------------------------------------------------------=[Taxonomy]=-
-		if ( ( isset( $_GET['widgetoption'] ) ) && ( $_GET['widgetoption'] === 'taxo' ) ) {
+		} elseif ( isset( $_GET['widgetoption'] ) && $_GET['widgetoption'] === 'taxo' ) {
 
 			$this->lumiere_data_display_taxonomy();
 
-		}
+		} elseif ( isset( $_GET['widgetoption'] ) && $_GET['widgetoption'] === 'order' ) {
 
-		//-------------------------------------------------------------------=[Order]=-
-		if ( ( isset( $_GET['widgetoption'] ) ) && ( $_GET['widgetoption'] === 'order' ) ) {
-
-			$this->lumiere_data_display_order();
-
+			// Pass the self class as variable for later use.
+			set_transient( 'admin_template_this', $this, 2 );
+			// The template will retrieve the transient with get_transient().
+			require_once plugin_dir_path( __FILE__ ) . 'templates/admin-data-order.php';
 		}
 
 		//------------------------------------------------------------------ =[Submit selection]=-
@@ -223,67 +219,6 @@ class Data extends \Lumiere\Admin {
 			echo "\n\t" . '</div>';
 
 		}
-	}
-
-	/**
-	 *  Display Page Order of Data Details
-	 */
-	private function lumiere_data_display_order(): void {
-		?>
-
-	<div class="inside imblt_border_shadow">
-		<h3 class="hndle" id="taxoorder" name="taxoorder"><?php esc_html_e( 'Position of data', 'lumiere-movies' ); ?></h3>
-	</div>
-
-	<br />
-
-	<div class="imblt_border_shadow imdblt_align_webkit_center">
-
-	<div class="lumiere_intro_options_small">
-		<?php esc_html_e( 'You can select the order for the information selected in "display" section. Select first the movie detail you want to move, use "up" or "down" to reorder Lumiere Movies display. Once you are happy with the new order, click on "update settings" to keep it.', 'lumiere-movies' ); ?>
-	</div>
-
-	<div id="container_imdbwidgetorderContainer" class="imdblt_double_container imdblt_padding_top_twenty lumiere_align_center">
-
-		<div class="imdblt_padding_ten imdblt_align_last_center imdblt_flex_auto">
-
-			<input type="button" value="up" name="movemovieup" id="movemovieup" data-moveform="-1" /> 
-
-			<input type="button" value="down" name="movemoviedown" id="movemoviedown" data-moveform="+1" />
-
-			<div><?php esc_html_e( 'Move selected movie detail:', 'lumiere-movies' ); ?></div>
-
-			<input type="hidden" name="imdb_imdbwidgetorder" id="imdb_imdbwidgetorder" value="" class="imdblt_hidden" />
-		</div>
-
-		<div class="imdblt_padding_ten imdblt_align_last_center imdblt_flex_auto">
-			<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo ( count( $this->imdb_widget_values['imdbwidgetorder'] ) / 2 ); ?>" multiple><?php
-
-			foreach ( $this->imdb_widget_values['imdbwidgetorder'] as $key => $value ) {
-
-				echo "\n\t\t\t\t<option value='" . esc_attr( $key ) . "'";
-
-				// search if "imdbwidget'title'" (ie) is activated
-				if ( $this->imdb_widget_values[ "imdbwidget$key" ] !== '1' ) {
-
-					echo ' label="' . esc_attr( $key ) . ' (unactivated)">' . esc_html( $key );
-
-				} else {
-
-					echo ' label="' . esc_attr( $key ) . '">' . esc_html( $key );
-
-				}
-				echo '</option>';
-			}
-			?>
-
-			</select>
-		</div>
-
-	</div>
-</div>
-
-		<?php
 	}
 
 	/**

@@ -76,7 +76,7 @@ class TaxonomyCest {
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#update_imdbSettings' );
+		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#lumiere_update_general_settings' );
 
 	}
 
@@ -88,12 +88,12 @@ class TaxonomyCest {
 
 		$I->wantTo('Disable taxonomy if active');
 
-		$I->amOnPage("/wp-admin/admin.php?page=lumiere_options&generaloption=advanced");
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbwordpress_tooladminmenu');
 		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is activated, uncheck it and then click $submit (form) */
-		$I->CustomDisableCheckbox('#imdb_imdbtaxonomy_yes', '#update_imdbSettings' );
+		$I->CustomDisableCheckbox('#imdb_imdbtaxonomy_yes', '#lumiere_update_general_settings' );
 
 	}
 	/**
@@ -127,7 +127,7 @@ class TaxonomyCest {
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#update_imdbwidgetSettings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#lumiere_update_data_settings' );
 
 		// Activate $item in 'Taxonomy'
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
@@ -135,7 +135,7 @@ class TaxonomyCest {
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy'.$example[0].'_yes', '#update_imdbwidgetSettings' );
+		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy'.$example[0].'_yes', '#lumiere_update_data_settings' );
 		/*	Conditional click to copy if the theme is found (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
@@ -157,17 +157,17 @@ class TaxonomyCest {
 		// Disable $item in 'what to display'
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#imdb_imdbwidget' . $example[1] .'_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#update_imdbwidgetSettings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#lumiere_update_data_settings' );
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#taxodetails');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetactor_yes', '#update_imdbwidgetSettings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_settings' );
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetwriter_yes', '#update_imdbwidgetSettings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_settings' );
 
 		// Check that the template has been successfully removed
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
-		$I->dontSee('Réalisateur');
+		$I->dontSee('Director');
 
 		// Re-activate $item in 'what to display'
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
@@ -175,13 +175,13 @@ class TaxonomyCest {
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#update_imdbwidgetSettings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#lumiere_update_data_settings' );
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#taxodetails');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetactor_yes', '#update_imdbwidgetSettings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_settings' );
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#update_imdbwidgetSettings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_settings' );
 
 	}
 

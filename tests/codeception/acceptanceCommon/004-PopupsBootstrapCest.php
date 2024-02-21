@@ -71,7 +71,7 @@ class PopupsBootstrapCest {
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait(4);
 
-		$I->seeElement('object', ["data" => "$this->base_url$sub_url"]);
+		$I->seeElement('object', ["name" => "interstellar"]);
 		$I->switchToFrame( $xpath );
 		$I->see( 'Mankind was born on Earth');
 	}
