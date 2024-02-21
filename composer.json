@@ -35,6 +35,9 @@
         "wapmorgan/php-deprecation-detector": "@stable",
         "codeception/module-webdriver": "*"
     },
+    "require": {
+        "php": "8.0"
+    },
     "config": {
         "platform": {
             "php": "8.0"

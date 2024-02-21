@@ -3,9 +3,9 @@
  * Admin class for displaying all Admin sections.
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright (c) 2021, Lost Highway
+ * @copyright (c) 2024, Lost Highway
  *
- * @version       1.0
+ * @version       2.0
  * @package lumiere-movies
  */
 
@@ -22,35 +22,21 @@ use Lumiere\Admin\General;
 use Lumiere\Admin\Data;
 use Lumiere\Admin\Cache;
 use Lumiere\Admin\Help;
+use Lumiere\Admin\Save_Options;
+use Lumiere\Admin\Cache_Tools;
 
 class Admin {
 
 	// Trait including the database settings.
 	use \Lumiere\Settings_Global;
 
-	/**
-	 * Variable to allow automatic download of highslide when not found in package
-	 * Unactivated on WP plugin team request
-	 *
-	 * @var bool $activate_highslide_download true if allowing download
-	 */
-	protected bool $activate_highslide_download = true;
-
-	/**
-	 * \Lumière\Utils class
-	 */
 	protected Utils $utils_class;
-
-	/**
-	 * \Lumiere\Plugins\Logger class
-	 */
 	protected Logger $logger;
 
 	/**
 	 * Store root directories of the plugin
 	 * Path: absolute path
 	 * URL: start with https
-	 *
 	 */
 	protected string $root_path = '';
 	protected string $root_url = '';
@@ -59,6 +45,7 @@ class Admin {
 	protected string $page_data;
 	protected string $page_general_base;
 	protected string $page_general_advanced;
+	protected string $page_general_help;
 
 	/**
 	 * HTML allowed for use of wp_kses()
@@ -68,25 +55,26 @@ class Admin {
 	];
 
 	/**
+	 * Used to define name of functions
+	 */
+	const LUMIERE_ADMIN_ID = 'lumiere';
+
+	/**
 	 * Notification messages
-	 * @var array<string, string> $lumiere_notice_messages
+	 * @var array<string, array<int, int|string>> $lumiere_notice_messages The messages with their color
+	 * @phpstan-var array<string, array{0:string, 1:int}> $lumiere_notice_messages The messages with their color
 	 */
 	private array $lumiere_notice_messages = [
-		'options_updated' => 'Options saved.',
-		'options_reset' => 'Options reset.',
-		'cache_options_update_msg' => 'Cache options saved.',
-		'cache_options_refresh_msg' => 'Cache options reset.',
-		'cache_delete_all_msg' => 'All cache files deleted.',
-		'cache_delete_ticked_msg' => 'Ticked file(s) deleted.',
-		'cache_delete_individual_msg' => 'Selected cache file deleted.',
-		'cache_refresh_individual_msg' => 'Selected cache file refreshed.',
-		'cache_query_deleted' => 'Query cache files deleted.',
-		'taxotemplatecopy_success' => 'Template successfully copied.',
-		'taxotemplatecopy_failed' => 'Template copy failed!',
-		'highslide_success' => 'Highslide successfully installed!',
-		'highslide_failure' => 'Highslide installation failed!',
-		'highslide_down' => 'Website to download Highslide is currently down, please try again later.',
-		'highslide_website_unkown' => 'Website variable is not set.',
+		'options_updated' => [ 'Options saved.', 1 ],
+		'options_reset' => [ 'Options reset.', 1 ],
+		'general_options_error_identical_value' => [ 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 3 ],
+		'cache_delete_all_msg' => [ 'All cache files deleted.', 1 ],
+		'cache_delete_ticked_msg' => [ 'Ticked file(s) deleted.', 1 ],
+		'cache_delete_individual_msg' => [ 'Selected cache file deleted.', 1 ],
+		'cache_refresh_individual_msg' => [ 'Selected cache file refreshed.', 1 ],
+		'cache_query_deleted' => [ 'Query cache files deleted.', 1 ],
+		'taxotemplatecopy_success' => [ 'Template successfully copied.', 1 ],
+		'taxotemplatecopy_failed' => [ 'Template copy failed!', 3 ],
 	];
 
 	/**
@@ -98,20 +86,21 @@ class Admin {
 		// Construct Global Settings trait.
 		$this->settings_open();
 
-		// Start Utilities class
+		// Start Utilities class.
 		$this->utils_class = new Utils();
 
-		// Start Logger class
+		// Start Logger class.
 		$this->logger = new Logger( 'adminClass' );
 
 		// Build constants
 		$this->root_url = plugin_dir_url( __DIR__ );
 		$this->root_path = plugin_dir_path( __DIR__ );
-		$this->page_cache_manage = admin_url( 'admin.php?page=lumiere_options&subsection=cache&cacheoption=manage' );
-		$this->page_cache_option = admin_url( 'admin.php?page=lumiere_options&subsection=cache&cacheoption=option' );
-		$this->page_data = admin_url( 'admin.php?page=lumiere_options&subsection=dataoption' );
-		$this->page_general_base = admin_url( 'admin.php?page=lumiere_options&generaloption=base' );
+		$this->page_cache_manage = admin_url( 'admin.php?page=lumiere_options_cache&cacheoption=manage' );
+		$this->page_cache_option = admin_url( 'admin.php?page=lumiere_options_cache' );
+		$this->page_data = admin_url( 'admin.php?page=lumiere_options_data' );
+		$this->page_general_base = admin_url( 'admin.php?page=lumiere_options' );
 		$this->page_general_advanced = admin_url( 'admin.php?page=lumiere_options&generaloption=advanced' );
+		$this->page_general_help = admin_url( 'admin.php?page=lumiere_options_help' );
 
 		// Start the debug
 		// If runned earlier, such as 'admin_init', breaks block editor edition.
@@ -119,6 +108,9 @@ class Admin {
 
 		// Display notices.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
+
+		// Save the options when submitting a form. This will check the $_POSTs and $_GETs.
+		add_action( 'wp_loaded', [ $this, 'actions_from_http_request' ] );
 	}
 
 	/**
@@ -128,17 +120,6 @@ class Admin {
 	 */
 	public function lumiere_admin_display_messages(): void {
 
-		// Exit if it is not a Lumière! admin page.
-		if ( ! Utils::lumiere_array_contains_term(
-			[
-				'admin.php?page=lumiere_options',
-				'options-general.php?page=lumiere_options',
-			],
-			$_SERVER['REQUEST_URI'] ?? ''
-		) ) {
-			return;
-		}
-
 		$new_taxo_template = $this->lumiere_new_taxo();
 		if ( isset( $new_taxo_template ) ) {
 			echo Utils::lumiere_notice(
@@ -146,7 +127,7 @@ class Admin {
 				esc_html__( 'New taxonomy template file(s) found: ', 'lumiere-movies' )
 				. implode( ' & ', $new_taxo_template )
 				. '. ' . esc_html__( 'Please ', 'lumiere-movies' ) . '<a href="'
-				. admin_url( 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo#imdb_imdbtaxonomyactor_yes' )
+				. $this->page_data . '&widgetoption=taxo#imdb_imdbtaxonomyactor_yes'
 				. '">' . esc_html__( 'update', 'lumiere-movies' ) . '</a>.'
 			);
 		}
@@ -154,12 +135,15 @@ class Admin {
 		// Messages for child classes.
 		$notif_msg = get_transient( 'notice_lumiere_msg' );
 		if ( is_string( $notif_msg ) && array_key_exists( $notif_msg, $this->lumiere_notice_messages ) ) {
-			echo Utils::lumiere_notice( 1, esc_html( $this->lumiere_notice_messages[ $notif_msg ] ) );
+			echo Utils::lumiere_notice(
+				$this->lumiere_notice_messages[ $notif_msg ][1],
+				esc_html( $this->lumiere_notice_messages[ $notif_msg ][0] )
+			);
 		}
 	}
 
 	/**
-	 *  Wrapps the start of the debugging
+	 * Wrapps the start of the debugging
 	 */
 	public function lumiere_admin_maybe_start_debug(): void {
 
@@ -169,7 +153,26 @@ class Admin {
 			$this->utils_class->lumiere_activate_debug();
 
 		}
+	}
 
+	/**
+	 * Get id
+	 */
+	private function get_id(): string {
+		return self::LUMIERE_ADMIN_ID;
+	}
+
+	/**
+	 * Get id
+	 * @phpstan-return non-falsy-string
+	 */
+	private function get_method( string $template_name ): string {
+
+		$method = $this->get_id() . '_admin_menu_' . $template_name;
+		if ( method_exists( $this, $method ) && is_callable( [ $this, $method ] ) ) {
+			return $method;
+		}
+		throw new \Exception( 'This method ' . $method . ' does not exist' );
 	}
 
 	/**
@@ -198,80 +201,105 @@ class Admin {
 	 */
 	public function lumiere_add_left_menu(): void {
 
+		$menu_id = $this->get_id() . '_options';
+
 		// Menu inside settings
-		if ( function_exists( 'add_options_page' ) && ( ( isset( $this->imdb_admin_values['imdbwordpress_bigmenu'] ) ) && ( $this->imdb_admin_values['imdbwordpress_bigmenu'] === '0' ) ) ) {
+		if ( isset( $this->imdb_admin_values['imdbwordpress_bigmenu'] ) && $this->imdb_admin_values['imdbwordpress_bigmenu'] === '0' ) {
 
 			add_options_page(
 				'Lumière Options',
 				'<img src="' . $this->config_class->lumiere_pics_dir . 'lumiere-ico13x13.png" align="absmiddle"> Lumière',
-				'administrator',
-				'lumiere_options',
-				[ $this, 'lumiere_admin_pages' ]
+				'manage_options',
+				$menu_id,
+				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
+				[ $this, $this->get_method( 'general' ) ]
+			);
+
+			add_submenu_page(
+				$menu_id,
+				esc_html__( 'Data management', 'lumiere-movies' ),
+				esc_html__( 'Data', 'lumiere-movies' ),
+				'manage_options',
+				'lumiere_options_data',
+				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
+				[ $this, $this->get_method( 'data' ) ]
+			);
+			add_submenu_page(
+				$menu_id,
+				esc_html__( 'Cache management options page', 'lumiere-movies' ),
+				esc_html__( 'Cache', 'lumiere-movies' ),
+				'manage_options',
+				'lumiere_options_cache',
+				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
+				[ $this, $this->get_method( 'cache' ) ]
+			);
+			add_submenu_page(
+				$menu_id,
+				esc_html__( 'Help page', 'lumiere-movies' ),
+				esc_html__( 'Help', 'lumiere-movies' ),
+				'manage_options',
+				'lumiere_options_help',
+				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
+				[ $this, $this->get_method( 'help' ) ]
 			);
 
 			// Left menu
-		} elseif ( function_exists( 'add_submenu_page' ) && ( ( isset( $this->imdb_admin_values['imdbwordpress_bigmenu'] ) ) && ( $this->imdb_admin_values['imdbwordpress_bigmenu'] === '1' ) ) ) {
+		} elseif ( isset( $this->imdb_admin_values['imdbwordpress_bigmenu'] ) && $this->imdb_admin_values['imdbwordpress_bigmenu'] === '1' ) {
 
 			add_menu_page(
-				'Lumière Options',
-				'<i>Lumière</i>',
-				'administrator',
-				'lumiere_options',
-				[ $this, 'lumiere_admin_pages' ],
+				esc_html__( 'Lumière options page', 'lumiere-movies' ),
+				esc_html__( 'Lumière', 'lumiere-movies' ),
+				'manage_options',
+				$menu_id,
+				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
+				[ $this, $this->get_method( 'general' ) ],
 				$this->config_class->lumiere_pics_dir . 'lumiere-ico13x13.png',
 				65
 			);
+
 			add_submenu_page(
-				'lumiere_options',
-				esc_html__(
-					'Lumière options page',
-					'lumiere-movies'
-				),
-				esc_html__( 'General', 'lumiere-movies' ),
-				'administrator',
-				'lumiere_options',
-				[ $this, 'lumiere_admin_pages' ]
-			);
-			add_submenu_page(
-				'lumiere_options',
+				$menu_id,
 				esc_html__( 'Data management', 'lumiere-movies' ),
 				esc_html__( 'Data', 'lumiere-movies' ),
-				'administrator',
-				'lumiere_options&subsection=dataoption',
-				[ $this, 'lumiere_admin_pages' ]
+				'manage_options',
+				'lumiere_options_data',
+				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
+				[ $this, $this->get_method( 'data' ) ]
 			);
 			add_submenu_page(
-				'lumiere_options',
+				$menu_id,
 				esc_html__( 'Cache management options page', 'lumiere-movies' ),
 				esc_html__( 'Cache', 'lumiere-movies' ),
-				'administrator',
-				'lumiere_options&subsection=cache',
-				[ $this, 'lumiere_admin_pages' ]
+				'manage_options',
+				'lumiere_options_cache',
+				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
+				[ $this, $this->get_method( 'cache' ) ]
 			);
 			add_submenu_page(
-				'lumiere_options',
+				$menu_id,
 				esc_html__( 'Help page', 'lumiere-movies' ),
 				esc_html__( 'Help', 'lumiere-movies' ),
-				'administrator',
-				'lumiere_options&subsection=help',
-				[ $this, 'lumiere_admin_pages' ]
+				'manage_options',
+				'lumiere_options_help',
+				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
+				[ $this, $this->get_method( 'help' ) ]
 			);
-
 		}
-
 	}
 
 	/**
-	 * Add top admin menu
-	 *
+	 * Add top Admin menu
 	 */
 	public function admin_add_top_menu( \WP_Admin_Bar $admin_bar ): void {
 
+		$id = 'lumiere_top_menu';
+
 		$admin_bar->add_menu(
 			[
-				'id' => 'lumiere_top_menu',
+				'id' => $id,
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "lumiere-ico13x13.png' width='16' height='16' />&nbsp;&nbsp;" . 'Lumière',
-				'href' => 'admin.php?page=lumiere_options',
+				'parent' => null,
+				'href' => $this->page_general_base,
 				'meta' =>
 					[
 						'title' => esc_html__( 'Lumière Menu', 'lumiere-movies' ),
@@ -281,10 +309,10 @@ class Admin {
 
 		$admin_bar->add_menu(
 			[
-				'parent' => 'lumiere_top_menu',
+				'parent' => $id,
 				'id' => 'lumiere_top_menu_general',
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-general.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'General', 'lumiere-movies' ),
-				'href' => 'admin.php?page=lumiere_options',
+				'href' => $this->page_general_base,
 				'meta' =>
 					[
 						'title' => esc_html__( 'Main and advanced options', 'lumiere-movies' ),
@@ -293,10 +321,10 @@ class Admin {
 		);
 		$admin_bar->add_menu(
 			[
-				'parent' => 'lumiere_top_menu',
+				'parent' => $id,
 				'id' => 'lumiere_top_menu_data',
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-widget-inside.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data', 'lumiere-movies' ),
-				'href' => 'admin.php?page=lumiere_options&subsection=dataoption',
+				'href' => $this->page_data,
 				'meta' =>
 					[
 						'title' => esc_html__( 'Data option and taxonomy', 'lumiere-movies' ),
@@ -305,10 +333,10 @@ class Admin {
 		);
 		$admin_bar->add_menu(
 			[
-				'parent' => 'lumiere_top_menu',
+				'parent' => $id,
 				'id' => 'lumiere_top_menu_cache',
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-cache.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Cache', 'lumiere-movies' ),
-				'href' => 'admin.php?page=lumiere_options&subsection=cache',
+				'href' => $this->page_cache_option,
 				'meta' =>
 					[
 						'title' => esc_html__( 'Cache options', 'lumiere-movies' ),
@@ -318,10 +346,10 @@ class Admin {
 
 		$admin_bar->add_menu(
 			[
-				'parent' => 'lumiere_top_menu',
+				'parent' => $id,
 				'id' => 'lumiere_top_menu_help',
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-help.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Help', 'lumiere-movies' ),
-				'href' => 'admin.php?page=lumiere_options&subsection=help',
+				'href' => $this->page_general_help,
 				'meta' =>
 					[
 						'title' => esc_html__( 'Get support and support plugin development', 'lumiere-movies' ),
@@ -333,121 +361,83 @@ class Admin {
 	}
 
 	/**
-	 * Display admin pages
-	 *
+	 * Settings saved/reset, files deleted/refreshed
+	 * Based on the $_GET and $_POSTS, the methods refreshing/saving/deleting will be processed
+	 * @return void Settings saved/reset, files deleted/refreshed
+	 * @see Save_Options::process_headers()
+	 * @since 3.12
 	 */
-	public function lumiere_admin_pages(): void {
+	public function actions_from_http_request(): void {
 
-		// Start logging using hook defined in settings class.
-		do_action( 'lumiere_logger' );
-
-		$this->display_admin_menu();
-
-		$this->display_admin_menu_subpages();
-
+		$save_options_class = new Save_Options();
+		$save_options_class->process_headers();
 	}
 
 	/**
-	 * Display main menu
-	 *
+	 * Display admin General options
 	 */
-	private function display_admin_menu(): void {
-		?>
+	public function lumiere_admin_menu_general(): void {
 
-	<div class=wrap>
+		// Make sure cache folder exists and is writable
+		$cache_tools_class = new Cache_Tools();
+		$cache_tools_class->lumiere_create_cache( true );
 
-		<h2 class="imdblt_padding_bottom_right_fifteen"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'lumiere-ico80x80.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;<i>Lumière!</i>&nbsp;<?php esc_html_e( 'admin options', 'lumiere-movies' ); ?></h2>
+		$this->display_admin_menu_first_part();
 
-		<div class="subpage">
-			<div align="left" class="imdblt_double_container">
-
-				<div class="imdblt_padding_five imdblt_flex_auto">
-					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
-					<a title="<?php esc_html_e( 'General Options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options' ); ?>"> <?php esc_html_e( 'General Options', 'lumiere-movies' ); ?></a>
-				</div>
-
-				<?php // Data subpage is relative to what is activated. ?>
-
-				<div class="imdblt_padding_five imdblt_flex_auto">
-					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
-
-
-					<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=dataoption' ); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?></a>
-
-		<?php
-		// Check if both widgets is are inactive (pre/post-5.8, aka block & legacy blocks)
-		if ( Utils::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === false && is_active_widget( false, false, Settings::WIDGET_NAME, false ) === false ) {
-			?>
-
-					- <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'widgets.php' ); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies' ); ?></a></font></em>
-
-			<?php
-		}
-		if ( $this->imdb_admin_values['imdbtaxonomy'] === '0' ) {
-
-			?> - <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&generaloption=advanced#imdb_imdbtaxonomy_yes' ); ?>"><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></font></em>
-
-	<?php } ?>
-
-				</div>
-
-				<div class="imdblt_padding_five imdblt_flex_auto">			
-					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-cache.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
-					<a title="<?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=cache' ); ?>"><?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?></a>
-				</div>
-
-				<div align="right" class="imdblt_padding_five imdblt_flex_auto" >
-					<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
-					<a title="<?php esc_html_e( 'How to use Lumière!, check FAQs & changelog', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help' ); ?>">
-						<i>Lumière!</i> <?php esc_html_e( 'help', 'lumiere-movies' ); ?>
-					</a>
-				</div>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
-	 *  Display admin submenu
-	 *
-	 */
-	private function display_admin_menu_subpages(): void {
-
-		if ( ! isset( $_GET['subsection'] ) ) {
-
-			// Make sure cache folder exists and is writable
-			$this->config_class->lumiere_create_cache( true );
-
-			$general_class = new General();
-			$general_class->lumiere_general_layout();
-
-		}
-
-		if ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'dataoption' ) ) {
-
-			$data_class = new Data();
-			$data_class->lumiere_data_layout();
-
-		} elseif ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'cache' ) ) {
-
-			// Make sure cache folder exists and is writable
-			$this->config_class->lumiere_create_cache( true );
-
-			$cache_class = new Cache();
-			$cache_class->lumiere_cache_layout();
-
-		} elseif ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'help' ) ) {
-
-			$help_class = new Help();
-			$help_class->lumiere_admin_help_layout();
-		}
+		$general_class = new General();
+		$general_class->lumiere_general_display_submenu();
+		$general_class->lumiere_general_display_body();
 
 		// @phpcs:ignore WordPress.Security.EscapeOutput
 		echo $this->utils_class->lumiere_admin_signature();
-		?>
-	</div><!-- .wrap -->
+	}
 
-		<?php
+	/**
+	 * Display admin Data options
+	 */
+	public function lumiere_admin_menu_data(): void {
+
+		$this->display_admin_menu_first_part();
+
+		$data_class = new Data();
+		$data_class->lumiere_data_display_submenu();
+		$data_class->lumiere_data_display_body();
+
+		// @phpcs:ignore WordPress.Security.EscapeOutput
+		echo $this->utils_class->lumiere_admin_signature();
+	}
+
+	/**
+	 * Display admin Cache options
+	 */
+	public function lumiere_admin_menu_cache(): void {
+
+		// Make sure cache folder exists and is writable
+		$cache_tools_class = new Cache_Tools();
+		$cache_tools_class->lumiere_create_cache( true );
+
+		$this->display_admin_menu_first_part();
+
+		$cache_class = new Cache( $cache_tools_class );
+		$cache_class->lumiere_cache_display_submenu();
+		$cache_class->lumiere_cache_display_body();
+
+		// @phpcs:ignore WordPress.Security.EscapeOutput
+		echo $this->utils_class->lumiere_admin_signature();
+	}
+
+	/**
+	 * Display admin Help options
+	 */
+	public function lumiere_admin_menu_help(): void {
+
+		$this->display_admin_menu_first_part();
+
+		$help_class = new Help();
+		$help_class->lumiere_admin_help_layout();
+
+		// @phpcs:ignore WordPress.Security.EscapeOutput
+		echo $this->utils_class->lumiere_admin_signature();
 	}
 
 	/**
@@ -483,7 +473,7 @@ class Admin {
 	}
 
 	/**
-	 * Function checking if item/person template has been updated in them template
+	 * Function checking if item/person template has been updated in the template
 	 *
 	 * @param string $item String used to build the taxonomy filename that will be checked against the standard taxo
 	 * @return null|string
@@ -530,5 +520,16 @@ class Admin {
 			$return = $item;
 		}
 		return strlen( $return ) > 0 ? $return : null;
+	}
+
+	/**
+	 * Display the first piece of the main menu
+	 * Using a template
+	 */
+	public function display_admin_menu_first_part(): void {
+		// Pass the self class as variable for later use.
+		set_transient( 'admin_template_this', $this, 2 );
+		// The template will retrieve the transient with get_transient().
+		require_once plugin_dir_path( __FILE__ ) . 'admin/templates/admin-menu-first-part.php';
 	}
 }

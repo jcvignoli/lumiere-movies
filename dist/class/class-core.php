@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Admin\Metabox_Selection;
+use Lumiere\Admin\Cache_Tools;
 use Lumiere\PluginsDetect;
 use Lumiere\Plugins\Amp;
 use Lumiere\Plugins\Logger;
@@ -98,9 +99,9 @@ class Core {
 
 		// Frontpage classes if it is not an admin page
 		if ( ! is_admin() ) {
-			add_action( 'init', [ 'Lumiere\Tools\Ban_Bots', 'lumiere_static_start' ], 0 );
 			add_action( 'init', [ 'Lumiere\Frontend\Movie', 'lumiere_static_start' ], 0 );
 			add_action( 'init', [ 'Lumiere\Frontend\Widget_Frontpage', 'lumiere_widget_frontend_start' ], 0 );
+			add_action( 'init', [ 'Lumiere\Tools\Ban_Bots', 'lumiere_static_start' ], 0 );
 		}
 
 		// AMP remove headers if AMP is active.
@@ -562,7 +563,11 @@ class Core {
 		}
 
 		/* Create the cache folders */
-		if ( $this->config_class->lumiere_create_cache() === true ) {
+
+		// Make sure cache folder exists and is writable
+		$cache_tools_class = new Cache_Tools();
+
+		if ( $cache_tools_class->lumiere_create_cache() === true ) {
 
 			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache successfully created.' );
 

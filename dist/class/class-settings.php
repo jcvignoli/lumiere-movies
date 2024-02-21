@@ -16,16 +16,16 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	die( 'You can not call directly this page' );
 }
 
-use Lumiere\Plugins\Logger;
-// use PHP library.
 use FilesystemIterator;
 
 /**
  * @phpstan-type LevelLogName 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY'
- * @phpstan-type OPTIONS_ADMIN array{'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': int, 'imdbdelayimdbrequest': int, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': null|string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': LevelLogName, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_modal_window': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': int, 'imdbseriemovies': string}
+ * @phpstan-type OPTIONS_ADMIN array{'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': numeric-string,'imdbcoversizewidth': numeric-string, 'imdbmaxresults': int, 'imdbdelayimdbrequest': int, 'imdbpopuptheme': string, 'imdbpopuplarg': numeric-string,'imdbpopuplong': numeric-string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': null|string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': LevelLogName, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_modal_window': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': int, 'imdbseriemovies': string}
  * @phpstan-type OPTIONS_CACHE array{'imdbcachedir_partial': string, 'imdbusecache': string, 'imdbcacheexpire': string, 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string,'imdbcachedir': string,'imdbphotoroot': string, 'imdbphotodir': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string }
- * @phpstan-type OPTIONS_WIDGET array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':int, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber': bool|string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber': string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber': string|bool, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber': string|bool, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber': string|bool, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber': string|bool, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber': string|bool, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber': bool|string, 'imdbwidgetorder': array<string>, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string}
-*/
+ * @phpstan-type OPTIONS_DATA array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':int|string, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber': bool|string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber': string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber': string|bool, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber': string|bool, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber': string|bool, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber': string|bool, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber': string|bool, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber': bool|string, 'imdbwidgetorder': array<string|int>, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string}
+ *
+ * @since 3.12 moved cache folder creation to class cache tools
+ */
 class Settings {
 
 	/**
@@ -186,17 +186,28 @@ class Settings {
 	/**
 	 * Constructor
 	 *
+	 * @since 3.12 added properties $imdb_cache_values and $imdb_widget_values, checking if options are not available, creation of the options
 	 */
 	public function __construct() {
 
 		// Define Lumière constants.
 		$this->lumiere_define_constants();
 
-		// Build options, get them from database and then send to properties.
-		$this->get_imdb_admin_option();
-		$this->get_imdb_widget_option();
-		$this->get_imdb_cache_option();
+		/**
+		 * Build options, get them from database if they exist, build them otherwise.
+		 * Only $imdb_admin_values is set a property, since it is used in that class. Later one, all properties should be built here!
+		 */
+		if ( get_option( self::LUMIERE_ADMIN_OPTIONS ) === false ) {
+			$this->get_imdb_admin_option();
+		}
 		$this->imdb_admin_values = get_option( self::LUMIERE_ADMIN_OPTIONS );
+
+		if ( get_option( self::LUMIERE_WIDGET_OPTIONS ) === false ) {
+			$this->get_imdb_widget_option();
+		}
+		if ( get_option( self::LUMIERE_CACHE_OPTIONS ) === false ) {
+			$this->get_imdb_cache_option();
+		}
 
 		// Define Lumière constants once global options have been created.
 		$this->lumiere_define_constants_after_globals();
@@ -388,18 +399,18 @@ class Settings {
 			'imdblinkingkill' => '0',
 			'imdbautopostwidget' => '0',
 			'imdblanguage' => 'en',
-			'imdbdebug' => '0',                       /* Debug */
+			'imdbdebug' => '0',                 /* Debug */
 			'imdbdebuglog' => '0',                  /* Log debug */
 			'imdbdebuglogpath' => self::DEBUG_LOG_PATH,
-			'imdbdebuglevel' => 'DEBUG',              /* Debug levels: emergency, alert, critical,
-									error, warning, notice, info, debug */
-			'imdbdebugscreen' => '1',                /* Show debug on screen */
-			'imdbwordpress_bigmenu' => '0',        /* Left menu */
-			'imdbwordpress_tooladminmenu' => '1',    /* Top menu */
+			'imdbdebuglevel' => 'DEBUG',                /* Debug levels: emergency, alert, critical,
+											error, warning, notice, info, debug */
+			'imdbdebugscreen' => '1',               /* Show debug on screen */
+			'imdbwordpress_bigmenu' => '0',             /* Left menu */
+			'imdbwordpress_tooladminmenu' => '1',           /* Top menu */
 			'imdbpopup_modal_window' => 'bootstrap',
 			'imdbtaxonomy' => '1',
-			'imdbHowManyUpdates' => $this->current_number_updates, /* define the number of updates. */
-			'imdbseriemovies' => 'movies+series',     /* options: movies, series, movies+series, videogames */
+			'imdbHowManyUpdates' => $this->current_number_updates,  /* define the number of updates. */
+			'imdbseriemovies' => 'movies+series',           /* options: movies, series, movies+series, videogames */
 
 		];
 		$imdb_admin_options['imdbplugindirectory'] = get_site_url()
@@ -578,103 +589,6 @@ class Settings {
 		}
 
 		update_option( self::LUMIERE_WIDGET_OPTIONS, $imdb_widget_options );
-
-	}
-
-	/**
-	 * Create cache folder if it does not exist
-	 * Create folder based on 'imdbcachedir' cache option value, if not using alternative folders (inside plugin)
-	 * Return false if: 1/ Cache is not active; 2/ Can't created alternative cache folders inside Lumière plugin
-	 * 3/ Cache folders already exist & are writable
-	 *
-	 * @info Can't use $wp_system at this stage, since it is also called during plugin activation in class core
-	 *
-	 * @param bool $screen_log whether to display logging on screen or not
-	 * @return bool false if cache already exist or can't be created, true if cache folders were created
-	 */
-	public function lumiere_create_cache( bool $screen_log = false ): bool {
-
-		// Start logger
-		$logger_class = new Logger( 'settingsClass', $screen_log /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated, such as upon plugin activation */ );
-		do_action( 'lumiere_logger' );
-		$logger = $logger_class->log();
-
-		// Cache folder paths.
-		$options_cache = get_option( self::LUMIERE_CACHE_OPTIONS );
-		$lumiere_folder_cache = $options_cache['imdbcachedir'];
-		$lumiere_folder_cache_images = $options_cache['imdbphotoroot'];
-
-		// If cache is not active, exit.
-		if ( $options_cache['imdbusecache'] !== '1' ) {
-			$logger->debug( '[Lumiere][config][cachefolder] Cache is inactive, folders are not checked.' );
-			return false;
-		}
-
-		// Cache folders exist with good permissions, exit.
-		wp_mkdir_p( $lumiere_folder_cache );
-		chmod( $lumiere_folder_cache, 0777 );
-		wp_mkdir_p( $lumiere_folder_cache_images );
-		// chmod( $lumiere_folder_cache_images, 0777 ); => throws locally an chmod error.
-		if ( is_writable( $lumiere_folder_cache ) && is_writable( $lumiere_folder_cache_images ) ) {
-			$logger->debug( '[Lumiere][config][cachefolder] Cache folders exist and permissions are ok.' );
-			return false;
-		}
-
-		$logger->debug( '[Lumiere][config][cachefolder] The cache folder located at ' . $lumiere_folder_cache . ' is not writable, creating an alternative cache ' );
-
-		$lumiere_alt_folder_cache = plugin_dir_path( __DIR__ ) . 'cache';
-		$lumiere_alt_folder_cache_images = $lumiere_alt_folder_cache . '/images';
-
-		// If we can write in $options_cache['imdbcachedir'] (ie: wp-content/cache), make sure permissions are ok
-		if ( wp_mkdir_p( $lumiere_folder_cache ) && chmod( $lumiere_folder_cache, 0777 ) ) {
-
-			$logger->debug( "[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created." );
-
-			// We can't write in $options_cache['imdbphotoroot'], so write in wp-content/plugins/lumiere/cache instead
-		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache ) && chmod( $lumiere_alt_folder_cache, 0777 ) ) {
-
-			// Create partial var
-			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
-
-			// Update the option imdbcachedir for new cache path values
-			$options_cache['imdbcachedir'] = $lumiere_alt_folder_cache;
-			$options_cache['imdbcachedir_partial'] = $lumiere_alt_folder_cache_partial;
-			update_option( self::LUMIERE_CACHE_OPTIONS, $options_cache );
-
-			$logger->info( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_alt_folder_cache created." );
-		} else {
-
-			$logger->error( "[Lumiere][config][cachefolder] Cannot create alternative cache folder $lumiere_alt_folder_cache." );
-			return false;
-
-		}
-
-		// We can write in wp-content/cache/images
-		if ( wp_mkdir_p( $lumiere_folder_cache_images ) && chmod( $lumiere_folder_cache_images, 0775 ) ) {
-
-			$logger->debug( "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created." );
-
-			// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
-		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache_images ) && chmod( $lumiere_alt_folder_cache_images, 0777 ) ) {
-
-			$lumiere_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
-
-			// Update the option imdbcachedir for new cache path values
-			$options_cache['imdbcachedir_partial'] = $lumiere_folder_cache_partial;
-			$options_cache['imdbphotodir'] = get_site_url() . '/' . $lumiere_folder_cache_partial . '/images/';
-			$options_cache['imdbphotoroot'] = $lumiere_alt_folder_cache_images;
-			update_option( self::LUMIERE_CACHE_OPTIONS, $options_cache );
-
-			$logger->info( "[Lumiere][config][cachefolder] Alternative cache image folder $lumiere_alt_folder_cache_images created." );
-
-		} else {
-
-			$logger->error( "[Lumiere][config][cachefolder] Cannot create alternative cache image folder $lumiere_alt_folder_cache_images." );
-			return false;
-
-		}
-
-		return true;
 	}
 
 	/**

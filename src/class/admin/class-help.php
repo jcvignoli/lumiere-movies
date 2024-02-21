@@ -76,33 +76,33 @@ class Help extends \Lumiere\Admin {
 		echo "\n\t" . '<div id="poststuff">';
 
 		// Always display the menu
-		if ( isset( $_GET['subsection'] ) && $_GET['subsection'] === 'help' ) {
+		if ( isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_help' ) {
 			$this->display_menu();
 		}
 
 		// Changelog section
-		if ( ( isset( $_GET['helpsub'] ) ) && $_GET['helpsub'] === 'changelog' ) {
+		if ( ( isset( $_GET['subsection'] ) ) && $_GET['subsection'] === 'changelog' ) {
 			echo "\n\t" . '<br clear="both" />';
 			echo "\n\t\t" . '<div class="imblt_border_shadow">';
 			$this->display_changelog();
 			echo "\n\t\t" . '</div>';
 			echo "\n\t" . '<br clear="both" />';
 			// Faqs section
-		} elseif ( isset( $_GET['helpsub'] ) && ( $_GET['helpsub'] === 'faqs' ) ) {
+		} elseif ( isset( $_GET['subsection'] ) && ( $_GET['subsection'] === 'faqs' ) ) {
 			echo "\n\t" . '<br clear="both" />';
 			echo "\n\t\t" . '<div class="imblt_border_shadow">';
 			$this->display_faqs();
 			echo "\n\t\t" . '</div>';
 			echo "\n\t" . '<br clear="both" />';
 			// Support section
-		} elseif ( ( isset( $_GET['helpsub'] ) ) && ( $_GET['helpsub'] === 'support' ) ) {
+		} elseif ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'support' ) ) {
 			echo "\n\t" . '<br clear="both" />';
 			echo "\n\t\t" . '<div class="imblt_border_shadow">';
 			$this->display_support();
 			echo "\n\t\t" . '</div>';
 			echo "\n\t" . '<br clear="both" />';
 			// How to section
-		} elseif ( ( ( isset( $_GET['helpsub'] ) ) && ( $_GET['helpsub'] === 'howto' ) ) || ( ! isset( $_GET['helpsub'] ) ) ) {
+		} elseif ( ( isset( $_GET['subsection'] ) && $_GET['subsection'] === 'howto' ) || ! isset( $_GET['subsection'] ) ) {
 			$this->display_howto();
 		}
 
@@ -153,13 +153,13 @@ class Help extends \Lumiere\Admin {
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help-howto.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'How to use Lumiere Movies', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=howto' ); ?>"><?php esc_html_e( 'How to', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help-howto.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'How to use Lumiere Movies', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_general_help ); ?>"><?php esc_html_e( 'How to', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help-faq.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Frequently asked questions', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=faqs' ); ?>"><?php esc_html_e( 'FAQs', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help-faq.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Frequently asked questions', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_general_help . '&subsection=faqs' ); ?>"><?php esc_html_e( 'FAQs', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help-changelog.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "What's new", 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=changelog' ); ?>"><?php esc_html_e( 'Changelog', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help-changelog.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "What's new", 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_general_help . '&subsection=changelog' ); ?>"><?php esc_html_e( 'Changelog', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help-support.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Get support and support me', 'lumiere-movies' ); ?>" href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=support' ); ?>"><?php esc_html_e( 'Support, donate & credits', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-help-support.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Get support and support me', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_general_help . '&subsection=support' ); ?>"><?php esc_html_e( 'Support, donate & credits', 'lumiere-movies' ); ?></a></div>
 
 	</div>
 </div>
@@ -342,9 +342,9 @@ class Help extends \Lumiere\Admin {
 
 	<strong>1</strong>. <?php esc_html_e( 'visit', 'lumiere-movies' ); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::IMDBHOMEPAGE ); ?>">Lumière website</a> <?php esc_html_e( 'to ask for help. ', 'lumiere-movies' ); ?><br />
 
-	<strong>2</strong>. <?php esc_html_e( 'check the', 'lumiere-movies' ); ?> <a href="?page=lumiere_options&subsection=help&helpsub=faqs"><?php esc_html_e( 'FAQs ', 'lumiere-movies' ); ?></a>.<br />
+	<strong>2</strong>. <?php esc_html_e( 'check the', 'lumiere-movies' ); ?> <a href="?page=lumiere_options&subsection=faqs"><?php esc_html_e( 'FAQs ', 'lumiere-movies' ); ?></a>.<br />
 
-	<strong>3</strong>. <?php esc_html_e( 'check the', 'lumiere-movies' ); ?> <a href="?page=lumiere_options&subsection=help&helpsub=howto"><?php esc_html_e( 'how to', 'lumiere-movies' ); ?></a>.<br />
+	<strong>3</strong>. <?php esc_html_e( 'check the', 'lumiere-movies' ); ?> <a href="?page=lumiere_options&subsection=howto"><?php esc_html_e( 'how to', 'lumiere-movies' ); ?></a>.<br />
 
 		</div>
 

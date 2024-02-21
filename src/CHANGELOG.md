@@ -12,8 +12,11 @@ v.3.12
 * [bug] Fixed the taxonomy system, it now properly creates HTML links towards taxonomy pages within widgets/into the posts sections (now it's hierarchical, it's not using polylang functions anymore, edited classes movie and polylang and taxonomy). It is advised to delete all taxonomy tags you may have, so new are create again.
 * [bug] Cache folder creation fixed (in class settings, lumiere_create_cache() was checking if a folder exists before actually creating it)
 * [bug] Visibility: When IMDb links to popups where created in WordPress block editor (post edition), they were not visible. Now, an icon clearly shows that a link to popups was created in the post's text.
+* [bug] Admin: if left menu display was not selected, subpages were not available (typically on the first plugin install!)
 * [bug] Compatibility with PHP > 8.0 ensured, replaced obsolete PHP functions. Still backwards compatible.
+* [bug] Reset/Update fields in Manage Cache admin page were not standardized.
 * [technical] Replaced FILTER_SANITIZE_STRING (obsolete) with FILTER_SANITIZE_FULL_SPECIAL_CHARS in class admin/data
+* [technical] Rewrote massively the admin section. Under the hood, more robust plugin!
 * [technical] Page downloads from IMDb are retried 3 times before giving up.
 * [technical] Cleaned useless cache settings (zipping is hardcoded in class imdbphp)
 * [technical] Cleaned useless function in class movie (cleaned lumiere_movies_quote(), which is useless but must be kept for compatibility)

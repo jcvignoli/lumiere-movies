@@ -19,15 +19,28 @@ if ( ! defined( 'WPINC' ) ) {
 
 // use IMDbPHP config class in /vendor/.
 use Imdb\Config;
+use Lumiere\Settings;
 
 /**
  * Child class of \Imdb\Config
  * Get all settings from \Lumiere\Settings_Global and sends them to \Imdb\Config
+ *
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
  */
 class Imdbphp extends Config {
 
-	// Trait including the database settings.
-	use \Lumiere\Settings_Global;
+	/**
+	 * Admin options
+	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values
+	 */
+	private array $imdb_admin_values;
+
+	/**
+	 * Cache options
+	 * @phpstan-var OPTIONS_CACHE $imdb_cache_values
+	 */
+	private array $imdb_cache_values;
 
 	/**
 	 * Constructor
@@ -37,12 +50,12 @@ class Imdbphp extends Config {
 		// Construct parent class.
 		parent::__construct();
 
-		// Construct Global Settings trait.
-		$this->settings_open();
+		// Get options from database.
+		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
 		// Call the function to send the selected settings to imdbphp library.
 		$this->lumiere_send_config_imdbphp();
-
 	}
 
 	/**
@@ -67,7 +80,8 @@ class Imdbphp extends Config {
 		 * protocol (e.g. when a different server shall deliver them)
 		 * Cannot be changed in Lumière admin panel
 		 */
-		$this->imdb_img_url = $this->config_class->lumiere_pics_dir . '/showtimes';
+		$this->imdb_img_url = plugin_dir_path( dirname( __DIR__ ) ) . 'assets/pics/showtimes';
+
 		/**
 		 * These two are hardcoded at 800 in IMDbPHP Config class
 		 * can't be changed in admin panel
@@ -75,8 +89,6 @@ class Imdbphp extends Config {
 		 */
 		$this->big_image_width = 800;
 		$this->big_image_height = 800;
-
 	}
-
 }
 

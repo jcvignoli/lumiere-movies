@@ -21,7 +21,7 @@ use Lumiere\Settings;
 use Lumiere\Tools\Utils;
 
 /**
- * @phpstan-import-type OPTIONS_WIDGET from \Lumiere\Settings
+ * Class for taxonomy, data order and data selection
  */
 class Data extends \Lumiere\Admin {
 
@@ -84,105 +84,9 @@ class Data extends \Lumiere\Admin {
 	}
 
 	/**
-	 * Display the layout
-	 *
-	 */
-	public function lumiere_data_layout (): void {
-
-		$this->lumiere_data_head();
-		$this->lumiere_data_display_submenu();
-		$this->lumiere_data_display_body();
-
-	}
-
-	/**
-	 *  Display head
-	 */
-	private function lumiere_data_head(): void {
-
-		/** Update options selected */
-		if ( isset( $_POST['update_imdbwidgetSettings'] ) ) {
-
-			check_admin_referer( 'imdbwidgetSettings_check', 'imdbwidgetSettings_check' );
-
-			foreach ( $_POST as $key => $postvalue ) {
-				// Sanitize
-				$key_sanitized = sanitize_key( $key );
-
-				// Keep $_POST['imdbwidgetorderContainer'] untouched
-				if ( $key === 'imdbwidgetorderContainer' ) {
-					continue;
-				}
-
-				// These $_POST values shouldn't be processed
-				if (
-					$key_sanitized === 'imdbwidgetsettings_check'
-					|| $key_sanitized === 'update_imdbwidgetsettings'
-				) {
-					continue;
-				}
-
-				// Copy $_POST to $this->imdb_widget_values var
-				if ( isset( $_POST[ $key_sanitized ] ) ) {
-
-					// remove "imdb_" from $key
-					$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
-
-					/** @phpstan-var key-of<non-empty-array<OPTIONS_WIDGET>> $keynoimdb
-					 * @phpstan-ignore-next-line */
-					$this->imdb_widget_values[ $keynoimdb ] = sanitize_text_field( $_POST[ $key_sanitized ] );
-				}
-			}
-
-			// Special part related to details order
-			if ( isset( $_POST['imdbwidgetorderContainer'] ) ) {
-				// Sanitize
-				$myinputs_sanitized = Utils::lumiere_recursive_sanitize_text_field( $_POST['imdbwidgetorderContainer'] );
-				// increment the $key of one
-				$data = array_combine( range( 1, count( $myinputs_sanitized ) ), array_values( $myinputs_sanitized ) );
-
-				// flip $key with $value
-				$data = array_flip( $data );
-
-				// Put in the option
-				// @phpstan-ignore-next-line 'Array (array<string, array<string>|bool|int|string>) does not accept array<int|string, int>.'
-				$this->imdb_widget_values['imdbwidgetorder'] = $data;
-			}
-
-			// update options
-			update_option( Settings::LUMIERE_WIDGET_OPTIONS, $this->imdb_widget_values );
-
-			$widget_option_san = isset( $_GET['widgetoption'] ) ? filter_input( INPUT_GET, 'widgetoption', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : false;
-			$extra_url_string = $widget_option_san !== false ? '&widgetoption=' . $widget_option_san : '';
-			if ( wp_redirect( $this->page_data . $extra_url_string ) ) {
-				set_transient( 'notice_lumiere_msg', 'options_updated', 1 );
-				exit;
-			}
-
-		}
-
-		/** Reset options selected */
-		if ( isset( $_POST['reset_imdbwidgetSettings'] ) ) {
-
-			check_admin_referer( 'imdbwidgetSettings_check', 'imdbwidgetSettings_check' );
-
-			// Delete the options to reset
-			delete_option( Settings::LUMIERE_WIDGET_OPTIONS );
-
-			$widget_option_san = isset( $_GET['widgetoption'] ) ? filter_input( INPUT_GET, 'widgetoption', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : false;
-			$extra_url_string = $widget_option_san !== false ? '&widgetoption=' . $widget_option_san : '';
-			if ( wp_redirect( $this->page_data . $extra_url_string ) ) {
-				set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
-				exit;
-			}
-		}
-
-	}
-
-	/**
 	 * Display submenu
 	 */
-	private function lumiere_data_display_submenu(): void { ?>
+	protected function lumiere_data_display_submenu(): void { ?>
 
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
@@ -207,7 +111,7 @@ class Data extends \Lumiere\Admin {
 	/**
 	 * Display the body
 	 */
-	private function lumiere_data_display_body(): void {
+	protected function lumiere_data_display_body(): void {
 
 		echo "\n\t" . '<div id="poststuff" class="metabox-holder">';
 		echo "\n\t\t" . '<div class="inside">';
@@ -238,12 +142,12 @@ class Data extends \Lumiere\Admin {
 
 		//------------------------------------------------------------------ =[Submit selection]=-
 		echo "\n\t\t\t\t" . '<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">' . "\n";
-		wp_nonce_field( 'imdbwidgetSettings_check', 'imdbwidgetSettings_check' );
-		echo "\n\t\t\t\t" . '<input type="submit" class="button-primary" name="reset_imdbwidgetSettings" value="'
+		wp_nonce_field( 'lumiere_nonce_data_settings', '_nonce_data_settings' );
+		echo "\n\t\t\t\t" . '<input type="submit" class="button-primary" name="lumiere_reset_data_settings" value="'
 			. esc_html__( 'Reset settings', 'lumiere-movies' )
 			. '" />&nbsp;&nbsp;';
 		echo "\n\t\t\t"
-			. '<input type="submit" class="button-primary" id="update_imdbwidgetSettings" name="update_imdbwidgetSettings" value="'
+			. '<input type="submit" class="button-primary" id="lumiere_update_data_settings" name="lumiere_update_data_settings" value="'
 			. esc_html__( 'Update settings', 'lumiere-movies' )
 			. '" />';
 		echo "\n\t\t\t" . '</div>';
@@ -353,27 +257,27 @@ class Data extends \Lumiere\Admin {
 		</div>
 
 		<div class="imdblt_padding_ten imdblt_align_last_center imdblt_flex_auto">
+			<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo ( count( $this->imdb_widget_values['imdbwidgetorder'] ) / 2 ); ?>" multiple><?php
 
-		<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo ( count( $this->imdb_widget_values['imdbwidgetorder'] ) / 2 ); ?>" multiple>
-		<?php
-		foreach ( $this->imdb_widget_values['imdbwidgetorder'] as $key => $value ) {
+			foreach ( $this->imdb_widget_values['imdbwidgetorder'] as $key => $value ) {
 
-			echo "\t\t\t\t\t<option value='" . esc_attr( $key ) . "'";
+				echo "\n\t\t\t\t<option value='" . esc_attr( $key ) . "'";
 
-			// search if "imdbwidget'title'" (ie) is activated
-			if ( $this->imdb_widget_values[ "imdbwidget$key" ] !== '1' ) {
+				// search if "imdbwidget'title'" (ie) is activated
+				if ( $this->imdb_widget_values[ "imdbwidget$key" ] !== '1' ) {
 
-				echo ' label="' . esc_attr( $key ) . ' (unactivated)">' . esc_html( $key );
+					echo ' label="' . esc_attr( $key ) . ' (unactivated)">' . esc_html( $key );
 
-			} else {
+				} else {
 
-				echo ' label="' . esc_attr( $key ) . '">' . esc_html( $key );
+					echo ' label="' . esc_attr( $key ) . '">' . esc_html( $key );
 
+				}
+				echo '</option>';
 			}
-			echo "</option>\n";
-		}
-		?>
-						</select>
+			?>
+
+			</select>
 		</div>
 
 	</div>
@@ -393,8 +297,7 @@ class Data extends \Lumiere\Admin {
 			echo "<div align='center' class='accesstaxo'>"
 				. esc_html__( 'Please ', 'lumiere-movies' )
 				. "<a href='" . esc_url(
-					admin_url()
-					. 'admin.php?page=lumiere_options&generaloption=advanced'
+					admin_url( $this->page_general_advanced )
 				) . "'>"
 				. esc_html__( 'activate taxonomy', 'lumiere-movies' ) . '</a>'
 				. esc_html__( ' priorly', 'lumiere-movies' ) . '<br />'
@@ -593,7 +496,7 @@ class Data extends \Lumiere\Admin {
 		Utils::lumiere_wp_filesystem_cred( $lumiere_current_theme_path_file );
 
 		// Make the HTML link with a nonce, checked in move_template_taxonomy.php.
-		$link_taxo_copy = wp_nonce_url( admin_url( 'admin.php?page=lumiere_options&subsection=dataoption&widgetoption=taxo&taxotype=' . $lumiere_taxo_title ), 'linkcopytaxo', '_wpnonce_linkcopytaxo' );
+		$link_taxo_copy = wp_nonce_url( admin_url( $this->page_data . '&widgetoption=taxo&taxotype=' . $lumiere_taxo_title ), 'linkcopytaxo', '_wpnonce_linkcopytaxo' );
 
 		// No file in the theme folder found and no template to be updated found, offer to copy it and exit.
 		if ( file_exists( $lumiere_current_theme_path_file ) === false && ! isset( $list_updated_fields ) ) {

@@ -55,7 +55,7 @@
 	Let's play with WP Coding standards and fit Lumiere needs
 	https://github.com/WordPress/WordPress-Coding-Standards/wiki/Customizable-sniff-properties
 	-->
-	<config name="minimum_supported_wp_version" value="5.3"/>
+	<config name="minimum_supported_wp_version" value="8.0"/>
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>

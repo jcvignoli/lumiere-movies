@@ -199,11 +199,11 @@ class Utils {
 	 * Function lumiere_array_key_exists_wildcard
 	 * Search with a wildcard in $keys of an array
 	 *
-	 * @param array<string, array<string>|bool|int|string> $array The array to be searched in
+	 * @param array<string, array<int|string>|bool|int|string> $array The array to be searched in
 	 * @param string $search The text that is searched for
 	 * @param string $return text 'key-value' can be passed to get simpler array of results
 	 *
-	 * @return array<int<0, max>|string, array<array-key, string>|bool|int|string>
+	 * @return array<string, array<int|string>|bool|int|string>
 	 *
 	 * @credit: https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
 	 */
@@ -353,7 +353,7 @@ class Utils {
 	 *
 	 * @since 3.5
 	 *
-	 * @param null|array<string, array<string>|bool|int|string> $options the array of admin/widget/cache settings options
+	 * @param null|array<string, array<int|string>|bool|int|string> $options the array of admin/widget/cache settings options
 	 * @param null|string $set_error set to 'no_var_dump' to avoid the call to var_dump function
 	 * @param null|string $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
 	 * @param null|string $get_screen set to 'screen' to display wp function get_current_screen()
@@ -431,6 +431,13 @@ class Utils {
 	public static function lumiere_wp_filesystem_cred ( string $file ): void {
 
 		global $wp_filesystem;
+
+		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
+		// @since 3.9.7
+		if ( $wp_filesystem === null ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
 
 		/** WP: request_filesystem_credentials($form_post, $type, $error, $context, $extra_fields, $allow_relaxed_file_ownership); */
 		$creds = request_filesystem_credentials( $file, '', false );

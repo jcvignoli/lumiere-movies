@@ -25,7 +25,7 @@ use Lumiere\Admin\Copy_Template_Taxonomy;
  * Taxonomy Pages names are added to the database
  * Pages are made availabe by using taxonomy templates (if copied in template folder)
  *
- * @phpstan-import-type OPTIONS_WIDGET from Settings
+ * @phpstan-import-type OPTIONS_DATA from Settings
  * @phpstan-import-type OPTIONS_ADMIN from Settings
  */
 class Taxonomy {
@@ -33,7 +33,7 @@ class Taxonomy {
 	private Utils $utils_class;
 
 	/**
-	 * @phpstan-var OPTIONS_WIDGET $imdb_widget_values
+	 * @phpstan-var OPTIONS_DATA $imdb_widget_values
 	 */
 	private array $imdb_widget_values;
 
@@ -101,7 +101,6 @@ class Taxonomy {
 		$get_taxo_array = $this->utils_class->lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' );
 		foreach ( $get_taxo_array as $key => $value ) {
 
-			$key = is_int( $key ) ? strval( $key ) : $key;
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $key );
 
 			// Check if a specific taxonomy (such as actor, genre) is activated.

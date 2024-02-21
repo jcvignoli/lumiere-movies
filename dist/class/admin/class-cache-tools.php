@@ -21,8 +21,10 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 // Use IMDbPHP library for cache creation
 use Imdb\Title;
 use Imdb\Person;
+use Lumiere\Settings;
 use Lumiere\Tools\Utils;
 use Lumiere\Plugins\Imdbphp;
+use Lumiere\Plugins\Logger;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Exception;
@@ -30,23 +32,35 @@ use Exception;
 /**
  * Functions utilized by Class Cache
  * @see \Lumiere\Admin\Cache
+ *
  * @since 3.12 Methods extracted from Class cache and factorized here
+ *
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
  */
-class Cache_Tools extends \Lumiere\Admin {
+class Cache_Tools {
 
 	/**
-	 * Class \Lumiere\Imdbphp
-	 *
+	 * Cache options
+	 * @phpstan-var OPTIONS_CACHE $imdb_cache_values
+	 */
+	private array $imdb_cache_values;
+
+	/**
+	 * Classes
 	 */
 	private Imdbphp $imdbphp_class;
+	private Logger $logger;
 
 	/**
 	 *  Constructor
 	 */
 	public function __construct() {
 
-		// Construct parent class
-		parent::__construct();
+		// Start Logger class.
+		$this->logger = new Logger( 'adminClass' );
+
+		// Get options from database.
+		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
 		// Start Imdbphp class.
 		$this->imdbphp_class = new Imdbphp();
@@ -68,6 +82,7 @@ class Cache_Tools extends \Lumiere\Admin {
 		}
 
 		global $wp_filesystem;
+
 		$id_sanitized = isset( $where ) && is_string( $where ) ? esc_html( $where ) : '';
 
 		// prevent drama.
@@ -158,7 +173,7 @@ class Cache_Tools extends \Lumiere\Admin {
 		Utils::lumiere_unlink_recursive( $this->imdb_cache_values['imdbcachedir'] );
 
 		// Make sure cache folder exists and is writable.
-		$this->config_class->lumiere_create_cache( true );
+		$this->lumiere_create_cache( true );
 
 		// Get back the cache by querying the IMDb.
 		$i = 1;
@@ -186,11 +201,12 @@ class Cache_Tools extends \Lumiere\Admin {
 		}
 
 		global $wp_filesystem;
+
 		$id_sanitized = isset( $where ) && is_string( $where ) ? esc_html( $where ) : '';
 
 		// prevent drama.
 		if ( ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) || ( ! isset( $_GET['where'] ) )  ) {
-			exit( esc_html__( 'Cannot work this way.', 'lumiere-movies' ) );
+			wp_die( esc_html__( 'Cannot work this way.', 'lumiere-movies' ) );
 		}
 
 		// delete single movie.
@@ -205,17 +221,17 @@ class Cache_Tools extends \Lumiere\Admin {
 
 			foreach ( $name_sanitized as $key => $cache_to_delete ) {
 				Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
-				$wp_filesystem->delete( esc_url( $cache_to_delete ) );
+				$wp_filesystem->delete( sanitize_text_field( $cache_to_delete ) );
 			}
 
 			// delete pictures, small and big.
 			$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '.jpg';
 			$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '_big.jpg';
 			if ( file_exists( $pic_small_sanitized ) ) {
-				$wp_filesystem->delete( $pic_small_sanitized );
+				$wp_filesystem->delete( sanitize_text_field( $pic_small_sanitized ) );
 			}
 			if ( file_exists( $pic_big_sanitized ) ) {
-				$wp_filesystem->delete( $pic_big_sanitized );
+				$wp_filesystem->delete( sanitize_text_field( $pic_big_sanitized ) );
 			}
 
 			// Get again the movie.
@@ -231,24 +247,23 @@ class Cache_Tools extends \Lumiere\Admin {
 				throw new Exception( esc_html__( 'This file does not exist.', 'lumiere-movies' ) );
 			}
 
+			foreach ( $name_people_sanitized as $key => $cache_to_delete ) {
+				Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
+				$wp_filesystem->delete( sanitize_text_field( $cache_to_delete ) );
+			}
+
 			// delete pictures, small and big.
 			$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_sanitized . '.jpg';
 			$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_sanitized . '_big.jpg';
 			if ( file_exists( $pic_small_sanitized ) ) {
-				$wp_filesystem->delete( $pic_small_sanitized );
+				$wp_filesystem->delete( sanitize_text_field( $pic_small_sanitized ) );
 			}
 			if ( file_exists( $pic_big_sanitized ) ) {
-				$wp_filesystem->delete( $pic_big_sanitized );
-			}
-
-			foreach ( $name_people_sanitized as $key => $cache_to_delete ) {
-				Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
-				$wp_filesystem->delete( esc_url( $cache_to_delete ) );
+				$wp_filesystem->delete( sanitize_text_field( $pic_big_sanitized ) );
 			}
 
 			// Get again the person.
 			$this->lumiere_create_people_cache( $id_sanitized );
-
 		}
 	}
 
@@ -258,7 +273,7 @@ class Cache_Tools extends \Lumiere\Admin {
 	 */
 	public function lumiere_create_movie_file( $id ): void {
 
-		$movie = new Title( $id, $this->imdbphp_class, $this->logger->log() );
+		$movie = new Title( $id, $this->imdbphp_class/*, $this->logger->log() why a logger? */ );
 
 		// create cache for everything.
 		$movie->alsoknow();
@@ -298,7 +313,7 @@ class Cache_Tools extends \Lumiere\Admin {
 	public function lumiere_create_people_cache( $id ): void {
 
 		// Get again the person.
-		$person = new Person( $id, $this->imdbphp_class, $this->logger->log() );
+		$person = new Person( $id, $this->imdbphp_class/*,  $this->logger->log() why a logger? */ );
 
 		// Create cache for everything.
 		$person->bio();
@@ -529,7 +544,7 @@ class Cache_Tools extends \Lumiere\Admin {
 		$results = [];
 		foreach ( $cache_files as $file ) {
 			if ( preg_match( '!^title\.tt(\d{7,8})$!i', basename( $file ), $match ) === 1 ) {
-				$results[] = new Title( $match[1], $this->imdbphp_class, $this->logger->log() );
+				$results[] = new Title( $match[1], $this->imdbphp_class /*, $this->logger->log() why a logger? */ );
 			}
 		}
 		return $results;
@@ -551,10 +566,107 @@ class Cache_Tools extends \Lumiere\Admin {
 		$results = [];
 		foreach ( $cache_files as $file ) {
 			if ( preg_match( '!^name\.nm(\d{7,8})$!i', basename( $file ), $match ) === 1 ) {
-				$results[] = new Person( $match[1], $this->imdbphp_class, $this->logger->log() );
+				$results[] = new Person( $match[1], $this->imdbphp_class /*, $this->logger->log() why a logger? */ );
 			}
 		}
 		return $results;
+	}
+
+	/**
+	 * Create cache folder if it does not exist
+	 * Create folder based on 'imdbcachedir' cache option value, if not using alternative folders (inside plugin)
+	 * Return false if:
+	 * 1/ Cache is not active;
+	  * 2/ Can't created alternative cache folders inside Lumière plugin
+	 * 3/ Cache folders already exist & are writable
+	 *
+	 * @info Can't use $wp_system at this stage, since it is called early during plugin activation in class core
+	 *
+	 * @param bool $screen_log whether to display logging on screen or not
+	 * @return bool false if cache already exist or can't be created, true if cache folders were created
+	 */
+	public function lumiere_create_cache( bool $screen_log = false ): bool {
+
+		// Restart logger in manner acceptable for class core and early execution.
+		$this->logger = new Logger( 'settingsClass', $screen_log /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated, such as upon plugin activation */ );
+		do_action( 'lumiere_logger' ); // Restart the logger, without this, error on activation.
+
+		// Cache folder paths.
+		$options_cache = get_option( Settings::LUMIERE_CACHE_OPTIONS );
+		$lumiere_folder_cache = $options_cache['imdbcachedir'];
+		$lumiere_folder_cache_images = $options_cache['imdbphotoroot'];
+
+		// If cache is not active, exit.
+		if ( $options_cache['imdbusecache'] !== '1' ) {
+			$this->logger->log()->debug( '[Lumiere][config][cachefolder] Cache is inactive, folders are not checked.' );
+			return false;
+		}
+
+		// Cache folders exist with good permissions, exit.
+		wp_mkdir_p( $lumiere_folder_cache );
+		chmod( $lumiere_folder_cache, 0777 );
+		wp_mkdir_p( $lumiere_folder_cache_images );
+		// chmod( $lumiere_folder_cache_images, 0777 ); => throws locally an chmod error.
+		if ( is_writable( $lumiere_folder_cache ) && is_writable( $lumiere_folder_cache_images ) ) {
+			$this->logger->log()->debug( '[Lumiere][config][cachefolder] Cache folders exist and permissions are ok.' );
+			return false;
+		}
+
+		$this->logger->log()->debug( '[Lumiere][config][cachefolder] The cache folder located at ' . $lumiere_folder_cache . ' is not writable, creating an alternative cache ' );
+
+		$lumiere_alt_folder_cache = plugin_dir_path( dirname( __DIR__ ) ) . 'cache';
+		$lumiere_alt_folder_cache_images = $lumiere_alt_folder_cache . '/images';
+
+		// If we can write in $options_cache['imdbcachedir'] (ie: wp-content/cache), make sure permissions are ok
+		if ( wp_mkdir_p( $lumiere_folder_cache ) && chmod( $lumiere_folder_cache, 0777 ) ) {
+
+			$this->logger->log()->debug( "[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created." );
+
+			// We can't write in $options_cache['imdbphotoroot'], so write in wp-content/plugins/lumiere/cache instead
+		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache ) && chmod( $lumiere_alt_folder_cache, 0777 ) ) {
+
+			// Create partial var
+			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . '../cache/';
+
+			// Update the option imdbcachedir for new cache path values
+			$options_cache['imdbcachedir'] = $lumiere_alt_folder_cache;
+			$options_cache['imdbcachedir_partial'] = $lumiere_alt_folder_cache_partial;
+			update_option( Settings::LUMIERE_CACHE_OPTIONS, $options_cache );
+
+			$this->logger->log()->info( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_alt_folder_cache created." );
+		} else {
+
+			$this->logger->log()->error( "[Lumiere][config][cachefolder] Cannot create alternative cache folder $lumiere_alt_folder_cache." );
+			return false;
+
+		}
+
+		// We can write in wp-content/cache/images
+		if ( wp_mkdir_p( $lumiere_folder_cache_images ) && chmod( $lumiere_folder_cache_images, 0775 ) ) {
+
+			$this->logger->log()->debug( "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created." );
+
+			// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
+		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache_images ) && chmod( $lumiere_alt_folder_cache_images, 0777 ) ) {
+
+			$lumiere_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
+
+			// Update the option imdbcachedir for new cache path values
+			$options_cache['imdbcachedir_partial'] = $lumiere_folder_cache_partial;
+			$options_cache['imdbphotodir'] = get_site_url() . '/' . $lumiere_folder_cache_partial . '/images/';
+			$options_cache['imdbphotoroot'] = $lumiere_alt_folder_cache_images;
+			update_option( Settings::LUMIERE_CACHE_OPTIONS, $options_cache );
+
+			$this->logger->log()->info( "[Lumiere][config][cachefolder] Alternative cache image folder $lumiere_alt_folder_cache_images created." );
+
+		} else {
+
+			$this->logger->log()->error( "[Lumiere][config][cachefolder] Cannot create alternative cache image folder $lumiere_alt_folder_cache_images." );
+			return false;
+
+		}
+
+		return true;
 	}
 }
 

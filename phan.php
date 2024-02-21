@@ -14,7 +14,7 @@ return [
 	// If this is set to `null`,
 	// then Phan assumes the PHP version which is closest to the minor version
 	// of the php executable used to execute Phan.
-	'target_php_version' => null,
+	'target_php_version' => 8.0,
 
 	// Issue::SEVERITY_LOW(0), Issue::SEVERITY_NORMAL(5), Issue::SEVERITY_CRITICAL(10)
 	// Low is the highest level

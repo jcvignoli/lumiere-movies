@@ -17,8 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use Lumiere\Tools\Utils;
-
 /**
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
  */
@@ -35,7 +33,7 @@ class General extends \Lumiere\Admin {
 	/**
 	 * Constructor
 	 */
-	protected function __construct() {
+	public function __construct() {
 
 		// Construct parent class
 		parent::__construct();
@@ -49,83 +47,9 @@ class General extends \Lumiere\Admin {
 	}
 
 	/**
-	 * Display the layout
-	 */
-	public function lumiere_general_layout (): void {
-
-		$this->lumiere_general_head();
-		$this->lumiere_general_display_submenu();
-		$this->lumiere_general_display_body();
-
-	}
-
-	/**
-	 * Display head
-	 */
-	private function lumiere_general_head(): void {
-
-		//--------------------save data selected
-		if ( isset( $_POST['update_imdbSettings'] ) ) {
-
-			check_admin_referer( 'options_general_check', 'options_general_check' );
-
-			// Check if $_POST['imdburlstringtaxo'] and $_POST['imdburlpopups'] are identical, because they can't
-			$post_imdb_imdburlstringtaxo = isset( $_POST['imdb_imdburlstringtaxo'] ) ? esc_html( $_POST['imdb_imdburlstringtaxo'] ) : 'empty';
-			$post_imdb_imdburlpopups = isset( $_POST['imdb_imdburlpopups'] ) ? esc_html( $_POST['imdb_imdburlpopups'] ) : 'empty';
-
-			if (
-				( $post_imdb_imdburlstringtaxo !== 'empty' ) &&
-			( str_replace( '/', '', $post_imdb_imdburlstringtaxo ) === str_replace( '/', '', $post_imdb_imdburlpopups ) ) || isset( $this->imdb_admin_values['imdburlpopups'] ) && ( str_replace( '/', '', $post_imdb_imdburlstringtaxo ) === str_replace( '/', '', $this->imdb_admin_values['imdburlpopups'] ) )
-										||
-				( $post_imdb_imdburlpopups !== 'empty' ) &&
-			( str_replace( '/', '', $post_imdb_imdburlpopups ) === str_replace( '/', '', $post_imdb_imdburlstringtaxo ) ) || isset( $this->imdb_admin_values['imdburlstringtaxo'] ) && ( str_replace( '/', '', $post_imdb_imdburlpopups ) === str_replace( '/', '', $this->imdb_admin_values['imdburlstringtaxo'] ) )
-			) {
-
-				echo Utils::lumiere_notice( 3, esc_html__( 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 'lumiere-movies' ) );
-				$url_origin = wp_get_referer();
-				echo $url_origin !== false ? Utils::lumiere_notice( 1, '<a href="' . esc_url( $url_origin ) . '">' . esc_html__( 'Go back', 'lumiere-movies' ) . '</a>' ) : '';
-				exit();
-			}
-
-			foreach ( $_POST as $key => $postvalue ) {
-				$key_sanitized = sanitize_key( $key );
-				$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
-				if ( isset( $_POST[ $key_sanitized ] ) ) {
-					/** @phpstan-var key-of<non-empty-array<OPTIONS_ADMIN>> $keynoimdb
-					 * @phpstan-ignore-next-line */
-					$this->imdb_admin_values[ $keynoimdb ] = sanitize_text_field( $_POST[ $key_sanitized ] );
-				}
-			}
-
-			// update options
-			update_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, $this->imdb_admin_values );
-
-			/** @psalm-suppress FalseOperand */
-			$extra_url_string = isset( $_GET['generaloption'] ) ? '&generaloption=' . filter_input( INPUT_GET, 'generaloption', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_NULL_ON_FAILURE ) : '';
-			if ( wp_redirect( $this->page_general_base . $extra_url_string ) ) {
-				set_transient( 'notice_lumiere_msg', 'options_updated', 1 );
-				exit;
-			}
-
-		} elseif ( isset( $_POST['reset_imdbSettings'] ) ) { //---------------------reset options selected
-
-			check_admin_referer( 'options_general_check', 'options_general_check' );
-
-			delete_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS );
-
-			/** @psalm-suppress FalseOperand */
-			$extra_url_string = isset( $_GET['generaloption'] ) ? '&generaloption=' . filter_input( INPUT_GET, 'generaloption', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_NULL_ON_FAILURE ) : '';
-			if ( wp_redirect( $this->page_general_base . $extra_url_string ) ) {
-				set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
-				exit;
-			}
-		}
-	}
-
-	/**
 	 *  Display submenu
 	 */
-	private function lumiere_general_display_submenu(): void { ?>
+	protected function lumiere_general_display_submenu(): void { ?>
 
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
@@ -142,7 +66,7 @@ class General extends \Lumiere\Admin {
 	/**
 	 *  Display the body
 	 */
-	private function lumiere_general_display_body(): void {
+	public function lumiere_general_display_body(): void {
 
 		echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . esc_url( $_SERVER['REQUEST_URI'] ?? '' ) . '">';
 
@@ -183,9 +107,9 @@ class General extends \Lumiere\Admin {
 
 		//------------------------------------------------------------------ =[Submit selection]=- ?>
 		<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">
-			<?php wp_nonce_field( 'options_general_check', 'options_general_check' ); ?>
-			<input type="submit" id="reset_imdbSettings" class="button-primary" name="reset_imdbSettings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
-			<input type="submit"  id="update_imdbSettings" class="button-primary" name="update_imdbSettings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />
+			<?php wp_nonce_field( 'lumiere_nonce_general_settings', '_nonce_general_settings' ); ?>
+			<input type="submit" id="lumiere_reset_general_settings" class="button-primary" name="lumiere_reset_general_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
+			<input type="submit"  id="lumiere_update_general_settings" class="button-primary" name="lumiere_update_general_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />
 		</div>
 		<br />
 	</form>
@@ -196,7 +120,7 @@ class General extends \Lumiere\Admin {
 	/**
 	 *  Display the popup section
 	 */
-	private function lumiere_general_display_body_popup(): void {
+	protected function lumiere_general_display_body_popup(): void {
 
 				//------------------------------------------------------------------ =[Popup]=- ?>
 
@@ -238,20 +162,6 @@ class General extends \Lumiere\Admin {
 						</select>
 						<?php
 						echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. Highslide or Bootstrap are advanced modal windows.', 'lumiere-movies' ) . '<br />' . esc_html__( 'When bootstrap is selected, popup layout cannot be edited.', 'lumiere-movies' ) . '<br />' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html__( 'Bootstrap', 'lumiere-movies' ) . '</div>';
-
-						// If the folder "highslide" was not found
-						if (  is_dir( $this->config_class->lumiere_js_path . 'highslide' ) === false && $this->activate_highslide_download === true && $this->imdb_admin_values['imdbpopup_modal_window'] === 'highslide' ) {
-							// Say so!
-							echo Utils::lumiere_notice( 4, '<span class="lumiere_red_bold">' . esc_html__( 'Warning! No Highslide folder was found.', 'lumiere-movies' ) . '</span>' );
-							echo '<br />';
-
-							// Automatic highslide download.
-							echo "<a href='" . esc_url( admin_url() . 'admin.php?page=lumiere_options&highslide=yes' ) . '\'' . "' title='" . esc_html__( 'Click here to install Highslide', 'lumiere-movies' ) . "'><img src='" . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-install-highslide.png' ) . "' align='absmiddle' />&nbsp;&nbsp;" . esc_html__( 'Install automatically Highslide', 'lumiere-movies' ) . '</a><br /><br />';
-
-							// Add a link to highslide website.
-							echo '<a href="http://highslide.com/" title="' . esc_html__( 'Click here to visit Highslide website', 'lumiere-movies' ) . '"><img src="' . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-install-highslide.png' ) . '" align="absmiddle" />&nbsp;&nbsp;' . esc_html__( 'Get Highslide JS library', 'lumiere-movies' ) . '</a><br /><br />';
-						}
-
 						?>
 					</div>
 
@@ -296,6 +206,7 @@ class General extends \Lumiere\Admin {
 
 					</div>
 				</div>
+
 		<?php
 	}
 
@@ -378,9 +289,9 @@ class General extends \Lumiere\Admin {
 			</div>
 
 		</div>
-
-		<br />
-		<br />
+	</div>
+	<br />
+	<br />
 		<?php
 	}
 
@@ -513,7 +424,6 @@ class General extends \Lumiere\Admin {
 				</div>
 			</div>
 		</div>
-
 		<br /><br />
 
 		<?php
@@ -856,7 +766,7 @@ class General extends \Lumiere\Admin {
 					<div class="lumiere_align_items_center">
 						<input class="lumiere_border_width_medium imdbpluginpath" type="text" id="imdb_imdbpluginpath" name="imdb_imdbpluginpath" value="<?php echo esc_attr( $this->imdb_admin_values['imdbpluginpath'] ); ?>" >
 					</div>
-					<div class="explain"><?php esc_html_e( 'In most cases, you should not edit it. Only advanced users should change this value.', 'lumiere-movies' ); ?><?php
+					<div class="explain"><?php esc_html_e( 'In most cases, you should not edit it. Only advanced users should change this value.', 'lumiere-movies' ); ?> <?php
 					esc_html_e( 'The path must end with a final slash.', 'lumiere-movies' );
 					echo '<br>';
 					esc_html_e( 'Unless you changed your environment or use multisite WordPress, Lumière! path should be: ', 'lumiere-movies' );
@@ -865,6 +775,8 @@ class General extends \Lumiere\Admin {
 			</div>
 		</div>
 	</div>
+
+</div>
 		<?php
 	}
 
