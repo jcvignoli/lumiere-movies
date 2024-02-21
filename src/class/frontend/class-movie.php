@@ -100,17 +100,15 @@ class Movie {
 
 		do_action( 'lumiere_logger' );
 
-		$logger = $this->logger->log();
-
 		// Show log for link maker and plugin detect
 		if ( $this->movie_run_once === false ) {
 
 			// Log the current link maker
-			$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
 			// Log PluginsDetect, $this->plugins_in_use in trait
-			$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ']' );
-			$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] Calling IMDbPHP class.' );
+			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ']' );
+			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] Calling IMDbPHP class.' );
 
 			// Set the trigger to true so this is not called again.
 			$this->movie_run_once = true;
@@ -122,7 +120,7 @@ class Movie {
 		// Ban bots before doing an IMDb search.
 		do_action( 'lumiere_ban_bots' );
 
-		$search = new TitleSearch( $this->imdbphp_class, $logger );
+		$search = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
 
 		// $imdb_id_or_title var comes from custom post's field in widget or in post
 		$counter_imdb_id_or_title = $imdb_id_or_title !== null ? count( $imdb_id_or_title ) : 0;
@@ -135,14 +133,14 @@ class Movie {
 			// A movie's title has been specified, get its imdbid.
 			if ( isset( $film['byname'] ) ) {
 
-				$film = $film['byname'];
+				$film = strtolower( $film['byname'] ); // @since 3.12 lowercase, less cache used.
 
-				$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . $film );
+				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . $film );
 
 				// check a the movie title exists.
 				if ( strlen( $film ) > 0 ) {
 
-					$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] searching for $film" );
+					$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] searching for $film" );
 
 					$results = $search->search( $film, $this->config_class->lumiere_select_type_search() );
 
@@ -153,31 +151,31 @@ class Movie {
 				// No result was found in imdbphp query.
 				if ( $mid_premier_resultat === null ) {
 
-					$logger->info( '[Lumiere][' . self::CLASS_NAME . '] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
+					$this->logger->log()->info( '[Lumiere][' . self::CLASS_NAME . '] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
 
 					// no result, so jump to the next query and forget the current
 					continue;
 
 				}
 
-				$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] Result found: $mid_premier_resultat." );
+				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Result found: $mid_premier_resultat." );
 
 				// no movie's title but a movie's ID has been specified
 			} elseif ( isset( $film['bymid'] ) ) {
 
 				$mid_premier_resultat = filter_var( $film['bymid'], FILTER_SANITIZE_NUMBER_INT );
-				$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] Movie ID provided: '$mid_premier_resultat'." );
+				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Movie ID provided: '$mid_premier_resultat'." );
 
 			}
 
 			if ( $film === null || ! isset( $mid_premier_resultat ) || $mid_premier_resultat === false ) {
 
-				$logger->debug( '[Lumiere][' . self::CLASS_NAME . '] No result found for this query.' );
+				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] No result found for this query.' );
 				continue;
 
 			}
 
-			$logger->debug( '[Lumiere][' . self::CLASS_NAME . "] Displaying rows for '$mid_premier_resultat'" );
+			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Displaying rows for '$mid_premier_resultat'" );
 
 			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- ### Lumière! movies plugin ### -->';
 			$output .= "\n\t<div class='imdbincluded";

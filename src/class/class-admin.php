@@ -22,7 +22,6 @@ use Lumiere\Admin\General;
 use Lumiere\Admin\Data;
 use Lumiere\Admin\Cache;
 use Lumiere\Admin\Help;
-use Lumiere\Admin\Save_Options;
 use Lumiere\Admin\Cache_Tools;
 
 class Admin {
@@ -106,11 +105,16 @@ class Admin {
 		// If runned earlier, such as 'admin_init', breaks block editor edition.
 		add_action( 'wp', [ $this, 'lumiere_admin_maybe_start_debug' ], 0 );
 
-		// Display notices.
+		// Display notices based on transients.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
 
-		// Save the options when submitting a form. This will check the $_POSTs and $_GETs.
-		add_action( 'wp_loaded', [ $this, 'actions_from_http_request' ] );
+		/**
+		 * Settings saved/reset, files deleted/refreshed
+		 * Based on the $_GET and $_POSTS, the methods refreshing/saving/deleting will be processed
+		 * @see Save_Options::process_headers()
+		 * @since 3.12
+		 */
+		add_action( 'wp_loaded', [ 'Lumiere\Admin\Save_Options', 'lumiere_static_start' ] );
 	}
 
 	/**
@@ -358,19 +362,6 @@ class Admin {
 			]
 		);
 
-	}
-
-	/**
-	 * Settings saved/reset, files deleted/refreshed
-	 * Based on the $_GET and $_POSTS, the methods refreshing/saving/deleting will be processed
-	 * @return void Settings saved/reset, files deleted/refreshed
-	 * @see Save_Options::process_headers()
-	 * @since 3.12
-	 */
-	public function actions_from_http_request(): void {
-
-		$save_options_class = new Save_Options();
-		$save_options_class->process_headers();
 	}
 
 	/**

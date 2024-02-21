@@ -150,7 +150,7 @@ class Widget_Frontpage {
 	}
 
 	/**
-	 * Parse shortcodes, called in add_shortcode(), must be public
+	 * Parse shortcodes, called in add_shortcode()
 	 *
 	 * @param array<string>|string $attributes
 	 * @param null|string $inside_tags Text inside the shortcode
@@ -160,6 +160,7 @@ class Widget_Frontpage {
 	public function lumiere_widget_shortcode_parser( array|string $attributes, ?string $inside_tags, string $tags ): string {
 
 		$output = '';
+
 		if ( isset( $inside_tags ) ) {
 			$this->logger->log()->debug( '[Lumiere][widget] Shortcode [' . $tags . '] found.' );
 			return $this->lumiere_widget_display_movies( $inside_tags );

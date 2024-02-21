@@ -71,8 +71,9 @@ class Popup_Search {
 		$this->type_search = $this->config_class->lumiere_select_type_search();
 
 		// Build the vars.
-		$this->film_sanitized = Utils::lumiere_name_htmlize( $_GET['film'] ) ?? '';
-		$this->film_sanitized_for_title = esc_html( $_GET['film'] ?? '' );
+		$movie = Utils::lumiere_name_htmlize( $_GET['film'] );
+		$this->film_sanitized = $movie !== null ? strtolower( $movie ) : ''; // @since 3.12 lowercase, less cache used.
+		$this->film_sanitized_for_title = esc_html( $this->film_sanitized );
 
 		// Remove admin bar
 		add_filter( 'show_admin_bar', '__return_false' );

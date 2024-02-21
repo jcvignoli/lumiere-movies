@@ -56,10 +56,13 @@ class Save_Options {
 	 * Constructor
 	 */
 	public function __construct() {
+
 		// Get options from database.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
+
+		$this->process_headers();
 	}
 
 	/**
@@ -67,7 +70,7 @@ class Save_Options {
 	 * Use all the values data in $_GET automatically, except those in $forbidden_url_strings
 	 * @return false|string The URL string if it's ok, false if both the $_GET is non-existant and wp_get_referer() can't get anything
 	 */
-	public function get_referer(): bool|string {
+	private function get_referer(): bool|string {
 
 		/** @psalm-suppress PossiblyNullArgument -- Argument 1 of esc_html cannot be null, possibly null value provided - I don't even understand*/
 		$gets_array = array_map( 'esc_html', $_GET );
@@ -94,11 +97,18 @@ class Save_Options {
 	}
 
 	/**
-	 * Process headers to know what method to call
+	 * Call from a WordPress hook
+	 */
+	public static function lumiere_static_start(): void {
+		$start = new self();
+	}
+
+	/**
+	 * Process headers to know what method to call based upon $_GETs and $_POSTs
 	 * This is the main method executed to call the class methods
 	 * @return void Settings saved/reset, files deleted/refreshed
 	 */
-	public function process_headers(): void {
+	private function process_headers(): void {
 
 		/** General options */
 		if (    isset( $_POST['lumiere_update_general_settings'] )
@@ -190,7 +200,7 @@ class Save_Options {
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @throws Exception if nonces are incorrect
 	 */
-	public function lumiere_general_options_save( string|bool $get_referer ): void {
+	private function lumiere_general_options_save( string|bool $get_referer ): void {
 
 		if ( ! isset( $_POST['_nonce_general_settings'] ) || wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) === false ) {
 			throw new Exception( __( 'Nounce error', 'lumiere-movies' ) );
@@ -242,7 +252,7 @@ class Save_Options {
 	 * Reset General options
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 */
-	public function lumiere_general_options_reset( string|bool $get_referer ): void {
+	private function lumiere_general_options_reset( string|bool $get_referer ): void {
 		delete_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS );
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
@@ -256,7 +266,7 @@ class Save_Options {
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @throws Exception if nonces are incorrect
 	 */
-	public function lumiere_cache_options_save( string|bool $get_referer ): void {
+	private function lumiere_cache_options_save( string|bool $get_referer ): void {
 
 		if ( ! isset( $_POST['_nonce_cache_settings'] ) || wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) === false ) {
 			throw new Exception( __( 'Nounce error', 'lumiere-movies' ) );
@@ -268,7 +278,7 @@ class Save_Options {
 			$key_sanitized = sanitize_text_field( $key );
 
 			$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
-			$post_sanitized = isset( $_POST[ $key_sanitized ] ) ? sanitize_text_field( $_POST[ $key_sanitized ] ) : null;
+			$post_sanitized = isset( $_POST[ $key_sanitized ] ) && is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( $_POST[ $key_sanitized ] ) : null;
 			if ( isset( $post_sanitized ) ) {
 				/**
 				 * @psalm-var OPTIONS_CACHE $keynoimdb
@@ -301,7 +311,7 @@ class Save_Options {
 	 * Reset Cache options
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 */
-	public function lumiere_cache_options_reset( string|bool $get_referer ): void {
+	private function lumiere_cache_options_reset( string|bool $get_referer ): void {
 		delete_option( Settings::LUMIERE_CACHE_OPTIONS );
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
@@ -314,7 +324,7 @@ class Save_Options {
 	 * Delete all Cache files
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 */
-	public function lumiere_cache_delete_allfiles( string|bool $get_referer ): void {
+	private function lumiere_cache_delete_allfiles( string|bool $get_referer ): void {
 
 		// prevent drama
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
@@ -335,7 +345,7 @@ class Save_Options {
 	 * Delete all Query files
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 */
-	public function lumiere_cache_delete_query( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
+	private function lumiere_cache_delete_query( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
 		$cache_tools_class->cache_delete_query_cache_files();
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
@@ -350,7 +360,7 @@ class Save_Options {
 	 * @param Cache_Tools $cache_tools_class object with the methods needed
 	 * @throws Exception if nonces are incorrect
 	 */
-	public function lumiere_cache_delete_ticked_files( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
+	private function lumiere_cache_delete_ticked_files( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
 
 		if ( ! isset( $_POST['_nonce_cache_settings'] ) || wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) === false ) {
 			throw new Exception( __( 'Nounce error', 'lumiere-movies' ) );
@@ -375,7 +385,7 @@ class Save_Options {
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @param Cache_Tools $cache_tools_class object with the methods needed
 	 */
-	public function lumiere_cache_delete_linked_file( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
+	private function lumiere_cache_delete_linked_file( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
 
 		$type = isset( $_GET['type'] ) ? sanitize_text_field( $_GET['type'] ) : null;
 		$where = isset( $_GET['where'] ) ? sanitize_text_field( $_GET['where'] ) : null;
@@ -392,7 +402,7 @@ class Save_Options {
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @param Cache_Tools $cache_tools_class object with the methods needed
 	 */
-	public function lumiere_cache_refresh_linked_file( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
+	private function lumiere_cache_refresh_linked_file( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
 
 		$type = isset( $_GET['type'] ) ? sanitize_text_field( $_GET['type'] ) : null;
 		$where = isset( $_GET['where'] ) ? sanitize_text_field( $_GET['where'] ) : null;
@@ -409,7 +419,7 @@ class Save_Options {
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @throws Exception if nonces are incorrect
 	 */
-	public function lumiere_data_options_save( string|bool $get_referer, ): void {
+	private function lumiere_data_options_save( string|bool $get_referer, ): void {
 
 		if ( ! isset( $_POST['_nonce_data_settings'] ) || wp_verify_nonce( $_POST['_nonce_data_settings'], 'lumiere_nonce_data_settings' ) === false ) {
 			throw new Exception( __( 'Nounce error', 'lumiere-movies' ) );
@@ -430,8 +440,9 @@ class Save_Options {
 				continue;
 			}
 
+			$post_sanitized = is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( $_POST[ $key_sanitized ] ) : null;
 			// Copy $_POST to $this->imdb_widget_values var
-			if ( isset( $_POST[ $key_sanitized ] ) && $key_sanitized !== 'imdbwidgetorderContainer' ) {
+			if ( isset( $post_sanitized ) && $key_sanitized !== 'imdbwidgetorderContainer' ) {
 
 				// remove "imdb_" from $key
 				$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
@@ -439,7 +450,7 @@ class Save_Options {
 				/**
 				 * The following OPTIONS_DATA_MINUS doesn't include 'imdbwidgetorder': array<string> which is dealt with later
 				 * @phpstan-var key-of<OPTIONS_DATA_MINUS> $keynoimdb  */
-				$this->imdb_widget_values[ $keynoimdb ] = sanitize_text_field( $_POST[ $key_sanitized ] );
+				$this->imdb_widget_values[ $keynoimdb ] = $post_sanitized;
 			}
 		}
 
@@ -449,8 +460,10 @@ class Save_Options {
 		 */
 		if ( isset( $_POST['imdbwidgetorderContainer'] ) ) {
 
+			/** @psalm-suppress RedundantCondition -- int always contains numeric -- I know, but need to sanitize. */
 			$data_keys_filtered = array_filter( array_keys( $_POST['imdbwidgetorderContainer'] ), 'is_numeric' );
 
+			/** @psalm-suppress RedundantCondition -- Type string [...] is always string -- I know, but need to sanitize. */
 			$data_values_filtered = array_filter( $_POST['imdbwidgetorderContainer'], 'is_string' );
 
 			$imdbwidgetorder_sanitized = array_combine( $data_values_filtered, $data_keys_filtered );
@@ -472,7 +485,7 @@ class Save_Options {
 	 * Reset Data options
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 */
-	public function lumiere_data_options_reset( string|bool $get_referer, ): void {
+	private function lumiere_data_options_reset( string|bool $get_referer, ): void {
 
 		// Delete the options to reset
 		delete_option( Settings::LUMIERE_WIDGET_OPTIONS );

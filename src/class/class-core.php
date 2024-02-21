@@ -543,9 +543,6 @@ class Core {
 	 */
 	public function lumiere_on_activation(): void {
 
-		/* remove activation issue
-		ob_start(); */
-
 		// Start the logger.
 		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
@@ -573,7 +570,7 @@ class Core {
 
 		} else {
 
-			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache has not been created.' );
+			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache has not been created (maybe already existed?)' );
 
 		}
 
@@ -583,18 +580,12 @@ class Core {
 			// Cron to run once, in 30 minutes.
 			wp_schedule_single_event( time() + 1800, 'lumiere_cron_hook' );
 
-			$this->logger->log()->debug( '[Lumiere][coreClass][activation] Lumière cron successfully set up.' );
-
+			$this->logger->log()->debug( '[Lumiere][coreClass][activation] Lumière cron lumiere_cron_hook successfully set up.' );
 		} else {
-
-			$this->logger->log()->error( '[Lumiere][coreClass][activation] Crons were not set up.' );
-
+			$this->logger->log()->error( '[Lumiere][coreClass][activation] Cron lumiere_cron_hook was not set up (maybe was not active?)' );
 		}
 
 		$this->logger->log()->debug( '[Lumiere][coreClass][activation] Lumière plugin activated.' );
-
-		/* remove activation issue
-		trigger_error(ob_get_contents(),E_USER_ERROR);*/
 	}
 
 	/**
