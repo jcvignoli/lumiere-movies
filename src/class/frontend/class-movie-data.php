@@ -79,7 +79,11 @@ class Movie_Data extends Movie {
 		}
 
 		// If cache is deactived, display no_pics.gif
-		return $this->link_maker->lumiere_link_picture( $this->config_class->lumiere_pics_dir . '/no_pics.gif', $this->config_class->lumiere_pics_dir . '/no_pics.gif', $movie->title() );
+		return $this->link_maker->lumiere_link_picture(
+			$this->config_class->lumiere_pics_dir . 'no_pics.gif',
+			$this->config_class->lumiere_pics_dir . 'no_pics.gif',
+			$movie->title()
+		);
 	}
 
 	/**

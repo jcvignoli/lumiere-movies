@@ -250,7 +250,7 @@ class Updates {
 			 * Check if the number of updates already run (saved in database) is equal to child's class update number
 			 * The child's class update number will make sure that a sequencial update order is respected when parsing "updates/*.php" files
 			 */
-			&& ( $this->imdb_admin_values['imdbHowManyUpdates'] === $number_of_updates )
+			&& ( $this->imdb_admin_values['imdbHowManyUpdates'] === strval( $number_of_updates ) )
 		) {
 
 			$this->logger->log()->debug( "[Lumiere][updateClass] Update $number_of_updates has started" );

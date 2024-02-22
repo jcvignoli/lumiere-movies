@@ -85,7 +85,8 @@ class Movie {
 	 *      PluginsDetect class added
 	 * @since 3.12  Ban bots added, just before doing IMDb query
 	 *
-	 * @param array<int, array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
+	 * @param array<int<0, max>, non-empty-array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
+	 * @psalm-param list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $imdb_id_or_title_outside
 	 */
 	public function lumiere_show( ?array $imdb_id_or_title_outside = null ): string {
 

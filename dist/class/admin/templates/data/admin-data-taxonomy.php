@@ -16,9 +16,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 // Getting the result of a method.
-$taxo_fields = get_transient( 'admin_taxo_fields' );
-delete_transient( 'admin_taxo_fields' );
-$escape_wp_kses = [
+$lumiere_taxo_fields = get_transient( 'admin_template_this' )[0];
+$lumiere_escape_wp_kses = [
 	'br' => [],
 	'div' => [
 		'id' => true,
@@ -68,7 +67,7 @@ $escape_wp_kses = [
 		<br /><br />
 
 		<div class="imdblt_double_container">
-			<?php echo wp_kses( $taxo_fields, $escape_wp_kses ); ?>
+			<?php echo wp_kses( $lumiere_taxo_fields, $lumiere_escape_wp_kses ); ?>
 			<div class="imdblt_double_container_content_third lumiere_padding_five"></div>
 		</div>
 	</div>

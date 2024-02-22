@@ -16,8 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 // Getting the result of a method.
-$lumiere_taxo_fields = get_transient( 'admin_taxo_fields' );
-delete_transient( 'admin_taxo_fields' );
+$lumiere_taxo_fields = get_transient( 'admin_template_this' )[0];
 $lumiere_escape_wp_kses = [
 	'br' => [],
 	'div' => [

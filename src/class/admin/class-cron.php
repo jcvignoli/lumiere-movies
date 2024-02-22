@@ -104,7 +104,7 @@ class Cron {
 		$this->logger->log()->debug( '[Lumiere][cronClass] Cron run once started...' );
 
 		// Update class.
-		// this udpate is also run in upgrader_process_complete, but the process is not always reliable.
+		// This udpate is also run in upgrader_process_complete, but the process is not always reliable.
 		$start_update_options = new Updates();
 		$start_update_options->run_update_options();
 
@@ -140,18 +140,18 @@ class Cron {
 	/**
 	 * Depending on the settings and if there is the correct transient passed from class cache, add or remove crons schedule
 	 *
-	 * @since 3.12 Added method which uses transients to validate the execution of the relevant method
+	 * @since 3.12 Added method which uses transients to validate the execution of the relevant method. Transient are sent from {@see Lumiere\Admin\Save_Options::lumiere_cache_options_save()} and make sure it was an intended action to update the crons
 	 *
-	 * @return void Crons schedules have been added or removed, or exit if no update was selected in class cache
+	 * @return void Crons schedules have been added or removed
 	 */
 	public function lumiere_add_remove_crons_cache(): void {
 
-		// Set up cron imdbcachekeepsizeunder
-		if ( get_transient( 'cron_settings_updated' ) === 'imdbcachekeepsizeunder' ) {
+		// Set up/remove cron imdbcachekeepsizeunder
+		if ( get_transient( 'cron_settings_imdbcachekeepsizeunder_updated' ) === 'imdbcachekeepsizeunder' ) {
 			$this->lumiere_edit_cron_deleteoversizedfolder();
 		}
-		// Set up cron imdbcachekeepsizeunder
-		if ( get_transient( 'cron_settings_updated' ) === 'imdbcacheautorefreshcron' ) {
+		// Set up/remove cron imdbcachekeepsizeunder
+		if ( get_transient( 'cron_settings_imdbcacheautorefreshcron_updated' ) === 'imdbcacheautorefreshcron' ) {
 			$this->lumiere_edit_cron_refresh_cache();
 		}
 	}

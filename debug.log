@@ -1,1 +1,0 @@
-[21-Feb-2024 06:31:25 UTC] PHP Warning:  Attempt to read property "textContent" on null in /home/psykotik/Development/lumiere-movies/working-env/dist/vendor/jcvignoli/imdbphp/src/Imdb/Title.php on line 537

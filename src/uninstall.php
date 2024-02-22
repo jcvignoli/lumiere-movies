@@ -87,8 +87,6 @@ class Uninstall {
 	 */
 	public function uninstall(): void {
 
-		global $wp_filesystem;
-
 		// Start the logger.
 		do_action( 'lumiere_logger' );
 
@@ -96,31 +94,8 @@ class Uninstall {
 
 		/** Below actions are executed for everybody */
 
-		// Remove WP Cron shoud they exist.
-		$wp_cron_list = count( _get_cron_array() ) > 0 ? _get_cron_array() : [];
-		foreach ( $wp_cron_list as $time => $hook ) {
-			if ( isset( $hook['lumiere_cron_exec_once'] ) ) {
-				$timestamp = wp_next_scheduled( 'lumiere_cron_exec_once' );
-				if ( $timestamp !== false ) {
-					wp_unschedule_event( $timestamp, 'lumiere_cron_exec_once' );
-					$this->logger->log()->info( '[Lumiere][uninstall] Cron lumiere_cron_exec_once removed' );
-				}
-			}
-			if ( isset( $hook['lumiere_cron_deletecacheoversized'] ) ) {
-				$timestamp = wp_next_scheduled( 'lumiere_cron_deletecacheoversized' );
-				if ( $timestamp !== false ) {
-					wp_unschedule_event( $timestamp, 'lumiere_cron_deletecacheoversized' );
-					$this->logger->log()->info( '[Lumiere][uninstall] Cron lumiere_cron_deletecacheoversized removed' );
-				}
-			}
-			if ( isset( $hook['lumiere_cron_autofreshcache'] ) ) {
-				$timestamp = wp_next_scheduled( 'lumiere_cron_autofreshcache' );
-				if ( $timestamp !== false ) {
-					wp_unschedule_event( $timestamp, 'lumiere_cron_autofreshcache' );
-					$this->logger->log()->info( '[Lumiere][uninstall] Cron lumiere_cron_autofreshcache removed' );
-				}
-			}
-		}
+		// Remove WP Cron should they exist.
+		$this->lumiere_delete_crons();
 
 		// Keep the settings if selected so.
 		if ( count( $this->imdb_admin_values ) > 0 && ( array_key_exists( 'imdbkeepsettings', $this->imdb_admin_values ) ) && ( $this->imdb_admin_values['imdbkeepsettings'] === '1' ) ) {
@@ -132,20 +107,7 @@ class Uninstall {
 
 		/** Following actions are executed only if the user selected to not keep their settings */
 
-		// Remove cache.
-		$lumiere_cache_path = $this->imdb_cache_values['imdbcachedir'];
-		Utils::lumiere_wp_filesystem_cred( $lumiere_cache_path );
-		if ( $wp_filesystem->is_dir( $lumiere_cache_path ) ) {
-
-			$wp_filesystem->delete( $lumiere_cache_path, true );
-
-			$this->logger->log()->debug( '[Lumiere][uninstall] Cache files and folder deleted.' );
-
-		} else {
-
-			$this->logger->log()->warning( '[Lumiere][uninstall] Standard cache folder was not found. Could not delete ' . $lumiere_cache_path . '.' );
-
-		}
+		$this->lumiere_delete_cache();
 
 		// Delete Taxonomy.
 		// Search for all imdbtaxonomy* in config array.
@@ -183,6 +145,7 @@ class Uninstall {
 				continue;
 			}
 
+			/** @psalm-suppress PossiblyInvalidIterator -- Cannot iterate over string -- this is the old WordPress way to have get_terms() return strings */
 			foreach ( $terms as $term ) {
 
 				// Filter: Get rid of integers and strings, keep objects only.
@@ -223,7 +186,7 @@ class Uninstall {
 		if ( delete_option( Settings::LUMIERE_CACHE_OPTIONS ) === false ) {
 			$this->logger->log()->error( '[Lumiere][uninstall] Could not delete ' . Settings::LUMIERE_CACHE_OPTIONS );
 		}
-		$this->logger->log()->debug( '[Lumiere][uninstall] Lumière options deleted.' );
+		$this->logger->log()->debug( '[Lumiere][uninstall] Lumière options deletion processed.' );
 
 		// Delete transients.
 		if ( delete_transient( 'cron_settings_updated' ) ) {
@@ -232,8 +195,40 @@ class Uninstall {
 		if ( delete_transient( 'notice_lumiere_msg' ) ) {
 			$this->logger->log()->debug( '[Lumiere][uninstall] Lumière notice_lumiere_msg transients deleted.' );
 		}
+		if ( delete_transient( 'admin_template_this' ) ) {
+			$this->logger->log()->debug( '[Lumiere][uninstall] Lumière admin_template_this transients deleted.' );
+		}
 	}
 
+	/**
+	 * Delete cache
+	 */
+	private function lumiere_delete_cache(): void {
+		global $wp_filesystem;
+
+		// Remove cache.
+		$lumiere_cache_path = $this->imdb_cache_values['imdbcachedir'];
+		Utils::lumiere_wp_filesystem_cred( $lumiere_cache_path );
+		if ( $wp_filesystem->is_dir( $lumiere_cache_path ) ) {
+
+			$wp_filesystem->delete( $lumiere_cache_path, true );
+			$this->logger->log()->debug( '[Lumiere][uninstall] Cache files and folder deleted.' );
+		} else {
+
+			$this->logger->log()->warning( '[Lumiere][uninstall] Standard cache folder was not found. Could not delete ' . $lumiere_cache_path . '.' );
+		}
+	}
+
+	/**
+	 * Delete crons
+	 */
+	private function lumiere_delete_crons(): void {
+		// Remove WP lumiere crons should they exist.
+		$list_crons_available = [ 'lumiere_cron_exec_once', 'lumiere_cron_deletecacheoversized', 'lumiere_cron_autofreshcache' ];
+		foreach ( $list_crons_available as $cron_installed ) {
+			wp_clear_scheduled_hook( $cron_installed );
+		}
+	}
 }
 
 // Run uninstall.

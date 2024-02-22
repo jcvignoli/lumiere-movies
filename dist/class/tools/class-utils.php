@@ -203,7 +203,7 @@ class Utils {
 	 * @param string $search The text that is searched for
 	 * @param string $return text 'key-value' can be passed to get simpler array of results
 	 *
-	 * @return array<string, array<int|string>|bool|int|string>
+	 * @return array<int<0, max>|string, array<array-key, int|string>|bool|int|string>
 	 *
 	 * @credit: https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
 	 */
@@ -219,7 +219,6 @@ class Utils {
 		}
 
 		return $result;
-
 	}
 
 	/**
@@ -381,10 +380,7 @@ class Utils {
 		}
 
 		if ( $set_error !== 'no_var_dump' ) {
-
-			// @phpstan-ignore-next-line 'Parameter #1 $callback of function set_error_handler expects (callable(int, string, string, int, array):  bool)|null, 'var_dump' given.' var_dump works well, thanks!
-			set_error_handler('var_dump');
-
+			set_exception_handler( [ $this, 'lumiere_exception_handler' ] );
 		}
 
 		if ( $get_screen === 'screen' ) {
@@ -395,16 +391,26 @@ class Utils {
 		}
 
 		// Exit if no Lumière option array requested to show
-		if ( ( null !== $options ) && count( $options ) !== 0 ) {
+		if ( ( null !== $options ) && count( $options ) > 0 ) {
 
 			echo '<div><strong>[Lumière options]</strong><font size="-3"> ';
 			print_r( $options );
 			echo ' </font><strong>[/Lumière options]</strong></div>';
-
 		}
 
 	}
 	// phpcs:enable
+
+	/**
+	 * Lumiere internal exception handler
+	 *
+	 * @see Utils::lumiere_activate_debug()
+	 * @param \Throwable $exception The type of new exception
+	 * @return void
+	 */
+	private function lumiere_exception_handler( \Throwable $exception ): void {
+		throw $exception;
+	}
 
 	/**
 	 * Check if a block widget is active
@@ -428,7 +434,7 @@ class Utils {
 	 * Request WP_Filesystem credentials if file doesn't have it.
 	 * @param string $file The file with full path to ask the credentials form
 	 */
-	public static function lumiere_wp_filesystem_cred ( string $file ): void {
+	public static function lumiere_wp_filesystem_cred( string $file ): void {
 
 		global $wp_filesystem;
 

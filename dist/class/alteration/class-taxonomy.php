@@ -101,6 +101,10 @@ class Taxonomy {
 		$get_taxo_array = $this->utils_class->lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' );
 		foreach ( $get_taxo_array as $key => $value ) {
 
+			if ( is_string( $key ) === false ) {
+				throw new \Exception( __( 'Could not find this taxo ', 'lumiere-movies' ) . $key );
+			}
+
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $key );
 
 			// Check if a specific taxonomy (such as actor, genre) is activated.

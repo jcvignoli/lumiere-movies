@@ -20,7 +20,7 @@ use FilesystemIterator;
 
 /**
  * @phpstan-type LevelLogName 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY'
- * @phpstan-type OPTIONS_ADMIN array{'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': numeric-string,'imdbcoversizewidth': numeric-string, 'imdbmaxresults': int, 'imdbdelayimdbrequest': int, 'imdbpopuptheme': string, 'imdbpopuplarg': numeric-string,'imdbpopuplong': numeric-string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': null|string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': LevelLogName, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_modal_window': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': int, 'imdbseriemovies': string}
+ * @phpstan-type OPTIONS_ADMIN array{'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': string, 'imdbdelayimdbrequest': string, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': string, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_modal_window': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': string, 'imdbseriemovies': string}
  * @phpstan-type OPTIONS_CACHE array{'imdbcachedir_partial': string, 'imdbusecache': string, 'imdbcacheexpire': string, 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string,'imdbcachedir': string,'imdbphotoroot': string, 'imdbphotodir': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string }
  * @phpstan-type OPTIONS_DATA array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':int|string, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber': bool|string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber': string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber': string|bool, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber': string|bool, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber': string|bool, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber': string|bool, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber': string|bool, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber': bool|string, 'imdbwidgetorder': array<string|int>, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string}
  *
@@ -155,7 +155,7 @@ class Settings {
 	 * Allows to start with a fresh installation with the right number of updates
 	 * Is built in lumiere_define_nb_updates()
 	 */
-	public int $current_number_updates;
+	public string $current_number_updates;
 
 	/**
 	 * Where to write the log
@@ -201,7 +201,7 @@ class Settings {
 			$this->get_imdb_admin_option();
 		}
 		$this->imdb_admin_values = get_option( self::LUMIERE_ADMIN_OPTIONS );
-
+		// Those are not needed in the class, no class properties created.
 		if ( get_option( self::LUMIERE_WIDGET_OPTIONS ) === false ) {
 			$this->get_imdb_widget_option();
 		}
@@ -327,7 +327,7 @@ class Settings {
 
 	/**
 	 * Define the number of updates on first install
-	 * Called in function get_imdb_admin_option()
+	 * Called in {@see \Lumiere\Settings::get_imdb_admin_option()}
 	 *
 	 * @return bool
 	 */
@@ -339,12 +339,12 @@ class Settings {
 		}
 
 		// If option 'imdbHowManyUpdates' doesn't exist, make it.
-		if ( ( ! isset( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) || ( $this->imdb_admin_values['imdbHowManyUpdates'] === 0 ) ) {
+		if ( ( ! isset( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) || ( $this->imdb_admin_values['imdbHowManyUpdates'] === '0' ) ) {
 
 			// Find the number of update files to get the right
 			// number of updates when installing Lumière
 			$files = new FilesystemIterator( plugin_dir_path( __DIR__ ) . 'class/updates/', \FilesystemIterator::SKIP_DOTS );
-			$this->current_number_updates = intval( iterator_count( $files ) + 1 );
+			$this->current_number_updates = strval( iterator_count( $files ) + 1 );
 
 			$option_key = 'imdbHowManyUpdates';
 			$option_array_search = get_option( self::LUMIERE_ADMIN_OPTIONS );
@@ -390,8 +390,8 @@ class Settings {
 			'imdbcoversizewidth' => '100',
 			#--------------------------------------------------=[ Technical ]=--
 
-			'imdbmaxresults' => 10,
-			'imdbdelayimdbrequest' => 0,
+			'imdbmaxresults' => '10',
+			'imdbdelayimdbrequest' => '0',
 			'imdbpopuptheme' => 'white',
 			'imdbpopuplarg' => '540',
 			'imdbpopuplong' => '350',

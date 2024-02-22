@@ -23,6 +23,7 @@ use Lumiere\Admin\Data;
 use Lumiere\Admin\Cache;
 use Lumiere\Admin\Help;
 use Lumiere\Admin\Cache_Tools;
+use Exception;
 
 class Admin {
 
@@ -177,7 +178,7 @@ class Admin {
 		if ( method_exists( $this, $method ) && is_callable( [ $this, $method ] ) ) {
 			return $method;
 		}
-		throw new \Exception( 'This method ' . $method . ' does not exist' );
+		throw new Exception( 'This method ' . $method . ' does not exist' );
 	}
 
 	/**
@@ -392,7 +393,10 @@ class Admin {
 		$this->display_admin_menu_first_part();
 
 		$data_class = new Data();
-		$data_class->lumiere_data_display_submenu();
+
+		// The template will retrieve the args.
+		$this->include_with_vars( 'data/admin-data-submenu', [ $this ] );
+
 		$data_class->lumiere_data_display_body();
 
 		// @phpcs:ignore WordPress.Security.EscapeOutput
@@ -411,7 +415,10 @@ class Admin {
 		$this->display_admin_menu_first_part();
 
 		$cache_class = new Cache( $cache_tools_class );
-		$cache_class->lumiere_cache_display_submenu();
+
+		// The template will retrieve the args.
+		$this->include_with_vars( 'admin-cache-submenu', [ $this ] );
+
 		$cache_class->lumiere_cache_display_body();
 
 		// @phpcs:ignore WordPress.Security.EscapeOutput
@@ -430,6 +437,16 @@ class Admin {
 
 		// @phpcs:ignore WordPress.Security.EscapeOutput
 		echo $this->utils_class->lumiere_admin_signature();
+	}
+
+	/**
+	 * Display the first piece of the main menu
+	 * Using a template
+	 */
+	private function display_admin_menu_first_part(): void {
+
+		// The template will retrieve the args.
+		$this->include_with_vars( 'admin-menu-first-part', [ $this ] );
 	}
 
 	/**
@@ -515,13 +532,45 @@ class Admin {
 	}
 
 	/**
-	 * Display the first piece of the main menu
-	 * Using a template
+	 * Include the template if it exists and pass to it as a/many variable/s using transient
+	 * The transiant has a validity time of 30 seconds by default
+	 *
+	 * @param string $file_name
+	 * @param array<int, object|string|array<string>> $variables The variables transfered to the include
+	 * @param int $validity_time_transient The *maximum* time the transient is valid in seconds, 30 seconds by default
+	 * @void The file with vars has been included
 	 */
-	private function display_admin_menu_first_part(): void {
-		// Pass the self class as variable for later use.
-		set_transient( 'admin_template_this', $this, 2 );
-		// The template will retrieve the transient with get_transient().
-		require_once plugin_dir_path( __FILE__ ) . 'admin/templates/admin-menu-first-part.php';
+	protected function include_with_vars( string $file_name, array $variables = [], int $validity_time_transient = 30 ): void {
+
+		$full_file_path = $this->build_template_path( $file_name );
+
+		if ( is_file( $full_file_path ) ) {
+			// Send the variables to transients so they can be retrieved in the included pages
+			// Validity: 30 seconds
+			set_transient( 'admin_template_this', $variables, $validity_time_transient );
+
+			// Require with the full path built.
+			require_once $full_file_path;
+
+			delete_transient( 'admin_template_this' );
+		}
+	}
+
+	/**
+	 * Create the full path to include an admin template
+	 *
+	 * @param string $file_name The name without php of the file to be include, ie: admin-menu-first-part
+	 * @return string Full path built with $file_name
+	 */
+	protected function build_template_path( string $file_name ): string {
+
+		$my_plugin_dir = plugin_dir_path( __DIR__ ) . 'class/admin/templates/';
+		$path_to_file = $my_plugin_dir . $file_name . '.php';
+
+		if ( ! is_file( $path_to_file ) ) {
+			throw new Exception( __( 'Cannot find file ', 'lumiere-movies' ) . $path_to_file );
+		}
+
+		return $path_to_file;
 	}
 }

@@ -69,7 +69,7 @@ class InstallCest {
 		$I->maybeActivatePlugin('wp-crontrol');
 		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_POST_CRON_MANAGE );
 		$I->wait(2);
-		$I->see('lumiere_cron_hook');
+		$I->see('lumiere_cron_exec_once');
 	}
 
 

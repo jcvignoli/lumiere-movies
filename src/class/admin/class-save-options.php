@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Saving options.
+ * Saving admin options.
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2024, Lost Highway
@@ -22,15 +22,15 @@ use Lumiere\Admin\Cache_Tools;
 use Exception;
 
 /**
- * Save the form data when submitted
+ * Saving or reseting options when a form is submitted
  *
  * @since 3.12 Created by extracting all the methods from the main admin subclasses and put it here
  *
+ * @info: the following OPTIONS_DATA_MINUS doesn't include 'imdbwidgetorder': array<string>, recreate it
+ * @phpstan-type OPTIONS_DATA_MINUS array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':int|string, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber': bool|string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber': string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber': string|bool, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber': string|bool, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber': string|bool, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber': string|bool, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber': string|bool, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber': bool|string, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string}
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
  * @phpstan-import-type OPTIONS_DATA from \Lumiere\Settings
- * @info: the following OPTIONS_DATA_MINUS doesn't include 'imdbwidgetorder': array<string>
- * @phpstan-type OPTIONS_DATA_MINUS array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':int|string, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber': bool|string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber': string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber': string|bool, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber': string|bool, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber': string|bool, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber': string|bool, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber': string|bool, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber': bool|string, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string}
  */
 class Save_Options {
 
@@ -197,9 +197,14 @@ class Save_Options {
 
 	/**
 	 * Save General options
+	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @throws Exception if nonces are incorrect
+	 *
+	 * @template T as OPTIONS_ADMIN
+	 * @phan-suppress PhanTemplateTypeNotUsedInFunctionReturn
 	 */
+	// @phpstan-ignore-next-line method.templateTypeNotInParameter
 	private function lumiere_general_options_save( string|bool $get_referer ): void {
 
 		if ( ! isset( $_POST['_nonce_general_settings'] ) || wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) === false ) {
@@ -228,14 +233,20 @@ class Save_Options {
 
 			// Sanitize keys
 			$key_sanitized = sanitize_text_field( $key );
+			/** @phpstan-var key-of<T> $keynoimdb */
 			$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
 
-			if ( isset( $_POST[ $key_sanitized ] ) ) {
-				/**
-				 * @TODO: rewrite this part, even if it works it a bit strange
-				 * @ phpstan-var key-of<OPTIONS_ADMIN> $keynoimdb
-				 * @psalm-suppress PossiblyInvalidArgument, PropertyTypeCoercion */
-				$this->imdb_admin_values[ $keynoimdb ] = sanitize_text_field( $_POST[ $key_sanitized ] ); // @phpstan-ignore-line
+			// These $_POST values shouldn't be processed
+			$forbidden_terms = [ 'lumiere_update_general_settings', '_wp_http_referer', '_nonce_general_settings' ];
+			if ( in_array( $key_sanitized, $forbidden_terms, true ) ) {
+				continue;
+			}
+
+			/** @phpstan-var value-of<T>|null $post_sanitized */
+			$post_sanitized = isset( $_POST[ $key_sanitized ] ) && is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( $_POST[ $key_sanitized ] ) : null;
+			if ( isset( $post_sanitized ) ) {
+				/** @psalm-suppress InvalidArrayOffset, InvalidPropertyAssignmentValue */
+				$this->imdb_admin_values[ $keynoimdb ] = $post_sanitized;
 			}
 		}
 
@@ -250,9 +261,11 @@ class Save_Options {
 
 	/**
 	 * Reset General options
+	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 */
 	private function lumiere_general_options_reset( string|bool $get_referer ): void {
+
 		delete_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS );
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
@@ -263,9 +276,16 @@ class Save_Options {
 
 	/**
 	 * Save Cache options
+	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 *
+	 * @see {Lumiere\Admin\Cron::lumiere_add_remove_crons_cache()}
 	 * @throws Exception if nonces are incorrect
+	 *
+	 * @template T as OPTIONS_CACHE
+	 * @phan-suppress PhanTemplateTypeNotUsedInFunctionReturn
 	 */
+	// @phpstan-ignore-next-line method.templateTypeNotInParameter
 	private function lumiere_cache_options_save( string|bool $get_referer ): void {
 
 		if ( ! isset( $_POST['_nonce_cache_settings'] ) || wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) === false ) {
@@ -277,12 +297,18 @@ class Save_Options {
 			// Sanitize
 			$key_sanitized = sanitize_text_field( $key );
 
+			// These $_POST values shouldn't be processed
+			$forbidden_terms = [ 'lumiere_update_cache_settings', '_wp_http_referer', '_nonce_cache_settings' ];
+			if ( in_array( $key_sanitized, $forbidden_terms, true ) ) {
+				continue;
+			}
+
 			$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
 			$post_sanitized = isset( $_POST[ $key_sanitized ] ) && is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( $_POST[ $key_sanitized ] ) : null;
 			if ( isset( $post_sanitized ) ) {
 				/**
-				 * @psalm-var OPTIONS_CACHE $keynoimdb
-				 * @phpstan-var key-of<OPTIONS_CACHE> $keynoimdb
+				 * @phpstan-var key-of<T> $keynoimdb
+				 * @psalm-suppress InvalidArrayOffset, InvalidPropertyAssignmentValue
 				 */
 				$this->imdb_cache_values[ $keynoimdb ] = $post_sanitized;
 			}
@@ -294,12 +320,12 @@ class Save_Options {
 
 		// If the option for cron imdbcachekeepsizeunder was modified.
 		if ( isset( $_POST['imdb_imdbcachekeepsizeunder'] ) ) {
-			set_transient( 'cron_settings_updated', 'imdbcachekeepsizeunder', 1 );
+			set_transient( 'cron_settings_imdbcachekeepsizeunder_updated', 'imdbcachekeepsizeunder', 3 );
 		}
 
 		// If the option for cron imdbcachekeepsizeunder was modified.
 		if ( isset( $_POST['imdb_imdbcacheautorefreshcron'] ) ) {
-			set_transient( 'cron_settings_updated', 'imdbcacheautorefreshcron', 1 );
+			set_transient( 'cron_settings_imdbcacheautorefreshcron_updated', 'imdbcacheautorefreshcron', 3 );
 		}
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
@@ -309,6 +335,7 @@ class Save_Options {
 
 	/**
 	 * Reset Cache options
+	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 */
 	private function lumiere_cache_options_reset( string|bool $get_referer ): void {
@@ -322,6 +349,7 @@ class Save_Options {
 
 	/**
 	 * Delete all Cache files
+	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 */
 	private function lumiere_cache_delete_allfiles( string|bool $get_referer ): void {
@@ -431,18 +459,23 @@ class Save_Options {
 			$key_sanitized = sanitize_text_field( $key );
 
 			// These $_POST values shouldn't be processed
-			if (
+			$forbidden_terms = [
 				// Keep $_POST['imdbwidgetorderContainer'] and $_POST['imdbwidgetorder'] untouched
-				$key_sanitized === 'imdbwidgetordercontainer' || $key_sanitized === 'imdb_imdbwidgetorder'
+				'imdbwidgetordercontainer',
+				'imdb_imdbwidgetorder',
 				// Nonce and others
-				|| $key_sanitized === 'lumiere_nonce_data_settings' || $key_sanitized === 'lumiere_update_data_settings' || $key_sanitized === '_wp_http_referer' || $key_sanitized === '_lumiere_nonce_data_settings'
-			) {
+				'lumiere_nonce_data_settings',
+				'lumiere_update_data_settings',
+				'_wp_http_referer',
+				'_nonce_data_settings',
+			];
+			if ( in_array( $key_sanitized, $forbidden_terms, true ) ) {
 				continue;
 			}
 
 			$post_sanitized = is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( $_POST[ $key_sanitized ] ) : null;
 			// Copy $_POST to $this->imdb_widget_values var
-			if ( isset( $post_sanitized ) && $key_sanitized !== 'imdbwidgetorderContainer' ) {
+			if ( isset( $post_sanitized ) ) {
 
 				// remove "imdb_" from $key
 				$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );

@@ -16,8 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 // Can't be certain that $this exists, creating $lumiere_that using transients sent by calling class
-$lumiere_that = get_transient( 'admin_template_this' );
-delete_transient( 'admin_template_this' );
+$lumiere_that = get_transient( 'admin_template_this' )[0];
 ?>
 
 <div id="tabswrap">

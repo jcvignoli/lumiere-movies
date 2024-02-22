@@ -778,7 +778,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 			if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp only if cache is active
 				$photo_url = $this->person->photo_localurl( false ) !== false ? esc_url( $this->person->photo_localurl( false ) ) : esc_url( $this->person->photo_localurl( true ) ); // create big picture, thumbnail otherwise.
 			}
-			$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . '/no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
+			$photo_url_final = strlen( $photo_url ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . 'no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
 
 			echo "\n\t\t\t\t" . '<a class="highslide_pic_popup" href="' . esc_url( $photo_url_final ) . '">';
 			echo "\n\t\t\t\t\t" . '<img loading="lazy" class="imdbincluded-picture" src="'

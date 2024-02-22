@@ -84,18 +84,6 @@ class Data extends \Lumiere\Admin {
 	}
 
 	/**
-	 * Display submenu
-	 */
-	protected function lumiere_data_display_submenu(): void {
-
-		// Pass the self class as variable for later use.
-		set_transient( 'admin_template_this', $this, 2 );
-		// The template will retrieve the transient with get_transient().
-		require_once plugin_dir_path( __FILE__ ) . 'templates/data/admin-data-submenu.php';
-
-	}
-
-	/**
 	 * Display the body
 	 */
 	protected function lumiere_data_display_body(): void {
@@ -109,7 +97,8 @@ class Data extends \Lumiere\Admin {
 		//-------------------------------------------------------------------=[Data selection]=-
 		if ( isset( $_GET['page'] ) && ( $_GET['page'] === 'lumiere_options_data' ) && ! isset( $_GET['widgetoption'] ) ) {
 
-			$this->lumiere_data_display_dataselection();
+			// The template will retrieve the args. In parent class.
+			$this->include_with_vars( 'data/admin-data-display', [ $this, $this->build_display_options()[0], $this->build_display_options()[1], $this->details_with_numbers ] );
 
 		} elseif ( isset( $_GET['widgetoption'] ) && $_GET['widgetoption'] === 'taxo' ) {
 
@@ -117,10 +106,8 @@ class Data extends \Lumiere\Admin {
 
 		} elseif ( isset( $_GET['widgetoption'] ) && $_GET['widgetoption'] === 'order' ) {
 
-			// Pass the self class as variable for later use.
-			set_transient( 'admin_template_this', $this, 2 );
-			// The template will retrieve the transient with get_transient().
-			require_once plugin_dir_path( __FILE__ ) . 'templates/data/admin-data-order.php';
+			// The template will retrieve the args. In parent class.
+			$this->include_with_vars( 'data/admin-data-order', [ $this ] );
 		}
 
 		//------------------------------------------------------------------ =[Submit selection]=-
@@ -210,16 +197,15 @@ class Data extends \Lumiere\Admin {
 			return;
 		}
 
-		// Pass the taxo field as a variable for later use.
-		set_transient( 'admin_taxo_fields', $this->lumiere_data_display_taxo_fields(), 2 );
-		// The template will retrieve the transient with get_transient().
-		require_once plugin_dir_path( __FILE__ ) . 'templates/data/admin-data-taxonomy.php';
+		// The template will retrieve the args. In parent class.
+		$this->include_with_vars( 'data/admin-data-taxonomy', [ $this->lumiere_data_display_taxo_fields() ] );
 	}
 
 	/**
-	 *  Display Page of Data Selection
+	 * Build the options for display
+	 * @return array<int, array<string>>
 	 */
-	private function lumiere_data_display_dataselection(): void {
+	private function build_display_options(): array {
 
 		// Merge the list of items and people with two extra lists
 		$array_full = array_unique(
@@ -263,90 +249,7 @@ class Data extends \Lumiere\Admin {
 			'year' => esc_html__( 'Display release year. The release year will appear next to the movie title into brackets', 'lumiere-movies' ),
 		];
 
-		echo "\n\t\t" . '<div class="inside imblt_border_shadow">';
-		echo "\n\t\t\t" . '<h3 class="hndle" id="taxodetails" name="taxodetails">'
-			. esc_html__( 'What to display', 'lumiere-movies' )
-			. '</h3>';
-		echo "\n\t\t" . '</div>';
-		echo "\n\t\t" . '<br />';
-
-		echo "\n\t\t" . '<div class="imblt_border_shadow">';
-
-		echo "\n\t\t\t" . '<div class="lumiere_flex_container lumiere_align_center">';
-
-		foreach ( $array_full as $item => $item_translated ) {
-
-			echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_third lumiere_padding_ten lumiere_align_center">';
-
-			// Add extra color through span if the item is selected
-			if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
-
-				echo "\n\t\t\t\t\t" . '<span class="admin-option-selected">' . esc_html( ucfirst( $item_translated ) ) . '</span>';
-
-			} else {
-
-				echo esc_html( ucfirst( $item_translated ) );
-				echo '&nbsp;&nbsp;';
-			}
-
-			echo "\n\t\t\t\t\t"
-				. '<input type="hidden" id="imdb_imdbwidget' . esc_attr( $item ) . '_no"'
-				. ' name="imdb_imdbwidget' . esc_attr( $item ) . '" value="0">';
-
-			echo "\n\t\t\t\t\t" . '<input type="checkbox" id="imdb_imdbwidget' . esc_attr( $item ) . '_yes"' .
-				' name="imdb_imdbwidget' . esc_attr( $item ) . '" value="1"';
-
-			// Add checked if the item is selected
-			if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
-				echo ' checked="checked"';
-			}
-
-			// If item is in list of $details_with_numbers, add special section
-			if ( array_key_exists( $item, $this->details_with_numbers ) ) {
-				echo ' data-checkbox_activate="imdb_imdbwidget' . esc_attr( $item ) . 'number_div" />';
-
-				echo "\n\t\t\t\t\t" . '<div id="imdb_imdbwidget' . esc_attr( $item ) . 'number_div" class="lumiere_flex_container lumiere_padding_five">';
-
-				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_seventy lumiere_font_ten">' . esc_html__( 'Enter the maximum of items you want to display', 'lumiere-movies' ) . '<br /></div>';
-
-				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_twenty">';
-				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . esc_html( $item ) . 'number" id="imdb_imdbwidget' . esc_html( $item ) . 'number" size="3"';
-				$imdb_widget_item = $this->imdb_widget_values[ 'imdbwidget' . $item . 'number' ];
-				echo is_string( $imdb_widget_item ) ? ' value="' . esc_attr( $imdb_widget_item ) . '" ' : ' value="" ';
-				if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === 0 ) {
-					echo 'disabled="disabled"';
-				};
-
-				echo ' />';
-				echo "\n\t\t\t\t\t\t" . '</div>';
-
-				echo "\n\t\t\t\t\t" . '</div>';
-
-				// item is not in list of $details_with_numbers
-			} else {
-
-				echo ' >';
-
-			}
-
-			echo "\n\t\t\t\t\t" . '<div class="explain">' . esc_html( $comment[ $item ] ) . '</div>';
-
-			echo "\n\t\t\t\t" . '</div>';
-		}
-
-		// Reach a multiple of three for layout
-		// Include extra lines if not multiple of three
-		$operand = ( count( $array_full ) / ( count( $array_full ) / 3 ) );
-		for ( $i = 1; $i < $operand; $i++ ) {
-			if ( $i % 3 !== 0 ) {
-				echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_third lumiere_padding_ten lumiere_align_center"></div>';
-			}
-		}
-
-		echo "\n\t\t\t" . '</div>';
-		echo "\n\t\t" . '</div>';
-		echo "\n\t" . '</div>';
-
+		return [ $array_full, $comment ];
 	}
 
 	/**

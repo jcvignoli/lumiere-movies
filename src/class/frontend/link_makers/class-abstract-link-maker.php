@@ -209,7 +209,7 @@ abstract class Abstract_Link_Maker {
 
 		// Select picture: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
 		$photo_url_final = ! isset( $photo_localurl ) || strlen( $photo_localurl ) === 0
-			? esc_url( $this->config_class->lumiere_pics_dir . '/no_pics.gif' )
+			? esc_url( $this->config_class->lumiere_pics_dir . 'no_pics.gif' )
 			: $photo_localurl;
 
 		// Normal class or Bootstrap class
@@ -282,7 +282,7 @@ abstract class Abstract_Link_Maker {
 		}
 
 		// Select picture: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
-		$photo_url_final = strlen( $photo_localurl ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . '/no_pics.gif' ) : $photo_localurl;
+		$photo_url_final = strlen( $photo_localurl ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . 'no_pics.gif' ) : $photo_localurl;
 
 		// Normal class or Bootstrap class
 		if ( $pictures === 0 || $pictures === 2 ) {

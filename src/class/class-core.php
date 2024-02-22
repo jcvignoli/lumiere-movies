@@ -546,17 +546,16 @@ class Core {
 		// Start the logger.
 		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
+		$current_admin = get_option( Settings::LUMIERE_CACHE_OPTIONS );
+
 		/* Create the value of number of updates on first install */
 		// Start Settings class.
-		if ( ! isset( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) {
+		if ( ! isset( $current_admin['imdbHowManyUpdates'] ) ) {
 
 			$settings_class = new Settings();
 			$this->logger->log()->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' successfully created." );
-
 		} else {
-
 			$this->logger->log()->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' already exists." );
-
 		}
 
 		/* Create the cache folders */
@@ -565,24 +564,18 @@ class Core {
 		$cache_tools_class = new Cache_Tools();
 
 		if ( $cache_tools_class->lumiere_create_cache() === true ) {
-
 			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache successfully created.' );
-
 		} else {
-
 			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache has not been created (maybe already existed?)' );
-
 		}
 
-		/* Set up WP Cron if it doesn't exist */
-		if ( wp_next_scheduled( 'lumiere_cron_hook' ) === false ) {
-
-			// Cron to run once, in 30 minutes.
-			wp_schedule_single_event( time() + 1800, 'lumiere_cron_hook' );
-
-			$this->logger->log()->debug( '[Lumiere][coreClass][activation] Lumière cron lumiere_cron_hook successfully set up.' );
+		/* Set up WP Cron exec once if it doesn't exist */
+		if ( wp_next_scheduled( 'lumiere_cron_exec_once' ) === false ) {
+			// Cron to run once, in 2 minutes.
+			wp_schedule_single_event( time() + 120, 'lumiere_cron_exec_once' );
+			$this->logger->log()->debug( '[Lumiere][coreClass][activation] Lumière cron lumiere_cron_exec_once successfully set up.' );
 		} else {
-			$this->logger->log()->error( '[Lumiere][coreClass][activation] Cron lumiere_cron_hook was not set up (maybe was not active?)' );
+			$this->logger->log()->error( '[Lumiere][coreClass][activation] Cron lumiere_cron_exec_once was not set up (maybe was not active?)' );
 		}
 
 		$this->logger->log()->debug( '[Lumiere][coreClass][activation] Lumière plugin activated.' );
@@ -596,20 +589,20 @@ class Core {
 		// Start the logger.
 		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
-		// Remove WP Cron lumiere_cron_exec_once should it exists.
-		$wp_cron_list = count( _get_cron_array() ) > 0 ? _get_cron_array() : [];
-		foreach ( $wp_cron_list as $time => $hook ) {
-			if ( isset( $hook['lumiere_cron_exec_once'] ) ) {
-				$timestamp = wp_next_scheduled( 'lumiere_cron_hook' );
-				if ( $timestamp !== false ) {
-					wp_unschedule_event( $timestamp, 'lumiere_cron_hook' );
-					$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Cron removed' );
-				}
-			}
+		// Remove WP lumiere crons should they exist.
+		$list_crons_available = [ 'lumiere_cron_exec_once', 'lumiere_cron_deletecacheoversized', 'lumiere_cron_autofreshcache' ];
+		foreach ( $list_crons_available as $cron_installed ) {
+			wp_clear_scheduled_hook( $cron_installed );
+			$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Cron ' . $cron_installed . ' removed' );
 		}
 
-		$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Lumière deactivated' );
+		// Reset options related to crons, since we removed them.
+		$current_admin = get_option( Settings::LUMIERE_CACHE_OPTIONS );
+		$current_admin['imdbcacheautorefreshcron'] = '0';
+		$current_admin['imdbcachekeepsizeunder'] = '0';
+		update_option( Settings::LUMIERE_CACHE_OPTIONS, $current_admin );
 
+		$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Lumière deactivated' );
 	}
 
 	/**
