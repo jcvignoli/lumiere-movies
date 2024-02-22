@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "501ef0242425d24728517e23041c962d",
+    "content-hash": "8dc8527a4659fb5851f438cda5121c0b",
     "packages": [
         {
             "name": "jcvignoli/imdbphp",
@@ -340,7 +340,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "8.0"
+        "php": ">=8.0"
     },
     "platform-dev": [],
     "platform-overrides": {

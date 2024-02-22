@@ -42,6 +42,7 @@ class Admin {
 	protected string $page_cache_manage;
 	protected string $page_cache_option;
 	protected string $page_data;
+	protected string $page_data_taxo;
 	protected string $page_general_base;
 	protected string $page_general_advanced;
 	protected string $page_general_help;
@@ -94,12 +95,13 @@ class Admin {
 		// Build constants
 		$this->root_url = plugin_dir_url( __DIR__ );
 		$this->root_path = plugin_dir_path( __DIR__ );
-		$this->page_cache_manage = admin_url( 'admin.php?page=lumiere_options_cache&cacheoption=manage' );
-		$this->page_cache_option = admin_url( 'admin.php?page=lumiere_options_cache' );
-		$this->page_data = admin_url( 'admin.php?page=lumiere_options_data' );
-		$this->page_general_base = admin_url( 'admin.php?page=lumiere_options' );
-		$this->page_general_advanced = admin_url( 'admin.php?page=lumiere_options&generaloption=advanced' );
-		$this->page_general_help = admin_url( 'admin.php?page=lumiere_options_help' );
+		$this->page_cache_manage = admin_url( 'admin.php?page=' . $this->get_id() . '_options_cache&cacheoption=manage' );
+		$this->page_cache_option = admin_url( 'admin.php?page=' . $this->get_id() . '_options_cache' );
+		$this->page_data = admin_url( 'admin.php?page=' . $this->get_id() . '_options_data' );
+		$this->page_data_taxo = admin_url( 'admin.php?page=' . $this->get_id() . '_options_data&widgetoption=taxo' );
+		$this->page_general_base = admin_url( 'admin.php?page=' . $this->get_id() . '_options' );
+		$this->page_general_advanced = admin_url( 'admin.php?page=' . $this->get_id() . '_options&generaloption=advanced' );
+		$this->page_general_help = admin_url( 'admin.php?page=' . $this->get_id() . '_options_help' );
 
 		// Start the debug
 		// If runned earlier, such as 'admin_init', breaks block editor edition.
@@ -124,6 +126,7 @@ class Admin {
 	 */
 	public function lumiere_admin_display_messages(): void {
 
+		// Display message for new taxonomy found.
 		$new_taxo_template = $this->lumiere_new_taxo();
 		if ( isset( $new_taxo_template ) ) {
 			echo Utils::lumiere_notice(
@@ -136,7 +139,7 @@ class Admin {
 			);
 		}
 
-		// Messages for child classes.
+		// Messages for notification using transiants.
 		$notif_msg = get_transient( 'notice_lumiere_msg' );
 		if ( is_string( $notif_msg ) && array_key_exists( $notif_msg, $this->lumiere_notice_messages ) ) {
 			echo Utils::lumiere_notice(
@@ -152,10 +155,8 @@ class Admin {
 	public function lumiere_admin_maybe_start_debug(): void {
 
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
-
 			// Start debugging mode
 			$this->utils_class->lumiere_activate_debug();
-
 		}
 	}
 
@@ -189,11 +190,11 @@ class Admin {
 		// Store the logger class
 		do_action( 'lumiere_logger' );
 
-		add_action( 'admin_menu', [ &$this, 'lumiere_add_left_menu' ] );
+		// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$this(Lumiere\Admin), non-falsy-string} given
+		add_action( 'admin_menu', [ &$this, $this->get_id() . '_add_left_menu' ] );
 
 		// add imdblt menu in toolbar menu (top WordPress menu)
 		if ( $this->imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
-
 			add_action( 'admin_bar_menu', [ &$this, 'admin_add_top_menu' ], 70 );
 
 		}
@@ -296,7 +297,7 @@ class Admin {
 	 */
 	public function admin_add_top_menu( \WP_Admin_Bar $admin_bar ): void {
 
-		$id = 'lumiere_top_menu';
+		$id = $this->get_id() . '_top_menu';
 
 		$admin_bar->add_menu(
 			[
@@ -314,7 +315,7 @@ class Admin {
 		$admin_bar->add_menu(
 			[
 				'parent' => $id,
-				'id' => 'lumiere_top_menu_general',
+				'id' => $this->get_id() . '_top_menu_general',
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-general.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'General', 'lumiere-movies' ),
 				'href' => $this->page_general_base,
 				'meta' =>
@@ -326,7 +327,7 @@ class Admin {
 		$admin_bar->add_menu(
 			[
 				'parent' => $id,
-				'id' => 'lumiere_top_menu_data',
+				'id' => $this->get_id() . '_top_menu_data',
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-widget-inside.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data', 'lumiere-movies' ),
 				'href' => $this->page_data,
 				'meta' =>
@@ -338,7 +339,7 @@ class Admin {
 		$admin_bar->add_menu(
 			[
 				'parent' => $id,
-				'id' => 'lumiere_top_menu_cache',
+				'id' => $this->get_id() . '_top_menu_cache',
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-cache.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Cache', 'lumiere-movies' ),
 				'href' => $this->page_cache_option,
 				'meta' =>
@@ -351,7 +352,7 @@ class Admin {
 		$admin_bar->add_menu(
 			[
 				'parent' => $id,
-				'id' => 'lumiere_top_menu_help',
+				'id' => $this->get_id() . '_top_menu_help',
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-help.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Help', 'lumiere-movies' ),
 				'href' => $this->page_general_help,
 				'meta' =>
@@ -517,7 +518,7 @@ class Admin {
 	 * Display the first piece of the main menu
 	 * Using a template
 	 */
-	public function display_admin_menu_first_part(): void {
+	private function display_admin_menu_first_part(): void {
 		// Pass the self class as variable for later use.
 		set_transient( 'admin_template_this', $this, 2 );
 		// The template will retrieve the transient with get_transient().

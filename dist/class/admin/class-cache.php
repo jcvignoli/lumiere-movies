@@ -58,29 +58,12 @@ class Cache extends \Lumiere\Admin {
 	/**
 	 *  Display submenu
 	 */
-	protected function lumiere_cache_display_submenu(): void { ?>
+	protected function lumiere_cache_display_submenu(): void {
 
-<div id="tabswrap">
-	<div class="imdblt_double_container lumiere_padding_five">
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-cache-options.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_cache_option ); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?></a></div>
-		<?php
-		if ( '1' === $this->imdb_cache_values['imdbusecache'] ) {
-			?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-cache-management.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_cache_manage ); ?>"><?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?></a></div>
-			<?php
-		};
-		?>
-	</div>
-</div>
-
-<div id="poststuff">
-
-	<div class="intro_cache">
-		<?php esc_html_e( 'Cache is crucial for Lumière! operations. Initial IMDb queries are quite time consuming, so if you do not want to kill your server and look for a smooth experience for your users, do not delete often your cache.', 'lumiere-movies' ); ?>
-	</div>
-
-
-		<?php
+		// Pass the self class as variable for later use.
+		set_transient( 'admin_template_this', $this, 2 );
+		// The template will retrieve the transient with get_transient().
+		require_once plugin_dir_path( __FILE__ ) . 'templates/admin-cache-submenu.php';
 	}
 
 	/**

@@ -25,7 +25,7 @@
     "phpdoc": "phpDocumentor run",
     "codeceptionRemote": "php vendor/bin/codecept run -vvv acceptanceRemote --env wpchrome",
     "codeceptionLocal": "php vendor/bin/codecept run -vvv acceptanceLocal --env wpchrome",
-    "phpcs": "vendor/bin/phpcs src --report=code > tmp/logs/Results-phpcs-wp.txt",
+    "phpcs": "vendor/bin/phpcs src --report=code | tee tmp/logs/Results-phpcs-wp.txt",
     "phpcsPSR2": "vendor/bin/phpcs src --standard=PSR2 ./src --ignore=*vendor* --ignore=*js/highslide* > tmp/logs/Results-phpcs-PSR2.txt",
     "phpmd": "vendor/bin/phpmd src html ./phpmd.xml.dist > tmp/logs/Results-phpmd-wp.html",
     "phpstan": "vendor/bin/phpstan -v | tee tmp/logs/Results-phpstan.txt",

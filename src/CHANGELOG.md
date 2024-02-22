@@ -29,6 +29,7 @@ v.3.12
 * [technical] Removed tipee donation, kept Paypal only.
 * [technical] Emptied method lumiere_movies_quote() in Movie class, since quotes don't exist for movies and the function need to be kept for compatiblity purposes (method's name making)
 * [technical] Factorized Movie class (new class Movie_Data), Cache class (new class Cache_Tools), moved Frontend popups in new folder (frontend/popups/)
+* [technical] Updated to bootstrap 5.3.3
 
 v.3.11.5
 * [bug] Fixed *personal IMDbPHP libray* upstream: under some circonstances, error "No such file or directory in ImageProcessor.php on line 44", added extra conditions to before unlink and rename

@@ -8,7 +8,7 @@
  * @version       1.0
  * @package lumiere-movies
  */
-namespace Lumiere;
+namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -16,6 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Tools\Utils;
+use Lumiere\Settings;
 
 // Can't be certain that $this exists, creating $lumiere_that using transients sent by calling class
 $lumiere_that = get_transient( 'admin_template_this' );

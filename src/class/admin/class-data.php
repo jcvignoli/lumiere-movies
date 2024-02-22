@@ -86,26 +86,13 @@ class Data extends \Lumiere\Admin {
 	/**
 	 * Display submenu
 	 */
-	protected function lumiere_data_display_submenu(): void { ?>
+	protected function lumiere_data_display_submenu(): void {
 
-<div id="tabswrap">
-	<div class="imdblt_double_container lumiere_padding_five">
+		// Pass the self class as variable for later use.
+		set_transient( 'admin_template_this', $this, 2 );
+		// The template will retrieve the transient with get_transient().
+		require_once plugin_dir_path( __FILE__ ) . 'templates/data/admin-data-submenu.php';
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattodisplay.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to display', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_data ); ?>"><?php esc_html_e( 'Display', 'lumiere-movies' ); ?></a></div>
-
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Display order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_data . '&widgetoption=order' ); ?>"><?php esc_html_e( 'Display order', 'lumiere-movies' ); ?></a></div>
-
-			<?php if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) { ?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattotaxo.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to taxonomize', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_data . '&widgetoption=taxo' ); ?>"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?></a></div>
-			<?php } else { ?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattotaxo.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></i></div>
-			<?php } ?>
-
-	</div>
-</div>
-
-
-		<?php
 	}
 
 	/**
@@ -133,7 +120,7 @@ class Data extends \Lumiere\Admin {
 			// Pass the self class as variable for later use.
 			set_transient( 'admin_template_this', $this, 2 );
 			// The template will retrieve the transient with get_transient().
-			require_once plugin_dir_path( __FILE__ ) . 'templates/admin-data-order.php';
+			require_once plugin_dir_path( __FILE__ ) . 'templates/data/admin-data-order.php';
 		}
 
 		//------------------------------------------------------------------ =[Submit selection]=-
@@ -155,70 +142,53 @@ class Data extends \Lumiere\Admin {
 	/**
 	 *  Display the fields for taxonomy selection
 	 */
-	private function lumiere_data_display_taxo_fields(): void {
+	private function lumiere_data_display_taxo_fields(): string {
 
+		$output = '';
 		$array_all = [];
 		$array_all = array_merge( $this->config_class->array_people, $this->config_class->array_items );
 		asort( $array_all );
 
 		foreach ( $array_all as $item ) {
 
-			echo "\n\t" . '<div class="imdblt_double_container_content_third lumiere_padding_five">';
+			$output .= "\n\t" . '<div class="imdblt_double_container_content_third lumiere_padding_five">';
 
-			echo "\n\t\t" . '<input type="hidden" id="' . esc_attr( 'imdb_imdbtaxonomy' . $item . '_no' ) . '" name="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '" value="0" />';
+			$output .= "\n\t\t" . '<input type="hidden" id="' . esc_attr( 'imdb_imdbtaxonomy' . $item . '_no' ) . '" name="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '" value="0" />';
 
-			echo "\n\t\t" . '<input type="checkbox" id="' . esc_attr( 'imdb_imdbtaxonomy' . $item . '_yes' ) . '" name="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '" value="1"';
+			$output .= "\n\t\t" . '<input type="checkbox" id="' . esc_attr( 'imdb_imdbtaxonomy' . $item . '_yes' ) . '" name="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '" value="1"';
 
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
-				echo ' checked="checked"';
+				$output .= ' checked="checked"';
 			}
 
-			echo ' />';
-			echo "\n\t\t" . '<label for="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '_yes">';
+			$output .= ' />';
+			$output .= "\n\t\t" . '<label for="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '_yes">';
 
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
 				if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
-					echo "\n\t\t" . '<span class="lumiere-option-taxo-activated">';
+					$output .= "\n\t\t" . '<span class="lumiere-option-taxo-activated">';
 				} else {
-					echo "\n\t\t" . '<span class="lumiere-option-taxo-deactivated">';
+					$output .= "\n\t\t" . '<span class="lumiere-option-taxo-deactivated">';
 				}
 
-				echo esc_html( ucfirst( $item ) );
-				echo '</span>';
+				$output .= esc_html( ucfirst( $item ) );
+				$output .= '</span>';
 
 			} else {
-				echo esc_html( ucfirst( $item ) );
-				echo '&nbsp;&nbsp;';
+				$output .= esc_html( ucfirst( $item ) );
+				$output .= '&nbsp;&nbsp;';
 			}
-			echo "\n\t\t" . '</label>';
+			$output .= "\n\t\t" . '</label>';
 
 			// If template is activated, notify to copy or to update.
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
-				echo wp_kses(
-					$this->lumiere_display_new_taxo_template( $item ),
-					[
-						'br' => [],
-						'div' => [
-							'id' => true,
-							'class' => true,
-						],
-						'img' => [
-							'alt' => true,
-							'align' => true,
-							'src' => true,
-						],
-						'i' => [],
-						'font' => [ 'color' => true ],
-						'a' => [
-							'href' => true,
-							'title' => true,
-						],
-					]
-				);
+				$output .= $this->lumiere_display_new_taxo_template( $item );
 			}
-			echo "\n\t" . '</div>';
+			$output .= "\n\t" . '</div>';
 
 		}
+
+		return $output;
 	}
 
 	/**
@@ -239,34 +209,11 @@ class Data extends \Lumiere\Admin {
 				. esc_html__( 'to access taxonomies options.', 'lumiere-movies' ) . '</div>';
 			return;
 		}
-		?>
 
-	<div class="inside imblt_border_shadow">
-		<h3 class="hndle" id="taxodetails" name="taxodetails"><?php esc_html_e( 'Select details to use as taxonomy', 'lumiere-movies' ); ?></h3>
-	</div>
-	<br />
-
-	<div class="imblt_border_shadow">
-
-		<div class="lumiere_intro_options"><?php esc_html_e( "Use the checkbox to display the taxonomy tags. When activated, selected taxonomy will become blue if it is activated in the 'display' section and will turn red otherwise.", 'lumiere-movies' ); ?>
-		<br /><br />
-		<?php esc_html_e( 'Cautiously select the categories you want to display: it may have some unwanted effects, in particular if you display many movies in the same post at once. When selecting one of the following taxonomy options, it will supersede any other function or link created; for instance, you will not have access anymore to the popups for directors, if directors taxonomy is chosen. Taxonomy will always prevail over other Lumiere functionalities.', 'lumiere-movies' ); ?>
-
-		<br /><br />
-		<?php esc_html_e( 'Note: once activated, each taxonomy category will show a new option to copy a taxonomy template directy into your theme folder.', 'lumiere-movies' ); ?>
-		</div>
-		<br /><br />
-
-		<div class="imdblt_double_container">
-
-			<?php
-				$this->lumiere_data_display_taxo_fields();
-			?>
-			<div class="imdblt_double_container_content_third lumiere_padding_five"></div>
-		</div>
-	</div>
-
-		<?php
+		// Pass the taxo field as a variable for later use.
+		set_transient( 'admin_taxo_fields', $this->lumiere_data_display_taxo_fields(), 2 );
+		// The template will retrieve the transient with get_transient().
+		require_once plugin_dir_path( __FILE__ ) . 'templates/data/admin-data-taxonomy.php';
 	}
 
 	/**
@@ -431,7 +378,7 @@ class Data extends \Lumiere\Admin {
 		Utils::lumiere_wp_filesystem_cred( $lumiere_current_theme_path_file );
 
 		// Make the HTML link with a nonce, checked in move_template_taxonomy.php.
-		$link_taxo_copy = wp_nonce_url( admin_url( $this->page_data . '&widgetoption=taxo&taxotype=' . $lumiere_taxo_title ), 'linkcopytaxo', '_wpnonce_linkcopytaxo' );
+		$link_taxo_copy = wp_nonce_url( admin_url( $this->page_data_taxo . '&taxotype=' . $lumiere_taxo_title ), 'linkcopytaxo', '_wpnonce_linkcopytaxo' );
 
 		// No file in the theme folder found and no template to be updated found, offer to copy it and exit.
 		if ( file_exists( $lumiere_current_theme_path_file ) === false && ! isset( $list_updated_fields ) ) {
@@ -451,9 +398,7 @@ class Data extends \Lumiere\Admin {
 					. esc_html__( 'Copy template', 'lumiere-movies' )
 					. '</a>';
 
-			$output .= "\n\t" . '<div><font color="red">'
-				. esc_html( "No $lumiere_taxo_title template found" )
-				. '</font></div>';
+			$output .= "\n\t" . '<div><font color="red">' . esc_html( "No $lumiere_taxo_title template found" ) . '</font></div>';
 			$output .= "\n\t" . '</div>';
 
 			return $output;

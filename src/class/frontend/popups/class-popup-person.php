@@ -220,7 +220,6 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 			// Build function name based on var $list_all_movies_functions list.
 			$all_movies_functions = "movies_$var";
 
-			// @phpstan-ignore-next-line 'Variable method call on Imdb\Person'.
 			$filmo = $this->person->$all_movies_functions();
 
 			$catname = ucfirst( $var );
@@ -296,7 +295,6 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 			// Build the function using the vars.
 			$all_movies_functions = "movies_$var";
 
-			// @phpstan-ignore-next-line 'Variable method call on Imdb\Person'.
 			$filmo = $this->person->$all_movies_functions();
 
 			$catname = ucfirst( $var );

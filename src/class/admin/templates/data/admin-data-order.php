@@ -8,7 +8,7 @@
  * @version       1.0
  * @package lumiere-movies
  */
-namespace Lumiere;
+namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
