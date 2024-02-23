@@ -160,7 +160,8 @@ class Cache extends \Lumiere\Admin {
 							</div>
 						</div>
 
-						<div class="explain"><?php esc_html_e( 'Keep the cache folder size below a limit. Every day, WordPress will check if your cache folder is over the selected size limit and will delete the newest cache files until it meets your selected cache folder size limit.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' ) . ', ' . Utils::lumiere_format_bytes( 100 * 1000000 ); // 100 MB is the default size ?></div>
+						<div class="explain"><?php esc_html_e( 'Keep the cache folder size below a limit. Every day, WordPress will check if your cache folder is over the selected size limit and will delete the newest cache files until it meets your selected cache folder size limit.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' );
+						echo '<br>' . esc_html__( 'Current size used: ', 'lumiere-movies' ) . Utils::lumiere_format_bytes( $this->cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ) ); ?></div>
 
 					</div>
 					

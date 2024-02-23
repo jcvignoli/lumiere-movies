@@ -149,29 +149,17 @@ class Utils {
 	 */
 	public function lumiere_admin_signature(): string {
 
-		// Construct Global Settings trait.
-		// Needed for Lumière version.
-		$this->settings_open();
-
-		// Authorise this html tags wp_kses()
-		$allowed_html_for_esc_html_functions = [
-			'a' => [
-				'href' => [],
-				'title' => [],
-			],
-		];
-
 		$output = "\t\t<div class=\"soustitre\">\n";
 
 		$output .= "\t\t\t" .
 			/* translators: %1$s is replaced with an html link */
-			wp_sprintf( wp_kses( __( '<strong>Licensing Info:</strong> Under a GPL licence, on various libraries. However, much work was required to implement it in WordPress and maintain it; check the support page for', 'lumiere-movies' ), $allowed_html_for_esc_html_functions ), \Lumiere\Settings::IMDBPHPGIT );
+			wp_sprintf( __( '<strong>Licensing Info:</strong> Under a GPL licence, on various libraries. However, much work was required to implement it in WordPress and maintain it; check the support page for', 'lumiere-movies' ), \Lumiere\Settings::IMDBPHPGIT );
 
 		$output .= '<a href="'
-			. esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=help&helpsub=support' ) . '"> '
+			. esc_url( admin_url( 'admin.php?page=lumiere_options_help&helpsub=support' ) ) . '"> '
 			. esc_html__( 'more information', 'lumiere-movies' ) . '</a>.';
 
-		$output .= "\t\t\t<br /><br /><div>\n\t\t\t\t<div> &copy; 2005-" . gmdate( 'Y' ) . ' <a href="' . \Lumiere\Settings::IMDBABOUTENGLISH . '" target="_blank">Lost Highway</a>, <a href="' . \Lumiere\Settings::IMDBHOMEPAGE . '" target="_blank">Lumière! WordPress plugin</a>, version ' . $this->config_class->lumiere_version . "\n</div>\n</div>";
+		$output .= "\t\t\t<br /><br /><div>\n\t\t\t\t<div> &copy; 2005-" . gmdate( 'Y' ) . ' <a href="' . \Lumiere\Settings::IMDBABOUTENGLISH . '" target="_blank">Lost Highway</a>, <a href="' . \Lumiere\Settings::IMDBHOMEPAGE . "\" target=\"_blank\">Lumière! WordPress plugin</a>, \n</div>\n</div>";
 
 		$output .= "\t\t</div>\n";
 
@@ -491,7 +479,7 @@ class Utils {
 	 * @since 3.7.1
 	 * @return bool true if amp url, false otherwise
 	 */
-	public static function lumiere_is_amp_page (): bool {
+	public static function lumiere_is_amp_page(): bool {
 		global $pagenow;
 
 		// If url contains ?amp, it must be an AMP page

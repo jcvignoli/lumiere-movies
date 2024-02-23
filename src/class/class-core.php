@@ -60,7 +60,7 @@ class Core {
 
 			// Add admin menu.
 			$lumiere_admin_class = new Admin();
-			add_action( 'init', [ $lumiere_admin_class, 'lumiere_admin_menu' ] );
+			add_action( 'init', [ $lumiere_admin_class, 'load_admin_menu' ] );
 
 			// Add the metabox to editor.
 			$metabox_selection_class = new Metabox_Selection();

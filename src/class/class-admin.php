@@ -40,6 +40,7 @@ class Admin {
 	 */
 	protected string $root_path = '';
 	protected string $root_url = '';
+	private string $menu_id;
 	protected string $page_cache_manage;
 	protected string $page_cache_option;
 	protected string $page_data;
@@ -96,13 +97,16 @@ class Admin {
 		// Build constants
 		$this->root_url = plugin_dir_url( __DIR__ );
 		$this->root_path = plugin_dir_path( __DIR__ );
-		$this->page_cache_manage = admin_url( 'admin.php?page=' . $this->get_id() . '_options_cache&cacheoption=manage' );
-		$this->page_cache_option = admin_url( 'admin.php?page=' . $this->get_id() . '_options_cache' );
-		$this->page_data = admin_url( 'admin.php?page=' . $this->get_id() . '_options_data' );
-		$this->page_data_taxo = admin_url( 'admin.php?page=' . $this->get_id() . '_options_data&widgetoption=taxo' );
-		$this->page_general_base = admin_url( 'admin.php?page=' . $this->get_id() . '_options' );
-		$this->page_general_advanced = admin_url( 'admin.php?page=' . $this->get_id() . '_options&generaloption=advanced' );
-		$this->page_general_help = admin_url( 'admin.php?page=' . $this->get_id() . '_options_help' );
+		$this->menu_id = $this->get_id() . '_options';
+
+		// Pages
+		$this->page_cache_manage = admin_url( 'admin.php?page=' . $this->menu_id . '_cache&cacheoption=manage' );
+		$this->page_cache_option = admin_url( 'admin.php?page=' . $this->menu_id . '_cache' );
+		$this->page_data = admin_url( 'admin.php?page=' . $this->menu_id . '_data' );
+		$this->page_data_taxo = admin_url( 'admin.php?page=' . $this->menu_id . '_data&widgetoption=taxo' );
+		$this->page_general_base = admin_url( 'admin.php?page=' . $this->menu_id );
+		$this->page_general_advanced = admin_url( 'admin.php?page=' . $this->menu_id . '&generaloption=advanced' );
+		$this->page_general_help = admin_url( 'admin.php?page=' . $this->menu_id . '_help' );
 
 		// Start the debug
 		// If runned earlier, such as 'admin_init', breaks block editor edition.
@@ -169,16 +173,16 @@ class Admin {
 	}
 
 	/**
-	 * Get id
-	 * @phpstan-return non-falsy-string
+	 * Get the current $GET['page'] of the current page
+	 * @return string
 	 */
-	private function get_method( string $template_name ): string {
+	private function get_current_page(): string {
 
-		$method = $this->get_id() . '_admin_menu_' . $template_name;
-		if ( method_exists( $this, $method ) && is_callable( [ $this, $method ] ) ) {
-			return $method;
-		}
-		throw new Exception( 'This method ' . $method . ' does not exist' );
+		$get_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_URL );
+		/** @psalm-suppress RedundantCondition, TypeDoesNotContainNull -- Type string for $get_page is never null => according to PHPStan, it can! */
+		$current_step = $get_page !== false && $get_page !== null ? $get_page : '';
+
+		return str_replace( $this->get_id() . '_options', '', $current_step );
 	}
 
 	/**
@@ -186,7 +190,7 @@ class Admin {
 	 * Called by class core
 	 *
 	 */
-	public function lumiere_admin_menu(): void {
+	public function load_admin_menu(): void {
 
 		// Store the logger class
 		do_action( 'lumiere_logger' );
@@ -194,9 +198,10 @@ class Admin {
 		// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$this(Lumiere\Admin), non-falsy-string} given
 		add_action( 'admin_menu', [ &$this, $this->get_id() . '_add_left_menu' ] );
 
-		// add imdblt menu in toolbar menu (top WordPress menu)
+		// add Lumiere menu in toolbar menu (top WordPress menu)
 		if ( $this->imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
-			add_action( 'admin_bar_menu', [ &$this, 'admin_add_top_menu' ], 70 );
+			// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$this(Lumiere\Admin), non-falsy-string} given
+			add_action( 'admin_bar_menu', [ $this, $this->get_id() . '_admin_add_top_menu' ], 70 );
 
 		}
 	}
@@ -207,8 +212,6 @@ class Admin {
 	 */
 	public function lumiere_add_left_menu(): void {
 
-		$menu_id = $this->get_id() . '_options';
-
 		// Menu inside settings
 		if ( isset( $this->imdb_admin_values['imdbwordpress_bigmenu'] ) && $this->imdb_admin_values['imdbwordpress_bigmenu'] === '0' ) {
 
@@ -216,37 +219,32 @@ class Admin {
 				'Lumière Options',
 				'<img src="' . $this->config_class->lumiere_pics_dir . 'lumiere-ico13x13.png" align="absmiddle"> Lumière',
 				'manage_options',
-				$menu_id,
-				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
-				[ $this, $this->get_method( 'general' ) ]
+				$this->menu_id,
+				[ $this, 'load_view' ],
 			);
-
 			add_submenu_page(
-				$menu_id,
+				$this->menu_id,
 				esc_html__( 'Data management', 'lumiere-movies' ),
 				esc_html__( 'Data', 'lumiere-movies' ),
 				'manage_options',
-				'lumiere_options_data',
-				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
-				[ $this, $this->get_method( 'data' ) ]
+				$this->menu_id . '_data',
+				[ $this, 'load_view' ],
 			);
 			add_submenu_page(
-				$menu_id,
+				$this->menu_id,
 				esc_html__( 'Cache management options page', 'lumiere-movies' ),
 				esc_html__( 'Cache', 'lumiere-movies' ),
 				'manage_options',
-				'lumiere_options_cache',
-				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
-				[ $this, $this->get_method( 'cache' ) ]
+				$this->menu_id . '_cache',
+				[ $this, 'load_view' ],
 			);
 			add_submenu_page(
-				$menu_id,
+				$this->menu_id,
 				esc_html__( 'Help page', 'lumiere-movies' ),
 				esc_html__( 'Help', 'lumiere-movies' ),
 				'manage_options',
-				'lumiere_options_help',
-				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
-				[ $this, $this->get_method( 'help' ) ]
+				$this->menu_id . '_help',
+				[ $this, 'load_view' ],
 			);
 
 			// Left menu
@@ -256,39 +254,42 @@ class Admin {
 				esc_html__( 'Lumière options page', 'lumiere-movies' ),
 				esc_html__( 'Lumière', 'lumiere-movies' ),
 				'manage_options',
-				$menu_id,
-				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
-				[ $this, $this->get_method( 'general' ) ],
+				$this->menu_id,
+				[ $this, 'load_view' ],
 				$this->config_class->lumiere_pics_dir . 'lumiere-ico13x13.png',
 				65
 			);
-
 			add_submenu_page(
-				$menu_id,
+				$this->menu_id,
+				esc_html__( 'Lumière general page', 'lumiere-movies' ),
+				esc_html__( 'Main', 'lumiere-movies' ),
+				'manage_options',
+				$this->menu_id,
+				[ $this, 'load_view' ],
+			);
+			add_submenu_page(
+				$this->menu_id,
 				esc_html__( 'Data management', 'lumiere-movies' ),
 				esc_html__( 'Data', 'lumiere-movies' ),
 				'manage_options',
-				'lumiere_options_data',
-				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
-				[ $this, $this->get_method( 'data' ) ]
+				$this->menu_id . '_data',
+				[ $this, 'load_view' ],
 			);
 			add_submenu_page(
-				$menu_id,
+				$this->menu_id,
 				esc_html__( 'Cache management options page', 'lumiere-movies' ),
 				esc_html__( 'Cache', 'lumiere-movies' ),
 				'manage_options',
-				'lumiere_options_cache',
-				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
-				[ $this, $this->get_method( 'cache' ) ]
+				$this->menu_id . '_cache',
+				[ $this, 'load_view' ],
 			);
 			add_submenu_page(
-				$menu_id,
+				$this->menu_id,
 				esc_html__( 'Help page', 'lumiere-movies' ),
 				esc_html__( 'Help', 'lumiere-movies' ),
 				'manage_options',
-				'lumiere_options_help',
-				// @phpstan-ignore-next-line -- Parameter #6 $callback of function add_submenu_page expects callable(): mixed
-				[ $this, $this->get_method( 'help' ) ]
+				$this->menu_id . '_help',
+				[ $this, 'load_view' ],
 			);
 		}
 	}
@@ -296,7 +297,7 @@ class Admin {
 	/**
 	 * Add top Admin menu
 	 */
-	public function admin_add_top_menu( \WP_Admin_Bar $admin_bar ): void {
+	public function lumiere_admin_add_top_menu( \WP_Admin_Bar $admin_bar ): void {
 
 		$id = $this->get_id() . '_top_menu';
 
@@ -306,10 +307,9 @@ class Admin {
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "lumiere-ico13x13.png' width='16' height='16' />&nbsp;&nbsp;" . 'Lumière',
 				'parent' => null,
 				'href' => $this->page_general_base,
-				'meta' =>
-					[
-						'title' => esc_html__( 'Lumière Menu', 'lumiere-movies' ),
-					],
+				'meta' => [
+					'title' => esc_html__( 'Lumière Menu', 'lumiere-movies' ),
+				],
 			]
 		);
 
@@ -319,10 +319,9 @@ class Admin {
 				'id' => $this->get_id() . '_top_menu_general',
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-general.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'General', 'lumiere-movies' ),
 				'href' => $this->page_general_base,
-				'meta' =>
-					[
-						'title' => esc_html__( 'Main and advanced options', 'lumiere-movies' ),
-					],
+				'meta' => [
+					'title' => esc_html__( 'Main and advanced options', 'lumiere-movies' ),
+				],
 			]
 		);
 		$admin_bar->add_menu(
@@ -331,10 +330,9 @@ class Admin {
 				'id' => $this->get_id() . '_top_menu_data',
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-widget-inside.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data', 'lumiere-movies' ),
 				'href' => $this->page_data,
-				'meta' =>
-					[
-						'title' => esc_html__( 'Data option and taxonomy', 'lumiere-movies' ),
-					],
+				'meta' => [
+					'title' => esc_html__( 'Data option and taxonomy', 'lumiere-movies' ),
+				],
 			]
 		);
 		$admin_bar->add_menu(
@@ -343,10 +341,9 @@ class Admin {
 				'id' => $this->get_id() . '_top_menu_cache',
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-cache.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Cache', 'lumiere-movies' ),
 				'href' => $this->page_cache_option,
-				'meta' =>
-					[
-						'title' => esc_html__( 'Cache options', 'lumiere-movies' ),
-					],
+				'meta' => [
+					'title' => esc_html__( 'Cache options', 'lumiere-movies' ),
+				],
 			]
 		);
 
@@ -356,20 +353,40 @@ class Admin {
 				'id' => $this->get_id() . '_top_menu_help',
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-help.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Help', 'lumiere-movies' ),
 				'href' => $this->page_general_help,
-				'meta' =>
-					[
-						'title' => esc_html__( 'Get support and support plugin development', 'lumiere-movies' ),
+				'meta' => [
+					'title' => esc_html__( 'Get support and support plugin development', 'lumiere-movies' ),
 
-					],
+				],
 			]
 		);
+	}
 
+	/**
+	 * Load views
+	 * Called in {@see Admin::admin_add_top_menu()} and calls the methods dynamically generated according to the current view
+	 *
+	 * @TODO: The return $this->$method() is also null, investigate why
+	 *
+	 * @return null|callable The private method to call
+	 * @phpstan-return null|callable(): void
+	 * @throws Exception if method is not found
+	 */
+	public function load_view(): ?callable {
+
+		$method = $this->get_id() . '_admin_menu' . $this->get_current_page();
+
+		if ( method_exists( $this, $method ) ) {
+
+			return $this->$method();
+		}
+		throw new Exception( 'This method $this->' . $method . '() does not exist' );
 	}
 
 	/**
 	 * Display admin General options
+	 * This function is dynamically called in {@see Admin::load_view()}
 	 */
-	public function lumiere_admin_menu_general(): void {
+	private function lumiere_admin_menu(): void {
 
 		// Make sure cache folder exists and is writable
 		$cache_tools_class = new Cache_Tools();
@@ -387,15 +404,16 @@ class Admin {
 
 	/**
 	 * Display admin Data options
+	 * This function is dynamically called in {@see Admin::load_view()}
 	 */
-	public function lumiere_admin_menu_data(): void {
+	private function lumiere_admin_menu_data(): void {
 
 		$this->display_admin_menu_first_part();
 
 		$data_class = new Data();
 
 		// The template will retrieve the args.
-		$this->include_with_vars( 'data/admin-data-submenu', [ $this ] );
+		$this->include_with_vars( 'data/admin-data-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
 
 		$data_class->lumiere_data_display_body();
 
@@ -405,8 +423,9 @@ class Admin {
 
 	/**
 	 * Display admin Cache options
+	 * This function is dynamically called in {@see Admin::load_view()}
 	 */
-	public function lumiere_admin_menu_cache(): void {
+	private function lumiere_admin_menu_cache(): void {
 
 		// Make sure cache folder exists and is writable
 		$cache_tools_class = new Cache_Tools();
@@ -417,7 +436,7 @@ class Admin {
 		$cache_class = new Cache( $cache_tools_class );
 
 		// The template will retrieve the args.
-		$this->include_with_vars( 'admin-cache-submenu', [ $this ] );
+		$this->include_with_vars( 'admin-cache-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
 
 		$cache_class->lumiere_cache_display_body();
 
@@ -427,8 +446,9 @@ class Admin {
 
 	/**
 	 * Display admin Help options
+	 * This function is dynamically called in {@see Admin::load_view()}
 	 */
-	public function lumiere_admin_menu_help(): void {
+	private function lumiere_admin_menu_help(): void {
 
 		$this->display_admin_menu_first_part();
 
@@ -441,12 +461,12 @@ class Admin {
 
 	/**
 	 * Display the first piece of the main menu
-	 * Using a template
+	 * Using a template {@see Admin::include_with_vars()}
 	 */
 	private function display_admin_menu_first_part(): void {
 
 		// The template will retrieve the args.
-		$this->include_with_vars( 'admin-menu-first-part', [ $this ] );
+		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**
@@ -545,8 +565,8 @@ class Admin {
 		$full_file_path = $this->build_template_path( $file_name );
 
 		if ( is_file( $full_file_path ) ) {
-			// Send the variables to transients so they can be retrieved in the included pages
-			// Validity: 30 seconds
+			// Send the variables to transients so they can be retrieved in the included pages.
+			// Validity: XX seconds, but is deleted after the include.
 			set_transient( 'admin_template_this', $variables, $validity_time_transient );
 
 			// Require with the full path built.
@@ -562,7 +582,7 @@ class Admin {
 	 * @param string $file_name The name without php of the file to be include, ie: admin-menu-first-part
 	 * @return string Full path built with $file_name
 	 */
-	protected function build_template_path( string $file_name ): string {
+	private function build_template_path( string $file_name ): string {
 
 		$my_plugin_dir = plugin_dir_path( __DIR__ ) . 'class/admin/templates/';
 		$path_to_file = $my_plugin_dir . $file_name . '.php';

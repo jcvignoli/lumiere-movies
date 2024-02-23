@@ -275,7 +275,7 @@ class Save_Options {
 	}
 
 	/**
-	 * Save Cache options 
+	 * Save Cache options
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 *
