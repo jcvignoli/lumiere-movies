@@ -48,6 +48,7 @@ class Admin {
 	protected string $page_general_base;
 	protected string $page_general_advanced;
 	protected string $page_general_help;
+	protected string $page_general_help_support;
 
 	/**
 	 * HTML allowed for use of wp_kses()
@@ -107,6 +108,7 @@ class Admin {
 		$this->page_general_base = admin_url( 'admin.php?page=' . $this->menu_id );
 		$this->page_general_advanced = admin_url( 'admin.php?page=' . $this->menu_id . '&generaloption=advanced' );
 		$this->page_general_help = admin_url( 'admin.php?page=' . $this->menu_id . '_help' );
+		$this->page_general_help_support = admin_url( 'admin.php?page=' . $this->menu_id . '_help&subsection=support' );
 
 		// Start the debug
 		// If runned earlier, such as 'admin_init', breaks block editor edition.
@@ -398,8 +400,8 @@ class Admin {
 		$general_class->lumiere_general_display_submenu();
 		$general_class->lumiere_general_display_body();
 
-		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo $this->utils_class->lumiere_admin_signature();
+		// Signature
+		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**
@@ -417,8 +419,8 @@ class Admin {
 
 		$data_class->lumiere_data_display_body();
 
-		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo $this->utils_class->lumiere_admin_signature();
+		// Signature
+		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**
@@ -440,8 +442,8 @@ class Admin {
 
 		$cache_class->lumiere_cache_display_body();
 
-		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo $this->utils_class->lumiere_admin_signature();
+		// Signature
+		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**
@@ -455,8 +457,8 @@ class Admin {
 		$help_class = new Help();
 		$help_class->lumiere_admin_help_layout();
 
-		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo $this->utils_class->lumiere_admin_signature();
+		// Signature
+		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**

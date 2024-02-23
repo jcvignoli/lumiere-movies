@@ -80,9 +80,9 @@ class Cron {
 	}
 
 	/**
-	 * Add new schedules
+	 * Add new schedule
 	 *
-	 * @since 3.12 Added method
+	 * @since 3.12 Method added
 	 *
 	 * @param array<int|string, array<string, int|string>|string> $schedules
 	 * @return array<int|string, array<string, int|string>|string> The new schedule is added
@@ -101,7 +101,7 @@ class Cron {
 	 */
 	public function lumiere_cron_exec_once(): void {
 
-		$this->logger->log()->debug( '[Lumiere][cronClass] Cron run once started...' );
+		$this->logger->log()->debug( '[Lumiere][cronClass] Cron run once started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 
 		// Update class.
 		// This udpate is also run in upgrader_process_complete, but the process is not always reliable.
@@ -115,7 +115,7 @@ class Cron {
 	 */
 	public function lumiere_cron_exec_cache(): void {
 
-		$this->logger->log()->debug( '[Lumiere][cronClass] Cron delete oversized cache running' );
+		// $this->logger->log()->debug( '[Lumiere][cronClass] Cron delete oversized cache started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 
 		$cache_class = new Cache_Tools();
 		$cache_class->lumiere_cache_delete_files_over_limit(
@@ -131,10 +131,10 @@ class Cron {
 	 */
 	public function lumiere_cron_exec_autorefresh(): void {
 
-		$this->logger->log()->debug( '[Lumiere][cronClass] Cron refreshing cache started' );
-
 		$cache_class = new Cache_Tools();
 		$cache_class->lumiere_all_cache_refresh();
+
+		$this->logger->log()->debug( '[Lumiere][cronClass] Cron refreshing cache ended at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 	}
 
 	/**
@@ -172,7 +172,7 @@ class Cron {
 			&& wp_next_scheduled( 'lumiere_cron_deletecacheoversized' ) === false
 		) {
 			// Cron to run twice Daily, first time in 1 minute
-			wp_schedule_event( time() + 1, 'twicedaily', 'lumiere_cron_deletecacheoversized' );
+			wp_schedule_event( time() + 1, 'hourly', 'lumiere_cron_deletecacheoversized' );
 			$this->logger->log()->debug( '[Lumiere] Cron lumiere_cron_deletecacheoversized added' );
 
 			// Remove cron imdbcachekeepsizeunder.

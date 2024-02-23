@@ -144,30 +144,6 @@ class Utils {
 	}
 
 	/**
-	 * Personal signature for administration
-	 *
-	 */
-	public function lumiere_admin_signature(): string {
-
-		$output = "\t\t<div class=\"soustitre\">\n";
-
-		$output .= "\t\t\t" .
-			/* translators: %1$s is replaced with an html link */
-			wp_sprintf( __( '<strong>Licensing Info:</strong> Under a GPL licence, on various libraries. However, much work was required to implement it in WordPress and maintain it; check the support page for', 'lumiere-movies' ), \Lumiere\Settings::IMDBPHPGIT );
-
-		$output .= '<a href="'
-			. esc_url( admin_url( 'admin.php?page=lumiere_options_help&helpsub=support' ) ) . '"> '
-			. esc_html__( 'more information', 'lumiere-movies' ) . '</a>.';
-
-		$output .= "\t\t\t<br /><br /><div>\n\t\t\t\t<div> &copy; 2005-" . gmdate( 'Y' ) . ' <a href="' . \Lumiere\Settings::IMDBABOUTENGLISH . '" target="_blank">Lost Highway</a>, <a href="' . \Lumiere\Settings::IMDBHOMEPAGE . "\" target=\"_blank\">Lumière! WordPress plugin</a>, \n</div>\n</div>";
-
-		$output .= "\t\t</div>\n";
-
-		return $output;
-
-	}
-
-	/**
 	 * Text displayed when no result is found
 	 * This text is logged if the debug logging is activated
 	 *

@@ -48,6 +48,7 @@ class Admin {
 	protected string $page_general_base;
 	protected string $page_general_advanced;
 	protected string $page_general_help;
+	protected string $page_general_help_support;
 
 	/**
 	 * HTML allowed for use of wp_kses()
@@ -98,7 +99,7 @@ class Admin {
 		$this->root_url = plugin_dir_url( __DIR__ );
 		$this->root_path = plugin_dir_path( __DIR__ );
 		$this->menu_id = $this->get_id() . '_options';
-		
+
 		// Pages
 		$this->page_cache_manage = admin_url( 'admin.php?page=' . $this->menu_id . '_cache&cacheoption=manage' );
 		$this->page_cache_option = admin_url( 'admin.php?page=' . $this->menu_id . '_cache' );
@@ -107,6 +108,7 @@ class Admin {
 		$this->page_general_base = admin_url( 'admin.php?page=' . $this->menu_id );
 		$this->page_general_advanced = admin_url( 'admin.php?page=' . $this->menu_id . '&generaloption=advanced' );
 		$this->page_general_help = admin_url( 'admin.php?page=' . $this->menu_id . '_help' );
+		$this->page_general_help_support = admin_url( 'admin.php?page=' . $this->menu_id . '_help&subsection=support' );
 
 		// Start the debug
 		// If runned earlier, such as 'admin_init', breaks block editor edition.
@@ -171,7 +173,7 @@ class Admin {
 	private function get_id(): string {
 		return self::LUMIERE_ADMIN_ID;
 	}
-	
+
 	/**
 	 * Get the current $GET['page'] of the current page
 	 * @return string
@@ -301,7 +303,8 @@ class Admin {
 
 		$id = $this->get_id() . '_top_menu';
 
-		$admin_bar->add_menu( [
+		$admin_bar->add_menu(
+			[
 				'id' => $id,
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "lumiere-ico13x13.png' width='16' height='16' />&nbsp;&nbsp;" . 'Lumière',
 				'parent' => null,
@@ -356,7 +359,8 @@ class Admin {
 					'title' => esc_html__( 'Get support and support plugin development', 'lumiere-movies' ),
 
 				],
-		] );
+			]
+		);
 	}
 
 	/**
@@ -364,7 +368,7 @@ class Admin {
 	 * Called in {@see Admin::admin_add_top_menu()} and calls the methods dynamically generated according to the current view
 	 *
 	 * @TODO: The return $this->$method() is also null, investigate why
-	 * 
+	 *
 	 * @return null|callable The private method to call
 	 * @phpstan-return null|callable(): void
 	 * @throws Exception if method is not found
@@ -396,8 +400,8 @@ class Admin {
 		$general_class->lumiere_general_display_submenu();
 		$general_class->lumiere_general_display_body();
 
-		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo $this->utils_class->lumiere_admin_signature();
+		// Signature
+		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**
@@ -415,8 +419,8 @@ class Admin {
 
 		$data_class->lumiere_data_display_body();
 
-		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo $this->utils_class->lumiere_admin_signature();
+		// Signature
+		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**
@@ -438,8 +442,8 @@ class Admin {
 
 		$cache_class->lumiere_cache_display_body();
 
-		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo $this->utils_class->lumiere_admin_signature();
+		// Signature
+		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**
@@ -453,8 +457,8 @@ class Admin {
 		$help_class = new Help();
 		$help_class->lumiere_admin_help_layout();
 
-		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo $this->utils_class->lumiere_admin_signature();
+		// Signature
+		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**

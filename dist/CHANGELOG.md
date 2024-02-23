@@ -29,6 +29,7 @@ v.3.12
 * [technical] Removed tipee donation, kept Paypal only.
 * [technical] Emptied method lumiere_movies_quote() in Movie class, since quotes don't exist for movies and the function need to be kept for compatiblity purposes (method's name making)
 * [technical] Factorized Movie class (new class Movie_Data), Cache class (new class Cache_Tools), moved Frontend popups in new folder (frontend/popups/)
+* [technical] Automatized task that runs to delete oversized cache folder (option "Keep automatically cache size below a limit") runs now hourly instead of every two hours.
 * [technical] Updated to bootstrap 5.3.3
 
 v.3.11.5
