@@ -3,7 +3,7 @@ Contributors: psykonevro
 Tags: cinema, film, imdb, movie, actor, internet-movie-database, director, taxonomy
 Requires at least: 5.3
 Tested up to: 6.4.2
-Stable tag: 3.12
+Stable tag: 4.0
 Requires PHP: 8.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -149,12 +149,12 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 
-= 3.12 =
+= 4.0 =
 !Important: Due to the improvement of the taxonomy system, it is advised to remove all "lumiere-XX" taxonomy tags that may have been automatically created. Just go to the Posts admin section, and delete all tags found under "lumiere-XX" taxonomy you may have on the left menu. Tags will be created again when visiting your pages with IMDb widgets/into the posts sections. Important again: if you use Polylang, make sure to activate in "Settings -> Custom post types and Taxonomies -> Custom taxonomies" your Lumière taxonomies"
 
 Added new automatized refresh of the cache function. Fixed the taxonomy system, it now properly creates HTML links towards taxonomy pages within widgets/into the posts sections, with the appropriate language. Taxonomy for items (ie: genre) is now displayed for all items found. Added the general advanced option to add an extra delay when querying the IMDb website. Downloads from imdbphp are retried 3 times before giving up. Fixed bug in plugin activation, layout in admin data options position, improved Content security policy and HTML 4.1 compatibility. Banning bots is now executed before doing any IMDb search or display, avoiding cache creationg (and 504 HTML errors when calling IMDb website!).
 
-And much more!
+And much more! This is a major new version, more stable and safer.
 
 = 3.11.4 =
 

@@ -1,6 +1,6 @@
 **Changelog**
 
-v.3.12
+v.4.0
 * [feature] Added the general advanced option to add an extra delay when querying the IMDb website. Meant to avoid the HTTP 504 errors thrown when too many requests in a row are processed. 0 seconds by default, but can be increased to add a delay. If the data are already cached, no further delay, it's as fast as it used to be.
 * [feature] Better way to *display taxonomy items*, such as genre. It now displays all terms related to the item (i.e. movie's genre -> action). Make sure to delete all tags and visit your posts, taxonomy will be automatically created.
 * [feature] Added new automatized refresh of the cache function! By selecting that option in admin cache options, your cache will be refreshed every two weeks. No need to bother anymore about refreshing manually or letting the visitors wait until the new cache to be retrieved.
@@ -16,6 +16,7 @@ v.3.12
 * [bug] Admin: if left menu display was not selected, subpages were not available (typically on the first plugin install!)
 * [bug] Compatibility with PHP > 8.0 ensured, replaced obsolete PHP functions. Still backwards compatible.
 * [bug] Reset/Update fields in Manage Cache admin page were not standardized.
+* [bug] Popups for people and movies should be compliant with any theme now (removed OceanWP conditions, using 'the_posts' hook only)
 * [technical] Replaced FILTER_SANITIZE_STRING (obsolete) with FILTER_SANITIZE_FULL_SPECIAL_CHARS in class admin/data
 * [technical] Rewrote massively the admin section. Under the hood, more robust plugin!
 * [technical] Page downloads from IMDb are retried 3 times before giving up.
@@ -31,6 +32,7 @@ v.3.12
 * [technical] Factorized Movie class (new class Movie_Data), Cache class (new class Cache_Tools), moved Frontend popups in new folder (frontend/popups/)
 * [technical] Automatized task that runs to delete oversized cache folder (option "Keep automatically cache size below a limit") runs now hourly instead of every two hours.
 * [technical] Updated to bootstrap 5.3.3
+* [technical] Compatibility with PHP8.3 ensured ( function get_class())
 
 v.3.11.5
 * [bug] Fixed *personal IMDbPHP libray* upstream: under some circonstances, error "No such file or directory in ImageProcessor.php on line 44", added extra conditions to before unlink and rename
