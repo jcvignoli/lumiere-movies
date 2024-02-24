@@ -127,30 +127,7 @@ class Taxonomy {
 					]
 				);
 
-				// Add hooks for each taxonomy
-				/** Removed 2023 09
-				if ( $value === '1' ) {
-					// Build taxonomy raw name, such as 'lumiere-imdbtaxonomycolor'.
-					$taxonomy_raw_string = $this->imdb_admin_values['imdburlstringtaxo'] . $key;
-					// Build final hook name, such as 'term_links-lumiere-color'.
-					$taxonomy_hook = str_replace( 'imdbtaxonomy', '', "term_links-{$taxonomy_raw_string}" );
-
-					add_filter( $taxonomy_hook, [ $this, 'lumiere_taxonomy_add_class_to_links' ] );
-				}*/
 			}
 		}
-	}
-
-	/**
-	 * Add a class to taxonomy links constructed by WordPress
-	 *
-	 * @param array<string> $links
-	 * @return array<string>
-	 *
-	 * @obsolete doesn't seem to have any effect or even to be referenced anywhere but in a .css
-	 * @todo to fully remove it, 2023 09
-	 */
-	public function lumiere_taxonomy_add_class_to_links( array $links ): array {
-		return str_replace( '<a href="', '<a class="linktaxonomy" href="', $links );
 	}
 }
