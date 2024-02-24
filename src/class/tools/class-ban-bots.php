@@ -28,12 +28,14 @@ class Ban_Bots {
 
 	/**
 	 * List of bots not respecting the rules
+	 *
+	 * @since 3.12 Added Bingbot and Googlebot
 	 */
 	private const BLACK_LIST_AGENT = [
 		/**
 		 * Those bots do not respect the rules
 		 */
-		'(b|B)ytespider|(b|B)ytedance|YandexBot|GPTBot|bingbot',
+		'bytespider|bytedance|YandexBot|GPTBot|bingbot|Googlebot',
 		/**
 		 * From 7G https://perishablepress.com/7g-firewall/
 		 */
@@ -91,7 +93,7 @@ class Ban_Bots {
 	private function maybe_ban_useragent( array $banned_recipients ): void {
 		$agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 		foreach ( $banned_recipients as $bot ) {
-			if ( preg_match( "~$bot~", $agent ) === 1 ) {
+			if ( preg_match( "~$bot~i", $agent ) === 1 ) {
 				$this->banishment();
 			}
 		}

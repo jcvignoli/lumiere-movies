@@ -18,12 +18,13 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use Lumiere\Settings;
 use Lumiere\Tools\Utils;
-use Lumiere\Admin\Copy_Template_Taxonomy;
 
 /**
  * Create Lumière! Taxonomy system
  * Taxonomy Pages names are added to the database
  * Pages are made availabe by using taxonomy templates (if copied in template folder)
+ *
+ * @see Lumiere\Admin\Copy_Template_Taxonomy to copy new foun
  *
  * @phpstan-import-type OPTIONS_DATA from Settings
  * @phpstan-import-type OPTIONS_ADMIN from Settings
@@ -60,7 +61,9 @@ class Taxonomy {
 		add_action( 'init', [ $this, 'lumiere_create_taxonomies' ], 1 );
 
 		// Make function available for copying taxonomy templates in Lumière! admin panel
-		add_action( 'admin_init', [ $this, 'lumiere_copy_taxonomy_template' ] );
+		if ( isset( $_GET['taxotype'] ) ) {
+			add_action( 'admin_init', [ '\Lumiere\Admin\Copy_Template_Taxonomy', 'lumiere_start_copy_taxo' ], 1 );
+		}
 	}
 
 	/**
@@ -71,20 +74,6 @@ class Taxonomy {
 	 */
 	public static function lumiere_static_start(): void {
 		$taxonomy_class = new self();
-	}
-
-	/**
-	 * Copy the standard Lumière taxonomy template to the user template folder
-	 *
-	 * @TODO The $_GET check should be done in the taxo template, not here!
-	 *
-	 * @return void The class was instanciated
-	 */
-	public function lumiere_copy_taxonomy_template(): void {
-		if ( isset( $_GET['taxotype'] ) ) {
-			$copy_class = new Copy_Template_Taxonomy();
-			$copy_class->copy_template_taxonomy();
-		}
 	}
 
 	/**

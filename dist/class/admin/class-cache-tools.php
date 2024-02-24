@@ -18,7 +18,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-// Use IMDbPHP library for cache creation
 use Imdb\Title;
 use Imdb\Person;
 use Lumiere\Settings;
@@ -30,9 +29,11 @@ use RecursiveIteratorIterator;
 use Exception;
 
 /**
- * Functions utilized by Class Cache
- * @see \Lumiere\Admin\Cache
+ * Methods utilized by Class Cache to delete and build cache
+ * Cron class calls { @see Cache_Tools::lumiere_all_cache_refresh() }
  *
+ * @see \Lumiere\Admin\Cache
+ * @see \Lumiere\Admin\Cron
  * @since 3.12 Methods extracted from Class cache and factorized here
  *
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
@@ -150,7 +151,7 @@ class Cache_Tools {
 	 * 3/ Recreate the cache folder (needed for images)
 	 * 4/ Recreate the cache by querying the IMDb with an incremental sleep (to avoid HTTP errors)
 	 * Meant to be called by cron
-	 * @see \Lumiere\Admin\Cron::lumiere_cron_exec_autorefresh
+	 * @see \Lumiere\Admin\Cron::lumiere_cron_exec_autorefresh()
 	 * @since 3.12
 	 *
 	 * @param int<0, max> $sleep Optional, the time to sleep before each query to IMDb (this is incremental, each new file adds 0.25 seconds by default)
@@ -517,14 +518,18 @@ class Cache_Tools {
 	 * @return void Files exceeding provided limited are deleted
 	 */
 	public function lumiere_cache_delete_files_over_limit( int $size_limit ): void {
-		$this->logger->log()->info( '[Lumiere] Daily Cache cron called with the following value: ' . $size_limit );
+		$this->logger->log()->info( '[Lumiere] Oversized Cache cron called with the following value: ' . $size_limit . ' MB' );
 		$files = $this->lumiere_cache_find_files_over_limit( $size_limit ) ?? [];
 		foreach ( $files as $file ) {
 			if ( is_file( $file ) ) {
 				unlink( $file );
 			}
 		}
-		$this->logger->log()->info( '[Lumiere] Daily Cache cron deleted the following files: ' . join( $files ) );
+		if ( count( $files ) > 0 ) {
+			$this->logger->log()->info( '[Lumiere] Oversized Cache cron deleted the following files: ' . join( $files ) );
+			return;
+		}
+		$this->logger->log()->info( '[Lumiere] Oversized Cache cron did not find any file to delete' );
 	}
 
 	/**
@@ -577,7 +582,7 @@ class Cache_Tools {
 	 * Create folder based on 'imdbcachedir' cache option value, if not using alternative folders (inside plugin)
 	 * Return false if:
 	 * 1/ Cache is not active;
-	  * 2/ Can't created alternative cache folders inside Lumière plugin
+	 * 2/ Can't created alternative cache folders inside Lumière plugin
 	 * 3/ Cache folders already exist & are writable
 	 *
 	 * @info Can't use $wp_system at this stage, since it is called early during plugin activation in class core

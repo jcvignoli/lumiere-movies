@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Metabox Class : Add a metabox in admin post editing interface
+ * Metabox Class
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -16,18 +16,23 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
+/**
+ * Add a metabox in admin post editing interface
+ * The metabox includes options to display IMDb results for a given IMDb movie ID/movie name
+ * @see \Lumiere\Core Is called in that class
+ */
 class Metabox_Selection {
 
 	use \Lumiere\Settings_Global;
 
 	/**
-	 * Start the metabox
+	 * Constructor
 	 */
 	public function __construct() {
 
 		/**
-		* Register the metabox
-		*/
+		 * Register the metabox
+		 */
 		add_action( 'add_meta_boxes', [ $this, 'add_lumiere_metabox_customfields' ] );
 		add_action( 'save_post', [ $this, 'save_custom_meta_box' ], 10, 2 );
 
@@ -108,8 +113,7 @@ class Metabox_Selection {
 	}
 
 	/**
-	 * Save the data to the database
-	 *
+	 * Save the data in the database
 	 *
 	 * @param int $post_id ID of the post
 	 * @param \WP_Post $post the post

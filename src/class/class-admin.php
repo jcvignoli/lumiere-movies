@@ -25,16 +25,27 @@ use Lumiere\Admin\Help;
 use Lumiere\Admin\Cache_Tools;
 use Exception;
 
+/**
+ * Display Admin menu
+ * Parent class with protected methods used by child classes
+ * Includes the notice messages definition called by child classes when form submission took place
+ * @see Admin\Save_Options
+ */
 class Admin {
 
-	// Trait including the database settings.
+	/**
+	 * Trait including the database settings.
+	 */
 	use \Lumiere\Settings_Global;
 
+	/**
+	 * Classes
+	 */
 	protected Utils $utils_class;
 	protected Logger $logger;
 
 	/**
-	 * Store root directories of the plugin
+	 * Store directories
 	 * Path: absolute path
 	 * URL: start with https
 	 */
@@ -51,14 +62,7 @@ class Admin {
 	protected string $page_general_help_support;
 
 	/**
-	 * HTML allowed for use of wp_kses()
-	 */
-	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
-		'i' => true,
-	];
-
-	/**
-	 * Used to define name of functions
+	 * Used to define name of methods
 	 */
 	const LUMIERE_ADMIN_ID = 'lumiere';
 
@@ -73,16 +77,15 @@ class Admin {
 		'general_options_error_identical_value' => [ 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 3 ],
 		'cache_delete_all_msg' => [ 'All cache files deleted.', 1 ],
 		'cache_delete_ticked_msg' => [ 'Ticked file(s) deleted.', 1 ],
-		'cache_delete_individual_msg' => [ 'Selected cache file deleted.', 1 ],
-		'cache_refresh_individual_msg' => [ 'Selected cache file refreshed.', 1 ],
+		'cache_delete_individual_msg' => [ 'The selected cache file was deleted.', 1 ],
+		'cache_refresh_individual_msg' => [ 'The selected cache file was refreshed.', 1 ],
 		'cache_query_deleted' => [ 'Query cache files deleted.', 1 ],
-		'taxotemplatecopy_success' => [ 'Template successfully copied.', 1 ],
-		'taxotemplatecopy_failed' => [ 'Template copy failed!', 3 ],
+		'taxotemplatecopy_success' => [ 'Lumière template successfully copied in your theme folder.', 1 ],
+		'taxotemplatecopy_failed' => [ 'Template copy failed! Check the permissions in you theme folder.', 3 ],
 	];
 
 	/**
 	 * Constructor
-	 *
 	 */
 	public function __construct() {
 
@@ -394,10 +397,14 @@ class Admin {
 		$cache_tools_class = new Cache_Tools();
 		$cache_tools_class->lumiere_create_cache( true );
 
-		$this->display_admin_menu_first_part();
+		// First part of the menu
+		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
 
 		$general_class = new General();
-		$general_class->lumiere_general_display_submenu();
+
+		// The template will retrieve the args. In parent class.
+		$this->include_with_vars( 'general/admin-general-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
+
 		$general_class->lumiere_general_display_body();
 
 		// Signature
@@ -410,11 +417,12 @@ class Admin {
 	 */
 	private function lumiere_admin_menu_data(): void {
 
-		$this->display_admin_menu_first_part();
+		// First part of the menu
+		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
 
 		$data_class = new Data();
 
-		// The template will retrieve the args.
+		// Display submenu
 		$this->include_with_vars( 'data/admin-data-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
 
 		$data_class->lumiere_data_display_body();
@@ -433,12 +441,13 @@ class Admin {
 		$cache_tools_class = new Cache_Tools();
 		$cache_tools_class->lumiere_create_cache( true );
 
-		$this->display_admin_menu_first_part();
+		// First part of the menu
+		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
 
 		$cache_class = new Cache( $cache_tools_class );
 
-		// The template will retrieve the args.
-		$this->include_with_vars( 'admin-cache-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
+		// Cache submenu.
+		$this->include_with_vars( 'cache/admin-cache-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
 
 		$cache_class->lumiere_cache_display_body();
 
@@ -452,23 +461,14 @@ class Admin {
 	 */
 	private function lumiere_admin_menu_help(): void {
 
-		$this->display_admin_menu_first_part();
+		// First part of the menu
+		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
 
 		$help_class = new Help();
 		$help_class->lumiere_admin_help_layout();
 
 		// Signature
 		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
-	}
-
-	/**
-	 * Display the first piece of the main menu
-	 * Using a template {@see Admin::include_with_vars()}
-	 */
-	private function display_admin_menu_first_part(): void {
-
-		// The template will retrieve the args.
-		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**

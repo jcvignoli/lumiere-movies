@@ -6,7 +6,7 @@
 >
     <title>Lumière Movies Wordpress plugin project</title>
     <paths>
-        <output>tmp/phpdoc/</output>
+        <output>../phpdoc/</output>
         <cache>tmp/cache/phpdoc</cache>
     </paths>
 
@@ -35,7 +35,6 @@
 		    </markers>
 	    	   <ignore-tags>
 			<ignore_tags>author</ignore_tags>
-			<ignore_tags>since</ignore_tags>
 		   </ignore-tags>
 	    </api>
     </version>

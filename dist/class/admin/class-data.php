@@ -21,7 +21,7 @@ use Lumiere\Settings;
 use Lumiere\Tools\Utils;
 
 /**
- * Class for taxonomy, data order and data selection
+ * Display data options for taxonomy, data order and data selection
  */
 class Data extends \Lumiere\Admin {
 
@@ -188,9 +188,7 @@ class Data extends \Lumiere\Admin {
 
 			echo "<div align='center' class='accesstaxo'>"
 				. esc_html__( 'Please ', 'lumiere-movies' )
-				. "<a href='" . esc_url(
-					admin_url( $this->page_general_advanced )
-				) . "'>"
+				. "<a href='" . esc_url( $this->page_general_advanced ) . "'>"
 				. esc_html__( 'activate taxonomy', 'lumiere-movies' ) . '</a>'
 				. esc_html__( ' priorly', 'lumiere-movies' ) . '<br />'
 				. esc_html__( 'to access taxonomies options.', 'lumiere-movies' ) . '</div>';
@@ -281,7 +279,8 @@ class Data extends \Lumiere\Admin {
 		Utils::lumiere_wp_filesystem_cred( $lumiere_current_theme_path_file );
 
 		// Make the HTML link with a nonce, checked in move_template_taxonomy.php.
-		$link_taxo_copy = wp_nonce_url( admin_url( $this->page_data_taxo . '&taxotype=' . $lumiere_taxo_title ), 'linkcopytaxo', '_wpnonce_linkcopytaxo' );
+
+		$link_taxo_copy = add_query_arg( '_wpnonce_linkcopytaxo', wp_create_nonce( 'linkcopytaxo' ), $this->page_data_taxo . '&taxotype=' . $lumiere_taxo_title );
 
 		// No file in the theme folder found and no template to be updated found, offer to copy it and exit.
 		if ( file_exists( $lumiere_current_theme_path_file ) === false && ! isset( $list_updated_fields ) ) {
@@ -293,10 +292,7 @@ class Data extends \Lumiere\Admin {
 					. "' title='"
 					. esc_html__( 'Create a taxonomy template into your theme folder.', 'lumiere-movies' )
 					. "' ><img src='"
-					. esc_url(
-						$this->config_class->lumiere_pics_dir
-						. 'menu/admin-widget-copy-theme.png'
-					)
+					. esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png' )
 					. "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' /> "
 					. esc_html__( 'Copy template', 'lumiere-movies' )
 					. '</a>';

@@ -67,7 +67,6 @@ trait Settings_Global {
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
-
 	}
 
 }

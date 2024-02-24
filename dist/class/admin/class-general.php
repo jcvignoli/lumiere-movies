@@ -18,17 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
+ * Display General options menu
  */
 class General extends \Lumiere\Admin {
-
-	/**
-	 * HTML allowed for use of wp_kses()
-	 */
-	const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
-		'strong' => '',
-		'br' => '',
-	];
 
 	/**
 	 * Constructor
@@ -45,28 +37,10 @@ class General extends \Lumiere\Admin {
 			$this->utils_class->lumiere_activate_debug( $this->imdb_admin_values, 'no_var_dump', null );
 		}
 	}
-
-	/**
-	 *  Display submenu
-	 */
-	protected function lumiere_general_display_submenu(): void { ?>
-
-<div id="tabswrap">
-	<div class="imdblt_double_container lumiere_padding_five">
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-path.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Paths & Layout', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_general_base ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies' ); ?></a></div>
-
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-general-advanced.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $this->page_general_advanced ); ?>"><?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?></a></div>
-	</div>
-</div>
-
-<div id="poststuff" class="metabox-holder">
-		<?php
-	}
-
 	/**
 	 *  Display the body
 	 */
-	public function lumiere_general_display_body(): void {
+	protected function lumiere_general_display_body(): void {
 
 		echo '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . esc_url( $_SERVER['REQUEST_URI'] ?? '' ) . '">';
 
