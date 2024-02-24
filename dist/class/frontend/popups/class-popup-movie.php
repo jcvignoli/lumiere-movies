@@ -68,13 +68,12 @@ class Popup_Movie {
 		// Remove admin bar
 		add_filter( 'show_admin_bar', '__return_false' );
 
-		// Display layout
-		// @since 3.9.9 if OceanWP them, use a different hook
-		if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
-			add_action( 'the_posts', [ $this, 'lumiere_popup_movie_layout' ], 1 );
-		} else {
-			add_action( 'the_content', [ $this, 'lumiere_popup_movie_layout' ], 1 );
-		}
+		/**
+		 * Display layout
+		 * @since 3.12 using 'the_posts', removed the 'get_header' for OceanWP
+		 */
+		add_action( 'the_posts', [ $this, 'lumiere_popup_movie_layout' ], 1 );
+
 	}
 
 	/**
@@ -140,24 +139,17 @@ class Popup_Movie {
 	 */
 	public function lumiere_popup_movie_layout(): void {
 
-		// Set up class properties. Exit if no movie was found.
-		if ( $this->find_movie() === false ) {
-			status_header( 404 );
-			$text = 'Could not find any IMDb movie with this query.';
-			$this->logger->log()->error( '[Lumiere][popupMovieClass] ' . $text );
-			wp_die( esc_html( $text ) );
-		}
-		?><!DOCTYPE html>
-<html>
-<head>
-		<?php wp_head(); ?>
+		?> class="lumiere_body<?php
 
-</head>
-<body class="lumiere_body<?php
-if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
-	echo ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] );
+		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
+
+		// Exit if no movie was found.
+if ( $this->find_movie() === false ) {
+	status_header( 404 );
+	$text = 'Could not find any IMDb movie with this query.';
+	$this->logger->log()->error( '[Lumiere][popupMovieClass] ' . $text );
+	wp_die( esc_html( $text ) );
 }
-		echo '">';
 
 		// Display spinner circle
 		// Useless
@@ -181,28 +173,28 @@ if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
 
 }
 
-		// Casting part.
+				// Casting part.
 if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'actors' ) ) {
 
 	$this->display_casting( $this->movie );
 
 }
 
-		// Crew part.
+				// Crew part.
 if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'crew' ) ) {
 
 	$this->display_crew( $this->movie );
 
 }
 
-		// Resume part.
+				// Resume part.
 if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'resume' ) ) {
 
 	$this->display_summary( $this->movie );
 
 }
 
-		// Misc part.
+				// Misc part.
 if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 
 	$this->display_misc( $movie_results );
@@ -214,10 +206,9 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 
 ?>
 </body>
-</html>
-		<?php
+</html><?php
 
-		exit(); // quit the call of the page, to avoid double loading process
+		exit(); // quit the page, to avoid loading the proper WordPress page
 
 	}
 

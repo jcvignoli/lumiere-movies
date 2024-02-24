@@ -83,7 +83,7 @@
 		'lumiere/buttons-tag-imdb',
 		{
 			title: 'Add IMDb link',
-			tagName: 'span',
+			tagName: 'add-lumiere-tag',
 			/** deactivated, not needed anymore
 			className: 'lumiere_link_maker', */
 			className: null,

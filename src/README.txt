@@ -17,7 +17,7 @@ Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wo
 
 **Lumiere! Movies** helps you integrate loads of information about movies and stars in your blog. Widgets, links to informative popup, and dedicated taxonomy pages are available. Everything is automatised and no further configuration is required from the user. However, should you want to access advanced features, your can change the themes, add taxonomy to your pages, remove links, display automatically information according to your blog posts' titles, and use many hidden features. The information is retrieved from the well-known [IMDb](https://www.imdb.com "Internet movie database") website. Lumière! ensures that you have the most accurate and reliable information always available on your blog.
 
-Many features are available in the WordPress old and new editing interfaces (Block based, Visual editor, and HTML editor). It is Content Security Policy (CSP) compliant, takes advantage of Polylang plugin and is partially compatible with AMP plugin.
+Many features are available in the WordPress old and new editing interfaces (Block based, Visual editor, and HTML editor). It is Content Security Policy (CSP) compliant, takes advantage of Polylang plugin and is partially compatible with AMP plugin. It is fully compatible with Classic editor plugin.
 
 **Lumière!** is a great tool to illustrate your articles. You can display movie details through many ways, such as in popups, widgets, and straight inside a post. It can be extensively fine-tuned in the admin options panel.
 
@@ -92,6 +92,14 @@ Although only one widget only can be added per post, you can insert as many movi
 = How to integrate Lumière with Polylang plugin?  =
 
 If Polylang is installed, new features for taxonomy are added, such as a dropdown form for selecting the languages in taxonomy pages (such as /yourblog/lumiere-director/stanley-kubrick/). Once you select which to data to turn into taxonomy, you must activate the very same taxonomy in Polylang Settings -> Custom post types and Taxonomies -> Custom taxonomies as your activiated Lumière taxonomies.
+
+= Is it compatible with Classic Editor plugin?  =
+
+If for any reason your are using Classic editor to get back the pre-5.8 WordPress editor interface, you will find every Lumière user-friendly editing tools to add your movies to your posts.
+
+= Is it compatible with Classic Widgets plugin?  =
+
+If for any reason your are using Classic Widgets to get back the pre-5.8 WordPress widget interface, you will be able to add Lumière widget anyway.
 
 = Is it AMP compliant?  =
 

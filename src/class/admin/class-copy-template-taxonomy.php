@@ -18,7 +18,7 @@ use Lumiere\Tools\Utils;
 
 /**
  * Move automatically the taxonomy templates (in class/theme) to user's template folder (wp-content/themes/current-theme)
- * @see \Lumiere\Alteration\Taxonomy Is called in hook
+ * @see \Lumiere\Alteration\Taxonomy This class is called in hook
  */
 class Copy_Template_Taxonomy {
 

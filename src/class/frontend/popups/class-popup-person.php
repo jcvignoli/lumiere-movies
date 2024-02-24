@@ -55,13 +55,11 @@ class Popup_Person {
 		// Remove admin bar
 		add_filter( 'show_admin_bar', '__return_false' );
 
-		// Display layout
-		// @since 3.9.9 if OceanWP them, use a different hook
-		if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
-			add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ], 1 );
-		} else {
-			add_action( 'the_content', [ $this, 'lumiere_popup_person_layout' ], 1 );
-		}
+		/**
+		 * Display layout
+		 * @since 3.12 using 'the_posts' instead of the 'content'
+		 */
+		add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ], 1 );
 	}
 
 	/**
@@ -98,21 +96,12 @@ class Popup_Person {
 
 	/**
 	 *  Display layout
-	 *
 	 */
 	public function lumiere_popup_person_layout(): void {
 
-		?><!DOCTYPE html>
-<html>
-<head>
-		<?php wp_head(); ?>
+		?> class="lumiere_body<?php
 
-</head>
-<body class="lumiere_body<?php
-if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
-	echo ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] );
-}
-		echo '">';
+		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
 		// Display spinner circle
 		// useless
@@ -159,20 +148,17 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 	$this->display_misc();
 }
 		//------------------------------------------------------------------------------ end misc part
-?>
 
-		<br /><br />
-		<?php
+		echo '<br /><br />';
 
 		wp_meta();
 		wp_footer();
 
-		?>
+?>
 		</body>
-		</html>
-		<?php
+		</html><?php
 
-		exit(); // quit the call of the page, to avoid double loading process
+		exit(); // quit the page, to avoid loading the proper WordPress page
 
 	}
 

@@ -190,7 +190,7 @@ class Widget_Frontpage {
 		$imdb_id_or_title = [];
 
 		// Build title, use a default text if title has not been edited in the widget interface.
-		$title_box = strlen( $title_box ) > 0 ? $title_box : esc_html__( 'Lumière! Movies widget', 'lumiere-movies' );
+		$title_box = strlen( $title_box ) > 0 ? $title_box : '';
 
 		// Log what type of widget is utilised.
 		if ( Utils::lumiere_block_widget_isactive( self::BLOCK_WIDGET_NAME ) === true ) {
@@ -280,11 +280,11 @@ class Widget_Frontpage {
 		$output = '';
 
 		// Exit if no data provided.
-		if ( strlen( $title_box ) === 0 || strlen( $movie ) === 0 ) {
+		if ( strlen( $movie ) === 0 ) {
 			return $output;
 		}
 
-		$embeded_title_box = self::ARGS['before_title'] . $title_box . self::ARGS['after_title'];
+		$embeded_title_box = strlen( $title_box ) > 0 ? self::ARGS['before_title'] . $title_box . self::ARGS['after_title'] : '';
 		apply_filters( 'widget_title', $embeded_title_box ); // Change widget title according to the extra args.
 
 		$output .= wp_kses( self::ARGS['before_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );

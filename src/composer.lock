@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jcvignoli/imdbphp.git",
-                "reference": "3c8cfb30fc3118451d670b0cdd635df2d338776f"
+                "reference": "66bdb4c8297e102ba0839f747320e5833a09ca1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jcvignoli/imdbphp/zipball/3c8cfb30fc3118451d670b0cdd635df2d338776f",
-                "reference": "3c8cfb30fc3118451d670b0cdd635df2d338776f",
+                "url": "https://api.github.com/repos/jcvignoli/imdbphp/zipball/66bdb4c8297e102ba0839f747320e5833a09ca1a",
+                "reference": "66bdb4c8297e102ba0839f747320e5833a09ca1a",
                 "shasum": ""
             },
             "require": {
@@ -34,8 +34,10 @@
                 "cache/array-adapter": "^1.2",
                 "friendsofphp/php-cs-fixer": "^3.13",
                 "mockery/mockery": "1.5.1",
+                "phan/phan": "@stable",
                 "phpstan/phpstan": "@stable",
-                "phpunit/phpunit": "^9.5"
+                "phpunit/phpunit": "^9.5",
+                "wapmorgan/php-deprecation-detector": "@stable"
             },
             "default-branch": true,
             "type": "library",
@@ -53,6 +55,12 @@
                 ],
                 "phpstan": [
                     "phpstan analyse"
+                ],
+                "phpdd": [
+                    "phpdd ./src/Imdb"
+                ],
+                "phan": [
+                    "phan -k phan.php"
                 ],
                 "cs": [
                     "php-cs-fixer fix --ansi --verbose --dry-run --diff"
@@ -74,7 +82,7 @@
             "support": {
                 "source": "https://github.com/jcvignoli/imdbphp/tree/master"
             },
-            "time": "2024-02-21T06:37:29+00:00"
+            "time": "2024-02-22T00:43:42+00:00"
         },
         {
             "name": "monolog/monolog",

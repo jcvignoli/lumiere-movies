@@ -1,7 +1,7 @@
 <?php declare( strict_types = 1 );
 /**
  * Child class for displaying help sections.
- * Child of Admin
+ * Child of Admin_Menu
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -19,7 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Tools\Utils;
 
-class Help extends \Lumiere\Admin {
+/**
+ * Display help explainations
+ */
+class Help extends Admin_Menu {
 
 	/**
 	 * Paths to files to be read

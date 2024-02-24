@@ -30,10 +30,11 @@
     "phpmd": "vendor/bin/phpmd src html ./phpmd.xml.dist > tmp/logs/Results-phpmd.html",
     "phpstan": "vendor/bin/phpstan -v | tee tmp/logs/Results-phpstan.txt",
     "psalm": "vendor/bin/psalm --report=tmp/logs/Results-psalm.txt",
-    "psalm_twice": "[ \"$var\" != 0 ] && var=$(npm run psalm_exec) || npm run psalm_exec",
+    "psalm-twice": "[ \"$var\" != 0 ] && var=$(npm run psalm) || npm run psalm",
+    "psalm-clean": "rm -R tmp/cache/psalm && npm run psalm",
     "phpdd": "vendor/bin/phpdd ./src --exclude $(grep -oP \"(?<=^exclude: )[^/]+\" phpdd.dist) | tee tmp/logs/Results-phpdd-deprecated.txt",
     "phan": "vendor/bin/phan -k phan.php --output-mode=text -p | tee tmp/logs/Results-phan.txt",
-    "analysis": "npm-run-all -c phpcs phpmd phpstan phan phpdd psalm phpdoc"
+    "analysis": "npm-run-all -c phpcs phpmd phpstan phan phpdd psalm"
   },
   "devDependencies": {
     "@wordpress/scripts": "*",

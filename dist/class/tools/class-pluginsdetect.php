@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Class to detect which WP plugins are in use and compatible with Lumière!
+ * PluginsDetect class
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -17,6 +17,9 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+/**
+ * Detect which WP plugins are in use and compatible with Lumière!
+ */
 class PluginsDetect {
 
 	/**

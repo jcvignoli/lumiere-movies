@@ -27,7 +27,7 @@ class Taxonomy_Items_Standard {
 	/**
 	 * Set to true to activate the sidebar
 	 */
-	private bool $activate_sidebar = true;
+	private bool $activate_sidebar = false;
 
 	/**
 	 * The taxonomy term to be used in the page

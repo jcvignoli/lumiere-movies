@@ -24,7 +24,7 @@ use Lumiere\Updates;
 /**
  * Manage crons
  *
- * @see \Lumiere\Core Is called in hook
+ * @see \Lumiere\Core This class is called in a hook
  * @since 3.12 add/remove cache cron moved from class cache to here
  *
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings

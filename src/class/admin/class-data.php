@@ -1,7 +1,7 @@
 <?php declare( strict_types = 1 );
 /**
  * Child class for displaying data option selection
- * Child of Admin
+ * Child of Admin_Menu
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -23,7 +23,7 @@ use Lumiere\Tools\Utils;
 /**
  * Display data options for taxonomy, data order and data selection
  */
-class Data extends \Lumiere\Admin {
+class Data extends Admin_Menu {
 
 	/**
 	 * List of data details that display a field to enter

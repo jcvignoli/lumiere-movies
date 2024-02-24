@@ -23,6 +23,10 @@ use Lumiere\Settings;
 use Lumiere\Tools\Utils;
 use Lumiere\Plugins\Logger;
 
+/**
+ * Uninstall plugin
+ * If imdbkeepsettings is set (advanced admin options), exit earlier to keep database settings
+ */
 class Uninstall {
 
 	/**
@@ -56,18 +60,10 @@ class Uninstall {
 	private Utils $utils_class;
 
 	/**
-	 * \Lumière\Settings class
-	 */
-	private Settings $config_class; // @phpstan-ignore-line -- Property Lumiere\Uninstall::$config_class is never read, only written. -- it's to setup the config, can't use $this->imdb_admin_values (etc) otherwise
-
-	/**
 	 * Constructor
 	 *
 	 */
 	public function __construct() {
-
-		// Needed to access the options
-		$this->config_class = new Settings();
 
 		// Get options from database.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );

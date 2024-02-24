@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * IMDbPHP search: Display search results related to a movie to get their IMDbID
+ * IMDbPHP search class
  *
  * @author      Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright       2021, Lost Highway
@@ -21,6 +21,11 @@ use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Imdbphp;
 use Imdb\TitleSearch;
 
+/**
+ * Display search results related to a movie to get their IMDbID
+ * Can be called to display a full page for searching movies
+ * @see Lumiere\Alteration\Redirect_Virtual_Page
+ */
 class Search {
 
 	// Trait including the database settings.
@@ -189,7 +194,6 @@ class Search {
 
 	/**
 	 * Display the form for searching movies
-	 *
 	 */
 	private function initial_form (): void {
 			echo "\n<div align='center'>";
@@ -236,7 +240,6 @@ class Search {
 
 	/**
 	 * Run needed scripts
-	 *
 	 */
 	public function lumiere_search_run_script (): void {
 		wp_enqueue_script( 'lumiere_search_admin' );

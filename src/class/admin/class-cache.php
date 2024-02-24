@@ -1,7 +1,7 @@
 <?php declare( strict_types = 1 );
 /**
  * Cache options class
- * Child of Admin
+ * Child of Admin_Menu
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -25,7 +25,7 @@ use Lumiere\Admin\Cache_Tools;
  * @since 3.12 Methods extracted from this class to cache tools and factorized there, added check nonces for refresh/delete individual movies, added transiants to trigger notices in {@see \Lumiere\Admin::lumiere_admin_display_messages() } and crons in {@see \Lumiere\Admin\Cron::lumiere_add_remove_crons_cache() }
  * @TODO: finalize rewriting and factorization of class
  */
-class Cache extends \Lumiere\Admin {
+class Cache extends Admin_Menu {
 
 	/**
 	 * Class Cache tools

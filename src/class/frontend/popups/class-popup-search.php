@@ -78,13 +78,11 @@ class Popup_Search {
 		// Remove admin bar
 		add_filter( 'show_admin_bar', '__return_false' );
 
-		// Display layout
-		// @since 3.9.10 if it is OceanWP theme, use a different hook. All other themes use the_posts
-		if ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
-				add_action( 'get_header', [ $this, 'layout' ], 1 );
-		} else {
-				add_action( 'the_posts', [ $this, 'layout' ], 1 );
-		}
+		/**
+		 * Display layout
+		 * @since 3.12 using 'the_posts', removed the 'get_header' for OceanWP
+		 */
+		add_action( 'the_posts', [ $this, 'layout' ], 1 );
 
 	}
 
@@ -107,17 +105,11 @@ class Popup_Search {
 	 *
 	 */
 	public function layout(): void {
-		?><!DOCTYPE html>
-<html>
-<head>
-		<?php wp_head(); ?>
-</head>
-		<body class="lumiere_body<?php
-		if ( isset( $this->imdb_admin_values['imdbpopuptheme'] ) ) {
-			echo ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] );
-		}
-		?>">
-		<?php
+
+		?> class="lumiere_body<?php
+
+		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
+
 		// Do the film query.
 		$this->film_search();
 

@@ -1,7 +1,7 @@
 <?php declare( strict_types = 1 );
 /**
  * General options class
- * Child of Admin
+ * Child of Admin_Menu
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Display General options menu
  */
-class General extends \Lumiere\Admin {
+class General extends Admin_Menu {
 
 	/**
 	 * Constructor
@@ -528,7 +528,7 @@ class General extends \Lumiere\Admin {
 					?>
 					/>
 
-					<div class="explain"><?php esc_html_e( 'Whether to keep or delete Lumière! settings upon plugin uninstall. Prevent from deleting the taxonomy terms and the cache too.', 'lumiere-movies' ); ?><br /><br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
+					<div class="explain"><?php esc_html_e( 'Whether to keep or delete Lumière! settings upon plugin uninstall. If unselected, will delete taxonomy terms and and cache folder. For the safety of your WordPress install, the metaboxes and widgets will never been uninstalled.', 'lumiere-movies' ); ?><br /><br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
 
 				</div>
 

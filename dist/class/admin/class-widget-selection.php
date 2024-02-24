@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Admin_Widget class: Add a Lumière Widget option in administration
+ * Admin_Widget class
  *
  * @author Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -19,7 +19,11 @@ use Lumiere\Settings;
 use Lumiere\Tools\Utils;
 
 /**
- * This widget is used to display both autowidget and metabox info in sidebar widgets
+ * Add a Lumière Widget option in administration
+ * It selects either legacy widget (pre-5.8 WordPress) or block-based widget (post-5.8 WordPress), so it is compatible with Classic widget plugin
+ *
+ * Once this widget is added to, it may be used to display both autowidget and metabox info in sidebar widgets
+ * @see Admin class calls it
  */
 class Widget_Selection extends \WP_Widget {
 
@@ -47,7 +51,7 @@ class Widget_Selection extends \WP_Widget {
 			]
 		);
 
-		// Settings trait.
+		// Settings trait. Must be in __construct().
 		$this->settings_open();
 
 		/**
@@ -60,6 +64,8 @@ class Widget_Selection extends \WP_Widget {
 
 	/**
 	 * Statically start the class
+	 *
+	 * @since 3.12 using __CLASS__ instead of get_class() in register_widget()
 	 */
 	public static function lumiere_widget_start(): void {
 
@@ -76,7 +82,7 @@ class Widget_Selection extends \WP_Widget {
 			add_action(
 				'widgets_init',
 				function() {
-					register_widget( get_class() );
+					register_widget( __CLASS__ );
 				}
 			);
 		}
@@ -166,7 +172,7 @@ class Widget_Selection extends \WP_Widget {
 	 */
 	public function form( $instance ): string {
 
-		$title = $instance['title'] ?? esc_html__( 'Lumière! Movies', 'lumiere-movies' );
+		$title = $instance['title'] ?? '';
 		$lumiere_query_widget = $instance['lumiere_queryid_widget'] ?? '';
 
 		$lumiere_queryid_widget_input = $instance['lumiere_queryid_widget_input'] ?? '';
@@ -180,8 +186,7 @@ class Widget_Selection extends \WP_Widget {
 		$output .= "\n\t\t" . '</div>';
 
 		$output .= "\n\t\t" . '<div class="lumiere_flex_auto">';
-		$output .= "\n\t\t\t" . '<label for="'
-					. esc_attr( $this->get_field_id( 'title' ) ) . '">'
+		$output .= "\n\t\t\t" . '<label for="' . esc_attr( $this->get_field_id( 'title' ) ) . '">'
 					. esc_html__( 'Widget title:', 'lumiere-movies' ) . '</label>';
 		$output .= "\n\t\t\t" . '<input class="widefat" id="' . esc_attr( $this->get_field_id( 'title' ) ) . '" name="' . esc_attr( $this->get_field_name( 'title' ) ) . '" type="text" value="' . esc_attr( $title ) . '" />';
 		$output .= "\n\t\t\t" . '</div>';

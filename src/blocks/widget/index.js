@@ -20,7 +20,7 @@
 		{
 
 			title: i18n.__( 'Lumière! Widget', 'lumiere-movies' ),
-			description: i18n.__( 'Lumière Widget automatically adds movies to your widgets sidebar and enhance your posts about cinema.', 'lumiere-movies' ),
+			description: i18n.__( 'Lumière Widget automatically adds movies to your widgets sidebar. After adding the widget, either use the new box on the right when editing your post to add your movie or select "Auto title widget" in advanced options.', 'lumiere-movies' ),
 			icon: iconLumiere,
 			category: 'widgets',
 			keywords: [ 'widget', 'lumiere', 'imdb', 'movie', 'film' ],
@@ -71,7 +71,7 @@
 							className: props.className,
 							className: 'lumiere_block_widget_explanation',
 							tagName: 'gutenberg',
-							children: i18n.__( 'This widget shows movies in your articles.', 'lumiere-movies' )
+							children: i18n.__( 'This widget shows movies in your posts.', 'lumiere-movies' )
 								+ '<br />'
 								+ i18n.__( 'Movie details will be displayed in Lumière! Widget according to 1/ their post title, if Lumière auto-widget option is checked; 2/ the movie ID or title you entered in the metabox of a post. If you are using auto-widget, make sure the post titles are exactly the same as the movie titles on the IMDb website.', 'lumiere-movies' )
 								+ '<br />'
