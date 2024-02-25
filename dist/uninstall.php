@@ -129,7 +129,7 @@ class Uninstall {
 
 		// Delete Lumière options.
 		$this->lumiere_delete_options();
-		
+
 		return true;
 	}
 
@@ -137,7 +137,7 @@ class Uninstall {
 	 * Delete cache
 	 */
 	private function lumiere_delete_cache(): bool {
-	
+
 		global $wp_filesystem;
 
 		if ( ! isset( $this->imdb_cache_values ) ) {
@@ -147,18 +147,18 @@ class Uninstall {
 		// Remove cache.
 		$lumiere_cache_path = $this->imdb_cache_values['imdbcachedir'];
 		Utils::lumiere_wp_filesystem_cred( $lumiere_cache_path );
-		
+
 		if ( strlen( $lumiere_cache_path ) === 0 || $wp_filesystem->is_dir( $lumiere_cache_path ) === false ) {
 			$this->logger->log()->warning( '[Lumiere][uninstall][Cache] Standard cache folder was not found. Could not delete ' . $lumiere_cache_path . '.' );
 			return false;
 		}
-		
+
 		if ( $wp_filesystem->delete( $lumiere_cache_path, true ) === true ) {
 			$this->logger->log()->debug( '[Lumiere][uninstall][Cache] Cache files and folder deleted.' );
 		}
 
 		$this->logger->log()->debug( '[Lumiere][uninstall][Cache] Lumière cache deletion processed.' );
-		
+
 		return true;
 	}
 
@@ -168,11 +168,11 @@ class Uninstall {
 	 * If a taxonomy is found, let's get related terms and delete them.
 	 */
 	private function lumiere_delete_taxonomy(): bool {
-	
+
 		if ( ! isset( $this->imdb_widget_values ) || ! isset( $this->imdb_admin_values ) ) {
 			return false;
 		}
-	
+
 		foreach ( $this->utils_class->lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
 
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $this->imdb_admin_values['imdburlstringtaxo'] . $key );
@@ -191,7 +191,7 @@ class Uninstall {
 			);
 
 			// Get all terms, even if empty.
-			// @phan-suppress-next-line PhanAccessMethodInternal -- Cannot access internal method \get_terms() of namespace \ defined at vendor/php-stubs/wordpress-stubs/wordpress-stubs.php:133181 from namespace \Lumiere\Plugins -> PHAN got creazy with get_terms()!
+			// @phan-suppress-next-line PhanAccessMethodInternal -- Cannot access internal method \get_terms() of namespace \ defined at vendor/php-stubs/wordpress-stubs/wordpress-stubs.php:133181 from namespace \Lumiere\Plugins -> PHAN gets crazy with get_terms()!
 			$terms = get_terms(
 				[
 					'taxonomy' => $filter_taxonomy,
@@ -248,7 +248,7 @@ class Uninstall {
 		}
 
 		global $wp_filesystem;
-		
+
 		$get_taxo_templates = glob( get_stylesheet_directory() . '/{taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . '*}', GLOB_BRACE );
 
 		// No taxo files found
@@ -263,23 +263,23 @@ class Uninstall {
 			$this->logger->log()->debug( '[Lumiere][uninstall][Taxonomy template] File ' . $tax_file . ' deleted' );
 		}
 		$this->logger->log()->debug( '[Lumiere][uninstall][Taxonomy template] Lumière taxonomy templates deletion processed.' );
-		
-		return true;	
+
+		return true;
 	}
 
 	/**
 	 * Delete crons
 	 */
 	private function lumiere_delete_crons(): bool {
-	
+
 		$processed = false;
-	
+
 		// Remove WP lumiere crons should they exist.
 		$list_crons_available = [ 'lumiere_cron_exec_once', 'lumiere_cron_deletecacheoversized', 'lumiere_cron_autofreshcache' ];
 		foreach ( $list_crons_available as $cron_installed ) {
 			if ( wp_clear_scheduled_hook( $cron_installed ) > 0 ) {
 				$processed = true;
-				$this->logger->log()->debug( '[Lumiere][uninstall][Crons] Cron ' . $cron_installed .  ' deleted.' );
+				$this->logger->log()->debug( '[Lumiere][uninstall][Crons] Cron ' . $cron_installed . ' deleted.' );
 			}
 		}
 		$this->logger->log()->debug( '[Lumiere][uninstall][Crons] Lumière crons deletion processed.' );
@@ -290,7 +290,7 @@ class Uninstall {
 	 * Delete transients
 	 */
 	private function lumiere_delete_transients(): bool {
-	
+
 		$processed = false;
 		if ( delete_transient( 'cron_settings_updated' ) ) {
 			$processed = true;
@@ -314,7 +314,7 @@ class Uninstall {
 	private function lumiere_delete_options(): bool {
 
 		$processed = false;
-		
+
 		if ( delete_option( Settings::LUMIERE_ADMIN_OPTIONS ) === true ) {
 			$processed = true;
 			$this->logger->log()->error( '[Lumiere][uninstall] Successfully deleted ' . Settings::LUMIERE_ADMIN_OPTIONS );
@@ -329,7 +329,7 @@ class Uninstall {
 		}
 		$this->logger->log()->debug( '[Lumiere][uninstall] Lumière options deletion processed.' );
 		return $processed;
-		
+
 	}
 }
 

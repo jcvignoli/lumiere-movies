@@ -81,7 +81,7 @@ class Utils {
 
 			$wp_filesystem->delete( $dir . $file['name'] );
 		}
-		
+
 		return true;
 	}
 

@@ -317,7 +317,7 @@ class Help extends Admin_Menu {
 
 		// Make sure we got right credentials to use $wp_filesystem.
 		Utils::lumiere_wp_filesystem_cred( $this->acknowledgefile );
-		
+
 		// Open the file (as an array).
 		$acknowledgefile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $this->acknowledgefile ) : '';
 		?>
