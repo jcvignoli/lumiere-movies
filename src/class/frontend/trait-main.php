@@ -1,8 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
  * Frontend Trait for pages including movies
- * Popups, movies are using this trait
- * Allow to use the logger, function utilities, and settings
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -18,13 +16,18 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\PluginsDetect;
+use Lumiere\Tools\PluginsDetect;
 use Lumiere\Tools\Utils;
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Imdbphp;
 use Lumiere\Plugins\Polylang;
 
+/**
+ * Frontend trait
+ * Popups, movies are using this trait
+ * Allow to use the logger, function utilities, and settings
+ */
 trait Main {
 
 	// Global settings trait.
@@ -44,9 +47,9 @@ trait Main {
 	 * Class for building links, i.e. Highslide
 	 * Built in class Link Factory
 	 *
-	 * @var \Lumiere\Link_Makers\Bootstrap_Links|\Lumiere\Link_Makers\AMP_Links|\Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\No_Links $link_maker The factory class will determine which class to use
+	 * @phpstan-var \Lumiere\Link_Makers\Bootstrap_Links|\Lumiere\Link_Makers\AMP_Links|\Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\No_Links $link_maker The factory class will determine which class to use
 	 */
-	public \Lumiere\Link_Makers\Bootstrap_Links|\Lumiere\Link_Makers\AMP_Links|\Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\No_Links $link_maker;
+	public object $link_maker;
 
 	/**
 	 * Class \Lumiere\Utils

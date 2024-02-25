@@ -1,7 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
  * Settings Trait for including database options
- * All pages that need any of admin, cache or widget options are using it
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -20,6 +19,11 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Lumiere\Settings;
 
 /**
+ * Trait for including database options
+ * Most pages that need any of admin, cache or widget options are using it
+ *
+ * @TODO settings_open() should include only includes new Settings() and the properties as options should be build in a constructor
+ *
  * Below doesn't work, it's a PHPStan bug #5091
  * @phpstan-import-type OPTIONS_ADMIN from Settings
  * @phpstan-import-type OPTIONS_CACHE from Settings

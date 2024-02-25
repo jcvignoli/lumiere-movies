@@ -2,7 +2,7 @@
 /**
  * Class to build Virtual Pages
  *
- * @author        Origin: Mr. Hosseini, https://wordpress.stackexchange.com/a/342719/206323, modified: Lost Higway
+ * @author Origin: Mr. Hosseini, https://wordpress.stackexchange.com/a/342719/206323, modified: Lost Higway
  * @copyright (c) 2022, Lost Highway
  *
  * @version 1.0
@@ -57,7 +57,6 @@ class Virtual_Page {
 	 * @param string $page_path Full of the page to become virtual, ie "/lumiere/search/"
 	 * @param string|object $page_content Content to be displayed, can be a single phrase or an object
 	 * @param string $page_title Title of the virtual page
-	 *
 	 */
 	public function __construct( string $page_path = '/lumiere/', string|object $page_content = 'content of the page', string $page_title = 'Title of the page' ) {
 
@@ -125,7 +124,7 @@ class Virtual_Page {
 
 		/**
 		 * Doesn't seem needed
-		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+		// @phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		$GLOBALS['wp_query'] = $wp_query;
 		 */
 

@@ -17,6 +17,10 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
 }
 
+/**
+ * Class that detects IPs, User agent and bans those who are declared as bots
+ * Is usefull to prevent the access to popups that create a lot of cache files
+ */
 class Ban_Bots {
 
 	/**

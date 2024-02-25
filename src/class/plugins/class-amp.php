@@ -16,6 +16,10 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+/**
+ * Plugin for AMP WordPress plugin
+ * Specific functions are activated if AMP is in use
+ */
 class Amp {
 
 	/**

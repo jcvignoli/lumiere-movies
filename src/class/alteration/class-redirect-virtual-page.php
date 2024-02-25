@@ -21,7 +21,7 @@ use Lumiere\Plugins\Imdbphp;
 use Lumiere\Frontend\Popups\Popup_Person;
 use Lumiere\Frontend\Popups\Popup_Movie;
 use Lumiere\Frontend\Popups\Popup_Search;
-use Lumiere\Search;
+use Lumiere\Tools\Search;
 use Lumiere\Tools\Utils;
 use Lumiere\Alteration\Virtual_Page;
 use Imdb\Title;
@@ -31,6 +31,7 @@ use Imdb\Person;
  * Redirect to a virtual page retrieving (for IMDB-related) the name and sending it and also sending the url to be created
  * Currently redirect to popups and class search
  *
+ * @see \Lumiere\Alteration\Virtual_Page that allows the pages here to be made
  * @phpstan-import-type OPTIONS_CACHE from Settings
  */
 class Redirect_Virtual_Page {
@@ -113,7 +114,7 @@ class Redirect_Virtual_Page {
 		}
 
 		// Make sure we use cache. User may have decided not to use cache, but we need it to accelerate the call.
-		if ( ! isset( $this->imdbphp_class->cachedir ) ) {
+		if ( $this->imdb_cache_values['imdbusecache'] === '0' ) {
 			$this->imdbphp_class->cachedir = $this->imdb_cache_values['imdbcachedir'];
 		}
 

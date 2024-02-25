@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Popup for people: Independant page that displays star information inside a popup
+ * Popup for people
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -18,6 +18,12 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Imdb\Person;
 
+/**
+ * Independant class that displays star information in a popup
+ * @see \Lumiere\Alteration\Rewrite_Rules that creates rules for creating a virtual page
+ * @see \Lumiere\Alteration\Redirect_Virtual_Page that redirects to this page
+ * @see \Lumiere\Frontend\Popups\Head_Popups that modifies the popup header
+ */
 class Popup_Person {
 
 	// Use trait frontend

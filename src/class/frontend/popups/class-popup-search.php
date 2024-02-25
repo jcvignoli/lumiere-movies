@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Popup for movie search: Independant page that displays movie search inside a popup
+ * Popup for movie search
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -19,6 +19,11 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Imdb\TitleSearch;
 use Lumiere\Tools\Utils;
 
+/**
+ * Independant class that displays movie search results in a popup
+ * @see \Lumiere\Alteration\Rewrite_Rules that creates rules for creating a virtual page
+ * @see \Lumiere\Alteration\Redirect_Virtual_Page that redirects to this page
+ */
 class Popup_Search {
 
 	// Use trait frontend

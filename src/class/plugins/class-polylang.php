@@ -1,7 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
  * Class Polylang plugin
- * This class offers specific functions if Polylang is in use
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -20,6 +19,10 @@ if ( ! defined( 'WPINC' ) ) {
 
 use Lumiere\Plugins\Logger;
 
+/**
+ * Plugin for Polylang WordPress plugin
+ * This class offers specific functions if Polylang is in use
+ */
 class Polylang {
 
 	// Trait including the database settings.

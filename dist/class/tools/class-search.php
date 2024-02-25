@@ -3,13 +3,13 @@
  * IMDbPHP search class
  *
  * @author      Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright       2021, Lost Highway
+ * @copyright   2021, Lost Highway
  *
  * @version     1.0
  * @package lumiere-movies
  */
 
-namespace Lumiere;
+namespace Lumiere\Tools;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
@@ -19,6 +19,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 use Lumiere\Tools\Utils;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Imdbphp;
+use Lumiere\Settings;
 use Imdb\TitleSearch;
 
 /**

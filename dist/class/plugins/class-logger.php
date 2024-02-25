@@ -26,6 +26,9 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Processor\IntrospectionProcessor;
 
+/**
+ * Plugin for Monolog Logger
+ */
 class Logger {
 
 	// Trait including the database settings.
@@ -89,7 +92,6 @@ class Logger {
 
 	/**
 	 * Detect if the current page is a classic or block editor page
-	 *
 	 */
 	private function lumiere_is_screen_editor(): bool {
 

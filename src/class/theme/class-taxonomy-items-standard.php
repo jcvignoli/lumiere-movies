@@ -1,8 +1,11 @@
 <?php declare( strict_types = 1 );
 /**
  * Template Item: Taxonomy for Lumière! Movies WordPress plugin (set up for standard item taxonomy)
+ * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
+ * Or easier: just use Lumière admin interface to do it automatically
  *
  * Version: 3.0
+ *
  * @package lumiere-movies
  */
 
@@ -14,8 +17,13 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 /**
- * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
- * Or even easier: just use Lumière admin interface to do it automatically
+ * This template retrieves automaticaly all post related to items taxonomy clicked
+ * It is a virtual page created when the appropriate rules are met
+ * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
+ * Almost compatible with AMP WordPress plugin, as WP submit_button() is yet to be made AMP compliant
+ *
+ * @see \Lumiere\Alteration\Virtual_Page that allows fills that virtual page, which this class fills into
+ * @see \Lumiere\Frontend Trait to builds $this->link_maker var
  */
 class Taxonomy_Items_Standard {
 
@@ -177,9 +185,8 @@ class Taxonomy_Items_Standard {
 				$all_links[] = '<a href="' . $html_link . '" rel="' . $taxo->slug . '">' . $taxo->name . '</a>';
 			}
 		}
-		$terms_list = implode( ', ', $all_links );
 
-		return is_string( $terms_list ) ? $terms_list : '';
+		return implode( ', ', $all_links );
 	}
 
 	/**

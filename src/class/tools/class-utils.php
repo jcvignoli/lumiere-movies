@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Class of tools: general utilities available for any class
+ * Class of tools
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -19,15 +19,12 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 use Lumiere\Plugins\Logger;
 
 /**
- * Class of function tools
- *
+ * Various tools
  */
-
 class Utils {
 
 	/**
 	 * Trait including the database settings.
-	 * Not built in constructor
 	 */
 	use \Lumiere\Settings_Global;
 
@@ -39,13 +36,11 @@ class Utils {
 
 	/**
 	 * Check if debug is active
-	 *
 	 */
 	public bool $debug_is_active;
 
 	/**
-	 * Class constructor
-	 *
+	 * Constructor
 	 */
 	public function __construct () {
 
@@ -133,6 +128,7 @@ class Utils {
 	 * @credit https://wordpress.stackexchange.com/a/255238/206323
 	 */
 	public static function lumiere_recursive_sanitize_text_field( $array ) {
+
 		foreach ( $array as $key => &$value ) {
 			if ( is_array( $value ) ) {
 				$value = self::lumiere_recursive_sanitize_text_field( $value );
@@ -171,7 +167,7 @@ class Utils {
 	 *
 	 * @credit: https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
 	 */
-	public function lumiere_array_key_exists_wildcard ( array $array, string $search, string $return = '' ): array {
+	public function lumiere_array_key_exists_wildcard( array $array, string $search, string $return = '' ): array {
 
 		$search = str_replace( '\*', '.*?', preg_quote( $search, '/' ) );
 
@@ -190,9 +186,11 @@ class Utils {
 	 * transforms movie's name in a way to be able to be searchable (ie "ô" becomes "&ocirc;")
 	 * ----> should use a WordPress dedicated function instead, like esc_url() ?
 	 *
+	 * @since 3.11.4 Added Limit the number of characters step
+	 *
 	 * @param ?string $link either null or string to be converted
 	 */
-	public static function lumiere_name_htmlize ( ?string $link = null ): ?string {
+	public static function lumiere_name_htmlize( ?string $link = null ): ?string {
 
 		// If no string passed, exit
 		if ( $link === null ) {
@@ -202,17 +200,13 @@ class Utils {
 		// a. quotes escape
 		$lienhtmlize = addslashes( $link );
 
-		// b.converts db to html -> no more needed
-		//$lienhtmlize = htmlentities($lienhtmlize,ENT_NOQUOTES,"UTF-8");
-
-		// c. regular expression to convert all accents; weird function...
+		// b. regular expression to convert all accents; weird function...
 		$lienhtmlize = preg_replace( '/&(?!#[0-9]+;)/s', '&amp;', $lienhtmlize ) ?? $lienhtmlize;
 
-		// d. turns spaces to "+", which allows titles including several words
+		// c. turns spaces to "+", which allows titles including several words
 		$lienhtmlize = str_replace( [ ' ' ], [ '+' ], $lienhtmlize );
 
-		// Limit the number of characters, as the cache file path can exceed the limit of 255 characters
-		// @since 3.11.4
+		// d. Limit the number of characters, as the cache file path can't exceed the limit of 255 characters
 		$lienhtmlize = substr( $lienhtmlize, 0, 100 );
 
 		return $lienhtmlize;
@@ -323,7 +317,7 @@ class Utils {
 	 *
 	 * @return void Returns optionaly an array of the options passed in $options
 	 */
-	// phpcs:disable
+	// @phpcs:disable
 	public function lumiere_activate_debug( ?array $options = null, string $set_error = null, string $libxml_use = null, string $get_screen = null ): void {
 
 		// Set on true to show debug is active if called again.
@@ -363,7 +357,7 @@ class Utils {
 		}
 
 	}
-	// phpcs:enable
+	// @phpcs:enable
 
 	/**
 	 * Lumiere internal exception handler

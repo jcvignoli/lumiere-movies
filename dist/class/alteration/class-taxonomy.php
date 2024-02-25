@@ -24,7 +24,7 @@ use Lumiere\Tools\Utils;
  * Taxonomy Pages names are added to the database
  * Pages are made availabe by using taxonomy templates (if copied in template folder)
  *
- * @see Lumiere\Admin\Copy_Template_Taxonomy to copy new foun
+ * @see Lumiere\Admin\Copy_Template_Taxonomy to copy new page template
  *
  * @phpstan-import-type OPTIONS_DATA from Settings
  * @phpstan-import-type OPTIONS_ADMIN from Settings

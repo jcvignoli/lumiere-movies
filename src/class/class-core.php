@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Admin\Cache_Tools;
-use Lumiere\PluginsDetect;
+use Lumiere\Tools\PluginsDetect;
 use Lumiere\Plugins\Amp;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Polylang;
@@ -57,7 +57,7 @@ class Core {
 		 * Admin actions.
 		 * Must be called before init, as an init, 0 is called.
 		 */
-		add_action( 'set_current_user', [ 'Lumiere\Admin', 'lumiere_static_start' ], 0 );
+		add_action( 'set_current_user', [ 'Lumiere\Admin', 'lumiere_static_start' ] );
 
 		// Add taxonomy to Lumière!
 		add_action( 'registered_taxonomy', [ 'Lumiere\Alteration\Taxonomy', 'lumiere_static_start' ], 0 );

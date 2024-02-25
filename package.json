@@ -29,7 +29,7 @@
     "phpcsPSR2": "vendor/bin/phpcs src --standard=PSR2 ./src --ignore=*vendor* --ignore=*js/highslide* > tmp/logs/Results-phpcs-PSR2.txt",
     "phpmd": "vendor/bin/phpmd src html ./phpmd.xml.dist > tmp/logs/Results-phpmd.html",
     "phpstan": "vendor/bin/phpstan -v | tee tmp/logs/Results-phpstan.txt",
-    "psalm": "vendor/bin/psalm --report=tmp/logs/Results-psalm.txt",
+    "psalm": "vendor/bin/psalm --show-info=true --report=tmp/logs/Results-psalm.txt",
     "psalm-twice": "[ \"$var\" != 0 ] && var=$(npm run psalm) || npm run psalm",
     "psalm-clean": "rm -R tmp/cache/psalm && npm run psalm",
     "phpdd": "vendor/bin/phpdd ./src --exclude $(grep -oP \"(?<=^exclude: )[^/]+\" phpdd.dist) | tee tmp/logs/Results-phpdd-deprecated.txt",

@@ -6,11 +6,6 @@
  *
  * Version: 3.5.4
  *
- * This template retrieves automaticaly the occurence of the name selected
- * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
- * Almost compatible with AMP WordPress plugin, because WP submit_button() does not seem to be yet AMP compliant
- * It uses \Lumiere\Frontend trait and builds its $this->link_maker var
- *
  * @package lumiere-movies
  */
 
@@ -27,6 +22,15 @@ use Lumiere\Plugins\Polylang;
 use Lumiere\Link_Makers\Link_Factory;
 use WP_Query;
 
+/**
+ * This template retrieves automaticaly all post related to the person taxonomy name clicked
+ * It is a virtual page created according to Lumiere taxonomy
+ * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
+ * Almost compatible with AMP WordPress plugin, as WP submit_button() is yet to be made AMP compliant
+ *
+ * @see \Lumiere\Alteration\Virtual_Page that allows fills that virtual page, which this class fills into
+ * @see \Lumiere\Frontend Trait to builds $this->link_maker var
+ */
 class Taxonomy_People_Standard {
 
 	// Use trait frontend.

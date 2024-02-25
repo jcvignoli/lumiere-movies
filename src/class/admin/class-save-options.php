@@ -279,7 +279,7 @@ class Save_Options {
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 *
-	 * @see {Lumiere\Admin\Cron::lumiere_add_remove_crons_cache()}
+	 * @see Lumiere\Admin\Cron::lumiere_add_remove_crons_cache()
 	 * @throws Exception if nonces are incorrect
 	 *
 	 * @template T as OPTIONS_CACHE

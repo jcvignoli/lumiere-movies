@@ -49,7 +49,7 @@ class Backoffice_Extra {
 	 * @param array<string>|null $plugin_meta An array of the plugin's metadata. Can be null.
 	 * @param string $plugin_file_name Path to the plugin file relative to the plugins directory.
 	 * @return array<string>|null $plugin_meta An array with the plugin's metadata.
-	 * @since v3.9
+	 * @since 3.9
 	 */
 	public function lumiere_plugin_settings_link( ?array $plugin_meta, string $plugin_file_name ): ?array {
 

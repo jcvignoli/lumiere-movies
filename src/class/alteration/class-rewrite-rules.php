@@ -27,6 +27,7 @@ use Lumiere\Settings;
  * 2/ Rules for Polylang are always installed (even if Polylang is not)
  * 3/ On closing the class, check if the rules are correctly added. If they aren't, a flush_rewrite_rules() is done
  * @since 3.11
+ * @see \Lumiere\Frontend\Popups Folder that includes the popup classes
  */
 class Rewrite_Rules {
 
@@ -177,7 +178,7 @@ class Rewrite_Rules {
 			$this->logger_class->log()->debug( '[RewriteRules] Rules added to Polylang' );
 			add_filter(
 				'pll_rewrite_rules',
-				function( $existing_rules ): array {
+				function( array $existing_rules ): array {
 					return array_merge( $existing_rules, [ 'lumiere' ] );
 				}
 			);

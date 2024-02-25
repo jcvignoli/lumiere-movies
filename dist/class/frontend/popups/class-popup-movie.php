@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Popup for movies: Independant page that displays movie information inside a popup
+ * Popup for movies
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -21,6 +21,12 @@ use Imdb\TitleSearch;
 use Lumiere\Tools\Utils;
 use Exception;
 
+/**
+ * Independant class that displays movie information in a popup
+ * @see \Lumiere\Alteration\Rewrite_Rules that creates rules for creating a virtual page
+ * @see \Lumiere\Alteration\Redirect_Virtual_Page that redirects to this page
+ * @see \Lumiere\Frontend\Popups\Head_Popups that modifies the popup header
+ */
 class Popup_Movie {
 
 	// Use trait frontend
