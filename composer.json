@@ -47,15 +47,10 @@
         }
     },
     "scripts": {
-        "phpdoc": "phpDocumentor run",
-        "phpcs": "vendor/bin/phpcs src",
         "phpcsbot": "vendor/bin/phpcs -n src",
-        "phpstan": "vendor/bin/phpstan --memory-limit=1G analyze src",
         "phpstanbot": "vendor/bin/phpstan",
-        "lint": [
-            "@phpcsbot",
-            "@phpstanbot"
-        ],
+        "phanbot": "vendor/bin/phan -k phan.php ",
+        "lint": ["@phpcsbot", "@phpstanbot", "@phanbot"],
         "post-autoload-dump": [
             "./build/update-src-composer"
         ]
