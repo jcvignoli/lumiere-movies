@@ -176,7 +176,6 @@ class Uninstall {
 		foreach ( $this->utils_class->lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
 
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $this->imdb_admin_values['imdburlstringtaxo'] . $key );
-			$this->logger->log()->debug( '[Lumiere][uninstall][Taxonomy terms] Process of deleting taxonomy ' . $filter_taxonomy . ' started' );
 
 			// Register taxonomy: must be registered in order to delete its terms.
 			register_taxonomy(
@@ -317,17 +316,17 @@ class Uninstall {
 
 		if ( delete_option( Settings::LUMIERE_ADMIN_OPTIONS ) === true ) {
 			$processed = true;
-			$this->logger->log()->error( '[Lumiere][uninstall] Successfully deleted ' . Settings::LUMIERE_ADMIN_OPTIONS );
+			$this->logger->log()->error( '[Lumiere][uninstall][Options] Successfully deleted ' . Settings::LUMIERE_ADMIN_OPTIONS );
 		}
 		if ( delete_option( Settings::LUMIERE_WIDGET_OPTIONS ) === true ) {
 			$processed = true;
-			$this->logger->log()->error( '[Lumiere][uninstall] Successfully deleted ' . Settings::LUMIERE_WIDGET_OPTIONS );
+			$this->logger->log()->error( '[Lumiere][uninstall][Options] Successfully deleted ' . Settings::LUMIERE_WIDGET_OPTIONS );
 		}
 		if ( delete_option( Settings::LUMIERE_CACHE_OPTIONS ) === true ) {
 			$processed = true;
-			$this->logger->log()->error( '[Lumiere][uninstall] Successfully deleted' . Settings::LUMIERE_CACHE_OPTIONS );
+			$this->logger->log()->error( '[Lumiere][uninstall][Options] Successfully deleted ' . Settings::LUMIERE_CACHE_OPTIONS );
 		}
-		$this->logger->log()->debug( '[Lumiere][uninstall] Lumière options deletion processed.' );
+		$this->logger->log()->debug( '[Lumiere][uninstall][Delete options] Lumière options deletion processed.' );
 		return $processed;
 
 	}
