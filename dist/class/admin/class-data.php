@@ -48,9 +48,6 @@ class Data extends Admin_Menu {
 		// Construct parent class
 		parent::__construct();
 
-		// Start logger
-		$this->logger->lumiere_start_logger( 'adminData' );
-
 		// Build the list of data details that include a number limit
 		$this->details_with_numbers = [
 			'actor' => __( 'actor', 'lumiere-movies' ),
@@ -74,6 +71,19 @@ class Data extends Admin_Menu {
 			'year' => __( 'year of release', 'lumiere-movies' ),
 		];
 
+		// Logger: set to true to display debug on screen. => 20240225 Don't see why it is needed, will remove in the future
+		// $this->logger->lumiere_start_logger( get_class( $this ), false );
+
+	}
+
+	/**
+	 * Display the body
+	 */
+	protected function display_data_options(): void {
+
+		// First part of the menu
+		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
+
 		// Debugging mode
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
 
@@ -81,12 +91,8 @@ class Data extends Admin_Menu {
 			$this->utils_class->lumiere_activate_debug( $this->imdb_widget_values, 'no_var_dump', null );
 		}
 
-	}
-
-	/**
-	 * Display the body
-	 */
-	protected function lumiere_data_display_body(): void {
+		// Display submenu
+		$this->include_with_vars( 'data/admin-data-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
 
 		echo "\n\t" . '<div id="poststuff" class="metabox-holder">';
 		echo "\n\t\t" . '<div class="inside">';

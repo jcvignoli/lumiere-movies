@@ -73,9 +73,12 @@ class Help extends Admin_Menu {
 	/**
 	 * Display the layout
 	 */
-	public function lumiere_admin_help_layout(): void {
+	public function display_help_layout(): void {
 
 		do_action( 'lumiere_add_meta_boxes_help' );
+
+		// First part of the menu.
+		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
 
 		echo "\n\t" . '<div id="poststuff">';
 
@@ -111,6 +114,9 @@ class Help extends Admin_Menu {
 		}
 
 		echo "\n\t" . '</div>';
+		
+		// Signature.
+		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**

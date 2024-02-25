@@ -28,20 +28,30 @@ use Lumiere\Admin\Cache_Tools;
 class Cache extends Admin_Menu {
 
 	/**
-	 * Class Cache tools
-	 * That class includes all the main methods
-	 */
-	protected Cache_Tools $cache_tools_class;
-
-	/**
 	 * Constructor
 	 */
-	public function __construct( Cache_Tools $cache_tools ) {
+	public function __construct() {
 
 		// Construct parent class
 		parent::__construct();
 
-		// Activate debugging and display the vars
+		// Logger: set to true to display debug on screen. => 20240225 Don't see why it is needed, will remove in the future
+		// $this->logger->lumiere_start_logger( get_class( $this ), false );
+	}
+
+	/**
+	 * Display the body
+	 * @param Cache_Tools $cache_tools_class To create cache folder if it doesn't exists
+	 */
+	protected function display_cache_options( Cache_Tools $cache_tools_class ): void {
+
+		// First part of the menu
+		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
+
+		// Make sure cache folder exists and is writable
+		$cache_tools_class->lumiere_create_cache( true );
+
+		// Show the vars if debug is activated.
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
 
 			// Activate debugging
@@ -49,25 +59,16 @@ class Cache extends Admin_Menu {
 
 		}
 
-		// Start the Tools class.
-		$this->cache_tools_class = $cache_tools;
-
-		// Logger: set to true to display debug on screen.
-		$this->logger->lumiere_start_logger( get_class( $this ), false );
-	}
-
-	/**
-	 *  Display the body
-	 */
-	protected function lumiere_cache_display_body(): void {
+		// Cache submenu.
+		$this->include_with_vars( 'cache/admin-cache-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
 
 		if ( ( ( isset( $_GET['cacheoption'] ) ) && ( $_GET['cacheoption'] === 'option' ) ) || ( ! isset( $_GET['cacheoption'] ) ) ) {
 
 			// Cache options menu.
-			$size = Utils::lumiere_format_bytes( $this->cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ) );
+			$size = Utils::lumiere_format_bytes( $cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ) );
 			$this->include_with_vars( 'cache/admin-cache-options', [ $size ] /** Add in an array all vars to send in the template */ );
 
-		}  // end $_GET['cacheoption'] == "option"
+		}
 
 		////////////////////////////////////////////// Cache management
 		if ( isset( $_GET['cacheoption'] ) && $_GET['cacheoption'] === 'manage' ) {
@@ -88,12 +89,12 @@ class Cache extends Admin_Menu {
 				wp_nonce_field( 'cache_all_and_query_check', '_nonce_cache_all_and_query_check' );
 				echo "\n";
 
-				$imdlt_cache_file_count = $this->cache_tools_class->lumiere_cache_countfolderfiles( $this->imdb_cache_values['imdbcachedir'] );
+				$imdlt_cache_file_count = $cache_tools_class->lumiere_cache_countfolderfiles( $this->imdb_cache_values['imdbcachedir'] );
 
 				echo "\n\t\t\t" . '<div class="detailedcacheexplaination imdblt_padding_bottom_ten imdblt_align_center">';
 
 				echo '<strong>' . esc_html__( 'Total cache size:', 'lumiere-movies' ) . ' ';
-				$size_cache_total = $this->cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] );
+				$size_cache_total = $cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] );
 
 				/* translators: %s is replaced with the number of files */
 				echo '&nbsp;' . esc_html( sprintf( _n( '%s file', '%s files', $imdlt_cache_file_count, 'lumiere-movies' ), number_format_i18n( $imdlt_cache_file_count ) ) );
@@ -196,7 +197,7 @@ class Cache extends Admin_Menu {
 				<?php
 
 				// Get list of movies cached files
-				$results = $this->cache_tools_class->lumiere_get_movie_cache();
+				$results = $cache_tools_class->lumiere_get_movie_cache();
 
 				// if files don't exist.
 				if ( count( $results ) === 0 ) {
@@ -301,7 +302,7 @@ class Cache extends Admin_Menu {
 
 				<?php
 				// Get list of movies cached files
-				$results = $this->cache_tools_class->lumiere_get_people_cache();
+				$results = $cache_tools_class->lumiere_get_people_cache();
 
 				// if files don't exist.
 				if ( count( $results ) === 0 ) {
@@ -471,7 +472,7 @@ class Cache extends Admin_Menu {
 			<div class="explain">
 				<?php
 				// display cache folder size
-				$size_cache_pics = $this->cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] );
+				$size_cache_pics = $cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] );
 
 				if ( $size_cache_pics > 0 ) {
 

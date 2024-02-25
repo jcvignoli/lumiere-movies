@@ -58,7 +58,7 @@ class Admin_Menu {
 	/**
 	 * Id utilised to build functions and menu titles
 	 */
-	private string $menu_id;
+	protected string $menu_id;
 
 	/**
 	 * Used to define name of methods
@@ -106,7 +106,7 @@ class Admin_Menu {
 		$this->page_data = admin_url( 'admin.php?page=' . $this->menu_id . '_data' );
 		$this->page_data_taxo = admin_url( 'admin.php?page=' . $this->menu_id . '_data&widgetoption=taxo' );
 		$this->page_general_base = admin_url( 'admin.php?page=' . $this->menu_id );
-		$this->page_general_advanced = admin_url( 'admin.php?page=' . $this->menu_id . '&generaloption=advanced' );
+		$this->page_general_advanced = admin_url( 'admin.php?page=' . $this->menu_id . '&subsection=advanced' );
 		$this->page_general_help = admin_url( 'admin.php?page=' . $this->menu_id . '_help' );
 		$this->page_general_help_support = admin_url( 'admin.php?page=' . $this->menu_id . '_help&subsection=support' );
 
@@ -368,6 +368,7 @@ class Admin_Menu {
 	 * Called in {@see Admin::admin_add_top_menu()} and calls the methods dynamically generated according to the current view
 	 *
 	 * @TODO: The return $this->$method() is also null, investigate why
+	 * @TODO: When all classes are using templates only, this method should call dynamically named classes instead of methods
 	 *
 	 * @return null|callable The private method to call
 	 * @phpstan-return null|callable(): void
@@ -386,86 +387,53 @@ class Admin_Menu {
 
 	/**
 	 * Display admin General options
-	 * This function is dynamically called in {@see Admin::load_view()}
+	 * This function is dynamically called in { @see Admin::load_view() }
 	 */
 	private function lumiere_admin_menu(): void {
 
-		// Make sure cache folder exists and is writable
-		$cache_tools_class = new Cache_Tools();
-		$cache_tools_class->lumiere_create_cache( true );
-
-		// First part of the menu
-		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
-
+		// The class.
 		$general_class = new General();
-
-		// The template will retrieve the args. In parent class.
-		$this->include_with_vars( 'general/admin-general-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
-
-		$general_class->lumiere_general_display_body();
-
-		// Signature
-		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
+		$general_class->display_general_options( new Cache_Tools() );
 	}
 
 	/**
 	 * Display admin Data options
-	 * This function is dynamically called in {@see Admin::load_view()}
+	 * This function is dynamically called in { @see Admin::load_view() }
 	 */
 	private function lumiere_admin_menu_data(): void {
 
-		// First part of the menu
-		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
-
+		// The class.
 		$data_class = new Data();
+		$data_class->display_data_options();
 
-		// Display submenu
-		$this->include_with_vars( 'data/admin-data-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
-
-		$data_class->lumiere_data_display_body();
-
-		// Signature
+		// Signature.
 		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**
 	 * Display admin Cache options
-	 * This function is dynamically called in {@see Admin::load_view()}
+	 * This function is dynamically called in { @see Admin::load_view() }
 	 */
 	private function lumiere_admin_menu_cache(): void {
 
-		// Make sure cache folder exists and is writable
-		$cache_tools_class = new Cache_Tools();
-		$cache_tools_class->lumiere_create_cache( true );
+		// The class.
+		$cache_class = new Cache();
+		$cache_class->display_cache_options( new Cache_Tools() );
 
-		// First part of the menu
-		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
-
-		$cache_class = new Cache( $cache_tools_class );
-
-		// Cache submenu.
-		$this->include_with_vars( 'cache/admin-cache-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
-
-		$cache_class->lumiere_cache_display_body();
-
-		// Signature
+		// Signature.
 		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**
 	 * Display admin Help options
-	 * This function is dynamically called in {@see Admin::load_view()}
+	 * This function is dynamically called in { @see Admin::load_view() }
 	 */
 	private function lumiere_admin_menu_help(): void {
 
-		// First part of the menu
-		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
-
+		// The class.
 		$help_class = new Help();
-		$help_class->lumiere_admin_help_layout();
+		$help_class->display_help_layout();
 
-		// Signature
-		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**

@@ -41,6 +41,8 @@ border-top-right-radius: 6px;
 .soustitre a {color:black; }
 .soustitre a:hover {color:white; }
 
+.lumiere_signature{margin-top: 3vh;}
+
 .titresection, td.titresection {font-size:12px;font-weight:bold;padding:20px;line-height:30px;}
 
 .options { /* table */
