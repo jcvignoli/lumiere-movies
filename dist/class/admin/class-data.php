@@ -94,42 +94,42 @@ class Data extends Admin_Menu {
 		// Display submenu
 		$this->include_with_vars( 'data/admin-data-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
 
-		echo "\n\t" . '<div id="poststuff" class="metabox-holder">';
-		echo "\n\t\t" . '<div class="inside">';
-
-		//------------------------------------------------------------------ =[Submit selection]=-
-		echo "\n\t\t" . '<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="' . esc_url( $_SERVER['REQUEST_URI'] ?? '' ) . '" >';
-
-		//-------------------------------------------------------------------=[Data selection]=-
-		if ( isset( $_GET['page'] ) && ( $_GET['page'] === 'lumiere_options_data' ) && ! isset( $_GET['widgetoption'] ) ) {
+		if (
+			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
+			&& ! isset( $_GET['widgetoption'] )
+		) {
 
 			// The template will retrieve the args. In parent class.
 			$this->include_with_vars( 'data/admin-data-display', [ $this, $this->build_display_options()[0], $this->build_display_options()[1], $this->details_with_numbers ] );
 
-		} elseif ( isset( $_GET['widgetoption'] ) && $_GET['widgetoption'] === 'taxo' ) {
+		} elseif (
+			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
+			&& isset( $_GET['widgetoption'] ) && $_GET['widgetoption'] === 'taxo'
+		) {
 
-			$this->lumiere_data_display_taxonomy();
+			// taxonomy is disabled
+			if ( $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
+				echo '<br><br><div align="center" class="accesstaxo">'
+					/* translators: %1$s and %2$s are replaced with html ahref tags */
+					. wp_kses( wp_sprintf( __( 'Please %1$sactivate taxonomy%2$s before accessing to taxonomy options.', 'lumiere-movies' ), '<a href="' . esc_url( $this->page_general_advanced ) . '#imdb_imdbtaxonomy_yes">', '</a>' ), [ 'a' => [ 'href' => [] ] ] )
+					. '</div>';
+				return;
+			}
 
-		} elseif ( isset( $_GET['widgetoption'] ) && $_GET['widgetoption'] === 'order' ) {
+			// The template will retrieve the args. In parent class.
+			$this->include_with_vars( 'data/admin-data-taxonomy', [ $this->lumiere_data_display_taxo_fields() ] /** Add in an array all vars to send in the template */ );
+
+		} elseif (
+			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
+			&& isset( $_GET['widgetoption'] ) && $_GET['widgetoption'] === 'order'
+		) {
 
 			// The template will retrieve the args. In parent class.
 			$this->include_with_vars( 'data/admin-data-order', [ $this ] );
 		}
 
-		//------------------------------------------------------------------ =[Submit selection]=-
-		echo "\n\t\t\t\t" . '<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">' . "\n";
-		wp_nonce_field( 'lumiere_nonce_data_settings', '_nonce_data_settings' );
-		echo "\n\t\t\t\t" . '<input type="submit" class="button-primary" name="lumiere_reset_data_settings" value="'
-			. esc_html__( 'Reset settings', 'lumiere-movies' )
-			. '" />&nbsp;&nbsp;';
-		echo "\n\t\t\t"
-			. '<input type="submit" class="button-primary" id="lumiere_update_data_settings" name="lumiere_update_data_settings" value="'
-			. esc_html__( 'Update settings', 'lumiere-movies' )
-			. '" />';
-		echo "\n\t\t\t" . '</div>';
-		echo "\n\t\t" . '</form>';
-		echo "\n\t\t" . '</div>';
-
+		// Signature.
+		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**
@@ -182,27 +182,6 @@ class Data extends Admin_Menu {
 		}
 
 		return $output;
-	}
-
-	/**
-	 * Display Page Taxonomy
-	 */
-	private function lumiere_data_display_taxonomy(): void {
-
-		// taxonomy is disabled
-		if ( $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
-
-			echo "<div align='center' class='accesstaxo'>"
-				. esc_html__( 'Please ', 'lumiere-movies' )
-				. "<a href='" . esc_url( $this->page_general_advanced ) . "'>"
-				. esc_html__( 'activate taxonomy', 'lumiere-movies' ) . '</a>'
-				. esc_html__( ' priorly', 'lumiere-movies' ) . '<br />'
-				. esc_html__( 'to access taxonomies options.', 'lumiere-movies' ) . '</div>';
-			return;
-		}
-
-		// The template will retrieve the args. In parent class.
-		$this->include_with_vars( 'data/admin-data-taxonomy', [ $this->lumiere_data_display_taxo_fields() ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**

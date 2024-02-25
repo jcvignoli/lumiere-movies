@@ -23,8 +23,8 @@ v.3.12
 * [technical] Cleaned useless cache settings (zipping is hardcoded in class imdbphp)
 * [technical] Cleaned useless function in class movie (cleaned lumiere_movies_quote(), which is useless but must be kept for compatibility)
 * [technical] Added more security to the cache management (in class cache, refresh/delete of individual people/movies are now checked against a NONCE)
-* [technical] Updated to latest *personal IMDbPHP libray* upstream
-* [technical] Added Bingbot to the banned bots, since it doesn't respect the "no follow" rule.
+* [technical] Updated to latest *personal IMDbPHP libray* upstream which replicates IMDbPHP 8.2
+* [technical] Added Bingbot and Googlebots to the banned bots, since it doesn't respect the "no follow" rule.
 * [technical] Rewrote the bot banning that is now executed before doing IMDb searches, avoiding cache creationg (and 504 HTML errors when calling IMDb website!)
 * [technical] In admin, notices for update/reset options is now WP notification system compliant (using transients in child classes to display notifications messages set in admin parent class)
 * [technical] Removed tipee donation, kept Paypal only.
@@ -32,7 +32,7 @@ v.3.12
 * [technical] Factorized Movie class (new class Movie_Data), Cache class (new class Cache_Tools), moved Frontend popups in new folder (frontend/popups/)
 * [technical] Automatized task that runs to delete oversized cache folder (option "Keep automatically cache size below a limit") runs now hourly instead of every two hours.
 * [technical] Updated to bootstrap 5.3.3
-* [technical] Compatibility with PHP8.3 ensured ( function get_class())
+* [technical] Compatibility with PHP8.3 ensured ( function get_class() )
 * [technical] Uninstalling the plugin with the option "keep settings upon uninstall" unselected will delete Lumiere taxonomy templates in theme directory.
 
 v.3.11.5

@@ -405,9 +405,6 @@ class Admin_Menu {
 		// The class.
 		$data_class = new Data();
 		$data_class->display_data_options();
-
-		// Signature.
-		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**
@@ -433,7 +430,6 @@ class Admin_Menu {
 		// The class.
 		$help_class = new Help();
 		$help_class->display_help_layout();
-
 	}
 
 	/**
