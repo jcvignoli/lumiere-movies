@@ -26,8 +26,8 @@ $lumiere_esc_html = [
 	'strong' => [],
 ];
 
-// Get transients vars from the caller.
-$lumiere_helpage = get_transient( 'admin_template_this' )[0];
+// Get transients vars from the calling class.
+$lumiere_helpage = get_transient( 'admin_template_pass_vars' )[0];
 ?>
 
 		<div class="soustitre">

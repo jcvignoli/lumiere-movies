@@ -193,7 +193,7 @@ class Movie {
 	}
 
 	/**
-	 * List of prohibited areas where Lumière! won't run
+	 * List of prohibited areas where the class won't run
 	 *
 	 * @since 3.10.2
 	 *

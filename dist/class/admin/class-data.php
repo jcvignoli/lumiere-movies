@@ -138,7 +138,7 @@ class Data extends Admin_Menu {
 
 		foreach ( $array_all as $item ) {
 
-			$output .= "\n\t" . '<div class="imdblt_double_container_content_third lumiere_padding_five">';
+			$output .= "\n\t" . '<div class="lumiere_flex_container_content_thirty lumiere_padding_five">';
 
 			$output .= "\n\t\t" . '<input type="hidden" id="' . esc_attr( 'imdb_imdbtaxonomy' . $item . '_no' ) . '" name="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '" value="0" />';
 
@@ -196,7 +196,7 @@ class Data extends Admin_Menu {
 		}
 
 		// The template will retrieve the args. In parent class.
-		$this->include_with_vars( 'data/admin-data-taxonomy', [ $this->lumiere_data_display_taxo_fields() ] );
+		$this->include_with_vars( 'data/admin-data-taxonomy', [ $this->lumiere_data_display_taxo_fields() ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Template for the submenu of general pages
+ * Template for the submenu of general options pages
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2024, Lost Highway
@@ -15,8 +15,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-// Get var from caller
-$lumiere_that = get_transient( 'admin_template_this' )[0];
+// Retrieve vars from calling class.
+$lumiere_that = get_transient( 'admin_template_pass_vars' )[0];
 ?>
 
 <div id="tabswrap">

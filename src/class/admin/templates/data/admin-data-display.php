@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Template for the data taxonomy page
+ * Template for the Data admin - Display data part
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2024, Lost Highway
@@ -15,26 +15,25 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-// Getting the result of a method.
-$lumiere_that = get_transient( 'admin_template_this' )[0];
-$lumiere_items_people = get_transient( 'admin_template_this' )[1];
-$lumiere_comments_fields = get_transient( 'admin_template_this' )[2];
-$lumiere_details_with_numbers = get_transient( 'admin_template_this' )[3];
+// Retrieve the vars passed in calling class.
+$lumiere_that = get_transient( 'admin_template_pass_vars' )[0];
+$lumiere_items_people = get_transient( 'admin_template_pass_vars' )[1];
+$lumiere_comments_fields = get_transient( 'admin_template_pass_vars' )[2];
+$lumiere_details_with_numbers = get_transient( 'admin_template_pass_vars' )[3];
 ?>
 
-	<div class="inside imblt_border_shadow">
-		<h3 class="hndle" id="taxodetails" name="taxodetails"><?php esc_html__( 'What to display', 'lumiere-movies' ); ?></h3>
+	<div class="inside lumiere_border_shadow lumiere_margin_btm_twenty">
+		<h3 class="hndle" id="taxodetails" name="taxodetails"><?php esc_html_e( 'What to display', 'lumiere-movies' ); ?></h3>
 	</div>
-	<br />
 
-	<div class="imblt_border_shadow">
+	<div class="lumiere_border_shadow">
 
 	<div class="lumiere_flex_container lumiere_align_center">
 	
 	<?php
 	foreach ( $lumiere_items_people as $lumiere_item => $lumiere_item_translated ) {
 
-		echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_third lumiere_padding_ten lumiere_align_center">';
+		echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_thirty lumiere_padding_ten lumiere_align_center">';
 
 		// Add extra color through span if the item is selected
 		if ( $lumiere_that->imdb_widget_values[ 'imdbwidget' . $lumiere_item ] === '1' ) {
@@ -65,7 +64,7 @@ $lumiere_details_with_numbers = get_transient( 'admin_template_this' )[3];
 
 			echo "\n\t\t\t\t\t" . '<div id="imdb_imdbwidget' . esc_attr( $lumiere_item ) . 'number_div" class="lumiere_flex_container lumiere_padding_five">';
 
-			echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_seventy lumiere_font_ten">' . esc_html__( 'Enter the maximum of items you want to display', 'lumiere-movies' ) . '<br /></div>';
+			echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_seventy lumiere_font_ten_proportional">' . esc_html__( 'Enter the maximum of items you want to display', 'lumiere-movies' ) . '<br /></div>';
 
 			echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_twenty">';
 			echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . esc_html( $lumiere_item ) . 'number" id="imdb_imdbwidget' . esc_html( $lumiere_item ) . 'number" size="3"';
@@ -97,7 +96,7 @@ $lumiere_details_with_numbers = get_transient( 'admin_template_this' )[3];
 	$lumiere_operand = ( count( $lumiere_items_people ) / ( count( $lumiere_items_people ) / 3 ) );
 	for ( $lumiere_i = 1; $lumiere_i < $lumiere_operand; $lumiere_i++ ) {
 		if ( $lumiere_i % 3 !== 0 ) {
-			echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_third lumiere_padding_ten lumiere_align_center"></div>';
+			echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_thirty lumiere_padding_ten lumiere_align_center"></div>';
 		}
 	}
 	?>

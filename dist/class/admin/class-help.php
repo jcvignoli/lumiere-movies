@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Tools\Utils;
+use Exception;
 
 /**
  * Display help explainations
@@ -59,9 +60,9 @@ class Help extends Admin_Menu {
 		parent::__construct();
 
 		// Build constants not in parent class
-		$this->readmefile = $this->root_path . 'README.txt';
-		$this->changelogfile = $this->root_path . 'CHANGELOG.md';
-		$this->acknowledgefile = $this->root_path . 'ACKNOWLEDGMENTS.md';
+		$this->readmefile = plugin_dir_path( dirname( __DIR__ ) ) . 'README.txt';
+		$this->changelogfile = plugin_dir_path( dirname( __DIR__ ) ) . 'CHANGELOG.md';
+		$this->acknowledgefile = plugin_dir_path( dirname( __DIR__ ) ) . 'ACKNOWLEDGMENTS.md';
 
 		// Add specific script for metaboxes
 		//add_action('admin_enqueue_scripts', [$this, 'lumiere_help_extrascript' ]); # can't use add_action, call in parent class too late
@@ -86,21 +87,21 @@ class Help extends Admin_Menu {
 		// Changelog section
 		if ( ( isset( $_GET['subsection'] ) ) && $_GET['subsection'] === 'changelog' ) {
 			echo "\n\t" . '<br clear="both" />';
-			echo "\n\t\t" . '<div class="imblt_border_shadow">';
+			echo "\n\t\t" . '<div class="lumiere_border_shadow">';
 			$this->display_changelog();
 			echo "\n\t\t" . '</div>';
 			echo "\n\t" . '<br clear="both" />';
 			// Faqs section
 		} elseif ( isset( $_GET['subsection'] ) && ( $_GET['subsection'] === 'faqs' ) ) {
 			echo "\n\t" . '<br clear="both" />';
-			echo "\n\t\t" . '<div class="imblt_border_shadow">';
+			echo "\n\t\t" . '<div class="lumiere_border_shadow">';
 			$this->display_faqs();
 			echo "\n\t\t" . '</div>';
 			echo "\n\t" . '<br clear="both" />';
 			// Support section
 		} elseif ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'support' ) ) {
 			echo "\n\t" . '<br clear="both" />';
-			echo "\n\t\t" . '<div class="imblt_border_shadow">';
+			echo "\n\t\t" . '<div class="lumiere_border_shadow">';
 			$this->display_support();
 			echo "\n\t\t" . '</div>';
 			echo "\n\t" . '<br clear="both" />';
@@ -178,11 +179,9 @@ class Help extends Admin_Menu {
 		global $wp_filesystem;
 		$count_rows = 0;
 
-		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
-		// @since 3.9.7
-		if ( $wp_filesystem === null ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-			WP_Filesystem();
+		// If file doesn't exist, exit.
+		if ( ! is_file( $this->readmefile ) ) {
+			throw new Exception( 'File ' . $this->readmefile . ' has wrong permissions or does not exist' );
 		}
 
 		// Make sure we got right credentials to use $wp_filesystem.
@@ -218,7 +217,7 @@ class Help extends Admin_Menu {
 				$faqsection_replace = is_array( $faqsectionarray ) !== false ? preg_replace( $patterns, $replaces, $faqsectionarray ) : null;
 				$faqsection_processed = $faqsection_replace ?? [];
 
-				echo "<br />\n<ol>\n";
+				echo "\n<ol>\n";
 
 				foreach ( $faqsection_processed as $texte ) {
 					if ( $count_rows % 2 === 1 ) { // uneven number -> title
@@ -247,13 +246,9 @@ class Help extends Admin_Menu {
 		global $wp_filesystem;
 		$number = 0;
 
-		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
-		// @since 3.9.7
-		if ( $wp_filesystem === null ) {
-			include_once ABSPATH . 'wp-admin/includes/file.php';
-			WP_Filesystem();
-			/** @psalm-suppress InvalidGlobal -- Cannot use global scope here (unless this file is included from a non-global scope) => this is not global! */
-			global $wp_filesystem;
+		// If file doesn't exist, exit.
+		if ( ! is_file( $this->changelogfile ) ) {
+			throw new Exception( 'File ' . $this->changelogfile . ' has wrong permissions or does not exist' );
 		}
 
 		// Make sure we got right credentials to use $wp_filesystem.
@@ -315,18 +310,14 @@ class Help extends Admin_Menu {
 		global $wp_filesystem;
 		$number = 0;
 
-		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
-		// @since 3.9.7
-		if ( $wp_filesystem === null ) {
-			/** @psalm-suppress MissingFile */
-			include_once ABSPATH . 'wp-admin/includes/file.php';
-			WP_Filesystem();
-			/** @psalm-suppress InvalidGlobal -- Cannot use global scope here (unless this file is included from a non-global scope) => this is not global! */
-			global $wp_filesystem;
+		// If file doesn't exist, exit.
+		if ( ! is_file( $this->acknowledgefile ) ) {
+			throw new Exception( 'File ' . $this->acknowledgefile . ' has wrong permissions or does not exist' );
 		}
 
 		// Make sure we got right credentials to use $wp_filesystem.
 		Utils::lumiere_wp_filesystem_cred( $this->acknowledgefile );
+		
 		// Open the file (as an array).
 		$acknowledgefile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $this->acknowledgefile ) : '';
 		?>
@@ -356,7 +347,7 @@ class Help extends Admin_Menu {
 
 		<div class="helpdiv-noborderimage">
 			<?php esc_html_e( 'You will never believe there is so many ways to thank me. Yes, you can:', 'lumiere-movies' ); ?><br />
-<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'lumiere-movies' ); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'paypal-donate.png' ); ?>" width="40px" class="imdblt_align_bottom" /></a>.<br />
+<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'lumiere-movies' ); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'paypal-donate.png' ); ?>" width="40px" class="lumiere_align_bottom" /></a>.<br />
 <strong>2</strong>. <?php esc_html_e( 'vote on', 'lumiere-movies' ); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::IMDBHOMEPAGE ); ?>"><?php esc_html_e( "Lumière's website", 'lumiere-movies' ); ?></a> <?php esc_html_e( 'or on', 'lumiere-movies' ); ?> <a href="<?php echo esc_attr( \Lumiere\Settings::LUMIERE_WORDPRESS ); ?>"><?php esc_html_e( "WordPress' website", 'lumiere-movies' ); ?></a>.<br />
 <strong>3</strong>. <?php esc_html_e( 'send as many bugfixes and propositions as you can on Lumiere Movies website.', 'lumiere-movies' ); ?><br />
 <strong>4</strong>. <?php esc_html_e( 'translate the plugin into your own language.', 'lumiere-movies' ); ?><br />

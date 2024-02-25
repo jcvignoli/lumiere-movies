@@ -78,11 +78,11 @@ class Cache extends Admin_Menu {
 
 	<div>
 				<?php //--------------------------------------------------------- =[cache delete]=- ?>
-		<div class="inside imblt_border_shadow">
+		<div class="inside lumiere_border_shadow lumiere_margin_btm_twenty">
 			<h3 class="hndle" id="cachegeneral" name="cachegeneral"><?php esc_html_e( 'Global cache management', 'lumiere-movies' ); ?></h3>
 		</div>
 
-		<div class="inside imblt_border_shadow">
+		<div class="inside lumiere_border_shadow">
 			<form method="post" name="imdbconfig_save" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ?? '' ); ?>" >
 				<?php
 				wp_nonce_field( 'cache_all_and_query_check', '_nonce_cache_all_and_query_check' );
@@ -188,11 +188,11 @@ class Cache extends Admin_Menu {
 
 				<?php	//------------------------------------------------------------------ =[movies management]=- ?>
 
-	<div class="inside imblt_border_shadow">
+	<div class="inside lumiere_border_shadow">
 		<h3 class="hndle" id="cachemovies" name="cachemovies"><?php esc_html_e( 'Movie\'s detailed cache', 'lumiere-movies' ); ?></h3>
 	</div>
 
-	<div class="inside imblt_border_shadow">
+	<div class="inside lumiere_border_shadow">
 				<?php
 
 				// Get list of movies cached files
@@ -242,7 +242,7 @@ class Cache extends Admin_Menu {
 							// no flex class so the browser decides how many data to display per lines
 							// table so "row-actions" WordPress class works
 							$filetime_movie = is_int( filemtime( $filepath_sanitized ) ) === true ? filemtime( $filepath_sanitized ) : 0;
-							$data[] = '	<div class="lumiere_flex_container_content_third lumiere_breakall"><table><tr><td>
+							$data[] = '	<div class="lumiere_flex_container_content_thirty lumiere_breakall"><table><tr><td>
 					<img id="pic_' . $title_sanitized . '" class="picfloat" ' . $moviepicturelink . ' width="40px">
 
 					<input type="checkbox" id="imdb_cachedeletefor_movies_' . str_replace( ' ', '_', $title_sanitized ) . '" name="imdb_cachedeletefor_movies[]" value="' . $obj_sanitized . '" /><label for="imdb_cachedeletefor_movies[]" class="imdblt_bold">' . $title_sanitized . '</label> <br />' . esc_html__( 'last updated on ', 'lumiere-movies' ) . gmdate( 'j M Y H:i:s', $filetime_movie ) . ' 
@@ -293,11 +293,11 @@ class Cache extends Admin_Menu {
 
 				<?php //------------------------------------------------------------------------ =[people delete]=- ?>
 
-	<div class="inside imblt_border_shadow">
+	<div class="inside lumiere_border_shadow">
 		<h3 class="hndle" id="cachepeople" name="cachepeople"><?php esc_html_e( 'People\'s detailed cache', 'lumiere-movies' ); ?></h3>
 	</div>
 
-	<div class="inside imblt_border_shadow">
+	<div class="inside lumiere_border_shadow">
 
 				<?php
 				// Get list of movies cached files
@@ -343,7 +343,7 @@ class Cache extends Admin_Menu {
 							}
 							$filetime_people = is_int( filemtime( $filepath_sanitized ) ) === true ? filemtime( $filepath_sanitized ) : 0;
 							$datapeople[] = '	
-				<div class="lumiere_flex_container_content_third lumiere_breakall"><table><tr><td>
+				<div class="lumiere_flex_container_content_thirty lumiere_breakall"><table><tr><td>
 					<img id="pic_' . $name_sanitized . '" class="picfloat" ' . $picturelink . ' width="40px" alt="no pic">
 					<input type="checkbox" id="imdb_cachedeletefor_people_' . str_replace( ' ', '_', $name_sanitized ) . '" name="imdb_cachedeletefor_people[]" value="' . $objpiple_sanitized . '" /><label for="imdb_cachedeletefor_people_[]" class="imdblt_bold">' . $name_sanitized . '</label><br />' . esc_html__( 'last updated on ', 'lumiere-movies' ) . gmdate( 'j M Y H:i:s', $filetime_people ) . '
 					
@@ -398,11 +398,11 @@ class Cache extends Admin_Menu {
 
 				<?php //------------------------------------------------------------------ =[cache directories]=- ?>
 
-	<div class="inside imblt_border_shadow">
+	<div class="inside lumiere_border_shadow">
 		<h3 class="hndle" id="cachedirectory" name="cachedirectory"><?php esc_html_e( 'Cache directories', 'lumiere-movies' ); ?></h3>
 	</div>
 
-	<div class="inside imblt_border_shadow">
+	<div class="inside lumiere_border_shadow">
 
 		<form method="post" name="imdbconfig_save" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ?? '' ); ?>" >
 
@@ -421,7 +421,7 @@ class Cache extends Admin_Menu {
 			</span>
 
 		</div>
-		<div class="imdblt_padding_five">
+		<div class="lumiere_padding_five">
 
 			<div class="lumiere_breakall">
 				<?php echo esc_html( WP_CONTENT_DIR ); ?>
@@ -525,7 +525,7 @@ class Cache extends Admin_Menu {
 		</div>
 
 		<div>
-			<div class="titresection imdblt_padding_five">
+			<div class="titresection lumiere_padding_five">
 				<?php esc_html_e( 'Photo URL (relative to the website and the cache path)', 'lumiere-movies' ); ?>
 			</div>			
 

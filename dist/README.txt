@@ -135,7 +135,7 @@ No data about the end user is sent to any other third party, so Lumière! is GDP
 
 = Known issues =
 
-* In taxonomy extra page for people, if both Polylang and AMP are activated, the form to switch the language doesn't work.
+* In taxonomy extra page for people, if both Polylang and AMP plugins are activated, the form to switch the language doesn't work.
 
 == Support ==
 

@@ -18,8 +18,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Lumiere\Tools\Utils;
 use Lumiere\Settings;
 
-// Can't be certain that $this exists, creating $lumiere_that using transients sent by calling class
-$lumiere_that = get_transient( 'admin_template_this' )[0];
+// Retrieve the vars from calling class.
+$lumiere_that = get_transient( 'admin_template_pass_vars' )[0];
 ?>
 
 	<div class=wrap>
@@ -29,14 +29,14 @@ $lumiere_that = get_transient( 'admin_template_this' )[0];
 		<div class="subpage">
 			<div align="left" class="imdblt_double_container">
 
-				<div class="imdblt_padding_five imdblt_flex_auto">
+				<div class="lumiere_padding_five lumiere_flex_auto">
 					<img src="<?php echo esc_url( $lumiere_that->config_class->lumiere_pics_dir . 'menu/admin-general.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
 					<a title="<?php esc_html_e( 'General Options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_general_base ); ?>"> <?php esc_html_e( 'General Options', 'lumiere-movies' ); ?></a>
 				</div>
 
 				<?php // Data subpage is relative to what is activated. ?>
 
-				<div class="imdblt_padding_five imdblt_flex_auto">
+				<div class="lumiere_padding_five lumiere_flex_auto">
 					<img src="<?php echo esc_url( $lumiere_that->config_class->lumiere_pics_dir . 'menu/admin-widget-inside.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
 
 
@@ -59,12 +59,12 @@ $lumiere_that = get_transient( 'admin_template_this' )[0];
 
 				</div>
 
-				<div class="imdblt_padding_five imdblt_flex_auto">			
+				<div class="lumiere_padding_five lumiere_flex_auto">			
 					<img src="<?php echo esc_url( $lumiere_that->config_class->lumiere_pics_dir . 'menu/admin-cache.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
 					<a title="<?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_cache_option ); ?>"><?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?></a>
 				</div>
 
-				<div align="right" class="imdblt_padding_five imdblt_flex_auto" >
+				<div align="right" class="lumiere_padding_five lumiere_flex_auto" >
 					<img src="<?php echo esc_url( $lumiere_that->config_class->lumiere_pics_dir . 'menu/admin-help.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
 					<a title="<?php esc_html_e( 'How to use Lumière!, check FAQs & changelog', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_general_help ); ?>">
 						<i>Lumière!</i> <?php esc_html_e( 'help', 'lumiere-movies' ); ?>

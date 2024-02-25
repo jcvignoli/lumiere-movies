@@ -185,7 +185,7 @@ class Taxonomy_Items_Standard {
 				$all_links[] = '<a href="' . $html_link . '" rel="' . $taxo->slug . '">' . $taxo->name . '</a>';
 			}
 		}
-		
+
 		return implode( ', ', $all_links );
 	}
 

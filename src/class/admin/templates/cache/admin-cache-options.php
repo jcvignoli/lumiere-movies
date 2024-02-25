@@ -19,23 +19,25 @@ use Lumiere\Settings;
 
 $lumiere_imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
-// Get var passed.
-$lumiere_size_cache_folder = get_transient( 'admin_template_this' )[0];
+// Retrieve the vars from calling class.
+$lumiere_size_cache_folder = get_transient( 'admin_template_pass_vars' )[0];
 ?>
 
 <div class="postbox-container">
 	<div id="left-sortables" class="meta-box-sortables">
 
-		<div class="inside imblt_border_shadow">
+		<div class="inside lumiere_border_shadow lumiere_margin_btm_twenty">
 			<h3 class="hndle" id="cachegeneral" name="cachegeneral"><?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?></h3>
 		</div>
 
-		<div class="inside imblt_border_shadow">
+		<div class="inside lumiere_border_shadow">
 
 		<div class="titresection"><?php esc_html_e( 'General options', 'lumiere-movies' ); ?></div>
+		
 			<form method="post" name="imdbconfig_save" action="<?php esc_url( $_SERVER['REQUEST_URI'] ?? '' ); ?>">
+			
 				<div class="lumiere_display_flex lumiere_flex_make_responsive">
-					<div class="lumiere_flex_container_content_thirty imdblt_padding_five">
+					<div class="lumiere_flex_container_content_thirty lumiere_padding_five">
 
 						<?php esc_html_e( 'Use cache?', 'lumiere-movies' ); ?>&nbsp;
 						<input type="hidden" id="imdb_imdbusecache_no" name="imdb_imdbusecache" value="0" data-checkbox_activate="imdb_imdbcacheexpire_id" />
@@ -49,7 +51,7 @@ $lumiere_size_cache_folder = get_transient( 'admin_template_this' )[0];
 						<div class="explain"><?php esc_html_e( 'Whether to use a cached page to retrieve the information (if available).', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'If cache is deactived, pictures will not be displayed and it will take longer to display the page.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
 
 					</div>
-					<div id="imdb_imdbcacheexpire_id" class="lumiere_flex_container_content_thirty imdblt_padding_five">
+					<div id="imdb_imdbcacheexpire_id" class="lumiere_flex_container_content_thirty lumiere_padding_five">
 
 						<label for="imdb_imdbcacheexpire"><?php esc_html_e( 'Cache expire', 'lumiere-movies' ); ?></label><br /><br />
 						<div class="lumiere_flex_container">
@@ -58,7 +60,7 @@ $lumiere_size_cache_folder = get_transient( 'admin_template_this' )[0];
 								<input type="text" id="imdb_imdbcacheexpire" name="imdb_imdbcacheexpire" size="7" value="<?php echo esc_html( $lumiere_imdb_cache_values['imdbcacheexpire'] ); ?>" />
 							</div>
 
-							<div class="imdblt_padding_ten">
+							<div class="lumiere_padding_ten">
 								<input type="checkbox" value="0" id="imdb_imdbcacheexpire_definitive" name="imdb_imdbcacheexpire_definitive" data-valuemodificator="yes" data-valuemodificator_field="imdb_imdbcacheexpire" data-valuemodificator_default="2592000"
 								<?php
 								if ( $lumiere_imdb_cache_values['imdbcacheexpire'] === '0' ) {
@@ -78,9 +80,9 @@ $lumiere_size_cache_folder = get_transient( 'admin_template_this' )[0];
 					<?php	//------------------------------------------------------------------ =[cache details]=- ?>
 				<div class="titresection"><?php esc_html_e( 'Cache details', 'lumiere-movies' ); ?></div>
 
-				<div class="lumiere_flex_container">
+				<div class="lumiere_display_flex lumiere_flex_make_responsive">
 
-					<div class="lumiere_flex_container_content_third imdblt_padding_five">
+					<div class="lumiere_flex_container_content_thirty lumiere_padding_five">
 
 						<?php esc_html_e( 'Simplified cache details', 'lumiere-movies' ); ?>&nbsp;
 
@@ -100,9 +102,9 @@ $lumiere_size_cache_folder = get_transient( 'admin_template_this' )[0];
 					<?php	//------------------------------------------------------------------ =[cache cron]=- ?>
 				<div class="titresection"><?php esc_html_e( 'Cache automatized functions', 'lumiere-movies' ); ?></div>
 
-				<div class="lumiere_flex_container">
+				<div class="lumiere_display_flex lumiere_flex_make_responsive">
 
-					<div class="lumiere_flex_container_content_third imdblt_padding_five">
+					<div class="lumiere_flex_container_content_thirty lumiere_padding_five">
 
 						<div class="lumiere_flex_container">
 							<div id="imdb_imdbcachekeepsizeunder_id" class="lumiere_padding_right_fifteen">
@@ -123,7 +125,7 @@ $lumiere_size_cache_folder = get_transient( 'admin_template_this' )[0];
 
 					</div>
 					
-					<div class="lumiere_flex_container_content_third imdblt_padding_five">
+					<div class="lumiere_flex_container_content_thirty lumiere_padding_five">
 
 						<div class="lumiere_flex_container">
 							<div id="imdb_imdbcacheautorefreshcron_id" class="lumiere_padding_right_fifteen">

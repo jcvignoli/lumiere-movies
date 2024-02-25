@@ -15,8 +15,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-// Can't be certain that $this exists, creating $lumiere_that using transients sent by calling class
-$lumiere_that = get_transient( 'admin_template_this' )[0];
+// Retrieve the vars from calling class.
+$lumiere_that = get_transient( 'admin_template_pass_vars' )[0];
 ?>
 
 <div id="tabswrap">

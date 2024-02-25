@@ -33,6 +33,7 @@ v.3.12
 * [technical] Automatized task that runs to delete oversized cache folder (option "Keep automatically cache size below a limit") runs now hourly instead of every two hours.
 * [technical] Updated to bootstrap 5.3.3
 * [technical] Compatibility with PHP8.3 ensured ( function get_class())
+* [technical] Uninstalling the plugin with the option "keep settings upon uninstall" unselected will delete Lumiere taxonomy templates in theme directory.
 
 v.3.11.5
 * [bug] Fixed *personal IMDbPHP libray* upstream: under some circonstances, error "No such file or directory in ImageProcessor.php on line 44", added extra conditions to before unlink and rename

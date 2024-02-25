@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Template for the data taxonomy page
+ * Template for the Data admin - Taxonomy data part
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2024, Lost Highway
@@ -15,47 +15,47 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-// Getting the result of a method.
-$lumiere_taxo_fields = get_transient( 'admin_template_this' )[0];
+// Retrieve the vars passed in calling class.
+$lumiere_taxo_fields = get_transient( 'admin_template_pass_vars' )[0];
+
 $lumiere_escape_wp_kses = [
 	'br' => [],
 	'div' => [
-		'id' => true,
-		'class' => true,
+		'id' => [],
+		'class' => [],
 	],
 	'img' => [
-		'alt' => true,
-		'align' => true,
-		'src' => true,
+		'alt' => [],
+		'align' => [],
+		'src' => [],
 	],
 	'i' => [],
 	'input' => [
-		'type' => true,
-		'name' => true,
-		'value' => true,
-		'id' => true,
-		'checked' => true,
+		'type' => [],
+		'name' => [],
+		'value' => [],
+		'id' => [],
+		'checked' => [],
 	],
 	'label' => [
-		'for' => true,
+		'for' => [],
 	],
-	'font' => [ 'color' => true ],
+	'font' => [ 'color' => [] ],
 	'a' => [
-		'href' => true,
-		'title' => true,
+		'href' => [],
+		'title' => [],
 	],
 	'span' => [
-		'class' => true,
+		'class' => [],
 	],
 ]
 ?>
 
-	<div class="inside imblt_border_shadow">
+	<div class="inside lumiere_border_shadow lumiere_margin_btm_twenty">
 		<h3 class="hndle" id="taxodetails" name="taxodetails"><?php esc_html_e( 'Select details to use as taxonomy', 'lumiere-movies' ); ?></h3>
 	</div>
-	<br />
 
-	<div class="imblt_border_shadow">
+	<div class="lumiere_border_shadow">
 
 		<div class="lumiere_intro_options"><?php esc_html_e( "Use the checkbox to display the taxonomy tags. When activated, selected taxonomy will become blue if it is activated in the 'display' section and will turn red otherwise.", 'lumiere-movies' ); ?>
 		<br /><br />
@@ -68,6 +68,6 @@ $lumiere_escape_wp_kses = [
 
 		<div class="imdblt_double_container">
 			<?php echo wp_kses( $lumiere_taxo_fields, $lumiere_escape_wp_kses ); ?>
-			<div class="imdblt_double_container_content_third lumiere_padding_five"></div>
+			<div class="lumiere_flex_container_content_thirty lumiere_padding_five"></div>
 		</div>
 	</div>

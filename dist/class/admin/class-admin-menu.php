@@ -45,11 +45,7 @@ class Admin_Menu {
 
 	/**
 	 * Store directories, pages
-	 * ROOT_Path: absolute path
-	 * ROOT_URL: start with https
 	 */
-	protected string $root_path = '';
-	protected string $root_url = '';
 	protected string $page_cache_manage;
 	protected string $page_cache_option;
 	protected string $page_data;
@@ -101,12 +97,10 @@ class Admin_Menu {
 		// Start Logger class.
 		$this->logger = new Logger( 'adminClass' );
 
-		// Build constants
-		$this->root_url = plugin_dir_url( __DIR__ );
-		$this->root_path = plugin_dir_path( __DIR__ );
+		// Build vars.
 		$this->menu_id = $this->get_id() . '_options';
 
-		// Pages
+		// Build pages vars.
 		$this->page_cache_manage = admin_url( 'admin.php?page=' . $this->menu_id . '_cache&cacheoption=manage' );
 		$this->page_cache_option = admin_url( 'admin.php?page=' . $this->menu_id . '_cache' );
 		$this->page_data = admin_url( 'admin.php?page=' . $this->menu_id . '_data' );
@@ -572,12 +566,12 @@ class Admin_Menu {
 		if ( is_file( $full_file_path ) ) {
 			// Send the variables to transients so they can be retrieved in the included pages.
 			// Validity: XX seconds, but is deleted after the include.
-			set_transient( 'admin_template_this', $variables, $validity_time_transient );
+			set_transient( 'admin_template_pass_vars', $variables, $validity_time_transient );
 
 			// Require with the full path built.
 			require_once $full_file_path;
 
-			delete_transient( 'admin_template_this' );
+			delete_transient( 'admin_template_pass_vars' );
 		}
 	}
 

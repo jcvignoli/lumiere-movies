@@ -510,7 +510,7 @@ class Settings {
 			'imdbwidgetdirector' => '1',
 			'imdbwidgetcountry' => '0',
 			'imdbwidgetactor' => '1',
-			'imdbwidgetactornumber' => 10,
+			'imdbwidgetactornumber' => '10',
 			'imdbwidgetcreator' => '0',
 			'imdbwidgetrating' => '0',
 			'imdbwidgetlanguage' => '0',

@@ -81,8 +81,8 @@ class Utils {
 
 			$wp_filesystem->delete( $dir . $file['name'] );
 		}
+		
 		return true;
-
 	}
 
 	/**
@@ -116,7 +116,6 @@ class Utils {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -128,7 +127,7 @@ class Utils {
 	 * @credit https://wordpress.stackexchange.com/a/255238/206323
 	 */
 	public static function lumiere_recursive_sanitize_text_field( $array ) {
-	
+
 		foreach ( $array as $key => &$value ) {
 			if ( is_array( $value ) ) {
 				$value = self::lumiere_recursive_sanitize_text_field( $value );
@@ -152,7 +151,6 @@ class Utils {
 		echo "\n" . '<div class="noresult" align="center" style="font-size:16px;color:red;padding:15px;">'
 			. esc_html( $text )
 			. "</div>\n";
-
 	}
 
 	/**
@@ -224,7 +222,6 @@ class Utils {
 		$units = [ 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' ];
 		$power = $size > 0 ? (int) floor( log( $size, 1000 ) ) : 0;
 		return number_format( $size / pow( 1000, $power ), $precision, '.', ',' ) . ' ' . $units[ $power ];
-
 	}
 
 	/**
@@ -247,7 +244,6 @@ class Utils {
 		foreach ( $folder as $dir ) {
 
 			$files = array_merge( $files, self::lumiere_glob_recursive( $dir . '/' . basename( $pattern ), $flags ) );
-
 		}
 
 		return $files;
@@ -281,7 +277,6 @@ class Utils {
 			case 8: // warning, yellow, dismissible
 				return '<div class="notice notice-warning is-dismissible"><p>' . $msg . '</p></div>';
 		}
-
 	}
 
 	/**
@@ -302,7 +297,6 @@ class Utils {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -355,7 +349,6 @@ class Utils {
 			print_r( $options );
 			echo ' </font><strong>[/Lumière options]</strong></div>';
 		}
-
 	}
 	// @phpcs:enable
 
@@ -391,13 +384,14 @@ class Utils {
 	/**
 	 * Request WP_Filesystem credentials if file doesn't have it.
 	 * @param string $file The file with full path to ask the credentials form
+	 *
+	 * @since 3.9.7 Added extra require_once() if $wp_filesystem is null
 	 */
 	public static function lumiere_wp_filesystem_cred( string $file ): void {
 
 		global $wp_filesystem;
 
 		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
-		// @since 3.9.7
 		if ( $wp_filesystem === null ) {
 			require_once ABSPATH . 'wp-admin/includes/file.php';
 			WP_Filesystem();
@@ -478,8 +472,6 @@ class Utils {
 			return false;
 		}
 		return function_exists( 'amp_is_request' ) && amp_is_request();
-
 	}
-
 }
 
