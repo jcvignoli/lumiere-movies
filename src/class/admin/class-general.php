@@ -32,7 +32,7 @@ class General extends Admin_Menu {
 		'menu_submenu'      => 'general/admin-general-submenu',
 		'general_options'   => 'general/admin-general-layout',
 		'advanced_options'  => 'general/admin-general-advanced',
-		'signature'     => 'admin-menu-signature',
+		'signature'         => 'admin-menu-signature',
 	];
 
 	/**

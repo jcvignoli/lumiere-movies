@@ -114,7 +114,7 @@ class Help extends Admin_Menu {
 		}
 
 		echo "\n\t" . '</div>';
-		
+
 		// Signature.
 		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
 	}
