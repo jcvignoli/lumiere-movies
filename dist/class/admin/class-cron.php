@@ -25,7 +25,7 @@ use Lumiere\Updates;
  * Manage crons
  *
  * @see \Lumiere\Core This class is called in a hook
- * @since 3.12 add/remove cache cron moved from class cache to here
+ * @since 4.0 add/remove cache cron moved from class cache to here
  *
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
  */
@@ -82,7 +82,7 @@ class Cron {
 	/**
 	 * Add new schedule
 	 *
-	 * @since 3.12 Method added
+	 * @since 4.0 Method added
 	 *
 	 * @param array<int|string, array<string, int|string>|string> $schedules
 	 * @return array<int|string, array<string, int|string>|string> The new schedule is added
@@ -126,7 +126,7 @@ class Cron {
 	/**
 	 * Cache Cron to run autorefresh
 	 *
-	 * @since 3.12 Added method
+	 * @since 4.0 Added method
 	 * @return void
 	 */
 	public function lumiere_cron_exec_autorefresh(): void {
@@ -140,7 +140,7 @@ class Cron {
 	/**
 	 * Depending on the settings and if there is the correct transient passed from class cache, add or remove crons schedule
 	 *
-	 * @since 3.12 Added method which uses transients to validate the execution of the relevant method. Transient are sent from {@see Lumiere\Admin\Save_Options::lumiere_cache_options_save()} and make sure it was an intended action to update the crons
+	 * @since 4.0 Added method which uses transients to validate the execution of the relevant method. Transient are sent from {@see Lumiere\Admin\Save_Options::lumiere_cache_options_save()} and make sure it was an intended action to update the crons
 	 *
 	 * @return void Crons schedules have been added or removed
 	 */
@@ -159,7 +159,7 @@ class Cron {
 	/**
 	 * Add or Remove WP Cron a daily cron that deletes files that are over a given limit
 	 *
-	 * @since 3.12 Merged here the two add/remove previously separated functions
+	 * @since 4.0 Merged here the two add/remove previously separated functions
 	 *
 	 * @return void Files exceeding provided limited are deleted
 	 */
@@ -195,7 +195,7 @@ class Cron {
 	/**
 	 * Add or Remove WP Cron a monthly cron that refresh cache files
 	 *
-	 * @since 3.12 Added method
+	 * @since 4.0 Added method
 	 *
 	 * @return void Files exceeding provided limited are deleted
 	 */

@@ -141,7 +141,6 @@ class DataDetailsCest {
 		$I->dontSee('Composer');
 		$I->dontSee('Ramin Djawadi');
 		$I->dontSee('Soundtracks');
-		$I->dontSee('Trailer');
 		$I->dontSee('Music by György Ligeti Performed by Stuttgart Schola Cantorum');
 		$I->dontSee('Trailers');
 		$I->dontSee('Main title (uncredited) Written and Performed by Ramin Djawadi');

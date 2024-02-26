@@ -71,7 +71,7 @@ class Movie {
 	 * Search the movie and output the results
 	 *
 	 * @since 3.8   Extra logs are shown once only using singleton $this->movie_run_once and PluginsDetect class added
-	 * @since 3.12  Ban bots added, just before doing IMDb query
+	 * @since 4.0  Ban bots added, just before doing IMDb query
 	 *
 	 * @param array<int<0, max>, array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
 	 * @psalm-param list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $imdb_id_or_title_outside
@@ -122,7 +122,7 @@ class Movie {
 			// A movie's title has been specified, get its imdbid.
 			if ( isset( $film['byname'] ) ) {
 
-				$film = strtolower( $film['byname'] ); // @since 3.12 lowercase, less cache used.
+				$film = strtolower( $film['byname'] ); // @since 4.0 lowercase, less cache used.
 
 				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . $film );
 
@@ -448,7 +448,7 @@ class Movie {
 	/**
 	 * Do taxonomy layouts and insert taxonomy and create the taxonomy relationship
 	 *
-	 * @since 3.12 rewritten taxonomy system, not using Polylang anymore, links between languages created, hierarchical taxonomy terms
+	 * @since 4.0 rewritten taxonomy system, not using Polylang anymore, links between languages created, hierarchical taxonomy terms
 	 *
 	 * @param string $type_item mandatory: the general category of the item, ie 'director', 'color'
 	 * @param string $first_title mandatory: the name of the first string to display, ie "Stanley Kubrick"
@@ -511,7 +511,7 @@ class Movie {
 		/**
 		 * Compatibility with Polylang WordPress plugin, add a language to the taxonomy term.
 		 * Function in class Polylang.
-		 * @obsolete since 3.12, WordPress functions do all what we need
+		 * @obsolete since 4.0, WordPress functions do all what we need
 		 * @TODO: make a function that even if Polylang custom taxonomies are not activated, taxos are registred with Polylang language anyway
 		 */
 		/* if ( $this->plugin_polylang instanceof Polylang && ! is_wp_error( $term_inserted ) && $page_id !== false ) {
@@ -568,7 +568,7 @@ class Movie {
 	/**
 	 * Create an html link for taxonomy using the name passed
 	 *
-	 * @since 3.12 New function taking out pieces from Movie::lumiere_make_display_taxonomy()
+	 * @since 4.0 New function taking out pieces from Movie::lumiere_make_display_taxonomy()
 	 *
 	 * @param string $name_searched The name searched, such as 'Stanley Kubrick'
 	 * @param string $taxo_category The taxonomy category used, such as 'lumiere-director'

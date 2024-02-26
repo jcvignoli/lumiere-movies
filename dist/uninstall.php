@@ -27,7 +27,7 @@ use Lumiere\Plugins\Logger;
  * Uninstall plugin
  * If imdbkeepsettings is set (advanced admin options), exit earlier to keep database settings
  *
- * @since 3.12 option properties can be null and construct is different.
+ * @since 4.0 option properties can be null and construct is different.
  */
 class Uninstall {
 
@@ -83,7 +83,7 @@ class Uninstall {
 	/**
 	 * Clean Plugin's traces
 	 *
-	 * @since 3.12 created private methods to deal with processes, added precheck of database exists
+	 * @since 4.0 created private methods to deal with processes, added precheck of database exists
 	 */
 	public function uninstall(): bool {
 

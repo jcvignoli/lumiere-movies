@@ -10,7 +10,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Admin;
+namespace Lumiere\Admin\Submenu;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,7 +23,7 @@ use Exception;
 /**
  * Display help explainations
  */
-class Help extends Admin_Menu {
+class Help extends \Lumiere\Admin\Admin_Menu {
 
 	/**
 	 * Paths to files to be read

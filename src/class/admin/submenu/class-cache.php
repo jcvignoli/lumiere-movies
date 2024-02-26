@@ -10,7 +10,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Admin;
+namespace Lumiere\Admin\Submenu;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -23,9 +23,9 @@ use Lumiere\Admin\Cache_Tools;
 /**
  * Display cache admin menu
  *
- * @since 3.12 Methods moved from this class into Cache_Tools, using templates instead of having templates here
+ * @since 4.0 Methods moved from this class into Cache_Tools, using templates instead of having templates here
  */
-class Cache extends Admin_Menu {
+class Cache extends \Lumiere\Admin\Admin_Menu {
 
 	/**
 	 * Constructor

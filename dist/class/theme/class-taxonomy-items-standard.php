@@ -55,7 +55,7 @@ class Taxonomy_Items_Standard {
 
 	/**
 	 * Constructor
-	 * @since 3.12 Ban bots from downloading the page.
+	 * @since 4.0 Ban bots from downloading the page.
 	 */
 	public function __construct() {
 
@@ -168,7 +168,7 @@ class Taxonomy_Items_Standard {
 	/**
 	 * Build HTML links from all taxonomies that exist for a given term
 	 *
-	 * @since 3.12 Function created
+	 * @since 4.0 Function created
 	 *
 	 * @return string List of strings
 	 */
@@ -192,7 +192,7 @@ class Taxonomy_Items_Standard {
 	/**
 	 * Return the terms of the current page
 	 *
-	 * @since 3.12 Function created
+	 * @since 4.0 Function created
 	 *
 	 * @param string $type The type of object to return
 	 * @phpstan-param 'slug'|'name' $type

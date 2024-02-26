@@ -77,13 +77,13 @@ $lumiere_size_cache_folder = get_transient( 'admin_template_pass_vars' )[0];
 				</div>
 
 					<?php	//------------------------------------------------------------------ =[cache details]=- ?>
-				<div class="titresection"><?php esc_html_e( 'Cache details', 'lumiere-movies' ); ?></div>
+				<div class="titresection"><?php esc_html_e( 'Manage cache page', 'lumiere-movies' ); ?></div>
 
 				<div class="lumiere_display_flex lumiere_flex_make_responsive">
 
 					<div class="lumiere_flex_container_content_thirty lumiere_padding_five">
 
-						<?php esc_html_e( 'Simplified cache details', 'lumiere-movies' ); ?>&nbsp;
+						<?php esc_html_e( 'Simplified cache data', 'lumiere-movies' ); ?>&nbsp;
 
 						<input type="hidden" id="imdb_imdbcachedetailsshort_no" name="imdb_imdbcachedetailsshort" value="0" />
 						<input type="checkbox" id="imdb_imdbcachedetailsshort_yes" name="imdb_imdbcachedetailsshort" value="1" 
@@ -93,7 +93,7 @@ $lumiere_size_cache_folder = get_transient( 'admin_template_pass_vars' )[0];
 						?>
 						/>
 
-						<div class="explain"><?php esc_html_e( 'Allows faster loading time for the "manage cache" page by displaying shorter movies and people presentation. Usefull when you have many of them.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
+						<div class="explain"><?php esc_html_e( 'Allows faster loading time for the "manage cache" option page by taking out pictures and limiting options for movies and people cache. Usefull when you have too much cache to display.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
 
 					</div>
 				</div>

@@ -63,7 +63,7 @@ class Popup_Person {
 
 		/**
 		 * Display layout
-		 * @since 3.12 using 'the_posts' instead of the 'content'
+		 * @since 4.0 using 'the_posts' instead of the 'content'
 		 */
 		add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ], 1 );
 	}

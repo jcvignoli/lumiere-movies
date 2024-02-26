@@ -77,7 +77,7 @@ class Popup_Search {
 
 		// Build the vars.
 		$movie = Utils::lumiere_name_htmlize( $_GET['film'] );
-		$this->film_sanitized = $movie !== null ? strtolower( $movie ) : ''; // @since 3.12 lowercase, less cache used.
+		$this->film_sanitized = $movie !== null ? strtolower( $movie ) : ''; // @since 4.0 lowercase, less cache used.
 		$this->film_sanitized_for_title = esc_html( $this->film_sanitized );
 
 		// Remove admin bar
@@ -85,7 +85,7 @@ class Popup_Search {
 
 		/**
 		 * Display layout
-		 * @since 3.12 using 'the_posts', removed the 'get_header' for OceanWP
+		 * @since 4.0 using 'the_posts', removed the 'get_header' for OceanWP
 		 */
 		add_action( 'the_posts', [ $this, 'layout' ], 1 );
 

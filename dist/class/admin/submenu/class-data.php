@@ -10,7 +10,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Admin;
+namespace Lumiere\Admin\Submenu;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,9 +22,9 @@ use Lumiere\Tools\Utils;
 
 /**
  * Display data options for taxonomy, data order and data selection
-  * @since 3.12 Using templates instead of having templates here
+  * @since 4.0 Using templates instead of having templates here
  */
-class Data extends Admin_Menu {
+class Data extends \Lumiere\Admin\Admin_Menu {
 
 	/**
 	 * List of data details that display a field to enter

@@ -97,5 +97,10 @@ class SearchCest {
 		$I->see( '0062622' );
 
 		$I->click( '#imdbid_0062622' );
+		
+		$I->acceptPopup();
+		
+		// Back to the main window.
+		$I->switchToWindow();
 	}
 }

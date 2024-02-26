@@ -58,9 +58,6 @@ class AMPCest {
 		// Activate AMP
 		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeActivatePlugin('amp');
-		// Deactivate Query Monitor, it bugs
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
-		$I->maybeDeactivatePlugin('query-monitor');
 		// Make sure actor data is enabled
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#taxodetails');
@@ -69,13 +66,10 @@ class AMPCest {
 
 	/** 
 	 * Helper: Select AMP plugin
-	 * Make sure that AMP plugin is active
 	 * @before login
 	 */
 	private function lastActions(AcceptanceRemoteTester $I) {
-		// Reactivate Query Monitor, it bugs
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
-		$I->maybeActivatePlugin('query-monitor');
+	
 	}
 	
 	/** 

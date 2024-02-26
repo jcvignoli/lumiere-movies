@@ -32,7 +32,7 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 	/**
 	 * Version of Lumière! that can trigger the update
 	 */
-	const LUMIERE_VERSION_UPDATE = '3.12';
+	const LUMIERE_VERSION_UPDATE = '4.0';
 
 	/**
 	 * Number of updates that can trigger the update

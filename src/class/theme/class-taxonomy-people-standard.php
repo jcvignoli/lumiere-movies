@@ -30,6 +30,8 @@ use WP_Query;
  *
  * @see \Lumiere\Alteration\Virtual_Page that allows fills that virtual page, which this class fills into
  * @see \Lumiere\Frontend Trait to builds $this->link_maker var
+ *
+ * @since 4.0 Returns all Lumière taxonomies that can be clicked when visiting the item template page
  */
 class Taxonomy_People_Standard {
 
@@ -73,7 +75,6 @@ class Taxonomy_People_Standard {
 
 	/**
 	 * Constructor
-	 * @since 3.12 Ban bots from downloading the page.
 	 */
 	public function __construct( ?Polylang $plugin_polylang = null ) {
 

@@ -1,6 +1,6 @@
 **Changelog**
 
-v.3.12
+v.4.0
 * [feature] Added the general advanced option to add an extra delay when querying the IMDb website. Meant to avoid the HTTP 504 errors thrown when too many requests in a row are processed. 0 seconds by default, but can be increased to add a delay. If the data are already cached, no further delay, it's as fast as it used to be.
 * [feature] Better way to *display taxonomy items*, such as genre. It now displays all terms related to the item (i.e. movie's genre -> action). Make sure to delete all tags and visit your posts, taxonomy will be automatically created.
 * [feature] Added new automatized refresh of the cache function! By selecting that option in admin cache options, your cache will be refreshed every two weeks. No need to bother anymore about refreshing manually or letting the visitors wait until the new cache to be retrieved.

@@ -71,7 +71,7 @@ class Polylang {
 	/**
 	 * Add the language in use to taxonomy terms ------- In class movie
 	 *
-	 * @obsolete since 3.12, not utilised anymore, WordPress functions do all what we need
+	 * @obsolete since 4.0, not utilised anymore, WordPress functions do all what we need
 	 *
 	 * @param array<string|int, string|int> $term
 	 */

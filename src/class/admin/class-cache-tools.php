@@ -34,7 +34,7 @@ use Exception;
  *
  * @see \Lumiere\Admin\Cache
  * @see \Lumiere\Admin\Cron
- * @since 3.12 Methods extracted from Class cache and factorized here
+ * @since 4.0 Methods extracted from Class cache and factorized here
  *
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
  */
@@ -152,7 +152,7 @@ class Cache_Tools {
 	 * 4/ Recreate the cache by querying the IMDb with an incremental sleep (to avoid HTTP errors)
 	 * Meant to be called by cron
 	 * @see \Lumiere\Admin\Cron::lumiere_cron_exec_autorefresh()
-	 * @since 3.12
+	 * @since 4.0 new method
 	 *
 	 * @param int<0, max> $sleep Optional, the time to sleep before each query to IMDb (this is incremental, each new file adds 0.25 seconds by default)
 	 * @return void All cache has been refreshed

@@ -99,7 +99,7 @@ class Redirect_Virtual_Page {
 
 	/**
 	 * Popups redirection
-	 * @since 3.12 Bots are banned for all popups
+	 * @since 4.0 Bots are banned for all popups
 	 *
 	 * @TODO Sanitization of GETs is a joke, use proper functions!
 	 * @return string|Virtual_Page

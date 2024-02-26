@@ -65,7 +65,7 @@ class Widget_Selection extends \WP_Widget {
 	/**
 	 * Statically start the class
 	 *
-	 * @since 3.12 using __CLASS__ instead of get_class() in register_widget()
+	 * @since 4.0 using __CLASS__ instead of get_class() in register_widget()
 	 */
 	public static function lumiere_widget_start(): void {
 

@@ -23,7 +23,7 @@ use Imdb\Title;
  * The class uses \Lumiere\Link_Makers\Link_Factory to automatically select the appropriate Link maker class to display data ( i.e. Classic links, Highslide/Bootstrap, No Links, AMP)
  * It uses ImdbPHP Classes to display movies/people data
  *
- * @since 3.12
+ * @since 4.0 new class, methods were extracted from Movie class
  */
 class Movie_Data extends Movie {
 
@@ -379,7 +379,7 @@ class Movie_Data extends Movie {
 	 * Kept for compatibility purposes: the function lumiere_movies_quote() is automatically created from config data, the class would complain that method doesn't exist
 	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
-	 * @since 3.12 Removed the method's content, since this function is for compatibility and does nothing
+	 * @since 4.0 Removed the method's content, since this function is for compatibility and does nothing
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 * @return string Nothing

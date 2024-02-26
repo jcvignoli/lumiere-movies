@@ -33,7 +33,7 @@ class Ban_Bots {
 	/**
 	 * List of bots not respecting the rules
 	 *
-	 * @since 3.12 Added Bingbot and Googlebot
+	 * @since 4.0 Added Bingbot and Googlebot
 	 */
 	private const BLACK_LIST_AGENT = [
 		/**

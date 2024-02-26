@@ -10,7 +10,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Admin;
+namespace Lumiere\Admin\Submenu;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,9 +21,9 @@ use Lumiere\Admin\Cache_Tools;
 
 /**
  * Display General options menu
- * @since 3.12 Using templates instead of having templates here
+ * @since 4.0 Using templates instead of having templates here
  */
-class General extends Admin_Menu {
+class General extends \Lumiere\Admin\Admin_Menu {
 
 	/**
 	 * Pages name

@@ -76,7 +76,7 @@ class Popup_Movie {
 
 		/**
 		 * Display layout
-		 * @since 3.12 using 'the_posts', removed the 'get_header' for OceanWP
+		 * @since 4.0 using 'the_posts', removed the 'get_header' for OceanWP
 		 */
 		add_action( 'the_posts', [ $this, 'lumiere_popup_movie_layout' ], 1 );
 
@@ -111,7 +111,7 @@ class Popup_Movie {
 
 			$this->movie = new Title( $this->movieid_sanitized, $this->imdbphp_class, $this->logger->log() );
 			$movie = Utils::lumiere_name_htmlize( $this->movie->title() );
-			$this->film_title_sanitized = $movie !== null ? strtolower( $movie ) : null; // @since 3.12 lowercase, less cache used.
+			$this->film_title_sanitized = $movie !== null ? strtolower( $movie ) : null; // @since 4.0 lowercase, less cache used.
 
 			return true;
 

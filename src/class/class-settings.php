@@ -23,7 +23,7 @@ use FilesystemIterator;
  * On calling __construct(), options are created in database
  *
  * @TODO options should be created only when installing/activating the plugin
- * @since 3.12 moved cache folder creation to class cache tools
+ * @since 4.0 moved cache folder creation to class cache tools
  *
  * @phpstan-type LevelLogName 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY'
  * @phpstan-type OPTIONS_ADMIN array{'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': string, 'imdbdelayimdbrequest': string, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': string, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_modal_window': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': string, 'imdbseriemovies': string}
@@ -188,7 +188,7 @@ class Settings {
 	/**
 	 * Constructor
 	 *
-	 * @since 3.12 added properties $imdb_cache_values and $imdb_widget_values, checking if options are not available, creation of the options
+	 * @since 4.0 added properties $imdb_cache_values and $imdb_widget_values, checking if options are not available, creation of the options
 	 */
 	public function __construct() {
 

@@ -175,7 +175,7 @@ class Widget_Frontpage {
 	 * Used by current Shortcode Parser and Widget_Legacy class
 	 *
 	 * @since 3.10.2 added array_filter to clean $imdb_id_or_title
-	 * @since 3.12 added exit if no metadata and no auto title widget activated
+	 * @since 4.0 added exit if no metadata and no auto title widget activated
 	 *
 	 * @param string $title_box Title of the widget to be displayed
 	 * @return string The title and movie data of the Widget

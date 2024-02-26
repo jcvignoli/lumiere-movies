@@ -18,10 +18,10 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Tools\Utils;
 use Lumiere\Plugins\Logger;
-use Lumiere\Admin\General;
-use Lumiere\Admin\Data;
-use Lumiere\Admin\Cache;
-use Lumiere\Admin\Help;
+use Lumiere\Admin\Submenu\General;
+use Lumiere\Admin\Submenu\Data;
+use Lumiere\Admin\Submenu\Cache;
+use Lumiere\Admin\Submenu\Help;
 use Lumiere\Admin\Cache_Tools;
 use Exception;
 
@@ -126,7 +126,7 @@ class Admin_Menu {
 		 * Settings saved/reset, files deleted/refreshed
 		 * Based on the $_GET and $_POSTS, the methods refreshing/saving/deleting will be processed
 		 * @see Save_Options::process_headers()
-		 * @since 3.12
+		 * @since 4.0
 		 */
 		add_action( 'wp_loaded', [ 'Lumiere\Admin\Save_Options', 'lumiere_static_start' ] );
 	}
@@ -134,7 +134,7 @@ class Admin_Menu {
 	/**
 	 * Display admin notices
 	 *
-	 * @since 3.12 using transients for display cache notice messages
+	 * @since 4.0 using transients for display cache notice messages
 	 */
 	public function lumiere_admin_display_messages(): void {
 
