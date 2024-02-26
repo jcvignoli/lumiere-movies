@@ -74,7 +74,7 @@ return [
 	// Perfect for getting bootstrap files
 	'file_list' => [
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
-		'../blogpourext/wp-content/themes/oceanwp/functions.php', // Needed to detect oceanwp class
+		'tests/bootstrap-testing.php',
 	],
 
 	// A directory list that defines files that will be excluded
@@ -94,7 +94,7 @@ return [
 		'src/vendor/',
 		'assets/js/highslide/',
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
-		'../blogpourext/wp-content/themes/oceanwp/functions.php',
+		'tests/bootstrap-testing.php',
 	],
 
 	// No need to analyse.
