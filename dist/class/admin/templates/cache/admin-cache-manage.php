@@ -22,4 +22,3 @@ $lumiere_imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 // Retrieve the vars from calling class.
 $lumiere_size_cache_folder = get_transient( 'admin_template_pass_vars' )[0];
 
-
