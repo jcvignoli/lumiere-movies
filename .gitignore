@@ -1,7 +1,8 @@
 /node_modules
 /source
 /tmp
-*vendor*
+/vendor*
+src/*vendor*
 *.vscode*
 *package-lock.json*
 /composer.lock*
