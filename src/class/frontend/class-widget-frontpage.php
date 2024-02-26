@@ -63,40 +63,41 @@ class Widget_Frontpage {
 	/**
 	 * HTML allowed for use of wp_kses()
 	 */
-	public const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
+	private const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
 		'div' => [
-			'id' => true,
-			'class' => true,
+			'id' => [],
+			'class' => [],
 		],
 		'h4' => [
-			'id' => true,
-			'class' => true,
+			'id' => [],
+			'class' => [],
 		],
 		'button' => [ // Utilsed by bootstrap modal window
-			'type' => true,
-			'class' => true,
-			'aria-label' => true,
-			'data-*' => true,
+			'type' => [],
+			'class' => [],
+			'aria-label' => [],
+			'data-*' => true, // perhaps due to the wildcard, [] doesn't work here
 		],
 		'i' => [],
+		'hr' => [],
 		'a' => [
-			'id' => true,
-			'class' => true,
-			'href' => true,
-			'title' => true,
-			'data-*' => true,
+			'id' => [],
+			'class' => [],
+			'href' => [],
+			'title' => [],
+			'data-*' => true, // perhaps due to the wildcard, [] doesn't work here
 		],
 		'span' => [
-			'id' => true,
-			'class' => true,
+			'id' => [],
+			'class' => [],
 		],
 		'img' => [
-			'width' => true,
-			'alt' => true,
-			'loading' => true,
-			'src' => true,
-			'id' => true,
-			'class' => true,
+			'width' => [],
+			'alt' => [],
+			'loading' => [],
+			'src' => [],
+			'id' => [],
+			'class' => [],
 		],
 	];
 

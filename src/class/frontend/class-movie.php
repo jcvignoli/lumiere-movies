@@ -40,17 +40,6 @@ class Movie {
 	private bool $movie_run_once = false;
 
 	/**
-	 *  HTML allowed for use of wp_kses_post()
-	 */
-	const ALLOWED_HTML = [
-		'a' => [
-			'id' => true,
-			'href' => true,
-			'title' => true,
-		],
-	];
-
-	/**
 	 * Name of the class
 	 * Constant utilised in logs
 	 */

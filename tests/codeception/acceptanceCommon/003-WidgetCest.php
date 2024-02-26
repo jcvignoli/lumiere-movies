@@ -36,7 +36,7 @@ class WidgetCest {
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#update_imdbSettings' );
+		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_general_settings' );
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_AUTOWIDGET_URL );
 		$I->see( AcceptanceRemoteSettings::TESTING_PAGE_AUTOWIDGET_TITLE );
 
@@ -46,7 +46,7 @@ class WidgetCest {
 		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
 			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#update_imdbSettings' );
+		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_general_settings' );
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_AUTOWIDGET_URL );
 		$I->dontSee( AcceptanceRemoteSettings::TESTING_PAGE_AUTOWIDGET_TITLE );
 

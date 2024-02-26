@@ -458,7 +458,7 @@ class Movie_Data extends Movie {
 			 * Each one has its own class passed in $link_maker,
 			 * according to which option the lumiere_select_link_maker() found in Frontend.
 			 */
-			$output .= $this->link_maker->lumiere_movies_trailer_details( $trailers[ $i ]['url'], $trailers[ $i ]['title'] );
+			$output .= $this->link_maker->lumiere_movies_trailer_details( $trailers[ $i ]['videoUrl'], $trailers[ $i ]['title'] );
 
 			if ( $i < ( $nbtrailers - 1 ) && $i < ( $nbtotaltrailers - 1 ) ) {
 				$output .= ', '; // add comma to every trailer but the last.
@@ -1069,7 +1069,7 @@ class Movie_Data extends Movie {
 		$output .= sprintf( esc_attr( _n( 'Plot', 'Plots', $nbtotalplots, 'lumiere-movies' ) ), number_format_i18n( $nbtotalplots ) );
 		$output .= ':</span><br />';
 
-		for ( $i = 0; ( ( $i < $nbtotalplots ) && ( $i < $nbplots ) ); $i++ ) {
+		for ( $i = 0; ( $i < $nbtotalplots ) && ( $i < $nbplots ); $i++ ) {
 
 			/**
 			 * Use links builder classes.

@@ -11,12 +11,12 @@ class AcceptanceRemoteSettings {
 
 	/** Admin pages */
 	public const LUMIERE_GENERAL_OPTIONS_URL = '/wp-admin/admin.php?page=lumiere_options';
-	public const LUMIERE_ADVANCED_OPTIONS_URL = '/wp-admin/admin.php?page=lumiere_options&generaloption=advanced';
+	public const LUMIERE_ADVANCED_OPTIONS_URL = '/wp-admin/admin.php?page=lumiere_options&subsection=advanced';
 	public const LUMIERE_HELP_GENERAL_URL = '/wp-admin/admin.php?page=lumiere_options_help';
 	public const LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL = '/wp-admin/admin.php?page=lumiere_options_data';
-	public const LUMIERE_DATA_OPTIONS_TAXO_URL = '/wp-admin/admin.php?page=lumiere_options_data&widgetoption=taxo';
-	public const LUMIERE_DATA_OPTIONS_ORDER_URL = '/wp-admin/admin.php?page=lumiere_options_data&widgetoption=order';
-	public const LUMIERE_CACHE_OPTIONS_MANAGE_URL = '/wp-admin/admin.php?page=lumiere_options_cache&cacheoption=manage';
+	public const LUMIERE_DATA_OPTIONS_TAXO_URL = '/wp-admin/admin.php?page=lumiere_options_data&subsection=taxo';
+	public const LUMIERE_DATA_OPTIONS_ORDER_URL = '/wp-admin/admin.php?page=lumiere_options_data&subsection=order';
+	public const LUMIERE_CACHE_OPTIONS_MANAGE_URL = '/wp-admin/admin.php?page=lumiere_options_cache&subsection=manage';
 
 	public const ADMIN_PLUGINS_URL = '/wp-admin/plugins.php';
 	public const ADMIN_PERMALINK_URL = '/wp-admin/options-permalink.php';

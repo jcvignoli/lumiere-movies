@@ -23,7 +23,6 @@ $lumiere_imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 $lumiere_size_cache_folder = get_transient( 'admin_template_pass_vars' )[0];
 ?>
 
-<div class="postbox-container">
 	<div id="left-sortables" class="meta-box-sortables">
 
 		<div class="inside lumiere_border_shadow lumiere_margin_btm_twenty">
@@ -170,4 +169,4 @@ $lumiere_size_cache_folder = get_transient( 'admin_template_pass_vars' )[0];
 			</form>
 		</div>
 	</div>
-</div>
+

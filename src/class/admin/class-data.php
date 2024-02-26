@@ -6,7 +6,7 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
- * @version       1.0
+ * @version       2.0
  * @package lumiere-movies
  */
 
@@ -22,6 +22,7 @@ use Lumiere\Tools\Utils;
 
 /**
  * Display data options for taxonomy, data order and data selection
+  * @since 3.12 Using templates instead of having templates here
  */
 class Data extends Admin_Menu {
 
@@ -96,7 +97,7 @@ class Data extends Admin_Menu {
 
 		if (
 			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
-			&& ! isset( $_GET['widgetoption'] )
+			&& ! isset( $_GET['subsection'] )
 		) {
 
 			// The template will retrieve the args. In parent class.
@@ -104,7 +105,7 @@ class Data extends Admin_Menu {
 
 		} elseif (
 			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
-			&& isset( $_GET['widgetoption'] ) && $_GET['widgetoption'] === 'taxo'
+			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'taxo'
 		) {
 
 			// taxonomy is disabled
@@ -121,7 +122,7 @@ class Data extends Admin_Menu {
 
 		} elseif (
 			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
-			&& isset( $_GET['widgetoption'] ) && $_GET['widgetoption'] === 'order'
+			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'order'
 		) {
 
 			// The template will retrieve the args. In parent class.

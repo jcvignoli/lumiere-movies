@@ -136,14 +136,12 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere_hide_show-js"); 		# hide/show script
 		$I->seeInPageSource("lumiere_queryid_widget"); 		# Lumière Metabox is available
 
-			/* 
+			/** 
 			 * Frontend pages
-			 *
 			 */
 
 		// Make sure Highslide is active, following tests are run with Highslide
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
-		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "highslide", "update_imdbSettings" );
+		$I->SwitchModalWindow('Highslide');
 
 		$I->comment(\Helper\Color::set('Checking normal page', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
@@ -216,10 +214,10 @@ class StylesScriptsHighslideCest {
 
 	}
 
-	/** Check if the change of layout styles in admin is reflection in the front end
+	/**
+	 * Check if the change of layout styles in admin is reflection in the front end
 	 *
 	 * @before login
-	 *
 	 */
 	public function checkStyleEdition(AcceptanceRemoteTester $I) {
 

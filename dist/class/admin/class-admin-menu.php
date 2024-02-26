@@ -49,6 +49,7 @@ class Admin_Menu {
 	protected string $page_cache_manage;
 	protected string $page_cache_option;
 	protected string $page_data;
+	protected string $page_data_order;
 	protected string $page_data_taxo;
 	protected string $page_general_base;
 	protected string $page_general_advanced;
@@ -101,14 +102,18 @@ class Admin_Menu {
 		$this->menu_id = $this->get_id() . '_options';
 
 		// Build pages vars.
-		$this->page_cache_manage = admin_url( 'admin.php?page=' . $this->menu_id . '_cache&cacheoption=manage' );
-		$this->page_cache_option = admin_url( 'admin.php?page=' . $this->menu_id . '_cache' );
-		$this->page_data = admin_url( 'admin.php?page=' . $this->menu_id . '_data' );
-		$this->page_data_taxo = admin_url( 'admin.php?page=' . $this->menu_id . '_data&widgetoption=taxo' );
 		$this->page_general_base = admin_url( 'admin.php?page=' . $this->menu_id );
 		$this->page_general_advanced = admin_url( 'admin.php?page=' . $this->menu_id . '&subsection=advanced' );
-		$this->page_general_help = admin_url( 'admin.php?page=' . $this->menu_id . '_help' );
-		$this->page_general_help_support = admin_url( 'admin.php?page=' . $this->menu_id . '_help&subsection=support' );
+		$page_data = $this->menu_id . '_data';
+		$this->page_data = admin_url( 'admin.php?page=' . $page_data );
+		$this->page_data_order = admin_url( 'admin.php?page=' . $page_data . '&subsection=order' );
+		$this->page_data_taxo = admin_url( 'admin.php?page=' . $page_data . '&subsection=taxo' );
+		$page_cache = $this->menu_id . '_cache';
+		$this->page_cache_option = admin_url( 'admin.php?page=' . $page_cache );
+		$this->page_cache_manage = admin_url( 'admin.php?page=' . $page_cache . '&subsection=manage' );
+		$page_help = $this->menu_id . '_help';
+		$this->page_general_help = admin_url( 'admin.php?page=' . $page_help );
+		$this->page_general_help_support = admin_url( 'admin.php?page=' . $page_help . '&subsection=support' );
 
 		// Start the debug
 		// If runned earlier, such as 'admin_init', breaks block editor edition.
@@ -141,7 +146,7 @@ class Admin_Menu {
 				esc_html__( 'New taxonomy template file(s) found: ', 'lumiere-movies' )
 				. implode( ' & ', $new_taxo_template )
 				. '. ' . esc_html__( 'Please ', 'lumiere-movies' ) . '<a href="'
-				. $this->page_data . '&widgetoption=taxo#imdb_imdbtaxonomyactor_yes'
+				. $this->page_data_taxo . '#imdb_imdbtaxonomyactor_yes'
 				. '">' . esc_html__( 'update', 'lumiere-movies' ) . '</a>.'
 			);
 		}
@@ -189,8 +194,7 @@ class Admin_Menu {
 
 	/**
 	 * Add the admin menu
-	 * Called by class core
-	 *
+	 * @info Called by class Core
 	 */
 	public function load_admin_menu(): void {
 
@@ -210,7 +214,6 @@ class Admin_Menu {
 
 	/**
 	 * Add left admin menu
-	 *
 	 */
 	public function lumiere_add_left_menu(): void {
 
@@ -519,7 +522,7 @@ class Admin_Menu {
 	 * The transiant has a validity time of 30 seconds by default
 	 *
 	 * @param string $file_name
-	 * @param array<int, object|string|array<string>> $variables The variables transfered to the include
+	 * @param array<int, object|string|int|array<\Imdb\Person|\Imdb\Title|string>> $variables The variables transfered to the include
 	 * @param int $validity_time_transient The *maximum* time the transient is valid in seconds, 30 seconds by default
 	 * @void The file with vars has been included
 	 */
@@ -547,8 +550,8 @@ class Admin_Menu {
 	 */
 	private function build_template_path( string $file_name ): string {
 
-		$my_plugin_dir = plugin_dir_path( __DIR__ ) . 'admin/templates/';
-		$path_to_file = $my_plugin_dir . $file_name . '.php';
+		$admin_templates_dir = plugin_dir_path( __DIR__ ) . 'templates/admin/';
+		$path_to_file = $admin_templates_dir . $file_name . '.php';
 
 		if ( ! is_file( $path_to_file ) ) {
 			throw new Exception( __( 'Cannot find file ', 'lumiere-movies' ) . $path_to_file );

@@ -131,7 +131,6 @@ class DataDetailsCest {
 		$I->dontSee('Production companies');
 		$I->dontSee('Plots');
 		$I->dontSee('continent of Westeros');
-//		$I->dontSee('Quotes'); // currently missing function in Person.php imdbphp
 		$I->dontSee('you win or you die');
 		$I->dontSee('Taglines');
 		$I->dontSee('Five Kings');
@@ -142,8 +141,9 @@ class DataDetailsCest {
 		$I->dontSee('Composer');
 		$I->dontSee('Ramin Djawadi');
 		$I->dontSee('Soundtracks');
-		$I->dontSee('Trailers');
+		$I->dontSee('Trailer');
 		$I->dontSee('Music by György Ligeti Performed by Stuttgart Schola Cantorum');
+		$I->dontSee('Trailers');
 		$I->dontSee('Main title (uncredited) Written and Performed by Ramin Djawadi');
 		$I->dontSee('Official websites');
 		$I->dontSee('Official YouTube channel');
@@ -310,7 +310,6 @@ class DataDetailsCest {
 		$I->see('Production companies');
 		$I->see('Plots');
 		$I->see('continent of Westeros');
-//		$I->see('Quotes'); // currently missing function in Person.php imdbphp
 		$I->see('you win or you die');
 		$I->see('Taglines');
 		$I->see('Five Kings');
@@ -342,7 +341,6 @@ class DataDetailsCest {
 		$I->see('Goofs');
 		$I->see('throughout the film');
 		$I->see('tasked to depart his frozen sanctuary and join the King');
-
 	}
 }
 

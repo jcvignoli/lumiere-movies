@@ -17,13 +17,14 @@ v.3.12
 * [bug] Compatibility with PHP > 8.0 ensured, replaced obsolete PHP functions. Still backwards compatible.
 * [bug] Reset/Update fields in Manage Cache admin page were not standardized.
 * [bug] Popups for people and movies should be compliant with any theme now (removed OceanWP conditions, using 'the_posts' hook only)
+* [bug] Only one trailer was beeing (sometimes) displayed, and most often no trailer at all. Fixed trailer method in Title class in *IMDbPHP personal library*.
 * [technical] Replaced FILTER_SANITIZE_STRING (obsolete) with FILTER_SANITIZE_FULL_SPECIAL_CHARS in class admin/data
 * [technical] Rewrote massively the admin section. Under the hood, more robust plugin!
 * [technical] Page downloads from IMDb are retried 3 times before giving up.
 * [technical] Cleaned useless cache settings (zipping is hardcoded in class imdbphp)
 * [technical] Cleaned useless function in class movie (cleaned lumiere_movies_quote(), which is useless but must be kept for compatibility)
 * [technical] Added more security to the cache management (in class cache, refresh/delete of individual people/movies are now checked against a NONCE)
-* [technical] Updated to latest *personal IMDbPHP libray* upstream which replicates IMDbPHP 8.2
+* [technical] Updated to latest *personal IMDbPHP libray* which replicates oficial IMDbPHP 8.2
 * [technical] Added Bingbot and Googlebots to the banned bots, since it doesn't respect the "no follow" rule.
 * [technical] Rewrote the bot banning that is now executed before doing IMDb searches, avoiding cache creationg (and 504 HTML errors when calling IMDb website!)
 * [technical] In admin, notices for update/reset options is now WP notification system compliant (using transients in child classes to display notifications messages set in admin parent class)
@@ -36,19 +37,19 @@ v.3.12
 * [technical] Uninstalling the plugin with the option "keep settings upon uninstall" unselected will delete Lumiere taxonomy templates in theme directory.
 
 v.3.11.5
-* [bug] Fixed *personal IMDbPHP libray* upstream: under some circonstances, error "No such file or directory in ImageProcessor.php on line 44", added extra conditions to before unlink and rename
+* [bug] Fixed *personal IMDbPHP library*: under some circonstances, error "No such file or directory in ImageProcessor.php on line 44", added extra conditions to before unlink and rename
 
 v.3.11.4
 * [feature] Some bots scanning the popups without considering head rules (nofollow) will be now banned. This will prevents from having bots creating a huge cache and many requests that get user banned from IMDB (and save space).
-* [bug] Fixed cache image creation (upstream IMDbPHP class ImageProcessor was deleting _big image before knowing if they could be resized)
-* [bug] Fixed pictures were not display on first pass (upstream IMDbPHP change, if pictures were not reduced in size, a return false was preventing them from showing on first pass)
+* [bug] Fixed cache image creation (*personal IMDbPHP* class ImageProcessor was deleting _big image before knowing if they could be resized)
+* [bug] Fixed pictures were not display on first pass (*personal IMDbPHP* change, if pictures were not reduced in size, a return false was preventing them from showing on first pass)
 * [technical] AISEO plugin is deactivated in popups (movies+people). There is no point in adding SEO tools in something that should not be indexed.
 
 v.3.11.3
 * [bug] Fixed longstanding missing picture in regular wordpress edition (block edition)
 * [bug] Fixed typo in previous release
-* [bug] Fixed retrieving episodes (upstream IMDbPHP change)
-* [bug] Fixed IMDbPHP purge (upstream IMDbPHP change, PHP Warning: filemtime(): stat failed for ($fname) in Imdb/Cache.php on line 135)
+* [bug] Fixed retrieving episodes (*personal IMDbPHP library* change)
+* [bug] Fixed IMDbPHP purge (*personal IMDbPHP library* change, PHP Warning: filemtime(): stat failed for ($fname) in Imdb/Cache.php on line 135)
 
 v.3.11.2
 * [bug] Fixed bug introduced by the fix on rewrite rules in v3.11.1 that prevented popups to be displayed unless doing a full rewrite rules flush. Using in class rewrite rules the add_action( 'admin_init' ...) instead of add_action( 'generate_rewrite_rules' ...).
@@ -75,7 +76,7 @@ v.3.11
 * [bug] Picture in people taxonomy page was not shown if no big poster was retrieved.
 * [bug] Title's "also known as" is back. It was unavailable since a very long time.
 * [technical] Lumière! is not executed in feeds anymore (created lumiere_prohibited_areas() in movie class)
-* [technical] Support for PHP < 8.0 totally dropped, removed home-made str_contains() compatibility meant to support older PHP versions.
+* [technical] Support for PHP < 8.0 dropped, removed home-made str_contains() compatibility meant to support older PHP versions.
 * [technical] Permissions for cache directory changed. Created with chmod 775, as the other plugins do.
 * [technical] Permissions for logging file. Created with chmod 775, as the other plugins do.
 * [technical] Updated to bootstrap 5.3.2

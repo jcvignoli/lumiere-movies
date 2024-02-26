@@ -6,7 +6,7 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version       1.1
+ * @version       2.0
  * @package lumiere-movies
  */
 
@@ -21,6 +21,7 @@ use Lumiere\Admin\Cache_Tools;
 
 /**
  * Display General options menu
+ * @since 3.12 Using templates instead of having templates here
  */
 class General extends Admin_Menu {
 

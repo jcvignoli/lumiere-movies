@@ -66,8 +66,8 @@ class Cache_Tools {
 		// Start Imdbphp class.
 		$this->imdbphp_class = new Imdbphp();
 
-		// Logger: set to true to display debug on screen.
-		$this->logger->lumiere_start_logger( get_class( $this ), false );
+		// Logger: set to true to display debug on screen. => 20240225 Don't see why it is needed, will remove in the future
+		// $this->logger->lumiere_start_logger( get_class( __CLASS__ ), false );
 
 	}
 
