@@ -60,9 +60,10 @@ class Help extends \Lumiere\Admin\Admin_Menu {
 		parent::__construct();
 
 		// Build constants not in parent class
-		$this->readmefile = plugin_dir_path( dirname( __DIR__ ) ) . 'README.txt';
-		$this->changelogfile = plugin_dir_path( dirname( __DIR__ ) ) . 'CHANGELOG.md';
-		$this->acknowledgefile = plugin_dir_path( dirname( __DIR__ ) ) . 'ACKNOWLEDGMENTS.md';
+		$root = dirname( dirname( __DIR__ ) );
+		$this->readmefile = plugin_dir_path( $root ) . 'README.txt';
+		$this->changelogfile = plugin_dir_path( $root ) . 'CHANGELOG.md';
+		$this->acknowledgefile = plugin_dir_path( $root ) . 'ACKNOWLEDGMENTS.md';
 
 		// Add specific script for metaboxes
 		//add_action('admin_enqueue_scripts', [$this, 'lumiere_help_extrascript' ]); # can't use add_action, call in parent class too late
