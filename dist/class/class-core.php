@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Admin\Cache_Tools;
-use Lumiere\Tools\PluginsDetect;
+use Lumiere\Tools\Plugins_Detect;
 use Lumiere\Plugins\Amp;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Polylang;
@@ -86,10 +86,10 @@ class Core {
 		add_action(
 			'wp',
 			function(): void {
-				$pluginsdetect_class = new PluginsDetect();
+				$plugins_detect_class = new Plugins_Detect();
 				if (
-					count( $pluginsdetect_class->plugins_class ) > 0
-					&& in_array( 'AMP', $pluginsdetect_class->plugins_class, true )
+					count( $plugins_detect_class->plugins_class ) > 0
+					&& in_array( 'AMP', $plugins_detect_class->plugins_class, true )
 				) {
 					$amp_class = new Amp();
 					$amp_class->lumiere_amp_remove_header();

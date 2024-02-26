@@ -22,12 +22,12 @@ use Lumiere\Tools\Utils;
 
 /**
  * Display data options for taxonomy, data order and data selection
-  * @since 4.0 Using templates instead of having templates here
+ * @since 4.0 Using templates instead of having templates here
  */
 class Data extends \Lumiere\Admin\Admin_Menu {
 
 	/**
-	 * List of data details that display a field to enter
+	 * List of data details that display a field to fill in
 	 * A limit number in "Display" section
 	 * @var array<string> $details_with_numbers
 	 */
@@ -83,7 +83,7 @@ class Data extends \Lumiere\Admin\Admin_Menu {
 	protected function display_data_options(): void {
 
 		// First part of the menu
-		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
+		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add an array with vars to send in the template */ );
 
 		// Debugging mode
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
@@ -93,7 +93,7 @@ class Data extends \Lumiere\Admin\Admin_Menu {
 		}
 
 		// Display submenu
-		$this->include_with_vars( 'data/admin-data-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
+		$this->include_with_vars( 'data/admin-data-submenu', [ $this ] /** Add an array with vars to send in the template */ );
 
 		if (
 			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
@@ -101,7 +101,15 @@ class Data extends \Lumiere\Admin\Admin_Menu {
 		) {
 
 			// The template will retrieve the args. In parent class.
-			$this->include_with_vars( 'data/admin-data-display', [ $this, $this->build_display_options()[0], $this->build_display_options()[1], $this->details_with_numbers ] );
+			$this->include_with_vars(
+				'data/admin-data-display',
+				[
+					$this->imdb_widget_values, // data options.
+					$this->build_display_options()[0], // list of items and people with two extra lists.
+					$this->build_display_options()[1], // explaination of items and people with the two extra lists.
+					$this->details_with_numbers, // data details in a field to fill in.
+				] /** Add an array with vars to send in the template */
+			);
 
 		} elseif (
 			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
@@ -111,14 +119,21 @@ class Data extends \Lumiere\Admin\Admin_Menu {
 			// taxonomy is disabled
 			if ( $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
 				echo '<br><br><div align="center" class="accesstaxo">'
-					/* translators: %1$s and %2$s are replaced with html ahref tags */
-					. wp_kses( wp_sprintf( __( 'Please %1$sactivate taxonomy%2$s before accessing to taxonomy options.', 'lumiere-movies' ), '<a href="' . esc_url( $this->page_general_advanced ) . '#imdb_imdbtaxonomy_yes">', '</a>' ), [ 'a' => [ 'href' => [] ] ] )
+					. wp_kses(
+						wp_sprintf(
+							/* translators: %1$s and %2$s are replaced with html ahref tags */
+							__( 'Please %1$sactivate taxonomy%2$s before accessing to taxonomy options.', 'lumiere-movies' ),
+							'<a href="' . esc_url( $this->page_general_advanced ) . '#imdb_imdbtaxonomy_yes">',
+							'</a>'
+						),
+						[ 'a' => [ 'href' => [] ] ]
+					)
 					. '</div>';
 				return;
 			}
 
 			// The template will retrieve the args. In parent class.
-			$this->include_with_vars( 'data/admin-data-taxonomy', [ $this->lumiere_data_display_taxo_fields() ] /** Add in an array all vars to send in the template */ );
+			$this->include_with_vars( 'data/admin-data-taxonomy', [ $this->lumiere_data_display_taxo_fields() ] /** Add an array with vars to send in the template */ );
 
 		} elseif (
 			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
@@ -130,7 +145,7 @@ class Data extends \Lumiere\Admin\Admin_Menu {
 		}
 
 		// Signature.
-		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
+		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add an array with vars to send in the template */ );
 	}
 
 	/**

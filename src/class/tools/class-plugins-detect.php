@@ -20,7 +20,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Detect which WP plugins are in use and compatible with Lumière!
  */
-class PluginsDetect {
+class Plugins_Detect {
 
 	/**
 	 * Array of plugins in use

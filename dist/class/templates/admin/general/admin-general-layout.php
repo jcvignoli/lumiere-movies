@@ -20,10 +20,10 @@ use Lumiere\Settings;
 $lumiere_imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 
 // Retrieve vars from calling class.
-$lumiere_config_class = get_transient( 'admin_template_pass_vars' )[0];
+$lumiere_pics_url = get_transient( 'admin_template_pass_vars' )[0];
 ?>
 
-<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ?? '' ); ?>">
+<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 	<div class="intro_cache">
 		<?php esc_html_e( 'The following options usually do not need further action. Nevertheless, Lumière! can be widely customized to match your needs.', 'lumiere-movies' ); ?>
 	</div>
@@ -39,7 +39,7 @@ $lumiere_config_class = get_transient( 'admin_template_pass_vars' )[0];
 			<!-- ---------------------------------------------------------------- =[Popup]=- -->
 
 			<div id="popup" class="titresection">
-				<img src="<?php echo esc_url( $lumiere_config_class->lumiere_pics_dir . 'admin-title-popup.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+				<img src="<?php echo esc_url( $lumiere_pics_url . 'admin-title-popup.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 					<?php esc_html_e( 'Popup', 'lumiere-movies' ); ?>
 			</div>
 
@@ -129,7 +129,7 @@ $lumiere_config_class = get_transient( 'admin_template_pass_vars' )[0];
 			<!-- ---------------------------------------------------------------- =[Theme taxo/inside post/widget]=- -->
 
 			<div id="plainpages" class="titresection">
-				<img src="<?php echo esc_url( $lumiere_config_class->lumiere_pics_dir . 'admin-title-taxonomy.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+				<img src="<?php echo esc_url( $lumiere_pics_url . 'admin-title-taxonomy.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 				<?php esc_html_e( 'Plain pages', 'lumiere-movies' ); ?>
 			</div>
 
@@ -166,7 +166,7 @@ $lumiere_config_class = get_transient( 'admin_template_pass_vars' )[0];
 			<!-- --------------------------------------------------------------- =[Cover picture]=- -->
 
 			<div id="coverpicture" class="titresection">
-				<img src="<?php echo esc_url( $lumiere_config_class->lumiere_pics_dir . 'cover.jpg' ); ?>" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
+				<img src="<?php echo esc_url( $lumiere_pics_url . 'cover.jpg' ); ?>" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
 				<?php esc_html_e( 'Cover picture', 'lumiere-movies' ); ?>
 			</div>
 

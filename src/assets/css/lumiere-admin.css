@@ -145,7 +145,7 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .imdblt_padding_bottom_right_fifteen{padding-bottom:15px;padding-right:15px;}
 .imdblt_valign_middle{vertical-align:middle;}
 .imdblt_align_left{text-align:left;}
-.imdblt_align_center, .lumiere_align_center{text-align:center;}
+.lumiere_align_center{text-align:center;}
 .lumiere_align_webkit_center{text-align: -webkit-center;}
 
 .lumiere_margin_btm_twenty{margin-bottom:20px !important;}
@@ -169,7 +169,6 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 
 .lumiere_border_width_medium{border-width: medium !important;}
 .lumiere_writing_vertical{writing-mode: vertical-lr;}
-
 
 /* sticky */
 [class*="lumiere_sticky_"] { position: sticky; bottom: 0;  z-index: 10;}

@@ -46,7 +46,7 @@ class Cache extends \Lumiere\Admin\Admin_Menu {
 	protected function display_cache_options( Cache_Tools $cache_tools_class ): void {
 
 		// First part of the menu
-		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
+		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add an array with vars to send in the template */ );
 
 		// Make sure cache folder exists and is writable
 		$cache_tools_class->lumiere_create_cache( true );
@@ -60,7 +60,7 @@ class Cache extends \Lumiere\Admin\Admin_Menu {
 		}
 
 		// Cache submenu.
-		$this->include_with_vars( 'cache/admin-cache-submenu', [ $this ] /** Add in an array all vars to send in the template */ );
+		$this->include_with_vars( 'cache/admin-cache-submenu', [ $this ] /** Add an array with vars to send in the template */ );
 
 		if (
 			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_cache'
@@ -69,7 +69,7 @@ class Cache extends \Lumiere\Admin\Admin_Menu {
 
 			// Cache options menu.
 			$size = Utils::lumiere_format_bytes( $cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ) );
-			$this->include_with_vars( 'cache/admin-cache-options', [ $size ] /** Add in an array all vars to send in the template */ );
+			$this->include_with_vars( 'cache/admin-cache-options', [ $size ] /** Add an array with vars to send in the template */ );
 
 		} elseif (
 			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_cache'
@@ -86,7 +86,8 @@ class Cache extends \Lumiere\Admin\Admin_Menu {
 					$cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] ), // picture cache size
 					$this->config_class,
 					$this->page_cache_manage,
-				] /** Add in an array all vars to send in the template */
+					$cache_tools_class->lumiere_get_cache_query_info( $this->imdb_cache_values['imdbcachedir'] ), // array of query files info
+				] /** Add an array with vars to send in the template */
 			);
 		}
 	}

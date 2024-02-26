@@ -1,10 +1,10 @@
 **Changelog**
 
 v.4.0
-* [feature] Added the general advanced option to add an extra delay when querying the IMDb website. Meant to avoid the HTTP 504 errors thrown when too many requests in a row are processed. 0 seconds by default, but can be increased to add a delay. If the data are already cached, no further delay, it's as fast as it used to be.
+* [technical] Still PHP 8.0 compatible, but PHP 8.1 will be standard soon.
+* [feature] Added in the general advanced options an option to add an extra delay when querying the IMDb website. Meant to avoid the HTTP 504 errors thrown when too many requests in a row are processed. 0 seconds by default, but can be increased to add a delay. If the data are already cached, no further delay, it's as fast as it used to be. Usefull when using the new auto refresh option, if you cache is large it may be welcome to add such a delay.
 * [feature] Better way to *display taxonomy items*, such as genre. It now displays all terms related to the item (i.e. movie's genre -> action). Make sure to delete all tags and visit your posts, taxonomy will be automatically created.
 * [feature] Added new automatized refresh of the cache function! By selecting that option in admin cache options, your cache will be refreshed every two weeks. No need to bother anymore about refreshing manually or letting the visitors wait until the new cache to be retrieved.
-* [feature] Movies searches are lowercased for increasing chances of hitting cache (and saving cache space used)
 * [bug] Looong standing bug: Lumière taxonomy was preventing "categories" and "tags" to be displayed in posts admin menu (using now 'labels' in class taxonomy)
 * [bug] Plugin bulk activation was not working (removed check_admin_referer() in class core lumiere_on_activation() method)
 * [bug] Fixed the select of the data position that was displayed vertically (removed lumiere_writing_vertical class in class-data.php)
@@ -13,28 +13,27 @@ v.4.0
 * [bug] Fixed the taxonomy system, it now properly creates HTML links towards taxonomy pages within widgets/into the posts sections (now it's hierarchical, it's not using polylang functions anymore, edited classes movie and polylang and taxonomy). It is advised to delete all taxonomy tags you may have, so new are create again.
 * [bug] Cache folder creation fixed (in class settings, lumiere_create_cache() was checking if a folder exists before actually creating it)
 * [bug] Visibility: When IMDb links to popups where created in WordPress block editor (post edition), they were not visible. Now, an icon clearly shows that a link to popups was created in the post's text.
-* [bug] Admin: if left menu display was not selected, subpages were not available (typically on the first plugin install!)
-* [bug] Compatibility with PHP > 8.0 ensured, replaced obsolete PHP functions. Still backwards compatible.
+* [bug] Admin: if left menu display was not selected, subpages were not available (typically on the first plugin install)
 * [bug] Reset/Update fields in Manage Cache admin page were not standardized.
 * [bug] Popups for people and movies should be compliant with any theme now (removed OceanWP conditions, using 'the_posts' hook only)
 * [bug] Only one trailer was beeing (sometimes) displayed, and most often no trailer at all. Fixed trailer method in Title class in *IMDbPHP personal library*.
-* [technical] Replaced FILTER_SANITIZE_STRING (obsolete) with FILTER_SANITIZE_FULL_SPECIAL_CHARS in class admin/data
-* [technical] Rewrote massively the admin section. Under the hood, more robust plugin!
-* [technical] Page downloads from IMDb are retried 3 times before giving up.
-* [technical] Cleaned useless cache settings (zipping is hardcoded in class imdbphp)
+* [technical] Massively rewrote the admin section. Under the hood, more robust plugin!
+* [technical] Movies searches are lowercased for increasing chances of hitting cache (and saving cache space used)
+* [technical] PHP8.2 compatibility: replaced FILTER_SANITIZE_STRING (obsolete) with FILTER_SANITIZE_FULL_SPECIAL_CHARS in class admin/data
+* [technical] Page downloads from IMDb are refetched up to 3 times before giving up.
+* [technical] Cleaned useless cache settings (cache zipping is now hardcoded in class imdbphp)
 * [technical] Cleaned useless function in class movie (cleaned lumiere_movies_quote(), which is useless but must be kept for compatibility)
-* [technical] Added more security to the cache management (in class cache, refresh/delete of individual people/movies are now checked against a NONCE)
+* [technical] Added more security to the cache management (in class cache, refresh/delete of individual people/movies are now checked against a WP NONCE)
 * [technical] Updated to latest *personal IMDbPHP libray* which replicates oficial IMDbPHP 8.2
 * [technical] Added Bingbot and Googlebots to the banned bots, since it doesn't respect the "no follow" rule.
-* [technical] Rewrote the bot banning that is now executed before doing IMDb searches, avoiding cache creationg (and 504 HTML errors when calling IMDb website!)
+* [technical] Rewrote the bot banning. It is now executed before doing IMDb searches, avoiding cache creationg (and 504 HTML errors when calling IMDb website)
 * [technical] In admin, notices for update/reset options is now WP notification system compliant (using transients in child classes to display notifications messages set in admin parent class)
 * [technical] Removed tipee donation, kept Paypal only.
-* [technical] Emptied method lumiere_movies_quote() in Movie class, since quotes don't exist for movies and the function need to be kept for compatiblity purposes (method's name making)
-* [technical] Factorized Movie class (new class Movie_Data), Cache class (new class Cache_Tools), moved Frontend popups in new folder (frontend/popups/)
+* [technical] Factorization of classes: Movie class (new class Movie_Data), Cache class (new class Cache_Tools), moved Frontend popups in new folder (frontend/popups/)
 * [technical] Automatized task that runs to delete oversized cache folder (option "Keep automatically cache size below a limit") runs now hourly instead of every two hours.
 * [technical] Updated to bootstrap 5.3.3
-* [technical] Compatibility with PHP8.3 ensured ( function get_class() )
-* [technical] Uninstalling the plugin with the option "keep settings upon uninstall" unselected will delete Lumiere taxonomy templates in theme directory.
+* [technical] Replaced obsolete PHP functions, compatibility with PHP > 8.0 ensured, compatibility with PHP8.3 ensured ( function get_class() removed/updated ).
+* [technical] Uninstalling the plugin with the option "keep settings upon uninstall" unselected will now delete Lumiere taxonomy templates in theme directory.
 
 v.3.11.5
 * [bug] Fixed *personal IMDbPHP library*: under some circonstances, error "No such file or directory in ImageProcessor.php on line 44", added extra conditions to before unlink and rename

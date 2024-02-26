@@ -55,7 +55,7 @@ class General extends \Lumiere\Admin\Admin_Menu {
 	protected function display_general_options( Cache_Tools $cache_tools_class ): void {
 
 		// First part of the menu.
-		$this->include_with_vars( self::PAGES_NAMES['menu_first'], [ $this ] /** Add in an array all vars to send in the template */ );
+		$this->include_with_vars( self::PAGES_NAMES['menu_first'], [ $this ] /** Add an array with vars to send in the template */ );
 
 		// Create the cache if it doesn't exists.
 		$cache_tools_class->lumiere_create_cache( true );
@@ -68,7 +68,7 @@ class General extends \Lumiere\Admin\Admin_Menu {
 		}
 
 		// Submenu.
-		$this->include_with_vars( self::PAGES_NAMES['menu_submenu'], [ $this->config_class, $this ] /** Add in an array all vars to send in the template */ );
+		$this->include_with_vars( self::PAGES_NAMES['menu_submenu'], [ $this->config_class->lumiere_pics_dir, $this->page_general_base, $this->page_general_advanced ] /** Add an array with vars to send in the template */ );
 
 		// The body.
 		if (
@@ -76,18 +76,18 @@ class General extends \Lumiere\Admin\Admin_Menu {
 			isset( $_GET['page'] ) && $_GET['page'] === $this->menu_id
 			&& ! isset( $_GET['subsection'] )
 		) {
-			$this->include_with_vars( self::PAGES_NAMES['general_options'], [ $this->config_class ] /** Add in an array all vars to send in the template */ );
+			$this->include_with_vars( self::PAGES_NAMES['general_options'], [ $this->config_class->lumiere_pics_dir ] /** Add an array with vars to send in the template */ );
 
 		} elseif (
 			// Advanced options.
 			isset( $_GET['page'] ) && $_GET['page'] === $this->menu_id
 			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'advanced'
 		) {
-			$this->include_with_vars( self::PAGES_NAMES['advanced_options'], [] /** Add in an array all vars to send in the template */ );
+			$this->include_with_vars( self::PAGES_NAMES['advanced_options'], [] /** Add an array with vars to send in the template */ );
 		}
 
 		// Signature.
-		$this->include_with_vars( self::PAGES_NAMES['signature'], [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
+		$this->include_with_vars( self::PAGES_NAMES['signature'], [ $this->page_general_help_support ] /** Add an array with vars to send in the template */ );
 	}
 }
 

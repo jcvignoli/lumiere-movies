@@ -33,7 +33,7 @@ $lumiere_size_cache_folder = get_transient( 'admin_template_pass_vars' )[0];
 
 		<div class="titresection"><?php esc_html_e( 'General options', 'lumiere-movies' ); ?></div>
 		
-			<form method="post" name="imdbconfig_save" action="<?php esc_url( $_SERVER['REQUEST_URI'] ?? '' ); ?>">
+			<form method="post" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 			
 				<div class="lumiere_display_flex lumiere_flex_make_responsive">
 					<div class="lumiere_flex_container_content_thirty lumiere_padding_five">

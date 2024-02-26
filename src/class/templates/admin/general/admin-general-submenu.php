@@ -16,15 +16,16 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 // Retrieve vars from calling class.
-$lumiere_config_class = get_transient( 'admin_template_pass_vars' )[0];
-$lumiere_that = get_transient( 'admin_template_pass_vars' )[1];
+$lumiere_pics_url = get_transient( 'admin_template_pass_vars' )[0];
+$lumiere_admin_page_general_base = get_transient( 'admin_template_pass_vars' )[1];
+$lumiere_admin_page_general_advanced = get_transient( 'admin_template_pass_vars' )[2];
 ?>
 
 <div id="tabswrap">
 	<div class="imdblt_double_container lumiere_padding_five">
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $lumiere_config_class->lumiere_pics_dir . 'menu/admin-general-path.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Paths & Layout', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_general_base ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $lumiere_pics_url . 'menu/admin-general-path.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Paths & Layout', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_admin_page_general_base ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $lumiere_config_class->lumiere_pics_dir . 'menu/admin-general-advanced.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_general_advanced ); ?>"><?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $lumiere_pics_url . 'menu/admin-general-advanced.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_admin_page_general_advanced ); ?>"><?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?></a></div>
 	</div>
 </div>
 

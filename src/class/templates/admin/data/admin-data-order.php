@@ -23,7 +23,7 @@ $lumiere_that = get_transient( 'admin_template_pass_vars' )[0];
 	
 		<div class="inside">
 
-			<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ?? '' ); ?>">
+			<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 			
 				<div class="inside lumiere_border_shadow lumiere_margin_btm_twenty">
 					<h3 class="hndle" id="taxoorder" name="taxoorder"><?php esc_html_e( 'Position of data', 'lumiere-movies' ); ?></h3>

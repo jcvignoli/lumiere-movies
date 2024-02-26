@@ -451,6 +451,29 @@ class Cache_Tools {
 	}
 
 	/**
+	 * Get size and number of files of the queries
+	 *
+	 * @return array<int, string> Number of query files, cache query filesize
+	 */
+	public function lumiere_get_cache_query_info( string $folder ): array {
+
+		$cache_query_folder = Utils::lumiere_glob_recursive( $folder . 'find.s*' );
+
+		$cache_query_count = (string) count( $cache_query_folder );
+
+		$size_cache_query = 0;
+
+		foreach ( $cache_query_folder as $cache_query_file ) {
+			$file_size = filesize( $cache_query_file );
+			if ( $file_size !== false ) {
+				$size_cache_query += $file_size;
+			}
+		}
+
+		return [ $cache_query_count, (string) $size_cache_query ];
+	}
+
+	/**
 	 * Get size of all files in given folder (cache lumiere by default )
 	 *
 	 * @param null|string $folder Folder path, internally changed into cachedir if null

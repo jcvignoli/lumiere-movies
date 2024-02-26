@@ -55,7 +55,7 @@ $lumiere_escape_wp_kses = [
 	
 		<div class="inside">
 		
-			<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ?? '' ); ?>">
+			<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 			
 				<div class="inside lumiere_border_shadow lumiere_margin_btm_twenty">
 					<h3 class="hndle" id="taxodetails" name="taxodetails"><?php esc_html_e( 'Select details to use as taxonomy', 'lumiere-movies' ); ?></h3>

@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\Tools\PluginsDetect;
+use Lumiere\Tools\Plugins_Detect;
 use Lumiere\Tools\Utils;
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Plugins\Logger;
@@ -128,7 +128,7 @@ trait Main {
 	 */
 	public function lumiere_set_plugins_array(): void {
 
-		$plugins = new PluginsDetect();
+		$plugins = new Plugins_Detect();
 		$this->plugins_in_use = $plugins->plugins_class;
 
 	}

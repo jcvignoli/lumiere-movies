@@ -1,1 +1,0 @@
-../acceptanceCommon/020-InstallCest.php

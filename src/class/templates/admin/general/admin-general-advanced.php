@@ -20,7 +20,7 @@ use Lumiere\Settings;
 $lumiere_imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 ?>
 
-<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ?? '' ); ?>">
+<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 
 	<div class="intro_cache"><?php esc_html_e( 'The options hereafter can break a lot of things. Edit them only if you know what you are doing.', 'lumiere-movies' ); ?></div>
 	

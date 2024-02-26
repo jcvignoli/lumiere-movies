@@ -1,1 +1,0 @@
-../acceptanceCommon/004-PopupsHighslideCest.php

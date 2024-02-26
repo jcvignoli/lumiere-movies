@@ -522,7 +522,7 @@ class Admin_Menu {
 	 * The transiant has a validity time of 30 seconds by default
 	 *
 	 * @param string $file_name
-	 * @param array<int, object|string|int|array<\Imdb\Person|\Imdb\Title|string>> $variables The variables transfered to the include
+	 * @param array<int, object|string|int|array<\Imdb\Person|\Imdb\Title|string|bool|int|array<int|string>>> $variables The variables transfered to the include
 	 * @param int $validity_time_transient The *maximum* time the transient is valid in seconds, 30 seconds by default
 	 * @void The file with vars has been included
 	 */
