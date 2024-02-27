@@ -85,9 +85,6 @@ class General extends \Lumiere\Admin\Admin_Menu {
 		) {
 			$this->include_with_vars( self::PAGES_NAMES['advanced_options'], [] /** Add an array with vars to send in the template */ );
 		}
-
-		// Signature.
-		$this->include_with_vars( self::PAGES_NAMES['signature'], [ $this->page_general_help_support ] /** Add an array with vars to send in the template */ );
 	}
 }
 

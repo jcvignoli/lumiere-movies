@@ -28,14 +28,16 @@ $lumiere_esc_html = [
 
 // Get transients vars from the calling class.
 $lumiere_helpage = get_transient( 'admin_template_pass_vars' )[0];
+$lumiere_version = get_transient( 'admin_template_pass_vars' )[1];
 ?>
 
 <div class="soustitre lumiere_signature">
 	<div><?php
-	/* translators: %1$s and %2$s are replaced with an html strong tag, %3$s and %4$s are html ahref tags */
-	echo wp_kses( wp_sprintf( __( '%1$sLicensing Info:%2$s Under a GPL licence, on various libraries. However, much work was required to implement it in WordPress and maintain it; check the support page for %3$smore information%4$s.', 'lumiere-movies' ), '<strong>', '</strong>', '<a href="' . esc_url( $lumiere_helpage ) . '">', '</a>' ), $lumiere_esc_html );
+		/* translators: %1$s and %2$s are replaced with an html strong tag, %3$s and %4$s are html ahref tags */
+		echo wp_kses( wp_sprintf( __( '%1$sLicensing Info:%2$s Under a GPL licence, on various libraries. However, much work was required to implement it in WordPress and maintain it; check the support page for %3$smore information%4$s.', 'lumiere-movies' ), '<strong>', '</strong>', '<a href="' . esc_url( $lumiere_helpage ) . '">', '</a>' ), $lumiere_esc_html );
 	?></div>
 	<br />
-	<div> &copy; 2005-<?php echo esc_html( gmdate( 'Y' ) ); ?> <a href="<?php echo esc_html( Settings::IMDBABOUTENGLISH ); ?>" target="_blank">Lost Highway</a>, <a href="<?php echo esc_html( Settings::IMDBHOMEPAGE ); ?>" target="_blank">Lumière! WordPress plugin</a>
+	<div>
+		&copy; 2005-<?php echo esc_html( gmdate( 'Y' ) ); ?> <a href="<?php echo esc_html( Settings::IMDBABOUTENGLISH ); ?>" target="_blank">Lost Highway</a>, <a href="<?php echo esc_html( Settings::IMDBHOMEPAGE ); ?>" target="_blank">Lumière! WordPress plugin</a> version <?php echo esc_html( $lumiere_version ); ?>.
 	</div>
 </div>

@@ -397,6 +397,8 @@ class Admin_Menu {
 		// The class.
 		$general_class = new General();
 		$general_class->display_general_options( new Cache_Tools() );
+
+		$this->lumiere_add_signature_menus();
 	}
 
 	/**
@@ -408,6 +410,8 @@ class Admin_Menu {
 		// The class.
 		$data_class = new Data();
 		$data_class->display_data_options();
+
+		$this->lumiere_add_signature_menus();
 	}
 
 	/**
@@ -420,8 +424,7 @@ class Admin_Menu {
 		$cache_class = new Cache();
 		$cache_class->display_cache_options( new Cache_Tools() );
 
-		// Signature.
-		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add in an array all vars to send in the template */ );
+		$this->lumiere_add_signature_menus();
 	}
 
 	/**
@@ -433,6 +436,17 @@ class Admin_Menu {
 		// The class.
 		$help_class = new Help();
 		$help_class->display_help_layout();
+
+		$this->lumiere_add_signature_menus();
+	}
+
+	/**
+	 * Display the end of page signature for Lumiere
+	 * All pages have it
+	 */
+	private function lumiere_add_signature_menus(): void {
+		// Signature.
+		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support, $this->config_class->lumiere_version ] /** Add in an array all vars to send in the template */ );
 	}
 
 	/**

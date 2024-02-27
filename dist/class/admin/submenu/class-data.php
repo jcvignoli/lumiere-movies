@@ -143,9 +143,6 @@ class Data extends \Lumiere\Admin\Admin_Menu {
 			// The template will retrieve the args. In parent class.
 			$this->include_with_vars( 'data/admin-data-order', [ $this ] );
 		}
-
-		// Signature.
-		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support ] /** Add an array with vars to send in the template */ );
 	}
 
 	/**
