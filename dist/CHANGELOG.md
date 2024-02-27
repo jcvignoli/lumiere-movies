@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.0.1
+
 v.4.0
 * [technical] Still PHP 8.0 compatible, but PHP 8.1 will be standard soon.
 * [feature] Added in the general advanced options an option to add an extra delay when querying the IMDb website. Meant to avoid the HTTP 504 errors thrown when too many requests in a row are processed. 0 seconds by default, but can be increased to add a delay. If the data are already cached, no further delay, it's as fast as it used to be. Usefull when using the new auto refresh option, if you cache is large it may be welcome to add such a delay.
