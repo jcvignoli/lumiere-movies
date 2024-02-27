@@ -130,7 +130,7 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 			echo esc_html(
 				sprintf(
 					/* translators: first %1$s is replaced with a number of files, %2$s the size in MB of a folder */
-					_n( '%1$s file using %2$s', '%1$s files using %2$s', $lumiere_query_number_files, 'lumiere-movies' ),
+					_n( '%1$sfile using %2$s', '%1$s files using %2$s', $lumiere_query_number_files, 'lumiere-movies' ),
 					$lumiere_query_number_files,
 					Utils::lumiere_format_bytes( intval( $lumiere_query_cache_size ) )
 				)

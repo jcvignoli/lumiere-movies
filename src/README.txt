@@ -1,6 +1,6 @@
 === Lumiere Movies ===
 Contributors: psykonevro
-Tags: cinema, film, imdb, movie, actor, internet-movie-database, director, taxonomy
+Tags: cinema, film, imdb, movie, actor
 Requires at least: 5.3
 Tested up to: 6.5
 Stable tag: 4.0.1
@@ -9,7 +9,7 @@ License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 Donate link: https://www.paypal.me/jcvignoli
 
-Lumière! Movies retrieves information from www.imdb.com to include it in your blog. This is the most versatile and comprehensive plugin dedicated to enhance your movie reviews.
+Lumière! Movies retrieves data from www.imdb.com and helps you include it in your posts and in your widgets.
 
 == Description ==
 
