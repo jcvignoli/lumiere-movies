@@ -206,7 +206,6 @@ class Core {
 			[
 				'editor_style_handles' => [ 'lumiere_gutenberg_main' ],
 				'editor_script_handles' => [ 'lumiere_gutenberg_main' ], // Loads only on editor.
-				'fixed_content' => plugin_dir_url( __DIR__ ) . 'assets/pics/widget-preview.png'
 			]
 		);
 

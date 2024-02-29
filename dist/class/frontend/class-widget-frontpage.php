@@ -72,7 +72,7 @@ class Widget_Frontpage {
 			'id' => [],
 			'class' => [],
 		],
-		'button' => [ // Utilsed by bootstrap modal window
+		'button' => [ // Utilised by bootstrap modal window
 			'type' => [],
 			'class' => [],
 			'aria-label' => [],
@@ -184,6 +184,7 @@ class Widget_Frontpage {
 
 		// Exit if neither a post nor a page!
 		if ( ! is_single() && ! is_page() ) {
+			$this->logger->log()->debug( '[Lumiere][widget] This is not page, exit.' );
 			return '';
 		}
 

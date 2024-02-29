@@ -94,7 +94,7 @@ class Cache_Tools {
 		// delete single movie.
 		if ( $type === 'movie' ) {
 
-			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '{*tt' . $id_sanitized . '*}', GLOB_BRACE );
+			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '*tt' . $id_sanitized . '*' );
 
 			// if file doesn't exist or can't get credentials.
 			if ( $name_sanitized === false || count( $name_sanitized ) === 0 ) {
@@ -120,7 +120,7 @@ class Cache_Tools {
 		// delete single person.
 		if ( $type === 'people' ) {
 
-			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '{*nm' . $id_sanitized . '*}', GLOB_BRACE );
+			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '*nm' . $id_sanitized . '*' );
 
 			// if file doesn't exist or can't get credentials.
 			if ( $name_sanitized === false || count( $name_sanitized ) === 0 ) {
@@ -213,7 +213,7 @@ class Cache_Tools {
 		// delete single movie.
 		if ( $type === 'movie' ) {
 
-			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '{*tt' . $id_sanitized . '*}', GLOB_BRACE );
+			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '*tt' . $id_sanitized . '*' );
 
 			// if file doesn't exist.
 			if ( $name_sanitized === false || count( $name_sanitized ) === 0 ) {
@@ -241,7 +241,7 @@ class Cache_Tools {
 
 		if ( $type === 'people' ) {
 
-			$name_people_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '{*nm' . $id_sanitized . '*}', GLOB_BRACE );
+			$name_people_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '*nm' . $id_sanitized . '*}' );
 
 			// if file doesn't exist
 			if ( $name_people_sanitized === false || count( $name_people_sanitized ) < 1 ) {
@@ -394,14 +394,14 @@ class Cache_Tools {
 			// For movies.
 			if ( $type_to_delete === 'movie' ) {
 
-				$cache_to_delete_files = glob( $this->imdb_cache_values['imdbcachedir'] . '{*tt' . $id_found . '*}', GLOB_BRACE );
+				$cache_to_delete_files = glob( $this->imdb_cache_values['imdbcachedir'] . '*tt' . $id_found . '*' );
 				$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_found . '.jpg';
 				$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_found . '_big.jpg';
 
 				// For people.
 			} elseif ( $type_to_delete === 'people' ) {
 
-				$cache_to_delete_files = glob( $this->imdb_cache_values['imdbcachedir'] . '{*nm' . $id_found . '*}', GLOB_BRACE );
+				$cache_to_delete_files = glob( $this->imdb_cache_values['imdbcachedir'] . '*nm' . $id_found . '*' );
 				$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_found . '.jpg';
 				$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_found . '_big.jpg';
 			}
@@ -566,7 +566,7 @@ class Cache_Tools {
 	public function lumiere_get_movie_cache(): array {
 
 		// Find related files
-		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . '{title.tt*}', GLOB_BRACE );
+		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . 'title.tt*' );
 
 		if ( $cache_files === false || count( $cache_files ) === 0 ) {
 			return [];
@@ -588,7 +588,7 @@ class Cache_Tools {
 	 */
 	public function lumiere_get_people_cache(): array {
 
-		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . '{name.nm*}', GLOB_BRACE );
+		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . 'name.nm*' );
 
 		if ( $cache_files === false || count( $cache_files ) === 0 ) {
 			return [];
