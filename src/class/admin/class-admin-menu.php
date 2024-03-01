@@ -131,14 +131,14 @@ class Admin_Menu {
 		 * @see Save_Options::process_headers()
 		 * @since 4.0
 		 */
-		add_action( 'wp_loaded', [ 'Lumiere\Admin\Save_Options', 'lumiere_static_start' ] );
+		add_action( 'wp_loaded', fn() => Save_Options::lumiere_static_start() );
 
 		// Copying taxonomy templates in Lumière! data taxonomy options
 		if (
 			isset( $_GET['taxotype'] )
 			&& ( isset( $_GET['_wpnonce_linkcopytaxo'] ) && wp_verify_nonce( $_GET['_wpnonce_linkcopytaxo'], 'linkcopytaxo' ) !== false )
 		) {
-			add_action( 'admin_init', fn() => \Lumiere\Admin\Copy_Template_Taxonomy::lumiere_start_copy_taxo( $this->page_data_taxo ) );
+			add_action( 'admin_init', fn() => Copy_Template_Taxonomy::lumiere_start_copy_taxo( $this->page_data_taxo ) );
 		}
 	}
 

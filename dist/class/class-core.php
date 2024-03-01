@@ -50,17 +50,17 @@ class Core {
 		$this->logger = new Logger( 'coreClass' );
 
 		// redirect popups URLs.
-		add_action( 'init', [ 'Lumiere\Alteration\Rewrite_Rules', 'lumiere_static_start' ], 0 );
-		add_action( 'init', [ 'Lumiere\Alteration\Redirect_Virtual_Page', 'lumiere_static_start' ], 1 );
+		add_action( 'init', fn() => Alteration\Rewrite_Rules::lumiere_static_start(), 0 );
+		add_action( 'init', fn() => Alteration\Redirect_Virtual_Page::lumiere_static_start(), 1 );
 
 		/**
 		 * Admin actions.
 		 * Must be called before init, as an init, 0 is called.
 		 */
-		add_action( 'set_current_user', [ 'Lumiere\Admin', 'lumiere_static_start' ] );
+		add_action( 'set_current_user', fn() => Admin::lumiere_static_start() );
 
 		// Add taxonomy to Lumière!
-		add_action( 'registered_taxonomy', [ 'Lumiere\Alteration\Taxonomy', 'lumiere_static_start' ], 0 );
+		add_action( 'registered_taxonomy', fn() => Alteration\Taxonomy::lumiere_static_start(), 0 );
 
 		/**
 		 * Frontpage.
@@ -77,9 +77,9 @@ class Core {
 
 		// Frontpage classes if it is not an admin page
 		if ( ! is_admin() ) {
-			add_action( 'init', [ 'Lumiere\Frontend\Movie', 'lumiere_static_start' ], 0 );
-			add_action( 'init', [ 'Lumiere\Frontend\Widget_Frontpage', 'lumiere_widget_frontend_start' ], 0 );
-			add_action( 'init', [ 'Lumiere\Tools\Ban_Bots', 'lumiere_static_start' ], 0 );
+			add_action( 'init', fn() => Frontend\Movie::lumiere_static_start(), 0 );
+			add_action( 'init', fn() => Frontend\Widget_Frontpage::lumiere_widget_frontend_start(), 0 );
+			add_action( 'init', fn() => Tools\Ban_Bots::lumiere_static_start(), 0 );
 		}
 
 		// AMP remove headers if AMP is active.
@@ -106,7 +106,7 @@ class Core {
 		add_action( 'upgrader_process_complete', [ $this, 'lumiere_on_lumiere_upgrade_manual' ], 10, 2 );
 
 		// Crons schedules.
-		add_action( 'init', [ 'Lumiere\Admin\Cron', 'lumiere_cron_start' ], 0 );
+		add_action( 'init', fn() => Admin\Cron::lumiere_cron_start(), 0 );
 
 	}
 
