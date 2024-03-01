@@ -74,7 +74,7 @@ class Save_Options {
 
 		/** @psalm-suppress PossiblyNullArgument -- Argument 1 of esc_html cannot be null, possibly null value provided - I don't even understand*/
 		$gets_array = array_map( 'esc_html', $_GET );
-		// These forbiddent strings are generated in Cache class in $_GET
+		// These forbidden strings are generated in Cache class in $_GET
 		$forbidden_url_strings = [ 'dothis', 'where', 'type', '_nonce_cache_deleteindividual', '_nonce_cache_refreshindividual' ];
 		$first_url_string = '';
 		$next_url_strings = '';

@@ -22,7 +22,9 @@ use Lumiere\Tools\Utils;
 
 /**
  * Display data options for taxonomy, data order and data selection
- * @since 4.0 Using templates instead of having templates here
+ *
+ * @since 4.0 Using templates file instead of the HTML code here
+ * @see \Lumiere\Admin\Admin_Menu for templates copy, if put it here the transiant is not passed to { @link \Lumiere\Admin\Copy_Template_Taxonomy }
  */
 class Data extends \Lumiere\Admin\Admin_Menu {
 

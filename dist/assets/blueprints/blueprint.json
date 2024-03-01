@@ -1,20 +1,26 @@
 {
+    "landingPage": "/Test-Lumiere/",
     "preferredVersions": {
         "php": "8.0",
-        "wp": "6.4"
+        "wp": "latest"
     },
     "phpExtensionBundles": [
         "kitchen-sink"
     ],
     "features": {
         "networking": true
-    }
+    },
     "steps": [
+        {
+            "step": "defineWpConfigConsts",
+            "consts": {
+                "WP_DEBUG": true
+        },
         {
             "step": "login",
             "username": "admin",
             "password": "password"
-        }
+        },
         {
             "step": "installPlugin",
             "pluginZipFile": {
@@ -26,11 +32,6 @@
             }
         },
         {
-            "step": "activatePlugin",
-            "pluginName": "Lumiere Movies",
-            "pluginPath": "/wordpress/wp-content/plugins/lumiere-movies"
-        }
-        {
             "step": "installTheme",
             "themeZipFile": {
                 "resource": "wordpress.org\/themes",
@@ -38,13 +39,8 @@
             }
         },
         {
-            "step": "activateTheme",
-            "pluginName": "TwentyTwentyOne",
-            "pluginPath": "/wordpress/wp-content/themes/twentytwentyone"
-        }
-        {
             "step": "runPHP",
-            "code": "<?php\ninclude 'wordpress/wp-load.php';\nwp_insert_post(array(\n'import_id' => 5,\n'post_title' => 'Title test',\n'post_content' => '<!-- wp:paragraph -->\n<div class=\"wp-block-lumiere-main\"><span data-lum_movie_maker=\"movie_id\">0062622</span></div>\n<!-- \/wp:paragraph -->',\n'post_status' => 'publish',\n'post_author' => 1\n));"
+            "code": "<?php\ninclude 'wordpress/wp-load.php';\nwp_insert_post(array(\n'import_id' => 5,\n'post_title' => 'Test Lumiere',\n'post_content' => '<!-- wp:paragraph -->\n<p><div class=\"wp-block-lumiere-main\"><span data-lum_movie_maker=\"movie_id\">0062622</span></div></p>\n<!-- \/wp:paragraph -->',\n'post_status' => 'publish',\n'post_author' => 1\n));"
         }
     ]
 }

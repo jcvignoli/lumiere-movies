@@ -1,6 +1,9 @@
 **Changelog**
 
 v.4.0.1
+* [bug] On some specific environments, taxonomy template copy wasn't working. (wp_get_referer() wasn't set in copy template taxonomy class, removed the redirection, found using WordPress playground)
+* [bug] On some very specific environments, cache display in admin cache options didn't work (GLOB_BRACE couldn't be used, removed it from the cache classes, found using WordPress playground).
+* [technical] Added blueprint.json in assets for WordPress Live Preview use.
 
 v.4.0
 * [technical] Still PHP 8.0 compatible, but PHP 8.1 will be standard soon.

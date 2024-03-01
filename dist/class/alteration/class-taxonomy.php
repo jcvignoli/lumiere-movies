@@ -22,9 +22,6 @@ use Lumiere\Tools\Utils;
 /**
  * Create Lumière! Taxonomy system
  * Taxonomy Pages names are added to the database
- * Pages are made availabe by using taxonomy templates (if copied in template folder)
- *
- * @see Lumiere\Admin\Copy_Template_Taxonomy to copy new page template
  *
  * @phpstan-import-type OPTIONS_DATA from Settings
  * @phpstan-import-type OPTIONS_ADMIN from Settings
@@ -59,11 +56,6 @@ class Taxonomy {
 
 		// Register taxomony and create custom taxonomy pages.
 		add_action( 'init', [ $this, 'lumiere_create_taxonomies' ], 1 );
-
-		// Make function available for copying taxonomy templates in Lumière! admin panel
-		if ( isset( $_GET['taxotype'] ) ) {
-			add_action( 'admin_init', [ '\Lumiere\Admin\Copy_Template_Taxonomy', 'lumiere_start_copy_taxo' ], 1 );
-		}
 	}
 
 	/**

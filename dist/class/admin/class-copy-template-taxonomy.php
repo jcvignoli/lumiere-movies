@@ -18,7 +18,9 @@ use Lumiere\Tools\Utils;
 
 /**
  * Move automatically the taxonomy templates (in class/theme) to user's template folder (wp-content/themes/current-theme)
- * @see \Lumiere\Alteration\Taxonomy This class is called in hook
+ *
+ * @since 4.0.1 removed wp_die()
+ * @see \Lumiere\Admin\Admin_Menu This class is called in hook
  */
 class Copy_Template_Taxonomy {
 
@@ -36,24 +38,23 @@ class Copy_Template_Taxonomy {
 
 	/**
 	 * Static class call for add_action()
+	 * @param string $url_data_taxo_page The admin taxonomy page URL, used for redirects
 	 */
-	public static function lumiere_start_copy_taxo(): void {
+	public static function lumiere_start_copy_taxo( string $url_data_taxo_page ): void {
 		$class = new self();
-		$class->maybe_copy_taxonomy_template();
+		$class->maybe_copy_taxonomy_template( $url_data_taxo_page );
 	}
 
 	/**
 	 * Maybe copy the standard taxonomy template to the theme folder
-	 * @return void Exit on failure, redirect on success
+	 * @param string $url_data_taxo_page The admin taxonomy page URL, used for redirects
+	 * @return void Copy on success, display error message if failure
 	 */
-	private function maybe_copy_taxonomy_template(): void {
+	private function maybe_copy_taxonomy_template( string $url_data_taxo_page ): void {
 
 		// Escape gets and get taxotype and nonce.
-		$lumiere_taxo_title =
-			isset( $_GET['taxotype'] )
-			&& ( isset( $_GET['_wpnonce_linkcopytaxo'] ) && wp_verify_nonce( $_GET['_wpnonce_linkcopytaxo'], 'linkcopytaxo' ) !== false )
-				? esc_html( $_GET['taxotype'] )
-				: null;
+		/** @psalm-suppress PossiblyNullArgument -- it's already checked in calling class */
+		$lumiere_taxo_title = sanitize_title( $_GET['taxotype'] );
 
 		// Build links and vars.
 		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, $this->config_class->array_people, true ) ? $lumiere_taxo_file_tocopy = $this->config_class::TAXO_PEOPLE_THEME : $lumiere_taxo_file_tocopy = $this->config_class::TAXO_ITEMS_THEME;
@@ -64,10 +65,12 @@ class Copy_Template_Taxonomy {
 		$lumiere_taxonomy_theme_file = $lumiere_taxonomy_theme_path . $lumiere_taxo_file_tocopy;
 
 		// No $_GET["taxotype"] found or not in array, exit.
-		if ( ( ! isset( $lumiere_taxo_title ) ) || ( strlen( $lumiere_taxo_title ) === 0 ) ) {
+		if ( strlen( $lumiere_taxo_title ) === 0 ) {
+
 			set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_failed', 1 );
-			$referer = wp_get_referer();
-			if ( $referer !== false && wp_safe_redirect( $referer ) ) {
+
+			// Get the taxonomy option page from calling class
+			if ( wp_safe_redirect( $url_data_taxo_page ) ) {
 				exit;
 			}
 		}
@@ -76,25 +79,33 @@ class Copy_Template_Taxonomy {
 		   as a $imdb_widget_values, and there is a nonce from Data class */
 		if (
 			$this->imdb_admin_values['imdbtaxonomy'] === '1'
-			&& ( isset( $lumiere_taxo_title ) && $this->imdb_widget_values[ 'imdbtaxonomy' . $lumiere_taxo_title ] === '1' )
+			&& $this->imdb_widget_values[ 'imdbtaxonomy' . $lumiere_taxo_title ] === '1'
 		) {
 
-			$this->copy_taxonomy_template( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, $lumiere_taxo_title );
+			if ( $this->copy_taxonomy_template( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, $lumiere_taxo_title ) === true ) {
+				set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_success', 1 );
+			}
+
+			if ( wp_safe_redirect( $url_data_taxo_page ) ) {
+				exit;
+			}
 		}
 
-		// If none of the previous conditions are met, wp_die()
-		wp_die( esc_html__( 'Lumiere: you are not allowed to copy.', 'lumiere-movies' ) );
-
+		// If none of the previous conditions are met
+		echo Utils::lumiere_notice( 3, esc_html__( 'Template copy failed for some reasons.', 'lumiere-movies' ) );
 	}
 
 	/**
 	 * Copy the standard taxonomy template to the theme folder
+	 *
 	 * @param string $lumiere_taxonomy_theme_file Full name with path of the taxonomy file in Lumiere! class theme folder
 	 * @param string $lumiere_current_theme_path_file Full name with path of the taxonomy file to be copied to the user theme folder
 	 * @param string $lumiere_taxo_title The taxonomy title, ie "Director"
-	 * @return void Exit on failure, File copy and redirects on success
+	 * @return bool True if file copy worked out
+	 *
+	 * @since 4.0.1 Returns bool
 	 */
-	private function copy_taxonomy_template( string $lumiere_taxonomy_theme_file, string $lumiere_current_theme_path_file, string $lumiere_taxo_title ): void {
+	private function copy_taxonomy_template( string $lumiere_taxonomy_theme_file, string $lumiere_current_theme_path_file, string $lumiere_taxo_title ): bool {
 
 		global $wp_filesystem;
 
@@ -103,27 +114,25 @@ class Copy_Template_Taxonomy {
 
 		if ( $wp_filesystem === null ) {
 			esc_html_e( 'Could not get the credentials wp_filesystem for copying', 'lumiere-movies' );
-			return;
+			return false;
 		}
 
 		if ( $wp_filesystem->copy( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, true ) === false ) {
 			// Copy failed.
 			set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_failed', 1 );
-			$referer = wp_get_referer();
-			if ( $referer !== false && wp_safe_redirect( $referer ) ) {
-				exit;
-			}
+			return false;
 		}
 
 		$content = $wp_filesystem->get_contents( $lumiere_current_theme_path_file );
 		$content = str_replace( 'standard', $lumiere_taxo_title, $content );
 		$content = str_replace( 'Standard', ucfirst( $lumiere_taxo_title ), $content );
 		$chmod = defined( 'FS_CHMOD_FILE' ) ? FS_CHMOD_FILE : false;
-		$wp_filesystem->put_contents( $lumiere_current_theme_path_file, $content, $chmod );
-		set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_success', 1 );
-		$referer = wp_get_referer();
-		if ( $referer !== false && wp_safe_redirect( $referer ) ) {
-			exit;
+		if ( $wp_filesystem->put_contents( $lumiere_current_theme_path_file, $content, $chmod ) ) {
+			return true;
 		}
+
+		// Copy failed.
+		set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_failed', 1 );
+		return false;
 	}
 }

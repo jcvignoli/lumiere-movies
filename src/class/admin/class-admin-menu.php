@@ -28,7 +28,10 @@ use Exception;
 /**
  * Display Admin Menus: Top, Left and default menus
  * Includes the notice messages definition called by child classes when form submission took place
- * @see Admin\Save_Options
+ * Taxonomy theme pages copy class is called here
+ *
+ * @see \Lumiere\Admin\Copy_Template_Taxonomy to copy new page template
+ * @see \Lumiere\Admin\Save_Options
  */
 class Admin_Menu {
 
@@ -129,6 +132,14 @@ class Admin_Menu {
 		 * @since 4.0
 		 */
 		add_action( 'wp_loaded', [ 'Lumiere\Admin\Save_Options', 'lumiere_static_start' ] );
+
+		// Copying taxonomy templates in Lumière! data taxonomy options
+		if (
+			isset( $_GET['taxotype'] )
+			&& ( isset( $_GET['_wpnonce_linkcopytaxo'] ) && wp_verify_nonce( $_GET['_wpnonce_linkcopytaxo'], 'linkcopytaxo' ) !== false )
+		) {
+			add_action( 'admin_init', fn() => \Lumiere\Admin\Copy_Template_Taxonomy::lumiere_start_copy_taxo( $this->page_data_taxo ) );
+		}
 	}
 
 	/**
