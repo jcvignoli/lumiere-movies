@@ -385,12 +385,6 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 						echo ')';
 					}
 
-					/**
-					 * 2021 09 Dunno if this check is still needed
-					if ( $filmo[ $i ]['chname'] == "\n" ) {
-						echo '';
-					} else { */
-
 					if ( ( ! isset( $filmo['chid'] ) || strlen( $filmo['chid'] ) === 0 ) && ( strlen( $filmo[ $i ]['chname'] ) !== 0 ) ) {
 
 						echo ' as <i>' . esc_html( $filmo[ $i ]['chname'] ) . '</i>';

@@ -385,12 +385,6 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 						echo ')';
 					}
 
-					/**
-					 * 2021 09 Dunno if this check is still needed
-					if ( $filmo[ $i ]['chname'] == "\n" ) {
-						echo '';
-					} else { */
-
 					if ( ( ! isset( $filmo['chid'] ) || strlen( $filmo['chid'] ) === 0 ) && ( strlen( $filmo[ $i ]['chname'] ) !== 0 ) ) {
 
 						echo ' as <i>' . esc_html( $filmo[ $i ]['chname'] ) . '</i>';
@@ -808,7 +802,19 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 				echo "\n\t\t" . '<div class="lumiere_display_flex_align_flex_end lumiere_padding_two lumiere_align_left">';
 
-				echo "\n\t\t\t" . '<div><font size="-1">' . wp_kses( $this->link_maker->lumiere_medaillon_bio( $this->person->bio() ) ?? '', [ 'span' => [ 'class' => [], ], 'a' => [ 'href' => [], 'title' => [], 'class' => [] ], 'strong' => [], 'div' => [] ] ) . '</font></div>';
+				echo "\n\t\t\t" . '<div><font size="-1">' . wp_kses(
+					$this->link_maker->lumiere_medaillon_bio( $this->person->bio() ) ?? '',
+					[
+						'span' => [ 'class' => [] ],
+						'a' => [
+							'href' => [],
+							'title' => [],
+							'class' => [],
+						],
+						'strong' => [],
+						'div' => [],
+					]
+				) . '</font></div>';
 				?>
 
 					<!-- star photo -->
