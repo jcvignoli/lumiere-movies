@@ -74,6 +74,15 @@ class Popup_Person {
 	}
 
 	/**
+	 * Static construct call
+	 *
+	 * @return void Class is built
+	 */
+	public static function lumiere_popup_person_start (): void {
+		$popup_person_class = new self();
+	}
+
+	/**
 	 * Search movie title
 	 */
 	private function find_person(): bool {
@@ -157,7 +166,6 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 	$this->display_misc();
 }
-		//------------------------------------------------------------------------------ end misc part
 
 		echo '<br><br>';
 
@@ -179,10 +187,9 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 		// If polylang exists, rewrite the URL to append the lang string
 		$url_if_polylang = $this->lumiere_url_check_polylang_rewrite( $this->config_class->lumiere_urlpopupsperson );
 		?>
-
 												<!-- top page menu -->
 		<div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
-			<?php if ( isset( $_GET['info'] ) ) { ?>
+			<?php if ( isset( $_GET['info'] ) && strlen( $_GET['info'] ) > 0 ) { ?>
 			<div class="lumiere_flex_auto">
 				<a rel="nofollow" id="historyback" href="<?php
 				$refer = wp_get_referer();
@@ -299,7 +306,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( $catname ) . ' filmography -->';
 				echo "\n" . '<div>';
-				echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( $catname ) . ' filmography</span> (' . intval( $nbtotalfilms ) . ')';
+				echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( $catname ) . ' filmography</span> (' . esc_html( strval( $nbtotalfilms ) ) . ')';
 
 				for ( $i = 0; $i < $nbtotalfilmo; $i++ ) {
 
@@ -332,12 +339,6 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 						}
 						echo "\n\t\t\t" . '</div>';
 						echo "\n\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-
-						/**
-						 * 2021 09 Dunno if this check is still needed
-						if ( $filmo[ $i ]['chname'] == "\n" ) {
-							echo '';
-						} else { */
 
 						if ( ( ! isset( $filmo['chid'] ) || strlen( $filmo['chid'] ) === 0 ) && ( strlen( $filmo[ $i ]['chname'] ) !== 0 ) ) {
 							echo ' as <i>'
@@ -576,7 +577,14 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
 			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . ' </span>(' . intval( $nbtotaltrivia ) . ') <br>';
 
-			for ( $i = 1; $i <= $nbtotaltrivia; $i++ ) {
+			for ( $i = 0; $i <= $nbtotaltrivia; $i++ ) {
+
+				$text = isset( $trivia[ $i ] ) ? $this->link_maker->lumiere_imdburl_to_internalurl( $trivia[ $i ] ) : '';
+
+				// It may be empty, continue to the next result.
+				if ( strlen( $text ) === 0 ) {
+					continue;
+				}
 
 				// Display a "show more" after 3 results
 				if ( $i === $nblimittrivia ) {
@@ -587,10 +595,17 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 				}
 
 				echo "\n\t\t\t" . '<div>';
-				$text = $this->link_maker->lumiere_imdburl_to_internalurl( $trivia[ $i ] );
-				$text = preg_replace( '~^\s\s\s\s\s\s\s(.*)<br \/>\s\s\s\s\s$~', "\\1", $text ); # clean output
-				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo "\n\t\t\t\t" . ' [n° ' . $i . '] ' . $text;
+				$text_cleaned = preg_replace( '~^\s\s\s\s\s\s\s(.*)<br \/>\s\s\s\s\s$~', "\\1", $text );
+				echo "\n\t\t\t\t" . ' [#' . esc_html( strval( $i + 1 ) ) . '] ' . wp_kses(
+					$text_cleaned ?? '',
+					[
+						'a' => [
+							'href' => [],
+							'title' => [],
+							'class' => [],
+						],
+					]
+				);
 				echo "\n\t\t\t" . '</div>';
 
 				if ( $i === $nbtotaltrivia ) {
@@ -615,10 +630,13 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			for ( $i = 0; $i < $nbtotalnickname; $i++ ) {
 
-				$txt = '';
-
 				foreach ( $nickname as $nick ) {
-					$txt = is_string( $nick ) ? str_replace( '<br>', ', ', $nick ) : $nick;
+
+					if ( is_string( $nick ) === false || strlen( $nick ) === 0 ) {
+						continue;
+					}
+
+					$txt = str_replace( '<br>', ', ', $nick );
 					echo esc_html( $txt );
 				}
 			}
@@ -641,6 +659,13 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			for ( $i = 0; $i < $nbtotalquotes; $i++ ) {
 
+				$text = isset( $quotes[ $i ] ) ? $this->link_maker->lumiere_imdburl_to_internalurl( $quotes[ $i ] ) : '';
+
+				// It may be empty, continue to the next result.
+				if ( strlen( $text ) === 0 ) {
+					continue;
+				}
+
 				// Display a "show more" after XX results
 				if ( $i === $nblimitquotes ) {
 					echo "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
@@ -650,8 +675,16 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 				}
 
 				echo "\n\t\t\t" . '<div>';
-				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo ' * ' . $this->link_maker->lumiere_imdburl_to_internalurl( $quotes[ $i ] );
+				echo ' [#' . esc_html( strval( $i + 1 ) ) . '] ' . wp_kses(
+					$text,
+					[
+						'a' => [
+							'href' => [],
+							'title' => [],
+							'class' => [],
+						],
+					]
+				);
 				echo '</div>';
 
 				if ( $i === ( $nbtotalquotes - 1 ) ) {
@@ -678,6 +711,13 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			for ( $i = 0; $i < $nbtotaltrademark; $i++ ) {
 
+				$text = isset( $trademark[ $i ] ) ? $this->link_maker->lumiere_imdburl_to_internalurl( $trademark[ $i ] ) : '';
+
+				// It may be empty, continue to the next result.
+				if ( strlen( $text ) === 0 ) {
+					continue;
+				}
+
 				// Display a "show more" after XX results
 				if ( $i === $nblimittradmark ) {
 					echo "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
@@ -686,9 +726,18 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 						. "\n\t\t" . '<div class="hidesection">';
 				}
 
-				echo "\n\t\t\t" . '<div>@ ';
-				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo $this->link_maker->lumiere_imdburl_to_internalurl( $trademark[ $i ] );
+				echo "\n\t\t\t" . '<div>';
+
+				echo ' [@' . esc_html( strval( $i + 1 ) ) . '] ' . wp_kses(
+					$text,
+					[
+						'a' => [
+							'href' => [],
+							'title' => [],
+							'class' => [],
+						],
+					]
+				);
 				echo '</div>';
 
 				if ( $i === $nbtotaltrademark - 1 ) {
@@ -717,17 +766,16 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 				$birthday = $this->person->born() ?? null;
 				if ( isset( $birthday ) && count( $birthday ) !== 0 ) {
 					$birthday_day = isset( $birthday['day'] ) && strlen( $birthday['day'] ) > 0 ? (string) $birthday['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
-					$birthday_month = isset( $birthday['month'] ) && strlen( $birthday['month'] ) > 0 ? (string) $birthday['month'] . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
+					$birthday_month = isset( $birthday['month'] ) && strlen( $birthday['month'] ) > 0 ? date_i18n( 'F', $birthday['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
 					$birthday_year = isset( $birthday['year'] ) && strlen( $birthday['year'] ) > 0 ? (string) $birthday['year'] : __( '(year unknown)', 'lumiere-movies' );
 
 					echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
 						. esc_html__( 'Born on', 'lumiere-movies' ) . '</span>'
-						. esc_html( $birthday_day )
-						. esc_html( $birthday_month )
-						. esc_html( $birthday_year );
+						. esc_html( $birthday_day . $birthday_month . $birthday_year );
 				}
 
 				if ( isset( $birthday['place'] ) && strlen( $birthday['place'] ) > 0 ) {
+					/** translators: 'in' like 'Born in' */
 					echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $birthday['place'] );
 				}
 
@@ -738,18 +786,21 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 				$death = count( $this->person->died() ) > 0 ? $this->person->died() : null;
 				if ( $death !== null ) {
 
+					$death_day = isset( $death['day'] ) && strlen( $death['day'] ) > 0 ? (string) $death['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
+					$death_month = isset( $death['month'] ) && strlen( $death['month'] ) > 0 ? date_i18n( 'F', $death['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
+					$death_year = isset( $death['year'] ) && strlen( $death['year'] ) > 0 ? (string) $death['year'] : __( '(year unknown)', 'lumiere-movies' );
+
 					echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
 						. esc_html__( 'Died on', 'lumiere-movies' ) . '</span>'
-						. intval( $death['day'] ) . ' '
-						. esc_html( $death['month'] ) . ' '
-						. intval( $death['year'] );
+						. esc_html( $death_day . $death_month . $death_year );
 
 					if ( ( isset( $death['place'] ) ) && ( strlen( $death['place'] ) !== 0 ) ) {
+						/** translators: 'in' like 'Died in' */
 						echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $death['place'] );
 					}
 
 					if ( ( isset( $death['cause'] ) ) && ( strlen( $death['cause'] ) !== 0 ) ) {
-						echo ', ' . esc_html__( 'cause', 'lumiere-movies' ) . ' ' . esc_html( $death['cause'] );
+						echo ' (' . esc_html( $death['cause'] . ')' );
 					}
 				}
 
@@ -757,8 +808,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 				echo "\n\t\t" . '<div class="lumiere_display_flex_align_flex_end lumiere_padding_two lumiere_align_left">';
 
-				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo "\n\t\t\t" . '<div><font size="-1">' . $this->link_maker->lumiere_medaillon_bio( $this->person->bio() ) . '</font></div>';
+				echo "\n\t\t\t" . '<div><font size="-1">' . esc_html( $this->link_maker->lumiere_medaillon_bio( $this->person->bio() ) ?? '' ) . '</font></div>';
 				?>
 
 					<!-- star photo -->
@@ -800,16 +850,5 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 		<hr><?php
 	}
 
-	/**
-	 * Static call of the current class Popup Person
-	 *
-	 * @return void Build the class
-	 */
-	public static function lumiere_popup_person_start (): void {
-
-		$popup_person_class = new self();
-
-	}
-
-} // end of class
+}
 

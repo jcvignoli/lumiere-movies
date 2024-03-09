@@ -52,46 +52,45 @@ $lumiere_pics_url = get_transient( 'admin_template_pass_vars' )[0];
 					/**
 					 * The selection of bootstrap value will remove the options to change
 					 * larg/long values of popups
-					 * Done with javascript lumiere_scripts_admin.js
+					 *  Dealt also by JS in lumiere_scripts_admin.js
 					 */
 					?>
 
 					<select name="imdbpopup_modal_window" id="imdbpopup_modal_window">
 					<?php
-					echo "\t" . '<option value="bootstrap"';
-					if ( $lumiere_imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
-						echo ' selected="selected"';
-					}
-					echo '>Bootstrap</option>';
-					echo "\n\t\t\t\t\t\t\t" . '<option value="highslide"';
-					if ( $lumiere_imdb_admin_values['imdbpopup_modal_window'] === 'highslide' ) {
-						echo ' selected="selected"';
-					}
-					echo '>Highslide</option>';
-					echo "\n\t\t\t\t\t\t\t" . '<option value="classic"';
-					if ( $lumiere_imdb_admin_values['imdbpopup_modal_window'] === 'classic' ) {
-						echo ' selected="selected"';
-					}
-					echo ">Classic</option>\n"; ?>
+					$lumiere_window_options = [ 'bootstrap', 'highslide', 'classic' ];
+					foreach ( $lumiere_window_options as $lumiere_modal_option ) {
+						echo "\t" . '<option value="' . esc_attr( $lumiere_modal_option ) . '"';
+						if ( $lumiere_imdb_admin_values['imdbpopup_modal_window'] === $lumiere_modal_option ) {
+							echo ' selected="selected"';
+						}
+						echo '>' . esc_html( ucfirst( $lumiere_modal_option ) ) . '</option>';
+					} ?>
 					</select>
 					<?php
-					echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. Highslide or Bootstrap are advanced modal windows.', 'lumiere-movies' ) . '<br>' . esc_html__( 'When bootstrap is selected, popup layout cannot be edited.', 'lumiere-movies' ) . '<br>' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html__( 'Bootstrap', 'lumiere-movies' ) . '</div>';
+					echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. "Highslide" or "Bootstrap" are advanced modal windows. "Classic" may be blocked by some browsers.', 'lumiere-movies' ) . '<br>';
+
+					// Extra explanation when bootstrap is selected. Dealt also by JS in lumiere_scripts_admin.js
+					$lumiere_hide_for_bootstrap = $lumiere_imdb_admin_values['imdbpopup_modal_window'] !== 'bootstrap' ? 'hidesection' : '';
+					/* translators: %1$s and %2$s are html tags */
+					echo '<div id="bootstrap_explain" class="' . esc_html( $lumiere_hide_for_bootstrap ) . '">' . wp_kses( sprintf( __( 'Only the width value can be edited with bootstrap modal window. The value entered will be matched against these incremental steps: %1$s300%2$s (small size), %1$s500%2$s (medium size), %1$s800%2$s (large size), %1$s1140%2$s (extra large size)', 'lumiere-movies' ), '<i>', '</i>' ), [ 'i' => [] ] ) . '</div>';
+
+					echo '<div>' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html( 'Bootstrap' ) . '</div>';
+					echo '</div>';
 					?>
 				</div>
 
-				<div class="lumiere_flex_auto lumiere_padding_five <?php if ( $lumiere_imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
-					echo 'hidesection'; }?>" id="imdb_imdbpopuplarg">
+				<div class="lumiere_flex_auto lumiere_padding_five" id="imdb_imdbpopuplarg">
 
 					<label for="imdb_imdbpopuplarg_input"><?php esc_html_e( 'Width', 'lumiere-movies' ); ?></label>
 					<br>
 					<br>
-					<input type="text" id="imdb_imdbpopuplarg_input" name="imdb_imdbpopuplarg" size="5" value="<?php echo intval( $lumiere_imdb_admin_values['imdbpopuplarg'] ); ?>" >
+					<input type="text" id="imdb_imdbpopuplarg_input" name="imdb_imdbpopuplarg" size="5" value="<?php echo esc_html( $lumiere_imdb_admin_values['imdbpopuplarg'] ); ?>" >
 
-					<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies' ); ?> <br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"540"</div>
+					<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies' ); ?> <br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"800"</div>
 				</div>
 
-				<div class="lumiere_flex_auto lumiere_padding_five <?php if ( $lumiere_imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
-					echo 'hidesection'; }?>" id="imdb_imdbpopuplong">
+				<div class="lumiere_flex_auto lumiere_padding_five <?php echo $lumiere_imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ? 'hidesection' : '';?>" id="imdb_imdbpopuplong">
 
 					<label for="imdb_imdbpopuplong_input"><?php esc_html_e( 'Height', 'lumiere-movies' ); ?></label>
 					<br>
@@ -99,11 +98,10 @@ $lumiere_pics_url = get_transient( 'admin_template_pass_vars' )[0];
 					<input type="text" id="imdb_imdbpopuplong_input" name="imdb_imdbpopuplong" size="5" value="<?php echo intval( $lumiere_imdb_admin_values['imdbpopuplong'] ); ?>" >
 
 					<br>
-					<div class="explain"><?php esc_html_e( 'Popup height, in pixels', 'lumiere-movies' ); ?> <?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"350"</div>
+					<div class="explain"><?php esc_html_e( 'Popup height, in pixels', 'lumiere-movies' ); ?> <?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"500"</div>
 				</div>
 
-				<div class="lumiere_flex_auto lumiere_padding_five <?php if ( $lumiere_imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
-					echo 'hidesection'; }?>" id="imdb_popuptheme">
+				<div class="lumiere_flex_auto lumiere_padding_five <?php echo $lumiere_imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ? 'hidesection' : '';?>" id="imdb_popuptheme">
 
 					<label for="imdb_imdbpopuptheme_select"><?php esc_html_e( 'Theme color', 'lumiere-movies' ); ?></label><br><br>
 					<select id="imdb_imdbpopuptheme_select" name="imdb_imdbpopuptheme">

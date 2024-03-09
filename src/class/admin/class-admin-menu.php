@@ -141,6 +141,27 @@ class Admin_Menu {
 		) {
 			add_action( 'admin_init', fn() => Copy_Template_Taxonomy::lumiere_start_copy_taxo( $this->page_data_taxo ) );
 		}
+
+		// Store the logger class
+		do_action( 'lumiere_logger' );
+
+		// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$this(Lumiere\Admin), non-falsy-string} given
+		add_action( 'admin_menu', [ &$this, $this->get_id() . '_add_left_menu' ] );
+
+		// Add Lumiere menu in toolbar menu (top WordPress menu)
+		if ( $this->imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
+			// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$this(Lumiere\Admin), non-falsy-string} given
+			add_action( 'admin_bar_menu', [ $this, $this->get_id() . '_admin_add_top_menu' ], 70 );
+
+		}
+	}
+
+	/**
+	 * Add the admin menu
+	 * @see \Lumiere\Admin
+	 */
+	public static function lumiere_static_start(): void {
+		$admin_menu_class = new self();
 	}
 
 	/**
@@ -185,7 +206,7 @@ class Admin_Menu {
 	}
 
 	/**
-	 * Get id
+	 * Get ID
 	 */
 	private function get_id(): string {
 		return self::LUMIERE_ADMIN_ID;
@@ -202,26 +223,6 @@ class Admin_Menu {
 		$current_step = $get_page !== false && $get_page !== null ? $get_page : '';
 
 		return str_replace( $this->get_id() . '_options', '', $current_step );
-	}
-
-	/**
-	 * Add the admin menu
-	 * @info Called by class Core
-	 */
-	public function load_admin_menu(): void {
-
-		// Store the logger class
-		do_action( 'lumiere_logger' );
-
-		// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$this(Lumiere\Admin), non-falsy-string} given
-		add_action( 'admin_menu', [ &$this, $this->get_id() . '_add_left_menu' ] );
-
-		// add Lumiere menu in toolbar menu (top WordPress menu)
-		if ( $this->imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
-			// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$this(Lumiere\Admin), non-falsy-string} given
-			add_action( 'admin_bar_menu', [ $this, $this->get_id() . '_admin_add_top_menu' ], 70 );
-
-		}
 	}
 
 	/**

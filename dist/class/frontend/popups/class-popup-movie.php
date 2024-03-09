@@ -88,6 +88,15 @@ class Popup_Movie {
 	}
 
 	/**
+	 * Static call of the current class Popup Movie
+	 *
+	 * @return void Build the class
+	 */
+	public static function lumiere_popup_movie_start (): void {
+		$popup_movie_class = new self();
+	}
+
+	/**
 	 * Search movie id or title
 	 *
 	 * @return bool True if a movie was found
@@ -184,40 +193,41 @@ if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
 
 }
 
-				// Casting part.
+		// Casting part.
 if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'actors' ) ) {
 
 	$this->display_casting( $this->movie );
 
 }
 
-				// Crew part.
+		// Crew part.
 if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'crew' ) ) {
 
 	$this->display_crew( $this->movie );
 
 }
 
-				// Resume part.
+		// Resume part.
 if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'resume' ) ) {
 
 	$this->display_summary( $this->movie );
 
 }
 
-				// Misc part.
+		// Misc part.
 if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 
 	$this->display_misc( $movie_results );
 
 }
 
-		echo '<br />';
+		echo '<br>';
+		wp_meta();
 		wp_footer();
 
 ?>
-</body>
-</html><?php
+		</body>
+		</html><?php
 
 		exit(); // quit the page, to avoid loading the proper WordPress page
 
@@ -509,34 +519,44 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 		if ( $nbtotaltrivia > 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Trivia -->';
-			echo "\n" . '<div id="lumiere_popup_pluts_group">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . '</span>';
+			echo "\n" . '<div id="lumiere_popup_plots_group">';
+			echo "\n\t" . '<div class="imdbincluded-subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . '</div>';
 
 			for ( $i = 0; $i < $nbtotaltrivia; $i++ ) {
-				$iterator_number = $i + 1;
 
-				if ( $i === 0 ) {
-					// @phpcs:ignore WordPress.Security.EscapeOutput
-					echo "\n\t" . '<div>' . $this->link_maker->lumiere_imdburl_to_internalurl( $trivia[ $i ] )
-					. '&nbsp;&nbsp;&nbsp;'
-					. '<span class="activatehidesection"><strong>(' . esc_html__( 'click to show more trivias', 'lumiere-movies' ) . ')</strong></span>'
-					. "\n\t" . '<div class="hidesection">'
-					. '<br />';
+				$text = isset( $trivia[ $i ] ) ? $this->link_maker->lumiere_imdburl_to_internalurl( $trivia[ $i ] ) : '';
+
+				// It may be empty, continue to the next result.
+				if ( strlen( $text ) === 0 ) {
+					continue;
+				}
+
+				echo "\n\t\t\t\t<div>\n\t\t\t\t\t" . '[#' . esc_html( strval( $i + 1 ) ) . '] ' . wp_kses(
+					$text,
+					[
+						'a' => [
+							'href' => [],
+							'title' => [],
+							'class' => [],
+						],
+					]
+				);
+				echo "\n\t\t\t\t</div>";
+
+				if ( $i === 2 ) {
+					echo "\n\t\t\t"
+					. '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more trivias', 'lumiere-movies' ) . ')</strong></div>';
+					echo "\n\t\t\t<div class=\"hidesection\">";
 
 				}
 
-				if ( $i > 0 ) {
-					// @phpcs:ignore WordPress.Security.EscapeOutput
-					echo $this->link_maker->lumiere_imdburl_to_internalurl( $trivia[ $i ] )
-					. "\n\t\t<hr>";
+				if ( $i > 2 && $i === ( $nbtotaltrivia - 1 ) ) {
+					echo "\n\t\t</div>";
 				}
-
 			}
 
-			echo "\n\t\t</div>";
 			echo "\n\t</div>";
 			echo "\n</div>";
-
 		}
 
 		// Soundtrack.
@@ -545,28 +565,46 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 		if ( $nbtotalsoundtracks !== 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Soundtrack -->';
-			echo "\n" . '<div id="lumiere_popup_pluts_group">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) ) . '</span>';
+			echo "\n" . '<div id="lumiere_popup_sdntrck_group">';
+			echo "\n\t" . '<div class="imdbincluded-subtitle">' . esc_html( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) ) . '</div>';
 
 			for ( $i = 0; $i < $nbtotalsoundtracks; $i++ ) {
 
 				echo "\n\t\t";
 				echo "\n\t\t\t" . esc_html( ucfirst( strtolower( $soundtrack[ $i ]['soundtrack'] ) ) );
 
-				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo "\n\t\t\t<i>" . str_replace(
-					[ "\n", "\r", '<br>', '<br />' ],
-					'',
-					/**
-					 * Use Highslide, Classical or No Links class links builder.
-					 * Each one has its own class passed in $link_maker,
-					 * according to which option the lumiere_select_link_maker() found in Frontend.
-					 */
-					$this->link_maker->lumiere_imdburl_to_internalurl( $soundtrack [ $i ]['credits'] )
+				echo "\n\t\t\t<i>" . wp_kses(
+					str_replace(
+						[ "\n", "\r", '<br />', '<br>' ],
+						'',
+						/**
+						* Use Highslide, Classical or No Links class links builder.
+						* Each one has its own class passed in $link_maker,
+						* according to which option the lumiere_select_link_maker() found in Frontend.
+						*/
+						$this->link_maker->lumiere_imdburl_to_internalurl( $soundtrack [ $i ]['credits'] )
+					),
+					[
+						'a' => [
+							'href' => [],
+							'title' => [],
+							'class' => [],
+						],
+					]
 				) . '</i> ';
 
 				if ( $i < $nbtotalsoundtracks - 1 ) {
 					echo ', ';
+				}
+
+				if ( $i === 2 ) {
+					echo "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more soundtracks', 'lumiere-movies' ) . ')</strong></div>';
+					echo "\n\t\t<div class=\"hidesection\">";
+
+				}
+
+				if ( $i > 2 && $i === ( $nbtotalsoundtracks - 1 ) ) {
+					echo "\n\t\t</div>";
 				}
 
 			}
@@ -582,33 +620,35 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 		if ( $nbtotalgoof > 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Goofs -->';
-			echo "\n" . '<div id="lumiere_popup_pluts_group">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Goof', 'Goofs', $nbtotalgoof, 'lumiere-movies' ) ) . '</span>';
+			echo "\n" . '<div id="lumiere_popup_goofs_group">';
+			echo "\n\t" . '<div class="imdbincluded-subtitle">' . esc_html( _n( 'Goof', 'Goofs', $nbtotalgoof, 'lumiere-movies' ) ) . '</div>';
 
 			for ( $i = 0; $i < $nbtotalgoof; $i++ ) {
-				$iterator_number = $i + 1;
 
-				if ( $i === 0 ) {
-					echo "\n\t" . '<div>'
-					. '<strong>' . esc_html( $goof[ $i ]['type'] ) . '</strong>&nbsp;'
-					// @phpcs:ignore WordPress.Security.EscapeOutput
-					. $this->link_maker->lumiere_imdburl_to_internalurl( $goof[ $i ]['content'] )
-					. '&nbsp;<span class="activatehidesection"><strong>(' . esc_html__( 'click to show more goofs', 'lumiere-movies' ) . ')</strong></span>'
-					. "\n\t" . '<div class="hidesection">'
-					. "\n\t\t" . '<br />';
+				echo "\n\t\t\t<div>\n\t\t\t\t[#" . esc_html( strval( $i + 1 ) ) . '] <i>' . esc_html( $goof[ $i ]['type'] ) . '</i>&nbsp;';
+				echo wp_kses(
+					$this->link_maker->lumiere_imdburl_to_internalurl( $goof[ $i ]['content'] ),
+					[
+						'a' => [
+							'href' => [],
+							'title' => [],
+							'class' => [],
+						],
+					]
+				);
+				echo "\n\t\t\t" . '</div>';
 
+				if ( $i === 2 ) {
+					echo "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more goofs', 'lumiere-movies' ) . ')</strong></div>'
+					. "\n\t\t" . '<div class="hidesection">';
 				}
 
-				echo "\n\t\t<strong>(" . intval( $iterator_number ) . ') ' . esc_html( $goof[ $i ]['type'] ) . '</strong>&nbsp;';
-				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo $this->link_maker->lumiere_imdburl_to_internalurl( $goof[ $i ]['content'] );
-				echo "\n\t\t" . '<br />';
+				if ( $i > 2 && $i === ( $nbtotalgoof - 1 ) ) {
+					echo "\n\t\t</div>";
+				}
+			}
 
-			} //end endfor
-
-			echo "\n\t\t</div>";
 			echo "\n\t</div>";
-
 			echo "\n</div>";
 
 		}
@@ -772,37 +812,22 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 	 */
 	private function display_summary( Title $movie_results ): void {
 
-			// Plot summary.
-			$plotoutline = $movie_results->plotoutline();
+		// Plots.
+		$plot = $movie_results->plot();
+		$nbtotalplot = count( $plot );
 
-		if ( strlen( $plotoutline ) > 0 ) {
-
-			echo "\n\t\t\t\t\t\t\t" . ' <!-- Plot summary -->';
-			echo "\n" . '<div id="lumiere_popup_plot_summary">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Plot summary', 'lumiere-movies' ) . '</span>';
-
-			echo "\n\t" . '<div align="center" class="lumiere_container">';
-			echo wp_strip_all_tags( $plotoutline );
-			echo "\n\t</div>";
-			echo "\n</div>";
-
-		}
-
-			// Plots.
-			$plot = $movie_results->plot();
-			$nbtotalplot = count( $plot );
-
-		if ( $nbtotalplot > 1 ) { // Start with second plot, first is same as plotouline().
+		if ( $nbtotalplot > 0 ) { // Start with second plot, first is same as plotouline().
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Plots -->';
 			echo "\n" . '<div id="lumiere_popup_pluts_group">';
 			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Plot', 'Plots', $nbtotalplot, 'lumiere-movies' ) ) . '</span>';
 
-			for ( $i = 1; $i < $nbtotalplot; $i++ ) {
+			// Starts a
+			for ( $i = 0; $i < $nbtotalplot; $i++ ) {
 				echo "\n\t" . '<div>';
-				echo wp_strip_all_tags( $plot[ $i ] );
+				echo ' [#' . esc_html( strval( $i + 1 ) ) . '] ' . wp_strip_all_tags( $plot[ $i ] );
 				if ( $i < $nbtotalplot - 1 ) {
-					echo "\n<hr>";
+					echo "\n<br>";
 				}
 				echo "\n\t</div>";
 			}
@@ -812,22 +837,4 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 		}
 	}
 
-	/**
-	 * Static call of the current class Popup Movie
-	 *
-	 * @return void Build the class
-	 */
-	public static function lumiere_popup_movie_start (): void {
-
-		$popup_movie_class = new self();
-
-	}
-
-} // end of class
-
-
-/**
- * Auto load the class
- */
-//add_action( 'init', [ 'Lumiere\Popup_Movie', 'lumiere_popup_movie_start' ], 1 );
-
+}

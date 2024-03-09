@@ -510,15 +510,15 @@ abstract class Abstract_Link_Maker {
 	 * @param string $imdb_id Id of the IMDB person/movie
 	 * @param string $imdb_data Name/title of the IMDB person/movie
 	 *
-	 * @since 4.0.1 Added spinner
+	 * @since 4.0.1 Added spinner and dialog size
 	 * @return string
 	 */
-	private function bootstrap_modal ( string $imdb_id, string $imdb_data ): string {
+	private function bootstrap_modal( string $imdb_id, string $imdb_data ): string {
 
 		return "\n\t\t\t" . '<span class="modal fade" id="theModal' . $imdb_id . '">'
-			. "\n\t\t\t\t" . '<span class="modal-dialog modal-dialog-centered" id="bootstrapp' . $imdb_id . '">'
+			. "\n\t\t\t\t" . '<span id="bootstrapp' . $imdb_id . '" class="modal-dialog modal-dialog-centered' . esc_attr( $this->bootstrap_convert_modal_size() ) . '" role="dialog">'
 			. "\n\t\t\t\t\t" . '<span class="modal-content">'
-			. "\n\t\t\t\t\t\t" . '<span class="modal-header black"><span id="lumiere_bootstrap_spinner_id" role="status" class="spinner-border lumiere_bootstrap_spinner"><span class="sr-only">Loading...</span></span>'
+			. "\n\t\t\t\t\t\t" . '<span class="modal-header bootstrap_black"><span id="lumiere_bootstrap_spinner_id" role="status" class="spinner-border lumiere_bootstrap_spinner"><span class="sr-only">Loading...</span></span>'
 			// . esc_html__( 'Informations about', 'lumiere-movies' ) . ' ' . sanitize_text_field( ucfirst( $imdb_data ) )
 			. '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . $imdb_id . '"></button>'
 			. "\n\t\t\t\t\t\t" . '</span>'
@@ -527,6 +527,31 @@ abstract class Abstract_Link_Maker {
 			. "\n\t\t\t\t" . '</span>'
 			. "\n\t\t\t" . '</span>';
 
+	}
+
+	/**
+	 * Get popup width and convert it to an incremental bootstrap size
+	 *
+	 * @return string
+	 * @since 4.0.1
+	 */
+	private function bootstrap_convert_modal_size(): string {
+
+		$modal_standard_with = [
+			300 => 'modal-sm',
+			500 => '',
+			800 => 'modal-lg',
+			1140 => 'modal-xl',
+		];
+
+		$modal_size_name = '';
+		foreach ( $modal_standard_with as $size_width => $size_name ) {
+			if ( $this->imdb_admin_values['imdbpopuplarg'] >= $size_width ) {
+				$modal_size_name = ' ' . $size_name;
+			}
+		}
+
+		return strlen( $modal_size_name ) > 0 ? $modal_size_name : '';
 	}
 
 	/**

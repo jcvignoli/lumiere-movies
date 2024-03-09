@@ -125,7 +125,7 @@ class Ban_Bots {
 	 */
 	public function lumiere_banishment(): void {
 
-		$text_ban = sprintf( 
+		$text_ban = sprintf(
 			/* translators: %1$s and %2$s are HTML tags */
 			__( '%1$sYou have been banned from this site%2$s', 'lumiere-movies' ),
 			'<h1>',
@@ -140,7 +140,14 @@ class Ban_Bots {
 		);
 
 		wp_die(
-			wp_kses( $text_ban, [ 'p' => [], 'h1' => [], 'a' => [ 'href' => [] ] ] ),
+			wp_kses(
+				$text_ban,
+				[
+					'p' => [],
+					'h1' => [],
+					'a' => [ 'href' => [] ],
+				]
+			),
 			esc_html__( 'Lumière Popups Access Error', 'lumiere-movies' ),
 			[
 				'response' => 403,

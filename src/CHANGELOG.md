@@ -1,15 +1,19 @@
 **Changelog**
 
 v.4.0.1
-* [feature] If year/month/day of birth are unknown, show it instead of displaying a 0
-* [feature] Added a spinner for loading popups, with 4 seconds timeout. Let's see if it will be kept.
+* [feature] If year/month/day of birth/born date are unknown in people popups, display "(year/month/day unknown)" instead of displaying a 0
+* [feature] The "month" name for birth/born date in people popups is now locally translated.
+* [feature] Various layout fixes in people and movie popups, numbering the goofs, trivias, etc. (classes popup person and movie)
+* [feature] Added a spinner for loading popups, with 1 seconds timeout. Let's see if it's worth keeping.
+* [feature] Bootstrap modal window's width is now editable (removed limits set in bootstrap-custom.css, removed hidding 'imdb_imdbpopuplarg' in function select[name=imdbpopup_modal_window] in script_admin.js, added method bootstrap_convert_modal_size() in class Abstract_Link_Maker)
+* [feature] "Back" button in people popups is displayed only if it's not the first page to be displayed.
 * [bug] Privacy policy was not displayed in admin Policy Guide, options-privacy.php?tab=policyguide (replaced in title "Lumière" with "Lumiere" in the title of wp_add_privacy_policy_content() function)
-* [bug] "Back" button in people popups is displayed only if it's not the first page to be displayed.
 * [bug] Trivia in people popups: if less than tree trivias, layout was broken (removed extra div in display_misc() method)
 * [bug] On some specific environments, taxonomy template copy wasn't working. (wp_get_referer() wasn't set in copy template taxonomy class, removed the redirection, found using WordPress playground)
 * [bug] On some very specific environments, cache display in admin cache options didn't work (GLOB_BRACE couldn't be used, removed it from the cache classes, found using WordPress playground).
 * [technical] Added blueprint.json in assets for WordPress Live Preview use.
-* [technical] Popups now always ban users when there is no HTTP_REFERER
+* [technical] Popups now always ban users when there is no HTTP_REFERER => it's always bots, no need to let them index and call.
+* [technical] Popups' size is now default to 800 width and 500 height (edited default values in class Settings and template admin-general-layout)
 
 v.4.0
 * [feature] Added in the general advanced options an option to add an extra delay when querying the IMDb website. Meant to avoid the HTTP 504 errors thrown when too many requests in a row are processed. 0 seconds by default, but can be increased to add a delay. If the data are already cached, no further delay, it's as fast as it used to be. Usefull when using the new auto refresh option, if you cache is large it may be welcome to add such a delay.

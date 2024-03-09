@@ -3,18 +3,13 @@
 * @version: 5.2
 */
 
-/** customize the spinner */
-.spinner-custom{
-	width: 3rem;
-	height: 3rem;
-}
 /** title of modal window */
-.black {
+.bootstrap_black {
 	color: black;
 }
 /** width of modal window */
 .modal {
-	--bs-modal-width:70vw !important;
+	/*--bs-modal-width:70vw !important; @since 4.0.1 removed value*/
 }
 /** Automatic scrollbar */
 .modal-body {
@@ -22,9 +17,7 @@
 }
 /** Remove scrollbar, modify the size of the modal window */
 .modal-body object {
-/**	max-width: 250vh; @since 3.9.2 changed values
-	min-height: 60vh; */
-	min-width: 63vw;
+	/** min-width: 63vw; @since 4.0.1 removed value */
 	min-height: 60vh;
 	overflow-x: hidden;
 }

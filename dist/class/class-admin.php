@@ -45,8 +45,7 @@ class Admin {
 		if ( is_admin() ) {
 
 			// Add admin menu.
-			$lumiere_admin_class = new Admin_Menu();
-			add_action( 'init', [ $lumiere_admin_class, 'load_admin_menu' ] );
+			add_action( 'init', fn() => Admin_Menu::lumiere_static_start() );
 
 			// Add the metabox to editor.
 			add_action( 'admin_init', fn() => Metabox_Selection::lumiere_static_start(), 0 );
@@ -55,7 +54,8 @@ class Admin {
 			add_action( 'admin_init', fn() => Backoffice_Extra::lumiere_backoffice_start(), 0 );
 		}
 
-		// Widget
+		// Widget.
+		/** @psalm-suppress MissingClosureReturnType, UndefinedClass -- crazy psalm, it is defined! */
 		add_action( 'init', fn() => Widget_Selection::lumiere_widget_start(), 0 );
 
 		// Register admin scripts.

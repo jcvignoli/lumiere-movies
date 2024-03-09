@@ -4,7 +4,7 @@
  * For admin pages
  */
 
-/************************************** class-widget.php && admin/class-general.php
+/************************************** class-widget.php && admin/submenu/class-general.php
 *
 */
 
@@ -82,7 +82,7 @@ document.addEventListener(
 		);
 		jQuery( '[data-field_activate]' ).trigger( 'change' );
 
-		/************************************** admin/class-general.php
+		/************************************** admin/submenu/class-general.php
 		 *
 		 */
 
@@ -91,24 +91,28 @@ document.addEventListener(
 			'change',
 			function(){
 				var value = jQuery( this ).val();
+				/* @since 4.0.1 removed imdb_imdbpopuplarg that is now displayed in admin general menu, added bootstrap_explain */
 				if ( value === 'bootstrap' ) {
-					var ele = document.getElementById( 'imdb_imdbpopuplarg' );
-					ele.style.display = 'none';
 					var ele = document.getElementById( 'imdb_imdbpopuplong' );
 					ele.style.display = 'none';
 					var ele = document.getElementById( 'imdb_popuptheme' );
 					ele.style.display = 'none';
-				}
-				if ( value !== 'bootstrap' ) {
+					var ele = document.getElementById( 'bootstrap_explain' );
+					ele.style.display = 'inline';
+
+				} else {
 					var ele = document.getElementById( 'imdb_imdbpopuplarg' );
 					ele.style.display = 'inline';
 					var ele = document.getElementById( 'imdb_imdbpopuplong' );
 					ele.style.display = 'inline';
 					var ele = document.getElementById( 'imdb_popuptheme' );
 					ele.style.display = 'inline';
+					var ele = document.getElementById( 'bootstrap_explain' );
+					ele.style.display = 'none';
 				}
 			}
 		);
+
 	}
 );
 
@@ -123,7 +127,7 @@ function GereControle(Controle, Masquer) {
 	return true;
 }
 
-/************************************** admin/class-data.php
+/************************************** admin/submenu/class-data.php
  *
  */
 
@@ -170,7 +174,7 @@ document.addEventListener(
 );
 
 
-/************************************** admin/class-cache.php
+/************************************** admin/submenu/class-cache.php
 *
 */
 
