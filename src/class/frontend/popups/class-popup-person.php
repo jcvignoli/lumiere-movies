@@ -808,7 +808,19 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 				echo "\n\t\t" . '<div class="lumiere_display_flex_align_flex_end lumiere_padding_two lumiere_align_left">';
 
-				echo "\n\t\t\t" . '<div><font size="-1">' . esc_html( $this->link_maker->lumiere_medaillon_bio( $this->person->bio() ) ?? '' ) . '</font></div>';
+				echo "\n\t\t\t" . '<div><font size="-1">' . wp_kses(
+					$this->link_maker->lumiere_medaillon_bio( $this->person->bio() ) ?? '',
+					[
+						'span' => [ 'class' => [] ],
+						'a' => [
+							'href' => [],
+							'title' => [],
+							'class' => [],
+						],
+						'strong' => [],
+						'div' => [],
+					]
+				) . '</font></div>';
 				?>
 
 					<!-- star photo -->
