@@ -28,6 +28,17 @@ abstract class Abstract_Link_Maker {
 	use \Lumiere\Settings_Global;
 
 	/**
+	 * Constructor
+	 */
+	public function __construct() {
+
+		// Get Global Settings class properties.
+		$this->get_settings_class();
+		$this->get_db_options();
+
+	}
+
+	/**
 	 * Build link to popup for IMDb people
 	 *
 	 * @param array<int, array<string, string>> $imdb_data_people Array with IMDB people data
@@ -499,6 +510,7 @@ abstract class Abstract_Link_Maker {
 	 * @param string $imdb_id Id of the IMDB person/movie
 	 * @param string $imdb_data Name/title of the IMDB person/movie
 	 *
+	 * @since 4.0.1 Added spinner
 	 * @return string
 	 */
 	private function bootstrap_modal ( string $imdb_id, string $imdb_data ): string {
@@ -506,11 +518,11 @@ abstract class Abstract_Link_Maker {
 		return "\n\t\t\t" . '<span class="modal fade" id="theModal' . $imdb_id . '">'
 			. "\n\t\t\t\t" . '<span class="modal-dialog modal-dialog-centered" id="bootstrapp' . $imdb_id . '">'
 			. "\n\t\t\t\t\t" . '<span class="modal-content">'
-			. "\n\t\t\t\t\t\t" . '<span class="modal-header black">'
+			. "\n\t\t\t\t\t\t" . '<span class="modal-header black"><span id="lumiere_bootstrap_spinner_id" role="status" class="spinner-border lumiere_bootstrap_spinner"><span class="sr-only">Loading...</span></span>'
 			// . esc_html__( 'Informations about', 'lumiere-movies' ) . ' ' . sanitize_text_field( ucfirst( $imdb_data ) )
 			. '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . $imdb_id . '"></button>'
 			. "\n\t\t\t\t\t\t" . '</span>'
-			. "\n\t\t\t\t\t\t" . '<span class="modal-body"></span>'
+			. "\n\t\t\t\t\t\t" . '<span class="modal-body embed-responsive embed-responsive-16by9"></span>'
 			. "\n\t\t\t\t\t" . '</span>'
 			. "\n\t\t\t\t" . '</span>'
 			. "\n\t\t\t" . '</span>';
@@ -555,7 +567,7 @@ abstract class Abstract_Link_Maker {
 		. ' title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '"';
 		// AMP, build a HREF.
 		if ( intval( $output ) === 3 ) {
-			$txt .= ' href="' . esc_attr( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $imdbid ) . '"';
+			$txt .= ' href="' . esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $imdbid ) . '"';
 		}
 		$txt .= '>' . sanitize_text_field( $imdbname ) . '</a>';
 

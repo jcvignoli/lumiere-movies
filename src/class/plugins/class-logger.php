@@ -64,8 +64,8 @@ class Logger {
 	 */
 	public function __construct( string $logger_name, bool $screen_output = true ) {
 
-		// Construct Global Settings trait.
-		$this->settings_open();
+		// Get Global Settings class properties.
+		$this->get_db_options();
 
 		// Send the variables passed in construct to global properties
 		$this->logger_name = $logger_name;
@@ -244,7 +244,7 @@ class Logger {
 		}
 		// LoggerMonolog wasn't started, start it without a title
 		$this->lumiere_start_logger( null );
-		return $this->logger_class; // @phan-suppress-current-line PhanTypeMismatchReturn -- Returning $this->logger_class of type null but log() is declared to return \Monolog\Logger -- This is probably true, but PHPStan says otherwhise, and this is needed in some cases (activation/deactivation?)
+		return $this->logger_class; // @phan-suppress-current-line PhanTypeMismatchReturn -- Returning $this->logger_class of type null but log() is declared to return \Monolog\Logger -- This is probably true, but PHPStan says otherwise, and this is needed in some cases (activation/deactivation?)
 	}
 
 	/**

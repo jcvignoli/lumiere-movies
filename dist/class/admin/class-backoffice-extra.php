@@ -74,6 +74,7 @@ class Backoffice_Extra {
 	public function lumiere_add_sponsor_plugins_page ( ?array $plugin_meta, string $plugin_file_name ): ?array {
 		if ( 'lumiere-movies/lumiere-movies.php' === $plugin_file_name ) {
 			$plugin_meta[] = sprintf(
+				/* translators: %1$s is an HTML link, %2$s is the word "Sponsor" in English translated into local language */
 				'<a href="%1$s"><span class="dashicons dashicons-coffee" aria-hidden="true" style="font-size:14px;line-height:1.3"></span>%2$s</a>',
 				'https://www.paypal.me/jcvignoli',
 				esc_html__( 'Sponsor', 'lumiere-movies' )
@@ -94,7 +95,7 @@ class Backoffice_Extra {
 		if ( function_exists( 'wp_add_privacy_policy_content' ) ) {
 			$content = $this->lumiere_get_default_privacy_content();
 			wp_add_privacy_policy_content(
-				'Lumière! Movies',
+				'Lumiere! Movies',
 				wp_kses_post( wpautop( $content ) )
 			);
 		}
@@ -108,7 +109,7 @@ class Backoffice_Extra {
 	private function lumiere_get_default_privacy_content(): string {
 		return sprintf(
 			'<h2>' . __( 'What personal data does Lumière Movies plugin collect?', 'lumiere-movies' ) . '</h2>' .
-			/* translators: %s: IMDb website */
+			/* translators: %s: An HTML link to IMDb website */
 			'<p>' . __( 'Although we are bound ourselves to the <a href="%s">IMDb privacy policy</a> when retrieving information from IMDb, Lumière Movies WordPress plugin does not collect data by itself. You remain anonymous to IMDb by visiting our website, your data is not sent to any third-party.', 'lumiere-movies' ) . '</p>',
 			'https://www.imdb.com/privacy'
 		);

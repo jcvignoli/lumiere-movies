@@ -38,8 +38,8 @@ class Link_Factory {
 	 */
 	public function __construct() {
 
-		// Construct Global Settings trait.
-		$this->settings_open();
+		// Get Global Settings class properties.
+		$this->get_db_options();
 
 	}
 

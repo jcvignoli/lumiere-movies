@@ -82,8 +82,9 @@ trait Main {
 	 */
 	public function __construct( string $logger_name = 'unknownOrigin', bool $screen_output = true ) {
 
-		// Build Global settings.
-		$this->settings_open();
+		// Get Global Settings class properties.
+		$this->get_settings_class();
+		$this->get_db_options();
 
 		// Start Logger class.
 		$this->logger = new Logger( $logger_name, $screen_output );

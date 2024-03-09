@@ -17,6 +17,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Admin\Admin_Menu;
+use Lumiere\Admin\Backoffice_Extra;
+use Lumiere\Admin\Widget_Selection;
 use Lumiere\Admin\Metabox_Selection;
 use Lumiere\Tools\Utils;
 use Lumiere\Settings_Global;
@@ -36,8 +38,9 @@ class Admin {
 	 */
 	public function __construct() {
 
-		// Construct Global Settings trait.
-		$this->settings_open();
+		// Get Global Settings class properties.
+		$this->get_settings_class();
+		$this->get_db_options();
 
 		if ( is_admin() ) {
 
@@ -46,13 +49,14 @@ class Admin {
 			add_action( 'init', [ $lumiere_admin_class, 'load_admin_menu' ] );
 
 			// Add the metabox to editor.
-			$metabox_selection_class = new Metabox_Selection();
+			add_action( 'admin_init', fn() => Metabox_Selection::lumiere_static_start(), 0 );
+
 			// Extra backoffice functions, such as privacy, plugins infos in plugins' page
-			add_action( 'init', [ 'Lumiere\Admin\Backoffice_Extra', 'lumiere_backoffice_start' ], 0 );
+			add_action( 'admin_init', fn() => Backoffice_Extra::lumiere_backoffice_start(), 0 );
 		}
 
 		// Widget
-		add_action( 'init', [ 'Lumiere\Admin\Widget_Selection', 'lumiere_widget_start' ], 0 );
+		add_action( 'init', fn() => Widget_Selection::lumiere_widget_start(), 0 );
 
 		// Register admin scripts.
 		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ], 0 );

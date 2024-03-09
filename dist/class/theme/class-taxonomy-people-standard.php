@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.5.4
+ * Version: 3.5.5
  *
  * @package lumiere-movies
  */
@@ -75,11 +75,12 @@ class Taxonomy_People_Standard {
 
 	/**
 	 * Constructor
+	 * @since 4.0 Ban bots from display the page.
 	 */
 	public function __construct( ?Polylang $plugin_polylang = null ) {
 
 		// Ban bots.
-		do_action( 'lumiere_ban_bots' );
+		do_action( 'lumiere_maybe_ban_bots' );
 
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'taxonomy-standard' );

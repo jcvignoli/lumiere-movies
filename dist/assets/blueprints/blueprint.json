@@ -1,5 +1,5 @@
 {
-    "landingPage": "/Test-Lumiere/",
+    "landingPage": "/wp-content/debug.log",
     "preferredVersions": {
         "php": "8.0",
         "wp": "latest"
@@ -11,11 +11,6 @@
         "networking": true
     },
     "steps": [
-        {
-            "step": "defineWpConfigConsts",
-            "consts": {
-                "WP_DEBUG": true
-        },
         {
             "step": "login",
             "username": "admin",

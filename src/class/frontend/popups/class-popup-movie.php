@@ -19,6 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Imdb\Title;
 use Imdb\TitleSearch;
 use Lumiere\Tools\Utils;
+use Lumiere\Frontend\Popups\Head_Popups;
 use Exception;
 
 /**
@@ -59,11 +60,15 @@ class Popup_Movie {
 	/**
 	 * Constructor
 	 *
+	 * @since 4.0.1 Extra bot banishment in Redirect_Virtual_Page class
+	 * Bots are banned from getting popups
+	 * @see \Lumiere\Alteration\Redirect_Virtual_Page::lumiere_popup_redirect_include Bot banishement happens in Redirect_Virtual_Page::ban_bots_popups()
+	 * @see \Lumiere\Tools\Ban_Bots::_construct() The action 'lumiere_ban_bots_now' caled in Redirect_Virtual_Page
 	 */
 	public function __construct() {
 
 		// Edit metas tags in popups.
-		add_action( 'template_redirect', [ 'Lumiere\Frontend\Popups\Head_Popups', 'lumiere_static_start' ] );
+		add_action( 'template_redirect', fn() => Head_Popups::lumiere_static_start() );
 
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'popupMovie' );

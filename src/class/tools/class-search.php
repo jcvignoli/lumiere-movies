@@ -62,8 +62,9 @@ class Search {
 	 */
 	public function __construct() {
 
-		// Construct Global Settings trait.
-		$this->settings_open();
+		// Get Global Settings class properties.
+		$this->get_settings_class();
+		$this->get_db_options();
 
 		// Get the type of search: movies, series, games
 		$this->type_search = $this->config_class->lumiere_select_type_search();

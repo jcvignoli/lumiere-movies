@@ -49,17 +49,13 @@ var arg = (argList => {
 		opt = thisOpt.replace(/^\-+/, '');
 
 		if (opt === thisOpt) {
-
 			// argument value
 			if (curOpt) arg[curOpt] = opt;
 			curOpt = null;
-
 		} else {
-
 			// argument name
 			curOpt = opt;
 			arg[curOpt] = true;
-
 		}
 
  	}
@@ -70,17 +66,13 @@ var arg = (argList => {
 		opt = thisOpt.replace(/^\-+/, '');
 
 		if (opt === thisOpt) {
-
 			// argument value
 			if (curOpt) arg[curOpt] = opt;
 			curOpt = null;
-
 		} else {
-
 			// argument name
 			curOpt = opt;
 			arg[curOpt] = true;
-
 		}
 	}
 
@@ -90,17 +82,13 @@ var arg = (argList => {
 		opt = thisOpt.replace(/^\-+/, '');
 
 		if (opt === thisOpt) {
-
 			// argument value
 			if (curOpt) arg[curOpt] = opt;
 			curOpt = null;
-
 		} else {
-
 			// argument name
 			curOpt = opt;
 			arg[curOpt] = true;
-
 		}
 	}
 
@@ -323,6 +311,8 @@ gulp.task('browserWatch', gulp.parallel( 'watch', (done) => {
 
 		// Additional info about the process, "info", "debug", "warn", or "silent", default: "info"
 		// logLevel: "debug",
+		
+		reloadDelay: 8000, // The process of copying is slow, so need to wait until src/ is copied to dist/ then reload server
 
 	});
 

@@ -71,7 +71,6 @@ class Movie {
 	 * Search the movie and output the results
 	 *
 	 * @since 3.8   Extra logs are shown once only using singleton $this->movie_run_once and PluginsDetect class added
-	 * @since 4.0  Ban bots added, just before doing IMDb query
 	 *
 	 * @param array<int<0, max>, array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
 	 * @psalm-param list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $imdb_id_or_title_outside
@@ -105,9 +104,6 @@ class Movie {
 
 		$imdb_id_or_title = $imdb_id_or_title_outside ?? null;
 		$output = '';
-
-		// Ban bots before doing an IMDb search.
-		do_action( 'lumiere_ban_bots' );
 
 		$search = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
 

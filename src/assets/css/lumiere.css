@@ -302,6 +302,15 @@ span.lumiere_gutenberg_copy_class{background-color: cornsilk;color:darkgrey;padd
 @keyframes fade {from{opacity:1;display: block;}to{opacity:0;z-index:-100; display:none;height:0;width:0;display: none;clip-path:circle(0);/* rognage de la totalité donc disparition*/}}
 @keyframes monanim {from{overflow:hidden;}to{overflow:visible;}}
 
+ .lumiere_bootstrap_spinner {
+	width: 3rem; height: 3rem; z-index: 20;margin-left:45%;
+ }
+
+#lumiere_bootstrap_spinner_id { display:none; } 
+.showspin #lumiere_bootstrap_spinner_id { display:block; }
+
+/*.modal-body{padding:0;}*/
+
 /* ---------------------------------------- Loader when searching */
 
 .lumiere_align_left{text-align:left;}

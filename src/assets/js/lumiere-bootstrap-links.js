@@ -1,26 +1,25 @@
 /**
  * Function here are Content Security Policy (CSP) Compliant
- * Doesn't need jquery since Bootstrap v5.0
  */
 
 /**
  * FUNCTION: build bootstrap popup according to the classes
- *	This function on click on data "modal_window(.*)"
- *	1- extracts info from data-(.*) <a> attribute
+ * This function on click on data "modal_window(.*)"
+ * 1- Extracts info from data-(.*) <a> attribute
+ * 2- Add a spinner with the class showspin, and removed it after a timeout
  */
+
+timeout = 1000;
+
 document.addEventListener(
 	'DOMContentLoaded',
 	function () {
 
-		/** bootstrap popup, people */
+		/** bootstrap popup, IMDb people's name */
 
 		jQuery( 'a[data-modal_window_people]' ).on(
 			'click',
 			function(){
-
-				// vars from class Settings sent to javascript
-				var tmppopupLarg = lumiere_vars.popupLarg;
-				var tmppopupLong = lumiere_vars.popupLong;
 
 				// var from the html code
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_people' );
@@ -29,20 +28,23 @@ document.addEventListener(
 				var url_imdbperso = lumiere_vars.urlpopup_person + '?mid=' + misc_term;
 
 				// Open bootstrap popup link
-				jQuery( '.modal-body' ).html( '<object name="' + misc_term + '" data="' + url_imdbperso + '"/>' );
-				jQuery( '#theModal' + misc_term ).modal( 'show' );
+				jQuery('.modal-header').addClass('showspin');
+				jQuery( '.modal-body' ).html( '<object id="' + misc_term + '" name="' + misc_term + '" data="' + url_imdbperso + '"/>' );
+				themodal = jQuery( '#theModal' + misc_term ).modal( 'show' );
+				
+				themodal.on('shown.bs.modal', function() {
+					setTimeout(() => {
+						jQuery('.modal-header').removeClass('showspin');
+					}, timeout );
+				});
 
 			}
 		);
 
-		/** bootstrap popup, movie by title */
+		/** bootstrap popup, movie by IMDb Title */
 
 		jQuery( 'a[data-modal_window_film]' ).click(
 			function(){
-
-				// vars from class Settings sent to javascript
-				var tmppopupLarg = lumiere_vars.popupLarg;
-				var tmppopupLong = lumiere_vars.popupLong;
 
 				// var from the html code
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_film' );
@@ -51,20 +53,22 @@ document.addEventListener(
 				var url_imdbfilm = lumiere_vars.urlpopup_film + '?film=' + misc_term;
 
 				// Open bootstrap popup link
+				jQuery('.modal-header').addClass('showspin');
 				jQuery( '.modal-body' ).html( '<object name="' + misc_term + '" data="' + url_imdbfilm + '"/>' );
-				jQuery( '#theModal' + misc_term ).modal( 'show' );
-
+				themodal = jQuery( '#theModal' + misc_term ).modal( 'show' );
+				
+				themodal.on('shown.bs.modal', function() {
+					setTimeout(() => {
+						jQuery('.modal-header').removeClass('showspin');
+					}, timeout );
+				});
 			}
 		);
 
-		/** bootstrap popup, movie by imdb id */
+		/** bootstrap popup, movie by IMDb ID */
 
 		jQuery( 'a[data-modal_window_filmid]' ).click(
 			function(){
-
-				// vars from class Settings sent to javascript
-				var tmppopupLarg = lumiere_vars.popupLarg;
-				var tmppopupLong = lumiere_vars.popupLong;
 
 				// var mid from the class data-highslidepeople to build the link
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_filmid' );
@@ -73,20 +77,17 @@ document.addEventListener(
 				var url_imdbfilmid = lumiere_vars.urlpopup_film + '?mid=' + misc_term;
 
 				// Open bootstrap popup link
+				jQuery('.modal-header').addClass('showspin');
 				jQuery( '.modal-body' ).html( '<object name="' + misc_term + '" data="' + url_imdbfilmid + '"/>' );
-				jQuery( '#theModal' + misc_term ).modal( 'show' );
+				themodal = jQuery( '#theModal' + misc_term ).modal( 'show' );
 
+				themodal.on('shown.bs.modal', function() {
+					setTimeout(() => {
+						jQuery('.modal-header').removeClass('showspin');
+					}, timeout );
+				});
 			}
 		);
 
-	}
-);
-
-/**
- * Deactivate the spinner after loading
- */
-jQuery( document ).ready(
-	function() {
-		jQuery( '.spinner-border' ).hide();
 	}
 );

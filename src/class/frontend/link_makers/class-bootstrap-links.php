@@ -26,17 +26,13 @@ if ( ! defined( 'WPINC' ) ) {
  */
 class Bootstrap_Links extends Abstract_Link_Maker {
 
-	// Trait including the database settings.
-	use \Lumiere\Settings_Global;
-
 	/**
 	 * Constructor
 	 *
 	 */
 	public function __construct() {
 
-		// Construct Global Settings trait.
-		$this->settings_open();
+		parent::__construct();
 
 		// Registers javascripts and styles.
 		add_action( 'init', [ $this, 'lumiere_bootstrap_register_assets' ], 1 ); // must be after Core class call

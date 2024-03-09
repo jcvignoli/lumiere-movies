@@ -30,12 +30,26 @@ class Metabox_Selection {
 	 */
 	public function __construct() {
 
+		// Get Global Settings class properties.
+		$this->get_settings_class();
+		$this->get_db_options();
+
 		/**
 		 * Register the metabox
 		 */
 		add_action( 'add_meta_boxes', [ $this, 'add_lumiere_metabox_customfields' ] );
 		add_action( 'save_post', [ $this, 'save_custom_meta_box' ], 10, 2 );
 
+	}
+
+	/**
+	 * Static instanciation of the class
+	 * Needed to be called in add_actions()
+	 *
+	 * @return void The class was instanciated
+	 */
+	public static function lumiere_static_start(): void {
+		$metabox_class = new self();
 	}
 
 	public function lumiere_metabox_customfields(): void {}
@@ -52,9 +66,6 @@ class Metabox_Selection {
 	 * @param \WP_Post $object Saved values from database.
 	 */
 	public function custom_meta_box_markup( \WP_Post $object ): void {
-
-		// Construct Global Settings trait.
-		$this->settings_open();
 
 		// Option for the select, the two type of data to be taken over by imdb-movie.inc.php
 		$option_values = [

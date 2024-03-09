@@ -170,7 +170,8 @@ class Utils {
 		$search = str_replace( '\*', '.*?', preg_quote( $search, '/' ) );
 
 		$result_init = preg_grep( '/^' . $search . '$/i', array_keys( $array ) );
-		$result = is_array( $result_init ) === true ? $result_init : [];
+		/** @psalm-suppress RedundantConditionGivenDocblockType -- Docblock-defined type array<int<0, max>, string> can never contain false -- PHPStan says otherwise */
+		$result = is_array( $result_init ) && count( $result_init ) > 0 ? $result_init : [];
 
 		if ( $return === 'key-value' ) {
 			return array_intersect_key( $array, array_flip( $result ) );

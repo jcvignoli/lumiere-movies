@@ -22,8 +22,6 @@ use Lumiere\Settings;
  * Trait for including database options
  * Most pages that need any of admin, cache or widget options are using it
  *
- * @TODO settings_open() should include only includes new Settings() and the properties as options should be build in a constructor
- *
  * Below doesn't work, it's a PHPStan bug #5091
  * @phpstan-import-type OPTIONS_ADMIN from Settings
  * @phpstan-import-type OPTIONS_CACHE from Settings
@@ -58,20 +56,21 @@ trait Settings_Global {
 	public Settings $config_class;
 
 	/**
-	 * Constructor function
-	 *
-	 * Build the trait properties
+	 * Build database options properties
 	 */
-	public function settings_open(): void {
+	public function get_db_options(): void {
 
-		// Start Utils class.
-		$this->config_class = new Settings();
-
-		// Get database options.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 	}
 
+	/**
+	 * Build Settings class properties
+	 */
+	public function get_settings_class(): void {
+
+		$this->config_class = new Settings();
+	}
 }
 

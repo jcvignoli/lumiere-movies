@@ -371,7 +371,7 @@ class Cache_Tools {
 	 * Delete several ticked files
 	 *
 	 * @param array<string> $list_ids_to_delete The list of ids of movies/people to delete
-	 * @param 'movie'|'people' $type_to_delete The kind of data passed
+	 * @param 'movie'|'people'|string $type_to_delete The kind of data passed
 	 */
 	public function cache_delete_ticked_files( array $list_ids_to_delete, string $type_to_delete ): void {
 

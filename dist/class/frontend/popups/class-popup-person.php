@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Imdb\Person;
+use Lumiere\Frontend\Popups\Head_Popups;
 
 /**
  * Independant class that displays star information in a popup
@@ -49,11 +50,15 @@ class Popup_Person {
 	/**
 	 * Constructor
 	 *
+	 * @since 4.0.1 Extra bot banishment in Redirect_Virtual_Page class
+	 * Bots are banned from getting popups
+	 * @see \Lumiere\Alteration\Redirect_Virtual_Page::lumiere_popup_redirect_include Bot banishement happens in Redirect_Virtual_Page::ban_bots_popups()
+	 * @see \Lumiere\Tools\Ban_Bots::_construct() The action 'lumiere_ban_bots_now' caled in Redirect_Virtual_Page
 	 */
 	public function __construct() {
 
 		// Edit metas tags in popups.
-		add_action( 'template_redirect', [ 'Lumiere\Frontend\Popups\Head_Popups', 'lumiere_static_start' ] );
+		add_action( 'template_redirect', fn() => Head_Popups::lumiere_static_start() );
 
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'popupPerson' );
@@ -69,8 +74,7 @@ class Popup_Person {
 	}
 
 	/**
-	 *  Search movie title
-	 *
+	 * Search movie title
 	 */
 	private function find_person(): bool {
 
@@ -155,7 +159,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 }
 		//------------------------------------------------------------------------------ end misc part
 
-		echo '<br /><br />';
+		echo '<br><br>';
 
 		wp_meta();
 		wp_footer();
@@ -175,12 +179,16 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 		// If polylang exists, rewrite the URL to append the lang string
 		$url_if_polylang = $this->lumiere_url_check_polylang_rewrite( $this->config_class->lumiere_urlpopupsperson );
 		?>
-												<!-- top page menu -->
 
+												<!-- top page menu -->
 		<div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
+			<?php if ( isset( $_GET['info'] ) ) { ?>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" id="historyback"><?php esc_html_e( 'Back', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" id="historyback" href="<?php
+				$refer = wp_get_referer();
+				echo $refer !== false ? esc_url( $refer ) : ''; ?>"><?php esc_html_e( 'Back', 'lumiere-movies' ); ?></a>
 			</div>
+			<?php } ?>
 			<div class="lumiere_flex_auto">
 				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Summary', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
 			</div>
@@ -239,11 +247,6 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 						echo ')';
 					}
 
-					/** 2021 09 Dunno if this check is still needed
-					if ( $filmo[ $i ]['chname'] == "\n" ) {
-						echo '';
-					} else {
-					*/
 					if ( isset( $filmo[ $i ]['chname'] ) && strlen( $filmo[ $i ]['chname'] ) !== 0 ) {
 						echo ' as <i>' . esc_html( $filmo[ $i ]['chname'] ) . '</i>';
 
@@ -262,11 +265,9 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 					}
 
 					$nbfilmpercat++;
-
 				}
 
 				echo "\n\t" . '</div>';
-
 			}
 
 		}
@@ -573,9 +574,9 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Trivia -->';
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . ' </span>(' . intval( $nbtotaltrivia ) . ') <br />';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . ' </span>(' . intval( $nbtotaltrivia ) . ') <br>';
 
-			for ( $i = 0; $i < $nbtotaltrivia; $i++ ) {
+			for ( $i = 1; $i <= $nbtotaltrivia; $i++ ) {
 
 				// Display a "show more" after 3 results
 				if ( $i === $nblimittrivia ) {
@@ -589,7 +590,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 				$text = $this->link_maker->lumiere_imdburl_to_internalurl( $trivia[ $i ] );
 				$text = preg_replace( '~^\s\s\s\s\s\s\s(.*)<br \/>\s\s\s\s\s$~', "\\1", $text ); # clean output
 				// @phpcs:ignore WordPress.Security.EscapeOutput
-				echo "\n\t\t\t\t" . ' * ' . $text;
+				echo "\n\t\t\t\t" . ' [n° ' . $i . '] ' . $text;
 				echo "\n\t\t\t" . '</div>';
 
 				if ( $i === $nbtotaltrivia ) {
@@ -598,9 +599,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			}
 
-			echo "\n\t" . '</div>';
 			echo "\n" . '</div>';
-
 		}
 
 		############## Nicknames
@@ -717,15 +716,15 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 				# Birth
 				$birthday = $this->person->born() ?? null;
 				if ( isset( $birthday ) && count( $birthday ) !== 0 ) {
-					$birthday_day = $birthday['day'] ?? '';
-					$birthday_month = $birthday['month'] ?? '';
-					$birthday_year = $birthday['year'] ?? '';
+					$birthday_day = isset( $birthday['day'] ) && strlen( $birthday['day'] ) > 0 ? (string) $birthday['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
+					$birthday_month = isset( $birthday['month'] ) && strlen( $birthday['month'] ) > 0 ? (string) $birthday['month'] . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
+					$birthday_year = isset( $birthday['year'] ) && strlen( $birthday['year'] ) > 0 ? (string) $birthday['year'] : __( '(year unknown)', 'lumiere-movies' );
 
 					echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
 						. esc_html__( 'Born on', 'lumiere-movies' ) . '</span>'
-						. intval( $birthday_day ) . ' '
-						. esc_html( $birthday_month ) . ' '
-						. intval( $birthday_year );
+						. esc_html( $birthday_day )
+						. esc_html( $birthday_month )
+						. esc_html( $birthday_year );
 				}
 
 				if ( isset( $birthday['place'] ) && strlen( $birthday['place'] ) > 0 ) {
@@ -797,7 +796,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			</div> 
 		</div> 
-
+							
 		<hr><?php
 	}
 

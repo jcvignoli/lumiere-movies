@@ -42,6 +42,10 @@ class Widget_Selection extends \WP_Widget {
 	 */
 	public function __construct() {
 
+		// Get Global Settings class properties.
+		$this->get_settings_class();
+		$this->get_db_options();
+
 		parent::__construct(
 			self::WIDGET_NAME,  // Base ID.
 			'Lumière! Widget (legacy)',   // Name.
@@ -50,9 +54,6 @@ class Widget_Selection extends \WP_Widget {
 				'show_instance_in_rest' => true, /** use WP REST API */
 			]
 		);
-
-		// Settings trait. Must be in __construct().
-		$this->settings_open();
 
 		/**
 		 * Hide the widget in legacy widgets menu

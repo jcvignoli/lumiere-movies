@@ -56,6 +56,11 @@ class Popup_Search {
 
 	/**
 	 * Constructor
+	 *
+	 * @since 4.0.1 Extra bot banishment only for this class using action 'lumiere_ban_bots_now'
+	 * Bots are banned from getting popups
+	 * @see \Lumiere\Alteration\Redirect_Virtual_Page::lumiere_popup_redirect_include Bot banishement happens in Redirect_Virtual_Page::ban_bots_popups()
+	 * @see \Lumiere\Tools\Ban_Bots::_construct() The action 'lumiere_ban_bots_now' caled in Redirect_Virtual_Page
 	 */
 	public function __construct() {
 

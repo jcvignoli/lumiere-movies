@@ -92,8 +92,9 @@ class Admin_Menu {
 	 */
 	public function __construct() {
 
-		// Construct Global Settings trait.
-		$this->settings_open();
+		// Get Global Settings class properties.
+		$this->get_settings_class();
+		$this->get_db_options();
 
 		// Start Utilities class.
 		$this->utils_class = new Utils();

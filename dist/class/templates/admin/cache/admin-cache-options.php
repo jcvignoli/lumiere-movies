@@ -119,7 +119,7 @@ $lumiere_size_cache_folder = get_transient( 'admin_template_pass_vars' )[0];
 							</div>
 						</div>
 
-						<div class="explain"><?php esc_html_e( 'Keep the cache folder size below a limit. Every day, WordPress will check if your cache folder is over the selected size limit and will delete the newest cache files until it meets your selected cache folder size limit.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' );
+						<div class="explain"><?php esc_html_e( 'Keep the cache folder size below a limit. Every hour, WordPress will check if your cache folder is over the selected size limit and will delete the newest cache files until it match your selected cache folder size limit.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' );
 						echo '<br>' . esc_html__( 'Current size used: ', 'lumiere-movies' ) . esc_html( $lumiere_size_cache_folder ); ?></div>
 
 					</div>

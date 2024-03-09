@@ -48,8 +48,8 @@ class Polylang {
 
 		$this->logger = new Logger( 'Polylang' );
 
-		// Construct Global Settings trait.
-		$this->settings_open();
+		// Get Global Settings class properties.
+		$this->get_db_options();
 
 	}
 

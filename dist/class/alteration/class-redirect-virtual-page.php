@@ -99,7 +99,8 @@ class Redirect_Virtual_Page {
 
 	/**
 	 * Popups redirection
-	 * @since 4.0 Bots are banned for all popups
+	 * @since 4.0 Bots are banned for all popups, it's done here so no IMDbPHP calls for movies/people are done in case of redirect
+	 * @since 4.0.1 Added bot banning if no referer, created method ban_bots_popups()
 	 *
 	 * @TODO Sanitization of GETs is a joke, use proper functions!
 	 * @return string|Virtual_Page
@@ -120,8 +121,8 @@ class Redirect_Virtual_Page {
 
 		switch ( $query_popup ) {
 			case 'film':
-				// Ban bots from downloading the page.
-				do_action( 'lumiere_ban_bots' );
+				// Check if bots.
+				$this->ban_bots_popups();
 
 				// Set the title.
 				$filmid_sanitized = ''; // initialisation.
@@ -146,9 +147,10 @@ class Redirect_Virtual_Page {
 					new Popup_Movie(),
 					$title
 				);
+
 			case 'person':
-				// Ban bots from downloading the page.
-				do_action( 'lumiere_ban_bots' );
+				// Check if bots.
+				$this->ban_bots_popups();
 
 				// Set the title.
 				if ( isset( $_GET['mid'] ) ) {
@@ -167,8 +169,8 @@ class Redirect_Virtual_Page {
 					$title
 				);
 			case 'search':
-				// Ban bots from downloading the page.
-				do_action( 'lumiere_ban_bots' );
+				// Check if bots.
+				$this->ban_bots_popups();
 
 				// Set the title.
 				$filmname_sanitized = isset( $_GET['film'] ) ? ': [' . sanitize_text_field( $_GET['film'] ) . ']' : 'No name entered';
@@ -181,5 +183,29 @@ class Redirect_Virtual_Page {
 				);
 		}
 		return $template;
+	}
+
+	/**
+	 * Ban bots from getting Popups.
+	 *
+	 * 1/ Banned if certain conditions are met in class Ban_Bots::_construct() => action 'lumiere_maybe_ban_bots',
+	 *  done before doing IMDbPHP queries in this class
+	 * 2/ Ban if there is no HTTP_REFERER and user is not logged in Ban_Bots::_construct() => action 'lumiere_ban_bots_now', done here
+	 * Not putting the no HTTP_REFERER in Ban_Bots class, since do_action( 'lumiere_maybe_ban_bots' ) could be called
+	 *  in taxonomy templates (those pages, like movie pages, should not ban bots, there is no reason to ban bots in full pages, only in popups)
+	 * This method must be called inside the switch() function, when we know it's a popup. Otherwhise, the entire site could
+	 *  become unavailable if no HTTP_REFERER was passed
+	 * @since 4.0.1 Method added
+	 * @return void Banned if conditions are met
+	 */
+	private function ban_bots_popups(): void {
+
+		// Conditionally ban bots from getting the page, i.e. User Agent or IP.
+		do_action( 'lumiere_maybe_ban_bots' );
+
+		// Ban bots if no referer
+		if ( ! isset( $_SERVER['HTTP_REFERER'] ) && ! is_user_logged_in() ) {
+			do_action( 'lumiere_ban_bots_now' );
+		}
 	}
 }

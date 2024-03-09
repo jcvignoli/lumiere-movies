@@ -52,8 +52,8 @@ class Ban_Bots {
 	 */
 	public function __construct() {
 
-		add_action( 'lumiere_ban_bots', [ $this, 'ban_bots' ] );
-
+		add_action( 'lumiere_maybe_ban_bots', [ $this, 'maybe_ban_bots' ] );
+		add_action( 'lumiere_ban_bots_now', [ $this, 'lumiere_banishment' ] );
 	}
 
 	/**
@@ -64,6 +64,30 @@ class Ban_Bots {
 	 */
 	public static function lumiere_static_start(): void {
 		$static_start = new self();
+	}
+
+	/**
+	 * Process list of bots registered in BLACK_LIST_*, exit if it one of the bad bots
+	 * This is an action meant to be called with do_action( 'lumiere_maybe_ban_bots' ) that will assess whether to ban the user
+	* Not putting the no HTTP_REFERER condition here, since do_action( 'lumiere_maybe_ban_bots' ) can be called i.e. by taxonomy pages and they must be accessible even if there is no HTTP_REFERER
+	 */
+	public function maybe_ban_bots(): void {
+		$this->maybe_ban_ip( self::BLACK_LIST_IP );
+		$this->maybe_ban_useragent( self::BLACK_LIST_AGENT );
+	}
+
+	/**
+	 * Process list of bots registered in BLACK_LIST_AGENT, exit if it one of the bad bots
+	 * @param array<string> $banned_recipients The list of the banned recipients (USER_AGENT)
+	 * @return void The user is banned if found in any of those lists
+	 */
+	private function maybe_ban_useragent( array $banned_recipients ): void {
+		$agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+		foreach ( $banned_recipients as $bot ) {
+			if ( preg_match( "~$bot~i", $agent ) === 1 ) {
+				do_action( 'lumiere_ban_bots_now' );
+			}
+		}
 	}
 
 	/**
@@ -82,28 +106,6 @@ class Ban_Bots {
 	}
 
 	/**
-	 * Process list of bots registered in BLACK_LIST_*, exit if it one of the bad bots
-	 */
-	public function ban_bots(): void {
-		$this->maybe_ban_ip( self::BLACK_LIST_IP );
-		$this->maybe_ban_useragent( self::BLACK_LIST_AGENT );
-	}
-
-	/**
-	 * Process list of bots registered in BLACK_LIST_AGENT, exit if it one of the bad bots
-	 * @param array<string> $banned_recipients The list of the banned recipients (USER_AGENT)
-	 * @return void The user is banned if found in any of those lists
-	 */
-	private function maybe_ban_useragent( array $banned_recipients ): void {
-		$agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
-		foreach ( $banned_recipients as $bot ) {
-			if ( preg_match( "~$bot~i", $agent ) === 1 ) {
-				$this->banishment();
-			}
-		}
-	}
-
-	/**
 	 * Process list of IPs registered in BLACK_LIST_IP, exit if it one of the bad ips
 	 * @param array<string> $banned_recipients The list of the banned recipients (HTTP_CLIENT_IP, HTTP_X_FORWARDED_FOR or REMOTE_ADDR)
 	 * @return void The user is banned if found in any of those lists
@@ -112,38 +114,28 @@ class Ban_Bots {
 		$ip = $this->get_user_ip();
 		foreach ( $banned_recipients as $bot ) {
 			if ( $ip === $bot ) {
-				$this->banishment();
+				do_action( 'lumiere_ban_bots_now' );
 			}
 		}
 	}
 
 	/**
 	 * Display a 403 error
+	 * This is an action meant to be called with do_action( 'lumiere_ban_bots_now' ) that immediately ban the user
 	 */
-	private function banishment(): void {
-		$block_status     = '403';
-		$block_protocol   = 'HTTP/1.1';
-		$block_connection = 'Connection: Close';
-
-		header( $block_protocol . ' ' . $block_status );
-		header( $block_connection );
-
-		$message  = '<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noodp,noydir">';
-		$message .= '<h1>You have been banned from this site.</h1>';
-		$message .= '<p>If you think it\'s a mistake, please contact the administrator via a proxy server.</p>';
+	public function lumiere_banishment(): void {
 
 		wp_die(
-			wp_kses(
-				$message,
-				[
-					'h1' => [],
-					'p' => [],
-					'meta' => [
-						'name' => [],
-						'content' => [],
-					],
-				]
-			)
+			/* translators: %1$s and %2$s are HTML tags */
+			wp_kses( sprintf( __( '%1$sYou have been banned from this site%2$s', 'lumiere-movies' ), '<h1>', '</h1>' ), [ 'h1' => [] ] )
+			/* translators: %1$s and %2$s are HTML tags */
+			. wp_kses( sprintf( __( '%1$sIf you think it\'s a mistake, please contact the administrator via a proxy server.%2$s', 'lumiere-movies' ), '<p>', '</p>' ), [ 'p' => [] ] ),
+			esc_html__( 'Lumière Popups Access Error', 'lumiere-movies' ),
+			[
+				'response' => 403,
+				'link_url' => esc_url( site_url() ),
+				'link_text' => esc_html__( 'Back home', 'lumiere-movies' ),
+			]
 		);
 	}
 }
