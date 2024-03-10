@@ -310,7 +310,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 				// add 100px width if "Display only thumbnail" is active.
 			} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
 
-				echo ' width="100em"';
+				echo ' width="100px"';
 
 			}
 

@@ -81,9 +81,10 @@ Look at "General Options -> Advanced -> Misc -> Remove all links?" and switch th
 
 = I want to keep data forever on my disk/server =
 
-Look at "Cache management -> Cache general options -> Cache expire" and click on "never" to keep forever the downloaded data from IMDb. Be carefull with that option: changes made on IMDb will not be anymore reflected in your cache. Should you have selected that option, you can still delete/refresh any specific movie you want in the cache options.
+There are two ways:
+1/ Use the automatized refresh of the cache function, a feature that will ensure that you cache is up to date forever by refreshing you current movie/people cache every two weeks. Go to "Cache management -> Cache general options -> Cache automatized functions" and tick "Cache auto-refresh" option. Selecting this option will remove the time expiration of the cache, which will be automatically set to forever.
 
-You could also select "Cache auto-refresh", which will refresh automatically your cache every two weeks.
+2/ Keep the cache forever without refreshing it. Go to "Cache management -> Cache general options -> General options" and click on "never" in "Cache expire" to keep forever the downloaded data from IMDb. This means that changes made on IMDb will not be reflected anymore in your cache. Should you have selected that option, you can still delete/refresh any specific movie you want in the cache options. In most cases, previous option "Cache auto-refresh" should be prefered.
 
 = Is it possible to add several movies to sidebar/widget and inside my post?  =
 
@@ -132,6 +133,14 @@ No data is sent to IMDb about end users. The website host does its own queries t
 
 Only the website owner is known from the IMDb, and must comply with the IMDb privacy policy: https://www.imdb.com/privacy
 No data about the end user is sent to any other third party, so Lumière! is GDPR compliant. A short paragraph can be accessed in you you admin privacy policy page, which can be added to your own privacy policy page.
+
+= The people/movie popups do not appear  =
+
+It is most certainely due to your webserver's settings. Add to .htaccess the following option, at the beginning of the file:
+
+Options FollowSymLinks Includes
+
+You can take a look at [How to edit .htaccess](https://wpmudev.com/blog/htaccess/ "How to edit .htaccess").
 
 = Known issues =
 

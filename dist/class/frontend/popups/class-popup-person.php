@@ -813,6 +813,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 						],
 						'strong' => [],
 						'div' => [],
+						'br' => [],
 					]
 				) . '</font></div>';
 				?>
@@ -841,7 +842,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 				// add 100px width if "Display only thumbnail" is active.
 			} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
 
-				echo ' width="100em"';
+				echo ' width="100px"';
 
 			}
 

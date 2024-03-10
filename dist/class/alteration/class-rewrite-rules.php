@@ -69,6 +69,14 @@ class Rewrite_Rules {
 		// Add rewrite rules
 		add_action( 'admin_init', [ $this, 'lumiere_add_rewrite_rules' ] );
 
+		/* @TODO Should use the way, way easier
+		add_filter( 'generate_rewrite_rules', function ( $wp_rewrite ) {
+				$wp_rewrite->rules = array_merge(
+					self::LUMIERE_REWRITE_RULES,
+					$wp_rewrite->rules
+				);
+			}
+		);*/
 	}
 
 	/**
