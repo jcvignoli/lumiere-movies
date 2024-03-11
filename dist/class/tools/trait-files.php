@@ -41,9 +41,9 @@ trait Files {
 		string $transient_name = 'admin_template_pass_vars',
 		int $validity_time_transient = 30,
 	): void {
-	
+
 		$full_file_path = $this->find_template_file( $file_name );
-	
+
 		if ( is_file( $full_file_path ) ) {
 			// Send the variables to transients so they can be retrieved in the included pages.
 			// Validity: XX seconds, but is deleted after the include.
@@ -65,11 +65,11 @@ trait Files {
 	protected function find_template_file( string $file_name ): string {
 
 		$templates_dir = plugin_dir_path( __DIR__ ) . 'templates/';
-		
+
 		$folder_iterator = new RecursiveIteratorIterator(
 			new RecursiveDirectoryIterator( $templates_dir, RecursiveDirectoryIterator::SKIP_DOTS )
 		);
-		
+
 		foreach ( $folder_iterator as $file ) {
 			if ( str_contains( $file->getPathname(), $file_name ) ) {
 				return $file->getPathname();

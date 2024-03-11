@@ -72,6 +72,6 @@ trait Settings_Global {
 
 		$this->config_class = new Settings();
 	}
-	
+
 }
 
