@@ -172,10 +172,9 @@ if ( $this->find_movie() === false ) {
 }
 
 		// Display spinner circle
-		// Useless
-		//echo '<div class="parent__spinner">';
-		//echo "\n\t" . '<div class="loading__spinner"></div>';
-		//echo '</div>';
+		echo '<div class="parent__spinner">';
+		echo "\n\t" . '<div class="loading__spinner"></div>';
+		echo '</div>';
 
 		$movie_results = $this->movie;
 
@@ -188,37 +187,27 @@ if ( $this->find_movie() === false ) {
 		// Introduction part.
 		// Display something when nothing has been selected in the menu.
 if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
-
 	$this->display_intro( $this->movie );
-
 }
 
 		// Casting part.
 if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'actors' ) ) {
-
 	$this->display_casting( $this->movie );
-
 }
 
 		// Crew part.
 if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'crew' ) ) {
-
 	$this->display_crew( $this->movie );
-
 }
 
 		// Resume part.
 if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'resume' ) ) {
-
 	$this->display_summary( $this->movie );
-
 }
 
 		// Misc part.
 if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
-
 	$this->display_misc( $movie_results );
-
 }
 
 		echo '<br>';

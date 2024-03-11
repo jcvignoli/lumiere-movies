@@ -123,10 +123,9 @@ class Popup_Person {
 		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
 		// Display spinner circle
-		// useless
-		//echo '<div class="parent__spinner">';
-		//echo "\n\t" . '<div class="loading__spinner"></div>';
-		//echo '</div>';
+		echo '<div class="parent__spinner">';
+		echo "\n\t" . '<div class="loading__spinner"></div>';
+		echo '</div>';
 
 		// Get the movie's title.
 		$this->find_person();
@@ -142,28 +141,21 @@ class Popup_Person {
 		//---------------------------------------------------------------------------summary
 		// display only when nothing is selected from the menu.
 if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
-
 	$this->display_summary();
-
 }
 
 		//---------------------------------------------------------------------------full filmography
 if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'filmo' ) ) {
-
 	$this->display_full_filmo();
-
 }
 
 		// ------------------------------------------------------------------------------ partie bio
 if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'bio' ) ) {
-
 	$this->display_bio();
-
 }
 
 		// ------------------------------------------------------------------------------ misc part
 if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
-
 	$this->display_misc();
 }
 
