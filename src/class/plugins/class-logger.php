@@ -25,6 +25,7 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Processor\IntrospectionProcessor;
+use Lumiere\Tools\Settings_Global;
 
 /**
  * Plugin for Monolog Logger
@@ -32,7 +33,7 @@ use Monolog\Processor\IntrospectionProcessor;
 class Logger {
 
 	// Trait including the database settings.
-	use \Lumiere\Settings_Global;
+	use Settings_Global;
 
 	/**
 	 * Screen output, whether to show the logging on screen

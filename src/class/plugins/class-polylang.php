@@ -17,6 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use Lumiere\Tools\Settings_Global;
 use Lumiere\Plugins\Logger;
 
 /**
@@ -26,7 +27,7 @@ use Lumiere\Plugins\Logger;
 class Polylang {
 
 	// Trait including the database settings.
-	use \Lumiere\Settings_Global;
+	use Settings_Global;
 
 	/**
 	 * Constant Polylang slug

@@ -23,7 +23,7 @@ use Lumiere\Settings;
 
 /**
  * Child class of \Imdb\Config
- * Get all settings from \Lumiere\Settings_Global and sends them to \Imdb\Config
+ * Get all settings from Lumiere\Tools\Settings_Global; and sends them to \Imdb\Config
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings

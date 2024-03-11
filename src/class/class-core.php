@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Admin\Cache_Tools;
 use Lumiere\Tools\Plugins_Detect;
+use Lumiere\Tools\Settings_Global;
 use Lumiere\Plugins\Amp;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Polylang;
@@ -30,7 +31,7 @@ use Lumiere\Updates;
 class Core {
 
 	// Trait including the database settings.
-	use \Lumiere\Settings_Global;
+	use Settings_Global;
 
 	/**
 	 * Lumiere\Plugins\Logger class

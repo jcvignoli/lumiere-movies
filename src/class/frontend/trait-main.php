@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Tools\Plugins_Detect;
 use Lumiere\Tools\Utils;
+use Lumiere\Tools\Settings_Global;
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Imdbphp;
@@ -31,7 +32,7 @@ use Lumiere\Plugins\Polylang;
 trait Main {
 
 	// Global settings trait.
-	use \Lumiere\Settings_Global;
+	use Settings_Global;
 
 	/**
 	 * \Lumière\Plugins class

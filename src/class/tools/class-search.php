@@ -16,6 +16,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
+use Lumiere\Tools\Settings_Global;
 use Lumiere\Tools\Utils;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Imdbphp;
@@ -30,7 +31,7 @@ use Imdb\TitleSearch;
 class Search {
 
 	// Trait including the database settings.
-	use \Lumiere\Settings_Global;
+	use Settings_Global;
 
 	/**
 	 * Include the type of (movie, TVshow, Games) search

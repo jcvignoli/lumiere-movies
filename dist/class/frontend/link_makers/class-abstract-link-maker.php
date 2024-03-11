@@ -17,6 +17,8 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use Lumiere\Tools\Settings_Global;
+
 /**
  * Defines abstract functions utilised in Link Maker classes
  * Includes protected functions utilised in Link Maker classes for code reuse
@@ -25,7 +27,7 @@ if ( ! defined( 'WPINC' ) ) {
 abstract class Abstract_Link_Maker {
 
 	// Trait including the database settings.
-	use \Lumiere\Settings_Global;
+	use Settings_Global;
 
 	/**
 	 * Constructor

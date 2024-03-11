@@ -18,12 +18,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Tools\Utils;
+use Lumiere\Admin\Admin_Menu;
 use Exception;
 
 /**
- * Display help explainations
+ * Display help explanations
+ * @TODO refactorize and use templates
  */
-class Help extends \Lumiere\Admin\Admin_Menu {
+class Help extends Admin_Menu {
 
 	/**
 	 * Paths to files to be read
@@ -41,14 +43,16 @@ class Help extends \Lumiere\Admin\Admin_Menu {
 		'strong' => [],
 		'b' => [],
 		'a' => [
-			'id' => true,
-			'href' => true,
-			'title' => true,
-			'data-*' => true,
+			'id' => [],
+			'href' => [],
+			'title' => [],
+			'data-*' => [],
 		],
 		'font' => [
-			'size' => true,
+			'size' => [],
 		],
+		'blockquote' => [ 'class' => [] ],
+		'br' => [],
 	];
 
 	/**
@@ -79,7 +83,11 @@ class Help extends \Lumiere\Admin\Admin_Menu {
 		do_action( 'lumiere_add_meta_boxes_help' );
 
 		// First part of the menu.
-		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add in an array all vars to send in the template */ );
+		$this->include_with_vars(
+			'admin-menu-first-part',
+			[ $this ], /** Add in an array all vars to send in the template */
+			self::TRANSIENT_ADMIN,
+		);
 
 		echo "\n\t" . '<div id="poststuff">';
 
@@ -205,7 +213,6 @@ class Help extends \Lumiere\Admin\Admin_Menu {
 
 				// Split into array the section based upon '=' delimitors.
 				$faqsectionarray = preg_split( '/=(.*?)=/', $faqsection[1], -1, PREG_SPLIT_DELIM_CAPTURE );
-
 				/**
 				 * 1-replace links from (especially formated for WordPress website) readme with regular html.
 				 * 2-replace ** with <i>
@@ -213,10 +220,12 @@ class Help extends \Lumiere\Admin\Admin_Menu {
 				$patterns = [
 					'~(\\[{1}(.*?)\\]\()(https://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~',
 					'~\*\*(.*?)\*\*~',
+					'~`(.*)`~',
 				];
 				$replaces = [
 					'<a href="${3}${4}" title="${7}">${2}</a>',
 					'<i>${1}</i>',
+					'<blockquote class="lumiere_bloquote_help">${1}</blockquote>',
 				];
 				$faqsection_replace = is_array( $faqsectionarray ) !== false ? preg_replace( $patterns, $replaces, $faqsectionarray ) : null;
 				$faqsection_processed = $faqsection_replace ?? [];

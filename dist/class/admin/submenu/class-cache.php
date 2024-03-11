@@ -19,13 +19,14 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Tools\Utils;
 use Lumiere\Admin\Cache_Tools;
+use Lumiere\Admin\Admin_Menu;
 
 /**
  * Display cache admin menu
  *
  * @since 4.0 Methods moved from this class into Cache_Tools, using templates instead of having templates here
  */
-class Cache extends \Lumiere\Admin\Admin_Menu {
+class Cache extends Admin_Menu {
 
 	/**
 	 * Constructor
@@ -46,7 +47,11 @@ class Cache extends \Lumiere\Admin\Admin_Menu {
 	protected function display_cache_options( Cache_Tools $cache_tools_class ): void {
 
 		// First part of the menu
-		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add an array with vars to send in the template */ );
+		$this->include_with_vars(
+			'admin-menu-first-part',
+			[ $this ], /** Add an array with vars to send in the template */
+			self::TRANSIENT_ADMIN,
+		);
 
 		// Make sure cache folder exists and is writable
 		$cache_tools_class->lumiere_create_cache( true );
@@ -60,7 +65,11 @@ class Cache extends \Lumiere\Admin\Admin_Menu {
 		}
 
 		// Cache submenu.
-		$this->include_with_vars( 'cache/admin-cache-submenu', [ $this ] /** Add an array with vars to send in the template */ );
+		$this->include_with_vars(
+			'cache/admin-cache-submenu',
+			[ $this ], /** Add an array with vars to send in the template */
+			self::TRANSIENT_ADMIN,
+		);
 
 		if (
 			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_cache'
@@ -69,7 +78,11 @@ class Cache extends \Lumiere\Admin\Admin_Menu {
 
 			// Cache options menu.
 			$size = Utils::lumiere_format_bytes( $cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ) );
-			$this->include_with_vars( 'cache/admin-cache-options', [ $size ] /** Add an array with vars to send in the template */ );
+			$this->include_with_vars(
+				'cache/admin-cache-options',
+				[ $size ], /** Add an array with vars to send in the template */
+				self::TRANSIENT_ADMIN,
+			);
 
 		} elseif (
 			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_cache'
@@ -87,7 +100,8 @@ class Cache extends \Lumiere\Admin\Admin_Menu {
 					$this->config_class,
 					$this->page_cache_manage,
 					$cache_tools_class->lumiere_get_cache_query_info( $this->imdb_cache_values['imdbcachedir'] ), // array of query files info
-				] /** Add an array with vars to send in the template */
+				], /** Add an array with vars to send in the template */
+				self::TRANSIENT_ADMIN,
 			);
 		}
 	}

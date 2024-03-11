@@ -21,7 +21,7 @@ use Lumiere\Admin\Backoffice_Extra;
 use Lumiere\Admin\Widget_Selection;
 use Lumiere\Admin\Metabox_Selection;
 use Lumiere\Tools\Utils;
-use Lumiere\Settings_Global;
+use Lumiere\Tools\Settings_Global;
 
 /**
  * All Admin-related functions

@@ -18,12 +18,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Admin\Cache_Tools;
+use Lumiere\Admin\Admin_Menu;
 
 /**
  * Display General options menu
  * @since 4.0 Using templates instead of having templates here
  */
-class General extends \Lumiere\Admin\Admin_Menu {
+class General extends Admin_Menu {
 
 	/**
 	 * Pages name
@@ -55,7 +56,11 @@ class General extends \Lumiere\Admin\Admin_Menu {
 	protected function display_general_options( Cache_Tools $cache_tools_class ): void {
 
 		// First part of the menu.
-		$this->include_with_vars( self::PAGES_NAMES['menu_first'], [ $this ] /** Add an array with vars to send in the template */ );
+		$this->include_with_vars(
+			self::PAGES_NAMES['menu_first'],
+			[ $this ], /** Add an array with vars to send in the template */
+			self::TRANSIENT_ADMIN,
+		);
 
 		// Create the cache if it doesn't exists.
 		$cache_tools_class->lumiere_create_cache( true );
@@ -68,7 +73,11 @@ class General extends \Lumiere\Admin\Admin_Menu {
 		}
 
 		// Submenu.
-		$this->include_with_vars( self::PAGES_NAMES['menu_submenu'], [ $this->config_class->lumiere_pics_dir, $this->page_general_base, $this->page_general_advanced ] /** Add an array with vars to send in the template */ );
+		$this->include_with_vars(
+			self::PAGES_NAMES['menu_submenu'],
+			[ $this->config_class->lumiere_pics_dir, $this->page_general_base, $this->page_general_advanced ], /** Add an array with vars to send in the template */
+			self::TRANSIENT_ADMIN,
+		);
 
 		// The body.
 		if (
@@ -76,14 +85,22 @@ class General extends \Lumiere\Admin\Admin_Menu {
 			isset( $_GET['page'] ) && $_GET['page'] === $this->menu_id
 			&& ! isset( $_GET['subsection'] )
 		) {
-			$this->include_with_vars( self::PAGES_NAMES['general_options'], [ $this->config_class->lumiere_pics_dir ] /** Add an array with vars to send in the template */ );
+			$this->include_with_vars(
+				self::PAGES_NAMES['general_options'],
+				[ $this->config_class->lumiere_pics_dir ], /** Add an array with vars to send in the template */
+				self::TRANSIENT_ADMIN,
+			);
 
 		} elseif (
 			// Advanced options.
 			isset( $_GET['page'] ) && $_GET['page'] === $this->menu_id
 			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'advanced'
 		) {
-			$this->include_with_vars( self::PAGES_NAMES['advanced_options'], [] /** Add an array with vars to send in the template */ );
+			$this->include_with_vars(
+				self::PAGES_NAMES['advanced_options'],
+				[], /** Add an array with vars to send in the template */
+				self::TRANSIENT_ADMIN,
+			);
 		}
 	}
 }

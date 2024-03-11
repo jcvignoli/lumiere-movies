@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Settings;
 use Lumiere\Tools\Utils;
+use Lumiere\Tools\Settings_Global;
 
 /**
  * Add a Lumière Widget option in administration
@@ -28,7 +29,7 @@ use Lumiere\Tools\Utils;
 class Widget_Selection extends \WP_Widget {
 
 	// Use Frontend trait
-	use \Lumiere\Settings_Global;
+	use Settings_Global;
 
 	/**
 	 * Names of the Widgets

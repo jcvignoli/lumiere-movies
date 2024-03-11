@@ -13,7 +13,7 @@ if ( ( ! defined( 'ABSPATH' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-use Lumiere\Settings_Global;
+use Lumiere\Tools\Settings_Global;
 use Lumiere\Tools\Utils;
 
 /**

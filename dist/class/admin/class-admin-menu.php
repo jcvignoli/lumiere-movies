@@ -16,7 +16,9 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
+use Lumiere\Tools\Settings_Global;
 use Lumiere\Tools\Utils;
+use Lumiere\Tools\Files;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Submenu\General;
 use Lumiere\Admin\Submenu\Data;
@@ -38,7 +40,7 @@ class Admin_Menu {
 	/**
 	 * Trait including the database settings.
 	 */
-	use \Lumiere\Settings_Global;
+	use Settings_Global, Files;
 
 	/**
 	 * Classes
@@ -68,6 +70,11 @@ class Admin_Menu {
 	 * Used to define name of methods
 	 */
 	const LUMIERE_ADMIN_ID = 'lumiere';
+
+	/**
+	 * Transient name that will be used in templates to get the values passed
+	 */
+	const TRANSIENT_ADMIN = 'admin_template_pass_vars';
 
 	/**
 	 * Notification messages
@@ -459,7 +466,11 @@ class Admin_Menu {
 	 */
 	private function lumiere_add_signature_menus(): void {
 		// Signature.
-		$this->include_with_vars( 'admin-menu-signature', [ $this->page_general_help_support, $this->config_class->lumiere_version ] /** Add in an array all vars to send in the template */ );
+		$this->include_with_vars(
+			'admin-menu-signature',
+			[ $this->page_general_help_support, $this->config_class->lumiere_version ], /** Add in an array all vars to send in the template */
+			self::TRANSIENT_ADMIN,
+		);
 	}
 
 	/**
@@ -544,46 +555,4 @@ class Admin_Menu {
 		return strlen( $return ) > 0 ? $return : null;
 	}
 
-	/**
-	 * Include the template if it exists and pass to it as a/many variable/s using transient
-	 * The transiant has a validity time of 30 seconds by default
-	 *
-	 * @param string $file_name
-	 * @param array<int, object|string|int|array<\Imdb\Person|\Imdb\Title|string|bool|int|array<int|string>>> $variables The variables transfered to the include
-	 * @param int $validity_time_transient The *maximum* time the transient is valid in seconds, 30 seconds by default
-	 * @void The file with vars has been included
-	 */
-	protected function include_with_vars( string $file_name, array $variables = [], int $validity_time_transient = 30 ): void {
-
-		$full_file_path = $this->build_template_path( $file_name );
-
-		if ( is_file( $full_file_path ) ) {
-			// Send the variables to transients so they can be retrieved in the included pages.
-			// Validity: XX seconds, but is deleted after the include.
-			set_transient( 'admin_template_pass_vars', $variables, $validity_time_transient );
-
-			// Require with the full path built.
-			require_once $full_file_path;
-
-			delete_transient( 'admin_template_pass_vars' );
-		}
-	}
-
-	/**
-	 * Create the full path to include an admin template
-	 *
-	 * @param string $file_name The name without php of the file to be include, ie: admin-menu-first-part
-	 * @return string Full path built with $file_name
-	 */
-	private function build_template_path( string $file_name ): string {
-
-		$admin_templates_dir = plugin_dir_path( __DIR__ ) . 'templates/admin/';
-		$path_to_file = $admin_templates_dir . $file_name . '.php';
-
-		if ( ! is_file( $path_to_file ) ) {
-			throw new Exception( __( 'Cannot find file ', 'lumiere-movies' ) . $path_to_file );
-		}
-
-		return $path_to_file;
-	}
 }

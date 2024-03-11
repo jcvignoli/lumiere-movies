@@ -16,6 +16,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
+use Lumiere\Tools\Settings_Global;
+
 /**
  * Add a metabox in admin post editing interface
  * The metabox includes options to display IMDb results for a given IMDb movie ID/movie name
@@ -23,7 +25,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
  */
 class Metabox_Selection {
 
-	use \Lumiere\Settings_Global;
+	use Settings_Global;
 
 	/**
 	 * Constructor

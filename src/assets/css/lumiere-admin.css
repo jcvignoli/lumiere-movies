@@ -169,6 +169,7 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 
 .lumiere_border_width_medium{border-width: medium !important;}
 .lumiere_writing_vertical{writing-mode: vertical-lr;}
+.lumiere_bloquote_help{color:#708090;}
 
 /* sticky */
 [class*="lumiere_sticky_"] { position: sticky; bottom: 0;  z-index: 10;}

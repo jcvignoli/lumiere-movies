@@ -134,13 +134,13 @@ No data is sent to IMDb about end users. The website host does its own queries t
 Only the website owner is known from the IMDb, and must comply with the IMDb privacy policy: https://www.imdb.com/privacy
 No data about the end user is sent to any other third party, so Lumière! is GDPR compliant. A short paragraph can be accessed in you you admin privacy policy page, which can be added to your own privacy policy page.
 
-= The people/movie popups do not appear  =
+= When accessing people/movie popups nothing is shown, a "404 Not Found" is thrown =
 
-It is most certainely due to your webserver's settings. Add to .htaccess the following option, at the beginning of the file:
+If you get a "404 Not Found" when accessing pages like "/lumiere/person/?mid=0000040", it is most certainely due to a webserver's misconfiguration. Make sure to add to .htaccess the following option, at the beginning of the file:
 
-Options FollowSymLinks Includes
+`Options Includes`
 
-You can take a look at [How to edit .htaccess](https://wpmudev.com/blog/htaccess/ "How to edit .htaccess").
+This value is supposed [to be included by default](https://httpd.apache.org/docs/2.4/mod/core.html#options "Apache Options directive") in your Apache configuration. You can take a look at [how to edit .htaccess](https://wpmudev.com/blog/htaccess/ "learn how to edit .htaccess for WordPress").
 
 = Known issues =
 
@@ -182,3 +182,10 @@ Adressed latest bugs with PHP 8.2. Fully compliant now.
 
 = 3.0 =
 * Major update, plugin vastly rewritten. Name [IMDb Link Transformer](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer on WordPress") changed to Lumière!. Should be Content Security Policy (CSP) compliant. Too many changes to be listed. Check the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changelog").
+
+== Upgrade Notice ==
+
+= 4.0 =
+
+Due to the improvements to the taxonomy system, it is advised to remove all "lumiere-XX" taxonomy tags that may have been automatically created. Just go to the Posts admin section, and delete all tags found under "lumiere-XX" taxonomy (ie: lumiere-director) you may have on the left menu. Tags will be created again when visiting your pages with IMDb widgets/into the posts sections. Important again: if you are a Polylang plugin user, make sure to activate in "Settings -> Custom post types and Taxonomies -> Custom taxonomies" your Lumière taxonomies
+

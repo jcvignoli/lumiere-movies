@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Settings;
 use Lumiere\Tools\Utils;
+use Lumiere\Admin\Admin_Menu;
 
 /**
  * Display data options for taxonomy, data order and data selection
@@ -26,7 +27,7 @@ use Lumiere\Tools\Utils;
  * @since 4.0 Using templates file instead of the HTML code here
  * @see \Lumiere\Admin\Admin_Menu for templates copy, if put it here the transiant is not passed to { @link \Lumiere\Admin\Copy_Template_Taxonomy }
  */
-class Data extends \Lumiere\Admin\Admin_Menu {
+class Data extends Admin_Menu {
 
 	/**
 	 * List of data details that display a field to fill in
@@ -85,7 +86,11 @@ class Data extends \Lumiere\Admin\Admin_Menu {
 	protected function display_data_options(): void {
 
 		// First part of the menu
-		$this->include_with_vars( 'admin-menu-first-part', [ $this ] /** Add an array with vars to send in the template */ );
+		$this->include_with_vars(
+			'admin/admin-menu-first-part',
+			[ $this ], /** Add an array with vars to send in the template */
+			self::TRANSIENT_ADMIN,
+		);
 
 		// Debugging mode
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
@@ -95,7 +100,11 @@ class Data extends \Lumiere\Admin\Admin_Menu {
 		}
 
 		// Display submenu
-		$this->include_with_vars( 'data/admin-data-submenu', [ $this ] /** Add an array with vars to send in the template */ );
+		$this->include_with_vars(
+			'data/admin-data-submenu',
+			[ $this ], /** Add an array with vars to send in the template */
+			self::TRANSIENT_ADMIN,
+		);
 
 		if (
 			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
@@ -110,7 +119,8 @@ class Data extends \Lumiere\Admin\Admin_Menu {
 					$this->build_display_options()[0], // list of items and people with two extra lists.
 					$this->build_display_options()[1], // explaination of items and people with the two extra lists.
 					$this->details_with_numbers, // data details in a field to fill in.
-				] /** Add an array with vars to send in the template */
+				], /** Add an array with vars to send in the template */
+				self::TRANSIENT_ADMIN,
 			);
 
 		} elseif (
@@ -135,7 +145,11 @@ class Data extends \Lumiere\Admin\Admin_Menu {
 			}
 
 			// The template will retrieve the args. In parent class.
-			$this->include_with_vars( 'data/admin-data-taxonomy', [ $this->lumiere_data_display_taxo_fields() ] /** Add an array with vars to send in the template */ );
+			$this->include_with_vars(
+				'data/admin-data-taxonomy',
+				[ $this->lumiere_data_display_taxo_fields() ], /** Add an array with vars to send in the template */
+				self::TRANSIENT_ADMIN,
+			);
 
 		} elseif (
 			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
@@ -143,7 +157,11 @@ class Data extends \Lumiere\Admin\Admin_Menu {
 		) {
 
 			// The template will retrieve the args. In parent class.
-			$this->include_with_vars( 'data/admin-data-order', [ $this ] );
+			$this->include_with_vars(
+				'data/admin-data-order',
+				[ $this ], /** Add an array with vars to send in the template */
+				self::TRANSIENT_ADMIN,
+			);
 		}
 	}
 

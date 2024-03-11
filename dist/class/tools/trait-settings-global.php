@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere;
+namespace Lumiere\Tools;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -72,5 +72,6 @@ trait Settings_Global {
 
 		$this->config_class = new Settings();
 	}
+	
 }
 

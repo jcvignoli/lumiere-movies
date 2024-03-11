@@ -24,6 +24,7 @@ use Lumiere\Link_Makers\Bootstrap_Links;
 use Lumiere\Link_Makers\Highslide_Links;
 use Lumiere\Link_Makers\Classic_Links;
 use Lumiere\Tools\Utils;
+use Lumiere\Tools\Settings_Global;
 
 /**
  * Not utilised @phpstan-type LINKMAKERCLASSES AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links
@@ -31,7 +32,7 @@ use Lumiere\Tools\Utils;
 class Link_Factory {
 
 	// Trait including the database settings.
-	use \Lumiere\Settings_Global;
+	use Settings_Global;
 
 	/**
 	 * Class constructor

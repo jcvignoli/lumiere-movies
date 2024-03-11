@@ -20,6 +20,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Plugins\Logger;
 use FilesystemIterator;
+use Lumiere\Tools\Settings_Global;
 
 /**
  * Parent class Updates
@@ -31,7 +32,7 @@ use FilesystemIterator;
 class Updates {
 
 	// Trait including the database settings.
-	use \Lumiere\Settings_Global;
+	use Settings_Global;
 
 	/**
 	 * \Lumiere\Logger class
