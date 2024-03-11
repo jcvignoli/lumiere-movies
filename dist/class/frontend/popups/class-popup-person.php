@@ -118,7 +118,7 @@ class Popup_Person {
 	 */
 	public function lumiere_popup_person_layout(): void {
 
-?> class="lumiere_body<?php
+		?> class="lumiere_body<?php
 
 		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
@@ -140,24 +140,24 @@ class Popup_Person {
 
 		//---------------------------------------------------------------------------summary
 		// display only when nothing is selected from the menu.
-		if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
-			$this->display_summary();
-		}
+if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
+	$this->display_summary();
+}
 
 		//---------------------------------------------------------------------------full filmography
-		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'filmo' ) ) {
-			$this->display_full_filmo();
-		}
+if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'filmo' ) ) {
+	$this->display_full_filmo();
+}
 
 		// ------------------------------------------------------------------------------ partie bio
-		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'bio' ) ) {
-			$this->display_bio();
-		}
+if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'bio' ) ) {
+	$this->display_bio();
+}
 
 		// ------------------------------------------------------------------------------ misc part
-		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
-			$this->display_misc();
-		}
+if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
+	$this->display_misc();
+}
 
 		echo '<br><br>';
 

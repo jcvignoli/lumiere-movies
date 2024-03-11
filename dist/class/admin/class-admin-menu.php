@@ -58,8 +58,10 @@ class Admin_Menu {
 	protected string $page_data_taxo;
 	protected string $page_general_base;
 	protected string $page_general_advanced;
-	protected string $page_general_help;
-	protected string $page_general_help_support;
+	protected string $page_help;
+	protected string $page_help_support;
+	protected string $page_help_faqs;
+	protected string $page_help_changelog;
 
 	/**
 	 * Id utilised to build functions and menu titles
@@ -115,20 +117,21 @@ class Admin_Menu {
 		// Build pages vars.
 		$this->page_general_base = admin_url( 'admin.php?page=' . $this->menu_id );
 		$this->page_general_advanced = admin_url( 'admin.php?page=' . $this->menu_id . '&subsection=advanced' );
-		$page_data = $this->menu_id . '_data';
-		$this->page_data = admin_url( 'admin.php?page=' . $page_data );
-		$this->page_data_order = admin_url( 'admin.php?page=' . $page_data . '&subsection=order' );
-		$this->page_data_taxo = admin_url( 'admin.php?page=' . $page_data . '&subsection=taxo' );
-		$page_cache = $this->menu_id . '_cache';
-		$this->page_cache_option = admin_url( 'admin.php?page=' . $page_cache );
-		$this->page_cache_manage = admin_url( 'admin.php?page=' . $page_cache . '&subsection=manage' );
-		$page_help = $this->menu_id . '_help';
-		$this->page_general_help = admin_url( 'admin.php?page=' . $page_help );
-		$this->page_general_help_support = admin_url( 'admin.php?page=' . $page_help . '&subsection=support' );
 
-		// Start the debug
-		// If runned earlier, such as 'admin_init', breaks block editor edition.
-		add_action( 'wp', [ $this, 'lumiere_admin_maybe_start_debug' ], 0 );
+		$page_data = 'admin.php?page=' . $this->menu_id . '_data';
+		$this->page_data = admin_url( $page_data );
+		$this->page_data_order = admin_url( $page_data . '&subsection=order' );
+		$this->page_data_taxo = admin_url( $page_data . '&subsection=taxo' );
+
+		$page_cache = 'admin.php?page=' . $this->menu_id . '_cache';
+		$this->page_cache_option = admin_url( $page_cache );
+		$this->page_cache_manage = admin_url( $page_cache . '&subsection=manage' );
+
+		$page_help = 'admin.php?page=' . $this->menu_id . '_help';
+		$this->page_help = admin_url( $page_help );
+		$this->page_help_support = admin_url( $page_help . '&subsection=support' );
+		$this->page_help_faqs = admin_url( $page_help . '&subsection=faqs' );
+		$this->page_help_changelog = admin_url( $page_help . '&subsection=changelog' );
 
 		// Display notices based on transients.
 		add_action( 'admin_notices', [ $this, 'lumiere_admin_display_messages' ] );
@@ -148,9 +151,6 @@ class Admin_Menu {
 		) {
 			add_action( 'admin_init', fn() => Copy_Template_Taxonomy::lumiere_start_copy_taxo( $this->page_data_taxo ) );
 		}
-
-		// Store the logger class
-		do_action( 'lumiere_logger' );
 
 		// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$this(Lumiere\Admin), non-falsy-string} given
 		add_action( 'admin_menu', [ &$this, $this->get_id() . '_add_left_menu' ] );
@@ -198,17 +198,6 @@ class Admin_Menu {
 				$this->lumiere_notice_messages[ $notif_msg ][1],
 				esc_html( $this->lumiere_notice_messages[ $notif_msg ][0] )
 			);
-		}
-	}
-
-	/**
-	 * Wrapps the start of the debugging
-	 */
-	public function lumiere_admin_maybe_start_debug(): void {
-
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
-			// Start debugging mode
-			$this->utils_class->lumiere_activate_debug();
 		}
 	}
 
@@ -377,7 +366,7 @@ class Admin_Menu {
 				'parent' => $id,
 				'id' => $this->get_id() . '_top_menu_help',
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-help.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Help', 'lumiere-movies' ),
-				'href' => $this->page_general_help,
+				'href' => $this->page_help,
 				'meta' => [
 					'title' => esc_html__( 'Get support and support plugin development', 'lumiere-movies' ),
 
@@ -468,7 +457,7 @@ class Admin_Menu {
 		// Signature.
 		$this->include_with_vars(
 			'admin-menu-signature',
-			[ $this->page_general_help_support, $this->config_class->lumiere_version ], /** Add in an array all vars to send in the template */
+			[ $this->page_help_support, $this->config_class->lumiere_version ], /** Add in an array all vars to send in the template */
 			self::TRANSIENT_ADMIN,
 		);
 	}

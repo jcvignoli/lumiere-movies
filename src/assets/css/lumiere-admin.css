@@ -4,8 +4,6 @@ body{ overflow-wrap:anywhere;} /** otherwise flex wrap doesn't work! Fixes font-
 
 a { text-decoration:none;}
 
-h3{font-size: 18px;}
-
 .hidesection, .hidesectionOfCheckbox, .hidesectionOfCheckboxTwo{display:none;}
 .activatehidesection {cursor:pointer;}
 
@@ -41,9 +39,9 @@ border-top-right-radius: 6px;
 .soustitre a {color:black; }
 .soustitre a:hover {color:white; }
 
-.lumiere_signature{margin-top: 3vh;}
+.lumiere_signature{}
 
-.titresection, td.titresection {font-size:12px;font-weight:bold;padding:20px;line-height:30px;}
+.titresection, td.titresection {font-size:1.1em;font-weight:bold;padding:20px;line-height:30px;}
 
 .options { /* table */
 width: 100%;border-color: black;}
@@ -55,10 +53,14 @@ width: 100%;border-color: black;}
 .explain {font-size:smaller;padding-top:2vh;padding-right:2vw;font-weight:normal;word-break:break-word;/*text-align:justify;*/}
 .explain_breakall, .lumiere_breakall {word-break:break-all;}
 .detailedcacheexplaination{padding-left:5%;padding-right:5%;}
-.lumiere_intro_options {font-size:14px;padding-top:10px;padding-right:25px;text-align:justify;font-weight:normal;word-break:break-word;}
-.lumiere_intro_options_small {font-size:12px;padding-top:10px;padding-right:25px;text-align:justify;font-weight:normal;word-break:break-word;}
+.lumiere_options_intro_inblock {font-size:14px;padding-top:10px;padding-right:25px;text-align:justify;font-weight:normal;word-break:break-word;}
+.lumiere_title_options{margin-top:2em;font-size:0.9em;}
+.lumiere_intro_title_options {padding:1em 2em 0em 2em;}
+.lumiere_border_shadow{background-color:white;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgb(0 0 0 / 4%);padding:15px;margin-bottom:10px;}
+.lumiere_border_shadow_red{background-color:red;color:white;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgb(0 0 0 / 4%);padding:15px;margin-bottom:10px;}
 
-#tabswrap {background-color:lightgrey;border-radius:10px;margin:10px 0 0 0;padding:5px 10px 5px 10px;}
+.lumiere_wrap {margin:1em}
+#tabswrap {background-color:lightgrey;border-radius:10px;padding:5px 10px 5px 10px;}
 
 #tabswrap a {color:darkslategrey;}
 #tabswrap a:hover {color:white;}
@@ -72,9 +74,10 @@ width: 100%;border-color: black;}
 .lumiere_writing_vertical{writing-mode: unset !important;}
 }
 
-.helpdiv, .helpdiv-noborderimage {line-height:20px;padding-left:20px;padding-right:20px;padding-bottom:20px;text-align:justify;}
+.helpdiv {line-height:20px;padding-left:20px;padding-right:20px;padding-bottom:20px;text-align:justify;}
 
-.helpdiv img {padding:8px;margin:5px;border: 2px black solid;}
+.helpdiv img {padding:8px;margin:1em;border:2px black solid;}
+.helpdiv .paypal {padding:0; padding-left: 5px;padding-right: 5px;margin: 0;border: none;}
 
 .submit-imdb {border:none;}
 
@@ -100,7 +103,6 @@ width: 100%;border-color: black;}
 .lumiere_red{color:red;}
 .lumiere_red_bold{color:red;font-weight: bold;}
 table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
-.intro_cache {padding:0 30px 30px 30px;}
 .lumiere_smaller{font-size:smaller;}
 .imdblt_bold{font-weight:bold;}
 .picfloat{float:left;padding-right:5px;}
@@ -148,7 +150,6 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .lumiere_align_center{text-align:center;}
 .lumiere_align_webkit_center{text-align: -webkit-center;}
 
-.lumiere_margin_btm_twenty{margin-bottom:20px !important;}
 .lumiere_align_bottom{vertical-align:bottom;}
 .lumiere_display_block{display: block}
 .lumiere_valign_middle{vertical-align: middle;}
@@ -160,8 +161,6 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .imdblt_width_onehundredpercent{width:100%;}
 .imdblt_width_fillall{width:-webkit-fill-available;}
 .accesstaxo{border:1px solid black;padding:20px;margin-left:40%;margin-right:40%;}
-.lumiere_border_shadow{background-color:white;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgb(0 0 0 / 4%);padding:15px;}
-.lumiere_border_shadow_red{background-color:red;color:white;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgb(0 0 0 / 4%);padding:15px;}
 .lumiere_width_two_em {width:2.5em;}
 .lumiere_width_five_em {width:5em;}
 .lumiere_font_ten {font-size:10px;}
@@ -169,7 +168,7 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 
 .lumiere_border_width_medium{border-width: medium !important;}
 .lumiere_writing_vertical{writing-mode: vertical-lr;}
-.lumiere_bloquote_help{color:#708090;}
+.lumiere_bloquote_help{background: lightgrey;padding: 1em;border-radius: 1em;}
 
 /* sticky */
 [class*="lumiere_sticky_"] { position: sticky; bottom: 0;  z-index: 10;}

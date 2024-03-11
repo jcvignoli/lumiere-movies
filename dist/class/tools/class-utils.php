@@ -347,7 +347,7 @@ class Utils {
 		// Exit if no Lumière option array requested to show
 		if ( ( null !== $options ) && count( $options ) > 0 ) {
 
-			echo '<div><strong>[Lumière options]</strong><font size="-3"> ';
+			echo '<div class="lumiere_wrap"><strong>[Lumière options]</strong><font size="-3"> ';
 			print_r( $options );
 			echo ' </font><strong>[/Lumière options]</strong></div>';
 		}

@@ -19,10 +19,10 @@ use Lumiere\Tools\Utils;
 use Lumiere\Settings;
 
 // Retrieve the vars from calling class.
-$lumiere_that = get_transient( 'admin_template_pass_vars' )[0];
+$lumiere_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 ?>
 
-	<div class=wrap>
+	<div class="lumiere_wrap">
 
 		<h2 class="imdblt_padding_bottom_right_fifteen"><img src="<?php echo esc_url( $lumiere_that->config_class->lumiere_pics_dir . 'lumiere-ico80x80.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;<i>Lumière!</i>&nbsp;<?php esc_html_e( 'admin options', 'lumiere-movies' ); ?></h2>
 
@@ -66,9 +66,10 @@ $lumiere_that = get_transient( 'admin_template_pass_vars' )[0];
 
 				<div align="right" class="lumiere_padding_five lumiere_flex_auto" >
 					<img src="<?php echo esc_url( $lumiere_that->config_class->lumiere_pics_dir . 'menu/admin-help.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
-					<a title="<?php esc_html_e( 'How to use Lumière!, check FAQs & changelog', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_general_help ); ?>">
+					<a title="<?php esc_html_e( 'How to use Lumière!, check FAQs & changelog', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_help ); ?>">
 						<i>Lumière!</i> <?php esc_html_e( 'help', 'lumiere-movies' ); ?>
 					</a>
 				</div>
 			</div>
 		</div>
+	</div>

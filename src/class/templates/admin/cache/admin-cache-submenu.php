@@ -16,14 +16,15 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 // Retrieve the vars from calling class.
-$lumiere_that = get_transient( 'admin_template_pass_vars' )[0];
+$lumiere_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 ?>
 
-<div id="tabswrap">
+<div id="tabswrap" class="lumiere_wrap">
+
 	<div class="imdblt_double_container lumiere_padding_five">
 		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $lumiere_that->config_class->lumiere_pics_dir . 'menu/admin-cache-options.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_cache_option ); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?></a></div>
 		<?php
-		if ( '1' === $lumiere_that->imdb_cache_values['imdbusecache'] ) {
+		if ( $lumiere_that->imdb_cache_values['imdbusecache'] === '1' ) {
 			?>
 		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $lumiere_that->config_class->lumiere_pics_dir . 'menu/admin-cache-management.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_cache_manage ); ?>"><?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?></a></div>
 			<?php
@@ -32,8 +33,6 @@ $lumiere_that = get_transient( 'admin_template_pass_vars' )[0];
 	</div>
 </div>
 
-<div id="poststuff">
-
-	<div class="intro_cache">
-		<?php esc_html_e( 'Cache is crucial for Lumière! operations. Initial IMDb queries are quite time consuming, so if you do not want to kill your server and look for a smooth experience for your users, do not delete often your cache.', 'lumiere-movies' ); ?>
-	</div>
+<div class="lumiere_intro_title_options lumiere_wrap">
+	<?php esc_html_e( 'Cache is crucial for Lumière! operations. Initial IMDb queries are quite time consuming, so if you do not want to kill your server and look for a smooth experience for your users, do not delete often your cache.', 'lumiere-movies' ); ?>
+</div>
