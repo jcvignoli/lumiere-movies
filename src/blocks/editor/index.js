@@ -43,8 +43,12 @@
 			description: i18n.__( 'Insert a series of details related to a movie in your post.', 'lumiere-movies' ),
 			icon: iconLumiere,
 			category: 'embed',
-			keywords: [ 'embed', 'lumiere', 'imdb', 'movies', 'film' ],
-
+			keywords: [ 'lumiere', 'imdb', i18n.__( 'movies', 'lumiere-movies' ), 'film' ],
+			example: {
+				attributes: {
+					cover: lumiere_admin_vars.imdb_path + 'assets/pics/widget-preview.png',
+				},
+			},
 			attributes: {
 				lumiere_imdblt_select: {
 					type: 'string',

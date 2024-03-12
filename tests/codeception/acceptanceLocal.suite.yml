@@ -31,6 +31,11 @@ modules:
             headers:
                 X_TEST_REQUEST: 1
                 X_WPBROWSER_REQUEST: 1
+        WPWebDriver:
+            url: '%TEST_LOCAL_WP_URL%'
+            adminUsername: '%TEST_WP_ADMIN_USERNAME%'
+            adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
+            adminPath: '%TEST_WP_ADMIN_PATH%'
         WPBrowser:
             url: '%TEST_LOCAL_WP_URL%'
             adminUsername: '%TEST_WP_ADMIN_USERNAME%'
@@ -87,4 +92,4 @@ env:
                      capabilities:
                        goog:chromeOptions:
                             args: ["--headless", "--disable-extensions", "--user-agent=wp-browser", "allow-insecure-localhost",  "--ignore-certificate-errors"]
-step_decorators: ~      
+step_decorators: ~

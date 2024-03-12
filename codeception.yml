@@ -75,10 +75,6 @@ env:
 
     # Environment with WPWebDriver"Chrome driver
     wpchrome:
-        modules:
-             enabled:
-#                - WPDb		# Can't currently use with remote server
-                - WPWebDriver
         extensions:
             enabled:
               - Codeception\Extension\RunProcess:

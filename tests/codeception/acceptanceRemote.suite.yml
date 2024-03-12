@@ -17,6 +17,11 @@ modules:
     config:
         WPFilesystem:
             wpRootFolder: '%WP_ROOT_REMOTE_FOLDER%'
+        WPWebDriver:
+            url: '%TEST_REMOTE_WP_URL%'
+            adminUsername: '%TEST_WP_ADMIN_USERNAME%'
+            adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
+            adminPath: '%TEST_WP_ADMIN_PATH%'
         WPDb:
             dsn: '%TEST_REMOTE_DB_DSN%'
             user: '%TEST_REMOTE_DB_USER%'

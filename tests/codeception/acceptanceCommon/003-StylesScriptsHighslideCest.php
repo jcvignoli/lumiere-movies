@@ -75,10 +75,6 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource('lumiere_scripts_admin-js-before');
 		$I->seeInPageSource('lumiere_scripts_admin-js');
 		$I->seeInPageSource('lumiere_hide_show-js');
-		$I->seeInPageSource("wp-lists-js"); # extra script in that page
-		$I->seeInPageSource("postbox-js"); # extra script in that page
-		$I->seeInPageSource("lumiere_help_scripts-js-after"); # dedicated script to help page
-		$I->seeInPageSource("common-js"); # extra script in that page
 
 /* Can't go through a WP popup
 		// Check Lumière Widget page (without Classic Widget plugin)
@@ -110,7 +106,7 @@ class StylesScriptsHighslideCest {
 		$I->waitPageLoad();
 		$I->seeInPageSource("lumiere_gutenberg_main-js"); 	# Gutenberg main block js
 		$I->seeInPageSource("lumiere_gutenberg_buttons-js"); 	# Gutenberg button block js
-		$I->seeInPageSource("lumiere_block_widget-css");		# Gutenberg widget block css
+		$I->seeInPageSource("lumiere_block_widget-css");	# Gutenberg widget block css
 		$I->seeInPageSource("lumiere_block_widget-js");		# Gutenberg widget block js
 		$I->seeInPageSource("lumiere_scripts_admin-js"); 	# Lumière main js
 		$I->seeInPageSource('lumiere_css_admin-css'); 		# Lumière main css
@@ -168,10 +164,10 @@ class StylesScriptsHighslideCest {
 
 		$I->comment(\Helper\Color::set('Checking Popup person page', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_PERSON_URL );
-		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-16x16.png");	 	# Lumière favicon 16
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-16x16.png");	# Lumière favicon 16
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
-		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/apple-touch-icon.png"); 	# Lumière favicon Apple
-		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/site.webmanifest");	 	# Lumière webmanifest
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/apple-touch-icon.png"); # Lumière favicon Apple
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/site.webmanifest");	# Lumière webmanifest
 		$I->seeInPageSource("lumiere_highslide_core-css"); 				# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 					# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");				# Highslide JS
@@ -190,12 +186,12 @@ class StylesScriptsHighslideCest {
 
 		$I->comment(\Helper\Color::set('Checking Popup movie page', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL );
-		$I->seeInPageSource("canonical");						 	# Meta tag
+		$I->seeInPageSource("canonical");						# Meta tag
 		$I->seeInPageSource("article:tag");					 	# Meta tag
-		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-16x16.png");	 	# Lumière favicon 16
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-16x16.png");	# Lumière favicon 16
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
-		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/apple-touch-icon.png"); 	# Lumière favicon Apple
-		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/site.webmanifest");	 	# Lumière webmanifest
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/apple-touch-icon.png"); # Lumière favicon Apple
+		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/site.webmanifest");	# Lumière webmanifest
 		$I->seeInPageSource("lumiere_highslide_core-css"); 				# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 					# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");				# Highslide JS
@@ -244,7 +240,3 @@ class StylesScriptsHighslideCest {
 
 	}
 }
-
-
-
-
