@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.0.2
+
 v.4.0.1
 * [feature] If year/month/day of birth/born date are unknown in people popups, display "(year/month/day unknown)" instead of displaying a 0
 * [feature] The "month" name for birth/born date in people popups is now locally translated.
