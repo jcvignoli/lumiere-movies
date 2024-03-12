@@ -158,6 +158,10 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 
+= 4.0.1 =
+
+Bugs hunting, much work on the popups, bootstrap modal window width is now editable.
+
 = 4.0 =
 
 !Important: Due to the improvements to the taxonomy system, it is advised to remove all "lumiere-XX" taxonomy tags that may have been automatically created. Just go to the Posts admin section, and delete all tags found under "lumiere-XX" taxonomy (ie: lumiere-director) you may have on the left menu. Tags will be created again when visiting your pages with IMDb widgets/into the posts sections. Important again: if you are a Polylang plugin user, make sure to activate in "Settings -> Custom post types and Taxonomies -> Custom taxonomies" your Lumière taxonomies
@@ -184,6 +188,10 @@ Adressed latest bugs with PHP 8.2. Fully compliant now.
 * Major update, plugin vastly rewritten. Name [IMDb Link Transformer](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer on WordPress") changed to Lumière!. Should be Content Security Policy (CSP) compliant. Too many changes to be listed. Check the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changelog").
 
 == Upgrade Notice ==
+
+= 4.0.1 =
+
+Refresh cookies and css in admin area, many changes took place. All bots are banned from accessing popups.
 
 = 4.0 =
 

@@ -6,8 +6,7 @@
 "title": "Testing json",
 "icon": "shield",
 "textdomain": "lumiere-movies",
-"parent": [ "core/group" ],
-"category": "common",
+"category": "embed",
 "attributes": {
 	"name": {
 		    "type": "string"
