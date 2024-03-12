@@ -57,9 +57,9 @@ class Core {
 
 		/**
 		 * Admin actions.
-		 * Must be called before init, as an init, 0 is called.
+		 * Must be called before with the highest priority.
 		 */
-		add_action( 'set_current_user', fn() => Admin::lumiere_static_start() );
+		add_action( 'init', fn() => Admin::lumiere_static_start(), 0 );
 
 		// Add taxonomy to Lumière!
 		add_action( 'registered_taxonomy', fn() => Alteration\Taxonomy::lumiere_static_start(), 0 );

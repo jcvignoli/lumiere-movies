@@ -1,5 +1,5 @@
 {
-    "landingPage": "/wp-admin/admin.php?page=lumiere_options",
+    "landingPage": "/wp-content/debug.log",
     "preferredVersions": {
         "php": "8.0",
         "wp": "latest"
@@ -31,5 +31,9 @@
                 "slug": "twentytwentyone"
             }
         },
+        {
+            "step": "runPHP",
+            "code": "<?php\ninclude 'wordpress/wp-load.php';\nwp_insert_post(array(\n'import_id' => 5,\n'post_title' => 'Test Lumiere',\n'post_content' => '<!-- wp:paragraph -->\n<p><div class=\"wp-block-lumiere-main\"><span data-lum_movie_maker=\"movie_id\">0062622</span></div></p>\n<!-- \/wp:paragraph -->',\n'post_status' => 'publish',\n'post_author' => 1\n));"
+        }
     ]
 }
