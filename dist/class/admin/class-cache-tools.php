@@ -150,6 +150,7 @@ class Cache_Tools {
 	 * 2/ Delete all cache
 	 * 3/ Recreate the cache folder (needed for images)
 	 * 4/ Recreate the cache by querying the IMDb with an incremental sleep (to avoid HTTP errors)
+	 *
 	 * Meant to be called by cron
 	 * @see \Lumiere\Admin\Cron::lumiere_cron_exec_autorefresh()
 	 * @since 4.0 new method
@@ -159,15 +160,15 @@ class Cache_Tools {
 	 */
 	public function lumiere_all_cache_refresh( int $sleep = 250000 ): void {
 
+		$refresh_ids = [];
+
 		// Get movies ids.
-		$movies_ids = [];
 		foreach ( $this->lumiere_get_movie_cache() as $movie_title_object ) {
-			$movies_ids[] = $movie_title_object->imdbid();
+			$refresh_ids['movies'][] = $movie_title_object->imdbid();
 		}
 		// Get people ids.
-		$people_ids = [];
 		foreach ( $this->lumiere_get_people_cache() as $people_person_object ) {
-			$people_ids[] = $people_person_object->imdbid();
+			$refresh_ids['people'][] = $people_person_object->imdbid();
 		}
 
 		// Delete all cache, otherwise neither gql files nor pictures won't be deleted.
@@ -176,17 +177,27 @@ class Cache_Tools {
 		// Make sure cache folder exists and is writable.
 		$this->lumiere_create_cache( true );
 
-		// Get back the cache by querying the IMDb.
-		$i = 1;
-		foreach ( $movies_ids as $movie_id ) {
-			usleep( $i * $sleep ); // Add an incremental sleep, to minimize the number of queries made to IMDb
-			$this->lumiere_create_movie_file( $movie_id );
-			$i++;
+		// Get back the movie's cache by querying the IMDb.
+		if ( isset( $refresh_ids['movies'] ) ) {
+			$i = 1;
+			foreach ( $refresh_ids['movies'] as $movie_id ) {
+				usleep( $i * $sleep ); // Add an incremental sleep, to minimize the number of queries made to IMDb
+				$this->lumiere_create_movie_file( $movie_id );
+				$i++;
+			}
 		}
-		foreach ( $people_ids as $person_id ) {
-			usleep( $i * $sleep ); // Add an incremental sleep, to minimize the number of queries made to IMDb
-			$this->lumiere_create_people_cache( $person_id );
-			$i++;
+
+		// @since 4.0.1 added a sleep
+		sleep( 10 );
+
+		// Get back the people's cache by querying the IMDb.
+		if ( isset( $refresh_ids['people'] ) ) {
+			$i = 1;
+			foreach ( $refresh_ids['people'] as $person_id ) {
+				usleep( $i * $sleep ); // Add an incremental sleep, to minimize the number of queries made to IMDb
+				$this->lumiere_create_people_cache( $person_id );
+				$i++;
+			}
 		}
 	}
 

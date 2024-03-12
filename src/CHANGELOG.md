@@ -7,7 +7,10 @@ v.4.0.1
 * [feature] Added a spinner for loading popups, with 1 seconds timeout. Let's see if it's worth keeping.
 * [feature] Bootstrap modal window's width is now editable (removed limits set in bootstrap-custom.css, removed hidding 'imdb_imdbpopuplarg' in function select[name=imdbpopup_modal_window] in script_admin.js, added method bootstrap_convert_modal_size() in class Abstract_Link_Maker)
 * [feature] "Back" button in people popups is displayed only if it's not the first page to be displayed.
+* [feature] Faster display: into the post, in the widget and in popups smaller versions of the pictures are now displayed. Link to larger version is kept (clicking on the picture will show the larger version).
 * [bug] Privacy policy was not displayed in admin Policy Guide, options-privacy.php?tab=policyguide (replaced in title "Lumière" with "Lumiere" in the title of wp_add_privacy_policy_content() function)
+* [bug] Into the post, widget and popup picture: if "Display only thumbnail" was selected, huge picture was displayed. (Changed 100em to 100px in abbstract link maker and popups)
+* [bug] Cron refresh cache sometimes doesn't retrieve people. Trying a new trick (added a sleep() between movies and people)
 * [bug] Trivia in people popups: if less than tree trivias, layout was broken (removed extra div in display_misc() method)
 * [bug] On some specific environments, taxonomy template copy wasn't working. (wp_get_referer() wasn't set in copy template taxonomy class, removed the redirection, found using WordPress playground)
 * [bug] On some very specific environments, cache display in admin cache options didn't work (GLOB_BRACE couldn't be used, removed it from the cache classes, found using WordPress playground).
@@ -732,7 +735,7 @@ v.1.1.15
 * [bug] when several directors were found, it was missing space or comma to display -> added comma
 * [technical] updated to IMDbPHP-1.1.15 library (1/hopefully fixed "invalid stream resource" on some network timeouts, movie: 2/ added method to retrieve movie types (if specified), person: 3/fixed a property missing in initialization, Fixed goofs(), trailers(), and trivia() )
 * [major] every admin settings section (cache, widget & general) has its own preferences storage (new foreign keys: $imdb_admin_values, $imdb_widget_values,$imdb_cache_values, whereas $imdb_config_values is dead). As a result of this, resetting General options won't interfere with Cache options, and vice versa.
-* changed the way several css directives related to popup were working (ie, all &lt;a&gt tags in owner's blog were impacted, instead of only &lt;a&gt from the popup)
+* [feature] changed the way several css directives related to popup were working (ie, all &lt;a&gt tags in owner's blog were impacted, instead of only &lt;a&gt from the popup)
 * [feature] added compatibility with [link-indication plugin](http://wordpress.org/extend/plugins/link-indication/ "link-indication plugin home") (modified imdb-link-transformer.php add_filter's execution priority to 11)
 * [feature] mixing "imdb-movie-widget-bymid" and "imdb-movie-widget" keys actually does work! Removing references saying it doesn't.
 * [feature] cache movie files into cache.php are now alphabetically ordered

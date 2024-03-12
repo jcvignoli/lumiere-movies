@@ -35,9 +35,6 @@ class Cache extends Admin_Menu {
 
 		// Construct parent class
 		parent::__construct();
-
-		// Logger: set to true to display debug on screen. => 20240225 Don't see why it is needed, will remove in the future
-		// $this->logger->lumiere_start_logger( get_class( $this ), false );
 	}
 
 	/**
@@ -60,7 +57,7 @@ class Cache extends Admin_Menu {
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
 
 			// Activate debugging
-			$this->utils_class->lumiere_activate_debug( $this->imdb_cache_values, 'no_var_dump', null ); # don't display set_error_handler("var_dump") that gets the page stuck in an endless loop
+			$this->utils_class->lumiere_activate_debug( $this->imdb_cache_values, 'var_dump', null );
 
 		}
 

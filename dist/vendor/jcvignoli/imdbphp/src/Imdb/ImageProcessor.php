@@ -1,7 +1,8 @@
 <?php
 #############################################################################
 # IMDBPHP                                                                  #
-# JCV personal and dirty class
+# JCV personal and dirty class						   #
+# Reduce the size of the big pictures versions				   #
 #############################################################################
 
 namespace Imdb;
@@ -31,20 +32,24 @@ class ImageProcessor {
 	/**
 	 * Process with image_resize() ?
 	 */
-	public function maybe_resize_big($src, $crop=0): bool {
+	public function maybe_resize_big( $big_img, $crop=0 ): bool {
 
-		 if ( is_file( $src ) && str_contains( $src, '_big' ) ) {
-			$pic_type = strtolower(strrchr($src,"."));
-			$path_tmp = str_replace( '_big', '_big_tmp', $src );
-			$bool_result_resize = $this->image_resize($src, $path_tmp, $this->width, $this->height, 0);
+		 if ( is_file( $big_img ) && str_contains( $big_img, '_big' ) ) {
+			
+			$pic_type = strtolower( strrchr( $big_img, "." ) );
+			$tmp_big_img = str_replace( '_big', '_big_tmp', $big_img );
+			$bool_result_resize = $this->image_resize( $big_img, $tmp_big_img, $this->width, $this->height, 0 );
+			
 			sleep(1);
-			if ( $bool_result_resize === true && is_file( $path_tmp ) === true && is_file( $src ) === true ) {
-				unlink( $src );
-				$this->logger->debug('[ImageProcessor] Size of picture ' .  strrchr ( $src, '/' ) . ' successfully reduced.');
-				rename( $path_tmp, $src );
-				return true;
+			
+			if ( $bool_result_resize === true && is_file( $tmp_big_img ) === true && is_file( $big_img ) === true ) {
+				if ( unlink( $big_img ) ) {
+					$this->logger->debug( '[ImageProcessor] Size of picture ' .  strrchr ( $big_img, '/' ) . ' successfully reduced.' );
+					rename( $tmp_big_img, $big_img );
+					return true;
+				}
 			}
-			$this->logger->notice('[ImageProcessor] Could not reduce the size of ' . strrchr ( $src, '/' ) );
+			$this->logger->notice( '[ImageProcessor] Could not reduce the size of ' . strrchr ( $big_img, '/' ) );
 			return false;
 		}
 		return false;
@@ -56,59 +61,65 @@ class ImageProcessor {
 	 * @param int $crop whether to crop to a smaller size the picture, it actually modifies it
 	 * @return bool
 	 */
-	private function image_resize($src, $dst, $width, $height, $crop=0) {
+	private function image_resize( $big_img, $tmp_big_img, $width, $height, $crop=0) {
 
-	  if(!list($w, $h) = getimagesize($src)) {
-	    		    $this->logger->notice('[ImageProcessor] Unsupported picture type ' . strrchr ( $src, '/' ) );
-	    		    return false;
+		if( !list( $w, $h ) = getimagesize( $big_img ) ) {
+			$this->logger->error('[ImageProcessor] Unsupported picture type ' . strrchr ( $big_img, '/' ) );
+			return false;
 		};
-	  $type = strtolower(substr(strrchr($src,"."),1));
-	  if($type == 'jpeg') $type = 'jpg';
-	  switch($type){
-	    case 'bmp': $img = imagecreatefromwbmp($src); break;
-	    case 'gif': $img = imagecreatefromgif($src); break;
-	    case 'jpg': $img = imagecreatefromjpeg($src); break;
-	    case 'png': $img = imagecreatefrompng($src); break;
-	    // "Unsupported picture type!"
-	    default : return false;
-	  }
-
-	  // resize
-	  $x = 0;
-	  if($crop === 1 ){
-	    if($w < $width || $h < $height) {
-	    		    $this->logger->notice('[ImageProcessor] Picture ' . strrchr ( $src, '/' ) . ' is too small to be resized');
-	    		    return false;
+		$type = strtolower( substr( strrchr( $big_img, "." ), 1 ) );
+		
+		if($type === 'jpeg') {
+			$type = 'jpg';
 		}
-	    $ratio = max($width/$w, $height/$h);
-	    $h = $height / $ratio;
-	    $x = ($w - $width / $ratio) / 2;
-	    $w = $width / $ratio;
+		
+		switch($type){
+			case 'bmp': $img = imagecreatefromwbmp( $big_img ); break;
+			case 'gif': $img = imagecreatefromgif( $big_img ); break;
+			case 'jpg': $img = imagecreatefromjpeg( $big_img ); break;
+			case 'png': $img = imagecreatefrompng( $big_img ); break;
+			// "Unsupported picture type!"
+			default : return false;
+		}
 
-	  } elseif( $crop === 0 ) {
+		// resize
+		$x = 0;
+		if($crop === 1 ){
+			if($w < $width || $h < $height) {
+				$this->logger->debug('[ImageProcessor] Picture ' . strrchr ( $big_img, '/' ) . ' is too small to be resized');
+				return false;
+			}
+		
+			$ratio = max($width/$w, $height/$h);
+			$h = $height / $ratio;
+			$x = ($w - $width / $ratio) / 2;
+			$w = $width / $ratio;
 
-	    if($w < $width && $h < $height) {
-	    	$this->logger->notice('[ImageProcessor] Picture ' . strrchr ( $src, '/' ) . ' is too small to be resized');
-	    	return false;
-	    };
-	    $ratio = min($width/$w, $height/$h);
-	    $width = $w * $ratio;
-	    $height = $h * $ratio;
-	  }
+		} elseif( $crop === 0 ) {
+			if($w < $width && $h < $height) {
+				$this->logger->debug('[ImageProcessor] Picture ' . strrchr ( $big_img, '/' ) . ' is too small to be resized');
+				return false;
+			};
+			$ratio = min($width/$w, $height/$h);
+			$width = $w * $ratio;
+			$height = $h * $ratio;
+	  	}
 
-	  $new = imagecreatetruecolor( (int) $width, (int) $height);
+		$new = imagecreatetruecolor( (int) $width, (int) $height);
 
-	  imagecopyresampled($new, $img, 0, 0, (int) $x, 0, (int) $width, (int) $height, (int) $w, (int) $h);
+		imagecopyresampled($new, $img, 0, 0, (int) $x, 0, (int) $width, (int) $height, (int) $w, (int) $h);
 
-	  switch($type){
-	    case 'bmp': imagewbmp($new, $dst); break;
-	    case 'gif': imagegif($new, $dst); break;
-	    case 'jpg': imagejpeg($new, $dst); break;
-	    case 'png': imagepng($new, $dst); break;
-	  }
-  	  if( is_file( $dst ) ) {
-		  return true;
-	  }
-	  return false;
+		switch($type){
+			case 'bmp': imagewbmp( $new, $tmp_big_img ); break;
+			case 'gif': imagegif( $new, $tmp_big_img ); break;
+			case 'jpg': imagejpeg( $new, $tmp_big_img ); break;
+			case 'png': imagepng( $new, $tmp_big_img ); break;
+		}
+		
+		if( is_file( $tmp_big_img ) ) {
+			return true;
+		}
+		
+		return false;
 	}
 }

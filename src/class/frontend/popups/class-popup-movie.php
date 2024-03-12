@@ -276,27 +276,34 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 				?></font></div>
 			</div> 
 			<div class="lumiere_flex_auto lumiere_width_twenty_perc lumiere_padding_two">
+
 												<!-- Movie's picture display -->
 			<?php
 				// Select pictures: big poster, if not small poster, if not 'no picture'.
 				$photo_url = '';
+				$photo_big = (string) $movie_results->photo_localurl( false );
+				$photo_thumb = (string) $movie_results->photo_localurl( true );
+
 			if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp only if cache is active
-				$photo_url = $movie_results->photo_localurl( false ) !== false ? esc_html( (string) $movie_results->photo_localurl( false ) ) : esc_html( (string) $movie_results->photo_localurl( true ) ); // create big picture, thumbnail otherwise.
+				$photo_url = strlen( $photo_big ) > 1 ? esc_html( $photo_big ) : esc_html( $photo_thumb ); // create big picture, thumbnail otherwise.
 			}
-				$photo_url_final = strlen( $photo_url ) === 0 ? $this->config_class->lumiere_pics_dir . 'no_pics.gif' : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
 
-				echo '<a class="highslide_pic_popup" href="' . esc_url( $photo_url ) . '">';
+				// Picture for a href, takes big/thumbnail picture if exists, no_pics otherwise.
+				$photo_url_href = strlen( $photo_url ) === 0 ? $this->config_class->lumiere_pics_dir . 'no_pics.gif' : $photo_url;
+
+				// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
+				$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . 'no_pics.gif' ) : $photo_thumb;
+
+				echo '<a class="highslide_pic_popup" href="' . esc_url( $photo_url_href ) . '">';
 				// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.
-				echo "\n\t\t" . '<img loading="eager" class="imdbincluded-picture" src="';
+				echo "\n\t\t" . '<img loading="lazy" class="imdbincluded-picture" src="' . esc_url( $photo_url_img ) . '" alt="' . esc_attr( $movie_results->title() ) . '"';
 
-				echo esc_url( $photo_url_final ) . '" alt="' . esc_attr( $movie_results->title() ) . '"';
-
-				// add width only if "Display only thumbnail" is unactive.
+				// add width only if "Display only thumbnail" is not active.
 			if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
 
 				echo ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
 
-				// add 100px width if "Display only thumbnail" is active.
+				// set width to 100px width if "Display only thumbnail" is active.
 			} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
 
 				echo ' width="100px"';
