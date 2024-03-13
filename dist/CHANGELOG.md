@@ -1,6 +1,10 @@
 **Changelog**
 
 v.4.0.2
+* [feature] Thumbnail pictures (those which are displayed automatically into the posts, in cache, in popups) are now automatically resized should they weight more that 80kb, which should display all pages faster. Maintained the possiblity to click on these thumbnails to display the big posters.
+* [bug] Refresh cache person was broken (left a bracket in glob search in Cache_Tools::cache_refresh_specific_file())
+* [bug] Refresh cache person didn't recreate the big picture
+* [bug] The movie/person big poster wasn't producing expected effects. Changed the way IMDBPHP lib ImageProcess class works: it now resizes the thumbs only if they weight to much.
 
 v.4.0.1
 * [feature] If year/month/day of birth/born date are unknown in people popups, display "(year/month/day unknown)" instead of displaying a 0

@@ -15,10 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\Settings;
-use Lumiere\Tools\Utils;
-
-$lumiere_imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
+$lumiere_imdb_cache_values = get_option( \Lumiere\Settings::LUMIERE_CACHE_OPTIONS );
 
 // Retrieve the vars from calling class.
 $lumiere_cache_file_count = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
@@ -26,7 +23,7 @@ $lumiere_size_cache_total = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
 $lumiere_list_movie_cache = get_transient( Admin_Menu::TRANSIENT_ADMIN )[2];
 $lumiere_list_people_cached = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
 $lumiere_size_cache_pics = get_transient( Admin_Menu::TRANSIENT_ADMIN )[4];
-$lumiere_config_class = get_transient( Admin_Menu::TRANSIENT_ADMIN )[5];
+$lumiere_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[5];
 $lumiere_this_cache_manage_page = get_transient( Admin_Menu::TRANSIENT_ADMIN )[6];
 $lumiere_query_number_files = get_transient( Admin_Menu::TRANSIENT_ADMIN )[7][0];
 $lumiere_query_cache_size = get_transient( Admin_Menu::TRANSIENT_ADMIN )[7][1];
@@ -85,7 +82,7 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 					/* translators: %1$s is replaced with a number of files, %2$s the size in MB of a folder */
 					_n( '%1$sfile using %2$s', '%1$s files using %2$s', $lumiere_cache_file_count, 'lumiere-movies' ),
 					number_format_i18n( $lumiere_cache_file_count ),
-					Utils::lumiere_format_bytes( $lumiere_size_cache_total )
+					$lumiere_that->lumiere_format_bytes( $lumiere_size_cache_total )
 				)
 			);
 			?></strong>
@@ -134,7 +131,7 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 					/* translators: first %1$s is replaced with a number of files, %2$s the size in MB of a folder */
 					_n( '%1$sfile using %2$s', '%1$s files using %2$s', $lumiere_query_number_files, 'lumiere-movies' ),
 					$lumiere_query_number_files,
-					Utils::lumiere_format_bytes( intval( $lumiere_query_cache_size ) )
+					$lumiere_that->lumiere_format_bytes( intval( $lumiere_query_cache_size ) )
 				)
 			);
 			?></strong>
@@ -207,13 +204,14 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 				$lumiere_title_sanitized = esc_html( $lumiere_movie_results->title() ); // search title related to movie id
 				$lumiere_obj_sanitized = esc_html( $lumiere_movie_results->imdbid() );
 				$lumiere_filepath_sanitized = esc_url( $lumiere_imdb_cache_values['imdbcachedir'] . 'title.tt' . substr( $lumiere_obj_sanitized, 0, 8 ) );
+
 				if ( $lumiere_imdb_cache_values['imdbcachedetailsshort'] === '1' ) { // display only cache movies' names, quicker loading
 					$lumiere_data[] = '<span class="lumiere_short_titles"><input type="checkbox" id="imdb_cachedeletefor_movies_' . str_replace( ' ', '_', $lumiere_title_sanitized ) . '" name="imdb_cachedeletefor_movies[]" value="' . $lumiere_obj_sanitized . '" /><label for="imdb_cachedeletefor_movies[]">' . $lumiere_title_sanitized . '</label></span>' . "\n"; // send input and results into array
 					flush();
 				} else { // display every cache movie details, longer loading
 					// get either local picture or if no local picture exists, display the default one
 					if ( false === $lumiere_movie_results->photo_localurl() ) {
-						$lumiere_moviepicturelink = 'src="' . esc_url( $lumiere_config_class->lumiere_pics_dir . 'no_pics.gif' ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
+						$lumiere_moviepicturelink = 'src="' . esc_url( $lumiere_that->config_class->lumiere_pics_dir . 'no_pics.gif' ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
 					} else {
 						$lumiere_moviepicturelink = 'src="' . $lumiere_imdb_cache_values['imdbphotodir'] . $lumiere_obj_sanitized . '.jpg" alt="' . $lumiere_title_sanitized . '"';
 					}
@@ -304,13 +302,14 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 				$lumiere_name_sanitized = sanitize_text_field( $lumiere_people_results->name() ); // search title related to movie id
 				$lumiere_objpiple_sanitized = sanitize_text_field( $lumiere_people_results->imdbid() );
 				$lumiere_filepath_sanitized = esc_url( $lumiere_imdb_cache_values['imdbcachedir'] . 'name.nm' . substr( $lumiere_objpiple_sanitized, 0, 8 ) );
+
 				if ( $lumiere_imdb_cache_values['imdbcachedetailsshort'] === '1' ) { // display only cache peoples' names, quicker loading
 					$lumiere_datapeople[] = '<span class="lumiere_short_titles"><input type="checkbox" id="imdb_cachedeletefor_people_' . str_replace( ' ', '_', $lumiere_name_sanitized ) . '" name="imdb_cachedeletefor_people[]" value="' . $lumiere_objpiple_sanitized . '" /><label for="imdb_cachedeletefor_people[]">' . $lumiere_name_sanitized . '</label></span>'; // send input and results into array
 
 				} else { // display every cache people details, longer loading
 					// get either local picture or if no local picture exists, display the default one
 					if ( false === $lumiere_people_results->photo_localurl() ) {
-						$lumiere_picturelink = 'src="' . esc_url( $lumiere_config_class->lumiere_pics_dir . 'no_pics.gif' ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
+						$lumiere_picturelink = 'src="' . esc_url( $lumiere_that->config_class->lumiere_pics_dir . 'no_pics.gif' ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
 					} else {
 						$lumiere_picturelink = 'src="' . esc_url( $lumiere_imdb_cache_values['imdbphotodir'] . 'nm' . $lumiere_objpiple_sanitized . '.jpg' ) . '" alt="' . $lumiere_name_sanitized . '"';
 					}
@@ -324,6 +323,7 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 		<span class="view"><a href="' . wp_nonce_url( $lumiere_this_cache_manage_page . '&dothis=refresh&where=' . $lumiere_objpiple_sanitized . '&type=people', 'refreshindividual', '_nonce_cache_refreshindividual' ) . '" class="admin-cache-confirm-refresh" data-confirm="Refresh cache for *' . $lumiere_name_sanitized . '*" title="Refresh cache for *' . $lumiere_name_sanitized . '*">' . esc_html__( 'refresh', 'lumiere-movies' ) . '</a></span> 
 
 		<span class="delete"><a href="' . wp_nonce_url( $lumiere_this_cache_manage_page . '&dothis=delete&where=' . $lumiere_objpiple_sanitized . '&type=people', 'deleteindividual', '_nonce_cache_deleteindividual' ) . '" class="admin-cache-confirm-delete" data-confirm="You are about to delete *' . $lumiere_name_sanitized . '* from cache. Click Cancel to stop or OK to continue." title="Delete cache for *' . $lumiere_name_sanitized . '*">' . esc_html__( 'delete', 'lumiere-movies' ) . '</a></span>
+		
 	</div></td></tr></table>
 	</div>'; // send input and results into array.
 
@@ -388,7 +388,7 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 					<?php
 					// display cache folder size.
 					if ( $lumiere_cache_file_count > 0 ) {
-						echo esc_html__( 'Movies\' cache is using', 'lumiere-movies' ) . ' ' . Utils::lumiere_format_bytes( $lumiere_size_cache_total ) . "\n";
+						echo esc_html__( 'Movies\' cache is using', 'lumiere-movies' ) . ' ' . esc_html( $lumiere_that->lumiere_format_bytes( $lumiere_size_cache_total ) ) . "\n";
 					} else {
 						esc_html_e( 'Movies\' cache is empty.', 'lumiere-movies' );
 					}
@@ -467,7 +467,7 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 					// display cache folder size
 					if ( $lumiere_size_cache_pics > 0 ) {
 
-						echo esc_html__( 'Images cache is using', 'lumiere-movies' ) . ' ' . Utils::lumiere_format_bytes( $lumiere_size_cache_pics ) . "\n";
+						echo esc_html__( 'Images cache is using', 'lumiere-movies' ) . ' ' . esc_html( $lumiere_that->lumiere_format_bytes( $lumiere_size_cache_pics ) ) . "\n";
 
 					} else {
 

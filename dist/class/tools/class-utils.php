@@ -87,39 +87,6 @@ class Utils {
 	}
 
 	/**
-	 * Recursively scan a directory. Not currently in use.
-	 *
-	 * @param string $dir mandatory Directory name
-	 * @param int $filesbydefault optional number of files contained in folder and to not take
-	 *  into account for the count (usefull if there is a number of predetermined files/folders, like in cache)
-	 *
-	 * @return bool
-	 */
-	public static function lumiere_is_empty_dir( string $dir, int $filesbydefault = 0 ): bool {
-
-		global $wp_filesystem;
-
-		// Make sure we have the correct credentials
-		self::lumiere_wp_filesystem_cred( $dir );
-
-		if ( $wp_filesystem->is_dir( $dir ) === false && $wp_filesystem->is_file( $dir ) === false ) {
-
-			return false;
-		}
-
-		$files = $wp_filesystem->dirlist( $dir );
-		$count_files = count( array_count_values( array_column( $files, 'name' ) ) );
-
-		if ( $count_files <= $filesbydefault ) {
-
-			return true;
-
-		}
-
-		return false;
-	}
-
-	/**
 	 * Sanitize an array
 	 * Input can be either an array or a string
 	 *
@@ -210,20 +177,6 @@ class Utils {
 		$lienhtmlize = substr( $lienhtmlize, 0, 100 );
 
 		return $lienhtmlize;
-	}
-
-	/**
-	 * Format filesize
-	 * Should I want the size in bytes, replace '1000' by '1024'
-	 *
-	 * @param int $size the unformatted number of the size
-	 * @param int $precision how many numbers after comma, two by default
-	 */
-	public static function lumiere_format_bytes( int $size, int $precision = 2 ): string {
-
-		$units = [ 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' ];
-		$power = $size > 0 ? (int) floor( log( $size, 1000 ) ) : 0;
-		return number_format( $size / pow( 1000, $power ), $precision, '.', ',' ) . ' ' . $units[ $power ];
 	}
 
 	/**
@@ -361,7 +314,7 @@ class Utils {
 	 * @param \Throwable $exception The type of new exception
 	 * @return void
 	 */
-	private function lumiere_exception_handler( \Throwable $exception ): void {
+	public function lumiere_exception_handler( \Throwable $exception ): void {
 		throw $exception;
 	}
 

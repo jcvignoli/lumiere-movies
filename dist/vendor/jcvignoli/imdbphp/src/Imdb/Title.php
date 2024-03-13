@@ -1183,9 +1183,11 @@ EOF;
 
         fputs($fp2, $image);
 
-	// Added by JCV, resize the big posters
-	$this->img_processor->maybe_resize_big($path, 0 /** whether crop or not the picture */ );
-
+	// Added by JCV, resize the thumbs
+	if ( $thumb === true ) {
+		$this->img_processor->maybe_resize_image($path, $this->image_max_width, $this->image_max_height, false /** whether crop or not the picture */ );
+	}
+	
         return true;
     }
 

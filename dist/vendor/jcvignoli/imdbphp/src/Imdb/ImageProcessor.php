@@ -12,8 +12,8 @@ use Psr\Log\LoggerInterface;
 class ImageProcessor {
 
 	private LoggerInterface $logger;
-	private string $width;
-	private string $height;
+	/** @var int $min_file_size Minimum file size before resizing in bytes */
+	private $min_file_size;
 
 	/**
 	 * $width and $height are passed in MdbBase construct 
@@ -21,85 +21,83 @@ class ImageProcessor {
 	 */
 	public function __construct(
 		LoggerInterface $logger,
-		string $width,
-		string $height
 	) {
 		$this->logger = $logger;
-		$this->width = $width;
-		$this->height = $height;
+		// Minimum file size before resizing in bytes -> not resizing if it's not worth it.
+		$this->min_file_size = 80000;
 	}
 
 	/**
-	 * Process with image_resize() ?
+	 * Process with image_resize()
+	 * @param string $path_img The full path to picture, including picture's name
+	 * @param int $image_max_width The maximum width for the resized picture
+	 * @param int $image_max_height The maximum height for the resized picture
+	 * @param bool $crop Weither to crop or not the picture
 	 */
-	public function maybe_resize_big( $big_img, $crop=0 ): bool {
+	public function maybe_resize_image( $path_img, $image_max_width, $image_max_height, $crop = false ): bool {
 
-		 if ( is_file( $big_img ) && str_contains( $big_img, '_big' ) ) {
+		$file_size = filesize( $path_img );
+
+		// Only resize if the file exists and the file is bigger than $this->min_file_size.
+		if ( $file_size > $this->min_file_size && is_file( $path_img ) === true ) {
+
+			$pic_type = strtolower( strrchr( $path_img, "." ) );
+			$path_img_tmp = str_replace( '.', '_tmp.', $path_img );
+			$bool_result_resize = $this->image_resize( $path_img, $path_img_tmp, $image_max_width, $image_max_height, $crop = false );
 			
-			$pic_type = strtolower( strrchr( $big_img, "." ) );
-			$tmp_big_img = str_replace( '_big', '_big_tmp', $big_img );
-			$bool_result_resize = $this->image_resize( $big_img, $tmp_big_img, $this->width, $this->height, 0 );
-			
-			sleep(1);
-			
-			if ( $bool_result_resize === true && is_file( $tmp_big_img ) === true && is_file( $big_img ) === true ) {
-				if ( unlink( $big_img ) ) {
-					$this->logger->debug( '[ImageProcessor] Size of picture ' .  strrchr ( $big_img, '/' ) . ' successfully reduced.' );
-					rename( $tmp_big_img, $big_img );
+			if ( $bool_result_resize === true && is_file( $path_img_tmp ) === true && is_file( $path_img ) === true ) {
+				if ( unlink( $path_img ) ) {
+					rename( $path_img_tmp, $path_img );
+					$this->logger->debug( '[ImageProcessor] Size of picture ' .  strrchr ( $path_img, '/' ) . ' successfully reduced.' );
 					return true;
 				}
 			}
-			$this->logger->notice( '[ImageProcessor] Could not reduce the size of ' . strrchr ( $big_img, '/' ) );
+			$this->logger->notice( '[ImageProcessor] Could not reduce the size of ' . strrchr ( $path_img, '/' ) );
 			return false;
 		}
 		return false;
 	}
 
 	/**
-	 * Resize the pictures, new function, dirtily added here by JCV
+	 * Resize the pictures, dirty method
 	 * https://www.php.net/manual/en/function.imagecopyresampled.php#104028
-	 * @param int $crop whether to crop to a smaller size the picture, it actually modifies it
+	 * @param bool $crop whether to crop to a smaller size the picture, it actually modifies it
 	 * @return bool
 	 */
-	private function image_resize( $big_img, $tmp_big_img, $width, $height, $crop=0) {
+	private function image_resize( $current_img, $tmp_img, $width, $height, $crop = false ): bool {
 
-		if( !list( $w, $h ) = getimagesize( $big_img ) ) {
-			$this->logger->error('[ImageProcessor] Unsupported picture type ' . strrchr ( $big_img, '/' ) );
+		// Can't get the picture's size, unsupported, exit
+		if( !list( $w, $h ) = getimagesize( $current_img ) ) {
+			$this->logger->error('[ImageProcessor] Unsupported picture type ' . strrchr ( $current_img, '/' ) );
 			return false;
 		};
-		$type = strtolower( substr( strrchr( $big_img, "." ), 1 ) );
+		
+		$type = strtolower( substr( strrchr( $current_img, "." ), 1 ) );
 		
 		if($type === 'jpeg') {
 			$type = 'jpg';
 		}
 		
 		switch($type){
-			case 'bmp': $img = imagecreatefromwbmp( $big_img ); break;
-			case 'gif': $img = imagecreatefromgif( $big_img ); break;
-			case 'jpg': $img = imagecreatefromjpeg( $big_img ); break;
-			case 'png': $img = imagecreatefrompng( $big_img ); break;
-			// "Unsupported picture type!"
-			default : return false;
+			case 'bmp': $img = imagecreatefromwbmp( $current_img ); break;
+			case 'gif': $img = imagecreatefromgif( $current_img ); break;
+			case 'jpg': $img = imagecreatefromjpeg( $current_img ); break;
+			case 'png': $img = imagecreatefrompng( $current_img ); break;
+			// Unsupported picture type
+			default : 
+				$this->logger->error('[ImageProcessor] Unsupported picture type ' . strrchr ( $current_img, '/' ) );
+				return false;
 		}
 
-		// resize
+		// Proportionally resize
 		$x = 0;
-		if($crop === 1 ){
-			if($w < $width || $h < $height) {
-				$this->logger->debug('[ImageProcessor] Picture ' . strrchr ( $big_img, '/' ) . ' is too small to be resized');
-				return false;
-			}
-		
+		if($crop === true ){
 			$ratio = max($width/$w, $height/$h);
 			$h = $height / $ratio;
 			$x = ($w - $width / $ratio) / 2;
 			$w = $width / $ratio;
 
-		} elseif( $crop === 0 ) {
-			if($w < $width && $h < $height) {
-				$this->logger->debug('[ImageProcessor] Picture ' . strrchr ( $big_img, '/' ) . ' is too small to be resized');
-				return false;
-			};
+		} elseif( $crop === false ) {
 			$ratio = min($width/$w, $height/$h);
 			$width = $w * $ratio;
 			$height = $h * $ratio;
@@ -110,13 +108,13 @@ class ImageProcessor {
 		imagecopyresampled($new, $img, 0, 0, (int) $x, 0, (int) $width, (int) $height, (int) $w, (int) $h);
 
 		switch($type){
-			case 'bmp': imagewbmp( $new, $tmp_big_img ); break;
-			case 'gif': imagegif( $new, $tmp_big_img ); break;
-			case 'jpg': imagejpeg( $new, $tmp_big_img ); break;
-			case 'png': imagepng( $new, $tmp_big_img ); break;
+			case 'bmp': imagewbmp( $new, $tmp_img ); break;
+			case 'gif': imagegif( $new, $tmp_img ); break;
+			case 'jpg': imagejpeg( $new, $tmp_img ); break;
+			case 'png': imagepng( $new, $tmp_img ); break;
 		}
 		
-		if( is_file( $tmp_big_img ) ) {
+		if( is_file( $tmp_img ) ) {
 			return true;
 		}
 		

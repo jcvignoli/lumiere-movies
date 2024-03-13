@@ -41,7 +41,7 @@ class Person extends MdbBase
     );
 
     // "Name" page:
-    protected $main_photo = null;
+    protected $main_photo = false;
     protected $fullname = "";
     protected $birthday = array();
     protected $deathday = array();
@@ -155,10 +155,12 @@ class Person extends MdbBase
      *                or the bigger variant with a maximum size of (1363x2048)
      * @return mixed photo (string url if found, FALSE otherwise)
      * @see IMDB person page / (Main page)
+     * @since 2024 03 13 removed the check of $this->main_photo, which prevents getting both pictures
      */
     public function photo($thumb = true)
     {
-        if ($this->main_photo === null) {
+
+        /* if ($this->main_photo === null) { */
             $page = $this->getPage("Name");
             $this->main_photo = false;
             if (preg_match('!ipc-(?:poster--baseAlt|media--poster-m).*?<img.*?src="(.*?)"!ims', $page, $match)) {
@@ -173,8 +175,7 @@ class Person extends MdbBase
                     $this->main_photo = $jsonLD->image;
                 }
             }
-        }
-
+	/*} */
         return $this->main_photo;
     }
 
@@ -214,9 +215,11 @@ class Person extends MdbBase
             return false;
         }
         fputs($fp2, $fp);
-        
-        // Added by JCV, resize the big posters
-	$this->img_processor->maybe_resize_big($path, 0 /** whether crop or not the picture */ );
+
+        // Added by JCV, resize the thumbs
+        if ( $thumb === true ) {
+		$this->img_processor->maybe_resize_image($path, $this->image_max_width, $this->image_max_height, false /** whether crop or not the picture */ );
+	}
 
         return true;
     }

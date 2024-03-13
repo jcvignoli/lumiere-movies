@@ -85,10 +85,10 @@ class Imdbphp extends Config {
 		/**
 		 * These two are hardcoded at 800 in IMDbPHP Config class
 		 * can't be changed in admin panel
-		 * Meant to be of use in the JCV IMDbPHP class ImageProcesser
+		 * @see \Imdb\ImageProcessor::maybe_resize_image()
 		 */
-		$this->big_image_width = 800;
-		$this->big_image_height = 800;
+		$this->image_max_width = 800;
+		$this->image_max_height = 800;
 	}
 }
 

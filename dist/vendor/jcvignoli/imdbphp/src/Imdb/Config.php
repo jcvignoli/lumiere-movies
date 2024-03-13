@@ -113,10 +113,10 @@ class Config
     /**
      * Added by JCV
      */
-    /** @see ImageProcessor::__construct() */
-    public int $big_image_width = 800;
-    /** @see ImageProcessor::__construct() */
-    public int $big_image_height = 800;
+    /** @see ImageProcessor::maybe_resize_image() */
+    public int $image_max_width = 1024;
+    /** @see ImageProcessor::maybe_resize_image() */
+    public int $image_max_height = 768;
     /** @see Page::buildRequest() */
     public int $delay_imdb_request = 0;
     

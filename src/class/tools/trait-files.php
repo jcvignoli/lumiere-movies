@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use Exception;
 
 /**
  * Trait for files operations
@@ -63,7 +64,7 @@ trait Files {
 	 * @param string $file_name The name without php of the file to be include, ie: admin-menu-first-part
 	 * @return string Full path of the file found in template folder
 	 */
-	protected function find_template_file( string $file_name ): string {
+	private function find_template_file( string $file_name ): string {
 
 		$templates_dir = plugin_dir_path( __DIR__ ) . 'templates/';
 
@@ -77,7 +78,21 @@ trait Files {
 			}
 		}
 
-		throw new \Exception( __( 'No template file found', 'lumiere-movies' ) . ' ' . $file_name );
+		throw new Exception( __( 'No template file found', 'lumiere-movies' ) . ' ' . $file_name );
+	}
+
+	/**
+	 * Format a given file size to bytes
+	 * The size in bits would need to replace '1000' by '1024'
+	 *
+	 * @param int $size the unformatted number of the size
+	 * @param int $precision how many numbers after comma, two by default
+	 */
+	public function lumiere_format_bytes( int $size, int $precision = 2 ): string {
+
+		$units = [ 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' ];
+		$power = $size > 0 ? (int) floor( log( $size, 1000 ) ) : 0;
+		return number_format( $size / pow( 1000, $power ), $precision, '.', ',' ) . ' ' . $units[ $power ];
 	}
 }
 

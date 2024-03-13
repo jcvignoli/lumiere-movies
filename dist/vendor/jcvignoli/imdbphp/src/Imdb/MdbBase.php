@@ -106,8 +106,8 @@ class MdbBase extends Config
                        "cachedir",
                        "usecache",
                        // Added by JCV
-                       "big_image_width",
-                       "big_image_height",
+                       "image_max_width",
+                       "image_max_height",
                        // Added by JCV
                        "storecache",
                        "usezip",
@@ -137,7 +137,7 @@ class MdbBase extends Config
         $this->pages = new Pages($this->config, $this->cache, $this->logger);
         $this->graphql = new GraphQL($this->cache, $this->logger, $this->config);
         // Added by JCV
-        $this->img_processor = new ImageProcessor($this->logger, $this->big_image_width, $this->big_image_height);
+        $this->img_processor = new ImageProcessor($this->logger);
     }
 
     /**

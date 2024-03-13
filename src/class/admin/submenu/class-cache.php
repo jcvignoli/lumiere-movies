@@ -17,7 +17,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\Tools\Utils;
 use Lumiere\Admin\Cache_Tools;
 use Lumiere\Admin\Admin_Menu;
 
@@ -74,7 +73,7 @@ class Cache extends Admin_Menu {
 		) {
 
 			// Cache options menu.
-			$size = Utils::lumiere_format_bytes( $cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ) );
+			$size = $this->lumiere_format_bytes( $cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ) );
 			$this->include_with_vars(
 				'cache/admin-cache-options',
 				[ $size ], /** Add an array with vars to send in the template */
@@ -94,7 +93,7 @@ class Cache extends Admin_Menu {
 					$cache_tools_class->lumiere_get_movie_cache(), // list of movies cached
 					$cache_tools_class->lumiere_get_people_cache(), // list of people cached
 					$cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] ), // picture cache size
-					$this->config_class,
+					$this,
 					$this->page_cache_manage,
 					$cache_tools_class->lumiere_get_cache_query_info( $this->imdb_cache_values['imdbcachedir'] ), // array of query files info
 				], /** Add an array with vars to send in the template */

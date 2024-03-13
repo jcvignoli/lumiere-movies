@@ -252,7 +252,7 @@ class Cache_Tools {
 
 		if ( $type === 'people' ) {
 
-			$name_people_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '*nm' . $id_sanitized . '*}' );
+			$name_people_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '*nm' . $id_sanitized . '*' );
 
 			// if file doesn't exist
 			if ( $name_people_sanitized === false || count( $name_people_sanitized ) < 1 ) {
@@ -337,7 +337,8 @@ class Cache_Tools {
 		$person->movies_soundtrack();
 		$person->movies_writer();
 		$person->name();
-		$person->photo_localurl();
+		$person->photo_localurl( true );
+		$person->photo_localurl( false );
 		$person->pubmovies();
 		$person->pubportraits();
 		$person->quotes();
