@@ -6,7 +6,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.3 \
 **Tested up to:** 6.5 \
-**Stable tag:** 4.0.1 \
+**Stable tag:** 4.0.2 \
 **Requires PHP:** 8.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -191,6 +191,10 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 
+### 4.0.2
+
+Pictures download process wasn't working the expected way. 
+
 ### 4.0.1
 
 Bugs hunting, much work on the popups, bootstrap modal window width is now editable.
@@ -203,19 +207,6 @@ Added new automatized refresh of the cache function, a cool feature that will en
 
 And much more! This is a major new version, more stable and safer, extensively tested before release.
 
-### 3.11.4
-
-Some bots scanning the popups without considering head rules (nofollow) will be now banned. This will prevents from having bots creating a huge cache and many requests that get user banned from IMDB (and save space).
-
-### 3.11
-
--> Faster plugin (images smaller size, technical improvements)
--> Using less disk space (cache).
-Fixed cache that was not properly deleted since GraphQL. Please delete your entire cache should you have selected the option "never" for the "Cache expire" in the admin cache options.
-Many bugs brought by the availability of the French translation addressed, such as the integration with Polylang plugin.
-Privacy explaination in admin should anyone want to add this piece to their own privacy page.
-Adressed latest bugs with PHP 8.2. Fully compliant now.
-
 [...]
 
 ### 3.0
@@ -223,6 +214,10 @@ Adressed latest bugs with PHP 8.2. Fully compliant now.
 * Major update, plugin vastly rewritten. Name [IMDb Link Transformer](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer on WordPress") changed to Lumière!. Should be Content Security Policy (CSP) compliant. Too many changes to be listed. Check the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changelog").
 
 ## Upgrade Notice
+
+### 4.0.2
+
+People and movies pictures will have to be regenerated. The only change will be the size of the picture. If cache auto-refresh is selected, this will be automatically done. Otherwise, make sure to manually refresh your people and movies cache.
 
 ### 4.0.1
 
