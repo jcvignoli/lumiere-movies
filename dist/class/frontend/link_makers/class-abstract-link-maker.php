@@ -332,7 +332,7 @@ abstract class Abstract_Link_Maker {
 				. esc_html__( 'Photo of', 'lumiere-movies' ) . ' '
 				. esc_attr( $movie_title ) . '" width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '" />';
 
-		// set to 100px width if "Display only thumbnail" is active
+			// set to 100px width if "Display only thumbnail" is active
 		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
 			$output .= ' class="' . $specific_img_class . '" src="' . esc_url( $photo_url_final_img ) . '" alt="'
 				. esc_html__( 'Photo of', 'lumiere-movies' ) . ' '
