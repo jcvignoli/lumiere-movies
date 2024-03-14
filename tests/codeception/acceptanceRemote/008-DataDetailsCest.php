@@ -1,1 +1,0 @@
-../acceptanceCommon/008-DataDetailsCest.php

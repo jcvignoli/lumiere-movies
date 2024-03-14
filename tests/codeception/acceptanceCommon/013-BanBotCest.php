@@ -32,7 +32,7 @@ class BanBotCest {
 		$this->base_url = $_ENV[ $final_var_url ];
 		$this->base_path = $_ENV[$final_var_root_folder];
 		
-		$this->ban_text = '~You have been banned from this site~';
+		$this->ban_text = '~(You have been banned from this site|Vous avez été banni de ce site)~';
 
 	}
 

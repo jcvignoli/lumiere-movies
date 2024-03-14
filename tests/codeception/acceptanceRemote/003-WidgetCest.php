@@ -1,1 +1,0 @@
-../acceptanceCommon/003-WidgetCest.php

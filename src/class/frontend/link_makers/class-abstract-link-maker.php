@@ -322,17 +322,21 @@ abstract class Abstract_Link_Maker {
 			$output .= ' loading="lazy"';
 		}
 
-		$output .= ' class="' . $specific_img_class . '" src="' . esc_url( $photo_url_final_img ) . '" alt="'
-			. esc_html__( 'Photo of', 'lumiere-movies' ) . ' '
-			. esc_attr( $movie_title ) . '"';
-
-		// add width only if "Display only thumbnail" is unactive
-		// @since 3.7
+		/**
+		 * Add width="SizeXXXpx" and display the big cover image if "Display only thumbnail" is not selected
+		 * If "display only thumbnail" is selected, thumb image is displayed and width is set to 100
+		 * @since 3.7
+		 */
 		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
-			$output .= ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '" />';
+			$output .= ' class="' . $specific_img_class . '" src="' . esc_url( $photo_localurl ) . '" alt="'
+				. esc_html__( 'Photo of', 'lumiere-movies' ) . ' '
+				. esc_attr( $movie_title ) . '" width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '" />';
+
 			// set to 100px width if "Display only thumbnail" is active
 		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
-			$output .= ' width="100px" />';
+			$output .= ' class="' . $specific_img_class . '" src="' . esc_url( $photo_url_final_img ) . '" alt="'
+				. esc_html__( 'Photo of', 'lumiere-movies' ) . ' '
+				. esc_attr( $movie_title ) . '" width="100px" />';
 		}
 
 		// Not classic links, so we can close <a>

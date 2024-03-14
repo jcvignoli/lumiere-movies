@@ -211,11 +211,11 @@ trait AcceptanceTrait {
 	 * Filesystem SeeFile is not reliable
 	 */
 	function customSeeFile( $file ) {
-		if (!is_file( $file ) ) {
-			$this->comment("[CustomSeeFile] File $file was not found, exiting.");
-			exit;
-		}
-		$this->comment("[CustomSeeFile] File $file was found, continuing.");
+		if ( is_file( $file ) === false ) {
+			$this->comment("[CustomSeeFile] File was not found, exiting.");
+			throw new \Exception("[CustomSeeFile] File $file was not found, exiting.");
+		} 
+		$this->comment("[CustomSeeFile] File was found, continuing.");
 	}
 	
 	/**
@@ -223,11 +223,11 @@ trait AcceptanceTrait {
 	 * Filesystem dontSeeFile is not reliable
 	 */
 	function customDontSeeFile( $file ) {
-		if (is_file( $file ) ) {
-			$this->comment("[CustomSeeFile] File $file was found, exiting.");
-			exit;
-		}
-		$this->comment("[CustomSeeFile] File $file doesn't exist, continuing.");
+		if ( is_file( $file ) === true ) {
+			$this->comment("[CustomDontSeeFile] File was found, exiting.");
+			throw new \Exception("[CustomDontSeeFile] File $file was found, exiting.");
+		} 
+		$this->comment("[CustomDontSeeFile] File doesn't exist, continuing.");
 	}
 }
 

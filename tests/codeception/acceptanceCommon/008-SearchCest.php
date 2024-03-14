@@ -91,11 +91,14 @@ class SearchCest {
 			$webdriver->switchTo()->window($last_window);
 		});
 		$I->waitForElementVisible( '#moviesearched', 15 ); // wait up to 15 seconds
+		
+		$I->scrollTo('#moviesearched');
 		$I->fillField( '#moviesearched', '2001' );
 		$I->click( 'Search' );
 		$I->see( '2001: A Space Odyssey (1968)' );
 		$I->see( '0062622' );
 
+		$I->scrollTo('#imdbid_0062622');
 		$I->click( '#imdbid_0062622' );
 		
 		$I->acceptPopup();

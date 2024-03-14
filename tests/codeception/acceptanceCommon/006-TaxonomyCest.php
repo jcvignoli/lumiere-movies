@@ -186,6 +186,33 @@ class TaxonomyCest {
 	}
 
 	/**
+	 * Make sure we have a template for genre
+	 *
+	 * @before login
+	 */
+	public function checkTaxonomyItemTemplateSystem(AcceptanceRemoteTester $I) {
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
+		$I->scrollTo('#imdb_imdbtaxonomygenre_yes');
+		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
+			Avoid to throw error if untrue, normal behaviour of codeception 
+			If $element is disabled, check it and then click $submit (form) */
+		$I->CustomActivateCheckbox('#imdb_imdbtaxonomygenre_yes', '#lumiere_update_data_settings' );
+		
+		// Copy Lumière taxonomy template to theme folder
+		$I->maybeCopyThemeFile( 'genre' );
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PERMALINK_URL );
+		$I->wait(2);
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PERMALINK_URL );
+		$I->wait(2);
+		// Check that the template has been successfully implemented
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->scrollTo( '#title_Werewolf' );
+		$I->click( "Horror");
+		$I->wait(2);
+		$I->see('List of posts tagged Horror');
+	}
+
+	/**
 	 * Check if taxonomy deactivation/activation produce expected results
 	 * @before login
 	 * @before highslide
