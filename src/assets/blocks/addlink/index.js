@@ -49,5 +49,5 @@
 			},
 		}
 	);
-	
+
 } )( window.wp.blockEditor, window.wp.richText, window.wp.element );
