@@ -145,6 +145,7 @@ This value is supposed [to be included by default](https://httpd.apache.org/docs
 = Known issues =
 
 * In taxonomy extra page for people, if both Polylang and AMP plugins are activated, the form to switch the language doesn't work.
+* Getting in blocks error message "Format "lumiere/addimdblink" is already registered to handle bare tag name "span".". Working on a solution.
 
 == Support ==
 

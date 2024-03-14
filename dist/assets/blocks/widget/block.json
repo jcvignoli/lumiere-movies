@@ -1,0 +1,11 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lumiere/widget",
+	"title": "Add a widget",
+	"description": "Lumiere widget allow to display a movie according to the metabox data or auto-title lumiere option",
+	"textdomain": "lumiere-movies",
+	"category": "widget",
+	"editorScript": "file:./index.min.js",
+	"editorStyle": "file:./index.min.css"
+}

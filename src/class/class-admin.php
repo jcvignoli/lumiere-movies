@@ -56,7 +56,7 @@ class Admin {
 
 		// Widget.
 		/** @psalm-suppress MissingClosureReturnType, UndefinedClass -- crazy psalm, it is defined! */
-		add_action( 'widgets_init', fn() => Widget_Selection::lumiere_widget_start(), 9 );
+		add_action( 'widgets_init', fn() => Widget_Selection::lumiere_static_start(), 9 );
 
 		// Register admin scripts.
 		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ], 0 );

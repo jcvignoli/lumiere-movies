@@ -23,8 +23,8 @@ use Lumiere\Tools\Settings_Global;
  * Add a Lumière Widget option in administration
  * It selects either legacy widget (pre-5.8 WordPress) or block-based widget (post-5.8 WordPress), so it is compatible with Classic widget plugin
  *
- * Once this widget is added to, it may be used to display both autowidget and metabox info in sidebar widgets
- * @see Admin class calls it
+ * Once this widget is added, it may be used to display both autowidget and metabox info in a sidebar
+ * @see \Lumiere\Admin that calls it
  */
 class Widget_Selection extends \WP_Widget {
 
@@ -69,7 +69,7 @@ class Widget_Selection extends \WP_Widget {
 	 *
 	 * @since 4.0 using __CLASS__ instead of get_class() in register_widget()
 	 */
-	public static function lumiere_widget_start(): void {
+	public static function lumiere_static_start(): void {
 
 		$self_class = new self();
 
@@ -88,7 +88,6 @@ class Widget_Selection extends \WP_Widget {
 				}
 			);
 		}
-
 	}
 
 	/**
@@ -102,42 +101,19 @@ class Widget_Selection extends \WP_Widget {
 
 		$widget_types[] = self::WIDGET_NAME;
 		return $widget_types;
-
 	}
 
 	/**
 	 * Register Block Widget (>= WordPress 5.8)
-	 * @TODO update the registration using the new WP way https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/
+	 * @since 4.0.3 Using block.json
 	 */
 	public function lumiere_register_widget_block(): void {
-
-		wp_register_script(
-			'lumiere_block_widget',
-			$this->config_class->lumiere_blocks_dir . 'widget/index.min.js',
-			[ 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n', 'wp-data' ],
-			$this->config_class->lumiere_version,
-			false
-		);
-
-		wp_register_style(
-			'lumiere_block_widget',
-			$this->config_class->lumiere_blocks_dir . 'widget/index.min.css',
-			[],
-			$this->config_class->lumiere_version
-		);
 
 		// Fix; Avoid registering the block twice, register only if not already registered.
 		// Avoid WP notice 'WP_Block_Type_Registry::register was called incorrectly. Block type is already registered'.
 		if ( function_exists( 'register_block_type' ) && class_exists( '\WP_Block_Type_Registry' ) && ! \WP_Block_Type_Registry::get_instance()->is_registered( self::BLOCK_WIDGET_NAME ) ) {
 
-			register_block_type(
-				self::BLOCK_WIDGET_NAME,
-				[
-					'editor_style_handles' => [ 'lumiere_block_widget' ], // Loads both on editor and frontend.
-					'editor_script_handles' => [ 'lumiere_block_widget' ], // Loads only on editor.
-				]
-			);
-
+			register_block_type( dirname( dirname( __DIR__ ) ) . '/assets/blocks/widget/' );
 		}
 	}
 
@@ -159,9 +135,7 @@ class Widget_Selection extends \WP_Widget {
 
 			echo '<div align="center"><img src="' . esc_url( $this->config_class->lumiere_pics_dir . 'widget-preview.png' ) . '" /></div>';
 			echo '<br />';
-
 		}
-
 	}
 
 	/**
@@ -198,7 +172,6 @@ class Widget_Selection extends \WP_Widget {
 		echo $output;  // @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		return $output;
-
 	}
 
 	/**

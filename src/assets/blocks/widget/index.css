@@ -1,10 +1,10 @@
-.lumiere_block_widget{border: 1px solid black;padding:20px;color:#494633;}
+.lumiere_block_widget{border: 1px solid black;padding:20px;color:#494633;margin-bottom:2em;}
 
 .lumiere_block_widget_title {color:grey;float:right;text-align:left;padding:15px 0 5px 15px;width:90%;font-size: 1.4em;font-weight: 600;}
 
 .lumiere_block_widget_image {float:left;width:10%;height:auto;vertical-align:middle;}
 
-.lumiere_block_widget_explanation {clear:both;padding:10px;font-style:italic;text-align:center;width:100%;font-size: 0.8em;}
+.lumiere_block_widget_explanation {clear:both;padding:10px;font-style:italic;text-align:center;width:100%;}
 
 .lumiere_block_widget_container {display:flex;flex-wrap:wrap;text-align:center;}
 

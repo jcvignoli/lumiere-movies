@@ -1,0 +1,10 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lumiere/addlink",
+	"title": "Add IMDb link",
+	"category": "text",
+	"description": "Add a link to a popup",
+	"textdomain": "lumiere-movies",
+	"editorScript": "file:./index.min.js"
+}

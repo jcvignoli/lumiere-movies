@@ -62,6 +62,7 @@ class Settings {
 	const LUMIERE_WORDPRESS_IMAGES = 'https://ps.w.org/lumiere-movies/assets';
 	const LUMIERE_GIT = 'https://github.com/jcvignoli/lumiere-movies';
 	const LUMIERE_ACTIVE = 'LUMIERE_ACTIVE';
+	const LUMIERE_LANG_DOMAIN = 'lumiere-movies';
 
 	/**
 	 * URL Strings for popups, built in lumiere_define_constants()
@@ -90,12 +91,6 @@ class Settings {
 	 * @var string $lumiere_js_dir
 	 */
 	public string $lumiere_js_dir;
-
-	/**
-	 * URL for blocks dir, built in lumiere_define_constants()
-	 * @var string $lumiere_blocks_dir
-	 */
-	public string $lumiere_blocks_dir;
 
 	/**
 	 * URL for javascript dir, built in lumiere_define_constants()
@@ -213,10 +208,6 @@ class Settings {
 
 		// Define Lumière constants once global options have been created.
 		$this->lumiere_define_constants_after_globals();
-
-		// Call the plugin translation
-		load_plugin_textdomain( 'lumiere-movies', false, plugin_dir_url( __DIR__ ) . 'languages' );
-
 	}
 
 	/**
@@ -237,9 +228,6 @@ class Settings {
 
 		/* BUILD directory for css */
 		$this->lumiere_css_dir = plugin_dir_url( __DIR__ ) . 'assets/css/';
-
-		/* BUILD directory for blocks */
-		$this->lumiere_blocks_dir = plugin_dir_url( __DIR__ ) . 'blocks/';
 
 		/* BUILD LUMIERE_VERSION */
 		$lumiere_version_recherche = file_get_contents( plugin_dir_path( __DIR__ ) . 'README.txt' );

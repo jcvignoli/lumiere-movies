@@ -30,7 +30,7 @@
 
 // Stop direct call.
 if ( ! defined( 'ABSPATH' ) ) {
-	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
+	wp_die( 'You are not allowed to call this page directly.' );
 }
 
 // Include composer bootstrap.

@@ -110,6 +110,8 @@ class Core {
 		// Crons schedules.
 		add_action( 'init', fn() => Admin\Cron::lumiere_cron_start(), 0 );
 
+		// Call the plugin translation
+		load_plugin_textdomain( Settings::LUMIERE_LANG_DOMAIN, false, plugin_dir_path( __DIR__ ) . 'languages/' );
 	}
 
 	/**
@@ -174,50 +176,15 @@ class Core {
 	/**
 	 * Register gutenberg blocks
 	 *
-	 * @TODO update the registration using the new WP way https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/
+	 * @since 4.0.3 Using block.json, added script translation
 	 * @see \Lumiere\Admin\Widget_Selection::lumiere_register_widget_block() which registers gutenberg widget blocks
 	 */
 	public function lumiere_register_gutenberg_blocks(): void {
-
-		wp_register_script(
-			'lumiere_gutenberg_main',
-			$this->config_class->lumiere_blocks_dir . 'editor/index.min.js',
-			[ 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n', 'wp-data' ],
-			$this->config_class->lumiere_version,
-			false
-		);
-
-		wp_register_script(
-			'lumiere_gutenberg_buttons',
-			$this->config_class->lumiere_blocks_dir . 'editor/buttons.min.js',
-			[ 'wp-element', 'wp-compose', 'wp-components', 'wp-i18n', 'wp-data' ],
-			$this->config_class->lumiere_version,
-			false
-		);
-
-		wp_register_style(
-			'lumiere_gutenberg_main',
-			$this->config_class->lumiere_blocks_dir . 'editor/index.min.css',
-			[],
-			$this->config_class->lumiere_version
-		);
-
-		// Enqueue block script and style after registration.
-		register_block_type(
-			'lumiere/main',
-			[
-				'editor_style_handles' => [ 'lumiere_gutenberg_main' ],
-				'editor_script_handles' => [ 'lumiere_gutenberg_main' ], // Loads only on editor.
-			]
-		);
-
-		register_block_type(
-			'lumiere/buttons',
-			[
-				'editor_script_handles' => [ 'lumiere_gutenberg_buttons' ], // Loads only on editor.
-			]
-		);
-
+		$blocks = [ 'movie', 'addlink', 'opensearch' ];
+		foreach ( $blocks as $block ) {
+			register_block_type( dirname( __DIR__ ) . '/assets/blocks/' . $block );
+			wp_set_script_translations( $block, Settings::LUMIERE_LANG_DOMAIN, plugin_dir_path( __DIR__ ) . 'languages/' );
+		}
 	}
 
 	/**
