@@ -120,24 +120,15 @@ class Ban_Bots {
 	}
 
 	/**
-	 * Display a 403 error
+	 * Display a 400 error
 	 * This is an action meant to be called with do_action( 'lumiere_ban_bots_now' ) that immediately ban the user
+	 * @since 4.0.3 Status changed from 403 to 400, removed translation of the $text_ban
 	 */
 	public function lumiere_banishment(): void {
 
-		$text_ban = sprintf(
-			/* translators: %1$s and %2$s are HTML tags */
-			__( '%1$sYou have been banned from this site%2$s', 'lumiere-movies' ),
-			'<h1>',
-			'</h1>'
-		);
+		$text_ban = '<h1>Prevented a bad request</h1>';
 
-		$text_ban .= sprintf(
-			/* translators: %1$s, %2$s are HTML tags */
-			__( '%1$sIf you think it\'s a mistake, please contact the administrator via a proxy server.%2$s', 'lumiere-movies' ),
-			'<p>',
-			'</p>'
-		);
+		$text_ban .= '<p>If you think it\'s a mistake, please contact the administrator via a proxy server.</p>';
 
 		wp_die(
 			wp_kses(
@@ -150,7 +141,7 @@ class Ban_Bots {
 			),
 			esc_html__( 'Lumière Popups Access Error', 'lumiere-movies' ),
 			[
-				'response' => 403,
+				'response' => 400,
 				'link_url' => esc_url( site_url() ),
 				'link_text' => esc_html__( 'Back home', 'lumiere-movies' ),
 			]
