@@ -243,7 +243,7 @@ class Updates {
 
 		// Manually Activate logging, since current function is run before WP init
 		do_action( 'lumiere_logger' );
-		
+
 		// Convert to string so it can be added into debug log.
 		$update_number_string = (string) $update_number;
 

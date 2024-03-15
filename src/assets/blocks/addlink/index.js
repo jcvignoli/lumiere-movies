@@ -22,9 +22,9 @@
 					props.onChange(
 						richText.toggleFormat(
 							props.value,
-							 {
-							 	type: "lumiere/addimdblink",
-								 attributes: {
+							{
+								type: "lumiere/addimdblink",
+								attributes: {
 									"data-lum_link_maker": "popup"
 								},
 							},
@@ -37,7 +37,8 @@
 	};
 
 	richText.registerFormatType(
-		'lumiere/addimdblink', {
+		'lumiere/addimdblink',
+		{
 			title: i18n.__( 'Add IMDb link', 'lumiere-movies' ),
 			tagName: 'span',
 			className: 'notneeded',
