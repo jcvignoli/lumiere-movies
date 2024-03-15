@@ -290,10 +290,10 @@ document.addEventListener(
 		);
 	}
 );
-/************************************** Open a query popup in any admin pages
-*
-*/
 
+/**
+ ************************************ Open a query popup in any admin pages
+ */
 document.addEventListener(
 	'DOMContentLoaded',
 	function () {

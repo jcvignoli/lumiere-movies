@@ -268,8 +268,8 @@ class Save_Options {
 
 		delete_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS );
 
+		set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			set_transient( 'notice_lumiere_msg', 'general_options_reset', 1 );
 			exit;
 		}
 	}

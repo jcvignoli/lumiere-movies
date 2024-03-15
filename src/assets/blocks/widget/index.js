@@ -19,7 +19,7 @@
 		'lumiere/widget',
 		{
 
-			title: i18n.__( 'Lumière! Widget', 'lumiere-movies' ),
+			title: 'Lumière! Widget',
 			description: i18n.__( 'Lumière Widget automatically adds movies to your widgets sidebar. After adding the widget, either use the new box on the right when editing your post to add your movie or select "Auto title widget" in advanced options.', 'lumiere-movies' ),
 			icon: iconLumiere,
 			category: 'widgets',
@@ -31,17 +31,9 @@
 					default: 'Lumière Movies'
 				},
 			},
-			/*
-			example: {
-			attributes: {
-				backgroundColor: '#000000',
-				padding: 30,
-				textColor: '#FFFFFF',
-				radius: 10,
-				title: i18n.__('Lumière widget example', 'lumiere-movies'),
-			},
-			},
-			*/
+
+			example: {},
+
 			edit: function( props ) {
 				return (
 				el(
@@ -140,4 +132,4 @@
 
 		}
 	); // end registerBlockType()
-} )( window.wp.blocks, window.wp.blockEditor, window.wp.element, window.wp.components, window.wp.data, window.wp.i18n, );
+} )( window.wp.blocks, window.wp.blockEditor, window.wp.element, window.wp.components, window.wp.data, window.wp.i18n );

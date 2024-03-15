@@ -1,7 +1,10 @@
 **Changelog**
 
 v.4.0.3
+* [bug] When reseting options in General options, no confirmation message was displayed.
+* [bug] Update wasn't working (Casting now to string in class update the option 'imdbHowManyUpdates', which doesn't actually make sense but works)
 * [technical] Gutenberg block registration is now done in more modern way (using register_block_type() and block.json). Splitted "add imdb link" and "open search" into two blocks. Widget is also registered that way.
+* [technical] Due to Gutenberg block limitation, a class is now added in <span data-lum_movie_maker=""></span>. The plugin remains fully compatible with the span without class. (Edited regexes in class movie to take into account the possiblity that spans can include a class)
 
 v.4.0.2
 * [feature] Thumbnail pictures (those which are displayed automatically into the posts, in cache, in popups) are now automatically resized should they weight more that 80kb, which should display all pages faster. Maintained the possiblity to click on these thumbnails to display the big posters.

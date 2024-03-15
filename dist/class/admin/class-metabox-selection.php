@@ -46,9 +46,9 @@ class Metabox_Selection {
 
 	/**
 	 * Static instanciation of the class
-	 * Needed to be called in add_actions()
 	 *
 	 * @return void The class was instanciated
+	 * @see \Lumiere\Admin call this class
 	 */
 	public static function lumiere_static_start(): void {
 		$metabox_class = new self();
@@ -117,7 +117,23 @@ class Metabox_Selection {
 		</div>
 
 		<div class="lumiere_padding_five">
-			<?php esc_html_e( 'Use ', 'lumiere-movies' ); ?><a id="lumiere_open_search_popup" class="linkpopup" data-lumiere_admin_popup="no data" title="<?php esc_html_e( 'Open a popup to search the movie\'s ID', 'lumiere-movies' ); ?>"><?php esc_html_e( 'the query tool ', 'lumiere-movies' ); ?></a><?php esc_html_e( 'to find the IMDb\'s ID.', 'lumiere-movies' ); ?> 
+			<?php
+			echo wp_kses(
+				sprintf(
+					/* translators: %1$s and %2$s are HTML tags */
+					__( 'Use %1$sthe query tool%2$s to find the IMDb\'s ID.', 'lumiere-movies' ),
+					'<a class="linkpopup" data-lumiere_admin_popup="no data" title="' . esc_html__( 'Open a popup to search the movie\'s ID', 'lumiere-movies' ) . '">',
+					'</a>'
+				),
+				[
+					'a' => [
+						'id' => [],
+						'class' => [],
+						'data-lumiere_admin_popup' => [],
+						'title' => [],
+					],
+				]
+			); ?> 
 		</div>
 
 		</p><!-- #lumiere-movies -->

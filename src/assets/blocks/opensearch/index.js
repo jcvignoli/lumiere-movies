@@ -19,7 +19,7 @@
 			wp.blockEditor.RichTextToolbarButton,
 			{
 				icon: iconLumiereWindow,
-				title: 'Open search IMDB ID',
+				title: wp.i18n.__( 'Open search IMDB ID', 'lumiere-movies' ),
 				onClick: function () {
 					open( lumiere_admin_vars.wordpress_path + lumiere_admin_vars.gutenberg_search_url_string );
 				},
@@ -45,4 +45,16 @@
 		)
 	)( ButtonOpenSearch );
 
+	wp.richText.registerFormatType(
+		'lumiere/opensearch',
+		{
+			title: wp.i18n.__( 'Open search IMDB ID', 'lumiere-movies' ),
+			tagName: "someRandomTag",
+			className: null,
+			edit: ConditionalButton,
+			attributes: {
+				'data-lum_link_maker': 'data-lum_link_maker',
+			},
+		}
+	);
 } )( window.wp );

@@ -1,4 +1,4 @@
-( function ( blockEditor, richText, element ) {
+( function ( blockEditor, richText, element, i18n ) {
 
 	var el = element.createElement;
 
@@ -17,18 +17,17 @@
 			blockEditor.RichTextToolbarButton,
 			{
 				icon: iconLumiereLink,
-				title: "Add IMDb link",
-				className: null,
+				title: i18n.__( 'Add IMDb link', 'lumiere-movies' ),
 				onClick: function () {
 					props.onChange(
 						richText.toggleFormat(
 							props.value,
-							{
-								type: "lumiere/addimdblink",
-								attributes: {
+							 {
+							 	type: "lumiere/addimdblink",
+								 attributes: {
 									"data-lum_link_maker": "popup"
-								}
-							}
+								},
+							},
 						)
 					);
 				},
@@ -38,16 +37,13 @@
 	};
 
 	richText.registerFormatType(
-		'lumiere/addimdblink',
-		{
-			title: 'Add IMDb link',
+		'lumiere/addimdblink', {
+			title: i18n.__( 'Add IMDb link', 'lumiere-movies' ),
 			tagName: 'span',
-			className: null,
+			className: 'notneeded',
 			edit: ButtonTagIMDb,
-			attributes: {
-				'data-lum_link_maker': 'data-lum_link_maker',
-			},
+
 		}
 	);
 
-} )( window.wp.blockEditor, window.wp.richText, window.wp.element );
+} )( window.wp.blockEditor, window.wp.richText, window.wp.element, window.wp.i18n, );

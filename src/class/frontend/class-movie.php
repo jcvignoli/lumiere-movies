@@ -70,7 +70,7 @@ class Movie {
 	/**
 	 * Search the movie and output the results
 	 *
-	 * @since 3.8   Extra logs are shown once only using singleton $this->movie_run_once and PluginsDetect class added
+	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once and PluginsDetect class added
 	 *
 	 * @param array<int<0, max>, array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
 	 * @psalm-param list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $imdb_id_or_title_outside
@@ -85,8 +85,6 @@ class Movie {
 		if ( count( $this->plugins_in_use ) === 0 ) {
 			$this->lumiere_set_plugins_array();
 		}
-
-		do_action( 'lumiere_logger' );
 
 		// Show log for link maker and plugin detect
 		if ( $this->movie_run_once === false ) {
@@ -180,9 +178,8 @@ class Movie {
 	/**
 	 * List of prohibited areas where the class won't run
 	 *
-	 * @since 3.10.2
-	 *
 	 * @return bool
+	 * @since 3.10.2
 	 */
 	public function lumiere_prohibited_areas(): bool {
 		return is_feed() || is_comment_feed();
@@ -270,18 +267,42 @@ class Movie {
 	}
 
 	/**
-	 *  Replace <span data-lum_link_maker="popup"> tags inside the posts
+	 * Replace <span class="lumiere_link_maker"></span> with links
 	 *
-	 * Looks for what is inside tags <span data-lum_link_maker="popup"> ... </span>
-	 * and builds a popup link
+	 * @param null|string $text parsed data
+	 * @since 4.0.3 Added the possibility to have some text after the data with [^>]*
+	 */
+	public function lumiere_link_popup_maker( ?string $text ): ?string {
+
+		if ( ! isset( $text ) ) {
+			return null;
+		}
+
+		// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
+		$pattern = '~<span data-lum_link_maker="popup"[^>]*>(.+?)<\/span>~i';
+		$text = preg_replace_callback( $pattern, [ $this, 'lumiere_link_finder' ], $text ) ?? $text;
+
+		// Kept for compatibility purposes:  <!--imdb--> still works
+		$pattern_two = '~<!--imdb-->(.*?)<!--\/imdb-->~i';
+		$text = preg_replace_callback( $pattern_two, [ $this, 'lumiere_link_finder_oldway' ], $text ) ?? $text;
+
+		return $text;
+	}
+
+	/**
+	 * Replace <span data-lum_link_maker="popup"> tags inside the posts
+	 *
+	 * Looks for what is inside tags <span data-lum_link_maker="popup"> ... </span> and builds a popup link
 	 *
 	 * @param array<int, string> $correspondances parsed data
+	 * @since 4.0.3 Added the possibility to have some text after the data with [^>]*
 	 */
 	private function lumiere_link_finder( array $correspondances ): string {
 
 		$correspondances = $correspondances[0];
-		preg_match( '~<span data-lum_link_maker="popup">(.+)<\/span>~i', $correspondances, $matches );
-		return $this->link_maker->lumiere_popup_film_link( $matches );
+		$pattern = '~<span data-lum_link_maker="popup"[^>]*>(.+?)<\/span>~i'; // identical to $pattern in lumiere_link_popup_maker().
+		$result = preg_match( $pattern, $correspondances[0], $matches );
+		return $result > 0 ? $this->link_maker->lumiere_popup_film_link( $matches ) : $correspondances;
 	}
 
 	/**
@@ -296,30 +317,9 @@ class Movie {
 	private function lumiere_link_finder_oldway( array $correspondances ): string {
 
 		$correspondances = $correspondances[0];
-		preg_match( '~<!--imdb-->(.*?)<!--\/imdb-->~i', $correspondances, $link_parsed );
-		return $this->link_maker->lumiere_popup_film_link( $link_parsed );
-	}
-
-	/**
-	 * Replace <span class="lumiere_link_maker"></span> with links
-	 *
-	 * @param null|string $text parsed data
-	 */
-	public function lumiere_link_popup_maker( ?string $text ): ?string {
-
-		if ( ! isset( $text ) ) {
-			return null;
-		}
-
-		// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
-		$pattern = '~<span data-lum_link_maker="popup">(.+?)<\/span>~i';
-		$text = preg_replace_callback( $pattern, [ $this, 'lumiere_link_finder' ], $text ) ?? $text;
-
-		// Kept for compatibility purposes:  <!--imdb--> still works
-		$pattern_two = '~<!--imdb-->(.*?)<!--\/imdb-->~i';
-		$text = preg_replace_callback( $pattern_two, [ $this, 'lumiere_link_finder_oldway' ], $text ) ?? $text;
-
-		return $text;
+		$pattern = '~<!--imdb-->(.*?)<!--\/imdb-->~i'; // identical to $pattern in lumiere_link_popup_maker().
+		$result = preg_match( $pattern, $correspondances[0], $matches );
+		return $result > 0 ? $this->link_maker->lumiere_popup_film_link( $matches ) : $correspondances;
 	}
 
 	/**

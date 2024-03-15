@@ -1,11 +1,12 @@
-/* Functions here are Content Security Policy (CSP) Compliant
-*  Needs jquery
-*  For gutenberg edition pages
-*/
+/**
+ *Functions here are Content Security Policy (CSP) Compliant
+ * Needs jquery
+ * For gutenberg edition pages
+ */
 
-/************************************** Gutenberg
-*
-*/
+/**
+ ************************************* Gutenberg
+ */
 
 document.addEventListener(
 	'DOMContentLoaded',

@@ -234,15 +234,23 @@ class Updates {
 	 * Triggered if conditions specified in constants in child class are met
 	 *
 	 * @param string $version_update i.e. 3.7
-	 * @param int $number_of_updates i.e. 9
+	 * @param int $update_number i.e. 9
 	 * @return bool True if the update should happen, false otherwhise
+	 *
+	 * @since 4.0.3 casted $this->imdb_admin_values['imdbHowManyUpdates'] to string, which doesn't make sense, but update fails otherwise
 	 */
-	protected function lumiere_check_if_run_update( string $version_update = '', int $number_of_updates = 0 ): bool {
+	protected function lumiere_check_if_run_update( string $version_update = '', int $update_number = 0 ): bool {
 
 		// Manually Activate logging, since current function is run before WP init
 		do_action( 'lumiere_logger' );
 
-		// Check if the update should happen
+		// Convert to string so it can be added into debug log.
+		$update_number_string = (string) $update_number;
+
+		/**
+		 * Check if the update should happen
+		 * @psalm-suppress RedundantCastGivenDocblockType -- Correct, imdbHowManyUpdates should be string, but for some unknown reason it is not a string...
+		 */
 		if (
 			/**
 			 * Check if the current Lumière version is greater or equal to Lumière version impacted by the child's update
@@ -251,15 +259,16 @@ class Updates {
 			/**
 			 * Check if the number of updates already run (saved in database) is equal to child's class update number
 			 * The child's class update number will make sure that a sequencial update order is respected when parsing "updates/*.php" files
+			 * @phpstan-ignore-next-line -- PHPStan is correct, imdbHowManyUpdates should be string, but for some unknown reason it is not a string...
 			 */
-			&& ( $this->imdb_admin_values['imdbHowManyUpdates'] === strval( $number_of_updates ) )
+			&& ( (string) $this->imdb_admin_values['imdbHowManyUpdates'] === $update_number_string )
 		) {
 
-			$this->logger->log()->debug( "[Lumiere][updateClass] Update $number_of_updates has started" );
+			$this->logger->log()->debug( "[Lumiere][updateClass] Update $update_number_string has started" );
 			return true;
 		}
 
-		$this->logger->log()->debug( "[Lumiere][updateClass] Update $number_of_updates not needed." );
+		$this->logger->log()->debug( "[Lumiere][updateClass] Update $update_number_string not needed." );
 		return false;
 	}
 }

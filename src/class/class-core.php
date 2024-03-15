@@ -111,7 +111,7 @@ class Core {
 		add_action( 'init', fn() => Admin\Cron::lumiere_cron_start(), 0 );
 
 		// Call the plugin translation
-		load_plugin_textdomain( Settings::LUMIERE_LANG_DOMAIN, false, plugin_dir_path( __DIR__ ) . 'languages/' );
+		load_plugin_textdomain( 'lumiere-movies', false, plugin_dir_path( __DIR__ ) . 'languages/' );
 	}
 
 	/**
@@ -182,8 +182,8 @@ class Core {
 	public function lumiere_register_gutenberg_blocks(): void {
 		$blocks = [ 'movie', 'addlink', 'opensearch' ];
 		foreach ( $blocks as $block ) {
-			register_block_type( dirname( __DIR__ ) . '/assets/blocks/' . $block );
-			wp_set_script_translations( $block, Settings::LUMIERE_LANG_DOMAIN, plugin_dir_path( __DIR__ ) . 'languages/' );
+			register_block_type_from_metadata( dirname( __DIR__ ) . '/assets/blocks/' . $block );
+			wp_set_script_translations( 'lumiere-' . $block . '-editor-script-js', 'lumiere-movies', plugin_dir_path( __DIR__ ) . 'languages/' );
 		}
 	}
 

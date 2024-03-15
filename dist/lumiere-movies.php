@@ -35,9 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Include composer bootstrap.
 if ( ( file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload.php' ) ) && ( file_exists( plugin_dir_path( __FILE__ ) . 'class/class-core.php' ) ) ) {
-
 	require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
-
 }
 
 // Check if the classes are installed.

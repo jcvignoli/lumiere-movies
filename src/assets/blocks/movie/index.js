@@ -97,7 +97,10 @@
 										+ i18n.__( 'Use this block to retrieve movie or people information from the IMDb and insert in your post.' , 'lumiere-movies' )
 										+ '<br />'
 										+ i18n.__( 'You can also click on this link to get the' , 'lumiere-movies' )
-										+ ' <a data-lumiere_admin_popup="openApopup">'
+										+ ' <a data-lumiere_admin_popup="useSomeValuePopupOpen" '
+										+ 'onclick="window.open(\'' + lumiere_admin_vars.wordpress_admin_path + lumiere_admin_vars.gutenberg_search_url_string + '\', \'_blank\', \'location=yes,height=400,width=500,scrollbars=yes,status=yes\');" '
+										+ 'class="linkincmovie link-imdblt-highslidepeople highslide" '
+										+ 'target="_blank">'
 										+ i18n.__( 'IMDb movie id' , 'lumiere-movies' )
 										+ '</a> ' + i18n.__( 'and insert it.' , 'lumiere-movies' ),
 
@@ -168,4 +171,4 @@
 
 		}
 	);
-})( window.wp.blocks, window.wp.blockEditor, window.wp.element, window.wp.components, window.wp.data, window.wp.i18n, );
+})( window.wp.blocks, window.wp.blockEditor, window.wp.element, window.wp.components, window.wp.data, window.wp.i18n );

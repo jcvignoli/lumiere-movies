@@ -24,31 +24,30 @@ use Lumiere\Tools\Settings_Global;
  * It selects either legacy widget (pre-5.8 WordPress) or block-based widget (post-5.8 WordPress), so it is compatible with Classic widget plugin
  *
  * Once this widget is added, it may be used to display both autowidget and metabox info in a sidebar
+ *
+ * Constant Settings::BLOCK_WIDGET_NAME is the post-WP 5.8 widget block name.
+ * Constant Settings::WIDGET_NAME is the pre-WP 5.8 widget name.
+ *
  * @see \Lumiere\Admin that calls it
  */
 class Widget_Selection extends \WP_Widget {
 
-	// Use Frontend trait
+	/**
+	 * Global Frontend trait
+	 */
 	use Settings_Global;
 
 	/**
-	 * Names of the Widgets
-	 */
-	const BLOCK_WIDGET_NAME = Settings::BLOCK_WIDGET_NAME; // post-WP 5.8 widget block name.
-	const WIDGET_NAME = Settings::WIDGET_NAME; // pre-WP 5.8 widget name.
-
-	/**
 	 * Constructor. Sets up the widget name, description, etc.
-	 *
 	 */
 	public function __construct() {
 
-		// Get Global Settings class properties.
+		// Get Global Settings class properties from trait Settings_Global.
 		$this->get_settings_class();
 		$this->get_db_options();
 
 		parent::__construct(
-			self::WIDGET_NAME,  // Base ID.
+			Settings::WIDGET_NAME,  // Base ID.
 			'Lumière! Widget (legacy)',   // Name.
 			[
 				'description' => esc_html__( 'Add automatically movie details to your pages with Lumière! Legacy version: as of WordPress 5.8, prefer the new Widget version in block editor.', 'lumiere-movies' ),
@@ -78,8 +77,8 @@ class Widget_Selection extends \WP_Widget {
 
 		// Register legacy widget only if no Widget block has been added.
 		if (
-			Utils::lumiere_block_widget_isactive( self::BLOCK_WIDGET_NAME ) === false
-			|| is_active_widget( false, false, self::WIDGET_NAME, false ) !== false
+			Utils::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === false
+			|| is_active_widget( false, false, Settings::WIDGET_NAME, false ) !== false
 		) {
 			add_action(
 				'widgets_init',
@@ -99,7 +98,7 @@ class Widget_Selection extends \WP_Widget {
 	 */
 	public function lumiere_hide_widget( array $widget_types ): array {
 
-		$widget_types[] = self::WIDGET_NAME;
+		$widget_types[] = Settings::WIDGET_NAME;
 		return $widget_types;
 	}
 
@@ -109,11 +108,17 @@ class Widget_Selection extends \WP_Widget {
 	 */
 	public function lumiere_register_widget_block(): void {
 
-		// Fix; Avoid registering the block twice, register only if not already registered.
-		// Avoid WP notice 'WP_Block_Type_Registry::register was called incorrectly. Block type is already registered'.
-		if ( function_exists( 'register_block_type' ) && class_exists( '\WP_Block_Type_Registry' ) && ! \WP_Block_Type_Registry::get_instance()->is_registered( self::BLOCK_WIDGET_NAME ) ) {
+		/**
+		 * Fix; Avoid registering the block twice, register only if not already registered.
+		 * Avoid WP notice 'WP_Block_Type_Registry::register was called incorrectly. Block type is already registered'.
+		 */
+		if (
+			function_exists( 'register_block_type_from_metadata' )
+			&& class_exists( '\WP_Block_Type_Registry' )
+			&& ! \WP_Block_Type_Registry::get_instance()->is_registered( Settings::BLOCK_WIDGET_NAME )
+		) {
 
-			register_block_type( dirname( dirname( __DIR__ ) ) . '/assets/blocks/widget/' );
+			register_block_type_from_metadata( dirname( dirname( __DIR__ ) ) . '/assets/blocks/widget/' );
 		}
 	}
 
@@ -141,7 +146,7 @@ class Widget_Selection extends \WP_Widget {
 	/**
 	 * Outputs the settings update form for Legacy widget.
 	 *
-	 * @see WP_Widget::form()
+	 * @see \WP_Widget::form()
 	 *
 	 * @param array<array-key, mixed> $instance Current settings.
 	 * @return string Default return is 'noform'.
@@ -191,7 +196,7 @@ class Widget_Selection extends \WP_Widget {
 
 		$instance = [];
 
-		$instance['title'] = ( isset( $new_instance['title'] ) ) ? wp_strip_all_tags( $new_instance['title'] ) : '';
+		$instance['title'] = isset( $new_instance['title'] ) ? wp_strip_all_tags( $new_instance['title'] ) : '';
 		$instance['lumiere_queryid_widget'] = $new_instance['lumiere_queryid_widget'] ?? '';
 		$instance['lumiere_queryid_widget_input'] = $new_instance['lumiere_queryid_widget_input'] ?? '';
 

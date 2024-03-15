@@ -75,7 +75,7 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
-		$this->lumiere_update_options( Settings::LUMIERE_ADMIN_OPTIONS, 'imdbHowManyUpdates', $nb_of_updates );
+		$this->lumiere_update_options( Settings::LUMIERE_ADMIN_OPTIONS, 'imdbHowManyUpdates', strval( $nb_of_updates ) );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */

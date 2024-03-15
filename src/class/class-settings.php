@@ -62,7 +62,6 @@ class Settings {
 	const LUMIERE_WORDPRESS_IMAGES = 'https://ps.w.org/lumiere-movies/assets';
 	const LUMIERE_GIT = 'https://github.com/jcvignoli/lumiere-movies';
 	const LUMIERE_ACTIVE = 'LUMIERE_ACTIVE';
-	const LUMIERE_LANG_DOMAIN = 'lumiere-movies';
 
 	/**
 	 * URL Strings for popups, built in lumiere_define_constants()
@@ -341,7 +340,7 @@ class Settings {
 			if ( $option_array_search === false ) {
 				return false;
 			}
-			$option_array_search[ $option_key ] = intval( $this->current_number_updates );
+			$option_array_search[ $option_key ] = $this->current_number_updates;
 
 			// On successful update, exit
 			if ( update_option( self::LUMIERE_ADMIN_OPTIONS, $option_array_search ) ) {
@@ -353,7 +352,7 @@ class Settings {
 		}
 
 		// Otherwise the option 'imdbHowManyUpdates' exists in the database, just use it.
-		$this->current_number_updates = $this->imdb_admin_values['imdbHowManyUpdates'];
+		$this->current_number_updates = strval( $this->imdb_admin_values['imdbHowManyUpdates'] );
 
 		return false;
 	}
