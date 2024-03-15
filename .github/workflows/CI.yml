@@ -17,7 +17,7 @@ jobs:
       php-extensions: ast
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: "Setup PHP extension caching"
         id: extcache
@@ -28,7 +28,7 @@ jobs:
           key: php-extensions-${{ runner.os }}-foov4-${{ env.cache-version }}
 
       - name: "Cache extensions"
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.extcache.outputs.dir }}
           key: ${{ steps.extcache.outputs.key }}-foov4
@@ -43,7 +43,7 @@ jobs:
 
       - name: "Cache Composer dependencies"
         id: composer-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor
           key: composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
