@@ -15,6 +15,7 @@ if ( ( ! defined( 'ABSPATH' ) ) ) {
 
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Tools\Utils;
+use Lumiere\Admin\Admin_General;
 
 /**
  * Move automatically the taxonomy templates (in class/theme) to user's template folder (wp-content/themes/current-theme)
@@ -24,8 +25,10 @@ use Lumiere\Tools\Utils;
  */
 class Copy_Template_Taxonomy {
 
-	// Trait including the database settings.
-	use Settings_Global;
+	/**
+	 * Traits.
+	 */
+	use Settings_Global, Admin_General;
 
 	/**
 	 * Constructor
@@ -94,7 +97,13 @@ class Copy_Template_Taxonomy {
 		}
 
 		// If none of the previous conditions are met
-		echo Utils::lumiere_notice( 3, esc_html__( 'Template copy failed for some reasons.', 'lumiere-movies' ) );
+		echo wp_kses(
+			$this->lumiere_notice( 3, esc_html__( 'Template copy failed for some reasons.', 'lumiere-movies' ) ),
+			[
+				'div' => [ 'class' => [] ],
+				'p' => [],
+			]
+		);
 	}
 
 	/**

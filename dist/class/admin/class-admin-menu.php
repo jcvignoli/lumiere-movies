@@ -25,6 +25,7 @@ use Lumiere\Admin\Submenu\Data;
 use Lumiere\Admin\Submenu\Cache;
 use Lumiere\Admin\Submenu\Help;
 use Lumiere\Admin\Cache_Tools;
+use Lumiere\Admin\Admin_General;
 use Exception;
 
 /**
@@ -38,9 +39,9 @@ use Exception;
 class Admin_Menu {
 
 	/**
-	 * Trait including the database settings.
+	 * Traits.
 	 */
-	use Settings_Global, Files;
+	use Settings_Global, Files, Admin_General;
 
 	/**
 	 * Classes
@@ -174,29 +175,40 @@ class Admin_Menu {
 	/**
 	 * Display admin notices
 	 *
-	 * @since 4.0 using transients for display cache notice messages
+	 * @since 4.0 using transients for displaying cache notice messages
 	 */
 	public function lumiere_admin_display_messages(): void {
 
 		// Display message for new taxonomy found.
 		$new_taxo_template = $this->lumiere_new_taxo();
 		if ( isset( $new_taxo_template ) ) {
-			echo Utils::lumiere_notice(
-				6,
-				esc_html__( 'New taxonomy template file(s) found: ', 'lumiere-movies' )
-				. implode( ' & ', $new_taxo_template )
-				. '. ' . esc_html__( 'Please ', 'lumiere-movies' ) . '<a href="'
-				. $this->page_data_taxo . '#imdb_imdbtaxonomyactor_yes'
-				. '">' . esc_html__( 'update', 'lumiere-movies' ) . '</a>.'
+			echo wp_kses(
+				$this->lumiere_notice(
+					6,
+					esc_html__( 'New taxonomy template file(s) found: ', 'lumiere-movies' )
+					. implode( ' & ', $new_taxo_template )
+					/* translators: %1$s and %2$s are HTML 'a' tags links */
+					. '. ' . wp_kses( sprintf( __( 'Please %1$supdate%2$s.', 'lumiere-movies' ), '<a href="' . $this->page_data_taxo . '#imdb_imdbtaxonomyactor_yes">', '</a>' ), [ 'a' => [ 'href' => [] ] ] )
+				),
+				[
+					'div' => [ 'class' => [] ],
+					'p' => [],
+				]
 			);
 		}
 
 		// Messages for notification using transiants.
 		$notif_msg = get_transient( 'notice_lumiere_msg' );
 		if ( is_string( $notif_msg ) && array_key_exists( $notif_msg, $this->lumiere_notice_messages ) ) {
-			echo Utils::lumiere_notice(
-				$this->lumiere_notice_messages[ $notif_msg ][1],
-				esc_html( $this->lumiere_notice_messages[ $notif_msg ][0] )
+			echo wp_kses(
+				$this->lumiere_notice(
+					$this->lumiere_notice_messages[ $notif_msg ][1],
+					esc_html( $this->lumiere_notice_messages[ $notif_msg ][0] )
+				),
+				[
+					'div' => [ 'class' => [] ],
+					'p' => [],
+				]
 			);
 		}
 	}

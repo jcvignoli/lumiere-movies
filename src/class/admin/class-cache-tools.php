@@ -24,6 +24,7 @@ use Lumiere\Settings;
 use Lumiere\Tools\Utils;
 use Lumiere\Plugins\Imdbphp;
 use Lumiere\Plugins\Logger;
+use Lumiere\Admin\Admin_General;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Exception;
@@ -39,6 +40,11 @@ use Exception;
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
  */
 class Cache_Tools {
+
+	/**
+	 * Traits.
+	 */
+	use Admin_General;
 
 	/**
 	 * Cache options
@@ -355,7 +361,15 @@ class Cache_Tools {
 
 		// prevent drama.
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
-			wp_die( Utils::lumiere_notice( 3, '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' ) );
+			wp_die(
+				wp_kses(
+					$this->lumiere_notice( 3, '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' ),
+					[
+						'div' => [ 'class' => [] ],
+						'p' => [],
+					]
+				)
+			);
 		}
 
 		// Delete cache.
@@ -391,7 +405,15 @@ class Cache_Tools {
 
 		// Prevent drama.
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
-			wp_die( Utils::lumiere_notice( 3, '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' ) );
+			wp_die(
+				wp_kses(
+					$this->lumiere_notice( 3, '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' ),
+					[
+						'div' => [ 'class' => [] ],
+						'p' => [],
+					]
+				)
+			);
 		}
 
 		// Any of the WordPress data sanitization functions can be used here

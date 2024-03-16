@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.0.3
+* [feature] Thumbnail pictures in taxonomy pages will be quicker to be displayed (using lazy loading, thumbs for the thumb images preciseley)
 * [bug] When reseting options in General options, no confirmation message was displayed.
 * [bug] Update wasn't working (Casting now to string in class update the option 'imdbHowManyUpdates', which doesn't actually make sense but works)
 * [technical] Gutenberg block registration is now done in more modern way (using register_block_type() and block.json). Splitted "add imdb link" and "open search" into two blocks. Widget is also registered that way.

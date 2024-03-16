@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Lumiere\Settings;
 use Lumiere\Tools\Utils;
 use Lumiere\Admin\Cache_Tools;
+use Lumiere\Admin\Admin_General;
 use Exception;
 
 /**
@@ -33,6 +34,11 @@ use Exception;
  * @phpstan-import-type OPTIONS_DATA from \Lumiere\Settings
  */
 class Save_Options {
+
+	/**
+	 * Traits.
+	 */
+	use Admin_General;
 
 	/**
 	 * Admin options
@@ -356,7 +362,15 @@ class Save_Options {
 
 		// prevent drama
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
-			wp_die( Utils::lumiere_notice( 3, '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' ) );
+			wp_die(
+				wp_kses(
+					$this->lumiere_notice( 3, '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' ),
+					[
+						'div' => [ 'class' => [] ],
+						'p' => [],
+					]
+				)
+			);
 		}
 
 		// Delete all cache

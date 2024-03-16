@@ -40,42 +40,43 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<?php esc_html_e( 'Popup', 'lumiere-movies' ); ?>
 		</div>
 
+
+		<div class="lumiere_padding_five" id="select_modal_window">&nbsp;
+			<?php
+			echo esc_html__( 'Modal windows', 'lumiere-movies' ) . '&nbsp;';
+
+			/**
+			 * The selection of bootstrap value will remove the options to change
+			 * larg/long values of popups
+			 *  Dealt also by JS in lumiere_scripts_admin.js
+			 */
+			?>
+
+			<select name="imdbpopup_modal_window" id="imdbpopup_modal_window">
+			<?php
+			$lumiere_window_options = [ 'bootstrap', 'highslide', 'classic' ];
+			foreach ( $lumiere_window_options as $lumiere_modal_option ) {
+				echo "\t" . '<option value="' . esc_attr( $lumiere_modal_option ) . '"';
+				if ( $lumiere_imdb_admin_values['imdbpopup_modal_window'] === $lumiere_modal_option ) {
+					echo ' selected="selected"';
+				}
+				echo '>' . esc_html( ucfirst( $lumiere_modal_option ) ) . '</option>';
+			} ?>
+			</select>
+			<?php
+			echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. "Highslide" or "Bootstrap" are advanced modal windows. "Classic" may be blocked by some browsers.', 'lumiere-movies' ) . '<br>';
+
+			// Extra explanation when bootstrap is selected. Dealt also by JS in lumiere_scripts_admin.js
+			$lumiere_hide_for_bootstrap = $lumiere_imdb_admin_values['imdbpopup_modal_window'] !== 'bootstrap' ? 'hidesection' : '';
+			/* translators: %1$s and %2$s are html tags */
+			echo '<div id="bootstrap_explain" class="' . esc_html( $lumiere_hide_for_bootstrap ) . '">' . wp_kses( sprintf( __( 'Only the width value can be edited with bootstrap modal window. The value entered will be matched against these incremental steps: %1$s300%2$s (small size), %1$s500%2$s (medium size), %1$s800%2$s (large size), %1$s1140%2$s (extra large size)', 'lumiere-movies' ), '<i>', '</i>' ), [ 'i' => [] ] ) . '</div>';
+
+			echo '<div>' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html( 'Bootstrap' ) . '</div>';
+			echo '</div>';
+			?>
+		</div>
+
 		<div class="lumiere_flex_container">
-
-			<div class="lumiere_flex_auto lumiere_padding_five" id="select_modal_window">&nbsp;
-				<?php
-				echo esc_html__( 'Modal windows', 'lumiere-movies' ) . '&nbsp;';
-
-				/**
-				 * The selection of bootstrap value will remove the options to change
-				 * larg/long values of popups
-				 *  Dealt also by JS in lumiere_scripts_admin.js
-				 */
-				?>
-
-				<select name="imdbpopup_modal_window" id="imdbpopup_modal_window">
-				<?php
-				$lumiere_window_options = [ 'bootstrap', 'highslide', 'classic' ];
-				foreach ( $lumiere_window_options as $lumiere_modal_option ) {
-					echo "\t" . '<option value="' . esc_attr( $lumiere_modal_option ) . '"';
-					if ( $lumiere_imdb_admin_values['imdbpopup_modal_window'] === $lumiere_modal_option ) {
-						echo ' selected="selected"';
-					}
-					echo '>' . esc_html( ucfirst( $lumiere_modal_option ) ) . '</option>';
-				} ?>
-				</select>
-				<?php
-				echo '<div class="explain">' . esc_html__( 'Modal windows are the popups that show the movie data when clicking on a name or movie title. "Highslide" or "Bootstrap" are advanced modal windows. "Classic" may be blocked by some browsers.', 'lumiere-movies' ) . '<br>';
-
-				// Extra explanation when bootstrap is selected. Dealt also by JS in lumiere_scripts_admin.js
-				$lumiere_hide_for_bootstrap = $lumiere_imdb_admin_values['imdbpopup_modal_window'] !== 'bootstrap' ? 'hidesection' : '';
-				/* translators: %1$s and %2$s are html tags */
-				echo '<div id="bootstrap_explain" class="' . esc_html( $lumiere_hide_for_bootstrap ) . '">' . wp_kses( sprintf( __( 'Only the width value can be edited with bootstrap modal window. The value entered will be matched against these incremental steps: %1$s300%2$s (small size), %1$s500%2$s (medium size), %1$s800%2$s (large size), %1$s1140%2$s (extra large size)', 'lumiere-movies' ), '<i>', '</i>' ), [ 'i' => [] ] ) . '</div>';
-
-				echo '<div>' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html( 'Bootstrap' ) . '</div>';
-				echo '</div>';
-				?>
-			</div>
 
 			<div class="lumiere_flex_auto lumiere_padding_five" id="imdb_imdbpopuplarg">
 

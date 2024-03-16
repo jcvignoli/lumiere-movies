@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.5.5
+ * Version: 3.5.6
  *
  * @package lumiere-movies
  */
@@ -103,19 +103,11 @@ class Taxonomy_People_Standard {
 		// Display the page. Must not be included into an add_action(), as should be displayed directly.
 		$this->lumiere_taxo_layout_standard();
 
-		// Remove action that breaks everything in trait-frontend.php, function is executed later
-		remove_action( 'wp_head', [ $this, 'remove_lumiere_set_plugins_array' ], 0 );
-
-	}
-
-	/**
-	 * Remove action that breaks everything in current class
-	 * Action added in trait-frontend.php
-	 *
-	 * @since 3.7
-	 */
-	public function remove_lumiere_set_plugins_array(): void {
-
+		/**
+		 * Remove action that breaks everything in current class
+		 * Action added in trait-frontend.php
+		 * @since 3.7
+		 */
 		remove_action( 'wp_head', [ $this, 'lumiere_set_plugins_array' ], 0 );
 
 	}
@@ -363,7 +355,6 @@ class Taxonomy_People_Standard {
 
 	/**
 	 *  Display People data details
-	 *
 	 */
 	private function portrait(): void {
 
@@ -382,19 +373,37 @@ class Taxonomy_People_Standard {
 		 * Each one has its own class passed in $link_maker,
 		 * according to which option the lumiere_select_link_maker() found in Frontend.
 		 */
+		$esc_html_pic = [
+			'div' => [ 'class' => [] ],
+			'a' => [
+				'href' => [],
+				'title' => [],
+			],
+			'img' => [
+				'src' => [],
+				'loading' => [],
+				'class' => [],
+				'alt' => [],
+				'width' => [],
+			],
+		];
 		if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp pics only if cache is active
-			// @phpcs:ignore WordPress.Security.EscapeOutput
-			echo $this->link_maker->lumiere_link_picture_taxonomy(
-				esc_html( $this->person_class->photo_localurl( false ) ),
-				esc_html( $this->person_class->photo_localurl( true ) ),
-				esc_html( $this->person_name )
+			echo wp_kses(
+				$this->link_maker->lumiere_link_picture(
+					$this->person_class->photo_localurl( false ),
+					$this->person_class->photo_localurl( true ),
+					$this->person_name
+				),
+				$esc_html_pic
 			);
 		} else { // no_pics otherwise
-			// @phpcs:ignore WordPress.Security.EscapeOutput
-			echo $this->link_maker->lumiere_link_picture_taxonomy(
-				esc_html( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ),
-				esc_html( $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif' ),
-				esc_html( $this->person_name )
+			echo wp_kses(
+				$this->link_maker->lumiere_link_picture(
+					$this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif',
+					$this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif',
+					$this->person_name
+				),
+				$esc_html_pic
 			);
 		}
 

@@ -2,7 +2,6 @@
 	var withSelect = wp.data.withSelect;
 	var ifCondition = wp.compose.ifCondition;
 	var compose = wp.compose.compose;
-
 	var el = wp.element.createElement;
 
 	const iconLumiereWindow = el(
@@ -14,6 +13,7 @@
 			}
 		)
 	);
+
 	var ButtonOpenSearch = function ( props ) {
 		return wp.element.createElement(
 			wp.blockEditor.RichTextToolbarButton,

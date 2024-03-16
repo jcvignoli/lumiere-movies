@@ -82,7 +82,6 @@
 			</property>
 			<property name="customAutoEscapedFunctions" type="array">
 				<element value="lumiere_check_taxo_template"/>
-				<element value="lumiere_admin_signature"/>
 				<element value="lumiere_imdburl_to_internalurl"/>
 			</property>
 		</properties>
