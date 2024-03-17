@@ -17,21 +17,38 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Plugin for AMP WordPress plugin
- * Specific functions are activated if AMP is in use
+ * Plugin to ensure Lumiere compatibility with AMP plugin
+ * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->plugins_classes_active
+ *
+ * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
 class Amp {
 
 	/**
-	 * Header related WordPress actions
-	 *
-	 * @return void header actions have been executed
+	 * List of plugins active (including current class)
+	 * @var array<string> $active_plugins
+	 * @phpstan-ignore-next-line -- Property Lumiere\Plugins\Amp::$active_plugins is never read, only written -- want to keep the possibility in the future
 	 */
-	public function lumiere_amp_remove_header(): void {
+	private array $active_plugins;
+
+	/**
+	 * Constructor
+	 * @param array<string> $active_plugins
+	 */
+	final public function __construct( array $active_plugins ) {
+
+		// Get the list of active plugins.
+		$this->active_plugins = $active_plugins;
 
 		// Remove conflicting assets. Use execution time 99 so we make sure it removes everything.
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_remove_breaking_amp_assets' ], 99 );
+	}
 
+	/**
+	 * Static start
+	 */
+	public function lumiere_start(): void {
+		/** Run whatever you want */
 	}
 
 	/**

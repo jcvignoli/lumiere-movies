@@ -26,7 +26,7 @@ use Imdb\TitleSearch;
 /**
  * Display search results related to a movie to get their IMDbID
  * Can be called to display a full page for searching movies
- * @see Lumiere\Alteration\Redirect_Virtual_Page
+ * @see \Lumiere\Alteration\Redirect_Virtual_Page
  */
 class Search {
 

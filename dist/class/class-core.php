@@ -17,11 +17,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Admin\Cache_Tools;
-use Lumiere\Tools\Plugins_Detect;
 use Lumiere\Tools\Settings_Global;
-use Lumiere\Plugins\Amp;
 use Lumiere\Plugins\Logger;
-use Lumiere\Plugins\Polylang;
 use Lumiere\Updates;
 
 /**
@@ -72,7 +69,8 @@ class Core {
 		add_action( 'init', [ $this, 'lumiere_register_assets' ], 0 );
 
 		// Execute javascripts and styles.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_frontpage_execute_assets' ], 0 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_frontpage_execute_assets' ], 9 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_frontpage_execute_assets_priority' ], 0 );
 
 		// Register Gutenberg blocks.
 		add_action( 'init', [ $this, 'lumiere_register_gutenberg_blocks' ] );
@@ -83,21 +81,6 @@ class Core {
 			add_action( 'init', fn() => Frontend\Widget_Frontpage::lumiere_widget_frontend_start(), 0 );
 			add_action( 'init', fn() => Tools\Ban_Bots::lumiere_static_start(), 0 );
 		}
-
-		// AMP remove headers if AMP is active.
-		add_action(
-			'wp',
-			function(): void {
-				$plugins_detect_class = new Plugins_Detect();
-				if (
-					count( $plugins_detect_class->plugins_class ) > 0
-					&& in_array( 'AMP', $plugins_detect_class->plugins_class, true )
-				) {
-					$amp_class = new Amp();
-					$amp_class->lumiere_amp_remove_header();
-				}
-			}
-		);
 
 		/**
 		 * Updates & Crons. Must be free of any conditions.
@@ -155,22 +138,6 @@ class Core {
 			$this->config_class->lumiere_version
 		);
 
-		// Register OceanWP theme fixes for popups only
-		wp_register_style(
-			'lumiere_style_oceanwpfixes_popups',
-			$this->config_class->lumiere_css_dir . 'lumiere-subpages-oceanwpfixes.min.css',
-			[],
-			$this->config_class->lumiere_version
-		);
-
-		// Register OceanWP theme fixes for all pages but popups
-		wp_register_style(
-			'lumiere_style_oceanwpfixes_general',
-			$this->config_class->lumiere_css_dir . 'lumiere-extrapages-oceanwpfixes.min.css',
-			[],
-			$this->config_class->lumiere_version
-		);
-
 	}
 
 	/**
@@ -188,7 +155,7 @@ class Core {
 	}
 
 	/**
-	 * Add the stylesheet & javascript to frontpage.
+	 * Execute Frontpage stylesheets & javascripts.
 	 */
 	public function lumiere_frontpage_execute_assets(): void {
 
@@ -200,31 +167,7 @@ class Core {
 			wp_enqueue_style( 'lumiere_style_main' );
 		}
 
-		// OceanWP template css fix.
-		// Enqueues lumiere.css only if using oceanwp template.
-		// Popups.
-		if (
-			( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) )
-			&&
-			( str_contains( $_SERVER['REQUEST_URI'] ?? '', site_url( '', 'relative' ) . $this->config_class->lumiere_urlstring ) )
-		) {
-
-			wp_enqueue_style( 'lumiere_style_oceanwpfixes_popups' );
-
-			// All other cases.
-		} elseif ( 0 === stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) ) {
-
-			wp_enqueue_style( 'lumiere_style_oceanwpfixes_general' );
-
-		}
-
 		wp_enqueue_script( 'lumiere_hide_show' );
-
-		if ( wp_script_is( 'lumiere_scripts', 'enqueued' ) ) {
-			return;
-		}
-
-		wp_enqueue_script( 'lumiere_scripts' );
 
 		/**
 		 * Pass variables to javascript lumiere_scripts.js.
@@ -232,9 +175,23 @@ class Core {
 		 */
 		wp_add_inline_script(
 			'lumiere_scripts',
-			$this->wrap_lumiere_script(),
-			'before'
+			$this->config_class->lumiere_scripts_vars,
 		);
+	}
+
+	/**
+	 * Execute lumiere_scripts Frontpage javascript.
+	 * This must be run in 0 priority, otherwhise wp_add_inline_script() in lumiere_frontpage_execute_assets() doesn't get the vars
+	 * @since 4.0.3
+	 */
+	public function lumiere_frontpage_execute_assets_priority(): void {
+
+		if ( wp_script_is( 'lumiere_scripts', 'enqueued' ) ) {
+			return;
+		}
+
+		wp_enqueue_script( 'lumiere_scripts' );
+
 	}
 
 	/**
@@ -370,24 +327,6 @@ class Core {
 		update_option( Settings::LUMIERE_CACHE_OPTIONS, $current_admin );
 
 		$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Lumière deactivated' );
-	}
-
-	/**
-	 * Wrap the lumiere script
-	 * Currenty replaces the home_url() in popups with pll_home_url for use with Polylang
-	 * The $lumiere_scripts_vars is a var in class Settings that can't be changed (executed too early)
-	 */
-	private function wrap_lumiere_script(): string {
-
-		$polylang_class = new Polylang();
-		$final_lumiere_script =
-			$polylang_class->polylang_is_active() === true
-			? $polylang_class->rewrite_string_with_polylang_url(
-				$this->config_class->lumiere_scripts_vars,
-				$this->imdb_admin_values['imdburlpopups']
-			)
-			: $this->config_class->lumiere_scripts_vars;
-		return $final_lumiere_script;
 	}
 }
 

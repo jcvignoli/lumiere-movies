@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.5.6
+ * Version: 3.6
  *
  * @package lumiere-movies
  */
@@ -46,13 +46,11 @@ class Taxonomy_People_Standard {
 	private bool $activate_sidebar = false;
 
 	/**
-	 * Polylang plugin object from its class
-	 * Can be null if Polylang is not active
+	 * Polylang
 	 *
 	 * @since 3.7.1
-	 * @var Polylang $plugin_polylang
 	 */
-	private ?Polylang $plugin_polylang = null;
+	private ?Polylang $polylang_class = null;
 
 	/**
 	 * Class \Imdb\Person
@@ -75,41 +73,30 @@ class Taxonomy_People_Standard {
 
 	/**
 	 * Constructor
-	 * @since 4.0 Ban bots from display the page.
 	 */
-	public function __construct( ?Polylang $plugin_polylang = null ) {
-
-		// Ban bots.
-		do_action( 'lumiere_maybe_ban_bots' );
+	public function __construct() {
 
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'taxonomy-standard' );
 
-		// Initialise $plugin_polylang.
-		if ( ( class_exists( 'Polylang' ) ) && ( $plugin_polylang instanceof Polylang ) && $plugin_polylang->polylang_is_active() === true ) {
-			$this->plugin_polylang = $plugin_polylang;
-		}
-
 		/**
-		 * Start PluginsDetect class
-		 * Is instanciated only if not instanciated already
-		 * Use lumiere_set_plugins_array() in trait to set $plugins_in_use var in trait
+		 * Start Plugins_Start class in trait
+		 * Set $plugins_active_names and $plugins_classes_active var in trait
 		 * @since 3.8
 		 */
-		if ( count( $this->plugins_in_use ) === 0 ) {
-			$this->lumiere_set_plugins_array();
+		if ( count( $this->plugins_active_names ) === 0 ) {
+			$this->activate_plugins();
 		}
 
 		// Display the page. Must not be included into an add_action(), as should be displayed directly.
 		$this->lumiere_taxo_layout_standard();
+	}
 
-		/**
-		 * Remove action that breaks everything in current class
-		 * Action added in trait-frontend.php
-		 * @since 3.7
-		 */
-		remove_action( 'wp_head', [ $this, 'lumiere_set_plugins_array' ], 0 );
-
+	/**
+	 * Static start
+	 */
+	public static function lumiere_static_start(): void {
+		$class = new self();
 	}
 
 	/**
@@ -148,9 +135,6 @@ class Taxonomy_People_Standard {
 		// Start IMDbPHP search.
 		$this->lumiere_process_imdbphp_search();
 
-		// Build array of plugins from trait-frontend.php.
-		$this->lumiere_set_plugins_array();
-
 		// Simplify coding.
 		$logger = $this->logger->log();
 
@@ -160,7 +144,7 @@ class Taxonomy_People_Standard {
 		$logger->debug( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] Using the link maker class: ' . get_class( $this->link_maker ) );
 
 		// Log PluginsDetect.
-		$logger->debug( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ']' );
+		$logger->debug( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
 
 		echo '<br />';
 
@@ -479,11 +463,8 @@ class Taxonomy_People_Standard {
 		echo "\n\t\t\t" . '<br />';
 
 		// Compatibility with Polylang WordPress plugin, add a form to filter results by language.
-		// Function in class Polylang.
-		if ( isset( $this->plugin_polylang ) ) {
-
-			$this->plugin_polylang->lumiere_get_form_polylang_selection( $this->taxonomy_title, $this->person_name );
-
+		if ( isset( $this->plugins_classes_active['polylang'] ) ) {
+			$this->plugins_classes_active['polylang']->lumiere_get_form_polylang_selection( $this->taxonomy_title, $this->person_name );
 		}
 
 		echo "\n\t\t\t" . '<br />';
@@ -492,4 +473,5 @@ class Taxonomy_People_Standard {
 
 }
 
-$lumiere_taxonomy_people_standard_class = new Taxonomy_People_Standard( new Polylang() );
+$lumiere_people_standard_class = new Taxonomy_People_Standard();
+add_action( 'init', [ $lumiere_people_standard_class, 'lumiere_static_start' ] );

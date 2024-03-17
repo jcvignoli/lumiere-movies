@@ -3,9 +3,11 @@
 v.4.0.3
 * [feature] Thumbnail pictures in taxonomy pages will be quicker to be displayed (using lazy loading, thumbs for the thumb images preciseley)
 * [bug] When reseting options in General options, no confirmation message was displayed.
+* [bug] Style of links to movie popups was not grey, had no more the small picture on the lef
 * [bug] Update wasn't working (Casting now to string in class update the option 'imdbHowManyUpdates', which doesn't actually make sense but works)
 * [technical] Gutenberg block registration is now done in more modern way (using register_block_type() and block.json). Splitted "add imdb link" and "open search" into two blocks. Widget is also registered that way.
 * [technical] Due to Gutenberg block limitation, a class is now added in <span data-lum_movie_maker=""></span>. The plugin remains fully compatible with the span without class. (Edited regexes in class movie to take into account the possiblity that spans can include a class)
+* [technical] Plugins loading is fully OOP
 * [technical] Bot banning status changed from 403 to 400, which is more appropriate
 
 v.4.0.2

@@ -237,15 +237,21 @@ padding:20px 20px 0 20px;float:left;}
 
 /** link to a popup */
 .linkincmovie {
-	color: #909090;text-decoration: none;
+	color: #909090;
+	text-decoration: none;
 }
 .linkincmovie:hover {
-	color: #A8A8A8;text-decoration:none;
+	color: #A8A8A8;
+	text-decoration:none;
 }
 
 /*link to a movie popup */
-.link-imdblt-classicfilm, .modal_window_film, .modal_window_filmid {
-	background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;padding-left: 16px;text-decoration: none;cursor:pointer;
+.link_classic_film, .modal_window_film, .modal_window_filmid {
+	background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;
+	color: grey;
+	padding-left: 16px;
+	text-decoration: none !important;
+	cursor:pointer;
 }
 
 /*link to a people popup */

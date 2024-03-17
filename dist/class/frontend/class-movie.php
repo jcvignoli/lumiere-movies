@@ -37,7 +37,7 @@ class Movie {
 	 *
 	 * @var bool $movie_run_once
 	 */
-	private bool $movie_run_once = false;
+	private bool $movie_run_once;
 
 	/**
 	 * Name of the class
@@ -52,6 +52,8 @@ class Movie {
 
 		// Construct Frontend trait.
 		$this->__constructFrontend( self::CLASS_NAME );
+
+		$this->movie_run_once = false;
 
 		// Parse the content to add the movies.
 		add_filter( 'the_content', [ $this, 'lumiere_parse_spans' ] );
@@ -77,23 +79,23 @@ class Movie {
 	 */
 	public function lumiere_show( ?array $imdb_id_or_title_outside = null ): string {
 
-		/**
-		 * Start PluginsDetect class
-		 * Is instanciated only if not instanciated already
-		 * Use lumiere_set_plugins_array() in trait to set $plugins_in_use var in trait
-		 */
-		if ( count( $this->plugins_in_use ) === 0 ) {
-			$this->lumiere_set_plugins_array();
-		}
-
 		// Show log for link maker and plugin detect
 		if ( $this->movie_run_once === false ) {
+
+			/**
+			 * Start PluginsDetect class
+			 * Is instanciated only if not instanciated already
+			 * Use lumiere_set_plugins_array() in trait to set $plugins_active_names var in trait
+			 */
+			if ( count( $this->plugins_active_names ) === 0 ) {
+				$this->activate_plugins();
+			}
 
 			// Log the current link maker
 			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
-			// Log PluginsDetect, $this->plugins_in_use in trait
-			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ']' );
+			// Log PluginsDetect, $this->plugins_classes_active in trait
+			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
 			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] Calling IMDbPHP class.' );
 
 			// Set the trigger to true so this is not called again.
@@ -267,7 +269,7 @@ class Movie {
 	}
 
 	/**
-	 * Replace <span class="lumiere_link_maker"></span> with links
+	 * Replace <span class="lumiere_link_maker"(anything)?></span> with links
 	 *
 	 * @param null|string $text parsed data
 	 * @since 4.0.3 Added the possibility to have some text after the data with [^>]*
@@ -301,7 +303,7 @@ class Movie {
 
 		$correspondances = $correspondances[0];
 		$pattern = '~<span data-lum_link_maker="popup"[^>]*>(.+?)<\/span>~i'; // identical to $pattern in lumiere_link_popup_maker().
-		$result = preg_match( $pattern, $correspondances[0], $matches );
+		$result = preg_match( $pattern, $correspondances, $matches );
 		return $result > 0 ? $this->link_maker->lumiere_popup_film_link( $matches ) : $correspondances;
 	}
 
@@ -318,7 +320,7 @@ class Movie {
 
 		$correspondances = $correspondances[0];
 		$pattern = '~<!--imdb-->(.*?)<!--\/imdb-->~i'; // identical to $pattern in lumiere_link_popup_maker().
-		$result = preg_match( $pattern, $correspondances[0], $matches );
+		$result = preg_match( $pattern, $correspondances, $matches );
 		return $result > 0 ? $this->link_maker->lumiere_popup_film_link( $matches ) : $correspondances;
 	}
 
@@ -331,7 +333,7 @@ class Movie {
 	 * @param string|null $filmid
 	 * @param string|null $external set to 'external' for use from outside
 	 */
-	public function lumiere_external_call ( ?string $moviename = null, ?string $filmid = null, ?string $external = null ): string {
+	public function lumiere_external_call( ?string $moviename = null, ?string $filmid = null, ?string $external = null ): string {
 
 		$imdb_id_or_title = [];
 

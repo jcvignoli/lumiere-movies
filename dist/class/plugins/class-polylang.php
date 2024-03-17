@@ -17,23 +17,23 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use Lumiere\Tools\Settings_Global;
 use Lumiere\Plugins\Logger;
 
 /**
  * Plugin for Polylang WordPress plugin
  * This class offers specific functions if Polylang is in use
+ * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->plugins_classes_active
+ *
+ * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
 class Polylang {
 
-	// Trait including the database settings.
-	use Settings_Global;
-
 	/**
-	 * Constant Polylang slug
-	 *
+	 * List of plugins active (including current class)
+	 * @var array<string> $active_plugins
+	 * @phpstan-ignore-next-line -- Property Lumiere\Plugins\Amp::$active_plugins is never read, only written -- want to keep the possibility in the future
 	 */
-	const POLYLANGSLUG = 'polylang/polylang.php';
+	private array $active_plugins;
 
 	/**
 	 * Logger class
@@ -43,30 +43,22 @@ class Polylang {
 	/**
 	 * Constructor
 	 *
-	 * @TODO: pass logger class in construct params when updating to PHP8.1
+	 * @param array<string> $active_plugins
 	 */
-	public function __construct() {
+	final public function __construct( array $active_plugins ) {
+
+		// Get the list of active plugins.
+		$this->active_plugins = $active_plugins;
 
 		$this->logger = new Logger( 'Polylang' );
-
-		// Get Global Settings class properties.
-		$this->get_db_options();
 
 	}
 
 	/**
-	 * Determine whether Polylang is activated
-	 *
-	 * @return bool true if Polylang plugin is active
+	 * Static start
 	 */
-	public function polylang_is_active(): bool {
-
-		if ( function_exists( 'pll_count_posts' ) && is_plugin_active( self::POLYLANGSLUG ) ) {
-			return true;
-		}
-
-		return false;
-
+	public function lumiere_start(): void {
+		/** Run whatever you want */
 	}
 
 	/**
@@ -173,67 +165,6 @@ class Polylang {
 	}
 
 	/**
-	 * Polylang add the language currently active in the plugin and add it to the rewrite rules
-	 * IE "/en/lumiere/person/?mid=0319843" becomes available
-	 * @since 3.11
-	 * @return void The rewrite rules have been added
-	 */
-	public function polylang_add_url_rewrite_rules(): void {
-
-		if ( $this->polylang_is_active() === false ) {
-			return;
-		}
-
-		$list_lang_rewrite = $this->get_lang_list_rewrite();
-
-		// Add rewrite rules for /lumiere/search|person|movie/ url string.
-		// Created only if the rule doesn't exists, so we avoid using flush_rewrite_rules() unecessarily
-		$wordpress_rewrite_rules = get_option( 'rewrite_rules' );
-		$lumiere_popups_rewrite_rule = '(' . $list_lang_rewrite . ')/?lumiere/([^/]+)/?';
-
-		if ( ! isset( $wordpress_rewrite_rules [ $lumiere_popups_rewrite_rule ] ) ) {
-			add_rewrite_rule(
-				$lumiere_popups_rewrite_rule,
-				'index.php?lang=$matches[1]&popup=$matches[2]',
-				'top'
-			);
-			// @done should not use this function, but didn't find any other solution
-			// It is once in class core
-			//flush_rewrite_rules();
-		}
-
-	}
-
-	/**
-	 * Get the list of langs in a format for rewrite rules (separated by a "|" )
-	 * @since 3.11
-	 */
-	private function get_lang_list_rewrite(): string {
-
-		if ( $this->polylang_is_active() === false ) {
-			return '';
-		}
-
-		$string_rewrite = '';
-		$list_lang = pll_languages_list(
-			[
-				'hide_empty' => 1,
-				'fields' => 'slug',
-			]
-		);
-		$total = count( $list_lang );
-		for ( $i = 0; $i < $total; $i++ ) {
-			// No extra "|" for the first result
-			if ( $i === 0 ) {
-				$string_rewrite .= $list_lang[ $i ];
-				continue;
-			}
-			$string_rewrite .= '|' . $list_lang[ $i ];
-		}
-		return $string_rewrite;
-	}
-
-	/**
 	 * Append to home url the polylang url
 	 * Allows to rewrite for example the popups to make them compatible with polylang system
 	 *
@@ -251,28 +182,4 @@ class Polylang {
 
 		return strlen( $final_url ) > 0 ? $final_url : $content;
 	}
-
-	/**
-	 * Copy metas from one post in original language to another post in other language
-	 * Polylang version
-	 * @TODO: not yet implemented, not sure if needed, maybe not, need further tests
-	 * to call it: add_filter('pll_copy_post_metas', 'lumiere_copy_post_metas_polylang', 10, 2)
-	 */
-	/*
-	public function lumiere_copy_post_metas_polylang( $metas, $sync) {
-
-		if(!is_admin()) return false;
-		if($sync) return $metas;
-		global $current_screen;
-
-		if($current_screen-post_type == 'wine'){ // substitue 'wine' with post type
-			$keys = array_key(get_fields($_GET['imdbltid']));
-			return array_merge($metas, $keys);
-		}
-
-		return $metas;
-
-	}
-	*/
-
 }

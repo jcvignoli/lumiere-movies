@@ -35,6 +35,8 @@
 		<!-- Covers rule: Put spaces on both sides of the opening and closing parenthesis of
 		 if, elseif, foreach, for, and switch blocks. I don't want it. -->
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
+		<!-- I want to use call_user_func() -->
+		<exclude name="NeutronStandard.Functions.DisallowCallUserFunc.CallUserFunc"/>
 		<!-- Followig rule should be commented out, therefore active
 		<exclude name="WordPress.Security.NonceVerification"/> -->
 	</rule> 

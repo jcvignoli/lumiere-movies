@@ -477,7 +477,7 @@ abstract class Abstract_Link_Maker {
 		$popup_link_person = '';
 		$popup_link_movie = '';
 
-		switch ( intval( $window_type ) ) {
+		switch ( $window_type ) {
 			case 0: // Build modal window popups.
 				$popup_link_person = '<a class="modal_window_people ' . $specific_class . '" data-modal_window_people="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
 				$popup_link_movie = '<a class="modal_window_film ' . $specific_class . '" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
@@ -661,7 +661,7 @@ abstract class Abstract_Link_Maker {
 			// AMP & No Link modal
 		} elseif ( $window_type === 2 ) {
 
-			$txt = '<a class="link-imdblt-classicfilm" href="' . $this->config_class->lumiere_urlpopupsfilms . '?film=' . $title_attr . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
+			$txt = '<a class="link_classic_film" href="' . $this->config_class->lumiere_urlpopupsfilms . '?film=' . $title_attr . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
 
 		}
 

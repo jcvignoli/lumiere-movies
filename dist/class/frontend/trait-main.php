@@ -16,18 +16,18 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\Tools\Plugins_Detect;
+use Lumiere\Plugins\Plugins_Start;
 use Lumiere\Tools\Utils;
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Imdbphp;
-use Lumiere\Plugins\Polylang;
 
 /**
  * Frontend trait
- * Popups, movies are using this trait
+ * Popups, movies and taxonomy use this trait
  * Allow to use the logger, function utilities, and settings
+ * @phpstan-import-type PLUGINS_AVAILABLE from \Lumiere\Plugins\Plugins_Detect
  */
 trait Main {
 
@@ -35,14 +35,21 @@ trait Main {
 	use Settings_Global;
 
 	/**
-	 * \Lumière\Plugins class
-	 * Array of plugins in use
+	 * Name of the plugins active
 	 *
-	 * @since 3.7
-	 * @var array<int, string>
-	 * @phpstan-ignore-next-line PHPStan complains that var is not defined for some contexts
+	 * @since 4.0.3
+	 * @var array<string>
 	 */
-	public array $plugins_in_use = [];
+	public array $plugins_active_names = [];
+
+	/**
+	 * Classes that have been activated
+	 *
+	 * @since 4.0.3
+	 * @var array<string, object> $plugins_classes_active
+	 * @ phpstan-var array<string, PLUGINS_AVAILABLE> $plugins_classes_active
+	 */
+	public array $plugins_classes_active = [];
 
 	/**
 	 * Class for building links, i.e. Highslide
@@ -83,7 +90,10 @@ trait Main {
 	 */
 	public function __construct( string $logger_name = 'unknownOrigin', bool $screen_output = true ) {
 
-		// Get Global Settings class properties.
+		/**
+		 * Get Global Settings class properties.
+		 * Create the properties needed
+		 */
 		$this->get_settings_class();
 		$this->get_db_options();
 
@@ -118,21 +128,20 @@ trait Main {
 	 */
 	public function lumiere_log_plugins(): void {
 
-		$this->logger->log()->debug( '[Lumiere] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_in_use ) . ' ]' );
+		$this->logger->log()->debug( '[Lumiere] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ' ]' );
 
 	}
 
 	/**
-	 * Determine list of plugins active in array
-	 * Build the PluginsDetect class and fill $this->plugins_in_use with the array of plugins in use
+	 * Build list of active plugins and send them in properties
 	 *
-	 * @since 3.7
+	 * @since 4.0.3
 	 */
-	public function lumiere_set_plugins_array(): void {
+	public function activate_plugins(): void {
 
-		$plugins = new Plugins_Detect();
-		$this->plugins_in_use = $plugins->plugins_class;
-
+		$plugins = new Plugins_Start();
+		$this->plugins_active_names = $plugins->plugins_active_names;
+		$this->plugins_classes_active = $plugins->plugins_classes_active;
 	}
 
 	/**
@@ -205,9 +214,14 @@ trait Main {
 	 * @return string The URL compatible with Polylang
 	 */
 	public function lumiere_url_check_polylang_rewrite ( string $url ): string {
+
 		$final_url = null;
-		$polylang_class = new Polylang();
-		if ( $polylang_class->polylang_is_active() === true ) {
+		/* testing if really needed
+		if ( count($this->plugins_active_names) === 0 ) {
+			$this->lumiere_set_plugins_array();
+		}
+		*/
+		if ( in_array( 'polylang', $this->plugins_active_names, true ) ) {
 			$replace_url = str_replace( home_url(), trim( pll_home_url(), '/' ), $url );
 			$final_url = trim( $replace_url, '/' );
 		}
