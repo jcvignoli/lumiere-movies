@@ -104,16 +104,17 @@ class StylesScriptsHighslideCest {
 		$I->comment(\Helper\Color::set('Check Lumière (Gutenberg) Block Editor page', 'italic+bold+cyan'));
 		$I->amOnPage( ADMIN_POST_ID_TESTS );
 		$I->waitPageLoad();
-		$I->seeInPageSource("lumiere_gutenberg_main-js"); 	# Gutenberg main block js
-		$I->seeInPageSource("lumiere_gutenberg_buttons-js"); 	# Gutenberg button block js
-		$I->seeInPageSource("lumiere_block_widget-css");	# Gutenberg widget block css
-		$I->seeInPageSource("lumiere_block_widget-js");		# Gutenberg widget block js
-		$I->seeInPageSource("lumiere_scripts_admin-js"); 	# Lumière main js
-		$I->seeInPageSource('lumiere_css_admin-css'); 		# Lumière main css
-		$I->seeInPageSource("lumiere_scripts_admin-js-before"); # Lumière js vars for scripts
-		$I->seeInPageSource("lumiere_queryid_widget"); 		# Lumière Metabox is available
-		$I->seeInPageSource("lumiere_quicktag_addbutton-js"); 	# Quicktag Lumière plugin
-		$I->seeInPageSource("lumiere_hide_show-js"); 		# hide/show script
+		$I->seeInPageSource("assets/blocks/movie/index.min.js"); 	# Gutenberg movie block js
+		$I->seeInPageSource("assets/blocks/movie/index.min.css"); 	# Gutenberg movie block css
+		$I->seeInPageSource("assets/blocks/addlink/index.min.js"); 	# Gutenberg addlink block js
+		$I->seeInPageSource("assets/blocks/widget/index.min.css");	# Gutenberg widget block css
+		$I->seeInPageSource("assets/blocks/widget/index.min.js");	# Gutenberg widget block js
+		$I->seeInPageSource("lumiere_scripts_admin-js"); 		# Lumière main js
+		$I->seeInPageSource('lumiere_css_admin-css'); 			# Lumière main css
+		$I->seeInPageSource("lumiere_scripts_admin-js-before"); 	# Lumière js vars for scripts
+		$I->seeInPageSource("lumiere_queryid_widget"); 			# Lumière Metabox is available
+		$I->seeInPageSource("lumiere_quicktag_addbutton-js"); 		# Quicktag Lumière plugin
+		$I->seeInPageSource("lumiere_hide_show-js"); 			# hide/show script
 
 		// Activate classic-editor so we can test Classic editor
 		$I->comment(\Helper\Color::set('Activate classic-editor plugin so we can test Blocks editor', 'italic+bold+cyan'));
@@ -146,7 +147,7 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");		# Highslide Lumière Options
 		$I->seeInPageSource("lumiere_scripts-js"); 			# Lumière main JS
-		$I->seeInPageSource("lumiere_scripts-js-before");		# Lumière vars for main JS
+		$I->seeInPageSource("lumiere_scripts-js-after");		# Lumière vars for main JS
 		$I->seeInPageSource("lumiere_hide_show-js"); 			# hide/show script
 
 			// Taxonomy person director page
@@ -158,7 +159,7 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");		# Highslide Lumière Options
 		$I->seeInPageSource("lumiere_scripts-js"); 			# Lumière main JS
-		$I->seeInPageSource("lumiere_scripts-js-before");		# Lumière vars for main JS
+		$I->seeInPageSource("lumiere_scripts-js-after");		# Lumière vars for main JS
 
 			// Popup person page
 
@@ -173,7 +174,7 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere_highslide_core-js");				# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");				# Highslide Lumière Options
 		$I->seeInPageSource("lumiere_scripts-js"); 					# Lumière main JS
-		$I->seeInPageSource("lumiere_scripts-js-before");				# Lumière vars for main JS
+		$I->seeInPageSource("lumiere_scripts-js-after");				# Lumière vars for main JS
 		$I->seeInPageSource("lumiere_hide_show-js"); 					# hide/show script
 		$I->click('Full filmography');
 		$I->see('The Popcorn Chronicles');
@@ -197,7 +198,7 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere_highslide_core-js");				# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");				# Highslide Lumière Options
 		$I->seeInPageSource("lumiere_scripts-js"); 					# Lumière main JS
-		$I->seeInPageSource("lumiere_scripts-js-before");				# Lumière vars for main JS
+		$I->seeInPageSource("lumiere_scripts-js-after");				# Lumière vars for main JS
 		$I->seeInPageSource("lumiere_hide_show-js"); 					# hide/show script
 		$I->click('Actors');
 		$I->see('Ellen Burstyn');

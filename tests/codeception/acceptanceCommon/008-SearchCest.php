@@ -42,6 +42,17 @@ class SearchCest {
 	}
 
 	/**
+	 * Prepare the options for the search
+	 *
+	 * @before login
+	 */
+	public function prepare(AcceptanceRemoteTester $I) {
+		// Classic editor, so we can click
+		$I->amOnPluginsPage();
+		$I->maybeActivatePlugin('classic-editor');
+	}
+
+	/**
 	 * Check if search page works
 	 *
 	 * @before login

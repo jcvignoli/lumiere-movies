@@ -41,6 +41,18 @@ class InitializeCest {
 
 		$I->comment('Reset Admin General Options to their normal state');
 	}
+	
+	/** 
+	 * Make sure that taxonomies and their URL are created first in french, so they take the extension "-en" which is needed for the tests
+	 * Taxonomy URLs depends on the first time they're called: if in french, the english's ones will take "-en" once they're created.
+	 *
+	 * @before login
+	 */
+	public function ensureTaxoLinksGetCorrectExt(AcceptanceRemoteTester $I) {
+
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL_FR );
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL_FR_TWO );
+	}
 }
 
 

@@ -181,11 +181,12 @@ class Core {
 
 	/**
 	 * Execute lumiere_scripts Frontpage javascript.
-	 * This must be run in 0 priority, otherwhise wp_add_inline_script() in lumiere_frontpage_execute_assets() doesn't get the vars
+	 * This must be run in 0 priority, otherwise wp_add_inline_script() in lumiere_frontpage_execute_assets() doesn't get the vars
 	 * @since 4.0.3
 	 */
 	public function lumiere_frontpage_execute_assets_priority(): void {
 
+		// Do not enqueue it more than once.
 		if ( wp_script_is( 'lumiere_scripts', 'enqueued' ) ) {
 			return;
 		}

@@ -129,7 +129,7 @@ class UninstallCest {
 		$shell->runShellCommand( 'chmod -R 777 ' . $dir_plugin_lumiere );
 
 		// Delete plugin
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPluginsPage();
 		$I->wait(2);
 		$I->scrollTo('#delete-lumiere-movies');
 		$I->executeJS("return jQuery('#delete-lumiere-movies').get(0).click()");
@@ -140,15 +140,21 @@ class UninstallCest {
 		// Revert back the saved plugin directory
 		$I->comment(\Helper\Color::set("**Copy back to the saved plugin directory**", 'italic+bold+cyan'));
 		
-		$I->wait( 2 );
 		// Make sure Lumière! directory has been deleted
-		$I->dontSeeFileFound( $dir_plugin_lumiere . '/lumiere-movies.php' );
+		// need to refresh the page after plugin deletion, so jumping from nonsense pages to others until checking if file, otherwise the file is FOUND!
+		$I->amOnPluginsPage();
+		$I->wait(1);
+		$I->click( "Blog ext (codeception)" );
+		$I->wait(1);
+		$I->reloadPage();
+		$I->wait(10);
+		$I->customDontSeeFile( $dir_plugin_lumiere . '/lumiere-movies.php' );
 		
 		// Restore the symbolic link
 		$I->comment( 'Move back the symbolic link' );		
 		$shell->runShellCommand('mv ' . $wpcontent . '/lumiere-save ' . $dir_plugin_lumiere );
 
-		$I->seeFileFound( $dir_plugin_lumiere . '/lumiere-movies.php' ); // both seeFile of customSeeFile, don't work...
+		$I->customSeeFile( $dir_plugin_lumiere . '/lumiere-movies.php' ); // both seeFile of customSeeFile, don't work...
 		$I->comment( \Helper\Color::set('Deleting temporary plugin directory...', 'yellow') );
 		
 		$shell->runShellCommand( ' rm -R ' . $wpcontent . '/lumiere-movies' );
@@ -208,7 +214,7 @@ class UninstallCest {
 		$shell->runShellCommand('scp -r '.$remote_cred.':'.$remote_plugin_path_lumiere.' '.$remote_cred.':'.$remote_wpcontent_path.'/');
 
 		// Delete plugin
-		$I->amOnPage('/wp-admin/plugins.php');
+		$I->amOnPluginsPage();
 		$I->wait(2);
 		$I->scrollTo('#delete-lumiere-movies');
 		$I->executeJS("return jQuery('#delete-lumiere-movies').get(0).click()");

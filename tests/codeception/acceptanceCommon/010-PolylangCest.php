@@ -95,7 +95,7 @@ class PolylangCest {
 		// Check if polylang options are available
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->click( "Tony Zarindast");
-		$I->scrollTo('.imdbincluded-picture');
+		$I->scrollTo('.imdbelementPIC');
 		$I->seeInPageSource('<form method="post" id="lang_form" name="lang_form"');
 		$I->seeInPageSource('Español');
 		$I->seeInPageSource('English');
@@ -108,7 +108,7 @@ class PolylangCest {
 		// Check if polylang options are available
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->click( "Tony Zarindast");
-		$I->scrollTo('.imdbincluded-picture');
+		$I->scrollTo('.imdbelementPIC');
 		$I->dontSeeInPageSource('<form method="post" id="lang_form" name="lang_form"');
 		$I->dontSeeInPageSource('Español');
 		$I->dontSeeInPageSource('Français');

@@ -105,14 +105,11 @@ class BanBotCest {
 	/** 
 	 * Check if calling popups and taxo pages are banned
 	 * Popups should ban if not logged in and using a banned useragent
-	 * Taxonomy pages should ban if not logged in and using a banned useragent
-	 * (Only normal posts never ban)
+	 * (Only normal posts and taxonomy pages never ban)
 	 *
 	 * @example ["/lumiere/person/?mid=0248281"]
 	 * @example ["/lumiere/film/?film=interstellar"]
 	 * @example ["/lumiere/search/?film=interstellar&norecursive=yes"]
-	 * @example ["/lumiere-director/stanley-kubrick/"]
-	 * @example ["/lumiere-genre/sci-fi/"]
 	 */
 	public function userAgentShouldtBan(AcceptanceLocalTester $I, \Codeception\Example $example) {
 
@@ -126,13 +123,14 @@ class BanBotCest {
 	}
 
 	/** 
-	 * Check if calling posts are banned
-	 * Only normal posts should never be banned
+	 * Check if calling posts or taxonomy pages are banned
+	 * Only normal posts and taxonomy pages should never be banned
 	 * ( Popups should ban if not logged in and using a banned useragent )
-	 * ( Taxonomy pages should ban if not logged in and using a banned useragent )
 	 *
 	 * @example ["/en/2021/test-codeception/"]
 	 * @example ["/2021/y-tu-mama-tambien/"]
+	 * @example ["/lumiere-director/stanley-kubrick/"]
+	 * @example ["/lumiere-genre/sci-fi/"]
 	 */
 	public function postsShouldNotBanBots(AcceptanceLocalTester $I, \Codeception\Example $example) {
 
@@ -150,16 +148,13 @@ class BanBotCest {
 	 *
 	 * Check if calling a page is banned when logged in
 	 * Popups should NOT ban if logged in and using a banned useragent
-	 * Taxonomy pages should NOT ban if logged in and using a banned useragent
-	 * (Only normal posts never ban)
+	 * (Only normal posts and taxonomy pages never ban)
 	 *
 	 * @before login
 	 *
 	 * @example ["/lumiere/person/?mid=0248281"]
 	 * @example ["/lumiere/film/?film=interstellar"]
 	 * @example ["/lumiere/search/?film=interstellar&norecursive=yes"]
-	 * @example ["/lumiere-director/stanley-kubrick/"]
-	 * @example ["/lumiere-genre/sci-fi/"]
 	 */
 	private function popupsShouldNotBanLoggedin(AcceptanceLocalTester $I, \Codeception\Example $example) {
 

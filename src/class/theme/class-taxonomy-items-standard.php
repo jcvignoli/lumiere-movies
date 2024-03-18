@@ -59,9 +59,6 @@ class Taxonomy_Items_Standard {
 	 */
 	public function __construct() {
 
-		// Ban bots.
-		do_action( 'lumiere_maybe_ban_bots' );
-
 		// Construct Frontend trait.
 		$this->__constructFrontend( 'taxonomy-standard' );
 

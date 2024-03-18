@@ -1,1 +1,0 @@
-../acceptanceCommon/002-UninstallCest.php

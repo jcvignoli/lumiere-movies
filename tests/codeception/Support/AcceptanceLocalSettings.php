@@ -11,4 +11,6 @@ class AcceptanceLocalSettings extends AcceptanceRemoteSettings {
 
 	/** Include AcceptanceRemoteSettings constants */
 	
+	/** Potentially more constants, locally centered, could be inserted here */
+	
 }
