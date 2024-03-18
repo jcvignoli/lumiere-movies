@@ -44,8 +44,10 @@ class ComposerStaticInit2660170a07cc3fb36d97d6c17f332311
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Lumiere\\Admin' => __DIR__ . '/../..' . '/class/class-admin.php',
+        'Lumiere\\Admin\\Admin_Check_Taxo' => __DIR__ . '/../..' . '/class/admin/class-admin-check-taxo.php',
         'Lumiere\\Admin\\Admin_General' => __DIR__ . '/../..' . '/class/admin/trait-admin-general.php',
         'Lumiere\\Admin\\Admin_Menu' => __DIR__ . '/../..' . '/class/admin/class-admin-menu.php',
+        'Lumiere\\Admin\\Admin_Notifications' => __DIR__ . '/../..' . '/class/admin/class-admin-notifications.php',
         'Lumiere\\Admin\\Backoffice_Extra' => __DIR__ . '/../..' . '/class/admin/class-backoffice-extra.php',
         'Lumiere\\Admin\\Cache_Tools' => __DIR__ . '/../..' . '/class/admin/class-cache-tools.php',
         'Lumiere\\Admin\\Copy_Template_Taxonomy' => __DIR__ . '/../..' . '/class/admin/class-copy-template-taxonomy.php',

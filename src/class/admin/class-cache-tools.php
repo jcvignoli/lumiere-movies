@@ -361,15 +361,7 @@ class Cache_Tools {
 
 		// prevent drama.
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
-			wp_die(
-				wp_kses(
-					$this->lumiere_notice( 3, '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' ),
-					[
-						'div' => [ 'class' => [] ],
-						'p' => [],
-					]
-				)
-			);
+			wp_die( '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' );
 		}
 
 		// Delete cache.
@@ -405,15 +397,7 @@ class Cache_Tools {
 
 		// Prevent drama.
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
-			wp_die(
-				wp_kses(
-					$this->lumiere_notice( 3, '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' ),
-					[
-						'div' => [ 'class' => [] ],
-						'p' => [],
-					]
-				)
-			);
+			wp_die( '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' );
 		}
 
 		// Any of the WordPress data sanitization functions can be used here

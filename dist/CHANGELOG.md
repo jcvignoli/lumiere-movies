@@ -6,9 +6,10 @@ v.4.0.3
 * [bug] Style of links to movie popups was not grey, had no more the small picture on the lef
 * [bug] Update wasn't working (Casting now to string in class update the option 'imdbHowManyUpdates', which doesn't actually make sense but works)
 * [technical] Gutenberg block registration is now done in more modern way (using register_block_type() and block.json). Splitted "add imdb link" and "open search" into two blocks. Widget is also registered that way.
-* [technical] Due to Gutenberg block limitation, a class is now added in <span data-lum_movie_maker=""></span>. The plugin remains fully compatible with the span without class. (Edited regexes in class movie to take into account the possiblity that spans can include a class)
+* [technical] Due to Gutenberg block limitation, a class is now added in &lt;span data-lum_movie_maker=""&gt;&lt;/span&gt;. The plugin remains fully compatible with the span without class. (Edited regexes in class movie to take into account the possiblity that spans can include a class)
 * [technical] Plugins loading is fully OOP
 * [technical] Bot banning status changed from 403 to 400, which is more appropriate
+* [technical] Notifications are only shown in Lumière admin options pages
 
 v.4.0.2
 * [feature] Thumbnail pictures (those which are displayed automatically into the posts, in cache, in popups) are now automatically resized should they weight more that 80kb, which should display all pages faster. Maintained the possiblity to click on these thumbnails to display the big posters.
@@ -294,7 +295,7 @@ v.3.6.3
 * [bug] Function to detect of whether a Lumiere widget is active was broken. Fixed lumiere_block_widget_isactive() in class-utils.php
 * [bug] Biography length was not correctly counted and led to text being cut early. Added new condition for $esc_html_breaker in lumiere_medaillon_bio() in class-frontend.php
 * [bug] Picture link url in taxonomy page for people was not built. Fixed class-taxonomy-people-standard.php
-* [bug] Tagline's, Quote's commas were not display accurately and the last tagline displayed was taking wrongfully a comma. Plot's breaking lines <hr> were not displayed after the second result. Fixed the methods in class movie.
+* [bug] Tagline's, Quote's commas were not display accurately and the last tagline displayed was taking wrongfully a comma. Plot's breaking lines &lt;hr&gt; were not displayed after the second result. Fixed the methods in class movie.
 
 v.3.6.2
 * [bug] On some configurations, the creations of cache folder could lead to a fatal error. Switched from WordPress builtin $wp_system functions to PHP core functions in method lumiere_create_cache() in class-settings.php.
@@ -342,7 +343,7 @@ v.3.5.1
 v.3.5
 * [feature] In visual editing (with tinymce, old way), new function to add popup, movies by id and by title.
 * [feature] Not using shortcodes [imdbltid] and [imdblt] anymore. Replaced by /span data-lum_movie_maker="movie_id"/ and /span data-lum_movie_maker="movie_title"/. This way, if Lumière is uninstalled no garbage is left in posts. Kept the old shortcodes working for compatibility purpose.
-* [feature] link to popups are now dealt by a < span data-lum_link_maker="popup"> instead of < span class="lumiere_link_maker"> for consistency.
+* [feature] link to popups are now dealt by a &lt;span data-lum_link_maker="popup"&gt; instead of &lt;span class="lumiere_link_maker"&gt; for consistency.
 * [feature] Help section has been updated according to the many changes of the last months and vastly improved
 * [technical] Renamed various options in order to mainstream functions and classes. Admin is now only made of classes.
 * [bug] activation triggers notice error. Deactivated onscreen debug in class.core lumiere_create_cache() so doesn't throw an error anymore.
@@ -518,7 +519,7 @@ v.3.1.1
 * [bug] Fixed cache refresh/delete redirect + move form functions to options cache
 
 v.3.1
-* [Major] Due to compatibility reasons with Gutenberg, the way to call links for internal popupups has changed from '< !--imdb-- > < !--/imdb-->' to 'span class="lumiere_link_maker"'. Compatibility with the old way currently maintained.
+* [Major] Due to compatibility reasons with Gutenberg, the way to call links for internal popupups has changed from '&lt;!--imdb--&gt; &lt;!--/imdb--&gt;' to 'span class="lumiere_link_maker"'. Compatibility with the old way currently maintained.
 * [Major] Finished Gutenberg interface, two buttons added.
 * [technical] Updated to IMDbPHP 6.5.1 library.
 * [new] Caching system: Changed the path of Lumière! cache (now in wp-content/cache) so it will survive the plugin updates. If wp-content/cache is not writable, it uses wp-content/plugins/lumiere/cache path.
@@ -751,7 +752,7 @@ v.1.1.15
 * [bug] when several directors were found, it was missing space or comma to display -> added comma
 * [technical] updated to IMDbPHP-1.1.15 library (1/hopefully fixed "invalid stream resource" on some network timeouts, movie: 2/ added method to retrieve movie types (if specified), person: 3/fixed a property missing in initialization, Fixed goofs(), trailers(), and trivia() )
 * [major] every admin settings section (cache, widget & general) has its own preferences storage (new foreign keys: $imdb_admin_values, $imdb_widget_values,$imdb_cache_values, whereas $imdb_config_values is dead). As a result of this, resetting General options won't interfere with Cache options, and vice versa.
-* [feature] changed the way several css directives related to popup were working (ie, all &lt;a&gt tags in owner's blog were impacted, instead of only &lt;a&gt from the popup)
+* [feature] changed the way several css directives related to popup were working (ie, all &lt;a&gt; tags in owner's blog were impacted, instead of only &lt;a&gt; from the popup)
 * [feature] added compatibility with [link-indication plugin](http://wordpress.org/extend/plugins/link-indication/ "link-indication plugin home") (modified imdb-link-transformer.php add_filter's execution priority to 11)
 * [feature] mixing "imdb-movie-widget-bymid" and "imdb-movie-widget" keys actually does work! Removing references saying it doesn't.
 * [feature] cache movie files into cache.php are now alphabetically ordered
@@ -801,7 +802,7 @@ v.1.1.14.2
 
 v.1.1.14.1
 * [feature] added imdb photo size option; user can choose to display the big cover picture instead of the thumbnails'
-* [bugs] corrected writers section from imdb-movie.inc.php (before that, some <br /> where added before names, which moved forward text). Was only an issue when displaying imdb inside a post (via imd_external_call() and Exec-PHP plugin)
+* [bugs] corrected writers section from imdb-movie.inc.php (before that, some &lt;br /&gt; where added before names, which moved forward text). Was only an issue when displaying imdb inside a post (via imd_external_call() and Exec-PHP plugin)
 * moved - and renamed - imdb_person.php and imdb_movie.php, and moved popup.php to a more suitable place, "inc/" folder.
 
 v.1.1.14
@@ -869,7 +870,7 @@ v.0.6.1
 * [bugs] minors fixes (layout & code)
 
 v.0.6
-* [feature] changed the way the tags are used; < ! --imdb-->nameMovie< ! --/imdb--> instead of < imdb>nameMovie< /imdb>. This means the already tagged fields should be changed to these new tags. As a result of this, IMDb link transformer is only compatible with Wordpress > 2.5!
+* [feature] changed the way the tags are used; &lt;!-- imdb --&gt;nameMovie&lt;!--/imdb--&gt; instead of &lt;imdb&gt;nameMovie&lt;/imdb&gt;. This means the already tagged fields should be changed to these new tags. As a result of this, IMDb link transformer is only compatible with Wordpress > 2.5!
 * [feature] support for tinymce editor (imdb tags can be automatically inserted by a new button)
 * [bugs] some minors fixes (layout & code)
 	

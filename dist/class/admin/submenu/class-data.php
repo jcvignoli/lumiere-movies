@@ -20,6 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Lumiere\Settings;
 use Lumiere\Tools\Utils;
 use Lumiere\Admin\Admin_Menu;
+use Lumiere\Admin\Admin_Check_Taxo;
 
 /**
  * Display data options for taxonomy, data order and data selection
@@ -179,16 +180,16 @@ class Data extends Admin_Menu {
 
 			$output .= "\n\t" . '<div class="lumiere_flex_container_content_thirty lumiere_padding_five">';
 
-			$output .= "\n\t\t" . '<input type="hidden" id="' . esc_attr( 'imdb_imdbtaxonomy' . $item . '_no' ) . '" name="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '" value="0" />';
+			$output .= "\n\t\t" . '<input type="hidden" id="imdb_imdbtaxonomy' . $item . '_no" name="imdb_imdbtaxonomy' . $item . '" value="0" />';
 
-			$output .= "\n\t\t" . '<input type="checkbox" id="' . esc_attr( 'imdb_imdbtaxonomy' . $item . '_yes' ) . '" name="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '" value="1"';
+			$output .= "\n\t\t" . '<input type="checkbox" id="imdb_imdbtaxonomy' . $item . '_yes" name="imdb_imdbtaxonomy' . $item . '" value="1"';
 
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
 				$output .= ' checked="checked"';
 			}
 
 			$output .= ' />';
-			$output .= "\n\t\t" . '<label for="' . esc_attr( 'imdb_imdbtaxonomy' . $item ) . '_yes">';
+			$output .= "\n\t\t" . '<label for="imdb_imdbtaxonomy' . $item . '_yes">';
 
 			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
 				if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
@@ -197,11 +198,11 @@ class Data extends Admin_Menu {
 					$output .= "\n\t\t" . '<span class="lumiere-option-taxo-deactivated">';
 				}
 
-				$output .= esc_html( ucfirst( $item ) );
+				$output .= ucfirst( $item );
 				$output .= '</span>';
 
 			} else {
-				$output .= esc_html( ucfirst( $item ) );
+				$output .= ucfirst( $item );
 				$output .= '&nbsp;&nbsp;';
 			}
 			$output .= "\n\t\t" . '</label>';
@@ -280,7 +281,8 @@ class Data extends Admin_Menu {
 		$output = '';
 
 		// Get updated items/people from parent class method. Null if not template to update found.
-		$list_updated_fields = $this->lumiere_new_taxo( $type );
+		$class_check_taxo = new Admin_Check_Taxo();
+		$list_updated_fields = $class_check_taxo->lumiere_new_taxo( $type );
 
 		// Get the type to build the links
 		$lumiere_taxo_title = esc_html( $type );

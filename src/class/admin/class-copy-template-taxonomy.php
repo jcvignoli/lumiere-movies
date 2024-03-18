@@ -97,13 +97,7 @@ class Copy_Template_Taxonomy {
 		}
 
 		// If none of the previous conditions are met
-		echo wp_kses(
-			$this->lumiere_notice( 3, esc_html__( 'Template copy failed for some reasons.', 'lumiere-movies' ) ),
-			[
-				'div' => [ 'class' => [] ],
-				'p' => [],
-			]
-		);
+		esc_html_e( 'Template copy failed for some reasons.', 'lumiere-movies' );
 	}
 
 	/**
