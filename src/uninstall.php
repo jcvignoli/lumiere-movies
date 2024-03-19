@@ -21,6 +21,7 @@ require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 use Lumiere\Settings;
 use Lumiere\Tools\Utils;
+use Lumiere\Admin\Admin_General;
 use Lumiere\Plugins\Logger;
 
 /**
@@ -30,6 +31,11 @@ use Lumiere\Plugins\Logger;
  * @since 4.0 option properties can be null and construct is different.
  */
 class Uninstall {
+
+	/**
+	 * Traits
+	 */
+	use Admin_General;
 
 	/**
 	 * Admin options
@@ -56,14 +62,7 @@ class Uninstall {
 	private Logger $logger;
 
 	/**
-	 * \Lumière\Utils class
-	 *
-	 */
-	private Utils $utils_class;
-
-	/**
 	 * Constructor
-	 *
 	 */
 	public function __construct() {
 
@@ -71,9 +70,6 @@ class Uninstall {
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS ) !== false ? get_option( Settings::LUMIERE_ADMIN_OPTIONS ) : null;
 		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS ) !== false ? get_option( Settings::LUMIERE_WIDGET_OPTIONS ) : null;
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS ) !== false ? get_option( Settings::LUMIERE_CACHE_OPTIONS ) : null;
-
-		// Start Utils class.
-		$this->utils_class = new Utils();
 
 		// Start Logger class.
 		$this->logger = new Logger( 'uninstallClass', false );
@@ -146,7 +142,7 @@ class Uninstall {
 
 		// Remove cache.
 		$lumiere_cache_path = $this->imdb_cache_values['imdbcachedir'];
-		Utils::lumiere_wp_filesystem_cred( $lumiere_cache_path );
+		$this->lumiere_wp_filesystem_cred( $lumiere_cache_path ); // in trait Admin_General.
 
 		if ( strlen( $lumiere_cache_path ) === 0 || $wp_filesystem->is_dir( $lumiere_cache_path ) === false ) {
 			$this->logger->log()->warning( '[Lumiere][uninstall][Cache] Standard cache folder was not found. Could not delete ' . $lumiere_cache_path . '.' );
@@ -173,7 +169,7 @@ class Uninstall {
 			return false;
 		}
 
-		foreach ( $this->utils_class->lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
+		foreach ( Utils::lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
 
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $this->imdb_admin_values['imdburlstringtaxo'] . $key );
 
@@ -257,7 +253,7 @@ class Uninstall {
 		}
 
 		foreach ( $get_taxo_templates as $tax_file ) {
-			Utils::lumiere_wp_filesystem_cred( $tax_file );
+			$this->lumiere_wp_filesystem_cred( $tax_file ); // in trait Admin_General.
 			$wp_filesystem->delete( $tax_file );
 			$this->logger->log()->debug( '[Lumiere][uninstall][Taxonomy template] File ' . $tax_file . ' deleted' );
 		}

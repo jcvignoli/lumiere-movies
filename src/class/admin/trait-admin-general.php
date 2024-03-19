@@ -73,5 +73,41 @@ trait Admin_General {
 			WP_Filesystem( $creds_two );
 		}
 	}
+
+	/**
+	 * Recursively delete a directory, keeping the directory path provided
+	 *
+	 * @param string $dir Directory path
+	 * @return bool true on success
+	 * @see Admin_General::lumiere_wp_filesystem_cred() used to make sure the permissions for deleting files are ok
+	 */
+	public function lumiere_unlink_recursive( string $dir ): bool {
+
+		global $wp_filesystem;
+		$files = [];
+
+		// Make sure we have the correct credentials
+		$this->lumiere_wp_filesystem_cred( $dir );
+
+		if ( $wp_filesystem->is_dir( $dir ) === false && $wp_filesystem->is_file( $dir ) === false ) {
+			return false;
+		}
+
+		$files = $wp_filesystem->dirlist( $dir );
+
+		foreach ( $files as $file ) {
+
+			if ( $wp_filesystem->is_dir( $dir . $file['name'] ) === true ) {
+
+				$wp_filesystem->delete( $dir . $file['name'], true );
+				continue;
+
+			}
+
+			$wp_filesystem->delete( $dir . $file['name'] );
+		}
+
+		return true;
+	}
 }
 

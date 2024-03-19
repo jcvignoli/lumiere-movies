@@ -5,7 +5,7 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
- * @version       2.1
+ * @version       2.5
  * @package lumiere-movies
  */
 
@@ -16,24 +16,10 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use Lumiere\Tools\Settings_Global;
-use Lumiere\Plugins\Logger;
-
 /**
  * Various tools
  */
 class Utils {
-
-	/**
-	 * Trait including the database settings.
-	 */
-	use Settings_Global;
-
-	/**
-	 * \Lumiere\Logger class
-	 *
-	 */
-	private Logger $logger;
 
 	/**
 	 * Check if debug is active
@@ -45,80 +31,7 @@ class Utils {
 	 */
 	public function __construct () {
 
-		// Start Logger class.
-		$this->logger = new Logger( 'utilsClass' );
-
 		$this->debug_is_active = false;
-	}
-
-	/**
-	 * Recursively delete a directory, keeping the directory path provided
-	 *
-	 * @param string $dir Directory path
-	 * @return bool true on success
-	 */
-	public static function lumiere_unlink_recursive( string $dir ): bool {
-
-		global $wp_filesystem;
-		$files = [];
-
-		// Make sure we have the correct credentials
-		self::lumiere_wp_filesystem_cred( $dir );
-
-		if ( $wp_filesystem->is_dir( $dir ) === false && $wp_filesystem->is_file( $dir ) === false ) {
-			return false;
-		}
-
-		$files = $wp_filesystem->dirlist( $dir );
-
-		foreach ( $files as $file ) {
-
-			if ( $wp_filesystem->is_dir( $dir . $file['name'] ) === true ) {
-
-				$wp_filesystem->delete( $dir . $file['name'], true );
-				continue;
-
-			}
-
-			$wp_filesystem->delete( $dir . $file['name'] );
-		}
-
-		return true;
-	}
-
-	/**
-	 * Sanitize an array
-	 * Input can be either an array or a string
-	 *
-	 * @param mixed $array
-	 * @return mixed
-	 * @credit https://wordpress.stackexchange.com/a/255238/206323
-	 */
-	public static function lumiere_recursive_sanitize_text_field( $array ) {
-
-		foreach ( $array as $key => &$value ) {
-			if ( is_array( $value ) ) {
-				$value = self::lumiere_recursive_sanitize_text_field( $value );
-			} else {
-				$value = sanitize_text_field( $value );
-			}
-		}
-		return $array;
-	}
-
-	/**
-	 * Text displayed when no result is found
-	 * This text is logged if the debug logging is activated
-	 *
-	 * @param string $text: text to display/log. if no text provided, default text is provided
-	 */
-	public function lumiere_noresults_text( string $text = 'No result found for this query.' ): void {
-
-		$this->logger->log()->debug( "[Lumiere] $text" );
-
-		echo "\n" . '<div class="noresult" align="center" style="font-size:16px;color:red;padding:15px;">'
-			. esc_html( $text )
-			. "</div>\n";
 	}
 
 	/**
@@ -133,7 +46,7 @@ class Utils {
 	 *
 	 * @credit: https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
 	 */
-	public function lumiere_array_key_exists_wildcard( array $array, string $search, string $return = '' ): array {
+	public static function lumiere_array_key_exists_wildcard( array $array, string $search, string $return = '' ): array {
 
 		$search = str_replace( '\*', '.*?', preg_quote( $search, '/' ) );
 
@@ -307,57 +220,6 @@ class Utils {
 	}
 
 	/**
-	 * Request WP_Filesystem credentials if file doesn't have it.
-	 * @param string $file The file with full path to ask the credentials form
-	 *
-	 * @since 3.9.7 Added extra require_once() if $wp_filesystem is null
-	 */
-	public static function lumiere_wp_filesystem_cred( string $file ): void {
-
-		global $wp_filesystem;
-
-		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
-		if ( $wp_filesystem === null ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-			WP_Filesystem();
-		}
-
-		/** WP: request_filesystem_credentials($form_post, $type, $error, $context, $extra_fields, $allow_relaxed_file_ownership); */
-		$creds = request_filesystem_credentials( $file, '', false );
-
-		if ( $creds === false ) {
-			echo esc_html__( 'Credentials are required to edit this file: ', 'lumiere-movies' ) . esc_html( $file );
-			return;
-		}
-
-		$credit_open = is_array( $creds ) === true ? WP_Filesystem( $creds ) : false;
-
-		// our credentials were no good, ask for them again.
-		if ( $credit_open === false || $credit_open === null ) {
-
-			$creds_two = request_filesystem_credentials( $file, '', true, '' );
-
-			// If credentials succeeded or failed, don't pass them to WP_Filesystem.
-			if ( is_bool( $creds_two ) === true ) {
-				WP_Filesystem();
-				return;
-			}
-
-			WP_Filesystem( $creds_two );
-		}
-	}
-
-	/**
-	 * Return if Lumiere plugin is installed
-	 *
-	 * @since 3.7.1
-	 * @return bool always true
-	 */
-	public static function lumiere_is_active (): bool {
-		return true;
-	}
-
-	/**
 	 * Are we currently on an AMP URL?
 	 * Will always return `false` and show PHP Notice if called before the `wp` hook.
 	 *
@@ -375,12 +237,13 @@ class Utils {
 			return true;
 		}
 
-		if ( is_admin()
-		/**
-		 * If kept, breaks blog pages these functions can be executed very early
+		if (
+			is_admin()
+			/**
+			 * If kept, breaks blog pages these functions can be executed very early
 				|| is_embed()
 				|| is_feed()
-		*/
+			*/
 			|| ( isset( $pagenow ) && in_array( $pagenow, [ 'wp-login.php', 'wp-signup.php', 'wp-activate.php' ], true ) )
 			|| ( defined( 'REST_REQUEST' ) && REST_REQUEST )
 			|| ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST )

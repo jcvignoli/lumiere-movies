@@ -4,7 +4,9 @@
 	var elwithhtml = element.RawHTML; /* this type of block can include html */
 
 	var { registerBlockType } = blocks;
-
+	var { blockProps } = blockEditor.useBlockProps;
+	var { blockPropsSave } = blockEditor.useBlockProps.save;
+	
 	const iconLumiere = el(
 		'svg',
 		{ width: 35, height: 35, viewBox: "0 0 200 200" },
@@ -34,102 +36,102 @@
 
 			example: {},
 
-			edit: function( props ) {
+			edit: function( blockProps ) {
 				return (
-				el(
-					'div',
-					{
-						className: props.className,
-						tagName: 'div',
-						className: 'lumiere_block_widget',
-					},
-					el(
-						'img',
-						{
-							className: props.className,
-							className: 'lumiere_block_widget_image',
-							src: lumiere_admin_vars.imdb_path + 'assets/pics/lumiere-ico80x80.png',
-							},
-					),// end img
-					elwithhtml(
-						{ /* this type of block can include html */
-							className: props.className,
-							className: 'lumiere_block_widget_title',
-							children: 'Lumière! Widget',
-							},
-					),// end h2 title
-					elwithhtml(
-						{ /* this type of block can include html */
-							className: props.className,
-							className: 'lumiere_block_widget_explanation',
-							tagName: 'gutenberg',
-							children: i18n.__( 'This widget shows movies in your posts.', 'lumiere-movies' )
-								+ '<br />'
-								+ i18n.__( 'Movie details will be displayed in Lumière! Widget according to 1/ their post title, if Lumière auto-widget option is checked; 2/ the movie ID or title you entered in the metabox of a post. If you are using auto-widget, make sure the post titles are exactly the same as the movie titles on the IMDb website.', 'lumiere-movies' )
-								+ '<br />'
-							},
-					),// end explanation div
 					el(
 						'div',
 						{
-							className: props.className,
+							className: blockProps.className,
 							tagName: 'div',
-							className: 'lumiere_block_widget_container',
+							className: 'lumiere_block_widget',
+						},
+						el(
+							'img',
+							{
+								className: blockProps.className,
+								className: 'lumiere_block_widget_image',
+								src: lumiere_admin_vars.imdb_path + 'assets/pics/lumiere-ico80x80.png',
 							},
-						el(
-							'div',
-							{
-								className: props.className,
-								tagName: 'div',
-								className: 'lumiere_block_widget_entertitle',
-								children: 'Enter widget title:',
-								onChange:  function updateType( event ) {
-									props.setAttributes( {lumiere_input: event.target.value } );
-								},
-								},
 						),
+						elwithhtml(
+							{ /* this type of block can include html */
+								className: blockProps.className,
+								className: 'lumiere_block_widget_title',
+								children: 'Lumière! Widget',
+							},
+						), // end h2 title
+						elwithhtml(
+							{ /* this type of block can include html */
+								className: blockProps.className,
+								className: 'lumiere_block_widget_explanation',
+								tagName: 'gutenberg',
+								children: i18n.__( 'This widget shows movies in your posts.', 'lumiere-movies' )
+									+ '<br />'
+									+ i18n.__( 'Movie details will be displayed in Lumière! Widget according to 1/ their post title, if Lumière auto-widget option is checked; 2/ the movie ID or title you entered in the metabox of a post. If you are using auto-widget, make sure the post titles are exactly the same as the movie titles on the IMDb website.', 'lumiere-movies' )
+									+ '<br />'
+							},
+						),// end explanation div
 						el(
 							'div',
 							{
-								className: props.className,
+								className: blockProps.className,
 								tagName: 'div',
-								className: 'lumiere_block_widget_enterinput',
-								},
+								className: 'lumiere_block_widget_container',
+							},
 							el(
-								'input',
+								'div',
 								{
-									value: props.attributes.lumiere_input,
-									className: props.className,
-									tagName: 'input',
-									className: 'lumiere_block_widget_input',
-
+									className: blockProps.className,
+									tagName: 'div',
+									className: 'lumiere_block_widget_entertitle',
+									children: 'Enter widget title:',
 									onChange:  function updateType( event ) {
-										props.setAttributes( {lumiere_input: event.target.value } );
+										blockProps.setAttributes( {lumiere_input: event.target.value } );
 									},
-									},
+								},
 							),
-						),
-					)// end div container
-				) // end div intothepost
-				); // end return
-			},// end function
+							el(
+								'div',
+								{
+									className: blockProps.className,
+									tagName: 'div',
+									className: 'lumiere_block_widget_enterinput',
+								},
+								el(
+									'input',
+									{
+										value: blockProps.attributes.lumiere_input,
+										className: blockProps.className,
+										tagName: 'input',
+										className: 'lumiere_block_widget_input',
 
-			save: function( props ) {
+										onChange:  function updateType( event ) {
+											blockProps.setAttributes( {lumiere_input: event.target.value } );
+										},
+									},
+								),
+							),
+						) // end div container
+					) // end div intothepost
+				); // end return
+			}, // end function
+
+			save: function( blockPropsSave ) {
 				return (
-				el(
-					'div',
-					{ className: props.className },
 					el(
-						blockEditor.RichText.Content,
-						{
-							className: 'lumiere_block_widget_input',
-							value: '[lumiereWidget]' + props.attributes.lumiere_input + '[/lumiereWidget]',
-						}
+						'div',
+						{ className: blockPropsSave.className },
+						el(
+							blockEditor.RichText.Content,
+							{
+								className: 'lumiere_block_widget_input',
+								value: '[lumiereWidget]' + blockPropsSave.attributes.lumiere_input + '[/lumiereWidget]',
+							}
+						)
 					)
-				)
 				);
 			},
 
 		}
-	); // end registerBlockType()
+	);
 } )( window.wp.blocks, window.wp.blockEditor, window.wp.element, window.wp.components, window.wp.data, window.wp.i18n );

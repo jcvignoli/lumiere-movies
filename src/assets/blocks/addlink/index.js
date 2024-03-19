@@ -1,7 +1,8 @@
 ( function ( blockEditor, richText, element, i18n ) {
 
 	var el = element.createElement;
-
+	var { blockProps } = blockEditor.useBlockProps;
+	
 	const iconLumiereLink = el(
 		'svg',
 		{ width: 20, height: 20, viewBox: "0 0 350 350" },
@@ -12,16 +13,16 @@
 		)
 	);
 
-	var ButtonTagIMDb = function ( props ) {
+	var ButtonTagIMDb = function ( blockProps ) {
 		return el(
 			blockEditor.RichTextToolbarButton,
 			{
 				icon: iconLumiereLink,
 				title: i18n.__( 'Add IMDb link', 'lumiere-movies' ),
 				onClick: function () {
-					props.onChange(
+					blockProps.onChange(
 						richText.toggleFormat(
-							props.value,
+							blockProps.value,
 							{
 								type: "lumiere/addimdblink",
 								attributes: {
@@ -31,7 +32,7 @@
 						)
 					);
 				},
-				isActive: props.isActive,
+				isActive: blockProps.isActive,
 			}
 		);
 	};

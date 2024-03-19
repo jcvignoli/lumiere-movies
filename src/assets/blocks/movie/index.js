@@ -4,6 +4,8 @@
 	var elwithhtml = element.RawHTML; /* this type of block can include html */
 
 	var { registerBlockType } = blocks;
+	const { blockProps } = blockEditor.useBlockProps;
+	const { blockPropsSave } = blockEditor.useBlockProps.save;
 
 	/* Remove useless formatting options
 	-> removes it everywhere, unactivated
@@ -56,40 +58,40 @@
 					default: intro_words
 				},
 			},
-			edit: function( props ) {
+			edit: function( blockProps ) {
 				return (
 					el(
 						'div',
 						{
-							className: props.className,
+							className: blockProps.className,
 							tagName: 'div',
 							className: 'wp-block',
 						},
 						el(
 							'div',
 							{
-								className: props.className,
+								className: blockProps.className,
 								tagName: 'div',
 								className: 'lumiere_block_intothepost',
 							},
 							el(
 								'img',
 								{
-									className: props.className,
+									className: blockProps.className,
 									className: 'lumiere_block_intothepost-image',
 									src: lumiere_admin_vars.imdb_path + 'assets/pics/lumiere-ico-noir80x80.png',
 									},
 							),// end img
 							elwithhtml(
 								{ /* this type of block can include html */
-									className: props.className,
+									className: blockProps.className,
 									className: 'lumiere_block_intothepost-title',
 									children: 'Lumière! movies',
 									},
 							),// end h2 title
 							elwithhtml(
 								{ /* this type of block can include html */
-									className: props.className,
+									className: blockProps.className,
 									className: 'lumiere_block_intothepost-explanation',
 									tagName: 'gutenberg',
 									children: i18n.__( 'This block will vanish in your post, only the movie will be shown.' , 'lumiere-movies' )
@@ -109,26 +111,26 @@
 							el(
 								'div',
 								{
-									className: props.className,
+									className: blockProps.className,
 									tagName: 'div',
 									className: 'lumiere_block_intothepost-container',
 									},
 								el(
 									'div',
 									{
-										className: props.className,
+										className: blockProps.className,
 										tagName: 'div',
 										className: 'lumiere_block_intothepost-select',
 										},
 									el(
 										'select',
 										{
-											value: props.attributes.lumiere_imdblt_select,
+											value: blockProps.attributes.lumiere_imdblt_select,
 
 											onChange:  function updateType( event ) {
 												// reset the text field when changing the option
-												props.setAttributes( { content: empty } );
-												props.setAttributes( { lumiere_imdblt_select: event.target.value } );
+												blockProps.setAttributes( { content: empty } );
+												blockProps.setAttributes( { lumiere_imdblt_select: event.target.value } );
 											},
 										},
 										// Keeping double i18n, but only the second is needed
@@ -141,9 +143,9 @@
 									{
 										tagName: 'div',
 										className: 'lumiere_block_intothepost-content',
-										value: props.attributes.content,
+										value: blockProps.attributes.content,
 										onChange: function( content ) {
-											props.setAttributes( { content: content } );
+											blockProps.setAttributes( { content: content } );
 										}
 									}
 								)
@@ -153,16 +155,17 @@
 				); // end return
 			},// end function
 
-			save: function( props ) {
+			// Use "blockPropsSave" instead of "Props" with apiVersion 2, but then can't move the block
+			save: function( Props ) {
 				return (
 				el(
 					'div',
-					{ className: props.className },
+					{ className: Props.className },
 					el(
 						blockEditor.RichText.Content,
 						{
 							className: 'lumiere_block_intothepost-content',
-							value: '<span data-lum_movie_maker="' + props.attributes.lumiere_imdblt_select + '">' + props.attributes.content + '</span>',
+							value: '<span data-lum_movie_maker="' + Props.attributes.lumiere_imdblt_select + '">' + Props.attributes.content + '</span>',
 						}
 					)
 				)

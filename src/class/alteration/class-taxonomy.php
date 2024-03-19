@@ -23,12 +23,10 @@ use Lumiere\Tools\Utils;
  * Create Lumière! Taxonomy system
  * Taxonomy Pages names are added to the database
  *
- * @phpstan-import-type OPTIONS_DATA from Settings
- * @phpstan-import-type OPTIONS_ADMIN from Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
  */
 class Taxonomy {
-
-	private Utils $utils_class;
 
 	/**
 	 * @phpstan-var OPTIONS_DATA $imdb_widget_values
@@ -47,7 +45,6 @@ class Taxonomy {
 
 		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-		$this->utils_class = new Utils();
 
 		// If taxonomy is not activated, exit.
 		if ( ! isset( $this->imdb_admin_values['imdbtaxonomy'] ) || $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
@@ -60,7 +57,6 @@ class Taxonomy {
 
 	/**
 	 * Static instanciation of the class
-	 * Needed to be called in add_actions()
 	 *
 	 * @return void The class was instanciated
 	 */
@@ -72,14 +68,14 @@ class Taxonomy {
 	 * Register taxomony and create custom taxonomy pages in the database
 	 *
 	 * 1/ Register taxonomy
-	 * 2/ Add specific class for html tags for functions building links towards taxonomy pages --------- This part seems useless, not working, to remove!
-	 * a search for all imdbtaxonomy* in config array,
-	 * b if active write a filter to add a class to the link to the taxonomy page.
-	 * c Can be utilised by get_the_term_list() the_terms() WP function, such as in taxo templates
+	 * 2/ Add specific class for HTML tags for functions building links towards taxonomy pages --------- This part seems useless, not working, to remove!
+	 *  a search for all imdbtaxonomy* in config array,
+	 *  b if active write a filter to add a class to the link to the taxonomy page.
+	 *  c Can be utilised by get_the_term_list() the_terms() WP function, such as in taxo templates
 	 */
 	public function lumiere_create_taxonomies(): void {
 
-		$get_taxo_array = $this->utils_class->lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' );
+		$get_taxo_array = Utils::lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' );
 		foreach ( $get_taxo_array as $key => $value ) {
 
 			if ( is_string( $key ) === false ) {

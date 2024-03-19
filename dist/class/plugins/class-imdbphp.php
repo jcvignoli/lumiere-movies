@@ -18,17 +18,16 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // use IMDbPHP config class in /vendor/.
-use Imdb\Config;
-use Lumiere\Settings;
+use Imdb\Config as Imdbphp_Config;
 
 /**
  * Child class of \Imdb\Config
- * Get all settings from Lumiere\Tools\Settings_Global; and sends them to \Imdb\Config
+ * Get the settings and sends them to \Imdb\Config
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
  */
-class Imdbphp extends Config {
+class Imdbphp extends Imdbphp_Config {
 
 	/**
 	 * Admin options
@@ -51,8 +50,8 @@ class Imdbphp extends Config {
 		parent::__construct();
 
 		// Get options from database.
-		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
+		$this->imdb_admin_values = get_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS );
+		$this->imdb_cache_values = get_option( \Lumiere\Settings::LUMIERE_CACHE_OPTIONS );
 
 		// Call the function to send the selected settings to imdbphp library.
 		$this->lumiere_send_config_imdbphp();
@@ -60,7 +59,10 @@ class Imdbphp extends Config {
 
 	/**
 	 * Send Lumiere options to IMDbPHP parent class
+	 * The values here will overwrite the properties in the parent class
 	 *
+	 * @see \Imdb\Config The parent class
+	 * @see \Imdb\ImageProcessor::maybe_resize_image() 
 	 */
 	private function lumiere_send_config_imdbphp(): void {
 
@@ -84,8 +86,7 @@ class Imdbphp extends Config {
 
 		/**
 		 * These two are hardcoded at 800 in IMDbPHP Config class
-		 * can't be changed in admin panel
-		 * @see \Imdb\ImageProcessor::maybe_resize_image()
+		 * can't be changed in admin panel, only below
 		 */
 		$this->image_max_width = 800;
 		$this->image_max_height = 800;

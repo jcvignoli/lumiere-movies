@@ -71,10 +71,6 @@ class Cache_Tools {
 
 		// Start Imdbphp class.
 		$this->imdbphp_class = new Imdbphp();
-
-		// Logger: set to true to display debug on screen. => 20240225 Don't see why it is needed, will remove in the future
-		// $this->logger->lumiere_start_logger( get_class( __CLASS__ ), false );
-
 	}
 
 	/**
@@ -108,7 +104,7 @@ class Cache_Tools {
 			}
 
 			foreach ( $name_sanitized as $key => $cache_to_delete ) {
-				Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
+				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General.
 				$wp_filesystem->delete( $cache_to_delete );
 			}
 
@@ -134,7 +130,7 @@ class Cache_Tools {
 			}
 
 			foreach ( $name_sanitized as $key => $cache_to_delete ) {
-				Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
+				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General.
 				$wp_filesystem->delete( $cache_to_delete );
 			}
 
@@ -177,8 +173,8 @@ class Cache_Tools {
 			$refresh_ids['people'][] = $people_person_object->imdbid();
 		}
 
-		// Delete all cache, otherwise neither gql files nor pictures won't be deleted.
-		Utils::lumiere_unlink_recursive( $this->imdb_cache_values['imdbcachedir'] );
+		// Delete all cache, otherwise neither gql files nor pictures won't be deleted, in Admin_General Files.
+		$this->lumiere_unlink_recursive( $this->imdb_cache_values['imdbcachedir'] );
 
 		// Make sure cache folder exists and is writable.
 		$this->lumiere_create_cache( true );
@@ -238,7 +234,7 @@ class Cache_Tools {
 			}
 
 			foreach ( $name_sanitized as $key => $cache_to_delete ) {
-				Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
+				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General.
 				$wp_filesystem->delete( sanitize_text_field( $cache_to_delete ) );
 			}
 
@@ -266,7 +262,7 @@ class Cache_Tools {
 			}
 
 			foreach ( $name_people_sanitized as $key => $cache_to_delete ) {
-				Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
+				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General.
 				$wp_filesystem->delete( sanitize_text_field( $cache_to_delete ) );
 			}
 
@@ -372,7 +368,7 @@ class Cache_Tools {
 			throw new Exception( esc_html__( 'No query files found.', 'lumiere-movies' ) );
 		}
 
-		Utils::lumiere_wp_filesystem_cred( $files_query[0] );
+		$this->lumiere_wp_filesystem_cred( $files_query[0] ); // in trait Admin_General.
 
 		foreach ( $files_query as $cache_to_delete ) {
 
@@ -431,7 +427,7 @@ class Cache_Tools {
 
 			// Get the permissions for deletion and delete.
 			foreach ( $cache_to_delete_files as $key => $cache_to_delete ) {
-				Utils::lumiere_wp_filesystem_cred( $cache_to_delete );
+				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General.
 				$wp_filesystem->delete( $cache_to_delete );
 			}
 
@@ -629,7 +625,7 @@ class Cache_Tools {
 	 * 2/ Can't created alternative cache folders inside Lumière plugin
 	 * 3/ Cache folders already exist & are writable
 	 *
-	 * @info Can't use $wp_system at this stage, since it is called early during plugin activation in class core
+	 * @info Can't use $wp_filesystem at this stage, since it is called early during plugin activation in class core
 	 *
 	 * @param bool $screen_log whether to display logging on screen or not
 	 * @return bool false if cache already exist or can't be created, true if cache folders were created

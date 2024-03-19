@@ -1,15 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
+	"apiVersion": 1,
 	"name": "lumiere/main",
 	"title": "Movie block into the post",
 	"textdomain": "lumiere-movies",
 	"category": "embed",
-	"attributes": {
-		"name": {
-			    "type": "string"
-		}
-	},
 	"editorScript": "file:./index.min.js",
 	"editorStyle": "file:./index.min.css"
 }

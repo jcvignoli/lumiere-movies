@@ -17,7 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use Lumiere\Tools\Utils;
 use Lumiere\Admin\Admin_Menu;
 use Exception;
 
@@ -158,7 +157,7 @@ class Help extends Admin_Menu {
 		}
 
 		// Make sure we got right credentials to use $wp_filesystem.
-		Utils::lumiere_wp_filesystem_cred( $this->readmefile );
+		$this->lumiere_wp_filesystem_cred( $this->readmefile ); // in trait Admin_General.
 
 		// Open the file.
 		$faqfile = $wp_filesystem !== null ? $wp_filesystem->get_contents( $this->readmefile ) : '';
@@ -212,7 +211,7 @@ class Help extends Admin_Menu {
 		}
 
 		// Make sure we got right credentials to use $wp_filesystem.
-		Utils::lumiere_wp_filesystem_cred( $this->changelogfile );
+		$this->lumiere_wp_filesystem_cred( $this->changelogfile ); // in trait Admin_General.
 
 		// Open the file (as an array).
 		$changelogfile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $this->changelogfile ) : '';
@@ -261,7 +260,7 @@ class Help extends Admin_Menu {
 		}
 
 		// Make sure we got right credentials to use $wp_filesystem.
-		Utils::lumiere_wp_filesystem_cred( $this->acknowledgefile );
+		$this->lumiere_wp_filesystem_cred( $this->acknowledgefile );
 
 		// Open the file (as an array).
 		$acknowledgefile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $this->acknowledgefile ) : '';

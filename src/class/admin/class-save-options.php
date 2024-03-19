@@ -17,7 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Settings;
-use Lumiere\Tools\Utils;
 use Lumiere\Admin\Cache_Tools;
 use Lumiere\Admin\Admin_General;
 use Exception;
@@ -367,7 +366,7 @@ class Save_Options {
 
 		// Delete all cache
 		/** @psalm-suppress PossiblyNullArgument -- Argument 1 of lumiere_unlink_recursive cannot be null -- it can't, just checked! */
-		Utils::lumiere_unlink_recursive( $this->imdb_cache_values['imdbcachedir'] );
+		$this->lumiere_unlink_recursive( $this->imdb_cache_values['imdbcachedir'] ); // in trait Files.
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_all_msg', 1 );

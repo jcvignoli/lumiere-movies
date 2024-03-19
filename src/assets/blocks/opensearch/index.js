@@ -1,4 +1,8 @@
 ( function ( wp ) {
+
+	// Activated if text is selected in Movie block
+	
+	
 	var withSelect = wp.data.withSelect;
 	var ifCondition = wp.compose.ifCondition;
 	var compose = wp.compose.compose;
@@ -21,7 +25,7 @@
 				icon: iconLumiereWindow,
 				title: wp.i18n.__( 'Open search IMDB ID', 'lumiere-movies' ),
 				onClick: function () {
-					open( lumiere_admin_vars.wordpress_path + lumiere_admin_vars.gutenberg_search_url_string );
+					open( lumiere_admin_vars.wordpress_path + '/' + lumiere_admin_vars.gutenberg_search_url_string );
 				},
 				isActive: props.isActive,
 			}

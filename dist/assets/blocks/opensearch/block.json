@@ -5,10 +5,5 @@
 	"title": "Open search IMDb",
 	"textdomain": "lumiere-movies",
 	"category": "embed",
-	"attributes": {
-		"name": {
-			    "type": "string"
-		}
-	},
 	"editorScript": "file:./index.min.js"
 }

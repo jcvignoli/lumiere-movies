@@ -18,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Settings;
-use Lumiere\Tools\Utils;
 use Lumiere\Admin\Admin_Menu;
 use Lumiere\Admin\Admin_Check_Taxo;
 
@@ -296,7 +295,7 @@ class Data extends Admin_Menu {
 		$lumiere_taxonomy_theme_file = $lumiere_taxonomy_theme_path . $lumiere_taxo_file_tocopy;
 
 		// Make sure we have the credentials
-		Utils::lumiere_wp_filesystem_cred( $lumiere_current_theme_path_file );
+		$this->lumiere_wp_filesystem_cred( $lumiere_current_theme_path_file ); // in trait Admin_General.
 
 		// Make the HTML link with a nonce, checked in move_template_taxonomy.php.
 

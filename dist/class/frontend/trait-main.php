@@ -17,7 +17,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Plugins\Plugins_Start;
-use Lumiere\Tools\Utils;
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Plugins\Logger;
@@ -31,12 +30,15 @@ use Lumiere\Plugins\Imdbphp;
  */
 trait Main {
 
-	// Global settings trait.
+	/**
+	 * Traits
+	 */
 	use Settings_Global;
 
 	/**
 	 * Name of the plugins active
 	 *
+	 * @see Plugins_Start::plugins_active_names
 	 * @since 4.0.3
 	 * @var array<string>
 	 */
@@ -45,9 +47,10 @@ trait Main {
 	/**
 	 * Classes that have been activated
 	 *
+	 * @see Plugins_Start::plugins_classes_active
 	 * @since 4.0.3
 	 * @var array<string, object> $plugins_classes_active
-	 * @ phpstan-var array<string, PLUGINS_AVAILABLE> $plugins_classes_active
+	 * phpstan-var array<string, PLUGINS_AVAILABLE> $plugins_classes_active
 	 */
 	public array $plugins_classes_active = [];
 
@@ -60,33 +63,27 @@ trait Main {
 	public object $link_maker;
 
 	/**
-	 * Class \Lumiere\Utils
-	 *
-	 */
-	public Utils $utils_class;
-
-	/**
-	 * Class \Lumiere\Imdbphp
-	 *
+	 * Config for IMDBphp library
 	 */
 	public Imdbphp $imdbphp_class;
 
 	/**
-	 * Class \Lumiere\Logger
-	 *
+	 * Logging
 	 */
 	public Logger $logger;
 
 	/**
 	 * Is the current page an editing page?
 	 */
+	/* @obsolete since 18 03 2024
 	private bool $is_editor_page = false;
+	*/
 
 	/**
 	 * Constructor
 	 *
 	 * @param string $logger_name Title of Monolog logger
-	 * @param bool $screen_output whether to output Monolog on screen or not
+	 * @param bool $screen_output Whether to output Monolog on screen or not
 	 */
 	public function __construct( string $logger_name = 'unknownOrigin', bool $screen_output = true ) {
 
@@ -100,36 +97,19 @@ trait Main {
 		// Start Logger class.
 		$this->logger = new Logger( $logger_name, $screen_output );
 
-		// Start Utils class.
-		$this->utils_class = new Utils();
-
 		// Start Imdbphp class.
 		$this->imdbphp_class = new Imdbphp();
 
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
 		$this->link_maker = Link_Factory::lumiere_link_factory_start();
 
+		/* @obsolete since 18 03 2024
 		// Start checking if current page is block editor
 		add_action( 'init', [ $this, 'lumiere_frontend_is_editor' ], 0 );
 
 		// Start the debugging
 		add_action( 'plugins_loaded', [ $this, 'lumiere_frontend_maybe_start_debug' ], 1 );
-
-		// Display log of list of WP plugins compatible with Lumiere
-		#add_action( 'the_post', [ $this, 'lumiere_log_plugins' ], 0 );
-
-	}
-
-	/**
-	 * Display list of WP plugins compatible with Lumière!
-	 * Use Logger class, already instancialised
-	 *
-	 * @since 3.7
-	 */
-	public function lumiere_log_plugins(): void {
-
-		$this->logger->log()->debug( '[Lumiere] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ' ]' );
-
+		*/
 	}
 
 	/**
@@ -147,6 +127,7 @@ trait Main {
 	/**
 	 * Detect whether it is a block editor (gutenberg) page
 	 */
+	/* @obsolete since 18 03 2024
 	public function lumiere_frontend_is_editor(): void {
 
 		$referer = strlen( $_SERVER['REQUEST_URI'] ?? '' ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) : '';
@@ -163,11 +144,12 @@ trait Main {
 
 		}
 
-	}
+	}*/
 
 	/**
 	 * Start debug if conditions are met
 	 */
+	/* @obsolete since 18 03 2024
 	public function lumiere_frontend_maybe_start_debug(): void {
 
 		// If editor page, exit.
@@ -188,7 +170,7 @@ trait Main {
 
 		}
 
-	}
+	}*/
 
 	/**
 	 * Remove html links <a></a>
@@ -196,7 +178,7 @@ trait Main {
 	 * @param string $text text to be cleaned from every html link
 	 * @return string $output text that has been cleaned from every html link
 	 */
-	public function lumiere_remove_link ( string $text ): string {
+	public function lumiere_remove_link( string $text ): string {
 
 		$output = preg_replace( '/<a(.*?)>/', '', $text ) ?? $text;
 		$output = preg_replace( '/<\/a>/', '', $output ) ?? $output;
@@ -213,7 +195,7 @@ trait Main {
 	 * @param string $url The URL to edit
 	 * @return string The URL compatible with Polylang
 	 */
-	public function lumiere_url_check_polylang_rewrite ( string $url ): string {
+	public function lumiere_url_check_polylang_rewrite( string $url ): string {
 
 		$final_url = null;
 		/* testing if really needed
