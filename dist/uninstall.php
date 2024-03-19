@@ -36,7 +36,7 @@ class Uninstall {
 	 * Traits
 	 */
 	use Admin_General;
-	
+
 	/**
 	 * Admin options
 	 * @var null|array<string> $imdb_admin_values

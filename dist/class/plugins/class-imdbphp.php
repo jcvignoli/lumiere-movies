@@ -62,7 +62,7 @@ class Imdbphp extends Imdbphp_Config {
 	 * The values here will overwrite the properties in the parent class
 	 *
 	 * @see \Imdb\Config The parent class
-	 * @see \Imdb\ImageProcessor::maybe_resize_image() 
+	 * @see \Imdb\ImageProcessor::maybe_resize_image()
 	 */
 	private function lumiere_send_config_imdbphp(): void {
 

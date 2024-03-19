@@ -34,7 +34,7 @@
 				},
 			},
 
-			example: {},
+			example: {}, 
 
 			edit: function( blockProps ) {
 				return (

@@ -35,7 +35,7 @@
 				isActive: blockProps.isActive,
 			}
 		);
-	};
+	}; 
 
 	richText.registerFormatType(
 		'lumiere/addimdblink',
