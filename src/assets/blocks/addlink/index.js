@@ -2,7 +2,7 @@
 
 	var el = element.createElement;
 	var { blockProps } = blockEditor.useBlockProps;
-	
+
 	const iconLumiereLink = el(
 		'svg',
 		{ width: 20, height: 20, viewBox: "0 0 350 350" },
@@ -35,7 +35,7 @@
 				isActive: blockProps.isActive,
 			}
 		);
-	}; 
+	};
 
 	richText.registerFormatType(
 		'lumiere/addimdblink',

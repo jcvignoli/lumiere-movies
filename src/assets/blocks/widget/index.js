@@ -6,7 +6,7 @@
 	var { registerBlockType } = blocks;
 	var { blockProps } = blockEditor.useBlockProps;
 	var { blockPropsSave } = blockEditor.useBlockProps.save;
-	
+
 	const iconLumiere = el(
 		'svg',
 		{ width: 35, height: 35, viewBox: "0 0 200 200" },
@@ -34,7 +34,7 @@
 				},
 			},
 
-			example: {}, 
+			example: {},
 
 			edit: function( blockProps ) {
 				return (

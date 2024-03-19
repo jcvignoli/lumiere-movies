@@ -1,8 +1,8 @@
 ( function ( wp ) {
 
 	// Activated if text is selected in Movie block
-	
-	
+
+
 	var withSelect = wp.data.withSelect;
 	var ifCondition = wp.compose.ifCondition;
 	var compose = wp.compose.compose;
