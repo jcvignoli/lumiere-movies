@@ -47,7 +47,7 @@
         }
     },
     "scripts": {
-        "phpcsbot": "vendor/bin/phpcs -n src",
+        "phpcsbot": "vendor/bin/phpcs --warning-severity=0 --extensions=php src",
         "phpstanbot": "vendor/bin/phpstan",
         "phanbot": "vendor/bin/phan -k phan.php ",
         "lint": ["@phpcsbot", "@phpstanbot"],
