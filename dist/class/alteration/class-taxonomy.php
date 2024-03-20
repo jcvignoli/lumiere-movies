@@ -29,9 +29,9 @@ use Lumiere\Tools\Utils;
 class Taxonomy {
 
 	/**
-	 * @phpstan-var OPTIONS_DATA $imdb_widget_values
+	 * @phpstan-var OPTIONS_DATA $imdb_data_values
 	 */
-	private array $imdb_widget_values;
+	private array $imdb_data_values;
 
 	/**
 	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values
@@ -43,7 +43,7 @@ class Taxonomy {
 	 */
 	public function __construct() {
 
-		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
+		$this->imdb_data_values = get_option( Settings::LUMIERE_DATA_OPTIONS );
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 
 		// If taxonomy is not activated, exit.
@@ -75,7 +75,7 @@ class Taxonomy {
 	 */
 	public function lumiere_create_taxonomies(): void {
 
-		$get_taxo_array = Utils::lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' );
+		$get_taxo_array = Utils::lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' );
 		foreach ( $get_taxo_array as $key => $value ) {
 
 			if ( is_string( $key ) === false ) {
@@ -85,7 +85,7 @@ class Taxonomy {
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $key );
 
 			// Check if a specific taxonomy (such as actor, genre) is activated.
-			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $filter_taxonomy ] === '1' ) {
+			if ( $this->imdb_data_values[ 'imdbtaxonomy' . $filter_taxonomy ] === '1' ) {
 
 				// Register activated taxonomies
 				register_taxonomy(

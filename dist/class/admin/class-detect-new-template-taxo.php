@@ -92,8 +92,8 @@ class Detect_New_Template_Taxo {
 			$taxo_key = 'imdbtaxonomy' . $item;
 
 			if (
-				isset( $this->imdb_widget_values[ $taxo_key ] )
-				&& $this->imdb_widget_values[ $taxo_key ] === '1'
+				isset( $this->imdb_data_values[ $taxo_key ] )
+				&& $this->imdb_data_values[ $taxo_key ] === '1'
 				&& is_file( $lumiere_current_theme_path_file ) === false
 			) {
 

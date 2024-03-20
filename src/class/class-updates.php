@@ -96,7 +96,7 @@ class Updates {
 	 * Add option in array of WordPress options
 	 * WordPress doesn't know how to handle adding a specific key in a array of options
 	 *
-	 * @param null|string $option_array : the name of the array of options, such as $config_class->imdbWidgetOptionsName
+	 * @param null|string $option_array : the name of the array of options, such as $config_class->imdb_data_option
 	 * @param null|string $option_key : the key in the array of options to be added, such as 'imdbintotheposttheme'
 	 * @param mixed $option_value : the value to add to the key, can be bool, int, array, string
 	 *
@@ -142,7 +142,7 @@ class Updates {
 	 * Update option in array of WordPress options
 	 * WordPress doesn't know how to handle updating a specific key in a array of options
 	 *
-	 * @param null|string $option_array : the array of options, such as $config_class->imdbWidgetOptionsName
+	 * @param null|string $option_array : the array of options, such as $config_class->imdb_data_option
 	 * @param null|string $option_key : the key in the array of options to be added, such as 'imdbintotheposttheme'
 	 * @param mixed $option_value : the value to add to the key, can be bool, int or string
 	 *
@@ -187,7 +187,7 @@ class Updates {
 	 * Remove option in array of WordPress options
 	 * WordPress doesn't know how to handle removing a specific key in a array of options
 	 *
-	 * @param null|string $option_array : the array of options, such as $config_class->imdbWidgetOptionsName
+	 * @param null|string $option_array : the array of options, such as $config_class->imdb_data_option
 	 * @param null|string $option_key : the key in the array of options to be removed, such as 'imdbintotheposttheme'
 	 *
 	 * @return bool true if successful, a notice if missing mandatory parameters; false if option already exists

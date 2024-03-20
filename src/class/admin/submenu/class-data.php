@@ -94,7 +94,7 @@ class Data extends Admin_Menu {
 
 		// Show the vars if debug is activated.
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
-			$this->lumiere_display_vars( $this->imdb_widget_values, 'no_var_dump', null ); // Method in trait Admin_General.
+			$this->lumiere_display_vars( $this->imdb_data_values, 'no_var_dump', null ); // Method in trait Admin_General.
 		}
 
 		// Display submenu
@@ -113,7 +113,7 @@ class Data extends Admin_Menu {
 			$this->include_with_vars(
 				'data/admin-data-display',
 				[
-					$this->imdb_widget_values, // data options.
+					$this->imdb_data_values, // data options.
 					$this->get_display_options()[0], // list of items and people with two extra lists.
 					$this->get_display_options()[1], // explaination of items and people with the two extra lists.
 					$this->details_with_numbers, // data details in a field to fill in.
@@ -181,15 +181,15 @@ class Data extends Admin_Menu {
 
 			$output .= "\n\t\t" . '<input type="checkbox" id="imdb_imdbtaxonomy' . $item . '_yes" name="imdb_imdbtaxonomy' . $item . '" value="1"';
 
-			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
+			if ( $this->imdb_data_values[ 'imdbtaxonomy' . $item ] === '1' ) {
 				$output .= ' checked="checked"';
 			}
 
 			$output .= ' />';
 			$output .= "\n\t\t" . '<label for="imdb_imdbtaxonomy' . $item . '_yes">';
 
-			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
-				if ( $this->imdb_widget_values[ 'imdbwidget' . $item ] === '1' ) {
+			if ( $this->imdb_data_values[ 'imdbtaxonomy' . $item ] === '1' ) {
+				if ( $this->imdb_data_values[ 'imdbwidget' . $item ] === '1' ) {
 					$output .= "\n\t\t" . '<span class="lumiere-option-taxo-activated">';
 				} else {
 					$output .= "\n\t\t" . '<span class="lumiere-option-taxo-deactivated">';
@@ -205,7 +205,7 @@ class Data extends Admin_Menu {
 			$output .= "\n\t\t" . '</label>';
 
 			// If template is activated, notify to copy or to update.
-			if ( $this->imdb_widget_values[ 'imdbtaxonomy' . $item ] === '1' ) {
+			if ( $this->imdb_data_values[ 'imdbtaxonomy' . $item ] === '1' ) {
 				$output .= $this->lumiere_display_new_taxo_template( $item );
 			}
 			$output .= "\n\t" . '</div>';

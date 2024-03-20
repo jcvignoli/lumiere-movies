@@ -122,7 +122,7 @@ class Lumiere_Update_File_03 extends \Lumiere\Updates {
 
 		// Move 'imdblinkingkill'
 		// Variable moved from widget options to admin
-		if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdblinkingkill' ) ) {
+		if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_DATA_OPTIONS, 'imdblinkingkill' ) ) {
 
 			$text = 'Lumière option imdblinkingkill successfully removed.';
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -147,7 +147,7 @@ class Lumiere_Update_File_03 extends \Lumiere\Updates {
 
 		// Move 'imdbautopostwidget'
 		// Variable moved from widget options to admin
-		if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdbautopostwidget' ) ) {
+		if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_DATA_OPTIONS, 'imdbautopostwidget' ) ) {
 
 			$text = 'Lumière option imdbautopostwidget successfully removed.';
 			$logger->info( "[Lumiere][updateVersion] $text" );
@@ -173,7 +173,7 @@ class Lumiere_Update_File_03 extends \Lumiere\Updates {
 
 		// Move 'imdbintotheposttheme'
 		// Variable moved from widget options to admin
-		if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdbintotheposttheme' ) ) {
+		if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_DATA_OPTIONS, 'imdbintotheposttheme' ) ) {
 
 			$text = 'Lumière option imdbintotheposttheme successfully removed.';
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );

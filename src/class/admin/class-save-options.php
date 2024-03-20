@@ -40,16 +40,21 @@ class Save_Options {
 	use Admin_General;
 
 	/**
+	 * Allows to limit the calls to rewrite rules refresh
+	 */
+	private string $page_data_taxo;
+
+	/**
 	 * Admin options
 	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values
 	 */
 	private array $imdb_admin_values;
 
 	/**
-	 * Widget options
-	 * @phpstan-var OPTIONS_DATA $imdb_widget_values
+	 * Data options
+	 * @phpstan-var OPTIONS_DATA $imdb_data_values
 	 */
-	private array $imdb_widget_values;
+	private array $imdb_data_values;
 
 	/**
 	 * Cache options
@@ -60,11 +65,14 @@ class Save_Options {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
+	public function __construct( string $page_data_taxo ) {
+
+		// Store page
+		$this->page_data_taxo = $page_data_taxo;
 
 		// Get options from database.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
+		$this->imdb_data_values = get_option( Settings::LUMIERE_DATA_OPTIONS );
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
 		add_action( 'admin_init', [ $this, 'process_headers' ] );
@@ -103,9 +111,11 @@ class Save_Options {
 
 	/**
 	 * Call from a WordPress hook
+	 * @since 4.0.3 added param, I need it to restrain te rewrite rules flush to data taxo pages
+	 * @param string $page_data_taxo
 	 */
-	public static function lumiere_static_start(): void {
-		$start = new self();
+	public static function lumiere_static_start( string $page_data_taxo ): void {
+		$start = new self( $page_data_taxo );
 	}
 
 	/**
@@ -480,7 +490,7 @@ class Save_Options {
 			}
 
 			$post_sanitized = is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( $_POST[ $key_sanitized ] ) : null;
-			// Copy $_POST to $this->imdb_widget_values var
+			// Copy $_POST to $this->imdb_data_values var
 			if ( isset( $post_sanitized ) ) {
 
 				// remove "imdb_" from $key
@@ -489,13 +499,13 @@ class Save_Options {
 				/**
 				 * The following OPTIONS_DATA_MINUS doesn't include 'imdbwidgetorder': array<string> which is dealt with later
 				 * @phpstan-var key-of<OPTIONS_DATA_MINUS> $keynoimdb  */
-				$this->imdb_widget_values[ $keynoimdb ] = $post_sanitized;
+				$this->imdb_data_values[ $keynoimdb ] = $post_sanitized;
 			}
 		}
 
 		/**
 		 * Special part related to details order
-		 * Sanitize and reverse keys and values to insert $_POST['imdbwidgetorderContainer'] into imdb_widget_values['imdbwidgetorder']
+		 * Sanitize and reverse keys and values to insert $_POST['imdbwidgetorderContainer'] into $imdb_data_values['imdbwidgetorder']
 		 */
 		if ( isset( $_POST['imdbwidgetorderContainer'] ) ) {
 
@@ -507,14 +517,20 @@ class Save_Options {
 
 			$imdbwidgetorder_sanitized = array_combine( $data_values_filtered, $data_keys_filtered );
 
-			$this->imdb_widget_values['imdbwidgetorder'] = $imdbwidgetorder_sanitized;
+			$this->imdb_data_values['imdbwidgetorder'] = $imdbwidgetorder_sanitized;
 		}
 
 		// update options
-		update_option( Settings::LUMIERE_WIDGET_OPTIONS, $this->imdb_widget_values );
+		update_option( Settings::LUMIERE_DATA_OPTIONS, $this->imdb_data_values );
 
-		// New custom pages need a flush rewrite rules to make sure taxonomy pages are available.
-		flush_rewrite_rules();
+		/**
+		 * New custom pages need a flush rewrite rules to make sure taxonomy pages are available.
+		 * Execute only if referer page is options data taxo page
+		 * Won't execute when copying taxonomy template
+		 */
+		if ( $get_referer !== false && admin_url( 'admin.php' ) . strrchr( $get_referer, '?' ) === $this->page_data_taxo ) {
+			flush_rewrite_rules();
+		}
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_updated', 1 );
@@ -530,7 +546,7 @@ class Save_Options {
 	private function lumiere_data_options_reset( string|bool $get_referer, ): void {
 
 		// Delete the options to reset
-		delete_option( Settings::LUMIERE_WIDGET_OPTIONS );
+		delete_option( Settings::LUMIERE_DATA_OPTIONS );
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 1 );

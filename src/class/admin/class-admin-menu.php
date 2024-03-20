@@ -133,7 +133,7 @@ class Admin_Menu {
 		 * @see Save_Options::process_headers()
 		 * @since 4.0
 		 */
-		add_action( 'wp_loaded', fn() => Save_Options::lumiere_static_start() );
+		add_action( 'wp_loaded', fn() => Save_Options::lumiere_static_start( $this->page_data_taxo ) );
 
 		// Copying taxonomy templates in Lumière! data taxonomy options
 		if (

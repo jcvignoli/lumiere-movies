@@ -44,10 +44,10 @@ class Uninstall {
 	private ?array $imdb_admin_values;
 
 	/**
-	 * Widget options
-	 * @var null|array<string> $imdb_widget_values
+	 * Data options
+	 * @var null|array<string> $imdb_data_values
 	 */
-	private ?array $imdb_widget_values;
+	private ?array $imdb_data_values;
 
 	/**
 	 * Cache options
@@ -68,7 +68,7 @@ class Uninstall {
 
 		// Get options from database.
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS ) !== false ? get_option( Settings::LUMIERE_ADMIN_OPTIONS ) : null;
-		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS ) !== false ? get_option( Settings::LUMIERE_WIDGET_OPTIONS ) : null;
+		$this->imdb_data_values = get_option( Settings::LUMIERE_DATA_OPTIONS ) !== false ? get_option( Settings::LUMIERE_DATA_OPTIONS ) : null;
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS ) !== false ? get_option( Settings::LUMIERE_CACHE_OPTIONS ) : null;
 
 		// Start Logger class.
@@ -87,7 +87,7 @@ class Uninstall {
 		do_action( 'lumiere_logger' );
 
 		// If databases were not created, exit as the plugin was not installed
-		if ( ! isset( $this->imdb_admin_values ) || ! isset( $this->imdb_widget_values ) || ! isset( $this->imdb_cache_values ) ) {
+		if ( ! isset( $this->imdb_admin_values ) || ! isset( $this->imdb_data_values ) || ! isset( $this->imdb_cache_values ) ) {
 			$this->logger->log()->debug( '[Lumiere][uninstall] Lumiere was not installed, exiting' );
 			return false;
 		}
@@ -165,11 +165,11 @@ class Uninstall {
 	 */
 	private function lumiere_delete_taxonomy(): bool {
 
-		if ( ! isset( $this->imdb_widget_values ) || ! isset( $this->imdb_admin_values ) ) {
+		if ( ! isset( $this->imdb_data_values ) || ! isset( $this->imdb_admin_values ) ) {
 			return false;
 		}
 
-		foreach ( Utils::lumiere_array_key_exists_wildcard( $this->imdb_widget_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
+		foreach ( Utils::lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
 
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $this->imdb_admin_values['imdburlstringtaxo'] . $key );
 
@@ -314,9 +314,9 @@ class Uninstall {
 			$processed = true;
 			$this->logger->log()->error( '[Lumiere][uninstall][Options] Successfully deleted ' . Settings::LUMIERE_ADMIN_OPTIONS );
 		}
-		if ( delete_option( Settings::LUMIERE_WIDGET_OPTIONS ) === true ) {
+		if ( delete_option( Settings::LUMIERE_DATA_OPTIONS ) === true ) {
 			$processed = true;
-			$this->logger->log()->error( '[Lumiere][uninstall][Options] Successfully deleted ' . Settings::LUMIERE_WIDGET_OPTIONS );
+			$this->logger->log()->error( '[Lumiere][uninstall][Options] Successfully deleted ' . Settings::LUMIERE_DATA_OPTIONS );
 		}
 		if ( delete_option( Settings::LUMIERE_CACHE_OPTIONS ) === true ) {
 			$processed = true;

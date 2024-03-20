@@ -327,7 +327,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 		$director = $movie_results->director();
 
 		// director shown only if selected so in options.
-		if ( count( $director ) !== 0 && $this->imdb_widget_values['imdbwidgetdirector'] === '1' ) {
+		if ( count( $director ) !== 0 && $this->imdb_data_values['imdbwidgetdirector'] === '1' ) {
 
 			$nbtotaldirector = count( $director );
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Director -->";
@@ -360,11 +360,11 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 
 		// Main actors, limited by admin options.
 		$cast = $movie_results->cast();
-		$nbactors = $this->imdb_widget_values['imdbwidgetactornumber'] === 0 ? 1 : intval( $this->imdb_widget_values['imdbwidgetactornumber'] );
+		$nbactors = $this->imdb_data_values['imdbwidgetactornumber'] === 0 ? 1 : intval( $this->imdb_data_values['imdbwidgetactornumber'] );
 		$nbtotalactors = count( $cast );
 
 		// actor shown only if selected so in options.
-		if ( $nbtotalactors !== 0 && ( $this->imdb_widget_values['imdbwidgetactor'] === '1' ) ) {
+		if ( $nbtotalactors !== 0 && ( $this->imdb_data_values['imdbwidgetactor'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Main actors -->";
 			echo "\n\t<div>";
@@ -388,7 +388,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 		$runtime = strval( $movie_results->runtime() );
 
 		// Runtime shown only if selected so in admin options.
-		if ( strlen( $runtime ) > 0 && ( $this->imdb_widget_values['imdbwidgetruntime'] === '1' ) ) {
+		if ( strlen( $runtime ) > 0 && ( $this->imdb_data_values['imdbwidgetruntime'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Runtime -->";
 			echo "\n\t<div>";
@@ -408,7 +408,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 		$rating_int = intval( $movie_results->rating() );
 		$rating_string = strval( $movie_results->rating() );
 
-		if ( strlen( $rating_string ) > 0 && ( $this->imdb_widget_values['imdbwidgetrating'] === '1' ) ) {
+		if ( strlen( $rating_string ) > 0 && ( $this->imdb_data_values['imdbwidgetrating'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Rating -->";
 			echo "\n\t<div>";
@@ -429,7 +429,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 		$nbtotallanguages = count( $languages );
 
 		// language shown only if selected so in options.
-		if ( $nbtotallanguages > 0 && ( $this->imdb_widget_values['imdbwidgetlanguage'] === '1' ) ) {
+		if ( $nbtotallanguages > 0 && ( $this->imdb_data_values['imdbwidgetlanguage'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t<!-- Language -->";
 			echo "\n\t<div>";
@@ -453,7 +453,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 		$nbtotalcountry = count( $country );
 
 		// country shown only if selected so in options.
-		if ( $nbtotalcountry > 0 && ( $this->imdb_widget_values['imdbwidgetcountry'] === '1' ) ) {
+		if ( $nbtotalcountry > 0 && ( $this->imdb_data_values['imdbwidgetcountry'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Country -->";
 			echo "\n\t<div>";
@@ -478,7 +478,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 		$nbtotalgenre = count( $genres );
 
 		// Genre shown only if selected so in options.
-		if ( $nbtotalgenre > 0 && ( $this->imdb_widget_values['imdbwidgetgenre'] === '1' ) ) {
+		if ( $nbtotalgenre > 0 && ( $this->imdb_data_values['imdbwidgetgenre'] === '1' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Genre -->";
 			echo "\n\t<div>";

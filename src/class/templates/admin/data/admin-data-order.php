@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 // Retrieve the vars from calling class.
-$lumiere_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
+$lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 ?>
 <div class="lumiere_wrap">
 	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
@@ -45,14 +45,14 @@ $lumiere_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 			</div>
 
 			<div class="lumiere_padding_ten imdblt_align_last_center lumiere_flex_auto">
-				<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo ( count( $lumiere_that->imdb_widget_values['imdbwidgetorder'] ) / 2 ); ?>" multiple><?php
+				<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo ( count( $lum_that->imdb_data_values['imdbwidgetorder'] ) / 2 ); ?>" multiple><?php
 
-				foreach ( $lumiere_that->imdb_widget_values['imdbwidgetorder'] as $lumiere_key => $lumiere_value ) {
+				foreach ( $lum_that->imdb_data_values['imdbwidgetorder'] as $lumiere_key => $lumiere_value ) {
 
 					echo "\n\t\t\t\t<option value='" . esc_attr( $lumiere_key ) . "'";
 
 					// search if "imdbwidget'title'" (ie) is activated
-					if ( $lumiere_that->imdb_widget_values[ "imdbwidget$lumiere_key" ] !== '1' ) {
+					if ( $lum_that->imdb_data_values[ "imdbwidget$lumiere_key" ] !== '1' ) {
 
 						echo ' label="' . esc_attr( $lumiere_key ) . ' (unactivated)">' . esc_html( $lumiere_key );
 

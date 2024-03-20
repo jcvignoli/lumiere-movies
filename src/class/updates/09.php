@@ -82,7 +82,7 @@ class Lumiere_Update_File_09 extends \Lumiere\Updates {
 		 * Remove 'imdbwidgetcomment'
 		 * Obsolete
 		 */
-		if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdbwidgetcomment' ) ) {
+		if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_DATA_OPTIONS, 'imdbwidgetcomment' ) ) {
 
 			$text = 'Lumière option imdbwidgetcomment successfully removed.';
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -99,7 +99,7 @@ class Lumiere_Update_File_09 extends \Lumiere\Updates {
 		 * Obsolete
 		 */
 		if ( true === $this->lumiere_update_options(
-			\Lumiere\Settings::LUMIERE_WIDGET_OPTIONS,
+			\Lumiere\Settings::LUMIERE_DATA_OPTIONS,
 			'imdbwidgetorder',
 			[
 				'title' => '1',

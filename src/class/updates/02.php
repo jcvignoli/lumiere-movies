@@ -80,7 +80,7 @@ class Lumiere_Update_File_02 extends \Lumiere\Updates {
 
 		// Update 'imdbwidgetsource'
 		// No need to display the source by default
-		if ( true === $this->lumiere_update_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdbwidgetsource', '0' ) ) {
+		if ( true === $this->lumiere_update_options( \Lumiere\Settings::LUMIERE_DATA_OPTIONS, 'imdbwidgetsource', '0' ) ) {
 
 			$text = 'Lumière option imdbwidgetsource successfully updated.';
 

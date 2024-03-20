@@ -80,7 +80,7 @@ class Popup_Search {
 
 		// Build the vars.
 		// @since 4.0 lowercase, less cache used.
-		$this->film_sanitized = strtolower( $this->lumiere_name_htmlize( $_GET['film'] ) ); // In trait Data, which is in trait Main.
+		$this->film_sanitized = isset( $_GET['film'] ) ? strtolower( $this->lumiere_name_htmlize( $_GET['film'] ) ) : ''; // In trait Data, which is in trait Main.
 		$this->film_sanitized_for_title = esc_html( $this->film_sanitized );
 
 		// Remove admin bar

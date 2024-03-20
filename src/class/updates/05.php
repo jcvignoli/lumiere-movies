@@ -94,7 +94,7 @@ class Lumiere_Update_File_05 extends \Lumiere\Updates {
 
 		// Add 'imdbwidgetalsoknownumber'
 		// New option the number of akas displayed
-		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdbwidgetalsoknownumber', false ) ) {
+		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_DATA_OPTIONS, 'imdbwidgetalsoknownumber', false ) ) {
 
 			$text = 'Lumière option imdbwidgetalsoknownumber successfully added.';
 			$logger->debug( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -108,7 +108,7 @@ class Lumiere_Update_File_05 extends \Lumiere\Updates {
 
 		// Add 'imdbwidgetproducernumber'
 		// New option to limit the number of producers displayed
-		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdbwidgetproducernumber', false ) ) {
+		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_DATA_OPTIONS, 'imdbwidgetproducernumber', false ) ) {
 
 			$text = 'Lumière option imdbwidgetproducernumber successfully added.';
 			$logger->debug( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );

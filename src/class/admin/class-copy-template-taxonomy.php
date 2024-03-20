@@ -80,10 +80,10 @@ class Copy_Template_Taxonomy {
 		}
 
 		/* Taxonomy is activated in the panel, and $_GET['taxotype'] exists
-		   as a $imdb_widget_values, and there is a nonce from Data class */
+		   as a $imdb_data_values, and there is a nonce from Data class */
 		if (
 			$this->imdb_admin_values['imdbtaxonomy'] === '1'
-			&& $this->imdb_widget_values[ 'imdbtaxonomy' . $lumiere_taxo_title ] === '1'
+			&& $this->imdb_data_values[ 'imdbtaxonomy' . $lumiere_taxo_title ] === '1'
 		) {
 
 			if ( $this->copy_taxonomy_template( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, $lumiere_taxo_title ) === true ) {

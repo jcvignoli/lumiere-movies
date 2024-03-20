@@ -48,7 +48,7 @@ class Movie_Data extends Movie {
 
 		$output .= "\n\t\t\t<span id=\"title_$title_sanitized\">" . $title_sanitized;
 
-		if ( $year !== null && $this->imdb_widget_values['imdbwidgetyear'] === '1' ) {
+		if ( $year !== null && $this->imdb_data_values['imdbwidgetyear'] === '1' ) {
 			$output .= ' (' . $year . ')';
 		}
 
@@ -108,7 +108,7 @@ class Movie_Data extends Movie {
 		$output .= ':</span>';
 
 		// Taxonomy is active.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomycountry'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomycountry'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
 
@@ -180,7 +180,7 @@ class Movie_Data extends Movie {
 		$output .= ':</span>';
 
 		// Taxonomy is active.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomylanguage'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomylanguage'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
 
@@ -258,7 +258,7 @@ class Movie_Data extends Movie {
 		$output .= ':</span>';
 
 		// Taxonomy is active.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomygenre'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomygenre'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
 
@@ -309,7 +309,7 @@ class Movie_Data extends Movie {
 		$output .= ':</span>';
 
 		// Taxonomy is active.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomykeyword'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomykeyword'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalkeywords && $i < $limit_keywords; $i++ ) {
 
@@ -349,7 +349,7 @@ class Movie_Data extends Movie {
 		$output = '';
 
 		$goofs = $movie->goofs();
-		$nbgoofs = intval( $this->imdb_widget_values['imdbwidgetgoofnumber'] ) === 0 || $this->imdb_widget_values['imdbwidgetgoofnumber'] === false ? '1' : intval( $this->imdb_widget_values['imdbwidgetgoofnumber'] );
+		$nbgoofs = intval( $this->imdb_data_values['imdbwidgetgoofnumber'] ) === 0 || $this->imdb_data_values['imdbwidgetgoofnumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgetgoofnumber'] );
 		$nbtotalgoofs = count( $goofs );
 
 		// if no result, exit.
@@ -398,7 +398,7 @@ class Movie_Data extends Movie {
 
 		$output = '';
 		$taglines = $movie->taglines();
-		$nbtaglines = intval( $this->imdb_widget_values['imdbwidgettaglinenumber'] ) === 0 || $this->imdb_widget_values['imdbwidgettaglinenumber'] === false ? '1' : intval( $this->imdb_widget_values['imdbwidgettaglinenumber'] );
+		$nbtaglines = intval( $this->imdb_data_values['imdbwidgettaglinenumber'] ) === 0 || $this->imdb_data_values['imdbwidgettaglinenumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgettaglinenumber'] );
 
 		$nbtotaltaglines = count( $taglines );
 
@@ -436,7 +436,7 @@ class Movie_Data extends Movie {
 
 		$output = '';
 		$trailers = $movie->trailers( true );
-		$nbtrailers = intval( $this->imdb_widget_values['imdbwidgettrailernumber'] ) === 0 || $this->imdb_widget_values['imdbwidgettrailernumber'] === false ? '1' : intval( $this->imdb_widget_values['imdbwidgettrailernumber'] );
+		$nbtrailers = intval( $this->imdb_data_values['imdbwidgettrailernumber'] ) === 0 || $this->imdb_data_values['imdbwidgettrailernumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgettrailernumber'] );
 
 		$nbtotaltrailers = intval( count( $trailers ) );
 
@@ -493,7 +493,7 @@ class Movie_Data extends Movie {
 		$output .= ':</span>';
 
 		// Taxonomy activated.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomycolor'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomycolor'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalcolors; $i++ ) {
 
@@ -532,7 +532,7 @@ class Movie_Data extends Movie {
 
 		$output = '';
 		$alsoknow = $movie->alsoknow();
-		$nbalsoknow = intval( $this->imdb_widget_values['imdbwidgetalsoknownumber'] ) === 0 || $this->imdb_widget_values['imdbwidgetalsoknownumber'] === false ? '1' : intval( $this->imdb_widget_values['imdbwidgetalsoknownumber'] ) + 1; // Adding 1 since first array line is the title
+		$nbalsoknow = intval( $this->imdb_data_values['imdbwidgetalsoknownumber'] ) === 0 || $this->imdb_data_values['imdbwidgetalsoknownumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgetalsoknownumber'] ) + 1; // Adding 1 since first array line is the title
 		$nbtotalalsoknow = count( $alsoknow );
 
 		// if no result, exit.
@@ -597,7 +597,7 @@ class Movie_Data extends Movie {
 		$output .= ':</span>';
 
 		// Taxonomy
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomycomposer'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomycomposer'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalcomposer; $i++ ) {
 
@@ -641,7 +641,7 @@ class Movie_Data extends Movie {
 
 		$output = '';
 		$soundtrack = $movie->soundtrack();
-		$nbsoundtracks = intval( $this->imdb_widget_values['imdbwidgetsoundtracknumber'] ) === 0 || $this->imdb_widget_values['imdbwidgetsoundtracknumber'] === false ? '1' : intval( $this->imdb_widget_values['imdbwidgetsoundtracknumber'] );
+		$nbsoundtracks = intval( $this->imdb_data_values['imdbwidgetsoundtracknumber'] ) === 0 || $this->imdb_data_values['imdbwidgetsoundtracknumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgetsoundtracknumber'] );
 		$nbtotalsoundtracks = count( $soundtrack );
 
 		// if no results, exit.
@@ -775,7 +775,7 @@ class Movie_Data extends Movie {
 		$output .= ':</span>';
 
 		// If Taxonomy is selected, build links to taxonomy pages
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomydirector'] === '1' )  ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomydirector'] === '1' )  ) {
 
 			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 
@@ -831,7 +831,7 @@ class Movie_Data extends Movie {
 		$output .= sprintf( esc_attr( _n( 'Creator', 'Creators', $nbtotalcreator, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcreator ) );
 		$output .= ':</span>&nbsp;';
 
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomycreator'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomycreator'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalcreator; $i++ ) {
 
@@ -874,7 +874,7 @@ class Movie_Data extends Movie {
 
 		$output = '';
 		$producer = $movie->producer();
-		$nbproducer = intval( $this->imdb_widget_values['imdbwidgetproducernumber'] ) === 0 || $this->imdb_widget_values['imdbwidgetproducernumber'] === false ? '1' : intval( $this->imdb_widget_values['imdbwidgetproducernumber'] );
+		$nbproducer = intval( $this->imdb_data_values['imdbwidgetproducernumber'] ) === 0 || $this->imdb_data_values['imdbwidgetproducernumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgetproducernumber'] );
 		$nbtotalproducer = count( $producer );
 
 		if ( $nbtotalproducer === 0 ) {
@@ -886,7 +886,7 @@ class Movie_Data extends Movie {
 
 		$output .= ':</span>';
 
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomyproducer'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomyproducer'] === '1' ) ) {
 
 			for ( $i = 0; ( $i < $nbtotalproducer ) && ( $i < $nbproducer ); $i++ ) {
 
@@ -948,7 +948,7 @@ class Movie_Data extends Movie {
 		$output .= sprintf( esc_attr( _n( 'Writer', 'Writers', $nbtotalwriters, 'lumiere-movies' ) ), number_format_i18n( $nbtotalwriters ) );
 		$output .= ':</span>';
 
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomywriter'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomywriter'] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalwriters; $i++ ) {
 
@@ -999,7 +999,7 @@ class Movie_Data extends Movie {
 
 		$output = '';
 		$cast = $movie->cast();
-		$nbactors = intval( $this->imdb_widget_values['imdbwidgetactornumber'] ) === 0 ? '1' : intval( $this->imdb_widget_values['imdbwidgetactornumber'] );
+		$nbactors = intval( $this->imdb_data_values['imdbwidgetactornumber'] ) === 0 ? '1' : intval( $this->imdb_data_values['imdbwidgetactornumber'] );
 		$nbtotalactors = count( $cast );
 
 		if ( $nbtotalactors === 0 ) {
@@ -1010,7 +1010,7 @@ class Movie_Data extends Movie {
 		$output .= sprintf( esc_attr( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ) ), number_format_i18n( $nbtotalactors ) );
 		$output .= ':</span>';
 
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_widget_values['imdbtaxonomyactor'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomyactor'] === '1' ) ) {
 
 			for ( $i = 0; ( $i < $nbtotalactors ) && ( $i < $nbactors ); $i++ ) {
 
@@ -1057,7 +1057,7 @@ class Movie_Data extends Movie {
 
 		$output = '';
 		$plot = $movie->plot();
-		$nbplots = intval( $this->imdb_widget_values['imdbwidgetplotnumber'] ) === 0 ? '1' : intval( $this->imdb_widget_values['imdbwidgetplotnumber'] );
+		$nbplots = intval( $this->imdb_data_values['imdbwidgetplotnumber'] ) === 0 ? '1' : intval( $this->imdb_data_values['imdbwidgetplotnumber'] );
 		$nbtotalplots = count( $plot );
 
 		// tested if the array contains data; if not, doesn't go further

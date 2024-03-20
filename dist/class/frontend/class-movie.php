@@ -379,13 +379,13 @@ class Movie {
 			$this->logger->log() // The logger
 		);
 
-		foreach ( $this->imdb_widget_values['imdbwidgetorder'] as $data_detail => $order ) {
+		foreach ( $this->imdb_data_values['imdbwidgetorder'] as $data_detail => $order ) {
 
 			if (
 			// Use order to select the position of the data detail.
-			( $this->imdb_widget_values['imdbwidgetorder'][ $data_detail ] === $order )
+			( $this->imdb_data_values['imdbwidgetorder'][ $data_detail ] === $order )
 			// Is the data detail activated?
-			&& ( $this->imdb_widget_values[ 'imdbwidget' . $data_detail ] === '1' )
+			&& ( $this->imdb_data_values[ 'imdbwidget' . $data_detail ] === '1' )
 			) {
 				// Build the method name according to the data detail name.
 				$method = "lumiere_movies_{$data_detail}";

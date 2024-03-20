@@ -42,7 +42,7 @@ class Settings {
 	 * Name of the databases as stored in WordPress db
 	 */
 	const LUMIERE_ADMIN_OPTIONS = 'imdbAdminOptions';
-	const LUMIERE_WIDGET_OPTIONS = 'imdbWidgetOptions';
+	const LUMIERE_DATA_OPTIONS = 'imdbWidgetOptions';
 	const LUMIERE_CACHE_OPTIONS = 'imdbCacheOptions';
 
 	/**
@@ -182,7 +182,7 @@ class Settings {
 	/**
 	 * Constructor
 	 *
-	 * @since 4.0 added properties $imdb_cache_values and $imdb_widget_values, checking if options are not available, creation of the options
+	 * @since 4.0 added properties $imdb_cache_values and $imdb_data_values, checking if options are not available, creation of the options
 	 */
 	public function __construct() {
 
@@ -198,8 +198,8 @@ class Settings {
 		}
 		$this->imdb_admin_values = get_option( self::LUMIERE_ADMIN_OPTIONS );
 		// Those are not needed in the class, no class properties created.
-		if ( get_option( self::LUMIERE_WIDGET_OPTIONS ) === false ) {
-			$this->get_imdb_widget_option();
+		if ( get_option( self::LUMIERE_DATA_OPTIONS ) === false ) {
+			$this->get_imdb_data_option();
 		}
 		if ( get_option( self::LUMIERE_CACHE_OPTIONS ) === false ) {
 			$this->get_imdb_cache_option();
@@ -490,9 +490,9 @@ class Settings {
 	 *
 	 * Multidimensional array
 	 */
-	private function get_imdb_widget_option(): void {
+	private function get_imdb_data_option(): void {
 
-		$imdb_widget_options = [
+		$imdb_data_options = [
 
 			'imdbwidgettitle' => '1',
 			'imdbwidgetpic' => '1',
@@ -571,16 +571,16 @@ class Settings {
 
 		];
 
-		$imdb_options_w = get_option( self::LUMIERE_WIDGET_OPTIONS );
+		$imdb_options_w = get_option( self::LUMIERE_DATA_OPTIONS );
 
 		if ( is_array( $imdb_options_w ) === true && count( $imdb_options_w ) !== 0 ) { // if not empty.
 
 			foreach ( $imdb_options_w as $key => $option ) {
-				$imdb_widget_options[ $key ] = $option;
+				$imdb_data_options[ $key ] = $option;
 			}
 		}
 
-		update_option( self::LUMIERE_WIDGET_OPTIONS, $imdb_widget_options );
+		update_option( self::LUMIERE_DATA_OPTIONS, $imdb_data_options );
 	}
 
 	/**

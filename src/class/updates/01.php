@@ -80,7 +80,7 @@ class Lumiere_Update_File_01 extends \Lumiere\Updates {
 
 		// Remove 'imdbwidgetcommentsnumber'
 		// Deprecated: only one comment is returned by imdbphp libraries
-		if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdbwidgetcommentsnumber' ) ) {
+		if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_DATA_OPTIONS, 'imdbwidgetcommentsnumber' ) ) {
 
 			$text = 'Lumière option imdbwidgetcommentsnumber successfully removed.';
 
@@ -96,7 +96,7 @@ class Lumiere_Update_File_01 extends \Lumiere\Updates {
 
 		// Add 'imdbintotheposttheme'
 		// New option to manage theme colors for into the post/widget
-		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_WIDGET_OPTIONS, 'imdbintotheposttheme', 'grey' ) ) {
+		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_DATA_OPTIONS, 'imdbintotheposttheme', 'grey' ) ) {
 
 			$text = 'Lumière option imdbintotheposttheme successfully added.';
 

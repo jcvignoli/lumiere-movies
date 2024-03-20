@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 // Retrieve the vars passed in calling class.
-$lumiere_imdb_widget_values = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
+$lumiere_imdb_data_values = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 $lumiere_items_people = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
 $lumiere_comments_fields = get_transient( Admin_Menu::TRANSIENT_ADMIN )[2];
 $lumiere_details_with_numbers = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
@@ -38,7 +38,7 @@ $lumiere_details_with_numbers = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
 			echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_thirty lumiere_padding_ten lumiere_align_center">';
 
 			// Add extra color through span if the item is selected
-			if ( $lumiere_imdb_widget_values[ 'imdbwidget' . $lumiere_item ] === '1' ) {
+			if ( $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item ] === '1' ) {
 
 				echo "\n\t\t\t\t\t" . '<span class="admin-option-selected">' . esc_html( ucfirst( $lumiere_item_translated ) ) . '</span>';
 
@@ -56,7 +56,7 @@ $lumiere_details_with_numbers = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
 				' name="imdb_imdbwidget' . esc_attr( $lumiere_item ) . '" value="1"';
 
 			// Add checked if the item is selected
-			if ( $lumiere_imdb_widget_values[ 'imdbwidget' . $lumiere_item ] === '1' ) {
+			if ( $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item ] === '1' ) {
 				echo ' checked="checked"';
 			}
 
@@ -70,9 +70,9 @@ $lumiere_details_with_numbers = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
 
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_twenty">';
 				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . esc_html( $lumiere_item ) . 'number" id="imdb_imdbwidget' . esc_html( $lumiere_item ) . 'number" size="3"';
-				$lumiere_imdb_widget_item = $lumiere_imdb_widget_values[ 'imdbwidget' . $lumiere_item . 'number' ];
-				echo is_string( $lumiere_imdb_widget_item ) ? ' value="' . esc_attr( $lumiere_imdb_widget_item ) . '" ' : ' value="" ';
-				if ( $lumiere_imdb_widget_values[ 'imdbwidget' . $lumiere_item ] === 0 ) {
+				$lumiere_imdb_data_item = $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item . 'number' ];
+				echo is_string( $lumiere_imdb_data_item ) ? ' value="' . esc_attr( $lumiere_imdb_data_item ) . '" ' : ' value="" ';
+				if ( $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item ] === 0 ) {
 					echo 'disabled="disabled"';
 				};
 
