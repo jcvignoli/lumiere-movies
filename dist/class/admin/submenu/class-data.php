@@ -122,8 +122,8 @@ class Data extends Admin_Menu {
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && str_contains( $this->page_data, $_GET['page'] ) === true
-			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'taxo'
+			isset( $_GET['page'] ) && str_contains( $this->page_data_taxo, $_GET['page'] ) === true
+			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_taxo, $_GET['subsection'] )
 		) {
 
 			// taxonomy is disabled
@@ -150,8 +150,8 @@ class Data extends Admin_Menu {
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && str_contains( $this->page_data, $_GET['page'] ) === true
-			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'order'
+			isset( $_GET['page'] ) && str_contains( $this->page_data_order, $_GET['page'] ) === true
+			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_order, $_GET['subsection'] )
 		) {
 
 			// The template will retrieve the args. In parent class.

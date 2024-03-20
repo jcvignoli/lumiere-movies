@@ -112,19 +112,19 @@ class Help extends Admin_Menu {
 		);
 
 		// Changelog section.
-		if ( ( isset( $_GET['subsection'] ) ) && $_GET['subsection'] === 'changelog' ) {
+		if ( ( isset( $_GET['subsection'] ) ) && str_contains( $this->page_help_changelog, $_GET['subsection'] ) === true ) {
 			$this->display_changelog();
 
 			// Faqs section.
-		} elseif ( isset( $_GET['subsection'] ) && ( $_GET['subsection'] === 'faqs' ) ) {
+		} elseif ( isset( $_GET['subsection'] ) && str_contains( $this->page_help_faqs, $_GET['subsection'] ) === true ) {
 			$this->display_faqs();
 
 			// Support section.
-		} elseif ( ( isset( $_GET['subsection'] ) ) && ( $_GET['subsection'] === 'support' ) ) {
+		} elseif ( ( isset( $_GET['subsection'] ) ) && str_contains( $this->page_help_support, $_GET['subsection'] ) === true ) {
 			$this->display_support();
 
 			// How to section, default.
-		} elseif ( ( isset( $_GET['subsection'] ) && $_GET['subsection'] === 'howto' ) || ! isset( $_GET['subsection'] ) ) {
+		} elseif ( ( isset( $_GET['subsection'] ) && str_contains( $this->page_help, $_GET['subsection'] ) === true ) || ! isset( $_GET['subsection'] ) ) {
 
 			// Default.
 			$this->include_with_vars(
