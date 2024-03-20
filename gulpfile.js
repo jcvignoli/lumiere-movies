@@ -19,7 +19,8 @@ import autoprefixer from 'gulp-autoprefixer';
 import cleanCss from 'gulp-clean-css';
 import changed from 'gulp-changed';
 import rename from 'gulp-rename';
-import uglify from 'gulp-uglify';
+// import uglify from 'gulp-uglify'; // replaced with terser
+import terser from 'gulp-terser';
 import imagemin from 'gulp-imagemin';
 import del from 'del';
 import fs from 'fs-extra';
@@ -219,7 +220,7 @@ gulp.task('javascripts', () => {
 		.pipe(plumber( function (err) { errorHandler(err) })) /* throws a popup & console error msg */
 		.pipe(rename({suffix: '.min'}))
 		.pipe(changed( paths.javascripts.dist ))
-		.pipe(uglify())
+		.pipe(terser())
 		.pipe(gulp.dest( paths.javascripts.dist ))
 		.pipe(longerif(flagssh, sshMain.dest( ext_cred.mainserver.dist )))
 		.pipe(browserSync.stream())

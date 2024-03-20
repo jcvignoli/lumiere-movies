@@ -66,9 +66,7 @@ class General extends Admin_Menu {
 
 		// Show the vars if debug is activated.
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
-
-			// Start the class Utils to activate debug -> already started in admin_pages
-			$this->utils_class->lumiere_activate_debug( $this->imdb_admin_values, 'no_var_dump', null );
+			$this->lumiere_display_vars( $this->imdb_admin_values, 'no_var_dump', null ); // Method in trait Admin_General.
 		}
 
 		// Submenu.

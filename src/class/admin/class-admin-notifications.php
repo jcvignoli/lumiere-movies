@@ -40,13 +40,13 @@ class Admin_Notifications {
 		'options_updated' => [ 'Options saved.', 1 ],
 		'options_reset' => [ 'Options reset.', 1 ],
 		'general_options_error_identical_value' => [ 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 3 ],
-		'cache_delete_all_msg' => [ 'All cache files deleted.', 1 ],
-		'cache_delete_ticked_msg' => [ 'Ticked file(s) deleted.', 1 ],
-		'cache_delete_individual_msg' => [ 'The selected cache file was deleted.', 1 ],
-		'cache_refresh_individual_msg' => [ 'The selected cache file was refreshed.', 1 ],
-		'cache_query_deleted' => [ 'Query cache files deleted.', 1 ],
-		'taxotemplatecopy_success' => [ 'Lumière template successfully copied in your theme folder.', 1 ],
-		'taxotemplatecopy_failed' => [ 'Template copy failed! Check the permissions in you theme folder.', 3 ],
+		'cache_delete_all_msg' => [ 'All cache files deleted.', 5 ],
+		'cache_delete_ticked_msg' => [ 'Ticked file(s) deleted.', 5 ],
+		'cache_delete_individual_msg' => [ 'The selected cache file was deleted.', 5 ],
+		'cache_refresh_individual_msg' => [ 'The selected cache file was refreshed.', 5 ],
+		'cache_query_deleted' => [ 'Query cache files deleted.', 5 ],
+		'taxotemplatecopy_success' => [ 'Lumière template successfully copied in your theme folder.', 5 ],
+		'taxotemplatecopy_failed' => [ 'Template copy failed! Check the permissions in you theme folder.', 7 ],
 	];
 
 	/**

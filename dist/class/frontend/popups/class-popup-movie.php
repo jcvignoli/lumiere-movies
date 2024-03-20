@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Imdb\Title;
 use Imdb\TitleSearch;
-use Lumiere\Tools\Utils;
+use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Popups\Head_Popups;
 use Exception;
 
@@ -31,8 +31,8 @@ use Exception;
 class Popup_Movie {
 
 	// Use trait frontend
-	use \Lumiere\Frontend\Main {
-		\Lumiere\Frontend\Main::__construct as public __constructFrontend;
+	use Main {
+		Main::__construct as public __constructFrontend;
 	}
 
 	/**
@@ -124,9 +124,8 @@ class Popup_Movie {
 			$this->logger->log()->debug( '[Lumiere][popupMovieClass] Movie id provided in URL: ' . $this->movieid_sanitized );
 
 			$this->movie = new Title( $this->movieid_sanitized, $this->imdbphp_class, $this->logger->log() );
-			$movie = Utils::lumiere_name_htmlize( $this->movie->title() );
-			$this->film_title_sanitized = $movie !== null ? strtolower( $movie ) : null; // @since 4.0 lowercase, less cache used.
-
+			// @since 4.0 lowercase, less cache used.
+			$this->film_title_sanitized = strtolower( $this->lumiere_name_htmlize( $this->movie->title() ) ); // Method in trait Data, which is in trait Main.
 			return true;
 
 			// No movie id is provided, but a title was.

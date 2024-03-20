@@ -2,7 +2,6 @@
 
 	var el = element.createElement;
 	var elwithhtml = element.RawHTML; /* this type of block can include html */
-
 	var { registerBlockType } = blocks;
 	const { blockProps } = blockEditor.useBlockProps;
 	const { blockPropsSave } = blockEditor.useBlockProps.save;
@@ -45,7 +44,7 @@
 			description: i18n.__( 'Insert a series of details related to a movie in your post.', 'lumiere-movies' ),
 			icon: iconLumiere,
 			category: 'embed',
-			keywords: [ 'lumiere', 'imdb', i18n.__( 'movies', 'lumiere-movies' ), 'film' ],
+			keywords: [ 'lumiere', 'imdb', 'movies', 'film' ],
 			example: {},
 			attributes: {
 				lumiere_imdblt_select: {
@@ -58,7 +57,7 @@
 					default: intro_words
 				},
 			},
-			edit: function( blockProps ) {
+			edit: ( blockProps ) => {
 				return (
 					el(
 						'div',
@@ -79,7 +78,7 @@
 								{
 									className: blockProps.className,
 									className: 'lumiere_block_intothepost-image',
-									src: lumiere_admin_vars.imdb_path + 'assets/pics/lumiere-ico-noir80x80.png',
+									src: lumiere_admin_vars.ico80,
 									},
 							),// end img
 							elwithhtml(
@@ -100,7 +99,7 @@
 										+ '<br />'
 										+ i18n.__( 'You can also click on this link to get the' , 'lumiere-movies' )
 										+ ' <a data-lumiere_admin_popup="useSomeValuePopupOpen" '
-										+ 'onclick="window.open(\'' + lumiere_admin_vars.wordpress_admin_path + lumiere_admin_vars.gutenberg_search_url_string + '\', \'_blank\', \'location=yes,height=400,width=500,scrollbars=yes,status=yes\');" '
+										+ 'onclick="window.open(\'' + lumiere_admin_vars.wordpress_admin_path + lumiere_admin_vars.gutenberg_search_url_string + '\', \'_blank\', \'location=yes,height=' + lumiere_admin_vars.popupLong + ',width=' + lumiere_admin_vars.popupLarg + ',scrollbars=yes,status=yes, top=100, left=100\');" '
 										+ 'class="linkincmovie link-imdblt-highslidepeople highslide" '
 										+ 'target="_blank">'
 										+ i18n.__( 'IMDb movie id' , 'lumiere-movies' )
@@ -144,7 +143,7 @@
 										tagName: 'div',
 										className: 'lumiere_block_intothepost-content',
 										value: blockProps.attributes.content,
-										onChange: function( content ) {
+										onChange: ( content ) => {
 											blockProps.setAttributes( { content: content } );
 										}
 									}
@@ -156,7 +155,7 @@
 			},// end function
 
 			// Use "blockPropsSave" instead of "Props" with apiVersion 2, but then can't move the block
-			save: function( Props ) {
+			save: ( Props ) => {
 				return (
 				el(
 					'div',

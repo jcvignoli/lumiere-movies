@@ -276,6 +276,9 @@ class Settings {
 				'wordpress_admin_path' => admin_url(),
 				'gutenberg_search_url_string' => self::GUTENBERG_SEARCH_URL_STRING,
 				'gutenberg_search_url' => self::GUTENBERG_SEARCH_URL,
+				'ico80' => $this->imdb_admin_values['imdbplugindirectory'] . 'assets/pics/lumiere-ico-noir80x80.png',
+				'popupLarg' => $this->imdb_admin_values['imdbpopuplarg'],
+				'popupLong' => $this->imdb_admin_values['imdbpopuplong'],
 			]
 		);
 		$this->lumiere_scripts_admin_vars = $notfalse_lumiere_scripts_admin_vars !== false ? 'const lumiere_admin_vars = ' . $notfalse_lumiere_scripts_admin_vars : '';

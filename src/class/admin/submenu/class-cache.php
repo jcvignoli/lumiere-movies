@@ -54,10 +54,7 @@ class Cache extends Admin_Menu {
 
 		// Show the vars if debug is activated.
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
-
-			// Activate debugging
-			$this->utils_class->lumiere_activate_debug( $this->imdb_cache_values, 'var_dump', null );
-
+			$this->lumiere_display_vars( $this->imdb_cache_values, 'var_dump', null ); // Method in trait Admin_General.
 		}
 
 		// Cache submenu.

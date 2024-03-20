@@ -22,19 +22,6 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 class Utils {
 
 	/**
-	 * Check if debug is active
-	 */
-	public bool $debug_is_active;
-
-	/**
-	 * Constructor
-	 */
-	public function __construct () {
-
-		$this->debug_is_active = false;
-	}
-
-	/**
 	 * Function lumiere_array_key_exists_wildcard
 	 * Search with a wildcard in $keys of an array
 	 *
@@ -59,37 +46,6 @@ class Utils {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * HTMLizing function
-	 * transforms movie's name in a way to be able to be searchable (ie "ô" becomes "&ocirc;")
-	 * ----> should use a WordPress dedicated function instead, like esc_url() ?
-	 *
-	 * @since 3.11.4 Added Limit the number of characters step
-	 *
-	 * @param ?string $link either null or string to be converted
-	 */
-	public static function lumiere_name_htmlize( ?string $link = null ): ?string {
-
-		// If no string passed, exit
-		if ( $link === null ) {
-			return null;
-		}
-
-		// a. quotes escape
-		$lienhtmlize = addslashes( $link );
-
-		// b. regular expression to convert all accents; weird function...
-		$lienhtmlize = preg_replace( '/&(?!#[0-9]+;)/s', '&amp;', $lienhtmlize ) ?? $lienhtmlize;
-
-		// c. turns spaces to "+", which allows titles including several words
-		$lienhtmlize = str_replace( [ ' ' ], [ '+' ], $lienhtmlize );
-
-		// d. Limit the number of characters, as the cache file path can't exceed the limit of 255 characters
-		$lienhtmlize = substr( $lienhtmlize, 0, 100 );
-
-		return $lienhtmlize;
 	}
 
 	/**
@@ -135,70 +91,6 @@ class Utils {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Activate debug on screen
-	 *
-	 * @since 3.5
-	 *
-	 * @param null|array<string, array<int|string>|bool|int|string> $options the array of admin/widget/cache settings options
-	 * @param null|string $set_error set to 'no_var_dump' to avoid the call to var_dump function
-	 * @param null|string $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
-	 * @param null|string $get_screen set to 'screen' to display wp function get_current_screen()
-	 *
-	 * @return void Returns optionaly an array of the options passed in $options
-	 */
-	// @phpcs:disable
-	public function lumiere_activate_debug( ?array $options = null, string $set_error = null, string $libxml_use = null, string $get_screen = null ): void {
-
-		// Set on true to show debug is active if called again.
-		$this->debug_is_active = true;
-
-		// If the user can't manage options and it's not a cron, exit.
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		// Set the highest level of debug reporting.
-		error_reporting( E_ALL );
-		ini_set( 'display_errors', '1' );
-
-		// avoid endless loops with imdbphp parsing errors.
-		if ( ( isset( $libxml_use ) ) && ( $libxml_use === 'libxml' ) ) {
-			libxml_use_internal_errors( true );
-		}
-
-		if ( $set_error !== 'no_var_dump' ) {
-			set_exception_handler( [ $this, 'lumiere_exception_handler' ] );
-		}
-
-		if ( $get_screen === 'screen' ) {
-			$currentScreen = get_current_screen();
-			echo '<div align="center"><strong>[WP current screen]</strong>';
-			print_r( $currentScreen );
-			echo '</div>';
-		}
-
-		// Exit if no Lumière option array requested to show
-		if ( ( null !== $options ) && count( $options ) > 0 ) {
-
-			echo '<div class="lumiere_wrap"><strong>[Lumière options]</strong><font size="-3"> ';
-			print_r( $options );
-			echo ' </font><strong>[/Lumière options]</strong></div>';
-		}
-	}
-	// @phpcs:enable
-
-	/**
-	 * Lumiere internal exception handler
-	 *
-	 * @see Utils::lumiere_activate_debug()
-	 * @param \Throwable $exception The type of new exception
-	 * @return void
-	 */
-	public function lumiere_exception_handler( \Throwable $exception ): void {
-		throw $exception;
 	}
 
 	/**

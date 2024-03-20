@@ -1,11 +1,13 @@
 // Activated on selecting text in Movie block, field movie's title
-( function ( wp ) {
+( function ( data, compose, element, richText, blockEditor, i18n ) {
 
-	var withSelect = wp.data.withSelect;
-	var ifCondition = wp.compose.ifCondition;
-	var compose = wp.compose.compose;
-	var el = wp.element.createElement;
-
+	var { withSelect } = data;
+	var { ifCondition } = compose;
+	var { compose } = compose;
+	var { RichTextToolbarButton } = blockEditor;
+	var { blockProps } = blockEditor.useBlockProps;
+	var { registerFormatType } = richText;
+	var el = element.createElement;
 	const iconLumiereWindow = el(
 		'svg',
 		{ width: 20, height: 20, viewBox: "0 0 1200 1200" },
@@ -16,38 +18,40 @@
 		)
 	);
 
-	var ButtonOpenSearch = function ( props ) {
-		return wp.element.createElement(
-			wp.blockEditor.RichTextToolbarButton,
+	var ButtonOpenSearch = ( blockProps ) => {
+		return el(
+			RichTextToolbarButton,
 			{
 				icon: iconLumiereWindow,
-				title: wp.i18n.__( 'Open search IMDB ID', 'lumiere-movies' ),
-				onClick: function () {
-					open( lumiere_admin_vars.wordpress_path + '/' + lumiere_admin_vars.gutenberg_search_url_string );
+				title: i18n.__( 'Open search IMDB ID', 'lumiere-movies' ),
+				onClick: () => {
+					var selectedtext = blockProps.contentRef.current.innerText;
+					open( lumiere_admin_vars.wordpress_path + '/wp-admin/' + lumiere_admin_vars.gutenberg_search_url_string + '?moviesearched=' + selectedtext, 'Lumiere popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + lumiere_admin_vars.popupLarg + ', height=' + lumiere_admin_vars.popupLong + ', top=100, left=100' );
 				},
-				isActive: props.isActive,
+				isActive: blockProps.isActive,
 			}
 		);
 	};
+
 	var ConditionalButton = compose(
 		withSelect(
-			function ( select ) {
+			( select ) => {
 				return {
 					selectedBlock: select( 'core/block-editor' ).getSelectedBlock(),
 				};
 			}
 		),
 		ifCondition(
-			function ( props ) {
+			( blockProps ) => {
 				return (
-				props.selectedBlock &&
-				props.selectedBlock.name === 'lumiere/main'
+					blockProps.selectedBlock &&
+					blockProps.selectedBlock.name === 'lumiere/main'
 				);
 			}
 		)
 	)( ButtonOpenSearch );
 
-	wp.richText.registerFormatType(
+	registerFormatType(
 		'lumiere/opensearch',
 		{
 			title: wp.i18n.__( 'Open search IMDB ID', 'lumiere-movies' ),
@@ -59,4 +63,4 @@
 			},
 		}
 	);
-} )( window.wp );
+} )( window.wp.data, window.wp.compose, window.wp.element, window.wp.richText, window.wp.blockEditor, window.wp.i18n  );

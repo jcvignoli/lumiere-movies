@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Plugins\Plugins_Start;
 use Lumiere\Tools\Settings_Global;
+use Lumiere\Tools\Data;
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Imdbphp;
@@ -33,7 +34,7 @@ trait Main {
 	/**
 	 * Traits
 	 */
-	use Settings_Global;
+	use Settings_Global, Data;
 
 	/**
 	 * Name of the plugins active

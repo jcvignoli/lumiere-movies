@@ -297,15 +297,14 @@ document.addEventListener(
 document.addEventListener(
 	'DOMContentLoaded',
 	function () {
-
 		jQuery( 'a[data-lumiere_admin_popup]' ).click(
 			function(){
-				var tmppopupLarg = 540;
-				var tmppopupLong = 350;
+				var tmppopupLarg = lumiere_admin_vars.popupLarg;
+				var tmppopupLong = lumiere_admin_vars.popupLong;
 				var url_imdbperso = lumiere_admin_vars.wordpress_admin_path + lumiere_admin_vars.gutenberg_search_url_string;
 
 				// classic popup
-				window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + tmppopupLarg + ', height=' + tmppopupLong + ', top=5, left=5' );
+				window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + tmppopupLarg + ', height=' + tmppopupLong + ', top=100, left=100' );
 			}
 		);
 	}

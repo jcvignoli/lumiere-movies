@@ -2,17 +2,20 @@
 
 v.4.0.3
 * [feature] Thumbnail pictures in taxonomy pages will be quicker to be displayed (using lazy loading, thumbs for the thumb images preciseley)
+* [feature] No more need for refreshing rewrite rules when creating a new taxonomy item, done automatically (added flush_rewrite_rules() in Save_Options::lumiere_data_options_save())
+* [bug] A function to launch a popup in post edition was not working (finalised blocks/opensearch/index.js)
 * [bug] When reseting options in General options, no confirmation message was displayed.
 * [bug] Style of links to movie popups was not grey, had no more the small picture on the lef
 * [bug] Update wasn't working (Casting now to string in class update the option 'imdbHowManyUpdates', which doesn't actually make sense but works)
 * [technical] Gutenberg block registration is now done in more modern way (using register_block_type() and block.json). Splitted "add imdb link" and "open search" into two blocks. Widget is also registered that way.
 * [technical] Due to Gutenberg block limitation, a class is now added in &lt;span data-lum_movie_maker=""&gt;&lt;/span&gt;. The plugin remains fully compatible with the span without class. (Edited regexes in class movie to take into account the possiblity that spans can include a class)
 * [technical] Plugins loading is fully OOP
-* [technical] Bot banning status changed from 403 to 400, which is more appropriate
-* [technical] Notifications are only shown in Lumière admin options pages
+* [technical] Bot banning status changed from 403 to 400, which is more appropriate, not banning bots on taxonomy or normal post pages
+* [technical] Notifications are only shown in Lumière admin options pages. If a taxonomy file is not installed, always nag the user to install it.
+* [technical] Lot of cleaning, removed many unused methods, factorized and using more dedicated traits, using official WordPress way to include blocks (block.json)
 
 v.4.0.2
-* [feature] Thumbnail pictures (those which are displayed automatically into the posts, in cache, in popups) are now automatically resized should they weight more that 80kb, which should display all pages faster. Maintained the possiblity to click on these thumbnails to display the big posters.
+* [feature] Thumbnail pictures (those which are displayed automatically into the posts, in cache, in popups) are now automatically resized should they weight more that 80kb, which should display all pages faster. Maintained the possiblity to click on these thumbnails to display the big posters (Cover option in Lumière admin).
 * [bug] Refresh cache person was broken (left a bracket in glob search in Cache_Tools::cache_refresh_specific_file())
 * [bug] Refresh cache person didn't recreate the big picture
 * [bug] The movie/person big poster wasn't producing expected effects. Changed the way IMDBPHP lib ImageProcess class works: it now resizes the thumbs only if they weight to much.

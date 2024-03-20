@@ -109,5 +109,66 @@ trait Admin_General {
 
 		return true;
 	}
+
+	/**
+	 * Activate debug on screen
+	 *
+	 * @since 3.5
+	 *
+	 * @param null|array<string, array<int|string>|bool|int|string> $options the array of admin/widget/cache settings options
+	 * @param null|string $set_error set to 'no_var_dump' to avoid the call to var_dump function
+	 * @param null|string $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
+	 * @param null|string $get_screen set to 'screen' to display wp function get_current_screen()
+	 *
+	 * @return void Returns optionaly an array of the options passed in $options
+	 */
+	// @phpcs:disable
+	public function lumiere_display_vars( ?array $options = null, string $set_error = null, string $libxml_use = null, string $get_screen = null ): void {
+
+		// If the user can't manage options and it's not a cron, exit.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		// Set the highest level of debug reporting.
+		error_reporting( E_ALL );
+		ini_set( 'display_errors', '1' );
+
+		// avoid endless loops with imdbphp parsing errors.
+		if ( ( isset( $libxml_use ) ) && ( $libxml_use === 'libxml' ) ) {
+			libxml_use_internal_errors( true );
+		}
+
+		if ( $set_error !== 'no_var_dump' ) {
+			set_exception_handler( [ $this, 'lumiere_exception_handler' ] );
+		}
+
+		if ( $get_screen === 'screen' ) {
+			$currentScreen = get_current_screen();
+			echo '<div align="center"><strong>[WP current screen]</strong>';
+			print_r( $currentScreen );
+			echo '</div>';
+		}
+
+		// Exit if no Lumière option array requested to show
+		if ( ( null !== $options ) && count( $options ) > 0 ) {
+			echo '<div class="lumiere_wrap"><strong>[Lumière options]</strong><font size="-3"> ';
+			print_r( $options );
+			echo ' </font><strong>[/Lumière options]</strong></div>';
+		}
+	}
+	// @phpcs:enable
+
+	/**
+	 * Lumiere internal exception handler
+	 *
+	 * @see Utils::lumiere_activate_debug()
+	 * @param \Throwable $exception The type of new exception
+	 * @return void
+	 */
+	private function lumiere_exception_handler( \Throwable $exception ): void {
+		throw $exception;
+	}
+
 }
 

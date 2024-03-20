@@ -38,25 +38,31 @@ class Admin {
 	 */
 	public function __construct() {
 
+		// Don't bother doing stuff if the current user lacks permissions
+		if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) ) {
+			return;
+		}
+
 		// Get Global Settings class properties.
 		$this->get_settings_class();
 		$this->get_db_options();
 
-		if ( is_admin() ) {
-
-			// Add admin menu.
-			add_action( 'init', fn() => Admin_Menu::lumiere_static_start() );
-
-			// Add the metabox to editor.
-			add_action( 'admin_init', fn() => Metabox_Selection::lumiere_static_start(), 0 );
-
-			// Extra backoffice functions, such as privacy, plugins infos in plugins' page
-			add_action( 'admin_init', fn() => Backoffice_Extra::lumiere_backoffice_start(), 0 );
-		}
-
-		// Widget.
+		// Widget is also executed on non-admin pages.
 		/** @psalm-suppress MissingClosureReturnType, UndefinedClass -- crazy psalm, it is defined! */
 		add_action( 'widgets_init', fn() => Widget_Selection::lumiere_static_start(), 9 );
+
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		// Add admin menu.
+		add_action( 'init', fn() => Admin_Menu::lumiere_static_start() );
+
+		// Add the metabox to editor.
+		add_action( 'admin_init', fn() => Metabox_Selection::lumiere_static_start(), 0 );
+
+		// Extra backoffice functions, such as privacy, plugins infos in plugins' page
+		add_action( 'admin_init', fn() => Backoffice_Extra::lumiere_backoffice_start(), 0 );
 
 		// Register admin scripts.
 		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ], 0 );
@@ -211,11 +217,6 @@ class Admin {
 	 */
 	public function lumiere_execute_tinymce( string $hook ): void {
 
-		// Don't bother doing this stuff if the current user lacks permissions
-		if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) ) {
-			return;
-		}
-
 		// Add only in Rich Editor mode for post.php and post-new.php pages
 		if (
 			( get_user_option( 'rich_editing' ) === 'true' )
@@ -224,7 +225,6 @@ class Admin {
 
 			add_filter( 'mce_external_plugins', [ $this, 'lumiere_tinymce_addbutton' ] );
 			add_filter( 'mce_buttons', [ $this, 'lumiere_tinymce_button_position' ] );
-
 		}
 	}
 
@@ -236,9 +236,7 @@ class Admin {
 	public function lumiere_tinymce_button_position( array $buttons ): array {
 
 		array_push( $buttons, 'separator', 'lumiere_tiny' );
-
 		return $buttons;
-
 	}
 
 	/**
@@ -249,8 +247,6 @@ class Admin {
 	public function lumiere_tinymce_addbutton( array $plugin_array ): array {
 
 		$plugin_array['lumiere_tiny'] = $this->config_class->lumiere_js_dir . 'lumiere_admin_tinymce_editor.min.js';
-
 		return $plugin_array;
-
 	}
 }

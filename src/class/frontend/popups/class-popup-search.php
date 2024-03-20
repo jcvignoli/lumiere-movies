@@ -17,7 +17,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Imdb\TitleSearch;
-use Lumiere\Tools\Utils;
 
 /**
  * Independant class that displays movie search results in a popup
@@ -57,10 +56,9 @@ class Popup_Search {
 	/**
 	 * Constructor
 	 *
-	 * @since 4.0.1 Extra bot banishment only for this class using action 'lumiere_ban_bots_now'
-	 * Bots are banned from getting popups
-	 * @see \Lumiere\Alteration\Redirect_Virtual_Page::lumiere_popup_redirect_include Bot banishement happens in Redirect_Virtual_Page::ban_bots_popups()
-	 * @see \Lumiere\Tools\Ban_Bots::_construct() The action 'lumiere_ban_bots_now' caled in Redirect_Virtual_Page
+	 * @since 4.0.1 Bot banishment using action 'lumiere_ban_bots_now' in Redirect_Virtual_Page
+	 * @see \Lumiere\Alteration\Redirect_Virtual_Page::lumiere_popup_redirect_include() Bot banishement happens in Redirect_Virtual_Page::ban_bots_popups()
+	 * @see \Lumiere\Tools\Ban_Bots::_construct() The action 'lumiere_ban_bots_now' is cacled in Redirect_Virtual_Page
 	 */
 	public function __construct() {
 
@@ -81,8 +79,8 @@ class Popup_Search {
 		$this->type_search = $this->config_class->lumiere_select_type_search();
 
 		// Build the vars.
-		$movie = Utils::lumiere_name_htmlize( $_GET['film'] );
-		$this->film_sanitized = $movie !== null ? strtolower( $movie ) : ''; // @since 4.0 lowercase, less cache used.
+		// @since 4.0 lowercase, less cache used.
+		$this->film_sanitized = strtolower( $this->lumiere_name_htmlize( $_GET['film'] ) ); // In trait Data, which is in trait Main.
 		$this->film_sanitized_for_title = esc_html( $this->film_sanitized );
 
 		// Remove admin bar
@@ -184,7 +182,7 @@ class Popup_Search {
 					$this->config_class->lumiere_urlpopupsfilms
 					. '?mid=' . esc_html( $res->imdbid() )
 				)
-					. '&film=' . Utils::lumiere_name_htmlize( $res->title() )
+					. '&film=' . esc_url( $this->lumiere_name_htmlize( $res->title() ) ) // Method in trait Data, which is in trait Main.
 					. '" title="' . esc_html__( 'more on', 'lumiere-movies' ) . ' '
 					. esc_html( $res->title() ) . '" >'
 					. esc_html( $res->title() )

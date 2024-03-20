@@ -451,6 +451,7 @@ class Save_Options {
 	 * Save Data options
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @throws Exception if nonces are incorrect
+	 * @since 4.0.3 added flush_rewrite_rules()
 	 */
 	private function lumiere_data_options_save( string|bool $get_referer, ): void {
 
@@ -511,6 +512,9 @@ class Save_Options {
 
 		// update options
 		update_option( Settings::LUMIERE_WIDGET_OPTIONS, $this->imdb_widget_values );
+
+		// New custom pages need a flush rewrite rules to make sure taxonomy pages are available.
+		flush_rewrite_rules();
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_updated', 1 );

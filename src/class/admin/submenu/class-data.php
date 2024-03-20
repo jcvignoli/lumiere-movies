@@ -92,11 +92,9 @@ class Data extends Admin_Menu {
 			self::TRANSIENT_ADMIN,
 		);
 
-		// Debugging mode
+		// Show the vars if debug is activated.
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
-
-			// Start the class Utils to activate debug -> already started in admin_pages
-			$this->utils_class->lumiere_activate_debug( $this->imdb_widget_values, 'no_var_dump', null );
+			$this->lumiere_display_vars( $this->imdb_widget_values, 'no_var_dump', null ); // Method in trait Admin_General.
 		}
 
 		// Display submenu
@@ -116,8 +114,8 @@ class Data extends Admin_Menu {
 				'data/admin-data-display',
 				[
 					$this->imdb_widget_values, // data options.
-					$this->build_display_options()[0], // list of items and people with two extra lists.
-					$this->build_display_options()[1], // explaination of items and people with the two extra lists.
+					$this->get_display_options()[0], // list of items and people with two extra lists.
+					$this->get_display_options()[1], // explaination of items and people with the two extra lists.
 					$this->details_with_numbers, // data details in a field to fill in.
 				], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
@@ -221,7 +219,7 @@ class Data extends Admin_Menu {
 	 * Build the options for display
 	 * @return array<int, array<string>>
 	 */
-	private function build_display_options(): array {
+	private function get_display_options(): array {
 
 		// Merge the list of items and people with two extra lists
 		$array_full = array_unique(

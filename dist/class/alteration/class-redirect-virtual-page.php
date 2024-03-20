@@ -21,8 +21,8 @@ use Lumiere\Plugins\Imdbphp;
 use Lumiere\Frontend\Popups\Popup_Person;
 use Lumiere\Frontend\Popups\Popup_Movie;
 use Lumiere\Frontend\Popups\Popup_Search;
-use Lumiere\Tools\Search;
-use Lumiere\Tools\Utils;
+use Lumiere\Admin\Search;
+use Lumiere\Tools\Data;
 use Lumiere\Alteration\Virtual_Page;
 use Imdb\Title;
 use Imdb\Person;
@@ -35,6 +35,11 @@ use Imdb\Person;
  * @phpstan-import-type OPTIONS_CACHE from Settings
  */
 class Redirect_Virtual_Page {
+
+	/**
+	 * Traits
+	 */
+	use Data;
 
 	/**
 	 * Lumiere\Imdbphp class
@@ -135,7 +140,7 @@ class Redirect_Virtual_Page {
 					$filmid_sanitized = esc_html( $movie->title() );
 				}
 				// Sanitize and initialize $_GET['film']
-				$film_sanitized = isset( $_GET['film'] ) ? Utils::lumiere_name_htmlize( $_GET['film'] ) : '';
+				$film_sanitized = isset( $_GET['film'] ) ? $this->lumiere_name_htmlize( $_GET['film'] ) : ''; // Method in trait Data.
 				// Get the film ID if it exists, if not get the film name
 				$title_name = strlen( $filmid_sanitized ) !== 0 ? $filmid_sanitized : $film_sanitized;
 

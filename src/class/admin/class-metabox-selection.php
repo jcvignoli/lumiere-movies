@@ -20,12 +20,24 @@ use Lumiere\Tools\Settings_Global;
 
 /**
  * Add a metabox in admin post editing interface
+ * It saves in metadata the value entered for IMDb title/ID
  * The metabox includes options to display IMDb results for a given IMDb movie ID/movie name
- * @see \Lumiere\Core Is called in that class
+ *
+ * @see \Lumiere\Admin Calls this class
  */
 class Metabox_Selection {
 
+	/**
+	 * Traits
+	 */
 	use Settings_Global;
+
+	/**
+	 * List of options available in the select form
+	 *
+	 * @var array<string, string> $select_options
+	 */
+	private array $select_options;
 
 	/**
 	 * Constructor
@@ -36,12 +48,17 @@ class Metabox_Selection {
 		$this->get_settings_class();
 		$this->get_db_options();
 
+		// Option for the select, the two type of data to be taken over by imdb-movie.inc.php
+		$this->select_options = [
+			esc_html__( 'By movie IMDb ID', 'lumiere-movies' ) => 'imdb-movie-widget-bymid',
+			esc_html__( 'By movie title', 'lumiere-movies' ) => 'imdb-movie-widget',
+		];
+
 		/**
 		 * Register the metabox
 		 */
 		add_action( 'add_meta_boxes', [ $this, 'add_lumiere_metabox_customfields' ] );
 		add_action( 'save_post', [ $this, 'save_custom_meta_box' ], 10, 2 );
-
 	}
 
 	/**
@@ -69,12 +86,6 @@ class Metabox_Selection {
 	 */
 	public function custom_meta_box_markup( \WP_Post $object ): void {
 
-		// Option for the select, the two type of data to be taken over by imdb-movie.inc.php
-		$option_values = [
-			esc_html__( 'By movie IMDb ID', 'lumiere-movies' ) => 'imdb-movie-widget-bymid',
-			esc_html__( 'By movie title', 'lumiere-movies' ) => 'imdb-movie-widget',
-		];
-
 		wp_nonce_field( basename( __FILE__ ), 'lumiere_metabox_nonce' ); ?>
 
 		<p>
@@ -94,7 +105,7 @@ class Metabox_Selection {
 				<label for="lumiere_queryid_widget"><?php esc_html_e( 'How to query the movie?', 'lumiere-movies' ); ?></label>
 				<select id="lumiere_queryid_widget" name="lumiere_queryid_widget">
 				<?php
-				foreach ( $option_values as $key => $value ) {
+				foreach ( $this->select_options as $key => $value ) {
 					if ( $value === get_post_meta( $object->ID, 'lumiere_queryid_widget', true ) ) {
 						?>
 					<option value="<?php echo esc_attr( $value ); ?>" selected><?php echo esc_attr( $key ); ?></option>
@@ -161,8 +172,7 @@ class Metabox_Selection {
 			return;
 		}
 
-		$slug = 'post';
-		if ( $slug !== $post->post_type ) {
+		if ( $post->post_type !== 'post' ) {
 			return;
 		}
 

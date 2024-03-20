@@ -68,12 +68,12 @@ class Core {
 		// Registers javascripts and styles.
 		add_action( 'init', [ $this, 'lumiere_register_assets' ], 0 );
 
+		// Register Gutenberg blocks.
+		add_action( 'init', [ $this, 'lumiere_register_gutenberg_blocks' ] );
+
 		// Execute javascripts and styles.
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_frontpage_execute_assets' ], 9 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_frontpage_execute_assets_priority' ], 0 );
-
-		// Register Gutenberg blocks.
-		add_action( 'init', [ $this, 'lumiere_register_gutenberg_blocks' ] );
 
 		// Frontpage classes if it is not an admin page
 		if ( ! is_admin() ) {
@@ -148,9 +148,11 @@ class Core {
 	 */
 	public function lumiere_register_gutenberg_blocks(): void {
 		$blocks = [ 'movie', 'addlink', 'opensearch' ];
+		$block_dir = plugin_dir_path( __DIR__ ) . '/assets/blocks';
+
 		foreach ( $blocks as $block ) {
-			register_block_type_from_metadata( dirname( __DIR__ ) . '/assets/blocks/' . $block );
-			wp_set_script_translations( 'lumiere-' . $block . '-editor-script-js', 'lumiere-movies', plugin_dir_path( __DIR__ ) . 'languages/' );
+			register_block_type_from_metadata( $block_dir . '/' . $block );
+			wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', plugin_dir_path( __DIR__ ) . 'languages/' );
 		}
 	}
 
