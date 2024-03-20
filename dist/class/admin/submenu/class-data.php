@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Settings;
 use Lumiere\Admin\Admin_Menu;
-use Lumiere\Admin\Admin_Check_Taxo;
+use Lumiere\Admin\Detect_New_Template_Taxo;
 
 /**
  * Display data options for taxonomy, data order and data selection
@@ -105,7 +105,7 @@ class Data extends Admin_Menu {
 		);
 
 		if (
-			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
+			isset( $_GET['page'] ) && str_contains( $this->page_data, $_GET['page'] ) === true
 			&& ! isset( $_GET['subsection'] )
 		) {
 
@@ -122,7 +122,7 @@ class Data extends Admin_Menu {
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
+			isset( $_GET['page'] ) && str_contains( $this->page_data, $_GET['page'] ) === true
 			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'taxo'
 		) {
 
@@ -150,7 +150,7 @@ class Data extends Admin_Menu {
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_data'
+			isset( $_GET['page'] ) && str_contains( $this->page_data, $_GET['page'] ) === true
 			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'order'
 		) {
 
@@ -278,7 +278,7 @@ class Data extends Admin_Menu {
 		$output = '';
 
 		// Get updated items/people from parent class method. Null if not template to update found.
-		$class_check_taxo = new Admin_Check_Taxo();
+		$class_check_taxo = new Detect_New_Template_Taxo();
 		$list_updated_fields = $class_check_taxo->lumiere_new_taxo( $type );
 
 		// Get the type to build the links

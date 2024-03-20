@@ -71,6 +71,7 @@
 		<properties>
 			<property name="prefixes" type="array">
 				<element value="lumiere"/>
+				<element value="lum"/>
 			</property>
 		</properties>
 	</rule>
@@ -78,13 +79,10 @@
 	<rule ref="WordPress.Security.EscapeOutput">
 		<properties>
 			<property name="customEscapingFunctions" type="array">
-				<element value="Utils"/><!-- can't just enter Utils::function... -->
-				<element value="wp_kses"/>
-				<element value="wp_strip_all_tags"/>
+				<!--<element value="wp_kses"/>-->
 			</property>
 			<property name="customAutoEscapedFunctions" type="array">
-				<element value="lumiere_check_taxo_template"/>
-				<element value="lumiere_imdburl_to_internalurl"/>
+				<!--<element value="lumiere_check_taxo_template"/>-->
 			</property>
 		</properties>
 	</rule>

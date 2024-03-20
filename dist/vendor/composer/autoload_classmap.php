@@ -7,8 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'Lumiere\\Admin' => $baseDir . '/class/class-admin.php',
-    'Lumiere\\Admin\\Admin_Check_Taxo' => $baseDir . '/class/admin/class-admin-check-taxo.php',
+    'Lumiere\\Admin\\Admin' => $baseDir . '/class/admin/class-admin.php',
     'Lumiere\\Admin\\Admin_General' => $baseDir . '/class/admin/trait-admin-general.php',
     'Lumiere\\Admin\\Admin_Menu' => $baseDir . '/class/admin/class-admin-menu.php',
     'Lumiere\\Admin\\Admin_Notifications' => $baseDir . '/class/admin/class-admin-notifications.php',
@@ -16,6 +15,7 @@ return array(
     'Lumiere\\Admin\\Cache_Tools' => $baseDir . '/class/admin/class-cache-tools.php',
     'Lumiere\\Admin\\Copy_Template_Taxonomy' => $baseDir . '/class/admin/class-copy-template-taxonomy.php',
     'Lumiere\\Admin\\Cron' => $baseDir . '/class/admin/class-cron.php',
+    'Lumiere\\Admin\\Detect_New_Template_Taxo' => $baseDir . '/class/admin/class-detect-new-template-taxo.php',
     'Lumiere\\Admin\\Metabox_Selection' => $baseDir . '/class/admin/class-metabox-selection.php',
     'Lumiere\\Admin\\Save_Options' => $baseDir . '/class/admin/class-save-options.php',
     'Lumiere\\Admin\\Search' => $baseDir . '/class/admin/class-search.php',

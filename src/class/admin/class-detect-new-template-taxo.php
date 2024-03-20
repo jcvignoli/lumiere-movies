@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Admin Taxonomy check class.
+ * Detect new taxonomy templates
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2024, Lost Highway
@@ -20,10 +20,11 @@ use Lumiere\Tools\Settings_Global;
 use Lumiere\Admin\Admin_General;
 
 /**
+ * Detect if new templates templates are available, or templates should be installed
  * Taxonomy theme pages copy class is called here
  * @since 4.0.3
  */
-class Admin_Check_Taxo {
+class Detect_New_Template_Taxo {
 
 	/**
 	 * Traits

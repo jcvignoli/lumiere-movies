@@ -79,7 +79,7 @@ class Taxonomy {
 		foreach ( $get_taxo_array as $key => $value ) {
 
 			if ( is_string( $key ) === false ) {
-				throw new \Exception( __( 'Could not find this taxo ', 'lumiere-movies' ) . $key );
+				throw new \Exception( __( 'Wrong taxonomy ', 'lumiere-movies' ) . $key );
 			}
 
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $key );

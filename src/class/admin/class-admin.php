@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere;
+namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -26,6 +26,7 @@ use Lumiere\Tools\Settings_Global;
 /**
  * All Admin-related functions
  * Build Admin menu, calls admin-related stylesheets/scripts
+ *
  * @see Admin\Admin_Menu
  */
 class Admin {

@@ -217,7 +217,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 		foreach ( $list_all_movies_functions as $var ) {
 
 			// Build function name based on var $list_all_movies_functions list.
-			$all_movies_functions = "movies_$var";
+			$all_movies_functions = "movies_{$var}";
 
 			$filmo = $this->person->$all_movies_functions();
 
@@ -795,10 +795,10 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 					echo "\n\t\t" . '</font></div>';
 				}
 
-				echo "\n\t\t" . '<div class="lumiere_display_flex_align_flex_end lumiere_padding_two lumiere_align_left">';
+				echo "\n\t\t" . '<div class="lumiere_padding_two lumiere_align_left">';
 
 				$bio = $this->link_maker->lumiere_medaillon_bio( $this->person->bio() );
-				echo is_string( $bio ) && strlen( $bio ) > 0 ? "\n\t\t\t" . '<div><font size="-1">' . wp_kses(
+				echo is_string( $bio ) && strlen( $bio ) > 0 ? "\n\t\t\t" . '<font size="-1">' . wp_kses(
 					$bio,
 					[
 						'span' => [ 'class' => [] ],
@@ -811,7 +811,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 						'div' => [],
 						'br' => [],
 					]
-				) . '</font></div>' : '';
+				) . '</font>' : '';
 				?>
 
 					<!-- star photo -->

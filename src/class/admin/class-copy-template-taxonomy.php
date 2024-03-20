@@ -17,7 +17,7 @@ use Lumiere\Tools\Settings_Global;
 use Lumiere\Admin\Admin_General;
 
 /**
- * Move automatically the taxonomy templates (in class/theme) to user's template folder (wp-content/themes/current-theme)
+ * Copy Lumière taxonomy templates (located in class/theme) to user's template folder (wp-content/themes/current-theme)
  *
  * @since 4.0.1 removed wp_die()
  * @see \Lumiere\Admin\Admin_Menu This class is called in hook

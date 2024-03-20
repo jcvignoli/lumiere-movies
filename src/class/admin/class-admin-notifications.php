@@ -16,20 +16,20 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\Admin\Admin_Check_Taxo;
+use Lumiere\Admin\Detect_New_Template_Taxo;
 
 /**
  * Display the notice messages definition called by child Admin_Menu classes when form submission took place
  *
  * @since 4.0.3
- * @see \Lumiere\Admin\Admin_Check_Taxo to check if a message regarding the taxonomy should be displayed
+ * @see \Lumiere\Admin\Detect_New_Template_Taxo to check if a message regarding the taxonomy should be displayed
  */
 class Admin_Notifications {
 
 	/**
 	 * Class to check if new taxonomy templates are available
 	 */
-	private Admin_Check_Taxo $class_check_taxo;
+	private Detect_New_Template_Taxo $class_check_taxo;
 
 	/**
 	 * Notification messages
@@ -55,7 +55,7 @@ class Admin_Notifications {
 	public function __construct() {
 
 		// Get the needed function that
-		$this->class_check_taxo = new Admin_Check_Taxo();
+		$this->class_check_taxo = new Detect_New_Template_Taxo();
 	}
 
 	/**

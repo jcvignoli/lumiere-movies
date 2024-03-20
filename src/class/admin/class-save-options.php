@@ -67,7 +67,7 @@ class Save_Options {
 		$this->imdb_widget_values = get_option( Settings::LUMIERE_WIDGET_OPTIONS );
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
-		$this->process_headers();
+		add_action( 'admin_init', [ $this, 'process_headers' ] );
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Save_Options {
 	 * This is the main method executed to call the class methods
 	 * @return void Settings saved/reset, files deleted/refreshed
 	 */
-	private function process_headers(): void {
+	public function process_headers(): void {
 
 		/** General options */
 		if (    isset( $_POST['lumiere_update_general_settings'] )

@@ -377,18 +377,21 @@ abstract class Abstract_Link_Maker {
 		// Select the index array according to the number of bio results.
 		$idx = $nbtotalbio < 2 ? $idx = 0 : $idx = 1;
 
-		// Medaillon is displayed in a popup person page, build internal URL
-		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->config_class->lumiere_urlstringperson ) && ( $bio !== null ) ) {
-			$bio_text = $this->lumiere_imdburl_to_internalurl( $bio[ $idx ]['desc'] );
-			// Medaillon is displayed in a taxonomy page, build popup URL
-		} elseif ( is_tax() && $bio !== null ) {
-			$bio_text = $this->lumiere_imdburl_to_popupurl( $bio[ $idx ]['desc'] );
+		$bio_text = isset( $bio[ $idx ]['desc'] ) ? trim( str_replace( [ '<br>', '<br />', '<br/>' ], ' ', $bio[ $idx ]['desc'] ) ) : '';
+
+		// Medaillon is displayed in a popup person page, build internal URL.
+		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->config_class->lumiere_urlstringperson ) && strlen( $bio_text ) > 0 ) {
+			$bio_text = $this->lumiere_imdburl_to_internalurl( $bio_text );
+
+			// This is a taxonomy page, build popup URL.
+		} elseif ( is_tax() && strlen( $bio_text ) > 0 ) {
+			$bio_text = $this->lumiere_imdburl_to_popupurl( $bio_text );
 		}
 
 		// HTML tags break for 'read more' cutting.
 		// Detects if there is a space next to $max_length; if true, increase the latter to that position.
 		// Use of htmlentities to avoid spaces inside html code (ie innerspace in '<br />').
-		$max_length = strlen( $bio_text ) !== 0 && is_int( strpos( htmlentities( $bio_text ), ' ', $max_length ) ) === true
+		$max_length = strlen( $bio_text ) > 0 && is_int( strpos( htmlentities( $bio_text ), ' ', $max_length ) ) === true
 			? strpos( htmlentities( $bio_text ), ' ', $max_length )
 			: $max_length;
 
@@ -433,7 +436,7 @@ abstract class Abstract_Link_Maker {
 	 *
 	 * @return string
 	 */
-	protected function lumiere_imdburl_to_internalurl_abstract ( string $text, int $window_type = 0 ): string {
+	protected function lumiere_imdburl_to_internalurl_abstract( string $text, int $window_type = 0 ): string {
 
 		$internal_link_person = '';
 		$internal_link_movie = '';
@@ -445,13 +448,13 @@ abstract class Abstract_Link_Maker {
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
 		// Common pattern.
-		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\?.+?|\/?)\"\>~';
-		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>~';
+		$rule_name = '~(<a href=)(\D{21})(name\/nm)(\d{7})(\?.+?|\/?)">~';
+		$rule_title = '~(<a href=")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)">~';
 
 		// Pattern found in soundtrack.
 		if ( strpos( $text, 'https://www.imdb.com/' ) === false ) {
-			$rule_name = '~(<a href=\")(\/name\/)(nm)(\d{7})(\?.+?|\/?)\"\>~';
-			$rule_title = '~(<a href=\")(\/title\/)(tt)(\d{7})(\?.+?|\/?)\"\>~';
+			$rule_name = '~(<a href=")(\/name\/)(nm)(\d{7})(\?.+?|\/?)">~';
+			$rule_title = '~(<a href=")(\/title\/)(tt)(\d{7})(\?.+?|\/?)">~';
 		}
 
 		// Replace IMDb links with internal links.
@@ -483,8 +486,8 @@ abstract class Abstract_Link_Maker {
 				$popup_link_movie = '<a class="modal_window_film ' . $specific_class . '" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
 				break;
 			case 1: // Build internal links with no popups.
-				$popup_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">${6}</a>';
-				$popup_link_movie = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">${6}</a>';
+				$popup_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
+				$popup_link_movie = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
 				break;
 			case 2: // No links class
 				$popup_link_person = '${6}';
@@ -500,13 +503,13 @@ abstract class Abstract_Link_Maker {
 		}
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
-		$rule_name = '~(<a href=\")(\D{21})(name\/nm)(\d{7})(\/\?.+?|\?.+?|\/?)\"\>(.*?)<\/a>~';
-		$rule_title = '~(<a href=\")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)\"\>(.*?)<\/a>~';
+		$rule_name = '~(<a href=")(\D{21})(name\/nm)(\d{7})(\/\?.+?|\?.+?|\/?)">(.*?)<\/a>~';
+		$rule_title = '~(<a href=")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)">(.*?)<\/a>~';
 
 		// Pattern found in soundtrack.
 		if ( strpos( $text, 'https://www.imdb.com/' ) === false ) {
-			$rule_name = '~(<a href=\")(\/name\/)(nm)(\d{7})(\?.+?|\/?)\"\>(.*?)<\/a>~';
-			$rule_title = '~(<a href=\")(\/title\/)(tt)(\d{7})(\?.+?|\/?)\"\>(.*?)<\/a>~';
+			$rule_name = '~(<a href=")(\/name\/)(nm)(\d{7})(\?.+?|\/?)">(.*?)<\/a>~';
+			$rule_title = '~(<a href=")(\/title\/)(tt)(\d{7})(\?.+?|\/?)">(.*?)<\/a>~';
 		}
 
 		// Replace IMDb links with popup links.

@@ -79,7 +79,7 @@ class General extends Admin_Menu {
 		// The body.
 		if (
 			// General options.
-			isset( $_GET['page'] ) && $_GET['page'] === $this->menu_id
+			isset( $_GET['page'] ) && str_contains( $this->page_general_base, $_GET['page'] ) === true
 			&& ! isset( $_GET['subsection'] )
 		) {
 			$this->include_with_vars(
@@ -90,7 +90,7 @@ class General extends Admin_Menu {
 
 		} elseif (
 			// Advanced options.
-			isset( $_GET['page'] ) && $_GET['page'] === $this->menu_id
+			isset( $_GET['page'] ) && str_contains( $this->page_general_advanced, $_GET['page'] ) === true
 			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'advanced'
 		) {
 			$this->include_with_vars(

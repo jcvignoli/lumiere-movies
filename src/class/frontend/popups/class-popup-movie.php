@@ -820,7 +820,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 			// Starts a
 			for ( $i = 0; $i < $nbtotalplot; $i++ ) {
 				echo "\n\t" . '<div>';
-				echo ' [#' . esc_html( strval( $i + 1 ) ) . '] ' . wp_strip_all_tags( $plot[ $i ] );
+				echo ' [#' . esc_html( strval( $i + 1 ) ) . '] ' . esc_html( $plot[ $i ] );
 				if ( $i < $nbtotalplot - 1 ) {
 					echo "\n<br>";
 				}

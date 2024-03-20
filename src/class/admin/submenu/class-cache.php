@@ -65,7 +65,7 @@ class Cache extends Admin_Menu {
 		);
 
 		if (
-			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_cache'
+			isset( $_GET['page'] ) && str_contains( $this->page_cache_option, $_GET['page'] ) === true
 			&& ! isset( $_GET['subsection'] )
 		) {
 
@@ -78,7 +78,7 @@ class Cache extends Admin_Menu {
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && $_GET['page'] === 'lumiere_options_cache'
+			isset( $_GET['page'] ) && str_contains( $this->page_cache_option, $_GET['page'] ) === true
 			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'manage'
 		) {
 			// Cache managment menu.
