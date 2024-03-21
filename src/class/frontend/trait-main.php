@@ -210,5 +210,46 @@ trait Main {
 		}
 		return $final_url ?? $url;
 	}
+
+	/**
+	 * Are we currently on an AMP URL?
+	 * Always return `false` and show PHP Notice if called before the `wp` hook.
+	 *
+	 * @since 3.7.1
+	 * @return bool true if amp url, false otherwise
+	 */
+	public function lumiere_is_amp_page(): bool {
+
+		global $pagenow;
+
+		// If url contains ?amp, it must be an AMP page
+		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', '?amp' )
+		|| isset( $_GET ['wpamp'] )
+		|| isset( $_GET ['amp'] )
+		) {
+			return true;
+		}
+
+		if (
+			is_admin()
+			/**
+			 * If kept, breaks blog pages these functions can be executed very early
+				|| is_embed()
+				|| is_feed()
+			*/
+			|| ( isset( $pagenow ) && in_array( $pagenow, [ 'wp-login.php', 'wp-signup.php', 'wp-activate.php' ], true ) )
+			|| ( defined( 'REST_REQUEST' ) && REST_REQUEST )
+			|| ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST )
+		) {
+			return false;
+		}
+
+		// Since we are checking later (amp_is_request()) a function that execute late, make sure we can execute it
+		if ( did_action( 'wp' ) === 0 ) {
+			return false;
+		}
+
+		return function_exists( 'amp_is_request' ) && amp_is_request();
+	}
 }
 

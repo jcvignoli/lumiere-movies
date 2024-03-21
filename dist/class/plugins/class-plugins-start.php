@@ -41,10 +41,10 @@ class Plugins_Start {
 	 * The active class can be used when they exist and called with this property
 	 *
 	 * @phpstan-var array<string, PLUGINS_AVAILABLE> $plugins_classes_active
-	 * @psalm-var array<string, object> $plugins_classes_active
+	 * @psalm-var non-empty-array<string, Oceanwp|Polylang|Amp> $plugins_classes_active I can't get Psalm to accept PLUGINS_AVAILABLE
 	 * @var array<string, object> $plugins_classes_active
 	 */
-	public array $plugins_classes_active = [];
+	public array $plugins_classes_active;
 
 	/**
 	 * Constructor

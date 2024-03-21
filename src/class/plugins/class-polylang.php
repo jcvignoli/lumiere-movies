@@ -31,7 +31,6 @@ class Polylang {
 	/**
 	 * List of plugins active (including current class)
 	 * @var array<string> $active_plugins
-	 * @phpstan-ignore-next-line -- Property Lumiere\Plugins\Amp::$active_plugins is never read, only written -- want to keep the possibility in the future
 	 */
 	private array $active_plugins;
 
@@ -94,18 +93,20 @@ class Polylang {
 	 *
 	 * @param string $taxonomy The current taxonomy to check and build the form according to it
 	 * @param string $person_name name of the current person in taxonomy
+	 * @return string The form
 	 */
-	// @TODO: make it AMP compatible.
-	public function lumiere_get_form_polylang_selection( string $taxonomy, string $person_name ): void {
+	public function lumiere_get_form_polylang_selection( string $taxonomy, string $person_name ): string {
 
-		// Is the current taxonomy, such as "lumiere_actor", registered and activated for translation?
-		// Must be activated in wp-admin/admin.php?page=mlang_settings - Custom post types and Taxonomies - Custom taxonomies
+		/**
+		 * Is the current taxonomy, such as "lumiere_actor", registered and activated for translation?
+		 * Must be activated in wp-admin/admin.php?page=mlang_settings - Custom post types and Taxonomies - Custom taxonomies
+		 */
 		if ( ! pll_is_translated_taxonomy( $taxonomy ) ) {
 			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $person_name with $taxonomy." );
-			return;
+			return '';
 		}
 
-		// @phan-suppress-next-line PhanAccessMethodInternal -- Cannot access internal method \get_terms() of namespace \ defined at vendor/php-stubs/wordpress-stubs/wordpress-stubs.php:133181 from namespace \Lumiere\Plugins -> PHAN got creazy with get_terms()!
+		// @phan-suppress-next-line PhanAccessMethodInternal -- Cannot access internal method \get_terms() of namespace \ defined at vendor/php-stubs/wordpress-stubs/wordpress-stubs.php:133181 from namespace \Lumiere\Plugins -> PHAN gets crazy with get_terms()!
 		$pll_lang_init = get_terms(
 			[
 				'taxonomy' => 'term_language',
@@ -115,53 +116,100 @@ class Polylang {
 		$pll_lang = is_array( $pll_lang_init ) ? $pll_lang_init : null;
 
 		if ( ! isset( $pll_lang ) ) {
-			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy] No Polylang language is set." );
-			return;
+			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy] No Polylang language set." );
+			return '';
 		}
 
-		// Build the form.
-		echo "\n\t\t\t" . '<div align="center">';
-		// @since 3.9: added URI to form.
-		$parts_url = wp_parse_url( home_url() );
-		$current_uri = $parts_url !== false && isset( $parts_url['scheme'] ) && isset( $parts_url['host'] )
-			? $parts_url['scheme'] . '://' . $parts_url['host'] . add_query_arg( null, null )
-			: '';
-		echo "\n\t\t\t\t" . '<form method="post" id="lang_form" name="lang_form" action="' . esc_url( $current_uri ) . '#lang_form">';
-		echo "\n\t\t\t\t\t" . '<select name="tag_lang" id="tag_lang">';
-		echo "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
+		/**
+		 * Use AMP form if AMP plugin is active
+		 * Return the AMP form and exit
+		 */
+		if ( in_array( 'amp', $this->active_plugins, true ) === true ) {
+			return $this->amp_form_polylang_selection( $pll_lang );
+		}
+
+		$output = "\n\t\t\t" . '<div align="center">';
+
+		$output .= "\n\t\t\t\t" . '<form method="post" id="lang_form" name="lang_form" action="#lang_form">';
+		$output .= "\n\t\t\t\t\t" . '<select name="tag_lang" id="tag_lang">';
+		$output .= "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
 
 		// Build an option html tag for every language.
 		foreach ( $pll_lang as $lang_object ) {
 
 			/** @psalm-suppress PossiblyInvalidPropertyFetch -- Cannot fetch property on possible non-object => Always object! */
-			echo "\n\t\t\t\t\t\t" . '<option value="' . esc_attr( strval( $lang_object->term_id ) ) . '"';
+			$output .= "\n\t\t\t\t\t\t" . '<option value="' . strval( $lang_object->term_id ) . '"';
 
 			if (
 				// @phpcs:ignore WordPress.Security.NonceVerification -- it is process on the second line!
-				isset( $_POST['tag_lang'] ) && intval( $lang_object->term_id ) === intval( $_POST['tag_lang'] )
-				&& isset( $_POST['_wpnonce_polylangform'] ) && wp_verify_nonce( $_POST['_wpnonce_polylangform'], 'polylangform' ) !== false
+				isset( $_POST['tag_lang'] ) && $lang_object->term_id === (int) $_POST['tag_lang']
+				&& isset( $_POST['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_POST['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) !== false
 			) {
-				echo 'selected="selected"';
+				$output .= 'selected="selected"';
 			}
 
 			/** @psalm-suppress PossiblyInvalidPropertyFetch -- Cannot fetch property on possible non-object => Always object! */
-			echo '>' . esc_html( ucfirst( $lang_object->name ) ) . '</option>';
+			$output .= '>' . ucfirst( $lang_object->name ) . '</option>';
 
 		}
-		echo "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
-		echo "\n\t\t\t\t\t";
-		// @phpcs:ignore WordPress.Security.EscapeOutput
-		wp_nonce_field( 'polylangform', '_wpnonce_polylangform' );
-		// WP submit_button() is not compatible with AMP plugin and not available for AMP pages.
-		if ( function_exists( 'submit_button' ) ) {
-			echo "\n\t\t\t\t\t";
-			submit_button( esc_html__( 'Filter language', 'lumiere-movies' ), 'primary', 'submit_lang', false );
-		} else { // Below code is used by AMP
-			echo "\n\t\t\t\t\t" . '<button type="submit" name="submit_lang" id="submit_lang" class="button-primary" aria-live="assertive" value="' . esc_html__( 'Filter language', 'lumiere-movies' ) . '">' . esc_html__( 'Filter language', 'lumiere-movies' ) . '</button>';
-		}
-		echo "\n\t\t\t\t" . '</form>';
-		echo "\n\t\t\t" . '</div>';
+		$output .= "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
+		$output .= "\n\t\t\t\t\t";
 
+		$output .= wp_nonce_field( 'lum_taxo_polylangform', '_wpnonce_lum_taxo_polylangform', true, false );
+
+		$output .= "\n\t\t\t\t\t";
+		$output .= '<input type="submit" name="submit" id="submit_lang" class="button button-primary" value="' . __( 'Filter language', 'lumiere-movies' ) . '"  />';
+		$output .= "\n\t\t\t\t" . '</form>';
+		$output .= "\n\t\t\t" . '</div>';
+
+		return $output;
+	}
+
+	/**
+	 * Special form for AMP
+	 * @param array<int, \WP_Term|int|string> $pll_lang List of languages used in the form
+	 * @TODO: make it work!
+	 */
+	private function amp_form_polylang_selection( array $pll_lang ): string {
+
+		$output = "\n\t\t\t" . '<div align="center">';
+
+		$output .= "\n\t\t\t\t" . '<form method="post" id="lang_form" name="lang_form" action-xhr="#lang_form" target="_top">';
+		$output .= "\n\t\t\t\t\t" . '<label for="tag_lang">Select rating</label>';
+		$output .= "\n\t\t\t\t\t" . '<select name="tag_lang" required="" class="user-invalid valueMissing" aria-invalid="false" id="tag_lang">';
+		$output .= "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
+
+		// Build an option html tag for every language.
+		foreach ( $pll_lang as $lang_object ) {
+
+			if ( is_string( $lang_object ) || is_int( $lang_object ) ) {
+				continue;
+			}
+
+			/** @psalm-suppress PossiblyInvalidPropertyFetch -- Cannot fetch property on possible non-object => Always object! */
+			$output .= "\n\t\t\t\t\t\t" . '<option value="' . strval( $lang_object->term_id ) . '"';
+
+			if (
+				// @phpcs:ignore WordPress.Security.NonceVerification -- it is process on the second line!
+				isset( $_POST['tag_lang'] ) && $lang_object->term_id === (int) $_POST['tag_lang']
+				&& isset( $_POST['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_POST['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) !== false
+			) {
+				$output .= ' selected="selected"';
+			}
+
+			$output .= '>' . ucfirst( $lang_object->name ) . '</option>';
+
+		}
+		$output .= "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
+		$output .= "\n\t\t\t\t\t" . '<span visible-when-invalid="valueMissing" validation-for="tag_lang">Please select rating</span>';
+		$output .= "\n\t\t\t\t\t";
+
+		$output .= wp_nonce_field( 'lum_taxo_polylangform', '_wpnonce_lum_taxo_polylangform', true, false );
+
+		$output .= "\n\t\t\t\t\t" . '<button type="submit" name="submit_lang" id="submit_lang" class="button-primary" aria-live="assertive" value="' . esc_html__( 'Filter language', 'lumiere-movies' ) . '">' . esc_html__( 'Filter language', 'lumiere-movies' ) . '</button>';
+		$output .= "\n\t\t\t\t" . '</form>';
+		$output .= "\n\t\t\t" . '</div>';
+		return $output;
 	}
 
 	/**

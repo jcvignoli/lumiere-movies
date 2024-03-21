@@ -50,7 +50,7 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 			- <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'widgets.php' ); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies' ); ?></a></font></em>
 			
-		<?php
+			<?php
 		}
 		if ( $lum_that->imdb_admin_values['imdbtaxonomy'] === '0' ) {
 

@@ -46,7 +46,6 @@ trait Data {
 
 		return $lienhtmlize;
 	}
-	
 
 	/**
 	 * Function lumiere_array_key_exists_wildcard

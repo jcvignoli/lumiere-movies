@@ -88,6 +88,11 @@ class Taxonomy_People_Standard {
 			$this->activate_plugins();
 		}
 
+		// Start AMP headers if AMP page
+		if ( in_array( 'amp', $this->plugins_active_names, true ) === true ) {
+			$this->amp_headers();
+		}
+
 		// Display the page. Must not be included into an add_action(), as should be displayed directly.
 		$this->lumiere_taxo_layout_standard();
 	}
@@ -97,6 +102,37 @@ class Taxonomy_People_Standard {
 	 */
 	public static function lumiere_static_start(): void {
 		$class = new self();
+	}
+
+	/**
+	 * Use specific heaers if it is an AMP page
+	 */
+	private function amp_headers(): void {
+
+		// @phpcs:ignore WordPress.Security.NonceVerification -- Temporary
+		if ( isset( $_POST['tag_lang'] ) ) {
+
+			$parts_url = wp_parse_url( home_url() );
+			$current_uri = $parts_url !== false && isset( $parts_url['scheme'] ) && isset( $parts_url['host'] )
+				? $parts_url['scheme'] . '://' . $parts_url['host'] . add_query_arg( null, null )
+				: '';
+			// @phpcs:ignore WordPress.Security.NonceVerification -- Temporary
+			$tag_lang = $_POST['tag_lang'];
+			$output = [
+				'tag_lang' => $tag_lang,
+			];
+			header( 'Access-Control-Allow-Credentials: true' );
+			header( 'Access-Control-Allow-Origin: *.ampproject.org' );
+			header( 'AMP-Access-Control-Allow-Source-Origin: ' . $current_uri );
+			header( 'Access-Control-Expose-Headers: AMP-Access-Control-Allow-Source-Origin' );
+
+			header( 'AMP-Redirect-To: ' . $current_uri );
+			header( 'Access-Control-Expose-Headers: AMP-Redirect-To, AMP-Access-Control-Allow-Source-Origin' );
+
+			// @phpcs:ignore WordPress.Security.NonceVerification -- Temporary
+			echo json_encode( [ 'successmsg' => $_POST['tag_lang'] . 'My success message. [It will be displayed shortly(!) if with redirect]' ] );
+			die();
+		}
 	}
 
 	/**
@@ -172,11 +208,11 @@ class Taxonomy_People_Standard {
 
 		// Language from the form.
 		// @phpcs:ignore WordPress.Security.NonceVerification -- It is process later!
-		$get_lang_form = isset( $_POST['tag_lang'] ) && strlen( $_POST['tag_lang'] ) > 0 ? filter_input( INPUT_POST, 'tag_lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : null;
+		$get_lang_form = isset( $_POST['tag_lang'] ) && strlen( $_POST['tag_lang'] ) > 0 ? $_POST['tag_lang'] : null;
 		$form_id_language =
-			isset( $_POST['_wpnonce_polylangform'] ) && wp_verify_nonce( $_POST['_wpnonce_polylangform'], 'polylangform' ) !== false
-			&& $get_lang_form !== false
-			? $get_lang_form
+			isset( $_POST['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_POST['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) > 0
+			&& isset( $get_lang_form ) && strlen( $get_lang_form ) > 0
+			? esc_html( $get_lang_form )
 			: null;
 
 		/**
@@ -464,7 +500,50 @@ class Taxonomy_People_Standard {
 
 		// Compatibility with Polylang WordPress plugin, add a form to filter results by language.
 		if ( isset( $this->plugins_classes_active['polylang'] ) ) {
-			$this->plugins_classes_active['polylang']->lumiere_get_form_polylang_selection( $this->taxonomy_title, $this->person_name );
+			echo wp_kses(
+				$this->plugins_classes_active['polylang']->lumiere_get_form_polylang_selection( $this->taxonomy_title, $this->person_name ),
+				[
+					'div' => [ 'align' => [] ],
+					'form' => [
+						'novalidate' => [],
+						'method' => [],
+						'id' => [],
+						'name' => [],
+						'action' => [],
+					],
+					'select' => [
+						'class' => [],
+						'aria-invalid' => [],
+						'required' => [],
+						'name' => [],
+						'id' => [],
+					],
+					'option' => [
+						'value' => [],
+						'select' => [],
+					],
+					'input' => [
+						'type' => [],
+						'id' => [],
+						'name' => [],
+						'value' => [],
+						'required' => [],
+					],
+					'button' => [
+						'type' => [],
+						'name' => [],
+						'id' => [],
+						'class' => [],
+						'aria-live' => [],
+						'value' => [],
+					],
+					'label' => [ 'for' => [] ],
+					'span' => [
+						'visible-when-invalid' => [],
+						'validation-for' => [],
+					],
+				]
+			);
 		}
 
 		echo "\n\t\t\t" . '<br />';
