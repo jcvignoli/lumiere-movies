@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Lumiere\Settings;
 use Lumiere\Tools\Utils;
 use Lumiere\Tools\Settings_Global;
+use WP_Widget;
 
 /**
  * Add a Lumière Widget option in administration
@@ -29,8 +30,9 @@ use Lumiere\Tools\Settings_Global;
  * Constant Settings::WIDGET_NAME is the pre-WP 5.8 widget name.
  *
  * @see \Lumiere\Admin that calls it
+ * @see \Lumiere\Frontend\Widget_Legacy calls it when in frontend and extends the current class. The current class registers Widget_Legacy widget
  */
-class Widget_Selection extends \WP_Widget {
+class Widget_Selection extends WP_Widget {
 
 	/**
 	 * Global Frontend trait
@@ -67,26 +69,29 @@ class Widget_Selection extends \WP_Widget {
 	 * Statically start the class
 	 *
 	 * @since 4.0 using __CLASS__ instead of get_class() in register_widget()
+	 * @since 4.0.3 replaced __CLASS__ with "Widget_Legacy" in register_widget(), changed the logic of registering the block widget and exit
 	 */
 	public static function lumiere_static_start(): void {
 
 		$self_class = new self();
 
-		// Register Block-based Widget in all cases. Does not impact legacy widget.
-		add_action( 'widgets_init', [ $self_class, 'lumiere_register_widget_block' ] );
+		// Register Block-based Widget if a block is already available, or if the plugin classic widget is available
+		if (
+			static::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === true
+			|| is_plugin_active( 'classic-widgets/classic-widgets.php' ) === false
+			// || is_active_widget( false, false, Settings::WIDGET_NAME, false ) === false
+		) {
+			add_action( 'widgets_init', [ $self_class, 'lumiere_register_widget_block' ] );
+			return;
+		}
 
 		// Register legacy widget only if no Widget block has been added.
-		if (
-			Utils::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === false
-			|| is_active_widget( false, false, Settings::WIDGET_NAME, false ) !== false
-		) {
-			add_action(
-				'widgets_init',
-				function() {
-					register_widget( __CLASS__ );
-				}
-			);
-		}
+		add_action(
+			'widgets_init',
+			function() {
+				register_widget( 'Lumiere\Frontend\Widget_Legacy' );
+			}
+		);
 	}
 
 	/**
@@ -201,5 +206,24 @@ class Widget_Selection extends \WP_Widget {
 		$instance['lumiere_queryid_widget_input'] = $new_instance['lumiere_queryid_widget_input'] ?? '';
 
 		return $instance;
+	}
+
+	/**
+	 * Check if a block widget is active
+	 *
+	 * @param string $blockname Name of the block to look for
+	 * @return bool True if found
+	 * @since 4.0.3 moved from Utils to this class
+	 */
+	public static function lumiere_block_widget_isactive( string $blockname ): bool {
+		$widget_blocks = get_option( 'widget_block' );
+		foreach ( $widget_blocks as $widget_block ) {
+			if ( ( isset( $widget_block['content'] ) && strlen( $widget_block['content'] ) !== 0 )
+			&& has_block( $blockname, $widget_block['content'] )
+			) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

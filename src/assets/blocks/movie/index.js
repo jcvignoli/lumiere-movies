@@ -1,4 +1,4 @@
-( function( blocks, blockEditor, element, components, data, i18n ) {
+( function( blocks, blockEditor, element, components, data, i18n, jQuery ) {
 
 	var el = element.createElement;
 	var elwithhtml = element.RawHTML; /* this type of block can include html */
@@ -22,7 +22,16 @@
 	})
 	formattingControls= [ 'bold' , 'superscript' ];
 	*/
+	jQuery( 'a[data-lumiere_admin_popup]' ).click(
+		function(){
+			var tmppopupLarg = lumiere_admin_vars.popupLarg;
+			var tmppopupLong = lumiere_admin_vars.popupLong;
+			var url_imdbperso = lumiere_admin_vars.wordpress_admin_path + lumiere_admin_vars.gutenberg_search_url_string;
 
+			// classic popup
+			window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + tmppopupLarg + ', height=' + tmppopupLong + ', top=100, left=100' );
+		}
+	);
 	var intro_words = i18n.__( 'Enter the name or the IMDb ID movie' , 'lumiere-movies' );
 
 	var empty = '';
@@ -93,15 +102,14 @@
 									className: blockProps.className,
 									className: 'lumiere_block_intothepost-explanation',
 									tagName: 'gutenberg',
-									children: i18n.__( 'This block will vanish in your post, only the movie will be shown.' , 'lumiere-movies' )
+									children: i18n.__( 'This block is display only in the admin area, it will vanish in your post, where only the movie you select here will be shown.' , 'lumiere-movies' )
 										+ '<br />'
-										+ i18n.__( 'Use this block to retrieve movie or people information from the IMDb and insert in your post.' , 'lumiere-movies' )
+										+ i18n.__( 'Use this block to retrieve movie information from the IMDb and insert in your post.' , 'lumiere-movies' )
 										+ '<br />'
 										+ i18n.__( 'You can also click on this link to get the' , 'lumiere-movies' )
 										+ ' <a data-lumiere_admin_popup="useSomeValuePopupOpen" '
 										+ 'onclick="window.open(\'' + lumiere_admin_vars.wordpress_admin_path + lumiere_admin_vars.gutenberg_search_url_string + '\', \'_blank\', \'location=yes,height=' + lumiere_admin_vars.popupLong + ',width=' + lumiere_admin_vars.popupLarg + ',scrollbars=yes,status=yes, top=100, left=100\');" '
-										+ 'class="linkincmovie link-imdblt-highslidepeople highslide" '
-										+ 'target="_blank">'
+										+ 'class="linkincmovie link-imdblt-highslidepeople highslide" target="_blank">'
 										+ i18n.__( 'IMDb movie id' , 'lumiere-movies' )
 										+ '</a> ' + i18n.__( 'and insert it.' , 'lumiere-movies' ),
 
@@ -173,4 +181,4 @@
 
 		}
 	);
-})( window.wp.blocks, window.wp.blockEditor, window.wp.element, window.wp.components, window.wp.data, window.wp.i18n );
+})( window.wp.blocks, window.wp.blockEditor, window.wp.element, window.wp.components, window.wp.data, window.wp.i18n, jQuery );

@@ -41,6 +41,8 @@ class Save_Options {
 
 	/**
 	 * Allows to limit the calls to rewrite rules refresh
+	 * @see Save_Options::lumiere_data_options_save()
+	 * @since 4.0.3
 	 */
 	private string $page_data_taxo;
 

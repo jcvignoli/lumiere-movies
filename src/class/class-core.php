@@ -5,7 +5,7 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version       3.0
+ * @version       4.0
  * @package lumiere-movies
  */
 
@@ -32,7 +32,6 @@ class Core {
 
 	/**
 	 * Lumiere\Plugins\Logger class
-	 *
 	 */
 	private Logger $logger;
 
@@ -77,8 +76,8 @@ class Core {
 
 		// Frontpage classes if it is not an admin page
 		if ( ! is_admin() ) {
-			add_action( 'init', fn() => Frontend\Movie::lumiere_static_start(), 0 );
-			add_action( 'init', fn() => Frontend\Widget_Frontpage::lumiere_widget_frontend_start(), 0 );
+			add_action( 'init', fn() => Frontend\Movie::lumiere_static_start(), 0 ); // if not 0 priority, the popups don't work.
+			add_action( 'init', fn() => Frontend\Widget_Frontpage::lumiere_widget_frontend_start() );
 			add_action( 'init', fn() => Tools\Ban_Bots::lumiere_static_start(), 0 );
 		}
 
@@ -98,7 +97,7 @@ class Core {
 	}
 
 	/**
-	 *  Register frontpage scripts and styles
+	 * Register frontpage scripts and styles
 	 */
 	public function lumiere_register_assets(): void {
 
@@ -292,7 +291,7 @@ class Core {
 		if ( $cache_tools_class->lumiere_create_cache() === true ) {
 			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache successfully created.' );
 		} else {
-			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache has not been created (maybe already existed?)' );
+			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache has not been created (maybe was already created?)' );
 		}
 
 		/* Set up WP Cron exec once if it doesn't exist */
@@ -301,7 +300,7 @@ class Core {
 			wp_schedule_single_event( time() + 120, 'lumiere_cron_exec_once' );
 			$this->logger->log()->debug( '[Lumiere][coreClass][activation] Lumière cron lumiere_cron_exec_once successfully set up.' );
 		} else {
-			$this->logger->log()->error( '[Lumiere][coreClass][activation] Cron lumiere_cron_exec_once was not set up (maybe was not active?)' );
+			$this->logger->log()->error( '[Lumiere][coreClass][activation] Cron lumiere_cron_exec_once was not set up (maybe an issue during activation?)' );
 		}
 
 		$this->logger->log()->debug( '[Lumiere][coreClass][activation] Lumière plugin activated.' );

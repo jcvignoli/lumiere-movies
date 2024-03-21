@@ -46,5 +46,33 @@ trait Data {
 
 		return $lienhtmlize;
 	}
+	
+
+	/**
+	 * Function lumiere_array_key_exists_wildcard
+	 * Search with a wildcard in $keys of an array
+	 *
+	 * @param array<string, array<int|string>|bool|int|string> $array The array to be searched in
+	 * @param string $search The text that is searched for
+	 * @param string $return text 'key-value' can be passed to get simpler array of results
+	 *
+	 * @return array<int<0, max>|string, array<array-key, int|string>|bool|int|string>
+	 *
+	 * @credit: https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
+	 */
+	public function lumiere_array_key_exists_wildcard( array $array, string $search, string $return = '' ): array {
+
+		$search = str_replace( '\*', '.*?', preg_quote( $search, '/' ) );
+
+		$result_init = preg_grep( '/^' . $search . '$/i', array_keys( $array ) );
+		/** @psalm-suppress RedundantConditionGivenDocblockType -- Docblock-defined type array<int<0, max>, string> can never contain false -- PHPStan says otherwise */
+		$result = is_array( $result_init ) && count( $result_init ) > 0 ? $result_init : [];
+
+		if ( $return === 'key-value' ) {
+			return array_intersect_key( $array, array_flip( $result ) );
+		}
+
+		return $result;
+	}
 }
 

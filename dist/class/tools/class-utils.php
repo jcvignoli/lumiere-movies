@@ -18,35 +18,9 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 /**
  * Various tools
+ * @TODO pass these in traits or other ways
  */
 class Utils {
-
-	/**
-	 * Function lumiere_array_key_exists_wildcard
-	 * Search with a wildcard in $keys of an array
-	 *
-	 * @param array<string, array<int|string>|bool|int|string> $array The array to be searched in
-	 * @param string $search The text that is searched for
-	 * @param string $return text 'key-value' can be passed to get simpler array of results
-	 *
-	 * @return array<int<0, max>|string, array<array-key, int|string>|bool|int|string>
-	 *
-	 * @credit: https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
-	 */
-	public static function lumiere_array_key_exists_wildcard( array $array, string $search, string $return = '' ): array {
-
-		$search = str_replace( '\*', '.*?', preg_quote( $search, '/' ) );
-
-		$result_init = preg_grep( '/^' . $search . '$/i', array_keys( $array ) );
-		/** @psalm-suppress RedundantConditionGivenDocblockType -- Docblock-defined type array<int<0, max>, string> can never contain false -- PHPStan says otherwise */
-		$result = is_array( $result_init ) && count( $result_init ) > 0 ? $result_init : [];
-
-		if ( $return === 'key-value' ) {
-			return array_intersect_key( $array, array_flip( $result ) );
-		}
-
-		return $result;
-	}
 
 	/**
 	 * Does a glob recursively
@@ -91,63 +65,6 @@ class Utils {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Check if a block widget is active
-	 *
-	 * @param string $blockname Name of the block to look for
-	 * @return bool True if found
-	 */
-	public static function lumiere_block_widget_isactive( string $blockname ): bool {
-		$widget_blocks = get_option( 'widget_block' );
-		foreach ( $widget_blocks as $widget_block ) {
-			if ( ( isset( $widget_block['content'] ) && strlen( $widget_block['content'] ) !== 0 )
-			&& has_block( $blockname, $widget_block['content'] )
-			) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Are we currently on an AMP URL?
-	 * Will always return `false` and show PHP Notice if called before the `wp` hook.
-	 *
-	 * @since 3.7.1
-	 * @return bool true if amp url, false otherwise
-	 */
-	public static function lumiere_is_amp_page(): bool {
-		global $pagenow;
-
-		// If url contains ?amp, it must be an AMP page
-		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', '?amp' )
-		|| isset( $_GET ['wpamp'] )
-		|| isset( $_GET ['amp'] )
-		) {
-			return true;
-		}
-
-		if (
-			is_admin()
-			/**
-			 * If kept, breaks blog pages these functions can be executed very early
-				|| is_embed()
-				|| is_feed()
-			*/
-			|| ( isset( $pagenow ) && in_array( $pagenow, [ 'wp-login.php', 'wp-signup.php', 'wp-activate.php' ], true ) )
-			|| ( defined( 'REST_REQUEST' ) && REST_REQUEST )
-			|| ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST )
-		) {
-			return false;
-		}
-
-		// Since we are checking later (amp_is_request()) a function that execute late, make sure we can execute it
-		if ( did_action( 'wp' ) === 0 ) {
-			return false;
-		}
-		return function_exists( 'amp_is_request' ) && amp_is_request();
 	}
 }
 

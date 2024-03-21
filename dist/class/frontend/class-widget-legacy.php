@@ -17,52 +17,36 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\Settings;
 use Lumiere\Frontend\Widget_Frontpage;
-use WP_Widget;
+use Lumiere\Admin\Widget_Selection;
 
 /**
  * Extends WP_Widget to retrieve legacy Widget
  * The whole point of this class is access to widget() method, provided when legacy widget is active
  * Method widget() calls function in Widget_Frontpage, it can't be filtered (afaik) directly in Widget_Frontpage
+ *
+ * @see Lumiere\Admin\Widget_Selection parent class which creates the legacy widget
+ * @see Lumiere\Frontend\Widget_Frontpage which calls this widget if pre-5.8 widget is detected
+ * @since 4.0.3 extends "Widget_Selection" instead of "WP_Widget" class
  */
-class Widget_Legacy extends WP_Widget {
+class Widget_Legacy extends Widget_Selection {
 
-	// Use Frontend trait
+	/**
+	 * Use Frontend trait
+	 */
 	use  \Lumiere\Frontend\Main {
 		Main::__construct as public __constructFrontend;
 	}
 
 	/**
-	 * Shortcode to be used by add_shortcodes, ie [lumiereWidget][/lumiereWidget]
-	 * This shortcode is temporary and created on the fly
-	 * Doesn't need to be deleted when uninstalling Lumière plugin
-	 */
-	const WIDGET_SHORTCODE = Widget_Frontpage::WIDGET_SHORTCODE;
-
-	/**
-	 * Names of the Widgets
-	 */
-	const BLOCK_WIDGET_NAME = Settings::BLOCK_WIDGET_NAME; // post-WP 5.8 widget block name.
-	const WIDGET_NAME = Settings::WIDGET_NAME; // pre-WP 5.8 widget name.
-
-	/**
 	 * Constructor. Sets up the widget name, description, etc.
-	 *
 	 */
 	public function __construct() {
 
-		parent::__construct(
-			self::WIDGET_NAME,  // Base ID.
-			'Lumière! auto-Widget (legacy)',   // Name.
-			[
-				'description' => esc_html__( 'Add automatically movie details to your pages with Lumière! Legacy version: as of WordPress 5.8, prefer the new widget.', 'lumiere-movies' ),
-				'show_instance_in_rest' => true, /** use WP REST API */
-			]
-		);
+		parent::__construct();
 
 		// Construct Frontend trait.
-		$this->__constructFrontend( 'widgetLegacy' );
+		$this->__constructFrontend( __CLASS__ );
 
 		// Execute logging.
 		do_action( 'lumiere_logger' );
@@ -77,7 +61,7 @@ class Widget_Legacy extends WP_Widget {
 		add_action(
 			'widgets_init',
 			function() {
-				register_widget( get_class() );
+				register_widget( __CLASS__ );
 			}
 		);
 

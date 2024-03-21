@@ -4,6 +4,7 @@ v.4.0.3
 * [feature] Thumbnail pictures in taxonomy pages will be quicker to be displayed (using lazy loading, thumbs for the thumb images preciseley)
 * [feature] No more need for refreshing rewrite rules when creating a new taxonomy item, done automatically (added flush_rewrite_rules() in Save_Options::lumiere_data_options_save())
 * [bug] A function to launch a popup in post edition was not working (finalised blocks/opensearch/index.js)
+* [bug] Legacy widget wasn't working, who knows since when. If you use classic widget plugin, you can use Lumière legacy widget. (fixed the extends to Widget_Selection instead of WP_Widget in Lumiere\Frontend\Widget_Legacy class, in Widget_Selection register_widget( 'Widget_Legacy' ) instead of __CLASS__ )
 * [bug] When reseting options in General options, no confirmation message was displayed.
 * [bug] Style of links to movie popups was not grey, had no more the small picture on the lef
 * [bug] Update wasn't working (Casting now to string in class update the option 'imdbHowManyUpdates', which doesn't actually make sense but works)

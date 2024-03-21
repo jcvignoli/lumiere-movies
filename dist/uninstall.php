@@ -20,7 +20,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 use Lumiere\Settings;
-use Lumiere\Tools\Utils;
+use Lumiere\Tools\Data;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Plugins\Logger;
 
@@ -35,7 +35,7 @@ class Uninstall {
 	/**
 	 * Traits
 	 */
-	use Admin_General;
+	use Admin_General, Data;
 
 	/**
 	 * Admin options
@@ -169,7 +169,7 @@ class Uninstall {
 			return false;
 		}
 
-		foreach ( Utils::lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
+		foreach ( $this->lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) { // Method in trait Data.
 
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $this->imdb_admin_values['imdburlstringtaxo'] . $key );
 

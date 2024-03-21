@@ -20,7 +20,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Lumiere\Settings;
 use Lumiere\Frontend\Movie;
 use Lumiere\Frontend\Widget_Legacy;
-use Lumiere\Tools\Utils;
+use Lumiere\Admin\Widget_Selection;
 
 /**
  * Widgets in Frontpages (displayed in single pages and posts only)
@@ -132,7 +132,7 @@ class Widget_Frontpage {
 		// If pre-5.8 widget is active and Block Widget unactive, use Widget_Legacy class.
 		if (
 			is_active_widget( false, false, self::WIDGET_NAME, false ) !== false
-			&& Utils::lumiere_block_widget_isactive( self::BLOCK_WIDGET_NAME ) === false
+			&& Widget_Selection::lumiere_block_widget_isactive( self::BLOCK_WIDGET_NAME ) === false
 		) {
 			$legacy_class = new Widget_Legacy();
 			$legacy_class->lumiere_widget_legacy_start();
@@ -195,7 +195,7 @@ class Widget_Frontpage {
 		$title_box = strlen( $title_box ) > 0 ? $title_box : '';
 
 		// Log what type of widget is utilised.
-		if ( Utils::lumiere_block_widget_isactive( self::BLOCK_WIDGET_NAME ) === true ) {
+		if ( Widget_Selection::lumiere_block_widget_isactive( self::BLOCK_WIDGET_NAME ) === true ) {
 			// Post 5.8 WordPress.
 			$this->logger->log()->debug( '[Lumiere][widget] Block-based widget found' );
 		} elseif ( is_active_widget( false, false, self::WIDGET_NAME, false ) !== false ) {

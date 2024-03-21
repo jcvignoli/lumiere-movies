@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Settings;
-use Lumiere\Tools\Utils;
+use Lumiere\Tools\Data;
 
 /**
  * Create Lumière! Taxonomy system
@@ -27,6 +27,11 @@ use Lumiere\Tools\Utils;
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
  */
 class Taxonomy {
+
+	/**
+	 * Traits
+	 */
+	use Data;
 
 	/**
 	 * @phpstan-var OPTIONS_DATA $imdb_data_values
@@ -75,7 +80,7 @@ class Taxonomy {
 	 */
 	public function lumiere_create_taxonomies(): void {
 
-		$get_taxo_array = Utils::lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' );
+		$get_taxo_array = $this->lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' ); // Method in trait Data
 		foreach ( $get_taxo_array as $key => $value ) {
 
 			if ( is_string( $key ) === false ) {
