@@ -64,7 +64,7 @@ v.4.0
 * [technical] Cleaned useless cache settings (cache zipping is now hardcoded in class imdbphp)
 * [technical] Cleaned useless function in class movie (cleaned lumiere_movies_quote(), which is useless but must be kept for compatibility)
 * [technical] Added more security to the cache management (in class cache, refresh/delete of individual people/movies are now checked against a WP NONCE)
-* [technical] Updated to latest *personal IMDbPHP libray* which replicates oficial IMDbPHP 8.2
+* [technical] Updated to latest *personal IMDbPHP libray* which replicates official IMDbPHP 8.2
 * [technical] Added Bingbot and Googlebots to the banned bots, since it doesn't respect the "no follow" rule.
 * [technical] Rewrote the bot banning. It is now executed before doing IMDb searches, avoiding cache creationg (and 504 HTML errors when calling IMDb website)
 * [technical] In admin, notices for update/reset options is now WP notification system compliant (using transients in child classes to display notifications messages set in admin parent class)

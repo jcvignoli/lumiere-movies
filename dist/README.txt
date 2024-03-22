@@ -15,11 +15,11 @@ Lumière! Movies retrieves data from www.imdb.com and helps you include it in yo
 
 Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Official website") to see how the plugin can enhance your website.
 
-**Lumiere! Movies** helps you integrate loads of information about movies and stars in your blog. Widgets, links to informative popup, and dedicated taxonomy pages are available. Everything is automatised and no further configuration is required from the user. However, should you want to access advanced features, your can change the themes, add taxonomy to your pages, remove links, display automatically information according to your blog posts' titles, and use many hidden features. The information is retrieved from the well-known [IMDb](https://www.imdb.com "Internet movie database") website. Lumière! ensures that you have the most accurate and reliable information always available on your blog.
+**Lumiere! Movies** helps you integrate loads of information about movies and stars in your blog. Widgets, links to informative popup, and dedicated taxonomy pages are available. Everything is automatised and no further configuration is required from the user. However, should you want to access advanced features, your can change the themes, add taxonomy to your pages, remove links, display automatically information according to your blog posts' titles, and use many hidden features. The information is retrieved from the well-known [IMDb](https://www.imdb.com "Internet Movie Database") website. Lumière! ensures that you have the most accurate and reliable information always available on your blog.
 
-Many features are available in the WordPress old and new editing interfaces (Block based, Visual editor, and HTML editor). It is Content Security Policy (CSP) compliant, takes advantage of Polylang plugin and is fully compatible with AMP plugin. It is also fully compatible with Classic editor and widgets plugins.
+Many features are available in the WordPress old and new editing interfaces ([block](https://developer.wordpress.org/block-editor/) based editor, visual editor, and [wysiwig editor](https://codex.wordpress.org/TinyMCE)). It is [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP "Content Security Policy on Mozilla") (CSP) compliant, takes advantage of Polylang plugin and is fully compatible with AMP plugin. It is also fully compatible with Classic Editor and Classic Widgets plugins.
 
-**Lumière!** is a great tool to illustrate your articles. You can display movie details through many ways, such as in popups, widgets, and straight inside a post. It can be extensively fine-tuned in the admin options panel.
+**Lumière!** is a great tool to illustrate your articles. You can display movie details by several ways, such as in popups, widgets, and straight inside your post. It can be extensively fine-tuned in the admin options panel.
 
 == Installation ==
 
@@ -28,15 +28,15 @@ Many features are available in the WordPress old and new editing interfaces (Blo
 1. Activate the plugin
 2. Should you want to fine-tune your blog, configure the plugin (in admin settings). Default values are automatically filled, no change is needed for normal use.
 3. Install a Lumière widget in the WordPress widget pages if you want to include movie information into your sidebar.
-4. Write your posts including movie information using the many tools smoothly incorporated in WordPress!
+4. Write a post that includes information about your favourite movie using any of the tools smoothly incorporated into WordPress!
 
 = basic options =
 
-There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a widget and 3/ inside a post. Each option can be combined with any other; there is no limitation!
+There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a widget, and 3/ inside a post. Each option can be combined with any other; there is no limitation.
 
-1. **Popup** When writing your post, embed a movie's title using "Add IMDb Link" option. Select the movie's title you wrote down and click on that option. After publishing your post, your text will be clickable and will open a popup with data about the movie! Technially, an invisible HTML span tag will be added around the selected title such as: < span data-lum_link_maker "popup"> movie's title< /span> that usually you can't see except if you're editing in text mode. You can see if it worked by the little icon on the left of you selected text. Popups can be displayed using Bootstrap, Classic and Highslide modal windows (to be selected in Lumière! admin options).
+1. **Popup** When writing your post, embed a movie's title using "Add IMDb Link" option. Select the movie's title you wrote and click on that option. After publishing your post, your text will be clickable and will open a popup with data about the movie! Technially, an invisible HTML span tag will be added around the selected title such as: < span data-lum_link_maker "popup"> movie's title< /span> that usually you can't see except if you're editing in text mode. You can see if it worked by the little icon on the left of you selected text. Popups can be displayed using Bootstrap, Classic and Highslide modal windows (to be selected in Lumière! admin options).
 2. **Widget** can be used to display movie's data related to a post. Go to widgets admin options and add a Lumière! widget in the sidebar you want to show information about movies. Once the widget is activated, you can add information about a movie to your sidebar: when editing your blog post, a new widget will be displayed for your to enter either the movie's name (that can lead to unexpected results) or the IMDb ID (this never fails in retrieving a movie) of the movie you want to be shown in the sidebar. If you don't know what the IMDb ID is, you can use the query link provided in Lumière! widget. Just search for the movie name and you will find the IMDb ID.
-3. The plugin can **show IMDb data inside a post**. Just add a Lumière block and enter a movie's title or movie's imdb ID. For the latter, in order to find the IMDb ID use the query tool provided in Lumière block (sidebar block). A similar tool is provided with classic WP editor in a form of dropdown menu. If you're writing your post with classic WP editor, use Lumière's bar tools to select the movie title: it will insert html tags around your selection, such as < span data-lum_movie_maker "movie_title">My movie's title< /span>. 
+3. The plugin can **show IMDb data inside a post**. Just add a Lumière block and enter a movie's title or movie's imdb ID. For the latter, in order to find the IMDb ID use the query tool provided in Lumière block (sidebar block). A similar tool is provided with classic WP editor in a form of dropdown menu. If you're writing your post with classic WP editor, use Lumière's bar tools to select the movie title: it will insert html tags around your selection, such as &lt;span data-lum_movie_maker "movie_title">My movie's title&lt;/span>. 
 
 = Fine-tuning: =
 
@@ -92,23 +92,23 @@ Although only one widget only can be added per post, you can insert as many movi
 
 = How to integrate Lumière with Polylang plugin?  =
 
-If Polylang is installed, new features for taxonomy are added, such as a dropdown form for selecting the languages in taxonomy pages (such as /yourblog/lumiere-director/stanley-kubrick/). Once you select which to data to turn into taxonomy, you must activate the very same taxonomy in Polylang Settings -> Custom post types and Taxonomies -> Custom taxonomies as your activiated Lumière taxonomies.
+If [Polylang](https://wordpress.org/plugins/polylang/ "Polylang WordPress plugin") is installed, new features for taxonomy are added, such as a dropdown form for selecting the languages in taxonomy pages (such as https://yourblog.com/lumiere-director/stanley-kubrick/). Once you select which to data to turn into taxonomy, you must activate the very same taxonomy in Polylang Settings -> Custom post types and Taxonomies -> Custom taxonomies as your activiated Lumière taxonomies.
 
 = Is it compatible with Classic Editor plugin?  =
 
-If for any reason your are using Classic editor to get back the pre-5.8 WordPress editor interface, you will find every Lumière user-friendly editing tools to add your movies to your posts.
+If for any reason your are using [Classic editor](https://wordpress.org/plugins/classic-editor/ "Classic editor WordPress plugin") to get back the pre-5.8 WordPress editor interface, you will find every Lumière user-friendly editing tools to add your movies to your posts.
 
 = Is it compatible with Classic Widgets plugin?  =
 
-If for any reason your are using Classic Widgets to get back the pre-5.8 WordPress widget interface, you will be able to add Lumière widget anyway.
+If for any reason your are using [Classic Widgets](https://wordpress.org/plugins/classic-widgets/ "Classic widgets WordPress plugin") to get back the pre-5.8 WordPress widget interface, you will be able to add Lumière widget anyway.
 
 = Is it AMP compliant?  =
 
-It should be compliant with AMP WordPress plugin installed. You may see some changes in the layout and obviously the apparence will change. As it is expected by AMPization of any webpages.
+It should be compliant with [AMP WordPress plugin](https://wordpress.org/plugins/amp/ "AMP WordPress plugin") installed. You may see some changes in the layout and obviously the apparence will change. As it is expected by AMPization of any webpages.
 
 = Is it CSP compliant?  =
 
-Content Security Policy (CSP) is a webserver based security avoiding injections to your pages. It greatly improves the security of your website.
+[Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP "Content Security Policy on Mozilla") (CSP) is a webserver based security avoiding injections to your pages. It greatly improves the security of your website.
 Although WordPress is difficult to get fully CSP compliant (in particular the admin interface), Lumière is fully CSP compliant. Neither online javascripts nor stylesheets are added. It is advised to use the standards 'wp_script_attributes' and 'wp_inline_script_attributes' hooks to inject your nonces values into scripts, and use a regex WordPress buffer technique to inject the style nonces.
 
 = Can I change the size of the poster pictures?  =

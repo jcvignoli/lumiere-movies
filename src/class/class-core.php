@@ -151,7 +151,7 @@ class Core {
 
 		foreach ( $blocks as $block ) {
 			register_block_type_from_metadata( $block_dir . '/' . $block );
-			wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', plugin_dir_path( __DIR__ ) . 'languages/' );
+			wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', plugin_dir_path( __DIR__ ) . '/languages/' );
 		}
 	}
 

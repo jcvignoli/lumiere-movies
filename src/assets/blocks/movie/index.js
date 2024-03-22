@@ -5,6 +5,7 @@
 	var { registerBlockType } = blocks;
 	const { blockProps } = blockEditor.useBlockProps;
 	const { blockPropsSave } = blockEditor.useBlockProps.save;
+	const __ = i18n.__;
 
 	/* Remove useless formatting options
 	-> removes it everywhere, unactivated
@@ -32,7 +33,7 @@
 			window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + tmppopupLarg + ', height=' + tmppopupLong + ', top=100, left=100' );
 		}
 	);
-	var intro_words = i18n.__( 'Enter the name or the IMDb ID movie' , 'lumiere-movies' );
+	var intro_words = __( 'Enter the name or the IMDb ID movie' , 'lumiere-movies' );
 
 	var empty = '';
 
@@ -49,8 +50,8 @@
 	registerBlockType(
 		'lumiere/main',
 		{
-			title: i18n.__( 'Lumière! movie blocks', 'lumiere-movies' ),
-			description: i18n.__( 'Insert a series of details related to a movie in your post.', 'lumiere-movies' ),
+			title: __( 'Lumière! movie blocks', 'lumiere-movies' ),
+			description: __( 'Insert a series of details related to a movie in your post.', 'lumiere-movies' ),
 			icon: iconLumiere,
 			category: 'embed',
 			keywords: [ 'lumiere', 'imdb', 'movies', 'film' ],
@@ -102,16 +103,16 @@
 									className: blockProps.className,
 									className: 'lumiere_block_intothepost-explanation',
 									tagName: 'gutenberg',
-									children: i18n.__( 'This block is display only in the admin area, it will vanish in your post, where only the movie you select here will be shown.' , 'lumiere-movies' )
+									children: __( 'This block is display only in the admin area, it will vanish in your post, where only the movie you select here will be shown.' , 'lumiere-movies' )
 										+ '<br />'
-										+ i18n.__( 'Use this block to retrieve movie information from the IMDb and insert in your post.' , 'lumiere-movies' )
+										+ __( 'Use this block to retrieve movie information from the IMDb and insert in your post.' , 'lumiere-movies' )
 										+ '<br />'
-										+ i18n.__( 'You can also click on this link to get the' , 'lumiere-movies' )
+										+ __( 'You can also click on this link to get the' , 'lumiere-movies' )
 										+ ' <a data-lumiere_admin_popup="useSomeValuePopupOpen" '
 										+ 'onclick="window.open(\'' + lumiere_admin_vars.wordpress_admin_path + lumiere_admin_vars.gutenberg_search_url_string + '\', \'_blank\', \'location=yes,height=' + lumiere_admin_vars.popupLong + ',width=' + lumiere_admin_vars.popupLarg + ',scrollbars=yes,status=yes, top=100, left=100\');" '
 										+ 'class="linkincmovie link-imdblt-highslidepeople highslide" target="_blank">'
-										+ i18n.__( 'IMDb movie id' , 'lumiere-movies' )
-										+ '</a> ' + i18n.__( 'and insert it.' , 'lumiere-movies' ),
+										+ __( 'IMDb movie id' , 'lumiere-movies' )
+										+ '</a> ' + __( 'and insert it.' , 'lumiere-movies' ),
 
 									},
 							),// end explanation div
@@ -141,8 +142,8 @@
 											},
 										},
 										// Keeping double i18n, but only the second is needed
-										el( "option", { label: i18n.__( "By movie title", 'lumiere-movies' ), value: "movie_title" }, i18n.__( "By movie title", 'lumiere-movies' ) ),
-										el( "option", { label: i18n.__( "By IMDb ID", 'lumiere-movies' ), value: "movie_id" }, i18n.__( "By IMDb ID", 'lumiere-movies' ) ),
+										el( "option", { label: __( "By movie title", 'lumiere-movies' ), value: "movie_title" }, __( "By movie title", 'lumiere-movies' ) ),
+										el( "option", { label: __( "By IMDb ID", 'lumiere-movies' ), value: "movie_id" }, __( "By IMDb ID", 'lumiere-movies' ) ),
 									)
 								),
 								el(

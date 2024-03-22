@@ -40,8 +40,8 @@ class Amp {
 		// Get the list of active plugins.
 		$this->active_plugins = $active_plugins;
 
-		// Remove conflicting assets. Use execution time 99 so we make sure it removes everything.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_remove_breaking_amp_assets' ], 99 );
+		// Remove conflicting assets.
+		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_remove_breaking_amp_assets' ] );
 	}
 
 	/**
