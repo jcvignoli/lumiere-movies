@@ -224,10 +224,8 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					}<br>
 					<br>
 					foreach ($results as $res) {<br>
-						// ---- movie title and year<br>
 						echo "\n\t&lt;div class='lumiere_container_flex50 lumiere_italic lumiere_gutenberg_results'&gt".esc_html( $res->title() )." (".intval( $res->year() ).")".'&lt;/div&gt';<br>
 					}<br>
-					?&gt<br>
 				</blockquote>
 
 				<?php esc_html_e( 'It perfectly fits in your sidebar, for example.', 'lumiere-movies' ); ?>

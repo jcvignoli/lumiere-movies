@@ -69,29 +69,31 @@ class Widget_Selection extends WP_Widget {
 	 * Statically start the class
 	 *
 	 * @since 4.0 using __CLASS__ instead of get_class() in register_widget()
-	 * @since 4.0.3 replaced __CLASS__ with "Widget_Legacy" in register_widget(), changed the logic of registering the block widget and exit
+	 * @since 4.0.3 replaced __CLASS__ with "Widget_Legacy" in register_widget(), changed the logic of registering the block widget
 	 */
 	public static function lumiere_static_start(): void {
 
 		$self_class = new self();
 
-		// Register Block-based Widget if a block is already available, or if the plugin classic widget is available
+			// Register Block-based Widget if the plugin classic widget is available
 		if (
-			static::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === true
-			|| is_plugin_active( 'classic-widgets/classic-widgets.php' ) === false
+			//static::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === true
 			// || is_active_widget( false, false, Settings::WIDGET_NAME, false ) === false
+			is_plugin_active( 'classic-widgets/classic-widgets.php' ) === false
 		) {
 			add_action( 'widgets_init', [ $self_class, 'lumiere_register_widget_block' ] );
-			return;
-		}
 
-		// Register legacy widget only if no Widget block has been added.
-		add_action(
-			'widgets_init',
-			function() {
-				register_widget( 'Lumiere\Frontend\Widget_Legacy' );
-			}
-		);
+			// Register legacy widget if the Classic widget plugin is active, prevents it from appearing in block-based interface.
+		} elseif (
+			is_plugin_active( 'classic-widgets/classic-widgets.php' ) === true
+		) {
+			add_action(
+				'widgets_init',
+				function() {
+					register_widget( 'Lumiere\Frontend\Widget_Legacy' );
+				}
+			);
+		}
 	}
 
 	/**
@@ -109,22 +111,21 @@ class Widget_Selection extends WP_Widget {
 
 	/**
 	 * Register Block Widget (>= WordPress 5.8)
-	 * @since 4.0.3 Using block.json
+	 * @since 4.0.3 Using block.json, removed conditions, which are useless as it doesn't register twice anymore
 	 */
 	public function lumiere_register_widget_block(): void {
 
 		/**
 		 * Fix; Avoid registering the block twice, register only if not already registered.
 		 * Avoid WP notice 'WP_Block_Type_Registry::register was called incorrectly. Block type is already registered'.
-		 */
 		if (
 			function_exists( 'register_block_type_from_metadata' )
 			&& class_exists( '\WP_Block_Type_Registry' )
 			&& ! \WP_Block_Type_Registry::get_instance()->is_registered( Settings::BLOCK_WIDGET_NAME )
 		) {
+		*/
+		register_block_type_from_metadata( dirname( dirname( __DIR__ ) ) . '/assets/blocks/widget/' );
 
-			register_block_type_from_metadata( dirname( dirname( __DIR__ ) ) . '/assets/blocks/widget/' );
-		}
 	}
 
 	/**
@@ -218,8 +219,9 @@ class Widget_Selection extends WP_Widget {
 	public static function lumiere_block_widget_isactive( string $blockname ): bool {
 		$widget_blocks = get_option( 'widget_block' );
 		foreach ( $widget_blocks as $widget_block ) {
-			if ( ( isset( $widget_block['content'] ) && strlen( $widget_block['content'] ) !== 0 )
-			&& has_block( $blockname, $widget_block['content'] )
+			if (
+				( isset( $widget_block['content'] ) && strlen( $widget_block['content'] ) !== 0 )
+				&& has_block( $blockname, $widget_block['content'] )
 			) {
 				return true;
 			}

@@ -68,7 +68,7 @@ class Core {
 		add_action( 'init', [ $this, 'lumiere_register_assets' ], 0 );
 
 		// Register Gutenberg blocks.
-		add_action( 'init', [ $this, 'lumiere_register_gutenberg_blocks' ] );
+		add_action( 'enqueue_block_editor_assets', [ $this, 'lumiere_register_gutenberg_blocks' ] );
 
 		// Execute javascripts and styles.
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_frontpage_execute_assets' ], 9 );
@@ -106,7 +106,7 @@ class Core {
 			'lumiere_hide_show',
 			$this->config_class->lumiere_js_dir . 'lumiere_hide_show.min.js',
 			[ 'jquery' ],
-			$this->config_class->lumiere_version,
+			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_hide_show.min.js' ) ),
 			true
 		);
 
@@ -115,7 +115,7 @@ class Core {
 			'lumiere_scripts',
 			$this->config_class->lumiere_js_dir . 'lumiere_scripts.min.js',
 			[],
-			$this->config_class->lumiere_version,
+			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_scripts.min.js' ) ),
 			true
 		);
 
@@ -125,24 +125,24 @@ class Core {
 				'lumiere_style_custom',
 				get_stylesheet_directory_uri() . '/lumiere.css',
 				[],
-				$this->config_class->lumiere_version
+				strval( filemtime( get_stylesheet_directory_uri() . '/lumiere.css' ) )
+			);
+
+			// Register main style
+		} else {
+			wp_register_style(
+				'lumiere_style_main',
+				$this->config_class->lumiere_css_dir . 'lumiere.min.css',
+				[],
+				strval( filemtime( $this->config_class->lumiere_css_path . 'lumiere.min.css' ) )
 			);
 		}
-
-		// Register main style
-		wp_register_style(
-			'lumiere_style_main',
-			$this->config_class->lumiere_css_dir . 'lumiere.min.css',
-			[],
-			$this->config_class->lumiere_version
-		);
-
 	}
 
 	/**
 	 * Register gutenberg blocks
 	 *
-	 * @since 4.0.3 Using block.json, added script translation
+	 * @since 4.0.3 Using block.json, added script translation, added lumiere_scripts_admin_gutenberg script
 	 * @see \Lumiere\Admin\Widget_Selection::lumiere_register_widget_block() which registers gutenberg widget blocks
 	 */
 	public function lumiere_register_gutenberg_blocks(): void {
@@ -153,6 +153,15 @@ class Core {
 			register_block_type_from_metadata( $block_dir . '/' . $block );
 			wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', plugin_dir_path( __DIR__ ) . '/languages/' );
 		}
+
+		// Script for Gutenberg blocks only.
+		wp_register_script(
+			'lumiere_scripts_admin_gutenberg',
+			plugin_dir_url( __DIR__ ) . 'assets/js/lumiere_scripts_admin_gutenberg.min.js',
+			[],
+			strval( filemtime( plugin_dir_path( __DIR__ ) . 'assets/js/lumiere_scripts_admin_gutenberg.min.js' ) )
+		);
+		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
 	}
 
 	/**

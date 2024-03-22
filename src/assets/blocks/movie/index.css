@@ -4,7 +4,7 @@
 
 .lumiere_block_intothepost-image {float:left;width:10%;height:auto;vertical-align:middle;}
 
-.lumiere_block_intothepost-explanation {clear:both;padding-bottom:10px;font-style:italic;text-align:center;}
+.lumiere_block_intothepost-explanation {clear:both;padding-bottom:10px;padding-left:2em;}
 
 .lumiere_block_intothepost-container {display:flex;flex-wrap:nowrap;text-align:center; align-items: center;}
 

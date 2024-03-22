@@ -1,13 +1,16 @@
-( function( blocks, blockEditor, element, components, data, i18n ) {
+// Wrapping it into a function allows to have a unique constant definition in this file
+// Can't get it work with API > 1 https://developer.wordpress.org/block-editor/reference-guides/block-api/block-api-versions/
+( ( wp ) => {
 
-	var el = element.createElement;
-	var elwithhtml = element.RawHTML; /* this type of block can include html */
-
-	var { registerBlockType } = blocks;
-	var { blockProps } = blockEditor.useBlockProps;
-	var { blockPropsSave } = blockEditor.useBlockProps.save;
-
-	const iconLumiere = el(
+	const el = wp.element.createElement;
+	const elWithHTML = wp.element.RawHTML; /* this type of block can include html */
+	const { registerBlockType } = wp.blocks;
+	const { blockProps } = wp.blockEditor.useBlockProps;
+	const { blockPropsSave } = wp.blockEditor.useBlockProps.save;
+	const RichContent = wp.blockEditor.RichText.Content;
+	const __ = wp.i18n.__;
+	
+	var iconLumiere = el(
 		'svg',
 		{ width: 35, height: 35, viewBox: "0 0 200 200" },
 		el(
@@ -16,15 +19,13 @@
 			}
 		)
 	);
-
+	var linkAutoWidgetOption = '<a href="admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget" target="_blank">' + __( 'Lumière general advanced options' , 'lumiere-movies' )	+ '</a>';
+	
 	registerBlockType(
-		'lumiere/widget',
-		{
-
+		'lumiere/widget', {
 			title: 'Lumière! Widget',
-			description: i18n.__( 'Lumière Widget automatically adds movies to your widgets sidebar. After adding the widget, either use the new box on the right when editing your post to add your movie or select "Auto title widget" in advanced options.', 'lumiere-movies' ),
+			description: __( 'Display a movie according to the metabox data or the post title', 'lumiere-movies' ),
 			icon: iconLumiere,
-			category: 'widgets',
 			keywords: [ 'widget', 'lumiere', 'imdb', 'movie', 'film' ],
 			attributes: {
 				lumiere_input: {
@@ -33,97 +34,78 @@
 					default: 'Lumière Movies'
 				},
 			},
-
 			example: {},
-
-			edit: function( blockProps ) {
+			edit: ( blockProps ) => {
 				return (
 					el(
-						'div',
-						{
+						'div', {
 							className: blockProps.className,
 							tagName: 'div',
 							className: 'lumiere_block_widget',
 						},
-						el(
-							'img',
-							{
+						el( 'img', {
 								className: blockProps.className,
 								className: 'lumiere_block_widget_image',
-								src: lumiere_admin_vars.imdb_path + 'assets/pics/lumiere-ico80x80.png',
-							},
-						),
-						elwithhtml(
-							{ /* this type of block can include html */
+								src: lumiere_admin_vars.ico80,
+						},),
+						elWithHTML( { /* this type of block can include html */
 								className: blockProps.className,
 								className: 'lumiere_block_widget_title',
 								children: 'Lumière! Widget',
-							},
-						), // end h2 title
-						elwithhtml(
-							{ /* this type of block can include html */
+						},), // end h2 title
+						elWithHTML( { /* this type of block can include html */
 								className: blockProps.className,
 								className: 'lumiere_block_widget_explanation',
 								tagName: 'gutenberg',
-								children: i18n.__( 'This widget shows movies in your posts.', 'lumiere-movies' )
+								children: __( 'This widget fills your selected area with movie data according to the metabox data or the title of your post. After adding this widget, either find the metabox in your post settings to add a specific movie, or select "Auto title widget" in', 'lumiere-movies' )
+									+ ' ' + linkAutoWidgetOption + ' '
+									+ __( 'should you want your selected area to be filled with movie data according to your post title.', 'lumiere-movies' )
 									+ '<br />'
-									+ i18n.__( 'Movie details will be displayed in Lumière! Widget according to 1/ their post title, if Lumière auto-widget option is checked; 2/ the movie ID or title you entered in the metabox of a post. If you are using auto-widget, make sure the post titles are exactly the same as the movie titles on the IMDb website.', 'lumiere-movies' )
-									+ '<br />'
-							},
-						),// end explanation div
+						},),// end explanation div
 						el(
-							'div',
-							{
+							'div', {
 								className: blockProps.className,
 								tagName: 'div',
 								className: 'lumiere_block_widget_container',
 							},
 							el(
-								'div',
-								{
+								'div', {
 									className: blockProps.className,
 									tagName: 'div',
 									className: 'lumiere_block_widget_entertitle',
 									children: 'Enter widget title:',
-									onChange:  function updateType( event ) {
+									onChange: function updateType( event ) {
 										blockProps.setAttributes( {lumiere_input: event.target.value } );
 									},
 								},
 							),
 							el(
-								'div',
-								{
+								'div', {
 									className: blockProps.className,
 									tagName: 'div',
 									className: 'lumiere_block_widget_enterinput',
 								},
-								el(
-									'input',
-									{
-										value: blockProps.attributes.lumiere_input,
-										className: blockProps.className,
-										tagName: 'input',
-										className: 'lumiere_block_widget_input',
-
-										onChange:  function updateType( event ) {
-											blockProps.setAttributes( {lumiere_input: event.target.value } );
-										},
+								el( 'input', {
+									value: blockProps.attributes.lumiere_input,
+									className: blockProps.className,
+									tagName: 'input',
+									className: 'lumiere_block_widget_input',
+									onChange: function updateType( event ) {
+										blockProps.setAttributes( {lumiere_input: event.target.value } );
 									},
-								),
+								}),
 							),
 						) // end div container
 					) // end div intothepost
 				); // end return
 			}, // end function
 
-			save: function( blockPropsSave ) {
+			save: ( blockPropsSave ) => {
 				return (
-					el(
-						'div',
+					el(	'div',
 						{ className: blockPropsSave.className },
 						el(
-							blockEditor.RichText.Content,
-							{
+							RichContent, {
 								className: 'lumiere_block_widget_input',
 								value: '[lumiereWidget]' + blockPropsSave.attributes.lumiere_input + '[/lumiereWidget]',
 							}
@@ -134,4 +116,4 @@
 
 		}
 	);
-} )( window.wp.blocks, window.wp.blockEditor, window.wp.element, window.wp.components, window.wp.data, window.wp.i18n );
+} )( window.wp );

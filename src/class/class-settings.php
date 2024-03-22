@@ -16,6 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use FilesystemIterator;
+use Exception;
 
 /**
  * Configuration class
@@ -24,6 +25,7 @@ use FilesystemIterator;
  *
  * @TODO options should be created only when installing/activating the plugin
  * @since 4.0 moved cache folder creation to class cache tools
+ * @since 4.0.3 renamed *imdb_widget_* to *imdb_data_* all over the website
  *
  * @phpstan-type LevelLogName 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY'
  * @phpstan-type OPTIONS_ADMIN array{'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': string, 'imdbdelayimdbrequest': string, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': string, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_modal_window': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': string, 'imdbseriemovies': string}
@@ -33,7 +35,7 @@ use FilesystemIterator;
 class Settings {
 
 	/**
-	 * Those plugins results in Lumière deactivation
+	 * If those plugins are installed, it will lead to Lumière deactivation
 	 * Those are crap and Lumière will not support them
 	 */
 	const LUMIERE_INCOMPATIBLE_PLUGINS = [ 'rss-feed-post-generator-echo/rss-feed-post-generator-echo.php' ];
@@ -96,6 +98,7 @@ class Settings {
 	 * @var string $lumiere_css_dir
 	 */
 	public string $lumiere_css_dir;
+	public string $lumiere_css_path;
 
 	/**
 	 *  Names of the Widgets
@@ -212,6 +215,7 @@ class Settings {
 	/**
 	 * Define global constants
 	 * Run before the creation of the database options, database options may need these constants
+	 * @throws Exception
 	 */
 	private function lumiere_define_constants(): void {
 
@@ -227,11 +231,12 @@ class Settings {
 
 		/* BUILD directory for css */
 		$this->lumiere_css_dir = plugin_dir_url( __DIR__ ) . 'assets/css/';
+		$this->lumiere_css_path = plugin_dir_path( __DIR__ ) . 'assets/css/';
 
 		/* BUILD LUMIERE_VERSION */
 		$lumiere_version_recherche = file_get_contents( plugin_dir_path( __DIR__ ) . 'README.txt' );
 		if ( $lumiere_version_recherche === false ) {
-			wp_die( 'Lumiere plugin: ' . esc_html__( 'Readme file either missing or corrupted ', 'lumiere-movies' ) );
+			throw new Exception( esc_html__( 'Lumiere plugin: Readme file either missing or corrupted ', 'lumiere-movies' ) );
 		}
 		$lumiere_version = preg_match( '#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match );
 		$this->lumiere_version = $lumiere_version_match[1];

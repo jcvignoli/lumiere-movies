@@ -1,43 +1,18 @@
-( function( blocks, blockEditor, element, components, data, i18n, jQuery ) {
+// Wrapping it into a function allows to have a unique constant definition in this file
+( ( wp ) => {
 
-	var el = element.createElement;
-	var elwithhtml = element.RawHTML; /* this type of block can include html */
-	var { registerBlockType } = blocks;
-	const { blockProps } = blockEditor.useBlockProps;
-	const { blockPropsSave } = blockEditor.useBlockProps.save;
-	const __ = i18n.__;
+	const el = wp.element.createElement;
+	const elWithHTML = wp.element.RawHTML; /* this type of block can include html */
+	const { registerBlockType } = wp.blocks;
+	const { blockProps } = wp.blockEditor.useBlockProps;
+	const { blockPropsSave } = wp.blockEditor.useBlockProps.save;
+	const RichText = wp.blockEditor.RichText;
+	const RichContent = wp.blockEditor.RichText.Content;
+	const __ = wp.i18n.__;
 
-	/* Remove useless formatting options
-	-> removes it everywhere, unactivated
-	wp.domReady(function () {
-		wp.richText.unregisterFormatType('core/bold');
-		wp.richText.unregisterFormatType('core/italic');
-		wp.richText.unregisterFormatType('core/link');
-		wp.richText.unregisterFormatType('core/strikethrough');
-		wp.richText.unregisterFormatType('core/underline');
-		wp.richText.unregisterFormatType('core/code');
-		wp.richText.unregisterFormatType('core/image');
-		wp.richText.unregisterFormatType('core/subscript');
-		wp.richText.unregisterFormatType('core/superscript');
-
-	})
-	formattingControls= [ 'bold' , 'superscript' ];
-	*/
-	jQuery( 'a[data-lumiere_admin_popup]' ).click(
-		function(){
-			var tmppopupLarg = lumiere_admin_vars.popupLarg;
-			var tmppopupLong = lumiere_admin_vars.popupLong;
-			var url_imdbperso = lumiere_admin_vars.wordpress_admin_path + lumiere_admin_vars.gutenberg_search_url_string;
-
-			// classic popup
-			window.open( url_imdbperso, 'popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + tmppopupLarg + ', height=' + tmppopupLong + ', top=100, left=100' );
-		}
-	);
 	var intro_words = __( 'Enter the name or the IMDb ID movie' , 'lumiere-movies' );
-
 	var empty = '';
-
-	const iconLumiere = el(
+	var iconLumiere = el(
 		'svg',
 		{ width: 35, height: 35, viewBox: "0 0 200 200" },
 		el(
@@ -46,12 +21,12 @@
 			}
 		)
 	);
+	var linkPopup = '<a data-lumiere_admin_popup="useSomeValuePopupOpen" class="linkincmovie link-imdblt-highslidepeople highslide" target="_blank">' + __( 'IMDb movie id' , 'lumiere-movies' )	+ '</a>';
 
 	registerBlockType(
-		'lumiere/main',
-		{
-			title: __( 'Lumière! movie blocks', 'lumiere-movies' ),
-			description: __( 'Insert a series of details related to a movie in your post.', 'lumiere-movies' ),
+		'lumiere/main', {
+			title: 'Lumière! Movies block',
+			description: __( 'Insert into your post date related to a given movie.', 'lumiere-movies' ),
 			icon: iconLumiere,
 			category: 'embed',
 			keywords: [ 'lumiere', 'imdb', 'movies', 'film' ],
@@ -70,69 +45,56 @@
 			edit: ( blockProps ) => {
 				return (
 					el(
-						'div',
-						{
+						'div', {
 							className: blockProps.className,
 							tagName: 'div',
 							className: 'wp-block',
 						},
 						el(
-							'div',
-							{
+							'div', {
 								className: blockProps.className,
 								tagName: 'div',
 								className: 'lumiere_block_intothepost',
 							},
 							el(
-								'img',
-								{
+								'img', {
 									className: blockProps.className,
 									className: 'lumiere_block_intothepost-image',
 									src: lumiere_admin_vars.ico80,
 									},
-							),// end img
-							elwithhtml(
-								{ /* this type of block can include html */
-									className: blockProps.className,
-									className: 'lumiere_block_intothepost-title',
-									children: 'Lumière! movies',
-									},
-							),// end h2 title
-							elwithhtml(
-								{ /* this type of block can include html */
-									className: blockProps.className,
-									className: 'lumiere_block_intothepost-explanation',
-									tagName: 'gutenberg',
-									children: __( 'This block is display only in the admin area, it will vanish in your post, where only the movie you select here will be shown.' , 'lumiere-movies' )
-										+ '<br />'
-										+ __( 'Use this block to retrieve movie information from the IMDb and insert in your post.' , 'lumiere-movies' )
-										+ '<br />'
-										+ __( 'You can also click on this link to get the' , 'lumiere-movies' )
-										+ ' <a data-lumiere_admin_popup="useSomeValuePopupOpen" '
-										+ 'onclick="window.open(\'' + lumiere_admin_vars.wordpress_admin_path + lumiere_admin_vars.gutenberg_search_url_string + '\', \'_blank\', \'location=yes,height=' + lumiere_admin_vars.popupLong + ',width=' + lumiere_admin_vars.popupLarg + ',scrollbars=yes,status=yes, top=100, left=100\');" '
-										+ 'class="linkincmovie link-imdblt-highslidepeople highslide" target="_blank">'
-										+ __( 'IMDb movie id' , 'lumiere-movies' )
-										+ '</a> ' + __( 'and insert it.' , 'lumiere-movies' ),
+							),
+							elWithHTML( { /* this type of block can include html */
+								className: blockProps.className,
+								className: 'lumiere_block_intothepost-title',
+								children: 'Lumière! movies',
+							},),// end h2 title
+							elWithHTML( { /* this type of block can include html */
+								className: blockProps.className,
+								className: 'lumiere_block_intothepost-explanation',
+								tagName: 'gutenberg',
+								children: __( 'This block is visible only in your admin area. On your blog frontpage, it will be replaced by the movie you selected here.' , 'lumiere-movies' )
+									+ '<br />'
+									+ __( '"By Movie title": You can just enter the movie name.' , 'lumiere-movies' )
+									+ '<br />'
+									+ __( '"By Movie ID": you can get the' , 'lumiere-movies' )
+									+ ' ' + linkPopup + ' '
+									+ __( 'or type your movie name and select "Open search IMDb Id" and copy the ID found.' , 'lumiere-movies' ),
 
-									},
-							),// end explanation div
+							},),// end explanation div
 							el(
-								'div',
-								{
+								'div', {
 									className: blockProps.className,
 									tagName: 'div',
 									className: 'lumiere_block_intothepost-container',
-									},
+								},
 								el(
-									'div',
-									{
+									'div', {
 										className: blockProps.className,
 										tagName: 'div',
 										className: 'lumiere_block_intothepost-select',
-										},
+									},
 									el(
-										'select',
-										{
+										'select', {
 											value: blockProps.attributes.lumiere_imdblt_select,
 
 											onChange:  function updateType( event ) {
@@ -147,8 +109,7 @@
 									)
 								),
 								el(
-									blockEditor.RichText,
-									{
+									RichText, {
 										tagName: 'div',
 										className: 'lumiere_block_intothepost-content',
 										value: blockProps.attributes.content,
@@ -166,20 +127,19 @@
 			// Use "blockPropsSave" instead of "Props" with apiVersion 2, but then can't move the block
 			save: ( Props ) => {
 				return (
-				el(
-					'div',
-					{ className: Props.className },
 					el(
-						blockEditor.RichText.Content,
-						{
-							className: 'lumiere_block_intothepost-content',
-							value: '<span data-lum_movie_maker="' + Props.attributes.lumiere_imdblt_select + '">' + Props.attributes.content + '</span>',
-						}
+						'div',
+						{ className: Props.className },
+						el(
+							RichContent, {
+								className: 'lumiere_block_intothepost-content',
+								value: '<span data-lum_movie_maker="' + Props.attributes.lumiere_imdblt_select + '">' + Props.attributes.content + '</span>',
+							}
+						)
 					)
-				)
 				);
 			},
 
 		}
 	);
-})( window.wp.blocks, window.wp.blockEditor, window.wp.element, window.wp.components, window.wp.data, window.wp.i18n, jQuery );
+} )( window.wp );
