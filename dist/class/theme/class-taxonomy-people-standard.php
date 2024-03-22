@@ -88,9 +88,11 @@ class Taxonomy_People_Standard {
 			$this->activate_plugins();
 		}
 
-		// Start AMP headers if AMP page
+		// Start AMP headers if AMP page, not really in use
 		if ( in_array( 'amp', $this->plugins_active_names, true ) === true ) {
-			$this->amp_headers();
+			// $this->amp_headers(); // Debug and check
+			add_action( 'wp_ajax_amp_comment_submit', [ $this, 'amp_form_submit' ] );
+			add_action( 'wp_ajax_nopriv_amp_comment_submit', [ $this, 'amp_form_submit' ] );
 		}
 
 		// Display the page. Must not be included into an add_action(), as should be displayed directly.
@@ -105,33 +107,37 @@ class Taxonomy_People_Standard {
 	}
 
 	/**
-	 * Use specific heaers if it is an AMP page
+	 * Use specific headers if it is an AMP submission
+	 * Not really in use
 	 */
-	private function amp_headers(): void {
+	public function amp_form_submit(): void {
 
-		// @phpcs:ignore WordPress.Security.NonceVerification -- Temporary
-		if ( isset( $_POST['tag_lang'] ) ) {
+		if ( isset( $_GET['submit_lang'], $_GET['tag_lang'] ) ) {
 
-			$parts_url = wp_parse_url( home_url() );
-			$current_uri = $parts_url !== false && isset( $parts_url['scheme'] ) && isset( $parts_url['host'] )
-				? $parts_url['scheme'] . '://' . $parts_url['host'] . add_query_arg( null, null )
-				: '';
-			// @phpcs:ignore WordPress.Security.NonceVerification -- Temporary
-			$tag_lang = $_POST['tag_lang'];
-			$output = [
-				'tag_lang' => $tag_lang,
-			];
-			header( 'Access-Control-Allow-Credentials: true' );
-			header( 'Access-Control-Allow-Origin: *.ampproject.org' );
-			header( 'AMP-Access-Control-Allow-Source-Origin: ' . $current_uri );
-			header( 'Access-Control-Expose-Headers: AMP-Access-Control-Allow-Source-Origin' );
+			if ( strlen( $_GET['tag_lang'] ) > 0 ) {
+				$success = true;
+				wp_send_json( [ 'success' => true ] );
+				$message = __( 'Language successfully changed.', 'lumiere-movies' );
+			} else {
+				$success = false;
+				$message = __( 'Could not change the language.', 'lumiere-movies' );
+				wp_send_json(
+					[
+						'msg' => __( 'No data passed', 'lumiere-movies' ),
+						'response' => esc_html( $_GET['tag_lang'] ),
+						'back_link' => true,
+					]
+				);
+			}
 
-			header( 'AMP-Redirect-To: ' . $current_uri );
-			header( 'Access-Control-Expose-Headers: AMP-Redirect-To, AMP-Access-Control-Allow-Source-Origin' );
+			header( 'AMP-Redirect-To: ' . wp_sanitize_redirect( $_GET['_wp_http_referer'] ?? '' ) );
 
-			// @phpcs:ignore WordPress.Security.NonceVerification -- Temporary
-			echo json_encode( [ 'successmsg' => $_POST['tag_lang'] . 'My success message. [It will be displayed shortly(!) if with redirect]' ] );
-			die();
+			wp_die(
+				$message,
+				'',
+				[ 'response' => $success ? 200 : 400 ]
+			);
+
 		}
 	}
 
@@ -208,9 +214,9 @@ class Taxonomy_People_Standard {
 
 		// Language from the form.
 		// @phpcs:ignore WordPress.Security.NonceVerification -- It is process later!
-		$get_lang_form = isset( $_POST['tag_lang'] ) && strlen( $_POST['tag_lang'] ) > 0 ? $_POST['tag_lang'] : null;
+		$get_lang_form = isset( $_GET['tag_lang'] ) && strlen( $_GET['tag_lang'] ) > 0 ? $_GET['tag_lang'] : null;
 		$form_id_language =
-			isset( $_POST['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_POST['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) > 0
+			isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_GET['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) > 0
 			&& isset( $get_lang_form ) && strlen( $get_lang_form ) > 0
 			? esc_html( $get_lang_form )
 			: null;
@@ -358,7 +364,8 @@ class Taxonomy_People_Standard {
 
 			$this->logger->log()->info( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] No post found for ' . $this->person_name . ' in ' . $this->taxonomy_title );
 
-			echo '<div class="lumiere_align_center lumiere_italic lumiere_padding_five">No post written about ' . esc_html( $this->person_name ) . '</div>';
+			/* translators: the name of a persons completes the phrase */
+			echo '<div class="lumiere_align_center lumiere_italic lumiere_padding_five">' . esc_html__( 'No post written about ', 'lumiere-movies' ) . esc_html( $this->person_name ) . '</div>';
 
 		}
 		?>

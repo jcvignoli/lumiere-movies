@@ -89,11 +89,14 @@ class Polylang {
 	}
 
 	/**
-	 *  Polylang form: Display a form to change the language if Polylang plugin is active ---- FROM class-taxonomy-people-standard
+	 * Polylang form: Display a form to change the language if Polylang plugin is active
+	 * Compatible with AMP plugin. If AMP Plugin is detected, the AMP form will be displayed
 	 *
 	 * @param string $taxonomy The current taxonomy to check and build the form according to it
 	 * @param string $person_name name of the current person in taxonomy
-	 * @return string The form
+	 * @return string The form is returned
+	 *
+	 * @since 4.0.3 The AMP form works!
 	 */
 	public function lumiere_get_form_polylang_selection( string $taxonomy, string $person_name ): string {
 
@@ -129,8 +132,7 @@ class Polylang {
 		}
 
 		$output = "\n\t\t\t" . '<div align="center">';
-
-		$output .= "\n\t\t\t\t" . '<form method="post" id="lang_form" name="lang_form" action="#lang_form">';
+		$output .= "\n\t\t\t\t" . '<form method="get" id="lang_form" name="lang_form" action="#lang_form">';
 		$output .= "\n\t\t\t\t\t" . '<select name="tag_lang" id="tag_lang">';
 		$output .= "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
 
@@ -142,8 +144,8 @@ class Polylang {
 
 			if (
 				// @phpcs:ignore WordPress.Security.NonceVerification -- it is process on the second line!
-				isset( $_POST['tag_lang'] ) && $lang_object->term_id === (int) $_POST['tag_lang']
-				&& isset( $_POST['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_POST['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) !== false
+				isset( $_GET['tag_lang'] ) && $lang_object->term_id === (int) $_GET['tag_lang']
+				&& isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_GET['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) !== false
 			) {
 				$output .= 'selected="selected"';
 			}
@@ -154,9 +156,7 @@ class Polylang {
 		}
 		$output .= "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
 		$output .= "\n\t\t\t\t\t";
-
 		$output .= wp_nonce_field( 'lum_taxo_polylangform', '_wpnonce_lum_taxo_polylangform', true, false );
-
 		$output .= "\n\t\t\t\t\t";
 		$output .= '<input type="submit" name="submit" id="submit_lang" class="button button-primary" value="' . __( 'Filter language', 'lumiere-movies' ) . '"  />';
 		$output .= "\n\t\t\t\t" . '</form>';
@@ -166,49 +166,36 @@ class Polylang {
 	}
 
 	/**
-	 * Special form for AMP
-	 * @param array<int, \WP_Term|int|string> $pll_lang List of languages used in the form
-	 * @TODO: make it work!
+	 * Special form for compatiblity with AMP
+	 * @param array<int, \WP_Term|int|string> $pll_lang List of Polylang languages in use
+	 * @return string The AMP form is returned
+	 *
+	 * @see Lumiere\Taxonomy_People_Standard::__construct
+	 * @see Lumiere\Taxonomy_People_Standard::amp_form_submit()
 	 */
 	private function amp_form_polylang_selection( array $pll_lang ): string {
 
 		$output = "\n\t\t\t" . '<div align="center">';
-
-		$output .= "\n\t\t\t\t" . '<form method="post" id="lang_form" name="lang_form" action-xhr="#lang_form" target="_top">';
-		$output .= "\n\t\t\t\t\t" . '<label for="tag_lang">Select rating</label>';
-		$output .= "\n\t\t\t\t\t" . '<select name="tag_lang" required="" class="user-invalid valueMissing" aria-invalid="false" id="tag_lang">';
+		$output .= "\n\t\t\t\t" . '<form method="get" id="lang_form" name="lang_form" action="?amp" target="_top">';
+		$output .= "\n\t\t\t\t\t" . '<select name="tag_lang" id="tag_lang">';
 		$output .= "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
 
 		// Build an option html tag for every language.
 		foreach ( $pll_lang as $lang_object ) {
 
-			if ( is_string( $lang_object ) || is_int( $lang_object ) ) {
+			if ( ! $lang_object instanceof \WP_Term ) { // Only psalm needs that...
 				continue;
 			}
 
-			/** @psalm-suppress PossiblyInvalidPropertyFetch -- Cannot fetch property on possible non-object => Always object! */
-			$output .= "\n\t\t\t\t\t\t" . '<option value="' . strval( $lang_object->term_id ) . '"';
-
-			if (
-				// @phpcs:ignore WordPress.Security.NonceVerification -- it is process on the second line!
-				isset( $_POST['tag_lang'] ) && $lang_object->term_id === (int) $_POST['tag_lang']
-				&& isset( $_POST['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_POST['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) !== false
-			) {
-				$output .= ' selected="selected"';
-			}
-
-			$output .= '>' . ucfirst( $lang_object->name ) . '</option>';
-
+			$output .= "\n\t\t\t\t\t\t" . '<option value="' . strval( $lang_object->term_id ) . '">' . ucfirst( $lang_object->name ) . '</option>';
 		}
-		$output .= "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
-		$output .= "\n\t\t\t\t\t" . '<span visible-when-invalid="valueMissing" validation-for="tag_lang">Please select rating</span>';
-		$output .= "\n\t\t\t\t\t";
 
-		$output .= wp_nonce_field( 'lum_taxo_polylangform', '_wpnonce_lum_taxo_polylangform', true, false );
-
-		$output .= "\n\t\t\t\t\t" . '<button type="submit" name="submit_lang" id="submit_lang" class="button-primary" aria-live="assertive" value="' . esc_html__( 'Filter language', 'lumiere-movies' ) . '">' . esc_html__( 'Filter language', 'lumiere-movies' ) . '</button>';
+		$output .= "\n\t\t\t\t\t" . '</select>';
+		$output .= "\n\t\t\t\t\t" . wp_nonce_field( 'lum_taxo_polylangform', '_wpnonce_lum_taxo_polylangform', true, false );
+		$output .= "\n\t\t\t\t\t" . '<button type="submit" name="submit_lang" id="submit_lang" class="button-primary" aria-live="assertive" value="' . esc_html__( 'Filter language', 'lumiere-movies' ) . '">&nbsp;&nbsp;&nbsp;' . __( 'Filter language', 'lumiere-movies' ) . '</button>';
 		$output .= "\n\t\t\t\t" . '</form>';
 		$output .= "\n\t\t\t" . '</div>';
+
 		return $output;
 	}
 
@@ -220,6 +207,7 @@ class Polylang {
 	 * @param string $content The URL that contains home_url() in it
 	 * @param null|string $extra_url An extra portion of url if needed
 	 * @return string
+	 * @obsolete since 4.0.3, no use of this method
 	 */
 	public function rewrite_string_with_polylang_url( string $content, string $extra_url = null ): string {
 

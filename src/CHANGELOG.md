@@ -3,6 +3,7 @@
 v.4.0.3
 * [feature] Thumbnail pictures in taxonomy pages will be quicker to be displayed (using lazy loading, thumbs for the thumb images preciseley)
 * [feature] No more need for refreshing rewrite rules when creating a new taxonomy item, done automatically (added flush_rewrite_rules() in Save_Options::lumiere_data_options_save())
+* [bug] In taxonomy pages for people, if both Polylang and AMP plugins were activated, the form to change the language did't work.
 * [bug] A function to launch a popup in post edition was not working (finalised blocks/opensearch/index.js)
 * [bug] Legacy widget wasn't working, who knows since when. If you use classic widget plugin, you can use Lumière legacy widget. (fixed the extends to Widget_Selection instead of WP_Widget in Lumiere\Frontend\Widget_Legacy class, in Widget_Selection register_widget( 'Widget_Legacy' ) instead of __CLASS__ )
 * [bug] When reseting options in General options, no confirmation message was displayed.
@@ -14,6 +15,7 @@ v.4.0.3
 * [technical] Bot banning status changed from 403 to 400, which is more appropriate, not banning bots on taxonomy or normal post pages
 * [technical] Notifications are only shown in Lumière admin options pages. If a taxonomy file is not installed, always nag the user to install it.
 * [technical] Lot of cleaning, removed many unused methods, factorized and using more dedicated traits, using official WordPress way to include blocks (block.json)
+* [technical] The Polylang language forms in taxonomy pages for people now uses Get instead of Post, required to make the AMP form work (edit Polylang and Taxonomy_People_Standard clases in this regard)
 
 v.4.0.2
 * [feature] Thumbnail pictures (those which are displayed automatically into the posts, in cache, in popups) are now automatically resized should they weight more that 80kb, which should display all pages faster. Maintained the possiblity to click on these thumbnails to display the big posters (Cover option in Lumière admin).

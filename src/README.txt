@@ -17,7 +17,7 @@ Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wo
 
 **Lumiere! Movies** helps you integrate loads of information about movies and stars in your blog. Widgets, links to informative popup, and dedicated taxonomy pages are available. Everything is automatised and no further configuration is required from the user. However, should you want to access advanced features, your can change the themes, add taxonomy to your pages, remove links, display automatically information according to your blog posts' titles, and use many hidden features. The information is retrieved from the well-known [IMDb](https://www.imdb.com "Internet movie database") website. Lumière! ensures that you have the most accurate and reliable information always available on your blog.
 
-Many features are available in the WordPress old and new editing interfaces (Block based, Visual editor, and HTML editor). It is Content Security Policy (CSP) compliant, takes advantage of Polylang plugin and is partially compatible with AMP plugin. It is fully compatible with Classic editor plugin.
+Many features are available in the WordPress old and new editing interfaces (Block based, Visual editor, and HTML editor). It is Content Security Policy (CSP) compliant, takes advantage of Polylang plugin and is fully compatible with AMP plugin. It is also fully compatible with Classic editor and widgets plugins.
 
 **Lumière!** is a great tool to illustrate your articles. You can display movie details through many ways, such as in popups, widgets, and straight inside a post. It can be extensively fine-tuned in the admin options panel.
 
@@ -104,7 +104,7 @@ If for any reason your are using Classic Widgets to get back the pre-5.8 WordPre
 
 = Is it AMP compliant?  =
 
-Mostly it is. You may see some changes in the layout and obviously the apparence will change. As it is expected by AMPization of any webpages.
+It should be compliant with AMP WordPress plugin installed. You may see some changes in the layout and obviously the apparence will change. As it is expected by AMPization of any webpages.
 
 = Is it CSP compliant?  =
 
@@ -144,7 +144,7 @@ This value is supposed [to be included by default](https://httpd.apache.org/docs
 
 = Known issues =
 
-* In taxonomy extra page for people, if both Polylang and AMP plugins are activated, the form to switch the language doesn't work.
+* none.
 
 == Support ==
 
