@@ -101,7 +101,7 @@ class Core {
 	 */
 	public function lumiere_register_assets(): void {
 
-		// Register hide/show script
+		// hide/show script
 		wp_register_script(
 			'lumiere_hide_show',
 			$this->config_class->lumiere_js_dir . 'lumiere_hide_show.min.js',
@@ -110,7 +110,7 @@ class Core {
 			true
 		);
 
-		// Register frontpage script
+		// Frontpage scripts
 		wp_register_script(
 			'lumiere_scripts',
 			$this->config_class->lumiere_js_dir . 'lumiere_scripts.min.js',
@@ -119,22 +119,24 @@ class Core {
 			true
 		);
 
-		// Register customised main style, located in active theme directory
-		if ( file_exists( get_stylesheet_directory_uri() . '/lumiere.css' ) ) {
-			wp_register_style(
-				'lumiere_style_custom',
-				get_stylesheet_directory_uri() . '/lumiere.css',
-				[],
-				strval( filemtime( get_stylesheet_directory_uri() . '/lumiere.css' ) )
-			);
+		// Main style
+		wp_register_style(
+			'lumiere_style_main',
+			$this->config_class->lumiere_css_dir . 'lumiere.min.css',
+			[],
+			strval( filemtime( $this->config_class->lumiere_css_path . 'lumiere.min.css' ) )
+		);
 
-			// Register main style
-		} else {
+		// Customized style: register instead of the main style a customised main style located in active theme directory
+		if ( file_exists( get_stylesheet_directory() . '/lumiere.css' ) ) {
+
+			wp_deregister_style( 'lumiere_style_main' ); // remove standard style
+
 			wp_register_style(
 				'lumiere_style_main',
-				$this->config_class->lumiere_css_dir . 'lumiere.min.css',
+				get_stylesheet_directory() . '/lumiere.css',
 				[],
-				strval( filemtime( $this->config_class->lumiere_css_path . 'lumiere.min.css' ) )
+				strval( filemtime( get_stylesheet_directory() . '/lumiere.css' ) )
 			);
 		}
 	}
@@ -147,11 +149,11 @@ class Core {
 	 */
 	public function lumiere_register_gutenberg_blocks(): void {
 		$blocks = [ 'movie', 'addlink', 'opensearch' ];
-		$block_dir = plugin_dir_path( __DIR__ ) . '/assets/blocks';
+		$block_dir = plugin_dir_path( __DIR__ ) . 'assets/blocks';
 
 		foreach ( $blocks as $block ) {
 			register_block_type_from_metadata( $block_dir . '/' . $block );
-			wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', plugin_dir_path( __DIR__ ) . '/languages/' );
+			wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', plugin_dir_path( __DIR__ ) . 'languages/' );
 		}
 
 		// Script for Gutenberg blocks only.
@@ -169,13 +171,7 @@ class Core {
 	 */
 	public function lumiere_frontpage_execute_assets(): void {
 
-		// Use local template lumiere.css if there is one in current theme folder.
-		if ( file_exists( get_template_directory() . '/lumiere.css' ) ) { // a lumiere.css exists inside theme folder, use it!
-			wp_enqueue_style( 'lumiere_style_custom' );
-
-		} else {
-			wp_enqueue_style( 'lumiere_style_main' );
-		}
+		wp_enqueue_style( 'lumiere_style_main' );
 
 		wp_enqueue_script( 'lumiere_hide_show' );
 

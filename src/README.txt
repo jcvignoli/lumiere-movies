@@ -41,7 +41,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 = Fine-tuning: =
 
 1. Lumière! Movies can create virtual pages that include a list of movies identically tagged (known as taxonomy). Taxonomy templates are provided. Check plugin's help to figure out how to use that option.
-2. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. In order to keep your stylesheet changes through Lumière! updates, you need to download an unminified lumiere.css from the [Lumiere GIT repository](https://github.com/jcvignoli/lumiere-movies/blob/master/src/css/lumiere.css), and after editing it just put your new lumiere.css file into your current WordPress template folder (a child template, preferably, it will get deleted by a template update otherwise). This way, your stylesheet modifications will be kept through Lumière!'s updates. Important: do not removed the section before "/* ---- imdbincluded */".
+2. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. In order to keep your stylesheet changes through Lumière! updates, you need to download an unminified lumiere.css from the [Lumiere GIT repository](https://github.com/jcvignoli/lumiere-movies/blob/master/src/assets/css/lumiere.css), and after editing it just put your new lumiere.css file into your current WordPress template folder (a child template, preferably, it will get deleted by a template update otherwise). This way, your stylesheet modifications will be kept through Lumière!'s updates. Important: do not removed the section before "/* ---- imdbincluded */".
 
 = Advanced =
 

@@ -44,7 +44,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 ### Fine-tuning:
 
 1. Lumière! Movies can create virtual pages that include a list of movies identically tagged (known as taxonomy). Taxonomy templates are provided. Check plugin's help to figure out how to use that option.
-2. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. In order to keep your stylesheet changes through Lumière! updates, you need to download an unminified lumiere.css from the [Lumiere GIT repository](https://github.com/jcvignoli/lumiere-movies/blob/master/src/css/lumiere.css), and after editing it just put your new lumiere.css file into your current WordPress template folder (a child template, preferably, it will get deleted by a template update otherwise). This way, your stylesheet modifications will be kept through Lumière!'s updates. Important: do not removed the section before "/* ---- imdbincluded */".
+2. You may edit the "/* ---- imdbincluded */" section in css/lumiere.css file to customize the layout according to your taste. In order to keep your stylesheet changes through Lumière! updates, you need to download an unminified lumiere.css from the [Lumiere GIT repository](https://github.com/jcvignoli/lumiere-movies/blob/master/src/assets/css/lumiere.css), and after editing it just put your new lumiere.css file into your current WordPress template folder (a child template, preferably, it will get deleted by a template update otherwise). This way, your stylesheet modifications will be kept through Lumière!'s updates. Important: do not removed the section before "/* ---- imdbincluded */".
 
 ### Advanced
 
@@ -121,7 +121,9 @@ There are two ways:
 
 ### Is it possible to add several movies to sidebar/widget and inside my post?
 
-Although only one widget only can be added per post, you can insert as many movies blocks as you want in your posts.
+Although one widget only can be added per post, should you use the "auto widget" feature, you may display up to two movies on you sidebar: one automatically created according to your post's title, one you would have manually added in the sidebar (metabox post options).
+
+Inside your posts, you can insert as many movies blocks as you want, there is no limitation. 
 
 ### How to integrate Lumière with Polylang plugin?
 
@@ -137,12 +139,12 @@ If for any reason your are using [Classic Widgets](https://wordpress.org/plugins
 
 ### Is it AMP compliant?
 
-It should be compliant with [AMP WordPress plugin](https://wordpress.org/plugins/amp/ "AMP WordPress plugin") installed. You may see some changes in the layout and obviously the apparence will change. As it is expected by AMPization of any webpages.
+It should be compliant with [AMP WordPress plugin](https://wordpress.org/plugins/amp/ "AMP WordPress plugin") installed. You may see some changes in the layout and obviously the apparence will change. Popups will be removed and they will be displayed in a new page, in conformity with AMP standards.
 
 ### Is it CSP compliant?
 
 [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP "Content Security Policy on Mozilla") (CSP) is a webserver based security avoiding injections to your pages. It greatly improves the security of your website.
-Although WordPress is difficult to get fully CSP compliant (in particular the admin interface), Lumière is fully CSP compliant. Neither online javascripts nor stylesheets are added. It is advised to use the standards 'wp_script_attributes' and 'wp_inline_script_attributes' hooks to inject your nonces values into scripts, and use a regex WordPress buffer technique to inject the style nonces.
+Although WordPress is difficult to get fully CSP compliant, Lumière is fully CSP compliant both for the admin and the frontend interfaces. Neither javascripts nor stylesheets are directly added to HTML tags, it uses the standard WordPress system to add scripts and stylesheets. In order to add a nonce, it is advised to use the standard 'wp_script_attributes' and 'wp_inline_script_attributes' hooks to inject your nonces into scripts, or use a regex WordPress buffer technique to inject the style nonces.
 
 ### Can I change the size of the poster pictures?
 
@@ -174,6 +176,10 @@ If you get a "404 Not Found" when accessing pages like "/lumiere/person/?mid=000
 `Options Includes`
 
 This value is supposed [to be included by default](https://httpd.apache.org/docs/2.4/mod/core.html#options "Apache Options directive") in your Apache configuration. You can take a look at [how to edit .htaccess](https://wpmudev.com/blog/htaccess/ "learn how to edit .htaccess for WordPress").
+
+### Incompatiblity
+
+Lumière is incompatible with Echo RSS Feed Post Generator, a predator plugin for the web experience. If you installed it, you won't be able to use Lumière. Any plugin that is meant to build fake automatized blogs, will be added to that red list.
 
 ### Known issues
 
@@ -214,6 +220,10 @@ And much more! This is a major new version, more stable and safer, extensively t
 * Major update, plugin vastly rewritten. Name [IMDb Link Transformer](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer on WordPress") changed to Lumière!. Should be Content Security Policy (CSP) compliant. Too many changes to be listed. Check the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changelog").
 
 ## Upgrade Notice
+
+### 4.0.3
+
+Due to the use of the most recent WordPress API block use, you may have to "attempt to recover" the widget and into the post blocks. Take a look at your widget page and the posts where you use Lumière blocks too.
 
 ### 4.0.2
 

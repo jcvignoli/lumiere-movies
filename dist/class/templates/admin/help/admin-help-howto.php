@@ -250,7 +250,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<?php
 				/* translators: %1$s and %2$s are HTML tags */
-				echo wp_kses( sprintf( esc_html__( 'Any modification of the stylesheet you make should be done in your template folder rather than by editing lumiere-movies/css/lumiere.css. Download %1$sunminified css%2$s from the GIT repository, and edit that very file so it suits your needs. Then copy the edited file into you template folder: that file will superseed the plugin\'s one. Whenever you will update, your template\'s file will remain untouched and your edits will make it. Just make sure you are using a child theme, otherwise your customised lumiere.css will be deleted at the next template update.', 'lumiere-movies' ), '<a href="https://github.com/jcvignoli/lumiere-movies/blob/master/src/css/lumiere.css">', '</a>' ), [ 'a' => [ 'href' => [] ] ] ); ?>
+				echo wp_kses( sprintf( esc_html__( 'Any modification of the stylesheet you make should be done in your template folder rather than by editing lumiere-movies/css/lumiere.css. Download %1$sunminified css%2$s from the GIT repository, and edit that very file so it suits your needs. Then copy the edited file into you template folder: that file will superseed the plugin\'s one. Whenever you will update, your template\'s file will remain untouched and your edits will make it. Just make sure you are using a child theme, otherwise your customised lumiere.css will be deleted at the next template update.', 'lumiere-movies' ), '<a href="https://github.com/jcvignoli/lumiere-movies/blob/master/src/assets/css/lumiere.css">', '</a>' ), [ 'a' => [ 'href' => [] ] ] ); ?>
 				</div>
 			</div>
 			

@@ -111,7 +111,7 @@ class Widget_Selection extends WP_Widget {
 
 	/**
 	 * Register Block Widget (>= WordPress 5.8)
-	 * @since 4.0.3 Using block.json, removed conditions, which are useless as it doesn't register twice anymore
+	 * @since 4.0.3 Using block.json, removed conditions, which are useless as it doesn't register twice anymore, added translation
 	 */
 	public function lumiere_register_widget_block(): void {
 
@@ -125,7 +125,7 @@ class Widget_Selection extends WP_Widget {
 		) {
 		*/
 		register_block_type_from_metadata( dirname( dirname( __DIR__ ) ) . '/assets/blocks/widget/' );
-
+		wp_set_script_translations( 'lumiere-widget-editor-script', 'lumiere-movies', dirname( dirname( __DIR__ ) ) . '/languages/' );
 	}
 
 	/**
