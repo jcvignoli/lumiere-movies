@@ -71,7 +71,7 @@ class Plugins_Start {
 
 		foreach ( $this->plugins_active_names as $plugin ) {
 
-			$plugin_name = __NAMESPACE__ . '\\' . ucfirst( $plugin );
+			$plugin_name = __NAMESPACE__ . '\External\\' . ucfirst( $plugin );
 
 			if ( class_exists( $plugin_name ) ) {
 				/** @phpstan-var PLUGINS_AVAILABLE $plugin_class */

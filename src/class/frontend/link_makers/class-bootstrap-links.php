@@ -35,18 +35,18 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		parent::__construct();
 
 		// Registers javascripts and styles.
-		add_action( 'init', [ $this, 'lumiere_bootstrap_register_assets' ], 1 ); // must be after Core class call
+		add_action( 'init', [ $this, 'lumiere_bootstrap_register_assets' ] ); // must be after Core class call
 
-		// Execute javascripts and styles only if the vars in lumiere_bootstrap_core were not already enqueued
+		// Execute javascripts and styles only if the vars in lumiere_bootstrap_core were not already enqueued.
 		// (prevents a bug if the vars are displayed twice, the popup doesn't open).
+		// @TODO: Why? Is it still needed?
 		add_action(
 			'wp_enqueue_scripts',
 			function (): void {
 				if ( ! wp_script_is( 'lumiere_bootstrap_core', 'enqueued' ) ) {
 					$this->lumiere_bootstrap_execute_assets();
 				}
-			},
-			0
+			}
 		);
 
 	}
@@ -95,7 +95,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 
 		// Prevent to load twice the script and lumiere_vars which breaks JS
 		// Remove the script if the pages is a popup page
-		// @since 3.10.1 removed, seems it is correctly handled by WP now
+		// @deprecated 3.10.1 removed, seems it is correctly handled by WP now
 		/**
 		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->imdb_admin_values['imdburlpopups'] ) ) {
 			wp_dequeue_script( 'lumiere_scripts' );

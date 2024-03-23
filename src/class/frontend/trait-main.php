@@ -74,19 +74,25 @@ trait Main {
 	public Logger $logger;
 
 	/**
+	 * Name of the class
+	 * Mainly utilised in logs
+	 */
+	public string $classname;
+
+	/**
 	 * Is the current page an editing page?
 	 */
-	/* @obsolete since 18 03 2024
+	/* @deprecated since 18 03 2024
 	private bool $is_editor_page = false;
 	*/
 
 	/**
 	 * Constructor
 	 *
-	 * @param string $logger_name Title of Monolog logger
+	 * @param null|string $logger_name Title for the logger output
 	 * @param bool $screen_output Whether to output Monolog on screen or not
 	 */
-	public function __construct( string $logger_name = 'unknownOrigin', bool $screen_output = true ) {
+	public function __construct( ?string $logger_name = null, bool $screen_output = true ) {
 
 		/**
 		 * Get Global Settings class properties.
@@ -95,8 +101,8 @@ trait Main {
 		$this->get_settings_class();
 		$this->get_db_options();
 
-		// Start Logger class.
-		$this->logger = new Logger( $logger_name, $screen_output );
+		// Start Logger class, if no name was passed build it with method get_current_classname().
+		$this->logger = new Logger( $logger_name ?? $this->get_current_classname(), $screen_output );
 
 		// Start Imdbphp class.
 		$this->imdbphp_class = new Imdbphp();
@@ -104,7 +110,10 @@ trait Main {
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
 		$this->link_maker = Link_Factory::lumiere_link_factory_start();
 
-		/* @obsolete since 18 03 2024
+		// Get name of the class, in trait Data.
+		$this->classname = $this->get_current_classname();
+
+		/* @deprecated since 18 03 2024
 		// Start checking if current page is block editor
 		add_action( 'init', [ $this, 'lumiere_frontend_is_editor' ], 0 );
 
@@ -128,7 +137,7 @@ trait Main {
 	/**
 	 * Detect whether it is a block editor (gutenberg) page
 	 */
-	/* @obsolete since 18 03 2024
+	/* @deprecated since 18 03 2024
 	public function lumiere_frontend_is_editor(): void {
 
 		$referer = strlen( $_SERVER['REQUEST_URI'] ?? '' ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) : '';
@@ -150,7 +159,7 @@ trait Main {
 	/**
 	 * Start debug if conditions are met
 	 */
-	/* @obsolete since 18 03 2024
+	/* @deprecated since 18 03 2024
 	public function lumiere_frontend_maybe_start_debug(): void {
 
 		// If editor page, exit.

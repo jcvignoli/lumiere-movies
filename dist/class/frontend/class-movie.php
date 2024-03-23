@@ -27,7 +27,9 @@ use Lumiere\Frontend\Movie_Data;
  */
 class Movie {
 
-	// Use trait frontend
+	/**
+	 * Traits
+	 */
 	use \Lumiere\Frontend\Main {
 		Main::__construct as public __constructFrontend;
 	}
@@ -40,19 +42,14 @@ class Movie {
 	private bool $movie_run_once;
 
 	/**
-	 * Name of the class
-	 * Constant utilised in logs
-	 */
-	private const CLASS_NAME = 'movieClass';
-
-	/**
 	 * Class constructor
 	 */
 	public function __construct() {
 
 		// Construct Frontend trait.
-		$this->__constructFrontend( self::CLASS_NAME );
+		$this->__constructFrontend();
 
+		// Singleton
 		$this->movie_run_once = false;
 
 		// Parse the content to add the movies.
@@ -62,8 +59,10 @@ class Movie {
 		add_filter( 'the_content', [ $this, 'lumiere_link_popup_maker' ] );
 		add_filter( 'the_excerpt', [ $this, 'lumiere_link_popup_maker' ] );
 
-		// Add the shortcodes to parse the text, old way
-		// @obsolete, kept for compatibility purpose
+		/**
+		 * Add the shortcodes to parse the text, old way
+		 * @deprecated 3.5 kept for compatibility purpose
+		 */
 		add_shortcode( 'imdblt', [ $this, 'parse_lumiere_tag_transform' ] );
 		add_shortcode( 'imdbltid', [ $this, 'parse_lumiere_tag_transform_id' ] );
 
@@ -72,7 +71,7 @@ class Movie {
 	/**
 	 * Search the movie and output the results
 	 *
-	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once and PluginsDetect class added
+	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once and Plugins_Start class added
 	 *
 	 * @param array<int<0, max>, array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
 	 * @psalm-param list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $imdb_id_or_title_outside
@@ -83,7 +82,7 @@ class Movie {
 		if ( $this->movie_run_once === false ) {
 
 			/**
-			 * Start PluginsDetect class
+			 * Start Plugins_Start class
 			 * Is instanciated only if not instanciated already
 			 * Use lumiere_set_plugins_array() in trait to set $plugins_active_names var in trait
 			 */
@@ -92,11 +91,11 @@ class Movie {
 			}
 
 			// Log the current link maker
-			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
-			// Log PluginsDetect, $this->plugins_classes_active in trait
-			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
-			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] Calling IMDbPHP class.' );
+			// Log Plugins_Start, $this->plugins_classes_active in trait
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Calling IMDbPHP class.' );
 
 			// Set the trigger to true so this is not called again.
 			$this->movie_run_once = true;
@@ -120,12 +119,12 @@ class Movie {
 
 				$film = strtolower( $film['byname'] ); // @since 4.0 lowercase, less cache used.
 
-				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . $film );
+				$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . $film );
 
 				// check a the movie title exists.
 				if ( strlen( $film ) > 0 ) {
 
-					$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] searching for $film" );
+					$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] searching for $film" );
 
 					$results = $search->search( $film, $this->config_class->lumiere_select_type_search() );
 
@@ -136,31 +135,31 @@ class Movie {
 				// No result was found in imdbphp query.
 				if ( $mid_premier_resultat === null ) {
 
-					$this->logger->log()->info( '[Lumiere][' . self::CLASS_NAME . '] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
+					$this->logger->log()->info( '[Lumiere][' . $this->classname . '] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
 
 					// no result, so jump to the next query and forget the current
 					continue;
 
 				}
 
-				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Result found: $mid_premier_resultat." );
+				$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Result found: $mid_premier_resultat." );
 
 				// no movie's title but a movie's ID has been specified
 			} elseif ( isset( $film['bymid'] ) ) {
 
 				$mid_premier_resultat = filter_var( $film['bymid'], FILTER_SANITIZE_NUMBER_INT );
-				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Movie ID provided: '$mid_premier_resultat'." );
+				$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Movie ID provided: '$mid_premier_resultat'." );
 
 			}
 
 			if ( $film === null || ! isset( $mid_premier_resultat ) || $mid_premier_resultat === false ) {
 
-				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] No result found for this query.' );
+				$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] No result found for this query.' );
 				continue;
 
 			}
 
-			$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Displaying rows for '$mid_premier_resultat'" );
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Displaying rows for '$mid_premier_resultat'" );
 
 			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- ### Lumière! movies plugin ### -->';
 			$output .= "\n\t<div class='imdbincluded";
@@ -246,7 +245,7 @@ class Movie {
 
 	/**
 	 * Replace [imdblt] shortcode by the movie
-	 * @obsolete since v3.5, kept for compatibility purposes
+	 * @deprecated 3.5, kept for compatibility purposes
 	 *
 	 * @param string|array<string> $atts array of attributes
 	 * @param null|string $content shortcode content or null if not set
@@ -258,7 +257,7 @@ class Movie {
 
 	/**
 	 * Replace [imdbltid] shortcode by the movie
-	 * @obsolete since v3.5, kept for compatibility purposes
+	 * @deprecated 3.5, kept for compatibility purposes
 	 *
 	 * @param string|array<string> $atts
 	 * @param null|string $content shortcode content or null if not set
@@ -313,7 +312,7 @@ class Movie {
 	 * Looks for what is inside tags <!--imdb--> ... <!--/imdb-->
 	 * and builds a popup link
 	 *
-	 * @obsolete since v3.1, kept for compatibility purposes
+	 * @deprecated 3.1 kept for compatibility purposes
 	 * @param array<string> $correspondances parsed data
 	 */
 	private function lumiere_link_finder_oldway( array $correspondances ): string {
@@ -327,7 +326,7 @@ class Movie {
 	/**
 	 * Function external call (ie, inside a post)
 	 * Utilized to build from shortcodes
-	 * @obsolete since 3.1, not using shortcodes anymore, kept for compatibility purposes
+	 * @obsolete 3.1 not using shortcodes anymore, kept for compatibility purposes -- not marking deprecated, still in use
 	 *
 	 * @param string|null $moviename
 	 * @param string|null $filmid
@@ -397,7 +396,7 @@ class Movie {
 				if ( method_exists( $movie_data_class, $method ) ) {
 					$outputfinal .= $this->lumiere_movie_wrapper( $movie_data_class->$method( $movie_title_object ), $data_detail );
 				} else {
-					$this->logger->log()->warning( '[Lumiere][' . self::CLASS_NAME . '] The method ' . $method . ' does not exist in the class' );
+					$this->logger->log()->warning( '[Lumiere][' . $this->classname . '] The method ' . $method . ' does not exist in the class' );
 				}
 			}
 		}
@@ -486,7 +485,7 @@ class Movie {
 
 			if ( ! isset( $existent_term ) ) {
 				$term_inserted = wp_insert_term( $taxonomy_term, $taxonomy_category_full );
-				$this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full (association numbers " . json_encode( $term_inserted ) );
+				$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full (association numbers " . json_encode( $term_inserted ) );
 			}
 
 			// If no term was inserted, take the current term.
@@ -498,7 +497,7 @@ class Movie {
 			 */
 			if ( ! $term_for_set_object instanceof \WP_Error ) {
 				$term_taxonomy_id = wp_set_object_terms( $page_id, $term_for_set_object, $taxonomy_category_full, true );
-				// $this->logger->log()->debug( '[Lumiere][' . self::CLASS_NAME . '] Check (and made if needed) association for term_taxonomy_id ' . json_encode( $term_taxonomy_id ) );
+				// $this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Check (and made if needed) association for term_taxonomy_id ' . json_encode( $term_taxonomy_id ) );
 			}
 
 			// Add Lumière tags to the current WordPress post. But we don't want it!
@@ -509,7 +508,7 @@ class Movie {
 		/**
 		 * Compatibility with Polylang WordPress plugin, add a language to the taxonomy term.
 		 * Function in class Polylang.
-		 * @obsolete since 4.0, WordPress functions do all what we need
+		 * @deprecated 4.0 WordPress functions do all what we need
 		 * @TODO: make a function that even if Polylang custom taxonomies are not activated, taxos are registred with Polylang language anyway
 		 */
 		/* if ( $this->plugin_polylang instanceof Polylang && ! is_wp_error( $term_inserted ) && $page_id !== false ) {
@@ -520,7 +519,7 @@ class Movie {
 			$term = term_exists( $taxonomy_term, $taxonomy_category_full );
 			$this->plugin_polylang->lumiere_polylang_add_lang_to_taxo( (array) $term );
 			$this->logger->log()->debug(
-				'[Lumiere][' . self::CLASS_NAME . '] Added to Polylang the terms:' . wp_json_encode( $term )
+				'[Lumiere][' . $this->classname . '] Added to Polylang the terms:' . wp_json_encode( $term )
 			);
 
 			// Create a list of Lumière tags meant to be inserted to Lumière Taxonomy

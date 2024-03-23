@@ -49,7 +49,7 @@ class Core {
 
 		// redirect popups URLs.
 		add_action( 'init', fn() => Alteration\Rewrite_Rules::lumiere_static_start(), 0 );
-		add_action( 'init', fn() => Alteration\Redirect_Virtual_Page::lumiere_static_start(), 1 );
+		add_action( 'init', fn() => Alteration\Redirect_Virtual_Page::lumiere_static_start() );
 
 		/**
 		 * Admin actions.
@@ -65,18 +65,18 @@ class Core {
 		 */
 
 		// Registers javascripts and styles.
-		add_action( 'init', [ $this, 'lumiere_register_assets' ], 0 );
+		add_action( 'init', [ $this, 'lumiere_register_assets' ] );
 
 		// Register Gutenberg blocks.
 		add_action( 'enqueue_block_editor_assets', [ $this, 'lumiere_register_gutenberg_blocks' ] );
 
 		// Execute javascripts and styles.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_frontpage_execute_assets' ], 9 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_frontpage_execute_assets' ], 9 ); // priority must be below 10
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_frontpage_execute_assets_priority' ], 0 );
 
 		// Frontpage classes if it is not an admin page
 		if ( ! is_admin() ) {
-			add_action( 'init', fn() => Frontend\Movie::lumiere_static_start(), 0 ); // if not 0 priority, the popups don't work.
+			add_action( 'init', fn() => Frontend\Movie::lumiere_static_start(), 9 ); // priority must be below 10
 			add_action( 'init', fn() => Frontend\Widget_Frontpage::lumiere_widget_frontend_start() );
 			add_action( 'init', fn() => Tools\Ban_Bots::lumiere_static_start(), 0 );
 		}

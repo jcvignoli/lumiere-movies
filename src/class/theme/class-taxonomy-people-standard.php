@@ -18,7 +18,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use Imdb\Person;
 use Imdb\PersonSearch;
-use Lumiere\Plugins\Polylang;
+use Lumiere\Plugins\External\Polylang;
 use Lumiere\Link_Makers\Link_Factory;
 use WP_Query;
 
@@ -77,7 +77,7 @@ class Taxonomy_People_Standard {
 	public function __construct() {
 
 		// Construct Frontend trait.
-		$this->__constructFrontend( 'taxonomy-standard' );
+		$this->__constructFrontend();
 
 		/**
 		 * Start Plugins_Start class in trait
@@ -183,10 +183,10 @@ class Taxonomy_People_Standard {
 		// Build the Link Maker var in trait.
 		$this->link_maker = Link_Factory::lumiere_link_factory_start();
 
-		$logger->debug( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$logger->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . get_class( $this->link_maker ) );
 
-		// Log PluginsDetect.
-		$logger->debug( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
+		// Log Plugins_Start.
+		$logger->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
 
 		echo '<br />';
 
@@ -347,7 +347,7 @@ class Taxonomy_People_Standard {
 				// there is no post.
 			} elseif ( ! isset( $the_query ) || $the_query->have_posts() || strlen( $this->person_name ) > 0 ) {
 
-				$logger->debug( "[Lumiere][taxonomy_$this->taxonomy_title] No post found for $this->person_name in $people" );
+				$logger->debug( '[Lumiere][' . $this->classname . '] No post found for ' . "$this->person_name in $people" );
 
 			}
 
@@ -362,7 +362,7 @@ class Taxonomy_People_Standard {
 		 */
 		if ( count( $check_if_no_result ) === 0 && strlen( $this->person_name ) > 0 ) {
 
-			$this->logger->log()->info( '[Lumiere][taxonomy_' . $this->taxonomy_title . '] No post found for ' . $this->person_name . ' in ' . $this->taxonomy_title );
+			$this->logger->log()->info( '[Lumiere][' . $this->classname . '] No post found for ' . $this->person_name . ' in ' . $this->taxonomy_title );
 
 			/* translators: the name of a persons completes the phrase */
 			echo '<div class="lumiere_align_center lumiere_italic lumiere_padding_five">' . esc_html__( 'No post written about ', 'lumiere-movies' ) . esc_html( $this->person_name ) . '</div>';

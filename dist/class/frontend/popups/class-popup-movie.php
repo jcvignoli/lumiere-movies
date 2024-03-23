@@ -71,7 +71,7 @@ class Popup_Movie {
 		add_action( 'template_redirect', fn() => Head_Popups::lumiere_static_start() );
 
 		// Construct Frontend trait.
-		$this->__constructFrontend( 'popupMovie' );
+		$this->__constructFrontend();
 
 		// Get the type of search: movies, series, games
 		$this->type_search = $this->config_class->lumiere_select_type_search();
@@ -83,7 +83,7 @@ class Popup_Movie {
 		 * Display layout
 		 * @since 4.0 using 'the_posts', removed the 'get_header' for OceanWP
 		 */
-		add_action( 'the_posts', [ $this, 'lumiere_popup_movie_layout' ], 1 );
+		add_action( 'the_posts', [ $this, 'lumiere_popup_movie_layout' ] );
 
 	}
 
@@ -112,7 +112,7 @@ class Popup_Movie {
 		// if neither film nor mid are set, throw Exception.
 		if ( $this->movieid_sanitized === null && $this->film_title_sanitized === null ) {
 
-			$text = '[Lumiere][popupMovieClass] Neither movie title nor id provided.';
+			$text = '[Lumiere][' . $this->classname . '] Neither movie title nor id provided.';
 			$this->logger->log()->error( $text );
 			return false;
 
@@ -121,7 +121,7 @@ class Popup_Movie {
 		// A movie imdb id is provided in URL.
 		if ( isset( $this->movieid_sanitized ) && strlen( $this->movieid_sanitized ) > 0 ) {
 
-			$this->logger->log()->debug( '[Lumiere][popupMovieClass] Movie id provided in URL: ' . $this->movieid_sanitized );
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Movie id provided in URL: ' . $this->movieid_sanitized );
 
 			$this->movie = new Title( $this->movieid_sanitized, $this->imdbphp_class, $this->logger->log() );
 			// @since 4.0 lowercase, less cache used.
@@ -131,14 +131,14 @@ class Popup_Movie {
 			// No movie id is provided, but a title was.
 		} elseif ( isset( $this->film_title_sanitized ) && strlen( $this->film_title_sanitized ) > 0 ) {
 
-			$this->logger->log()->debug( '[Lumiere][popupMovieClass] Movie title provided in URL: ' . $this->film_title_sanitized );
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Movie title provided in URL: ' . $this->film_title_sanitized );
 
 			$title_search_class = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
 
 			$search = $title_search_class->search( $this->film_title_sanitized, $this->type_search );
 			if ( count( $search ) === 0 || array_key_exists( 0, $search ) === false ) {
 
-				$text = '[Lumiere][popupMovieClass] Fatal error: Could not find the movie title: ' . $this->film_title_sanitized;
+				$text = '[Lumiere][' . $this->classname . '] Fatal error: Could not find the movie title: ' . $this->film_title_sanitized;
 				$this->logger->log()->critical( $text );
 				return false;
 			}
@@ -166,7 +166,7 @@ class Popup_Movie {
 if ( $this->find_movie() === false ) {
 	status_header( 404 );
 	$text = 'Could not find any IMDb movie with this query.';
-	$this->logger->log()->error( '[Lumiere][popupMovieClass] ' . $text );
+	$this->logger->log()->error( '[Lumiere][' . $this->classname . '] ' . $text );
 	wp_die( esc_html( $text ) );
 }
 
@@ -177,7 +177,7 @@ if ( $this->find_movie() === false ) {
 
 		$movie_results = $this->movie;
 
-		$this->logger->log()->debug( '[Lumiere][popupMovieClass] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
 		$this->display_menu( $this->movie );
 

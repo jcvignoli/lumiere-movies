@@ -32,7 +32,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 		parent::__construct();
 
 		// Registers javascripts and styles.
-		add_action( 'init', [ $this, 'lumiere_highslide_register_assets' ], 1 ); // must be after Core class call
+		add_action( 'init', [ $this, 'lumiere_highslide_register_assets' ] ); // must be after Core class call
 
 		// Execute javascripts and styles only if the vars in lumiere_highslide_options were not already enqueued
 		// (prevents a bug if the vars are displayed twice, the popup doesn't open).
@@ -42,8 +42,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 				if ( ! wp_script_is( 'lumiere_highslide_options', 'enqueued' ) ) {
 					$this->lumiere_highslide_execute_assets();
 				}
-			},
-			0
+			}
 		);
 
 	}

@@ -10,7 +10,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Plugins;
+namespace Lumiere\Plugins\External;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -63,7 +63,7 @@ class Polylang {
 	/**
 	 * Add the language in use to taxonomy terms ------- In class movie
 	 *
-	 * @obsolete since 4.0, not utilised anymore, WordPress functions do all what we need
+	 * @deprecated 4.0 not utilised anymore, WordPress functions do all what we need
 	 *
 	 * @param array<string|int, string|int> $term
 	 */
@@ -207,7 +207,7 @@ class Polylang {
 	 * @param string $content The URL that contains home_url() in it
 	 * @param null|string $extra_url An extra portion of url if needed
 	 * @return string
-	 * @obsolete since 4.0.3, no use of this method
+	 * @deprecated 4.0.3 no use of this method
 	 */
 	public function rewrite_string_with_polylang_url( string $content, string $extra_url = null ): string {
 

@@ -22,7 +22,6 @@ use Exception;
 
 /**
  * Trait for files operations
- * @TODO Pass most Utils class methods here
  * @since 4.0.1 Trait created
  */
 trait Files {

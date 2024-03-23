@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Class for Amp
+ * Class for AIOSEO
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -9,21 +9,28 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Plugins;
+namespace Lumiere\Plugins\External;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use Lumiere\Tools\Settings_Global;
+
 /**
- * Plugin to ensure Lumiere compatibility with AMP plugin
+ * Plugin to ensure Lumiere compatibility with AIOSEO plugin
  * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->plugins_classes_active
  *
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
-class Amp {
+class Aioseo {
 
+	/**
+	 * Traits
+	 */
+	use Settings_Global;
+	
 	/**
 	 * List of plugins active (including current class)
 	 * @var array<string> $active_plugins
@@ -40,8 +47,13 @@ class Amp {
 		// Get the list of active plugins.
 		$this->active_plugins = $active_plugins;
 
-		// Remove conflicting assets.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_remove_breaking_amp_assets' ] );
+		// Get $config_class from Settings_Global trait.
+		$this->get_settings_class();
+		
+		// Disable AIOSEO plugin in Popup pages, no need to promote those pages.
+		if ( $this->is_popup_page() === true ) {
+			add_filter( 'aioseo_disable', '__return_true' );
+		}
 	}
 
 	/**
@@ -52,42 +64,24 @@ class Amp {
 	}
 
 	/**
-	 * Remove conflicting AMP assets
-	 * Check if they are registered before removing them
+	 * Detect if the current page is a popup
 	 *
-	 * @return void Scripts and Styles are deregistered
+	 * @since 3.11.4
+	 * @return bool True if the page is a Lumiere popup
 	 */
-	public function lumiere_remove_breaking_amp_assets(): void {
-
-		$styles_deregister = [
-			// Those assets are not found when AMP is active and reported as not found by chrome dev tools.
-			// Added by OCEAN_WP or maybe other themes.
-			'font-awesome',
-			'simple-line-icons',
-			// Added by Elementor plugin.
-			'elementor-icons',
-		];
-
-		$scripts_deregister = [
-			// Added by Lumière!
-			'lumiere_scripts',
-			'lumiere_hide_show',
-			'lumiere_bootstrap_core',
-			'lumiere_bootstrap_scripts',
-		];
-
-		foreach ( $scripts_deregister as $script ) {
-			if ( wp_script_is( $script, $list = 'registered' ) === true ) {
-				wp_deregister_script( $script );
-			}
+	private function is_popup_page(): bool {
+		if (
+			isset( $_SERVER['REQUEST_URI'] )
+			&&
+			(
+				str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringfilms )
+				|| str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringsearch )
+				|| str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringperson )
+			)
+		) {
+			return true;
 		}
-
-		foreach ( $styles_deregister as $style ) {
-			if ( wp_style_is( $style, $list = 'registered' ) === true ) {
-				wp_deregister_style( $style );
-			}
-		}
+		return false;
 	}
-
 }
 

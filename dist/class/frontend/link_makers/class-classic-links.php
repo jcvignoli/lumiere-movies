@@ -33,7 +33,7 @@ class Classic_Links extends Abstract_Link_Maker {
 		parent::__construct();
 
 		// Registers javascripts and styles.
-		add_action( 'init', [ $this, 'lumiere_classic_register_assets' ], 1 ); // must be after Core class call
+		add_action( 'init', [ $this, 'lumiere_classic_register_assets' ] );
 
 		// Execute javascripts and styles only if the vars in lumiere_classic_links was not already enqueued
 		// (prevents a bug if the vars are displayed twice, the popup doesn't open).
@@ -43,8 +43,7 @@ class Classic_Links extends Abstract_Link_Maker {
 				if ( ! wp_script_is( 'lumiere_classic_links', 'enqueued' ) ) {
 					$this->lumiere_classic_execute_assets();
 				}
-			},
-			0
+			}
 		);
 
 	}

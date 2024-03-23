@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Plugins;
+namespace Lumiere\Plugins\External;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -51,8 +51,8 @@ class Oceanwp {
 		$this->active_plugins = $active_plugins;
 
 		// Build the css URL.
-		$this->assets_css_url = plugin_dir_url( dirname( __DIR__ ) ) . 'assets/css';
-		$this->assets_css_path = plugin_dir_path( dirname( __DIR__ ) ) . 'assets/css';
+		$this->assets_css_url = plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'assets/css';
+		$this->assets_css_path = plugin_dir_path( dirname( dirname( __DIR__ ) ) ) . 'assets/css';
 
 		// Remove conflicting assets. Use execution time 999 so we make sure it removes everything.
 		//add_action( 'wp_enqueue_scripts', [ $this, 'remove_oceanwp_assets' ], 990 );
@@ -98,6 +98,9 @@ class Oceanwp {
 		}
 	}
 
+	/**
+	 * Register general assets everywhere
+	 */
 	public function register_oceanwp_assets(): void {
 
 		// Register OceanWP theme fixes for popups only.
@@ -117,6 +120,9 @@ class Oceanwp {
 		);
 	}
 
+	/**
+	 * Add general assets everywhere
+	 */
 	public function add_extra_oceanwp_assets(): void {
 
 		// OceanWP template css fix for popups only.
@@ -131,6 +137,19 @@ class Oceanwp {
 
 		// All other cases.
 		wp_enqueue_style( 'lumiere_style_oceanwpfixes_general' );
+	}
+	
+	/**
+	 * Remove Popup assets
+	 * Kept for the records, there is no documentation about it
+	 * @deprecated 4.0 The popup construction is now done with 'the_posts' instead of the 'content', not calling theme specifics anymore
+	 */
+	public function remove_popup_assets(): void {
+
+		remove_action( 'after_setup_theme', [ '\OCEANWP_Theme_Class', 'classes' ], 4 );
+		remove_action( 'after_setup_theme', [ '\OCEANWP_Theme_Class', 'theme_setup' ], 10 );
+		remove_action( 'widgets_init', [ '\OCEANWP_Theme_Class', 'register_sidebars' ] );
+		remove_action( 'wp_enqueue_scripts', [ '\OCEANWP_Theme_Class', 'theme_css' ] );
 	}
 }
 

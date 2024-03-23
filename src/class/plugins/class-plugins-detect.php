@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * PluginsDetect class
+ * Plugins_Detect class
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -20,15 +20,16 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Detect which WP plugins are in use and compatible with Lumière
  *
- * @phpstan-type PLUGINS_AVAILABLE Amp|Oceanwp|Polylang
- * @since 4.0.3 Use PLUGINS_TO_CHECK to detect, get_active_plugins() returns an array of plugins available
+ * @phpstan-type PLUGINS_AVAILABLE External\Amp|External\Oceanwp|External\Polylang|External\Aioseo
+ * @phpstan-type FILES_AVAILABLE 'amp'|'oceanwp'|'polylang'|'aioseo'
+ * @since 4.0.3 Use find_available_plugins() to find plugins in External folder, and get_active_plugins() returns an array of plugins available
  */
 class Plugins_Detect {
 
 	/**
 	 * Plugins that could be activated
 	 */
-	const PLUGINS_TO_CHECK = [ 'amp', 'polylang', 'oceanwp' ];
+	const PLUGINS_TO_CHECK = [ 'amp', 'polylang', 'oceanwp', 'aioseo' ];
 
 	/**
 	 * Array of plugins currently in use
@@ -45,16 +46,35 @@ class Plugins_Detect {
 	}
 
 	/**
-	 * Return list of plugins active in array $plugin_class
-	 * Use the plugin list in PLUGINS_TO_CHECK to build the method names
+	 * Return list of plugins available in external subfolder
+	 * Plugins located there are automatically checked
 	 *
-	 * @return array<mixed>
+	 * @phpstan-return list<FILES_AVAILABLE|null>
+	 * @return list<string|null>
+	 */
+	private function find_available_plugins(): array {
+		$available_plugins = [];
+		$find_files = glob( __DIR__ . '/external/*' );
+		$files = $find_files !== false ? array_filter( $find_files, 'is_file' ) : [];
+		foreach ( $files as $file ) {
+			/** @phpstan-var FILES_AVAILABLE $filename */
+			$filename = preg_replace( '~.*class-(.+)\.php$~', '$1', $file );
+			$available_plugins[] = $filename;
+		}
+		return $available_plugins;
+	}
+
+	/**
+	 * Return list of plugins active in array $plugin_class
+	 * Use the plugin located in "external" subfolder to build the method names
+	 *
+	 * @return array<string>
+	 * @see Plugins_Detect::find_available_plugins() that build the list of Plugins available
 	 */
 	public function get_active_plugins(): array {
-
-		foreach ( self::PLUGINS_TO_CHECK as $plugin ) {
-			$method = $plugin . '_is_active';
-			if ( method_exists( $this, $method ) && call_user_func( [ $this, $method ] ) === true ) {
+		foreach ( $this->find_available_plugins() as $plugin ) {
+			$method = $plugin !== null ? $plugin . '_is_active' : '';
+			if ( method_exists( $this, $method ) && $this->{$method}() === true ) { // @phan-suppress-current-line PhanUndeclaredMethod -- bad phan!
 				$this->plugins_class[] = $plugin;
 			}
 		}
@@ -85,6 +105,15 @@ class Plugins_Detect {
 	 * @return bool true if Polylang plugin is active
 	 */
 	private function polylang_is_active(): bool {
-		return function_exists( 'pll_count_posts' ) && is_plugin_active( 'polylang/polylang.php' );
+		return function_exists( 'pll_current_language' );
+	}
+
+	/**
+	 * Determine whether Aioseo is activated
+	 *
+	 * @return bool true if Polylang plugin is active
+	 */
+	private function aioseo_is_active(): bool {
+		return defined( 'AIOSEO_PHP_VERSION_DIR' );
 	}
 }

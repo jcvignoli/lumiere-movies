@@ -16,47 +16,54 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use Lumiere\Settings;
-use Lumiere\Plugins\Imdbphp;
+use Lumiere\Frontend\Main;
 use Imdb\Person;
 
 /**
  * Edit <head> for popups
  *
- * @since 3.11
+ * @since 3.11 created
+ * @since 4.0.3 removed plugins related matter, moved to relevant classes, added activate plugins and trait Main
  */
 class Head_Popups {
 
 	/**
-	 * Lumiere\Imdbphp class
-	 *
+	 * Traits
 	 */
-	private Imdbphp $imdbphp_class;
-
-	/**
-	 * Lumiere\Settings class
-	 */
-	private Settings $settings_class;
+	use \Lumiere\Frontend\Main {
+		Main::__construct as public __constructFrontend;
+	}
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 
-		$this->settings_class = new Settings();
+		// Construct Frontend Main trait.
+		$this->__constructFrontend( __CLASS__ );
 
-		// Exist if it is not a popup.
+
+		// Exit if it is not a popup.
 		if ( $this->is_popup_page() === false ) {
 			return;
 		}
 
-		$this->imdbphp_class = new Imdbphp();
+		/**
+		 * Start Plugins_Start class
+		 * Is instanciated only if not instanciated already
+		 * Use lumiere_set_plugins_array() in trait to set $plugins_active_names var in trait
+		 */
+		if ( count( $this->plugins_active_names ) === 0 ) {
+			$this->activate_plugins();
+		}
 
+		add_action( 'wp_head', [ $this, 'display_plugins_log' ], 99 );
+				
 		// Remove useless or uneeded actions
 		$this->filters_and_actions();
 
 		// Add Lumière <head> data in popups
-		add_action( 'wp_head', [ $this, 'lumiere_add_metas_popups' ], 5 );
+		add_action( 'wp_head', [ $this, 'lumiere_add_metas_popups' ], 7 ); // must be priority 7, one less than earliest wp_head.
 	}
 
 	/**
@@ -70,6 +77,18 @@ class Head_Popups {
 	}
 
 	/**
+	 * Display which plugins are in use
+	 *
+	 * @return void
+	 */
+	public function display_plugins_log(): void {
+	
+		// Log Plugins_Start, $this->plugins_classes_active in Main trait.
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
+	}
+	
+
+	/**
 	 * Detect if the current page is a popup
 	 *
 	 * @since 3.11.4
@@ -80,9 +99,9 @@ class Head_Popups {
 			isset( $_SERVER['REQUEST_URI'] )
 			&&
 			(
-				str_contains( $_SERVER['REQUEST_URI'], $this->settings_class->lumiere_urlstringfilms )
-				|| str_contains( $_SERVER['REQUEST_URI'], $this->settings_class->lumiere_urlstringsearch )
-				|| str_contains( $_SERVER['REQUEST_URI'], $this->settings_class->lumiere_urlstringperson )
+				str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringfilms )
+				|| str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringsearch )
+				|| str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringperson )
 			)
 		) {
 			return true;
@@ -93,28 +112,11 @@ class Head_Popups {
 	/**
 	 * Run all modification to the head
 	 *
-	 * @since 3.11.4
 	 * @return void The class was instanciated
+	 * @since 3.11.4 created
+	 * @since 4.0.3 removed OceanWP specific actions remove, popups are built differently now
 	 */
 	private function filters_and_actions(): void {
-
-		// Remove aioseo if it exists.
-		if ( defined( 'AIOSEO_PHP_VERSION_DIR' ) ) {
-			add_filter( 'aioseo_disable', '__return_true' );
-		}
-
-		// Remove OceanWP useless classes in popups
-		$current_theme = wp_get_theme();
-		if (
-			strlen( $current_theme->get( 'Name' ) ) > 0
-			&& str_contains( strtolower( $current_theme->get( 'Name' ) ), 'oceanwp' ) === true
-			&& class_exists( '\OCEANWP_Theme_Class' )
-		) {
-			remove_action( 'after_setup_theme', [ '\OCEANWP_Theme_Class', 'classes' ], 4 );
-			remove_action( 'after_setup_theme', [ '\OCEANWP_Theme_Class', 'theme_setup' ], 10 );
-			remove_action( 'widgets_init', [ '\OCEANWP_Theme_Class', 'register_sidebars' ] );
-			remove_action( 'wp_enqueue_scripts', [ '\OCEANWP_Theme_Class', 'theme_css' ] );
-		}
 
 		// Prevent WordPress from inserting a few things
 		remove_action( 'wp_head', 'rel_canonical' ); // remove canonical
@@ -146,26 +148,26 @@ class Head_Popups {
 		echo "\n" . '<meta name="robots" content="nofollow" />';
 
 		// Add favicons.
-		echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . esc_url( $this->settings_class->lumiere_pics_dir . 'favicon/apple-touch-icon.png' ) . '" />';
-		echo "\n" . '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url( $this->settings_class->lumiere_pics_dir . 'favicon/favicon-32x32.png' ) . '" />';
-		echo "\n" . '<link rel="icon" type="image/png" sizes="16x16" href="' . esc_url( $this->settings_class->lumiere_pics_dir . 'favicon/favicon-16x16.png' ) . '" />';
-		echo "\n" . '<link rel="manifest" href="' . esc_url( $this->settings_class->lumiere_pics_dir . 'favicon/site.webmanifest' ) . '" />';
+		echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . esc_url( $this->config_class->lumiere_pics_dir . 'favicon/apple-touch-icon.png' ) . '" />';
+		echo "\n" . '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url( $this->config_class->lumiere_pics_dir . 'favicon/favicon-32x32.png' ) . '" />';
+		echo "\n" . '<link rel="icon" type="image/png" sizes="16x16" href="' . esc_url( $this->config_class->lumiere_pics_dir . 'favicon/favicon-16x16.png' ) . '" />';
+		echo "\n" . '<link rel="manifest" href="' . esc_url( $this->config_class->lumiere_pics_dir . 'favicon/site.webmanifest' ) . '" />';
 
 		// Add canonical.
 		// Canonical for search popup.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'] ?? '', site_url( '', 'relative' ) . $this->settings_class->lumiere_urlstringsearch ) && $sanitized_film !== false ) {
+		if ( 0 === stripos( $_SERVER['REQUEST_URI'] ?? '', site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) && $sanitized_film !== false ) {
 
-			$my_canon = $this->settings_class->lumiere_urlpopupsearch . '?film=' . $sanitized_film . '&norecursive=yes';
+			$my_canon = $this->config_class->lumiere_urlpopupsearch . '?film=' . $sanitized_film . '&norecursive=yes';
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 		}
 
 		// Canonical for movies popups.
-		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->settings_class->lumiere_urlstringfilms ) && is_string( $sanitized_mid ) ) {
+		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->config_class->lumiere_urlstringfilms ) && is_string( $sanitized_mid ) ) {
 
 			$url_str_info = $sanitized_info === false ? '' : '&info=' . $sanitized_info;
 			$url_str_film = $sanitized_film === false ? '' : '&film=' . $sanitized_film;
 			$str_film = $sanitized_film === false ? '' : $sanitized_film . '/';
-			$my_canon = $this->settings_class->lumiere_urlpopupsfilms . $str_film . '?mid=' . $sanitized_mid . $url_str_film . $url_str_info;
+			$my_canon = $this->config_class->lumiere_urlpopupsfilms . $str_film . '?mid=' . $sanitized_mid . $url_str_film . $url_str_info;
 
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 
@@ -175,10 +177,10 @@ class Head_Popups {
 		}
 
 		// Canonical for people popups.
-		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->settings_class->lumiere_urlstringperson ) && is_string( $sanitized_mid ) ) {
+		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->config_class->lumiere_urlstringperson ) && is_string( $sanitized_mid ) ) {
 
 			$url_str_info = $sanitized_info === false ? '' : '&info=' . $sanitized_info;
-			$my_canon = $this->settings_class->lumiere_urlpopupsperson . $sanitized_mid . '/?mid=' . $sanitized_mid . $url_str_info;
+			$my_canon = $this->config_class->lumiere_urlpopupsperson . $sanitized_mid . '/?mid=' . $sanitized_mid . $url_str_info;
 
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 

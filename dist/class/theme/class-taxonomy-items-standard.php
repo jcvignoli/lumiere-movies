@@ -60,7 +60,7 @@ class Taxonomy_Items_Standard {
 	public function __construct() {
 
 		// Construct Frontend trait.
-		$this->__constructFrontend( 'taxonomy-standard' );
+		$this->__constructFrontend();
 
 		// Build the taxonomy name.
 		$this->taxonomy = 'lumiere-standard';

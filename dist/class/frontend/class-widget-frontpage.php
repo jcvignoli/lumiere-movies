@@ -95,6 +95,9 @@ class Widget_Frontpage {
 		],
 	];
 
+	/**
+	 * Movie class
+	 */
 	private Movie $movie_class;
 
 	/**
@@ -104,7 +107,7 @@ class Widget_Frontpage {
 	public function __construct() {
 
 		// Construct Frontend trait.
-		$this->__constructFrontend( 'widgetFrontpage' );
+		$this->__constructFrontend();
 
 		// @TODO : when updating to PHP8.2, pass this in the constructor params
 		$this->movie_class = new Movie();
@@ -152,7 +155,7 @@ class Widget_Frontpage {
 		$output = '';
 
 		if ( isset( $inside_tags ) ) {
-			$this->logger->log()->debug( '[Lumiere][widget] Shortcode [' . $tags . '] found.' );
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Shortcode [' . $tags . '] found.' );
 			return $this->lumiere_widget_display_movies( $inside_tags );
 		}
 
@@ -173,7 +176,7 @@ class Widget_Frontpage {
 
 		// Exit if neither a post nor a page!
 		if ( ! is_single() && ! is_page() ) {
-			$this->logger->log()->debug( '[Lumiere][widget] This is not a page, process stopped.' );
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] This is not a page, process stopped.' );
 			return '';
 		}
 
@@ -186,15 +189,15 @@ class Widget_Frontpage {
 		// Log what type of widget is utilised.
 		if ( Widget_Selection::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === true ) {
 			// Post 5.8 WordPress.
-			$this->logger->log()->debug( '[Lumiere][widget] Block-based widget found' );
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Block-based widget found' );
 		} elseif ( is_active_widget( false, false, Settings::WIDGET_NAME, false ) !== false ) {
-			$this->logger->log()->debug( '[Lumiere][widget] Pre-5.8 WordPress widget found' );
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Pre-5.8 WordPress widget found' );
 		}
 
 		// Display the movie according to the post's title (option in -> general -> advanced).
 		if ( $this->imdb_admin_values['imdbautopostwidget'] === '1' ) {
 			$imdb_id_or_title[]['byname'] = sanitize_text_field( get_the_title() );
-			$this->logger->log()->debug( '[Lumiere][widget] Auto widget activated, using the post title ' . sanitize_text_field( get_the_title() ) . ' for querying' );
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Auto widget activated, using the post title ' . sanitize_text_field( get_the_title() ) . ' for querying' );
 		}
 
 		// Get the post ID to query if metaboxes are available in the post.
@@ -209,7 +212,7 @@ class Widget_Frontpage {
 
 		// Exit if no metadata, no auto title option activated
 		if ( $this->imdb_admin_values['imdbautopostwidget'] !== '1' && count( $final_imdb_id_or_title ) === 0 ) {
-			$this->logger->log()->debug( '[Lumiere][widget] Auto title widget deactivated and no IMDb meta for this post, exiting' );
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Auto title widget deactivated and no IMDb meta for this post, exiting' );
 			return '';
 		}
 
@@ -242,7 +245,7 @@ class Widget_Frontpage {
 			// Do a loop, even if today the plugin allows only one metabox.
 			foreach ( $get_movie_name as $key => $value ) {
 				$imdb_id_or_title['byname'] = sanitize_text_field( $value );
-				$this->logger->log()->debug( "[Lumiere][widget] Custom field imdb-movie-widget found, using $value for querying" );
+				$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Custom field imdb-movie-widget found, using $value for querying' );
 			}
 
 		}
@@ -252,7 +255,7 @@ class Widget_Frontpage {
 			// Do a loop, even if today the plugin allows only one metabox.
 			foreach ( $get_movie_id as $key => $value ) {
 				$imdb_id_or_title['bymid'] = sanitize_text_field( $value );
-				$this->logger->log()->debug( "[Lumiere][widget] Custom field imdb-movie-widget-bymid found, using $value for querying" );
+				$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Custom field imdb-movie-widget-bymid found, using $value for querying' );
 			}
 
 		}

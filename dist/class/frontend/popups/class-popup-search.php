@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Imdb\TitleSearch;
+use Lumiere\Frontend\Popups\Head_Popups;
 
 /**
  * Independant class that displays movie search results in a popup
@@ -72,8 +73,11 @@ class Popup_Search {
 			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
 		}
 
+		// Edit metas tags in popups.
+		add_action( 'template_redirect', fn() => Head_Popups::lumiere_static_start() );
+
 		// Construct Frontend trait.
-		$this->__constructFrontend( 'popupSearch' );
+		$this->__constructFrontend();
 
 		// Get the type of search: movies, series, games.
 		$this->type_search = $this->config_class->lumiere_select_type_search();
@@ -90,7 +94,7 @@ class Popup_Search {
 		 * Display layout
 		 * @since 4.0 using 'the_posts', removed the 'get_header' for OceanWP
 		 */
-		add_action( 'the_posts', [ $this, 'layout' ], 1 );
+		add_action( 'the_posts', [ $this, 'layout' ] );
 
 	}
 
@@ -224,8 +228,6 @@ class Popup_Search {
 		</html>
 		<?php
 		exit(); // quit to avoid double loading process
-
 	}
-
 }
 

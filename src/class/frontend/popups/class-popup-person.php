@@ -61,7 +61,7 @@ class Popup_Person {
 		add_action( 'template_redirect', fn() => Head_Popups::lumiere_static_start() );
 
 		// Construct Frontend trait.
-		$this->__constructFrontend( 'popupPerson' );
+		$this->__constructFrontend();
 
 		// Remove admin bar
 		add_filter( 'show_admin_bar', '__return_false' );
@@ -70,7 +70,7 @@ class Popup_Person {
 		 * Display layout
 		 * @since 4.0 using 'the_posts' instead of the 'content'
 		 */
-		add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ], 1 );
+		add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ] );
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Popup_Person {
 		// Get the movie's title.
 		$this->find_person();
 
-		$this->logger->log()->debug( '[Lumiere][popupPersonClass] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
 		// Show menu.
 		$this->display_menu();

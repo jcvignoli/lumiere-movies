@@ -66,7 +66,7 @@ class Redirect_Virtual_Page {
 		$this->imdbphp_class = new Imdbphp();
 
 		// Redirect to popups
-		add_filter( 'template_redirect', [ $this, 'lumiere_popup_redirect_include' ], 2 ); // Must be executed with priority 2, 1 more of what the class was called
+		add_filter( 'template_redirect', [ $this, 'lumiere_popup_redirect_include' ], 9 ); // Must be executed with priority 9, one less than the classes called
 
 		// Redirect class-search.php.
 		add_filter( 'template_redirect', [ $this, 'lumiere_search_redirect' ] );

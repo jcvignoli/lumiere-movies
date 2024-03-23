@@ -73,5 +73,18 @@ trait Data {
 
 		return $result;
 	}
+	
+	/**
+	 * Get the Class name currently in use
+	 * Mainly utlised in $log() so they can provide their class of origin
+	 *
+	 * @since 4.0.3
+	 * @return string The classname currently in use, 'unknowClass' if not found
+	 */
+	public function get_current_classname(): string {
+		$get_class = strrchr( __CLASS__, '\\' );
+		$classname = $get_class !== false ? substr( $get_class, 1 ) : false;
+		return $classname !== false ? $classname : 'unknowClass';
+	}
 }
 
