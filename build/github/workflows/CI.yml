@@ -56,6 +56,6 @@ jobs:
         run: |
           composer install -n --prefer-dist
 
-      - name: "Lint"
+      - name: "Code analyser"
         run: |
-          composer run-script lint
+          composer run-script code-analyser

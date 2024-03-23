@@ -50,7 +50,7 @@
         "phpcsbot": "vendor/bin/phpcs --warning-severity=0 --extensions=php src",
         "phpstanbot": "vendor/bin/phpstan",
         "phanbot": "vendor/bin/phan -k phan.php ",
-        "lint": ["@phpcsbot", "@phpstanbot"],
+        "code-analyser": ["@phpcsbot", "@phpstanbot"],
         "post-autoload-dump": [
             "./build/update-src-composer"
         ]
