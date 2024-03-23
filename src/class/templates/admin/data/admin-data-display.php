@@ -105,7 +105,7 @@ $lumiere_details_with_numbers = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
 		</div>
 	</div>
 
-	<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">
+	<div class="submit lumiere_sticky_boxshadow lumiere_align_center">
 	
 		<?php wp_nonce_field( 'lumiere_nonce_data_settings', '_nonce_data_settings' ); ?>
 		

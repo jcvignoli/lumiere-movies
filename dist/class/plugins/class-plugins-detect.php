@@ -33,24 +33,22 @@ class Plugins_Detect {
 	/**
 	 * Array of plugins currently in use
 	 *
-	 * @phpstan-var self::PLUGINS_TO_CHECK
-	 * @psalm-var array<string>
-	 * @var array<string>
+	 * @var array<mixed>
 	 */
 	public array $plugins_class;
 
 	/**
 	 * Constructor
 	 */
-	public function __construct() {}
+	public function __construct() {
+		$this->plugins_class = [];
+	}
 
 	/**
 	 * Return list of plugins active in array $plugin_class
-	 * Uses the plugin list in PLUGINS_TO_CHECK to build the method names
+	 * Use the plugin list in PLUGINS_TO_CHECK to build the method names
 	 *
-	 * @phpstan-return self::PLUGINS_TO_CHECK
-	 * @psalm-return array<string>
-	 * @return array<string>
+	 * @return array<mixed>
 	 */
 	public function get_active_plugins(): array {
 

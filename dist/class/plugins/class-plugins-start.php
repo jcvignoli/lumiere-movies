@@ -30,9 +30,7 @@ class Plugins_Start {
 	/**
 	 * Array of active plugins
 	 *
-	 * @phpstan-var Plugins_Detect::PLUGINS_TO_CHECK $plugins_active_names
-	 * @psalm-var array<string> $plugins_active_names
-	 * @var array<string> $plugins_active_names
+	 * @var array<mixed> $plugins_active_names
 	 */
 	public array $plugins_active_names;
 
@@ -40,8 +38,6 @@ class Plugins_Start {
 	 * Array of active classes
 	 * The active class can be used when they exist and called with this property
 	 *
-	 * @phpstan-var array<string, PLUGINS_AVAILABLE> $plugins_classes_active
-	 * @psalm-var non-empty-array<string, Oceanwp|Polylang|Amp> $plugins_classes_active I can't get Psalm to accept PLUGINS_AVAILABLE
 	 * @var array<string, object> $plugins_classes_active
 	 */
 	public array $plugins_classes_active;
@@ -54,7 +50,7 @@ class Plugins_Start {
 		// Get the active plugins
 		$detect_class = new Plugins_Detect();
 		$this->plugins_active_names = $detect_class->get_active_plugins();
-		$this->start_plugins();
+		$this->plugins_classes_active = $this->get_plugins();
 	}
 
 	/**
@@ -65,9 +61,13 @@ class Plugins_Start {
 	}
 
 	/**
-	 * Start the plugins and send them to property $plugins_classes_active
+	 * Start the plugins and return those who got activated
+	 *
+	 * @return array<string, object>
 	 */
-	private function start_plugins(): void {
+	private function get_plugins(): array {
+
+		$get_classes_active = [];
 
 		foreach ( $this->plugins_active_names as $plugin ) {
 
@@ -76,9 +76,10 @@ class Plugins_Start {
 			if ( class_exists( $plugin_name ) ) {
 				/** @phpstan-var PLUGINS_AVAILABLE $plugin_class */
 				$plugin_class = new $plugin_name( $this->plugins_active_names );
-				$this->plugins_classes_active[ $plugin ] = $plugin_class;
+				$get_classes_active[ $plugin ] = $plugin_class;
 				//add_action( 'init', fn() => $plugin_class->lumiere_start() );
 			}
 		}
+		return $get_classes_active; // @phpstan-ignore-line -- returns array<int|string, etc> -> wrong, only <string, etc>!
 	}
 }

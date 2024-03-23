@@ -4,7 +4,7 @@
 
 .lumiere_block_widget_image {float:left;width:10%;height:auto;vertical-align:middle;}
 
-.lumiere_block_widget_explanation {clear:both;padding:10px;padding-left:1em;width:100%;}
+.lumiere_block_widget_explanation {clear:both;padding:10px;padding-left:1em;width:100%;font-size:small;}
 
 .lumiere_block_widget_container {display:flex;flex-wrap:wrap;text-align:center;}
 
@@ -13,3 +13,11 @@
 .lumiere_block_widget_enterinput {padding-right:10px;font-size:1.2em;font-weight:bold;flex:50%;text-align:left;}
 
 .lumiere_block_widget_input {padding:10px;text-align:center;background-color:grey;color:white;}
+
+/**
+ * This class ensures that the legacy block is never hidden, behaves like it was clicked
+ * Due to legacy widget preview, we can't know if there is a legacy widget when using block-based widget
+ */
+div.wp-block-legacy-widget__edit-form:has( > div > div > form > div > p.lumiere_padding_ten ){display:block;}
+
+

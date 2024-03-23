@@ -22,7 +22,7 @@ $lumiere_admin_page_general_advanced = get_transient( Admin_Menu::TRANSIENT_ADMI
 ?>
 
 <div id="tabswrap" class="lumiere_wrap">
-	<div class="imdblt_double_container lumiere_padding_five">
+	<div class="lumiere_flex_container lumiere_padding_five">
 		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $lumiere_pics_url . 'menu/admin-general-path.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Paths & Layout', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_admin_page_general_base ); ?>"><?php esc_html_e( 'Layout', 'lumiere-movies' ); ?></a></div>
 
 		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( $lumiere_pics_url . 'menu/admin-general-advanced.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_admin_page_general_advanced ); ?>"><?php esc_html_e( 'Advanced', 'lumiere-movies' ); ?></a></div>

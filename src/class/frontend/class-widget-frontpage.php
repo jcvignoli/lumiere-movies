@@ -45,12 +45,6 @@ class Widget_Frontpage {
 	public const WIDGET_SHORTCODE = 'lumiereWidget';
 
 	/**
-	 * Names of the Widgets
-	 */
-	public const BLOCK_WIDGET_NAME = Settings::BLOCK_WIDGET_NAME; // post-WP 5.8 widget block name.
-	public const WIDGET_NAME = Settings::WIDGET_NAME; // pre-WP 5.8 widget name.
-
-	/**
 	 * HTML wrapping to the widget name
 	 */
 	public const ARGS = [
@@ -114,10 +108,6 @@ class Widget_Frontpage {
 
 		// @TODO : when updating to PHP8.2, pass this in the constructor params
 		$this->movie_class = new Movie();
-
-		// Execute logging.
-		do_action( 'lumiere_logger' );
-
 	}
 
 	/**
@@ -131,11 +121,10 @@ class Widget_Frontpage {
 
 		// If pre-5.8 widget is active and Block Widget unactive, use Widget_Legacy class.
 		if (
-			is_active_widget( false, false, self::WIDGET_NAME, false ) !== false
-			&& Widget_Selection::lumiere_block_widget_isactive( self::BLOCK_WIDGET_NAME ) === false
+			is_active_widget( false, false, Settings::WIDGET_NAME, false ) !== false
+			&& Widget_Selection::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === false
 		) {
-			$legacy_class = new Widget_Legacy();
-			$legacy_class->lumiere_widget_legacy_start();
+			Widget_Legacy::lumiere_widget_legacy_start();
 			return;
 		}
 
@@ -195,10 +184,10 @@ class Widget_Frontpage {
 		$title_box = strlen( $title_box ) > 0 ? $title_box : '';
 
 		// Log what type of widget is utilised.
-		if ( Widget_Selection::lumiere_block_widget_isactive( self::BLOCK_WIDGET_NAME ) === true ) {
+		if ( Widget_Selection::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === true ) {
 			// Post 5.8 WordPress.
 			$this->logger->log()->debug( '[Lumiere][widget] Block-based widget found' );
-		} elseif ( is_active_widget( false, false, self::WIDGET_NAME, false ) !== false ) {
+		} elseif ( is_active_widget( false, false, Settings::WIDGET_NAME, false ) !== false ) {
 			$this->logger->log()->debug( '[Lumiere][widget] Pre-5.8 WordPress widget found' );
 		}
 

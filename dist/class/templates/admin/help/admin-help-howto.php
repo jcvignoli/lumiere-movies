@@ -27,11 +27,11 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 		<?php esc_html_e( 'Lumiere Movies is a plugin under intense development; this help section might be innacurate with regard to the latest functions. Main functions of the plugin are explained below, aiming to be as much user-friendly as possible.', 'lumiere-movies' ); ?>
 	</div>
 
-	<div class="imdblt_double_container">
+	<div class="lumiere_flex_nowrap_container">
 
 		<!--------------- How to use Popups -->
 
-		<div class="postbox-container imdblt_double_container_content lumiere_flex_container_content_fourtyfive">
+		<div class="postbox-container lumiere_flex_container_content_fifty">
 			<div class="helpdiv">
 
 				<h4 data-show-hidden="inside_help_explain_popup" class="help_titles"><?php esc_html_e( 'Why a popup window?', 'lumiere-movies' ); ?></h4>
@@ -116,15 +116,15 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<?php esc_html_e( "The function to be called is <strong>imdb_call_external ()</strong>. It has two parameters, and both are mandatory. The first is the movie's name, and the second take always 'external'. For exemple, one'd like to display 'The Descent' should call the function like this:", 'lumiere-movies' ); ?>
 
-				<blockquote class="lumiere_bloquote_help imdblt_padding_left">
-					$movieClass = new \Lumière\LumiereMovies;<br>
+				<blockquote class="lumiere_bloquote_help lum_padding_left_50">
+					$movieClass = new \Lumiere\Movies;<br>
 					$movieClass->lumiere_external_call('Descent', false, 'external');
 				</blockquote>
 
 				<?php esc_html_e( 'Should you want to call the function using an IMDb ID instead:', 'lumiere-movies' ); ?>
 
-				<blockquote class="lumiere_bloquote_help imdblt_padding_left">
-					$movieClass = new \Lumière\LumiereMovies;<br>
+				<blockquote class="lumiere_bloquote_help lum_padding_left_50">
+					$movieClass = new \Lumiere\Movies;<br>
 					$movieClass->lumiere_external_call(false, '0435625', 'external');
 				</blockquote>
 
@@ -197,7 +197,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<?php esc_html_e( 'It is doable. Lumière is versatile enough to handle this function. With the help of a form, you can add a query field to search for every movie on your blog. Here is the code:', 'lumiere-movies' ); ?>
 
-				<blockquote class="lumiere_bloquote_help imdblt_align_left">
+				<blockquote class="lumiere_bloquote_help lum_align_left">
 					&lt;form action="" method="post" method="get" id="searchmovie" &gt<br>
 						&lt;div&gt Search a movie: &lt;/div&gt<br>
 						&lt;input type="text" id="moviesearched" name="moviesearched" &gt<br>
@@ -207,7 +207,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<?php esc_html_e( 'Then the PHP code:', 'lumiere-movies' ); ?>
 
-				<blockquote class="lumiere_bloquote_help imdblt_align_left">
+				<blockquote class="lumiere_bloquote_help lum_align_left">
 					&lt;?php<br>
 					if (class_exists("\Lumiere\Settings")) {<br>
 						$config_class = new \Lumiere\Settings();<br>
@@ -234,7 +234,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 			</div>
 		</div>
 
-		<div class="postbox-container imdblt_double_container_content lumiere_flex_container_content_fourtyfive">
+		<div class="postbox-container lumiere_flex_container_content_fifty">
 
 			<!--------------- How to keep css modifications -->
 			

@@ -24,7 +24,7 @@ $lumiere_admin_page_help_changelog = get_transient( 'admin_template_pass_vars' )
 ?>
 
 <div id="tabswrap" class="lumiere_wrap">
-	<div class="imdblt_double_container lumiere_padding_five">
+	<div class="lumiere_flex_container lumiere_padding_five">
 
 		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $lumiere_pics_url . 'menu/admin-help-howto.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'How to use Lumiere Movies', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_admin_page_help_base ); ?>"><?php esc_html_e( 'How to', 'lumiere-movies' ); ?></a></div>
 

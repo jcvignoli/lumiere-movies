@@ -50,7 +50,7 @@ class Admin {
 
 		// Widget is also executed on non-admin pages.
 		/** @psalm-suppress MissingClosureReturnType, UndefinedClass -- crazy psalm, it is defined! */
-		add_action( 'widgets_init', fn() => Widget_Selection::lumiere_static_start(), 9 );
+		add_action( 'widgets_init', fn() => Widget_Selection::lumiere_static_start(), 8 );
 
 		if ( ! is_admin() ) {
 			return;

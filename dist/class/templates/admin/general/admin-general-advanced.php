@@ -475,7 +475,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTION
 		</div>
 	</div>
 	
-	<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">
+	<div class="submit lumiere_sticky_boxshadow lumiere_align_center">
 		<?php wp_nonce_field( 'lumiere_nonce_general_settings', '_nonce_general_settings' ); ?>
 		<input type="submit" id="lumiere_reset_general_settings" class="button-primary" name="lumiere_reset_general_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
 		<input type="submit"  id="lumiere_update_general_settings" class="button-primary" name="lumiere_update_general_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />

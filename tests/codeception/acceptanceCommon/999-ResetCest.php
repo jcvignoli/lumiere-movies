@@ -33,17 +33,9 @@ class EndCest {
 		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('lumiere-movies');
 
-		// Classic editor on
-		$I->amOnPluginsPage();
-		$I->maybeActivatePlugin('classic-editor');
-
 		// Polylang on
 		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('polylang');
-
-		// Query Monitor on
-		$I->amOnPluginsPage();
-		$I->maybeActivatePlugin('query-monitor');
 	}
 
 

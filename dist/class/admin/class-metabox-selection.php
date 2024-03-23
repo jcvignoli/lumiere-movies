@@ -122,7 +122,7 @@ class Metabox_Selection {
 
 			<div class="lumiere_padding_five">
 				<label for="lumiere_queryid_widget_input"><?php esc_html_e( 'Title or ID:', 'lumiere-movies' ); ?></label>
-				<input name="lumiere_queryid_widget_input" class="imdblt_width_fillall" type="text" value="<?php echo esc_attr( get_post_meta( $object->ID, 'lumiere_queryid_widget_input', true ) ); ?>">
+				<input name="lumiere_queryid_widget_input" class="lum_width_fillall" type="text" value="<?php echo esc_attr( get_post_meta( $object->ID, 'lumiere_queryid_widget_input', true ) ); ?>">
 			</div>
 
 		</div>

@@ -16,7 +16,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Settings;
-use Lumiere\Tools\Utils;
 use Lumiere\Tools\Settings_Global;
 use WP_Widget;
 
@@ -30,7 +29,7 @@ use WP_Widget;
  * Constant Settings::WIDGET_NAME is the pre-WP 5.8 widget name.
  *
  * @see \Lumiere\Admin that calls it
- * @see \Lumiere\Frontend\Widget_Legacy calls it when in frontend and extends the current class. The current class registers Widget_Legacy widget
+ * @see \Lumiere\Frontend\Widget_Legacy Call it in frontend which will extend the current class. The current class registers Widget_Legacy widget
  */
 class Widget_Selection extends WP_Widget {
 
@@ -52,10 +51,12 @@ class Widget_Selection extends WP_Widget {
 			Settings::WIDGET_NAME,  // Base ID.
 			'Lumière! Widget (legacy)',   // Name.
 			[
-				'description' => esc_html__( 'Add automatically movie details to your pages with Lumière! Legacy version: as of WordPress 5.8, prefer the new Widget version in block editor.', 'lumiere-movies' ),
+				'description' => esc_html__( 'Add automatically movie details to your pages with Lumière! Legacy version. As of WordPress 5.8, you rather should use block-based widgets.', 'lumiere-movies' ),
 				'show_instance_in_rest' => true, /** use WP REST API */
 			]
 		);
+
+		add_action( 'widgets_init', [ $this, 'select_widget' ], 9 ); // called in Admin class with priority 8
 
 		/**
 		 * Hide the widget in legacy widgets menu
@@ -67,26 +68,29 @@ class Widget_Selection extends WP_Widget {
 
 	/**
 	 * Statically start the class
+	 */
+	public static function lumiere_static_start(): void {
+		$self_class = new self();
+	}
+
+	/**
+	 * Select which widget between legacy and block-based gutenberg to instanciate
+	 *
+	 * @info: check if a widget is active in frontend: "is_active_widget( false, false, Settings::WIDGET_NAME, false ) === true"
+		(set last "false" to true to check inactive widgets too)
+	 * @info: check if block-based widget is active: "self::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === true"
+	 * @info: check if block-based widget is registered: \WP_Block_Type_Registry::get_instance()->is_registered( Settings::BLOCK_WIDGET_NAME )
 	 *
 	 * @since 4.0 using __CLASS__ instead of get_class() in register_widget()
 	 * @since 4.0.3 replaced __CLASS__ with "Widget_Legacy" in register_widget(), changed the logic of registering the block widget
 	 */
-	public static function lumiere_static_start(): void {
+	public function select_widget(): void {
 
-		$self_class = new self();
+		// Can't use is_widget_active in widgets_init hook, so home-made check
+		$is_classic_active = in_array( 'classic-widgets/classic-widgets.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ); // @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
-			// Register Block-based Widget if the plugin classic widget is available
-		if (
-			//static::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === true
-			// || is_active_widget( false, false, Settings::WIDGET_NAME, false ) === false
-			is_plugin_active( 'classic-widgets/classic-widgets.php' ) === false
-		) {
-			add_action( 'widgets_init', [ $self_class, 'lumiere_register_widget_block' ] );
-
-			// Register legacy widget if the Classic widget plugin is active, prevents it from appearing in block-based interface.
-		} elseif (
-			is_plugin_active( 'classic-widgets/classic-widgets.php' ) === true
-		) {
+		// Register legacy widget if the Classic widget plugin is active, prevents it from appearing in block-based interface, where it's invisible.
+		if ( $is_classic_active === true ) {
 			add_action(
 				'widgets_init',
 				function() {
@@ -94,6 +98,9 @@ class Widget_Selection extends WP_Widget {
 				}
 			);
 		}
+
+		// Register Block-based Widget by default if no classic widget plugin is available
+		add_action( 'widgets_init', [ $this, 'lumiere_register_widget_block' ] );
 	}
 
 	/**
@@ -115,48 +122,21 @@ class Widget_Selection extends WP_Widget {
 	 */
 	public function lumiere_register_widget_block(): void {
 
-		/**
-		 * Fix; Avoid registering the block twice, register only if not already registered.
-		 * Avoid WP notice 'WP_Block_Type_Registry::register was called incorrectly. Block type is already registered'.
-		if (
-			function_exists( 'register_block_type_from_metadata' )
-			&& class_exists( '\WP_Block_Type_Registry' )
-			&& ! \WP_Block_Type_Registry::get_instance()->is_registered( Settings::BLOCK_WIDGET_NAME )
-		) {
-		*/
 		register_block_type_from_metadata( dirname( dirname( __DIR__ ) ) . '/assets/blocks/widget/' );
 		wp_set_script_translations( 'lumiere-widget-editor-script', 'lumiere-movies', dirname( dirname( __DIR__ ) ) . '/languages/' );
 	}
 
 	/**
-	 * Text for legacy widget. Supposed to display a preview in Block-based interface, but doesn't work.
-	 *
-	 * @see WP_Widget::widget()
-	 *
-	 * @param array<array-key, mixed>|string $args Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
-	 * @param array<array-key, mixed> $instance The settings for the particular instance of the widget.
-	 * @return void
-	 */
-	public function widget( $args, $instance ) {
-
-		// Display preview image only in widget block editor interface.
-		$referer = strlen( $_SERVER['REQUEST_URI'] ?? '' ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) : '';
-		$pages_authorised = [ '/wp-admin/widgets.php', '/wp-json/wp/v2/widget-types' ];
-		if ( Utils::lumiere_array_contains_term( $pages_authorised, $referer ) ) {
-
-			echo '<div align="center"><img src="' . esc_url( $this->config_class->lumiere_pics_dir . 'widget-preview.png' ) . '" /></div>';
-			echo '<br />';
-		}
-	}
-
-	/**
+	 * @inheritdoc
 	 * Outputs the settings update form for Legacy widget.
 	 *
 	 * @see \WP_Widget::form()
 	 *
 	 * @param array<array-key, mixed> $instance Current settings.
 	 * @return string Default return is 'noform'.
+	 * @suppress PhanUndeclaredClassAttribute -- Remove phan error with php < 8.3
 	 */
+	#[\Override]
 	public function form( $instance ): string {
 
 		$title = $instance['title'] ?? '';
@@ -164,23 +144,47 @@ class Widget_Selection extends WP_Widget {
 
 		$lumiere_queryid_widget_input = $instance['lumiere_queryid_widget_input'] ?? '';
 
-		$output = "\n" . '<!-- #lumiere-movies --><p class="lumiere_padding_ten">';
+		$output = "\n\t" . '<!-- Lumière movies widget -->';
+		$output .= "\n\t" . '<p class="lumiere_padding_ten">';
 
-		$output .= "\n\t" . '<div class="lumiere_display_inline_flex">';
+		$output .= "\n\t" . '<div class="lumiere_display_inline_flex lum_legacy_wrapper">';
 		$output .= "\n\t\t" . '<div class="lumiere_padding_ten">';
 		$output .= "\n\t\t\t" . '<img class="lumiere_flex_auto" width="40" height="40" src="'
 				. esc_url( $this->config_class->lumiere_pics_dir . 'lumiere-ico80x80.png' ) . '" />';
 		$output .= "\n\t\t" . '</div>';
 
-		$output .= "\n\t\t" . '<div class="lumiere_flex_auto">';
-		$output .= "\n\t\t\t" . '<label for="' . esc_attr( $this->get_field_id( 'title' ) ) . '">'
+		$output .= "\n\t\t" . '<div class="lumiere_flex_auto lumiere_flex_nowrap_container">';
+		$output .= "\n\t\t\t" . '<label class="lum_legacy_widget_label" for="' . esc_attr( $this->get_field_id( 'title' ) ) . '">'
 					. esc_html__( 'Widget title:', 'lumiere-movies' ) . '</label>';
 		$output .= "\n\t\t\t" . '<input class="widefat" id="' . esc_attr( $this->get_field_id( 'title' ) ) . '" name="' . esc_attr( $this->get_field_name( 'title' ) ) . '" type="text" value="' . esc_attr( $title ) . '" />';
 		$output .= "\n\t\t\t" . '</div>';
 		$output .= "\n\t\t" . '</div>';
-		$output .= "\n\t" . '</p><!-- #lumiere-movies -->';
+		$output .= "\n\t" . '</p><!-- /Lumiere movies widget -->' . "\n\t";
 
-		echo $output;  // @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wp_kses(
+			$output,
+			[
+				'div' => [ 'class' => [] ],
+				'p' => [ 'class' => [] ],
+				'img' => [
+					'class' => [],
+					'width' => [],
+					'height' => [],
+					'src' => [],
+				],
+				'label' => [
+					'class' => [],
+					'for' => [],
+				],
+				'input' => [
+					'class' => [],
+					'id' => [],
+					'name' => [],
+					'type' => [],
+					'value' => [],
+				],
+			]
+		);
 
 		return $output;
 	}
@@ -197,7 +201,9 @@ class Widget_Selection extends WP_Widget {
 	 * @param array<array-key, mixed> $new_instance New settings for this instance as input by the user via WP_Widget::form().
 	 * @param array<array-key, mixed> $old_instance Old settings for this instance.
 	 * @return array<array-key, mixed> Settings to save or bool false to cancel saving.
+	 * @suppress PhanUndeclaredClassAttribute -- Remove phan error with php < 8.3
 	 */
+	#[\Override]
 	public function update( $new_instance, $old_instance ) {
 
 		$instance = [];
@@ -214,7 +220,7 @@ class Widget_Selection extends WP_Widget {
 	 *
 	 * @param string $blockname Name of the block to look for
 	 * @return bool True if found
-	 * @since 4.0.3 moved from Utils to this class
+	 * @since 4.0.3 moved from Utils to here
 	 */
 	public static function lumiere_block_widget_isactive( string $blockname ): bool {
 		$widget_blocks = get_option( 'widget_block' );

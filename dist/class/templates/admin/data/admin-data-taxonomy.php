@@ -69,13 +69,13 @@ $lumiere_escape_wp_kses = [
 		</div>
 		<br /><br />
 
-		<div class="imdblt_double_container">
+		<div class="lumiere_flex_container">
 			<?php echo wp_kses( $lumiere_taxo_fields, $lumiere_escape_wp_kses ); ?>
 			<div class="lumiere_flex_container_content_thirty lumiere_padding_five"></div>
 		</div>
 	</div>
 	
-	<div class="submit submit-imdb lumiere_sticky_boxshadow lumiere_align_center">
+	<div class="submit lumiere_sticky_boxshadow lumiere_align_center">
 	
 		<?php wp_nonce_field( 'lumiere_nonce_data_settings', '_nonce_data_settings' ); ?>
 		

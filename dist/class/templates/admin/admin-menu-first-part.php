@@ -23,10 +23,10 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 	<div class="lumiere_wrap">
 
-		<h2 class="imdblt_padding_bottom_right_fifteen"><img src="<?php echo esc_url( $lum_that->config_class->lumiere_pics_dir . 'lumiere-ico80x80.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;<i>Lumière!</i>&nbsp;<?php esc_html_e( 'admin options', 'lumiere-movies' ); ?></h2>
+		<h2 class="lum_padding_bottom_right_fifteen"><img src="<?php echo esc_url( $lum_that->config_class->lumiere_pics_dir . 'lumiere-ico80x80.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;<i>Lumière!</i>&nbsp;<?php esc_html_e( 'admin options', 'lumiere-movies' ); ?></h2>
 
 		<div class="subpage">
-			<div align="left" class="imdblt_double_container">
+			<div align="left" class="lumiere_flex_container">
 
 				<div class="lumiere_padding_five lumiere_flex_auto">
 					<img src="<?php echo esc_url( $lum_that->config_class->lumiere_pics_dir . 'menu/admin-general.png' ); ?>" align="absmiddle" width="16px" />&nbsp;

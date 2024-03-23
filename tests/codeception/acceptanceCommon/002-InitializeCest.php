@@ -25,10 +25,6 @@ class InitializeCest {
 		// Lumière on
 		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('lumiere-movies');
-
-		// Deactivate Query Monitor, it bugs
-		$I->amOnPluginsPage();
-		$I->maybeDeactivatePlugin('query-monitor');
 	}
 
 

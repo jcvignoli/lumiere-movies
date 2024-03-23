@@ -61,7 +61,7 @@ $lumiere_faqsection_processed = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 		// even number -> title
 		?>
 		
-			<div class="imdblt_padding_twenty">
+			<div class="lum_padding_bottom_twenty">
 				<?php
 				$lumiere_faq_text = is_string( $lumiere_faq_text ) ? $lumiere_faq_text : '';
 				echo wp_kses( str_replace( "\n\n", "\n", $lumiere_faq_text ), $lumiere_escape_wp_kses ); ?>

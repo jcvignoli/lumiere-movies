@@ -20,7 +20,7 @@ $lumiere_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 ?>
 
 <div id="tabswrap" class="lumiere_wrap">
-	<div class="imdblt_double_container lumiere_padding_five">
+	<div class="lumiere_flex_container lumiere_padding_five">
 
 		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $lumiere_that->config_class->lumiere_pics_dir . 'menu/admin-widget-inside-whattodisplay.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to display', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_data ); ?>"><?php esc_html_e( 'Display', 'lumiere-movies' ); ?></a></div>
 

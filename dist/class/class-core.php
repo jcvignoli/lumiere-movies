@@ -129,7 +129,7 @@ class Core {
 
 		// Customized style: register instead of the main style a customised main style located in active theme directory
 		if ( file_exists( get_stylesheet_directory() . '/lumiere.css' ) ) {
-		
+
 			wp_deregister_style( 'lumiere_style_main' ); // remove standard style
 
 			wp_register_style(
@@ -138,7 +138,7 @@ class Core {
 				[],
 				strval( filemtime( get_stylesheet_directory() . '/lumiere.css' ) )
 			);
-		} 
+		}
 	}
 
 	/**
