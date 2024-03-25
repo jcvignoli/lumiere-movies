@@ -20,17 +20,18 @@ if ( ! defined( 'WPINC' ) ) {
 use Lumiere\Plugins\Plugins_Detect;
 
 /**
- * Activate the plugins that are available automatically
+ * Instanciate the plugins that are available and in active
  *
- * @see \Lumiere\Plugins\Plugins_Detect It detects the plugins that are actives and needed to be activated here
- * @phpstan-import-type PLUGINS_AVAILABLE from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @see \Lumiere\Plugins\Plugins_Detect It detects the plugins that are active should be instanciated
  */
 class Plugins_Start {
 
 	/**
 	 * Array of active plugins
 	 *
-	 * @var array<mixed> $plugins_active_names
+	 * @phpstan-var array<int, AVAILABLE_PLUGIN_CLASSES|string>
+	 * @var array<int, string>
 	 */
 	public array $plugins_active_names;
 
@@ -38,19 +39,25 @@ class Plugins_Start {
 	 * Array of active classes
 	 * The active class can be used when they exist and called with this property
 	 *
-	 * @var array<string, object> $plugins_classes_active
+	 * @var array<string, object|Imdbphp|Logger>
 	 */
 	public array $plugins_classes_active;
 
 	/**
 	 * Constructor
+	 * @param array<int, object|Imdbphp|Logger>|null $extra_classes Extra classes to add
 	 */
-	public function __construct() {
+	public function __construct( array $extra_classes = null ) {
 
-		// Get the active plugins
+		// Get the active plugins.
 		$detect_class = new Plugins_Detect();
 		$this->plugins_active_names = $detect_class->get_active_plugins();
-		$this->plugins_classes_active = $this->get_plugins();
+		$this->plugins_classes_active = $this->start_plugins();
+
+		// Add an extra class in properties.	
+		if ( isset( $extra_classes ) ) {
+			$this->add_extra_plugins( $extra_classes );
+		}
 	}
 
 	/**
@@ -62,24 +69,46 @@ class Plugins_Start {
 
 	/**
 	 * Start the plugins and return those who got activated
+	 * Classes are located in Plugins_Detect::SUBFOLDER_PLUGINS_BIT
 	 *
-	 * @return array<string, object>
+	 * @return array<string, object|Imdbphp|Logger>
 	 */
-	private function get_plugins(): array {
+	private function start_plugins(): array {
 
 		$get_classes_active = [];
 
 		foreach ( $this->plugins_active_names as $plugin ) {
 
-			$plugin_name = __NAMESPACE__ . '\External\\' . ucfirst( $plugin );
+			$subfolder_plugins = strlen( Plugins_Detect::SUBFOLDER_PLUGINS_BIT ) > 0 ? ucfirst( Plugins_Detect::SUBFOLDER_PLUGINS_BIT ) . '\\' : '';
+			$plugin_name = __NAMESPACE__ . '\\' . $subfolder_plugins . ucfirst( $plugin );
 
 			if ( class_exists( $plugin_name ) ) {
-				/** @phpstan-var PLUGINS_AVAILABLE $plugin_class */
-				$plugin_class = new $plugin_name( $this->plugins_active_names );
+				$plugin_class = new $plugin_name( $this->plugins_active_names ); // Instanciate plugin classes.
 				$get_classes_active[ $plugin ] = $plugin_class;
-				//add_action( 'init', fn() => $plugin_class->lumiere_start() );
+				/** @phpstan-ignore-next-line Call to an undefined static method object::start_init_hook() */
+				$plugin_class::start_init_hook(); // Extra functions to be started in init
 			}
 		}
-		return $get_classes_active; // @phpstan-ignore-line -- returns array<int|string, etc> -> wrong, only <string, etc>!
+		return $get_classes_active;
+	}
+	
+	/**
+	 * Add to properties extra classes
+	 * @param array<int, object|Imdbphp|Logger> $extra_classes Extra classes to add, they're not in SUBFOLDER_PLUGINS_BIT, they're in "plugins"
+	 */
+	private function add_extra_plugins( array $extra_classes ): void {
+		
+		if ( count( $extra_classes ) === 0 ) {
+			return;
+		}
+		
+		foreach ( $extra_classes as $extra_class ) {
+			$get_class = strrchr( get_class( $extra_class ), '\\' );
+			$classname = $get_class !== false ? strtolower( substr( $get_class, 1 ) ) : false;
+			if ( is_string( $classname ) ) {
+				$this->plugins_active_names[] = $classname;
+				$this->plugins_classes_active[ $classname ] = $extra_class;
+			}
+		}
 	}
 }

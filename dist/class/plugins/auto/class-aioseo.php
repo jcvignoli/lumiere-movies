@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Plugins\External;
+namespace Lumiere\Plugins\Auto;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -30,7 +30,7 @@ class Aioseo {
 	 * Traits
 	 */
 	use Settings_Global;
-	
+
 	/**
 	 * List of plugins active (including current class)
 	 * @var array<string> $active_plugins
@@ -49,7 +49,7 @@ class Aioseo {
 
 		// Get $config_class from Settings_Global trait.
 		$this->get_settings_class();
-		
+
 		// Disable AIOSEO plugin in Popup pages, no need to promote those pages.
 		if ( $this->is_popup_page() === true ) {
 			add_filter( 'aioseo_disable', '__return_true' );
@@ -57,11 +57,9 @@ class Aioseo {
 	}
 
 	/**
-	 * Static start
+	 * Static start for extra functions not to be run in self::__construct. No $this available!
 	 */
-	public function lumiere_start(): void {
-		/** Run whatever you want */
-	}
+	public static function start_init_hook(): void {}
 
 	/**
 	 * Detect if the current page is a popup

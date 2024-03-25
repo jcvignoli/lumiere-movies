@@ -16,6 +16,8 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use Lumiere\Frontend\Main;
+
 /**
  * This template retrieves automaticaly all post related to items taxonomy clicked
  * It is a virtual page created when the appropriate rules are met
@@ -27,10 +29,10 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
  */
 class Taxonomy_Items_Standard {
 
-	// Use trait frontend
-	use \Lumiere\Frontend\Main {
-		\Lumiere\Frontend\Main::__construct as public __constructFrontend;
-	}
+	/**
+	 * Traits
+	 */
+	use Main;
 
 	/**
 	 * Set to true to activate the sidebar
@@ -60,7 +62,7 @@ class Taxonomy_Items_Standard {
 	public function __construct() {
 
 		// Construct Frontend trait.
-		$this->__constructFrontend();
+		$this->start_main_trait();
 
 		// Build the taxonomy name.
 		$this->taxonomy = 'lumiere-standard';

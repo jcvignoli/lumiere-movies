@@ -3,19 +3,22 @@
 v.4.0.3
 * [feature] Thumbnail pictures in taxonomy pages will be quicker to be displayed (using lazy loading, thumbs for the thumb images preciseley)
 * [feature] No need anymore for refreshing rewrite rules when creating a new taxonomy item, done automatically (added flush_rewrite_rules() in Save_Options::lumiere_data_options_save(), which is trigger only when saving taxonomy selection)
+* [feature] Popups spinners vastly improved, work with all modal windows. Clicking on any link in popup will trigger a new spinner if the loading time is > 1 second.
+* [feature] Popups layout vastly reviewed and enhanced, link color changed, added a picture for illustrating the link for movie searching
 * [bug] Custom stylesheet added in personal theme folder wasn't working (now unregister main style and register the custom style in Core class if a parent or child theme is found)
-* [bug] In taxonomy pages for people, if both Polylang and AMP plugins were activated, the form to change the language did't work.
+* [bug] Bootsrap spinner for bootstrap fixed, it correctly disappears when page is fully loaded
+* [bug] Pictures in popup where smaller depending on the results. Fixed their size for both movies and people
+* [bug] Fix the form in taxonomy people pages (if both Polylang and AMP plugins were activated, the form to change the language did't work, use $_GET instead $_POST)
 * [bug] A function to launch a popup in post edition was not working (finalised blocks/opensearch/index.js)
 * [bug] Legacy widget wasn't working, who knows since when. If you use classic widget plugin, you can use Lumière legacy widget. (fixed the extends to Widget_Selection instead of WP_Widget in Lumiere\Frontend\Widget_Legacy class, in Widget_Selection register_widget( 'Widget_Legacy' ) instead of __CLASS__ )
 * [bug] When reseting options in General options, no confirmation message was displayed.
-* [bug] Style of links to movie popups was not grey, had no more the small picture on the lef
-* [bug] Update wasn't working (Casting now to string in class update the option 'imdbHowManyUpdates', which doesn't actually make sense but works)
+* [bug] Plugin Update wasn't working (Casting now to string in class update the option 'imdbHowManyUpdates', which doesn't actually make sense but works)
 * [technical] Gutenberg block registration is now done in more modern way (using register_block_type() and block.json). Splitted "add imdb link" and "open search" into two blocks. Widget is also registered that way.
 * [technical] Due to Gutenberg block limitation, a class is now added in &lt;span data-lum_movie_maker=""&gt;&lt;/span&gt;. The plugin remains fully compatible with the span without class. (Edited regexes in class movie to take into account the possiblity that spans can include a class)
 * [technical] Plugins loading is fully OOP
 * [technical] Bot banning status changed from 403 to 400, which is more appropriate, not banning bots on taxonomy or normal post pages
 * [technical] Notifications are only shown in Lumière admin options pages. If a taxonomy file is not installed, always nag the user to install it.
-* [technical] Lot of cleaning, removed many unused methods, factorized and using more dedicated traits, using official WordPress way to include blocks (block.json)
+* [technical] Lot of cleaning, standardised css classes, removed many unused methods, factorized and using more dedicated traits, using official WordPress way to include blocks (block.json), more official WordPress string escaping
 * [technical] The Polylang language forms in taxonomy pages for people now uses $_Get instead of $_Post, required to make the AMP form work (edited Polylang and Taxonomy_People_Standard clases in this regard)
 
 v.4.0.2

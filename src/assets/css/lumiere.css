@@ -2,23 +2,83 @@
  * Lumiere Movies CSS standard for frontpages
  */
 
-/* ---------------------------------------- Basic */
+/***********************************************************
+******************** Popups
+***********************************************************/
 
-/* Default values */
-body.lumiere_body {font-family: Verdana, Tahoma, Georgia, Geneva, Arial;padding:10px;}
-body.lumiere_popup_search {margin:10px;}
-/* From the admin selection */
-body.lumiere_body_white {color: #575757;background: white;}
-body.lumiere_body_black {color: white;background: black;}
-body.lumiere_body_lightgrey {color: black;background: lightgrey;}
+/* Popups body */
+body.lum_body_popup {font-family: sans-serif;margin:1em;}
+/* Popups body with colors (according to options selected in admin */
+body.lum_body_popup_white {color: #575757;background: white;}
+body.lum_body_popup_black {color: white;background: black;}
+body.lum_body_popup_lightgrey {color: black;background: lightgrey;}
+
+.lum_popup_titlemenu{text-align: center;vertical-align: middle;margin: 0px;margin-left: 5px;font-weight: bold;font-size: medium;}
+.lum_popup_titlemenu a:hover {color: #A8A8A8;text-decoration: none;}
 
 .hidesection{display:none;}
 .activatehidesection {cursor:pointer;}
-#historyback, .searchaka{cursor:pointer;font-style:italic;color:#808080;}
-a.historyback {text-decoration:none !important;}
 
-.lumiere_bold{font-weight:bold;}
-.lumiere_italic{font-style:italic !important;}
+#searchaka{ /*link to the "similiar titles" in a popup movie */
+	background: url(../pics/search.png) no-repeat left;
+	font-style:italic;
+	padding-left: 16px;
+}
+
+#lum_popup_link_back { /*link to the go back, in a popup people */
+	font-style:italic;
+}
+
+.lum_link_ico { /*link to the internal popup, from popups*/
+	background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;
+	padding-left: 16px;
+}
+
+.lum_popup_img { /* div for movie or people picture in popups */
+	text-align: right;
+	margin-right: 1em;
+}
+
+.linkpopup { /*link to the internal popup, from popups*/
+	color: #ff0000;
+	text-decoration: none;
+	cursor:pointer;
+}
+.linkpopup:hover, .linkpopup:visited {
+	color: #ff8e8b;
+	text-decoration: none;
+	cursor:pointer;
+}
+
+/** Link to a popup */
+.linkincmovie {
+	color: #909090;
+	text-decoration: none;
+}
+.linkincmovie:hover {
+	color: #A8A8A8;
+	text-decoration:none;
+}
+
+/* Link to a movie popup */
+.link_classic_film, .modal_window_film, .modal_window_filmid {
+	background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;
+	color: grey;
+	padding-left: 16px;
+	text-decoration: none !important;
+	cursor:pointer;
+}
+
+/* Link to a people popup */
+.link-imdblt-classicpeople, .modal_window_people  {
+	text-decoration: none !important;cursor:pointer;
+}
+
+.link-incmovie-sourceimdb {color:dimgrey;} /* from functions.php, build the link to imdb */
+
+.noresult { /*text displayed when no results found*/
+	color: red;
+}
 
 /* ---------------------------------------- Divs flex */
 
@@ -31,6 +91,7 @@ a.historyback {text-decoration:none !important;}
 .lumiere_container_flex_two{flex:2%;}
 .lumiere_container_flex_30{flex:30%;}
 .lumiere_container_flex_70{flex:70%;}
+
 /* ---------------------------------------- Tables */
 
 /* ------------------- Top menu */
@@ -40,10 +101,6 @@ a.historyback {text-decoration:none !important;}
 .titrecolonne{text-align: center;vertical-align: middle;float: left;margin: 0px;margin-left: 5px;font-family: Arial;font-weight: bold;font-size: medium;height: 42px;text-decoration: none;}
 .titrecolonne a:hover {color: #A8A8A8;}
 
-.lumiere_titlemenu{text-align: center;vertical-align: middle;margin: 0px;margin-left: 5px;font-weight: bold;font-size: medium;}
-.lumiere_titlemenu a:hover {color: #A8A8A8;text-decoration: none;}
-
-.imdblt_titlematchingdirector {width: 40%;}
 .lumiere_float_left, .imdblt_float_left{float:left;}
 .lumiere_float_right, .imdblt_float_right{float:right;}
 
@@ -120,15 +177,11 @@ text-align:left;
 ******************** WIDGET & INSIDE POST
 ***********************************************************/
 
-/* ---- class.movie.php */
-
 .imdbincluded {			/* div */
 padding-bottom:20px;}
 
 .imdbincluded-subtitle {		/* span */
 font-weight:bold;font-size:115%;padding-right:5px;}
-
-.imdbincluded-picture {		/* img */ }
 
 .lumiere-lines-common {		/* common div to all elements */
 padding: 0 10px 0 10px;text-align:left;}
@@ -223,48 +276,13 @@ padding:20px 20px 0 20px;float:left;}
 
 .imdbelementSOURCE-picture {vertical-align:middle;display:inline;}
 
-/* ---------------------------------------- Taxonomy page */
+
+/* ---------------------------------------- Taxonomy people pages */
 
 
 .lumiere-padding-lines-common-picture{padding: 20px 20px 0 10px;}
 .postsTaxonomy{margin-left:2em;}
 .lumiere-lines-common-fix{min-height:100px}
-
-/* ---------------------------------------- Others */
-
-.linkpopup {color: #909090;text-decoration: none;cursor:pointer;}/*link to the internal popup, from popups*/
-.linkpopup:hover {color: #A8A8A8;text-decoration: none;cursor:pointer;}/*link to the internal popup, from popups*/
-
-/** link to a popup */
-.linkincmovie {
-	color: #909090;
-	text-decoration: none;
-}
-.linkincmovie:hover {
-	color: #A8A8A8;
-	text-decoration:none;
-}
-
-/*link to a movie popup */
-.link_classic_film, .modal_window_film, .modal_window_filmid {
-	background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;
-	color: grey;
-	padding-left: 16px;
-	text-decoration: none !important;
-	cursor:pointer;
-}
-
-/*link to a people popup */
-.link-imdblt-classicpeople, .modal_window_people  {
-	text-decoration: none !important;cursor:pointer;
-}
-
-.link-incmovie-sourceimdb {color:dimgrey;} /* from functions.php, build the link to imdb */
-
-.noresult { /*text displayed when no imdbLT results found*/
-color: red;}
-
-/* ---------------------------------------- taxonomy page */
 
 .lumiere_font_12 {font-size:12px;}
 .lumiere_img_taxo_thumbnail{
@@ -280,15 +298,16 @@ color: red;}
 	text-align: center;
 	transition: all .3s ease;
 }
+
 .lumiere_taxo_results {
-	padding:2em;
+/*	padding:2em; */
 }
 
-/* ---------------------------------------- polylang forms */
+/* ---------------------------------------- Polylang forms */
 
 #tag_lang{width:100px;}
 
-/* ---------------------------------------- Gutenberg-search.php */
+/* ---------------------------------------- Search class */
 
 body.gutenberg_search{margin:20px !important;background-color:grey;color:white;}
 body.gutenberg_search a{background-color:darkslategrey;color:darkgrey;border-radius:10px;padding:5px;}
@@ -300,7 +319,14 @@ span.label_moviesearched{font-size:larger !important;padding:10px;}
 .lumiere_gutenberg_results{color:lavender;}
 span.lumiere_gutenberg_copy_class{background-color: cornsilk;color:darkgrey;padding:10px;border-radius:10px;margin:5px;border: 1px solid black;}
 
-/* ---------------------------------------- Spinner Loader when searching */
+/***********************************************************
+******************** Spinners
+***********************************************************/
+
+/**
+ * Full screen spinner, to activate add a div .parent__spinner in HTML after the body
+ * NO MORE IN USE
+ */
 
 .parent__spinner{position: absolute;top: 0;bottom: 0;left: 0;right: 0;background-color: white;display:flex;justify-content:center;align-items: center;z-index: 1000;height: 100%;width: 100%;opacity:1;animation:fade;animation-duration: 0s;animation-delay:1s;animation-fill-mode: forwards;}
 .loading__spinner{/*création du loader*/border: 20px solid white;border-top:20px solid darkgrey;border-bottom:20px solid darkgrey;border-radius: 70%;/*arrondi des angles*/  width:100px;height:100px;margin: auto;/*placement milieu de page*/position:absolute;right:0;top:0;bottom:0;left:0;animation-name:spin;animation-duration:4s;animation-fill-mode:forwards;}
@@ -308,25 +334,63 @@ span.lumiere_gutenberg_copy_class{background-color: cornsilk;color:darkgrey;padd
 @keyframes fade {from{opacity:1;display: block;}to{opacity:0;z-index:-100; display:none;height:0;width:0;display: none;clip-path:circle(0);/* rognage de la totalité donc disparition*/}}
 @keyframes monanim {from{overflow:hidden;}to{overflow:visible;}}
 
- .lumiere_bootstrap_spinner {
-	width: 3rem; height: 3rem; z-index: 20;margin-left:45%;
- }
+/**
+ * On click a HTML tag spinners, to activate add a div|span #bootstrap-spinner-alink that will be changed in javascript
+ * .loader is added by javascript, .parent-loader too
+ * .parent-loader id a full background screen, .loader the animation that is the middle of the screen
+ */
 
-#lumiere_bootstrap_spinner_id { display:none; } 
-.showspin #lumiere_bootstrap_spinner_id { display:block; }
+/* HTML: <div id="spinner-placeholder"></div> */
+#parent-spinner {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color:rgba(0,0,0,0.3);
+	width:100vw;
+	height:100vh;
+	z-index:99;
+}
 
-/*.modal-body{padding:0;}*/
+#spinner {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	bottom: 0;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	z-index:100;
+	width: 120px;
+	height: 20px;
+	background:
+	linear-gradient(#000 0 0) 0/0% no-repeat
+	#ddd;
+	animation: l1 10s infinite linear;
+}
 
-/* ---------------------------------------- Loader when searching */
+@keyframes l1 {
+	100% {background-size:100%}
+}
+
+/***********************************************************
+******************** Misc
+***********************************************************/
 
 .lumiere_align_left{text-align:left;}
 .lumiere_align_right{text-align:right;}
 .lumiere_align_center{align-self:center;text-align:center;}
 
+.lum_width_fit_cont{width:fit-content;}
 .lumiere_width_fifty_perc{width:50%;}
 .lumiere_width_eighty_perc{width:80%;}
-.lumiere_width_twenty_perc{width:20%;}
+.lumiere_width_30_perc{width:30%;}
+.lumiere_width_20_perc{width:20%;}
+.lumiere_width_15_perc{width:15%;}
 .lumiere_font_em_11{font-size:1.1em;}
 .lumiere_padding_two{padding:2px;}
 .lumiere_padding_five{padding:5px;}
 .lumiere_padding_15{padding:15px;}
+.lum_padding_bott_2vh{padding-bottom:2vh;}
+.lumiere_bold{font-weight:bold;}
+.lumiere_italic{font-style:italic !important;}
+

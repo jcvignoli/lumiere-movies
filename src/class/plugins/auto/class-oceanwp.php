@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Plugins\External;
+namespace Lumiere\Plugins\Auto;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -59,15 +59,13 @@ class Oceanwp {
 
 		// Add extra assets.
 		add_action( 'wp_enqueue_scripts', [ $this, 'register_oceanwp_assets' ], 9 );
-		add_action( 'wp_enqueue_scripts', [ $this, 'add_extra_oceanwp_assets' ], 9 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_oceanwp_assets' ], 9 );
 	}
 
 	/**
-	 * Static start
+	 * Static start for extra functions not to be run in self::__construct. No $this available!
 	 */
-	public function lumiere_start(): void {
-		/** Run whatever you want */
-	}
+	public static function start_init_hook(): void {}
 
 	/**
 	 * Remove unwanted OceanWP assets
@@ -121,9 +119,9 @@ class Oceanwp {
 	}
 
 	/**
-	 * Add general assets everywhere
+	 * Enqueue assets everywhere
 	 */
-	public function add_extra_oceanwp_assets(): void {
+	public function enqueue_oceanwp_assets(): void {
 
 		// OceanWP template css fix for popups only.
 		if (

@@ -237,10 +237,10 @@ abstract class Abstract_Link_Maker {
 		// Build image HTML tag <img>
 		// AMP class, loading="lazy" breaks AMP
 		if ( $window_type === 1 ) {
-			$output .= "\n\t\t\t\t\t\t" . '<img class="imdbincluded-picture lumiere_float_right"';
+			$output .= "\n\t\t\t\t\t\t" . '<img class="lumiere_float_right"';
 			// Any class but AMP
 		} else {
-			$output .= "\n\t\t\t\t\t\t" . '<img loading="lazy" class="imdbincluded-picture lumiere_float_right"';
+			$output .= "\n\t\t\t\t\t\t" . '<img loading="lazy" class="lumiere_float_right"';
 		}
 
 		/**
@@ -377,7 +377,7 @@ abstract class Abstract_Link_Maker {
 		// Select the index array according to the number of bio results.
 		$idx = $nbtotalbio < 2 ? $idx = 0 : $idx = 1;
 
-		$bio_text = isset( $bio[ $idx ]['desc'] ) ? trim( str_replace( [ '<br>', '<br />', '<br/>' ], ' ', $bio[ $idx ]['desc'] ) ) : '';
+		$bio_text = isset( $bio[ $idx ]['desc'] ) ? trim( str_replace( [ '<br>', '<br />', '<br/>', '</div>' ], ' ', $bio[ $idx ]['desc'] ) ) : '';
 
 		// Medaillon is displayed in a popup person page, build internal URL.
 		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->config_class->lumiere_urlstringperson ) && strlen( $bio_text ) > 0 ) {
@@ -443,23 +443,23 @@ abstract class Abstract_Link_Maker {
 
 		if ( intval( $window_type ) === 0 ) {
 			$internal_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
-			$internal_link_movie = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+			$internal_link_movie = '<a class="linkpopup lum_link_ico" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
 		}
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
 		// Common pattern.
-		$rule_name = '~(<a href=)(\D{21})(name\/nm)(\d{7})(\?.+?|\/?)">~';
-		$rule_title = '~(<a href=")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)">~';
+		$rule_person = '~(<a href=")(\D{21})(name\/nm)(\d{7})(\?.+?|\/?)">~';
+		$rule_movie = '~(<a href=")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)">~';
 
 		// Pattern found in soundtrack.
 		if ( strpos( $text, 'https://www.imdb.com/' ) === false ) {
-			$rule_name = '~(<a href=")(\/name\/)(nm)(\d{7})(\?.+?|\/?)">~';
-			$rule_title = '~(<a href=")(\/title\/)(tt)(\d{7})(\?.+?|\/?)">~';
+			$rule_person = '~(<a href=")(\/name\/)(nm)(\d{7})(\?.+?|\/?)">~';
+			$rule_movie = '~(<a href=")(\/title\/)(tt)(\d{7})(\?.+?|\/?)">~';
 		}
 
 		// Replace IMDb links with internal links.
-		$output_one = preg_replace( $rule_name, $internal_link_person, $text ) ?? $text;
-		$output_two = preg_replace( $rule_title, $internal_link_movie, $output_one ) ?? $text;
+		$output_one = preg_replace( $rule_person, $internal_link_person, $text ) ?? $text;
+		$output_two = preg_replace( $rule_movie, $internal_link_movie, $output_one ) ?? $text;
 
 		return $output_two;
 
@@ -536,7 +536,7 @@ abstract class Abstract_Link_Maker {
 		return "\n\t\t\t" . '<span class="modal fade" id="theModal' . $imdb_id . '">'
 			. "\n\t\t\t\t" . '<span id="bootstrapp' . $imdb_id . '" class="modal-dialog modal-dialog-centered' . esc_attr( $this->bootstrap_convert_modal_size() ) . '" role="dialog">'
 			. "\n\t\t\t\t\t" . '<span class="modal-content">'
-			. "\n\t\t\t\t\t\t" . '<span class="modal-header bootstrap_black"><span id="lumiere_bootstrap_spinner_id" role="status" class="spinner-border lumiere_bootstrap_spinner"><span class="sr-only">Loading...</span></span>'
+			. "\n\t\t\t\t\t\t" . '<span class="modal-header bootstrap_black"><span id="lumiere_bootstrap_spinner_id" role="status" class="spinner-border"><span class="sr-only">Loading...</span></span>'
 			// . esc_html__( 'Informations about', 'lumiere-movies' ) . ' ' . sanitize_text_field( ucfirst( $imdb_data ) )
 			. '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . $imdb_id . '"></button>'
 			. "\n\t\t\t\t\t\t" . '</span>'

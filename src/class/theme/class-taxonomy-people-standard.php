@@ -18,8 +18,8 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use Imdb\Person;
 use Imdb\PersonSearch;
-use Lumiere\Plugins\External\Polylang;
 use Lumiere\Link_Makers\Link_Factory;
+use Lumiere\Frontend\Main;
 use WP_Query;
 
 /**
@@ -35,22 +35,15 @@ use WP_Query;
  */
 class Taxonomy_People_Standard {
 
-	// Use trait frontend.
-	use \Lumiere\Frontend\Main {
-		\Lumiere\Frontend\Main::__construct as public __constructFrontend;
-	}
+	/**
+	 * Traits
+	 */
+	use Main;
 
 	/**
 	 * Set to true to activate the sidebar
 	 */
 	private bool $activate_sidebar = false;
-
-	/**
-	 * Polylang
-	 *
-	 * @since 3.7.1
-	 */
-	private ?Polylang $polylang_class = null;
 
 	/**
 	 * Class \Imdb\Person
@@ -77,7 +70,7 @@ class Taxonomy_People_Standard {
 	public function __construct() {
 
 		// Construct Frontend trait.
-		$this->__constructFrontend();
+		$this->start_main_trait();
 
 		/**
 		 * Start Plugins_Start class in trait
@@ -157,12 +150,12 @@ class Taxonomy_People_Standard {
 		$this->taxonomy_title = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . 'standard';
 
 		// If we are in a WP taxonomy page, the info from imdbphp libraries.
-		$search = new PersonSearch( $this->imdbphp_class, $this->logger->log() );
+		$search = new PersonSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
 		$results = $search->search( $page_title_check ); // search for the person using the taxonomy tag.
 		if ( array_key_exists( 0, $results ) ) {
 			$mid = $results[0]->imdbid(); // keep the first result only.
 			$mid_sanitized = esc_html( $mid ); // sanitize the first result.
-			$this->person_class = new Person( $mid_sanitized, $this->imdbphp_class, $this->logger->log() ); // search the profile using the first result.
+			$this->person_class = new Person( $mid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() ); // search the profile using the first result.
 			$this->person_name = $this->person_class->name();
 		}
 	}
@@ -506,57 +499,45 @@ class Taxonomy_People_Standard {
 		echo "\n\t\t\t" . '<br />';
 
 		// Compatibility with Polylang WordPress plugin, add a form to filter results by language.
-		if ( isset( $this->plugins_classes_active['polylang'] ) ) {
-			echo wp_kses(
-				$this->plugins_classes_active['polylang']->lumiere_get_form_polylang_selection( $this->taxonomy_title, $this->person_name ),
-				[
-					'div' => [ 'align' => [] ],
-					'form' => [
-						'novalidate' => [],
-						'method' => [],
-						'id' => [],
-						'name' => [],
-						'action' => [],
-					],
-					'select' => [
-						'class' => [],
-						'aria-invalid' => [],
-						'required' => [],
-						'name' => [],
-						'id' => [],
-					],
-					'option' => [
-						'value' => [],
-						'select' => [],
-					],
-					'input' => [
-						'type' => [],
-						'id' => [],
-						'name' => [],
-						'value' => [],
-						'required' => [],
-					],
-					'button' => [
-						'type' => [],
-						'name' => [],
-						'id' => [],
-						'class' => [],
-						'aria-live' => [],
-						'value' => [],
-					],
-					'label' => [ 'for' => [] ],
-					'span' => [
-						'visible-when-invalid' => [],
-						'validation-for' => [],
-					],
-				]
-			);
-		}
-
+		echo isset( $this->plugins_classes_active['polylang'] ) ? wp_kses(
+			$this->plugins_classes_active['polylang']->lumiere_get_form_polylang_selection( $this->taxonomy_title, $this->person_name ),
+			[
+				'div' => [ 'align' => [] ],
+				'form' => [
+					'target' => [],
+					'method' => [],
+					'id' => [],
+					'name' => [],
+					'action' => [],
+				],
+				'select' => [
+					'class' => [],
+					'name' => [],
+					'id' => [],
+				],
+				'option' => [
+					'value' => [],
+					'select' => [],
+				],
+				'input' => [
+					'type' => [],
+					'id' => [],
+					'name' => [],
+					'value' => [],
+					'required' => [],
+				],
+				'button' => [
+					'type' => [],
+					'name' => [],
+					'id' => [],
+					'class' => [],
+					'aria-live' => [],
+					'value' => [],
+				],
+			]
+		) : '';
 		echo "\n\t\t\t" . '<br />';
-
 	}
-
 }
 
 $lumiere_people_standard_class = new Taxonomy_People_Standard();

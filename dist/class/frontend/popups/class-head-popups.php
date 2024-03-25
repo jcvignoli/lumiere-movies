@@ -30,9 +30,7 @@ class Head_Popups {
 	/**
 	 * Traits
 	 */
-	use \Lumiere\Frontend\Main {
-		Main::__construct as public __constructFrontend;
-	}
+	use Main;
 
 	/**
 	 * Constructor
@@ -40,8 +38,7 @@ class Head_Popups {
 	public function __construct() {
 
 		// Construct Frontend Main trait.
-		$this->__constructFrontend( __CLASS__ );
-
+		$this->start_main_trait();
 
 		// Exit if it is not a popup.
 		if ( $this->is_popup_page() === false ) {
@@ -56,9 +53,9 @@ class Head_Popups {
 		if ( count( $this->plugins_active_names ) === 0 ) {
 			$this->activate_plugins();
 		}
-
+		
 		add_action( 'wp_head', [ $this, 'display_plugins_log' ], 99 );
-				
+
 		// Remove useless or uneeded actions
 		$this->filters_and_actions();
 
@@ -82,11 +79,10 @@ class Head_Popups {
 	 * @return void
 	 */
 	public function display_plugins_log(): void {
-	
+
 		// Log Plugins_Start, $this->plugins_classes_active in Main trait.
 		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
 	}
-	
 
 	/**
 	 * Detect if the current page is a popup
@@ -184,7 +180,7 @@ class Head_Popups {
 
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 
-			$person = new Person( $sanitized_mid, $this->imdbphp_class );
+			$person = new Person( $sanitized_mid, $this->plugins_classes_active['imdbphp'] );
 			if ( strlen( $person->name() ) > 0 ) {
 				echo "\n" . '<meta property="article:tag" content="' . esc_attr( $person->name() ) . '" />';
 			}

@@ -25,9 +25,10 @@ use Lumiere\Plugins\Imdbphp;
 
 /**
  * Frontend trait
- * Popups, movies and taxonomy use this trait
+ * Popups, movie, widget and taxonomy use this trait
  * Allow to use the logger, function utilities, and settings
- * @phpstan-import-type PLUGINS_AVAILABLE from \Lumiere\Plugins\Plugins_Detect
+ *
+ * @phpstan-type PluginClasses \Imdb\Config
  */
 trait Main {
 
@@ -48,10 +49,10 @@ trait Main {
 	/**
 	 * Classes that have been activated
 	 *
+	 * @var array<mixed> $plugins_classes_active
+	 *
 	 * @see Plugins_Start::plugins_classes_active
 	 * @since 4.0.3
-	 * @var array<string, object> $plugins_classes_active
-	 * phpstan-var array<string, PLUGINS_AVAILABLE> $plugins_classes_active
 	 */
 	public array $plugins_classes_active = [];
 
@@ -62,11 +63,6 @@ trait Main {
 	 * @phpstan-var \Lumiere\Link_Makers\Bootstrap_Links|\Lumiere\Link_Makers\AMP_Links|\Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\No_Links $link_maker The factory class will determine which class to use
 	 */
 	public object $link_maker;
-
-	/**
-	 * Config for IMDBphp library
-	 */
-	public Imdbphp $imdbphp_class;
 
 	/**
 	 * Logging
@@ -87,12 +83,12 @@ trait Main {
 	*/
 
 	/**
-	 * Constructor
+	 * Constructor-like
 	 *
 	 * @param null|string $logger_name Title for the logger output
 	 * @param bool $screen_output Whether to output Monolog on screen or not
 	 */
-	public function __construct( ?string $logger_name = null, bool $screen_output = true ) {
+	public function start_main_trait( ?string $logger_name = null, bool $screen_output = true ): void {
 
 		/**
 		 * Get Global Settings class properties.
@@ -103,9 +99,6 @@ trait Main {
 
 		// Start Logger class, if no name was passed build it with method get_current_classname().
 		$this->logger = new Logger( $logger_name ?? $this->get_current_classname(), $screen_output );
-
-		// Start Imdbphp class.
-		$this->imdbphp_class = new Imdbphp();
 
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
 		$this->link_maker = Link_Factory::lumiere_link_factory_start();
@@ -125,11 +118,13 @@ trait Main {
 	/**
 	 * Build list of active plugins and send them in properties
 	 *
+	 * @param array<int, object>|array{} $extra_class An extra class to instanciate
 	 * @since 4.0.3
 	 */
-	public function activate_plugins(): void {
+	public function activate_plugins( array $extra_class = [] ): void {
 
-		$plugins = new Plugins_Start();
+		$extra_class[] = new Imdbphp();
+		$plugins = new Plugins_Start( $extra_class );
 		$this->plugins_active_names = $plugins->plugins_active_names;
 		$this->plugins_classes_active = $plugins->plugins_classes_active;
 	}

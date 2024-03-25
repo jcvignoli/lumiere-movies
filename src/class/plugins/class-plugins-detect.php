@@ -6,7 +6,6 @@
  * @copyright (c) 2022, Lost Highway
  *
  * @version 2.0
- * @since 3.7
  * @package lumiere-movies
  */
 
@@ -18,23 +17,27 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Detect which WP plugins are in use and compatible with Lumière
+ * Detect which WP plugins are available in SUBFOLDER_PLUGINS_BIT subfolder and are active
  *
- * @phpstan-type PLUGINS_AVAILABLE External\Amp|External\Oceanwp|External\Polylang|External\Aioseo
- * @phpstan-type FILES_AVAILABLE 'amp'|'oceanwp'|'polylang'|'aioseo'
- * @since 4.0.3 Use find_available_plugins() to find plugins in External folder, and get_active_plugins() returns an array of plugins available
+ * @phpstan-type AVAILABLE_AUTO_CLASSES 'amp'|'oceanwp'|'polylang'|'aioseo'
+ * @phpstan-type AVAILABLE_MANUAL_CLASSES 'imdbphp'|'logger'
+ * @phpstan-type AVAILABLE_PLUGIN_CLASSES AVAILABLE_AUTO_CLASSES|AVAILABLE_MANUAL_CLASSES
+ *
+ * @since 3.7 Class created
+ * @since 4.0.3 Use find_available_plugins() to find plugins in SUBFOLDER_PLUGINS_BIT folder, and get_active_plugins() returns an array of plugins available
  */
 class Plugins_Detect {
 
 	/**
-	 * Plugins that could be activated
+	 * Subfolder name of the plugins that can be automatically started
 	 */
-	const PLUGINS_TO_CHECK = [ 'amp', 'polylang', 'oceanwp', 'aioseo' ];
+	public const SUBFOLDER_PLUGINS_BIT = 'auto';
 
 	/**
 	 * Array of plugins currently in use
 	 *
-	 * @var array<mixed>
+	 * @phpstan-var array<int, AVAILABLE_PLUGIN_CLASSES>
+	 * @var array<int, string>
 	 */
 	public array $plugins_class;
 
@@ -46,18 +49,18 @@ class Plugins_Detect {
 	}
 
 	/**
-	 * Return list of plugins available in external subfolder
+	 * Return list of plugins available in "external" subfolder
 	 * Plugins located there are automatically checked
 	 *
-	 * @phpstan-return list<FILES_AVAILABLE|null>
-	 * @return list<string|null>
+	 * @phpstan-return list<AVAILABLE_PLUGIN_CLASSES>
+	 * @return list<string>
 	 */
 	private function find_available_plugins(): array {
 		$available_plugins = [];
-		$find_files = glob( __DIR__ . '/external/*' );
+		$find_files = glob( __DIR__ . '/' . self::SUBFOLDER_PLUGINS_BIT . '/*' );
 		$files = $find_files !== false ? array_filter( $find_files, 'is_file' ) : [];
 		foreach ( $files as $file ) {
-			/** @phpstan-var FILES_AVAILABLE $filename */
+			/** @phpstan-var AVAILABLE_PLUGIN_CLASSES $filename */
 			$filename = preg_replace( '~.*class-(.+)\.php$~', '$1', $file );
 			$available_plugins[] = $filename;
 		}
@@ -65,15 +68,16 @@ class Plugins_Detect {
 	}
 
 	/**
-	 * Return list of plugins active in array $plugin_class
-	 * Use the plugin located in "external" subfolder to build the method names
+	 * Return list of active plugins
+	 * Use the plugin located in "external" subfolder to build the method names, then check if they are active
 	 *
-	 * @return array<string>
-	 * @see Plugins_Detect::find_available_plugins() that build the list of Plugins available
+	 * @phpstan-return array<int, AVAILABLE_PLUGIN_CLASSES>
+	 * @return array<int, string>
+	 * @see Plugins_Detect::find_available_plugins() that builds the list of available plugins
 	 */
 	public function get_active_plugins(): array {
 		foreach ( $this->find_available_plugins() as $plugin ) {
-			$method = $plugin !== null ? $plugin . '_is_active' : '';
+			$method = $plugin . '_is_active';
 			if ( method_exists( $this, $method ) && $this->{$method}() === true ) { // @phan-suppress-current-line PhanUndeclaredMethod -- bad phan!
 				$this->plugins_class[] = $plugin;
 			}

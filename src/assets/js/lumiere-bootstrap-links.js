@@ -1,90 +1,115 @@
 /**
- * Function here are Content Security Policy (CSP) Compliant
+ * BOOTSRAP popins
+ * Function are Content Security Policy (CSP) Compliant
+ *
+ * (A) Build bootstrap modal window according to the classes clicked
+ * This function is triggered on click on data attribute "modal_window(.*)"
+ * 1- Extracts info from data-(.*) <a> attribute to build a link inserted into an object, then create the modal
+ * 2- Add a spinner with the class .showspinner, which is removed once the object is loaded
  */
-
-/**
- * FUNCTION: build bootstrap popup according to the classes
- * This function on click on data "modal_window(.*)"
- * 1- Extracts info from data-(.*) <a> attribute
- * 2- Add a spinner with the class showspin, and removed it after a timeout
- */
-
-timeout = 1000;
-
 document.addEventListener(
 	'DOMContentLoaded',
 	function () {
-
-		/** bootstrap popup, IMDb people's name */
+		
+		/** bootstrap popup **People's name**, data-modal_window_people */
 
 		jQuery( 'a[data-modal_window_people]' ).on(
 			'click',
-			function(){
+			function(event){
 
-				// var from the html code
+				// Add the class showing the spinner after click
+				jQuery('.modal-header').addClass('showspinner');
+				
+				// get the data-modal_window_people value
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_people' );
 
-				// build the final URL
+				// build the final URL, add a timestamp so no cached result and spinner will be loaded every time
 				var url_imdbperso = lumiere_vars.urlpopup_person + '?mid=' + misc_term;
 
-				// Open bootstrap popup link
-				jQuery('.modal-header').addClass('showspin');
+				// Build the object then activate bootstrap popup link
 				jQuery( '.modal-body' ).html( '<object id="' + misc_term + '" name="' + misc_term + '" data="' + url_imdbperso + '"/>' );
 				themodal = jQuery( '#theModal' + misc_term ).modal( 'show' );
 				
-				themodal.on('shown.bs.modal', function() {
-					setTimeout(() => {
-						jQuery('.modal-header').removeClass('showspin');
-					}, timeout );
+				// Remove the spinner once the object is loaded
+				// the bootstrap modal is normaly saved and doesn't detect a second click on the same object; so we disable the cache
+				jQuery.ajax({
+					url: url_imdbperso, 
+					headers: {
+						'Cache-Control': 'no-cache, no-store, must-revalidate', 
+						'Pragma': 'no-cache', 
+						'Expires': '0'
+					},
+					success: function () {
+						jQuery('.modal-header').removeClass('showspinner');
+					}
 				});
-
 			}
 		);
 
-		/** bootstrap popup, movie by IMDb Title */
+		/** bootstrap popup **Movie by IMDb Title**, data-modal_window_film */
 
 		jQuery( 'a[data-modal_window_film]' ).click(
-			function(){
+			function(event){
 
-				// var from the html code
+				// Add the class showing the spinner after click
+				jQuery('.modal-header').addClass('showspinner');
+
+				// get the data-modal_window_film value
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_film' );
 
-				// build the final URL
+				// build the final URL, add a timestamp so no cached result and spinner will be loaded every time
 				var url_imdbfilm = lumiere_vars.urlpopup_film + '?film=' + misc_term;
 
-				// Open bootstrap popup link
-				jQuery('.modal-header').addClass('showspin');
+				// Build the object then activate bootstrap popup link
 				jQuery( '.modal-body' ).html( '<object name="' + misc_term + '" data="' + url_imdbfilm + '"/>' );
 				themodal = jQuery( '#theModal' + misc_term ).modal( 'show' );
 				
-				themodal.on('shown.bs.modal', function() {
-					setTimeout(() => {
-						jQuery('.modal-header').removeClass('showspin');
-					}, timeout );
+				// Remove the spinner once the object is loaded
+				// the bootstrap modal is normaly saved and doesn't detect a second click on the same object; so we disable the cache
+				jQuery.ajax({
+					url: url_imdbfilm, 
+					headers: {
+						'Cache-Control': 'no-cache, no-store, must-revalidate', 
+						'Pragma': 'no-cache', 
+						'Expires': '0'
+					},
+					success: function () {
+						jQuery('.modal-header').removeClass('showspinner');
+					}
 				});
 			}
 		);
 
-		/** bootstrap popup, movie by IMDb ID */
+		/** bootstrap popup **Movie by IMDb ID**, data-modal_window_filmid */
 
 		jQuery( 'a[data-modal_window_filmid]' ).click(
-			function(){
+			function(event){
 
-				// var mid from the class data-highslidepeople to build the link
+				// Add the class showing the spinner after click
+				jQuery('.modal-header').addClass('showspinner');
+
+				// get the data-modal_window_filmid value
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_filmid' );
 
-				// build the final URL
+				// build the final URL, add a timestamp so no cached result and spinner will be loaded every time
 				var url_imdbfilmid = lumiere_vars.urlpopup_film + '?mid=' + misc_term;
 
-				// Open bootstrap popup link
-				jQuery('.modal-header').addClass('showspin');
+				// Build the object then activate bootstrap popup link
 				jQuery( '.modal-body' ).html( '<object name="' + misc_term + '" data="' + url_imdbfilmid + '"/>' );
 				themodal = jQuery( '#theModal' + misc_term ).modal( 'show' );
 
-				themodal.on('shown.bs.modal', function() {
-					setTimeout(() => {
-						jQuery('.modal-header').removeClass('showspin');
-					}, timeout );
+				// Remove the spinner once the object is loaded
+				// the bootstrap modal is normaly saved and doesn't detect a second click on the same object; so we disable the cache
+				jQuery.ajax({
+					url: url_imdbfilmid, 
+					headers: {
+						'Cache-Control': 'no-cache, no-store, must-revalidate', 
+						'Pragma': 'no-cache', 
+						'Expires': '0'
+					},
+					success: function () {
+						jQuery('.modal-header').removeClass('showspinner');
+					}
 				});
 			}
 		);

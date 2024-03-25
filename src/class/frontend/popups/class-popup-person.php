@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Imdb\Person;
 use Lumiere\Frontend\Popups\Head_Popups;
+use Lumiere\Frontend\Main;
 
 /**
  * Independant class that displays star information in a popup
@@ -27,10 +28,10 @@ use Lumiere\Frontend\Popups\Head_Popups;
  */
 class Popup_Person {
 
-	// Use trait frontend
-	use \Lumiere\Frontend\Main {
-		\Lumiere\Frontend\Main::__construct as public __constructFrontend;
-	}
+	/**
+	 * Traits
+	 */
+	use Main;
 
 	/**
 	 * The person queried as object result
@@ -61,10 +62,22 @@ class Popup_Person {
 		add_action( 'template_redirect', fn() => Head_Popups::lumiere_static_start() );
 
 		// Construct Frontend trait.
-		$this->__constructFrontend();
+		$this->start_main_trait();
 
-		// Remove admin bar
-		add_filter( 'show_admin_bar', '__return_false' );
+		// Remove admin bar if user is logged in.
+		if ( is_user_logged_in() === true ) {
+			add_filter( 'show_admin_bar', '__return_false' );
+			wp_deregister_style( 'admin-bar' );
+		}
+
+		/**
+		 * Start Plugins_Start class
+		 * Is instanciated only if not instanciated already
+		 * Use lumiere_set_plugins_array() in trait to set $plugins_active_names var in trait
+		 */
+		if ( count( $this->plugins_active_names ) === 0 ) {
+			$this->activate_plugins();
+		}
 
 		/**
 		 * Display layout
@@ -87,8 +100,6 @@ class Popup_Person {
 	 */
 	private function find_person(): bool {
 
-		do_action( 'lumiere_logger' );
-
 		/* GET Vars sanitized */
 		$this->mid_sanitized = isset( $_GET['mid'] ) && strlen( strval( $_GET['mid'] ) ) !== 0 ? esc_html( $_GET['mid'] ) : null;
 
@@ -102,15 +113,14 @@ class Popup_Person {
 		} elseif ( strlen( $this->mid_sanitized ) !== 0 ) {
 
 			$this->logger->log()->debug( '[Lumiere] Movie person IMDb ID provided in URL: ' . $this->mid_sanitized );
-			$this->person = new Person( $this->mid_sanitized, $this->imdbphp_class, $this->logger->log() );
+
+			$this->person = new Person( $this->mid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() );
 			$this->person_name = $this->person->name();
 
 			return true;
 
 		}
-
 		return false;
-
 	}
 
 	/**
@@ -118,14 +128,14 @@ class Popup_Person {
 	 */
 	public function lumiere_popup_person_layout(): void {
 
-		?> class="lumiere_body<?php
+		?> class="lum_body_popup<?php
 
-		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
+		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
-		// Display spinner circle
-		echo '<div class="parent__spinner">';
-		echo "\n\t" . '<div class="loading__spinner"></div>';
-		echo '</div>';
+		/**
+		 * Display a spinner when clicking a link with class .linkpopup (a <div class="loader"> will be inserted inside by the js)
+		 */
+		echo '<div id="spinner-placeholder"></div>';
 
 		// Get the movie's title.
 		$this->find_person();
@@ -180,10 +190,10 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 		$url_if_polylang = $this->lumiere_url_check_polylang_rewrite( $this->config_class->lumiere_urlpopupsperson );
 		?>
 												<!-- top page menu -->
-		<div class="lumiere_container lumiere_font_em_11 lumiere_titlemenu">
+		<div class="lumiere_container lumiere_font_em_11 lum_popup_titlemenu">
 			<?php if ( isset( $_GET['info'] ) && strlen( $_GET['info'] ) > 0 ) { ?>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" id="historyback" href="<?php
+				<a rel="nofollow" id="lum_popup_link_back" class="linkpopup" href="<?php
 				$refer = wp_get_referer();
 				echo $refer !== false ? esc_url( $refer ) : ''; ?>"><?php esc_html_e( 'Back', 'lumiere-movies' ); ?></a>
 			</div>
@@ -742,22 +752,22 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 	 */
 	private function display_portrait(): void { ?>
 												<!-- Photo & identity -->
-		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center">
-			<div class="lumiere_flex_auto lumiere_width_eighty_perc">
+		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center lum_padding_bott_2vh">
+			<div class="lumiere_flex_auto lum_width_fit_cont">
 				<div class="identity"><?php echo esc_html( $this->person_name ); ?></div>
 
 				<?php
 
 				# Birth
-				$birthday = $this->person->born() ?? null;
-				if ( isset( $birthday ) && count( $birthday ) !== 0 ) {
-					echo "\n\t\t" . '<div><font size="-1">';
+				$birthday = $this->person->born() !== null ? array_filter( $this->person->born() ) : [];
+				if ( count( $birthday ) > 0 ) {
+					echo "\n\t\t\t\t" . '<div id="birth"><font size="-1">';
 
 					$birthday_day = isset( $birthday['day'] ) && strlen( $birthday['day'] ) > 0 ? (string) $birthday['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
 					$birthday_month = isset( $birthday['month'] ) && strlen( $birthday['month'] ) > 0 ? date_i18n( 'F', $birthday['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
 					$birthday_year = isset( $birthday['year'] ) && strlen( $birthday['year'] ) > 0 ? (string) $birthday['year'] : __( '(year unknown)', 'lumiere-movies' );
 
-					echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
+					echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
 						. esc_html__( 'Born on', 'lumiere-movies' ) . '</span>'
 						. esc_html( $birthday_day . $birthday_month . $birthday_year );
 
@@ -766,20 +776,20 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 						echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $birthday['place'] );
 					}
 
-					echo "\n\t\t" . '</font></div>';
+					echo "\n\t\t\t\t" . '</font></div>';
 				}
 
 				# Death
-				$death = count( $this->person->died() ) > 0 ? $this->person->died() : null;
-				if ( $death !== null ) {
+				$death = array_filter( $this->person->died() );
+				if ( count( $death ) > 0 ) {
 
-					echo "\n\t\t" . '<div><font size="-1">';
+					echo "\n\t\t\t\t" . '<div id="death"><font size="-1">';
 
 					$death_day = isset( $death['day'] ) && strlen( $death['day'] ) > 0 ? (string) $death['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
 					$death_month = isset( $death['month'] ) && strlen( $death['month'] ) > 0 ? date_i18n( 'F', $death['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
 					$death_year = isset( $death['year'] ) && strlen( $death['year'] ) > 0 ? (string) $death['year'] : __( '(year unknown)', 'lumiere-movies' );
 
-					echo "\n\t\t\t" . '<span class="imdbincluded-subtitle">'
+					echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
 						. esc_html__( 'Died on', 'lumiere-movies' ) . '</span>'
 						. esc_html( $death_day . $death_month . $death_year );
 
@@ -792,30 +802,34 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 						echo ' (' . esc_html( $death['cause'] . ')' );
 					}
 
-					echo "\n\t\t" . '</font></div>';
+					echo "\n\t\t\t\t" . '</font></div>';
 				}
 
-				echo "\n\t\t" . '<div class="lumiere_padding_two lumiere_align_left">';
-
 				$bio = $this->link_maker->lumiere_medaillon_bio( $this->person->bio() );
-				echo is_string( $bio ) && strlen( $bio ) > 0 ? "\n\t\t\t" . '<font size="-1">' . wp_kses(
-					$bio,
-					[
-						'span' => [ 'class' => [] ],
-						'a' => [
-							'href' => [],
-							'title' => [],
-							'class' => [],
-						],
-						'strong' => [],
-						'div' => [],
-						'br' => [],
-					]
-				) . '</font>' : '';
+
+				if ( is_string( $bio ) && strlen( $bio ) > 0 ) {
+					echo "\n\t\t\t\t" . '<div id="bio" class="lumiere_padding_two lumiere_align_left"><font size="-1">';
+					echo "\n\t\t\t\t" . wp_kses(
+						$bio,
+						[
+							'span' => [ 'class' => [] ],
+							'a' => [
+								'href' => [],
+								'title' => [],
+								'class' => [],
+							],
+							'strong' => [],
+							'div' => [ 'class' => [] ],
+							'br' => [],
+						]
+					) . '</font></div>';
+				}
 				?>
 
+			</div>
+
 					<!-- star photo -->
-			<div class="lumiere_width_twenty_perc lumiere_padding_two"><?php
+			<div class="lumiere_width_20_perc lumiere_padding_two lum_popup_img"><?php
 
 			// Select pictures: big poster, if not small poster, if not 'no picture'.
 			$photo_url = '';
@@ -833,7 +847,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 			$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . 'no_pics.gif' ) : $photo_thumb;
 
 			echo "\n\t\t\t\t" . '<a class="highslide_pic_popup" href="' . esc_url( $photo_url_href ) . '">';
-			echo "\n\t\t\t\t\t" . '<img loading="lazy" class="imdbincluded-picture" src="'
+			echo "\n\t\t\t\t\t" . '<img loading="lazy" src="'
 				. esc_url( $photo_url_img )
 				. '" alt="'
 				. esc_attr( $this->person_name ) . '"';
@@ -858,7 +872,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 			</div> 
 		</div> 
 							
-		<hr><?php
+		<?php
 	}
 
 }

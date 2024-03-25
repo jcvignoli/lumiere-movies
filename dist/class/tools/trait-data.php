@@ -73,7 +73,7 @@ trait Data {
 
 		return $result;
 	}
-	
+
 	/**
 	 * Get the Class name currently in use
 	 * Mainly utlised in $log() so they can provide their class of origin

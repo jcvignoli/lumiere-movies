@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Imdb\TitleSearch;
 use Lumiere\Frontend\Popups\Head_Popups;
+use Lumiere\Frontend\Main;
 
 /**
  * Independant class that displays movie search results in a popup
@@ -26,10 +27,10 @@ use Lumiere\Frontend\Popups\Head_Popups;
  */
 class Popup_Search {
 
-	// Use trait frontend
-	use \Lumiere\Frontend\Main {
-		\Lumiere\Frontend\Main::__construct as public __constructFrontend;
-	}
+	/**
+	 * Traits
+	 */
+	use Main;
 
 	/**
 	 * Settings from class \Lumiere\Settings
@@ -63,7 +64,7 @@ class Popup_Search {
 	 */
 	public function __construct() {
 
-		// Die if wrong gets.
+		// Die if wrong $_GETs.
 		if (
 			! isset( $_GET['norecursive'] )
 			|| $_GET['norecursive'] !== 'yes'
@@ -77,7 +78,7 @@ class Popup_Search {
 		add_action( 'template_redirect', fn() => Head_Popups::lumiere_static_start() );
 
 		// Construct Frontend trait.
-		$this->__constructFrontend();
+		$this->start_main_trait();
 
 		// Get the type of search: movies, series, games.
 		$this->type_search = $this->config_class->lumiere_select_type_search();
@@ -87,8 +88,20 @@ class Popup_Search {
 		$this->film_sanitized = isset( $_GET['film'] ) ? strtolower( $this->lumiere_name_htmlize( $_GET['film'] ) ) : ''; // In trait Data, which is in trait Main.
 		$this->film_sanitized_for_title = esc_html( $this->film_sanitized );
 
-		// Remove admin bar
-		add_filter( 'show_admin_bar', '__return_false' );
+		/**
+		 * Start Plugins_Start class
+		 * Is instanciated only if not instanciated already
+		 * Use lumiere_set_plugins_array() in trait to set $plugins_active_names var in trait
+		 */
+		if ( count( $this->plugins_active_names ) === 0 ) {
+			$this->activate_plugins();
+		}
+
+		// Remove admin bar if user is logged in.
+		if ( is_user_logged_in() === true ) {
+			add_filter( 'show_admin_bar', '__return_false' );
+			wp_deregister_style( 'admin-bar' );
+		}
 
 		/**
 		 * Display layout
@@ -103,10 +116,8 @@ class Popup_Search {
 	 */
 	private function film_search(): void {
 
-		do_action( 'lumiere_logger' );
-
-		# Run the query.
-		$search = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
+		// Run the query.
+		$search = new TitleSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
 
 		$this->movie_results = $search->search( $this->film_sanitized, $this->type_search );
 
@@ -118,18 +129,19 @@ class Popup_Search {
 	 */
 	public function layout(): void {
 
-		?> class="lumiere_body<?php
+		?> class="lum_body_popup_search lum_body_popup<?php
 
-		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lumiere_body_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
+		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
 		// Do the film query.
 		$this->film_search();
 
-		// Display spinner circle ?>
-		<div class="parent__spinner">
-			<div class="loading__spinner"></div>
-		</div>
-
+		/**
+		 * Display a spinner when clicking a link with class .linkpopup (a <div class="loader"> will be inserted inside by the js)
+		 */
+		echo '<div id="spinner-placeholder"></div>';
+		?>
+		 
 		<h1 align="center">
 			<?php
 			esc_html_e( 'Results related to', 'lumiere-movies' );

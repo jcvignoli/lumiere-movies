@@ -61,27 +61,27 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 			'lumiere_bootstrap_core',
 			$this->imdb_admin_values['imdbplugindirectory'] . 'vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js',
 			[],
-			$this->config_class->lumiere_version,
+			strval( filemtime( plugin_dir_path( dirname( dirname( __DIR__ ) ) ) . 'vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js' ) ),
 			true
 		);
 		wp_enqueue_style(
 			'lumiere_bootstrap_core',
 			$this->imdb_admin_values['imdbplugindirectory'] . 'vendor/twbs/bootstrap/dist/css/bootstrap.min.css',
 			[],
-			$this->config_class->lumiere_version
+			strval( filemtime( plugin_dir_path( dirname( dirname( __DIR__ ) ) ) . 'vendor/twbs/bootstrap/dist/css/bootstrap.min.css' ) )
 		);
 		// Customized bootstrap css.
 		wp_enqueue_style(
 			'lumiere_bootstrap_custom',
 			$this->config_class->lumiere_css_dir . 'lumiere-bootstrap-custom.min.css',
 			[],
-			$this->config_class->lumiere_version
+			strval( filemtime( $this->config_class->lumiere_css_path . 'lumiere-bootstrap-custom.min.css' ) )
 		);
 		wp_register_script(
 			'lumiere_bootstrap_scripts',
 			$this->config_class->lumiere_js_dir . 'lumiere-bootstrap-links.min.js',
 			[],
-			$this->config_class->lumiere_version,
+			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere-bootstrap-links.min.js' ) ),
 			true
 		);
 

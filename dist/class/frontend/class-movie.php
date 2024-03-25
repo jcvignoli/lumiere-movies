@@ -19,6 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Imdb\Title;
 use Imdb\TitleSearch;
 use Lumiere\Frontend\Movie_Data;
+use Lumiere\Frontend\Main;
 
 /**
  * The class uses Movie_Data to display data (Movie actor, movie source, etc)
@@ -30,9 +31,7 @@ class Movie {
 	/**
 	 * Traits
 	 */
-	use \Lumiere\Frontend\Main {
-		Main::__construct as public __constructFrontend;
-	}
+	use Main;
 
 	/**
 	 * Singleton: Make sure events are runned once in this class
@@ -47,7 +46,7 @@ class Movie {
 	public function __construct() {
 
 		// Construct Frontend trait.
-		$this->__constructFrontend();
+		$this->start_main_trait();
 
 		// Singleton
 		$this->movie_run_once = false;
@@ -65,7 +64,6 @@ class Movie {
 		 */
 		add_shortcode( 'imdblt', [ $this, 'parse_lumiere_tag_transform' ] );
 		add_shortcode( 'imdbltid', [ $this, 'parse_lumiere_tag_transform_id' ] );
-
 	}
 
 	/**
@@ -104,7 +102,7 @@ class Movie {
 		$imdb_id_or_title = $imdb_id_or_title_outside ?? null;
 		$output = '';
 
-		$search = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
+		$search = new TitleSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
 
 		// $imdb_id_or_title var comes from custom post's field in widget or in post
 		$counter_imdb_id_or_title = $imdb_id_or_title !== null ? count( $imdb_id_or_title ) : 0;
@@ -172,7 +170,6 @@ class Movie {
 			$output .= "\n\t</div>";
 
 		}
-
 		return $output;
 	}
 
@@ -183,6 +180,7 @@ class Movie {
 	 * @since 3.10.2
 	 */
 	public function lumiere_prohibited_areas(): bool {
+
 		return is_feed() || is_comment_feed();
 	}
 
@@ -214,7 +212,6 @@ class Movie {
 		}
 
 		return $content;
-
 	}
 
 	/**
@@ -227,7 +224,6 @@ class Movie {
 		$imdb_id_or_title = [];
 		$imdb_id_or_title[]['bymid'] = sanitize_text_field( $block_span[1] );
 		return $this->lumiere_show( $imdb_id_or_title );
-
 	}
 
 	/**
@@ -240,7 +236,6 @@ class Movie {
 		$imdb_id_or_title = [];
 		$imdb_id_or_title[]['byname'] = sanitize_text_field( $block_span[1] );
 		return $this->lumiere_show( $imdb_id_or_title );
-
 	}
 
 	/**
@@ -251,6 +246,7 @@ class Movie {
 	 * @param null|string $content shortcode content or null if not set
 	 */
 	public function parse_lumiere_tag_transform( $atts, ?string $content ): string {
+
 		$movie_title = $content;
 		return $this->lumiere_external_call( $movie_title, '', '' );
 	}
@@ -263,6 +259,7 @@ class Movie {
 	 * @param null|string $content shortcode content or null if not set
 	 */
 	public function parse_lumiere_tag_transform_id( $atts, ?string $content ): string {
+
 		$movie_imdbid = $content;
 		return $this->lumiere_external_call( '', $movie_imdbid, '' );
 	}
@@ -374,7 +371,7 @@ class Movie {
 		// Find the Title based on $mid_premier_resultat
 		$movie_title_object = new Title(
 			$mid_premier_resultat, // The IMDb ID
-			$this->imdbphp_class, // The settings
+			$this->plugins_classes_active['imdbphp'], // The settings
 			$this->logger->log() // The logger
 		);
 
@@ -387,7 +384,7 @@ class Movie {
 			&& ( $this->imdb_data_values[ 'imdbwidget' . $data_detail ] === '1' )
 			) {
 				// Build the method name according to the data detail name.
-				$method = "lumiere_movies_{$data_detail}";
+				$method = 'lumiere_movies_' . $data_detail;
 
 				// Get the child class with the methods
 				$movie_data_class = new Movie_Data();

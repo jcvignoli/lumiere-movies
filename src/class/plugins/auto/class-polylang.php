@@ -10,7 +10,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Plugins\External;
+namespace Lumiere\Plugins\Auto;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -24,13 +24,16 @@ use Lumiere\Plugins\Logger;
  * This class offers specific functions if Polylang is in use
  * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->plugins_classes_active
  *
+ * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES from \Lumiere\Plugins\Plugins_Detect
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
 class Polylang {
 
 	/**
-	 * List of plugins active (including current class)
-	 * @var array<string> $active_plugins
+	 * Array of plugins currently in use
+	 *
+	 * @phpstan-var array<int, AVAILABLE_PLUGIN_CLASSES>
+	 * @var array<int, string>
 	 */
 	private array $active_plugins;
 
@@ -42,7 +45,8 @@ class Polylang {
 	/**
 	 * Constructor
 	 *
-	 * @param array<string> $active_plugins
+	 * @phpstan-param array<int, AVAILABLE_PLUGIN_CLASSES> $active_plugins
+	 * @param array<int, string> $active_plugins
 	 */
 	final public function __construct( array $active_plugins ) {
 
@@ -54,11 +58,9 @@ class Polylang {
 	}
 
 	/**
-	 * Static start
+	 * Static start for extra functions not to be run in self::__construct. No $this available!
 	 */
-	public function lumiere_start(): void {
-		/** Run whatever you want */
-	}
+	public static function start_init_hook(): void {}
 
 	/**
 	 * Add the language in use to taxonomy terms ------- In class movie
@@ -84,7 +86,7 @@ class Polylang {
 
 			pll_set_term_language( intval( $term['term_id'] ), $lang );
 			pll_save_term_translations( [ $lang => intval( $term['term_id'] ) ] );
-			$this->logger->log()->debug( '[Lumiere][polylangClass] Taxonomy id ' . $term['term_id'] . ' added' );
+			$this->logger->log()->debug( '[Lumiere][Polylang] Taxonomy id ' . $term['term_id'] . ' added' );
 		}
 	}
 
@@ -105,7 +107,7 @@ class Polylang {
 		 * Must be activated in wp-admin/admin.php?page=mlang_settings - Custom post types and Taxonomies - Custom taxonomies
 		 */
 		if ( ! pll_is_translated_taxonomy( $taxonomy ) ) {
-			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy][polylang plugin] No activated taxonomy found for $person_name with $taxonomy." );
+			$this->logger->log()->debug( "[Lumiere][Polylang][taxonomy_$taxonomy] No activated taxonomy found for $person_name with $taxonomy." );
 			return '';
 		}
 
@@ -119,7 +121,7 @@ class Polylang {
 		$pll_lang = is_array( $pll_lang_init ) ? $pll_lang_init : null;
 
 		if ( ! isset( $pll_lang ) ) {
-			$this->logger->log()->debug( "[Lumiere][taxonomy_$taxonomy] No Polylang language set." );
+			$this->logger->log()->debug( "[Lumiere][Polylang][taxonomy_$taxonomy] No Polylang language set." );
 			return '';
 		}
 

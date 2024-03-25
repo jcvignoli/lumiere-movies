@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Plugins\External;
+namespace Lumiere\Plugins\Auto;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -45,11 +45,9 @@ class Amp {
 	}
 
 	/**
-	 * Static start
+	 * Static start for extra functions not to be run in self::__construct. No $this available!
 	 */
-	public function lumiere_start(): void {
-		/** Run whatever you want */
-	}
+	public static function start_init_hook(): void {}
 
 	/**
 	 * Remove conflicting AMP assets

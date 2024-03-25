@@ -21,6 +21,7 @@ use Lumiere\Settings;
 use Lumiere\Frontend\Movie;
 use Lumiere\Frontend\Widget_Legacy;
 use Lumiere\Admin\Widget_Selection;
+use Lumiere\Frontend\Main;
 
 /**
  * Widgets in Frontpages (displayed in single pages and posts only)
@@ -32,10 +33,10 @@ use Lumiere\Admin\Widget_Selection;
  */
 class Widget_Frontpage {
 
-	// Use Frontend trait
-	use  \Lumiere\Frontend\Main {
-		Main::__construct as public __constructFrontend;
-	}
+	/**
+	 * Traits
+	 */
+	use Main;
 
 	/**
 	 * Shortcode to be used by add_shortcodes, ie [lumiereWidget][/lumiereWidget]
@@ -107,7 +108,7 @@ class Widget_Frontpage {
 	public function __construct() {
 
 		// Construct Frontend trait.
-		$this->__constructFrontend();
+		$this->start_main_trait();
 
 		// @TODO : when updating to PHP8.2, pass this in the constructor params
 		$this->movie_class = new Movie();
