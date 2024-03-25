@@ -140,7 +140,7 @@ class Popup_Search {
 		 * Display a spinner when clicking a link with class .linkpopup (a <div class="loader"> will be inserted inside by the js)
 		 */
 		echo '<div id="spinner-placeholder"></div>';
-		?>
+?>
 		 
 		<h1 align="center">
 			<?php

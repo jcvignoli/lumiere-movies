@@ -54,7 +54,7 @@ class Plugins_Start {
 		$this->plugins_active_names = $detect_class->get_active_plugins();
 		$this->plugins_classes_active = $this->start_plugins();
 
-		// Add an extra class in properties.	
+		// Add an extra class in properties.
 		if ( isset( $extra_classes ) ) {
 			$this->add_extra_plugins( $extra_classes );
 		}
@@ -91,17 +91,17 @@ class Plugins_Start {
 		}
 		return $get_classes_active;
 	}
-	
+
 	/**
 	 * Add to properties extra classes
 	 * @param array<int, object|Imdbphp|Logger> $extra_classes Extra classes to add, they're not in SUBFOLDER_PLUGINS_BIT, they're in "plugins"
 	 */
 	private function add_extra_plugins( array $extra_classes ): void {
-		
+
 		if ( count( $extra_classes ) === 0 ) {
 			return;
 		}
-		
+
 		foreach ( $extra_classes as $extra_class ) {
 			$get_class = strrchr( get_class( $extra_class ), '\\' );
 			$classname = $get_class !== false ? strtolower( substr( $get_class, 1 ) ) : false;

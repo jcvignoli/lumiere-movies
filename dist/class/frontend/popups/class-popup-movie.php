@@ -81,7 +81,7 @@ class Popup_Movie {
 			add_filter( 'show_admin_bar', '__return_false' );
 			wp_deregister_style( 'admin-bar' );
 		}
-		
+
 		/**
 		 * Start Plugins_Start class
 		 * Is instanciated only if not instanciated already
@@ -90,7 +90,7 @@ class Popup_Movie {
 		if ( count( $this->plugins_active_names ) === 0 ) {
 			$this->activate_plugins();
 		}
-		
+
 		/**
 		 * Display layout
 		 * @since 4.0 using 'the_posts', removed the 'get_header' for OceanWP
@@ -184,7 +184,7 @@ if ( $this->find_movie() === false ) {
 		 * Display a spinner when clicking a link with class .linkpopup (a <div class="loader"> will be inserted inside by the js)
 		 */
 		echo '<div id="spinner-placeholder"></div>';
-		
+
 		$movie_results = $this->movie;
 
 		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );

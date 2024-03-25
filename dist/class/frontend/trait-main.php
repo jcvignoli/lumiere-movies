@@ -99,7 +99,7 @@ trait Main {
 
 		// Start Logger class, if no name was passed build it with method get_current_classname().
 		$this->logger = new Logger( $logger_name ?? $this->get_current_classname(), $screen_output );
-		
+
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
 		$this->link_maker = Link_Factory::lumiere_link_factory_start();
 

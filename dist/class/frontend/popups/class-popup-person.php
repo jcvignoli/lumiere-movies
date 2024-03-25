@@ -78,7 +78,7 @@ class Popup_Person {
 		if ( count( $this->plugins_active_names ) === 0 ) {
 			$this->activate_plugins();
 		}
-		
+
 		/**
 		 * Display layout
 		 * @since 4.0 using 'the_posts' instead of the 'content'
@@ -136,7 +136,7 @@ class Popup_Person {
 		 * Display a spinner when clicking a link with class .linkpopup (a <div class="loader"> will be inserted inside by the js)
 		 */
 		echo '<div id="spinner-placeholder"></div>';
-		
+
 		// Get the movie's title.
 		$this->find_person();
 
@@ -804,7 +804,6 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 					echo "\n\t\t\t\t" . '</font></div>';
 				}
-
 
 				$bio = $this->link_maker->lumiere_medaillon_bio( $this->person->bio() );
 

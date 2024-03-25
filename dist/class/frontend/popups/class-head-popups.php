@@ -53,7 +53,7 @@ class Head_Popups {
 		if ( count( $this->plugins_active_names ) === 0 ) {
 			$this->activate_plugins();
 		}
-		
+
 		add_action( 'wp_head', [ $this, 'display_plugins_log' ], 99 );
 
 		// Remove useless or uneeded actions
