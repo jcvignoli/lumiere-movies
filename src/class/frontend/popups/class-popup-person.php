@@ -133,7 +133,7 @@ class Popup_Person {
 		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
 		/**
-		 * Display a spinner when clicking a link with class .linkpopup (a <div class="loader"> will be inserted inside by the js)
+		 * Display a spinner when clicking a link with class .lum_add_spinner (a <div class="loader"> will be inserted inside by the js)
 		 */
 		echo '<div id="spinner-placeholder"></div>';
 
@@ -193,22 +193,22 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 		<div class="lumiere_container lumiere_font_em_11 lum_popup_titlemenu">
 			<?php if ( isset( $_GET['info'] ) && strlen( $_GET['info'] ) > 0 ) { ?>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" id="lum_popup_link_back" class="linkpopup" href="<?php
+				<a rel="nofollow" id="lum_popup_link_back" class="lum_popup_menu_title lum_add_spinner" href="<?php
 				$refer = wp_get_referer();
 				echo $refer !== false ? esc_url( $refer ) : ''; ?>"><?php esc_html_e( 'Back', 'lumiere-movies' ); ?></a>
 			</div>
 			<?php } ?>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Summary', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Summary', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=filmo' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full filmography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full filmography', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=filmo' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full filmography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full filmography', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=bio' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full biography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full biography', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=bio' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full biography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full biography', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" class='linkpopup' href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=misc' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=misc' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
 			</div>
 		</div>
 
@@ -248,7 +248,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 				for ( $i = 0; $i < $nbtotalfilmo; $i++ ) {
 
-					echo " <a rel=\"nofollow\" class='linkpopup' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $filmo[ $i ]['mid'] ) ) . "'>" . esc_html( $filmo[ $i ]['name'] ) . '</a>';
+					echo " <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $filmo[ $i ]['mid'] ) ) . "'>" . esc_html( $filmo[ $i ]['name'] ) . '</a>';
 
 					if ( strlen( $filmo[ $i ]['year'] ) !== 0 ) {
 						echo ' (';
@@ -326,7 +326,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 						echo "\n\t\t" . '<div align="center" class="lumiere_container">';
 						echo "\n\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-						echo "\n\t\t\t\t <a rel=\"nofollow\" class='linkpopup' href='"
+						echo "\n\t\t\t\t <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='"
 							. esc_url(
 								$this->config_class->lumiere_urlpopupsfilms
 								. '?mid=' . esc_html( $filmo[ $i ]['mid'] )
@@ -348,7 +348,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 								. '</i>';
 
 						} elseif ( isset( $filmo['chid'] ) && count( $filmo['chid'] ) !== 0 ) {
-							echo ' as <i><a rel="nofollow" class="linkpopup" href="'
+							echo ' as <i><a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 							. esc_url(
 								'https://'
 								. $this->person->imdbsite
@@ -373,7 +373,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 					// before XX results, show a shortened list of results
 
-					echo "\n\t <a rel=\"nofollow\" class='linkpopup' href='"
+					echo "\n\t <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='"
 							. esc_url(
 								$this->config_class->lumiere_urlpopupsfilms
 								. '?mid=' . esc_html( $filmo[ $i ]['mid'] )
@@ -393,7 +393,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 					} elseif ( isset( $filmo['chid'] ) && strlen( $filmo['chid'] ) !== 0 ) {
 
-						echo ' as <i><a rel="nofollow" class="linkpopup" href="'
+						echo ' as <i><a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 							. esc_url(
 								'https://'
 								. $this->person->imdbsite
@@ -429,11 +429,11 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Biographical movies -->';
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Biographical movies', 'lumiere-movies' ) . '</span>';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Biographical movie', 'Biographical movies', $nbtotalbiomovie, 'lumiere-movies' ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalbiomovie; ++$i ) {
 
-				echo "<a rel=\"nofollow\" class='linkpopup' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $biomovie[ $i ]['id'] ) ) . "'>" . esc_html( $biomovie[ $i ]['title'] ) . '</a>';
+				echo "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $biomovie[ $i ]['id'] ) ) . "'>" . esc_html( $biomovie[ $i ]['title'] ) . '</a>';
 
 				if ( isset( $biomovie[ $i ]['year'] ) && $biomovie[ $i ]['year'] > 0 ) {
 					echo ' (' . intval( $biomovie[ $i ]['year'] ) . ') ';
@@ -457,7 +457,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			for ( $i = 0; $i < $nbtotalportrayedmovie; ++$i ) {
 
-				echo "<a rel=\"nofollow\" class='linkpopup' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $portrayedmovie[ $i ]['imdb'] ) ) . "'>" . esc_html( $portrayedmovie[ $i ]['name'] ) . '</a>';
+				echo "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $portrayedmovie[ $i ]['imdb'] ) ) . "'>" . esc_html( $portrayedmovie[ $i ]['name'] ) . '</a>';
 
 				if ( isset( $portrayedmovie[ $i ]['year'] ) && strlen( $portrayedmovie[ $i ]['year'] ) !== 0 ) {
 					echo ' (' . intval( $portrayedmovie[ $i ]['year'] ) . ') ';
@@ -477,7 +477,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Interviews -->';
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Interviews', 'lumiere-movies' ) . '</span>';
+			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Interview', 'Interviews', $nbtotalinterviews, 'lumiere-movies' ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalinterviews; $i++ ) {
 
@@ -512,7 +512,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Publicity printed -->';
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
 			echo "\n\t" . '<span class="imdbincluded-subtitle">'
-				. esc_html__( 'Printed publicity', 'lumiere-movies' )
+				. esc_html( _n( 'Print ads', 'Printed ads', $nbtotalpubprints, 'lumiere-movies' ) )
 				. '</span>';
 			for ( $i = 0; $i < $nbtotalpubprints; $i++ ) {
 
@@ -799,6 +799,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 					}
 
 					if ( ( isset( $death['cause'] ) ) && ( strlen( $death['cause'] ) !== 0 ) ) {
+						/** translators: 'cause' like 'Cause of death' */
 						echo ' (' . esc_html( $death['cause'] . ')' );
 					}
 

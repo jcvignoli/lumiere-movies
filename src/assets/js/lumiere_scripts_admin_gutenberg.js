@@ -5,15 +5,15 @@
  */
 
 /**
- * Slightly modified Lumiere jQuery script opening a popup when clicking on 'a[data-lumiere_admin_popup]'
- * To make it work, we track all clicks on <div>, and keep only if it has data-lumiere_admin_popup, then we open a popup
+ * Slightly modified Lumiere jQuery script opening a popup when clicking on 'a[data-lumiere_admin_search_popup]'
+ * To make it work, we track all clicks on <div>, and keep only if it has data-lumiere_admin_search_popup, then we open a popup
  */
 document.addEventListener(
 	'DOMContentLoaded',
 	() => {
 		jQuery( 'div' ).click(
 			(event) => {
-				if ( jQuery(event.target).data('lumiere_admin_popup') ){
+				if ( jQuery(event.target).data('lumiere_admin_search_popup') ){
 					// Vars from Settings class, transmitted in script lumiere_scripts_admin_vars from class Admin
 					var tmppopupLarg = lumiere_admin_vars.popupLarg;
 					var tmppopupLong = lumiere_admin_vars.popupLong;

@@ -434,18 +434,17 @@ class Taxonomy_People_Standard {
 		echo '<font size="-1">';
 
 		# Birth
-		$birthday = $this->person_class->born() ?? null;
-		if ( $birthday !== null && count( $birthday ) !== 0 ) {
-			$birthday_day = $birthday['day'] ?? '';
-			$birthday_month = $birthday['month'] ?? '';
-			$birthday_year = $birthday['year'] ?? '';
+		$birthday = $this->person_class->born() !== null ? array_filter( $this->person_class->born() ) : [];
+		if ( count( $birthday ) > 0 ) {
+
+			$birthday_day = isset( $birthday['day'] ) && strlen( $birthday['day'] ) > 0 ? (string) $birthday['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
+			$birthday_month = isset( $birthday['month'] ) && strlen( $birthday['month'] ) > 0 ? date_i18n( 'F', $birthday['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
+			$birthday_year = isset( $birthday['year'] ) && strlen( $birthday['year'] ) > 0 ? (string) $birthday['year'] : __( '(year unknown)', 'lumiere-movies' );
 
 			echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
 				. '&#9788;&nbsp;'
 				. esc_html__( 'Born on', 'lumiere-movies' ) . '</span>'
-				. intval( $birthday_day ) . ' '
-				. esc_html( $birthday_month ) . ' '
-				. intval( $birthday_year );
+				. esc_html( $birthday_day . $birthday_month . $birthday_year );
 		} else {
 			echo '&nbsp;';
 		}
@@ -465,18 +464,22 @@ class Taxonomy_People_Standard {
 		$death = ( count( $this->person_class->died() ) !== 0 ) ? $this->person_class->died() : null;
 		if ( $death !== null ) {
 
+			$death_day = isset( $death['day'] ) && strlen( $death['day'] ) > 0 ? (string) $death['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
+			$death_month = isset( $death['month'] ) && strlen( $death['month'] ) > 0 ? date_i18n( 'F', $death['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
+			$death_year = isset( $death['year'] ) && strlen( $death['year'] ) > 0 ? (string) $death['year'] : __( '(year unknown)', 'lumiere-movies' );
+
 			echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
 				. '&#8224;&nbsp;'
 				. esc_html__( 'Died on', 'lumiere-movies' ) . '</span>'
-				. intval( $death['day'] ) . ' '
-				. esc_html( $death['month'] ) . ' '
-				. intval( $death['year'] );
+				. esc_html( $death_day . $death_month . $death_year );
 
 			if ( ( isset( $death['place'] ) ) && ( strlen( $death['place'] ) !== 0 ) ) {
+				/** translators: 'in' like 'Died in' */
 				echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $death['place'] );
 			}
 
 			if ( ( isset( $death['cause'] ) ) && ( strlen( $death['cause'] ) !== 0 ) ) {
+				/** translators: 'cause' like 'Cause of death' */
 				echo ', ' . esc_html__( 'cause', 'lumiere-movies' ) . ' ' . esc_html( $death['cause'] );
 			}
 

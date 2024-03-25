@@ -14,7 +14,7 @@ document.addEventListener(
 	
 		/**
 		 * Spinner click
-		 * This will show a spinner when clicking an HTML link tag 'a' with class .linkpopup
+		 * This will show a spinner when clicking an HTML link tag 'a' with class .lum_add_spinner
 		 *
 		 * JS Script: This will add a <div class="spinner"> inside a span|div|whatever with id="spinner-placeholder" and a <div id="parent-spinner">
 		 * CSS Stylesheet: It uses a css to customize div class "loader"
@@ -22,7 +22,7 @@ document.addEventListener(
 		 * Timeout: A 1 sec (1000 ms) timeout is integrated, so the spinner start being displayed only when needed
 		 */
 		jQuery(function(){
-		​	jQuery('.linkpopup').click(function(){
+		​	jQuery('.lum_add_spinner').click(function(){
 				setTimeout(() => {
 					jQuery('<div id="parent-spinner"><div id="spinner"></div></div>').prependTo(jQuery('#spinner-placeholder'));
 				}, 1000);

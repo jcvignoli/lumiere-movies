@@ -92,7 +92,7 @@ class SearchCest {
 
 		// Open the window
 		$I->amOnPage( ADMIN_POST_ID_TESTS );
-		$I->click( 'a[data-lumiere_admin_popup="no data"]' );
+		$I->click( 'a[data-lumiere_admin_search_popup="noInfoNeeded"]' );
 		$I->wait(5);
 
 		// Search in the window

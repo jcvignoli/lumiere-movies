@@ -183,7 +183,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<?php
 				/* translators: %1$s and %2$s are HTML tags */
-				echo wp_kses( sprintf( __( 'Get IMDb ids from links provided everywhere in the plugin interface. Even %1$shere%2$s.', 'lumiere-movies' ), '<a data-lumiere_admin_popup="openApopup">', '</a>' ), [ 'a' => [ 'data-lumiere_admin_popup' => [] ] ] );
+				echo wp_kses( sprintf( __( 'Get IMDb ids from links provided everywhere in the plugin interface. Even %1$shere%2$s.', 'lumiere-movies' ), '<a class="lum_adm_make_popup" data-lumiere_admin_search_popup="noInfoNeeded">', '</a>' ), [ 'a' => [ 'data-lumiere_admin_search_popup' => [] ] ] );
 				?>
 				</div>
 			</div>
@@ -378,10 +378,18 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<br clear="both">
 				<br clear="both">
 
-				<?php esc_html_e( '3. It is possible to limit the number of results in the queries using its dedicated option. The less results there is, the less server resources are required and the faster the output is displayed. This limit number applies to the search of movies with a similar name (menu option in movies popups) and in ', 'lumiere-movies' );
-
-				/* translators: %1$s and %2$s are replaced with HTML tags */
-				echo wp_kses( sprintf( __( '%1$sthe admin tool of queries to find IMDb id%2$s.', 'lumiere-movies' ), '<a href="' . esc_url( admin_url( \Lumiere\Settings::GUTENBERG_SEARCH_URL_STRING ) ) . '">', '</a>' ), [ 'a' => [ 'href' => [] ] ] );
+				<?php
+				echo wp_kses(
+					/* translators: %1$s and %2$s are replaced with HTML tags */
+					sprintf( __( '3. It is possible to limit the number of results in the queries using its dedicated option. The less results there is, the less server resources are required and the faster the output is displayed. This limit number applies to the search of movies with a similar name (menu option in movies popups) and in %1$sthe admin tool of queries to find IMDb id%2$s.', 'lumiere-movies' ), '<a class="lum_adm_make_popup" data-lumiere_admin_search_popup="noInfoNeeded">', '</a>' ),
+					[
+						'a' => [
+							'href' => [],
+							'class' => [],
+							'data-lumiere_admin_search_popup' => [],
+						],
+					]
+				);
 				?>
 
 				</div>

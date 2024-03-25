@@ -5,7 +5,9 @@ v.4.0.3
 * [feature] No need anymore for refreshing rewrite rules when creating a new taxonomy item, done automatically (added flush_rewrite_rules() in Save_Options::lumiere_data_options_save(), which is trigger only when saving taxonomy selection)
 * [feature] Popups spinners vastly improved, work with all modal windows. Clicking on any link in popup will trigger a new spinner if the loading time is > 1 second.
 * [feature] Popups layout vastly reviewed and enhanced, link color changed, added a picture for illustrating the link for movie searching
+* [feature] The color of links to taxonomy pages is now different than to popups, for better understanding of what comes next. More respectful of plugin user css, not modifing links into the posts except in Lumière area (used to change to grey color the links)
 * [bug] Custom stylesheet added in personal theme folder wasn't working (now unregister main style and register the custom style in Core class if a parent or child theme is found)
+* [bug] Title in popup search were a mess with + and \ in the title (better data escaping in Popup Search class)
 * [bug] Bootsrap spinner for bootstrap fixed, it correctly disappears when page is fully loaded
 * [bug] Pictures in popup where smaller depending on the results. Fixed their size for both movies and people
 * [bug] Fix the form in taxonomy people pages (if both Polylang and AMP plugins were activated, the form to change the language did't work, use $_GET instead $_POST)
@@ -18,7 +20,7 @@ v.4.0.3
 * [technical] Plugins loading is fully OOP
 * [technical] Bot banning status changed from 403 to 400, which is more appropriate, not banning bots on taxonomy or normal post pages
 * [technical] Notifications are only shown in Lumière admin options pages. If a taxonomy file is not installed, always nag the user to install it.
-* [technical] Lot of cleaning, standardised css classes, removed many unused methods, factorized and using more dedicated traits, using official WordPress way to include blocks (block.json), more official WordPress string escaping
+* [technical] Lot of cleaning, standardised css classes, removed many unused methods in css and php, factorized and using more dedicated traits, using official WordPress way to include blocks (block.json), more standard WordPress string escaping
 * [technical] The Polylang language forms in taxonomy pages for people now uses $_Get instead of $_Post, required to make the AMP form work (edited Polylang and Taxonomy_People_Standard clases in this regard)
 
 v.4.0.2

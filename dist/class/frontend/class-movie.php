@@ -532,7 +532,7 @@ class Movie {
 
 			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-			$output .= "\n\t\t\t\t\t<a class=\"linkincmovie\" href=\""
+			$output .= "\n\t\t\t\t\t<a class=\"lum_link_taxo_page\" href=\""
 					. esc_url( $this->lumiere_get_taxo_link( $taxonomy_term, $taxonomy_category_full ) )
 					. '" title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' )
 					. '">';
@@ -547,7 +547,7 @@ class Movie {
 			// layout=one: display the layout for all details separated by comas, ie keywords
 		} elseif ( $layout === 'one' ) {
 
-			$output .= '<a class="linkincmovie" '
+			$output .= '<a class="lum_link_taxo_page" '
 					. 'href="' . esc_url( $this->lumiere_get_taxo_link( $taxonomy_term, $taxonomy_category_full ) )
 					. '" '
 					. 'title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' ) . '">';

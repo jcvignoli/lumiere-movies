@@ -84,12 +84,12 @@ class AMPCest {
 
 		// Check if AMP is functional and remove links
 		$I->amOnPage( $this->base_url . AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL . '?amp' );
-		$I->seeInPageSource('<a class="linkpopup" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="' . $this->base_url . '/lumiere/person/?mid=0227759&amp;amp">Peter Dinklage</a></div>');
+		$I->seeInPageSource('<a class="lum_popup_internal_link lum_add_spinner" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="' . $this->base_url . '/lumiere/person/?mid=0227759&amp;amp">Peter Dinklage</a></div>');
 		$I->seeInPageSource( '/lumiere/person/?mid=0227759&amp;amp">Peter Dinklage</a></div>');
 
 		// Check if without AMP it is functional
 		$I->amOnPage( $this->base_url . AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
-		$I->seeInPageSource( '<a class="linkincmovie modal_window_people highslide" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a></div>' );
+		$I->seeInPageSource( '<a class="lum_link_make_popup lum_link_with_people highslide" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a></div>' );
 	}
 
 }

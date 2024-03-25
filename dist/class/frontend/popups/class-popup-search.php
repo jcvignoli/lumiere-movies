@@ -85,8 +85,8 @@ class Popup_Search {
 
 		// Build the vars.
 		// @since 4.0 lowercase, less cache used.
-		$this->film_sanitized = isset( $_GET['film'] ) ? strtolower( $this->lumiere_name_htmlize( $_GET['film'] ) ) : ''; // In trait Data, which is in trait Main.
-		$this->film_sanitized_for_title = esc_html( $this->film_sanitized );
+		$this->film_sanitized = isset( $_GET['film'] ) ? str_replace( [ '\\', '+' ], [ '', ' ' ], strtolower( $this->lumiere_name_htmlize( $_GET['film'] ) ) ) : ''; // In trait Data, which is in trait Main.
+		$this->film_sanitized_for_title = $this->film_sanitized;
 
 		/**
 		 * Start Plugins_Start class
@@ -119,7 +119,7 @@ class Popup_Search {
 		// Run the query.
 		$search = new TitleSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
 
-		$this->movie_results = $search->search( $this->film_sanitized, $this->type_search );
+		$this->movie_results = $search->search( esc_html( $this->film_sanitized ), $this->type_search );
 
 	}
 
@@ -137,7 +137,7 @@ class Popup_Search {
 		$this->film_search();
 
 		/**
-		 * Display a spinner when clicking a link with class .linkpopup (a <div class="loader"> will be inserted inside by the js)
+		 * Display a spinner when clicking a link with class .lum_add_spinner (a <div class="loader"> will be inserted inside by the js)
 		 */
 		echo '<div id="spinner-placeholder"></div>';
 ?>
@@ -145,7 +145,7 @@ class Popup_Search {
 		<h1 align="center">
 			<?php
 			esc_html_e( 'Results related to', 'lumiere-movies' );
-			echo ' <i>' . esc_html( $this->film_sanitized_for_title ) . '</i>';
+			echo ' <i>' . esc_html( ucwords( $this->film_sanitized_for_title ) ) . '</i>';
 			?>
 		</h1>
 
@@ -194,7 +194,7 @@ class Popup_Search {
 				// ---- movie part
 				echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
 
-				echo "\n\t\t<a rel=\"nofollow\" class=\"linkpopup\" href=\"" . esc_url(
+				echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\"" . esc_url(
 					$this->config_class->lumiere_urlpopupsfilms
 					. '?mid=' . esc_html( $res->imdbid() )
 				)
@@ -212,7 +212,7 @@ class Popup_Search {
 				$realisateur = $res->director();
 				if ( isset( $realisateur['0']['name'] ) && strlen( $realisateur['0']['name'] ) > 0 ) {
 
-					echo "\n\t\t<a rel=\"nofollow\" class=\"linkpopup\" href=\""
+					echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\""
 						. esc_url(
 							$this->config_class->lumiere_urlpopupsperson
 							. '?mid=' . esc_html( $realisateur['0']['imdb'] ?? '' )

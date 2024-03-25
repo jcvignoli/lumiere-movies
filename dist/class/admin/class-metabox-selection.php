@@ -133,14 +133,14 @@ class Metabox_Selection {
 				sprintf(
 					/* translators: %1$s and %2$s are HTML tags */
 					__( 'Use %1$sthe query tool%2$s to find the IMDb\'s ID.', 'lumiere-movies' ),
-					'<a class="linkpopup" data-lumiere_admin_popup="no data" title="' . esc_html__( 'Open a popup to search the movie\'s ID', 'lumiere-movies' ) . '">',
+					'<a class="lum_adm_make_popup" data-lumiere_admin_search_popup="noInfoNeeded" title="' . esc_html__( 'Open a popup to search the movie\'s ID', 'lumiere-movies' ) . '">',
 					'</a>'
 				),
 				[
 					'a' => [
 						'id' => [],
 						'class' => [],
-						'data-lumiere_admin_popup' => [],
+						'data-lumiere_admin_search_popup' => [],
 						'title' => [],
 					],
 				]

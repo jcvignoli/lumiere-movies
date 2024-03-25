@@ -297,7 +297,7 @@ document.addEventListener(
 document.addEventListener(
 	'DOMContentLoaded',
 	function () {
-		jQuery( 'a[data-lumiere_admin_popup]' ).click(
+		jQuery( 'a[data-lumiere_admin_search_popup]' ).click(
 			function(){
 				// Vars from Settings class, transmitted in script lumiere_scripts_admin_vars from class Admin
 				var tmppopupLarg = lumiere_admin_vars.popupLarg;

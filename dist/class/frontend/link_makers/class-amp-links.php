@@ -58,7 +58,7 @@ class AMP_Links extends Abstract_Link_Maker {
 	public function lumiere_link_popup_people ( array $imdb_data_people, int $number ): string {
 
 		// Function in abstract class, before last param defines the output, last param specific <A> class.
-		return $this->lumiere_link_popup_people_abstract( $imdb_data_people[ $number ]['imdb'], $imdb_data_people[ $number ]['name'], 3, 'linkpopup' );
+		return $this->lumiere_link_popup_people_abstract( $imdb_data_people[ $number ]['imdb'], $imdb_data_people[ $number ]['name'], 3, 'lum_link_no_popup' );
 
 	}
 

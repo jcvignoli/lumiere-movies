@@ -442,8 +442,8 @@ abstract class Abstract_Link_Maker {
 		$internal_link_movie = '';
 
 		if ( intval( $window_type ) === 0 ) {
-			$internal_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
-			$internal_link_movie = '<a class="linkpopup lum_link_ico" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+			$internal_link_person = '<a class="lum_popup_internal_link lum_add_spinner" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+			$internal_link_movie = '<a class="lum_popup_internal_link lum_add_spinner lum_popup_link_with_movie" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
 		}
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
@@ -470,7 +470,7 @@ abstract class Abstract_Link_Maker {
 	 * Meant to be used inside popups (not in posts or widgets)
 	 *
 	 * @param string $text Text that includes IMDb URL to convert into an internal link
-	 * @param int $window_type Define the window_type: 0 for links (default), 1 regular popups, 2 for no links, 3 for bootstrap
+	 * @param int $window_type Define the window_type: 0 for classic links (default), 1 regular popups, 2 for no links, 3 for bootstrap
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
@@ -481,23 +481,23 @@ abstract class Abstract_Link_Maker {
 		$popup_link_movie = '';
 
 		switch ( $window_type ) {
-			case 0: // Build modal window popups.
-				$popup_link_person = '<a class="modal_window_people ' . $specific_class . '" data-modal_window_people="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
-				$popup_link_movie = '<a class="modal_window_film ' . $specific_class . '" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
+			case 0: // Build modal classic window popups.
+				$popup_link_person = '<a class="lum_link_with_people ' . $specific_class . ' lum_add_spinner" data-modal_window_people="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
+				$popup_link_movie = '<a class="lum_link_with_movie ' . $specific_class . ' lum_add_spinner" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
 				break;
 			case 1: // Build internal links with no popups.
-				$popup_link_person = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
-				$popup_link_movie = '<a class="linkpopup" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
+				$popup_link_person = '<a class="lum_popup_internal_link lum_add_spinner" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
+				$popup_link_movie = '<a class="lum_popup_internal_link lum_add_spinner" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
 				break;
 			case 2: // No links class
 				$popup_link_person = '${6}';
 				$popup_link_movie = '${6}';
 				break;
 			case 3: // Bootstrap popups
-				$popup_link_person = '<a class="linkpopup" data-modal_window_people="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
+				$popup_link_person = '<a class="lum_popup_internal_link lum_add_spinner" data-modal_window_people="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
 				. $this->bootstrap_modal( '${4}', '${6}' );
 
-				$popup_link_movie = '<a class="modal_window_film" data-modal_window_filmid="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
+				$popup_link_movie = '<a class="lum_popup_internal_link lum_add_spinner lum_link_with_movie" data-modal_window_filmid="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
 				. $this->bootstrap_modal( '${4}', '${6}' );
 				break;
 		}
@@ -653,18 +653,18 @@ abstract class Abstract_Link_Maker {
 		// Highslide & Classic modal
 		if ( $window_type === 0 ) {
 
-			$txt = '<a class="modal_window_film" data-modal_window_film="' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
+			$txt = '<a class="lum_link_with_movie" data-modal_window_film="' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
 
 			// Bootstrap modal
 		} elseif ( $window_type === 1 ) {
 
-			$txt = '<a class="modal_window_film" data-modal_window_film="' . $title_attr . '" data-target="#theModal' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>'
+			$txt = '<a class="lum_link_with_movie" data-modal_window_film="' . $title_attr . '" data-target="#theModal' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>'
 			. $this->bootstrap_modal( $title_attr, $title_esc );
 
 			// AMP & No Link modal
 		} elseif ( $window_type === 2 ) {
 
-			$txt = '<a class="link_classic_film" href="' . $this->config_class->lumiere_urlpopupsfilms . '?film=' . $title_attr . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
+			$txt = '<a class="lum_link_make_popup lum_link_with_movie" href="' . $this->config_class->lumiere_urlpopupsfilms . '?film=' . $title_attr . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
 
 		}
 
@@ -779,7 +779,7 @@ abstract class Abstract_Link_Maker {
 
 		$return .= ' alt="link to imdb" width="33" height="15" src="'
 			. esc_url( $this->config_class->lumiere_pics_dir . '/imdb-link.png' ) . '" />'
-			. '<a class="link-incmovie-sourceimdb" title="'
+			. '<a class="lum_link_sourceimdb" title="'
 			. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
 			. esc_url( 'https://www.imdb.com/title/tt' . $mid ) . '" >'
 			. '&nbsp;&nbsp;'

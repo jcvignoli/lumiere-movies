@@ -19,7 +19,7 @@ body.lum_body_popup_lightgrey {color: black;background: lightgrey;}
 .hidesection{display:none;}
 .activatehidesection {cursor:pointer;}
 
-#searchaka{ /*link to the "similiar titles" in a popup movie */
+#lum_popup_search{ /*link to the "similiar titles" in a popup movie */
 	background: url(../pics/search.png) no-repeat left;
 	font-style:italic;
 	padding-left: 16px;
@@ -29,7 +29,7 @@ body.lum_body_popup_lightgrey {color: black;background: lightgrey;}
 	font-style:italic;
 }
 
-.lum_link_ico { /*link to the internal popup, from popups*/
+.lum_popup_link_with_movie { /*link to the internal popup, from popups*/
 	background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;
 	padding-left: 16px;
 }
@@ -39,42 +39,42 @@ body.lum_body_popup_lightgrey {color: black;background: lightgrey;}
 	margin-right: 1em;
 }
 
-.linkpopup { /*link to the internal popup, from popups*/
+.lum_popup_menu_title, .lum_link_no_popup, .lum_popup_internal_link { /* links inside popups, internal links, title menu links, no popups in posts */
 	color: #ff0000;
-	text-decoration: none;
+	text-decoration: none !important;
 	cursor:pointer;
 }
-.linkpopup:hover, .linkpopup:visited {
+.lum_popup_menu_title:hover, .lum_popup_menu_title:visited, .lum_link_no_popup:hover, .lum_link_no_popup:visited, .lum_popup_internal_link:visited, 
+.lum_popup_internal_link:hover  {
 	color: #ff8e8b;
-	text-decoration: none;
+	text-decoration: none !important;
 	cursor:pointer;
 }
 
-/** Link to a popup */
-.linkincmovie {
-	color: #909090;
-	text-decoration: none;
-}
-.linkincmovie:hover {
-	color: #A8A8A8;
-	text-decoration:none;
+.lum_link_taxo_page, .lum_link_taxo_page:hover, .lum_link_taxo_page:visited { /** Link to a taxonomy page, link in widget/into the post  */
+	color:#ff8c00 !important;
 }
 
-/* Link to a movie popup */
-.link_classic_film, .modal_window_film, .modal_window_filmid {
+.lum_link_make_popup, .lum_link_make_popup:hover, .lum_link_make_popup:visited { /** Link to all types of modal windows popup */
+/*	text-decoration: none; */
+}
+
+.lum_link_with_movie { /* Link to a movie popup */
 	background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;
-	color: grey;
+/*	color: grey; */
 	padding-left: 16px;
 	text-decoration: none !important;
 	cursor:pointer;
 }
 
-/* Link to a people popup */
-.link-imdblt-classicpeople, .modal_window_people  {
-	text-decoration: none !important;cursor:pointer;
+.lum_link_with_people  { /* Link to a people popup */
+	text-decoration: none !important;
+	cursor:pointer;
 }
 
-.link-incmovie-sourceimdb {color:dimgrey;} /* from functions.php, build the link to imdb */
+.lum_link_sourceimdb { /* Link to the IMDb source */
+/*	color:dimgrey; */
+}
 
 .noresult { /*text displayed when no results found*/
 	color: red;
@@ -155,22 +155,6 @@ display:none;
 text-align:left;
 }
 
-#loading {
-	width: 200px;
-	height: 90px;
-	position: absolute;
-	left: 45%;
-	margin-top: 15%;
-	margin-left: -100px;
-	text-align: center;
-	vertical-align:text-bottom;
-	padding:30px;
-	font-size:14px;
-	font-weight: bold;
-	border: 2px solid #333333;
-}
-
-.img-imdb { /*imdb image, propertie for <img> */vertical-align:absmiddle;align:absmiddle;}
 
 
 /***********************************************************
@@ -335,7 +319,7 @@ span.lumiere_gutenberg_copy_class{background-color: cornsilk;color:darkgrey;padd
 @keyframes monanim {from{overflow:hidden;}to{overflow:visible;}}
 
 /**
- * On click a HTML tag spinners, to activate add a div|span #bootstrap-spinner-alink that will be changed in javascript
+ * On click a HTML tag spinners, to activate add a div|span .lum_add_spinner that will be changed in javascript
  * .loader is added by javascript, .parent-loader too
  * .parent-loader id a full background screen, .loader the animation that is the middle of the screen
  */
@@ -363,9 +347,8 @@ span.lumiere_gutenberg_copy_class{background-color: cornsilk;color:darkgrey;padd
 	width: 120px;
 	height: 20px;
 	background:
-	linear-gradient(#000 0 0) 0/0% no-repeat
-	#ddd;
-	animation: l1 10s infinite linear;
+	linear-gradient(#000 0 0) 0/0% no-repeat #ddd;
+	animation: l1 15s infinite linear; /* The spinner has a loop of 15 seconds */
 }
 
 @keyframes l1 {

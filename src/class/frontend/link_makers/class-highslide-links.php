@@ -109,7 +109,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	public function lumiere_link_popup_people ( array $imdb_data_people, int $number ): string {
 
 		// Function in abstract class, before last param defines the output, last param specific <A> class.
-		return $this->lumiere_link_popup_people_abstract( $imdb_data_people[ $number ]['imdb'], $imdb_data_people[ $number ]['name'], 0, 'linkincmovie modal_window_people highslide' );
+		return $this->lumiere_link_popup_people_abstract( $imdb_data_people[ $number ]['imdb'], $imdb_data_people[ $number ]['name'], 0, 'lum_link_make_popup lum_link_with_people highslide' );
 
 	}
 

@@ -59,20 +59,20 @@ class ModalWindowsCest {
 		$I->seeInPageSource("lumiere_style_main-css"); 	
 		$I->seeInPageSource("lumiere_highslide_core-js");
 		$I->seeInPageSource("lumiere_highslide_options-js");
-		$I->seeInPageSource('<a class="linkincmovie modal_window_people highslide" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a></div>');
+		$I->seeInPageSource('<a class="lum_link_make_popup lum_link_with_people highslide" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a></div>');
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
 		$I->seeInPageSource("lumiere_highslide_core-css");
 		$I->seeInPageSource("lumiere_style_main-css"); 	
 		$I->seeInPageSource("lumiere_highslide_core-js");
 		$I->seeInPageSource("lumiere_highslide_options-js");
 		$I->seeInPageSource('to stay with his
-uncle, <a class="modal_window_people highslide" data-modal_window_people="0675788" title="open a new window with IMDb informations">Martin Perveler</a>. Returning');		
+uncle, <a class="lum_link_with_people highslide" data-modal_window_people="0675788" title="open a new window with IMDb informations">Martin Perveler</a>. Returning');		
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource("lumiere_highslide_core-css");
 		$I->seeInPageSource("lumiere_style_main-css"); 	
 		$I->seeInPageSource("lumiere_highslide_core-js");
 		$I->seeInPageSource("lumiere_highslide_options-js");
-		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="linkpopup" href="' . $this->base_url . '/lumiere/person/0000190/?mid=0000190" title="');
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/0000190/?mid=0000190" title="');
 
 		// Switch To Bootstrap
 		$I->comment(\Helper\Color::set('Check if Bootstrap modal window works', "italic+bold+cyan"));
@@ -80,17 +80,17 @@ uncle, <a class="modal_window_people highslide" data-modal_window_people="067578
 
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );# Check regular page
 		$I->seeInPageSource("lumiere_bootstrap_custom-css");		
-		$I->seeInPageSource('<a class="linkincmovie modal_window_people" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a>
+		$I->seeInPageSource('<a class="lum_link_make_popup lum_link_with_people" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a>
 			<span class="modal fade" id="theModal0227759">');
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
 		$I->seeInPageSource("lumiere_bootstrap_custom-css");			
 		$I->seeInPageSource('California, to stay with his
-uncle, <a class="linkpopup" data-modal_window_people="0675788" data-target="#theModal0675788" title="');	
+uncle, <a class="lum_popup_internal_link lum_add_spinner" data-modal_window_people="0675788" data-target="#theModal0675788" title="');	
 		$I->seeInPageSource("lumiere_bootstrap_core-js");		
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource("lumiere_bootstrap_custom-css");			
 		$I->seeInPageSource("lumiere_bootstrap_core-js");
-		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="linkpopup" href="' . $this->base_url . '/lumiere/person/0000190/?mid=0000190" title="');
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/0000190/?mid=0000190" title="');
 
 		// Switch To Classic modal
 		$I->comment(\Helper\Color::set('Check if Classic modal window works', "italic+bold+cyan"));
@@ -98,16 +98,16 @@ uncle, <a class="linkpopup" data-modal_window_people="0675788" data-target="#the
 
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );# Check regular page
 		$I->seeInPageSource("lumiere_classic_links-js");		
-		$I->seeInPageSource('<a class="linkincmovie modal_window_people" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a></div>');
+		$I->seeInPageSource('<a class="lum_link_make_popup lum_link_with_people" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a></div>');
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
 		$I->seeInPageSource("lumiere_classic_links-js");
 		$I->seeInPageSource("lumiere_style_main-css"); 			
 		$I->seeInPageSource('California, to stay with his
-uncle, <a class="modal_window_people " data-modal_window_people="0675788" title="');	
+uncle, <a class="lum_link_with_people " data-modal_window_people="0675788" title="');	
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource("lumiere_classic_links-js");			
 		$I->seeInPageSource("lumiere_style_main-css"); 			
-		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="linkpopup" href="' . $this->base_url . '/lumiere/person/0000190/?mid=0000190" title="');
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/0000190/?mid=0000190" title="');
 
 		// Check AMP
 		$I->comment(\Helper\Color::set('Check if AMP class works', "italic+bold+cyan"));
@@ -118,14 +118,14 @@ uncle, <a class="modal_window_people " data-modal_window_people="0675788" title=
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL . '?amp' );# Check regular page
 		$I->waitForText( 'test codeception', 15 ); // wait up to 15 seconds
 		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
-		$I->seeInPageSource('<a class="linkpopup" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="' . $this->base_url . '/lumiere/person/?mid=0227759&amp;amp">Peter Dinklage</a></div>');
+		$I->seeInPageSource('<a class="lum_popup_internal_link lum_add_spinner" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="' . $this->base_url . '/lumiere/person/?mid=0227759&amp;amp">Peter Dinklage</a></div>');
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_TAXONOMY_URL . '?amp' );# Check taxonomy page
 		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
 		$I->seeInPageSource('to stay with his
-uncle, <a class="linkpopup" href="' . $this->base_url . '/lumiere/person/?mid=0675788&amp;amp" title="');		
+uncle, <a class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/?mid=0675788&amp;amp" title="');		
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL . '&amp' );# Check popup movie
 		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");	
-		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="linkpopup" href="' . $this->base_url . '/lumiere/person/0000190/?mid=0000190&amp;amp" title="');
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/0000190/?mid=0000190&amp;amp" title="');
 
 		// Reactivate Query Monitor, it bugs
 		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
@@ -159,7 +159,7 @@ uncle, <a class="linkpopup" href="' . $this->base_url . '/lumiere/person/?mid=06
 		$I->dontSeeInPageSource("lumiere_bootstrap_core-js");
 		$I->dontSeeInPageSource("lumiere_highslide_core-js");
 		$I->dontSeeInPageSource("lumiere_highslide_options-js");
-		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="linkpopup" href="' . $this->base_url . '/lumiere/person/0000190/?mid=0000190" title="'); // There are links in no class popups
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/0000190/?mid=0000190" title="'); // There are links in no class popups
 
 		// End, Switch back To Highslide, remove kill imdb links
 		$I->SwitchModalWindow('Highslide');

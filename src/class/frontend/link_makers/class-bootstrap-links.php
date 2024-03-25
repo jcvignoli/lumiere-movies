@@ -129,7 +129,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 	public function lumiere_link_popup_people ( array $imdb_data_people, int $number ): string {
 
 		// Function in abstract class, before last param defines the output, last param specific <A> class.
-		return parent::lumiere_link_popup_people_abstract( $imdb_data_people[ $number ]['imdb'], $imdb_data_people[ $number ]['name'], 1, 'linkincmovie modal_window_people' );
+		return parent::lumiere_link_popup_people_abstract( $imdb_data_people[ $number ]['imdb'], $imdb_data_people[ $number ]['name'], 1, 'lum_link_make_popup lum_link_with_people' );
 
 	}
 

@@ -21,7 +21,7 @@ a { text-decoration:none;}
 	padding-left:2vw;
 }
 
-a[data-lumiere_admin_popup]{cursor:pointer;}
+a[data-lumiere_admin_search_popup]{cursor:pointer;}
 
 .subpage {border:thin grey solid;padding:15px;background: #999 20px 10px;color:beige;border-radius: 6px;}
 
@@ -178,5 +178,7 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .lumiere_sticky_white{ background-color: white;}
 .lumiere_sticky_boxshadow{ background-color: white;box-shadow: 1px 1px 10px 1px #ddd;}
 
-.linkpopup {color: #0073aa;text-decoration: none;cursor:pointer;}
-.linkpopup:hover {color: #005177;text-decoration: none;cursor:pointer;}
+.lum_adm_make_popup {color: #0073aa;text-decoration: none;cursor:pointer;}
+.lum_adm_make_popup:hover {color: #005177;text-decoration: none;cursor:pointer;}
+
+
