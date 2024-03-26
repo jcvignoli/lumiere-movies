@@ -103,7 +103,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Country', 'Countries', $nbtotalcountry, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcountry ) );
 		$output .= ':</span>';
 
@@ -150,7 +150,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= esc_html__( 'Runtime', 'lumiere-movies' );
 		$output .= ':</span>';
 		$output .= $runtime_sanitized . ' ' . esc_html__( 'minutes', 'lumiere-movies' );
@@ -175,7 +175,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Language', 'Languages', $nbtotallanguages, 'lumiere-movies' ) ), number_format_i18n( $nbtotallanguages ) );
 		$output .= ':</span>';
 
@@ -252,7 +252,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Genre', 'Genres', $nbtotalgenre, 'lumiere-movies' ) ), number_format_i18n( $nbtotalgenre ) );
 
 		$output .= ':</span>';
@@ -304,7 +304,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Keyword', 'Keywords', $nbtotalkeywords, 'lumiere-movies' ) ), number_format_i18n( $nbtotalkeywords ) );
 		$output .= ':</span>';
 
@@ -359,7 +359,7 @@ class Movie_Data extends Movie {
 
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Goof', 'Goofs', $nbtotalgoofs, 'lumiere-movies' ) ), number_format_i18n( $nbtotalgoofs ) );
 		$output .= ':</span><br />';
 
@@ -409,7 +409,7 @@ class Movie_Data extends Movie {
 
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Tagline', 'Taglines', $nbtotaltaglines, 'lumiere-movies' ) ), number_format_i18n( $nbtotaltaglines ) );
 		$output .= ':</span>';
 
@@ -447,7 +447,7 @@ class Movie_Data extends Movie {
 
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Trailer', 'Trailers', $nbtotaltrailers, 'lumiere-movies' ) ), number_format_i18n( $nbtotaltrailers ) );
 		$output .= ':</span>';
 
@@ -488,7 +488,7 @@ class Movie_Data extends Movie {
 
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Color', 'Colors', $nbtotalcolors, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcolors ) );
 		$output .= ':</span>';
 
@@ -542,7 +542,7 @@ class Movie_Data extends Movie {
 
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= esc_html__( 'Also known as', 'lumiere-movies' );
 		$output .= ':</span>';
 
@@ -592,7 +592,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Composer', 'Composers', $nbtotalcomposer, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcomposer ) );
 		$output .= ':</span>';
 
@@ -649,7 +649,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) ), number_format_i18n( $nbtotalsoundtracks ) );
 		$output .= ':</span>';
 
@@ -695,7 +695,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Production company', 'Production companies', $nbtotalprodcompany, 'lumiere-movies' ) ), number_format_i18n( $nbtotalprodcompany ) );
 		$output .= ':</span>';
 
@@ -731,7 +731,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Official website', 'Official websites', $nbtotalofficial_sites, 'lumiere-movies' ) ), number_format_i18n( $nbtotalofficial_sites ) );
 		$output .= ':</span>';
 
@@ -770,7 +770,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) ), number_format_i18n( $nbtotaldirector ) );
 		$output .= ':</span>';
 
@@ -827,7 +827,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Creator', 'Creators', $nbtotalcreator, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcreator ) );
 		$output .= ':</span>&nbsp;';
 
@@ -881,7 +881,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Producer', 'Producers', $nbtotalproducer, 'lumiere-movies' ) ), number_format_i18n( $nbtotalproducer ) );
 
 		$output .= ':</span>';
@@ -944,7 +944,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Writer', 'Writers', $nbtotalwriters, 'lumiere-movies' ) ), number_format_i18n( $nbtotalwriters ) );
 		$output .= ':</span>';
 
@@ -1006,7 +1006,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ) ), number_format_i18n( $nbtotalactors ) );
 		$output .= ':</span>';
 
@@ -1065,7 +1065,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= sprintf( esc_attr( _n( 'Plot', 'Plots', $nbtotalplots, 'lumiere-movies' ) ), number_format_i18n( $nbtotalplots ) );
 		$output .= ':</span><br />';
 
@@ -1102,7 +1102,7 @@ class Movie_Data extends Movie {
 			return $output;
 		}
 
-		$output .= "\n\t\t\t" . '<span class="imdbincluded-subtitle">';
+		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= esc_html__( 'Source', 'lumiere-movies' );
 		$output .= ':</span>';
 

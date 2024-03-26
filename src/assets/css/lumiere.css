@@ -44,6 +44,7 @@ body.lum_body_popup_lightgrey {color: black;background: lightgrey;}
 	text-decoration: none !important;
 	cursor:pointer;
 }
+
 .lum_popup_menu_title:hover, .lum_popup_menu_title:visited, .lum_link_no_popup:hover, .lum_link_no_popup:visited, .lum_popup_internal_link:visited, 
 .lum_popup_internal_link:hover  {
 	color: #ff8e8b;
@@ -52,32 +53,26 @@ body.lum_body_popup_lightgrey {color: black;background: lightgrey;}
 }
 
 .lum_link_taxo_page, .lum_link_taxo_page:hover, .lum_link_taxo_page:visited { /** Link to a taxonomy page, link in widget/into the post  */
-	color:#ff8c00 !important;
 }
 
 .lum_link_make_popup, .lum_link_make_popup:hover, .lum_link_make_popup:visited { /** Link to all types of modal windows popup */
-/*	text-decoration: none; */
 }
 
 .lum_link_with_movie { /* Link to a movie popup */
 	background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;
-/*	color: grey; */
 	padding-left: 16px;
-	text-decoration: none !important;
 	cursor:pointer;
 }
 
 .lum_link_with_people  { /* Link to a people popup */
-	text-decoration: none !important;
 	cursor:pointer;
 }
 
 .lum_link_sourceimdb { /* Link to the IMDb source */
-/*	color:dimgrey; */
 }
 
 .noresult { /*text displayed when no results found*/
-	color: red;
+	color: #addc23;
 }
 
 /* ---------------------------------------- Divs flex */
@@ -161,49 +156,121 @@ text-align:left;
 ******************** WIDGET & INSIDE POST
 ***********************************************************/
 
-.imdbincluded {			/* div */
-padding-bottom:20px;}
+.lum_results_frame {			/* The entire results div */
+	padding-bottom:20px;
+}
 
-.imdbincluded-subtitle {		/* span */
-font-weight:bold;font-size:115%;padding-right:5px;}
+					/* not in use */
+.lum_results_frame_grey, .lum_results_frame_white, .lum_results_frame_black { 
+}
 
-.lumiere-lines-common {		/* common div to all elements */
-padding: 0 10px 0 10px;text-align:left;}
+.lum_results_section_subtitle { 	/* Section title */
+	font-weight:bold;
+	font-size:115%;
+	padding-right:5px;
+}
+
+.lumiere-lines-common {			/* common div to all elements */
+	padding: 0 10px 0 10px;
+	text-align:left;
+}
 .lumiere-lines-common:nth-child(3) { 	/* first two children are the title and the picture */
-padding-top:20px;}
+	padding-top:20px;
+}
 .lumiere-lines-common:last-child { 	/* latest div */
-padding-bottom:20px;}
-/*grey, default*/
-.lumiere-lines-common_grey{	/* additional theme selected in the menu option */
-border-left:1px solid black;border-right:1px solid black;background-color:grey;color:white;}
-.lumiere-lines-common_grey a{color:gold;text-decoration:none !important;}
-.lumiere-lines-common_grey a:hover{color:white;}
-.lumiere-lines-common_grey:last-child { border-bottom:1px solid black;border-radius:0 0 10px 10px; }
-/*white*/
-.lumiere-lines-common_white{	/* additional theme selected in the menu option */
-border-left:1px solid black;border-right:1px solid black;background-color:white;color:black;}
-.lumiere-lines-common_white a{color:grey;}
-.lumiere-lines-common_white a:hover{color:black;}
-.lumiere-lines-common_white:last-child { border-bottom:1px solid black;border-radius:0 0 10px 10px;}
-/*black*/
-.lumiere-lines-common_black{	/* additional theme selected in the menu option */
-background-color:black;color:white;}
-.lumiere-lines-common_black a{color:darkgrey;}
-.lumiere-lines-common_black a:hover{color:white;}
-.lumiere-lines-common_black:last-child { border-radius:0 0 10px 10px;}
+	padding-bottom:20px;
+}
+
+		/* GREY theme */
+.lumiere-lines-common_grey{		/* Additional theme selected in the menu option */
+	border-left:1px solid black;
+	border-right:1px solid black;
+	background-color:grey;
+	color:white;
+}
+.lumiere-lines-common_grey a{
+	color:gold;
+	text-decoration: none !important;
+}
+.lumiere-lines-common_grey a.lum_link_taxo_page {
+	color:#f0e68c;
+}
+.lumiere-lines-common_grey a:hover, .lumiere-lines-common_grey a.lum_link_taxo_page:hover {
+	color:white;
+}
+.lumiere-lines-common_grey:last-child {
+	border-bottom:1px solid black;
+	border-radius:0 0 10px 10px;
+}
+		/* WHITE theme */
+.lumiere-lines-common_white{		/* Additional theme selected in the admin option */
+	border-left:1px solid black;
+	border-right:1px solid black;
+	background-color:white;
+	color:black;
+}
+.lumiere-lines-common_white a{
+	color:grey;
+	text-decoration: none !important;
+}
+.lumiere-lines-common_white a.lum_link_taxo_page {
+	color:#696969;
+}
+.lumiere-lines-common_white a:hover, .lumiere-lines-common_white a.lum_link_taxo_page:hover {
+	color:black;
+}
+.lumiere-lines-common_white:last-child {
+	border-bottom:1px solid black;
+	border-radius:0 0 10px 10px;
+}
+		/* BLACK theme */
+.lumiere-lines-common_black{		/* Additional theme selected in the admin option */
+	background-color:black;
+	color:white;
+}
+.lumiere-lines-common_black a {
+	text-decoration: none !important;
+	color:darkgrey;
+}
+.lumiere-lines-common_black a.lum_link_taxo_page {
+	color:#778899;
+}
+.lumiere-lines-common_black a:hover, .lumiere-lines-common_black a.lum_link_taxo_page:hover {
+	color:white;
+}
+.lumiere-lines-common_black:last-child {
+	border-radius:0 0 10px 10px;
+}
 
 
 .imdbelementTITLE { 			/*TITLE*/
-text-align: center;font-weight:bold;font-size:140%;padding:10px;}
+	text-align: center;
+	font-weight:bold;
+	font-size:140%;
+	padding:10px;
+	}
 .imdbelementTITLE_grey{		/* additional theme selected in the menu option */
-background-color:black;border:1px solid black;border-radius:10px 10px 0 0;color:white;}
+	background-color:black;
+	border:1px solid black;
+	border-radius:10px 10px 0 0;
+	color:white;
+	}
 .imdbelementTITLE_white{		/* additional theme selected in the menu option */
-background-color:grey;border-radius:10px 10px 0 0;color:white;}
+	background-color:grey;
+	border-radius:10px 10px 0 0;
+	color:white;
+	}
 .imdbelementTITLE_black{		/* additional theme selected in the menu option */
-background-color:white;border:1px solid black;border-radius:10px 10px 0 0;color:black;}
+	background-color:white;
+	border:1px solid black;
+	border-radius:10px 10px 0 0;
+	color:black;
+	}
 
 .imdbelementPIC {			/*PIC div tag */
-padding:20px 20px 0 20px;float:left;}
+	padding:20px 20px 0 20px;
+	float:left;
+}
 
 .imdbelementPICimg {			/*PIC img tag */
 }

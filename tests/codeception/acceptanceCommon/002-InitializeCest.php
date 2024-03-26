@@ -25,6 +25,10 @@ class InitializeCest {
 		// Lumière on
 		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('lumiere-movies');
+		
+		// Query monitor destroys the layout
+		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->maybeDeactivatePlugin('query-monitor');
 	}
 
 

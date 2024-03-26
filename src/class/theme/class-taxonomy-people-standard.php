@@ -441,7 +441,7 @@ class Taxonomy_People_Standard {
 			$birthday_month = isset( $birthday['month'] ) && strlen( $birthday['month'] ) > 0 ? date_i18n( 'F', $birthday['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
 			$birthday_year = isset( $birthday['year'] ) && strlen( $birthday['year'] ) > 0 ? (string) $birthday['year'] : __( '(year unknown)', 'lumiere-movies' );
 
-			echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
+			echo "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
 				. '&#9788;&nbsp;'
 				. esc_html__( 'Born on', 'lumiere-movies' ) . '</span>'
 				. esc_html( $birthday_day . $birthday_month . $birthday_year );
@@ -468,7 +468,7 @@ class Taxonomy_People_Standard {
 			$death_month = isset( $death['month'] ) && strlen( $death['month'] ) > 0 ? date_i18n( 'F', $death['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
 			$death_year = isset( $death['year'] ) && strlen( $death['year'] ) > 0 ? (string) $death['year'] : __( '(year unknown)', 'lumiere-movies' );
 
-			echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
+			echo "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
 				. '&#8224;&nbsp;'
 				. esc_html__( 'Died on', 'lumiere-movies' ) . '</span>'
 				. esc_html( $death_day . $death_month . $death_year );

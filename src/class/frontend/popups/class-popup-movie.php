@@ -79,6 +79,7 @@ class Popup_Movie {
 		// Remove admin bar if user is logged in.
 		if ( is_user_logged_in() === true ) {
 			add_filter( 'show_admin_bar', '__return_false' );
+			wp_dequeue_style( 'admin-bar' );
 			wp_deregister_style( 'admin-bar' );
 		}
 
@@ -341,7 +342,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Director -->";
 			echo "\n\t<div>";
 
-			echo '<span class="imdbincluded-subtitle">'
+			echo '<span class="lum_results_section_subtitle">'
 			. esc_html( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) )
 			. '</span>';
 			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
@@ -374,7 +375,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Main actors -->";
 			echo "\n\t<div>";
 
-			echo '<span class="imdbincluded-subtitle">' . esc_html__( 'Main actors', 'lumiere-movies' ) . '</span>';
+			echo '<span class="lum_results_section_subtitle">' . esc_html__( 'Main actors', 'lumiere-movies' ) . '</span>';
 
 			for ( $i = 0; ( $i < $nbactors ) && ( $i < $nbtotalactors ); $i++ ) {
 				echo '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
@@ -395,7 +396,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Runtime -->";
 			echo "\n\t<div>";
-			echo '<span class="imdbincluded-subtitle">'
+			echo '<span class="lum_results_section_subtitle">'
 			. esc_html__( 'Runtime', 'lumiere-movies' )
 			. '</span>'
 			. esc_html( $runtime )
@@ -415,7 +416,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Rating -->";
 			echo "\n\t<div>";
 
-			echo '<span class="imdbincluded-subtitle">'
+			echo '<span class="lum_results_section_subtitle">'
 				. esc_html__( 'Rating', 'lumiere-movies' )
 				. '</span>';
 			echo ' <img class="imdbelementRATING-picture" src="' . esc_url( $this->config_class->lumiere_pics_dir . '/showtimes/' . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
@@ -435,7 +436,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 			echo "\n\t\t\t\t\t\t\t<!-- Language -->";
 			echo "\n\t<div>";
 
-			echo '<span class="imdbincluded-subtitle">'
+			echo '<span class="lum_results_section_subtitle">'
 			. esc_attr( _n( 'Language', 'Languages', $nbtotallanguages, 'lumiere-movies' ) )
 			. '</span>';
 			for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
@@ -459,7 +460,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Country -->";
 			echo "\n\t<div>";
 
-			echo '<span class="imdbincluded-subtitle">'
+			echo '<span class="lum_results_section_subtitle">'
 			. esc_attr( _n( 'Country', 'Countries', $nbtotalcountry, 'lumiere-movies' ) )
 			. '</span>';
 			for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
@@ -484,7 +485,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Genre -->";
 			echo "\n\t<div>";
 
-			echo '<span class="imdbincluded-subtitle">'
+			echo '<span class="lum_results_section_subtitle">'
 			. esc_attr( _n( 'Genre', 'Genres', $nbtotalgenre, 'lumiere-movies' ) )
 			. '</span>';
 
@@ -516,7 +517,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Trivia -->';
 			echo "\n" . '<div id="lumiere_popup_plots_group">';
-			echo "\n\t" . '<div class="imdbincluded-subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . '</div>';
+			echo "\n\t" . '<div class="lum_results_section_subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . '</div>';
 
 			for ( $i = 0; $i < $nbtotaltrivia; $i++ ) {
 
@@ -561,7 +562,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Soundtrack -->';
 			echo "\n" . '<div id="lumiere_popup_sdntrck_group">';
-			echo "\n\t" . '<div class="imdbincluded-subtitle">' . esc_html( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) ) . '</div>';
+			echo "\n\t" . '<div class="lum_results_section_subtitle">' . esc_html( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) ) . '</div>';
 
 			for ( $i = 0; $i < $nbtotalsoundtracks; $i++ ) {
 
@@ -614,7 +615,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Goofs -->';
 			echo "\n" . '<div id="lumiere_popup_goofs_group">';
-			echo "\n\t" . '<div class="imdbincluded-subtitle">' . esc_html( _n( 'Goof', 'Goofs', $nbtotalgoof, 'lumiere-movies' ) ) . '</div>';
+			echo "\n\t" . '<div class="lum_results_section_subtitle">' . esc_html( _n( 'Goof', 'Goofs', $nbtotalgoof, 'lumiere-movies' ) ) . '</div>';
 
 			for ( $i = 0; $i < $nbtotalgoof; $i++ ) {
 
@@ -657,7 +658,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 		if ( count( $cast ) > 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Actors -->";
-			echo "\n\t" . '<div class="imdbincluded-subtitle">' . esc_html( sprintf( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ), number_format_i18n( $nbtotalactors ) ) ) . '</div>';
+			echo "\n\t" . '<div class="lum_results_section_subtitle">' . esc_html( sprintf( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ), number_format_i18n( $nbtotalactors ) ) ) . '</div>';
 
 			for ( $i = 0; ( $i < $nbtotalactors ); $i++ ) {
 				echo "\n\t\t" . '<div align="center" class="lumiere_container">';
@@ -699,7 +700,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- director -->';
 			echo "\n" . '<div id="lumiere_popup_director_group">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) ) . '</span>';
+			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 				echo "\n\t" . '<div align="center" class="lumiere_container">';
@@ -736,7 +737,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- writers -->';
 			echo "\n" . '<div id="lumiere_popup_director_group">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Writer', 'Writers', $nbtotalwriter, 'lumiere-movies' ) ) . '</span>';
+			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Writer', 'Writers', $nbtotalwriter, 'lumiere-movies' ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalwriter; $i++ ) {
 				echo "\n\t" . '<div align="center" class="lumiere_container">';
@@ -770,7 +771,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- writers -->';
 			echo "\n" . '<div id="lumiere_popup_writer_group">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Producer', 'Producers', $nbtotalproducer, 'lumiere-movies' ) ) . '</span>';
+			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Producer', 'Producers', $nbtotalproducer, 'lumiere-movies' ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalproducer; $i++ ) {
 				echo "\n\t" . '<div align="center" class="lumiere_container">';
@@ -810,7 +811,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Plots -->';
 			echo "\n" . '<div id="lumiere_popup_pluts_group">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Plot', 'Plots', $nbtotalplot, 'lumiere-movies' ) ) . '</span>';
+			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Plot', 'Plots', $nbtotalplot, 'lumiere-movies' ) ) . '</span>';
 
 			// Starts a
 			for ( $i = 0; $i < $nbtotalplot; $i++ ) {

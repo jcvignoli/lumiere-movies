@@ -164,13 +164,11 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 
-= 4.0.2 =
+= 4.0.3 =
 
-Pictures download process wasn't working the expected way. 
+Popup spinners to make you visitors wait, nicer popup layouts, faster taxonomy pages display, better support of Polylang if it's an AMP page.
 
-= 4.0.1 =
-
-Bugs hunting, much work on the popups, bootstrap modal window width is now editable.
+[...]
 
 = 4.0 =
 
@@ -178,7 +176,7 @@ Bugs hunting, much work on the popups, bootstrap modal window width is now edita
 
 Added new automatized refresh of the cache function, a cool feature that will ensure that you cache is up to date forever! Fixed also the taxonomy system, it now creates proper links towards taxonomy pages (ie: https://yourblog.com/lumiere-director/stanley-kubrick) within widgets/into the posts sections, with the appropriate language. Taxonomy for items (ie: genre) is now displayed for all items found. Added the general advanced option to add an extra delay when querying the IMDb website. Data downloading from imdb website is retried 3 times before giving up. Fixed bug in plugin activation, layout in admin data options position, improved Content security policy and HTML 4.1, PHP 8.0, PHP 8.3 compatibility. Banning bots is now executed before doing any IMDb search or display, avoiding cache creationg (and 504 HTML errors when calling IMDb website!). Improved the comments in admin sections. Under the hood, the admin option pages have been cleaned and rewrote.
 
-And much more! This is a major new version, more stable and safer, extensively tested before release.
+And much more! This is a major new version, more stable and safer, extensively tested before releasing.
 
 [...]
 
@@ -190,6 +188,8 @@ And much more! This is a major new version, more stable and safer, extensively t
 = 4.0.3 =
 
 Due to the use of the most recent WordPress API block use, you may have to "attempt to recover" the widget and into the post blocks. Take a look at your widget page and the posts where you use Lumière blocks too.
+
+Taxonomy templates have changed, make sure to follow the notice in Lumière admin area to update them.
 
 = 4.0.2 =
 

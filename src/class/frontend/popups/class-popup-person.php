@@ -244,7 +244,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 				echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 
 				echo "\n\t" . '<div>';
-				echo "\n\t\t" . '<span class="imdbincluded-subtitle">' . esc_html( $catname ) . ' filmography </span>';
+				echo "\n\t\t" . '<span class="lum_results_section_subtitle">' . esc_html( $catname ) . ' filmography </span>';
 
 				for ( $i = 0; $i < $nbtotalfilmo; $i++ ) {
 
@@ -308,7 +308,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 				echo "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( $catname ) . ' filmography -->';
 				echo "\n" . '<div>';
-				echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( $catname ) . ' filmography</span> (' . esc_html( strval( $nbtotalfilms ) ) . ')';
+				echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( $catname ) . ' filmography</span> (' . esc_html( strval( $nbtotalfilms ) ) . ')';
 
 				for ( $i = 0; $i < $nbtotalfilmo; $i++ ) {
 
@@ -429,7 +429,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Biographical movies -->';
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Biographical movie', 'Biographical movies', $nbtotalbiomovie, 'lumiere-movies' ) ) . '</span>';
+			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Biographical movie', 'Biographical movies', $nbtotalbiomovie, 'lumiere-movies' ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalbiomovie; ++$i ) {
 
@@ -453,7 +453,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Portrayed in -->';
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Portrayed in', 'lumiere-movies' ) . '</span>';
+			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Portrayed in', 'lumiere-movies' ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalportrayedmovie; ++$i ) {
 
@@ -477,7 +477,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Interviews -->';
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Interview', 'Interviews', $nbtotalinterviews, 'lumiere-movies' ) ) . '</span>';
+			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Interview', 'Interviews', $nbtotalinterviews, 'lumiere-movies' ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalinterviews; $i++ ) {
 
@@ -511,7 +511,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Publicity printed -->';
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">'
+			echo "\n\t" . '<span class="lum_results_section_subtitle">'
 				. esc_html( _n( 'Print ads', 'Printed ads', $nbtotalpubprints, 'lumiere-movies' ) )
 				. '</span>';
 			for ( $i = 0; $i < $nbtotalpubprints; $i++ ) {
@@ -571,7 +571,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Trivia -->';
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . ' </span>(' . intval( $nbtotaltrivia ) . ') <br>';
+			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . ' </span>(' . intval( $nbtotaltrivia ) . ') <br>';
 
 			for ( $i = 0; $i <= $nbtotaltrivia; $i++ ) {
 
@@ -622,7 +622,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Nicknames -->';
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Nicknames', 'lumiere-movies' ) . ' </span>';
+			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Nicknames', 'lumiere-movies' ) . ' </span>';
 
 			for ( $i = 0; $i < $nbtotalnickname; $i++ ) {
 
@@ -651,7 +651,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Personal quotes -->';
 			echo "\n" . '<div id="lumiere_popup_quotes">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Personal quotes', 'lumiere-movies' ) . ' </span> (' . intval( $nbtotalquotes ) . ')';
+			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Personal quotes', 'lumiere-movies' ) . ' </span> (' . intval( $nbtotalquotes ) . ')';
 
 			for ( $i = 0; $i < $nbtotalquotes; $i++ ) {
 
@@ -703,7 +703,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 
 			echo "\n\t\t\t\t\t\t\t" . ' <!-- Trademarks -->';
 			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="imdbincluded-subtitle">' . esc_html__( 'Trademarks', 'lumiere-movies' ) . ' </span> (' . intval( $nbtotaltrademark ) . ')';
+			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Trademarks', 'lumiere-movies' ) . ' </span> (' . intval( $nbtotaltrademark ) . ')';
 
 			for ( $i = 0; $i < $nbtotaltrademark; $i++ ) {
 
@@ -767,7 +767,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 					$birthday_month = isset( $birthday['month'] ) && strlen( $birthday['month'] ) > 0 ? date_i18n( 'F', $birthday['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
 					$birthday_year = isset( $birthday['year'] ) && strlen( $birthday['year'] ) > 0 ? (string) $birthday['year'] : __( '(year unknown)', 'lumiere-movies' );
 
-					echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
+					echo "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
 						. esc_html__( 'Born on', 'lumiere-movies' ) . '</span>'
 						. esc_html( $birthday_day . $birthday_month . $birthday_year );
 
@@ -789,7 +789,7 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 					$death_month = isset( $death['month'] ) && strlen( $death['month'] ) > 0 ? date_i18n( 'F', $death['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
 					$death_year = isset( $death['year'] ) && strlen( $death['year'] ) > 0 ? (string) $death['year'] : __( '(year unknown)', 'lumiere-movies' );
 
-					echo "\n\t\t\t\t\t" . '<span class="imdbincluded-subtitle">'
+					echo "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
 						. esc_html__( 'Died on', 'lumiere-movies' ) . '</span>'
 						. esc_html( $death_day . $death_month . $death_year );
 

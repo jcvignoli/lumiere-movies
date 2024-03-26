@@ -228,7 +228,7 @@ class StylesScriptsHighslideCest {
 		$I->click('#lumiere_update_general_settings');
 		$I->comment(\Helper\Color::set('[Action] Selection has been switched to "black"', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
-		$I->seeInPageSource("imdbincluded_black"); 	# CSS for black layout 
+		$I->seeInPageSource("lum_results_frame_black"); 	# CSS for black layout 
 
 		// Try with selection grey (default)
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
@@ -237,7 +237,7 @@ class StylesScriptsHighslideCest {
 		$I->click('#lumiere_update_general_settings');
 		$I->comment(\Helper\Color::set('[Action] Selection has been switched to "grey"', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
-		$I->seeInPageSource("imdbincluded_grey"); 	# CSS for grey layout (default)
+		$I->seeInPageSource("lum_results_frame_grey"); 	# CSS for grey layout (default)
 
 	}
 }

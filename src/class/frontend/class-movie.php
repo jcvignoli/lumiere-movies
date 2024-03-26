@@ -160,10 +160,10 @@ class Movie {
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Displaying rows for '$mid_premier_resultat'" );
 
 			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- ### Lumière! movies plugin ### -->';
-			$output .= "\n\t<div class='imdbincluded";
+			$output .= "\n\t<div class='lum_results_frame";
 
 			// add dedicated class for themes
-			$output .= ' imdbincluded_' . $this->imdb_admin_values['imdbintotheposttheme'];
+			$output .= ' lum_results_frame_' . $this->imdb_admin_values['imdbintotheposttheme'];
 			$output .= "'>";
 
 			$output .= $this->lumiere_methods_factory( $mid_premier_resultat );

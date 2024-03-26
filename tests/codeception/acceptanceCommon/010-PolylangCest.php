@@ -59,7 +59,6 @@ class PolylangCest {
 		// Make sure Highslide is active, following tests are run with Highslide
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
 		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Highslide", "update_imdbSettings" );
-
 	}
 
 	/** 
@@ -96,7 +95,7 @@ class PolylangCest {
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->click( "Tony Zarindast");
 		$I->scrollTo('.imdbelementPIC');
-		$I->seeInPageSource('<form method="post" id="lang_form" name="lang_form"');
+		$I->seeInPageSource('<form method="get" id="lang_form" name="lang_form" action="#lang_form">');
 		$I->seeInPageSource('Español');
 		$I->seeInPageSource('English');
 		$I->seeInPageSource('Français');
@@ -109,15 +108,13 @@ class PolylangCest {
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->click( "Tony Zarindast");
 		$I->scrollTo('.imdbelementPIC');
-		$I->dontSeeInPageSource('<form method="post" id="lang_form" name="lang_form"');
+		$I->dontSeeInPageSource('<form method="get" id="lang_form" name="lang_form" action="#lang_form">');
 		$I->dontSeeInPageSource('Español');
 		$I->dontSeeInPageSource('Français');
 
 		// Reactivate Polylang
 		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
 		$I->maybeActivatePlugin('polylang');
-
 	}
-
 }
 
