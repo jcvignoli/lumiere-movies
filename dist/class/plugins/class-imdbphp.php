@@ -84,12 +84,24 @@ class Imdbphp extends Imdbphp_Config {
 		 */
 		$this->imdb_img_url = plugin_dir_path( dirname( __DIR__ ) ) . 'assets/pics/showtimes';
 
-		/**
+		/**		$this->usecache = $this->imdb_cache_values['imdbusecache'];
 		 * These two are hardcoded at 800 in IMDbPHP Config class
 		 * can't be changed in admin panel, only below
 		 */
 		$this->image_max_width = 800;
 		$this->image_max_height = 800;
+	}
+	
+	/**
+	 * Activate cache
+	 * Ensure that cache is active
+	 *
+	 * @see \Lumiere\Frontend\Frontend
+	 */
+	public function activate_cache(): void {
+		$this->usecache = true;
+		$this->storecache = true;
+		$this->usezip = true;
 	}
 }
 

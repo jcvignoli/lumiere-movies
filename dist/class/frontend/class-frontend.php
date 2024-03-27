@@ -16,6 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
 }
 
+use Lumiere\Tools\Ban_Bots;
 use Lumiere\Alteration\Virtual_Page;
 use Lumiere\Frontend\Popups\Popup_Person;
 use Lumiere\Frontend\Popups\Popup_Movie;
@@ -26,9 +27,14 @@ use Imdb\Person;
 
 /**
  * Start everything for frontend pages
- * Redirection to popups happen here
+ * Popups redirect happens here
+ * Register and enqueue the common scripts and stylesheets
  *
- * @since 4.0.3 class created
+ * @since 4.0.3 class added
+ *
+ * @see \Lumiere\Frontend\Main For getting the settings and plugins
+ * @see \Lumiere\Alteration\Virtual_Page that is called for creating virtual pages, using {@see \Lumiere\Frontend\Popups\Popup_Person}, {@see \Lumiere\Frontend\Popups\Popup_Movie} and {@see \Lumiere\Frontend\Popups\Popup_Search}
+ * @see \Lumiere\Tools\Ban_Bots Ban the bots for virtual pages
  */
 class Frontend {
 
@@ -59,13 +65,13 @@ class Frontend {
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_frontpage_execute_assets' ] );
 
 		// Start Movies into the post.
-		add_action( 'init', fn() => Movie::lumiere_static_start() );
+		add_action( 'init', fn() => Movie::lumiere_static_start(), 11 );
 
 		// Start Widgets.
-		add_action( 'init', fn() => Widget_Frontpage::lumiere_widget_frontend_start() );
+		add_action( 'init', fn() => Widget_Frontpage::lumiere_widget_frontend_start(), 11 );
 
 		// Ban bots.
-		add_action( 'init', fn() => \Lumiere\Tools\Ban_Bots::lumiere_static_start() );
+		add_action( 'init', fn() => Ban_Bots::lumiere_static_start(), 11 );
 	}
 
 	/**
@@ -145,11 +151,12 @@ class Frontend {
 	}
 
 	/**
-	 * Popups redirection
+	 * Popups redirection, return a new text replacing the normal expected text
+	 * Use template_redirect hook to call it
+	 *
 	 * @since 4.0 Bots are banned for all popups, it's done here so no IMDbPHP calls for movies/people are done in case of redirect
 	 * @since 4.0.1 Added bot banning if no referer, created method ban_bots_popups()
 	 *
-	 * @TODO Sanitization of GETs is a joke, use proper functions!
 	 * @return string|Virtual_Page
 	 */
 	public function lumiere_popup_redirect_include( string $template ): string|Virtual_Page {
@@ -172,7 +179,7 @@ class Frontend {
 
 		// Make sure we use cache. User may have decided not to use cache, but we need it to accelerate the call.
 		if ( $this->imdb_cache_values['imdbusecache'] === '0' ) {
-			$this->plugins_classes_active['imdbphp']->cachedir = $this->imdb_cache_values['imdbcachedir'];
+			$this->plugins_classes_active['imdbphp']->activate_cache();
 		}
 
 		switch ( $query_popup ) {
@@ -184,24 +191,26 @@ class Frontend {
 				$filmid_sanitized = ''; // initialisation.
 
 				// If mid but no film, do a query using the mid.
-				if ( ( isset( $_GET['mid'] ) ) && ( ! isset( $_GET['film'] ) ) ) {
-
-					$movieid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
+				if ( isset( $_GET['mid'] ) && ! isset( $_GET['film'] ) ) {
+					$movieid_sanitized = esc_html( $_GET['mid'] );
 					$movie = new Title( $movieid_sanitized, $this->plugins_classes_active['imdbphp'] );
 					$filmid_sanitized = $movie->title();
 				}
+
 				// Sanitize and initialize $_GET['film']
 				$film_sanitized = isset( $_GET['film'] ) ? $this->lumiere_name_htmlize( $_GET['film'] ) : ''; // Method in trait Data.
+
 				// Get the film ID if it exists, if not get the film name
 				$title_name = strlen( $filmid_sanitized ) > 0 ? $filmid_sanitized : $film_sanitized;
 
-				$title = esc_html__( 'Informations about ', 'lumiere-movies' ) . esc_html( $title_name ) . ' - Lumi&egrave;re movies';
+				/* translators: %1$s is a name */
+				$title = sprintf( __( 'Informations about %1$s', 'lumiere-movies' ), $title_name ) . ' - Lumi&egrave;re movies';
 
 				// Build the virtual page class
 				return new Virtual_Page(
 					$this->config_class->lumiere_urlstringfilms,
 					new Popup_Movie(),
-					$title
+					esc_html( $title )
 				);
 
 			case 'person':
@@ -214,28 +223,32 @@ class Frontend {
 					$person = new Person( $mid_sanitized, $this->plugins_classes_active['imdbphp'] );
 					$person_name_sanitized = $person->name();
 				}
+
 				$title = isset( $person_name_sanitized )
-					? esc_html__( 'Informations about ', 'lumiere-movies' ) . esc_html( $person_name_sanitized ) . ' - Lumi&egrave;re movies'
-					: esc_html__( 'Unknown', 'lumiere-movies' ) . '- Lumi&egrave;re movies';
+					/* translators: %1$s is a movie's title */
+					? sprintf( __( 'Informations about %1$s', 'lumiere-movies' ), $person_name_sanitized ) . ' - Lumi&egrave;re movies'
+					: __( 'Unknown - Lumière movies', 'lumiere-movies' );
 
 				// Build the virtual page class
 				return new Virtual_Page(
 					$this->config_class->lumiere_urlstringperson,
 					new Popup_Person(),
-					$title
+					esc_html( $title )
 				);
 			case 'search':
 				// Check if bots.
 				$this->ban_bots_popups();
 
 				// Set the title.
-				$filmname_sanitized = isset( $_GET['film'] ) ? ': [' . esc_html( $_GET['film'] ) . ']' : 'No name entered';
+				$filmname_sanitized = isset( $_GET['film'] ) ? ': [' . $_GET['film'] . ']' : __( 'No name entered', 'lumiere-movies' );
+				/* translators: %1$s is the title of a movie */
+				$title = sprintf( __( 'Lumiere Query Interface %1$s', 'lumiere-movies' ), ' ' . $filmname_sanitized );
 
 				// Build the virtual page class
 				return new Virtual_Page(
 					$this->config_class->lumiere_urlstringsearch,
 					new Popup_Search(),
-					'Lumiere Query Interface ' . $filmname_sanitized
+					esc_html( $title )
 				);
 		}
 		return $template;
@@ -247,10 +260,10 @@ class Frontend {
 	 * 1/ Banned if certain conditions are met in class Ban_Bots::_construct() => action 'lumiere_maybe_ban_bots',
 	 *  done before doing IMDbPHP queries in this class
 	 * 2/ Ban if there is no HTTP_REFERER and user is not logged in Ban_Bots::_construct() => action 'lumiere_ban_bots_now', done here
-	 * Not putting the no HTTP_REFERER in Ban_Bots class, since do_action( 'lumiere_maybe_ban_bots' ) could be called
-	 *  in taxonomy templates (those pages, like movie pages, should not ban bots, there is no reason to ban bots in full pages, only in popups)
+	 *  Not putting the no HTTP_REFERER in Ban_Bots class, since do_action( 'lumiere_maybe_ban_bots' ) could be called
+	 *      in taxonomy templates (those pages, like movie pages, should not ban bots, there is no reason to ban bots in full pages, only in popups)
 	 * This method must be called inside the switch() function, when we know it's a popup. Otherwhise, the entire site could
-	 *  become unavailable if no HTTP_REFERER was passed
+	 *      become unavailable if no HTTP_REFERER was passed
 	 * @since 4.0.1 Method added
 	 * @return void Banned if conditions are met
 	 */

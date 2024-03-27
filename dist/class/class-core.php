@@ -41,51 +41,59 @@ class Core {
 	public function __construct () {
 
 		// Get Global Settings class properties.
-		$this->get_settings_class();
 		$this->get_db_options();
 
 		// Start Logger class.
 		$this->logger = new Logger( 'coreClass' );
 
-		// Rewrite rules.
+		/**
+		 * Widgets fire at init priority 0, so must either be called here with widgets_init or with init priority 0
+		 * https://developer.wordpress.org/reference/hooks/widgets_init/#comment-2643
+		 * They're not only for admin area, since they're executed in the frontpage as well
+		 */
+		add_action( 'widgets_init', fn() => Admin\Widget_Selection::lumiere_static_start() );
+
+		/**
+		 * Taxonomy, must be executed on the whole website
+		 */
+		add_action( 'registered_taxonomy', fn() => Alteration\Taxonomy::lumiere_static_start() );
+
+		/**
+		 * Rewrite rules, must be executed on the whole website
+		 */
 		add_action( 'init', fn() => Alteration\Rewrite_Rules::lumiere_static_start() );
 
 		/**
-		 * Admin actions.
-		 * Priority must be 0, the legacy widget doesn't work otherwise
-		 * widgets_init is started at init 1: https://developer.wordpress.org/reference/hooks/widgets_init/#user-contributed-notes
+		 * Gutenberg blocks, must be executed on the whole website
 		 */
-		add_action( 'init', fn() => Admin\Admin::lumiere_static_start(), 0 ); //
+		add_action( 'enqueue_block_editor_assets', [ $this, 'lumiere_register_gutenberg_blocks' ] );
 
-		// Add taxonomy to Lumière!
-		add_action( 'registered_taxonomy', fn() => Alteration\Taxonomy::lumiere_static_start() );
+		/**
+		 * Admin.
+		 */
+		add_action( 'init', fn() => Admin\Admin::lumiere_static_start(), 9 );
 
 		/**
 		 * Frontpage.
 		 */
-		// Register Gutenberg blocks.
-		add_action( 'enqueue_block_editor_assets', [ $this, 'lumiere_register_gutenberg_blocks' ] );
-
-		// Frontpage classes if it is not an admin page
-		add_action( 'init', fn() => Frontend\Frontend::lumiere_static_start(), 9 ); // Priority must be below 10.
+		add_action( 'init', fn() => Frontend\Frontend::lumiere_static_start() ); // Priority must be below 10.
 
 		/**
 		 * Updates & Crons. Must be free of any conditions.
 		 */
-
-		// On updating lumiere plugin.
+		// On updating the plugin.
 		add_action( 'automatic_updates_complete', [ $this, 'lumiere_on_lumiere_upgrade_autoupdate' ], 10, 1 );
 		add_action( 'upgrader_process_complete', [ $this, 'lumiere_on_lumiere_upgrade_manual' ], 10, 2 );
 
 		// Crons schedules.
 		add_action( 'init', fn() => Admin\Cron::lumiere_cron_start() );
 
-		// Call the plugin translation
+		// Call the translation.
 		load_plugin_textdomain( 'lumiere-movies', false, plugin_dir_path( __DIR__ ) . 'languages/' );
 	}
 
 	/**
-	 * Register gutenberg blocks
+	 * Register gutenberg blocks, must be executed on the whole website
 	 *
 	 * @since 4.0.3 Using block.json, added script translation, added lumiere_scripts_admin_gutenberg script
 	 * @see \Lumiere\Admin\Widget_Selection::lumiere_register_widget_block() which registers gutenberg widget blocks
@@ -133,7 +141,6 @@ class Core {
 					$start_update_options->run_update_options();
 
 					$this->logger->log()->debug( '[Lumiere][coreClass][manualupdate] Lumière manual update successfully run.' );
-
 				}
 			}
 		}

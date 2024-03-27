@@ -27,8 +27,9 @@ use Lumiere\Alteration\Virtual_Page;
 /**
  * All Admin-related functions
  * Build Admin menu, calls admin-related stylesheets/scripts
+ * Search page redirect
  *
- * @see Admin\Admin_Menu
+ * @see \Lumiere\Admin\Admin_Menu to display the menu
  */
 class Admin {
 
@@ -46,9 +47,6 @@ class Admin {
 		if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) ) {
 			return;
 		}
-
-		// Widget is also executed on non-admin pages.
-		add_action( 'widgets_init', [ 'Lumiere\Admin\Widget_Selection', 'lumiere_static_start' ] );
 
 		// Redirect Search class.
 		add_filter( 'template_redirect', [ $this, 'lumiere_search_redirect' ] );

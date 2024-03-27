@@ -28,7 +28,10 @@ use WP_Widget;
  * Constant Settings::BLOCK_WIDGET_NAME is the post-WP 5.8 widget block name.
  * Constant Settings::WIDGET_NAME is the pre-WP 5.8 widget name.
  *
- * @see \Lumiere\Admin that calls it
+ * Priority must be 0, the legacy widget doesn't work otherwise
+ * widgets_init is started at init 1: https://developer.wordpress.org/reference/hooks/widgets_init/#user-contributed-notes
+ *
+ * @see \Lumiere\Core that calls it
  * @see \Lumiere\Frontend\Widget_Legacy Call it in frontend which will extend the current class. The current class registers Widget_Legacy widget
  */
 class Widget_Selection extends WP_Widget {
@@ -102,7 +105,6 @@ class Widget_Selection extends WP_Widget {
 
 		// Register Block-based Widget by default if no classic widget plugin is available
 		add_action( 'widgets_init', [ $this, 'lumiere_register_widget_block' ], 12 );
-
 	}
 
 	/**

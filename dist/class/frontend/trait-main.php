@@ -26,9 +26,7 @@ use Lumiere\Plugins\Imdbphp;
 /**
  * Frontend trait
  * Popups, movie, widget and taxonomy use this trait
- * Allow to use the logger, function utilities, and settings
- *
- * @phpstan-type PluginClasses \Imdb\Config
+ * Allow to use the logger, function utilities, plugins, and settings
  */
 trait Main {
 

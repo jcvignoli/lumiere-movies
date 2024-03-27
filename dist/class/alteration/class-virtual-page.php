@@ -25,9 +25,10 @@ use stdClass;
  * Virtual pages do not need to be added to WordPress and do not need htaccess
  *
  * How to use it: Current class must be called in WordPress with
- * -> add_action( 'template_redirect', function(new Virtual_Page()) )
+ *  -> add_action( 'template_redirect', function( new Virtual_Page() ) )
  * Then the class must include the following to fully appear:
- * -> add_action( 'get_header', [ $this, 'action_starting_the_class' ] );
+ *  -> add_action( 'get_header', [ $this, 'action_starting_the_class' ] );
+ *
  */
 class Virtual_Page {
 
@@ -122,12 +123,6 @@ class Virtual_Page {
 		$wp_query->query_vars['error'] = '';
 		unset( $wp_query->query['error'] );
 
-		/**
-		 * Doesn't seem needed
-		// @phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-		$GLOBALS['wp_query'] = $wp_query;
-		 */
-
 		$wp->query = [];
 		$wp->register_globals();
 
@@ -148,7 +143,6 @@ class Virtual_Page {
 			$post->comment_status = 'closed';
 			$post->comment_count = 0;
 			$post->filter = 'raw';
-			// $post->guid = wp_rand(); @until 3.9.1
 			$post->guid = get_home_url( 1, '/' . $this->page_path );
 			$post->is_virtual = true;
 			$post->menu_order = 0;
@@ -167,7 +161,7 @@ class Virtual_Page {
 			$post->modified_gmt = $post->post_date_gmt;
 			$post->post_password = '';
 			$post->post_content_filtered = '';
-			$post->post_author = is_user_logged_in() ? get_current_user_id() : 1; // @until 3.9.1 last value '0'
+			$post->post_author = is_user_logged_in() ? get_current_user_id() : 1; // @before 3.9.1 last value was '0'
 			$post->post_content = '';
 			$post->post_mime_type = '';
 			$post->to_ping = '';
