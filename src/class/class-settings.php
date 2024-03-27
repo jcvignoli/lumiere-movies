@@ -213,6 +213,15 @@ class Settings {
 	}
 
 	/**
+	 * Reset all options by instanciating the class -- Dirty
+	 * Would be better to have a class that separates options and updates, instead of having such method
+	 * @since 4.0.3 method created
+	 */
+	public static function reset_options(): void {
+		$reset_tmp = new self();
+	}
+
+	/**
 	 * Define global constants
 	 * Run before the creation of the database options, database options may need these constants
 	 * @throws Exception

@@ -284,6 +284,7 @@ class Save_Options {
 	private function lumiere_general_options_reset( string|bool $get_referer ): void {
 
 		delete_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS );
+		Settings::reset_options();
 
 		set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
@@ -357,6 +358,7 @@ class Save_Options {
 	 */
 	private function lumiere_cache_options_reset( string|bool $get_referer ): void {
 		delete_option( Settings::LUMIERE_CACHE_OPTIONS );
+		Settings::reset_options();
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
@@ -549,6 +551,7 @@ class Save_Options {
 
 		// Delete the options to reset
 		delete_option( Settings::LUMIERE_DATA_OPTIONS );
+		Settings::reset_options();
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
