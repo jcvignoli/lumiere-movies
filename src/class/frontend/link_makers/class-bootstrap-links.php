@@ -28,94 +28,64 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 
 	/**
 	 * Constructor
-	 *
 	 */
 	public function __construct() {
 
 		parent::__construct();
 
-		// Registers javascripts and styles.
-		add_action( 'init', [ $this, 'lumiere_bootstrap_register_assets' ] ); // must be after Core class call
+		// Registers javascripts and styles, they need to be registered before the Frontend ones.
+		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_bootstrap_register_assets' ], 9 ); // must be priority < 10, 1 less than class frontend.
 
-		// Execute javascripts and styles only if the vars in lumiere_bootstrap_core were not already enqueued.
-		// (prevents a bug if the vars are displayed twice, the popup doesn't open).
-		// @TODO: Why? Is it still needed?
-		add_action(
-			'wp_enqueue_scripts',
-			function (): void {
-				if ( ! wp_script_is( 'lumiere_bootstrap_core', 'enqueued' ) ) {
-					$this->lumiere_bootstrap_execute_assets();
-				}
-			}
-		);
-
+		// Execute javascripts and styless, they need to be executed before the Frontend ones.
+		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_bootstrap_execute_assets' ], 9 ); // must be priority < 10, 1 less than class frontend.
 	}
 
 	/**
 	 *  Register frontpage scripts and styles
-	 *
 	 */
 	public function lumiere_bootstrap_register_assets(): void {
 
+		// Styles.
+		wp_register_style(
+			'lumiere_bootstrap_core',
+			$this->imdb_admin_values['imdbplugindirectory'] . 'vendor/twbs/bootstrap/dist/css/bootstrap.min.css',
+			[ 'lumiere_style_main' ],
+			strval( filemtime( plugin_dir_path( dirname( dirname( __DIR__ ) ) ) . 'vendor/twbs/bootstrap/dist/css/bootstrap.min.css' ) )
+		);
+		wp_register_style(
+			'lumiere_bootstrap_custom',
+			$this->config_class->lumiere_css_dir . 'lumiere-bootstrap-custom.min.css',
+			[ 'lumiere_bootstrap_core' ],
+			strval( filemtime( $this->config_class->lumiere_css_path . 'lumiere-bootstrap-custom.min.css' ) )
+		);
+
+		// Scripts.
 		wp_register_script(
 			'lumiere_bootstrap_core',
 			$this->imdb_admin_values['imdbplugindirectory'] . 'vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js',
 			[],
 			strval( filemtime( plugin_dir_path( dirname( dirname( __DIR__ ) ) ) . 'vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js' ) ),
-			true
-		);
-		wp_enqueue_style(
-			'lumiere_bootstrap_core',
-			$this->imdb_admin_values['imdbplugindirectory'] . 'vendor/twbs/bootstrap/dist/css/bootstrap.min.css',
-			[],
-			strval( filemtime( plugin_dir_path( dirname( dirname( __DIR__ ) ) ) . 'vendor/twbs/bootstrap/dist/css/bootstrap.min.css' ) )
-		);
-		// Customized bootstrap css.
-		wp_enqueue_style(
-			'lumiere_bootstrap_custom',
-			$this->config_class->lumiere_css_dir . 'lumiere-bootstrap-custom.min.css',
-			[],
-			strval( filemtime( $this->config_class->lumiere_css_path . 'lumiere-bootstrap-custom.min.css' ) )
+			[ 'strategy' => 'defer' ]
 		);
 		wp_register_script(
 			'lumiere_bootstrap_scripts',
 			$this->config_class->lumiere_js_dir . 'lumiere-bootstrap-links.min.js',
-			[],
+			[ 'lumiere_scripts' ],
 			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere-bootstrap-links.min.js' ) ),
-			true
+			[ 'strategy' => 'defer' ]
 		);
-
 	}
 
 	/**
 	 * Enqueue stylesheet & javascript.
-	 *
 	 */
 	public function lumiere_bootstrap_execute_assets (): void {
 
-		// Prevent to load twice the script and lumiere_vars which breaks JS
-		// Remove the script if the pages is a popup page
-		// @deprecated 3.10.1 removed, seems it is correctly handled by WP now
-		/**
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'], site_url( '', 'relative' ) . $this->imdb_admin_values['imdburlpopups'] ) ) {
-			wp_dequeue_script( 'lumiere_scripts' );
-		}*/
-
 		wp_enqueue_style( 'lumiere_bootstrap_core' );
-
 		wp_enqueue_style( 'lumiere_bootstrap_custom' );
 
 		wp_enqueue_script( 'lumiere_bootstrap_core' );
-
-		// Pass variables to bootstrap javascript lumiere_bootstrap_links.min.js.
-		wp_add_inline_script(
-			'lumiere_bootstrap_options',
-			$this->config_class->lumiere_scripts_vars,
-			'before',
-		);
-
 		wp_enqueue_script( 'lumiere_bootstrap_scripts' );
-
 	}
 
 	/**

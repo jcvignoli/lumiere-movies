@@ -1,62 +1,61 @@
-/* Function here are Content Security Policy (CSP) Compliant
-*  Needs jquery
-*/
-
-/**** popups
-*
-*/
-
-
-/* class in the popup images, movies and persons, useBox to false */
-if (jQuery( ".highslide_pic_popup" )) {
-	jQuery( '.highslide_pic_popup' ).click(
-		function(){
-			return hs.expand(
-				this,
-				{ useBox: false, captionEval: "Poster of " + 'this.thumb.alt'
-				}
-			);
-		}
-	);
-};
-
-/* Class in class.movie.php, useBox to true */
-if (jQuery( ".highslide_pic" )) {
-	jQuery( '.highslide_pic' ).click(
-		function(){
-			return hs.expand(
-				this,
-				{ useBox: true, captionEval: "Poster of " + 'this.thumb.alt'
-				}
-			);
-		}
-	);
-};
-
-
 /**
- * FUNCTION: build highslide popup according to the classes
- *	This function on click on data "modal_window(.*)"
- *	1- extracts info from data-(.*) <a> attribute
+ * Highslide link popup
+ * Function here are Content Security Policy (CSP) Compliant
+ * Needs jquery
+ *
+ * FUNCTIONS:
+ *
+ * (A) On pics click with class lum_pic_inpopup, (inside a popup) trigger an highslide popup
+ * (B) On pics click with class lum_pic_link_highslide (into a post), trigger an highslide popup
+ * (C)	build highslide popup according to the classes
+ *		This function on click on data "modal_window(.*)"
+ *		1- extracts info from data-(.*) <a> attribute
  */
 
 document.addEventListener(
 	'DOMContentLoaded',
 	function () {
 
+		/* Class for a HTML tag a, available in popups only */
+		jQuery( '.lum_pic_inpopup' ).click(
+			function(){
+				return hs.expand(
+					this,
+					{ useBox: false, captionEval: "Poster of " + 'this.thumb.alt' }
+				);
+			}
+		);
+
+		/* Class for a HTML tag a, available into the post only */
+		jQuery( '.lum_pic_link_highslide' ).click(
+			function(){
+				return hs.expand(
+					this,
+					{ useBox: false, captionEval: "Poster of " + 'this.thumb.alt' }
+				);
+			}
+		);
+	
+		// Trying to close with onclick inside the div -- Doesn't work!
+		jQuery( '#highslide_button_close' ).click(
+			function(e){
+				console.log('test');
+				hs.close(e);
+			}
+		);
+
 		/* highslide popup, people */
 
 		jQuery( 'a[data-modal_window_people]' ).click(
 			function(){
-				// vars from imdb-link-transformer.php
+			
+				// vars from scripts
 				var tmppopupLarg = lumiere_vars.popupLarg;
 				var tmppopupLong = lumiere_vars.popupLong;
-				// var mid from the class data-highslidepeople to build the link
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_people' );
-				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-imdb_person.php?mid=' + misc_term;
 				var url_imdbperso = lumiere_vars.urlpopup_person + '?mid=' + misc_term;
-				// highslide popup
-				return hs.htmlExpand(
+
+				hs.htmlExpand(
 					this,
 					{
 						allowWidthReduction: true,
@@ -76,15 +75,14 @@ document.addEventListener(
 
 		jQuery( 'a[data-modal_window_film]' ).click(
 			function(){
-				// vars from imdb-link-transformer.php
+			
+				// vars from scripts
 				var tmppopupLarg = lumiere_vars.popupLarg;
 				var tmppopupLong = lumiere_vars.popupLong;
-				// var mid from the class data-highslidepeople to build the link
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_film' );
-				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
 				var url_imdbperso = lumiere_vars.urlpopup_film + '?film=' + misc_term;
-				// highslide popup
-				return hs.htmlExpand(
+
+				hs.htmlExpand(
 					this,
 					{
 						allowWidthReduction: true,
@@ -104,15 +102,14 @@ document.addEventListener(
 
 		jQuery( 'a[data-modal_window_filmid]' ).click(
 			function(){
-				// vars from imdb-link-transformer.php
+
+				// vars from scripts
 				var tmppopupLarg = lumiere_vars.popupLarg;
 				var tmppopupLong = lumiere_vars.popupLong;
-				// var mid from the class data-highslidepeople to build the link
 				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_filmid' );
-				//      var url_imdbperso = lumiere_vars.imdb_path + 'inc/popup-search.php?film=' + misc_term;
 				var url_imdbperso = lumiere_vars.urlpopup_film + '?mid=' + misc_term;
-				// highslide popup
-				return hs.htmlExpand(
+
+				hs.htmlExpand(
 					this,
 					{
 						allowWidthReduction: true,
@@ -130,52 +127,3 @@ document.addEventListener(
 
 	}
 );
-
-/**** popup-imdb_person.php
-*
-*/
-
-jQuery( '.historyback' ).click(
-	function(event){
-		event.preventDefault();
-		window.history.back();
-	}
-);
-
-
-/**** popups all
-*
-*/
-
-// send close command on click on X of highslide popup
-// this is a trick to make highslide CSP compliant
-/* doesn't work
-document.addEventListener('DOMContentLoaded', function () {
-		jQuery(document).click(function(event) {
-		hs.close(event.target);
-	});
-});
-*/
-
-// executed only if div id lumiere_loader is found
-
-if (document.getElementById( "lumiere_loader" )) {
-	document.onreadystatechange = function() {
-
-		if (document.readyState !== "complete") {
-			document.querySelector(
-				"body"
-			).style.visibility = "hidden";
-			document.querySelector(
-				"#lumiere_loader"
-			).style.visibility = "visible";
-		} else {
-			document.querySelector(
-				"#lumiere_loader"
-			).style.display = "none";
-			document.querySelector(
-				"body"
-			).style.visibility = "visible";
-		}
-	}
-};

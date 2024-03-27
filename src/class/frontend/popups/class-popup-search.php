@@ -194,15 +194,15 @@ class Popup_Search {
 				// ---- movie part
 				echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
 
+				$year = $res->year() > 0 ? $res->year() : __( 'year unknown', 'lumiere-movies' );
 				echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\"" . esc_url(
-					$this->config_class->lumiere_urlpopupsfilms
-					. '?mid=' . esc_html( $res->imdbid() )
+					$this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $res->imdbid() )
 				)
 					. '&film=' . esc_url( $this->lumiere_name_htmlize( $res->title() ) ) // Method in trait Data, which is in trait Main.
 					. '" title="' . esc_html__( 'more on', 'lumiere-movies' ) . ' '
 					. esc_html( $res->title() ) . '" >'
 					. esc_html( $res->title() )
-					. ' (' . intval( $res->year() ) . ')' . "</a> \n";
+					. ' (' . esc_html( $year ) . ')' . "</a> \n";
 
 				echo "\n\t</div>";
 

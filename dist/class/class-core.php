@@ -47,39 +47,27 @@ class Core {
 		// Start Logger class.
 		$this->logger = new Logger( 'coreClass' );
 
-		// redirect popups URLs.
-		add_action( 'init', fn() => Alteration\Rewrite_Rules::lumiere_static_start(), 0 );
-		add_action( 'init', fn() => Alteration\Redirect_Virtual_Page::lumiere_static_start() );
+		// Rewrite rules.
+		add_action( 'init', fn() => Alteration\Rewrite_Rules::lumiere_static_start() );
 
 		/**
 		 * Admin actions.
-		 * Must be called before with the highest priority.
+		 * Priority must be 0, the legacy widget doesn't work otherwise
+		 * widgets_init is started at init 1: https://developer.wordpress.org/reference/hooks/widgets_init/#user-contributed-notes
 		 */
-		add_action( 'init', fn() => Admin\Admin::lumiere_static_start(), 0 );
+		add_action( 'init', fn() => Admin\Admin::lumiere_static_start(), 0 ); //
 
 		// Add taxonomy to Lumière!
-		add_action( 'registered_taxonomy', fn() => Alteration\Taxonomy::lumiere_static_start(), 0 );
+		add_action( 'registered_taxonomy', fn() => Alteration\Taxonomy::lumiere_static_start() );
 
 		/**
 		 * Frontpage.
 		 */
-
-		// Registers javascripts and styles.
-		add_action( 'init', [ $this, 'lumiere_register_assets' ] );
-
 		// Register Gutenberg blocks.
 		add_action( 'enqueue_block_editor_assets', [ $this, 'lumiere_register_gutenberg_blocks' ] );
 
-		// Execute javascripts and styles.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_frontpage_execute_assets' ], 9 ); // priority must be below 10
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_frontpage_execute_assets_priority' ], 0 );
-
 		// Frontpage classes if it is not an admin page
-		if ( ! is_admin() ) {
-			add_action( 'init', fn() => Frontend\Movie::lumiere_static_start(), 9 ); // priority must be below 10
-			add_action( 'init', fn() => Frontend\Widget_Frontpage::lumiere_widget_frontend_start() );
-			add_action( 'init', fn() => Tools\Ban_Bots::lumiere_static_start(), 0 );
-		}
+		add_action( 'init', fn() => Frontend\Frontend::lumiere_static_start(), 9 ); // Priority must be below 10.
 
 		/**
 		 * Updates & Crons. Must be free of any conditions.
@@ -90,55 +78,10 @@ class Core {
 		add_action( 'upgrader_process_complete', [ $this, 'lumiere_on_lumiere_upgrade_manual' ], 10, 2 );
 
 		// Crons schedules.
-		add_action( 'init', fn() => Admin\Cron::lumiere_cron_start(), 0 );
+		add_action( 'init', fn() => Admin\Cron::lumiere_cron_start() );
 
 		// Call the plugin translation
 		load_plugin_textdomain( 'lumiere-movies', false, plugin_dir_path( __DIR__ ) . 'languages/' );
-	}
-
-	/**
-	 * Register frontpage scripts and styles
-	 */
-	public function lumiere_register_assets(): void {
-
-		// hide/show script
-		wp_register_script(
-			'lumiere_hide_show',
-			$this->config_class->lumiere_js_dir . 'lumiere_hide_show.min.js',
-			[ 'jquery' ],
-			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_hide_show.min.js' ) ),
-			true
-		);
-
-		// Frontpage scripts
-		wp_register_script(
-			'lumiere_scripts',
-			$this->config_class->lumiere_js_dir . 'lumiere_scripts.min.js',
-			[],
-			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_scripts.min.js' ) ),
-			true
-		);
-
-		// Main style
-		wp_register_style(
-			'lumiere_style_main',
-			$this->config_class->lumiere_css_dir . 'lumiere.min.css',
-			[],
-			strval( filemtime( $this->config_class->lumiere_css_path . 'lumiere.min.css' ) )
-		);
-
-		// Customized style: register instead of the main style a customised main style located in active theme directory
-		if ( file_exists( get_stylesheet_directory() . '/lumiere.css' ) ) {
-
-			wp_deregister_style( 'lumiere_style_main' ); // remove standard style
-
-			wp_register_style(
-				'lumiere_style_main',
-				get_stylesheet_directory() . '/lumiere.css',
-				[],
-				strval( filemtime( get_stylesheet_directory() . '/lumiere.css' ) )
-			);
-		}
 	}
 
 	/**
@@ -164,41 +107,6 @@ class Core {
 			strval( filemtime( plugin_dir_path( __DIR__ ) . 'assets/js/lumiere_scripts_admin_gutenberg.min.js' ) )
 		);
 		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
-	}
-
-	/**
-	 * Execute Frontpage stylesheets & javascripts.
-	 */
-	public function lumiere_frontpage_execute_assets(): void {
-
-		wp_enqueue_style( 'lumiere_style_main' );
-
-		wp_enqueue_script( 'lumiere_hide_show' );
-
-		/**
-		 * Pass variables to javascript lumiere_scripts.js.
-		 * These variables contains popup sizes, color, paths, etc.
-		 */
-		wp_add_inline_script(
-			'lumiere_scripts',
-			$this->config_class->lumiere_scripts_vars,
-		);
-	}
-
-	/**
-	 * Execute lumiere_scripts Frontpage javascript.
-	 * This must be run in 0 priority, otherwise wp_add_inline_script() in lumiere_frontpage_execute_assets() doesn't get the vars
-	 * @since 4.0.3
-	 */
-	public function lumiere_frontpage_execute_assets_priority(): void {
-
-		// Do not enqueue it more than once.
-		if ( wp_script_is( 'lumiere_scripts', 'enqueued' ) ) {
-			return;
-		}
-
-		wp_enqueue_script( 'lumiere_scripts' );
-
 	}
 
 	/**

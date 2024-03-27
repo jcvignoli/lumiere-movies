@@ -31,20 +31,11 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 		parent::__construct();
 
-		// Registers javascripts and styles.
-		add_action( 'init', [ $this, 'lumiere_highslide_register_assets' ] ); // must be after Core class call
+		// Registers javascripts and styles, they need to be registered after the Frontend ones.
+		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_highslide_register_assets' ] ); // if not defered, must be after Frontend class call
 
-		// Execute javascripts and styles only if the vars in lumiere_highslide_options were not already enqueued
-		// (prevents a bug if the vars are displayed twice, the popup doesn't open).
-		add_action(
-			'wp_enqueue_scripts',
-			function (): void {
-				if ( ! wp_script_is( 'lumiere_highslide_options', 'enqueued' ) ) {
-					$this->lumiere_highslide_execute_assets();
-				}
-			}
-		);
-
+		// Execute javascripts and styles, they need to be registered after the Frontend ones.
+		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_highslide_execute_assets' ] ); // if not defered, must be after Frontend class call
 	}
 
 	/**
@@ -53,32 +44,35 @@ class Highslide_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_highslide_register_assets(): void {
 
+		// Styles.
+		wp_register_style(
+			'lumiere_highslide_core_style',
+			$this->config_class->lumiere_css_dir . 'lumiere-highslide.min.css',
+			[ 'lumiere_style_main' ],
+			strval( filemtime( $this->config_class->lumiere_css_path . 'lumiere-highslide.min.css' ) )
+		);
+
+		// Scripts.
 		wp_register_script(
 			'lumiere_highslide_core',
 			$this->config_class->lumiere_js_dir . 'highslide/highslide-with-html.min.js',
 			[],
-			$this->config_class->lumiere_version,
-			true
+			strval( filemtime( $this->config_class->lumiere_js_path . 'highslide/highslide-with-html.min.js' ) ),
+			[ 'strategy' => 'defer' ]
 		);
 		wp_register_script(
 			'lumiere_highslide_options',
 			$this->config_class->lumiere_js_dir . 'lumiere-highslide-options.min.js',
-			[ 'lumiere_highslide_core' ],
-			$this->config_class->lumiere_version,
-			true
-		);
-		wp_enqueue_style(
-			'lumiere_highslide_core',
-			$this->config_class->lumiere_css_dir . 'lumiere-highslide.min.css',
-			[],
-			$this->config_class->lumiere_version
+			[ 'lumiere_highslide_scripts' ],
+			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere-highslide-options.min.js' ) ),
+			[ 'strategy' => 'defer' ]
 		);
 		wp_register_script(
 			'lumiere_highslide_scripts',
 			$this->config_class->lumiere_js_dir . 'lumiere-highslide-links.min.js',
-			[ 'jquery' ],
-			$this->config_class->lumiere_version,
-			true
+			[ 'jquery', 'lumiere_scripts' ],
+			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere-highslide-links.min.js' ) ),
+			[ 'strategy' => 'defer' ]
 		);
 	}
 
@@ -88,14 +82,11 @@ class Highslide_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_highslide_execute_assets (): void {
 
-		wp_enqueue_style( 'lumiere_highslide_core' );
+		wp_enqueue_style( 'lumiere_highslide_core_style' );
 
 		wp_enqueue_script( 'lumiere_highslide_core' );
-
 		wp_enqueue_script( 'lumiere_highslide_options' );
-
 		wp_enqueue_script( 'lumiere_highslide_scripts' );
-
 	}
 
 	/**
@@ -123,7 +114,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	public function lumiere_link_picture ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title ): string {
 
 		// Function in abstract class, 2 before last param defines the output, before last param specific A class, last param specific IMG class.
-		return $this->lumiere_link_picture_abstract( $photo_localurl_false, $photo_localurl_true, $movie_title, 0, 'highslide_pic', 'imdbelementPICimg' );
+		return $this->lumiere_link_picture_abstract( $photo_localurl_false, $photo_localurl_true, $movie_title, 0, 'lum_pic_link_highslide', 'imdbelementPICimg' );
 	}
 
 	/**

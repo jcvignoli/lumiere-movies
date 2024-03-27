@@ -67,6 +67,7 @@ if ( count( array_intersect( Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS, app
 	return;
 }
 
+// Start the plugin
 $lumiere_core = new Lumiere\Core();
 
 // Executed upon plugin activation.

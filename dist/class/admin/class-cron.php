@@ -63,7 +63,7 @@ class Cron {
 		add_action( 'lumiere_cron_autofreshcache', [ $this, 'lumiere_cron_exec_autorefresh' ], 0 );
 
 		// Add or remove crons.
-		add_action( 'init', [ $this, 'lumiere_add_remove_crons_cache' ] );
+		add_action( 'init', [ $this, 'lumiere_add_remove_crons_cache' ], 11 );
 
 		// Add new schedules in cron recurrences.
 		add_filter( 'cron_schedules', [ $this, 'lumiere_add_cron_job_recurrence' ] );

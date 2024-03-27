@@ -302,7 +302,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 				// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
 				$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . 'no_pics.gif' ) : $photo_thumb;
 
-				echo '<a class="highslide_pic_popup" href="' . esc_url( $photo_url_href ) . '">';
+				echo '<a class="lum_pic_inpopup" href="' . esc_url( $photo_url_href ) . '">';
 				// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.
 				echo "\n\t\t" . '<img loading="lazy" src="' . esc_url( $photo_url_img ) . '" alt="' . esc_attr( $movie_results->title() ) . '"';
 

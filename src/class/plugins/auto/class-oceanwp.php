@@ -16,10 +16,13 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use Lumiere\Settings;
+
 /**
  * Plugin to ensure Lumiere compatibility with OceanWP plugin
  * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->plugins_classes_active
  *
+ * @phpstan-import-type OPTIONS_ADMIN from Settings
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
 class Oceanwp {
@@ -42,6 +45,13 @@ class Oceanwp {
 	private string $assets_css_path;
 
 	/**
+	 * Lumière Admin options.
+	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values
+	 * @var array<string, string>
+	 */
+	private array $imdb_admin_values;
+
+	/**
 	 * Constructor
 	 * @param array<string> $active_plugins
 	 */
@@ -50,12 +60,15 @@ class Oceanwp {
 		// Get the list of active plugins.
 		$this->active_plugins = $active_plugins;
 
+		// Get the values from database.
+		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+
 		// Build the css URL.
 		$this->assets_css_url = plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'assets/css';
 		$this->assets_css_path = plugin_dir_path( dirname( dirname( __DIR__ ) ) ) . 'assets/css';
 
-		// Remove conflicting assets. Use execution time 999 so we make sure it removes everything.
-		//add_action( 'wp_enqueue_scripts', [ $this, 'remove_oceanwp_assets' ], 990 );
+		// Remove conflicting assets.
+		add_action( 'wp_enqueue_scripts', [ $this, 'remove_oceanwp_assets' ] );
 
 		// Add extra assets.
 		add_action( 'wp_enqueue_scripts', [ $this, 'register_oceanwp_assets' ], 9 );
@@ -74,14 +87,22 @@ class Oceanwp {
 	 */
 	public function remove_oceanwp_assets(): void {
 
-		$styles_deregister = [
-			'magnific-popup',
-		];
+		$styles_deregister = [];
+		$scripts_deregister = [];
 
-		$scripts_deregister = [
-			'magnific-popup',
-			'oceanwp-lightbox',
-		];
+		// If Highslide modal window is active, remove competing scripts and stylesheets.
+		if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'highslide' ) {
+
+			$styles_deregister = [
+				'magnific-popup',
+			];
+
+			$scripts_deregister = [
+				'magnific-popup',
+				'oceanwp-lightbox',
+				'ow-magnific-popup',
+			];
+		}
 
 		foreach ( $scripts_deregister as $script ) {
 			if ( wp_script_is( $script, $list = 'registered' ) === true ) {
@@ -94,10 +115,11 @@ class Oceanwp {
 				wp_deregister_style( $style );
 			}
 		}
+
 	}
 
 	/**
-	 * Register general assets everywhere
+	 * Register special assets for OceanWP
 	 */
 	public function register_oceanwp_assets(): void {
 
@@ -119,7 +141,7 @@ class Oceanwp {
 	}
 
 	/**
-	 * Enqueue assets everywhere
+	 * Enqueue special assets for OceanWP
 	 */
 	public function enqueue_oceanwp_assets(): void {
 

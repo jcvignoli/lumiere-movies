@@ -56,7 +56,7 @@ class Widget_Selection extends WP_Widget {
 			]
 		);
 
-		add_action( 'widgets_init', [ $this, 'select_widget' ], 9 ); // called in Admin class with priority 8
+		add_action( 'widgets_init', [ $this, 'lum_select_widget' ], 11 ); // called in Admin class with priority 8
 
 		/**
 		 * Hide the widget in legacy widgets menu
@@ -84,7 +84,7 @@ class Widget_Selection extends WP_Widget {
 	 * @since 4.0 using __CLASS__ instead of get_class() in register_widget()
 	 * @since 4.0.3 replaced __CLASS__ with "Widget_Legacy" in register_widget(), changed the logic of registering the block widget
 	 */
-	public function select_widget(): void {
+	public function lum_select_widget(): void {
 
 		// Can't use is_widget_active in widgets_init hook, so home-made check
 		$is_classic_active = in_array( 'classic-widgets/classic-widgets.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ); // @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
@@ -95,12 +95,14 @@ class Widget_Selection extends WP_Widget {
 				'widgets_init',
 				function() {
 					register_widget( 'Lumiere\Frontend\Widget_Legacy' );
-				}
+				},
+				12
 			);
 		}
 
 		// Register Block-based Widget by default if no classic widget plugin is available
-		add_action( 'widgets_init', [ $this, 'lumiere_register_widget_block' ] );
+		add_action( 'widgets_init', [ $this, 'lumiere_register_widget_block' ], 12 );
+
 	}
 
 	/**

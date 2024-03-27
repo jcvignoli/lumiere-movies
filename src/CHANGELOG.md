@@ -7,6 +7,7 @@ v.4.0.3
 * [feature] Popups layout vastly reviewed and enhanced, link color changed, added a picture for illustrating the link for movie searching
 * [feature] The color of links to taxonomy pages is now different than to popups, for better understanding of what comes next. More respectful of plugin user css, not modifing links into the posts except in Lumière area (used to change to grey color the links)
 * [bug] Custom stylesheet added in personal theme folder wasn't working (now unregister main style and register the custom style in Core class if a parent or child theme is found)
+* [bug] If using Highslide modal window with OceanWP theme, pictures were somewhat taken between an extra box created by OceanWP (detection if OceanWP is installed and highslide is activated in oceanwp plugins class, then deactivating OceanWP boxes)
 * [bug] Title in popup search were a mess with + and \ in the title (better data escaping in Popup Search class)
 * [bug] Bootsrap spinner for bootstrap fixed, it correctly disappears when page is fully loaded
 * [bug] Pictures in popup where smaller depending on the results. Fixed their size for both movies and people

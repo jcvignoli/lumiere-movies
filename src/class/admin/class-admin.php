@@ -12,16 +12,17 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
+use Lumiere\Settings;
 use Lumiere\Admin\Admin_Menu;
 use Lumiere\Admin\Backoffice_Extra;
-use Lumiere\Admin\Widget_Selection;
 use Lumiere\Admin\Metabox_Selection;
 use Lumiere\Tools\Utils;
 use Lumiere\Tools\Settings_Global;
+use Lumiere\Alteration\Virtual_Page;
 
 /**
  * All Admin-related functions
@@ -31,7 +32,9 @@ use Lumiere\Tools\Settings_Global;
  */
 class Admin {
 
-	// Trait including the database settings.
+	/**
+	 * Traits
+	 */
 	use Settings_Global;
 
 	/**
@@ -44,32 +47,34 @@ class Admin {
 			return;
 		}
 
-		// Get Global Settings class properties.
-		$this->get_settings_class();
-		$this->get_db_options();
-
 		// Widget is also executed on non-admin pages.
-		/** @psalm-suppress MissingClosureReturnType, UndefinedClass -- crazy psalm, it is defined! */
-		add_action( 'widgets_init', fn() => Widget_Selection::lumiere_static_start(), 8 );
+		add_action( 'widgets_init', [ 'Lumiere\Admin\Widget_Selection', 'lumiere_static_start' ] );
+
+		// Redirect Search class.
+		add_filter( 'template_redirect', [ $this, 'lumiere_search_redirect' ] );
 
 		if ( ! is_admin() ) {
 			return;
 		}
 
+		// Get Global Settings class properties.
+		$this->get_settings_class();
+		$this->get_db_options();
+
 		// Add admin menu.
 		add_action( 'init', fn() => Admin_Menu::lumiere_static_start() );
 
 		// Add the metabox to editor.
-		add_action( 'admin_init', fn() => Metabox_Selection::lumiere_static_start(), 0 );
+		add_action( 'admin_init', fn() => Metabox_Selection::lumiere_static_start() );
 
 		// Extra backoffice functions, such as privacy, plugins infos in plugins' page
 		add_action( 'admin_init', fn() => Backoffice_Extra::lumiere_backoffice_start(), 0 );
 
 		// Register admin scripts.
-		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ], 0 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ] );
 
 		// Add admin header.
-		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_execute_admin_assets' ], 0 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_execute_admin_assets' ] );
 
 		// Add admin tinymce button for wysiwig editor.
 		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_execute_tinymce' ], 2 );
@@ -92,25 +97,16 @@ class Admin {
 			'lumiere_hide_show',
 			$this->config_class->lumiere_js_dir . 'lumiere_hide_show.min.js',
 			[ 'jquery' ],
-			$this->config_class->lumiere_version,
-			true
-		);
-
-		// Register paths, fake script to get a hook for add inline scripts
-		wp_register_script(
-			'lumiere_scripts_admin_vars',
-			'',
-			[],
-			$this->config_class->lumiere_version,
+			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_hide_show.min.js' ) ),
 			true
 		);
 
 		// Register admin styles
 		wp_register_style(
 			'lumiere_css_admin',
-			$this->config_class->lumiere_css_dir . 'lumiere-admin.min.css',
+			$this->config_class->lumiere_css_dir . 'lumiere_admin.min.css',
 			[],
-			$this->config_class->lumiere_version
+			strval( filemtime( $this->config_class->lumiere_css_path . 'lumiere_admin.min.css' ) )
 		);
 
 		// Register admin scripts
@@ -118,7 +114,7 @@ class Admin {
 			'lumiere_scripts_admin',
 			$this->config_class->lumiere_js_dir . 'lumiere_scripts_admin.min.js',
 			[ 'jquery' ],
-			$this->config_class->lumiere_version,
+			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_scripts_admin.min.js' ) ),
 			false
 		);
 
@@ -127,7 +123,7 @@ class Admin {
 			'lumiere_scripts_admin_gutenberg',
 			$this->config_class->lumiere_js_dir . 'lumiere_scripts_admin_gutenberg.min.js',
 			[ 'jquery' ],
-			$this->config_class->lumiere_version,
+			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_scripts_admin_gutenberg.min.js' ) ),
 			false
 		);
 
@@ -136,7 +132,7 @@ class Admin {
 			'lumiere_deactivation_plugin_message',
 			$this->config_class->lumiere_js_dir . 'lumiere_admin_deactivation_msg.min.js',
 			[ 'jquery' ],
-			$this->config_class->lumiere_version,
+			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_admin_deactivation_msg.min.js' ) ),
 			true
 		);
 
@@ -145,34 +141,34 @@ class Admin {
 			'lumiere_quicktag_addbutton',
 			$this->config_class->lumiere_js_dir . 'lumiere_admin_quicktags.min.js',
 			[ 'quicktags' ],
-			$this->config_class->lumiere_version,
+			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_admin_quicktags.min.js' ) ),
 			true
 		);
 	}
 
 	/**
-	 *  Add assets of Lumière admin pages
+	 * Add assets of Lumière admin pages
+	 * @param string $page_caller
 	 */
-	public function lumiere_execute_admin_assets ( string $hook ): void {
+	public function lumiere_execute_admin_assets ( string $page_caller ): void {
 
 		// Load assets only on Lumière admin pages.
 		// + WordPress edition pages + Lumière own pages (ie gutenberg search).
 		if (
-			( 'toplevel_page_lumiere_options' === $hook )
-			|| ( 'post.php' === $hook )
-			|| ( 'post-new.php' === $hook )
-			|| ( 'widgets.php' === $hook )
+			'toplevel_page_lumiere_options' === $page_caller
+			|| 'post.php' === $page_caller
+			|| 'post-new.php' === $page_caller
+			|| 'widgets.php' === $page_caller
 			// All Lumière pages.
-			|| ( Utils::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ?? '' ) )
+			|| Utils::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ?? '' )
 			// Extra WP Admin pages.
-			|| ( Utils::lumiere_array_contains_term(
+			|| Utils::lumiere_array_contains_term(
 				[
 					'admin.php?page=lumiere_options',
 					'options-general.php?page=lumiere_options',
 				],
 				$_SERVER['REQUEST_URI'] ?? ''
 			)
-				)
 		) {
 
 			// Load main css.
@@ -181,7 +177,7 @@ class Admin {
 			// Load main js.
 			wp_enqueue_script( 'lumiere_scripts_admin' );
 
-			// Pass path variables to javascripts.
+			// Register paths, fake script to get a hook for add inline scripts
 			wp_add_inline_script(
 				'lumiere_scripts_admin',
 				$this->config_class->lumiere_scripts_admin_vars,
@@ -198,30 +194,29 @@ class Admin {
 
 		// On 'plugins.php' show a confirmation dialogue if.
 		// 'imdbkeepsettings' is set on delete Lumière! options.
-		if ( ( ( ! isset( $this->imdb_admin_values['imdbkeepsettings'] ) ) || ( $this->imdb_admin_values['imdbkeepsettings'] === '0' ) ) && ( 'plugins.php' === $hook )  ) {
-
+		if (
+			( ! isset( $this->imdb_admin_values['imdbkeepsettings'] ) || $this->imdb_admin_values['imdbkeepsettings'] === '0' )
+			&& $page_caller === 'plugins.php'
+		) {
 			wp_enqueue_script( 'lumiere_deactivation_plugin_message' );
-
 		}
 
 		//  Add Quicktag.
-		if ( ( ( 'post.php' === $hook ) || ( 'post-new.php' === $hook ) ) && ( wp_script_is( 'quicktags' ) ) ) {
-
+		if ( ( 'post.php' === $page_caller || 'post-new.php' === $page_caller ) && wp_script_is( 'quicktags' ) ) {
 			wp_enqueue_script( 'lumiere_quicktag_addbutton' );
-
 		}
 	}
 
 	/**
 	 *  Register TinyMCE
-	 * @param string $hook
+	 * @param string $page_caller
 	 */
-	public function lumiere_execute_tinymce( string $hook ): void {
+	public function lumiere_execute_tinymce( string $page_caller ): void {
 
 		// Add only in Rich Editor mode for post.php and post-new.php pages
 		if (
-			( get_user_option( 'rich_editing' ) === 'true' )
-			&& ( ( 'post.php' === $hook ) || ( 'post-new.php' === $hook ) )
+			get_user_option( 'rich_editing' ) === 'true'
+			&& ( 'post.php' === $page_caller || 'post-new.php' === $page_caller )
 		) {
 
 			add_filter( 'mce_external_plugins', [ $this, 'lumiere_tinymce_addbutton' ] );
@@ -231,8 +226,8 @@ class Admin {
 
 	/**
 	 * Change TinyMCE buttons position
-	 * @param mixed[] $buttons
-	 * @return mixed[]
+	 * @param array<mixed> $buttons
+	 * @return array<mixed>
 	 */
 	public function lumiere_tinymce_button_position( array $buttons ): array {
 
@@ -242,12 +237,34 @@ class Admin {
 
 	/**
 	 * Add TinyMCE buttons
-	 * @param mixed[] $plugin_array
-	 * @return mixed[]
+	 * @param array<mixed> $plugin_array
+	 * @return array<mixed>
 	 */
 	public function lumiere_tinymce_addbutton( array $plugin_array ): array {
 
 		$plugin_array['lumiere_tiny'] = $this->config_class->lumiere_js_dir . 'lumiere_admin_tinymce_editor.min.js';
 		return $plugin_array;
+	}
+
+	/**
+	 * Redirect search popup in admin, but since it's called in external pages, can't be in admin
+	 *
+	 * @return Virtual_Page|string The virtual page if success, the template called if failed
+	 */
+	public function lumiere_search_redirect( string $template ): Virtual_Page|string {
+
+		// Display only in admin area.
+		if (
+			stripos( $_SERVER['REQUEST_URI'] ?? '', site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) !== 0
+			|| is_admin()
+		) {
+			return $template;
+		}
+
+		return new Virtual_Page(
+			site_url() . Settings::GUTENBERG_SEARCH_URL,
+			new Search(),
+			'Lumiere Query Interface'
+		);
 	}
 }
