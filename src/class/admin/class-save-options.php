@@ -549,7 +549,6 @@ class Save_Options {
 	 */
 	private function lumiere_data_options_reset( string|bool $get_referer, ): void {
 
-		// Delete the options to reset
 		delete_option( Settings::LUMIERE_DATA_OPTIONS );
 		Settings::reset_options();
 
