@@ -109,15 +109,14 @@ class Settings {
 	/**
 	 * Internal URL pages constants
 	 */
-	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'class/tools/class-copy-template-taxonomy.php'; // not included in $lumiere_list_all_pages.
-	const HIGHSLIDE_DOWNLOAD_PAGE = 'class/plugins/highslide-download.php';
-	const VIRTUAL_PAGE_MAKER = 'class/tools/class-virtual-page.php';
-	const GUTENBERG_SEARCH_PAGE = 'class/tools/class-search.php';
+	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'class/admin/class-copy-template-taxonomy.php'; // not included in $lumiere_list_all_pages.
+	const VIRTUAL_PAGE_MAKER = 'class/alteration/class-virtual-page.php';
+	const GUTENBERG_SEARCH_PAGE = 'class/admin/class-search.php';
 	const GUTENBERG_SEARCH_URL_STRING = 'lumiere/search/';
 	const GUTENBERG_SEARCH_URL = '/wp-admin/' . self::GUTENBERG_SEARCH_URL_STRING;
-	const POPUP_SEARCH_URL = 'class/frontend/class-popup-search.php';
-	const POPUP_MOVIE_URL = 'class/frontend/class-popup-movie.php';
-	const POPUP_PERSON_URL = 'class/frontend/class-popup-person.php';
+	const POPUP_SEARCH_URL = 'class/frontend/popups/class-popup-search.php';
+	const POPUP_MOVIE_URL = 'class/frontend/popups/class-popup-movie.php';
+	const POPUP_PERSON_URL = 'class/frontend/popups/class-popup-person.php';
 	const TAXO_PEOPLE_THEME = 'class/theme/class-taxonomy-people-standard.php'; // not included in $lumiere_list_all_pages.
 	const TAXO_ITEMS_THEME = 'class/theme/class-taxonomy-items-standard.php'; // not included in $lumiere_list_all_pages.
 	const UPDATE_OPTIONS_PAGE = 'class/class-updates.php'; // not included in $lumiere_list_all_pages.
@@ -214,7 +213,7 @@ class Settings {
 
 	/**
 	 * Reset all options by instanciating the class -- Dirty
-	 * Would be better to have a class that separates options and updates, instead of having such method
+	 * Would be better to have a class that separates options and updates, instead of having such a dirtly method
 	 * @since 4.0.3 method created
 	 */
 	public static function reset_options(): void {
@@ -274,7 +273,6 @@ class Settings {
 			$this->lumiere_urlstringperson,
 			$this->lumiere_urlstringsearch,
 			self::MOVE_TEMPLATE_TAXONOMY_PAGE,
-			self::HIGHSLIDE_DOWNLOAD_PAGE,
 			self::GUTENBERG_SEARCH_PAGE,
 			self::GUTENBERG_SEARCH_URL,
 			self::POPUP_SEARCH_URL,

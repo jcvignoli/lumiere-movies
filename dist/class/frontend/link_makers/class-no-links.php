@@ -79,15 +79,18 @@ class No_Links extends Abstract_Link_Maker {
 	}
 
 	/**
+	 * @inherit
 	 * Display mini biographical text, not all people have one
 	 *
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
+	 * @param int $limit_text_bio Optional, increasing the hardcoded limit of characters before displaying "click for more"
+	 *
 	 * @return ?string
 	 */
-	public function lumiere_medaillon_bio ( array $bio_array ): ?string {
+	public function lumiere_medaillon_bio ( array $bio_array, int $limit_text_bio = 0 ): ?string {
 
 		// Function in abstract class, last param cut the links.
-		return $this->lumiere_medaillon_bio_abstract( $bio_array, 1 );
+		return $this->lumiere_medaillon_bio_abstract( $bio_array, 1, $limit_text_bio );
 
 	}
 

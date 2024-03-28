@@ -73,10 +73,14 @@ class Search {
 		$this->imdbphp_class = new Imdbphp();
 
 		// Register admin scripts.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_search_register_script' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_search_register_scripts' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_search_run_script' ] );
 
-		add_action( 'the_posts', [ $this, 'lumiere_search_layout' ], 1 );
+		// Unregister useless scripts
+		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_search_deregister_scripts' ] );
+
+		// Start!
+		add_action( 'the_posts', [ $this, 'lumiere_search_layout' ] );
 	}
 
 	/**
@@ -178,7 +182,7 @@ class Search {
 		} ?>
 
 <br>
-<div align="center" class="lumiere_padding_five"><a href="<?php esc_url( site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ); ?>"><?php esc_html_e( 'Do a new query', 'lumiere-movies' ); ?></a></div>
+<div align="center" class="lumiere_padding_five"><a href="<?php echo esc_url( site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ); ?>"><?php esc_html_e( 'Do a new query', 'lumiere-movies' ); ?></a></div>
 <br>
 <br><?php
 	}
@@ -205,7 +209,7 @@ class Search {
 	/**
 	 * Register search script and unregister useless scripts
 	 */
-	public function lumiere_search_register_script (): void {
+	public function lumiere_search_register_scripts(): void {
 
 		// Remove admin bar
 		add_filter( 'show_admin_bar', '__return_false' );
@@ -217,6 +221,12 @@ class Search {
 			$this->config_class->lumiere_version,
 			true
 		);
+	}
+
+	/**
+	 * Deregister useless scripts
+	 */
+	public function lumiere_search_deregister_scripts(): void {
 		wp_deregister_script( 'lumiere_hide_show' );
 		wp_deregister_script( 'lumiere_scripts' );
 		wp_deregister_script( 'lumiere_highslide_core' );
@@ -234,7 +244,7 @@ class Search {
 	/**
 	 * Run needed scripts
 	 */
-	public function lumiere_search_run_script (): void {
+	public function lumiere_search_run_script(): void {
 		wp_enqueue_script( 'lumiere_search_admin' );
 	}
 }

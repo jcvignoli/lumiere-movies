@@ -191,13 +191,13 @@ if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
 		?>
 												<!-- top page menu -->
 		<div class="lumiere_container lumiere_font_em_11 lum_popup_titlemenu">
-			<?php if ( isset( $_GET['info'] ) && strlen( $_GET['info'] ) > 0 ) { ?>
+			<?php /* if ( isset( $_GET['info'] ) && strlen( $_GET['info'] ) > 0 ) {  ?>
 			<div class="lumiere_flex_auto">
 				<a rel="nofollow" id="lum_popup_link_back" class="lum_popup_menu_title lum_add_spinner" href="<?php
 				$refer = wp_get_referer();
 				echo $refer !== false ? esc_url( $refer ) : ''; ?>"><?php esc_html_e( 'Back', 'lumiere-movies' ); ?></a>
 			</div>
-			<?php } ?>
+			<?php }*/ ?>
 			<div class="lumiere_flex_auto">
 				<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info=' ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Summary', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
 			</div>

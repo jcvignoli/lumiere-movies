@@ -443,7 +443,7 @@ class Taxonomy_People_Standard {
 
 			echo "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
 				. '&#9788;&nbsp;'
-				. esc_html__( 'Born on', 'lumiere-movies' ) . '</span>'
+				. esc_html__( 'Born on', 'lumiere-movies' ) . '&nbsp;</span>'
 				. esc_html( $birthday_day . $birthday_month . $birthday_year );
 		} else {
 			echo '&nbsp;';
@@ -470,7 +470,7 @@ class Taxonomy_People_Standard {
 
 			echo "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
 				. '&#8224;&nbsp;'
-				. esc_html__( 'Died on', 'lumiere-movies' ) . '</span>'
+				. esc_html__( 'Died on', 'lumiere-movies' ) . '&nbsp;</span>'
 				. esc_html( $death_day . $death_month . $death_year );
 
 			if ( ( isset( $death['place'] ) ) && ( strlen( $death['place'] ) !== 0 ) ) {
@@ -493,8 +493,36 @@ class Taxonomy_People_Standard {
 		echo '<font size="-1">';
 
 		// Biography, function in trait.
-		// @phpcs:ignore WordPress.Security.EscapeOutput
-		echo $this->link_maker->lumiere_medaillon_bio( $this->person_class->bio() );
+		echo wp_kses(
+			$this->link_maker->lumiere_medaillon_bio( $this->person_class->bio(), 1500 ) ?? '',
+			[
+				'span' => [
+					'class' => [],
+					'id' => [],
+				],
+				'title' => [
+					'data-*' => true,
+					'class' => [],
+					'aria-label' => [],
+					'role' => [],
+				],
+				'a' => [
+					'class' => [],
+					'data-*' => true,
+					'title' => [],
+				],
+				'button' => [
+					'type' => [],
+					'name' => [],
+					'id' => [],
+					'class' => [],
+					'aria-live' => [],
+					'value' => [],
+					'data-*' => true,
+				],
+				'strong' => [],
+			]
+		);
 
 		echo "\n\t\t\t\t\t" . '</font></div>';
 		echo "\n\t\t\t\t" . '</div>';

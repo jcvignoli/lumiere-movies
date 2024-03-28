@@ -77,8 +77,9 @@ abstract class Abstract_Link_Maker {
 	 * 3- Build links either to internal (popups) or popups (inside posts/widgets) with $popup_links
 	 *
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
+	 * @param int $limit_text_bio Optional, increasing the hardcoded limit of characters before displaying "click for more"
 	 */
-	abstract protected function lumiere_medaillon_bio ( array $bio_array ): ?string;
+	abstract protected function lumiere_medaillon_bio ( array $bio_array, int $limit_text_bio = 0 ): ?string;
 
 	/**
 	 * Convert an IMDb url into an internal link for People and Movies
@@ -360,11 +361,11 @@ abstract class Abstract_Link_Maker {
 	 *
 	 * @return ?string
 	 */
-	protected function lumiere_medaillon_bio_abstract ( array $bio_array, int $window_type = 0 ): ?string {
+	protected function lumiere_medaillon_bio_abstract ( array $bio_array, int $window_type = 0, int $limit_text_bio = 0 ): ?string {
 
 		/** Vars */
 		$click_text = esc_html__( 'click to expand', 'lumiere-movies' ); // text for cutting.
-		$max_length = 200; // maximum number of characters before cutting.
+		$max_length = $limit_text_bio !== 0 ? $limit_text_bio : 200; // maximum number of characters before cutting, 200 is perfect for popups.
 		$bio_head = "\n\t\t\t" . '<span class="lum_results_section_subtitle">'
 			. esc_html__( 'Biography', 'lumiere-movies' )
 			. '</span>';
@@ -411,9 +412,9 @@ abstract class Abstract_Link_Maker {
 		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
 
 			/** @psalm-suppress PossiblyFalseArgument -- Argument 3 of substr cannot be false, possibly int|null value expected => Never false! */
-			$str_one = substr( $bio_text, 0, $esc_html_breaker );
+			$str_one = substr( $bio_text, 0, $max_length );
 			/** @psalm-suppress PossiblyFalseArgument -- Argument 3 of substr cannot be false, possibly int|null value expected => Never false! */
-			$str_two = substr( $bio_text, $esc_html_breaker, strlen( $bio_text ) );
+			$str_two = substr( $bio_text, $max_length, strlen( $bio_text ) );
 
 			$bio_text = "\n\t\t\t" . $str_one
 				. "\n\t\t\t" . '<span class="activatehidesection"><strong>&nbsp;(' . $click_text . ')</strong></span> '
@@ -422,9 +423,7 @@ abstract class Abstract_Link_Maker {
 				. "\n\t\t\t" . '</span>';
 
 		}
-
 		return strlen( $bio_text ) > 0 ? $bio_head . $bio_text : '';
-
 	}
 
 	/**
