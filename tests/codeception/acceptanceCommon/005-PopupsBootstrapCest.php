@@ -51,7 +51,6 @@ class PopupsBootstrapCest {
 
 		// Make sure Bootstrap is active, following tests are run with Bootstrap
 		$I->SwitchModalWindow('Bootstrap');
-
 	}
 	
 	/**

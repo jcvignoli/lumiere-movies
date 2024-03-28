@@ -487,7 +487,7 @@ class Taxonomy_People_Standard {
 
 		echo "\n\t\t\t\t" . '</font></div>';
 		echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Biography -->';
-		echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
+		echo "\n\t\t\t\t" . '<div id="lum_taxo_page_bio" class="lumiere-lines-common';
 		echo ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 		echo ' lumiere-lines-common-fix">';
 		echo '<font size="-1">';

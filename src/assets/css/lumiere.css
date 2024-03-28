@@ -42,14 +42,12 @@ body.lum_body_popup_lightgrey {color: black;background: lightgrey;}
 .lum_popup_menu_title, .lum_link_no_popup, .lum_popup_internal_link { /* links inside popups, internal links, title menu links, no popups in posts */
 	color: #ff0000;
 	text-decoration: none !important;
-	cursor:pointer;
 }
 
 .lum_popup_menu_title:hover, .lum_popup_menu_title:visited, .lum_link_no_popup:hover, .lum_link_no_popup:visited, .lum_popup_internal_link:visited, 
 .lum_popup_internal_link:hover  {
 	color: #ff8e8b;
 	text-decoration: none !important;
-	cursor:pointer;
 }
 
 .lum_link_taxo_page, .lum_link_taxo_page:hover, .lum_link_taxo_page:visited { /** Link to a taxonomy page, link in widget/into the post  */
@@ -153,7 +151,7 @@ text-align:left;
 
 
 /***********************************************************
-******************** WIDGET & INSIDE POST
+******************** Widget & Inside posts & Taxonomy pages
 ***********************************************************/
 
 .lum_results_frame {			/* The entire results div */
@@ -209,15 +207,15 @@ text-align:left;
 	background-color:white;
 	color:black;
 }
-.lumiere-lines-common_white a{
+.lumiere-lines-common_white a {
 	color:grey;
 	text-decoration: none !important;
 }
-.lumiere-lines-common_white a.lum_link_taxo_page {
-	color:#696969;
+.lumiere-lines-common_white a.lum_popup_internal_link {
+	color: #ff0000;
 }
-.lumiere-lines-common_white a:hover, .lumiere-lines-common_white a.lum_link_taxo_page:hover {
-	color:black;
+.lumiere-lines-common_white a:hover, .lumiere-lines-common_white a.lum_popup_internal_link:hover {
+	color: #ff8e8b;
 }
 .lumiere-lines-common_white:last-child {
 	border-bottom:1px solid black;

@@ -48,13 +48,13 @@ class Movie {
 		// Construct Frontend trait.
 		$this->start_main_trait();
 
-		// Singleton
+		// Singleton for running movies only once.
 		$this->movie_run_once = false;
 
-		// Parse the content to add the movies.
+		// Transform spans into movies.
 		add_filter( 'the_content', [ $this, 'lumiere_parse_spans' ] );
 
-		// Transform span into links to popups.
+		// Transform spans into links to popups.
 		add_filter( 'the_content', [ $this, 'lumiere_link_popup_maker' ] );
 		add_filter( 'the_excerpt', [ $this, 'lumiere_link_popup_maker' ] );
 
@@ -76,12 +76,14 @@ class Movie {
 	 */
 	public function lumiere_show( ?array $imdb_id_or_title_outside = null ): string {
 
-		// Show log for link maker and plugin detect
+		/**
+		 * Show log for link maker and plugin detect
+		 * Is instanciated only if not instanciated already
+		 */
 		if ( $this->movie_run_once === false ) {
 
 			/**
 			 * Start Plugins_Start class
-			 * Is instanciated only if not instanciated already
 			 * Use lumiere_set_plugins_array() in trait to set $plugins_active_names var in trait
 			 */
 			if ( count( $this->plugins_active_names ) === 0 ) {
@@ -277,47 +279,29 @@ class Movie {
 		}
 
 		// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
-		$pattern = '~<span data-lum_link_maker="popup"[^>]*>(.+?)<\/span>~i';
-		$text = preg_replace_callback( $pattern, [ $this, 'lumiere_link_finder' ], $text ) ?? $text;
+		$pattern = '~<span[^>]*data-lum_link_maker="popup"[^>]*>(.+)<\/span>~iU';
+		$text = preg_replace_callback( $pattern, [ $this, 'lumiere_build_popup_link' ], $text ) ?? $text;
 
 		// Kept for compatibility purposes:  <!--imdb--> still works
 		$pattern_two = '~<!--imdb-->(.*?)<!--\/imdb-->~i';
-		$text = preg_replace_callback( $pattern_two, [ $this, 'lumiere_link_finder_oldway' ], $text ) ?? $text;
+		$text = preg_replace_callback( $pattern_two, [ $this, 'lumiere_build_popup_link' ], $text ) ?? $text;
 
 		return $text;
 	}
 
 	/**
-	 * Replace <span data-lum_link_maker="popup"> tags inside the posts
-	 *
-	 * Looks for what is inside tags <span data-lum_link_maker="popup"> ... </span> and builds a popup link
+	 * Replace <span data-lum_link_maker="popup"> by a link
 	 *
 	 * @param array<int, string> $correspondances parsed data
-	 * @since 4.0.3 Added the possibility to have some text after the data with [^>]*
-	 */
-	private function lumiere_link_finder( array $correspondances ): string {
-
-		$correspondances = $correspondances[0];
-		$pattern = '~<span data-lum_link_maker="popup"[^>]*>(.+?)<\/span>~i'; // identical to $pattern in lumiere_link_popup_maker().
-		$result = preg_match( $pattern, $correspondances, $matches );
-		return $result > 0 ? $this->link_maker->lumiere_popup_film_link( $matches ) : $correspondances;
-	}
-
-	/**
-	 * Replace <!--imdb--> tags inside the posts
+	 * @return string the link replaced
 	 *
-	 * Looks for what is inside tags <!--imdb--> ... <!--/imdb-->
-	 * and builds a popup link
-	 *
-	 * @deprecated 3.1 kept for compatibility purposes
-	 * @param array<string> $correspondances parsed data
+	 * @since 4.0.3 Replaced preg_match() by str_replace() and simplified the method
 	 */
-	private function lumiere_link_finder_oldway( array $correspondances ): string {
-
-		$correspondances = $correspondances[0];
-		$pattern = '~<!--imdb-->(.*?)<!--\/imdb-->~i'; // identical to $pattern in lumiere_link_popup_maker().
-		$result = preg_match( $pattern, $correspondances, $matches );
-		return $result > 0 ? $this->link_maker->lumiere_popup_film_link( $matches ) : $correspondances;
+	private function lumiere_build_popup_link( array $correspondances ): string {
+		$result = isset( $correspondances[0] )
+			? str_replace( $correspondances[0], $this->link_maker->lumiere_popup_film_link( $correspondances ), $correspondances[0] )
+			: '';
+		return $result;
 	}
 
 	/**
@@ -506,7 +490,6 @@ class Movie {
 		 * Compatibility with Polylang WordPress plugin, add a language to the taxonomy term.
 		 * Function in class Polylang.
 		 * @deprecated 4.0 WordPress functions do all what we need
-		 * @TODO: make a function that even if Polylang custom taxonomies are not activated, taxos are registred with Polylang language anyway
 		 */
 		/* if ( $this->plugin_polylang instanceof Polylang && ! is_wp_error( $term_inserted ) && $page_id !== false ) {
 
@@ -562,7 +545,7 @@ class Movie {
 	/**
 	 * Create an html link for taxonomy using the name passed
 	 *
-	 * @since 4.0 New function taking out pieces from Movie::lumiere_make_display_taxonomy()
+	 * @since 4.0 New function taking out pieces from self::lumiere_make_display_taxonomy()
 	 *
 	 * @param string $name_searched The name searched, such as 'Stanley Kubrick'
 	 * @param string $taxo_category The taxonomy category used, such as 'lumiere-director'
