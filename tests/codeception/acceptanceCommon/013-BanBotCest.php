@@ -82,10 +82,10 @@ class BanBotCest {
 		*/
 
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_USERAGENT, $user_agent );
-		curl_setopt($ch, CURLOPT_URL, $url );
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
-		curl_setopt ($ch, CURLOPT_CAINFO, '/etc/ssl/certs/apache-local.lumiere.crt' );
+		curl_setopt( $ch, CURLOPT_USERAGENT, $user_agent );
+		curl_setopt( $ch, CURLOPT_URL, $url );
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+		curl_setopt( $ch, CURLOPT_CAINFO, '/etc/ssl/certs/apache-local.lumiere.crt' );
 		
 		/*
 		curl_setopt($ch, CURLOPT_HTTPHEADER, ["Cookie: wordpress_test_cookie=WP+Cookie+check" ] );
@@ -94,10 +94,10 @@ class BanBotCest {
 		curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie );
 		*/
 		if ( isset( $referer ) && strlen($referer) > 0 ) {
-			curl_setopt($ch, CURLOPT_REFERER, $referer );
+			curl_setopt( $ch, CURLOPT_REFERER, $referer );
 		}
 		$result = curl_exec( $ch ); 
-		curl_close($ch);
+		curl_close( $ch );
 		/*
 		unlink( $cookie );
 		*/

@@ -2,7 +2,7 @@
 
 v.4.1
 * [feature] Thumbnail pictures in taxonomy pages will be quicker to be displayed (using lazy loading, thumbs for the thumb images preciseley)
-* [feature] No need anymore for refreshing rewrite rules when creating a new taxonomy item, done automatically (added flush_rewrite_rules() in Save_Options::lumiere_data_options_save(), which is trigger only when saving taxonomy selection)
+* [feature] No need anymore for refreshing rewrite rules when creating a new taxonomy item, done automatically (added flush_rewrite_rules() in Save_Options::lumiere_data_options_save(), which is triggered only when saving taxonomy selection)
 * [feature] Popups spinners vastly improved, work with all modal windows. Clicking on any link in popup will trigger a new spinner if the loading time is > 1 second.
 * [feature] Popups layout vastly reviewed and enhanced, link color changed, added a picture for illustrating the link for movie searching
 * [feature] The color of links to taxonomy pages is now different than to popups, for better understanding of what comes next. More respectful of plugin user css, not modifing links into the posts except in Lumière area (used to change to grey color the links)
