@@ -6,7 +6,7 @@
  * @copyright (c) 2022, Lost Highway
  *
  * @version 1.0
- * @since 4.0.3
+ * @since 4.1
  * @package lumiere-movies
  */
 

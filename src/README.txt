@@ -167,7 +167,7 @@ Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CH
 
 Major changes:
 
-= 4.0.3 =
+= 4.1 =
 
 Popup spinners to make you visitors wait, nicer popup layouts, faster taxonomy pages display, better support of Polylang if it's an AMP page. Fixed longstanding bugs.
 
@@ -188,7 +188,7 @@ And much more! This is a major new version, more stable and safer, extensively t
 
 == Upgrade Notice ==
 
-= 4.0.3 =
+= 4.1 =
 
 Due to the use of the most recent WordPress API block use, you should take a look to the posts where you are using Lumière widgets/blocks to insert movies sections (no need for the links). If you do not see the movies, you will need to edit your post and "attempt to recover" the widget/block.
 

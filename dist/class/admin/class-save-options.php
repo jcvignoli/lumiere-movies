@@ -42,7 +42,7 @@ class Save_Options {
 	/**
 	 * Allows to limit the calls to rewrite rules refresh
 	 * @see Save_Options::lumiere_data_options_save()
-	 * @since 4.0.3
+	 * @since 4.1
 	 */
 	private string $page_data_taxo;
 
@@ -113,7 +113,7 @@ class Save_Options {
 
 	/**
 	 * Call from a WordPress hook
-	 * @since 4.0.3 added param, I need it to restrain te rewrite rules flush to data taxo pages
+	 * @since 4.1 added param, I need it to restrain te rewrite rules flush to data taxo pages
 	 * @param string $page_data_taxo
 	 */
 	public static function lumiere_static_start( string $page_data_taxo ): void {
@@ -465,7 +465,7 @@ class Save_Options {
 	 * Save Data options
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @throws Exception if nonces are incorrect
-	 * @since 4.0.3 added flush_rewrite_rules()
+	 * @since 4.1 added flush_rewrite_rules()
 	 */
 	private function lumiere_data_options_save( string|bool $get_referer, ): void {
 

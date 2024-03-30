@@ -22,7 +22,7 @@ use Lumiere\Admin\Admin_General;
 /**
  * Detect if new templates templates are available, or templates should be installed
  * Taxonomy theme pages copy class is called here
- * @since 4.0.3
+ * @since 4.1
  */
 class Detect_New_Template_Taxo {
 

@@ -30,7 +30,7 @@ use Imdb\Person;
  * Popups redirect happens here
  * Register and enqueue the common scripts and stylesheets
  *
- * @since 4.0.3 class added
+ * @since 4.1 class added
  *
  * @see \Lumiere\Frontend\Main For getting the settings and plugins
  * @see \Lumiere\Alteration\Virtual_Page that is called for creating virtual pages, using {@see \Lumiere\Frontend\Popups\Popup_Person}, {@see \Lumiere\Frontend\Popups\Popup_Movie} and {@see \Lumiere\Frontend\Popups\Popup_Search}

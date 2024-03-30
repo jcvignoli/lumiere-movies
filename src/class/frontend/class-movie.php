@@ -270,7 +270,7 @@ class Movie {
 	 * Replace <span class="lumiere_link_maker"(anything)?></span> with links
 	 *
 	 * @param null|string $text parsed data
-	 * @since 4.0.3 Added the possibility to have some text after the data with [^>]*
+	 * @since 4.1 Added the possibility to have some text after the data with [^>]*
 	 */
 	public function lumiere_link_popup_maker( ?string $text ): ?string {
 
@@ -295,7 +295,7 @@ class Movie {
 	 * @param array<int, string> $correspondances parsed data
 	 * @return string the link replaced
 	 *
-	 * @since 4.0.3 Replaced preg_match() by str_replace() and simplified the method
+	 * @since 4.1 Replaced preg_match() by str_replace() and simplified the method
 	 */
 	private function lumiere_build_popup_link( array $correspondances ): string {
 		$result = isset( $correspondances[0] )

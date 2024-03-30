@@ -95,7 +95,7 @@ class Core {
 	/**
 	 * Register gutenberg blocks, must be executed on the whole website
 	 *
-	 * @since 4.0.3 Using block.json, added script translation, added lumiere_scripts_admin_gutenberg script
+	 * @since 4.1 Using block.json, added script translation, added lumiere_scripts_admin_gutenberg script
 	 * @see \Lumiere\Admin\Widget_Selection::lumiere_register_widget_block() which registers gutenberg widget blocks
 	 */
 	public function lumiere_register_gutenberg_blocks(): void {

@@ -28,7 +28,7 @@ use Lumiere\Admin\Widget_Selection;
  *
  * @see Lumiere\Admin\Widget_Selection parent class which creates the legacy widget
  * @see Lumiere\Frontend\Widget_Frontpage which calls this widget if pre-5.8 widget is detected
- * @since 4.0.3 extends "Widget_Selection" instead of "WP_Widget" class
+ * @since 4.1 extends "Widget_Selection" instead of "WP_Widget" class
  * @psalm-suppress UndefinedClass -- it's defined above! how come it's undefined? Bug, if refreshing cache, class is found
  */
 class Widget_Legacy extends Widget_Selection {

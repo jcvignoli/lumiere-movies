@@ -237,7 +237,7 @@ class Updates {
 	 * @param int $update_number i.e. 9
 	 * @return bool True if the update should happen, false otherwhise
 	 *
-	 * @since 4.0.3 casted $this->imdb_admin_values['imdbHowManyUpdates'] to string, which doesn't make sense, but update fails otherwise
+	 * @since 4.1 casted $this->imdb_admin_values['imdbHowManyUpdates'] to string, which doesn't make sense, but update fails otherwise
 	 */
 	protected function lumiere_check_if_run_update( string $version_update = '', int $update_number = 0 ): bool {
 

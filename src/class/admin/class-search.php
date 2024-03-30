@@ -104,7 +104,7 @@ class Search {
 	/**
 	 * Display results page
 	 * Conditionnal: only if form submitted, nonce verified OR if form submitted and referer from an editing page
-	 * @since 4.0.3 rewritten the way to check $_GET and $_SERVER,
+	 * @since 4.1 rewritten the way to check $_GET and $_SERVER,
 	 */
 	private function maybe_results_page (): void {
 

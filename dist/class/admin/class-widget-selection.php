@@ -85,7 +85,7 @@ class Widget_Selection extends WP_Widget {
 	 * @info: check if block-based widget is registered: \WP_Block_Type_Registry::get_instance()->is_registered( Settings::BLOCK_WIDGET_NAME )
 	 *
 	 * @since 4.0 using __CLASS__ instead of get_class() in register_widget()
-	 * @since 4.0.3 replaced __CLASS__ with "Widget_Legacy" in register_widget(), changed the logic of registering the block widget
+	 * @since 4.1 replaced __CLASS__ with "Widget_Legacy" in register_widget(), changed the logic of registering the block widget
 	 */
 	public function lum_select_widget(): void {
 
@@ -122,7 +122,7 @@ class Widget_Selection extends WP_Widget {
 
 	/**
 	 * Register Block Widget (>= WordPress 5.8)
-	 * @since 4.0.3 Using block.json, removed conditions, which are useless as it doesn't register twice anymore, added translation
+	 * @since 4.1 Using block.json, removed conditions, which are useless as it doesn't register twice anymore, added translation
 	 */
 	public function lumiere_register_widget_block(): void {
 
@@ -224,7 +224,7 @@ class Widget_Selection extends WP_Widget {
 	 *
 	 * @param string $blockname Name of the block to look for
 	 * @return bool True if found
-	 * @since 4.0.3 moved from Utils to here
+	 * @since 4.1 moved from Utils to here
 	 */
 	public static function lumiere_block_widget_isactive( string $blockname ): bool {
 		$widget_blocks = get_option( 'widget_block' );

@@ -24,7 +24,7 @@ if ( ! defined( 'WPINC' ) ) {
  * @phpstan-type AVAILABLE_PLUGIN_CLASSES AVAILABLE_AUTO_CLASSES|AVAILABLE_MANUAL_CLASSES
  *
  * @since 3.7 Class created
- * @since 4.0.3 Use find_available_plugins() to find plugins in SUBFOLDER_PLUGINS_BIT folder, and get_active_plugins() returns an array of plugins available
+ * @since 4.1 Use find_available_plugins() to find plugins in SUBFOLDER_PLUGINS_BIT folder, and get_active_plugins() returns an array of plugins available
  */
 class Plugins_Detect {
 

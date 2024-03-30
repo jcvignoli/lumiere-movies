@@ -25,7 +25,7 @@ use Exception;
  *
  * @TODO options should be created only when installing/activating the plugin
  * @since 4.0 moved cache folder creation to class cache tools
- * @since 4.0.3 renamed *imdb_widget_* to *imdb_data_* all over the website
+ * @since 4.1 renamed *imdb_widget_* to *imdb_data_* all over the website
  *
  * @phpstan-type LevelLogName 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY'
  * @phpstan-type OPTIONS_ADMIN array{'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': string, 'imdbdelayimdbrequest': string, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': string, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_modal_window': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': string, 'imdbseriemovies': string}
@@ -230,7 +230,7 @@ class Settings {
 	/**
 	 * Reset all options by instanciating the class -- Dirty
 	 * Would be better to have a class that separates options and updates, instead of having such a dirtly method
-	 * @since 4.0.3 method created
+	 * @since 4.1 method created
 	 */
 	public static function build_options(): void {
 		$build_options = new self();

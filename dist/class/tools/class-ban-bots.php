@@ -122,7 +122,7 @@ class Ban_Bots {
 	/**
 	 * Display a 400 error
 	 * This is an action meant to be called with do_action( 'lumiere_ban_bots_now' ) that immediately ban the user
-	 * @since 4.0.3 Status changed from 403 to 400, removed translation of the $text_ban
+	 * @since 4.1 Status changed from 403 to 400, removed translation of the $text_ban
 	 */
 	public function lumiere_banishment(): void {
 

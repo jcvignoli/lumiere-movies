@@ -19,7 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 /**
  * Trait for general function
  *
- * @since 4.0.3
+ * @since 4.1
  */
 trait Admin_General {
 

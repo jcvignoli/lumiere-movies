@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 /**
  * Trait for data operations, like string or array modifications
- * @since 4.0.3 Trait created
+ * @since 4.1 Trait created
  */
 trait Data {
 
@@ -78,7 +78,7 @@ trait Data {
 	 * Get the Class name currently in use
 	 * Mainly utlised in $log() so they can provide their class of origin
 	 *
-	 * @since 4.0.3
+	 * @since 4.1
 	 * @return string The classname currently in use, 'unknowClass' if not found
 	 */
 	public function get_current_classname(): string {

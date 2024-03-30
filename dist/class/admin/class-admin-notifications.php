@@ -21,7 +21,7 @@ use Lumiere\Admin\Detect_New_Template_Taxo;
 /**
  * Display the notice messages definition called by child Admin_Menu classes when form submission took place
  *
- * @since 4.0.3
+ * @since 4.1
  * @see \Lumiere\Admin\Detect_New_Template_Taxo to check if a message regarding the taxonomy should be displayed
  */
 class Admin_Notifications {

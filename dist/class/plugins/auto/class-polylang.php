@@ -98,7 +98,7 @@ class Polylang {
 	 * @param string $person_name name of the current person in taxonomy
 	 * @return string The form is returned
 	 *
-	 * @since 4.0.3 The AMP form works!
+	 * @since 4.1 The AMP form works!
 	 */
 	public function lumiere_get_form_polylang_selection( string $taxonomy, string $person_name ): string {
 
@@ -209,7 +209,7 @@ class Polylang {
 	 * @param string $content The URL that contains home_url() in it
 	 * @param null|string $extra_url An extra portion of url if needed
 	 * @return string
-	 * @deprecated 4.0.3 no use of this method
+	 * @deprecated 4.1 no use of this method
 	 */
 	public function rewrite_string_with_polylang_url( string $content, string $extra_url = null ): string {
 

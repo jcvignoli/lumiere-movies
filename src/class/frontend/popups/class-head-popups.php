@@ -23,7 +23,7 @@ use Imdb\Person;
  * Edit <head> for popups
  *
  * @since 3.11 created
- * @since 4.0.3 removed plugins related matter, moved to relevant classes, added activate plugins and trait Main
+ * @since 4.1 removed plugins related matter, moved to relevant classes, added activate plugins and trait Main
  */
 class Head_Popups {
 
@@ -110,7 +110,7 @@ class Head_Popups {
 	 *
 	 * @return void The class was instanciated
 	 * @since 3.11.4 created
-	 * @since 4.0.3 removed OceanWP specific actions remove, popups are built differently now
+	 * @since 4.1 removed OceanWP specific actions remove, popups are built differently now
 	 */
 	private function filters_and_actions(): void {
 

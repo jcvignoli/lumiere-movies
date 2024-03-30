@@ -361,7 +361,7 @@ abstract class Abstract_Link_Maker {
 	 * @param int $limit_text_bio Optional, increasing the hardcoded limit of characters before displaying "click for more"
 	 * @return ?string
 	 *
-	 * @since 4.0.3 added $limit_text_bio param
+	 * @since 4.1 added $limit_text_bio param
 	 */
 	protected function lumiere_medaillon_bio_abstract ( array $bio_array, int $window_type = 0, int $limit_text_bio = 0 ): ?string {
 

@@ -26,7 +26,9 @@ use Lumiere\Plugins\Imdbphp;
 /**
  * Frontend trait
  * Popups, movie, widget and taxonomy use this trait
- * Allow to use the logger, function utilities, plugins, and settings
+ * Allow to use the logger, function utilities, and settings
+ *
+ * @phpstan-type PluginClasses \Imdb\Config
  */
 trait Main {
 
@@ -39,7 +41,7 @@ trait Main {
 	 * Name of the plugins active
 	 *
 	 * @see Plugins_Start::plugins_active_names
-	 * @since 4.0.3
+	 * @since 4.1
 	 * @var array<string>
 	 */
 	public array $plugins_active_names = [];
@@ -50,7 +52,7 @@ trait Main {
 	 * @var array<mixed> $plugins_classes_active
 	 *
 	 * @see Plugins_Start::plugins_classes_active
-	 * @since 4.0.3
+	 * @since 4.1
 	 */
 	public array $plugins_classes_active = [];
 
@@ -117,7 +119,7 @@ trait Main {
 	 * Build list of active plugins and send them in properties
 	 *
 	 * @param array<int, object>|array{} $extra_class An extra class to instanciate
-	 * @since 4.0.3
+	 * @since 4.1
 	 */
 	public function activate_plugins( array $extra_class = [] ): void {
 
