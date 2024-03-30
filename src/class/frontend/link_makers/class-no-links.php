@@ -79,7 +79,7 @@ class No_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * @inherit
+	 * @inheritdoc
 	 * Display mini biographical text, not all people have one
 	 *
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()

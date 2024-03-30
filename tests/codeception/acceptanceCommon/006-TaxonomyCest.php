@@ -96,6 +96,7 @@ class TaxonomyCest {
 		$I->CustomDisableCheckbox('#imdb_imdbtaxonomy_yes', '#lumiere_update_general_settings' );
 
 	}
+
 	/**
 	 * Run needed actions BEFORE starting the class
 	 * @before login

@@ -22,6 +22,14 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+/*
+ * Class to build Highslide links
+ * Is called by the {@see Link_Factory} class, implements and extends abstract {@see Link_Maker} class
+ *
+ * This class is used when highslide option is ticked
+ *
+ * Highslide Popup links are created, included in taxonomy
+ */
 class Highslide_Links extends Abstract_Link_Maker {
 
 	/**
@@ -40,7 +48,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 	/**
 	 *  Register scripts and style.
-	 *
 	 */
 	public function lumiere_highslide_register_assets(): void {
 
@@ -78,7 +85,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 	/**
 	 * Enqueue stylesheet & javascript.
-	 *
 	 */
 	public function lumiere_highslide_execute_assets (): void {
 
@@ -90,7 +96,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Build link to popup for IMDb people
+	 * @inheritdoc
 	 *
 	 * @param array<int, array<string, string>> $imdb_data_people Array with IMDB people data
 	 * @param int $number The number of the loop $i
@@ -105,7 +111,8 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Build picture of the movie
+	 * @inheritdoc
+	 *
 	 * @param string|bool $photo_localurl_false The picture of big size
 	 * @param string|bool $photo_localurl_true The picture of small size
 	 * @param string $movie_title Title of the movie
@@ -118,7 +125,8 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Build picture of the movie in taxonomy pages
+	 * @inheritdoc
+	 *
 	 * @param string|bool $photo_localurl_false The picture of big size
 	 * @param string|bool $photo_localurl_true The picture of small size
 	 * @param string $person_name Name of the person
@@ -133,8 +141,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * @inherit
-	 * Display mini biographical text, not all people have one
+	 * @inheritdoc
 	 *
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
 	 * @param int $limit_text_bio Optional, increasing the hardcoded limit of characters before displaying "click for more"
@@ -149,8 +156,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Convert an IMDb url into an internal link for People and Movies
-	 * Meant to be used inside popups (not in posts or widgets)
+	 * @inheritdoc
 	 *
 	 * @param string $text Text that includes IMDb URL to convert into an internal link
 	 */
@@ -162,9 +168,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Convert an IMDb url into a Popup link for People and Movies
-	 * Meant to be used inside in posts or widgets (not in Popups)
-	 * Build links using highslide popup
+	 * @inheritdoc
 	 *
 	 * @param string $text Text that includes IMDb URL to convert into a popup link
 	 */
@@ -176,8 +180,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Highslide popup function
-	 * Build an HTML link to open a popup with highslide for searching a movie (using js/lumiere_highslide_links.js)
+	 * @inheritdoc
 	 *
 	 * @param array<int, string> $link_parsed html tags and text to be modified
 	 * @param null|string $popuplarg -> window width, if nothing passed takes database value
@@ -190,7 +193,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Trailer data details
+	 * @inheritdoc
 	 *
 	 * @param string $url Url to the trailer
 	 * @param string $website_title website name
@@ -203,7 +206,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Production company data details
+	 * @inheritdoc
 	 *
 	 * @param string $name prod company name
 	 * @param string $url Url to the prod company
@@ -217,7 +220,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Official websites data details
+	 * @inheritdoc
 	 *
 	 * @param string $url Url to the offical website
 	 * @param string $name offical website name
@@ -230,7 +233,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Plots data details
+	 * @inheritdoc
 	 *
 	 * @param string $plot Text of the plot
 	 */
@@ -241,7 +244,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Source data details
+	 * @inheritdoc
 	 *
 	 * @param string $mid IMDb ID of the movie
 	 */
@@ -253,7 +256,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Image for the ratings
+	 * @inheritdoc
 	 *
 	 * @param int $rating mandatory Rating number
 	 * @param int $votes mandatory Number of votes
