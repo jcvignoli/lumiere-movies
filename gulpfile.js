@@ -4,7 +4,7 @@
  * Changed files are directly uploaded to the main server by ssh
  * Rsync available to syncronize it all
  * Errors notified (notify)
- * Can use external parameters to modify tasks behaviour (--clean yes, --nodry yes, --ssh yes)
+ * Can use external parameters to modify tasks behaviour (--clean yes, --ssh yes)
  * Copying taks must be run --ssh yes to upload to ssh external server
  */
 
@@ -19,12 +19,9 @@ import autoprefixer from 'gulp-autoprefixer';
 import cleanCss from 'gulp-clean-css';
 import changed from 'gulp-changed';
 import rename from 'gulp-rename';
-// import uglify from 'gulp-uglify'; // replaced with terser
 import terser from 'gulp-terser';
 import imagemin from 'gulp-imagemin';
-import del from 'del';
 import fs from 'fs-extra';
-import rsync from 'gulp-rsync';
 import nodeNotifier from 'node-notifier';
 import ext_cred from '../../../bin/.credentials/.gulpcredentials-lumiere.js';	/* private credentials for ssh */
 
@@ -39,43 +36,10 @@ var errorHandler = function(error) {				/* handle and display errors with notify
 	/* this.emit('end'); removed, now called in plumber */
 };
 
-// Constant to get from the command-line "--rsync nodry" for rsync task or "--build clean" for build task or "--ssh yes" for running building tasks with ssh upload
+// Constant to get from the command-line "--ssh yes" for running building tasks with ssh upload
 var arg = (argList => {
 
-	let arg = {}, nodry, clean, ssh, opt, thisOpt, curOpt;
-
-	for (nodry = 0; nodry < argList.length; nodry++) {
-
-		thisOpt = argList[nodry].trim();
-		opt = thisOpt.replace(/^\-+/, '');
-
-		if (opt === thisOpt) {
-			// argument value
-			if (curOpt) arg[curOpt] = opt;
-			curOpt = null;
-		} else {
-			// argument name
-			curOpt = opt;
-			arg[curOpt] = true;
-		}
-
- 	}
-
-	for (clean = 0; clean < argList.length; clean++) {
-
-		thisOpt = argList[clean].trim();
-		opt = thisOpt.replace(/^\-+/, '');
-
-		if (opt === thisOpt) {
-			// argument value
-			if (curOpt) arg[curOpt] = opt;
-			curOpt = null;
-		} else {
-			// argument name
-			curOpt = opt;
-			arg[curOpt] = true;
-		}
-	}
+	let arg = {}, ssh, opt, thisOpt, curOpt;
 
 	for (ssh = 0; ssh < argList.length; ssh++) {
 
@@ -97,14 +61,14 @@ var arg = (argList => {
 
 })(process.argv);
 
-var sshMain = new ssh ({						/* ssh functions with mainserver */
-			ignoreErrors: false,
-			sshConfig: {
-				host: ext_cred.mainserver.hostname,
-				port: ext_cred.mainserver.port,
-				username: ext_cred.mainserver.username,
-				privateKey: fs.readFileSync( ext_cred.mainserver.key )
-			}
+var sshMain = new ssh ({		/* ssh functions with mainserver */
+	ignoreErrors: false,
+	sshConfig: {
+		host: ext_cred.mainserver.hostname,
+		port: ext_cred.mainserver.port,
+		username: ext_cred.mainserver.username,
+		privateKey: fs.readFileSync( ext_cred.mainserver.key )
+	}
 });
 
 /* Copied/watched files */
@@ -155,11 +119,7 @@ var paths = {
 			'./src/assets/js/highslide/**/**/*.*'
 		],
 		dist: './dist'
-	},
-	rsync: {
-		src: './dist',
-		excludepath: '.wordpress-org'
-	},
+	}
 };
 
 // Function to check if the var --ssh yes has been passed, or called such as isSSH('yes') (ie; from watch task)
@@ -303,7 +263,7 @@ gulp.task('browserWatch', gulp.parallel( 'watch', (done) => {
 		},
 
 		// Don't show any notifications in the browser
-		notify:false,
+		notify:true,
 
 		// port: 8080,
 
@@ -313,7 +273,7 @@ gulp.task('browserWatch', gulp.parallel( 'watch', (done) => {
 		// Additional info about the process, "info", "debug", "warn", or "silent", default: "info"
 		// logLevel: "debug",
 		
-		reloadDelay: 8000, // The process of copying is slow, so need to wait until src/ is copied to dist/ then reload server
+		// reloadDelay: 8000, // The process of copying is slow, so need to wait until src/ is copied to dist/ then reload server
 
 	});
 
@@ -322,91 +282,8 @@ gulp.task('browserWatch', gulp.parallel( 'watch', (done) => {
 	done();
 }));
 
-// Task 7 - Remove pre-existing content from ./dist folders
-gulp.task('cleanDist', (done) => {
-	del.sync([
-		paths.files.dist
-	]);
-	done();
-});
-
-// Task 8 - Build all files
-// @param build 	if the taks is run with "--clean yes" as parameter, run cleanDist first
-// 			without that parameter, a notice is displayed in the console
-
-gulp.task('build', function (cb) {
-
-	flagssh = false;
-
-	if (arg.clean == "yes") {
-	 	console.dir( 'Deleting ' + paths.files.dist + '...' );
-	 	gulp.series( 'cleanDist', gulp.parallel( 'javascripts', 'stylesheets', 'images', 'files_copy' ) )(cb);
-
-	} else {
-		var nocleanmsg = '** Notice: Run build with "--clean yes" to clean ' + paths.files.dist + ' before building **';
-	 	console.dir( nocleanmsg );
-		gulp.series( 'javascripts', 'stylesheets', 'images', 'files_copy' )(cb);
-	}
-	cb();
-});
-
-// Task 9 - Default
+// Task 7 - Default
 //exports.default =  gulp.series('build', 'watch' );
 gulp.task('default', () => {
 	gulp.series( 'watch' )
-});
-
-// Task 10 - Rsync local dist rsynced to mainserver
-// @param rsync 	if the taks is run with "--rsync nodry" as parameter, doesn't run with dryrun
-// 			without that parameter, dryrun is run and text is displayed in the console+notification
-gulp.task('rsync', () => {
-
-	// Notify the user how to run for avoiding a dryrun
-	const rsyncmsg = "** Notice: Run with '--nodry yes' for actual syncronization **";
-	if (arg.nodry != "yes") {
-	 	console.dir( rsyncmsg );
-		nodeNotifier.notify({ 
-			title: 'Rsync task:', 
-			message: rsyncmsg,
-			icon: ext_cred.base.gulpimg,
-		 });
-	}
-
-	return gulp.src( paths.base.dist )
-		.pipe(plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
-		.pipe(longerif(arg.nodry == "yes", 		/* function without dry-run, correct argument passed */ 
-			rsync({
-				root: paths.rsync.src,
-				hostname: ext_cred.mainserver.hostname,
-				destination: ext_cred.mainserver.dist,
-				username: ext_cred.mainserver.username,
-				options: {
-					'e': 'ssh -i ' + ext_cred.mainserver.key
-				},
-				recursive: true,
-				incremental: true,
-				progress: true,
-				compress: true,
-				clean: true,
-				exclude: paths.rsync.excludepath
-			})
-		))
-		.pipe(longerif(arg.nodry != "yes", 		/* function with dry-run, no argument passed */
-			rsync({
-				root: paths.rsync.src,
-				hostname: ext_cred.mainserver.hostname,
-				destination: ext_cred.mainserver.dist,
-				username: ext_cred.mainserver.username,
-				options: {
-					'e': 'ssh -i ' + ext_cred.mainserver.key
-				},
-				recursive: true,
-				incremental: true,
-				progress: true,
-				clean: true,
-				dryrun: true,
-				compress: true,
-				exclude: [ paths.rsync.excludepath ]
-			})
-		))
 });

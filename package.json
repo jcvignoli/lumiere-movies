@@ -39,30 +39,31 @@
   "devDependencies": {
     "@wordpress/scripts": "*",
     "browser-sync": "*",
-    "del": "^4.1.1",
     "fs-extra": "*",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^8.0.0",
-    "gulp-changed": "^4.0.3",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-if": "^3.0.0",
-    "gulp-imagemin": "^8.0.0",
-    "gulp-notify": "^4.0.0",
-    "gulp-plumber": "^1.2.1",
-    "gulp-rename": "^2.0.0",
-    "gulp-replace": "^1.1.4",
-    "gulp-rsync": "^0.0.9",
-    "gulp-ssh": "^0.7.0",
-    "gulp-terser": "^2.1.0",
-    "gulp-uglify": "^3.0.2",
-    "node-notifier": "^9.0.1",
-    "npm-run-all": "^4.1.5"
+    "gulp": "*",
+    "gulp-autoprefixer": "*",
+    "gulp-changed": "*",
+    "gulp-clean-css": "*",
+    "gulp-if": "*",
+    "gulp-imagemin": "*",
+    "gulp-notify": "*",
+    "gulp-plumber": "*",
+    "gulp-rename": "*",
+    "gulp-replace": "*",
+    "gulp-rsync": "*",
+    "gulp-ssh": "*",
+    "gulp-terser": "*",
+    "gulp-uglify": "*",
+    "node-notifier": "*",
+    "npm-run-all": "*"
   },
   "type": "module",
   "overrides": {
     "gulp-ssh": {
-      "ssh2": "^1.14.0",
-      "chokidar": "^3.0.0"
+      "ssh2": "^1.12.0"
     }
+  },
+  "dependencies": {
+    "npm": "^10.5.0"
   }
 }

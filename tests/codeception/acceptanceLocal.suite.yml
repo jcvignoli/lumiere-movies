@@ -7,6 +7,7 @@
 
 bootstrap: _bootstrap.local.php
 actor: AcceptanceLocalTester
+wait: 5 # smart wait https://codeception.com/docs/AcceptanceTests
 modules:
     enabled:
         - \Helper\AcceptanceLocal

@@ -29,7 +29,7 @@ use Exception;
  *
  * @phpstan-type LevelLogName 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY'
  * @phpstan-type OPTIONS_ADMIN array{'imdbplugindirectory': string, 'imdbplugindirectory_partial': string, 'imdbpluginpath': string,'imdburlpopups': string,'imdbkeepsettings': string,'imdburlstringtaxo': string,'imdbcoversize': string,'imdbcoversizewidth': string, 'imdbmaxresults': string, 'imdbdelayimdbrequest': string, 'imdbpopuptheme': string, 'imdbpopuplarg': string,'imdbpopuplong': string, 'imdbintotheposttheme': string, 'imdblinkingkill': string, 'imdbautopostwidget': string, 'imdblanguage': string, 'imdbdebug': string, 'imdbdebuglog': string, 'imdbdebuglogpath': string, 'imdbdebuglevel': string, 'imdbdebugscreen': string, 'imdbwordpress_bigmenu': string, 'imdbwordpress_tooladminmenu': string, 'imdbpopup_modal_window': string, 'imdbtaxonomy': string, 'imdbHowManyUpdates': string, 'imdbseriemovies': string}
- * @phpstan-type OPTIONS_CACHE array{'imdbcachedir_partial': string, 'imdbusecache': string, 'imdbcacheexpire': string, 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string,'imdbcachedir': string,'imdbphotoroot': string, 'imdbphotodir': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string }
+ * @phpstan-type OPTIONS_CACHE array{imdbcacheautorefreshcron: string, imdbcachedetailsshort: string, imdbcachedir: string, imdbcachedir_partial: string, imdbcacheexpire: string, imdbcachekeepsizeunder: string, imdbcachekeepsizeunder_sizelimit: string, imdbphotodir: string, imdbphotoroot: string, imdbusecache: string}
  * @phpstan-type OPTIONS_DATA array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':int|string, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber': bool|string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber': string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber': string|bool, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber': string|bool, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber': string|bool, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber': string|bool, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber': string|bool, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber': bool|string, 'imdbwidgetorder': array<string|int>, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string}
  */
 class Settings {
@@ -49,9 +49,10 @@ class Settings {
 
 	/**
 	 * Admin options vars
-	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values
-	*/
-	private array $imdb_admin_values;
+	 * @phpstan-var OPTIONS_ADMIN
+	 * @var array<string, string>
+	 */
+	private array $imdb_admin_option;
 
 	/**
 	 * Website URLs constants
@@ -193,22 +194,37 @@ class Settings {
 
 		/**
 		 * Build options, get them from database if they exist, build them otherwise.
-		 * Only $imdb_admin_values is set a property, since it is used in that class. Later one, all properties should be built here!
+		 * Only $imdb_admin_option is set as a property, since it is used in that class.
 		 */
-		if ( get_option( self::LUMIERE_ADMIN_OPTIONS ) === false ) {
-			$this->get_imdb_admin_option();
+		$imdb_admin_option = get_option( self::LUMIERE_ADMIN_OPTIONS );
+		if ( is_array( $imdb_admin_option ) === false ) {
+			$imdb_admin_option = $this->get_imdb_admin_option();
+			update_option( self::LUMIERE_ADMIN_OPTIONS, $imdb_admin_option );
 		}
-		$this->imdb_admin_values = get_option( self::LUMIERE_ADMIN_OPTIONS );
-		// Those are not needed in the class, no class properties created.
-		if ( get_option( self::LUMIERE_DATA_OPTIONS ) === false ) {
-			$this->get_imdb_data_option();
+		/** @phpstan-var OPTIONS_ADMIN $imdb_admin_option */
+		$this->imdb_admin_option = $imdb_admin_option;
+
+		// Those have no class properties created.
+		$imdb_data_option = get_option( self::LUMIERE_DATA_OPTIONS );
+		if ( is_array( $imdb_data_option ) === false  ) {
+			$imdb_data_option = $this->get_imdb_data_option();
+			update_option( self::LUMIERE_DATA_OPTIONS, $imdb_data_option );
 		}
-		if ( get_option( self::LUMIERE_CACHE_OPTIONS ) === false ) {
-			$this->get_imdb_cache_option();
+
+		$imdb_cache_option = get_option( self::LUMIERE_CACHE_OPTIONS );
+		if ( is_array( $imdb_cache_option ) === false  ) {
+			$imdb_cache_option = $this->get_imdb_cache_option();
+			update_option( self::LUMIERE_CACHE_OPTIONS, $imdb_cache_option );
 		}
 
 		// Define Lumière constants once global options have been created.
 		$this->lumiere_define_constants_after_globals();
+
+		/**
+		 * Build list of taxonomy for people and items
+		 */
+		$this->array_people = $this->build_people();
+		$this->array_items = $this->build_items();
 	}
 
 	/**
@@ -216,8 +232,8 @@ class Settings {
 	 * Would be better to have a class that separates options and updates, instead of having such a dirtly method
 	 * @since 4.0.3 method created
 	 */
-	public static function reset_options(): void {
-		$reset_tmp = new self();
+	public static function build_options(): void {
+		$build_options = new self();
 	}
 
 	/**
@@ -227,8 +243,8 @@ class Settings {
 	 */
 	private function lumiere_define_constants(): void {
 
-		/* BUILD $imdb_admin_values['imdbplugindirectory'] */
-		$this->imdb_admin_values['imdbplugindirectory'] ??= plugin_dir_url( __DIR__ );
+		// BUILD $imdb_admin_option['imdbplugindirectory']
+		$this->imdb_admin_option['imdbplugindirectory'] ??= plugin_dir_url( __DIR__ );
 
 		/* BUILD directory for pictures */
 		$this->lumiere_pics_dir = plugin_dir_url( __DIR__ ) . 'assets/pics/';
@@ -258,7 +274,7 @@ class Settings {
 	private function lumiere_define_constants_after_globals(): void {
 
 		/* BUILD URLSTRINGS for popups */
-		$this->lumiere_urlstring = ( strlen( $this->imdb_admin_values['imdburlpopups'] ) !== 0 ) ? $this->imdb_admin_values['imdburlpopups'] : '/lumiere/';
+		$this->lumiere_urlstring = ( strlen( $this->imdb_admin_option['imdburlpopups'] ) !== 0 ) ? $this->imdb_admin_option['imdburlpopups'] : '/lumiere/';
 		$this->lumiere_urlstringfilms = $this->lumiere_urlstring . 'film/';
 		$this->lumiere_urlstringperson = $this->lumiere_urlstring . 'person/';
 		$this->lumiere_urlstringsearch = $this->lumiere_urlstring . 'search/';
@@ -283,35 +299,38 @@ class Settings {
 		/* BUILD options constant for javascripts  */
 		$notfalse_lumiere_scripts_admin_vars = wp_json_encode(
 			[
-				'imdb_path' => $this->imdb_admin_values['imdbplugindirectory'],
+				'imdb_path' => $this->imdb_admin_option['imdbplugindirectory'],
 				'wordpress_path' => site_url(),
 				'wordpress_admin_path' => admin_url(),
 				'gutenberg_search_url_string' => self::GUTENBERG_SEARCH_URL_STRING,
 				'gutenberg_search_url' => self::GUTENBERG_SEARCH_URL,
-				'ico80' => $this->imdb_admin_values['imdbplugindirectory'] . 'assets/pics/lumiere-ico-noir80x80.png',
-				'popupLarg' => $this->imdb_admin_values['imdbpopuplarg'],
-				'popupLong' => $this->imdb_admin_values['imdbpopuplong'],
+				'ico80' => $this->imdb_admin_option['imdbplugindirectory'] . 'assets/pics/lumiere-ico-noir80x80.png',
+				'popupLarg' => $this->imdb_admin_option['imdbpopuplarg'],
+				'popupLong' => $this->imdb_admin_option['imdbpopuplong'],
 			]
 		);
 		$this->lumiere_scripts_admin_vars = $notfalse_lumiere_scripts_admin_vars !== false ? 'const lumiere_admin_vars = ' . $notfalse_lumiere_scripts_admin_vars : '';
 		$notfalse_lumiere_scripts_vars = wp_json_encode(
 			[
-				'imdb_path' => $this->imdb_admin_values['imdbplugindirectory'],
+				'imdb_path' => $this->imdb_admin_option['imdbplugindirectory'],
 				'urlpopup_film' => $this->lumiere_urlpopupsfilms,
 				'urlpopup_person' => $this->lumiere_urlpopupsperson,
 				/** Popups */
-				'popup_border_colour' => $this->imdb_admin_values['imdbpopuptheme'],
-				'popupLarg' => $this->imdb_admin_values['imdbpopuplarg'],
-				'popupLong' => $this->imdb_admin_values['imdbpopuplong'],
+				'popup_border_colour' => $this->imdb_admin_option['imdbpopuptheme'],
+				'popupLarg' => $this->imdb_admin_option['imdbpopuplarg'],
+				'popupLong' => $this->imdb_admin_option['imdbpopuplong'],
 			]
 		);
 		$this->lumiere_scripts_vars = $notfalse_lumiere_scripts_vars !== false ? 'const lumiere_vars = ' . $notfalse_lumiere_scripts_vars : '';
+	}
 
-		/**
-		 * Build list of taxonomy for people and items
-		 * First column untranslated, second translated
-		 */
-		$this->array_people = [
+	/**
+	 * Define the type of people
+	 *
+	 * @return array<string, string>
+	 */
+	private function build_people(): array {
+		return [
 			'actor' => __( 'actor', 'lumiere-movies' ),
 			'composer' => __( 'composer', 'lumiere-movies' ),
 			'creator' => __( 'creator', 'lumiere-movies' ),
@@ -319,14 +338,21 @@ class Settings {
 			'producer' => __( 'producer', 'lumiere-movies' ),
 			'writer' => __( 'writer', 'lumiere-movies' ),
 		];
-		$this->array_items = [
+	}
+
+	/**
+	 * Define the type of items
+	 *
+	 * @return array<string, string>
+	 */
+	private function build_items(): array {
+		return [
 			'color' => __( 'color', 'lumiere-movies' ),
 			'country' => __( 'country', 'lumiere-movies' ),
 			'genre' => __( 'genre', 'lumiere-movies' ),
 			'keyword' => __( 'keyword', 'lumiere-movies' ),
 			'language' => __( 'language', 'lumiere-movies' ),
 		];
-
 	}
 
 	/**
@@ -337,13 +363,13 @@ class Settings {
 	 */
 	public function lumiere_define_nb_updates(): bool {
 
-		// Get the database options, since this is called before the building of $this->imdb_admin_values.
+		// Get the database options, since this is called before the building of $this->imdb_admin_option.
 		if ( get_option( self::LUMIERE_ADMIN_OPTIONS ) !== false ) {
-			$this->imdb_admin_values = get_option( self::LUMIERE_ADMIN_OPTIONS );
+			$this->imdb_admin_option = get_option( self::LUMIERE_ADMIN_OPTIONS );
 		}
 
 		// If option 'imdbHowManyUpdates' doesn't exist, make it.
-		if ( ( ! isset( $this->imdb_admin_values['imdbHowManyUpdates'] ) ) || ( $this->imdb_admin_values['imdbHowManyUpdates'] === '0' ) ) {
+		if ( ( ! isset( $this->imdb_admin_option['imdbHowManyUpdates'] ) ) || ( $this->imdb_admin_option['imdbHowManyUpdates'] === '0' ) ) {
 
 			// Find the number of update files to get the right
 			// number of updates when installing Lumière
@@ -367,7 +393,7 @@ class Settings {
 		}
 
 		// Otherwise the option 'imdbHowManyUpdates' exists in the database, just use it.
-		$this->current_number_updates = strval( $this->imdb_admin_values['imdbHowManyUpdates'] );
+		$this->current_number_updates = strval( $this->imdb_admin_option['imdbHowManyUpdates'] );
 
 		return false;
 	}
@@ -375,9 +401,11 @@ class Settings {
 	/**
 	 * Make an array of ADMIN options
 	 *
-	 * Multidimensional array
+	 * @phpstan-return non-empty-array<OPTIONS_ADMIN>
+	 * @psalm-return array{imdbHowManyUpdates?: mixed|string, imdbautopostwidget?: mixed|string, imdbcoversize?: mixed|string, imdbcoversizewidth?: mixed|string, imdbdebug?: mixed|string, imdbdebuglevel?: mixed|string, imdbdebuglog?: mixed|string, imdbdebuglogpath?: mixed|string, imdbdebugscreen?: mixed|string, imdbdelayimdbrequest?: mixed|string, imdbintotheposttheme?: mixed|string, imdbkeepsettings?: mixed|string, imdblanguage?: mixed|string, imdblinkingkill?: mixed|string, imdbmaxresults?: mixed|string, imdbplugindirectory: non-falsy-string, imdbplugindirectory_partial?: mixed|string, imdbpluginpath?: mixed|string, imdbpopup_modal_window?: mixed|string, imdbpopuplarg?: mixed|string, imdbpopuplong?: mixed|string, imdbpopuptheme?: mixed|string, imdbseriemovies?: mixed|string, imdbtaxonomy?: mixed|string, imdburlpopups?: mixed|string, imdburlstringtaxo?: mixed|string, imdbwordpress_bigmenu?: mixed|string, imdbwordpress_tooladminmenu?: mixed|string, ...<array-key, mixed|string>}
+	 * @return array<mixed>
 	 */
-	private function get_imdb_admin_option(): void {
+	private function get_imdb_admin_option(): array {
 
 		// Define how many updates have been runned
 		$this->lumiere_define_nb_updates();
@@ -432,8 +460,6 @@ class Settings {
 			$imdb_admin_options['imdbplugindirectory'] = get_site_url() . $imdb_admin_options['imdbplugindirectory_partial'];
 		}
 
-		update_option( self::LUMIERE_ADMIN_OPTIONS, $imdb_admin_options );
-
 		// For debugging purpose.
 		// Update imdbHowManyUpdates option.
 		/*
@@ -442,14 +468,17 @@ class Settings {
 		update_option( self::LUMIERE_ADMIN_OPTIONS, $option_array_search );
 		*/
 
+		return $imdb_admin_options;
 	}
 
 	/**
 	 * Makes an array of CACHE options
 	 *
-	 * Multidimensional array
+	 * @phpstan-return non-empty-array<OPTIONS_CACHE>
+	 * @psalm-return array{imdbcacheautorefreshcron?: mixed|non-empty-string, imdbcachedetailsshort?: mixed|non-empty-string, imdbcachedir: 'wp-content/cache/lumiere/', imdbcachedir_partial?: mixed|non-empty-string, imdbcacheexpire?: mixed|non-empty-string, imdbcachekeepsizeunder?: mixed|non-empty-string, imdbcachekeepsizeunder_sizelimit?: mixed|non-empty-string, imdbphotodir?: mixed|non-empty-string, imdbphotoroot: 'wp-content/cache/lumiere/images/', imdbusecache?: mixed|non-empty-string, ...<array-key, mixed|non-empty-string>}
+	 * @return array<mixed>
 	 */
-	private function get_imdb_cache_option(): void {
+	private function get_imdb_cache_option(): array {
 
 		// Build partial cache path, such as 'wp-content/cache/lumiere/'
 		$imdbcachedir_partial = str_replace( WP_CONTENT_DIR, '', self::LUMIERE_FOLDER_CACHE );
@@ -492,17 +521,17 @@ class Settings {
 									. $imdb_cache_options['imdbcachedir_partial']
 									. 'images/';
 		}
-
-		update_option( self::LUMIERE_CACHE_OPTIONS, $imdb_cache_options );
-
+		return $imdb_cache_options;
 	}
 
 	/**
-	 * Makes an array of WIDGET options
+	 * Makes an array of DATA options
 	 *
-	 * Multidimensional array
+	 * @phpstan-return non-empty-array<OPTIONS_DATA>
+	 * @psalm-return non-empty-array<array-key, '0'|'1'|'10'|'2'|array{actor: '6', alsoknow: '20', color: '19', composer: '21', country: '5', creator: '7', director: '4', genre: '10', goof: '16', keyword: '13', language: '9', officialsites: '24', pic: '2', plot: '15', prodcompany: '14', producer: '12', quote: '17', rating: '8', runtime: '3', soundtrack: '22', source: '25', tagline: '18', title: '1', trailer: '23', writer: '11'}|false|mixed>
+	 * @return array<mixed>
 	 */
-	private function get_imdb_data_option(): void {
+	private function get_imdb_data_option(): array {
 
 		$imdb_data_options = [
 
@@ -591,20 +620,17 @@ class Settings {
 				$imdb_data_options[ $key ] = $option;
 			}
 		}
-
-		update_option( self::LUMIERE_DATA_OPTIONS, $imdb_data_options );
+		return $imdb_data_options;
 	}
 
 	/**
 	 * Retrieve selected type of search in admin
 	 *
-	 * Depends on $imdb_admin_values['imdbseriemovies'] option
-	 *
 	 * @return array<string>
 	 */
 	public function lumiere_select_type_search (): array {
 
-		switch ( $this->imdb_admin_values['imdbseriemovies'] ) {
+		switch ( $this->imdb_admin_option['imdbseriemovies'] ) {
 
 			case 'movies':
 				return [ \Imdb\TitleSearch::MOVIE ];

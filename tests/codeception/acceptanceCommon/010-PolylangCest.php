@@ -73,7 +73,7 @@ class PolylangCest {
 		$I->wantTo(\Helper\Color::set('Check if taxonomy works with Polylang', "italic+bold+cyan"));
 
 		// Activate Polylang
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('polylang');
 
 		// Activate taxonomy
@@ -101,7 +101,7 @@ class PolylangCest {
 		$I->seeInPageSource('Français');
 
 		// Deactivate Polylang plugin 
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->maybeDeactivatePlugin('polylang');
 
 		// Check if polylang options are available
@@ -113,7 +113,7 @@ class PolylangCest {
 		$I->dontSeeInPageSource('Français');
 
 		// Reactivate Polylang
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('polylang');
 	}
 }

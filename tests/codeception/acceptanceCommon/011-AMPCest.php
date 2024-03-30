@@ -54,7 +54,7 @@ class AMPCest {
 	 */
 	private function prepareForAmp(AcceptanceRemoteTester $I) {
 		// Activate AMP
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('amp');
 		
 		// Make sure actor data is enabled
@@ -70,7 +70,7 @@ class AMPCest {
 	private function prepareForPolylang(AcceptanceRemoteTester $I) {
 
 		// Activate Polylang.
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('polylang');
 
 		// Activate taxonomy.

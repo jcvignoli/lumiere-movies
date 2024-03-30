@@ -27,24 +27,39 @@ class InitializeCest {
 		$I->maybeActivatePlugin('lumiere-movies');
 		
 		// Query monitor destroys the layout
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->maybeDeactivatePlugin('query-monitor');
 	}
 
 
 	/**
-	 * Enable Admin option
+	 * Reset options, test that reseting works
 	 *
 	 * @before login
 	 */
-	public function enableAdminGeneralOptions(AcceptanceRemoteTester $I) {
+	public function resetOptions(AcceptanceRemoteTester $I) {
 
-		$I->comment('Reset Admin General Options to their normal state');
+		$I->comment('If reset works');
+		
+		$I->comment('Reset general settings');
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->click("lumiere_reset_general_settings");
+		$I->see('Options reset.');
+		
+		$I->comment('Reset cache settings');
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_CACHE_OPTIONS_URL );
+		$I->click("lumiere_reset_cache_settings");
+		$I->see('Options reset.');
+		
+		$I->comment('Reset data settings');
+		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->click("lumiere_reset_data_settings");
+		$I->see('Options reset.');
 	}
 	
 	/** 
-	 * Make sure that taxonomies and their URL are created first in french, so they take the extension "-en" which is needed for the tests
-	 * Taxonomy URLs depends on the first time they're called: if in french, the english's ones will take "-en" once they're created.
+	 * Make sure that taxonomies and their URL are created first in French, so they take the extension "-en" which is needed for the tests
+	 * Taxonomy URLs depends on the first time they're called: if in French, the english's ones will take "-en" once they're created.
 	 *
 	 * @before login
 	 */
@@ -54,5 +69,3 @@ class InitializeCest {
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL_FR_TWO );
 	}
 }
-
-

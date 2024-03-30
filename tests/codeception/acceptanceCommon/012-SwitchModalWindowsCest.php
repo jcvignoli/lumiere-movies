@@ -55,19 +55,19 @@ class ModalWindowsCest {
 		$I->SwitchModalWindow('Highslide');
 
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );# Check regular page
-		$I->seeInPageSource("lumiere_highslide_core-css");
+		$I->seeInPageSource("lumiere_highslide_core_style-css");
 		$I->seeInPageSource("lumiere_style_main-css"); 	
 		$I->seeInPageSource("lumiere_highslide_core-js");
 		$I->seeInPageSource("lumiere_highslide_options-js");
 		$I->seeInPageSource('<a class="lum_link_make_popup lum_link_with_people highslide" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a></div>');
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
-		$I->seeInPageSource("lumiere_highslide_core-css");
+		$I->seeInPageSource("lumiere_highslide_core_style-css");
 		$I->seeInPageSource("lumiere_style_main-css"); 	
 		$I->seeInPageSource("lumiere_highslide_core-js");
 		$I->seeInPageSource("lumiere_highslide_options-js");
 		$I->seeInPageSource('to stay with his uncle, <a class="lum_link_with_people highslide" data-modal_window_people="0675788" title="open a new window with IMDb informations">Martin Perveler</a>. Returning');		
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
-		$I->seeInPageSource("lumiere_highslide_core-css");
+		$I->seeInPageSource("lumiere_highslide_core_style-css");
 		$I->seeInPageSource("lumiere_style_main-css"); 	
 		$I->seeInPageSource("lumiere_highslide_core-js");
 		$I->seeInPageSource("lumiere_highslide_options-js");
@@ -115,7 +115,7 @@ class ModalWindowsCest {
 		$I->seeInPageSource('<a class="lum_link_no_popup" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="' . $this->base_url . '/lumiere/person/?mid=0227759&amp;amp">Peter Dinklage</a></div>');
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_TAXONOMY_URL . '?amp' );# Check taxonomy page
 		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
-		$I->seeInPageSource('to stay with his uncle, <a class="lum_popup_internal_link" href="' . $this->base_url . '/lumiere/person/?mid=0675788&amp;amp" title="');		
+		$I->seeInPageSource('to stay with his uncle, <a class="lum_taxo_link" href="' . $this->base_url . '/lumiere/person/?mid=0675788&amp;amp" title="');		
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL . '&amp' );# Check popup movie
 		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");	
 		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/?mid=0000190&amp;amp" title="');

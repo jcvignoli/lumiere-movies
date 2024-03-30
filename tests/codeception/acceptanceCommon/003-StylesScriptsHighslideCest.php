@@ -92,7 +92,7 @@ class StylesScriptsHighslideCest {
 */
 		// Disable classic-editor so we can test Blocks editor
 		$I->comment(\Helper\Color::set('Disable classic-editor plugin so we can test Blocks editor', 'italic+bold+cyan'));
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		/*	Conditional plugin deactivation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $plugin is activated, deactivate it */
@@ -118,7 +118,7 @@ class StylesScriptsHighslideCest {
 
 		// Activate classic-editor so we can test Classic editor
 		$I->comment(\Helper\Color::set('Activate classic-editor plugin so we can test Blocks editor', 'italic+bold+cyan'));
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->wait(1);
 		$I->maybeActivatePlugin('classic-editor');
 		$I->wait(1);
@@ -142,7 +142,7 @@ class StylesScriptsHighslideCest {
 
 		$I->comment(\Helper\Color::set('Checking normal page', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
-		$I->seeInPageSource("lumiere_highslide_core-css");		# Highslide CSS
+		$I->seeInPageSource("lumiere_highslide_core_style-css");		# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");		# Highslide Lumière Options
@@ -154,7 +154,7 @@ class StylesScriptsHighslideCest {
 
 		$I->comment(\Helper\Color::set('Checking taxonomy page', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_TAXONOMY_URL );
-		$I->seeInPageSource("lumiere_highslide_core-css"); 		# Highslide CSS
+		$I->seeInPageSource("lumiere_highslide_core_style-css"); 		# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");		# Highslide Lumière Options
@@ -169,7 +169,7 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/apple-touch-icon.png"); # Lumière favicon Apple
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/site.webmanifest");	# Lumière webmanifest
-		$I->seeInPageSource("lumiere_highslide_core-css"); 				# Highslide CSS
+		$I->seeInPageSource("lumiere_highslide_core_style-css"); 				# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 					# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");				# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");				# Highslide Lumière Options
@@ -193,7 +193,7 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/apple-touch-icon.png"); # Lumière favicon Apple
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/site.webmanifest");	# Lumière webmanifest
-		$I->seeInPageSource("lumiere_highslide_core-css"); 				# Highslide CSS
+		$I->seeInPageSource("lumiere_highslide_core_style-css"); 				# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 					# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");				# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");				# Highslide Lumière Options

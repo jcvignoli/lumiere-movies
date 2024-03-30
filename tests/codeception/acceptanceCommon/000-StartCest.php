@@ -45,7 +45,7 @@ class StartCest {
 	 * @before login
 	 */
 	public function activateLumiere(AcceptanceRemoteTester $I) {
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('lumiere-movies');
 	}
 

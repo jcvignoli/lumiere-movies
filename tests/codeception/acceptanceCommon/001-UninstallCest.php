@@ -96,7 +96,7 @@ class UninstallCest {
 		$I->comment('Do Lumière LOCAL plugin uninstall for a fresh start');
 
 		// Disable keep settings option to get rid of all options
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('lumiere-movies');
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->wait(2);
@@ -104,7 +104,7 @@ class UninstallCest {
 		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_general_settings');
 
 		// Deactivate plugin
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->scrollTo('#deactivate-lumiere-movies');
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
 		$I->wait(1);
@@ -162,7 +162,7 @@ class UninstallCest {
 		$I->seeFileFound( $dir_plugin_lumiere . '/lumiere-movies.php' ); // both seeFile of customSeeFile, don't work... 
 
 		// Activate plugin
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->wait(2);
 		$I->scrollTo('#activate-lumiere-movies');
 		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");
@@ -191,7 +191,7 @@ class UninstallCest {
 		$I->activateLocalMount( $this->base_path, $shell );
 
 		// Disable keep settings option to get rid of all options
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('lumiere-movies');
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->wait(2);
@@ -199,7 +199,7 @@ class UninstallCest {
 		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_general_settings');
 
 		// Deactivate plugin
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->scrollTo('#deactivate-lumiere-movies');
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
 		$I->wait(4);
@@ -237,7 +237,7 @@ class UninstallCest {
 //		$I->customSeeFile( $dir_plugin_lumiere . 'lumiere-movies.php' ); // both seeFile of customSeeFile, don't work... 
 
 		// Activate plugin
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PLUGINS_URL );
+		$I->amOnPluginsPage();
 		$I->wait(2);
 		$I->scrollTo('#activate-lumiere-movies');
 		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");

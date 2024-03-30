@@ -245,6 +245,21 @@ class TaxonomyCest {
 
 	}
 
+
+	/**
+	 * Check if the link "click to expand" works on taxo
+	 * @before login
+	 */
+	public function taxoClickMore(AcceptanceRemoteTester $I) {
+		$this->maybeEnableTaxonomy($I);
+		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->click( "Stanley Kubrick");
+		$I->waitForText('Stanley Kubrick was born in Manhattan');
+		$I->scrollTo(['css' => '.activatehidesection' ]);
+		$I->executeJS( "return jQuery('span.activatehidesection').get(0).click()");
+		$I->see('the next few years, Kubrick had regular assignments for "Look",');
+	}
+	
 	/**
 	 * Run needed actions AFTER closing the class
 	 * @before login

@@ -17,8 +17,8 @@ class AcceptanceRemoteSettings {
 	public const LUMIERE_DATA_OPTIONS_TAXO_URL = '/wp-admin/admin.php?page=lumiere_options_data&subsection=taxo';
 	public const LUMIERE_DATA_OPTIONS_ORDER_URL = '/wp-admin/admin.php?page=lumiere_options_data&subsection=order';
 	public const LUMIERE_CACHE_OPTIONS_MANAGE_URL = '/wp-admin/admin.php?page=lumiere_options_cache&subsection=manage';
+	public const LUMIERE_CACHE_OPTIONS_URL = '/wp-admin/admin.php?page=lumiere_options_cache';
 
-	public const ADMIN_PLUGINS_URL = '/wp-admin/plugins.php';
 	public const ADMIN_PERMALINK_URL = '/wp-admin/options-permalink.php';
 
 	// This needs admin cron tool WP Plugin to be installed in order to work
@@ -41,5 +41,4 @@ class AcceptanceRemoteSettings {
 	// An example is available in tests/IMPORT_WP_POST_AUTOWIDGET.txt
 	public const TESTING_PAGE_AUTOWIDGET_URL = '/2021/y-tu-mama-tambien/';
 	public const TESTING_PAGE_AUTOWIDGET_TITLE = 'And Your Mother Too';
-
 }

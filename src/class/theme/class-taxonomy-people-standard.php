@@ -510,6 +510,7 @@ class Taxonomy_People_Standard {
 					'class' => [],
 					'data-*' => true,
 					'title' => [],
+					'href' => [],
 				],
 				'button' => [
 					'type' => [],

@@ -12,7 +12,7 @@
 .highslide {
 	outline: none;
 	text-decoration: none;
-	cursor: url(../js/highslide/graphics/zoomin.cur), pointer; /* ---------------------------modified by jcv */
+/* 	cursor: url(../js/highslide/graphics/zoomin.cur), pointer; ---------------------------modified by jcv */
 }
 .highslide img {
 	border: 2px solid silver;
@@ -73,13 +73,13 @@ a.highslide-full-expand {
 }
 .highslide-loading {
 	display: block;
-	padding: 3px 0 3px 38px;
-	width: 0;
-	height: 32px;
+	padding: 10px 10px 10px 38px !important;
+	width: 32px !important;
+	height: 42px !important;
 	overflow: hidden;
 	background-color: black;
 	background-repeat: no-repeat;
-	background-position: 3px 3px;
+	background-position: 10px 10px !important;
 	background-image: url(../js/highslide/graphics/loader.gif);
 	/* background-image: url(../pics/loader.white.gif);---------------------------modified by jcv */
 }

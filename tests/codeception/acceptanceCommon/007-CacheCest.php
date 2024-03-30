@@ -83,7 +83,7 @@ class CacheCest {
 
 		// Make sure cache is created
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
-		$I->wait(2);
+		$I->wait(3);
 		$I->seeFileFound( $this->base_path . '/wp-content/cache/lumiere/' . $example[1] );
 
 		// Delete cache file using interface

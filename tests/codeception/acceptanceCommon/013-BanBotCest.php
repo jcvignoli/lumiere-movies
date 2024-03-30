@@ -85,6 +85,8 @@ class BanBotCest {
 		curl_setopt($ch, CURLOPT_USERAGENT, $user_agent );
 		curl_setopt($ch, CURLOPT_URL, $url );
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
+		curl_setopt ($ch, CURLOPT_CAINFO, '/etc/ssl/certs/apache-local.lumiere.crt' );
+		
 		/*
 		curl_setopt($ch, CURLOPT_HTTPHEADER, ["Cookie: wordpress_test_cookie=WP+Cookie+check" ] );
 		curl_setopt($ch, CURLOPT_COOKIESESSION, 1);
@@ -103,7 +105,7 @@ class BanBotCest {
 	}
 
 	/** 
-	 * Check if calling popups and taxo pages are banned
+	 * Check if calling popups pages is banned
 	 * Popups should ban if not logged in and using a banned useragent
 	 * (Only normal posts and taxonomy pages never ban)
 	 *
@@ -111,12 +113,15 @@ class BanBotCest {
 	 * @example ["/lumiere/film/?film=interstellar"]
 	 * @example ["/lumiere/search/?film=interstellar&norecursive=yes"]
 	 */
-	public function userAgentShouldtBan(AcceptanceLocalTester $I, \Codeception\Example $example) {
+	public function userAgentShouldBan(AcceptanceLocalTester $I, \Codeception\Example $example) {
 
 		$result = $this->curlSpecialHeader( $this->base_url . $example[0], 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
 
+		// Activate debug
+		// codecept_debug($result);
+	
 		if ( preg_match( $this->ban_text, $result ) > 0 ) {
-			$I->comment ( '-> The page correctly banned access to ' . $example[0] );
+			$I->comment ( '-> The page correctly banned access to ' . $this->base_url . $example[0] );
 		} else {
 			Assert::fail('!! Not banned, error!');
 		}
@@ -125,7 +130,7 @@ class BanBotCest {
 	/** 
 	 * Check if calling posts or taxonomy pages are banned
 	 * Only normal posts and taxonomy pages should never be banned
-	 * ( Popups should ban if not logged in and using a banned useragent )
+	 * (Popups should ban if not logged in and using a banned useragent )
 	 *
 	 * @example ["/en/2021/test-codeception/"]
 	 * @example ["/2021/y-tu-mama-tambien/"]
@@ -137,14 +142,14 @@ class BanBotCest {
 		$result = $this->curlSpecialHeader( $this->base_url . $example[0], 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
 
 		if ( preg_match( $this->ban_text, $result ) === 0 ) {
-			$I->comment ( '-> The page correctly did not ban access to ' . $example[0] );
+			$I->comment ( '-> The page correctly did not ban access to ' . $this->base_url . $example[0] );
 		} else {
 			Assert::fail('!! Banned although logged in, error!');
 		}
 	}
 
 	/** 
-	 * DEACTIVATED, loging with CurL doesn't work
+	 * DEACTIVATED, loggin with CurL doesn't work
 	 *
 	 * Check if calling a page is banned when logged in
 	 * Popups should NOT ban if logged in and using a banned useragent
@@ -160,10 +165,8 @@ class BanBotCest {
 
 		$result = $this->curlSpecialHeader( $this->base_url . $example[0], 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
 
-		codecept_debug($result);
-
 		if ( preg_match( $this->ban_text, $result ) === 0 ) {
-			$I->comment ( '-> The popups and taxo page correctly did not ban access to ' . $example[0] );
+			$I->comment ( '-> The popups and taxo page correctly did not ban access to ' . $this->base_url . $example[0] );
 		} else {
 			Assert::fail('!! Banned although logged in, error!');
 		}
@@ -184,7 +187,7 @@ class BanBotCest {
 		//codecept_debug($result);
 
 		if ( preg_match( $this->ban_text, $result ) === 0 ) {
-			$I->comment ( '-> The pages and taxo correctly did not ban access to ' . $example[0] );
+			$I->comment ( '-> The pages and taxo correctly did not ban access to ' . $this->base_url . $example[0] );
 		} else {
 			Assert::fail('!! Banned although logged in, error!');
 		}
@@ -204,7 +207,7 @@ class BanBotCest {
 		//codecept_debug($result);
 
 		if ( preg_match( $this->ban_text, $result ) === 0 ) {
-			$I->comment ( '-> The popups correctly did not ban access to ' . $example[0] );
+			$I->comment ( '-> The popups correctly did not ban access to ' . $this->base_url . $example[0] );
 		} else {
 			Assert::fail('!! Banned although referer, error!');
 		}
@@ -224,7 +227,7 @@ class BanBotCest {
 		//codecept_debug($result);
 
 		if ( preg_match( $this->ban_text, $result ) > 0 ) {
-			$I->comment ( '-> The page correctly ban access to ' . $example[0] );
+			$I->comment ( '-> The page correctly ban access to ' . $this->base_url . $example[0] );
 		} else {
 			Assert::fail('!! Not banned although without referer, error!');
 		}

@@ -60,6 +60,7 @@ trait Settings_Global {
 	 */
 	public function get_db_options(): void {
 
+		Settings::build_options();
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 		$this->imdb_data_values = get_option( Settings::LUMIERE_DATA_OPTIONS );
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
@@ -69,9 +70,7 @@ trait Settings_Global {
 	 * Build Settings class properties
 	 */
 	public function get_settings_class(): void {
-
 		$this->config_class = new Settings();
 	}
-
 }
 

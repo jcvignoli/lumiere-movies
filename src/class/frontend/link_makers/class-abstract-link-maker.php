@@ -358,8 +358,10 @@ abstract class Abstract_Link_Maker {
 	 *
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
 	 * @param int $window_type Define the window_type: 0 for full (default), 1 for no links (AMP, No Link classes)
-	 *
+	 * @param int $limit_text_bio Optional, increasing the hardcoded limit of characters before displaying "click for more"
 	 * @return ?string
+	 *
+	 * @since 4.0.3 added $limit_text_bio param
 	 */
 	protected function lumiere_medaillon_bio_abstract ( array $bio_array, int $window_type = 0, int $limit_text_bio = 0 ): ?string {
 
@@ -389,9 +391,13 @@ abstract class Abstract_Link_Maker {
 			$bio_text = $this->lumiere_imdburl_to_popupurl( $bio_text );
 		}
 
-		// HTML tags break for 'read more' cutting.
-		// Detects if there is a space next to $max_length; if true, increase the latter to that position.
-		// Use of htmlentities to avoid spaces inside html code (ie innerspace in '<br />').
+		/**
+		 * HTML tags break for 'read more' cutting.
+		 * 1/ Max length can't be greater that the total number of chara
+		 * 2/ Detects if there is a space next to $max_length; if true, increase the latter to that position.
+		 *  (a) Use of htmlentities to avoid spaces inside html code (ie innerspace in '<br />').
+		 */
+		$max_length = $max_length > strlen( $bio_text ) ? strlen( $bio_text ) : $max_length;
 		$max_length = strlen( $bio_text ) > 0 && is_int( strpos( htmlentities( $bio_text ), ' ', $max_length ) ) === true
 			? strpos( htmlentities( $bio_text ), ' ', $max_length )
 			: $max_length;
@@ -408,7 +414,7 @@ abstract class Abstract_Link_Maker {
 			return $bio_head . "\n\t\t\t" . $bio_text;
 		}
 
-		// There is 1/ a bio, and 2/ its length is superior to above $esc_html_breaker
+		// There is 1/ a bio, and 2/ its length is greater to above $esc_html_breaker
 		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
 
 			/** @psalm-suppress PossiblyFalseArgument -- Argument 3 of substr cannot be false, possibly int|null value expected => Never false! */
@@ -485,8 +491,8 @@ abstract class Abstract_Link_Maker {
 				$popup_link_movie = '<a class="lum_link_with_movie ' . $specific_class . '" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
 				break;
 			case 1: // Build internal links with no popups.
-				$popup_link_person = '<a class="lum_popup_internal_link" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
-				$popup_link_movie = '<a class="lum_popup_internal_link" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
+				$popup_link_person = '<a class="lum_taxo_link" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
+				$popup_link_movie = '<a class="lum_taxo_link" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
 				break;
 			case 2: // No links class
 				$popup_link_person = '${6}';
