@@ -46,7 +46,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 = Advanced =
 
 1. If you **do not want Lumière to add any link** (in the case you are only looking for information displayed in widget and inside posts), search for the option located in "General options -> Advanced -> Remove popup links?" and select "yes". Links opening a popup (both in widget and posts) will not be be available anymore.
-2. Should you want to display automatically a widget according to the post's title, just switch on the "Auto widget" option located in "General Options -> Advanced -> Auto widget" in the plugin admin options. Make sure you added a Lumière widget in "Appearence - Widgets". Usefull for blogs exclusively dedicated to movie reviews, where all posts' titles are named after movie's titles.
+2. Should you want to display automatically a widget according to the post's title, just switch on the "Auto widget" option located in "General Options -> Advanced -> Auto widget" in the plugin admin options. Make sure you added a Lumière widget in "Appearence - Widgets". Usefull for blogs exclusively dedicated to movie reviews, where all posts' titles are named after movie's titles. You can prevent a post from displaying the widget by ticking in the post edition's the Lumiere option "Deactivate autowidget for this post".
 3. You may want to include a custom page in your blog that includes all your movie related articles. Have a look there : [Lost highway's movies reviews](https://www.jcvignoli.com/blog/critiques-de-cinema). Should you want to do the same, check Lumière's help in your administration interface.
 4. Taxonomy pages and popups URLs can be edited according to your tastes. In advanced general Lumière options, you may want to modify the URL starting with 'lumiere' for taxonomy pages. Make sure to refresh your "rewriting rules" when adding new taxonomy (visit in your admin interface the page Permalink Settings (/wp-admin/options-permalink.php)
 5. Should your blog be dedicated to TV shows, Podcats or videogames only, it is possible to change Lumière's search behaviour to retrieve exclusively those. In advanced general Lumière admin options, look for 'Search categories'.
@@ -170,6 +170,8 @@ Major changes:
 = 4.1 =
 
 Popup spinners to make you visitors wait, nicer popup layouts, faster taxonomy pages display, better support of Polylang if it's an AMP page. Fixed longstanding bugs.
+
+More flexibility for the auto widget users: You can now prevent a post from displaying the auto widget by ticking in the post edition's the Lumiere option "Deactivate autowidget for this post".
 
 [...]
 

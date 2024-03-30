@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.1
+* [feature] Autowidget can be excluded on a per-post basis. New option in the post edition that allows to exclude a specific post from the autowidget. Brings a much needed flexibility for blogs using the autowidget feature. (added the new options in Metabox_Selection class and new rules in Widget_Frontpage)
 * [feature] Thumbnail pictures in taxonomy pages will be quicker to be displayed (using lazy loading, thumbs for the thumb images preciseley)
 * [feature] No need anymore for refreshing rewrite rules when creating a new taxonomy item, done automatically (added flush_rewrite_rules() in Save_Options::lumiere_data_options_save(), which is triggered only when saving taxonomy selection)
 * [feature] Popups spinners vastly improved, work with all modal windows. Clicking on any link in popup will trigger a new spinner if the loading time is > 1 second.

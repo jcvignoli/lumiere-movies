@@ -27,9 +27,11 @@ use Lumiere\Frontend\Main;
  * Widgets in Frontpages (displayed in single pages and posts only)
  *
  * Use Widget_Legacy class if legacy widget is active
- * Metabox Widget: get the post ID and query to get metabox metadata
- * Autowidget: get the title of the post
+ * Autowidget: get the title of the post, can be disabled on a per-post basis in {@link \Lumiere\Admin\Metabox_Selection}
  * Do a search for the movie using one of them
+ *
+ * @see \Lumiere\Admin\Metabox_Selection Select the metadata to display, whether output autowidget or not
+ * @see \Lumiere\Frontend\Widget_Legacy Is used if the widget legacy is in use
  */
 class Widget_Frontpage {
 
@@ -169,6 +171,7 @@ class Widget_Frontpage {
 	 *
 	 * @since 3.10.2 added array_filter to clean $imdb_id_or_title
 	 * @since 4.0 added exit if no metadata and no auto title widget activated
+	 * @since 4.1 do not use autowidget if autowidget exclusion is selected in the current post
 	 *
 	 * @param string $title_box Title of the widget to be displayed
 	 * @return string The title and movie data of the Widget
@@ -187,6 +190,9 @@ class Widget_Frontpage {
 		// Build title, use a default text if title has not been edited in the widget interface.
 		$title_box = strlen( $title_box ) > 0 ? $title_box : '';
 
+		// Get the post ID to query if metaboxes are available in the post.
+		$post_id = get_the_ID();
+
 		// Log what type of widget is utilised.
 		if ( Widget_Selection::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === true ) {
 			// Post 5.8 WordPress.
@@ -195,14 +201,19 @@ class Widget_Frontpage {
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Pre-5.8 WordPress widget found' );
 		}
 
-		// Display the movie according to the post's title (option in -> general -> advanced).
-		if ( $this->imdb_admin_values['imdbautopostwidget'] === '1' ) {
+		/**
+		 * Display the movie according to the post's title (option in -> general -> advanced).
+		 * Add the title to the array if autowidget is enabled and is not disabled for this post
+		 */
+		if ( $this->imdb_admin_values['imdbautopostwidget'] === '1' && is_int( $post_id ) && get_post_meta( $post_id, 'lumiere_autowidget_perpost', true ) !== 'disabled' ) {
+
 			$imdb_id_or_title[]['byname'] = sanitize_text_field( get_the_title() );
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Auto widget activated, using the post title ' . sanitize_text_field( get_the_title() ) . ' for querying' );
-		}
 
-		// Get the post ID to query if metaboxes are available in the post.
-		$post_id = get_the_ID();
+			// the post-based selection for auto widget is turned off
+		} elseif ( $this->imdb_admin_values['imdbautopostwidget'] === '1' && is_int( $post_id ) && get_post_meta( $post_id, 'lumiere_autowidget_perpost', true ) === 'disabled' ) {
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Autowidget is deactivated for this post' );
+		}
 
 		// Query if metaboxes are available in the post and add them to array to be queried in Movie class.
 		$imdb_id_or_title[] = is_int( $post_id ) ? $this->lumiere_widget_get_metabox_metadata( $post_id ) : null;
@@ -246,7 +257,7 @@ class Widget_Frontpage {
 			// Do a loop, even if today the plugin allows only one metabox.
 			foreach ( $get_movie_name as $key => $value ) {
 				$imdb_id_or_title['byname'] = sanitize_text_field( $value );
-				$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Custom field imdb-movie-widget found, using $value for querying' );
+				$this->logger->log()->debug( "[Lumiere][$this->classname] Custom field imdb-movie-widget found, using \"$value\" for querying" );
 			}
 
 		}
@@ -256,7 +267,7 @@ class Widget_Frontpage {
 			// Do a loop, even if today the plugin allows only one metabox.
 			foreach ( $get_movie_id as $key => $value ) {
 				$imdb_id_or_title['bymid'] = sanitize_text_field( $value );
-				$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Custom field imdb-movie-widget-bymid found, using $value for querying' );
+				$this->logger->log()->debug( "[Lumiere][$this->classname] Custom field imdb-movie-widget-bymid found, using \"$value\" for querying" );
 			}
 
 		}
