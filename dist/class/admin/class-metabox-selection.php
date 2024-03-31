@@ -23,9 +23,9 @@ use Lumiere\Tools\Settings_Global;
  * It saves in metadata the value entered for IMDb title/ID
  * The metabox includes options to display IMDb results for a given IMDb movie ID/movie name
  *
- * @since 4.1 added autowidget perpost exclusion/inclusion
+ * @since 4.1 added auto title widget perpost exclusion/inclusion
  * @see \Lumiere\Admin Calls this class
- * @see \Lumiere\Frontend\Widget_Frontpage Output the metabox selection: movie id/name, autowidget if not removed on a per-post basis
+ * @see \Lumiere\Frontend\Widget_Frontpage Output the metabox selection: movie id/name, auto title widget if not removed on a per-post basis
  */
 class Metabox_Selection {
 
@@ -46,7 +46,7 @@ class Metabox_Selection {
 		/**
 		 * Register the metabox
 		 */
-		add_action( 'add_meta_boxes', [ $this, 'add_lumiere_metabox_customfields' ] );
+		add_meta_box( 'lumiere_metabox_customfields', __( 'Lumière! widget area', 'lumiere-movies' ), [ $this, 'lum_show_metabox' ], [ 'post', 'page' ], 'side', 'high' );
 		add_action( 'save_post', [ $this, 'save_custom_meta_box' ], 10, 2 );
 	}
 
@@ -60,20 +60,12 @@ class Metabox_Selection {
 		$metabox_class = new self();
 	}
 
-	public function lumiere_metabox_customfields(): void {}
-
-	public function add_lumiere_metabox_customfields(): void {
-
-		add_meta_box( 'lumiere_metabox_customfields', __( 'Lumière! widget area', 'lumiere-movies' ), [ $this, 'custom_meta_box_markup' ], [ 'post', 'page' ], 'side', 'high' );
-
-	}
-
 	/**
 	 * Output in the edition
 	 *
 	 * @param \WP_Post $object Saved values from database.
 	 */
-	public function custom_meta_box_markup( \WP_Post $object ): void {
+	public function lum_show_metabox( \WP_Post $object ): void {
 
 		wp_nonce_field( basename( __FILE__ ), 'lumiere_metabox_nonce' );
 
@@ -86,17 +78,8 @@ class Metabox_Selection {
 		?>
 
 		<p>
-
-		<!--
-		<div class="lumiere_padding_five lumiere_flex_container">
-			<div class="lumiere_flex_container_content_twenty">
-				<img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'lumiere-ico-noir80x80.png' ); ?>" width="40px" valign="middle" />
-			</div>
-			<div class="lumiere_flex_container_content_eighty"><?php esc_html_e( 'Widget data', 'lumiere-movies' ); ?></div>
-		</div>
-		-->
-
-		<div class="metabox_subtitle"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'lumiere-ico-noir80x80.png' ); ?>" width="20px" valign="middle" />&nbsp;<?php esc_html_e( 'Enter a movie to display', 'lumiere-movies' ); ?></div>
+		
+		<div class="lum_metabox_subtitle"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'lumiere-ico-noir80x80.png' ); ?>" width="20px" valign="middle" />&nbsp;<?php esc_html_e( 'Enter a movie to display', 'lumiere-movies' ); ?></div>
 
 		<div class="lumiere_display_flex lumiere_flex_make_responsive_metabox">
 
@@ -148,17 +131,17 @@ class Metabox_Selection {
 		
 		<?php if ( $this->imdb_admin_values['imdbautopostwidget'] === '1' ) { ?>
 
-		<div class="metabox_subtitle"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'lumiere-ico-noir80x80.png' ); ?>" width="20px" valign="middle" />&nbsp;<?php esc_html_e( 'Extra options', 'lumiere-movies' ); ?></div>
+		<div class="lum_metabox_subtitle"><img src="<?php echo esc_url( $this->config_class->lumiere_pics_dir . 'lumiere-ico-noir80x80.png' ); ?>" width="20px" valign="middle" />&nbsp;<?php esc_html_e( 'Extra options', 'lumiere-movies' ); ?></div>
 		
 		<div class="lumiere_padding_five">
 			
-			<input id="lumiere_autowidget_perpost" name="lumiere_autowidget_perpost" type="checkbox" value="disabled"<?php echo get_post_meta( $object->ID, 'lumiere_autowidget_perpost', true ) === 'disabled' ? ' checked' : ''; ?>>
-			<label class="lum_metabox_label_checkbox" for="lumiere_autowidget_perpost">
+			<input id="lumiere_autotitlewidget_perpost" name="lumiere_autotitlewidget_perpost" type="checkbox" value="disabled"<?php echo get_post_meta( $object->ID, 'lumiere_autotitlewidget_perpost', true ) === 'disabled' ? ' checked' : ''; ?>>
+			<label class="lum_metabox_label_checkbox" for="lumiere_autotitlewidget_perpost">
 			<?php
 			echo wp_kses(
 				sprintf(
 					/* translators: %1$s and %2$s are HTML tags */
-					__( 'Deactivate %1$sautowidget%2$s for this post', 'lumiere-movies' ),
+					__( 'Deactivate %1$sauto title widget%2$s for this post', 'lumiere-movies' ),
 					'<a id="lin_to_imdbautopostwidget" href="' . admin_url( 'admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget' ) . '">',
 					'</a>'
 				),
@@ -204,32 +187,27 @@ class Metabox_Selection {
 			return;
 		}
 
-		$meta_box_text_value = '';
-		$meta_box_dropdown_value = '';
-		$meta_box_autowidget = 'enabled';
+		$meta_box_text_value = isset( $_POST['lumiere_queryid_widget_input'] ) ? esc_html( $_POST['lumiere_queryid_widget_input'] ) : null;
+		$meta_box_dropdown_value = isset( $_POST['lumiere_queryid_widget'] ) ? esc_html( $_POST['lumiere_queryid_widget'] ) : null;
+		$meta_box_autotitlewidget = isset( $_POST['lumiere_autotitlewidget_perpost'] ) ? esc_html( $_POST['lumiere_autotitlewidget_perpost'] ) : 'enabled';
 
-		/* Update the vars if any of them was passed */
-		if ( isset( $_POST['lumiere_queryid_widget_input'] ) ) {
-			$meta_box_text_value = sanitize_text_field( $_POST['lumiere_queryid_widget_input'] );
+		// Create or update the metas.
+		if ( isset( $meta_box_dropdown_value ) ) {
+			update_post_meta( $post_id, 'lumiere_queryid_widget', $meta_box_dropdown_value );
 		}
-		if ( isset( $_POST['lumiere_queryid_widget'] ) ) {
-			$meta_box_dropdown_value = sanitize_text_field( $_POST['lumiere_queryid_widget'] );
+		if ( isset( $meta_box_text_value ) ) {
+			update_post_meta( $post_id, 'lumiere_queryid_widget_input', $meta_box_text_value );
 		}
-		if ( isset( $_POST['lumiere_autowidget_perpost'] ) ) {
-			$meta_box_autowidget = sanitize_text_field( $_POST['lumiere_autowidget_perpost'] );
+		if ( strlen( $meta_box_autotitlewidget ) > 0 ) {
+			update_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', $meta_box_autotitlewidget );
 		}
-
-		// Create the metas if they don't exist, or update if there is a new value.
-		update_post_meta( $post_id, 'lumiere_queryid_widget', $meta_box_dropdown_value );
-		update_post_meta( $post_id, 'lumiere_queryid_widget_input', $meta_box_text_value );
-		update_post_meta( $post_id, 'lumiere_autowidget_perpost', $meta_box_autowidget );
 
 		/**
 		 * Switch from imdb-movie-widget to imdb-movie-widget-bymid if needed
 		 */
 
 		// Get the type of field, either "imdb-movie-widget-bymid" or "imdb-movie-widget"
-		$lumiere_metabox_submit = isset( $_POST['lumiere_queryid_widget'] ) ? sanitize_text_field( $_POST['lumiere_queryid_widget'] ) : '';
+		$lumiere_metabox_submit = isset( $_POST['lumiere_queryid_widget'] ) ? esc_html( $_POST['lumiere_queryid_widget'] ) : '';
 
 		// Save imdb-movie-widget with the posted data, delete imdb-movie-widget-bymid.
 		if ( $lumiere_metabox_submit === 'imdb-movie-widget' ) {
@@ -244,11 +222,10 @@ class Metabox_Selection {
 		}
 
 		// Delete the custom data if removed.
-		if ( ( ! isset( $_POST['lumiere_queryid_widget_input'] ) ) || ( strlen( $_POST['lumiere_queryid_widget_input'] ) < 1 ) ) {
+		if ( ! isset( $meta_box_text_value ) || strlen( $meta_box_text_value ) === 0 ) {
 			delete_post_meta( $post_id, 'imdb-movie-widget-bymid' );
 			delete_post_meta( $post_id, 'imdb-movie-widget' );
 		}
-
 	}
 }
 

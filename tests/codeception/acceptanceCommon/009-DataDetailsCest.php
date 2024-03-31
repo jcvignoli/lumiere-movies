@@ -342,7 +342,3 @@ class DataDetailsCest {
 		$I->see('tasked to depart his frozen sanctuary and join the King');
 	}
 }
-
-
-
-

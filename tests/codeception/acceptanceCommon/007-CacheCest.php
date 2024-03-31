@@ -49,7 +49,7 @@ class CacheCest {
 	}
 
 	/**
-	 * Check if auto widget option display a widget based on the title of the page
+	 * Check if cache is created for movies
 	 *
 	 * @before login
 	 * @example ["Werewolf", "title.tt0118137"]
@@ -96,7 +96,7 @@ class CacheCest {
 	}
 
 	/**
-	 * Check if auto widget option display a widget based on the title of the page
+	 * Check if cache is created for people
 	 *
 	 * @before login
 	 * @example ["Jorge_Rivero", "name.nm0729473", "0729473", "Distrito Federal, Mexico"]

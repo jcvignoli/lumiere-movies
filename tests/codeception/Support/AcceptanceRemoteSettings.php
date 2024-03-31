@@ -3,9 +3,7 @@
 /** 
  * Class including general options for testing
  * Meant to be compatible with posts created with
- * tests/IMPORT_WP_POST_MAIN.txt
- * tests/IMPORT_WP_POST_AUTOWIDGET.txt
- * Constant ADMIN_POST_ID_TESTS must be edited according to the post ID of IMPORT_WP_POST_MAIN.txt
+ * An extra constant ADMIN_POST_ID_TESTS must be edited according to the post ID => located in in _bootstrap
  */
 class AcceptanceRemoteSettings {
 
@@ -37,8 +35,7 @@ class AcceptanceRemoteSettings {
 	public const TESTING_PAGE_POPUP_PERSON_URL = '/en/lumiere/person/?mid=0729473';
 	public const TESTING_PAGE_POPUP_PERSON_MID = '0729473';
 	public const TESTING_PAGE_BASE_ELEMENT = 'Pajarero';
-	// WP Post including a test for auto widget, important to have a movie's name as a title.
-	// An example is available in tests/IMPORT_WP_POST_AUTOWIDGET.txt
-	public const TESTING_PAGE_AUTOWIDGET_URL = '/2021/y-tu-mama-tambien/';
-	public const TESTING_PAGE_AUTOWIDGET_TITLE = 'And Your Mother Too';
+	// WP Post including a test for auto title widget, important to have a movie's name as a title.
+	public const TESTING_PAGE_AUTOTITLEWIDGET_URL = '/2021/y-tu-mama-tambien/';
+	public const TESTING_PAGE_AUTOTITLEWIDGET_TITLE = 'And Your Mother Too';
 }

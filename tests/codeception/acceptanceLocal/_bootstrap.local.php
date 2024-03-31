@@ -10,6 +10,9 @@
 define( 'DEVELOPMENT_ENVIR', 'local' );
 
 // WP Post including 1/ an IMDb movie link into the post 2/ A widget IMDb 3/ Inside the post movie
-// An example is available in tests/IMPORT_WP_POST_MAIN.txt
 
 define( 'ADMIN_POST_ID_TESTS', '/wp-admin/post.php?post=4740&action=edit' ); // Different in remote
+
+// For auto title widget post
+
+define( 'ADMIN_POST_AUTOTITLEWIDGET_ID', '/wp-admin/post.php?post=4767&action=edit' ); // Different in remote

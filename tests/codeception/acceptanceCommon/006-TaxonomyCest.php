@@ -226,7 +226,7 @@ class TaxonomyCest {
 		$sub_url = '/en/lumiere/person/?mid=0953494';
 		$text_zarindast = '1934, in Tabriz, Iran';
 
-		$I->wantTo('Check if auto widget taxonomy option works');
+		$I->wantTo('Check if taxonomy option works');
 
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->scrollTo( '#title_Werewolf' );

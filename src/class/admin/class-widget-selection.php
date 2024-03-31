@@ -23,7 +23,7 @@ use WP_Widget;
  * Add a Lumière Widget option in administration
  * It selects either legacy widget (pre-5.8 WordPress) or block-based widget (post-5.8 WordPress), so it is compatible with Classic widget plugin
  *
- * Once this widget is added, it may be used to display both autowidget and metabox info in a sidebar
+ * Once this widget is added, it may be used to display both autow title widget and metabox info in a sidebar
  *
  * Constant Settings::BLOCK_WIDGET_NAME is the post-WP 5.8 widget block name.
  * Constant Settings::WIDGET_NAME is the pre-WP 5.8 widget name.

@@ -302,13 +302,13 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				</div>
 			</div>
 
-			<!--------------- How to use auto widget -->
+			<!--------------- How to use auto title widget -->
 
 			<div class="helpdiv">
 
-				<h4 data-show-hidden="inside_help_explain_autowidget" class="help_titles"><?php esc_html_e( 'What is Lumière auto-widget?', 'lumiere-movies' ); ?></h4>
+				<h4 data-show-hidden="inside_help_explain_autotitlewidget" class="help_titles"><?php esc_html_e( 'What is Lumière auto-widget?', 'lumiere-movies' ); ?></h4>
 
-				<div id="inside_help_explain_autowidget" class="hidesection">
+				<div id="inside_help_explain_autotitlewidget" class="hidesection">
 
 					<?php esc_html_e( "It is a special type of widget. Unlike the normal Lumière widget (see widget help section in this page), Lumière auto-widget does not require you to enter any IMDb ID or movie's title manually. It automatically query the IMDb according to title you gave to your post. Beware it does so for all posts you have published.", 'lumiere-movies' );
 					echo '<br><br>';
@@ -325,11 +325,11 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 					<?php
 					/* translators: %s are HTML URL tags */
-					echo wp_kses( sprintf( esc_html__( 'Add a Lumières!\'s %1$s widget %2$s to your sidebar, and go to "General Options / Advanced" and check "Auto widget" option.', 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ), [ 'a' => [ 'href' => [] ] ] );
+					echo wp_kses( sprintf( esc_html__( 'Add a Lumières!\'s %1$s widget %2$s to your sidebar, and go to "General Options / Advanced" and check "Auto title widget" option.', 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ), [ 'a' => [ 'href' => [] ] ] );
 					?>
 
 					<div align="center">
-						<a href="<?php echo esc_url( $lumiere_pics_url . 'auto-widget.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="center" width="80%" src="<?php echo esc_url( $lumiere_pics_url . 'auto-widget.png' ); ?>" alt="auto widget option" /></a>
+						<a href="<?php echo esc_url( $lumiere_pics_url . 'auto-widget.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="center" width="80%" src="<?php echo esc_url( $lumiere_pics_url . 'auto-widget.png' ); ?>" alt="auto title widget option" /></a>
 					</div>
 
 					<?php esc_html_e( 'Next time you will look at your post, you will find the widget according to your post’s title.', 'lumiere-movies' ); ?>

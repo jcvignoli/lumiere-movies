@@ -19,7 +19,7 @@
 			}
 		)
 	);
-	var linkAutoWidgetOption = '<a href="admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget" target="_blank">' + __( 'Lumière general advanced options' , 'lumiere-movies' )	+ '</a>';
+	var linkAutoTitleWidgetOption = '<a href="admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget" target="_blank">' + __( 'Lumière general advanced options' , 'lumiere-movies' )	+ '</a>';
 	
 	registerBlockType(
 		'lumiere/widget', {
@@ -58,7 +58,7 @@
 								className: 'lumiere_block_widget_explanation',
 								tagName: 'gutenberg',
 								children: __( 'This widget fills your selected area with movie data according to the metabox data or the title of your post. After adding this widget, either find the metabox in your post settings to add a specific movie, or select "Auto title widget" in', 'lumiere-movies' )
-									+ ' ' + linkAutoWidgetOption + ' '
+									+ ' ' + linkAutoTitleWidgetOption + ' '
 									+ __( 'should you want your selected area to be filled with movie data according to your post title.', 'lumiere-movies' )
 									+ '<br />'
 						},),// end explanation div

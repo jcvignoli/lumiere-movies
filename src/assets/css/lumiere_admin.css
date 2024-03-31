@@ -129,7 +129,7 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 @media (max-width: 400px) {
 	.lumiere_flex_make_responsive_metabox{flex-direction: column;} /* for metabox edit interface */
 }
-.metabox_subtitle{padding:1em;font-weight:600;}
+.lum_metabox_subtitle{padding:1em;font-weight:600;}
 .lum_metabox_label_checkbox{ vertical-align: top; }
 
 .lumiere_flex_auto{flex:auto;}

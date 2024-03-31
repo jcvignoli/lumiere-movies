@@ -45,7 +45,7 @@ class StylesScriptsHighslideCest {
 	}
 
 	/**
-	 * Check if auto widget option display a widget based on the title of the page
+	 * Check if auto title widget option display a widget based on the title of the page
 	 * Can't use universal login due to plugin activation/deactivation
 	 */
 	public function checkStyleScripts(AcceptanceRemoteTester $I) {

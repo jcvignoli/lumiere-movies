@@ -247,7 +247,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTION
 				?>
 				/>
 
-				<div class="explain"><?php esc_html_e( 'Add automatically a widget according to your post title. If regular widgets have been added to post too, the auto widget will be displayed before them. Usefull if blog a lot about movies; if a query does not bring any result with the post title, nothing is displayed.', 'lumiere-movies' ); ?><br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?><?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
+				<div class="explain"><?php esc_html_e( 'Add automatically a widget according to your post title. If regular widgets have been added to post too, the auto title widget will be displayed before them. Usefull if blog a lot about movies; if a query does not bring any result with the post title, nothing is displayed.', 'lumiere-movies' ); ?><br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?><?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
 
 			</div>
 

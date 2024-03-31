@@ -68,7 +68,7 @@ class EndCest {
 		$I->scrollTo('#imdbtaxonomy');
 		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_general_settings' );
 
-		// Auto widget off
+		// Auto title widget off
 		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdblinkingkill');
 		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_general_settings' );
@@ -101,6 +101,15 @@ class EndCest {
 		$I->scrollTo('#miscpart');
 		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_general_settings' );
 	}
+	
+	/**
+	 * Remove auto title widget exclusion in a post
+	 *
+	 * @before login
+	 */
+	public function removeAutotitlewidgetPostExclusion(AcceptanceRemoteTester $I) {
+	
+		$I->amOnPage( ADMIN_POST_AUTOTITLEWIDGET_ID /* in _bootstrap */ );
+		$I->CustomDisableCheckbox('#lumiere_autotitlewidget_perpost', 'input[id=publish]' );
+	}
 }
-
-
