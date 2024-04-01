@@ -1,6 +1,10 @@
 /* ------------------ CSS for the admin part of Lumiere! plugin */
 
-[class*="toplevel_page_lumiere"] a, [class*="lumiere_page_lumiere_options"] a { text-decoration:none;} /** Change only lumiere links */
+/** Change lumiere links only on lumiere admin pages, which can be left menu, top menu, etc. using wildcards. */
+[class*="toplevel_page_lumiere"] a,
+[class*="lumiere_page_lumiere_options"] a,
+[class*="settings_page_lumiere_options"] a,
+[class*="admin_page_lumiere_options"] a { text-decoration:none;} 
 
 .hidesection, .hidesectionOfCheckbox, .hidesectionOfCheckboxTwo{display:none;}
 .activatehidesection {cursor:pointer;}
