@@ -138,7 +138,7 @@ class Widget_Selection extends WP_Widget {
 	 *
 	 * @param array<array-key, mixed> $instance Current settings.
 	 * @return string Default return is 'noform'.
-	 * @suppress PhanUndeclaredClassAttribute -- Remove phan error with php < 8.3
+	 * @phan-suppress PhanUndeclaredClassAttribute -- Remove phan error with php < 8.3
 	 */
 	#[\Override]
 	public function form( $instance ): string {
