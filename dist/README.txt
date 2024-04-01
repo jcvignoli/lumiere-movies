@@ -196,7 +196,7 @@ Due to the use of the most recent WordPress API block use, you should take a loo
 
 Taxonomy templates have changed, make sure to follow the notice in Lumière admin area to update them.
 
-Metadata keys for widgets have changed: in the posts where you added a movie name/imdb id, you may not immediately see the movies you inserted. An automatized process will take care of bringing back them (technical explaination: a cron will run depending on your visits or cron options in the few minutes or few hours after updating the plugin).
+Metadata keys for widgets have changed: An automatized process will take care of updating to the new settings. Depending on your WordPress environnement and settings, that automatized process may not run immediately and you may not see in the posts where you added a movie name/imdb id your IMDb data. (Technical explanation: a cron will run depending on your visits or cron options in the few minutes or few hours after updating the plugin in complement to the update process that is run when automatically updating the plugin. That cron ensures the update process is run even if the standard update process fails)
 
 = 4.0.2 =
 

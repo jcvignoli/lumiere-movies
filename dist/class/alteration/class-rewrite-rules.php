@@ -142,7 +142,7 @@ class Rewrite_Rules {
 			&& in_array( array_keys( $this->final_array_rules ), $wordpress_rewrite_rules, true ) === false
 		) {
 
-			$this->logger_class->log()->notice( '[RewriteRules] Added rewrite rules using WP_Rewrite class' );
+			$this->logger_class->log()->notice( '[Lumiere][RewriteRules] Added rewrite rules using WP_Rewrite class' );
 			$wp_rewrite->rules = array_merge( $my_rules_filtered, $wordpress_rewrite_rules );
 			$this->add_polylang_rules( $my_rules_filtered );
 			return;
@@ -165,7 +165,7 @@ class Rewrite_Rules {
 					'top'
 				);
 				$rules_added[] = $key;
-				$this->logger_class->log()->notice( '[RewriteRules] Added rewrite rules using add_rewrite_rule()' );
+				$this->logger_class->log()->notice( '[Lumiere][RewriteRules] Added rewrite rules using add_rewrite_rule()' );
 			}
 		}
 
@@ -183,7 +183,7 @@ class Rewrite_Rules {
 	 */
 	public function add_polylang_rules( array $existing_rules ) {
 		if ( has_filter( 'pll_init' ) ) {
-			$this->logger_class->log()->debug( '[RewriteRules] Rules added to Polylang' );
+			$this->logger_class->log()->debug( '[Lumiere][RewriteRules] Rules added to Polylang' );
 			add_filter(
 				'pll_rewrite_rules',
 				function( array $existing_rules ): array {
@@ -207,7 +207,7 @@ class Rewrite_Rules {
 		flush_rewrite_rules();
 
 		$this->logger_class->log()->notice(
-			'[RewriteRules] Rewrite rules for Lumière was missing, flushed *' . count( $rules_added ) . '* ' . implode( '<br>', $rules_added )
+			'[Lumiere][RewriteRules] Rewrite rules for Lumière was missing, flushed *' . count( $rules_added ) . '* ' . implode( '<br>', $rules_added )
 		);
 	}
 }

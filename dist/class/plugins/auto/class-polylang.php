@@ -145,7 +145,7 @@ class Polylang {
 			$output .= "\n\t\t\t\t\t\t" . '<option value="' . strval( $lang_object->term_id ) . '"';
 
 			if (
-				// @phpcs:ignore WordPress.Security.NonceVerification -- it is process on the second line!
+				// @phpcs:ignore WordPress.Security.NonceVerification -- it is processed in the second line, right below
 				isset( $_GET['tag_lang'] ) && $lang_object->term_id === (int) $_GET['tag_lang']
 				&& isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_GET['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) !== false
 			) {

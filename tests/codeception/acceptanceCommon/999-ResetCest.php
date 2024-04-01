@@ -36,6 +36,14 @@ class EndCest {
 		// Polylang on
 		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('polylang');
+		
+		// Classic widgets off
+		$I->amOnPluginsPage();
+		$I->maybeDeactivatePlugin('classic-widgets');
+		
+		// Classic editor off
+		$I->amOnPluginsPage();
+		$I->maybeDeactivatePlugin('classic-editor');
 	}
 
 

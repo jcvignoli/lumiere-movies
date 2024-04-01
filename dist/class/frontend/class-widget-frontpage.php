@@ -44,6 +44,7 @@ class Widget_Frontpage {
 	 * Shortcode to be used by add_shortcodes, ie [lumiereWidget][/lumiereWidget]
 	 * This shortcode is temporary and created on the fly
 	 * Doesn't need to be deleted when uninstalling Lumière plugin
+	 * @see Block widget wich includes the shortcode
 	 */
 	public const WIDGET_SHORTCODE = 'lumiereWidget';
 
@@ -140,6 +141,7 @@ class Widget_Frontpage {
 
 	/**
 	 * Execute add_shortcode()
+	 * Only called if regular post-5.8 block widget was found
 	 */
 	private function lumiere_widget_run_shortcodes(): void {
 		// Shortcodes are found only if blockbased widget was activated.
@@ -148,22 +150,21 @@ class Widget_Frontpage {
 
 	/**
 	 * Parse shortcodes, called in add_shortcode()
+	 * Only called if regular post-5.8 block widget was found
 	 *
 	 * @param array<string>|string $attributes
 	 * @param null|string $inside_tags Text inside the shortcode
 	 * @param string $tags Shortcode tag
-	 * @return string The final Widget with Title+Content
+	 * @return string The final Widget with Title+Content, or nothing if nothing was found
 	 */
 	public function lumiere_widget_shortcode_parser( array|string $attributes, ?string $inside_tags, string $tags ): string {
 
-		$output = '';
-
 		if ( isset( $inside_tags ) ) {
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Shortcode [' . $tags . '] found.' );
-			return $this->lumiere_widget_display_movies( $inside_tags );
+			return $this->lumiere_display_widget( $inside_tags );
 		}
 
-		return $output;
+		return '';
 	}
 
 	/**
@@ -173,11 +174,12 @@ class Widget_Frontpage {
 	 * @since 3.10.2 added array_filter to clean $imdb_id_or_title
 	 * @since 4.0 added exit if no metadata and no auto title widget activated
 	 * @since 4.1 do not use auto title widget if auto title widget exclusion is selected in the current post
+	 * @see \Lumiere\Frontend\Widget_Legacy::widget() calls it for pre-5.8 WordPress widgets
 	 *
 	 * @param string $title_box Title of the widget to be displayed
 	 * @return string The title and movie data of the Widget
 	 */
-	public function lumiere_widget_display_movies( string $title_box ): string {
+	public function lumiere_display_widget( string $title_box ): string {
 
 		// Exit if neither a post nor a page!
 		if ( ! is_single() && ! is_page() ) {
@@ -236,16 +238,13 @@ class Widget_Frontpage {
 			return '';
 		}
 
-		// Query Movie class.
+		// Get movie's data from {@link \Lumiere\Frontend\Movie}
 		$movie = $this->movie_class->lumiere_show( $final_movies_array );
 
 		/**
 		 * Output the result using a layout wrapper.
-		 * This result cannot be displayed anywhere else but in this widget() method.
-		 * As far as I know, at least.
 		 */
-		return $this->lumiere_widget_layout( $title_box, $movie );
-
+		return $this->lum_widget_display_widget_content( $title_box, $movie );
 	}
 
 	/**
@@ -286,13 +285,13 @@ class Widget_Frontpage {
 	}
 
 	/**
-	 * Final widget layout, called to merge data and widget layout
+	 * Final widget layout, merging the wrapper title and its content
 	 *
 	 * @param string $title_box Title of the widget box
 	 * @param string $movie Movie data details to be displayed
 	 * @return string Entire widget (Title+Content)
 	 */
-	private function lumiere_widget_layout( string $title_box, string $movie ): string {
+	private function lum_widget_display_widget_content( string $title_box, string $movie ): string {
 
 		$output = '';
 
