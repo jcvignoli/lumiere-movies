@@ -14,24 +14,6 @@ modules:
         - WPWebDriver
         - Filesystem  # needs local access,use it with remote machine localy mounted
     config:
-        WPDb:
-            dsn: '%TEST_LOCAL_DB_DSN%'
-            user: '%TEST_LOCAL_DB_USER%'
-            password: '%TEST_LOCAL_DB_PASSWORD%'
-            # add populator.sh
-            # https://wpbrowser.wptestkit.dev/v3/modules/WPDb/#change-the-database-used-depending-on-whether-youre-running-tests-or-not
-            dump: '../backups/db/lumiere_codeception_2024_02_12.sql.gz'
-            #import the dump before the tests; this means the test site database will be repopulated before the tests.
-            populate: false
-            # re-import the dump between tests; this means the test site database will be repopulated between the tests.
-            cleanup: false
-            waitlock: 10
-            url: '%TEST_LOCAL_WP_URL%'
-            urlReplacement: true #replace the hardcoded dump URL with the one above
-            tablePrefix: '%TEST_TABLE_PREFIX%'
-            headers:
-                X_TEST_REQUEST: 1
-                X_WPBROWSER_REQUEST: 1
         WPWebDriver:
             url: '%TEST_LOCAL_WP_URL%'
             adminUsername: '%TEST_WP_ADMIN_USERNAME%'
