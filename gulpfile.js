@@ -97,7 +97,7 @@ var paths = {
 	},
 	images: {
 		src: [
-			'./src/.**/*.{jpg,jpeg,gif,png}', 				/* for .wordpress.org */
+			'./src/.**/*.{jpg,jpeg,gif,png}', 				/* extra pics for .wordpress.org */
 			'./src/**/*.{jpg,jpeg,gif,png}',
 			'!./src/vendor/**/*.*'
 	],
@@ -113,7 +113,7 @@ var paths = {
 				'./src/vendor/twbs/bootstrap/dist/**/*.{min.js,min.css}',
 				'./src/vendor/autoload.*',
 			'./src/**/*.+(psd)', 
-			'./src/.**/*.+(psd)', 				/* for .wordpress.org */
+			'./src/.**/*.{psd,json}',	 				/* extra files for .wordpress.org -- doesn't work for blueprints */
 			'./src/languages/*.*',
 				'!./src/languages/*.temp.po',  
 			'./src/assets/js/highslide/**/**/*.*'

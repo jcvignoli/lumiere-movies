@@ -76,26 +76,9 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource('lumiere_scripts_admin-js');
 		$I->seeInPageSource('lumiere_hide_show-js');
 
-/* Can't go through a WP popup
-		// Check Lumière Widget page (without Classic Widget plugin)
-		$I->comment(\Helper\Color::set('Check Lumière Widget page (without Classic Widget plugin)', 'italic+bold+cyan'));
-		$I->amOnPage("/wp-admin/widgets.php");
-		$I->seeInPageSource("lumiere_block_widget-css");
-		$I->seeInPageSource("lumiere_block_widget-js");
-		$I->seeInPageSource("lumiere_gutenberg_main-css");
-		$I->seeInPageSource("lumiere_css_admin-css");
-		$I->seeInPageSource("lumiere_movies_widget");
-		$I->seeInPageSource("lumiere_gutenberg_main-js");
-		$I->seeInPageSource("lumiere_gutenberg_buttons-js");
-		$I->seeInPageSource("lumiere_scripts_admin-js");
-		$I->seeInPageSource("lumiere_hide_show-js");
-*/
 		// Disable classic-editor so we can test Blocks editor
 		$I->comment(\Helper\Color::set('Disable classic-editor plugin so we can test Blocks editor', 'italic+bold+cyan'));
 		$I->amOnPluginsPage();
-		/*	Conditional plugin deactivation (in _support/AcceptanceTrait.php)
-			Avoid to throw error if untrue, normal behaviour of codeception 
-			If $plugin is activated, deactivate it */
 		$I->wait(1);
 		$I->maybeDeactivatePlugin('classic-editor');
 		$I->wait(1);
@@ -112,7 +95,7 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere_scripts_admin-js"); 		# Lumière main js
 		$I->seeInPageSource('lumiere_css_admin-css'); 			# Lumière main css
 		$I->seeInPageSource("lumiere_scripts_admin-js-before"); 	# Lumière js vars for scripts
-		$I->seeInPageSource("lumiere_queryid_widget"); 			# Lumière Metabox is available
+		$I->seeInPageSource("lum_form_type_query"); 			# Lumière Metabox is available
 		$I->seeInPageSource("lumiere_quicktag_addbutton-js"); 		# Quicktag Lumière plugin
 		$I->seeInPageSource("lumiere_hide_show-js"); 			# hide/show script
 
@@ -127,11 +110,16 @@ class StylesScriptsHighslideCest {
 		$I->comment(\Helper\Color::set('Check Lumière Classic Editor page (with Classic Editor plugin)', 'italic+bold+cyan'));
 		$I->amOnPage( ADMIN_POST_ID_TESTS );
 		$I->waitPageLoad();
+		$I->dontSeeInPageSource("assets/blocks/movie/index.min.js"); 	# Gutenberg movie block js
+		$I->dontSeeInPageSource("assets/blocks/movie/index.min.css"); 	# Gutenberg movie block css
+		$I->dontSeeInPageSource("assets/blocks/addlink/index.min.js"); 	# Gutenberg addlink block js
+		$I->dontSeeInPageSource("assets/blocks/widget/index.min.css");	# Gutenberg widget block css
+		$I->dontSeeInPageSource("assets/blocks/widget/index.min.js");	# Gutenberg widget block js
 		$I->seeInPageSource("lumiere_scripts_admin-js"); 	# Lumière main js
 		$I->seeInPageSource("lumiere_scripts_admin-js-before"); # Lumière js vars for scripts
 		$I->seeInPageSource("lumiere_quicktag_addbutton-js"); 	# Quicktag Lumière plugin
 		$I->seeInPageSource("lumiere_hide_show-js"); 		# hide/show script
-		$I->seeInPageSource("lumiere_queryid_widget"); 		# Lumière Metabox is available
+		$I->seeInPageSource("lum_form_type_query"); 		# Lumière Metabox is available
 
 			/** 
 			 * Frontend pages
@@ -239,5 +227,18 @@ class StylesScriptsHighslideCest {
 		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource("lum_results_frame_grey"); 	# CSS for grey layout (default)
 
+	}
+	
+	/**
+	 * Accept a popup in the block editor if it exists -> avoid failure with the try
+	 * Not in use
+	 */
+	private function getRidOfEditorPopup() {
+		try {
+			$I->seeInPageSource('"Welcome to the block editor":["Welcome to the block editor"]');
+			$I->cancelPopup();
+		} catch (Exception $e) {
+			$I->comment('There was no poup, continuing...');
+		}
 	}
 }

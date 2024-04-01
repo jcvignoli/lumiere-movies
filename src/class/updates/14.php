@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Specific Class for updating : ************************ Lumière version 3.11.6, update 14
+ * Specific Class for updating : ************************ Lumière version 4.0, update 14
  * Child of Updates class
  *
  * This class updates data for a new Lumière version
@@ -49,10 +49,6 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 
 		// Construct parent class
 		parent::__construct();
-
-		// Run the update
-		$this->lumiere_run_local_update();
-
 	}
 
 	/**

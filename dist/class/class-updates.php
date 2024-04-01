@@ -36,13 +36,11 @@ class Updates {
 
 	/**
 	 * \Lumiere\Logger class
-	 *
 	 */
 	protected Logger $logger;
 
 	/**
 	 * Constructor
-	 *
 	 */
 	public function __construct() {
 
@@ -82,14 +80,14 @@ class Updates {
 			$iterative_number_with_leading_zero = sprintf( '%02d', $i );
 
 			// Build the class name.
-			$class_name_iterative = "Lumiere\Updates\Lumiere_Update_File_{$iterative_number_with_leading_zero}";
+			$class_name = "Lumiere\Updates\Lumiere_Update_File_{$iterative_number_with_leading_zero}";
 
-			// Execute if class exists.
-			if ( true === class_exists( $class_name_iterative ) ) {
-				$fake_var_for_execute_class = new $class_name_iterative();
+			// Execute if class and method exist.
+			if ( class_exists( $class_name ) === true && method_exists( $class_name, 'lumiere_run_local_update' ) === true ) {
+				$child_update_class = new $class_name();
+				$child_update_class->lumiere_run_local_update();
 			}
 		}
-
 	}
 
 	/**

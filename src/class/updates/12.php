@@ -49,10 +49,6 @@ class Lumiere_Update_File_12 extends \Lumiere\Updates {
 
 		// Construct parent class
 		parent::__construct();
-
-		// Run the update
-		$this->lumiere_run_local_update();
-
 	}
 
 	/**

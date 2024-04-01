@@ -19,9 +19,9 @@
 			<path>src/vendor</path>
 		    </ignore>
 		    <markers>
-			<marker>@info</marker>
-			<marker>@TODO</marker>
-			<marker>@todo</marker>
+			<marker>info</marker>
+			<marker>TODO</marker>
+			<marker>todo</marker>
 			<marker>@phpstan-ignore-line</marker>
 			<marker>@phpstan-ignore-next-line</marker>
 			<marker>@phpstan-ignore</marker>

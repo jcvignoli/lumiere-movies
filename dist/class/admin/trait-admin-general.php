@@ -122,7 +122,6 @@ trait Admin_General {
 	 *
 	 * @return void Returns optionaly an array of the options passed in $options
 	 */
-	// @phpcs:disable
 	public function lumiere_display_vars( ?array $options = null, string $set_error = null, string $libxml_use = null, string $get_screen = null ): void {
 
 		// If the user can't manage options and it's not a cron, exit.
@@ -132,7 +131,7 @@ trait Admin_General {
 
 		// Set the highest level of debug reporting.
 		error_reporting( E_ALL );
-		ini_set( 'display_errors', '1' );
+		ini_set( 'display_errors', '1' ); // @phpcs:ignore WordPress.PHP.IniSet.display_errors_Blacklisted -- it's debugging!
 
 		// avoid endless loops with imdbphp parsing errors.
 		if ( ( isset( $libxml_use ) ) && ( $libxml_use === 'libxml' ) ) {
@@ -144,20 +143,19 @@ trait Admin_General {
 		}
 
 		if ( $get_screen === 'screen' ) {
-			$currentScreen = get_current_screen();
+			$current_screen = get_current_screen();
 			echo '<div align="center"><strong>[WP current screen]</strong>';
-			print_r( $currentScreen );
+			echo json_encode( $current_screen );
 			echo '</div>';
 		}
 
-		// Exit if no Lumière option array requested to show
+		// Print the options.
 		if ( ( null !== $options ) && count( $options ) > 0 ) {
-			echo '<div class="lumiere_wrap"><strong>[Lumière options]</strong><font size="-3"> ';
-			print_r( $options );
+			echo '<div class="lumiere_wrap"><strong>[Lumière options]</strong><font size="-1"> ';
+			echo json_encode( $options );
 			echo ' </font><strong>[/Lumière options]</strong></div>';
 		}
 	}
-	// @phpcs:enable
 
 	/**
 	 * Lumiere internal exception handler

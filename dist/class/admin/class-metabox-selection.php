@@ -23,9 +23,11 @@ use Lumiere\Tools\Settings_Global;
  * It saves in metadata the value entered for IMDb title/ID
  * The metabox includes options to display IMDb results for a given IMDb movie ID/movie name
  *
- * @since 4.1 added auto title widget perpost exclusion/inclusion
- * @see \Lumiere\Admin Calls this class
+ * @since 4.1 added auto title widget perpost exclusion/inclusion, simplified the class
+ * @see \Lumiere\Admin\Admin Calls this class
  * @see \Lumiere\Frontend\Widget_Frontpage Output the metabox selection: movie id/name, auto title widget if not removed on a per-post basis
+ *
+ * @todo This should be a block!
  */
 class Metabox_Selection {
 
@@ -42,12 +44,6 @@ class Metabox_Selection {
 		// Get Global Settings class properties.
 		$this->get_settings_class();
 		$this->get_db_options();
-
-		/**
-		 * Register the metabox
-		 */
-		add_meta_box( 'lumiere_metabox_customfields', __( 'Lumière! widget area', 'lumiere-movies' ), [ $this, 'lum_show_metabox' ], [ 'post', 'page' ], 'side', 'high' );
-		add_action( 'save_post', [ $this, 'save_custom_meta_box' ], 10, 2 );
 	}
 
 	/**
@@ -58,21 +54,29 @@ class Metabox_Selection {
 	 */
 	public static function lumiere_static_start(): void {
 		$metabox_class = new self();
+
+		/**
+		 * Register the metabox
+		 */
+		add_meta_box( 'lumiere_metabox_customfields', __( 'Lumière! widget area', 'lumiere-movies' ), [ $metabox_class, 'lum_show_metabox' ], [ 'post', 'page' ], 'side', 'high' );
+		add_action( 'save_post', [ $metabox_class, 'save_custom_meta_box' ], 10, 2 );
 	}
 
 	/**
 	 * Output in the edition
 	 *
 	 * @param \WP_Post $object Saved values from database.
+	 *
+	 * @since 4.1 simplified the use of variables, changed 'imdb-movie-widget' by 'lumiere_widget_movietitle' and 'imdb-movie-widget-bymid' by 'lumiere_widget_movieid'
 	 */
 	public function lum_show_metabox( \WP_Post $object ): void {
 
-		wp_nonce_field( basename( __FILE__ ), 'lumiere_metabox_nonce' );
+		wp_nonce_field( basename( __FILE__ ), 'lum_metabox_nonce' );
 
 		// Option for the select, the two type of data to be taken over by imdb-movie.inc.php
 		$select_options = [
-			__( 'By IMDb ID movie', 'lumiere-movies' ) => 'imdb-movie-widget-bymid',
-			__( 'By movie title', 'lumiere-movies' ) => 'imdb-movie-widget',
+			__( 'Movie by IMDb ID', 'lumiere-movies' ) => 'lumiere_widget_movieid',
+			__( 'Movie by title', 'lumiere-movies' ) => 'lumiere_widget_movietitle',
 		];
 
 		?>
@@ -84,27 +88,22 @@ class Metabox_Selection {
 		<div class="lumiere_display_flex lumiere_flex_make_responsive_metabox">
 
 			<div class="lumiere_padding_five">
-				<label for="lumiere_queryid_widget"><?php esc_html_e( 'How to query the movie?', 'lumiere-movies' ); ?></label>
-				<select id="lumiere_queryid_widget" name="lumiere_queryid_widget">
+				<label for="lum_form_type_query"><?php esc_html_e( 'How to query the movie?', 'lumiere-movies' ); ?></label>
+				<select id="lum_form_type_query" name="lum_form_type_query">
 				<?php
 				foreach ( $select_options as $key => $value ) {
-					if ( $value === get_post_meta( $object->ID, 'lumiere_queryid_widget', true ) ) {
-						?>
-					<option value="<?php echo esc_attr( $value ); ?>" selected><?php echo esc_attr( $key ); ?></option>
-						<?php
-					} else {
-						?>
-					<option value="<?php echo esc_attr( $value ); ?>"><?php echo esc_attr( $key ); ?></option>
-						<?php
-					}
+					echo '<option value="' . esc_attr( $value ) . '"';
+					echo strlen( get_post_meta( $object->ID, $value, true ) ) > 0 ? ' selected' : '';
+					echo '>' . esc_attr( $key ) . '</option>';
 				}
 				?>
 				</select>
 			</div>
 
 			<div class="lumiere_padding_five">
-				<label for="lumiere_queryid_widget_input"><?php esc_html_e( 'Title or ID:', 'lumiere-movies' ); ?></label>
-				<input name="lumiere_queryid_widget_input" class="lum_width_fillall" type="text" value="<?php echo esc_attr( get_post_meta( $object->ID, 'lumiere_queryid_widget_input', true ) ); ?>">
+				<label for="lum_form_query_value"><?php esc_html_e( 'Title or ID:', 'lumiere-movies' ); ?></label>
+				<input name="lum_form_query_value" class="lum_width_fillall" type="text" value="<?php echo esc_attr( get_post_meta( $object->ID, 'lumiere_widget_movieid', true ) );
+				echo esc_attr( get_post_meta( $object->ID, 'lumiere_widget_movietitle', true ) );?>">
 			</div>
 
 		</div>
@@ -171,7 +170,7 @@ class Metabox_Selection {
 	 */
 	public function save_custom_meta_box( int $post_id, \WP_Post $post ): void {
 
-		if ( ! isset( $_POST['lumiere_metabox_nonce'] ) || wp_verify_nonce( $_POST['lumiere_metabox_nonce'], basename( __FILE__ ) ) === false ) {
+		if ( ! isset( $_POST['lum_metabox_nonce'] ) || wp_verify_nonce( $_POST['lum_metabox_nonce'], basename( __FILE__ ) ) === false ) {
 			return;
 		}
 
@@ -187,44 +186,30 @@ class Metabox_Selection {
 			return;
 		}
 
-		$meta_box_text_value = isset( $_POST['lumiere_queryid_widget_input'] ) ? esc_html( $_POST['lumiere_queryid_widget_input'] ) : null;
-		$meta_box_dropdown_value = isset( $_POST['lumiere_queryid_widget'] ) ? esc_html( $_POST['lumiere_queryid_widget'] ) : null;
-		$meta_box_autotitlewidget = isset( $_POST['lumiere_autotitlewidget_perpost'] ) ? esc_html( $_POST['lumiere_autotitlewidget_perpost'] ) : 'enabled';
+		$lum_form_type_query = isset( $_POST['lum_form_type_query'] ) ? esc_html( $_POST['lum_form_type_query'] ) : null;
+		$lum_form_query_value = isset( $_POST['lum_form_query_value'] ) ? esc_html( $_POST['lum_form_query_value'] ) : null;
+		$lumiere_autotitlewidget_perpost = isset( $_POST['lumiere_autotitlewidget_perpost'] ) ? esc_html( $_POST['lumiere_autotitlewidget_perpost'] ) : 'enabled';
 
 		// Create or update the metas.
-		if ( isset( $meta_box_dropdown_value ) ) {
-			update_post_meta( $post_id, 'lumiere_queryid_widget', $meta_box_dropdown_value );
+		if ( isset( $lum_form_query_value ) && isset( $lum_form_type_query ) ) {
+			update_post_meta( $post_id, $lum_form_type_query, $lum_form_query_value );
 		}
-		if ( isset( $meta_box_text_value ) ) {
-			update_post_meta( $post_id, 'lumiere_queryid_widget_input', $meta_box_text_value );
-		}
-		if ( strlen( $meta_box_autotitlewidget ) > 0 ) {
-			update_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', $meta_box_autotitlewidget );
+		if ( strlen( $lumiere_autotitlewidget_perpost ) > 0 ) {
+			update_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', $lumiere_autotitlewidget_perpost );
 		}
 
-		/**
-		 * Switch from imdb-movie-widget to imdb-movie-widget-bymid if needed
-		 */
-
-		// Get the type of field, either "imdb-movie-widget-bymid" or "imdb-movie-widget"
-		$lumiere_metabox_submit = isset( $_POST['lumiere_queryid_widget'] ) ? esc_html( $_POST['lumiere_queryid_widget'] ) : '';
-
-		// Save imdb-movie-widget with the posted data, delete imdb-movie-widget-bymid.
-		if ( $lumiere_metabox_submit === 'imdb-movie-widget' ) {
-			update_post_meta( $post_id, 'imdb-movie-widget', sanitize_text_field( $_POST['lumiere_queryid_widget_input'] ?? '' ) );
-			delete_post_meta( $post_id, 'imdb-movie-widget-bymid' );
+		// Delete the other custom data.
+		if ( $lum_form_type_query === 'lumiere_widget_movieid' ) {
+			delete_post_meta( $post_id, 'lumiere_widget_movietitle' );
+		}
+		if ( $lum_form_type_query === 'lumiere_widget_movietitle' ) {
+			delete_post_meta( $post_id, 'lumiere_widget_movieid' );
 		}
 
-		// Save imdb-movie-widget-bymid with the posted data, delete imdb-movie-widget.
-		if ( $lumiere_metabox_submit === 'imdb-movie-widget-bymid' ) {
-			update_post_meta( $post_id, 'imdb-movie-widget-bymid', sanitize_text_field( $_POST['lumiere_queryid_widget_input'] ?? '' ) );
-			delete_post_meta( $post_id, 'imdb-movie-widget' );
-		}
-
-		// Delete the custom data if removed.
-		if ( ! isset( $meta_box_text_value ) || strlen( $meta_box_text_value ) === 0 ) {
-			delete_post_meta( $post_id, 'imdb-movie-widget-bymid' );
-			delete_post_meta( $post_id, 'imdb-movie-widget' );
+		// Delete every custom data if no value was passed.
+		if ( ! isset( $lum_form_query_value ) || strlen( $lum_form_query_value ) === 0 ) {
+			delete_post_meta( $post_id, 'lumiere_widget_movieid' );
+			delete_post_meta( $post_id, 'lumiere_widget_movietitle' );
 		}
 	}
 }

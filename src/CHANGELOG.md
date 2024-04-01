@@ -1,7 +1,7 @@
 **Changelog**
 
 v.4.1
-* [feature] Autowidget can be excluded on a per-post basis. New option in the post edition that allows to exclude a specific post from the autowidget. Brings a much needed flexibility for blogs using the autowidget feature. (added the new options in Metabox_Selection class and new rules in Widget_Frontpage)
+* [feature] Auto title widget can be excluded on a per-post basis. New option in the post edition that allows to exclude a specific post from the auto title widget. Brings a much needed flexibility for blogs using the auto title widget feature. (added the new options in Metabox_Selection class and new rules in Widget_Frontpage)
 * [feature] Thumbnail pictures in taxonomy pages will be quicker to be displayed (using lazy loading, thumbs for the thumb images preciseley)
 * [feature] No need anymore for refreshing rewrite rules when creating a new taxonomy item, done automatically (added flush_rewrite_rules() in Save_Options::lumiere_data_options_save(), which is triggered only when saving taxonomy selection)
 * [feature] Popups spinners vastly improved, work with all modal windows. Clicking on any link in popup will trigger a new spinner if the loading time is > 1 second.
@@ -24,6 +24,8 @@ v.4.1
 * [technical] Notifications are only shown in Lumière admin options pages. If a taxonomy file is not installed, always nag the user to install it.
 * [technical] Lot of cleaning, standardised css classes, removed many unused methods in css and php, factorized and using more dedicated traits, using official WordPress way to include blocks (block.json), more standard WordPress string escaping
 * [technical] The Polylang language forms in taxonomy pages for people now uses $_Get instead of $_Post, required to make the AMP form work (edited Polylang and Taxonomy_People_Standard clases in this regard)
+* [technical] Replaced post metatada 'imdb-movie-widget-bymid' by 'lumiere_widget_movieid' and 'imdb-movie-widget' by 'lumiere_widget_movietitle'. Deleted obsolete post metada keys 'lumiere_queryid_widget_input' and 'lumiere_queryid_widget' The changes are done through the update numer 15.
+* [technical] Moved the blueprint.json in the correct asset folder (meant to be on wordpress.org, actually).
 
 v.4.0.2
 * [feature] Thumbnail pictures (those which are displayed automatically into the posts, in cache, in popups) are now automatically resized should they weight more that 80kb, which should display all pages faster. Maintained the possiblity to click on these thumbnails to display the big posters (Cover option in Lumière admin).
@@ -203,7 +205,7 @@ v.3.9.4
 
 v.3.9.3
 * [bug] Recent WordPress changes broke the autodisplay of old widgets (legacy widgets) in widgets admin page. Both are now available at the same time. User should carefully select a legacy or block based widget in WordPress block pages according to whether they have a old WordPress install (prior to 5.8) or installed a Classic Widget plugin that brings back the pre-5.8 widget interface.
-* [technical] Improved the "how to" section related to auto-widget.
+* [technical] Improved the "how to" section related to auto title widget.
 * [technical] Splitted class-widget into three class, 1 for admin and 2 for Frontpage. Streamlined the code. Legacy widget using Widget_Frontpage class. Totally separated the logic and the layout.
 
 v.3.9.2
@@ -402,7 +404,7 @@ v.3.4.2
 * [technical] Updated to [IMDbPHP library 7.1](https://github.com/tboothman/imdbphp/releases/tag/v7.1.0 "IMDbPHP library 7.1")
 
 v.3.4.1
-* [bug] auto widget was not working anymore due to recent changes in class.widget.php
+* [bug] auto title widget was not working anymore due to recent changes in class.widget.php
 
 v.3.4
 * [info] Due to recent changes on IMDb website, the new IMDbPHP library has been rewritten. You must clear your cache folder to make sure the new pages are downloaded, as the olde pages are no longer supported. Just go to the admin panel, go to Lumière plugin settings, then 'cache management' panel -> 'manage cache', click on 'delete all cache', and you're done.
@@ -429,7 +431,7 @@ v.3.3.4
 * [feature] Simplified explanation of some admin options. Looking forward to a more userfriendly option settings panel.
 * [technical] Updated popup image in admin general options.
 * [technical] Not using htaccess generation anymore, all admin pages are redirected in the core class. Simplification of the code.
-* [bug] Auto widget was throwing fatal error, probably since transforming imdb-movies into movie.class. Fixed class.movie and class.widget.
+* [bug] Auto title widget was throwing fatal error, probably since transforming imdb-movies into movie.class. Fixed class.movie and class.widget.
 * [bug] On some configurations, headers_sent() in admin panel was redirecting to general options when submiting reset/update form in options data. Deactivated it.
 
 v.3.3.3

@@ -76,4 +76,5 @@ return array(
     'Lumiere\\Updates\\Lumiere_Update_File_12' => $baseDir . '/class/updates/12.php',
     'Lumiere\\Updates\\Lumiere_Update_File_13' => $baseDir . '/class/updates/13.php',
     'Lumiere\\Updates\\Lumiere_Update_File_14' => $baseDir . '/class/updates/14.php',
+    'Lumiere\\Updates\\Lumiere_Update_File_15' => $baseDir . '/class/updates/15.php',
 );

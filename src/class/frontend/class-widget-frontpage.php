@@ -18,9 +18,9 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Settings;
+use Lumiere\Admin\Widget_Selection;
 use Lumiere\Frontend\Movie;
 use Lumiere\Frontend\Widget_Legacy;
-use Lumiere\Admin\Widget_Selection;
 use Lumiere\Frontend\Main;
 
 /**
@@ -134,6 +134,7 @@ class Widget_Frontpage {
 			return;
 		}
 
+		// Regular post-5.8 widgets.
 		$self_class->lumiere_widget_run_shortcodes();
 	}
 
@@ -185,7 +186,7 @@ class Widget_Frontpage {
 		}
 
 		// Initialize var for id/name of the movie to display.
-		$imdb_id_or_title = [];
+		$movies_array = [];
 
 		// Build title, use a default text if title has not been edited in the widget interface.
 		$title_box = strlen( $title_box ) > 0 ? $title_box : '';
@@ -205,31 +206,38 @@ class Widget_Frontpage {
 		 * Display the movie according to the post's title (option in -> general -> advanced).
 		 * Add the title to the array if auto title widget is enabled and is not disabled for this post
 		 */
-		if ( $this->imdb_admin_values['imdbautopostwidget'] === '1' && is_int( $post_id ) && get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) === 'enabled' ) {
-
-			$imdb_id_or_title[]['byname'] = sanitize_text_field( get_the_title() );
+		if (
+			$this->imdb_admin_values['imdbautopostwidget'] === '1'
+			&& is_int( $post_id )
+			&& get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) !== 'disabled' // thus the var may not have been created.
+		) {
+			$movies_array[]['byname'] = esc_html( get_the_title() );
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Auto title widget activated, using the post title ' . sanitize_text_field( get_the_title() ) . ' for querying' );
 
 			// the post-based selection for auto title widget is turned off
-		} elseif ( $this->imdb_admin_values['imdbautopostwidget'] === '1' && is_int( $post_id ) && get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) === 'disabled' ) {
+		} elseif (
+			$this->imdb_admin_values['imdbautopostwidget'] === '1'
+			&& is_int( $post_id )
+			&& get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) === 'disabled'
+		) {
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Auto title widget is deactivated for this post' );
 		}
 
-		// Query if metaboxes are available in the post and add them to array to be queried in Movie class.
-		$imdb_id_or_title[] = is_int( $post_id ) ? $this->lumiere_widget_get_metabox_metadata( $post_id ) : null;
+		// Check if a metabox is available in the post and add it.
+		$movies_array[] = is_int( $post_id ) ? $this->maybe_get_lum_post_metada( $post_id ) : null;
 
 		// Clean the array, remove empty multidimensional arrays.
-		/** @psalm-var list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $final_imdb_id_or_title */
-		$final_imdb_id_or_title = array_filter( $imdb_id_or_title );
+		/** @psalm-var list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $final_movies_array */
+		$final_movies_array = array_filter( $movies_array );
 
 		// Exit if no metadata, no auto title option activated
-		if ( $this->imdb_admin_values['imdbautopostwidget'] !== '1' && count( $final_imdb_id_or_title ) === 0 ) {
+		if ( $this->imdb_admin_values['imdbautopostwidget'] !== '1' && count( $final_movies_array ) === 0 ) {
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Auto title widget deactivated and no IMDb meta for this post, exiting' );
 			return '';
 		}
 
 		// Query Movie class.
-		$movie = $this->movie_class->lumiere_show( $final_imdb_id_or_title );
+		$movie = $this->movie_class->lumiere_show( $final_movies_array );
 
 		/**
 		 * Output the result using a layout wrapper.
@@ -241,38 +249,40 @@ class Widget_Frontpage {
 	}
 
 	/**
-	 * Query WordPress using the PostID to get metaboxes data
+	 * Query WordPress current post using the PostID to get post metadata
 	 *
 	 * @param int $post_id WordPress post ID to query about metaboxes
 	 * @return array<string, string> Results found in metaboxes if any
+	 *
+	 * @see \Lumiere\Admin\Metabox_Selection Post metada is added in a metabox
 	 */
-	private function lumiere_widget_get_metabox_metadata( int $post_id ): array {
+	private function maybe_get_lum_post_metada( int $post_id ): array {
 
-		$imdb_id_or_title = [];
-		$get_movie_name = get_post_meta( $post_id, 'imdb-movie-widget', false );
-		$get_movie_id = get_post_meta( $post_id, 'imdb-movie-widget-bymid', false );
+		$movies_array = [];
+		$get_movie_name = get_post_meta( $post_id, 'lumiere_widget_movietitle', false /* false to get an array of values, can have many */ );
+		$get_movie_id = get_post_meta( $post_id, 'lumiere_widget_movieid', false /* false to get an array of values, can have many */ );
 
-		// Custom field "imdb-movie-widget", using the movie title provided.
-		if ( count( $get_movie_name ) > 0 ) {
+		// Custom field "lumiere_widget_movietitle", using the movie title provided.
+		if ( $get_movie_name !== false && count( $get_movie_name ) > 0 ) {
 			// Do a loop, even if today the plugin allows only one metabox.
 			foreach ( $get_movie_name as $key => $value ) {
-				$imdb_id_or_title['byname'] = sanitize_text_field( $value );
-				$this->logger->log()->debug( "[Lumiere][$this->classname] Custom field imdb-movie-widget found, using \"$value\" for querying" );
+				$movies_array['byname'] = esc_html( $value );
+				$this->logger->log()->debug( "[Lumiere][$this->classname] Custom field lumiere_widget_movietitle found, using \"$value\" for querying" );
 			}
 
 		}
 
-		// Custom field imdb-movie-widget-bymid", using the movie ID provided.
-		if ( count( $get_movie_id ) > 0 ) {
+		// Custom field "lumiere_widget_movieid", using the movie ID provided.
+		if ( $get_movie_id !== false && count( $get_movie_id ) > 0 ) {
 			// Do a loop, even if today the plugin allows only one metabox.
 			foreach ( $get_movie_id as $key => $value ) {
-				$imdb_id_or_title['bymid'] = sanitize_text_field( $value );
-				$this->logger->log()->debug( "[Lumiere][$this->classname] Custom field imdb-movie-widget-bymid found, using \"$value\" for querying" );
+				$movies_array['bymid'] = esc_html( $value );
+				$this->logger->log()->debug( "[Lumiere][$this->classname] Custom field lumiere_widget_movieid found, using \"$value\" for querying" );
 			}
 
 		}
 
-		return $imdb_id_or_title;
+		return $movies_array;
 	}
 
 	/**
