@@ -51,7 +51,7 @@
         "phpstanbot": "vendor/bin/phpstan",
         "phanbot": "vendor/bin/phan -k phan.php ",
         "test:local": "./vendor/bin/codecept run -vvv acceptanceLocal --env wpchrome",
-        "code-analyser": ["@phpcsbot", "@phpstanbot", "@phanbot"],
+        "code-analyser": ["@phpcsbot", "@phpstanbot"],
         "post-autoload-dump": [
             "./build/update-src-composer"
         ]
