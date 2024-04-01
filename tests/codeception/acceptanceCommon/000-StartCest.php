@@ -55,7 +55,7 @@ class StartCest {
 	 */
 	public function disableDebug(AcceptanceRemoteTester $I) {
 		$I->wantTo('Disable debug');
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomDisableCheckbox('#imdb_imdbdebug_yes', '#lumiere_update_general_settings');
 	}
@@ -76,10 +76,10 @@ class StartCest {
 	 */
 	public function createCacheFolder(AcceptanceRemoteTester $I) {
 		// Make sure cache folders are properly created by visiting any admin page
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
 		$I->see("Layout");
 		$I->wait(2);
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 	}
 }
 

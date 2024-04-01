@@ -260,7 +260,7 @@ class Widget_Frontpage {
 
 		$movies_array = [];
 		$get_movie_name = get_post_meta( $post_id, 'lumiere_widget_movietitle', false /* false to get an array of values, can have many */ );
-		$get_movie_id = get_post_meta( $post_id, 'lumiere_widget_movieid', false /* false to get an array of values, can have many */  );
+		$get_movie_id = get_post_meta( $post_id, 'lumiere_widget_movieid', false /* false to get an array of values, can have many */ );
 
 		// Custom field "lumiere_widget_movietitle", using the movie title provided.
 		if ( $get_movie_name !== false && count( $get_movie_name ) > 0 ) {

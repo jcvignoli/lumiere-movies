@@ -58,7 +58,7 @@ class AMPCest {
 		$I->maybeActivatePlugin('amp');
 		
 		// Make sure actor data is enabled
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#taxodetails');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_settings' );
 	}
@@ -74,22 +74,22 @@ class AMPCest {
 		$I->maybeActivatePlugin('polylang');
 
 		// Activate taxonomy.
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbwordpress_tooladminmenu');
 		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#update_imdbSettings' );
 
 		// Activate director data detail.
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#imdb_imdbwidgetcomposer_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetdirector_yes', '#update_imdbwidgetSettings' );
 
 		// Activate director taxonomy.
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
 		$I->scrollTo('#imdb_imdbtaxonomycomposer_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbtaxonomydirector_yes', '#update_imdbwidgetSettings' );
 		
 		// Make sure Bootstrap is active, the test is run with Bootstrap.
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
 		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Bootstrap", "update_imdbSettings" );
 	}
 	
@@ -103,12 +103,12 @@ class AMPCest {
 		$I->comment( 'Check if AMP page differenciation works' );
 
 		// Check if AMP is functional and remove links
-		$I->amOnPage( $this->base_url . AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL . '?amp' );
+		$I->amOnPage( $this->base_url . AcceptanceSettings::TESTING_PAGE_BASE_URL . '?amp' );
 		$I->seeInPageSource('<a class="lum_link_no_popup" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="' . $this->base_url . '/lumiere/person/?mid=0227759&amp;amp">Peter Dinklage</a></div>');
 		$I->seeInPageSource( '/lumiere/person/?mid=0227759&amp;amp">Peter Dinklage</a></div>');
 
 		// Check if without AMP it is functional
-		$I->amOnPage( $this->base_url . AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( $this->base_url . AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource( '<a class="lum_link_make_popup lum_link_with_people highslide" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a></div>' );
 	}
 
@@ -122,7 +122,7 @@ class AMPCest {
 		$I->comment( 'Check if AMP page works with Polylang' );
 
 		// Check if polylang form in taxonomy page is available
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->click( "Tony Zarindast");
 		$I->scrollTo('.imdbelementPIC');
 		$I->seeInPageSource('<form method="get" id="lang_form" name="lang_form" action="');

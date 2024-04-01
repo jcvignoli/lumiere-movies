@@ -67,7 +67,7 @@ class InstallCest {
 
 		// Check if cron has been installed
 		$I->maybeActivatePlugin('wp-crontrol');
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_POST_CRON_MANAGE );
+		$I->amOnPage( AcceptanceSettings::ADMIN_POST_CRON_MANAGE );
 		$I->wait(2);
 		$I->see('lumiere_cron_exec_once');
 	}
@@ -87,7 +87,7 @@ class InstallCest {
 		$I->maybeActivatePlugin('lumiere-movies');
 
 		// Disable keep settings option, so get a confirmation popup
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_general_settings');
 		$I->amOnPluginsPage();
@@ -106,7 +106,7 @@ class InstallCest {
 		$I->see('Plugin activated');
 
 		// Enable keep settings option, so no popup
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomActivateCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_general_settings');
 		$I->amOnPluginsPage();

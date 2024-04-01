@@ -66,6 +66,8 @@ body.lum_body_popup_lightgrey {color: black;background: lightgrey;}
 	cursor:pointer;
 }
 
+.lum_taxo_link{} /* Link in a taxonomy page */
+
 .lum_link_sourceimdb { /* Link to the IMDb source */
 }
 
@@ -238,6 +240,11 @@ text-align:left;
 .lumiere-lines-common_black a:hover, .lumiere-lines-common_black a.lum_link_taxo_page:hover {
 	color:white;
 }
+
+.lumiere-lines-common_black a.lum_taxo_link.lum_link_with_movie { /* pic with black background in taxo page, condition: two classes lum_taxo_link && lum_link_with_movie */
+	background: url(../pics/lumiere-ico-blanc13x13.png) no-repeat left !important;
+}
+
 .lumiere-lines-common_black:last-child {
 	border-radius:0 0 10px 10px;
 }

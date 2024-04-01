@@ -241,7 +241,45 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 			// print all lines
 			foreach ( $lum_data as $lum_inputline ) {
 
-				echo wp_kses( $lum_inputline, [ 'span' => [ 'class' => [], ], 'input' => [ 'id' => [],'class' => [], 'type' => [],'name' => [],'value' => [], ], 'div' => [ 'id' => [], 'class' => [], ], 'table' => [],'tr' => [],'td' => [],'a' => [ 'data-confirm' => [],'id' => [],'class' => [],'href' => [],'title' => [],],'label' => ['for' => [],'class' => [],],'img' => ['id' => [],'class' => [],'alt' => [],'src' => [],'width' => [],],'br' => [],] );
+				echo wp_kses(
+					$lum_inputline,
+					[
+						'span' => [ 'class' => [] ],
+						'input' => [
+							'id' => [],
+							'class' => [],
+							'type' => [],
+							'name' => [],
+							'value' => [],
+						],
+						'div' => [
+							'id' => [],
+							'class' => [],
+						],
+						'table' => [],
+						'tr' => [],
+						'td' => [],
+						'a' => [
+							'data-confirm' => [],
+							'id' => [],
+							'class' => [],
+							'href' => [],
+							'title' => [],
+						],
+						'label' => [
+							'for' => [],
+							'class' => [],
+						],
+						'img' => [
+							'id' => [],
+							'class' => [],
+							'alt' => [],
+							'src' => [],
+							'width' => [],
+						],
+						'br' => [],
+					]
+				);
 			} ?>
 		</div>
 		
@@ -335,7 +373,45 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 			// print all lines.
 			foreach ( $lum_datapeople as $lum_inputline ) {
-				echo wp_kses( $lum_inputline, [ 'span' => [ 'class' => [], ], 'input' => [ 'id' => [],'class' => [], 'type' => [],'name' => [],'value' => [], ], 'div' => [ 'id' => [], 'class' => [], ], 'table' => [],'tr' => [],'td' => [],'a' => [ 'data-confirm' => [],'id' => [],'class' => [],'href' => [],'title' => [],],'label' => ['for' => [],'class' => [],],'img' => ['id' => [],'class' => [],'alt' => [],'src' => [],'width' => [],],'br' => [],] );
+				echo wp_kses(
+					$lum_inputline,
+					[
+						'span' => [ 'class' => [] ],
+						'input' => [
+							'id' => [],
+							'class' => [],
+							'type' => [],
+							'name' => [],
+							'value' => [],
+						],
+						'div' => [
+							'id' => [],
+							'class' => [],
+						],
+						'table' => [],
+						'tr' => [],
+						'td' => [],
+						'a' => [
+							'data-confirm' => [],
+							'id' => [],
+							'class' => [],
+							'href' => [],
+							'title' => [],
+						],
+						'label' => [
+							'for' => [],
+							'class' => [],
+						],
+						'img' => [
+							'id' => [],
+							'class' => [],
+							'alt' => [],
+							'src' => [],
+							'width' => [],
+						],
+						'br' => [],
+					]
+				);
 			}
 			?>
 		</div>

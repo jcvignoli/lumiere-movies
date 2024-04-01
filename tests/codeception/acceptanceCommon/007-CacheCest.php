@@ -66,23 +66,23 @@ class CacheCest {
 		$I->SwitchModalWindow('Highslide');
 		
 		// Make sure cache folders are properly created by visiting any admin page
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
 		$I->see( 'Layout' );
 		$I->wait(2);
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 
 		// Make local connexion
 		$I->activateLocalMount( $this->base_path, $shell );
 
 		// Make sure cache is created
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->seeFileFound( $this->base_path . '/wp-content/cache/lumiere/' . $example[1] );
 
 		// Delete cache file using local path
 		$I->deleteFile( $this->base_path . '/wp-content/cache/lumiere/' . $example[1] );
 
 		// Make sure cache is created
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->wait(3);
 		$I->seeFileFound( $this->base_path . '/wp-content/cache/lumiere/' . $example[1] );
 
@@ -90,7 +90,7 @@ class CacheCest {
 		$this->customDeleteCache( $I, $js_element_delete, '#imdb_cachedeletefor_movies_' . $example[0] );
 
 		// Make sure cache is created
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->wait(2);
 		$I->seeFileFound( $example[1], $this->base_path.'/wp-content/cache/lumiere/' );
 	}
@@ -142,7 +142,7 @@ class CacheCest {
 	 */
 	private function customDeleteCache( AcceptanceRemoteTester $I, string $element_to_delete, string $name_id ) {
 		// Delete cache file using interface
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_CACHE_OPTIONS_MANAGE_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_CACHE_OPTIONS_MANAGE_URL );
 		$I->scrollTo( $name_id );
 		$I->executeJS( "return jQuery('" . $element_to_delete . "').get(0).click()");
 		$I->acceptPopup();

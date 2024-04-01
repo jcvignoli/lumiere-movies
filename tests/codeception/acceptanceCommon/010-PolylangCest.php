@@ -57,7 +57,7 @@ class PolylangCest {
 	private function highslide(AcceptanceRemoteTester $I) {
 
 		// Make sure Highslide is active, following tests are run with Highslide
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
 		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Highslide", "update_imdbSettings" );
 	}
 
@@ -77,22 +77,22 @@ class PolylangCest {
 		$I->maybeActivatePlugin('polylang');
 
 		// Activate taxonomy
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbwordpress_tooladminmenu');
 		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#update_imdbSettings' );
 
 		// Activate director data detail
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#imdb_imdbwidgetcomposer_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetdirector_yes', '#update_imdbwidgetSettings' );
 
 		// Activate director taxonomy
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
 		$I->scrollTo('#imdb_imdbtaxonomycomposer_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbtaxonomydirector_yes', '#update_imdbwidgetSettings' );
 
 		// Check if polylang options are available
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->click( "Tony Zarindast");
 		$I->scrollTo('.imdbelementPIC');
 		$I->seeInPageSource('<form method="get" id="lang_form" name="lang_form" action="#lang_form">');
@@ -105,7 +105,7 @@ class PolylangCest {
 		$I->maybeDeactivatePlugin('polylang');
 
 		// Check if polylang options are available
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->click( "Tony Zarindast");
 		$I->scrollTo('.imdbelementPIC');
 		$I->dontSeeInPageSource('<form method="get" id="lang_form" name="lang_form" action="#lang_form">');

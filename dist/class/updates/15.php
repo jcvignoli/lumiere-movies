@@ -80,48 +80,60 @@ class Lumiere_Update_File_15 extends \Lumiere\Updates {
 		 * Change POSTS METADATA: keys are replaced by new ones but keep their former values, and obsolete key ones are deleted
 		 * @see \Lumiere\Admin\Metabox_Selection where those keys were changed.
 		 */
-		global $post;	
+		global $post;
 
 		/** (1) Replace 'imdb-movie-widget-bymid' by 'lumiere_widget_movieid' in all posts metadata */
-		$args = [ 'posts_per_page' => -1, 'meta_query' => [ [ 'key' => 'imdb-movie-widget-bymid', ], ], ]; // Select all relevant posts.
+		$args = [
+			'posts_per_page' => -1,
+			'meta_query' => [ [ 'key' => 'imdb-movie-widget-bymid' ] ],
+		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
 		/** @psalm-var \WP_Post $post_array -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */
-		foreach($posts_array as $post_array) {
+		foreach ( $posts_array as $post_array ) {
 			$post_id = $post_array->ID;
 			$value = get_post_meta( $post_id, 'imdb-movie-widget-bymid', true );
 			if ( strlen( $value ) > 0 ) {
-				update_post_meta($post_id, 'lumiere_widget_movieid', $value, 'imdb-movie-widget-bymid' );
+				update_post_meta( $post_id, 'lumiere_widget_movieid', $value, 'imdb-movie-widget-bymid' );
 				delete_post_meta( $post_id, 'imdb-movie-widget-bymid' );
 				$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully Replaced 'imdb-movie-widget-bymid' by 'lumiere_widget_movieid' in postID $post_id " );
 			}
 		}
 
 		/** (2) Replace 'imdb-movie-widget' by 'lumiere_widget_movietitle' in all posts metadata */
-		$args = [ 'posts_per_page' => -1, 'meta_query' => [ [ 'key' => 'imdb-movie-widget', ], ], ]; // Select all relevant posts.
+		$args = [
+			'posts_per_page' => -1,
+			'meta_query' => [ [ 'key' => 'imdb-movie-widget' ] ],
+		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
 		/** @psalm-var \WP_Post $post_array -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */
-		foreach($posts_array as $post_array) {
+		foreach ( $posts_array as $post_array ) {
 			$post_id = $post_array->ID;
 			$value = get_post_meta( $post_id, 'imdb-movie-widget', true );
 			if ( strlen( $value ) > 0 ) {
-				update_post_meta($post_id, 'lumiere_widget_movietitle', $value, 'imdb-movie-widget' );
+				update_post_meta( $post_id, 'lumiere_widget_movietitle', $value, 'imdb-movie-widget' );
 				delete_post_meta( $post_id, 'imdb-movie-widget' );
 				$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully Replaced 'imdb-movie-widget' by 'lumiere_widget_movietitle' in postID $post_id " );
 			}
 		}
-		
+
 		/** (3) Delete obsolete metadatas */
-		$args = [ 'posts_per_page' => -1, 'meta_query' => [ [ 'key' => 'lumiere_queryid_widget', ], ], ]; // Select all relevant posts.
+		$args = [
+			'posts_per_page' => -1,
+			'meta_query' => [ [ 'key' => 'lumiere_queryid_widget' ] ],
+		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
 		/** @psalm-var \WP_Post $post_array -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */
-		foreach($posts_array as $post_array) {
+		foreach ( $posts_array as $post_array ) {
 			delete_post_meta( $post_array->ID, 'lumiere_queryid_widget' );
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully deleted 'lumiere_queryid_widget' in postID $post_array->ID " );
 		}
-		$args = [ 'posts_per_page' => -1, 'meta_query' => [ [ 'key' => 'lumiere_queryid_widget_input', ], ], ]; // Select all relevant posts.
+		$args = [
+			'posts_per_page' => -1,
+			'meta_query' => [ [ 'key' => 'lumiere_queryid_widget_input' ] ],
+		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
 		/** @psalm-var \WP_Post $post_array -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */
-		foreach($posts_array as $post_array) {
+		foreach ( $posts_array as $post_array ) {
 			delete_post_meta( $post_array->ID, 'lumiere_queryid_widget_input' );
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully deleted 'lumiere_queryid_widget_input' in postID $post_array->ID " );
 		}

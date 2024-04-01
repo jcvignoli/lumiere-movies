@@ -151,8 +151,9 @@ trait Admin_General {
 
 		// Print the options.
 		if ( ( null !== $options ) && count( $options ) > 0 ) {
-			echo '<div class="lumiere_wrap"><strong>[Lumière options]</strong><font size="-1"> ';
-			echo json_encode( $options );
+			echo '<div class="lumiere_wrap"><strong>[Lumière options]</strong><font size="-2"> ';
+			$json_options = json_encode( $options );
+			echo $json_options !== false ? esc_html( str_replace( [ '\\', '{"', '"}', '":"', '","' ], [ '', '["', '" ]', '" => "', '" ], [ "' ], $json_options ) ) : '';
 			echo ' </font><strong>[/Lumière options]</strong></div>';
 		}
 	}

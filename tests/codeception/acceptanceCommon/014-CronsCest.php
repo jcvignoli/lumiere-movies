@@ -65,25 +65,25 @@ class CronsCest {
 		$I->comment('Check if Lumière plugin set up crons');
 		
 		// Activates crons
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_CACHE_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_CACHE_OPTIONS_URL );
 		$I->scrollTo('#imdb_imdbcachekeepsizeunder_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbcachekeepsizeunder_yes', '#lumiere_update_cache_settings' );
 		$I->scrollTo('#imdb_imdbcacheautorefreshcron_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbcacheautorefreshcron_yes', '#lumiere_update_cache_settings' );
 		
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_POST_CRON_MANAGE );
+		$I->amOnPage( AcceptanceSettings::ADMIN_POST_CRON_MANAGE );
 		$I->wait(2);
 		$I->seeInSource('lumiere_cron_deletecacheoversized');
 		$I->seeInSource('lumiere_cron_autofreshcache');
 		
 		// Deactivate crons
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_CACHE_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_CACHE_OPTIONS_URL );
 		$I->scrollTo('#imdb_imdbcachekeepsizeunder_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbcachekeepsizeunder_yes', '#lumiere_update_cache_settings' );
 		$I->scrollTo('#imdb_imdbcacheautorefreshcron_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbcacheautorefreshcron_yes', '#lumiere_update_cache_settings' );	
 		
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_POST_CRON_MANAGE );
+		$I->amOnPage( AcceptanceSettings::ADMIN_POST_CRON_MANAGE );
 		$I->wait(2);
 		$I->dontSeeInSource('lumiere_cron_deletecacheoversized');
 		$I->dontSeeInSource('lumiere_cron_autofreshcache');

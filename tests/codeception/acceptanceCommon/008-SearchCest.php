@@ -89,6 +89,7 @@ class SearchCest {
 
 		// Make sure Highslide is active, following tests are run with Highslide
 		$I->SwitchModalWindow('Highslide');
+		$I->amOnPluginsPage();
 
 		// Open the window
 		$I->amOnPage( ADMIN_POST_ID_TESTS );

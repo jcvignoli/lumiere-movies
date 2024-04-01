@@ -30,24 +30,24 @@ class WidgetCest {
 		$I->wantTo('check auto title widget option');
 
 		// Activate Auto Title Widget
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdblinkingkill');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_general_settings' );
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
-		$I->seeInSource( AcceptanceRemoteSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
+		$I->seeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE );
 
 		// Disable Auto Title Widget
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdblinkingkill');
 		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
 			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_general_settings' );
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
-		$I->dontSeeInSource( AcceptanceRemoteSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
+		$I->dontSeeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE );
 
 	}
 
@@ -65,26 +65,20 @@ class WidgetCest {
 		$I->maybeActivatePlugin('classic-editor');
 
 		// Activate Auto Title Widget
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdblinkingkill');
-		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
-			Avoid throwing error if untrue, normal behaviour of codeception 
-			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_general_settings' );
 			
 		// Set auto title widget exclusion in a post and verify if the post doesn't contain it.
 		$I->amOnPage( ADMIN_POST_AUTOTITLEWIDGET_ID /* in _bootstrap */ );
 		$I->CustomActivateCheckbox('#lumiere_autotitlewidget_perpost', 'input[id=publish]' );
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
 		$I->dontSeeInSource( 'Alfonso Cuarón' );
 
 		// Remove auto title widget exclusion in a post and verify if the post doesn't contain it.
 		$I->amOnPage( ADMIN_POST_AUTOTITLEWIDGET_ID /* in _bootstrap */ );
-		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
-			Avoid throwing error if untrue, normal behaviour of codeception 
-			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomDisableCheckbox('#lumiere_autotitlewidget_perpost', 'input[id=publish]' );
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
 		$I->scrollTo( ".lum_results_section_subtitle" );
 		$I->SeeInSource( 'Alfonso Cuarón' );
 	}

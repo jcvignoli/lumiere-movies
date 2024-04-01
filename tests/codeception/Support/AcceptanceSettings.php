@@ -5,7 +5,7 @@
  * Meant to be compatible with posts created with
  * An extra constant ADMIN_POST_ID_TESTS must be edited according to the post ID => located in in _bootstrap
  */
-class AcceptanceRemoteSettings {
+class AcceptanceSettings {
 
 	/** Admin pages */
 	public const LUMIERE_GENERAL_OPTIONS_URL = '/wp-admin/admin.php?page=lumiere_options';

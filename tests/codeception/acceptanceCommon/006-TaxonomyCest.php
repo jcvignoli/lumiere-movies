@@ -71,7 +71,7 @@ class TaxonomyCest {
 
 		$I->wantTo('Activate taxonomy if disabled');
 
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbwordpress_tooladminmenu');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
@@ -88,7 +88,7 @@ class TaxonomyCest {
 
 		$I->wantTo('Disable taxonomy if active');
 
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbwordpress_tooladminmenu');
 		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
@@ -123,7 +123,7 @@ class TaxonomyCest {
 		$I->customThemeFileExistsDelete( self::theme_name . '/taxonomy-lumiere-' . $example[0] . '.php');
 
 		// Activate $item in 'what to display'
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#imdb_imdbwidget' . $example[1] .'_yes');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
@@ -131,7 +131,7 @@ class TaxonomyCest {
 		$I->CustomActivateCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#lumiere_update_data_settings' );
 
 		// Activate $item in 'Taxonomy'
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
 		$I->scrollTo('#imdb_imdbtaxonomy' . $example[1] .'_yes');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
@@ -143,44 +143,44 @@ class TaxonomyCest {
 
 		// Copy Lumière taxonomy template to theme folder
 		$I->maybeCopyThemeFile($example[0]);
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PERMALINK_URL );
+		$I->amOnPage( AcceptanceSettings::ADMIN_PERMALINK_URL );
 		$I->wait(2);
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PERMALINK_URL );
+		$I->amOnPage( AcceptanceSettings::ADMIN_PERMALINK_URL );
 		$I->wait(2);
 
 		// Check that the template has been successfully implemented
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->scrollTo( '#title_Werewolf' );
 		$I->click( "Tony Zarindast");
 		$I->wait(2);
 		$I->see('Tehran');
 
 		// Disable $item in 'what to display'
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#imdb_imdbwidget' . $example[1] .'_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#lumiere_update_data_settings' );
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#taxodetails');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_settings' );
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_settings' );
 
 		// Check that the template has been successfully removed
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->dontSee('Director');
 
 		// Re-activate $item in 'what to display'
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#imdb_imdbwidget' . $example[1] .'_yes');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomActivateCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#lumiere_update_data_settings' );
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#taxodetails');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_settings' );
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_settings' );
 
@@ -192,7 +192,7 @@ class TaxonomyCest {
 	 * @before login
 	 */
 	public function checkTaxonomyItemTemplateSystem(AcceptanceRemoteTester $I) {
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
 		$I->scrollTo('#imdb_imdbtaxonomygenre_yes');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
@@ -201,12 +201,12 @@ class TaxonomyCest {
 		
 		// Copy Lumière taxonomy template to theme folder
 		$I->maybeCopyThemeFile( 'genre' );
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PERMALINK_URL );
+		$I->amOnPage( AcceptanceSettings::ADMIN_PERMALINK_URL );
 		$I->wait(2);
-		$I->amOnPage( AcceptanceRemoteSettings::ADMIN_PERMALINK_URL );
+		$I->amOnPage( AcceptanceSettings::ADMIN_PERMALINK_URL );
 		$I->wait(2);
 		// Check that the template has been successfully implemented
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->scrollTo( '#title_Werewolf' );
 		$I->click( "Horror");
 		$I->wait(2);
@@ -228,7 +228,7 @@ class TaxonomyCest {
 
 		$I->wantTo('Check if taxonomy option works');
 
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->scrollTo( '#title_Werewolf' );
 		$I->click( "Tony Zarindast");
 		$I->see( $text_zarindast );
@@ -236,7 +236,7 @@ class TaxonomyCest {
 		// Disable taxonomy
 		$this->maybeDisableTaxonomy($I);
 
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->click( "Tony Zarindast");
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait( 4 );
@@ -253,7 +253,7 @@ class TaxonomyCest {
 	 */
 	public function taxoClickMore(AcceptanceRemoteTester $I) {
 		$this->maybeEnableTaxonomy($I);
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->click( "Stanley Kubrick");
 		$I->waitForText('Stanley Kubrick was born in Manhattan');
 		$I->scrollTo(['css' => '.activatehidesection' ]);

@@ -42,17 +42,17 @@ class InitializeCest {
 		$I->comment('If reset works');
 		
 		$I->comment('Reset general settings');
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
 		$I->click("lumiere_reset_general_settings");
 		$I->see('Options reset.');
 		
 		$I->comment('Reset cache settings');
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_CACHE_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_CACHE_OPTIONS_URL );
 		$I->click("lumiere_reset_cache_settings");
 		$I->see('Options reset.');
 		
 		$I->comment('Reset data settings');
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->click("lumiere_reset_data_settings");
 		$I->see('Options reset.');
 	}
@@ -65,7 +65,7 @@ class InitializeCest {
 	 */
 	public function ensureTaxoLinksGetCorrectExt(AcceptanceRemoteTester $I) {
 
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL_FR );
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL_FR_TWO );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL_FR );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL_FR_TWO );
 	}
 }

@@ -47,7 +47,7 @@ if ( ! class_exists( 'Imdb\Config' ) ) {
 }
 
 // Remove Lumière if crappy plugins are active
-if ( count( array_intersect( Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) > 0 ) { // @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- We need access to core WP function!
+if ( count( array_intersect( Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) > 0 ) { // @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Modifying core WP hook!
 
 	if ( ! function_exists( 'lumiere_notice_install_error' ) ) {
 		function lumiere_notice_install_error(): void {

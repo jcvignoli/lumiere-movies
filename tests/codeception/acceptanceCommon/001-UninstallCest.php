@@ -98,7 +98,7 @@ class UninstallCest {
 		// Disable keep settings option to get rid of all options
 		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('lumiere-movies');
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->wait(2);
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_general_settings');
@@ -193,7 +193,7 @@ class UninstallCest {
 		// Disable keep settings option to get rid of all options
 		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('lumiere-movies');
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->wait(2);
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_general_settings');

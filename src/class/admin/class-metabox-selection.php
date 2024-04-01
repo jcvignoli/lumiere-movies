@@ -178,6 +178,7 @@ class Metabox_Selection {
 			return;
 		}
 
+		/** @psalm-suppress UndefinedConstant -- This is nonsense, literally checking on the same line! */
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}

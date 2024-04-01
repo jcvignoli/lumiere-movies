@@ -21,15 +21,16 @@ use Lumiere\Frontend\Widget_Frontpage;
 use Lumiere\Admin\Widget_Selection;
 
 /**
- * Extends WP_Widget to retriev legacy Widget
+ * Extends Widget_Selection (which extends true WP_Widget) to display a legacy widget
  *
  * The whole point of this class is construct parent class and then access to widget() method, provided if the legacy widget is active
  * Method widget() calls method in Widget_Frontpage, it can't be filtered (afaik) directly in Widget_Frontpage
  *
  * @see Lumiere\Admin\Widget_Selection parent class which creates the legacy widget
- * @see Lumiere\Frontend\Widget_Frontpage which calls this widget if pre-5.8 widget is detected
+ * @see Lumiere\Frontend\Widget_Frontpage which calls xthis widget if pre-5.8 widget is detected
  * @since 4.1 extends "Widget_Selection" instead of "WP_Widget" class
- * @psalm-suppress UndefinedClass -- it's defined above! how come it's undefined? Bug, if refreshing cache, class is found
+ *
+ * @psalm-suppress UndefinedClass -- it's defined above! how come it's undefined? Bug, if refreshing cache, the class is found
  */
 class Widget_Legacy extends Widget_Selection {
 
@@ -78,7 +79,43 @@ class Widget_Legacy extends Widget_Selection {
 		 * As far as I know, at least.
 		 */
 		$widget_class = new Widget_Frontpage();
-		echo $widget_class->lumiere_widget_display_movies( $title_box ); // @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		$final_widget = $widget_class->lumiere_widget_display_movies( $title_box );
+		$kses_escape = [
+			'div' => [
+				'id' => [],
+				'class' => [],
+			],
+			'h4' => [
+				'id' => [],
+				'class' => [],
+			],
+			'span' => [
+				'id' => [],
+				'class' => [],
+			],
+			'button' => [
+				'type' => [],
+				'class' => [],
+				'data-*' => true,
+				'aria-label' => [],
+			],
+			'a' => [
+				'data-*' => true,
+				'id' => [],
+				'class' => [],
+				'href' => [],
+				'title' => [],
+			],
+			'img' => [
+				'decoding' => [],
+				'loading' => [],
+				'class' => [],
+				'alt' => [],
+				'src' => [],
+				'width' => [],
+			],
+		];
+		echo wp_kses( $final_widget, $kses_escape );
 	}
 }
 

@@ -60,17 +60,17 @@ class PopupsHighslideCest {
 	public function checkPopupMovie(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
 
 		// popup link movie interstellar
-		$element = 'a[data-modal_window_film="' . AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_TITLE . '"]';
-		$sub_url = AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL_WITHOUTMID;
+		$element = 'a[data-modal_window_film="' . AcceptanceSettings::TESTING_PAGE_POPUP_FILM_TITLE . '"]';
+		$sub_url = AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL_WITHOUTMID;
 
 		$I->comment('Check if popup movie can be open');
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait( 4 );
 		
 		$iframe_find_name = $I->grabAttributeFrom('//iframe', 'name');
 		$I->switchToIframe( $iframe_find_name );
-		$I->see( AcceptanceRemoteSettings::TESTING_PAGE_BASE_A_DIRECTOR );
+		$I->see( AcceptanceSettings::TESTING_PAGE_BASE_A_DIRECTOR );
 	}
 
 	/**
@@ -82,17 +82,17 @@ class PopupsHighslideCest {
 	public function checkPopupPerson(AcceptanceRemoteTester $I, \Codeception\Scenario $scenario) {
 
 		// popup link actor Jorge Rivero
-		$element = 'a[data-modal_window_people="' . AcceptanceRemoteSettings::TESTING_PAGE_POPUP_PERSON_MID . '"]';
-		$sub_url = AcceptanceRemoteSettings::TESTING_PAGE_POPUP_PERSON_URL;
+		$element = 'a[data-modal_window_people="' . AcceptanceSettings::TESTING_PAGE_POPUP_PERSON_MID . '"]';
+		$sub_url = AcceptanceSettings::TESTING_PAGE_POPUP_PERSON_URL;
 
 		$I->comment('Check if popup person can be open');
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait( 4 );
 		
 		$iframe_find_name = $I->grabAttributeFrom('//iframe', 'name');
 		$I->switchToIframe( $iframe_find_name );
-		$I->see( AcceptanceRemoteSettings::TESTING_PAGE_BASE_ELEMENT );
+		$I->see( AcceptanceSettings::TESTING_PAGE_BASE_ELEMENT );
 
 	}
 

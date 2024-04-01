@@ -62,7 +62,7 @@ class StylesScriptsHighslideCest {
 
 		// Check scripts and styles in admin
 		$I->comment(\Helper\Color::set('Check Lumière admin general advanced', 'italic+bold+cyan'));
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->seeInPageSource('lumiere_css_admin-css');
 		$I->seeInPageSource('lumiere_scripts_admin-js-before');
 		$I->seeInPageSource('lumiere_scripts_admin-js');
@@ -70,7 +70,7 @@ class StylesScriptsHighslideCest {
 
 		// Check Lumière help page
 		$I->comment(\Helper\Color::set('Check Lumière help page', 'italic+bold+cyan'));
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_HELP_GENERAL_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_HELP_GENERAL_URL );
 		$I->seeInPageSource('lumiere_css_admin-css');
 		$I->seeInPageSource('lumiere_scripts_admin-js-before');
 		$I->seeInPageSource('lumiere_scripts_admin-js');
@@ -129,7 +129,7 @@ class StylesScriptsHighslideCest {
 		$I->SwitchModalWindow('Highslide');
 
 		$I->comment(\Helper\Color::set('Checking normal page', 'italic+bold+cyan'));
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource("lumiere_highslide_core_style-css");		# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
@@ -141,7 +141,7 @@ class StylesScriptsHighslideCest {
 			// Taxonomy person director page
 
 		$I->comment(\Helper\Color::set('Checking taxonomy page', 'italic+bold+cyan'));
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_TAXONOMY_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL );
 		$I->seeInPageSource("lumiere_highslide_core_style-css"); 		# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
@@ -152,7 +152,7 @@ class StylesScriptsHighslideCest {
 			// Popup person page
 
 		$I->comment(\Helper\Color::set('Checking Popup person page', 'italic+bold+cyan'));
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_PERSON_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_PERSON_URL );
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-16x16.png");	# Lumière favicon 16
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/apple-touch-icon.png"); # Lumière favicon Apple
@@ -174,7 +174,7 @@ class StylesScriptsHighslideCest {
 			// Popup movie page
 
 		$I->comment(\Helper\Color::set('Checking Popup movie page', 'italic+bold+cyan'));
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_POPUP_FILM_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL );
 		$I->seeInPageSource("canonical");						# Meta tag
 		$I->seeInPageSource("article:tag");					 	# Meta tag
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-16x16.png");	# Lumière favicon 16
@@ -208,23 +208,23 @@ class StylesScriptsHighslideCest {
 
 		$I->comment(\Helper\Color::set('Change layout', 'italic+bold+cyan'));
 
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
 
 		// Try with selection black
 		$I->scrollTo('#plainpages');
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "black");
 		$I->click('#lumiere_update_general_settings');
 		$I->comment(\Helper\Color::set('[Action] Selection has been switched to "black"', 'italic+bold+cyan'));
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource("lum_results_frame_black"); 	# CSS for black layout 
 
 		// Try with selection grey (default)
-		$I->amOnPage( AcceptanceRemoteSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
 		$I->scrollTo('#plainpages');
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "grey");
 		$I->click('#lumiere_update_general_settings');
 		$I->comment(\Helper\Color::set('[Action] Selection has been switched to "grey"', 'italic+bold+cyan'));
-		$I->amOnPage( AcceptanceRemoteSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource("lum_results_frame_grey"); 	# CSS for grey layout (default)
 
 	}
