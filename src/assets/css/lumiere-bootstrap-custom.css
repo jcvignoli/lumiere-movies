@@ -18,7 +18,9 @@
 }
 /** Remove scrollbar, modify the size of the modal window */
 .modal-body object {
-	/** min-width: 63vw; @since 4.0.1 removed value */
+	width: 100%;
+	width: -moz-available;          /* WebKit-based browsers will ignore this. */
+	width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
 	min-height: 60vh;
 	overflow-x: hidden;
 }

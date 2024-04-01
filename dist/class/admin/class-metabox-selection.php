@@ -167,6 +167,8 @@ class Metabox_Selection {
 	 *
 	 * @param int $post_id ID of the post
 	 * @param \WP_Post $post the post
+	 *
+	 * @since 4.1 removed the condition that only posts can save the widget
 	 */
 	public function save_custom_meta_box( int $post_id, \WP_Post $post ): void {
 
@@ -178,14 +180,15 @@ class Metabox_Selection {
 			return;
 		}
 
-		/** @psalm-suppress UndefinedConstant -- This is nonsense, literally checking on the same line! */
+		/** @psalm-suppress UndefinedConstant -- This is nonsense, literally checking for the constant on the same line! */
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
 
-		if ( $post->post_type !== 'post' ) {
+		// Only pages and posts include widgets, so exit if it's not the case.
+		/*if ( $post->post_type !== 'post' && $post->post_type !== 'page' ) {
 			return;
-		}
+		}*/
 
 		$lum_form_type_query = isset( $_POST['lum_form_type_query'] ) ? esc_html( $_POST['lum_form_type_query'] ) : null;
 		$lum_form_query_value = isset( $_POST['lum_form_query_value'] ) ? esc_html( $_POST['lum_form_query_value'] ) : null;

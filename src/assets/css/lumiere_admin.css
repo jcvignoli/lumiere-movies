@@ -1,8 +1,6 @@
 /* ------------------ CSS for the admin part of Lumiere! plugin */
 
-body{ overflow-wrap:anywhere;} /** otherwise flex wrap doesn't work! Fixes font-family Roboto used by WordPress */
-
-a { text-decoration:none;}
+[class*="toplevel_page_lumiere"] a, [class*="lumiere_page_lumiere_options"] a { text-decoration:none;} /** Change only lumiere links */
 
 .hidesection, .hidesectionOfCheckbox, .hidesectionOfCheckboxTwo{display:none;}
 .activatehidesection {cursor:pointer;}
@@ -28,11 +26,12 @@ a[data-lumiere_admin_search_popup]{cursor:pointer;}
 .subpage a { color:beige;}
 .subpage a:hover { color: black;}
 
-.titre {padding:5px; padding-left:25px;background: #bbb 20px 10px;color: black;
-border-bottom-left-radius: 6px;
-border-bottom-right-radius: 6px;
-border-top-left-radius: 6px;
-border-top-right-radius: 6px;
+.titre {
+	padding:5px; padding-left:25px;background: #bbb 20px 10px;color: black;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
 }
 
 .soustitre {line-height:16px; background-color:lightslategrey;color:white;padding:10px;border-radius:6px;}
@@ -68,10 +67,10 @@ width: 100%;border-color: black;}
 #tabs li {display:inline;}
 
 #imdbwidgetorderContainer{height:auto;color:grey;border-radius:15px;font-size:medium;vertical-align: middle;}
-@media(max-width: 400px) {
-#imdbwidgetorderContainer{height:auto;color:grey;font-size:medium;vertical-align: middle;}
-#container_imdbwidgetorderContainer{flex-flow:wrap-reverse;}
-.lumiere_writing_vertical{writing-mode: unset !important;}
+@media(max-width: 400px) { /** small screen special case */
+	#imdbwidgetorderContainer{height:auto;color:grey;font-size:medium;vertical-align: middle;}
+	#container_imdbwidgetorderContainer{flex-flow:wrap-reverse;}
+	.lumiere_writing_vertical{writing-mode: unset !important;}
 }
 
 .helpdiv {line-height:20px;padding-left:20px;padding-right:20px;padding-bottom:20px;text-align:justify;}
@@ -89,6 +88,7 @@ width: 100%;border-color: black;}
 
 /* tinyMCE image in editor */
 .lumiere_admin_tiny_img {}
+
 /* Block editor */
 .lumiere_link_maker, [data-lum_link_maker] {
 	background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;padding-left: 16px;text-decoration: none;cursor:pointer;
