@@ -300,7 +300,7 @@ class Data extends Admin_Menu {
 		$link_taxo_copy = add_query_arg( '_wpnonce_linkcopytaxo', wp_create_nonce( 'linkcopytaxo' ), $this->page_data_taxo . '&taxotype=' . $lumiere_taxo_title );
 
 		// No file in the theme folder found and no template to be updated found, offer to copy it and exit.
-		if ( file_exists( $lumiere_current_theme_path_file ) === false && ! isset( $list_updated_fields ) ) {
+		if ( file_exists( $lumiere_current_theme_path_file ) === false && count( $list_updated_fields ) === 0 ) {
 
 			$output .= "\n\t" . '<br />';
 			$output .= "\n\t" . '<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
@@ -325,7 +325,7 @@ class Data extends Admin_Menu {
 			return "\n\t" . '<br /><div><i>' . esc_html__( 'Missing Lumiere template file. A problem has been detected with your installation.', 'lumiere-movies' ) . '</i></div>';
 
 			// No template updated, template file exists, so it is up-to-date, notify and exit.
-		} elseif ( ! isset( $list_updated_fields ) ) {
+		} elseif ( count( $list_updated_fields ) === 0 ) {
 			return "\n\t" . '<br /><div><i>' . $output . ucfirst( $lumiere_taxo_title ) . ' ' . esc_html__( 'template up-to-date', 'lumiere-movies' ) . '</i></div>';
 		}
 

@@ -24,10 +24,21 @@ use Lumiere\Tools\Settings_Global;
 
 /**
  * Parent class Updates
+ *
  * The logic is in the parent class, the data in child classes
  *
- *  -> Checks the current Lumière version against the updates and uses $config_class->imdb_admin_values['imdbHowManyUpdates'] var to know if new updates have to be made in lumiere_check_if_run_update()
- *  -> Everytime an update is processed, imdbHowManyUpdates is increased by 1 (in child class)
+ * When is the upate processed
+ *	(a) When a manual updating {@link \Lumiere\Core::lum_on_plugin_manualupdate()}, an auto updating {@link \Lumiere\Core::lum_on_plugin_autoupdate()}, 
+ * 	or a plugin activation {@link \Lumiere\Core::lumiere_on_activation()} is triggered
+ *	(b) In the above methods, a cron is added to ensure that the latest update is also executed, in addition to the update of the former
+ *	version (WordPress update uses the replaced plugin version to execute the update, so with this system an update with the previous plugin is executed, 
+ *	then another update with the new plugin)
+ *	(c) When visiting the 
+ * How is the update process
+ *  	(a) Checks the current Lumière version against the updates and uses {@link \Lumiere\Setting::imdb_admin_values['imdbHowManyUpdates']} var
+ *	to check if a new updates is available in {@link \Lumiere\Updates::lumiere_check_if_run_update())
+ * 	(b) Everytime an update is processed, {@link \Lumiere\Setting::imdb_admin_values['imdbHowManyUpdates']} is increased by 1 in the method
+ * 	lumiere_run_local_update() in the child class
  */
 class Updates {
 
@@ -50,7 +61,6 @@ class Updates {
 
 		// Start Logger class.
 		$this->logger = new Logger( 'updateClass' );
-
 	}
 
 	/**
@@ -60,18 +70,14 @@ class Updates {
 	 */
 	public function run_update_options(): void {
 
-		// Manually Activate logging, since current function is run before WP init
-		do_action( 'lumiere_logger' );
-		$logger = $this->logger->log();
-
 		// Debug info
-		$logger->debug( '[Lumiere][updateClass] Running updates...' );
+		$this->logger->log()->debug( '[Lumiere][updateClass] Running updates...' );
 
 		// Count the number of files in class/updates/
 		$files = new FilesystemIterator( plugin_dir_path( __DIR__ ) . 'class/updates/', FilesystemIterator::SKIP_DOTS );
-		$nb_of_files_in_updates_folder = intval( iterator_count( $files ) );
+		$nb_of_files_in_updates_folder = iterator_count( $files );
 
-		$logger->debug( '[Lumiere][updateClass] Number of updates found: ' . $nb_of_files_in_updates_folder );
+		$this->logger->log()->debug( '[Lumiere][updateClass] Number of updates found: ' . $nb_of_files_in_updates_folder );
 
 		// Iteration for each class in class/updates/
 		for ( $i = 1; $i <= $nb_of_files_in_updates_folder; $i++ ) {
@@ -102,17 +108,13 @@ class Updates {
 	 */
 	protected function lumiere_add_options( ?string $option_array = null, ?string $option_key = null, mixed $option_value = null ): bool {
 
-		// Manually Activate logging, since current function is run before WP init
-		do_action( 'lumiere_logger' );
-		$logger = $this->logger->log();
-
 		if ( is_null( $option_array ) === true ) {
-			$logger->error( '[Lumiere][updateClass][lumiere_add_options] Cannot update Lumière options, var array is undefined.' );
+			$this->logger->log()->error( '[Lumiere][updateClass][lumiere_add_options] Cannot update Lumière options, var array is undefined.' );
 			return false;
 		}
 
 		if ( is_null( $option_key ) === true ) {
-			$logger->error( '[Lumiere][updateClass][lumiere_add_options] Cannot update Lumière options, var key is undefined.' );
+			$this->logger->log()->error( '[Lumiere][updateClass][lumiere_add_options] Cannot update Lumière options, var key is undefined.' );
 			return false;
 		}
 
@@ -124,13 +126,13 @@ class Updates {
 			$option_array_search[ $option_key ] = $option_value;
 			update_option( $option_array, $option_array_search );
 
-			$logger->info( "[Lumiere][updateClass][lumiere_add_options] Lumière option ($option_key) added." );
+			$this->logger->log()->info( "[Lumiere][updateClass][lumiere_add_options] Lumière option ($option_key) added." );
 
 			return true;
 
 		}
 
-		$logger->error( "[Lumiere][updateClass][lumiere_add_options] Lumière option ($option_key) already exists." );
+		$this->logger->log()->error( "[Lumiere][updateClass][lumiere_add_options] Lumière option ($option_key) already exists." );
 
 		return false;
 
@@ -148,17 +150,13 @@ class Updates {
 	 */
 	protected function lumiere_update_options( ?string $option_array = null, ?string $option_key = null, mixed $option_value = null ): bool {
 
-		// Manually Activate logging, since current function is run before WP init
-		do_action( 'lumiere_logger' );
-		$logger = $this->logger->log();
-
 		if ( is_null( $option_array ) === true ) {
-			$logger->error( '[Lumiere][updateClass][lumiere_update_options] Cannot update Lumière options, var array is undefined.' );
+			$this->logger->log()->error( '[Lumiere][updateClass][lumiere_update_options] Cannot update Lumière options, var array is undefined.' );
 			return false;
 		}
 
 		if ( is_null( $option_key ) === true ) {
-			$logger->error( '[Lumiere][updateClass][lumiere_update_options] Cannot update Lumière options, var key is undefined.' );
+			$this->logger->log()->error( '[Lumiere][updateClass][lumiere_update_options] Cannot update Lumière options, var key is undefined.' );
 			return false;
 		}
 
@@ -169,13 +167,13 @@ class Updates {
 			$option_array_search[ $option_key ] = $option_value;
 			update_option( $option_array, $option_array_search );
 
-			$logger->info( "[Lumiere][updateClass][lumiere_update_options] Lumière option ($option_key) was successfully updated." );
+			$this->logger->log()->info( "[Lumiere][updateClass][lumiere_update_options] Lumière option ($option_key) was successfully updated." );
 
 			return true;
 
 		}
 
-		$logger->error( "[Lumiere][updateClass][lumiere_update_options] Lumière option ($option_key) was not found." );
+		$this->logger->log()->error( "[Lumiere][updateClass][lumiere_update_options] Lumière option ($option_key) was not found." );
 
 		return false;
 
@@ -192,17 +190,13 @@ class Updates {
 	 */
 	protected function lumiere_remove_options( ?string $option_array = null, ?string $option_key = null ): bool {
 
-		// Manually Activate logging, since current function is run before WP init
-		do_action( 'lumiere_logger' );
-		$logger = $this->logger->log();
-
 		if ( is_null( $option_array ) === true ) {
-			$logger->error( '[Lumiere][updateClass][lumiere_remove_options] Cannot remove Lumière options, var array is undefined.' );
+			$this->logger->log()->error( '[Lumiere][updateClass][lumiere_remove_options] Cannot remove Lumière options, var array is undefined.' );
 			return false;
 		}
 
 		if ( is_null( $option_key ) === true ) {
-			$logger->error( '[Lumiere][updateClass][lumiere_remove_options] Cannot remove Lumière options, var key is undefined.' );
+			$this->logger->log()->error( '[Lumiere][updateClass][lumiere_remove_options] Cannot remove Lumière options, var key is undefined.' );
 			return false;
 		}
 
@@ -214,13 +208,13 @@ class Updates {
 			unset( $option_array_search[ $option_key ] );
 			update_option( $option_array, $option_array_search );
 
-			$logger->info( "[Lumiere][updateClass][lumiere_remove_options] Lumière options ($option_key) successfully removed." );
+			$this->logger->log()->info( "[Lumiere][updateClass][lumiere_remove_options] Lumière options ($option_key) successfully removed." );
 
 			return true;
 
 		}
 
-		$logger->error( "[Lumiere][updateClass][lumiere_remove_options] Cannot remove Lumière options, ($option_key) does not exist." );
+		$this->logger->log()->error( "[Lumiere][updateClass][lumiere_remove_options] Cannot remove Lumière options, ($option_key) does not exist." );
 
 		return false;
 
@@ -238,9 +232,6 @@ class Updates {
 	 * @since 4.1 casted $this->imdb_admin_values['imdbHowManyUpdates'] to string, which doesn't make sense, but update fails otherwise
 	 */
 	protected function lumiere_check_if_run_update( string $version_update = '', int $update_number = 0 ): bool {
-
-		// Manually Activate logging, since current function is run before WP init
-		do_action( 'lumiere_logger' );
 
 		// Convert to string so it can be added into debug log.
 		$update_number_string = (string) $update_number;

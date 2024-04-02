@@ -118,13 +118,15 @@ class Admin_Menu {
 		$this->page_help_changelog = admin_url( $page_help . '&subsection=changelog' );
 
 		/**
-		 * Display notices based on transients.
-		 * Passing a var
-		 * Is displayed only in Lumiere Admin options pages
+		 * Display notices based on
+		 * (1) only in Lumiere Admin options pages
+		 * (2) template checking in Detect_New_Template_Taxo class
+		 * (3) any 'notice_lumiere_msg' transient is found in Admin_Notifications class
 		 */
 		$current_url = $this->lumiere_get_current_admin_url();
 		if ( str_contains( $current_url, $this->page_general_base ) === true ) {
-			add_action( 'admin_notices', fn() => Admin_Notifications::lumiere_static_start( $this->page_data_taxo ), 10, 1 );
+			add_action( 'admin_notices', fn() => Detect_New_Template_Taxo::lumiere_static_start( $this->page_data_taxo ), 10, 1 );
+			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
 		}
 
 		/**

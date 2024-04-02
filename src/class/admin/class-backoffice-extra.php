@@ -16,6 +16,8 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use Lumiere\Settings;
+
 /**
  * Add policy, sponsor pages, etc
  */
@@ -81,7 +83,7 @@ class Backoffice_Extra {
 			);
 			$plugin_meta[] = sprintf(
 				'<a href="%1$s"><span class="dashicons dashicons-cloud" aria-hidden="true" style="font-size:14px;line-height:1.3"></span>GIT repository</a>',
-				'https://github.com/jcvignoli/lumiere-movies'
+				Settings::LUMIERE_GIT
 			);
 		}
 		return $plugin_meta;

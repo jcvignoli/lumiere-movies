@@ -1,9 +1,11 @@
 **Changelog**
 
 v.4.1.1
+* [feature] Notifications messages translated.
 * [bug] Admin: notification of new template even if taxonomy was not active (extra check in class "Detect new template taxo" added)
-* [bug] Auto update of the metadata did not take place for PAGES. It worked for posts, but pages with Lumière widgets were not properly updated.
-* [technical] Ensure greater reliability of the WordPress update process. (A cron to execute updates is added on manual/automatic update, so we make sure that latest updates are really run).
+* [bug] Metadata update did not include WordPress pages in update 4.1. It only updated posts. (condition for updating pages added in updates/16.php)
+* [technical] Ensure greater reliability of the WordPress update process. (A cron meant to execute updates is added on manual/automatic update, so we make sure that latest updates are really run. Also a check about any new update available is processed on every admin page).
+* [technical] Notification system more OOP (Class Admin_Notification is called by class Detect_New_Template_Taxo, not the other way round)
 
 v.4.1
 * [feature] Auto title widget can be excluded on a per-post basis. New option in the post edition that allows to exclude a specific post from the auto title widget. Brings a much needed flexibility for blogs using the auto title widget feature. (added the new options in Metabox_Selection class and new rules in Widget_Frontpage)

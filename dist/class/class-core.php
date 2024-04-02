@@ -16,19 +16,18 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
+use Lumiere\Settings;
 use Lumiere\Admin\Cache_Tools;
-use Lumiere\Tools\Settings_Global;
 use Lumiere\Plugins\Logger;
 use Lumiere\Updates;
+use FilesystemIterator;
 
 /**
  * Main WordPress actions happen here
  * Calling all actions and filters
+ * @TODO Since 4.1.1 an update version check is now executed on every admin page, find a better hook
  */
 class Core {
-
-	// Trait including the database settings.
-	use Settings_Global;
 
 	/**
 	 * Lumiere\Plugins\Logger class
@@ -40,14 +39,11 @@ class Core {
 	 */
 	public function __construct () {
 
-		// Get Global Settings class properties.
-		$this->get_db_options();
-
 		// Start Logger class.
 		$this->logger = new Logger( 'coreClass' );
 
 		/**
-		 * Widgets fire at init priority 0, so must either be called here with widgets_init or with init priority 0
+		 * Widgets fire at init priority 0, so they must either be called here with 'widgets_init' or with 'init' priority 0
 		 * https://developer.wordpress.org/reference/hooks/widgets_init/#comment-2643
 		 * They're not only for admin area, since they're executed in the frontpage as well
 		 */
@@ -69,22 +65,28 @@ class Core {
 		add_action( 'enqueue_block_editor_assets', [ $this, 'lumiere_register_gutenberg_blocks' ] );
 
 		/**
-		 * Admin.
+		 * Admin
 		 */
-		add_action( 'init', fn() => Admin\Admin::lumiere_static_start(), 9 );
+		add_action( 'init', fn() => Admin\Admin::lumiere_static_start(), 9 ); // Priority must be below 10.
 
 		/**
-		 * Frontpage.
+		 * Frontpage
 		 */
-		add_action( 'init', fn() => Frontend\Frontend::lumiere_static_start() ); // Priority must be below 10.
+		add_action( 'init', fn() => Frontend\Frontend::lumiere_static_start() );
 
 		/**
-		 * Updates & Crons. Must be free of any conditions.
+		 * Updates. Must be free of any conditions.
 		 */
 		// On updating the plugin.
-		add_action( 'automatic_updates_complete', [ $this, 'lumiere_on_lumiere_upgrade_autoupdate' ], 10, 1 );
-		add_action( 'upgrader_process_complete', [ $this, 'lumiere_on_lumiere_upgrade_manual' ], 10, 2 );
+		add_action( 'automatic_updates_complete', [ $this, 'lum_on_plugin_autoupdate' ], 10, 1 );
+		add_action( 'upgrader_process_complete', [ $this, 'lum_on_plugin_manualupdate' ], 10, 2 );
+		
+		// On any admin page, check if an update is needed. Extra opportunity for update. @todo Find a better hook
+		add_action( 'admin_init', [ $this, 'lum_is_update_needed' ] );
 
+		/**
+		 * Crons. Must be free of any conditions.
+		 */
 		// Crons schedules.
 		add_action( 'init', fn() => Admin\Cron::lumiere_cron_start() );
 
@@ -118,16 +120,16 @@ class Core {
 	}
 
 	/**
-	 * Run on lumiere WordPress manual upgrade
-	 * @since 4.1.1 Added an extra cron exec once to make sure that previous update is run, but also the new one
+	 * Run on lumiere WordPress manual upgrade (not waiting for the regular update, but clicking on update now)
+	 * @since 4.1.1 Added an extra cron exec once that executes the latest update
 	 *
-	 * @param \WP_Upgrader $upgrader_object Upgrader class
+	 * @param \WP_Upgrader $upgrader_object Upgrader class, not in use
 	 * @param mixed[] $options Type of update process, such as 'plugin', 'theme', 'translation' or 'core'
 	 */
-	public function lumiere_on_lumiere_upgrade_manual( \WP_Upgrader $upgrader_object, array $options ): void {
+	public function lum_on_plugin_manualupdate( \WP_Upgrader $upgrader_object, array $options ): void {
 
 		// Start the logger.
-		do_action( 'lumiere_logger' );
+		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
 		// If an update has taken place and the updated type is plugins and the plugins element exists.
 		if ( $options['type'] === 'plugin' && $options['action'] === 'update' && isset( $options['plugins'] ) ) {
@@ -138,6 +140,7 @@ class Core {
 				// It is Lumière!, so run the functions.
 				if ( $plugin === 'lumiere-movies/lumiere-movies.php' ) {
 
+					$this->logger->log()->debug( '[Lumiere][coreClass][manualupdate] Starting Lumière manual update' );
 					$start_update_options = new Updates();
 					$start_update_options->run_update_options();
 
@@ -145,20 +148,20 @@ class Core {
 					if ( $this->lum_setup_cron_exec_once( $this->logger, 'manualupdate' ) === false ) {
 						$this->logger->log()->error( '[Lumiere][coreClass][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
 					}
-					$this->logger->log()->debug( '[Lumiere][coreClass][manualupdate] Lumière manual update successfully run.' );
+					$this->logger->log()->debug( '[Lumiere][coreClass][manualupdate] Lumière manual update processed.' );
 				}
 			}
 		}
 	}
 
 	/**
-	 * Run on Lumiere! WordPress auto upgrade
-	 * @since 4.1.1 Added an extra cron exec once to make sure that previous update is run, but also the new one
+	 * Run on Lumiere! WordPress auto update
+	 * @since 4.1.1 Added an extra cron exec once that executes the latest update
 	 *
 	 * @param array<string, array<int, object>> $results Array of plugins updated
 	 * @return void Plugin updated, log about success or not
 	 */
-	public function lumiere_on_lumiere_upgrade_autoupdate( array $results ): void {
+	public function lum_on_plugin_autoupdate( array $results ): void {
 
 		// Start the logger.
 		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
@@ -179,7 +182,7 @@ class Core {
 			) {
 
 				// It is Lumière!, so run the functions.
-				$this->logger->log()->debug( '[Lumiere][coreClass][autoupdate] Starting Lumière autoupdate...' );
+				$this->logger->log()->debug( '[Lumiere][coreClass][autoupdate] Starting Lumière automatic update' );
 				$start_update_options = new Updates();
 				$start_update_options->run_update_options();
 
@@ -187,7 +190,7 @@ class Core {
 				if ( $this->lum_setup_cron_exec_once( $this->logger, 'autoupdate' ) === false ) {
 					$this->logger->log()->error( '[Lumiere][coreClass][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
 				}
-				$this->logger->log()->debug( '[Lumiere][coreClass][autoupdate] Lumière autoupdate successfully run.' );
+				$this->logger->log()->debug( '[Lumiere][coreClass][autoupdate] Lumière autoupdate processed.' );
 			}
 
 		}
@@ -205,9 +208,8 @@ class Core {
 		$current_admin = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
 		/* Create the value of number of updates on first install */
-		// Start Settings class.
 		if ( ! isset( $current_admin['imdbHowManyUpdates'] ) ) {
-
+			// Start Settings class to create it. Not optimal.
 			$settings_class = new Settings();
 			$this->logger->log()->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' successfully created." );
 		} else {
@@ -259,9 +261,32 @@ class Core {
 	}
 
 	/**
+	 * Check if an upate is needed on every WordPress admin page
+	 * @since 4.1.1
+	 *
+	 * @return void An update was run if Lumiere! version was lagging behind a new version
+	 */
+	public function lum_is_update_needed() {
+
+		$current_admin = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+		$files = new FilesystemIterator( plugin_dir_path( __DIR__ ) . 'class/updates/', FilesystemIterator::SKIP_DOTS );
+		$nb_of_files_in_updates_folder = iterator_count( $files );
+
+		// Check if the number of updates in database is greater than the number of update files in updates folder
+		if ( isset( $current_admin['imdbHowManyUpdates'] ) && $current_admin['imdbHowManyUpdates'] <= $nb_of_files_in_updates_folder ) {
+			$this->logger->log()->debug( '[Lumiere][coreClass][is_plugin_updated] An update is needed, starting the update...' );
+			$start_update_options = new Updates();
+			$start_update_options->run_update_options();
+			
+			set_transient( 'notice_lumiere_msg', 'lum_plugin_updated', 2 );
+			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
+			delete_transient( 'lum_plugin_updated' );
+		}
+	}
+
+	/**
 	 * Set up WP Cron exec once if it doesn't exist
 	 * It is recommended to add this to the update processes, as adding a cron ensure the previous update is run but also the new one
-	 * Logger must have been started
 	 * @since 4.1.1
 	 *
 	 * @param Logger $logger Class log, make sure it is active

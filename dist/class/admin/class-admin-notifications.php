@@ -16,129 +16,153 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\Admin\Detect_New_Template_Taxo;
-
 /**
  * Display the notice messages definition called by child Admin_Menu classes when form submission took place
  *
  * @since 4.1
+ * @since 4.1.1 More OOP, self::admin_msg_missing_taxo() and self::admin_msg_new_taxo() are called by Detect_New_Template_Taxo class, admin_notice_messages are now translated
  * @see \Lumiere\Admin\Detect_New_Template_Taxo to check if a message regarding the taxonomy should be displayed
  */
 class Admin_Notifications {
 
 	/**
-	 * Class to check if new taxonomy templates are available
-	 */
-	private Detect_New_Template_Taxo $class_check_taxo;
-
-	/**
 	 * Notification messages
 	 * @var array<string, array<int, int|string>> The messages with their color
-	 * @phpstan-var array<string, array{0:string, 1:int}> The messages with their color
+	 * @phpstan-var array<string, array{string, int}> The messages with their color
 	 */
-	const ADMIN_NOTICE_MESSAGES = [
-		'options_updated' => [ 'Options saved.', 1 ],
-		'options_reset' => [ 'Options reset.', 1 ],
-		'general_options_error_identical_value' => [ 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 3 ],
-		'cache_delete_all_msg' => [ 'All cache files deleted.', 5 ],
-		'cache_delete_ticked_msg' => [ 'Ticked file(s) deleted.', 5 ],
-		'cache_delete_individual_msg' => [ 'The selected cache file was deleted.', 5 ],
-		'cache_refresh_individual_msg' => [ 'The selected cache file was refreshed.', 5 ],
-		'cache_query_deleted' => [ 'Query cache files deleted.', 5 ],
-		'taxotemplatecopy_success' => [ 'Lumière template successfully copied in your theme folder.', 5 ],
-		'taxotemplatecopy_failed' => [ 'Template copy failed! Check the permissions in you theme folder.', 7 ],
-	];
+	private array $admin_notice_messages;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 
-		// Get the needed function that
-		$this->class_check_taxo = new Detect_New_Template_Taxo();
+		$this->admin_notice_messages = [
+			'options_updated' => [ __( 'Options saved.', 'lumiere-movies' ), 1 ],
+			'options_reset' => [ __( 'Options reset.', 'lumiere-movies' ), 1 ],
+			'general_options_error_identical_value' => [ __( 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 'lumiere-movies' ), 3 ],
+			'cache_delete_all_msg' => [ __( 'All cache files deleted.', 'lumiere-movies' ), 5 ],
+			'cache_delete_ticked_msg' => [ __( 'Ticked file(s) deleted.', 'lumiere-movies' ), 5 ],
+			'cache_delete_individual_msg' => [ __( 'The selected cache file was deleted.', 'lumiere-movies' ), 5 ],
+			'cache_refresh_individual_msg' => [ __( 'The selected cache file was refreshed.', 'lumiere-movies' ), 5 ],
+			'cache_query_deleted' => [ __( 'Query cache files deleted.', 'lumiere-movies' ), 5 ],
+			'taxotemplatecopy_success' => [ __( 'Lumière template successfully copied in your theme folder.', 'lumiere-movies' ), 5 ],
+			'taxotemplatecopy_failed' => [ __( 'Template copy failed! Check the permissions in you theme folder.', 'lumiere-movies' ), 7 ],
+			'lum_plugin_updated' => [ __( 'Lumière! plugin has been updated to the lastest version.', 'lumiere-movies' ), 6 ],
+		];
+
 	}
 
 	/**
-	 * Static start
+	 * Static start, display notification if transients are found
 	 */
-	public static function lumiere_static_start( string $page_data_taxo ): void {
+	public static function lumiere_static_start(): void {
+
 		$class = new self();
-		$class->admin_display_messages( $page_data_taxo );
+		add_action( 'admin_notices', [ $class, 'admin_msg_transients' ], 11 );
 	}
 
 	/**
-	 * Display admin notices
+	 * Display admin notice for missing taxonomy templates
 	 *
-	 * @since 4.0 using transients for displaying Admin notice messages
+	 * @param array<string> $missing_taxo_template Name(s) of the missing taxonomy templates
+	 * @param string $page_data_taxo The URL of the taxonomy page option
+	 * @return void Display notification message if relevant
+	 * @see \Lumiere\Admin\Detect_New_Template_Taxo::lumiere_static_start()
 	 */
-	public function admin_display_messages( string $page_data_taxo ): void {
+	public function admin_msg_missing_taxo( array $missing_taxo_template, string $page_data_taxo ): void {
 
-		// Display message for missing taxonomy found.
-		$missing_taxo_template = $this->class_check_taxo->lumiere_missing_taxo();
-		if ( isset( $missing_taxo_template ) ) {
-			$nb_missing = count( $missing_taxo_template );
-			echo wp_kses(
-				$this->lumiere_notice(
-					6,
-					sprintf(
-						/* translators: %1$s is one or many items like director, composer, etc., %2$s and %3$s are HTML tags */
-						_n( 'Taxonomy template is activated, but the following template is missing: %2$s%1$s%3$s.', 'Taxonomy template is activated, but the following templates are missing: %2$s%1$s%3$s.', $nb_missing, 'lumiere-movies' ),
-						implode( ', ', $missing_taxo_template ),
-						'<i>',
-						'</i>'
-					)
-					/* translators: %1$s and %2$s are HTML 'a' tags links */
-					. ' ' . sprintf( _n( 'Please %1$sinstall%2$s it.', 'Please %1$sinstall%2$s them.', $nb_missing, 'lumiere-movies' ), '<a href="' . $page_data_taxo . '#imdb_imdbtaxonomyactor_yes">', '</a>' )
-				),
-				[
-					'a' => [ 'href' => [] ],
-					'div' => [ 'class' => [] ],
-					'i' => [],
-					'p' => [],
-				]
-			);
+		$nb_missing = count( $missing_taxo_template );
+
+		if ( $nb_missing === 0 ) {
+			return;
 		}
 
-		// Display message for new taxonomy found.
-		$new_taxo_template = $this->class_check_taxo->lumiere_new_taxo();
-		if ( isset( $new_taxo_template ) ) {
-			$nb_new = count( $new_taxo_template );
-			echo wp_kses(
-				$this->lumiere_notice(
-					6,
-					sprintf(
-						/* translators: %1$s is one or many items like director, composer, etc., %2$s and %3$s are HTML tags */
-						_n( 'New taxonomy template file found: %2$s%1$s%3$s.', 'New taxonomy template files found: %2$s%1$s%3$s.', $nb_new, 'lumiere-movies' ),
-						implode( ', ', $new_taxo_template ),
-						'<i>',
-						'</i>'
-					)
-					/* translators: %1$s and %2$s are HTML 'a' tags links */
-					. ' ' . sprintf( _n( 'Please %1$supdate%2$s it.', 'Please %1$supdate%2$s them.', $nb_new, 'lumiere-movies' ), '<a href="' . $page_data_taxo . '#imdb_imdbtaxonomyactor_yes">', '</a>' )
-				),
-				[
-					'a' => [ 'href' => [] ],
-					'div' => [ 'class' => [] ],
-					'i' => [],
-					'p' => [],
-				]
-			);
+		echo wp_kses(
+			$this->lumiere_notice(
+				6,
+				sprintf(
+					/* translators: %1$s is one or many items like director, composer, etc., %2$s and %3$s are HTML tags */
+					_n( 'Taxonomy template is activated, but the following template is missing: %2$s%1$s%3$s.', 'Taxonomy template is activated, but the following templates are missing: %2$s%1$s%3$s.', $nb_missing, 'lumiere-movies' ),
+					implode( ', ', $missing_taxo_template ),
+					'<i>',
+					'</i>'
+				)
+				/* translators: %1$s and %2$s are HTML 'a' tags links */
+				. ' ' . sprintf( _n( 'Please %1$sinstall%2$s it.', 'Please %1$sinstall%2$s them.', $nb_missing, 'lumiere-movies' ), '<a href="' . $page_data_taxo . '#imdb_imdbtaxonomyactor_yes">', '</a>' )
+			),
+			[
+				'a' => [ 'href' => [] ],
+				'div' => [ 'class' => [] ],
+				'i' => [],
+				'p' => [],
+			]
+		);
+
+	}
+
+	/**
+	 * Display admin notice for new taxonomy templates found
+	 *
+	 * @param array<int, null|string> $new_taxo_template Name(s) of the new taxonomy templates found
+	 * @param string $page_data_taxo The URL of the taxonomy page option
+	 * @return void Display notification message if relevant
+	 * @see \Lumiere\Admin\Detect_New_Template_Taxo::lumiere_static_start()
+	 */
+	public function admin_msg_new_taxo( array $new_taxo_template, string $page_data_taxo ): void {
+
+		$nb_new = count( $new_taxo_template );
+
+		if ( $nb_new === 0 ) {
+			return;
 		}
 
-		// Messages for Admin notification using transiants.
+		echo wp_kses(
+			$this->lumiere_notice(
+				6,
+				sprintf(
+					/* translators: %1$s is one or many items like director, composer, etc., %2$s and %3$s are HTML tags */
+					_n( 'New taxonomy template file found: %2$s%1$s%3$s.', 'New taxonomy template files found: %2$s%1$s%3$s.', $nb_new, 'lumiere-movies' ),
+					implode( ', ', $new_taxo_template ),
+					'<i>',
+					'</i>'
+				)
+				/* translators: %1$s and %2$s are HTML 'a' tags links */
+				. ' ' . sprintf( _n( 'Please %1$supdate%2$s it.', 'Please %1$supdate%2$s them.', $nb_new, 'lumiere-movies' ), '<a href="' . $page_data_taxo . '#imdb_imdbtaxonomyactor_yes">', '</a>' )
+			),
+			[
+				'a' => [ 'href' => [] ],
+				'div' => [ 'class' => [] ],
+				'i' => [],
+				'p' => [],
+			]
+		);
+	}
+
+	/**
+	 * Display admin notices for any transients found
+	 *
+	 * @see \Lumiere\Admin\Admin_Menu::__construct()
+	 */
+	public function admin_msg_transients(): void {
+
 		$notif_msg = get_transient( 'notice_lumiere_msg' );
-		if ( is_string( $notif_msg ) && array_key_exists( $notif_msg, self::ADMIN_NOTICE_MESSAGES ) ) {
-			echo wp_kses(
-				$this->lumiere_notice(
-					self::ADMIN_NOTICE_MESSAGES[ $notif_msg ][1],
-					esc_html( self::ADMIN_NOTICE_MESSAGES[ $notif_msg ][0] )
-				),
-				[
-					'div' => [ 'class' => [] ],
-					'p' => [],
-				]
-			);
+
+		// Is a transient available and does the transient message exist?
+		if ( is_string( $notif_msg ) === false || array_key_exists( $notif_msg, $this->admin_notice_messages ) === false ) {
+			return;
 		}
+
+		echo wp_kses(
+			$this->lumiere_notice(
+				$this->admin_notice_messages[ $notif_msg ][1],
+				esc_html( $this->admin_notice_messages[ $notif_msg ][0] )
+			),
+			[
+				'div' => [ 'class' => [] ],
+				'p' => [],
+			]
+		);
 	}
 
 	/**
