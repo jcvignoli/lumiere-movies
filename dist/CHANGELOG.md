@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.1.2
+
 v.4.1.1
 * [feature] Notifications messages translated.
 * [bug] Metadata update did not include WordPress pages in update 4.1. It only updated posts. (condition for updating pages added in updates/16.php)
