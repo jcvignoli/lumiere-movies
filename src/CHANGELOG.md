@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.1.1
+* [bug] Admin: notification of new template even if taxonomy was not active (extra check in class "Detect new template taxo" added)
 * [bug] Auto update of the metadata did not take place for PAGES. It worked for posts, but pages with Lumière widgets were not properly updated.
 * [technical] Ensure greater reliability of the WordPress update process. (A cron to execute updates is added on manual/automatic update, so we make sure that latest updates are really run).
 

@@ -43,17 +43,23 @@ class Detect_New_Template_Taxo {
 	 * Function checking if item/person template has been updated
 	 * Uses lumiere_check_new_taxo() method to check into them folder
 	 *
+	 * @since 4.1.1 added extra check for 'imdbtaxonomy'
+	 *
 	 * @param null|string $only_one_item If only one taxonomy item has to be checked, pass it, use a loop otherwise
 	 * @return array<int, null|string>|null Array of updated templates or null if none
 	 */
 	public function lumiere_new_taxo( ?string $only_one_item = null ): ?array {
 
-		$return = [];
+		$output = [];
+
+		if ( $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
+			return null;
+		}
 
 		if ( isset( $only_one_item ) ) {
 			$key = $this->lumiere_check_new_taxo( $only_one_item );
 			if ( $key !== null ) {
-				$return[] = $key;
+				$output[] = $key;
 			}
 		} else {
 			// Build array of people and items from config
@@ -65,20 +71,26 @@ class Detect_New_Template_Taxo {
 				if ( $key === null ) {
 					continue;
 				}
-				$return[] = $key;
+				$output[] = $key;
 			}
 		}
-		return count( $return ) > 0 ? $return : null;
+		return count( $output ) > 0 ? $output : null;
 	}
 
 	/**
 	 * Function checking if item/person template is missing, should be installed
 	 *
+	 * @since 4.1.1 added extra check for 'imdbtaxonomy'
+	 *
 	 * @return array<int, string>|null Array of updated templates or null if none
 	 */
 	public function lumiere_missing_taxo(): ?array {
 
-		$return = [];
+		$output = [];
+
+		if ( $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
+			return null;
+		}
 
 		// Build array of people and items from config
 		$array_all = array_merge( $this->config_class->array_people, $this->config_class->array_items );
@@ -97,10 +109,10 @@ class Detect_New_Template_Taxo {
 				&& is_file( $lumiere_current_theme_path_file ) === false
 			) {
 
-				$return[] = $item;
+				$output[] = $item;
 			}
 		}
-		return count( $return ) > 0 ? $return : null;
+		return count( $output ) > 0 ? $output : null;
 	}
 
 	/**
