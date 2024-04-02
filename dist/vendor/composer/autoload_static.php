@@ -113,6 +113,7 @@ class ComposerStaticInit2660170a07cc3fb36d97d6c17f332311
         'Lumiere\\Updates\\Lumiere_Update_File_13' => __DIR__ . '/../..' . '/class/updates/13.php',
         'Lumiere\\Updates\\Lumiere_Update_File_14' => __DIR__ . '/../..' . '/class/updates/14.php',
         'Lumiere\\Updates\\Lumiere_Update_File_15' => __DIR__ . '/../..' . '/class/updates/15.php',
+        'Lumiere\\Updates\\Lumiere_Update_File_16' => __DIR__ . '/../..' . '/class/updates/16.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

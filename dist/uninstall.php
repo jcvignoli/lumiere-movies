@@ -270,7 +270,7 @@ class Uninstall {
 		$processed = false;
 
 		// Remove WP lumiere crons should they exist.
-		$list_crons_available = [ 'lumiere_cron_exec_once', 'lumiere_cron_deletecacheoversized', 'lumiere_cron_autofreshcache' ];
+		$list_crons_available = [ 'lumiere_exec_once_update', 'lumiere_cron_deletecacheoversized', 'lumiere_cron_autofreshcache' ];
 		foreach ( $list_crons_available as $cron_installed ) {
 			if ( wp_clear_scheduled_hook( $cron_installed ) > 0 ) {
 				$processed = true;

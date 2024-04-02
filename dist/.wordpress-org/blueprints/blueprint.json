@@ -4,7 +4,9 @@
         "php": "8.0",
         "wp": "latest"
     },
-    "phpExtensionBundles": ["kitchen-sink"],
+    "phpExtensionBundles": [
+        "kitchen-sink"
+    ],
     "features": {
         "networking": true
     },
@@ -17,19 +19,12 @@
         {
             "step": "installPlugin",
             "pluginZipFile": {
-                "resource": "wordpress.org/plugins",
-                "slug": "lumiere-movies"
+                "resource": "url",
+                "url": "https:\/\/downloads.wordpress.org\/plugin\/lumiere-movies.4.1.zip"
             },
             "options": {
                 "activate": true
             }
-        },
-        {
-            "step": "installTheme",
-            "themeZipFile": {
-                "resource": "wordpress.org/themes",
-                "slug": "twentytwentyone"
-            }
-        },
+        }
     ]
 }

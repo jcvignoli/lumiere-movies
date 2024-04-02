@@ -53,13 +53,13 @@ class Cron {
 
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
 
-		// When 'lumiere_cron_exec_once' cron is scheduled, this is what is executed.
-		add_action( 'lumiere_cron_exec_once', [ $this, 'lumiere_cron_exec_once' ], 0 );
+		// When 'lumiere_exec_once_update' cron is scheduled, execute the following.
+		add_action( 'lumiere_exec_once_update', [ $this, 'lumiere_exec_once_update' ], 0 );
 
-		// When 'lumiere_cron_deletecacheoversized' cron is scheduled, this is what is executed.
+		// When 'lumiere_cron_deletecacheoversized' cron is scheduled, execute the following.
 		add_action( 'lumiere_cron_deletecacheoversized', [ $this, 'lumiere_cron_exec_cache' ], 0 );
 
-		// When 'lumiere_cron_autofreshcache' cron is scheduled, this is what is executed.
+		// When 'lumiere_cron_autofreshcache' cron is scheduled, execute the following.
 		add_action( 'lumiere_cron_autofreshcache', [ $this, 'lumiere_cron_exec_autorefresh' ], 0 );
 
 		// Add or remove crons.
@@ -96,18 +96,16 @@ class Cron {
 	}
 
 	/**
-	 * Cron that runs once
-	 * Perfect for updates, runs once after install
+	 * Cron that runs once the update
+	 * Runs once after activation or updates
+	 * @see \Lumiere\Core
 	 */
-	public function lumiere_cron_exec_once(): void {
+	public function lumiere_exec_once_update(): void {
 
 		$this->logger->log()->debug( '[Lumiere][cronClass] Cron run once started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 
-		// Update class.
-		// This udpate is also run in upgrader_process_complete, but the process is not always reliable.
 		$start_update_options = new Updates();
 		$start_update_options->run_update_options();
-
 	}
 
 	/**

@@ -2,6 +2,7 @@
 
 v.4.1.1
 * [bug] Auto update of the metadata did not take place for PAGES. It worked for posts, but pages with Lumière widgets were not properly updated.
+* [technical] Ensure greater reliability of the WordPress update process. (A cron to execute updates is added on manual/automatic update, so we make sure that latest updates are really run).
 
 v.4.1
 * [feature] Auto title widget can be excluded on a per-post basis. New option in the post edition that allows to exclude a specific post from the auto title widget. Brings a much needed flexibility for blogs using the auto title widget feature. (added the new options in Metabox_Selection class and new rules in Widget_Frontpage)
