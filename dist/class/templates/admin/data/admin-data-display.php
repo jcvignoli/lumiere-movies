@@ -109,7 +109,7 @@ $lumiere_details_with_numbers = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
 	
 		<?php wp_nonce_field( 'lumiere_nonce_data_settings', '_nonce_data_settings' ); ?>
 		
-		<input type="submit" class="button-primary" name="lumiere_reset_data_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
+		<input type="submit" class="button-primary" id="lumiere_reset_data_settings" name="lumiere_reset_data_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
 		<input type="submit" class="button-primary" id="lumiere_update_data_settings" name="lumiere_update_data_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />
 		
 	</div>

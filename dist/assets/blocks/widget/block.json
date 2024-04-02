@@ -2,6 +2,8 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 1,
 	"name": "lumiere/widget",
+	"title": "Add a movie in your Widget",
+	"description": "Widget to add a movie or prevent auto title widget from adding movies in selected posts",
 	"textdomain": "lumiere-movies",
 	"category": "widgets",
 	"editorScript": "file:./index.min.js",

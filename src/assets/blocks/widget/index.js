@@ -8,7 +8,7 @@
 	const { blockProps } = wp.blockEditor.useBlockProps;
 	const { blockPropsSave } = wp.blockEditor.useBlockProps.save;
 	const RichContent = wp.blockEditor.RichText.Content;
-	const __ = wp.i18n.__;
+	const widget__ = wp.i18n.__;
 	
 	var iconLumiere = el(
 		'svg',
@@ -19,12 +19,12 @@
 			}
 		)
 	);
-	var linkAutoTitleWidgetOption = '<a href="admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget" target="_blank">' + __( 'Lumière general advanced options' , 'lumiere-movies' )	+ '</a>';
+	var linkAutoTitleWidgetOption = '<a href="admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget" target="_blank">' + widget__( 'Lumière general advanced options' , 'lumiere-movies' )	+ '</a>';
 	
 	registerBlockType(
 		'lumiere/widget', {
-			title: 'Lumière! Widget',
-			description: __( 'Display a movie according to the metabox data or the post title', 'lumiere-movies' ),
+			title: widget__( 'Add a movie in your Widget', 'lumiere-movies' ),
+			description: widget__( 'Widget to add a movie or prevent auto title widget from adding movies in selected posts', 'lumiere-movies' ),
 			icon: iconLumiere,
 			keywords: [ 'widget', 'lumiere', 'imdb', 'movie', 'film' ],
 			attributes: {
@@ -57,9 +57,9 @@
 								className: blockProps.className,
 								className: 'lumiere_block_widget_explanation',
 								tagName: 'gutenberg',
-								children: __( 'This widget fills your selected area with movie data according to the metabox data or the title of your post. After adding this widget, either find the metabox in your post settings to add a specific movie, or select "Auto title widget" in', 'lumiere-movies' )
+								children: widget__( 'This widget fills your selected area with movie data according to the metabox data or the title of your post. After adding this widget, either find the metabox in your post settings to add a specific movie, or select "Auto title widget" in', 'lumiere-movies' )
 									+ ' ' + linkAutoTitleWidgetOption + ' '
-									+ __( 'should you want your selected area to be filled with movie data according to your post title.', 'lumiere-movies' )
+									+ widget__( 'should you want your selected area to be filled with movie data according to your post title.', 'lumiere-movies' )
 									+ '<br />'
 						},),// end explanation div
 						el(

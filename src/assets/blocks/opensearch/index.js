@@ -54,7 +54,8 @@
 	registerFormatType(
 		'lumiere/opensearch',
 		{
-			title: wp.i18n.__( 'Open search IMDB ID', 'lumiere-movies' ),
+			title: wp.i18n.__( 'Open a search window', 'lumiere-movies' ),
+			description: __( 'Open a new window to query the IMDb for movie and retrieve its ID number.', 'lumiere-movies' ),
 			tagName: "someRandomTag",
 			className: null,
 			edit: ConditionalButton,

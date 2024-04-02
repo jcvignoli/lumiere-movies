@@ -9,6 +9,11 @@
 .hidesection, .hidesectionOfCheckbox, .hidesectionOfCheckboxTwo{display:none;}
 .activatehidesection {cursor:pointer;}
 
+#lumiere_reset_general_settings, #lumiere_reset_data_settings, #lumiere_reset_cache_settings { /* reset admin options */
+	border-color: #ff8484;
+	background: #ff4b4b;
+}
+
 .help_titles{ /** Main titles in help section */
 	cursor:pointer;
 	border: 2px solid grey;

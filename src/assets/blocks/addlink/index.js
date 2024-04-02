@@ -5,7 +5,7 @@
 	const addlinkRichButton = wp.blockEditor.RichTextToolbarButton;
 	const addlinkRegister = wp.richText.registerFormatType;
 	const addlinkRichToogle = wp.richText.toggleFormat;
-	const addlink__ = wp.i18n.__;
+	const __ = wp.i18n.__;
 	const iconLumiereLink = addlinkEl(
 		'svg',
 		{ width: 20, height: 20, viewBox: "0 0 350 350" },
@@ -20,7 +20,7 @@
 		return addlinkEl(
 			addlinkRichButton, {
 				icon: iconLumiereLink,
-				title: addlink__( 'Add IMDb link', 'lumiere-movies' ),
+				title: __( 'Add a popup link', 'lumiere-movies' ),
 				onClick: () => {
 					addlinkBlockProps.onChange(
 						addlinkRichToogle(
@@ -40,7 +40,7 @@
 
 	addlinkRegister(
 		'lumiere/addimdblink', {
-			title: addlink__( 'Add IMDb link', 'lumiere-movies' ),
+			title: __( 'Add a popup link', 'lumiere-movies' ),
 			tagName: 'span',
 			className: 'notneeded',
 			edit: ButtonTagIMDb,

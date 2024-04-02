@@ -2,7 +2,8 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "lumiere/opensearch",
-	"title": "Open search IMDb",
+	"title": "Open a search window",
+	"description": "Open a new window to query the IMDb for movie and retrieve its ID number",
 	"textdomain": "lumiere-movies",
 	"category": "embed",
 	"editorScript": "file:./index.min.js"

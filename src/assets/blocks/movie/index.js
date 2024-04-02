@@ -25,8 +25,8 @@
 
 	registerBlockType(
 		'lumiere/main', {
-			title: 'Lumière! Movies block',
-			description: __( 'Insert into your post date related to a given movie.', 'lumiere-movies' ),
+			title: __( 'Add a movie into your post', 'lumiere-movies' ),
+			description: __( 'Add a block in your posts that displays movie data.', 'lumiere-movies' ),
 			icon: iconLumiere,
 			category: 'embed',
 			keywords: [ 'lumiere', 'imdb', 'movies', 'film' ],
@@ -72,7 +72,7 @@
 								className: blockProps.className,
 								className: 'lumiere_block_intothepost-explanation',
 								tagName: 'gutenberg',
-								children: __( 'This block is visible only in your admin area. On your blog frontpage, it will be replaced by the movie you selected here.' , 'lumiere-movies' )
+								children: __( 'This block is visible only in your admin area. In your blog frontpage, it will be replaced by the movie you selected here.' , 'lumiere-movies' )
 									+ '<br />'
 									+ __( '"By Movie title": You can just enter the movie name.' , 'lumiere-movies' )
 									+ '<br />'

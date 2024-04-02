@@ -24,10 +24,10 @@ class Backoffice_Extra {
 	public function __construct() {
 
 		// Add sponsor on WP admin > Plugins
-		add_filter( 'plugin_row_meta', [ $this, 'lumiere_add_sponsor_plugins_page' ], 10, 2 );
+		add_filter( 'plugin_row_meta', [ $this, 'lumiere_add_table_links' ], 10, 2 );
 
 		// Add settings links on WP admin > Plugins
-		add_filter( 'plugin_action_links', [ $this, 'lumiere_plugin_settings_link' ], 10, 2 );
+		add_filter( 'plugin_action_links', [ $this, 'lumiere_add_left_links' ], 10, 2 );
 
 		// Privacy
 		add_action( 'admin_init', [ $this, 'lumiere_privacy_declarations' ], 20 );
@@ -44,14 +44,14 @@ class Backoffice_Extra {
 	}
 
 	/**
-	 * Add Settings link to plugin on plugins page
+	 * Add link into the WordPress plugins left area
 	 *
-	 * @param array<string>|null $plugin_meta An array of the plugin's metadata. Can be null.
+	 * @param string[] $plugin_meta An array of the plugin's metadata. Can be null.
 	 * @param string $plugin_file_name Path to the plugin file relative to the plugins directory.
 	 * @return array<string>|null $plugin_meta An array with the plugin's metadata.
 	 * @since 3.9
 	 */
-	public function lumiere_plugin_settings_link( ?array $plugin_meta, string $plugin_file_name ): ?array {
+	public function lumiere_add_left_links( array $plugin_meta, string $plugin_file_name ): ?array {
 
 		if ( 'lumiere-movies/lumiere-movies.php' === $plugin_file_name ) {
 			$plugin_meta['settings'] = sprintf( '<a href="%s"> %s </a>', admin_url( 'admin.php?page=lumiere_options' ), esc_html__( 'Settings', 'lumiere-movies' ) );
@@ -60,10 +60,10 @@ class Backoffice_Extra {
 	}
 
 	/**
-	 * Add sponsor link in the Plugins list table.
+	 * Add link into the WordPress plugins list table.
 	 * Filters the array of row meta for each plugin to display Lumière's metas
 	 *
-	 * @param array<string>|null $plugin_meta An array of the plugin's metadata. Can be null.
+	 * @param string[] $plugin_meta An array of the plugin's metadata. Can be null.
 	 * @param string $plugin_file_name Path to the plugin file relative to the plugins directory.
 	 * NOTINCLUDED @param array<string> $plugin_data An array of plugin data.
 	 * NOTINCLUDED @param string $status Status filter currently applied to the plugin list.
@@ -71,13 +71,17 @@ class Backoffice_Extra {
 	 *        'dropins', 'search', 'paused', 'auto-update-enabled', 'auto-update-disabled'.
 	 * @return array<string>|null $plugin_meta An array of the plugin's metadata.
 	 */
-	public function lumiere_add_sponsor_plugins_page ( ?array $plugin_meta, string $plugin_file_name ): ?array {
+	public function lumiere_add_table_links( array $plugin_meta, string $plugin_file_name ): ?array {
+
 		if ( 'lumiere-movies/lumiere-movies.php' === $plugin_file_name ) {
 			$plugin_meta[] = sprintf(
-				/* translators: %1$s is an HTML link, %2$s is the word "Sponsor" in English translated into local language */
 				'<a href="%1$s"><span class="dashicons dashicons-coffee" aria-hidden="true" style="font-size:14px;line-height:1.3"></span>%2$s</a>',
 				'https://www.paypal.me/jcvignoli',
 				esc_html__( 'Sponsor', 'lumiere-movies' )
+			);
+			$plugin_meta[] = sprintf(
+				'<a href="%1$s"><span class="dashicons dashicons-cloud" aria-hidden="true" style="font-size:14px;line-height:1.3"></span>GIT repository</a>',
+				'https://github.com/jcvignoli/lumiere-movies'
 			);
 		}
 		return $plugin_meta;
