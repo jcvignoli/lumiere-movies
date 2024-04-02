@@ -6,7 +6,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.3 \
 **Tested up to:** 6.5 \
-**Stable tag:** 4.1 \
+**Stable tag:** 4.1.1 \
 **Requires PHP:** 8.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -169,7 +169,7 @@ Sure thing, you can also modify the order of these details. Just take a look at 
 
 No data is sent to IMDb about end users. The website host does its own queries to the IMDb, without knowing who is visiting it.
 
-Only the website owner is known from the IMDb, and must comply with the IMDb privacy policy: https://www.imdb.com/privacy
+Only the website owner is known from the IMDb, and must comply with the [IMDb privacy policy](https://www.imdb.com/privacy "Privacy policy on IMDb")
 No data about the end user is sent to any other third party, so Lumière! is GDPR compliant. A short paragraph can be accessed in you you admin privacy policy page, which can be added to your own privacy policy page.
 
 ### When accessing people/movie popups nothing is shown, a "404 Not Found" is thrown
@@ -210,9 +210,7 @@ More flexibility for the auto title widget users: You can now prevent a post fro
 
 ### 4.0
 
-!Important: Due to the improvements to the taxonomy system, it is advised to remove all "lumiere-XX" taxonomy tags that may have been automatically created. Just go to the Posts admin section, and delete all tags found under "lumiere-XX" taxonomy (ie: lumiere-director) you may have on the left menu. Tags will be created again when visiting your pages with IMDb widgets/into the posts sections. Important again: if you are a Polylang plugin user, make sure to activate in "Settings -> Custom post types and Taxonomies -> Custom taxonomies" your Lumière taxonomies
-
-Added new automatized refresh of the cache function, a cool feature that will ensure that you cache is up to date forever! Fixed also the taxonomy system, it now creates proper links towards taxonomy pages (ie: https://yourblog.com/lumiere-director/stanley-kubrick) within widgets/into the posts sections, with the appropriate language. Taxonomy for items (ie: genre) is now displayed for all items found. Added the general advanced option to add an extra delay when querying the IMDb website. Data downloading from imdb website is retried 3 times before giving up. Fixed bug in plugin activation, layout in admin data options position, improved Content security policy and HTML 4.1, PHP 8.0, PHP 8.3 compatibility. Banning bots is now executed before doing any IMDb search or display, avoiding cache creationg (and 504 HTML errors when calling IMDb website!). Improved the comments in admin sections. Under the hood, the admin option pages have been cleaned and rewrote.
+Added new automatized refresh of the cache function, a cool feature that will ensure that you cache is up to date forever! Fixed also the taxonomy system, it now creates proper links towards taxonomy pages (ie: https://yourblog.com/lumiere-director/stanley-kubrick) within widgets/into the posts sections, with the appropriate language. Taxonomy for items (ie: genre) is now displayed for all items found. Added the general advanced option to add an extra delay when querying the IMDb website. Data downloading from imdb website is retried 3 times before giving up. Fixed bug in plugin activation, layout in admin data options position, improved Content security policy standards and compatibility with HTML 4.1, PHP 8.0, PHP 8.3. Banning bots is now executed before doing any IMDb search or display, avoiding cache creationg (and 504 HTML errors when calling IMDb website!). Improved the comments in admin sections. Under the hood, the admin option pages have been cleaned and rewrote.
 
 And much more! This is a major new version, more stable and safer, extensively tested before the release.
 
@@ -224,13 +222,17 @@ And much more! This is a major new version, more stable and safer, extensively t
 
 ## Upgrade Notice
 
+### 4.1.1
+
+Update pages with movies/widget medata data keys
+
 ### 4.1
 
 Due to the use of the most recent WordPress API block use, you should take a look to the posts where you are using Lumière widgets/blocks to insert movies sections (no need for the links). If you do not see the movies, you will need to edit your post and "attempt to recover" the widget/block.
 
 Taxonomy templates have changed, make sure to follow the notice in Lumière admin area to update them.
 
-Metadata keys for widgets have changed: in the posts where you added a movie name/imdb id, you may not immediately see the movies you inserted. An automatized process will take care of bringing back them (technical explaination: a cron will run depending on your visits or cron options in the few minutes or few hours after updating the plugin).
+Metadata keys for widgets have changed: An automatized process will take care of updating to the new settings. Depending on your WordPress environnement and settings, that automatized process may not run immediately and you may not see in the posts where you added a movie name/imdb id your IMDb data. (Technical explanation: a cron will run depending on your visits or cron options in the few minutes or few hours after updating the plugin in complement to the update process that is run when automatically updating the plugin. That cron ensures the update process is run even if the standard update process fails)
 
 ### 4.0.2
 

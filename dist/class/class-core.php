@@ -80,7 +80,7 @@ class Core {
 		// On updating the plugin.
 		add_action( 'automatic_updates_complete', [ $this, 'lum_on_plugin_autoupdate' ], 10, 1 );
 		add_action( 'upgrader_process_complete', [ $this, 'lum_on_plugin_manualupdate' ], 10, 2 );
-		
+
 		// On any admin page, check if an update is needed. Extra opportunity for update. @todo Find a better hook
 		add_action( 'admin_init', [ $this, 'lum_is_update_needed' ] );
 
@@ -277,7 +277,7 @@ class Core {
 			$this->logger->log()->debug( '[Lumiere][coreClass][is_plugin_updated] An update is needed, starting the update...' );
 			$start_update_options = new Updates();
 			$start_update_options->run_update_options();
-			
+
 			set_transient( 'notice_lumiere_msg', 'lum_plugin_updated', 2 );
 			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
 			delete_transient( 'lum_plugin_updated' );

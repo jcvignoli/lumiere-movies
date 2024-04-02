@@ -28,17 +28,17 @@ use Lumiere\Tools\Settings_Global;
  * The logic is in the parent class, the data in child classes
  *
  * When is the upate processed
- *	(a) When a manual updating {@link \Lumiere\Core::lum_on_plugin_manualupdate()}, an auto updating {@link \Lumiere\Core::lum_on_plugin_autoupdate()}, 
- * 	or a plugin activation {@link \Lumiere\Core::lumiere_on_activation()} is triggered
- *	(b) In the above methods, a cron is added to ensure that the latest update is also executed, in addition to the update of the former
- *	version (WordPress update uses the replaced plugin version to execute the update, so with this system an update with the previous plugin is executed, 
- *	then another update with the new plugin)
- *	(c) When visiting the 
+ *  (a) When a manual updating {@link \Lumiere\Core::lum_on_plugin_manualupdate()}, an auto updating {@link \Lumiere\Core::lum_on_plugin_autoupdate()},
+ *  or a plugin activation {@link \Lumiere\Core::lumiere_on_activation()} is triggered
+ *  (b) In the above methods, a cron is added to ensure that the latest update is also executed, in addition to the update of the former
+ *  version (WordPress update uses the replaced plugin version to execute the update, so with this system an update with the previous plugin is executed,
+ *  then another update with the new plugin)
+ *  (c) When visiting the
  * How is the update process
- *  	(a) Checks the current Lumière version against the updates and uses {@link \Lumiere\Setting::imdb_admin_values['imdbHowManyUpdates']} var
- *	to check if a new updates is available in {@link \Lumiere\Updates::lumiere_check_if_run_update())
- * 	(b) Everytime an update is processed, {@link \Lumiere\Setting::imdb_admin_values['imdbHowManyUpdates']} is increased by 1 in the method
- * 	lumiere_run_local_update() in the child class
+ *      (a) Checks the current Lumière version against the updates and uses {@link \Lumiere\Setting::imdb_admin_values['imdbHowManyUpdates']} var
+ *  to check if a new updates is available in {@link \Lumiere\Updates::lumiere_check_if_run_update())
+ *  (b) Everytime an update is processed, {@link \Lumiere\Setting::imdb_admin_values['imdbHowManyUpdates']} is increased by 1 in the method
+ *  lumiere_run_local_update() in the child class
  */
 class Updates {
 
