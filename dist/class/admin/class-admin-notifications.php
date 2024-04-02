@@ -143,10 +143,12 @@ class Admin_Notifications {
 	 * Display admin notices for any transients found
 	 *
 	 * @see \Lumiere\Admin\Admin_Menu::__construct()
+	 * @since 4.1.1 added delete_transient()
 	 */
 	public function admin_msg_transients(): void {
 
 		$notif_msg = get_transient( 'notice_lumiere_msg' );
+		delete_transient( 'notice_lumiere_msg' );
 
 		// Is a transient available and does the transient message exist?
 		if ( is_string( $notif_msg ) === false || array_key_exists( $notif_msg, $this->admin_notice_messages ) === false ) {

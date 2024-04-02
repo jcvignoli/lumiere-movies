@@ -146,10 +146,12 @@ class Cron {
 
 		// Set up/remove cron imdbcachekeepsizeunder
 		if ( get_transient( 'cron_settings_imdbcachekeepsizeunder_updated' ) === 'imdbcachekeepsizeunder' ) {
+			delete_transient( 'cron_settings_imdbcachekeepsizeunder_updated' );
 			$this->lumiere_edit_cron_deleteoversizedfolder();
 		}
 		// Set up/remove cron imdbcachekeepsizeunder
 		if ( get_transient( 'cron_settings_imdbcacheautorefreshcron_updated' ) === 'imdbcacheautorefreshcron' ) {
+			delete_transient( 'cron_settings_imdbcacheautorefreshcron_updated' );
 			$this->lumiere_edit_cron_refresh_cache();
 		}
 	}

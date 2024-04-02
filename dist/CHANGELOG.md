@@ -2,8 +2,9 @@
 
 v.4.1.1
 * [feature] Notifications messages translated.
-* [bug] Admin: notification of new template even if taxonomy was not active (extra check in class "Detect new template taxo" added)
 * [bug] Metadata update did not include WordPress pages in update 4.1. It only updated posts. (condition for updating pages added in updates/16.php)
+* [bug] Notification of new templates was provided even if taxonomy was not active (extra check in class "Detect new template taxo" added)
+* [bug] When updating/reseting options, or when refreshing/deleting cache items, notifications were not shown on slow systems (increased transient time in class Save_Options, added a delete_transient in Admin_Notificationadmin_msg_transients())
 * [technical] Ensure greater reliability of the WordPress update process. (A cron meant to execute updates is added on manual/automatic update, so we make sure that latest updates are really run. Also a check about any new update available is processed on every admin page).
 * [technical] Notification system more OOP (Class Admin_Notification is called by class Detect_New_Template_Taxo, not the other way round)
 

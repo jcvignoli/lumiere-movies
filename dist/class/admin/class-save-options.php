@@ -240,7 +240,7 @@ class Save_Options {
 		( str_replace( '/', '', $post_imdb_imdburlpopups ) === str_replace( '/', '', $post_imdb_imdburlstringtaxo ) ) || isset( $this->imdb_admin_values['imdburlstringtaxo'] ) && ( str_replace( '/', '', $post_imdb_imdburlpopups ) === str_replace( '/', '', $this->imdb_admin_values['imdburlstringtaxo'] ) )
 		) {
 
-			set_transient( 'notice_lumiere_msg', 'general_options_error_identical_value', 1 );
+			set_transient( 'notice_lumiere_msg', 'general_options_error_identical_value', 30 );
 			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
 				exit;
 			}
@@ -270,7 +270,7 @@ class Save_Options {
 		// update options
 		update_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, $this->imdb_admin_values );
 
-		set_transient( 'notice_lumiere_msg', 'options_updated', 1 );
+		set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
 		if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
 			exit;
 		}
@@ -286,7 +286,7 @@ class Save_Options {
 		delete_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS );
 		Settings::build_options();
 
-		set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
+		set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			exit;
 		}
@@ -334,16 +334,16 @@ class Save_Options {
 
 		update_option( Settings::LUMIERE_CACHE_OPTIONS, $this->imdb_cache_values );
 
-		set_transient( 'notice_lumiere_msg', 'options_updated', 1 );
+		set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
 
 		// If the option for cron imdbcachekeepsizeunder was modified.
 		if ( isset( $_POST['imdb_imdbcachekeepsizeunder'] ) ) {
-			set_transient( 'cron_settings_imdbcachekeepsizeunder_updated', 'imdbcachekeepsizeunder', 3 );
+			set_transient( 'cron_settings_imdbcachekeepsizeunder_updated', 'imdbcachekeepsizeunder', 30 );
 		}
 
 		// If the option for cron imdbcachekeepsizeunder was modified.
 		if ( isset( $_POST['imdb_imdbcacheautorefreshcron'] ) ) {
-			set_transient( 'cron_settings_imdbcacheautorefreshcron_updated', 'imdbcacheautorefreshcron', 3 );
+			set_transient( 'cron_settings_imdbcacheautorefreshcron_updated', 'imdbcacheautorefreshcron', 30 );
 		}
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
@@ -361,7 +361,7 @@ class Save_Options {
 		Settings::build_options();
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
+			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
 			exit;
 		}
 	}
@@ -383,7 +383,7 @@ class Save_Options {
 		$this->lumiere_unlink_recursive( $this->imdb_cache_values['imdbcachedir'] ); // in trait Files.
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			set_transient( 'notice_lumiere_msg', 'cache_delete_all_msg', 1 );
+			set_transient( 'notice_lumiere_msg', 'cache_delete_all_msg', 30 );
 			exit;
 		}
 	}
@@ -396,7 +396,7 @@ class Save_Options {
 		$cache_tools_class->cache_delete_query_cache_files();
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			set_transient( 'notice_lumiere_msg', 'cache_query_deleted', 1 );
+			set_transient( 'notice_lumiere_msg', 'cache_query_deleted', 30 );
 			exit;
 		}
 	}
@@ -422,7 +422,7 @@ class Save_Options {
 		}
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			set_transient( 'notice_lumiere_msg', 'cache_delete_ticked_msg', 1 );
+			set_transient( 'notice_lumiere_msg', 'cache_delete_ticked_msg', 30 );
 			exit;
 		}
 	}
@@ -439,7 +439,7 @@ class Save_Options {
 		$cache_tools_class->cache_delete_specific_file( $type, $where );
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			set_transient( 'notice_lumiere_msg', 'cache_delete_individual_msg', 1 );
+			set_transient( 'notice_lumiere_msg', 'cache_delete_individual_msg', 30 );
 			exit;
 		}
 	}
@@ -456,7 +456,7 @@ class Save_Options {
 		$cache_tools_class->cache_refresh_specific_file( $type, $where );
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			set_transient( 'notice_lumiere_msg', 'cache_refresh_individual_msg', 1 );
+			set_transient( 'notice_lumiere_msg', 'cache_refresh_individual_msg', 30 );
 			exit;
 		}
 	}
@@ -537,7 +537,7 @@ class Save_Options {
 		}
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			set_transient( 'notice_lumiere_msg', 'options_updated', 1 );
+			set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
 			exit;
 		}
 
@@ -553,7 +553,7 @@ class Save_Options {
 		Settings::build_options();
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			set_transient( 'notice_lumiere_msg', 'options_reset', 1 );
+			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
 			exit;
 		}
 	}
