@@ -94,7 +94,7 @@ class Lumiere_Update_File_16 extends \Lumiere\Updates {
 			if ( strlen( $value ) > 0 ) {
 				update_post_meta( $post_id, 'lumiere_widget_movieid', $value, 'imdb-movie-widget-bymid' );
 				delete_post_meta( $post_id, 'imdb-movie-widget-bymid' );
-				$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully Replaced 'imdb-movie-widget-bymid' by 'lumiere_widget_movieid' in postID $post_id " );
+				$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully replaced 'imdb-movie-widget-bymid' by 'lumiere_widget_movieid' in postID $post_id " );
 			}
 		}
 
@@ -112,7 +112,7 @@ class Lumiere_Update_File_16 extends \Lumiere\Updates {
 			if ( strlen( $value ) > 0 ) {
 				update_post_meta( $post_id, 'lumiere_widget_movietitle', $value, 'imdb-movie-widget' );
 				delete_post_meta( $post_id, 'imdb-movie-widget' );
-				$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully Replaced 'imdb-movie-widget' by 'lumiere_widget_movietitle' in postID $post_id " );
+				$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully replaced 'imdb-movie-widget' by 'lumiere_widget_movietitle' in postID $post_id " );
 			}
 		}
 
