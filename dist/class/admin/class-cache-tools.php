@@ -656,6 +656,8 @@ class Cache_Tools {
 			return false;
 		}
 
+		$this->lumiere_wp_filesystem_cred( $lumiere_folder_cache ); // in trait Admin_General that includes trait Files.
+
 		// Everything is fine, exit.
 		if ( $wp_filesystem->is_writable( $lumiere_folder_cache ) && $wp_filesystem->is_writable( $lumiere_folder_cache_images ) ) {
 			$this->logger->log()->debug( '[Lumiere][config][cachefolder] Cache folders exist and permissions are ok.' );
@@ -663,7 +665,6 @@ class Cache_Tools {
 		}
 
 		// Create the cache folders.
-		$this->lumiere_wp_filesystem_cred( $lumiere_folder_cache ); // in trait Admin_General that includes trait Files.
 		wp_mkdir_p( $lumiere_folder_cache );
 		wp_mkdir_p( $lumiere_folder_cache_images );
 		if (
