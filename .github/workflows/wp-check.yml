@@ -12,7 +12,7 @@ jobs:
 
     - name: Run plugin check
       uses: swissspidy/wp-plugin-check-action@v1
-  with:
-    build-dir: './dist'
-    exclude-directories: 'vendor,.wordpress-org'
+      with:
+        build-dir: './dist'
+        exclude-directories: 'vendor,.wordpress-org'
 
