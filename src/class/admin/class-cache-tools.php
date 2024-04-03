@@ -287,7 +287,7 @@ class Cache_Tools {
 	 */
 	public function lumiere_create_movie_file( $id ): void {
 
-		$movie = new Title( $id, $this->imdbphp_class/*, $this->logger->log() why a logger? */ );
+		$movie = new Title( $id, $this->imdbphp_class, /* $this->logger->log() no need for a logger */ );
 
 		// create cache for everything.
 		$movie->alsoknow();
@@ -327,7 +327,7 @@ class Cache_Tools {
 	public function lumiere_create_people_cache( $id ): void {
 
 		// Get again the person.
-		$person = new Person( $id, $this->imdbphp_class/*,  $this->logger->log() why a logger? */ );
+		$person = new Person( $id, $this->imdbphp_class, /** $this->logger->log() no need for a logger */ );
 
 		// Create cache for everything.
 		$person->bio();
@@ -562,7 +562,7 @@ class Cache_Tools {
 		$files = $this->lumiere_cache_find_files_over_limit( $size_limit ) ?? [];
 		foreach ( $files as $file ) {
 			if ( is_file( $file ) ) {
-				unlink( $file );
+				wp_delete_file( $file );
 			}
 		}
 		if ( count( $files ) > 0 ) {
@@ -632,6 +632,8 @@ class Cache_Tools {
 	 */
 	public function lumiere_create_cache( bool $screen_log = false ): bool {
 
+		global $wp_filesystem;
+
 		// Restart logger in manner acceptable for class core and early execution.
 		$this->logger = new Logger( 'settingsClass', $screen_log /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated, such as upon plugin activation */ );
 		do_action( 'lumiere_logger' ); // Restart the logger, without this, error on activation.
@@ -649,10 +651,10 @@ class Cache_Tools {
 
 		// Cache folders exist with good permissions, exit.
 		wp_mkdir_p( $lumiere_folder_cache );
-		chmod( $lumiere_folder_cache, 0777 );
+		$wp_filesystem->chmod( $lumiere_folder_cache, 0777 );
 		wp_mkdir_p( $lumiere_folder_cache_images );
 		// chmod( $lumiere_folder_cache_images, 0777 ); => throws locally an chmod error.
-		if ( is_writable( $lumiere_folder_cache ) && is_writable( $lumiere_folder_cache_images ) ) {
+		if ( $wp_filesystem->is_writable( $lumiere_folder_cache ) && $wp_filesystem->is_writable( $lumiere_folder_cache_images ) ) {
 			$this->logger->log()->debug( '[Lumiere][config][cachefolder] Cache folders exist and permissions are ok.' );
 			return false;
 		}
@@ -663,12 +665,12 @@ class Cache_Tools {
 		$lumiere_alt_folder_cache_images = $lumiere_alt_folder_cache . '/images';
 
 		// If we can write in $options_cache['imdbcachedir'] (ie: wp-content/cache), make sure permissions are ok
-		if ( wp_mkdir_p( $lumiere_folder_cache ) && chmod( $lumiere_folder_cache, 0777 ) ) {
+		if ( wp_mkdir_p( $lumiere_folder_cache ) && $wp_filesystem->chmod( $lumiere_folder_cache, 0777 ) ) {
 
 			$this->logger->log()->debug( "[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created." );
 
 			// We can't write in $options_cache['imdbphotoroot'], so write in wp-content/plugins/lumiere/cache instead
-		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache ) && chmod( $lumiere_alt_folder_cache, 0777 ) ) {
+		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache ) && $wp_filesystem->chmod( $lumiere_alt_folder_cache, 0777 ) ) {
 
 			// Create partial var
 			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . '../cache/';
@@ -687,12 +689,12 @@ class Cache_Tools {
 		}
 
 		// We can write in wp-content/cache/images
-		if ( wp_mkdir_p( $lumiere_folder_cache_images ) && chmod( $lumiere_folder_cache_images, 0775 ) ) {
+		if ( wp_mkdir_p( $lumiere_folder_cache_images ) && $wp_filesystem->chmod( $lumiere_folder_cache_images, 0775 ) ) {
 
 			$this->logger->log()->debug( "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created." );
 
 			// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
-		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache_images ) && chmod( $lumiere_alt_folder_cache_images, 0777 ) ) {
+		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache_images ) && $wp_filesystem->chmod( $lumiere_alt_folder_cache_images, 0777 ) ) {
 
 			$lumiere_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
 

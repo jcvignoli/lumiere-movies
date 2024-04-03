@@ -16,12 +16,19 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
+use Lumiere\Tools\Files;
+
 /**
  * Trait for general function
  *
  * @since 4.1
  */
 trait Admin_General {
+
+	/**
+	 * Trais
+	 */
+	use Files;
 
 	/**
 	 * Get the current URL
@@ -34,60 +41,19 @@ trait Admin_General {
 	}
 
 	/**
-	 * Request WP_Filesystem credentials if file doesn't have it.
-	 * @param string $file The file with full path to ask the credentials form
-	 *
-	 * @since 3.9.7 Added extra require_once() if $wp_filesystem is null
-	 */
-	public function lumiere_wp_filesystem_cred( string $file ): void {
-
-		global $wp_filesystem;
-
-		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
-		if ( $wp_filesystem === null ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-			WP_Filesystem();
-		}
-
-		/** WP: request_filesystem_credentials($form_post, $type, $error, $context, $extra_fields, $allow_relaxed_file_ownership); */
-		$creds = request_filesystem_credentials( $file, '', false );
-
-		if ( $creds === false ) {
-			echo esc_html__( 'Credentials are required to edit this file: ', 'lumiere-movies' ) . esc_html( $file );
-			return;
-		}
-
-		$credit_open = is_array( $creds ) === true ? WP_Filesystem( $creds ) : false;
-
-		// our credentials were no good, ask for them again.
-		if ( $credit_open === false || $credit_open === null ) {
-
-			$creds_two = request_filesystem_credentials( $file, '', true, '' );
-
-			// If credentials succeeded or failed, don't pass them to WP_Filesystem.
-			if ( is_bool( $creds_two ) === true ) {
-				WP_Filesystem();
-				return;
-			}
-
-			WP_Filesystem( $creds_two );
-		}
-	}
-
-	/**
 	 * Recursively delete a directory, keeping the directory path provided
 	 *
 	 * @param string $dir Directory path
 	 * @return bool true on success
-	 * @see Admin_General::lumiere_wp_filesystem_cred() used to make sure the permissions for deleting files are ok
+	 * @see \Lumiere\Tools\Files::lumiere_wp_filesystem_cred() used to make sure the permissions for deleting files are ok
 	 */
 	public function lumiere_unlink_recursive( string $dir ): bool {
 
 		global $wp_filesystem;
 		$files = [];
 
-		// Make sure we have the correct credentials
-		$this->lumiere_wp_filesystem_cred( $dir );
+		// Make sure we have the correct credentials.
+		$this->lumiere_wp_filesystem_cred( $dir ); // in trait Files.
 
 		if ( $wp_filesystem->is_dir( $dir ) === false && $wp_filesystem->is_file( $dir ) === false ) {
 			return false;
@@ -145,14 +111,14 @@ trait Admin_General {
 		if ( $get_screen === 'screen' ) {
 			$current_screen = get_current_screen();
 			echo '<div align="center"><strong>[WP current screen]</strong>';
-			echo json_encode( $current_screen );
+			echo wp_json_encode( $current_screen );
 			echo '</div>';
 		}
 
 		// Print the options.
 		if ( ( null !== $options ) && count( $options ) > 0 ) {
 			echo '<div class="lumiere_wrap"><strong>[Lumière options]</strong><font size="-2"> ';
-			$json_options = json_encode( $options );
+			$json_options = wp_json_encode( $options );
 			echo $json_options !== false ? esc_html( str_replace( [ '\\', '{"', '"}', '":"', '","' ], [ '', '["', '" ]', '" => "', '" ], [ "' ], $json_options ) ) : '';
 			echo ' </font><strong>[/Lumière options]</strong></div>';
 		}

@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use Lumiere\Settings;
 use Lumiere\Tools\Data;
+use Exception;
 
 /**
  * Create Lumière! Taxonomy system
@@ -77,6 +78,9 @@ class Taxonomy {
 	 *  a search for all imdbtaxonomy* in config array,
 	 *  b if active write a filter to add a class to the link to the taxonomy page.
 	 *  c Can be utilised by get_the_term_list() the_terms() WP function, such as in taxo templates
+	 *
+	 * @throws Exception if the taxonomy doesn't exist
+	 * @return void The taxonomy has been created
 	 */
 	public function lumiere_create_taxonomies(): void {
 
@@ -84,7 +88,7 @@ class Taxonomy {
 		foreach ( $get_taxo_array as $key => $value ) {
 
 			if ( is_string( $key ) === false ) {
-				throw new \Exception( __( 'Wrong taxonomy ', 'lumiere-movies' ) . $key );
+				throw new Exception( esc_html__( 'Wrong taxonomy ', 'lumiere-movies' ) . esc_html( strval( $key ) ) );
 			}
 
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $key );

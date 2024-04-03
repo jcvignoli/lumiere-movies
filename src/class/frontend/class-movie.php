@@ -466,7 +466,10 @@ class Movie {
 
 			if ( ! isset( $existent_term ) ) {
 				$term_inserted = wp_insert_term( $taxonomy_term, $taxonomy_category_full );
-				$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full (association numbers " . json_encode( $term_inserted ) );
+				$term_for_log = wp_json_encode( $term_inserted );
+				if ( $term_for_log !== false ) {
+					$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full (association numbers " . $term_for_log );
+				}
 			}
 
 			// If no term was inserted, take the current term.

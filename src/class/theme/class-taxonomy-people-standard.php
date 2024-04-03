@@ -100,7 +100,7 @@ class Taxonomy_People_Standard {
 
 	/**
 	 * Use specific headers if it is an AMP submission
-	 * Not really in use
+	 * Meant to allow a $_GET insted of a $_POST form submission, thus using ajax, not in use
 	 */
 	public function amp_form_submit(): void {
 
@@ -125,7 +125,7 @@ class Taxonomy_People_Standard {
 			header( 'AMP-Redirect-To: ' . wp_sanitize_redirect( $_GET['_wp_http_referer'] ?? '' ) );
 
 			wp_die(
-				$message,
+				esc_html( $message ),
 				'',
 				[ 'response' => $success ? 200 : 400 ]
 			);

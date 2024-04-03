@@ -77,7 +77,7 @@ trait Files {
 			}
 		}
 
-		throw new Exception( esc_html__( 'No template file found', 'lumiere-movies' ) . ' ' . $file_name );
+		throw new Exception( esc_html__( 'No template file found', 'lumiere-movies' ) . ' ' . esc_html( $file_name ) );
 	}
 
 	/**
@@ -93,5 +93,47 @@ trait Files {
 		$power = $size > 0 ? (int) floor( log( $size, 1000 ) ) : 0;
 		return number_format( $size / pow( 1000, $power ), $precision, '.', ',' ) . ' ' . $units[ $power ];
 	}
+
+	/**
+	 * Request WP_Filesystem credentials if file doesn't have it.
+	 * @param string $file The file with full path to ask the credentials form
+	 *
+	 * @since 3.9.7 Added extra require_once() if $wp_filesystem is null
+	 */
+	public function lumiere_wp_filesystem_cred( string $file ): void {
+
+		global $wp_filesystem;
+
+		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
+		if ( $wp_filesystem === null ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+
+		/** WP: request_filesystem_credentials($form_post, $type, $error, $context, $extra_fields, $allow_relaxed_file_ownership); */
+		$creds = request_filesystem_credentials( $file, '', false );
+
+		if ( $creds === false ) {
+			echo esc_html__( 'Credentials are required to edit this file: ', 'lumiere-movies' ) . esc_html( $file );
+			return;
+		}
+
+		$credit_open = is_array( $creds ) === true ? WP_Filesystem( $creds ) : false;
+
+		// our credentials were no good, ask for them again.
+		if ( $credit_open === false || $credit_open === null ) {
+
+			$creds_two = request_filesystem_credentials( $file, '', true, '' );
+
+			// If credentials succeeded or failed, don't pass them to WP_Filesystem.
+			if ( is_bool( $creds_two ) === true ) {
+				WP_Filesystem();
+				return;
+			}
+
+			WP_Filesystem( $creds_two );
+		}
+	}
+
 }
 

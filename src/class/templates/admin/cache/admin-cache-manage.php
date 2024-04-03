@@ -15,6 +15,9 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
+/** @psalm-suppress InvalidGlobal Cannot use global scope here (unless this file is included from a non-global scope) */
+global $wp_filesystem;
+
 $lum_imdb_cache_values = get_option( \Lumiere\Settings::LUMIERE_CACHE_OPTIONS );
 
 // Retrieve the vars from calling class.
@@ -481,7 +484,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 				<div class="explain">
 				
 				<?php // check if movies/people cache folder exists
-				if ( is_dir( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?> 
+				if ( $wp_filesystem->is_dir( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?> 
 
 					<span class="lumiere_green"><?php esc_html_e( 'Folder exists.', 'lumiere-movies' ); ?></span>
 
@@ -492,9 +495,9 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 					<?php
 				}
-				if ( is_dir( $lum_imdb_cache_values['imdbcachedir'] ) ) { // check if permissions are ok
+				if ( $wp_filesystem->is_dir( $lum_imdb_cache_values['imdbcachedir'] ) ) { // check if permissions are ok
 
-					if ( is_writable( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
+					if ( $wp_filesystem->is_writable( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 					
 					<span class="lumiere_green"><?php esc_html_e( 'Permissions OK.', 'lumiere-movies' ); ?></span>
 						
@@ -577,7 +580,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 				<div class="lumiere_smaller">
 				
 				<?php // check if images folder exists
-				if ( is_dir( $lum_imdb_cache_values['imdbphotoroot'] ) ) { ?>
+				if ( $wp_filesystem->is_dir( $lum_imdb_cache_values['imdbphotoroot'] ) ) { ?>
 
 					<span class="lumiere_green"><?php esc_html_e( 'Folder exists.', 'lumiere-movies' ); ?></span>
 
@@ -588,9 +591,9 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 					<?php
 				}
-				if ( is_dir( $lum_imdb_cache_values['imdbphotoroot'] ) ) { // check if permissions are ok
+				if ( $wp_filesystem->is_dir( $lum_imdb_cache_values['imdbphotoroot'] ) ) { // check if permissions are ok
 
-					if ( is_writable( $lum_imdb_cache_values['imdbphotoroot'] ) ) { ?>
+					if ( $wp_filesystem->is_writable( $lum_imdb_cache_values['imdbphotoroot'] ) ) { ?>
 					
 					<span class="lumiere_green"><?php esc_html_e( 'Permissions OK.', 'lumiere-movies' ); ?></span>
 						

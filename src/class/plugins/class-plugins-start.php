@@ -85,8 +85,9 @@ class Plugins_Start {
 			if ( class_exists( $plugin_name ) ) {
 				$plugin_class = new $plugin_name( $this->plugins_active_names ); // Instanciate plugin classes.
 				$get_classes_active[ $plugin ] = $plugin_class;
-				/** @phpstan-ignore-next-line Call to an undefined static method object::start_init_hook() */
-				$plugin_class::start_init_hook(); // Extra functions to be started in init
+				if ( method_exists( $plugin_class, 'start_init_hook' ) ) {
+					$plugin_class::start_init_hook(); // Extra functions to be started in init
+				}
 			}
 		}
 		return $get_classes_active;
