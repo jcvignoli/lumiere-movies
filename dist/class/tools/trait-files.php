@@ -77,7 +77,7 @@ trait Files {
 			}
 		}
 
-		throw new Exception( __( 'No template file found', 'lumiere-movies' ) . ' ' . $file_name );
+		throw new Exception( esc_html__( 'No template file found', 'lumiere-movies' ) . ' ' . $file_name );
 	}
 
 	/**

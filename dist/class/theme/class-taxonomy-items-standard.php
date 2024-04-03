@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.0.2
+ * Version: 3.0.3
  *
  * @package lumiere-movies
  */
@@ -17,6 +17,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Frontend\Main;
+use WP_Query;
 
 /**
  * This template retrieves automaticaly all post related to an item taxonomy
@@ -112,7 +113,7 @@ class Taxonomy_Items_Standard {
 				];
 
 				// The Query.
-				$the_query = new \WP_Query( $args );
+				$the_query = new WP_Query( $args );
 
 				if ( $the_query->have_posts() ) {
 

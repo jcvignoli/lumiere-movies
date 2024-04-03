@@ -20,27 +20,21 @@ use Lumiere\Tools\Settings_Global;
 use Lumiere\Tools\Utils;
 use Lumiere\Tools\Files;
 use Lumiere\Plugins\Logger;
-use Lumiere\Admin\Submenu\General;
-use Lumiere\Admin\Submenu\Data;
-use Lumiere\Admin\Submenu\Cache;
-use Lumiere\Admin\Submenu\Help;
 use Lumiere\Admin\Cache_Tools;
 use Lumiere\Admin\Admin_General;
-use Exception;
 
 /**
  * Display Admin Menus: Top, Left and default menus
- * Includes the notice messages definition called by child classes when form submission took place
  * Taxonomy theme pages copy class is called here
  *
  * @see \Lumiere\Admin\Copy_Template_Taxonomy to copy new page template
- * @see \Lumiere\Admin\Save_Options
+ * @see \Lumiere\Admin\Save_Options Check the $_GET to know if we need to save the submitted data
  * @see \Lumiere\Admin\Admin_Notifications
  */
 class Admin_Menu {
 
 	/**
-	 * Traits.
+	 * Traits
 	 */
 	use Settings_Global, Files, Admin_General;
 
@@ -116,6 +110,14 @@ class Admin_Menu {
 		$this->page_help_support = admin_url( $page_help . '&subsection=support' );
 		$this->page_help_faqs = admin_url( $page_help . '&subsection=faqs' );
 		$this->page_help_changelog = admin_url( $page_help . '&subsection=changelog' );
+	}
+
+	/**
+	 * Add the admin menu
+	 * @see \Lumiere\Admin
+	 */
+	public static function lumiere_static_start(): void {
+		$that = new self();
 
 		/**
 		 * Display notices based on
@@ -123,9 +125,9 @@ class Admin_Menu {
 		 * (2) template checking in Detect_New_Template_Taxo class
 		 * (3) any 'notice_lumiere_msg' transient is found in Admin_Notifications class
 		 */
-		$current_url = $this->lumiere_get_current_admin_url();
-		if ( str_contains( $current_url, $this->page_general_base ) === true ) {
-			add_action( 'admin_notices', fn() => Detect_New_Template_Taxo::lumiere_static_start( $this->page_data_taxo ), 10, 1 );
+		$current_url = $that->lumiere_get_current_admin_url();
+		if ( str_contains( $current_url, $that->page_general_base ) === true ) {
+			add_action( 'admin_notices', fn() => Detect_New_Template_Taxo::lumiere_static_start( $that->page_data_taxo ), 10, 1 );
 			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
 		}
 
@@ -135,33 +137,31 @@ class Admin_Menu {
 		 * @see Save_Options::process_headers()
 		 * @since 4.0
 		 */
-		add_action( 'wp_loaded', fn() => Save_Options::lumiere_static_start( $this->page_data_taxo ) );
+		add_action( 'wp_loaded', fn() => Save_Options::lumiere_static_start( $that->page_data_taxo ) );
 
-		// Copying taxonomy templates in Lumière! data taxonomy options
+		/**
+		 * Copying taxonomy templates in Lumière! data taxonomy options
+		 */
 		if (
 			isset( $_GET['taxotype'] )
 			&& ( isset( $_GET['_wpnonce_linkcopytaxo'] ) && wp_verify_nonce( $_GET['_wpnonce_linkcopytaxo'], 'linkcopytaxo' ) !== false )
 		) {
-			add_action( 'admin_init', fn() => Copy_Template_Taxonomy::lumiere_start_copy_taxo( $this->page_data_taxo ) );
+			add_action( 'admin_init', fn() => Copy_Template_Taxonomy::lumiere_start_copy_taxo( $that->page_data_taxo ) );
 		}
 
-		// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$this(Lumiere\Admin), non-falsy-string} given
-		add_action( 'admin_menu', [ &$this, $this->get_id() . '_add_left_menu' ] );
+		/**
+		 * Build the menus
+		 * (a) on the left, can be the WP standard (inside settings) or a bigger one if that option was selected in the admin options
+		 * (b) on the top, option selected by default but can be removed in admin options
+		 */
+		// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$that(Lumiere\Admin), non-falsy-string} given
+		add_action( 'admin_menu', [ &$that, $that->get_id() . '_add_left_menu' ] );
 
-		// Add Lumiere menu in toolbar menu (top WordPress menu)
-		if ( $this->imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
-			// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$this(Lumiere\Admin), non-falsy-string} given
-			add_action( 'admin_bar_menu', [ $this, $this->get_id() . '_admin_add_top_menu' ], 70 );
-
+		// Add Lumiere menu in WordPress top menu
+		if ( $that->imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
+			// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$that(Lumiere\Admin), non-falsy-string} given
+			add_action( 'admin_bar_menu', [ $that, $that->get_id() . '_admin_add_top_menu' ], 70 );
 		}
-	}
-
-	/**
-	 * Add the admin menu
-	 * @see \Lumiere\Admin
-	 */
-	public static function lumiere_static_start(): void {
-		$admin_menu_class = new self();
 	}
 
 	/**
@@ -197,7 +197,7 @@ class Admin_Menu {
 				'<img src="' . $this->config_class->lumiere_pics_dir . 'lumiere-ico13x13.png" align="absmiddle"> Lumière',
 				'manage_options',
 				$this->menu_id,
-				[ $this, 'load_view' ],
+				[ $this, 'call_admin_subclass' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -205,7 +205,7 @@ class Admin_Menu {
 				esc_html__( 'Data', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_data',
-				[ $this, 'load_view' ],
+				[ $this, 'call_admin_subclass' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -213,7 +213,7 @@ class Admin_Menu {
 				esc_html__( 'Cache', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_cache',
-				[ $this, 'load_view' ],
+				[ $this, 'call_admin_subclass' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -221,7 +221,7 @@ class Admin_Menu {
 				esc_html__( 'Help', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_help',
-				[ $this, 'load_view' ],
+				[ $this, 'call_admin_subclass' ],
 			);
 
 			// Left menu
@@ -232,7 +232,7 @@ class Admin_Menu {
 				esc_html__( 'Lumière', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id,
-				[ $this, 'load_view' ],
+				[ $this, 'call_admin_subclass' ],
 				$this->config_class->lumiere_pics_dir . 'lumiere-ico13x13.png',
 				65
 			);
@@ -242,7 +242,7 @@ class Admin_Menu {
 				esc_html__( 'Main', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id,
-				[ $this, 'load_view' ],
+				[ $this, 'call_admin_subclass' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -250,7 +250,7 @@ class Admin_Menu {
 				esc_html__( 'Data', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_data',
-				[ $this, 'load_view' ],
+				[ $this, 'call_admin_subclass' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -258,7 +258,7 @@ class Admin_Menu {
 				esc_html__( 'Cache', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_cache',
-				[ $this, 'load_view' ],
+				[ $this, 'call_admin_subclass' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -266,7 +266,7 @@ class Admin_Menu {
 				esc_html__( 'Help', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_help',
-				[ $this, 'load_view' ],
+				[ $this, 'call_admin_subclass' ],
 			);
 		}
 	}
@@ -339,77 +339,27 @@ class Admin_Menu {
 	}
 
 	/**
-	 * Load views
-	 * Called in {@see Admin::admin_add_top_menu()} and calls the methods dynamically generated according to the current view
+	 * Get admin subclass according to the current view
+	 * Classes listed in $class_need_cache need to start a cache class
 	 *
-	 * @TODO: The return $this->$method() is also null, investigate why
-	 * @TODO: When all classes are using templates only, this method should call dynamically named classes instead of methods
-	 *
-	 * @return null|callable The private method to call
-	 * @phpstan-return null|callable(): void
-	 * @throws Exception if method is not found
+	 * @return void The private method to call
 	 */
-	public function load_view(): ?callable {
+	public function call_admin_subclass(): void {
 
-		$method = $this->get_id() . '_admin_menu' . $this->get_current_page();
+		$class_name_from_page = strlen( $this->get_current_page() ) > 0 ? $this->get_current_page() : '_general';
+		$class_name_cleaned = ucfirst( str_replace( '_', '', $class_name_from_page ) );
+		$full_class_name = '\Lumiere\Admin\Submenu\\' . $class_name_cleaned;
 
-		if ( method_exists( $this, $method ) ) {
+		if ( class_exists( $full_class_name ) ) {
 
-			return $this->$method();
+			$instance = new $full_class_name();
+
+			if ( method_exists( $instance, 'lum_submenu_start' ) ) {
+				$instance->lum_submenu_start( new Cache_Tools() );
+			}
+
+			$this->lumiere_add_signature_menus();
 		}
-		throw new Exception( 'This method $this->' . $method . '() does not exist' );
-	}
-
-	/**
-	 * Display admin General options
-	 * This function is dynamically called in { @see Admin::load_view() }
-	 */
-	private function lumiere_admin_menu(): void {
-
-		// The class.
-		$general_class = new General();
-		$general_class->display_general_options( new Cache_Tools() );
-
-		$this->lumiere_add_signature_menus();
-	}
-
-	/**
-	 * Display admin Data options
-	 * This function is dynamically called in { @see Admin::load_view() }
-	 */
-	private function lumiere_admin_menu_data(): void {
-
-		// The class.
-		$data_class = new Data();
-		$data_class->display_data_options();
-
-		$this->lumiere_add_signature_menus();
-	}
-
-	/**
-	 * Display admin Cache options
-	 * This function is dynamically called in { @see Admin::load_view() }
-	 */
-	private function lumiere_admin_menu_cache(): void {
-
-		// The class.
-		$cache_class = new Cache();
-		$cache_class->display_cache_options( new Cache_Tools() );
-
-		$this->lumiere_add_signature_menus();
-	}
-
-	/**
-	 * Display admin Help options
-	 * This function is dynamically called in { @see Admin::load_view() }
-	 */
-	private function lumiere_admin_menu_help(): void {
-
-		// The class.
-		$help_class = new Help();
-		$help_class->display_help_layout();
-
-		$this->lumiere_add_signature_menus();
 	}
 
 	/**

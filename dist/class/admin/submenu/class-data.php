@@ -74,16 +74,15 @@ class Data extends Admin_Menu {
 			'source' => __( 'source', 'lumiere-movies' ),
 			'year' => __( 'year of release', 'lumiere-movies' ),
 		];
-
-		// Logger: set to true to display debug on screen. => 20240225 Don't see why it is needed, will remove in the future
-		// $this->logger->lumiere_start_logger( get_class( $this ), false );
-
 	}
 
 	/**
 	 * Display the body
+	 *
+	 * @param \Lumiere\Admin\Cache_Tools $cache_tools_class Not utilised in this class, but needed in some other Submenu classes
+	 * @see \Lumiere\Admin\Admin_Menu::call_admin_subclass() Calls this method
 	 */
-	protected function display_data_options(): void {
+	protected function lum_submenu_start( \Lumiere\Admin\Cache_Tools $cache_tools_class ): void {
 
 		// First part of the menu
 		$this->include_with_vars(

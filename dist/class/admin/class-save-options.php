@@ -225,7 +225,7 @@ class Save_Options {
 	private function lumiere_general_options_save( string|bool $get_referer ): void {
 
 		if ( ! isset( $_POST['_nonce_general_settings'] ) || wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) === false ) {
-			throw new Exception( __( 'Nounce error', 'lumiere-movies' ) );
+			throw new Exception( esc_html__( 'Nounce error', 'lumiere-movies' ) );
 		}
 
 		// Check if $_POST['imdburlstringtaxo'] and $_POST['imdburlpopups'] are identical, because they can't be.
@@ -307,7 +307,7 @@ class Save_Options {
 	private function lumiere_cache_options_save( string|bool $get_referer ): void {
 
 		if ( ! isset( $_POST['_nonce_cache_settings'] ) || wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) === false ) {
-			throw new Exception( __( 'Nounce error', 'lumiere-movies' ) );
+			throw new Exception( esc_html__( 'Nounce error', 'lumiere-movies' ) );
 		}
 
 		foreach ( $_POST as $key => $postvalue ) {
@@ -410,7 +410,7 @@ class Save_Options {
 	private function lumiere_cache_delete_ticked_files( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
 
 		if ( ! isset( $_POST['_nonce_cache_settings'] ) || wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) === false ) {
-			throw new Exception( __( 'Nounce error', 'lumiere-movies' ) );
+			throw new Exception( esc_html__( 'Nounce error', 'lumiere-movies' ) );
 		}
 
 		if ( isset( $_POST['imdb_cachedeletefor_movies'] ) ) {
@@ -470,7 +470,7 @@ class Save_Options {
 	private function lumiere_data_options_save( string|bool $get_referer, ): void {
 
 		if ( ! isset( $_POST['_nonce_data_settings'] ) || wp_verify_nonce( $_POST['_nonce_data_settings'], 'lumiere_nonce_data_settings' ) === false ) {
-			throw new Exception( __( 'Nounce error', 'lumiere-movies' ) );
+			throw new Exception( esc_html__( 'Nounce error', 'lumiere-movies' ) );
 		}
 
 		foreach ( $_POST as $key => $postvalue ) {

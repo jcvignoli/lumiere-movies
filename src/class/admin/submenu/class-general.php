@@ -49,10 +49,12 @@ class General extends Admin_Menu {
 	}
 
 	/**
-	 * Display the options.
+	 * Display the options
+	 *
 	 * @param Cache_Tools $cache_tools_class To create cache folder if it doesn't exists
+	 * @see \Lumiere\Admin\Admin_Menu::call_admin_subclass() Calls this method
 	 */
-	protected function display_general_options( Cache_Tools $cache_tools_class ): void {
+	protected function lum_submenu_start( Cache_Tools $cache_tools_class ): void {
 
 		// First part of the menu.
 		$this->include_with_vars(

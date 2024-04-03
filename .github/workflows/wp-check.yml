@@ -1,4 +1,4 @@
-name: 'wp-check'
+name: 'WP plugin check'
 on:
   push:
     branches: "*"
