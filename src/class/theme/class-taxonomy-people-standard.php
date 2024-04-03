@@ -23,15 +23,14 @@ use Lumiere\Frontend\Main;
 use WP_Query;
 
 /**
- * This template retrieves automaticaly all post related to the person taxonomy name clicked
+ * This template retrieves automaticaly all post related to a person taxonomy
  * It is a virtual page created according to Lumiere taxonomy
  * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
- * Almost compatible with AMP WordPress plugin, as WP submit_button() is yet to be made AMP compliant
  *
- * @see \Lumiere\Alteration\Virtual_Page that allows fills that virtual page, which this class fills into
+ * @see \Lumiere\Frontend\Taxonomy That build the taxonomy system and taxonomy pages
  * @see \Lumiere\Frontend Trait to builds $this->link_maker var
  *
- * @since 4.0 Returns all Lumière taxonomies that can be clicked when visiting the item template page
+ * @since 4.1 Use of plugins detection, lumiere_medaillon_bio() returns larger number of characters for introduction, Polylang form with AMP works
  */
 class Taxonomy_People_Standard {
 
@@ -80,16 +79,6 @@ class Taxonomy_People_Standard {
 		if ( count( $this->plugins_active_names ) === 0 ) {
 			$this->activate_plugins();
 		}
-
-		// Start AMP headers if AMP page, not really in use
-		if ( in_array( 'amp', $this->plugins_active_names, true ) === true ) {
-			// $this->amp_headers(); // Debug and check
-			add_action( 'wp_ajax_amp_comment_submit', [ $this, 'amp_form_submit' ] );
-			add_action( 'wp_ajax_nopriv_amp_comment_submit', [ $this, 'amp_form_submit' ] );
-		}
-
-		// Display the page. Must not be included into an add_action(), as should be displayed directly.
-		$this->lumiere_taxo_layout_standard();
 	}
 
 	/**
@@ -97,6 +86,16 @@ class Taxonomy_People_Standard {
 	 */
 	public static function lumiere_static_start(): void {
 		$class = new self();
+
+		// Start AMP headers if AMP page, not really in use
+		if ( in_array( 'amp', $class->plugins_active_names, true ) === true ) {
+			// $this->amp_headers(); // Debug and check
+			add_action( 'wp_ajax_amp_comment_submit', [ $class, 'amp_form_submit' ] );
+			add_action( 'wp_ajax_nopriv_amp_comment_submit', [ $class, 'amp_form_submit' ] );
+		}
+
+		// Display the page. Must not be included into an add_action(), as should be displayed directly.
+		$class->lumiere_taxo_layout_standard();
 	}
 
 	/**

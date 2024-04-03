@@ -22,9 +22,10 @@ use Lumiere\Frontend\Main;
 
 /**
  * Independant class that displays star information in a popup
- * @see \Lumiere\Alteration\Rewrite_Rules that creates rules for creating a virtual page
- * @see \Lumiere\Alteration\Redirect_Virtual_Page that redirects to this page
- * @see \Lumiere\Frontend\Popups\Head_Popups that modifies the popup header
+ *
+ * @see \Lumiere\Alteration\Rewrite_Rules Create the rules for building a virtual page
+ * @see \Lumiere\Frontend\Frontend Redirect to this page using virtual pages {@link \Lumiere\Alteration\Virtual_Page}
+ * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header
  */
 class Popup_Person {
 
@@ -51,10 +52,9 @@ class Popup_Person {
 	/**
 	 * Constructor
 	 *
-	 * @since 4.0.1 Extra bot banishment in Redirect_Virtual_Page class
 	 * Bots are banned from getting popups
-	 * @see \Lumiere\Alteration\Redirect_Virtual_Page::lumiere_popup_redirect_include Bot banishement happens in Redirect_Virtual_Page::ban_bots_popups()
-	 * @see \Lumiere\Tools\Ban_Bots::_construct() The action 'lumiere_ban_bots_now' caled in Redirect_Virtual_Page
+	 * @see \Lumiere\Frontend\Frontend::ban_bots_popups() Bot banishement happens there
+	 * @see \Lumiere\Tools\Ban_Bots::_construct() The action 'lumiere_ban_bots_now' called in Frontend
 	 */
 	public function __construct() {
 

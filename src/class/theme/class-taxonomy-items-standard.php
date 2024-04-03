@@ -19,13 +19,12 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 use Lumiere\Frontend\Main;
 
 /**
- * This template retrieves automaticaly all post related to items taxonomy clicked
+ * This template retrieves automaticaly all post related to an item taxonomy
  * It is a virtual page created when the appropriate rules are met
- * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
- * Almost compatible with AMP WordPress plugin, as WP submit_button() is yet to be made AMP compliant
  *
- * @see \Lumiere\Alteration\Virtual_Page that allows fills that virtual page, which this class fills into
- * @see \Lumiere\Frontend Trait to builds $this->link_maker var
+ * @see \Lumiere\Frontend\Taxonomy That build the taxonomy system and taxonomy pages
+ *
+ * @since 4.0 Returns all Lumière taxonomies that can be clicked when visiting the item template page
  */
 class Taxonomy_Items_Standard {
 
@@ -66,9 +65,6 @@ class Taxonomy_Items_Standard {
 
 		// Build the taxonomy name.
 		$this->taxonomy = 'lumiere-standard';
-
-		// Display the page.
-		$this->lumiere_layout_taxo_standard();
 	}
 
 	/**
@@ -76,6 +72,9 @@ class Taxonomy_Items_Standard {
 	 */
 	public static function lumiere_static_start(): void {
 		$class = new self();
+
+		// Display the page.
+		$class->lumiere_layout_taxo_standard();
 	}
 
 	/**

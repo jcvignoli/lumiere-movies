@@ -128,7 +128,14 @@ class Copy_Template_Taxonomy {
 		}
 
 		$content = $wp_filesystem->get_contents( $lumiere_current_theme_path_file );
-		$content = str_replace( 'standard', $lumiere_taxo_title, $content );
+		if ( $content === false ) {
+			// Copy failed.
+			set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_failed', 1 );
+			return false;
+		}
+
+		$content_cleaned = preg_replace( '~\*\sYou can replace.*automatically~s', '* Automatically copied from Lumiere! admin menu', $content );
+		$content = $content_cleaned !== null ? str_replace( 'standard', $lumiere_taxo_title, $content_cleaned ) : $content;
 		$content = str_replace( 'Standard', ucfirst( $lumiere_taxo_title ), $content );
 		$chmod = defined( 'FS_CHMOD_FILE' ) ? FS_CHMOD_FILE : false;
 		if ( $wp_filesystem->put_contents( $lumiere_current_theme_path_file, $content, $chmod ) ) {

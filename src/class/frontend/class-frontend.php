@@ -27,13 +27,13 @@ use Imdb\Person;
 
 /**
  * Start everything for frontend pages
- * Popups redirect happens here
  * Register and enqueue the common scripts and stylesheets
+ * Popups redirect and bot banning happen here
  *
- * @since 4.1 class added
+ * @since 4.1
  *
- * @see \Lumiere\Frontend\Main For getting the settings and plugins
- * @see \Lumiere\Alteration\Virtual_Page that is called for creating virtual pages, using {@see \Lumiere\Frontend\Popups\Popup_Person}, {@see \Lumiere\Frontend\Popups\Popup_Movie} and {@see \Lumiere\Frontend\Popups\Popup_Search}
+ * @see \Lumiere\Frontend\Main Settings and plugins
+ * @see \Lumiere\Alteration\Virtual_Page For creating virtual pages, used by {@link \Lumiere\Frontend\Popups\Popup_Person}, {@link \Lumiere\Frontend\Popups\Popup_Movie} and {@link \Lumiere\Frontend\Popups\Popup_Search}
  * @see \Lumiere\Tools\Ban_Bots Ban the bots for virtual pages
  */
 class Frontend {

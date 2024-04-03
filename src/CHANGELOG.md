@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.1.2
+* [bug] Very unusual bug when copying taxonomy template files (php-fpm with umask 002, could copy but not reading due to permissions, added an extra check in Copy_Template_Taxonomy::copy_taxonomy_template()
 
 v.4.1.1
 * [feature] Notifications messages translated.
