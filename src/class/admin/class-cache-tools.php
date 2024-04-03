@@ -104,7 +104,7 @@ class Cache_Tools {
 			}
 
 			foreach ( $name_sanitized as $key => $cache_to_delete ) {
-				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General.
+				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General that includes trait Files.
 				$wp_filesystem->delete( $cache_to_delete );
 			}
 
@@ -130,7 +130,7 @@ class Cache_Tools {
 			}
 
 			foreach ( $name_sanitized as $key => $cache_to_delete ) {
-				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General.
+				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General that includes trait Files.
 				$wp_filesystem->delete( $cache_to_delete );
 			}
 
@@ -234,7 +234,7 @@ class Cache_Tools {
 			}
 
 			foreach ( $name_sanitized as $key => $cache_to_delete ) {
-				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General.
+				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General that includes trait Files.
 				$wp_filesystem->delete( sanitize_text_field( $cache_to_delete ) );
 			}
 
@@ -262,7 +262,7 @@ class Cache_Tools {
 			}
 
 			foreach ( $name_people_sanitized as $key => $cache_to_delete ) {
-				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General.
+				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General that includes trait Files.
 				$wp_filesystem->delete( sanitize_text_field( $cache_to_delete ) );
 			}
 
@@ -368,7 +368,7 @@ class Cache_Tools {
 			throw new Exception( esc_html__( 'No query files found.', 'lumiere-movies' ) );
 		}
 
-		$this->lumiere_wp_filesystem_cred( $files_query[0] ); // in trait Admin_General.
+		$this->lumiere_wp_filesystem_cred( $files_query[0] ); // in trait Admin_General that includes trait Files.
 
 		foreach ( $files_query as $cache_to_delete ) {
 
@@ -427,7 +427,7 @@ class Cache_Tools {
 
 			// Get the permissions for deletion and delete.
 			foreach ( $cache_to_delete_files as $key => $cache_to_delete ) {
-				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General.
+				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General that includes trait Files.
 				$wp_filesystem->delete( $cache_to_delete );
 			}
 
@@ -650,6 +650,7 @@ class Cache_Tools {
 		}
 
 		// Cache folders exist with good permissions, exit.
+		$this->lumiere_wp_filesystem_cred( $lumiere_folder_cache ); // in trait Admin_General that includes trait Files.
 		wp_mkdir_p( $lumiere_folder_cache );
 		$wp_filesystem->chmod( $lumiere_folder_cache, 0777 );
 		wp_mkdir_p( $lumiere_folder_cache_images );
