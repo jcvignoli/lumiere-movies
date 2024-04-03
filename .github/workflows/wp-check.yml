@@ -1,11 +1,8 @@
 name: 'wp-check'
-on: # rebuild any PRs and main branch changes
-  pull_request:
+on:
   push:
-    branches:
-    - main
-    - 'releases/*'
-
+    branches: "*"
+  pull_request:
 jobs:
   test:
     runs-on: ubuntu-latest
