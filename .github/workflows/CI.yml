@@ -1,4 +1,4 @@
-name: "CI"
+name: "PHPStan and Phan"
 on:
   push:
     branches: "*"
@@ -7,7 +7,7 @@ env:
   cache-version: 1
 jobs:
    lint:
-    name: "Lint"
+    name: "PHPStan and Phan"
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
