@@ -224,7 +224,7 @@ class Core {
 		if ( $cache_tools_class->lumiere_create_cache() === true ) {
 			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache successfully created.' );
 		} else {
-			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache has not been created (maybe was already created?)' );
+			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache could not be created (check permissions?)' );
 		}
 
 		// Set up WP Cron exec once if it doesn't exist.

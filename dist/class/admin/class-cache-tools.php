@@ -6,9 +6,8 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
- * @version       1.0
+ * @version       2.0
  * @package lumiere-movies
- * @TODO: rewrite and factorize the class
  */
 
 namespace Lumiere\Admin;
@@ -495,14 +494,20 @@ class Cache_Tools {
 	 */
 	public function lumiere_cache_getfoldersize( ?string $folder = null ): int {
 
+		global $wp_filesystem;
 		$final_folder = $folder ?? $this->imdb_cache_values['imdbcachedir'];
+		$this->lumiere_wp_filesystem_cred( $final_folder ); // in trait Admin_General that includes trait Files.
 
 		if ( ! is_dir( $final_folder ) ) {
 			return 0;
 		}
-		$folder_iterator = new RecursiveIteratorIterator(
+		$folder_iterator = $wp_filesystem->is_writable( $final_folder ) ? new RecursiveIteratorIterator(
 			new RecursiveDirectoryIterator( $final_folder, RecursiveDirectoryIterator::SKIP_DOTS )
-		);
+		) : null;
+
+		if ( ! isset( $folder_iterator ) ) {
+			return 0;
+		}
 
 		$final_size = 0;
 
@@ -510,7 +515,7 @@ class Cache_Tools {
 			if ( $file->isDir() === true ) {
 				continue;
 			}
-			$final_size += $file->getSize();
+			$final_size += $wp_filesystem->is_readable( $file ) ? $file->getSize() : 0;
 		}
 		return $final_size;
 	}
@@ -522,11 +527,15 @@ class Cache_Tools {
 	 * @return int Number of files found in given folder
 	 */
 	public function lumiere_cache_countfolderfiles( ?string $folder = null ): int {
+
+		global $wp_filesystem;
 		$final_folder = $folder ?? $this->imdb_cache_values['imdbcachedir'];
-		$folder_iterator = new RecursiveIteratorIterator(
+		$this->lumiere_wp_filesystem_cred( $final_folder ); // in trait Admin_General that includes trait Files.
+
+		$folder_iterator = $wp_filesystem->is_writable( $final_folder ) ? new RecursiveIteratorIterator(
 			new RecursiveDirectoryIterator( $final_folder, RecursiveDirectoryIterator::SKIP_DOTS )
-		);
-		return iterator_count( $folder_iterator );
+		) : null;
+		return isset( $folder_iterator ) ? iterator_count( $folder_iterator ) : 0;
 	}
 
 	/**
@@ -625,10 +634,8 @@ class Cache_Tools {
 	 * 2/ Can't created alternative cache folders inside Lumière plugin
 	 * 3/ Cache folders already exist & are writable
 	 *
-	 * @info Can't use $wp_filesystem at this stage, since it is called early during plugin activation in class core
-	 *
 	 * @param bool $screen_log whether to display logging on screen or not
-	 * @return bool false if cache already exist or can't be created, true if cache folders were created
+	 * @return bool True if cache could be created
 	 */
 	public function lumiere_create_cache( bool $screen_log = false ): bool {
 
@@ -649,15 +656,34 @@ class Cache_Tools {
 			return false;
 		}
 
-		// Cache folders exist with good permissions, exit.
-		$this->lumiere_wp_filesystem_cred( $lumiere_folder_cache ); // in trait Admin_General that includes trait Files.
-		wp_mkdir_p( $lumiere_folder_cache );
-		$wp_filesystem->chmod( $lumiere_folder_cache, 0777 );
-		wp_mkdir_p( $lumiere_folder_cache_images );
-		// chmod( $lumiere_folder_cache_images, 0777 ); => throws locally an chmod error.
+		// Everything is fine, exit.
 		if ( $wp_filesystem->is_writable( $lumiere_folder_cache ) && $wp_filesystem->is_writable( $lumiere_folder_cache_images ) ) {
 			$this->logger->log()->debug( '[Lumiere][config][cachefolder] Cache folders exist and permissions are ok.' );
-			return false;
+			return true;
+		}
+
+		// Create the cache folders.
+		$this->lumiere_wp_filesystem_cred( $lumiere_folder_cache ); // in trait Admin_General that includes trait Files.
+		wp_mkdir_p( $lumiere_folder_cache );
+		wp_mkdir_p( $lumiere_folder_cache_images );
+		if (
+			$wp_filesystem->is_writable( $lumiere_folder_cache ) === false
+			|| $wp_filesystem->is_writable( $lumiere_folder_cache_images ) === false
+		) {
+			$wp_filesystem->chmod( $lumiere_folder_cache, 0777 );
+			$wp_filesystem->chmod( $lumiere_folder_cache_images, 0777 );
+
+			$this->logger->log()->debug( '[Lumiere][config][cachefolder] Tried to change cache folder permissions.' );
+		}
+		// Exit if cache is now created and writable.
+		if (
+			$wp_filesystem->is_dir( $lumiere_folder_cache ) === true
+			&& $wp_filesystem->is_dir( $lumiere_folder_cache_images ) === true
+			&& $wp_filesystem->is_writable( $lumiere_folder_cache ) === true
+			&& $wp_filesystem->is_writable( $lumiere_folder_cache_images ) === true
+		) {
+			$this->logger->log()->debug( '[Lumiere][config][cachefolder] Cache folders have been created.' );
+			return true;
 		}
 
 		$this->logger->log()->debug( '[Lumiere][config][cachefolder] The cache folder located at ' . $lumiere_folder_cache . ' is not writable, creating an alternative cache ' );
@@ -665,56 +691,27 @@ class Cache_Tools {
 		$lumiere_alt_folder_cache = plugin_dir_path( dirname( __DIR__ ) ) . 'cache';
 		$lumiere_alt_folder_cache_images = $lumiere_alt_folder_cache . '/images';
 
-		// If we can write in $options_cache['imdbcachedir'] (ie: wp-content/cache), make sure permissions are ok
-		if ( wp_mkdir_p( $lumiere_folder_cache ) && $wp_filesystem->chmod( $lumiere_folder_cache, 0777 ) ) {
+		// Let's create an alternative cache folder inside the plugins, make sure permissions are ok
+		if (
+			wp_mkdir_p( $lumiere_alt_folder_cache ) === true && $wp_filesystem->chmod( $lumiere_alt_folder_cache, 0777 ) === true
+			&& wp_mkdir_p( $lumiere_alt_folder_cache_images ) === true && $wp_filesystem->chmod( $lumiere_alt_folder_cache_images, 0777 ) === true
+		 ) {
 
-			$this->logger->log()->debug( "[Lumiere][config][cachefolder] Cache folder $lumiere_folder_cache created." );
+			// the partial path
+			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
 
-			// We can't write in $options_cache['imdbphotoroot'], so write in wp-content/plugins/lumiere/cache instead
-		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache ) && $wp_filesystem->chmod( $lumiere_alt_folder_cache, 0777 ) ) {
-
-			// Create partial var
-			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . '../cache/';
-
-			// Update the option imdbcachedir for new cache path values
+			// Update database with the new value for cache path.
 			$options_cache['imdbcachedir'] = $lumiere_alt_folder_cache;
+			$options_cache['imdbphotoroot'] = $lumiere_alt_folder_cache_images;
 			$options_cache['imdbcachedir_partial'] = $lumiere_alt_folder_cache_partial;
 			update_option( Settings::LUMIERE_CACHE_OPTIONS, $options_cache );
 
-			$this->logger->log()->info( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_alt_folder_cache created." );
-		} else {
-
-			$this->logger->log()->error( "[Lumiere][config][cachefolder] Cannot create alternative cache folder $lumiere_alt_folder_cache." );
-			return false;
-
+			$this->logger->log()->debug( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_folder_cache created." );
+			return true;
 		}
 
-		// We can write in wp-content/cache/images
-		if ( wp_mkdir_p( $lumiere_folder_cache_images ) && $wp_filesystem->chmod( $lumiere_folder_cache_images, 0775 ) ) {
-
-			$this->logger->log()->debug( "[Lumiere][config][cachefolder] Image folder $lumiere_folder_cache_images created." );
-
-			// We can't write in wp-content/cache/images, so write in wp-content/plugins/lumiere/cache/images instead
-		} elseif ( wp_mkdir_p( $lumiere_alt_folder_cache_images ) && $wp_filesystem->chmod( $lumiere_alt_folder_cache_images, 0777 ) ) {
-
-			$lumiere_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
-
-			// Update the option imdbcachedir for new cache path values
-			$options_cache['imdbcachedir_partial'] = $lumiere_folder_cache_partial;
-			$options_cache['imdbphotodir'] = get_site_url() . '/' . $lumiere_folder_cache_partial . '/images/';
-			$options_cache['imdbphotoroot'] = $lumiere_alt_folder_cache_images;
-			update_option( Settings::LUMIERE_CACHE_OPTIONS, $options_cache );
-
-			$this->logger->log()->info( "[Lumiere][config][cachefolder] Alternative cache image folder $lumiere_alt_folder_cache_images created." );
-
-		} else {
-
-			$this->logger->log()->error( "[Lumiere][config][cachefolder] Cannot create alternative cache image folder $lumiere_alt_folder_cache_images." );
-			return false;
-
-		}
-
-		return true;
+		$this->logger->log()->error( '[Lumiere][config][cachefolder] Cannot create either a regular or alternative cache folder.' );
+		return false;
 	}
 }
 

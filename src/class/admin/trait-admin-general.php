@@ -131,7 +131,7 @@ trait Admin_General {
 	 * @param \Throwable $exception The type of new exception
 	 * @return void
 	 */
-	private function lumiere_exception_handler( \Throwable $exception ): void {
+	public function lumiere_exception_handler( \Throwable $exception ): void {
 		throw $exception;
 	}
 
