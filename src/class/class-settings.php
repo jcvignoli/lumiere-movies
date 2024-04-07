@@ -404,11 +404,17 @@ class Settings {
 		// Define how many updates have been runned
 		$this->lumiere_define_nb_updates();
 
-		// Build debug path: 1/ if it doesn't start with "/", it's not absolute, use it with ABSPATH, 2/ Use it alone
-		/** @phpstan-ignore-next-line is a const that can be string and bool */
-		$debug_path = defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) && str_starts_with( WP_DEBUG_LOG, '/' ) ? WP_DEBUG_LOG : null; /** @phan-suppress-current-line PhanTypeMismatchArgumentNullableInternal */
-		/** @phpstan-ignore-next-line is a const that can be string and bool */
-		$debug_path = ! isset( $debug_path ) && defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) ? ABSPATH . WP_DEBUG_LOG : null;
+		/**
+		 * Build debug path: 1/ Use it as it is if it starts with '/', it's absolute, 2/ Add ABSPATH if it doesn't start with '/'
+		 */
+		$debug_path = null;
+		/** @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool */
+		if ( defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) && str_starts_with( WP_DEBUG_LOG, '/' ) ) {
+			$debug_path = WP_DEBUG_LOG;
+			/** @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool */
+		} elseif ( ! isset( $debug_path ) && defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) ) {
+			$debug_path = ABSPATH . WP_DEBUG_LOG;
+		}
 
 		$imdb_admin_options = [
 

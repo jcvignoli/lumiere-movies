@@ -757,7 +757,8 @@ class Popup_Person {
 				<?php
 
 				# Birth
-				$birthday = $this->person->born() !== null ? array_filter( $this->person->born() ) : [];
+				$get_birthday = $this->person->born();
+				$birthday = $get_birthday !== null ? array_filter( $get_birthday, fn( $get_birthday ) => ( $get_birthday !== false && $get_birthday !== '' ) ) : [];
 				if ( count( $birthday ) > 0 ) {
 					echo "\n\t\t\t\t" . '<div id="birth"><font size="-1">';
 
@@ -778,7 +779,8 @@ class Popup_Person {
 				}
 
 				# Death
-				$death = array_filter( $this->person->died() );
+				$get_death = $this->person->died();
+				$death = array_filter( $get_death, fn( $get_death ) => ( $get_death !== false && $get_death !== '' ) );
 				if ( count( $death ) > 0 ) {
 
 					echo "\n\t\t\t\t" . '<div id="death"><font size="-1">';
@@ -854,7 +856,7 @@ class Popup_Person {
 			// add width only if "Display only thumbnail" is unactive.
 			if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
 
-				echo ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
+				echo ' width="' . esc_attr( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
 
 				// add 100px width if "Display only thumbnail" is active.
 			} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {

@@ -205,7 +205,7 @@ class Taxonomy_People_Standard {
 		}
 
 		// Language from the form.
-		// @phpcs:ignore WordPress.Security.NonceVerification -- It is process later!
+		// @phpcs:ignore WordPress.Security.NonceVerification -- It is processed later!
 		$get_lang_form = isset( $_GET['tag_lang'] ) && strlen( $_GET['tag_lang'] ) > 0 ? $_GET['tag_lang'] : null;
 		$form_id_language =
 			isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_GET['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) > 0

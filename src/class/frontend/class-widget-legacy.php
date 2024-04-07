@@ -116,7 +116,7 @@ class Widget_Legacy extends Widget_Selection {
 				'width' => [],
 			],
 		];
-		echo wp_kses( $widget_class->lumiere_display_widget( $title_box ), $kses_escape );
+		echo wp_kses( $widget_class->lum_get_widget( $title_box ), $kses_escape );
 	}
 }
 

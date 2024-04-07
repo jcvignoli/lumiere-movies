@@ -81,13 +81,13 @@ class Search {
 		 * Layout
 		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
 		 */
-		add_action( 'template_include', [ $this, 'lumiere_search_layout' ] );
+		add_filter( 'template_include', [ $this, 'lumiere_search_layout' ] );
 	}
 
 	/**
 	 * Display layout
 	 */
-	public function lumiere_search_layout(): void {
+	public function lumiere_search_layout( string $template ): string {
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
 		wp_head();
@@ -98,6 +98,7 @@ class Search {
 		wp_meta();
 		wp_footer();
 		echo "</body>\n</html>";
+		return ''; // Delete the template used.
 	}
 
 	/**

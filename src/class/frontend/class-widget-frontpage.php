@@ -161,7 +161,7 @@ class Widget_Frontpage {
 
 		if ( isset( $inside_tags ) ) {
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Shortcode [' . $tags . '] found.' );
-			return $this->lumiere_display_widget( $inside_tags );
+			return $this->lum_get_widget( $inside_tags );
 		}
 
 		return '';
@@ -179,7 +179,7 @@ class Widget_Frontpage {
 	 * @param string $title_box Title of the widget to be displayed
 	 * @return string The title and movie data of the Widget
 	 */
-	public function lumiere_display_widget( string $title_box ): string {
+	public function lum_get_widget( string $title_box ): string {
 
 		// Exit if neither a post nor a page!
 		if ( ! is_single() && ! is_page() ) {
@@ -230,7 +230,7 @@ class Widget_Frontpage {
 
 		// Clean the array, remove empty multidimensional arrays.
 		/** @psalm-var list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $final_movies_array */
-		$final_movies_array = array_filter( $movies_array );
+		$final_movies_array = array_filter( $movies_array, fn( $movies_array ) => ( $movies_array !== null ) );
 
 		// Exit if no metadata, no auto title option activated
 		if ( $this->imdb_admin_values['imdbautopostwidget'] !== '1' && count( $final_movies_array ) === 0 ) {
@@ -244,7 +244,7 @@ class Widget_Frontpage {
 		/**
 		 * Output the result using a layout wrapper.
 		 */
-		return $this->lum_widget_display_widget_content( $title_box, $movie );
+		return $this->lum_wrap_widget_content( $title_box, $movie );
 	}
 
 	/**
@@ -291,7 +291,7 @@ class Widget_Frontpage {
 	 * @param string $movie Movie data details to be displayed
 	 * @return string Entire widget (Title+Content)
 	 */
-	private function lum_widget_display_widget_content( string $title_box, string $movie ): string {
+	private function lum_wrap_widget_content( string $title_box, string $movie ): string {
 
 		$output = '';
 

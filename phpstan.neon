@@ -23,5 +23,6 @@ parameters:
         - '#Variable method call on#'
     dynamicConstantNames:
         - DOING_CRON
+        - WP_DEBUG_LOG
         # I may change the path in the future
         - Lumiere\Plugins\Plugins_Detect::SUBFOLDER_PLUGINS_BIT
