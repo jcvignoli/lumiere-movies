@@ -43,21 +43,30 @@ class Admin {
 	 */
 	public function __construct() {
 
+		// Get Global Settings class properties.
+		$this->get_settings_class();
+		$this->get_db_options();
+	}
+
+	/**
+	 * Static start
+	 * @see \Lumiere\Core
+	 */
+	public static function lumiere_static_start(): void {
+
+		$start = new self();
+
 		// Don't bother doing stuff if the current user lacks permissions
 		if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) ) {
 			return;
 		}
 
 		// Redirect Search class.
-		add_filter( 'template_redirect', [ $this, 'lumiere_search_redirect' ] );
+		add_action( 'init', [ $start, 'lum_search_redirect' ] );
 
 		if ( ! is_admin() ) {
 			return;
 		}
-
-		// Get Global Settings class properties.
-		$this->get_settings_class();
-		$this->get_db_options();
 
 		// Add admin menu.
 		add_action( 'init', fn() => Admin_Menu::lumiere_static_start() );
@@ -69,20 +78,13 @@ class Admin {
 		add_action( 'admin_init', fn() => Backoffice_Extra::lumiere_backoffice_start(), 0 );
 
 		// Register admin scripts.
-		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ] );
+		add_action( 'admin_enqueue_scripts', [ $start, 'lumiere_register_admin_assets' ] );
 
 		// Add admin header.
-		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_execute_admin_assets' ] );
+		add_action( 'admin_enqueue_scripts', [ $start, 'lumiere_execute_admin_assets' ] );
 
 		// Add admin tinymce button for wysiwig editor.
-		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_execute_tinymce' ], 2 );
-	}
-
-	/**
-	 * @see \Lumiere\Core
-	 */
-	public static function lumiere_static_start(): void {
-		$start = new self();
+		add_action( 'admin_enqueue_scripts', [ $start, 'lumiere_execute_tinymce' ], 2 );
 	}
 
 	/**
@@ -247,19 +249,19 @@ class Admin {
 	/**
 	 * Redirect search popup in admin, but since it's called in external pages, can't be in admin
 	 *
-	 * @return Virtual_Page|string The virtual page if success, the template called if failed
+	 * @return void The virtual page is instanciated if success
 	 */
-	public function lumiere_search_redirect( string $template ): Virtual_Page|string {
+	public function lum_search_redirect(): void {
 
 		// Display only in admin area.
 		if (
 			stripos( $_SERVER['REQUEST_URI'] ?? '', site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) !== 0
 			|| is_admin()
 		) {
-			return $template;
+			return;
 		}
 
-		return new Virtual_Page(
+		$new_page = new Virtual_Page(
 			site_url() . Settings::GUTENBERG_SEARCH_URL,
 			new Search(),
 			'Lumiere Query Interface'

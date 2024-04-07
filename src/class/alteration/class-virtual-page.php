@@ -35,12 +35,12 @@ class Virtual_Page {
 	/**
 	 * @var string $page_path Full of the page to become virtual, ie "https://example.blog/lumiere/search/
 	 */
-	private string $page_path = '';
+	private string $page_path;
 
 	/**
 	 * @var string $page_title Title of the virtual page
 	 */
-	private string $page_title = '';
+	private string $page_title;
 
 	/**
 	 * @var string|object $page_content Can be a single phrase or an object with the HTML content
@@ -57,9 +57,9 @@ class Virtual_Page {
 	public function __construct( string $page_path = '/lumiere/', string|object $page_content = 'content of the page', string $page_title = 'Title of the page' ) {
 
 		// Build the vars
-		$this->page_path = esc_url( $page_path );
+		$this->page_path = $page_path;
 		$this->page_content = $page_content;
-		$this->page_title = esc_html( $page_title );
+		$this->page_title = $page_title;
 
 		// Start the page creation
 		add_action( 'template_redirect', [ $this, 'create_page' ] );
@@ -69,8 +69,6 @@ class Virtual_Page {
 	 * Update the page with the data sent to the class
 	 *
 	 * @return void
-	 * @deprecated since 4.1.2 Don't really get why it was usefull, it was redondant
-	 * @phpstan-ignore-next-line Method is unused -- yes, but want to keep it for some time
 	 */
 	private function update_wp_query( ?WP_Post $wp_post ): void {
 
@@ -138,7 +136,7 @@ class Virtual_Page {
 		$post->comment_status = 'closed';
 		$post->comment_count = 0;
 		$post->filter = 'raw';
-		$post->guid = get_home_url( 1, '/' . $this->page_path );
+		$post->guid = esc_url( get_home_url( 1, '/' . $this->page_path ) );
 		$post->is_virtual = true;
 		$post->is_page = true;//important part
 		$post->is_singular = true;//important part
@@ -146,7 +144,7 @@ class Virtual_Page {
 		$post->pinged = '';
 		$post->ping_status = 'closed';
 		$post->post_title = esc_html( $this->page_title );
-		$post->post_name = esc_html( $this->page_path );
+		$post->post_name = esc_url( $this->page_path );
 		$post->post_content = $this->page_content;
 		$post->post_excerpt = '';
 		$post->post_parent = 0;
@@ -163,9 +161,11 @@ class Virtual_Page {
 		$post->post_mime_type = '';
 		$post->to_ping = '';
 
-		// $this->update_wp_query( $post ); removed since 4.1.2
+		$new_post = new WP_Post( $post );
+		$this->update_wp_query( $new_post );
 
 		status_header( 200 );
-		wp_cache_add( -1, new WP_Post( $post ), 'posts' );
+		wp_cache_add( -1, $new_post, 'posts' );
+
 	}
 }
