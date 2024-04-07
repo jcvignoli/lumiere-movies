@@ -81,9 +81,10 @@ class Popup_Person {
 
 		/**
 		 * Display layout
-		 * @since 4.0 using 'the_posts' instead of the 'content'
+		 * @since 4.0 using 'the_posts' instead of the 'content', removed the 'get_header' for OceanWP
+		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
 		 */
-		add_action( 'the_posts', [ $this, 'lumiere_popup_person_layout' ] );
+		add_filter( 'template_include', [ $this, 'lumiere_popup_person_layout' ] );
 	}
 
 	/**
@@ -126,9 +127,11 @@ class Popup_Person {
 	/**
 	 *  Display layout
 	 */
-	public function lumiere_popup_person_layout(): void {
+	public function lumiere_popup_person_layout( string $template ): string {
 
-		?> class="lum_body_popup<?php
+		echo "<!DOCTYPE html>\n<html>\n<head>\n";
+		wp_head();
+		echo "\n</head>\n<body class=\"lum_body_popup";
 
 		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
@@ -148,38 +151,33 @@ class Popup_Person {
 		// Show portrait.
 		$this->display_portrait();
 
-		//---------------------------------------------------------------------------summary
+		//--------------------------------------------------------------------------- summary
 		// display only when nothing is selected from the menu.
-if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
-	$this->display_summary();
-}
+		if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
+			$this->display_summary();
+		}
 
-		//---------------------------------------------------------------------------full filmography
-if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'filmo' ) ) {
-	$this->display_full_filmo();
-}
+		//--------------------------------------------------------------------------- full filmography
+		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'filmo' ) ) {
+			$this->display_full_filmo();
+		}
 
 		// ------------------------------------------------------------------------------ partie bio
-if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'bio' ) ) {
-	$this->display_bio();
-}
+		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'bio' ) ) {
+			$this->display_bio();
+		}
 
 		// ------------------------------------------------------------------------------ misc part
-if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
-	$this->display_misc();
-}
+		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'misc' ) ) {
+			$this->display_misc();
+		}
 
-		echo '<br><br>';
-
+		// The end.
 		wp_meta();
 		wp_footer();
+		echo "</body>\n</html>";
 
-?>
-		</body>
-		</html><?php
-
-		exit(); // quit the page, to avoid loading the proper WordPress page
-
+		return ''; // Delete the template used.
 	}
 
 	/**

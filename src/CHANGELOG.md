@@ -1,8 +1,9 @@
 **Changelog**
 
 v.4.1.2
+* [feature] Popup layout should now be universal and fit into any user theme
 * [bug] Very unusual bug when copying taxonomy template files (php-fpm with umask 002, could copy but not reading due to permissions, added an extra check in Copy_Template_Taxonomy::copy_taxonomy_template()
-* [technical] WP functions standardization and escaping (thanks to the new WP plugin check https://wordpress.org/plugins/plugin-check/)
+* [technical] WP functions standardization and escaping (thanks to the [WP plugin check](https://wordpress.org/plugins/plugin-check/ "Plugin Check on WordPress") )
 
 v.4.1.1
 * [feature] Notifications messages translated.

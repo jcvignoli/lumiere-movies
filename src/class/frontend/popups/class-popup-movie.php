@@ -94,10 +94,10 @@ class Popup_Movie {
 
 		/**
 		 * Display layout
-		 * @since 4.0 using 'the_posts', removed the 'get_header' for OceanWP
+		 * @since 4.0 using 'the_posts' instead of the 'content', removed the 'get_header' for OceanWP
+		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
 		 */
-		add_action( 'the_posts', [ $this, 'lumiere_popup_movie_layout' ] );
-
+		add_filter( 'template_include', [ $this, 'lumiere_popup_movie_layout' ] );
 	}
 
 	/**
@@ -167,19 +167,21 @@ class Popup_Movie {
 	 *
 	 * @throws Exception if errors occurs when searching for the movie
 	 */
-	public function lumiere_popup_movie_layout(): void {
+	public function lumiere_popup_movie_layout( string $template ): string {
 
-		?> class="lum_body_popup<?php
+		echo "<!DOCTYPE html>\n<html>\n<head>\n";
+		wp_head();
+		echo "\n</head>\n<body class=\"lum_body_popup";
 
 		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
 		// Exit if no movie was found.
-if ( $this->find_movie() === false ) {
-	status_header( 404 );
-	$text = 'Could not find any IMDb movie with this query.';
-	$this->logger->log()->error( '[Lumiere][' . $this->classname . '] ' . $text );
-	wp_die( esc_html( $text ) );
-}
+		if ( $this->find_movie() === false ) {
+			status_header( 404 );
+			$text = 'Could not find any IMDb movie with this query.';
+			$this->logger->log()->error( '[Lumiere][' . $this->classname . '] ' . $text );
+			wp_die( esc_html( $text ) );
+		}
 
 		/**
 		 * Display a spinner when clicking a link with class .lum_add_spinner (a <div class="loader"> will be inserted inside by the js)
@@ -196,39 +198,36 @@ if ( $this->find_movie() === false ) {
 
 		// Introduction part.
 		// Display something when nothing has been selected in the menu.
-if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
-	$this->display_intro( $this->movie );
-}
+		if ( ( ! isset( $_GET['info'] ) ) || ( strlen( $_GET['info'] ) === 0 ) ) {
+			$this->display_intro( $this->movie );
+		}
 
 		// Casting part.
-if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'actors' ) ) {
-	$this->display_casting( $this->movie );
-}
+		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'actors' ) ) {
+			$this->display_casting( $this->movie );
+		}
 
 		// Crew part.
-if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'crew' ) ) {
-	$this->display_crew( $this->movie );
-}
+		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'crew' ) ) {
+			$this->display_crew( $this->movie );
+		}
 
 		// Resume part.
-if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'resume' ) ) {
-	$this->display_summary( $this->movie );
-}
+		if ( ( isset( $_GET['info'] ) ) && ( $_GET['info'] === 'resume' ) ) {
+			$this->display_summary( $this->movie );
+		}
 
 		// Misc part.
-if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
-	$this->display_misc( $movie_results );
-}
+		if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
+			$this->display_misc( $movie_results );
+		}
 
+		// The end.
 		wp_meta();
 		wp_footer();
+		echo "</body>\n</html>";
 
-?>
-		</body>
-		</html><?php
-
-		exit(); // quit the page, to avoid loading the proper WordPress page
-
+		return ''; // Delete the template used.
 	}
 
 	/**
@@ -276,7 +275,7 @@ if ( isset( $_GET['info'] ) && $_GET['info'] === 'divers' ) {
 					// Get movie's title from imdbphp query, not from globals.
 					echo esc_html( $movie_results->title() );
 				?>
-				&nbsp;(<?php echo intval( $movie_results->year() ); ?>)</div>
+				&nbsp;(<?php echo $movie_results->year() > 0 ? esc_html( $movie_results->year() ) : esc_html__( 'year unknown', 'lumiere-movies' ); ?>)</div>
 				<div class="lumiere_align_center"><font size="-1"><?php
 					$taglines = $movie_results->taglines();
 				if ( array_key_exists( 0, $taglines ) ) {

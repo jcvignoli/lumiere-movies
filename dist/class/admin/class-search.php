@@ -49,13 +49,11 @@ class Search {
 
 	/**
 	 * Class \Lumiere\Imdbphp
-	 *
 	 */
 	private Imdbphp $imdbphp_class;
 
 	/**
 	 * Constructor
-	 *
 	 */
 	public function __construct() {
 
@@ -79,26 +77,27 @@ class Search {
 		// Unregister useless scripts
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_search_deregister_scripts' ] );
 
-		// Start!
-		add_action( 'the_posts', [ $this, 'lumiere_search_layout' ] );
+		/**
+		 * Layout
+		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
+		 */
+		add_action( 'template_include', [ $this, 'lumiere_search_layout' ] );
 	}
 
 	/**
 	 * Display layout
-	 *
 	 */
 	public function lumiere_search_layout(): void {
 
-		?>class="gutenberg_search"><?php
+		echo "<!DOCTYPE html>\n<html>\n<head>\n";
+		wp_head();
+		echo "\n</head>\n<body class=\"gutenberg_search\">";
 
 		$this->maybe_results_page();
 
-		wp_footer(); ?>
-
-		</body>
-		</html><?php
-
-		exit;
+		wp_meta();
+		wp_footer();
+		echo "</body>\n</html>";
 	}
 
 	/**
@@ -106,7 +105,7 @@ class Search {
 	 * Conditionnal: only if form submitted, nonce verified OR if form submitted and referer from an editing page
 	 * @since 4.1 rewritten the way to check $_GET and $_SERVER,
 	 */
-	private function maybe_results_page (): void {
+	private function maybe_results_page(): void {
 
 		if (
 			(
@@ -227,24 +226,27 @@ class Search {
 	 * Deregister useless scripts
 	 */
 	public function lumiere_search_deregister_scripts(): void {
+
+		// Scripts.
 		wp_deregister_script( 'lumiere_hide_show' );
 		wp_deregister_script( 'lumiere_scripts' );
 		wp_deregister_script( 'lumiere_highslide_core' );
 		wp_deregister_script( 'lumiere_bootstrap_core' );
 		wp_deregister_script( 'lumiere_bootstrap_scripts' );
+		// Styles.
 		wp_deregister_style( 'lumiere_style_oceanwpfixes_general' );
 		wp_deregister_style( 'lumiere_highslide_core' );
 		wp_deregister_style( 'lumiere_bootstrap_core' );
 		wp_deregister_style( 'lumiere_bootstrap_custom' );
 		wp_deregister_style( 'lumiere_gutenberg_main' );
 		wp_deregister_style( 'lumiere_block_widget' );
-
 	}
 
 	/**
 	 * Run needed scripts
 	 */
 	public function lumiere_search_run_script(): void {
+
 		wp_enqueue_script( 'lumiere_search_admin' );
 	}
 }

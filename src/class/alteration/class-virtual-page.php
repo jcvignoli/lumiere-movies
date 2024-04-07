@@ -48,11 +48,6 @@ class Virtual_Page {
 	private string|object $page_content = '';
 
 	/**
-	 * @var ?WP_Post $wp_post Final object containing the post
-	 */
-	private ?WP_Post $wp_post = null;
-
-	/**
 	 * Constructor
 	 *
 	 * @param string $page_path Full of the page to become virtual, ie "/lumiere/search/"
@@ -67,25 +62,27 @@ class Virtual_Page {
 		$this->page_title = esc_html( $page_title );
 
 		// Start the page creation
-		$this->create_page();
+		add_action( 'template_redirect', [ $this, 'create_page' ] );
 	}
 
 	/**
 	 * Update the page with the data sent to the class
 	 *
 	 * @return void
+	 * @deprecated since 4.1.2 Don't really get why it was usefull, it was redondant
+	 * @phpstan-ignore-next-line Method is unused -- yes, but want to keep it for some time
 	 */
-	private function update_wp_query(): void {
+	private function update_wp_query( ?WP_Post $wp_post ): void {
 
 		global $wp, $wp_query;
 
-		if ( $this->wp_post === null ) {
+		if ( $wp_post === null ) {
 			wp_die( 'Cannot create a virtual page.' );
 		}
 
 		// Update the main query
 		/** @psalm-suppress PossiblyNullPropertyFetch -- it has been checked, can't be null! */
-		$wp_query->current_post = $this->wp_post->ID;
+		$wp_query->current_post = $wp_post->ID;
 		$wp_query->found_posts = 1;
 		$wp_query->is_page = true;//important part
 		$wp_query->is_singular = true;//important part
@@ -115,11 +112,11 @@ class Virtual_Page {
 		$wp_query->is_posts_page = false;
 		$wp_query->is_post_type_archive = false;
 		$wp_query->max_num_pages = 1;
-		$wp_query->post = $this->wp_post;
-		$wp_query->posts = [ $this->wp_post ];
+		$wp_query->post = $wp_post;
+		$wp_query->posts = [ $wp_post ];
 		$wp_query->post_count = 1;
-		$wp_query->queried_object = $this->wp_post;
-		$wp_query->queried_object_id = $this->wp_post->ID;
+		$wp_query->queried_object = $wp_post;
+		$wp_query->queried_object_id = $wp_post->ID;
 		$wp_query->query_vars['error'] = '';
 		unset( $wp_query->query['error'] );
 
@@ -131,48 +128,44 @@ class Virtual_Page {
 	/**
 	 * Update the page with the data sent to the class
 	 *
-	 * @return ?WP_Post
+	 * @return void
 	 */
-	public function create_page(): ?WP_Post {
+	public function create_page(): void {
 
-		if ( is_null( $this->wp_post ) ) {
+		$post = new stdClass();
+		$post->ID = -1;
+		$post->ancestors = []; // 3.6
+		$post->comment_status = 'closed';
+		$post->comment_count = 0;
+		$post->filter = 'raw';
+		$post->guid = get_home_url( 1, '/' . $this->page_path );
+		$post->is_virtual = true;
+		$post->is_page = true;//important part
+		$post->is_singular = true;//important part
+		$post->menu_order = 0;
+		$post->pinged = '';
+		$post->ping_status = 'closed';
+		$post->post_title = esc_html( $this->page_title );
+		$post->post_name = esc_html( $this->page_path );
+		$post->post_content = $this->page_content;
+		$post->post_excerpt = '';
+		$post->post_parent = 0;
+		$post->post_type = 'page';
+		$post->post_status = 'publish';
+		$post->post_date = current_time( 'mysql' );
+		$post->post_date_gmt = current_time( 'mysql', 1 );
+		$post->modified = $post->post_date;
+		$post->modified_gmt = $post->post_date_gmt;
+		$post->post_password = '';
+		$post->post_content_filtered = '';
+		$post->post_author = is_user_logged_in() ? get_current_user_id() : 1; // @before 3.9.1 last value was '0'
+		$post->post_content = '';
+		$post->post_mime_type = '';
+		$post->to_ping = '';
 
-			$post = new stdClass();
-			$post->ID = -1;
-			$post->ancestors = []; // 3.6
-			$post->comment_status = 'closed';
-			$post->comment_count = 0;
-			$post->filter = 'raw';
-			$post->guid = get_home_url( 1, '/' . $this->page_path );
-			$post->is_virtual = true;
-			$post->menu_order = 0;
-			$post->pinged = '';
-			$post->ping_status = 'closed';
-			$post->post_title = esc_html( $this->page_title );
-			$post->post_name = esc_html( $this->page_path );
-			$post->post_content = $this->page_content;
-			$post->post_excerpt = '';
-			$post->post_parent = 0;
-			$post->post_type = 'page';
-			$post->post_status = 'publish';
-			$post->post_date = current_time( 'mysql' );
-			$post->post_date_gmt = current_time( 'mysql', 1 );
-			$post->modified = $post->post_date;
-			$post->modified_gmt = $post->post_date_gmt;
-			$post->post_password = '';
-			$post->post_content_filtered = '';
-			$post->post_author = is_user_logged_in() ? get_current_user_id() : 1; // @before 3.9.1 last value was '0'
-			$post->post_content = '';
-			$post->post_mime_type = '';
-			$post->to_ping = '';
+		// $this->update_wp_query( $post ); removed since 4.1.2
 
-			$this->wp_post = new WP_Post( $post );
-			$this->update_wp_query();
-
-			status_header( 200 );
-			wp_cache_add( -1, $this->wp_post, 'posts' );
-		}
-
-		return $this->wp_post;
+		status_header( 200 );
+		wp_cache_add( -1, new WP_Post( $post ), 'posts' );
 	}
 }

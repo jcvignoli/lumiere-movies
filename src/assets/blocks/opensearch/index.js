@@ -8,6 +8,7 @@
 	var { blockProps } = blockEditor.useBlockProps;
 	var { registerFormatType } = richText;
 	var el = element.createElement;
+	var __ = wp.i18n.__;
 	const iconLumiereWindow = el(
 		'svg',
 		{ width: 20, height: 20, viewBox: "0 0 1200 1200" },
@@ -23,7 +24,7 @@
 			RichTextToolbarButton,
 			{
 				icon: iconLumiereWindow,
-				title: i18n.__( 'Open search IMDB ID', 'lumiere-movies' ),
+				title: __( 'Open search IMDB ID', 'lumiere-movies' ),
 				onClick: () => {
 					var selectedtext = blockProps.contentRef.current.innerText;
 					open( lumiere_admin_vars.wordpress_path + '/wp-admin/' + lumiere_admin_vars.gutenberg_search_url_string + '?moviesearched=' + selectedtext, 'Lumiere popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + lumiere_admin_vars.popupLarg + ', height=' + lumiere_admin_vars.popupLong + ', top=100, left=100' );
@@ -54,7 +55,7 @@
 	registerFormatType(
 		'lumiere/opensearch',
 		{
-			title: wp.i18n.__( 'Open a search window', 'lumiere-movies' ),
+			title: __( 'Open a search window', 'lumiere-movies' ),
 			description: __( 'Open a new window to query the IMDb for movie and retrieve its ID number.', 'lumiere-movies' ),
 			tagName: "someRandomTag",
 			className: null,

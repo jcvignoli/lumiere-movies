@@ -21,7 +21,7 @@
 			}
 		)
 	);
-	var linkPopup = '<a data-lumiere_admin_search_popup="noInfoNeeded" class="link-imdblt-highslidepeople" target="_blank">' + __( 'IMDb movie id' , 'lumiere-movies' )	+ '</a>';
+	var linkPopup = '<a data-lumiere_admin_search_popup="noInfoNeeded" class="link-imdblt-highslidepeople" target="_blank">' + __( 'IMDb movie id' , 'lumiere-movies' ) + '</a>';
 
 	registerBlockType(
 		'lumiere/main', {

@@ -107,10 +107,10 @@ class Popup_Search {
 
 		/**
 		 * Display layout
-		 * @since 4.0 using 'the_posts', removed the 'get_header' for OceanWP
+		 * @since 4.0 using 'the_posts' instead of the 'content', removed the 'get_header' for OceanWP
+		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
 		 */
-		add_action( 'the_posts', [ $this, 'layout' ] );
-
+		add_filter( 'template_include', [ $this, 'layout' ] );
 	}
 
 	/**
@@ -122,16 +122,16 @@ class Popup_Search {
 		$search = new TitleSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
 
 		$this->movie_results = $search->search( esc_html( $this->film_sanitized ), $this->type_search );
-
 	}
 
 	/**
-	 *  Display layout
-	 *
+	 * Display layout
 	 */
-	public function layout(): void {
+	public function layout( string $template ): string {
 
-		?> class="lum_body_popup_search lum_body_popup<?php
+		echo "<!DOCTYPE html>\n<html>\n<head>\n";
+		wp_head();
+		echo "\n</head>\n<body class=\"lum_body_popup_search lum_body_popup";
 
 		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
@@ -141,9 +141,8 @@ class Popup_Search {
 		/**
 		 * Display a spinner when clicking a link with class .lum_add_spinner (a <div class="loader"> will be inserted inside by the js)
 		 */
-		echo '<div id="spinner-placeholder"></div>';
-?>
-		 
+		echo '<div id="spinner-placeholder"></div>'; ?>
+
 		<h1 align="center">
 			<?php
 			esc_html_e( 'Results related to', 'lumiere-movies' );
@@ -236,12 +235,13 @@ class Popup_Search {
 			} // end foreach
 			?>
 
-		</div>
-		<?php wp_footer(); ?>
-		</body>
-		</html>
-		<?php
-		exit(); // quit to avoid double loading process
+		</div><?php
+
+		wp_meta();
+		wp_footer();
+		echo "</body>\n</html>";
+
+		return ''; // Delete the template used.
 	}
 }
 

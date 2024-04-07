@@ -157,12 +157,6 @@ class Settings {
 	public string $current_number_updates;
 
 	/**
-	 * Where to write the log
-	 * WordPress default path
-	 */
-	const DEBUG_LOG_PATH = WP_CONTENT_DIR . '/debug.log';
-
-	/**
 	 * Cache folder path.
 	 * This const is utilised to determine the default cache path value in get_imdb_cache_option()
 	 */
@@ -410,6 +404,12 @@ class Settings {
 		// Define how many updates have been runned
 		$this->lumiere_define_nb_updates();
 
+		// Build debug path: 1/ if it doesn't start with "/", it's not absolute, use it with ABSPATH, 2/ Use it alone
+		/** @phpstan-ignore-next-line is a const that can be string and bool */
+		$debug_path = defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) && str_starts_with( WP_DEBUG_LOG, '/' ) ? WP_DEBUG_LOG : null; /** @phan-suppress-current-line PhanTypeMismatchArgumentNullableInternal */
+		/** @phpstan-ignore-next-line is a const that can be string and bool */
+		$debug_path = ! isset( $debug_path ) && defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) ? ABSPATH . WP_DEBUG_LOG : null;
+
 		$imdb_admin_options = [
 
 			#--------------------------------------------------=[ Basic ]=--
@@ -431,22 +431,22 @@ class Settings {
 			'imdblinkingkill' => '0',
 			'imdbautopostwidget' => '0',
 			'imdblanguage' => 'en',
-			'imdbdebug' => '0',                 /* Debug */
-			'imdbdebuglog' => '0',                  /* Log debug */
-			'imdbdebuglogpath' => self::DEBUG_LOG_PATH,
-			'imdbdebuglevel' => 'DEBUG',                /* Debug levels: emergency, alert, critical,
-											error, warning, notice, info, debug */
-			'imdbdebugscreen' => '1',               /* Show debug on screen */
-			'imdbwordpress_bigmenu' => '0',             /* Left menu */
-			'imdbwordpress_tooladminmenu' => '1',           /* Top menu */
+			'imdbdebug' => '0',                                  /* Debug */
+			'imdbdebuglog' => '0',                                  /* Log debug */
+			/** @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool */
+			'imdbdebuglogpath' => $debug_path ?? WP_CONTENT_DIR . '/debug.log',
+			'imdbdebuglevel' => 'DEBUG',                                /* Debug levels: emergency, alert, critical,
+													error, warning, notice, info, debug */
+			'imdbdebugscreen' => '1',                               /* Show debug on screen */
+			'imdbwordpress_bigmenu' => '0',                             /* Left menu */
+			'imdbwordpress_tooladminmenu' => '1',                       /* Top menu */
 			'imdbpopup_modal_window' => 'bootstrap',
 			'imdbtaxonomy' => '1',
-			'imdbHowManyUpdates' => $this->current_number_updates,  /* define the number of updates. */
-			'imdbseriemovies' => 'movies+series',           /* options: movies, series, movies+series, videogames */
+			'imdbHowManyUpdates' => $this->current_number_updates,          /* define the number of updates. */
+			'imdbseriemovies' => 'movies+series',                       /* options: movies, series, movies+series, videogames */
 
 		];
-		$imdb_admin_options['imdbplugindirectory'] = get_site_url()
-									. $imdb_admin_options['imdbplugindirectory_partial'];
+		$imdb_admin_options['imdbplugindirectory'] = get_site_url() . $imdb_admin_options['imdbplugindirectory_partial'];
 
 		$imdb_options_a = get_option( self::LUMIERE_ADMIN_OPTIONS );
 
@@ -517,9 +517,7 @@ class Settings {
 		if ( is_array( $imdb_options_a ) === true && count( $imdb_options_a ) !== 0 && isset( $imdb_cache_options['imdbcachedir_partial'] ) ) { // if not empty.
 
 			// Agregate vars to construct 'imdbphotodir'
-			$imdb_cache_options['imdbphotodir'] = content_url()
-									. $imdb_cache_options['imdbcachedir_partial']
-									. 'images/';
+			$imdb_cache_options['imdbphotodir'] = content_url() . $imdb_cache_options['imdbcachedir_partial'] . 'images/';
 		}
 		return $imdb_cache_options;
 	}
@@ -627,6 +625,7 @@ class Settings {
 	 * Retrieve selected type of search in admin
 	 *
 	 * @return array<string>
+	 * @see \Imdb\TitleSearch Contains the constants
 	 */
 	public function lumiere_select_type_search (): array {
 
