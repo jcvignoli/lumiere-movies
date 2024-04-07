@@ -6,8 +6,7 @@ on:
 env:
   cache-version: 1
 jobs:
-   lint:
-    name: "PHPStan and Phan"
+   standard:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:

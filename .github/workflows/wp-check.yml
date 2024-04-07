@@ -4,7 +4,7 @@ on:
     branches: "*"
   pull_request:
 jobs:
-  test:
+  standard:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
