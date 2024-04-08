@@ -37,13 +37,13 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 		<div id="popup" class="titresection">
 			<img src="<?php echo esc_url( $lumiere_pics_url . 'admin-title-popup.png' ); ?>" width="80" height="80" align="absmiddle" />&nbsp;&nbsp;&nbsp;
-				<?php esc_html_e( 'Popup', 'lumiere-movies' ); ?>
+				<?php esc_html_e( 'Modal windows (popups)', 'lumiere-movies' ); ?>
 		</div>
 
 
 		<div class="lumiere_padding_five" id="select_modal_window">&nbsp;
 			<?php
-			echo esc_html__( 'Modal windows', 'lumiere-movies' ) . '&nbsp;';
+			echo esc_html__( 'Modal window type', 'lumiere-movies' ) . '&nbsp;';
 
 			/**
 			 * The selection of bootstrap value will remove the options to change

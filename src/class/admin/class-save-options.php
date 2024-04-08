@@ -41,10 +41,11 @@ class Save_Options {
 
 	/**
 	 * Allows to limit the calls to rewrite rules refresh
+	 * @var string|null $page_data_taxo Full URL to data page taxonomy subpage
 	 * @see Save_Options::lumiere_data_options_save()
 	 * @since 4.1
 	 */
-	private string $page_data_taxo;
+	private null|string $page_data_taxo;
 
 	/**
 	 * Admin options
@@ -66,8 +67,9 @@ class Save_Options {
 
 	/**
 	 * Constructor
+	 * @param string|null $page_data_taxo Full URL to data page taxonomy subpage
 	 */
-	public function __construct( string $page_data_taxo ) {
+	public function __construct( string $page_data_taxo = null ) {
 
 		// Store page
 		$this->page_data_taxo = $page_data_taxo;
@@ -76,8 +78,19 @@ class Save_Options {
 		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 		$this->imdb_data_values = get_option( Settings::LUMIERE_DATA_OPTIONS );
 		$this->imdb_cache_values = get_option( Settings::LUMIERE_CACHE_OPTIONS );
+	}
 
-		add_action( 'admin_init', [ $this, 'process_headers' ] );
+	/**
+	 * Call from a WordPress hook
+	 * @param string|null $page_data_taxo Full URL to data page taxonomy subpage
+	 *
+	 * @since 4.1 added param, I need it to restrain rewrite rules flush to data taxo pages
+	 * @see self::lumiere_data_options_save() use $this->page_data_taxo
+	 */
+	public static function lumiere_static_start( string $page_data_taxo = null ): void {
+		$class_save = new self( $page_data_taxo );
+
+		add_action( 'admin_init', [ $class_save, 'process_headers' ] );
 	}
 
 	/**
@@ -109,15 +122,6 @@ class Save_Options {
 			$next_url_strings .= '&' . $var . '=' . $value;
 		}
 		return count( $gets_array ) > 0 ? admin_url( $first_url_string . $next_url_strings ) : wp_get_referer();
-	}
-
-	/**
-	 * Call from a WordPress hook
-	 * @since 4.1 added param, I need it to restrain te rewrite rules flush to data taxo pages
-	 * @param string $page_data_taxo
-	 */
-	public static function lumiere_static_start( string $page_data_taxo ): void {
-		$start = new self( $page_data_taxo );
 	}
 
 	/**
@@ -532,7 +536,7 @@ class Save_Options {
 		 * Execute only if referer page is options data taxo page
 		 * Won't execute when copying taxonomy template
 		 */
-		if ( $get_referer !== false && admin_url( 'admin.php' ) . strrchr( $get_referer, '?' ) === $this->page_data_taxo ) {
+		if ( $get_referer !== false && isset( $this->page_data_taxo ) && admin_url( 'admin.php' ) . strrchr( $get_referer, '?' ) === $this->page_data_taxo ) {
 			flush_rewrite_rules();
 		}
 

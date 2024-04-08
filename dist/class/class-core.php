@@ -108,7 +108,7 @@ class Core {
 			register_block_type( $block_dir . '/' . $block );
 			add_action(
 				'init',
-				function( $block ) {
+				function( string $block ) {
 					wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', plugin_dir_path( __DIR__ ) . 'languages/' );
 				}
 			);
