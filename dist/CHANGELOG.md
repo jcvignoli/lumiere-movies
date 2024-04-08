@@ -1,9 +1,10 @@
 **Changelog**
 
 v.4.1.2
-* [feature] Popup layout should now be universal and fit into any WordPress theme
-* [feature] Taxonomy themes are now universand and fit into any WordPress theme
+* [feature] Popup layout should now be universal and fit into any WordPress theme (finding if it's a block-based theme and displaying a different layout)
+* [feature] Taxonomy themes are now universand and fit into any WordPress theme (finding if it's a block-based theme and displaying a different layout)
 * [bug] Very unusual bug when copying taxonomy template files (php-fpm with umask 002, could copy but not reading due to permissions, added an extra check in Copy_Template_Taxonomy::copy_taxonomy_template()
+* [bug] On some environments, the Polylang selection in people taxonomy didn't find the language. (Changed the SQL query, now using a two-position lang in form)
 * [technical] WP functions standardization and escaping (thanks to the [WP plugin check](https://wordpress.org/plugins/plugin-check/ "Plugin Check on WordPress") )
 
 v.4.1.1

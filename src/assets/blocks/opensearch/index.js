@@ -8,7 +8,7 @@
 	var { blockProps } = blockEditor.useBlockProps;
 	var { registerFormatType } = richText;
 	var el = element.createElement;
-	var __ = wp.i18n.__;
+	var __ = i18n.__;
 	const iconLumiereWindow = el(
 		'svg',
 		{ width: 20, height: 20, viewBox: "0 0 1200 1200" },
@@ -60,9 +60,6 @@
 			tagName: "someRandomTag",
 			className: null,
 			edit: ConditionalButton,
-			attributes: {
-				'data-lum_link_maker': 'data-lum_link_maker',
-			},
 		}
 	);
 } )( window.wp.data, window.wp.compose, window.wp.element, window.wp.richText, window.wp.blockEditor, window.wp.i18n  );

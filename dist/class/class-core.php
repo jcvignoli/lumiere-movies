@@ -62,7 +62,7 @@ class Core {
 		/**
 		 * Gutenberg blocks, must be executed on the whole website
 		 */
-		add_action( 'enqueue_block_editor_assets', [ $this, 'lumiere_enqueue_gutenberg_blocks' ] );
+		add_action( 'enqueue_block_editor_assets', [ $this, 'lum_enqueue_blocks' ] );
 
 		/**
 		 * Admin
@@ -100,13 +100,18 @@ class Core {
 	 * @since 4.1 Using block.json, added script translation, added lumiere_scripts_admin_gutenberg script
 	 * @see \Lumiere\Admin\Widget_Selection::lumiere_register_widget_block() which registers gutenberg widget blocks
 	 */
-	public function lumiere_enqueue_gutenberg_blocks(): void {
+	public function lum_enqueue_blocks(): void {
 		$blocks = [ 'movie', 'addlink', 'opensearch' ];
 		$block_dir = plugin_dir_path( __DIR__ ) . 'assets/blocks';
 
 		foreach ( $blocks as $block ) {
 			register_block_type( $block_dir . '/' . $block );
-			wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', plugin_dir_path( __DIR__ ) . 'languages/' );
+			add_action(
+				'init',
+				function( $block ) {
+					wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', plugin_dir_path( __DIR__ ) . 'languages/' );
+				}
+			);
 		}
 
 		// Script for Gutenberg blocks only.
