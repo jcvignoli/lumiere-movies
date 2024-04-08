@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.6
+ * Version: 3.7
  *
  * @package lumiere-movies
  */
@@ -47,7 +47,7 @@ class Taxonomy_People_Standard {
 	/**
 	 * Class \Imdb\Person
 	 */
-	private Person $person_class;
+	private ?Person $person_class;
 
 	/**
 	 * Name of the person sanitized
@@ -79,6 +79,23 @@ class Taxonomy_People_Standard {
 		if ( count( $this->plugins_active_names ) === 0 ) {
 			$this->activate_plugins();
 		}
+
+		// Build the Link Maker var in trait.
+		$this->link_maker = Link_Factory::lumiere_link_factory_start();
+
+		// Full taxonomy title.
+		$this->taxonomy_title = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . 'standard';
+
+		// Class person, find also name of the current taxo
+		$this->person_class = $this->get_imdbphp_person_searched();
+		$this->person_name = isset( $this->person_class ) ? $this->person_class->name() : '';
+
+		// Start AMP headers if AMP page, not really in use
+		if ( in_array( 'amp', $this->plugins_active_names, true ) === true ) {
+			// $this->amp_headers(); // Debug and check
+			add_action( 'wp_ajax_amp_comment_submit', [ $this, 'amp_form_submit' ] );
+			add_action( 'wp_ajax_nopriv_amp_comment_submit', [ $this, 'amp_form_submit' ] );
+		}
 	}
 
 	/**
@@ -87,15 +104,8 @@ class Taxonomy_People_Standard {
 	public static function lumiere_static_start(): void {
 		$class = new self();
 
-		// Start AMP headers if AMP page, not really in use
-		if ( in_array( 'amp', $class->plugins_active_names, true ) === true ) {
-			// $this->amp_headers(); // Debug and check
-			add_action( 'wp_ajax_amp_comment_submit', [ $class, 'amp_form_submit' ] );
-			add_action( 'wp_ajax_nopriv_amp_comment_submit', [ $class, 'amp_form_submit' ] );
-		}
-
-		// Display the page. Must not be included into an add_action(), as should be displayed directly.
-		$class->lumiere_taxo_layout_standard();
+		// Display the page. Must not be included into an add_action(), as should be displayed directly, since it's a template.
+		$class->lum_select_layout();
 	}
 
 	/**
@@ -135,97 +145,238 @@ class Taxonomy_People_Standard {
 
 	/**
 	 * Do the search according to the page title using IMDbPHP classes
-	 * Start the logging process
 	 */
-	private function lumiere_process_imdbphp_search(): void {
-
-		do_action( 'lumiere_logger' );
+	private function get_imdbphp_person_searched(): Person|null {
 
 		// Build the current page name from the tag taxonomy.
 		// Sanitize_title() ensures that the search is made according to the URL (fails with accents otherwise)
 		$page_title_check = sanitize_title( single_tag_title( '', false ) ?? '' );
 
-		// Full taxonomy title.
-		$this->taxonomy_title = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . 'standard';
-
 		// If we are in a WP taxonomy page, the info from imdbphp libraries.
-		$search = new PersonSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
+		$search = new PersonSearch( $this->plugins_classes_active['imdbphp'], null ); // no log, breaks layout, executed too early.
 		$results = $search->search( $page_title_check ); // search for the person using the taxonomy tag.
 		if ( array_key_exists( 0, $results ) ) {
-			$mid = $results[0]->imdbid(); // keep the first result only.
-			$mid_sanitized = esc_html( $mid ); // sanitize the first result.
-			$this->person_class = new Person( $mid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() ); // search the profile using the first result.
-			$this->person_name = $this->person_class->name();
+			return new Person( esc_html( $results[0]->imdbid() ), $this->plugins_classes_active['imdbphp'], null ); // no log, breaks layout, executed too early. => search the class Person using the first result found earlier.
 		}
+		return null;
 	}
 
 	/**
-	 * Display the layout
+	 * Select which layout to display: Block-based or regular theme
 	 */
-	private function lumiere_taxo_layout_standard(): void {
+	public function lum_select_layout(): void {
+
+		$kses_esc_html = [
+			'div' => [
+				'id' => [],
+				'align' => [],
+				'class' => [],
+			],
+			'form' => [
+				'target' => [],
+				'method' => [],
+				'id' => [],
+				'name' => [],
+				'action' => [],
+			],
+			'h1' => [
+				'id' => [],
+				'class' => [],
+			],
+			'h2' => [
+				'id' => [],
+				'class' => [],
+			],
+			'h3' => [
+				'id' => [],
+				'class' => [],
+			],
+			'h4' => [
+				'id' => [],
+				'class' => [],
+			],
+			'select' => [
+				'class' => [],
+				'name' => [],
+				'id' => [],
+			],
+			'option' => [
+				'value' => [],
+				'selected' => [],
+			],
+			'input' => [
+				'type' => [],
+				'id' => [],
+				'name' => [],
+				'value' => [],
+				'required' => [],
+			],
+			'a' => [
+				'class' => [],
+				'data-*' => true,
+				'title' => [],
+				'href' => [],
+				'rel' => [],
+			],
+			'p' => [ 'class' => [] ],
+			'img' => [
+				'src' => [],
+				'loading' => [],
+				'class' => [],
+				'alt' => [],
+				'width' => [],
+			],
+			'span' => [
+				'id' => [],
+				'data-*' => true,
+				'class' => [],
+				'aria-label' => [],
+				'role' => [],
+			],
+			'font' => [ 'size' => [] ],
+			'br' => [],
+			'button' => [
+				'type' => [],
+				'name' => [],
+				'id' => [],
+				'class' => [],
+				'aria-live' => [],
+				'value' => [],
+				'data-*' => true,
+			],
+			'strong' => [],
+			'main' => [
+				'class' => [],
+				'role' => [],
+				'id' => [],
+			],
+		];
+
+		// The current theme is a block-based theme.
+		if ( wp_is_block_theme() === true ) {
+			$this->lum_taxo_template_block( $this->lum_taxo_display_content(), $kses_esc_html );
+			exit;
+		}
 
 		get_header();
 
-		// Start IMDbPHP search.
-		$this->lumiere_process_imdbphp_search();
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
 
-		// Simplify coding.
-		$logger = $this->logger->log();
+		echo wp_kses( $this->lum_taxo_display_content(), $kses_esc_html );
 
-		// Build the Link Maker var in trait.
-		$this->link_maker = Link_Factory::lumiere_link_factory_start();
+		wp_meta();
 
-		$logger->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . get_class( $this->link_maker ) );
+		get_footer();
 
-		// Log Plugins_Start.
-		$logger->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
+		exit;
+	}
 
-		echo '<br />';
+	/**
+	 * Use Block-based template, for modern themes
+	 * @since 4.1.2
+	 * @param string $text The text to be displayed inside the content group
+	 * @param array<string, array<array<string, string>>|array<string|bool>> $kses_esc_html The array for escaping wp_kses()
+	 * @return void The template with the text is displayed
+	 */
+	private function lum_taxo_template_block( string $text, array $kses_esc_html ): void {
 
-		if ( true === $this->activate_sidebar ) {
-			get_sidebar();
-		}
-		?>
-
-		<main id="main" class="site-main clr" role="main">
-			<div id="content-wrap" class="container clr">
+		?><html><head>
+		<meta charset="<?php bloginfo( 'charset' ); ?>">
 		<?php
+		$block_content = do_blocks(
+			'
+			<!-- wp:group -->
+			<div class="wp-block-group">' . $text . '</div>
+			<!-- /wp:group -->'
+		);
+		?>
+		<?php wp_head(); ?>
+		</head><body <?php body_class(); ?>>
+		<?php wp_body_open(); ?>
+		<div class="wp-site-blocks">
+		<header class="wp-block-template-part site-header">
+		<?php block_header_area(); ?>
+		</header>
+		<?php
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
+		echo wp_kses( $block_content, $kses_esc_html ); ?>
+		<footer class="wp-block-template-part site-footer">
+		<?php block_footer_area(); ?>
+		</footer>
+		</div>
+		<?php wp_footer(); ?>
+		</body>
+		</html><?php
+	}
 
+	/**
+	 * The content of the page
+	 */
+	private function lum_taxo_display_content(): string {
+
+		$output = '<br>';
+
+		// The sidebar activation is hardcoded here.
+		if ( $this->activate_sidebar === true ) {
+			$output .= (string) get_sidebar();
+		}
+
+		$output .= '<main id="main" class="site-main clr" role="main">';
+		$output .= '<div id="content-wrap" class="container clr">';
+
+		 // end of section if a result was found for the taxonomy.
 		if ( strlen( $this->person_name ) > 0 ) {
 
-			$this->portrait();
+			$output .= $this->lum_taxo_portrait();
 
-		} else { // end of section if a result was found for the taxonomy.
+		} else {
 
 			// No imdb result, so display a basic title.
 			$title_from_tag = single_tag_title( '', false );
-			echo "\n\t\t" . '<h1 class="pagetitle">' . esc_html__( 'Taxonomy for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ?? '' ) . ' as <i>standard</i></h1>';
-			echo "\n\t\t" . '<div>' . esc_html__( 'No IMDb result found for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ?? '' ) . '</div>';
+			$output .= "\n\t\t" . '<h1 class="pagetitle">' . esc_html__( 'Taxonomy for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ?? '' ) . ' as <i>standard</i></h1>';
+			$output .= "\n\t\t" . '<div>' . esc_html__( 'No IMDb result found for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ?? '' ) . '</div>';
 
 		}
 
-		// Language from the form.
-		// @phpcs:ignore WordPress.Security.NonceVerification -- It is processed later!
-		$get_lang_form = isset( $_GET['tag_lang'] ) && strlen( $_GET['tag_lang'] ) > 0 ? $_GET['tag_lang'] : null;
-		$form_id_language =
-			isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_GET['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) > 0
-			&& isset( $get_lang_form ) && strlen( $get_lang_form ) > 0
-			? esc_html( $get_lang_form )
-			: null;
+		// Display the related posts part.
+		$output .= $this->display_related_posts();
 
-		/**
-		 *  For every type of role (writer, director) do a WP Query Loop
-		 */
+		$output .= '</div>';
+		$output .= '</main>';
+
+		return $output;
+	}
+
+	/**
+	 * Display results related to the current taxonomy
+	 * For every type of role (writer, director) do a WP Query Loop
+	 */
+	private function display_related_posts(): string {
 
 		// Var to include all rows and check if it is null.
 		$check_if_no_result = [];
 
-		echo "\n\t\t\t\t" . '<div class="lumiere_taxo_results"><!-- taxo_results -->';
+		$output = "\n\t\t\t\t" . '<div class="lumiere_taxo_results"><!-- taxo_results -->';
 
 		foreach ( $this->config_class->array_people as $people => $people_translated ) {
 
-				// A value was passed in the form.
-			if ( $form_id_language !== null ) {
+			// A Polylang form exists and a value was passed in the Polylang form.
+			if (
+				isset( $this->plugins_classes_active['polylang'] )
+				&& isset( $_GET['tag_lang'] ) && strlen( $_GET['tag_lang'] ) > 0
+				&& isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_GET['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) > 0
+			) {
+				$args = $this->plugins_classes_active['polylang']->get_polylang_taxo_query(
+					$_GET['tag_lang'],
+					$this->imdb_admin_values['imdburlstringtaxo'],
+					$this->person_name,
+					$people
+				);
+
+				// No value was passed in the polylang form or no polylang form exists, show all.
+			} elseif ( strlen( $this->person_name ) > 0 ) {
 
 				$args = [
 					'post_type' => [ 'post' ],
@@ -233,31 +384,10 @@ class Taxonomy_People_Standard {
 					'numberposts' => -1,
 					'nopaging' => true,
 					'tax_query' => [
-						// @phan-suppress-next-line PhanPluginMixedKeyNoKey Should not mix array entries of the form [key => value,] with entries of the form [value,]. -- Since WordPress accepts it, it's ok!
-						'relation' => 'AND',
 						[
-							'taxonomy' => esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . $people,
+							'taxonomy' => sanitize_text_field( $this->imdb_admin_values['imdburlstringtaxo'] . $people ),
 							'field' => 'name',
-							'terms' => $this->person_name,
-						],
-						[
-							'taxonomy' => 'language',
-							'field' => 'term_taxonomy_id',
-							'terms' => $form_id_language,
-						],
-					],
-				];
-
-				// No value was passed in the form.
-			} elseif ( strlen( $this->person_name ) > 0 ) {
-
-				$args = [
-					'post_type' => [ 'post' ],
-					'tax_query' => [
-						[
-							'taxonomy' => esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . $people,
-							'field' => 'name',
-							'terms' => $this->person_name,
+							'terms' => sanitize_text_field( $this->person_name ),
 						],
 					],
 				];
@@ -270,67 +400,36 @@ class Taxonomy_People_Standard {
 			// The loop.
 			if ( isset( $the_query ) && $the_query->have_posts() ) {
 
-				echo "\n\t\t\t\t" . '<h2 class="lumiere_italic lumiere_align_center">' . esc_html__( 'In the role of', 'lumiere-movies' ) . ' ' . esc_html( $people_translated ) . '</h2>';
+				$output .= "\n\t\t\t\t" . '<h2 class="lumiere_italic lumiere_align_center">' . esc_html__( 'In the role of', 'lumiere-movies' ) . ' ' . esc_html( $people_translated ) . '</h2>';
 
 				while ( $the_query->have_posts() ) {
 					$the_query->the_post();
-					?>
 
-						<div class="postList">
-							<h3 id="post-<?php the_ID(); ?>">
-								<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php esc_html_e( 'Open the blog ', 'lumiere-movies' ); ?><?php the_title(); ?>">
-									<?php the_title(); ?> <span class="lumiere_font_12">(<?php the_time( 'd/m/Y' ); ?>)</span>
-								</a>
-							</h3>
-						<?php
-						/**
-							 * Too many results, deactivated
-							if (get_terms( esc_html( $this->taxonomy_title )){ ?>
+					$output .= '<div class="postList">';
+					$output .= '<h3 id="post-' . (int) get_the_ID() . '">';
+					$output .= '<a href="' . (string) get_the_permalink() . '" rel="bookmark" title="' . __( 'Open the blog ', 'lumiere-movies' ) . get_the_title() . '">';
+					$output .= get_the_title() . '&nbsp;<span class="lumiere_font_12">(' . (string) get_the_time( 'd/m/Y' ) . ')</span>';
+					$output .= '</a>';
+					$output .= '</h3>';
+					$output .= '<div class="lumiere_display_flex">';
 
-						<div class="taxonomy"><?php
-							esc_html_e( 'Taxonomy', 'lumiere-movies' );
-							echo " $people:";
-							echo get_the_term_list(get_the_ID(), $this->taxonomy_title, ' ', ', ', '' ); ?>
-						<br /><br />
-						</div>
-						<?php } */
+					$output .= '<div class="">';
+					$output .= wp_trim_excerpt();
+					$output .= "\n\t\t" . '</div>';
+					$output .= "\n\t" . '</div>';
+					$output .= '<p class="postmetadata lumiere_align_center lumiere_padding_five">';
+					$output .= '<span class="category">' . __( 'Filed under: ', 'lumiere-movies' ) . get_the_category_list( ', ' ) . '</span>';
 
-						?>
-				<div class="lumiere_display_flex">
-					<?php /* Ugly layout, deactivated
-					<div class="lumiere_padding_15">
-					// Display the post's thumbnail.
-					$thumbnail = get_the_post_thumbnail( null, '', [ 'class' => '' ] );
-					if ( strlen( $thumbnail ) !== 0 ) {
-						echo get_the_post_thumbnail( null, '', [ 'class' => '' ] );
-					}
-					echo "\n";
-					echo '</div>';
-					*/ ?>
-					<div class="">
-						<?php the_excerpt(); ?>
-					</div>
-				</div>
-				<p class="postmetadata lumiere_align_center lumiere_padding_five">
-					<span class="category"><?php esc_html_e( 'Filed under: ', 'lumiere-movies' ); ?> <?php the_category( ', ' ); ?></span>
-					<?php
 					$tags_list = get_the_tag_list();
 					if ( ( $tags_list !== false ) && ( is_wp_error( $tags_list ) === false ) ) {
-						?>
-							<strong>|</strong>
-							<span class="tags"><?php the_tags( esc_html__( 'Tags: ', 'lumiere-movies' ), ' &bull; ', ' ' ); ?></span>
-						<?php
-						echo "\n";
+
+							$output .= '<strong> | </strong>';
+							$tags_list = get_the_tag_list( esc_html__( 'Tags: ', 'lumiere-movies' ), ' &bull; ', ' ' );
+							$output .= is_string( $tags_list ) ? '<span class="tags">' . $tags_list . '</span>' : '';
 					}
-					?>
-						<strong>|</strong> 
-						<?php
-						comments_popup_link( 'No Comments &#187;', '1 Comment &#187;', '% Comments &#187;' );
-						echo "\n";
-						?>
-				</p>
-			</div>
-					<?php
+
+					$output .= "\n" . '</p>';
+					$output .= "\n" . '</div>';
 
 					$check_if_no_result[] = get_the_title();
 
@@ -338,11 +437,9 @@ class Taxonomy_People_Standard {
 
 				// there is no post.
 			} elseif ( ! isset( $the_query ) || $the_query->have_posts() || strlen( $this->person_name ) > 0 ) {
-
-				$logger->debug( '[Lumiere][' . $this->classname . '] No post found for ' . "$this->person_name in $people" );
-
+				// $this->logger->log()->debug( '[Lumiere][' . $this->classname . '] No post found for ' . "$this->person_name in $people" );
+				$output .= "<div>No post found for $this->person_name in $people</div>";
 			}
-
 		}
 
 		// Restore original Post Data.
@@ -354,222 +451,131 @@ class Taxonomy_People_Standard {
 		 */
 		if ( count( $check_if_no_result ) === 0 && strlen( $this->person_name ) > 0 ) {
 
-			$this->logger->log()->info( '[Lumiere][' . $this->classname . '] No post found for ' . $this->person_name . ' in ' . $this->taxonomy_title );
+			// $this->logger->log()->info( '[Lumiere][' . $this->classname . '] No post found for ' . $this->person_name . ' in ' . $this->taxonomy_title );
 
-			/* translators: the name of a persons completes the phrase */
-			echo '<div class="lumiere_align_center lumiere_italic lumiere_padding_five">' . esc_html__( 'No post written about ', 'lumiere-movies' ) . esc_html( $this->person_name ) . '</div>';
+			/* translators: %1$s is the name of a person */
+			$output .= '<div class="lumiere_align_center lumiere_italic lumiere_padding_five">' . esc_html( sprintf( __( 'No post written about %1$s', 'lumiere-movies' ), $this->person_name ) ) . '</div>';
 
 		}
-		?>
-				</div><!-- taxo_results -->
-			</div>
-		</main>
 
-		<?php
-		wp_meta();
-
-		get_footer();
+		$output .= "\n\t\t\t\t" . '</div><!-- taxo_results -->';
+		return $output;
 
 	}
 
 	/**
 	 *  Display People data details
 	 */
-	private function portrait(): void {
+	private function lum_taxo_portrait(): string {
 
-		echo "\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Photo & identity -->';
-		echo "\n\t\t" . '<div class="lumiere_container lumiere_font_em_11 lumiere_align_center">';
-		echo "\n\t\t\t" . '<div class="lumiere_flex_auto">';
+		$output = "\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Photo & identity -->';
+		$output .= "\n\t\t" . '<div class="lumiere_container lumiere_font_em_11 lumiere_align_center">';
+		$output .= "\n\t\t\t" . '<div class="lumiere_flex_auto">';
 
-		echo "\n\t\t\t\t" . '<div class="imdbelementTITLE ';
-		echo ' imdbelementTITLE_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
-		echo '">';
-		echo esc_html( $this->person_name );
-		echo '</div>';
+		$output .= "\n\t\t\t\t" . '<div class="imdbelementTITLE ';
+		$output .= ' imdbelementTITLE_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
+		$output .= '">';
+		$output .= esc_html( $this->person_name );
+		$output .= '</div>';
 
 		/**
 		 * Use Highslide, Classical or No Links class links builder.
 		 * Each one has its own class passed in $link_maker,
 		 * according to which option the lumiere_select_link_maker() found in Frontend.
 		 */
-		$esc_html_pic = [
-			'div' => [ 'class' => [] ],
-			'a' => [
-				'href' => [],
-				'title' => [],
-			],
-			'img' => [
-				'src' => [],
-				'loading' => [],
-				'class' => [],
-				'alt' => [],
-				'width' => [],
-			],
-		];
 		if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp pics only if cache is active
-			echo wp_kses(
-				$this->link_maker->lumiere_link_picture(
-					$this->person_class->photo_localurl( false ),
-					$this->person_class->photo_localurl( true ),
-					$this->person_name
-				),
-				$esc_html_pic
-			);
+			$output .= isset( $this->person_class ) ? $this->link_maker->lumiere_link_picture(
+				$this->person_class->photo_localurl( false ),
+				$this->person_class->photo_localurl( true ),
+				$this->person_name
+			) : '';
 		} else { // no_pics otherwise
-			echo wp_kses(
-				$this->link_maker->lumiere_link_picture(
-					$this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif',
-					$this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif',
-					$this->person_name
-				),
-				$esc_html_pic
+			$output .= $this->link_maker->lumiere_link_picture(
+				$this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif',
+				$this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif',
+				$this->person_name
 			);
 		}
 
-		echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Birth -->';
-		echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-		echo ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
-		echo '">';
-		echo '<font size="-1">';
+		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Birth -->';
+		$output .= "\n\t\t\t\t" . '<div class="lumiere-lines-common';
+		$output .= ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
+		$output .= '">';
+		$output .= '<font size="-1">';
 
 		# Birth
-		$birthday = $this->person_class->born() !== null ? array_filter( $this->person_class->born() ) : [];
+		$birthday = isset( $this->person_class ) && $this->person_class->born() !== null ? array_filter( $this->person_class->born() ) : [];
 		if ( count( $birthday ) > 0 ) {
 
 			$birthday_day = isset( $birthday['day'] ) && strlen( $birthday['day'] ) > 0 ? (string) $birthday['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
 			$birthday_month = isset( $birthday['month'] ) && strlen( $birthday['month'] ) > 0 ? date_i18n( 'F', $birthday['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
 			$birthday_year = isset( $birthday['year'] ) && strlen( $birthday['year'] ) > 0 ? (string) $birthday['year'] : __( '(year unknown)', 'lumiere-movies' );
 
-			echo "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
+			$output .= "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
 				. '&#9788;&nbsp;'
 				. esc_html__( 'Born on', 'lumiere-movies' ) . '&nbsp;</span>'
 				. esc_html( $birthday_day . $birthday_month . $birthday_year );
 		} else {
-			echo '&nbsp;';
+			$output .= '&nbsp;';
 		}
 
 		if ( ( isset( $birthday['place'] ) ) && ( strlen( $birthday['place'] ) !== 0 ) ) {
-			echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $birthday['place'] );
+			$output .= ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $birthday['place'] );
 		}
 
-		echo "\n\t\t\t\t" . '</font></div>';
-		echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Death -->';
-		echo "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-		echo ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
-		echo '">';
-		echo '<font size="-1">';
+		$output .= "\n\t\t\t\t" . '</font></div>';
+		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Death -->';
+		$output .= "\n\t\t\t\t" . '<div class="lumiere-lines-common';
+		$output .= ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
+		$output .= '">';
+		$output .= '<font size="-1">';
 
 		# Death
-		$death = ( count( $this->person_class->died() ) !== 0 ) ? $this->person_class->died() : null;
+		$death = isset( $this->person_class ) && count( $this->person_class->died() ) > 0 ? $this->person_class->died() : null;
 		if ( $death !== null ) {
 
 			$death_day = isset( $death['day'] ) && strlen( $death['day'] ) > 0 ? (string) $death['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
 			$death_month = isset( $death['month'] ) && strlen( $death['month'] ) > 0 ? date_i18n( 'F', $death['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
 			$death_year = isset( $death['year'] ) && strlen( $death['year'] ) > 0 ? (string) $death['year'] : __( '(year unknown)', 'lumiere-movies' );
 
-			echo "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
+			$output .= "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
 				. '&#8224;&nbsp;'
 				. esc_html__( 'Died on', 'lumiere-movies' ) . '&nbsp;</span>'
 				. esc_html( $death_day . $death_month . $death_year );
 
 			if ( ( isset( $death['place'] ) ) && ( strlen( $death['place'] ) !== 0 ) ) {
 				/** translators: 'in' like 'Died in' */
-				echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $death['place'] );
+				$output .= ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $death['place'] );
 			}
 
 			if ( ( isset( $death['cause'] ) ) && ( strlen( $death['cause'] ) !== 0 ) ) {
 				/** translators: 'cause' like 'Cause of death' */
-				echo ', ' . esc_html__( 'cause', 'lumiere-movies' ) . ' ' . esc_html( $death['cause'] );
+				$output .= ', ' . esc_html__( 'cause', 'lumiere-movies' ) . ' ' . esc_html( $death['cause'] );
 			}
-
 		}
 
-		echo "\n\t\t\t\t" . '</font></div>';
-		echo "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Biography -->';
-		echo "\n\t\t\t\t" . '<div id="lum_taxo_page_bio" class="lumiere-lines-common';
-		echo ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
-		echo ' lumiere-lines-common-fix">';
-		echo '<font size="-1">';
+		$output .= "\n\t\t\t\t" . '</font></div>';
+		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Biography -->';
+		$output .= "\n\t\t\t\t" . '<div id="lum_taxo_page_bio" class="lumiere-lines-common';
+		$output .= ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
+		$output .= ' lumiere-lines-common-fix">';
+		$output .= '<font size="-1">';
 
 		// Biography, function in trait.
-		echo wp_kses(
-			$this->link_maker->lumiere_medaillon_bio( $this->person_class->bio(), 1500 ) ?? '',
-			[
-				'span' => [
-					'class' => [],
-					'id' => [],
-				],
-				'title' => [
-					'data-*' => true,
-					'class' => [],
-					'aria-label' => [],
-					'role' => [],
-				],
-				'a' => [
-					'class' => [],
-					'data-*' => true,
-					'title' => [],
-					'href' => [],
-				],
-				'button' => [
-					'type' => [],
-					'name' => [],
-					'id' => [],
-					'class' => [],
-					'aria-live' => [],
-					'value' => [],
-					'data-*' => true,
-				],
-				'strong' => [],
-			]
-		);
+		$output .= isset( $this->person_class ) ? $this->link_maker->lumiere_medaillon_bio( $this->person_class->bio(), 1500 ) ?? '' : '';
 
-		echo "\n\t\t\t\t\t" . '</font></div>';
-		echo "\n\t\t\t\t" . '</div>';
-		echo "\n\t\t\t" . '</div>';
-		echo "\n\t\t\t" . '<br />';
+		$output .= "\n\t\t\t\t\t" . '</font></div>';
+		$output .= "\n\t\t\t\t" . '</div>';
+		$output .= "\n\t\t\t" . '</div>';
+		$output .= "\n\t\t\t" . '<br>';
 
 		// Compatibility with Polylang WordPress plugin, add a form to filter results by language.
-		echo isset( $this->plugins_classes_active['polylang'] ) ? wp_kses(
-			$this->plugins_classes_active['polylang']->lumiere_get_form_polylang_selection( $this->taxonomy_title, $this->person_name ),
-			[
-				'div' => [ 'align' => [] ],
-				'form' => [
-					'target' => [],
-					'method' => [],
-					'id' => [],
-					'name' => [],
-					'action' => [],
-				],
-				'select' => [
-					'class' => [],
-					'name' => [],
-					'id' => [],
-				],
-				'option' => [
-					'value' => [],
-					'select' => [],
-				],
-				'input' => [
-					'type' => [],
-					'id' => [],
-					'name' => [],
-					'value' => [],
-					'required' => [],
-				],
-				'button' => [
-					'type' => [],
-					'name' => [],
-					'id' => [],
-					'class' => [],
-					'aria-live' => [],
-					'value' => [],
-				],
-			]
-		) : '';
-		echo "\n\t\t\t" . '<br />';
+		$output .= isset( $this->plugins_classes_active['polylang'] ) ? $this->plugins_classes_active['polylang']->lumiere_get_form_polylang_selection( $this->taxonomy_title, $this->person_name ) : '';
+
+		$output .= "\n\t\t\t" . '<br>';
+		return $output;
 	}
 }
 
 $lumiere_people_standard_class = new Taxonomy_People_Standard();
-add_action( 'init', [ $lumiere_people_standard_class, 'lumiere_static_start' ] );
+$lumiere_people_standard_class->lumiere_static_start();

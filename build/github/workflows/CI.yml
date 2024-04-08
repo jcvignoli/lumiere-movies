@@ -1,4 +1,4 @@
-name: "CI"
+name: "PHPStan and Phan"
 on:
   push:
     branches: "*"
@@ -6,8 +6,7 @@ on:
 env:
   cache-version: 1
 jobs:
-   lint:
-    name: "Lint"
+   standard:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
@@ -54,6 +53,8 @@ jobs:
 
       - name: "Install Composer dependencies"
         run: |
+          composer install -n --prefer-dist
+          cd src
           composer install -n --prefer-dist
 
       - name: "Code analyser"

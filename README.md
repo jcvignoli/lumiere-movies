@@ -4,7 +4,7 @@
 
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
 **Tags:** cinema, film, imdb, movie, actor \
-**Requires at least:** 5.3 \
+**Requires at least:** 5.6 \
 **Tested up to:** 6.5 \
 **Stable tag:** 4.1.1 \
 **Requires PHP:** 8.0 \

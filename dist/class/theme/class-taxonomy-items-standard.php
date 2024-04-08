@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.0.3
+ * Version: 3.1
  *
  * @package lumiere-movies
  */
@@ -64,6 +64,15 @@ class Taxonomy_Items_Standard {
 		// Construct Frontend trait.
 		$this->start_main_trait();
 
+		/**
+		 * Start Plugins_Start class in trait
+		 * Set $plugins_active_names and $plugins_classes_active var in trait
+		 * @since 3.8
+		 */
+		if ( count( $this->plugins_active_names ) === 0 ) {
+			$this->activate_plugins();
+		}
+
 		// Build the taxonomy name.
 		$this->taxonomy = 'lumiere-standard';
 	}
@@ -74,100 +83,168 @@ class Taxonomy_Items_Standard {
 	public static function lumiere_static_start(): void {
 		$class = new self();
 
-		// Display the page.
-		$class->lumiere_layout_taxo_standard();
+		// Display the page. Must not be included into an add_action(), as should be displayed directly, since it's a template.
+		$class->lum_select_layout();
 	}
 
 	/**
 	 *  Display layout
 	 */
-	private function lumiere_layout_taxo_standard(): void {
+	private function lum_select_layout(): void {
+
+		$kses_esc_html = [
+			'br' => [],
+			'i' => [],
+			'main' => [
+				'class' => [],
+				'role' => [],
+				'id' => [],
+			],
+			'div' => [
+				'id' => [],
+				'align' => [],
+				'class' => [],
+			],
+			'h1' => [
+				'id' => [],
+				'class' => [],
+			],
+			'h3' => [
+				'id' => [],
+				'class' => [],
+			],
+			'h4' => [
+				'id' => [],
+				'class' => [],
+			],
+			'a' => [
+				'class' => [],
+				'title' => [],
+				'href' => [],
+				'rel' => [],
+			],
+		];
+
+		// The current theme is a block-based theme.
+		if ( wp_is_block_theme() === true ) {
+			$this->lum_taxo_template_block( $this->lum_taxo_display_content(), $kses_esc_html );
+			exit;
+		}
 
 		get_header();
 
-		echo '<br />';
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
 
-		if ( $this->activate_sidebar === true ) {
-			get_sidebar(); # selected in the above properties
-		}
-		?>
-
-		<main id="main" class="site-main clr" role="main">
-			<div id="content-wrap" class="container clr">
-				<h1 class="pagetitle"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?> <i>standard</i></h1><?php
-
-				echo "\n\t\t" . '<div class="taxonomy">';
-				echo "\n\t\t\t" . esc_html__( 'All Lumière taxonomies known: ', 'lumiere-movies' ) . wp_kses( $this->get_all_tags_links(), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
-				echo "\n\t\t\t" . '<br /><br />';
-				echo "\n\t\t" . '</div>';
-
-				$args = [
-					'post_type' => [ 'post', 'page' ],
-					'tax_query' => [
-						[
-							'taxonomy' => $this->taxonomy,
-							'field' => 'slug',
-							'terms' => $this->get_term_current_page( 'slug' ),
-						],
-					],
-				];
-
-				// The Query.
-				$the_query = new WP_Query( $args );
-
-				if ( $the_query->have_posts() ) {
-
-					echo "\n\t\t" . '<h4>' . esc_html__( 'List of posts tagged ', 'lumiere-movies' ) . ' <i>' . wp_kses( $this->get_term_current_page( 'name' ), self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ) . '</i> :</h4>';
-					echo "\n\t\t\t" . '<br />';
-
-					while ( $the_query->have_posts() ) {
-						$the_query->the_post();
-						?>
-
-					<div class="postList postsTaxonomy">
-						<h3 id="post-<?php the_ID(); ?>">
-							<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php esc_html_e( 'Open the blog ', 'lumiere-movies' ); ?><?php the_title(); ?>">
-								<?php the_title(); ?>
-							</a>
-						</h3>
-
-						<div class="entry">
-							<?php the_excerpt(); ?>
-						</div>
-						
-						<!-- deactivated
-						<p class="postmetadata">
-							<span class="category"><?php esc_html_e( 'Filed under: ', 'lumiere-movies' ); ?> <?php the_category( ', ' ); ?></span> 
-
-							<?php if ( has_tag() ) { ?>
-							<strong>|</strong>
-							<span class="tags"><?php the_tags( esc_html__( 'Tags: ', 'lumiere-movies' ), ' &bull; ', ' ' ); ?></span>
-							<?php } ?>
-
-							<strong>|</strong> <?php edit_post_link( 'Edit', '', ' <strong>|</strong>' ); ?>  <?php comments_popup_link( 'No Comments &#187;', '1 Comment &#187;', ' % Comments &#187;' ); ?>
-						</p>
-						 -->
-					</div>
-						<?php
-
-					}
-
-				} else { // there is no post
-						esc_html_e( 'No post found with this taxonomy.', 'lumiere-movies' );
-						echo '<br /><br /><br />';
-				}
-				?>
-
-
-			</div>
-		</main>
-
-		<?php
+		echo wp_kses( $this->lum_taxo_display_content(), $kses_esc_html );
 
 		wp_meta();
 
 		get_footer();
 
+	}
+
+	/**
+	 * The content of the page
+	 */
+	private function lum_taxo_display_content(): string {
+
+		$output = '<br>';
+
+		if ( $this->activate_sidebar === true ) {
+			get_sidebar(); # selected in the above properties
+		}
+
+		$output .= '<main id="main" class="site-main clr" role="main">';
+		$output .= '<div id="content-wrap" class="container clr">';
+		$output .= '<h1 class="pagetitle">' . __( 'Taxonomy', 'lumiere-movies' ) . ' <i>standard</i></h1>';
+
+		$output .= "\n\t\t" . '<div class="taxonomy">';
+		$output .= "\n\t\t\t" . esc_html__( 'All Lumière taxonomies known: ', 'lumiere-movies' ) . $this->get_all_tags_links();
+		$output .= "\n\t\t\t" . '<br><br>';
+		$output .= "\n\t\t" . '</div>';
+
+		$args = [
+			'post_type' => [ 'post', 'page' ],
+			'tax_query' => [
+				[
+					'taxonomy' => $this->taxonomy,
+					'field' => 'slug',
+					'terms' => $this->get_term_current_page( 'slug' ),
+				],
+			],
+		];
+
+		// The Query.
+		$the_query = new WP_Query( $args );
+
+		if ( $the_query->have_posts() ) {
+
+			$output .= "\n\t\t" . '<h4>' . esc_html__( 'List of posts tagged ', 'lumiere-movies' ) . ' <i>' . $this->get_term_current_page( 'name' ) . '</i> :</h4>';
+
+			while ( $the_query->have_posts() ) {
+				$the_query->the_post();
+
+				$output .= "\n\t\t" . '<br>';
+				$output .= "\n\t\t" . '<div class="postList postsTaxonomy">';
+				$output .= "\n\t\t" . '<h3 id="post-' . (string) get_the_ID() . '">';
+				$output .= "\n\t\t" . '<a href="' . (string) get_the_permalink() . '" rel="bookmark" title="' . __( 'Open the blog ', 'lumiere-movies' ) . get_the_title() . '">' . get_the_title() . '</a>';
+				$output .= "\n\t\t" . '</h3>';
+
+				$output .= "\n\t\t" . '<div class="entry">';
+				$output .= wp_trim_excerpt();
+				$output .= "\n\t\t" . '</div>';
+
+				$output .= "\n\t" . '</div>';
+			}
+
+		} else { // there is no post
+				$output .= __( 'No post found with this taxonomy.', 'lumiere-movies' );
+				$output .= '<br><br><br>';
+		}
+
+		$output .= '</div>';
+		$output .= '</main>';
+		return $output;
+	}
+
+	/**
+	 * Use Block-based template, for modern themes
+	 * @since 4.1.2
+	 * @param string $text The text to be displayed inside the content group
+	 * @param array<string, array<array<string, string>>|array<string>> $kses_esc_html The array for escaping wp_kses()
+	 * @return void The template with the text is displayed
+	 */
+	private function lum_taxo_template_block( string $text, array $kses_esc_html ): void {
+
+		?><html><head>
+		<meta charset="<?php bloginfo( 'charset' ); ?>">
+		<?php
+		$block_content = do_blocks(
+			'
+			<!-- wp:group -->
+			<div class="wp-block-group">' . $text . '</div>
+			<!-- /wp:group -->'
+		);
+		?>
+		<?php wp_head(); ?>
+		</head><body <?php body_class(); ?>>
+		<?php wp_body_open(); ?>
+		<div class="wp-site-blocks">
+		<header class="wp-block-template-part site-header">
+		<?php block_header_area(); ?>
+		</header>
+		<?php
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
+		echo wp_kses( $block_content, $kses_esc_html ); ?>
+		<footer class="wp-block-template-part site-footer">
+		<?php block_footer_area(); ?>
+		</footer>
+		</div>
+		<?php wp_footer(); ?>
+		</body>
+		</html><?php
 	}
 
 	/**
@@ -213,4 +290,4 @@ class Taxonomy_Items_Standard {
 }
 
 $lumiere_item_standard_class = new Taxonomy_Items_Standard();
-add_action( 'init', [ $lumiere_item_standard_class, 'lumiere_static_start' ] );
+$lumiere_item_standard_class->lumiere_static_start();

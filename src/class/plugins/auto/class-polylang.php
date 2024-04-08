@@ -99,6 +99,7 @@ class Polylang {
 	 * @return string The form is returned
 	 *
 	 * @since 4.1 The AMP form works!
+	 * @since 4.1.2 replaced strval( $lang_object->term_id ) by str_replace( 'pll_', '', strval( $lang_object->slug ) )
 	 */
 	public function lumiere_get_form_polylang_selection( string $taxonomy, string $person_name ): string {
 
@@ -139,17 +140,18 @@ class Polylang {
 		$output .= "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
 
 		// Build an option html tag for every language.
+		/** @psalm-var \WP_Term $lang_object */
 		foreach ( $pll_lang as $lang_object ) {
 
 			/** @psalm-suppress PossiblyInvalidPropertyFetch -- Cannot fetch property on possible non-object => Always object! */
-			$output .= "\n\t\t\t\t\t\t" . '<option value="' . strval( $lang_object->term_id ) . '"';
+			$output .= "\n\t\t\t\t\t\t" . '<option value="' . str_replace( 'pll_', '', strval( $lang_object->slug ) ) . '"';
 
 			if (
 				// @phpcs:ignore WordPress.Security.NonceVerification -- it is processed in the second line, right below
 				isset( $_GET['tag_lang'] ) && $lang_object->term_id === (int) $_GET['tag_lang']
 				&& isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_GET['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) !== false
 			) {
-				$output .= 'selected="selected"';
+				$output .= ' selected="selected"';
 			}
 
 			/** @psalm-suppress PossiblyInvalidPropertyFetch -- Cannot fetch property on possible non-object => Always object! */
@@ -174,6 +176,7 @@ class Polylang {
 	 *
 	 * @see Lumiere\Taxonomy_People_Standard::__construct
 	 * @see Lumiere\Taxonomy_People_Standard::amp_form_submit()
+	 * @since 4.1.2 replaced strval( $lang_object->term_id ) by str_replace( 'pll_', '', strval( $lang_object->slug ) )
 	 */
 	private function amp_form_polylang_selection( array $pll_lang ): string {
 
@@ -189,7 +192,7 @@ class Polylang {
 				continue;
 			}
 
-			$output .= "\n\t\t\t\t\t\t" . '<option value="' . strval( $lang_object->term_id ) . '">' . ucfirst( $lang_object->name ) . '</option>';
+			$output .= "\n\t\t\t\t\t\t" . '<option value="' . str_replace( 'pll_', '', strval( $lang_object->slug ) ) . '">' . ucfirst( $lang_object->name ) . '</option>';
 		}
 
 		$output .= "\n\t\t\t\t\t" . '</select>';
@@ -219,5 +222,35 @@ class Polylang {
 		$final_url = str_replace( $home_slashed . $extra_url_piece, $pll_home_slashed . $extra_url_piece, $content );
 
 		return strlen( $final_url ) > 0 ? $final_url : $content;
+	}
+
+	/**
+	 * Build the list of arguments for a wp_query
+	 *
+	 * @since 4.1.2
+	 * @param string $polylang_lang Lang in two characters in the $_GET which is used in lang
+	 * @param string $imdburlstringtaxo
+	 * @param string $person_name Name searched
+	 * @param string $role
+	 * @return array<string, array<int|string, array<string, string>|string>|bool|int|string>
+	 */
+	public function get_polylang_taxo_query( string $polylang_lang, string $imdburlstringtaxo, string $person_name, string $role ): array {
+
+		$args = [
+			'post_type' => [ 'post' ],
+			'post_status' => 'publish',
+			'numberposts' => -1,
+			'nopaging' => true,
+			'lang' => sanitize_key( $polylang_lang ),
+			'tax_query' => [
+				// @phan-suppress-next-line PhanPluginMixedKeyNoKey Should not mix array entries of the form [key => value,] with entries of the form [value,]. -- Since WordPress accepts it, it's ok!
+				[
+					'taxonomy' => sanitize_text_field( $imdburlstringtaxo . $role ),
+					'field' => 'name',
+					'terms' => sanitize_text_field( $person_name ),
+				],
+			],
+		];
+		return $args;
 	}
 }

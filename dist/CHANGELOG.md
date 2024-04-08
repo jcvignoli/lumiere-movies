@@ -1,7 +1,8 @@
 **Changelog**
 
 v.4.1.2
-* [feature] Popup layout should now fit into any user theme (using in popups and admin search hook 'templates_include' hook, works with all themes)
+* [feature] Popup layout should now be universal and fit into any WordPress theme
+* [feature] Taxonomy themes are now universand and fit into any WordPress theme
 * [bug] Very unusual bug when copying taxonomy template files (php-fpm with umask 002, could copy but not reading due to permissions, added an extra check in Copy_Template_Taxonomy::copy_taxonomy_template()
 * [technical] WP functions standardization and escaping (thanks to the [WP plugin check](https://wordpress.org/plugins/plugin-check/ "Plugin Check on WordPress") )
 
