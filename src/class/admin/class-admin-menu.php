@@ -26,6 +26,7 @@ use Lumiere\Admin\Admin_General;
 /**
  * Display Admin Menus: Top, Left and default menus
  * Taxonomy theme pages copy class is called here
+ * It is checked priorly if the user can manage options
  *
  * @see \Lumiere\Admin\Copy_Template_Taxonomy to copy new page template
  * @see \Lumiere\Admin\Save_Options Check the $_GET to know if we need to save the submitted data

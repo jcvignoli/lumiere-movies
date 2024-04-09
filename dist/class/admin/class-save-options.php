@@ -88,6 +88,7 @@ class Save_Options {
 	 * @see self::lumiere_data_options_save() use $this->page_data_taxo
 	 */
 	public static function lumiere_static_start( string $page_data_taxo = null ): void {
+
 		$class_save = new self( $page_data_taxo );
 
 		add_action( 'admin_init', [ $class_save, 'process_headers' ] );
@@ -132,11 +133,12 @@ class Save_Options {
 	public function process_headers(): void {
 
 		/** General options */
-		if (    isset( $_POST['lumiere_update_general_settings'] )
+		if (
+			isset( $_POST['lumiere_update_general_settings'] )
 			&& isset( $_POST['_nonce_general_settings'] )
 			&& wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) > 0
 		) {
-			$this->lumiere_general_options_save( $this->get_referer() );
+			$this->lumiere_general_options_save( $this->get_referer(), sanitize_text_field( $_POST['imdb_imdburlstringtaxo'] ), sanitize_text_field( $_POST['imdb_imdburlpopups'] ) );
 		} elseif (
 			isset( $_POST['lumiere_reset_general_settings'] )
 			&& isset( $_POST['_nonce_general_settings'] )
@@ -222,28 +224,20 @@ class Save_Options {
 	 * Save General options
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
-	 * @throws Exception if nonces are incorrect
 	 *
 	 * @template T as OPTIONS_ADMIN
 	 * @phan-suppress PhanTemplateTypeNotUsedInFunctionReturn
 	 */
 	// @phpstan-ignore-next-line method.templateTypeNotInParameter
-	private function lumiere_general_options_save( string|bool $get_referer ): void {
+	private function lumiere_general_options_save( string|bool $get_referer, string $imdburlstringtaxo, string $imdburlpopups  ): void {
 
-		if ( ! isset( $_POST['_nonce_general_settings'] ) || wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) === false ) {
-			throw new Exception( esc_html__( 'Nounce error', 'lumiere-movies' ) );
-		}
-
-		// Check if $_POST['imdburlstringtaxo'] and $_POST['imdburlpopups'] are identical, because they can't be.
-		$post_imdb_imdburlstringtaxo = isset( $_POST['imdb_imdburlstringtaxo'] ) ? esc_html( $_POST['imdb_imdburlstringtaxo'] ) : 'empty';
-		$post_imdb_imdburlpopups = isset( $_POST['imdb_imdburlpopups'] ) ? esc_html( $_POST['imdb_imdburlpopups'] ) : 'empty';
-
+		// Check if $_POST['imdburlstringtaxo'] and $_POST['imdburlpopups'] are identical, because they can't be, so exit if they are.
 		if (
-			( $post_imdb_imdburlstringtaxo !== 'empty' ) &&
-		( str_replace( '/', '', $post_imdb_imdburlstringtaxo ) === str_replace( '/', '', $post_imdb_imdburlpopups ) ) || isset( $this->imdb_admin_values['imdburlpopups'] ) && ( str_replace( '/', '', $post_imdb_imdburlstringtaxo ) === str_replace( '/', '', $this->imdb_admin_values['imdburlpopups'] ) )
+			strlen( $imdburlstringtaxo ) > 0 &&
+		( str_replace( '/', '', $imdburlstringtaxo ) === str_replace( '/', '', $imdburlpopups ) ) || isset( $this->imdb_admin_values['imdburlpopups'] ) && ( str_replace( '/', '', $imdburlstringtaxo ) === str_replace( '/', '', $this->imdb_admin_values['imdburlpopups'] ) )
 									||
-			( $post_imdb_imdburlpopups !== 'empty' ) &&
-		( str_replace( '/', '', $post_imdb_imdburlpopups ) === str_replace( '/', '', $post_imdb_imdburlstringtaxo ) ) || isset( $this->imdb_admin_values['imdburlstringtaxo'] ) && ( str_replace( '/', '', $post_imdb_imdburlpopups ) === str_replace( '/', '', $this->imdb_admin_values['imdburlstringtaxo'] ) )
+			strlen( $imdburlpopups ) > 0 &&
+		( str_replace( '/', '', $imdburlpopups ) === str_replace( '/', '', $imdburlstringtaxo ) ) || isset( $this->imdb_admin_values['imdburlstringtaxo'] ) && ( str_replace( '/', '', $imdburlpopups ) === str_replace( '/', '', $this->imdb_admin_values['imdburlstringtaxo'] ) )
 		) {
 
 			set_transient( 'notice_lumiere_msg', 'general_options_error_identical_value', 30 );
@@ -252,7 +246,9 @@ class Save_Options {
 			}
 		}
 
-		foreach ( $_POST as $key => $postvalue ) {
+		$post_array = wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) > 0 ? $_POST : [];
+
+		foreach ( $post_array as $key => $postvalue ) {
 
 			// Sanitize keys
 			$key_sanitized = sanitize_text_field( $key );
@@ -273,7 +269,7 @@ class Save_Options {
 			}
 		}
 
-		// update options
+		// update options, keep the originals if there is a problem.
 		update_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, $this->imdb_admin_values );
 
 		set_transient( 'notice_lumiere_msg', 'options_updated', 30 );

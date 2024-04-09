@@ -56,7 +56,9 @@ class Admin {
 
 		$start = new self();
 
-		// Don't bother doing stuff if the current user lacks permissions
+		/**
+		 * (1) Don't bother doing stuff if the current user lacks permissions
+		 */
 		if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) ) {
 			return;
 		}
@@ -64,18 +66,18 @@ class Admin {
 		// Redirect Search class.
 		add_action( 'init', [ $start, 'lum_search_redirect' ] );
 
+		/**
+		 * (2) The following is only for admin pages
+		 */
 		if ( ! is_admin() ) {
 			return;
 		}
 
-		// Add admin menu.
-		add_action( 'init', fn() => Admin_Menu::lumiere_static_start() );
+		// Extra backoffice functions, such as privacy, plugins infos in plugins' page
+		add_action( 'admin_init', fn() => Backoffice_Extra::lumiere_backoffice_start(), 0 );
 
 		// Add the metabox to editor.
 		add_action( 'admin_init', fn() => Metabox_Selection::lumiere_static_start() );
-
-		// Extra backoffice functions, such as privacy, plugins infos in plugins' page
-		add_action( 'admin_init', fn() => Backoffice_Extra::lumiere_backoffice_start(), 0 );
 
 		// Register admin scripts.
 		add_action( 'admin_enqueue_scripts', [ $start, 'lumiere_register_admin_assets' ] );
@@ -85,6 +87,16 @@ class Admin {
 
 		// Add admin tinymce button for wysiwig editor.
 		add_action( 'admin_enqueue_scripts', [ $start, 'lumiere_execute_tinymce' ], 2 );
+
+		/**
+		 * (3) Admin menu is only for those who can manage options
+		 */
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		// Add admin menu.
+		add_action( 'init', fn() => Admin_Menu::lumiere_static_start() );
 	}
 
 	/**
