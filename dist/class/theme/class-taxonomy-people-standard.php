@@ -436,10 +436,9 @@ class Taxonomy_People_Standard {
 				}
 
 				// there is no post.
-			} elseif ( ! isset( $the_query ) || $the_query->have_posts() || strlen( $this->person_name ) > 0 ) {
-				// $this->logger->log()->debug( '[Lumiere][' . $this->classname . '] No post found for ' . "$this->person_name in $people" );
-				$output .= "<div>No post found for $this->person_name in $people</div>";
-			}
+			} /* elseif ( ! isset( $the_query ) || $the_query->have_posts() || strlen( $this->person_name ) > 0 ) {
+				$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] No post found for ' . "$this->person_name in $people" );
+			} */
 		}
 
 		// Restore original Post Data.

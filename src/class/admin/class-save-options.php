@@ -134,13 +134,13 @@ class Save_Options {
 		/** General options */
 		if (    isset( $_POST['lumiere_update_general_settings'] )
 			&& isset( $_POST['_nonce_general_settings'] )
-			&& wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) !== false
+			&& wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) > 0
 		) {
 			$this->lumiere_general_options_save( $this->get_referer() );
 		} elseif (
 			isset( $_POST['lumiere_reset_general_settings'] )
 			&& isset( $_POST['_nonce_general_settings'] )
-			&& wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) !== false
+			&& wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) > 0
 		) {
 			$this->lumiere_general_options_reset( $this->get_referer() );
 		}
@@ -149,7 +149,7 @@ class Save_Options {
 		if (
 			isset( $_POST['lumiere_update_cache_settings'] )
 			&& isset( $_POST['_nonce_cache_settings'] )
-			&& wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) !== false
+			&& wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) > 0
 		) {
 			// save options
 			$this->lumiere_cache_options_save( $this->get_referer() );
@@ -163,20 +163,20 @@ class Save_Options {
 		} elseif (
 			isset( $_POST['delete_all_cache'] )
 			&& isset( $_POST['_nonce_cache_all_and_query_check'] )
-			&& wp_verify_nonce( $_POST['_nonce_cache_all_and_query_check'], 'cache_all_and_query_check' ) !== false
+			&& wp_verify_nonce( $_POST['_nonce_cache_all_and_query_check'], 'cache_all_and_query_check' ) > 0
 		) {
 			$this->lumiere_cache_delete_allfiles( $this->get_referer() );
 		} elseif (
 			isset( $_POST['delete_query_cache'] )
 			&& isset( $_POST['_nonce_cache_all_and_query_check'] )
-			&& wp_verify_nonce( $_POST['_nonce_cache_all_and_query_check'], 'cache_all_and_query_check' ) !== false
+			&& wp_verify_nonce( $_POST['_nonce_cache_all_and_query_check'], 'cache_all_and_query_check' ) > 0
 		) {
 			// delete all query cache files.
 			$this->lumiere_cache_delete_query( $this->get_referer(), new Cache_Tools() );
 		} elseif (
 			isset( $_POST['delete_ticked_cache'] )
 			&& isset( $_POST['_nonce_cache_settings'] )
-			&& wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) !== false
+			&& wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) > 0
 		) {
 			// delete several ticked files.
 			$this->lumiere_cache_delete_ticked_files( $this->get_referer(), new Cache_Tools() );
@@ -184,33 +184,35 @@ class Save_Options {
 			isset( $_GET['dothis'] )
 			&& $_GET['dothis'] === 'delete'
 			&& isset( $_GET['type'] )
+			&& isset( $_GET['where'] )
 			&& isset( $_GET['_nonce_cache_deleteindividual'] )
-			&& wp_verify_nonce( $_GET['_nonce_cache_deleteindividual'], 'deleteindividual' ) !== false
+			&& wp_verify_nonce( $_GET['_nonce_cache_deleteindividual'], 'deleteindividual' ) > 0
 		) {
 			// delete a specific file by clicking on it.
-			$this->lumiere_cache_delete_linked_file( $this->get_referer(), new Cache_Tools() );
+			$this->lumiere_cache_delete_linked_file( $this->get_referer(), new Cache_Tools(), sanitize_text_field( $_GET['type'] ), sanitize_text_field( $_GET['where'] ) );
 		} elseif (
 			isset( $_GET['dothis'] )
 			&& $_GET['dothis'] === 'refresh'
 			&& isset( $_GET['type'] )
+			&& isset( $_GET['where'] )
 			&& isset( $_GET['_nonce_cache_refreshindividual'] )
-			&& wp_verify_nonce( $_GET['_nonce_cache_refreshindividual'], 'refreshindividual' ) !== false
+			&& wp_verify_nonce( $_GET['_nonce_cache_refreshindividual'], 'refreshindividual' ) > 0
 		) {
 			// refresh a specific file by clicking on it.
-			$this->lumiere_cache_refresh_linked_file( $this->get_referer(), new Cache_Tools() );
+			$this->lumiere_cache_refresh_linked_file( $this->get_referer(), new Cache_Tools(), sanitize_text_field( $_GET['type'] ), sanitize_text_field( $_GET['where'] ) );
 		}
 
 		/** Data options */
 		if (
 			isset( $_POST['lumiere_update_data_settings'] )
 			&& isset( $_POST['_nonce_data_settings'] )
-			&& wp_verify_nonce( $_POST['_nonce_data_settings'], 'lumiere_nonce_data_settings' ) !== false
+			&& wp_verify_nonce( $_POST['_nonce_data_settings'], 'lumiere_nonce_data_settings' ) > 0
 		) {
 			$this->lumiere_data_options_save( $this->get_referer() );
 		} elseif (
 			isset( $_POST['lumiere_reset_data_settings'] )
 			&& isset( $_POST['_nonce_data_settings'] )
-			&& wp_verify_nonce( $_POST['_nonce_data_settings'], 'lumiere_nonce_data_settings' ) !== false
+			&& wp_verify_nonce( $_POST['_nonce_data_settings'], 'lumiere_nonce_data_settings' ) > 0
 		) {
 			$this->lumiere_data_options_reset( $this->get_referer() );
 		}
@@ -435,11 +437,11 @@ class Save_Options {
 	 * Delete specific People/Movie files (based on html links)
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @param Cache_Tools $cache_tools_class object with the methods needed
+	 * @param string $type result of $_GET['type'] to define either people or movie
+	 * @param string $where result of $_GET['where'] the people or movie IMDb ID
 	 */
-	private function lumiere_cache_delete_linked_file( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
+	private function lumiere_cache_delete_linked_file( string|bool $get_referer, Cache_Tools $cache_tools_class, string $type, string $where ): void {
 
-		$type = isset( $_GET['type'] ) ? sanitize_text_field( $_GET['type'] ) : null;
-		$where = isset( $_GET['where'] ) ? sanitize_text_field( $_GET['where'] ) : null;
 		$cache_tools_class->cache_delete_specific_file( $type, $where );
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
@@ -452,11 +454,11 @@ class Save_Options {
 	 * Refresh specific People/Movie files (based on html links)
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @param Cache_Tools $cache_tools_class object with the methods needed
+	 * @param string $type result of $_GET['type'] to define either people or movie
+	 * @param string $where result of $_GET['where'] the people or movie IMDb ID
 	 */
-	private function lumiere_cache_refresh_linked_file( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
+	private function lumiere_cache_refresh_linked_file( string|bool $get_referer, Cache_Tools $cache_tools_class, string $type, string $where ): void {
 
-		$type = isset( $_GET['type'] ) ? sanitize_text_field( $_GET['type'] ) : null;
-		$where = isset( $_GET['where'] ) ? sanitize_text_field( $_GET['where'] ) : null;
 		$cache_tools_class->cache_refresh_specific_file( $type, $where );
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {

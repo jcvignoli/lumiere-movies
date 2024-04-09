@@ -74,23 +74,19 @@ class Cache_Tools {
 
 	/**
 	 * Delete a specific file by clicking on it
-	 * @param null|bool|string $type Comes from $_GET['type']
-	 * @param null|bool|string $where Comes from $_GET['where']
+	 * @param string $type result of $_GET['type'] to define either people or movie
+	 * @param string $where result of $_GET['where'] the people or movie IMDb ID
 	 */
-	public function cache_delete_specific_file( mixed $type, mixed $where ): void {
-
-		if ( ! is_string( $type ) ) {
-			return;
-		}
+	public function cache_delete_specific_file( string $type, string $where ): void {
 
 		global $wp_filesystem;
 
-		$id_sanitized = isset( $where ) && is_string( $where ) ? esc_html( $where ) : '';
-
 		// prevent drama.
-		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) || ! isset( $_GET['where'] ) ) {
-			wp_die( esc_html__( 'Cannot work this way.', 'lumiere-movies' ) );
+		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) || $wp_filesystem->is_dir( $this->imdb_cache_values['imdbcachedir'] ) === false ) {
+			wp_die( esc_html__( 'Missing cache directory.', 'lumiere-movies' ) );
 		}
+
+		$id_sanitized = esc_html( $where );
 
 		// delete single movie.
 		if ( $type === 'movie' ) {
@@ -204,23 +200,19 @@ class Cache_Tools {
 
 	/**
 	 * Refresh a specific file by clicking on it
-	 * @param null|bool|string $type Comes from $_GET['type']
-	 * @param null|bool|string $where Comes from $_GET['where']
+	 * @param string $type result of $_GET['type'] to define either people or movie
+	 * @param string $where result of $_GET['where'] the people or movie IMDb ID
 	 */
-	public function cache_refresh_specific_file( mixed $type, mixed $where ): void {
-
-		if ( ! is_string( $type ) ) {
-			return;
-		}
+	public function cache_refresh_specific_file( string $type, string $where ): void {
 
 		global $wp_filesystem;
 
-		$id_sanitized = isset( $where ) && is_string( $where ) ? esc_html( $where ) : '';
-
 		// prevent drama.
-		if ( ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) || ( ! isset( $_GET['where'] ) )  ) {
-			wp_die( esc_html__( 'Cannot work this way.', 'lumiere-movies' ) );
+		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) || $wp_filesystem->is_dir( $this->imdb_cache_values['imdbcachedir'] ) === false ) {
+			wp_die( esc_html__( 'Missing cache directory.', 'lumiere-movies' ) );
 		}
+
+		$id_sanitized = esc_html( $where );
 
 		// delete single movie.
 		if ( $type === 'movie' ) {

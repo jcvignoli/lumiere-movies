@@ -15,6 +15,7 @@ if ( ( ! defined( 'ABSPATH' ) ) ) {
 
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Admin\Admin_General;
+use Exception;
 
 /**
  * Copy Lumière taxonomy templates (located in class/theme) to user's template folder (wp-content/themes/current-theme)
@@ -53,15 +54,22 @@ class Copy_Template_Taxonomy {
 	 * Maybe copy the standard taxonomy template to the theme folder
 	 * @param string $url_data_taxo_page The admin taxonomy page URL, used for redirects
 	 * @return void Copy on success, display error message if failure
+	 * @throws Exception if the template doesn't exist
 	 */
 	private function maybe_copy_taxonomy_template( string $url_data_taxo_page ): void {
 
 		// Escape gets and get taxotype and nonce.
-		/** @psalm-suppress PossiblyNullArgument -- it's already checked in calling class */
-		$lumiere_taxo_title = sanitize_title( $_GET['taxotype'] );
+		$lumiere_taxo_title = isset( $_GET['_wpnonce_linkcopytaxo'] ) && wp_verify_nonce( $_GET['_wpnonce_linkcopytaxo'], 'linkcopytaxo' ) > 0 ? esc_html( $_GET['taxotype'] ) : null;
 
 		// Build links and vars.
-		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, $this->config_class->array_people, true ) ? $lumiere_taxo_file_tocopy = $this->config_class::TAXO_PEOPLE_THEME : $lumiere_taxo_file_tocopy = $this->config_class::TAXO_ITEMS_THEME;
+		if ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, $this->config_class->array_people, true ) ) {
+			$lumiere_taxo_file_tocopy = $this->config_class::TAXO_PEOPLE_THEME;
+		} elseif ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, $this->config_class->array_items, true ) ) {
+			$lumiere_taxo_file_tocopy = $this->config_class::TAXO_ITEMS_THEME;
+		} else {
+			throw new Exception( 'This template $lumiere_taxo_title does not exist, aborting' );
+		}
+
 		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
 		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
 		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;
