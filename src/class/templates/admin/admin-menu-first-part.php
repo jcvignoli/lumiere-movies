@@ -44,8 +44,8 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 		<?php
 		// Check if both widgets is are inactive (pre/post-5.8, aka block & legacy blocks)
 		if (
-			Widget_Selection::lumiere_block_widget_isactive( \Lumiere\Settings::BLOCK_WIDGET_NAME ) === false
-			&& is_active_widget( false, false, \Lumiere\Settings::WIDGET_NAME, false ) === false
+			Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === false
+			&& is_active_widget( false, false, Widget_Selection::WIDGET_NAME, false ) === false
 		) { ?>
 
 			- <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'widgets.php' ); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies' ); ?></a></font></em>

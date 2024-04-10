@@ -17,7 +17,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\Settings;
 use Lumiere\Admin\Widget_Selection;
 use Lumiere\Frontend\Movie;
 use Lumiere\Frontend\Widget_Legacy;
@@ -128,8 +127,8 @@ class Widget_Frontpage {
 
 		// If pre-5.8 widget is active and Block Widget unactive, use Widget_Legacy class.
 		if (
-			is_active_widget( false, false, Settings::WIDGET_NAME, false ) !== false
-			&& Widget_Selection::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === false
+			is_active_widget( false, false, Widget_Selection::WIDGET_NAME, false ) !== false
+			&& Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === false
 		) {
 			Widget_Legacy::lumiere_widget_legacy_start();
 			return;
@@ -197,10 +196,10 @@ class Widget_Frontpage {
 		$post_id = get_the_ID();
 
 		// Log what type of widget is utilised.
-		if ( Widget_Selection::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === true ) {
+		if ( Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === true ) {
 			// Post 5.8 WordPress.
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Block-based widget found' );
-		} elseif ( is_active_widget( false, false, Settings::WIDGET_NAME, false ) !== false ) {
+		} elseif ( is_active_widget( false, false, Widget_Selection::WIDGET_NAME, false ) !== false ) {
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Pre-5.8 WordPress widget found' );
 		}
 

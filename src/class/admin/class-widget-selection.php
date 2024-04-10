@@ -15,7 +15,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\Settings;
 use Lumiere\Tools\Settings_Global;
 use WP_Widget;
 
@@ -25,11 +24,12 @@ use WP_Widget;
  *
  * Once this widget is added, it may be used to display both autow title widget and metabox info in a sidebar
  *
- * Constant Settings::BLOCK_WIDGET_NAME is the post-WP 5.8 widget block name.
- * Constant Settings::WIDGET_NAME is the pre-WP 5.8 widget name.
+ * Constant self::BLOCK_WIDGET_NAME is the post-WP 5.8 widget block name.
+ * Constant self::WIDGET_NAME is the pre-WP 5.8 widget name.
  *
- * Priority must be 0, the legacy widget doesn't work otherwise
+ * If calling with 'init' hook, priority must be 0, as the legacy widget doesn't work otherwise
  * widgets_init is started at init 1: https://developer.wordpress.org/reference/hooks/widgets_init/#user-contributed-notes
+ * Easier to call it in hook 'widgets_init'!
  *
  * @see \Lumiere\Core that calls it
  * @see \Lumiere\Frontend\Widget_Legacy Call it in frontend which will extend the current class. The current class registers Widget_Legacy widget
@@ -42,6 +42,12 @@ class Widget_Selection extends WP_Widget {
 	use Settings_Global;
 
 	/**
+	 *  Names of the Widgets
+	 */
+	const BLOCK_WIDGET_NAME = 'lumiere/widget'; // post-WP 5.8 widget block name.
+	const WIDGET_NAME = 'lumiere_movies_widget'; // pre-WP 5.8 widget name.
+
+	/**
 	 * Constructor. Sets up the widget name, description, etc.
 	 */
 	public function __construct() {
@@ -51,7 +57,7 @@ class Widget_Selection extends WP_Widget {
 		$this->get_db_options();
 
 		parent::__construct(
-			Settings::WIDGET_NAME,  // Base ID.
+			self::WIDGET_NAME,  // Base ID.
 			'Lumière! Widget (legacy)',   // Name.
 			[
 				'description' => esc_html__( 'Add automatically movie details to your pages with Lumière! Legacy version. As of WordPress 5.8, you rather should use block-based widgets.', 'lumiere-movies' ),
@@ -59,7 +65,7 @@ class Widget_Selection extends WP_Widget {
 			]
 		);
 
-		add_action( 'widgets_init', [ $this, 'lum_select_widget' ], 11 ); // called in Admin class with priority 8
+		add_action( 'widgets_init', [ $this, 'lum_select_widget' ], 11 ); // called in class Core with default priority 10
 
 		/**
 		 * Hide the widget in legacy widgets menu
@@ -79,10 +85,10 @@ class Widget_Selection extends WP_Widget {
 	/**
 	 * Select which widget between legacy and block-based gutenberg to instanciate
 	 *
-	 * @info: check if a widget is active in frontend: "is_active_widget( false, false, Settings::WIDGET_NAME, false ) === true"
+	 * @info: check if a widget is active in frontend: "is_active_widget( false, false, self::WIDGET_NAME, false ) === true"
 		(set last "false" to true to check inactive widgets too)
-	 * @info: check if block-based widget is active: "self::lumiere_block_widget_isactive( Settings::BLOCK_WIDGET_NAME ) === true"
-	 * @info: check if block-based widget is registered: \WP_Block_Type_Registry::get_instance()->is_registered( Settings::BLOCK_WIDGET_NAME )
+	 * @info: check if block-based widget is active: "self::lumiere_block_widget_isactive( self::BLOCK_WIDGET_NAME ) === true"
+	 * @info: check if block-based widget is registered: \WP_Block_Type_Registry::get_instance()->is_registered( self::BLOCK_WIDGET_NAME )
 	 *
 	 * @since 4.0 using __CLASS__ instead of get_class() in register_widget()
 	 * @since 4.1 replaced __CLASS__ with "Widget_Legacy" in register_widget(), changed the logic of registering the block widget
@@ -116,7 +122,7 @@ class Widget_Selection extends WP_Widget {
 	 */
 	public function lumiere_hide_widget( array $widget_types ): array {
 
-		$widget_types[] = Settings::WIDGET_NAME;
+		$widget_types[] = self::WIDGET_NAME;
 		return $widget_types;
 	}
 

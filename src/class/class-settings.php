@@ -102,12 +102,6 @@ class Settings {
 	public string $lumiere_css_path;
 
 	/**
-	 *  Names of the Widgets
-	 */
-	const BLOCK_WIDGET_NAME = 'lumiere/widget'; // post-WP 5.8 widget block name.
-	const WIDGET_NAME = 'lumiere_movies_widget'; // pre-WP 5.8 widget name.
-
-	/**
 	 * Internal URL pages constants
 	 */
 	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'class/admin/class-copy-template-taxonomy.php'; // not included in $lumiere_list_all_pages.
