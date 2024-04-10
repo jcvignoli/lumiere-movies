@@ -25,6 +25,8 @@ use FilesystemIterator;
 /**
  * Main WordPress actions happen here
  * Calling all actions and filters
+ *
+ * @since 4.1.2 WP Cli commands compatible
  * @TODO Since 4.1.1 an update version check is now executed on every admin page, find a better hook
  */
 class Core {
@@ -92,6 +94,11 @@ class Core {
 
 		// Call the translation.
 		load_plugin_textdomain( 'lumiere-movies', false, plugin_dir_path( __DIR__ ) . 'languages/' );
+
+		// Implements WP-CLI commands should we be using that tool.
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			add_action( 'cli_init', fn() => Cli_Commands::lumiere_static_start() );
+		}
 	}
 
 	/**

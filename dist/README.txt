@@ -157,13 +157,13 @@ Lumière is incompatible with Echo RSS Feed Post Generator, a predator plugin. I
 
 == Support ==
 
-Go to [WordPress Support](https://wordpress.org/support/plugin/lumiere-movies/ "WordPress Support") for general issues, or to the [GIT repository](https://github.com/jcvignoli/lumiere-movies "GIT repository") for technical requests (developpers oriented).
+Go to [WordPress Support](https://wordpress.org/support/plugin/lumiere-movies/ "WordPress Support") for general issues, or to the [GIT repository](https://github.com/jcvignoli/lumiere-movies "GIT repository") for technical requests (developper-oriented).
 
 It's always a good idea to look at the [official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Lumière! official website")
 
 == Changelog == 
 
-Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changes") to find out the latest developments. Or for even more extensive and recent changes available at [GIT commits](https://github.com/jcvignoli/lumiere-movies/commits/master "GIT commits").
+An recent list of changes is available on [GIT](https://github.com/jcvignoli/lumiere-movies/commits/master "GIT commits for Lumière").
 
 Major changes:
 
@@ -187,6 +187,9 @@ And much more! This is a major new version, more stable and safer, extensively t
 * Major update, plugin vastly rewritten. Name [IMDb Link Transformer](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer on WordPress") changed to Lumière!. Should be Content Security Policy (CSP) compliant. Too many changes to be listed. Check the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changelog").
 
 == Upgrade Notice ==
+
+= 4.1.2 =
+Compatible with wp-cli, taxonomy templates compatibility with all WP themes
 
 = 4.1.1 =
 Update pages with movies/widget medata data keys

@@ -33,7 +33,8 @@
         "szepeviktor/phpstan-wordpress": "@stable",
         "vimeo/psalm": "@stable",
         "wapmorgan/php-deprecation-detector": "@stable",
-        "codeception/module-webdriver": "*"
+        "codeception/module-webdriver": "*",
+        "php-stubs/wp-cli-stubs": "^2.10"
     },
     "require": {
         "php": "8.0"

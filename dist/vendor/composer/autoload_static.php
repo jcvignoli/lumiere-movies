@@ -63,6 +63,7 @@ class ComposerStaticInit2660170a07cc3fb36d97d6c17f332311
         'Lumiere\\Alteration\\Rewrite_Rules' => __DIR__ . '/../..' . '/class/alteration/class-rewrite-rules.php',
         'Lumiere\\Alteration\\Taxonomy' => __DIR__ . '/../..' . '/class/alteration/class-taxonomy.php',
         'Lumiere\\Alteration\\Virtual_Page' => __DIR__ . '/../..' . '/class/alteration/class-virtual-page.php',
+        'Lumiere\\Cli_Commands' => __DIR__ . '/../..' . '/class/class-cli-commands.php',
         'Lumiere\\Core' => __DIR__ . '/../..' . '/class/class-core.php',
         'Lumiere\\Frontend\\Frontend' => __DIR__ . '/../..' . '/class/frontend/class-frontend.php',
         'Lumiere\\Frontend\\Main' => __DIR__ . '/../..' . '/class/frontend/trait-main.php',

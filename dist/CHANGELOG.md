@@ -6,6 +6,7 @@ v.4.1.2
 * [bug] Very unusual bug when copying taxonomy template files (php-fpm with umask 002, could copy but not reading due to permissions, added an extra check in Copy_Template_Taxonomy::copy_taxonomy_template()
 * [bug] On some environments, the Polylang selection in people taxonomy didn't find the language. (Changed the SQL query, now using a two-position lang in form)
 * [technical] WP functions standardization and escaping (thanks to the [WP plugin check](https://wordpress.org/plugins/plugin-check/ "Plugin Check on WordPress") )
+* [technical] Added the feature of using wp-cli. In the future, we may have subtancial wp-cli commands. (new class Cli_Commands, detection in Core whether execute it)
 
 v.4.1.1
 * [feature] Notifications messages translated.

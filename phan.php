@@ -75,6 +75,9 @@ return [
 	'file_list' => [
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
 		'tests/bootstrap-testing.php',
+		'vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php',
+		'vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php',
+		'vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php',
 	],
 
 	// A directory list that defines files that will be excluded
@@ -95,6 +98,9 @@ return [
 		'assets/js/highslide/',
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
 		'tests/bootstrap-testing.php',
+		'vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php',
+		'vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php',
+		'vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php',
 	],
 
 	// No need to analyse.

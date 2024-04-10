@@ -6,7 +6,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.6 \
 **Tested up to:** 6.5 \
-**Stable tag:** 4.1.1 \
+**Stable tag:** 4.1.2 \
 **Requires PHP:** 8.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -18,7 +18,7 @@ Lumière! Movies retrieves data from www.imdb.com and helps you include it in yo
 
 Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Official website") to see how the plugin can enhance your website.
 
-**Lumiere! Movies** helps you integrate loads of information about movies and stars in your blog. Widgets, links to informative popup, and dedicated taxonomy pages are available. Everything is automatised and no further configuration is required from the user. However, should you want to access advanced features, your can change the themes, add taxonomy to your pages, remove links, display automatically information according to your blog posts' titles, and use many hidden features. The information is retrieved from the well-known [IMDb](https://www.imdb.com "Internet Movie Database") website. Lumière! ensures that you have the most accurate and reliable information always available on your blog.
+**Lumiere! Movies** helps you integrate loads of information about movies and stars in your blog. Widgets, links to informative popup, and dedicated taxonomy pages are available. Everything is automatised and no further configuration is required from the user. However, should you want to access advanced features, your can change the themes, add taxonomy to your pages, remove links, display automatically information according to your blog posts' titles, and use many hidden features. The information is retrieved from the popular [IMDb](https://www.imdb.com "Internet Movie Database") website. Lumière! ensures that you have the most accurate and reliable information always available on your blog.
 
 Many features are available in the WordPress old and new editing interfaces ([block](https://developer.wordpress.org/block-editor/) based editor, visual editor, and [wysiwig editor](https://codex.wordpress.org/TinyMCE)). It is [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP "Content Security Policy on Mozilla") (CSP) compliant, takes advantage of Polylang plugin and is fully compatible with AMP plugin. It is also fully compatible with Classic Editor and Classic Widgets plugins.
 
@@ -190,13 +190,13 @@ Lumière is incompatible with Echo RSS Feed Post Generator, a predator plugin. I
 
 ## Support
 
-Go to [WordPress Support](https://wordpress.org/support/plugin/lumiere-movies/ "WordPress Support") for general issues, or to the [GIT repository](https://github.com/jcvignoli/lumiere-movies "GIT repository") for technical requests (developpers oriented).
+Go to [WordPress Support](https://wordpress.org/support/plugin/lumiere-movies/ "WordPress Support") for general issues, or to the [GIT repository](https://github.com/jcvignoli/lumiere-movies "GIT repository") for technical requests (developper-oriented).
 
 It's always a good idea to look at the [official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin "Lumière! official website")
 
 ## Changelog
 
-Take a look at the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changes") to find out the latest developments. Or for even more extensive and recent changes available at [GIT commits](https://github.com/jcvignoli/lumiere-movies/commits/master "GIT commits").
+An recent list of changes is available on [GIT](https://github.com/jcvignoli/lumiere-movies/commits/master "GIT commits for Lumière").
 
 Major changes:
 
@@ -210,7 +210,7 @@ More flexibility for the auto title widget users: You can now prevent a post fro
 
 ### 4.0
 
-Added new automatized refresh of the cache function, a cool feature that will ensure that you cache is up to date forever! Fixed also the taxonomy system, it now creates proper links towards taxonomy pages (ie: https://yourblog.com/lumiere-director/stanley-kubrick) within widgets/into the posts sections, with the appropriate language. Taxonomy for items (ie: genre) is now displayed for all items found. Added the general advanced option to add an extra delay when querying the IMDb website. Data downloading from imdb website is retried 3 times before giving up. Fixed bug in plugin activation, layout in admin data options position, improved Content security policy standards and compatibility with HTML 4.1, PHP 8.0, PHP 8.3. Banning bots is now executed before doing any IMDb search or display, avoiding cache creationg (and 504 HTML errors when calling IMDb website!). Improved the comments in admin sections. Under the hood, the admin option pages have been cleaned and rewrote.
+Added new automatized refresh of the cache function, a cool feature that will ensure that you cache is up to date forever! Fixed also the taxonomy system, it now creates proper links towards taxonomy pages (ie: https://yourblog.com/lumiere-director/stanley-kubrick) within widgets/into the posts sections, with the appropriate language. Taxonomy for items (ie: genre) is now displayed for all items found. Added the general advanced option to add an extra delay when querying the IMDb website. Data downloading from imdb website is retried 3 times before giving up. Fixed bug in plugin activation, layout in admin data options position, improved Content security policy standards and compatibility with HTML 4.1, PHP 8.0, PHP 8.3. Banning bots is now executed before doing any IMDb search or display, avoiding cache creation (and 504 HTML errors when calling IMDb website!). Improved the comments in admin sections. Under the hood, the admin option pages have been cleaned and rewrote.
 
 And much more! This is a major new version, more stable and safer, extensively tested before the release.
 
@@ -221,6 +221,10 @@ And much more! This is a major new version, more stable and safer, extensively t
 * Major update, plugin vastly rewritten. Name [IMDb Link Transformer](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer on WordPress") changed to Lumière!. Should be Content Security Policy (CSP) compliant. Too many changes to be listed. Check the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changelog").
 
 ## Upgrade Notice
+
+### 4.1.2
+
+Compatible with wp-cli, taxonomy templates compatibility with all WP themes
 
 ### 4.1.1
 

@@ -27,6 +27,7 @@ return array(
     'Lumiere\\Alteration\\Rewrite_Rules' => $baseDir . '/class/alteration/class-rewrite-rules.php',
     'Lumiere\\Alteration\\Taxonomy' => $baseDir . '/class/alteration/class-taxonomy.php',
     'Lumiere\\Alteration\\Virtual_Page' => $baseDir . '/class/alteration/class-virtual-page.php',
+    'Lumiere\\Cli_Commands' => $baseDir . '/class/class-cli-commands.php',
     'Lumiere\\Core' => $baseDir . '/class/class-core.php',
     'Lumiere\\Frontend\\Frontend' => $baseDir . '/class/frontend/class-frontend.php',
     'Lumiere\\Frontend\\Main' => $baseDir . '/class/frontend/trait-main.php',
