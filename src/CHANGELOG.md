@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.1.3
+
 v.4.1.2
 * [feature] Popup layouts are now universal and fit into any WordPress theme (finding if it's a block-based theme and displaying a different layout)
 * [feature] Taxonomy themes are now universal and fit into any WordPress theme (finding if it's a block-based theme and displaying a different layout)
