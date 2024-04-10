@@ -95,7 +95,7 @@ class Core {
 		// Call the translation.
 		load_plugin_textdomain( 'lumiere-movies', false, plugin_dir_path( __DIR__ ) . 'languages/' );
 
-		// Implements WP-CLI commands should we be using that tool.
+		// Implements WP-CLI commands should we be using it.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			add_action( 'cli_init', fn() => Cli_Commands::lumiere_static_start() );
 		}
