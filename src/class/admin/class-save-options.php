@@ -180,8 +180,10 @@ class Save_Options {
 			&& isset( $_POST['_nonce_cache_settings'] )
 			&& wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) > 0
 		) {
-			// delete several ticked files.
-			$this->lumiere_cache_delete_ticked_files( $this->get_referer(), new Cache_Tools() );
+			// delete several ticked files, they can be either movies or people, using same method.
+			$delete_movies = isset( $_POST['imdb_cachedeletefor_movies'] ) ? array_map( 'sanitize_key', $_POST['imdb_cachedeletefor_movies'] ) : null;
+			$delete_people = isset( $_POST['imdb_cachedeletefor_people'] ) ? array_map( 'sanitize_key', $_POST['imdb_cachedeletefor_people'] ) : null;
+			$this->lumiere_cache_delete_ticked_files( $this->get_referer(), new Cache_Tools(), $delete_movies, $delete_people );
 		} elseif (
 			isset( $_GET['dothis'] )
 			&& $_GET['dothis'] === 'delete'
@@ -224,6 +226,8 @@ class Save_Options {
 	 * Save General options
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 * @param string $imdburlstringtaxo $_POST['imdb_imdburlstringtaxo']
+	 * @param string $imdburlpopups $_POST['imdb_imdburlpopups']
 	 *
 	 * @template T as OPTIONS_ADMIN
 	 * @phan-suppress PhanTemplateTypeNotUsedInFunctionReturn
@@ -231,13 +235,12 @@ class Save_Options {
 	// @phpstan-ignore-next-line method.templateTypeNotInParameter
 	private function lumiere_general_options_save( string|bool $get_referer, string $imdburlstringtaxo, string $imdburlpopups  ): void {
 
-		// Check if $_POST['imdburlstringtaxo'] and $_POST['imdburlpopups'] are identical, because they can't be, so exit if they are.
+		// Check if $_POST['imdb_imdburlstringtaxo'] and $_POST['imdb_imdburlpopups'] are identical, because they can't be, so exit if they are.
 		if (
-			strlen( $imdburlstringtaxo ) > 0 &&
-		( str_replace( '/', '', $imdburlstringtaxo ) === str_replace( '/', '', $imdburlpopups ) ) || isset( $this->imdb_admin_values['imdburlpopups'] ) && ( str_replace( '/', '', $imdburlstringtaxo ) === str_replace( '/', '', $this->imdb_admin_values['imdburlpopups'] ) )
-									||
-			strlen( $imdburlpopups ) > 0 &&
-		( str_replace( '/', '', $imdburlpopups ) === str_replace( '/', '', $imdburlstringtaxo ) ) || isset( $this->imdb_admin_values['imdburlstringtaxo'] ) && ( str_replace( '/', '', $imdburlpopups ) === str_replace( '/', '', $this->imdb_admin_values['imdburlstringtaxo'] ) )
+			strlen( $imdburlstringtaxo ) > 0 && ( str_replace( '/', '', $imdburlstringtaxo ) === str_replace( '/', '', $imdburlpopups ) )
+			|| strlen( $imdburlpopups ) > 0 && ( str_replace( '/', '', $imdburlpopups ) === str_replace( '/', '', $imdburlstringtaxo ) )
+			|| isset( $this->imdb_admin_values['imdburlpopups'] ) && ( str_replace( '/', '', $imdburlstringtaxo ) === str_replace( '/', '', $this->imdb_admin_values['imdburlpopups'] ) )
+			|| isset( $this->imdb_admin_values['imdburlstringtaxo'] ) && ( str_replace( '/', '', $imdburlpopups ) === str_replace( '/', '', $this->imdb_admin_values['imdburlstringtaxo'] ) )
 		) {
 
 			set_transient( 'notice_lumiere_msg', 'general_options_error_identical_value', 30 );
@@ -405,22 +408,23 @@ class Save_Options {
 
 	/**
 	 * Delete ticked People/Movie files (based on inputs)
+	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @param Cache_Tools $cache_tools_class object with the methods needed
-	 * @throws Exception if nonces are incorrect
+	 * @param null|array<string> $delete_movies $_POST['imdb_cachedeletefor_movies']
+	 * @param null|array<string> $delete_people $_POST['imdb_cachedeletefor_people']
 	 */
-	private function lumiere_cache_delete_ticked_files( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
+	private function lumiere_cache_delete_ticked_files(
+		string|bool $get_referer,
+		Cache_Tools $cache_tools_class,
+		?array $delete_movies,
+		?array $delete_people
+	): void {
 
-		if ( ! isset( $_POST['_nonce_cache_settings'] ) || wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) === false ) {
-			throw new Exception( esc_html__( 'Nounce error', 'lumiere-movies' ) );
-		}
-
-		if ( isset( $_POST['imdb_cachedeletefor_movies'] ) ) {
-			$ids_to_delete = isset( $_POST['imdb_cachedeletefor_movies'] ) ? (array) $_POST['imdb_cachedeletefor_movies'] : [];
-			$cache_tools_class->cache_delete_ticked_files( $ids_to_delete, 'movie' );
-		} elseif ( isset( $_POST['imdb_cachedeletefor_people'] ) ) {
-			$ids_to_delete = isset( $_POST['imdb_cachedeletefor_people'] ) ? (array) $_POST['imdb_cachedeletefor_people'] : [];
-			$cache_tools_class->cache_delete_ticked_files( $ids_to_delete, 'people' );
+		if ( isset( $delete_movies ) ) {
+			$cache_tools_class->cache_delete_ticked_files( $delete_movies, 'movie' );
+		} elseif ( isset( $delete_people ) ) {
+			$cache_tools_class->cache_delete_ticked_files( $delete_people, 'people' );
 		}
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
@@ -465,9 +469,12 @@ class Save_Options {
 
 	/**
 	 * Save Data options
+	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 *
 	 * @throws Exception if nonces are incorrect
 	 * @since 4.1 added flush_rewrite_rules()
+	 * @TODO refactorize, function is too much complex
 	 */
 	private function lumiere_data_options_save( string|bool $get_referer, ): void {
 
