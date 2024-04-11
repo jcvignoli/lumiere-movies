@@ -145,8 +145,8 @@ class Copy_Template_Taxonomy {
 		$content_cleaned = preg_replace( '~\*\sYou can replace.*automatically~s', '* Automatically copied from Lumiere! admin menu', $content );
 		$content = $content_cleaned !== null ? str_replace( 'standard', $lumiere_taxo_title, $content_cleaned ) : $content;
 		$content = str_replace( 'Standard', ucfirst( $lumiere_taxo_title ), $content );
-		$chmod = defined( 'FS_CHMOD_FILE' ) ? FS_CHMOD_FILE : false;
-		if ( $wp_filesystem->put_contents( $lumiere_current_theme_path_file, $content, $chmod ) ) {
+
+		if ( $wp_filesystem->put_contents( $lumiere_current_theme_path_file, $content ) ) {
 			return true;
 		}
 

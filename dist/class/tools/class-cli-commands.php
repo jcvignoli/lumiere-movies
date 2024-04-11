@@ -150,13 +150,13 @@ class Cli_Commands {
 	 * Meant to update admin|data|cache options in the database
 	 * Pass the var like that:
 	 *  --array_key=new_value
-	 * Ex:  --imdbdebug=0
+	 *  Ex:  --imdbdebug=0
 	 *
 	 * Pass the database to update admin|data|cache
 	 * wp lum update_options admin|data|cache
 	 *
 	 * @param array<int, string> $args The first argument only is used to detect which subcommand run, such as "wp lum update_options "
-	 * @param array<string, string> $dashed_extra_args The list of arguments passed as in --array_key=new_value, [] if empty.
+	 * @param array<string, 'admin'|'data'|'cache'> $dashed_extra_args The list of arguments passed as in --array_key=new_value, [] if empty.
 	 * @param-phpstan array<string, string>|OPTIONS_ADMIN|OPTIONS_CACHE|OPTIONS_DATA> $dashed_extra_args
 	 */
 	private function sub_update_options( array $args, array $dashed_extra_args ): void {
@@ -196,8 +196,11 @@ class Cli_Commands {
 	 * Subcommand "copy_taxo"
 	 *
 	 * Meant to copy taxonomy templates
+	 * Pass the arguments like that:
+	 *  copy_taxo items|people --template=items_name|people_name
+	 *  Ex: wp lum copy_taxo items --template=genre
 	 *
-	 * @param array<int, string> $args The first argument only is used to detect which subcommand run, such as "wp lum copy_taxo items|people"
+	 * @param array<int, 'items'|'people'> $args The first argument only is used to detect which subcommand run, "items|people"
 	 * @param array<string, string> $dashed_extra_args The argument passed in --template=color|actor|etc, [] if empty.
 	 */
 	private function sub_copy_taxo( array $args, array $dashed_extra_args ): void {

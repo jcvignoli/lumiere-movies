@@ -61,7 +61,7 @@ class Settings {
 	const IMDBBLOGENGLISH = self::IMDBBLOG . '/en';
 	const IMDBHOMEPAGE = self::IMDBBLOGENGLISH . '/lumiere-movies-wordpress-plugin';
 	const IMDBABOUTENGLISH = self::IMDBBLOGENGLISH . '/presentation-of-jean-claude-vignoli';
-	const LUMIERE_WORDPRESS = 'https://wordpress.org/extend/plugins/lumiere-movies/';
+	const LUMIERE_WORDPRESS = 'https://wordpress.org/plugins/lumiere-movies/';
 	const LUMIERE_WORDPRESS_IMAGES = 'https://ps.w.org/lumiere-movies/assets';
 	const LUMIERE_GIT = 'https://github.com/jcvignoli/lumiere-movies';
 	const LUMIERE_ACTIVE = 'LUMIERE_ACTIVE';
