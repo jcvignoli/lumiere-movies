@@ -40,9 +40,10 @@ class Cache extends Admin_Menu {
 	 * Display the body
 	 *
 	 * @param Cache_Tools $cache_tools_class To create cache folder if it doesn't exists
+	 * @param string $nonce nonce from Admin_Menu to be checked when doing $_GET checks
 	 * @see \Lumiere\Admin\Admin_Menu::call_admin_subclass() Calls this method
 	 */
-	protected function lum_submenu_start( Cache_Tools $cache_tools_class ): void {
+	protected function lum_submenu_start( Cache_Tools $cache_tools_class, string $nonce ): void {
 
 		// First part of the menu
 		$this->include_with_vars(
@@ -67,7 +68,8 @@ class Cache extends Admin_Menu {
 		);
 
 		if (
-			isset( $_GET['page'] ) && str_contains( $this->page_cache_option, $_GET['page'] ) === true
+			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
+			&& isset( $_GET['page'] ) && str_contains( $this->page_cache_option, $_GET['page'] ) === true
 			&& ! isset( $_GET['subsection'] )
 		) {
 
@@ -82,6 +84,7 @@ class Cache extends Admin_Menu {
 		} elseif (
 			isset( $_GET['page'] ) && str_contains( $this->page_cache_option, $_GET['page'] ) === true
 			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'manage'
+			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
 		) {
 			// Cache managment menu.
 			$this->include_with_vars(

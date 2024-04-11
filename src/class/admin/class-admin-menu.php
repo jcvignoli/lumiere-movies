@@ -357,7 +357,7 @@ class Admin_Menu {
 			$instance = new $full_class_name();
 
 			if ( method_exists( $instance, 'lum_submenu_start' ) ) {
-				$instance->lum_submenu_start( new Cache_Tools() );
+				$instance->lum_submenu_start( new Cache_Tools(), wp_create_nonce( 'check_display_page' ) );
 			}
 
 			$this->lumiere_add_signature_menus();

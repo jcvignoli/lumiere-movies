@@ -52,9 +52,10 @@ class General extends Admin_Menu {
 	 * Display the options
 	 *
 	 * @param Cache_Tools $cache_tools_class To create cache folder if it doesn't exists
+	 * @param string $nonce nonce from Admin_Menu to be checked when doing $_GET checks
 	 * @see \Lumiere\Admin\Admin_Menu::call_admin_subclass() Calls this method
 	 */
-	protected function lum_submenu_start( Cache_Tools $cache_tools_class ): void {
+	protected function lum_submenu_start( Cache_Tools $cache_tools_class, string $nonce ): void {
 
 		// First part of the menu.
 		$this->include_with_vars(
@@ -81,7 +82,8 @@ class General extends Admin_Menu {
 		// The body.
 		if (
 			// General options.
-			isset( $_GET['page'] ) && str_contains( $this->page_general_base, $_GET['page'] ) === true
+			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
+			&& isset( $_GET['page'] ) && str_contains( $this->page_general_base, $_GET['page'] ) === true
 			&& ! isset( $_GET['subsection'] )
 		) {
 			$this->include_with_vars(
@@ -94,6 +96,7 @@ class General extends Admin_Menu {
 			// Advanced options.
 			isset( $_GET['page'] ) && str_contains( $this->page_general_advanced, $_GET['page'] ) === true
 			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'advanced'
+			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
 		) {
 			$this->include_with_vars(
 				self::PAGES_NAMES['advanced_options'],

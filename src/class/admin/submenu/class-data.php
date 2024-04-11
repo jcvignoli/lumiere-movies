@@ -80,9 +80,10 @@ class Data extends Admin_Menu {
 	 * Display the body
 	 *
 	 * @param \Lumiere\Admin\Cache_Tools $cache_tools_class Not utilised in this class, but needed in some other Submenu classes
+	 * @param string $nonce nonce from Admin_Menu to be checked when doing $_GET checks
 	 * @see \Lumiere\Admin\Admin_Menu::call_admin_subclass() Calls this method
 	 */
-	protected function lum_submenu_start( \Lumiere\Admin\Cache_Tools $cache_tools_class ): void {
+	protected function lum_submenu_start( \Lumiere\Admin\Cache_Tools $cache_tools_class, string $nonce ): void {
 
 		// First part of the menu
 		$this->include_with_vars(
@@ -104,7 +105,8 @@ class Data extends Admin_Menu {
 		);
 
 		if (
-			isset( $_GET['page'] ) && str_contains( $this->page_data, $_GET['page'] ) === true
+			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
+			&& isset( $_GET['page'] ) && str_contains( $this->page_data, $_GET['page'] ) === true
 			&& ! isset( $_GET['subsection'] )
 		) {
 
@@ -123,6 +125,7 @@ class Data extends Admin_Menu {
 		} elseif (
 			isset( $_GET['page'] ) && str_contains( $this->page_data_taxo, $_GET['page'] ) === true
 			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_taxo, $_GET['subsection'] )
+			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
 		) {
 
 			// taxonomy is disabled
@@ -151,6 +154,7 @@ class Data extends Admin_Menu {
 		} elseif (
 			isset( $_GET['page'] ) && str_contains( $this->page_data_order, $_GET['page'] ) === true
 			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_order, $_GET['subsection'] )
+			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
 		) {
 
 			// The template will retrieve the args. In parent class.

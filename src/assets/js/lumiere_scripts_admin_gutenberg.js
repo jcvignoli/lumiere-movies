@@ -1,6 +1,6 @@
 /**
- * Functions here are supposed to help achieve the Content Security Policy (CSP) compliance
- * Needs jquery
+ * Functions here help achieve Content Security Policy (CSP) compliance
+ * Need jquery
  * Only loaded in gutenberg block edition pages
  */
 

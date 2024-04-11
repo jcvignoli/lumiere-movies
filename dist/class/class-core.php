@@ -126,7 +126,8 @@ class Core {
 			'lumiere_scripts_admin_gutenberg',
 			plugin_dir_url( __DIR__ ) . 'assets/js/lumiere_scripts_admin_gutenberg.min.js',
 			[],
-			strval( filemtime( plugin_dir_path( __DIR__ ) . 'assets/js/lumiere_scripts_admin_gutenberg.min.js' ) )
+			strval( filemtime( plugin_dir_path( __DIR__ ) . 'assets/js/lumiere_scripts_admin_gutenberg.min.js' ) ),
+			true
 		);
 		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
 	}

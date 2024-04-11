@@ -66,9 +66,10 @@ class Help extends Admin_Menu {
 	 * Display the layout
 	 *
 	 * @param \Lumiere\Admin\Cache_Tools $cache_tools_class Not utilised in this class, but needed in some other Submenu classes
+	 * @param string $nonce nonce from Admin_Menu to be checked when doing $_GET checks
 	 * @see \Lumiere\Admin\Admin_Menu::call_admin_subclass() Calls this method
 	 */
-	public function lum_submenu_start( \Lumiere\Admin\Cache_Tools $cache_tools_class ): void {
+	public function lum_submenu_start( \Lumiere\Admin\Cache_Tools $cache_tools_class, string $nonce ): void {
 
 		do_action( 'lumiere_add_meta_boxes_help' );
 
@@ -94,19 +95,19 @@ class Help extends Admin_Menu {
 		);
 
 		// Changelog section.
-		if ( ( isset( $_GET['subsection'] ) ) && str_contains( $this->page_help_changelog, $_GET['subsection'] ) === true ) {
+		if ( wp_verify_nonce( $nonce, 'check_display_page' ) > 0 && isset( $_GET['subsection'] ) && str_contains( $this->page_help_changelog, $_GET['subsection'] ) === true ) {
 			$this->display_changelog();
 
 			// Faqs section.
-		} elseif ( isset( $_GET['subsection'] ) && str_contains( $this->page_help_faqs, $_GET['subsection'] ) === true ) {
+		} elseif ( isset( $_GET['subsection'] ) && str_contains( $this->page_help_faqs, $_GET['subsection'] ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
 			$this->display_faqs();
 
 			// Support section.
-		} elseif ( ( isset( $_GET['subsection'] ) ) && str_contains( $this->page_help_support, $_GET['subsection'] ) === true ) {
+		} elseif ( ( isset( $_GET['subsection'] ) ) && str_contains( $this->page_help_support, $_GET['subsection'] ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
 			$this->display_support();
 
 			// How to section, default.
-		} elseif ( ( isset( $_GET['subsection'] ) && str_contains( $this->page_help, $_GET['subsection'] ) === true ) || ! isset( $_GET['subsection'] ) ) {
+		} elseif ( ( isset( $_GET['subsection'] ) && str_contains( $this->page_help, $_GET['subsection'] ) === true ) || ! isset( $_GET['subsection'] ) && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
 
 			// Default.
 			$this->include_with_vars(
