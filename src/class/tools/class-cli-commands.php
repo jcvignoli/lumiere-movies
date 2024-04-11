@@ -8,13 +8,15 @@
  * @version       1.0
  * @package lumiere-movies
  */
-namespace Lumiere;
+namespace Lumiere\Tools;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	die( 'You can not call directly this page' );
 }
 
+use Lumiere\Settings;
+use Lumiere\Tools\Files;
 use WP_CLI;
 use \ReflectionClass;
 use \ReflectionMethod;
@@ -38,6 +40,18 @@ use \ReflectionMethod;
 class Cli_Commands {
 
 	/**
+	 * Traits
+	 */
+	use Files;
+
+	/**
+	 * Admin options vars
+	 * @var array<string, string>
+	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values
+	 */
+	private array $imdb_admin_values;
+
+	/**
 	 * List of subcommands built according to the private methods available in the class
 	 * @see \Lumiere\Cli_Commands::get_private_methods()
 	 *
@@ -59,6 +73,7 @@ class Cli_Commands {
 		// Build properties.
 		$this->list_subcommands = $this->get_private_methods( new ReflectionClass( $this ) );
 		$this->list_subcommands_asstring = $this->get_private_methods_asstring( $this->list_subcommands );
+		$this->imdb_admin_values = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 	}
 
 	/**
@@ -134,26 +149,26 @@ class Cli_Commands {
 	 *
 	 * Meant to update admin|data|cache options in the database
 	 * Pass the var like that:
-	 *  --array-key=new_value
+	 *  --array_key=new_value
 	 * Ex:  --imdbdebug=0
 	 *
 	 * Pass the database to update admin|data|cache
 	 * wp lum update_options admin|data|cache
 	 *
 	 * @param array<int, string> $args The first argument only is used to detect which subcommand run, such as "wp lum update_options "
-	 * @param array<string, string> $dashed_extra_args The list of arguments passed in --something="", [] if empty.
+	 * @param array<string, string> $dashed_extra_args The list of arguments passed as in --array_key=new_value, [] if empty.
 	 * @param-phpstan array<string, string>|OPTIONS_ADMIN|OPTIONS_CACHE|OPTIONS_DATA> $dashed_extra_args
 	 */
 	private function sub_update_options( array $args, array $dashed_extra_args ): void {
 
 		// If no second main argument was passed, we don't know which database update, so exit.
 		if ( ! isset( $args[1] ) || in_array( $args[1], [ 'admin', 'data', 'cache' ], true ) === false ) {
-			WP_CLI::error( "The second argument is missing or wrong, the command must comply with:\nwp lum update_options admin|data|cache --array-key=new_value" );
+			WP_CLI::error( "The second argument is missing or wrong, the command must comply with:\nwp lum update_options admin|data|cache --array_key=new_value" );
 		}
 
 		// If no extra dashed arguments passed or more than one, exit.
 		if ( count( $dashed_extra_args ) !== 1 ) {
-			WP_CLI::error( 'Use one extra argument as follows: wp lum update_options admin|data|cache --array-key=new_value' );
+			WP_CLI::error( "Use one extra argument as follows:\nwp lum update_options admin|data|cache --array_key=new_value" );
 		}
 
 		// Build the constant to call in Settings - can be admin, cache or data
@@ -161,20 +176,80 @@ class Cli_Commands {
 
 		// Get options from DB and get the (first) array key from the passed values in $dashed_extra_args.
 		$database_options = get_option( $settings_const );
-		$offset = array_key_first( $dashed_extra_args );
+		$array_key = array_key_first( $dashed_extra_args );
 
 		// Exit if the array key doesn't exist in Lumière! DB admin options
 		/** @psalm-suppress PossiblyNullArgument -- can never be null! */
-		if ( array_key_exists( $offset, $database_options ) === false ) {
+		if ( array_key_exists( $array_key, $database_options ) === false ) {
 			WP_CLI::error( 'This var does not exist, only accepted: ' . implode( ', ', array_keys( $database_options ) ) );
 
 		}
 
 		// Build new array and update database.
-		$database_options[ $offset ] = $dashed_extra_args[ $offset ];
+		$database_options[ $array_key ] = $dashed_extra_args[ $array_key ];
 		update_option( $settings_const, $database_options );
 
-		WP_CLI::success( 'Updated var ' . $offset . ' with value ' . $database_options[ $offset ] );
+		WP_CLI::success( 'Updated var ' . $array_key . ' with value ' . $database_options[ $array_key ] );
+	}
+
+	/**
+	 * Subcommand "copy_taxo"
+	 *
+	 * Meant to copy taxonomy templates
+	 *
+	 * @param array<int, string> $args The first argument only is used to detect which subcommand run, such as "wp lum copy_taxo items|people"
+	 * @param array<string, string> $dashed_extra_args The argument passed in --template=color|actor|etc, [] if empty.
+	 */
+	private function sub_copy_taxo( array $args, array $dashed_extra_args ): void {
+
+		// Build the principal vars.
+		$template_types = [ 'items', 'people' ];
+		$items = [ 'color', 'country', 'genre', 'keyword', 'language' ];
+		$people = [ 'actor', 'composer', 'creator', 'director', 'producer', 'writer' ];
+		$all = array_merge( $items, $people );
+		$array_items = [ $template_types[0] => $items ];
+		$array_people = [ $template_types[1] => $people ];
+		$array_all = array_merge( $array_items, $array_people );
+
+		// Get the vars passed in command-line.
+		$control = array_key_first( $dashed_extra_args );
+		$taxonomy = $dashed_extra_args[ $control ] ?? '';
+
+		// If no extra dashed arguments passed or more than one, if not in valid array, or not using --template="", exit.
+		if ( count( $dashed_extra_args ) !== 1 || ! isset( $array_all[ $args[1] ] ) || in_array( $taxonomy, $array_all[ $args[1] ], true ) === false || $control !== 'template' ) {
+			WP_CLI::error( "Selected options are wrong, must comply with:\nwp lum copy_taxo " . implode( '|', $template_types ) . ' --template=' . implode( '|', $all ) );
+		}
+
+		// Build source filename, except if no second main argument was passed exit.
+		if ( in_array( $args[1], $template_types, true ) === true ) {
+			$source_file = constant( '\Lumiere\Settings::TAXO_' . strtoupper( $args[1] ) . '_THEME' );
+		} else {
+			WP_CLI::error( "The extra argument must be either items or people as follows:\nwp lum copy_taxo " . implode( '|', $template_types ) . ' --template=' . implode( '|', $all ) );
+		}
+
+		// Build taxonomy new filename, directory and source.
+		$template_name = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $taxonomy . '.php';
+		$destination_full_name = get_stylesheet_directory() . '/' . $template_name;
+		/** @psalm-suppress PossiblyUndefinedVariable -- psalm doesn't understand when building $source_full_name that WP_CLI::error is an exit function */
+		$source_full_name = $this->imdb_admin_values['imdbpluginpath'] . $source_file; /** @phan-suppress-current-line PhanPossiblyUndeclaredVariable -- phan doesn't understand when building $source_full_name that WP_CLI::error is an exit function */
+
+		// Copy templates to user's theme folder.
+		global $wp_filesystem;
+		$this->lumiere_wp_filesystem_cred( $destination_full_name ); // in trait Files.
+		$wp_filesystem->touch( $destination_full_name );
+
+		// Replace the content to adapt it to its new structure and wording.
+		$content = $wp_filesystem->get_contents( $source_full_name );
+		$content_cleaned = preg_replace( '~\*\sYou can replace.*automatically~s', '* Automatically copied from Lumiere! admin menu', $content );
+		$content = $content_cleaned !== null ? str_replace( 'standard', $taxonomy, $content_cleaned ) : $content;
+		$content = str_replace( 'Standard', ucfirst( $taxonomy ), $content );
+
+		if ( $wp_filesystem->put_contents( $destination_full_name, $content ) === true ) {
+			WP_CLI::success( 'The template ' . $template_name . ' has been copied to ' . $destination_full_name );
+			return;
+		}
+
+		WP_CLI::error( 'Could not copy the selected template, check the permissions' );
 	}
 }
 
