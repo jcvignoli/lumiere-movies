@@ -205,6 +205,51 @@ class Polylang {
 	}
 
 	/**
+	 * Use specific headers if it is an AMP submission
+	 * Meant to allow a $_GET insted of a $_POST form submission, thus using ajax, not in use
+	 * Not in use
+	 *
+	 * @see self::amp_form_polylang_selection() Use $_POST
+	 * @see \Lumiere\Taxonomy_People_Standard which is supposed to use it
+	 */
+	public function amp_form_submit(): void {
+
+		if (
+			isset( $_GET['submit_lang'], $_GET['tag_lang'] )
+			&& isset( $_POST['_wpnonce_lum_taxo_polylangform'] )
+			&& wp_verify_nonce( $_POST['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) > 0
+		) {
+
+			if ( strlen( $_GET['tag_lang'] ) > 0 ) {
+				$success = true;
+				$message = __( 'Language successfully changed.', 'lumiere-movies' );
+				wp_send_json( [ 'success' => true ] );
+			} else {
+				$success = false;
+				$message = __( 'Could not change the language.', 'lumiere-movies' );
+				wp_send_json(
+					[
+						'msg' => __( 'No data passed', 'lumiere-movies' ),
+						'response' => esc_html( $_GET['tag_lang'] ),
+						'back_link' => true,
+					]
+				);
+			}
+
+			/** wp_send_json() already sent a wp_die(), this is not executed
+			header( 'AMP-Redirect-To: ' . wp_sanitize_redirect( $_GET['_wp_http_referer'] ?? '' ) );
+
+			wp_die(
+				esc_html( $message ),
+				'',
+				[ 'response' => $success ? 200 : 400 ]
+			);
+			*/
+
+		}
+	}
+
+	/**
 	 * Append to home url the polylang url
 	 * Allows to rewrite for example the popups to make them compatible with polylang system
 	 *

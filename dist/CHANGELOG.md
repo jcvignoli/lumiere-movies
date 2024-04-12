@@ -2,6 +2,7 @@
 
 v.4.1.3
 * [technical] Further compliance with WordPress standards and security, notably added nonces
+* [technical] New function in wp-cli to copy taxonomy templates
 
 v.4.1.2
 * [feature] Popup layouts are now universal and fit into any WordPress theme (finding if it's a block-based theme and displaying a different layout)

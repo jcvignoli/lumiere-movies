@@ -90,11 +90,10 @@ class Taxonomy_People_Standard {
 		$this->person_class = $this->get_imdbphp_person_searched();
 		$this->person_name = isset( $this->person_class ) ? $this->person_class->name() : '';
 
-		// Start AMP headers if AMP page, not really in use
-		if ( in_array( 'amp', $this->plugins_active_names, true ) === true ) {
-			// $this->amp_headers(); // Debug and check
-			add_action( 'wp_ajax_amp_comment_submit', [ $this, 'amp_form_submit' ] );
-			add_action( 'wp_ajax_nopriv_amp_comment_submit', [ $this, 'amp_form_submit' ] );
+		// Start AMP headers if AMP page and Polylang, not really in use
+		if ( in_array( 'amp', $this->plugins_active_names, true ) === true && in_array( 'polylang', $this->plugins_active_names, true ) === true ) {
+			add_action( 'wp_ajax_amp_comment_submit', [ $this->plugins_classes_active['polylang'], 'amp_form_submit' ] );
+			add_action( 'wp_ajax_nopriv_amp_comment_submit', [ $this->plugins_classes_active['polylang'], 'amp_form_submit' ] );
 		}
 	}
 
@@ -106,41 +105,6 @@ class Taxonomy_People_Standard {
 
 		// Display the page. Must not be included into an add_action(), as should be displayed directly, since it's a template.
 		$class->lum_select_layout();
-	}
-
-	/**
-	 * Use specific headers if it is an AMP submission
-	 * Meant to allow a $_GET insted of a $_POST form submission, thus using ajax, not in use
-	 */
-	public function amp_form_submit(): void {
-
-		if ( isset( $_GET['submit_lang'], $_GET['tag_lang'] ) ) {
-
-			if ( strlen( $_GET['tag_lang'] ) > 0 ) {
-				$success = true;
-				wp_send_json( [ 'success' => true ] );
-				$message = __( 'Language successfully changed.', 'lumiere-movies' );
-			} else {
-				$success = false;
-				$message = __( 'Could not change the language.', 'lumiere-movies' );
-				wp_send_json(
-					[
-						'msg' => __( 'No data passed', 'lumiere-movies' ),
-						'response' => esc_html( $_GET['tag_lang'] ),
-						'back_link' => true,
-					]
-				);
-			}
-
-			header( 'AMP-Redirect-To: ' . wp_sanitize_redirect( $_GET['_wp_http_referer'] ?? '' ) );
-
-			wp_die(
-				esc_html( $message ),
-				'',
-				[ 'response' => $success ? 200 : 400 ]
-			);
-
-		}
 	}
 
 	/**
@@ -364,9 +328,9 @@ class Taxonomy_People_Standard {
 
 			// A Polylang form exists and a value was passed in the Polylang form.
 			if (
-				isset( $this->plugins_classes_active['polylang'] )
+				isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_GET['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) > 0
+				&& isset( $this->plugins_classes_active['polylang'] )
 				&& isset( $_GET['tag_lang'] ) && strlen( $_GET['tag_lang'] ) > 0
-				&& isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_GET['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) > 0
 			) {
 				$args = $this->plugins_classes_active['polylang']->get_polylang_taxo_query(
 					$_GET['tag_lang'],

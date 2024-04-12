@@ -162,6 +162,7 @@ class Frontend {
 	public function lumiere_popup_redirect_include( string $template ): string|Virtual_Page {
 
 		$query_popup = get_query_var( 'popup' );
+		$nonce_url = wp_create_nonce();
 
 		// The query var doesn't exist, exit.
 		if ( ! isset( $query_popup ) ) {
@@ -191,14 +192,14 @@ class Frontend {
 				$filmid_sanitized = ''; // initialisation.
 
 				// If mid but no film, do a query using the mid.
-				if ( isset( $_GET['mid'] ) && ! isset( $_GET['film'] ) ) {
+				if ( isset( $_GET['mid'] ) && ! isset( $_GET['film'] ) && wp_verify_nonce( $nonce_url ) > 0 ) {
 					$movieid_sanitized = esc_html( $_GET['mid'] );
 					$movie = new Title( $movieid_sanitized, $this->plugins_classes_active['imdbphp'] );
 					$filmid_sanitized = $movie->title();
 				}
 
 				// Sanitize and initialize $_GET['film']
-				$film_sanitized = isset( $_GET['film'] ) ? $this->lumiere_name_htmlize( $_GET['film'] ) : ''; // Method in trait Data.
+				$film_sanitized = isset( $_GET['film'] ) && wp_verify_nonce( $nonce_url ) > 0 ? $this->lumiere_name_htmlize( $_GET['film'] ) : ''; // Method in trait Data.
 
 				// Get the film ID if it exists, if not get the film name
 				$title_name = strlen( $filmid_sanitized ) > 0 ? $filmid_sanitized : $film_sanitized;
@@ -218,8 +219,8 @@ class Frontend {
 				$this->ban_bots_popups();
 
 				// Set the title.
-				if ( isset( $_GET['mid'] ) ) {
-					$mid_sanitized = sanitize_text_field( strval( $_GET['mid'] ) );
+				if ( isset( $_GET['mid'] ) && wp_verify_nonce( $nonce_url ) > 0 ) {
+					$mid_sanitized = sanitize_text_field( $_GET['mid'] );
 					$person = new Person( $mid_sanitized, $this->plugins_classes_active['imdbphp'] );
 					$person_name_sanitized = $person->name();
 				}
@@ -240,7 +241,7 @@ class Frontend {
 				$this->ban_bots_popups();
 
 				// Set the title.
-				$filmname_sanitized = isset( $_GET['film'] ) ? ': [' . $_GET['film'] . ']' : __( 'No name entered', 'lumiere-movies' );
+				$filmname_sanitized = isset( $_GET['film'] ) && wp_verify_nonce( $nonce_url ) > 0 ? ': [' . esc_html( $_GET['film'] ) . ']' : __( 'No name entered', 'lumiere-movies' );
 				/* translators: %1$s is the title of a movie */
 				$title = sprintf( __( 'Lumiere Query Interface %1$s', 'lumiere-movies' ), ' ' . $filmname_sanitized );
 

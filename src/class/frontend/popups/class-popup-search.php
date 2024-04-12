@@ -68,7 +68,8 @@ class Popup_Search {
 
 		// Die if wrong $_GETs.
 		if (
-			! isset( $_GET['norecursive'] )
+			! isset( $_GET['_wpnonce'] ) || ! ( wp_verify_nonce( $_GET['_wpnonce'] ) > 0 )
+			|| ! isset( $_GET['norecursive'] )
 			|| $_GET['norecursive'] !== 'yes'
 			|| ! isset( $_GET['film'] )
 			|| strlen( $_GET['film'] ) === 0
@@ -196,10 +197,13 @@ class Popup_Search {
 				echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
 
 				$year = $res->year() > 0 ? $res->year() : __( 'year unknown', 'lumiere-movies' );
-				echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\"" . esc_url(
-					$this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $res->imdbid() )
-				)
-					. '&film=' . esc_url( $this->lumiere_name_htmlize( $res->title() ) ) // Method in trait Data, which is in trait Main.
+				echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\""
+					. esc_url(
+						wp_nonce_url(
+							$this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $res->imdbid() )
+							. '&film=' . $this->lumiere_name_htmlize( $res->title() ) // Method in trait Data, which is in trait Main.
+						)
+					)
 					. '" title="' . esc_html__( 'more on', 'lumiere-movies' ) . ' '
 					. esc_html( $res->title() ) . '" >'
 					. esc_html( $res->title() )
@@ -215,8 +219,10 @@ class Popup_Search {
 
 					echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\""
 						. esc_url(
-							$this->config_class->lumiere_urlpopupsperson
-							. '?mid=' . esc_html( $realisateur['0']['imdb'] ?? '' )
+							wp_nonce_url(
+								$this->config_class->lumiere_urlpopupsperson
+								. '?mid=' . esc_html( $realisateur['0']['imdb'] ?? '' )
+							)
 						)
 						. '" title="' . esc_html__( 'more on', 'lumiere-movies' )
 						. ' ' . esc_html( $realisateur['0']['name'] )
