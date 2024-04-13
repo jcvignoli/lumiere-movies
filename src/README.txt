@@ -188,28 +188,12 @@ And much more! This is a major new version, more stable and safer, extensively t
 
 == Upgrade Notice ==
 
+= 4.1.3 =
+Further compliance with WordPress standards and security, notably added nonces
+
 = 4.1.2 =
 Compatible with wp-cli, taxonomy templates compatibility with all WP themes
 
 = 4.1.1 =
 Update pages with movies/widget medata data keys
 
-= 4.1 =
-
-Due to the use of the most recent WordPress API block use, you should take a look to the posts where you are using Lumière widgets/blocks to insert movies sections (no need for the links). If you do not see the movies, you will need to edit your post and "attempt to recover" the widget/block.
-
-Taxonomy templates have changed, make sure to follow the notice in Lumière admin area to update them.
-
-Metadata keys for widgets have changed: An automatized process will take care of updating to the new settings. Depending on your WordPress environnement and settings, that automatized process may not run immediately and you may not see in the posts where you added a movie name/imdb id your IMDb data. (Technical explanation: a cron will run depending on your visits or cron options in the few minutes or few hours after updating the plugin in complement to the update process that is run when automatically updating the plugin. That cron ensures the update process is run even if the standard update process fails)
-
-= 4.0.2 =
-
-People and movies pictures will have to be regenerated. The only change will be the size of the picture. If cache auto-refresh is selected, this will be automatically done. Otherwise, make sure to manually refresh your people and movies cache.
-
-= 4.0.1 =
-
-Refresh cookies and css in admin area, many changes took place. All bots are banned from accessing popups.
-
-= 4.0 =
-
-Due to the improvements to the taxonomy system, it is advised to remove all "lumiere-XX" taxonomy tags that may have been automatically created. Just go to the Posts admin section, and delete all tags found under "lumiere-XX" taxonomy (ie: lumiere-director) you may have on the left menu. Tags will be created again when visiting your pages with IMDb widgets/into the posts sections. Important again: if you are a Polylang plugin user, make sure to activate in "Settings -> Custom post types and Taxonomies -> Custom taxonomies" your Lumière taxonomies
