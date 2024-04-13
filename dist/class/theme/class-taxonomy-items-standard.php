@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.1
+ * Version: 3.1.1
  *
  * @package lumiere-movies
  */
@@ -74,7 +74,7 @@ class Taxonomy_Items_Standard {
 		}
 
 		// Build the taxonomy name.
-		$this->taxonomy = 'lumiere-standard';
+		$this->taxonomy = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] . 'standard' );
 	}
 
 	/**
@@ -168,9 +168,9 @@ class Taxonomy_Items_Standard {
 			'post_type' => [ 'post', 'page' ],
 			'tax_query' => [
 				[
-					'taxonomy' => $this->taxonomy,
+					'taxonomy' => sanitize_text_field( $this->taxonomy ),
 					'field' => 'slug',
-					'terms' => $this->get_term_current_page( 'slug' ),
+					'terms' => sanitize_text_field( $this->get_term_current_page( 'slug' ) ),
 				],
 			],
 		];
@@ -180,7 +180,7 @@ class Taxonomy_Items_Standard {
 
 		if ( $the_query->have_posts() ) {
 
-			$output .= "\n\t\t" . '<h4>' . esc_html__( 'List of posts tagged ', 'lumiere-movies' ) . ' <i>' . $this->get_term_current_page( 'name' ) . '</i> :</h4>';
+			$output .= "\n\t\t" . '<h4>' . esc_html__( 'List of posts tagged ', 'lumiere-movies' ) . ' <i>' . esc_html( $this->get_term_current_page( 'name' ) ) . '</i> :</h4>';
 
 			while ( $the_query->have_posts() ) {
 				$the_query->the_post();

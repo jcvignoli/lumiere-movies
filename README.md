@@ -6,7 +6,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.6 \
 **Tested up to:** 6.5 \
-**Stable tag:** 4.1.2 \
+**Stable tag:** 4.1.3 \
 **Requires PHP:** 8.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -44,7 +44,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 ### Fine-tuning:
 
 1. Lumière! Movies can create virtual pages that include a list of movies identically tagged (known as taxonomy). Taxonomy templates are provided. Check plugin's help to figure out how to use that option.
-2. You may edit the "/ * ---- imdbincluded * /" section in css/lumiere.css file to customize the layout according to your taste. In order to keep your stylesheet changes through Lumière! updates, you need to download an unminified lumiere.css from the [Lumiere GIT repository](https://github.com/jcvignoli/lumiere-movies/blob/master/src/assets/css/lumiere.css), and after editing it just put your new lumiere.css file into your current WordPress template folder (a child template, preferably, it will get deleted by a template update otherwise). This way, your stylesheet modifications will be kept through Lumière!'s updates. Important: do not removed the section before "/ * ---- imdbincluded * /".
+2. You may edit the file assets/css/lumiere.css file to customize the layout according to your taste. In order to keep your stylesheet changes through Lumière! updates, you will need to download an unminified lumiere.css from the [Lumiere GIT repository](https://github.com/jcvignoli/lumiere-movies/blob/master/src/assets/css/lumiere.css), and after editing it, just put into your WordPress current template folder (a [child theme](https://developer.wordpress.org/themes/advanced-topics/child-themes/ "Child Themes on WordPress"), preferably, as it will get deleted by a template update otherwise). This way, your stylesheet modifications will be kept through Lumière!'s updates.
 
 ### Advanced
 
@@ -53,7 +53,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 3. You may want to include a custom page in your blog that includes all your movie related articles. Have a look there : [Lost highway's movies reviews](https://www.jcvignoli.com/blog/critiques-de-cinema). Should you want to do the same, check Lumière's help in your administration interface.
 4. Taxonomy pages and popups URLs can be edited according to your tastes. In advanced general Lumière options, you may want to modify the URL starting with 'lumiere' for taxonomy pages. Make sure to refresh your "rewriting rules" when adding new taxonomy (visit in your admin interface the page Permalink Settings (/wp-admin/options-permalink.php)
 5. Should your blog be dedicated to TV shows, Podcats or videogames only, it is possible to change Lumière's search behaviour to retrieve exclusively those. In advanced general Lumière admin options, look for 'Search categories'.
-6. Many more options are offered, just take a look at the options!
+6. Many more options are offered, just take a look at the options and how-to pages!
 
 ## Screenshots
 
@@ -129,29 +129,29 @@ Inside your posts, you can insert as many movies blocks as you want, there is no
 
 If [Polylang](https://wordpress.org/plugins/polylang/ "Polylang WordPress plugin") is installed, new features for taxonomy are added, such as a dropdown form for selecting the languages in taxonomy pages (such as https://yourblog.com/lumiere-director/stanley-kubrick/). Once you select which to data to turn into taxonomy, you must activate the very same taxonomy in Polylang Settings -> Custom post types and Taxonomies -> Custom taxonomies as your activiated Lumière taxonomies.
 
-### Is it compatible with Classic Editor plugin?
+### Is Lumière! compatible with Classic Editor plugin?
 
 If for some reason your are using [Classic editor](https://wordpress.org/plugins/classic-editor/ "Classic editor WordPress plugin") to get back the pre-5.8 WordPress editor interface, you will find all Lumière editing tools adapted to your interface.
 
-### Is it compatible with Classic Widgets plugin?
+### Is Lumière! compatible with Classic Widgets plugin?
 
 If for some reason your are using [Classic Widgets](https://wordpress.org/plugins/classic-widgets/ "Classic widgets WordPress plugin") to get back the pre-5.8 WordPress widget interface, you will find all Lumière editing tools adapted to your interface.
 
-### Is it AMP compliant?
+### Is Lumière! AMP compliant?
 
 It should be compliant with [AMP WordPress plugin](https://wordpress.org/plugins/amp/ "AMP WordPress plugin") installed. You may see some changes in the layout and obviously the apparence will change. Popups will be removed and they will be displayed in a new page, in conformity with AMP standards.
 
-### Is it CSP compliant? (for developpers)
+### Is Lumière! CSP compliant? (for developpers)
 
 [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP "Content Security Policy on Mozilla") (CSP) is a webserver based security avoiding injections to your pages. It greatly improves the security of your website.
 
-Although it's difficult to make WordPress fully CSP compliant, Lumière is fully CSP compliant both for the admin and the frontend interfaces. Neither javascripts nor stylesheets are directly added inside HTML tags, amd the plugin uses the standard WordPress system to add scripts and stylesheets.
+Although it's difficult to make WordPress fully CSP compliant, Lumière is fully CSP compliant both for the admin and the frontend interfaces. Neither javascripts nor stylesheets are directly added inside HTML tags, and the plugin uses the standard WordPress system to add scripts and stylesheets.
 
-In order to add a nonce, it is advised to use the standard 'wp_script_attributes' and 'wp_inline_script_attributes' hooks to inject your nonces into scripts, or use a regex WordPress buffer technique to inject the style nonces.
+In order to add a CSP nonce, it is advised to use the standard 'wp_script_attributes' and 'wp_inline_script_attributes' hooks to inject your nonces into scripts, or use a regex WordPress buffer technique to inject the style nonces.
 
 ### Can I change the size of the poster pictures?
 
-Sure thing, just untick 'Display only thumbnail' in general admin options, and insert the size in pixels of the picture.
+Sure thing, just untick 'Display only thumbnail' in general admin options, untick "Display only thumbnail" and insert the size you want (in pixels) for the picture.
 
 ### Can I change the size of the popups?
 

@@ -138,7 +138,7 @@ class Save_Options {
 			&& isset( $_POST['_nonce_general_settings'] )
 			&& wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) > 0
 		) {
-			$this->lumiere_general_options_save( $this->get_referer(), sanitize_text_field( $_POST['imdb_imdburlstringtaxo'] ), sanitize_text_field( $_POST['imdb_imdburlpopups'] ) );
+			$this->lumiere_general_options_save( $this->get_referer(), sanitize_text_field( $_POST['imdb_imdburlstringtaxo'] ?? '' ), sanitize_text_field( $_POST['imdb_imdburlpopups'] ?? '' ) );
 		} elseif (
 			isset( $_POST['lumiere_reset_general_settings'] )
 			&& isset( $_POST['_nonce_general_settings'] )
@@ -233,7 +233,7 @@ class Save_Options {
 	 * @phan-suppress PhanTemplateTypeNotUsedInFunctionReturn
 	 */
 	// @phpstan-ignore-next-line method.templateTypeNotInParameter
-	private function lumiere_general_options_save( string|bool $get_referer, string $imdburlstringtaxo, string $imdburlpopups  ): void {
+	private function lumiere_general_options_save( string|bool $get_referer, string $imdburlstringtaxo, string $imdburlpopups ): void {
 
 		// Check if $_POST['imdb_imdburlstringtaxo'] and $_POST['imdb_imdburlpopups'] are identical, because they can't be, so exit if they are.
 		if (
@@ -244,6 +244,14 @@ class Save_Options {
 		) {
 
 			set_transient( 'notice_lumiere_msg', 'general_options_error_identical_value', 30 );
+			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
+				exit;
+			}
+		}
+
+		// Check if $_POST['imdb_imdburlpopups'] is an acceptable path
+		if ( ! ( strlen( $imdburlpopups ) > 0 ) || $imdburlpopups === '/' ) {
+			set_transient( 'notice_lumiere_msg', 'general_options_error_imdburlpopups_invalid', 30 );
 			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
 				exit;
 			}

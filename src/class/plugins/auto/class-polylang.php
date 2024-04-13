@@ -281,7 +281,7 @@ class Polylang {
 	 */
 	public function get_polylang_taxo_query( string $polylang_lang, string $imdburlstringtaxo, string $person_name, string $role ): array {
 
-		$args = [
+		return [
 			'post_type' => [ 'post' ],
 			'post_status' => 'publish',
 			'numberposts' => -1,
@@ -296,6 +296,5 @@ class Polylang {
 				],
 			],
 		];
-		return $args;
 	}
 }

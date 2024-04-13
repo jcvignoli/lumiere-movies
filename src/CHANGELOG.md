@@ -1,8 +1,11 @@
 **Changelog**
 
 v.4.1.3
+* [bug] Items taxonomy template wasn't taking into account if "URL for the taxonomy pages" was changed in advanced admin options
+* [bug] Minor warning in class save option ($_POST['imdb_imdburlpopups'] and $_POST['imdb_imdburlstringtaxo'] undefined)
 * [technical] Further compliance with WordPress standards and security, notably added nonces
 * [technical] New function in wp-cli to copy taxonomy templates
+* [technical] Added warning notification in admin general advanced options if wrong value entered for $_POST['imdb_imdburlstringtaxo']
 
 v.4.1.2
 * [feature] Popup layouts are now universal and fit into any WordPress theme (finding if it's a block-based theme and displaying a different layout)

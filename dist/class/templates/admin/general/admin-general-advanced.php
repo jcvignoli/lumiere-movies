@@ -412,7 +412,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTION
 					<?php echo esc_url( get_site_url() ); ?>
 					<input type="text" class="lumiere_border_width_medium" id="imdb_imdburlpopups" name="imdb_imdburlpopups" value="<?php echo esc_html( $lumiere_imdb_admin_values['imdburlpopups'] ); ?>">
 				</div>
-				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the movies\' and people\'s popups.', 'lumiere-movies' ); ?>
+				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the movies\' and people\'s popups. Cannot be empty or limited to root "/".', 'lumiere-movies' ); ?>
 				<br>
 				<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "<?php echo '/lumiere/'; ?>"
 				<br>
