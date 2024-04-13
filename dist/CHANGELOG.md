@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.1.4
+
 v.4.1.3
 * [bug] Items taxonomy template wasn't taking into account if "URL for the taxonomy pages" was changed in advanced admin options
 * [bug] Minor warning in class save option ($_POST['imdb_imdburlpopups'] and $_POST['imdb_imdburlstringtaxo'] undefined)
