@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.7
+ * Version: 3.7.1
  *
  * @package lumiere-movies
  */
@@ -189,6 +189,7 @@ class Taxonomy_People_Standard {
 				'class' => [],
 				'alt' => [],
 				'width' => [],
+				'height' => [],
 			],
 			'span' => [
 				'id' => [],
@@ -464,7 +465,7 @@ class Taxonomy_People_Standard {
 		$output .= "\n\t\t\t\t" . '<div class="lumiere-lines-common';
 		$output .= ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 		$output .= '">';
-		$output .= '<font size="-1">';
+		$output .= '<span class="lumiere_font_small">';
 
 		# Birth
 		$birthday = isset( $this->person_class ) && $this->person_class->born() !== null ? array_filter( $this->person_class->born() ) : [];
@@ -486,12 +487,12 @@ class Taxonomy_People_Standard {
 			$output .= ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $birthday['place'] );
 		}
 
-		$output .= "\n\t\t\t\t" . '</font></div>';
+		$output .= "\n\t\t\t\t" . '</span></div>';
 		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Death -->';
 		$output .= "\n\t\t\t\t" . '<div class="lumiere-lines-common';
 		$output .= ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 		$output .= '">';
-		$output .= '<font size="-1">';
+		$output .= '<span class="lumiere_font_small">';
 
 		# Death
 		$death = isset( $this->person_class ) && count( $this->person_class->died() ) > 0 ? $this->person_class->died() : null;
@@ -517,17 +518,17 @@ class Taxonomy_People_Standard {
 			}
 		}
 
-		$output .= "\n\t\t\t\t" . '</font></div>';
+		$output .= "\n\t\t\t\t" . '</span></div>';
 		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Biography -->';
 		$output .= "\n\t\t\t\t" . '<div id="lum_taxo_page_bio" class="lumiere-lines-common';
 		$output .= ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 		$output .= ' lumiere-lines-common-fix">';
-		$output .= '<font size="-1">';
+		$output .= '<span class="lumiere_font_small">';
 
 		// Biography, function in trait.
 		$output .= isset( $this->person_class ) ? $this->link_maker->lumiere_medaillon_bio( $this->person_class->bio(), 1500 ) ?? '' : '';
 
-		$output .= "\n\t\t\t\t\t" . '</font></div>';
+		$output .= "\n\t\t\t\t\t" . '</span></div>';
 		$output .= "\n\t\t\t\t" . '</div>';
 		$output .= "\n\t\t\t" . '</div>';
 		$output .= "\n\t\t\t" . '<br>';

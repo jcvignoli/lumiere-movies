@@ -278,7 +278,7 @@ text-align:left;
 	}
 
 .imdbelementPIC {			/*PIC div tag */
-	padding:20px 20px 0 20px;
+	padding:30px 20px 10px 10px;
 	float:left;
 }
 
@@ -293,7 +293,7 @@ text-align:left;
 
 .imdbelementRATING {			/*RATING*/}
 
-.imdbelementRATING-picture {vertical-align:baseline;display:inline;}
+.imdbelementRATING-picture {vertical-align:baseline;}
 
 .imdbelementGENRE {			/*GENRE*/}
 
@@ -346,6 +346,7 @@ text-align:left;
 .lumiere-lines-common-fix{min-height:100px}
 
 .lumiere_font_12 {font-size:12px;}
+.lumiere_font_small {font-size:small;}
 .lumiere_img_taxo_thumbnail{
 	position: absolute;
 	bottom: 0;

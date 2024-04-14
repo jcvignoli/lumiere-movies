@@ -1,6 +1,12 @@
 **Changelog**
 
 v.4.1.4
+* [bug] Pictures if using AMP display into the post and widget was screwed up (longstanding bug, added height in Abstract_Link_Maker class and escaping height in Widget_Frontpage class)
+* [bug] Pictures if using AMP display in taxonomy people pages was screwed up (longstanding bug, added height in Abstract_Link_Maker class and escaping height in Taxonomy_People_Standard class)
+* [bug] Couldn't save any options in admin general options (rewrote header check in Save_Options class::lumiere_general_options_save())
+* [technical] If no biography found, return text saying so
+* [technical] Taxonomy people pages 100% AMP compatible (removed <font> tags in Taxonomy_People_Standard class)
+* [technical] Removed obsolete methods (lumiere_link_picture_taxonomy_abstract() and lumiere_link_picture_taxonomy())
 
 v.4.1.3
 * [bug] Items taxonomy template wasn't taking into account if "URL for the taxonomy pages" was changed in advanced admin options

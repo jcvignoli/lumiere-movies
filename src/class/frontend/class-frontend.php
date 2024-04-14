@@ -48,21 +48,29 @@ class Frontend {
 	 */
 	public function __construct() {
 
+		// Get Global Settings class properties.
+		$this->start_main_trait();
+	}
+
+	/**
+	 * @see \Lumiere\Core
+	 */
+	public static function lumiere_static_start(): void {
+
 		if ( is_admin() ) {
 			return;
 		}
 
-		// Get Global Settings class properties.
-		$this->start_main_trait();
+		$that = new self();
 
 		// Redirect to popups
-		add_filter( 'template_redirect', [ $this, 'lumiere_popup_redirect_include' ], 9 ); // Must be executed with priority < 10
+		add_filter( 'template_redirect', [ $that, 'lumiere_popup_redirect_include' ], 9 ); // Must be executed with priority < 10
 
 		// Registers javascripts and styles.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_register_assets' ] );
+		add_action( 'wp_enqueue_scripts', [ $that, 'lumiere_register_assets' ] );
 
 		// Execute javascripts and styles.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_frontpage_execute_assets' ] );
+		add_action( 'wp_enqueue_scripts', [ $that, 'lumiere_frontpage_execute_assets' ] );
 
 		// Start Movies into the post.
 		add_action( 'init', fn() => Movie::lumiere_static_start(), 11 );
@@ -72,13 +80,6 @@ class Frontend {
 
 		// Ban bots.
 		add_action( 'init', fn() => Ban_Bots::lumiere_static_start(), 11 );
-	}
-
-	/**
-	 * @see \Lumiere\Core
-	 */
-	public static function lumiere_static_start(): void {
-		$start = new self();
 	}
 
 	/**
@@ -265,6 +266,7 @@ class Frontend {
 	 *      in taxonomy templates (those pages, like movie pages, should not ban bots, there is no reason to ban bots in full pages, only in popups)
 	 * This method must be called inside the switch() function, when we know it's a popup. Otherwhise, the entire site could
 	 *      become unavailable if no HTTP_REFERER was passed
+	 *
 	 * @since 4.0.1 Method added
 	 * @return void Banned if conditions are met
 	 */
@@ -273,7 +275,7 @@ class Frontend {
 		// Conditionally ban bots from getting the page, i.e. User Agent or IP.
 		do_action( 'lumiere_maybe_ban_bots' );
 
-		// Ban bots if no referer
+		// Ban bots if no referer.
 		if ( ! isset( $_SERVER['HTTP_REFERER'] ) && ! is_user_logged_in() ) {
 			do_action( 'lumiere_ban_bots_now' );
 		}

@@ -40,7 +40,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_title ( Title $movie ): string {
+	protected function lumiere_movies_title( Title $movie ): string {
 
 		$output = '';
 		$year = strlen( strval( $movie->year() ) ) !== 0 ? intval( $movie->year() ) : null;
@@ -66,7 +66,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_pic ( Title $movie ): string {
+	protected function lumiere_movies_pic( Title $movie ): string {
 
 		/**
 		 * Use links builder classes.
@@ -108,7 +108,7 @@ class Movie_Data extends Movie {
 		$output .= ':</span>';
 
 		// Taxonomy is active.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomycountry'] === '1' ) ) {
+		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && $this->imdb_data_values['imdbtaxonomycountry'] === '1' ) {
 
 			for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
 
@@ -118,9 +118,7 @@ class Movie_Data extends Movie {
 				}
 
 			}
-
 			return $output;
-
 		}
 
 		// Taxonomy is unactive.
@@ -130,9 +128,7 @@ class Movie_Data extends Movie {
 				$output .= ', ';
 			}
 		}
-
 		return $output;
-
 	}
 
 	/**
@@ -156,7 +152,6 @@ class Movie_Data extends Movie {
 		$output .= $runtime_sanitized . ' ' . esc_html__( 'minutes', 'lumiere-movies' );
 
 		return $output;
-
 	}
 
 	/**
@@ -188,11 +183,8 @@ class Movie_Data extends Movie {
 				if ( $i < $nbtotallanguages - 1 ) {
 					$output .= ', ';
 				}
-
 			}
-
 			return $output;
-
 		}
 
 		// Taxonomy is unactive.
@@ -203,9 +195,7 @@ class Movie_Data extends Movie {
 			if ( $i < $nbtotallanguages - 1 ) {
 				$output .= ', ';
 			}
-
 		}
-
 		return $output;
 	}
 
@@ -266,11 +256,8 @@ class Movie_Data extends Movie {
 				if ( $i < $nbtotalgenre - 1 ) {
 					$output .= ', ';
 				}
-
 			}
-
 			return $output;
-
 		}
 
 		// Taxonomy is unactive.
@@ -280,9 +267,7 @@ class Movie_Data extends Movie {
 			if ( $i < $nbtotalgenre - 1 ) {
 				$output .= ', ';
 			}
-
 		}
-
 		return $output;
 	}
 
@@ -317,11 +302,8 @@ class Movie_Data extends Movie {
 				if ( $i < $nbtotalkeywords - 1 ) {
 					$output .= ', ';
 				}
-
 			}
-
 			return $output;
-
 		}
 
 		// Taxonomy is unactive.
@@ -333,9 +315,7 @@ class Movie_Data extends Movie {
 				$output .= ', ';
 			}
 		}
-
 		return $output;
-
 	}
 
 	/**
@@ -406,7 +386,6 @@ class Movie_Data extends Movie {
 		if ( $nbtotaltaglines === 0 ) {
 
 			return $output;
-
 		}
 
 		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
@@ -419,11 +398,8 @@ class Movie_Data extends Movie {
 			if ( $i < ( $nbtaglines - 1 ) && $i < ( $nbtotaltaglines - 1 ) ) {
 				$output .= ', '; // add comma to every quote but the last.
 			}
-
 		}
-
 		return $output;
-
 	}
 
 	/**
@@ -444,7 +420,6 @@ class Movie_Data extends Movie {
 		if ( $nbtotaltrailers === 0 ) {
 
 			return $output;
-
 		}
 
 		$output .= "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
@@ -464,9 +439,7 @@ class Movie_Data extends Movie {
 				$output .= ', '; // add comma to every trailer but the last.
 			}
 		}
-
 		return $output;
-
 	}
 
 	/**
@@ -501,9 +474,7 @@ class Movie_Data extends Movie {
 				if ( $i < $nbtotalcolors - 1 ) {
 					$output .= ', ';
 				}
-
 			}
-
 			return $output;
 
 		}
@@ -517,9 +488,7 @@ class Movie_Data extends Movie {
 				$output .= ', ';
 			}
 		}
-
 		return $output;
-
 	}
 
 	/**
@@ -569,9 +538,7 @@ class Movie_Data extends Movie {
 			if ( $i < ( $nbtotalalsoknow - 1 ) && $i < ( $nbalsoknow - 1 ) ) {
 				$output .= ', ';
 			}
-
-		} // endfor
-
+		}
 		return $output;
 	}
 
@@ -605,11 +572,9 @@ class Movie_Data extends Movie {
 				if ( $i < $nbtotalcomposer - 1 ) {
 					$output .= ', ';
 				}
-
 			}
 
 			return $output;
-
 		}
 
 		for ( $i = 0; $i < $nbtotalcomposer; $i++ ) {
@@ -625,10 +590,8 @@ class Movie_Data extends Movie {
 				$output .= ', ';
 			}
 
-		} // endfor
-
+		}
 		return $output;
-
 	}
 
 	/**
@@ -671,11 +634,8 @@ class Movie_Data extends Movie {
 			if ( $i < ( $nbsoundtracks - 1 ) && $i < ( $nbtotalsoundtracks - 1 ) ) {
 				$output .= ', ';
 			}
-
 		}
-
 		return $output;
-
 	}
 
 	/**
@@ -706,12 +666,14 @@ class Movie_Data extends Movie {
 			 * Each one has its own class passed in $link_maker,
 			 * according to which option the lumiere_select_link_maker() found in Frontend.
 			 */
-			$output .= $this->link_maker->lumiere_movies_prodcompany_details( $prodcompany[ $i ]['name'], $prodcompany[ $i ]['url'], $prodcompany[ $i ]['notes'] );
-
-		}  // endfor
+			$output .= $this->link_maker->lumiere_movies_prodcompany_details(
+				$prodcompany[ $i ]['name'],
+				$prodcompany[ $i ]['url'],
+				$prodcompany[ $i ]['notes']
+			);
+		}
 
 		return $output;
-
 	}
 
 	/**
@@ -742,7 +704,10 @@ class Movie_Data extends Movie {
 			 * Each one has its own class passed in $link_maker,
 			 * according to which option the lumiere_select_link_maker() found in Frontend.
 			 */
-			$output .= $this->link_maker->lumiere_movies_officialsites_details( $official_sites[ $i ]['url'], $official_sites[ $i ]['name'] );
+			$output .= $this->link_maker->lumiere_movies_officialsites_details(
+				$official_sites[ $i ]['url'],
+				$official_sites[ $i ]['name']
+			);
 
 			if ( $i < $nbtotalofficial_sites - 1 ) {
 				$output .= ', ';
@@ -779,11 +744,16 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'director', esc_attr( $director[ $i ]['name'] ), '', 'one' );
+				$output .= $this->lumiere_make_display_taxonomy(
+					'director',
+					esc_attr( $director[ $i ]['name'] ),
+					'',
+					'one'
+				);
+
 				if ( $i < $nbtotaldirector - 1 ) {
 					$output .= ', ';
 				}
-
 			}
 
 			return $output;
@@ -803,8 +773,7 @@ class Movie_Data extends Movie {
 			if ( $i < $nbtotaldirector - 1 ) {
 				$output .= ', ';
 			}
-
-		} // endfor
+		}
 
 		return $output;
 
@@ -835,7 +804,13 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotalcreator; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'creator', esc_attr( $creator[ $i ]['name'] ), '', 'one' );
+				$output .= $this->lumiere_make_display_taxonomy(
+					'creator',
+					esc_attr( $creator[ $i ]['name'] ),
+					'',
+					'one'
+				);
+
 				if ( $i < $nbtotalcreator - 1 ) {
 					$output .= ', ';
 				}
@@ -890,8 +865,12 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; ( $i < $nbtotalproducer ) && ( $i < $nbproducer ); $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'producer', esc_attr( $producer[ $i ]['name'] ), esc_attr( $producer[ $i ]['role'] ), 'two' );
-
+				$output .= $this->lumiere_make_display_taxonomy(
+					'producer',
+					esc_attr( $producer[ $i ]['name'] ),
+					esc_attr( $producer[ $i ]['role'] ),
+					'two'
+				);
 			}
 
 			return $output;
@@ -952,12 +931,15 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotalwriters; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'writer', esc_attr( $writer[ $i ]['name'] ), esc_attr( $writer[ $i ]['role'] ), 'two' );
-
+				$output .= $this->lumiere_make_display_taxonomy(
+					'writer',
+					esc_attr( $writer[ $i ]['name'] ),
+					esc_attr( $writer[ $i ]['role'] ),
+					'two'
+				);
 			}
 
 			return $output;
-
 		}
 
 		for ( $i = 0; $i < $nbtotalwriters; $i++ ) {
@@ -1014,12 +996,15 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; ( $i < $nbtotalactors ) && ( $i < $nbactors ); $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'actor', esc_attr( $cast[ $i ]['name'] ), esc_attr( $cast[ $i ]['role'] ), 'two' );
-
+				$output .= $this->lumiere_make_display_taxonomy(
+					'actor',
+					esc_attr( $cast[ $i ]['name'] ),
+					esc_attr( $cast[ $i ]['role'] ),
+					'two'
+				);
 			}
 
 			return $output;
-
 		}
 
 		for ( $i = 0; $i < $nbactors && ( $i < $nbtotalactors ); $i++ ) {

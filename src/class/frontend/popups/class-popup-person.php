@@ -873,13 +873,14 @@ class Popup_Person {
 
 			// add width only if "Display only thumbnail" is unactive.
 			if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
-
-				echo ' width="' . esc_attr( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
+				$width = intval( $this->imdb_admin_values['imdbcoversizewidth'] );
+				$height = $width * 1.4;
+				echo ' width="' . esc_attr( strval( $width ) ) . '" height="' . esc_attr( strval( $height ) ) . '"';
 
 				// add 100px width if "Display only thumbnail" is active.
 			} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
 
-				echo ' width="100px"';
+				echo ' width="100" height="160"';
 
 			}
 

@@ -18,7 +18,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Tools\Utils;
-use Lumiere\Tools\Files;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Cache_Tools;
 use Lumiere\Admin\Admin_General;
@@ -37,7 +36,7 @@ class Admin_Menu {
 	/**
 	 * Traits
 	 */
-	use Settings_Global, Files, Admin_General;
+	use Settings_Global, Admin_General;
 
 	/**
 	 * Classes

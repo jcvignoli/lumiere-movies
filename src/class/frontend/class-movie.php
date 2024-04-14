@@ -50,26 +50,44 @@ class Movie {
 
 		// Singleton for running movies only once.
 		$this->movie_run_once = false;
+	}
+
+	/**
+	 * Static call of the current class Movie
+	 *
+	 * @since 3.10.2    Added lumiere_prohibited_areas() check, no need to execute the plugin i.e. in feeds
+	 *
+	 * @return void Build the class
+	 * @see \Lumiere\Frontend\Frontend::lumiere_static_start() Call this method
+	 */
+	public static function lumiere_static_start (): void {
+
+		$that = new self();
+
+		// Exit if prohibited area.
+		if ( $that->lumiere_prohibited_areas() === true ) {
+			return;
+		}
 
 		// Transform spans into movies.
-		add_filter( 'the_content', [ $this, 'lumiere_parse_spans' ] );
+		add_filter( 'the_content', [ $that, 'lumiere_parse_spans' ] );
 
 		// Transform spans into links to popups.
-		add_filter( 'the_content', [ $this, 'lumiere_link_popup_maker' ] );
-		add_filter( 'the_excerpt', [ $this, 'lumiere_link_popup_maker' ] );
+		add_filter( 'the_content', [ $that, 'lumiere_link_popup_maker' ] );
+		add_filter( 'the_excerpt', [ $that, 'lumiere_link_popup_maker' ] );
 
 		/**
-		 * Add the shortcodes to parse the text, old way
+		 * Detect the shortcodes [imdblt][/imdblt] and [imdbltid][/imdbltid] to display the movies, old way
 		 * @deprecated 3.5 kept for compatibility purpose
 		 */
-		add_shortcode( 'imdblt', [ $this, 'parse_lumiere_tag_transform' ] );
-		add_shortcode( 'imdbltid', [ $this, 'parse_lumiere_tag_transform_id' ] );
+		add_shortcode( 'imdblt', [ $that, 'parse_lumiere_tag_transform' ] );
+		add_shortcode( 'imdbltid', [ $that, 'parse_lumiere_tag_transform_id' ] );
 	}
 
 	/**
 	 * Search the movie and output the results
 	 *
-	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once and Plugins_Start class added
+	 * @since 3.8   Extra logs are shown once only using singleton $this->movie_run_once and Plugins_Start class added
 	 *
 	 * @param array<int<0, max>, array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
 	 * @psalm-param list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $imdb_id_or_title_outside
@@ -149,19 +167,17 @@ class Movie {
 
 				$mid_premier_resultat = filter_var( $film['bymid'], FILTER_SANITIZE_NUMBER_INT );
 				$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Movie ID provided: '$mid_premier_resultat'." );
-
 			}
 
 			if ( $film === null || ! isset( $mid_premier_resultat ) || $mid_premier_resultat === false ) {
 
 				$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] No result found for this query.' );
 				continue;
-
 			}
 
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Displaying rows for '$mid_premier_resultat'" );
 
-			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- ### Lumière! movies plugin ### -->';
+			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- Lumière! movies plugin -->';
 			$output .= "\n\t<div class='lum_results_frame";
 
 			// add dedicated class for themes
@@ -170,7 +186,7 @@ class Movie {
 
 			$output .= $this->lumiere_methods_factory( $mid_premier_resultat );
 			$output .= "\n\t</div>";
-
+			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- /Lumière! movies plugin -->';
 		}
 		return $output;
 	}
@@ -178,10 +194,11 @@ class Movie {
 	/**
 	 * List of prohibited areas where the class won't run
 	 *
-	 * @return bool
 	 * @since 3.10.2
+	 *
+	 * @return bool
 	 */
-	public function lumiere_prohibited_areas(): bool {
+	private function lumiere_prohibited_areas(): bool {
 
 		return is_feed() || is_comment_feed();
 	}
@@ -191,15 +208,14 @@ class Movie {
 	 * Looks for <span data-lum_movie_maker="[1]"></span> where [1] is movie_title or movie_id
 	 *
 	 * @since 3.10.2    The function always returns string, no null accepted -- PHP8.2 compatibility
-	 *                  Also added a lumiere_prohibited_areas() check, no need to execute the plugin in feeds
 	 *
 	 * @param null|string $content HTML span tags + text inside
 	 * @return string
 	 */
 	public function lumiere_parse_spans( ?string $content ): string {
 
-		// if no content is availabe on the content or if it is a feed, abort
-		if ( ! isset( $content ) || $this->lumiere_prohibited_areas() === true ) {
+		// if no content is available, abort.
+		if ( ! isset( $content ) ) {
 			return '';
 		}
 
@@ -249,8 +265,7 @@ class Movie {
 	 */
 	public function parse_lumiere_tag_transform( $atts, ?string $content ): string {
 
-		$movie_title = $content;
-		return $this->lumiere_external_call( $movie_title, '', '' );
+		return $this->lumiere_external_call( $content, '', '' );
 	}
 
 	/**
@@ -262,8 +277,7 @@ class Movie {
 	 */
 	public function parse_lumiere_tag_transform_id( $atts, ?string $content ): string {
 
-		$movie_imdbid = $content;
-		return $this->lumiere_external_call( '', $movie_imdbid, '' );
+		return $this->lumiere_external_call( '', $content, '' );
 	}
 
 	/**
@@ -350,38 +364,37 @@ class Movie {
 	private function lumiere_methods_factory( string $mid_premier_resultat ): string {
 
 		$outputfinal = '';
-		$mid_premier_resultat = esc_html( $mid_premier_resultat );
 
-		// Find the Title based on $mid_premier_resultat
+		// Find the Title based on $mid_premier_resultat.
 		$movie_title_object = new Title(
-			$mid_premier_resultat, // The IMDb ID
-			$this->plugins_classes_active['imdbphp'], // The settings
-			$this->logger->log() // The logger
+			esc_html( $mid_premier_resultat ), // The IMDb ID.
+			$this->plugins_classes_active['imdbphp'], // The settings.
+			$this->logger->log() // The logger.
 		);
 
 		foreach ( $this->imdb_data_values['imdbwidgetorder'] as $data_detail => $order ) {
 
 			if (
-			// Use order to select the position of the data detail.
-			( $this->imdb_data_values['imdbwidgetorder'][ $data_detail ] === $order )
-			// Is the data detail activated?
-			&& ( $this->imdb_data_values[ 'imdbwidget' . $data_detail ] === '1' )
+				// Use order to select the position of the data detail.
+				$this->imdb_data_values['imdbwidgetorder'][ $data_detail ] === $order
+				// Is the data detail activated?
+				&& $this->imdb_data_values[ 'imdbwidget' . $data_detail ] === '1'
 			) {
 				// Build the method name according to the data detail name.
 				$method = 'lumiere_movies_' . $data_detail;
 
-				// Get the child class with the methods
+				// Get the child class with the methods.
 				$movie_data_class = new Movie_Data();
 
-				// Build the final class+method with the movie_object
+				// Build the final class+method with the movie_object.
 				if ( method_exists( $movie_data_class, $method ) ) {
 					$outputfinal .= $this->lumiere_movie_wrapper( $movie_data_class->$method( $movie_title_object ), $data_detail );
-				} else {
-					$this->logger->log()->warning( '[Lumiere][' . $this->classname . '] The method ' . $method . ' does not exist in the class' );
+					continue;
 				}
+
+				$this->logger->log()->warning( '[Lumiere][' . $this->classname . '] The method ' . $method . ' does not exist in the class' );
 			}
 		}
-
 		return $outputfinal;
 	}
 
@@ -420,7 +433,6 @@ class Movie {
 		$outputfinal .= "\n\t\t" . '</div>';
 
 		return $outputfinal;
-
 	}
 
 	/**
@@ -572,14 +584,5 @@ class Movie {
 		$taxonomy = strtolower( $taxonomy ); # convert to small characters
 		$taxonomy = remove_accents( $taxonomy ); # convert accentuated charaters to unaccentuated counterpart
 		return $taxonomy;
-	}
-
-	/**
-	 * Static call of the current class Movie
-	 *
-	 * @return void Build the class
-	 */
-	public static function lumiere_static_start (): void {
-		$movie_class = new self();
 	}
 }

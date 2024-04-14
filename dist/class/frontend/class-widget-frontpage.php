@@ -90,6 +90,7 @@ class Widget_Frontpage {
 		],
 		'img' => [
 			'width' => [],
+			'height' => [],
 			'alt' => [],
 			'loading' => [],
 			'src' => [],
@@ -123,7 +124,7 @@ class Widget_Frontpage {
 	 */
 	public static function lumiere_widget_frontend_start(): void {
 
-		$self_class = new self();
+		$that = new self();
 
 		// If pre-5.8 widget is active and Block Widget unactive, use Widget_Legacy class.
 		if (
@@ -135,16 +136,7 @@ class Widget_Frontpage {
 		}
 
 		// Regular post-5.8 widgets.
-		$self_class->lumiere_widget_run_shortcodes();
-	}
-
-	/**
-	 * Execute add_shortcode()
-	 * Only called if regular post-5.8 block widget was found
-	 */
-	private function lumiere_widget_run_shortcodes(): void {
-		// Shortcodes are found only if blockbased widget was activated.
-		add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'lumiere_widget_shortcode_parser' ] );
+		add_shortcode( self::WIDGET_SHORTCODE, [ $that, 'lumiere_widget_shortcode_parser' ] );
 	}
 
 	/**

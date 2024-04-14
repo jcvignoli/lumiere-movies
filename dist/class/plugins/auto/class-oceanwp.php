@@ -105,13 +105,13 @@ class Oceanwp {
 		}
 
 		foreach ( $scripts_deregister as $script ) {
-			if ( wp_script_is( $script, $list = 'registered' ) === true ) {
+			if ( wp_script_is( $script, 'registered' ) === true ) {
 				wp_deregister_script( $script );
 			}
 		}
 
 		foreach ( $styles_deregister as $style ) {
-			if ( wp_style_is( $style, $list = 'registered' ) === true ) {
+			if ( wp_style_is( $style, 'registered' ) === true ) {
 				wp_deregister_style( $style );
 			}
 		}

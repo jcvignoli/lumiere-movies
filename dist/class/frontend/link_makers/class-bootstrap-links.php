@@ -120,20 +120,6 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * @inherit
-	 *
-	 * @param string|bool $photo_localurl_false The picture of big size
-	 * @param string|bool $photo_localurl_true The picture of small size
-	 * @param string $person_name Name of the person
-	 * @return string
-	 */
-	public function lumiere_link_picture_taxonomy( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $person_name ): string {
-
-		// Function in abstract class, last param defines the output.
-		return parent::lumiere_link_picture_taxonomy_abstract( $photo_localurl_false, $photo_localurl_true, $person_name, 2 );
-	}
-
-	/**
 	 * @inheritdoc
 	 *
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()

@@ -326,13 +326,14 @@ class Popup_Movie {
 
 				// add width only if "Display only thumbnail" is not active.
 			if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
-
-				echo ' width="' . intval( $this->imdb_admin_values['imdbcoversizewidth'] ) . '"';
+				$width = intval( $this->imdb_admin_values['imdbcoversizewidth'] );
+				$height = $width * 1.4;
+				echo ' width="' . esc_attr( strval( $width ) ) . '" height="' . esc_attr( strval( $height ) ) . '"';
 
 				// set width to 100px width if "Display only thumbnail" is active.
 			} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
 
-				echo ' width="100px"';
+				echo ' height="160" width="100"';
 
 			}
 
@@ -437,8 +438,8 @@ class Popup_Movie {
 			echo '<span class="lum_results_section_subtitle">'
 				. esc_html__( 'Rating', 'lumiere-movies' )
 				. '</span>';
-			echo ' <img class="imdbelementRATING-picture" src="' . esc_url( $this->config_class->lumiere_pics_dir . '/showtimes/' . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
-			. ' title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . esc_attr( $rating_string ) . esc_html__( ' out of 10', 'lumiere-movies' ) . '"  / >';
+			echo ' <img class="imdbelementRATING-picture" src="' . esc_url( $this->config_class->lumiere_pics_dir . 'showtimes/' . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
+			. ' title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . esc_attr( $rating_string ) . esc_html__( ' out of 10', 'lumiere-movies' ) . '"  width="102" height="12" / >';
 			echo ' (' . number_format( $votes_sanitized, 0, '', "'" ) . ' ' . esc_html__( 'votes', 'lumiere-movies' ) . ')';
 
 			echo "\n\t</div>";

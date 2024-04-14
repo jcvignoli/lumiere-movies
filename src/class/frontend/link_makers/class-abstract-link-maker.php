@@ -60,16 +60,6 @@ abstract class Abstract_Link_Maker {
 	abstract protected function lumiere_link_picture ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title ): string;
 
 	/**
-	 * Build picture of the movie in taxonomy pages
-	 *
-	 * @param string|bool $photo_localurl_false The picture of big size
-	 * @param string|bool $photo_localurl_true The picture of small size
-	 * @param string $person_name Name of the person
-	 * @return string
-	 */
-	abstract protected function lumiere_link_picture_taxonomy ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $person_name ): string;
-
-	/**
 	 * Display mini biographical text, not all people have one
 	 *
 	 * 1- Cut the maximum of characters to be displayed with $click_text
@@ -179,103 +169,27 @@ abstract class Abstract_Link_Maker {
 	 *
 	 * @return string
 	 */
-	protected function lumiere_movies_rating_picture_abstract ( int $rating, int $votes, string $votes_average_txt, string $out_of_ten_txt, string $votes_txt, int $with_imdb_element_rating ): string {
+	protected function lumiere_movies_rating_picture_abstract(
+		int $rating,
+		int $votes,
+		string $votes_average_txt,
+		string $out_of_ten_txt,
+		string $votes_txt,
+		int $with_imdb_element_rating
+	): string {
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
 		$output .= esc_html__( 'Rating', 'lumiere-movies' );
 		$output .= ':</span>';
 
-		$output .= ' <img';
-
-		// imdbelementRATING-picture class breaks AMP, added only if
-		if ( $with_imdb_element_rating === 1 ) {
-			$output .= ' class="imdbelementRATING-picture"';
-		}
-
-		$output .= ' src="' . $this->config_class->lumiere_pics_dir . '/showtimes/' . ( round( $rating * 2, 0 ) / 0.2 ) . ".gif\" title='$votes_average_txt $rating $out_of_ten_txt' alt='$votes_average_txt' />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
+		$find_showtimes_pic = round( $rating * 2, 0 ) / 0.2;
+		$output .= ' <img src="' . $this->config_class->lumiere_pics_dir . '/showtimes/' . $find_showtimes_pic . ".gif\" title=\"$votes_average_txt $rating $out_of_ten_txt\" alt=\"$votes_average_txt\" width=\"102\" height=\"12\" />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
 
 		return $output;
-
 	}
 
 	/**
-	 * Build picture of the movie in taxonomy pages
-	 *
-	 * @param string|bool $photo_big_cover The picture of big size
-	 * @param string|bool $photo_thumb The picture of small size
-	 * @param string $person_name Name of the person
-	 * @param int $window_type Pass 0 for Highslide or Classic, 1 AMP, 2 Bootstrop, 3 No Links
-	 *
-	 * @return string
-	 */
-	protected function lumiere_link_picture_taxonomy_abstract ( string|bool $photo_big_cover, string|bool $photo_thumb, string $person_name, int $window_type ): string {
-
-		$output = '';
-		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- star photo -->';
-		$output .= "\n\t\t\t\t" . '<div class="lumiere-lines-common lumiere-lines-common_'
-			. esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] )
-			. ' lumiere-padding-lines-common-picture">';
-
-		// Make sure $photo_thumb is a string so we can use esc_html() function
-		$photo_localurl = is_string( $photo_thumb ) ? $photo_thumb : '';
-
-		// Any class but AMP
-		if ( $window_type !== 1 ) {
-			// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
-			$photo_localurl = is_string( $photo_big_cover ) ? $photo_big_cover : $photo_localurl;
-		}
-
-		// Picture for a href: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
-		$photo_url_final_href = strlen( $photo_localurl ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . 'no_pics.gif' ) : $photo_localurl;
-
-		// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
-		$photo_url_final_img = is_string( $photo_thumb ) === false || strlen( $photo_thumb ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . 'no_pics.gif' ) : $photo_thumb;
-
-		// Normal class or Bootstrap class
-		if ( $window_type === 0 || $window_type === 2 ) {
-			$output .= "\n\t\t\t\t\t" . '<a title="' . esc_attr( $person_name ) . '" href="' . esc_url( $photo_url_final_href ) . '">';
-			// AMP class
-		} elseif ( $window_type === 1 ) {
-			$output .= "\n\t\t\t\t\t" . '<a class="nolinks_pic" title="' . esc_attr( $person_name ) . '" href="' . esc_url( $photo_url_final_href ) . '">';
-			// No Links class
-		} elseif ( $window_type === 3 ) {
-			$output .= '';
-		}
-
-		// Build image HTML tag <img>
-		// AMP class, loading="lazy" breaks AMP
-		if ( $window_type === 1 ) {
-			$output .= "\n\t\t\t\t\t\t" . '<img class="lumiere_float_right"';
-			// Any class but AMP
-		} else {
-			$output .= "\n\t\t\t\t\t\t" . '<img loading="lazy" class="lumiere_float_right"';
-		}
-
-		/**
-		 * Add width="SizeXXXpx" and display the big cover image if "Display only thumbnail" is not selected
-		 * If "display only thumbnail" is selected, thumb image is displayed and width is set to 100
-		 * @since 3.7
-		 */
-		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
-			$output .= ' src="' . esc_url( $photo_url_final_img ) . '" alt="' . esc_html__( 'Photo of', 'lumiere-movies' ) . ' ' . esc_attr( $person_name ) . '" width="' . esc_attr( $this->imdb_admin_values['imdbcoversizewidth'] ) . '">';
-			// add 100px width if "Display only thumbnail" is active
-		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
-			$output .= ' src="' . esc_url( $photo_url_final_img ) . '" alt="' . esc_html__( 'Photo of', 'lumiere-movies' ) . ' ' . esc_attr( $person_name ) . '" width="100em">';
-		}
-
-		// Not classic links, so we can close <a>
-		if ( $window_type !== 3 ) {
-			$output .= "\n\t\t\t\t\t" . '</a>';
-		}
-
-		$output .= "\n\t\t\t\t" . '</div>';
-
-		return $output;
-
-	}
-
-	/**
-	 * Build picture of the movie into the post pages
+	 * Build picture of the movie into the post, widget and taxonomy pages
 	 *
 	 * @param string|bool $photo_big_cover The picture of big size
 	 * @param string|bool $photo_thumb The picture of small size
@@ -334,15 +248,16 @@ abstract class Abstract_Link_Maker {
 		 * @since 3.7
 		 */
 		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
+			$width = intval( $this->imdb_admin_values['imdbcoversizewidth'] );
+			$height = $width * 1.4;
 			$output .= ' class="' . $specific_img_class . '" src="' . esc_url( $photo_url_final_img ) . '" alt="'
 				. esc_html__( 'Photo of', 'lumiere-movies' ) . ' '
-				. esc_attr( $title_text ) . '" width="' . esc_attr( $this->imdb_admin_values['imdbcoversizewidth'] ) . '" />';
+				. esc_attr( $title_text ) . '" width="' . esc_attr( strval( $width ) ) . '" height="' . esc_attr( strval( $height ) ) . '" />';
 
-			// set to 100px width if "Display only thumbnail" is active
+			// set to 100 width and 160 height if "Display only thumbnail" is active
 		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
 			$output .= ' class="' . $specific_img_class . '" src="' . esc_url( $photo_url_final_img ) . '" alt="'
-				. esc_html__( 'Photo of', 'lumiere-movies' ) . ' '
-				. esc_attr( $title_text ) . '" width="100px" />';
+				. esc_html__( 'Photo of', 'lumiere-movies' ) . ' ' . esc_attr( $title_text ) . '" height="160" width="100" />';
 		}
 
 		// Not classic links, so we can close <a>
@@ -366,11 +281,15 @@ abstract class Abstract_Link_Maker {
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
 	 * @param int $window_type Define the window_type: 0 for full (default), 1 for no links (AMP, No Link classes)
 	 * @param int $limit_text_bio Optional, increasing the hardcoded limit of characters before displaying "click for more"
-	 * @return ?string
+	 * @return string
 	 *
 	 * @since 4.1 added $limit_text_bio param
 	 */
-	protected function lumiere_medaillon_bio_abstract ( array $bio_array, int $window_type = 0, int $limit_text_bio = 0 ): ?string {
+	protected function lumiere_medaillon_bio_abstract ( array $bio_array, int $window_type = 0, int $limit_text_bio = 0 ): string {
+
+		if ( count( $bio_array ) === 0 ) {
+			return "\n\t\t\t" . '<span class="lum_results_section_subtitle lumiere_font_small">' . esc_html__( 'No biography available', 'lumiere-movies' ) . '</span>';
+		}
 
 		/** Vars */
 		$click_text = esc_html__( 'click to expand', 'lumiere-movies' ); // text for cutting.
@@ -382,12 +301,11 @@ abstract class Abstract_Link_Maker {
 
 		// Calculate the number of bio results.
 		$nbtotalbio = count( $bio_array );
-		$bio = $nbtotalbio !== 0 ? $bio_array : null;
 
 		// Select the index array according to the number of bio results.
 		$idx = $nbtotalbio < 2 ? $idx = 0 : $idx = 1;
 
-		$bio_text = isset( $bio[ $idx ]['desc'] ) ? trim( str_replace( [ '<br>', '<br />', '<br/>', '</div>' ], ' ', $bio[ $idx ]['desc'] ) ) : '';
+		$bio_text = isset( $bio_array[ $idx ]['desc'] ) ? trim( str_replace( [ '<br>', '<br />', '<br/>', '</div>' ], ' ', $bio_array[ $idx ]['desc'] ) ) : '';
 
 		// Medaillon is displayed in a popup person page, build internal URL.
 		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->config_class->lumiere_urlstringperson ) && strlen( $bio_text ) > 0 ) {
