@@ -138,7 +138,7 @@ class Save_Options {
 			&& isset( $_POST['_nonce_general_settings'] )
 			&& wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) > 0
 		) {
-			$this->lumiere_general_options_save( $this->get_referer(), $_POST['imdb_imdburlstringtaxo'], $_POST['imdb_imdburlpopups'] );
+			$this->lumiere_general_options_save( $this->get_referer(), $_POST['imdb_imdburlstringtaxo'] ?? null, $_POST['imdb_imdburlpopups'] ?? null );
 		} elseif (
 			isset( $_POST['lumiere_reset_general_settings'] )
 			&& isset( $_POST['_nonce_general_settings'] )
