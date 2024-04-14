@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.1.5
+
 v.4.1.4
 * [bug] Pictures if using AMP display into the post and widget was screwed up (longstanding bug, added height in Abstract_Link_Maker class and escaping height in Widget_Frontpage class)
 * [bug] Pictures if using AMP display in taxonomy people pages was screwed up (longstanding bug, added height in Abstract_Link_Maker class and escaping height in Taxonomy_People_Standard class)
