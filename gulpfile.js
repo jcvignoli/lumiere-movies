@@ -61,7 +61,7 @@ var arg = (argList => {
 
 })(process.argv);
 
-var sshMain = new ssh ({		/* ssh functions with mainserver */
+var sshMain = new ssh ({					/* ssh functions with mainserver */
 	ignoreErrors: false,
 	sshConfig: {
 		host: ext_cred.mainserver.hostname,
@@ -74,7 +74,7 @@ var sshMain = new ssh ({		/* ssh functions with mainserver */
 /* Copied/watched files */
 var paths = {
 	base: {
-		src: './src',						/* main lumiere path source */
+		src: './src',					/* main lumiere path source */
 		dist: './dist',					/* main lumiere path destination */
 		watch: './dist/**/*.*',				/* main browsersync watch folder */
 		sourcemap: '../tmp/sourcemap',			/* sourcemap output folder */
@@ -283,7 +283,6 @@ gulp.task('browserWatch', gulp.parallel( 'watch', (done) => {
 }));
 
 // Task 7 - Default
-//exports.default =  gulp.series('build', 'watch' );
 gulp.task('default', () => {
 	gulp.series( 'watch' )
 });

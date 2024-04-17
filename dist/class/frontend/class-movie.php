@@ -470,11 +470,11 @@ class Movie {
 		if ( $page_id !== false && taxonomy_exists( $taxonomy_category_full ) ) {
 
 			// delete if exists, for debugging purposes
-			# if ( $term_already = get_term_by('name', $taxonomy_term, $taxonomy_category_full ) )
-			#	 wp_delete_term( $term_already->term_id, $taxonomy_category_full) ;
+			# $array_term_existing = get_term_by('name', $taxonomy_term, $taxonomy_category_full );
+			# if ( $array_term_existing )
+			#	 wp_delete_term( $array_term_existing->term_id, $taxonomy_category_full) ;
 
 			$existent_term = term_exists( $taxonomy_term, $taxonomy_category_full );
-			// $array_term_existing = get_term_by('name', $taxonomy_term, $taxonomy_category_full );
 
 			if ( ! isset( $existent_term ) ) {
 				$term_inserted = wp_insert_term( $taxonomy_term, $taxonomy_category_full );

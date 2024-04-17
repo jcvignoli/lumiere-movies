@@ -40,7 +40,7 @@
     "@wordpress/scripts": "*",
     "browser-sync": "*",
     "fs-extra": "*",
-    "gulp": "*",
+    "gulp": "^4",
     "gulp-autoprefixer": "*",
     "gulp-changed": "*",
     "gulp-clean-css": "*",
@@ -50,15 +50,17 @@
     "gulp-plumber": "*",
     "gulp-rename": "*",
     "gulp-replace": "*",
+    "gulp-rsync": "*",
     "gulp-ssh": "*",
     "gulp-terser": "*",
+    "gulp-uglify": "*",
     "node-notifier": "*",
     "npm-run-all": "*"
   },
   "type": "module",
   "overrides": {
     "gulp-ssh": {
-      "ssh2": "^1.14.0"
+      "ssh2": "^1.12.0"
     }
   }
 }

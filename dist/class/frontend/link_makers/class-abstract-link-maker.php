@@ -577,7 +577,6 @@ abstract class Abstract_Link_Maker {
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
-
 	 */
 	protected function lumiere_popup_film_link_abstract ( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null, int $window_type = 0, string $specific_class = '' ): string {
 
