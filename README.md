@@ -13,7 +13,7 @@
 **Donate link:** https://www.paypal.me/jcvignoli
 
 Lumière! Movies retrieves data from www.imdb.com and helps you include it in your posts and in your widgets.
-[![Sponsor](https://github.com/jcvignoli/lumiere-movies/.github/assets/github-like-sponsor-button.svg)](https://www.paypal.me/jcvignoli)
+[![Sponsor](https://raw.github.com/jcvignoli/lumiere-movies/master/.github/assets/github-like-sponsor-button.svg)](https://www.paypal.me/jcvignoli)
 
 ## Description
 
