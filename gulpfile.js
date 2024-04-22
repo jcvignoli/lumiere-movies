@@ -67,7 +67,8 @@ var sshMain = new ssh ({					/* ssh functions with mainserver */
 		host: ext_cred.mainserver.hostname,
 		port: ext_cred.mainserver.port,
 		username: ext_cred.mainserver.username,
-		privateKey: fs.readFileSync( ext_cred.mainserver.key )
+		privateKey: fs.readFileSync( ext_cred.mainserver.key ),
+		/* debug: console.log, */
 	}
 });
 
@@ -202,7 +203,7 @@ gulp.task('images', () => {
 		console.dir( sshmsg );
 
 	return gulp
-		.src( paths.images.src, {base: paths.base.src } )
+		.src( paths.images.src, {base: paths.base.src, encoding: false } )
 		.pipe(plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
 		.pipe(changed( paths.images.dist ))
 		.pipe(imagemin())
