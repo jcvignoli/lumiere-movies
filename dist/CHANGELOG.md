@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.1.6
+
 v.4.1.5
 * [bug] Medaillon text wasn't correctly broke in taxonomy people page. (edits in class Abstract link maker)
 * [bug] If widget auto title function is utilised with no extra widget metabox, two identical movies are displayed (fixed array_filter() in class widget frontpage, checking count() in addition to !== null)

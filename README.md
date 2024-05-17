@@ -5,7 +5,7 @@
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.6 \
-**Tested up to:** 6.5 \
+**Tested up to:** 6.5.3 \
 **Stable tag:** 4.1.5 \
 **Requires PHP:** 8.0 \
 **License:** GPLv3 \
@@ -171,7 +171,7 @@ Sure thing, you can also modify the order of these details. Just take a look at 
 No data is sent to IMDb about end users. The website host does its own queries to the IMDb, without knowing who is visiting it.
 
 Only the website owner is known from the IMDb, and must comply with the [IMDb privacy policy](https://www.imdb.com/privacy "Privacy policy on IMDb")
-No data about the end user is sent to any other third party, so Lumière! is GDPR compliant. A short paragraph can be accessed in you you admin privacy policy page, which can be added to your own privacy policy page.
+No data about the end user is sent to any other third party, so Lumière! is GDPR compliant. A short paragraph can be accessed in your admin privacy policy page, which can be added to your own privacy policy page.
 
 ### When accessing people/movie popups nothing is shown, a "404 Not Found" is thrown
 
