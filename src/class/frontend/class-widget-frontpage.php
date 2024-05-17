@@ -221,7 +221,7 @@ class Widget_Frontpage {
 
 		// Clean the array, remove empty multidimensional arrays.
 		/** @psalm-var list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $final_movies_array */
-		$final_movies_array = array_filter( $movies_array, fn( $movies_array ) => ( $movies_array !== null ) );
+		$final_movies_array = array_filter( $movies_array, fn( $movies_array ) => ( $movies_array !== null && count( $movies_array ) > 0 ) );
 
 		// Exit if no metadata, no auto title option activated
 		if ( $this->imdb_admin_values['imdbautopostwidget'] !== '1' && count( $final_movies_array ) === 0 ) {

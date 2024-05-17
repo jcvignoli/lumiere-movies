@@ -2,6 +2,7 @@
 
 v.4.1.5
 * [bug] Medaillon text wasn't correctly broke in taxonomy people page. (edits in class Abstract link maker)
+* [bug] If widget auto title function is utilised with no extra widget metabox, two identical movies are displayed (fixed array_filter() in class widget frontpage, checking count() in addition to !== null)
 
 v.4.1.4
 * [bug] Pictures if using AMP display into the post and widget was screwed up (longstanding bug, added height in Abstract_Link_Maker class and escaping height in Widget_Frontpage class)
