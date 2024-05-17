@@ -316,6 +316,11 @@ abstract class Abstract_Link_Maker {
 			$bio_text = $this->lumiere_imdburl_of_taxonomy( $bio_text );
 		}
 
+		// No Links class, exit before building clickable biography, show everything at once
+		if ( $window_type === 1 ) {
+			return $bio_head . "\n\t\t\t" . $bio_text;
+		}
+
 		/**
 		 * HTML tags break for 'read more' cutting.
 		 * 1/ Max length can't be greater that the total number of chara
@@ -323,9 +328,8 @@ abstract class Abstract_Link_Maker {
 		 *  (a) Use of htmlentities to avoid spaces inside html code (ie innerspace in '<br />').
 		 */
 		$max_length = $max_length > strlen( $bio_text ) ? strlen( $bio_text ) : $max_length;
-		$max_length = strlen( $bio_text ) > 0 && is_int( strpos( htmlentities( $bio_text ), ' ', $max_length ) ) === true
-			? strpos( htmlentities( $bio_text ), ' ', $max_length )
-			: $max_length;
+		$find_html = strpos( htmlentities( $bio_text ), ' ', $max_length );
+		$max_length = strlen( $bio_text ) > 0 && is_int( $find_html ) ? $find_html : $max_length;
 
 		// Detects if there is html a tag before reaching $max_length.
 		// If true increase max length up to first '/a>' + 3 chars (since the search is made with 3 chars).
@@ -334,14 +338,10 @@ abstract class Abstract_Link_Maker {
 			? $last_a_html + 3
 			: $max_length;
 
-		// No Links class, exit before building clickable biography, show everything at once
-		if ( $window_type === 1 ) {
-			return $bio_head . "\n\t\t\t" . $bio_text;
-		}
-
 		// There is 1/ a bio, and 2/ its length is greater to above $esc_html_breaker
 		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
 
+			// If $esc_html_breaker comes after $max_length, go for it.
 			$max_length = $max_length < $esc_html_breaker ? $esc_html_breaker : $max_length;
 
 			/** @psalm-suppress PossiblyFalseArgument -- Argument 3 of substr cannot be false, possibly int|null value expected => Never false! */

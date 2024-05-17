@@ -219,7 +219,7 @@ class Cli_Commands {
 		$taxonomy = $dashed_extra_args[ $control ] ?? '';
 
 		// If no extra dashed arguments passed or more than one, if not in valid array, or not using --template="", exit.
-		if ( count( $dashed_extra_args ) !== 1 || ! isset( $array_all[ $args[1] ] ) || in_array( $taxonomy, $array_all[ $args[1] ], true ) === false || $control !== 'template' ) {
+		if ( count( $dashed_extra_args ) !== 1 || in_array( $taxonomy, $array_all[ $args[1] ], true ) === false || $control !== 'template' ) {
 			WP_CLI::error( "Selected options are wrong, must comply with:\nwp lum copy_taxo " . implode( '|', $template_types ) . ' --template=' . implode( '|', $all ) );
 		}
 
