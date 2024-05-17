@@ -329,7 +329,7 @@ abstract class Abstract_Link_Maker {
 
 		// Detects if there is html a tag before reaching $max_length.
 		// If true increase max length up to first '/a>' + 3 chars (since the search is made with 3 chars).
-		$last_a_html = strpos( $bio_text, '/a>' );
+		$last_a_html = strpos( $bio_text, '/a>', $max_length );
 		$esc_html_breaker = strpos( $bio_text, '<a' ) <= $max_length && is_int( $last_a_html ) === true
 			? $last_a_html + 3
 			: $max_length;
@@ -341,6 +341,8 @@ abstract class Abstract_Link_Maker {
 
 		// There is 1/ a bio, and 2/ its length is greater to above $esc_html_breaker
 		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
+
+			$max_length = $max_length < $esc_html_breaker ? $esc_html_breaker : $max_length;
 
 			/** @psalm-suppress PossiblyFalseArgument -- Argument 3 of substr cannot be false, possibly int|null value expected => Never false! */
 			$str_one = substr( $bio_text, 0, $max_length );
