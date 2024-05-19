@@ -83,9 +83,6 @@ class Uninstall {
 	 */
 	public function uninstall(): bool {
 
-		// Start the logger.
-		do_action( 'lumiere_logger' );
-
 		// If databases were not created, exit as the plugin was not installed
 		if ( ! isset( $this->imdb_admin_values ) || ! isset( $this->imdb_data_values ) || ! isset( $this->imdb_cache_values ) ) {
 			$this->logger->log()->debug( '[Lumiere][uninstall] Lumiere was not installed, exiting' );

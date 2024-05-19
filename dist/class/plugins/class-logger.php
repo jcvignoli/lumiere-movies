@@ -12,13 +12,14 @@
 namespace Lumiere\Plugins;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	wp_die( 'You can not call directly this page' );
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
 }
 
 // use Lumiere library.
 use Lumiere\Tools\Utils;
 use Lumiere\Tools\Files;
+use Lumiere\Tools\Settings_Global;
 use Lumiere\Settings;
 
 // use Monolog library in /vendor/.
@@ -27,7 +28,6 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Processor\IntrospectionProcessor;
-use Lumiere\Tools\Settings_Global;
 
 /**
  * Plugin for Monolog Logger
@@ -70,27 +70,17 @@ class Logger {
 		// Get Global Settings class properties.
 		$this->get_db_options();
 
-		// Send the variables passed in construct to global properties
+		// Send the variables passed in construct to global properties.
 		$this->logger_name = $logger_name;
 		$this->screen_output = $screen_output;
 
-		// By default, start at init.
-		add_action(
-			'init',
-			function(): void {
-					$this->lumiere_start_logger( $this->logger_name, $this->screen_output );
-			},
-			0
-		);
-
-		// If init is too late, use lumiere_logger hook so we can activate manually.
+		// Add a hook so we can activate manually. Using anonymous function so can send the params.
 		add_action(
 			'lumiere_logger',
 			function(): void {
-					$this->lumiere_start_logger( $this->logger_name, $this->screen_output );
+				$this->lumiere_start_logger( $this->logger_name, $this->screen_output );
 			}
 		);
-
 	}
 
 	/**
@@ -98,7 +88,7 @@ class Logger {
 	 */
 	private function lumiere_is_screen_editor(): bool {
 
-		/** Kept for memory.
+		/** Kept for records.
 		if ( ! function_exists( 'get_current_screen' ) ) {
 			require_once ABSPATH . '/wp-admin/includes/screen.php';
 		}
@@ -113,9 +103,7 @@ class Logger {
 			&& ( $GLOBALS['hook_suffix'] === 'post.php'
 			|| $GLOBALS['hook_suffix'] === 'post-new.php' ) ) {
 
-			$this->is_editor_page = true;
 			return true;
-
 		}
 
 		// If the referer of current page is a specific one, set $is_editor_page on true.
@@ -123,15 +111,10 @@ class Logger {
 		$referer = strlen( $_SERVER['REQUEST_URI'] ?? '' ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) : '';
 		$pages_prohibited = [ '/wp-admin/admin-ajax.php', '/wp-admin/post.php', '/wp-json/wp/v2/posts' ];
 		if ( Utils::lumiere_array_contains_term( $pages_prohibited, $_SERVER['REQUEST_URI'] ?? '' ) ) {
-
-			$this->is_editor_page = true;
 			return true;
-
 		}
 
-		$this->is_editor_page = false;
 		return false;
-
 	}
 
 	/**
@@ -153,7 +136,7 @@ class Logger {
 		$screen_output = isset( $screen_output ) ? $this->screen_output = $screen_output : $screen_output = $this->screen_output;
 
 		// Run WordPress block editor identificator giving value to $this->is_editor_page.
-		$this->lumiere_is_screen_editor();
+		$this->is_editor_page = $this->lumiere_is_screen_editor();
 
 		// Start Monolog logger.
 		/** @psalm-suppress UndefinedConstant -- Const DOING_CRON is not defined => can't declare dynamic constants with Psalm */
@@ -241,12 +224,11 @@ class Logger {
 	 * @return LoggerMonolog the Monolog class
 	 */
 	public function log(): LoggerMonolog {
-		if ( isset( $this->logger_class ) ) {
-			return $this->logger_class;
-		}
-		// LoggerMonolog wasn't started, start it without a title
-		$this->lumiere_start_logger( null );
-		return $this->logger_class; // @phan-suppress-current-line PhanTypeMismatchReturn -- Returning $this->logger_class of type null but log() is declared to return \Monolog\Logger -- This is probably true, but PHPStan says otherwise, and this is needed in some cases (activation/deactivation?)
+
+		// Start the logger.
+		do_action( 'lumiere_logger' );
+
+		return $this->logger_class;
 	}
 
 	/**

@@ -635,7 +635,6 @@ class Cache_Tools {
 
 		// Restart logger in manner acceptable for class core and early execution.
 		$this->logger = new Logger( 'settingsClass', $screen_log /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated, such as upon plugin activation */ );
-		do_action( 'lumiere_logger' ); // Restart the logger, without this, error on activation.
 
 		// Cache folder paths.
 		$options_cache = get_option( Settings::LUMIERE_CACHE_OPTIONS );

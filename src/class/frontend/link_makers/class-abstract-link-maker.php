@@ -333,8 +333,8 @@ abstract class Abstract_Link_Maker {
 
 		// Detects if there is html a tag before reaching $max_length.
 		// If true increase max length up to first '/a>' + 3 chars (since the search is made with 3 chars).
-		$last_a_html = strpos( $bio_text, '/a>', $max_length );
-		$esc_html_breaker = strpos( $bio_text, '<a' ) <= $max_length && is_int( $last_a_html ) === true
+		$last_a_html = strpos( $bio_text, '/a>' ) !== false ? strpos( $bio_text, '/a>', $max_length ) : false;
+		$esc_html_breaker = strpos( $bio_text, '<a' ) <= $max_length && is_int( $last_a_html )
 			? $last_a_html + 3
 			: $max_length;
 
