@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.1.7
+
 v.4.1.6
 * [bug] Fatal error in Abstract link maker if no &lt;a&gt; link exists in medaillon (PHP Fatal error: Uncaught ValueError: strpos(): Argument #3 ($offset) must be contained in argument #1 ($haystack) in wp-content/plugins/lumiere-movies/class/frontend/link_makers/class-abstract-link-maker.php:336)
 * [technical] Class Logger fully psalm compliant, logs are standardized ( removed do_action( 'lumiere_logger' ) in class Cache Tools and Uninstall, added do_action( 'lumiere_logger' ) in class Logger->log() )
