@@ -1,6 +1,8 @@
 **Changelog**
 
 v.4.1.7
+* [bug] Fixed fatal error on WordPress 6.6 when deleting cache files (added Files trait in cache_delete_specific_file() of class Cache_Tools, "global $wp_filesystem" wasn't working alone anymore)
+* [technical] Redondant link to "showtimes" folder pictures built (double "//" iin class Abstract_Link_Makern lumiere_movies_rating_picture_abstract() 
 
 v.4.1.6
 * [bug] Fatal error in Abstract link maker if no &lt;a&gt; link exists in medaillon (PHP Fatal error: Uncaught ValueError: strpos(): Argument #3 ($offset) must be contained in argument #1 ($haystack) in wp-content/plugins/lumiere-movies/class/frontend/link_makers/class-abstract-link-maker.php:336)

@@ -251,7 +251,7 @@ class Settings {
 			throw new Exception( esc_html__( 'Lumiere plugin: Readme file either missing or corrupted ', 'lumiere-movies' ) );
 		}
 		$lumiere_version = preg_match( '#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match );
-		$this->lumiere_version = $lumiere_version_match[1];
+		$this->lumiere_version = $lumiere_version_match[1] ?? '0';
 
 	}
 

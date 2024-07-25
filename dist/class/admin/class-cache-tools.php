@@ -24,6 +24,7 @@ use Lumiere\Tools\Utils;
 use Lumiere\Plugins\Imdbphp;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Admin_General;
+use Lumiere\Tools\Files;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Exception;
@@ -43,7 +44,7 @@ class Cache_Tools {
 	/**
 	 * Traits.
 	 */
-	use Admin_General;
+	use Admin_General, Files;
 
 	/**
 	 * Cache options
@@ -79,6 +80,7 @@ class Cache_Tools {
 	 */
 	public function cache_delete_specific_file( string $type, string $where ): void {
 
+		$this->lumiere_wp_filesystem_cred( $this->imdb_cache_values['imdbcachedir'] ); // from Files trait.
 		global $wp_filesystem;
 
 		// prevent drama.

@@ -150,7 +150,7 @@ class Help extends Admin_Menu {
 		preg_match( $patterntitle, $faqfile, $faqsection );
 
 		// Split into array the section based upon '=' delimitors.
-		$faqsectionarray = preg_split( '/=(.*?)=/', $faqsection[1], -1, PREG_SPLIT_DELIM_CAPTURE );
+		$faqsectionarray = isset( $faqsection[1] ) ? preg_split( '/=(.*?)=/', $faqsection[1], -1, PREG_SPLIT_DELIM_CAPTURE ) : null;
 
 		/**
 		 * 1-replace links from (especially formated for WordPress website) readme with regular html.

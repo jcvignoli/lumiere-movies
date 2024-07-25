@@ -183,7 +183,7 @@ abstract class Abstract_Link_Maker {
 		$output .= ':</span>';
 
 		$find_showtimes_pic = round( $rating * 2, 0 ) / 0.2;
-		$output .= ' <img src="' . $this->config_class->lumiere_pics_dir . '/showtimes/' . $find_showtimes_pic . ".gif\" title=\"$votes_average_txt $rating $out_of_ten_txt\" alt=\"$votes_average_txt\" width=\"102\" height=\"12\" />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
+		$output .= ' <img src="' . $this->config_class->lumiere_pics_dir . 'showtimes/' . $find_showtimes_pic . ".gif\" title=\"$votes_average_txt $rating $out_of_ten_txt\" alt=\"$votes_average_txt\" width=\"102\" height=\"12\" />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
 
 		return $output;
 	}
