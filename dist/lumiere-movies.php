@@ -2,30 +2,23 @@
 /**
  * Lumière Movies WordPress plugin
  *
+ * @package           lumiere-movies
+ * @author            jcvignoli
+ * @copyright         2005 https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
+ * @license           GPL-2.0-or-later
+ *
  * @wordpress-plugin
- * Plugin Name: Lumière! Movies
- * Plugin URI: https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
- * Description: Add informative popups about movies with information extracted from the IMDb. Display data related to movies in a widget and inside your post.
- * Version: 4.1.8
+ * Plugin Name:       Lumière Movies
+ * Plugin URI:        https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
+ * Description:       Add informative popups about movies with information extracted from the IMDb. Display data related to movies in a widget and inside your post.
+ * Version:           4.1.8
  * Requires at least: 5.6
- * Requires PHP: 8.0
- * Text Domain: lumiere-movies
- * Domain Path: /languages
- * Author: psykonevro
- * Author URI: https://www.jcvignoli.com/blog
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
- * General Public License version 3, as published by the Free Software Foundation. You may NOT assume
- * that you can use any other version of the GPL.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- *
- * @package   lumiere-movies
- * @author    jcvignoli
- * @license   GPL-3.0 <https://www.gnu.org/licenses/gpl-3.0.en.html>
- * @link       https://wordpress.org/plugins/lumiere-movies/
- * @since      3.0
+ * Requires PHP:      8.0
+ * Author:            psykonevro
+ * Author URI:        https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
+ * Text Domain:       lumiere-movies
+ * License:           GPLv3
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
 // Stop direct call.
