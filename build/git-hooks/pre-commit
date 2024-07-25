@@ -81,7 +81,7 @@ if [ "$FILES" != "" ];then
 
     if [ "$PSALM_ACTIVATED" = 1 ]; then
         echo "[Pre-commit] Running Psalm on PHP files..."
-        PSALM_ANALYSE=$($PSALM_BIN --no-cache $FILES)
+        PSALM_ANALYSE=$($PSALM_BIN --no-cache)
         if [ $? != 0 ];then
             echo "\n$PSALM_ANALYSE\n"
             printf "\033[1m\033[31m[Pre-commit] Psalm has errors, fix them before uploading to git.\033[0m\n"

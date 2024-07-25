@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.1.8
+
 v.4.1.7
 * [bug] Fixed fatal error on WordPress 6.6 when deleting cache files (added Files trait in cache_delete_specific_file() of class Cache_Tools, "global $wp_filesystem" wasn't working alone anymore)
 * [technical] Redondant link to "showtimes" folder pictures built (double "//" iin class Abstract_Link_Makern lumiere_movies_rating_picture_abstract() 
