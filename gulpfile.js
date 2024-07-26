@@ -106,13 +106,26 @@ var paths = {
 	},
 	files: {
 		src: [	'./src/**/*.{php,html,htm,ico,webmanifest,md,txt,json}', 
-			'!./src/vendor/**/*.*',				/* copy only relevant files in src/vendor */ 
-				'./src/vendor/composer/**/*.*',
-				'./src/vendor/jcvignoli/imdbphp/src/**/*.*',
-				'./src/vendor/monolog/**/*.*',
-				'./src/vendor/psr/**/*.*',
-				'./src/vendor/twbs/bootstrap/dist/**/*.{min.js,min.css}',
-				'./src/vendor/autoload.*',
+
+			/* Remove irrelevant files in src/vendor */ 
+			'!./src/vendor/bin/*.*',				
+			'!./src/vendor/jcvignoli/imdbphp/cache/**/*.*',
+			'!./src/vendor/jcvignoli/imdbphp/conf/**/*.*',
+			'!./src/vendor/jcvignoli/imdbphp/demo/**/*.*',
+			'!./src/vendor/jcvignoli/imdbphp/doc/**/*.*',
+			'!./src/vendor/jcvignoli/imdbphp/graphql/**/*.*',
+			'!./src/vendor/jcvignoli/imdbphp/tests/**/*.*',
+			'!./src/vendor/jcvignoli/imdbphp/.github/**/*.*',
+			'!./src/vendor/jcvignoli/imdbphp/.github/*.*',
+			'!./src/vendor/jcvignoli/imdbphp/*.*',
+			'!./src/vendor/twbs/bootstrap/build/**/*.*',
+			'!./src/vendor/twbs/bootstrap/js/**/*.*',
+			'!./src/vendor/twbs/bootstrap/nuget/**/*.*',
+			'!./src/vendor/twbs/bootstrap/scss/**/*.*',
+			'!./src/vendor/twbs/bootstrap/site/**/*.*',
+			'!./src/vendor/twbs/bootstrap/.github/**/*.*',
+			'!./src/vendor/twbs/bootstrap/*.*',
+
 			'./src/**/*.+(psd)', 
 			'./src/.**/*.{psd,json}',	 				/* extra files for .wordpress.org -- doesn't work for blueprints */
 			'./src/languages/*.*',

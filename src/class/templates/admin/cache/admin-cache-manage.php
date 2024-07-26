@@ -183,6 +183,10 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 		if ( count( $lum_list_movie_cache ) === 0 ) { ?>
 
 		<div class="lum_error"><?php esc_html_e( 'No movie\'s cache found.', 'lumiere-movies' ); ?></div>
+		
+		<?php } elseif ( $lum_imdb_cache_values['imdbcachedetailshidden'] === '1' ) { ?>
+		
+		<div><?php esc_html_e( 'Displaying cache data is deactivated.', 'lumiere-movies' ); ?></div>
 
 		<?php } elseif ( is_dir( $lum_imdb_cache_values['imdbcachedir'] ) === true ) { ?>
 				
@@ -316,12 +320,15 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 		<?php
 
 		// if files don't exist.
-		if ( count( $lum_list_people_cached ) === 0 ) {
+		if ( count( $lum_list_people_cached ) === 0 ) { ?>
 
-			echo '<div class="lum_error">' . esc_html__( 'No people\'s cache found.', 'lumiere-movies' ) . '</div>';
+		<div class="lum_error"><?php esc_html_e( 'No people\'s cache found.', 'lumiere-movies' ); ?></div>
 
-			// if files exist.
-		} elseif ( is_dir( $lum_imdb_cache_values['imdbcachedir'] ) === true ) { ?>
+		<?php } elseif ( $lum_imdb_cache_values['imdbcachedetailshidden'] === '1' ) { ?>
+		
+		<div><?php esc_html_e( 'Displaying cache data is deactivated.', 'lumiere-movies' ); ?></div>
+		
+		<?php } elseif ( is_dir( $lum_imdb_cache_values['imdbcachedir'] ) === true ) { // if files exist. ?>
 
 		<div class="lumiere_options_intro_inblock">
 			<?php esc_html_e( 'If you want to refresh people\'s cache regardless the cache expiration time, you may either tick people checkbox(es) related to the person you want to delete and click on "delete cache", or you may click on individual people\'s "refresh". The first way will require an additional people refresh - from you post, for instance.', 'lumiere-movies' ); ?>

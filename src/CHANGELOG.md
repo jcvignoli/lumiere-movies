@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.1.8
+* [technical] Added cache option to not display any cache detail (for very slow computers, for sites with a lot of cache data that even simplify the cache is not enough
 
 v.4.1.7
 * [bug] Fixed fatal error on WordPress 6.6 when deleting cache files (added Files trait in cache_delete_specific_file() of class Cache_Tools, "global $wp_filesystem" wasn't working alone anymore)

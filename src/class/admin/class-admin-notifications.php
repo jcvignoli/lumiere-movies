@@ -49,7 +49,7 @@ class Admin_Notifications {
 			'cache_query_deleted' => [ __( 'Query cache files deleted.', 'lumiere-movies' ), 5 ],
 			'taxotemplatecopy_success' => [ __( 'Lumière template successfully copied in your theme folder.', 'lumiere-movies' ), 5 ],
 			'taxotemplatecopy_failed' => [ __( 'Template copy failed! Check the permissions in you theme folder.', 'lumiere-movies' ), 7 ],
-			'lum_plugin_updated' => [ __( 'Lumière! plugin has been updated to the lastest version.', 'lumiere-movies' ), 6 ],
+			'lum_plugin_updated' => [ __( 'Lumière! plugin has been updated to the latest version.', 'lumiere-movies' ), 6 ],
 		];
 
 	}

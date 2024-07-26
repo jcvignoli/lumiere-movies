@@ -46,7 +46,7 @@ trait Settings_Global {
 	/**
 	 * Cache options
 	 * // PHPStan bug #5091, remove below line later @phpstan-var OPTIONS_CACHE $imdb_cache_values
-	 * @phpstan-var array{'imdbcachedir_partial': string, 'imdbusecache': string, 'imdbcacheexpire': string, 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string,'imdbcachedir': string,'imdbphotoroot': string, 'imdbphotodir': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string } $imdb_cache_values
+	 * @phpstan-var array{'imdbcachedir_partial': string, 'imdbusecache': string, 'imdbcacheexpire': string, 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string,'imdbcachedir': string,'imdbphotoroot': string, 'imdbphotodir': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string, imdbcachedetailshidden: string} $imdb_cache_values
 	 */
 	public array $imdb_cache_values;
 

@@ -5,11 +5,11 @@
  * @package           lumiere-movies
  * @author            jcvignoli
  * @copyright         2005 https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
- * @license           GPL-2.0-or-later
+ * @license           GPL-3.0-or-later
  *
  * @wordpress-plugin
  * Plugin Name:       Lumière Movies
- * Plugin URI:        https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
+ * Plugin URI:        https://wordpress.org/plugins/lumiere-movies/
  * Description:       Add informative popups about movies with information extracted from the IMDb. Display data related to movies in a widget and inside your post.
  * Version:           4.1.8
  * Requires at least: 5.6
@@ -18,7 +18,7 @@
  * Author URI:        https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
  * Text Domain:       lumiere-movies
  * License:           GPLv3
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.txt
  */
 
 // Stop direct call.

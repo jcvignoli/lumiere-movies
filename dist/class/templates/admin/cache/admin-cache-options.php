@@ -91,7 +91,23 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					?>
 					/>
 
-					<div class="explain"><?php esc_html_e( 'Allows faster loading time for the "manage cache" option page by taking out pictures and limiting options for movies and people cache. Usefull when you have too much cache to display.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
+					<div class="explain"><?php esc_html_e( 'Allows faster loading time for the "manage cache" option page by taking out pictures and limiting options for movies and people cache. Useful when you have too many cache details to display.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
+
+				</div>
+				
+				<div class="lumiere_flex_container_content_thirty lumiere_padding_five">
+
+					<?php esc_html_e( 'No cache data', 'lumiere-movies' ); ?>&nbsp;
+
+					<input type="hidden" id="imdb_imdbcachedetailshidden_no" name="imdb_imdbcachedetailshidden" value="0" />
+					<input type="checkbox" id="imdb_imdbcachedetailshidden_yes" name="imdb_imdbcachedetailshidden" value="1" 
+					<?php
+					if ( $lumiere_imdb_cache_values['imdbcachedetailshidden'] === '1' ) {
+						echo ' checked="checked"'; }
+					?>
+					/>
+
+					<div class="explain"><?php esc_html_e( 'Do not display any cache data in "manage cache" option page. Useful when you have really have too many cache data to display.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
 
 				</div>
 			</div>
