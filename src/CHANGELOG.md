@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.1.8
+* [bug] Fatal error if plot is null ("Argument #1 ($plot) must be of type string, null given, called in class/frontend/class-movie-data.php on line 1064")
 * [technical] Added cache option to not display any cache detail (for very slow computers, for sites with a lot of cache data that even simplify the cache is not enough
 
 v.4.1.7

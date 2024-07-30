@@ -1061,7 +1061,7 @@ class Movie_Data extends Movie {
 			 * Each one has its own class passed in $link_maker,
 			 * according to which option the lumiere_select_link_maker() found in Frontend.
 			 */
-			$output .= $this->link_maker->lumiere_movies_plot_details( $plot[ $i ] );
+			$output .= $plot[ $i ] !== null ? $this->link_maker->lumiere_movies_plot_details( $plot[ $i ] ) : esc_html__( 'No plot found', 'lumiere-movies' );
 
 			// add hr to every plot but the last.
 			if ( $i < ( $nbtotalplots - 1 ) && $i < ( $nbplots - 1 ) ) {
