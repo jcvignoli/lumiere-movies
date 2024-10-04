@@ -47,7 +47,7 @@ class Plugins_Start {
 	 * Constructor
 	 * @param array<int, object|Imdbphp|Logger>|null $extra_classes Extra classes to add
 	 */
-	public function __construct( array $extra_classes = null ) {
+	public function __construct( ?array $extra_classes = null ) {
 
 		// Get the active plugins.
 		$detect_class = new Plugins_Detect();

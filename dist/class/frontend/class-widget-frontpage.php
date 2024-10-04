@@ -220,7 +220,9 @@ class Widget_Frontpage {
 		$movies_array[] = is_int( $post_id ) ? $this->maybe_get_lum_post_metada( $post_id ) : null;
 
 		// Clean the array, remove empty multidimensional arrays.
-		/** @psalm-var list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $final_movies_array */
+		/** @psalm-var list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $final_movies_array
+		* @phpstan-var array<int, array<string, string>> $final_movies_array
+		*/
 		$final_movies_array = array_filter( $movies_array, fn( $movies_array ) => ( $movies_array !== null && count( $movies_array ) > 0 ) );
 
 		// Exit if no metadata, no auto title option activated
@@ -230,6 +232,9 @@ class Widget_Frontpage {
 		}
 
 		// Get movie's data from {@link \Lumiere\Frontend\Movie}
+		/**
+		 * @psalm-var list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}>|null $final_movies_array
+		 * @phpstan-var array<int<0, max>, array<string, string>> $final_movies_array */
 		$movie = $this->movie_class->lumiere_show( $final_movies_array );
 
 		/**

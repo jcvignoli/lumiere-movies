@@ -90,6 +90,7 @@ class Movie {
 	 * @since 3.8   Extra logs are shown once only using singleton $this->movie_run_once and Plugins_Start class added
 	 *
 	 * @param array<int<0, max>, array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
+	 * @phpstan-param array<int<0, max>, array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
 	 * @psalm-param list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $imdb_id_or_title_outside
 	 */
 	public function lumiere_show( ?array $imdb_id_or_title_outside = null ): string {

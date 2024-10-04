@@ -21,6 +21,7 @@ parameters:
         - tests/bootstrap-testing.php
     ignoreErrors:
         - '#Variable method call on#'
+        - '#Path in require_once\(\) "./wp-admin/includes#'
     dynamicConstantNames:
         - DOING_CRON
         - WP_DEBUG_LOG

@@ -267,7 +267,7 @@ class Help extends Admin_Menu {
 				'<br>',
 				'<a href="${3}${5}" title="${7}">${2}</a>',
 			];
-			$acknowledgefile = preg_replace( $patterns, $replaces, $acknowledgefile ) ?? $acknowledgefile;
+			$acknowledgefile = preg_replace( $patterns, $replaces, $acknowledgefile );
 		}
 
 		// Send the file text to the included file.

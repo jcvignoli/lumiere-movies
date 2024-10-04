@@ -88,7 +88,7 @@ trait Admin_General {
 	 *
 	 * @return void Returns optionaly an array of the options passed in $options
 	 */
-	public function lumiere_display_vars( ?array $options = null, string $set_error = null, string $libxml_use = null, string $get_screen = null ): void {
+	public function lumiere_display_vars( ?array $options = null, ?string $set_error = null, ?string $libxml_use = null, ?string $get_screen = null ): void {
 
 		// If the user can't manage options and it's not a cron, exit.
 		if ( ! current_user_can( 'manage_options' ) ) {

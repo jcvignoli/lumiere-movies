@@ -259,7 +259,7 @@ class Polylang {
 	 * @return string
 	 * @deprecated 4.1 no use of this method
 	 */
-	public function rewrite_string_with_polylang_url( string $content, string $extra_url = null ): string {
+	public function rewrite_string_with_polylang_url( string $content, ?string $extra_url = null ): string {
 
 		$home_slashed = str_replace( '/', '\/', home_url() );
 		$pll_home_slashed = str_replace( '/', '\/', trim( pll_home_url(), '/' ) );

@@ -69,7 +69,7 @@ class Save_Options {
 	 * Constructor
 	 * @param string|null $page_data_taxo Full URL to data page taxonomy subpage
 	 */
-	public function __construct( string $page_data_taxo = null ) {
+	public function __construct( ?string $page_data_taxo = null ) {
 
 		// Store page
 		$this->page_data_taxo = $page_data_taxo;
@@ -87,7 +87,7 @@ class Save_Options {
 	 * @since 4.1 added param, I need it to restrain rewrite rules flush to data taxo pages
 	 * @see self::lumiere_data_options_save() use $this->page_data_taxo
 	 */
-	public static function lumiere_static_start( string $page_data_taxo = null ): void {
+	public static function lumiere_static_start( ?string $page_data_taxo = null ): void {
 
 		$class_save = new self( $page_data_taxo );
 

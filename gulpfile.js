@@ -68,6 +68,7 @@ var sshMain = new ssh ({					/* ssh functions with mainserver */
 		port: ext_cred.mainserver.port,
 		username: ext_cred.mainserver.username,
 		privateKey: fs.readFileSync( ext_cred.mainserver.key ),
+		forceIPv4: true, /** with Nodejs > 19.9, can't connect and upload to infomaniak if IPv4 is not forced */
 		/* debug: console.log, */
 	}
 });

@@ -105,8 +105,9 @@ trait Files {
 		global $wp_filesystem;
 
 		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
-		if ( $wp_filesystem === null ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
+		$file_path = ABSPATH . 'wp-admin/includes/file.php';
+		if ( $wp_filesystem === null && is_file( $file_path ) ) {
+			require_once $file_path;
 			WP_Filesystem();
 		}
 
