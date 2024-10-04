@@ -106,7 +106,7 @@ class Data extends Admin_Menu {
 
 		if (
 			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
-			&& isset( $_GET['page'] ) && str_contains( $this->page_data, $_GET['page'] ) === true
+			&& isset( $_GET['page'] ) && str_contains( $this->page_data, sanitize_key( $_GET['page'] ) ) === true
 			&& ! isset( $_GET['subsection'] )
 		) {
 
@@ -123,8 +123,8 @@ class Data extends Admin_Menu {
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && str_contains( $this->page_data_taxo, $_GET['page'] ) === true
-			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_taxo, $_GET['subsection'] )
+			isset( $_GET['page'] ) && str_contains( $this->page_data_taxo, sanitize_key( $_GET['page'] ) ) === true
+			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_taxo, sanitize_key( $_GET['subsection'] ) )
 			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
 		) {
 
@@ -152,8 +152,8 @@ class Data extends Admin_Menu {
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && str_contains( $this->page_data_order, $_GET['page'] ) === true
-			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_order, $_GET['subsection'] )
+			isset( $_GET['page'] ) && str_contains( $this->page_data_order, sanitize_key( $_GET['page'] ) ) === true
+			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_order, sanitize_key( $_GET['subsection'] ) )
 			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
 		) {
 

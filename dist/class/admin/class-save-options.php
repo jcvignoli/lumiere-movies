@@ -136,13 +136,13 @@ class Save_Options {
 		if (
 			isset( $_POST['lumiere_update_general_settings'] )
 			&& isset( $_POST['_nonce_general_settings'] )
-			&& wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) > 0
+			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0
 		) {
-			$this->lumiere_general_options_save( $this->get_referer(), $_POST['imdb_imdburlstringtaxo'] ?? null, $_POST['imdb_imdburlpopups'] ?? null );
+			$this->lumiere_general_options_save( $this->get_referer(), sanitize_text_field( wp_unslash( $_POST['imdb_imdburlstringtaxo'] ?? '' ) ), sanitize_text_field( wp_unslash( $_POST['imdb_imdburlpopups'] ?? '' ) ) );
 		} elseif (
 			isset( $_POST['lumiere_reset_general_settings'] )
 			&& isset( $_POST['_nonce_general_settings'] )
-			&& wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) > 0
+			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0
 		) {
 			$this->lumiere_general_options_reset( $this->get_referer() );
 		}
@@ -151,34 +151,34 @@ class Save_Options {
 		if (
 			isset( $_POST['lumiere_update_cache_settings'] )
 			&& isset( $_POST['_nonce_cache_settings'] )
-			&& wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) > 0
+			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_settings'] ), 'lumiere_nonce_cache_settings' ) > 0
 		) {
 			// save options
 			$this->lumiere_cache_options_save( $this->get_referer() );
 		} elseif (
 			isset( $_POST['lumiere_reset_cache_settings'] )
 			&& isset( $_POST['_nonce_cache_settings'] )
-			&& wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) !== false
+			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_settings'] ), 'lumiere_nonce_cache_settings' ) !== false
 		) {
 			// reset options
 			$this->lumiere_cache_options_reset( $this->get_referer() );
 		} elseif (
 			isset( $_POST['delete_all_cache'] )
 			&& isset( $_POST['_nonce_cache_all_and_query_check'] )
-			&& wp_verify_nonce( $_POST['_nonce_cache_all_and_query_check'], 'cache_all_and_query_check' ) > 0
+			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_all_and_query_check'] ), 'cache_all_and_query_check' ) > 0
 		) {
 			$this->lumiere_cache_delete_allfiles( $this->get_referer() );
 		} elseif (
 			isset( $_POST['delete_query_cache'] )
 			&& isset( $_POST['_nonce_cache_all_and_query_check'] )
-			&& wp_verify_nonce( $_POST['_nonce_cache_all_and_query_check'], 'cache_all_and_query_check' ) > 0
+			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_all_and_query_check'] ), 'cache_all_and_query_check' ) > 0
 		) {
 			// delete all query cache files.
 			$this->lumiere_cache_delete_query( $this->get_referer(), new Cache_Tools() );
 		} elseif (
 			isset( $_POST['delete_ticked_cache'] )
 			&& isset( $_POST['_nonce_cache_settings'] )
-			&& wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) > 0
+			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_settings'] ), 'lumiere_nonce_cache_settings' ) > 0
 		) {
 			// delete several ticked files, they can be either movies or people, using same method.
 			$delete_movies = isset( $_POST['imdb_cachedeletefor_movies'] ) ? array_map( 'sanitize_key', $_POST['imdb_cachedeletefor_movies'] ) : null;
@@ -190,33 +190,33 @@ class Save_Options {
 			&& isset( $_GET['type'] )
 			&& isset( $_GET['where'] )
 			&& isset( $_GET['_nonce_cache_deleteindividual'] )
-			&& wp_verify_nonce( $_GET['_nonce_cache_deleteindividual'], 'deleteindividual' ) > 0
+			&& wp_verify_nonce( sanitize_key( $_GET['_nonce_cache_deleteindividual'] ), 'deleteindividual' ) > 0
 		) {
 			// delete a specific file by clicking on it.
-			$this->lumiere_cache_delete_linked_file( $this->get_referer(), new Cache_Tools(), sanitize_text_field( $_GET['type'] ), sanitize_text_field( $_GET['where'] ) );
+			$this->lumiere_cache_delete_linked_file( $this->get_referer(), new Cache_Tools(), sanitize_text_field( wp_unslash( $_GET['type'] ) ), sanitize_text_field( wp_unslash( $_GET['where'] ) ) );
 		} elseif (
 			isset( $_GET['dothis'] )
 			&& $_GET['dothis'] === 'refresh'
 			&& isset( $_GET['type'] )
 			&& isset( $_GET['where'] )
 			&& isset( $_GET['_nonce_cache_refreshindividual'] )
-			&& wp_verify_nonce( $_GET['_nonce_cache_refreshindividual'], 'refreshindividual' ) > 0
+			&& wp_verify_nonce( sanitize_key( $_GET['_nonce_cache_refreshindividual'] ), 'refreshindividual' ) > 0
 		) {
 			// refresh a specific file by clicking on it.
-			$this->lumiere_cache_refresh_linked_file( $this->get_referer(), new Cache_Tools(), sanitize_text_field( $_GET['type'] ), sanitize_text_field( $_GET['where'] ) );
+			$this->lumiere_cache_refresh_linked_file( $this->get_referer(), new Cache_Tools(), sanitize_text_field( wp_unslash( $_GET['type'] ) ), sanitize_text_field( wp_unslash( $_GET['where'] ) ) );
 		}
 
 		/** Data options */
 		if (
 			isset( $_POST['lumiere_update_data_settings'] )
 			&& isset( $_POST['_nonce_data_settings'] )
-			&& wp_verify_nonce( $_POST['_nonce_data_settings'], 'lumiere_nonce_data_settings' ) > 0
+			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_data_settings'] ), 'lumiere_nonce_data_settings' ) > 0
 		) {
 			$this->lumiere_data_options_save( $this->get_referer() );
 		} elseif (
 			isset( $_POST['lumiere_reset_data_settings'] )
 			&& isset( $_POST['_nonce_data_settings'] )
-			&& wp_verify_nonce( $_POST['_nonce_data_settings'], 'lumiere_nonce_data_settings' ) > 0
+			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_data_settings'] ), 'lumiere_nonce_data_settings' ) > 0
 		) {
 			$this->lumiere_data_options_reset( $this->get_referer() );
 		}
@@ -255,7 +255,7 @@ class Save_Options {
 			}
 		}
 
-		$post_array = wp_verify_nonce( $_POST['_nonce_general_settings'], 'lumiere_nonce_general_settings' ) > 0 ? $_POST : [];
+		$post_array = isset( $_POST['_nonce_general_settings'] ) && wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0 ? $_POST : [];
 
 		foreach ( $post_array as $key => $postvalue ) {
 
@@ -271,7 +271,7 @@ class Save_Options {
 			}
 
 			/** @phpstan-var value-of<T>|null $post_sanitized */
-			$post_sanitized = isset( $_POST[ $key_sanitized ] ) && is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( $_POST[ $key_sanitized ] ) : null;
+			$post_sanitized = isset( $_POST[ $key_sanitized ] ) && is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( wp_unslash( $_POST[ $key_sanitized ] ) ) : null;
 			if ( isset( $post_sanitized ) ) {
 				/** @psalm-suppress InvalidArrayOffset, InvalidPropertyAssignmentValue */
 				$this->imdb_admin_values[ $keynoimdb ] = $post_sanitized;
@@ -317,7 +317,7 @@ class Save_Options {
 	// @phpstan-ignore-next-line method.templateTypeNotInParameter
 	private function lumiere_cache_options_save( string|bool $get_referer ): void {
 
-		if ( ! isset( $_POST['_nonce_cache_settings'] ) || wp_verify_nonce( $_POST['_nonce_cache_settings'], 'lumiere_nonce_cache_settings' ) === false ) {
+		if ( ! isset( $_POST['_nonce_cache_settings'] ) || wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_settings'] ), 'lumiere_nonce_cache_settings' ) === false ) {
 			throw new Exception( esc_html__( 'Nounce error', 'lumiere-movies' ) );
 		}
 
@@ -333,7 +333,7 @@ class Save_Options {
 			}
 
 			$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
-			$post_sanitized = isset( $_POST[ $key_sanitized ] ) && is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( $_POST[ $key_sanitized ] ) : null;
+			$post_sanitized = isset( $_POST[ $key_sanitized ] ) && is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( wp_unslash( $_POST[ $key_sanitized ] ) ) : null;
 			if ( isset( $post_sanitized ) ) {
 				/**
 				 * @phpstan-var key-of<T> $keynoimdb
@@ -484,7 +484,7 @@ class Save_Options {
 	 */
 	private function lumiere_data_options_save( string|bool $get_referer, ): void {
 
-		if ( ! isset( $_POST['_nonce_data_settings'] ) || wp_verify_nonce( $_POST['_nonce_data_settings'], 'lumiere_nonce_data_settings' ) === false ) {
+		if ( ! isset( $_POST['_nonce_data_settings'] ) || wp_verify_nonce( sanitize_key( $_POST['_nonce_data_settings'] ), 'lumiere_nonce_data_settings' ) === false ) {
 			throw new Exception( esc_html__( 'Nounce error', 'lumiere-movies' ) );
 		}
 
@@ -508,7 +508,7 @@ class Save_Options {
 				continue;
 			}
 
-			$post_sanitized = is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( $_POST[ $key_sanitized ] ) : null;
+			$post_sanitized = isset( $_POST[ $key_sanitized ] ) && is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( wp_unslash( $_POST[ $key_sanitized ] ) ) : null;
 			// Copy $_POST to $this->imdb_data_values var
 			if ( isset( $post_sanitized ) ) {
 
@@ -529,10 +529,10 @@ class Save_Options {
 		if ( isset( $_POST['imdbwidgetorderContainer'] ) ) {
 
 			/** @psalm-suppress RedundantCondition -- int always contains numeric -- I know, but need to sanitize. */
-			$data_keys_filtered = array_filter( array_keys( $_POST['imdbwidgetorderContainer'] ), 'is_numeric' );
+			$data_keys_filtered = array_filter( array_keys( wp_unslash( $_POST['imdbwidgetorderContainer'] ) ), 'is_numeric' );
 
 			/** @psalm-suppress RedundantCondition -- Type string [...] is always string -- I know, but need to sanitize. */
-			$data_values_filtered = array_filter( $_POST['imdbwidgetorderContainer'], 'is_string' );
+			$data_values_filtered = array_filter( wp_unslash( $_POST['imdbwidgetorderContainer'] ), 'is_string' );
 
 			$imdbwidgetorder_sanitized = array_combine( $data_values_filtered, $data_keys_filtered );
 

@@ -59,7 +59,7 @@ class Copy_Template_Taxonomy {
 	private function maybe_copy_taxonomy_template( string $url_data_taxo_page ): void {
 
 		// Escape gets and get taxotype and nonce.
-		$lumiere_taxo_title = isset( $_GET['_wpnonce_linkcopytaxo'] ) && wp_verify_nonce( $_GET['_wpnonce_linkcopytaxo'], 'linkcopytaxo' ) > 0 ? esc_html( $_GET['taxotype'] ) : null;
+		$lumiere_taxo_title = isset( $_GET['taxotype'] ) && isset( $_GET['_wpnonce_linkcopytaxo'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0 ? sanitize_key( $_GET['taxotype'] ) : null;
 
 		// Build links and vars.
 		if ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, $this->config_class->array_people, true ) ) {

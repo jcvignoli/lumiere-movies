@@ -105,7 +105,7 @@ class Popup_Person {
 	private function find_person( string $nonce_url ): bool {
 
 		/* GET Vars sanitized */
-		$this->mid_sanitized = wp_verify_nonce( $nonce_url ) > 0 && isset( $_GET['mid'] ) && strlen( $_GET['mid'] ) !== 0 ? esc_html( $_GET['mid'] ) : null;
+		$this->mid_sanitized = wp_verify_nonce( $nonce_url ) > 0 && isset( $_GET['mid'] ) && strlen( sanitize_text_field( wp_unslash( $_GET['mid'] ) ) ) !== 0 ? sanitize_key( $_GET['mid'] ) : null;
 
 		// if neither film nor mid are set, throw a 404 error
 		if ( $this->mid_sanitized === null ) {
@@ -161,7 +161,7 @@ class Popup_Person {
 		// display only when nothing is selected from the menu.
 		if (
 			wp_verify_nonce( $nonce_url ) > 0
-			&& ( ! isset( $_GET['info'] ) || strlen( $_GET['info'] ) === 0 )
+			&& ( ! isset( $_GET['info'] ) || strlen( sanitize_text_field( wp_unslash( $_GET['info'] ) ) ) === 0 )
 		) {
 			$this->display_summary();
 		}

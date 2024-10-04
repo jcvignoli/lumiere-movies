@@ -69,7 +69,7 @@ class Cache extends Admin_Menu {
 
 		if (
 			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
-			&& isset( $_GET['page'] ) && str_contains( $this->page_cache_option, $_GET['page'] ) === true
+			&& isset( $_GET['page'] ) && str_contains( $this->page_cache_option, sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) === true
 			&& ! isset( $_GET['subsection'] )
 		) {
 
@@ -82,7 +82,7 @@ class Cache extends Admin_Menu {
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && str_contains( $this->page_cache_option, $_GET['page'] ) === true
+			isset( $_GET['page'] ) && str_contains( $this->page_cache_option, sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) === true
 			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'manage'
 			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
 		) {

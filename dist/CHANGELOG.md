@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.1.9
+* [technical] Better sanitization according to new WordPress rules
 
 v.4.1.8
 * [bug] Fatal error if plot is null ("Argument #1 ($plot) must be of type string, null given, called in class/frontend/class-movie-data.php on line 1064")

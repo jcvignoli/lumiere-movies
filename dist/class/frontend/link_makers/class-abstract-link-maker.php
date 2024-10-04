@@ -308,7 +308,7 @@ abstract class Abstract_Link_Maker {
 		$bio_text = isset( $bio_array[ $idx ]['desc'] ) ? trim( str_replace( [ '<br>', '<br />', '<br/>', '</div>' ], ' ', $bio_array[ $idx ]['desc'] ) ) : '';
 
 		// Medaillon is displayed in a popup person page, build internal URL.
-		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->config_class->lumiere_urlstringperson ) && strlen( $bio_text ) > 0 ) {
+		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), $this->config_class->lumiere_urlstringperson ) && strlen( $bio_text ) > 0 ) {
 			$bio_text = $this->lumiere_imdburl_to_internalurl( $bio_text );
 
 			// This is a taxonomy page, build popup URL.

@@ -149,7 +149,7 @@ class Oceanwp {
 		if (
 			stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) === 0
 			&&
-			str_contains( $_SERVER['REQUEST_URI'] ?? '', site_url( '', 'relative' ) . '/lumiere/' )
+			str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . '/lumiere/' )
 		) {
 
 			wp_enqueue_style( 'lumiere_style_oceanwpfixes_popups' );

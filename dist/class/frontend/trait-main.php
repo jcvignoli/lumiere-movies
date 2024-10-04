@@ -227,7 +227,7 @@ trait Main {
 		global $pagenow;
 
 		// If url contains ?amp, it must be an AMP page
-		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', '?amp' )
+		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), '?amp' )
 		|| isset( $_GET ['wpamp'] )
 		|| isset( $_GET ['amp'] )
 		) {

@@ -118,8 +118,8 @@ class Popup_Movie {
 	private function find_movie( string $nonce_url ): bool {
 
 		/* GET Vars sanitized */
-		$this->movieid_sanitized = wp_verify_nonce( $nonce_url ) > 0 && isset( $_GET['mid'] ) && strlen( $_GET['mid'] ) > 0 ? esc_html( $_GET['mid'] ) : null;
-		$this->film_title_sanitized = wp_verify_nonce( $nonce_url ) > 0 && isset( $_GET['film'] ) && strlen( $_GET['film'] ) > 0 ? esc_html( $_GET['film'] ) : null;
+		$this->movieid_sanitized = wp_verify_nonce( $nonce_url ) > 0 && isset( $_GET['mid'] ) && strlen( sanitize_key( $_GET['mid'] ) ) > 0 ? sanitize_text_field( wp_unslash( $_GET['mid'] ) ) : null;
+		$this->film_title_sanitized = wp_verify_nonce( $nonce_url ) > 0 && isset( $_GET['film'] ) && strlen( sanitize_key( $_GET['film'] ) ) > 0 ? sanitize_text_field( wp_unslash( $_GET['film'] ) ) : null;
 
 		// if neither film nor mid are set, throw Exception.
 		if ( $this->movieid_sanitized === null && $this->film_title_sanitized === null ) {
@@ -204,7 +204,7 @@ class Popup_Movie {
 		// Display something when nothing has been selected in the menu.
 		if (
 			wp_verify_nonce( $nonce_url ) > 0
-			&& ( ! isset( $_GET['info'] ) || strlen( $_GET['info'] ) === 0 )
+			&& ( ! isset( $_GET['info'] ) || strlen( sanitize_key( $_GET['info'] ) ) === 0 )
 		) {
 			$this->display_intro( $this->movie );
 		}

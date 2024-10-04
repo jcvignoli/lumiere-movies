@@ -207,6 +207,7 @@ class Cache_Tools {
 	 */
 	public function cache_refresh_specific_file( string $type, string $where ): void {
 
+		$this->lumiere_wp_filesystem_cred( $this->imdb_cache_values['imdbcachedir'] ); // from Files trait.
 		global $wp_filesystem;
 
 		// prevent drama.

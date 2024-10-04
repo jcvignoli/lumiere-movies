@@ -68,11 +68,11 @@ class Popup_Search {
 
 		// Die if wrong $_GETs.
 		if (
-			! isset( $_GET['_wpnonce'] ) || ! ( wp_verify_nonce( $_GET['_wpnonce'] ) > 0 )
+			! isset( $_GET['_wpnonce'] ) || ! ( wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 )
 			|| ! isset( $_GET['norecursive'] )
 			|| $_GET['norecursive'] !== 'yes'
 			|| ! isset( $_GET['film'] )
-			|| strlen( $_GET['film'] ) === 0
+			|| strlen( sanitize_key( $_GET['film'] ) ) === 0
 		) {
 			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
 		}
@@ -88,7 +88,7 @@ class Popup_Search {
 
 		// Build the vars.
 		// @since 4.0 lowercase, less cache used.
-		$this->film_sanitized = isset( $_GET['film'] ) ? str_replace( [ '\\', '+' ], [ '', ' ' ], strtolower( $this->lumiere_name_htmlize( $_GET['film'] ) ) ) : ''; // In trait Data, which is in trait Main.
+		$this->film_sanitized = isset( $_GET['film'] ) ? str_replace( [ '\\', '+' ], [ '', ' ' ], strtolower( $this->lumiere_name_htmlize( sanitize_text_field( wp_unslash( $_GET['film'] ) ) ) ) ) : ''; // In trait Data, which is in trait Main.
 		$this->film_sanitized_for_title = $this->film_sanitized;
 
 		/**

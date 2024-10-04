@@ -149,7 +149,7 @@ class Polylang {
 			if (
 				// @phpcs:ignore WordPress.Security.NonceVerification -- it is processed in the second line, right below
 				isset( $_GET['tag_lang'] ) && $lang_object->term_id === (int) $_GET['tag_lang']
-				&& isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_GET['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) !== false
+				&& isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) !== false
 			) {
 				$output .= ' selected="selected"';
 			}
@@ -217,10 +217,10 @@ class Polylang {
 		if (
 			isset( $_GET['submit_lang'], $_GET['tag_lang'] )
 			&& isset( $_POST['_wpnonce_lum_taxo_polylangform'] )
-			&& wp_verify_nonce( $_POST['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) > 0
+			&& wp_verify_nonce( sanitize_key( $_POST['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) > 0
 		) {
 
-			if ( strlen( $_GET['tag_lang'] ) > 0 ) {
+			if ( strlen( sanitize_key( $_GET['tag_lang'] ) ) > 0 ) {
 				$success = true;
 				$message = __( 'Language successfully changed.', 'lumiere-movies' );
 				wp_send_json( [ 'success' => true ] );
@@ -230,7 +230,7 @@ class Polylang {
 				wp_send_json(
 					[
 						'msg' => __( 'No data passed', 'lumiere-movies' ),
-						'response' => esc_html( $_GET['tag_lang'] ),
+						'response' => sanitize_text_field( wp_unslash( $_GET['tag_lang'] ) ),
 						'back_link' => true,
 					]
 				);

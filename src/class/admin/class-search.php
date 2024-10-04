@@ -112,13 +112,13 @@ class Search {
 			(
 				! isset( $_GET['moviesearched'], $_GET['search_nonce'] )
 				|| wp_verify_nonce( sanitize_key( $_GET['search_nonce'] ), 'lumiere_search' ) === 0
-				|| strlen( $_GET['moviesearched'] ) === 0
+				|| strlen( sanitize_key( $_GET['moviesearched'] ) ) === 0
 			)
 			&&
 			(
 				// If there is no nonce to verify, make sure it comes from editing post
-				! isset( $_GET['moviesearched'] ) || strlen( $_GET['moviesearched'] ) === 0
-				|| ! isset( $_SERVER['HTTP_REFERER'] ) || str_contains( $_SERVER['HTTP_REFERER'], 'post.php?post=' ) === false
+				! isset( $_GET['moviesearched'] ) || strlen( sanitize_key( $_GET['moviesearched'] ) ) === 0
+				|| ! isset( $_SERVER['HTTP_REFERER'] ) || str_contains( sanitize_key( wp_unslash( $_SERVER['HTTP_REFERER'] ) ), 'post.php?post=' ) === false
 			)
 		) {
 			echo wp_kses(
@@ -145,7 +145,7 @@ class Search {
 
 		// Initialization of search and vars
 		$search = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
-		$search_term = sanitize_text_field( $_GET['moviesearched'] );
+		$search_term = sanitize_text_field( wp_unslash( $_GET['moviesearched'] ) );
 		$this->logger->log()->debug( "[Lumiere][gutenbergSearch] Querying '$search_term'" );
 		$results = $search->search( $search_term, $this->type_search );
 		$limit_search = isset( $this->imdb_admin_values['imdbmaxresults'] ) ? intval( $this->imdb_admin_values['imdbmaxresults'] ) : 5;

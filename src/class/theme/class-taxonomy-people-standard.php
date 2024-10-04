@@ -329,12 +329,12 @@ class Taxonomy_People_Standard {
 
 			// A Polylang form exists and a value was passed in the Polylang form.
 			if (
-				isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( $_GET['_wpnonce_lum_taxo_polylangform'], 'lum_taxo_polylangform' ) > 0
+				isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) > 0
 				&& isset( $this->plugins_classes_active['polylang'] )
-				&& isset( $_GET['tag_lang'] ) && strlen( $_GET['tag_lang'] ) > 0
+				&& isset( $_GET['tag_lang'] ) && strlen( sanitize_key( $_GET['tag_lang'] ) ) > 0
 			) {
 				$args = $this->plugins_classes_active['polylang']->get_polylang_taxo_query(
-					$_GET['tag_lang'],
+					sanitize_text_field( wp_unslash( $_GET['tag_lang'] ) ),
 					$this->imdb_admin_values['imdburlstringtaxo'],
 					$this->person_name,
 					$people

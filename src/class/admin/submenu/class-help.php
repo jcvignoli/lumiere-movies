@@ -95,19 +95,19 @@ class Help extends Admin_Menu {
 		);
 
 		// Changelog section.
-		if ( wp_verify_nonce( $nonce, 'check_display_page' ) > 0 && isset( $_GET['subsection'] ) && str_contains( $this->page_help_changelog, $_GET['subsection'] ) === true ) {
+		if ( wp_verify_nonce( $nonce, 'check_display_page' ) > 0 && isset( $_GET['subsection'] ) && str_contains( $this->page_help_changelog, sanitize_text_field( wp_unslash( $_GET['subsection'] ) ) ) === true ) {
 			$this->display_changelog();
 
 			// Faqs section.
-		} elseif ( isset( $_GET['subsection'] ) && str_contains( $this->page_help_faqs, $_GET['subsection'] ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
+		} elseif ( isset( $_GET['subsection'] ) && str_contains( $this->page_help_faqs, sanitize_text_field( wp_unslash( $_GET['subsection'] ) ) ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
 			$this->display_faqs();
 
 			// Support section.
-		} elseif ( ( isset( $_GET['subsection'] ) ) && str_contains( $this->page_help_support, $_GET['subsection'] ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
+		} elseif ( ( isset( $_GET['subsection'] ) ) && str_contains( $this->page_help_support, sanitize_text_field( wp_unslash( $_GET['subsection'] ) ) ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
 			$this->display_support();
 
 			// How to section, default.
-		} elseif ( ( isset( $_GET['subsection'] ) && str_contains( $this->page_help, $_GET['subsection'] ) === true ) || ! isset( $_GET['subsection'] ) && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
+		} elseif ( ( isset( $_GET['subsection'] ) && str_contains( $this->page_help, sanitize_text_field( wp_unslash( $_GET['subsection'] ) ) ) === true ) || ! isset( $_GET['subsection'] ) && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
 
 			// Default.
 			$this->include_with_vars(

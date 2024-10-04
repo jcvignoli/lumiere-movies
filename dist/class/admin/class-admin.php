@@ -172,14 +172,14 @@ class Admin {
 			|| 'post-new.php' === $page_caller
 			|| 'widgets.php' === $page_caller
 			// All Lumière pages.
-			|| Utils::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, $_SERVER['REQUEST_URI'] ?? '' )
+			|| Utils::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) )
 			// Extra WP Admin pages.
 			|| Utils::lumiere_array_contains_term(
 				[
 					'admin.php?page=lumiere_options',
 					'options-general.php?page=lumiere_options',
 				],
-				$_SERVER['REQUEST_URI'] ?? ''
+				sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) )
 			)
 		) {
 
@@ -267,7 +267,7 @@ class Admin {
 
 		// Display only in admin area.
 		if (
-			stripos( $_SERVER['REQUEST_URI'] ?? '', site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) !== 0
+			stripos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) !== 0
 			|| is_admin()
 		) {
 			return;

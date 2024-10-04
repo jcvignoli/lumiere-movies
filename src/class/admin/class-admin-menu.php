@@ -145,7 +145,7 @@ class Admin_Menu {
 		if (
 			isset( $_GET['taxotype'] )
 			&& isset( $_GET['_wpnonce_linkcopytaxo'] )
-			&& wp_verify_nonce( $_GET['_wpnonce_linkcopytaxo'], 'linkcopytaxo' ) > 0
+			&& wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0
 		) {
 			add_action( 'admin_init', fn() => Copy_Template_Taxonomy::lumiere_start_copy_taxo( $that->page_data_taxo ) );
 		}

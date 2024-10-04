@@ -36,7 +36,7 @@ trait Admin_General {
 	 * @return string
 	 */
 	public function lumiere_get_current_admin_url() {
-		$current = admin_url( str_replace( site_url( '', 'relative' ) . '/wp-admin', '', $_SERVER['REQUEST_URI'] ?? '' ) );
+		$current = admin_url( str_replace( site_url( '', 'relative' ) . '/wp-admin', '', sanitize_key( $_SERVER['REQUEST_URI'] ?? '' ) ) );
 		return $current;
 	}
 

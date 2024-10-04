@@ -72,9 +72,9 @@ class Aioseo {
 			isset( $_SERVER['REQUEST_URI'] )
 			&&
 			(
-				str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringfilms )
-				|| str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringsearch )
-				|| str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringperson )
+				str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $this->config_class->lumiere_urlstringfilms )
+				|| str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $this->config_class->lumiere_urlstringsearch )
+				|| str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $this->config_class->lumiere_urlstringperson )
 			)
 		) {
 			return true;

@@ -172,7 +172,7 @@ class Metabox_Selection {
 	 */
 	public function save_custom_meta_box( int $post_id, \WP_Post $post ): void {
 
-		if ( ! isset( $_POST['lum_metabox_nonce'] ) || wp_verify_nonce( $_POST['lum_metabox_nonce'], basename( __FILE__ ) ) === false ) {
+		if ( ! isset( $_POST['lum_metabox_nonce'] ) || wp_verify_nonce( sanitize_key( $_POST['lum_metabox_nonce'] ), basename( __FILE__ ) ) === false ) {
 			return;
 		}
 
@@ -190,9 +190,9 @@ class Metabox_Selection {
 			return;
 		}*/
 
-		$lum_form_type_query = isset( $_POST['lum_form_type_query'] ) ? esc_html( $_POST['lum_form_type_query'] ) : null;
-		$lum_form_query_value = isset( $_POST['lum_form_query_value'] ) ? esc_html( $_POST['lum_form_query_value'] ) : null;
-		$lumiere_autotitlewidget_perpost = isset( $_POST['lumiere_autotitlewidget_perpost'] ) ? esc_html( $_POST['lumiere_autotitlewidget_perpost'] ) : 'enabled';
+		$lum_form_type_query = isset( $_POST['lum_form_type_query'] ) ? sanitize_text_field( wp_unslash( $_POST['lum_form_type_query'] ) ) : null;
+		$lum_form_query_value = isset( $_POST['lum_form_query_value'] ) ? sanitize_text_field( wp_unslash( $_POST['lum_form_query_value'] ) ) : null;
+		$lumiere_autotitlewidget_perpost = isset( $_POST['lumiere_autotitlewidget_perpost'] ) ? sanitize_text_field( wp_unslash( $_POST['lumiere_autotitlewidget_perpost'] ) ) : 'enabled';
 
 		// Create or update the metas.
 		if ( isset( $lum_form_query_value ) && isset( $lum_form_type_query ) ) {

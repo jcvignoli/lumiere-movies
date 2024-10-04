@@ -95,9 +95,9 @@ class Head_Popups {
 			isset( $_SERVER['REQUEST_URI'] )
 			&&
 			(
-				str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringfilms )
-				|| str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringsearch )
-				|| str_contains( $_SERVER['REQUEST_URI'], $this->config_class->lumiere_urlstringperson )
+				str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $this->config_class->lumiere_urlstringfilms )
+				|| str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $this->config_class->lumiere_urlstringsearch )
+				|| str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $this->config_class->lumiere_urlstringperson )
 			)
 		) {
 			return true;
@@ -151,14 +151,14 @@ class Head_Popups {
 
 		// Add canonical.
 		// Canonical for search popup.
-		if ( 0 === stripos( $_SERVER['REQUEST_URI'] ?? '', site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) && $sanitized_film !== false ) {
+		if ( 0 === stripos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) && $sanitized_film !== false ) {
 
 			$my_canon = $this->config_class->lumiere_urlpopupsearch . '?film=' . $sanitized_film . '&norecursive=yes';
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 		}
 
 		// Canonical for movies popups.
-		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->config_class->lumiere_urlstringfilms ) && is_string( $sanitized_mid ) ) {
+		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), $this->config_class->lumiere_urlstringfilms ) && is_string( $sanitized_mid ) ) {
 
 			$url_str_info = $sanitized_info === false ? '' : '&info=' . $sanitized_info;
 			$url_str_film = $sanitized_film === false ? '' : '&film=' . $sanitized_film;
@@ -173,7 +173,7 @@ class Head_Popups {
 		}
 
 		// Canonical for people popups.
-		if ( str_contains( $_SERVER['REQUEST_URI'] ?? '', $this->config_class->lumiere_urlstringperson ) && is_string( $sanitized_mid ) ) {
+		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), $this->config_class->lumiere_urlstringperson ) && is_string( $sanitized_mid ) ) {
 
 			$url_str_info = $sanitized_info === false ? '' : '&info=' . $sanitized_info;
 			$my_canon = $this->config_class->lumiere_urlpopupsperson . $sanitized_mid . '/?mid=' . $sanitized_mid . $url_str_info;
