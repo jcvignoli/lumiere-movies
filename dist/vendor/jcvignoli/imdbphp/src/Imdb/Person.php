@@ -63,7 +63,7 @@ class Person extends MdbBase
     protected $nick_name = array();
     protected $bodyheight = array();
     protected $spouses = array();
-    protected $bio_bio = array();
+    protected $bioBio = array();
     protected $bio_trivia = array();
     protected $bio_tm = array();
     protected $bio_salary = array();
@@ -71,7 +71,7 @@ class Person extends MdbBase
 
     // "Publicity" page:
     protected $pub_prints = array();
-    protected $pub_movies = array();
+    protected $pubMovies = array();
     protected $pub_portraits = array();
     protected $pub_interviews = array();
     protected $pub_articles = array();
@@ -801,60 +801,39 @@ public function died()
      */
     public function bio()
     {
-        if (empty($this->bio_bio)) {
-            $page = $this->getPage("Bio");
-            if (!$page) {
-                return array();
-            } // no such page
-            if (preg_match(
-/**                '!<h4 class="li_group">Mini Bio[^>]+?>(.+?)<(h4 class="li_group"|div class="article")!ims', */
-// updated by @jc_vignoli 3.8.2023
-                '!<span id="mini_bio">Mini Bio<\/span>(.+?)role="presentation"><\/div><\/div><\/li><\/ul><\/div><\/section>!ims',
-                $page,
-                $block
-            )) {
-                preg_match_all(
-//                    '!<div class="soda.*?\s*<p>\s*(?<bio>.+?)\s</p>\s*<p><em>- IMDb Mini Biography By:\s*(?<author>.+?)\s*</em>!ims',
-// updated by @jc_vignoli 3.8.2023
-                    '!<div class="ipc-html-content-inner-div">(?<bio>.+?)<div class="ipc-html-content ipc-html-content--base.+?" role="presentation">(<div class="ipc-html-content-inner-div">- IMDb Mini Biography By:\s)?(?<author>.+?)?<\/div><\/div>(<\/li>)?<\/ul>!ims',
-                    $block[1],
-                    $matches
-                );
-                for ($i = 0; $i < count($matches[0]); ++$i) {
-                    $bio_bio["desc"] = str_replace(
-                    	'?ref_=nmbio_mbio',
-                    	'',
-                    	str_replace(
-		                "class=\"ipc-md-link ipc-md-link--entity\" href=\"/name/nm",
-		                "href=\"https://" . $this->imdbsite . "/name/nm",
-		                str_replace(
-		                    "class=\"ipc-md-link ipc-md-link--entity\" href=\"/title/tt",
-		                    "href=\"https://" . $this->imdbsite . "/title/tt",
-		                    str_replace(
-		                        '/search/name',
-		                        'https://' . $this->imdbsite . '/search/name',
-		                        $matches['bio'][$i]
-		                    )
-		                )
-		               )
-                    );
-                    $author = 'Written by ' . (str_replace(
-                        '/search/name',
-                        'https://' . $this->imdbsite . '/search/name',
-                        $matches['author'][$i]
-                    ));
-                    if (@preg_match('!href="(.+?)"[^>]*>\s*(.*?)\s*</a>!', $author, $match)) {
-                        $bio_bio["author"]["url"] = $match[1];
-                        $bio_bio["author"]["name"] = $match[2];
-                    } else {
-                        $bio_bio["author"]["url"] = '';
-                        $bio_bio["author"]["name"] = trim($matches['author'][$i]);
+        if (empty($this->bioBio)) {
+            $query = <<<EOF
+query MiniBio(\$id: ID!) {
+  name(id: \$id) {
+    bios(first: 9999) {
+      edges {
+        node {
+          text {
+            plainText
+          }
+          author {
+            plainText
+          }
+        }
+      }
+    }
+  }
+}
+EOF;
+            $data = $this->graphql->query($query, "MiniBio", ["id" => "nm$this->imdbID"]);
+            foreach ($data->name->bios->edges as $edge) {
+                $bio_bio["desc"] = isset($edge->node->text->plainText) ? $edge->node->text->plainText : '';
+                $bioAuthor = '';
+                if ($edge->node->author != null) {
+                    if (isset($edge->node->author->plainText)) {
+                        $bioAuthor = $edge->node->author->plainText;
                     }
-                    $this->bio_bio[] = $bio_bio;
                 }
+                $bio_bio["author"] = $bioAuthor;
+                $this->bioBio[] = $bio_bio;
             }
         }
-        return $this->bio_bio;
+        return $this->bioBio;
     }
 
     #-----------------------------------------[ Helper to Trivia, Quotes, ... ]---
@@ -1088,48 +1067,39 @@ EOF;
      */
     public function pubmovies()
     {
-        if (empty($this->pub_movies)) {
+        if (empty($this->pubMovies)) {
+            $filter = ', filter: {categories: ["nameFilmBiography"]}';
             $query = <<<EOF
-query PubFilm(\$id: ID!) {
-  name(id: \$id) {
-    publicityListings(first: 9999, filter: {categories: ["nameFilmBiography"]}) {
-      edges {
-        node {
-          ... on NameFilmBiography {
-            title {
-              titleText {
-                text
-              }
-              id
-              releaseYear {
-                year
-              }
-              series {
-                displayableEpisodeNumber {
-                  displayableSeason {
-                    text
-                  }
-                  episodeNumber {
-                    text
-                  }
-                }
-                series {
+              ... on NameFilmBiography {
+                title {
                   titleText {
                     text
                   }
+                  id
+                  releaseYear {
+                    year
+                  }
+                  series {
+                    displayableEpisodeNumber {
+                      displayableSeason {
+                        text
+                      }
+                      episodeNumber {
+                        text
+                      }
+                    }
+                    series {
+                      titleText {
+                        text
+                      }
+                    }
+                  }
                 }
               }
-            }
-          }
-        }
-      }
-    }
-  }
-}
 EOF;
-            $data = $this->graphql->query($query, "PubFilm", ["id" => "nm$this->imdbID"]);
+            $data = $this->graphQlGetAll("PubFilm", "publicityListings", $query, $filter);
             if ($data != null) {
-                foreach ($data->name->publicityListings->edges as $edge) {
+                foreach ($data as $edge) {
                     $filmTitle = isset($edge->node->title->titleText->text) ? $edge->node->title->titleText->text : '';
                     $filmId = isset($edge->node->title->id) ? str_replace('tt', '', $edge->node->title->id) : '';
                     $filmYear = isset($edge->node->title->releaseYear->year) ? $edge->node->title->releaseYear->year : '';
@@ -1143,7 +1113,7 @@ EOF;
                         $filmSeriesEpisode = isset($edge->node->title->series->displayableEpisodeNumber->episodeNumber->text) ?
                                                    $edge->node->title->series->displayableEpisodeNumber->episodeNumber->text : '';
                     }
-                    $this->pub_movies[] = array(
+                    $this->pubMovies[] = array(
                         "title" => $filmTitle,
                         "id" => $filmId,
                         "year" => $filmYear,
@@ -1152,9 +1122,11 @@ EOF;
                         "seriesEpisode" => $filmSeriesEpisode,
                     );
                 }
+            } else {
+                return $this->pubMovies;
             }
         }
-        return $this->pub_movies;
+        return $this->pubMovies;
     }
 
     #-----------------------------------------------------------[ Portrayed in ]---
@@ -1395,5 +1367,49 @@ EOF;
         }
 
         return $this->jsonLD = $jsonLD;
+    }
+    
+    #-----------------------------------------[ Helper GraphQL Paginated ]---
+    /**
+     * Get all edges of a field in the name type
+     * @param string $queryName The cached query name
+     * @param string $fieldName The field on name you want to get
+     * @param string $nodeQuery Graphql query that fits inside node { }
+     * @param string $filter Add's extra Graphql query filters like categories
+     * @return \stdClass[]
+     */
+    protected function graphQlGetAll($queryName, $fieldName, $nodeQuery, $filter = '')
+    {
+        $query = <<<EOF
+query $queryName(\$id: ID!, \$after: ID) {
+  name(id: \$id) {
+    $fieldName(first: 9999, after: \$after$filter) {
+      edges {
+        node {
+          $nodeQuery
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+}
+EOF;
+        // strip spaces from query due to hosters request limit
+        $fullQuery = implode("\n", array_map('trim', explode("\n", $query)));
+
+        // Results are paginated, so loop until we've got all the data
+        $endCursor = null;
+        $hasNextPage = true;
+        $edges = array();
+        while ($hasNextPage) {
+            $data = $this->graphql->query($fullQuery, $queryName, ["id" => "nm$this->imdbID", "after" => $endCursor]);
+            $edges = array_merge($edges, $data->name->{$fieldName}->edges);
+            $hasNextPage = $data->name->{$fieldName}->pageInfo->hasNextPage;
+            $endCursor = $data->name->{$fieldName}->pageInfo->endCursor;
+        }
+        return $edges;
     }
 }

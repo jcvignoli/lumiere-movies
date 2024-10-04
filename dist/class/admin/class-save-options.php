@@ -528,11 +528,13 @@ class Save_Options {
 		 */
 		if ( isset( $_POST['imdbwidgetorderContainer'] ) ) {
 
-			/** @psalm-suppress RedundantCondition -- int always contains numeric -- I know, but need to sanitize. */
-			$data_keys_filtered = array_filter( array_keys( wp_unslash( $_POST['imdbwidgetorderContainer'] ) ), 'is_numeric' );
+			/**
+			 * @psalm-suppress InvalidArgument
+			 * @phpstan-ignore argument.type
+			 */
+			$data_keys_filtered = array_map( 'sanitize_text_field', array_keys( wp_unslash( $_POST['imdbwidgetorderContainer'] ) ) );
 
-			/** @psalm-suppress RedundantCondition -- Type string [...] is always string -- I know, but need to sanitize. */
-			$data_values_filtered = array_filter( wp_unslash( $_POST['imdbwidgetorderContainer'] ), 'is_string' );
+			$data_values_filtered = array_map( 'sanitize_text_field', wp_unslash( $_POST['imdbwidgetorderContainer'] ) );
 
 			$imdbwidgetorder_sanitized = array_combine( $data_values_filtered, $data_keys_filtered );
 

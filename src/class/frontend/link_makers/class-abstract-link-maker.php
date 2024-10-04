@@ -302,8 +302,9 @@ abstract class Abstract_Link_Maker {
 		// Calculate the number of bio results.
 		$nbtotalbio = count( $bio_array );
 
-		// Select the index array according to the number of bio results.
-		$idx = $nbtotalbio < 2 ? $idx = 0 : $idx = 1;
+		// Select the index array according to the number of bio results. -- 2024 10 04 set to 0 always
+		// $idx = $nbtotalbio < 2 ? $idx = 0 : $idx = 1;
+		$idx = 0;
 
 		$bio_text = isset( $bio_array[ $idx ]['desc'] ) ? trim( str_replace( [ '<br>', '<br />', '<br/>', '</div>' ], ' ', $bio_array[ $idx ]['desc'] ) ) : '';
 
