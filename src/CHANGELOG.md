@@ -1,6 +1,6 @@
 **Changelog**
 
-v.4.1.9
+v.4.2
 * [technical] Compatible 6.7 (load_plugin_textdomain() is loaded in add_action('init') in class Core)
 * [technical] Better sanitization according to new WordPress rules
 * [bug] Fixed biography, wasn't available (moving to imdbGraphQLPHP, IMDbPHP is not maintained anymore)

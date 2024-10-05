@@ -171,6 +171,7 @@ class Popup_Person {
 					'strong' => [],
 					'div' => [
 						'align' => [],
+						'rel' => [],
 						'class' => [],
 					],
 					'i' => [],
@@ -196,6 +197,7 @@ class Popup_Person {
 					'strong' => [],
 					'div' => [
 						'align' => [],
+						'rel' => [],
 						'class' => [],
 					],
 					'i' => [],
@@ -214,7 +216,25 @@ class Popup_Person {
 			wp_verify_nonce( $nonce_url ) > 0
 			&& isset( $_GET['info'] ) && $_GET['info'] === 'bio'
 		) {
-			$this->display_bio();
+			echo wp_kses(
+				$this->display_bio(),
+				[
+					'span' => [ 'class' => [] ],
+					'div' => [
+						'align' => [],
+						'class' => [],
+						'id' => [],
+					],
+					'a' => [
+						'href' => [],
+						'rel' => [],
+						'class' => [],
+					],
+					'font' => [ 'size' => [] ],
+					'strong' => [],
+					'i' => [],
+				]
+			);
 		}
 
 		// ------------------------------------------------------------------------------ misc part
@@ -312,28 +332,28 @@ class Popup_Person {
 	/**
 	 * Display biography
 	 */
-	private function display_bio(): void {
+	private function display_bio(): string {
 
 		$biomovie = $this->person->pubmovies();
 		$nbtotalbiomovie = count( $biomovie );
+		$output = '';
 
 		if ( $nbtotalbiomovie !== 0 ) {
 
-			echo "\n\t\t\t\t\t\t\t" . ' <!-- Biographical movies -->';
-			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Biographical movie', 'Biographical movies', $nbtotalbiomovie, 'lumiere-movies' ) ) . '</span>';
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Biographical movies -->';
+			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Biographical movie', 'Biographical movies', $nbtotalbiomovie, 'lumiere-movies' ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalbiomovie; ++$i ) {
 
-				echo "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $biomovie[ $i ]['id'] ) ) . "'>" . esc_html( $biomovie[ $i ]['title'] ) . '</a>';
+				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $biomovie[ $i ]['id'] ) ) . "'>" . esc_html( $biomovie[ $i ]['title'] ) . '</a>';
 
 				if ( isset( $biomovie[ $i ]['year'] ) && $biomovie[ $i ]['year'] > 0 ) {
-					echo ' (' . intval( $biomovie[ $i ]['year'] ) . ') ';
+					$output .= ' (' . intval( $biomovie[ $i ]['year'] ) . ') ';
 				}
 			}
 
-			echo '</div>';
-
+			$output .= '</div>';
 		}
 
 		############## Portrayed in
@@ -343,20 +363,20 @@ class Popup_Person {
 
 		if ( $nbtotalportrayedmovie !== 0 ) {
 
-			echo "\n\t\t\t\t\t\t\t" . ' <!-- Portrayed in -->';
-			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Portrayed in', 'lumiere-movies' ) . '</span>';
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Portrayed in -->';
+			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Portrayed in', 'lumiere-movies' ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalportrayedmovie; ++$i ) {
 
-				echo "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $portrayedmovie[ $i ]['imdb'] ) ) . "'>" . esc_html( $portrayedmovie[ $i ]['name'] ) . '</a>';
+				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $portrayedmovie[ $i ]['imdb'] ) ) . "'>" . esc_html( $portrayedmovie[ $i ]['name'] ) . '</a>';
 
 				if ( isset( $portrayedmovie[ $i ]['year'] ) && strlen( $portrayedmovie[ $i ]['year'] ) !== 0 ) {
-					echo ' (' . intval( $portrayedmovie[ $i ]['year'] ) . ') ';
+					$output .= ' (' . intval( $portrayedmovie[ $i ]['year'] ) . ') ';
 				}
 			}
 
-			echo '</div>';
+			$output .= '</div>';
 
 		}
 
@@ -367,29 +387,29 @@ class Popup_Person {
 
 		if ( $nbtotalinterviews !== 0 ) {
 
-			echo "\n\t\t\t\t\t\t\t" . ' <!-- Interviews -->';
-			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Interview', 'Interviews', $nbtotalinterviews, 'lumiere-movies' ) ) . '</span>';
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Interviews -->';
+			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Interview', 'Interviews', $nbtotalinterviews, 'lumiere-movies' ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalinterviews; $i++ ) {
 
-				echo esc_html( $interviews[ $i ]['name'] ) . ' ';
+				$output .= esc_html( $interviews[ $i ]['name'] ) . ' ';
 
 				if ( isset( $interviews[ $i ]['full'] ) && strlen( $interviews[ $i ]['full'] ) !== 0 ) {
-					echo ' (' . intval( $interviews[ $i ]['full'] ) . ') ';
+					$output .= ' (' . intval( $interviews[ $i ]['full'] ) . ') ';
 				}
 
 				if ( isset( $interviews[ $i ]['details'] ) && strlen( $interviews[ $i ]['details'] ) !== 0 ) {
-					echo esc_html( $interviews[ $i ]['details'] );
+					$output .= esc_html( $interviews[ $i ]['details'] );
 				}
 
 				if ( $i < $nbtotalinterviews - 1 ) {
-					echo ', ';
+					$output .= ', ';
 				}
 
 			}
 
-			echo '</div>';
+			$output .= '</div>';
 
 		}
 
@@ -401,51 +421,50 @@ class Popup_Person {
 
 		if ( $nbtotalpubprints !== 0 ) {
 
-			echo "\n\t\t\t\t\t\t\t" . ' <!-- Publicity printed -->';
-			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="lum_results_section_subtitle">'
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Publicity printed -->';
+			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">'
 				. esc_html( _n( 'Print ads', 'Printed ads', $nbtotalpubprints, 'lumiere-movies' ) )
 				. '</span>';
 			for ( $i = 0; $i < $nbtotalpubprints; $i++ ) {
 
 				// Display a "show more" after XX results
 				if ( $i === $nblimitpubprints ) {
-					echo "\n\t" . '<span class="activatehidesection"><font size="-1"><strong>&nbsp;('
+					$output .= "\n\t" . '<span class="activatehidesection"><font size="-1"><strong>&nbsp;('
 						. esc_html__( 'see all', 'lumiere-movies' )
 						. ')</strong></font></span> '
 						. "\n\t" . '<span class="hidesection">';
 				}
 
 				if ( isset( $pubprints[ $i ]['author'][0] ) && strlen( $pubprints[ $i ]['author'][0] ) !== 0 ) {
-					echo "\n\t\t" . esc_html( $pubprints[ $i ]['author'][0] );
+					$output .= "\n\t\t" . esc_html( $pubprints[ $i ]['author'][0] );
 				}
 
 				if ( isset( $pubprints[ $i ]['title'] ) && strlen( $pubprints[ $i ]['title'] ) !== 0 ) {
-					echo ' <i>' . esc_html( $pubprints[ $i ]['title'] ) . '</i> ';
+					$output .= ' <i>' . esc_html( $pubprints[ $i ]['title'] ) . '</i> ';
 				}
 
 				if ( isset( $pubprints[ $i ]['year'] ) && strlen( $pubprints[ $i ]['year'] ) !== 0 ) {
-					echo '(' . intval( $pubprints[ $i ]['year'] ) . ')';
+					$output .= '(' . intval( $pubprints[ $i ]['year'] ) . ')';
 				}
 
 				if ( isset( $pubprints[ $i ]['details'] ) && strlen( $pubprints[ $i ]['details'] ) !== 0 ) {
-					echo esc_html( $pubprints[ $i ]['details'] ) . ' ';
+					$output .= esc_html( $pubprints[ $i ]['details'] ) . ' ';
 				}
 
 				if ( $i < ( $nbtotalpubprints - 1 ) ) {
-					echo ', ';
+					$output .= ', ';
 				}
 
 				if ( $i === ( $nbtotalpubprints - 1 ) ) {
-					echo "\n\t" . '</span>';
+					$output .= "\n\t" . '</span>';
 				}
-
 			}
 
-			echo "\n" . '</div>';
+			$output .= "\n" . '</div>';
 
 		}
-
+		return $output;
 	}
 
 	/**
