@@ -1,8 +1,10 @@
 **Changelog**
 
 v.4.1.9
+* [technical] Compatible 6.7 (load_plugin_textdomain() is loaded in add_action('init') in class Core)
 * [technical] Better sanitization according to new WordPress rules
-* [bug] Fixed biography, wasn't available (in IMDbPHP)
+* [bug] Fixed biography, wasn't available (moving to imdbGraphQLPHP, IMDbPHP is not maintained anymore)
+* [bug] Fixed all movies display for People's popup, (moving to imdbGraphQLPHP, IMDbPHP is not maintained anymore)
 
 v.4.1.8
 * [bug] Fatal error if plot is null ("Argument #1 ($plot) must be of type string, null given, called in class/frontend/class-movie-data.php on line 1064")

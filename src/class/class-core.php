@@ -93,12 +93,22 @@ class Core {
 		add_action( 'init', fn() => Admin\Cron::lumiere_cron_start() );
 
 		// Call the translation.
-		load_plugin_textdomain( 'lumiere-movies', false, plugin_dir_path( __DIR__ ) . 'languages/' );
+		add_action( 'init', [ $this, 'lum_lang_load' ] );
 
 		// WP-CLI commands, use the cli class and stop the execution.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			add_action( 'cli_init', fn() => Tools\Cli_Commands::lumiere_static_start() );
 		}
+	}
+
+	/**
+	 * Load language textdomain
+	 * This function allows translate all English strings
+	 *
+	 * @since 4.1.9
+	 */
+	public function lum_lang_load(): void {
+		load_plugin_textdomain( 'lumiere-movies', false, plugin_dir_path( __DIR__ ) . 'languages/' );
 	}
 
 	/**

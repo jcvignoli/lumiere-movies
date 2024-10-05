@@ -163,7 +163,24 @@ class Popup_Person {
 			wp_verify_nonce( $nonce_url ) > 0
 			&& ( ! isset( $_GET['info'] ) || strlen( sanitize_text_field( wp_unslash( $_GET['info'] ) ) ) === 0 )
 		) {
-			$this->display_summary();
+			echo wp_kses(
+				$this->display_summary(),
+				[
+					'span' => [ 'class' => [] ],
+					'font' => [ 'size' => [] ],
+					'strong' => [],
+					'div' => [
+						'align' => [],
+						'class' => [],
+					],
+					'i' => [],
+					'a' => [
+						'href' => [],
+						'rel' => [],
+						'class' => [],
+					],
+				]
+			);
 		}
 
 		//--------------------------------------------------------------------------- full filmography
@@ -171,7 +188,25 @@ class Popup_Person {
 			wp_verify_nonce( $nonce_url ) > 0
 			&& isset( $_GET['info'] ) && $_GET['info'] === 'filmo'
 		) {
-			$this->display_full_filmo();
+			echo wp_kses(
+				$this->display_full_filmo(),
+				[
+					'span' => [ 'class' => [] ],
+					'font' => [ 'size' => [] ],
+					'strong' => [],
+					'div' => [
+						'align' => [],
+						'class' => [],
+					],
+					'i' => [],
+					'a' => [
+						'href' => [],
+						'rel' => [],
+						'class' => [],
+					],
+				]
+			);
+
 		}
 
 		// ------------------------------------------------------------------------------ partie bio
@@ -235,202 +270,43 @@ class Popup_Person {
 	 * Display summary page
 	 * Director actor and producer filmography
 	 */
-	private function display_summary(): void {
+	private function display_summary(): string {
 
-		$list_all_movies_functions = [ 'director', 'actor' ];
-		$nblimitcatmovies = 9;
+		$list_roles = [ // list of types of movies to query translated
+			'director' => esc_html__( 'director', 'lumiere-movies' ),
+			'actor' => esc_html__( 'actor', 'lumiere-movies' ),
+			'actress' => esc_html__( 'actress', 'lumiere-movies' ),
+		];
+		$max_films = 9; // max number of movies before breaking with "see all"
 
-		foreach ( $list_all_movies_functions as $var ) {
-
-			// Build function name based on var $list_all_movies_functions list.
-			$method = "movies_{$var}";
-
-			$filmo = $this->person->$method();
-
-			$catname = ucfirst( $var );
-
-			if ( ( isset( $filmo ) ) && count( $filmo ) !== 0 ) {
-
-				$nbfilmpercat = 0;
-				$nbtotalfilmo = count( $filmo );
-				$nbtotalfilms = $nbtotalfilmo - $nbfilmpercat;
-
-				echo "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( $catname ) . ' filmography -->';
-				echo "\n\t" . '<div align="center" class="lumiere_container">';
-				echo "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-
-				echo "\n\t" . '<div>';
-				echo "\n\t\t" . '<span class="lum_results_section_subtitle">' . esc_html( $catname ) . ' filmography </span>';
-
-				for ( $i = 0; $i < $nbtotalfilmo; $i++ ) {
-
-					echo " <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $filmo[ $i ]['mid'] ) ) . "'>" . esc_html( $filmo[ $i ]['name'] ) . '</a>';
-
-					if ( strlen( $filmo[ $i ]['year'] ) !== 0 ) {
-						echo ' (';
-						echo intval( $filmo[ $i ]['year'] );
-						echo ')';
-					}
-
-					if ( isset( $filmo[ $i ]['chname'] ) && strlen( $filmo[ $i ]['chname'] ) !== 0 ) {
-						echo ' as <i>' . esc_html( $filmo[ $i ]['chname'] ) . '</i>';
-
-					}
-
-					// Display a "show more" after XX results
-					if ( $i === $nblimitcatmovies ) {
-						echo '&nbsp;<span class="activatehidesection"><font size="-1"><strong>('
-							. esc_html__( 'see all', 'lumiere-movies' )
-							. ')</strong></font></span> '
-							. '<span class="hidesection">';
-					}
-
-					if ( $i === $nbtotalfilmo ) {
-						echo '</span>';
-					}
-
-					$nbfilmpercat++;
-				}
-
-				echo "\n\t" . '</div>';
-			}
-
-		}
-
+		return $this->get_movies( $list_roles, $max_films );
 	}
 
 	/**
 	 * Display full filmography page
 	 */
-	private function display_full_filmo(): void {
+	private function display_full_filmo(): string {
 
-		/* vars */
-		$list_all_movies_functions = [ 'director', 'actor', 'producer', 'archive', 'crew', 'self', 'soundtrack', 'thanx', 'writer' ]; # list of types of movies to query
-		$nblimitmovies = 5; # max number of movies before breaking with "see all"
+		$list_roles = [ // list of types of movies to query translated
+			'director' => esc_html__( 'director', 'lumiere-movies' ),
+			'actor' => esc_html__( 'actor', 'lumiere-movies' ),
+			'actress' => esc_html__( 'actress', 'lumiere-movies' ),
+			'assistantDirector' => esc_html__( 'assistant director', 'lumiere-movies' ),
+			'showrunner' => esc_html__( 'showrunner', 'lumiere-movies' ),
+			'writer' => esc_html__( 'writer', 'lumiere-movies' ),
+			'cinematographer' => esc_html__( 'cinematographer', 'lumiere-movies' ),
+			'producer' => esc_html__( 'producer', 'lumiere-movies' ),
+			'editor' => esc_html__( 'editor', 'lumiere-movies' ),
+			'self' => esc_html__( 'self', 'lumiere-movies' ),
+			'soundtrack' => esc_html__( 'soundtrack', 'lumiere-movies' ),
+			'archiveFootage' => esc_html__( 'archive footage', 'lumiere-movies' ),
+			'thanks' => esc_html__( 'thanks', 'lumiere-movies' ),
+			'stunts' => esc_html__( 'stunts', 'lumiere-movies' ),
+			'artDepartment' => esc_html__( 'art department', 'lumiere-movies' ),
+		];
+		$max_films = 15; // max number of movies before breaking with "see all"
 
-		foreach ( $list_all_movies_functions as $var ) {
-
-			// Build the function using the vars.
-			$method = "movies_$var";
-
-			$filmo = $this->person->$method();
-
-			$catname = ucfirst( $var );
-
-			if ( ( isset( $filmo ) ) && count( $filmo ) !== 0 ) {
-				$nbfilmpercat = 0;
-				$nbtotalfilmo = count( $filmo );
-				$nbtotalfilms = $nbtotalfilmo - $nbfilmpercat;
-
-				echo "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( $catname ) . ' filmography -->';
-				echo "\n" . '<div>';
-				echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( $catname ) . ' filmography</span> (' . esc_html( strval( $nbtotalfilms ) ) . ')';
-
-				for ( $i = 0; $i < $nbtotalfilmo; $i++ ) {
-
-					// Display a "show more" after XX results
-					if ( $i === $nblimitmovies ) {
-						echo "\n\t" . '<span class="activatehidesection"><font size="-1"><strong>&nbsp;('
-							. esc_html__( 'see all', 'lumiere-movies' )
-							. ')</strong></font></span> '
-							. "\n\t" . '<div class="hidesection">'; # start of hidden div
-					}
-
-					// after XX results, show a table like list of results
-
-					if ( $i >= $nblimitmovies ) {
-
-						echo "\n\t\t" . '<div align="center" class="lumiere_container">';
-						echo "\n\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-						echo "\n\t\t\t\t <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='"
-							. esc_url(
-								$this->config_class->lumiere_urlpopupsfilms
-								. '?mid=' . esc_html( $filmo[ $i ]['mid'] )
-							)
-							. "'>"
-							. esc_html( $filmo[ $i ]['name'] )
-							. '</a>';
-						if ( strlen( $filmo[ $i ]['year'] ) !== 0 ) {
-							echo ' (';
-							echo intval( $filmo[ $i ]['year'] );
-							echo ')';
-						}
-						echo "\n\t\t\t" . '</div>';
-						echo "\n\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-
-						if ( ( ! isset( $filmo['chid'] ) || strlen( $filmo['chid'] ) === 0 ) && ( strlen( $filmo[ $i ]['chname'] ) !== 0 ) ) {
-							echo ' as <i>'
-								. esc_html( $filmo[ $i ]['chname'] )
-								. '</i>';
-
-						} elseif ( isset( $filmo['chid'] ) && count( $filmo['chid'] ) !== 0 ) {
-							echo ' as <i><a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
-							. esc_url(
-								'https://'
-								. $this->person->imdbsite
-								. '/character/ch'
-								. intval( $filmo['chid'] )
-							)
-							. '/">'
-							. esc_html( $filmo[ $i ]['chname'] )
-							. '</a></i>';
-						}
-
-						echo "\n\t\t\t</div>";
-						echo "\n\t\t</div>";
-
-						// Last cat movie, close the hidden div
-						if ( $i === ( $nbtotalfilmo - 1 ) ) {
-							echo "\n\t" . '</div>';
-
-						}
-						continue;
-					}
-
-					// before XX results, show a shortened list of results
-
-					echo "\n\t <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='"
-							. esc_url(
-								$this->config_class->lumiere_urlpopupsfilms
-								. '?mid=' . esc_html( $filmo[ $i ]['mid'] )
-							)
-							. "'>" . esc_html( $filmo[ $i ]['name'] )
-							. '</a>';
-
-					if ( strlen( $filmo[ $i ]['year'] ) !== 0 ) {
-						echo ' (';
-						echo intval( $filmo[ $i ]['year'] );
-						echo ')';
-					}
-
-					if ( ( ! isset( $filmo['chid'] ) || strlen( $filmo['chid'] ) === 0 ) && ( strlen( $filmo[ $i ]['chname'] ) !== 0 ) ) {
-
-						echo ' as <i>' . esc_html( $filmo[ $i ]['chname'] ) . '</i>';
-
-					} elseif ( isset( $filmo['chid'] ) && strlen( $filmo['chid'] ) !== 0 ) {
-
-						echo ' as <i><a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
-							. esc_url(
-								'https://'
-								. $this->person->imdbsite
-								. '/character/ch'
-								. intval( $filmo['chid'] )
-							)
-							. '/">'
-							. esc_html( $filmo[ $i ]['chname'] )
-							. '</a></i>';
-					}
-
-					$nbfilmpercat++;
-
-				} //end for each filmo
-
-				echo "\n" . '</div>';
-
-			} // end if
-
-		} // endforeach main
-
+		return $this->get_movies( $list_roles, $max_films );
 	}
 
 	/**
@@ -893,6 +769,71 @@ class Popup_Person {
 		</div> 
 							
 		<?php
+	}
+
+	/**
+	 * Helper method to get all movies
+	 * @param array<string, string> $list_roles List of the roles with translation
+	 * @param int $max_films
+	 * @return string
+	 */
+	private function get_movies( array $list_roles, int $max_films = 10 ): string {
+
+		$output = '';
+		$all_movies = $this->person->credit(); // retrieve all movies for current person.
+		$list_roles_english = array_keys( $list_roles );
+
+		foreach ( $list_roles_english as $role ) {
+
+			$nb_films = count( $all_movies[ $role ] ); // Count the total number of movies.
+			$i = 0;
+
+			if ( $nb_films < 1 ) { // If not movies for current category found, jump to the next.
+				continue;
+			}
+
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( $role ) . ' filmography -->';
+			$output .= "\n\t" . '<div align="center" class="lumiere_container">';
+			$output .= "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+
+			$output .= "\n\t" . '<div>';
+			$output .= "\n\t\t" . '<span class="lum_results_section_subtitle">' . ucfirst( esc_html( $list_roles[ $role ] ) ) . ' </span>';
+
+			foreach ( $all_movies[ $role ] as $credit_role ) {
+
+				$output .= " <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $credit_role['titleId'] ) ) . "'>" . esc_html( $credit_role['titleName'] ) . '</a>';
+
+				if ( isset( $credit_role['year'] ) ) {
+					$output .= ' (';
+					$output .= intval( $credit_role['year'] );
+					$output .= ')';
+				}
+
+				if ( isset( $credit_role['characters'] ) && count( $credit_role['characters'] ) > 0 ) {
+					$output .= ' as <i>' . esc_html( $credit_role['characters'][0] ) . '</i>';
+
+				}
+
+				// Display a "show more" after XX results
+				if ( $i === $max_films ) {
+					$output .= '&nbsp;<span class="activatehidesection"><font size="-1"><strong>('
+						. esc_html__( 'see all', 'lumiere-movies' )
+						. ')</strong></font></span> '
+						. '<span class="hidesection">';
+				}
+
+				if ( $i === $nb_films ) {
+					$output .= '</span>';
+				}
+
+				$i++;
+			}
+
+			// Close the div for current movie category.
+			$output .= "\n\t" . '</div>';
+		}
+
+		return $output;
 	}
 
 }

@@ -1368,6 +1368,150 @@ EOF;
 
         return $this->jsonLD = $jsonLD;
     }
+
+    #-------------------------------------------------------[ Credits ]---
+    /** Get all credits for a person
+     * @return array[categoryId] of array('titleId: string, 'titleName: string, titleType: string,
+     *      year: int, endYear: int, characters: array(),jobs: array(), titleFullImageUrl, titleThumbImageUrl,)
+     * @see IMDB page /credits
+     */
+    public function credit()
+    {
+        // imdb credits category ids to camelCase names
+        $categoryIds = array(
+            'director' => 'director',
+            'writer' => 'writer',
+            'actress' => 'actress',
+            'actor' => 'actor',
+            'producer' => 'producer',
+            'composer' => 'composer',
+            'cinematographer' => 'cinematographer',
+            'editor' => 'editor',
+            'casting_director' => 'castingDirector',
+            'production_designer' => 'productionDesigner',
+            'art_director' => 'artDirector',
+            'set_decorator' => 'setDecorator',
+            'costume_designer' => 'costumeDesigner',
+            'make_up_department' => 'makeUpDepartment',
+            'production_manager' => 'productionManager',
+            'assistant_director' => 'assistantDirector',
+            'art_department' => 'artDepartment',
+            'sound_department' => 'soundDepartment',
+            'special_effects' => 'specialEffects',
+            'visual_effects' => 'visualEffects',
+            'stunts' => 'stunts',
+            'choreographer' => 'choreographer',
+            'camera_department' => 'cameraDepartment',
+            'animation_department' => 'animationDepartment',
+            'casting_department' => 'castingDepartment',
+            'costume_department' => 'costumeDepartment',
+            'editorial_department' => 'editorialDepartment',
+            'electrical_department' => 'electricalDepartment',
+            'location_management' => 'locationManagement',
+            'music_department' => 'musicDepartment',
+            'production_department' => 'productionDepartment',
+            'script_department' => 'scriptDepartment',
+            'transportation_department' => 'transportationDepartment',
+            'miscellaneous' => 'miscellaneous',
+            'thanks' => 'thanks',
+            'executive' => 'executive',
+            'legal' => 'legal',
+            'soundtrack' => 'soundtrack',
+            'manager' => 'manager',
+            'assistant' => 'assistant',
+            'talent_agent' => 'talentAgent',
+            'self' => 'self',
+            'publicist' => 'publicist',
+            'music_artist' => 'musicArtist',
+            'podcaster' => 'podcaster',
+            'archive_footage' => 'archiveFootage',
+            'archive_sound' => 'archiveSound',
+            'costume_supervisor' => 'costumeSupervisor',
+            'hair_stylist' => 'hairStylist',
+            'intimacy_coordinator' => 'intimacyCoordinator',
+            'make_up_artist' => 'makeUpArtist',
+            'music_supervisor' => 'musicSupervisor',
+            'property_master' => 'propertyMaster',
+            'script_supervisor' => 'scriptSupervisor',
+            'showrunner' => 'showrunner',
+            'stunt_coordinator' => 'stuntCoordinator',
+            'accountant' => 'accountant'
+        );
+        
+        if (empty($this->credits)) {
+            
+            foreach ($categoryIds as $categoryId) {
+                $this->credits[$categoryId] = array();
+            }
+            
+            $query = <<<EOF
+          category {
+            id
+          }
+          title {
+            id
+            titleText {
+              text
+            }
+            titleType {
+              text
+            }
+            releaseYear {
+              year
+              endYear
+            }
+            primaryImage {
+              url
+            }
+          }
+          ... on Cast {
+            characters {
+              name
+            }
+          }
+          ... on Crew {
+            jobs {
+              text
+            }
+          }
+EOF;
+            $edges = $this->graphQlGetAll("Credits", "credits", $query);
+            foreach ($edges as $edge) {
+                $characters = array();
+                if (isset($edge->node->characters) && $edge->node->characters != null) {
+                    foreach ($edge->node->characters as $character) {
+                        $characters[] = $character->name;
+                    }
+                }
+                $jobs = array();
+                if (isset($edge->node->jobs) && $edge->node->jobs != null) {
+                    foreach ($edge->node->jobs as $job) {
+                        $jobs[] = $job->text;
+                    }
+                }
+                $titleFullImageUrl = isset($edge->node->title->primaryImage->url) ?
+                                        str_replace('.jpg', '', $edge->node->title->primaryImage->url) . 'QL100_SX1000_.jpg' : '';
+                $titleThumbImageUrl = !empty($titleFullImageUrl) ?
+                                        str_replace('QL100_SX1000_.jpg', '', $titleFullImageUrl) . 'QL75_SX281_.jpg' : '';
+
+                $this->credits[$categoryIds[$edge->node->category->id]][] = array(
+                    'titleId' => str_replace('tt', '', $edge->node->title->id),
+                    'titleName' => $edge->node->title->titleText->text,
+                    'titleType' => isset($edge->node->title->titleType->text) ?
+                                         $edge->node->title->titleType->text : '',
+                    'year' => isset($edge->node->title->releaseYear->year) ?
+                                    $edge->node->title->releaseYear->year : null,
+                    'endYear' => isset($edge->node->title->releaseYear->endYear) ?
+                                       $edge->node->title->releaseYear->endYear : null,
+                    'characters' => $characters,
+                    'jobs' => $jobs,
+                    'titleFullImageUrl' => $titleFullImageUrl,
+                    'titleThumbImageUrl' => $titleThumbImageUrl
+                );
+            }
+        }
+        return $this->credits;
+    }
     
     #-----------------------------------------[ Helper GraphQL Paginated ]---
     /**
