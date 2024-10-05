@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.2.1
+
 v.4.2
 * [technical] Compatible 6.7 (load_plugin_textdomain() is loaded in add_action('init') in class Core)
 * [technical] Better sanitization according to new WordPress rules
