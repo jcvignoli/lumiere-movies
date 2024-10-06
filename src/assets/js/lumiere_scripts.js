@@ -1,16 +1,21 @@
 /**
- * Executed in POPUPS
+ * Frontpage functions
+ * Spinners, go back, submit form
  * Function must be Content Security Policy (CSP) compliant
- * Bootstrap, Classic and Highslide
  *
  * FUNCTIONS:
  *
- * (A) Show a spinner when clicking on a link within a modal window
+ * (a) Show a spinner when clicking on a link within a modal window
  * (b) Javascript back in history
+ * (c) Submit automatically on dropdown change
  */
 document.addEventListener(
 	'DOMContentLoaded',
 	function () {
+
+		/**
+		 * Posts/Pages
+		 */
 	
 		/**
 		 * Spinner click
@@ -32,13 +37,25 @@ document.addEventListener(
 		/**
 		 * popup person
 		 */
-		 
+		 	 
 		 /* go back if clicked #lum_popup_link_back */
 		jQuery("#lum_popup_link_back").on( 'click', function(){
 			event.preventDefault();
 			history.back();
 		});
 	}
+
+
 );
 
+/**
+ * Taxonomy people pages
+ * (a) Submit automatically on dropdown change
+ */
+jQuery(document).ready(function() {
 
+	jQuery('#tag_lang').on('change', function() {
+		jQuery(this).closest('form').submit();
+	});
+  
+});

@@ -162,7 +162,7 @@ class Polylang {
 		$output .= "\n\t\t\t\t\t";
 		$output .= wp_nonce_field( 'lum_taxo_polylangform', '_wpnonce_lum_taxo_polylangform', true, false );
 		$output .= "\n\t\t\t\t\t";
-		$output .= '<input type="submit" name="submit" id="submit_lang" class="button button-primary" value="' . __( 'Filter language', 'lumiere-movies' ) . '"  />';
+		$output .= '<input type="submit" name="submit_lang" id="submit_lang" class="button button-primary" value="' . __( 'Filter language', 'lumiere-movies' ) . '"  />';
 		$output .= "\n\t\t\t\t" . '</form>';
 		$output .= "\n\t\t\t" . '</div>';
 
