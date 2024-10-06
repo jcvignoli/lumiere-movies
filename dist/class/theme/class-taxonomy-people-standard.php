@@ -344,7 +344,7 @@ class Taxonomy_People_Standard {
 			} elseif ( strlen( $this->person_name ) > 0 ) {
 
 				$args = [
-					'post_type' => [ 'post' ],
+					'post_type' => [ 'post', 'page' ],
 					'post_status' => 'publish',
 					'numberposts' => -1,
 					'nopaging' => true,
