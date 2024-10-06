@@ -79,6 +79,11 @@ class Person extends MdbBase
     protected $pub_magcovers = array();
     protected $pub_pictorials = array();
 
+    // "Credits" page:
+    protected $awards = array();
+    protected $creditKnownFor = array();
+    protected $credits = array();
+    
     // SearchDetails
     protected $SearchDetails = array();
 
