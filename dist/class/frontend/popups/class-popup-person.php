@@ -389,9 +389,9 @@ class Popup_Person {
 
 		$children = $this->person->children();
 		$nbtotalchildren = count( $children );
-		$nbtotalchildren_bugged = $children[0]['name'] ?? '';
+		$nbtotalchildren_bugged = $children[0]['name'] ?? ''; // Sometimes return an array even if name is empty, but name is always empty if no children are found
 
-		if ( $nbtotalchildren_bugged > 0 && strlen( $nbtotalchildren_bugged ) > 0 ) {
+		if ( $nbtotalchildren_bugged > 0 && strlen( $nbtotalchildren_bugged ) > 0 ) { // Extra check with _bugged to make sure it's really empty
 			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Children -->';
 			$output .= "\n" . '<div id="lumiere_popup_children">';
 			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Child', 'Children', $nbtotalchildren, 'lumiere-movies' ) ) . '</span>';
