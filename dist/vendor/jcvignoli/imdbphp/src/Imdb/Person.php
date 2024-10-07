@@ -63,6 +63,9 @@ class Person extends MdbBase
     protected $nick_name = array();
     protected $bodyheight = array();
     protected $spouses = array();
+    protected $children = array();
+    protected $parents = array();
+    protected $relatives = array();
     protected $bioBio = array();
     protected $bio_trivia = array();
     protected $bio_tm = array();
@@ -656,148 +659,164 @@ public function died()
      */
     public function spouse()
     {
-        if (empty($this->spouses)) {
-            $xp = $this->getXpathPage("Bio");
-            $spouse = $xp->query("//table[contains(@id, 'tableFamily')]/tr[1]/td[1]");
-            if ($spouse->count()) {
-                if (trim($spouse->item(0)->nodeValue) == "Spouse") {
-                    if ($tab = $xp->query("//table[contains(@id, 'tableFamily')]/tr[1]/td[2]")) {
-                        $html = $tab->item(0)->ownerDocument->saveXML($tab->item(0));
-                        $htmlParts = explode("<br/>", $html);
-                        foreach ($htmlParts as $parts) {
-                            // imdbid
-                            $mid = '';
-                            if (preg_match('/<a href="\/name\/nm(\d+).*">/', $parts, $url)) {
-                                $mid = $url[1];
-                            }
-                            // spouse name
-                            $name = '';
-                            if (preg_match('![^(]*\([^(\d]*!', $parts, $nameRaw)) {
-                                $nameClean = preg_replace('/[^A-Za-z0-9().\-\"\"\W ]/', '', strip_tags($nameRaw[0]));
-                                if (strpos($nameClean, ')') && !strpos($nameClean, '?')) {
-                                    $name = trim($nameClean);
-                                    echo 'name';
-                                } else {
-                                    $nameClean = explode('(', $nameClean);
-                                    if (!strpos($nameClean[0], '?')) {
-                                        $name = trim($nameClean[0]);
-                                    }
-                                }
-                            }
-                            //Dates, comment and children
-                            preg_match_all('!(\(.+?\))!ms', strip_tags($parts), $matches);
-                            // remove leftover spouse name parts (imdbid 0001228 extra name between brackets)
-                            if (!preg_match('~[0-9]+~', $matches[0][0]) && !strpos($matches[0][0], '?')) {
-                                unset($matches[0][0]);
-                                sort($matches[0]);
-                            }
-                            $datesRaw = preg_replace('/[^A-Za-z0-9-]/', ' ', $matches[0][0]);
-                            //from date
-                            $fromDay = '';
-                            $fromMonth = '';
-                            $fromYear = '';
-                            $fromDateRaw = explode('-', $datesRaw);
-                            if (array_key_exists(0, $fromDateRaw) && preg_match('~[0-9]+~', $fromDateRaw[0])) {
-                                $fromDate = array_values(array_filter(explode(' ', trim($fromDateRaw[0]))));
-                                $count = count($fromDate);
-                                if ($count == 1) {
-                                    if (preg_match('~[0-9]+~', $fromDate[0])) {
-                                        $fromYear = $fromDate[0];
-                                    }
-                                } elseif ($count == 2) {
-                                    $fromMonth = trim($fromDate[0]);
-                                    if (preg_match('~[0-9]+~', $fromDate[1])) {
-                                        $fromYear = $fromDate[1];
-                                    }
-                                } elseif ($count == 3) {
-                                    if (preg_match('~[0-9]+~', $fromDate[0])) {
-                                        $fromDay = $fromDate[0];
-                                    }
-                                    $fromMonth = trim($fromDate[1]);
-                                    if (preg_match('~[0-9]+~', $fromDate[2])) {
-                                        $fromYear = $fromDate[2];
-                                    }
-                                }
-                                $from = array(
-                                      "day" => $fromDay,
-                                      "month" => $fromMonth,
-                                      "mon" => $this->monthNo($fromMonth),
-                                      "year" => $fromYear
-                                    );
-                            } else {
-                                $from = array("day" => '', "month" => '', "mon" => '', "year" => '');
-                            }
-                            //to date
-                            $toDay = '';
-                            $toMonth = '';
-                            $toYear = '';
-                            $toDateRaw = explode('-', $datesRaw);
-                            if (array_key_exists(1, $toDateRaw) && preg_match('~[0-9]+~', $toDateRaw[1])) {
-                                $toDate = array_values(array_filter(explode(' ', trim($toDateRaw[1]))));
-                                $count = count($toDate);
-                                if ($count == 1) {
-                                    if (preg_match('~[0-9]+~', $toDate[0])) {
-                                        $toYear = $toDate[0];
-                                    }
-                                } elseif ($count == 2) {
-                                    $toMonth = trim($toDate[0]);
-                                    if (preg_match('~[0-9]+~', $toDate[1])) {
-                                        $toYear = $toDate[1];
-                                    }
-                                } elseif ($count == 3) {
-                                    if (preg_match('~[0-9]+~', $toDate[0])) {
-                                        $toDay = $toDate[0];
-                                    }
-                                    $toMonth = trim($toDate[1]);
-                                    if (preg_match('~[0-9]+~', $toDate[2])) {
-                                        $toYear = $toDate[2];
-                                    }
-                                }
-                                $to = array(
-                                      "day" => $toDay,
-                                      "month" => $toMonth,
-                                      "mon" => $this->monthNo($toMonth),
-                                      "year" => $toYear
-                                    );
-                            } else {
-                                $to = array("day" => '', "month" => '', "mon" => '', "year" => '');
-                            }
-                            // Comment and Children
-                            $elements = count($matches[0]) - 1; //count remaining elements after dates
-                            $comment = '';
-                            $children = 0;
-                            if ($elements == 1) {
-                                if (preg_match('!(\d+) child!', $matches[0][1], $match)) {
-                                    $children = $match[1];
-                                } else {
-                                    $comment = trim($matches[0][1], " ()");
-                                }
-                            } elseif ($elements == 2) {
-                                //sometimes those 2 values are reversed, don't know why, so have to check.
-                                if (preg_match('!(\d+) child!', $matches[0][1], $match)) {
-                                    $children = $match[1];
-                                    $comment = trim($matches[0][2], " ()");
-                                } elseif (preg_match('!(\d+) child!', $matches[0][2], $match)) {
-                                    $children = $match[1];
-                                    $comment = trim($matches[0][1], " ()");
-                                }
-                            }
-                            $this->spouses[] = array(
-                              'imdb' => $mid,
-                              'name' => $name,
-                              'from' => $from,
-                              'to' => $to,
-                              'comment' => $comment,
-                              'children' => (int)$children
-                            );
+         if (empty($this->spouses)) {
+            $query = <<<EOF
+query Spouses(\$id: ID!) {
+  name(id: \$id) {
+    spouses {
+      spouse {
+        name {
+          id
+        }
+        asMarkdown {
+          plainText
+        }
+      }
+      timeRange {
+        fromDate {
+          dateComponents {
+            day
+            month
+            year
+          }
+        }
+        toDate {
+          dateComponents {
+            day
+            month
+            year
+          }
+        }
+        displayableProperty {
+          value {
+            plainText
+          }
+        }
+      }
+      attributes {
+        text
+      }
+      current
+    }
+  }
+}
+EOF;
+            $data = $this->graphql->query($query, "Spouses", ["id" => "nm$this->imdbID"]);
+            if ($data != null && $data->name->spouses != null) {
+                foreach ($data->name->spouses as $spouse) {
+                    // Spouse name
+                    $name = isset($spouse->spouse->asMarkdown->plainText) ? $spouse->spouse->asMarkdown->plainText : '';
+                    
+                    // Spouse id
+                    $imdbId = '';
+                    if ($spouse->spouse->name != null) {
+                        if (isset($spouse->spouse->name->id)) {
+                            $imdbId = str_replace('nm', '', $spouse->spouse->name->id);
                         }
                     }
+                    
+                    // From date
+                    $fromDateDay = isset($spouse->timeRange->fromDate->dateComponents->day) ? $spouse->timeRange->fromDate->dateComponents->day : '';
+                    $fromDateMonthInt = isset($spouse->timeRange->fromDate->dateComponents->month) ? $spouse->timeRange->fromDate->dateComponents->month : '';
+                    $fromDateMonthName = '';
+                    if (!empty($fromDateMonthInt)) {
+                        $fromDateMonthName = date("F", mktime(0, 0, 0, $fromDateMonthInt, 10));
+                    }
+                    $fromDateYear = isset($spouse->timeRange->fromDate->dateComponents->year) ? $spouse->timeRange->fromDate->dateComponents->year : '';
+                    $fromDate = array(
+                        "day" => $fromDateDay,
+                        "month" => $fromDateMonthName,
+                        "mon" => $fromDateMonthInt,
+                        "year" => $fromDateYear
+                    );
+                    
+                    // To date
+                    $toDateDay = isset($spouse->timeRange->toDate->dateComponents->day) ? $spouse->timeRange->toDate->dateComponents->day : '';
+                    $toDateMonthInt = isset($spouse->timeRange->toDate->dateComponents->month) ? $spouse->timeRange->toDate->dateComponents->month : '';
+                    $toDateMonthName = '';
+                    if (!empty($toDateMonthInt)) {
+                        $toDateMonthName = date("F", mktime(0, 0, 0, $toDateMonthInt, 10));
+                    }
+                    $toDateYear = isset($spouse->timeRange->toDate->dateComponents->year) ? $spouse->timeRange->toDate->dateComponents->year : '';
+                    $toDate = array(
+                        "day" => $toDateDay,
+                        "month" => $toDateMonthName,
+                        "mon" => $toDateMonthInt,
+                        "year" => $toDateYear
+                    );
+                    
+                    // date as plaintext
+                    $dateText = isset($spouse->timeRange->displayableProperty->value->plainText) ? $spouse->timeRange->displayableProperty->value->plainText : '';
+                    
+                    // Comments and children
+                    $comment = '';
+                    $children = 0;
+                    if ($spouse->attributes != null) {
+                        foreach ($spouse->attributes as $key => $attribute) {
+                            if (stripos($attribute->text, "child") !== false) {
+                                $children = (int) preg_replace('/[^0-9]/', '', $attribute->text);
+                            } else {
+                                $comment .= $attribute->text;
+                            }
+                        }
+                    }
+                    $this->spouses[] = array(
+                        'imdb' => $imdbId,
+                        'name' => $name,
+                        'from' => $fromDate,
+                        'to' => $toDate,
+                        'dateText' => $dateText,
+                        'comment' => $comment,
+                        'children' => $children,
+                        'current' => $spouse->current
+                    );
                 }
+            } else {
+                return $this->spouses;
             }
         }
         return $this->spouses;
     }
 
+    #----------------------------------------------------------------[ Children ]---
+    /** Get the Children
+     * @return array children array[0..n] of array(imdb, name, relType)
+     * @see IMDB person page /bio
+     */
+    public function children()
+    {
+        if (empty($this->children)) {
+            return $this->nameDetailsParse("CHILDREN", $this->children);
+        }
+        return $this->children;
+    }
+    
+    #----------------------------------------------------------------[ Parents ]---
+    /** Get the Parents
+     * @return array parents array[0..n] of array(imdb, name, relType)
+     * @see IMDB person page /bio
+     */
+    public function parents()
+    {
+        if (empty($this->parents)) {
+            return $this->nameDetailsParse("PARENTS", $this->parents);
+        }
+        return $this->parents;
+    }
+    
+    #----------------------------------------------------------------[ Relatives ]---
+    /** Get the relatives
+     * @return array relatives array[0..n] of array(imdb, name, relType)
+     * @see IMDB person page /bio
+     */
+    public function relatives()
+    {
+        if (empty($this->relatives)) {
+            return $this->nameDetailsParse("OTHERS", $this->relatives);
+        }
+        return $this->relatives;
+    }
+    
     #---------------------------------------------------------------[ MiniBio ]---
 
     /** Get the person's mini bio
@@ -1518,6 +1537,51 @@ EOF;
         return $this->credits;
     }
     
+    #-----------------------------------------[ Helper for children, parents, relatives ]---
+    /** Parse children, parents, relatives
+     * @param string $name
+     *     possible values for $name: CHILDREN, PARENTS, OTHERS
+     * @param array $arrayName
+     * @return array
+     */
+    protected function nameDetailsParse($name, $arrayName)
+    {
+        $filter = ', filter: {relationshipTypes: ' . $name . '}';
+        $query = <<<EOF
+          relationName {
+            name {
+              id
+              nameText {
+                text
+              }
+            }
+            nameText
+          }
+          relationshipType {
+            text
+          }
+EOF;
+        $data = $this->graphQlGetAll("Data", "relations", $query, $filter);
+        if ($data != null) {
+            foreach ($data as $edge) {
+                if (isset($edge->node->relationName->name->id)) {
+                    $relName = $edge->node->relationName->name->nameText->text;
+                    $relNameId = str_replace('nm', '', $edge->node->relationName->name->id);
+                } else {
+                    $relName = $edge->node->relationName->nameText;
+                    $relNameId = '';
+                }
+                $relType = isset($edge->node->relationshipType->text) ? $edge->node->relationshipType->text : '';
+                $arrayName[] = array(
+                    'imdb' => $relNameId,
+                    'name' => $relName,
+                    'relType' => $relType
+                );
+            }
+        }
+        return $arrayName;
+    }
+
     #-----------------------------------------[ Helper GraphQL Paginated ]---
     /**
      * Get all edges of a field in the name type

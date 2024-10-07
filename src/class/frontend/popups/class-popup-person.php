@@ -163,7 +163,7 @@ class Popup_Person {
 			wp_verify_nonce( $nonce_url ) > 0
 			&& ( ! isset( $_GET['info'] ) || strlen( sanitize_text_field( wp_unslash( $_GET['info'] ) ) ) === 0 )
 		) {
-			echo wp_kses(
+			echo strlen( $this->display_summary() ) > 0 ? wp_kses(
 				$this->display_summary(),
 				[
 					'span' => [ 'class' => [] ],
@@ -181,7 +181,7 @@ class Popup_Person {
 						'class' => [],
 					],
 				]
-			);
+			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No summary found ', 'lumiere-movies' ) . '</div>';
 		}
 
 		//--------------------------------------------------------------------------- full filmography
@@ -189,7 +189,7 @@ class Popup_Person {
 			wp_verify_nonce( $nonce_url ) > 0
 			&& isset( $_GET['info'] ) && $_GET['info'] === 'filmo'
 		) {
-			echo wp_kses(
+			echo strlen( $this->display_full_filmo() ) > 0 ? wp_kses(
 				$this->display_full_filmo(),
 				[
 					'span' => [ 'class' => [] ],
@@ -207,7 +207,7 @@ class Popup_Person {
 						'class' => [],
 					],
 				]
-			);
+			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No filmography found ', 'lumiere-movies' ) . '</div>';
 
 		}
 
@@ -216,7 +216,7 @@ class Popup_Person {
 			wp_verify_nonce( $nonce_url ) > 0
 			&& isset( $_GET['info'] ) && $_GET['info'] === 'bio'
 		) {
-			echo wp_kses(
+			echo strlen( $this->display_bio() ) > 0 ? wp_kses(
 				$this->display_bio(),
 				[
 					'span' => [ 'class' => [] ],
@@ -234,7 +234,7 @@ class Popup_Person {
 					'strong' => [],
 					'i' => [],
 				]
-			);
+			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No biography found ', 'lumiere-movies' ) . '</div>';
 		}
 
 		// ------------------------------------------------------------------------------ misc part
@@ -242,7 +242,25 @@ class Popup_Person {
 			wp_verify_nonce( $nonce_url ) > 0
 			&& isset( $_GET['info'] ) && $_GET['info'] === 'misc'
 		) {
-			$this->display_misc();
+			echo strlen( $this->display_misc() ) > 0 ? wp_kses(
+				$this->display_misc(),
+				[
+					'span' => [ 'class' => [] ],
+					'div' => [
+						'align' => [],
+						'class' => [],
+						'id' => [],
+					],
+					'a' => [
+						'href' => [],
+						'rel' => [],
+						'class' => [],
+					],
+					'font' => [ 'size' => [] ],
+					'strong' => [],
+					'i' => [],
+				]
+			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No misc info found ', 'lumiere-movies' ) . '</div>';
 		}
 
 		// The end.
@@ -334,9 +352,76 @@ class Popup_Person {
 	 */
 	private function display_bio(): string {
 
+		$output = '';
+
+		############## Spouses
+
+		$spouses = $this->person->spouse();
+		$nbtotalspouses = count( $spouses );
+
+		if ( $nbtotalspouses > 0 ) {
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Spouses -->';
+			$output .= "\n" . '<div id="lumiere_popup_spouses">';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Spouse', 'Spouses', $nbtotalspouses, 'lumiere-movies' ) ) . '</span>';
+			for ( $i = 0; $i < $nbtotalspouses; ++$i ) {
+
+				if ( isset( $spouses[ $i ]['imdb'] ) && strlen( $spouses[ $i ]['imdb'] ) > 0 ) {
+					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . intval( $spouses[ $i ]['imdb'] ) ) . "'>";
+				}
+
+				if ( isset( $spouses[ $i ]['name'] ) && strlen( $spouses[ $i ]['name'] ) > 0 ) {
+					$output .= esc_html( $spouses[ $i ]['name'] );
+				}
+
+				if ( isset( $spouses[ $i ]['imdb'] ) && strlen( $spouses[ $i ]['imdb'] ) > 0 ) {
+					$output .= '</a>';
+				}
+
+				if ( isset( $spouses[ $i ]['dateText'] ) && strlen( $spouses[ $i ]['dateText'] ) > 0 ) {
+					$output .= ' (' . esc_html( $spouses[ $i ]['dateText'] ) . ') ';
+				}
+			}
+
+			$output .= "\n" . '</div>';
+		}
+
+		############## Children
+
+		$children = $this->person->children();
+		$nbtotalchildren = count( $children );
+		$nbtotalchildren_bugged = $children[0]['name'] ?? '';
+
+		if ( $nbtotalchildren_bugged > 0 && strlen( $nbtotalchildren_bugged ) > 0 ) {
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Children -->';
+			$output .= "\n" . '<div id="lumiere_popup_children">';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Child', 'Children', $nbtotalchildren, 'lumiere-movies' ) ) . '</span>';
+			for ( $i = 0; $i < $nbtotalchildren; ++$i ) {
+
+				if ( isset( $children[ $i ]['imdb'] ) && strlen( $children[ $i ]['imdb'] ) > 0 ) {
+					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . intval( $children[ $i ]['imdb'] ) ) . "'>";
+				}
+
+				if ( isset( $children[ $i ]['name'] ) && strlen( $children[ $i ]['name'] ) > 0 ) {
+					$output .= esc_html( $children[ $i ]['name'] );
+				}
+
+				if ( isset( $children[ $i ]['imdb'] ) && strlen( $children[ $i ]['imdb'] ) > 0 ) {
+					$output .= '</a>';
+				}
+
+				if ( isset( $children[ $i ]['name'] ) && strlen( $children[ $i ]['name'] ) > 0 ) {
+					$output .= ' (<span class="lumiere_italic">' . esc_html( $children[ $i ]['relType'] ) . '</span>) ';
+				}
+
+			}
+
+			$output .= "\n" . '</div>';
+		}
+
+		##############  Bio movies
+
 		$biomovie = $this->person->pubmovies();
 		$nbtotalbiomovie = count( $biomovie );
-		$output = '';
 
 		if ( $nbtotalbiomovie !== 0 ) {
 
@@ -353,7 +438,7 @@ class Popup_Person {
 				}
 			}
 
-			$output .= '</div>';
+			$output .= "\n" . '</div>';
 		}
 
 		############## Portrayed in
@@ -376,7 +461,7 @@ class Popup_Person {
 				}
 			}
 
-			$output .= '</div>';
+			$output .= "\n" . '</div>';
 
 		}
 
@@ -469,20 +554,22 @@ class Popup_Person {
 
 	/**
 	 * Display miscellaenous infos
+	 * @return string The text to display
 	 */
-	private function display_misc(): void {
+	private function display_misc(): string {
 
 		############## Trivia
 
 		$trivia = $this->person->trivia();
 		$nbtotaltrivia = count( $trivia );
 		$nblimittrivia = 3; # max number of trivias before breaking with "see all"
+		$output = '';
 
 		if ( $nbtotaltrivia !== 0 ) {
 
-			echo "\n\t\t\t\t\t\t\t" . ' <!-- Trivia -->';
-			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . ' </span>(' . intval( $nbtotaltrivia ) . ') <br>';
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Trivia -->';
+			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . ' </span>(' . intval( $nbtotaltrivia ) . ') <br>';
 
 			for ( $i = 0; $i <= $nbtotaltrivia; $i++ ) {
 
@@ -495,15 +582,15 @@ class Popup_Person {
 
 				// Display a "show more" after 3 results
 				if ( $i === $nblimittrivia ) {
-					echo "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
+					$output .= "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
 						. esc_html__( 'see all', 'lumiere-movies' )
 						. ')</strong></font></div>'
 						. "\n\t\t" . '<div class="hidesection">';
 				}
 
-				echo "\n\t\t\t" . '<div>';
+				$output .= "\n\t\t\t" . '<div>';
 				$text_cleaned = preg_replace( '~^\s\s\s\s\s\s\s(.*)<br \/>\s\s\s\s\s$~', "\\1", $text );
-				echo "\n\t\t\t\t" . ' [#' . esc_html( strval( $i + 1 ) ) . '] ' . wp_kses(
+				$output .= "\n\t\t\t\t" . ' [#' . esc_html( strval( $i + 1 ) ) . '] ' . wp_kses(
 					$text_cleaned ?? '',
 					[
 						'a' => [
@@ -513,15 +600,15 @@ class Popup_Person {
 						],
 					]
 				);
-				echo "\n\t\t\t" . '</div>';
+				$output .= "\n\t\t\t" . '</div>';
 
 				if ( $i === $nbtotaltrivia ) {
-					echo "\n\t\t" . '</div>';
+					$output .= "\n\t\t" . '</div>';
 				}
 
 			}
 
-			echo "\n" . '</div>';
+			$output .= "\n" . '</div>';
 		}
 
 		############## Nicknames
@@ -531,9 +618,9 @@ class Popup_Person {
 
 		if ( $nbtotalnickname !== 0 ) {
 
-			echo "\n\t\t\t\t\t\t\t" . ' <!-- Nicknames -->';
-			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Nicknames', 'lumiere-movies' ) . ' </span>';
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Nicknames -->';
+			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Nicknames', 'lumiere-movies' ) . ' </span>';
 
 			for ( $i = 0; $i < $nbtotalnickname; $i++ ) {
 
@@ -544,11 +631,11 @@ class Popup_Person {
 					}
 
 					$txt = str_replace( '<br>', ', ', $nick );
-					echo esc_html( $txt );
+					$output .= esc_html( $txt );
 				}
 			}
 
-			echo "\n" . '</div>';
+			$output .= "\n" . '</div>';
 
 		}
 
@@ -560,9 +647,9 @@ class Popup_Person {
 
 		if ( $nbtotalquotes !== 0 ) {
 
-			echo "\n\t\t\t\t\t\t\t" . ' <!-- Personal quotes -->';
-			echo "\n" . '<div id="lumiere_popup_quotes">';
-			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Personal quotes', 'lumiere-movies' ) . ' </span> (' . intval( $nbtotalquotes ) . ')';
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Personal quotes -->';
+			$output .= "\n" . '<div id="lumiere_popup_quotes">';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Personal quotes', 'lumiere-movies' ) . ' </span> (' . intval( $nbtotalquotes ) . ')';
 
 			for ( $i = 0; $i < $nbtotalquotes; $i++ ) {
 
@@ -575,14 +662,14 @@ class Popup_Person {
 
 				// Display a "show more" after XX results
 				if ( $i === $nblimitquotes ) {
-					echo "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
+					$output .= "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
 						. esc_html__( 'see all', 'lumiere-movies' )
 						. ')</strong></font></div>'
 						. "\n\t\t" . '<div class="hidesection">';
 				}
 
-				echo "\n\t\t\t" . '<div>';
-				echo ' [#' . esc_html( strval( $i + 1 ) ) . '] ' . wp_kses(
+				$output .= "\n\t\t\t" . '<div>';
+				$output .= ' [#' . esc_html( strval( $i + 1 ) ) . '] ' . wp_kses(
 					$text,
 					[
 						'a' => [
@@ -592,15 +679,15 @@ class Popup_Person {
 						],
 					]
 				);
-				echo '</div>';
+				$output .= '</div>';
 
 				if ( $i === ( $nbtotalquotes - 1 ) ) {
-					echo "\n\t\t" . '</div>';
+					$output .= "\n\t\t" . '</div>';
 				}
 
 			}
 
-			echo "\n" . '</div>';
+			$output .= "\n" . '</div>';
 
 		}
 
@@ -612,9 +699,9 @@ class Popup_Person {
 
 		if ( $nbtotaltrademark !== 0 ) {
 
-			echo "\n\t\t\t\t\t\t\t" . ' <!-- Trademarks -->';
-			echo "\n" . '<div id="lumiere_popup_biomovies">';
-			echo "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Trademarks', 'lumiere-movies' ) . ' </span> (' . intval( $nbtotaltrademark ) . ')';
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Trademarks -->';
+			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Trademarks', 'lumiere-movies' ) . ' </span> (' . intval( $nbtotaltrademark ) . ')';
 
 			for ( $i = 0; $i < $nbtotaltrademark; $i++ ) {
 
@@ -627,15 +714,15 @@ class Popup_Person {
 
 				// Display a "show more" after XX results
 				if ( $i === $nblimittradmark ) {
-					echo "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
+					$output .= "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
 						. esc_html__( 'see all', 'lumiere-movies' )
 						. ')</strong></font></div>'
 						. "\n\t\t" . '<div class="hidesection">';
 				}
 
-				echo "\n\t\t\t" . '<div>';
+				$output .= "\n\t\t\t" . '<div>';
 
-				echo ' [@' . esc_html( strval( $i + 1 ) ) . '] ' . wp_kses(
+				$output .= ' [@' . esc_html( strval( $i + 1 ) ) . '] ' . wp_kses(
 					$text,
 					[
 						'a' => [
@@ -645,7 +732,7 @@ class Popup_Person {
 						],
 					]
 				);
-				echo '</div>';
+				$output .= '</div>';
 
 				if ( $i === $nbtotaltrademark - 1 ) {
 					echo "\n\t\t" . '</div>';
@@ -653,9 +740,11 @@ class Popup_Person {
 
 			}
 
-			echo "\n" . '</div>';
+			$output .= "\n" . '</div>';
 
 		}
+
+		return $output;
 	}
 
 	/**
