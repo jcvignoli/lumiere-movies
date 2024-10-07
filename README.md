@@ -6,14 +6,13 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.6 \
 **Tested up to:** 6.7 \
-**Stable tag:** 4.2 \
+**Stable tag:** 4.2.1 \
 **Requires PHP:** 8.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
 **Donate link:** https://www.paypal.me/jcvignoli
 
-Lumière! Movies retrieves data from www.imdb.com and helps you include it in your posts and in your widgets.
-[![Sponsor](https://raw.github.com/jcvignoli/lumiere-movies/master/.github/assets/github-like-sponsor-button.svg)](https://www.paypal.me/jcvignoli)
+Lumière! Movies is a WordPress plugin that retrieves data from www.imdb.com and helps you include it in your posts and in your widgets.
 
 ## Description
 
