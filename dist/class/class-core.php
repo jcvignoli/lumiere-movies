@@ -93,7 +93,7 @@ class Core {
 		add_action( 'init', fn() => Admin\Cron::lumiere_cron_start() );
 
 		// Call the translation.
-		add_action( 'init', [ $this, 'lum_lang_load' ] );
+		add_action( 'init', [ $this, 'lum_load_translation' ] );
 
 		// WP-CLI commands, use the cli class and stop the execution.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -105,10 +105,10 @@ class Core {
 	 * Load language textdomain
 	 * This function allows translate all English strings
 	 *
-	 * @since 4.1.9
+	 * @since 4.1.9 Supposedly not needed https://make.wordpress.org/core/2016/07/06/i18n-improvements-in-4-6/ but actually it is!
 	 */
-	public function lum_lang_load(): void {
-		load_plugin_textdomain( 'lumiere-movies', false, plugin_dir_path( __DIR__ ) . 'languages/' );
+	public function lum_load_translation(): void {
+		load_plugin_textdomain( 'lumiere-movies', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class Core {
 		$blocks = [ 'movie', 'addlink', 'opensearch' ];
 		$block_dir = plugin_dir_path( __DIR__ ) . 'assets/blocks';
 
-		foreach ( $blocks as $block ) {
+		foreach( $blocks as $block ) {
 			register_block_type( $block_dir . '/' . $block );
 			add_action(
 				'init',

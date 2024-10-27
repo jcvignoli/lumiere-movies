@@ -1,6 +1,4 @@
-# Lumiere Movies
-
-[![GitHub Actions](https://github.com/jcvignoli/lumiere-movies/workflows/CI/badge.svg)](https://github.com/jcvignoli/lumiere-movies/actions)
+# Lumière Movies
 
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
 **Tags:** cinema, film, imdb, movie, actor \
@@ -59,43 +57,43 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ### 1. Popup displayed when an imdb link is clicked.
 
-![Popup displayed when an imdb link is clicked.](https://ps.w.org/lumiere-movies/assets/screenshot-1.jpg)
+[missing image]
 
 ### 2. How movie's data is displayed "inside a post" 
 
-![How movie's data is displayed "inside a post" ](https://ps.w.org/lumiere-movies/assets/screenshot-2.jpg)
+[missing image]
 
 ### 3. How movie's data is displayed in a "widget" 
 
-![How movie's data is displayed in a "widget" ](https://ps.w.org/lumiere-movies/assets/screenshot-3.jpg)
+[missing image]
 
 ### 4. Admin preferences for cache
 
-![Admin preferences for cache](https://ps.w.org/lumiere-movies/assets/screenshot-4.jpg)
+[missing image]
 
 ### 5. The widget area to display a movie
 
-![The widget area to display a movie](https://ps.w.org/lumiere-movies/assets/screenshot-5.jpg)
+[missing image]
 
 ### 6. Menu in visual editor (tinyMCE) for inclusion of a movie section or popup
 
-![Menu in visual editor (tinyMCE) for inclusion of a movie section or popup](https://ps.w.org/lumiere-movies/assets/screenshot-6.jpg)
+[missing image]
 
 ### 7. Tool to insert a movie section or a popup in a post
 
-![Tool to insert a movie section or a popup in a post](https://ps.w.org/lumiere-movies/assets/screenshot-7.jpg)
+[missing image]
 
 ### 8. Query page to find a movie IMDb ID
 
-![Query page to find a movie IMDb ID](https://ps.w.org/lumiere-movies/assets/screenshot-8.jpg)
+[missing image]
 
 ### 9. Gutenberg block
 
-![Gutenberg block](https://ps.w.org/lumiere-movies/assets/screenshot-9.jpg)
+[missing image]
 
 ### 10. Taxonomy page for a star
 
-![Taxonomy page for a star](https://ps.w.org/lumiere-movies/assets/screenshot-10.jpg)
+[missing image]
 
 
 ## Frequently Asked Questions

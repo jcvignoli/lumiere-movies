@@ -1,4 +1,4 @@
-=== Lumiere Movies ===
+=== Lumière Movies ===
 Contributors: psykonevro
 Tags: cinema, film, imdb, movie, actor
 Requires at least: 5.6
