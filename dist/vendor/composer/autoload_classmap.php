@@ -80,4 +80,5 @@ return array(
     'Lumiere\\Updates\\Lumiere_Update_File_15' => $baseDir . '/class/updates/15.php',
     'Lumiere\\Updates\\Lumiere_Update_File_16' => $baseDir . '/class/updates/16.php',
     'Lumiere\\Updates\\Lumiere_Update_File_17' => $baseDir . '/class/updates/17.php',
+    'Lumiere\\Updates\\Lumiere_Update_File_18' => $baseDir . '/class/updates/18.php',
 );

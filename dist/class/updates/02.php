@@ -69,14 +69,14 @@ class Lumiere_Update_File_02 extends \Lumiere\Updates {
 		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
-		$this->lumiere_update_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbHowManyUpdates', $nb_of_updates );
+		$this->lumiere_update_options( \Lumiere\Settings::get_compat_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */
 
 		// Update 'imdbwidgetsource'
 		// No need to display the source by default
-		if ( true === $this->lumiere_update_options( \Lumiere\Settings::LUMIERE_DATA_OPTIONS, 'imdbwidgetsource', '0' ) ) {
+		if ( true === $this->lumiere_update_options( \Lumiere\Settings::get_compat_data_tablename(), 'imdbwidgetsource', '0' ) ) {
 
 			$text = 'Lumière option imdbwidgetsource successfully updated.';
 

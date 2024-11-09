@@ -43,9 +43,9 @@ class Settings {
 	/**
 	 * Name of the databases as stored in WordPress db
 	 */
-	const LUMIERE_ADMIN_OPTIONS = 'imdbAdminOptions';
-	const LUMIERE_DATA_OPTIONS = 'imdbWidgetOptions';
-	const LUMIERE_CACHE_OPTIONS = 'imdbCacheOptions';
+	const LUMIERE_ADMIN_OPTIONS = 'lumiere_admin_options';
+	const LUMIERE_DATA_OPTIONS = 'lumiere_data_options';
+	const LUMIERE_CACHE_OPTIONS = 'lumiere_cache_options';
 
 	/**
 	 * Admin options vars
@@ -184,25 +184,25 @@ class Settings {
 		 * Build options, get them from database if they exist, build them otherwise.
 		 * Only $imdb_admin_option is set as a property, since it is used in that class.
 		 */
-		$imdb_admin_option = get_option( self::LUMIERE_ADMIN_OPTIONS );
+		$imdb_admin_option = get_option( self::get_compat_admin_tablename() );
 		if ( is_array( $imdb_admin_option ) === false ) {
 			$imdb_admin_option = $this->get_imdb_admin_option();
-			update_option( self::LUMIERE_ADMIN_OPTIONS, $imdb_admin_option );
+			update_option( self::get_compat_admin_tablename(), $imdb_admin_option );
 		}
 		/** @phpstan-var OPTIONS_ADMIN $imdb_admin_option */
 		$this->imdb_admin_option = $imdb_admin_option;
 
 		// Those have no class properties created.
-		$imdb_data_option = get_option( self::LUMIERE_DATA_OPTIONS );
+		$imdb_data_option = get_option( self::get_compat_data_tablename() );
 		if ( is_array( $imdb_data_option ) === false  ) {
 			$imdb_data_option = $this->get_imdb_data_option();
-			update_option( self::LUMIERE_DATA_OPTIONS, $imdb_data_option );
+			update_option( self::get_compat_data_tablename(), $imdb_data_option );
 		}
 
-		$imdb_cache_option = get_option( self::LUMIERE_CACHE_OPTIONS );
+		$imdb_cache_option = get_option( self::get_compat_cache_tablename() );
 		if ( is_array( $imdb_cache_option ) === false  ) {
 			$imdb_cache_option = $this->get_imdb_cache_option();
-			update_option( self::LUMIERE_CACHE_OPTIONS, $imdb_cache_option );
+			update_option( self::get_compat_cache_tablename(), $imdb_cache_option );
 		}
 
 		// Define Lumière constants once global options have been created.
@@ -352,8 +352,8 @@ class Settings {
 	public function lumiere_define_nb_updates(): bool {
 
 		// Get the database options, since this is called before the building of $this->imdb_admin_option.
-		if ( get_option( self::LUMIERE_ADMIN_OPTIONS ) !== false ) {
-			$this->imdb_admin_option = get_option( self::LUMIERE_ADMIN_OPTIONS );
+		if ( get_option( self::get_compat_admin_tablename() ) !== false ) {
+			$this->imdb_admin_option = get_option( self::get_compat_admin_tablename() );
 		}
 
 		// If option 'imdbHowManyUpdates' doesn't exist, make it.
@@ -365,14 +365,14 @@ class Settings {
 			$this->current_number_updates = strval( iterator_count( $files ) + 1 );
 
 			$option_key = 'imdbHowManyUpdates';
-			$option_array_search = get_option( self::LUMIERE_ADMIN_OPTIONS );
+			$option_array_search = get_option( self::get_compat_admin_tablename() );
 			if ( $option_array_search === false ) {
 				return false;
 			}
 			$option_array_search[ $option_key ] = $this->current_number_updates;
 
 			// On successful update, exit
-			if ( update_option( self::LUMIERE_ADMIN_OPTIONS, $option_array_search ) ) {
+			if ( update_option( self::get_compat_admin_tablename(), $option_array_search ) ) {
 				return true;
 			}
 
@@ -448,7 +448,7 @@ class Settings {
 		];
 		$imdb_admin_options['imdbplugindirectory'] = get_site_url() . $imdb_admin_options['imdbplugindirectory_partial'];
 
-		$imdb_options_a = get_option( self::LUMIERE_ADMIN_OPTIONS );
+		$imdb_options_a = get_option( self::get_compat_admin_tablename() );
 
 		if ( $imdb_options_a !== false && count( $imdb_options_a ) !== 0 ) { // if not empty.
 
@@ -463,9 +463,9 @@ class Settings {
 		// For debugging purpose.
 		// Update imdbHowManyUpdates option.
 		/*
-		$option_array_search = get_option( self::LUMIERE_ADMIN_OPTIONS );
+		$option_array_search = get_option( self::get_compat_admin_tablename() );
 		$option_array_search['imdbHowManyUpdates'] = 11; // Chosen number of updates.
-		update_option( self::LUMIERE_ADMIN_OPTIONS, $option_array_search );
+		update_option( self::get_compat_admin_tablename(), $option_array_search );
 		*/
 
 		return $imdb_admin_options;
@@ -500,8 +500,8 @@ class Settings {
 		$imdb_cache_options['imdbphotoroot'] = $imdb_cache_options['imdbcachedir'] . 'images/';
 		$imdb_cache_options['imdbphotodir'] = content_url() . '/cache/lumiere/images/';
 
-		$imdb_options_c = get_option( self::LUMIERE_CACHE_OPTIONS );
-		$imdb_options_a = get_option( self::LUMIERE_ADMIN_OPTIONS );
+		$imdb_options_c = get_option( self::get_compat_cache_tablename() );
+		$imdb_options_a = get_option( self::get_compat_admin_tablename() );
 
 		if (  is_array( $imdb_options_c ) === true && count( $imdb_options_c ) !== 0 ) { // if not empty.
 
@@ -611,7 +611,7 @@ class Settings {
 
 		];
 
-		$imdb_options_w = get_option( self::LUMIERE_DATA_OPTIONS );
+		$imdb_options_w = get_option( self::get_compat_data_tablename() );
 
 		if ( is_array( $imdb_options_w ) === true && count( $imdb_options_w ) !== 0 ) { // if not empty.
 
@@ -649,5 +649,40 @@ class Settings {
 
 	}
 
+	/**
+	 * Get Admin options in wp_options
+	 * Compatibility with old options row name, which was renamed in v. 4.2.1
+	 * @return string
+	 * @since 4.2.1
+	 *
+	 * @TODO Should be removed at a later stage and renamed Settings::get_compat_admin_tablename() by Settings::get_admin_tablename() everywhere
+	 */
+	public static function get_compat_admin_tablename(): string {
+		return get_option( 'imdbAdminOptions' ) !== false ? 'imdbAdminOptions' : self::LUMIERE_ADMIN_OPTIONS;
+	}
+
+	/**
+	 * Get Data options in wp_options
+	 * Compatibility with old options row name, which was renamed in v. 4.2.1
+	 * @return string
+	 * @since 4.2.1
+	 *
+	 * @TODO Should be removed at a later stage and renamed Settings::get_compat_data_tablename() by Settings::get_data_tablename() everywhere
+	 */
+	public static function get_compat_data_tablename(): string {
+		return get_option( 'imdbWidgetOptions' ) !== false ? 'imdbWidgetOptions' : self::LUMIERE_DATA_OPTIONS;
+	}
+
+	/**
+	 * Get Cache options in wp_options
+	 * Compatibility with old options row name, which was renamed in v. 4.2.1
+	 * @return string
+	 * @since 4.2.1
+	 *
+	 * @TODO Should be removed at a later stage and renamed Settings::get_compat_cache_tablename() by Settings::get_cache_tablename() everywhere
+	 */
+	public static function get_compat_cache_tablename(): string {
+		return get_option( 'imdbCacheOptions' ) !== false ? 'imdbCacheOptions' : self::LUMIERE_CACHE_OPTIONS;
+	}
 }
 

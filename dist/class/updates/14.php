@@ -71,7 +71,7 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
-		$this->lumiere_update_options( Settings::LUMIERE_ADMIN_OPTIONS, 'imdbHowManyUpdates', strval( $nb_of_updates ) );
+		$this->lumiere_update_options( Settings::get_compat_admin_tablename(), 'imdbHowManyUpdates', strval( $nb_of_updates ) );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */
@@ -80,7 +80,7 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 		 * Add 'imdbdelayimdbrequest' to LUMIERE_ADMIN_OPTIONS
 		 * New var to allow delay the number of requests to IMDb -> avoid 504 HTTP error when querying IMDb website
 		 */
-		if ( true === $this->lumiere_add_options( Settings::LUMIERE_ADMIN_OPTIONS, 'imdbdelayimdbrequest', 0 ) ) {
+		if ( true === $this->lumiere_add_options( Settings::get_compat_admin_tablename(), 'imdbdelayimdbrequest', 0 ) ) {
 
 			$text = 'Lumière option imdbdelayimdbrequest successfully added.';
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -96,7 +96,7 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 		 * Add 'imdbdelayimdbrequest' to LUMIERE_ADMIN_OPTIONS
 		 * New var to allow delay the number of requests to IMDb -> avoid 504 HTTP error when querying IMDb website
 		 */
-		if ( true === $this->lumiere_add_options( Settings::LUMIERE_CACHE_OPTIONS, 'imdbcacheautorefreshcron', 0 ) ) {
+		if ( true === $this->lumiere_add_options( Settings::get_compat_cache_tablename(), 'imdbcacheautorefreshcron', 0 ) ) {
 
 			$text = 'Lumière option imdbcacheautorefreshcron successfully added.';
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -112,7 +112,7 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 		 * Remove 'imdbusezip' from LUMIERE_CACHE_OPTIONS
 		 * The var is obsolete and not used. Automatically sending config info in the class Imdbphp
 		 */
-		if ( true === $this->lumiere_remove_options( Settings::LUMIERE_CACHE_OPTIONS, 'imdbusezip' ) ) {
+		if ( true === $this->lumiere_remove_options( Settings::get_compat_cache_tablename(), 'imdbusezip' ) ) {
 
 			$text = 'Lumière option imdbusezip successfully removed.';
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -128,7 +128,7 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 		 * Remove 'imdbconverttozip' from LUMIERE_CACHE_OPTIONS
 		 * The var is obsolete and has no use in IMDBPHP
 		 */
-		if ( true === $this->lumiere_remove_options( Settings::LUMIERE_CACHE_OPTIONS, 'imdbconverttozip' ) ) {
+		if ( true === $this->lumiere_remove_options( Settings::get_compat_cache_tablename(), 'imdbconverttozip' ) ) {
 
 			$text = 'Lumière option imdbconverttozip successfully removed.';
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );

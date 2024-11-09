@@ -272,9 +272,9 @@ class Logger {
 			$log_file = $this->imdb_admin_values['imdbpluginpath'] . 'debug.log';
 
 			// Update database with the new value for debug path.
-			$new_options = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+			$new_options = get_option( Settings::get_compat_admin_tablename() );
 			$new_options['imdbdebuglogpath'] = $log_file;
-			update_option( Settings::LUMIERE_ADMIN_OPTIONS, $new_options );
+			update_option( Settings::get_compat_admin_tablename(), $new_options );
 
 			error_log( '***WP Lumiere Plugin***: debug file could not be written in normal place, using plugin folder: ' . $log_file );
 			$this->maybe_create_log( $log_file, true );

@@ -69,14 +69,14 @@ class Lumiere_Update_File_04 extends \Lumiere\Updates {
 		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
-		$this->lumiere_update_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbHowManyUpdates', $nb_of_updates );
+		$this->lumiere_update_options( \Lumiere\Settings::get_compat_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */
 
 		// Add 'imdbSerieMovies'
 		// New option to select to search for movies, series, or both
-		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbseriemovies', 'movies+series' ) ) {
+		if ( true === $this->lumiere_add_options( \Lumiere\Settings::get_compat_admin_tablename(), 'imdbseriemovies', 'movies+series' ) ) {
 
 			$text = 'Lumière option imdbSerieMovies successfully added.';
 			$logger->debug( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -91,7 +91,7 @@ class Lumiere_Update_File_04 extends \Lumiere\Updates {
 		// Add 'imdbHowManyUpdates'
 		// New option to manage the number of updates made
 		// Without such an option, all updates are went through
-		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbHowManyUpdates', 1 ) ) {
+		if ( true === $this->lumiere_add_options( \Lumiere\Settings::get_compat_admin_tablename(), 'imdbHowManyUpdates', 1 ) ) {
 
 			$text = 'Lumière option imdbHowManyUpdates successfully added.';
 			$logger->debug( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );

@@ -50,8 +50,8 @@ class Imdbphp extends Imdbphp_Config {
 		parent::__construct();
 
 		// Get options from database.
-		$this->imdb_admin_values = get_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS );
-		$this->imdb_cache_values = get_option( \Lumiere\Settings::LUMIERE_CACHE_OPTIONS );
+		$this->imdb_admin_values = get_option( \Lumiere\Settings::get_compat_admin_tablename() );
+		$this->imdb_cache_values = get_option( \Lumiere\Settings::get_compat_cache_tablename() );
 
 		// Call the function to send the selected settings to imdbphp library.
 		$this->lumiere_send_config_imdbphp();
@@ -84,24 +84,12 @@ class Imdbphp extends Imdbphp_Config {
 		 */
 		$this->imdb_img_url = plugin_dir_path( dirname( __DIR__ ) ) . 'assets/pics/showtimes';
 
-		/**		$this->usecache = $this->imdb_cache_values['imdbusecache'];
+		/**
 		 * These two are hardcoded at 800 in IMDbPHP Config class
 		 * can't be changed in admin panel, only below
 		 */
 		$this->image_max_width = 800;
 		$this->image_max_height = 800;
-	}
-	
-	/**
-	 * Activate cache
-	 * Ensure that cache is active
-	 *
-	 * @see \Lumiere\Frontend\Frontend
-	 */
-	public function activate_cache(): void {
-		$this->usecache = true;
-		$this->storecache = true;
-		$this->usezip = true;
 	}
 }
 

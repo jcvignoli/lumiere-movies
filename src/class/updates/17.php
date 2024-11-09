@@ -68,7 +68,7 @@ class Lumiere_Update_File_17 extends \Lumiere\Updates {
 		$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
-		$this->lumiere_update_options( Settings::LUMIERE_ADMIN_OPTIONS, 'imdbHowManyUpdates', strval( $nb_of_updates ) );
+		$this->lumiere_update_options( Settings::get_compat_admin_tablename(), 'imdbHowManyUpdates', strval( $nb_of_updates ) );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */
@@ -77,7 +77,7 @@ class Lumiere_Update_File_17 extends \Lumiere\Updates {
 		 * Add 'imdbcachedetailshidden' to LUMIERE_CACHE_OPTIONS
 		 * New var to hide all cache details
 		 */
-		if ( true === $this->lumiere_add_options( Settings::LUMIERE_CACHE_OPTIONS, 'imdbcachedetailshidden', 0 ) ) {
+		if ( true === $this->lumiere_add_options( Settings::get_compat_cache_tablename(), 'imdbcachedetailshidden', 0 ) ) {
 
 			$text = 'Lumière option imdbcachedetailshidden successfully added.';
 			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );

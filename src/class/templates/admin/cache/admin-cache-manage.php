@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 /** @psalm-suppress InvalidGlobal Cannot use global scope here (unless this file is included from a non-global scope) */
 global $wp_filesystem;
 
-$lum_imdb_cache_values = get_option( \Lumiere\Settings::LUMIERE_CACHE_OPTIONS );
+$lum_imdb_cache_values = get_option( \Lumiere\Settings::get_compat_cache_tablename() );
 
 // Retrieve the vars from calling class.
 $lum_cache_file_count = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];

@@ -69,14 +69,14 @@ class Lumiere_Update_File_06 extends \Lumiere\Updates {
 		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
-		$this->lumiere_update_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbHowManyUpdates', $nb_of_updates );
+		$this->lumiere_update_options( \Lumiere\Settings::get_compat_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */
 
 		// Add 'imdbdebuglevel'
 		// New option to select the level of verbosity
-		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbdebuglevel', 'DEBUG' ) ) {
+		if ( true === $this->lumiere_add_options( \Lumiere\Settings::get_compat_admin_tablename(), 'imdbdebuglevel', 'DEBUG' ) ) {
 
 			$text = 'Lumière option imdbdebuglevel successfully added.';
 
@@ -92,7 +92,7 @@ class Lumiere_Update_File_06 extends \Lumiere\Updates {
 
 		// Add 'imdbdebugscreen'
 		// New option to show the debug on screen
-		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbdebugscreen', true ) ) {
+		if ( true === $this->lumiere_add_options( \Lumiere\Settings::get_compat_admin_tablename(), 'imdbdebugscreen', true ) ) {
 
 			$text = 'Lumière option imdbdebugscreen successfully added.';
 
@@ -108,7 +108,7 @@ class Lumiere_Update_File_06 extends \Lumiere\Updates {
 
 		// Add 'imdbdebuglog'
 		// New option to select if to write a debug log
-		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbdebuglog', false ) ) {
+		if ( true === $this->lumiere_add_options( \Lumiere\Settings::get_compat_admin_tablename(), 'imdbdebuglog', false ) ) {
 
 			$text = 'Lumière option imdbdebuglog successfully added.';
 
@@ -124,7 +124,7 @@ class Lumiere_Update_File_06 extends \Lumiere\Updates {
 
 		// Add 'imdbdebuglogpath'
 		// New option to enter a path for the log
-		if ( true === $this->lumiere_add_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbdebuglogpath', WP_CONTENT_DIR . '/debug.log' ) ) {
+		if ( true === $this->lumiere_add_options( \Lumiere\Settings::get_compat_admin_tablename(), 'imdbdebuglogpath', WP_CONTENT_DIR . '/debug.log' ) ) {
 
 			$text = 'Lumière option imdbdebuglogpath successfully added.';
 

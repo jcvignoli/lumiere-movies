@@ -15,7 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-$lumiere_imdb_cache_values = get_option( \Lumiere\Settings::LUMIERE_CACHE_OPTIONS );
+$lumiere_imdb_cache_values = get_option( \Lumiere\Settings::get_compat_cache_tablename() );
 
 // Retrieve the vars from calling class.
 $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
@@ -97,7 +97,7 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				
 				<div class="lumiere_flex_container_content_thirty lumiere_padding_five">
 
-					<?php esc_html_e( 'No cache data', 'lumiere-movies' ); ?>&nbsp;
+					<?php esc_html_e( 'Do not show cache', 'lumiere-movies' ); ?>&nbsp;
 
 					<input type="hidden" id="imdb_imdbcachedetailshidden_no" name="imdb_imdbcachedetailshidden" value="0" />
 					<input type="checkbox" id="imdb_imdbcachedetailshidden_yes" name="imdb_imdbcachedetailshidden" value="1" 
@@ -113,7 +113,7 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 			</div>
 
 				<?php	//------------------------------------------------------------------ =[cache cron]=- ?>
-			<div class="titresection"><?php esc_html_e( 'Cache automatized functions', 'lumiere-movies' ); ?></div>
+			<div class="titresection"><?php esc_html_e( 'Automatized cache functions', 'lumiere-movies' ); ?></div>
 
 			<div class="lumiere_display_flex lumiere_flex_make_responsive">
 

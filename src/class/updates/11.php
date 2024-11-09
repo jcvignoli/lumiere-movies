@@ -71,7 +71,7 @@ class Lumiere_Update_File_11 extends \Lumiere\Updates {
 		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
-		$this->lumiere_update_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbHowManyUpdates', $nb_of_updates );
+		$this->lumiere_update_options( \Lumiere\Settings::get_compat_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */
@@ -81,7 +81,7 @@ class Lumiere_Update_File_11 extends \Lumiere\Updates {
 		 * The var is obsolete and not used. Automatically sending config info
 		 * in class-imdbphp instead of using a var
 		 */
-		if ( true === $this->lumiere_remove_options( Settings::LUMIERE_CACHE_OPTIONS, 'imdbstorecache' ) ) {
+		if ( true === $this->lumiere_remove_options( Settings::get_compat_cache_tablename(), 'imdbstorecache' ) ) {
 
 			$text = 'Lumière option imdbstorecache successfully removed.';
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );

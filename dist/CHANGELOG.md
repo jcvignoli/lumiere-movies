@@ -4,6 +4,7 @@ v.4.2.1
 * [feature] Added Spouses and Children to people popups full biography section
 * [feature] Language form in Taxonomy pages is automatically submitted on language change (added jquery script in lumiere_scripts.js and renamed &lt;input type="submit" name="submit"&gt; to &lt;input type="submit" name="submit_lang"&gt; - "name" couldn't be "submit")
 * [technical] Taxonomy pages for people also retrieve pages written about the person (previously only posts were retrieved, added 'page' to queries in classes Polylang and Taxonomy_People_Standard)
+* [technical] Renamed database table names (from imdb* to lumiere_*)
 
 v.4.2
 * [technical] Compatible 6.7 (load_plugin_textdomain() is loaded in add_action('init') in class Core)

@@ -69,7 +69,7 @@ class Lumiere_Update_File_09 extends \Lumiere\Updates {
 		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
-		$this->lumiere_update_options( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS, 'imdbHowManyUpdates', $nb_of_updates );
+		$this->lumiere_update_options( \Lumiere\Settings::get_compat_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */
@@ -78,7 +78,7 @@ class Lumiere_Update_File_09 extends \Lumiere\Updates {
 		 * Remove 'imdbwidgetcomment'
 		 * Obsolete
 		 */
-		if ( true === $this->lumiere_remove_options( \Lumiere\Settings::LUMIERE_DATA_OPTIONS, 'imdbwidgetcomment' ) ) {
+		if ( true === $this->lumiere_remove_options( \Lumiere\Settings::get_compat_data_tablename(), 'imdbwidgetcomment' ) ) {
 
 			$text = 'Lumière option imdbwidgetcomment successfully removed.';
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -95,7 +95,7 @@ class Lumiere_Update_File_09 extends \Lumiere\Updates {
 		 * Obsolete
 		 */
 		if ( true === $this->lumiere_update_options(
-			\Lumiere\Settings::LUMIERE_DATA_OPTIONS,
+			\Lumiere\Settings::get_compat_data_tablename(),
 			'imdbwidgetorder',
 			[
 				'title' => '1',

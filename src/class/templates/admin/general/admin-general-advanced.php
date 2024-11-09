@@ -15,7 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-$lumiere_imdb_admin_values = get_option( \Lumiere\Settings::LUMIERE_ADMIN_OPTIONS );
+$lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_compat_admin_tablename() );
 ?>
 <div class="lumiere_wrap">
 	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
