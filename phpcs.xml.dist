@@ -65,6 +65,7 @@
 				<element value="lumiere-movies"/>
 			</property>
 		</properties>
+		<exclude name="WordPress.WP.I18n.TextDomainMismatch"/>
 	</rule>
 
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
