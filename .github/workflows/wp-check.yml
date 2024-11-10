@@ -13,7 +13,7 @@ jobs:
     - name: Run plugin check
       uses: wordpress/plugin-check-action@v1
       with:
-        build-dir: './tmp-build/lumiere-movies'
+        build-dir: './dist'
         exclude-directories: 'vendor,.wordpress-org'
         categories: |
           performance
