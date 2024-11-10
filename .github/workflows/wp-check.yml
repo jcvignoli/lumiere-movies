@@ -31,9 +31,9 @@ jobs:
       with:
         build-dir: './tmp-build/my-awesome-plugin'
         exclude-directories: 'vendor,.wordpress-org'
-      categories: |
-        performance
-        accessibility
-        general
-        plugin_repo
-        security
+        categories: |
+          performance
+          accessibility
+          general
+          plugin_repo
+          security
