@@ -96,8 +96,8 @@ trait Admin_General {
 		}
 
 		// Set the highest level of debug reporting.
-		error_reporting( E_ALL );
-		ini_set( 'display_errors', '1' ); // @phpcs:ignore WordPress.PHP.IniSet.display_errors_Blacklisted -- it's debugging!
+		error_reporting( E_ALL ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.prevent_path_disclosure_error_reporting -- it's debugging
+		ini_set( 'display_errors', '1' ); // @phpcs:ignore WordPress.PHP.IniSet.display_errors_Blacklisted, Squiz.PHP.DiscouragedFunctions.Discouraged -- it's debugging!
 
 		// avoid endless loops with imdbphp parsing errors.
 		if ( ( isset( $libxml_use ) ) && ( $libxml_use === 'libxml' ) ) {

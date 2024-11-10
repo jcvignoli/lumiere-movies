@@ -102,7 +102,7 @@ class Save_Options {
 	private function get_referer(): bool|string {
 
 		/** @psalm-suppress PossiblyNullArgument -- Argument 1 of esc_html cannot be null, possibly null value provided - I don't even understand*/
-		$gets_array = array_map( 'esc_html', $_GET );
+		$gets_array = array_map( 'esc_html', $_GET ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- no escape ok!
 		// These forbidden strings are generated in Cache class in $_GET
 		$forbidden_url_strings = [ 'dothis', 'where', 'type', '_nonce_cache_deleteindividual', '_nonce_cache_refreshindividual' ];
 		$first_url_string = '';
@@ -532,7 +532,7 @@ class Save_Options {
 			 * @psalm-suppress InvalidArgument
 			 * @phpstan-ignore argument.type
 			 */
-			$data_keys_filtered = array_map( 'sanitize_text_field', array_keys( wp_unslash( $_POST['imdbwidgetorderContainer'] ) ) );
+			$data_keys_filtered = array_map( 'sanitize_text_field', array_keys( wp_unslash( $_POST['imdbwidgetorderContainer'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- It is sanitized with wp_unslash, bug!
 
 			$data_values_filtered = array_map( 'sanitize_text_field', wp_unslash( $_POST['imdbwidgetorderContainer'] ) );
 

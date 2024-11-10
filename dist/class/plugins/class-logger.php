@@ -167,7 +167,7 @@ class Logger {
 				if ( $final_log_file === null ) {
 					$this->logger_class = new LoggerMonolog( $logger_name );
 					$this->logger_class->pushHandler( new NullHandler() );
-					error_log( '***WP Lumiere Plugin ERROR***: cannot use any log file' );
+					error_log( '***WP Lumiere Plugin ERROR***: cannot use any log file' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 					return;
 				}
 
@@ -249,7 +249,7 @@ class Logger {
 		// Debug file doesn't exist, create it.
 		if ( $wp_filesystem->is_file( $log_file ) === false ) {
 			$wp_filesystem->put_contents( $log_file, '' );
-			error_log( '***WP Lumiere Plugin***: created debug file ' . $log_file );
+			error_log( '***WP Lumiere Plugin***: created debug file ' . $log_file ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		}
 
 		// Debug file permissions are wrong, change them.
@@ -259,10 +259,10 @@ class Logger {
 
 			// Permissions on the file are not correct, change them.
 			if ( $wp_filesystem->chmod( $log_file, $fs_chmod ) === true ) {
-				error_log( '***WP Lumiere Plugin***: changed chmod permissions debug file ' . $log_file );
+				error_log( '***WP Lumiere Plugin***: changed chmod permissions debug file ' . $log_file ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 				return $log_file;
 			}
-			error_log( '***WP Lumiere Plugin ERROR***: cannot change permission of debug file ' . $log_file );
+			error_log( '***WP Lumiere Plugin ERROR***: cannot change permission of debug file ' . $log_file ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		}
 
 		// If couldnt create debug file in wp-content, change the path to Lumière plugin folder.
@@ -276,13 +276,13 @@ class Logger {
 			$new_options['imdbdebuglogpath'] = $log_file;
 			update_option( Settings::get_compat_admin_tablename(), $new_options );
 
-			error_log( '***WP Lumiere Plugin***: debug file could not be written in normal place, using plugin folder: ' . $log_file );
+			error_log( '***WP Lumiere Plugin***: debug file could not be written in normal place, using plugin folder: ' . $log_file ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			$this->maybe_create_log( $log_file, true );
 		}
 
 		// If this failed again, send an Apache error message and exit.
 		if ( is_file( $log_file ) === false || $wp_filesystem->is_writable( $log_file ) === false ) {
-			error_log( '***WP Lumiere Plugin ERROR***: Tried everything, cannot create any debug log both neither in wp-content nor in Lumiere plugin folder.' );
+			error_log( '***WP Lumiere Plugin ERROR***: Tried everything, cannot create any debug log both neither in wp-content nor in Lumiere plugin folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			return null;
 		}
 

@@ -228,8 +228,8 @@ trait Main {
 
 		// If url contains ?amp, it must be an AMP page
 		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), '?amp' )
-		|| isset( $_GET ['wpamp'] )
-		|| isset( $_GET ['amp'] )
+		|| isset( $_GET ['wpamp'] ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
+		|| isset( $_GET ['amp'] ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
 		) {
 			return true;
 		}

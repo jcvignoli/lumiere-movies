@@ -82,8 +82,8 @@ class Lumiere_Update_File_18 extends \Lumiere\Updates {
 		 * 1. Rename ADMIN row in wp_options table
 		 */
 		$old_admin_table = 'imdbAdminOptions';
-		$new_admin_table = 'lumiere_admin_options';
-		$execute_sql = $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->options SET `option_name` = %s WHERE {$wpdb->options}.`option_name` = %s", [ $new_admin_table, $old_admin_table ] ) );
+		$new_admin_table = 'lumiere_admin_1options';
+		$execute_sql = $wpdb->update( $wpdb->options, [ 'option_name' => $new_admin_table ], [ 'option_name' => $old_admin_table ] ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 
 		if ( $execute_sql ) {
 			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Successfully renamed table ' . $old_admin_table . ' to ' . $new_admin_table );
@@ -96,7 +96,7 @@ class Lumiere_Update_File_18 extends \Lumiere\Updates {
 		 */
 		$old_data_table = 'imdbWidgetOptions';
 		$new_data_table = 'lumiere_data_options';
-		$execute_sql = $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->options SET `option_name` = %s WHERE {$wpdb->options}.`option_name` = %s", [ $new_data_table, $old_data_table ] ) );
+		$execute_sql = $wpdb->update( $wpdb->options, [ 'option_name' => $new_data_table ], [ 'option_name' => $old_data_table ] ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 
 		if ( $execute_sql ) {
 			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Successfully renamed table ' . $old_data_table . ' to ' . $new_data_table );
@@ -110,7 +110,7 @@ class Lumiere_Update_File_18 extends \Lumiere\Updates {
 		 */
 		$old_cache_table = 'imdbCacheOptions';
 		$new_cache_table = 'lumiere_cache_options';
-		$execute_sql = $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->options SET `option_name` = %s WHERE {$wpdb->options}.`option_name` = %s", [ $new_cache_table, $old_cache_table ] ) );
+		$execute_sql = $wpdb->update( $wpdb->options, [ 'option_name' => $new_cache_table ], [ 'option_name' => $old_cache_table ] ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 
 		if ( $execute_sql ) {
 			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Successfully renamed table ' . $old_cache_table . ' to ' . $new_cache_table );
