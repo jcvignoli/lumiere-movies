@@ -93,7 +93,7 @@ class Frontend {
 			$this->config_class->lumiere_js_dir . 'lumiere_hide_show.min.js',
 			[ 'jquery' ],
 			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_hide_show.min.js' ) ),
-			true
+			[ 'strategy' => 'async' ]
 		);
 
 		// Frontpage scripts
@@ -102,7 +102,7 @@ class Frontend {
 			$this->config_class->lumiere_js_dir . 'lumiere_scripts.min.js',
 			[ 'jquery' ],
 			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_scripts.min.js' ) ),
-			true
+			[ 'strategy' => 'async' ]
 		);
 
 		// Main style
