@@ -10,14 +10,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Run plugin check
-      uses: wordpress/plugin-check-action@v1
-      with:
-        build-dir: './dist'
-        exclude-directories: 'vendor,.wordpress-org'
-        categories: |
-          performance
-          accessibility
-          general
-          plugin_repo
-          security
+  - name: Build plugin
+    run: |
+      mv ./dist ${{ runner.temp }}/lumiere-movies
+
+  - name: Run plugin check
+    uses: wordpress/plugin-check-action@v1.0.6
+    with:
+      build-dir: ${{ runner.temp }}/lumiere-movies
+      exclude-directories: 'vendor,.wordpress-org'
+
