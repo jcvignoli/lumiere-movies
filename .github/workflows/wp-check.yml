@@ -9,8 +9,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      with:
-        path: 'lumiere-movies'
     
     - name: Run plugin check
       uses: wordpress/plugin-check-action@v1.0.7
