@@ -1,4 +1,4 @@
-name: "PHPStan and Phan"
+name: "PHPStan, Psalm and Phan"
 on:
   push:
     branches: "*"

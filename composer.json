@@ -52,9 +52,10 @@
     "scripts": {
         "phpcsbot": "vendor/bin/phpcs --warning-severity=0 --extensions=php src",
         "phpstanbot": "vendor/bin/phpstan",
-        "phanbot": "vendor/bin/phan -k phan.php ",
+        "phanbot": "vendor/bin/phan -k phan.php",
+        "psalmbot": "vendor/bin/psalm",
         "test:local": "./vendor/bin/codecept run -vvv acceptanceLocal --env wpchrome",
-        "code-analyser": ["@phpcsbot", "@phpstanbot"],
+        "code-analyser": ["@phpcsbot", "@phpstanbot", "@psalmbot"],
         "post-autoload-dump": [
             "./build/update-src-composer"
         ]
