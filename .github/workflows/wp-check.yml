@@ -9,10 +9,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-
+      with:
+        path: './dist'
+    
     - name: Run plugin check
       uses: wordpress/plugin-check-action@v1
       with:
-        path: './dist'
+        build-dir: './dist'
         exclude-directories: 'vendor,.wordpress-org'
+        ignore-errors: ''
 
