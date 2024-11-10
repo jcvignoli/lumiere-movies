@@ -259,10 +259,11 @@ class TaxonomyCest {
 	public function taxoClickMore(AcceptanceRemoteTester $I) {
 		$this->maybeEnableTaxonomy($I);
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->scrollTo(['id' => 'title_2001: A Space Odyssey' ]);
-		$I->wait(2);
-		// $I->click( "Stanley Kubrick"); doesn't find it, do not know why...
-		$I->click( "/html/body/div[2]/div/main/div/aside/div/div[1]/div[50]/div/div[2]/div[4]/a" );
+		$I->scrollTo( [ 'id' => 'link_taxo_2001__a_space_odyssey_en_lumiere_director_stanley_kubrick' ], 0, -100 );
+		$I->waitForText('Stanley Kubrick');
+		$I->see( "Stanley Kubrick" );
+		// $I->click( "Stanley Kubrick"); // doesn't work, dunno why
+		$I->click( [ 'id' => 'link_taxo_2001__a_space_odyssey_en_lumiere_director_stanley_kubrick' ] );
 		$I->waitForText('Stanley Kubrick was born in Manhattan');
 		$I->scrollTo(['css' => '.activatehidesection' ]);
 		$I->executeJS( "return jQuery('span.activatehidesection').get(0).click()");

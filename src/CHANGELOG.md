@@ -5,7 +5,8 @@ v.4.2.1
 * [feature] Language form in Taxonomy pages is automatically submitted on language change (added jquery script in lumiere_scripts.js and renamed &lt;input type="submit" name="submit"&gt; to &lt;input type="submit" name="submit_lang"&gt; - "name" couldn't be "submit")
 * [bug] Couldn't save Popups settings in General settings (fixed class Save_options method lumiere_general_options_save(), added "! isset( $_POST['imdbpopup_modal_window'] )" )
 * [bug] Notices weren't displayed (trait Admin_General had a sanitize_key() instead of esc_url() in method lumiere_get_current_admin_url())
-* [bug] Link to activate taxoonomy when it's not activated (next to "Data Management") was outdated (updated in template admin-menu-first-part.php)
+* [bug] Link to activate taxonomy when it's not activated (next to "Data Management") was outdated (updated in template admin-menu-first-part.php)
+* [bug] Movies languages were not available (changed IMDb method from languages() to language(), using GraphQL)
 * [technical] Taxonomy pages for people also retrieve pages written about the person (previously only posts were retrieved, added 'page' to queries in classes Polylang and Taxonomy_People_Standard)
 * [technical] Renamed database table names (from imdb* to lumiere_*)
 

@@ -445,10 +445,11 @@ class Movie {
 	 * @param string $first_title mandatory: the name of the first string to display, ie "Stanley Kubrick"
 	 * @param string|null $second_title optional: the name of a second string to display, utilised in $layout 'two', ie "director"
 	 * @param string $layout optional: the type of the layout, either 'one' or 'two', one by default
+	 * @param string|null $movie_title Optional: movie's title, null by default
 	 *
 	 * @return string the text to be outputed
 	 */
-	protected function lumiere_make_display_taxonomy( string $type_item, string $first_title, ?string $second_title = null, string $layout = 'one' ): string {
+	protected function lumiere_make_display_taxonomy( string $type_item, string $first_title, ?string $second_title = null, string $layout = 'one', ?string $movie_title = null ): string {
 
 		/**
 		 * Vars and sanitization
@@ -526,12 +527,17 @@ class Movie {
 		/**
 		 * Layout
 		 */
+
+		// Build the id for the link <a id="$link_id">
+		$link_id = ( $movie_title ?? '' ) . '_' . $lang_term . '_' . $taxonomy_category_full . '_' . $taxonomy_term;
+		$link_id = preg_replace( "/^'|[^A-Za-z0-9\'-]|'|\-$/", '_', $link_id ) ?? '';
+		$link_id = 'link_taxo_' . strtolower( str_replace( '-', '_', $link_id ) );
+
 		// layout=two: display the layout for double entry details, ie actors
 		if ( $layout === 'two' ) {
-
 			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-			$output .= "\n\t\t\t\t\t<a class=\"lum_link_taxo_page\" href=\""
+			$output .= "\n\t\t\t\t\t<a id=\"" . $link_id . '" class="lum_link_taxo_page" href="'
 					. esc_url( $this->lumiere_get_taxo_link( $taxonomy_term, $taxonomy_category_full ) )
 					. '" title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' )
 					. '">';
@@ -545,14 +551,12 @@ class Movie {
 
 			// layout=one: display the layout for all details separated by comas, ie keywords
 		} elseif ( $layout === 'one' ) {
-
-			$output .= '<a class="lum_link_taxo_page" '
+			$output .= '<a id="' . $link_id . '" class="lum_link_taxo_page" '
 					. 'href="' . esc_url( $this->lumiere_get_taxo_link( $taxonomy_term, $taxonomy_category_full ) )
 					. '" '
 					. 'title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' ) . '">';
 			$output .= $taxonomy_term;
 			$output .= '</a>';
-
 		}
 
 		return $output;

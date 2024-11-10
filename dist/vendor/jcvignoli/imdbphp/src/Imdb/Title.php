@@ -671,11 +671,10 @@ EOF;
 
     #--------------------------------------------------------[ Language Stuff ]---
 
-    /** Get movies original language
+    /** Get movies original languages
      * @return string language
-     * @brief There is not really a main language on the IMDB sites (yet), so this
-     *  simply returns the first one
      * @see IMDB page / (TitlePage)
+     * @return array<int, string> languages
      */
     public function language()
     {

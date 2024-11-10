@@ -150,7 +150,7 @@ class DataDetailsCest {
 		$I->dontSee('Grok! Television');
 		$I->dontSee('1 episode, 2011');
 		$I->dontSee('Jane Espenson');
-		$I->dontSee(' twins incest');
+		$I->dontSee('Seven Kingdoms');
 		$I->dontSee('votes');
 		$I->dontSee('D.B. Weiss');
 		$I->dontSee('Theon Greyjoy');
@@ -330,7 +330,7 @@ class DataDetailsCest {
 		$I->see('Grok! Television');
 		$I->see('1 episode, 2011');
 		$I->see('Jane Espenson');
-		$I->see(' twins incest');
+		$I->see('Seven Kingdoms');
 		$I->see('votes');
 		$I->see('D.B. Weiss');
 		$I->see('Theon Greyjoy');

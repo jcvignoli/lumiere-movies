@@ -112,7 +112,7 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'country', esc_attr( $country[ $i ] ), '', 'one' );
+				$output .= $this->lumiere_make_display_taxonomy( 'country', esc_attr( $country[ $i ] ), '', 'one', sanitize_text_field( $movie->title() ) );
 				if ( $i < $nbtotalcountry - 1 ) {
 					$output .= ', ';
 				}
@@ -163,7 +163,10 @@ class Movie_Data extends Movie {
 	protected function lumiere_movies_language( Title $movie ): string {
 
 		$output = '';
-		$languages = $movie->languages();
+
+		// @var array<int, string> $languages
+		$languages = $movie->language();
+
 		$nbtotallanguages = count( $languages );
 
 		if ( $nbtotallanguages === 0 ) {
@@ -179,7 +182,7 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'language', esc_attr( $languages[ $i ] ), '', 'one' );
+				$output .= $this->lumiere_make_display_taxonomy( 'language', esc_attr( $languages[ $i ] ), '', 'one', sanitize_text_field( $movie->title() ) );
 				if ( $i < $nbtotallanguages - 1 ) {
 					$output .= ', ';
 				}
@@ -252,7 +255,7 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'genre', esc_attr( $genre[ $i ] ), '', 'one' );
+				$output .= $this->lumiere_make_display_taxonomy( 'genre', esc_attr( $genre[ $i ] ), '', 'one', sanitize_text_field( $movie->title() ) );
 				if ( $i < $nbtotalgenre - 1 ) {
 					$output .= ', ';
 				}
@@ -298,7 +301,7 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotalkeywords && $i < $limit_keywords; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'keyword', esc_attr( $keywords[ $i ] ), '', 'one' );
+				$output .= $this->lumiere_make_display_taxonomy( 'keyword', esc_attr( $keywords[ $i ] ), '', 'one', sanitize_text_field( $movie->title() ) );
 				if ( $i < $nbtotalkeywords - 1 ) {
 					$output .= ', ';
 				}
@@ -470,7 +473,7 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotalcolors; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'color', esc_attr( $colors[ $i ] ), '', 'one' );
+				$output .= $this->lumiere_make_display_taxonomy( 'color', esc_attr( $colors[ $i ] ), '', 'one', sanitize_text_field( $movie->title() ) );
 				if ( $i < $nbtotalcolors - 1 ) {
 					$output .= ', ';
 				}
@@ -568,7 +571,7 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotalcomposer; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'composer', esc_attr( $composer[ $i ]['name'] ), '', 'one' );
+				$output .= $this->lumiere_make_display_taxonomy( 'composer', esc_attr( $composer[ $i ]['name'] ), '', 'one', sanitize_text_field( $movie->title() ) );
 				if ( $i < $nbtotalcomposer - 1 ) {
 					$output .= ', ';
 				}
@@ -748,7 +751,8 @@ class Movie_Data extends Movie {
 					'director',
 					esc_attr( $director[ $i ]['name'] ),
 					'',
-					'one'
+					'one',
+					sanitize_text_field( $movie->title() )
 				);
 
 				if ( $i < $nbtotaldirector - 1 ) {
@@ -808,7 +812,8 @@ class Movie_Data extends Movie {
 					'creator',
 					esc_attr( $creator[ $i ]['name'] ),
 					'',
-					'one'
+					'one',
+					sanitize_text_field( $movie->title() )
 				);
 
 				if ( $i < $nbtotalcreator - 1 ) {
@@ -869,7 +874,8 @@ class Movie_Data extends Movie {
 					'producer',
 					esc_attr( $producer[ $i ]['name'] ),
 					esc_attr( $producer[ $i ]['role'] ),
-					'two'
+					'two',
+					sanitize_text_field( $movie->title() )
 				);
 			}
 
@@ -935,7 +941,8 @@ class Movie_Data extends Movie {
 					'writer',
 					esc_attr( $writer[ $i ]['name'] ),
 					esc_attr( $writer[ $i ]['role'] ),
-					'two'
+					'two',
+					sanitize_text_field( $movie->title() )
 				);
 			}
 
@@ -1000,7 +1007,8 @@ class Movie_Data extends Movie {
 					'actor',
 					esc_attr( $cast[ $i ]['name'] ),
 					esc_attr( $cast[ $i ]['role'] ),
-					'two'
+					'two',
+					sanitize_text_field( $movie->title() )
 				);
 			}
 

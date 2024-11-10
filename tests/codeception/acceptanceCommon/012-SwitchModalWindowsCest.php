@@ -65,7 +65,7 @@ class ModalWindowsCest {
 		$I->seeInPageSource("lumiere_style_main-css"); 	
 		$I->seeInPageSource("lumiere_highslide_core-js");
 		$I->seeInPageSource("lumiere_highslide_options-js");
-		$I->seeInPageSource('to stay with his uncle, <a class="lum_taxo_link lum_link_with_people highslide" data-modal_window_people="0675788" title="open a new window with IMDb informations">Martin Perveler</a>. Returning');		
+		$I->seeInPageSource(' to stay with his uncle, Martin Perveler. Returning to the Bronx in 1941');		
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource("lumiere_highslide_core_style-css");
 		$I->seeInPageSource("lumiere_style_main-css"); 	
@@ -83,7 +83,7 @@ class ModalWindowsCest {
 			<span class="modal fade" id="theModal0227759">');
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
 		$I->seeInPageSource("lumiere_bootstrap_custom-css");			
-		$I->seeInPageSource('California, to stay with his uncle, <a class="lum_taxo_link lum_link_with_people" data-modal_window_people="0675788" data-target="#theModal0675788" title="');	
+		$I->seeInPageSource(' to stay with his uncle, Martin Perveler. Returning to the Bronx in 1941');	
 		$I->seeInPageSource("lumiere_bootstrap_core-js");		
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource("lumiere_bootstrap_custom-css");			
@@ -100,7 +100,7 @@ class ModalWindowsCest {
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
 		$I->seeInPageSource("lumiere_classic_links-js");
 		$I->seeInPageSource("lumiere_style_main-css"); 			
-		$I->seeInPageSource('California, to stay with his uncle, <a class="lum_taxo_link lum_link_with_people " data-modal_window_people="0675788" title="');	
+		$I->seeInPageSource(' to stay with his uncle, Martin Perveler. Returning to the Bronx in 1941');	
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource("lumiere_classic_links-js");			
 		$I->seeInPageSource("lumiere_style_main-css"); 			
@@ -115,7 +115,7 @@ class ModalWindowsCest {
 		$I->seeInPageSource('<a class="lum_link_no_popup" id="link-0227759" data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="' . $this->base_url . '/lumiere/person/?mid=0227759&amp;amp">Peter Dinklage</a></div>');
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL . '?amp' );# Check taxonomy page
 		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
-		$I->seeInPageSource('to stay with his uncle, <a class="lum_taxo_link" href="' . $this->base_url . '/lumiere/person/?mid=0675788&amp;amp" title="');		
+		$I->seeInPageSource(' to stay with his uncle, Martin Perveler. Returning to the Bronx in 1941');		
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL . '&amp' );# Check popup movie
 		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");	
 		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/?mid=0000190&amp;amp" title="');
