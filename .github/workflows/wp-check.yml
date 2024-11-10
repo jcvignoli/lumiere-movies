@@ -22,7 +22,7 @@ jobs:
 
     - name: Build plugin
       run: |
-        wp dist-archive . ./lumiere-movies-plugin.zip
+        wp dist-archive ./dist ./lumiere-movies-plugin.zip
         mkdir tmp-build
         unzip lumiere-movies-plugin.zip -d tmp-build
 
