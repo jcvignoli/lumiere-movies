@@ -24,12 +24,12 @@ jobs:
       run: |
         wp dist-archive . ./lumiere-movies-plugin.zip
         mkdir tmp-build
-        unzip lumiere-movies.zip -d tmp-build
+        unzip lumiere-movies-plugin.zip -d tmp-build
 
     - name: Run plugin check
       uses: wordpress/plugin-check-action@v1
       with:
-        build-dir: './tmp-build/my-awesome-plugin'
+        build-dir: './tmp-build/lumiere-movies'
         exclude-directories: 'vendor,.wordpress-org'
         categories: |
           performance
