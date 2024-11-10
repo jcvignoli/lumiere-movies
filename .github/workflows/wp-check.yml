@@ -12,12 +12,12 @@ jobs:
 
     - name: Build plugin
       run: |
-        mv ./dist ${{ runner.temp }}/lumiere-movies
+        mv ./dist ${{ runner.temp }}/lumiere-movies-foov4
 
     - name: "Cache extensions"
       uses: actions/cache@v4
       with:
-        path: ${{ runner.temp }}/lumiere-movies
+        path: ${{ runner.temp }}/lumiere-movies-foov4
         key: ${{ runner.temp }}/lumiere-movies-foov4
         restore-keys: ${{ runner.temp }}/lumiere-movies-foov4
 
