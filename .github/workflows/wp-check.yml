@@ -12,18 +12,18 @@ jobs:
 
     - name: Build plugin
       run: |
-        mv ./dist ${{ runner.temp }}/lumiere-movies-foov4
+        mv ./dist ${{ runner.temp }}/lumiere-movies
 
     - name: "Cache extensions"
       uses: actions/cache@v4
       with:
-        path: ${{ runner.temp }}/lumiere-movies-foov4
-        key: ${{ runner.temp }}/lumiere-movies-foov4
-        restore-keys: ${{ runner.temp }}/lumiere-movies-foov4
+        path: ${{ runner.temp }}/lumiere-movies
+        key: ${{ runner.temp }}/lumiere-movies
+        restore-keys: ${{ runner.temp }}/lumiere-movies
 
     - name: Run plugin check
       uses: wordpress/plugin-check-action@v1.0.7
       with:
-        build-dir: ${{ runner.temp }}/lumiere-movies-foov4
+        build-dir: ${{ runner.temp }}/lumiere-movies
         exclude-directories: 'vendor,.wordpress-org'
 
