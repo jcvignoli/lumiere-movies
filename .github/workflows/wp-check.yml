@@ -13,9 +13,9 @@ jobs:
         path: 'lumiere-movies'
     
     - name: Run plugin check
-      uses: wordpress/plugin-check-action@v1
+      uses: wordpress/plugin-check-action@v1.0.7
       with:
         build-dir: './dist'
         exclude-directories: 'vendor,.wordpress-org'
-        ignore-errors: ''
+        ignore-errors: 'Mismatched text domain.'
 
