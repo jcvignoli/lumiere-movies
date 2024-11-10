@@ -2,10 +2,10 @@
 /**
  * Admin Trait
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
+ * @author Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
- * @version       1.0
+ * @version 1.0
  * @package lumiere-movies
  */
 
