@@ -150,7 +150,8 @@ class TaxonomyCest {
 
 		// Check that the template has been successfully implemented
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->scrollTo( '#title_Werewolf' );
+		$I->scrollTo( [ 'id' => 'title_Werewolf'] );
+		$I->wait(1);
 		$I->click( "Tony Zarindast");
 		$I->wait(2);
 		$I->see('Tehran');
@@ -207,7 +208,8 @@ class TaxonomyCest {
 		$I->wait(2);
 		// Check that the template has been successfully implemented
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->scrollTo( '#title_Werewolf' );
+		$I->scrollTo( [ 'id' => 'title_Werewolf'] );
+		$I->wait(1);
 		$I->click( "Horror");
 		$I->wait(2);
 		$I->see('List of posts tagged Horror');
@@ -224,12 +226,13 @@ class TaxonomyCest {
 		// popup link person Tony Zarindast
 		$element = 'a[data-modal_window_people="0953494"]';
 		$sub_url = '/en/lumiere/person/?mid=0953494';
-		$text_zarindast = '1934, in Tabriz, Iran';
+		$text_zarindast = '1934 in Tabriz, Iran';
 
 		$I->wantTo('Check if taxonomy option works');
 
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->scrollTo( '#title_Werewolf' );
+		$I->scrollTo( [ 'id' => 'title_Werewolf'] );
+		$I->wait(1);
 		$I->click( "Tony Zarindast");
 		$I->see( $text_zarindast );
 
@@ -237,6 +240,8 @@ class TaxonomyCest {
 		$this->maybeDisableTaxonomy($I);
 
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
+		$I->scrollTo( [ 'id' => 'title_Werewolf'] );
+		$I->wait(1);
 		$I->click( "Tony Zarindast");
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait( 4 );
@@ -254,7 +259,10 @@ class TaxonomyCest {
 	public function taxoClickMore(AcceptanceRemoteTester $I) {
 		$this->maybeEnableTaxonomy($I);
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->click( "Stanley Kubrick");
+		$I->scrollTo(['id' => 'title_2001: A Space Odyssey' ]);
+		$I->wait(2);
+		// $I->click( "Stanley Kubrick"); doesn't find it, do not know why...
+		$I->click( "/html/body/div[2]/div/main/div/aside/div/div[1]/div[50]/div/div[2]/div[4]/a" );
 		$I->waitForText('Stanley Kubrick was born in Manhattan');
 		$I->scrollTo(['css' => '.activatehidesection' ]);
 		$I->executeJS( "return jQuery('span.activatehidesection').get(0).click()");

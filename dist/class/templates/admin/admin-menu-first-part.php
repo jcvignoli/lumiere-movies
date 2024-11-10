@@ -54,7 +54,7 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 		}
 		if ( $lum_that->imdb_admin_values['imdbtaxonomy'] === '0' ) {
 
-			?> - <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&generaloption=advanced#imdb_imdbtaxonomy_yes' ); ?>"><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></font></em>
+			?> - <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=advanced#imdb_imdbtaxonomy_yes' ); ?>"><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></font></em>
 
 	<?php } ?>
 

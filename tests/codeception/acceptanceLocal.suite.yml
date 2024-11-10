@@ -74,5 +74,5 @@ env:
                      port: 4444
                      capabilities:
                        goog:chromeOptions:
-                            args: ["--headless", "--disable-extensions", "--user-agent=wp-browser", "allow-insecure-localhost",  "--ignore-certificate-errors"]
+                            args: ["-window-size=1280,1024", "--headless", "--disable-extensions", "--user-agent=wp-browser", "allow-insecure-localhost",  "--ignore-certificate-errors"]
 step_decorators: ~

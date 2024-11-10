@@ -227,7 +227,7 @@ class Save_Options {
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @param null|string $imdburlstringtaxo $_POST['imdb_imdburlstringtaxo']
-	 * @param null|string $imdburlpopups $_POST['imdb_imdburlpopups']
+	 * @param null|string $imdburlpopups $_POST['imdbpopup_modal_window']
 	 *
 	 * @template T as OPTIONS_ADMIN
 	 * @phan-suppress PhanTemplateTypeNotUsedInFunctionReturn
@@ -248,7 +248,11 @@ class Save_Options {
 		}
 
 		// Check if $_POST['imdb_imdburlpopups'] is an acceptable path
-		if ( isset( $imdburlpopups ) && ( $imdburlpopups === '/' || ! ( strlen( $imdburlpopups ) > 0 ) ) ) {
+		if (
+			! isset( $_POST['imdbpopup_modal_window'] ) // Make sure this is processed only in advanced options.
+			&& isset( $imdburlpopups ) // always set, not usefull.
+			&& ( $imdburlpopups === '/' || strlen( $imdburlpopups ) === 0 ) // forbid '/' or nothing.
+		) {
 			set_transient( 'notice_lumiere_msg', 'general_options_error_imdburlpopups_invalid', 30 );
 			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
 				exit;

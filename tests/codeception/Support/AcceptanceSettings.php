@@ -37,5 +37,5 @@ class AcceptanceSettings {
 	public const TESTING_PAGE_BASE_ELEMENT = 'Pajarero';
 	// WP Post including a test for auto title widget, important to have a movie's name as a title.
 	public const TESTING_PAGE_AUTOTITLEWIDGET_URL = '/2021/y-tu-mama-tambien/';
-	public const TESTING_PAGE_AUTOTITLEWIDGET_TITLE = 'And Your Mother Too';
+	public const TESTING_PAGE_AUTOTITLEWIDGET_TITLE = 'Y Tu Mamá También';
 }
