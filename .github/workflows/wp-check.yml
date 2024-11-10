@@ -9,11 +9,23 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    
+      with:
+        path: 'lumiere-movies'
+        
+    - name: Restore Cache
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          vendor
+          node_modules
+          dist
+        key: deps-prod-${{ hashFiles('composer.lock') }}-${{ hashFiles('package-lock.json') }}
+        fail-on-cache-miss: true
+      id: cache
+            
     - name: Run plugin check
-      uses: wordpress/plugin-check-action@v1.0.7
+      uses: wordpress/plugin-check-action@v1
       with:
         build-dir: './dist'
         exclude-directories: 'vendor,.wordpress-org'
-        ignore-errors: 'Mismatched text domain.'
 
