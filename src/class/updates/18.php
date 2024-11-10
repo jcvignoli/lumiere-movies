@@ -82,7 +82,7 @@ class Lumiere_Update_File_18 extends \Lumiere\Updates {
 		 * 1. Rename ADMIN row in wp_options table
 		 */
 		$old_admin_table = 'imdbAdminOptions';
-		$new_admin_table = 'lumiere_admin_1options';
+		$new_admin_table = 'lumiere_admin_options';
 		$execute_sql = $wpdb->update( $wpdb->options, [ 'option_name' => $new_admin_table ], [ 'option_name' => $old_admin_table ] ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 
 		if ( $execute_sql ) {
