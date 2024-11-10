@@ -7,12 +7,15 @@ jobs:
   standard:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
     - name: Build plugin
       run: |
         mv ./dist ${{ runner.temp }}/lumiere-movies
 
     - name: Run plugin check
-      uses: wordpress/plugin-check-action@v1.0.6
+      uses: wordpress/plugin-check-action@v1.0.7
       with:
         build-dir: ${{ runner.temp }}/lumiere-movies
         exclude-directories: 'vendor,.wordpress-org'
