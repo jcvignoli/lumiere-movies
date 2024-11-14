@@ -57,44 +57,43 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ### 1. Popup displayed when an imdb link is clicked.
 
-[missing image]
+![Popup displayed when an imdb link is clicked.](https://ps.w.org/lumiere-movies/assets/screenshot-1.jpg)
 
 ### 2. How movie's data is displayed "inside a post" 
 
-[missing image]
+![How movie's data is displayed "inside a post" ](https://ps.w.org/lumiere-movies/assets/screenshot-2.jpg)
 
 ### 3. How movie's data is displayed in a "widget" 
 
-[missing image]
+![How movie's data is displayed in a "widget" ](https://ps.w.org/lumiere-movies/assets/screenshot-3.jpg)
 
 ### 4. Admin preferences for cache
 
-[missing image]
+![Admin preferences for cache](https://ps.w.org/lumiere-movies/assets/screenshot-4.jpg)
 
 ### 5. The widget area to display a movie
 
-[missing image]
+![The widget area to display a movie](https://ps.w.org/lumiere-movies/assets/screenshot-5.jpg)
 
 ### 6. Menu in visual editor (tinyMCE) for inclusion of a movie section or popup
 
-[missing image]
+![Menu in visual editor (tinyMCE) for inclusion of a movie section or popup](https://ps.w.org/lumiere-movies/assets/screenshot-6.jpg)
 
 ### 7. Tool to insert a movie section or a popup in a post
 
-[missing image]
+![Tool to insert a movie section or a popup in a post](https://ps.w.org/lumiere-movies/assets/screenshot-7.jpg)
 
 ### 8. Query page to find a movie IMDb ID
 
-[missing image]
+![Query page to find a movie IMDb ID](https://ps.w.org/lumiere-movies/assets/screenshot-8.jpg)
 
 ### 9. Gutenberg block
 
-[missing image]
+![Gutenberg block](https://ps.w.org/lumiere-movies/assets/screenshot-9.jpg)
 
 ### 10. Taxonomy page for a star
 
-[missing image]
-
+![Taxonomy page for a star](https://ps.w.org/lumiere-movies/assets/screenshot-10.jpg)
 
 ## Frequently Asked Questions
 
