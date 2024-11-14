@@ -50,8 +50,8 @@ class Imdbphp extends Imdbphp_Config {
 		parent::__construct();
 
 		// Get options from database.
-		$this->imdb_admin_values = get_option( \Lumiere\Settings::get_compat_admin_tablename() );
-		$this->imdb_cache_values = get_option( \Lumiere\Settings::get_compat_cache_tablename() );
+		$this->imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename() );
+		$this->imdb_cache_values = get_option( \Lumiere\Settings::get_cache_tablename() );
 
 		// Call the function to send the selected settings to imdbphp library.
 		$this->lumiere_send_config_imdbphp();

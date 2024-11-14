@@ -71,7 +71,7 @@ class Lumiere_Update_File_12 extends \Lumiere\Updates {
 		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
-		$this->lumiere_update_options( Settings::get_compat_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
+		$this->lumiere_update_options( Settings::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */
@@ -80,7 +80,7 @@ class Lumiere_Update_File_12 extends \Lumiere\Updates {
 		 * Add 'imdbcachekeepsizeunder' to LUMIERE_CACHE_OPTIONS
 		 * New var to allow setting crons for keeping limited cache folder size
 		 */
-		if ( true === $this->lumiere_add_options( Settings::get_compat_cache_tablename(), 'imdbcachekeepsizeunder' ) ) {
+		if ( true === $this->lumiere_add_options( Settings::get_cache_tablename(), 'imdbcachekeepsizeunder' ) ) {
 
 			$text = 'Lumière option imdbcachekeepsizeunder successfully added.';
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -96,7 +96,7 @@ class Lumiere_Update_File_12 extends \Lumiere\Updates {
 		 * Add 'imdbcachekeepsizeunder_sizelimit' to LUMIERE_CACHE_OPTIONS
 		 * New var for the limit in megabits for the cache folder size feature
 		 */
-		if ( true === $this->lumiere_add_options( Settings::get_compat_cache_tablename(), 'imdbcachekeepsizeunder_sizelimit' ) ) {
+		if ( true === $this->lumiere_add_options( Settings::get_cache_tablename(), 'imdbcachekeepsizeunder_sizelimit' ) ) {
 
 			$text = 'Lumière option imdbcachekeepsizeunder_sizelimit successfully added.';
 			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );

@@ -15,7 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
-$lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_compat_admin_tablename() );
+$lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename() );
 
 // Retrieve vars from calling class.
 $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];

@@ -61,7 +61,7 @@ class Oceanwp {
 		$this->active_plugins = $active_plugins;
 
 		// Get the values from database.
-		$this->imdb_admin_values = get_option( Settings::get_compat_admin_tablename() );
+		$this->imdb_admin_values = get_option( Settings::get_admin_tablename() );
 
 		// Build the css URL.
 		$this->assets_css_url = plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'assets/css';

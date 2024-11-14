@@ -73,7 +73,7 @@ class Cli_Commands {
 		// Build properties.
 		$this->list_subcommands = $this->get_private_methods( new ReflectionClass( $this ) );
 		$this->list_subcommands_asstring = $this->get_private_methods_asstring( $this->list_subcommands );
-		$this->imdb_admin_values = get_option( Settings::get_compat_admin_tablename() );
+		$this->imdb_admin_values = get_option( Settings::get_admin_tablename() );
 	}
 
 	/**

@@ -51,7 +51,7 @@ class Cron {
 
 		$this->logger = new Logger( 'cronClass' );
 
-		$this->imdb_cache_values = get_option( Settings::get_compat_cache_tablename() );
+		$this->imdb_cache_values = get_option( Settings::get_cache_tablename() );
 
 		// When 'lumiere_exec_once_update' cron is scheduled, execute the following.
 		add_action( 'lumiere_exec_once_update', [ $this, 'lumiere_exec_once_update' ], 0 );

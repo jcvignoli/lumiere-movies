@@ -49,8 +49,8 @@ class Taxonomy {
 	 */
 	public function __construct() {
 
-		$this->imdb_data_values = get_option( Settings::get_compat_data_tablename() );
-		$this->imdb_admin_values = get_option( Settings::get_compat_admin_tablename() );
+		$this->imdb_data_values = get_option( Settings::get_data_tablename() );
+		$this->imdb_admin_values = get_option( Settings::get_admin_tablename() );
 
 		// If taxonomy is not activated, exit.
 		if ( ! isset( $this->imdb_admin_values['imdbtaxonomy'] ) || $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {

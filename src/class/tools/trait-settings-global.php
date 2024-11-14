@@ -61,9 +61,9 @@ trait Settings_Global {
 	public function get_db_options(): void {
 
 		Settings::build_options();
-		$this->imdb_admin_values = get_option( Settings::get_compat_admin_tablename() );
-		$this->imdb_data_values = get_option( Settings::get_compat_data_tablename() );
-		$this->imdb_cache_values = get_option( Settings::get_compat_cache_tablename() );
+		$this->imdb_admin_values = get_option( Settings::get_admin_tablename() );
+		$this->imdb_data_values = get_option( Settings::get_data_tablename() );
+		$this->imdb_cache_values = get_option( Settings::get_cache_tablename() );
 	}
 
 	/**

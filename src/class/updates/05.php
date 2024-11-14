@@ -69,14 +69,14 @@ class Lumiere_Update_File_05 extends \Lumiere\Updates {
 		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
-		$this->lumiere_update_options( \Lumiere\Settings::get_compat_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
+		$this->lumiere_update_options( \Lumiere\Settings::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */
 
 		// Fix 'imdblanguage'
 		// Correct language extensions should take two letters only to include all dialects
-		if ( true === $this->lumiere_update_options( \Lumiere\Settings::get_compat_admin_tablename(), 'imdblanguage', 'en' ) ) {
+		if ( true === $this->lumiere_update_options( \Lumiere\Settings::get_admin_tablename(), 'imdblanguage', 'en' ) ) {
 
 			$text = 'Lumière option imdblanguage successfully added.';
 			$logger->debug( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -90,7 +90,7 @@ class Lumiere_Update_File_05 extends \Lumiere\Updates {
 
 		// Add 'imdbwidgetalsoknownumber'
 		// New option the number of akas displayed
-		if ( true === $this->lumiere_add_options( \Lumiere\Settings::get_compat_data_tablename(), 'imdbwidgetalsoknownumber', false ) ) {
+		if ( true === $this->lumiere_add_options( \Lumiere\Settings::get_data_tablename(), 'imdbwidgetalsoknownumber', false ) ) {
 
 			$text = 'Lumière option imdbwidgetalsoknownumber successfully added.';
 			$logger->debug( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -104,7 +104,7 @@ class Lumiere_Update_File_05 extends \Lumiere\Updates {
 
 		// Add 'imdbwidgetproducernumber'
 		// New option to limit the number of producers displayed
-		if ( true === $this->lumiere_add_options( \Lumiere\Settings::get_compat_data_tablename(), 'imdbwidgetproducernumber', false ) ) {
+		if ( true === $this->lumiere_add_options( \Lumiere\Settings::get_data_tablename(), 'imdbwidgetproducernumber', false ) ) {
 
 			$text = 'Lumière option imdbwidgetproducernumber successfully added.';
 			$logger->debug( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
