@@ -87,6 +87,8 @@ class Lumiere_Update_File_18 extends \Lumiere\Updates {
 
 		if ( $execute_sql ) {
 			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Successfully renamed table ' . $old_admin_table . ' to ' . $new_admin_table );
+		} elseif ( $execute_sql === 0 && count( get_option( $new_admin_table ) ) > 0 ) {
+			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Update row ' . $new_admin_table . ' not needed, row already exists.' );
 		} else {
 			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Failed to rename table ' . $old_admin_table . ' to ' . $new_admin_table . ' Last DB error: ' . $wpdb->last_error );
 		}
@@ -100,6 +102,8 @@ class Lumiere_Update_File_18 extends \Lumiere\Updates {
 
 		if ( $execute_sql ) {
 			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Successfully renamed table ' . $old_data_table . ' to ' . $new_data_table );
+		} elseif ( $execute_sql === 0 && count( get_option( $new_data_table ) ) > 0 ) {
+			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Update row ' . $new_data_table . ' not needed, row already exists.' );
 		} else {
 			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Failed to rename table ' . $old_data_table . ' to ' . $new_data_table . ' Last DB error: ' . $wpdb->last_error );
 
@@ -114,6 +118,8 @@ class Lumiere_Update_File_18 extends \Lumiere\Updates {
 
 		if ( $execute_sql ) {
 			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Successfully renamed table ' . $old_cache_table . ' to ' . $new_cache_table );
+		} elseif ( $execute_sql === 0 && count( get_option( $new_cache_table ) ) > 0 ) {
+			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Update row ' . $new_cache_table . ' not needed, row already exists.' );
 		} else {
 			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Failed to rename table ' . $old_cache_table . ' to ' . $new_cache_table . ' Last DB error: ' . $wpdb->last_error );
 		}

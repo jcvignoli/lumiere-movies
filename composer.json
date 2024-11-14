@@ -34,7 +34,7 @@
         "vimeo/psalm": "@stable",
         "wapmorgan/php-deprecation-detector": "@stable",
         "codeception/module-webdriver": "*",
-        "php-stubs/wp-cli-stubs": "^2.10"
+        "php-stubs/wp-cli-stubs": "@stable"
     },
     "require": {
         "php": "8.0",

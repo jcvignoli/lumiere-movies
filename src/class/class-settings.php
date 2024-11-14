@@ -655,7 +655,7 @@ class Settings {
 	 * @return string
 	 * @since 4.2.1
 	 *
-	 * @TODO Should be removed at a later stage and renamed Settings::get_compat_admin_tablename() by Settings::get_admin_tablename() everywhere
+	 * @TODO get_option() should be removed at a later stage and return self::LUMIERE_ADMIN_OPTIONS only, method renamed to get_data_tablename()
 	 */
 	public static function get_compat_admin_tablename(): string {
 		return get_option( 'imdbAdminOptions' ) !== false ? 'imdbAdminOptions' : self::LUMIERE_ADMIN_OPTIONS;
@@ -667,7 +667,7 @@ class Settings {
 	 * @return string
 	 * @since 4.2.1
 	 *
-	 * @TODO Should be removed at a later stage and renamed Settings::get_compat_data_tablename() by Settings::get_data_tablename() everywhere
+	 * @TODO get_option() should be removed at a later stage and return self::LUMIERE_DATA_OPTIONS only, method renamed to get_data_tablename()
 	 */
 	public static function get_compat_data_tablename(): string {
 		return get_option( 'imdbWidgetOptions' ) !== false ? 'imdbWidgetOptions' : self::LUMIERE_DATA_OPTIONS;
@@ -679,7 +679,7 @@ class Settings {
 	 * @return string
 	 * @since 4.2.1
 	 *
-	 * @TODO Should be removed at a later stage and renamed Settings::get_compat_cache_tablename() by Settings::get_cache_tablename() everywhere
+	 * @TODO get_option() should be removed at a later stage and return self::LUMIERE_CACHE_OPTIONS only, method renamed to get_data_tablename()
 	 */
 	public static function get_compat_cache_tablename(): string {
 		return get_option( 'imdbCacheOptions' ) !== false ? 'imdbCacheOptions' : self::LUMIERE_CACHE_OPTIONS;
