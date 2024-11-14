@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.2.2
+
 v.4.2.1
 * [feature] Added Spouses and Children to people popups full biography section
 * [feature] Language form in Taxonomy pages is automatically submitted on language change (added jquery script in lumiere_scripts.js and renamed &lt;input type="submit" name="submit"&gt; to &lt;input type="submit" name="submit_lang"&gt; - "name" couldn't be "submit")
