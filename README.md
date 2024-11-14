@@ -4,7 +4,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.6 \
 **Tested up to:** 6.7 \
-**Stable tag:** 4.2.1 \
+**Stable tag:** 4.2.2 \
 **Requires PHP:** 8.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -59,13 +59,13 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ![Popup displayed when an imdb link is clicked.](https://ps.w.org/lumiere-movies/assets/screenshot-1.jpg)
 
-### 2. How movie's data is displayed "inside a post" 
+### 2. How movie data is displayed "inside a post"
 
-![How movie's data is displayed "inside a post" ](https://ps.w.org/lumiere-movies/assets/screenshot-2.jpg)
+![How movie data is displayed "inside a post" ](https://ps.w.org/lumiere-movies/assets/screenshot-2.jpg)
 
-### 3. How movie's data is displayed in a "widget" 
+### 3. How movie data is displayed in a "widget"
 
-![How movie's data is displayed in a "widget" ](https://ps.w.org/lumiere-movies/assets/screenshot-3.jpg)
+![How movie data is displayed in a "widget" ](https://ps.w.org/lumiere-movies/assets/screenshot-3.jpg)
 
 ### 4. Admin preferences for cache
 

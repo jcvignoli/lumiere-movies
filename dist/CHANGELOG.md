@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.2.2
+* [technical] Renamed get_compat_* methods in Settings to get_*_tablename, those methods return now automatically the current row name in wp_option only
 
 v.4.2.1
 * [feature] Added Spouses and Children to people popups full biography section
