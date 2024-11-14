@@ -348,7 +348,7 @@ class Taxonomy_People_Standard {
 					'post_status' => 'publish',
 					'numberposts' => -1,
 					'nopaging' => true,
-					'tax_query' => [
+					'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 						[
 							'taxonomy' => sanitize_text_field( $this->imdb_admin_values['imdburlstringtaxo'] . $people ),
 							'field' => 'name',

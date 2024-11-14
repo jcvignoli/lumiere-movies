@@ -287,7 +287,7 @@ class Polylang {
 			'numberposts' => -1,
 			'nopaging' => true,
 			'lang' => sanitize_key( $polylang_lang ),
-			'tax_query' => [
+			'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				// @phan-suppress-next-line PhanPluginMixedKeyNoKey Should not mix array entries of the form [key => value,] with entries of the form [value,]. -- Since WordPress accepts it, it's ok!
 				[
 					'taxonomy' => sanitize_text_field( $imdburlstringtaxo . $role ),

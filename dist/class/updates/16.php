@@ -83,7 +83,7 @@ class Lumiere_Update_File_16 extends \Lumiere\Updates {
 		/** (1) Replace 'imdb-movie-widget-bymid' by 'lumiere_widget_movieid' in all posts metadata */
 		$args = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'imdb-movie-widget-bymid' ] ],
+			'meta_query' => [ [ 'key' => 'imdb-movie-widget-bymid' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 			'post_type' => 'any',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
@@ -101,7 +101,7 @@ class Lumiere_Update_File_16 extends \Lumiere\Updates {
 		/** (2) Replace 'imdb-movie-widget' by 'lumiere_widget_movietitle' in all posts metadata */
 		$args = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'imdb-movie-widget' ] ],
+			'meta_query' => [ [ 'key' => 'imdb-movie-widget' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 			'post_type' => 'any',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
@@ -119,7 +119,7 @@ class Lumiere_Update_File_16 extends \Lumiere\Updates {
 		/** (3) Delete obsolete metadatas */
 		$args = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'lumiere_queryid_widget' ] ],
+			'meta_query' => [ [ 'key' => 'lumiere_queryid_widget' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 			'post_type' => 'any',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
@@ -130,7 +130,7 @@ class Lumiere_Update_File_16 extends \Lumiere\Updates {
 		}
 		$args = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'lumiere_queryid_widget_input' ] ],
+			'meta_query' => [ [ 'key' => 'lumiere_queryid_widget_input' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 			'post_type' => 'any',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );

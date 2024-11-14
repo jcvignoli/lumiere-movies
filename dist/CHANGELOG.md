@@ -9,6 +9,7 @@ v.4.2.1
 * [bug] Movies languages were not available (changed IMDb method from languages() to language(), using GraphQL)
 * [technical] Taxonomy pages for people also retrieve pages written about the person (previously only posts were retrieved, added 'page' to queries in classes Polylang and Taxonomy_People_Standard)
 * [technical] Renamed database table names (from imdb* to lumiere_*)
+* [technical] Added notice for deprecated movie methods 
 
 v.4.2
 * [technical] Compatible 6.7 (load_plugin_textdomain() is loaded in add_action('init') in class Core)

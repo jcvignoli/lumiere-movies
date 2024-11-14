@@ -265,7 +265,7 @@ class Movie {
 	 * @param null|string $content shortcode content or null if not set
 	 */
 	public function parse_lumiere_tag_transform( $atts, ?string $content ): string {
-		trigger_error( '[Lumiere Movies] Deprecated call of the movie title ' . esc_html( $content ?? '(no text)' ) . ', use "span" with data-lum_movie_maker="movie_title" instead, this function will be removed in the future.', E_USER_DEPRECATED );
+		trigger_error( '[Lumiere Movies] Deprecated call of the movie title ' . esc_html( $content ?? '(no text)' ) . ', use "span" with data-lum_movie_maker="movie_title" instead, this function will be removed in the future.', E_USER_DEPRECATED ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- Using it in my full capacity, trust me!
 		return $this->lumiere_external_call( $content, '', '' );
 	}
 
@@ -277,7 +277,7 @@ class Movie {
 	 * @param null|string $content shortcode content or null if not set
 	 */
 	public function parse_lumiere_tag_transform_id( $atts, ?string $content ): string {
-		trigger_error( '[Lumiere Movies] Deprecated call of the movie id ' . esc_html( $content ?? '(no text)' ) . ', use "span" with data-lum_movie_maker="movie_id" instead, this function will be removed in the future.', E_USER_DEPRECATED );
+		trigger_error( '[Lumiere Movies] Deprecated call of the movie id ' . esc_html( $content ?? '(no text)' ) . ', use "span" with data-lum_movie_maker="movie_id" instead, this function will be removed in the future.', E_USER_DEPRECATED ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- Using it in my full capacity, trust me!
 		return $this->lumiere_external_call( '', $content, '' );
 	}
 

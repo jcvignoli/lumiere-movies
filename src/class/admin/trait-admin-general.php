@@ -36,8 +36,8 @@ trait Admin_General {
 	 * @return string
 	 */
 	public function lumiere_get_current_admin_url() {
-		$current = admin_url( str_replace( site_url( '', 'relative' ) . '/wp-admin', '', esc_url( $_SERVER['REQUEST_URI'] ?? '' ) ) );
-		return $current;
+		$current_url = esc_url_raw( $_SERVER['REQUEST_URI'] ?? '' ); // @phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- it is sanitized!
+		return admin_url( str_replace( site_url( '', 'relative' ) . '/wp-admin', '', $current_url ) );
 	}
 
 	/**
