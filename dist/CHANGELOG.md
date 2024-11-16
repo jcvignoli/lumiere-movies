@@ -2,6 +2,7 @@
 
 v.4.2.2
 * [technical] Renamed get_compat_* methods in Settings to get_*_tablename, those methods return now automatically the current row name in wp_option only
+* [bug] "Notice: Function _load_textdomain_just_in_time was called incorrectly." (Logger class was executed before init hook in class Core)
 
 v.4.2.1
 * [feature] Added Spouses and Children to people popups full biography section
@@ -13,6 +14,7 @@ v.4.2.1
 * [technical] Taxonomy pages for people also retrieve pages written about the person (previously only posts were retrieved, added 'page' to queries in classes Polylang and Taxonomy_People_Standard)
 * [technical] Renamed database table names (from imdb* to lumiere_*)
 * [technical] Added notice for deprecated movie methods 
+* [technical] Updated to Monolog 2.10
 
 v.4.2
 * [technical] Compatible 6.7 (load_plugin_textdomain() is loaded in add_action('init') in class Core)
@@ -76,7 +78,7 @@ v.4.1
 * [feature] The color of links to taxonomy pages is now different than to popups, for better understanding of what comes next. More respectful of plugin user css, not modifing links into the posts except in Lumière area (used to change to grey color the links)
 * [feature] Pages can include Lumière widgets. Only post previously could. Exceptions to auto title widget can also be added into pages.
 * [bug] Custom stylesheet added in personal theme folder wasn't working (now unregister main style and register the custom style in Core class if a parent or child theme is found)
-* [bug] Frontpage and administration stylesheets standardised, less conflict should be witnessed with themes
+* [bug] Frontpage and administration stylesheets standardised, less conflict is expected with themes
 * [bug] If using Highslide modal window with OceanWP theme, pictures were somewhat taken between an extra box created by OceanWP (detection if OceanWP is installed and highslide is activated in oceanwp plugins class, then deactivating OceanWP boxes)
 * [bug] Title in popup search were a mess with + and \ in the title (better data escaping in Popup Search class)
 * [bug] Bootsrap spinner for bootstrap fixed, it correctly disappears when page is fully loaded
@@ -93,8 +95,8 @@ v.4.1
 * [technical] Notifications are only shown in Lumière admin options pages. If a taxonomy file is not installed, always nag the user to install it.
 * [technical] Lot of cleaning, standardised css classes, removed many unused methods in css and php, factorized and using more dedicated traits, using official WordPress way to include blocks (block.json), more standard WordPress string escaping
 * [technical] The Polylang language forms in taxonomy pages for people now uses $_Get instead of $_Post, required to make the AMP form work (edited Polylang and Taxonomy_People_Standard clases in this regard)
-* [technical] Replaced post metatada 'imdb-movie-widget-bymid' by 'lumiere_widget_movieid' and 'imdb-movie-widget' by 'lumiere_widget_movietitle'. Deleted obsolete post metada keys 'lumiere_queryid_widget_input' and 'lumiere_queryid_widget' The changes are done through the update numer 15.
-* [technical] Moved the blueprint.json in the correct asset folder (meant to be on wordpress.org, actually).
+* [technical] Replaced post metatada 'imdb-movie-widget-bymid' by 'lumiere_widget_movieid' and 'imdb-movie-widget' by 'lumiere_widget_movietitle'. Deleted obsolete post metada keys 'lumiere_queryid_widget_input' and 'lumiere_queryid_widget' The changes are done through the class update number 15.
+* [technical] Moved the blueprint.json in the correct asset folder (meant to be in wordpress.org, actually).
 
 v.4.0.2
 * [feature] Thumbnail pictures (those which are displayed automatically into the posts, in cache, in popups) are now automatically resized should they weight more that 80kb, which should display all pages faster. Maintained the possiblity to click on these thumbnails to display the big posters (Cover option in Lumière admin).
@@ -151,7 +153,7 @@ v.4.0
 * [technical] Factorization of classes: Movie class (new class Movie_Data), Cache class (new class Cache_Tools), moved Frontend popups in new folder (frontend/popups/)
 * [technical] Automatized task that runs to delete oversized cache folder (option "Keep automatically cache size below a limit") runs now hourly instead of every two hours.
 * [technical] Updated to bootstrap 5.3.3
-* [technical] Replaced obsolete PHP functions, compatibility with PHP > 8.0 ensured, compatibility with PHP8.3 ensured ( function get_class() removed/updated ).
+* [technical] Replaced obsolete PHP functions, compatibility with PHP > 8.0, compatibility with PHP8.3 too ( function get_class() removed/updated ).
 * [technical] Uninstalling the plugin with the option "keep settings upon uninstall" unselected will now delete Lumiere taxonomy templates in theme directory.
 * [technical] Still PHP 8.0 compatible, but expect PHP 8.1 to be standard soon.
 

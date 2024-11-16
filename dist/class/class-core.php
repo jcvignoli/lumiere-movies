@@ -25,6 +25,9 @@ use FilesystemIterator;
 /**
  * Main WordPress actions happen here
  * Calling all actions and filters
+ * Since WP 6.7, getting "Notice: Function _load_textdomain_just_in_time was called incorrectly." if Logger class is executed before init hook
+ * -> removed a property that save it, each method initiates the class itself now. In order to get the log, it must be executed before the init,
+ * but as a result the notice may be thrown for each method. No solution yet.
  *
  * @since 4.1.2 WP Cli commands compatible
  * @TODO Since 4.1.1 an update version check is now executed on every admin page, find a better hook
@@ -32,17 +35,9 @@ use FilesystemIterator;
 class Core {
 
 	/**
-	 * Lumiere\Plugins\Logger class
-	 */
-	private Logger $logger;
-
-	/**
 	 * Constructor
 	 */
 	public function __construct () {
-
-		// Start Logger class.
-		$this->logger = new Logger( 'coreClass' );
 
 		/**
 		 * Widgets fire at init priority 0, so they must either be called here with 'widgets_init' or with 'init' priority 0
@@ -151,8 +146,11 @@ class Core {
 	 */
 	public function lum_on_plugin_manualupdate( \WP_Upgrader $upgrader_object, array $options ): void {
 
+		// Start Logger class.
+		$logger = new Logger( 'coreClass' );
+
 		// Start the logger.
-		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+		$logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
 		// If an update has taken place and the updated type is plugins and the plugins element exists.
 		if ( $options['type'] === 'plugin' && $options['action'] === 'update' && isset( $options['plugins'] ) ) {
@@ -163,15 +161,15 @@ class Core {
 				// It is Lumière!, so run the functions.
 				if ( $plugin === 'lumiere-movies/lumiere-movies.php' ) {
 
-					$this->logger->log()->debug( '[Lumiere][coreClass][manualupdate] Starting Lumière manual update' );
+					$logger->log()->debug( '[Lumiere][coreClass][manualupdate] Starting Lumière manual update' );
 					$start_update_options = new Updates();
 					$start_update_options->run_update_options();
 
 					// Set up WP Cron exec once if it doesn't exist.
-					if ( $this->lum_setup_cron_exec_once( $this->logger, 'manualupdate' ) === false ) {
-						$this->logger->log()->error( '[Lumiere][coreClass][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
+					if ( $this->lum_setup_cron_exec_once( $logger, 'manualupdate' ) === false ) {
+						$logger->log()->error( '[Lumiere][coreClass][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
 					}
-					$this->logger->log()->debug( '[Lumiere][coreClass][manualupdate] Lumière manual update processed.' );
+					$logger->log()->debug( '[Lumiere][coreClass][manualupdate] Lumière manual update processed.' );
 				}
 			}
 		}
@@ -186,8 +184,11 @@ class Core {
 	 */
 	public function lum_on_plugin_autoupdate( array $results ): void {
 
+		// Start Logger class.
+		$logger = new Logger( 'coreClass' );
+
 		// Start the logger.
-		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+		$logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
 		// Exit if not exist.
 		if ( ! isset( $results['plugin'] ) ) {
@@ -205,15 +206,15 @@ class Core {
 			) {
 
 				// It is Lumière!, so run the functions.
-				$this->logger->log()->debug( '[Lumiere][coreClass][autoupdate] Starting Lumière automatic update' );
+				$logger->log()->debug( '[Lumiere][coreClass][autoupdate] Starting Lumière automatic update' );
 				$start_update_options = new Updates();
 				$start_update_options->run_update_options();
 
 				// Set up WP Cron exec once if it doesn't exist
-				if ( $this->lum_setup_cron_exec_once( $this->logger, 'autoupdate' ) === false ) {
-					$this->logger->log()->error( '[Lumiere][coreClass][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
+				if ( $this->lum_setup_cron_exec_once( $logger, 'autoupdate' ) === false ) {
+					$logger->log()->error( '[Lumiere][coreClass][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
 				}
-				$this->logger->log()->debug( '[Lumiere][coreClass][autoupdate] Lumière autoupdate processed.' );
+				$logger->log()->debug( '[Lumiere][coreClass][autoupdate] Lumière autoupdate processed.' );
 			}
 
 		}
@@ -225,8 +226,11 @@ class Core {
 	 */
 	public function lumiere_on_activation(): void {
 
+		// Start Logger class.
+		$logger = new Logger( 'coreClass' );
+
 		// Start the logger.
-		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+		$logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
 		$current_admin = get_option( Settings::get_cache_tablename() );
 
@@ -234,9 +238,9 @@ class Core {
 		if ( ! isset( $current_admin['imdbHowManyUpdates'] ) ) {
 			// Start Settings class to create it. Not optimal.
 			$settings_class = new Settings();
-			$this->logger->log()->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' successfully created." );
+			$logger->log()->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' successfully created." );
 		} else {
-			$this->logger->log()->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' already exists." );
+			$logger->log()->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' already exists." );
 		}
 
 		/* Create the cache folders */
@@ -245,17 +249,17 @@ class Core {
 		$cache_tools_class = new Cache_Tools();
 
 		if ( $cache_tools_class->lumiere_create_cache() === true ) {
-			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache successfully created.' );
+			$logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache successfully created.' );
 		} else {
-			$this->logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache could not be created (check permissions?)' );
+			$logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache could not be created (check permissions?)' );
 		}
 
 		// Set up WP Cron exec once if it doesn't exist.
-		if ( $this->lum_setup_cron_exec_once( $this->logger, 'activation' ) === false ) {
-			$this->logger->log()->error( '[Lumiere][coreClass][activation] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
+		if ( $this->lum_setup_cron_exec_once( $logger, 'activation' ) === false ) {
+			$logger->log()->error( '[Lumiere][coreClass][activation] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
 		}
 
-		$this->logger->log()->debug( '[Lumiere][coreClass][activation] Lumière plugin activated.' );
+		$logger->log()->debug( '[Lumiere][coreClass][activation] Lumière plugin activated.' );
 	}
 
 	/**
@@ -264,14 +268,17 @@ class Core {
 	 */
 	public function lumiere_on_deactivation(): void {
 
+		// Start Logger class.
+		$logger = new Logger( 'coreClass' );
+
 		// Start the logger.
-		$this->logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+		$logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
 		// Remove WP lumiere crons should they exist.
 		$list_crons_available = [ 'lumiere_exec_once_update', 'lumiere_cron_deletecacheoversized', 'lumiere_cron_autofreshcache' ];
 		foreach ( $list_crons_available as $cron_installed ) {
 			wp_clear_scheduled_hook( $cron_installed );
-			$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Cron ' . $cron_installed . ' removed' );
+			$logger->log()->info( '[Lumiere][coreClass][deactivation] Cron ' . $cron_installed . ' removed' );
 		}
 
 		// Reset options related to crons, since we removed them.
@@ -280,7 +287,7 @@ class Core {
 		$current_admin['imdbcachekeepsizeunder'] = '0';
 		update_option( Settings::get_cache_tablename(), $current_admin );
 
-		$this->logger->log()->info( '[Lumiere][coreClass][deactivation] Lumière deactivated' );
+		$logger->log()->info( '[Lumiere][coreClass][deactivation] Lumière deactivated' );
 	}
 
 	/**
@@ -291,13 +298,16 @@ class Core {
 	 */
 	public function lum_is_update_needed() {
 
+		// Start Logger class.
+		$logger = new Logger( 'coreClass' );
+
 		$current_admin = get_option( Settings::get_admin_tablename() );
 		$files = new FilesystemIterator( plugin_dir_path( __DIR__ ) . 'class/updates/', FilesystemIterator::SKIP_DOTS );
 		$nb_of_files_in_updates_folder = iterator_count( $files );
 
 		// Check if the number of updates in database is greater than the number of update files in updates folder
 		if ( isset( $current_admin['imdbHowManyUpdates'] ) && $current_admin['imdbHowManyUpdates'] <= $nb_of_files_in_updates_folder ) {
-			$this->logger->log()->debug( '[Lumiere][coreClass][is_plugin_updated] An update is needed, starting the update...' );
+			$logger->log()->debug( '[Lumiere][coreClass][is_plugin_updated] An update is needed, starting the update...' );
 			$start_update_options = new Updates();
 			$start_update_options->run_update_options();
 
