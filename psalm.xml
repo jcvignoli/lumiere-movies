@@ -29,6 +29,7 @@
 	</projectFiles>
 	<stubs>
 		<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php"/>
+		<file name="tests/bootstrap-testing.php" />
 	</stubs>
 	<globals>
 		<!-- Personal Globals Psalm is not aware of -->

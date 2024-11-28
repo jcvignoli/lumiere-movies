@@ -83,6 +83,7 @@ class ComposerStaticInit2660170a07cc3fb36d97d6c17f332311
         'Lumiere\\Link_Makers\\No_Links' => __DIR__ . '/../..' . '/class/frontend/link_makers/class-no-links.php',
         'Lumiere\\Plugins\\Auto\\Aioseo' => __DIR__ . '/../..' . '/class/plugins/auto/class-aioseo.php',
         'Lumiere\\Plugins\\Auto\\Amp' => __DIR__ . '/../..' . '/class/plugins/auto/class-amp.php',
+        'Lumiere\\Plugins\\Auto\\Irp' => __DIR__ . '/../..' . '/class/plugins/auto/class-irp.php',
         'Lumiere\\Plugins\\Auto\\Oceanwp' => __DIR__ . '/../..' . '/class/plugins/auto/class-oceanwp.php',
         'Lumiere\\Plugins\\Auto\\Polylang' => __DIR__ . '/../..' . '/class/plugins/auto/class-polylang.php',
         'Lumiere\\Plugins\\Imdbphp' => __DIR__ . '/../..' . '/class/plugins/class-imdbphp.php',
@@ -117,6 +118,7 @@ class ComposerStaticInit2660170a07cc3fb36d97d6c17f332311
         'Lumiere\\Updates\\Lumiere_Update_File_16' => __DIR__ . '/../..' . '/class/updates/16.php',
         'Lumiere\\Updates\\Lumiere_Update_File_17' => __DIR__ . '/../..' . '/class/updates/17.php',
         'Lumiere\\Updates\\Lumiere_Update_File_18' => __DIR__ . '/../..' . '/class/updates/18.php',
+        'Lumiere\\Updates\\Lumiere_Update_File_19' => __DIR__ . '/../..' . '/class/updates/19.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

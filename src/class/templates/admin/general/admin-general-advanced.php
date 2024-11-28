@@ -247,9 +247,27 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 				?>
 				/>
 
-				<div class="explain"><?php esc_html_e( 'Add automatically a widget according to your post title. If regular widgets have been added to post too, the auto title widget will be displayed before them. Usefull if blog a lot about movies; if a query does not bring any result with the post title, nothing is displayed.', 'lumiere-movies' ); ?><br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?><?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
+				<div class="explain"><?php esc_html_e( 'Add automatically a widget according to your post title. If regular widgets have been added to post too, the auto title widget will be displayed before them. Usefull if blog a lot about movies; if a query does not bring any result with the post title, nothing is displayed.', 'lumiere-movies' ); ?><br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>&nbsp;<?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
 
 			</div>
+
+			<div id="imdbirpdisplay" class="lumiere_flex_auto lumiere_padding_fifteen">
+
+				<?php esc_html_e( 'Always display Intelly Related Posts in every post', 'lumiere-movies' ); ?>&nbsp;
+
+				<input type="hidden" id="imdb_imdbirpdisplay_no" name="imdb_imdbirpdisplay" value="0" />
+
+				<input type="checkbox" id="imdb_imdbirpdisplays_yes" name="imdb_imdbirpdisplay" value="1" 
+				<?php
+				if ( $lumiere_imdb_admin_values['imdbirpdisplay'] === '1' ) {
+					echo 'checked="checked" '; }
+				?>
+				/>
+
+				<div class="explain"><?php esc_html_e( 'By default, Lumiere deactivates Intelly Related Post plugin on pages that display Lumiere movies. You can overrides this feature and always use IRP even if a movie is displayed on your page.', 'lumiere-movies' ); ?><br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>&nbsp;<?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
+
+			</div>
+
 
 			<div id="imdbkeepsettings" class="lumiere_flex_auto lumiere_padding_fifteen">
 
@@ -264,7 +282,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 				?>
 				/>
 
-				<div class="explain"><?php esc_html_e( 'Whether to keep or delete Lumière! settings upon plugin uninstall. When unticked, uninstalling this plugin will delete all taxonomy terms, Lumière databases, taxonomy templates in your theme folder, and your cache folder. For the safety of your WordPress install, metaboxes data in your posts, custom data fields in your posts and Lumière widget added will never be removed.', 'lumiere-movies' ); ?><br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
+				<div class="explain"><?php esc_html_e( 'Whether to keep or delete Lumière! settings upon plugin uninstall. When unticked, uninstalling this plugin will delete all taxonomy terms, Lumière databases, taxonomy templates in your theme folder, and your cache folder. For the safety of your WordPress install, metaboxes data in your posts, custom data fields in your posts and Lumière widget added will never be removed.', 'lumiere-movies' ); ?><br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>&nbsp;<?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
 
 			</div>
 

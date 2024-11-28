@@ -47,6 +47,7 @@ return array(
     'Lumiere\\Link_Makers\\No_Links' => $baseDir . '/class/frontend/link_makers/class-no-links.php',
     'Lumiere\\Plugins\\Auto\\Aioseo' => $baseDir . '/class/plugins/auto/class-aioseo.php',
     'Lumiere\\Plugins\\Auto\\Amp' => $baseDir . '/class/plugins/auto/class-amp.php',
+    'Lumiere\\Plugins\\Auto\\Irp' => $baseDir . '/class/plugins/auto/class-irp.php',
     'Lumiere\\Plugins\\Auto\\Oceanwp' => $baseDir . '/class/plugins/auto/class-oceanwp.php',
     'Lumiere\\Plugins\\Auto\\Polylang' => $baseDir . '/class/plugins/auto/class-polylang.php',
     'Lumiere\\Plugins\\Imdbphp' => $baseDir . '/class/plugins/class-imdbphp.php',
@@ -81,4 +82,5 @@ return array(
     'Lumiere\\Updates\\Lumiere_Update_File_16' => $baseDir . '/class/updates/16.php',
     'Lumiere\\Updates\\Lumiere_Update_File_17' => $baseDir . '/class/updates/17.php',
     'Lumiere\\Updates\\Lumiere_Update_File_18' => $baseDir . '/class/updates/18.php',
+    'Lumiere\\Updates\\Lumiere_Update_File_19' => $baseDir . '/class/updates/19.php',
 );

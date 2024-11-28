@@ -41,6 +41,12 @@ class Movie {
 	private bool $movie_run_once;
 
 	/**
+	 * Keep track of the number of movies called
+	 * Static public property meant to be called from another class
+	 */
+	public static int $nb_of_movies = 0;
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct() {
@@ -60,7 +66,7 @@ class Movie {
 	 * @return void Build the class
 	 * @see \Lumiere\Frontend\Frontend::lumiere_static_start() Call this method
 	 */
-	public static function lumiere_static_start (): void {
+	public static function lumiere_movie_start (): void {
 
 		$that = new self();
 
@@ -127,6 +133,9 @@ class Movie {
 
 		// $imdb_id_or_title var comes from custom post's field in widget or in post
 		$counter_imdb_id_or_title = $imdb_id_or_title !== null ? count( $imdb_id_or_title ) : 0;
+
+		// Increment a static property that can be called from outside to know if there are movies called
+		self::$nb_of_movies += $counter_imdb_id_or_title;
 
 		for ( $i = 0; $i < $counter_imdb_id_or_title; $i++ ) {
 

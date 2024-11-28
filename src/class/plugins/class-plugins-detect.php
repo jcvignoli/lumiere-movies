@@ -19,7 +19,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Detect which WP plugins are available in SUBFOLDER_PLUGINS_BIT subfolder and are active
  *
- * @phpstan-type AVAILABLE_AUTO_CLASSES 'amp'|'oceanwp'|'polylang'|'aioseo'
+ * @phpstan-type AVAILABLE_AUTO_CLASSES 'amp'|'oceanwp'|'polylang'|'aioseo'|'irp'
  * @phpstan-type AVAILABLE_MANUAL_CLASSES 'imdbphp'|'logger'
  * @phpstan-type AVAILABLE_PLUGIN_CLASSES AVAILABLE_AUTO_CLASSES|AVAILABLE_MANUAL_CLASSES
  *
@@ -119,5 +119,14 @@ class Plugins_Detect {
 	 */
 	private function aioseo_is_active(): bool {
 		return defined( 'AIOSEO_PHP_VERSION_DIR' );
+	}
+
+	/**
+	 * Determine whether IRP (Intelly Related Post) is activated
+	 *
+	 * @return bool true if IRP plugin is active
+	 */
+	private function irp_is_active(): bool {
+		return defined( 'IRP_PLUGIN_FILE' );
 	}
 }

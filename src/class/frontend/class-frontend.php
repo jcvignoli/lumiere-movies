@@ -73,7 +73,7 @@ class Frontend {
 		add_action( 'wp_enqueue_scripts', [ $that, 'lumiere_frontpage_execute_assets' ] );
 
 		// Start Movies into the post.
-		add_action( 'init', fn() => Movie::lumiere_static_start(), 11 );
+		add_action( 'init', [ 'Lumiere\Frontend\Movie', 'lumiere_movie_start' ], 11 );
 
 		// Start Widgets.
 		add_action( 'init', fn() => Widget_Frontpage::lumiere_widget_frontend_start(), 11 );

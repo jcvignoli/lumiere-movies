@@ -11,6 +11,9 @@
 require_once 'configs_static_tools/constants.php';
 require_once 'configs_static_tools/extras.php';
 
+// Extra classes
+//require_once 'extra_classes/irp-core.php'; // add irp extra classes -> breaks Psalm that can't find add_filter() functions
+
 // Bootstrap
 require_once 'src/vendor/autoload.php';
 

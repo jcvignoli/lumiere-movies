@@ -79,7 +79,7 @@ class Core {
 		add_action( 'upgrader_process_complete', [ $this, 'lum_on_plugin_manualupdate' ], 10, 2 );
 
 		// On any admin page, check if an update is needed. Extra opportunity for update. @todo Find a better hook
-		add_action( 'admin_init', [ $this, 'lum_is_update_needed' ] );
+		add_action( 'admin_init', [ $this, 'lum_update_needed' ] );
 
 		/**
 		 * Crons. Must be free of any conditions.
@@ -292,14 +292,12 @@ class Core {
 
 	/**
 	 * Check if an upate is needed on every WordPress admin page
+	 * Check Lumière! version in database against the number of files in update folder
 	 * @since 4.1.1
 	 *
-	 * @return void An update was run if Lumiere! version was lagging behind a new version
+	 * @return void An update is run if Lumiere! version was lagging behind a new version
 	 */
-	public function lum_is_update_needed() {
-
-		// Start Logger class.
-		$logger = new Logger( 'coreClass' );
+	public function lum_update_needed() {
 
 		$current_admin = get_option( Settings::get_admin_tablename() );
 		$files = new FilesystemIterator( plugin_dir_path( __DIR__ ) . 'class/updates/', FilesystemIterator::SKIP_DOTS );
@@ -307,6 +305,10 @@ class Core {
 
 		// Check if the number of updates in database is greater than the number of update files in updates folder
 		if ( isset( $current_admin['imdbHowManyUpdates'] ) && $current_admin['imdbHowManyUpdates'] <= $nb_of_files_in_updates_folder ) {
+
+			// Start Logger class.
+			$logger = new Logger( 'coreClass' );
+
 			$logger->log()->debug( '[Lumiere][coreClass][is_plugin_updated] An update is needed, starting the update...' );
 			$start_update_options = new Updates();
 			$start_update_options->run_update_options();
@@ -315,6 +317,7 @@ class Core {
 			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
 			delete_transient( 'lum_plugin_updated' );
 		}
+
 	}
 
 	/**

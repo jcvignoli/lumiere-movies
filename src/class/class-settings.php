@@ -390,7 +390,7 @@ class Settings {
 	 * Make an array of ADMIN options
 	 *
 	 * @phpstan-return non-empty-array<OPTIONS_ADMIN>
-	 * @psalm-return array{imdbHowManyUpdates?: mixed|string, imdbautopostwidget?: mixed|string, imdbcoversize?: mixed|string, imdbcoversizewidth?: mixed|string, imdbdebug?: mixed|string, imdbdebuglevel?: mixed|string, imdbdebuglog?: mixed|string, imdbdebuglogpath?: mixed|string, imdbdebugscreen?: mixed|string, imdbdelayimdbrequest?: mixed|string, imdbintotheposttheme?: mixed|string, imdbkeepsettings?: mixed|string, imdblanguage?: mixed|string, imdblinkingkill?: mixed|string, imdbmaxresults?: mixed|string, imdbplugindirectory: non-falsy-string, imdbplugindirectory_partial?: mixed|string, imdbpluginpath?: mixed|string, imdbpopup_modal_window?: mixed|string, imdbpopuplarg?: mixed|string, imdbpopuplong?: mixed|string, imdbpopuptheme?: mixed|string, imdbseriemovies?: mixed|string, imdbtaxonomy?: mixed|string, imdburlpopups?: mixed|string, imdburlstringtaxo?: mixed|string, imdbwordpress_bigmenu?: mixed|string, imdbwordpress_tooladminmenu?: mixed|string, ...<array-key, mixed|string>}
+	 * @psalm-return array{imdbHowManyUpdates?: mixed|string, imdbautopostwidget?: mixed|string, imdbcoversize?: mixed|string, imdbcoversizewidth?: mixed|string, imdbdebug?: mixed|string, imdbdebuglevel?: mixed|string, imdbdebuglog?: mixed|string, imdbdebuglogpath?: mixed|string, imdbdebugscreen?: mixed|string, imdbdelayimdbrequest?: mixed|string, imdbintotheposttheme?: mixed|string, imdbkeepsettings?: mixed|string, imdblanguage?: mixed|string, imdblinkingkill?: mixed|string, imdbmaxresults?: mixed|string, imdbplugindirectory: non-falsy-string, imdbplugindirectory_partial?: mixed|string, imdbpluginpath?: mixed|string, imdbpopup_modal_window?: mixed|string, imdbpopuplarg?: mixed|string, imdbpopuplong?: mixed|string, imdbpopuptheme?: mixed|string, imdbseriemovies?: mixed|string, imdbtaxonomy?: mixed|string, imdburlpopups?: mixed|string, imdburlstringtaxo?: mixed|string, imdbwordpress_bigmenu?: mixed|string, imdbwordpress_tooladminmenu?: mixed|string, imdbirpdisplay?: mixed|string, ...<array-key, mixed|string>}
 	 * @return array<mixed>
 	 */
 	private function get_imdb_admin_option(): array {
@@ -444,7 +444,7 @@ class Settings {
 			'imdbtaxonomy' => '1',
 			'imdbHowManyUpdates' => $this->current_number_updates,          /* define the number of updates. */
 			'imdbseriemovies' => 'movies+series',                       /* options: movies, series, movies+series, videogames */
-
+			'imdbirpdisplay' => '0',                                    /* intelly related post plugin, overrides normal Lumiere behaviour */
 		];
 		$imdb_admin_options['imdbplugindirectory'] = get_site_url() . $imdb_admin_options['imdbplugindirectory_partial'];
 

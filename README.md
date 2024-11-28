@@ -134,6 +134,10 @@ If for some reason your are using [Classic editor](https://wordpress.org/plugins
 
 If for some reason your are using [Classic Widgets](https://wordpress.org/plugins/classic-widgets/ "Classic widgets WordPress plugin") to get back the pre-5.8 WordPress widget interface, you will find all Lumière editing tools adapted to your interface.
 
+### Is Lumière! compatible with Intelly related posts?
+
+Totally. If you happen to use [Intelly related posts](https://wordpress.org/plugins/intelly-related-posts/ "Intelly related posts WordPress plugin"), posts that display Lumiere movies will not display Intelly related posts anymore so the layout is not broken. Should you prefer to always display Intelly related posts in all of your posts, the default behaviour can be overriden in Lumière advanced general options.
+
 ### Is Lumière! AMP compliant?
 
 It should be compliant with [AMP WordPress plugin](https://wordpress.org/plugins/amp/ "AMP WordPress plugin") installed. You may see some changes in the layout and obviously the apparence will change. Popups will be removed and they will be displayed in a new page, in conformity with AMP standards.

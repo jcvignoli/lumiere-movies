@@ -75,6 +75,7 @@ return [
 	'file_list' => [
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
 		'tests/bootstrap-testing.php',
+		'tests/extra_classes/irp-core.php',
 		'vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php',
 		'vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php',
 		'vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php',
@@ -94,6 +95,7 @@ return [
 	'exclude_analysis_directory_list' => [
 		'tests/configs_static_tools/constants.php',
 		'tests/configs_static_tools/extras.php',
+		'tests/extra_classes/irp-core.php',
 		'src/vendor/',
 		'assets/js/highslide/',
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
