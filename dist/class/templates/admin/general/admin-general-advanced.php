@@ -145,58 +145,61 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 		</div>
 	</div>
 	
-	<!-- ---------------------------------------------------------------- =[misc]=- -->
+	<!-- ---------------------------------------------------------------- =[Other plugins]=- -->
 
 	<div class="lumiere_title_options lumiere_border_shadow">
-		<h3 class="hndle" id="miscpart" name="miscpart"><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></h3>
+		<h3 class="hndle" id="otherpluginspart" name="otherpluginspart"><?php esc_html_e( 'Interaction with third-party plugins', 'lumiere-movies' ); ?></h3>
 	</div>
 
 	<div class="lumiere_border_shadow">
 
 		<div class="lumiere_flex_container">
+		
 
-			<div id="imdbwordpress_bigmenu" class="lumiere_flex_auto lumiere_padding_fifteen">
+			<div id="imdbirpdisplay" class="lumiere_flex_auto lumiere_padding_fifteen">
 
-				<?php esc_html_e( 'Left menu for Lumière options', 'lumiere-movies' ); ?>&nbsp;
+				<?php esc_html_e( 'Always display Intelly Related Posts', 'lumiere-movies' ); ?>&nbsp;
 
-				<input type="hidden" id="imdb_imdbwordpress_bigmenu_no" name="imdb_imdbwordpress_bigmenu" value="0" 
+				<input type="hidden" id="imdb_imdbirpdisplay_no" name="imdb_imdbirpdisplay" value="0" />
+
+				<input type="checkbox" id="imdb_imdbirpdisplays_yes" name="imdb_imdbirpdisplay" value="1" 
 				<?php
-				if ( $lumiere_imdb_admin_values['imdbwordpress_bigmenu'] === '0' ) {
-					echo 'checked="checked"'; }
-				?>
-				/>
-
-				<input type="checkbox" id="imdb_imdbwordpress_bigmenu_yes" name="imdb_imdbwordpress_bigmenu" value="1" 
-				<?php
-				if ( $lumiere_imdb_admin_values['imdbwordpress_bigmenu'] === '1' ) {
-					echo 'checked="checked"'; }
-				?>
-				/>
-
-				<div class="explain"><?php esc_html_e( 'If enabled, Lumiere options are displayed in a dedicated menu on the left panel instead of being displayed in the settings menu.', 'lumiere-movies' ); ?> <br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
-
-			</div>
-			<div id="imdbwordpress_tooladminmenu" class="lumiere_flex_auto lumiere_padding_fifteen">
-
-				<?php esc_html_e( 'Top menu for Lumière options', 'lumiere-movies' ); ?>&nbsp;
-
-				<input type="hidden" id="imdb_imdbwordpress_tooladminmenu_no" name="imdb_imdbwordpress_tooladminmenu" value="0" 
-				<?php
-				if ( $lumiere_imdb_admin_values['imdbwordpress_tooladminmenu'] === '0' ) {
+				if ( $lumiere_imdb_admin_values['imdbirpdisplay'] === '1' ) {
 					echo 'checked="checked" '; }
 				?>
 				/>
 
-				<input type="checkbox" id="imdb_imdbwordpress_tooladminmenu_yes" name="imdb_imdbwordpress_tooladminmenu" value="1" 
+				<div class="explain">
 				<?php
-				if ( $lumiere_imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
-					echo 'checked="checked" '; }
-				?>
-				/>
-
-				<div class="explain"><?php esc_html_e( 'If activated, Lumière options are displayed in a top menu. Not recommended if you have many plugins occupying that area already.', 'lumiere-movies' ); ?> <br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
-
+				echo wp_kses(
+					sprintf(
+						/* translators: %1$s and %2$s are HTML A tag */
+						__( 'By default, Lumière deactivates %1$sIntelly Related Post plugin%2$s on posts that display Lumiere movies. You can overrides this Lumière feature and always display IRP instead, even if a movie is displayed in your post.', 'lumiere-movies' ),
+						'<a target="_blank" href="https://wordpress.org/plugins/intelly-related-posts/">',
+						'</a>'
+					),
+					[
+						'a' => [
+							'href' => [],
+							'target' => [],
+						],
+					]
+				); ?>
+				<br><br>
+				<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>&nbsp;<?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
 			</div>
+		</div>
+	</div>
+	
+	<!-- ---------------------------------------------------------------- =[Behaviour]=- -->
+
+	<div class="lumiere_title_options lumiere_border_shadow">
+		<h3 class="hndle" id="behaviourpart" name="behaviourpart"><?php esc_html_e( 'Special features', 'lumiere-movies' ); ?></h3>
+	</div>
+
+	<div class="lumiere_border_shadow">
+
+		<div class="lumiere_flex_container">
 
 			<div id="imdbtaxonomy" class="lumiere_flex_auto lumiere_padding_fifteen">
 
@@ -250,21 +253,60 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 				<div class="explain"><?php esc_html_e( 'Add automatically a widget according to your post title. If regular widgets have been added to post too, the auto title widget will be displayed before them. Usefull if blog a lot about movies; if a query does not bring any result with the post title, nothing is displayed.', 'lumiere-movies' ); ?><br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>&nbsp;<?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
 
 			</div>
+		
+		</div>
+	</div>
+	
+	<!-- ---------------------------------------------------------------- =[Admin]=- -->
 
-			<div id="imdbirpdisplay" class="lumiere_flex_auto lumiere_padding_fifteen">
+	<div class="lumiere_title_options lumiere_border_shadow">
+		<h3 class="hndle" id="miscpart" name="miscpart"><?php esc_html_e( 'Administration', 'lumiere-movies' ); ?></h3>
+	</div>
 
-				<?php esc_html_e( 'Always display Intelly Related Posts in every post', 'lumiere-movies' ); ?>&nbsp;
+	<div class="lumiere_border_shadow">
 
-				<input type="hidden" id="imdb_imdbirpdisplay_no" name="imdb_imdbirpdisplay" value="0" />
+		<div class="lumiere_flex_container">
 
-				<input type="checkbox" id="imdb_imdbirpdisplays_yes" name="imdb_imdbirpdisplay" value="1" 
+			<div id="imdbwordpress_bigmenu" class="lumiere_flex_auto lumiere_padding_fifteen">
+
+				<?php esc_html_e( 'Left menu for Lumière options', 'lumiere-movies' ); ?>&nbsp;
+
+				<input type="hidden" id="imdb_imdbwordpress_bigmenu_no" name="imdb_imdbwordpress_bigmenu" value="0" 
 				<?php
-				if ( $lumiere_imdb_admin_values['imdbirpdisplay'] === '1' ) {
+				if ( $lumiere_imdb_admin_values['imdbwordpress_bigmenu'] === '0' ) {
+					echo 'checked="checked"'; }
+				?>
+				/>
+
+				<input type="checkbox" id="imdb_imdbwordpress_bigmenu_yes" name="imdb_imdbwordpress_bigmenu" value="1" 
+				<?php
+				if ( $lumiere_imdb_admin_values['imdbwordpress_bigmenu'] === '1' ) {
+					echo 'checked="checked"'; }
+				?>
+				/>
+
+				<div class="explain"><?php esc_html_e( 'If enabled, Lumiere options are displayed in a dedicated menu on the left panel instead of being displayed in the settings menu.', 'lumiere-movies' ); ?> <br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
+
+			</div>
+			<div id="imdbwordpress_tooladminmenu" class="lumiere_flex_auto lumiere_padding_fifteen">
+
+				<?php esc_html_e( 'Top menu for Lumière options', 'lumiere-movies' ); ?>&nbsp;
+
+				<input type="hidden" id="imdb_imdbwordpress_tooladminmenu_no" name="imdb_imdbwordpress_tooladminmenu" value="0" 
+				<?php
+				if ( $lumiere_imdb_admin_values['imdbwordpress_tooladminmenu'] === '0' ) {
 					echo 'checked="checked" '; }
 				?>
 				/>
 
-				<div class="explain"><?php esc_html_e( 'By default, Lumiere deactivates Intelly Related Post plugin on pages that display Lumiere movies. You can overrides this feature and always use IRP even if a movie is displayed on your page.', 'lumiere-movies' ); ?><br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>&nbsp;<?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
+				<input type="checkbox" id="imdb_imdbwordpress_tooladminmenu_yes" name="imdb_imdbwordpress_tooladminmenu" value="1" 
+				<?php
+				if ( $lumiere_imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
+					echo 'checked="checked" '; }
+				?>
+				/>
+
+				<div class="explain"><?php esc_html_e( 'If activated, Lumière options are displayed in a top menu. Not recommended if you have many plugins occupying that area already.', 'lumiere-movies' ); ?> <br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'Yes', 'lumiere-movies' ); ?></div>
 
 			</div>
 

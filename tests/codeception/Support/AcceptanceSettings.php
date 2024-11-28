@@ -20,7 +20,7 @@ class AcceptanceSettings {
 	public const ADMIN_PERMALINK_URL = '/wp-admin/options-permalink.php';
 
 	// This needs admin cron tool WP Plugin to be installed in order to work
-	public const ADMIN_POST_CRON_MANAGE ='/wp-admin/tools.php?page=crontrol_admin_manage_page';
+	public const ADMIN_POST_CRON_MANAGE ='/wp-admin/tools.php?page=wp-crontrol';
 
 	/** Testing pages */
 	public const TESTING_PAGE_BASE_URL = '/en/2021/test-codeception/';

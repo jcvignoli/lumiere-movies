@@ -56,7 +56,7 @@ class StartCest {
 	public function disableDebug(AcceptanceRemoteTester $I) {
 		$I->wantTo('Disable debug');
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
-		$I->scrollTo('#imdbautopostwidget');
+		$I->scrollTo('#imdbkeepsettings');
 		$I->CustomDisableCheckbox('#imdb_imdbdebug_yes', '#lumiere_update_general_settings');
 	}
 

@@ -123,7 +123,7 @@ class ModalWindowsCest {
 		// Check NoLinks class
 		$I->comment(\Helper\Color::set('Check if No Links works', "italic+bold+cyan"));
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
-		$I->scrollTo('#miscpart');
+		$I->scrollTo('#behaviourpart');
 		$I->CustomActivateCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_general_settings' );
 
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );# Check regular page

@@ -21,7 +21,7 @@ use Lumiere\Settings;
 
 /**
  * Plugin to ensure Lumiere compatibility with IRP (Intelly Related Post) plugin
- * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->plugins_classes_active
+ * Will remove the IRP filter that displays IRP sections when Lumiere movie(s) is displayed
  *
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
@@ -66,13 +66,14 @@ class Irp {
 	/**
 	 * Detect if there is a movie in the post
 	 * If there is any, remove the IRP filter that adds a related post
+	 * If the default behaviour is overriden with imdbirpdisplay var activated in advanced general admin options, doesn't remove the filter
 	 * Doesn't detect movies in widget, as related posts are not added to widgets
 	 *
 	 * @param null|string $content Text in the_content
 	 * @return string Text in the_content untouched
 	 *
-	 * @see {Lumiere\Frontend\Movie::$nb_of_movies} for static property
-	 * @see intelly-related-posts/includes/core.php forthe IRP filter
+	 * @see {Lumiere\Frontend\Movie::$nb_of_movies} for the static property that includes if one or more movies are displayed in the post
+	 * @see intelly-related-posts/includes/core.php for the IRP filter
 	 */
 	public function lumiere_remove_irp_if_relevant( ?string $content ): string {
 

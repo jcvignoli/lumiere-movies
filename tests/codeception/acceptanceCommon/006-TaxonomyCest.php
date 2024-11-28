@@ -72,7 +72,7 @@ class TaxonomyCest {
 		$I->wantTo('Activate taxonomy if disabled');
 
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
-		$I->scrollTo('#imdbwordpress_tooladminmenu');
+		$I->scrollTo('#behaviourpart');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
@@ -89,7 +89,7 @@ class TaxonomyCest {
 		$I->wantTo('Disable taxonomy if active');
 
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
-		$I->scrollTo('#imdbwordpress_tooladminmenu');
+		$I->scrollTo('#behaviourpart');
 		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is activated, uncheck it and then click $submit (form) */

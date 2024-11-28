@@ -195,7 +195,7 @@ class StylesScriptsHighslideCest {
 		$I->click('Plots');
 		$I->see('a team of researchers, to find a new planet for humans.');
 		$I->click('Misc');
-		$I->see(' The resulting visual effects provided Thorne');
+		$I->see('Early in pre-production, Dr. Kip Thorne laid down tw');
 
 	}
 
