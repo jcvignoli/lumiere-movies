@@ -140,7 +140,7 @@ Totally. If you happen to use [Intelly related posts](https://wordpress.org/plug
 
 ### Is Lumière! AMP compliant?
 
-It should be compliant with [AMP WordPress plugin](https://wordpress.org/plugins/amp/ "AMP WordPress plugin") installed. You may see some changes in the layout and obviously the apparence will change. Popups will be removed and they will be displayed in a new page, in conformity with AMP standards.
+It should be compliant with [AMP WordPress plugin](https://wordpress.org/plugins/amp/ "AMP WordPress plugin") installed. You may see some changes in the layout and obviously the apparence will change. Popups will be removed and they will be displayed in a new page, in compliance with AMP standards.
 
 ### Is Lumière! CSP compliant? (for developpers)
 
