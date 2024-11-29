@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.2.3
+
 v.4.2.2
 * [feature] Compatibility with Intelly Related (IRP) post plugin. If a post that includes Lumiere movies is displayed, IRP won't be displayed. This feature can be overriden in advanced general options (new auto plugin IRP, new option var imdbirpdisplay in admin options)
 * [technical] Renamed get_compat_* methods in Settings to get_*_tablename, those methods return now automatically the current row name in wp_option only
