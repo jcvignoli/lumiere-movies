@@ -20,6 +20,7 @@ use Imdb\Title;
 use Imdb\TitleSearch;
 use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Popups\Head_Popups;
+use Lumiere\Tools\Validate_Get;
 use Exception;
 
 /**
@@ -52,13 +53,6 @@ class Popup_Movie {
 	private ?string $film_title_sanitized;
 
 	/**
-	 * Settings from class \Lumiere\Settings
-	 * To include the type of (movie, TVshow, Games) search
-	 * @var array<string> $type_search
-	 */
-	private array $type_search;
-
-	/**
 	 * Constructor
 	 *
 	 * Bots are banned from getting popups
@@ -72,9 +66,6 @@ class Popup_Movie {
 
 		// Construct Frontend trait.
 		$this->start_main_trait();
-
-		// Get the type of search: movies, series, games
-		$this->type_search = $this->config_class->lumiere_select_type_search();
 
 		// Remove admin bar if user is logged in.
 		if ( is_user_logged_in() === true ) {
@@ -118,10 +109,12 @@ class Popup_Movie {
 	private function find_movie( string $nonce_url ): bool {
 
 		/* GET Vars sanitized */
-		$this->movieid_sanitized = wp_verify_nonce( $nonce_url ) > 0 && isset( $_GET['mid'] ) && strlen( sanitize_key( $_GET['mid'] ) ) > 0 ? sanitize_text_field( wp_unslash( $_GET['mid'] ) ) : null;
-		$this->film_title_sanitized = wp_verify_nonce( $nonce_url ) > 0 && isset( $_GET['film'] ) && strlen( sanitize_key( $_GET['film'] ) ) > 0 ? sanitize_text_field( wp_unslash( $_GET['film'] ) ) : null;
+		$movieid_sanitized = Validate_Get::sanitize_url( 'mid' );
+		$this->movieid_sanitized = wp_verify_nonce( $nonce_url ) > 0 && $movieid_sanitized !== null && strlen( $movieid_sanitized ) > 0 ? $movieid_sanitized : null;
+		$film_title_sanitized = Validate_Get::sanitize_url( 'film' );
+		$this->film_title_sanitized = wp_verify_nonce( $nonce_url ) > 0 && $film_title_sanitized !== null && strlen( $film_title_sanitized ) > 0 ? $film_title_sanitized : null;
 
-		// if neither film nor mid are set, throw Exception.
+		// if neither film nor mid are set, return false.
 		if ( $this->movieid_sanitized === null && $this->film_title_sanitized === null ) {
 
 			$text = '[Lumiere][' . $this->classname . '] Neither movie title nor id provided.';
@@ -131,7 +124,7 @@ class Popup_Movie {
 		}
 
 		// A movie imdb id is provided in URL.
-		if ( isset( $this->movieid_sanitized ) && strlen( $this->movieid_sanitized ) > 0 ) {
+		if ( isset( $this->movieid_sanitized )  ) {
 
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Movie id provided in URL: ' . $this->movieid_sanitized );
 
@@ -141,13 +134,13 @@ class Popup_Movie {
 			return true;
 
 			// No movie id is provided, but a title was.
-		} elseif ( isset( $this->film_title_sanitized ) && strlen( $this->film_title_sanitized ) > 0 ) {
+		} elseif ( isset( $this->film_title_sanitized ) ) {
 
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Movie title provided in URL: ' . $this->film_title_sanitized );
 
 			$title_search_class = new TitleSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
 
-			$search = $title_search_class->search( $this->film_title_sanitized, $this->type_search );
+			$search = $title_search_class->search( $this->film_title_sanitized, $this->config_class->lumiere_select_type_search() );
 			if ( count( $search ) === 0 || array_key_exists( 0, $search ) === false ) {
 
 				$text = '[Lumiere][' . $this->classname . '] Fatal error: Could not find the movie title: ' . $this->film_title_sanitized;
@@ -166,18 +159,24 @@ class Popup_Movie {
 	/**
 	 * Display layout
 	 *
+	 * @param string $template_path The path to the page of the theme currently in use - not utilised
+	 * @return string
+	 *
 	 * @throws Exception if errors occurs when searching for the movie
 	 */
-	public function lumiere_popup_movie_layout( string $template ): string {
-
-		echo "<!DOCTYPE html>\n<html>\n<head>\n";
-		wp_head();
-		echo "\n</head>\n<body class=\"lum_body_popup";
-
-		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
+	public function lumiere_popup_movie_layout( string $template_path ): string {
 
 		// Nonce.
 		$nonce_url = wp_create_nonce();
+
+		// Validate $_GET['info'], exit if failed.
+		$get_info = Validate_Get::sanitize_url( 'info' );
+		if (
+			( isset( $_GET['info'] ) && $get_info === null )
+			|| wp_verify_nonce( $nonce_url ) === false
+		) {
+			wp_die( esc_html__( 'Lumière Movies: Invalid movie search query.', 'lumiere-movies' ) );
+		}
 
 		// Exit if no movie was found.
 		if ( $this->find_movie( $nonce_url ) === false ) {
@@ -186,6 +185,12 @@ class Popup_Movie {
 			$this->logger->log()->error( '[Lumiere][' . $this->classname . '] ' . $text );
 			wp_die( esc_html( $text ) );
 		}
+
+		echo "<!DOCTYPE html>\n<html>\n<head>\n";
+		wp_head();
+		echo "\n</head>\n<body class=\"lum_body_popup";
+
+		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
 		/**
 		 * Display a spinner when clicking a link with class .lum_add_spinner (a <div class="loader"> will be inserted inside by the js)
@@ -202,41 +207,38 @@ class Popup_Movie {
 
 		// Introduction part.
 		// Display something when nothing has been selected in the menu.
+
 		if (
 			wp_verify_nonce( $nonce_url ) > 0
-			&& ( ! isset( $_GET['info'] ) || strlen( sanitize_key( $_GET['info'] ) ) === 0 )
+			&& ( $get_info === null || strlen( $get_info ) === 0 )
 		) {
 			$this->display_intro( $this->movie );
 		}
 
 		// Casting part.
 		if (
-			wp_verify_nonce( $nonce_url ) > 0
-			&& isset( $_GET['info'] ) && $_GET['info'] === 'actors'
+			wp_verify_nonce( $nonce_url ) > 0 && $get_info === 'actors'
 		) {
 			$this->display_casting( $this->movie );
 		}
 
 		// Crew part.
 		if (
-			wp_verify_nonce( $nonce_url ) > 0
-			&& isset( $_GET['info'] ) && $_GET['info'] === 'crew'
+			wp_verify_nonce( $nonce_url ) > 0 && $get_info === 'crew'
 		) {
 			$this->display_crew( $this->movie );
 		}
 
 		// Resume part.
 		if (
-			wp_verify_nonce( $nonce_url ) > 0
-			&& isset( $_GET['info'] ) && $_GET['info'] === 'resume'
+			wp_verify_nonce( $nonce_url ) > 0 && $get_info === 'resume'
 		) {
 			$this->display_summary( $this->movie );
 		}
 
 		// Misc part.
 		if (
-			wp_verify_nonce( $nonce_url ) > 0
-			&& isset( $_GET['info'] ) && $_GET['info'] === 'divers'
+			wp_verify_nonce( $nonce_url ) > 0 && $get_info === 'divers'
 		) {
 			$this->display_misc( $movie_results );
 		}
@@ -246,7 +248,8 @@ class Popup_Movie {
 		wp_footer();
 		echo "</body>\n</html>";
 
-		return ''; // Delete the template used.
+		// Avoid 'Filter callback return statement is missing.' from PHPStan
+		return '';
 	}
 
 	/**

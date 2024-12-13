@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Tools\Ban_Bots;
+use Lumiere\Tools\Validate_Get;
 use Lumiere\Alteration\Virtual_Page;
 use Lumiere\Frontend\Popups\Popup_Person;
 use Lumiere\Frontend\Popups\Popup_Movie;
@@ -189,18 +190,20 @@ class Frontend {
 				// Check if bots.
 				$this->ban_bots_popups();
 
-				// Set the title.
-				$filmid_sanitized = ''; // initialisation.
+				$movieid_sanitized = Validate_Get::sanitize_url( 'mid' );
+				$film_sanitized = Validate_Get::sanitize_url( 'film' );
 
-				// If mid but no film, do a query using the mid.
-				if ( isset( $_GET['mid'] ) && ! isset( $_GET['film'] ) && wp_verify_nonce( sanitize_key( $nonce_url ) ) > 0 ) {
-					$movieid_sanitized = sanitize_text_field( wp_unslash( $_GET['mid'] ) );
-					$movie = new Title( $movieid_sanitized, $this->plugins_classes_active['imdbphp'] );
-					$filmid_sanitized = $movie->title();
+				// Exit if trying to do bad things.
+				if ( $movieid_sanitized === null || strlen( $movieid_sanitized ) < 1 || wp_verify_nonce( $nonce_url ) === false ) {
+					wp_die( esc_html__( 'Lumière Movies: Wrong movie id.', 'lumiere-movies' ) );
 				}
 
+				// Set the title.
+				$movie = new Title( $movieid_sanitized, $this->plugins_classes_active['imdbphp'] ); /** @phan-suppress-current-line PhanTypeMismatchArgumentNullable -- Phan, $movieid_sanitized is never null! */
+				$filmid_sanitized = $movie->title();
+
 				// Sanitize and initialize $_GET['film']
-				$film_sanitized = isset( $_GET['film'] ) && wp_verify_nonce( $nonce_url ) > 0 ? $this->lumiere_name_htmlize( sanitize_text_field( wp_unslash( $_GET['film'] ) ) ) : ''; // Method in trait Data.
+				$film_sanitized = $film_sanitized !== null && wp_verify_nonce( $nonce_url ) > 0 ? $this->lumiere_name_htmlize( $film_sanitized ) : ''; // Method lumiere_name_htmlize() in trait Data.
 
 				// Get the film ID if it exists, if not get the film name
 				$title_name = strlen( $filmid_sanitized ) > 0 ? $filmid_sanitized : $film_sanitized;
@@ -218,15 +221,18 @@ class Frontend {
 			case 'person':
 				// Check if bots.
 				$this->ban_bots_popups();
+				$mid_sanitized = Validate_Get::sanitize_url( 'mid' );
 
-				// Set the title.
-				if ( isset( $_GET['mid'] ) && wp_verify_nonce( $nonce_url ) > 0 ) {
-					$mid_sanitized = sanitize_text_field( wp_unslash( $_GET['mid'] ) );
-					$person = new Person( $mid_sanitized, $this->plugins_classes_active['imdbphp'] );
-					$person_name_sanitized = $person->name();
+				// Exit if trying to do bad things.
+				if ( $mid_sanitized === null || strlen( $mid_sanitized ) < 1 || wp_verify_nonce( $nonce_url ) === false ) {
+					wp_die( esc_html__( 'Lumière Movies: Wrong person id.', 'lumiere-movies' ) );
 				}
 
-				$title = isset( $person_name_sanitized )
+				// Set the title.
+				$person = new Person( $mid_sanitized, $this->plugins_classes_active['imdbphp'] ); /** @phan-suppress-current-line PhanTypeMismatchArgumentNullable -- Phan, $mid_sanitized is never null! */
+				$person_name_sanitized = $person->name();
+
+				$title = strlen( $person_name_sanitized ) > 0
 					/* translators: %1$s is a movie's title */
 					? sprintf( __( 'Informations about %1$s', 'lumiere-movies' ), $person_name_sanitized ) . ' - Lumi&egrave;re movies'
 					: __( 'Unknown - Lumière movies', 'lumiere-movies' );
@@ -241,10 +247,17 @@ class Frontend {
 				// Check if bots.
 				$this->ban_bots_popups();
 
+				$filmname_sanitized = Validate_Get::sanitize_url( 'film' );
+
+				// Exit if trying to do bad things.
+				if ( $filmname_sanitized === null || strlen( $filmname_sanitized ) < 1 || wp_verify_nonce( $nonce_url ) === false ) {
+					wp_die( esc_html__( 'Lumière Movies: Wrong film id.', 'lumiere-movies' ) );
+				}
+
 				// Set the title.
-				$filmname_sanitized = isset( $_GET['film'] ) && wp_verify_nonce( $nonce_url ) > 0 ? ': [' . sanitize_text_field( wp_unslash( $_GET['film'] ) ) . ']' : __( 'No name entered', 'lumiere-movies' );
+				$filmname_complete = ': [' . $filmname_sanitized . ']';
 				/* translators: %1$s is the title of a movie */
-				$title = sprintf( __( 'Lumiere Query Interface %1$s', 'lumiere-movies' ), ' ' . $filmname_sanitized );
+				$title = sprintf( __( 'Lumiere Query Interface %1$s', 'lumiere-movies' ), ' ' . $filmname_complete );
 
 				// Build the virtual page class
 				return new Virtual_Page(

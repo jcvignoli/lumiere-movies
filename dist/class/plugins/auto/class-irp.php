@@ -23,6 +23,7 @@ use Lumiere\Settings;
  * Plugin to ensure Lumiere compatibility with IRP (Intelly Related Post) plugin
  * Will remove the IRP filter that displays IRP sections when Lumiere movie(s) is displayed
  *
+ * @phpstan-import-type OPTIONS_ADMIN from Settings
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
 class Irp {

@@ -19,7 +19,6 @@
         "vlucas/phpdotenv": "@stable",
         "lucatume/wp-browser": "@stable",
         "wp-cli/wp-cli-bundle": "@stable",
-        "wpreadme2markdown/wpreadme2markdown": "@stable",
         "phpseclib/phpseclib": "@stable",
         "squizlabs/php_codesniffer": "@stable",
         "wp-coding-standards/wpcs": "@stable",

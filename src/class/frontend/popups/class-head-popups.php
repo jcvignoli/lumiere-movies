@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Frontend\Main;
+use Lumiere\Tools\Validate_Get;
 use Imdb\Person;
 
 /**
@@ -134,9 +135,9 @@ class Head_Popups {
 	public function lumiere_add_metas_popups(): void {
 
 		$my_canon = '';
-		$sanitized_film = filter_input( INPUT_GET, 'film', FILTER_SANITIZE_URL );
-		$sanitized_info = filter_input( INPUT_GET, 'info', FILTER_SANITIZE_URL );
-		$sanitized_mid = filter_input( INPUT_GET, 'mid', FILTER_SANITIZE_URL );
+		$sanitized_film = Validate_Get::sanitize_url( 'film' );
+		$sanitized_info = Validate_Get::sanitize_url( 'info' );
+		$sanitized_mid = Validate_Get::sanitize_url( 'mid' );
 
 		echo "\n\t\t" . '<!-- Lumière! Movies -->';
 
@@ -151,7 +152,7 @@ class Head_Popups {
 
 		// Add canonical.
 		// Canonical for search popup.
-		if ( 0 === stripos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) && $sanitized_film !== false ) {
+		if ( 0 === stripos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) && $sanitized_film !== null ) {
 
 			$my_canon = $this->config_class->lumiere_urlpopupsearch . '?film=' . $sanitized_film . '&norecursive=yes';
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
@@ -160,9 +161,9 @@ class Head_Popups {
 		// Canonical for movies popups.
 		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), $this->config_class->lumiere_urlstringfilms ) && is_string( $sanitized_mid ) ) {
 
-			$url_str_info = $sanitized_info === false ? '' : '&info=' . $sanitized_info;
-			$url_str_film = $sanitized_film === false ? '' : '&film=' . $sanitized_film;
-			$str_film = $sanitized_film === false ? '' : $sanitized_film . '/';
+			$url_str_info = $sanitized_info === null ? '' : '&info=' . $sanitized_info;
+			$url_str_film = $sanitized_film === null ? '' : '&film=' . $sanitized_film;
+			$str_film = $sanitized_film === null ? '' : $sanitized_film . '/';
 			$my_canon = $this->config_class->lumiere_urlpopupsfilms . $str_film . '?mid=' . $sanitized_mid . $url_str_film . $url_str_info;
 
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
@@ -175,7 +176,7 @@ class Head_Popups {
 		// Canonical for people popups.
 		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), $this->config_class->lumiere_urlstringperson ) && is_string( $sanitized_mid ) ) {
 
-			$url_str_info = $sanitized_info === false ? '' : '&info=' . $sanitized_info;
+			$url_str_info = $sanitized_info === null ? '' : '&info=' . $sanitized_info;
 			$my_canon = $this->config_class->lumiere_urlpopupsperson . $sanitized_mid . '/?mid=' . $sanitized_mid . $url_str_info;
 
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';

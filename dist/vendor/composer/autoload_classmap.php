@@ -63,6 +63,7 @@ return array(
     'Lumiere\\Tools\\Files' => $baseDir . '/class/tools/trait-files.php',
     'Lumiere\\Tools\\Settings_Global' => $baseDir . '/class/tools/trait-settings-global.php',
     'Lumiere\\Tools\\Utils' => $baseDir . '/class/tools/class-utils.php',
+    'Lumiere\\Tools\\Validate_Get' => $baseDir . '/class/tools/class-validate-get.php',
     'Lumiere\\Updates' => $baseDir . '/class/class-updates.php',
     'Lumiere\\Updates\\Lumiere_Update_File_01' => $baseDir . '/class/updates/01.php',
     'Lumiere\\Updates\\Lumiere_Update_File_02' => $baseDir . '/class/updates/02.php',

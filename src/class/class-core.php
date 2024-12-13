@@ -126,7 +126,7 @@ class Core {
 			);
 		}
 
-		// Script for Gutenberg blocks only.
+		// Javascript for Gutenberg blocks only.
 		wp_register_script(
 			'lumiere_scripts_admin_gutenberg',
 			plugin_dir_url( __DIR__ ) . 'assets/js/lumiere_scripts_admin_gutenberg.min.js',

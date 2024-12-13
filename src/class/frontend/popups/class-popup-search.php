@@ -19,6 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Imdb\TitleSearch;
 use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Main;
+use Lumiere\Tools\Validate_Get;
 
 /**
  * Independant class that displays movie search results in a popup
@@ -35,27 +36,9 @@ class Popup_Search {
 	use Main;
 
 	/**
-	 * Settings from class \Lumiere\Settings
-	 * To include the type of (movie, TVshow, Games) search
-	 * @var array<string> $type_search
-	 */
-	private array $type_search;
-
-	/**
 	 * Movie's title
 	 */
 	private string $film_sanitized;
-
-	/**
-	 * Movie's title sanitized
-	 */
-	private string $film_sanitized_for_title;
-
-	/**
-	 * The movie queried
-	 * @var array<\Imdb\Title> $movie_results
-	 */
-	private array $movie_results;
 
 	/**
 	 * Constructor
@@ -83,13 +66,10 @@ class Popup_Search {
 		// Construct Frontend trait.
 		$this->start_main_trait();
 
-		// Get the type of search: movies, series, games.
-		$this->type_search = $this->config_class->lumiere_select_type_search();
-
 		// Build the vars.
 		// @since 4.0 lowercase, less cache used.
-		$this->film_sanitized = isset( $_GET['film'] ) ? str_replace( [ '\\', '+' ], [ '', ' ' ], strtolower( $this->lumiere_name_htmlize( sanitize_text_field( wp_unslash( $_GET['film'] ) ) ) ) ) : ''; // In trait Data, which is in trait Main.
-		$this->film_sanitized_for_title = $this->film_sanitized;
+		$film_sanitized = Validate_Get::sanitize_url( 'film' );
+		$this->film_sanitized = $film_sanitized !== null ? str_replace( [ '\\', '+' ], [ '', ' ' ], strtolower( $this->lumiere_name_htmlize( $film_sanitized ) ) ) : ''; // Method lumiere_name_htmlize() is in trait Data, which is in trait Main.
 
 		/**
 		 * Start Plugins_Start class
@@ -115,20 +95,24 @@ class Popup_Search {
 	}
 
 	/**
-	 *  Display layout
+	 * Search a film according to its name
+	 *
+	 * @param string $film_sanitized Film name sanitized
+	 * @param array<string> $type_search Array of search types: movies, series, games, etc.
+	 * @return array<\Imdb\Title> An array of IMDB Title results
 	 */
-	private function film_search(): void {
-
-		// Run the query.
+	private function film_search( string $film_sanitized, array $type_search ): array {
 		$search = new TitleSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
-
-		$this->movie_results = $search->search( esc_html( $this->film_sanitized ), $this->type_search );
+		return $search->search( $film_sanitized, $type_search );
 	}
 
 	/**
 	 * Display layout
+	 *
+	 * @param string $template_path The path to the page of the theme currently in use - not utilised
+	 * @return string
 	 */
-	public function layout( string $template ): string {
+	public function layout( string $template_path ): string {
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
 		wp_head();
@@ -136,8 +120,11 @@ class Popup_Search {
 
 		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
-		// Do the film query.
-		$this->film_search();
+		// Get an array of results according to a film name using IMDB class.
+		$movie_results = $this->film_search(
+			$this->film_sanitized, // Title was sanitized.
+			$this->config_class->lumiere_select_type_search() // Get the type of search according to a method in config class.
+		);
 
 		/**
 		 * Display a spinner when clicking a link with class .lum_add_spinner (a <div class="loader"> will be inserted inside by the js)
@@ -147,13 +134,13 @@ class Popup_Search {
 		<h1 align="center">
 			<?php
 			esc_html_e( 'Results related to', 'lumiere-movies' );
-			echo ' <i>' . esc_html( ucwords( $this->film_sanitized_for_title ) ) . '</i>';
+			echo ' <i>' . esc_html( ucwords( $this->film_sanitized ) ) . '</i>';
 			?>
 		</h1>
 
 		<?php
 		// if no movie was found at all.
-		if ( count( $this->movie_results ) === 0 ) {
+		if ( count( $movie_results ) === 0 ) {
 			echo "<h2 align='center'><i>" . esc_html__( 'No result found.', 'lumiere-movies' ) . '</i></h2>';
 			wp_footer();
 			?></body>
@@ -174,7 +161,7 @@ class Popup_Search {
 			<?php
 			$max_lines = isset( $this->imdb_admin_values['imdbmaxresults'] ) ? intval( $this->imdb_admin_values['imdbmaxresults'] ) : 10;
 			$current_line = 0;
-			foreach ( $this->movie_results as $res ) {
+			foreach ( $movie_results as $res ) {
 
 				// Limit the number of results according to value set in admin
 				$current_line++;
@@ -247,7 +234,8 @@ class Popup_Search {
 		wp_footer();
 		echo "</body>\n</html>";
 
-		return ''; // Delete the template used.
+		// Avoid 'Filter callback return statement is missing.' from PHPStan
+		return '';
 	}
 }
 

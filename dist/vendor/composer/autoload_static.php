@@ -99,6 +99,7 @@ class ComposerStaticInit2660170a07cc3fb36d97d6c17f332311
         'Lumiere\\Tools\\Files' => __DIR__ . '/../..' . '/class/tools/trait-files.php',
         'Lumiere\\Tools\\Settings_Global' => __DIR__ . '/../..' . '/class/tools/trait-settings-global.php',
         'Lumiere\\Tools\\Utils' => __DIR__ . '/../..' . '/class/tools/class-utils.php',
+        'Lumiere\\Tools\\Validate_Get' => __DIR__ . '/../..' . '/class/tools/class-validate-get.php',
         'Lumiere\\Updates' => __DIR__ . '/../..' . '/class/class-updates.php',
         'Lumiere\\Updates\\Lumiere_Update_File_01' => __DIR__ . '/../..' . '/class/updates/01.php',
         'Lumiere\\Updates\\Lumiere_Update_File_02' => __DIR__ . '/../..' . '/class/updates/02.php',
