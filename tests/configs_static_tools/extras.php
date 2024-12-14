@@ -2,7 +2,7 @@
 // PHPStan Extras functions
 
 namespace {
-
+	
 	if ( ! function_exists( 'get_terms' ) ) {
 		/**
 		 *

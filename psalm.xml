@@ -15,8 +15,10 @@
 
 	<!-- Load but don't analyze -->
 	<extraFiles>
+	<!-- Not needed here apparently
 		<directory name="vendor/php-stubs/wordpress-stubs/"/>
 		<directory name="vendor/php-stubs/wp-cli-stubs/"/>
+	 -->
 	</extraFiles>
 	<!-- Load and analyze -->
 	<projectFiles>
@@ -24,7 +26,7 @@
 		<ignoreFiles>
 			<directory name="vendor"/>
 			<directory name="src/vendor"/>
-			<directory name="../blogpourext"/>
+			<directory name="../blogpourext"/><!-- Psalm get stuck otherwise -->
 		</ignoreFiles>
 	</projectFiles>
 	<stubs>

@@ -14,9 +14,7 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
-	wp_die( 'You can not call directly this page' );
-}
+lum_check_display();
 
 use Lumiere\Plugins\Logger;
 use FilesystemIterator;

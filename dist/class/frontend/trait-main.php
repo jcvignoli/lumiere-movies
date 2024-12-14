@@ -77,10 +77,10 @@ trait Main {
 
 	/**
 	 * Is the current page an editing page?
+	 * @deprecated since 18 03 2024
+	 *
+	 * private bool $is_editor_page = false;
 	 */
-	/* @deprecated since 18 03 2024
-	private bool $is_editor_page = false;
-	*/
 
 	/**
 	 * Constructor-like

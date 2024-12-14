@@ -21,7 +21,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-// Stop direct call.
+// Prevent any direct call.
 if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'You are not allowed to call this page directly.' );
 }
@@ -31,43 +31,26 @@ if ( ( file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload.php' ) ) && (
 	require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 }
 
-// Check if the classes are installed.
+// Get global vars.
+if ( file_exists( plugin_dir_path( __FILE__ ) . 'vars.php' ) ) {
+	require_once plugin_dir_path( __FILE__ ) . 'vars.php';
+}
+
+// Get global functions.
+if ( file_exists( plugin_dir_path( __FILE__ ) . 'functions.php' ) ) {
+	require_once plugin_dir_path( __FILE__ ) . 'functions.php';
+}
+
+// Check if Lumière and IMDbPHP classes are installed.
 if ( ! class_exists( 'Lumiere\Core' ) ) {
-	wp_die( esc_html__( 'Error: Lumière is not installed. Check your install.', 'lumiere-movies' ) );
+	wp_die( esc_html__( 'Error: Lumière is not correctly installed. Check your install.', 'lumiere-movies' ) );
 }
 if ( ! class_exists( 'Imdb\Config' ) ) {
-	wp_die( esc_html__( 'Error: Imdbphp libraries are not installed. Check your install.', 'lumiere-movies' ) );
-}
-
-// Remove Lumière if crappy plugins are active
-if (
-	count(
-		array_intersect(
-			Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS,
-			apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) // @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Modifying core WP hook!
-		)
-	) > 0
-) {
-
-	if ( ! function_exists( 'lumiere_notice_install_error' ) ) {
-		function lumiere_notice_install_error(): void {
-			$incompatible_name_plugins = ucwords( str_replace( '-', ' ', implode( ',', preg_replace( '#/.*#', '', Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS ) ) ) ) . '. ';
-			$class = 'notice notice-error is-dismissible';
-			$message = __( 'Lumière is incompatible with the following plugins: ', 'lumiere-movies' );
-			$message_end = __( 'Lumière has been deactivated and cannot be activated unless you deactivate ', 'lumiere-movies' );
-			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) . esc_html( $incompatible_name_plugins ) . esc_html( $message_end ) );
-		}
-	}
-
-	add_action( 'admin_notices', 'lumiere_notice_install_error' );
-	if ( ! function_exists( 'deactivate_plugins' ) ) {
-		require_once ABSPATH . 'wp-admin/includes/plugin.php';
-	}
-	deactivate_plugins( __FILE__ );
-	return;
+	wp_die( esc_html__( 'Error: IMDbPHP libraries are not installed. Check your install.', 'lumiere-movies' ) );
 }
 
 // Start the plugin
+lum_incompatible_plugins_uninstall( Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS, __FILE__ ); // Lumière is uninstalled if crappy plugins are found.
 $lumiere_core = new Lumiere\Core();
 
 // Executed upon plugin activation.

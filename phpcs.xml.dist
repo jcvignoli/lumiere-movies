@@ -39,6 +39,8 @@
 		<exclude name="NeutronStandard.Functions.DisallowCallUserFunc.CallUserFunc"/>
 		<!-- Followig rule should be commented out, therefore active
 		<exclude name="WordPress.Security.NonceVerification"/> -->
+		<!-- I want to use define() -->
+		<exclude name="NeutronStandard.Constants.DisallowDefine.Define"/>
 	</rule> 
 
 	<!-- Let's also check that everything is properly documented.

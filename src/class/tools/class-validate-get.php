@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Validator Gets URL
+ * Validator Gets URL in popups
  *
  * @author      Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright   2024, Lost Highway
@@ -24,28 +24,28 @@ use Exception;
 class Validate_Get {
 
 	/**
-	 * List of $_GET variable accepted in the website
+	 * List of $_GET variable accepted in Lumière! url for popups
 	 *
 	 * 'filter' sanitizes
 	 * 'flags' validates and returns null if the validation didn't work
 	 */
 	private const VALIDABLE_KEYS = [
-		'film'         => [ // Lumiere\Frontend\Popups\Head_Popups
+		'film'         => [ // Lumiere\Frontend\Popups\Head_Popups, Lumiere\Frontend\Popups\Popup_Movie
 			'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
 			'flags'  => [ FILTER_FLAG_QUERY_REQUIRED, FILTER_NULL_ON_FAILURE ],
 		],
-		'mid' => [  // Lumiere\Frontend\Popups\Head_Popups
+		'mid' => [  // Lumiere\Frontend\Popups\Head_Popups, Lumiere\Frontend\Popups\Popup_Movie
 			'filter' => FILTER_SANITIZE_NUMBER_INT,
 			'flags'  => [ FILTER_FLAG_QUERY_REQUIRED, FILTER_NULL_ON_FAILURE ],
 		],
 		'info'         => [ // Lumiere\Frontend\Popups\Popup_Movie
 			'filter'  => FILTER_VALIDATE_REGEXP,
-			'options' => [ 'regexp' => '~(actors|crew|resume|divers|^$)~' ], // Matches also empty string, which is needed by default.
+			'options' => [ 'regexp' => '~(actors|crew|resume|divers|^$)~' ], // Matches also empty string, which is needed for at first.
 			'flags'   => [ FILTER_FLAG_QUERY_REQUIRED, FILTER_NULL_ON_FAILURE ],
 		],
 		'info_person'         => [ // Lumiere\Frontend\Popups\Popup_Person
 			'filter'  => FILTER_VALIDATE_REGEXP,
-			'options' => [ 'regexp' => '~(filmo|bio|misc|^$)~' ], // Matches also empty string, which is needed by default.
+			'options' => [ 'regexp' => '~(filmo|bio|misc|^$)~' ], // Matches also empty string, which is needed at first.
 			'flags'   => [ FILTER_FLAG_QUERY_REQUIRED, FILTER_NULL_ON_FAILURE ],
 		],
 
@@ -54,7 +54,6 @@ class Validate_Get {
 	/**
 	 * Validate and sanitize Server url strings
 	 * Use filter_input_array() to validate and sanitize
-	 * Use parse_url() for an extra layer of security (is it really usefull?)
 	 *
 	 * @param string $url_key The Server key, as defined in VALIDABLE_KEYS
 	 * @return null|string the value of the VALIDABLE_KEYS[ $url_key ]('path')?

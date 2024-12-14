@@ -94,7 +94,7 @@ class Frontend {
 			$this->config_class->lumiere_js_dir . 'lumiere_hide_show.min.js',
 			[ 'jquery' ],
 			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_hide_show.min.js' ) ),
-			[ 'strategy' => 'async' ]
+			[ 'strategy' => 'defer' ]
 		);
 
 		// Frontpage scripts
@@ -158,13 +158,14 @@ class Frontend {
 	 *
 	 * @since 4.0 Bots are banned for all popups, it's done here so no IMDbPHP calls for movies/people are done in case of redirect
 	 * @since 4.0.1 Added bot banning if no referer, created method ban_bots_popups()
+	 * @since 4.2.2 Nonce validation
 	 *
 	 * @return string|Virtual_Page
 	 */
 	public function lumiere_popup_redirect_include( string $template ): string|Virtual_Page {
 
 		$query_popup = get_query_var( 'popup' );
-		$nonce_url = wp_create_nonce();
+		$nonce_valid = isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ? true : false; // Created in Abstract_Link_Maker class.
 
 		// The query var doesn't exist, exit.
 		if ( ! isset( $query_popup ) ) {
@@ -192,21 +193,22 @@ class Frontend {
 
 				$movieid_sanitized = Validate_Get::sanitize_url( 'mid' );
 				$film_sanitized = Validate_Get::sanitize_url( 'film' );
+				$one_must_exist = $movieid_sanitized ?? $film_sanitized;
 
 				// Exit if trying to do bad things.
-				if ( $movieid_sanitized === null || strlen( $movieid_sanitized ) < 1 || wp_verify_nonce( $nonce_url ) === false ) {
+				if ( $one_must_exist === null || ( strlen( $one_must_exist ) > 0 ) === false || $nonce_valid === false ) {
 					wp_die( esc_html__( 'Lumière Movies: Wrong movie id.', 'lumiere-movies' ) );
 				}
 
 				// Set the title.
-				$movie = new Title( $movieid_sanitized, $this->plugins_classes_active['imdbphp'] ); /** @phan-suppress-current-line PhanTypeMismatchArgumentNullable -- Phan, $movieid_sanitized is never null! */
-				$filmid_sanitized = $movie->title();
+				$movie = $movieid_sanitized !== null ? new Title( $movieid_sanitized, $this->plugins_classes_active['imdbphp'] ) : null;
+				$movie_queried = $movie !== null ? $movie->title() : null;
 
 				// Sanitize and initialize $_GET['film']
-				$film_sanitized = $film_sanitized !== null && wp_verify_nonce( $nonce_url ) > 0 ? $this->lumiere_name_htmlize( $film_sanitized ) : ''; // Method lumiere_name_htmlize() in trait Data.
+				$film_sanitized = $film_sanitized !== null ? $this->lumiere_name_htmlize( $film_sanitized ) : ''; // Method lumiere_name_htmlize() in trait Data.
 
 				// Get the film ID if it exists, if not get the film name
-				$title_name = strlen( $filmid_sanitized ) > 0 ? $filmid_sanitized : $film_sanitized;
+				$title_name = $movie_queried !== null ? ucfirst( $movie_queried ) : ucfirst( $film_sanitized );
 
 				/* translators: %1$s is a name */
 				$title = sprintf( __( 'Informations about %1$s', 'lumiere-movies' ), $title_name ) . ' - Lumi&egrave;re movies';
@@ -224,7 +226,7 @@ class Frontend {
 				$mid_sanitized = Validate_Get::sanitize_url( 'mid' );
 
 				// Exit if trying to do bad things.
-				if ( $mid_sanitized === null || strlen( $mid_sanitized ) < 1 || wp_verify_nonce( $nonce_url ) === false ) {
+				if ( $mid_sanitized === null || ( strlen( $mid_sanitized ) > 0 ) === false || $nonce_valid === false ) {
 					wp_die( esc_html__( 'Lumière Movies: Wrong person id.', 'lumiere-movies' ) );
 				}
 
@@ -250,7 +252,7 @@ class Frontend {
 				$filmname_sanitized = Validate_Get::sanitize_url( 'film' );
 
 				// Exit if trying to do bad things.
-				if ( $filmname_sanitized === null || strlen( $filmname_sanitized ) < 1 || wp_verify_nonce( $nonce_url ) === false ) {
+				if ( $filmname_sanitized === null || ( strlen( $filmname_sanitized ) > 0 ) === false || $nonce_valid === false ) {
 					wp_die( esc_html__( 'Lumière Movies: Wrong film id.', 'lumiere-movies' ) );
 				}
 

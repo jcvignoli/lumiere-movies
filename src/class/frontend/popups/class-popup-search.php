@@ -66,6 +66,14 @@ class Popup_Search {
 		// Construct Frontend trait.
 		$this->start_main_trait();
 
+		// Remove admin bar if user is logged in.
+		// Also check if AMP page (in trait Main), as AMP plugin needs admin bar if logged in otherwise returns notices.
+		if ( is_user_logged_in() === true && $this->lumiere_is_amp_page() !== true ) {
+			add_filter( 'show_admin_bar', '__return_false' );
+			wp_dequeue_style( 'admin-bar' );
+			wp_deregister_style( 'admin-bar' );
+		}
+
 		// Build the vars.
 		// @since 4.0 lowercase, less cache used.
 		$film_sanitized = Validate_Get::sanitize_url( 'film' );
@@ -78,12 +86,6 @@ class Popup_Search {
 		 */
 		if ( count( $this->plugins_active_names ) === 0 ) {
 			$this->activate_plugins();
-		}
-
-		// Remove admin bar if user is logged in.
-		if ( is_user_logged_in() === true ) {
-			add_filter( 'show_admin_bar', '__return_false' );
-			wp_deregister_style( 'admin-bar' );
 		}
 
 		/**

@@ -52,8 +52,10 @@ document.addEventListener(
 				// vars from scripts
 				var tmppopupLarg = lumiere_vars.popupLarg;
 				var tmppopupLong = lumiere_vars.popupLong;
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_people' );
-				var url_imdbperso = lumiere_vars.urlpopup_person + '?mid=' + misc_term;
+				var modal_window_people = jQuery( this ).closest( 'a' ).data( 'modal_window_people' );
+				var modal_window_nonce = jQuery( this ).closest( 'a' ).data( 'modal_window_nonce' );
+				
+				var url_imdbperso = lumiere_vars.urlpopup_person + '?mid=' + modal_window_people + '&_wpnonce=' + modal_window_nonce;
 
 				hs.htmlExpand(
 					this,
@@ -79,8 +81,10 @@ document.addEventListener(
 				// vars from scripts
 				var tmppopupLarg = lumiere_vars.popupLarg;
 				var tmppopupLong = lumiere_vars.popupLong;
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_film' );
-				var url_imdbperso = lumiere_vars.urlpopup_film + '?film=' + misc_term;
+				var modal_window_film = jQuery( this ).closest( 'a' ).data( 'modal_window_film' );
+				var modal_window_nonce = jQuery( this ).closest( 'a' ).data( 'modal_window_nonce' );
+				
+				var url_imdbperso = lumiere_vars.urlpopup_film + '?film=' + modal_window_film + '&_wpnonce=' + modal_window_nonce;
 
 				hs.htmlExpand(
 					this,
@@ -106,8 +110,10 @@ document.addEventListener(
 				// vars from scripts
 				var tmppopupLarg = lumiere_vars.popupLarg;
 				var tmppopupLong = lumiere_vars.popupLong;
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_filmid' );
-				var url_imdbperso = lumiere_vars.urlpopup_film + '?mid=' + misc_term;
+				var modal_window_filmid = jQuery( this ).closest( 'a' ).data( 'modal_window_filmid' );
+				var modal_window_nonce = jQuery( this ).closest( 'a' ).data( 'modal_window_nonce' );
+				
+				var url_imdbperso = lumiere_vars.urlpopup_film + '?mid=' + modal_window_filmid + '&_wpnonce=' + modal_window_nonce;
 
 				hs.htmlExpand(
 					this,

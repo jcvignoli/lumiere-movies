@@ -35,8 +35,8 @@ use Exception;
 class Settings {
 
 	/**
-	 * If those plugins are installed, it will lead to Lumière deactivation
-	 * Those are crap and Lumière will not support them
+	 * If those plugins are installed, Lumière will be deactivated and could not be activated again
+	 * Those plugins are crap and Lumière will not support them
 	 */
 	const LUMIERE_INCOMPATIBLE_PLUGINS = [ 'rss-feed-post-generator-echo/rss-feed-post-generator-echo.php' ];
 
@@ -78,28 +78,28 @@ class Settings {
 	public string $lumiere_urlpopupsearch;
 
 	/**
-	 * URL for menu small images directory, built in lumiere_define_constants()
+	 * URL for menu small images directory
 	 * @var string $lumiere_pics_dir
 	 */
-	public string $lumiere_pics_dir;
+	public string $lumiere_pics_dir = LUMIERE_WP_URL . 'assets/pics/';
 
 	/**
-	 * URL for javascript path, built in lumiere_define_constants()
+	 * URL for javascript path
 	 * @var string $lumiere_js_path
 	 */
-	public string $lumiere_js_path;
+	public string $lumiere_js_path = LUMIERE_WP_PATH . 'assets/js/';
 	/**
-	 * URL for javascript dir, built in lumiere_define_constants()
+	 * URL for javascript dir
 	 * @var string $lumiere_js_dir
 	 */
-	public string $lumiere_js_dir;
+	public string $lumiere_js_dir = LUMIERE_WP_URL . 'assets/js/';
 
 	/**
-	 * URL for javascript dir, built in lumiere_define_constants()
+	 * URL for javascript dir
 	 * @var string $lumiere_css_dir
 	 */
-	public string $lumiere_css_dir;
-	public string $lumiere_css_path;
+	public string $lumiere_css_dir = LUMIERE_WP_URL . 'assets/css/';
+	public string $lumiere_css_path = LUMIERE_WP_PATH . 'assets/css/';
 
 	/**
 	 * Internal URL pages constants
@@ -152,7 +152,7 @@ class Settings {
 
 	/**
 	 * Cache folder path.
-	 * This const is utilised to determine the default cache path value in get_imdb_cache_option()
+	 * This const is utilised to determine the default cache path value in get_cache_option()
 	 */
 	const LUMIERE_FOLDER_CACHE = WP_CONTENT_DIR . '/cache/lumiere/';
 
@@ -182,27 +182,27 @@ class Settings {
 
 		/**
 		 * Build options, get them from database if they exist, build them otherwise.
-		 * Only $imdb_admin_option is set as a property, since it is used in that class.
+		 * Only $lum_admin_option is set as a property, since it is used in that class.
 		 */
-		$imdb_admin_option = get_option( self::get_admin_tablename() );
-		if ( is_array( $imdb_admin_option ) === false ) {
-			$imdb_admin_option = $this->get_imdb_admin_option();
-			update_option( self::get_admin_tablename(), $imdb_admin_option );
+		$lum_admin_option = get_option( self::get_admin_tablename() );
+		if ( is_array( $lum_admin_option ) === false ) {
+			$lum_admin_option = $this->get_admin_option();
+			update_option( self::get_admin_tablename(), $lum_admin_option );
 		}
-		/** @phpstan-var OPTIONS_ADMIN $imdb_admin_option */
-		$this->imdb_admin_option = $imdb_admin_option;
+		/** @phpstan-var OPTIONS_ADMIN $lum_admin_option */
+		$this->imdb_admin_option = $lum_admin_option;
 
 		// Those have no class properties created.
-		$imdb_data_option = get_option( self::get_data_tablename() );
-		if ( is_array( $imdb_data_option ) === false  ) {
-			$imdb_data_option = $this->get_imdb_data_option();
-			update_option( self::get_data_tablename(), $imdb_data_option );
+		$lum_data_option = get_option( self::get_data_tablename() );
+		if ( is_array( $lum_data_option ) === false  ) {
+			$lum_data_option = $this->get_data_option();
+			update_option( self::get_data_tablename(), $lum_data_option );
 		}
 
-		$imdb_cache_option = get_option( self::get_cache_tablename() );
-		if ( is_array( $imdb_cache_option ) === false  ) {
-			$imdb_cache_option = $this->get_imdb_cache_option();
-			update_option( self::get_cache_tablename(), $imdb_cache_option );
+		$lum_cache_option = get_option( self::get_cache_tablename() );
+		if ( is_array( $lum_cache_option ) === false  ) {
+			$lum_cache_option = $this->get_cache_option();
+			update_option( self::get_cache_tablename(), $lum_cache_option );
 		}
 
 		// Define Lumière constants once global options have been created.
@@ -232,18 +232,7 @@ class Settings {
 	private function lumiere_define_constants(): void {
 
 		// BUILD $imdb_admin_option['imdbplugindirectory']
-		$this->imdb_admin_option['imdbplugindirectory'] ??= plugin_dir_url( __DIR__ );
-
-		/* BUILD directory for pictures */
-		$this->lumiere_pics_dir = plugin_dir_url( __DIR__ ) . 'assets/pics/';
-
-		/* BUILD directory for javascripts */
-		$this->lumiere_js_path = plugin_dir_path( __DIR__ ) . 'assets/js/';
-		$this->lumiere_js_dir = plugin_dir_url( __DIR__ ) . 'assets/js/';
-
-		/* BUILD directory for css */
-		$this->lumiere_css_dir = plugin_dir_url( __DIR__ ) . 'assets/css/';
-		$this->lumiere_css_path = plugin_dir_path( __DIR__ ) . 'assets/css/';
+		$this->imdb_admin_option['imdbplugindirectory'] ??= LUMIERE_WP_URL;
 
 		/* BUILD LUMIERE_VERSION */
 		$lumiere_version_recherche = file_get_contents( plugin_dir_path( __DIR__ ) . 'README.txt' );
@@ -345,7 +334,7 @@ class Settings {
 
 	/**
 	 * Define the number of updates on first install
-	 * Called in {@see \Lumiere\Settings::get_imdb_admin_option()}
+	 * Called in {@see \Lumiere\Settings::get_admin_option()}
 	 *
 	 * @return bool
 	 */
@@ -393,7 +382,7 @@ class Settings {
 	 * @psalm-return array{imdbHowManyUpdates?: mixed|string, imdbautopostwidget?: mixed|string, imdbcoversize?: mixed|string, imdbcoversizewidth?: mixed|string, imdbdebug?: mixed|string, imdbdebuglevel?: mixed|string, imdbdebuglog?: mixed|string, imdbdebuglogpath?: mixed|string, imdbdebugscreen?: mixed|string, imdbdelayimdbrequest?: mixed|string, imdbintotheposttheme?: mixed|string, imdbkeepsettings?: mixed|string, imdblanguage?: mixed|string, imdblinkingkill?: mixed|string, imdbmaxresults?: mixed|string, imdbplugindirectory: non-falsy-string, imdbplugindirectory_partial?: mixed|string, imdbpluginpath?: mixed|string, imdbpopup_modal_window?: mixed|string, imdbpopuplarg?: mixed|string, imdbpopuplong?: mixed|string, imdbpopuptheme?: mixed|string, imdbseriemovies?: mixed|string, imdbtaxonomy?: mixed|string, imdburlpopups?: mixed|string, imdburlstringtaxo?: mixed|string, imdbwordpress_bigmenu?: mixed|string, imdbwordpress_tooladminmenu?: mixed|string, imdbirpdisplay?: mixed|string, ...<array-key, mixed|string>}
 	 * @return array<mixed>
 	 */
-	private function get_imdb_admin_option(): array {
+	private function get_admin_option(): array {
 
 		// Define how many updates have been runned
 		$this->lumiere_define_nb_updates();
@@ -478,7 +467,7 @@ class Settings {
 	 * @psalm-return array{imdbcacheautorefreshcron?: non-empty-string, imdbcachedetailshidden?: non-empty-string, imdbcachedetailsshort?: non-empty-string, imdbcachedir: 'wp-content/cache/lumiere/', imdbcachedir_partial?: non-empty-string, imdbcacheexpire?: non-empty-string, imdbcachekeepsizeunder?: non-empty-string, imdbcachekeepsizeunder_sizelimit?: non-empty-string, imdbphotodir?: non-empty-string, imdbphotoroot: 'wp-content/cache/lumiere/images/', imdbusecache?: non-empty-string, ...<array-key, mixed|non-empty-string>}
 	 * @return array<mixed>
 	 */
-	private function get_imdb_cache_option(): array {
+	private function get_cache_option(): array {
 
 		// Build partial cache path, such as 'wp-content/cache/lumiere/'
 		$imdbcachedir_partial = str_replace( WP_CONTENT_DIR, '', self::LUMIERE_FOLDER_CACHE );
@@ -530,7 +519,7 @@ class Settings {
 	 * @psalm-return non-empty-array<array-key, '0'|'1'|'10'|'2'|array{actor: '6', alsoknow: '20', color: '19', composer: '21', country: '5', creator: '7', director: '4', genre: '10', goof: '16', keyword: '13', language: '9', officialsites: '24', pic: '2', plot: '15', prodcompany: '14', producer: '12', quote: '17', rating: '8', runtime: '3', soundtrack: '22', source: '25', tagline: '18', title: '1', trailer: '23', writer: '11'}|false|mixed>
 	 * @return array<mixed>
 	 */
-	private function get_imdb_data_option(): array {
+	private function get_data_option(): array {
 
 		$imdb_data_options = [
 

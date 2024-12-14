@@ -21,14 +21,15 @@ document.addEventListener(
 				jQuery('.modal-header').addClass('showspinner');
 				
 				// get the data-modal_window_people value
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_people' );
-
+				var modal_window_people = jQuery( this ).closest( 'a' ).data( 'modal_window_people' );
+				var modal_window_nonce = jQuery( this ).closest( 'a' ).data( 'modal_window_nonce' );
+				
 				// build the final URL, add a timestamp so no cached result and spinner will be loaded every time
-				var url_imdbperso = lumiere_vars.urlpopup_person + '?mid=' + misc_term;
+				var url_imdbperso = lumiere_vars.urlpopup_person + '?mid=' + modal_window_people + '&_wpnonce=' + modal_window_nonce;
 
 				// Build the object then activate bootstrap popup link
-				jQuery( '.modal-body' ).html( '<object id="' + misc_term + '" name="' + misc_term + '" data="' + url_imdbperso + '"/>' );
-				themodal = jQuery( '#theModal' + misc_term ).modal( 'show' );
+				jQuery( '.modal-body' ).html( '<object id="' + modal_window_people + '" name="' + modal_window_people + '" data="' + url_imdbperso + '"/>' );
+				themodal = jQuery( '#theModal' + modal_window_people ).modal( 'show' );
 				
 				// Remove the spinner once the object is loaded
 				// the bootstrap modal is normaly saved and doesn't detect a second click on the same object; so we disable the cache
@@ -55,14 +56,15 @@ document.addEventListener(
 				jQuery('.modal-header').addClass('showspinner');
 
 				// get the data-modal_window_film value
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_film' );
+				var modal_window_film = jQuery( this ).closest( 'a' ).data( 'modal_window_film' );
+				var modal_window_nonce = jQuery( this ).closest( 'a' ).data( 'modal_window_nonce' );
 
 				// build the final URL, add a timestamp so no cached result and spinner will be loaded every time
-				var url_imdbfilm = lumiere_vars.urlpopup_film + '?film=' + misc_term;
+				var url_imdbfilm = lumiere_vars.urlpopup_film + '?film=' + modal_window_film + '&_wpnonce=' + modal_window_nonce;
 
 				// Build the object then activate bootstrap popup link
-				jQuery( '.modal-body' ).html( '<object name="' + misc_term + '" data="' + url_imdbfilm + '"/>' );
-				themodal = jQuery( '#theModal' + misc_term ).modal( 'show' );
+				jQuery( '.modal-body' ).html( '<object name="' + modal_window_film + '" data="' + url_imdbfilm + '"/>' );
+				themodal = jQuery( '#theModal' + modal_window_film ).modal( 'show' );
 				
 				// Remove the spinner once the object is loaded
 				// the bootstrap modal is normaly saved and doesn't detect a second click on the same object; so we disable the cache
@@ -89,14 +91,15 @@ document.addEventListener(
 				jQuery('.modal-header').addClass('showspinner');
 
 				// get the data-modal_window_filmid value
-				var misc_term = jQuery( this ).closest( 'a' ).data( 'modal_window_filmid' );
-
+				var modal_window_people = jQuery( this ).closest( 'a' ).data( 'modal_window_filmid' );
+				var modal_window_nonce = jQuery( this ).closest( 'a' ).data( 'modal_window_nonce' );
+				
 				// build the final URL, add a timestamp so no cached result and spinner will be loaded every time
-				var url_imdbfilmid = lumiere_vars.urlpopup_film + '?mid=' + misc_term;
+				var url_imdbfilmid = lumiere_vars.urlpopup_film + '?mid=' + modal_window_people + '&_wpnonce=' + modal_window_nonce;
 
 				// Build the object then activate bootstrap popup link
-				jQuery( '.modal-body' ).html( '<object name="' + misc_term + '" data="' + url_imdbfilmid + '"/>' );
-				themodal = jQuery( '#theModal' + misc_term ).modal( 'show' );
+				jQuery( '.modal-body' ).html( '<object name="' + modal_window_people + '" data="' + url_imdbfilmid + '"/>' );
+				themodal = jQuery( '#theModal' + modal_window_people ).modal( 'show' );
 
 				// Remove the spinner once the object is loaded
 				// the bootstrap modal is normaly saved and doesn't detect a second click on the same object; so we disable the cache

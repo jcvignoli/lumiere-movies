@@ -375,8 +375,8 @@ abstract class Abstract_Link_Maker {
 		$internal_link_movie = '';
 
 		if ( intval( $window_type ) === 0 ) {
-			$internal_link_person = '<a class="lum_popup_internal_link lum_add_spinner" href="' . $this->config_class->lumiere_urlpopupsperson . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
-			$internal_link_movie = '<a class="lum_popup_internal_link lum_add_spinner lum_popup_link_with_movie" href="' . $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+			$internal_link_person = '<a class="lum_popup_internal_link lum_add_spinner" href="' . wp_nonce_url( $this->config_class->lumiere_urlpopupsperson . '?mid=${4}' ) . '" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+			$internal_link_movie = '<a class="lum_popup_internal_link lum_add_spinner lum_popup_link_with_movie" href="' . wp_nonce_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=${4}' ) . '" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
 		}
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
@@ -550,13 +550,14 @@ abstract class Abstract_Link_Maker {
 
 		// Building link.
 		$txt = "\n\t\t\t" . '<a class="' . $specific_a_class . '"' . " id=\"link-$imdbid\""
+		. ' data-modal_window_nonce="' . wp_create_nonce() . '"'
 		. ' data-modal_window_people="' . sanitize_text_field( $imdbid ) . '"'
 		// Data target is utilised by bootstrap only, but should be safe to keep it.
 		. ' data-target="#theModal' . sanitize_text_field( $imdbid ) . '"'
 		. ' title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '"';
 		// AMP, build a HREF.
 		if ( intval( $window_type ) === 3 ) {
-			$txt .= ' href="' . esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $imdbid ) . '"';
+			$txt .= ' href="' . esc_url( wp_nonce_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $imdbid ) ) . '"';
 		}
 		$txt .= '>' . sanitize_text_field( $imdbname ) . '</a>';
 
@@ -598,18 +599,18 @@ abstract class Abstract_Link_Maker {
 		// Highslide & Classic modal
 		if ( $window_type === 0 ) {
 
-			$txt = '<a class="lum_link_with_movie" data-modal_window_film="' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
+			$txt = '<a class="lum_link_with_movie" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
 
 			// Bootstrap modal
 		} elseif ( $window_type === 1 ) {
 
-			$txt = '<a class="lum_link_with_movie" data-modal_window_film="' . $title_attr . '" data-target="#theModal' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>'
+			$txt = '<a class="lum_link_with_movie" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . $title_attr . '" data-target="#theModal' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>'
 			. $this->bootstrap_modal( $title_attr, $title_esc );
 
 			// AMP & No Link modal
 		} elseif ( $window_type === 2 ) {
 
-			$txt = '<a class="lum_link_make_popup lum_link_with_movie" href="' . $this->config_class->lumiere_urlpopupsfilms . '?film=' . $title_attr . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
+			$txt = '<a class="lum_link_make_popup lum_link_with_movie" href="' . wp_nonce_url( $this->config_class->lumiere_urlpopupsfilms . '?film=' . $title_attr ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
 
 		}
 

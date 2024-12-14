@@ -109,7 +109,7 @@ class Movie {
 
 			/**
 			 * Start Plugins_Start class
-			 * Use lumiere_set_plugins_array() in trait to set $plugins_active_names var in trait
+			 * Use activate_plugins() in trait to set $plugins_active_names var in trait
 			 */
 			if ( count( $this->plugins_active_names ) === 0 ) {
 				$this->activate_plugins();

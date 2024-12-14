@@ -17,3 +17,6 @@ require_once 'configs_static_tools/extras.php';
 // Bootstrap
 require_once 'src/vendor/autoload.php';
 
+// Global functions
+require_once 'src/functions.php';
+
