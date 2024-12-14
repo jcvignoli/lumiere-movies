@@ -73,7 +73,7 @@ class Popup_Search {
 			wp_dequeue_style( 'admin-bar' );
 			wp_deregister_style( 'admin-bar' );
 		}
-		
+
 		// Build the vars.
 		// @since 4.0 lowercase, less cache used.
 		$film_sanitized = Validate_Get::sanitize_url( 'film' );

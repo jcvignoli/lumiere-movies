@@ -61,9 +61,10 @@ if ( ! defined( 'DOING_AUTOSAVE' ) ) {
 	$x = false
 	);
 }
+}*/
 if ( ! defined( 'XMLRPC_REQUEST' ) ) {
 	define('XMLRPC_REQUEST',
 	// @var mixed $x
 	$x = false
 	);
-}*/
+}

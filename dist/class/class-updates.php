@@ -14,7 +14,7 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-//lum_check_display();
+lum_check_display();
 
 use Lumiere\Plugins\Logger;
 use FilesystemIterator;

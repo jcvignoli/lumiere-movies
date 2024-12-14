@@ -35,8 +35,8 @@ use Exception;
 class Settings {
 
 	/**
-	 * If those plugins are installed, it will lead to Lumière deactivation
-	 * Those are crap and Lumière will not support them
+	 * If those plugins are installed, Lumière will be deactivated and could not be activated again
+	 * Those plugins are crap and Lumière will not support them
 	 */
 	const LUMIERE_INCOMPATIBLE_PLUGINS = [ 'rss-feed-post-generator-echo/rss-feed-post-generator-echo.php' ];
 
@@ -78,28 +78,28 @@ class Settings {
 	public string $lumiere_urlpopupsearch;
 
 	/**
-	 * URL for menu small images directory, built in lumiere_define_constants()
+	 * URL for menu small images directory
 	 * @var string $lumiere_pics_dir
 	 */
-	public string $lumiere_pics_dir;
+	public string $lumiere_pics_dir = LUMIERE_WP_URL . 'assets/pics/';
 
 	/**
-	 * URL for javascript path, built in lumiere_define_constants()
+	 * URL for javascript path
 	 * @var string $lumiere_js_path
 	 */
-	public string $lumiere_js_path;
+	public string $lumiere_js_path = LUMIERE_WP_PATH . 'assets/js/';
 	/**
-	 * URL for javascript dir, built in lumiere_define_constants()
+	 * URL for javascript dir
 	 * @var string $lumiere_js_dir
 	 */
-	public string $lumiere_js_dir;
+	public string $lumiere_js_dir = LUMIERE_WP_URL . 'assets/js/';
 
 	/**
-	 * URL for javascript dir, built in lumiere_define_constants()
+	 * URL for javascript dir
 	 * @var string $lumiere_css_dir
 	 */
-	public string $lumiere_css_dir;
-	public string $lumiere_css_path;
+	public string $lumiere_css_dir = LUMIERE_WP_URL . 'assets/css/';
+	public string $lumiere_css_path = LUMIERE_WP_PATH . 'assets/css/';
 
 	/**
 	 * Internal URL pages constants
@@ -232,18 +232,7 @@ class Settings {
 	private function lumiere_define_constants(): void {
 
 		// BUILD $imdb_admin_option['imdbplugindirectory']
-		$this->imdb_admin_option['imdbplugindirectory'] ??= plugin_dir_url( __DIR__ );
-
-		/* BUILD directory for pictures */
-		$this->lumiere_pics_dir = plugin_dir_url( __DIR__ ) . 'assets/pics/';
-
-		/* BUILD directory for javascripts */
-		$this->lumiere_js_path = plugin_dir_path( __DIR__ ) . 'assets/js/';
-		$this->lumiere_js_dir = plugin_dir_url( __DIR__ ) . 'assets/js/';
-
-		/* BUILD directory for css */
-		$this->lumiere_css_dir = plugin_dir_url( __DIR__ ) . 'assets/css/';
-		$this->lumiere_css_path = plugin_dir_path( __DIR__ ) . 'assets/css/';
+		$this->imdb_admin_option['imdbplugindirectory'] ??= LUMIERE_WP_URL;
 
 		/* BUILD LUMIERE_VERSION */
 		$lumiere_version_recherche = file_get_contents( plugin_dir_path( __DIR__ ) . 'README.txt' );

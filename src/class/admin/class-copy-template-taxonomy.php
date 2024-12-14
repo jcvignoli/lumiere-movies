@@ -62,12 +62,12 @@ class Copy_Template_Taxonomy {
 		$lumiere_taxo_title = isset( $_GET['taxotype'] ) && isset( $_GET['_wpnonce_linkcopytaxo'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0 ? sanitize_key( $_GET['taxotype'] ) : null;
 
 		// Build links and vars.
-		if ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, $this->config_class->array_people, true ) ) {
+		if ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, array_keys( $this->config_class->array_people ), true ) ) {
 			$lumiere_taxo_file_tocopy = $this->config_class::TAXO_PEOPLE_THEME;
-		} elseif ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, $this->config_class->array_items, true ) ) {
+		} elseif ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, array_keys( $this->config_class->array_items ), true ) ) {
 			$lumiere_taxo_file_tocopy = $this->config_class::TAXO_ITEMS_THEME;
 		} else {
-			throw new Exception( 'This template $lumiere_taxo_title does not exist, aborting' );
+			throw new Exception( "This template '$lumiere_taxo_title' does not exist, aborting" );
 		}
 
 		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';

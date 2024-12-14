@@ -6,26 +6,26 @@
  * @author            jcvignoli
  * @copyright         2005 https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
  */
- 
+
 if ( ! function_exists( 'lum_install_incompat_notice' ) ) {
 	/**
 	 * Notice of Plugins incompatibility
 	 * @return void Notice was echoed
 	 */
 	function lum_install_incompat_notice(): void {
-		$incompatible_name_plugins = ucwords(str_replace( '-', ' ', implode( ',', preg_replace( '#/.*#', '', Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS ) ) ) ) . '. ';
+		$incompatible_name_plugins = ucwords( str_replace( '-', ' ', implode( ',', preg_replace( '#/.*#', '', Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS ) ) ) ) . '. ';
 		printf(
 			'<div class="%1$s"><p>%2$s <strong>%5$s</strong> %3$s</p><p>%4$s</p></div>',
-				'notice notice-error is-dismissible',
-				esc_html__( 'Lumière is incompatible with the following plugins: ', 'lumiere-movies' ),
-				esc_html__( 'You installed one of them.', 'lumiere-movies' ),
-				esc_html__( 'Lumière has been deactivated and cannot be activated again unless you deactivate them all.', 'lumiere-movies' ),
-				esc_html( $incompatible_name_plugins )
+			'notice notice-error is-dismissible',
+			esc_html__( 'Lumière is incompatible with the following plugins: ', 'lumiere-movies' ),
+			esc_html__( 'You installed one of them.', 'lumiere-movies' ),
+			esc_html__( 'Lumière has been deactivated and cannot be activated again unless you deactivate them all.', 'lumiere-movies' ),
+			esc_html( $incompatible_name_plugins )
 		);
 	}
 }
 
-if ( !function_exists( 'lum_incompatible_plugins_uninstall' ) ) {
+if ( ! function_exists( 'lum_incompatible_plugins_uninstall' ) ) {
 	/**
 	 * Uninstall lumiere if one of the incompatible plugins was found
 	 *
@@ -53,7 +53,7 @@ if ( !function_exists( 'lum_incompatible_plugins_uninstall' ) ) {
 	}
 }
 
-if ( !function_exists( 'lum_check_install' ) ) {
+if ( ! function_exists( 'lum_check_install' ) ) {
 	/**
 	 * Check if a page can be displayed
 	 */

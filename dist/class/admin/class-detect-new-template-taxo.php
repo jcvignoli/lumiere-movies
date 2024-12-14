@@ -89,7 +89,7 @@ class Detect_New_Template_Taxo {
 			}
 		} else {
 			// Build array of people and items from config
-			$array_all = array_merge( $this->config_class->array_people, $this->config_class->array_items );
+			$array_all = array_merge( array_keys( $this->config_class->array_people ), array_keys( $this->config_class->array_items ) );
 			asort( $array_all );
 
 			foreach ( $array_all as $item ) {
@@ -159,7 +159,7 @@ class Detect_New_Template_Taxo {
 		$pattern = '~Version: (.+)~i'; // pattern for regex
 
 		// Files paths built based on $item value
-		$lumiere_taxo_file_tocopy = in_array( $item, $this->config_class->array_people, true ) ? $this->config_class::TAXO_PEOPLE_THEME : $this->config_class::TAXO_ITEMS_THEME;
+		$lumiere_taxo_file_tocopy = in_array( $item, array_keys( $this->config_class->array_people ), true ) ? $this->config_class::TAXO_PEOPLE_THEME : $this->config_class::TAXO_ITEMS_THEME;
 		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
 		$lumiere_current_theme_path_file = get_stylesheet_directory() . '/' . $lumiere_taxo_file_copied;
 		$lumiere_taxonomy_theme_file = $this->imdb_admin_values['imdbpluginpath'] . $lumiere_taxo_file_tocopy;

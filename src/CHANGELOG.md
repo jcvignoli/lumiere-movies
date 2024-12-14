@@ -5,6 +5,7 @@ v.4.2.3
 * [technical] Increased security: use of nonces for popups (adding nonces to Abstract_Link_Maker class and lumiere-bootstrap-links.js)
 * [bug] If AMP plugin is used, showing the admin bar, as it needs it (exception for AMP added to Popup_Movie, Popup_Person, Popup_Search classes)
 * [bug] "Click more" links in taxonomy pages and persons popups wasn't working (changed strategy from async to defer for lumiere_hide_show js in class Frontend, hopefully will work)
+* [bug] If WP is displayed in any language but English, taxonomy copy in Lumière admin was dysfunctional (use of array_keys() in Copy_Template_taxonomy and Detect_New_Template_Taxo classes to get the untranslated job/item instead of translated one, the comparaison was made between the translated and English version of the words)
 
 v.4.2.2
 * [feature] Compatibility with Intelly Related (IRP) post plugin. If a post that includes Lumiere movies is displayed, IRP won't be displayed. This feature can be overriden in advanced general options (new auto plugin IRP, new option var imdbirpdisplay in admin options)

@@ -176,40 +176,40 @@ class Data extends Admin_Menu {
 		$array_all = array_merge( $this->config_class->array_people, $this->config_class->array_items );
 		asort( $array_all );
 
-		foreach ( $array_all as $item ) {
+		foreach ( $array_all as $item_key => $item_value ) {
 
 			$output .= "\n\t" . '<div class="lumiere_flex_container_content_thirty lumiere_padding_five">';
 
-			$output .= "\n\t\t" . '<input type="hidden" id="imdb_imdbtaxonomy' . $item . '_no" name="imdb_imdbtaxonomy' . $item . '" value="0" />';
+			$output .= "\n\t\t" . '<input type="hidden" id="imdb_imdbtaxonomy' . $item_key . '_no" name="imdb_imdbtaxonomy' . $item_key . '" value="0" />';
 
-			$output .= "\n\t\t" . '<input type="checkbox" id="imdb_imdbtaxonomy' . $item . '_yes" name="imdb_imdbtaxonomy' . $item . '" value="1"';
+			$output .= "\n\t\t" . '<input type="checkbox" id="imdb_imdbtaxonomy' . $item_key . '_yes" name="imdb_imdbtaxonomy' . $item_key . '" value="1"';
 
-			if ( $this->imdb_data_values[ 'imdbtaxonomy' . $item ] === '1' ) {
+			if ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_key ] === '1' ) {
 				$output .= ' checked="checked"';
 			}
 
 			$output .= ' />';
-			$output .= "\n\t\t" . '<label for="imdb_imdbtaxonomy' . $item . '_yes">';
+			$output .= "\n\t\t" . '<label for="imdb_imdbtaxonomy' . $item_key . '_yes">';
 
-			if ( $this->imdb_data_values[ 'imdbtaxonomy' . $item ] === '1' ) {
-				if ( $this->imdb_data_values[ 'imdbwidget' . $item ] === '1' ) {
+			if ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_key ] === '1' ) {
+				if ( $this->imdb_data_values[ 'imdbwidget' . $item_key ] === '1' ) {
 					$output .= "\n\t\t" . '<span class="lumiere-option-taxo-activated">';
 				} else {
 					$output .= "\n\t\t" . '<span class="lumiere-option-taxo-deactivated">';
 				}
 
-				$output .= ucfirst( $item );
+				$output .= ucfirst( $item_value );
 				$output .= '</span>';
 
 			} else {
-				$output .= ucfirst( $item );
+				$output .= ucfirst( $item_value );
 				$output .= '&nbsp;&nbsp;';
 			}
 			$output .= "\n\t\t" . '</label>';
 
 			// If template is activated, notify to copy or to update.
-			if ( $this->imdb_data_values[ 'imdbtaxonomy' . $item ] === '1' ) {
-				$output .= $this->lumiere_display_new_taxo_template( $item );
+			if ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_key ] === '1' ) {
+				$output .= $this->lumiere_display_new_taxo_template( $item_key );
 			}
 			$output .= "\n\t" . '</div>';
 
@@ -343,7 +343,8 @@ class Data extends Admin_Menu {
 				. esc_html__( 'Update template', 'lumiere-movies' ) . '</a>';
 
 		$output .= "\n\t" . '<div><font color="red">'
-			. esc_html( "New $lumiere_taxo_title template version available" )
+			/* translators: %s is replaced with a movie job name */
+			. wp_sprintf( __( "New %s template version available", 'lumiere-movies' ), $lumiere_taxo_title )
 			. '</font></div>';
 		$output .= "\n\t" . '</div>';
 
