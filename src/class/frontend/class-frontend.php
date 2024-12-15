@@ -193,15 +193,15 @@ class Frontend {
 
 				$movieid_sanitized = Validate_Get::sanitize_url( 'mid' );
 				$film_sanitized = Validate_Get::sanitize_url( 'film' );
-				$one_must_exist = $movieid_sanitized ?? $film_sanitized;
+				$one_must_exist = isset( $movieid_sanitized ) && strlen( $movieid_sanitized ) > 0 ? $movieid_sanitized : $film_sanitized;
 
 				// Exit if trying to do bad things.
-				if ( $one_must_exist === null || ( strlen( $one_must_exist ) > 0 ) === false || $nonce_valid === false ) {
+				if ( $one_must_exist === null || ( strlen( $one_must_exist ) > 0 ) === false || ( $nonce_valid === false && current_user_can( 'administrator' ) === false ) ) {
 					wp_die( esc_html__( 'Lumière Movies: Wrong movie id.', 'lumiere-movies' ) );
 				}
 
 				// Set the title.
-				$movie = $movieid_sanitized !== null ? new Title( $movieid_sanitized, $this->plugins_classes_active['imdbphp'] ) : null;
+				$movie = $movieid_sanitized !== null && strlen( $movieid_sanitized ) > 0 ? new Title( $movieid_sanitized, $this->plugins_classes_active['imdbphp'] ) : null;
 				$movie_queried = $movie !== null ? $movie->title() : null;
 
 				// Sanitize and initialize $_GET['film']
@@ -226,7 +226,7 @@ class Frontend {
 				$mid_sanitized = Validate_Get::sanitize_url( 'mid' );
 
 				// Exit if trying to do bad things.
-				if ( $mid_sanitized === null || ( strlen( $mid_sanitized ) > 0 ) === false || $nonce_valid === false ) {
+				if ( $mid_sanitized === null || ( strlen( $mid_sanitized ) > 0 ) === false || ( $nonce_valid === false && current_user_can( 'administrator' ) === false ) ) {
 					wp_die( esc_html__( 'Lumière Movies: Wrong person id.', 'lumiere-movies' ) );
 				}
 
@@ -252,7 +252,7 @@ class Frontend {
 				$filmname_sanitized = Validate_Get::sanitize_url( 'film' );
 
 				// Exit if trying to do bad things.
-				if ( $filmname_sanitized === null || ( strlen( $filmname_sanitized ) > 0 ) === false || $nonce_valid === false ) {
+				if ( $filmname_sanitized === null || ( strlen( $filmname_sanitized ) > 0 ) === false || ( $nonce_valid === false && current_user_can( 'administrator' ) === false ) ) {
 					wp_die( esc_html__( 'Lumière Movies: Wrong film id.', 'lumiere-movies' ) );
 				}
 

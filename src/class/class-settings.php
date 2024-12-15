@@ -18,6 +18,13 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use FilesystemIterator;
 use Exception;
 
+// Need vars for uninstall, fails otherwise.
+// Dirty check to make sure it's executed by PHPStan on local envir. Don't include the file if it is.
+$lum_local_config = dirname( dirname( dirname( __FILE__ ) ) ) . '/tests/bootstrap-testing.php';
+if ( is_file( $lum_local_config ) === false ) {
+	require_once plugin_dir_path( dirname( __FILE__ ) ) . 'vars.php';
+}
+
 /**
  * Configuration class
  * Some settings are created from the outset, others are processed in __construct()

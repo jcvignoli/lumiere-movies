@@ -21,6 +21,9 @@ modules:
             adminUsername: '%TEST_WP_ADMIN_USERNAME%'
             adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
             adminPath: '%TEST_WP_ADMIN_PATH%'
+            headers:
+                X_TEST_REQUEST: 1
+                X_WPBROWSER_REQUEST: 1
         WPBrowser:
             url: '%TEST_REMOTE_WP_URL%'
             adminUsername: '%TEST_WP_ADMIN_USERNAME%'
@@ -87,5 +90,6 @@ env:
                      port: 4444
                      capabilities:
                        goog:chromeOptions:
-                            args: ["--headless", "--disable-extensions", "--user-agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'" ]
-step_decorators: ~      
+                            args: ["-window-size=1600,900", "--headless", "--disable-extensions", "--user-agent=wp-browser" ]
+step_decorators:
+  - \Codeception\Step\TryTo
