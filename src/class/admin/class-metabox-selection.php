@@ -180,7 +180,7 @@ class Metabox_Selection {
 			return;
 		}
 
-		/** @psalm-suppress UndefinedConstant -- This is nonsense, literally checking for the constant on the same line! */
+		/** @psalm-suppress UndefinedConstant, RedundantCondition -- Psalm can't deal with dynamic constants */
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}

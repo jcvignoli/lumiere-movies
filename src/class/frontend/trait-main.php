@@ -234,6 +234,7 @@ trait Main {
 			return true;
 		}
 
+		/** @psalm-suppress RedundantCondition, UndefinedConstant -- Psalm can't deal with dynamic constants */
 		if (
 			is_admin()
 			/**

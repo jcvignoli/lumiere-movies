@@ -43,6 +43,12 @@ if ( ! defined( 'WP_DEBUG_LOG' ) ) {
 }
 
 /* Dynamic constant, declaration for Psalm -> but then brings issue with PHPStan!
+if ( ! defined( 'XMLRPC_REQUEST' ) ) {
+	define('XMLRPC_REQUEST',
+	// @var mixed $x
+	$x = false
+	);
+}
 if ( ! defined( 'DOING_CRON' ) ) {
 	define('DOING_CRON',
 	// @var mixed $x
@@ -62,9 +68,3 @@ if ( ! defined( 'DOING_AUTOSAVE' ) ) {
 	);
 }
 }*/
-if ( ! defined( 'XMLRPC_REQUEST' ) ) {
-	define('XMLRPC_REQUEST',
-	// @var mixed $x
-	$x = false
-	);
-}

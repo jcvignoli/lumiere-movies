@@ -344,7 +344,7 @@ class Data extends Admin_Menu {
 
 		$output .= "\n\t" . '<div><font color="red">'
 			/* translators: %s is replaced with a movie job name */
-			. wp_sprintf( __( "New %s template version available", 'lumiere-movies' ), $lumiere_taxo_title )
+			. wp_sprintf( __( 'New %s template version available', 'lumiere-movies' ), $lumiere_taxo_title )
 			. '</font></div>';
 		$output .= "\n\t" . '</div>';
 
