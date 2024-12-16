@@ -59,13 +59,13 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ![Popup displayed when an imdb link is clicked.](https://ps.w.org/lumiere-movies/assets/screenshot-1.jpg)
 
-### 2. How movie data is displayed "inside a post"
+### 2. How movie's data is displayed "inside a post" 
 
-![How movie data is displayed "inside a post" ](https://ps.w.org/lumiere-movies/assets/screenshot-2.jpg)
+![How movie's data is displayed "inside a post" ](https://ps.w.org/lumiere-movies/assets/screenshot-2.jpg)
 
-### 3. How movie data is displayed in a "widget"
+### 3. How movie's data is displayed in a "widget" 
 
-![How movie data is displayed in a "widget" ](https://ps.w.org/lumiere-movies/assets/screenshot-3.jpg)
+![How movie's data is displayed in a "widget" ](https://ps.w.org/lumiere-movies/assets/screenshot-3.jpg)
 
 ### 4. Admin preferences for cache
 
@@ -94,6 +94,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 ### 10. Taxonomy page for a star
 
 ![Taxonomy page for a star](https://ps.w.org/lumiere-movies/assets/screenshot-10.jpg)
+
 
 ## Frequently Asked Questions
 

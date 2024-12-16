@@ -5,8 +5,8 @@ name: "Check Website Links"
 
 on:
   workflow_dispatch: # allow manual trigger
-  push:
-    branches: "*"
+#  push: # removed automatized trigger
+#    branches: "*"
 jobs:
   website-links:
     name: "Check for broken links"
@@ -15,11 +15,11 @@ jobs:
       - name: "Check for broken links"
         uses: ScholliYT/Broken-Links-Crawler-Action@v3
         with:
-          website_url: 'https://wordpress.org/plugins/lumiere-movies/,https://github.com/jcvignoli/lumiere-movies'
-          include_url_prefix: 'https://wordpress.org/plugins/lumiere-movies/,https://github.com/jcvignoli/lumiere-movies'
+          website_url: 'https://wordpress.org/plugins/lumiere-movies/,https://github.com/jcvignoli/lumiere-movies/'
+          include_url_prefix: 'https://wordpress.org/plugins/lumiere-movies/,https://github.com/jcvignoli/lumiere-movies/'
           resolve_before_filtering: 'true'
           exclude_url_prefix: 'mailto:,data:'
           verbose: 'warning'
           max_retry_time: 30
           max_retries: 3
-          max_depth: 2
+          max_depth: 1

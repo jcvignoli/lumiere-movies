@@ -5,7 +5,7 @@ name: 'WP plugin check'
 on:
   workflow_dispatch:
   repository_dispatch:
-    types: [ check_website_links ]
+    types: [ wp_plugin_check ]
 # Automatic run disabled
 #  push:
 #    branches: "*"
