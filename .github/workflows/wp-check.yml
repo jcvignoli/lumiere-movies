@@ -1,3 +1,6 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+# https://github.com/WordPress/plugin-check-action/
+
 name: 'WP plugin check'
 on:
   workflow_dispatch:

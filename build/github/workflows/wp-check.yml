@@ -1,7 +1,14 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+# https://github.com/WordPress/plugin-check-action/
+
 name: 'WP plugin check'
 on:
-  push:
-    branches: "*"
+  workflow_dispatch:
+  repository_dispatch:
+    types: [ check_website_links ]
+# Automatic run disabled
+#  push:
+#    branches: "*"
   pull_request:
 jobs:
   standard:
@@ -10,9 +17,20 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Run plugin check
-      uses: wordpress/plugin-check-action@v1
+    - name: Build plugin
+      run: |
+        mv ./dist ${{ runner.temp }}/lumiere-movies
+
+    - name: "Cache extensions"
+      uses: actions/cache@v4
       with:
-        build-dir: './dist'
+        path: ${{ runner.temp }}/lumiere-movies
+        key: ${{ runner.temp }}/lumiere-movies
+        restore-keys: ${{ runner.temp }}/lumiere-movies
+
+    - name: Run plugin check
+      uses: wordpress/plugin-check-action@main
+      with:
+        build-dir: ${{ runner.temp }}/lumiere-movies
         exclude-directories: 'vendor,.wordpress-org'
 
