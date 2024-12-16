@@ -17,7 +17,7 @@ jobs:
       - name: "Check for broken links"
         uses: ScholliYT/Broken-Links-Crawler-Action@v3
         with:
-          website_url: 'https://www.wordpress.org/'
+          website_url: 'https://www.wordpress.org/,https://www.jcvignoli.com'
           resolve_before_filtering: 'true'
           exclude_url_prefix: 'mailto:,https://github.com/jcvignoli'
           verbose: 'warning'

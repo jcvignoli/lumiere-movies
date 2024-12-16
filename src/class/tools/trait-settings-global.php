@@ -11,8 +11,10 @@
 
 namespace Lumiere\Tools;
 
-// If this file is called directly, abort.
-lum_check_display();
+// If this file is called directly, abort. Can't use lum_check_display() due to it's call in uninstall -> functions.php not included
+if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
+	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
+}
 
 use Lumiere\Settings;
 
