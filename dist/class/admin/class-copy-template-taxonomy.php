@@ -67,7 +67,7 @@ class Copy_Template_Taxonomy {
 		} elseif ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, array_keys( $this->config_class->array_items ), true ) ) {
 			$lumiere_taxo_file_tocopy = $this->config_class::TAXO_ITEMS_THEME;
 		} else {
-			throw new Exception( "This template '$lumiere_taxo_title' does not exist, aborting" );
+			throw new Exception( 'This template ' . esc_html( $lumiere_taxo_title ?? '' ) . ' does not exist, aborting' );
 		}
 
 		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';

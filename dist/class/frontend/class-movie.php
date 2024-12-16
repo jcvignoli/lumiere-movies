@@ -22,7 +22,7 @@ use Lumiere\Frontend\Movie_Data;
 use Lumiere\Frontend\Main;
 
 /**
- * The class uses Movie_Data to display data (Movie actor, movie source, etc)
+ * The class uses Movie_Data class to display data (Movie actor, movie source, etc) -- displayed on pages and posts only {@see self::lumiere_autorized_areas()}
  * It is compatible with Polylang WP plugin
  * It uses ImdbPHP Classes to display movies/people data
  */
@@ -61,19 +61,12 @@ class Movie {
 	/**
 	 * Static call of the current class Movie
 	 *
-	 * @since 3.10.2    Added lumiere_prohibited_areas() check, no need to execute the plugin i.e. in feeds
-	 *
 	 * @return void Build the class
 	 * @see \Lumiere\Frontend\Frontend::lumiere_static_start() Call this method
 	 */
 	public static function lumiere_movie_start (): void {
 
 		$that = new self();
-
-		// Exit if prohibited area.
-		if ( $that->lumiere_prohibited_areas() === true ) {
-			return;
-		}
 
 		// Transform spans into movies.
 		add_filter( 'the_content', [ $that, 'lumiere_parse_spans' ] );
@@ -202,22 +195,21 @@ class Movie {
 	}
 
 	/**
-	 * List of prohibited areas where the class won't run
+	 * List of autorized areas where the class will run
 	 *
-	 * @since 3.10.2
-	 *
-	 * @return bool
+	 * @since 4.2.2
+	 * @return bool True if page is autorized
 	 */
-	private function lumiere_prohibited_areas(): bool {
-
-		return is_feed() || is_comment_feed();
+	private function lumiere_autorized_areas(): bool {
+		return is_singular( [ 'post', 'page' ] );
 	}
 
 	/**
 	 * Find in content the span to build the movies
 	 * Looks for <span data-lum_movie_maker="[1]"></span> where [1] is movie_title or movie_id
 	 *
-	 * @since 3.10.2    The function always returns string, no null accepted -- PHP8.2 compatibility
+	 * @since 3.10.2 The function always returns string, no null accepted -- PHP8.2 compatibility
+	 * @since 4.2.2 The function will return if not executed in autorized area
 	 *
 	 * @param null|string $content HTML span tags + text inside
 	 * @return string
@@ -227,6 +219,11 @@ class Movie {
 		// if no content is available, abort.
 		if ( ! isset( $content ) ) {
 			return '';
+		}
+
+		// if not run on page or post, return the content untouched.
+		if ( $this->lumiere_autorized_areas() === false ) {
+			return $content;
 		}
 
 		$pattern_movid_id = '~<span data-lum_movie_maker="movie_id">(.+?)<\/span>~';
@@ -274,6 +271,12 @@ class Movie {
 	 * @param null|string $content shortcode content or null if not set
 	 */
 	public function parse_lumiere_tag_transform( $atts, ?string $content ): string {
+
+		// if not run on page or post, return the content untouched.
+		if ( $this->lumiere_autorized_areas() === false ) {
+			return $content ?? '';
+		}
+
 		trigger_error( '[Lumiere Movies] Deprecated call of the movie title ' . esc_html( $content ?? '(no text)' ) . ', use "span" with data-lum_movie_maker="movie_title" instead, this function will be removed in the future.', E_USER_DEPRECATED ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- Using it in my full capacity, trust me!
 		return $this->lumiere_external_call( $content, '', '' );
 	}
@@ -286,6 +289,12 @@ class Movie {
 	 * @param null|string $content shortcode content or null if not set
 	 */
 	public function parse_lumiere_tag_transform_id( $atts, ?string $content ): string {
+
+		// if not run on page or post, return the content untouched.
+		if ( $this->lumiere_autorized_areas() === false ) {
+			return $content ?? '';
+		}
+
 		trigger_error( '[Lumiere Movies] Deprecated call of the movie id ' . esc_html( $content ?? '(no text)' ) . ', use "span" with data-lum_movie_maker="movie_id" instead, this function will be removed in the future.', E_USER_DEPRECATED ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- Using it in my full capacity, trust me!
 		return $this->lumiere_external_call( '', $content, '' );
 	}
@@ -294,7 +303,9 @@ class Movie {
 	 * Replace <span class="lumiere_link_maker"(anything)?></span> with links
 	 *
 	 * @param null|string $text parsed data
+	 * @return null|string Null if text was already null, text otherwhise
 	 * @since 4.1 Added the possibility to have some text after the data with [^>]*
+	 * @since 4.2.2 The function will return if not executed in autorized area
 	 */
 	public function lumiere_link_popup_maker( ?string $text ): ?string {
 
@@ -302,11 +313,16 @@ class Movie {
 			return null;
 		}
 
+		// if not run on page or post, return the content untouched.
+		if ( $this->lumiere_autorized_areas() === false ) {
+			return $text;
+		}
+
 		// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
 		$pattern = '~<span[^>]*data-lum_link_maker="popup"[^>]*>(.+)<\/span>~iU';
 		$text = preg_replace_callback( $pattern, [ $this, 'lumiere_build_popup_link' ], $text ) ?? $text;
 
-		// Kept for compatibility purposes:  <!--imdb--> still works
+		// Kept for compatibility purposes:  <!--imdb--> still works -- it's really old, should be @deprecated
 		$pattern_two = '~<!--imdb-->(.*?)<!--\/imdb-->~i';
 		$text = preg_replace_callback( $pattern_two, [ $this, 'lumiere_build_popup_link' ], $text ) ?? $text;
 
