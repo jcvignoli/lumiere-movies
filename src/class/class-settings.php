@@ -33,7 +33,6 @@ if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
  * @since 4.0 moved cache folder creation to class cache tools
  * @since 4.1 renamed *imdb_widget_* to *imdb_data_* all over the website
  *
- * @phpstan-type LevelLogName 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY'
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
  * @phpstan-import-type OPTIONS_DATA from \Lumiere\Tools\Settings_Global
@@ -426,18 +425,18 @@ class Settings {
 			'imdblinkingkill' => '0',
 			'imdbautopostwidget' => '0',
 			'imdblanguage' => 'en',
-			'imdbdebug' => '0',                                  /* Debug */
-			'imdbdebuglog' => '0',                                  /* Log debug */
-			/** @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool */
+			'imdbdebug' => '0',                                         /* Debug */
+			'imdbdebuglog' => '0',                                      /* Log debug */
+			/** @phpstan-ignore nullCoalesce.variable (PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool) */
 			'imdbdebuglogpath' => $debug_path ?? WP_CONTENT_DIR . '/debug.log',
 			'imdbdebuglevel' => 'DEBUG',                                /* Debug levels: emergency, alert, critical,
 													error, warning, notice, info, debug */
-			'imdbdebugscreen' => '1',                               /* Show debug on screen */
+			'imdbdebugscreen' => '1',                                   /* Show debug on screen */
 			'imdbwordpress_bigmenu' => '0',                             /* Left menu */
 			'imdbwordpress_tooladminmenu' => '1',                       /* Top menu */
 			'imdbpopup_modal_window' => 'bootstrap',
 			'imdbtaxonomy' => '1',
-			'imdbHowManyUpdates' => $this->current_number_updates,          /* define the number of updates. */
+			'imdbHowManyUpdates' => $this->current_number_updates,      /* define the number of updates. */
 			'imdbseriemovies' => 'movies+series',                       /* options: movies, series, movies+series, videogames */
 			'imdbirpdisplay' => '0',                                    /* intelly related post plugin, overrides normal Lumiere behaviour */
 		];
@@ -459,7 +458,7 @@ class Settings {
 		// Update imdbHowManyUpdates option.
 		/*
 		$option_array_search = get_option( self::get_admin_tablename() );
-		$option_array_search['imdbHowManyUpdates'] = 11; // Chosen number of updates.
+		$option_array_search['imdbHowManyUpdates'] = 18; // Chosen number of updates.
 		update_option( self::get_admin_tablename(), $option_array_search );
 		*/
 
@@ -482,10 +481,10 @@ class Settings {
 
 			'imdbcachedir_partial' => $imdbcachedir_partial,
 			'imdbusecache' => '1',
-			'imdbcacheexpire' => '2592000',         /* one month */
+			'imdbcacheexpire' => '2592000',                 /* one month */
 			'imdbcachedetailsshort' => '0',
 			'imdbcacheautorefreshcron' => '0',
-			'imdbcachekeepsizeunder' => '0',        /* Disabled by default */
+			'imdbcachekeepsizeunder' => '0',                /* Disabled by default */
 			'imdbcachekeepsizeunder_sizelimit' => '100',    /* 100 MB */
 			'imdbcachedetailshidden' => '0',
 

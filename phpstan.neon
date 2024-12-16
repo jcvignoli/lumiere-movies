@@ -11,7 +11,6 @@ parameters:
     excludePaths:
       analyse:
         - src/vendor/*
-        - tests/codeception/*
         # Not supposed to be run as standalone, this file is meant to be copied. This file causes PHPStan to fail the analysis, prob a require issue
         - src/class/theme/class-taxonomy-items-standard.php
         # Not supposed to be run as standalone, this file is meant to be copied. This file causes PHPStan to fail the analysis, prob a require issue

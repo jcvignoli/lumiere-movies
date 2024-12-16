@@ -1,0 +1,29 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+name: "Check Website Links"
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [ check_website_links ]
+  push:
+    branches:
+      - "2.0.x"
+    paths:
+      - '.github/workflows/website-links.yml'
+
+jobs:
+  website-links:
+    name: "Check for broken links"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: "Check for broken links"
+        uses: ScholliYT/Broken-Links-Crawler-Action@v3
+        with:
+          website_url: 'https://www.wordpress.org/'
+          resolve_before_filtering: 'true'
+          exclude_url_prefix: 'mailto:,https://github.com/jcvignoli'
+          verbose: 'warning'
+          max_retry_time: 30
+          max_retries: 3

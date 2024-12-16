@@ -29,6 +29,9 @@ use Lumiere\Plugins\Logger;
  * If imdbkeepsettings is set (advanced admin options), exit earlier to keep database settings
  *
  * @since 4.0 option properties can be null and construct is different.
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Tools\Settings_Global
  */
 class Uninstall {
 
@@ -39,24 +42,24 @@ class Uninstall {
 
 	/**
 	 * Admin options
-	 * @var null|array<string> $imdb_admin_values
+	 * @phpstan-var null|OPTIONS_ADMIN
 	 */
 	private ?array $imdb_admin_values;
 
 	/**
 	 * Data options
-	 * @var null|array<string> $imdb_data_values
+	 * @phpstan-var null|OPTIONS_DATA
 	 */
 	private ?array $imdb_data_values;
 
 	/**
 	 * Cache options
-	 * @var null|array<string> $imdb_cache_values
+	 * @phpstan-var null|OPTIONS_CACHE
 	 */
 	private ?array $imdb_cache_values;
 
 	/**
-	 * \Lumiere\Logger class
+	 * Logging class
 	 *
 	 */
 	private Logger $logger;
@@ -100,6 +103,7 @@ class Uninstall {
 		/** @psalm-suppress RedundantCondition -- Type array<array-key, string> for $this->imdb_admin_values is always isset -- wrong, it may not exist */
 		if (
 			isset( $this->imdb_admin_values )
+			/** @phpstan-ignore greater.alwaysTrue (Comparison operation ">" between 29 and 0 is always true -- wrong, it may not exist) */
 			&& count( $this->imdb_admin_values ) > 0
 			&& ( array_key_exists( 'imdbkeepsettings', $this->imdb_admin_values ) )
 			&& ( $this->imdb_admin_values['imdbkeepsettings'] === '1' )
