@@ -173,7 +173,7 @@ class Widget_Frontpage {
 	public function lum_get_widget( string $title_box ): string {
 
 		// Exit if neither a post nor a page!
-		if ( is_singular( ['post', 'page'] ) === false ) {
+		if ( is_singular( [ 'post', 'page' ] ) === false ) {
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] This is not a post or page, process stopped.' );
 			return '';
 		}

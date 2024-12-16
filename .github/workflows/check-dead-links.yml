@@ -3,23 +3,22 @@
 name: "Check Website Links"
 
 on:
+  workflow_dispatch: # allow manual trigger
   push:
-    branches: "*"
-    paths:
-      - '.github/workflows/check-dead-links.yml'
-
+    branches:
+      - main
 jobs:
   website-links:
     name: "Check for broken links"
     runs-on: "ubuntu-latest"
-
     steps:
       - name: "Check for broken links"
         uses: ScholliYT/Broken-Links-Crawler-Action@v3
         with:
-          website_url: 'https://www.wordpress.org/,https://www.jcvignoli.com'
+          website_url: 'https://wordpress.org/plugins/lumiere-movies/,https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin'
           resolve_before_filtering: 'true'
-          exclude_url_prefix: 'mailto:,https://github.com/jcvignoli'
+          exclude_url_prefix: 'mailto:,data:,https://github.com/jcvignoli'
           verbose: 'warning'
           max_retry_time: 30
           max_retries: 3
+          max_depth: 2
