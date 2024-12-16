@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.1.1
+ * Version: 3.1.2
  *
  * @package lumiere-movies
  */
@@ -23,7 +23,7 @@ use WP_Query;
  * This template retrieves automaticaly all post related to an item taxonomy
  * It is a virtual page created when the appropriate rules are met
  *
- * @see \Lumiere\Frontend\Taxonomy That build the taxonomy system and taxonomy pages
+ * @see \Lumiere\Alteration\Taxonomy That build the taxonomy system and taxonomy pages
  *
  * @since 4.0 Returns all Lumière taxonomies that can be clicked when visiting the item template page
  */
@@ -79,8 +79,15 @@ class Taxonomy_Items_Standard {
 
 	/**
 	 * Static start
+	 * @since 4.2.2 Run on taxonomy pages only
 	 */
 	public static function lumiere_static_start(): void {
+
+		// Run on taxonomy pages only.
+		if ( is_tax() === false ) {
+			return;
+		}
+
 		$class = new self();
 
 		// Display the page. Must not be included into an add_action(), as should be displayed directly, since it's a template.

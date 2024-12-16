@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.7.1
+ * Version: 3.7.2
  *
  * @package lumiere-movies
  */
@@ -27,7 +27,7 @@ use WP_Query;
  * It is a virtual page created according to Lumiere taxonomy
  * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
  *
- * @see \Lumiere\Frontend\Taxonomy That build the taxonomy system and taxonomy pages
+ * @see \Lumiere\Alteration\Taxonomy Build the taxonomy system and taxonomy pages
  * @see \Lumiere\Frontend Trait to builds $this->link_maker var
  *
  * @since 4.1 Use of plugins detection, lumiere_medaillon_bio() returns larger number of characters for introduction, Polylang form with AMP works
@@ -99,8 +99,15 @@ class Taxonomy_People_Standard {
 
 	/**
 	 * Static start
+	 * @since 4.2.2 Run on taxonomy pages only
 	 */
 	public static function lumiere_static_start(): void {
+
+		// Run on taxonomy pages only.
+		if ( is_tax() === false ) {
+			return;
+		}
+
 		$class = new self();
 
 		// Display the page. Must not be included into an add_action(), as should be displayed directly, since it's a template.
