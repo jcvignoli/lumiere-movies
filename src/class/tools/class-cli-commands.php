@@ -33,9 +33,9 @@ use \ReflectionMethod;
  * @see \WP_CLI the wp-cli methods
  * @see \ReflectionClass Allows to retrieve the methods
  * @see \ReflectionMethod Allows to specify we want private methods
- * @phpstan-import-type OPTIONS_ADMIN from Settings
- * @phpstan-import-type OPTIONS_CACHE from Settings
- * @phpstan-import-type OPTIONS_DATA from Settings
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Tools\Settings_Global
  */
 class Cli_Commands {
 

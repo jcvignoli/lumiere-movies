@@ -24,8 +24,8 @@ use Imdb\Config as Imdbphp_Config;
  * Child class of \Imdb\Config
  * Get the settings and sends them to \Imdb\Config
  *
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
  */
 class Imdbphp extends Imdbphp_Config {
 

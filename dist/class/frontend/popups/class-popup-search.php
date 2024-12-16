@@ -27,6 +27,9 @@ use Lumiere\Tools\Validate_Get;
  * @see \Lumiere\Alteration\Rewrite_Rules Create the rules for building a virtual page
  * @see \Lumiere\Frontend\Frontend Redirect to this page using virtual pages {@link \Lumiere\Alteration\Virtual_Page}
  * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header
+ *
+ * Bots are banned before getting popups
+ * @see \Lumiere\Frontend\Frontend::ban_bots_popups() Bot banishement happens there, before processing IMDb queries
  */
 class Popup_Search {
 
@@ -42,10 +45,6 @@ class Popup_Search {
 
 	/**
 	 * Constructor
-	 *
-	 * Bots are banned from getting popups
-	 * @see \Lumiere\Frontend\Frontend::ban_bots_popups() Bot banishement happens there
-	 * @see \Lumiere\Tools\Ban_Bots::_construct() The action 'lumiere_ban_bots_now' called in Frontend
 	 */
 	public function __construct() {
 

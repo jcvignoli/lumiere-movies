@@ -2,10 +2,10 @@
 /**
  * Detect and ban bots
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
+ * @author Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2023, Lost Highway
  *
- * @version       1.0
+ * @version 1.0
  * @since 3.11.4
  * @package lumiere-movies
  */
@@ -18,8 +18,10 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 /**
- * Class that detects IPs, User agent and bans those who are declared as bots
+ * Class that detects IPs, User agent, HTTP_REFERER and bans those found as bots
  * Is usefull to prevent the access to popups that create a lot of cache files
+ *
+ * @since 4.2.2 two conditional methods in __construct, no automatic ban function available to outside anymore (ban_bot_now() is now private)
  */
 class Ban_Bots {
 
@@ -49,11 +51,11 @@ class Ban_Bots {
 
 	/**
 	 * Constructor
+	 * Add types of conditional banning here, no automatic ban available, make a conditional function instead
 	 */
 	public function __construct() {
-
-		add_action( 'lumiere_maybe_ban_bots', [ $this, 'maybe_ban_bots' ] );
-		add_action( 'lumiere_ban_bots_now', [ $this, 'lumiere_banishment' ] );
+		add_action( 'lum_maybe_ban_bots_general', [ $this, 'maybe_ban_bots_general' ] );
+		add_action( 'lum_maybe_ban_bots_noreferrer', [ $this, 'maybe_ban_noreferrer' ] );
 	}
 
 	/**
@@ -68,10 +70,10 @@ class Ban_Bots {
 
 	/**
 	 * Process list of bots registered in BLACK_LIST_*, exit if it one of the bad bots
-	 * This is an action meant to be called with do_action( 'lumiere_maybe_ban_bots' ) that will assess whether to ban the user
-	* Not putting the no HTTP_REFERER condition here, since do_action( 'lumiere_maybe_ban_bots' ) can be called i.e. by taxonomy pages and they must be accessible even if there is no HTTP_REFERER
+	 * This is an action meant to be called with do_action( 'lum_maybe_ban_bots_general' ) that will assess whether to ban the user
+	* Not putting the no HTTP_REFERER condition here, since do_action( 'lum_maybe_ban_bots_general' ) can be called i.e. by taxonomy pages and they must be accessible even if there is no HTTP_REFERER
 	 */
-	public function maybe_ban_bots(): void {
+	public function maybe_ban_bots_general(): void {
 		$this->maybe_ban_ip( self::BLACK_LIST_IP );
 		$this->maybe_ban_useragent( self::BLACK_LIST_AGENT );
 	}
@@ -85,7 +87,7 @@ class Ban_Bots {
 		$agent = sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ?? '' ) );
 		foreach ( $banned_recipients as $bot ) {
 			if ( preg_match( "~$bot~i", $agent ) === 1 ) {
-				do_action( 'lumiere_ban_bots_now' );
+				$this->ban_bot_now();
 			}
 		}
 	}
@@ -114,17 +116,29 @@ class Ban_Bots {
 		$ip_address = $this->get_user_ip();
 		foreach ( $banned_recipients as $bot ) {
 			if ( $ip_address === $bot ) {
-				do_action( 'lumiere_ban_bots_now' );
+				$this->ban_bot_now();
 			}
 		}
 	}
 
 	/**
+	 * If there is no referrer and the user is not logged in, ban bot
+	 * Not included in maybe_ban_bots_general() as some parts of the website may want to not ban if there is no HTTP_REFERER
+	 *
+	 * @return void The user is banned if conditions are met
+	 */
+	public function maybe_ban_noreferrer(): void {
+		if ( ! isset( $_SERVER['HTTP_REFERER'] ) && ! is_user_logged_in() ) {
+			$this->ban_bot_now();
+		}
+	}
+
+	/**
 	 * Display a 400 error
-	 * This is an action meant to be called with do_action( 'lumiere_ban_bots_now' ) that immediately ban the user
+	 * This immediately bans the user
 	 * @since 4.1 Status changed from 403 to 400, removed translation of the $text_ban
 	 */
-	public function lumiere_banishment(): void {
+	private function ban_bot_now(): void {
 
 		$text_ban = '<h1>Prevented a bad request</h1>';
 

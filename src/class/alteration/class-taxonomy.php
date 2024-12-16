@@ -24,8 +24,8 @@ use Exception;
  * Create Lumière! Taxonomy system
  * Taxonomy Pages names are added to the database
  *
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Settings
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Tools\Settings_Global
  */
 class Taxonomy {
 

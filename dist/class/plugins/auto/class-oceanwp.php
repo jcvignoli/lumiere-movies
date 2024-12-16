@@ -22,7 +22,7 @@ use Lumiere\Settings;
  * Plugin to ensure Lumiere compatibility with OceanWP plugin
  * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->plugins_classes_active
  *
- * @phpstan-import-type OPTIONS_ADMIN from Settings
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
 class Oceanwp {

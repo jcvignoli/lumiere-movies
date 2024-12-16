@@ -37,7 +37,7 @@ use Exception;
  * @see \Lumiere\Admin\Cron
  * @since 4.0 Methods extracted from Class cache and factorized here
  *
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
  */
 class Cache_Tools {
 

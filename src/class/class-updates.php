@@ -16,27 +16,31 @@ namespace Lumiere;
 // If this file is called directly, abort.
 lum_check_display();
 
-use Lumiere\Plugins\Logger;
 use FilesystemIterator;
+use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Settings_Global;
 
 /**
  * Parent class Updates
  *
- * The logic is in the parent class, the data in child classes
+ * The updating rules are in this parent class, the data to be updated is in child classes
  *
  * When is the upate processed
- *  (a) When a manual updating {@link \Lumiere\Core::lum_on_plugin_manualupdate()}, an auto updating {@link \Lumiere\Core::lum_on_plugin_autoupdate()},
- *  or a plugin activation {@link \Lumiere\Core::lumiere_on_activation()} is triggered
- *  (b) In the above methods, a cron is added to ensure that the latest update is also executed, in addition to the update of the former
+ * (a) A manual update is run {@link self::run_update_options()} is triggered when needed {@link \Lumiere\Core::lum_update_needed()} on every visit of admin page
+ * (b) On the Lumière plugin activation {@link \Lumiere\Core::lumiere_on_activation()} a cron with update is triggered
+ * (c) On WordPress plugin autoupdate {@link \Lumiere\Core::lum_on_plugin_autoupdate()} both an update is run {@link self::run_update_options()} and a cron is installed
+ * (d) When WordPress manual update is triggerd (by manual click) {@link \Lumiere\Core::lum_on_plugin_manualupdate()} both an update is run {@link self::run_update_options()} and a cron is installed
+ *
+ *  In the cron method, it is ensured that the latest update is executed, in addition to the update of the former
  *  version (WordPress update uses the replaced plugin version to execute the update, so with this system an update with the previous plugin is executed,
  *  then another update with the new plugin)
- *  (c) When visiting the
- * How is the update process
- *      (a) Checks the current Lumière version against the updates and uses {@link \Lumiere\Setting::imdb_admin_values['imdbHowManyUpdates']} var
- *  to check if a new updates is available in {@link \Lumiere\Updates::lumiere_check_if_run_update())
- *  (b) Everytime an update is processed, {@link \Lumiere\Setting::imdb_admin_values['imdbHowManyUpdates']} is increased by 1 in the method
- *  lumiere_run_local_update() in the child class
+ *
+ * How is the update is processed
+ * (a) Go through every single child class, building the class name according to its number in {@link self::run_update_options()}
+ * (b) Checks in the child class the current Lumière version against the updates and uses {@link \Lumiere\Setting::imdb_admin_values['imdbHowManyUpdates']} var
+ * to check if a new updates is available in {@link \Lumiere\Updates::lumiere_check_if_run_update()) (called here from the child class)
+ * (c) Everytime an update is actually run, {@link \Lumiere\Setting::imdb_admin_values['imdbHowManyUpdates']} is increased by 1 in the method
+ * ChildClass::lumiere_run_local_update() in the child class
  */
 class Updates {
 
@@ -44,7 +48,7 @@ class Updates {
 	use Settings_Global;
 
 	/**
-	 * \Lumiere\Logger class
+	 * Logging class
 	 */
 	protected Logger $logger;
 

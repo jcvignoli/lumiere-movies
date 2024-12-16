@@ -231,7 +231,7 @@ class Frontend {
 				}
 
 				// Set the title.
-				$person = new Person( $mid_sanitized, $this->plugins_classes_active['imdbphp'] ); /** @phan-suppress-current-line PhanTypeMismatchArgumentNullable -- Phan, $mid_sanitized is never null! */
+				$person = new Person( $mid_sanitized, $this->plugins_classes_active['imdbphp'] ); /** @phan-suppress-current-line PhanTypeMismatchArgumentNullable -- Phan doesn't detect wp_die() = die() so that $mid_sanitized is never null. */
 				$person_name_sanitized = $person->name();
 
 				$title = strlen( $person_name_sanitized ) > 0
@@ -288,11 +288,10 @@ class Frontend {
 	private function ban_bots_popups(): void {
 
 		// Conditionally ban bots from getting the page, i.e. User Agent or IP.
-		do_action( 'lumiere_maybe_ban_bots' );
+		do_action( 'lum_maybe_ban_bots_general' );
 
 		// Ban bots if no referer.
-		if ( ! isset( $_SERVER['HTTP_REFERER'] ) && ! is_user_logged_in() ) {
-			do_action( 'lumiere_ban_bots_now' );
-		}
+		do_action( 'lum_maybe_ban_bots_noreferrer' );
+
 	}
 }
