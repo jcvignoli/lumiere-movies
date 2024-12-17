@@ -18,7 +18,7 @@ jobs:
           website_url: 'https://wordpress.org/plugins/lumiere-movies/,https://github.com/jcvignoli/lumiere-movies/'
           include_url_prefix: 'https://wordpress.org/plugins/lumiere-movies/,https://github.com/jcvignoli/lumiere-movies/'
           resolve_before_filtering: 'true'
-          exclude_url_prefix: 'mailto:,data:'
+          exclude_url_prefix: 'mailto:,data:,https://github.com/jcvignoli/lumiere-movies/commit/,https://github.com/jcvignoli/lumiere-movies/blob/,https://github.com/jcvignoli/lumiere-movies/tree/,https://github.com/jcvignoli/lumiere-movies/pulse/,https://github.com/jcvignoli/lumiere-movies/forks,https://github.com/jcvignoli/lumiere-movies/issues/,https://github.com/jcvignoli/lumiere-movies/pulls,https://github.com/jcvignoli/lumiere-movies/releases/,https://github.com/jcvignoli/lumiere-movies/actions/'
           verbose: 'warning'
           max_retry_time: 30
           max_retries: 3

@@ -160,9 +160,8 @@ class UninstallCest {
 
 		$I->comment('Do Lumière *REMOTE* plugin uninstall for a fresh start');
 
-		// Make local connexion
-		// Not needed anymore, using scp and ssh
-		// $I->activateLocalMount( $this->base_path, $shell );
+		// Make local connexion to warm the next $I->customSeeFile
+		$I->activateLocalMount( $this->base_path, $shell );
 
 		// Disable keep settings options and deactivate Lumière
 		$this->disable_keepsettings_and_deactivate( $I );
