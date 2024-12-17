@@ -4,9 +4,11 @@
 name: "Check Website Links"
 
 on:
+  schedule:
+    - cron: 0 0 1 * * # run monthly
   workflow_dispatch: # allow manual trigger
-#  push: # removed automatized trigger
-#    branches: "*"
+  push:
+    branches: "*"
 jobs:
   website-links:
     name: "Check for broken links"
@@ -16,9 +18,9 @@ jobs:
         uses: ScholliYT/Broken-Links-Crawler-Action@v3
         with:
           website_url: 'https://wordpress.org/plugins/lumiere-movies/,https://github.com/jcvignoli/lumiere-movies/'
-          include_url_prefix: 'https://wordpress.org/plugins/lumiere-movies/,https://github.com/jcvignoli/lumiere-movies/'
+          include_url_prefix: 'https://github.com/jcvignoli/lumiere-movies/,https://wordpress.org/plugins/lumiere-movies/'
           resolve_before_filtering: 'true'
-          exclude_url_prefix: 'mailto:,data:,https://github.com/jcvignoli/lumiere-movies/commit/,https://github.com/jcvignoli/lumiere-movies/blob/,https://github.com/jcvignoli/lumiere-movies/tree/,https://github.com/jcvignoli/lumiere-movies/pulse/,https://github.com/jcvignoli/lumiere-movies/forks,https://github.com/jcvignoli/lumiere-movies/issues/,https://github.com/jcvignoli/lumiere-movies/pulls,https://github.com/jcvignoli/lumiere-movies/releases/,https://github.com/jcvignoli/lumiere-movies/actions/'
+          exclude_url_prefix: 'mailto:,data:,https://github.com/jcvignoli/lumiere-movies/commit/,https://github.com/jcvignoli/lumiere-movies/blob/,https://github.com/jcvignoli/lumiere-movies/tree/,https://github.com/jcvignoli/lumiere-movies/pulse/,https://github.com/jcvignoli/lumiere-movies/forks,https://github.com/jcvignoli/lumiere-movies/issues/,https://github.com/jcvignoli/lumiere-movies/pulls,https://github.com/jcvignoli/lumiere-movies/releases/,https://github.com/jcvignoli/lumiere-movies/actions/,https://github.com/jcvignoli/lumiere-movies/hovercards/,https://github.com/jcvignoli/lumiere-movies/sponsor_button,https://github.com/jcvignoli/lumiere-movies/search,https://wordpress.org/plugins/lumiere-movies/#reviews'
           verbose: 'warning'
           max_retry_time: 30
           max_retries: 3
