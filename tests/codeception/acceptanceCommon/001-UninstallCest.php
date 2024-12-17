@@ -1,15 +1,12 @@
 <?php
-
-# THIS never restore the lumiere-movies folder in wp-content/plugins
-
-# Class meant to test WordPress install (a WebDriver is needed for JS execution)
+// Class meant to test WordPress install (a WebDriver is needed for JS execution)
 
 use \PHPUnit\Framework\Assert;
 
 class UninstallCest {
 
 	/**
-	 * Vars
+	 * Properties
 	 */
 	private string $base_url;
 	private string $base_path;
@@ -17,6 +14,9 @@ class UninstallCest {
 	private string $host;
 	private string $user_name;
 
+	/**
+	 * Build the properties
+	 */
 	public function __construct(){
 
 		// Build vars
@@ -41,39 +41,37 @@ class UninstallCest {
 		}			
 	}
 
-
+	/**
+	 * Executed before all methods, at the beginning of the class
+	 */
 	public function _before(AcceptanceRemoteTester $I){
-
 		$I->comment(\Helper\Color::set("#Code _before#", "italic+bold+cyan"));
-
 	}
 
+	/**
+	 * Executed after all methods, at the end of the class
+	 */
 	public function _after(AcceptanceRemoteTester $I){
-
 		$I->comment(\Helper\Color::set("#Code _after#", "italic+bold+cyan"));
-
 	}
 
-	/** Login to Wordpress
-	 *  Trait function to keep the cookie active
-	 *
+	/**
+	 * Login to Wordpress
+	 * Trait function to keep the cookie active
 	 */
 	private function login(AcceptanceRemoteTester $I) {
-
 		$I->login_universal($I);
-
 	}
 
 	/**
 	 * Uninstall the plugin to do the tests on a fresh install
+	 * Select either the remote or local method based on a var in _bootstrap.*.php
 	 *
 	 * @before login
 	 */
 	public function pluginUninstall(AcceptanceRemoteTester $I, \Codeception\Module\Cli $shell) {
-
 		if ( DEVELOPMENT_ENVIR === 'remote' ) {
-			// $this->remoteUninstall( $I, $shell ); need to be updated
-			throw new \Exception("This function is deactivated.");
+			$this->remoteUninstall( $I, $shell );
 		} elseif ( DEVELOPMENT_ENVIR === 'local' ) {
 			$this->localUninstall( $I, $shell );
 		} else {
@@ -83,8 +81,7 @@ class UninstallCest {
 
 	/**
 	 * Uninstall the plugin to do the tests on a fresh install -LOCAL
-	 *
-	 * @before login
+	 * Take into account that a symbolic link is used
 	 */
 	private function localUninstall(AcceptanceRemoteTester $I, \Codeception\Module\Cli $shell) {
 
@@ -93,23 +90,11 @@ class UninstallCest {
 		$wpplugins = $wpcontent . '/plugins';
 		$dir_plugin_lumiere = $wpplugins . '/lumiere-movies';
 		
-		$I->comment('Do Lumière LOCAL plugin uninstall for a fresh start');
+		$I->comment('Do Lumière *LOCAL* plugin uninstall for a fresh start');
 
-		// Disable keep settings option to get rid of all options
-		$I->amOnPluginsPage();
-		$I->maybeActivatePlugin('lumiere-movies');
-		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
-		$I->wait(2);
-		$I->scrollTo('#imdbautopostwidget');
-		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_general_settings');
-
-		// Deactivate plugin
-		$I->amOnPluginsPage();
-		$I->scrollTo('#deactivate-lumiere-movies');
-		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
-		$I->wait(1);
-		$I->acceptPopup(); # Are you sure you want to remove the plugin?
-
+		// Disable keep settings options and deactivate Lumière
+		$this->disable_keepsettings_and_deactivate( $I );
+		
 		// Save plugin directory
 		$I->comment( \Helper\Color::set( "**See if Lumière directory exists and copy**", "italic+bold+cyan" ) );
 		$I->customSeeFile( $dir_plugin_lumiere . '/lumiere-movies.php' );
@@ -128,15 +113,9 @@ class UninstallCest {
 		$I->comment('Give the permissions to the lumiere-movies');
 		$shell->runShellCommand( 'chmod -R 777 ' . $dir_plugin_lumiere );
 
-		// Delete plugin
-		$I->amOnPluginsPage();
-		$I->wait(2);
-		$I->scrollTo('#delete-lumiere-movies');
-		$I->executeJS("return jQuery('#delete-lumiere-movies').get(0).click()");
-		$I->wait(2);
-		$I->acceptPopup(); # Are you sure you want to remove the plugin?
-		$I->comment(\Helper\Color::set("**Lumière plugin deleted**", "italic+bold+cyan"));
-
+		// Uninstall plugin
+		$this->uninstall_plugin( $I );
+		
 		// Revert back the saved plugin directory
 		$I->comment(\Helper\Color::set("**Copy back to the saved plugin directory**", 'italic+bold+cyan'));
 		
@@ -161,35 +140,67 @@ class UninstallCest {
 		
 		$I->seeFileFound( $dir_plugin_lumiere . '/lumiere-movies.php' ); // both seeFile of customSeeFile, don't work... 
 
-		// Activate plugin
-		$I->amOnPluginsPage();
-		$I->wait(2);
-		$I->scrollTo('#activate-lumiere-movies');
-		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");
+		// Activate Lumière
+		$this->activate_plugin( $I );
 	}
 	
 	/**
 	 * Uninstall the plugin to do the tests on a fresh install - REMOTE
-	 * This function is not tested and NEEDS to be UPDATED
-	 *
-	 * @before login
 	 */
 	private function remoteUninstall(AcceptanceRemoteTester $I, \Codeception\Module\Cli $shell) {
 	
 		// Build the path vars
 		$wpcontent = $this->base_path . '/wp-content';
 		$wpplugins = $wpcontent . '/plugins';
-		$dir_plugin_lumiere = $wpplugins . '/plugins/lumiere-movies';
+		$dir_plugin_lumiere = $wpplugins . '/lumiere-movies';
 		$remote_cred = $this->user_name.'@'.$this->host;
 		$remote_plugin_path = $this->real_path.'/wp-content/plugins';
 		$remote_plugin_path_lumiere = $this->real_path.'/wp-content/plugins/lumiere-movies';
 		$remote_wpcontent_path = $this->real_path.'/wp-content';
 
-		$I->comment('Do Lumière plugin uninstall for a fresh start');
+		$I->comment('Do Lumière *REMOTE* plugin uninstall for a fresh start');
 
 		// Make local connexion
-		$I->activateLocalMount( $this->base_path, $shell );
+		// Not needed anymore, using scp and ssh
+		// $I->activateLocalMount( $this->base_path, $shell );
 
+		// Disable keep settings options and deactivate Lumière
+		$this->disable_keepsettings_and_deactivate( $I );
+		$I->wait(4);
+
+		// Save plugin directory
+		$I->comment( \Helper\Color::set( "**See if Lumière directory exists and copy**", "italic+bold+cyan" ) );
+
+		$I->customSeeFile( $dir_plugin_lumiere . '/lumiere-movies.php' );
+		$I->comment( \Helper\Color::set('Saving plugin directory...', 'yellow+blink') );
+		
+		$shell->runShellCommand('scp -r '.$remote_cred.':'.$remote_plugin_path_lumiere.' '.$remote_cred.':'.$remote_wpcontent_path.'/');
+
+		// Uninstall plugin
+		$this->uninstall_plugin( $I );
+
+		// Revert back the saved plugin directory
+		$I->comment(\Helper\Color::set("**Copy back to the saved plugin directory**", 'italic+bold+cyan'));
+		$I->comment( \Helper\Color::set('Restoring plugin directory...', 'yellow+blink') );
+		
+		$shell->runShellCommand('scp -r ' . $remote_cred.':'.$remote_wpcontent_path.'/lumiere-movies'.' '.$remote_cred.':'.$remote_plugin_path.'/');
+
+		$I->customSeeFile( $dir_plugin_lumiere . '/lumiere-movies.php' ); // both seeFile of customSeeFile, don't work...
+
+		$I->comment( \Helper\Color::set('Deleting temporary plugin directory...', 'yellow+blink') );
+		
+		$shell->runShellCommand("ssh ".$remote_cred." 'rm -R ".$remote_wpcontent_path."/lumiere-movies'");
+		
+		$I->customSeeFile( $dir_plugin_lumiere . '/lumiere-movies.php' ); // both seeFile of customSeeFile, don't work... 
+
+		// Activate Lumière
+		$this->activate_plugin( $I );
+	}
+
+	/**
+	 * Disable Lumière keeps settings and Uninstall the plugin
+	 */
+	private function disable_keepsettings_and_deactivate( AcceptanceRemoteTester $I ) {
 		// Disable keep settings option to get rid of all options
 		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('lumiere-movies');
@@ -202,18 +213,14 @@ class UninstallCest {
 		$I->amOnPluginsPage();
 		$I->scrollTo('#deactivate-lumiere-movies');
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
-		$I->wait(4);
+		$I->wait(2);
 		$I->acceptPopup(); # Are you sure you want to remove the plugin?
-		$I->wait(4);
+	}
 
-		// Save plugin directory
-		$I->comment( \Helper\Color::set( "**See if Lumière directory exists and copy**", "italic+bold+cyan" ) );
-		$I->customSeeFile( $dir_plugin_lumiere . 'lumiere-movies.php' );
-		$I->comment( \Helper\Color::set('Saving plugin directory...', 'yellow+blink') );
-		
-		$shell->runShellCommand('scp -r '.$remote_cred.':'.$remote_plugin_path_lumiere.' '.$remote_cred.':'.$remote_wpcontent_path.'/');
-
-		// Delete plugin
+	/**
+	 * Uninstall (delete) the plugin
+	 */
+	private function uninstall_plugin( AcceptanceRemoteTester $I ) {
 		$I->amOnPluginsPage();
 		$I->wait(2);
 		$I->scrollTo('#delete-lumiere-movies');
@@ -221,22 +228,12 @@ class UninstallCest {
 		$I->wait(2);
 		$I->acceptPopup(); # Are you sure you want to remove the plugin?
 		$I->comment(\Helper\Color::set("**Lumière plugin deleted**", "italic+bold+cyan"));
+	}
 
-		// Revert back the saved plugin directory
-		$I->comment(\Helper\Color::set("**Copy back to the saved plugin directory**", 'italic+bold+cyan'));
-		$I->comment( \Helper\Color::set('Restoring plugin directory...', 'yellow+blink') );
-		
-		$shell->runShellCommand('scp -r ' . $remote_cred.':'.$remote_wpcontent_path.'/lumiere-movies'.' '.$remote_cred.':'.$remote_plugin_path.'/');
-
-//		$I->customSeeFile( $dir_plugin_lumiere . 'lumiere-movies.php' ); // both seeFile of customSeeFile, don't work...
-
-		$I->comment( \Helper\Color::set('Deleting temporary plugin directory...', 'yellow+blink') );
-		
-		$shell->runShellCommand("ssh ".$remote_cred." 'rm -R ".$remote_wpcontent_path."/lumiere-movies"."'");
-		
-//		$I->customSeeFile( $dir_plugin_lumiere . 'lumiere-movies.php' ); // both seeFile of customSeeFile, don't work... 
-
-		// Activate plugin
+	/**
+	 * Reactivate the plugsin
+	 */
+	private function activate_plugin( AcceptanceRemoteTester $I ) {
 		$I->amOnPluginsPage();
 		$I->wait(2);
 		$I->scrollTo('#activate-lumiere-movies');

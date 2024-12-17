@@ -68,6 +68,7 @@ env:
                      adminPath: '%TEST_WP_ADMIN_PATH%'
                      browser: firefox
                      path: ''
+                     window_size: 1024x768
                      capabilities:
                        acceptInsecureCerts: true
                        # Used in more recent releases of Selenium.

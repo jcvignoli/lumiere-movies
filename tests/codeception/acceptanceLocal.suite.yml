@@ -2,7 +2,6 @@
 #
 # Suite for acceptance tests.
 # Perform tests in browser using the WPWebDriver or WPBrowser.
-# Use WPDb to set up your initial database fixture.
 # If you need both WPWebDriver and WPBrowser tests - create a separate suite.
 
 bootstrap: _bootstrap.local.php
@@ -58,9 +57,11 @@ env:
                      path: ''
                      window_size: 1024x768
                      capabilities:
-                         moz:firefoxOptions:
-                             args: ["-headless"] # Run Firefox in headless mode
-                             prefs:
+                       acceptInsecureCerts: true
+                       # Used in more recent releases of Selenium.
+                       moz:firefoxOptions:
+                            args: ["-headless"] # Run Firefox in headless mode
+                            prefs:
                                 intl.accept_languages: "fr-FR"
    wpchrome:
        modules:
