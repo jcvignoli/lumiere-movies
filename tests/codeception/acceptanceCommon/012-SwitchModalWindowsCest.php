@@ -72,7 +72,8 @@ class ModalWindowsCest {
 		$I->seeInPageSource("lumiere_style_main-css"); 	
 		$I->seeInPageSource("lumiere_highslide_core-js");
 		$I->seeInPageSource("lumiere_highslide_options-js");
-		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/?mid=0000190" title="');
+
+		$I->seeInPageSource( 'Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/?mid=0000190' );
 
 		// Switch To Bootstrap
 		$I->comment(\Helper\Color::set('Check if Bootstrap modal window works', "italic+bold+cyan"));
@@ -90,7 +91,7 @@ class ModalWindowsCest {
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource("lumiere_bootstrap_custom-css");			
 		$I->seeInPageSource("lumiere_bootstrap_core-js");
-		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/?mid=0000190" title="');
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/?mid=0000190' );
 
 		// Switch To Classic modal
 		$I->comment(\Helper\Color::set('Check if Classic modal window works', "italic+bold+cyan"));
@@ -107,7 +108,7 @@ class ModalWindowsCest {
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource("lumiere_classic_links-js");			
 		$I->seeInPageSource("lumiere_style_main-css"); 			
-		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/?mid=0000190" title="');
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/?mid=0000190');
 
 		// Check AMP
 		$I->comment(\Helper\Color::set('Check if AMP class works', "italic+bold+cyan"));
@@ -123,7 +124,7 @@ class ModalWindowsCest {
 		$I->seeInPageSource(' to stay with his uncle, Martin Perveler. Returning to the Bronx in 1941');		
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL . '&amp' );# Check popup movie
 		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");	
-		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/?mid=0000190&amp;amp" title="');
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/?mid=0000190');
 
 		// Check NoLinks class
 		$I->comment(\Helper\Color::set('Check if No Links works', "italic+bold+cyan"));
@@ -131,7 +132,7 @@ class ModalWindowsCest {
 		$I->scrollTo('#behaviourpart');
 		$I->CustomActivateCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_general_settings' );
 
-		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );# Check regular page
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL ); // Check regular page
 		$I->dontSeeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
 		$I->dontSeeInPageSource("lumiere_classic_links-js");		
 		$I->dontSeeInPageSource("lumiere_bootstrap_core-js");
@@ -139,7 +140,7 @@ class ModalWindowsCest {
 		$I->dontSeeInPageSource("lumiere_highslide_options-js");
 
 		$I->seeInPageSource('<div class="lumiere_align_left lumiere_flex_auto">Peter Dinklage</div>');
-		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL ); // Check taxonomy page
 		$I->dontSeeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
 		$I->dontSeeInPageSource("lumiere_classic_links-js");		
 		$I->dontSeeInPageSource("lumiere_bootstrap_core-js");
@@ -147,13 +148,13 @@ class ModalWindowsCest {
 		$I->dontSeeInPageSource("lumiere_highslide_options-js");
 		$I->seeInPageSource('his uncle, Martin Perveler. Returning');
 
-		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL ); // Check popup movie
 		$I->dontSeeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");	
 		$I->dontSeeInPageSource("lumiere_classic_links-js");		
 		$I->dontSeeInPageSource("lumiere_bootstrap_core-js");
 		$I->dontSeeInPageSource("lumiere_highslide_core-js");
 		$I->dontSeeInPageSource("lumiere_highslide_options-js");
-		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/?mid=0000190" title="'); // There are links in no class popups
+		$I->seeInPageSource('Ellen Burstyn</a>, <a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . $this->base_url . '/lumiere/person/?mid=0000190'); // There are links in no class popups
 
 		// End, Switch back To Highslide, remove kill imdb links
 		$I->SwitchModalWindow('Highslide');

@@ -66,11 +66,14 @@ class PopupsHighslideCest {
 		$I->comment('Check if popup movie can be open');
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
-		$I->wait( 4 );
-		
+			
 		$iframe_find_name = $I->grabAttributeFrom('//iframe', 'name');
 		$I->switchToIframe( $iframe_find_name );
 		$I->see( AcceptanceSettings::TESTING_PAGE_BASE_A_DIRECTOR );
+		
+		// Test click to go to another popup
+		$I->click( AcceptanceSettings::TESTING_PAGE_BASE_A_DIRECTOR );
+		$I->see( 'Best known for his cerebral, often nonlinea' );
 	}
 
 	/**
@@ -88,12 +91,14 @@ class PopupsHighslideCest {
 		$I->comment('Check if popup person can be open');
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
-		$I->wait( 4 );
 		
 		$iframe_find_name = $I->grabAttributeFrom('//iframe', 'name');
 		$I->switchToIframe( $iframe_find_name );
 		$I->see( AcceptanceSettings::TESTING_PAGE_BASE_ELEMENT );
 
+		// Test click to go to another popup
+		$I->click( 'The Popcorn Chronicles' );
+		$I->see( 'Emilio Portes' );
 	}
 
 }
