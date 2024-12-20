@@ -378,7 +378,7 @@ class Popup_Person {
 			for ( $i = 0; $i < $nbtotalspouses; ++$i ) {
 
 				if ( isset( $spouses[ $i ]['imdb'] ) && strlen( $spouses[ $i ]['imdb'] ) > 0 ) {
-					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . intval( $spouses[ $i ]['imdb'] ) ) . "'>";
+					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . intval( $spouses[ $i ]['imdb'] ) ) ) . "'>";
 				}
 
 				if ( isset( $spouses[ $i ]['name'] ) && strlen( $spouses[ $i ]['name'] ) > 0 ) {
@@ -410,7 +410,7 @@ class Popup_Person {
 			for ( $i = 0; $i < $nbtotalchildren; ++$i ) {
 
 				if ( isset( $children[ $i ]['imdb'] ) && strlen( $children[ $i ]['imdb'] ) > 0 ) {
-					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . intval( $children[ $i ]['imdb'] ) ) . "'>";
+					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . intval( $children[ $i ]['imdb'] ) ) ) . "'>";
 				}
 
 				if ( isset( $children[ $i ]['name'] ) && strlen( $children[ $i ]['name'] ) > 0 ) {
@@ -443,7 +443,7 @@ class Popup_Person {
 
 			for ( $i = 0; $i < $nbtotalbiomovie; ++$i ) {
 
-				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $biomovie[ $i ]['id'] ) ) . "'>" . esc_html( $biomovie[ $i ]['title'] ) . '</a>';
+				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $biomovie[ $i ]['id'] ) ) ) . "'>" . esc_html( $biomovie[ $i ]['title'] ) . '</a>';
 
 				if ( isset( $biomovie[ $i ]['year'] ) && $biomovie[ $i ]['year'] > 0 ) {
 					$output .= ' (' . intval( $biomovie[ $i ]['year'] ) . ') ';
@@ -466,7 +466,7 @@ class Popup_Person {
 
 			for ( $i = 0; $i < $nbtotalportrayedmovie; ++$i ) {
 
-				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $portrayedmovie[ $i ]['imdb'] ) ) . "'>" . esc_html( $portrayedmovie[ $i ]['name'] ) . '</a>';
+				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $portrayedmovie[ $i ]['imdb'] ) ) ) . "'>" . esc_html( $portrayedmovie[ $i ]['name'] ) . '</a>';
 
 				if ( isset( $portrayedmovie[ $i ]['year'] ) && strlen( $portrayedmovie[ $i ]['year'] ) !== 0 ) {
 					$output .= ' (' . intval( $portrayedmovie[ $i ]['year'] ) . ') ';
@@ -920,7 +920,7 @@ class Popup_Person {
 
 			foreach ( $all_movies[ $role ] as $credit_role ) {
 
-				$output .= " <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $credit_role['titleId'] ) ) . "'>" . esc_html( $credit_role['titleName'] ) . '</a>';
+				$output .= " <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $credit_role['titleId'] ) ) ) . "'>" . esc_html( $credit_role['titleName'] ) . '</a>';
 
 				if ( isset( $credit_role['year'] ) ) {
 					$output .= ' (';

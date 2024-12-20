@@ -371,8 +371,7 @@ class Popup_Movie {
 
 				echo '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 					. esc_url(
-						$this->config_class->lumiere_urlpopupsperson
-						. '?mid=' . $director[ $i ]['imdb']
+						wp_nonce_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $director[ $i ]['imdb'] )
 					)
 					. '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
 				echo "\n\t\t\t" . esc_html( $director[ $i ]['name'] );
@@ -400,7 +399,7 @@ class Popup_Movie {
 			echo '<span class="lum_results_section_subtitle">' . esc_html__( 'Main actors', 'lumiere-movies' ) . '</span>';
 
 			for ( $i = 0; ( $i < $nbactors ) && ( $i < $nbtotalactors ); $i++ ) {
-				echo '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $cast[ $i ]['imdb'] ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
+				echo '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $cast[ $i ]['imdb'] ) ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
 				echo "\n\t\t\t" . esc_html( $cast[ $i ]['name'] ) . '</a>';
 
 				if ( ( $i < $nbactors - 1 ) && ( $i < $nbtotalactors - 1 ) ) {
@@ -691,9 +690,9 @@ class Popup_Movie {
 				echo "\n\t\t\t\t"
 				. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 				. esc_url(
-					$this->config_class->lumiere_urlpopupsperson
-					. $cast[ $i ]['imdb']
-					. '/?mid=' . $cast[ $i ]['imdb']
+					wp_nonce_url(
+						$this->config_class->lumiere_urlpopupsperson . $cast[ $i ]['imdb'] . '/?mid=' . $cast[ $i ]['imdb']
+					)
 				)
 					. '" title="'
 					. esc_html__( 'internal link', 'lumiere-movies' )
@@ -730,9 +729,9 @@ class Popup_Movie {
 				echo "\n\t\t"
 				. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 				. esc_url(
-					$this->config_class->lumiere_urlpopupsperson
-					. $director[ $i ]['imdb']
-					. '/?mid=' . $director[ $i ]['imdb']
+					wp_nonce_url(
+						$this->config_class->lumiere_urlpopupsperson . $director[ $i ]['imdb'] . '/?mid=' . $director[ $i ]['imdb']
+					)
 				)
 					. '" title="'
 					. esc_html__( 'internal link', 'lumiere-movies' )
@@ -767,9 +766,9 @@ class Popup_Movie {
 				echo "\n\t\t"
 				. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 				. esc_url(
-					$this->config_class->lumiere_urlpopupsperson
-					. $writer[ $i ]['imdb']
-					. '/?mid=' . $writer[ $i ]['imdb']
+					wp_nonce_url(
+						$this->config_class->lumiere_urlpopupsperson . $writer[ $i ]['imdb'] . '/?mid=' . $writer[ $i ]['imdb']
+					)
 				)
 					. '" title="'
 					. esc_html__( 'internal link', 'lumiere-movies' )
@@ -801,9 +800,9 @@ class Popup_Movie {
 				echo "\n\t\t"
 				. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 				. esc_url(
-					$this->config_class->lumiere_urlpopupsperson
-					. $producer[ $i ]['imdb']
-					. '/?mid=' . $producer[ $i ]['imdb']
+					wp_nonce_url(
+						$this->config_class->lumiere_urlpopupsperson . $producer[ $i ]['imdb'] . '/?mid=' . $producer[ $i ]['imdb']
+					)
 				)
 					. '" title="'
 					. esc_html__( 'internal link', 'lumiere-movies' )

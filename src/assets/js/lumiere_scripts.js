@@ -26,13 +26,18 @@ document.addEventListener(
 		 * Add HTML: A a span|div|whatever id="spinner-placeholder" must be put in the HTML text (popup classes)
 		 * Timeout: A 1 sec (1000 ms) timeout is integrated, so the spinner start being displayed only when needed
 		 */
-                 jQuery(function(){
-                     jQuery(".lum_add_spinner").click(function(){
-                         setTimeout(() => {
-                             jQuery('<div id="parent-spinner"><div id="spinner"></div></div>').prependTo(jQuery('#spinner-placeholder'));
-                         }, 1000);
-                     });
-                 });
+		jQuery(function(){
+			const SPINNER_TIMEOUT = 1000;
+			const spinnerHTML = '<div id="parent-spinner"><div id="spinner"></div></div>';
+
+			jQuery('.lum_add_spinner').click(function(event) {
+				// event.preventDefault(); // If prevent default, can't load a new (person) link to a popup inside a popup
+				setTimeout(() => {
+				    const $spinnerPlaceholder = jQuery('#spinner-placeholder'); // Cache jQuery selector
+				    jQuery(spinnerHTML).prependTo($spinnerPlaceholder);
+				}, SPINNER_TIMEOUT);
+			});
+		});
 
 		/**
 		 * popup person
@@ -53,7 +58,7 @@ document.addEventListener(
  * (a) Submit automatically on dropdown change
  */
 jQuery(document).ready(function() {
-	jQuery("#tag_lang").on('change', function() {
+	jQuery('#tag_lang').on('change', function() {
 		jQuery(this).closest('form').submit();
 	});
   
