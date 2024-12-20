@@ -25,7 +25,7 @@ if ( !defined( 'LUMIERE_WP_PATH' ) ) {
 	if ( is_dir( $abs_path ) ) {
 		define( 'LUMIERE_WP_PATH', $abs_path . 'wp-content/plugins/lumiere-movies/' );
 	} elseif ( defined( 'ABSPATH' ) ) {
-		define( 'LUMIERE_WP_PATH', ABSPATH . 'wp-content/plugins/lumiere-movies/' );
+		define( 'LUMIERE_WP_PATH', ABSPATH );
 	}
 }
 
