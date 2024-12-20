@@ -26,13 +26,13 @@ document.addEventListener(
 		 * Add HTML: A a span|div|whatever id="spinner-placeholder" must be put in the HTML text (popup classes)
 		 * Timeout: A 1 sec (1000 ms) timeout is integrated, so the spinner start being displayed only when needed
 		 */
-		jQuery(function(){
-		​	jQuery(".lum_add_spinner").click(function(){
-				setTimeout(() => {
-					jQuery('<div id="parent-spinner"><div id="spinner"></div></div>').prependTo(jQuery('#spinner-placeholder'));
-				}, 1000);
-			});​
-		});
+                 jQuery(function(){
+                     jQuery(".lum_add_spinner").click(function(){
+                         setTimeout(() => {
+                             jQuery('<div id="parent-spinner"><div id="spinner"></div></div>').prependTo(jQuery('#spinner-placeholder'));
+                         }, 1000);
+                     });
+                 });
 
 		/**
 		 * popup person
