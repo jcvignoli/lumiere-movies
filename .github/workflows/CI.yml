@@ -3,6 +3,7 @@ on:
   push:
     branches: "*"
   pull_request:
+permissions: read-all
 env:
   cache-version: 1
 jobs:

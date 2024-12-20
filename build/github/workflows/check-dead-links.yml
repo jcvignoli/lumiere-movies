@@ -9,6 +9,7 @@ on:
   workflow_dispatch: # allow manual trigger
   push:
     branches: "*"
+permissions: read-all
 jobs:
   website-links:
     name: "Check for broken links"

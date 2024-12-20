@@ -2,6 +2,7 @@
 # https://github.com/WordPress/plugin-check-action/
 
 name: 'WP plugin check'
+permissions: read-all
 on:
   workflow_dispatch:
   repository_dispatch:
