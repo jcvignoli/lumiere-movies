@@ -197,7 +197,7 @@ class Movie {
 	/**
 	 * List of autorized areas where the class will run
 	 *
-	 * @since 4.2.2
+	 * @since 4.2.3
 	 * @return bool True if page is autorized
 	 */
 	private function lumiere_autorized_areas(): bool {
@@ -209,7 +209,7 @@ class Movie {
 	 * Looks for <span data-lum_movie_maker="[1]"></span> where [1] is movie_title or movie_id
 	 *
 	 * @since 3.10.2 The function always returns string, no null accepted -- PHP8.2 compatibility
-	 * @since 4.2.2 The function will return if not executed in autorized area
+	 * @since 4.2.3 The function will return if not executed in autorized area
 	 *
 	 * @param null|string $content HTML span tags + text inside
 	 * @return string
@@ -305,7 +305,7 @@ class Movie {
 	 * @param null|string $text parsed data
 	 * @return null|string Null if text was already null, text otherwhise
 	 * @since 4.1 Added the possibility to have some text after the data with [^>]*
-	 * @since 4.2.2 The function will return if not executed in autorized area
+	 * @since 4.2.3 The function will return if not executed in autorized area
 	 */
 	public function lumiere_link_popup_maker( ?string $text ): ?string {
 

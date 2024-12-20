@@ -26,31 +26,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'You are not allowed to call this page directly.' );
 }
 
-// Include composer bootstrap.
-if ( ( file_exists( plugin_dir_path( __FILE__ ) . 'vendor/autoload.php' ) ) && ( file_exists( plugin_dir_path( __FILE__ ) . 'class/class-core.php' ) ) ) {
-	require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
-}
-
 // Get global vars.
 if ( file_exists( plugin_dir_path( __FILE__ ) . 'vars.php' ) ) {
 	require_once plugin_dir_path( __FILE__ ) . 'vars.php';
 }
 
+// Include composer bootstrap.
+if ( file_exists( LUMIERE_WP_PATH . 'vendor/autoload.php' ) ) {
+	require_once LUMIERE_WP_PATH . 'vendor/autoload.php';
+}
+
 // Get global functions.
-if ( file_exists( plugin_dir_path( __FILE__ ) . 'functions.php' ) ) {
-	require_once plugin_dir_path( __FILE__ ) . 'functions.php';
+if ( file_exists( LUMIERE_WP_PATH . 'functions.php' ) ) {
+	require_once LUMIERE_WP_PATH . 'functions.php';
 }
 
 // Check if Lumière and IMDbPHP classes are installed.
-if ( ! class_exists( 'Lumiere\Core' ) ) {
+if ( ! file_exists( LUMIERE_WP_PATH . 'class/class-core.php' ) || ! class_exists( 'Lumiere\Core' ) ) {
 	wp_die( esc_html__( 'Error: Lumière is not correctly installed. Check your install.', 'lumiere-movies' ) );
 }
 if ( ! class_exists( 'Imdb\Config' ) ) {
 	wp_die( esc_html__( 'Error: IMDbPHP libraries are not installed. Check your install.', 'lumiere-movies' ) );
 }
 
-// Start the plugin
-lum_incompatible_plugins_uninstall( Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS, __FILE__ ); // Lumière is uninstalled if crappy plugins are found.
+// Global function: Lumière is uninstalled if crappy plugins are found.
+lum_incompatible_plugins_uninstall( Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS, __FILE__ );
+
+// Instanciate Core class.
 $lumiere_core = new Lumiere\Core();
 
 // Executed upon plugin activation.

@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Specific Class for updating : ************************ Lumière version 4.1.8, update 17
+ * Specific Class for updating : ************************ Lumière version 4.2.2, update 19
  * Child of Updates class
  *
  * This class updates data for a new Lumière version

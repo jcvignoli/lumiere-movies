@@ -21,7 +21,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
  * Class that detects IPs, User agent, HTTP_REFERER and bans those found as bots
  * Is usefull to prevent the access to popups that create a lot of cache files
  *
- * @since 4.2.2 two conditional methods in __construct, no automatic ban function available to outside anymore (ban_bot_now() is now private)
+ * @since 4.2.3 two conditional methods in __construct, no automatic ban function available to outside anymore (ban_bot_now() is now private)
  */
 class Ban_Bots {
 

@@ -158,7 +158,7 @@ class Frontend {
 	 *
 	 * @since 4.0 Bots are banned for all popups, it's done here so no IMDbPHP calls for movies/people are done in case of redirect
 	 * @since 4.0.1 Added bot banning if no referer, created method ban_bots_popups()
-	 * @since 4.2.2 Nonce validation
+	 * @since 4.2.3 Nonce validation
 	 *
 	 * @return string|Virtual_Page
 	 */

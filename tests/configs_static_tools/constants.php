@@ -1,7 +1,7 @@
 <?php
 // Missing wordpress constants in phpstan
 if ( ! defined( 'ABSPATH' ) ) {
-	$local_file = dirname( __DIR__ ) . '/../../blogpourext/';
+	$local_file = dirname( dirname( dirname( __DIR__ ) ) ) . '/blogpourext/';
 	if ( is_dir( $local_file ) ) {
 		define( 'ABSPATH', $local_file );
 	} else {
@@ -20,7 +20,7 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
 }
 
 if ( !defined( 'LUMIERE_WP_PATH' ) ) {
-	define( 'LUMIERE_WP_PATH', ABSPATH . 'wp-content/plugins/lumiere-movies/' );
+	define( 'LUMIERE_WP_PATH', dirname( dirname( dirname( __DIR__ ) ) ) . '/blogpourext/wp-content/plugins/lumiere-movies/' );
 }
 
 if ( !defined( 'LUMIERE_WP_URL' ) ) {

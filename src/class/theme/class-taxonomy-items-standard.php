@@ -79,7 +79,7 @@ class Taxonomy_Items_Standard {
 
 	/**
 	 * Static start
-	 * @since 4.2.2 Run on taxonomy pages only
+	 * @since 4.2.3 Run on taxonomy pages only
 	 */
 	public static function lumiere_static_start(): void {
 
