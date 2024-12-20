@@ -1,10 +1,14 @@
 <?php
-// Missing wordpress constants in phpstan
+/**
+ * Missing wordpress constants in static checks.
+ */
 if ( ! defined( 'ABSPATH' ) ) {
 	$local_file = dirname( dirname( dirname( __DIR__ ) ) ) . '/blogpourext/';
 	if ( is_dir( $local_file ) ) {
+		// Local dev value.
 		define( 'ABSPATH', $local_file );
 	} else {
+		// Value that PHPStan github gets.
 		define( 'ABSPATH', 'src/' );
 	}
 }
@@ -23,8 +27,10 @@ if ( !defined( 'LUMIERE_WP_PATH' ) ) {
 	// Extra check for phpstan on github.
 	$abs_path = dirname( dirname( dirname( __DIR__ ) ) ) . '/blogpourext/';
 	if ( is_dir( $abs_path ) ) {
+		// Local dev value.
 		define( 'LUMIERE_WP_PATH', $abs_path . 'wp-content/plugins/lumiere-movies/' );
 	} elseif ( defined( 'ABSPATH' ) ) {
+		// Value that PHPStan github gets.
 		define( 'LUMIERE_WP_PATH', ABSPATH );
 	}
 }

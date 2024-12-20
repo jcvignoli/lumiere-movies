@@ -1,7 +1,7 @@
 /**
  * Frontpage functions
  * Spinners, go back, submit form
- * Function must be Content Security Policy (CSP) compliant
+ * Function are Content Security Policy (CSP) compliant
  *
  * FUNCTIONS:
  *
@@ -27,7 +27,7 @@ document.addEventListener(
 		 * Timeout: A 1 sec (1000 ms) timeout is integrated, so the spinner start being displayed only when needed
 		 */
 		jQuery(function(){
-		​	jQuery('.lum_add_spinner').click(function(){
+		​	jQuery(".lum_add_spinner").click(function(){
 				setTimeout(() => {
 					jQuery('<div id="parent-spinner"><div id="spinner"></div></div>').prependTo(jQuery('#spinner-placeholder'));
 				}, 1000);
@@ -53,8 +53,7 @@ document.addEventListener(
  * (a) Submit automatically on dropdown change
  */
 jQuery(document).ready(function() {
-
-	jQuery('#tag_lang').on('change', function() {
+	jQuery("#tag_lang").on('change', function() {
 		jQuery(this).closest('form').submit();
 	});
   
