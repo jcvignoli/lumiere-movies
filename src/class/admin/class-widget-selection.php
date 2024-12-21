@@ -166,7 +166,7 @@ class Widget_Selection extends WP_Widget {
 		$output .= "\n\t\t" . '</div>';
 
 		$output .= "\n\t\t" . '<div class="lumiere_flex_auto lumiere_flex_nowrap_container">';
-		$output .= "\n\t\t\t" . '<label class="lum_legacy_widget_label"  for="' . esc_attr( $this->get_field_id( 'title' ) ) . '">'
+		$output .= "\n\t\t\t" . '<label class="lum_legacy_widget_label" for="' . esc_attr( $this->get_field_id( 'title' ) ) . '">'
 					. esc_html__( 'Widget title:', 'lumiere-movies' ) . '</label>';
 		$output .= "\n\t\t\t" . '<input class="widefat" id="' . esc_attr( $this->get_field_id( 'title' ) ) . '" name="' . esc_attr( $this->get_field_name( 'title' ) ) . '" type="text" value="' . esc_attr( $title ) . '" />';
 		$output .= "\n\t\t\t" . '</div>';
