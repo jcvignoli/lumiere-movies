@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.2.4
+
 v.4.2.3
 * [technical] Increased security: added $_GET validation for popups (new Validate_Get class in tools)
 * [technical] Increased security: added nonces for popups (adding nonces to Abstract_Link_Maker class and lumiere-*-links.js)
