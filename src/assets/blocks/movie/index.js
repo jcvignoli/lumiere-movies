@@ -102,6 +102,7 @@
 												blockProps.setAttributes( { content: empty } );
 												blockProps.setAttributes( { lumiere_imdblt_select: event.target.value } );
 											},
+											name: 'movie_type_selection',
 										},
 										// Keeping double i18n, but only the second is needed
 										el( "option", { label: __( "By movie title", 'lumiere-movies' ), value: "movie_title" }, __( "By movie title", 'lumiere-movies' ) ),
