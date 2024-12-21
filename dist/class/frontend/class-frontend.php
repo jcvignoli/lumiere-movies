@@ -197,7 +197,7 @@ class Frontend {
 
 				// Exit if trying to do bad things.
 				if ( $one_must_exist === null || ( strlen( $one_must_exist ) > 0 ) === false || ( $nonce_valid === false && current_user_can( 'administrator' ) === false ) ) {
-					wp_die( esc_html__( 'Lumière Movies: Wrong movie id.', 'lumiere-movies' ) );
+					wp_die( esc_html__( 'Lumière Movies: Wrong movie id or title.', 'lumiere-movies' ) );
 				}
 
 				// Set the title.
