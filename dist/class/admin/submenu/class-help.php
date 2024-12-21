@@ -56,10 +56,9 @@ class Help extends Admin_Menu {
 		parent::__construct();
 
 		// Build file names with full path.
-		$root = dirname( dirname( __DIR__ ) );
-		$this->readmefile = plugin_dir_path( $root ) . 'README.txt';
-		$this->changelogfile = plugin_dir_path( $root ) . 'CHANGELOG.md';
-		$this->acknowledgefile = plugin_dir_path( $root ) . 'ACKNOWLEDGMENTS.md';
+		$this->readmefile = LUMIERE_WP_PATH . 'README.txt';
+		$this->changelogfile = LUMIERE_WP_PATH . 'CHANGELOG.md';
+		$this->acknowledgefile = LUMIERE_WP_PATH . 'ACKNOWLEDGMENTS.md';
 	}
 
 	/**

@@ -112,14 +112,14 @@ class Core {
 	 */
 	public function lum_enqueue_blocks(): void {
 		$blocks = [ 'movie', 'addlink', 'opensearch' ];
-		$block_dir = plugin_dir_path( __DIR__ ) . 'assets/blocks';
+		$block_dir = LUMIERE_WP_PATH . 'assets/blocks';
 
 		foreach ( $blocks as $block ) {
 			register_block_type( $block_dir . '/' . $block );
 			add_action(
 				'init',
 				function( string $block ) {
-					wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', plugin_dir_path( __DIR__ ) . 'languages/' );
+					wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', LUMIERE_WP_PATH . 'languages/' );
 				}
 			);
 		}
@@ -127,9 +127,9 @@ class Core {
 		// Javascript for Gutenberg blocks only.
 		wp_register_script(
 			'lumiere_scripts_admin_gutenberg',
-			plugin_dir_url( __DIR__ ) . 'assets/js/lumiere_scripts_admin_gutenberg.min.js',
+			LUMIERE_WP_URL . 'assets/js/lumiere_scripts_admin_gutenberg.min.js',
 			[],
-			strval( filemtime( plugin_dir_path( __DIR__ ) . 'assets/js/lumiere_scripts_admin_gutenberg.min.js' ) ),
+			strval( filemtime( LUMIERE_WP_PATH . 'assets/js/lumiere_scripts_admin_gutenberg.min.js' ) ),
 			true
 		);
 		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
@@ -298,7 +298,7 @@ class Core {
 	public function lum_update_needed() {
 
 		$current_admin = get_option( Settings::get_admin_tablename() );
-		$files = new FilesystemIterator( plugin_dir_path( __DIR__ ) . 'class/updates/', FilesystemIterator::SKIP_DOTS );
+		$files = new FilesystemIterator( LUMIERE_WP_PATH . 'class/updates/', FilesystemIterator::SKIP_DOTS );
 		$nb_of_files_in_updates_folder = iterator_count( $files );
 
 		// Check if the number of updates in database is greater than the number of update files in updates folder

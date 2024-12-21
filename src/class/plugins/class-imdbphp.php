@@ -82,7 +82,7 @@ class Imdbphp extends Imdbphp_Config {
 		 * protocol (e.g. when a different server shall deliver them)
 		 * Cannot be changed in Lumière admin panel
 		 */
-		$this->imdb_img_url = plugin_dir_path( dirname( __DIR__ ) ) . 'assets/pics/showtimes';
+		$this->imdb_img_url = LUMIERE_WP_PATH . 'assets/pics/showtimes';
 
 		/**
 		 * These two are hardcoded at 800 in IMDbPHP Config class

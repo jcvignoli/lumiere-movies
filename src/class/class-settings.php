@@ -240,7 +240,7 @@ class Settings {
 		$this->imdb_admin_option['imdbplugindirectory'] ??= LUMIERE_WP_URL;
 
 		/* BUILD LUMIERE_VERSION */
-		$lumiere_version_recherche = file_get_contents( plugin_dir_path( __DIR__ ) . 'README.txt' );
+		$lumiere_version_recherche = file_get_contents( LUMIERE_WP_PATH . 'README.txt' );
 		if ( $lumiere_version_recherche === false ) {
 			throw new Exception( esc_html__( 'Lumiere plugin: Readme file either missing or corrupted ', 'lumiere-movies' ) );
 		}
@@ -355,7 +355,7 @@ class Settings {
 
 			// Find the number of update files to get the right
 			// number of updates when installing Lumière
-			$files = new FilesystemIterator( plugin_dir_path( __DIR__ ) . 'class/updates/', \FilesystemIterator::SKIP_DOTS );
+			$files = new FilesystemIterator( LUMIERE_WP_PATH . 'class/updates/', \FilesystemIterator::SKIP_DOTS );
 			$this->current_number_updates = strval( iterator_count( $files ) + 1 );
 
 			$option_key = 'imdbHowManyUpdates';
@@ -408,7 +408,7 @@ class Settings {
 
 			#--------------------------------------------------=[ Basic ]=--
 			'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
-			'imdbpluginpath' => plugin_dir_path( __DIR__ ),
+			'imdbpluginpath' => LUMIERE_WP_PATH,
 			'imdburlpopups' => '/lumiere/',
 			'imdbkeepsettings' => '1',
 			'imdburlstringtaxo' => self::URL_STRING_TAXO,

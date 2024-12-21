@@ -64,8 +64,8 @@ class Oceanwp {
 		$this->imdb_admin_values = get_option( Settings::get_admin_tablename() );
 
 		// Build the css URL.
-		$this->assets_css_url = plugin_dir_url( dirname( dirname( __DIR__ ) ) ) . 'assets/css';
-		$this->assets_css_path = plugin_dir_path( dirname( dirname( __DIR__ ) ) ) . 'assets/css';
+		$this->assets_css_url = LUMIERE_WP_URL . 'assets/css';
+		$this->assets_css_path = LUMIERE_WP_PATH . 'assets/css';
 
 		// Remove conflicting assets.
 		add_action( 'wp_enqueue_scripts', [ $this, 'remove_oceanwp_assets' ] );

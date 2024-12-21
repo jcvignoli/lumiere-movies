@@ -683,7 +683,7 @@ class Cache_Tools {
 
 		$this->logger->log()->debug( '[Lumiere][config][cachefolder] The cache folder located at ' . $lumiere_folder_cache . ' is not writable, creating an alternative cache ' );
 
-		$lumiere_alt_folder_cache = plugin_dir_path( dirname( __DIR__ ) ) . 'cache';
+		$lumiere_alt_folder_cache = LUMIERE_WP_PATH . 'cache';
 		$lumiere_alt_folder_cache_images = $lumiere_alt_folder_cache . '/images';
 
 		// Let's create an alternative cache folder inside the plugins, make sure permissions are ok
@@ -693,7 +693,7 @@ class Cache_Tools {
 		 ) {
 
 			// the partial path
-			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', plugin_dir_path( __DIR__ ) ) . 'cache/';
+			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', LUMIERE_WP_PATH ) . 'cache/';
 
 			// Update database with the new value for cache path.
 			$options_cache['imdbcachedir'] = $lumiere_alt_folder_cache;
