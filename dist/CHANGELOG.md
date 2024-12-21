@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.2.4
+* [bug] Uncaught Error: Call to undefined function Lumiere\lum_check_display() in wp-content/plugins/lumiere-movies/class/class-updates.php:17 (added functions.php inclusing in Updates class)
 
 v.4.2.3
 * [technical] Increased security: added $_GET validation for popups (new Validate_Get class in tools)

@@ -14,6 +14,9 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
+if ( ! function_exists( 'lum_check_display' ) ) {
+	require_once plugin_dir_path( dirname( __DIR__ ) ) . 'functions.php';
+}
 lum_check_display();
 
 use FilesystemIterator;
