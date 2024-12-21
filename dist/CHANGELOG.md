@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.2.4
+
 v.4.2.3.1
 * [bug] WordPress Update process was broken (Uncaught Error: Call to undefined function Lumiere\lum_check_display() in wp-content/plugins/lumiere-movies/class/class-updates.php:17 => added functions.php inclusing in Updates class)
 
