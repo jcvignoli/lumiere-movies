@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.7.2
+ * Version: 3.8
  *
  * @package lumiere-movies
  */
@@ -16,16 +16,17 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
-use Imdb\Person;
-use Imdb\PersonSearch;
+use Imdb\Name;
+use Imdb\NameSearch;
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Frontend\Main;
 use WP_Query;
 
 /**
  * This template retrieves automaticaly all post related to a person taxonomy
- * It is a virtual page created according to Lumiere taxonomy
+ * It is a WordPress virtual page created according to the taxonomy saved in database
  * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
+ * How it works: 1/ The taxonomy is build in Taxonomy class 2/ wp-blog-header.php:19 calls template-loader.php:106 which call current taxonomy, as set in Taxonomy
  *
  * @see \Lumiere\Alteration\Taxonomy Build the taxonomy system and taxonomy pages
  * @see \Lumiere\Frontend Trait to builds $this->link_maker var
@@ -45,9 +46,9 @@ class Taxonomy_People_Standard {
 	private bool $activate_sidebar = false;
 
 	/**
-	 * Class \Imdb\Person
+	 * Class \Imdb\Name
 	 */
-	private ?Person $person_class;
+	private ?Name $person_class;
 
 	/**
 	 * Name of the person sanitized
@@ -117,17 +118,17 @@ class Taxonomy_People_Standard {
 	/**
 	 * Do the search according to the page title using IMDbPHP classes
 	 */
-	private function get_imdbphp_person_searched(): Person|null {
+	private function get_imdbphp_person_searched(): Name|null {
 
 		// Build the current page name from the tag taxonomy.
 		// Sanitize_title() ensures that the search is made according to the URL (fails with accents otherwise)
 		$page_title_check = sanitize_title( single_tag_title( '', false ) ?? '' );
 
 		// If we are in a WP taxonomy page, the info from imdbphp libraries.
-		$search = new PersonSearch( $this->plugins_classes_active['imdbphp'], null ); // no log, breaks layout, executed too early.
+		$search = new NameSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log_null() ); // no log, breaks layout, executed too early.
 		$results = $search->search( $page_title_check ); // search for the person using the taxonomy tag.
 		if ( array_key_exists( 0, $results ) ) {
-			return new Person( esc_html( $results[0]->imdbid() ), $this->plugins_classes_active['imdbphp'], null ); // no log, breaks layout, executed too early. => search the class Person using the first result found earlier.
+			return new Name( esc_html( $results[0]['id'] ), $this->plugins_classes_active['imdbphp'], $this->logger->log_null() ); // no log, breaks layout, executed too early. => search the class Name using the first result found earlier.
 		}
 		return null;
 	}
@@ -456,16 +457,13 @@ class Taxonomy_People_Standard {
 		 */
 		if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp pics only if cache is active
 			$output .= isset( $this->person_class ) ? $this->link_maker->lumiere_link_picture(
-				$this->person_class->photo_localurl( false ),
-				$this->person_class->photo_localurl( true ),
+				$this->person_class->photoLocalurl( false ),
+				$this->person_class->photoLocalurl( true ),
 				$this->person_name
 			) : '';
 		} else { // no_pics otherwise
-			$output .= $this->link_maker->lumiere_link_picture(
-				$this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif',
-				$this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif',
-				$this->person_name
-			);
+			$no_pic = $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif';
+			$output .= $this->link_maker->lumiere_link_picture( $no_pic, $no_pic, $this->person_name );
 		}
 
 		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Birth -->';
@@ -478,9 +476,9 @@ class Taxonomy_People_Standard {
 		$birthday = isset( $this->person_class ) && $this->person_class->born() !== null ? array_filter( $this->person_class->born() ) : [];
 		if ( count( $birthday ) > 0 ) {
 
-			$birthday_day = isset( $birthday['day'] ) && strlen( $birthday['day'] ) > 0 ? (string) $birthday['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
-			$birthday_month = isset( $birthday['month'] ) && strlen( $birthday['month'] ) > 0 ? date_i18n( 'F', $birthday['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
-			$birthday_year = isset( $birthday['year'] ) && strlen( $birthday['year'] ) > 0 ? (string) $birthday['year'] : __( '(year unknown)', 'lumiere-movies' );
+			$birthday_day = isset( $birthday['day'] ) && strlen( strval( $birthday['day'] ) ) > 0 ? strval( $birthday['day'] ) . ' ' : '(' . __( 'day unknown', 'lumiere-movies' ) . ') ';
+			$birthday_month = isset( $birthday['month'] ) && strlen( $birthday['month'] ) > 0 ? date_i18n( 'F', $birthday['month'] ) . ' ' : '(' . __( 'month unknown', 'lumiere-movies' ) . ') ';
+			$birthday_year = isset( $birthday['year'] ) && strlen( strval( $birthday['year'] ) ) > 0 ? strval( $birthday['year'] ) : '(' . __( 'year unknown', 'lumiere-movies' ) . ')';
 
 			$output .= "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
 				. '&#9788;&nbsp;'
@@ -503,11 +501,11 @@ class Taxonomy_People_Standard {
 
 		# Death
 		$death = isset( $this->person_class ) && count( $this->person_class->died() ) > 0 ? $this->person_class->died() : null;
-		if ( $death !== null ) {
+		if ( isset( $death ) && $death['status'] !== 'ALIVE' ) {
 
-			$death_day = isset( $death['day'] ) && strlen( $death['day'] ) > 0 ? (string) $death['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
-			$death_month = isset( $death['month'] ) && strlen( $death['month'] ) > 0 ? date_i18n( 'F', $death['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
-			$death_year = isset( $death['year'] ) && strlen( $death['year'] ) > 0 ? (string) $death['year'] : __( '(year unknown)', 'lumiere-movies' );
+			$death_day = isset( $death['day'] ) && strlen( strval( $death['day'] ) ) > 0 ? strval( $death['day'] ) . ' ' : '(' . __( '(day unknown)', 'lumiere-movies' ) . ') ';
+			$death_month = isset( $death['month'] ) && strlen( $death['month'] ) > 0 ? date_i18n( 'F', $death['month'] ) . ' ' : '(' . __( '(month unknown)', 'lumiere-movies' ) . ') ';
+			$death_year = isset( $death['year'] ) && strlen( strval( $death['year'] ) ) > 0 ? strval( $death['year'] ) : '(' . __( '(year unknown)', 'lumiere-movies' ) . ')';
 
 			$output .= "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
 				. '&#8224;&nbsp;'

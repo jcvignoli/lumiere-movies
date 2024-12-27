@@ -12,9 +12,7 @@
 namespace Lumiere\Tools;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
-	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
-}
+lum_check_display();
 
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -31,7 +29,7 @@ trait Files {
 	 * The transiant has a validity time of 30 seconds by default
 	 *
 	 * @param string $file_name Template file name
-	 * @param array<int, object|string|int|array<\Imdb\Person|\Imdb\Title|string|bool|int|array<int|string>>> $variables The variables transfered to the include
+	 * @param array<int, object|string|int|array<\Imdb\Name|\Imdb\Title|string|bool|int|array<int|string>>> $variables The variables transfered to the include
 	 * @param string $transient_name The *maximum* time the transient is valid in seconds, 30 seconds by default
 	 * @param int $validity_time_transient The *maximum* time the transient is valid in seconds, 30 seconds by default
 	 * @void The file with vars has been included
@@ -104,7 +102,7 @@ trait Files {
 
 		global $wp_filesystem;
 
-		// On some environnements, $wp_filesystem is sometimes not correctly initialised through globals.
+		// On some environnements, $wp_filesystem sometimes is not correctly initialised through globals.
 		$file_path = ABSPATH . 'wp-admin/includes/file.php';
 		if ( $wp_filesystem === null && is_file( $file_path ) ) {
 			require_once $file_path;
@@ -135,6 +133,5 @@ trait Files {
 			WP_Filesystem( $creds_two );
 		}
 	}
-
 }
 

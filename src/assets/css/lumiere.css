@@ -259,83 +259,57 @@ text-align:left;
 	font-size:140%;
 	padding:10px;
 	}
-.imdbelementTITLE_grey{		/* additional theme selected in the menu option */
+.imdbelementTITLE_grey{			/* additional theme selected in the menu option */
 	background-color:black;
 	border:1px solid black;
 	border-radius:10px 10px 0 0;
 	color:white;
-	}
+}
 .imdbelementTITLE_white{		/* additional theme selected in the menu option */
 	background-color:grey;
 	border-radius:10px 10px 0 0;
 	color:white;
-	}
+}
 .imdbelementTITLE_black{		/* additional theme selected in the menu option */
 	background-color:white;
 	border:1px solid black;
 	border-radius:10px 10px 0 0;
 	color:black;
-	}
-
+}
 .imdbelementPIC {			/*PIC div tag */
 	padding:30px 20px 10px 10px;
 	float:left;
 }
-
-.imdbelementPICimg {			/*PIC img tag */
-}
-
-.imdbelementCOUNTRY {			/*COUNTRY*/}
-
-.imdbelementRUNTIME {			/*RUNTIME*/}
-
-.imdbelementLANGUAGE {			/*LANGUAGE*/}
-
-.imdbelementRATING {			/*RATING*/}
-
-.imdbelementRATING-picture {vertical-align:baseline;}
-
-.imdbelementGENRE {			/*GENRE*/}
-
-.imdbelementGOOF {			/*GOOF*/}
-
-.imdbelementCOMMENT {			/*COMMENT*/}
-
-.imdbelementQUOTE {			/*QUOTE*/}
-
-.imdbelementTAGLINE {			/*TAGLINE*/}
-
-.imdbelementCOLOR {			/*COLOR*/}
-
-.imdbelementTRAILER {			/*TRAILER*/}
-
-.imdbelementALSOKNOWN {			/*ALSOKNOW*/}
-
-.imdbelementCOMPOSER {			/*COMPOSER*/}
-
-.imdbelementSOUNDTRACK {		/*SOUNDTRACK*/}
-
-.imdbelementKEYWORD {			/*KEYWORDS*/}
-
-.imdbelementPRODCOMPANY {		/*PRODUCTION COMPANIES*/}
-
-.imdbelementOFFICIALWEBSITE {		/*OFFICIAL WEBSITE*/}
-
-.imdbelementDIRECTOR {			/*DIRECTOR*/}
-
-.imdbelementCREATOR {			/*CREATOR*/}
-
-.imdbelementPRODUCER {			/*PRODUCER*/}
-
-.imdbelementWRITER {			/*WRITER*/}
-
-.imdbelementACTOR {			/*ACTOR*/}
-
-.imdbelementPLOT {			/*PLOT*/}
-
-.imdbelementSOURCE {			/*SOURCE*/}
-
-.imdbelementSOURCE-picture {vertical-align:middle;display:inline;}
+/* Following classes are using a wildcard (matches any _white, _black, _grey extension) */
+[class*="imdbelementPICimg"] {			/*PIC img tag */ }
+[class*="imdbelementCOUNTRY"] {			/*COUNTRY*/}
+[class*="imdbelementRUNTIME"] {			/*RUNTIME*/}
+[class*="imdbelementLANGUAGE"] {		/*LANGUAGE*/}
+[class*="imdbelementRATING"] {			/*RATING*/}
+[class*="imdbelementRATING-picture"] {
+	vertical-align:baseline;}
+[class*="imdbelementGENRE"] {			/*GENRE*/}
+[class*="imdbelementGOOF"] {			/*GOOF*/}
+[class*="imdbelementCOMMENT"] {			/*COMMENT*/}
+[class*="imdbelementQUOTE"] {			/*QUOTE*/}
+[class*="imdbelementTAGLINE"] {			/*TAGLINE*/}
+[class*="imdbelementCOLOR"] {			/*COLOR*/}
+[class*="imdbelementTRAILER"] {			/*TRAILER*/}
+[class*="imdbelementALSOKNOWN"] {		/*ALSOKNOW*/}
+[class*="imdbelementCOMPOSER"] {		/*COMPOSER*/}
+[class*="imdbelementSOUNDTRACK"] {		/*SOUNDTRACK*/}
+[class*="imdbelementKEYWORD"] {			/*KEYWORDS*/}
+[class*="imdbelementPRODCOMPANY"] {		/*PRODUCTION COMPANIES*/}
+[class*="imdbelementOFFICIALWEBSITE"] {		/*OFFICIAL WEBSITE*/}
+[class*="imdbelementDIRECTOR"] {		/*DIRECTOR*/}
+[class*="imdbelementCREATOR"] {			/*CREATOR*/}
+[class*="imdbelementPRODUCER"] {		/*PRODUCER*/}
+[class*="imdbelementWRITER"] {			/*WRITER*/}
+[class*="imdbelementACTOR"] {			/*ACTOR*/}
+[class*="imdbelementPLOT"] {			/*PLOT*/}
+[class*="imdbelementSOURCE"] {			/*SOURCE*/}
+[class*="imdbelementSOURCE-picture"] {
+	vertical-align:middle;display:inline;}
 
 
 /* ---------------------------------------- Taxonomy people pages */

@@ -76,6 +76,8 @@ class Widget_Frontpage {
 			'data-*' => true, // perhaps due to the wildcard, [] doesn't work here
 		],
 		'i' => [],
+		'br' => [],
+		'strong' => [],
 		'hr' => [],
 		'a' => [
 			'id' => [],

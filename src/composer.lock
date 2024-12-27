@@ -4,85 +4,47 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8dc8527a4659fb5851f438cda5121c0b",
+    "content-hash": "d41dcc98dbf033d2ea8717790006341f",
     "packages": [
         {
-            "name": "jcvignoli/imdbphp",
-            "version": "dev-master",
+            "name": "duck7000/imdb-graphql-php",
+            "version": "dev-jcv",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jcvignoli/imdbphp.git",
-                "reference": "fba666afab7c30fa6f05cd1ba68e29bccda51925"
+                "url": "https://github.com/jcvignoli/imdbGraphQLPHP",
+                "reference": "54e8f36112c44c3c4ab72f3e32a94e67cee52854"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jcvignoli/imdbphp/zipball/fba666afab7c30fa6f05cd1ba68e29bccda51925",
-                "reference": "fba666afab7c30fa6f05cd1ba68e29bccda51925",
+                "url": "https://api.github.com/repos/jcvignoli/imdbGraphQLPHP/zipball/54e8f36112c44c3c4ab72f3e32a94e67cee52854",
+                "reference": "54e8f36112c44c3c4ab72f3e32a94e67cee52854",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "ext-dom": "*",
                 "ext-json": "*",
-                "ext-libxml": "*",
-                "ext-simplexml": "*",
-                "php": ">=7.4",
+                "php": ">=7.2",
                 "psr/log": "^1.0 || ^2.0",
                 "psr/simple-cache": "^1.0"
             },
-            "require-dev": {
-                "cache/array-adapter": "^1.2",
-                "friendsofphp/php-cs-fixer": "^3.13",
-                "mockery/mockery": "1.5.1",
-                "phan/phan": "@stable",
-                "phpstan/phpstan": "@stable",
-                "phpunit/phpunit": "^9.5",
-                "wapmorgan/php-deprecation-detector": "@stable"
-            },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "Imdb\\": "src/Imdb"
                 }
             },
-            "scripts": {
-                "test": [
-                    "phpunit -c tests/phpunit.xml tests"
-                ],
-                "test:clean": [
-                    "php tests/clearCache.php && composer test"
-                ],
-                "phpstan": [
-                    "phpstan analyse"
-                ],
-                "phpdd": [
-                    "phpdd ./src/Imdb"
-                ],
-                "phan": [
-                    "phan -k phan.php"
-                ],
-                "cs": [
-                    "php-cs-fixer fix --ansi --verbose --dry-run --diff"
-                ],
-                "cs:no-cache": [
-                    "php-cs-fixer fix --ansi --verbose --dry-run --diff --using-cache=no"
-                ],
-                "cs-fix": [
-                    "php-cs-fixer fix --ansi --verbose --diff"
-                ],
-                "style": [
-                    "@cs-fix"
-                ]
-            },
             "license": [
                 "GPL-2.0-or-later"
             ],
-            "description": "Library for retrieving film and tv information from IMDb",
-            "support": {
-                "source": "https://github.com/jcvignoli/imdbphp/tree/master"
-            },
-            "time": "2024-11-10T22:11:10+00:00"
+            "description": "Library for retrieving film and tv information from IMDb through GraphQL",
+            "homepage": "https://github.com/duck7000/imdbGraphQLPHP",
+            "keywords": [
+                "GraphQL",
+                "IMDb",
+                "Movie",
+                "PHP"
+            ],
+            "time": "2024-12-26T20:28:23+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -342,7 +304,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "jcvignoli/imdbphp": 20,
+        "duck7000/imdb-graphql-php": 20,
         "twbs/bootstrap": 0
     },
     "prefer-stable": false,

@@ -153,13 +153,8 @@ class AMP_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param string $name prod company name
-	 * @param string $url Url to the prod company
-	 * @param string $notes prod company notes
-	 * @return string
 	 */
-	public function lumiere_movies_prodcompany_details( string $name, string $url = '', string $notes = '' ): string {
+	public function lumiere_movies_prodcompany_details( string $name, string $comp_id = '', string $notes = '' ): string {
 
 		// Function in abstract class, fourth param for links.
 		return parent::lumiere_movies_prodcompany_details_abstract( $name, '', '', 1 );

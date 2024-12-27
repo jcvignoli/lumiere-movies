@@ -1,4 +1,11 @@
 <?php
+#############################################################################
+# imdbphp6                                                (c) Ed (duck7000) #
+# written by Ed                                                             #
+# ------------------------------------------------------------------------- #
+# This program is free software; you can redistribute and/or modify it      #
+# under the terms of the GNU General Public License (see doc/LICENSE)       #
+#############################################################################
 
 namespace Imdb;
 
@@ -7,9 +14,8 @@ use Psr\SimpleCache\CacheInterface;
 
 /**
  * File caching
- * Caches files to disk in config->cachedir optionally gzipping if config->usezip
+ * Caches files to disk in cacheDir optionally gzipping if cacheUseZip
  *
- * Config keys used: cachedir cache_expire usezip converttozip usecache storecache
  */
 class Cache implements CacheInterface
 {
@@ -34,16 +40,16 @@ class Cache implements CacheInterface
         $this->config = $config;
         $this->logger = $logger;
 
-        if (($this->config->usecache || $this->config->storecache) && !is_dir($this->config->cachedir)) {
-            @mkdir($this->config->cachedir, 0700, true);
-            if (!is_dir($this->config->cachedir)) {
-                $this->logger->critical("[Cache] Configured cache directory [{$this->config->cachedir}] does not exist!");
-                throw new Exception("[Cache] Configured cache directory [{$this->config->cachedir}] does not exist!");
+        if (($this->config->cacheUse|| $this->config->cacheStore) && !is_dir($this->config->cacheDir)) {
+            @mkdir($this->config->cacheDir, 0700, true);
+            if (!is_dir($this->config->cacheDir)) {
+                $this->logger->critical("[Cache] Configured cache directory [{$this->config->cacheDir}] does not exist!");
+                throw new Exception("[Cache] Configured cache directory [{$this->config->cacheDir}] does not exist!");
             }
         }
-        if ($this->config->storecache && !is_writable($this->config->cachedir)) {
-            $this->logger->critical("[Cache] Configured cache directory [{$this->config->cachedir}] lacks write permission!");
-            throw new Exception("[Cache] Configured cache directory [{$this->config->cachedir}] lacks write permission!");
+        if ($this->config->cacheStore && !is_writable($this->config->cacheDir)) {
+            $this->logger->critical("[Cache] Configured cache directory [{$this->config->cacheDir}] lacks write permission!");
+            throw new Exception("[Cache] Configured cache directory [{$this->config->cacheDir}] lacks write permission!");
         }
 
         // @TODO add a limit on how frequently a purge can occur
@@ -55,24 +61,24 @@ class Cache implements CacheInterface
      */
     public function get($key, $default = null)
     {
-        if (!$this->config->usecache) {
+        if (!$this->config->cacheUse) {
             return $default;
         }
 
         $cleanKey = $this->sanitiseKey($key);
-        $fname = $this->config->cachedir . '/' . $cleanKey;
+        $fname = $this->config->cacheDir . '/' . $cleanKey;
         if (!file_exists($fname)) {
             $this->logger->debug("[Cache] Cache miss for [$key]");
             return $default;
         }
 
         $this->logger->debug("[Cache] Cache hit for [$key]");
-        if ($this->config->usezip) {
+        if ($this->config->cacheUseZip) {
             $content = file_get_contents('compress.zlib://' . $fname); // This can read uncompressed files too
             if (!$content) {
                 return $default;
             }
-            if ($this->config->converttozip) {
+            if ($this->config->cacheConvertZip) {
                 @$fp = fopen($fname, "r");
                 $zipchk = fread($fp, 2);
                 fclose($fp);
@@ -92,14 +98,14 @@ class Cache implements CacheInterface
      */
     public function set($key, $value, $ttl = null)
     {
-        if (!$this->config->storecache) {
+        if (!$this->config->cacheStore) {
             return false;
         }
 
         $cleanKey = $this->sanitiseKey($key);
-        $fname = $this->config->cachedir . '/' . $cleanKey;
+        $fname = $this->config->cacheDir . '/' . $cleanKey;
         $this->logger->debug("[Cache] Writing key [$key] to [$fname]");
-        if ($this->config->usezip) {
+        if ($this->config->cacheUseZip) {
             $fp = gzopen($fname, "w");
             gzputs($fp, $value);
             gzclose($fp);
@@ -117,11 +123,11 @@ class Cache implements CacheInterface
      */
     public function purge()
     {
-        if (!$this->config->storecache || $this->config->cache_expire == 0) {
+        if (!$this->config->cacheStore || $this->config->cacheExpire == 0) {
             return;
         }
 
-        $cacheDir = $this->config->cachedir;
+        $cacheDir = $this->config->cacheDir;
         $this->logger->debug("[Cache] Purging old cache entries");
 
         $thisdir = dir($cacheDir);
@@ -132,8 +138,8 @@ class Cache implements CacheInterface
                 if (is_dir($fname)) {
                     continue;
                 }
-                $mod = is_file($fname) ? filemtime($fname) : null;
-                if (isset($mod) && ($now - $mod > $this->config->cache_expire)) {
+                $mod = filemtime($fname);
+                if ($mod && ($now - $mod > $this->config->cacheExpire)) {
                     unlink($fname);
                 }
             }

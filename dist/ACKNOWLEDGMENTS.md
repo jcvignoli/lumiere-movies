@@ -33,5 +33,5 @@
 **PSALM** by [Vimeo](https://github.com/vimeo/psalm "Psalm GIT")
 
 # History of core IMDbPHP libraries
-Originally, this WordPress plugin originated from an IMDBPHP library created by [Andreas Itzchak Rehberg](https://izzy.rehbergs.info/ "Personal Websie"). A few years later, when Andreas got tired, T. Boothmman took over [IMDbPHP](https://github.com/tboothman/imdbphp/ "IMDbPHP GIT"). Nowadays, this plugin used a modified version of the latter with improvements brought by [Duck700](https://github.com/duck7000/imdbGraphQLPHP "IMDbGraphQLPHP GIT"). At some point, since IMDbPHP is not updated anymore, will switch completely to this new library.
-Lumiere WordPress plugin has been actively developped and maintained for 20 years.
+Originally, this WordPress plugin originated from an IMDBPHP library created by [Andreas Itzchak Rehberg](https://izzy.rehbergs.info/ "Personal Websie"). A few years later, when Andreas got tired, T. Boothmman took over [IMDbPHP](https://github.com/tboothman/imdbphp/ "IMDbPHP GIT"). Today, Lumière is on the latter library improved by [Duck700](https://github.com/duck7000/imdbGraphQLPHP "IMDbGraphQLPHP GIT").
+Lumiere WordPress plugin has been actively developped and maintained for almost 20 years.

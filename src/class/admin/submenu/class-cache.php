@@ -92,8 +92,8 @@ class Cache extends Admin_Menu {
 				[
 					$cache_tools_class->lumiere_cache_countfolderfiles( $this->imdb_cache_values['imdbcachedir'] ), // nb of cached files
 					$cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ), // cache total size
-					$cache_tools_class->lumiere_get_movie_cache(), // list of movies cached
-					$cache_tools_class->lumiere_get_people_cache(), // list of people cached
+					$cache_tools_class->lumiere_get_movie_cache_object(), // list of movies cached
+					$cache_tools_class->lumiere_get_people_cache_object(), // list of people cached
 					$cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] ), // picture cache size
 					$this,
 					$this->page_cache_manage,

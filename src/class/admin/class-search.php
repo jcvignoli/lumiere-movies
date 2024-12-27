@@ -26,7 +26,9 @@ use Imdb\TitleSearch;
  * Display search results related to a movie to get their IMDbID
  * Can be called to display a full page for searching movies
  *
- * @see \Lumiere\Alteration\Redirect_Virtual_Page
+ * @see \Lumiere\Alteration\Redirect_Virtual_Page Creates this page
+ *
+ * @phpstan-import-type TITLESEARCH_RETURNSEARCH from Settings_Global
  */
 class Search {
 
@@ -34,12 +36,6 @@ class Search {
 	 * Traits
 	 */
 	use Settings_Global;
-
-	/**
-	 * Include the type of (movie, TVshow, Games) search
-	 * @var array<string> $type_search
-	 */
-	private array $type_search;
 
 	/**
 	 * Class \Lumiere\Logger
@@ -60,9 +56,6 @@ class Search {
 		// Get Global Settings class properties.
 		$this->get_settings_class();
 		$this->get_db_options();
-
-		// Get the type of search: movies, series, games
-		$this->type_search = $this->config_class->lumiere_select_type_search();
 
 		// Start logger class.
 		$this->logger = new Logger( 'gutenbergSearch' );
@@ -147,7 +140,8 @@ class Search {
 		$search = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
 		$search_term = sanitize_text_field( wp_unslash( $_GET['moviesearched'] ) );
 		$this->logger->log()->debug( "[Lumiere][gutenbergSearch] Querying '$search_term'" );
-		$results = $search->search( $search_term, $this->type_search );
+		/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
+		$results = $search->search( $search_term, $this->config_class->lumiere_select_type_search() );
 		$limit_search = isset( $this->imdb_admin_values['imdbmaxresults'] ) ? intval( $this->imdb_admin_values['imdbmaxresults'] ) : 5;
 		$iterator = 1;
 		?>
@@ -169,12 +163,12 @@ class Search {
 			echo "\n" . '<div class="lumiere_container lumiere_container_gutenberg_border">';
 
 			// ---- Movie title results
-			echo "\n\t<div class='lumiere_container_flex50 lumiere_italic lumiere_gutenberg_results'>" . esc_html( $res->title() ) . ' (' . intval( $res->year() ) . ')</div>';
+			echo "\n\t<div class='lumiere_container_flex50 lumiere_italic lumiere_gutenberg_results'>" . esc_html( $res['title'] ) . ' (' . esc_html( strval( $res['year'] ) ) . ')</div>';
 
 			// ---- IMDb id results
 			echo "\n\t<div class='lumiere_container_flex50 lumiere_align_center lumiere_gutenberg_results'>";
 			echo "\n\t\t<span class='lumiere_bold'>" . esc_html__( 'IMDb ID:', 'lumiere-movies' ) . '</span> ';
-			echo "\n\t\t" . '<span class="lumiere_gutenberg_copy_class" id="imdbid_' . esc_html( $res->imdbid() ) . '">' . esc_html( $res->imdbid() ) . '</span>';
+			echo "\n\t\t" . '<span class="lumiere_gutenberg_copy_class" id="imdbid_' . esc_html( $res['imdbid'] ) . '">' . esc_html( $res['imdbid'] ) . '</span>';
 			echo "\n\t</div>";
 			echo "\n</div>";
 

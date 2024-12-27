@@ -25,6 +25,8 @@ use Lumiere\Frontend\Main;
  * The class uses Movie_Data class to display data (Movie actor, movie source, etc) -- displayed on pages and posts only {@see self::lumiere_autorized_areas()}
  * It is compatible with Polylang WP plugin
  * It uses ImdbPHP Classes to display movies/people data
+ *
+ * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Tools\Settings_Global
  */
 class Movie {
 
@@ -119,8 +121,10 @@ class Movie {
 			$this->movie_run_once = true;
 		}
 
+		// Vars.
 		$imdb_id_or_title = $imdb_id_or_title_outside ?? null;
 		$output = '';
+		$results = null; // Default, should get an object if everything goes according to the plan.
 
 		$search = new TitleSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
 
@@ -144,36 +148,31 @@ class Movie {
 
 				// check a the movie title exists.
 				if ( strlen( $film ) > 0 ) {
-
 					$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] searching for $film" );
-
+					/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
 					$results = $search->search( $film, $this->config_class->lumiere_select_type_search() );
-
 				}
-				$results_mid = isset( $results ) && isset( $results[0] ) ? $results[0]->imdbid() : null;
+
+				// Get the first result from the search using [0]
+				$results_mid = isset( $results[0]['titleSearchObject'] ) ? $results[0]['titleSearchObject']->imdbid() : null;
 				$mid_premier_resultat = isset( $results_mid ) ? filter_var( $results_mid, FILTER_SANITIZE_NUMBER_INT ) : null;
 
-				// No result was found in imdbphp query.
+				// No results were found in imdbphp query.
 				if ( $mid_premier_resultat === null ) {
-
 					$this->logger->log()->info( '[Lumiere][' . $this->classname . '] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
-
 					// no result, so jump to the next query and forget the current
 					continue;
-
 				}
 
 				$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Result found: $mid_premier_resultat." );
 
 				// no movie's title but a movie's ID has been specified
 			} elseif ( isset( $film['bymid'] ) ) {
-
 				$mid_premier_resultat = filter_var( $film['bymid'], FILTER_SANITIZE_NUMBER_INT );
 				$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Movie ID provided: '$mid_premier_resultat'." );
 			}
 
 			if ( $film === null || ! isset( $mid_premier_resultat ) || $mid_premier_resultat === false ) {
-
 				$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] No result found for this query.' );
 				continue;
 			}

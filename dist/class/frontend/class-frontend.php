@@ -24,7 +24,7 @@ use Lumiere\Frontend\Popups\Popup_Movie;
 use Lumiere\Frontend\Popups\Popup_Search;
 use Lumiere\Frontend\Main;
 use Imdb\Title;
-use Imdb\Person;
+use Imdb\Name;
 
 /**
  * Start everything for frontend pages
@@ -181,7 +181,7 @@ class Frontend {
 			$this->activate_plugins();
 		}
 
-		// Make sure we use cache. User may have decided not to use cache, but we need it to accelerate the call.
+		// Make sure we use cache. User may have decided not to use cache, but we need to accelerate the call.
 		if ( $this->imdb_cache_values['imdbusecache'] === '0' ) {
 			$this->plugins_classes_active['imdbphp']->activate_cache();
 		}
@@ -196,12 +196,16 @@ class Frontend {
 				$one_must_exist = isset( $movieid_sanitized ) && strlen( $movieid_sanitized ) > 0 ? $movieid_sanitized : $film_sanitized;
 
 				// Exit if trying to do bad things.
-				if ( $one_must_exist === null || ( strlen( $one_must_exist ) > 0 ) === false || ( $nonce_valid === false && current_user_can( 'administrator' ) === false ) ) {
+				if (
+					$one_must_exist === null
+					|| ( strlen( $one_must_exist ) > 0 ) === false
+					|| ( $nonce_valid === false && current_user_can( 'administrator' ) === false )
+				) {
 					wp_die( esc_html__( 'Lumière Movies: Wrong movie id or title.', 'lumiere-movies' ) );
 				}
 
 				// Set the title.
-				$movie = $movieid_sanitized !== null && strlen( $movieid_sanitized ) > 0 ? new Title( $movieid_sanitized, $this->plugins_classes_active['imdbphp'] ) : null;
+				$movie = $movieid_sanitized !== null && strlen( $movieid_sanitized ) > 0 ? new Title( $movieid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() ) : null;
 				$movie_queried = $movie !== null ? $movie->title() : null;
 
 				// Sanitize and initialize $_GET['film']
@@ -231,7 +235,7 @@ class Frontend {
 				}
 
 				// Set the title.
-				$person = new Person( $mid_sanitized, $this->plugins_classes_active['imdbphp'] ); /** @phan-suppress-current-line PhanTypeMismatchArgumentNullable -- Phan doesn't detect wp_die() = die() so that $mid_sanitized is never null. */
+				$person = new Name( $mid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() ); /** @phan-suppress-current-line PhanTypeMismatchArgumentNullable -- Phan doesn't detect wp_die() = die() so that $mid_sanitized is never null. */
 				$person_name_sanitized = $person->name();
 
 				$title = strlen( $person_name_sanitized ) > 0

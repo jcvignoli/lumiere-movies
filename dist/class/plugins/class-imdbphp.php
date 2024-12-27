@@ -13,9 +13,7 @@
 namespace Lumiere\Plugins;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	wp_die( 'You can not call directly this page' );
-}
+lum_check_display();
 
 // use IMDbPHP config class in /vendor/.
 use Imdb\Config as Imdbphp_Config;
@@ -27,6 +25,7 @@ use Imdb\Config as Imdbphp_Config;
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
  */
+ // phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Can't change snakeCase properties defined in an external class
 class Imdbphp extends Imdbphp_Config {
 
 	/**
@@ -46,9 +45,6 @@ class Imdbphp extends Imdbphp_Config {
 	 */
 	public function __construct() {
 
-		// Construct parent class.
-		parent::__construct();
-
 		// Get options from database.
 		$this->imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename() );
 		$this->imdb_cache_values = get_option( \Lumiere\Settings::get_cache_tablename() );
@@ -66,15 +62,18 @@ class Imdbphp extends Imdbphp_Config {
 	 */
 	private function lumiere_send_config_imdbphp(): void {
 
-		$this->language = $this->imdb_admin_values['imdblanguage'];
-		$this->cachedir = rtrim( $this->imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
-		$this->photodir = $this->imdb_cache_values['imdbphotoroot'];// ?imdbphotoroot? Bug imdbphp?
-		$this->cache_expire = intval( $this->imdb_cache_values['imdbcacheexpire'] );
-		$this->photoroot = $this->imdb_cache_values['imdbphotodir']; // ?imdbphotodir? Bug imdbphp?
-		$this->usecache = $this->imdb_cache_values['imdbusecache'] === '1' ? true : false;
-		$this->storecache = $this->usecache === false ? false : true; // Not an option in Lumière!, don't store cache if cache is not used
-		$this->usezip = $this->usecache === false ? false : true; // Not an option in Lumière!, not in admin interface, always true if using cache
-		$this->delay_imdb_request = intval( $this->imdb_admin_values['imdbdelayimdbrequest'] );
+		$this->useLocalization = true; // Not an option in Lumière!, always use localization
+		$this->language = ''; // Disable language so it's not used but $this->country only.
+		$this->country = strtoupper( $this->imdb_admin_values['imdblanguage'] );
+		$this->cacheDir = rtrim( $this->imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
+		$this->photodir = $this->imdb_cache_values['imdbphotodir'];// ?imdbphotoroot? Bug imdbphp?
+		$this->cacheExpire = intval( $this->imdb_cache_values['imdbcacheexpire'] );
+		$this->photoroot = $this->imdb_cache_values['imdbphotoroot']; // ?imdbphotodir? Bug imdbphp?
+		$this->cacheUse = $this->imdb_cache_values['imdbusecache'] === '1' ? true : false;
+		$this->cacheStore = $this->cacheUse === false ? false : true; // Not an option in Lumière!, don't store cache if cache is not used
+		$this->cacheUseZip = $this->cacheUse === false ? false : true; // Not an option in Lumière!, not in admin interface, always true if using cache
+		$this->cacheConvertZip = $this->cacheUse === false ? false : true; // Not an option in Lumière!, not in admin interface, always true if using cache
+		$this->curloptTimeout = intval( $this->imdb_admin_values['imdbdelayimdbrequest'] );
 
 		/**
 		 * Where the local IMDB images reside (look for the "showtimes/" directory)
@@ -82,14 +81,27 @@ class Imdbphp extends Imdbphp_Config {
 		 * protocol (e.g. when a different server shall deliver them)
 		 * Cannot be changed in Lumière admin panel
 		 */
-		$this->imdb_img_url = LUMIERE_WP_PATH . 'assets/pics/showtimes';
+		//      $this->imdb_img_url = LUMIERE_WP_PATH . 'assets/pics/showtimes';
 
 		/**
 		 * These two are hardcoded at 800 in IMDbPHP Config class
 		 * can't be changed in admin panel, only below
 		 */
-		$this->image_max_width = 800;
-		$this->image_max_height = 800;
+		$this->thumbnailWidth = 140;
+		$this->thumbnailHeight = 207;
 	}
+
+	   /**
+		* Activate cache
+		* Ensure that cache is active
+		*
+		* @see \Lumiere\Frontend\Frontend
+		*/
+	public function activate_cache(): void {
+			$this->cacheUse = true;
+			$this->cacheStore = true;
+			$this->cacheUseZip = true;
+	}
+
 }
 

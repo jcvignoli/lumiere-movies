@@ -11,12 +11,11 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
-	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
-}
+lum_check_display();
 
 // Retrieve the vars from calling class.
 $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
+$lumiere_items_people = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
 ?>
 <div class="lumiere_wrap">
 	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
@@ -35,11 +34,9 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 			<div class="lumiere_padding_ten lum_align_last_center lumiere_flex_auto">
 
-				<input type="button" value="up" name="movemovieup" id="movemovieup" data-moveform="-1" /> 
-
-				<input type="button" value="down" name="movemoviedown" id="movemoviedown" data-moveform="+1" />
-
 				<div><?php esc_html_e( 'Move selected movie detail:', 'lumiere-movies' ); ?></div>
+				<input type="button" value="<?php esc_html_e( 'up', 'lumiere-movies' ); ?>" name="movemovieup" id="movemovieup" data-moveform="-1" /> 
+				<input type="button" value="<?php esc_html_e( 'down', 'lumiere-movies' ); ?>" name="movemoviedown" id="movemoviedown" data-moveform="+1" />
 
 				<input type="hidden" name="imdb_imdbwidgetorder" id="imdb_imdbwidgetorder" value="" class="lumiere_hidden" />
 			</div>
@@ -48,18 +45,13 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo ( count( $lum_that->imdb_data_values['imdbwidgetorder'] ) / 2 ); ?>" multiple><?php
 
 				foreach ( $lum_that->imdb_data_values['imdbwidgetorder'] as $lumiere_key => $lumiere_value ) {
-
 					echo "\n\t\t\t\t<option value='" . esc_attr( $lumiere_key ) . "'";
 
 					// search if "imdbwidget'title'" (ie) is activated
 					if ( $lum_that->imdb_data_values[ "imdbwidget$lumiere_key" ] !== '1' ) {
-
-						echo ' label="' . esc_attr( $lumiere_key ) . ' (unactivated)">' . esc_html( $lumiere_key );
-
+						echo ' label="' . esc_attr( $lumiere_key ) . ' ' . esc_html__( '(unactivated)', 'lumiere-movies' ) . '">' . esc_html( $lumiere_key );
 					} else {
-
-						echo ' label="' . esc_attr( $lumiere_key ) . '">' . esc_html( $lumiere_key );
-
+						echo ' label="' . esc_attr( $lumiere_items_people [ $lumiere_key ] ) . '">' . esc_html( $lumiere_key );
 					}
 					echo '</option>';
 				}

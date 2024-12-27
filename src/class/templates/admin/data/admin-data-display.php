@@ -11,9 +11,7 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
-	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
-}
+lum_check_display();
 
 // Retrieve the vars passed in calling class.
 $lumiere_imdb_data_values = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
@@ -35,15 +33,17 @@ $lumiere_details_with_numbers = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
 		<?php
 		foreach ( $lumiere_items_people as $lumiere_item => $lumiere_item_translated ) {
 
+			// Do not display in the selection neither title nor pic
+			if ( $lumiere_item_translated === 'title' || $lumiere_item_translated === 'pic' ) {
+				continue;
+			}
+
 			echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_thirty lumiere_padding_ten lumiere_align_center">';
 
 			// Add extra color through span if the item is selected
 			if ( $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item ] === '1' ) {
-
 				echo "\n\t\t\t\t\t" . '<span class="admin-option-selected">' . esc_html( ucfirst( $lumiere_item_translated ) ) . '</span>';
-
 			} else {
-
 				echo esc_html( ucfirst( $lumiere_item_translated ) );
 				echo '&nbsp;&nbsp;';
 			}

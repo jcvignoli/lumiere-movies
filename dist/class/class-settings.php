@@ -11,12 +11,13 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+if ( ! defined( 'WPINC' ) ) {
 	die( 'You can not call directly this page' );
 }
 
 use FilesystemIterator;
 use Exception;
+use Lumiere\Tools\Files;
 
 // Needed vars for uninstall, fails otherwise.
 // Use of defined() condition for PHPStan
@@ -38,6 +39,11 @@ if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
  * @phpstan-import-type OPTIONS_DATA from \Lumiere\Tools\Settings_Global
  */
 class Settings {
+
+	/**
+	 * Traits
+	 */
+	use Files;
 
 	/**
 	 * If those plugins are installed, Lumière will be deactivated and could not be activated again
@@ -239,8 +245,14 @@ class Settings {
 		// BUILD $imdb_admin_option['imdbplugindirectory']
 		$this->imdb_admin_option['imdbplugindirectory'] ??= LUMIERE_WP_URL;
 
-		/* BUILD LUMIERE_VERSION */
-		$lumiere_version_recherche = file_get_contents( LUMIERE_WP_PATH . 'README.txt' );
+		/**
+		 * BUILD LUMIERE_VERSION
+		 * @since 4.3 use of $wp_filesystem instead of file_get_contents()
+		 */
+		global $wp_filesystem;
+		$readme_file = LUMIERE_WP_PATH . 'README.txt';
+		$this->lumiere_wp_filesystem_cred( $readme_file );
+		$lumiere_version_recherche = $wp_filesystem->get_contents( $readme_file );
 		if ( $lumiere_version_recherche === false ) {
 			throw new Exception( esc_html__( 'Lumiere plugin: Readme file either missing or corrupted ', 'lumiere-movies' ) );
 		}
@@ -424,7 +436,7 @@ class Settings {
 			'imdbintotheposttheme' => 'grey',
 			'imdblinkingkill' => '0',
 			'imdbautopostwidget' => '0',
-			'imdblanguage' => 'en',
+			'imdblanguage' => 'US',
 			'imdbdebug' => '0',                                         /* Debug */
 			'imdbdebuglog' => '0',                                      /* Log debug */
 			/** @phpstan-ignore nullCoalesce.variable (PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool) */
@@ -619,25 +631,25 @@ class Settings {
 	/**
 	 * Retrieve selected type of search in admin
 	 *
-	 * @return array<string>
-	 * @see \Imdb\TitleSearch Contains the constants
+	 * @return string
+	 * @see \Imdb\TitleSearch For the options
 	 */
-	public function lumiere_select_type_search (): array {
+	public function lumiere_select_type_search (): string {
 
 		switch ( $this->imdb_admin_option['imdbseriemovies'] ) {
 
 			case 'movies':
-				return [ \Imdb\TitleSearch::MOVIE ];
+				return 'MOVIE';
 			case 'movies+series':
-				return [ \Imdb\TitleSearch::MOVIE, \Imdb\TitleSearch::TV_SERIES ];
+				return 'MOVIE,TV';
 			case 'series':
-				return [ \Imdb\TitleSearch::TV_SERIES ];
+				return 'TV';
 			case 'videogames':
-				return [ \Imdb\Title::GAME ];
+				return 'VIDEO_GAME';
 			case 'podcasts':
-				return [ \Imdb\Title::PODCAST_EPISODE ];
+				return 'PODCAST_EPISODE';
 			default:
-				return [ \Imdb\TitleSearch::MOVIE, \Imdb\TitleSearch::TV_SERIES ];
+				return 'MOVIE,TV';
 
 		}
 

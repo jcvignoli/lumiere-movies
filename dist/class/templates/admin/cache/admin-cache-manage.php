@@ -28,8 +28,8 @@ $lum_list_people_cached = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
 $lum_size_cache_pics = get_transient( Admin_Menu::TRANSIENT_ADMIN )[4];
 $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[5];
 $lum_this_cache_manage_page = get_transient( Admin_Menu::TRANSIENT_ADMIN )[6];
-$lum_query_number_files = get_transient( Admin_Menu::TRANSIENT_ADMIN )[7][0];
-$lum_query_cache_size = get_transient( Admin_Menu::TRANSIENT_ADMIN )[7][1];
+$lum_query_number_files = get_transient( Admin_Menu::TRANSIENT_ADMIN )[7][0] ?? 0; // May not exist right after deleting query cache.
+$lum_query_cache_size = get_transient( Admin_Menu::TRANSIENT_ADMIN )[7][1] ?? 0; // May not exist right after deleting query cache.
 
 // Let's go! ?>
 
@@ -145,7 +145,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 		if ( $lum_query_number_files > 0 ) { ?>
 			
 
-		<div>
+		<div class="lumiere_align_center">
 			<?php esc_html_e( 'If you want to reset the query cache (every search creates a cache file) click on the button below.', 'lumiere-movies' ); ?>
 		</div>
 
@@ -210,22 +210,23 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 				$lum_title_sanitized = esc_html( $lum_movie_results->title() ); // search title related to movie id
 				$lum_obj_sanitized = esc_html( $lum_movie_results->imdbid() );
-				$lum_filepath_sanitized = esc_url( $lum_imdb_cache_values['imdbcachedir'] . 'title.tt' . substr( $lum_obj_sanitized, 0, 8 ) );
+				$lum_cache_file = glob( $lum_that->imdb_cache_values['imdbcachedir'] . 'gql.TitleYear.{.id...tt' . $lum_obj_sanitized . '*' );
+				$lum_filepath_sanitized = $lum_cache_file !== false ? esc_html( $lum_cache_file[0] ) : ''; // using 'gql.TitleYear.{.id...tt' since all movies should have such a caching file
 
 				if ( $lum_imdb_cache_values['imdbcachedetailsshort'] === '1' ) { // display only cache movies' names, quicker loading
 					$lum_data[] = '<span class="lumiere_short_titles"><input type="checkbox" id="imdb_cachedeletefor_movies_' . str_replace( ' ', '_', $lum_title_sanitized ) . '" name="imdb_cachedeletefor_movies[]" value="' . $lum_obj_sanitized . '" /><label for="imdb_cachedeletefor_movies[]">' . $lum_title_sanitized . '</label></span>' . "\n"; // send input and results into array
 					flush();
 				} else { // display every cache movie details, longer loading
 					// get either local picture or if no local picture exists, display the default one
-					if ( false === $lum_movie_results->photo_localurl() ) {
+					if ( false === $lum_movie_results->photoLocalurl() ) {
 						$lum_moviepicturelink = 'src="' . esc_url( $lum_that->config_class->lumiere_pics_dir . 'no_pics.gif' ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
 					} else {
-						$lum_moviepicturelink = 'src="' . $lum_imdb_cache_values['imdbphotodir'] . $lum_obj_sanitized . '.jpg" alt="' . $lum_title_sanitized . '"';
+						$lum_moviepicturelink = 'src="' . $lum_imdb_cache_values['imdbphotodir'] . 'tt' . $lum_obj_sanitized . '.jpg" alt="' . $lum_title_sanitized . '"';
 					}
 
 					// no flex class so the browser decides how much data to display per lines
 					// table so "row-actions" WordPress class works
-					$lum_filetime_movie = is_int( filemtime( $lum_filepath_sanitized ) ) === true ? filemtime( $lum_filepath_sanitized ) : 0;
+					$lum_filetime_movie = is_int( filemtime( $lum_filepath_sanitized ) ) ? filemtime( $lum_filepath_sanitized ) : 0;
 					$lum_data[] = '	<div class="lumiere_flex_container_content_thirty lumiere_breakall"><table><tr><td>
 			<img id="pic_' . $lum_title_sanitized . '" class="lum_cache_pic_float" ' . $lum_moviepicturelink . ' width="40px">
 
@@ -346,16 +347,18 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 			foreach ( $lum_list_people_cached as $lum_people_results ) {
 
-				$lum_name_sanitized = sanitize_text_field( $lum_people_results->name() ); // search title related to movie id
-				$lum_objpiple_sanitized = sanitize_text_field( $lum_people_results->imdbid() );
-				$lum_filepath_sanitized = esc_url( $lum_imdb_cache_values['imdbcachedir'] . 'name.nm' . substr( $lum_objpiple_sanitized, 0, 8 ) );
+				$lum_name_sanitized = esc_html( $lum_people_results->name() ); // search title related to movie id
+				$lum_objpiple_sanitized = esc_html( $lum_people_results->imdbid() );
+				$lum_cache_file = glob( $lum_that->imdb_cache_values['imdbcachedir'] . 'gql.Name.{.id...nm' . $lum_objpiple_sanitized . '*' );
+				$lum_filepath_sanitized = $lum_cache_file !== false ? esc_html( $lum_cache_file[0] ) : ''; // using 'gql.TitleYear.{.id...tt' since all movies should have such a caching file
+
 
 				if ( $lum_imdb_cache_values['imdbcachedetailsshort'] === '1' ) { // display only cache peoples' names, quicker loading
 					$lum_datapeople[] = '<span class="lumiere_short_titles"><input type="checkbox" id="imdb_cachedeletefor_people_' . str_replace( ' ', '_', $lum_name_sanitized ) . '" name="imdb_cachedeletefor_people[]" value="' . $lum_objpiple_sanitized . '" /><label for="imdb_cachedeletefor_people[]">' . $lum_name_sanitized . '</label></span>'; // send input and results into array
 
 				} else { // display every cache people details, longer loading
 					// get either local picture or if no local picture exists, display the default one
-					if ( false === $lum_people_results->photo_localurl() ) {
+					if ( false === $lum_people_results->photoLocalurl() ) {
 						$lum_picturelink = 'src="' . esc_url( $lum_that->config_class->lumiere_pics_dir . 'no_pics.gif' ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
 					} else {
 						$lum_picturelink = 'src="' . esc_url( $lum_imdb_cache_values['imdbphotodir'] . 'nm' . $lum_objpiple_sanitized . '.jpg' ) . '" alt="' . $lum_name_sanitized . '"';

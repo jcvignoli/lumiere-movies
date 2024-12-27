@@ -55,10 +55,11 @@ if ( ! function_exists( 'lum_incompatible_plugins_uninstall' ) ) {
 
 if ( ! function_exists( 'lum_check_install' ) ) {
 	/**
-	 * Check if a page can be displayed
+	 * Check if needed files and vars are available
+	 * Used at the begining of classes to exit if called directly
 	 */
 	function lum_check_display(): void {
-		if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
+		if ( ! defined( 'WPINC' ) ) {
 			wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 		}
 	}

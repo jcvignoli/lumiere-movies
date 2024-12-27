@@ -1,9 +1,11 @@
 **Changelog**
 
-v.4.2.4
+v.4.3
+* [technical] Completely switched to [imdbGraphQLPHP](https://github.com/duck7000/imdbGraphQLPHP "imdbGraphQLPHP git") library. Goodbye [IMDBPHP](https://github.com/tboothman/imdbphp "IMDBPHP git"), thanks for your service.
+* [feature] Items and people fields (the option names) are now translated in Lumière admin data order
 
 v.4.2.3.1
-* [bug] WordPress Update process was broken (Uncaught Error: Call to undefined function Lumiere\lum_check_display() in wp-content/plugins/lumiere-movies/class/class-updates.php:17 => added functions.php inclusing in Updates class)
+* [bug] WordPress Update process was broken (Uncaught Error: Call to undefined function Lumiere\lum_check_display() in wp-content/plugins/lumiere-movies/class/class-updates.php:17 => added an include functions.php in Updates class)
 
 v.4.2.3
 * [technical] Increased security: added $_GET validation for popups (new Validate_Get class in tools)

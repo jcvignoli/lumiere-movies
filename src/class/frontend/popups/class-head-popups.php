@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use Lumiere\Frontend\Main;
 use Lumiere\Tools\Validate_Get;
-use Imdb\Person;
+use Imdb\Name;
 
 /**
  * Edit <head> for popups
@@ -92,13 +92,14 @@ class Head_Popups {
 	 * @return bool True if the page is a Lumiere popup
 	 */
 	private function is_popup_page(): bool {
+		$get_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : null;
 		if (
-			isset( $_SERVER['REQUEST_URI'] )
+			isset( $get_request_uri )
 			&&
 			(
-				str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $this->config_class->lumiere_urlstringfilms )
-				|| str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $this->config_class->lumiere_urlstringsearch )
-				|| str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $this->config_class->lumiere_urlstringperson )
+				str_contains( $get_request_uri, $this->config_class->lumiere_urlstringfilms )
+				|| str_contains( $get_request_uri, $this->config_class->lumiere_urlstringsearch )
+				|| str_contains( $get_request_uri, $this->config_class->lumiere_urlstringperson )
 			)
 		) {
 			return true;
@@ -181,7 +182,7 @@ class Head_Popups {
 
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 
-			$person = new Person( $sanitized_mid, $this->plugins_classes_active['imdbphp'] );
+			$person = new Name( $sanitized_mid, $this->plugins_classes_active['imdbphp'], $this->logger->log() );
 			if ( strlen( $person->name() ) > 0 ) {
 				echo "\n" . '<meta property="article:tag" content="' . esc_attr( $person->name() ) . '" />';
 			}

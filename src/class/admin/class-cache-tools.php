@@ -18,9 +18,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Imdb\Title;
-use Imdb\Person;
+use Imdb\Name;
 use Lumiere\Settings;
-use Lumiere\Tools\Utils;
 use Lumiere\Plugins\Imdbphp;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Admin_General;
@@ -144,9 +143,9 @@ class Cache_Tools {
 	}
 
 	/**
-	 * Refresh all cache that is already cached
+	 * Refresh all cache files that are available
 	 * 1/ Retrieve the movies and people's IMDb IDs already cached
-	 * 2/ Delete all cache
+	 * 2/ Delete all cache files
 	 * 3/ Recreate the cache folder (needed for images)
 	 * 4/ Recreate the cache by querying the IMDb with an incremental sleep (to avoid HTTP errors)
 	 *
@@ -155,18 +154,18 @@ class Cache_Tools {
 	 * @since 4.0 new method
 	 *
 	 * @param int<0, max> $sleep Optional, the time to sleep before each query to IMDb (this is incremental, each new file adds 0.25 seconds by default)
-	 * @return void All cache has been refreshed
+	 * @return void All cache files has been refreshed
 	 */
 	public function lumiere_all_cache_refresh( int $sleep = 250000 ): void {
 
 		$refresh_ids = [];
 
 		// Get movies ids.
-		foreach ( $this->lumiere_get_movie_cache() as $movie_title_object ) {
+		foreach ( $this->lumiere_get_movie_cache_object() as $movie_title_object ) {
 			$refresh_ids['movies'][] = $movie_title_object->imdbid();
 		}
 		// Get people ids.
-		foreach ( $this->lumiere_get_people_cache() as $people_person_object ) {
+		foreach ( $this->lumiere_get_people_cache_object() as $people_person_object ) {
 			$refresh_ids['people'][] = $people_person_object->imdbid();
 		}
 
@@ -202,8 +201,10 @@ class Cache_Tools {
 
 	/**
 	 * Refresh a specific file by clicking on it
-	 * @param string $type result of $_GET['type'] to define either people or movie
+	 *
+	 * @param 'movie'|'people'|string $type result of $_GET['type'] to define either people or movie
 	 * @param string $where result of $_GET['where'] the people or movie IMDb ID
+	 * @return void File was refreshed (deleted and got back)
 	 */
 	public function cache_refresh_specific_file( string $type, string $where ): void {
 
@@ -220,59 +221,63 @@ class Cache_Tools {
 		// delete single movie.
 		if ( $type === 'movie' ) {
 
-			$name_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '*tt' . $id_sanitized . '*' );
+			$list_files_movie = glob( $this->imdb_cache_values['imdbcachedir'] . '*.{.id...tt' . $id_sanitized . '*' );
 
 			// if file doesn't exist.
-			if ( $name_sanitized === false || count( $name_sanitized ) === 0 ) {
+			if ( $list_files_movie === false || count( $list_files_movie ) === 0 ) {
 				throw new Exception( esc_html__( 'This file does not exist.', 'lumiere-movies' ) );
 			}
 
-			foreach ( $name_sanitized as $key => $cache_to_delete ) {
+			// Delete text cache files.
+			foreach ( $list_files_movie as $key => $cache_to_delete ) {
 				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General that includes trait Files.
 				$wp_filesystem->delete( sanitize_text_field( $cache_to_delete ) );
 			}
 
-			// delete pictures, small and big.
-			$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '.jpg';
-			$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_sanitized . '_big.jpg';
-			if ( file_exists( $pic_small_sanitized ) ) {
-				$wp_filesystem->delete( sanitize_text_field( $pic_small_sanitized ) );
+			// delete cache pictures, small and big.
+			$pic_small_movie = $this->imdb_cache_values['imdbphotoroot'] . 'tt' . $id_sanitized . '.jpg';
+			$pic_big_movie = $this->imdb_cache_values['imdbphotoroot'] . 'tt' . $id_sanitized . '_big.jpg';
+			if ( file_exists( $pic_small_movie ) ) {
+				$wp_filesystem->delete( sanitize_text_field( $pic_small_movie ) );
 			}
-			if ( file_exists( $pic_big_sanitized ) ) {
-				$wp_filesystem->delete( sanitize_text_field( $pic_big_sanitized ) );
+			if ( file_exists( $pic_big_movie ) ) {
+				$wp_filesystem->delete( sanitize_text_field( $pic_big_movie ) );
 			}
 
 			// Get again the movie.
 			$this->lumiere_create_movie_file( $id_sanitized );
-		}
+			return;
 
-		if ( $type === 'people' ) {
+		} elseif ( $type === 'people' ) {
 
-			$name_people_sanitized = glob( $this->imdb_cache_values['imdbcachedir'] . '*nm' . $id_sanitized . '*' );
+			$list_files_people = glob( $this->imdb_cache_values['imdbcachedir'] . '*.{.id...nm' . $id_sanitized . '*' );
 
 			// if file doesn't exist
-			if ( $name_people_sanitized === false || count( $name_people_sanitized ) < 1 ) {
+			if ( $list_files_people === false || count( $list_files_people ) < 1 ) {
 				throw new Exception( esc_html__( 'This file does not exist.', 'lumiere-movies' ) );
 			}
 
-			foreach ( $name_people_sanitized as $key => $cache_to_delete ) {
+			foreach ( $list_files_people as $key => $cache_to_delete ) {
 				$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General that includes trait Files.
 				$wp_filesystem->delete( sanitize_text_field( $cache_to_delete ) );
 			}
 
 			// delete pictures, small and big.
-			$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_sanitized . '.jpg';
-			$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_sanitized . '_big.jpg';
-			if ( file_exists( $pic_small_sanitized ) ) {
-				$wp_filesystem->delete( sanitize_text_field( $pic_small_sanitized ) );
+			$pic_small_movie = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_sanitized . '.jpg';
+			$pic_big_movie = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_sanitized . '_big.jpg';
+			if ( file_exists( $pic_small_movie ) ) {
+				$wp_filesystem->delete( sanitize_text_field( $pic_small_movie ) );
 			}
-			if ( file_exists( $pic_big_sanitized ) ) {
-				$wp_filesystem->delete( sanitize_text_field( $pic_big_sanitized ) );
+			if ( file_exists( $pic_big_movie ) ) {
+				$wp_filesystem->delete( sanitize_text_field( $pic_big_movie ) );
 			}
 
 			// Get again the person.
 			$this->lumiere_create_people_cache( $id_sanitized );
+			return;
 		}
+		/* translators: %s is either "people" or "movie" */
+		throw new Exception( esc_html( sprintf( __( 'This type *%s* does not exist.', 'lumiere-movies' ), $type ) ) );
 	}
 
 	/**
@@ -281,36 +286,35 @@ class Cache_Tools {
 	 */
 	public function lumiere_create_movie_file( $id ): void {
 
-		$movie = new Title( $id, $this->imdbphp_class, /* $this->logger->log() no need for a logger */ );
+		$movie = new Title( $id, $this->imdbphp_class, $this->logger->log_null() /* keep it quiet, no logger */ );
 
 		// create cache for everything.
 		$movie->alsoknow();
 		$movie->cast();
-		$movie->colors();
+		$movie->color();
 		$movie->composer();
-		$movie->comment_split();
 		$movie->country();
-		$movie->creator();
+		$movie->cinematographer();
 		$movie->director();
-		$movie->genres();
-		$movie->goofs();
-		$movie->keywords();
-		$movie->languages();
-		$movie->officialSites();
-		$movie->photo_localurl( true );
-		$movie->photo_localurl( false );
+		$movie->genre();
+		$movie->goof();
+		$movie->keyword();
+		$movie->language();
+		$movie->extSites();
+		$movie->photoLocalurl( true );
+		$movie->photoLocalurl( false );
 		$movie->plot();
 		$movie->prodCompany();
 		$movie->producer();
-		$movie->quotes();
+		$movie->quote();
 		$movie->rating();
 		$movie->runtime();
 		$movie->soundtrack();
-		$movie->taglines();
+		$movie->tagline();
 		$movie->title();
-		$movie->trailers( true );
+		$movie->video();
 		$movie->votes();
-		$movie->writing();
+		$movie->writer();
 		$movie->year();
 	}
 
@@ -321,29 +325,25 @@ class Cache_Tools {
 	public function lumiere_create_people_cache( $id ): void {
 
 		// Get again the person.
-		$person = new Person( $id, $this->imdbphp_class, /** $this->logger->log() no need for a logger */ );
+		$person = new Name( $id, $this->imdbphp_class, $this->logger->log_null() /* keep it quiet, no logger */ );
 
 		// Create cache for everything.
 		$person->bio();
 		$person->birthname();
 		$person->born();
 		$person->died();
-		$person->movies_all();
-		$person->movies_archive();
-		$person->movies_soundtrack();
-		$person->movies_writer();
 		$person->name();
-		$person->photo_localurl( true );
-		$person->photo_localurl( false );
+		$person->photoLocalurl( true );
+		$person->photoLocalurl( false );
 		$person->pubmovies();
-		$person->pubportraits();
 		$person->quotes();
 		$person->trivia();
 		$person->trademark();
 	}
 
 	/**
-	 * Delete query cache files
+	 * Delete all query cache files
+	 * Done by clicking on "delete query cache"
 	 */
 	public function cache_delete_query_cache_files(): void {
 
@@ -355,7 +355,7 @@ class Cache_Tools {
 		}
 
 		// Delete cache.
-		$files_query = glob( $this->imdb_cache_values['imdbcachedir'] . 'find.s*' );
+		$files_query = glob( $this->imdb_cache_values['imdbcachedir'] . 'gql.Search.*' );
 
 		// if file doesn't exist.
 		if ( $files_query === false || count( $files_query ) < 1 ) {
@@ -401,15 +401,13 @@ class Cache_Tools {
 
 			// For movies.
 			if ( $type_to_delete === 'movie' ) {
-
-				$cache_to_delete_files = glob( $this->imdb_cache_values['imdbcachedir'] . '*tt' . $id_found . '*' );
-				$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_found . '.jpg';
-				$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $id_found . '_big.jpg';
+				$cache_to_delete_files = glob( $this->imdb_cache_values['imdbcachedir'] . '*.{.id...tt' . $id_found . '*' );
+				$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'tt' . $id_found . '.jpg';
+				$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'tt' . $id_found . '_big.jpg';
 
 				// For people.
 			} elseif ( $type_to_delete === 'people' ) {
-
-				$cache_to_delete_files = glob( $this->imdb_cache_values['imdbcachedir'] . '*nm' . $id_found . '*' );
+				$cache_to_delete_files = glob( $this->imdb_cache_values['imdbcachedir'] . '*.{.id...nm' . $id_found . '*' );
 				$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_found . '.jpg';
 				$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . 'nm' . $id_found . '_big.jpg';
 			}
@@ -430,6 +428,7 @@ class Cache_Tools {
 				$wp_filesystem->delete( $pic_small_sanitized );
 			}
 			if ( file_exists( $pic_big_sanitized ) ) {
+
 				$wp_filesystem->delete( $pic_big_sanitized );
 			}
 		}
@@ -459,18 +458,21 @@ class Cache_Tools {
 	}
 
 	/**
-	 * Get size and number of files of the queries
+	 * Get size and number of query files
 	 *
 	 * @return array<int, string> Number of query files, cache query filesize
 	 */
 	public function lumiere_get_cache_query_info( string $folder ): array {
 
-		$cache_query_folder = Utils::lumiere_glob_recursive( $folder . 'find.s*' );
+		$cache_query_folder = glob( $this->imdb_cache_values['imdbcachedir'] . 'gql.Search.*' );
 
-		$cache_query_count = (string) count( $cache_query_folder );
+		// Found no file, exit.
+		if ( $cache_query_folder === false || count( $cache_query_folder ) === 0 ) {
+			return [];
+		}
 
+		$cache_query_count = strval( count( $cache_query_folder ) );
 		$size_cache_query = 0;
-
 		foreach ( $cache_query_folder as $cache_query_file ) {
 			$file_size = filesize( $cache_query_file );
 			if ( $file_size !== false ) {
@@ -556,7 +558,8 @@ class Cache_Tools {
 
 	/**
 	 * Delete files that are over a given limit
-	 * Visibility 'public' because called in cron task in Core class
+	 * Visibility 'public' because called by add_action() in cron task in Core class
+	 * @see Lumiere\Core
 	 *
 	 * @param int $size_limit Limit in megabits
 	 * @return void Files exceeding provided limited are deleted
@@ -577,14 +580,15 @@ class Cache_Tools {
 	}
 
 	/**
-	 * Return the cache for movies
+	 * Return an array of Title object(s) for all movies in cache
+	 * Check for files starting with "gql.TitleYear.{.id...tt", then do a query with Title
 	 *
 	 * @return array<int, \Imdb\Title>
 	 */
-	public function lumiere_get_movie_cache(): array {
+	public function lumiere_get_movie_cache_object(): array {
 
 		// Find related files
-		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . 'title.tt*' );
+		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . 'gql.TitleYear.{.id...tt*' );
 
 		if ( $cache_files === false || count( $cache_files ) === 0 ) {
 			return [];
@@ -592,21 +596,25 @@ class Cache_Tools {
 
 		$results = [];
 		foreach ( $cache_files as $file ) {
-			if ( preg_match( '!^title\.tt(\d{7,8})$!i', basename( $file ), $match ) === 1 ) {
-				$results[] = new Title( $match[1], $this->imdbphp_class /*, $this->logger->log() why a logger? */ );
+			// Retrieve imdb id in file.
+			if ( preg_match( '!gql\.TitleYear\.\{\.id\.\.\.tt(\d{7,8})\.!i', basename( $file ), $match ) === 1 ) {
+				// Do a query using imdb id.
+				$results[] = new Title( $match[1], $this->imdbphp_class, $this->logger->log_null() /* keep it quiet, no logger */ );
 			}
 		}
 		return $results;
 	}
 
 	/**
-	 * Return the cache for people
+	 * Return an array of Name object(s) for all people in cache
+	 * Check for files starting with "gql.Name.{.id...nm", then do a query with Name
 	 *
-	 * @return array<int, \Imdb\Person>
+	 * @return array<int, \Imdb\Name>
 	 */
-	public function lumiere_get_people_cache(): array {
+	public function lumiere_get_people_cache_object(): array {
 
-		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . 'name.nm*' );
+		// Find related files
+		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . 'gql.Name.{.id...nm*' );
 
 		if ( $cache_files === false || count( $cache_files ) === 0 ) {
 			return [];
@@ -614,8 +622,10 @@ class Cache_Tools {
 
 		$results = [];
 		foreach ( $cache_files as $file ) {
-			if ( preg_match( '!^name\.nm(\d{7,8})$!i', basename( $file ), $match ) === 1 ) {
-				$results[] = new Person( $match[1], $this->imdbphp_class /*, $this->logger->log() why a logger? */ );
+			// Retrieve imdb id in file.
+			if ( preg_match( '!gql\.Name\.\{\.id\.\.\.nm(\d{7,8})\.!i', basename( $file ), $match ) === 1 ) {
+				// Do a query using imdb id.
+				$results[] = new Name( $match[1], $this->imdbphp_class, $this->logger->log_null() /* keep it quiet, no logger */ );
 			}
 		}
 		return $results;
@@ -637,7 +647,7 @@ class Cache_Tools {
 		global $wp_filesystem;
 
 		// Restart logger in manner acceptable for class core and early execution.
-		$this->logger = new Logger( 'settingsClass', $screen_log /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated, such as upon plugin activation */ );
+		$this->logger = new Logger( 'cacheToolsClass', $screen_log /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated, such as upon plugin activation */ );
 
 		// Cache folder paths.
 		$options_cache = get_option( Settings::get_cache_tablename() );

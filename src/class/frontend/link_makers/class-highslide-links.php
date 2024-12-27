@@ -203,15 +203,11 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param string $name prod company name
-	 * @param string $url Url to the prod company
-	 * @param string $notes prod company notes
 	 */
-	public function lumiere_movies_prodcompany_details( string $name, string $url, string $notes ): string {
+	public function lumiere_movies_prodcompany_details( string $name, string $comp_id, string $notes ): string {
 
-		// Function in abstract class, fifth param for links.
-		return parent::lumiere_movies_prodcompany_details_abstract( $name, $url, $notes, 0 );
+		// Function in abstract class, fourth param for links.
+		return parent::lumiere_movies_prodcompany_details_abstract( $name, $comp_id, $notes, 0 );
 
 	}
 

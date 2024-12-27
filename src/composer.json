@@ -8,7 +8,8 @@
     },
     "repositories": [{
          "type": "vcs",
-         "url": "https://github.com/jcvignoli/imdbphp"
+         "url": "https://github.com/jcvignoli/imdbGraphQLPHP",
+         "no-api": true
     }],
     "config": {
         "platform": {
@@ -17,7 +18,7 @@
     },
     "require": {
         "php": ">=8.0",
-        "jcvignoli/imdbphp": "dev-master",
+        "duck7000/imdb-graphql-php": "dev-jcv",
         "monolog/monolog": "^2.9",
         "twbs/bootstrap": "@stable"
     },

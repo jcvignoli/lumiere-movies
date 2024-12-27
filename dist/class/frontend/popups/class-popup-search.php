@@ -30,6 +30,8 @@ use Lumiere\Tools\Validate_Get;
  *
  * Bots are banned before getting popups
  * @see \Lumiere\Frontend\Frontend::ban_bots_popups() Bot banishement happens there, before processing IMDb queries
+ *
+ * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Tools\Settings_Global
  */
 class Popup_Search {
 
@@ -50,7 +52,7 @@ class Popup_Search {
 
 		// Die if wrong $_GETs.
 		if (
-			! isset( $_GET['_wpnonce'] ) || ! ( wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 )
+			( ( ! isset( $_GET['_wpnonce'] ) || ! ( wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) ) && is_user_logged_in() === false )
 			|| ! isset( $_GET['norecursive'] )
 			|| $_GET['norecursive'] !== 'yes'
 			|| ! isset( $_GET['film'] )
@@ -99,12 +101,15 @@ class Popup_Search {
 	 * Search a film according to its name
 	 *
 	 * @param string $film_sanitized Film name sanitized
-	 * @param array<string> $type_search Array of search types: movies, series, games, etc.
-	 * @return array<\Imdb\Title> An array of IMDB Title results
+	 * @param string $type_search Array of search types: movies, series, games, etc.
+	 * @return array<array-key, mixed>
+	 * @phpstan-return TITLESEARCH_RETURNSEARCH
 	 */
-	private function film_search( string $film_sanitized, array $type_search ): array {
+	private function film_search( string $film_sanitized, string $type_search ): array {
 		$search = new TitleSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
-		return $search->search( $film_sanitized, $type_search );
+		$return = $search->search( $film_sanitized, $type_search );
+		/** @phpstan-var TITLESEARCH_RETURNSEARCH $return */
+		return $return;
 	}
 
 	/**
@@ -184,17 +189,17 @@ class Popup_Search {
 				// ---- movie part
 				echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
 
-				$year = $res->year() > 0 ? $res->year() : __( 'year unknown', 'lumiere-movies' );
+				$year = $res['titleSearchObject']->year() > 0 ? $res['titleSearchObject']->year() : __( 'year unknown', 'lumiere-movies' );
 				echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\""
 					. esc_url(
 						wp_nonce_url(
-							$this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $res->imdbid() )
-							. '&film=' . $this->lumiere_name_htmlize( $res->title() ) // Method in trait Data, which is in trait Main.
+							$this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $res['titleSearchObject']->imdbid() )
+							. '&film=' . $this->lumiere_name_htmlize( $res['titleSearchObject']->title() ) // Method in trait Data, which is in trait Main.
 						)
 					)
 					. '" title="' . esc_html__( 'more on', 'lumiere-movies' ) . ' '
-					. esc_html( $res->title() ) . '" >'
-					. esc_html( $res->title() )
+					. esc_html( $res['titleSearchObject']->title() ) . '" >'
+					. esc_html( $res['titleSearchObject']->title() )
 					. ' (' . esc_html( $year ) . ')' . "</a> \n";
 
 				echo "\n\t</div>";
@@ -202,7 +207,7 @@ class Popup_Search {
 				// ---- director part
 				echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_right'>";
 
-				$realisateur = $res->director();
+				$realisateur = $res['titleSearchObject']->director();
 				if ( isset( $realisateur['0']['name'] ) && strlen( $realisateur['0']['name'] ) > 0 ) {
 
 					echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\""

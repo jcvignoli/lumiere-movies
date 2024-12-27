@@ -3,7 +3,7 @@ Contributors: psykonevro
 Tags: cinema, film, imdb, movie, actor
 Requires at least: 5.6
 Tested up to: 6.7
-Stable tag: 4.2.4
+Stable tag: 4.3
 Requires PHP: 8.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -191,6 +191,9 @@ And much more! This is a major new version, more stable and safer, extensively t
 * Major update, plugin vastly rewritten. Name [IMDb Link Transformer](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer on WordPress") changed to Lumière!. Should be Content Security Policy (CSP) compliant. Too many changes to be listed. Check the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changelog").
 
 == Upgrade Notice ==
+
+= 4.3 =
+The base library is now IMDbGraphQL. Delete the cache, as the caching system has changed.
 
 = 4.1.3 =
 Further compliance with WordPress standards and security, notably added nonces

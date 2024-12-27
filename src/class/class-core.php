@@ -88,7 +88,7 @@ class Core {
 		// Call the translation.
 		add_action( 'init', [ $this, 'lum_load_translation' ] );
 
-		// WP-CLI commands, use the cli class and stop the execution.
+		// WP-CLI commands, use the cli class.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			add_action( 'cli_init', fn() => Tools\Cli_Commands::lumiere_static_start() );
 		}

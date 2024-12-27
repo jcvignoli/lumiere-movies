@@ -16,19 +16,19 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
 }
 
-use Lumiere\Plugins\Plugins_Start;
-use Lumiere\Tools\Settings_Global;
-use Lumiere\Tools\Data;
 use Lumiere\Link_Makers\Link_Factory;
-use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Imdbphp;
+use Lumiere\Plugins\Logger;
+use Lumiere\Plugins\Plugins_Start;
+use Lumiere\Tools\Data;
+use Lumiere\Tools\Settings_Global;
 
 /**
  * Frontend trait
  * Popups, movie, widget and taxonomy use this trait
  * Allow to use the logger, function utilities, and settings
  *
- * @phpstan-type PluginClasses \Imdb\Config
+ * @phpstan-import-type TITLESEARCH_RETURNSEARCH from Settings_Global
  */
 trait Main {
 
@@ -249,9 +249,9 @@ trait Main {
 			return false;
 		}
 
-		// Since we are checking later (amp_is_request()) a function that execute late, make sure we can execute it
+		// Since we are checking later (amp_is_request()) a function which is executed late, make sure we are allowed execute it
 		if ( did_action( 'wp' ) === 0 ) {
-			return false;
+			return false; // If wp wasn't executed, we can't use amp_is_request()
 		}
 
 		return function_exists( 'amp_is_request' ) && amp_is_request();

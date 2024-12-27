@@ -115,10 +115,10 @@ abstract class Abstract_Link_Maker {
 	 * Production company data details
 	 *
 	 * @param string $name prod company name
-	 * @param string $url Url to the prod company
+	 * @param string $comp_id ID of the prod company
 	 * @param string $notes prod company notes
 	 */
-	abstract protected function lumiere_movies_prodcompany_details ( string $name, string $url, string $notes ): string;
+	abstract protected function lumiere_movies_prodcompany_details ( string $name, string $comp_id, string $notes ): string;
 
 	/**
 	 * Official websites data details
@@ -209,16 +209,15 @@ abstract class Abstract_Link_Maker {
 		string $specific_img_class = '',
 	): string {
 
-		$output = '';
-		$output .= "\n\t\t\t" . '<div class="imdbelementPIC">';
+		$output = "\n\t\t\t" . '<div class="imdbelementPIC">';
 
 		// Make sure $photo_thumb is a string so we can use esc_html() function
-		$photo_localurl = is_string( $photo_thumb ) ? $photo_thumb : '';
+		$photo_localurl = is_string( $photo_thumb ) ? esc_html( $photo_thumb ) : '';
 
 		// Any class but AMP
 		if ( $window_type !== 1 ) {
 			// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
-			$photo_localurl = is_string( $photo_big_cover ) ? $photo_big_cover : $photo_localurl;
+			$photo_localurl = is_string( $photo_big_cover ) && strlen( $photo_big_cover ) > 1 ? $photo_big_cover : $photo_localurl;
 		}
 
 		// Picture for a href: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
@@ -229,7 +228,7 @@ abstract class Abstract_Link_Maker {
 
 		// Normal class or Bootstrap class
 		if ( $window_type === 0 || $window_type === 2 ) {
-			$output .= "\n\t\t\t\t\t" . '<a class="' . $specific_a_class . '" title="' . esc_attr( $title_text ) . '" href="' . esc_url( $photo_url_final_href ) . '">';
+			$output .= "\n\t\t\t\t\t" . '<a class="' . esc_attr( $specific_a_class ) . '" title="' . esc_attr( $title_text ) . '" href="' . esc_url( $photo_url_final_href ) . '">';
 			// AMP or No Links class
 		} elseif ( $window_type === 1 || $window_type === 3 ) {
 			$output .= '';
@@ -239,7 +238,7 @@ abstract class Abstract_Link_Maker {
 		$output .= "\n\t\t\t\t\t\t" . '<img ';
 		// AMP class, loading="XXX" breaks AMP
 		if ( $window_type !== 1 ) {
-			$output .= ' loading="lazy"';
+			$output .= 'loading="lazy"';
 		}
 
 		/**
@@ -641,12 +640,11 @@ abstract class Abstract_Link_Maker {
 	 * Production company data details
 	 *
 	 * @param string $name prod company name
-	 * @param string $url Url to the prod company
-	 * @param string $notes prod company notes
+	 * @param string $comp_id ID of the prod company
 	 * @param int $window_type Define the window_type: 0 for highslide, bootstrap classic links (default), 1 for no links & AMP
 	 * @return string
 	 */
-	protected function lumiere_movies_prodcompany_details_abstract ( string $name, string $url = '', string $notes = '', int $window_type = 0 ): string {
+	protected function lumiere_movies_prodcompany_details_abstract ( string $name, string $comp_id = '', string $notes = '', int $window_type = 0 ): string {
 
 		// No Links class or AMP, do not display any link.
 		if ( $window_type === 1 ) {
@@ -655,14 +653,14 @@ abstract class Abstract_Link_Maker {
 
 		$return = "\n\t\t\t" . '<div align="center" class="lumiere_container">'
 			. "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">'
-			. "\n\t\t\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html( $name ) . "'>"
-			. esc_attr( $name )
+			. "\n\t\t\t\t\t<a href='" . esc_url( 'https://www.imdb.com/search/title/?companies=co' . $comp_id ) . "' title='" . esc_html( $name ) . "'>"
+			. esc_html( $name )
 			. '</a>'
 			. "\n\t\t\t\t</div>"
 			. "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
 
 		if ( strlen( $notes ) !== 0 ) {
-			$return .= esc_attr( $notes );
+			$return .= esc_html( $notes );
 		} else {
 			$return .= '&nbsp;';
 		}

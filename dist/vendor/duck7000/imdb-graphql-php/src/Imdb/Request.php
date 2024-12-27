@@ -20,7 +20,6 @@ namespace Imdb;
 class Request
 {
     private $ch;
-    private $urltoopen;
     private $page;
     private $requestHeaders = array();
     private $responseHeaders = array();
@@ -38,34 +37,8 @@ class Request
         curl_setopt($this->ch, CURLOPT_ENCODING, "");
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->ch, CURLOPT_HEADERFUNCTION, array(&$this, "callback_CURLOPT_HEADERFUNCTION"));
-
-        //use HTTP-Proxy
-        if ($config->use_proxy === true) {
-            curl_setopt($this->ch, CURLOPT_PROXY, $config->proxy_host);
-            curl_setopt($this->ch, CURLOPT_PROXYPORT, $config->proxy_port);
-
-            //Login credentials set?
-            if (!empty($config->proxy_user) && !empty($config->proxy_pw)) {
-                curl_setopt($this->ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-                curl_setopt($this->ch, CURLOPT_PROXYUSERPWD, $config->proxy_user . ':' . $config->proxy_pw);
-            }
-        }
-
-        $this->urltoopen = $url;
-
-        $this->addHeaderLine('Referer', 'https://' . $config->imdbsite . '/');
-
-        if ($config->force_agent) {
-            curl_setopt($this->ch, CURLOPT_USERAGENT, $config->force_agent);
-        } else {
-            curl_setopt($this->ch, CURLOPT_USERAGENT, $config->default_agent);
-        }
-        if ($config->language) {
-            $this->addHeaderLine('Accept-Language', $config->language);
-        }
-        if ($config->ip_address) {
-            $this->addHeaderLine('X-Forwarded-For', $config->ip_address);
-        }
+        curl_setopt($this->ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0');
+        curl_setopt($this->ch, CURLOPT_TIMEOUT, $this->config->curloptTimeout);
     }
 
     public function addHeaderLine($name, $value)
@@ -77,8 +50,6 @@ class Request
      * Send a POST request
      *
      * @param string|array $content
-     * @return boolean success
-     * @throws Exception\Http
      */
     public function post($content)
     {
@@ -89,8 +60,6 @@ class Request
 
     /**
      * Send a request to the movie site
-     * @return boolean success
-     * @throws Exception\Http
      */
     public function sendRequest()
     {
@@ -100,9 +69,6 @@ class Request
         curl_close($this->ch);
         if ($this->page !== false) {
             return true;
-        }
-        if ($this->config->throwHttpExceptions) {
-            throw new Exception\Http("Failed fetch url [$this->urltoopen] " . curl_error($this->ch));
         }
         return false;
     }
@@ -114,16 +80,6 @@ class Request
     public function getResponseBody()
     {
         return $this->page;
-    }
-
-    /**
-     * Set the URL we need to parse
-     * @param string $url
-     */
-    public function setURL($url)
-    {
-        $this->urltoopen = $url;
-        curl_setopt($this->ch, CURLOPT_URL, $url);
     }
 
     /**
@@ -160,31 +116,6 @@ class Request
         }
 
         return (int)$matches[1];
-    }
-
-    /**
-     * Get the URL to redirect to if a 30* was returned
-     * @return string|null URL to redirect to if 300, otherwise null
-     */
-    public function getRedirect()
-    {
-        $status = $this->getStatus();
-        if ($status == 301 || $status == 302 || $status == 303 || $status == 307 || $status == 308) {
-            foreach ($this->getLastResponseHeaders() as $header) {
-                if (strpos(trim(strtolower($header)), 'location') !== 0) {
-                    continue;
-                }
-                $aline = explode(': ', $header);
-                $target = trim($aline[1]);
-                $urlParts = parse_url($target);
-                if (!isset($urlParts['host'])) {
-                    $initialRequestUrlParts = parse_url($this->urltoopen);
-                    $target = $initialRequestUrlParts['scheme'] . "://" . $initialRequestUrlParts['host'] . $target;
-                }
-                return $target;
-            }
-        }
-        return null;
     }
 
     public function getLastResponseHeaders()

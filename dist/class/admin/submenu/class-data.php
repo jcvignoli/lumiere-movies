@@ -13,9 +13,7 @@
 namespace Lumiere\Admin\Submenu;
 
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	wp_die( 'You can not call directly this page' );
-}
+lum_check_display();
 
 use Lumiere\Settings;
 use Lumiere\Admin\Admin_Menu;
@@ -63,6 +61,8 @@ class Data extends Admin_Menu {
 			'soundtrack' => __( 'soundtrack', 'lumiere-movies' ),
 			'tagline' => __( 'tagline', 'lumiere-movies' ),
 			'trailer' => __( 'trailer', 'lumiere-movies' ),
+			'title' => __( 'title', 'lumiere-movies' ),
+			'pic' => __( 'pic', 'lumiere-movies' ),
 		];
 
 		// Build the list of the rest
@@ -160,7 +160,10 @@ class Data extends Admin_Menu {
 			// The template will retrieve the args. In parent class.
 			$this->include_with_vars(
 				'data/admin-data-order',
-				[ $this ], /** Add an array with vars to send in the template */
+				[
+					$this,
+					$this->get_display_options()[0], // list of items and people with two extra lists.
+				], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);
 		}

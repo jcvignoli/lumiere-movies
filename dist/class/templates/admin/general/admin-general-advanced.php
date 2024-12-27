@@ -38,29 +38,29 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 				<select id="imdb_imdblanguage" name="imdb_imdblanguage">
 					<option 
 					<?php
-					if ( $lumiere_imdb_admin_values['imdblanguage'] === 'en' ) {
+					if ( $lumiere_imdb_admin_values['imdblanguage'] === 'US' ) {
 						echo 'selected="selected" ';
 					}
 					?>
-					value="en"><?php esc_html_e( 'English', 'lumiere-movies' ); ?></option>
+					value="US"><?php esc_html_e( 'English', 'lumiere-movies' ); ?></option>
 					<option 
 					<?php
-					if ( $lumiere_imdb_admin_values['imdblanguage'] === 'fr,en' ) {
+					if ( $lumiere_imdb_admin_values['imdblanguage'] === 'FR' ) {
 						echo 'selected="selected"';}
 					?>
-					value="fr,en"><?php esc_html_e( 'French', 'lumiere-movies' ); ?></option>
+					value="FR"><?php esc_html_e( 'French', 'lumiere-movies' ); ?></option>
 					<option 
 					<?php
-					if ( $lumiere_imdb_admin_values['imdblanguage'] === 'de,en' ) {
+					if ( $lumiere_imdb_admin_values['imdblanguage'] === 'DE' ) {
 						echo 'selected="selected"';}
 					?>
-					value="de,en"><?php esc_html_e( 'German', 'lumiere-movies' ); ?></option>
+					value="DE"><?php esc_html_e( 'German', 'lumiere-movies' ); ?></option>
 					<option 
 					<?php
-					if ( $lumiere_imdb_admin_values['imdblanguage'] === 'es,en' ) {
+					if ( $lumiere_imdb_admin_values['imdblanguage'] === 'ES' ) {
 						echo 'selected="selected"';}
 					?>
-					value="es,en"><?php esc_html_e( 'Spanish', 'lumiere-movies' ); ?></option>
+					value="ES"><?php esc_html_e( 'Spanish', 'lumiere-movies' ); ?></option>
 				</select>
 
 				<div class="explain"><?php esc_html_e( 'Language used for the movie search. Very usefull for a non-English blog using Lumière! as a widget.', 'lumiere-movies' ); ?>

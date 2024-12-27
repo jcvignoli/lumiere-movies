@@ -232,6 +232,18 @@ class Logger {
 	}
 
 	/**
+	 * Function to call the Monolog Logger but with no info
+	 * Usefull when do not want to execute anything, when log() is executed to early and breaks the layout
+	 * @info: do not know why, but imdbGraphQL doesn't accept "null" as a value when calling Name or Title, so created this fake method
+	 * @since 4.3 Method created
+	 *
+	 * @return LoggerMonolog the Monolog class
+	 */
+	public function log_null(): LoggerMonolog {
+		return new LoggerMonolog( 'null' );
+	}
+
+	/**
 	 * Make sure debug log exists and is writable.
 	 * @since 3.7.1
 	 * @since 3.9.1, is a method, and using fopen and added error_log(), if file creation in wp-content fails try with Lumière plugin folder

@@ -39,11 +39,6 @@ class No_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param array<int, array<string, string>> $imdb_data_people Array with IMDB people data
-	 * @param int $number The number of the loop $i
-	 *
-	 * @return string
 	 */
 	public function lumiere_link_popup_people( array $imdb_data_people, int $number ): string {
 
@@ -53,11 +48,6 @@ class No_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param string|bool $photo_localurl_false The picture of big size
-	 * @param string|bool $photo_localurl_true The picture of small size
-	 * @param string $movie_title Title of the movie
-	 * @return string
 	 */
 	public function lumiere_link_picture( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title ): string {
 
@@ -139,12 +129,8 @@ class No_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param string $name prod company name
-	 * @param string $url Url to the prod company
-	 * @param string $notes prod company notes
 	 */
-	public function lumiere_movies_prodcompany_details( string $name, string $url = '', string $notes = '' ): string {
+	public function lumiere_movies_prodcompany_details( string $name, string $comp_id = '', string $notes = '' ): string {
 
 		// Function in abstract class, fifth param for links.
 		return $this->lumiere_movies_prodcompany_details_abstract( $name, '', '', 1 );

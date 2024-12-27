@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.1.2
+ * Version: 3.2
  *
  * @package lumiere-movies
  */
@@ -21,7 +21,8 @@ use WP_Query;
 
 /**
  * This template retrieves automaticaly all post related to an item taxonomy
- * It is a virtual page created when the appropriate rules are met
+ * It is a WordPress virtual page created according to the taxonomy saved in database
+ * How it works: 1/ The taxonomy is build in Taxonomy class 2/ wp-blog-header.php:19 calls template-loader.php:106 which call current taxonomy, as set in Taxonomy
  *
  * @see \Lumiere\Alteration\Taxonomy That build the taxonomy system and taxonomy pages
  *
