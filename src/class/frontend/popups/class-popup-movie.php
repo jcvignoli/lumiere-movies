@@ -108,13 +108,6 @@ class Popup_Movie {
 		$film_title_sanitized = Validate_Get::sanitize_url( 'film' );
 		$this->film_title_sanitized = $film_title_sanitized !== null && strlen( $film_title_sanitized ) > 0 ? $film_title_sanitized : null;
 
-		// if neither film nor mid are set, return false.
-		if ( $movieid_sanitized === null && $this->film_title_sanitized === null ) {
-			$text = '[Lumiere][' . $this->classname . '] Neither a movie title nor an id were provided.';
-			$this->logger->log()->error( $text );
-			return false;
-		}
-
 		// A movie imdb id is provided in URL.
 		if ( isset( $movieid_sanitized ) ) {
 
@@ -125,7 +118,9 @@ class Popup_Movie {
 			$this->film_title_sanitized = strtolower( $this->lumiere_name_htmlize( $this->movie->title() ) ); // Method in trait Data, which is in trait Main.
 			return true;
 
-			// No movie id is provided, but a title was.
+			/**
+			 * No movie id is provided, but a title was.
+			 */
 		} elseif ( isset( $this->film_title_sanitized ) ) {
 
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Movie title provided in URL: ' . $this->film_title_sanitized );
@@ -177,7 +172,7 @@ class Popup_Movie {
 		// Exit if no movie was found.
 		if ( $this->find_movie() === false ) {
 			status_header( 404 );
-			$text = 'Could not find any IMDb movie with this query.';
+			$text = __( 'Could not find any IMDb movie with this query.', 'lumiere-movies' );
 			$this->logger->log()->error( '[Lumiere][' . $this->classname . '] ' . $text );
 			wp_die( esc_html( $text ) );
 		}
