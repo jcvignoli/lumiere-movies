@@ -411,12 +411,12 @@ class Movie_Data extends Movie {
 	protected function lumiere_movies_trailer( Title $movie ): string {
 
 		$trailers = $movie->video(); // Title::video() works faster than Title::trailer()
-		$trailers = $trailers['Trailer']; // Two rows available: Clip and Trailer
+		$trailers = $trailers['Trailer'] ?? null; // Two rows available: Clip and Trailer
 		$nbtrailers = intval( $this->imdb_data_values['imdbwidgettrailernumber'] ) === 0 || $this->imdb_data_values['imdbwidgettrailernumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgettrailernumber'] );
-		$nbtotaltrailers = count( $trailers );
+		$nbtotaltrailers = isset( $trailers ) ? count( $trailers ) : null;
 
 		// if no results, exit.
-		if ( $nbtotaltrailers === 0 ) {
+		if ( $nbtotaltrailers === 0 || $nbtotaltrailers === null ) {
 			return '';
 		}
 
@@ -425,6 +425,10 @@ class Movie_Data extends Movie {
 		$output .= ':</span>';
 
 		for ( $i = 0; ( $i < $nbtrailers && ( $i < $nbtotaltrailers ) ); $i++ ) {
+
+			if ( ! isset( $trailers[ $i ]['playbackUrl'] ) ) {
+				continue;
+			}
 
 			/**
 			 * Use links builder classes.
