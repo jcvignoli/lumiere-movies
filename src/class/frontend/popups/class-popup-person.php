@@ -796,7 +796,7 @@ class Popup_Person {
 
 				# Death
 				$death = $this->person->died();
-				if ( $death['status'] !== 'ALIVE' ) {
+				if ( $death['status'] === 'DEAD' ) {
 
 					echo "\n\t\t\t\t" . '<div id="death"><font size="-1">';
 

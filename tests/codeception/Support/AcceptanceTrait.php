@@ -229,6 +229,21 @@ trait AcceptanceTrait {
 		} 
 		$this->comment("[CustomDontSeeFile] File doesn't exist, continuing.");
 	}
+	
+	/**
+	 * Custom function to check if a file is not available, exit otherwhise
+	 * Filesystem dontSeeFile is not reliable
+	 */
+	function customFindFileWildcard( $file ) {
+		$file_search = glob( $file );
+		$final_file = $file_search[0];
+		if ( is_file( $final_file ) === true ) {
+			$this->comment("[customFindFileWildcard] File $final_file was found.");
+			return $final_file;
+		} 
+		$this->comment("[customFindFileWildcard] File $final_file was not found.");
+		exit;
+	}
 }
 
 

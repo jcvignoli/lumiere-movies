@@ -13,7 +13,9 @@
 namespace Lumiere\Plugins;
 
 // If this file is called directly, abort.
-lum_check_display();
+if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
+	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
+}
 
 // use IMDbPHP config class in /vendor/.
 use Imdb\Config as Imdbphp_Config;

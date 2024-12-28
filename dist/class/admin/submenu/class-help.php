@@ -13,8 +13,8 @@
 namespace Lumiere\Admin\Submenu;
 
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	wp_die( 'You can not call directly this page' );
+if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
+	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
 
 use Lumiere\Admin\Admin_Menu;

@@ -12,7 +12,9 @@
 namespace Lumiere\Frontend\Popups;
 
 // If this file is called directly, abort.
-lum_check_display();
+if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
+	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
+}
 
 use Imdb\Title;
 use Imdb\TitleSearch;

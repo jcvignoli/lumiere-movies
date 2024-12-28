@@ -501,7 +501,7 @@ class Taxonomy_People_Standard {
 
 		# Death
 		$death = isset( $this->person_class ) && count( $this->person_class->died() ) > 0 ? $this->person_class->died() : null;
-		if ( isset( $death ) && $death['status'] !== 'ALIVE' ) {
+		if ( isset( $death['status'] ) && $death['status'] === 'DEAD' ) {
 
 			$death_day = isset( $death['day'] ) && strlen( strval( $death['day'] ) ) > 0 ? strval( $death['day'] ) . ' ' : '(' . __( '(day unknown)', 'lumiere-movies' ) . ') ';
 			$death_month = isset( $death['month'] ) && strlen( $death['month'] ) > 0 ? date_i18n( 'F', $death['month'] ) . ' ' : '(' . __( '(month unknown)', 'lumiere-movies' ) . ') ';

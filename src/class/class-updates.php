@@ -14,10 +14,9 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ! function_exists( 'lum_check_display' ) ) {
-	require_once plugin_dir_path( __DIR__ ) . 'functions.php';
+if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
+	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
 }
-lum_check_display();
 
 use FilesystemIterator;
 use Lumiere\Plugins\Logger;

@@ -11,7 +11,7 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Settings class.
 	die( 'You can not call directly this page' );
 }
 

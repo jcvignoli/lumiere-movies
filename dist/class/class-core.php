@@ -12,7 +12,9 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-lum_check_display();
+if ( ! defined( 'WPINC' ) ) {
+	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
+}
 
 use Lumiere\Settings;
 use Lumiere\Admin\Cache_Tools;

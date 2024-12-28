@@ -118,7 +118,7 @@ class DataDetailsCest {
 		$I->dontSee('Directors');
 		$I->dontSee('Countries');
 		$I->dontSee('Actors');
-		$I->dontSee('Creators');
+		$I->dontSee('Cinematographers');
 		$I->dontSee('Rating');
 		$I->dontSee('Language');
 		$I->dontSee('Genre');
@@ -131,24 +131,24 @@ class DataDetailsCest {
 		$I->dontSee('Production companies');
 		$I->dontSee('Plots');
 		$I->dontSee('continent of Westeros');
-		$I->dontSee('you win or you die');
+		$I->dontSee('where yet another monolith is found');
 		$I->dontSee('Taglines');
-		$I->dontSee('Five Kings');
-		$I->dontSee('Ireland - new title');
+		$I->dontSee('Winter is coming');
+		$I->dontSee('Barry Lyndon (Egypt)');
 		$I->dontSee('Color');
 		$I->dontSee('Also known as');
-		$I->dontSee('Game of Thrones ( United Kingdom )');
+		$I->dontSee('Game of Thrones (Argentina)');
 		$I->dontSee('Composer');
 		$I->dontSee('Ramin Djawadi');
 		$I->dontSee('Soundtracks');
-		$I->dontSee('Music by György Ligeti Performed by Stuttgart Schola Cantorum');
+		$I->dontSeeInSource('Lux aeterna  <i>(1966)</i> <i>Music by György Ligeti</i>');
 		$I->dontSee('Trailers');
 		$I->dontSee('Main title (uncredited) Written and Performed by Ramin Djawadi');
 		$I->dontSee('Official websites');
-		$I->dontSee('Official YouTube channel');
+		$I->dontSee('Official Facebook, Official Instagram, Official Site');
 		$I->dontSee('Bighead Littlehead');
 		$I->dontSee('Grok! Television');
-		$I->dontSee('1 episode, 2011');
+		$I->dontSee('1 episode in 2011');
 		$I->dontSee('Jane Espenson');
 		$I->dontSee('Seven Kingdoms');
 		$I->dontSee('votes');
@@ -159,7 +159,7 @@ class DataDetailsCest {
 		$I->dontSee('Matt Shakman');
 		$I->dontSee('Goofs');
 		$I->dontSee('throughout the film');
-		$I->dontSee('tasked to depart his frozen sanctuary and join the King');
+		$I->dontSee('Barry joins the British Army to fight in the');
 
 	}
 
@@ -296,7 +296,7 @@ class DataDetailsCest {
 		$I->see('Directors');
 		$I->see('Countries');
 		$I->see('Actors');
-		$I->see('Creators');
+		$I->see('Cinematographers');
 		$I->see('Game of Thrones');
 		$I->see('2011');
 		$I->see('Rating');
@@ -309,26 +309,26 @@ class DataDetailsCest {
 		$I->see('Production companies');
 		$I->see('Plots');
 		$I->see('continent of Westeros');
-		$I->see('you win or you die');
+		$I->see('where yet another monolith is found');
 		$I->see('Taglines');
-		$I->see('Five Kings');
+		$I->see('Winter is coming');
 		$I->see('Color');
 		$I->see('Also known as');
-		$I->see('Game of Thrones ( United Kingdom )');
+		$I->see('Game Of Thrones (Argentina)');
 		$I->see('Composer');
 		$I->see('Runtime');
 		$I->see('minutes');
-		$I->see('Ireland - new title');
+		$I->see('Barry Lyndon (Egypt)');
 		$I->see('Ramin Djawadi');
 		$I->see('Soundtracks');
-		$I->see('Music by György Ligeti Performed by Stuttgart Schola Cantorum');
+		$I->seeInSource('Lux aeterna  <i>(1966)</i> <i>Music by György Ligeti</i>');
 		$I->see('Trailers');
 		$I->see('Main title (uncredited) Written and Performed by Ramin Djawadi');
 		$I->see('Official websites');
-		$I->see('Official YouTube channel');
+		$I->see('Official Facebook, Official Instagram, Official Site');
 		$I->see('Bighead Littlehead');
 		$I->see('Grok! Television');
-		$I->see('1 episode, 2011');
+		$I->see('1 episode in 2011');
 		$I->see('Jane Espenson');
 		$I->see('Seven Kingdoms');
 		$I->see('votes');
@@ -339,6 +339,6 @@ class DataDetailsCest {
 		$I->see('Matt Shakman');
 		$I->see('Goofs');
 		$I->see('throughout the film');
-		$I->see('tasked to depart his frozen sanctuary and join the King');
+		$I->see('Barry joins the British Army to fight in the');
 	}
 }

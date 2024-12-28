@@ -52,13 +52,14 @@ class CacheCest {
 	 * Check if cache is created for movies
 	 *
 	 * @before login
-	 * @example ["Werewolf", "title.tt0118137"]
-	 * @example ["Barry_Lyndon", "title.tt0072684"]
+	 * @example ["Werewolf", "gql.TitleYear.{.id...tt0118137.}"]
+	 * @example ["Barry_Lyndon", "gql.TitleYear.{.id...tt0072684.}"]
 	 */
 	public function checkCacheIsCreatedForMovies(AcceptanceRemoteTester $I, \Codeception\Example $example, \Codeception\Module\Cli $shell) {
 
 		/* Vars */
 		$js_element_delete = 'a[data-confirm="Delete *'.str_replace('_', ' ', $example[0]).'* from cache?"]';
+		$file_current = $I->customFindFileWildcard( $this->base_path . '/wp-content/cache/lumiere/' . $example[1] . '*' );
 
 		$I->comment( '-> Check that cache is created for ' . $example[0] );
 
@@ -76,15 +77,15 @@ class CacheCest {
 
 		// Make sure cache is created
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->seeFileFound( $this->base_path . '/wp-content/cache/lumiere/' . $example[1] );
+		$I->seeFileFound( $file_current );
 
 		// Delete cache file using local path
-		$I->deleteFile( $this->base_path . '/wp-content/cache/lumiere/' . $example[1] );
+		$I->deleteFile( $file_current );
 
 		// Make sure cache is created
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->wait(3);
-		$I->seeFileFound( $this->base_path . '/wp-content/cache/lumiere/' . $example[1] );
+		$I->seeFileFound( $file_current );
 
 		// Delete cache file using interface
 		$this->customDeleteCache( $I, $js_element_delete, '#imdb_cachedeletefor_movies_' . $example[0] );
@@ -92,20 +93,21 @@ class CacheCest {
 		// Make sure cache is created
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->wait(2);
-		$I->seeFileFound( $example[1], $this->base_path.'/wp-content/cache/lumiere/' );
+		$I->seeFileFound( $file_current );
 	}
 
 	/**
 	 * Check if cache is created for people
 	 *
 	 * @before login
-	 * @example ["Jorge_Rivero", "name.nm0729473", "0729473", "Distrito Federal, Mexico"]
-	 * @example ["Stanley_Kubrick", "name.nm0000040", "0000040", "Hertfordshire, England" ]
+	 * @example ["Jorge_Rivero", "gql.Name.{.id...nm0729473.}", "0729473", "Distrito Federal, Mexico"]
+	 * @example ["Stanley_Kubrick", "gql.Name.{.id...nm0000040.}", "0000040", "Hertfordshire, England" ]
 	 */
 	public function checkCacheIsCreatedForPeople(AcceptanceRemoteTester $I, \Codeception\Example $example, \Codeception\Module\Cli $shell) {
 
 		/* Vars */
 		$js_element_delete = 'a[data-confirm="You are about to delete *'.str_replace('_', ' ', $example[0]).'* from cache. Click Cancel to stop or OK to continue."]';
+		$file_current = $I->customFindFileWildcard( $this->base_path . '/wp-content/cache/lumiere/' . $example[1] . '*' );
 
 		$I->comment( '-> Check that cache is created for ' . $example[0] );
 
@@ -115,22 +117,22 @@ class CacheCest {
 		// Make sure cache is created
 		$I->amOnPage( '/lumiere/person/?mid=' . $example[2] );
 		$I->waitForText( $example[3], 15 ); // wait up to 15 seconds
-		$I->seeFileFound( $example[1], $this->base_path.'/wp-content/cache/lumiere/' );
+		$I->seeFileFound( $file_current );
 
 		// Delete cache file using local path
-		$I->deleteFile( $this->base_path . '/wp-content/cache/lumiere/' . $example[1] );
+		$I->deleteFile( $file_current );
 
 		// Make sure cache is created
 		$I->amOnPage( "/lumiere/person/?mid=" . $example[2] );
 		$I->waitForText( $example[3], 15); // wait up to 15 seconds
-		$I->seeFileFound( $example[1], $this->base_path . '/wp-content/cache/lumiere/' );
+		$I->seeFileFound( $file_current );
 
 		$this->customDeleteCache( $I, $js_element_delete, '#imdb_cachedeletefor_people_' . $example[0] );
 
 		// Make sure cache is created
 		$I->amOnPage("/lumiere/person/?mid=".$example[2]);
 		$I->waitForText( $example[3], 15 ); // wait up to 15 seconds
-		$I->seeFileFound($example[1], $this->base_path.'/wp-content/cache/lumiere/');
+		$I->seeFileFound( $file_current );
 
 	}
 

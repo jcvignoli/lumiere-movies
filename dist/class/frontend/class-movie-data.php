@@ -520,13 +520,13 @@ class Movie_Data extends Movie {
 			$output .= "\n\t\t\t<i>" . sanitize_text_field( $alsoknow[ $i ]['title'] ) . '</i>';
 
 			if ( isset( $alsoknow[ $i ]['countryId'] ) ) {
-				$output .= ' ( ';
+				$output .= ' (';
 				$output .= sanitize_text_field( $alsoknow[ $i ]['country'] );
 				if ( isset( $alsoknow[ $i ]['comment'][0] ) ) {
 					$output .= ' - ';
 					$output .= sanitize_text_field( $alsoknow[ $i ]['comment'][0] );
 				}
-				$output .= ' )';
+				$output .= ')';
 			}
 
 			if ( $i < ( $nbtotalalsoknow - 1 ) && $i < ( $nbalsoknow - 1 ) ) {
@@ -947,6 +947,15 @@ class Movie_Data extends Movie {
 						$output .= ', ';
 					}
 				}
+				// Add number of episode and year they worked in.
+				// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypeMismatchArgumentInternal */
+				if ( count( $writer[ $i ]['episode'] ) > 0 ) {
+					$total = strlen( $writer[ $i ]['episode']['total'] ) > 0 ? esc_html( $writer[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $writer[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
+					$year_from_or_in = isset( $writer[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
+					$year = isset( $writer[ $i ]['episode']['year'] ) ? ' ' . esc_html( $year_from_or_in ) . ' ' . esc_html( $writer[ $i ]['episode']['year'] ) : '';
+					$end_year = isset( $writer[ $i ]['episode']['endYear'] ) ? ' ' . esc_html__( 'to', 'lumiere-movies' ) . ' ' . esc_html( $writer[ $i ]['episode']['endYear'] ) : '';
+					$output .= ' (<i>' . $total . $year . $end_year . '</i>)';
+				}
 			}
 			return $output;
 		}
@@ -974,6 +983,15 @@ class Movie_Data extends Movie {
 				if ( $j < ( $count_jobs - 1 ) ) {
 					$output .= ', ';
 				}
+			}
+			// Add number of episode and year they worked in.
+			// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypeMismatchArgumentInternal */
+			if ( count( $writer[ $i ]['episode'] ) > 0 ) {
+				$total = isset( $writer[ $i ]['episode']['total'] ) ? esc_html( $writer[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $writer[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
+				$year_from_or_in = isset( $writer[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
+				$year = isset( $writer[ $i ]['episode']['year'] ) ? ' ' . esc_html( $year_from_or_in ) . ' ' . esc_html( $writer[ $i ]['episode']['year'] ) : '';
+				$end_year = isset( $writer[ $i ]['episode']['endYear'] ) ? ' ' . esc_html__( 'to', 'lumiere-movies' ) . ' ' . esc_html( $writer[ $i ]['episode']['endYear'] ) : '';
+				$output .= ' (<i>' . $total . $year . $end_year . '</i>)';
 			}
 
 			$output .= "\n\t\t\t\t" . '</div>';

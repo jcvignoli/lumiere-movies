@@ -12,7 +12,9 @@
 namespace Lumiere\Tools;
 
 // If this file is called directly, abort.
-lum_check_display();
+if ( ! defined( 'WPINC' ) ) { // Don't check for Lumiere\Settings class, the trait is called before loading it.
+	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
+}
 
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
