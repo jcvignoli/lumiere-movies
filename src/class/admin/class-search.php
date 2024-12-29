@@ -26,8 +26,7 @@ use Imdb\TitleSearch;
  * Display search results related to a movie to get their IMDbID
  * Can be called to display a full page for searching movies
  *
- * @see \Lumiere\Alteration\Redirect_Virtual_Page Creates this page
- *
+ * @see \Lumiere\Admin Creates this page using \Lumiere\Alteration\Virtual_Page
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from Settings_Global
  */
 class Search {

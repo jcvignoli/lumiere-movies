@@ -26,7 +26,7 @@ use Lumiere\Link_Makers\Classic_Links;
 use Lumiere\Frontend\Main;
 
 /**
- * Not utilised @phpstan-type LINKMAKERCLASSES AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links
+ * @phpstan-import-type LINKMAKERCLASSES from Abstract_Link_Maker
  */
 class Link_Factory {
 
@@ -47,7 +47,7 @@ class Link_Factory {
 
 	/**
 	 * Select which class to use to build the HTML links.
-	 * @return AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links Class to build the links with.
+	 * @phpstan-return LINKMAKERCLASSES Class to build the links with.
 	 *
 	 * @see \Lumiere\Frontend\Main::lumiere_is_amp_page()
 	 */
@@ -94,7 +94,7 @@ class Link_Factory {
 	/**
 	 * Static call of the current class
 	 *
-	 * @return AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links Build the class
+	 * @phpstan-return LINKMAKERCLASSES Build the class
 	 */
 	public static function lumiere_link_factory_start (): AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links {
 

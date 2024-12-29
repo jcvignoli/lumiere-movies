@@ -20,6 +20,7 @@ use Lumiere\Settings;
 use Lumiere\Admin\Admin_Menu;
 use Lumiere\Admin\Backoffice_Extra;
 use Lumiere\Admin\Metabox_Selection;
+use Lumiere\Admin\Search;
 use Lumiere\Tools\Utils;
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Alteration\Virtual_Page;
@@ -63,7 +64,7 @@ class Admin {
 			return;
 		}
 
-		// Redirect Search class.
+		// Redirect to Search class.
 		add_action( 'init', [ $start, 'lum_search_redirect' ] );
 
 		/**

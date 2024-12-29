@@ -40,7 +40,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_title( Title $movie ): string {
+	protected function lum_movies_title( Title $movie ): string {
 
 		$year = strlen( strval( $movie->year() ) ) !== 0 ? strval( $movie->year() ) : null;
 		$title_sanitized = esc_html( $movie->title() );
@@ -65,7 +65,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_pic( Title $movie ): string {
+	protected function lum_movies_pic( Title $movie ): string {
 
 		/**
 		 * Use links builder classes.
@@ -88,7 +88,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_country( Title $movie ): string {
+	protected function lum_movies_country( Title $movie ): string {
 
 		$country = $movie->country();
 		$nbtotalcountry = count( $country );
@@ -132,7 +132,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_runtime( Title $movie ): string {
+	protected function lum_movies_runtime( Title $movie ): string {
 
 		$runtime_sanitized = isset( $movie->runtime()[0]['time'] ) ? esc_html( strval( $movie->runtime()[0]['time'] ) ) : '';
 
@@ -154,7 +154,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_language( Title $movie ): string {
+	protected function lum_movies_language( Title $movie ): string {
 
 		// @var array<int, string> $languages
 		$languages = $movie->language();
@@ -199,7 +199,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_rating( Title $movie ): string {
+	protected function lum_movies_rating( Title $movie ): string {
 
 		$votes_sanitized = intval( $movie->votes() );
 		$rating_sanitized = intval( $movie->rating() );
@@ -228,7 +228,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_genre( Title $movie ): string {
+	protected function lum_movies_genre( Title $movie ): string {
 
 		$genre = $movie->genre();
 		$nbtotalgenre = count( $genre ) > 0 ? count( $genre ) : 0;
@@ -272,7 +272,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_keyword( Title $movie ): string {
+	protected function lum_movies_keyword( Title $movie ): string {
 
 		$keywords = $movie->keyword();
 		$nbtotalkeywords = count( $keywords );
@@ -317,7 +317,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_goof( Title $movie ): string {
+	protected function lum_movies_goof( Title $movie ): string {
 
 		$goofs = $movie->goof();
 		$settings_nbgoofs = intval( $this->imdb_data_values['imdbwidgetgoofnumber'] ) === 0 || $this->imdb_data_values['imdbwidgetgoofnumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgetgoofnumber'] );
@@ -359,7 +359,7 @@ class Movie_Data extends Movie {
 	/**
 	 * Display the quotes
 	 * Quotes are what People said, Quotes do not exists in Movie's pages, which do not display people's data
-	 * Kept for compatibility purposes: the function lumiere_movies_quote() is automatically created from config data, the class would complain that method doesn't exist
+	 * Kept for compatibility purposes: the function lum_movies_quote() is automatically created from config data, the class would complain that method doesn't exist
 	 * @see Movie::lumiere_movie_design() that builds this method
 	 *
 	 * @since 4.0 Removed the method's content, since this function is for compatibility and does nothing
@@ -367,7 +367,7 @@ class Movie_Data extends Movie {
 	 * @param Title $movie IMDbPHP title class
 	 * @return string Nothing
 	 */
-	protected function lumiere_movies_quote( Title $movie ): string {
+	protected function lum_movies_quote( Title $movie ): string {
 		return '';
 	}
 
@@ -377,7 +377,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_tagline( Title $movie ): string {
+	protected function lum_movies_tagline( Title $movie ): string {
 
 		$taglines = $movie->tagline();
 		$nbtaglines = intval( $this->imdb_data_values['imdbwidgettaglinenumber'] ) === 0 || $this->imdb_data_values['imdbwidgettaglinenumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgettaglinenumber'] );
@@ -408,7 +408,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_trailer( Title $movie ): string {
+	protected function lum_movies_trailer( Title $movie ): string {
 
 		$trailers = $movie->video(); // Title::video() works faster than Title::trailer()
 		$trailers = $trailers['Trailer'] ?? null; // Two rows available: Clip and Trailer
@@ -450,7 +450,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_color( Title $movie ): string {
+	protected function lum_movies_color( Title $movie ): string {
 
 		$colors = $movie->color();
 		$nbtotalcolors = count( $colors );
@@ -496,7 +496,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_alsoknow( Title $movie ): string {
+	protected function lum_movies_alsoknow( Title $movie ): string {
 
 		$alsoknow = $movie->alsoknow();
 		$nbalsoknow = intval( $this->imdb_data_values['imdbwidgetalsoknownumber'] ) === 0 || $this->imdb_data_values['imdbwidgetalsoknownumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgetalsoknownumber'] ) + 1; // Adding 1 since first array line is the title
@@ -542,7 +542,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_composer( Title $movie ): string {
+	protected function lum_movies_composer( Title $movie ): string {
 
 		$composer = $movie->composer();
 		$nbtotalcomposer = count( $composer );
@@ -590,7 +590,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_soundtrack( Title $movie ): string {
+	protected function lum_movies_soundtrack( Title $movie ): string {
 
 		$soundtrack = $movie->soundtrack();
 		$nbsoundtracks = intval( $this->imdb_data_values['imdbwidgetsoundtracknumber'] ) === 0 || $this->imdb_data_values['imdbwidgetsoundtracknumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgetsoundtracknumber'] );
@@ -633,7 +633,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_prodcompany( Title $movie ): string {
+	protected function lum_movies_prodcompany( Title $movie ): string {
 
 		$prodcompany = $movie->prodCompany();
 		$nbtotalprodcompany = count( $prodcompany );
@@ -670,7 +670,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_officialsites( Title $movie ): string {
+	protected function lum_movies_officialsites( Title $movie ): string {
 
 		$official_sites = $movie->extSites();
 		$nbtotalofficial_sites_processed = 0;
@@ -721,7 +721,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_director( Title $movie ): string {
+	protected function lum_movies_director( Title $movie ): string {
 
 		$director = $movie->director();
 		$nbtotaldirector = count( $director );
@@ -783,7 +783,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_creator( Title $movie ): string {
+	protected function lum_movies_creator( Title $movie ): string {
 
 		$cinematographer = $movie->cinematographer();
 		$nbtotalcinematographer = count( $cinematographer );
@@ -841,7 +841,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_producer( Title $movie ): string {
+	protected function lum_movies_producer( Title $movie ): string {
 
 		$producer = $movie->producer();
 		$nbproducer = intval( $this->imdb_data_values['imdbwidgetproducernumber'] ) === 0 || $this->imdb_data_values['imdbwidgetproducernumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgetproducernumber'] );
@@ -914,7 +914,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_writer( Title $movie ): string {
+	protected function lum_movies_writer( Title $movie ): string {
 
 		$writer = $movie->writer();
 		$nbtotalwriters = count( $writer );
@@ -1008,7 +1008,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_actor( Title $movie ): string {
+	protected function lum_movies_actor( Title $movie ): string {
 
 		$cast = $movie->cast();
 		$nbactors = intval( $this->imdb_data_values['imdbwidgetactornumber'] ) === 0 ? '1' : intval( $this->imdb_data_values['imdbwidgetactornumber'] );
@@ -1072,7 +1072,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_plot( Title $movie ): string {
+	protected function lum_movies_plot( Title $movie ): string {
 
 		$plot = $movie->plot();
 		$nbplots = intval( $this->imdb_data_values['imdbwidgetplotnumber'] ) === 0 ? '1' : intval( $this->imdb_data_values['imdbwidgetplotnumber'] );
@@ -1111,7 +1111,7 @@ class Movie_Data extends Movie {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lumiere_movies_source( Title $movie ): string {
+	protected function lum_movies_source( Title $movie ): string {
 
 		$mid_premier_resultat_sanitized = strlen( $movie->imdbid() ) > 0 ? strval( $movie->imdbid() ) : null;
 

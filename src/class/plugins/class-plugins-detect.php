@@ -16,6 +16,8 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'You can not call directly this page' );
 }
 
+use Lumiere\Frontend\Main;
+
 /**
  * Detect which WP plugins are available in SUBFOLDER_PLUGINS_BIT subfolder and are active
  *
@@ -25,8 +27,14 @@ if ( ! defined( 'WPINC' ) ) {
  *
  * @since 3.7 Class created
  * @since 4.1 Use find_available_plugins() to find plugins in SUBFOLDER_PLUGINS_BIT folder, and get_active_plugins() returns an array of plugins available
+ * @since 4.3 Use trait Main from Frontend to detect if it's an AMP Page
  */
 class Plugins_Detect {
+
+	/**
+	 * Traits
+	 */
+	use Main;
 
 	/**
 	 * Subfolder name of the plugins that can be automatically started
@@ -100,7 +108,7 @@ class Plugins_Detect {
 	 * @return bool true if AMP plugin is active
 	 */
 	private function amp_is_active(): bool {
-		return function_exists( 'amp_is_request' ) && amp_is_request();
+		return $this->lumiere_is_amp_page(); // Trait Main.
 	}
 
 	/**

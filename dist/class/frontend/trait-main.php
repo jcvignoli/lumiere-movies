@@ -76,13 +76,6 @@ trait Main {
 	public string $classname;
 
 	/**
-	 * Is the current page an editing page?
-	 * @deprecated since 18 03 2024
-	 *
-	 * private bool $is_editor_page = false;
-	 */
-
-	/**
 	 * Constructor-like
 	 *
 	 * @param null|string $logger_name Title for the logger output
@@ -105,14 +98,6 @@ trait Main {
 
 		// Get name of the class, in trait Data.
 		$this->classname = $this->get_current_classname();
-
-		/* @deprecated since 18 03 2024
-		// Start checking if current page is block editor
-		add_action( 'init', [ $this, 'lumiere_frontend_is_editor' ], 0 );
-
-		// Start the debugging
-		add_action( 'plugins_loaded', [ $this, 'lumiere_frontend_maybe_start_debug' ], 1 );
-		*/
 	}
 
 	/**
@@ -128,54 +113,6 @@ trait Main {
 		$this->plugins_active_names = $plugins->plugins_active_names;
 		$this->plugins_classes_active = $plugins->plugins_classes_active;
 	}
-
-	/**
-	 * Detect whether it is a block editor (gutenberg) page
-	 */
-	/* @deprecated since 18 03 2024
-	public function lumiere_frontend_is_editor(): void {
-
-		$referer = strlen( $_SERVER['REQUEST_URI'] ?? '' ) > 0 ? wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) : '';
-		$pages_prohibited = [
-			'/wp-admin/admin-ajax.php',
-			'/wp-admin/widget.php',
-			'/wp-admin/post.php',
-			'/wp-admin/post-new.php',
-			'/wp-json/wp/v2/posts',
-		];
-		if ( Utils::lumiere_array_contains_term( $pages_prohibited, $referer ) ) {
-
-			$this->is_editor_page = true;
-
-		}
-
-	}*/
-
-	/**
-	 * Start debug if conditions are met
-	 */
-	/* @deprecated since 18 03 2024
-	public function lumiere_frontend_maybe_start_debug(): void {
-
-		// If editor page, exit.
-		// Useful for block editor pages (gutenberg).
-		if ( $this->is_editor_page === true ) {
-			return;
-		}
-
-		// If the user can't manage options and it's not a cron, exit.
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		// If debug is active.
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( '1' === $this->imdb_admin_values['imdbdebug'] ) && ( $this->utils_class->debug_is_active === false ) ) {
-
-			$this->utils_class->lumiere_activate_debug();
-
-		}
-
-	}*/
 
 	/**
 	 * Remove html links <a></a>
@@ -194,7 +131,7 @@ trait Main {
 
 	/**
 	 * Rewrite the provided link in Polylang format
-	 * Check if Polylang exists
+	 * Checks if Polylang is active in plugins before replacing links
 	 *
 	 * @since 3.11
 	 * @param string $url The URL to edit
@@ -203,11 +140,6 @@ trait Main {
 	public function lumiere_url_check_polylang_rewrite( string $url ): string {
 
 		$final_url = null;
-		/* testing if really needed
-		if ( count($this->plugins_active_names) === 0 ) {
-			$this->lumiere_set_plugins_array();
-		}
-		*/
 		if ( in_array( 'polylang', $this->plugins_active_names, true ) ) {
 			$replace_url = str_replace( home_url(), trim( pll_home_url(), '/' ), $url );
 			$final_url = trim( $replace_url, '/' );
@@ -227,12 +159,14 @@ trait Main {
 		global $pagenow;
 
 		// If url contains ?amp, it must be an AMP page
+		/** untrue, @obsolete since 4.3
 		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), '?amp' )
 		|| isset( $_GET ['wpamp'] ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
 		|| isset( $_GET ['amp'] ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
 		) {
 			return true;
 		}
+		*/
 
 		/** @psalm-suppress RedundantCondition, UndefinedConstant -- Psalm can't deal with dynamic constants */
 		if (

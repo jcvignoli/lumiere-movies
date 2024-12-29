@@ -406,18 +406,18 @@ class Movie {
 				&& $this->imdb_data_values[ 'imdbwidget' . $data_detail ] === '1'
 			) {
 				// Build the method name according to the data detail name.
-				$method = 'lumiere_movies_' . $data_detail;
+				$method = 'lum_movies_' . $data_detail;
 
 				// Get the child class with the methods.
 				$movie_data_class = new Movie_Data();
 
 				// Build the final class+method with the movie_object.
-				if ( method_exists( $movie_data_class, $method ) ) {
-					$outputfinal .= $this->lumiere_movie_wrapper( $movie_data_class->$method( $movie_title_object ), $data_detail );
-					continue;
-				}
+				if ( ! method_exists( $movie_data_class, $method ) ) {
+					$this->logger->log()->warning( '[Lumiere][' . $this->classname . '] The method ' . $method . ' does not exist in class ' . get_class( $movie_data_class ) . ', aborting' );
 
-				$this->logger->log()->warning( '[Lumiere][' . $this->classname . '] The method ' . $method . ' does not exist in the class' );
+					exit( 1 );
+				}
+				$outputfinal .= $this->lumiere_movie_wrapper( $movie_data_class->$method( $movie_title_object ), $data_detail );
 			}
 		}
 		return $outputfinal;

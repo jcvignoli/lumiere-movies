@@ -110,15 +110,8 @@ var paths = {
 
 			/* Remove irrelevant files in src/vendor */ 
 			'!./src/vendor/bin/*.*',				
-			'!./src/vendor/jcvignoli/imdbphp/cache/**/*.*',
-			'!./src/vendor/jcvignoli/imdbphp/conf/**/*.*',
-			'!./src/vendor/jcvignoli/imdbphp/demo/**/*.*',
-			'!./src/vendor/jcvignoli/imdbphp/doc/**/*.*',
-			'!./src/vendor/jcvignoli/imdbphp/graphql/**/*.*',
-			'!./src/vendor/jcvignoli/imdbphp/tests/**/*.*',
-			'!./src/vendor/jcvignoli/imdbphp/.github/**/*.*',
-			'!./src/vendor/jcvignoli/imdbphp/.github/*.*',
-			'!./src/vendor/jcvignoli/imdbphp/*.*',
+			'!./src/vendor/duck7000/imdb-graphql-php/doc/*.*',
+			'!./src/vendor/duck7000/imdb-graphql-php/vendor/duck7000/imdb-graphql-php/src/Psr/*.*',
 			'!./src/vendor/twbs/bootstrap/build/**/*.*',
 			'!./src/vendor/twbs/bootstrap/js/**/*.*',
 			'!./src/vendor/twbs/bootstrap/nuget/**/*.*',

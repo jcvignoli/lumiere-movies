@@ -22,7 +22,8 @@ use Lumiere\Tools\Settings_Global;
 /**
  * Defines abstract functions utilised in Link Maker classes
  * Includes protected functions utilised in Link Maker classes for code reuse
- * Includes Settings traits
+ *
+ * @phpstan-type LINKMAKERCLASSES AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links
  */
 abstract class Abstract_Link_Maker {
 
