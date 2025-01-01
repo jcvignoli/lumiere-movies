@@ -14,7 +14,7 @@ namespace Lumiere\Plugins;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
-	wp_die( esc_html__( 'You can not call directly this page', 'lumiere-movies' ) );
+	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 // use IMDbPHP config class in /vendor/.
@@ -27,8 +27,8 @@ use Imdb\Config as Imdbphp_Config;
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
  */
- // phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Can't change snakeCase properties defined in an external class
 class Imdbphp extends Imdbphp_Config {
+ // phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Can't change snakeCase properties defined in an external class
 
 	/**
 	 * Admin options

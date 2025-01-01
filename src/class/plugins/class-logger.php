@@ -13,7 +13,7 @@ namespace Lumiere\Plugins;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
-	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
+	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 // use Lumiere library.
@@ -74,6 +74,9 @@ class Logger {
 		$this->logger_name = $logger_name;
 		$this->screen_output = $screen_output;
 
+		// Run WordPress block editor identificator giving value to $this->is_editor_page.
+		$this->is_editor_page = $this->lumiere_is_screen_editor();
+
 		// Add a hook so we can activate manually. Using anonymous function so can send the params.
 		add_action(
 			'lumiere_logger',
@@ -100,8 +103,11 @@ class Logger {
 		// If the page called is post or post-new, set $is_editor_page on true.
 		// This is useful when display a post.
 		if ( isset( $GLOBALS['hook_suffix'] )
-			&& ( $GLOBALS['hook_suffix'] === 'post.php'
-			|| $GLOBALS['hook_suffix'] === 'post-new.php' ) ) {
+			&& (
+				$GLOBALS['hook_suffix'] === 'post.php'
+				|| $GLOBALS['hook_suffix'] === 'post-new.php'
+			)
+		) {
 
 			return true;
 		}
@@ -134,9 +140,6 @@ class Logger {
 		// Get local vars and send to global class properties if set, if empty get the global vars.
 		$logger_name = isset( $logger_name ) ? $this->logger_name = $logger_name : $logger_name = $this->logger_name;
 		$screen_output = isset( $screen_output ) ? $this->screen_output = $screen_output : $screen_output = $this->screen_output;
-
-		// Run WordPress block editor identificator giving value to $this->is_editor_page.
-		$this->is_editor_page = $this->lumiere_is_screen_editor();
 
 		// Start Monolog logger.
 		/** @psalm-suppress UndefinedConstant, RedundantCondition -- Psalm can't deal with dynamic constants */

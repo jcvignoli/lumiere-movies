@@ -13,7 +13,7 @@ namespace Lumiere\Alteration;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
-	wp_die( 'You can not call directly this page' );
+	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use Lumiere\Settings;
@@ -48,9 +48,8 @@ class Taxonomy {
 
 	/**
 	 * Logging class
-	 *
 	 */
-	private Logger $logger;
+	private ?Logger $logger = null;
 
 	/**
 	 * Constructor
@@ -65,7 +64,9 @@ class Taxonomy {
 		}
 
 		// Start Logger class.
-		$this->logger = new Logger( 'taxonomy' );
+		if ( current_user_can( 'manage_options' ) ) {
+			$this->logger = new Logger( 'Taxonomy' ); // @info Use the Logger class for debug only, otherwhise "Notice: Function _load_textdomain_just_in_time was called incorrectly."
+		}
 
 		// Register new taxonomy and create custom taxonomy pages.
 		add_action( 'init', [ $this, 'create_custom_taxonomy' ] );
@@ -96,11 +97,11 @@ class Taxonomy {
 	public function update_custom_terms( string $old_taxonomy, string $new_taxonomy ): void {
 
 		global $wpdb;
-		$array_taxo_data_values = $this->lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' );
+		$get_taxo_array = $this->lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' );
 
-		$this->logger->log()->debug( '[Lumiere][Taxonomy] Updating taxonomy ' . $old_taxonomy . ' with ' . $new_taxonomy );
+		$this->logger?->log()->debug( '[Lumiere][Taxonomy] Updating taxonomy ' . $old_taxonomy . ' with ' . $new_taxonomy );
 
-		foreach ( $array_taxo_data_values as $key => $value ) { // Method in trait Data.
+		foreach ( $get_taxo_array as $key => $value ) { // Method in trait Data.
 			$full_old_taxonomy = str_replace( 'imdbtaxonomy', '', esc_html( $old_taxonomy . $key ) );
 			$full_new_taxonomy = str_replace( 'imdbtaxonomy', '', esc_html( $new_taxonomy . $key ) );
 
@@ -126,7 +127,7 @@ class Taxonomy {
 				]
 			);
 
-			// Get all terms, even if empty.
+			// Get all terms available for the old taxonomy.
 			// @phan-suppress-next-line PhanAccessMethodInternal -- Cannot access internal method \get_terms() of namespace \ defined at vendor/php-stubs/wordpress-stubs/wordpress-stubs.php:133181 from namespace \Lumiere\Plugins -> PHAN gets crazy with get_terms()!
 			$terms = get_terms(
 				[
@@ -136,7 +137,7 @@ class Taxonomy {
 			);
 
 			if ( $terms instanceof \WP_Error ) {
-				$this->logger->log()->error( '[Lumiere][Taxonomy][Update terms] Invalid terms: ' . $terms->get_error_message() );
+				$this->logger?->log()->error( '[Lumiere][Taxonomy][Update terms] Invalid terms: ' . $terms->get_error_message() );
 				continue;
 			}
 
@@ -148,14 +149,14 @@ class Taxonomy {
 				$term_name = esc_html( $term->name );
 
 				if ( strlen( $term_name ) === 0 ) {
-					$this->logger->log()->error( '[Lumiere][Taxonomy][Update terms] This term does not exist ' . $term_name . ' in ' . sanitize_text_field( $full_new_taxonomy ) );
+					$this->logger?->log()->error( '[Lumiere][Taxonomy][Update terms] This term does not exist ' . $term_name . ' in ' . sanitize_text_field( $full_new_taxonomy ) );
 					continue;
 				}
 
 				// If the term already exists, don't insert it again.
 				if ( term_exists( $term_name, $full_new_taxonomy ) === null ) {
 					wp_insert_term( $term_name, $full_new_taxonomy );
-					$this->logger->log()->debug( '[Lumiere][Taxonomy][Update terms][Created] New term "' . $term_name . '" was missing and was created for the new taxonomy ' . sanitize_text_field( $full_new_taxonomy ) );
+					$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Created] New term "' . $term_name . '" was missing and was created for the new taxonomy ' . sanitize_text_field( $full_new_taxonomy ) );
 				}
 
 				$args = [
@@ -177,18 +178,18 @@ class Taxonomy {
 						$query->the_post();
 
 						if ( ! taxonomy_exists( $full_old_taxonomy ) ) {
-							$this->logger->log()->error( '[Lumiere][Taxonomy][Update terms]Taxonomy ' . $full_old_taxonomy . ' does not exit, aborting' );
+							$this->logger?->log()->error( '[Lumiere][Taxonomy][Update terms]Taxonomy ' . $full_old_taxonomy . ' does not exit, aborting' );
 							continue;
 						}
 						if ( ! taxonomy_exists( $full_new_taxonomy ) ) {
-							$this->logger->log()->error( '[Lumiere][Taxonomy][Update terms]Taxonomy ' . $full_new_taxonomy . ' does not exit, aborting' );
+							$this->logger?->log()->error( '[Lumiere][Taxonomy][Update terms]Taxonomy ' . $full_new_taxonomy . ' does not exit, aborting' );
 							continue;
 						}
 
 						$page_id = intval( get_the_ID() );
 						$title = get_post_field( 'post_title', $page_id );
 						$terms_post = get_the_terms( $page_id, $full_old_taxonomy );
-						$this->logger->log()->debug( '[Lumiere][Taxonomy][Update terms] Processing post "' . esc_html( $title ) . '"' );
+						$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms] Processing post "' . esc_html( $title ) . '"' );
 
 						if ( is_array( $terms_post ) === false ) {
 							continue;
@@ -203,20 +204,21 @@ class Taxonomy {
 				}
 				$term_deleted = wp_delete_term( $term_id, sanitize_text_field( $full_old_taxonomy ) );
 				if ( $term_deleted === true ) {
-					$this->logger->log()->debug( '[Lumiere][Taxonomy][Update terms][Deleted] Term "' . $term_name . '" deleted from taxonomy "' . sanitize_text_field( $full_old_taxonomy . '"' ) );
+					$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Deleted] Term "' . $term_name . '" deleted from taxonomy "' . sanitize_text_field( $full_old_taxonomy . '"' ) );
 				}
 				// Error deleting terms.
 				if ( $term_deleted instanceof \WP_Error ) {
-					$this->logger->log()->error( '[Lumiere][Taxonomy][Update terms][*' . $term_deleted->get_error_message() . '*] Failed to delete the term "' . $term_name . '" from taxonomy "' . sanitize_text_field( $full_old_taxonomy ) . '"' );
+					$this->logger?->log()->error( '[Lumiere][Taxonomy][Update terms][*' . $term_deleted->get_error_message() . '*] Failed to delete the term "' . $term_name . '" from taxonomy "' . sanitize_text_field( $full_old_taxonomy ) . '"' );
 				}
-				$this->logger->log()->debug( '[Lumiere][Taxonomy][Update terms] Term "' . $term_name . '" processed.' );
+				$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms] Term "' . $term_name . '" processed.' );
 			}
-			$this->logger->log()->debug( '[Lumiere][Taxonomy][Update terms] Taxonomy "' . sanitize_text_field( $full_new_taxonomy ) . '" processed.' );
+			$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms] Taxonomy "' . sanitize_text_field( $full_new_taxonomy ) . '" processed.' );
 		}
+		$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms] Finished. All taxonomy terms have been processed.' );
 	}
 
 	/**
-	 * Register taxomony and create custom taxonomy pages in the database
+	 * Register custom taxonomy
 	 *
 	 * 1/ Register taxonomy
 	 * 2/ Add specific class for HTML tags for functions building links towards taxonomy pages --------- This part seems useless, not working, to remove!
@@ -224,13 +226,15 @@ class Taxonomy {
 	 *  b if active write a filter to add a class to the link to the taxonomy page.
 	 *  c Can be utilised by get_the_term_list() the_terms() WP function, such as in taxo templates
 	 *
-	 * @param array<string, string|array<string>> $args
+	 * @param string $taxonomy Optional. Used when using add_action()
+	 * @param string $object_type Optional. Used when using add_action()
+	 * @param array<string, string|array<string>> $args Optional. Used when using add_action()
 	 * @throws Exception if the taxonomy doesn't exist
 	 * @return void The taxonomy has been created
 	 */
 	public function create_custom_taxonomy( string $taxonomy = '', string $object_type = '', array $args = [] ): void {
 
-		// $this->logger->log()->debug( '[Lumiere][Taxonomy] create_custom_taxonomy()' . $taxonomy);
+		// $this->logger?->log()->debug( '[Lumiere][Taxonomy] create_custom_taxonomy()' . $taxonomy);
 		$get_taxo_array = $this->lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' ); // Method in trait Data
 
 		foreach ( $get_taxo_array as $key => $value ) {

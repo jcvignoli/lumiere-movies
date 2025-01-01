@@ -20,7 +20,7 @@ namespace Lumiere\Link_Makers;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
-	wp_die( 'You can not call directly this page' );
+	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 class AMP_Links extends Abstract_Link_Maker {

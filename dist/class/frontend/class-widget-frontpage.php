@@ -14,7 +14,7 @@ namespace Lumiere\Frontend;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
-	wp_die( esc_html__( 'Lumière Movies: You can not call directly this page', 'lumiere-movies' ) );
+	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use Lumiere\Admin\Widget_Selection;

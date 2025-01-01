@@ -15,7 +15,7 @@ namespace Lumiere\Link_Makers;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
-	wp_die( 'You can not call directly this page' );
+	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use Lumiere\Link_Makers\AMP_Links;
