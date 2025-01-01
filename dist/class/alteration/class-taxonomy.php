@@ -222,9 +222,9 @@ class Taxonomy {
 				[ 'page', 'post' ],
 				[
 					/* remove metaboxes from edit interface, keep the menu of post */
-					'show_ui' => true,      /* whether to manage taxo in UI */
+					'show_ui' => true,              /* whether to manage taxo in UI */
 					'show_in_quick_edit' => false,  /* whether to show taxo in edit interface */
-					'show_tagcloud' => false,   /* whether to show Tag Cloud Widget controls */
+					'show_tagcloud' => false,       /* whether to show Tag Cloud Widget controls */
 					'meta_box_cb' => false,         /* whether to show taxo in metabox */
 					/* other settings */
 					'labels' => [
@@ -235,10 +235,10 @@ class Taxonomy {
 						'search_items' => __( 'Search', 'lumiere-movies' ) . ' ' . $taxonomy_item . 's',
 						'add_new_item' => __( 'Add new', 'lumiere-movies' ) . ' ' . ucfirst( $taxonomy_item ),
 					],
-					'hierarchical' => false,         /* Whether there is a relationship between added terms, it's true! */
+					'hierarchical' => false,        /* Whether there is a relationship between added terms, it's true! */
 					'public' => true,
 					'query_var' => $taxonomy_name,  /* Optional, use by default $taxonomy_name for ?query_var */
-					'rewrite' => true,      /* Optional, use by default $taxonomy_name as URL rewrite for slug */
+					'rewrite' => true,              /* Optional, use by default $taxonomy_name as URL rewrite for slug */
 				]
 			);
 		}
@@ -287,7 +287,7 @@ class Taxonomy {
 						$page_id,
 						$term_post->name,
 						$full_new_taxonomy,
-						true /** Append the term or delete previous terms? */
+						true /* True: Append the term, False: Replace all previous terms by current one */
 					);
 				}
 
