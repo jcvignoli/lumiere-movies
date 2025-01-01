@@ -82,8 +82,8 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 			echo esc_html(
 				sprintf(
-					/* translators: %1$s is replaced with a number of files, %2$s the size in MB of a folder */
-					_n( '%1$s file using %2$s', '%1$s files using %2$s', $lum_cache_file_count, 'lumiere-movies' ),
+					/* translators: %1 is replaced with a number of files, %2 the size in MB of a folder */
+					_n( '%1 file using %2', '%1 files using %2', $lum_cache_file_count, 'lumiere-movies' ),
 					number_format_i18n( $lum_cache_file_count ),
 					$lum_that->lumiere_format_bytes( $lum_size_cache_total )
 				)

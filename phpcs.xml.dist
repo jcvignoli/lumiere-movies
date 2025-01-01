@@ -65,6 +65,7 @@
 		<properties>
 			<property name="text_domain" type="array">
 				<element value="lumiere-movies"/>
+				<element value="default"/><!-- WordPress default -->
 			</property>
 		</properties>
 	</rule>
@@ -80,9 +81,6 @@
 
 	<rule ref="WordPress.Security.EscapeOutput">
 		<properties>
-			<property name="customEscapingFunctions" type="array">
-				<!--<element value="wp_kses"/>-->
-			</property>
 			<property name="customAutoEscapedFunctions" type="array">
 				<!--<element value="lumiere_check_taxo_template"/>-->
 			</property>

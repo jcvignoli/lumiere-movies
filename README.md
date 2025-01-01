@@ -224,6 +224,10 @@ And much more! This is a major new version, more stable and safer, extensively t
 
 ## Upgrade Notice
 
+### 4.3
+
+The base library is now IMDbGraphQL. Delete the cache, as the caching system has changed.
+
 ### 4.1.3
 
 Further compliance with WordPress standards and security, notably added nonces

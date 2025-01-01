@@ -214,8 +214,8 @@ class Frontend {
 				// Get the film ID if it exists, if not get the film name
 				$title_name = $movie_queried !== null ? ucfirst( $movie_queried ) : ucfirst( $film_sanitized );
 
-				/* translators: %1$s is a name */
-				$title = sprintf( __( 'Informations about %1$s', 'lumiere-movies' ), $title_name ) . ' - Lumi&egrave;re movies';
+				/* translators: %1 is a name */
+				$title = sprintf( __( 'Informations about %1', 'lumiere-movies' ), $title_name ) . ' - Lumi&egrave;re movies';
 
 				// Build the virtual page class
 				return new Virtual_Page(

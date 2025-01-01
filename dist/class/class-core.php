@@ -49,7 +49,7 @@ class Core {
 		/**
 		 * Taxonomy, must be executed on the whole website
 		 */
-		add_action( 'registered_taxonomy', [ 'Lumiere\Alteration\Taxonomy', 'lumiere_static_start' ], 10, 0 ); // @since 4.3: No need to pass args.
+		add_action( 'init', [ 'Lumiere\Alteration\Taxonomy', 'lumiere_static_start' ], 10, 0 ); // @since 4.3: No need to pass args.
 
 		/**
 		 * Rewrite rules, must be executed on the whole website

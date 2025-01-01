@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Lumiere\Settings;
 use Lumiere\Admin\Cache_Tools;
 use Lumiere\Admin\Admin_General;
+use Lumiere\Tools\Settings_Global;
 use Exception;
 
 /**
@@ -35,9 +36,9 @@ use Exception;
 class Save_Options {
 
 	/**
-	 * Traits.
+	 * Traits
 	 */
-	use Admin_General;
+	use Settings_Global, Admin_General;
 
 	/**
 	 * Allows to limit the calls to rewrite rules refresh
@@ -46,24 +47,6 @@ class Save_Options {
 	 * @since 4.1
 	 */
 	private null|string $page_data_taxo;
-
-	/**
-	 * Admin options
-	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values
-	 */
-	private array $imdb_admin_values;
-
-	/**
-	 * Data options
-	 * @phpstan-var OPTIONS_DATA $imdb_data_values
-	 */
-	private array $imdb_data_values;
-
-	/**
-	 * Cache options
-	 * @phpstan-var OPTIONS_CACHE $imdb_cache_values
-	 */
-	private array $imdb_cache_values;
 
 	/**
 	 * Constructor
@@ -75,9 +58,7 @@ class Save_Options {
 		$this->page_data_taxo = $page_data_taxo;
 
 		// Get options from database.
-		$this->imdb_admin_values = get_option( Settings::get_admin_tablename() );
-		$this->imdb_data_values = get_option( Settings::get_data_tablename() );
-		$this->imdb_cache_values = get_option( Settings::get_cache_tablename() );
+		$this->get_db_options(); // In Settings_Global trait.
 	}
 
 	/**
@@ -118,10 +99,10 @@ class Save_Options {
 					\Lumiere\Alteration\Taxonomy::lumiere_static_start(
 						$class_save->imdb_admin_values['imdburlstringtaxo'],
 						$_POST['imdb_imdburlstringtaxo'], // @phpcs:ignore WordPress.Security.NonceVerification.Missing -- Checked just above!
-						'remove_old_taxo'
+						'update_old_taxo'
 					);
 					/*if ( isset( $get_referer ) && $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
-						exit;
+						echo 'test';
 					}*/
 				},
 				12
@@ -172,7 +153,11 @@ class Save_Options {
 			&& isset( $_POST['_nonce_general_settings'] )
 			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0
 		) {
-			$this->lumiere_general_options_save( $this->get_referer(), sanitize_text_field( wp_unslash( $_POST['imdb_imdburlstringtaxo'] ?? '' ) ), sanitize_text_field( wp_unslash( $_POST['imdb_imdburlpopups'] ?? '' ) ) );
+			$this->lumiere_general_options_save(
+				$this->get_referer(),
+				sanitize_text_field( wp_unslash( $_POST['imdb_imdburlstringtaxo'] ?? '' ) ),
+				sanitize_text_field( wp_unslash( $_POST['imdb_imdburlpopups'] ?? '' ) )
+			);
 		} elseif (
 			isset( $_POST['lumiere_reset_general_settings'] )
 			&& isset( $_POST['_nonce_general_settings'] )
@@ -269,7 +254,7 @@ class Save_Options {
 	// @phpstan-ignore-next-line method.templateTypeNotInParameter
 	private function lumiere_general_options_save( string|bool $get_referer, ?string $imdburlstringtaxo, ?string $imdburlpopups ): void {
 
-		// Check if $_POST['imdb_imdburlstringtaxo'] and $_POST['imdb_imdburlpopups'] are identical, because they can't be, so exit if they are.
+		// Check if $_POST['imdb_imdburlstringtaxo'] and $_POST['imdb_imdburlpopups'] are identical, because they can't be, so echo 'test' if they are.
 		if (
 			isset( $imdburlstringtaxo )
 			&& isset( $imdburlpopups )
@@ -277,7 +262,7 @@ class Save_Options {
 		) {
 			set_transient( 'notice_lumiere_msg', 'general_options_error_identical_value', 30 );
 			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
-				exit;
+				echo 'test';
 			}
 		}
 
@@ -289,13 +274,13 @@ class Save_Options {
 		) {
 			set_transient( 'notice_lumiere_msg', 'general_options_error_imdburlpopups_invalid', 30 );
 			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
-				exit;
+				echo 'test';
 			}
 		}
 
 		// Check if nonce is a valid value.
 		if ( ! isset( $_POST['_nonce_general_settings'] ) || ! ( wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0 ) ) {
-			exit;
+			echo 'test';
 		}
 
 		/**
@@ -305,6 +290,15 @@ class Save_Options {
 		if (
 			isset( $_POST['imdb_imdburlstringtaxo'] ) && strlen( sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) ) > 0
 			&& sanitize_key( $this->imdb_admin_values['imdburlstringtaxo'] ) !== sanitize_key( $_POST['imdb_imdburlstringtaxo'] )
+		) {
+			flush_rewrite_rules();
+		}
+
+		/**
+		 * If $_POST['imdb_imdbtaxonomy'] was submitted, need a rewrite rules flush
+		 */
+		if (
+			isset( $_POST['imdb_imdbtaxonomy'] ) && strlen( sanitize_key( $_POST['imdb_imdbtaxonomy'] ) ) > 0
 		) {
 			flush_rewrite_rules();
 		}
@@ -335,7 +329,7 @@ class Save_Options {
 
 		set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
 		if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
-			exit;
+			echo 'test';
 		}
 	}
 
@@ -351,7 +345,7 @@ class Save_Options {
 
 		set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			exit;
+			echo 'test';
 		}
 	}
 
@@ -410,7 +404,7 @@ class Save_Options {
 		}
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			exit;
+			echo 'test';
 		}
 	}
 
@@ -425,7 +419,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
-			exit;
+			echo 'test';
 		}
 	}
 
@@ -447,7 +441,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_all_msg', 30 );
-			exit;
+			echo 'test';
 		}
 	}
 
@@ -460,7 +454,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_query_deleted', 30 );
-			exit;
+			echo 'test';
 		}
 	}
 
@@ -487,7 +481,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_ticked_msg', 30 );
-			exit;
+			echo 'test';
 		}
 	}
 
@@ -504,7 +498,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_individual_msg', 30 );
-			exit;
+			echo 'test';
 		}
 	}
 
@@ -521,7 +515,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_refresh_individual_msg', 30 );
-			exit;
+			echo 'test';
 		}
 	}
 
@@ -607,7 +601,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
-			exit;
+			echo 'test';
 		}
 
 	}
@@ -623,7 +617,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
-			exit;
+			echo 'test';
 		}
 	}
 }

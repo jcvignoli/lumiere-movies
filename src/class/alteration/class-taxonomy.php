@@ -24,7 +24,9 @@ use WP_Query;
 
 /**
  * Create Lumière! Taxonomy system
- * Taxonomy Pages names are added to the database
+ * 1/ Taxonomy terms are made available
+ * 2/ Once taxonomy is registered, by visiting a post/page the terms are saved in db
+ * 2/ URL based on taxonomy  Taxonomy Pages names are added to the database
  * @Info Use of conditions for instanciate Logger class, otherwhise "Notice: Function _load_textdomain_just_in_time was called incorrectly."
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
@@ -70,10 +72,10 @@ class Taxonomy {
 		}
 
 		// Register new taxonomy and create custom taxonomy pages.
-		add_action( 'init', [ $this, 'create_custom_taxonomy' ] );
+		add_action( 'init', [ $this, 'create_custom_taxonomy' ], 11 );
 
 		// Must be registered before in order to delete its terms.
-		if ( $action === 'remove_old_taxo' ) {
+		if ( $action === 'update_old_taxo' ) {
 			add_action( 'init', fn() => $this->update_custom_terms( $old_taxonomy, $new_taxonomy ), 13 );
 		}
 	}
@@ -82,8 +84,8 @@ class Taxonomy {
 	 * Static instanciation of the class
 	 *
 	 * @return void The class was instanciated
-	 * @see \Lumiere\Core class calling in register_taxonomy hook
-	 * @see \Lumiere\Admin\Save_Options in init hook
+	 * @see \Lumiere\Core class calling in ini hook (no arguments used)
+	 * @see \Lumiere\Admin\Save_Options in init hook (with arguments passed)
 	 */
 	public static function lumiere_static_start( string $old_taxonomy = '', string $new_taxonomy = '', string $action = '' ): void {
 		$taxonomy_class = new self( $old_taxonomy, $new_taxonomy, $action );
@@ -113,16 +115,7 @@ class Taxonomy {
 			$full_old_taxonomy = str_replace( 'imdbtaxonomy', '', esc_html( $old_taxonomy . $option ) );
 			$full_new_taxonomy = str_replace( 'imdbtaxonomy', '', esc_html( $new_taxonomy . $option ) );
 
-			/* register_taxonomy( =>>> Removed so terms from old taxonomy that don't exist aren't processed => Saves time
-				$full_old_taxonomy,
-				[ 'page', 'post' ],
-				[
-					'labels' => [ 'name' => 'Lumière ' . $full_old_taxonomy . 's' ],
-					'public' => false,
-					'query_var' => $full_old_taxonomy,
-					'rewrite' => [ 'slug' => $full_old_taxonomy ],
-				]
-			);*/
+			/* register_taxonomy( $full_old_taxonomy, [ 'page', 'post' ] ); =>>> Removed so terms from old taxonomy that don't exist aren't processed => Saves time*/
 			// Register new taxonomy to make sure they are available to below functions.
 			register_taxonomy( $full_new_taxonomy, [ 'page', 'post' ] );
 
@@ -190,16 +183,14 @@ class Taxonomy {
 
 	/**
 	 * Register custom taxonomy
-	 *
-	 * 1/ Register taxonomy
-	 *  a Taxonomies are available in admin edition ('show_ui')
-	 *  b URL rewrite activated ('query_var' and 'rewrite', but it is by default)
+	 *  a Taxonomies are available in admin menu under Posts (=> 'show_ui')
+	 *  b URL rewrite activated (=>'query_var' and 'rewrite', but it is by default)
 	 *
 	 * @param string $taxonomy Optional. Used when using add_action()
 	 * @param string $object_type Optional. Used when using add_action()
 	 * @param array<string, string|array<string>> $args Optional. Used when using add_action()
-	 * @throws Exception if the taxonomy doesn't exist
 	 * @return void The taxonomy has been created
+	 * @throws Exception if the taxonomy doesn't exist
 	 */
 	public function create_custom_taxonomy( string $taxonomy = '', string $object_type = '', array $args = [] ): void {
 
@@ -228,15 +219,16 @@ class Taxonomy {
 					'meta_box_cb' => false,         /* whether to show taxo in metabox */
 					/* other settings */
 					'labels' => [
-						'name' => 'Lumière ' . $taxonomy_item . 's',
+						'name' => 'Lumière ' . $taxonomy_item . 's ' . __( 'Tags', 'default' ),
 						'parent_item' => __( 'Parent taxonomy', 'lumiere-movies' ) . ' ' . $taxonomy_item,
 						'singular_name' => ucfirst( $taxonomy_item ) . ' name',
-						'menu_name' => 'Lumière ' . $taxonomy_item,
-						'search_items' => __( 'Search', 'lumiere-movies' ) . ' ' . $taxonomy_item . 's',
+						'menu_name' => __( 'Tags', 'default' ) . ' Lumière ' . $taxonomy_item,
+						'search_items' => __( 'Search', 'default' ) . ' ' . $taxonomy_item . 's',
 						'add_new_item' => __( 'Add new', 'lumiere-movies' ) . ' ' . ucfirst( $taxonomy_item ),
 					],
 					'hierarchical' => false,        /* Whether there is a relationship between added terms, it's true! */
 					'public' => true,
+					// These will allow to reach in URL ie /lumiere-director/stanley-kubrick/
 					'query_var' => $taxonomy_name,  /* Optional, use by default $taxonomy_name for ?query_var */
 					'rewrite' => true,              /* Optional, use by default $taxonomy_name as URL rewrite for slug */
 				]
@@ -255,7 +247,6 @@ class Taxonomy {
 	 */
 	private function lum_query_update_taxo( string $full_old_taxonomy, string $full_new_taxonomy, array $args ): void {
 
-		global $wpdb;
 		$query = new WP_Query( $args );
 
 		if ( $query->have_posts() ) {

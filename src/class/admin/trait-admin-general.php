@@ -64,15 +64,11 @@ trait Admin_General {
 		foreach ( $files as $file ) {
 
 			if ( $wp_filesystem->is_dir( $dir . $file['name'] ) === true ) {
-
 				$wp_filesystem->delete( $dir . $file['name'], true );
 				continue;
-
 			}
-
 			$wp_filesystem->delete( $dir . $file['name'] );
 		}
-
 		return true;
 	}
 
@@ -85,7 +81,6 @@ trait Admin_General {
 	 * @param null|string $set_error set to 'no_var_dump' to avoid the call to var_dump function
 	 * @param null|string $libxml_use set to 'libxml to call php function libxml_use_internal_errors(true)
 	 * @param null|string $get_screen set to 'screen' to display wp function get_current_screen()
-	 *
 	 * @return void Returns optionaly an array of the options passed in $options
 	 */
 	public function lumiere_display_vars( ?array $options = null, ?string $set_error = null, ?string $libxml_use = null, ?string $get_screen = null ): void {
@@ -105,7 +100,7 @@ trait Admin_General {
 		}
 
 		if ( $set_error !== 'no_var_dump' ) {
-			set_exception_handler( [ $this, 'lumiere_exception_handler' ] );
+			set_exception_handler( [ $this, 'lum_exception_handler' ] );
 		}
 
 		if ( $get_screen === 'screen' ) {
@@ -127,13 +122,12 @@ trait Admin_General {
 	/**
 	 * Lumiere internal exception handler
 	 *
-	 * @see Utils::lumiere_activate_debug()
+	 * @see Admin_General::lumiere_activate_debug()
 	 * @param \Throwable $exception The type of new exception
 	 * @return void
 	 */
-	public function lumiere_exception_handler( \Throwable $exception ): void {
+	public function lum_exception_handler( \Throwable $exception ): void {
 		throw $exception;
 	}
-
 }
 
