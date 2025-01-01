@@ -89,10 +89,10 @@ class Settings {
 	public string $lumiere_urlpopupsearch;
 
 	/**
-	 * URL for menu small images directory
-	 * @var string $lumiere_pics_dir
+	 * URLs for menu small images directory
 	 */
 	public string $lumiere_pics_dir = LUMIERE_WP_URL . 'assets/pics/';
+	public string $lumiere_showtimes_dir = LUMIERE_WP_URL . 'assets/pics/showtimes/';
 
 	/**
 	 * URL for javascript path

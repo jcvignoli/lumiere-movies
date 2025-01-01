@@ -49,7 +49,7 @@ class Core {
 		/**
 		 * Taxonomy, must be executed on the whole website
 		 */
-		add_action( 'registered_taxonomy', fn() => Alteration\Taxonomy::lumiere_static_start() );
+		add_action( 'registered_taxonomy', [ 'Lumiere\Alteration\Taxonomy', 'lumiere_static_start' ], 10, 0 ); // @since 4.3: No need to pass args.
 
 		/**
 		 * Rewrite rules, must be executed on the whole website
@@ -64,7 +64,7 @@ class Core {
 		/**
 		 * Admin
 		 */
-		add_action( 'init', fn() => Admin\Admin::lumiere_static_start(), 9 ); // Priority must be below 10.
+		add_action( 'init', [ 'Lumiere\Admin\Admin', 'lumiere_static_start' ], 9 ); // Priority must be below 10.
 
 		/**
 		 * Frontpage

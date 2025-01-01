@@ -99,7 +99,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Country', 'Countries', $nbtotalcountry, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcountry ) );
+		$output .= sprintf( esc_html( _n( 'Country', 'Countries', $nbtotalcountry, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcountry ) );
 		$output .= ':</span>';
 
 		// Taxonomy is active.
@@ -165,7 +165,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Language', 'Languages', $nbtotallanguages, 'lumiere-movies' ) ), number_format_i18n( $nbtotallanguages ) );
+		$output .= sprintf( esc_html( _n( 'Language', 'Languages', $nbtotallanguages, 'lumiere-movies' ) ), number_format_i18n( $nbtotallanguages ) );
 		$output .= ':</span>';
 
 		// Taxonomy is active.
@@ -238,7 +238,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Genre', 'Genres', $nbtotalgenre, 'lumiere-movies' ) ), number_format_i18n( $nbtotalgenre ) );
+		$output .= sprintf( esc_html( _n( 'Genre', 'Genres', $nbtotalgenre, 'lumiere-movies' ) ), number_format_i18n( $nbtotalgenre ) );
 
 		$output .= ':</span>';
 
@@ -283,7 +283,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Keyword', 'Keywords', $nbtotalkeywords, 'lumiere-movies' ) ), number_format_i18n( $nbtotalkeywords ) );
+		$output .= sprintf( esc_html( _n( 'Keyword', 'Keywords', $nbtotalkeywords, 'lumiere-movies' ) ), number_format_i18n( $nbtotalkeywords ) );
 		$output .= ':</span>';
 
 		// Taxonomy is active.
@@ -337,7 +337,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Goof', 'Goofs', $nbtotalgoofs, 'lumiere-movies' ) ), number_format_i18n( $nbtotalgoofs ) );
+		$output .= sprintf( esc_html( _n( 'Goof', 'Goofs', $nbtotalgoofs, 'lumiere-movies' ) ), number_format_i18n( $nbtotalgoofs ) );
 		$output .= ':</span><br>';
 
 		// Process goof type after goof type
@@ -389,7 +389,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Tagline', 'Taglines', $nbtotaltaglines, 'lumiere-movies' ) ), number_format_i18n( $nbtotaltaglines ) ) . ':';
+		$output .= sprintf( esc_html( _n( 'Tagline', 'Taglines', $nbtotaltaglines, 'lumiere-movies' ) ), number_format_i18n( $nbtotaltaglines ) ) . ':';
 		$output .= '</span>';
 
 		for ( $i = 0; $i < $nbtaglines && ( $i < $nbtotaltaglines ); $i++ ) {
@@ -421,7 +421,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Trailer', 'Trailers', $nbtotaltrailers, 'lumiere-movies' ) ), number_format_i18n( $nbtotaltrailers ) );
+		$output .= sprintf( esc_html( _n( 'Trailer', 'Trailers', $nbtotaltrailers, 'lumiere-movies' ) ), number_format_i18n( $nbtotaltrailers ) );
 		$output .= ':</span>';
 
 		for ( $i = 0; ( $i < $nbtrailers && ( $i < $nbtotaltrailers ) ); $i++ ) {
@@ -553,7 +553,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Composer', 'Composers', $nbtotalcomposer, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcomposer ) );
+		$output .= sprintf( esc_html( _n( 'Composer', 'Composers', $nbtotalcomposer, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcomposer ) );
 		$output .= ':</span>';
 
 		// Taxonomy
@@ -602,7 +602,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) ), number_format_i18n( $nbtotalsoundtracks ) );
+		$output .= sprintf( esc_html( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) ), number_format_i18n( $nbtotalsoundtracks ) );
 		$output .= ':</span>';
 
 		for ( $i = 0; $i < $nbsoundtracks && ( $i < $nbtotalsoundtracks ); $i++ ) {
@@ -644,7 +644,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Production company', 'Production companies', $nbtotalprodcompany, 'lumiere-movies' ) ), number_format_i18n( $nbtotalprodcompany ) );
+		$output .= sprintf( esc_html( _n( 'Production company', 'Production companies', $nbtotalprodcompany, 'lumiere-movies' ) ), number_format_i18n( $nbtotalprodcompany ) );
 		$output .= ':</span>';
 
 		for ( $i = 0; $i < $nbtotalprodcompany; $i++ ) {
@@ -690,7 +690,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Official website', 'Official websites', $nbtotalofficial_sites, 'lumiere-movies' ) ), number_format_i18n( $nbtotalofficial_sites ) );
+		$output .= sprintf( esc_html( _n( 'Official website', 'Official websites', $nbtotalofficial_sites, 'lumiere-movies' ) ), number_format_i18n( $nbtotalofficial_sites ) );
 		$output .= ':</span>';
 
 		foreach ( $official_sites as $extsite_type => $info ) {
@@ -732,7 +732,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) ), number_format_i18n( $nbtotaldirector ) );
+		$output .= sprintf( esc_html( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) ), number_format_i18n( $nbtotaldirector ) );
 		$output .= ':</span>';
 
 		// If Taxonomy is selected, build links to taxonomy pages
@@ -794,7 +794,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Cinematographer', 'Cinematographers', $nbtotalcinematographer, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcinematographer ) );
+		$output .= sprintf( esc_html( _n( 'Cinematographer', 'Cinematographers', $nbtotalcinematographer, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcinematographer ) );
 		$output .= ':</span>&nbsp;';
 
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomycreator'] === '1' ) ) {
@@ -852,7 +852,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Producer', 'Producers', $nbtotalproducer, 'lumiere-movies' ) ), number_format_i18n( $nbtotalproducer ) );
+		$output .= sprintf( esc_html( _n( 'Producer', 'Producers', $nbtotalproducer, 'lumiere-movies' ) ), number_format_i18n( $nbtotalproducer ) );
 
 		$output .= ':</span>';
 
@@ -924,7 +924,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Writer', 'Writers', $nbtotalwriters, 'lumiere-movies' ) ), number_format_i18n( $nbtotalwriters ) );
+		$output .= sprintf( esc_html( _n( 'Writer', 'Writers', $nbtotalwriters, 'lumiere-movies' ) ), number_format_i18n( $nbtotalwriters ) );
 		$output .= ':</span>';
 
 		// With taxonomy.
@@ -1019,7 +1019,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ) ), number_format_i18n( $nbtotalactors ) );
+		$output .= sprintf( esc_html( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ) ), number_format_i18n( $nbtotalactors ) );
 		$output .= ':</span>';
 
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomyactor'] === '1' ) ) {
@@ -1084,7 +1084,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_attr( _n( 'Plot', 'Plots', $nbtotalplots, 'lumiere-movies' ) ), number_format_i18n( $nbtotalplots ) );
+		$output .= sprintf( esc_html( _n( 'Plot', 'Plots', $nbtotalplots, 'lumiere-movies' ) ), number_format_i18n( $nbtotalplots ) );
 		$output .= ':</span><br />';
 
 		for ( $i = 0; ( $i < $nbtotalplots ) && ( $i < $nbplots ); $i++ ) {

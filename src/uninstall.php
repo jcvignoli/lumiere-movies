@@ -76,7 +76,6 @@ class Uninstall {
 
 		// Start Logger class.
 		$this->logger = new Logger( 'uninstallClass', false );
-
 	}
 
 	/**

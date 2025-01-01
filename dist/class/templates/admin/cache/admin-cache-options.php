@@ -176,9 +176,8 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 		<div class="submit lumiere_sticky_boxshadow lumiere_align_center">
 			<?php wp_nonce_field( 'lumiere_nonce_cache_settings', '_nonce_cache_settings' );?>
-			<input type="submit" class="button-primary" id="lumiere_reset_cache_settings" name="lumiere_reset_cache_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
-			<input type="submit" class="button-primary" id="lumiere_update_cache_settings" name="lumiere_update_cache_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />
-
+			<input type="submit" class="button-primary" id="lumiere_update_cache_settings" name="lumiere_update_cache_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
+			<input type="submit" class="button-primary" id="lumiere_reset_cache_settings" name="lumiere_reset_cache_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />
 		</div>
 	</form>
 </div>

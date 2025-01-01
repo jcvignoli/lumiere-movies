@@ -421,7 +421,7 @@ class Popup_Movie {
 			echo '<span class="lum_results_section_subtitle">'
 				. esc_html__( 'Rating', 'lumiere-movies' )
 				. '</span>';
-			echo ' <img class="imdbelementRATING-picture" src="' . esc_url( $this->config_class->lumiere_pics_dir . 'showtimes/' . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
+			echo ' <img class="imdbelementRATING-picture" src="' . esc_url( $this->config_class->lumiere_showtimes_dir . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
 			. ' title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . esc_attr( $rating_string ) . esc_html__( ' out of 10', 'lumiere-movies' ) . '"  width="102" height="12" / >';
 			echo ' (' . number_format( $votes_sanitized, 0, '', "'" ) . ' ' . esc_html__( 'votes', 'lumiere-movies' ) . ')';
 

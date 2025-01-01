@@ -43,7 +43,7 @@ class Widget_Frontpage {
 	 * Shortcode to be used by add_shortcodes, ie [lumiereWidget][/lumiereWidget]
 	 * This shortcode is temporary and created on the fly
 	 * Doesn't need to be deleted when uninstalling Lumière plugin
-	 * @see Block widget wich includes the shortcode
+	 * @see Block widget which includes the shortcode
 	 */
 	public const WIDGET_SHORTCODE = 'lumiereWidget';
 
@@ -97,6 +97,7 @@ class Widget_Frontpage {
 			'loading' => [],
 			'src' => [],
 			'id' => [],
+			'title' => [],
 			'class' => [],
 		],
 	];
@@ -291,17 +292,15 @@ class Widget_Frontpage {
 	 */
 	private function lum_wrap_widget_content( string $title_box, string $movie ): string {
 
-		$output = '';
-
 		// Exit if no data provided.
 		if ( strlen( $movie ) === 0 ) {
-			return $output;
+			return '';
 		}
 
 		$embeded_title_box = strlen( $title_box ) > 0 ? self::ARGS['before_title'] . $title_box . self::ARGS['after_title'] : '';
 		apply_filters( 'widget_title', $embeded_title_box ); // Change widget title according to the extra args.
 
-		$output .= wp_kses( self::ARGS['before_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
+		$output = wp_kses( self::ARGS['before_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
 		$output .= wp_kses( $embeded_title_box, self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); // title of widget.
 		$output .= wp_kses( $movie, self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); // Movie data.
 		$output .= wp_kses( self::ARGS['after_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );

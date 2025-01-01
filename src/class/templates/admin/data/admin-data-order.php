@@ -66,11 +66,9 @@ $lumiere_items_people = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
 	</div>
 	
 	<div class="submit lumiere_sticky_boxshadow lumiere_align_center">
-	
 		<?php wp_nonce_field( 'lumiere_nonce_data_settings', '_nonce_data_settings' ); ?>
-		
-		<input type="submit" class="button-primary" id="lumiere_reset_data_settings" name="lumiere_reset_data_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
-		<input type="submit" class="button-primary" id="lumiere_update_data_settings" name="lumiere_update_data_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />
+		<input type="submit" class="button-primary" id="lumiere_update_data_settings" name="lumiere_update_data_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
+		<input type="submit" class="button-primary" id="lumiere_reset_data_settings" name="lumiere_reset_data_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />
 	</div>
 
 	</form>	

@@ -40,16 +40,16 @@ class Highslide_Links extends Abstract_Link_Maker {
 		parent::__construct();
 
 		// Registers javascripts and styles, they need to be registered after the Frontend ones.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_highslide_register_assets' ] ); // if not defered, must be after Frontend class call
+		add_action( 'wp_enqueue_scripts', [ $this, 'register_extra_assets' ] ); // if not defered, must be after Frontend class call
 
 		// Execute javascripts and styles, they need to be registered after the Frontend ones.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_highslide_execute_assets' ] ); // if not defered, must be after Frontend class call
+		add_action( 'wp_enqueue_scripts', [ $this, 'execute_extra_assets' ] ); // if not defered, must be after Frontend class call
 	}
 
 	/**
 	 * Register scripts and style.
 	 */
-	public function lumiere_highslide_register_assets(): void {
+	public function register_extra_assets(): void {
 
 		// Styles.
 		wp_register_style(
@@ -86,7 +86,7 @@ class Highslide_Links extends Abstract_Link_Maker {
 	/**
 	 * Enqueue stylesheet & javascript.
 	 */
-	public function lumiere_highslide_execute_assets (): void {
+	public function execute_extra_assets (): void {
 
 		wp_enqueue_style( 'lumiere_highslide_core_style' );
 
@@ -97,11 +97,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param array<int, array<string, string>> $imdb_data_people Array with IMDB people data
-	 * @param int $number The number of the loop $i
-	 *
-	 * @return string
 	 */
 	public function lumiere_link_popup_people ( array $imdb_data_people, int $number ): string {
 
@@ -112,11 +107,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param string|bool $photo_localurl_false The picture of big size
-	 * @param string|bool $photo_localurl_true The picture of small size
-	 * @param string $movie_title Title of the movie
-	 * @return string
 	 */
 	public function lumiere_link_picture ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title ): string {
 
@@ -126,11 +116,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
-	 * @param int $limit_text_bio Optional, increasing the hardcoded limit of characters before displaying "click for more"
-	 *
-	 * @return ?string
 	 */
 	public function lumiere_medaillon_bio ( array $bio_array, int $limit_text_bio = 0 ): ?string {
 
@@ -141,8 +126,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param string $text Text that includes IMDb URL to convert into an internal link
 	 */
 	public function lumiere_imdburl_to_internalurl( string $text ): string {
 
@@ -153,8 +136,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param string $text Text that includes IMDb URL to convert into a popup link
 	 */
 	public function lumiere_imdburl_of_taxonomy( string $text ): string {
 
@@ -165,8 +146,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param string $text Text that includes IMDb URL to convert into a popup link
 	 */
 	public function lumiere_imdburl_of_soundtrack( string $text ): string {
 
@@ -177,10 +156,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param array<int, string> $link_parsed html tags and text to be modified
-	 * @param null|string $popuplarg -> window width, if nothing passed takes database value
-	 * @param null|string $popuplong -> window height, if nothing passed takes database value
 	 */
 	public function lumiere_popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
 
@@ -190,9 +165,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param string $url Url to the trailer
-	 * @param string $website_title website name
 	 */
 	public function lumiere_movies_trailer_details( string $url, string $website_title ): string {
 
@@ -249,14 +221,6 @@ class Highslide_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param int $rating mandatory Rating number
-	 * @param int $votes mandatory Number of votes
-	 * @param string $votes_average_txt mandatory Text mentionning "vote average"
-	 * @param string $out_of_ten_txt mandatory Text mentionning "out of ten"
-	 * @param string $votes_txt mandatory Text mentionning "votes"
-	 *
-	 * @return string
 	 */
 	public function lumiere_movies_rating_picture( int $rating, int $votes, string $votes_average_txt, string $out_of_ten_txt, string $votes_txt ): string {
 

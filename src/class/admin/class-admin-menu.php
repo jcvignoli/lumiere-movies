@@ -138,6 +138,7 @@ class Admin_Menu {
 		 * @since 4.0
 		 */
 		add_action( 'wp_loaded', fn() => Save_Options::lumiere_static_start( $that->page_data_taxo ) );
+		add_action( 'init', fn() => Save_Options::lumiere_static_start_taxonomy( $that->page_data_taxo ), 11 );
 
 		/**
 		 * Copying taxonomy templates in Lumière! data taxonomy options

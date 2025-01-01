@@ -485,8 +485,7 @@ class Movie {
 		$taxonomy_category = esc_attr( $type_item );
 		$taxonomy_term = esc_attr( $first_title );
 		$second_title = $second_title !== null ? esc_attr( $second_title ) : '';
-		$taxonomy_url_string_first = esc_attr( $this->imdb_admin_values['imdburlstringtaxo'] );
-		$taxonomy_category_full = $taxonomy_url_string_first . $taxonomy_category;
+		$taxonomy_category_full = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . $taxonomy_category;
 		$page_id = get_the_ID();
 
 		/**
@@ -502,11 +501,12 @@ class Movie {
 
 			$existent_term = term_exists( $taxonomy_term, $taxonomy_category_full );
 
-			if ( ! isset( $existent_term ) ) {
+			// The term doesn't exist in the post.
+			if ( $existent_term === null ) {
 				$term_inserted = wp_insert_term( $taxonomy_term, $taxonomy_category_full );
 				$term_for_log = wp_json_encode( $term_inserted );
 				if ( $term_for_log !== false ) {
-					$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full (association numbers " . $term_for_log );
+					$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full (association numbers " . $term_for_log . ' )' );
 				}
 			}
 

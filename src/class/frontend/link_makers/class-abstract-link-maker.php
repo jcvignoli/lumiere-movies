@@ -22,8 +22,6 @@ use Lumiere\Tools\Settings_Global;
 /**
  * Defines abstract functions utilised in Link Maker classes
  * Includes protected functions utilised in Link Maker classes for code reuse
- *
- * @phpstan-type LINKMAKERCLASSES AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links
  */
 abstract class Abstract_Link_Maker {
 
@@ -179,12 +177,10 @@ abstract class Abstract_Link_Maker {
 		int $with_imdb_element_rating
 	): string {
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= esc_html__( 'Rating', 'lumiere-movies' );
-		$output .= ':</span>';
+		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Rating', 'lumiere-movies' ) . ':</span>';
 
 		$find_showtimes_pic = round( $rating * 2, 0 ) / 0.2;
-		$output .= ' <img src="' . $this->config_class->lumiere_pics_dir . 'showtimes/' . $find_showtimes_pic . ".gif\" title=\"$votes_average_txt $rating $out_of_ten_txt\" alt=\"$votes_average_txt\" width=\"102\" height=\"12\" />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
+		$output .= ' <img src="' . $this->config_class->lumiere_showtimes_dir . $find_showtimes_pic . ".gif\" title=\"$votes_average_txt $rating $out_of_ten_txt\" alt=\"$votes_average_txt\" width=\"102\" height=\"12\" />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
 
 		return $output;
 	}
@@ -670,7 +666,6 @@ abstract class Abstract_Link_Maker {
 			. "\n\t\t\t</div>";
 
 		return $return;
-
 	}
 
 	/**
@@ -682,16 +677,11 @@ abstract class Abstract_Link_Maker {
 	 * @return string
 	 */
 	protected function lumiere_movies_officialsites_details_abstract ( string $url, string $name, int $window_type = 0 ): string {
-
 		// No Links class, do not display any link.
 		if ( $window_type === 1 ) {
 			return "\n\t\t\t" . sanitize_text_field( $name ) . ', ' . esc_url( $url );
 		}
-
-		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_attr( $name ) . "'>"
-			. esc_html( $name )
-			. '</a>';
-
+		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_attr( $name ) . "'>" . esc_html( $name ) . '</a>';
 	}
 
 	/**
@@ -732,5 +722,15 @@ abstract class Abstract_Link_Maker {
 
 		return $return;
 
+	}
+
+	/**
+	 * Detect if it's a Lumière page
+	 * Method meant to be called by children classes
+	 *
+	 * @return bool True if it's a Lumière page
+	 */
+	protected function is_lum_page(): bool {
+		return is_page();
 	}
 }

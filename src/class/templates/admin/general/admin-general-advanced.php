@@ -498,11 +498,14 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 				<label for="imdb_imdburlstringtaxo"><?php esc_html_e( 'URL for the taxonomy pages', 'lumiere-movies' ); ?></label>
 			</div>
 			<div class="lumiere_flex_container_content_eighty">
-				<div class="lumiere_align_items_center">
+				<div class="lumiere_align_items_center lumiere_padding_top_bottom_ten">
 					<?php echo esc_url( get_site_url() ); ?>/
 					<input type="text" class="lumiere_border_width_medium" id="imdb_imdburlstringtaxo" name="imdb_imdburlstringtaxo" value="<?php echo esc_html( $lumiere_imdb_admin_values['imdburlstringtaxo'] ); ?>">
+
+					<input type="checkbox" id="imdb_imdburlstringtaxo_terms" name="imdb_imdburlstringtaxo_terms" value="1" checked="checked">
+					<label for="imdb_imdburlstringtaxo_terms"><?php esc_html_e( 'Update also terms (extremely resource intensive)', 'lumiere-movies' ); ?></label>
 				</div>
-				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the taxonomy\'s pages.', 'lumiere-movies' ); ?> <?php esc_html_e( 'Warning! This URL cannot be identical to popup\'s URL above.', 'lumiere-movies' ); ?>
+				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the taxonomy\'s pages.', 'lumiere-movies' ); ?> <?php esc_html_e( 'Warning! This URL cannot be identical to popup\'s URL above.', 'lumiere-movies' ); ?> <br><?php esc_html_e( 'Warning again! Depending on your host and the number of taxonomies you are using, editing this URL may be extremeley resource intensive. You may need to reload the page several times.', 'lumiere-movies' ); ?>
 				<br>
 				<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "<?php echo 'lumiere-'; ?>"
 				<br>
@@ -537,8 +540,8 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 	
 	<div class="submit lumiere_sticky_boxshadow lumiere_align_center">
 		<?php wp_nonce_field( 'lumiere_nonce_general_settings', '_nonce_general_settings' ); ?>
-		<input type="submit" id="lumiere_reset_general_settings" class="button-primary" name="lumiere_reset_general_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
-		<input type="submit"  id="lumiere_update_general_settings" class="button-primary" name="lumiere_update_general_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />
+		<input type="submit"  id="lumiere_update_general_settings" class="button-primary" name="lumiere_update_general_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
+		<input type="submit" id="lumiere_reset_general_settings" class="button-primary" name="lumiere_reset_general_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />
 	</div>
 
 	</form>

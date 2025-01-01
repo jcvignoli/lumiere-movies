@@ -149,7 +149,6 @@ class Rewrite_Rules {
 		}
 
 		// First way failed, so use add_rewrite_rule(), needs flush if rules do not exist
-
 		$rules_added = [];
 
 		foreach ( $this->final_array_rules as $key => $value ) {

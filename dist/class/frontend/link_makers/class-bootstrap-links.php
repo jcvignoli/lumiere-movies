@@ -19,7 +19,6 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- *
  * This class is used when bootstrap option is selected
  *
  * Bootstrap Popup links are created, including in taxonomy pages
@@ -34,16 +33,16 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		parent::__construct();
 
 		// Registers javascripts and styles, they need to be registered before the Frontend ones.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_bootstrap_register_assets' ], 9 ); // must be priority < 10, 1 less than class frontend.
+		add_action( 'wp_enqueue_scripts', [ $this, 'register_extra_assets' ], 9 ); // must be priority < 10, 1 less than class frontend.
 
 		// Execute javascripts and styless, they need to be executed before the Frontend ones.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_bootstrap_execute_assets' ], 9 ); // must be priority < 10, 1 less than class frontend.
+		add_action( 'wp_enqueue_scripts', [ $this, 'execute_extra_assets' ], 9 ); // must be priority < 10, 1 less than class frontend.
 	}
 
 	/**
 	 *  Register frontpage scripts and styles
 	 */
-	public function lumiere_bootstrap_register_assets(): void {
+	public function register_extra_assets(): void {
 
 		// Styles.
 		wp_register_style(
@@ -79,7 +78,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 	/**
 	 * Enqueue stylesheet & javascript.
 	 */
-	public function lumiere_bootstrap_execute_assets (): void {
+	public function execute_extra_assets (): void {
 
 		wp_enqueue_style( 'lumiere_bootstrap_core' );
 		wp_enqueue_style( 'lumiere_bootstrap_custom' );
@@ -179,8 +178,6 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inherit
-	 *
-	 * @param string $mid IMDb ID of the movie
 	 */
 	public function lumiere_movies_source_details( string $mid ): string {
 		// Function in abstract class, second for normal display, third param to include imdbelementSOURCE-picture.

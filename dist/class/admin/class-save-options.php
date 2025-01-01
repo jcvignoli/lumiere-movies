@@ -95,6 +95,40 @@ class Save_Options {
 	}
 
 	/**
+	 * Update taxonomy and terms in every post
+	 * @param string|null $get_referer Full URL to Lumière admin advanced options
+	 *
+	 * @see Admin_Menu Call the method
+	 * @see Taxonomy Process
+	 * @since 4.3 Method added
+	 */
+	public static function lumiere_static_start_taxonomy( ?string $get_referer = null ): void {
+
+		$class_save = new self();
+
+		if (
+			( isset( $_POST['_nonce_general_settings'] ) && ( wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0 ) ) // Nonce
+			&& isset( $_POST['imdb_imdburlstringtaxo'] ) && strlen( sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) ) > 0
+			&& isset( $_POST['imdb_imdburlstringtaxo_terms'] ) && sanitize_key( $_POST['imdb_imdburlstringtaxo_terms'] ) === '1' // Checkbox update terms
+			&& sanitize_key( $class_save->imdb_admin_values['imdburlstringtaxo'] ) !== sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) // DB value is equal to posted value
+		) {
+			add_action(
+				'init',
+				function() use ( $class_save ) {
+					\Lumiere\Alteration\Taxonomy::lumiere_static_start(
+						$class_save->imdb_admin_values['imdburlstringtaxo'],
+						$_POST['imdb_imdburlstringtaxo'], // @phpcs:ignore WordPress.Security.NonceVerification.Missing -- Checked just above!
+						'remove_old_taxo'
+					);
+					/*if ( isset( $get_referer ) && $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
+						exit;
+					}*/
+				},
+				12
+			);
+		}
+	}
+	/**
 	 * Build the current URL for referer
 	 * Use all the values data in $_GET automatically, except those in $forbidden_url_strings
 	 * @return false|string The URL string if it's ok, false if both the $_GET is non-existant and wp_get_referer() can't get anything
@@ -247,7 +281,7 @@ class Save_Options {
 			}
 		}
 
-		// Check if $_POST['imdb_imdburlpopups'] is an acceptable path
+		// Check if $_POST['imdb_imdburlpopups'] is an acceptable path.
 		if (
 			! isset( $_POST['imdbpopup_modal_window'] ) // Make sure this is processed only in advanced options.
 			&& isset( $imdburlpopups ) // always set, not usefull.
@@ -259,9 +293,23 @@ class Save_Options {
 			}
 		}
 
-		$post_array = isset( $_POST['_nonce_general_settings'] ) && wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0 ? $_POST : [];
+		// Check if nonce is a valid value.
+		if ( ! isset( $_POST['_nonce_general_settings'] ) || ! ( wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0 ) ) {
+			exit;
+		}
 
-		foreach ( $post_array as $key => $postvalue ) {
+		/**
+		 * If $_POST['imdb_imdburlstringtaxo'] was submitted, need a rewrite rules flush to update new URLs according to new taxo terms.
+		 * It is executed after self::lumiere_static_start_taxonomy()
+		 */
+		if (
+			isset( $_POST['imdb_imdburlstringtaxo'] ) && strlen( sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) ) > 0
+			&& sanitize_key( $this->imdb_admin_values['imdburlstringtaxo'] ) !== sanitize_key( $_POST['imdb_imdburlstringtaxo'] )
+		) {
+			flush_rewrite_rules();
+		}
+
+		foreach ( $_POST as $key => $postvalue ) {
 
 			// Sanitize keys
 			$key_sanitized = sanitize_text_field( $key );

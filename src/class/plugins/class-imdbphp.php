@@ -46,7 +46,6 @@ class Imdbphp extends Imdbphp_Config {
 	 * Constructor
 	 */
 	public function __construct() {
-
 		// Get options from database.
 		$this->imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename() );
 		$this->imdb_cache_values = get_option( \Lumiere\Settings::get_cache_tablename() );
@@ -60,10 +59,8 @@ class Imdbphp extends Imdbphp_Config {
 	 * The values here will overwrite the properties in the parent class
 	 *
 	 * @see \Imdb\Config The parent class
-	 * @see \Imdb\ImageProcessor::maybe_resize_image()
 	 */
 	private function lumiere_send_config_imdbphp(): void {
-
 		$this->useLocalization = true; // Not an option in Lumière!, always use localization
 		$this->language = ''; // Disable language so it's not used but $this->country only.
 		$this->country = strtoupper( $this->imdb_admin_values['imdblanguage'] );
@@ -76,34 +73,17 @@ class Imdbphp extends Imdbphp_Config {
 		$this->cacheUseZip = $this->cacheUse === false ? false : true; // Not an option in Lumière!, not in admin interface, always true if using cache
 		$this->cacheConvertZip = $this->cacheUse === false ? false : true; // Not an option in Lumière!, not in admin interface, always true if using cache
 		$this->curloptTimeout = intval( $this->imdb_admin_values['imdbdelayimdbrequest'] );
-
-		/**
-		 * Where the local IMDB images reside (look for the "showtimes/" directory)
-		 * This should be either a relative, an absolute, or an URL including the
-		 * protocol (e.g. when a different server shall deliver them)
-		 * Cannot be changed in Lumière admin panel
-		 */
-		//      $this->imdb_img_url = LUMIERE_WP_PATH . 'assets/pics/showtimes';
-
-		/**
-		 * These two are hardcoded at 800 in IMDbPHP Config class
-		 * can't be changed in admin panel, only below
-		 */
-		$this->thumbnailWidth = 140;
-		$this->thumbnailHeight = 207;
 	}
 
-	   /**
-		* Activate cache
-		* Ensure that cache is active
-		*
-		* @see \Lumiere\Frontend\Frontend
-		*/
+	/**
+	 * Activate cache
+	 * Ensure that cache is active
+	 *
+	 * @see \Lumiere\Frontend\Frontend
+	 */
 	public function activate_cache(): void {
-			$this->cacheUse = true;
-			$this->cacheStore = true;
-			$this->cacheUseZip = true;
+		$this->cacheUse = true;
+		$this->cacheStore = true;
+		$this->cacheUseZip = true;
 	}
-
 }
-

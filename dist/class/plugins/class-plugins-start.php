@@ -50,8 +50,7 @@ class Plugins_Start {
 	public function __construct( ?array $extra_classes = null ) {
 
 		// Get the active plugins.
-		$detect_class = new Plugins_Detect();
-		$this->plugins_active_names = $detect_class->get_active_plugins();
+		$this->plugins_active_names = ( new Plugins_Detect() )->get_active_plugins();
 		$this->plugins_classes_active = $this->start_plugins();
 
 		// Add an extra class in properties.
