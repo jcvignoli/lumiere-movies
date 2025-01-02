@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-01-01T23:28:22+00:00\n"
+"POT-Creation-Date: 2025-01-02T01:41:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: lumiere-movies\n"
@@ -610,35 +610,35 @@ msgstr ""
 msgid "language"
 msgstr ""
 
-#: class/frontend/class-frontend.php:204
+#: class/frontend/class-frontend.php:211
 msgid "Lumière Movies: Wrong movie id or title."
 msgstr ""
 
-#. translators: %1 is a name
-#: class/frontend/class-frontend.php:218
-msgid "Informations about %1"
+#. translators: %s is a name
+#: class/frontend/class-frontend.php:225
+msgid "Informations about %s"
 msgstr ""
 
-#: class/frontend/class-frontend.php:234
+#: class/frontend/class-frontend.php:241
 msgid "Lumière Movies: Wrong person id."
 msgstr ""
 
-#. translators: %1$s is a movie's title
-#: class/frontend/class-frontend.php:243
-msgid "Informations about %1$s"
+#. translators: %1s is a movie's title
+#: class/frontend/class-frontend.php:250
+msgid "Informations about %1s"
 msgstr ""
 
-#: class/frontend/class-frontend.php:244
+#: class/frontend/class-frontend.php:251
 msgid "Unknown - Lumière movies"
 msgstr ""
 
-#: class/frontend/class-frontend.php:260
+#: class/frontend/class-frontend.php:267
 msgid "Lumière Movies: Wrong film id."
 msgstr ""
 
-#. translators: %1$s is the title of a movie
-#: class/frontend/class-frontend.php:266
-msgid "Lumiere Query Interface %1$s"
+#. translators: %1s is the title of a movie
+#: class/frontend/class-frontend.php:273
+msgid "Lumiere Query Interface %1s"
 msgstr ""
 
 #: class/frontend/class-movie-data.php:102

@@ -160,7 +160,7 @@ class Popup_Movie {
 	public function lumiere_popup_movie_layout( string $template_path ): string {
 
 		// Nonce. Always valid if admin is connected.
-		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || current_user_can( 'administrator' ) === true ? true : false; // Created in Abstract_Link_Maker class.
+		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || is_user_logged_in() === true ? true : false; // Created in Abstract_Link_Maker class.
 
 		// Validate $_GET['info'], exit if failed.
 		$get_info = Validate_Get::sanitize_url( 'info' );

@@ -134,7 +134,7 @@ class Popup_Person {
 		// Nonce. Always valid if admin is connected.
 		$nonce_valid =
 			( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) !== false )
-			|| current_user_can( 'administrator' )
+			|| is_user_logged_in()
 				? true :
 				false; // Created in Abstract_Link_Maker class.
 

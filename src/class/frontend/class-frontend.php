@@ -171,7 +171,7 @@ class Frontend {
 	public function popup_redirect_include( string $template ): string|Virtual_Page {
 
 		$query_popup = get_query_var( 'popup' );
-		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || current_user_can( 'administrator' ) === true ? true : false; // Created in Abstract_Link_Maker class.
+		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || is_user_logged_in() === true ? true : false; // Created in Abstract_Link_Maker class.
 
 		// The query var doesn't exist, exit.
 		if ( ! isset( $query_popup ) ) {
@@ -221,8 +221,8 @@ class Frontend {
 				// Get the film ID if it exists, if not get the film name
 				$title_name = $movie_queried !== null ? ucfirst( $movie_queried ) : ucfirst( $film_sanitized );
 
-				/* translators: %1s is a name */
-				$title = sprintf( __( 'Informations about %1s', 'lumiere-movies' ), $title_name ) . ' - Lumi&egrave;re movies';
+				/* translators: %s is a name */
+				$title = sprintf( __( 'Informations about %s', 'lumiere-movies' ), $title_name ) . ' - Lumi&egrave;re movies';
 
 				// Build the virtual page class
 				return new Virtual_Page(

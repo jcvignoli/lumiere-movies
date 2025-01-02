@@ -40,11 +40,11 @@ class Core {
 	public function __construct () {
 
 		/**
-		 * Widgets fire at init priority 0, so they must either be called here with 'widgets_init' or with 'init' priority 0
+		 * Widgets fire at init hook equivalent to priority 0, so they must either be called here with 'widgets_init' or with 'init' priority 0
 		 * https://developer.wordpress.org/reference/hooks/widgets_init/#comment-2643
 		 * They're not only for admin area, since they're executed in the frontpage as well
 		 */
-		add_action( 'widgets_init', fn() => Admin\Widget_Selection::lumiere_static_start() );
+		add_action( 'widgets_init', [ 'Lumiere\Admin\Widget_Selection', 'lumiere_static_start' ] );
 
 		/**
 		 * Taxonomy, must be executed on the whole website
@@ -54,7 +54,7 @@ class Core {
 		/**
 		 * Rewrite rules, must be executed on the whole website
 		 */
-		add_action( 'init', fn() => Alteration\Rewrite_Rules::lumiere_static_start() );
+		add_action( 'init', [ 'Lumiere\Alteration\Rewrite_Rules', 'lumiere_static_start' ] );
 
 		/**
 		 * Gutenberg blocks, must be executed on the whole website
@@ -69,15 +69,14 @@ class Core {
 		/**
 		 * Frontpage
 		 */
-		add_action( 'init', fn() => Frontend\Frontend::lumiere_static_start() );
+		add_action( 'init', [ 'Lumiere\Frontend\Frontend', 'lumiere_static_start' ] );
 
 		/**
-		 * Updates. Must be free of any conditions.
+		 * Updates.
 		 */
 		// On updating the plugin.
 		add_action( 'automatic_updates_complete', [ $this, 'lum_on_plugin_autoupdate' ], 10, 1 );
 		add_action( 'upgrader_process_complete', [ $this, 'lum_on_plugin_manualupdate' ], 10, 2 );
-
 		// On any admin page, check if an update is needed. Extra opportunity for update. @todo Find a better hook
 		add_action( 'admin_init', [ $this, 'lum_update_needed' ] );
 
@@ -85,14 +84,14 @@ class Core {
 		 * Crons. Must be free of any conditions.
 		 */
 		// Crons schedules.
-		add_action( 'init', fn() => Admin\Cron::lumiere_cron_start() );
+		add_action( 'init', [ 'Lumiere\Admin\Cron', 'lumiere_cron_start' ] );
 
 		// Call the translation.
 		add_action( 'init', [ $this, 'lum_load_translation' ] );
 
 		// WP-CLI commands, use the cli class.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			add_action( 'cli_init', fn() => Tools\Cli_Commands::lumiere_static_start() );
+			add_action( 'cli_init', [ 'Lumiere\Tools\Cli_Commands', 'lumiere_static_start' ] );
 		}
 	}
 
