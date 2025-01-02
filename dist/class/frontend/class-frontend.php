@@ -21,7 +21,7 @@ use Lumiere\Tools\Validate_Get;
 use Lumiere\Alteration\Virtual_Page;
 use Lumiere\Frontend\Popups\Popup_Person;
 use Lumiere\Frontend\Popups\Popup_Movie;
-use Lumiere\Frontend\Popups\Popup_Search;
+use Lumiere\Frontend\Popups\Popup_Movie_Search;
 use Lumiere\Frontend\Main;
 use Imdb\Title;
 use Imdb\Name;
@@ -34,7 +34,9 @@ use Imdb\Name;
  * @since 4.1
  *
  * @see \Lumiere\Frontend\Main Settings and plugins
- * @see \Lumiere\Alteration\Virtual_Page For creating virtual pages, used by {@link \Lumiere\Frontend\Popups\Popup_Person}, {@link \Lumiere\Frontend\Popups\Popup_Movie} and {@link \Lumiere\Frontend\Popups\Popup_Search}
+ * @see \Lumiere\Settings URL vars for query_var 'popup'
+ * @see \Lumiere\Alteration\Rewrite_Rules for URL rewriting using query_var 'popup'
+ * @see \Lumiere\Alteration\Virtual_Page For creating virtual pages, used by {@link \Lumiere\Frontend\Popups\Popup_Person}, {@link \Lumiere\Frontend\Popups\Popup_Movie} and {@link \Lumiere\Frontend\Popups\Popup_Movie_Search}
  * @see \Lumiere\Tools\Ban_Bots Ban the bots for virtual pages
  */
 class Frontend {
@@ -65,13 +67,13 @@ class Frontend {
 		$that = new self();
 
 		// Redirect to popups
-		add_filter( 'template_redirect', [ $that, 'lumiere_popup_redirect_include' ], 9 ); // Must be executed with priority < 10
+		add_filter( 'template_redirect', [ $that, 'popup_redirect_include' ], 9 ); // Must be executed with priority < 10
 
 		// Registers javascripts and styles.
-		add_action( 'wp_enqueue_scripts', [ $that, 'lumiere_register_assets' ] );
+		add_action( 'wp_enqueue_scripts', [ $that, 'frontpage_register_assets' ] );
 
 		// Execute javascripts and styles.
-		add_action( 'wp_enqueue_scripts', [ $that, 'lumiere_frontpage_execute_assets' ] );
+		add_action( 'wp_enqueue_scripts', [ $that, 'frontpage_execute_assets' ] );
 
 		// Start Movies into the post.
 		add_action( 'init', [ 'Lumiere\Frontend\Movie', 'lumiere_movie_start' ], 11 );
@@ -86,7 +88,7 @@ class Frontend {
 	/**
 	 * Register frontpage scripts and styles
 	 */
-	public function lumiere_register_assets(): void {
+	public function frontpage_register_assets(): void {
 
 		// hide/show script
 		wp_register_script(
@@ -131,7 +133,7 @@ class Frontend {
 	/**
 	 * Execute Frontpage stylesheets & javascripts.
 	 */
-	public function lumiere_frontpage_execute_assets(): void {
+	public function frontpage_execute_assets(): void {
 
 		wp_enqueue_style( 'lumiere_style_main' );
 
@@ -155,6 +157,10 @@ class Frontend {
 	/**
 	 * Popups redirection, return a new text replacing the normal expected text
 	 * Use template_redirect hook to call it
+	 * 1. A Rewrite Rule is created in {@see \Lumiere\Alteration\Rewrite_Rules} that builds a query_var 'popup' (it's automatized)
+	 * 2. A var in {@see \Lumiere\Settings::define_constants_after_globals()} is made available (for movie, people, search, etc.)
+	 * 3. That var is compared against the query_var 'popup' in a switch() function here in {@see Frontend::popup_redirect_include()}
+	 * 4. If found, it builds a relevant {@see \Lumiere\Alteration\Virtual_Page} on the fly
 	 *
 	 * @since 4.0 Bots are banned for all popups, it's done here so no IMDbPHP calls for movies/people are done in case of redirect
 	 * @since 4.0.1 Added bot banning if no referer, created method ban_bots_popups()
@@ -162,10 +168,10 @@ class Frontend {
 	 *
 	 * @return string|Virtual_Page
 	 */
-	public function lumiere_popup_redirect_include( string $template ): string|Virtual_Page {
+	public function popup_redirect_include( string $template ): string|Virtual_Page {
 
 		$query_popup = get_query_var( 'popup' );
-		$nonce_valid = isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ? true : false; // Created in Abstract_Link_Maker class.
+		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || current_user_can( 'administrator' ) === true ? true : false; // Created in Abstract_Link_Maker class.
 
 		// The query var doesn't exist, exit.
 		if ( ! isset( $query_popup ) ) {
@@ -186,6 +192,7 @@ class Frontend {
 			$this->plugins_classes_active['imdbphp']->activate_cache();
 		}
 
+		// 'popup' query_var must match against $this->config_class->lumiere_urlstring* vars.
 		switch ( $query_popup ) {
 			case 'film':
 				// Check if bots.
@@ -199,7 +206,7 @@ class Frontend {
 				if (
 					$one_must_exist === null
 					|| ( strlen( $one_must_exist ) > 0 ) === false
-					|| ( $nonce_valid === false && current_user_can( 'administrator' ) === false )
+					|| $nonce_valid === false
 				) {
 					wp_die( esc_html__( 'Lumière Movies: Wrong movie id or title.', 'lumiere-movies' ) );
 				}
@@ -214,14 +221,14 @@ class Frontend {
 				// Get the film ID if it exists, if not get the film name
 				$title_name = $movie_queried !== null ? ucfirst( $movie_queried ) : ucfirst( $film_sanitized );
 
-				/* translators: %1 is a name */
-				$title = sprintf( __( 'Informations about %1', 'lumiere-movies' ), $title_name ) . ' - Lumi&egrave;re movies';
+				/* translators: %1s is a name */
+				$title = sprintf( __( 'Informations about %1s', 'lumiere-movies' ), $title_name ) . ' - Lumi&egrave;re movies';
 
 				// Build the virtual page class
 				return new Virtual_Page(
 					$this->config_class->lumiere_urlstringfilms,
 					new Popup_Movie(),
-					esc_html( $title )
+					sanitize_text_field( $title )
 				);
 
 			case 'person':
@@ -230,7 +237,7 @@ class Frontend {
 				$mid_sanitized = Validate_Get::sanitize_url( 'mid' );
 
 				// Exit if trying to do bad things.
-				if ( $mid_sanitized === null || ( strlen( $mid_sanitized ) > 0 ) === false || ( $nonce_valid === false && current_user_can( 'administrator' ) === false ) ) {
+				if ( $mid_sanitized === null || ( strlen( $mid_sanitized ) > 0 ) === false || $nonce_valid === false ) {
 					wp_die( esc_html__( 'Lumière Movies: Wrong person id.', 'lumiere-movies' ) );
 				}
 
@@ -239,39 +246,40 @@ class Frontend {
 				$person_name_sanitized = $person->name();
 
 				$title = strlen( $person_name_sanitized ) > 0
-					/* translators: %1$s is a movie's title */
-					? sprintf( __( 'Informations about %1$s', 'lumiere-movies' ), $person_name_sanitized ) . ' - Lumi&egrave;re movies'
+					/* translators: %1s is a movie's title */
+					? sprintf( __( 'Informations about %1s', 'lumiere-movies' ), $person_name_sanitized ) . ' - Lumi&egrave;re movies'
 					: __( 'Unknown - Lumière movies', 'lumiere-movies' );
 
 				// Build the virtual page class
 				return new Virtual_Page(
 					$this->config_class->lumiere_urlstringperson,
 					new Popup_Person(),
-					esc_html( $title )
+					sanitize_text_field( $title )
 				);
-			case 'search':
+			case 'movie_search':
 				// Check if bots.
 				$this->ban_bots_popups();
 
 				$filmname_sanitized = Validate_Get::sanitize_url( 'film' );
 
 				// Exit if trying to do bad things.
-				if ( $filmname_sanitized === null || ( strlen( $filmname_sanitized ) > 0 ) === false || ( $nonce_valid === false && current_user_can( 'administrator' ) === false ) ) {
+				if ( $filmname_sanitized === null || ( strlen( $filmname_sanitized ) > 0 ) === false || $nonce_valid === false ) {
 					wp_die( esc_html__( 'Lumière Movies: Wrong film id.', 'lumiere-movies' ) );
 				}
 
 				// Set the title.
 				$filmname_complete = ': [' . $filmname_sanitized . ']';
-				/* translators: %1$s is the title of a movie */
-				$title = sprintf( __( 'Lumiere Query Interface %1$s', 'lumiere-movies' ), ' ' . $filmname_complete );
+				/* translators: %1s is the title of a movie */
+				$title = sprintf( __( 'Lumiere Query Interface %1s', 'lumiere-movies' ), ' ' . $filmname_complete );
 
 				// Build the virtual page class
 				return new Virtual_Page(
 					$this->config_class->lumiere_urlstringsearch,
-					new Popup_Search(),
-					esc_html( $title )
+					new Popup_Movie_Search(),
+					sanitize_text_field( $title )
 				);
 		}
+		// No popup was found, return normal template.
 		return $template;
 	}
 
@@ -296,6 +304,5 @@ class Frontend {
 
 		// Ban bots if no referer.
 		do_action( 'lum_maybe_ban_bots_noreferrer' );
-
 	}
 }

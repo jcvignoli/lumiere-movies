@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-01-01T22:43:15+00:00\n"
+"POT-Creation-Date: 2025-01-01T23:28:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: lumiere-movies\n"
@@ -559,11 +559,11 @@ msgstr ""
 msgid "New %s template version available"
 msgstr ""
 
-#: class/alteration/class-taxonomy.php:232
+#: class/alteration/class-taxonomy.php:223
 msgid "Parent taxonomy"
 msgstr ""
 
-#: class/alteration/class-taxonomy.php:236
+#: class/alteration/class-taxonomy.php:227
 msgid "Add new"
 msgstr ""
 
@@ -746,9 +746,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/frontend/class-movie-data.php:735
+#: class/frontend/popups/class-popup-movie-search.php:163
 #: class/frontend/popups/class-popup-movie.php:348
 #: class/frontend/popups/class-popup-movie.php:735
-#: class/frontend/popups/class-popup-search.php:163
 msgid "Director"
 msgid_plural "Directors"
 msgstr[0] ""
@@ -896,6 +896,46 @@ msgstr ""
 msgid "IMDb's page for this movie"
 msgstr ""
 
+#: class/frontend/popups/class-popup-movie-search.php:61
+msgid "Lumière Movies: Invalid search request."
+msgstr ""
+
+#: class/frontend/popups/class-popup-movie-search.php:142
+msgid "Results related to"
+msgstr ""
+
+#: class/frontend/popups/class-popup-movie-search.php:150
+msgid "No result found."
+msgstr ""
+
+#: class/frontend/popups/class-popup-movie-search.php:160
+msgid "Matching titles"
+msgstr ""
+
+#: class/frontend/popups/class-popup-movie-search.php:177
+msgid "Maximum number of results reached."
+msgstr ""
+
+#: class/frontend/popups/class-popup-movie-search.php:179
+msgid "You can increase the limit of results in the admin options."
+msgstr ""
+
+#: class/frontend/popups/class-popup-movie-search.php:192
+#: class/frontend/popups/class-popup-movie.php:280
+#: class/frontend/popups/class-popup-person.php:783
+#: class/theme/class-taxonomy-people-standard.php:481
+msgid "year unknown"
+msgstr ""
+
+#: class/frontend/popups/class-popup-movie-search.php:200
+#: class/frontend/popups/class-popup-movie-search.php:220
+msgid "more on"
+msgstr ""
+
+#: class/frontend/popups/class-popup-movie-search.php:227
+msgid "No director found."
+msgstr ""
+
 #: class/frontend/popups/class-popup-movie.php:171
 msgid "Lumière Movies: Invalid movie search query."
 msgstr ""
@@ -936,13 +976,6 @@ msgstr ""
 #: class/frontend/popups/class-popup-movie.php:262
 #: class/frontend/popups/class-popup-person.php:314
 msgid "Misc"
-msgstr ""
-
-#: class/frontend/popups/class-popup-movie.php:280
-#: class/frontend/popups/class-popup-person.php:783
-#: class/frontend/popups/class-popup-search.php:192
-#: class/theme/class-taxonomy-people-standard.php:481
-msgid "year unknown"
 msgstr ""
 
 #: class/frontend/popups/class-popup-movie.php:356
@@ -1153,39 +1186,6 @@ msgstr ""
 #: class/frontend/popups/class-popup-person.php:808
 #: class/theme/class-taxonomy-people-standard.php:512
 msgid "Died on"
-msgstr ""
-
-#: class/frontend/popups/class-popup-search.php:61
-msgid "Lumière Movies: Invalid search request."
-msgstr ""
-
-#: class/frontend/popups/class-popup-search.php:142
-msgid "Results related to"
-msgstr ""
-
-#: class/frontend/popups/class-popup-search.php:150
-msgid "No result found."
-msgstr ""
-
-#: class/frontend/popups/class-popup-search.php:160
-msgid "Matching titles"
-msgstr ""
-
-#: class/frontend/popups/class-popup-search.php:177
-msgid "Maximum number of results reached."
-msgstr ""
-
-#: class/frontend/popups/class-popup-search.php:179
-msgid "You can increase the limit of results in the admin options."
-msgstr ""
-
-#: class/frontend/popups/class-popup-search.php:200
-#: class/frontend/popups/class-popup-search.php:220
-msgid "more on"
-msgstr ""
-
-#: class/frontend/popups/class-popup-search.php:227
-msgid "No director found."
 msgstr ""
 
 #: class/plugins/auto/class-polylang.php:140

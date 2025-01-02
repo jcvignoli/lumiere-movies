@@ -102,7 +102,7 @@ class Save_Options {
 						'update_old_taxo'
 					);
 					/*if ( isset( $get_referer ) && $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
-						echo 'test';
+						exit;
 					}*/
 				},
 				12
@@ -254,7 +254,7 @@ class Save_Options {
 	// @phpstan-ignore-next-line method.templateTypeNotInParameter
 	private function lumiere_general_options_save( string|bool $get_referer, ?string $imdburlstringtaxo, ?string $imdburlpopups ): void {
 
-		// Check if $_POST['imdb_imdburlstringtaxo'] and $_POST['imdb_imdburlpopups'] are identical, because they can't be, so echo 'test' if they are.
+		// Check if $_POST['imdb_imdburlstringtaxo'] and $_POST['imdb_imdburlpopups'] are identical, because they can't be, so exit if they are.
 		if (
 			isset( $imdburlstringtaxo )
 			&& isset( $imdburlpopups )
@@ -262,7 +262,7 @@ class Save_Options {
 		) {
 			set_transient( 'notice_lumiere_msg', 'general_options_error_identical_value', 30 );
 			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
-				echo 'test';
+				exit;
 			}
 		}
 
@@ -274,13 +274,13 @@ class Save_Options {
 		) {
 			set_transient( 'notice_lumiere_msg', 'general_options_error_imdburlpopups_invalid', 30 );
 			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
-				echo 'test';
+				exit;
 			}
 		}
 
 		// Check if nonce is a valid value.
 		if ( ! isset( $_POST['_nonce_general_settings'] ) || ! ( wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0 ) ) {
-			echo 'test';
+			exit;
 		}
 
 		/**
@@ -329,7 +329,7 @@ class Save_Options {
 
 		set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
 		if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
-			echo 'test';
+			exit;
 		}
 	}
 
@@ -345,7 +345,7 @@ class Save_Options {
 
 		set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			echo 'test';
+			exit;
 		}
 	}
 
@@ -404,7 +404,7 @@ class Save_Options {
 		}
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			echo 'test';
+			exit;
 		}
 	}
 
@@ -419,7 +419,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
-			echo 'test';
+			exit;
 		}
 	}
 
@@ -441,7 +441,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_all_msg', 30 );
-			echo 'test';
+			exit;
 		}
 	}
 
@@ -454,7 +454,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_query_deleted', 30 );
-			echo 'test';
+			exit;
 		}
 	}
 
@@ -481,7 +481,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_ticked_msg', 30 );
-			echo 'test';
+			exit;
 		}
 	}
 
@@ -498,7 +498,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_individual_msg', 30 );
-			echo 'test';
+			exit;
 		}
 	}
 
@@ -515,7 +515,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_refresh_individual_msg', 30 );
-			echo 'test';
+			exit;
 		}
 	}
 
@@ -601,7 +601,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
-			echo 'test';
+			exit;
 		}
 
 	}
@@ -617,7 +617,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
-			echo 'test';
+			exit;
 		}
 	}
 }

@@ -84,7 +84,7 @@ class Taxonomy {
 	 * Static instanciation of the class
 	 *
 	 * @return void The class was instanciated
-	 * @see \Lumiere\Core class calling in ini hook (no arguments used)
+	 * @see \Lumiere\Core class calling in init hook (no arguments used)
 	 * @see \Lumiere\Admin\Save_Options in init hook (with arguments passed)
 	 */
 	public static function lumiere_static_start( string $old_taxonomy = '', string $new_taxonomy = '', string $action = '' ): void {

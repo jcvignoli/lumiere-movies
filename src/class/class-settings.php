@@ -120,7 +120,7 @@ class Settings {
 	const GUTENBERG_SEARCH_PAGE = 'class/admin/class-search.php';
 	const GUTENBERG_SEARCH_URL_STRING = 'lumiere/search/';
 	const GUTENBERG_SEARCH_URL = '/wp-admin/' . self::GUTENBERG_SEARCH_URL_STRING;
-	const POPUP_SEARCH_URL = 'class/frontend/popups/class-popup-search.php';
+	const POPUP_SEARCH_URL = 'class/frontend/popups/class-popup-movie-search.php';
 	const POPUP_MOVIE_URL = 'class/frontend/popups/class-popup-movie.php';
 	const POPUP_PERSON_URL = 'class/frontend/popups/class-popup-person.php';
 	const TAXO_PEOPLE_THEME = 'class/theme/class-taxonomy-people-standard.php'; // not included in $lumiere_list_all_pages.
@@ -169,14 +169,14 @@ class Settings {
 
 	/**
 	 * List of types of people available
-	 * is built in lumiere_define_constants_after_globals()
+	 * is built in define_constants_after_globals()
 	 * @var array<string> $array_people
 	 */
 	public array $array_people = [];
 
 	/**
 	 * List of types of people available
-	 * is built in lumiere_define_constants_after_globals()
+	 * is built in define_constants_after_globals()
 	 * @var array<string> $array_items
 	 */
 	public array $array_items = [];
@@ -217,7 +217,7 @@ class Settings {
 		}
 
 		// Define Lumière constants once global options have been created.
-		$this->lumiere_define_constants_after_globals();
+		$this->define_constants_after_globals();
 
 		/**
 		 * Build list of taxonomy for people and items
@@ -265,13 +265,13 @@ class Settings {
 	 * Define global constants after database options are available
 	 * Why: they need database options to work
 	 */
-	private function lumiere_define_constants_after_globals(): void {
+	private function define_constants_after_globals(): void {
 
-		/* BUILD URLSTRINGS for popups */
-		$this->lumiere_urlstring = ( strlen( $this->imdb_admin_option['imdburlpopups'] ) !== 0 ) ? $this->imdb_admin_option['imdburlpopups'] : '/lumiere/';
+		/* Build URLSTRINGS for popups */
+		$this->lumiere_urlstring = strlen( $this->imdb_admin_option['imdburlpopups'] ) !== 0 ? $this->imdb_admin_option['imdburlpopups'] : '/lumiere/';
 		$this->lumiere_urlstringfilms = $this->lumiere_urlstring . 'film/';
 		$this->lumiere_urlstringperson = $this->lumiere_urlstring . 'person/';
-		$this->lumiere_urlstringsearch = $this->lumiere_urlstring . 'search/';
+		$this->lumiere_urlstringsearch = $this->lumiere_urlstring . 'movie_search/';
 		$this->lumiere_urlpopupsfilms = site_url() . $this->lumiere_urlstringfilms;
 		$this->lumiere_urlpopupsperson = site_url() . $this->lumiere_urlstringperson;
 		$this->lumiere_urlpopupsearch = site_url() . $this->lumiere_urlstringsearch;

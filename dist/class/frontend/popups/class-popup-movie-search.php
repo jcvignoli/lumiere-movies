@@ -33,7 +33,7 @@ use Lumiere\Tools\Validate_Get;
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Tools\Settings_Global
  */
-class Popup_Search {
+class Popup_Movie_Search {
 
 	/**
 	 * Traits
