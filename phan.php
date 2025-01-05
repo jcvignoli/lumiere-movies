@@ -42,7 +42,7 @@ return [
 
 	// If enabled, scalars (int, float, bool, true, false, string, null)
 	// are treated as if they can cast to each other.
-	'scalar_implicit_cast' => false,
+	'scalar_implicit_cast' => true,
 
 	// Set to true in order to attempt to detect dead (unreferenced) code.
 	// Keep in mind that the results will only be a guess given that classes,
@@ -66,16 +66,16 @@ return [
 	'directory_list' => [
 		'tests/configs_static_tools',
 		'src/',
-
 	],
 
 	// A list of files that should be parsed for class and
 	// method information.
 	// Perfect for getting bootstrap files
 	'file_list' => [
-		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
 		'tests/bootstrap-testing.php',
 		'tests/extra_classes/irp-core.php',
+		'vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php',
+		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
 		'vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php',
 		'vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php',
 		'vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php',
@@ -93,16 +93,17 @@ return [
 	//       should be added to the `directory_list` as
 	//       to `exclude_analysis_directory_list`.
 	'exclude_analysis_directory_list' => [
+		'tests/bootstrap-testing.php',
 		'tests/configs_static_tools/constants.php',
 		'tests/configs_static_tools/extras.php',
 		'tests/extra_classes/irp-core.php',
 		'src/vendor/',
 		'assets/js/highslide/',
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
-		'tests/bootstrap-testing.php',
 		'vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php',
 		'vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php',
 		'vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php',
+		'vendor/skaut/wordpress-stubs/stubs',
 	],
 
 	// No need to analyse.
@@ -129,6 +130,8 @@ return [
 		'DuplicateArrayKeyPlugin',
 		'DuplicateExpressionPlugin',
 		'PregRegexCheckerPlugin',
+		'PreferNamespaceUsePlugin',
+		'UnusedSuppressionPlugin',
 		'PrintfCheckerPlugin',
 		'SleepCheckerPlugin',
 		// Checks for syntactically unreachable statements in

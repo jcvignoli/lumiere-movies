@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 // use Lumiere library.
-use Lumiere\Tools\Utils;
+use Lumiere\Tools\Data;
 use Lumiere\Tools\Files;
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Settings;
@@ -35,7 +35,7 @@ use Monolog\Processor\IntrospectionProcessor;
 class Logger {
 
 	// Trait including the database settings.
-	use Settings_Global, Files;
+	use Settings_Global, Files, Data;
 
 	/**
 	 * Screen output, whether to show the logging on screen
@@ -114,9 +114,9 @@ class Logger {
 
 		// If the referer of current page is a specific one, set $is_editor_page on true.
 		// This is useful when saving a post in editor interface.
-		$referer = strlen( sanitize_key( $_SERVER['REQUEST_URI'] ?? '' ) ) > 0 ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) : '';
+		$referer = strlen( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) ) > 0 ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) : '';
 		$pages_prohibited = [ '/wp-admin/admin-ajax.php', '/wp-admin/post.php', '/wp-json/wp/v2/posts' ];
-		if ( Utils::lumiere_array_contains_term( $pages_prohibited, sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) ) ) {
+		if ( $this->lumiere_array_contains_term( $pages_prohibited, esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) ) ) {
 			return true;
 		}
 
@@ -184,7 +184,7 @@ class Logger {
 				$screenformater = new LineFormatter( $output, $date_format );
 				$filelogger->setFormatter( $screenformater );
 
-				// Utilise the new format and processor.
+				// Use the new format and processor.
 				$this->logger_class->pushHandler( $filelogger );
 
 			}

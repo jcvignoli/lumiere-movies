@@ -305,7 +305,7 @@ abstract class Abstract_Link_Maker {
 		$bio_text = isset( $bio_array[ $idx ]['desc'] ) ? trim( str_replace( [ '<br>', '<br />', '<br/>', '</div>' ], ' ', $bio_array[ $idx ]['desc'] ) ) : '';
 
 		// Medaillon is displayed in a popup person page, build internal URL.
-		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), $this->config_class->lumiere_urlstringperson ) && strlen( $bio_text ) > 0 ) {
+		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), $this->config_class->lumiere_urlstringperson ) && strlen( $bio_text ) > 0 ) {
 			$bio_text = $this->lumiere_imdburl_to_internalurl( $bio_text );
 
 			// This is a taxonomy page, build popup URL.
@@ -476,10 +476,13 @@ abstract class Abstract_Link_Maker {
 	private function bootstrap_modal( string $imdb_id, string $imdb_data ): string {
 
 		return "\n\t\t\t" . '<span class="modal fade" id="theModal' . $imdb_id . '">'
-			. "\n\t\t\t\t" . '<span id="bootstrapp' . $imdb_id . '" class="modal-dialog modal-dialog-centered' . esc_attr( $this->bootstrap_convert_modal_size() ) . '" role="dialog">'
+			. "\n\t\t\t\t" . '<span id="bootstrap' . $imdb_id . '" class="modal-dialog modal-dialog-centered' . esc_attr( $this->bootstrap_convert_modal_size() ) . '" role="dialog">'
 			. "\n\t\t\t\t\t" . '<span class="modal-content">'
 			. "\n\t\t\t\t\t\t" . '<span class="modal-header bootstrap_black"><span id="lumiere_bootstrap_spinner_id" role="status" class="spinner-border"><span class="sr-only"></span></span>'
-			// . esc_html__( 'Informations about', 'lumiere-movies' ) . ' ' . sanitize_text_field( ucfirst( $imdb_data ) )
+			/**
+			 * Deactivated: Title's popup doesn't change when navigating
+			 * . esc_html__( 'Information about', 'lumiere-movies' ) . ' ' . esc_html( ucfirst( $imdb_data ) )
+			 */
 			. '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . $imdb_id . '"></button>'
 			. "\n\t\t\t\t\t\t" . '</span>'
 			. "\n\t\t\t\t\t\t" . '<span class="modal-body embed-responsive embed-responsive-16by9"></span>'

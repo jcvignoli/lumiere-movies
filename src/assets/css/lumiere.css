@@ -6,6 +6,9 @@
 ******************** Popups
 ***********************************************************/
 
+/** Remove the margin attributed to <HTML> tag by Chrome I guess */
+html:has(.lum_body_popup){margin-top:0px !important;}
+
 /* Popups body */
 body.lum_body_popup {font-family: sans-serif;margin:1em;}
 /* Popups body with colors (according to options selected in admin */

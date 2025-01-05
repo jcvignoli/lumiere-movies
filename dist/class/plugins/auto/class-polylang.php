@@ -18,22 +18,30 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Lumiere\Plugins\Logger;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Plugin for Polylang WordPress plugin
  * This class offers specific functions if Polylang is in use
- * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->plugins_classes_active
+ * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->active_plugins
+ * Executed in Frontend only (except for {@see Polylang::add_polylang_taxonomy()} that can be called from ie admin)
  *
  * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
 class Polylang {
 
 	/**
+	 * Traits
+	 */
+	use Get_Options;
+
+	/**
 	 * Array of plugins currently in use
 	 *
-	 * @phpstan-var array<int, AVAILABLE_PLUGIN_CLASSES>
-	 * @var array<int, string>
+	 * @phpstan-var array<AVAILABLE_PLUGIN_CLASSES_KEYS, AVAILABLE_PLUGIN_CLASSES>
+	 * @var array<string, string>
 	 */
 	private array $active_plugins;
 
@@ -45,8 +53,8 @@ class Polylang {
 	/**
 	 * Constructor
 	 *
-	 * @phpstan-param array<int, AVAILABLE_PLUGIN_CLASSES> $active_plugins
-	 * @param array<int, string> $active_plugins
+	 * @phpstan-param array<AVAILABLE_PLUGIN_CLASSES_KEYS, AVAILABLE_PLUGIN_CLASSES> $active_plugins
+	 * @param array<string, string> $active_plugins
 	 */
 	final public function __construct( array $active_plugins ) {
 
@@ -55,6 +63,10 @@ class Polylang {
 
 		$this->logger = new Logger( 'Polylang' );
 
+		// Add a filter that returns an array for a SQL Query
+		add_filter( 'lum_polylang_taxo_query', [ $this, 'get_polylang_query_form' ], 10, 2 );
+
+		add_filter( 'pll_get_taxonomies', [ $this, 'add_tax_to_pll' ], 10, 2 );
 	}
 
 	/**
@@ -63,11 +75,45 @@ class Polylang {
 	public static function start_init_hook(): void {}
 
 	/**
-	 * Add the language in use to taxonomy terms ------- In class movie
+	 * Static start for adding Polylang specific filters
+	 * Allow access from outside the Frontend system, without class instanciation
 	 *
-	 * @deprecated 4.0 not utilised anymore, WordPress functions do all what we need
+	 * @see Lumiere\Admin
+	 */
+	public static function add_polylang_taxonomy(): void {
+		if ( function_exists( 'pll_current_language' ) === false ) {
+			return;
+		}
+		add_filter( 'pll_get_taxonomies', [ self::class, 'add_tax_to_pll' ], 10, 2 );
+	}
+
+	/**
+	 * Block the option to unselect Lumière custom taxonomy translation
+	 * This is a secific Polylang filter to be called such as add_filter( 'pll_get_taxonomies', 'this_function' )
 	 *
+	 * @param array<string, string> $taxonomies
+	 * @param bool $hide Option to hide (or not) Do not get exectly how it works
+	 * @return array<string, string>
+	 *
+	 * @link WordPress admin /admin.php?page=mlang_settings
+	 * @link Polylang reference hooks https://polylang.pro/doc/filter-reference/
+	 */
+	public static function add_tax_to_pll( array $taxonomies, bool $hide ) {
+		$lum_activated_taxos = ( new class() { use Get_Options;
+		} )->get_taxonomy_activated(); // Method in trait Get_Options.
+
+		foreach ( $lum_activated_taxos as $taxo ) {
+			$taxonomies[ $taxo ] = $taxo;
+		}
+		return $taxonomies;
+	}
+
+	/**
+	 * Add the language in use to taxonomy terms
 	 * @param array<string|int, string|int> $term
+	 *
+	 * @see \Lumiere\Frontend\Movie
+	 * @deprecated since 4.0 not utilised anymore, WordPress functions do all what we need
 	 */
 	public function lumiere_polylang_add_lang_to_taxo( array $term ): void {
 
@@ -83,7 +129,6 @@ class Polylang {
 
 			//      if ( pll_default_language() == $lang )
 			//          pll_save_term_translations( array ( $lang, $term_id) );
-
 			pll_set_term_language( intval( $term['term_id'] ), $lang );
 			pll_save_term_translations( [ $lang => intval( $term['term_id'] ) ] );
 			$this->logger->log()->debug( '[Lumiere][Polylang] Taxonomy id ' . $term['term_id'] . ' added' );
@@ -120,7 +165,6 @@ class Polylang {
 			]
 		);
 		$pll_lang = is_array( $pll_lang_init ) ? $pll_lang_init : null;
-
 		if ( ! isset( $pll_lang ) ) {
 			$this->logger->log()->debug( "[Lumiere][Polylang][taxonomy_$taxonomy] No Polylang language set." );
 			return '';
@@ -130,7 +174,7 @@ class Polylang {
 		 * Use AMP form if AMP plugin is active
 		 * Return the AMP form and exit
 		 */
-		if ( in_array( 'amp', $this->active_plugins, true ) === true ) {
+		if ( in_array( 'amp', array_keys( $this->active_plugins ), true ) === true ) {
 			return $this->amp_form_polylang_selection( $pll_lang );
 		}
 
@@ -230,7 +274,7 @@ class Polylang {
 				wp_send_json(
 					[
 						'msg' => __( 'No data passed', 'lumiere-movies' ),
-						'response' => sanitize_text_field( wp_unslash( $_GET['tag_lang'] ) ),
+						'response' => esc_url_raw( wp_unslash( $_GET['tag_lang'] ) ),
 						'back_link' => true,
 					]
 				);
@@ -252,7 +296,6 @@ class Polylang {
 	/**
 	 * Append to home url the polylang url
 	 * Allows to rewrite for example the popups to make them compatible with polylang system
-	 *
 	 * @since 3.11
 	 * @param string $content The URL that contains home_url() in it
 	 * @param null|string $extra_url An extra portion of url if needed
@@ -260,7 +303,6 @@ class Polylang {
 	 * @deprecated 4.1 no use of this method
 	 */
 	public function rewrite_string_with_polylang_url( string $content, ?string $extra_url = null ): string {
-
 		$home_slashed = str_replace( '/', '\/', home_url() );
 		$pll_home_slashed = str_replace( '/', '\/', trim( pll_home_url(), '/' ) );
 		$extra_url_piece = isset( $extra_url ) ? str_replace( '/', '\/', $extra_url ) : '';
@@ -270,31 +312,67 @@ class Polylang {
 	}
 
 	/**
-	 * Build the list of arguments for a wp_query
+	 * Return a WP Query that includes Polylang language and 'terms' fields
+	 * Build the slug according to the 'name' field
+	 * Add an extension to the slug if it's not the current language (each term has a lang extension, 'stanley-kubrick', 'stanley-kubrick-en'
 	 *
-	 * @since 4.1.2
-	 * @param string $polylang_lang Lang in two characters in the $_GET which is used in lang
-	 * @param string $imdburlstringtaxo
-	 * @param string $person_name Name searched
-	 * @param string $role
-	 * @return array<string, array<int|string, array<string, string>|string>|bool|int|string>
+	 * @param array<string, array<int|string, array<string, string>|string>|bool|int|string> $query Original Query
+	 * @param array{polylang_lang: string|null, person_name: string, taxonomy: string} $args Taxonomy ie 'lumiere-director'
+	 * @return array<string, array<int|string, array<string, array<int|string, string>|string>|string>|int|string|true>|array<string, array<int|string, array<string, string>|string>|bool|int|string>
+	 *
+	 * @since 4.3
+	 * @see \Lumiere\Taxonomy_People_Standard Uses the query to display a dropdown field
+	 * @see Polylang::add_lang_to_multiple_terms() Make an array of terms if there are multiple languages
 	 */
-	public function get_polylang_taxo_query( string $polylang_lang, string $imdburlstringtaxo, string $person_name, string $role ): array {
+	public function get_polylang_query_form( array $query, array $args ): array {
+
+		// If Polylang is not active, or nonce is incorrect => return orginal query
+		if (
+			// Polylang is not active.
+			in_array( 'polylang', array_keys( $this->active_plugins ), true ) === false
+			// If lang was not found
+			|| ! isset( $args['polylang_lang'] )
+		) {
+			return $query;
+		}
+
+		$polylang_current_lang = pll_current_language() !== false ? pll_current_language() : null;
+		// 1. Extension: if the lang passed is the same as default, no extension.
+		$ext_term = $args['polylang_lang'] === $polylang_current_lang ? '' : '-' . $args['polylang_lang'];
+		// 2. Lang: if there is a lang and it is not 'all', keep it, otherwise make a string of all languages available on the site.
+		$lang = strlen( $args['polylang_lang'] ) > 0 && $args['polylang_lang'] !== 'all' ? $args['polylang_lang'] : join( ',', pll_languages_list() );
+		// 3. Terms: if the lang is a string comma-separated or is empty, build an array of terms that include an extension, otherwise transform it in term
+		$terms = str_contains( $lang, ',' ) || $lang === '' ? $this->add_lang_to_multiple_terms( $lang, $args['person_name'] ) : strtolower( str_replace( ' ', '-', $args['person_name'] . $ext_term ) );
 
 		return [
 			'post_type' => [ 'post', 'page' ],
-			'post_status' => 'publish',
 			'numberposts' => -1,
-			'nopaging' => true,
-			'lang' => sanitize_key( $polylang_lang ),
+			'no_found_rows' => true,
+			'lang' => $lang,
 			'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-				// @phan-suppress-next-line PhanPluginMixedKeyNoKey Should not mix array entries of the form [key => value,] with entries of the form [value,]. -- Since WordPress accepts it, it's ok!
 				[
-					'taxonomy' => sanitize_text_field( $imdburlstringtaxo . $role ),
-					'field' => 'name',
-					'terms' => sanitize_text_field( $person_name ),
+					'taxonomy' => $args['taxonomy'],
+					'field' => 'slug',
+					'terms' => $terms,
 				],
 			],
 		];
+	}
+
+	/**
+	 * Make an array of terms if there are multiple languages
+	 *
+	 * @param string $langs Either 'all' or comma-separated list of langs
+	 * @param string $term The term such as 'stanley-kubrick'
+	 * @return list<string>
+	 */
+	public function add_lang_to_multiple_terms( string $langs, string $term ): array {
+		$output = [];
+		$langs = $langs === 'all' ? pll_languages_list() : explode( ',', $langs );
+		foreach ( $langs as $lang ) {
+			$ext_term = $lang === pll_current_language() ? '' : '-' . $lang;
+			$output[] = strtolower( str_replace( ' ', '-', $term . $ext_term ) );
+		}
+		return $output;
 	}
 }

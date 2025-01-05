@@ -21,7 +21,7 @@ use Lumiere\Admin\Admin_Menu;
 use Lumiere\Admin\Backoffice_Extra;
 use Lumiere\Admin\Metabox_Selection;
 use Lumiere\Admin\Search;
-use Lumiere\Tools\Utils;
+use Lumiere\Tools\Data;
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Alteration\Virtual_Page;
 
@@ -37,7 +37,7 @@ class Admin {
 	/**
 	 * Traits
 	 */
-	use Settings_Global;
+	use Settings_Global, Data;
 
 	/**
 	 * Constructor
@@ -95,6 +95,9 @@ class Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
+
+		// Add Polylang filter to admin. Polylang plugin is not normaly loaded in admin, this filter is needed to block to user custom taxo.
+		add_action( 'init', [ 'Lumiere\Plugins\Auto\Polylang', 'add_polylang_taxonomy' ], 11 );
 
 		// Add admin menu.
 		add_action( 'init', fn() => Admin_Menu::lumiere_static_start() );
@@ -173,15 +176,15 @@ class Admin {
 			|| 'post-new.php' === $page_caller
 			|| 'widgets.php' === $page_caller
 			// All Lumière pages.
-			|| Utils::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) )
+			|| $this->lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) ) // In Trait data.
 			// Extra WP Admin pages.
-			|| Utils::lumiere_array_contains_term(
+			|| $this->lumiere_array_contains_term(
 				[
 					'admin.php?page=lumiere_options',
 					'options-general.php?page=lumiere_options',
 				],
-				sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) )
-			)
+				esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) )
+			) // Trait data
 		) {
 
 			// Load main css.
@@ -268,14 +271,14 @@ class Admin {
 
 		// Display only in admin area.
 		if (
-			stripos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) !== 0
+			stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) !== 0
 			|| is_admin()
 		) {
 			return;
 		}
 
 		$new_page = new Virtual_Page(
-			site_url() . Settings::GUTENBERG_SEARCH_URL,
+			esc_url( site_url() . Settings::GUTENBERG_SEARCH_URL ),
 			new Search(),
 			'Lumiere Query Interface'
 		);

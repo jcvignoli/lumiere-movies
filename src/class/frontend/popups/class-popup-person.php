@@ -64,22 +64,8 @@ class Popup_Person {
 		// Construct Frontend trait.
 		$this->start_main_trait();
 
-		// Remove admin bar if user is logged in.
-		// Also check if AMP page (in trait Main), as AMP plugin needs admin bar if logged in otherwise returns notices.
-		if ( is_user_logged_in() === true && $this->lumiere_is_amp_page() !== true ) {
-			add_filter( 'show_admin_bar', '__return_false' );
-			wp_dequeue_style( 'admin-bar' );
-			wp_deregister_style( 'admin-bar' );
-		}
-
-		/**
-		 * Start Plugins_Start class
-		 * Is instanciated only if not instanciated already
-		 * Use lumiere_set_plugins_array() in trait to set $plugins_active_names var in trait
-		 */
-		if ( count( $this->plugins_active_names ) === 0 ) {
-			$this->activate_plugins();
-		}
+		// Get plugins
+		add_action( 'template_redirect', [ $this, 'set_plugins_if_needed' ] );
 
 		/**
 		 * Display layout
@@ -96,6 +82,15 @@ class Popup_Person {
 	 */
 	public static function lumiere_popup_person_start (): void {
 		$popup_person_class = new self();
+	}
+
+	/**
+	 * Start Plugins_Start class
+	 * Is instanciated only if not instanciated already
+	 * Always loads IMDBPHP plugin
+	 */
+	public function set_plugins_if_needed(): void {
+		$this->maybe_activate_plugins(); // In Trait Main.
 	}
 
 	/**

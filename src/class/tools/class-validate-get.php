@@ -68,7 +68,7 @@ class Validate_Get {
 
 		$sanitize_server = filter_input_array( INPUT_GET, self::VALIDABLE_KEYS, true );
 		return isset( $sanitize_server[ $url_key ] ) && $sanitize_server[ $url_key ] !== false
-			? sanitize_key( $sanitize_server[ $url_key ] )
+			? esc_html( $sanitize_server[ $url_key ] )
 			: null;
 	}
 }

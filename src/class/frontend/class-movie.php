@@ -104,17 +104,17 @@ class Movie {
 
 			/**
 			 * Start Plugins_Start class
-			 * Use activate_plugins() in trait to set $plugins_active_names var in trait
+			 * Is instanciated only if not instanciated already
+			 * Always loads IMDBPHP plugin
+			 * @TODO pass it into an add_action(), such as in popups
 			 */
-			if ( count( $this->plugins_active_names ) === 0 ) {
-				$this->activate_plugins();
-			}
+			$this->maybe_activate_plugins(); // In Trait Main.
 
 			// Log the current link maker
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
 			// Log Plugins_Start, $this->plugins_classes_active in trait
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Calling IMDbPHP class.' );
 
 			// Set the trigger to true so this is not called again.
@@ -599,7 +599,7 @@ class Movie {
 
 		$find_term = get_term_by( 'name', $name_searched, $taxo_category );
 		$taxo_link = $find_term instanceof \WP_Term ? get_term_link( $find_term->term_id, $taxo_category ) : '';
-		return is_wp_error( $taxo_link ) === false ? $taxo_link : '';
+		return $taxo_link instanceof \WP_Error ? '' : $taxo_link;
 	}
 
 	/**

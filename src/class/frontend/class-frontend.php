@@ -66,9 +66,6 @@ class Frontend {
 
 		$that = new self();
 
-		// Redirect to popups
-		add_filter( 'template_redirect', [ $that, 'popup_redirect_include' ], 9 ); // Must be executed with priority < 10
-
 		// Registers javascripts and styles.
 		add_action( 'wp_enqueue_scripts', [ $that, 'frontpage_register_assets' ] );
 
@@ -83,6 +80,12 @@ class Frontend {
 
 		// Ban bots.
 		add_action( 'init', fn() => Ban_Bots::lumiere_static_start(), 11 );
+
+		// Get plugins
+		add_action( 'init', [ $that, 'set_plugins_if_needed' ], 11 );
+
+		// Redirect to popups
+		add_filter( 'template_redirect', [ $that, 'popup_redirect_include' ], 9 ); // Must be executed with priority < 10
 	}
 
 	/**
@@ -155,6 +158,14 @@ class Frontend {
 	}
 
 	/**
+	 * Start Plugins_Start class
+	 * Is instanciated only if not instanciated already
+	 */
+	public function set_plugins_if_needed(): void {
+		$this->maybe_activate_plugins(); // In Trait Main.
+	}
+
+	/**
 	 * Popups redirection, return a new text replacing the normal expected text
 	 * Use template_redirect hook to call it
 	 * 1. A Rewrite Rule is created in {@see \Lumiere\Alteration\Rewrite_Rules} that builds a query_var 'popup' (it's automatized)
@@ -178,19 +189,8 @@ class Frontend {
 			return $template;
 		}
 
-		/**
-		 * Start Plugins_Start class
-		 * Is instanciated only if not instanciated already
-		 * Use lumiere_set_plugins_array() in trait to set $plugins_active_names var in trait
-		 */
-		if ( count( $this->plugins_active_names ) === 0 ) {
-			$this->activate_plugins();
-		}
-
 		// Make sure we use cache. User may have decided not to use cache, but we need to accelerate the call.
-		if ( $this->imdb_cache_values['imdbusecache'] === '0' ) {
-			$this->plugins_classes_active['imdbphp']->activate_cache();
-		}
+		$this->plugins_classes_active['imdbphp']?->activate_cache();
 
 		// 'popup' query_var must match against $this->config_class->lumiere_urlstring* vars.
 		switch ( $query_popup ) {
@@ -237,12 +237,12 @@ class Frontend {
 				$mid_sanitized = Validate_Get::sanitize_url( 'mid' );
 
 				// Exit if trying to do bad things.
-				if ( $mid_sanitized === null || ( strlen( $mid_sanitized ) > 0 ) === false || $nonce_valid === false ) {
+				if ( $mid_sanitized === null || strlen( $mid_sanitized ) > 0 === false || $nonce_valid === false ) {
 					wp_die( esc_html__( 'Lumière Movies: Wrong person id.', 'lumiere-movies' ) );
 				}
 
 				// Set the title.
-				$person = new Name( $mid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() ); /** @phan-suppress-current-line PhanTypeMismatchArgumentNullable -- Phan doesn't detect wp_die() = die() so that $mid_sanitized is never null. */
+				$person = new Name( $mid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() );
 				$person_name_sanitized = $person->name();
 
 				$title = strlen( $person_name_sanitized ) > 0
@@ -268,7 +268,7 @@ class Frontend {
 				}
 
 				// Set the title.
-				$filmname_complete = ': [' . $filmname_sanitized . ']';
+				$filmname_complete = ': [ ' . ucwords( $filmname_sanitized ) . ' ]';
 				/* translators: %1s is the title of a movie */
 				$title = sprintf( __( 'Lumiere Query Interface %1s', 'lumiere-movies' ), ' ' . $filmname_complete );
 

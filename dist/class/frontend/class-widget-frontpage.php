@@ -207,8 +207,8 @@ class Widget_Frontpage {
 			&& is_int( $post_id )
 			&& get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) !== 'disabled' // thus the var may not have been created.
 		) {
-			$movies_array[]['byname'] = esc_html( get_the_title() );
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Auto title widget activated, using the post title ' . sanitize_text_field( get_the_title() ) . ' for querying' );
+			$movies_array[]['byname'] = esc_html( get_the_title( $post_id ) );
+			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Auto title widget activated, using the post title ' . sanitize_text_field( get_the_title( $post_id ) ) . ' for querying' );
 
 			// the post-based selection for auto title widget is turned off
 		} elseif (

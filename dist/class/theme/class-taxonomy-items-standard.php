@@ -70,8 +70,8 @@ class Taxonomy_Items_Standard {
 		 * Set $plugins_active_names and $plugins_classes_active var in trait
 		 * @since 3.8
 		 */
-		if ( count( $this->plugins_active_names ) === 0 ) {
-			$this->activate_plugins();
+		if ( count( $this->plugins_classes_active ) === 0 ) {
+			$this->maybe_activate_plugins();
 		}
 
 		// Build the taxonomy name.
@@ -142,7 +142,7 @@ class Taxonomy_Items_Standard {
 		get_header();
 
 		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 
 		echo wp_kses( $this->lum_taxo_display_content(), $kses_esc_html );
 
@@ -193,10 +193,13 @@ class Taxonomy_Items_Standard {
 			while ( $the_query->have_posts() ) {
 				$the_query->the_post();
 
+				$the_id = get_the_ID();
+				$the_id = $the_id !== false ? $the_id : 0;
+
 				$output .= "\n\t\t" . '<br>';
 				$output .= "\n\t\t" . '<div class="postList postsTaxonomy">';
-				$output .= "\n\t\t" . '<h3 id="post-' . (string) get_the_ID() . '">';
-				$output .= "\n\t\t" . '<a href="' . (string) get_the_permalink() . '" rel="bookmark" title="' . __( 'Open the blog ', 'lumiere-movies' ) . get_the_title() . '">' . get_the_title() . '</a>';
+				$output .= "\n\t\t" . '<h3 id="post-' . (string) $the_id . '">';
+				$output .= "\n\t\t" . '<a href="' . (string) get_the_permalink() . '" rel="bookmark" title="' . __( 'Open the blog ', 'lumiere-movies' ) . get_the_title( $the_id ) . '">' . get_the_title( $the_id ) . '</a>';
 				$output .= "\n\t\t" . '</h3>';
 
 				$output .= "\n\t\t" . '<div class="entry">';
@@ -244,7 +247,7 @@ class Taxonomy_Items_Standard {
 		</header>
 		<?php
 		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 		echo wp_kses( $block_content, $kses_esc_html ); ?>
 		<footer class="wp-block-template-part site-footer">
 		<?php block_footer_area(); ?>

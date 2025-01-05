@@ -23,6 +23,7 @@
     "build": "gulp build --clean yes",
     "rsync": "gulp rsync",
     "phpdoc": "phpDocumentor run",
+    "plugincheck": "wp @lumiere plugin check lumiere-movies",
     "codeceptionRemote": "php vendor/bin/codecept run -vvv acceptanceRemote --env wpchrome",
     "codeceptionLocal": "php vendor/bin/codecept run -vvv acceptanceLocal --env wpchrome",
     "phpcs": "vendor/bin/phpcs --warning-severity=0 -s src --report=code --extensions=php | tee tmp/logs/Results-phpcs-wp.txt",
@@ -33,7 +34,7 @@
     "psalm-clean": "rm -R tmp/cache/psalm && npm run psalm",
     "phpdd": "vendor/bin/phpdd ./src --exclude $(grep -oP \"(?<=^exclude: )[^/]+\" phpdd.dist) | tee tmp/logs/Results-phpdd-deprecated.txt",
     "phan": "vendor/bin/phan -k phan.php --output-mode=text -p | tee tmp/logs/Results-phan.txt",
-    "analysis": "npm-run-all -c phpcs phpmd phpstan phan phpdd psalm"
+    "analysis": "npm-run-all -c phpcs phpmd phpstan phan phpdd psalm plugincheck"
   },
   "devDependencies": {
     "@wordpress/scripts": "*",

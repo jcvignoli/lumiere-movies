@@ -38,30 +38,25 @@ class Head_Popups {
 	 */
 	public function __construct() {
 
-		// Construct Frontend Main trait.
+		// Get the properties from Main trait.
 		$this->start_main_trait();
 
 		// Exit if it is not a popup.
-		if ( $this->is_popup_page() === false ) {
+		if ( $this->is_popup_page() === false ) { // In Trait Main.
 			return;
 		}
 
-		/**
-		 * Start Plugins_Start class
-		 * Is instanciated only if not instanciated already
-		 * Use lumiere_set_plugins_array() in trait to set $plugins_active_names var in trait
-		 */
-		if ( count( $this->plugins_active_names ) === 0 ) {
-			$this->activate_plugins();
-		}
+		// Get Lumière plugins.
+		add_action( 'wp_head', [ $this, 'set_plugins_if_needed' ], 7 ); // must be priority 7, class called with template_redirect.
 
-		add_action( 'wp_head', [ $this, 'display_plugins_log' ], 99 );
+		// Display the plugins active.
+		add_action( 'wp_head', [ $this, 'display_plugins_log' ] );
 
-		// Remove useless or uneeded actions
-		$this->filters_and_actions();
+		// Remove useless or unwanted filters and actions
+		$this->remove_filters_and_actions();
 
 		// Add Lumière <head> data in popups
-		add_action( 'wp_head', [ $this, 'lumiere_add_metas_popups' ], 7 ); // must be priority 7, one less than earliest wp_head.
+		add_action( 'wp_head', [ $this, 'lumiere_add_metas_popups' ], 7 ); // must be priority 7, class called with template_redirect.
 	}
 
 	/**
@@ -75,6 +70,15 @@ class Head_Popups {
 	}
 
 	/**
+	 * Start Plugins_Start class
+	 * Is instanciated only if not instanciated already
+	 * Always loads IMDBPHP plugin
+	 */
+	public function set_plugins_if_needed(): void {
+		$this->maybe_activate_plugins(); // In Trait Main.
+	}
+
+	/**
 	 * Display which plugins are in use
 	 *
 	 * @return void
@@ -82,41 +86,18 @@ class Head_Popups {
 	public function display_plugins_log(): void {
 
 		// Log Plugins_Start, $this->plugins_classes_active in Main trait.
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', $this->plugins_active_names ) . ']' );
+		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 	}
 
 	/**
-	 * Detect if the current page is a popup
+	 * Remove filters and actions that are of no use
 	 *
-	 * @since 3.11.4
-	 * @return bool True if the page is a Lumiere popup
-	 */
-	private function is_popup_page(): bool {
-		$get_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : null;
-		if (
-			isset( $get_request_uri )
-			&&
-			(
-				str_contains( $get_request_uri, $this->config_class->lumiere_urlstringfilms )
-				|| str_contains( $get_request_uri, $this->config_class->lumiere_urlstringsearch )
-				|| str_contains( $get_request_uri, $this->config_class->lumiere_urlstringperson )
-			)
-		) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Run all modification to the head
-	 *
-	 * @return void The class was instanciated
+	 * @return void Filter and action were processed
 	 * @since 3.11.4 created
-	 * @since 4.1 removed OceanWP specific actions remove, popups are built differently now
 	 */
-	private function filters_and_actions(): void {
+	private function remove_filters_and_actions(): void {
 
-		// Prevent WordPress from inserting a few things
+		// Prevent WordPress from inserting a few things.
 		remove_action( 'wp_head', 'rel_canonical' ); // remove canonical
 		remove_action( 'wp_head', 'wp_shortlink_wp_head', 10 ); // remove shortlink
 		remove_action( 'wp_head', 'start_post_rel_link', 10 ); // remove random post link
@@ -126,8 +107,13 @@ class Head_Popups {
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10 );
 		remove_action( 'wp_head', 'feed_links', 2 ); // remove rss feed links (make sure you add them in yourself if youre using feedblitz or an rss service)
 		remove_action( 'wp_head', 'feed_links_extra', 3 ); // removes all extra rss feed links
-		remove_action( 'wp_head', 'wp_generator' ); // remove wordpress version
+		remove_action( 'wp_head', 'wp_generator' ); // remove WordPress version
 		remove_action( 'wp_head', 'wp_site_icon', 99 ); // Prevent WordPress from inserting favicons.
+
+		// Remove admin bar if user is logged in.
+		if ( is_user_logged_in() === true ) {
+			add_filter( 'show_admin_bar', '__return_false' );
+		}
 	}
 
 	/**
@@ -153,14 +139,14 @@ class Head_Popups {
 
 		// Add canonical.
 		// Canonical for search popup.
-		if ( 0 === stripos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) && $sanitized_film !== null ) {
+		if ( 0 === stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) && $sanitized_film !== null ) {
 
 			$my_canon = $this->config_class->lumiere_urlpopupsearch . '?film=' . $sanitized_film . '&norecursive=yes';
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 		}
 
 		// Canonical for movies popups.
-		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), $this->config_class->lumiere_urlstringfilms ) && is_string( $sanitized_mid ) ) {
+		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), $this->config_class->lumiere_urlstringfilms ) && is_string( $sanitized_mid ) ) {
 
 			$url_str_info = $sanitized_info === null ? '' : '&info=' . $sanitized_info;
 			$url_str_film = $sanitized_film === null ? '' : '&film=' . $sanitized_film;
@@ -175,7 +161,7 @@ class Head_Popups {
 		}
 
 		// Canonical for people popups.
-		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), $this->config_class->lumiere_urlstringperson ) && is_string( $sanitized_mid ) ) {
+		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), $this->config_class->lumiere_urlstringperson ) && is_string( $sanitized_mid ) ) {
 
 			$url_str_info = $sanitized_info === null ? '' : '&info=' . $sanitized_info;
 			$my_canon = $this->config_class->lumiere_urlpopupsperson . $sanitized_mid . '/?mid=' . $sanitized_mid . $url_str_info;

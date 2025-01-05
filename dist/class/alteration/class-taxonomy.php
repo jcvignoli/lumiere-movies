@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Settings;
-use Lumiere\Tools\Data;
+use Lumiere\Tools\Get_Options;
 use Lumiere\Plugins\Logger;
 use Exception;
 use WP_Query;
@@ -37,12 +37,7 @@ class Taxonomy {
 	/**
 	 * Traits
 	 */
-	use Data;
-
-	/**
-	 * @phpstan-var OPTIONS_DATA $imdb_data_values
-	 */
-	private array $imdb_data_values;
+	use Get_Options;
 
 	/**
 	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values
@@ -58,7 +53,7 @@ class Taxonomy {
 	 * Constructor
 	 */
 	public function __construct( string $old_taxonomy = '', string $new_taxonomy = '', string $action = '' ) {
-		$this->imdb_data_values = get_option( Settings::get_data_tablename(), [] );
+
 		$this->imdb_admin_values = get_option( Settings::get_admin_tablename(), [] );
 
 		// If taxonomy is not activated, exit.
@@ -84,7 +79,7 @@ class Taxonomy {
 	 * Static instanciation of the class
 	 *
 	 * @return void The class was instanciated
-	 * @see \Lumiere\Core class calling in init hook (no arguments used)
+	 * @see \Lumiere\Core class calling in ini hook (no arguments used)
 	 * @see \Lumiere\Admin\Save_Options in init hook (with arguments passed)
 	 */
 	public static function lumiere_static_start( string $old_taxonomy = '', string $new_taxonomy = '', string $action = '' ): void {
@@ -94,26 +89,23 @@ class Taxonomy {
 	/**
 	 * Update all terms according to a new taxonomy.
 	 *
-	 * @param string $old_taxonomy the taxonomy to be replaced
-	 * @param string $new_taxonomy the new taxonomy
+	 * @param string $old_taxonomy the taxonomy to be replaced, ie 'lumiere-'
+	 * @param string $new_taxonomy the new taxonomy, , ie 'lumiere-'
 	 * @return void The class was instanciated
 	 */
 	public function update_custom_terms( string $old_taxonomy, string $new_taxonomy ): void {
 
-		$get_taxo_array = $this->lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' );
-
 		$this->logger?->log()->debug( '[Lumiere][Taxonomy] Updating taxonomy ' . $old_taxonomy . ' with ' . $new_taxonomy );
 
-		foreach ( $get_taxo_array as $option => $active ) { // Method in trait Data.
+		$get_taxo_array = $this->get_taxonomy_activated(); // Method in trait Get_Options, retrieve an array of varsuch as "lumiere-director"
 
-			// If the taxonomy is not active, don't go further.
-			if ( $active !== '1' ) {
-				continue;
-			}
+		foreach ( $get_taxo_array as $taxonomy_name ) {
+
+			$taxonomy_item = str_replace( $this->imdb_admin_values['imdburlstringtaxo'], '', $taxonomy_name ); // Such as "director"
 
 			// Build taxonomy name from the Lumière option row.
-			$full_old_taxonomy = str_replace( 'imdbtaxonomy', '', esc_html( $old_taxonomy . $option ) );
-			$full_new_taxonomy = str_replace( 'imdbtaxonomy', '', esc_html( $new_taxonomy . $option ) );
+			$full_old_taxonomy = str_replace( 'imdbtaxonomy', '', esc_html( $old_taxonomy . $taxonomy_item ) );
+			$full_new_taxonomy = str_replace( 'imdbtaxonomy', '', esc_html( $new_taxonomy . $taxonomy_item ) );
 
 			/* register_taxonomy( $full_old_taxonomy, [ 'page', 'post' ] ); =>>> Removed so terms from old taxonomy that don't exist aren't processed => Saves time*/
 			// Register new taxonomy to make sure they are available to below functions.
@@ -155,12 +147,13 @@ class Taxonomy {
 						'post_type' => [ 'post', 'page' ],
 						'post_status' => 'publish',
 						'no_found_rows' => true,
-						'tax_query' => [
+						'fields' => 'ids',
+						'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 							'taxonomy' => sanitize_text_field( $full_old_taxonomy ),
 							'field' => 'slug',
 							'terms' => sanitize_key( $term->slug ),
 						],
-					] // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+					]
 				);
 
 				$term_deleted = wp_delete_term( $term_id, sanitize_text_field( $full_old_taxonomy ) );
@@ -195,17 +188,11 @@ class Taxonomy {
 	public function create_custom_taxonomy( string $taxonomy = '', string $object_type = '', array $args = [] ): void {
 
 		// $this->logger?->log()->debug( '[Lumiere][Taxonomy] create_custom_taxonomy()' . $taxonomy);
-		$get_taxo_array = $this->lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' ); // Method in trait Data
+		$get_taxo_array = $this->get_taxonomy_activated(); // Method in trait Get_Options, retrieve an array of varsuch as "lumiere-director"
 
-		foreach ( $get_taxo_array as $option => $activated ) {
+		foreach ( $get_taxo_array as $taxonomy_name ) {
 
-			// Check if a specific taxonomy (such as actor, genre) is activated.
-			if ( $activated !== '1' ) {
-				continue;
-			}
-
-			$taxonomy_item = is_string( $option ) ? str_replace( 'imdbtaxonomy', '', $option ) : ''; // Such as "director"
-			$taxonomy_name = $this->imdb_admin_values['imdburlstringtaxo'] . $taxonomy_item; // Such as "lumiere-director"
+			$taxonomy_item = str_replace( $this->imdb_admin_values['imdburlstringtaxo'], '', $taxonomy_name ); // Such as "director"
 
 			// Register activated taxonomies
 			register_taxonomy(
@@ -219,11 +206,11 @@ class Taxonomy {
 					'meta_box_cb' => false,         /* whether to show taxo in metabox */
 					/* other settings */
 					'labels' => [
-						'name' => 'Lumière ' . $taxonomy_item . 's ' . __( 'Tags', 'default' ),
+						'name' => 'Lumière ' . $taxonomy_item . 's ' . __( 'Tags', 'lumiere-movies' ),
 						'parent_item' => __( 'Parent taxonomy', 'lumiere-movies' ) . ' ' . $taxonomy_item,
 						'singular_name' => ucfirst( $taxonomy_item ) . ' name',
-						'menu_name' => __( 'Tags', 'default' ) . ' Lumière ' . $taxonomy_item,
-						'search_items' => __( 'Search', 'default' ) . ' ' . $taxonomy_item . 's',
+						'menu_name' => __( 'Tags', 'lumiere-movies' ) . ' Lumière ' . $taxonomy_item,
+						'search_items' => __( 'Search', 'lumiere-movies' ) . ' ' . $taxonomy_item . 's',
 						'add_new_item' => __( 'Add new', 'lumiere-movies' ) . ' ' . ucfirst( $taxonomy_item ),
 					],
 					'hierarchical' => false,        /* Whether there is a relationship between added terms, it's true! */

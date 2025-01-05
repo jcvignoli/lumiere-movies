@@ -62,7 +62,7 @@ class Virtual_Page {
 		$this->page_title = $page_title;
 
 		// Start the page creation
-		add_action( 'template_redirect', [ $this, 'create_page' ] );
+		add_action( 'template_redirect', [ $this, 'create_page' ] ); // Do not use add_filter( 'template_include' ) otherwise the title is gone.
 	}
 
 	/**

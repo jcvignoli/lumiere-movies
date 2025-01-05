@@ -110,7 +110,7 @@ class Search {
 			(
 				// If there is no nonce to verify, make sure it comes from editing post
 				! isset( $_GET['moviesearched'] ) || strlen( sanitize_key( $_GET['moviesearched'] ) ) === 0
-				|| ! isset( $_SERVER['HTTP_REFERER'] ) || str_contains( sanitize_key( wp_unslash( $_SERVER['HTTP_REFERER'] ) ), 'post.php?post=' ) === false
+				|| ! isset( $_SERVER['HTTP_REFERER'] ) || str_contains( esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ), 'post.php?post=' ) === false
 			)
 		) {
 			echo wp_kses(

@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Tools\Settings_Global;
-use Lumiere\Tools\Utils;
+use Lumiere\Tools\Data;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Cache_Tools;
 use Lumiere\Admin\Admin_General;
@@ -36,12 +36,11 @@ class Admin_Menu {
 	/**
 	 * Traits
 	 */
-	use Settings_Global, Admin_General;
+	use Settings_Global, Admin_General, Data;
 
 	/**
 	 * Classes
 	 */
-	protected Utils $utils_class;
 	protected Logger $logger;
 
 	/**
@@ -83,9 +82,6 @@ class Admin_Menu {
 		$this->get_settings_class();
 		$this->get_db_options();
 
-		// Start Utilities class.
-		$this->utils_class = new Utils();
-
 		// Start Logger class.
 		$this->logger = new Logger( 'adminClass' );
 
@@ -125,8 +121,7 @@ class Admin_Menu {
 		 * (2) template checking in Detect_New_Template_Taxo class
 		 * (3) any 'notice_lumiere_msg' transient is found in Admin_Notifications class
 		 */
-		$current_url = $that->lumiere_get_current_admin_url();
-		if ( str_contains( $current_url, $that->page_general_base ) === true ) {
+		if ( str_contains( $that->lumiere_get_current_admin_url(), $that->page_general_base ) === true ) {
 			add_action( 'admin_notices', fn() => Detect_New_Template_Taxo::lumiere_static_start( $that->page_data_taxo ), 10, 1 );
 			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
 		}

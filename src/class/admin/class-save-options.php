@@ -87,28 +87,33 @@ class Save_Options {
 
 		$class_save = new self();
 
-		if (
-			( isset( $_POST['_nonce_general_settings'] ) && ( wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0 ) ) // Nonce
-			&& isset( $_POST['imdb_imdburlstringtaxo'] ) && strlen( sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) ) > 0
-			&& isset( $_POST['imdb_imdburlstringtaxo_terms'] ) && sanitize_key( $_POST['imdb_imdburlstringtaxo_terms'] ) === '1' // Checkbox update terms
-			&& sanitize_key( $class_save->imdb_admin_values['imdburlstringtaxo'] ) !== sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) // DB value is equal to posted value
-		) {
-			add_action(
-				'init',
-				function() use ( $class_save ) {
-					\Lumiere\Alteration\Taxonomy::lumiere_static_start(
-						$class_save->imdb_admin_values['imdburlstringtaxo'],
-						$_POST['imdb_imdburlstringtaxo'], // @phpcs:ignore WordPress.Security.NonceVerification.Missing -- Checked just above!
-						'update_old_taxo'
-					);
-					/*if ( isset( $get_referer ) && $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
-						echo 'test';
-					}*/
-				},
-				12
-			);
+		if ( isset( $_POST['_nonce_general_settings'] ) && ( wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0 ) ) { // Nonce
+
+			$imdburlstringtaxo = isset( $_POST['imdb_imdburlstringtaxo'] ) ? sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) : '';
+			if (
+				strlen( $imdburlstringtaxo ) > 0
+				&& isset( $_POST['imdb_imdburlstringtaxo_terms'] ) && sanitize_key( $_POST['imdb_imdburlstringtaxo_terms'] ) === '1' // Checkbox update terms
+				&& sanitize_key( $class_save->imdb_admin_values['imdburlstringtaxo'] ) !== $imdburlstringtaxo // DB value is equal to posted value
+			) {
+
+				add_action(
+					'init',
+					function() use ( $class_save, $imdburlstringtaxo ) {
+						\Lumiere\Alteration\Taxonomy::lumiere_static_start(
+							$class_save->imdb_admin_values['imdburlstringtaxo'],
+							$imdburlstringtaxo,
+							'update_old_taxo'
+						);
+						/*if ( isset( $get_referer ) && $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
+							echo 'test';
+						}*/
+					},
+					12
+				);
+			}
 		}
 	}
+
 	/**
 	 * Build the current URL for referer
 	 * Use all the values data in $_GET automatically, except those in $forbidden_url_strings
@@ -155,6 +160,7 @@ class Save_Options {
 		) {
 			$this->lumiere_general_options_save(
 				$this->get_referer(),
+				// @phpstan-var array{'imdb_imdburlstringtaxo': string|null} $_POST
 				sanitize_text_field( wp_unslash( $_POST['imdb_imdburlstringtaxo'] ?? '' ) ),
 				sanitize_text_field( wp_unslash( $_POST['imdb_imdburlpopups'] ?? '' ) )
 			);
@@ -576,11 +582,12 @@ class Save_Options {
 
 			/**
 			 * @psalm-suppress InvalidArgument
-			 * @phpstan-ignore argument.type
 			 */
-			$data_keys_filtered = array_map( 'sanitize_text_field', array_keys( wp_unslash( $_POST['imdbwidgetorderContainer'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- It is sanitized with wp_unslash, bug!
+			$datafiltered = map_deep( wp_unslash( $_POST['imdbwidgetorderContainer'] ), 'sanitize_text_field' );
+			;
+			$data_keys_filtered = array_keys( $datafiltered );
 
-			$data_values_filtered = array_map( 'sanitize_text_field', wp_unslash( $_POST['imdbwidgetorderContainer'] ) );
+			$data_values_filtered = $datafiltered;
 
 			$imdbwidgetorder_sanitized = array_combine( $data_values_filtered, $data_keys_filtered );
 

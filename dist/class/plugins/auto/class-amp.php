@@ -16,13 +16,30 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Frontend\Main;
+
 /**
  * Plugin to ensure Lumiere compatibility with AMP plugin
- * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->plugins_classes_active
+ * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->active_plugins
+ * Executed in Frontend only
  *
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Link_Makers\Link_Factory
  */
 class Amp {
+
+	/**
+	 * Traits
+	 */
+	use Main;
+
+	/**
+	 * Class for building links, i.e. Highslide
+	 * Built in class Link Factory
+	 *
+	 * @phpstan-var LINKMAKERCLASSES $link_maker The factory class will determine which class to use
+	 */
+	public object $link_maker;
 
 	/**
 	 * List of plugins active (including current class)
@@ -41,7 +58,10 @@ class Amp {
 		$this->active_plugins = $active_plugins;
 
 		// Remove conflicting assets.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_remove_breaking_amp_assets' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'remove_breaking_amp_assets' ] );
+
+		// Remove admin bar in popups
+		add_action( 'wp_enqueue_scripts', [ $this, 'remove_amp_switcher' ] );
 	}
 
 	/**
@@ -55,7 +75,7 @@ class Amp {
 	 *
 	 * @return void Scripts and Styles are deregistered
 	 */
-	public function lumiere_remove_breaking_amp_assets(): void {
+	public function remove_breaking_amp_assets(): void {
 
 		$styles_deregister = [
 			// Those assets are not found when AMP is active and reported as not found by chrome dev tools.
@@ -87,5 +107,15 @@ class Amp {
 		}
 	}
 
+	/**
+	 * Remove switcher text if user is logged in and visiting a popup page
+	 *
+	 * @return void Admin bar has been removed
+	 */
+	public function remove_amp_switcher(): void {
+		if ( is_user_logged_in() === true && $this->is_popup_page() === true ) { // Method is_popup_page() in Trait Main.
+			add_action( 'amp_mobile_version_switcher_link_text', '__return_false' ); // @phpstan-ignore return.void (Action callback returns false but should not return anything)
+		}
+	}
 }
 

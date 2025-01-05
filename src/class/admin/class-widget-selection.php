@@ -146,7 +146,6 @@ class Widget_Selection extends WP_Widget {
 	 *
 	 * @param array<array-key, mixed> $instance Current settings.
 	 * @return string Default return is 'noform'.
-	 * @phan-suppress PhanUndeclaredClassAttribute -- Remove phan error with php < 8.3
 	 */
 	#[\Override]
 	public function form( $instance ): string {
@@ -213,7 +212,6 @@ class Widget_Selection extends WP_Widget {
 	 * @param array<array-key, mixed> $new_instance New settings for this instance as input by the user via WP_Widget::form().
 	 * @param array<array-key, mixed> $old_instance Old settings for this instance.
 	 * @return array<array-key, mixed> Settings to save or bool false to cancel saving.
-	 * @suppress PhanUndeclaredClassAttribute -- Remove phan error with php < 8.3
 	 */
 	#[\Override]
 	public function update( $new_instance, $old_instance ) {

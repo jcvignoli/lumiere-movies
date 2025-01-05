@@ -27,7 +27,7 @@ use Lumiere\Frontend\Main;
 use Exception;
 
 /**
- * @phpstan-type LINKMAKERCLASSES AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links
+ * @phpstan-type LINKMAKERCLASSES \Lumiere\Link_Makers\AMP_Links|\Lumiere\Link_Makers\Bootstrap_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\No_Links
  */
 class Link_Factory {
 
@@ -35,6 +35,14 @@ class Link_Factory {
 	 * Traits
 	 */
 	use Main;
+
+	/**
+	 * Class for building links, i.e. Highslide
+	 * Built in class Link Factory
+	 *
+	 * @phpstan-var LINKMAKERCLASSES The factory class will determine which class to use
+	 */
+	public object $link_maker;
 
 	/**
 	 * Class constructor
@@ -45,7 +53,7 @@ class Link_Factory {
 
 	/**
 	 * Select which class to use to build the HTML links.
-	 * @phpstan-return LINKMAKERCLASSES Class to build the links with.
+	 * @phpstan-return AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links Class to build the links with.
 	 *
 	 * @see \Lumiere\Frontend\Main::lumiere_is_amp_page() Detects if AMP is active and current
 	 * @throws Exception if no link was found

@@ -17,19 +17,30 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Lumiere\Tools\Settings_Global;
+use Lumiere\Frontend\Main;
 
 /**
  * Plugin to ensure Lumiere compatibility with AIOSEO plugin
  * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->plugins_classes_active
+ * Executed in Frontend only
  *
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Link_Makers\Link_Factory
  */
 class Aioseo {
 
 	/**
 	 * Traits
 	 */
-	use Settings_Global;
+	use Settings_Global, Main;
+
+	/**
+	 * Class for building links, i.e. Highslide
+	 * Built in class Link Factory
+	 *
+	 * @phpstan-var LINKMAKERCLASSES $link_maker The factory class will determine which class to use
+	 */
+	public object $link_maker;
 
 	/**
 	 * List of plugins active (including current class)
@@ -51,7 +62,7 @@ class Aioseo {
 		$this->get_settings_class();
 
 		// Disable AIOSEO plugin in Popup pages, no need to promote those pages.
-		if ( $this->is_popup_page() === true ) {
+		if ( $this->is_popup_page() === true ) { // function in Main trait
 			add_filter( 'aioseo_disable', '__return_true' );
 		}
 	}
@@ -61,25 +72,5 @@ class Aioseo {
 	 */
 	public static function start_init_hook(): void {}
 
-	/**
-	 * Detect if the current page is a popup
-	 *
-	 * @since 3.11.4
-	 * @return bool True if the page is a Lumiere popup
-	 */
-	private function is_popup_page(): bool {
-		if (
-			isset( $_SERVER['REQUEST_URI'] )
-			&&
-			(
-				str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $this->config_class->lumiere_urlstringfilms )
-				|| str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $this->config_class->lumiere_urlstringsearch )
-				|| str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $this->config_class->lumiere_urlstringperson )
-			)
-		) {
-			return true;
-		}
-		return false;
-	}
 }
 

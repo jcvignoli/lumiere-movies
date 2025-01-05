@@ -65,7 +65,6 @@
 		<properties>
 			<property name="text_domain" type="array">
 				<element value="lumiere-movies"/>
-				<element value="default"/><!-- WordPress default -->
 			</property>
 		</properties>
 	</rule>

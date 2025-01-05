@@ -17,7 +17,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Link_Makers\Link_Factory;
-use Lumiere\Plugins\Imdbphp;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Plugins_Start;
 use Lumiere\Tools\Data;
@@ -29,6 +28,8 @@ use Lumiere\Tools\Settings_Global;
  * Allow to use the logger, function utilities, and settings
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from Settings_Global
+ * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Link_Makers\Link_Factory
  */
 trait Main {
 
@@ -36,15 +37,6 @@ trait Main {
 	 * Traits
 	 */
 	use Settings_Global, Data;
-
-	/**
-	 * Name of the plugins active
-	 *
-	 * @see Plugins_Start::plugins_active_names
-	 * @since 4.1
-	 * @var array<string>
-	 */
-	public array $plugins_active_names = [];
 
 	/**
 	 * Classes that have been activated
@@ -60,7 +52,8 @@ trait Main {
 	 * Class for building links, i.e. Highslide
 	 * Built in class Link Factory
 	 *
-	 * @phpstan-var \Lumiere\Link_Makers\Bootstrap_Links|\Lumiere\Link_Makers\AMP_Links|\Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\No_Links $link_maker The factory class will determine which class to use
+	 * @var \Lumiere\Link_Makers\AMP_Links|\Lumiere\Link_Makers\Bootstrap_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\No_Links $link_maker The factory class will determine which class to use
+	 * @INFO: if import-type instead of putting in full the info Var, phpstan requires to add this property to all classes that use it!
 	 */
 	public object $link_maker;
 
@@ -84,11 +77,10 @@ trait Main {
 	public function start_main_trait( ?string $logger_name = null, bool $screen_output = true ): void {
 
 		/**
-		 * Get Global Settings class properties.
 		 * Create the properties needed
 		 */
-		$this->get_settings_class();
-		$this->get_db_options();
+		$this->get_settings_class(); // In Trait Settings_Global.
+		$this->get_db_options(); // In Trait Settings_Global.
 
 		// Start Logger class, if no name was passed build it with method get_current_classname().
 		$this->logger = new Logger( $logger_name ?? $this->get_current_classname(), $screen_output );
@@ -101,17 +93,32 @@ trait Main {
 	}
 
 	/**
-	 * Build list of active plugins and send them in properties
+	 * Get the list of active plugins and send an array to current trait properties
 	 *
-	 * @param array<int, object>|array{} $extra_class An extra class to instanciate
+	 * @param array<string, string> $extra_class An extra class to instanciate
+	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS> $extra_class An extra class to instanciate
 	 * @since 4.1
 	 */
 	public function activate_plugins( array $extra_class = [] ): void {
+		$this->plugins_classes_active = ( new Plugins_Start( $extra_class ) )->plugins_classes_active;
+	}
 
-		$extra_class[] = new Imdbphp();
-		$plugins = new Plugins_Start( $extra_class );
-		$this->plugins_active_names = $plugins->plugins_active_names;
-		$this->plugins_classes_active = $plugins->plugins_classes_active;
+	/**
+	 * Build list of active plugins and send them in properties
+	 * Always add an IMDBPHP extra class, needed by all classes.
+	 *
+	 * @param array<string, string> $extra_class An extra class to instanciate
+	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS> $extra_class An extra class to instanciate
+	 * @return void Extra classes have been instanciated
+	 * @since 4.1
+	 */
+	public function maybe_activate_plugins( array $extra_class = [] ): void {
+		$always_load = [];
+		if ( count( $this->plugins_classes_active ) === 0 ) {
+			$always_load['imdbphp'] = 'imdbphp';
+			$all_classes = array_merge( $always_load, $extra_class );
+			$this->activate_plugins( $all_classes );
+		}
 	}
 
 	/**
@@ -121,12 +128,8 @@ trait Main {
 	 * @return string $output text that has been cleaned from every html link
 	 */
 	public function lumiere_remove_link( string $text ): string {
-
 		$output = preg_replace( '/<a(.*?)>/', '', $text ) ?? $text;
-		$output = preg_replace( '/<\/a>/', '', $output ) ?? $output;
-
-		return $output;
-
+		return preg_replace( '/<\/a>/', '', $output ) ?? $output;
 	}
 
 	/**
@@ -140,11 +143,22 @@ trait Main {
 	public function lumiere_url_check_polylang_rewrite( string $url ): string {
 
 		$final_url = null;
-		if ( in_array( 'polylang', $this->plugins_active_names, true ) ) {
+		if ( $this->is_plugin_active( 'polylang' ) === true  ) {
 			$replace_url = str_replace( home_url(), trim( pll_home_url(), '/' ), $url );
 			$final_url = trim( $replace_url, '/' );
 		}
 		return $final_url ?? $url;
+	}
+
+	/**
+	 * Is the plugin activated?
+	 *
+	 * @since 4.3
+	 * @param string $plugin Plugin's name
+	 * @return bool True if active
+	 */
+	public function is_plugin_active( string $plugin ): bool {
+		return in_array( $plugin, array_keys( $this->plugins_classes_active ), true );
 	}
 
 	/**
@@ -189,6 +203,32 @@ trait Main {
 		}
 
 		return function_exists( 'amp_is_request' ) && amp_is_request();
+	}
+
+	/**
+	 * Detect if the current page is a popup
+	 *
+	 * @since 4.3
+	 * @return bool True if the page is a Lumiere popup
+	 */
+	public function is_popup_page(): bool {
+
+		// Create the properties $this->config_class
+		$this->get_settings_class(); // In Trait Settings_Global.
+
+		$get_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : null;
+		if (
+			isset( $get_request_uri )
+			&&
+			(
+				str_contains( esc_url_raw( wp_unslash( $get_request_uri ) ), $this->config_class->lumiere_urlstringfilms )
+				|| str_contains( esc_url_raw( wp_unslash( $get_request_uri ) ), $this->config_class->lumiere_urlstringsearch )
+				|| str_contains( esc_url_raw( wp_unslash( $get_request_uri ) ), $this->config_class->lumiere_urlstringperson )
+			)
+		) {
+			return true;
+		}
+		return false;
 	}
 }
 

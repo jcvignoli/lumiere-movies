@@ -20,10 +20,15 @@ use Lumiere\Frontend\Main;
 
 /**
  * Detect which WP plugins are available in SUBFOLDER_PLUGINS_BIT subfolder and are active
+ * This class only returns automatically finded classes
  *
- * @phpstan-type AVAILABLE_AUTO_CLASSES 'amp'|'oceanwp'|'polylang'|'aioseo'|'irp'
- * @phpstan-type AVAILABLE_MANUAL_CLASSES 'imdbphp'|'logger'
+ * @phpstan-type AVAILABLE_AUTO_CLASSES \Lumiere\Plugins\Auto\Amp|\Lumiere\Plugins\Auto\Oceanwp|\Lumiere\Plugins\Auto\Polylang|\Lumiere\Plugins\Auto\Aioseo|\Lumiere\Plugins\Auto\Irp
+ * @phpstan-type AVAILABLE_MANUAL_CLASSES \Lumiere\Plugins\Imdbphp|\Lumiere\Plugins\Logger
+ * @phpstan-type AVAILABLE_AUTO_CLASSES_KEYS 'amp'|'oceanwp'|'polylang'|'aioseo'|'irp'
+ * @phpstan-type AVAILABLE_MANUAL_CLASSES_KEYS 'imdbphp'|'logger'
+ * @phpstan-type AVAILABLE_PLUGIN_CLASSES_KEYS AVAILABLE_AUTO_CLASSES_KEYS|AVAILABLE_MANUAL_CLASSES_KEYS
  * @phpstan-type AVAILABLE_PLUGIN_CLASSES AVAILABLE_AUTO_CLASSES|AVAILABLE_MANUAL_CLASSES
+ * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Link_Makers\Link_Factory
  *
  * @since 3.7 Class created
  * @since 4.1 Use find_available_plugins() to find plugins in SUBFOLDER_PLUGINS_BIT folder, and get_active_plugins() returns an array of plugins available
@@ -37,38 +42,37 @@ class Plugins_Detect {
 	use Main;
 
 	/**
+	 * Class for building links, i.e. Highslide
+	 * Built in class Link Factory
+	 *
+	 * @var object
+	 * @phpstan-var LINKMAKERCLASSES $link_maker The factory class will determine which class to use
+	 */
+	public object $link_maker;
+
+	/**
 	 * Subfolder name of the plugins that can be automatically started
 	 */
 	public const SUBFOLDER_PLUGINS_BIT = 'auto';
 
 	/**
-	 * Array of plugins currently in use
-	 *
-	 * @phpstan-var array<int, AVAILABLE_PLUGIN_CLASSES>
-	 * @var array<int, string>
-	 */
-	public array $plugins_class;
-
-	/**
 	 * Constructor
 	 */
-	public function __construct() {
-		$this->plugins_class = [];
-	}
+	public function __construct() {}
 
 	/**
 	 * Return list of plugins available in "external" subfolder
 	 * Plugins located there are automatically checked
 	 *
-	 * @phpstan-return list<AVAILABLE_PLUGIN_CLASSES>
+	 * @phpstan-return list<AVAILABLE_AUTO_CLASSES_KEYS>
 	 * @return list<string>
 	 */
-	private function find_available_plugins(): array {
+	private function find_available_auto_plugins(): array {
 		$available_plugins = [];
 		$find_files = glob( __DIR__ . '/' . self::SUBFOLDER_PLUGINS_BIT . '/*' );
 		$files = $find_files !== false ? array_filter( $find_files, 'is_file' ) : [];
 		foreach ( $files as $file ) {
-			/** @phpstan-var AVAILABLE_PLUGIN_CLASSES $filename */
+			/** @phpstan-var AVAILABLE_AUTO_CLASSES_KEYS $filename */
 			$filename = preg_replace( '~.*class-(.+)\.php$~', '$1', $file );
 			$available_plugins[] = $filename;
 		}
@@ -77,20 +81,45 @@ class Plugins_Detect {
 
 	/**
 	 * Return list of active plugins
-	 * Use the plugin located in "external" subfolder to build the method names, then check if they are active
+	 * Put "null" in associative array if the plugin is inactive, and then filters null plugins to return only active ones
+	 * Use the plugin located in "SUBFOLDER_PLUGINS_BIT" subfolder to build the method names, then check if they are active
 	 *
-	 * @phpstan-return array<int, AVAILABLE_PLUGIN_CLASSES>
-	 * @return array<int, string>
+	 * @return array<string, class-string|null>
+	 * @phpstan-return array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>|non-falsy-string>
+	 *
 	 * @see Plugins_Detect::find_available_plugins() that builds the list of available plugins
 	 */
 	public function get_active_plugins(): array {
-		foreach ( $this->find_available_plugins() as $plugin ) {
+		$plugins_class = [];
+		$available_plugins = $this->find_available_auto_plugins();
+		foreach ( $available_plugins as $plugin ) {
 			$method = $plugin . '_is_active';
-			if ( method_exists( $this, $method ) && $this->{$method}() === true ) { // @phan-suppress-current-line PhanUndeclaredMethod -- bad phan!
-				$this->plugins_class[] = $plugin;
+			if ( method_exists( $this, $method ) && $this->{$method}() === true ) {
+				$subfolder_plugins = strlen( self::SUBFOLDER_PLUGINS_BIT ) > 0 ? ucfirst( self::SUBFOLDER_PLUGINS_BIT ) . '\\' : '';
+				// @phpstan-var class-string<AVAILABLE_AUTO_CLASSES> $namespace_class
+				$namespace_class = __NAMESPACE__ . '\\' . $subfolder_plugins . ucfirst( $plugin );
+				// @phpstan-var array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>> $plugins_class
+				$plugins_class[ $plugin ] = $namespace_class;
+				continue;
 			}
+
+			// @phpstan-var array<AVAILABLE_PLUGIN_CLASSES_KEYS, null> $plugins_class
+			$plugins_class[ $plugin ] = null;
 		}
-		return $this->plugins_class;
+		return $this->filter_active_plugins( $plugins_class );
+	}
+
+	/**
+	 * Filter in an array plugins that are not active
+	 * If the array-value is null, the plugin will be removed from the list.
+	 *
+	 * @param array<string, string|null>|array{} $plugin_name
+	 * @phpstan-param array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>|non-falsy-string|null> $plugin_name An array of the plugins active
+	 * @return array<string, class-string>
+	 * @phpstan-return array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>|non-falsy-string>
+	 */
+	private function filter_active_plugins( array $plugin_name ): array {
+		return array_filter( $plugin_name, 'is_string' );
 	}
 
 	/**
@@ -99,7 +128,7 @@ class Plugins_Detect {
 	 * @return bool true if OceanWP them is active
 	 */
 	private function oceanwp_is_active(): bool {
-		return class_exists( 'OCEANWP_Theme_Class' ) && has_filter( 'ocean_display_page_header' );
+		return class_exists( 'OCEANWP_Theme_Class' ) && has_filter( 'ocean_display_page_header' ) === true;
 	}
 
 	/**

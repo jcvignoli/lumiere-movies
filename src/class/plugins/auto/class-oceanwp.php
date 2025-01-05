@@ -20,7 +20,8 @@ use Lumiere\Settings;
 
 /**
  * Plugin to ensure Lumiere compatibility with OceanWP plugin
- * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->plugins_classes_active
+ * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->active_plugins
+ * Executed in Frontend only
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
@@ -149,7 +150,7 @@ class Oceanwp {
 		if (
 			stripos( get_template_directory_uri(), esc_url( site_url() . '/wp-content/themes/oceanwp' ) ) === 0
 			&&
-			str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . '/lumiere/' )
+			str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . '/lumiere/' )
 		) {
 
 			wp_enqueue_style( 'lumiere_style_oceanwpfixes_popups' );
