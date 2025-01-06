@@ -254,8 +254,8 @@ class Popup_Person extends Head_Popups {
 	 * Display navigation menu
 	 */
 	private function display_menu(): void {
-		// If polylang exists, rewrite the URL to append the lang string
-		$url_if_polylang = $this->lumiere_url_check_polylang_rewrite( $this->config_class->lumiere_urlpopupsperson );
+		// If polylang plugin is active, rewrite the URL to append the lang string
+		$url_if_polylang = apply_filters( 'lum_polylang_rewrite_url_with_lang', $this->config_class->lumiere_urlpopupsperson );
 		?>
 												<!-- top page menu -->
 		<div class="lumiere_container lumiere_font_em_11 lum_popup_titlemenu">

@@ -122,35 +122,6 @@ trait Main {
 	}
 
 	/**
-	 * Remove html links <a></a>
-	 *
-	 * @param string $text text to be cleaned from every html link
-	 * @return string $output text that has been cleaned from every html link
-	 */
-	public function lumiere_remove_link( string $text ): string {
-		$output = preg_replace( '/<a(.*?)>/', '', $text ) ?? $text;
-		return preg_replace( '/<\/a>/', '', $output ) ?? $output;
-	}
-
-	/**
-	 * Rewrite the provided link in Polylang format
-	 * Checks if Polylang is active in plugins before replacing links
-	 *
-	 * @since 3.11
-	 * @param string $url The URL to edit
-	 * @return string The URL compatible with Polylang
-	 */
-	public function lumiere_url_check_polylang_rewrite( string $url ): string {
-
-		$final_url = null;
-		if ( $this->is_plugin_active( 'polylang' ) === true  ) {
-			$replace_url = str_replace( home_url(), trim( pll_home_url(), '/' ), $url );
-			$final_url = trim( $replace_url, '/' );
-		}
-		return $final_url ?? $url;
-	}
-
-	/**
 	 * Is the plugin activated?
 	 *
 	 * @since 4.3

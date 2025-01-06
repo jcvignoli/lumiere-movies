@@ -202,9 +202,9 @@ class Popup_Movie extends Head_Popups {
 	 * Show the menu
 	 */
 	private function display_menu( Title $movie_results ): void {
-		// If polylang exists, rewrite the URL to append the lang string
-		$url_if_polylang = $this->lumiere_url_check_polylang_rewrite( $this->config_class->lumiere_urlpopupsfilms );
-		$url_if_polylang_search = $this->lumiere_url_check_polylang_rewrite( $this->config_class->lumiere_urlpopupsearch );
+		// If polylang plugin is active, rewrite the URL to append the lang string
+		$url_if_polylang = apply_filters( 'lum_polylang_rewrite_url_with_lang', $this->config_class->lumiere_urlpopupsfilms );
+		$url_if_polylang_search = apply_filters( 'lum_polylang_rewrite_url_with_lang', $this->config_class->lumiere_urlpopupsearch );
 		?>
 					<!-- top page menu -->
 

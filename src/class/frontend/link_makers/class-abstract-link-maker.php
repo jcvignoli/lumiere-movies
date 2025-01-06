@@ -142,21 +142,6 @@ abstract class Abstract_Link_Maker {
 	abstract protected function lumiere_movies_source_details ( string $mid ): string;
 
 	/**
-	 * Remove html links <a></a>
-	 *
-	 * @param string $text text to be cleaned from every html link
-	 * @return string $output text that has been cleaned from every html link
-	 */
-	protected function lumiere_remove_link ( string $text ): string {
-
-		$output = preg_replace( '/<a(.*?)>/', '', $text ) ?? $text;
-		$output = preg_replace( '/<\/a>/', '', $output ) ?? $output;
-
-		return $output;
-
-	}
-
-	/**
 	 * Image for the ratings, meant to be used by child classes for code reusing
 	 *
 	 * @param int $rating mandatory Rating number

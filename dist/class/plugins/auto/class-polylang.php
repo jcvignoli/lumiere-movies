@@ -64,6 +64,9 @@ class Polylang {
 		$this->logger = new Logger( 'Polylang' );
 
 		// Add a filter that returns an array for a SQL Query
+		add_filter( 'lum_polylang_rewrite_url_with_lang', [ $this, 'rewrite_url_with_lang' ], 10, 1 );
+
+		// Add a filter that returns an array for a SQL Query for dropdown form in taxonomy people theme
 		add_filter( 'lum_polylang_taxo_query', [ $this, 'get_polylang_query_form' ], 10, 2 );
 
 		add_filter( 'pll_get_taxonomies', [ $this, 'add_tax_to_pll' ], 10, 2 );
@@ -325,13 +328,8 @@ class Polylang {
 	 */
 	public function get_polylang_query_form( array $query, array $args ): array {
 
-		// If Polylang is not active, or nonce is incorrect => return orginal query
-		if (
-			// Polylang is not active.
-			in_array( 'polylang', array_keys( $this->active_plugins ), true ) === false
-			// If lang was not found
-			|| ! isset( $args['polylang_lang'] )
-		) {
+		// If lang was not found
+		if ( ! isset( $args['polylang_lang'] ) ) {
 			return $query;
 		}
 
@@ -373,5 +371,24 @@ class Polylang {
 			$output[] = strtolower( str_replace( ' ', '-', $term . $ext_term ) );
 		}
 		return $output;
+	}
+
+	/**
+	 * Rewrite the provided link in Polylang format
+	 * Checks if Polylang is active in plugins before replacing links
+	 *
+	 * @since 3.11
+	 * @since 4.3 Moved from Trait frontend Main to this Polylang class
+	 * @param string $url The URL to edit
+	 * @return string The URL with Polylang lang
+	 */
+	public function rewrite_url_with_lang( string $url ): string {
+
+		// Do not replaced twice (do not add the "/lang" twice if multiple calls are made)
+		if ( ! str_contains( $url, trim( pll_home_url(), '/' ) )  ) {
+			$replace_url = str_replace( home_url(), trim( pll_home_url(), '/' ), $url );
+			return trim( $replace_url, '/' );
+		}
+		return $url;
 	}
 }
