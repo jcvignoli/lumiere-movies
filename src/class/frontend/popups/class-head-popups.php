@@ -22,9 +22,11 @@ use Imdb\Name;
 
 /**
  * Edit <head> for popups
+ * Meant to be extended on children classes
  *
  * @since 3.11 created
  * @since 4.1 removed plugins related matter, moved to relevant classes, added activate plugins and trait Main
+ * @since 4.3 Is parent class
  */
 class Head_Popups {
 
@@ -110,7 +112,10 @@ class Head_Popups {
 		remove_action( 'wp_head', 'wp_generator' ); // remove WordPress version
 		remove_action( 'wp_head', 'wp_site_icon', 99 ); // Prevent WordPress from inserting favicons.
 
-		// Remove admin bar if user is logged in.
+		/**
+		 * Remove admin bar if user is logged in.
+		 * There is no need for such a function in pages that can't be edited
+		 */
 		if ( is_user_logged_in() === true ) {
 			add_filter( 'show_admin_bar', '__return_false' );
 		}

@@ -22,21 +22,22 @@ use Lumiere\Frontend\Main;
 use Lumiere\Tools\Validate_Get;
 
 /**
- * Independant class that displays star information in a popup
+ * Display star information in a popup
  *
  * @see \Lumiere\Alteration\Rewrite_Rules Create the rules for building a virtual page
  * @see \Lumiere\Frontend\Frontend Redirect to this page using virtual pages {@link \Lumiere\Alteration\Virtual_Page}
- * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header
+ * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class
+ * @since 4.3 is child class
  *
  * Bots are banned before getting popups
  * @see \Lumiere\Frontend\Frontend::ban_bots_popups() Bot banishement happens there, before processing IMDb queries
  */
-class Popup_Person {
+class Popup_Person extends Head_Popups {
 
 	/**
 	 * Traits
 	 */
-	use Main;
+	use Main; // Using a new trait (not parent's) shows the correct class $this->classname
 
 	/**
 	 * The person queried as object result
@@ -58,39 +59,15 @@ class Popup_Person {
 	 */
 	public function __construct() {
 
-		// Edit metas tags in popups.
-		add_action( 'template_redirect', fn() => Head_Popups::lumiere_static_start() );
-
-		// Construct Frontend trait.
-		$this->start_main_trait();
-
-		// Get plugins
-		add_action( 'template_redirect', [ $this, 'set_plugins_if_needed' ] );
+		// Edit metas tags in popups and various checks in Parent class.
+		parent::__construct();
 
 		/**
 		 * Display layout
 		 * @since 4.0 using 'the_posts' instead of the 'content', removed the 'get_header' for OceanWP
 		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
 		 */
-		add_filter( 'template_include', [ $this, 'lumiere_popup_person_layout' ] );
-	}
-
-	/**
-	 * Static construct call
-	 *
-	 * @return void Class is built
-	 */
-	public static function lumiere_popup_person_start (): void {
-		$popup_person_class = new self();
-	}
-
-	/**
-	 * Start Plugins_Start class
-	 * Is instanciated only if not instanciated already
-	 * Always loads IMDBPHP plugin
-	 */
-	public function set_plugins_if_needed(): void {
-		$this->maybe_activate_plugins(); // In Trait Main.
+		add_filter( 'template_include', [ $this, 'popup_layout' ] );
 	}
 
 	/**
@@ -98,7 +75,7 @@ class Popup_Person {
 	 *
 	 * @return bool True if movie was found
 	 */
-	private function find_person(): bool {
+	private function find_result(): bool {
 
 		/* GET Vars sanitized */
 		$mid_sanitized = Validate_Get::sanitize_url( 'mid' );
@@ -124,35 +101,28 @@ class Popup_Person {
 	 * @param string $template_path The path to the page of the theme currently in use - not utilised
 	 * @return string
 	 */
-	public function lumiere_popup_person_layout( string $template_path ): string {
+	public function popup_layout( string $template_path ): string {
 
 		// Nonce. Always valid if admin is connected.
-		$nonce_valid =
-			( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) !== false )
-			|| is_user_logged_in()
-				? true :
-				false; // Created in Abstract_Link_Maker class.
+		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || is_user_logged_in() === true ? true : false; // Created in Abstract_Link_Maker class.
 
 		// Validate $_GET['info_person'], exit if failed.
 		$get_info_person = Validate_Get::sanitize_url( 'info_person' );
-		if (
-			( isset( $_GET['info_person'] ) && $get_info_person === null )
-			|| $nonce_valid === false
-		) {
+		if ( isset( $_GET['info_person'] ) && $get_info_person === null || $nonce_valid === false ) {
 			wp_die( esc_html__( 'Lumière Movies: Invalid person search query.', 'lumiere-movies' ) );
-		}
-
-		// Exit if no person was found.
-		if ( $this->find_person() === false ) {
-			status_header( 404 );
-			$text = 'Could not find any IMDb person with this query.';
-			$this->logger->log()->error( '[Lumiere][' . $this->classname . '] ' . $text );
-			wp_die( esc_html( $text ) );
 		}
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
 		wp_head();
 		echo "\n</head>\n<body class=\"lum_body_popup";
+
+		// Exit if no person was found.
+		if ( $this->find_result() === false ) {
+			status_header( 404 );
+			$text = 'Could not find any IMDb person with this query.';
+			$this->logger->log()->error( '[Lumiere][' . $this->classname . '] ' . $text );
+			wp_die( esc_html( $text ) );
+		}
 
 		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 

@@ -19,6 +19,7 @@
 		<directory name="vendor/php-stubs/wordpress-stubs/"/>
 		<directory name="vendor/php-stubs/wp-cli-stubs/"/>
 	 -->
+	 	<file name="src/vendor/autoload.php"/>
 	</extraFiles>
 	<!-- Load and analyze -->
 	<projectFiles>
@@ -30,9 +31,8 @@
 		</ignoreFiles>
 	</projectFiles>
 	<stubs>
-<!--		<file name="vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php"/> -->
+		<file name="vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php"/>
 		<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php"/> 
-		<file name="tests/bootstrap-testing.php" />
 	</stubs>
 	<globals>
 		<!-- Personal Globals Psalm is not aware of -->

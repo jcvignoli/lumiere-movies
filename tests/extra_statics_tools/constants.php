@@ -54,6 +54,9 @@ if ( ! defined( 'WP_DEBUG_LOG' ) ) {
 	define( 'WP_DEBUG_LOG', $final );
 }
 
+if ( ! defined( 'ABSPATH' ) ) {
+	define( 'ABSPATH', 'src/' );
+}
 /* Dynamic constant, declaration for Psalm -> but then brings issue with PHPStan!
 if ( ! defined( 'XMLRPC_REQUEST' ) ) {
 	define('XMLRPC_REQUEST',

@@ -4,12 +4,9 @@ includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
     level: 8 # set 'max' or '9' to check mixed values
-    scanFiles:
-        - vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php
-        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
     scanDirectories:
+        - vendor/php-stubs/wordpress-stubs/ #less quality
         - vendor/skaut/wordpress-stubs/stubs/
-        - vendor/php-stubs/wordpress-stubs/
         - src/vendor/duck7000/imdb-graphql-php/src/Imdb/
     tmpDir: tmp/cache/phpstan
     paths:
@@ -17,6 +14,7 @@ parameters:
     excludePaths:
       analyse:
         - src/vendor/
+        # Not supposed to be run as standalone, this file is meant to be copied. This file causes PHPStan to fail the analysis, prob a require issue
         - src/class/theme/class-taxonomy-items-standard.php
         # Not supposed to be run as standalone, this file is meant to be copied. This file causes PHPStan to fail the analysis, prob a require issue
         - src/class/theme/class-taxonomy-people-standard.php
@@ -25,13 +23,12 @@ parameters:
         - tests/bootstrap-testing.php
     ignoreErrors:
         - '#Variable method call on#'
-        - '#Path in require_once\(\) "#' # Can't resolve a path
-        - '#Parameter \#2 \$function_to_remove of function remove_action expects callable#' # when using [] remove_action, PHPStan doesn't recognize the call
-        - '#Unable to resolve the template type T in call to function wp_unslash#' # These are useless comments, haven't found to define custom $_POST['vars']
-        - '#Parameter \#1 \$url of function esc_url_raw expects string,#' # These are useless comments, haven't found to define custom $_POST['vars']
-        - '#Parameter \#1 \$str of function sanitize_text_field expects string, array<string>#' # These are useless comments, haven't found to define custom $_POST['vars']
+        - '#Path in require_once\(\) "#' # Phpstan can't resolve paths
     dynamicConstantNames:
         - DOING_CRON
         - WP_DEBUG_LOG
         # I may change the path in the future
         - Lumiere\Plugins\Plugins_Detect::SUBFOLDER_PLUGINS_BIT
+    earlyTerminatingFunctionCalls:
+        - wp_die
+

@@ -865,7 +865,7 @@ class Movie_Data extends Movie {
 				for ( $j = 0; $j < $count_jobs; $j++ ) {
 					$output .= $this->lumiere_make_display_taxonomy(
 						'producer',
-						// @phan-suppress-next-line PhanTypeInvalidDimOffset (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
+						// @phan-suppress-next-line PhanTypeInvalidDimOffset, PhanTypeMismatchArgument (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
 						isset( $producer[ $i ]['name'] ) ? esc_html( $producer[ $i ]['name'] ) : '',
 						isset( $producer[ $i ]['jobs'][ $j ] ) ? esc_html( $producer[ $i ]['jobs'][ $j ] ) : '',
 						'two',
@@ -937,8 +937,8 @@ class Movie_Data extends Movie {
 				for ( $j = 0; $j < $count_jobs; $j++ ) {
 					$output .= $this->lumiere_make_display_taxonomy(
 						'writer',
-						// @phan-suppress-next-line PhanTypeInvalidDimOffset (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
-						esc_attr( $writer[ $i ]['name'] ),
+						// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypePossiblyInvalidDimOffset (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
+						isset( $writer[ $i ]['name'] ) && is_string( $writer[ $i ]['name'] ) ? esc_attr( $writer[ $i ]['name'] ) : '',
 						esc_attr( $writer[ $i ]['jobs'][ $j ] ),
 						'two',
 						sanitize_text_field( $movie->title() )

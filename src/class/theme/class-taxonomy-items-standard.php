@@ -266,7 +266,6 @@ class Taxonomy_Items_Standard {
 	 * @return string List of strings
 	 */
 	private function get_all_tags_links(): string {
-		// @phan-suppress-next-line PhanAccessMethodInternal -- Cannot access internal method \get_terms() of namespace \ defined at vendor/php-stubs/wordpress-stubs/wordpress-stubs.php:133181 from namespace \Lumiere\Plugins -> PHAN got crazy with get_terms()!
 		$existing_terms = get_terms( [ 'taxonomy' => $this->taxonomy ] );
 		if ( count( (array) $existing_terms ) === 0 ) {
 			return '';

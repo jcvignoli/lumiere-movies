@@ -42,7 +42,7 @@ return [
 
 	// If enabled, scalars (int, float, bool, true, false, string, null)
 	// are treated as if they can cast to each other.
-	'scalar_implicit_cast' => true,
+	'scalar_implicit_cast' => false,
 
 	// Set to true in order to attempt to detect dead (unreferenced) code.
 	// Keep in mind that the results will only be a guess given that classes,
@@ -64,16 +64,18 @@ return [
 	// Thus, both first-party and third-party code being used by
 	// your application should be included in this list.
 	'directory_list' => [
-		'tests/configs_static_tools',
 		'src/',
+		'tests/extra_statics_tools/phan/',
 	],
 
 	// A list of files that should be parsed for class and
 	// method information.
 	// Perfect for getting bootstrap files
 	'file_list' => [
-		'tests/bootstrap-testing.php',
-		'tests/extra_classes/irp-core.php',
+		//      'tests/bootstrap-testing.php', // Doesn't work as a real bootstrap, not finding below declarations
+					'tests/extra_statics_tools/constants.php',
+		'tests/extra_statics_tools/functions.php',
+		'tests/extra_statics_tools/classes.php',
 		'vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php',
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
 		'vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php',
@@ -94,9 +96,10 @@ return [
 	//       to `exclude_analysis_directory_list`.
 	'exclude_analysis_directory_list' => [
 		'tests/bootstrap-testing.php',
-		'tests/configs_static_tools/constants.php',
-		'tests/configs_static_tools/extras.php',
-		'tests/extra_classes/irp-core.php',
+		'tests/extra_statics_tools/constants.php',
+		'tests/extra_statics_tools/functions.php',
+		'tests/extra_statics_tools/classes.php',
+		'tests/extra_statics_tools/phan/irp-core.php',
 		'src/vendor/',
 		'assets/js/highslide/',
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
@@ -110,7 +113,9 @@ return [
 	'exclude_file_list' => [],
 
 	// Remove this types of errors.
-	'suppress_issue_types' => [ 'PhanPluginPrintfVariableFormatString' ],
+	'suppress_issue_types' => [
+		'PhanPluginPrintfVariableFormatString', // Phan doesn't detect correct behaviour for __(), _n(), "has a dynamic format string that could not be inferred by Phan"
+	],
 
 	// A list of plugin files to execute.
 	// Plugins which are bundled with Phan can be added here by providing their name
@@ -134,6 +139,7 @@ return [
 		'UnusedSuppressionPlugin',
 		'PrintfCheckerPlugin',
 		'SleepCheckerPlugin',
+
 		// Checks for syntactically unreachable statements in
 		// the global scope or function bodies.
 		'UnreachableCodePlugin',

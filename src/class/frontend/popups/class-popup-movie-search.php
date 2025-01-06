@@ -12,7 +12,7 @@
 namespace Lumiere\Frontend\Popups;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -22,23 +22,24 @@ use Lumiere\Frontend\Main;
 use Lumiere\Tools\Validate_Get;
 
 /**
- * Independant class that displays movie search results in a popup
+ * Displays movie search results in a popup
  *
  * @see \Lumiere\Alteration\Rewrite_Rules Create the rules for building a virtual page
  * @see \Lumiere\Frontend\Frontend Redirect to this page using virtual pages {@link \Lumiere\Alteration\Virtual_Page}
- * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header
+ * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class
  *
  * Bots are banned before getting popups
  * @see \Lumiere\Frontend\Frontend::ban_bots_popups() Bot banishement happens there, before processing IMDb queries
+ * @since 4.3 is child class
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Tools\Settings_Global
  */
-class Popup_Movie_Search {
+class Popup_Movie_Search extends Head_Popups {
 
 	/**
 	 * Traits
 	 */
-	use Main;
+	use Main; // Using a new trait (not parent's) shows the correct class $this->classname
 
 	/**
 	 * Movie's title
@@ -50,37 +51,20 @@ class Popup_Movie_Search {
 	 */
 	public function __construct() {
 
-		// Die if wrong $_GETs.
-		if (
-			( ( ! isset( $_GET['_wpnonce'] ) || ! ( wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) ) && is_user_logged_in() === false )
-			|| ! isset( $_GET['norecursive'] )
-			|| $_GET['norecursive'] !== 'yes'
-			|| ! isset( $_GET['film'] )
-			|| strlen( sanitize_key( $_GET['film'] ) ) === 0
-		) {
-			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
-		}
-
-		// Edit metas tags in popups.
-		add_action( 'template_redirect', fn() => Head_Popups::lumiere_static_start() );
-
-		// Construct Frontend trait.
-		$this->start_main_trait();
+		// Edit metas tags in popups and various checks in Parent class.
+		parent::__construct();
 
 		// Build the vars.
 		// @since 4.0 lowercase, less cache used.
 		$film_sanitized = Validate_Get::sanitize_url( 'film' );
 		$this->film_sanitized = $film_sanitized !== null ? str_replace( [ '\\', '+' ], [ '', ' ' ], strtolower( $this->lumiere_name_htmlize( $film_sanitized ) ) ) : ''; // Method lumiere_name_htmlize() is in trait Data, which is in trait Main.
 
-		// Get plugins
-		add_action( 'template_redirect', [ $this, 'set_plugins_if_needed' ] );
-
 		/**
 		 * Display layout
 		 * @since 4.0 using 'the_posts' instead of the 'content', removed the 'get_header' for OceanWP
 		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
 		 */
-		add_filter( 'template_include', [ $this, 'layout' ] );
+		add_filter( 'template_include', [ $this, 'popup_layout' ] );
 	}
 
 	/**
@@ -91,20 +75,12 @@ class Popup_Movie_Search {
 	 * @return array<array-key, mixed>
 	 * @phpstan-return TITLESEARCH_RETURNSEARCH
 	 */
-	private function film_search( string $film_sanitized, string $type_search ): array {
+	private function find_result( string $film_sanitized, string $type_search ): array {
+
 		$search = new TitleSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
 		$return = $search->search( $film_sanitized, $type_search );
 		/** @phpstan-var TITLESEARCH_RETURNSEARCH $return */
 		return $return;
-	}
-
-	/**
-	 * Start Plugins_Start class
-	 * Is instanciated only if not instanciated already
-	 * Always loads IMDBPHP plugin
-	 */
-	public function set_plugins_if_needed(): void {
-		$this->maybe_activate_plugins(); // In Trait Main.
 	}
 
 	/**
@@ -113,7 +89,16 @@ class Popup_Movie_Search {
 	 * @param string $template_path The path to the page of the theme currently in use - not utilised
 	 * @return string
 	 */
-	public function layout( string $template_path ): string {
+	public function popup_layout( string $template_path ): string {
+
+		// Nonce. Always valid if admin is connected.
+		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || is_user_logged_in() === true ? true : false; // Created in Abstract_Link_Maker class.
+
+		// Validate $_GET['film'], exit if failed.
+		$get_info = Validate_Get::sanitize_url( 'film' );
+		if ( $get_info === null || ! isset( $_GET['norecursive'] ) || $_GET['norecursive'] !== 'yes' || $nonce_valid === false ) {
+			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
+		}
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
 		wp_head();
@@ -122,7 +107,7 @@ class Popup_Movie_Search {
 		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
 		// Get an array of results according to a film name using IMDB class.
-		$movie_results = $this->film_search(
+		$movie_results = $this->find_result(
 			$this->film_sanitized, // Title was sanitized.
 			$this->config_class->lumiere_select_type_search() // Get the type of search according to a method in config class.
 		);
