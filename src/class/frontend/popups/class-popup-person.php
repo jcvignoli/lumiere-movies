@@ -115,6 +115,7 @@ class Popup_Person extends Head_Popups {
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
 		wp_head();
 		echo "\n</head>\n<body class=\"lum_body_popup";
+		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
 		// Exit if no person was found.
 		if ( $this->find_result() === false ) {
@@ -123,8 +124,6 @@ class Popup_Person extends Head_Popups {
 			$this->logger->log()->error( '[Lumiere][' . $this->classname . '] ' . $text );
 			wp_die( esc_html( $text ) );
 		}
-
-		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
 		/**
 		 * Display a spinner when clicking a link with class .lum_add_spinner (a <div class="loader"> will be inserted inside by the js)

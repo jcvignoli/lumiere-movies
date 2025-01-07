@@ -335,12 +335,12 @@ class Polylang {
 
 	/**
 	 * Rewrite the provided link in Polylang format
-	 * Checks if Polylang is active in plugins before replacing links
 	 *
-	 * @since 3.11
-	 * @since 4.3 Moved from Trait frontend Main to this Polylang class
 	 * @param string $url The URL to edit
 	 * @return string The URL with Polylang lang
+	 * @since 3.11
+	 * @since 4.3 Moved from Trait frontend Main to this Polylang class
+	 * @see Popups classes, that are not taken into charge by Polylang
 	 */
 	public function rewrite_url_with_lang( string $url ): string {
 

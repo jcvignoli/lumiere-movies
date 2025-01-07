@@ -20,13 +20,13 @@ if ( ! defined( 'WPINC' ) ) {
 use Lumiere\Plugins\Plugins_Detect;
 
 /**
- * Instanciate the plugins that are available and in active
+ * Instanciate the plugins that are available
  *
  * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @see \Lumiere\Plugins\Plugins_Detect It detects the plugins that are active should be instanciated
+ * @see \Lumiere\Plugins\Plugins_Detect Detect the plugins available which should be instanciated
  */
 class Plugins_Start {
 
@@ -82,7 +82,7 @@ class Plugins_Start {
 			$current_plugin_activated = new $plugin_path( $active_plugins ); // Instanciate plugin classes.
 			$all_plugins_activated[ $plugin_name ] = $current_plugin_activated;
 			if ( method_exists( $plugin_path, 'start_init_hook' ) ) {
-				//              $current_plugin_activated::start_init_hook();
+				// $current_plugin_activated::start_init_hook();
 				/**
 				 * @psalm-suppress UndefinedMethod
 				 * @phpstan-ignore argument.type
