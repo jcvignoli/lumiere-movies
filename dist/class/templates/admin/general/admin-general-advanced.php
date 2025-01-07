@@ -165,7 +165,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 				<input type="checkbox" id="imdb_imdbirpdisplays_yes" name="imdb_imdbirpdisplay" value="1" 
 				<?php
 				if ( $lumiere_imdb_admin_values['imdbirpdisplay'] === '1' ) {
-					echo 'checked="checked" '; }
+					echo 'checked '; }
 				?>
 				/>
 
@@ -210,7 +210,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 				<input type="checkbox" id="imdb_imdbtaxonomy_yes" name="imdb_imdbtaxonomy" value="1" 
 				<?php
 				if ( $lumiere_imdb_admin_values['imdbtaxonomy'] === '1' ) {
-					echo ' checked="checked"'; }
+					echo ' checked'; }
 				?>
 				/>
 
@@ -227,7 +227,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 				<input type="checkbox" id="imdb_imdblinkingkill_yes" name="imdb_imdblinkingkill" value="1" 
 				<?php
 				if ( $lumiere_imdb_admin_values['imdblinkingkill'] === '1' ) {
-					echo 'checked="checked"'; }
+					echo 'checked'; }
 				?>
 				/>
 
@@ -246,7 +246,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 				<input type="checkbox" id="imdb_imdbautopostwidget_yes" name="imdb_imdbautopostwidget" value="1" 
 				<?php
 				if ( $lumiere_imdb_admin_values['imdbautopostwidget'] === '1' ) {
-					echo 'checked="checked"'; }
+					echo 'checked'; }
 				?>
 				/>
 
@@ -274,14 +274,14 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 				<input type="hidden" id="imdb_imdbwordpress_bigmenu_no" name="imdb_imdbwordpress_bigmenu" value="0" 
 				<?php
 				if ( $lumiere_imdb_admin_values['imdbwordpress_bigmenu'] === '0' ) {
-					echo 'checked="checked"'; }
+					echo 'checked'; }
 				?>
 				/>
 
 				<input type="checkbox" id="imdb_imdbwordpress_bigmenu_yes" name="imdb_imdbwordpress_bigmenu" value="1" 
 				<?php
 				if ( $lumiere_imdb_admin_values['imdbwordpress_bigmenu'] === '1' ) {
-					echo 'checked="checked"'; }
+					echo 'checked'; }
 				?>
 				/>
 
@@ -295,14 +295,14 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 				<input type="hidden" id="imdb_imdbwordpress_tooladminmenu_no" name="imdb_imdbwordpress_tooladminmenu" value="0" 
 				<?php
 				if ( $lumiere_imdb_admin_values['imdbwordpress_tooladminmenu'] === '0' ) {
-					echo 'checked="checked" '; }
+					echo 'checked '; }
 				?>
 				/>
 
 				<input type="checkbox" id="imdb_imdbwordpress_tooladminmenu_yes" name="imdb_imdbwordpress_tooladminmenu" value="1" 
 				<?php
 				if ( $lumiere_imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
-					echo 'checked="checked" '; }
+					echo 'checked '; }
 				?>
 				/>
 
@@ -320,7 +320,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 				<input type="checkbox" id="imdb_imdbkeepsettings_yes" name="imdb_imdbkeepsettings" value="1" 
 				<?php
 				if ( $lumiere_imdb_admin_values['imdbkeepsettings'] === '1' ) {
-					echo 'checked="checked" '; }
+					echo 'checked '; }
 				?>
 				/>
 
@@ -335,14 +335,14 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 				<input type="hidden" id="imdb_imdbdebug_no" class="activatehidesectionRemove" name="imdb_imdbdebug" value="0" 
 				<?php
 				if ( $lumiere_imdb_admin_values['imdbdebug'] === '0' ) {
-					echo 'checked="checked"'; }
+					echo 'checked'; }
 				?>
 				/>
 
 				<input type="checkbox" id="imdb_imdbdebug_yes" class="activatehidesectionAdd" name="imdb_imdbdebug" value="1" 
 				<?php
 				if ( $lumiere_imdb_admin_values['imdbdebug'] === '1' ) {
-					echo 'checked="checked"'; }
+					echo 'checked'; }
 				?>
 				/>
 
@@ -421,7 +421,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 					<input type="checkbox" id="imdb_imdbdebugscreen_yes" name="imdb_imdbdebugscreen" value="1" 
 					<?php
 					if ( $lumiere_imdb_admin_values['imdbdebugscreen'] === '1' ) {
-						echo ' checked="checked" '; }
+						echo ' checked '; }
 					?>
 					/>
 
@@ -436,7 +436,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 					<input type="checkbox" id="imdb_imdbdebuglog_yes" data-checkbox_activate="imdb_imdbdebuglogpath_id" name="imdb_imdbdebuglog" value="1" 
 					<?php
 					if ( $lumiere_imdb_admin_values['imdbdebuglog'] === '1' ) {
-						echo ' checked="checked" '; }
+						echo ' checked '; }
 					?>
 					/>
 
@@ -502,8 +502,8 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Settings::get_admin_tablename(
 					<?php echo esc_url( get_site_url() ); ?>/
 					<input type="text" class="lumiere_border_width_medium" id="imdb_imdburlstringtaxo" name="imdb_imdburlstringtaxo" value="<?php echo esc_html( $lumiere_imdb_admin_values['imdburlstringtaxo'] ); ?>">
 					&nbsp;&nbsp;
-					<input type="checkbox" id="imdb_imdburlstringtaxo_terms" name="imdb_imdburlstringtaxo_terms" value="1" data-confirm="You may have to refresh the page several times.">
-					<label for="imdb_imdburlstringtaxo_terms"><?php esc_html_e( 'Update also taxonomy terms (extremely resource intensive)', 'lumiere-movies' ); ?></label>
+					<input type="checkbox" id="imdb_imdburlstringtaxo_terms" name="imdb_imdburlstringtaxo_terms" value="1" data-confirm="Existing taxonomy will not be updated." checked>
+					<label for="imdb_imdburlstringtaxo_terms"><?php esc_html_e( 'Update also taxonomy terms (may be resource intensive)', 'lumiere-movies' ); ?></label>
 				</div>
 				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the taxonomy\'s pages.', 'lumiere-movies' ); ?> <?php esc_html_e( 'Warning! This URL cannot be identical to popup\'s URL above.', 'lumiere-movies' ); ?> <br><?php esc_html_e( 'Warning again! Depending on your host and the number of taxonomies you are using, editing this URL may be extremeley resource intensive. You may need to reload the page several times.', 'lumiere-movies' ); ?>
 				<br>

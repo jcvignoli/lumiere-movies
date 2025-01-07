@@ -51,6 +51,7 @@ class Admin_Notifications {
 			'taxotemplatecopy_failed' => [ __( 'Template copy failed! Check the permissions in you theme folder.', 'lumiere-movies' ), 7 ],
 			'lum_plugin_updated' => [ __( 'Lumière! plugin has been updated to the latest version.', 'lumiere-movies' ), 6 ],
 			'options_update_failed' => [ __( 'Options could not be saved.', 'lumiere-movies' ), 7 ],
+			'invalid_nonce' => [ __( 'Nonce is invalid, no change has been made.', 'lumiere-movies' ), 7 ],
 		];
 
 	}

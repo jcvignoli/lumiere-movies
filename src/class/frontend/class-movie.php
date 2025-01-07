@@ -528,27 +528,6 @@ class Movie {
 		}
 
 		/**
-		 * Compatibility with Polylang WordPress plugin, add a language to the taxonomy term.
-		 * Function in class Polylang.
-		 * @deprecated 4.0 WordPress functions do all what we need
-		 */
-		/* if ( $this->plugin_polylang instanceof Polylang && ! is_wp_error( $term_inserted ) && $page_id !== false ) {
-
-
-			$find_term = get_term_by( 'name', $taxonomy_term, $taxonomy_category_full );
-
-			$term = term_exists( $taxonomy_term, $taxonomy_category_full );
-			$this->plugin_polylang->lumiere_polylang_add_lang_to_taxo( (array) $term );
-			$this->logger->log()->debug(
-				'[Lumiere][' . $this->classname . '] Added to Polylang the terms:' . wp_json_encode( $term )
-			);
-
-			// Create a list of Lumière tags meant to be inserted to Lumière Taxonomy
-			$list_taxonomy_term .= $taxonomy_term . ', ';
-
-		}*/
-
-		/**
 		 * Layout
 		 */
 

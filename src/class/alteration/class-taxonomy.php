@@ -95,7 +95,12 @@ class Taxonomy {
 	 */
 	public function update_custom_terms( string $old_taxonomy, string $new_taxonomy ): void {
 
-		$this->logger?->log()->debug( '[Lumiere][Taxonomy] Updating taxonomy ' . $old_taxonomy . ' with ' . $new_taxonomy );
+		// Method executed in init so logging prevents throws a "headers already sent" -> trick to prevent logger to be run
+		if ( did_action( 'wp_loaded' ) !== 1 ) {
+			$this->logger = null;
+		}
+
+		$this->logger?->log()->debug( '[Lumiere][Taxonomy][Start] Replacing taxonomy *' . $old_taxonomy . '* by ' . $new_taxonomy . ' started' );
 
 		$get_taxo_array = $this->get_taxonomy_activated(); // Method in trait Get_Options, retrieve an array of varsuch as "lumiere-director"
 
@@ -111,66 +116,41 @@ class Taxonomy {
 			// Register new taxonomy to make sure they are available to below functions.
 			register_taxonomy( $full_new_taxonomy, [ 'page', 'post' ] );
 
-			// Get all terms available for the old taxonomy.
-			$terms = get_terms(
+			// Run update query
+			$this->lum_query_update_taxo(
+				$full_old_taxonomy,
+				$full_new_taxonomy,
+				// Retrieve all posts with the old taxonomy.
 				[
-					'taxonomy' => $full_old_taxonomy,
-					'hide_empty' => true,
+					'post_type' => [ 'post', 'page' ],
+					'post_status' => 'publish',
+					'showposts' => -1,
+					'lang' => '', // query posts in all languages for Polylang -- no effect otherwise.
+					'fields' => 'ids',
+					'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query.
+						[
+						'taxonomy' => $full_old_taxonomy,
+						'operator' => 'EXISTS',
+						],
+					],
 				]
 			);
 
-			if ( $terms instanceof \WP_Error ) {
-				$this->logger?->log()->error( '[Lumiere][Taxonomy][Update terms] Invalid terms for taxonomy: "' . $full_old_taxonomy . '" error message: ' . $terms->get_error_message() );
-				continue;
+			// Get all terms available for the old taxonomy.
+			$terms = get_terms( [ 'taxonomy' => $full_old_taxonomy ] );
+
+			if ( ! $terms instanceof \WP_Error ) {
+				/** @psalm-suppress PossiblyInvalidIterator -- Cannot iterate over string -- this is the old WordPress way to have get_terms() return strings */
+				foreach ( $terms as $term ) {
+					$term_deleted = wp_delete_term( intval( $term->term_id ), sanitize_text_field( $full_old_taxonomy ), [ 'force_default' => true ] );
+					if ( $term_deleted === true ) {
+						$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Deleted] Term "' . $term->name . '" deleted from taxonomy "' . sanitize_text_field( $full_old_taxonomy . '"' ) );
+					}
+				}
 			}
-
-			/** @psalm-suppress PossiblyInvalidIterator -- Cannot iterate over string -- this is the old WordPress way to have get_terms() return strings */
-			foreach ( $terms as $term ) {
-
-				// Retrieve and sanitize the term object vars.
-				$term_id = intval( $term->term_id );
-				$term_name = esc_html( $term->name );
-
-				// If the term doesn't exist in the new taxonomy, insert it.
-				if ( term_exists( $term_name, $full_new_taxonomy ) === null ) {
-					wp_insert_term( $term_name, $full_new_taxonomy );
-					$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Created] New term "' . $term_name . '" was missing and was created for the new taxonomy ' . sanitize_text_field( $full_new_taxonomy ) );
-				}
-
-				// Run update query
-				$this->lum_query_update_taxo(
-					$full_old_taxonomy,
-					$full_new_taxonomy,
-					// The query arguments.
-					[
-						'post_type' => [ 'post', 'page' ],
-						'post_status' => 'publish',
-						'no_found_rows' => true,
-						'fields' => 'ids',
-						'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-							'taxonomy' => sanitize_text_field( $full_old_taxonomy ),
-							'field' => 'slug',
-							'terms' => sanitize_key( $term->slug ),
-						],
-					]
-				);
-
-				$term_deleted = wp_delete_term( $term_id, sanitize_text_field( $full_old_taxonomy ) );
-
-				if ( $term_deleted === true ) {
-					$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Deleted] Term "' . $term_name . '" deleted from taxonomy "' . sanitize_text_field( $full_old_taxonomy . '"' ) );
-				}
-
-				// Error deleting terms.
-				if ( $term_deleted instanceof \WP_Error ) {
-					$this->logger?->log()->error( '[Lumiere][Taxonomy][Update terms][*' . $term_deleted->get_error_message() . '*] Failed to delete the term "' . $term_name . '" from taxonomy "' . sanitize_text_field( $full_old_taxonomy ) . '"' );
-				}
-
-				$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms] Term "' . $term_name . '" processed.' );
-			}
-			$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms] Taxonomy "' . sanitize_text_field( $full_new_taxonomy ) . '" processed.' );
+			$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Processed] Term "' . sanitize_text_field( $full_new_taxonomy ) );
 		}
-		$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms] Finished. All taxonomy terms have been processed.' );
+		$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][End] taxonomy terms have been processed.' );
 	}
 
 	/**
@@ -227,7 +207,8 @@ class Taxonomy {
 	 *
 	 * @param string $full_old_taxonomy the taxonomy to be replaced
 	 * @param string $full_new_taxonomy the new taxonomy
-	 * @param array<string, array<int|string, string>|string|true> $args The arguments for the WP_Query
+	 * @param array{post_type:array<string>, post_status:'publish', showposts:-1,lang:'', fields:'ids', tax_query: array{0:array{taxonomy:string,operator:'EXISTS'}}} $args The arguments for the WP_Query
+	 * @phpstan-param array{post_type: array<string>, post_status: string, showposts: int, lang: string, fields: string, tax_query: array{array{taxonomy: string, operator: 'EXISTS'}}} $args
 	 * @return void
 	 * @see WP_Query
 	 */
@@ -240,35 +221,62 @@ class Taxonomy {
 
 				$query->the_post();
 
-				if ( ! taxonomy_exists( $full_old_taxonomy ) ) {
-					$this->logger?->log()->error( '[Lumiere][Taxonomy][Update terms]Taxonomy ' . $full_old_taxonomy . ' does not exit, aborting' );
-					continue;
-				}
-				if ( ! taxonomy_exists( $full_new_taxonomy ) ) {
-					$this->logger?->log()->error( '[Lumiere][Taxonomy][Update terms]Taxonomy ' . $full_new_taxonomy . ' does not exit, aborting' );
-					continue;
-				}
-
 				$page_id = intval( get_the_ID() );
 				$title = get_post_field( 'post_title', $page_id );
 				$terms_post = get_the_terms( $page_id, $full_old_taxonomy );
-				$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms] Processing post "' . esc_html( $title ) . '"' );
+				$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Post] Title "' . esc_html( $title ) . '" being processed' );
 
-				if ( is_array( $terms_post ) === false ) {
+				if ( $terms_post === false || $terms_post instanceof \WP_Error ) {
 					continue;
 				}
 
-				// Insert only terms that a related to the current post.
-				foreach ( $terms_post as $term_post ) {
-					wp_set_object_terms(
-						$page_id,
-						$term_post->name,
-						$full_new_taxonomy,
-						true /* True: Append the term, False: Replace all previous terms by current one */
-					);
+				// Trick: Convert WP_Term objects to array, so can be processed in Polylang (otherwise fails).
+				if ( ! isset( $terms_post[1] ) ) {
+					$terms_post[] = array_values( $terms_post );
 				}
 
+				// Execute Polylang update taxonomy terms if it is active.
+				if ( has_action( 'lum_polylang_update_taxonomy_terms' ) ) {
+					do_action( 'lum_polylang_update_taxonomy_terms', $terms_post, $page_id, $full_new_taxonomy, $full_old_taxonomy, $title );
+					continue;
+				}
+
+				// Normal update.
+				$this->update_taxonomy_terms( $terms_post, $page_id, $full_new_taxonomy, $full_old_taxonomy, $title );
 			}
 		}
+	}
+	/**
+	 * Import the taxonomy terms
+	 *
+	 * @param array<\WP_Term|array<\WP_Term>> $terms_post Object of terms in the Post
+	 * @param int $page_id Post Id
+	 * @param string $full_new_taxonomy the new taxonomy
+	 * @param string $full_old_taxonomy the taxonomy to be replaced
+	 * @param string $title Post title
+	 *
+	 * @return void The taxonomy terms have been imported
+	 */
+	private function update_taxonomy_terms( array $terms_post, int $page_id, string $full_new_taxonomy, string $full_old_taxonomy, string $title ): void {
+
+		foreach ( $terms_post as $term_post ) {
+
+			// Due to the trick, needs to convert back to from array to object if it's an array.
+			$term_post = is_array( $term_post ) ? $term_post[0] : $term_post;
+
+			$adding_terms = wp_set_object_terms(
+				$page_id,
+				$term_post->name,
+				$full_new_taxonomy,
+				true /* True: Append the term, False: Replace all previous terms by current one */
+			);
+
+			// No term found
+			if ( ! $adding_terms instanceof \WP_Error && count( $adding_terms ) > 0 ) {
+				$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Added] Term *' . esc_html( $term_post->name ) . '* to post *' . esc_html( $title ) . '*' );
+			}
+			$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Process] Term *' . esc_html( $term_post->name ) );
+		}
+		$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Post] Title *' . esc_html( $title ) . '* processed.' );
 	}
 }

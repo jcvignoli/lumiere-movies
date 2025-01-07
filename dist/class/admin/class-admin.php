@@ -68,7 +68,7 @@ class Admin {
 		add_action( 'init', [ $start, 'lum_search_redirect' ] );
 
 		/**
-		 * (2) The following is only for admin pages
+		 * (2) Only for admin pages, so after this, only init and below should work
 		 */
 		if ( ! is_admin() ) {
 			return;
@@ -96,8 +96,8 @@ class Admin {
 			return;
 		}
 
-		// Add Polylang filter to admin. Polylang plugin is not normaly loaded in admin, this filter is needed to block to user custom taxo.
-		add_action( 'init', [ 'Lumiere\Plugins\Auto\Polylang', 'add_polylang_taxonomy' ], 11 );
+		// Add Polylang specific methods to admin. Static methods that executes ony if Polylang is active.
+		add_action( 'init', [ 'Lumiere\Plugins\Auto\Polylang', 'add_polylang_in_admin' ] );
 
 		// Add admin menu.
 		add_action( 'init', fn() => Admin_Menu::lumiere_static_start() );
@@ -208,8 +208,7 @@ class Admin {
 
 		}
 
-		// On 'plugins.php' show a confirmation dialogue if.
-		// 'imdbkeepsettings' is set on delete Lumière! options.
+		// On 'plugins.php' show a confirmation dialogue if 'imdbkeepsettings' is set on delete Lumière! options.
 		if (
 			( ! isset( $this->imdb_admin_values['imdbkeepsettings'] ) || $this->imdb_admin_values['imdbkeepsettings'] === '0' )
 			&& $page_caller === 'plugins.php'

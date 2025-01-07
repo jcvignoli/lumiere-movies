@@ -131,6 +131,23 @@ namespace {
 	 * @phpstan-return array<non-empty-string, positive-int>
 	 */
 	function pll_save_term_translations( $arr ) {}
+
+
+	/**
+	 * Among the term and its translations, returns the ID of the term which is in the language represented by $lang.
+	 *
+	 * @api
+	 * @since 0.5
+	 * @since 3.4 Returns `0` instead of `false` if not translated or if the term has no language.
+	 * @since 3.4 $lang accepts PLL_Language or string.
+	 *
+	 * @param int                 $term_id Term ID.
+	 * @param PLL_Language|string $lang    Optional language (object or slug), defaults to the current language.
+	 * @return int The translation term ID if exists. 0 if not translated, the term has no language or if the language doesn't exist.
+	 *
+	 * @phpstan-return int<0, max>
+	 */
+	function pll_get_term( $term_id, $lang = '' ) {}
 	
 	/**
 	 * Determine whether the current request is for an AMP page.

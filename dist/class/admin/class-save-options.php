@@ -253,7 +253,7 @@ class Save_Options {
 		) {
 			set_transient( 'notice_lumiere_msg', 'general_options_error_identical_value', 30 );
 			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
-				echo 'test';
+				exit( 0 );
 			}
 		}
 
@@ -265,13 +265,16 @@ class Save_Options {
 		) {
 			set_transient( 'notice_lumiere_msg', 'general_options_error_imdburlpopups_invalid', 30 );
 			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
-				echo 'test';
+				exit( 0 );
 			}
 		}
 
 		// Check if nonce is a valid value.
 		if ( ! isset( $_POST['_nonce_general_settings'] ) || ! ( wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0 ) ) {
-			echo 'test';
+			set_transient( 'notice_lumiere_msg', 'invalid_nonce', 30 );
+			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
+				exit( 0 );
+			}
 		}
 
 		/**
