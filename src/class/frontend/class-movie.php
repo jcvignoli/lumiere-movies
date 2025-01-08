@@ -484,7 +484,7 @@ class Movie {
 		$layout = esc_attr( $layout );
 		$taxonomy_category = esc_attr( $type_item );
 		$taxonomy_term = esc_attr( $first_title );
-		$second_title = $second_title !== null ? esc_attr( $second_title ) : '';
+		$second_title ??= '';
 		$taxonomy_category_full = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . $taxonomy_category;
 		$page_id = get_the_ID();
 
@@ -548,7 +548,7 @@ class Movie {
 			$output .= "\n\t\t\t\t\t" . '</a>';
 			$output .= "\n\t\t\t\t" . '</div>';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-			$output .= preg_replace( '/\n/', '', esc_attr( $second_title ) ); # remove breaking space
+			$output .= preg_replace( '/\n/', '', wp_kses( $second_title, [ 'i' => [] ] ) ); // remove breaking space, keep some html tags.
 			$output .= "\n\t\t\t\t" . '</div>';
 			$output .= "\n\t\t\t" . '</div>';
 

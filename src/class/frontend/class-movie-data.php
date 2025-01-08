@@ -862,16 +862,21 @@ class Movie_Data extends Movie {
 
 				$count_jobs = isset( $producer[ $i ]['jobs'] ) && count( $producer[ $i ]['jobs'] ) > 0 ? count( $producer[ $i ]['jobs'] ) : 0;
 
+				$jobs = '';
 				for ( $j = 0; $j < $count_jobs; $j++ ) {
-					$output .= $this->lumiere_make_display_taxonomy(
-						'producer',
-						// @phan-suppress-next-line PhanTypeInvalidDimOffset, PhanTypeMismatchArgument (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
-						isset( $producer[ $i ]['name'] ) ? esc_html( $producer[ $i ]['name'] ) : '',
-						isset( $producer[ $i ]['jobs'][ $j ] ) ? esc_html( $producer[ $i ]['jobs'][ $j ] ) : '',
-						'two',
-						sanitize_text_field( $movie->title() )
-					);
+					$jobs .= isset( $producer[ $i ]['jobs'][ $j ] ) ? esc_html( $producer[ $i ]['jobs'][ $j ] ) : '';
+					if ( $j < ( $count_jobs - 1 ) ) {
+						$jobs .= ', ';
+					}
 				}
+				$output .= $this->lumiere_make_display_taxonomy(
+					'producer',
+					// @phan-suppress-next-line PhanTypeInvalidDimOffset, PhanTypeMismatchArgument (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
+					isset( $producer[ $i ]['name'] ) ? esc_html( $producer[ $i ]['name'] ) : '',
+					$jobs,
+					'two',
+					sanitize_text_field( $movie->title() )
+				);
 			}
 			return $output;
 		}
@@ -896,6 +901,9 @@ class Movie_Data extends Movie {
 			if ( $count_jobs > 0 ) {
 				for ( $j = 0; $j < $count_jobs; $j++ ) {
 					$output .= esc_html( $producer[ $i ]['jobs'][ $j ] );
+					if ( $j < ( $count_jobs - 1 ) ) {
+						$output .= ', ';
+					}
 				}
 			} else {
 				$output .= '&nbsp;';
@@ -933,29 +941,35 @@ class Movie_Data extends Movie {
 			for ( $i = 0; $i < $nbtotalwriters; $i++ ) {
 
 				$count_jobs = isset( $writer[ $i ]['jobs'] ) && count( $writer[ $i ]['jobs'] ) > 0 ? count( $writer[ $i ]['jobs'] ) : 0;
+				$jobs = '';
 
 				for ( $j = 0; $j < $count_jobs; $j++ ) {
-					$output .= $this->lumiere_make_display_taxonomy(
-						'writer',
-						// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypePossiblyInvalidDimOffset (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
-						isset( $writer[ $i ]['name'] ) && is_string( $writer[ $i ]['name'] ) ? esc_attr( $writer[ $i ]['name'] ) : '',
-						esc_attr( $writer[ $i ]['jobs'][ $j ] ),
-						'two',
-						sanitize_text_field( $movie->title() )
-					);
-					if ( $j < ( $count_jobs - 1 ) ) {
-						$output .= ', ';
+
+					// Add number of episode and year they worked in.
+					$dates_episodes = '';
+					// @phan-suppress-next-line PhanTypeInvalidDimOffset */
+					if ( $writer[ $i ]['episode'] !== null && count( $writer[ $i ]['episode'] ) > 0 ) {
+						$total = $writer[ $i ]['episode']['total'] > 0 ? esc_html( $writer[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $writer[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
+						$year_from_or_in = isset( $writer[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
+						$year_to_or_in = isset( $writer[ $i ]['episode']['year'] ) ? __( 'to', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
+						$year = isset( $writer[ $i ]['episode']['year'] ) ? ' ' . esc_html( $year_from_or_in ) . ' ' . esc_html( $writer[ $i ]['episode']['year'] ) : '';
+						$end_year = isset( $writer[ $i ]['episode']['endYear'] ) ? ' ' . esc_html( $year_to_or_in ) . ' ' . esc_html( $writer[ $i ]['episode']['endYear'] ) : '';
+						$dates_episodes = strlen( $total . $year . $end_year ) > 0 ? ' (<i>' . $total . $year . $end_year . '</i>)' : '';
 					}
+					$jobs .= isset( $writer[ $i ]['jobs'][ $j ] ) && strlen( $writer[ $i ]['jobs'][ $j ] ) > 0 ? $writer[ $i ]['jobs'][ $j ] . $dates_episodes : '';
+					if ( $j < ( $count_jobs - 1 ) ) {
+						$jobs .= ', ';
+					}
+
 				}
-				// Add number of episode and year they worked in.
-				// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypeMismatchArgumentInternal */
-				if ( count( $writer[ $i ]['episode'] ) > 0 ) {
-					$total = strlen( $writer[ $i ]['episode']['total'] ) > 0 ? esc_html( $writer[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $writer[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
-					$year_from_or_in = isset( $writer[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
-					$year = isset( $writer[ $i ]['episode']['year'] ) ? ' ' . esc_html( $year_from_or_in ) . ' ' . esc_html( $writer[ $i ]['episode']['year'] ) : '';
-					$end_year = isset( $writer[ $i ]['episode']['endYear'] ) ? ' ' . esc_html__( 'to', 'lumiere-movies' ) . ' ' . esc_html( $writer[ $i ]['episode']['endYear'] ) : '';
-					$output .= ' (<i>' . $total . $year . $end_year . '</i>)';
-				}
+				$output .= $this->lumiere_make_display_taxonomy(
+					'writer',
+					// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypePossiblyInvalidDimOffset (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
+					isset( $writer[ $i ]['name'] ) && is_string( $writer[ $i ]['name'] ) ? esc_attr( $writer[ $i ]['name'] ) : '',
+					$jobs,
+					'two',
+					sanitize_text_field( $movie->title() )
+				);
 			}
 			return $output;
 		}

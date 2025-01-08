@@ -315,19 +315,19 @@ class Polylang {
 		$polylang_current_lang = pll_current_language() !== false ? pll_current_language() : null;
 		// 1. Lang: if there is a lang and it is not 'all', keep it, otherwise make a string of all languages available on the site.
 		$lang = strlen( $args['polylang_lang'] ) > 0 && $args['polylang_lang'] !== 'all' ? $args['polylang_lang'] : join( ',', pll_languages_list() );
-		// 2. Terms: if the lang is a string comma-separated or is empty, build an array of terms that include an extension, otherwise transform it in term
-		$terms = str_contains( $lang, ',' ) || $lang === '' || $lang === 'all' ? $args['person_name'] : strtolower( str_replace( ' ', '-', $args['person_name'] ) );
+		$slug = strtolower( str_replace( ' ', '-', $args['person_name'] ) );
 
 		return [
 			'post_type' => [ 'post', 'page' ],
 			'numberposts' => -1,
 			'no_found_rows' => true,
-			'lang' => $lang,
+			'lang' => esc_html( $lang ),
+			'fields' => 'ids',
 			'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				[
-					'taxonomy' => $args['taxonomy'],
+					'taxonomy' => esc_html( $args['taxonomy'] ),
 					'field' => 'slug',
-					'terms' => $terms,
+					'terms' => esc_html( $slug ),
 				],
 			],
 		];

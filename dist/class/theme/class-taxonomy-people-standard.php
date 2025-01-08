@@ -335,17 +335,18 @@ class Taxonomy_People_Standard {
 
 		foreach ( $this->config_class->array_people as $people => $people_translated ) {
 
+			$taxonomy_name = str_replace( 'imdbtaxonomy', '', esc_html( $this->imdb_admin_values['imdburlstringtaxo'] . $people ) );
+
 			// Default query.
 			$base_query = [
 				'post_type' => [ 'post', 'page' ],
 				'post_status' => 'publish',
-				'numberposts' => -1,
-				'no_found_rows' => true,
-				'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+				'showposts' => -1,
+				'fields' => 'ids',
+				'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query.
 					[
-						'taxonomy' => sanitize_text_field( $this->imdb_admin_values['imdburlstringtaxo'] . $people ),
-						'field' => 'name',
-						'terms' => sanitize_text_field( $this->person_name ),
+					'taxonomy' => strtolower( str_replace( ' ', '-', $taxonomy_name ) ),
+					'operator' => 'EXISTS',
 					],
 				],
 			];
@@ -373,6 +374,7 @@ class Taxonomy_People_Standard {
 				$output .= "\n\t\t\t\t" . '<h2 class="lumiere_italic lumiere_align_center">' . esc_html__( 'In the role of', 'lumiere-movies' ) . ' ' . esc_html( $people_translated ) . '</h2>';
 
 				while ( $the_query->have_posts() ) {
+
 					$the_query->the_post();
 
 					$the_id = get_the_ID();
