@@ -236,7 +236,7 @@ class Taxonomy {
 				}
 
 				// Execute Polylang update taxonomy terms if it is active.
-				if ( has_action( 'lum_polylang_update_taxonomy_terms' ) ) {
+				if ( has_action( 'lum_polylang_update_taxonomy_terms' ) === true ) {
 					do_action( 'lum_polylang_update_taxonomy_terms', $terms_post, $page_id, $full_new_taxonomy, $full_old_taxonomy, $title );
 					continue;
 				}

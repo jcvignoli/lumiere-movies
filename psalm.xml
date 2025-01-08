@@ -15,11 +15,8 @@
 
 	<!-- Load but don't analyze -->
 	<extraFiles>
-	<!-- Using it in PHPStan
 		<directory name="vendor/php-stubs/wordpress-stubs/"/>
 		<directory name="vendor/php-stubs/wp-cli-stubs/"/>
-	 -->
-	 	<file name="src/vendor/autoload.php"/>
 	</extraFiles>
 	<!-- Load and analyze -->
 	<projectFiles>

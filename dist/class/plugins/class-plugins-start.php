@@ -20,13 +20,13 @@ if ( ! defined( 'WPINC' ) ) {
 use Lumiere\Plugins\Plugins_Detect;
 
 /**
- * Instanciate the plugins that are available
+ * Instanciate the plugins that are available and in active
  *
  * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @see \Lumiere\Plugins\Plugins_Detect Detect the plugins available which should be instanciated
+ * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @see \Lumiere\Plugins\Plugins_Detect Detect the plugins available should be instanciated
  */
 class Plugins_Start {
 
@@ -41,27 +41,20 @@ class Plugins_Start {
 
 	/**
 	 * Constructor
-	 * @param array<string, string>|array<string> $extra_classes Extra classes to add
-	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS> $extra_classes Extra classes to add
+	 * @param array<string, string>|array<string>|null $extra_classes Extra classes to add
+	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS>|null $extra_classes Extra classes to add
 	 */
-	public function __construct( array $extra_classes = [] ) {
+	public function __construct( ?array $extra_classes = [] ) {
 
 		// Get the active plugins.
 		$array_plugin_names = ( new Plugins_Detect() )->get_active_plugins();
 
 		// Add an extra class in properties.
-		if ( count( $extra_classes ) > 0 ) {
+		if ( isset( $extra_classes ) && count( $extra_classes ) > 0 ) {
 			$array_plugin_names = $this->add_extra_plugins( $extra_classes, $array_plugin_names );
 		}
 
 		$this->plugins_classes_active = $this->start_active_plugins( $array_plugin_names );
-	}
-
-	/**
-	 * Build list of plugins active in array $plugin_class
-	 */
-	public static function lumiere_static_start(): void {
-		$class = new self( [] );
 	}
 
 	/**
@@ -102,7 +95,7 @@ class Plugins_Start {
 	 * @param array<string, class-string|string> $array_plugin_names
 	 * @phpstan-param array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>|non-falsy-string> $array_plugin_names
 	 * @return array<string, class-string|string>
-	 * @phpstan-return array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>|non-falsy-string>
+	 * @phpstan-return ($array_plugin_names is array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>> ? array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>> : array<AVAILABLE_PLUGIN_CLASSES_KEYS, non-falsy-string>)
 	 */
 	private function add_extra_plugins( array $extra_classes, array $array_plugin_names ): array {
 		if ( count( $extra_classes ) === 0 ) {

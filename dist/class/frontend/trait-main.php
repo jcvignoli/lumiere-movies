@@ -95,11 +95,11 @@ trait Main {
 	/**
 	 * Get the list of active plugins and send an array to current trait properties
 	 *
-	 * @param array<string, string> $extra_class An extra class to instanciate
-	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS> $extra_class An extra class to instanciate
+	 * @param array<string, string>|null $extra_class An extra class to instanciate
+	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS>|null $extra_class An extra class to instanciate
 	 * @since 4.1
 	 */
-	public function activate_plugins( array $extra_class = [] ): void {
+	public function activate_plugins( ?array $extra_class = [] ): void {
 		$this->plugins_classes_active = ( new Plugins_Start( $extra_class ) )->plugins_classes_active;
 	}
 

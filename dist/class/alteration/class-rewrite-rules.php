@@ -69,8 +69,7 @@ class Rewrite_Rules {
 		// Add rewrite rules
 		add_action( 'admin_init', [ $this, 'lumiere_add_rewrite_rules' ] );
 
-		/* @TODO Should use an easier, much easier way
-		global $wp_rewrite;
+		/* @TODO Should use the way, way easier
 		add_filter( 'generate_rewrite_rules', function ( $wp_rewrite ) {
 				$wp_rewrite->rules = array_merge(
 					self::LUMIERE_REWRITE_RULES,
@@ -181,8 +180,8 @@ class Rewrite_Rules {
 	 * @param array<string, string> $existing_rules
 	 * @return void
 	 */
-	public function add_polylang_rules( array $existing_rules ) {
-		if ( has_filter( 'pll_init' ) ) {
+	public function add_polylang_rules( array $existing_rules ): void {
+		if ( has_filter( 'pll_init' ) === true ) {
 			$this->logger_class->log()->debug( '[Lumiere][RewriteRules] Rules added to Polylang' );
 			add_filter(
 				'pll_rewrite_rules',

@@ -390,6 +390,7 @@ class Polylang {
 
 				$adding_terms = wp_set_object_terms(
 					$page_id,
+					/** @psalm-suppress PossiblyInvalidPropertyFetch (Cannot fetch property on possible non-object $item_name of type array<array-key, mixed>) */
 					$item_name->name,
 					$full_new_taxonomy,
 					true /* True: Append the term, False: Replace all previous terms by current one */

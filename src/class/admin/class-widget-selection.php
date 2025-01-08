@@ -33,8 +33,6 @@ use WP_Widget;
  *
  * @see \Lumiere\Core that calls it
  * @see \Lumiere\Frontend\Widget_Legacy Call it in frontend which will extend the current class. The current class registers Widget_Legacy widget
- *
- * @extends \WP_Widget<array<string, mixed>>
  */
 class Widget_Selection extends WP_Widget {
 

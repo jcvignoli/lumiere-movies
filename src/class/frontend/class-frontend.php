@@ -242,7 +242,7 @@ class Frontend {
 				}
 
 				// Set the title.
-				$person = new Name( $mid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() ); // @phan-suppress-current-line PhanTypeMismatchArgumentNullable (Due to skaut stub, Phan doesn't know that wp_die() return is never)
+				$person = new Name( $mid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() );
 				$person_name_sanitized = $person->name();
 
 				$title = strlen( $person_name_sanitized ) > 0
@@ -268,7 +268,7 @@ class Frontend {
 				}
 
 				// Set the title.
-				$filmname_complete = ': [ ' . ucwords( $filmname_sanitized ) . ' ]'; // @phan-suppress-current-line PhanTypeMismatchArgumentNullableInternal (Due to skaut stub, Phan doesn't know that wp_die() return is never)
+				$filmname_complete = ': [ ' . ucwords( $filmname_sanitized ) . ' ]';
 				/* translators: %1s is the title of a movie */
 				$title = sprintf( __( 'Lumiere Query Interface %1s', 'lumiere-movies' ), ' ' . $filmname_complete );
 

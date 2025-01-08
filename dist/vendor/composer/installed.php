@@ -3,7 +3,7 @@
         'name' => 'jcvignoli/lumiere-movies',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '94c5e04e869dc27d88300f37944da797e7a5f8bd',
+        'reference' => 'adae75458ee066c78603d6b1157282dd9e3e3f64',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'duck7000/imdb-graphql-php' => array(
             'pretty_version' => 'dev-jcv',
             'version' => 'dev-jcv',
-            'reference' => '54e8f36112c44c3c4ab72f3e32a94e67cee52854',
+            'reference' => '24d4cc28a1f22a0ac985d1317e6e2e6bbc81f750',
             'type' => 'library',
             'install_path' => __DIR__ . '/../duck7000/imdb-graphql-php',
             'aliases' => array(),
@@ -22,7 +22,7 @@
         'jcvignoli/lumiere-movies' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '94c5e04e869dc27d88300f37944da797e7a5f8bd',
+            'reference' => 'adae75458ee066c78603d6b1157282dd9e3e3f64',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
