@@ -127,7 +127,7 @@ class Taxonomy {
 					'showposts' => -1,
 					'lang' => '', // query posts in all languages for Polylang -- no effect otherwise.
 					'fields' => 'ids',
-					'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query.
+					'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 						[
 						'taxonomy' => $full_old_taxonomy,
 						'operator' => 'EXISTS',
