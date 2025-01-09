@@ -112,9 +112,9 @@ class Taxonomy {
 			$full_old_taxonomy = str_replace( 'imdbtaxonomy', '', esc_html( $old_taxonomy . $taxonomy_item ) );
 			$full_new_taxonomy = str_replace( 'imdbtaxonomy', '', esc_html( $new_taxonomy . $taxonomy_item ) );
 
-			/* register_taxonomy( $full_old_taxonomy, [ 'page', 'post' ] ); =>>> Removed so terms from old taxonomy that don't exist aren't processed => Saves time*/
+			//register_taxonomy( $full_old_taxonomy, [ 'page', 'post' ], [ 'public' => true, ] );
 			// Register new taxonomy to make sure they are available to below functions.
-			register_taxonomy( $full_new_taxonomy, [ 'page', 'post' ] );
+			register_taxonomy( $full_new_taxonomy, [ 'page', 'post' ], [ 'public' => true ] );
 
 			// Run update query
 			$this->lum_query_update_taxo(
@@ -125,8 +125,6 @@ class Taxonomy {
 					'post_type' => [ 'post', 'page' ],
 					'post_status' => 'publish',
 					'showposts' => -1,
-					'lang' => '', // query posts in all languages for Polylang -- no effect otherwise.
-					'fields' => 'ids',
 					'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 						[
 						'taxonomy' => $full_old_taxonomy,
@@ -207,8 +205,8 @@ class Taxonomy {
 	 *
 	 * @param string $full_old_taxonomy the taxonomy to be replaced
 	 * @param string $full_new_taxonomy the new taxonomy
-	 * @param array{post_type:array<string>, post_status:'publish', showposts:-1,lang:'', fields:'ids', tax_query: array{0:array{taxonomy:string,operator:'EXISTS'}}} $args The arguments for the WP_Query
-	 * @phpstan-param array{post_type: array<string>, post_status: string, showposts: int, lang: string, fields: string, tax_query: array{array{taxonomy: string, operator: 'EXISTS'}}} $args
+	 * @param array{post_type:array<string>, post_status:'publish', showposts:-1, tax_query: array{0:array{taxonomy:string,operator:'EXISTS'}}} $args The arguments for the WP_Query
+	 * @phpstan-param array{post_type: array<string>, post_status: string, showposts: int, tax_query: array{array{taxonomy: string, operator: 'EXISTS'}}} $args
 	 * @return void
 	 * @see WP_Query
 	 */
@@ -220,63 +218,83 @@ class Taxonomy {
 			while ( $query->have_posts() ) {
 
 				$query->the_post();
-
-				$page_id = intval( get_the_ID() );
-				$title = get_post_field( 'post_title', $page_id );
-				$terms_post = get_the_terms( $page_id, $full_old_taxonomy );
-				$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Post] Title "' . esc_html( $title ) . '" being processed' );
-
-				if ( $terms_post === false || $terms_post instanceof \WP_Error ) {
-					continue;
-				}
-
-				// Trick: Convert WP_Term objects to array, so can be processed in Polylang (otherwise fails).
-				if ( ! isset( $terms_post[1] ) ) {
-					$terms_post[] = array_values( $terms_post );
-				}
+				$the_id = get_the_ID() !== false ? get_the_ID() : 0;
 
 				// Execute Polylang update taxonomy terms if it is active.
-				if ( has_action( 'lum_polylang_update_taxonomy_terms' ) === true ) {
-					do_action( 'lum_polylang_update_taxonomy_terms', $terms_post, $page_id, $full_new_taxonomy, $full_old_taxonomy, $title );
+				if (
+					apply_filters(
+						'lum_polylang_update_taxonomy_terms',
+						$this->logger,
+						intval( $the_id ),
+						$full_new_taxonomy,
+						$full_old_taxonomy,
+						get_the_title( intval( $the_id ) )
+					) === true
+				) {
 					continue;
 				}
 
 				// Normal update.
-				$this->update_taxonomy_terms( $terms_post, $page_id, $full_new_taxonomy, $full_old_taxonomy, $title );
+				$this->update_taxonomy_terms(
+					$this->logger,
+					intval( $the_id ),
+					$full_new_taxonomy,
+					$full_old_taxonomy,
+					get_the_title( intval( $the_id ) )
+				);
 			}
 		}
 	}
 	/**
 	 * Import the taxonomy terms
+	 * Do a loop of all terms found related to the current post but former taxonomy, then set the terms in the post with the new taxonomy
+	 * If the term is new for the taxonomy (first loop for the term in the new taxonomy), create (insert) the term in the first loop
 	 *
-	 * @param array<\WP_Term|array<\WP_Term>> $terms_post Object of terms in the Post
+	 * @since 4.3
+	 * @info Using "instanceof \WP_Error" instead of "is_wp_error()" because PHPStan doesn't understand the latter
+	 *
+	 * @param null|Logger $logger Logger
 	 * @param int $page_id Post Id
 	 * @param string $full_new_taxonomy the new taxonomy
 	 * @param string $full_old_taxonomy the taxonomy to be replaced
 	 * @param string $title Post title
-	 *
-	 * @return void The taxonomy terms have been imported
+	 * @return bool True if terms were updated
 	 */
-	private function update_taxonomy_terms( array $terms_post, int $page_id, string $full_new_taxonomy, string $full_old_taxonomy, string $title ): void {
+	private function update_taxonomy_terms( ?Logger $logger, int $page_id, string $full_new_taxonomy, string $full_old_taxonomy, string $title ): bool {
 
-		foreach ( $terms_post as $term_post ) {
+		$logger?->log()->info( '[Lumiere][Taxonomy][Update terms] Regular taxonomy version started' );
 
-			// Due to the trick, needs to convert back to from array to object if it's an array.
-			$term_post = is_array( $term_post ) ? $term_post[0] : $term_post;
+		$terms_post = get_the_terms( $page_id, $full_old_taxonomy );
+		$logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Post] Title "' . esc_html( $title ) . '" being processed' );
+
+		if ( $terms_post === false || $terms_post instanceof \WP_Error ) {
+			$logger?->log()->error( '[Lumiere][Taxonomy][Update terms][Polylang][Post] No taxonomy terms found, although there should be there due to the SQL Query.' );
+			return false;
+		}
+
+		foreach ( $terms_post as $key => $term_post ) {
+
+			// The term doesn't exist in the post.
+			$term_inserted = wp_insert_term( $term_post->name, $full_new_taxonomy );
+
+			// Since it's a new term, the term inserted overrides the loop's slug if it was successfully inserted
+			$get_term = ! $term_inserted instanceof \WP_Error ? get_term( $term_inserted['term_id'] ) : null;
+			$term_final = isset( $get_term ) && ! $get_term instanceof \WP_Error ? $get_term->name : $term_post->name;
 
 			$adding_terms = wp_set_object_terms(
 				$page_id,
-				$term_post->name,
+				$term_final,
 				$full_new_taxonomy,
 				true /* True: Append the term, False: Replace all previous terms by current one */
 			);
 
 			// No term found
 			if ( ! $adding_terms instanceof \WP_Error && count( $adding_terms ) > 0 ) {
-				$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Added] Term *' . esc_html( $term_post->name ) . '* to post *' . esc_html( $title ) . '*' );
+				$logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Added] Term *' . esc_html( $term_post->name ) . '* to post *' . esc_html( $title ) . '*' );
 			}
-			$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Process] Term *' . esc_html( $term_post->name ) );
+			$logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Process] Term *' . esc_html( $term_post->name ) );
 		}
-		$this->logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Post] Title *' . esc_html( $title ) . '* processed.' );
+		$logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Post] Title *' . esc_html( $title ) . '* processed.' );
+		return true;
 	}
 }

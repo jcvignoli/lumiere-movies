@@ -93,8 +93,9 @@ class Taxonomy_People_Standard {
 
 		// Start AMP headers if AMP page and Polylang, not really in use
 		if ( $this->is_plugin_active( 'amp' ) === true && $this->is_plugin_active( 'polylang' ) === true ) { // Method in Trait Main.
-			add_action( 'wp_ajax_amp_comment_submit', [ $this->plugins_classes_active['polylang'], 'amp_form_submit' ] );
-			add_action( 'wp_ajax_nopriv_amp_comment_submit', [ $this->plugins_classes_active['polylang'], 'amp_form_submit' ] );
+			$class_polylang = $this->plugins_classes_active['polylang'];
+			add_action( 'wp_ajax_amp_comment_submit', [ $class_polylang, 'amp_form_submit' ] );
+			add_action( 'wp_ajax_nopriv_amp_comment_submit', [ $class_polylang, 'amp_form_submit' ] );
 		}
 	}
 

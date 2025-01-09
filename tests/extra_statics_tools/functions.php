@@ -107,6 +107,7 @@ namespace {
 	 * )|false
 	 */
 	function pll_default_language( $field = 'slug' ) {}
+
 	/**
 	 * Returns the home url in a language.
 	 *
@@ -148,6 +149,28 @@ namespace {
 	 * @phpstan-return int<0, max>
 	 */
 	function pll_get_term( $term_id, $lang = '' ) {}
+
+	/**
+	 * Returns the post language.
+	 *
+	 * @api
+	 * @since 1.5.4
+	 * @since 3.4 Accepts composite values for `$field`.
+	 *
+	 * @param int    $post_id Post ID.
+	 * @param string $field Optional, the language field to return (@see PLL_Language), defaults to `'slug'`.
+	 *                      Pass `\OBJECT` constant to get the language object. A composite value can be used for language
+	 *                      term property values, in the form of `{language_taxonomy_name}:{property_name}` (see
+	 *                      {@see PLL_Language::get_tax_prop()} for the possible values). Ex: `term_language:term_taxonomy_id`.
+	 * @return string|int|bool|string[]|PLL_Language The requested field or object for the post language, `false` if no language is associated to that post.
+	 *
+	 * @phpstan-return (
+	 *     $field is \OBJECT ? PLL_Language : (
+	 *         $field is 'slug' ? non-empty-string : string|int|bool|list<non-empty-string>
+	 *     )
+	 * )|false
+	 */
+	function pll_get_post_language( $post_id, $field = 'slug' ) {}
 	
 	/**
 	 * Determine whether the current request is for an AMP page.

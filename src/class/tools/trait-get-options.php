@@ -51,5 +51,12 @@ trait Get_Options {
 		return $taxonomy_full_name;
 	}
 
+	/**
+	 * Get the current Lumière version
+	 * @return string
+	 */
+	public static function get_lumiere_version(): string {
+		return ( new Settings() )->lumiere_version;
+	}
 }
 
