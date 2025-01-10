@@ -31,6 +31,8 @@ use WP_Widget;
  * widgets_init is started at init 1: https://developer.wordpress.org/reference/hooks/widgets_init/#user-contributed-notes
  * Easier to call it in hook 'widgets_init'!
  *
+ * @extends WP_Widget<array<string, mixed>>
+ *
  * @see \Lumiere\Core that calls it
  * @see \Lumiere\Frontend\Widget_Legacy Call it in frontend which will extend the current class. The current class registers Widget_Legacy widget
  */

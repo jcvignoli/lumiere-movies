@@ -5,7 +5,7 @@ includes:
 parameters:
     level: 8 # set 'max' or '9' to check mixed values
     scanDirectories:
-        - vendor/skaut/wordpress-stubs/stubs/
+#        - vendor/skaut/wordpress-stubs/stubs/ => waiting for the PRs to be accepted on Github
         - vendor/php-stubs/wordpress-stubs/ #less quality, should come after skaut when skaut is better defined
         - src/vendor/duck7000/imdb-graphql-php/src/Imdb/
     tmpDir: tmp/cache/phpstan
@@ -24,9 +24,8 @@ parameters:
     ignoreErrors:
         - '#Variable method call on#'
         - '#Path in require_once\(\) "#' # Phpstan can't resolve paths
-        - '#Unable to resolve the template type T in call to function wp_unslash#'
-        - '#Parameter \#1 \$url of function esc_url_raw expects string, array<string>\|string given#'
-        - '#Parameter \#1 \$str of function sanitize_text_field expects string, array<string>\|string#'
+#        - '#Parameter \#1 \$url of function esc_url_raw expects string, array<string>\|string given#' => waiting for the PRs to be accepted on Github
+#        - '#Parameter \#1 \$str of function sanitize_text_field expects string, array<string>\|string#' => waiting for the PRs to be accepted on Github
     dynamicConstantNames:
         - DOING_CRON
         - WP_DEBUG_LOG

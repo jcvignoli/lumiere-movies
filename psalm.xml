@@ -15,8 +15,10 @@
 
 	<!-- Load but don't analyze -->
 	<extraFiles>
+	<!-- When reactivating skaut's stub, reactivated here
 		<directory name="vendor/php-stubs/wordpress-stubs/"/>
 		<directory name="vendor/php-stubs/wp-cli-stubs/"/>
+	-->
 	</extraFiles>
 	<!-- Load and analyze -->
 	<projectFiles>
@@ -28,7 +30,7 @@
 		</ignoreFiles>
 	</projectFiles>
 	<stubs>
-		<file name="vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php"/>
+<!--		<file name="vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php"/> waiting for the PRs to be accepted on Github -->
 		<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php"/> 
 	</stubs>
 	<globals>
