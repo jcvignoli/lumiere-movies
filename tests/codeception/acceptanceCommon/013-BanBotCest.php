@@ -111,7 +111,7 @@ class BanBotCest {
 	 *
 	 * @example ["/lumiere/person/?mid=0248281"]
 	 * @example ["/lumiere/film/?film=interstellar"]
-	 * @example ["/lumiere/movie_search/?film=interstellar&norecursive=yes"]
+	 * @example ["/lumiere/movie_search/?film=interstellar"]
 	 */
 	public function userAgentShouldBan(AcceptanceLocalTester $I, \Codeception\Example $example) {
 
@@ -159,7 +159,7 @@ class BanBotCest {
 	 *
 	 * @example ["/lumiere/person/?mid=0248281"]
 	 * @example ["/lumiere/film/?film=interstellar"]
-	 * @example ["/lumiere/movie_search/?film=interstellar&norecursive=yes"]
+	 * @example ["/lumiere/movie_search/?film=interstellar"]
 	 */
 	private function popupsShouldNotBanLoggedin(AcceptanceLocalTester $I, \Codeception\Example $example) {
 
@@ -198,7 +198,7 @@ class BanBotCest {
 	 *
 	 * @example ["/lumiere/person/?mid=0248281"]
 	 * @example ["/lumiere/film/?film=interstellar"]
-	 * @example ["/lumiere/movie_search/?film=interstellar&norecursive=yes"]
+	 * @example ["/lumiere/movie_search/?film=interstellar"]
 	 */
 	public function popupsWithRefererShouldNotBan(AcceptanceLocalTester $I, \Codeception\Example $example) {
 
@@ -218,7 +218,7 @@ class BanBotCest {
 	 *
 	 * @example ["/lumiere/person/?mid=0248281"]
 	 * @example ["/lumiere/film/?film=interstellar"]
-	 * @example ["/lumiere/movie_search/?film=interstellar&norecursive=yes"]
+	 * @example ["/lumiere/movie_search/?film=interstellar"]
 	 */
 	public function popupsWithoutRefererShouldBan(AcceptanceLocalTester $I, \Codeception\Example $example) {
 

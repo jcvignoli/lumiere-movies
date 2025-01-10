@@ -146,7 +146,7 @@ class Head_Popups {
 		// Canonical for search popup.
 		if ( 0 === stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . $this->config_class->lumiere_urlstringsearch ) && $sanitized_film !== null ) {
 
-			$my_canon = $this->config_class->lumiere_urlpopupsearch . '?film=' . $sanitized_film . '&norecursive=yes';
+			$my_canon = $this->config_class->lumiere_urlpopupsearch . '?film=' . $sanitized_film;
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 		}
 

@@ -97,7 +97,7 @@ class Popup_Movie_Search extends Head_Popups {
 
 		// Validate $_GET['film'], exit if failed.
 		$get_info = Validate_Get::sanitize_url( 'film' );
-		if ( $get_info === null || ! isset( $_GET['norecursive'] ) || $_GET['norecursive'] !== 'yes' || $nonce_valid === false ) {
+		if ( $get_info === null || $nonce_valid === false ) {
 			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
 		}
 
