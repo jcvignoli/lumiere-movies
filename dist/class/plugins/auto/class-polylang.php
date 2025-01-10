@@ -66,14 +66,17 @@ class Polylang {
 
 		$this->logger = new Logger( 'Polylang' );
 
-		// Filter to return URLs with Polylang lang extension in domain name.
+		// Return URLs with Polylang lang extension in domain name.
 		add_filter( 'lum_polylang_rewrite_url_with_lang', [ $this, 'rewrite_url_with_lang' ], 10, 1 );
 
-		// Filter to return an array for a SQL Query for dropdown form in taxonomy people theme
+		// Return an array for a SQL Query for dropdown form in taxonomy people theme
 		add_filter( 'lum_polylang_taxo_query', [ $this, 'get_polylang_query_form' ], 10, 2 );
 
 		// Remove the custom taxonomy.
 		add_filter( 'pll_get_taxonomies', [ $this, 'add_tax_to_pll' ], 10, 2 );
+
+		// Return a form for selecting the lang in Taxonomy_People_Standard.
+		add_filter( 'lum_polylang_form_taxonomy_people', [ $this, 'form_taxonomy_people_lang' ], 10, 1 );
 	}
 
 	/**
@@ -132,32 +135,30 @@ class Polylang {
 	 * Compatible with AMP plugin. If AMP Plugin is detected, the AMP form will be displayed
 	 *
 	 * @param string $taxonomy The current taxonomy to check and build the form according to it
-	 * @param string $person_name name of the current person in taxonomy
 	 * @return string The form is returned
 	 *
 	 * @since 4.1 The AMP form works!
 	 * @since 4.1.2 replaced strval( $lang_object->term_id ) by str_replace( 'pll_', '', strval( $lang_object->slug ) )
+	 * @since 4.3 Rewritten using proper loops with languages. What the hell was this... thing?
 	 */
-	public function lumiere_get_form_polylang_selection( string $taxonomy, string $person_name ): string {
+	public function form_taxonomy_people_lang( string $taxonomy ): string {
 
-		$pll_lang_init = get_terms(
-			[
-				'taxonomy' => 'term_language',
-				'hide_empty' => false,
-			]
-		);
-		$pll_lang = is_array( $pll_lang_init ) ? $pll_lang_init : null;
-		if ( ! isset( $pll_lang ) ) {
-			$this->logger?->log()->debug( "[Lumiere][Polylang][taxonomy_$taxonomy] No Polylang language set." );
-			return '';
-		}
+		// Language selected: $_GET['tag_lang'] Retrieve it if nonce is valid. Null otherwise.
+		$selected_lang =
+			isset( $_GET['tag_lang'] ) && is_string( $_GET['tag_lang'] )
+			&& isset( $_GET['_wpnonce_lum_taxo_polylangform'] )
+			&& ( wp_verify_nonce( sanitize_key( $_GET['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) > 0 )
+			? sanitize_key( wp_unslash( $_GET['tag_lang'] ) )
+			: null;
+
+		// Combine in a single array two different Polylang fields, ie [ 'en' => 'English' ].
+		$all_lang_array = array_combine( pll_languages_list( [ 'fields' => 'slug' ] ), pll_languages_list( [ 'fields' => 'name' ] ) );
 
 		/**
 		 * Use AMP form if AMP plugin is active
-		 * Return the AMP form and exit
 		 */
 		if ( in_array( 'amp', array_keys( $this->active_plugins ), true ) === true ) {
-			return $this->amp_form_polylang_selection( $pll_lang );
+			return $this->amp_form_polylang_selection( $all_lang_array, $selected_lang );
 		}
 
 		$output = "\n\t\t\t" . '<div align="center">';
@@ -166,23 +167,12 @@ class Polylang {
 		$output .= "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
 
 		// Build an option html tag for every language.
-		/** @psalm-var \WP_Term $lang_object */
-		foreach ( $pll_lang as $lang_object ) {
-
-			/** @psalm-suppress PossiblyInvalidPropertyFetch -- Cannot fetch property on possible non-object => Always object! */
-			$output .= "\n\t\t\t\t\t\t" . '<option value="' . str_replace( 'pll_', '', strval( $lang_object->slug ) ) . '"';
-
-			if (
-				// @phpcs:ignore WordPress.Security.NonceVerification -- it is processed in the second line, right below
-				isset( $_GET['tag_lang'] ) && $lang_object->term_id === (int) $_GET['tag_lang']
-				&& isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) !== false
-			) {
+		foreach ( $all_lang_array as $slug => $lang ) {
+			$output .= "\n\t\t\t\t\t\t" . '<option value="' . esc_attr( $slug ) . '"';
+			if ( $selected_lang === $slug ) {
 				$output .= ' selected="selected"';
 			}
-
-			/** @psalm-suppress PossiblyInvalidPropertyFetch -- Cannot fetch property on possible non-object => Always object! */
-			$output .= '>' . ucfirst( $lang_object->name ) . '</option>';
-
+			$output .= '>' . ucfirst( esc_html( $lang ) ) . '</option>';
 		}
 		$output .= "\n\t\t\t\t\t" . '</select>&nbsp;&nbsp;&nbsp;';
 		$output .= "\n\t\t\t\t\t";
@@ -197,14 +187,15 @@ class Polylang {
 
 	/**
 	 * Special form for compatiblity with AMP
-	 * @param array<int, \WP_Term|int|string> $pll_lang List of Polylang languages in use
+	 * @param array<string, string> $all_lang_array List of Polylang languages in use
+	 * @param string|null $selected_lang Optional: Slug of the selected language
 	 * @return string The AMP form is returned
 	 *
-	 * @see Lumiere\Taxonomy_People_Standard::__construct
 	 * @see Lumiere\Taxonomy_People_Standard::amp_form_submit()
 	 * @since 4.1.2 replaced strval( $lang_object->term_id ) by str_replace( 'pll_', '', strval( $lang_object->slug ) )
+	 * @since 4.3 Rewritten using proper loops with languages. What the hell was this... thing?
 	 */
-	private function amp_form_polylang_selection( array $pll_lang ): string {
+	private function amp_form_polylang_selection( array $all_lang_array, ?string $selected_lang = null ): string {
 
 		$output = "\n\t\t\t" . '<div align="center">';
 		$output .= "\n\t\t\t\t" . '<form method="get" id="lang_form" name="lang_form" action="?amp" target="_top">';
@@ -212,13 +203,12 @@ class Polylang {
 		$output .= "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
 
 		// Build an option html tag for every language.
-		foreach ( $pll_lang as $lang_object ) {
-
-			if ( ! $lang_object instanceof \WP_Term ) { // Only psalm needs that...
-				continue;
+		foreach ( $all_lang_array as $slug => $lang ) {
+			$output .= "\n\t\t\t\t\t\t" . '<option value="' . esc_attr( $slug ) . '"';
+			if ( $selected_lang === $slug ) {
+				$output .= ' selected="selected"';
 			}
-
-			$output .= "\n\t\t\t\t\t\t" . '<option value="' . str_replace( 'pll_', '', strval( $lang_object->slug ) ) . '">' . ucfirst( $lang_object->name ) . '</option>';
+			$output .= '>' . ucfirst( esc_html( $lang ) ) . '</option>';
 		}
 
 		$output .= "\n\t\t\t\t\t" . '</select>';
@@ -226,17 +216,16 @@ class Polylang {
 		$output .= "\n\t\t\t\t\t" . '<button type="submit" name="submit_lang" id="submit_lang" class="button-primary" aria-live="assertive" value="' . esc_html__( 'Filter language', 'lumiere-movies' ) . '">&nbsp;&nbsp;&nbsp;' . __( 'Filter language', 'lumiere-movies' ) . '</button>';
 		$output .= "\n\t\t\t\t" . '</form>';
 		$output .= "\n\t\t\t" . '</div>';
-
 		return $output;
 	}
 
 	/**
 	 * Use specific headers if it is an AMP submission
-	 * Meant to allow a $_GET insted of a $_POST form submission, thus using ajax, not in use
-	 * Not in use
+	 * Meant to allow a $_GET insted of a $_POST form submission, thus using Ajax, not in use
+	 * Not in use ( amp_form should be on post)
 	 *
-	 * @see self::amp_form_polylang_selection() Use $_POST
-	 * @see \Lumiere\Taxonomy_People_Standard which is supposed to use it
+	 * @see self::amp_form_polylang_selection() Switch 'form method="get"' to 'post' to get it active
+	 * @see \Lumiere\Taxonomy_People_Standard Implements it
 	 */
 	public function amp_form_submit(): void {
 
@@ -250,28 +239,26 @@ class Polylang {
 				$success = true;
 				$message = __( 'Language successfully changed.', 'lumiere-movies' );
 				wp_send_json( [ 'success' => true ] );
-			} else {
-				$success = false;
-				$message = __( 'Could not change the language.', 'lumiere-movies' );
-				wp_send_json(
-					[
-						'msg' => __( 'No data passed', 'lumiere-movies' ),
-						'response' => esc_url_raw( wp_unslash( $_GET['tag_lang'] ) ),
-						'back_link' => true,
-					]
-				);
 			}
 
-			/** wp_send_json() already sent a wp_die(), this is not executed
+			$success = false;
+			$message = __( 'Could not change the language.', 'lumiere-movies' );
+			wp_send_json(
+				[
+					'msg' => __( 'No data passed', 'lumiere-movies' ),
+					'response' => esc_url_raw( wp_unslash( $_GET['tag_lang'] ) ),
+					'back_link' => true,
+				]
+			);
+
+			/** wp_send_json() sent a wp_die(), this is not executed
 			header( 'AMP-Redirect-To: ' . wp_sanitize_redirect( $_GET['_wp_http_referer'] ?? '' ) );
 
 			wp_die(
 				esc_html( $message ),
 				'',
 				[ 'response' => $success ? 200 : 400 ]
-			);
-			*/
-
+			);*/
 		}
 	}
 
@@ -295,11 +282,11 @@ class Polylang {
 
 	/**
 	 * Return a WP Query that includes Polylang language and 'terms' fields
-	 * Build the slug according to the 'name' field
-	 * Add an extension to the slug if it's not the current language (each term has a lang extension, 'stanley-kubrick', 'stanley-kubrick-en'
+	 * The term ('name') and the taxonomy are passed in $args - the orginal query too
+	 * The lang is built according to the $_GET in the form
 	 *
 	 * @param array<string, array<int|string, array<string, string>|string>|bool|int|string> $query Original Query
-	 * @param array{polylang_lang: string|null, person_name: string, taxonomy: string} $args Taxonomy ie 'lumiere-director'
+	 * @param array{person_name: string, taxonomy: string} $args Taxonomy ie 'lumiere-director'
 	 * @return array<string, array<int|string, array<string, array<int|string, string>|string>|string>|int|string|true>|array<string, array<int|string, array<string, string>|string>|bool|int|string>
 	 *
 	 * @since 4.3
@@ -307,28 +294,26 @@ class Polylang {
 	 */
 	public function get_polylang_query_form( array $query, array $args ): array {
 
-		// If lang was not found
-		if ( ! isset( $args['polylang_lang'] ) ) {
+		if ( ! isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) || ! ( wp_verify_nonce( sanitize_key( $_GET['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) > 0 ) ) {
 			return $query;
 		}
 
-		$polylang_current_lang = pll_current_language() !== false ? pll_current_language() : null;
-		// 1. Lang: if there is a lang and it is not 'all', keep it, otherwise make a string of all languages available on the site.
-		$lang = strlen( $args['polylang_lang'] ) > 0 && $args['polylang_lang'] !== 'all' ? $args['polylang_lang'] : join( ',', pll_languages_list() );
-
-		$slug = strtolower( str_replace( ' ', '-', $args['person_name'] ) );
+		// 1. $_GET['tag_lang'] Retrieve it if nonce is valid. Null otherwise.
+		$tag_lang = isset( $_GET['tag_lang'] ) && is_string( $_GET['tag_lang'] ) ? sanitize_key( wp_unslash( $_GET['tag_lang'] ) ) : null;
+		// 2. Lang: if there is a lang and it is neither '' nor 'all', keep it, otherwise make a string of all languages available on the site.
+		$lang = isset( $tag_lang ) && strlen( $tag_lang ) > 0 && $tag_lang !== 'all' ? $tag_lang : join( ',', pll_languages_list() );
 
 		return [
 			'post_type' => [ 'post', 'page' ],
 			'numberposts' => -1,
-			'no_found_rows' => true,
-			'lang' => esc_html( $lang ),
+			'nopaging' => true,
+			'lang' => $lang,
 			'fields' => 'ids',
 			'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				[
 					'taxonomy' => esc_html( $args['taxonomy'] ),
-					'field' => 'slug',
-					'terms' => esc_html( $slug ),
+					'field' => 'name',
+					'terms' => esc_html( $args['person_name'] ),
 				],
 			],
 		];
@@ -373,7 +358,7 @@ class Polylang {
 
 		$logger?->log()->info( '[Lumiere][Taxonomy][Update terms][Polylang] Polylang taxonomy version started' );
 		$logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" being processed' );
-		
+
 		$get_lang = pll_get_post_language( $page_id );
 		$lang = $get_lang !== false ? $get_lang : '';
 		$terms_post = get_the_terms( $page_id, $full_old_taxonomy );
@@ -392,24 +377,24 @@ class Polylang {
 
 			// Instert the term, if it doesn't exist, using the slug. Add the extension to the slug if relevant.
 			$term_inserted = wp_insert_term( $term_post->name, $full_new_taxonomy, [ 'slug' => $term_post->name . $ext ] );
-		
+
 			if ( ! $term_inserted instanceof \WP_Error ) {
-			
+
 				// Set the term's language.
 				pll_set_term_language( $term_inserted['term_id'], $lang );
 				// Since it's a new term, the term inserted overrides the loop's slug
 				$term_post = get_term( $term_inserted['term_id'] );
 				$term_slug = isset( $term_post ) && ! $term_post instanceof \WP_Error ? $term_post->slug : '';
-				
+
 				$logger?->log()->notice( '[Lumiere][Taxonomy][Update terms][Polylang][Missing term] Term *' . esc_html( $term_slug ) . '* was missing, so created in taxonomy ' . esc_html( $full_new_taxonomy ) );
-				
+
 			} else {
 				// Set the term's language.
 				pll_set_term_language( $term_post->term_id, $lang );
 				// User loop's slug.
 				$term_slug = $term_post->slug;
 			}
-			
+
 			$adding_terms = strlen( $term_slug ) > 0 ? wp_set_object_terms(
 				$page_id,
 				$term_slug,

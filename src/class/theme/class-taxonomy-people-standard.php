@@ -91,7 +91,11 @@ class Taxonomy_People_Standard {
 		$this->person_class = $this->get_imdbphp_person_searched();
 		$this->person_name = isset( $this->person_class ) ? $this->person_class->name() : '';
 
-		// Start AMP headers if AMP page and Polylang, not really in use
+		/**
+		 * Start AMP headers if AMP page and Polylang
+		 * Should allow to use AJAX instead of URLs gets
+		 * Not in use
+		 */
 		if ( $this->is_plugin_active( 'amp' ) === true && $this->is_plugin_active( 'polylang' ) === true ) { // Method in Trait Main.
 			$class_polylang = $this->plugins_classes_active['polylang'];
 			add_action( 'wp_ajax_amp_comment_submit', [ $class_polylang, 'amp_form_submit' ] );
@@ -303,7 +307,7 @@ class Taxonomy_People_Standard {
 		 // end of section if a result was found for the taxonomy.
 		if ( strlen( $this->person_name ) > 0 ) {
 
-			$output .= $this->lum_taxo_portrait();
+			$output .= $this->lum_taxo_portrait( $this->person_name );
 
 		} else {
 
@@ -315,7 +319,7 @@ class Taxonomy_People_Standard {
 		}
 
 		// Display the related posts part.
-		$output .= $this->display_related_posts();
+		$output .= $this->run_person_query( $this->person_name );
 
 		$output .= '</div>';
 		$output .= '</main>';
@@ -326,8 +330,11 @@ class Taxonomy_People_Standard {
 	/**
 	 * Display results related to the current taxonomy
 	 * For every type of role (writer, director) do a WP Query Loop
+	 * @info: a bit strange to do a loop while it is supposed to be a 'job'-related page (only for directors, ie) but it links taxonomy pages, which is cool
+	 *
+	 * @return string The related post
 	 */
-	private function display_related_posts(): string {
+	private function run_person_query( $person_name ): string {
 
 		// Var to include all rows and check if it is null.
 		$check_if_no_result = [];
@@ -336,7 +343,7 @@ class Taxonomy_People_Standard {
 
 		foreach ( $this->config_class->array_people as $people => $people_translated ) {
 
-			$taxonomy_name = str_replace( 'imdbtaxonomy', '', esc_html( $this->imdb_admin_values['imdburlstringtaxo'] . $people ) );
+			$taxonomy_name = esc_html( str_replace( 'imdbtaxonomy', '', $this->imdb_admin_values['imdburlstringtaxo'] . $people ) ); // Such as 'lumiere-standard'
 
 			// Default query.
 			$base_query = [
@@ -346,28 +353,24 @@ class Taxonomy_People_Standard {
 				'fields' => 'ids',
 				'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					[
-					'taxonomy' => strtolower( str_replace( ' ', '-', $taxonomy_name ) ),
+					'taxonomy' => sanitize_text_field( $taxonomy_name ),
 					'operator' => 'EXISTS',
 					],
 				],
 			];
 
 			// If Polylang is installed, the filter will returns a modified query, otherwise the $base_query is returned.
-
-			$tag_lang = ( isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) > 0 ) ? sanitize_key( wp_unslash( $_GET['tag_lang'] ?? '' ) ) : null;
-
 			$sql_query = apply_filters(
 				'lum_polylang_taxo_query', // Filter in class Polylang.
 				$base_query, // Default query.
 				[
-					'polylang_lang' => $tag_lang,
-					'taxonomy' => sanitize_text_field( $this->imdb_admin_values['imdburlstringtaxo'] . $people ), // Taxonomy
-					'person_name' => sanitize_text_field( $this->person_name ),
+					'taxonomy' => sanitize_text_field( $taxonomy_name ), // Taxonomy
+					'person_name' => sanitize_text_field( $person_name ),
 				]
 			);
 
 			// The Query.
-			$the_query = strlen( $this->person_name ) > 0 ? new WP_Query( $sql_query ) : null;
+			$the_query = strlen( $person_name ) > 0 ? new WP_Query( $sql_query ) : null;
 
 			// The loop.
 			if ( isset( $the_query ) && $the_query->have_posts() ) {
@@ -409,11 +412,7 @@ class Taxonomy_People_Standard {
 					$check_if_no_result[] = get_the_title( $the_id );
 
 				}
-
-				// there is no post.
-			} /* elseif ( ! isset( $the_query ) || $the_query->have_posts() || strlen( $this->person_name ) > 0 ) {
-				$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] No post found for ' . "$this->person_name in $people" );
-			} */
+			}
 		}
 
 		// Restore original Post Data.
@@ -423,9 +422,7 @@ class Taxonomy_People_Standard {
 		 * If no results are found at all
 		 * Say so!
 		 */
-		if ( count( $check_if_no_result ) === 0 && strlen( $this->person_name ) > 0 ) {
-
-			// $this->logger->log()->info( '[Lumiere][' . $this->classname . '] No post found for ' . $this->person_name . ' in ' . $this->taxonomy_title );
+		if ( count( $check_if_no_result ) === 0 && strlen( $person_name ) > 0 ) {
 
 			/* translators: %1$s is the name of a person */
 			$output .= '<div class="lumiere_align_center lumiere_italic lumiere_padding_five">' . esc_html( sprintf( __( 'No post written about %1$s', 'lumiere-movies' ), $this->person_name ) ) . '</div>';
@@ -434,13 +431,12 @@ class Taxonomy_People_Standard {
 
 		$output .= "\n\t\t\t\t" . '</div><!-- taxo_results -->';
 		return $output;
-
 	}
 
 	/**
 	 *  Display People data details
 	 */
-	private function lum_taxo_portrait(): string {
+	private function lum_taxo_portrait( string $person_name ): string {
 
 		$output = "\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Photo & identity -->';
 		$output .= "\n\t\t" . '<div class="lumiere_container lumiere_font_em_11 lumiere_align_center">';
@@ -449,7 +445,7 @@ class Taxonomy_People_Standard {
 		$output .= "\n\t\t\t\t" . '<div class="imdbelementTITLE ';
 		$output .= ' imdbelementTITLE_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 		$output .= '">';
-		$output .= esc_html( $this->person_name );
+		$output .= esc_html( $person_name );
 		$output .= '</div>';
 
 		/**
@@ -461,11 +457,11 @@ class Taxonomy_People_Standard {
 			$output .= isset( $this->person_class ) ? $this->link_maker->lumiere_link_picture(
 				$this->person_class->photoLocalurl( false ),
 				$this->person_class->photoLocalurl( true ),
-				$this->person_name
+				$person_name
 			) : '';
 		} else { // no_pics otherwise
 			$no_pic = $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif';
-			$output .= $this->link_maker->lumiere_link_picture( $no_pic, $no_pic, $this->person_name );
+			$output .= $this->link_maker->lumiere_link_picture( $no_pic, $no_pic, $person_name );
 		}
 
 		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Birth -->';
@@ -540,8 +536,8 @@ class Taxonomy_People_Standard {
 		$output .= "\n\t\t\t" . '</div>';
 		$output .= "\n\t\t\t" . '<br>';
 
-		// Compatibility with Polylang WordPress plugin, add a form to filter results by language.
-		$output .= isset( $this->plugins_classes_active['polylang'] ) ? $this->plugins_classes_active['polylang']->lumiere_get_form_polylang_selection( $this->taxonomy_title, $this->person_name ) : '';
+		// Form for Polylang plugin: if installed, add a form to filter results by language.
+		$output .= apply_filters( 'lum_polylang_form_taxonomy_people', '', $this->taxonomy_title );
 
 		$output .= "\n\t\t\t" . '<br>';
 		return $output;

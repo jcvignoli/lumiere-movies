@@ -88,6 +88,7 @@ class Taxonomy {
 
 	/**
 	 * Update all terms according to a new taxonomy.
+	 * Unactivated the Logger if it's before wp_loaded hook (just deactivate to get the log, it's always false)
 	 *
 	 * @param string $old_taxonomy the taxonomy to be replaced, ie 'lumiere-'
 	 * @param string $new_taxonomy the new taxonomy, , ie 'lumiere-'
@@ -124,6 +125,7 @@ class Taxonomy {
 				[
 					'post_type' => [ 'post', 'page' ],
 					'post_status' => 'publish',
+					'fields' => 'ids',
 					'showposts' => -1,
 					'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 						[
