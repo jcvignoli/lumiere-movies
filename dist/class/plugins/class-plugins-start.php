@@ -26,6 +26,7 @@ use Lumiere\Plugins\Plugins_Detect;
  * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ *
  * @see \Lumiere\Plugins\Plugins_Detect Detect the plugins available should be instanciated
  */
 class Plugins_Start {
@@ -89,7 +90,7 @@ class Plugins_Start {
 	/**
 	 * Add extra manual classe(s)
 	 * They're not in SUBFOLDER_PLUGINS_BIT, they're in "plugins"
-	 *
+	 * @psalm-suppress InvalidDocblock
 	 * @param array<string, string> $extra_classes Extra classes to add, ie [ 'imdbphp' => 'imdbphp' ]
 	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS> $extra_classes
 	 * @param array<string, class-string|string> $array_plugin_names

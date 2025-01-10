@@ -572,7 +572,7 @@ class Save_Options {
 			 * @psalm-suppress InvalidArgument
 			 */
 			$datafiltered = map_deep( wp_unslash( $_POST['imdbwidgetorderContainer'] ), 'sanitize_text_field' );
-			;
+
 			$data_keys_filtered = array_keys( $datafiltered );
 
 			$data_values_filtered = $datafiltered;

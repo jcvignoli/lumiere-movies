@@ -276,7 +276,7 @@ class Taxonomy {
 
 			// Since it's a new term, the term inserted overrides the loop's slug if it was successfully inserted
 			$get_term = ! $term_inserted instanceof \WP_Error ? get_term( $term_inserted['term_id'] ) : null;
-			// @psalm-var \WP_Term $get_term Psalm doesn't know it's always an object.
+			/** @psalm-suppress PossiblyInvalidPropertyFetch (it's always object!) */
 			$term_final = isset( $get_term ) && ! $get_term instanceof \WP_Error ? $get_term->name : $term_post->name;
 
 			$adding_terms = wp_set_object_terms(

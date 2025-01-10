@@ -28,7 +28,6 @@ use Lumiere\Frontend\Main;
  * @phpstan-type AVAILABLE_MANUAL_CLASSES_KEYS 'imdbphp'|'logger'
  * @phpstan-type AVAILABLE_PLUGIN_CLASSES_KEYS AVAILABLE_AUTO_CLASSES_KEYS|AVAILABLE_MANUAL_CLASSES_KEYS
  * @phpstan-type AVAILABLE_PLUGIN_CLASSES AVAILABLE_AUTO_CLASSES|AVAILABLE_MANUAL_CLASSES
- * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Link_Makers\Link_Factory
  *
  * @since 3.7 Class created
  * @since 4.1 Use find_available_plugins() to find plugins in SUBFOLDER_PLUGINS_BIT folder, and get_active_plugins() returns an array of plugins available
@@ -40,15 +39,6 @@ class Plugins_Detect {
 	 * Traits
 	 */
 	use Main;
-
-	/**
-	 * Class for building links, i.e. Highslide
-	 * Built in class Link Factory
-	 *
-	 * @var object
-	 * @phpstan-var LINKMAKERCLASSES $link_maker The factory class will determine which class to use
-	 */
-	public object $link_maker;
 
 	/**
 	 * Subfolder name of the plugins that can be automatically started

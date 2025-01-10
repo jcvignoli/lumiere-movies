@@ -334,7 +334,7 @@ class Taxonomy_People_Standard {
 	 *
 	 * @return string The related post
 	 */
-	private function run_person_query( $person_name ): string {
+	private function run_person_query( string $person_name ): string {
 
 		// Var to include all rows and check if it is null.
 		$check_if_no_result = [];
