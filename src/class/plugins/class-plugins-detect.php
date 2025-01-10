@@ -103,7 +103,7 @@ class Plugins_Detect {
 	 * Filter in an array plugins that are not active
 	 * If the array-value is null, the plugin will be removed from the list.
 	 *
-	 * @param array<string, string|null>|array{} $plugin_name
+	 * @param array<string, string|null> $plugin_name
 	 * @phpstan-param array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>|non-falsy-string|null> $plugin_name An array of the plugins active
 	 * @return array<string, class-string>
 	 * @phpstan-return array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>|non-falsy-string>

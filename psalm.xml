@@ -45,5 +45,11 @@
 		<PossiblyNullOperand errorLevel="suppress"/>
 		<!-- Lumiere is poorly written, I know -->
 		<PropertyNotSetInConstructor errorLevel="suppress"/>
+		<!-- Didn't find any other way to remove three invaliddocblocks -->
+		<InvalidDocblock>
+			<errorLevel type="suppress">
+				<file name="src/class/plugins/class-plugins-start.php" />
+			</errorLevel>
+		</InvalidDocblock>
 	</issueHandlers>
 </psalm>
