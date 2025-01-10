@@ -19,8 +19,9 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 /**
  * Trait for data operations, like string or array modifications
  * @since 4.1 Trait created
+ * @since 4.3 It is a class and all methods are static
  */
-trait Data {
+class Data {
 
 	/**
 	 * HTMLizing function
@@ -30,7 +31,7 @@ trait Data {
 	 *
 	 * @param string $link The string to be converted
 	 */
-	public function lumiere_name_htmlize( string $link ): string {
+	public static function lumiere_name_htmlize( string $link ): string {
 
 		// a. quotes escape
 		$lienhtmlize = wp_slash( $link );
@@ -60,7 +61,7 @@ trait Data {
 	 *
 	 * @credit: https://magp.ie/2013/04/17/search-associative-array-with-wildcard-in-php/
 	 */
-	public function lumiere_array_key_exists_wildcard( array $array, string $search, string $return = '' ): array {
+	public static function lumiere_array_key_exists_wildcard( array $array, string $search, string $return = '' ): array {
 
 		$search = str_replace( '\*', '.*?', preg_quote( $search, '/' ) );
 
@@ -82,7 +83,7 @@ trait Data {
 	 * @since 4.1
 	 * @return string The classname currently in use, 'unknowClass' if not found
 	 */
-	public function get_current_classname(): string {
+	public static function get_current_classname(): string {
 		$get_class = strrchr( __CLASS__, '\\' );
 		$classname = $get_class !== false ? substr( $get_class, 1 ) : false;
 		return $classname !== false ? $classname : 'unknowClass';
@@ -96,7 +97,7 @@ trait Data {
 	 * @param string $term the term searched for
 	 * @return bool
 	 */
-	public function lumiere_array_contains_term( array $array_list, string $term ): bool {
+	public static function lumiere_array_contains_term( array $array_list, string $term ): bool {
 
 		// Escape special url string characters for following regex
 		$array_list_escaped = str_replace( [ '?', '&', '#' ], [ '\?', '\&', '\#' ], $array_list );
@@ -107,6 +108,5 @@ trait Data {
 
 		return false;
 	}
-
 }
 

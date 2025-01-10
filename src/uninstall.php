@@ -38,7 +38,7 @@ class Uninstall {
 	/**
 	 * Traits
 	 */
-	use Admin_General, Data;
+	use Admin_General;
 
 	/**
 	 * Admin options
@@ -169,7 +169,7 @@ class Uninstall {
 			return false;
 		}
 
-		foreach ( $this->lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) { // Method in trait Data.
+		foreach ( Data::lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
 
 			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $this->imdb_admin_values['imdburlstringtaxo'] . $key );
 

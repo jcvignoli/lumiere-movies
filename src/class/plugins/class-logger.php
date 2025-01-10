@@ -35,7 +35,7 @@ use Monolog\Processor\IntrospectionProcessor;
 class Logger {
 
 	// Trait including the database settings.
-	use Settings_Global, Files, Data;
+	use Settings_Global, Files;
 
 	/**
 	 * Screen output, whether to show the logging on screen
@@ -116,7 +116,7 @@ class Logger {
 		// This is useful when saving a post in editor interface.
 		$referer = strlen( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) ) > 0 ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) : '';
 		$pages_prohibited = [ '/wp-admin/admin-ajax.php', '/wp-admin/post.php', '/wp-json/wp/v2/posts' ];
-		if ( $this->lumiere_array_contains_term( $pages_prohibited, esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) ) ) {
+		if ( Data::lumiere_array_contains_term( $pages_prohibited, esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) ) ) {
 			return true;
 		}
 

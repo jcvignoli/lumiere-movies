@@ -21,23 +21,19 @@ use Lumiere\Settings;
 
 /**
  * Trait for getting database options
+ * All methods shoud be static
  */
-trait Get_Options {
-
-	/**
-	 * Traits
-	 */
-	use Data;
+class Get_Options {
 
 	/**
 	 * Get an array of the taxonomy in use in the form of taxonomy
 	 * @return array<int, string>
 	 * @phpstan-return array<array-key, string>
 	 */
-	public function get_taxonomy_activated(): array {
+	public static function get_taxonomy_activated(): array {
 		$imdb_data_values = get_option( Settings::get_data_tablename() );
 		$imdb_admin_values = get_option( Settings::get_admin_tablename() );
-		$all_tax_array = $this->lumiere_array_key_exists_wildcard( $imdb_data_values, 'imdbtaxonomy*', 'key-value' ); // Method in trait Data
+		$all_tax_array = Data::lumiere_array_key_exists_wildcard( $imdb_data_values, 'imdbtaxonomy*', 'key-value' ); // Method in trait Data
 		$taxonomy_full_name = [];
 		foreach ( $all_tax_array as $option => $activated ) {
 			// Check if a specific taxonomy (such as actor, genre) is activated.

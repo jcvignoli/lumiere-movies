@@ -19,6 +19,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Get_Options;
+use Lumiere\Tools\Validate_Get;
 
 /**
  * Plugin for Polylang WordPress plugin
@@ -34,11 +35,6 @@ use Lumiere\Tools\Get_Options;
  * @link Polylang reference hooks https://polylang.pro/doc/filter-reference/
  */
 class Polylang {
-
-	/**
-	 * Traits
-	 */
-	use Get_Options;
 
 	/**
 	 * Array of plugins currently in use
@@ -119,8 +115,7 @@ class Polylang {
 	 * @since 4.3 Deactivated this custom option that creates multiples entries for the same term.
 	 */
 	public static function add_tax_to_pll( array $taxonomies, bool $hide ) {
-		$lum_activated_taxos = ( new class() { use Get_Options;
-		} )->get_taxonomy_activated(); // Method in trait Get_Options.
+		$lum_activated_taxos = Get_Options::get_taxonomy_activated();
 
 		foreach ( $lum_activated_taxos as $taxo ) {
 			$taxonomies[ $taxo ] = $taxo; // Activate custom polylang taxonomy.
@@ -145,10 +140,10 @@ class Polylang {
 
 		// Language selected: $_GET['tag_lang'] Retrieve it if nonce is valid. Null otherwise.
 		$selected_lang =
-			isset( $_GET['tag_lang'] ) && is_string( $_GET['tag_lang'] )
+			Validate_Get::sanitize_url( 'tag_lang' ) !== null
 			&& isset( $_GET['_wpnonce_lum_taxo_polylangform'] )
 			&& ( wp_verify_nonce( sanitize_key( $_GET['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) > 0 )
-			? sanitize_key( wp_unslash( $_GET['tag_lang'] ) )
+			? Validate_Get::sanitize_url( 'tag_lang' )
 			: null;
 
 		// Combine in a single array two different Polylang fields, ie [ 'en' => 'English' ].
@@ -230,12 +225,13 @@ class Polylang {
 	public function amp_form_submit(): void {
 
 		if (
-			isset( $_GET['submit_lang'], $_GET['tag_lang'] )
+			Validate_Get::sanitize_url( 'submit_lang' ) !== null && Validate_Get::sanitize_url( 'tag_lang' ) !== null
 			&& isset( $_POST['_wpnonce_lum_taxo_polylangform'] )
 			&& wp_verify_nonce( sanitize_key( $_POST['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) > 0
 		) {
 
-			if ( strlen( sanitize_key( $_GET['tag_lang'] ) ) > 0 ) {
+			/** @psalm-suppress PossiblyNullArgument (It can't! checked above!) */
+			if ( strlen( Validate_Get::sanitize_url( 'tag_lang' ) ) > 0 ) { /** @phan-suppress-current-line PhanTypeMismatchArgumentNullableInternal (already checked if null above!) */
 				$success = true;
 				$message = __( 'Language successfully changed.', 'lumiere-movies' );
 				wp_send_json( [ 'success' => true ] );
@@ -246,7 +242,7 @@ class Polylang {
 			wp_send_json(
 				[
 					'msg' => __( 'No data passed', 'lumiere-movies' ),
-					'response' => esc_url_raw( wp_unslash( $_GET['tag_lang'] ) ),
+					'response' => Validate_Get::sanitize_url( 'tag_lang' ),
 					'back_link' => true,
 				]
 			);
@@ -299,7 +295,7 @@ class Polylang {
 		}
 
 		// 1. $_GET['tag_lang'] Retrieve it if nonce is valid. Null otherwise.
-		$tag_lang = isset( $_GET['tag_lang'] ) && is_string( $_GET['tag_lang'] ) ? sanitize_key( wp_unslash( $_GET['tag_lang'] ) ) : null;
+		$tag_lang = Validate_Get::sanitize_url( 'tag_lang' ) ?? null;
 		// 2. Lang: if there is a lang and it is neither '' nor 'all', keep it, otherwise make a string of all languages available on the site.
 		$lang = isset( $tag_lang ) && strlen( $tag_lang ) > 0 && $tag_lang !== 'all' ? $tag_lang : join( ',', pll_languages_list() );
 
@@ -384,6 +380,7 @@ class Polylang {
 				pll_set_term_language( $term_inserted['term_id'], $lang );
 				// Since it's a new term, the term inserted overrides the loop's slug
 				$term_post = get_term( $term_inserted['term_id'] );
+				// @psalm-var \WP_Term $term_slug Psalm doesn't know it's always an object.
 				$term_slug = isset( $term_post ) && ! $term_post instanceof \WP_Error ? $term_post->slug : '';
 
 				$logger?->log()->notice( '[Lumiere][Taxonomy][Update terms][Polylang][Missing term] Term *' . esc_html( $term_slug ) . '* was missing, so created in taxonomy ' . esc_html( $full_new_taxonomy ) );

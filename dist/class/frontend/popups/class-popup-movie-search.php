@@ -20,6 +20,7 @@ use Imdb\TitleSearch;
 use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Main;
 use Lumiere\Tools\Validate_Get;
+use Lumiere\Tools\Data;
 
 /**
  * Displays movie search results in a popup
@@ -57,7 +58,7 @@ class Popup_Movie_Search extends Head_Popups {
 		// Build the vars.
 		// @since 4.0 lowercase, less cache used.
 		$film_sanitized = Validate_Get::sanitize_url( 'film' );
-		$this->film_sanitized = $film_sanitized !== null ? str_replace( [ '\\', '+' ], [ '', ' ' ], strtolower( $this->lumiere_name_htmlize( $film_sanitized ) ) ) : ''; // Method lumiere_name_htmlize() is in trait Data, which is in trait Main.
+		$this->film_sanitized = $film_sanitized !== null ? str_replace( [ '\\', '+' ], [ '', ' ' ], strtolower( Data::lumiere_name_htmlize( $film_sanitized ) ) ) : '';
 
 		/**
 		 * Display layout
@@ -173,7 +174,7 @@ class Popup_Movie_Search extends Head_Popups {
 					. esc_url(
 						wp_nonce_url(
 							$this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $res['titleSearchObject']->imdbid() )
-							. '&film=' . $this->lumiere_name_htmlize( $res['titleSearchObject']->title() ) // Method in trait Data, which is in trait Main.
+							. '&film=' . Data::lumiere_name_htmlize( $res['titleSearchObject']->title() )
 						)
 					)
 					. '" title="' . esc_html__( 'more on', 'lumiere-movies' ) . ' '

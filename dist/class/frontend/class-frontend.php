@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Tools\Ban_Bots;
 use Lumiere\Tools\Validate_Get;
+use Lumiere\Tools\Data;
 use Lumiere\Alteration\Virtual_Page;
 use Lumiere\Frontend\Popups\Popup_Person;
 use Lumiere\Frontend\Popups\Popup_Movie;
@@ -216,7 +217,7 @@ class Frontend {
 				$movie_queried = $movie !== null ? $movie->title() : null;
 
 				// Sanitize and initialize $_GET['film']
-				$film_sanitized = $film_sanitized !== null ? $this->lumiere_name_htmlize( $film_sanitized ) : ''; // Method lumiere_name_htmlize() in trait Data.
+				$film_sanitized = $film_sanitized !== null ? Data::lumiere_name_htmlize( $film_sanitized ) : '';
 
 				// Get the film ID if it exists, if not get the film name
 				$title_name = $movie_queried !== null ? ucfirst( $movie_queried ) : ucfirst( $film_sanitized );

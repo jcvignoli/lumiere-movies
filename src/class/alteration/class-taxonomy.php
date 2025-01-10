@@ -35,11 +35,6 @@ use WP_Query;
 class Taxonomy {
 
 	/**
-	 * Traits
-	 */
-	use Get_Options;
-
-	/**
 	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values
 	 */
 	private array $imdb_admin_values;
@@ -103,7 +98,7 @@ class Taxonomy {
 
 		$this->logger?->log()->debug( '[Lumiere][Taxonomy][Start] Replacing taxonomy *' . $old_taxonomy . '* by ' . $new_taxonomy . ' started' );
 
-		$get_taxo_array = $this->get_taxonomy_activated(); // Method in trait Get_Options, retrieve an array of varsuch as "lumiere-director"
+		$get_taxo_array = Get_Options::get_taxonomy_activated(); // Retrieve an array of vars such as "lumiere-director"
 
 		foreach ( $get_taxo_array as $taxonomy_name ) {
 
@@ -167,7 +162,7 @@ class Taxonomy {
 	public function create_custom_taxonomy( string $taxonomy = '', string $object_type = '', array $args = [] ): void {
 
 		// $this->logger?->log()->debug( '[Lumiere][Taxonomy] create_custom_taxonomy()' . $taxonomy);
-		$get_taxo_array = $this->get_taxonomy_activated(); // Method in trait Get_Options, retrieve an array of varsuch as "lumiere-director"
+		$get_taxo_array = Get_Options::get_taxonomy_activated(); // Retrieve an array of vars such as "lumiere-director"
 
 		foreach ( $get_taxo_array as $taxonomy_name ) {
 
@@ -207,8 +202,8 @@ class Taxonomy {
 	 *
 	 * @param string $full_old_taxonomy the taxonomy to be replaced
 	 * @param string $full_new_taxonomy the new taxonomy
-	 * @param array{post_type:array<string>, post_status:'publish', showposts:-1, tax_query: array{0:array{taxonomy:string,operator:'EXISTS'}}} $args The arguments for the WP_Query
-	 * @phpstan-param array{post_type: array<string>, post_status: string, showposts: int, tax_query: array{array{taxonomy: string, operator: 'EXISTS'}}} $args
+	 * @param array{post_type:array<string>, post_status:'publish', showposts:-1, fields: string, tax_query: array{0:array{taxonomy:string,operator:'EXISTS'}}} $args The arguments for the WP_Query
+	 * @phpstan-param array{post_type: array<string>, post_status: string, showposts: int, fields:string, tax_query: array{array{taxonomy: string, operator: 'EXISTS'}}} $args
 	 * @return void
 	 * @see WP_Query
 	 */
@@ -281,6 +276,7 @@ class Taxonomy {
 
 			// Since it's a new term, the term inserted overrides the loop's slug if it was successfully inserted
 			$get_term = ! $term_inserted instanceof \WP_Error ? get_term( $term_inserted['term_id'] ) : null;
+			// @psalm-var \WP_Term $get_term Psalm doesn't know it's always an object.
 			$term_final = isset( $get_term ) && ! $get_term instanceof \WP_Error ? $get_term->name : $term_post->name;
 
 			$adding_terms = wp_set_object_terms(

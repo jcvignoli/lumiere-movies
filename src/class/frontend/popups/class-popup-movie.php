@@ -21,6 +21,7 @@ use Imdb\TitleSearch;
 use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Tools\Validate_Get;
+use Lumiere\Tools\Data;
 
 /**
  * Display movie information in a popup
@@ -88,7 +89,7 @@ class Popup_Movie extends Head_Popups {
 
 			$this->movie = new Title( $movieid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() );
 			// @since 4.0 lowercase, less cache used.
-			$this->film_title_sanitized = strtolower( $this->lumiere_name_htmlize( $this->movie->title() ) ); // Method in trait Data, which is in trait Main.
+			$this->film_title_sanitized = strtolower( Data::lumiere_name_htmlize( $this->movie->title() ) );
 			return true;
 
 			/**

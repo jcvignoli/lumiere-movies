@@ -37,7 +37,7 @@ class Admin {
 	/**
 	 * Traits
 	 */
-	use Settings_Global, Data;
+	use Settings_Global;
 
 	/**
 	 * Constructor
@@ -176,9 +176,9 @@ class Admin {
 			|| 'post-new.php' === $page_caller
 			|| 'widgets.php' === $page_caller
 			// All Lumière pages.
-			|| $this->lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) ) // In Trait data.
+			|| Data::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) )
 			// Extra WP Admin pages.
-			|| $this->lumiere_array_contains_term(
+			|| Data::lumiere_array_contains_term(
 				[
 					'admin.php?page=lumiere_options',
 					'options-general.php?page=lumiere_options',

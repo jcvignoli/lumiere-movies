@@ -48,7 +48,14 @@ class Validate_Get {
 			'options' => [ 'regexp' => '~(filmo|bio|misc|^$)~' ], // Matches also empty string, which is needed at first.
 			'flags'   => [ FILTER_FLAG_QUERY_REQUIRED, FILTER_NULL_ON_FAILURE ],
 		],
-
+		'tag_lang'         => [ // Lumiere\Plugins\Auto\Polylang
+			'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
+			'flags'  => [ FILTER_FLAG_QUERY_REQUIRED, FILTER_NULL_ON_FAILURE ],
+		],
+		'submit_lang'         => [ // Lumiere\Plugins\Auto\Polylang
+			'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
+			'flags'  => [ FILTER_FLAG_QUERY_REQUIRED, FILTER_NULL_ON_FAILURE ],
+		],
 	];
 
 	/**

@@ -187,13 +187,10 @@ And much more! This is a major new version, more stable and safer, extensively t
 
 [...]
 
-= 3.0 =
-* Major update, plugin vastly rewritten. Name [IMDb Link Transformer](https://wordpress.org/plugins/imdb-link-transformer/ "IMDb Link Transformer on WordPress") changed to Lumière!. Should be Content Security Policy (CSP) compliant. Too many changes to be listed. Check the [changelog](http://svn.wp-plugins.org/lumiere-movies/trunk/CHANGELOG.md "latest changelog").
-
 == Upgrade Notice ==
 
 = 4.3 =
-The base library is now IMDbGraphQL. Delete the cache, as the caching system has changed. Taxonomy deeply changed, less dependent of Polylang plugin.
+The base library is now IMDbGraphQL. Delete the cache, as the caching system has changed. Taxonomy deeply changed, forms in taxonomy pages (ie director, categorie of movies) are working in AMP and with Polylang.
 
 = 4.1.3 =
 Further compliance with WordPress standards and security, notably added nonces
