@@ -17,7 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Plugins\Logger;
+use Lumiere\Plugins\Manual\Logger;
 use Lumiere\Tools\Get_Options;
 use Lumiere\Tools\Validate_Get;
 

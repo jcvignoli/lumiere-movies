@@ -20,8 +20,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Imdb\Title;
 use Imdb\Name;
 use Lumiere\Settings;
-use Lumiere\Plugins\Imdbphp;
-use Lumiere\Plugins\Logger;
+use Lumiere\Plugins\Manual\Imdbphp;
+use Lumiere\Plugins\Manual\Logger;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Tools\Files;
 use RecursiveDirectoryIterator;

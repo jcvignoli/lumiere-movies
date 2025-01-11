@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 use Lumiere\Settings;
 use Lumiere\Admin\Cache_Tools;
-use Lumiere\Plugins\Logger;
+use Lumiere\Plugins\Manual\Logger;
 use Lumiere\Updates;
 use FilesystemIterator;
 

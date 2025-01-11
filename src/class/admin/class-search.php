@@ -17,8 +17,8 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Tools\Settings_Global;
-use Lumiere\Plugins\Logger;
-use Lumiere\Plugins\Imdbphp;
+use Lumiere\Plugins\Manual\Logger;
+use Lumiere\Plugins\Manual\Imdbphp;
 use Lumiere\Settings;
 use Imdb\TitleSearch;
 

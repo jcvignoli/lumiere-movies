@@ -10,7 +10,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Plugins;
+namespace Lumiere\Plugins\Manual;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {

@@ -23,7 +23,7 @@ use Lumiere\Frontend\Main;
  * This class only returns automatically finded classes
  *
  * @phpstan-type AVAILABLE_AUTO_CLASSES \Lumiere\Plugins\Auto\Amp|\Lumiere\Plugins\Auto\Oceanwp|\Lumiere\Plugins\Auto\Polylang|\Lumiere\Plugins\Auto\Aioseo|\Lumiere\Plugins\Auto\Irp
- * @phpstan-type AVAILABLE_MANUAL_CLASSES \Lumiere\Plugins\Imdbphp|\Lumiere\Plugins\Logger
+ * @phpstan-type AVAILABLE_MANUAL_CLASSES \Lumiere\Plugins\Manual\Imdbphp|\Lumiere\Plugins\Manual\Logger
  * @phpstan-type AVAILABLE_AUTO_CLASSES_KEYS 'amp'|'oceanwp'|'polylang'|'aioseo'|'irp'
  * @phpstan-type AVAILABLE_MANUAL_CLASSES_KEYS 'imdbphp'|'logger'
  * @phpstan-type AVAILABLE_PLUGIN_CLASSES_KEYS AVAILABLE_AUTO_CLASSES_KEYS|AVAILABLE_MANUAL_CLASSES_KEYS

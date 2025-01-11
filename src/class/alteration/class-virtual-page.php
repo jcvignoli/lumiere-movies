@@ -27,13 +27,13 @@ use stdClass;
  * How to use it: Current class must be called in WordPress with
  *  -> add_action( 'template_redirect', function( new Virtual_Page() ) )
  * Then the class must include the following to fully appear:
- *  -> add_action( 'get_header', [ $this, 'action_starting_the_class' ] );
+ *  -> add_action( 'template_redirect', [ $this, 'action_starting_the_class' ] );
  *
  */
 class Virtual_Page {
 
 	/**
-	 * @var string $page_path Full of the page to become virtual, ie "https://example.blog/lumiere/search/
+	 * @var string $page_path Full of the page to become virtual, ie "https://example.blog/lumiere/search/", "https://example.blog/lumiere/film/"
 	 */
 	private string $page_path;
 
@@ -74,12 +74,11 @@ class Virtual_Page {
 
 		global $wp, $wp_query;
 
-		if ( $wp_post === null ) {
+		if ( $wp_post === null || $wp_query === null ) {
 			wp_die( 'Cannot create a virtual page.' );
 		}
 
 		// Update the main query
-		/** @psalm-suppress PossiblyNullPropertyFetch -- it has been checked, can't be null! */
 		$wp_query->current_post = $wp_post->ID;
 		$wp_query->found_posts = 1;
 		$wp_query->is_page = true;//important part
@@ -135,12 +134,12 @@ class Virtual_Page {
 		$post->ancestors = []; // 3.6
 		$post->comment_status = 'closed';
 		$post->comment_count = 0;
-		$post->filter = 'raw';
+		//$post->filter = 'raw';
 		$post->guid = esc_url( get_home_url( 1, '/' . $this->page_path ) );
 		$post->is_virtual = true;
 		$post->is_page = true;//important part
 		$post->is_singular = true;//important part
-		$post->menu_order = 0;
+		//$post->menu_order = 0;
 		$post->pinged = '';
 		$post->ping_status = 'closed';
 		$post->post_title = esc_html( $this->page_title );
@@ -152,12 +151,12 @@ class Virtual_Page {
 		$post->post_status = 'publish';
 		$post->post_date = current_time( 'mysql' );
 		$post->post_date_gmt = current_time( 'mysql', 1 );
-		$post->modified = $post->post_date;
-		$post->modified_gmt = $post->post_date_gmt;
+		//$post->modified = $post->post_date;
+		//$post->modified_gmt = $post->post_date_gmt;
 		$post->post_password = '';
-		$post->post_content_filtered = '';
+		//$post->post_content_filtered = '';
 		$post->post_author = is_user_logged_in() ? get_current_user_id() : 1; // @before 3.9.1 last value was '0'
-		$post->post_content = '';
+		//$post->post_content = '';
 		$post->post_mime_type = '';
 		$post->to_ping = '';
 

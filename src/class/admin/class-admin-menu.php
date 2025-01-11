@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Tools\Settings_Global;
-use Lumiere\Plugins\Logger;
+use Lumiere\Plugins\Manual\Logger;
 use Lumiere\Admin\Cache_Tools;
 use Lumiere\Admin\Admin_General;
 

@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Link_Makers\Link_Factory;
-use Lumiere\Plugins\Logger;
+use Lumiere\Plugins\Manual\Logger;
 use Lumiere\Plugins\Plugins_Start;
 use Lumiere\Tools\Data;
 use Lumiere\Tools\Settings_Global;

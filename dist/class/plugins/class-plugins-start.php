@@ -42,17 +42,17 @@ class Plugins_Start {
 
 	/**
 	 * Constructor
-	 * @param array<string, string>|array<string>|null $extra_classes Extra classes to add
-	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS>|null $extra_classes Extra classes to add
+	 * @param array<string, string>|array<string>|null $extra_manual_classes Extra classes to add
+	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS>|null $extra_manual_classes
 	 */
-	public function __construct( ?array $extra_classes = [] ) {
+	public function __construct( ?array $extra_manual_classes = null ) {
 
 		// Get the active plugins.
 		$array_plugin_names = ( new Plugins_Detect() )->get_active_plugins();
 
 		// Add an extra class in properties.
-		if ( isset( $extra_classes ) && count( $extra_classes ) > 0 ) {
-			$array_plugin_names = $this->add_extra_plugins( $extra_classes, $array_plugin_names );
+		if ( isset( $extra_manual_classes ) && count( $extra_manual_classes ) > 0 ) {
+			$array_plugin_names = $this->add_manual_plugins( $extra_manual_classes, $array_plugin_names );
 		}
 
 		$this->plugins_classes_active = $this->start_active_plugins( $array_plugin_names );
@@ -98,13 +98,13 @@ class Plugins_Start {
 	 * @return array<string, class-string|string>
 	 * @phpstan-return ($array_plugin_names is array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>> ? array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>> : array<AVAILABLE_PLUGIN_CLASSES_KEYS, non-falsy-string>)
 	 */
-	private function add_extra_plugins( array $extra_classes, array $array_plugin_names ): array {
+	private function add_manual_plugins( array $extra_classes, array $array_plugin_names ): array {
 		if ( count( $extra_classes ) === 0 ) {
 			return $array_plugin_names;
 		}
 
 		foreach ( $extra_classes as $extra_class_name => $extra_class_path ) {
-			$full_class_name = __NAMESPACE__ . '\\' . ucfirst( $extra_class_path );
+			$full_class_name = __NAMESPACE__ . '\\Manual\\' . ucfirst( $extra_class_path );
 			if ( class_exists( $full_class_name ) ) {
 				$array_plugin_names[ $extra_class_name ] = $full_class_name;
 			}
