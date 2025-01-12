@@ -86,7 +86,7 @@ class Frontend {
 		add_action( 'init', [ $that, 'set_plugins_if_needed' ], 11 );
 
 		// Redirect to popups
-		add_filter( 'template_redirect', [ $that, 'popup_redirect_include' ], 9 ); // Must be executed with priority < 10
+		add_filter( 'template_redirect', [ $that, 'popup_redirect_include' ] );
 	}
 
 	/**

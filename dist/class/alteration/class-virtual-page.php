@@ -18,6 +18,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use WP_Post;
+use WP_Query;
 use stdClass;
 
 /**
@@ -62,7 +63,7 @@ class Virtual_Page {
 		$this->page_title = $page_title;
 
 		// Start the page creation
-		add_action( 'template_redirect', [ $this, 'create_page' ] ); // Do not use add_filter( 'template_include' ) otherwise the title is gone.
+		add_action( 'template_redirect', [ $this, 'create_page' ], 11 ); // 11, 1 more than Frontend class, otherwise title doesn't show up.
 	}
 
 	/**
@@ -70,11 +71,59 @@ class Virtual_Page {
 	 *
 	 * @return void
 	 */
-	private function update_wp_query( ?WP_Post $wp_post ): void {
+	public function create_page(): void {
+
+		status_header( 200 );
+
+		$post = new stdClass();
+		$post->ID = -1;
+		$post->ancestors = []; // 3.6
+		$post->comment_status = 'closed';
+		$post->comment_count = 0;
+		$post->guid = esc_url( get_home_url( 1, '/' . $this->page_path ) );
+		$post->is_virtual = true;
+		$post->is_page = true;//important part
+		$post->is_singular = true;//important part
+		$post->menu_order = 0;
+		$post->pinged = '';
+		$post->ping_status = 'closed';
+		$post->post_title = esc_html( $this->page_title );
+		$post->post_name = esc_url( $this->page_path );
+		$post->filter = 'raw'; // unfiltered so content_filtered can be used.
+		//$post->post_content = $this->page_content; // fails on certain environments, using content_filtered instead.
+		$post->post_content_filtered = $this->page_content;
+		$post->post_excerpt = '';
+		$post->post_parent = 0;
+		$post->post_type = 'page';
+		$post->post_status = 'publish';
+		$post->post_date = current_time( 'mysql' );
+		$post->post_date_gmt = current_time( 'mysql', 1 );
+		$post->modified = $post->post_date;
+		$post->modified_gmt = $post->post_date_gmt;
+		$post->post_password = '';
+		$post->post_author = is_user_logged_in() ? get_current_user_id() : 1; // @before 3.9.1 last value was '0'
+		//$post->post_content = '';
+		$post->post_mime_type = '';
+		$post->to_ping = '';
+
+		// Run the query based on the object
+		$this->run_wp_query( new WP_Post( $post ) );
+
+		// Prevents Warning: Attempt to read property "post_type" on null
+		wp_cache_add( -1, $post, 'posts' );
+
+	}
+
+	/**
+	 * Update the page with the data sent to the class
+	 *
+	 * @return WP_Query
+	 */
+	private function run_wp_query( WP_Post $wp_post ): WP_Query {
 
 		global $wp, $wp_query;
 
-		if ( $wp_post === null || $wp_query === null ) {
+		if ( $wp_query === null || $wp === null ) {
 			wp_die( 'Cannot create a virtual page.' );
 		}
 
@@ -115,56 +164,11 @@ class Virtual_Page {
 		$wp_query->queried_object = $wp_post;
 		$wp_query->queried_object_id = $wp_post->ID;
 		$wp_query->query_vars['error'] = '';
-		unset( $wp_query->query['error'] );
 
+		// Prevents notice about $comment_count can't be initialised
 		$wp->query = [];
 		$wp->register_globals();
 
-	}
-
-	/**
-	 * Update the page with the data sent to the class
-	 *
-	 * @return void
-	 */
-	public function create_page(): void {
-
-		$post = new stdClass();
-		$post->ID = -1;
-		$post->ancestors = []; // 3.6
-		$post->comment_status = 'closed';
-		$post->comment_count = 0;
-		//$post->filter = 'raw';
-		$post->guid = esc_url( get_home_url( 1, '/' . $this->page_path ) );
-		$post->is_virtual = true;
-		$post->is_page = true;//important part
-		$post->is_singular = true;//important part
-		//$post->menu_order = 0;
-		$post->pinged = '';
-		$post->ping_status = 'closed';
-		$post->post_title = esc_html( $this->page_title );
-		$post->post_name = esc_url( $this->page_path );
-		$post->post_content = $this->page_content;
-		$post->post_excerpt = '';
-		$post->post_parent = 0;
-		$post->post_type = 'page';
-		$post->post_status = 'publish';
-		$post->post_date = current_time( 'mysql' );
-		$post->post_date_gmt = current_time( 'mysql', 1 );
-		//$post->modified = $post->post_date;
-		//$post->modified_gmt = $post->post_date_gmt;
-		$post->post_password = '';
-		//$post->post_content_filtered = '';
-		$post->post_author = is_user_logged_in() ? get_current_user_id() : 1; // @before 3.9.1 last value was '0'
-		//$post->post_content = '';
-		$post->post_mime_type = '';
-		$post->to_ping = '';
-
-		$new_post = new WP_Post( $post );
-		$this->update_wp_query( $new_post );
-
-		status_header( 200 );
-		wp_cache_add( -1, $new_post, 'posts' );
-
+		return $wp_query;
 	}
 }

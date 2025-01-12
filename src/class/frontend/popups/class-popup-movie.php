@@ -66,7 +66,7 @@ class Popup_Movie extends Head_Popups {
 		 * @since 4.0 using 'the_posts' instead of the 'content', removed the 'get_header' for OceanWP
 		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
 		 */
-		add_filter( 'template_include', [ $this, 'popup_layout' ] );
+		add_filter( 'template_include', [ $this, 'popup_layout' ], 12 ); // 12, 1 more than Virtual_Page, otherwise the <head> doesn't show up.
 	}
 
 	/**
@@ -124,10 +124,9 @@ class Popup_Movie extends Head_Popups {
 	/**
 	 * Display layout
 	 *
-	 * @param string $template_path The path to the page of the theme currently in use - not utilised
 	 * @return string
 	 */
-	public function popup_layout( string $template_path ): string {
+	public function popup_layout(): string {
 
 		// Nonce. Always valid if admin is connected.
 		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || is_user_logged_in() === true ? true : false; // Created in Abstract_Link_Maker class.
@@ -194,7 +193,7 @@ class Popup_Movie extends Head_Popups {
 		wp_footer();
 		echo "</body>\n</html>";
 
-		// Avoid 'Filter callback return statement is missing.' from PHPStan
+		// Prevent the proper template to be displayed
 		return '';
 	}
 
