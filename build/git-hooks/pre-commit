@@ -11,7 +11,8 @@ PHAN_BIN=./vendor/bin/phan
 PSALM_BIN=./vendor/bin/psalm
 PHPSTAN_ACTIVATED=1
 PHAN_ACTIVATED=1
-PSALM_ACTIVATED=1
+#Deactivated, takes too much time
+PSALM_ACTIVATED=0
 
 # Check for Analytics tools installation
 if [ ! -x $PHPCS_BIN ]; then
@@ -123,7 +124,7 @@ if [ "$FILES" != "" ];then
             exit 1
         fi
         
-        printf "\033[32[Pre-commit] Successfully fixed phpcs errors.\033[0m"
+        printf "\033[32m[Pre-commit] Successfully fixed phpcs errors.\033[0m"
         
         # Add modified files in git before commiting, otherwise would send the unmodified files -- Added sleep so the files have the time to be copied in dist
         sleep 6 && git add $FILES

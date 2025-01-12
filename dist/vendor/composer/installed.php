@@ -3,7 +3,7 @@
         'name' => 'jcvignoli/lumiere-movies',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'cf840524735cda60ca51875ff4fa40eaf84ea6b4',
+        'reference' => 'fabbea2a25036262925214120aacbf3c988daedc',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'jcvignoli/lumiere-movies' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'cf840524735cda60ca51875ff4fa40eaf84ea6b4',
+            'reference' => 'fabbea2a25036262925214120aacbf3c988daedc',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
