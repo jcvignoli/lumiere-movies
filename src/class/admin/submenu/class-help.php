@@ -161,13 +161,13 @@ class Help extends Admin_Menu {
 		if ( is_array( $compatfile ) === true ) {
 			$patterns = [
 				'~\# (.*)~',
-				'~\*\*(.*)\*\*~',
+				'~\*(.*)\*~',
 				'~\n~',
 				'~(\\[{1}(.*?)\\]\()(htt(p|ps)://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~',
 			];
 			$replaces = [
 				'<div><strong>${1}</strong></div>',
-				'${1}',
+				'<strong>${1}</strong>',
 				'<br>',
 				'<a href="${3}${5}" title="${7}">${2}</a>',
 			];

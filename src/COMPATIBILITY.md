@@ -1,6 +1,7 @@
 **Compatibility list**
 
 Lumière is *COMPATIBLE* with the following WordPress plugins:
+
 * [Polylang](https://wordpress.org/plugins/polylang/ "Polylang WordPress plugin") Full use of the taxonomy, can retrieve the language in taxonomy and their terms. If Polylang is detected, Lumière prevents to disable the Polylang custom taxonomy, as it is required to be functional.
 * [AMP WordPress plugin](https://wordpress.org/plugins/amp/ "AMP WordPress plugin") When activated, the popups are deactivated and no javascript is utilised anymore. When used together with Polylang, on the taxonomy pages the form will be made AMP compabtible. Lumière achieves a 100% compatbility with AMP.
 * [Classic editor](https://wordpress.org/plugins/classic-editor/ "Classic editor WordPress plugin") All functions are available, just like the block based (aka gutenberg) WordPress edit interface.
@@ -10,4 +11,5 @@ Lumière is *COMPATIBLE* with the following WordPress plugins:
 * [AIOSEO](https://wordpress.org/plugins/all-in-one-seo-pack/ "All in One SEO Pack") AIOSEO is automatically disabled in Popup pages.
 
 Lumière is *INCOMPATIBLE* with the following WordPress plugins:
+
 * "Echo RSS Feed Post Generator" It is a predator plugin. If you installed it, you won't be able to use Lumière. Any plugin that is meant to build fake automatized blogs, will be added to a red list.
