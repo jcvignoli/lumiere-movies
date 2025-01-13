@@ -23,7 +23,6 @@ use Lumiere\Admin\Metabox_Selection;
 use Lumiere\Admin\Search;
 use Lumiere\Tools\Data;
 use Lumiere\Tools\Settings_Global;
-use Lumiere\Alteration\Virtual_Page;
 
 /**
  * All Admin-related functions
@@ -64,8 +63,8 @@ class Admin {
 			return;
 		}
 
-		// Redirect to Search class.
-		add_action( 'init', [ $start, 'lum_search_redirect' ] );
+		// Display search page, must be executed before the admin control
+		add_filter( 'template_redirect', [ $start, 'lum_search_redirect' ] );
 
 		/**
 		 * (2) Only for admin pages, so after this, only init and below should work
@@ -262,24 +261,21 @@ class Admin {
 	}
 
 	/**
-	 * Redirect search popup in admin, but since it's called in external pages, can't be in admin
+	 * Display search popup/page in admin, but since it's called in external pages, it can't be an admin page
 	 *
-	 * @return void The virtual page is instanciated if success
+	 * @param string $template_path The path to the page of the theme currently in use - not utilised
+	 * @return Search|string The Search class is displayed if successfull, template path otherwise
 	 */
-	public function lum_search_redirect(): void {
+	public function lum_search_redirect( string $template_path ): Search|string {
 
-		// Display only in admin area.
+		// Display only if URL is ok and is not admin (to save time.
 		if (
 			stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) !== 0
 			|| is_admin()
 		) {
-			return;
+			return $template_path;
 		}
 
-		$new_page = new Virtual_Page(
-			esc_url( site_url() . Settings::GUTENBERG_SEARCH_URL ),
-			new Search(),
-			'Lumiere Query Interface'
-		);
+		return new Search();
 	}
 }

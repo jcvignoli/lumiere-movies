@@ -19,14 +19,15 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Plugins\Manual\Logger;
 use Lumiere\Plugins\Manual\Imdbphp;
+use Lumiere\Tools\Validate_Get;
 use Lumiere\Settings;
-use Imdb\TitleSearch;
 
 /**
  * Display search results related to a movie to get their IMDbID
  * Can be called to display a full page for searching movies
+ * Is available at wp-admin/lumiere/search/, and in edit post interface. Also in Help admin section.
  *
- * @see \Lumiere\Admin Creates this page using \Lumiere\Alteration\Virtual_Page
+ * @see \Lumiere\Admin Call this page in add_filter( 'template_include' )
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from Imdbphp
  */
 class Search {
@@ -48,38 +49,72 @@ class Search {
 	private Imdbphp $imdbphp_class;
 
 	/**
+	 * Name of the movie queried
+	 */
+	private ?string $movie_searched;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
 
+		// By default, returns a 404, change that.
+		status_header( 200 );
+
 		// Get Global Settings class properties.
 		$this->get_settings_class();
 		$this->get_db_options();
+		$this->movie_searched = Validate_Get::sanitize_url( 'moviesearched' );
 
 		// Start logger class.
-		$this->logger = new Logger( 'gutenbergSearch' );
+		$this->logger = new Logger( 'admin search' );
 
 		// Start Imdbphp class.
 		$this->imdbphp_class = new Imdbphp();
 
 		// Register admin scripts.
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_search_register_scripts' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_search_run_script' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'search_register_scripts' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'search_run_script' ] );
 
 		// Unregister useless scripts
-		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_search_deregister_scripts' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'search_deregister_scripts' ] );
 
 		/**
 		 * Layout
 		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
 		 */
-		add_filter( 'template_include', [ $this, 'lumiere_search_layout' ], 12 );
+		add_filter( 'template_include', [ $this, 'page_layout' ] );
+
+		/**
+		 * Display title
+		 * @since 4.3
+		 */
+		add_filter( 'document_title_parts', [ $this, 'edit_title' ] );
+	}
+
+	/**
+	 * Edit the title of the page
+	 *
+	 * @param array<string, string> $title
+	 * @phpstan-param array{title: string, page: string, tagline: string, site: string} $title
+	 * @phpstan-return array{title: string, page: string, tagline: string, site: string}
+	 */
+	public function edit_title( array $title ): array {
+
+		$new_title = isset( $this->movie_searched ) && strlen( $this->movie_searched ) > 0
+			/* translators: %1s is a movie's title */
+			? sprintf( __( 'Lumière Query Interface %1s', 'lumiere-movies' ), '[ searching for ' . esc_html( ucfirst( $this->movie_searched ) ) . ' ]' )
+			: '[ ' . __( 'Lumière Query Interface', 'lumiere-movies' ) . ' ]';
+
+		$title['title'] = $new_title;
+
+		return $title;
 	}
 
 	/**
 	 * Display layout
 	 */
-	public function lumiere_search_layout(): string {
+	public function page_layout(): string {
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
 		wp_head();
@@ -135,17 +170,16 @@ class Search {
 			exit;
 		}
 
-		// Initialization of search and vars
-		$search = new TitleSearch( $this->imdbphp_class, $this->logger->log() );
-		$search_term = sanitize_text_field( wp_unslash( $_GET['moviesearched'] ) );
-		$this->logger->log()->debug( "[Lumiere][gutenbergSearch] Querying '$search_term'" );
+		$this->logger->log()->debug( "[Lumiere][admin search] Querying *$this->movie_searched*" );
+
 		/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
-		$results = $search->search( $search_term, $this->config_class->lumiere_select_type_search() );
+		$results = $this->imdbphp_class->search_movie_title( $this->movie_searched ?? '', $this->logger->log(), $this->config_class->lumiere_select_type_search() );
+
 		$limit_search = isset( $this->imdb_admin_values['imdbmaxresults'] ) ? intval( $this->imdb_admin_values['imdbmaxresults'] ) : 5;
 		$iterator = 1;
 		?>
 		
-<h1 class="searchmovie_title lumiere_italic"><?php esc_html_e( 'Results related to your query:', 'lumiere-movies' ); ?> <span class="lumiere_gutenberg_results"><?php echo esc_html( $search_term ); ?></span></h1>
+<h1 class="searchmovie_title lumiere_italic"><?php esc_html_e( 'Results related to your query:', 'lumiere-movies' ); ?> <span class="lumiere_gutenberg_results"><?php echo esc_html( $this->movie_searched ?? '' ); ?></span></h1>
 <div class="lumiere_container">
 	<div class="lumiere_container_flex50 lumiere_align_center"><h2><?php esc_html_e( 'Titles results', 'lumiere-movies' ); ?></h2></div>
 	<div class="lumiere_container_flex50 lumiere_align_center"><h2><?php esc_html_e( 'Identification number', 'lumiere-movies' ); ?></h2></div>
@@ -154,7 +188,7 @@ class Search {
 		<?php
 		foreach ( $results as $res ) {
 			if ( $iterator > $limit_search ) {
-				$this->logger->log()->debug( "[Lumiere][gutenbergSearch] Limit of '$limit_search' results reached." );
+				$this->logger->log()->debug( "[Lumiere][admin search] Limit of '$limit_search' results reached." );
 				echo '<div class="lumiere_italic lumiere_padding_five lumiere_align_center">' . esc_html__( 'Maximum number of results reached. You can increase this limit in the admin options.', 'lumiere-movies' ) . '</div>';
 				break;
 			}
@@ -185,6 +219,8 @@ class Search {
 	 */
 	private function initial_form (): string {
 
+		$this->logger->log()->debug( '[Lumiere][admin search] Waiting for a search' );
+
 		$ouput = "\n<div align=\"center\">";
 		$ouput .= "\n\t" . '<h1 id="searchmovie_title">' . esc_html__( 'Search a movie IMDb ID', 'lumiere-movies' ) . '</h1>';
 		$ouput .= "\n\t" . '<form action="" method="get" id="searchmovie">';
@@ -202,7 +238,7 @@ class Search {
 	/**
 	 * Register search script and unregister useless scripts
 	 */
-	public function lumiere_search_register_scripts(): void {
+	public function search_register_scripts(): void {
 
 		// Remove admin bar
 		add_filter( 'show_admin_bar', '__return_false' );
@@ -219,7 +255,7 @@ class Search {
 	/**
 	 * Deregister useless scripts
 	 */
-	public function lumiere_search_deregister_scripts(): void {
+	public function search_deregister_scripts(): void {
 
 		// Scripts.
 		wp_deregister_script( 'lumiere_hide_show' );
@@ -239,8 +275,7 @@ class Search {
 	/**
 	 * Run needed scripts
 	 */
-	public function lumiere_search_run_script(): void {
-
+	public function search_run_script(): void {
 		wp_enqueue_script( 'lumiere_search_admin' );
 	}
 }

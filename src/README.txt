@@ -17,7 +17,7 @@ Visit the [Official website](https://www.jcvignoli.com/blog/en/lumiere-movies-wo
 
 **Lumiere! Movies** helps you integrate loads of information about movies and stars in your blog. Widgets, links to informative popup, and dedicated taxonomy pages are available. Everything is automatised and no further configuration is required from the user. However, should you want to access advanced features, your can change the themes, add taxonomy to your pages, remove links, display automatically information according to your blog posts' titles, and use many hidden features. The information is retrieved from the popular [IMDb](https://www.imdb.com "Internet Movie Database") website. Lumière! ensures that you have the most accurate and reliable information always available on your blog.
 
-Many features are available in the WordPress old and new editing interfaces ([block](https://developer.wordpress.org/block-editor/) based editor, visual editor, and [wysiwig editor](https://codex.wordpress.org/TinyMCE)). It is [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP "Content Security Policy on Mozilla") (CSP) compliant, takes advantage of Polylang plugin and is fully compatible with AMP plugin. It is also fully compatible with Classic Editor and Classic Widgets plugins.
+It is [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP "Content Security Policy on Mozilla") (CSP) compliant, takes advantage of Polylang plugin and is fully compatible with AMP plugin. It is also fully compatible with Classic Editor, Classic Widgets plugins, and Intelly related posts. It supports any WordPress theme and is adapted to [OceanWP](https://wordpress.org/themes/oceanwp/ "OceanWP theme") theme. 
 
 **Lumière!** is a great tool to illustrate your articles. You can display movie details by several ways, such as in popups, widgets, and straight inside your post. It can be extensively fine-tuned in the admin options panel.
 
@@ -92,25 +92,13 @@ Although one widget only can be added per post, should you use the "auto widget"
 
 Inside your posts, you can insert as many movies blocks as you want, there is no limitation. 
 
+= Compatibility and incompatibility =
+
+A list of plugins that are [compatible and incompatible with Lumière](https://github.com/jcvignoli/lumiere-movies/blob/master/COMPATIBILITY.md "Full list of plugins compatible and incompatible with Lumière") is available.
+
 = How to integrate Lumière with Polylang plugin?  =
 
 If [Polylang](https://wordpress.org/plugins/polylang/ "Polylang WordPress plugin") is installed, new features for taxonomy are added, such as a dropdown form for selecting the languages in taxonomy pages (such as https://yourblog.com/lumiere-director/stanley-kubrick/). Once you select which to data to turn into taxonomy, you must activate the very same taxonomy in Polylang Settings -> Custom post types and Taxonomies -> Custom taxonomies as your activated Lumière taxonomies.
-
-= Is Lumière! compatible with Classic Editor plugin?  =
-
-If for some reason your are using [Classic editor](https://wordpress.org/plugins/classic-editor/ "Classic editor WordPress plugin") to get back the pre-5.8 WordPress editor interface, you will find all Lumière editing tools adapted to your interface.
-
-= Is Lumière! compatible with Classic Widgets plugin?  =
-
-If for some reason your are using [Classic Widgets](https://wordpress.org/plugins/classic-widgets/ "Classic widgets WordPress plugin") to get back the pre-5.8 WordPress widget interface, you will find all Lumière editing tools adapted to your interface.
-
-= Is Lumière! compatible with Intelly related posts?  =
-
-Totally. If you happen to use [Intelly related posts](https://wordpress.org/plugins/intelly-related-posts/ "Intelly related posts WordPress plugin"), posts that display Lumiere movies will not display Intelly related posts anymore so the layout is not broken. Should you prefer to always display Intelly related posts in all of your posts, the default behaviour can be overriden in Lumière advanced general options.
-
-= Is Lumière! AMP compliant?  =
-
-It should be compliant with [AMP WordPress plugin](https://wordpress.org/plugins/amp/ "AMP WordPress plugin") installed. You may see some changes in the layout and obviously the apparence will change. Popups will be removed and they will be displayed in a new page, in compliance with AMP standards.
 
 = Is Lumière! CSP compliant? (for developpers)  =
 
@@ -150,10 +138,6 @@ If you get a "404 Not Found" when accessing pages like "/lumiere/person/?mid=000
 `Options Includes`
 
 This value is supposed [to be included by default](https://httpd.apache.org/docs/2.4/mod/core.html#options "Apache Options directive") in your Apache configuration. You can take a look at [how to edit .htaccess](https://wpmudev.com/blog/htaccess/ "learn how to edit .htaccess for WordPress").
-
-= Incompatiblity =
-
-Lumière is incompatible with Echo RSS Feed Post Generator, a predator plugin. If you installed it, you won't be able to use Lumière. Any plugin that is meant to build fake automatized blogs, will be added to that red list.
 
 = Known issues =
 

@@ -163,8 +163,7 @@ class Frontend {
 	 * 2. That var is compared against the query_var 'popup' in a switch() function here in {@link Frontend::popup_redirect_include()}
 	 * 3. If found, it returns the relevant Popup class
 	 *
-	 *
-	 * @param string $template_path The path to the page of the theme currently in use - not utilised
+	 * @param string $template_path The path to the page of the theme currently in use
 	 * @return Popup_Movie_Search|Popup_Person|Popup_Movie|string The template path if no popup was found, the popup otherwise
 	 */
 	public function popup_redirect_include( string $template_path ): \Lumiere\Frontend\Popups\Popup_Basic|string {

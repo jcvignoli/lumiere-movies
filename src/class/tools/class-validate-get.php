@@ -56,6 +56,10 @@ class Validate_Get {
 			'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
 			'flags'  => [ FILTER_FLAG_QUERY_REQUIRED, FILTER_NULL_ON_FAILURE ],
 		],
+		'moviesearched'         => [ // Lumiere\Admin\Search
+			'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
+			'flags'  => [ FILTER_FLAG_QUERY_REQUIRED, FILTER_NULL_ON_FAILURE ],
+		],
 	];
 
 	/**
