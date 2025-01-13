@@ -26,7 +26,7 @@ use Lumiere\Tools\Validate_Get;
  *
  * @since 3.11 created
  * @since 4.1 removed plugins related matter, moved to relevant classes, added activate plugins and trait Main
- * @since 4.3 Is parent class, bots and nonce validation moved from class Frontend
+ * @since 4.3 Is parent class, bots and nonce validation moved from class Frontend to here
  */
 class Head_Popups {
 
@@ -56,8 +56,6 @@ class Head_Popups {
 		// Get Lumière plugins.
 		$this->maybe_activate_plugins(); // In Trait Main.
 
-		// Ban bots.
-		add_action( 'init', fn() => Ban_Bots::lumiere_static_start(), 11 );
 		// Check if bots or exit.
 		$this->ban_bots_popups();
 
@@ -68,7 +66,7 @@ class Head_Popups {
 		$this->remove_filters_and_actions();
 
 		// Add Lumière <head> data in popups
-		add_action( 'wp_head', [ $this, 'lumiere_add_metas_popups' ], 7 ); // must be priority 7, class called with template_redirect.
+		add_action( 'wp_head', [ $this, 'add_metas_popups' ], 7 ); // must be priority 7
 	}
 
 	/**
@@ -130,7 +128,7 @@ class Head_Popups {
 	/**
 	 * Edit tags in <head> of popups
 	 */
-	public function lumiere_add_metas_popups(): void {
+	public function add_metas_popups(): void {
 
 		// Make sure we use cache. User may have decided not to use cache, but we need to accelerate the call.
 		$this->plugins_classes_active['imdbphp']?->activate_cache();
@@ -207,10 +205,13 @@ class Head_Popups {
 	 */
 	private function ban_bots_popups(): void {
 
-		// Conditionally ban bots from getting the page, i.e. User Agent or IP.
+		// Add the actions.
+		add_action( 'init', fn() => Ban_Bots::lumiere_static_start(), 11 );
+
+		// Execute: conditionally ban bots from getting the page, i.e. User Agent or IP.
 		do_action( 'lum_maybe_ban_bots_general' );
 
-		// Ban bots if no referer.
+		// Execute: ban bots if no referer.
 		do_action( 'lum_maybe_ban_bots_noreferrer' );
 	}
 }

@@ -7,7 +7,7 @@ Lumière is *COMPATIBLE* with the following WordPress plugins:
 * [Classic Widgets](https://wordpress.org/plugins/classic-widgets/ "Classic widgets WordPress plugin") If for some reason your are using it to get back the pre-5.8 WordPress widget interface, you will find all Lumière editing tools adapted to your interface.
 * [Intelly related posts](https://wordpress.org/plugins/intelly-related-posts/ "Intelly related posts WordPress plugin") Posts that display Lumière movie's data will not display Intelly related posts in order to not break the layout. Should you prefer to display Intelly related posts in all of your posts anyway, the default behaviour can be overriden in Lumière advanced general options.
 * [OceanWP](https://wordpress.org/themes/oceanwp/ "OceanWP theme") Some features may be deactivated to make sure Lumière is fully functional.
-* [AIOSEO](https://es.wordpress.org/plugins/all-in-one-seo-pack/ "All in One SEO Pack") AIOSEO is automatically disabled in Popup pages.
+* [AIOSEO](https://wordpress.org/plugins/all-in-one-seo-pack/ "All in One SEO Pack") AIOSEO is automatically disabled in Popup pages.
 
 Lumière is *INCOMPATIBLE* with the following WordPress plugins:
 * [Echo RSS Feed Post Generator] It is a predator plugin. If you installed it, you won't be able to use Lumière. Any plugin that is meant to build fake automatized blogs, will be added to a red list.
