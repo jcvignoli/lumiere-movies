@@ -5,6 +5,7 @@ v.4.3
 * [feature] Items and people fields (the option names) are now translated in Lumière admin data order
 * [feature] Editing "URL for the taxonomy pages" will update the taxonomy. No more taxonomy left behind when removing Lumière. (classes Taxonomy and Save_Options include new methods)
 * [technical] Completely switched to [imdbGraphQLPHP](https://github.com/duck7000/imdbGraphQLPHP "imdbGraphQLPHP git") library. Goodbye [IMDBPHP](https://github.com/tboothman/imdbphp "IMDBPHP git"), thanks for your service for over 20 years.
+* [technical] Using interface and all Popups are refactored to implement it and are child classes of Head_Popup and not using Virtual_Page anymore
 * [bug] When changing "URL for the taxonomy pages" in admin general advanced, rewrite rules weren't automatically updated (Save_Options class now send flush_rewrite_rules() if that field is updated)
 * [bug] Switched "Update" and "Reset" in admin menu. Longstanding strange way to display the options (edited admin templates)
 * [bug] Forms in taxonomy pages were not working, especially with AMP (Rewritten and added to Polylang plugin, more OOP)

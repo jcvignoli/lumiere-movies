@@ -16,29 +16,22 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Tools\Ban_Bots;
-use Lumiere\Tools\Validate_Get;
-use Lumiere\Tools\Data;
-use Lumiere\Alteration\Virtual_Page;
 use Lumiere\Frontend\Popups\Popup_Person;
 use Lumiere\Frontend\Popups\Popup_Movie;
 use Lumiere\Frontend\Popups\Popup_Movie_Search;
 use Lumiere\Frontend\Main;
-use Imdb\Title;
-use Imdb\Name;
 
 /**
  * Start everything for frontend pages
- * Register and enqueue the common scripts and stylesheets
- * Popups redirect and bot banning happen here
+ * Register and enqueue the common scripts and stylesheets for Popups and Movie classes
+ * Redirect to Popupus if query var 'popup' is found in URL
  *
  * @since 4.1
  *
  * @see \Lumiere\Frontend\Main Settings and plugins
  * @see \Lumiere\Settings URL vars for query_var 'popup'
  * @see \Lumiere\Alteration\Rewrite_Rules for URL rewriting using query_var 'popup'
- * @see \Lumiere\Alteration\Virtual_Page For creating virtual pages, used by {@link \Lumiere\Frontend\Popups\Popup_Person}, {@link \Lumiere\Frontend\Popups\Popup_Movie} and {@link \Lumiere\Frontend\Popups\Popup_Movie_Search}
- * @see \Lumiere\Tools\Ban_Bots Ban the bots for virtual pages
+ * @see Popups {@link \Lumiere\Frontend\Popups\Popup_Person}, {@link \Lumiere\Frontend\Popups\Popup_Movie} and {@link \Lumiere\Frontend\Popups\Popup_Movie_Search} using parent class Popup_Head and interface Popup_Basic
  */
 class Frontend {
 
@@ -54,6 +47,24 @@ class Frontend {
 
 		// Get Global Settings class properties.
 		$this->start_main_trait();
+
+		// Registers javascripts and styles.
+		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_register_assets' ] );
+
+		// Execute javascripts and styles.
+		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_execute_assets' ] );
+
+		// Start Movies into the post.
+		add_action( 'init', [ 'Lumiere\Frontend\Movie', 'lumiere_movie_start' ], 11 );
+
+		// Start Widgets.
+		add_action( 'init', fn() => Widget_Frontpage::lumiere_widget_frontend_start(), 11 );
+
+		// Get plugins
+		add_action( 'init', [ $this, 'set_plugins_if_needed' ], 11 );
+
+		// Redirect to popups
+		add_filter( 'template_redirect', [ $this, 'popup_redirect_include' ] );
 	}
 
 	/**
@@ -66,27 +77,6 @@ class Frontend {
 		}
 
 		$that = new self();
-
-		// Registers javascripts and styles.
-		add_action( 'wp_enqueue_scripts', [ $that, 'frontpage_register_assets' ] );
-
-		// Execute javascripts and styles.
-		add_action( 'wp_enqueue_scripts', [ $that, 'frontpage_execute_assets' ] );
-
-		// Start Movies into the post.
-		add_action( 'init', [ 'Lumiere\Frontend\Movie', 'lumiere_movie_start' ], 11 );
-
-		// Start Widgets.
-		add_action( 'init', fn() => Widget_Frontpage::lumiere_widget_frontend_start(), 11 );
-
-		// Ban bots.
-		add_action( 'init', fn() => Ban_Bots::lumiere_static_start(), 11 );
-
-		// Get plugins
-		add_action( 'init', [ $that, 'set_plugins_if_needed' ], 11 );
-
-		// Redirect to popups
-		add_filter( 'template_redirect', [ $that, 'popup_redirect_include' ] );
 	}
 
 	/**
@@ -169,141 +159,35 @@ class Frontend {
 	/**
 	 * Popups redirection, return a new text replacing the normal expected text
 	 * Use template_redirect hook to call it
-	 * 1. A Rewrite Rule is created in {@see \Lumiere\Alteration\Rewrite_Rules} that builds a query_var 'popup' (it's automatized)
-	 * 2. A var in {@see \Lumiere\Settings::define_constants_after_globals()} is made available (for movie, people, search, etc.)
-	 * 3. That var is compared against the query_var 'popup' in a switch() function here in {@see Frontend::popup_redirect_include()}
-	 * 4. If found, it builds a relevant {@see \Lumiere\Alteration\Virtual_Page} on the fly
+	 * 1. A var in {@see \Lumiere\Settings::define_constants_after_globals()} is made available (for movie, people, search, etc.)
+	 * 2. That var is compared against the query_var 'popup' in a switch() function here in {@link Frontend::popup_redirect_include()}
+	 * 3. If found, it returns the relevant Popup class
 	 *
-	 * @since 4.0 Bots are banned for all popups, it's done here so no IMDbPHP calls for movies/people are done in case of redirect
-	 * @since 4.0.1 Added bot banning if no referer, created method ban_bots_popups()
-	 * @since 4.2.3 Nonce validation
 	 *
-	 * @return string|Virtual_Page
+	 * @param string $template_path The path to the page of the theme currently in use - not utilised
+	 * @return Popup_Movie_Search|Popup_Person|Popup_Movie|string The template path if no popup was found, the popup otherwise
 	 */
-	public function popup_redirect_include( string $template ): string|Virtual_Page {
+	public function popup_redirect_include( string $template_path ): \Lumiere\Frontend\Popups\Popup_Basic|string {
 
 		$query_popup = get_query_var( 'popup' );
-		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || is_user_logged_in() === true ? true : false; // Created in Abstract_Link_Maker class.
 
 		// The query var doesn't exist, exit.
 		if ( ! isset( $query_popup ) ) {
-			return $template;
+			return $template_path;
 		}
-
-		// Make sure we use cache. User may have decided not to use cache, but we need to accelerate the call.
-		$this->plugins_classes_active['imdbphp']?->activate_cache();
 
 		// 'popup' query_var must match against $this->config_class->lumiere_urlstring* vars.
 		switch ( $query_popup ) {
 			case 'film':
-				// Check if bots.
-				$this->ban_bots_popups();
-
-				$movieid_sanitized = Validate_Get::sanitize_url( 'mid' );
-				$film_sanitized = Validate_Get::sanitize_url( 'film' );
-				$one_must_exist = isset( $movieid_sanitized ) && strlen( $movieid_sanitized ) > 0 ? $movieid_sanitized : $film_sanitized;
-
-				// Exit if trying to do bad things.
-				if (
-					$one_must_exist === null
-					|| ( strlen( $one_must_exist ) > 0 ) === false
-					|| $nonce_valid === false
-				) {
-					wp_die( esc_html__( 'Lumière Movies: Wrong movie id or title.', 'lumiere-movies' ) );
-				}
-
-				// Set the title.
-				$movie = $movieid_sanitized !== null && strlen( $movieid_sanitized ) > 0 ? new Title( $movieid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() ) : null;
-				$movie_queried = $movie !== null ? $movie->title() : null;
-
-				// Sanitize and initialize $_GET['film']
-				$film_sanitized = $film_sanitized !== null ? Data::lumiere_name_htmlize( $film_sanitized ) : '';
-
-				// Get the film ID if it exists, if not get the film name
-				$title_name = $movie_queried !== null ? ucfirst( $movie_queried ) : ucfirst( $film_sanitized );
-
-				/* translators: %s is a name */
-				$title = sprintf( __( 'Informations about %s', 'lumiere-movies' ), $title_name ) . ' - Lumi&egrave;re movies';
-
-				// Build the virtual page class
-				return new Virtual_Page(
-					$this->config_class->lumiere_urlstringfilms,
-					new Popup_Movie(),
-					sanitize_text_field( $title )
-				);
-
+				return new Popup_Movie();
 			case 'person':
-				// Check if bots.
-				$this->ban_bots_popups();
-				$mid_sanitized = Validate_Get::sanitize_url( 'mid' );
-
-				// Exit if trying to do bad things.
-				if ( $mid_sanitized === null || strlen( $mid_sanitized ) > 0 === false || $nonce_valid === false ) {
-					wp_die( esc_html__( 'Lumière Movies: Wrong person id.', 'lumiere-movies' ) );
-				}
-
-				// Set the title.
-				$person = new Name( $mid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() );
-				$person_name_sanitized = $person->name();
-
-				$title = strlen( $person_name_sanitized ) > 0
-					/* translators: %1s is a movie's title */
-					? sprintf( __( 'Informations about %1s', 'lumiere-movies' ), $person_name_sanitized ) . ' - Lumi&egrave;re movies'
-					: __( 'Unknown - Lumière movies', 'lumiere-movies' );
-
 				// Build the virtual page class
-				return new Virtual_Page(
-					$this->config_class->lumiere_urlstringperson,
-					new Popup_Person(),
-					sanitize_text_field( $title )
-				);
+				return new Popup_Person();
 			case 'movie_search':
-				// Check if bots.
-				$this->ban_bots_popups();
-
-				$filmname_sanitized = Validate_Get::sanitize_url( 'film' );
-
-				// Exit if trying to do bad things.
-				if ( $filmname_sanitized === null || ( strlen( $filmname_sanitized ) > 0 ) === false || $nonce_valid === false ) {
-					wp_die( esc_html__( 'Lumière Movies: Wrong film id.', 'lumiere-movies' ) );
-				}
-
-				// Set the title.
-				$filmname_complete = ': [ ' . ucwords( $filmname_sanitized ) . ' ]';
-				/* translators: %1s is the title of a movie */
-				$title = sprintf( __( 'Lumiere Query Interface %1s', 'lumiere-movies' ), ' ' . $filmname_complete );
-
 				// Build the virtual page class
-				return new Virtual_Page(
-					$this->config_class->lumiere_urlstringsearch,
-					new Popup_Movie_Search(),
-					sanitize_text_field( $title )
-				);
+				return new Popup_Movie_Search();
 		}
-		// No popup was found, return normal template.
-		return $template;
-	}
-
-	/**
-	 * Ban bots from getting Popups.
-	 *
-	 * 1/ Banned if certain conditions are met in class Ban_Bots::_construct() => action 'lumiere_maybe_ban_bots',
-	 *  done before doing IMDbPHP queries in this class
-	 * 2/ Ban if there is no HTTP_REFERER and user is not logged in Ban_Bots::_construct() => action 'lumiere_ban_bots_now', done here
-	 *  Not putting the no HTTP_REFERER in Ban_Bots class, since do_action( 'lumiere_maybe_ban_bots' ) could be called
-	 *      in taxonomy templates (those pages, like movie pages, should not ban bots, there is no reason to ban bots in full pages, only in popups)
-	 * This method must be called inside the switch() function, when we know it's a popup. Otherwhise, the entire site could
-	 *      become unavailable if no HTTP_REFERER was passed
-	 *
-	 * @since 4.0.1 Method added
-	 * @return void Banned if conditions are met
-	 */
-	private function ban_bots_popups(): void {
-
-		// Conditionally ban bots from getting the page, i.e. User Agent or IP.
-		do_action( 'lum_maybe_ban_bots_general' );
-
-		// Ban bots if no referer.
-		do_action( 'lum_maybe_ban_bots_noreferrer' );
+		// No popup was found, return normal template_path.
+		return $template_path;
 	}
 }

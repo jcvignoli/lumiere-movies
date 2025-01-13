@@ -19,10 +19,17 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 
 // use IMDbPHP config class in /vendor/.
 use Imdb\Config as Imdbphp_Config;
+use Imdb\Name;
+use Imdb\NameSearch;
+use Imdb\Title;
+use Imdb\TitleSearch;
 
 /**
  * Child class of \Imdb\Config
  * Get the settings and sends them to \Imdb\Config
+ *
+ * Imdb\Title definition
+ * @phpstan-type TITLESEARCH_RETURNSEARCH array<array-key, array{imdbid: string, title: string, originalTitle: string, year: string, movietype: string, titleSearchObject: \Imdb\Title}>
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
@@ -85,5 +92,54 @@ class Imdbphp extends Imdbphp_Config {
 		$this->cacheUse = true;
 		$this->cacheStore = true;
 		$this->cacheUseZip = true;
+	}
+
+	/**
+	 * Search a film according to its title
+	 *
+	 * @param string $title Movie's name
+	 * @param \Monolog\Logger $logger
+	 * @param string $type_search The type of search, such as movie, tv show, etc.
+	 * @return array<array-key, mixed>
+	 * @phpstan-return TITLESEARCH_RETURNSEARCH
+	 */
+	public function search_movie_title( string $title, \Monolog\Logger $logger, string $type_search ): array {
+		$search = new TitleSearch( $this, $logger );
+		$return = $search->search( esc_html( $title ), $type_search );
+		/** @psalm-var TITLESEARCH_RETURNSEARCH $return */
+		return $return;
+	}
+
+	/**
+	 * Search a Person according to its name
+	 *
+	 * @param string $name Person's name
+	 * @param \Monolog\Logger $logger
+	 * @return array<array-key, mixed>
+	 */
+	public function search_person_name( string $name, \Monolog\Logger $logger ): array {
+		$search = new NameSearch( $this, $logger );
+		$return = $search->search( $name );
+		return $return;
+	}
+
+	/**
+	 * Get the Title class
+	 *
+	 * @param string $movie_id Movie's id to do the Title's query
+	 * @return Title class instanciated with the movie's id
+	 */
+	public function get_title_class( string $movie_id, \Monolog\Logger $logger ): Title {
+		return new Title( $movie_id, $this, $logger );
+	}
+
+	/**
+	 * Get the Title class
+	 *
+	 * @param string $person_id Person's id to do the Name's query
+	 * @return Name class instanciated with the person's id
+	 */
+	public function get_name_class( string $person_id, \Monolog\Logger $logger ): Name {
+		return new Name( $person_id, $this, $logger );
 	}
 }

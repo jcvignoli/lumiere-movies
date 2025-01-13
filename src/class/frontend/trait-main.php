@@ -27,7 +27,7 @@ use Lumiere\Tools\Settings_Global;
  * Popups, movie, widget and taxonomy use this trait
  * Allow to use the logger, function utilities, and settings
  *
- * @phpstan-import-type TITLESEARCH_RETURNSEARCH from Settings_Global
+ * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Link_Makers\Link_Factory
  */
@@ -63,12 +63,6 @@ trait Main {
 	public Logger $logger;
 
 	/**
-	 * Name of the class
-	 * Mainly utilised in logs
-	 */
-	public string $classname;
-
-	/**
 	 * Constructor-like
 	 *
 	 * @param null|string $logger_name Title for the logger output
@@ -82,14 +76,11 @@ trait Main {
 		$this->get_settings_class(); // In Trait Settings_Global.
 		$this->get_db_options(); // In Trait Settings_Global.
 
-		// Start Logger class, if no name was passed build it with method get_current_classname().
-		$this->logger = new Logger( $logger_name ?? Data::get_current_classname(), $screen_output );
-
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
 		$this->link_maker = Link_Factory::lumiere_link_factory_start();
 
-		// Get name of the class.
-		$this->classname = Data::get_current_classname();
+		// Start Logger class, if no name was passed build it with method get_current_classname().
+		$this->logger = new Logger( $logger_name ?? Data::get_current_classname( __CLASS__ ), $screen_output );
 	}
 
 	/**

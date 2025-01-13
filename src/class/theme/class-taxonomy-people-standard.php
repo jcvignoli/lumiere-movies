@@ -17,7 +17,6 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Imdb\Name;
-use Imdb\NameSearch;
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Frontend\Main;
 use WP_Query;
@@ -25,13 +24,16 @@ use WP_Query;
 /**
  * This template retrieves automaticaly all post related to a person taxonomy
  * It is a WordPress virtual page created according to the taxonomy saved in database
- * If used along with Polylang WordPress plugin, a form is displayed to filter by available language
- * How it works: 1/ The taxonomy is build in Taxonomy class 2/ wp-blog-header.php:19 calls template-loader.php:106 which call current taxonomy, as set in Taxonomy
+ * If used along with Polylang WordPress plugin, a form is displayed to filter the posts by language
+ * How it works:
+ * 1/ The taxonomy is built in Taxonomy class
+ * 2/ wp-blog-header.php:19 calls template-loader.php:106 which call current taxonomy, as set in Taxonomy
  *
  * @see \Lumiere\Alteration\Taxonomy Build the taxonomy system and taxonomy pages
- * @see \Lumiere\Frontend Trait to builds $this->link_maker var
+ * @see \Lumiere\Main Trait to builds $this->link_maker var
  *
  * @since 4.1 Use of plugins detection, lumiere_medaillon_bio() returns larger number of characters for introduction, Polylang form with AMP works
+ * @since 4.3 More OOP, Polylang and Imdbphp plugins fully utilised, returning the current job queried only
  */
 class Taxonomy_People_Standard {
 
@@ -93,7 +95,7 @@ class Taxonomy_People_Standard {
 
 		/**
 		 * Start AMP headers if AMP page and Polylang
-		 * Should allow to use AJAX instead of URLs gets
+		 * Should allow to use AJAX in $_POST instead of $_GET
 		 * Not in use
 		 */
 		if ( $this->is_plugin_active( 'amp' ) === true && $this->is_plugin_active( 'polylang' ) === true ) { // Method in Trait Main.
@@ -127,13 +129,12 @@ class Taxonomy_People_Standard {
 
 		// Build the current page name from the tag taxonomy.
 		// Sanitize_title() ensures that the search is made according to the URL (fails with accents otherwise)
-		$page_title_check = sanitize_title( single_tag_title( '', false ) ?? '' );
+		$get_title = sanitize_title( single_tag_title( '', false ) ?? '' );
 
 		// If we are in a WP taxonomy page, the info from imdbphp libraries.
-		$search = new NameSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log_null() ); // no log, breaks layout, executed too early.
-		$results = $search->search( $page_title_check ); // search for the person using the taxonomy tag.
+		$results = $this->plugins_classes_active['imdbphp']->search_person_name( $get_title, $this->logger->log_null() ); // no log, breaks layout, executed too early.
 		if ( array_key_exists( 0, $results ) ) {
-			return new Name( esc_html( $results[0]['id'] ), $this->plugins_classes_active['imdbphp'], $this->logger->log_null() ); // no log, breaks layout, executed too early. => search the class Name using the first result found earlier.
+			return $this->plugins_classes_active['imdbphp']->get_name_class( esc_html( $results[0]['id'] ), $this->logger->log_null() ); // no log, breaks layout, executed too early. => search the class Name using the first result found earlier.
 		}
 		return null;
 	}
@@ -238,8 +239,8 @@ class Taxonomy_People_Standard {
 
 		get_header();
 
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 
 		echo wp_kses( $this->lum_taxo_display_content(), $kses_esc_html );
 
@@ -277,8 +278,8 @@ class Taxonomy_People_Standard {
 		<?php block_header_area(); ?>
 		</header>
 		<?php
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 		echo wp_kses( $block_content, $kses_esc_html ); ?>
 		<footer class="wp-block-template-part site-footer">
 		<?php block_footer_area(); ?>
@@ -336,82 +337,81 @@ class Taxonomy_People_Standard {
 	 */
 	private function run_person_query( string $person_name ): string {
 
+		$taxonomy_name = esc_html( $this->taxonomy_title ); // Such as 'lumiere-standard'.
+		$job = str_replace( $this->imdb_admin_values['imdburlstringtaxo'], '', $taxonomy_name ); // Such as 'standard'.
+		$job_translated = $this->config_class->array_people[ esc_html( $job ) ]; // Such as 'standard' in local language.
+
 		// Var to include all rows and check if it is null.
 		$check_if_no_result = [];
 
 		$output = "\n\t\t\t\t" . '<div class="lumiere_taxo_results"><!-- taxo_results -->';
 
-		foreach ( $this->config_class->array_people as $people => $people_translated ) {
-
-			$taxonomy_name = esc_html( str_replace( 'imdbtaxonomy', '', $this->imdb_admin_values['imdburlstringtaxo'] . $people ) ); // Such as 'lumiere-standard'
-
-			// Default query.
-			$base_query = [
-				'post_type' => [ 'post', 'page' ],
-				'post_status' => 'publish',
-				'showposts' => -1,
-				'fields' => 'ids',
-				'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-					[
-					'taxonomy' => sanitize_text_field( $taxonomy_name ),
-					'operator' => 'EXISTS',
-					],
-				],
-			];
-
-			// If Polylang is installed, the filter will returns a modified query, otherwise the $base_query is returned.
-			$sql_query = apply_filters(
-				'lum_polylang_taxo_query', // Filter in class Polylang.
-				$base_query, // Default query.
+		// Default query.
+		$base_query = [
+			'post_type' => [ 'post', 'page' ],
+			'post_status' => 'publish',
+			'showposts' => -1,
+			'fields' => 'ids',
+			'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				[
-					'taxonomy' => sanitize_text_field( $taxonomy_name ), // Taxonomy
-					'person_name' => sanitize_text_field( $person_name ),
-				]
-			);
+				'taxonomy' => sanitize_text_field( $taxonomy_name ),
+				'operator' => 'EXISTS',
+				],
+			],
+		];
 
-			// The Query.
-			$the_query = strlen( $person_name ) > 0 ? new WP_Query( $sql_query ) : null;
+		// If Polylang is installed, the filter will returns a modified query, otherwise the $base_query is returned.
+		$sql_query = apply_filters(
+			'lum_polylang_taxo_query', // Filter in class Polylang.
+			$base_query, // Default query.
+			[
+				'taxonomy' => sanitize_text_field( $taxonomy_name ), // Taxonomy
+				'person_name' => sanitize_text_field( $person_name ),
+			]
+		);
 
-			// The loop.
-			if ( isset( $the_query ) && $the_query->have_posts() ) {
+		// The Query.
+		$the_query = strlen( $person_name ) > 0 ? new WP_Query( $sql_query ) : null;
 
-				$output .= "\n\t\t\t\t" . '<h2 class="lumiere_italic lumiere_align_center">' . esc_html__( 'In the role of', 'lumiere-movies' ) . ' ' . esc_html( $people_translated ) . '</h2>';
+		// The loop.
+		if ( isset( $the_query ) && $the_query->have_posts() ) {
 
-				while ( $the_query->have_posts() ) {
+			$output .= "\n\t\t\t\t" . '<h2 class="lumiere_italic lumiere_align_center">' . esc_html__( 'In the role of', 'lumiere-movies' ) . ' ' . esc_html( $job_translated ) . '</h2>';
 
-					$the_query->the_post();
+			while ( $the_query->have_posts() ) {
 
-					$the_id = get_the_ID();
-					$the_id = $the_id !== false ? $the_id : 0;
-					$output .= '<div class="postList">';
-					$output .= '<h3 id="post-' . $the_id . '">';
-					$output .= '<a href="' . (string) get_the_permalink() . '" rel="bookmark" title="' . __( 'Open the blog ', 'lumiere-movies' ) . get_the_title( $the_id ) . '">';
-					$output .= get_the_title( $the_id ) . '&nbsp;<span class="lumiere_font_12">(' . (string) get_the_time( 'd/m/Y' ) . ')</span>';
-					$output .= '</a>';
-					$output .= '</h3>';
-					$output .= '<div class="lumiere_display_flex">';
+				$the_query->the_post();
 
-					$output .= '<div class="">';
-					$output .= wp_trim_excerpt();
-					$output .= "\n\t\t" . '</div>';
-					$output .= "\n\t" . '</div>';
-					$output .= '<p class="postmetadata lumiere_align_center lumiere_padding_five">';
-					$output .= '<span class="category">' . __( 'Filed under: ', 'lumiere-movies' ) . get_the_category_list( ', ' ) . '</span>';
+				$the_id = get_the_ID();
+				$the_id = $the_id !== false ? $the_id : 0;
+				$output .= '<div class="postList">';
+				$output .= '<h3 id="post-' . $the_id . '">';
+				$output .= '<a href="' . (string) get_the_permalink() . '" rel="bookmark" title="' . __( 'Open the blog ', 'lumiere-movies' ) . get_the_title( $the_id ) . '">';
+				$output .= get_the_title( $the_id ) . '&nbsp;<span class="lumiere_font_12">(' . (string) get_the_time( 'd/m/Y' ) . ')</span>';
+				$output .= '</a>';
+				$output .= '</h3>';
+				$output .= '<div class="lumiere_display_flex">';
 
-					$tags_list = get_the_tag_list();
-					if ( ( $tags_list !== false ) && ( is_wp_error( $tags_list ) === false ) ) {
+				$output .= '<div class="">';
+				$output .= wp_trim_excerpt();
+				$output .= "\n\t\t" . '</div>';
+				$output .= "\n\t" . '</div>';
+				$output .= '<p class="postmetadata lumiere_align_center lumiere_padding_five">';
+				$output .= '<span class="category">' . __( 'Filed under: ', 'lumiere-movies' ) . get_the_category_list( ', ' ) . '</span>';
 
-							$output .= '<strong> | </strong>';
-							$tags_list = get_the_tag_list( esc_html__( 'Tags: ', 'lumiere-movies' ), ' &bull; ', ' ' );
-							$output .= is_string( $tags_list ) ? '<span class="tags">' . $tags_list . '</span>' : '';
-					}
+				$tags_list = get_the_tag_list();
+				if ( ( $tags_list !== false ) && ( is_wp_error( $tags_list ) === false ) ) {
 
-					$output .= "\n" . '</p>';
-					$output .= "\n" . '</div>';
-
-					$check_if_no_result[] = get_the_title( $the_id );
-
+						$output .= '<strong> | </strong>';
+						$tags_list = get_the_tag_list( esc_html__( 'Tags: ', 'lumiere-movies' ), ' &bull; ', ' ' );
+						$output .= is_string( $tags_list ) ? '<span class="tags">' . $tags_list . '</span>' : '';
 				}
+
+				$output .= "\n" . '</p>';
+				$output .= "\n" . '</div>';
+
+				$check_if_no_result[] = get_the_title( $the_id );
+
 			}
 		}
 

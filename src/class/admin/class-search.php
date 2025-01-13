@@ -27,7 +27,7 @@ use Imdb\TitleSearch;
  * Can be called to display a full page for searching movies
  *
  * @see \Lumiere\Admin Creates this page using \Lumiere\Alteration\Virtual_Page
- * @phpstan-import-type TITLESEARCH_RETURNSEARCH from Settings_Global
+ * @phpstan-import-type TITLESEARCH_RETURNSEARCH from Imdbphp
  */
 class Search {
 

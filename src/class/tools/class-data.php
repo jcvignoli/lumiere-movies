@@ -81,10 +81,11 @@ class Data {
 	 * Mainly utlised in $log() so they can provide their class of origin
 	 *
 	 * @since 4.1
+	 * @param class-string $class Class name
 	 * @return string The classname currently in use, 'unknowClass' if not found
 	 */
-	public static function get_current_classname(): string {
-		$get_class = strrchr( __CLASS__, '\\' );
+	public static function get_current_classname( string $class ): string {
+		$get_class = strrchr( $class, '\\' );
 		$classname = $get_class !== false ? substr( $get_class, 1 ) : false;
 		return $classname !== false ? $classname : 'unknowClass';
 	}

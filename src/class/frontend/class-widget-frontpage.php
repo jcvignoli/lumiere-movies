@@ -154,7 +154,7 @@ class Widget_Frontpage {
 	public function lumiere_widget_shortcode_parser( array|string $attributes, ?string $inside_tags, string $tags ): string {
 
 		if ( isset( $inside_tags ) ) {
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Shortcode [' . $tags . '] found.' );
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Shortcode [' . $tags . '] found.' );
 			return $this->lum_get_widget( $inside_tags );
 		}
 
@@ -177,7 +177,7 @@ class Widget_Frontpage {
 
 		// Exit if neither a post nor a page!
 		if ( is_singular( [ 'post', 'page' ] ) === false ) {
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] This is not a post or page, process stopped.' );
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] This is not a post or page, process stopped.' );
 			return '';
 		}
 
@@ -193,9 +193,9 @@ class Widget_Frontpage {
 		// Log what type of widget is utilised.
 		if ( Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === true ) {
 			// Post 5.8 WordPress.
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Block-based widget found' );
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Block-based widget found' );
 		} elseif ( is_active_widget( false, false, Widget_Selection::WIDGET_NAME, false ) !== false ) {
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Pre-5.8 WordPress widget found' );
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Pre-5.8 WordPress widget found' );
 		}
 
 		/**
@@ -208,7 +208,7 @@ class Widget_Frontpage {
 			&& get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) !== 'disabled' // thus the var may not have been created.
 		) {
 			$movies_array[]['byname'] = esc_html( get_the_title( $post_id ) );
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Auto title widget activated, using the post title ' . sanitize_text_field( get_the_title( $post_id ) ) . ' for querying' );
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Auto title widget activated, using the post title ' . sanitize_text_field( get_the_title( $post_id ) ) . ' for querying' );
 
 			// the post-based selection for auto title widget is turned off
 		} elseif (
@@ -216,7 +216,7 @@ class Widget_Frontpage {
 			&& is_int( $post_id )
 			&& get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) === 'disabled'
 		) {
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Auto title widget is deactivated for this post' );
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Auto title widget is deactivated for this post' );
 		}
 
 		// Check if a metabox is available in the post and add it.
@@ -230,7 +230,7 @@ class Widget_Frontpage {
 
 		// Exit if no metadata, no auto title option activated
 		if ( $this->imdb_admin_values['imdbautopostwidget'] !== '1' && count( $final_movies_array ) === 0 ) {
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Auto title widget deactivated and no IMDb meta for this post, exiting' );
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Auto title widget deactivated and no IMDb meta for this post, exiting' );
 			return '';
 		}
 
@@ -265,7 +265,7 @@ class Widget_Frontpage {
 			// Do a loop, even if today the plugin allows only one metabox.
 			foreach ( $get_movie_name as $key => $value ) {
 				$movies_array['byname'] = esc_html( $value );
-				$this->logger->log()->debug( "[Lumiere][$this->classname] Custom field lumiere_widget_movietitle found, using \"$value\" for querying" );
+				$this->logger->log()->debug( "[Lumiere][Widget_Frontpage] Custom field lumiere_widget_movietitle found, using \"$value\" for querying" );
 			}
 
 		}
@@ -275,7 +275,7 @@ class Widget_Frontpage {
 			// Do a loop, even if today the plugin allows only one metabox.
 			foreach ( $get_movie_id as $key => $value ) {
 				$movies_array['bymid'] = esc_html( $value );
-				$this->logger->log()->debug( "[Lumiere][$this->classname] Custom field lumiere_widget_movieid found, using \"$value\" for querying" );
+				$this->logger->log()->debug( "[Lumiere][Widget_Frontpage] Custom field lumiere_widget_movieid found, using \"$value\" for querying" );
 			}
 
 		}

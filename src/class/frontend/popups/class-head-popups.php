@@ -17,8 +17,8 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Frontend\Main;
+use Lumiere\Tools\Ban_Bots;
 use Lumiere\Tools\Validate_Get;
-use Imdb\Name;
 
 /**
  * Edit <head> for popups
@@ -26,7 +26,7 @@ use Imdb\Name;
  *
  * @since 3.11 created
  * @since 4.1 removed plugins related matter, moved to relevant classes, added activate plugins and trait Main
- * @since 4.3 Is parent class
+ * @since 4.3 Is parent class, bots and nonce validation moved from class Frontend
  */
 class Head_Popups {
 
@@ -40,16 +40,26 @@ class Head_Popups {
 	 */
 	public function __construct() {
 
-		// Get the properties from Main trait.
-		$this->start_main_trait();
+		/**
+		 * Get the properties.
+		 */
+		$this->start_main_trait(); // In Trait Main.
 
-		// Exit if it is not a popup.
+		// Is a popup or exit.
 		if ( $this->is_popup_page() === false ) { // In Trait Main.
-			return;
+			wp_die( esc_html__( 'Lumière Movies: This should not have happened.', 'lumiere-movies' ) );
 		}
 
+		// Check nonce or exit.
+		$this->check_nonce();
+
 		// Get Lumière plugins.
-		add_action( 'wp_head', [ $this, 'set_plugins_if_needed' ], 7 ); // must be priority 7, class called with template_redirect.
+		$this->maybe_activate_plugins(); // In Trait Main.
+
+		// Ban bots.
+		add_action( 'init', fn() => Ban_Bots::lumiere_static_start(), 11 );
+		// Check if bots or exit.
+		$this->ban_bots_popups();
 
 		// Display the plugins active.
 		add_action( 'wp_head', [ $this, 'display_plugins_log' ] );
@@ -62,22 +72,18 @@ class Head_Popups {
 	}
 
 	/**
-	 * Static instanciation of the class
-	 * Needed to be called in add_actions()
-	 *
-	 * @return void The class was instanciated
+	 * Check the nonce
+	 * @return void Die if nonce is invalide
 	 */
-	public static function lumiere_static_start(): void {
-		$static_start = new self();
-	}
+	private function check_nonce(): void {
 
-	/**
-	 * Start Plugins_Start class
-	 * Is instanciated only if not instanciated already
-	 * Always loads IMDBPHP plugin
-	 */
-	public function set_plugins_if_needed(): void {
-		$this->maybe_activate_plugins(); // In Trait Main.
+		// Nonce. Always valid if admin is connected.
+		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || is_user_logged_in() === true ? true : false; // Created in Abstract_Link_Maker class.
+
+		// If nonce is invalid or no title was provided, exit.
+		if ( $nonce_valid === false ) {
+			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
+		}
 	}
 
 	/**
@@ -88,7 +94,7 @@ class Head_Popups {
 	public function display_plugins_log(): void {
 
 		// Log Plugins_Start, $this->plugins_classes_active in Main trait.
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+		$this->logger->log()->debug( '[Lumiere][Head_Popups] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 	}
 
 	/**
@@ -125,6 +131,9 @@ class Head_Popups {
 	 * Edit tags in <head> of popups
 	 */
 	public function lumiere_add_metas_popups(): void {
+
+		// Make sure we use cache. User may have decided not to use cache, but we need to accelerate the call.
+		$this->plugins_classes_active['imdbphp']?->activate_cache();
 
 		$my_canon = '';
 		$sanitized_film = Validate_Get::sanitize_url( 'film' );
@@ -173,12 +182,35 @@ class Head_Popups {
 
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 
-			$person = new Name( $sanitized_mid, $this->plugins_classes_active['imdbphp'], $this->logger->log() );
+			$person = $this->plugins_classes_active['imdbphp']->get_name_class( $sanitized_mid, $this->logger->log() );
 			if ( strlen( $person->name() ) > 0 ) {
 				echo "\n" . '<meta property="article:tag" content="' . esc_attr( $person->name() ) . '" />';
 			}
 		}
 
 		echo "\n\t\t" . '<!-- /Lumière! Movies -->' . "\n";
+	}
+
+	/**
+	 * Ban bots from getting Popups.
+	 *
+	 * 1/ Banned if certain conditions are met in class Ban_Bots::_construct() => action 'lumiere_maybe_ban_bots',
+	 *  done before doing IMDbPHP queries in this class
+	 * 2/ Ban if there is no HTTP_REFERER and user is not logged in Ban_Bots::_construct() => action 'lumiere_ban_bots_now', done here
+	 *  Not putting the no HTTP_REFERER in Ban_Bots class, since do_action( 'lumiere_maybe_ban_bots' ) could be called
+	 *      in taxonomy templates (those pages, like movie pages, should not ban bots, there is no reason to ban bots in full pages, only in popups)
+	 * This method must be called inside the switch() function, when we know it's a popup. Otherwhise, the entire site could
+	 *      become unavailable if no HTTP_REFERER was passed
+	 *
+	 * @since 4.0.1 Method added
+	 * @return void Banned if conditions are met
+	 */
+	private function ban_bots_popups(): void {
+
+		// Conditionally ban bots from getting the page, i.e. User Agent or IP.
+		do_action( 'lum_maybe_ban_bots_general' );
+
+		// Ban bots if no referer.
+		do_action( 'lum_maybe_ban_bots_noreferrer' );
 	}
 }

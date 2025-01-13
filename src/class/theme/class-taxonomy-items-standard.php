@@ -141,8 +141,8 @@ class Taxonomy_Items_Standard {
 
 		get_header();
 
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+		$this->logger->log()->debug( '[Lumiere][Taxonomy_Items_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->log()->debug( '[Lumiere][Taxonomy_Items_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 
 		echo wp_kses( $this->lum_taxo_display_content(), $kses_esc_html );
 
@@ -174,6 +174,9 @@ class Taxonomy_Items_Standard {
 
 		$args = [
 			'post_type' => [ 'post', 'page' ],
+			'post_status' => 'publish',
+			'showposts' => -1,
+			'fields' => 'ids',
 			'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				[
 					'taxonomy' => sanitize_text_field( $this->taxonomy ),
@@ -246,8 +249,8 @@ class Taxonomy_Items_Standard {
 		<?php block_header_area(); ?>
 		</header>
 		<?php
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+		$this->logger->log()->debug( '[Lumiere][Taxonomy_Items_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->log()->debug( '[Lumiere][Taxonomy_Items_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 		echo wp_kses( $block_content, $kses_esc_html ); ?>
 		<footer class="wp-block-template-part site-footer">
 		<?php block_footer_area(); ?>

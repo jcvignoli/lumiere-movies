@@ -16,42 +16,30 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Imdb\Title;
-use Imdb\TitleSearch;
-use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Popups\Head_Popups;
+use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Validate_Get;
-use Lumiere\Tools\Data;
+use Imdb\Title;
 
 /**
  * Display movie information in a popup
- *
- * @see \Lumiere\Alteration\Rewrite_Rules Create the rules for building a virtual page
- * @see \Lumiere\Frontend\Frontend Redirect to this page using virtual pages {@link \Lumiere\Alteration\Virtual_Page}
- * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class
- *
  * Bots are banned before getting popups
- * @see \Lumiere\Frontend\Frontend::ban_bots_popups() Bot banishement happens there, before processing IMDb queries
- * @since 4.3 is child class
  *
- * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Tools\Settings_Global
+ * @see \Lumiere\Frontend\Frontend Redirect to here according to the query var 'popup' in URL
+ * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class, Bot banishement
+ * @since 4.3 is child class
  */
-class Popup_Movie extends Head_Popups {
+class Popup_Movie extends Head_Popups implements Popup_Basic {
 
 	/**
-	 * Traits
+	 * The movie Title class instanciated with title
 	 */
-	use Main; // Using a new trait (not parent's) shows the correct class $this->classname
+	private Title $movie_class;
 
 	/**
-	 * The movie queried
+	 * The movie Title
 	 */
-	private Title $movie;
-
-	/**
-	 * Movie's title, if provided
-	 */
-	private ?string $film_title_sanitized;
+	private string $page_title;
 
 	/**
 	 * Constructor
@@ -62,130 +50,161 @@ class Popup_Movie extends Head_Popups {
 		parent::__construct();
 
 		/**
+		 * Build the properties.
+		 */
+		$movie_id = $this->get_movieid( Validate_Get::sanitize_url( 'mid' ), Validate_Get::sanitize_url( 'film' ) );
+		$this->movie_class = $this->get_title_class( $movie_id );
+		$this->page_title = $this->get_title( null );
+
+		/**
 		 * Display layout
 		 * @since 4.0 using 'the_posts' instead of the 'content', removed the 'get_header' for OceanWP
 		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
 		 */
-		add_filter( 'template_include', [ $this, 'popup_layout' ], 12 ); // 12, 1 more than Virtual_Page, otherwise the <head> doesn't show up.
+		add_filter( 'template_include', [ $this, 'get_layout' ] );
+
+		/**
+		 * Display title
+		 * @since 4.3
+		 */
+		add_filter( 'document_title_parts', [ $this, 'edit_title' ] );
+	}
+
+	/**
+	 * Edit the title of the page
+	 *
+	 * @param array<string, string> $title
+	 * @phpstan-param array{title: string, page: string, tagline: string, site: string} $title
+	 * @phpstan-return array{title: string, page: string, tagline: string, site: string}
+	 */
+	public function edit_title( array $title ): array {
+
+		$new_title = strlen( $this->page_title ) > 0
+			/* translators: %1s is a movie's title */
+			? sprintf( __( 'Informations about %1s', 'lumiere-movies' ), esc_html( $this->page_title ) ) . ' - Lumi&egrave;re movies'
+			: __( 'Unknown - Lumière movies', 'lumiere-movies' );
+
+		$title['title'] = $new_title;
+
+		return $title;
+	}
+
+	/**
+	 * Get the title of the page
+	 *
+	 * @param string|null $title Movie's name sanitized
+	 * @return string
+	 * @since 4.0 lowercase, less cache used.
+	 */
+	public function get_title( ?string $title ): string {
+		return ucfirst( $this->movie_class->title() );
+	}
+
+	/**
+	 * Find the movie id of the film
+	 * A movie id can be provided or just the movie's title
+	 * If movie's title, do a IMDbphp query to get the ID
+	 *
+	 * @param string|null $movie_id
+	 * @param string|null $movie_title
+	 * @return string The movie's ID
+	 */
+	private function get_movieid( ?string $movie_id, ?string $movie_title ): string {
+
+		$final_movie_id = null;
+
+		// A movie imdb id is provided in URL.
+		if ( isset( $movie_id ) && strlen( $movie_id ) > 0 ) {
+
+			$this->logger->log()->debug( '[Lumiere][Popup_Movie] Movie id provided in URL: ' . esc_html( $movie_id ) );
+
+			$final_movie_id = $movie_id;
+
+			// No movie id is provided, but a title was.
+		} elseif ( isset( $movie_title ) && strlen( $movie_title ) > 0 ) {
+
+			$this->logger->log()->debug( '[Lumiere][Popup_Movie] Movie title provided in URL: ' . esc_html( $movie_title ) );
+
+			// Search the movie's ID according to the title.
+			$search = $this->plugins_classes_active['imdbphp']?->search_movie_title(
+				esc_html( $movie_title ),
+				$this->logger->log(),
+				$this->config_class->lumiere_select_type_search()
+			);
+
+			// Keep the first occurrence.
+			$final_movie_id = isset( $search[0] ) && isset( $search[0]['imdbid'] ) ? esc_html( $search[0]['imdbid'] ) : null;
+		}
+
+		// Exit if no movie was found.
+		if ( $final_movie_id === null ) {
+			status_header( 404 );
+			$text = __( 'Could not find any IMDb movie with this query.', 'lumiere-movies' );
+			$this->logger->log()->error( '[Lumiere][Popup_Movie] ' . esc_html( $text ) );
+			wp_die( esc_html( $text ) );
+		}
+
+		return $final_movie_id;
 	}
 
 	/**
 	 * Search movie id or title
 	 *
-	 * @return bool True if a movie was found
+	 * @return Title The title or null
 	 */
-	private function find_result(): bool {
-
-		/* GET Vars sanitized */
-		$movieid_sanitized = Validate_Get::sanitize_url( 'mid' );
-		$movieid_sanitized = $movieid_sanitized !== null && strlen( $movieid_sanitized ) > 0 ? $movieid_sanitized : null;
-		$film_title_sanitized = Validate_Get::sanitize_url( 'film' );
-		$this->film_title_sanitized = $film_title_sanitized !== null && strlen( $film_title_sanitized ) > 0 ? $film_title_sanitized : null;
-
-		// A movie imdb id is provided in URL.
-		if ( isset( $movieid_sanitized ) ) {
-
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Movie id provided in URL: ' . $movieid_sanitized );
-
-			$this->movie = new Title( $movieid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() );
-			// @since 4.0 lowercase, less cache used.
-			$this->film_title_sanitized = strtolower( Data::lumiere_name_htmlize( $this->movie->title() ) );
-			return true;
-
-			/**
-			 * No movie id is provided, but a title was.
-			 */
-		} elseif ( isset( $this->film_title_sanitized ) ) {
-
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Movie title provided in URL: ' . $this->film_title_sanitized );
-
-			$title_search_class = new TitleSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
-
-			/**
-			 * @var array<array-key, mixed> $search
-			 * @phpstan-var TITLESEARCH_RETURNSEARCH $search */
-			$search = $title_search_class->search( $this->film_title_sanitized, $this->config_class->lumiere_select_type_search() );
-
-			if ( count( $search ) === 0 || array_key_exists( 0, $search ) === false ) {
-
-				$text = '[Lumiere][' . $this->classname . '] Fatal error: Could not find the movie title: ' . $this->film_title_sanitized;
-				$this->logger->log()->critical( $text );
-				return false;
-			}
-
-			$this->movie = new Title( $search[0]['imdbid'], $this->plugins_classes_active['imdbphp'], $this->logger->log() );
-
-			return true;
-		}
-
-		return false;
+	private function get_title_class( string $movieid ): Title {
+		return $this->plugins_classes_active['imdbphp']->get_title_class( $movieid, $this->logger->log() );
 	}
 
 	/**
 	 * Display layout
 	 *
+	 * @param string $template_path The path to the page of the theme currently in use - not utilised
 	 * @return string
 	 */
-	public function popup_layout(): string {
-
-		// Nonce. Always valid if admin is connected.
-		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || is_user_logged_in() === true ? true : false; // Created in Abstract_Link_Maker class.
-
-		// Validate $_GET['info'], exit if failed.
-		$get_info = Validate_Get::sanitize_url( 'info' );
-		if ( ( isset( $_GET['info'] ) && $get_info === null ) || $nonce_valid === false ) {
-			wp_die( esc_html__( 'Lumière Movies: Invalid movie search query.', 'lumiere-movies' ) );
-		}
+	public function get_layout( string $template_path ): string {
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
 		wp_head();
 		echo "\n</head>\n<body class=\"lum_body_popup";
 		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
-		// Exit if no movie was found.
-		if ( $this->find_result() === false ) {
-			status_header( 404 );
-			$text = __( 'Could not find any IMDb movie with this query.', 'lumiere-movies' );
-			$this->logger->log()->error( '[Lumiere][' . $this->classname . '] ' . $text );
-			wp_die( esc_html( $text ) );
-		}
-
 		/**
 		 * Display a spinner when clicking a link with class .lum_add_spinner (a <div class="loader"> will be inserted inside by the js)
 		 */
 		echo '<div id="spinner-placeholder"></div>';
 
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+		$this->logger->log()->debug( '[Lumiere][Popup_Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
-		$this->display_menu( $this->movie );
+		$this->display_menu( $this->movie_class, $this->page_title );
 
-		$this->display_portrait( $this->movie );
+		$this->display_portrait( $this->movie_class );
 
 		// Introduction part.
 		// Display something when nothing has been selected in the menu.
-
+		$get_info = Validate_Get::sanitize_url( 'info' );
 		if ( $get_info === null || strlen( $get_info ) === 0 ) {
-			$this->display_intro( $this->movie );
+			$this->display_intro( $this->movie_class );
 		}
 
 		// Casting part.
 		if ( $get_info === 'actors' ) {
-			$this->display_casting( $this->movie );
+			$this->display_casting( $this->movie_class );
 		}
 
 		// Crew part.
 		if ( $get_info === 'crew' ) {
-			$this->display_crew( $this->movie );
+			$this->display_crew( $this->movie_class );
 		}
 
 		// Resume part.
 		if ( $get_info === 'resume' ) {
-			$this->display_summary( $this->movie );
+			$this->display_summary( $this->movie_class );
 		}
 
 		// Misc part.
 		if ( $get_info === 'divers' ) {
-			$this->display_misc( $this->movie );
+			$this->display_misc( $this->movie_class );
 		}
 
 		// The end.
@@ -200,7 +219,7 @@ class Popup_Movie extends Head_Popups {
 	/**
 	 * Show the menu
 	 */
-	private function display_menu( Title $movie_results ): void {
+	private function display_menu( Title $movie_class, string $film_title_sanitized ): void {
 		// If polylang plugin is active, rewrite the URL to append the lang string
 		$url_if_polylang = apply_filters( 'lum_polylang_rewrite_url_with_lang', $this->config_class->lumiere_urlpopupsfilms );
 		$url_if_polylang_search = apply_filters( 'lum_polylang_rewrite_url_with_lang', $this->config_class->lumiere_urlpopupsearch );
@@ -209,22 +228,22 @@ class Popup_Movie extends Head_Popups {
 
 		<div class="lumiere_container lumiere_font_em_11 lum_popup_titlemenu">
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" id="searchaka" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang_search . '/?film=' . $this->film_title_sanitized ) ); ?>" title="<?php esc_html_e( 'Search for other movies with the same title', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Similar Titles', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" id="searchaka" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang_search . '?film=' . $film_title_sanitized ) ); ?>" title="<?php esc_html_e( 'Search for other movies with the same title', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Similar Titles', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=' ) ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Movie', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title_sanitized . '&info=' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Movie', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=actors' ) ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Actors', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Actors', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title_sanitized . '&info=actors' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Actors', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Actors', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=crew' ) ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Crew', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Crew', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title_sanitized . '&info=crew' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Crew', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Crew', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=resume' ) ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Plots', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Plots', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title_sanitized . '&info=resume' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Plots', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Plots', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '/?mid=' . $movie_results->imdbid() . '&film=' . $this->film_title_sanitized . '&info=divers' ) ); ?>" title='<?php echo esc_attr( $movie_results->title() ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title_sanitized . '&info=divers' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
 			</div>
 		</div>
 		<?php
@@ -233,18 +252,18 @@ class Popup_Movie extends Head_Popups {
 	/**
 	 * Show the portrait (title, picture)
 	 */
-	public function display_portrait( Title $movie_results ): void {
+	public function display_portrait( Title $movie_class ): void {
 		?>
 		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center lum_padding_bott_2vh">
 			<div class="lumiere_flex_auto lum_width_fit_cont">
 				<div class="titrefilm">
 				<?php
 					// Get movie's title from imdbphp query, not from globals.
-					echo esc_html( $movie_results->title() );
+					echo esc_html( $movie_class->title() );
 				?>
-				&nbsp;(<?php echo $movie_results->year() > 0 ? esc_html( $movie_results->year() ) : esc_html__( 'year unknown', 'lumiere-movies' ); ?>)</div>
+				&nbsp;(<?php echo $movie_class->year() > 0 ? esc_html( $movie_class->year() ) : esc_html__( 'year unknown', 'lumiere-movies' ); ?>)</div>
 				<div class="lumiere_align_center"><font size="-1"><?php
-					$taglines = $movie_results->tagline();
+					$taglines = $movie_class->tagline();
 				if ( array_key_exists( 0, $taglines ) ) {
 					echo esc_html( $taglines[0] );
 				}
@@ -255,8 +274,8 @@ class Popup_Movie extends Head_Popups {
 			<?php
 				// Select pictures: big poster, if not small poster, if not 'no picture'.
 				$photo_url = '';
-				$photo_big = (string) $movie_results->photoLocalurl( false );
-				$photo_thumb = (string) $movie_results->photoLocalurl( true );
+				$photo_big = (string) $movie_class->photoLocalurl( false );
+				$photo_thumb = (string) $movie_class->photoLocalurl( true );
 
 			if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp only if cache is active
 				$photo_url = strlen( $photo_big ) > 1 ? esc_html( $photo_big ) : esc_html( $photo_thumb ); // create big picture, thumbnail otherwise.
@@ -270,7 +289,7 @@ class Popup_Movie extends Head_Popups {
 
 				echo '<a class="lum_pic_inpopup" href="' . esc_url( $photo_url_href ) . '">';
 				// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.
-				echo "\n\t\t" . '<img loading="lazy" src="' . esc_url( $photo_url_img ) . '" alt="' . esc_attr( $movie_results->title() ) . '"';
+				echo "\n\t\t" . '<img loading="lazy" src="' . esc_url( $photo_url_img ) . '" alt="' . esc_attr( $movie_class->title() ) . '"';
 
 				// add width only if "Display only thumbnail" is not active.
 			if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
@@ -297,10 +316,10 @@ class Popup_Movie extends Head_Popups {
 	/**
 	 * Show intro part
 	 */
-	private function display_intro( Title $movie_results ): void {
+	private function display_intro( Title $movie_class ): void {
 
 		// Director summary, limited by admin options.
-		$director = $movie_results->director();
+		$director = $movie_class->director();
 
 		// director shown only if selected so in options.
 		if ( count( $director ) !== 0 && $this->imdb_data_values['imdbwidgetdirector'] === '1' ) {
@@ -331,7 +350,7 @@ class Popup_Movie extends Head_Popups {
 		}
 
 		// Main actors, limited by admin options.
-		$cast = $movie_results->cast();
+		$cast = $movie_class->cast();
 		$nbactors = $this->imdb_data_values['imdbwidgetactornumber'] === 0 ? 1 : intval( $this->imdb_data_values['imdbwidgetactornumber'] );
 		$nbtotalactors = count( $cast );
 
@@ -355,7 +374,7 @@ class Popup_Movie extends Head_Popups {
 		}
 
 		// Runtime, limited by admin options.
-		$runtime = $movie_results->runtime();
+		$runtime = $movie_class->runtime();
 		$runtime = isset( $runtime[0]['time'] ) ? esc_html( strval( $runtime[0]['time'] ) ) : '';
 
 		// Runtime shown only if selected so in admin options.
@@ -374,9 +393,9 @@ class Popup_Movie extends Head_Popups {
 
 		// Votes, limited by admin options.
 		// rating shown only if selected so in options.
-		$votes_sanitized = intval( $movie_results->votes() );
-		$rating_int = intval( $movie_results->rating() );
-		$rating_string = strval( $movie_results->rating() );
+		$votes_sanitized = intval( $movie_class->votes() );
+		$rating_int = intval( $movie_class->rating() );
+		$rating_string = strval( $movie_class->rating() );
 
 		if ( strlen( $rating_string ) > 0 && ( $this->imdb_data_values['imdbwidgetrating'] === '1' ) ) {
 
@@ -394,7 +413,7 @@ class Popup_Movie extends Head_Popups {
 		}
 
 		// Language, limited by admin options.
-		$languages = $movie_results->language();
+		$languages = $movie_class->language();
 		$nbtotallanguages = count( $languages );
 
 		// language shown only if selected so in options.
@@ -418,7 +437,7 @@ class Popup_Movie extends Head_Popups {
 		}
 
 		// Country, limited by admin options.
-		$country = $movie_results->country();
+		$country = $movie_class->country();
 		$nbtotalcountry = count( $country );
 
 		// country shown only if selected so in options.
@@ -443,7 +462,7 @@ class Popup_Movie extends Head_Popups {
 
 		}
 
-		$genre = $movie_results->genre();
+		$genre = $movie_class->genre();
 		$nbtotalgenre = count( $genre );
 
 		// Genre shown only if selected so in options.
@@ -471,11 +490,11 @@ class Popup_Movie extends Head_Popups {
 	/**
 	 * Show misc part
 	 */
-	private function display_misc( Title $movie_results ): void {
+	private function display_misc( Title $movie_class ): void {
 
 		// Trivia.
 
-		$trivia = $movie_results->trivia();
+		$trivia = $movie_class->trivia();
 		$nbtotaltrivia = 0;
 		$nb_total_trivia_processed = 1;
 
@@ -531,7 +550,7 @@ class Popup_Movie extends Head_Popups {
 		echo "\n</div>";
 
 		// Soundtrack.
-		$soundtrack = $movie_results->soundtrack();
+		$soundtrack = $movie_class->soundtrack();
 		$nbtotalsoundtracks = count( $soundtrack );
 
 		echo "\n\t\t\t\t\t\t\t" . ' <!-- Soundtrack -->';
@@ -583,7 +602,7 @@ class Popup_Movie extends Head_Popups {
 		echo "\n</div>";
 
 		// Goof.
-		$goof = $movie_results->goof();
+		$goof = $movie_class->goof();
 		$filter_nbtotalgoof = array_filter( $goof, fn( $goofs ) => ( count( array_values( $goof ) ) > 0 ) ); // counts the actual goofs, not their categories
 		$nbtotalgoof = count( $filter_nbtotalgoof );
 		$overall_loop = 1;
@@ -646,10 +665,10 @@ class Popup_Movie extends Head_Popups {
 	/**
 	 * Show casting.
 	 */
-	private function display_casting( Title $movie_results ): void {
+	private function display_casting( Title $movie_class ): void {
 
 		// Actors.
-		$cast = $movie_results->cast();
+		$cast = $movie_class->cast();
 		$nbtotalactors = count( $cast );
 
 		if ( count( $cast ) > 0 ) {
@@ -687,10 +706,10 @@ class Popup_Movie extends Head_Popups {
 	/**
 	 * Show crew.
 	 */
-	private function display_crew( Title $movie_results ): void {
+	private function display_crew( Title $movie_class ): void {
 
 		// Directors.
-		$director = $movie_results->director();
+		$director = $movie_class->director();
 		$nbtotaldirector = count( $director );
 
 		if ( $nbtotaldirector > 0 ) {
@@ -727,7 +746,7 @@ class Popup_Movie extends Head_Popups {
 		}
 
 		// Writers.
-		$writer = $movie_results->writer();
+		$writer = $movie_class->writer();
 		$nbtotalwriter = count( $writer );
 
 		if ( $nbtotalwriter > 0 ) {
@@ -761,7 +780,7 @@ class Popup_Movie extends Head_Popups {
 		}
 
 		// Producers.
-		$producer = $movie_results->producer();
+		$producer = $movie_class->producer();
 		$nbtotalproducer = count( $producer );
 
 		if ( $nbtotalproducer > 0 ) {
@@ -798,10 +817,10 @@ class Popup_Movie extends Head_Popups {
 	/**
 	 * Show summary.
 	 */
-	private function display_summary( Title $movie_results ): void {
+	private function display_summary( Title $movie_class ): void {
 
 		// Plots.
-		$plot = $movie_results->plot();
+		$plot = $movie_class->plot();
 		$nbtotalplot = count( $plot );
 
 		echo "\n\t\t\t\t\t\t\t" . ' <!-- Plots -->';
@@ -823,5 +842,4 @@ class Popup_Movie extends Head_Popups {
 
 		echo "\n</div>";
 	}
-
 }

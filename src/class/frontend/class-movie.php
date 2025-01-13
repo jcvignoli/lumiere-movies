@@ -26,7 +26,7 @@ use Lumiere\Frontend\Main;
  * It is compatible with Polylang WP plugin
  * It uses ImdbPHP Classes to display movies/people data
  *
- * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  */
 class Movie {
 
@@ -111,11 +111,11 @@ class Movie {
 			$this->maybe_activate_plugins(); // In Trait Main.
 
 			// Log the current link maker
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+			$this->logger->log()->debug( '[Lumiere][Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
 			// Log Plugins_Start, $this->plugins_classes_active in trait
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Calling IMDbPHP class.' );
+			$this->logger->log()->debug( '[Lumiere][Movie] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+			$this->logger->log()->debug( '[Lumiere][Movie] Calling IMDbPHP class.' );
 
 			// Set the trigger to true so this is not called again.
 			$this->movie_run_once = true;
@@ -144,11 +144,11 @@ class Movie {
 
 				$film = strtolower( $film['byname'] ); // @since 4.0 lowercase, less cache used.
 
-				$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . $film );
+				$this->logger->log()->debug( '[Lumiere][Movie] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . $film );
 
 				// check a the movie title exists.
 				if ( strlen( $film ) > 0 ) {
-					$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] searching for $film" );
+					$this->logger->log()->debug( "[Lumiere][Movie] searching for $film" );
 					/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
 					$results = $search->search( $film, $this->config_class->lumiere_select_type_search() );
 				}
@@ -159,25 +159,25 @@ class Movie {
 
 				// No results were found in imdbphp query.
 				if ( $mid_premier_resultat === null ) {
-					$this->logger->log()->info( '[Lumiere][' . $this->classname . '] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
+					$this->logger->log()->info( '[Lumiere][Movie] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
 					// no result, so jump to the next query and forget the current
 					continue;
 				}
 
-				$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Result found: $mid_premier_resultat." );
+				$this->logger->log()->debug( "[Lumiere][Movie] Result found: $mid_premier_resultat." );
 
 				// no movie's title but a movie's ID has been specified
 			} elseif ( isset( $film['bymid'] ) ) {
 				$mid_premier_resultat = filter_var( $film['bymid'], FILTER_SANITIZE_NUMBER_INT );
-				$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Movie ID provided: '$mid_premier_resultat'." );
+				$this->logger->log()->debug( "[Lumiere][Movie] Movie ID provided: *$mid_premier_resultat*." );
 			}
 
 			if ( $film === null || ! isset( $mid_premier_resultat ) || $mid_premier_resultat === false ) {
-				$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] No result found for this query.' );
+				$this->logger->log()->debug( '[Lumiere][Movie] No result found for this query.' );
 				continue;
 			}
 
-			$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Displaying rows for '$mid_premier_resultat'" );
+			$this->logger->log()->debug( "[Lumiere][Movie] Displaying rows for *$mid_premier_resultat*" );
 
 			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- Lumière! movies plugin -->';
 			$output .= "\n\t<div class='lum_results_frame";
@@ -413,7 +413,7 @@ class Movie {
 
 				// Build the final class+method with the movie_object.
 				if ( ! method_exists( $movie_data_class, $method ) ) {
-					$this->logger->log()->warning( '[Lumiere][' . $this->classname . '] The method ' . $method . ' does not exist in class ' . get_class( $movie_data_class ) . ', aborting' );
+					$this->logger->log()->warning( '[Lumiere][Movie] The method ' . $method . ' does not exist in class ' . get_class( $movie_data_class ) . ', aborting' );
 
 					exit( 1 );
 				}
@@ -506,7 +506,7 @@ class Movie {
 				$term_inserted = wp_insert_term( $taxonomy_term, $taxonomy_category_full );
 				$term_for_log = wp_json_encode( $term_inserted );
 				if ( $term_for_log !== false ) {
-					$this->logger->log()->debug( '[Lumiere][' . $this->classname . "] Taxonomy term $taxonomy_term added to $taxonomy_category_full (association numbers " . $term_for_log . ' )' );
+					$this->logger->log()->debug( '[Lumiere][Movie] Taxonomy term *' . $taxonomy_term . '* added to *' . $taxonomy_category_full . '* (association numbers ' . $term_for_log . ' )' );
 				}
 			}
 
@@ -519,7 +519,7 @@ class Movie {
 			 */
 			if ( ! $term_for_set_object instanceof \WP_Error ) {
 				$term_taxonomy_id = wp_set_object_terms( $page_id, $term_for_set_object, $taxonomy_category_full, true );
-				// $this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Check (and made if needed) association for term_taxonomy_id ' . json_encode( $term_taxonomy_id ) );
+				// $this->logger->log()->debug( '[Lumiere][Movie] Check (and made if needed) association for term_taxonomy_id ' . json_encode( $term_taxonomy_id ) );
 			}
 
 			// Add Lumière tags to the current WordPress post. But we don't want it!

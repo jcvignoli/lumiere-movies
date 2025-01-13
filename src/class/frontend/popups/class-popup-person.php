@@ -18,41 +18,33 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Imdb\Name;
 use Lumiere\Frontend\Popups\Head_Popups;
-use Lumiere\Frontend\Main;
+use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Validate_Get;
 
 /**
  * Display star information in a popup
- *
- * @see \Lumiere\Alteration\Rewrite_Rules Create the rules for building a virtual page
- * @see \Lumiere\Frontend\Frontend Redirect to this page using virtual pages {@link \Lumiere\Alteration\Virtual_Page}
- * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class
- * @since 4.3 is child class
- *
  * Bots are banned before getting popups
- * @see \Lumiere\Frontend\Frontend::ban_bots_popups() Bot banishement happens there, before processing IMDb queries
+ *
+ * @see \Lumiere\Frontend\Frontend Redirect to here according to the query var 'popup' in URL
+ * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class, Bot banishement
+ * @since 4.3 is child class
  */
-class Popup_Person extends Head_Popups {
-
-	/**
-	 * Traits
-	 */
-	use Main; // Using a new trait (not parent's) shows the correct class $this->classname
+class Popup_Person extends Head_Popups implements Popup_Basic {
 
 	/**
 	 * The person queried as object result
 	 */
-	private Name $person;
+	private Name $person_class;
 
 	/**
-	 * The person queried
+	 * The person's name
 	 */
-	private string $person_name;
+	private string $page_title;
 
 	/**
 	 * Person's id, if provided
 	 */
-	private ?string $mid_sanitized;
+	private string $mid_sanitized;
 
 	/**
 	 * Constructor
@@ -63,73 +55,97 @@ class Popup_Person extends Head_Popups {
 		parent::__construct();
 
 		/**
+		 * Build the properties.
+		 */
+		$this->mid_sanitized = Validate_Get::sanitize_url( 'mid' ) ?? '';
+		$this->person_class = $this->get_result( $this->mid_sanitized );
+		$this->page_title = $this->get_title( $this->person_class->name() );
+
+		/**
 		 * Display layout
 		 * @since 4.0 using 'the_posts' instead of the 'content', removed the 'get_header' for OceanWP
 		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
 		 */
-		add_filter( 'template_include', [ $this, 'popup_layout' ], 12 ); // 12, 1 more than Virtual_Page, otherwise the <head> doesn't show up.
+		add_filter( 'template_include', [ $this, 'get_layout' ] );
+
+		/**
+		 * Display title
+		 * @since 4.3
+		 */
+		add_filter( 'document_title_parts', [ $this, 'edit_title' ] );
 	}
 
 	/**
-	 * Search movie title
+	 * Edit the title of the page
 	 *
-	 * @return bool True if movie was found
+	 * @param array<string, string> $title
+	 * @phpstan-param array{title: string, page: string, tagline: string, site: string} $title
+	 * @phpstan-return array{title: string, page: string, tagline: string, site: string}
 	 */
-	private function find_result(): bool {
+	public function edit_title( array $title ): array {
 
-		/* GET Vars sanitized */
-		$mid_sanitized = Validate_Get::sanitize_url( 'mid' );
-		$this->mid_sanitized = $mid_sanitized !== null && strlen( $mid_sanitized ) > 0 ? $mid_sanitized : null;
+		$new_title = strlen( $this->page_title ) > 0
+			/* translators: %1s is a movie's title */
+			? sprintf( __( 'Informations about %1s', 'lumiere-movies' ), $this->page_title ) . ' - Lumi&egrave;re movies'
+			: __( 'Unknown - Lumière movies', 'lumiere-movies' );
+
+		$title['title'] = $new_title;
+
+		return $title;
+	}
+
+	/**
+	 * Get the title of the page
+	 *
+	 * @param string|null $title Person's name
+	 * @return string
+	 * @since 4.0 lowercase, less cache used.
+	 */
+	public function get_title( ?string $title ): string {
+		return isset( $title ) ? str_replace( [ '\\', '+' ], [ '', ' ' ], esc_html( $title ) ) : '';
+	}
+
+	/**
+	 * Search Name class for a given person_id
+	 *
+	 * @param string $person_id The IMDB id of the person
+	 * @return Name
+	 */
+	private function get_result( string $person_id ): Name {
+
+		$person_class = $this->plugins_classes_active['imdbphp']?->get_name_class( $person_id, $this->logger->log() );
 
 		// if neither film nor mid are set, throw a 404 error
-		if ( $this->mid_sanitized === null ) {
+		if ( $person_class === null ) {
 			status_header( 404 );
-			$this->logger->log()->error( '[Lumiere] No person id entered' );
-			return false;
+			$text = __( 'Could not find any IMDb person with this query.', 'lumiere-movies' );
+			$this->logger->log()->error( '[Lumiere][Popup_Person] ' . esc_html( $text ) );
+			wp_die( esc_html( $text ) );
 		}
 
-		$this->logger->log()->debug( '[Lumiere] Movie person IMDb ID provided in URL: ' . $this->mid_sanitized );
-
-		$this->person = new Name( $this->mid_sanitized, $this->plugins_classes_active['imdbphp'], $this->logger->log() );
-		$this->person_name = $this->person->name();
-		return true;
+		$this->logger->log()->debug( '[Lumiere] Movie person IMDb ID provided in URL: ' . esc_html( $person_id ) );
+		return $person_class;
 	}
 
 	/**
 	 * Display layout
 	 *
+	 * @param string $template_path The path to the page of the theme currently in use - not utilised
 	 * @return string
 	 */
-	public function popup_layout(): string {
-
-		// Nonce. Always valid if admin is connected.
-		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || is_user_logged_in() === true ? true : false; // Created in Abstract_Link_Maker class.
-
-		// Validate $_GET['info_person'], exit if failed.
-		$get_info_person = Validate_Get::sanitize_url( 'info_person' );
-		if ( isset( $_GET['info_person'] ) && $get_info_person === null || $nonce_valid === false ) {
-			wp_die( esc_html__( 'Lumière Movies: Invalid person search query.', 'lumiere-movies' ) );
-		}
+	public function get_layout( string $template_path ): string {
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
 		wp_head();
 		echo "\n</head>\n<body class=\"lum_body_popup";
 		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
-		// Exit if no person was found.
-		if ( $this->find_result() === false ) {
-			status_header( 404 );
-			$text = 'Could not find any IMDb person with this query.';
-			$this->logger->log()->error( '[Lumiere][' . $this->classname . '] ' . $text );
-			wp_die( esc_html( $text ) );
-		}
-
 		/**
 		 * Display a spinner when clicking a link with class .lum_add_spinner (a <div class="loader"> will be inserted inside by the js)
 		 */
 		echo '<div id="spinner-placeholder"></div>';
 
-		$this->logger->log()->debug( '[Lumiere][' . $this->classname . '] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+		$this->logger->log()->debug( '[Lumiere][Popup_Person] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
 		// Show menu.
 		$this->display_menu();
@@ -139,6 +155,7 @@ class Popup_Person extends Head_Popups {
 
 		//--------------------------------------------------------------------------- summary
 		// display only when nothing is selected from the menu.
+		$get_info_person = Validate_Get::sanitize_url( 'info_person' );
 		if (
 			$get_info_person === null || strlen( $get_info_person ) === 0
 		) {
@@ -265,16 +282,16 @@ class Popup_Person extends Head_Popups {
 			</div>
 			<?php }*/?>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info_person=' ) ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Summary', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info_person=' ) ); ?>" title="<?php echo esc_attr( $this->page_title ) . ': ' . esc_html__( 'Summary', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info_person=filmo' ) ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full filmography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full filmography', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info_person=filmo' ) ); ?>" title="<?php echo esc_attr( $this->page_title ) . ': ' . esc_html__( 'Full filmography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full filmography', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info_person=bio' ) ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Full biography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full biography', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info_person=bio' ) ); ?>" title="<?php echo esc_attr( $this->page_title ) . ': ' . esc_html__( 'Full biography', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Full biography', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info_person=misc' ) ); ?>" title="<?php echo esc_attr( $this->person_name ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
+				<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $this->mid_sanitized . '&info_person=misc' ) ); ?>" title="<?php echo esc_attr( $this->page_title ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
 			</div>
 		</div>
 
@@ -333,7 +350,7 @@ class Popup_Person extends Head_Popups {
 
 		############## Spouses
 
-		$spouses = $this->person->spouse();
+		$spouses = $this->person_class->spouse();
 		$nbtotalspouses = count( $spouses );
 
 		if ( $nbtotalspouses > 0 ) {
@@ -364,7 +381,7 @@ class Popup_Person extends Head_Popups {
 
 		############## Children
 
-		$children = $this->person->children();
+		$children = $this->person_class->children();
 		$nbtotalchildren = count( $children );
 		$nbtotalchildren_bugged = $children[0]['name'] ?? ''; // Sometimes return an array even if name is empty, but name is always empty if no children are found
 
@@ -397,7 +414,7 @@ class Popup_Person extends Head_Popups {
 
 		##############  Bio movies
 
-		$biomovie = $this->person->pubmovies();
+		$biomovie = $this->person_class->pubmovies();
 		$nbtotalbiomovie = count( $biomovie );
 
 		if ( $nbtotalbiomovie !== 0 ) {
@@ -420,7 +437,7 @@ class Popup_Person extends Head_Popups {
 
 		############## Portrayed in
 
-		$portrayedmovie = $this->person->pubportrayal();
+		$portrayedmovie = $this->person_class->pubportrayal();
 		$nbtotalportrayedmovie = count( $portrayedmovie );
 
 		if ( $nbtotalportrayedmovie !== 0 ) {
@@ -444,7 +461,7 @@ class Popup_Person extends Head_Popups {
 
 		############## Interviews
 
-		$interviews = $this->person->pubinterview();
+		$interviews = $this->person_class->pubinterview();
 		$nbtotalinterviews = isset( $interviews ) ? count( $interviews ) : 0;
 
 		if ( $nbtotalinterviews > 0 ) {
@@ -477,7 +494,7 @@ class Popup_Person extends Head_Popups {
 
 		############## Publicity printed
 
-		$pubprints = $this->person->pubprints();
+		$pubprints = $this->person_class->pubprints();
 		$nbtotalpubprints = count( $pubprints );
 		$nblimitpubprints = 9;
 
@@ -537,7 +554,7 @@ class Popup_Person extends Head_Popups {
 
 		############## Trivia
 
-		$trivia = $this->person->trivia();
+		$trivia = $this->person_class->trivia();
 		$nbtotaltrivia = count( $trivia );
 		$nblimittrivia = 3; # max number of trivias before breaking with "see all"
 		$output = '';
@@ -590,7 +607,7 @@ class Popup_Person extends Head_Popups {
 
 		############## Nicknames
 
-		$nickname = $this->person->nickname();
+		$nickname = $this->person_class->nickname();
 		$nbtotalnickname = count( $nickname );
 
 		if ( $nbtotalnickname !== 0 ) {
@@ -618,7 +635,7 @@ class Popup_Person extends Head_Popups {
 
 		############## Personal quotes
 
-		$quotes = $this->person->quotes();
+		$quotes = $this->person_class->quotes();
 		$nbtotalquotes = count( $quotes );
 		$nblimitquotes = 3;
 
@@ -670,7 +687,7 @@ class Popup_Person extends Head_Popups {
 
 		############## Trademarks
 
-		$trademark = $this->person->trademark();
+		$trademark = $this->person_class->trademark();
 		$nbtotaltrademark = count( $trademark );
 		$nblimittradmark = 5;
 
@@ -731,12 +748,12 @@ class Popup_Person extends Head_Popups {
 												<!-- Photo & identity -->
 		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center lum_padding_bott_2vh">
 			<div class="lumiere_flex_auto lum_width_fit_cont">
-				<div class="identity"><?php echo esc_html( $this->person_name ); ?></div>
+				<div class="identity"><?php echo esc_html( $this->page_title ); ?></div>
 
 				<?php
 
 				# Birth
-				$get_birthday = $this->person->born();
+				$get_birthday = $this->person_class->born();
 				$birthday = $get_birthday !== null ? array_filter( $get_birthday, fn( $get_birthday ) => ( $get_birthday !== false && $get_birthday !== '' ) ) : [];
 				if ( count( $birthday ) > 0 ) {
 					echo "\n\t\t\t\t" . '<div id="birth"><font size="-1">';
@@ -758,7 +775,7 @@ class Popup_Person extends Head_Popups {
 				}
 
 				# Death
-				$death = $this->person->died();
+				$death = $this->person_class->died();
 				if ( $death['status'] === 'DEAD' ) {
 
 					echo "\n\t\t\t\t" . '<div id="death"><font size="-1">';
@@ -784,7 +801,7 @@ class Popup_Person extends Head_Popups {
 					echo "\n\t\t\t\t" . '</font></div>';
 				}
 
-				$bio = $this->link_maker->lumiere_medaillon_bio( $this->person->bio() );
+				$bio = $this->link_maker->lumiere_medaillon_bio( $this->person_class->bio() );
 
 				if ( is_string( $bio ) && strlen( $bio ) > 0 ) {
 					echo "\n\t\t\t\t" . '<div id="bio" class="lumiere_padding_two lumiere_align_left"><font size="-1">';
@@ -812,8 +829,8 @@ class Popup_Person extends Head_Popups {
 
 			// Select pictures: big poster, if not small poster, if not 'no picture'.
 			$photo_url = '';
-			$photo_big = (string) $this->person->photoLocalurl( false );
-			$photo_thumb = (string) $this->person->photoLocalurl( true );
+			$photo_big = (string) $this->person_class->photoLocalurl( false );
+			$photo_thumb = (string) $this->person_class->photoLocalurl( true );
 
 			if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp only if cache is active
 				$photo_url = strlen( $photo_big ) > 1 ? esc_url( $photo_big ) : esc_url( $photo_thumb ); // create big picture, thumbnail otherwise.
@@ -828,7 +845,7 @@ class Popup_Person extends Head_Popups {
 			echo "\n\t\t\t\t" . '<a class="lum_pic_inpopup" href="' . esc_url( $photo_url_href ) . '">';
 			echo "\n\t\t\t\t\t" . '<img loading="lazy" src="'
 				. esc_url( $photo_url_img )
-				. '" alt="' . esc_attr( $this->person_name ) . '"';
+				. '" alt="' . esc_attr( $this->page_title ) . '"';
 
 			// add width only if "Display only thumbnail" is unactive.
 			if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
@@ -863,7 +880,7 @@ class Popup_Person extends Head_Popups {
 	private function get_movies( array $list_roles, int $max_films = 10 ): string {
 
 		$output = '';
-		$all_movies = $this->person->credit(); // retrieve all movies for current person.
+		$all_movies = $this->person_class->credit(); // retrieve all movies for current person.
 		$list_roles_english = array_keys( $list_roles );
 
 		foreach ( $list_roles_english as $role ) {

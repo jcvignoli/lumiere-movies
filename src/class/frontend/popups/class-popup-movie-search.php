@@ -16,36 +16,26 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Imdb\TitleSearch;
 use Lumiere\Frontend\Popups\Head_Popups;
-use Lumiere\Frontend\Main;
-use Lumiere\Tools\Validate_Get;
+use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Data;
+use Lumiere\Tools\Validate_Get;
 
 /**
  * Displays movie search results in a popup
- *
- * @see \Lumiere\Alteration\Rewrite_Rules Create the rules for building a virtual page
- * @see \Lumiere\Frontend\Frontend Redirect to this page using virtual pages {@link \Lumiere\Alteration\Virtual_Page}
- * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class
- *
  * Bots are banned before getting popups
- * @see \Lumiere\Frontend\Frontend::ban_bots_popups() Bot banishement happens there, before processing IMDb queries
- * @since 4.3 is child class
  *
- * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Tools\Settings_Global
+ * @see \Lumiere\Frontend\Frontend Redirect to here according to the query var 'popup' in URL
+ * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class, Bot banishement
+ * @since 4.3 is child class
+ * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  */
-class Popup_Movie_Search extends Head_Popups {
-
-	/**
-	 * Traits
-	 */
-	use Main; // Using a new trait (not parent's) shows the correct class $this->classname
+class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 
 	/**
 	 * Movie's title
 	 */
-	private string $film_sanitized;
+	private string $page_title;
 
 	/**
 	 * Constructor
@@ -55,50 +45,81 @@ class Popup_Movie_Search extends Head_Popups {
 		// Edit metas tags in popups and various checks in Parent class.
 		parent::__construct();
 
-		// Build the vars.
-		// @since 4.0 lowercase, less cache used.
-		$film_sanitized = Validate_Get::sanitize_url( 'film' );
-		$this->film_sanitized = $film_sanitized !== null ? str_replace( [ '\\', '+' ], [ '', ' ' ], strtolower( Data::lumiere_name_htmlize( $film_sanitized ) ) ) : '';
+		/**
+		 * Build the properties.
+		 */
+		$this->page_title = $this->get_title( Validate_Get::sanitize_url( 'film' ) );
 
 		/**
 		 * Display layout
 		 * @since 4.0 using 'the_posts' instead of the 'content', removed the 'get_header' for OceanWP
 		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
 		 */
-		add_filter( 'template_include', [ $this, 'popup_layout' ], 12 ); // 12, 1 more than Virtual_Page, otherwise the <head> doesn't show up.
+		add_filter( 'template_include', [ $this, 'get_layout' ] );
+
+		/**
+		 * Display title
+		 * @since 4.3
+		 */
+		add_filter( 'document_title_parts', [ $this, 'edit_title' ] );
+	}
+
+	/**
+	 * Edit the title of the page
+	 *
+	 * @param array<string, string> $title
+	 * @phpstan-param array{title: string, page: string, tagline: string, site: string} $title
+	 * @phpstan-return array{title: string, page: string, tagline: string, site: string}
+	 */
+	public function edit_title( array $title ): array {
+
+		// Set the title.
+		$filmname_complete = ' : [ ' . ucwords( $this->page_title ) . ' ]';
+
+		/* translators: %1s is the title of a movie */
+		$new_title = sprintf( __( 'Lumiere Query Interface %1s', 'lumiere-movies' ), $filmname_complete );
+
+		$title['title'] = $new_title;
+
+		return $title;
+	}
+
+	/**
+	 * Get the title of the page
+	 *
+	 * @param string|null $title Movie's name
+	 * @return string
+	 * @since 4.0 lowercase, less cache used.
+	 */
+	public function get_title( ?string $title ): string {
+		return isset( $title ) ? str_replace( [ '\\', '+' ], [ '', ' ' ], strtolower( Data::lumiere_name_htmlize( $title ) ) ) : '';
 	}
 
 	/**
 	 * Search a film according to its name
 	 *
-	 * @param string $film_sanitized Film name sanitized
-	 * @param string $type_search Array of search types: movies, series, games, etc.
+	 * @param string $title_name Film name sanitized
 	 * @return array<array-key, mixed>
 	 * @phpstan-return TITLESEARCH_RETURNSEARCH
 	 */
-	private function find_result( string $film_sanitized, string $type_search ): array {
+	private function get_result( string $title_name ): array {
 
-		$search = new TitleSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
-		$return = $search->search( $film_sanitized, $type_search );
-		/** @phpstan-var TITLESEARCH_RETURNSEARCH $return */
-		return $return;
+		$this->logger->log()->debug( '[Lumiere][Popup_Movie_Search] Movie title name provided in URL: ' . esc_html( $title_name ) );
+
+		return $this->plugins_classes_active['imdbphp']->search_movie_title(
+			esc_html( $title_name ),
+			$this->logger->log(),
+			$this->config_class->lumiere_select_type_search()
+		);
 	}
 
 	/**
 	 * Display layout
 	 *
+	 * @param string $template_path The path to the page of the theme currently in use - not utilised
 	 * @return string
 	 */
-	public function popup_layout(): string {
-
-		// Nonce. Always valid if admin is connected.
-		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || is_user_logged_in() === true ? true : false; // Created in Abstract_Link_Maker class.
-
-		// Validate $_GET['film'], exit if failed.
-		$get_info = Validate_Get::sanitize_url( 'film' );
-		if ( $get_info === null || $nonce_valid === false ) {
-			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
-		}
+	public function get_layout( string $template_path ): string {
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
 		wp_head();
@@ -106,10 +127,7 @@ class Popup_Movie_Search extends Head_Popups {
 		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
 
 		// Get an array of results according to a film name using IMDB class.
-		$movie_results = $this->find_result(
-			$this->film_sanitized, // Title was sanitized.
-			$this->config_class->lumiere_select_type_search() // Get the type of search according to a method in config class.
-		);
+		$movie_results = $this->get_result( $this->page_title );
 
 		/**
 		 * Display a spinner when clicking a link with class .lum_add_spinner (a <div class="loader"> will be inserted inside by the js)
@@ -119,7 +137,7 @@ class Popup_Movie_Search extends Head_Popups {
 		<h1 align="center">
 			<?php
 			esc_html_e( 'Results related to', 'lumiere-movies' );
-			echo ' <i>' . esc_html( ucwords( $this->film_sanitized ) ) . '</i>';
+			echo ' <i>' . esc_html( ucwords( $this->page_title ) ) . '</i>';
 			?>
 		</h1>
 
@@ -219,7 +237,6 @@ class Popup_Movie_Search extends Head_Popups {
 		wp_footer();
 		echo "</body>\n</html>";
 
-		// Prevent the proper template to be displayed
 		return '';
 	}
 }
