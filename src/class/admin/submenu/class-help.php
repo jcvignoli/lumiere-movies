@@ -31,12 +31,13 @@ class Help extends Admin_Menu {
 	 * Pages name
 	 */
 	private const PAGES_NAMES = [
-		'menu_first'    => 'admin-menu-first-part',
-		'menu_submenu'  => 'help/admin-help-submenu',
-		'menu_howto'    => 'help/admin-help-howto',
-		'menu_faqs'    => 'help/admin-help-faqs',
-		'menu_changelog'    => 'help/admin-help-changelog',
-		'menu_support' => 'help/admin-help-support',
+		'menu_first'         => 'admin-menu-first-part',
+		'menu_submenu'       => 'help/admin-help-submenu',
+		'menu_howto'         => 'help/admin-help-howto',
+		'menu_faqs'          => 'help/admin-help-faqs',
+		'menu_changelog'     => 'help/admin-help-changelog',
+		'menu_support'       => 'help/admin-help-support',
+		'menu_compatibility' => 'help/admin-help-compatibility',
 	];
 
 	/**
@@ -46,6 +47,7 @@ class Help extends Admin_Menu {
 	private string $readmefile;
 	private string $changelogfile;
 	private string $acknowledgefile;
+	private string $compatfile;
 
 	/**
 	 * Constructor
@@ -59,6 +61,7 @@ class Help extends Admin_Menu {
 		$this->readmefile = LUMIERE_WP_PATH . 'README.txt';
 		$this->changelogfile = LUMIERE_WP_PATH . 'CHANGELOG.md';
 		$this->acknowledgefile = LUMIERE_WP_PATH . 'ACKNOWLEDGMENTS.md';
+		$this->compatfile = LUMIERE_WP_PATH . 'COMPATIBILITY.md';
 	}
 
 	/**
@@ -88,6 +91,7 @@ class Help extends Admin_Menu {
 				$this->page_help,
 				$this->page_help_support,
 				$this->page_help_faqs,
+				$this->page_help_compatibility,
 				$this->page_help_changelog,
 			],
 			self::TRANSIENT_ADMIN,
@@ -100,6 +104,10 @@ class Help extends Admin_Menu {
 			// Faqs section.
 		} elseif ( isset( $_GET['subsection'] ) && str_contains( $this->page_help_faqs, sanitize_text_field( wp_unslash( $_GET['subsection'] ) ) ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
 			$this->display_faqs();
+
+			// Compatibility section.
+		} elseif ( isset( $_GET['subsection'] ) && str_contains( $this->page_help_compatibility, sanitize_text_field( wp_unslash( $_GET['subsection'] ) ) ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
+			$this->display_compat();
 
 			// Support section.
 		} elseif ( ( isset( $_GET['subsection'] ) ) && str_contains( $this->page_help_support, sanitize_text_field( wp_unslash( $_GET['subsection'] ) ) ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
@@ -117,12 +125,65 @@ class Help extends Admin_Menu {
 					$this->page_help,
 					$this->page_help_support,
 					$this->page_help_faqs,
+					$this->page_help_compatibility,
 					$this->page_help_changelog,
 				],
 				self::TRANSIENT_ADMIN,
 			);
 		}
 
+	}
+
+	/**
+	 * Display the Compatibility list
+	 */
+	private function display_compat(): void {
+
+		/** Vars */
+		global $wp_filesystem;
+
+		// If file doesn't exist, exit.
+		if ( ! is_file( $this->compatfile ) ) {
+			throw new Exception( 'File ' . esc_html( $this->compatfile ) . ' has wrong permissions or does not exist' );
+		}
+		// Make sure we got right credentials to use $wp_filesystem.
+		$this->lumiere_wp_filesystem_cred( $this->compatfile );
+
+		// Open the file (as an array).
+		$compatfile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $this->compatfile ) : '';
+
+		/**
+		 * 1-replace # by div.
+		 * 2-remove ** **.
+		 * 3-replace \n by br.
+		 * 4-replace links from (specially formated for WordPress website) readme with casual html.
+		 */
+		if ( is_array( $compatfile ) === true ) {
+			$patterns = [
+				'~\# (.*)~',
+				'~\*\*(.*)\*\*~',
+				'~\n~',
+				'~(\\[{1}(.*?)\\]\()(htt(p|ps)://)(([[:punct:]]|[[:alnum:]])*)( \"{1}(.*?)\"\))~',
+			];
+			$replaces = [
+				'<div><strong>${1}</strong></div>',
+				'${1}',
+				'<br>',
+				'<a href="${3}${5}" title="${7}">${2}</a>',
+			];
+
+			$compatfile = preg_replace( $patterns, $replaces, $compatfile );
+		}
+
+		// Send the file text to the included file.
+		$this->include_with_vars(
+			self::PAGES_NAMES['menu_compatibility'],
+			/** Add an array with vars to send in the template */
+			[
+				$compatfile,
+			],
+			self::TRANSIENT_ADMIN,
+		);
 	}
 
 	/**
@@ -234,7 +295,6 @@ class Help extends Admin_Menu {
 
 		/** Vars */
 		global $wp_filesystem;
-		$number = 0;
 
 		// If file doesn't exist, exit.
 		if ( ! is_file( $this->acknowledgefile ) ) {

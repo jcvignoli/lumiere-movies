@@ -56,6 +56,7 @@ class Admin_Menu {
 	protected string $page_help_support;
 	protected string $page_help_faqs;
 	protected string $page_help_changelog;
+	protected string $page_help_compatibility;
 
 	/**
 	 * Id utilised to build functions and menu titles
@@ -104,6 +105,7 @@ class Admin_Menu {
 		$this->page_help = admin_url( $page_help );
 		$this->page_help_support = admin_url( $page_help . '&subsection=support' );
 		$this->page_help_faqs = admin_url( $page_help . '&subsection=faqs' );
+		$this->page_help_compatibility = admin_url( $page_help . '&subsection=compatibility' );
 		$this->page_help_changelog = admin_url( $page_help . '&subsection=changelog' );
 	}
 

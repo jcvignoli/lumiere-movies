@@ -10,4 +10,4 @@ Lumière is *COMPATIBLE* with the following WordPress plugins:
 * [AIOSEO](https://wordpress.org/plugins/all-in-one-seo-pack/ "All in One SEO Pack") AIOSEO is automatically disabled in Popup pages.
 
 Lumière is *INCOMPATIBLE* with the following WordPress plugins:
-* [Echo RSS Feed Post Generator] It is a predator plugin. If you installed it, you won't be able to use Lumière. Any plugin that is meant to build fake automatized blogs, will be added to a red list.
+* "Echo RSS Feed Post Generator" It is a predator plugin. If you installed it, you won't be able to use Lumière. Any plugin that is meant to build fake automatized blogs, will be added to a red list.
