@@ -1,3 +1,5 @@
+namespace: Tests
+support_namespace: Support
 paths:
     tests: tests/codeception
     output: tests/codeception/_output
@@ -57,8 +59,8 @@ env:
     wpdbfirefox:
         modules:
              enabled:
-                - WPDb
-                - WPWebDriver
+                - lucatume\WPBrowser\Module\WPDb
+                - lucatume\WPBrowser\Module\WPWebDriver
         extensions:
             enabled:
               - Codeception\Extension\RunProcess:

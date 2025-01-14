@@ -1,0 +1,1 @@
+../Acceptance/006-TaxonomyCest.php

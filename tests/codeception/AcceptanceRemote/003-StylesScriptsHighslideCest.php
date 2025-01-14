@@ -1,0 +1,1 @@
+../Acceptance/003-StylesScriptsHighslideCest.php

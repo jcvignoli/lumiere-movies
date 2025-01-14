@@ -1,0 +1,1 @@
+../Acceptance/012-SwitchModalWindowsCest.php

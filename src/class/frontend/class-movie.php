@@ -16,8 +16,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Imdb\Title;
-use Imdb\TitleSearch;
 use Lumiere\Frontend\Movie_Data;
 use Lumiere\Frontend\Main;
 
@@ -126,8 +124,6 @@ class Movie {
 		$output = '';
 		$results = null; // Default, should get an object if everything goes according to the plan.
 
-		$search = new TitleSearch( $this->plugins_classes_active['imdbphp'], $this->logger->log() );
-
 		// $imdb_id_or_title var comes from custom post's field in widget or in post
 		$counter_imdb_id_or_title = $imdb_id_or_title !== null ? count( $imdb_id_or_title ) : 0;
 
@@ -150,15 +146,18 @@ class Movie {
 				if ( strlen( $film ) > 0 ) {
 					$this->logger->log()->debug( "[Lumiere][Movie] searching for $film" );
 					/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
-					$results = $search->search( $film, $this->config_class->lumiere_select_type_search() );
+					$results = $this->plugins_classes_active['imdbphp']->search_movie_title(
+						esc_html( $film ),
+						$this->logger->log(),
+						$this->config_class->lumiere_select_type_search()
+					);
 				}
 
-				// Get the first result from the search using [0]
-				$results_mid = isset( $results[0]['titleSearchObject'] ) ? $results[0]['titleSearchObject']->imdbid() : null;
-				$mid_premier_resultat = isset( $results_mid ) ? filter_var( $results_mid, FILTER_SANITIZE_NUMBER_INT ) : null;
+				// Get the first result from the search
+				$mid_premier_resultat = isset( $results[0] ) ? $results[0]['imdbid'] : null;
 
 				// No results were found in imdbphp query.
-				if ( $mid_premier_resultat === null ) {
+				if ( ! isset( $mid_premier_resultat ) ) {
 					$this->logger->log()->info( '[Lumiere][Movie] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
 					// no result, so jump to the next query and forget the current
 					continue;
@@ -391,10 +390,9 @@ class Movie {
 		$outputfinal = '';
 
 		// Find the Title based on $mid_premier_resultat.
-		$movie_title_object = new Title(
+		$movie_title_object = $this->plugins_classes_active['imdbphp']->get_title_class(
 			esc_html( $mid_premier_resultat ), // The IMDb ID.
-			$this->plugins_classes_active['imdbphp'], // The settings.
-			$this->logger->log() // The logger.
+			$this->logger->log(),
 		);
 
 		foreach ( $this->imdb_data_values['imdbwidgetorder'] as $data_detail => $order ) {

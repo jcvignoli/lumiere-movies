@@ -1,1 +1,0 @@
-../acceptanceCommon/005-PopupsBootstrapCest.php

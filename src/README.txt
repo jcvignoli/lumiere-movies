@@ -94,7 +94,7 @@ Inside your posts, you can insert as many movies blocks as you want, there is no
 
 = Compatibility and incompatibility =
 
-A list of plugins that are [compatible and incompatible with Lumière](https://github.com/jcvignoli/lumiere-movies/blob/master/COMPATIBILITY.md "Full list of plugins compatible and incompatible with Lumière") is available.
+A list of plugins that are [compatible and incompatible with Lumière](https://github.com/jcvignoli/lumiere-movies/blob/master/src/COMPATIBILITY.md "Full list of plugins compatible and incompatible with Lumière") is available.
 
 = How to integrate Lumière with Polylang plugin?  =
 

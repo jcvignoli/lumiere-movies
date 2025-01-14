@@ -21,7 +21,7 @@
  * error_log(Color::set("Success", "green+bold"), "Something was successful!");
  * @endcode
  */
-namespace Helper;
+namespace Tests\Support\Helper;
 
 class Color
 {

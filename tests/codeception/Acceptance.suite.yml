@@ -1,0 +1,76 @@
+# Codeception Test Suite Configuration -> For a local server
+#
+# Suite for acceptance tests.
+# Perform tests in browser using the WPWebDriver or WPBrowser.
+# If you need both WPWebDriver and WPBrowser tests - create a separate suite.
+
+bootstrap: _bootstrap.local.php # This is the file in acceptanceLocal/_bootstrap.local.php
+actor: AcceptanceTester # This is the file in Support/AcceptanceTester.php
+wait: 5 # smart wait https://codeception.com/docs/AcceptanceTests
+modules:
+    enabled:
+        - Tests\Support\Helper\AcceptanceLocal # This is an extra file in Support/Helper/AcceptanceLocal.php, but everything should be in Support/AcceptanceTester.php
+        - lucatume\WPBrowser\Module\WPWebDriver
+        - lucatume\WPBrowser\Module\WPFilesystem
+        - lucatume\WPBrowser\Module\WPLoader
+    config:
+        lucatume\WPBrowser\Module\WPWebDriver:
+            url: '%TEST_LOCAL_WP_URL%'
+            adminUsername: '%TEST_WP_ADMIN_USERNAME%'
+            adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
+            adminPath: '%TEST_WP_ADMIN_PATH%'
+            host: '%TEST_LOCAL_DB_HOST%'
+            headers:
+                X_TEST_REQUEST: 1
+                X_WPBROWSER_REQUEST: 1
+        lucatume\WPBrowser\Module\WPFilesystem:
+            wpRootFolder: '%WP_ROOT_LOCAL_FOLDER%'
+        # Allows to use WordPress functions. Must load a blank wordpress version.
+        lucatume\WPBrowser\Module\WPLoader:
+            loadOnly: true
+            wpRootFolder: '%WORDPRESS_ROOT_DIR%'
+            dbHost: '%TEST_LOCAL_DB_HOST%'
+            dbName: '%TEST_LOCAL_DB_NAME%'
+            dbUser: '%WP_LOCAL_DATABASE_USERNAME%'
+            dbPassword: '%WP_LOCAL_DATABASE_PASSWORD%'
+            plugins:
+                - lumiere-movies.php
+env:
+   firefox:
+        modules:
+            enabled:
+              config:
+                 lucatume\WPBrowser\Module\WebDriver:
+                     browser: firefox
+                     path: ''
+                     capabilities:
+                       moz:firefoxOptions:
+                            args: ["-headless"] # Run Firefox in headless mode
+   wpfirefox:
+       modules:
+          enabled:
+              config:
+                lucatume\WPBrowser\Module\WPWebDriver:
+                     browser: firefox
+                     path: ''
+                     window_size: 1024x768
+                     capabilities:
+                       acceptInsecureCerts: true
+                       # Used in more recent releases of Selenium.
+                       moz:firefoxOptions:
+                            args: ["-headless"] # Run Firefox in headless mode
+                            prefs:
+                                intl.accept_languages: "fr-FR"
+   wpchrome:
+       modules:
+          enabled:
+              config:
+                 lucatume\WPBrowser\Module\WPWebDriver:
+                     browser: chrome
+                     window_size: false # passed below
+                     port: 4444
+                     capabilities:
+                       goog:chromeOptions:
+                            args: ["-window-size=1024,768", "--headless", "--disable-extensions", "--user-agent=wp-browser", "allow-insecure-localhost",  "--ignore-certificate-errors"]
+step_decorators:
+  - \Codeception\Step\TryTo

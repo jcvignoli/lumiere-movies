@@ -17,8 +17,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Imdb\Title;
-use Imdb\Name;
 use Lumiere\Settings;
 use Lumiere\Plugins\Manual\Imdbphp;
 use Lumiere\Plugins\Manual\Logger;
@@ -286,7 +284,7 @@ class Cache_Tools {
 	 */
 	public function lumiere_create_movie_file( $id ): void {
 
-		$movie = new Title( $id, $this->imdbphp_class, $this->logger->log_null() /* keep it quiet, no logger */ );
+		$movie = $this->imdbphp_class->get_title_class( $id, $this->logger->log_null() /* keep it quiet, no logger */ );
 
 		// create cache for everything.
 		$movie->alsoknow();
@@ -325,7 +323,7 @@ class Cache_Tools {
 	public function lumiere_create_people_cache( $id ): void {
 
 		// Get again the person.
-		$person = new Name( $id, $this->imdbphp_class, $this->logger->log_null() /* keep it quiet, no logger */ );
+		$person = $this->imdbphp_class->get_name_class( $id, $this->logger->log_null() /* keep it quiet, no logger */ );
 
 		// Create cache for everything.
 		$person->bio();
@@ -599,7 +597,7 @@ class Cache_Tools {
 			// Retrieve imdb id in file.
 			if ( preg_match( '!gql\.TitleYear\.\{\.id\.\.\.tt(\d{7,8})\.!i', basename( $file ), $match ) === 1 ) {
 				// Do a query using imdb id.
-				$results[] = new Title( $match[1], $this->imdbphp_class, $this->logger->log_null() /* keep it quiet, no logger */ );
+				$results[] = $this->imdbphp_class->get_title_class( $match[1], $this->logger->log_null() /* keep it quiet, no logger */ );
 			}
 		}
 		return $results;
@@ -625,7 +623,7 @@ class Cache_Tools {
 			// Retrieve imdb id in file.
 			if ( preg_match( '!gql\.Name\.\{\.id\.\.\.nm(\d{7,8})\.!i', basename( $file ), $match ) === 1 ) {
 				// Do a query using imdb id.
-				$results[] = new Name( $match[1], $this->imdbphp_class, $this->logger->log_null() /* keep it quiet, no logger */ );
+				$results[] = $this->imdbphp_class->get_name_class( $match[1], $this->logger->log_null() /* keep it quiet, no logger */ );
 			}
 		}
 		return $results;

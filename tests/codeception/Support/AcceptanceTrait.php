@@ -1,22 +1,40 @@
 <?php
 
-/** Trait for common functions used by both remote and local Acceptance tests
- * 
+declare(strict_types=1);
+
+namespace Tests\Support;
+
+use Tests\Support\Helper\AcceptanceSettings;
+
+/**
+ * Trait for common functions used by both remote and local Acceptance tests
+ * Called in Support/AcceptanceTester.php
+ * Settings are in Helper\AcceptanceSettings
  */
 trait AcceptanceTrait {
 
-	/** Login to Wordpress
-	 *  Save the cookies so no need to log again
+	/** 
+	 * Generate a nonce for an URL
+	 * Needs access to WP functions, so WPLoader must be loaded
 	 */
-	function login_universal(AcceptanceRemoteTester $I) {
+	function CustomGenerateNonce($url) {
+		$url_nonced = wp_nonce_url( $url );
+		return str_replace( '&amp;', '&', $url_nonced );
+	}
+
+	/**
+	 * Login to Wordpress
+	 * Save the cookies so no need to log again
+	 */
+	function login_universal(AcceptanceTester $I) {
 		$I->comment('Start an admin session');
 		if ($I->loadSessionSnapshot('login')) return;
 		$I->loginAsAdmin();
 		$I->saveSessionSnapshot('login');
 	}
 
-	/** Check if a checkbox is disabled, if activated uncheck it and then submit a form
-	 * 
+	/**
+	 * Check if a checkbox is disabled, if activated uncheck it and then submit a form
 	 */
 	function CustomDisableCheckbox($element, $submit){
 		try {

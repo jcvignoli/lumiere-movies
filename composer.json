@@ -8,16 +8,15 @@
         "source": "https://github.com/jcvignoli/lumiere-movies"
     },
     "require-dev": {
-        "codeception/codeception": "@stable",
-        "codeception/module-phpbrowser": "@stable",
+        "lucatume/wp-browser": "@stable",
         "codeception/module-asserts": "@stable",
+        "codeception/module-phpbrowser": "@stable",
+        "codeception/module-webdriver": "@stable",
         "codeception/module-db": "@stable",
-        "codeception/module-cli": "@stable",
         "codeception/module-filesystem": "@stable",
-        "codeception/module-ftp": "@stable",
+        "codeception/module-cli": "@stable",
         "codeception/util-universalframework": "@stable",
         "vlucas/phpdotenv": "@stable",
-        "lucatume/wp-browser": "@stable",
         "wp-cli/wp-cli-bundle": "@stable",
         "phpseclib/phpseclib": "@stable",
         "squizlabs/php_codesniffer": "@stable",
@@ -32,7 +31,6 @@
         "szepeviktor/phpstan-wordpress": "@stable",
         "vimeo/psalm": "@stable",
         "wapmorgan/php-deprecation-detector": "@stable",
-        "codeception/module-webdriver": "*",
         "php-stubs/wp-cli-stubs": "@stable"
     },
     "require": {
