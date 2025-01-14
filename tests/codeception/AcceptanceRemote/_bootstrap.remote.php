@@ -10,11 +10,13 @@
 define( 'DEVELOPMENT_ENVIR', 'remote' );
 
 // WP Post including 1/ an IMDb movie link into the post 2/ A widget IMDb 3/ Inside the post movie
-// An example is available in tests/IMPORT_WP_POST_MAIN.txt
 	
 define( 'ADMIN_POST_ID_TESTS', '/wp-admin/post.php?post=4715&action=edit' ); // Different in local
-
 
 // For auto title widget post
 
 define( 'ADMIN_POST_AUTOTITLEWIDGET_ID', '/wp-admin/post.php?post=4745&action=edit' ); // Different in remote
+
+// For ban bots
+
+define( 'BAN_BOTS_MSG', 'Requête de recherche invalide.' ); // Different in remote, which is in French, and local, which is in English.

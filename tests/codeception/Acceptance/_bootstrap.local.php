@@ -16,3 +16,7 @@ define( 'ADMIN_POST_ID_TESTS', '/wp-admin/post.php?post=4740&action=edit' ); // 
 // For auto title widget post
 
 define( 'ADMIN_POST_AUTOTITLEWIDGET_ID', '/wp-admin/post.php?post=4767&action=edit' ); // Different in remote
+
+// For ban bots
+
+define( 'BAN_BOTS_MSG', 'Invalid search request.' ); // Different in remote, which is in French, and local, which is in English.

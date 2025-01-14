@@ -38,7 +38,7 @@ class BanBotCest {
 		$this->base_url = $_ENV[ $final_var_url ];
 		$this->base_path = $_ENV[$final_var_root_folder];
 		
-		$this->ban_text = '~(Invalid search request.)~';
+		$this->ban_text = '~(' . BAN_BOTS_MSG . ')~'; // Different message for remote and local, one in French the other one in English
 
 	}
 

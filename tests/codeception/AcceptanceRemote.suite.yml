@@ -11,12 +11,11 @@ wait: 5 # smart wait https://codeception.com/docs/AcceptanceTests
 modules:
     enabled:
         - Tests\Support\Helper\AcceptanceRemote # This is an extra file in Support/Helper/AcceptanceLocal.php, but everything should be in Support/AcceptanceTester.php
-#        - WPFilesystem # needs local access,use it with remote machine localy mounted
-        - Filesystem  # needs local access,use it with remote machine localy mounted
+        - lucatume\WPBrowser\Module\WPFilesystem # needs local access,use it with remote machine localy mounted
         - lucatume\WPBrowser\Module\WPWebDriver
         - lucatume\WPBrowser\Module\WPLoader
     config:
-        WPFilesystem:
+        lucatume\WPBrowser\Module\WPFilesystem:
             wpRootFolder: '%WP_ROOT_REMOTE_FOLDER%'
         lucatume\WPBrowser\Module\WPWebDriver:
             url: '%TEST_REMOTE_WP_URL%'
@@ -26,6 +25,7 @@ modules:
             headers:
                 X_TEST_REQUEST: 1
                 X_WPBROWSER_REQUEST: 1
+        # Allows to use WordPress functions. Must load a blank wordpress version.
         lucatume\WPBrowser\Module\WPLoader:
             loadOnly: true
             wpRootFolder: '%WORDPRESS_ROOT_DIR%'
@@ -35,14 +35,6 @@ modules:
             dbPassword: '%WP_LOCAL_DATABASE_PASSWORD%'
             plugins:
                 - lumiere-movies.php
-        WPBrowser:
-            url: '%TEST_REMOTE_WP_URL%'
-            adminUsername: '%TEST_WP_ADMIN_USERNAME%'
-            adminPassword: '%TEST_WP_ADMIN_PASSWORD%'
-            adminPath: '%TEST_WP_ADMIN_PATH%'
-            headers:
-                X_TEST_REQUEST: 1
-                X_WPBROWSER_REQUEST: 1
         FTP:
            type: sftp
            host: '%TEST_REMOTE_FTP_HOST%'
