@@ -3,7 +3,7 @@
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.6 \
-**Tested up to:** 6.7 \
+**Tested up to:** 6.7.1 \
 **Stable tag:** 4.3 \
 **Requires PHP:** 8.0 \
 **License:** GPLv3 \
@@ -125,7 +125,7 @@ Inside your posts, you can insert as many movies blocks as you want, there is no
 
 ### Compatibility and incompatibility
 
-A list of plugins that are [compatible and incompatible with Lumière](https://github.com/jcvignoli/lumiere-movies/blob/master/COMPATIBILITY.md "Full list of plugins compatible and incompatible with Lumière") is available.
+A list of plugins that are [compatible and incompatible with Lumière](https://github.com/jcvignoli/lumiere-movies/blob/master/src/COMPATIBILITY.md "Full list of plugins compatible and incompatible with Lumière") is available.
 
 ### How to integrate Lumière with Polylang plugin?
 

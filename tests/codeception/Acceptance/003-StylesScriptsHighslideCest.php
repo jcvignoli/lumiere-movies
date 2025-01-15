@@ -11,28 +11,6 @@ use Codeception\Scenario;
 
 class StylesScriptsHighslideCest {
 
-	/** Stock the base remote URL
-	 *
-	 */
-	var $base_url = "";
-
-	/** Stock the root remote path
-	 *
-	 */
-	var $base_path = "";
-	
-	public function __construct(){
-
-		// Build vars
-		$remote_or_local = defined( 'DEVELOPMENT_ENVIR' ) ? DEVELOPMENT_ENVIR : '';
-		$final_var_url = 'TEST_' . strtoupper( $remote_or_local ) . '_WP_URL';
-		$final_var_root_folder = 'WP_ROOT_' . strtoupper( $remote_or_local ) . '_FOLDER';
-
-		// Build properties
-		$this->base_url = $_ENV[ $final_var_url ];
-		$this->base_path = $_ENV[$final_var_root_folder];
-	}
-
 	public function _before(AcceptanceTester $I){
 		$I->comment('#Code _before#');
 	}
@@ -57,7 +35,7 @@ class StylesScriptsHighslideCest {
 
 		$I->loginAsAdmin();
 
-		$I->comment("Check if scripts and styles are available on ". $this->base_url);
+		$I->comment("Check if scripts and styles are available on ". $I->getCustomBaseUrl() ); // In acceptance helper
 
 			/** 
 			 * Admin pages

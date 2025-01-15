@@ -13,28 +13,7 @@ class TaxonomyCest {
 	/**
 	 * Theme name
 	 */
-	const theme_name = 'oceanwp';
-
-	/**
-	 * Stock the base remote URL
-	 */
-	var $base_url = "";
-
-	/**
-	 * Stock the root remote path
-	 */
-	var $base_path = "";
-
-	public function __construct(){
-
-		$remote_or_local = defined( 'DEVELOPMENT_ENVIR' ) ? DEVELOPMENT_ENVIR : '';
-		$final_var_url = 'TEST_' . strtoupper( $remote_or_local ) . '_WP_URL';
-		$final_var_root_folder = 'WP_ROOT_' . strtoupper( $remote_or_local ) . '_FOLDER';
-		
-		$this->base_url = $_ENV[$final_var_url];
-		$this->base_path = $_ENV[$final_var_root_folder];
-		
-	}
+	const THEME_NAME = 'oceanwp';
 
 	/**
 	 * Run needed actions BEFORE each function
@@ -119,14 +98,14 @@ class TaxonomyCest {
 	public function checkTaxonomyPeopleTemplateSystem(AcceptanceTester $I, \Codeception\Example $example, \Codeception\Module\Cli $shell) {
 
 		// Make local connexion
-		$shell->runShellCommand( 'touch ' . $this->base_path . '/wp-content/cache/testcodeception.txt' );
+		$shell->runShellCommand( 'touch ' . $I->getCustomBasePath() . '/wp-content/cache/testcodeception.txt' );
 
 		$I->wantTo("Check if Taxonomy template system works");
 
 		$this->maybeEnableTaxonomy($I);
 
 		// Delete Lumière taxonomy template in theme folder if it exists
-		$I->customThemeFileExistsDelete( self::theme_name . '/taxonomy-lumiere-' . $example[0] . '.php');
+		$I->customThemeFileExistsDelete( self::THEME_NAME . '/taxonomy-lumiere-' . $example[0] . '.php');
 
 		// Activate $item in 'what to display'
 		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );

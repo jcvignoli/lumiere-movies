@@ -11,29 +11,6 @@ use Tests\Support\Helper\AcceptanceSettings;
  */
 class IrpCest {
 
-	/**
-	 * Stock the base remote URL
-	 */
-	var $base_url = "";
-
-	/**
-	 * Stock the root remote path
-	 */
-	var $base_path = "";
-
-	public function __construct(){
-
-		// Build vars
-		$remote_or_local = defined( 'DEVELOPMENT_ENVIR' ) ? DEVELOPMENT_ENVIR : '';
-		$final_var_url = 'TEST_' . strtoupper( $remote_or_local ) . '_WP_URL';
-		$final_var_root_folder = 'WP_ROOT_' . strtoupper( $remote_or_local ) . '_FOLDER';
-
-		// Build properties
-		$this->base_url = $_ENV[ $final_var_url ];
-		$this->base_path = $_ENV[$final_var_root_folder];
-	}
-
-
 	public function _before(AcceptanceTester $I){
 		$I->comment('#Code _before#');
 	}
@@ -47,9 +24,7 @@ class IrpCest {
 	 * Trait function to keep the cookie active
 	 */
 	private function login(AcceptanceTester $I) {
-
 		$I->login_universal($I);
-
 	}
 
 	/**
@@ -96,7 +71,7 @@ class IrpCest {
 		$I->CustomDisableCheckbox('#imdb_imdbirpdisplays_yes', '#lumiere_update_general_settings' );
 		
 		// Check if IRP is not seen in posts
-		$I->amOnPage( $this->base_url . AcceptanceSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( $I->getCustomBaseUrl() . AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->dontSeeInPageSource( '<!-- INLINE RELATED POSTS' );
 	}
 }

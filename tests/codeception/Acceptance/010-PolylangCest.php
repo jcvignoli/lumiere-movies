@@ -10,44 +10,17 @@ use Tests\Support\Helper\AcceptanceSettings;
 
 class PolylangCest {
 
-	/* Stock the base remote URL
-	 *
-	 */
-	var $base_url = "";
-
-	/* Stock the root remote path
-	 *
-	 */
-	var $base_path = "";
-
-	public function __construct(){
-
-		// Build vars
-		$remote_or_local = defined( 'DEVELOPMENT_ENVIR' ) ? DEVELOPMENT_ENVIR : '';
-		$final_var_url = 'TEST_' . strtoupper( $remote_or_local ) . '_WP_URL';
-		$final_var_root_folder = 'WP_ROOT_' . strtoupper( $remote_or_local ) . '_FOLDER';
-
-		// Build properties
-		$this->base_url = $_ENV[ $final_var_url ];
-		$this->base_path = $_ENV[$final_var_root_folder];
-
-	}
-
-
-	public function _before(AcceptanceTester $I){
+	public function _before( AcceptanceTester $I ){
 		$I->comment(Helper\Color::set("#Code _before#", "italic+bold+cyan"));
 	}
 
-	public function _after(AcceptanceTester $I){
-
+	public function _after( AcceptanceTester $I ){
 		$I->comment(Helper\Color::set("#Code _after#", "italic+bold+cyan"));
-
 	}
 
 	/**
 	 *  Login to Wordpress
 	 *  Trait function to keep the cookie active
-	 *
 	 */
 	private function login(AcceptanceTester $I) {
 
@@ -58,7 +31,6 @@ class PolylangCest {
 	/**
 	 * Helper: Select Highslide
 	 * Make sure that Highslide modal window is selected
-	 *
 	 */
 	private function highslide(AcceptanceTester $I) {
 
@@ -72,9 +44,8 @@ class PolylangCest {
 	 *
 	 * @before login
 	 * @before highslide
-	 *
 	 */
-	public function checkTaxonomyActivationWorksWithPolylang(AcceptanceTester $I) {
+	public function checkTaxonomyActivationWorksWithPolylang( AcceptanceTester $I ) {
 
 		$I->wantTo(Helper\Color::set('Check if taxonomy works with Polylang', "italic+bold+cyan"));
 
@@ -126,6 +97,19 @@ class PolylangCest {
 		// Reactivate Polylang
 		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('polylang');
+	}
+
+	/** 
+	 * Check if custom Polylang taxonomies are forced and activated
+	 * This is a mandatory requirement to get all taxo to create taxonomy pages
+	 *
+	 * @before login
+	 */
+	public function checkCustomTaxoPolylangForcedActivated( AcceptanceTester $I ) {
+			$I->maybeActivatePlugin('polylang');
+			$I->amOnAdminPage('/admin.php?page=mlang_settings');
+			$I->seeInPageSource('<input name="taxonomies[lumiere-director]" type="checkbox" value="1" checked="checked" disabled="disabled">' );
+			$I->seeInPageSource('<input name="taxonomies[lumiere-genre]" type="checkbox" value="1" checked="checked" disabled="disabled">' );
 	}
 }
 

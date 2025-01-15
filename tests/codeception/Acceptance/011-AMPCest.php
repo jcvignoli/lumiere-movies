@@ -10,44 +10,17 @@ use Tests\Support\Helper\AcceptanceSettings;
 
 class AMPCest {
 
-	/* Stock the base remote URL
-	 *
-	 */
-	var $base_url = "";
-
-	/* Stock the root remote path
-	 *
-	 */
-	var $base_path = "";
-
-	public function __construct(){
-
-		// Build vars
-		$remote_or_local = defined( 'DEVELOPMENT_ENVIR' ) ? DEVELOPMENT_ENVIR : '';
-		$final_var_url = 'TEST_' . strtoupper( $remote_or_local ) . '_WP_URL';
-		$final_var_root_folder = 'WP_ROOT_' . strtoupper( $remote_or_local ) . '_FOLDER';
-
-		// Build properties
-		$this->base_url = $_ENV[ $final_var_url ];
-		$this->base_path = $_ENV[$final_var_root_folder];
-
-	}
-
-
 	public function _before(AcceptanceTester $I){
 		$I->comment(Helper\Color::set("#Code _before#", "italic+bold+cyan"));
 	}
 
 	public function _after(AcceptanceTester $I){
-
 		$I->comment(Helper\Color::set("#Code _after#", "italic+bold+cyan"));
-
 	}
 
 	/**
 	 *  Login to Wordpress
 	 *  Trait function to keep the cookie active
-	 *
 	 */
 	private function login(AcceptanceTester $I) {
 		$I->login_universal($I);
@@ -56,6 +29,7 @@ class AMPCest {
 	/** 
 	 * Helper: Select AMP plugin
 	 * Make sure that AMP plugin is active
+	 *
 	 * @before login
 	 */
 	private function prepareForAmp(AcceptanceTester $I) {
@@ -109,13 +83,13 @@ class AMPCest {
 		$I->comment( 'Check if AMP page differenciation works' );
 
 		// Check if AMP is functional and remove links -- Splitted up, since the nonce can't be detected
-		$I->amOnPage( $this->base_url . AcceptanceSettings::TESTING_PAGE_BASE_URL . '?amp' );
+		$I->amOnPage( $I->getCustomBaseUrl() . AcceptanceSettings::TESTING_PAGE_BASE_URL . '?amp' );
 		$I->seeInPageSource('<a class="lum_link_no_popup" id="link-0227759" data-modal_window_nonce="');
-		$I->seeInPageSource('data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="' . $this->base_url . '/lumiere/person/?mid=0227759&amp;');
+		$I->seeInPageSource('data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=0227759&amp;');
 		$I->seeInPageSource( '&amp;amp">Peter Dinklage</a></div>');
 
 		// Check if without AMP it is functional
-		$I->amOnPage( $this->base_url . AcceptanceSettings::TESTING_PAGE_BASE_URL );
+		$I->amOnPage( $I->getCustomBaseUrl() . AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource( '<a class="lum_link_make_popup lum_link_with_people highslide" id="link-0227759" data-modal_window_nonce="');
 		$I->seeInPageSource( 'data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a></div>' );
 	}

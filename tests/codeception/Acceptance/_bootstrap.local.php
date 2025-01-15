@@ -20,3 +20,4 @@ define( 'ADMIN_POST_AUTOTITLEWIDGET_ID', '/wp-admin/post.php?post=4767&action=ed
 // For ban bots
 
 define( 'BAN_BOTS_MSG', 'Invalid search request.' ); // Different in remote, which is in French, and local, which is in English.
+//define( 'BAN_BOTS_MSG', 'Requête de recherche invalide.' ); // if I need to change it.

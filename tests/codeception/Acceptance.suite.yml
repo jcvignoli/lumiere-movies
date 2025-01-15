@@ -1,18 +1,27 @@
 # Codeception Test Suite Configuration -> For a local server
 #
 # Suite for acceptance tests.
-# Perform tests in browser using the WPWebDriver or WPBrowser.
-# If you need both WPWebDriver and WPBrowser tests - create a separate suite.
+# Perform tests in browser using WPWebDriver
 
-bootstrap: _bootstrap.local.php # This is the file in acceptanceLocal/_bootstrap.local.php
+bootstrap: _bootstrap.local.php # This is the file in Acceptance/_bootstrap.local.php
 actor: AcceptanceTester # This is the file in Support/AcceptanceTester.php
 wait: 5 # smart wait https://codeception.com/docs/AcceptanceTests
 modules:
     enabled:
-        - Tests\Support\Helper\AcceptanceLocal # This is an extra file in Support/Helper/AcceptanceLocal.php, but everything should be in Support/AcceptanceTester.php
+        - Tests\Support\Helper\AcceptanceLocal # This is an extra file in Support/Helper/
         - lucatume\WPBrowser\Module\WPWebDriver
         - lucatume\WPBrowser\Module\WPFilesystem
         - lucatume\WPBrowser\Module\WPLoader
+        - lucatume\WPBrowser\Module\WPDb:
+            dsn: '%TEST_LOCAL_DB_DSN%'
+            user: '%TEST_LOCAL_DB_USER%'
+            password: '%TEST_LOCAL_DB_PASSWORD%'
+            url: '%TEST_LOCAL_WP_URL%'
+            tablePrefix: '%TEST_TABLE_PREFIX%'
+            dump: 'tests/codeception/Support/Data/lumiere_codeception_2025_01_14.sql'
+            populate: false
+            cleanup: false
+            createIfNotExists: false
     config:
         lucatume\WPBrowser\Module\WPWebDriver:
             url: '%TEST_LOCAL_WP_URL%'
@@ -56,7 +65,6 @@ env:
                      window_size: 1024x768
                      capabilities:
                        acceptInsecureCerts: true
-                       # Used in more recent releases of Selenium.
                        moz:firefoxOptions:
                             args: ["-headless"] # Run Firefox in headless mode
                             prefs:
@@ -71,6 +79,10 @@ env:
                      port: 4444
                      capabilities:
                        goog:chromeOptions:
-                            args: ["-window-size=1024,768", "--headless", "--disable-extensions", "--user-agent=wp-browser", "allow-insecure-localhost",  "--ignore-certificate-errors"]
+                            # "--window-position=-2400,-2400" prevents a temporary chrome bug when removing headless
+                            args: ["-window-size=1024,768", "--headless", "--window-position=-2400,-2400", "--disable-extensions", "--user-agent=wp-browser", "allow-insecure-localhost",  "--ignore-certificate-errors"]
+# Add Codeception\Step\Retry trait to AcceptanceTester to enable retries
 step_decorators:
-  - \Codeception\Step\TryTo
+    - Codeception\Step\ConditionalAssertion
+    - Codeception\Step\TryTo
+    - Codeception\Step\Retry

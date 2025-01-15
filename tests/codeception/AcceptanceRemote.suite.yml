@@ -10,7 +10,7 @@ actor: AcceptanceTester # This is the file in Support/AcceptanceTester.php
 wait: 5 # smart wait https://codeception.com/docs/AcceptanceTests
 modules:
     enabled:
-        - Tests\Support\Helper\AcceptanceRemote # This is an extra file in Support/Helper/AcceptanceLocal.php, but everything should be in Support/AcceptanceTester.php
+        - Tests\Support\Helper\AcceptanceRemote # This is an extra file in Support/Helper/
         - lucatume\WPBrowser\Module\WPFilesystem # needs local access,use it with remote machine localy mounted
         - lucatume\WPBrowser\Module\WPWebDriver
         - lucatume\WPBrowser\Module\WPLoader
@@ -56,7 +56,6 @@ env:
                      window_size: 1024x768
                      capabilities:
                        acceptInsecureCerts: true
-                       # Used in more recent releases of Selenium.
                        moz:firefoxOptions:
                             args: ["-headless"] # Run Firefox in headless mode
                             prefs:
@@ -72,6 +71,10 @@ env:
                      port: 4444
                      capabilities:
                        goog:chromeOptions:
-                            args: ["-window-size=1600,900", "--headless", "--disable-extensions", "--user-agent=wp-browser" ]
+                            # "--window-position=-2400,-2400" prevents a temporary chrome bug when removing headless
+                            args: ["-window-size=1600,900", "--headless", "--window-position=-2400,-2400", "--disable-extensions", "--user-agent=wp-browser" ]
+# Add Codeception\Step\Retry trait to AcceptanceTester to enable retries
 step_decorators:
-  - \Codeception\Step\TryTo
+    - Codeception\Step\ConditionalAssertion
+    - Codeception\Step\TryTo
+    - Codeception\Step\Retry

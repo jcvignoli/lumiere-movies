@@ -13,35 +13,9 @@ use \PHPUnit\Framework\Assert;
 class BanBotCest {
 
 	/**
-	 * Stock the base remote URL
-	 */
-	var $base_url = "";
-
-	/**
-	 * Stock the root remote path
-	 */
-	var $base_path = "";
-
-	/**
 	 * Text displayed on a banned page
 	 */
-	var $ban_text = "";
-
-	public function __construct(){
-
-		// Build vars
-		$remote_or_local = defined( 'DEVELOPMENT_ENVIR' ) ? DEVELOPMENT_ENVIR : '';
-		$final_var_url = 'TEST_' . strtoupper( $remote_or_local ) . '_WP_URL';
-		$final_var_root_folder = 'WP_ROOT_' . strtoupper( $remote_or_local ) . '_FOLDER';
-
-		// Build properties
-		$this->base_url = $_ENV[ $final_var_url ];
-		$this->base_path = $_ENV[$final_var_root_folder];
-		
-		$this->ban_text = '~(' . BAN_BOTS_MSG . ')~'; // Different message for remote and local, one in French the other one in English
-
-	}
-
+	private const BAN_TEXT = '~(' . BAN_BOTS_MSG . ')~'; // Different message for remote and local, one in French the other one in English
 
 	public function _before(AcceptanceTester $I){
 		$I->comment(Helper\Color::set("#Code _before#", "italic+bold+cyan"));
@@ -49,7 +23,6 @@ class BanBotCest {
 
 	public function _after(AcceptanceTester $I){
 		$I->comment(Helper\Color::set("#Code _after#", "italic+bold+cyan"));
-
 	}
 
 	/**
@@ -70,7 +43,7 @@ class BanBotCest {
 	 */
 	private function curlSpecialHeader( $url, $user_agent, $referer = null ): string {
 		/* tests WP login 
-		$this->base_url . '/wp-login.php?
+		$I->getCustomBaseUrl() . '/wp-login.php?
 		$username = $_ENV[ 'TEST_WP_ADMIN_USERNAME' ];
 		$password = $_ENV[ 'TEST_WP_ADMIN_PASSWORD' ];
     		$post_data = 'log='. $username .'&pwd='. $password .'&wp-submit=Log%20In&redirect_to='. $url .'/&testcookie=1';
@@ -79,7 +52,7 @@ class BanBotCest {
     
 		//visit the wp-login.php and set the cookie.
 		$login = curl_init();
-		curl_setopt ($login, CURLOPT_REFERER, $this->base_url . '/wp-admin/');
+		curl_setopt ($login, CURLOPT_REFERER, $I->getCustomBaseUrl() . '/wp-admin/');
 		curl_setopt($login, CURLOPT_URL, $login_url );
 		curl_setopt($login, CURLOPT_POSTFIELDS,  );
 		curl_setopt ($login, CURLOPT_COOKIEJAR, $cookie); 
@@ -121,13 +94,14 @@ class BanBotCest {
 	 */
 	public function userAgentShouldBan(AcceptanceTester $I, \Codeception\Example $example) {
 
-		$result = $this->curlSpecialHeader( $this->base_url . $example[0], 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
-
+		$base_url = $I->getCustomBaseUrl();
+		$result = $this->curlSpecialHeader( $base_url . $example[0], 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
+$I->comment($result);
 		// Activate debug
 		// codecept_debug($result);
 	
-		if ( preg_match( $this->ban_text, $result ) > 0 ) {
-			$I->comment ( '-> The page correctly banned access to ' . $this->base_url . $example[0] );
+		if ( preg_match( self::BAN_TEXT, $result ) > 0 ) {
+			$I->comment ( '-> The page correctly banned access to ' . $I->getCustomBaseUrl() . $example[0] );
 		} else {
 			Assert::fail('!! Not banned, error!');
 		}
@@ -145,10 +119,10 @@ class BanBotCest {
 	 */
 	public function postsShouldNotBanBots(AcceptanceTester $I, \Codeception\Example $example) {
 
-		$result = $this->curlSpecialHeader( $this->base_url . $example[0], 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
+		$result = $this->curlSpecialHeader( $I->getCustomBaseUrl() . $example[0], 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
 
-		if ( preg_match( $this->ban_text, $result ) === 0 ) {
-			$I->comment ( '-> The page correctly did not ban access to ' . $this->base_url . $example[0] );
+		if ( preg_match( self::BAN_TEXT, $result ) === 0 ) {
+			$I->comment ( '-> The page correctly did not ban access to ' . $I->getCustomBaseUrl() . $example[0] );
 		} else {
 			Assert::fail('!! Banned although logged in, error!');
 		}
@@ -169,10 +143,10 @@ class BanBotCest {
 	 */
 	private function popupsShouldNotBanLoggedin(AcceptanceTester $I, \Codeception\Example $example) {
 
-		$result = $this->curlSpecialHeader( $this->base_url . $example[0], 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
+		$result = $this->curlSpecialHeader( $I->getCustomBaseUrl() . $example[0], 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
 
-		if ( preg_match( $this->ban_text, $result ) === 0 ) {
-			$I->comment ( '-> The popups and taxo page correctly did not ban access to ' . $this->base_url . $example[0] );
+		if ( preg_match( self::BAN_TEXT, $result ) === 0 ) {
+			$I->comment ( '-> The popups and taxo page correctly did not ban access to ' . $I->getCustomBaseUrl() . $example[0] );
 		} else {
 			Assert::fail('!! Banned although logged in, error!');
 		}
@@ -188,12 +162,12 @@ class BanBotCest {
 	 */
 	public function userAgentShouldNotBan(AcceptanceTester $I, \Codeception\Example $example) {
 
-		$result = $this->curlSpecialHeader( $this->base_url . $example[0], 'random not banned user agent' );
+		$result = $this->curlSpecialHeader( $I->getCustomBaseUrl() . $example[0], 'random not banned user agent' );
 
 		//codecept_debug($result);
 
-		if ( preg_match( $this->ban_text, $result ) === 0 ) {
-			$I->comment ( '-> The pages and taxo correctly did not ban access to ' . $this->base_url . $example[0] );
+		if ( preg_match( self::BAN_TEXT, $result ) === 0 ) {
+			$I->comment ( '-> The pages and taxo correctly did not ban access to ' . $I->getCustomBaseUrl() . $example[0] );
 		} else {
 			Assert::fail('!! Banned although logged in, error!');
 		}
@@ -208,12 +182,12 @@ class BanBotCest {
 	 */
 	public function popupsWithRefererShouldNotBan(AcceptanceTester $I, \Codeception\Example $example) {
 
-		$url_nonce_valid = $I->CustomGenerateNonce( $this->base_url . $example[0] );
+		$url_nonce_valid = $I->CustomGenerateNonce( $I->getCustomBaseUrl() . $example[0] );
 
 		$result = $this->curlSpecialHeader( $url_nonce_valid, 'random not banned user agent', 'http://localhost' );
 
-		if ( preg_match( $this->ban_text, $result ) === 0 ) {
-			$I->comment ( '-> The popups correctly did not ban access to ' . $this->base_url . $example[0] );
+		if ( preg_match( self::BAN_TEXT, $result ) === 0 ) {
+			$I->comment ( '-> The popups correctly did not ban access to ' . $I->getCustomBaseUrl() . $example[0] );
 		} else {
 			Assert::fail('!! Banned although referer, error!');
 		}
@@ -228,12 +202,12 @@ class BanBotCest {
 	 */
 	public function popupsWithoutRefererShouldBan(AcceptanceTester $I, \Codeception\Example $example) {
 
-		$result = $this->curlSpecialHeader( $this->base_url . $example[0], 'random not banned user agent', null );
+		$result = $this->curlSpecialHeader( $I->getCustomBaseUrl() . $example[0], 'random not banned user agent', null );
 
 		//codecept_debug($result);
 
-		if ( preg_match( $this->ban_text, $result ) > 0 ) {
-			$I->comment ( '-> The page correctly ban access to ' . $this->base_url . $example[0] );
+		if ( preg_match( self::BAN_TEXT, $result ) > 0 ) {
+			$I->comment ( '-> The page correctly ban access to ' . $I->getCustomBaseUrl() . $example[0] );
 		} else {
 			Assert::fail('!! Not banned although without referer, error!');
 		}
