@@ -36,7 +36,7 @@ $lumiere_details_with_numbers = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
 		foreach ( $lumiere_items_people as $lumiere_item => $lumiere_item_translated ) {
 
 			// Do not display in the selection neither title nor pic
-			if ( $lumiere_item_translated === 'title' || $lumiere_item_translated === 'pic' ) {
+			if ( $lumiere_item === 'title' || $lumiere_item === 'pic' ) {
 				continue;
 			}
 
