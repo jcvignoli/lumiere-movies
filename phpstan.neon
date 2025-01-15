@@ -5,8 +5,8 @@ includes:
 parameters:
     level: 8 # set 'max' or '9' to check mixed values
     scanDirectories:
-#        - vendor/skaut/wordpress-stubs/stubs/ # => waiting for the PRs to be accepted on Github
-        - vendor/php-stubs/wordpress-stubs/ #less quality, should come after skaut when skaut is better defined
+ #       - vendor/skaut/wordpress-stubs/stubs/ # => waiting for the PRs to be accepted on Github
+        - vendor/php-stubs/wordpress-stubs/ #less quality, should come after skaut as skaut has better definitions
         - src/vendor/duck7000/imdb-graphql-php/src/Imdb/
     tmpDir: tmp/cache/phpstan
     paths:

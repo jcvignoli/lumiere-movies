@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Support;
+namespace Tests\Support\Helper;
 
-use Tests\Support\Helper\AcceptanceSettings;
+use Tests\Support\AcceptanceTester;
 
 /**
  * Trait for common functions used by both remote and local Acceptance tests
  * Called in Support/AcceptanceTester.php
- * Settings are in Helper\AcceptanceSettings
  */
 trait AcceptanceTrait {
 

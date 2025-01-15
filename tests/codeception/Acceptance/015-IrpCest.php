@@ -64,14 +64,14 @@ class IrpCest {
 		// Enable Always Display IRP in posts Lumière
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#otherpluginspart');
-		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
+		/*	Conditional checkbox unactivation (in Support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is activated, uncheck it and then click $submit (form) */
 		$I->CustomActivateCheckbox('input[id="imdb_imdbirpdisplays_yes"]', '#lumiere_update_general_settings' );
 
 		// Enable Always Display IRP in posts
 		$I->amOnPage( 'wp-admin/options-general.php?page=intelly-related-posts' );
-		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
+		/*	Conditional checkbox unactivation (in Support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is activated, uncheck it and then click $submit (form) */
 
@@ -90,7 +90,7 @@ class IrpCest {
 		// Disable Always Display IRP in posts Lumière
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#otherpluginspart');
-		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
+		/*	Conditional checkbox unactivation (in Support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is activated, uncheck it and then click $submit (form) */
 		$I->CustomDisableCheckbox('#imdb_imdbirpdisplays_yes', '#lumiere_update_general_settings' );

@@ -50,7 +50,6 @@
         "phpcsbot": "vendor/bin/phpcs --warning-severity=0 --extensions=php src",
         "phpstanbot": "vendor/bin/phpstan",
         "phanbot": "vendor/bin/phan -k phan.php ",
-        "test-local": "./vendor/bin/codecept run -vvv acceptanceLocal --env wpchrome",
         "code-analyser": ["@phpcsbot", "@phpstanbot"],
         "post-autoload-dump": [
             "./build/update-src-composer"

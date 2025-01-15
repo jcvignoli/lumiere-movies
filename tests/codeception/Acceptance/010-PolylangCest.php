@@ -99,12 +99,14 @@ class PolylangCest {
 
 		// Check if polylang options are available
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
+		$I->scrollTo( 'span[id=title_Werewolf]' );
+		$I->wait(1);
 		$I->click( "Tony Zarindast");
-		$I->scrollTo('.imdbelementPIC');
+
 		$I->seeInPageSource('<form method="get" id="lang_form" name="lang_form" action="#lang_form">');
-		$I->seeInPageSource('Español');
-		$I->seeInPageSource('English');
-		$I->seeInPageSource('Français');
+		$I->seeInPageSource('<option value="es">Español</option>');
+		$I->seeInPageSource('<option value="en">English</option>');
+		$I->seeInPageSource('<option value="fr">Français</option>');
 
 		// Deactivate Polylang plugin 
 		$I->amOnPluginsPage();
@@ -112,11 +114,14 @@ class PolylangCest {
 
 		// Check if polylang options are available
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
+		$I->scrollTo( 'span[id=title_Werewolf]' );
+		$I->wait(1);
 		$I->click( "Tony Zarindast");
-		$I->scrollTo('.imdbelementPIC');
+
 		$I->dontSeeInPageSource('<form method="get" id="lang_form" name="lang_form" action="#lang_form">');
-		$I->dontSeeInPageSource('Español');
-		$I->dontSeeInPageSource('Français');
+		$I->dontSeeInPageSource('<option value="es">Español</option>');
+		$I->dontSeeInPageSource('<option value="fr">Français</option>');
+		$I->dontSeeInPageSource('<option value="en">English</option>');
 
 		// Reactivate Polylang
 		$I->amOnPluginsPage();

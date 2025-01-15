@@ -104,7 +104,8 @@ class UninstallCest {
 		
 		// Save plugin directory
 		$I->comment( Helper\Color::set( "**See if Lumière directory exists and copy**", "italic+bold+cyan" ) );
-		$I->customSeeFile( $dir_plugin_lumiere . '/lumiere-movies.php' );
+		$I->amOnPluginsPage();
+		$I->seePluginInstalled('lumiere-movies');
 		$I->comment( Helper\Color::set('Saving plugin directory...', 'yellow+blink') );
 		
 		// Copy with removing the symbolic link property from the origin, making a regular directory
@@ -133,22 +134,24 @@ class UninstallCest {
 		$I->click( "Blog ext (codeception)" );
 		$I->wait(1);
 		$I->reloadPage();
-		$I->wait(10);
-		$I->customDontSeeFile( $dir_plugin_lumiere . '/lumiere-movies.php' );
+
+		$I->amOnPluginsPage();
+		$I->dontSeePluginInstalled('lumiere-movies');
 		
 		// Restore the symbolic link
 		$I->comment( 'Move back the symbolic link' );		
 		$shell->runShellCommand('mv ' . $wpcontent . '/lumiere-save ' . $dir_plugin_lumiere );
 
-		$I->customSeeFile( $dir_plugin_lumiere . '/lumiere-movies.php' ); // both seeFile of customSeeFile, don't work...
+		$I->amOnPluginsPage();
+		$I->seePluginInstalled('lumiere-movies');
 		$I->comment( Helper\Color::set('Deleting temporary plugin directory...', 'yellow') );
 		
-		$shell->runShellCommand( ' rm -R ' . $wpcontent . '/lumiere-movies' );
+		$shell->runShellCommand( 'rm -R ' . $wpcontent . '/lumiere-movies' );
 		
-		$I->seeFileFound( $dir_plugin_lumiere . '/lumiere-movies.php' ); // both seeFile of customSeeFile, don't work... 
-
-		// Activate Lumière
-		$this->activate_plugin( $I );
+		# Using WPBrowser methods, not the custom anymore
+		$I->amOnPluginsPage();
+		$I->seePluginInstalled('lumiere-movies');
+		$I->activatePlugin('lumiere-movies');
 	}
 	
 	/**

@@ -280,7 +280,7 @@ class Admin_Menu {
 			[
 				'id' => $id,
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "lumiere-ico13x13.png' width='16' height='16' />&nbsp;&nbsp;" . 'Lumière',
-				'parent' => null,
+				'parent' => false,
 				'href' => $this->page_general_base,
 				'meta' => [
 					'title' => esc_html__( 'Lumière Menu', 'lumiere-movies' ),
