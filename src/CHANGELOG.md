@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.3.1
+
 v.4.3
 * [feature] Items and people fields (the option names) are now translated in Lumière admin data order
 * [feature] Editing "URL for the taxonomy pages" will update the taxonomy. No more taxonomy left behind when removing Lumière. (classes Taxonomy and Save_Options include new methods)
