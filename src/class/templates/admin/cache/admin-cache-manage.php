@@ -97,8 +97,6 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 		<div>
 			<?php esc_html_e( 'If you want to reset the entire cache (this includes queries, names, and pictures) click on the button below.', 'lumiere-movies' ); ?>
-			<br>
-			<?php esc_html_e( 'Beware, there is no undo.', 'lumiere-movies' ); ?>
 		</div>
 		
 		<div class="submit" align="center">
@@ -108,7 +106,17 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 			<br>
 			<br>
 			<?php
-			echo esc_html__( 'This button will', 'lumiere-movies' ) . '<strong> ' . esc_html__( 'delete all files', 'lumiere-movies' ) . '</strong> ' . esc_html__( 'stored in the following folder:', 'lumiere-movies' );
+			echo wp_kses(
+				sprintf(
+					/* translators: %1s and %2s are html tags */
+					__( 'This button will %1$1sdelete%2$2s all files stored in the following folder:', 'lumiere-movies' ),
+					'<strong>',
+					'</strong>'
+				),
+				[
+					'strong' => [],
+				]
+			);
 			echo '<br>';
 			echo esc_html( $lum_imdb_cache_values['imdbcachedir'] );
 			?>

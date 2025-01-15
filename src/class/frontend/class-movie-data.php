@@ -461,7 +461,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Coloration', 'Coloration', $nbtotalcolors, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcolors ) );
+		$output .= sprintf( esc_html( _n( 'Colorisation', 'Colorisations', $nbtotalcolors, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcolors ) );
 		$output .= ':</span>';
 
 		// Taxonomy activated.
@@ -950,7 +950,9 @@ class Movie_Data extends Movie {
 					// @phan-suppress-next-line PhanTypeInvalidDimOffset */
 					if ( $writer[ $i ]['episode'] !== null && count( $writer[ $i ]['episode'] ) > 0 ) {
 						$total = $writer[ $i ]['episode']['total'] > 0 ? esc_html( $writer[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $writer[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
+						/* translators: "From" like in "from 2025" */
 						$year_from_or_in = isset( $writer[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
+						/* translators: "To" like in "to 2025" */
 						$year_to_or_in = isset( $writer[ $i ]['episode']['year'] ) ? __( 'to', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
 						$year = isset( $writer[ $i ]['episode']['year'] ) ? ' ' . esc_html( $year_from_or_in ) . ' ' . esc_html( $writer[ $i ]['episode']['year'] ) : '';
 						$end_year = isset( $writer[ $i ]['episode']['endYear'] ) ? ' ' . esc_html( $year_to_or_in ) . ' ' . esc_html( $writer[ $i ]['episode']['endYear'] ) : '';
@@ -1002,8 +1004,10 @@ class Movie_Data extends Movie {
 			// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypeMismatchArgumentInternal */
 			if ( count( $writer[ $i ]['episode'] ) > 0 ) {
 				$total = isset( $writer[ $i ]['episode']['total'] ) ? esc_html( $writer[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $writer[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
+				/* translators: "In" like in "in 2025" */
 				$year_from_or_in = isset( $writer[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
 				$year = isset( $writer[ $i ]['episode']['year'] ) ? ' ' . esc_html( $year_from_or_in ) . ' ' . esc_html( $writer[ $i ]['episode']['year'] ) : '';
+				/* translators: "To" like in "to 2025" */
 				$end_year = isset( $writer[ $i ]['episode']['endYear'] ) ? ' ' . esc_html__( 'to', 'lumiere-movies' ) . ' ' . esc_html( $writer[ $i ]['episode']['endYear'] ) : '';
 				$output .= ' (<i>' . $total . $year . $end_year . '</i>)';
 			}
