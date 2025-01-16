@@ -2,6 +2,7 @@
 
 v.4.3.1
 * [bug] When displaying the data in a blog in another language than English, field options for title and pics were displayed while they should appear (fix in template admin-data-display, replaced check of $lumiere_item_translated by $lumiere_item)
+* [bug] Better options to translate in admin manage cache
 
 v.4.3
 * [feature] Items and people fields (the option names) are now translated in Lumière admin data order

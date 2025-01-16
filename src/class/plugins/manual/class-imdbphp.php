@@ -102,12 +102,19 @@ class Imdbphp extends Imdbphp_Config {
 	 * @param \Monolog\Logger $logger
 	 * @param string $type_search The type of search, such as movie, tv show, etc.
 	 * @return array<array-key, mixed>
-	 * @phpstan-return TITLESEARCH_RETURNSEARCH
+	 * @phpstan-return TITLESEARCH_RETURNSEARCH|array{}
 	 */
 	public function search_movie_title( string $title, \Monolog\Logger $logger, string $type_search ): array {
-		$search = new TitleSearch( $this, $logger );
-		$return = $search->search( esc_html( $title ), $type_search );
-		/** @psalm-var TITLESEARCH_RETURNSEARCH $return */
+		/**
+		 * The try catch allow to deal with {@link GraphQL::doRequest()}, line 104, that throws an error if no movie was found, which stops the code.
+		 */
+		try {
+			$search = new TitleSearch( $this, $logger );
+			$return = $search->search( esc_html( $title ), $type_search );
+		} catch ( \Exception $e ) {
+			$return = [];
+		}
+		/** @psalm-var TITLESEARCH_RETURNSEARCH|array{} $return */
 		return $return;
 	}
 
@@ -116,11 +123,18 @@ class Imdbphp extends Imdbphp_Config {
 	 *
 	 * @param string $name Person's name
 	 * @param \Monolog\Logger $logger
-	 * @return array<array-key, mixed>
+	 * @return array<array-key, mixed>|array{}
 	 */
 	public function search_person_name( string $name, \Monolog\Logger $logger ): array {
-		$search = new NameSearch( $this, $logger );
-		$return = $search->search( $name );
+		/**
+		 * The try catch allow to deal with {@link GraphQL::doRequest()}, line 104, that throws an error if no movie was found, which stops the code.
+		 */
+		try {
+			$search = new NameSearch( $this, $logger );
+			$return = $search->search( $name );
+		} catch ( \Exception $e ) {
+			$return = [];
+		}
 		return $return;
 	}
 
