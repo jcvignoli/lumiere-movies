@@ -74,7 +74,7 @@ class Cache extends Admin_Menu {
 		) {
 
 			// Cache options menu.
-			$size = $this->lumiere_format_bytes( $cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ) );
+			$size = $this->lumiere_format_bytes( $cache_tools_class->cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ) );
 			$this->include_with_vars(
 				'cache/admin-cache-options',
 				[ $size ], /** Add an array with vars to send in the template */
@@ -90,14 +90,14 @@ class Cache extends Admin_Menu {
 			$this->include_with_vars(
 				'cache/admin-cache-manage',
 				[
-					$cache_tools_class->lumiere_cache_countfolderfiles( $this->imdb_cache_values['imdbcachedir'] ), // nb of cached files
-					$cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ), // cache total size
-					$cache_tools_class->lumiere_get_movie_cache_object(), // list of movies cached
-					$cache_tools_class->lumiere_get_people_cache_object(), // list of people cached
-					$cache_tools_class->lumiere_cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] ), // picture cache size
+					$cache_tools_class->cache_countfolderfiles( $this->imdb_cache_values['imdbcachedir'] ), // nb of cached files
+					$cache_tools_class->cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ), // cache total size
+					$cache_tools_class->get_movie_cache_object(), // list of movies cached
+					$cache_tools_class->get_people_cache_object(), // list of people cached
+					$cache_tools_class->cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] ), // picture cache size
 					$this,
 					$this->page_cache_manage,
-					$cache_tools_class->lumiere_get_cache_query_info( $this->imdb_cache_values['imdbcachedir'] ), // array of query files info
+					$cache_tools_class->get_cache_query_info( $this->imdb_cache_values['imdbcachedir'] ), // array of query files info
 				], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);

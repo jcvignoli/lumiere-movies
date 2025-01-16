@@ -23,7 +23,7 @@ use Lumiere\Tools\Settings_Global;
 use Exception;
 
 /**
- * Saving or reseting options when a form is submitted
+ * Saving or resetting options when an admin form is submitted
  *
  * @since 4.0 Created by extracting all the methods from the main admin menu and its subclasses and factorized them here, added check nonces for refresh/delete individual movies, added transiants to trigger notices in {@see \Lumiere\Admin\Admin_Menu::lumiere_admin_display_messages() } and crons in {@see \Lumiere\Admin\Cron::lumiere_add_remove_crons_cache() }
  *
@@ -59,6 +59,8 @@ class Save_Options {
 
 		// Get options from database.
 		$this->get_db_options(); // In Settings_Global trait.
+
+		add_action( 'admin_init', [ $this, 'process_headers' ] );
 	}
 
 	/**
@@ -69,10 +71,7 @@ class Save_Options {
 	 * @see self::lumiere_data_options_save() use $this->page_data_taxo
 	 */
 	public static function lumiere_static_start( ?string $page_data_taxo = null ): void {
-
 		$class_save = new self( $page_data_taxo );
-
-		add_action( 'admin_init', [ $class_save, 'process_headers' ] );
 	}
 
 	/**
@@ -105,7 +104,7 @@ class Save_Options {
 							'update_old_taxo'
 						);
 						/*if ( isset( $get_referer ) && $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
-							echo 'test';
+							exit;
 						}*/
 					},
 					12
@@ -245,7 +244,7 @@ class Save_Options {
 	// @phpstan-ignore-next-line method.templateTypeNotInParameter
 	private function lumiere_general_options_save( string|bool $get_referer, ?string $imdburlstringtaxo, ?string $imdburlpopups ): void {
 
-		// Check if $_POST['imdb_imdburlstringtaxo'] and $_POST['imdb_imdburlpopups'] are identical, because they can't be, so echo 'test' if they are.
+		// Check if $_POST['imdb_imdburlstringtaxo'] and $_POST['imdb_imdburlpopups'] are identical, because they can't be, so exit if they are.
 		if (
 			isset( $imdburlstringtaxo )
 			&& isset( $imdburlpopups )
@@ -323,7 +322,7 @@ class Save_Options {
 
 		set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
 		if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
-			echo 'test';
+			exit( 0 );
 		}
 	}
 
@@ -339,7 +338,7 @@ class Save_Options {
 
 		set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			echo 'test';
+			exit( 0 );
 		}
 	}
 
@@ -398,7 +397,7 @@ class Save_Options {
 		}
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
-			echo 'test';
+			exit( 0 );
 		}
 	}
 
@@ -413,7 +412,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
-			echo 'test';
+			exit( 0 );
 		}
 	}
 
@@ -435,7 +434,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_all_msg', 30 );
-			echo 'test';
+			exit( 0 );
 		}
 	}
 
@@ -448,7 +447,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_query_deleted', 30 );
-			echo 'test';
+			exit( 0 );
 		}
 	}
 
@@ -475,7 +474,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_ticked_msg', 30 );
-			echo 'test';
+			exit( 0 );
 		}
 	}
 
@@ -492,7 +491,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_individual_msg', 30 );
-			echo 'test';
+			exit( 0 );
 		}
 	}
 
@@ -509,7 +508,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_refresh_individual_msg', 30 );
-			echo 'test';
+			exit( 0 );
 		}
 	}
 
@@ -596,7 +595,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
-			echo 'test';
+			exit( 0 );
 		}
 
 	}
@@ -612,7 +611,7 @@ class Save_Options {
 
 		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
-			echo 'test';
+			exit( 0 );
 		}
 	}
 }

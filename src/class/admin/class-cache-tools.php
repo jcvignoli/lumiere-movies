@@ -159,11 +159,11 @@ class Cache_Tools {
 		$refresh_ids = [];
 
 		// Get movies ids.
-		foreach ( $this->lumiere_get_movie_cache_object() as $movie_title_object ) {
+		foreach ( $this->get_movie_cache_object() as $movie_title_object ) {
 			$refresh_ids['movies'][] = $movie_title_object->imdbid();
 		}
 		// Get people ids.
-		foreach ( $this->lumiere_get_people_cache_object() as $people_person_object ) {
+		foreach ( $this->get_people_cache_object() as $people_person_object ) {
 			$refresh_ids['people'][] = $people_person_object->imdbid();
 		}
 
@@ -282,7 +282,7 @@ class Cache_Tools {
 	 * Create Movie files
 	 * @param string $id The movie's ID
 	 */
-	public function lumiere_create_movie_file( $id ): void {
+	public function lumiere_create_movie_file( string $id ): void {
 
 		$movie = $this->imdbphp_class->get_title_class( $id, $this->logger->log_null() /* keep it quiet, no logger */ );
 
@@ -320,7 +320,7 @@ class Cache_Tools {
 	 * Create People files
 	 * @param string $id The People's ID
 	 */
-	public function lumiere_create_people_cache( $id ): void {
+	public function lumiere_create_people_cache( string $id ): void {
 
 		// Get again the person.
 		$person = $this->imdbphp_class->get_name_class( $id, $this->logger->log_null() /* keep it quiet, no logger */ );
@@ -437,7 +437,7 @@ class Cache_Tools {
 	 *
 	 * @return array<int, mixed>|array<string> Sorted by size list of all files found in Lumière cache folder
 	 */
-	public function lumiere_get_cache_list_bysize(): array {
+	private function get_cache_list_bysize(): array {
 		$folder_iterator = new RecursiveIteratorIterator(
 			new RecursiveDirectoryIterator( $this->imdb_cache_values['imdbcachedir'], RecursiveDirectoryIterator::SKIP_DOTS )
 		);
@@ -460,9 +460,9 @@ class Cache_Tools {
 	 *
 	 * @return array<int, string> Number of query files, cache query filesize
 	 */
-	public function lumiere_get_cache_query_info( string $folder ): array {
+	public function get_cache_query_info( string $folder ): array {
 
-		$cache_query_folder = glob( $this->imdb_cache_values['imdbcachedir'] . 'gql.Search.*' );
+		$cache_query_folder = glob( $folder . 'gql.Search.*' );
 
 		// Found no file, exit.
 		if ( $cache_query_folder === false || count( $cache_query_folder ) === 0 ) {
@@ -487,7 +487,7 @@ class Cache_Tools {
 	 * @param null|string $folder Folder path, internally changed into cachedir if null
 	 * @return int Total size of all files found in given folder
 	 */
-	public function lumiere_cache_getfoldersize( ?string $folder = null ): int {
+	public function cache_getfoldersize( ?string $folder = null ): int {
 
 		global $wp_filesystem;
 		$final_folder = $folder ?? $this->imdb_cache_values['imdbcachedir'];
@@ -521,7 +521,7 @@ class Cache_Tools {
 	 * @param null|string $folder Folder path, internally changed into cachedir if null
 	 * @return int Number of files found in given folder
 	 */
-	public function lumiere_cache_countfolderfiles( ?string $folder = null ): int {
+	public function cache_countfolderfiles( ?string $folder = null ): int {
 
 		global $wp_filesystem;
 		$final_folder = $folder ?? $this->imdb_cache_values['imdbcachedir'];
@@ -545,7 +545,7 @@ class Cache_Tools {
 		$size_limit_in_bits = $size_limit * 1000000; // convert in bits
 		$current_size = 0;
 		$list_files_over_size_limit = [];
-		foreach ( $this->lumiere_get_cache_list_bysize() as $array ) {
+		foreach ( $this->get_cache_list_bysize() as $array ) {
 			$current_size += $array[1];
 			if ( $current_size >= $size_limit_in_bits ) {
 				$list_files_over_size_limit[] = $array[2];
@@ -583,7 +583,7 @@ class Cache_Tools {
 	 *
 	 * @return array<int, \Imdb\Title>
 	 */
-	public function lumiere_get_movie_cache_object(): array {
+	public function get_movie_cache_object(): array {
 
 		// Find related files
 		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . 'gql.TitleYear.{.id...tt*' );
@@ -609,7 +609,7 @@ class Cache_Tools {
 	 *
 	 * @return array<int, \Imdb\Name>
 	 */
-	public function lumiere_get_people_cache_object(): array {
+	public function get_people_cache_object(): array {
 
 		// Find related files
 		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . 'gql.Name.{.id...nm*' );
@@ -698,7 +698,7 @@ class Cache_Tools {
 		if (
 			wp_mkdir_p( $lumiere_alt_folder_cache ) === true && $wp_filesystem->chmod( $lumiere_alt_folder_cache, 0777 ) === true
 			&& wp_mkdir_p( $lumiere_alt_folder_cache_images ) === true && $wp_filesystem->chmod( $lumiere_alt_folder_cache_images, 0777 ) === true
-		 ) {
+		) {
 
 			// the partial path
 			/** @psalm-suppress PossiblyInvalidOperand (Cannot concatenate with a array<array-key, string>|string, psalm can't dynamic const */
