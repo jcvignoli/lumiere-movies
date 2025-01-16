@@ -28,15 +28,6 @@ use Lumiere\Admin\Admin_Menu;
 class Cache extends Admin_Menu {
 
 	/**
-	 * Constructor
-	 */
-	public function __construct() {
-
-		// Construct parent class
-		parent::__construct();
-	}
-
-	/**
 	 * Display the body
 	 *
 	 * @param Cache_Tools $cache_tools_class To create cache folder if it doesn't exists

@@ -34,13 +34,6 @@ use Lumiere\Admin\Widget_Selection;
 class Widget_Legacy extends Widget_Selection {
 
 	/**
-	 * Constructor. Widget name, description, etc. is dealt by the parent with
-	 */
-	public function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Register legacy widget (pre-WP 5.8), needed after the construction
 	 */
 	public static function lumiere_widget_legacy_start(): void {
@@ -58,7 +51,7 @@ class Widget_Legacy extends Widget_Selection {
 	 * @inheritdoc
 	 * Front end output overwrite, use Widget_Frontpage class to get the output
 	 *
-	 * @see \WP_Widget::widget()
+	 * @see \WP_Widget::widget() extended in Widget_Selection
 	 *
 	 * @param array<array-key, mixed>|string $args Display arguments including 'before_title', 'after_title', 'before_widget', and 'after_widget'.
 	 * @param array<array-key, mixed> $instance The settings for the particular instance of the widget.

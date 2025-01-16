@@ -28,13 +28,6 @@ use Imdb\Title;
 class Movie_Data extends Movie {
 
 	/**
-	 * Class constructor
-	 */
-	public function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Display the title and possibly the year
 	 * @see Movie::lumiere_movie_design() that builds this method
 	 *

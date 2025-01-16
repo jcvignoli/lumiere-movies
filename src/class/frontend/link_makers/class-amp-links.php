@@ -26,28 +26,6 @@ if ( ! defined( 'WPINC' ) ) {
 class AMP_Links extends Abstract_Link_Maker {
 
 	/**
-	 * Constructor
-	 *
-	 */
-	public function __construct() {
-
-		parent::__construct();
-
-		/**
-		 * Remove AMP mobile switcher
-		 * Doesn't work!
-		add_action(
-			'amp_post_template_css',
-			function (): string {
-				?>
-				#amp-mobile-version-switcher{display: none;}
-				<?php
-			}
-		);
-		 */
-	}
-
-	/**
 	 * @inheritdoc
 	 *
 	 * @param array<int, array<string, string>> $imdb_data_people Array with IMDB people data

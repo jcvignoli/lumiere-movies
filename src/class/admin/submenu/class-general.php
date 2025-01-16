@@ -37,18 +37,6 @@ class General extends Admin_Menu {
 	];
 
 	/**
-	 * Constructor
-	 */
-	public function __construct() {
-
-		// Construct parent class
-		parent::__construct();
-
-		// Logger: set to true to display debug on screen. => 20240225 Don't see why it is needed, will remove in the future
-		// $this->logger->lumiere_start_logger( get_class( $this ), false );
-	}
-
-	/**
 	 * Display the options
 	 *
 	 * @param Cache_Tools $cache_tools_class To create cache folder if it doesn't exists

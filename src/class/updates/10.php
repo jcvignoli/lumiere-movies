@@ -40,16 +40,6 @@ class Lumiere_Update_File_10 extends \Lumiere\Updates {
 	const LUMIERE_NUMBER_UPDATE = 10;
 
 	/**
-	 * Constructor
-	 *
-	 */
-	public function __construct () {
-
-		// Construct parent class
-		parent::__construct();
-	}
-
-	/**
 	 * Run the local update if lumiere_check_if_run_update() was successful
 	 * Everytime an update is processed, imdbHowManyUpdates is increased by 1
 	 */

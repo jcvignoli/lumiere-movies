@@ -30,13 +30,6 @@ if ( ! defined( 'WPINC' ) ) {
 class No_Links extends Abstract_Link_Maker {
 
 	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * @inheritdoc
 	 */
 	public function lumiere_link_popup_people( array $imdb_data_people, int $number ): string {
