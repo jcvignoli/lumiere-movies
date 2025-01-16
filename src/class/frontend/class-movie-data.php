@@ -948,7 +948,7 @@ class Movie_Data extends Movie {
 					// Add number of episode and year they worked in.
 					$dates_episodes = '';
 					// @phan-suppress-next-line PhanTypeInvalidDimOffset */
-					if ( $writer[ $i ]['episode'] !== null && count( $writer[ $i ]['episode'] ) > 0 ) {
+					if ( $writer[ $i ]['episode'] !== null && count( $writer[ $i ]['episode'] ) > 0 && $writer[ $i ]['episode']['total'] !== 0 ) {
 						$total = $writer[ $i ]['episode']['total'] > 0 ? esc_html( $writer[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $writer[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
 						/* translators: "From" like in "from 2025" */
 						$year_from_or_in = isset( $writer[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
@@ -1000,9 +1000,10 @@ class Movie_Data extends Movie {
 					$output .= ', ';
 				}
 			}
+
 			// Add number of episode and year they worked in.
-			// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypeMismatchArgumentInternal */
-			if ( count( $writer[ $i ]['episode'] ) > 0 ) {
+			// @phan-suppress-next-line PhanTypeInvalidDimOffset */
+			if ( $writer[ $i ]['episode'] !== null && count( $writer[ $i ]['episode'] ) > 0 && $writer[ $i ]['episode']['total'] !== 0 ) {
 				$total = isset( $writer[ $i ]['episode']['total'] ) ? esc_html( $writer[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $writer[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
 				/* translators: "In" like in "in 2025" */
 				$year_from_or_in = isset( $writer[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
@@ -1093,7 +1094,7 @@ class Movie_Data extends Movie {
 	protected function lum_movies_plot( Title $movie ): string {
 
 		$plot = $movie->plot();
-		$nbplots = intval( $this->imdb_data_values['imdbwidgetplotnumber'] ) === 0 ? '1' : intval( $this->imdb_data_values['imdbwidgetplotnumber'] );
+		$nbplots = intval( $this->imdb_data_values['imdbwidgetplotnumber'] ) === 0 ? 1 : intval( $this->imdb_data_values['imdbwidgetplotnumber'] );
 		$nbtotalplots = count( $plot );
 
 		// tested if the array contains data; if not, doesn't go further
@@ -1102,7 +1103,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Plot', 'Plots', $nbtotalplots, 'lumiere-movies' ) ), number_format_i18n( $nbtotalplots ) );
+		$output .= esc_html( _n( 'Plot', 'Plots', $nbplots, 'lumiere-movies' ) );
 		$output .= ':</span><br />';
 
 		for ( $i = 0; ( $i < $nbtotalplots ) && ( $i < $nbplots ); $i++ ) {

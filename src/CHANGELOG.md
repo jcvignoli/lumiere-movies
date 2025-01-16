@@ -2,7 +2,10 @@
 
 v.4.3.1
 * [bug] When displaying the data in a blog in another language than English, field options for title and pics were displayed while they should appear (fix in template admin-data-display, replaced check of $lumiere_item_translated by $lumiere_item)
-* [bug] Better options to translate in admin manage cache
+* [bug] Better translation availablity in admin manage cache
+* [bug] Writers into the Post had the number of episodes displayed even if 0, for the non-taxonomy version (rules updated in class Movie_Data)
+* [bug] If not move was found, the page was stopped (a throw Exception was in GraphQL)
+* [bug] The plural version of "plot" was displayed even if only one plot was displayed (edited rule in Movie_Data)
 
 v.4.3
 * [feature] Items and people fields (the option names) are now translated in Lumière admin data order
