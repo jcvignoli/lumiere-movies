@@ -337,7 +337,7 @@ class Save_Options {
 		Settings::build_options();
 
 		set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
-		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
+		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			exit( 0 );
 		}
 	}
@@ -396,7 +396,7 @@ class Save_Options {
 			set_transient( 'cron_settings_imdbcacheautorefreshcron_updated', 'imdbcacheautorefreshcron', 30 );
 		}
 
-		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
+		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			exit( 0 );
 		}
 	}
@@ -410,7 +410,7 @@ class Save_Options {
 		delete_option( Settings::get_cache_tablename() );
 		Settings::build_options();
 
-		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
+		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
 			exit( 0 );
 		}
@@ -432,7 +432,7 @@ class Save_Options {
 		/** @psalm-suppress PossiblyNullArgument -- Argument 1 of lumiere_unlink_recursive cannot be null -- it can't, just checked! */
 		$this->lumiere_unlink_recursive( $this->imdb_cache_values['imdbcachedir'] ); // in trait Files.
 
-		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
+		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_all_msg', 30 );
 			exit( 0 );
 		}
@@ -445,7 +445,7 @@ class Save_Options {
 	private function lumiere_cache_delete_query( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
 		$cache_tools_class->cache_delete_query_cache_files();
 
-		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
+		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_query_deleted', 30 );
 			exit( 0 );
 		}
@@ -472,7 +472,7 @@ class Save_Options {
 			$cache_tools_class->cache_delete_ticked_files( $delete_people, 'people' );
 		}
 
-		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
+		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_ticked_msg', 30 );
 			exit( 0 );
 		}
@@ -489,7 +489,7 @@ class Save_Options {
 
 		$cache_tools_class->cache_delete_specific_file( $type, $where );
 
-		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
+		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_individual_msg', 30 );
 			exit( 0 );
 		}
@@ -506,7 +506,7 @@ class Save_Options {
 
 		$cache_tools_class->cache_refresh_specific_file( $type, $where );
 
-		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
+		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_refresh_individual_msg', 30 );
 			exit( 0 );
 		}
@@ -593,7 +593,7 @@ class Save_Options {
 			flush_rewrite_rules();
 		}
 
-		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
+		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
 			exit( 0 );
 		}
@@ -609,7 +609,7 @@ class Save_Options {
 		delete_option( Settings::get_data_tablename() );
 		Settings::build_options();
 
-		if ( $get_referer !== false && wp_redirect( $get_referer ) ) {
+		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
 			exit( 0 );
 		}
