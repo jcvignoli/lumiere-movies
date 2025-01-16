@@ -6,6 +6,8 @@ v.4.3.1
 * [bug] Writers into the Post had the number of episodes displayed even if 0, for the non-taxonomy version (rules updated in class Movie_Data)
 * [bug] If not move was found, the page was stopped (a throw Exception was in GraphQL)
 * [bug] The plural version of "plot" was displayed even if only one plot was displayed (edited rule in Movie_Data)
+* [bug] The official sites returned into the post were not accurate. (Limited to official and misc sites, rewritten lum_movies_officialsites() in Movie_Data)
+* [technical] removed load_plugin_textdomain() (in Core class, [not needed anymore](https://make.wordpress.org/core/2016/07/06/i18n-improvements-in-4-6/) ).
 
 v.4.3
 * [feature] Items and people fields (the option names) are now translated in Lumière admin data order

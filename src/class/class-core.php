@@ -80,29 +80,13 @@ class Core {
 		// On any admin page, check if an update is needed. Extra opportunity for update. @todo Find a better hook
 		add_action( 'admin_init', [ $this, 'lum_update_needed' ] );
 
-		/**
-		 * Crons. Must be free of any conditions.
-		 */
-		// Crons schedules.
+		// Crons. Must be free of any conditions.
 		add_action( 'init', [ 'Lumiere\Admin\Cron', 'lumiere_cron_start' ] );
-
-		// Call the translation.
-		add_action( 'init', [ $this, 'lum_load_translation' ] );
 
 		// WP-CLI commands, use the cli class.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			add_action( 'cli_init', [ 'Lumiere\Tools\Cli_Commands', 'lumiere_static_start' ] );
 		}
-	}
-
-	/**
-	 * Load language textdomain
-	 * This function allows translate all English strings
-	 *
-	 * @since 4.1.9 Supposedly not needed https://make.wordpress.org/core/2016/07/06/i18n-improvements-in-4-6/ but actually it is!
-	 */
-	public function lum_load_translation(): void {
-		load_plugin_textdomain( 'lumiere-movies', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	/**

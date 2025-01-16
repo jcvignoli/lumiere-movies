@@ -672,45 +672,36 @@ class Movie_Data extends Movie {
 	 */
 	protected function lum_movies_officialsites( Title $movie ): string {
 
-		$official_sites = $movie->extSites();
-		$nbtotalofficial_sites_processed = 0;
-
-		// Build all types of official site by making an array.
-		$official_sites_types = [];
-		$official_sites_info = [];
-		foreach ( $official_sites as $type => $info ) {
-			$official_sites_info[ $type ] = count( $info );
-		}
-		$nbtotalext_sites = count( $official_sites_info );
-		$nbtotalofficial_sites = array_sum( $official_sites_info );
+		$get_external_sites = $movie->extSites();
+		$external_sites = $get_external_sites['official'] ?? $get_external_sites['misc'] ?? [];
+		$nbtotalext_sites = count( $external_sites );
 
 		// if no result, exit.
-		if ( $nbtotalofficial_sites === 0 || $nbtotalext_sites === 0 ) {
+		if ( count( $external_sites ) === 0 ) {
 			return '';
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Official website', 'Official websites', $nbtotalofficial_sites, 'lumiere-movies' ) ), number_format_i18n( $nbtotalofficial_sites ) );
+		$output .= esc_html( _n( 'Official website', 'Official websites', $nbtotalext_sites, 'lumiere-movies' ) );
 		$output .= ':</span>';
 
-		foreach ( $official_sites as $extsite_type => $info ) {
-			$nb_info = count( $info );
-			for ( $i = 0; $i < $nb_info && $i < $nbtotalext_sites && ( $i < 3 ); $i++ ) { // Hardcoded 3 sites max per $extsite_type
-				/**
-				 * Use links builder classes.
-				 * Each one has its own class passed in $link_maker,
-				 * according to which option the lumiere_select_link_maker() found in Frontend.
-				 */
-				$output .= $this->link_maker->lumiere_movies_officialsites_details(
-					$info[ $i ]['url'],
-					$info[ $i ]['label']
-				);
+		// Hardcoded 7 sites max.
+		for ( $i = 0; $i < $nbtotalext_sites && $i < 7; $i++  ) {
 
-				if ( $nbtotalofficial_sites_processed < $nbtotalofficial_sites ) { // @info Didn't find a way to avoid the latest comma
-					$output .= ', ';
-				}
-				$nbtotalofficial_sites_processed++;
+			/**
+			 * Use links builder classes.
+			 * Each one has its own class passed in $link_maker,
+			 * according to which option the lumiere_select_link_maker() found in Frontend.
+			 */
+			$output .= $this->link_maker->lumiere_movies_officialsites_details(
+				$external_sites[ $i ]['url'],
+				$external_sites[ $i ]['label']
+			);
+
+			if ( $i < ( $nbtotalext_sites - 1 ) && $i < 6 ) {
+				$output .= ', ';
 			}
+
 		}
 		return $output;
 	}
@@ -948,7 +939,7 @@ class Movie_Data extends Movie {
 					// Add number of episode and year they worked in.
 					$dates_episodes = '';
 					// @phan-suppress-next-line PhanTypeInvalidDimOffset */
-					if ( $writer[ $i ]['episode'] !== null && count( $writer[ $i ]['episode'] ) > 0 && $writer[ $i ]['episode']['total'] !== 0 ) {
+					if ( $writer[ $i ]['episode'] !== null && count( $writer[ $i ]['episode'] ) > 0 && isset( $writer[ $i ]['episode']['total'] ) && $writer[ $i ]['episode']['total'] !== 0 ) {
 						$total = $writer[ $i ]['episode']['total'] > 0 ? esc_html( $writer[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $writer[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
 						/* translators: "From" like in "from 2025" */
 						$year_from_or_in = isset( $writer[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
@@ -1003,7 +994,7 @@ class Movie_Data extends Movie {
 
 			// Add number of episode and year they worked in.
 			// @phan-suppress-next-line PhanTypeInvalidDimOffset */
-			if ( $writer[ $i ]['episode'] !== null && count( $writer[ $i ]['episode'] ) > 0 && $writer[ $i ]['episode']['total'] !== 0 ) {
+			if ( $writer[ $i ]['episode'] !== null && count( $writer[ $i ]['episode'] ) > 0 && isset( $writer[ $i ]['episode']['total'] ) && $writer[ $i ]['episode']['total'] !== 0 ) {
 				$total = isset( $writer[ $i ]['episode']['total'] ) ? esc_html( $writer[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $writer[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
 				/* translators: "In" like in "in 2025" */
 				$year_from_or_in = isset( $writer[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
@@ -1030,7 +1021,7 @@ class Movie_Data extends Movie {
 	protected function lum_movies_actor( Title $movie ): string {
 
 		$cast = $movie->cast();
-		$nbactors = intval( $this->imdb_data_values['imdbwidgetactornumber'] ) === 0 ? '1' : intval( $this->imdb_data_values['imdbwidgetactornumber'] );
+		$nbactors = intval( $this->imdb_data_values['imdbwidgetactornumber'] ) === 0 ? 1 : intval( $this->imdb_data_values['imdbwidgetactornumber'] );
 		$nbtotalactors = count( $cast );
 
 		if ( $nbtotalactors === 0 ) {
@@ -1038,7 +1029,7 @@ class Movie_Data extends Movie {
 		}
 
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ) ), number_format_i18n( $nbtotalactors ) );
+		$output .= esc_html( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ) );
 		$output .= ':</span>';
 
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomyactor'] === '1' ) ) {
