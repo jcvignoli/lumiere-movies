@@ -268,14 +268,14 @@ class Movie {
 	 * @param string|array<string> $atts array of attributes
 	 * @param null|string $content shortcode content or null if not set
 	 */
-	public function parse_lumiere_tag_transform( $atts, ?string $content ): string {
+	public function parse_lumiere_tag_transform( string|array $atts, ?string $content ): string {
 
 		// if not run on page or post, return the content untouched.
 		if ( $this->lumiere_autorized_areas() === false ) {
 			return $content ?? '';
 		}
 
-		trigger_error( '[Lumiere Movies] Deprecated call of the movie title ' . esc_html( $content ?? '(no text)' ) . ', use "span" with data-lum_movie_maker="movie_title" instead, this function will be removed in the future.', E_USER_DEPRECATED ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- Using it in my full capacity, trust me!
+		_deprecated_function( 'shortcode imdblt', '3.5', '"span" with data-lum_movie_maker="movie_title" to embed your movies' );
 		return $this->lumiere_external_call( $content, '', '' );
 	}
 
@@ -293,7 +293,7 @@ class Movie {
 			return $content ?? '';
 		}
 
-		trigger_error( '[Lumiere Movies] Deprecated call of the movie id ' . esc_html( $content ?? '(no text)' ) . ', use "span" with data-lum_movie_maker="movie_id" instead, this function will be removed in the future.', E_USER_DEPRECATED ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- Using it in my full capacity, trust me!
+		_deprecated_function( 'shortcode imdbltid', '3.5', '"span" with data-lum_movie_maker="movie_id" to embed your movies' );
 		return $this->lumiere_external_call( '', $content, '' );
 	}
 
