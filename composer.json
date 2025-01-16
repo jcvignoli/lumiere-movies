@@ -26,7 +26,7 @@
         "automattic/phpcs-neutron-ruleset": "@stable",
         "dealerdirect/phpcodesniffer-composer-installer": "@stable",
         "phan/phan": "@stable",
-        "skaut/wordpress-stubs": "@dev",
+        "skaut/wordpress-stubs": "@stable",
         "phpstan/phpstan-strict-rules": "@stable",
         "szepeviktor/phpstan-wordpress": "@stable",
         "vimeo/psalm": "@stable",

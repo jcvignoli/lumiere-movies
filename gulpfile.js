@@ -110,8 +110,8 @@ var paths = {
 
 			/* Remove irrelevant files in src/vendor */ 
 			'!./src/vendor/bin/*.*',				
-			'!./src/vendor/duck7000/imdb-graphql-php/doc/*.*',
-			'!./src/vendor/duck7000/imdb-graphql-php/vendor/duck7000/imdb-graphql-php/src/Psr/*.*',
+			'!./src/vendor/duck7000/imdb-graphql-php/src/Psr/**/*.*',
+			'!./src/vendor/duck7000/imdb-graphql-php/doc/**/*.*',
 			'!./src/vendor/twbs/bootstrap/build/**/*.*',
 			'!./src/vendor/twbs/bootstrap/js/**/*.*',
 			'!./src/vendor/twbs/bootstrap/nuget/**/*.*',
@@ -119,7 +119,6 @@ var paths = {
 			'!./src/vendor/twbs/bootstrap/site/**/*.*',
 			'!./src/vendor/twbs/bootstrap/.github/**/*.*',
 			'!./src/vendor/twbs/bootstrap/*.*',
-
 			'./src/**/*.+(psd)', 
 			'./src/.**/*.{psd,json}',	 				/* extra files for .wordpress.org -- doesn't work for blueprints */
 			'./src/languages/*.*',

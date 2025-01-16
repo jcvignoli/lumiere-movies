@@ -18,7 +18,7 @@
     },
     "require": {
         "php": ">=8.0",
-        "duck7000/imdb-graphql-php": "dev-jcv",
+        "duck7000/imdb-graphql-php": "dev-master",
         "monolog/monolog": "^2.9",
         "twbs/bootstrap": "@stable"
     },

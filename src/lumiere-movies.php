@@ -41,14 +41,6 @@ if ( file_exists( LUMIERE_WP_PATH . 'functions.php' ) ) {
 	require_once LUMIERE_WP_PATH . 'functions.php';
 }
 
-// Check if Lumière and IMDbGraphQLPHP classes are correctly installed.
-if ( ! file_exists( LUMIERE_WP_PATH . 'class/class-core.php' ) || ! class_exists( 'Lumiere\Core' ) ) {
-	wp_die( 'Missing files: Lumière is not installed. Check your install.' );
-}
-if ( ! class_exists( 'Imdb\Config' ) ) {
-	wp_die( 'IMDbGraphQLPHP is not installed. Check your install.' );
-}
-
 // Global function: Lumière is uninstalled if crappy plugins are found.
 lum_incompatible_plugins_uninstall( Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS, __FILE__ );
 
