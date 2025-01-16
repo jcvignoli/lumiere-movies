@@ -72,7 +72,7 @@ class Polylang {
 		add_filter( 'pll_get_taxonomies', [ $this, 'add_tax_to_pll' ], 10, 2 );
 
 		// Return a form for selecting the lang in Taxonomy_People_Standard.
-		add_filter( 'lum_polylang_form_taxonomy_people', [ $this, 'form_taxonomy_people_lang' ], 10, 1 );
+		add_filter( 'lum_polylang_form_taxonomy_people', [ $this, 'form_taxonomy_people_lang' ] );
 	}
 
 	/**
@@ -127,16 +127,15 @@ class Polylang {
 
 	/**
 	 * Polylang form: Display a form to change the language if Polylang plugin is active
-	 * Compatible with AMP plugin. If AMP Plugin is detected, the AMP form will be displayed
+	 * Compatible with AMP plugin. If AMP Plugin is detected, the relevant AMP form will be displayed instead of the classic one
 	 *
-	 * @param string $taxonomy The current taxonomy to check and build the form according to it
 	 * @return string The form is returned
 	 *
 	 * @since 4.1 The AMP form works!
 	 * @since 4.1.2 replaced strval( $lang_object->term_id ) by str_replace( 'pll_', '', strval( $lang_object->slug ) )
 	 * @since 4.3 Rewritten using proper loops with languages. What the hell was this... thing?
 	 */
-	public function form_taxonomy_people_lang( string $taxonomy ): string {
+	public function form_taxonomy_people_lang(): string {
 
 		// Language selected: $_GET['tag_lang'] Retrieve it if nonce is valid. Null otherwise.
 		$selected_lang =
