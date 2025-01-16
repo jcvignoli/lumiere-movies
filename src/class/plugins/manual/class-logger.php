@@ -256,7 +256,7 @@ class Logger {
 	 * @param bool $second_try Whether the function is called a second time
 	 * @return null|string Null if log creation was unsuccessful, Log full path file if successfull
 	 */
-	private function maybe_create_log( string $log_file, $second_try = false ): ?string {
+	private function maybe_create_log( string $log_file, bool $second_try = false ): ?string {
 
 		global $wp_filesystem;
 		$this->lumiere_wp_filesystem_cred( $log_file ); // in trait files.

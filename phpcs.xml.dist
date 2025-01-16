@@ -36,6 +36,7 @@
 		<!-- Exclude those rules, because we run WordPress-Extra which will conflict with NeutronStandard -->
 		<exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning"/>
 		<exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned"/>
+		<exclude name="NeutronStandard.Functions.VariableFunctions.VariableFunction" />
 	</rule> 
 
 	<!-- Include the WordPress-Extra standard.-->
