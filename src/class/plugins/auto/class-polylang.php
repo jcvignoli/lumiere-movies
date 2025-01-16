@@ -114,7 +114,7 @@ class Polylang {
 	 * @link WordPress admin /admin.php?page=mlang_settings
 	 * @since 4.3 Deactivated this custom option that creates multiples entries for the same term.
 	 */
-	public static function add_tax_to_pll( array $taxonomies, bool $hide ) {
+	public static function add_tax_to_pll( array $taxonomies, bool $hide ): array {
 		$lum_activated_taxos = Get_Options::get_taxonomy_activated();
 
 		foreach ( $lum_activated_taxos as $taxo ) {
