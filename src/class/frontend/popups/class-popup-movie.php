@@ -603,7 +603,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 
 		// Goof.
 		$goof = $movie_class->goof();
-		$filter_nbtotalgoof = array_filter( $goof, fn( $goofs ) => ( count( array_values( $goof ) ) > 0 ) ); // counts the actual goofs, not their categories
+		$filter_nbtotalgoof = array_filter( $goof, fn( $goof ) => ( count( array_values( $goof ) ) > 0 ) ); // counts the actual goofs, not their categories
 		$nbtotalgoof = count( $filter_nbtotalgoof );
 		$overall_loop = 1;
 
