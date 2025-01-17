@@ -122,7 +122,7 @@ class Detect_New_Template_Taxo {
 		$array_all = array_merge( $this->config_class->array_people, $this->config_class->array_items );
 		asort( $array_all );
 
-		foreach ( $array_all as $item ) {
+		foreach ( $array_all as $item => $item_translated ) {
 
 			$lumiere_taxo_file = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
 			$lumiere_current_theme_path_file = get_stylesheet_directory() . '/' . $lumiere_taxo_file;
@@ -135,7 +135,7 @@ class Detect_New_Template_Taxo {
 				&& is_file( $lumiere_current_theme_path_file ) === false
 			) {
 
-				$output[] = $item;
+				$output[] = $item_translated;
 			}
 		}
 		return $output;
