@@ -104,6 +104,8 @@ class UninstallCest {
 		$I->amOnPluginsPage();
 		$I->reloadPage();
 		$I->scrollTo('#deactivate-lost-highway-extra-functions');
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL_FR );
+		$I->amOnPluginsPage();
 		$I->reloadPage();
 		$I->scrollTo('#deactivate-lost-highway-extra-functions');
 		$I->dontSeePluginInstalled('lumiere-movies');

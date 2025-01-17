@@ -8,6 +8,8 @@ v.4.3.1
 * [bug] The plural version of "plot" was displayed even if only one plot was displayed (edited rule in Movie_Data)
 * [bug] The official sites returned into the post were not accurate. (Limited to official and misc sites, rewritten lum_movies_officialsites() in Movie_Data)
 * [bug] In admin manage cache, no confirmation notice was returned about the action just made (changed "echo 'test'" to exit( 0 ))
+* [bug] Fixed debug and an a bug that prevented to retrieve movies in imdbGraphQLPHP ($this->logger->error() in class GraphQL method doRequest(), also casting object in  'variables', using a personal fork from now onwards). Also make sure that if no movie is retrieved, the page doesn't throw an Exception and breaks the layout (Imddphp class doing a try{} in search_movie_title() and search_person_name() methods)
+* [bug] Bots weren't banned anymore.
 * [technical] removed load_plugin_textdomain() (in Core class, [not needed anymore](https://make.wordpress.org/core/2016/07/06/i18n-improvements-in-4-6/) ).
 
 v.4.3
