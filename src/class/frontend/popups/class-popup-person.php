@@ -159,8 +159,9 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		if (
 			$get_info_person === null || strlen( $get_info_person ) === 0
 		) {
-			echo strlen( $this->display_summary() ) > 0 ? wp_kses(
-				$this->display_summary(),
+			$display_summary = $this->display_summary();
+			echo strlen( $display_summary ) > 0 ? wp_kses(
+				$display_summary,
 				[
 					'span' => [ 'class' => [] ],
 					'font' => [ 'size' => [] ],
@@ -184,8 +185,9 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		if (
 			$get_info_person === 'filmo'
 		) {
-			echo strlen( $this->display_full_filmo() ) > 0 ? wp_kses(
-				$this->display_full_filmo(),
+			$display_full_filmo = $this->display_full_filmo();
+			echo strlen( $display_full_filmo ) > 0 ? wp_kses(
+				$display_full_filmo,
 				[
 					'span' => [ 'class' => [] ],
 					'font' => [ 'size' => [] ],
@@ -210,8 +212,9 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		if (
 			$get_info_person === 'bio'
 		) {
-			echo strlen( $this->display_bio() ) > 0 ? wp_kses(
-				$this->display_bio(),
+			$display_bio = $this->display_bio();
+			echo strlen( $display_bio ) > 0 ? wp_kses(
+				$display_bio,
 				[
 					'span' => [ 'class' => [] ],
 					'div' => [
@@ -235,8 +238,9 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		if (
 			$get_info_person === 'misc'
 		) {
-			echo strlen( $this->display_misc() ) > 0 ? wp_kses(
-				$this->display_misc(),
+			$display_misc = $this->display_misc();
+			echo strlen( $display_misc ) > 0 ? wp_kses(
+				$display_misc,
 				[
 					'span' => [ 'class' => [] ],
 					'div' => [

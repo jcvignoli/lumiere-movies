@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2045212bd3bf24d6e996cf7bb8ba9e4",
+    "content-hash": "743e8f0d98cab57ba00389bedae0486f",
     "packages": [
         {
             "name": "duck7000/imdb-graphql-php",
-            "version": "dev-master",
+            "version": "dev-jcv",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jcvignoli/imdbGraphQLPHP",
-                "reference": "668bda9e1347cc01eeb3402a5dc4b237cf2e0ca6"
+                "reference": "ceadad495d0369d70403e739fddc23f8e9eb3572"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jcvignoli/imdbGraphQLPHP/zipball/668bda9e1347cc01eeb3402a5dc4b237cf2e0ca6",
-                "reference": "668bda9e1347cc01eeb3402a5dc4b237cf2e0ca6",
+                "url": "https://api.github.com/repos/jcvignoli/imdbGraphQLPHP/zipball/ceadad495d0369d70403e739fddc23f8e9eb3572",
+                "reference": "ceadad495d0369d70403e739fddc23f8e9eb3572",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,6 @@
                 "psr/log": "^1.0 || ^2.0",
                 "psr/simple-cache": "^1.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -45,7 +44,7 @@
                 "Movie",
                 "PHP"
             ],
-            "time": "2025-01-06T21:59:51+00:00"
+            "time": "2025-01-17T04:08:25+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -306,6 +305,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "duck7000/imdb-graphql-php": 20,
+        "monolog/monolog": 0,
         "twbs/bootstrap": 0
     },
     "prefer-stable": false,
