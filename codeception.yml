@@ -57,15 +57,11 @@ env:
 
     # Environment with WPWebDriver+WPDb+Firefox driver
     wpdbfirefox:
-        modules:
-             enabled:
-                - lucatume\WPBrowser\Module\WPDb
-                - lucatume\WPBrowser\Module\WPWebDriver
         extensions:
             enabled:
               - Codeception\Extension\RunProcess:
                   0: geckodriver-codeception
-                  sleep: 7 # seconds to process boot, otherwise it fails sometimes
+                  sleep: 3 # seconds to process boot, otherwise it fails sometimes
             commands:
                 - Codeception\Command\GenerateWPUnit
                 - Codeception\Command\GenerateWPRestApi
@@ -77,6 +73,9 @@ env:
 
     # Environment with WPWebDriver"Chrome driver
     wpchrome:
+        module:
+              - Codeception\Extension\RunFailed
+              - Codeception\Extension\Recorder
         extensions:
             enabled:
               - Codeception\Extension\RunProcess:

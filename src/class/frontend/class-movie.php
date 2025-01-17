@@ -56,6 +56,20 @@ class Movie {
 
 		// Singleton for running movies only once.
 		$this->movie_run_once = false;
+
+		// Transform spans into movies.
+		add_filter( 'the_content', [ $this, 'lumiere_parse_spans' ] );
+
+		// Transform spans into links to popups.
+		add_filter( 'the_content', [ $this, 'lumiere_link_popup_maker' ] );
+		add_filter( 'the_excerpt', [ $this, 'lumiere_link_popup_maker' ] );
+
+		/**
+		 * Detect the shortcodes [imdblt][/imdblt] and [imdbltid][/imdbltid] to display the movies, old way
+		 * @deprecated 3.5 kept for compatibility purpose
+		 */
+		add_shortcode( 'imdblt', [ $this, 'parse_lumiere_tag_transform' ] );
+		add_shortcode( 'imdbltid', [ $this, 'parse_lumiere_tag_transform_id' ] );
 	}
 
 	/**
@@ -65,22 +79,7 @@ class Movie {
 	 * @see \Lumiere\Frontend\Frontend::lumiere_static_start() Call this method
 	 */
 	public static function lumiere_movie_start (): void {
-
-		$that = new self();
-
-		// Transform spans into movies.
-		add_filter( 'the_content', [ $that, 'lumiere_parse_spans' ] );
-
-		// Transform spans into links to popups.
-		add_filter( 'the_content', [ $that, 'lumiere_link_popup_maker' ] );
-		add_filter( 'the_excerpt', [ $that, 'lumiere_link_popup_maker' ] );
-
-		/**
-		 * Detect the shortcodes [imdblt][/imdblt] and [imdbltid][/imdbltid] to display the movies, old way
-		 * @deprecated 3.5 kept for compatibility purpose
-		 */
-		add_shortcode( 'imdblt', [ $that, 'parse_lumiere_tag_transform' ] );
-		add_shortcode( 'imdbltid', [ $that, 'parse_lumiere_tag_transform_id' ] );
+		$start = new self();
 	}
 
 	/**

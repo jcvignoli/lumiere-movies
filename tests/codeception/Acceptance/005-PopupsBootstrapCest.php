@@ -43,7 +43,7 @@ class PopupsBootstrapCest {
 	 *
 	 * @before bootstrap
 	 */
-	public function checkPopupMovie(AcceptanceTester $I, \Codeception\Scenario $scenario) {
+	public function checkPopupMovie( AcceptanceTester $I ) {
 
 		// popup link movie interstellar
 		$element = 'a[data-modal_window_film="interstellar"]';
@@ -71,7 +71,7 @@ class PopupsBootstrapCest {
 	 *
 	 * @before bootstrap
 	 */
-	private function checkPopupPerson(AcceptanceTester $I, \Codeception\Scenario $scenario) {
+	private function checkPopupPerson( AcceptanceTester $I ) {
 
 		// popup link actor Jorge Rivero
 		$element = 'a[data-modal_window_people="0729473"]';

@@ -44,6 +44,9 @@ modules:
             dbPassword: '%WP_LOCAL_DATABASE_PASSWORD%'
             plugins:
                 - lumiere-movies.php
+        Codeception\Extension\Recorder: # doesn't work, says no available module
+                  module: lucatume\WPBrowser\Module\WPWebDriver
+                  delete_successful: false # delete screenshots of successful tests
 env:
    firefox:
         modules:

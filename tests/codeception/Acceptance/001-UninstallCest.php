@@ -29,8 +29,9 @@ class UninstallCest {
 	/**
 	 * Stop the test if anything fails here, we many not have lumière installed
 	 */
-	public function __failed() {
-		exit();
+	public function _failed(AcceptanceTester $I) {
+		$I->comment( "\n\n" . Helper\Color::set('!!!!! Cannot process the suite if the uninstall fails, exit', "bold+red") );
+		exit(1);
 	}
 
 	/**
@@ -99,9 +100,12 @@ class UninstallCest {
 		$I->comment(Helper\Color::set("**Copy back to the saved plugin directory**", 'italic+bold+cyan'));
 		
 		// Restore the symbolic link
+		// These tricks are meant to ensure we really don't see the plugin anymore, it fails quite often
 		$I->amOnPluginsPage();
 		$I->reloadPage();
-		$I->wait(4);
+		$I->scrollTo('#deactivate-lost-highway-extra-functions');
+		$I->reloadPage();
+		$I->scrollTo('#deactivate-lost-highway-extra-functions');
 		$I->dontSeePluginInstalled('lumiere-movies');
 		$I->comment( 'Move back the symbolic link' );		
 		$shell->runShellCommand('mv ' . $wpcontent . '/lumiere-save ' . $dir_plugin_lumiere );

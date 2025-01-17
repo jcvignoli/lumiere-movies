@@ -17,7 +17,6 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Frontend\Main;
-use Lumiere\Tools\Ban_Bots;
 use Lumiere\Tools\Validate_Get;
 
 /**
@@ -56,8 +55,10 @@ class Head_Popups {
 		// Get Lumière plugins.
 		$this->maybe_activate_plugins(); // In Trait Main.
 
-		// Check if bots or exit.
-		$this->ban_bots_popups();
+		/**
+		 * Ban bots
+		 */
+		add_action( 'wp_head', [ 'Lumiere\Tools\Ban_Bots', 'lumiere_static_start' ], 11 );
 
 		// Display the plugins active.
 		add_action( 'wp_head', [ $this, 'display_plugins_log' ] );
@@ -80,7 +81,7 @@ class Head_Popups {
 
 		// If nonce is invalid or no title was provided, exit.
 		if ( $nonce_valid === false ) {
-			wp_die( esc_html__( 'Lumière Movies: Invalid search request.', 'lumiere-movies' ) );
+			wp_die( esc_html__( 'Invalid or missing nonce.', 'lumiere-movies' ), 'Lumière Movies', [ 'response' => 400 ] );
 		}
 	}
 
@@ -189,29 +190,4 @@ class Head_Popups {
 		echo "\n\t\t" . '<!-- /Lumière! Movies -->' . "\n";
 	}
 
-	/**
-	 * Ban bots from getting Popups.
-	 *
-	 * 1/ Banned if certain conditions are met in class Ban_Bots::_construct() => action 'lumiere_maybe_ban_bots',
-	 *  done before doing IMDbPHP queries in this class
-	 * 2/ Ban if there is no HTTP_REFERER and user is not logged in Ban_Bots::_construct() => action 'lumiere_ban_bots_now', done here
-	 *  Not putting the no HTTP_REFERER in Ban_Bots class, since do_action( 'lumiere_maybe_ban_bots' ) could be called
-	 *      in taxonomy templates (those pages, like movie pages, should not ban bots, there is no reason to ban bots in full pages, only in popups)
-	 * This method must be called inside the switch() function, when we know it's a popup. Otherwhise, the entire site could
-	 *      become unavailable if no HTTP_REFERER was passed
-	 *
-	 * @since 4.0.1 Method added
-	 * @return void Banned if conditions are met
-	 */
-	private function ban_bots_popups(): void {
-
-		// Add the actions.
-		add_action( 'init', fn() => Ban_Bots::lumiere_static_start(), 11 );
-
-		// Execute: conditionally ban bots from getting the page, i.e. User Agent or IP.
-		do_action( 'lum_maybe_ban_bots_general' );
-
-		// Execute: ban bots if no referer.
-		do_action( 'lum_maybe_ban_bots_noreferrer' );
-	}
 }

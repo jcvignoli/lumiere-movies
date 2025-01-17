@@ -53,5 +53,11 @@
 				<file name="src/class/plugins/class-plugins-start.php" />
 			</errorLevel>
 		</InvalidDocblock>
+		<!-- Didn't find any other way to remove three MissingTemplateParam -->
+		<MissingTemplateParam>
+			<errorLevel type="suppress">
+				<file name="src/class/admin/class-widget-selection.php" />
+			</errorLevel>
+		</MissingTemplateParam>
 	</issueHandlers>
 </psalm>

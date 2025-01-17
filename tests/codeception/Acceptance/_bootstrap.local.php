@@ -17,7 +17,9 @@ define( 'ADMIN_POST_ID_TESTS', '/wp-admin/post.php?post=4740&action=edit' ); // 
 
 define( 'ADMIN_POST_AUTOTITLEWIDGET_ID', '/wp-admin/post.php?post=4767&action=edit' ); // Different in remote
 
-// For ban bots
+// For ban bots and nonce
 
-define( 'BAN_BOTS_MSG', 'Invalid search request.' ); // Different in remote, which is in French, and local, which is in English.
-//define( 'BAN_BOTS_MSG', 'Requête de recherche invalide.' ); // if I need to change it.
+define( 'BAN_BOTS_MSG', 'Prevented a bad request.' ); // Always English.
+define( 'BAN_NONCE_MSG', 'Invalid or missing nonce.' ); // English, usually found.
+define( 'BAN_NONCE_MSG_FR', 'Nonce invalide ou manquant.' ); // French, because sometimes it switch to.
+

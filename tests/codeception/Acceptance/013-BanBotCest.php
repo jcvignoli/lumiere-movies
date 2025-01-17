@@ -12,11 +12,6 @@ use \PHPUnit\Framework\Assert;
 
 class BanBotCest {
 
-	/**
-	 * Text displayed on a banned page
-	 */
-	private const BAN_TEXT = '~(' . BAN_BOTS_MSG . ')~'; // Different message for remote and local, one in French the other one in English
-
 	public function _before(AcceptanceTester $I){
 		$I->comment(Helper\Color::set("#Code _before#", "italic+bold+cyan"));
 	}
@@ -86,6 +81,7 @@ class BanBotCest {
 	/** 
 	 * Check if calling popups pages is banned
 	 * Popups should ban if not logged in and using a banned useragent
+	 * Adding valid nonce, so should pass that step
 	 * (Only normal posts and taxonomy pages never ban)
 	 *
 	 * @example ["/lumiere/person/?mid=0248281"]
@@ -94,16 +90,52 @@ class BanBotCest {
 	 */
 	public function userAgentShouldBan(AcceptanceTester $I, \Codeception\Example $example) {
 
-		$base_url = $I->getCustomBaseUrl();
-		$result = $this->curlSpecialHeader( $base_url . $example[0], 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
-$I->comment($result);
+		$url_nonce_valid = $I->CustomGenerateNonce( $I->getCustomBaseUrl() . $example[0] );
+
+		$result = $this->curlSpecialHeader( $url_nonce_valid, 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
 		// Activate debug
-		// codecept_debug($result);
-	
-		if ( preg_match( self::BAN_TEXT, $result ) > 0 ) {
+		//codecept_debug($result);
+
+		// Try in both languages, fails if both unavailable.	
+		if ( preg_match( '~(' . BAN_BOTS_MSG . ')~', $result ) > 0 ) {
+			$I->comment( 'Text found in English' );
 			$I->comment ( '-> The page correctly banned access to ' . $I->getCustomBaseUrl() . $example[0] );
+			$I->comment( $result );
 		} else {
 			Assert::fail('!! Not banned, error!');
+		}
+	}
+
+	/** 
+	 * Check if calling popups pages is banned
+	 * Popups should ban if not logged in and using a banned useragent
+	 * Adding valid nonce, so should pass that step
+	 * (Only normal posts and taxonomy pages never ban)
+	 *
+	 * @example ["/lumiere/person/?mid=0248281"]
+	 * @example ["/lumiere/film/?film=interstellar"]
+	 * @example ["/lumiere/movie_search/?film=interstellar"]
+	 */
+	public function invalidNonceShouldBan(AcceptanceTester $I, \Codeception\Example $example) {
+
+		$url_nonce_invalid = $I->getCustomBaseUrl() . $example[0];
+
+		$result = $this->curlSpecialHeader( $url_nonce_invalid, 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
+		// Activate debug
+		//codecept_debug($result);
+
+		// Try in both languages, fails if both unavailable.	
+		if ( preg_match( '~(' . BAN_NONCE_MSG . ')~', $result ) > 0 ) {
+			$I->comment( 'Text found in English' );
+			$I->comment ( '-> The page correctly banned access to ' . $I->getCustomBaseUrl() . $example[0] );
+			$I->comment( $result );
+		} else {
+			if ( preg_match( '~(' . BAN_NONCE_MSG_FR . ')~', $result ) > 0 ) {
+				$I->comment( 'Text found in French' );
+				$I->comment ( '-> The page correctly banned access to ' . $I->getCustomBaseUrl() . $example[0] );
+			} else {
+				Assert::fail('!! Not banned, error!');
+			}
 		}
 	}
 
@@ -121,7 +153,10 @@ $I->comment($result);
 
 		$result = $this->curlSpecialHeader( $I->getCustomBaseUrl() . $example[0], 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
 
-		if ( preg_match( self::BAN_TEXT, $result ) === 0 ) {
+		// Debug
+		codecept_debug($result);
+
+		if ( preg_match( '~(' . BAN_BOTS_MSG . ')~', $result ) === 0 ) {
 			$I->comment ( '-> The page correctly did not ban access to ' . $I->getCustomBaseUrl() . $example[0] );
 		} else {
 			Assert::fail('!! Banned although logged in, error!');
@@ -144,8 +179,10 @@ $I->comment($result);
 	private function popupsShouldNotBanLoggedin(AcceptanceTester $I, \Codeception\Example $example) {
 
 		$result = $this->curlSpecialHeader( $I->getCustomBaseUrl() . $example[0], 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' );
-
-		if ( preg_match( self::BAN_TEXT, $result ) === 0 ) {
+		
+		// Try in both languages, fails if both unavailable.	
+		if ( preg_match( '~(' . BAN_BOTS_MSG . ')~', $result ) === 0 ) {
+			$I->comment( 'No English text found' );
 			$I->comment ( '-> The popups and taxo page correctly did not ban access to ' . $I->getCustomBaseUrl() . $example[0] );
 		} else {
 			Assert::fail('!! Banned although logged in, error!');
@@ -164,17 +201,25 @@ $I->comment($result);
 
 		$result = $this->curlSpecialHeader( $I->getCustomBaseUrl() . $example[0], 'random not banned user agent' );
 
+		// Debug
 		//codecept_debug($result);
 
-		if ( preg_match( self::BAN_TEXT, $result ) === 0 ) {
+		// Try in both languages, fails if both unavailable.	
+		if ( preg_match( '~(' . BAN_BOTS_MSG . ')~', $result ) === 0 && preg_match( '~(' . BAN_NONCE_MSG . ')~', $result ) === 0 ) {
+			$I->comment( 'No English text found' );
 			$I->comment ( '-> The pages and taxo correctly did not ban access to ' . $I->getCustomBaseUrl() . $example[0] );
 		} else {
-			Assert::fail('!! Banned although logged in, error!');
+			if ( preg_match( '~(' . BAN_BOTS_MSG . ')~', $result ) === 0 && preg_match( '~(' . BAN_NONCE_MSG_FR . ')~', $result ) === 0 ) {
+				$I->comment( 'Did not find the text neither in English nor in French' );
+				$I->comment ( '-> The pages and taxo correctly did not ban access to ' . $I->getCustomBaseUrl() . $example[0] );
+			} else {
+				Assert::fail('!! Banned although logged in, error!');
+			}
 		}
 	}
 	
 	/** 
-	 * Check if popups do not ban when using a random user agent WITH a referer
+	 * Check if popups do not ban when using a random user agent WITH a referer and WITH a nonce
 	 *
 	 * @example ["/lumiere/person/?mid=0248281"]
 	 * @example ["/lumiere/film/?film=interstellar"]
@@ -186,15 +231,24 @@ $I->comment($result);
 
 		$result = $this->curlSpecialHeader( $url_nonce_valid, 'random not banned user agent', 'http://localhost' );
 
-		if ( preg_match( self::BAN_TEXT, $result ) === 0 ) {
-			$I->comment ( '-> The popups correctly did not ban access to ' . $I->getCustomBaseUrl() . $example[0] );
+		// Debug
+		codecept_debug($result);
+
+		// Try in both languages, fails if both unavailable.	
+		if ( preg_match( '~(' . BAN_BOTS_MSG . ')~', $result ) > 0 || preg_match( '~(' . BAN_NONCE_MSG . ')~', $result ) > 0 ) {
+				Assert::fail('!! Banned although referer, error!');
 		} else {
-			Assert::fail('!! Banned although referer, error!');
+			if ( preg_match( '~(' . BAN_NONCE_MSG_FR . ')~', $result ) > 0 ) {
+				Assert::fail('!! Banned although referer, error!');
+			} else {
+				$I->comment( 'Did not find the text neither in French nor in English' );
+				$I->comment ( '-> The popups correctly did not ban access to ' . $I->getCustomBaseUrl() . $example[0] );
+			}
 		}
 	}
 	
 	/** 
-	 * Check if popups correctly ban when using a random user agent WITHOUT a referer
+	 * Check if popups correctly ban when using a random user agent WITHOUT a referer but WITH a nonce
 	 *
 	 * @example ["/lumiere/person/?mid=0248281"]
 	 * @example ["/lumiere/film/?film=interstellar"]
@@ -202,11 +256,15 @@ $I->comment($result);
 	 */
 	public function popupsWithoutRefererShouldBan(AcceptanceTester $I, \Codeception\Example $example) {
 
-		$result = $this->curlSpecialHeader( $I->getCustomBaseUrl() . $example[0], 'random not banned user agent', null );
+		$url_nonce_valid = $I->CustomGenerateNonce( $I->getCustomBaseUrl() . $example[0] );
+		$result = $this->curlSpecialHeader( $url_nonce_valid, 'random not banned user agent', null );
 
+		// Debug
 		//codecept_debug($result);
 
-		if ( preg_match( self::BAN_TEXT, $result ) > 0 ) {
+		// Try in both languages, fails if both unavailable.	
+		if ( preg_match( '~(' . BAN_BOTS_MSG . ')~', $result ) > 0 ) {
+			$I->comment( 'Found text in English' );
 			$I->comment ( '-> The page correctly ban access to ' . $I->getCustomBaseUrl() . $example[0] );
 		} else {
 			Assert::fail('!! Not banned although without referer, error!');

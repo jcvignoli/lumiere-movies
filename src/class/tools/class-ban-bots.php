@@ -53,10 +53,18 @@ class Ban_Bots {
 	/**
 	 * Constructor
 	 * Add types of conditional banning here, no automatic ban available, make a conditional function instead
+	 * Actions must be executed here, popups can't since they're executed in template filter
 	 */
 	public function __construct() {
+
 		add_action( 'lum_maybe_ban_bots_general', [ $this, 'maybe_ban_bots_general' ] );
 		add_action( 'lum_maybe_ban_bots_noreferrer', [ $this, 'maybe_ban_noreferrer' ] );
+
+		// Execute: conditionally ban bots from getting the page, i.e. User Agent or IP.
+		do_action( 'lum_maybe_ban_bots_general' );
+
+		// Execute: ban bots if no referer.
+		do_action( 'lum_maybe_ban_bots_noreferrer' );
 	}
 
 	/**
