@@ -1,12 +1,12 @@
 ## ACKNOWLEDGMENTS
 
 # Core
-**Forked library** [IMDbPHP for WordPress](https://github.com/jcvignoli/imdbphp/ "IMDbPHP for WP GIT") based on [IMDbPHP](https://github.com/tboothman/imdbphp/ "IMDbPHP GIT").
+**Forked library** [IMDbPHP for WordPress](https://github.com/jcvignoli/imdbGraphQLPHP/ "IMDbGraphQLPHP GIT") based on [Duck700](https://github.com/duck7000/imdbGraphQLPHP "IMDbGraphQLPHP GIT").
 **Highslide modal window** Designed for Lumière by Jeremie Boniface
 
 # IMDbPHP libraries use
 **Simple Cache interface** by [PHP Fig](https://github.com/php-fig/simple-cache "Psr Simple Cache GIT")
-**Logger interface** by [PHP Fig](https://github.com/php-fig/log "Psr Log GIT")
+**Logger interface** by [PHP Fig](https://github.com/php-fig/log "Psr Logger GIT")
 
 # Translation
 **Brazilian translation** thanks to Murillo Ferrari 
@@ -33,5 +33,5 @@
 **PSALM** by [Vimeo](https://github.com/vimeo/psalm "Psalm GIT")
 
 # History of core IMDbPHP libraries
-Originally, this WordPress plugin originated from an IMDBPHP library created by [Andreas Itzchak Rehberg](https://izzy.rehbergs.info/ "Personal Websie"). A few years later, when Andreas got tired, T. Boothmman took over [IMDbPHP](https://github.com/tboothman/imdbphp/ "IMDbPHP GIT"). Today, Lumière is on the latter library improved by [Duck700](https://github.com/duck7000/imdbGraphQLPHP "IMDbGraphQLPHP GIT").
+Originally, this WordPress plugin originated from an IMDBPHP library created by [Andreas Itzchak Rehberg](https://izzy.rehbergs.info/ "Personal Websie"). A few years later, when Andreas got tired, T. Boothman took over [IMDbPHP](https://github.com/tboothman/imdbphp/ "IMDbPHP GIT"). When Boothman got tired, [Duck700](https://github.com/duck7000/imdbGraphQLPHP "IMDbGraphQLPHP GIT") took over.
 Lumiere WordPress plugin has been actively developped and maintained for almost 20 years.

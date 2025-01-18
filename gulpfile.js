@@ -107,6 +107,7 @@ var paths = {
 	},
 	files: {
 		src: [	'./src/**/*.{php,html,htm,ico,webmanifest,md,txt,json}', 
+			'./src/vendor/twbs/bootstrap/dist/**/*.{min.js,min.css}', 
 
 			/* Remove irrelevant files in src/vendor */ 
 			'!./src/vendor/bin/*.*',				
@@ -118,9 +119,8 @@ var paths = {
 			'!./src/vendor/twbs/bootstrap/scss/**/*.*',
 			'!./src/vendor/twbs/bootstrap/site/**/*.*',
 			'!./src/vendor/twbs/bootstrap/.github/**/*.*',
-			'!./src/vendor/twbs/bootstrap/*.*',
 			'./src/**/*.+(psd)', 
-			'./src/.**/*.{psd,json}',	 				/* extra files for .wordpress.org -- doesn't work for blueprints */
+			'./src/.**/**/*.{psd,json}',	 				/* extra files for .wordpress.org */
 			'./src/languages/*.*',
 				'!./src/languages/*.temp.po',  
 			'./src/assets/js/highslide/**/**/*.*'
@@ -289,7 +289,19 @@ gulp.task('browserWatch', gulp.parallel( 'watch', (done) => {
 	done();
 }));
 
-// Task 7 - Default
-gulp.task('default', () => {
-	gulp.series( 'watch' )
+// Task 7 - Build all files
+// @param build 	if the taks is run with "--clean yes" as parameter, run cleanDist first
+// 			without that parameter, a notice is displayed in the console
+
+gulp.task('build', (cb) => {
+	gulp.series( 'javascripts')( cb );
+	gulp.series( 'stylesheets')( cb );
+	gulp.series( 'images')( cb );
+	gulp.series( 'files_copy')( cb );
 });
+
+// Task 8 - Default
+gulp.task('default', () => {
+	gulp.series( 'watch' );
+});
+
