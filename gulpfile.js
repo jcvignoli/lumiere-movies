@@ -290,9 +290,6 @@ gulp.task('browserWatch', gulp.parallel( 'watch', (done) => {
 }));
 
 // Task 7 - Build all files
-// @param build 	if the taks is run with "--clean yes" as parameter, run cleanDist first
-// 			without that parameter, a notice is displayed in the console
-
 gulp.task('build', (cb) => {
 	gulp.series( 'javascripts')( cb );
 	gulp.series( 'stylesheets')( cb );

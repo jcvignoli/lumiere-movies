@@ -141,7 +141,7 @@ This value is supposed [to be included by default](https://httpd.apache.org/docs
 
 = Known issues =
 
-* none.
+* Polylang form, if selecting all languages, returns current language only. [Reported on Polylang Github](https://github.com/polylang/polylang/issues/1615).
 
 == Support ==
 
@@ -151,9 +151,17 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 
 == Changelog == 
 
-An recent list of changes is available on [GIT](https://github.com/jcvignoli/lumiere-movies/commits/master "GIT commits for Lumière").
+Recent list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
 
 Major changes:
+
+= 4.3.1 =
+
+Bugs related to the introduction of IMDbGraphQL fixed. "Official sites" fixed. Bots were not banned anymore. Translation of the plugin facilitated (wink, wink!).
+
+= 4.3 =
+
+The base library is now IMDbGraphQL. Taxonomy deeply changed, forms in taxonomy pages (i.e. director, genre, etc) are working in AMP and with Polylang. Lot of bugs addressed, always more OOP.
 
 = 4.1 =
 
@@ -161,27 +169,11 @@ Popup spinners to make you visitors wait, nicer popup layouts, faster taxonomy p
 
 More flexibility for the auto title widget users: You can now prevent a post from displaying the auto title widget by ticking in the post edition's the Lumiere option "Deactivate autowidget for this post".
 
-[...]
-
-= 4.0 =
-
-Added new automatized refresh of the cache function, a cool feature that will ensure that you cache is up to date forever! Fixed also the taxonomy system, it now creates proper links towards taxonomy pages (ie: https://yourblog.com/lumiere-director/stanley-kubrick) within widgets/into the posts sections, with the appropriate language. Taxonomy for items (ie: genre) is now displayed for all items found. Added the general advanced option to add an extra delay when querying the IMDb website. Data downloading from imdb website is retried 3 times before giving up. Fixed bug in plugin activation, layout in admin data options position, improved Content security policy standards and compatibility with HTML 4.1, PHP 8.0, PHP 8.3. Banning bots is now executed before doing any IMDb search or display, avoiding cache creation (and 504 HTML errors when calling IMDb website!). Improved the comments in admin sections. Under the hood, the admin option pages have been cleaned and rewrote.
-
-And much more! This is a major new version, more stable and safer, extensively tested before the release.
-
-[...]
-
 == Upgrade Notice ==
 
 = 4.3 =
-The base library is now IMDbGraphQL. Delete the cache, as the caching system has changed. Taxonomy deeply changed, forms in taxonomy pages (ie director, categorie of movies) are working in AMP and with Polylang.
+Delete the cache, as the caching system has changed.
 
 = 4.1.3 =
 Further compliance with WordPress standards and security, notably added nonces
-
-= 4.1.2 =
-Compatible with wp-cli, taxonomy templates compatibility with all WP themes
-
-= 4.1.1 =
-Update pages with movies/widget medata data keys
 
