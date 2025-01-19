@@ -50,13 +50,7 @@ jobs:
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.1.0
-        with:
-          path: node_modules
-          key: composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
-          restore-keys: |
-            composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
-            composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-
-            composer-dependencies-${{ runner.os }}-
+        cache: 'npm'
 
       - name: "Cache Composer dependencies"
         id: composer-dependencies
@@ -71,13 +65,13 @@ jobs:
 
       - name: "Install Composer dependencies"
         run: |
-          composer install -n --prefer-dist
+          composer install -n --no-dev --prefer-dist
           cd src
-          composer install -n --prefer-dist
+          composer install -n --no-dev --prefer-dist
 
       - name: Build plugin
         run: |
-          gulp build
+          npm run build
           mv ./dist ${{ steps.extcache.outputs.dir }}/lumiere-movies
 
       - name: Run plugin check
