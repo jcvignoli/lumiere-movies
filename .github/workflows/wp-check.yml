@@ -3,6 +3,8 @@
 
 name: 'WP plugin check'
 permissions: read-all
+env:
+  cache-version: 1
 on:
   workflow_dispatch:
   repository_dispatch:
@@ -13,7 +15,13 @@ on:
   pull_request:
 jobs:
   standard:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['8.0']
+    env:
+      php-extensions: ast
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -22,16 +30,48 @@ jobs:
       run: |
         mv ./src ${{ runner.temp }}/lumiere-movies
 
+      - name: "Setup PHP extension caching"
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ${{ env.php-extensions }}
+          key: php-extensions-${{ runner.os }}-foov4-${{ env.cache-version }}
+
     - name: "Cache extensions"
       uses: actions/cache@v4
       with:
-        path: ${{ runner.temp }}/lumiere-movies
-        key: ${{ runner.temp }}/lumiere-movies
-        restore-keys: ${{ runner.temp }}/lumiere-movies
+        path: ${{ steps.extcache.outputs.dir }}/lumiere-movies
+        key: ${{ steps.extcache.outputs.dir }}/lumiere-movies
+        restore-keys: ${{ steps.extcache.outputs.dir }}/lumiere-movies
+
+      - name: "Setup PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ${{ env.php-extensions }}
+          coverage: none
+
+      - name: "Cache Composer dependencies"
+        id: composer-dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+          restore-keys: |
+            composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+            composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-
+            composer-dependencies-${{ runner.os }}-
+
+      - name: "Install Composer dependencies"
+        run: |
+          composer install -n --prefer-dist
+          cd src
+          composer install -n --prefer-dist
 
     - name: Run plugin check
       uses: wordpress/plugin-check-action@main
       with:
-        build-dir: ${{ runner.temp }}/lumiere-movies
+        build-dir: ${{ steps.extcache.outputs.dir }}/lumiere-movies
         exclude-directories: 'vendor,.wordpress-org'
 
